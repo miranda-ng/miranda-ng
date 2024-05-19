@@ -324,15 +324,17 @@ void NewstoryListData::CopyUrl()
 
 class CDeleteEventsDlg : public CDlgBase
 {
+	int m_iNumEvents;
 	MCONTACT m_hContact;
 	CCtrlCheck chkDelHistory, chkForEveryone;
 
 public:
 	bool bDelHistory = false, bForEveryone = false;
 
-	CDeleteEventsDlg(MCONTACT hContact) :
+	CDeleteEventsDlg(MCONTACT hContact, int nEvents) :
 		CDlgBase(g_plugin, IDD_EMPTYHISTORY),
 		m_hContact(hContact),
+		m_iNumEvents(nEvents),
 		chkDelHistory(this, IDC_DELSERVERHISTORY),
 		chkForEveryone(this, IDC_BOTH)
 	{
@@ -350,6 +352,11 @@ public:
 		bool bEnabled = bDelHistory && bForEveryone;
 		chkForEveryone.SetState(!bEnabled);
 		chkForEveryone.Enable(bEnabled);
+
+		if (m_iNumEvents > 1) {
+			CMStringW wszText(FORMAT, TranslateT("Do you really want to delete selected items (%d)?"), m_iNumEvents);
+			SetDlgItemTextW(m_hwnd, IDC_TOPLINE, wszText);
+		}
 
 		LOGFONT lf;
 		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0);
@@ -377,7 +384,12 @@ public:
 
 void NewstoryListData::DeleteItems(void)
 {
-	CDeleteEventsDlg dlg(m_hContact);
+	int nSelected = 0;
+	for (int i = totalCount - 1; i >= 0; i--)
+		if (GetItem(i)->m_bSelected)
+			nSelected++;
+
+	CDeleteEventsDlg dlg(m_hContact, nSelected);
 	if (IDOK != dlg.DoModal())
 		return;
 
