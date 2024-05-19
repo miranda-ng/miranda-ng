@@ -76,10 +76,12 @@ ItemData::ItemData()
 
 ItemData::~ItemData()
 {
-	mir_free(qtext);
-	mir_free(wtext);
-	if (dbe.szReplyId)
-		mir_free((char*)dbe.szReplyId);
+	replaceStrW(qtext, 0);
+	replaceStrW(wtext, 0);
+	if (dbe.szReplyId) {
+		mir_free((char *)dbe.szReplyId);
+		dbe.szReplyId = 0;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -725,7 +727,8 @@ void HistoryArray::remove(int id)
 	if (offset != HIST_BLOCK_SIZE - 1)
 		memmove(&pPage.data[offset], &pPage.data[offset+1], sizeof(ItemData) * (HIST_BLOCK_SIZE - 1 - offset));
 
-	for (int i = pageNo + 1; i < pages.getCount(); i++) {
+	int nPages = pages.getCount()-1;
+	for (int i = pageNo + 1; i <= nPages; i++) {
 		auto &prev = pages[i - 1], &curr = pages[i];
 		memcpy(&prev.data[HIST_BLOCK_SIZE - 1], curr.data, sizeof(ItemData));
 		memmove(&curr.data, &curr.data[1], sizeof(ItemData) * (HIST_BLOCK_SIZE - 1));
@@ -733,8 +736,11 @@ void HistoryArray::remove(int id)
 	}
 
 	if (iLastPageCounter == 1) {
-		pages.remove(pages.getCount() - 1);
+		pages.remove(nPages);
 		iLastPageCounter = HIST_BLOCK_SIZE;
 	}
-	else iLastPageCounter--;
+	else {
+		iLastPageCounter--;
+		memset(&pages[nPages].data[iLastPageCounter], 0, sizeof(ItemData));
+	}
 }
