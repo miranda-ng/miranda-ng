@@ -161,11 +161,8 @@ public:
 		chkDelHistory.SetState(false);
 		chkDelHistory.Enable(bHasHistory);
 
-		// this checkbox is disabled & checked, if deletion for everyone is not possible
-		// and enabled & unchecked otherwise
-		bool bEnabled = bDelHistory && bForEveryone;
-		chkForEveryone.SetState(!bEnabled);
-		chkForEveryone.Enable(bEnabled);
+		chkForEveryone.SetState(false);
+		chkForEveryone.Enable(bDelHistory && bForEveryone);
 
 		LOGFONT lf;
 		HFONT hFont = (HFONT)SendDlgItemMessage(m_hwnd, IDOK, WM_GETFONT, 0, 0);
