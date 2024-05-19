@@ -2,6 +2,7 @@
 
 #define DBKEY_ID "id"
 #define DBKEY_COMPAT "Compatibility"
+#define DBKEY_OWNER  "OwnerId"
 #define DBKEY_THREAD "ThreadId"
 #define DBKEY_LAST_MSG "LastMessageId"
 #define DBKEY_AUTHORIZED "Authorized"
@@ -355,6 +356,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void     SetId(MCONTACT, int64_t id, const char *pszSetting = DBKEY_ID);
 
 	MCONTACT GetRealContact(const TG_USER *pUser);
+	void     RemoveFromClist(TG_USER *pUser);
 
 	// Menus
 	HGENMENU hmiForward, hmiReaction;

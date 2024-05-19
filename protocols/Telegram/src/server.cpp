@@ -525,8 +525,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	int64_t userId;
 	auto *pChat = pObj->chat_.get();
 	std::string szTitle;
-	bool isForum = false;
-
+	
 	switch (pChat->type_->get_id()) {
 	case TD::chatTypePrivate::ID:
 	case TD::chatTypeSecret::ID:
@@ -541,14 +540,6 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	case TD::chatTypeSupergroup::ID:
 		userId = ((TD::chatTypeSupergroup *)pChat->type_.get())->supergroup_id_;
 		szTitle = pChat->title_;
-		{
-			TG_SUPER_GROUP tmp(userId, 0);
-			if (auto *pGroup = m_arSuperGroups.find(&tmp))
-				isForum = pGroup->group->is_forum_;
-
-			if (isForum)
-				SendQuery(new TD::getForumTopics(pChat->id_, "", 0, 0, 0, 100), &CTelegramProto::OnGetForumTopics);
-		}
 		break;
 
 	default:
@@ -563,7 +554,9 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	}
 
 	pUser->chatId = pChat->id_;
-	pUser->isForum = isForum;
+	if (pUser->isForum)
+		SendQuery(new TD::getForumTopics(pChat->id_, "", 0, 0, 0, 100), &CTelegramProto::OnGetForumTopics);
+
 	MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
 
 	if (!m_arChats.find(pUser))
@@ -1108,7 +1101,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		case TD::userTypeRegular::ID:
 			auto *pu = AddFakeUser(pUser->id_, false);
 			if (pu->hContact != INVALID_CONTACT_ID)
-				Contact::RemoveFromList(pu->hContact);
+				RemoveFromClist(pu);
 
 			pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
 			pu->wszLastName = Utf2T(pUser->last_name_.c_str());

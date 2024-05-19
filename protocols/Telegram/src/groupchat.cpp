@@ -435,6 +435,7 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 	si->pParent = pUser->m_si;
 
 	SetId(si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
+	SetId(si->hContact, pUser->id, DBKEY_OWNER);
 
 	Chat_Mute(si->hContact, Chat_IsMuted(pUser->hContact));
 	Clist_SetGroup(si->hContact, ptrW(Clist_GetGroup(pUser->hContact)));
@@ -461,16 +462,18 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 
 	if (iStatusId == TD::chatMemberStatusLeft::ID) {
 		auto *pUser = AddFakeUser(tmp.id, true);
+		pUser->isForum = pGroup->group->is_forum_;
 		if (pUser->hContact == INVALID_CONTACT_ID) {
 			// cache some information for the search
 			if (pUser->wszNick.IsEmpty())
 				pUser->wszNick = Utf2T(getName(pGroup->group->usernames_.get()));
 			pUser->wszLastName.Format(TranslateT("%d member(s)"), pGroup->group->member_count_);
 		}
-		else Contact::RemoveFromList(pUser->hContact);
+		else RemoveFromClist(pUser);
 	}
 	else {
 		auto *pChat = AddUser(tmp.id, true);
+		pChat->isForum = pGroup->group->is_forum_;
 		if (!pGroup->group->is_channel_)
 			pChat->bLoadMembers = true;
 

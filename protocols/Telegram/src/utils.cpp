@@ -179,6 +179,20 @@ CMStringW TG_USER::getDisplayName() const
 	return wszNick;
 }
 
+void CTelegramProto::RemoveFromClist(TG_USER *pUser)
+{
+	Contact::RemoveFromList(pUser->hContact);
+
+	if (pUser->isForum) {
+		if (MGROUP hGroup = Clist_GroupExists(ptrW(Clist_GetGroup(pUser->hContact))))
+			Clist_GroupDelete(hGroup, true);
+
+		for (auto &cc : AccContacts())
+			if (pUser->id == GetId(cc, DBKEY_OWNER))
+				Contact::RemoveFromList(cc);
+	}
+}
+
 MCONTACT CTelegramProto::GetRealContact(const TG_USER *pUser)
 {
 	return (pUser->hContact != 0) ? pUser->hContact : m_iSavedMessages;
