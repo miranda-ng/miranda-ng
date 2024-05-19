@@ -3,7 +3,7 @@
 void CDbxSQLite::InitContacts()
 {
 	sqlite3_stmt *stmt = nullptr;
-	sqlite3_prepare_v2(m_db, "SELECT contacts.id, COUNT(es.id) FROM contacts LEFT JOIN events_srt es ON es.contact_id = contacts.id GROUP BY contacts.id;", -1, &stmt, nullptr);
+	sqlite3_prepare_v2(m_db, "SELECT contact_id, COUNT(id) FROM events_srt GROUP BY contact_id;", -1, &stmt, nullptr);
 	int rc = 0;
 	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
 		MCONTACT hContact = sqlite3_column_int64(stmt, 0);

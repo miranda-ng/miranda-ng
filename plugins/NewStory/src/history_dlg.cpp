@@ -219,18 +219,10 @@ class CHistoryDlg : public CDlgBase
 
 	void UpdateTitle()
 	{
-		switch (m_hContact) {
-		case INVALID_CONTACT_ID:
+		if (m_hContact == INVALID_CONTACT_ID)
 			SetWindowText(m_hwnd, TranslateT("Global history search"));
-			break;
-
-		case 0:
-			SetWindowText(m_hwnd, TranslateT("System history"));
-			break;
-
-		default:
+		else
 			SetWindowText(m_hwnd, TplFormatString(TPL_TITLE, m_hContact, 0));
-		}
 	}
 
 	void BuildBookmarksList()
