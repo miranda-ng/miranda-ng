@@ -204,14 +204,14 @@ static bool isParentOf(const CMStringW &pParent, const wchar_t *p)
 	}
 }
 
-MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
+MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup, bool bSilent)
 {
 	// get the name
 	CGroupInternal *pGroup = FindGroup(hGroup-1);
 	if (pGroup == nullptr)
 		return 1;
 
-	if (Clist::ConfirmDelete) {
+	if (!bSilent && Clist::ConfirmDelete) {
 		wchar_t szQuestion[256 + 100];
 		mir_snwprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), pGroup->groupName);
 		if (MessageBoxW(g_clistApi.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)

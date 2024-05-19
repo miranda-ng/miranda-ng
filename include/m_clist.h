@@ -367,7 +367,7 @@ EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup);
 // deletes a group and calls CLUI to display the change
 // returns 0 on success, nonzero on failure
 
-EXTERN_C MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup);
+EXTERN_C MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup, bool bSilent = false);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // renames a group
