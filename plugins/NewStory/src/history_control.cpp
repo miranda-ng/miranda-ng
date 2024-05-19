@@ -1315,6 +1315,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		return DLGC_WANTMESSAGE;
 
 	case WM_KEYDOWN:
+	case WM_KEYUP:
 		{
 			bool isShift = (GetKeyState(VK_SHIFT) & 0x80) != 0;
 			bool isCtrl = (GetKeyState(VK_CONTROL) & 0x80) != 0;
@@ -1323,7 +1324,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				data->selStart = data->caret;
 			else if (data->bWasShift && !isShift)
 				data->selStart = -1;
+
 			data->bWasShift = isShift;
+
+			if (msg == WM_KEYUP)
+				break;
 
 			switch (wParam) {
 			case VK_UP:
@@ -1331,6 +1336,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					data->EventUp();
 				else
 					data->LineUp();
+				if (isShift)
+					data->SetSelection(data->scrollTopItem, data->caret);
 				break;
 
 			case VK_DOWN:
@@ -1338,6 +1345,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					data->EventDown();
 				else
 					data->LineDown();
+				if (isShift)
+					data->SetSelection(data->scrollTopItem, data->caret);
 				break;
 
 			case VK_PRIOR:
@@ -1347,6 +1356,8 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					data->EventPageUp();
 				else
 					data->PageUp();
+				if (isShift)
+					data->SetSelection(data->scrollTopItem, data->caret);
 				break;
 
 			case VK_NEXT:
@@ -1356,14 +1367,20 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					data->EventPageDown();
 				else
 					data->PageDown();
+				if (isShift)
+					data->SetSelection(data->scrollTopItem, data->caret);
 				break;
 
 			case VK_HOME:
 				data->ScrollTop();
+				if (isShift)
+					data->SetSelection(0, data->caret);
 				break;
 
 			case VK_END:
 				data->ScrollBottom();
+				if (isShift)
+					data->SetSelection(data->caret, data->totalCount);
 				break;
 
 			case VK_F2:
