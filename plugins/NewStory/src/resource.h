@@ -119,6 +119,7 @@
 #define ID_FILTER_AUTO                  40012
 #define ID_LOGOPTIONS_OPTIONS           40013
 #define ID_LOGOPTIONS_TEMPLATES         40014
+#define ID_LOGOPTIONS_EMPTYHISTORY      40015
 
 // Next default values for new objects
 // 

@@ -1212,12 +1212,12 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		InvalidateRect(hwnd, 0, FALSE);
 		break;
 
-	case UM_ADDEVENT:
+	case UM_ADD_EVENT:
 		if (data->pMsgDlg == nullptr)
 			data->AddEvent(wParam, lParam, 1);
 		break;
 
-	case UM_EDITEVENT:
+	case UM_EDIT_EVENT:
 		idx = data->items.find(lParam);
 		if (idx != -1) {
 			auto *p = data->GetItem(idx);
@@ -1227,7 +1227,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		break;
 
-	case UM_REMOVEEVENT:
+	case UM_REMOVE_EVENT:
 		idx = data->items.find(lParam);
 		if (idx != -1) {
 			data->items.remove(idx);

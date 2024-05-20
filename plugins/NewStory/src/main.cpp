@@ -115,17 +115,17 @@ static int SmartSendEvent(int iEvent, MCONTACT hContact, LPARAM lParam)
 
 static int evtEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	return SmartSendEvent(UM_ADDEVENT, hContact, lParam);
+	return SmartSendEvent(UM_ADD_EVENT, hContact, lParam);
 }
 
 static int evtEventDeleted(WPARAM hContact, LPARAM lParam)
 {
-	return (g_plugin.bDisableDelete) ? 0 : SmartSendEvent(UM_REMOVEEVENT, hContact, lParam);
+	return (g_plugin.bDisableDelete) ? 0 : SmartSendEvent(UM_REMOVE_EVENT, hContact, lParam);
 }
 
 static int evtEventEdited(WPARAM hContact, LPARAM lParam)
 {
-	return SmartSendEvent(UM_EDITEVENT, hContact, lParam);
+	return SmartSendEvent(UM_EDIT_EVENT, hContact, lParam);
 }
 
 static int evtTopToolbar(WPARAM, LPARAM)

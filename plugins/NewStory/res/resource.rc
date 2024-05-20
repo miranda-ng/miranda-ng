@@ -260,6 +260,8 @@ BEGIN
     BEGIN
         MENUITEM "Options",                     ID_LOGOPTIONS_OPTIONS
         MENUITEM "Templates",                   ID_LOGOPTIONS_TEMPLATES
+        MENUITEM SEPARATOR
+        MENUITEM "Empty history",               ID_LOGOPTIONS_EMPTYHISTORY
     END
 END
 
