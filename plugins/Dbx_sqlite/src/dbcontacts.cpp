@@ -3,14 +3,21 @@
 void CDbxSQLite::InitContacts()
 {
 	sqlite3_stmt *stmt = nullptr;
-	sqlite3_prepare_v2(m_db, "SELECT contact_id, COUNT(id) FROM events_srt GROUP BY contact_id;", -1, &stmt, nullptr);
+	sqlite3_prepare_v2(m_db, "SELECT contacts.id, COUNT(es.id) FROM contacts LEFT JOIN events_srt es ON es.contact_id = contacts.id GROUP BY contacts.id;", -1, &stmt, nullptr);
 	int rc = 0;
 	while ((rc = sqlite3_step(stmt)) == SQLITE_ROW) {
-		MCONTACT hContact = sqlite3_column_int64(stmt, 0);
-		DBCachedContact *cc = (hContact) ? m_cache->AddContactToCache(hContact) : &m_system;
-		cc->m_count = sqlite3_column_int64(stmt, 1);
+		if (MCONTACT hContact = sqlite3_column_int64(stmt, 0)) {
+			DBCachedContact *cc = m_cache->AddContactToCache(hContact);
+			cc->m_count = sqlite3_column_int64(stmt, 1);
+		}
 	}
 	logError(rc, __FILE__, __LINE__);
+	sqlite3_finalize(stmt);
+
+	sqlite3_prepare_v2(m_db, "SELECT COUNT(1) FROM events_srt WHERE contact_id=0;", -1, &stmt, nullptr);
+	rc = sqlite3_step(stmt);
+	logError(rc, __FILE__, __LINE__);
+	m_system.m_count = sqlite3_column_int64(stmt, 0);
 	sqlite3_finalize(stmt);
 }
 
