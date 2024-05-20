@@ -389,7 +389,7 @@ void SendQueue::showErrorControls(CMsgDialog *dat, const int showCmd) const
 		if (IsWindow(GetDlgItem(hwndDlg, myerrorControls[i])))
 			Utils::showDlgControl(hwndDlg, myerrorControls[i], showCmd ? SW_SHOW : SW_HIDE);
 
-	SendMessage(hwndDlg, WM_SIZE, 0, 0);
+	dat->Resize();
 	dat->DM_ScrollToBottom(0, 1);
 	if (m_jobs[0].hContact != 0)
 		dat->EnableSending(TRUE);
