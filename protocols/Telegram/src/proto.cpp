@@ -287,9 +287,17 @@ MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		return 0;
 
 	auto id = _wtoi64(psr->id.w);
+
 	auto *pUser = AddUser(id, false);
 	if (flags & PALF_TEMPORARY)
 		Contact::RemoveFromList(pUser->hContact);
+
+	if (auto *pChat = FindUser(id)) {
+		if (pChat->isGroupChat) {
+			SendQuery(new TD::joinChat(pChat->chatId));
+			return pUser->hContact;
+		}
+	}
 
 	auto cc = TD::make_object<TD::contact>(); 
 	cc->user_id_ = id;

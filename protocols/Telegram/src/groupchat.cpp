@@ -477,6 +477,9 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 		if (!pGroup->group->is_channel_)
 			pChat->bLoadMembers = true;
 
+		if (!Contact::OnList(pChat->hContact))
+			Contact::PutOnList(pChat->hContact);
+
 		if (pChat->bStartChat)
 			InitGroupChat(pChat, pChat->wszNick);
 
