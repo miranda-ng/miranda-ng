@@ -459,27 +459,39 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		db_event_add(GetRealContact(pUser), &dbei);
 	}
 
+	pUser->nHistoryChunks--;
+
 	if (pUser->isForum) {
-		if (lastMsgId != INT64_MAX)
+		if (lastMsgId != INT64_MAX && pUser->nHistoryChunks > 0)
 			SendQuery(new TD::getMessageThreadHistory(pUser->chatId, lastMsgId, lastMsgId, 0, 100), &CTelegramProto::OnGetHistory, pUser);
 		else
 			delete pUser;
 	}
-	else if (lastMsgId != INT64_MAX)
+	else if (lastMsgId != INT64_MAX && pUser->nHistoryChunks > 0)
 		SendQuery(new TD::getChatHistory(pUser->chatId, lastMsgId, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
 }
 
 INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 {
+	TD::int53 lastMsgId = 0;
+
+	if (MEVENT hEvent = db_event_first(hContact)) {
+		DB::EventInfo dbei(hEvent, false);
+		lastMsgId = dbei2id(dbei);
+	}
+
 	if (TD::int53 threadId = GetId(hContact, DBKEY_THREAD)) {
 		auto chatId = GetId(hContact);
 		auto *pUser = new TG_USER(-1, hContact, true);
 		pUser->chatId = chatId;
 		pUser->isForum = pUser->isGroupChat = true;
-		SendQuery(new TD::getMessageThreadHistory(chatId, GetId(hContact, DBKEY_LAST_MSG), 0, 0, 100), &CTelegramProto::OnGetHistory, pUser);
+		pUser->nHistoryChunks = 5;
+		SendQuery(new TD::getMessageThreadHistory(chatId, lastMsgId, lastMsgId, 0, 100), &CTelegramProto::OnGetHistory, pUser);
 	}
-	else if (auto *pUser = FindUser(GetId(hContact)))
-		SendQuery(new TD::getChatHistory(pUser->chatId, 0, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
+	else if (auto *pUser = FindUser(GetId(hContact))) {
+		pUser->nHistoryChunks = 5;
+		SendQuery(new TD::getChatHistory(pUser->chatId, lastMsgId, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
+	}
 
 	return 0;
 }
@@ -497,28 +509,6 @@ INT_PTR CTelegramProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
-void CTelegramProto::OnGetForumTopics(td::ClientManager::Response &response)
-{
-	if (!response.object)
-		return;
-
-	if (response.object->get_id() != TD::forumTopics::ID) {
-		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::forumTopics::ID);
-		return;
-	}
-
-	auto *topics = (TD::forumTopics *)response.object.get();
-	for (auto &it : topics->topics_) {
-		auto *pMessage = it->last_message_.get();
-		if (!pMessage)
-			continue;
-		
-		CMStringW wszChatId(FORMAT, L"%lld_%lld", pMessage->chat_id_, it->info_->message_thread_id_);
-		if (auto *si = Chat_Find(wszChatId, m_szModuleName))
-			SetId(si->hContact, pMessage->id_, DBKEY_LAST_MSG);
-	}
-}
 
 void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 {
@@ -554,8 +544,6 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	}
 
 	pUser->chatId = pChat->id_;
-	if (pUser->isForum)
-		SendQuery(new TD::getForumTopics(pChat->id_, "", 0, 0, 0, 100), &CTelegramProto::OnGetForumTopics);
 
 	MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
 
