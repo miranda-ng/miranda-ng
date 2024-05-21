@@ -855,6 +855,7 @@ void NewstoryListData::Quote()
 {
 	if (pMsgDlg) {
 		CMStringW wszText(GatherSelected(true));
+		wszText.TrimRight();
 		RemoveBbcodes(wszText);
 		pMsgDlg->SetMessageText(Srmm_Quote(wszText));
 
