@@ -86,9 +86,6 @@
     <ClCompile Include="src\curl_ntlm_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\curl_ntlm_wb.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\curl_path.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -117,6 +114,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dict.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dllmain.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\doh.c">
@@ -416,6 +416,9 @@
     <ClCompile Include="src\vtls\bearssl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vtls\cipher_suite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\vtls\gtls.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -626,9 +629,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_ntlm_core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\curl_ntlm_wb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_path.h">

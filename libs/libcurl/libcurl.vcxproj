@@ -110,9 +110,6 @@
     <ClCompile Include="src\curl_ntlm_core.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\curl_ntlm_wb.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\curl_path.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -141,6 +138,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\dict.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\dllmain.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\doh.c">
@@ -443,6 +443,9 @@
     <ClCompile Include="src\vtls\bearssl.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vtls\cipher_suite.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vtls\gtls.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -529,7 +532,6 @@
     <ClInclude Include="src\curl_memrchr.h" />
     <ClInclude Include="src\curl_multibyte.h" />
     <ClInclude Include="src\curl_ntlm_core.h" />
-    <ClInclude Include="src\curl_ntlm_wb.h" />
     <ClInclude Include="src\curl_path.h" />
     <ClInclude Include="src\curl_printf.h" />
     <ClInclude Include="src\curl_range.h" />
