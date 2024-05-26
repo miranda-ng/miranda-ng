@@ -127,9 +127,10 @@ public:
 	CMStringW wszMessage;
 	LIST<void> lContacts;
 	uint8_t uClcFilterFlag;
+	UINT uMaxLengthMessage;
 
 	CVkUserListForm(CVkProto* proto);
-	CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption, uint8_t _uFilterClcFlag);
+	CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption, uint8_t _uFilterClcFlag, UINT _uMaxLengthMessage = 0);
 	bool OnInitDialog() override;
 	bool OnApply() override;
 

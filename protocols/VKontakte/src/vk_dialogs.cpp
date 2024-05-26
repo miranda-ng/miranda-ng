@@ -175,13 +175,14 @@ CVkUserListForm::CVkUserListForm(CVkProto* proto) :
 	m_stListCaption(this, IDC_STATIC_MARKCONTAKTS),
 	m_stMessageCaption(this, IDC_STATIC_MESSAGE),
 	lContacts(20, NumericKeySortT),
-	uClcFilterFlag(0)
+	uClcFilterFlag(0),
+	uMaxLengthMessage(0)
 {
 	m_clc.OnNewContact = m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
 }
 
 
-CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption, uint8_t _uClcFilterFlag) :
+CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStringW _wszFormCaption, CMStringW _wszListCaption, CMStringW _wszMessageCaption, uint8_t _uClcFilterFlag, UINT _uMaxLengthMessage) :
 	CVkDlgBase(proto, IDD_VKUSERFORM),
 	m_clc(this, IDC_CONTACTLIST),
 	m_edtMessage(this, IDC_MESSAGE), 
@@ -192,7 +193,8 @@ CVkUserListForm::CVkUserListForm(CVkProto* proto, CMStringW _wszMessage, CMStrin
 	wszListCaption(_wszListCaption), 
 	wszMessageCaption(_wszMessageCaption),
 	lContacts(5, PtrKeySortT),
-	uClcFilterFlag(_uClcFilterFlag)
+	uClcFilterFlag(_uClcFilterFlag),
+	uMaxLengthMessage(_uMaxLengthMessage)
 {
 	m_clc.OnNewContact = m_clc.OnListRebuilt = Callback(this, &CVkUserListForm::FilterList);
 }
@@ -207,6 +209,8 @@ bool CVkUserListForm::OnInitDialog()
 
 	m_stListCaption.SetText(wszListCaption.c_str());
 	m_stMessageCaption.SetText(wszMessageCaption.c_str());
+	if (uMaxLengthMessage)
+		m_edtMessage.SetMaxLength(uMaxLengthMessage);
 	m_edtMessage.SetText(wszMessage.c_str());
 	SetCaption(wszFormCaption.c_str());
 

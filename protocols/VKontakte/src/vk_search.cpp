@@ -27,16 +27,6 @@ HANDLE CVkProto::SearchBasic(const wchar_t *id)
 	return (HANDLE)1;
 }
 
-HANDLE CVkProto::SearchByEmail(const wchar_t *email)
-{
-	if (!IsOnline())
-		return nullptr;
-
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.lookupContacts.json", true, &CVkProto::OnSearchByMail)
-		<< WCHAR_PARAM("contacts", email) << CHAR_PARAM("service", "email"));
-	return (HANDLE)1;
-}
-
 HANDLE CVkProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	if (!IsOnline())

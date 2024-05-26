@@ -40,6 +40,8 @@ INT_PTR __cdecl CVkProto::SvcChatChangeTopic(WPARAM hContact, LPARAM)
 		return 1;
 		
 	if (LPTSTR pwszNew = ChangeChatTopic(cc)) {
+		if (mir_wstrlen(pwszNew) > 100)
+			pwszNew[100] = 0;
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.editChat.json", true, &CVkProto::OnReceiveSmth)
 			<< WCHAR_PARAM("title", pwszNew)
 			<< INT_PARAM("chat_id", cc->m_iChatId));
@@ -1004,7 +1006,8 @@ INT_PTR CVkProto::SvcCreateChat(WPARAM, LPARAM)
 		TranslateT("Create group chat"),
 		TranslateT("Mark users you want to invite to a new chat"),
 		TranslateT("New chat's title:"),
-		VKContactType::vkContactSelf | VKContactType::vkContactMUCUser | VKContactType::vkContactGroupUser
+		VKContactType::vkContactSelf | VKContactType::vkContactMUCUser | VKContactType::vkContactGroupUser,
+		100
 	);
 
 	if (!dlg.DoModal())
