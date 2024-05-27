@@ -241,10 +241,10 @@ LBL_SkipPatch:
 				debugLogA("Proceeding with empty cache for %d", hContact);
 
 			for (auto &it : ev["intro"]["messages"])
-				ParseMessage(hContact, lastMsgId, it, false, false);
+				ParseMessage(hContact, lastMsgId, it, 0);
 
 			for (auto &it : ev["tail"]["messages"])
-				ParseMessage(hContact, lastMsgId, it, false, true);
+				ParseMessage(hContact, lastMsgId, it, PM::CreateRead);
 
 			setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 			if (pUser) {

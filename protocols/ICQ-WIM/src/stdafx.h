@@ -51,6 +51,7 @@
 #include <m_clistint.h>
 #include <m_contacts.h>
 #include <m_database.h>
+#include <m_file.h>
 #include <m_gui.h>
 #include <m_idle.h>
 #include <m_icolib.h>

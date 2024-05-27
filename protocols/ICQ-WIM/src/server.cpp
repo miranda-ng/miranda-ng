@@ -457,7 +457,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 	return hContact;
 }
 
-void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, bool bCreateRead, bool bLocalTime)
+void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &it, int flags)
 {
 	CMStringA szMsgId(it["msgId"].as_mstring()), szSender, szReply;
 	__int64 msgId = _atoi64(szMsgId);
@@ -465,6 +465,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		lastMsgId = msgId;
 
 	MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
+	bool bLocalTime = (flags & PM::LocalTime) != 0;
 	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
 
 	if (auto &node = it["chat"]["sender"])
@@ -592,6 +593,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	}
 
 	// process our own messages
+	bool bCreateRead = (flags & PM::CreateRead) != 0;
 	CMStringA reqId(it["reqId"].as_mstring());
 	if (CheckOwnMessage(reqId, szMsgId, true)) {
 		debugLogA("Skipping our own message %s", szMsgId.c_str());
@@ -627,7 +629,38 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			blob.write(dbei);
 			db_event_edit(hOldEvent, &dbei, true);
 		}
-		else ProtoChainRecvFile(hContact, blob, dbei);
+		else {
+			CMStringA szUrl(pFileInfo->szUrl);
+			MEVENT hEvent = ProtoChainRecvFile(hContact, blob, dbei);
+
+			if (flags & PM::FetchFiles) {
+				if (!blob.isCompleted()) {
+					wchar_t wszReceiveFolder[MAX_PATH];
+					File::GetReceivedFolder(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
+					CMStringW wszFileName(FORMAT, L"%s%s", wszReceiveFolder, blob.getName());
+
+					MHttpRequest nlhr(REQUEST_GET);
+					nlhr.flags = NLHRF_REDIRECT;
+					nlhr.m_szUrl = szUrl;
+					nlhr.AddHeader("Sec-Fetch-User", "?1");
+					nlhr.AddHeader("Sec-Fetch-Site", "cross-site");
+					nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
+					nlhr.AddHeader("Accept-Encoding", "gzip");
+
+					debugLogW(L"Saving to [%s]", wszFileName.c_str());
+					NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, wszFileName.c_str(), 0, 0));
+					if (reply && reply->resultCode == 200) {
+						struct _stat st;
+						_wstat(wszFileName, &st);
+
+						DBVARIANT dbv = { DBVT_DWORD };
+						dbv.dVal = st.st_size;
+						db_event_setJson(hEvent, "ft", &dbv);
+					}
+				}
+			}
+		}
+		
 		return;
 	}
 
@@ -844,7 +877,7 @@ void CIcqProto::OnGetPatches(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 				if (_wtoi64(msg["msgId"].as_mstring()) == it.first) {
 					bFound = true;
 					__int64 lastMsgId;
-					ParseMessage(pReq->hContact, lastMsgId, msg, true, false);
+					ParseMessage(pReq->hContact, lastMsgId, msg, PM::LocalTime);
 				}
 
 			if (!bFound)
@@ -902,17 +935,21 @@ void CIcqProto::OnGetUserHistory(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 
 	__int64 lastMsgId = getId(pReq->hContact, DB_KEY_LASTMSGID);
 
-	int count = 0;
+	wchar_t wszReceiveFolder[MAX_PATH];
+	File::GetReceivedFolder(pReq->hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
+	CreateDirectoryTreeW(wszReceiveFolder);
+
+	int count = 0, flags = PM::FetchFiles + (pReq->pUserInfo ? PM::LocalTime : 0);
 	auto &results = root.results();
 	for (auto &it : results["messages"]) {
-		ParseMessage(pReq->hContact, lastMsgId, it, pReq->pUserInfo != nullptr, false);
+		ParseMessage(pReq->hContact, lastMsgId, it, flags);
 		count++;
 	}
 
 	setId(pReq->hContact, DB_KEY_LASTMSGID, lastMsgId);
 
 	if (count >= 999)
-		RetrieveUserHistory(pReq->hContact, lastMsgId, pReq->pUserInfo != nullptr);
+		RetrieveUserHistory(pReq->hContact, lastMsgId, flags);
 }
 
 void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool bCreateRead)

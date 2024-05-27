@@ -243,14 +243,20 @@ class CIcqProto : public PROTO<CIcqProto>
 	void          Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
 	void          Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
 	MCONTACT      ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID, bool bIsPartial = false);
-	void          ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
 	void          ParseMessagePart(MCONTACT hContact, const JSONNode &msg, IcqFileInfo *&pFileInfo);
 	IcqFileInfo*  RetrieveFileInfo(MCONTACT hContact, const CMStringW &wszUrl);
 	void          RetrievePatches(MCONTACT hContact);
 	int           StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
 	void          ProcessPatchVersion(MCONTACT hContact, __int64 currPatch);
 	void          ProcessStatus(IcqUser *pUser, int iStatus);
-				     
+
+	enum PM {
+		CreateRead = 1,
+		LocalTime = 2,
+		FetchFiles = 4
+	};
+	void          ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, int flags);
+
 	void          OnLoggedIn(void);
 	void          OnLoggedOut(void);
 
