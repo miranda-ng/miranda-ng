@@ -464,7 +464,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	if (msgId > lastMsgId)
 		lastMsgId = msgId;
 
-	MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
+	MEVENT hEvent = db_event_getById(m_szModuleName, szMsgId);
 	bool bLocalTime = (flags & PM::LocalTime) != 0;
 	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
 
@@ -584,7 +584,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	// message text might be a separate file link as well
 	if (pFileInfo == nullptr && fileText2url(wszText)) {
-		if (hOldEvent)
+		if (hEvent)
 			return;
 		
 		CheckFile(hContact, wszText, pFileInfo);
@@ -609,7 +609,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		auto *p = strrchr(pFileInfo->szUrl, '/');
 		auto *pszShortName = (p == nullptr) ? pFileInfo->szUrl.c_str() : p + 1;
 
-		DB::EventInfo dbei(hOldEvent);
+		DB::EventInfo dbei(hEvent);
 		dbei.eventType = EVENTTYPE_FILE;
 		dbei.flags = DBEF_TEMPORARY;
 		dbei.szId = szMsgId;
@@ -623,45 +623,44 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		if (isChatRoom(hContact))
 			dbei.szUserId = szSender;
 
+		int iSaveSize = pFileInfo->dwFileSize;
+		CMStringA szUrl(pFileInfo->szUrl);
+
 		DB::FILE_BLOB blob(pFileInfo, pszShortName, T2Utf(pFileInfo->wszDescr));
-		if (hOldEvent) {
+		if (hEvent) {
 			OnReceiveOfflineFile(blob);
 			blob.write(dbei);
-			db_event_edit(hOldEvent, &dbei, true);
+			db_event_edit(hEvent, &dbei, true);
 		}
-		else {
-			int iSaveSize = pFileInfo->dwFileSize;
-			CMStringA szUrl(pFileInfo->szUrl);
-			MEVENT hEvent = ProtoChainRecvFile(hContact, blob, dbei);
+		else hEvent = ProtoChainRecvFile(hContact, blob, dbei);
 
-			if (flags & PM::FetchFiles) {
-				wchar_t wszReceiveFolder[MAX_PATH];
-				File::GetReceivedFolder(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
-				CMStringW wszFileName(FORMAT, L"%s%s", wszReceiveFolder, blob.getName());
+		if (flags & PM::FetchFiles) {
+			wchar_t wszReceiveFolder[MAX_PATH];
+			File::GetReceivedFolder(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
+			CMStringW wszFileName(FORMAT, L"%s%s", wszReceiveFolder, blob.getName());
 
-				// download & save file only if it's missing
-				struct _stat st = {};
-				int rc = _wstat(wszFileName, &st);
-				if (rc != 0 || st.st_size != iSaveSize) {
-					MHttpRequest nlhr(REQUEST_GET);
-					nlhr.flags = NLHRF_REDIRECT;
-					nlhr.m_szUrl = szUrl;
-					nlhr.AddHeader("Sec-Fetch-User", "?1");
-					nlhr.AddHeader("Sec-Fetch-Site", "cross-site");
-					nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
-					nlhr.AddHeader("Accept-Encoding", "gzip");
+			// download & save file only if it's missing
+			struct _stat st = {};
+			int rc = _wstat(wszFileName, &st);
+			if (rc != 0 || st.st_size != iSaveSize) {
+				MHttpRequest nlhr(REQUEST_GET);
+				nlhr.flags = NLHRF_REDIRECT;
+				nlhr.m_szUrl = szUrl;
+				nlhr.AddHeader("Sec-Fetch-User", "?1");
+				nlhr.AddHeader("Sec-Fetch-Site", "cross-site");
+				nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
+				nlhr.AddHeader("Accept-Encoding", "gzip");
 
-					debugLogW(L"Saving to [%s]", wszFileName.c_str());
-					NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, wszFileName.c_str(), 0, 0));
-					if (!reply || reply->resultCode != 200)
-						return;
-				}
-
-				blob.setLocalName(wszFileName);
-				blob.complete(iSaveSize);
-				blob.write(dbei);
-				db_event_edit(hEvent, &dbei, true);
+				debugLogW(L"Saving to [%s]", wszFileName.c_str());
+				NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, wszFileName.c_str(), 0, 0));
+				if (!reply || reply->resultCode != 200)
+					return;
 			}
+
+			blob.setLocalName(wszFileName);
+			blob.complete(iSaveSize);
+			blob.write(dbei);
+			db_event_edit(hEvent, &dbei, true);
 		}
 		
 		return;
@@ -678,7 +677,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	ptrA szUtf(mir_utf8encodeW(wszText));
 
-	DB::EventInfo dbei(hOldEvent);
+	DB::EventInfo dbei(hEvent);
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = iMsgTime;
 	dbei.flags = DBEF_UTF;
@@ -695,7 +694,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	if (dbei) {
 		replaceStr(dbei.pBlob, szUtf.detach());
-		db_event_edit(hOldEvent, &dbei, true);
+		db_event_edit(hEvent, &dbei, true);
 	}
 	else {
 		dbei.pBlob = szUtf;
