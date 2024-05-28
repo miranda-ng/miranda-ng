@@ -105,7 +105,7 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 
 	if (newHeight != cachedWindowHeight) {
 		cachedWindowHeight = newHeight;
-		FixScrollPosition(true);
+		FixScrollPosition();
 		bDraw = true;
 	}
 
