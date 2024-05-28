@@ -939,7 +939,7 @@ void CIcqProto::OnGetUserHistory(MHttpResponse *pReply, AsyncHttpRequest *pReq)
 	File::GetReceivedFolder(pReq->hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
 	CreateDirectoryTreeW(wszReceiveFolder);
 
-	int count = 0, flags = PM::FetchFiles + (pReq->pUserInfo ? PM::LocalTime : 0);
+	int count = 0, flags = PM::FetchFiles + (pReq->pUserInfo ? PM::CreateRead : 0);
 	auto &results = root.results();
 	for (auto &it : results["messages"]) {
 		ParseMessage(pReq->hContact, lastMsgId, it, flags);

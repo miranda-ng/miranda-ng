@@ -244,7 +244,7 @@ LBL_SkipPatch:
 				ParseMessage(hContact, lastMsgId, it, 0);
 
 			for (auto &it : ev["tail"]["messages"])
-				ParseMessage(hContact, lastMsgId, it, PM::CreateRead);
+				ParseMessage(hContact, lastMsgId, it, PM::LocalTime);
 
 			setId(hContact, DB_KEY_LASTMSGID, lastMsgId);
 			if (pUser) {
