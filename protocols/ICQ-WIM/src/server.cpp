@@ -630,15 +630,19 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			db_event_edit(hOldEvent, &dbei, true);
 		}
 		else {
+			int iSaveSize = pFileInfo->dwFileSize;
 			CMStringA szUrl(pFileInfo->szUrl);
 			MEVENT hEvent = ProtoChainRecvFile(hContact, blob, dbei);
 
 			if (flags & PM::FetchFiles) {
-				if (!blob.isCompleted()) {
-					wchar_t wszReceiveFolder[MAX_PATH];
-					File::GetReceivedFolder(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
-					CMStringW wszFileName(FORMAT, L"%s%s", wszReceiveFolder, blob.getName());
+				wchar_t wszReceiveFolder[MAX_PATH];
+				File::GetReceivedFolder(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
+				CMStringW wszFileName(FORMAT, L"%s%s", wszReceiveFolder, blob.getName());
 
+				// download & save file only if it's missing
+				struct _stat st = {};
+				int rc = _wstat(wszFileName, &st);
+				if (rc != 0 || st.st_size != iSaveSize) {
 					MHttpRequest nlhr(REQUEST_GET);
 					nlhr.flags = NLHRF_REDIRECT;
 					nlhr.m_szUrl = szUrl;
@@ -649,15 +653,14 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 					debugLogW(L"Saving to [%s]", wszFileName.c_str());
 					NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, wszFileName.c_str(), 0, 0));
-					if (reply && reply->resultCode == 200) {
-						struct _stat st;
-						_wstat(wszFileName, &st);
-
-						DBVARIANT dbv = { DBVT_DWORD };
-						dbv.dVal = st.st_size;
-						db_event_setJson(hEvent, "ft", &dbv);
-					}
+					if (!reply || reply->resultCode != 200)
+						return;
 				}
+
+				blob.setLocalName(wszFileName);
+				blob.complete(iSaveSize);
+				blob.write(dbei);
+				db_event_edit(hEvent, &dbei, true);
 			}
 		}
 		
