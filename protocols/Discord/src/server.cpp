@@ -167,7 +167,7 @@ void CDiscordProto::OnReceiveMyInfo(MHttpResponse *pReply, AsyncHttpRequest*)
 	m_ownId = id;
 	m_szCookie = pReply->GetCookies();
 
-	CallService(MS_KS_ENABLEPROTOCOL, FALSE, LPARAM(m_szModuleName));
+	CallService(MS_KS_ENABLEPROTOCOL, TRUE, LPARAM(m_szModuleName));
 
 	// launch gateway thread
 	if (m_szGateway.IsEmpty())

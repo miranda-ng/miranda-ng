@@ -85,6 +85,8 @@ public:
 		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/logout", &CDiscordProto::OnReceiveLogout);
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
+
+		CallService(MS_KS_ENABLEPROTOCOL, FALSE, LPARAM(m_proto->m_szModuleName));
 	}
 
 	void onLogout()
@@ -106,8 +108,6 @@ void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *pReq)
 	delSetting(DB_KEY_TOKEN);
 	m_szAccessToken = 0;
 	ShutdownSession();
-
-	CallService(MS_KS_ENABLEPROTOCOL, FALSE, LPARAM(m_szModuleName));
 
 	auto *pDlg = (CDiscardAccountOptions *)pReq->pUserInfo;
 	pDlg->onLogout();
