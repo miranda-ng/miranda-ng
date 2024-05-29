@@ -390,36 +390,37 @@ void NewstoryListData::DeleteItems(void)
 			nSelected++;
 
 	CDeleteEventsDlg dlg(m_hContact, nSelected);
-	if (IDOK != dlg.DoModal())
-		return;
+	if (IDOK == dlg.DoModal()) {
+		g_plugin.bDisableDelete = true;
 
-	g_plugin.bDisableDelete = true;
+		int firstSel = -1, flags = 0;
+		if (dlg.bDelHistory)
+			flags |= CDF_DEL_HISTORY;
+		if (dlg.bForEveryone)
+			flags |= CDF_FOR_EVERYONE;
 
-	int firstSel = -1, flags = 0;
-	if (dlg.bDelHistory)
-		flags |= CDF_DEL_HISTORY;
-	if (dlg.bForEveryone)
-		flags |= CDF_FOR_EVERYONE;
+		for (int i = totalCount - 1; i >= 0; i--) {
+			auto *p = GetItem(i);
+			if (!p->m_bSelected)
+				continue;
 
-	for (int i = totalCount - 1; i >= 0; i--) {
-		auto *p = GetItem(i);
-		if (!p->m_bSelected)
-			continue;
+			if (p->dbe.getEvent())
+				db_event_delete(p->dbe.getEvent(), flags);
+			items.remove(i);
+			totalCount--;
+			firstSel = i;
+		}
 
-		if (p->dbe.getEvent())
-			db_event_delete(p->dbe.getEvent(), flags);
-		items.remove(i);
-		totalCount--;
-		firstSel = i;
+		g_plugin.bDisableDelete = false;
+
+		if (firstSel != -1) {
+			SetCaret(firstSel, false);
+			SetSelection(firstSel, firstSel);
+			FixScrollPosition(true);
+		}
 	}
 
-	g_plugin.bDisableDelete = false;
-
-	if (firstSel != -1) {
-		SetCaret(firstSel, false);
-		SetSelection(firstSel, firstSel);
-		FixScrollPosition(true);
-	}
+	::SetFocus(m_hwnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
