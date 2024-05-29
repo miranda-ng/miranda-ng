@@ -66,6 +66,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_btnCloseQuote.OnClick = Callback(this, &CSrmmBaseDialog::onClick_CloseQuote);
 
 	m_nickList.OnDblClick = Callback(this, &CSrmmBaseDialog::onDblClick_List);
+	m_nickList.OnBuildMenu = Callback(this, &CSrmmBaseDialog::onContextMenu);
 
 	timerRedraw.OnEvent = Callback(this, &CSrmmBaseDialog::OnRedrawTimer);
 
@@ -303,9 +304,9 @@ static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem
 	ti.rect = clientRect;
 
 	CMStringW wszBuf;
-	if (auto *ui1 = (USERINFO *)listBox.GetItemData(si->currentHovered)) {
+	if (auto *ui = (USERINFO *)listBox.GetItemData(si->currentHovered)) {
 		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui1->pszUID);
+			wchar_t *p = (wchar_t*)CallProtoService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui->pszUID);
 			if (p != nullptr) {
 				wszBuf = p;
 				mir_free(p);
@@ -314,9 +315,9 @@ static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem
 
 		if (wszBuf.IsEmpty())
 			wszBuf.Format(L"%s: %s\r\n%s: %s\r\n%s: %s",
-				TranslateT("Nickname"), ui1->pszNick,
-				TranslateT("Unique ID"), ui1->pszUID,
-				TranslateT("Status"), g_chatApi.TM_WordToString(si->pStatuses, ui1->Status));
+				TranslateT("Nickname"), ui->pszNick,
+				TranslateT("Unique ID"), ui->pszUID,
+				TranslateT("Status"), g_chatApi.TM_WordToString(si->pStatuses, ui->Status));
 		ti.lpszText = wszBuf.GetBuffer();
 	}
 
@@ -329,10 +330,10 @@ void CSrmmBaseDialog::OnNickListTimer(CTimer *pTimer)
 {
 	pTimer->Stop();
 
-	if (auto *ui1 = (USERINFO *)m_nickList.SendMsg(LB_GETITEMDATA, m_si->currentHovered, 0)) {
+	if (auto *ui = (USERINFO *)m_nickList.GetItemData(m_si->currentHovered)) {
 		CMStringW wszBuf;
 		if (ProtoServiceExists(m_si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
-			wchar_t *p = (wchar_t *)CallProtoService(m_si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)m_si->ptszID, (LPARAM)ui1->pszUID);
+			wchar_t *p = (wchar_t *)CallProtoService(m_si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)m_si->ptszID, (LPARAM)ui->pszUID);
 			if (p) {
 				wszBuf = p;
 				mir_free(p);
@@ -340,9 +341,9 @@ void CSrmmBaseDialog::OnNickListTimer(CTimer *pTimer)
 		}
 		if (wszBuf.IsEmpty())
 			wszBuf.Format(L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
-				TranslateT("Nick"), ui1->pszNick,
-				TranslateT("Unique ID"), ui1->pszUID,
-				TranslateT("Status"), g_chatApi.TM_WordToString(m_si->pStatuses, ui1->Status));
+				TranslateT("Nick"), ui->pszNick,
+				TranslateT("Unique ID"), ui->pszUID,
+				TranslateT("Status"), g_chatApi.TM_WordToString(m_si->pStatuses, ui->Status));
 
 		CLCINFOTIP ti = { sizeof(ti) };
 		Tipper_ShowTip(wszBuf, &ti);
@@ -451,36 +452,6 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			}
 		}
 		return 1;
-
-	case WM_CONTEXTMENU:
-		POINT pt;
-		{
-			int height = 0;
-			pt.x = GET_X_LPARAM(lParam);
-			pt.y = GET_Y_LPARAM(lParam);
-			if (pt.x == -1 && pt.y == -1) {
-				int index = m_nickList.GetCurSel();
-				int top = m_nickList.SendMsg(LB_GETTOPINDEX, 0, 0);
-				height = m_nickList.SendMsg(LB_GETITEMHEIGHT, 0, 0);
-				pt.x = 4;
-				pt.y = (index - top)*height + 1;
-			}
-			else ScreenToClient(m_nickList.GetHwnd(), &pt);
-
-			int item = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
-			if (HIWORD(item) != 0) // clicked outside the client area
-				break;
-
-			if (auto *ui = (USERINFO *)m_nickList.GetItemData(item)) {
-				if (pt.x == -1 && pt.y == -1)
-					pt.y += height - 4;
-				ClientToScreen(m_nickList.GetHwnd(), &pt);
-
-				RunUserMenu(m_nickList.GetHwnd(), ui, pt);
-				return TRUE;
-			}
-		}
-		break;
 
 	case WM_KEYDOWN:
 		if (wParam == VK_RETURN) {
@@ -941,6 +912,17 @@ void CSrmmBaseDialog::onClick_CloseQuote(CCtrlButton*)
 	m_btnCloseQuote.Hide();
 	m_hQuoteEvent = 0;
 	Resize();
+}
+
+void CSrmmBaseDialog::onContextMenu(CContextMenuPos *pos)
+{
+	POINT pt = pos->pt;
+	ScreenToClient(m_nickList.GetHwnd(), &pt);
+	
+	int item = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+	if (HIWORD(item) == 0) // clicked inside the client area
+		if (auto *ui = (USERINFO *)m_nickList.GetItemData(item))
+			RunUserMenu(m_nickList.GetHwnd(), ui, pos->pt);
 }
 
 void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)

@@ -305,6 +305,7 @@ Srmm_FindDialog @406 NONAME
 ??2CSrmmBaseDialog@@SAPEAX_K@Z @409 NONAME
 ??3CSrmmBaseDialog@@SAXPEAX@Z @410 NONAME
 ?isChat@CSrmmBaseDialog@@QEBA_NXZ @411 NONAME
+?onContextMenu@CSrmmBaseDialog@@IEAAXPEAUCContextMenuPos@@@Z @412 NONAME
 ?RunUserMenu@CSrmmBaseDialog@@IEAAXPEAUHWND__@@PEAUUSERINFO@@AEBUtagPOINT@@@Z @414 NONAME
 ?ClearLog@CSrmmBaseDialog@@QEAAXXZ @415 NONAME
 ?CloseTab@CSrmmBaseDialog@@UEAAXXZ @416 NONAME

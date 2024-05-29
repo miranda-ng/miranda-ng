@@ -340,6 +340,7 @@ protected:
 	void onClick_History(CCtrlButton *);
 	void onClick_CloseQuote(CCtrlButton *);
 
+	void onContextMenu(CContextMenuPos *);
 	void onDblClick_List(CCtrlListBox *);
 
 public:
