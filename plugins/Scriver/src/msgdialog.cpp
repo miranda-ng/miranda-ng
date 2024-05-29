@@ -945,10 +945,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			SetFocus(m_message.GetHwnd());
 		return TRUE;
 
-	case WM_KEYDOWN:
-		SetFocus(m_message.GetHwnd());
-		break;
-
 	case WM_SETFOCUS:
 		m_pParent->ActivateChild(this);
 		g_dat.hFocusWnd = m_hwnd;

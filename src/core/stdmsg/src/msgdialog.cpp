@@ -719,10 +719,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, (SBT_OWNERDRAW | (SendMessage(m_pOwner->m_hwndStatus, SB_GETPARTS, 0, 0) - 1)), 0);
 		break;
 
-	case WM_KEYDOWN:
-		SetFocus(m_message.GetHwnd());
-		break;
-
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_ACTIVE)
 			OnActivate();

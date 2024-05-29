@@ -666,6 +666,10 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 		break;
 
+	case WM_KEYDOWN:
+		SetFocus(m_message.GetHwnd());
+		break;
+
 	case WM_NOTIFY:
 		LPNMHDR hdr = (LPNMHDR)lParam;
 		if (hdr->hwndFrom == m_pLog->GetHwnd())

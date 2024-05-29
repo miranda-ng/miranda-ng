@@ -2338,10 +2338,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		GetMyNick();
 		return 0;
 
-	case WM_KEYDOWN:
-		SetFocus(m_message.GetHwnd());
-		break;
-
 	case WM_SETFOCUS:
 		if (CMimAPI::m_shutDown)
 			break;
