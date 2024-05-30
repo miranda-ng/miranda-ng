@@ -280,6 +280,9 @@ static void RestoreUnreadMessageAlerts(void)
 	OBJLIST<MSavedEvent> arEvents(10, NumericKeySortT);
 
 	for (auto &hContact : Contacts()) {
+		if (Contact::IsGroupChat(hContact) || !Proto_GetBaseAccountName(hContact))
+			continue;
+
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			bool autoPopup = false;
 
