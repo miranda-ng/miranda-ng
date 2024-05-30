@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define WINDOWS_COMMANDS_MAX 30
 
-static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID);
-
 static int CompareUser(const USERINFO *u1, const USERINFO *u2)
 {
 	return mir_wstrcmp(u1->pszUID, u2->pszUID);
@@ -163,7 +161,19 @@ MIR_APP_DLL(SESSION_INFO*) Chat_Find(const wchar_t *pszID, const char *pszModule
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Chat user manager
+// User manager functions
+// Necessary to keep track of the users in a window nicklist
+
+static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID)
+{
+	if (!si || !pszUID)
+		return nullptr;
+
+	mir_cslock lck(si->csLock);
+	USERINFO tmp;
+	tmp.pszUID = (wchar_t *)pszUID;
+	return si->getUserList().find(&tmp);
+}
 
 USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus)
 {
@@ -227,12 +237,12 @@ static USERINFO* UM_SetStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t 
 
 static USERINFO* UM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
 {
-	USERINFO *ui = UM_FindUser(si, pszUID);
-	if (ui == nullptr)
-		return nullptr;
+	if (auto *ui = UM_FindUser(si, pszUID)) {
+		ui->ContactStatus = status;
+		return ui;
+	}
 
-	ui->ContactStatus = status;
-	return ui;
+	return nullptr;
 }
 
 BOOL UM_SetStatusEx(SESSION_INFO *si, const wchar_t *pszText, int flags)
@@ -267,7 +277,7 @@ BOOL UM_SetStatusEx(SESSION_INFO *si, const wchar_t *pszText, int flags)
 	return TRUE;
 }
 
-static USERINFO *UM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
+static USERINFO* UM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status)
 {
 	USERINFO *ui = UM_FindUser(si, pszUID);
 	if (ui == nullptr)
@@ -277,7 +287,7 @@ static USERINFO *UM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t
 	return ui;
 }
 
-static wchar_t *UM_FindUserAutoComplete(SESSION_INFO *si, const wchar_t *pszOriginal, const wchar_t *pszCurrent)
+static wchar_t* UM_FindUserAutoComplete(SESSION_INFO *si, const wchar_t *pszOriginal, const wchar_t *pszCurrent)
 {
 	if (!si || !pszOriginal || !pszCurrent)
 		return nullptr;
@@ -705,21 +715,6 @@ static BOOL TM_RemoveAll(STATUSINFO **ppStatusList)
 	}
 	*ppStatusList = nullptr;
 	return TRUE;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// User manager functions
-// Necessary to keep track of the users in a window nicklist
-
-static USERINFO* UM_FindUser(SESSION_INFO *si, const wchar_t *pszUID)
-{
-	if (!si || !pszUID)
-		return nullptr;
-
-	mir_cslock lck(si->csLock);
-	USERINFO tmp;
-	tmp.pszUID = (wchar_t*)pszUID;
-	return si->getUserList().find(&tmp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
