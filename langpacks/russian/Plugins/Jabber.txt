@@ -60,8 +60,8 @@
 Порт:
 [Use SSL]
 SSL
-[Use TLS]
-TLS
+[Use STARTTLS]
+STARTTLS
 [Unregister]
 Удалить
 [Expert]
@@ -1776,10 +1776,10 @@ XML (кодировка UTF-8)
 Введите пароль для %s
 [Error: Not enough memory]
 Ошибка: Не хватает памяти
+[Requesting XMPP service address through proxy is not supported.\nPlease allow direct DNS in options or specify the hostname manually]
+
 [Error: Cannot connect to the server]
 Ошибка: Невозможно подключиться к серверу
-[SSL initialization failed]
-
 [Error: Connection lost]
 Ошибка: Соединение потеряно
 [Requesting registration instruction...]

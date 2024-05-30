@@ -10,8 +10,8 @@
 ;file \protocols\Discord\res\discord.rc
 [User details]
 О пользователе
-[E-mail:]
-Почта:
+[E-mail or phone:]
+Почта или телефон:
 [Password:]
 Пароль:
 [Contacts]
@@ -28,28 +28,44 @@
 Удалять сообщения из истории Миранды, если они удалены с сервера
 [Log out]
 Выйти
+[Delete contacts in Miranda when they are deleted from server]
+Удалять контакты из списка контактов Миранды, если они удалены с сервера
 [Nick:]
 Ник:
-[2-step verification]
+[Multi-factor authentication]
 Двухфакторная аутентификация
 [Cancel]
 Отмена
+[Send group chat invitation]
+Пригласить в конференцию
+[&Invite]
+&Пригласить
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]
 изменено в
 ;file \protocols\Discord\src\groupchat.cpp
 [Change &nickname]
 Изменить &ник
+[Invite users]
+Пригласить пользователей
 [Channel control]
-Управление комнатой чата
+Управление чатом
 [Change &topic]
 &Изменить тему
 [&Rename channel]
-&Переименовать комнату чата
-[&Destroy channel]
-&Удалить комнату чата
+&Переименовать чат
+[Destroy channel]
+Удалить чат
+[Leave channel]
+Покинуть чат
 [Copy ID]
 Копировать ID
+[Add friend]
+Добавить друга
+[Kick user]
+выкинул(а) пользователя
+[Make group owner]
+Сделать владельцем чата
 [Do you really want to destroy this channel? This action is non-revertable.]
 Удалить этот канал? Удаление невозможно будет отменить.
 [Enter new channel name:]
@@ -89,19 +105,17 @@
 [Enable guild sync]
 Вкл. синхронизацию для этого сервера
 ;file \protocols\Discord\src\mfa.cpp
-[Use authentication app]
+[Use your authenticator app]
 Использовать приложение для аутентификации
 [Use a code sent to your phone]
 Использовать код с телефона
 [Use a backup code]
 Использовать резервный код
-[Enter Discord verification code:]
-Введите 6-значный код подтверждения:
-[Enter SMS code you received:]
-Введите 6-значный код подтверждения:
-[Enter one of your backup codes]
-Введите 8-значный резервный код:
-[Wrong code entered]
+[6-digit authentication code:]
+6-значный код подтверждения:
+[8-digit backup code:]
+8-значный резервный код:
+[Invalid two-factor code]
 Неверный двухфакторный код
 [MFA initialization]
 
@@ -139,6 +153,16 @@ ID пользователя
 Встроенное изображение
 [Preview]
 Предварительный просмотр
+[%s added %s to the group]
+%s добавляет %s в чат
+[%s joined the group]
+%s присоединяется к чату
+[%s removed %s from the group]
+%s удаляет %s из чата
+[%s left the group]
+%s покидает чат
+[%s changed the group icon]
+%s изменяет значок чата
 ;file \protocols\Discord\src\voice.cpp
 [Call ended, %d seconds long]
 Звонок завершён, длительность - %d секунд

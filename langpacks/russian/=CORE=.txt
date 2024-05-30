@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.5
+;  Version: 0.96.6
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -452,8 +452,6 @@
 Округлять углы аватара
 [Disable when]
 Выключить когда
-[Always (has priority)]
-Всегда (имеет приоритет)
 [Fullscreen mode]
 Полноэкранный режим
 [Statuses]
@@ -2657,6 +2655,8 @@ xСтатус
 [Protocols]
 Протоколы
 ;file \src\mir_app\src\proto_interface.cpp
+[Preview folder]
+Каталог с изображениями предпросмотра
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]

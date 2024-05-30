@@ -10,8 +10,6 @@
 ;file \plugins\MenuItemEx\res\resource.rc
 [Shown menu items]
 Показаны пункты меню
-[Show alpha icons]
-Альфа-значки
 [Hide from list]
 Скрыть из списка
 [Ignore]

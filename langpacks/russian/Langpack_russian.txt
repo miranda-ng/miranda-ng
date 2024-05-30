@@ -15,7 +15,7 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.5
+;  Version: 0.96.6
 ;============================================================
 [Become idle if the following is left unattended:]
 Перейти в режим ожидания, если неактивны:
@@ -461,8 +461,6 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 Округлять углы аватара
 [Disable when]
 Выключить когда
-[Always (has priority)]
-Всегда (имеет приоритет)
 [Fullscreen mode]
 Полноэкранный режим
 [Statuses]
@@ -2567,6 +2565,8 @@ xСтатус
 Протокол не в сети
 [Protocols]
 Протоколы
+[Preview folder]
+Каталог с изображениями предпросмотра
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]
@@ -9551,6 +9551,161 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Выберите папку для хранения резервных копий
 [Miranda NG [%s] database backup]
 Резервная копия базы Miranda NG [%s]
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Discord support for Miranda NG.]
+Поддержка протокола Discord в Miranda NG.
+[User details]
+О пользователе
+[E-mail or phone:]
+Почта или телефон:
+[Password:]
+Пароль:
+[Contacts]
+Контакты
+[Default group:]
+Группа:
+[Enable guilds (servers)]
+Включить поддержку гильдий (серверов)
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
+[Use subgroups for server channels (requires restart)]
+Создавать подгруппы для каждого сервера (требуется перезапуск)
+[Delete messages in Miranda when they are deleted from server]
+Удалять сообщения из истории Миранды, если они удалены с сервера
+[Log out]
+Выйти
+[Delete contacts in Miranda when they are deleted from server]
+Удалять контакты из списка контактов Миранды, если они удалены с сервера
+[Nick:]
+Ник:
+[Multi-factor authentication]
+Двухфакторная аутентификация
+[Cancel]
+Отмена
+[Send group chat invitation]
+Пригласить в конференцию
+[&Invite]
+&Пригласить
+[edited at]
+изменено в
+[Change &nickname]
+Изменить &ник
+[Invite users]
+Пригласить пользователей
+[Channel control]
+Управление чатом
+[Change &topic]
+&Изменить тему
+[&Rename channel]
+&Переименовать чат
+[Destroy channel]
+Удалить чат
+[Leave channel]
+Покинуть чат
+[Copy ID]
+Копировать ID
+[Add friend]
+Добавить друга
+[Kick user]
+выкинул(а) пользователя
+[Make group owner]
+Сделать владельцем чата
+[Do you really want to destroy this channel? This action is non-revertable.]
+Удалить этот канал? Удаление невозможно будет отменить.
+[Enter new channel name:]
+Укажите новое имя комнаты чата:
+[Enter new topic:]
+Укажите новую тему
+[Enter your new nick name:]
+Введите свой новый ник:
+[Main icon]
+Главный значок
+[Group chats]
+Чаты
+[Call]
+Звонок
+[Call ended]
+Звонок завершён
+[Enter channel name]
+Укажите имя комнаты чаты
+[Enter invitation code you received]
+Введите полученный код приглашения
+[Do you really want to leave the guild?]
+Вы действительно хотите покинуть гильдию?
+[Disable sync]
+Выключить синхронизацию
+[Enable sync]
+Включить синхронизацию
+[Join guild]
+Присоединиться к гильдии
+[Copy my Discord ID]
+Копировать Discord ID
+[Leave guild]
+Покинуть гильдию
+[Create new channel]
+Создать новую комнату чата
+[Enable guild sync]
+Вкл. синхронизацию для этого сервера
+[Use your authenticator app]
+Использовать приложение для аутентификации
+[Use a code sent to your phone]
+Использовать код с телефона
+[Use a backup code]
+Использовать резервный код
+[6-digit authentication code:]
+6-значный код подтверждения:
+[8-digit backup code:]
+8-значный резервный код:
+[Invalid two-factor code]
+Неверный двухфакторный код
+[Network]
+Сеть
+[Account]
+Учётная запись
+[Incoming call]
+Входящий звонок
+[%s server connection]
+%s подключение к серверу
+[%s gateway connection]
+%s подключение к шлюзу
+[Discord voice call]
+Голосовой вызов Discord
+[User ID]
+ID пользователя
+[Message send failed]
+Не удалось отправить сообщение
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+Сервер требует ввести капчу. Сейчас Миранда перенаправит вас в браузер
+[Connection failed.\n%s (%s).]
+Ошибка подключения.\n%s (%s).
+[Owners]
+Владельцы
+[Participants]
+Участники
+[Attachment]
+Вложение
+[Embed]
+Встроенное изображение
+[Preview]
+Предварительный просмотр
+[%s added %s to the group]
+%s добавляет %s в чат
+[%s joined the group]
+%s присоединяется к чату
+[%s removed %s from the group]
+%s удаляет %s из чата
+[%s left the group]
+%s покидает чат
+[%s changed the group icon]
+%s изменяет значок чата
+[Call ended, %d seconds long]
+Звонок завершён, длительность - %d секунд
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
@@ -9602,6 +9757,8 @@ Live ID
 Логин Skype
 [Steam ID]
 Steam ID
+[Telegram ID]
+Telegram ID
 [Tlen login]
 Tlen login
 [Tox ID]
@@ -14387,8 +14544,6 @@ Nickserv убить фантома
 Порт:
 [Use SSL]
 SSL
-[Use TLS]
-TLS
 [Unregister]
 Удалить
 [Expert]
@@ -17164,8 +17319,6 @@ Lotus Notify
 Добавляет дополнительные пункты меню контактов.
 [Shown menu items]
 Показаны пункты меню
-[Show alpha icons]
-Альфа-значки
 [Hide from list]
 Скрыть из списка
 [Ignore]
@@ -18213,8 +18366,6 @@ UTF-8 в новых файлах
 Дополнительный перевод строки
 [Use << and >>]
 Знаки << и >>
-[Help]
-Справка
 [Exporting old messages]
 Экспорт старых сообщений
 [History file for %s (%s, format %s)]
@@ -18255,6 +18406,50 @@ UTF-8 в новых файлах
 Очистить
 [Copy]
 Копировать
+[FirstName]
+Имя
+[LastName]
+Фамилия
+[e-mail]
+Почта
+[Nick]
+Псевдоним
+[Age]
+Возраст
+[Gender]
+Пол
+[City]
+Город
+[State]
+Штат
+[Phone]
+Телефон
+[Homepage]
+Сайт
+[About]
+Информация
+[      History for]
+      История переписки с
+[User]
+Контакт
+[Account]
+Учётная запись
+[User ID]
+ID пользователя
+[Nick      :]
+Псевдоним :
+[FirstName :]
+Имя       :
+[LastName  :]
+Фамилия   :
+[e-mail    :]
+Почта     :
+[Reason    :]
+Причина   :
+[Invalid Database event received. Type %d, size %d]
+Получено некорректное событие базы. Тип %d, размер %d
+[Unknown event type %d, size %d]
+Неизвестный тип события %d, размер %d
 [Miranda database contains %d events]
 Событий в базе: %d
 [Failed to open file]
@@ -18291,12 +18486,6 @@ UTF-8 в новых файлах
 Выбрать папку для записи
 [File]
 Файл
-[Nick]
-Псевдоним
-[Account]
-Учётная запись
-[User ID]
-ID пользователя
 [No contacts found to export]
 Нет контактов для экспорта
 [Export accounts]
@@ -18311,6 +18500,10 @@ ID пользователя
 Контакты
 [Additional]
 Дополнительно
+[User has been deleted. Do you want to delete the file?]
+Контакт удалён. Хотите удалить файл?
+[Failed to delete the file]
+Не удалось удалить файл
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Имя файла для контакта "%s" изменилось!\n\nс:\t%s\nна:\t%s\n\nХотите переименовать файл?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -18321,68 +18514,6 @@ ID пользователя
 \nСообщение не сохранено!\n
 [Do you wish to save debug information?]
 Сохранить отладочную информацию?
-[All\0*.*\0Text\0*.TXT\0\0]
-Все файлы\0*.*\0Текстовые файлы\0*.txt\0\0
-[FirstName]
-Имя
-[LastName]
-Фамилия
-[e-mail]
-Почта
-[Age]
-Возраст
-[Gender]
-Пол
-[City]
-Город
-[State]
-Штат
-[Phone]
-Телефон
-[Homepage]
-Сайт
-[About]
-Информация
-[      History for]
-      История переписки с
-[User]
-Контакт
-[File: ]
-Файл:\s
-[Description: ]
-Описание:\s
-[Size: ]
-Размер:\s
-[Transferred: ]
-Передано:\s
-[Path: ]
-Путь:\s
-[URL: ]
-URL:\s
-[Nick      :]
-Псевдоним :
-[FirstName :]
-Имя       :
-[LastName  :]
-Фамилия   :
-[e-mail    :]
-Почта     :
-[Reason    :]
-Причина   :
-[Invalid Database event received. Type %d, size %d]
-Получено некорректное событие базы. Тип %d, размер %d
-[The following user made an authorization request:]
-Следующий пользователь запросил авторизацию:
-[The following user added you to their contact list:]
-Пользователь добавил вас в свой список контактов:
-[UIN       :]
-Номер     :
-[Unknown event type %d, size %d]
-Неизвестный тип события %d, размер %d
-[User has been deleted. Do you want to delete the file?]
-Контакт удалён. Хотите удалить файл?
-[Failed to delete the file]
-Не удалось удалить файл
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: MyDetails.dll
@@ -19155,7 +19286,7 @@ URL страницы с комментариями к новости.
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -19214,8 +19345,8 @@ URL страницы с комментариями к новости.
 \[c5]
 [Empty history]
 Очистить историю
-[Are you sure to remove selected event(s)?]
-Уверены, что хотите удалить выбранные события?
+[Do you really want to delete selected item?]
+Действительно хотите удалить выбранное событие?
 [Remove server history]
 Удалить историю с сервера
 [Remove history for everyone]
@@ -19304,10 +19435,10 @@ URL страницы с комментариями к новости.
 Найти дальше
 [Search backward]
 Найти предыдущее
+[Do you really want to delete selected items (%d)?]
+Действительно хотите удалить выбранные события (%d)?
 [Global history search]
 Поиск по всей истории
-[System history]
-Системная история
 [All results]
 Все результаты
 [Copy]
@@ -19498,6 +19629,8 @@ URL страницы с комментариями к новости.
 Ноябрь
 [December]
 Декабрь
+[System history]
+Системная история
 [System event]
 Системное событие
 [Interface]
@@ -19524,6 +19657,10 @@ URL страницы с комментариями к новости.
 События 'Вас удалили'
 [Clipboard]
 Буфер обмена
+[This url might launch an executable program or virus, are you sure?]
+Нажатие на эту ссылку запустит исполняемый файл, который может оказаться вредоносным. Вы уверены?
+[Potentially dangerous URL]
+Потенциально небезопасная ссылка
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;============================================================
 ;  File: NewXstatusNotify.dll
@@ -28164,8 +28301,6 @@ TabSRMM: %s
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 После этого установить контакту следующий статус, а через указанное число секунд установить "Не в сети" (0 - отключено)
-[IP address]
-IP-адрес
 [Software]
 Клиент
 [Add phone contact]
@@ -31195,7 +31330,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.6
+;  Version: 0.1.16.9
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31216,12 +31351,14 @@ x, и сохраняет y, как переменную с именем x
 Удалить контакты, не являющиеся друзьями
 [Visit profile]
 Профиль на сайте
-[Support BBC for NewStory]
+[Support BBCode for NewStory]
 Поддержка BBCode для журнала NewStory
 [[img] BBCode support for image]
 Поддержка тега [img] для изображений
 [off]
 отключить
+[for preview max height 320 px]
+для предпросмотра с высотой 320 пикс.
 [for original size images]
 для исходного размера
 [for preview max 130*130 px]
@@ -31388,8 +31525,12 @@ E-mail или номер телефона:
 URL:
 [Only for friends]
 Только друзьям
-[Message]
-Сообщение
+[Mark contacts for forwarding messages]
+Выберите контакты для пересылки сообщений
+[Mark contacts you want to forward messages]
+Выберите контакты, которым вы хотите переслать сообщения
+[Enter accompanying message]
+Введите сопроводительное сообщение
 [Notification icon]
 Уведомление
 [Read message icon]
@@ -31416,6 +31557,8 @@ URL:
 Пометить сообщения прочитанными
 [Forward icon]
 Переслать
+[Reload messages icon]
+Перезагрузить сообщения
 [Access denied! Data will not be sent or received.]
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
@@ -31488,6 +31631,8 @@ URL:
 поделился вашим видео
 [Photo]
 Фото
+[Video]
+Видео
 [Attachments:]
 Вложения:
 [Audio]
@@ -31498,8 +31643,6 @@ URL:
 Расшифрованное аудио
 [Graffiti]
 Граффити
-[Video]
-Видео
 [Link]
 Ссылка
 [Document]
@@ -31748,6 +31891,8 @@ ID получателя ошибочен или неизвестен
 Новости и уведомления
 [Forward]
 Переслать
+[Reload messages]
+Перезагрузить сообщения
 [Mark messages as read]
 Пометить сообщения прочитанными
 [Send message to user's wall]
@@ -31776,12 +31921,6 @@ ID получателя ошибочен или неизвестен
 за последние 90 дней
 [for all time]
 с самого начала
-[Mark contacts for forwarding messages]
-Выберите контакты для пересылки сообщений
-[Mark contacts you want to forward messages]
-Выберите контакты, которым вы хотите переслать сообщения
-[Enter accompanying messages]
-Введите сопроводительное сообщение
 [Errors]
 Ошибки
 [Notifications]

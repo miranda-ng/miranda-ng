@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -62,8 +62,8 @@
 \[c5]
 [Empty history]
 Очистить историю
-[Are you sure to remove selected event(s)?]
-Уверены, что хотите удалить выбранные события?
+[Do you really want to delete selected item?]
+Действительно хотите удалить выбранное событие?
 [Remove server history]
 Удалить историю с сервера
 [Remove history for everyone]
@@ -159,11 +159,11 @@
 Найти дальше
 [Search backward]
 Найти предыдущее
+[Do you really want to delete selected items (%d)?]
+Действительно хотите удалить выбранные события (%d)?
 ;file \plugins\NewStory\src\history_dlg.cpp
 [Global history search]
 Поиск по всей истории
-[System history]
-Системная история
 [All results]
 Все результаты
 [Copy]
@@ -358,6 +358,8 @@
 Ноябрь
 [December]
 Декабрь
+[System history]
+Системная история
 [System event]
 Системное событие
 [Interface]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.6
+;  Version: 0.1.16.9
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,12 +24,14 @@
 Удалить контакты, не являющиеся друзьями
 [Visit profile]
 Профиль на сайте
-[Support BBC for NewStory]
+[Support BBCode for NewStory]
 Поддержка BBCode для журнала NewStory
 [[img] BBCode support for image]
 Поддержка тега [img] для изображений
 [off]
 отключить
+[for preview max height 320 px]
+для предпросмотра с высотой 320 пикс.
 [for original size images]
 для исходного размера
 [for preview max 130*130 px]
@@ -196,10 +198,12 @@ E-mail или номер телефона:
 URL:
 [Only for friends]
 Только друзьям
-[Mark contacts]
-
-[Message]
-Сообщение
+[Mark contacts for forwarding messages]
+Выберите контакты для пересылки сообщений
+[Mark contacts you want to forward messages]
+Выберите контакты, которым вы хотите переслать сообщения
+[Enter accompanying message]
+Введите сопроводительное сообщение
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 Уведомление
@@ -301,6 +305,8 @@ URL:
 поделился вашим видео
 [Photo]
 Фото
+[Video]
+Видео
 [Attachments:]
 Вложения:
 [Audio]
@@ -311,8 +317,6 @@ URL:
 Расшифрованное аудио
 [Graffiti]
 Граффити
-[Video]
-Видео
 [Link]
 Ссылка
 [Document]
@@ -600,12 +604,6 @@ ID получателя ошибочен или неизвестен
 за последние 90 дней
 [for all time]
 с самого начала
-[Mark contacts for forwarding messages]
-Выберите контакты для пересылки сообщений
-[Mark contacts you want to forward messages]
-Выберите контакты, которым вы хотите переслать сообщения
-[Enter accompanying messages]
-Введите сопроводительное сообщение
 [Errors]
 Ошибки
 [Notifications]

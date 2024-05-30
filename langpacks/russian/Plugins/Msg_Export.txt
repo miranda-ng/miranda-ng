@@ -36,8 +36,6 @@ UTF-8 в новых файлах
 Дополнительный перевод строки
 [Use << and >>]
 Знаки << и >>
-[Help]
-Справка
 [Exporting old messages]
 Экспорт старых сообщений
 [History file for %s (%s, format %s)]
@@ -78,6 +76,51 @@ UTF-8 в новых файлах
 Очистить
 [Copy]
 Копировать
+;file \plugins\Msg_Export\src\export.cpp
+[FirstName]
+Имя
+[LastName]
+Фамилия
+[e-mail]
+Почта
+[Nick]
+Псевдоним
+[Age]
+Возраст
+[Gender]
+Пол
+[City]
+Город
+[State]
+Штат
+[Phone]
+Телефон
+[Homepage]
+Сайт
+[About]
+Информация
+[      History for]
+      История переписки с
+[User]
+Контакт
+[Account]
+Учётная запись
+[User ID]
+ID пользователя
+[Nick      :]
+Псевдоним :
+[FirstName :]
+Имя       :
+[LastName  :]
+Фамилия   :
+[e-mail    :]
+Почта     :
+[Reason    :]
+Причина   :
+[Invalid Database event received. Type %d, size %d]
+Получено некорректное событие базы. Тип %d, размер %d
+[Unknown event type %d, size %d]
+Неизвестный тип события %d, размер %d
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 Событий в базе: %d
@@ -119,12 +162,6 @@ UTF-8 в новых файлах
 Выбрать папку для записи
 [File]
 Файл
-[Nick]
-Псевдоним
-[Account]
-Учётная запись
-[User ID]
-ID пользователя
 [No contacts found to export]
 Нет контактов для экспорта
 [Export accounts]
@@ -145,6 +182,12 @@ ID пользователя
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 
+[User has been deleted. Do you want to delete the file?]
+Контакт удалён. Хотите удалить файл?
+[Failed to delete the file]
+Не удалось удалить файл
+[No_Nick]
+
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Имя файла для контакта "%s" изменилось!\n\nс:\t%s\nна:\t%s\n\nХотите переименовать файл?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -155,67 +198,3 @@ ID пользователя
 \nСообщение не сохранено!\n
 [Do you wish to save debug information?]
 Сохранить отладочную информацию?
-[All\0*.*\0Text\0*.TXT\0\0]
-Все файлы\0*.*\0Текстовые файлы\0*.txt\0\0
-[FirstName]
-Имя
-[LastName]
-Фамилия
-[e-mail]
-Почта
-[Age]
-Возраст
-[Gender]
-Пол
-[City]
-Город
-[State]
-Штат
-[Phone]
-Телефон
-[Homepage]
-Сайт
-[About]
-Информация
-[      History for]
-      История переписки с
-[User]
-Контакт
-[File: ]
-Файл:\s
-[Description: ]
-Описание:\s
-[Size: ]
-Размер:\s
-[Transferred: ]
-Передано:\s
-[Path: ]
-Путь:\s
-[URL: ]
-URL:\s
-[Nick      :]
-Псевдоним :
-[FirstName :]
-Имя       :
-[LastName  :]
-Фамилия   :
-[e-mail    :]
-Почта     :
-[Reason    :]
-Причина   :
-[Invalid Database event received. Type %d, size %d]
-Получено некорректное событие базы. Тип %d, размер %d
-[The following user made an authorization request:]
-Следующий пользователь запросил авторизацию:
-[The following user added you to their contact list:]
-Пользователь добавил вас в свой список контактов:
-[UIN       :]
-Номер     :
-[Unknown event type %d, size %d]
-Неизвестный тип события %d, размер %d
-[User has been deleted. Do you want to delete the file?]
-Контакт удалён. Хотите удалить файл?
-[Failed to delete the file]
-Не удалось удалить файл
-[No_Nick]
-
