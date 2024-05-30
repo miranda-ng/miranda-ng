@@ -514,7 +514,7 @@ void CJabberAccount::InitVoip(bool bEnable)
 		VOICE_MODULE vsr = {};
 		vsr.cbSize = sizeof(VOICE_MODULE);
 		vsr.description = L"XMPP/DTLS-SRTP";
-		vsr.name = (char *)m_szModuleName;
+		vsr.name = m_szModuleName;
 		vsr.icon = g_plugin.getIconHandle(IDI_MAIN);
 		vsr.flags = VOICE_CAPS_VOICE | VOICE_CAPS_CALL_CONTACT;
 		CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);
