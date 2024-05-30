@@ -63,6 +63,10 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	CreateProtoService(PS_GETMYAVATAR, &CDiscordProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATAR, &CDiscordProto::SetMyAvatar);
 
+	CreateProtoService(PS_VOICE_CALL, &CDiscordProto::VoiceCallCreate);
+	CreateProtoService(PS_VOICE_DROPCALL, &CDiscordProto::VoiceCallCancel);
+	CreateProtoService(PS_VOICE_ANSWERCALL, &CDiscordProto::VoiceCallAnswer);
+
 	CreateProtoService(PS_MENU_REQAUTH, &CDiscordProto::RequestFriendship);
 
 	CreateProtoService(PS_MENU_LOADHISTORY, &CDiscordProto::OnMenuLoadHistory);
@@ -185,6 +189,7 @@ void CDiscordProto::OnModulesLoaded()
 	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
 
 	InitMenus();
+	InitVoip(true);
 
 	// Voice support
 	if (g_plugin.bVoiceService) {
@@ -204,6 +209,8 @@ void CDiscordProto::OnShutdown()
 
 	m_bTerminated = true;
 	SetEvent(m_evRequestsQueue);
+
+	InitVoip(false);
 
 	for (auto &it : arGuilds)
 		it->SaveToFile();

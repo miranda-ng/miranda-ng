@@ -88,12 +88,27 @@ void CDiscordProto::OnCommandCallUpdated(const JSONNode&)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Events & services
 
-INT_PTR __cdecl CDiscordProto::VoiceCaps(WPARAM, LPARAM)
+INT_PTR CDiscordProto::VoiceCaps(WPARAM, LPARAM)
 {
 	return VOICE_CAPS_VOICE | VOICE_CAPS_CALL_CONTACT;
 }
 
-int __cdecl CDiscordProto::OnVoiceState(WPARAM wParam, LPARAM)
+INT_PTR CDiscordProto::VoiceCallCreate(WPARAM, LPARAM)
+{
+	return 0;
+}
+
+INT_PTR CDiscordProto::VoiceCallAnswer(WPARAM, LPARAM)
+{
+	return 0;
+}
+
+INT_PTR CDiscordProto::VoiceCallCancel(WPARAM, LPARAM)
+{
+	return 0;
+}
+
+int CDiscordProto::OnVoiceState(WPARAM wParam, LPARAM)
 {
 	auto *pVoice = (VOICE_CALL *)wParam;
 	if (mir_strcmp(pVoice->moduleName, m_szModuleName))
@@ -113,4 +128,24 @@ int __cdecl CDiscordProto::OnVoiceState(WPARAM wParam, LPARAM)
 
 	debugLogA("Call %s state changed to %d", pVoice->id, pVoice->state);
 	return 0;
+}
+
+void CDiscordProto::InitVoip(bool bEnable)
+{
+	if (!g_plugin.bVoiceService)
+		return;
+
+	if (bEnable) {
+		VOICE_MODULE vsr = {};
+		vsr.cbSize = sizeof(VOICE_MODULE);
+		vsr.description = m_tszUserName;
+		vsr.name = m_szModuleName;
+		vsr.icon = g_plugin.getIconHandle(IDI_MAIN);
+		vsr.flags = VOICE_CAPS_VOICE | VOICE_CAPS_CALL_CONTACT;
+		CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);
+	}
+	else {
+		// TerminateSession();
+		CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)m_szModuleName, 0);
+	}
 }

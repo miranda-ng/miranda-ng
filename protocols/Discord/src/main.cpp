@@ -56,9 +56,17 @@ IconItem g_iconList[] =
 	{ LPGEN("Call ended"),  "voiceend",  IDI_VOICE_ENDED }
 };
 
-static int OnModulesLoaded(WPARAM, LPARAM)
+static int OnModuleLoaded(WPARAM, LPARAM)
 {
 	g_plugin.bVoiceService = ServiceExists(MS_VOICESERVICE_REGISTER);
+	return 0;
+}
+
+static int OnModulesLoaded(WPARAM, LPARAM)
+{
+	HookEvent(ME_SYSTEM_MODULELOAD, &OnModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, &OnModuleLoaded);
+	OnModuleLoaded(0, 0);
 	return 0;
 }
 
