@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int StrToStatus(const CMStringW &str)
 {
 	if (str == L"idle")
-		return ID_STATUS_NA;
+		return ID_STATUS_AWAY;
 	if (str == L"dnd")
 		return ID_STATUS_DND;
 	if (str == L"online")
