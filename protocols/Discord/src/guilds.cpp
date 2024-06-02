@@ -200,6 +200,8 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		}
 		return pUser;
 
+	case 2: // voice channel
+
 	case 0: // text channel
 		// check permissions to enter the channel
 		auto permissions = pGuild->CalcPermissionOverride(m_ownId, pch["permission_overwrites"]);
