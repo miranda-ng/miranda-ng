@@ -374,9 +374,10 @@ return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers 
 
 
 // ver 4
-var Info = API.messages.getChat({ "chat_id": Args.chatid });
 var PeerId = 2000000000 + parseInt(Args.chatid);
-var ChatUsers = API.messages.getConversationMembers({ "peer_id": PeerId, "fields": "id,first_name,last_name" });
+var Conv=API.messages.getConversationsById({"peer_ids": PeerId});
+var Info=Conv.items[0].chat_settings;
+var ChatUsers = API.messages.getConversationMembers({ "peer_id": PeerId, extended: 1, "fields": "id,first_name,last_name" });
 var ChatMsg = API.messages.getHistory({ "peer_id": PeerId, "count": 20, "rev": 0 });
 var UR = parseInt(ChatMsg.unread);
 if (UR > 20) {
@@ -410,12 +411,15 @@ var MsgUsers = API.users.get({ "user_ids": ChatMsg.items@.from_id, "fields":"id,
 
 return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers + GUsers.groups, "msgs_users": MsgUsers};
 
-
 // ver 5
-var Info=API.messages.getChat({"chat_id": Args.chatid});
 var PeerId = 2000000000 + parseInt(Args.chatid);
-var ChatUsers = API.messages.getConversationMembers({ "peer_id": PeerId, "fields": "id,first_name,last_name" });
+var Conv=API.messages.getConversationsById({"peer_ids": PeerId});
+var Info=Conv.items[0].chat_settings;
+var ChatUsers = API.messages.getConversationMembers({ "peer_id": PeerId, extended: 1, "fields": "id,first_name,last_name" });
 return {"info":Info,"users":ChatUsers};
+
+
+
 
 // Stored procedure name: RetrieveChatInfo = End
 

@@ -676,7 +676,7 @@ void CVkProto::RetrieveGroupInfo(VKUserID_t iGroupId)
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/groups.getById.json", true, &CVkProto::OnReceiveGroupInfo)
 		<< CHAR_PARAM("fields", "description")
-		<< INT_PARAM("group_id", -1 * iGroupId));
+		<< INT_PARAM("group_ids", -1 * iGroupId));
 }
 
 void CVkProto::RetrieveGroupInfo(CMStringA& groupIDs)

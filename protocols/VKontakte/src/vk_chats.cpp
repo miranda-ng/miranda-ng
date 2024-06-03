@@ -218,13 +218,15 @@ void CVkProto::OnReceiveChatInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			SetChatTitle(cc, jnInfo["title"].as_mstring());
 
 		
-		CMStringW wszValue = jnInfo["photo_100"].as_mstring();
+		CMStringW wszValue = jnInfo["photo"] ? jnInfo["photo"]["photo_100"].as_mstring() : "";
 		if (!wszValue.IsEmpty()) {
 			SetAvatarUrl(cc->m_si->hContact, wszValue);
 			ReloadAvatarInfo(cc->m_si->hContact);
 		}
 
-		if (jnInfo["left"].as_bool() || jnInfo["kicked"].as_bool()) {
+		CMStringW wszState = jnInfo["state"].as_mstring();
+
+		if (jnInfo["left"].as_bool() || jnInfo["kicked"].as_bool() || wszState == L"left" || wszState == L"kicked") {
 			setByte(cc->m_si->hContact, "kicked", jnInfo["kicked"].as_bool());
 			LeaveChat(cc->m_iChatId);
 			return;
