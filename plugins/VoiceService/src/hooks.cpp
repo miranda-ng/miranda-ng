@@ -78,7 +78,7 @@ public:
 	MCONTACT hContact;
 	wchar_t number[128];
 
-	CallingMethod(VoiceProvider *provider, MCONTACT hContact, const wchar_t *number = NULL)
+	explicit CallingMethod(VoiceProvider *provider, MCONTACT hContact, const wchar_t *number = NULL)
 		: provider(provider), hContact(hContact)
 	{
 		if (number == NULL)
@@ -117,45 +117,48 @@ static int sttCompareCallingMethods(const CallingMethod *p1, const CallingMethod
 	return lstrcmp(p1->provider->description, p2->provider->description);
 }
 
-static void AddMethodsFrom(OBJLIST<CallingMethod> *list, MCONTACT hContact)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CallingMethodList : public OBJLIST<CallingMethod>
 {
-	for (auto &provider: modules)
-		if (provider->CanCall(hContact))
-			list->insert(new CallingMethod(provider, hContact));
-}
-
-static void AddMethodsFrom(OBJLIST<CallingMethod> *list, MCONTACT hContact, const wchar_t *number)
-{
-	for (auto &provider: modules)
-		if (provider->CanCall(number))
-			list->insert(new CallingMethod(provider, hContact, number));
-}
-
-static void BuildCallingMethodsList(OBJLIST<CallingMethod> *list, MCONTACT hContact)
-{
-	AddMethodsFrom(list, hContact);
-
-	// Fetch contact number
-	char *proto = Proto_GetBaseAccountName(hContact);
-
-	CMStringW protoNumber(db_get_wsm(hContact, proto, "Number"));
-	if (!protoNumber.IsEmpty())
-		AddMethodsFrom(list, hContact, protoNumber);
-
-	for (int i = 0; ; i++) {
-		char tmp[128];
-		mir_snprintf(tmp, "MyPhone%d", i);
-
-		CMStringW number(db_get_wsm(hContact, "UserInfo", tmp));
-		if (!number.IsEmpty())
-			AddMethodsFrom(list, hContact, number);
-
-		if (number.IsEmpty() && i >= 4)
-			break;
+	void AddMethodsFrom(MCONTACT hContact, const wchar_t *number)
+	{
+		for (auto &provider : modules)
+			if (provider->CanCall(number))
+				insert(new CallingMethod(provider, hContact, number));
 	}
-}
 
-// Functions ////////////////////////////////////////////////////////////////////////////
+public:
+	CallingMethodList(MCONTACT hContact) :
+		OBJLIST<CallingMethod>(10, sttCompareCallingMethods)
+	{
+		for (auto &provider : modules)
+			if (provider->CanCall(hContact))
+				insert(new CallingMethod(provider, hContact));
+
+		// Fetch contact number
+		char *proto = Proto_GetBaseAccountName(hContact);
+
+		CMStringW protoNumber(db_get_wsm(hContact, proto, "Number"));
+		if (!protoNumber.IsEmpty())
+			AddMethodsFrom(hContact, protoNumber);
+
+		for (int i = 0; ; i++) {
+			char tmp[128];
+			mir_snprintf(tmp, "MyPhone%d", i);
+
+			CMStringW number(db_get_wsm(hContact, "UserInfo", tmp));
+			if (!number.IsEmpty())
+				AddMethodsFrom(hContact, number);
+
+			if (number.IsEmpty() && i >= 4)
+				break;
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Functions
 
 static MCONTACT ConvertMetacontact(MCONTACT hContact)
 {
@@ -243,8 +246,7 @@ static INT_PTR Service_CallItem(WPARAM wParam, LPARAM, LPARAM param)
 
 	hContact = ConvertMetacontact(hContact);
 
-	OBJLIST<CallingMethod> methods(10, sttCompareCallingMethods);
-	BuildCallingMethodsList(&methods, hContact);
+	CallingMethodList methods(hContact);
 
 	if (index < 0 || index >= methods.getCount())
 		return -2;
@@ -262,71 +264,12 @@ static int PreBuildContactMenu(WPARAM wParam, LPARAM)
 	for (auto &it : hCMCalls)
 		Menu_ShowItem(it, false);
 
-	MCONTACT hContact = (MCONTACT)wParam;
-	if (hContact == NULL)
-		return -1;
-
-	hContact = ConvertMetacontact(hContact);
+	if (!wParam)
+		return 0;
 
 	// There is a current call already?
-	VoiceCall *call = FindVoiceCall(hContact);
-	if (call == nullptr) {
-		OBJLIST<CallingMethod> methods(10, sttCompareCallingMethods);
-		BuildCallingMethodsList(&methods, hContact);
-
-		if (methods.getCount() == 1) {
-			CallingMethod *method = &methods[0];
-
-			wchar_t name[128];
-			if (!IsEmptyW(method->number))
-				mir_snwprintf(name, TranslateT("Call %s with %s"),
-				method->number, method->provider->description);
-			else
-				mir_snwprintf(name, TranslateT("Call with %s"),
-				method->provider->description);
-
-			Menu_ModifyItem(hCMCall, name);
-			Menu_ShowItem(hCMCall, true);
-		}
-		else if (methods.getCount() > 1) {
-			Menu_ModifyItem(hCMCall, TranslateT("Call"));
-			Menu_ShowItem(hCMCall, true);
-
-			for (int i = 0; i < methods.getCount(); ++i) {
-				CallingMethod *method = &methods[i];
-
-				HICON hIcon = method->provider->GetIcon();
-
-				wchar_t name[128];
-				if (!IsEmptyW(method->number))
-					mir_snwprintf(name, TranslateT("%s with %s"),
-					method->number, method->provider->description);
-				else
-					mir_snwprintf(name, TranslateT("with %s"),
-					method->provider->description);
-
-				char service[128];
-				mir_snprintf(service, "VoiceService/ContactMenu/Call_%d", i);
-
-				if (i == hCMCalls.size()) {
-					CreateServiceFunctionParam(service, Service_CallItem, i);
-
-					CMenuItem mi(&g_plugin);
-					mi.position = i;
-					mi.flags = CMIF_UNICODE;
-					mi.name.w = name;
-					mi.hIcon = hIcon;
-					mi.pszService = service;
-					mi.root = hCMCall;
-					hCMCalls.push_back(Menu_AddContactMenuItem(&mi));
-				}
-				else Menu_ModifyItem(hCMCalls[i], name, hIcon);
-
-				method->provider->ReleaseIcon(hIcon);
-			}
-		}
-	}
-	else {
+	MCONTACT hContact = ConvertMetacontact(wParam);
+	if (auto *call = FindVoiceCall(hContact)) {
 		switch (call->state) {
 		case VOICE_STATE_CALLING:
 			Menu_ShowItem(hCMDrop, true);
@@ -344,8 +287,57 @@ static int PreBuildContactMenu(WPARAM wParam, LPARAM)
 			Menu_ShowItem(hCMDrop, true);
 			break;
 		}
+		return 0;
 	}
 
+	CallingMethodList methods(hContact);
+
+	if (methods.getCount() == 1) {
+		auto &p = methods[0];
+
+		wchar_t name[128];
+		if (!IsEmptyW(p.number))
+			mir_snwprintf(name, TranslateT("Call %s with %s"), p.number, p.provider->description);
+		else
+			mir_snwprintf(name, TranslateT("Call with %s"), p.provider->description);
+
+		Menu_ModifyItem(hCMCall, name);
+		Menu_ShowItem(hCMCall, true);
+	}
+	else if (methods.getCount() > 1) {
+		Menu_ModifyItem(hCMCall, TranslateT("Call"));
+		Menu_ShowItem(hCMCall, true);
+
+		for (auto &it: methods) {
+			HICON hIcon = it->provider->GetIcon();
+
+			wchar_t name[128];
+			if (!IsEmptyW(it->number))
+				mir_snwprintf(name, TranslateT("%s with %s"), it->number, it->provider->description);
+			else
+				mir_snwprintf(name, TranslateT("with %s"), it->provider->description);
+
+			int idx = methods.indexOf(&it);
+			char service[128];
+			mir_snprintf(service, "VoiceService/ContactMenu/Call_%d", idx);
+
+			if (idx == hCMCalls.size()) {
+				CreateServiceFunctionParam(service, Service_CallItem, idx);
+
+				CMenuItem mi(&g_plugin);
+				mi.position = idx;
+				mi.flags = CMIF_UNICODE | CMIF_UNMOVABLE;
+				mi.name.w = name;
+				mi.hIcon = hIcon;
+				mi.pszService = service;
+				mi.root = hCMCall;
+				hCMCalls.push_back(Menu_AddContactMenuItem(&mi));
+			}
+			else Menu_ModifyItem(hCMCalls[idx], name, hIcon);
+
+			it->provider->ReleaseIcon(hIcon);
+		}
+	}
 	return 0;
 }
 
@@ -354,7 +346,7 @@ static int PreBuildContactMenu(WPARAM wParam, LPARAM)
 VoiceProvider* FindModule(const char *szModule)
 {
 	for (auto &it : modules)
-		if (strcmp(it->name, szModule) == 0)
+		if (!strcmp(it->name, szModule))
 			return it;
 
 	return NULL;
@@ -362,8 +354,7 @@ VoiceProvider* FindModule(const char *szModule)
 
 static bool IsCall(VoiceCall *call, const char *szModule, const char *id)
 {
-	return strcmp(call->module->name, szModule) == 0
-		&& call->id != NULL && strcmp(call->id, id) == 0;
+	return !strcmp(call->module->name, szModule) && !mir_strcmp(call->id, id);
 }
 
 VoiceCall* FindVoiceCall(const char *szModule, const char *id, bool add)
@@ -372,15 +363,12 @@ VoiceCall* FindVoiceCall(const char *szModule, const char *id, bool add)
 		if (IsCall(call, szModule, id))
 			return call;
 
-	if (add) {
-		VoiceProvider *module = FindModule(szModule);
-		if (module == NULL)
-			return NULL;
-
-		VoiceCall *tmp = new VoiceCall(module, id);
-		calls.insert(tmp);
-		return tmp;
-	}
+	if (add)
+		if (auto *module = FindModule(szModule)) {
+			auto *ret = new VoiceCall(module, id);
+			calls.insert(ret);
+			return ret;
+		}
 
 	return nullptr;
 }
@@ -479,17 +467,15 @@ static INT_PTR Service_Call(WPARAM wParam, LPARAM)
 
 	hContact = ConvertMetacontact(hContact);
 
-	OBJLIST<CallingMethod> methods(10, sttCompareCallingMethods);
-	BuildCallingMethodsList(&methods, hContact);
-
+	CallingMethodList methods(hContact);
 	if (methods.getCount() < 1)
 		return -2;
 
-	CallingMethod *method = &methods[0];
-	if (!IsEmptyW(method->number))
+	auto &p = methods[0];
+	if (!IsEmptyW(p.number))
 		return -2;
 
-	method->Call();
+	p.Call();
 	return 0;
 }
 
