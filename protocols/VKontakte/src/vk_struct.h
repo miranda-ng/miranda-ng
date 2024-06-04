@@ -143,7 +143,7 @@ struct CVkChatInfo : public MZeroedObject
 	{}
 
 	VKUserID_t m_iChatId;
-	VKUserID_t m_iAdminId = 0;
+	VKUserID_t m_iOwner = 0;
 	bool m_bHistoryRead = false;
 	ptrW m_wszTopic;
 	SESSION_INFO *m_si = nullptr;
