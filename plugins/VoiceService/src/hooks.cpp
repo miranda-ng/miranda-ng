@@ -63,14 +63,6 @@ static HGENMENU hCMHold = NULL;
 OBJLIST<VoiceProvider> modules(1, PtrKeySortT);
 OBJLIST<VoiceCall> calls(1, PtrKeySortT);
 
-static INT_PTR CListDblClick(WPARAM wParam, LPARAM lParam);
-
-static INT_PTR Service_CanCall(WPARAM wParam, LPARAM lParam);
-static INT_PTR Service_Call(WPARAM wParam, LPARAM lParam);
-static INT_PTR CMAnswer(WPARAM wParam, LPARAM lParam);
-static INT_PTR CMHold(WPARAM wParam, LPARAM lParam);
-static INT_PTR CMDrop(WPARAM wParam, LPARAM lParam);
-
 class CallingMethod
 {
 public:
@@ -179,7 +171,6 @@ static void AddAccount(PROTOACCOUNT *acc)
 		return;
 
 	int flags = CallProtoService(acc->szModuleName, PS_VOICE_CAPS, 0, 0);
-
 	if ((flags & VOICE_CAPS_VOICE) == 0)
 		return;
 
