@@ -93,6 +93,15 @@ INT_PTR CDiscordProto::VoiceCaps(WPARAM, LPARAM)
 	return VOICE_CAPS_VOICE | VOICE_CAPS_CALL_CONTACT;
 }
 
+INT_PTR CDiscordProto::VoiceCanCall(WPARAM hContact, LPARAM)
+{
+	if (auto *pUser = FindUser(getId(hContact, DB_KEY_ID)))
+		if (pUser->bIsPrivate || pUser->bIsVoice)
+			return TRUE;
+
+	return FALSE;
+}
+
 INT_PTR CDiscordProto::VoiceCallCreate(WPARAM, LPARAM)
 {
 	return 0;

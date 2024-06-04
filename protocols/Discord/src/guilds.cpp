@@ -177,6 +177,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	SnowFlake channelId = _wtoi64(wszChannelId);
 	CMStringW wszName = pch["name"].as_mstring();
 	CDiscordUser *pUser;
+	bool bIsVoice = false;
 
 	// filter our all channels but the text ones
 	switch (pch["type"].as_int()) {
@@ -201,6 +202,8 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		return pUser;
 
 	case 2: // voice channel
+		bIsVoice = true;
+		__fallthrough;
 
 	case 0: // text channel
 		// check permissions to enter the channel
@@ -227,6 +230,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 			pUser->wszChannelName = pGuild->m_wszName + L"#" + wszName;
 		pUser->wszTopic = pch["topic"].as_mstring();
 		pUser->pGuild = pGuild;
+		pUser->bIsVoice = bIsVoice;
 		pUser->lastMsgId = ::getId(pch["last_message_id"]);
 		pUser->parentId = ::getId(pch["parent_id"]);
 		return pUser;

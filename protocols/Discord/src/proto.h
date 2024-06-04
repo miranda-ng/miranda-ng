@@ -136,6 +136,7 @@ struct CDiscordUser : public MZeroedObject
 	SnowFlake parentId;
 	bool      bIsPrivate;
 	bool      bIsGroup;
+	bool      bIsVoice;
 	bool      bSynced;
 
 	struct CDiscordGuild *pGuild;
@@ -416,6 +417,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void InitVoip(bool bEnable);
 
 	INT_PTR __cdecl VoiceCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl VoiceCanCall(WPARAM, LPARAM);
 	INT_PTR __cdecl VoiceCallCreate(WPARAM, LPARAM);
 	INT_PTR __cdecl VoiceCallAnswer(WPARAM, LPARAM);
 	INT_PTR __cdecl VoiceCallCancel(WPARAM, LPARAM);
