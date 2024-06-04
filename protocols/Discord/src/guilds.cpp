@@ -160,6 +160,9 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 			gm->iStatus = StrToStatus(it["status"].as_mstring());
 	}
 
+	for (auto &it : pRoot["voice_states"])
+		pGuild->arVoiceStates.insert(new CDiscordVoiceState(it));
+
 	for (auto &it : pGuild->arChatUsers)
 		AddGuildUser(pGuild, *it);
 
@@ -354,15 +357,23 @@ static int compareChatUsers(const CDiscordGuildMember *p1, const CDiscordGuildMe
 	return compareInt64(p1->userId, p2->userId);
 }
 
+static int compareVoiceState(const CDiscordVoiceState *p1, const CDiscordVoiceState *p2)
+{
+	return compareInt64(p1->m_userId, p2->m_userId);
+}
+
 CDiscordGuild::CDiscordGuild(SnowFlake _id) :
 	m_id(_id),
+	arRoles(10, compareRoles),
 	arChannels(10, compareUsers),
 	arChatUsers(30, compareChatUsers),
-	arRoles(10, compareRoles)
+	arVoiceStates(10, compareVoiceState)
 {}
 
 CDiscordGuild::~CDiscordGuild()
-{}
+{
+	delete pVoiceCall;
+}
 
 CDiscordUser::~CDiscordUser()
 {

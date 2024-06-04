@@ -67,6 +67,9 @@ static handlers[] = // these structures must me sorted alphabetically
 
 	{ L"USER_SETTINGS_UPDATE", &CDiscordProto::OnCommandUserSettingsUpdate },
 	{ L"USER_UPDATE", &CDiscordProto::OnCommandUserUpdate },
+
+	{ L"VOICE_SERVER_UPDATE", &CDiscordProto::OnCommandVoiceServerUpdate },
+	{ L"VOICE_STATE_UPDATE", &CDiscordProto::OnCommandVoiceStateUpdate },
 };
 
 static int __cdecl pSearchFunc(const void *p1, const void *p2)

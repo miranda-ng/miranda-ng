@@ -17,34 +17,101 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CDiscordVoiceState::CDiscordVoiceState(const JSONNode &node)
+{
+	m_userId = ::getId(node["user_id"]);
+	m_channelId = ::getId(node["channel_id"]);
+	m_sessionId = node["session_id"].as_mstring();
+	m_bDeaf = node["deaf"].as_bool();
+	m_bMute = node["mute"].as_bool();
+	m_bSuppress = node["suppress"].as_bool();
+	m_bSelfDeaf = node["self_deaf"].as_bool();
+	m_bSelfMute = node["self_mute"].as_bool();
+	m_nSelfVideo = node["self_video"].as_bool();
+}
+
+CDiscordVoiceCall* CDiscordProto::FindCall(SnowFlake channelId)
+{
+	mir_cslock lck(m_csVoice);
+	if (auto *pCall = arVoiceCalls.find((CDiscordVoiceCall *)&channelId))
+		return pCall;
+
+	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// voice server commands
+
+void CDiscordProto::VoiceChannelConnect(MCONTACT hContact)
+{
+	SnowFlake channelId = getId(hContact, DB_KEY_CHANNELID);
+	if (!hContact || !channelId)
+		return;
+
+	if (auto *pUser = FindUserByChannel(channelId)) {
+		if (auto *pGuild = pUser->pGuild) {
+			{
+				mir_cslock lck(m_csVoice);
+
+				// a voice call for this guild is already being establishing, exit
+				if (pGuild->pVoiceCall)
+					return;
+
+				pGuild->pVoiceCall = new CDiscordVoiceCall();
+				pGuild->pVoiceCall->guildId = pGuild->m_id;
+				pGuild->pVoiceCall->channelId = channelId;
+			}
+			JSONNode payload;
+			payload << INT64_PARAM("guild_id", pGuild->m_id) << INT64_PARAM("channel_id", channelId)
+				<< BOOL_PARAM("self_mute", false) << BOOL_PARAM("self_deaf", false);
+			GatewaySendVoice(payload);
+		}
+	}
+}
+
+void CDiscordProto::TryVoiceStart(CDiscordGuild *pGuild)
+{
+	if (auto *pCall = pGuild->pVoiceCall) {
+		// not enough data, waiting for the second command
+		if (pCall->szSessionId.IsEmpty() || pCall->szToken.IsEmpty() || pCall->szEndpoint.IsEmpty())
+			return;
+
+		// transfer a call from guild to the concrete channel
+		pGuild->pVoiceCall = nullptr;
+		if (auto *pUser = FindUserByChannel(pCall->channelId)) {
+			arVoiceCalls.insert(pCall);
+			ForkThread(&CDiscordProto::VoiceClientThread, pCall);
+		}
+		else {
+			delete pCall;
+			return;
+		}
+	}
+}
+
+void CDiscordProto::VoiceClientThread(void *param)
+{
+	auto *pCall = (CDiscordVoiceCall *)param;
+	pCall->startTime = time(0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // call operations (voice & video)
 
 void CDiscordProto::OnCommandCallCreated(const JSONNode &pRoot)
 {
 	for (auto &it : pRoot["voice_states"]) {
-		SnowFlake channelId = ::getId(pRoot["channel_id"]);
+		SnowFlake channelId = ::getId(it["channel_id"]);
 		auto *pUser = FindUserByChannel(channelId);
 		if (pUser == nullptr) {
 			debugLogA("Call from unknown channel %lld, skipping", channelId);
 			continue;
 		}
 
-		auto *pCall = new CDiscordVoiceCall();
-		pCall->szId = it["session_id"].as_mstring();
-		pCall->channelId = channelId;
-		pCall->startTime = time(0);
-		arVoiceCalls.insert(pCall);
-
-		char *szMessage = TranslateU("Incoming call");
-		DBEVENTINFO dbei = {};
-		dbei.szModule = m_szModuleName;
-		dbei.timestamp = pCall->startTime;
-		dbei.eventType = EVENT_INCOMING_CALL;
-		dbei.cbBlob = uint32_t(mir_strlen(szMessage) + 1);
-		dbei.pBlob = szMessage;
-		dbei.flags = DBEF_UTF;
-		db_event_add(pUser->hContact, &dbei);
+		if (auto *pCall = FindCall(channelId)) {
+			pCall->startTime = time(0);
+		}
+		else debugLogA("Unregistered call received from channel %lld, skipping", channelId);
 	}
 }
 
@@ -57,32 +124,64 @@ void CDiscordProto::OnCommandCallDeleted(const JSONNode &pRoot)
 		return;
 	}
 
-	int elapsed = 0, currTime = time(0);
-	for (auto &call : arVoiceCalls.rev_iter())
-		if (call->channelId == channelId) {
-			elapsed = currTime - call->startTime;
-			arVoiceCalls.removeItem(&call);
-			break;
+	if (auto *pCall = FindCall(channelId)) {
+		// int currTime = time(0);
+		for (auto &call : arVoiceCalls.rev_iter()) {
+			if (call->channelId == channelId) {
+				arVoiceCalls.removeItem(&call);
+				break;
+			}
 		}
-
-	if (!elapsed) {
-		debugLogA("Call from channel %lld isn't registered, skipping", channelId);
-		return;
 	}
-
-	CMStringA szMessage(FORMAT, TranslateU("Call ended, %d seconds long"), elapsed);
-	DBEVENTINFO dbei = {};
-	dbei.szModule = m_szModuleName;
-	dbei.timestamp = currTime;
-	dbei.eventType = EVENT_CALL_FINISHED;
-	dbei.cbBlob = uint32_t(szMessage.GetLength() + 1);
-	dbei.pBlob = szMessage.GetBuffer();
-	dbei.flags = DBEF_UTF;
-	db_event_add(pUser->hContact, &dbei);
+	else debugLogA("Unregistered call received from channel %lld, skipping", channelId);
 }
 
 void CDiscordProto::OnCommandCallUpdated(const JSONNode&)
 {
+}
+
+void CDiscordProto::OnCommandVoiceServerUpdate(const JSONNode &pRoot)
+{
+	if (auto *pGuild = FindGuild(::getId(pRoot["guild_id"]))) {
+		mir_cslock lck(m_csVoice);
+		if (auto *pCall = pGuild->pVoiceCall) {
+			pCall->szToken = pRoot["token"].as_mstring();
+			pCall->szEndpoint = pRoot["endpoint"].as_mstring();
+			TryVoiceStart(pGuild);
+		}
+	}
+}
+
+void CDiscordProto::OnCommandVoiceStateUpdate(const JSONNode &pRoot)
+{
+	CDiscordVoiceState vs(pRoot);
+
+	if (auto *pGuild = FindGuild(::getId(pRoot["guild_id"]))) {
+		if (vs.m_channelId == 0) {
+			for (auto &it : pGuild->arVoiceStates.rev_iter())
+				if (it->m_userId == vs.m_userId)
+					pGuild->arVoiceStates.removeItem(&it);
+
+			// if (vs.m_userId == m_ownId)
+			//		disconnect voiсe from guild
+		}
+		else {
+			auto *pVS = pGuild->arVoiceStates.find(&vs);
+			if (pVS)
+				*pVS = vs;
+			else
+				pGuild->arVoiceStates.insert(new CDiscordVoiceState(vs));
+
+			// if our voice call to this guild is in progress, assign session id & call it
+			if (vs.m_userId == m_ownId) {
+				mir_cslock lck(m_csVoice);
+				if (auto *pCall = pGuild->pVoiceCall) {
+					pCall->szSessionId = vs.m_sessionId;
+					TryVoiceStart(pGuild);
+				}
+			}
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -102,8 +201,9 @@ INT_PTR CDiscordProto::VoiceCanCall(WPARAM hContact, LPARAM)
 	return FALSE;
 }
 
-INT_PTR CDiscordProto::VoiceCallCreate(WPARAM, LPARAM)
+INT_PTR CDiscordProto::VoiceCallCreate(WPARAM hContact, LPARAM)
 {
+	VoiceChannelConnect(hContact);
 	return 0;
 }
 
@@ -125,7 +225,7 @@ int CDiscordProto::OnVoiceState(WPARAM wParam, LPARAM)
 
 	CDiscordVoiceCall *pCall = nullptr;
 	for (auto &it : arVoiceCalls)
-		if (it->szId == pVoice->id) {
+		if (it->szSessionId == pVoice->id) {
 			pCall = it;
 			break;
 		}
@@ -138,6 +238,8 @@ int CDiscordProto::OnVoiceState(WPARAM wParam, LPARAM)
 	debugLogA("Call %s state changed to %d", pVoice->id, pVoice->state);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::InitVoip(bool bEnable)
 {

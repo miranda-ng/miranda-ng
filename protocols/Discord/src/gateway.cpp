@@ -337,3 +337,13 @@ bool CDiscordProto::GatewaySendStatus(int iStatus, const wchar_t *pwszStatusText
 	JSONNode root; root << INT_PARAM("op", OPCODE_STATUS_UPDATE) << payload;
 	return GatewaySend(root);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool CDiscordProto::GatewaySendVoice(JSONNode &payload)
+{
+	payload.set_name("d");
+
+	JSONNode root; root << INT_PARAM("op", OPCODE_VOICE_UPDATE) << payload;
+	return GatewaySend(root);
+}
