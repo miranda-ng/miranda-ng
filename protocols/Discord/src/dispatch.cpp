@@ -203,30 +203,34 @@ void CDiscordProto::OnCommandChannelUpdated(const JSONNode &pRoot)
 	}
 
 	// if a topic was changed
-	CMStringW wszTopic = pRoot["topic"].as_mstring();
-	Chat_SetStatusbarText(pUser->si, wszTopic);
-	{
-		GCEVENT gce = { pUser->si, GC_EVENT_TOPIC };
-		gce.pszText.w = wszTopic;
-		gce.time = time(0);
-		Chat_Event(&gce);
-	}
-
-	// reset members info for private channels
-	if (pUser->pGuild == nullptr) {
-		CheckAvatarChange(pUser->hContact, pRoot["icon"].as_mstring());
-
-		for (auto &it : pUser->si->arUsers) {
-			SnowFlake userId = _wtoi64(it->pszUID);
-
-			GCEVENT gce = { pUser->si, GC_EVENT_SETSTATUS };
-			gce.pszUID.w = it->pszUID;
-			gce.pszStatus.w = (userId == ownerId) ? L"Owners" : L"Participants";
-			gce.bIsMe = userId == m_ownId;
+	if (auto *si = pUser->si) {
+		CMStringW wszTopic = pRoot["topic"].as_mstring();
+		Chat_SetStatusbarText(si, wszTopic);
+		{
+			GCEVENT gce = { si, GC_EVENT_TOPIC };
+			gce.pszText.w = wszTopic;
 			gce.time = time(0);
 			Chat_Event(&gce);
 		}
+
+		// reset members info for private channels
+		if (!pUser->pGuild) {
+			for (auto &it : si->arUsers) {
+				SnowFlake userId = _wtoi64(it->pszUID);
+
+				GCEVENT gce = { si, GC_EVENT_SETSTATUS };
+				gce.pszUID.w = it->pszUID;
+				gce.pszStatus.w = (userId == ownerId) ? L"Owners" : L"Participants";
+				gce.bIsMe = userId == m_ownId;
+				gce.time = time(0);
+				Chat_Event(&gce);
+			}
+		}
 	}
+	
+	if (!pUser->pGuild)
+		CheckAvatarChange(pUser->hContact, pRoot["icon"].as_mstring());
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
