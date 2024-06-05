@@ -195,7 +195,7 @@ public:
 
 	void onChange_Server(CCtrlCheck *pButton)
 	{
-		chkForEveryone.Enable(pButton->IsChecked());
+		chkForEveryone.Enable(pButton->IsChecked() && bForEveryone);		
 	}
 };
 
