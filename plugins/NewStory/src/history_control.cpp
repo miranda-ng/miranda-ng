@@ -349,9 +349,8 @@ public:
 		chkDelHistory.SetState(bDelHistory);
 		chkDelHistory.Enable(bDelHistory);
 
-		bool bEnabled = bDelHistory && bForEveryone;
-		chkForEveryone.SetState(!bEnabled);
-		chkForEveryone.Enable(bEnabled);
+		chkForEveryone.SetState(false);
+		chkForEveryone.Enable(bDelHistory && bForEveryone);
 
 		if (m_iNumEvents > 1) {
 			CMStringW wszText(FORMAT, TranslateT("Do you really want to delete selected items (%d)?"), m_iNumEvents);
