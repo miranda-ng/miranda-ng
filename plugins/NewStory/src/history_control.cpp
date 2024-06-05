@@ -784,7 +784,8 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 
 		// draw html itself
 		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos, iItemHeigth);
-		pItem->m_doc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);
+		if (pItem->m_doc)
+			pItem->m_doc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);
 
 		// draw border
 		HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 1, clLine));
