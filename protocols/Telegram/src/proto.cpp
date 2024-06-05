@@ -135,9 +135,6 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 		pUser->wszLastName = getMStringW(hContact, "LastName");
 	}
 
-	if (flags & CDF_DEL_HISTORY)
-		SvcEmptyServerHistory(hContact, flags);
-
 	if (flags & CDF_DEL_CONTACT) {
 		TD::array<TD::int53> ids;
 		ids.push_back(id);
