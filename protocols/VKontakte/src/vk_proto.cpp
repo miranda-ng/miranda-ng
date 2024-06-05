@@ -781,25 +781,8 @@ bool CVkProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 	if (!Contact::OnList(hContact) || getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
 		return true;
 
-	VKUserID_t iUserId = ReadVKUserID(hContact);
-	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
-		return true;
-
-	if (!(flags & CDF_DEL_HISTORY || flags & CDF_DEL_CONTACT))
-		return true;
-
-	CMStringA code(FORMAT, "var userID=\"%d\";", iUserId);
-
-	if (flags & CDF_DEL_HISTORY)
-		code += "API.messages.deleteConversation({\"peer_id\":userID});";
-	
-
 	if (flags & CDF_DEL_CONTACT && !getBool(hContact, "Auth", true))
-		code += "API.friends.delete({\"user_id\":userID});";
+		SvcDeleteFriend(hContact, 1);
 
-	code += "return 1;";
-
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveSmth)
-		<< CHAR_PARAM("code", code.c_str()));
 	return true;
 }
