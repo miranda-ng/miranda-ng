@@ -29,6 +29,18 @@ void CDiscordProto::ProcessPresence(const JSONNode &root)
 		return;
 	}
 
+	CMStringA szVer("Discord");
+	for (auto &it : root["client_status"]) {
+		if (!mir_strcmp(it.name(), "web"))
+			szVer += " (website)";
+		else if (!mir_strcmp(it.name(), "mobile"))
+			szVer += " (mobile)";
+	}
+	if (szVer.GetLength() > 7)
+		setString(pUser->hContact, "MirVer", szVer);
+	else
+		delSetting(pUser->hContact, "MirVer");
+
 	setWord(pUser->hContact, "Status", StrToStatus(root["status"].as_mstring()));
 
 	CheckAvatarChange(pUser->hContact, root["user"]["avatar"].as_mstring());

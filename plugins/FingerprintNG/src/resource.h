@@ -498,6 +498,7 @@
 #define IDI_TWITTER                     9003
 #define IDI_HANGOUTS                    9005
 #define IDI_VK                          9006
+#define IDI_DISCORD                     9007
 #define IDI_STEAM                       9008
 #define IDI_VK_KATE                     9009
 #define IDI_VK_MESSENGER                9010

@@ -542,6 +542,8 @@ static KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_Steam", L"*Steam*", L"Steam", IDI_STEAM, OTHER_PROTOS_CASE },
 
+	{ "client_Discord", L"*Discord*", L"Discord", IDI_DISCORD, OTHER_PROTOS_CASE },
+
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// UNDEFINED CLIENTS
 
