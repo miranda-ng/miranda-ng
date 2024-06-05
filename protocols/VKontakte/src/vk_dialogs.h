@@ -137,36 +137,3 @@ public:
 	void FilterList(CCtrlClc*);
 	void ResetListOptions();
 };
-
-////////////////////////////////// IDD_CONTACTDELETE //////////////////////////////////////
-
-struct CONTACTDELETE_FORM_PARAMS
-{
-	wchar_t *pwszNick;
-	bool bDeleteFromFriendlist;
-	bool bEnableDeleteFromFriendlist;
-	bool bDeleteDialog;
-
-	CONTACTDELETE_FORM_PARAMS(wchar_t *nick, bool _bDeleteFromFriendlist, bool _bEnableDeleteFromFriendlist, bool _bDeleteDialog) :
-		pwszNick(nick),
-		bDeleteFromFriendlist(_bDeleteFromFriendlist),
-		bEnableDeleteFromFriendlist(_bEnableDeleteFromFriendlist),
-		bDeleteDialog(_bDeleteDialog)
-	{}
-
-};
-
-
-class CVkContactDeleteForm : public CVkDlgBase
-{
-	CCtrlBase m_stText;
-	CCtrlCheck m_cbDeleteFromFriendlist;
-	CCtrlCheck m_cbDeleteDialog;
-
-	CONTACTDELETE_FORM_PARAMS *m_param;
-
-public:
-	CVkContactDeleteForm(CVkProto *proto, CONTACTDELETE_FORM_PARAMS *param);
-	bool OnInitDialog() override;
-	bool OnApply() override;
-};

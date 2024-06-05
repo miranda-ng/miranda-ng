@@ -24,7 +24,6 @@
 #define IDI_WALL                        121
 #define IDI_MARKMESSAGESASREAD          122
 #define IDD_OPT_MENU                    122
-#define IDD_CONTACTDELETE               123
 #define IDD_VKUSERFORM                  124
 #define IDI_FORWARD                     126
 #define IDI_RELOADMESSAGE               130
@@ -127,13 +126,10 @@
 #define IDC_N_FRIENDACCEPTED            1110
 #define IDC_SENDVKURLSASATTACH          1111
 #define IDC_LOADSENTATTACH              1112
-#define IDC_STATIC_TXT                  1113
 #define IDC_BBC_NEWSTORY                1114
-#define IDC_CH_CLEARHISTORY             1115
 #define IDC_CONTACTLIST                 1116
 #define IDC_MESSAGE                     1117
 #define IDC_STATIC_MARKCONTAKTS         1118
-#define IDC_CH_REMOVE_FROM_FRIEND       1119
 #define IDC_STATIC_MESSAGE              1120
 #define IDC_ADD_MES_LINK_MES_ATT        1121
 #define IDC_ADD_ORIG_VER_IN_EDITED_MES  1122

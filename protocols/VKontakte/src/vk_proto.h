@@ -122,6 +122,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	INT_PTR __cdecl SvcGetAllServerHistoryForContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM, LPARAM);
 
 	//=====================================================================================
 

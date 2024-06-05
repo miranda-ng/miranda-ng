@@ -18,6 +18,20 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 //////////////////////////// History services ///////////////////////////////////////////
+INT_PTR CVkProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
+{
+	debugLogA("CVkProto::SvcEmptyServerHistory was called for %s", Clist_GetContactDisplayName(hContact));
+
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (iUserId == VK_INVALID_USER || !IsOnline() || iUserId == VK_FEED_USER || isChatRoom(hContact))
+		return 1;
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.deleteConversation.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
+		<< INT_PARAM("peer_id", iUserId));
+	
+	return 0;
+}
+
 
 INT_PTR __cdecl CVkProto::SvcGetAllServerHistoryForContact(WPARAM hContact, LPARAM)
 {

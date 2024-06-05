@@ -53,7 +53,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	CreateProtoService(PS_GETAVATARCAPS, &CVkProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CVkProto::SvcGetMyAvatar);
 	CreateProtoService(PS_SET_LISTENINGTO, &CVkProto::SvcSetListeningTo);
-
+	
 	HookProtoEvent(ME_OPT_INITIALISE, &CVkProto::OnOptionsInit);
 
 	NETLIBUSER nlu = {};
@@ -82,6 +82,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	Chat_Register(&gcr);
 
 	CreateProtoService(PS_MENU_LOADHISTORY, &CVkProto::SvcGetAllServerHistoryForContact);
+	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CVkProto::SvcEmptyServerHistory);
 
 	CreateProtoService(PS_LEAVECHAT, &CVkProto::OnLeaveChat);
 	CreateProtoService(PS_JOINCHAT, &CVkProto::OnJoinChat);
@@ -772,10 +773,10 @@ int CVkProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
-bool CVkProto::OnContactDeleted(MCONTACT hContact, uint32_t)
+bool CVkProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
 	ptrW pwszNick(db_get_wsa(hContact, m_szModuleName, "Nick"));
-	debugLogW(L"CVkProto::OnContactDeleted %s", pwszNick.get());
+	debugLogW(L"CVkProto::OnContactDeleted %s %d", Clist_GetContactDisplayName(hContact), flags);
 
 	if (!Contact::OnList(hContact) || getBool(hContact, "SilentDelete") || isChatRoom((MCONTACT)hContact))
 		return true;
@@ -784,20 +785,16 @@ bool CVkProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 	if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER)
 		return true;
 
-	CONTACTDELETE_FORM_PARAMS *param = new CONTACTDELETE_FORM_PARAMS(pwszNick, true, !getBool(hContact, "Auth", true), true);
-	CVkContactDeleteForm dlg(this, param);
-	dlg.DoModal();
-
-	debugLogW(L"CVkProto::OnContactDeleted %s DeleteDialog=%d DeleteFromFriendlist=%d", pwszNick.get(), param->bDeleteDialog,  param->bDeleteFromFriendlist);
-	if (!(param->bDeleteDialog || param->bDeleteFromFriendlist))
+	if (!(flags & CDF_DEL_HISTORY || flags & CDF_DEL_CONTACT))
 		return true;
 
 	CMStringA code(FORMAT, "var userID=\"%d\";", iUserId);
 
-	if (param->bDeleteDialog)
+	if (flags & CDF_DEL_HISTORY)
 		code += "API.messages.deleteConversation({\"peer_id\":userID});";
+	
 
-	if (param->bDeleteFromFriendlist)
+	if (flags & CDF_DEL_CONTACT && !getBool(hContact, "Auth", true))
 		code += "API.friends.delete({\"user_id\":userID});";
 
 	code += "return 1;";
