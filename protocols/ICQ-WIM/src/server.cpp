@@ -176,7 +176,8 @@ IcqFileInfo *CIcqProto::RetrieveFileInfo(MCONTACT hContact, const CMStringW &wsz
 bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&pFileInfo)
 {
 	CMStringW wszUrl;
-	if (!fileText2url(wszText, &wszUrl))
+	int idx = fileText2url(wszText, &wszUrl);
+	if (!idx)
 		return false;
 
 	pFileInfo = nullptr;
@@ -186,9 +187,9 @@ bool CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, IcqFileInfo *&p
 	if (!pFileInfo)
 		return false;
 
-	if (wszUrl != wszText) {
-		pFileInfo->szOrigUrl = wszUrl;
-		wszText.Delete(0, wszUrl.GetLength() + 1);
+	if (idx != -1) {
+		pFileInfo->szOrigUrl = wszText.Mid(0, idx);
+		wszText.Delete(0, idx + 1);
 	}
 	else {
 		pFileInfo->szOrigUrl = wszText;

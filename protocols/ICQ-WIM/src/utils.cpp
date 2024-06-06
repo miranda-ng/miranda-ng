@@ -266,26 +266,29 @@ void CIcqProto::setId(MCONTACT hContact, const char *szSetting, __int64 iValue)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool fileText2url(const CMStringW &wszText, CMStringW *res)
+int fileText2url(const CMStringW &wszText, CMStringW *res)
 {
+	int iStart = 0;
 	if (!mir_wstrncmp(wszText, L"https://files.icq.net/get/", 26)) {
 		if (res)
-			*res = wszText.Mid(26);
+			*res = wszText.Mid(iStart = 26);
 	}
 	else if (!mir_wstrncmp(wszText, L"http://files.icq.net/get/", 25)) {
 		if (res)
-			*res = wszText.Mid(25);
-		return true;
+			*res = wszText.Mid(iStart = 25);
 	}
-	else return false;
+	else return 0;
 
 	if (res) {
 		int idx = res->FindOneOf(L" \r\n\t");
-		if (idx != -1)
-			*res = res->Mid(0, idx);
+		if (idx == -1)
+			return -1;
+
+		*res = res->Mid(0, idx);
+		return iStart + idx;
 	}
 
-	return true;
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
