@@ -300,8 +300,10 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 		if (auto *si = Chat_Find(hContact, szProto)) {
 			if (auto *pUser = g_chatApi.UM_FindUser(si, Utf2T(dbei.szUserId)))
 				sRemoteUser = pUser->pszNick;
-			else
-				sRemoteUser = Utf2T(dbei.szUserId);
+			else {
+				Utf2T tmp(dbei.szUserId);
+				sRemoteUser = (tmp) ? tmp.get() : _A2T(dbei.szUserId);
+			}
 		}
 
 	// Get time stamp
@@ -416,9 +418,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			break;
 		}
 	}
-	else {
-		output.AppendFormat(TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
-	}
+	else output.AppendFormat(TranslateT("Unknown event type %d, size %d"), dbei.eventType, dbei.cbBlob);
 
 	output.Append(g_plugin.bAppendNewLine ? L"\r\n\r\n" : L"\r\n");
 	if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
