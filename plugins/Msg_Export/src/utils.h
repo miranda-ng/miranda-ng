@@ -56,7 +56,6 @@ wstring __inline _DBGetStringW(MCONTACT hContact, const char *szModule, const ch
 
 void UpdateFileToColWidth();
 
-bool bReadMirandaDirAndPath();
 wstring GetFilePathFromUser(MCONTACT hContact);
 
 void ReplaceDefines(MCONTACT hContact, wstring &sTarget);

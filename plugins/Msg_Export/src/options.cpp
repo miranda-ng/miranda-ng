@@ -867,9 +867,9 @@ public:
 	void onClick_Debug(CCtrlButton*)
 	{
 		wstring sDebug = L"Debug information\r\nsDBPath :";
-		sDebug += g_sDBPath;
+		sDebug += VARSW(L"%miranda_userdata%").get();
 		sDebug += L"\r\nsMirandaPath :";
-		sDebug += g_sMirandaPath;
+		sDebug += VARSW(L"%miranda_path%").get();
 		sDebug += L"\r\nsDefaultFile :";
 		sDebug += g_sDefaultFile;
 

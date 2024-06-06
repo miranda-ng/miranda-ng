@@ -87,7 +87,6 @@ static int OnModuleLoaded(WPARAM, LPARAM)
 
 int MainInit(WPARAM, LPARAM)
 {
-	bReadMirandaDirAndPath();
 	OnModuleLoaded(0, 0);
 	UpdateFileToColWidth();
 
