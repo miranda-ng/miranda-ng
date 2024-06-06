@@ -271,6 +271,14 @@ void ReplaceDBPath(wstring &sRet)
 // Parameters      : hContact - Handle to user
 // Returns         : string containing the complete file name and path
 
+static bool CompareNoExt(const wstring &s1, const wstring &s2)
+{
+	wstring t1(s1), t2(s2);
+	ReplaceAll(t1, L".txt.json", L".txt");
+	ReplaceAll(t2, L".txt.json", L".txt");
+	return t1 == t2;
+}
+
 wstring GetFilePathFromUser(MCONTACT hContact)
 {
 	wstring sFilePath = g_sExportDir + _DBGetStringW(hContact, MODULENAME, "FileName", g_sDefaultFile.c_str());
@@ -288,7 +296,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 
 	// Previous file name check to see if it has changed !!
 	wstring sPrevFileName = _DBGetStringW(hContact, MODULENAME, "PrevFileName", L"");
-	if (sNoDBPath != sPrevFileName) {
+	if (!CompareNoExt(sNoDBPath, sPrevFileName)) {
 		if (!sPrevFileName.empty()) {
 			ReplaceDBPath(sPrevFileName);
 
@@ -299,9 +307,7 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 
 			// file name has changed
 			if (g_enRenameAction != eDANothing) {
-
-				// we can not use FILE_SHARE_DELETE because this is not supported by 
-				// win 98 / ME 
+				// we can not use FILE_SHARE_DELETE because this is not supported by win 98 / ME 
 				HANDLE hPrevFile = CreateFile(sPrevFileName.c_str(), GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
 				if (hPrevFile != INVALID_HANDLE_VALUE) {
 					CloseHandle(hPrevFile);
