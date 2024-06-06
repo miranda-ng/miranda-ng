@@ -212,7 +212,8 @@ struct CDiscordGuild : public MZeroedObject
 	MCONTACT  m_hContact;
 	MGROUP    m_groupId;
 	bool      m_bSynced = false;
-	
+	bool      m_bEnableHistory = true;
+
 	SESSION_INFO *pParentSi;
 	LIST<CDiscordUser> arChannels;
 	OBJLIST<CDiscordGuildMember> arChatUsers;
@@ -383,12 +384,13 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	INT_PTR __cdecl OnMenuCopyId(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuCreateChannel(WPARAM, LPARAM);
+	INT_PTR __cdecl OnMenuDatabaseHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuJoinGuild(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuLeaveGuild(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuLoadHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuToggleSync(WPARAM, LPARAM);
 
-	HGENMENU m_hMenuLeaveGuild, m_hMenuCreateChannel, m_hMenuToggleSync;
+	HGENMENU m_hMenuLeaveGuild, m_hMenuCreateChannel, m_hMenuToggleSync, m_hMenuDatabaseHistory;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// guilds
@@ -462,6 +464,8 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void setId(const char *szName, SnowFlake iValue);
 	void setId(MCONTACT hContact, const char *szName, SnowFlake iValue);
+
+	bool surelyGetBool(MCONTACT hContact, const char *szSetting);
 
 public:
 	CDiscordProto(const char*,const wchar_t*);

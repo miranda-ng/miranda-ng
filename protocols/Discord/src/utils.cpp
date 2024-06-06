@@ -135,6 +135,15 @@ void CDiscordProto::setId(MCONTACT hContact, const char *szSetting, SnowFlake iV
 		db_set_blob(hContact, m_szModuleName, szSetting, &iValue, sizeof(iValue));
 }
 
+bool CDiscordProto::surelyGetBool(MCONTACT hContact, const char *szSetting)
+{
+	int iValue = getDword(hContact, szSetting, -1);
+	if (iValue == -1)
+		setByte(hContact, szSetting, iValue = 1);
+	
+	return iValue != 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CopyId(const CMStringW &nick)

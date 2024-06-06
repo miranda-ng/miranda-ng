@@ -138,6 +138,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	pGuild->pParentSi = (SESSION_INFO*)si;
 	pGuild->m_hContact = si->hContact;
 	setId(pGuild->m_hContact, DB_KEY_CHANNELID, guildId);
+	pGuild->m_bEnableHistory = surelyGetBool(pGuild->m_hContact, DB_KEY_ENABLE_HIST);
 
 	Chat_Control(si, WINDOW_HIDDEN);
 	Chat_Control(si, SESSION_ONLINE);
@@ -147,7 +148,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 
 	BuildStatusList(pGuild, si);
 
-	if (!pGuild->m_bSynced && getByte(si->hContact, "EnableSync"))
+	if (!pGuild->m_bSynced && getByte(si->hContact, DB_KEY_ENABLE_SYNC))
 		GatewaySendGuildInfo(pGuild);
 
 	// store all guild members

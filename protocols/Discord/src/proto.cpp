@@ -150,8 +150,8 @@ void CDiscordProto::OnModulesLoaded()
 		switch (getByte(hContact, "ChatRoom")) {
 		case 2: // guild
 			delSetting(hContact, DB_KEY_CHANNELID);
-			if (getDword(hContact, "EnableSync", -1) == -1)
-				setDword(hContact, "EnableSync", 1);
+			surelyGetBool(hContact, DB_KEY_ENABLE_HIST);
+			surelyGetBool(hContact, DB_KEY_ENABLE_SYNC);
 			break;
 
 		case 1: // group chat
