@@ -44,6 +44,7 @@
     </ClCompile>
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\voice.cpp" />
+    <ClCompile Include="src\voice_client.cpp" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
@@ -52,6 +53,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
       <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\libsodium\libsodium.vcxproj">
+      <Project>{a185b162-6cb6-4502-b03f-b56f7699a8d9}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>

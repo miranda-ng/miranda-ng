@@ -89,12 +89,6 @@ void CDiscordProto::TryVoiceStart(CDiscordGuild *pGuild)
 	}
 }
 
-void CDiscordProto::VoiceClientThread(void *param)
-{
-	auto *pCall = (CDiscordVoiceCall *)param;
-	pCall->startTime = time(0);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // call operations (voice & video)
 

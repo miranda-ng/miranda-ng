@@ -72,6 +72,11 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	if (sodium_init() < 0) {
+		Netlib_Log(0, "libsodium cannot be initialized");
+		bVoiceEnabled = false;
+	}
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, &OnModulesLoaded);
 
 	g_plugin.registerIcon("Protocols/Discord", g_iconList);

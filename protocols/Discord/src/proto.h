@@ -608,7 +608,7 @@ struct CMPlugin : public ACCPROTOPLUGIN<CDiscordProto>
 {
 	CMPlugin();
 
-	bool bVoiceService = false;
+	bool bVoiceService = false, bVoiceEnabled = true;
 
 	int Load() override;
 };

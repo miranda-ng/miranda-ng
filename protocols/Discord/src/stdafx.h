@@ -51,6 +51,7 @@
 #include <m_voiceservice.h>
 
 #include "../../libs/zlib/src/zlib.h"
+#include "../../libs/libsodium/src/include/sodium.h"
 
 extern IconItem g_iconList[];
 
