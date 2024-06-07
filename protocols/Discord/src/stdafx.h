@@ -17,6 +17,7 @@
 #include <time.h>
 
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "resource.h"
@@ -52,6 +53,7 @@
 
 #include "../../libs/zlib/src/zlib.h"
 #include "../../libs/libsodium/src/include/sodium.h"
+#include "opus/opus.h"
 
 extern IconItem g_iconList[];
 
