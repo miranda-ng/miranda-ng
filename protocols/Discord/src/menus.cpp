@@ -109,6 +109,7 @@ int CDiscordProto::OnMenuPrebuild(WPARAM hContact, LPARAM)
 	Menu_ShowItem(m_hMenuLeaveGuild, bIsGuild);
 	Menu_ShowItem(m_hMenuCreateChannel, bIsGuild);
 	Menu_ShowItem(m_hMenuToggleSync, bIsGuild);
+	Menu_ShowItem(m_hMenuDatabaseHistory, bIsGuild);
 
 	if (!bIsGuild && getWord(hContact, "ApparentMode") != 0)
 		Menu_ShowItem(GetMenuItem(PROTO_MENU_REQ_AUTH), true);
