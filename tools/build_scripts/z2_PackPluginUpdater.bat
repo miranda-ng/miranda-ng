@@ -84,7 +84,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="YAMN.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_YAMN.dll")
 
 	if /I "%%a"=="Discord.dll" (
-		copy /V /Y "../../redist/x%tp%/gstreamer/opus-0.dll" "Libs"
+		copy /V /Y ..\..\redist\x32\gstreamer\opus-0.dll Libs
 		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Discord.dll" "Libs\libsodium.mir" "Libs\opus-0.dll"
 		del "Libs/opus-0.dll"
 	)
