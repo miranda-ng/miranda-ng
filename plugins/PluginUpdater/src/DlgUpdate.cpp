@@ -786,19 +786,21 @@ static void CheckUpdates(void *)
 	SERVLIST hashes(50, CompareHashes);
 	bool success = ParseHashes(updateUrl, baseUrl, hashes);
 	if (success) {
-		FILELIST *UpdateFiles = new FILELIST(20);
-		int count = ScanFolder(g_mirandaPath, mir_wstrlen(g_mirandaPath) + 1, baseUrl, hashes, UpdateFiles);
-		if (count == 0) {
-			if (!g_plugin.bSilent)
-				ShowPopup(TranslateT("Plugin Updater"), TranslateT("No updates found."), POPUP_TYPE_INFO);
-			delete UpdateFiles;
-		}
-		else {
-			// Show dialog
-			if (g_plugin.bSilentMode && g_plugin.bSilent)
-				mir_forkthread(DlgUpdateSilent, UpdateFiles);
-			else
-				CallFunctionAsync(LaunchDialog, UpdateFiles);
+		if (hashes.getCount()) {
+			FILELIST *UpdateFiles = new FILELIST(20);
+			int count = ScanFolder(g_mirandaPath, mir_wstrlen(g_mirandaPath) + 1, baseUrl, hashes, UpdateFiles);
+			if (count == 0) {
+				if (!g_plugin.bSilent)
+					ShowPopup(TranslateT("Plugin Updater"), TranslateT("No updates found."), POPUP_TYPE_INFO);
+				delete UpdateFiles;
+			}
+			else {
+				// Show dialog
+				if (g_plugin.bSilentMode && g_plugin.bSilent)
+					mir_forkthread(DlgUpdateSilent, UpdateFiles);
+				else
+					CallFunctionAsync(LaunchDialog, UpdateFiles);
+			}
 		}
 
 		// reset timer to next update

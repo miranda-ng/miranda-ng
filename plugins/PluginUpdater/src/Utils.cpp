@@ -54,11 +54,14 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 
 	if (ret != ERROR_SUCCESS) {
 		Netlib_LogfW(g_hNetlibUser, L"Downloading list of available updates from %s failed with error %d", baseUrl.get(), ret);
-		if (ret == 404)
-			ShowPopup(TranslateT("Plugin Updater"), TranslateT("Updates are temporarily disabled, try again later."), POPUP_TYPE_INFO);
-		else
-			ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		Skin_PlaySound("updatefailed");
+
+		if (ret == 404) {
+			ShowPopup(TranslateT("Plugin Updater"), TranslateT("Updates are temporarily disabled, try again later."), POPUP_TYPE_INFO);
+			return true;
+		}
+
+		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		return false;
 	}
 

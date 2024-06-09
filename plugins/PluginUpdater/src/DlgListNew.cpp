@@ -408,9 +408,12 @@ static void GetList(void *)
 	ptrW updateUrl(GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
 	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
+LBL_Error:
 		hListThread = nullptr;
 		return;
 	}
+	if (!hashes.getCount())
+		goto LBL_Error;
 
 	FILELIST *UpdateFiles = new FILELIST(20);
 
@@ -481,9 +484,12 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 	ptrW updateUrl(GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
 	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
+LBL_Error:
 		hListThread = nullptr;
 		return 1;
 	}
+	if (!hashes.getCount())
+		goto LBL_Error;
 
 	ServListEntry *hash = hashes.find((ServListEntry*)&pluginPath);
 	if (hash == nullptr)
