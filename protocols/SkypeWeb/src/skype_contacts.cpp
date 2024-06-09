@@ -108,7 +108,7 @@ void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 
 	auto &root = reply.data();
 	for (auto &item : root["invite_list"]) {
-		std::string skypeId = item["mri"].as_string().erase(0, 2);
+		std::string skypeId = item["mri"].as_string();
 		std::string reason = item["greeting"].as_string();
 
 		time_t eventTime = 0;
