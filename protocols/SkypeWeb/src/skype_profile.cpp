@@ -240,16 +240,16 @@ void CSkypeProto::UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact)
 	CMStringW birthday = root["birthday"].as_mstring();
 	if (!birthday.IsEmpty() && birthday != "null") {
 		int d, m, y;
-		swscanf(birthday.GetBuffer(), L"%d-%d-%d", &y, &m, &d);
-		setWord(hContact, "BirthYear", y);
-		setByte(hContact, "BirthDay", d);
-		setByte(hContact, "BirthMonth", m);
+		if (3 == swscanf(birthday.GetBuffer(), L"%d-%d-%d", &y, &m, &d)) {
+			setWord(hContact, "BirthYear", y);
+			setByte(hContact, "BirthDay", d);
+			setByte(hContact, "BirthMonth", m);
+		}
 	}
-	else {
-		delSetting(hContact, "BirthYear");
-		delSetting(hContact, "BirthDay");
-		delSetting(hContact, "BirthMonth");
-	}
+
+	delSetting(hContact, "BirthYear");
+	delSetting(hContact, "BirthDay");
+	delSetting(hContact, "BirthMonth");
 }
 
 void CSkypeProto::UpdateProfileCountry(const JSONNode &root, MCONTACT hContact)
@@ -276,7 +276,7 @@ void CSkypeProto::UpdateProfileEmails(const JSONNode &root, MCONTACT hContact)
 	const JSONNode &node = root["emails"];
 	if (node) {
 		const JSONNode &items = node.as_array();
-		for (size_t i = 0; i < min(items.size(), 3); i++) {
+		for (int i = 0; i < min(items.size(), 3); i++) {
 			const JSONNode &item = items.at(i);
 			if (!item)
 				break;
