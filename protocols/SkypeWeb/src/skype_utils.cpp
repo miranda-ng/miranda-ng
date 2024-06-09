@@ -480,6 +480,15 @@ const wchar_t* GetSkypeNick(const wchar_t *szSkypeId)
 	return szSkypeId;
 }
 
+void CSkypeProto::SetString(MCONTACT hContact, const char *pszSetting, const JSONNode &node)
+{
+	CMStringW str = node.as_mstring();
+	if (str.IsEmpty() || str == L"null")
+		delSetting(hContact, pszSetting);
+	else
+		setWString(hContact, pszSetting, str);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // url parsing
 

@@ -225,22 +225,12 @@ private:
 	void SendPresence();
 	
 	// profile
-	void UpdateProfileFirstName(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileLastName(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileGender(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileCountry(const JSONNode &node, MCONTACT hContact = NULL);
-	void UpdateProfileState(const JSONNode &node, MCONTACT hContact = NULL);
-	void UpdateProfileCity(const JSONNode &node, MCONTACT hContact = NULL);
 	void UpdateProfileLanguage(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileHomepage(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileAbout(const JSONNode &node, MCONTACT hContact = NULL);
 	void UpdateProfileEmails(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfilePhoneMobile(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfilePhoneHome(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfilePhoneOffice(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileXStatusMessage(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 
 	void __cdecl CSkypeProto::SendFileThread(void *p);
@@ -342,7 +332,8 @@ private:
 
 	void ProcessTimer();
 
-	CMStringW RunConfirmationCode();
+	void SetString(MCONTACT hContact, const char *pszSetting, const JSONNode &node);
+
 	CMStringW ChangeTopicForm();
 
 	//events

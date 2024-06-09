@@ -208,24 +208,6 @@ void CSkypeProto::InitLanguages()
 	result[L"zu"] = L"Zulu";
 }
 
-void CSkypeProto::UpdateProfileFirstName(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW firstname = root["firstname"].as_mstring();
-	if (!firstname.IsEmpty() && firstname != "null")
-		setWString(hContact, "FirstName", firstname);
-	else
-		delSetting(hContact, "FirstName");
-}
-
-void CSkypeProto::UpdateProfileLastName(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW lastname = root["lastname"].as_mstring();
-	if (!lastname.IsEmpty() && lastname != "null")
-		setWString(hContact, "LastName", lastname);
-	else
-		delSetting(hContact, "LastName");
-}
-
 void CSkypeProto::UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact)
 {
 	ptrW firstname(getWStringA(hContact, "FirstName"));
@@ -239,13 +221,8 @@ void CSkypeProto::UpdateProfileDisplayName(const JSONNode &root, MCONTACT hConta
 	else if (lastname)
 		setWString(hContact, "Nick", lastname);
 	else {
-
 		const JSONNode &node = root["displayname"];
-		CMStringW displayname((!node) ? root["username"].as_mstring() : node.as_mstring());
-		if (!displayname.IsEmpty() && displayname != "null")
-			setWString(hContact, "Nick", displayname);
-		else
-			delSetting(hContact, "Nick");
+		SetString(hContact, "Nick", (node) ? node : root["username"]);
 	}
 }
 
@@ -285,24 +262,6 @@ void CSkypeProto::UpdateProfileCountry(const JSONNode &root, MCONTACT hContact)
 	else delSetting(hContact, "Country");
 }
 
-void CSkypeProto::UpdateProfileState(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW province = root["province"].as_mstring();
-	if (!province.IsEmpty() && province != "null")
-		setWString(hContact, "State", province);
-	else
-		delSetting(hContact, "State");
-}
-
-void CSkypeProto::UpdateProfileCity(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW city = root["city"].as_mstring();
-	if (!city.IsEmpty() && city != "null")
-		setWString(hContact, "City", city);
-	else
-		delSetting(hContact, "City");
-}
-
 void CSkypeProto::UpdateProfileLanguage(const JSONNode &root, MCONTACT hContact)
 {
 	CMStringW isocode = root["language"].as_mstring();
@@ -310,24 +269,6 @@ void CSkypeProto::UpdateProfileLanguage(const JSONNode &root, MCONTACT hContact)
 		setWString(hContact, "Language0", languages[isocode.GetBuffer()].c_str());
 	else
 		delSetting(hContact, "Language0");
-}
-
-void CSkypeProto::UpdateProfileHomepage(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW homepage = root["homepage"].as_mstring();
-	if (!homepage.IsEmpty() && homepage != "null")
-		setWString(hContact, "Homepage", homepage);
-	else
-		delSetting(hContact, "Homepage");
-}
-
-void CSkypeProto::UpdateProfileAbout(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW about = root["about"].as_mstring();
-	if (!about.IsEmpty() && about != "null")
-		setWString(hContact, "About", about);
-	else
-		delSetting(hContact, "About");
 }
 
 void CSkypeProto::UpdateProfileEmails(const JSONNode &root, MCONTACT hContact)
@@ -349,42 +290,6 @@ void CSkypeProto::UpdateProfileEmails(const JSONNode &root, MCONTACT hContact)
 		delSetting(hContact, "e-mail1");
 		delSetting(hContact, "e-mail2");
 	}
-}
-
-void CSkypeProto::UpdateProfilePhoneMobile(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW province = root["phoneMobile"].as_mstring();
-	if (!province.IsEmpty() && province != "null")
-		setWString(hContact, "Cellular", province);
-	else
-		delSetting(hContact, "Cellular");
-}
-
-void CSkypeProto::UpdateProfilePhoneHome(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW province = root["phone"].as_mstring();
-	if (!province.IsEmpty() && province != "null")
-		setWString(hContact, "Phone", province);
-	else
-		delSetting(hContact, "Phone");
-}
-
-void CSkypeProto::UpdateProfilePhoneOffice(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW province = root["phoneOffice"].as_mstring();
-	if (!province.IsEmpty() && province != "null")
-		setWString(hContact, "CompanyPhone", province);
-	else
-		delSetting(hContact, "CompanyPhone");
-}
-
-void CSkypeProto::UpdateProfileXStatusMessage(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW province = root["richMood"].as_mstring();
-	if (!province.IsEmpty() && province != "null")
-		setWString(hContact, "XStatusMsg", province);
-	else
-		delSetting(hContact, "XStatusMsg");
 }
 
 void CSkypeProto::UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact)
@@ -419,23 +324,23 @@ void CSkypeProto::LoadProfile(MHttpResponse *response, AsyncHttpRequest *pReques
 	else
 		m_szMyname = m_szSkypename;
 
-	UpdateProfileFirstName(root, hContact);
-	UpdateProfileLastName(root, hContact);
+	SetString(hContact, "City", root["city"]);
+	SetString(hContact, "About", root["about"]);
+	SetString(hContact, "Phone", root["phone"]);
+	SetString(hContact, "State", root["province"]);
+	SetString(hContact, "Cellular", root["phoneMobile"]);
+	SetString(hContact, "Homepage", root["homepage"]);
+	SetString(hContact, "LastName", root["lastname"]);
+	SetString(hContact, "FirstName", root["firstname"]);
+	SetString(hContact, "XStatusMsg", root["richMood"]);
+	SetString(hContact, "CompanyPhone", root["phoneOffice"]);
+
 	UpdateProfileDisplayName(root, hContact);
 	UpdateProfileGender(root, hContact);
 	UpdateProfileBirthday(root, hContact);
 	UpdateProfileCountry(root, hContact);
-	UpdateProfileState(root, hContact);
-	UpdateProfileCity(root, hContact);
 	UpdateProfileLanguage(root, hContact);
-	UpdateProfileHomepage(root, hContact);
-	UpdateProfileAbout(root, hContact);
-	//jobtitle
 	UpdateProfileEmails(root, hContact);
-	UpdateProfilePhoneMobile(root, hContact);
-	UpdateProfilePhoneHome(root, hContact);
-	UpdateProfilePhoneOffice(root, hContact);
-	//richMood
 	UpdateProfileAvatar(root, hContact);
 
 	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0);

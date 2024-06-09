@@ -134,7 +134,7 @@ void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 		dbei.timestamp = time(0);
 		dbei.cbBlob = blob.size();
 		dbei.pBlob = blob;
-		ProtoChainRecv(hContact, PSR_AUTH, 0, dbei);
+		ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
 	}
 }
 
@@ -154,8 +154,6 @@ void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 		const JSONNode &name = item["name"];
 
 		std::string skypeId = item["person_id"].as_string();
-		CMStringW first_name = name["first"].as_mstring();
-		CMStringW last_name = name["surname"].as_mstring();
 		CMStringW avatar_url = item["avatar_url"].as_mstring();
 		std::string type = item["type"].as_string();
 
@@ -187,10 +185,8 @@ void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 
 			setString(hContact, "Type", type.c_str());
 
-			if (first_name)
-				setWString(hContact, "FirstName", first_name);
-			if (last_name)
-				setWString(hContact, "LastName", last_name);
+			SetString(hContact, "FirstName", name["first"]);
+			SetString(hContact, "LastName", name["surname"]);
 
 			if (item["mood"])
 				db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_mstring()));
