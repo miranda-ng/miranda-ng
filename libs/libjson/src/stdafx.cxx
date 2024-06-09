@@ -18,33 +18,34 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static void eraseOldValue(JSONNode &json, const char *pszName)
+{
+	if (pszName && *pszName != 0) {
+		auto n = json.find(pszName);
+		if (n != json.end())
+			json.erase(n);
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT_PARAM &param)
 {
-	auto n = json.find(param.szName);
-	if (n != json.end())
-		json.erase(n);
-
+	eraseOldValue(json, param.szName);
 	json.push_back(JSONNode(param.szName, param.iValue));
 	return json;
 }
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const INT64_PARAM &param)
 {
-	auto n = json.find(param.szName);
-	if (n != json.end())
-		json.erase(n);
-
+	eraseOldValue(json, param.szName);
 	json.push_back(JSONNode(param.szName, param.iValue));
 	return json;
 }
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const SINT64_PARAM &param)
 {
-	auto n = json.find(param.szName);
-	if (n != json.end())
-		json.erase(n);
+	eraseOldValue(json, param.szName);
 
 	char str[40];
 	_i64toa(param.iValue, str, 10);
@@ -53,19 +54,14 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const SINT64_PARAM &param)
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const BOOL_PARAM &param)
 {
-	auto n = json.find(param.szName);
-	if (n != json.end())
-		json.erase(n);
-
+	eraseOldValue(json, param.szName);
 	json.push_back(JSONNode(param.szName, param.bValue));
 	return json;
 }
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const CHAR_PARAM &param)
 {
-	auto n = json.find(param.szName);
-	if (n != json.end())
-		json.erase(n);
+	eraseOldValue(json, param.szName);
 
 	if (param.szValue == nullptr) {
 		JSONNode tmp(JSON_NULL); tmp.set_name(param.szName);
@@ -82,19 +78,14 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const CHAR_PARAM &param)
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const WCHAR_PARAM &param)
 {
-	auto n = json.find(param.szName);
-	if (n != json.end())
-		json.erase(n);
-
+	eraseOldValue(json, param.szName);
 	json.push_back(JSONNode(param.szName, ptrA(mir_utf8encodeW(param.wszValue)).get()));
 	return json;
 }
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const NULL_PARAM &param)
 {
-	auto n = json.find(param.szName);
-	if (n != json.end())
-		json.erase(n);
+	eraseOldValue(json, param.szName);
 
 	JSONNode newOne(JSON_NULL);
 	newOne.set_name(param.szName);
@@ -104,9 +95,7 @@ LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const NULL_PARAM &param)
 
 LIBJSON_DLL(JSONNode&) operator<<(JSONNode &json, const JSON_PARAM &param)
 {
-	auto n = json.find(param.szName);
-	if (n != json.end())
-		json.erase(n);
+	eraseOldValue(json, param.szName);
 
 	JSONNode newOne(param.node);
 	newOne.set_name(param.szName);
