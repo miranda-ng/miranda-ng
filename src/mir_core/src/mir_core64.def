@@ -1579,3 +1579,4 @@ newStrW @1789 NONAME
 ?GetPlainRtf@CCtrlRichEdit@@QEAAPEAD_N@Z @1804 NONAME
 ?SetTooltip@CCtrlMButton@@QEAAXPEBD@Z @1805 NONAME
 db_event_delivered @1806 NONAME
+?Utils_GenerateUUID@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@XZ @1807 NONAME

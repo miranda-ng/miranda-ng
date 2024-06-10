@@ -133,3 +133,21 @@ MIR_CORE_DLL(int) Utils_CorrectFontSize(int size)
 
 	return size * ncm.lfMessageFont.lfHeight / -12;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma comment(lib, "rpcrt4.lib")
+
+MIR_CORE_DLL(CMStringA) Utils_GenerateUUID()
+{
+	GUID packetId;
+	UuidCreate(&packetId);
+
+	RPC_CSTR szId;
+	UuidToStringA(&packetId, &szId);
+
+	CMStringA ret((char *)szId);
+
+	RpcStringFreeA(&szId);
+	return ret;
+}

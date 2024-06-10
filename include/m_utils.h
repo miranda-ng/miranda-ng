@@ -433,6 +433,11 @@ EXTERN_C MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen);
 EXTERN_C MIR_CORE_DLL(bool) Utils_IsRtl(const wchar_t *pszwText);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// UUID generator
+
+MIR_CORE_DLL(CMStringA) Utils_GenerateUUID();
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Unzip memory buffer
 
 MIR_APP_DLL(MBinBuffer) Utils_Unzip(const void *pData, size_t cbLen);

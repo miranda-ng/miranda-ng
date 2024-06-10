@@ -20,8 +20,6 @@
 
 #include "stdafx.h"
 
-#pragma comment(lib, "Rpcrt4.lib")
-
 void CIcqProto::DropQueue()
 {
 	mir_cslock lck(m_csHttpQueue);
@@ -142,13 +140,7 @@ AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *sz
 	else if (*szUrl == '/')
 		m_szUrl.Insert(0, "https://u.icq.net/wim");
 
-	GUID packetId;
-	UuidCreate(&packetId);
-
-	RPC_CSTR szId;
-	UuidToStringA(&packetId, &szId);
-	strncpy_s(m_reqId, (char*)szId, _TRUNCATE);
-	RpcStringFreeA(&szId);
+	strncpy_s(m_reqId, Utils_GenerateUUID(), _TRUNCATE);
 
 	if (iType == REQUEST_POST)
 		AddHeader("Content-Type", "application/x-www-form-urlencoded");

@@ -20,8 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#pragma comment(lib, "Rpcrt4.lib")
-
 CMPlugin g_plugin;
 
 bool g_bMessageState;

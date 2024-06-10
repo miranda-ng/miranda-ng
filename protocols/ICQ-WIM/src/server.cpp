@@ -1062,15 +1062,10 @@ void CIcqProto::ShutdownSession()
 
 void CIcqProto::StartSession()
 {
-	ptrA szDeviceId(getStringA("DeviceId"));
-	if (szDeviceId == nullptr) {
-		UUID deviceId;
-		UuidCreate(&deviceId);
-		RPC_CSTR szId;
-		UuidToStringA(&deviceId, &szId);
-		szDeviceId = mir_strdup((char*)szId);
+	CMStringA szDeviceId(getMStringA("DeviceId"));
+	if (szDeviceId.IsEmpty()) {
+		szDeviceId = Utils_GenerateUUID();
 		setString("DeviceId", szDeviceId);
-		RpcStringFreeA(&szId);
 	}
 
 	int ts = TS();

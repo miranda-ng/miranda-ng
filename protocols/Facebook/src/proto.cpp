@@ -57,13 +57,8 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 
 	m_szDeviceID = getMStringA(DBKEY_DEVICE_ID);
 	if (m_szDeviceID.IsEmpty()) {
-		UUID deviceId;
-		UuidCreate(&deviceId);
-		RPC_CSTR szId;
-		UuidToStringA(&deviceId, &szId);
-		m_szDeviceID = szId;
+		m_szDeviceID = Utils_GenerateUUID();
 		setString(DBKEY_DEVICE_ID, m_szDeviceID);
-		RpcStringFreeA(&szId);
 	}
 
 	m_szClientID = getMStringA(DBKEY_CLIENT_ID);
