@@ -70,9 +70,13 @@ void CDiscordProto::BatchChatCreate(void *param)
 {
 	CDiscordGuild *pGuild = (CDiscordGuild*)param;
 
-	for (auto &it : pGuild->arChannels)
+	for (auto &it : pGuild->arChannels) {
+		if (m_bTerminated)
+			break;
+
 		if (!it->bIsPrivate && !it->bIsGroup)
 			CreateChat(pGuild, it);
+	}
 }
 
 void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
