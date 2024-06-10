@@ -138,73 +138,64 @@ void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 	}
 }
 
-//[{"skypeId":"echo123", "authorized" : true, "blocked" : false, ...},...]
-// other properties is exists but empty
-
 void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
 		return;
 
-	bool loadAll = getBool("LoadAllContacts", false);
-
 	auto &root = reply.data();
 	for (auto &item : root["contacts"]) {
 		const JSONNode &name = item["name"];
 
-		std::string skypeId = item["person_id"].as_string();
-		CMStringW avatar_url = item["avatar_url"].as_mstring();
-		std::string type = item["type"].as_string();
+		CMStringA szSkypeId = item["person_id"].as_mstring();
+		if (!IsPossibleUserType(szSkypeId))
+			continue;
 
-		if (type == "skype" || loadAll) {
-			MCONTACT hContact = AddContact(skypeId.c_str(), nullptr);
+		MCONTACT hContact = AddContact(szSkypeId, nullptr);
 
-			std::string displayName = item["display_name"].as_string();
-			if (!displayName.empty())
-				setUString(hContact, "Nick", displayName.c_str());
+		std::string displayName = item["display_name"].as_string();
+		if (!displayName.empty())
+			setUString(hContact, "Nick", displayName.c_str());
 
-			if (item["authorized"].as_bool()) {
-				delSetting(hContact, "Auth");
-				delSetting(hContact, "Grant");
+		if (item["authorized"].as_bool()) {
+			delSetting(hContact, "Auth");
+			delSetting(hContact, "Grant");
+		}
+		else setByte(hContact, "Grant", 1);
+
+		if (item["blocked"].as_bool())
+			setByte(hContact, "IsBlocked", 1);
+		else
+			delSetting(hContact, "IsBlocked");
+
+		ptrW wszGroup(Clist_GetGroup(hContact));
+		if (wszGroup == nullptr) {
+			if (wstrCListGroup) {
+				Clist_GroupCreate(0, wstrCListGroup);
+				Clist_SetGroup(hContact, wstrCListGroup);
 			}
-			else setByte(hContact, "Grant", 1);
+		}
 
-			if (item["blocked"].as_bool())
-				setByte(hContact, "IsBlocked", 1);
-			else
-				delSetting(hContact, "IsBlocked");
+		SetString(hContact, "FirstName", name["first"]);
+		SetString(hContact, "LastName", name["surname"]);
 
-			ptrW wszGroup(Clist_GetGroup(hContact));
-			if (wszGroup == nullptr) {
-				if (wstrCListGroup) {
-					Clist_GroupCreate(0, wstrCListGroup);
-					Clist_SetGroup(hContact, wstrCListGroup);
-				}
-			}
+		if (item["mood"])
+			db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_mstring()));
 
-			setString(hContact, "Type", type.c_str());
+		SetAvatarUrl(hContact, item["avatar_url"].as_mstring());
+		ReloadAvatarInfo(hContact);
 
-			SetString(hContact, "FirstName", name["first"]);
-			SetString(hContact, "LastName", name["surname"]);
+		for (auto &phone : item["phones"]) {
+			CMStringW number = phone["number"].as_mstring();
 
-			if (item["mood"])
-				db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_mstring()));
-
-			SetAvatarUrl(hContact, avatar_url);
-			ReloadAvatarInfo(hContact);
-
-			for (auto &phone : item["phones"]) {
-				CMStringW number = phone["number"].as_mstring();
-
-				switch (phone["type"].as_int()) {
-				case 0:
-					setWString(hContact, "Phone", number);
-					break;
-				case 2:
-					setWString(hContact, "Cellular", number);
-					break;
-				}
+			switch (phone["type"].as_int()) {
+			case 0:
+				setWString(hContact, "Phone", number);
+				break;
+			case 2:
+				setWString(hContact, "Cellular", number);
+				break;
 			}
 		}
 	}
@@ -226,7 +217,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(getId(hContact)));
+	PushRequest(new AuthAcceptRequest(this, getId(hContact)));
 	return 0;
 }
 

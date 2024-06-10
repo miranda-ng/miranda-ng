@@ -427,6 +427,8 @@ CMStringW RemoveHtml(const CMStringW &data)
 	return new_string;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+
 const char* CSkypeProto::MirandaToSkypeStatus(int status)
 {
 	switch (status) {
@@ -460,6 +462,20 @@ int CSkypeProto::SkypeToMirandaStatus(const char *status)
 	else
 		return ID_STATUS_OFFLINE;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+bool CSkypeProto::IsMe(const wchar_t *str)
+{
+	return (!mir_wstrcmpi(str, Utf2T(m_szMyname)) || !mir_wstrcmp(str, Utf2T(m_szOwnSkypeId)));
+}
+
+bool CSkypeProto::IsMe(const char *str)
+{
+	return (!mir_strcmpi(str, m_szMyname) || !mir_strcmp(str, m_szOwnSkypeId));
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
 
 bool CSkypeProto::IsFileExists(std::wstring path)
 {
@@ -525,6 +541,18 @@ CMStringW ParseUrl(const wchar_t *url, const wchar_t *token)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int possibleTypes[] = { 1, 2, 8, 19 };
+
+bool IsPossibleUserType(const char *pszUserId)
+{
+	int iType = atoi(pszUserId);
+
+	// we don't process 28 and other shit
+	for (auto &it : possibleTypes)
+		if (it == iType)
+			return true;
+
+	return false;
+}
 
 CMStringA UrlToSkypeId(const char *url, int *pUserType)
 {

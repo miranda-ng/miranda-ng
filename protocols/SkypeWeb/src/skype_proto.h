@@ -113,7 +113,7 @@ public:
 	// other data
 
 	int m_iPollingId;
-	ptrA m_szApiToken, m_szToken, m_szId;
+	ptrA m_szApiToken, m_szToken, m_szId, m_szOwnSkypeId;
 	CMStringA m_szSkypename, m_szMyname;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {
@@ -239,7 +239,7 @@ private:
 	uint16_t GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
-	void SetAvatarUrl(MCONTACT hContact, CMStringW &tszUrl);
+	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen);
 
@@ -311,13 +311,8 @@ private:
 	{	return (m_iStatus > ID_STATUS_OFFLINE);
 	}
 
-	__forceinline bool IsMe(const wchar_t *str)
-	{	return (!mir_wstrcmpi(str, Utf2T(m_szMyname)) || !mir_wstrcmp(str, getMStringW("SelfEndpointName")));
-	}
-
-	__forceinline bool IsMe(const char *str)
-	{	return (!mir_strcmpi(str, m_szMyname) || !mir_strcmp(str, ptrA(getUStringA("SelfEndpointName"))));
-	}
+	bool IsMe(const wchar_t *str);
+	bool IsMe(const char *str);
 
 	static time_t IsoToUnixTime(const std::string &stamp);
 

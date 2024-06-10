@@ -279,7 +279,7 @@ void CSkypeProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 
 	JSONNode root = JSONNode::parse(response->body);
 	if (root)
-		setString("SelfEndpointName", UrlToSkypeId(root["selfLink"].as_string().c_str()));
+		m_szOwnSkypeId = UrlToSkypeId(root["selfLink"].as_string().c_str()).Detach();
 
 	PushRequest(new GetProfileRequest(this, 0));
 }
