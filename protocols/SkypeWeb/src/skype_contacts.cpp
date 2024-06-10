@@ -221,13 +221,13 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-bool CSkypeProto::OnContactDeleted(MCONTACT hContact, uint32_t)
+bool CSkypeProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
-	if (IsOnline() && hContact) {
+	if (IsOnline() && hContact && (flags & CDF_DEL_CONTACT)) {
 		if (isChatRoom(hContact))
-			PushRequest(new DestroyChatroomRequest(getMStringA(hContact, SKYPE_SETTINGS_ID)));
+			PushRequest(new DestroyChatroomRequest(getId(hContact)));
 		else
-			PushRequest(new DeleteContactRequest(getId(hContact)));
+			PushRequest(new DeleteContactRequest(this, getId(hContact)));
 	}
 	return true;
 }

@@ -55,9 +55,11 @@ struct AddContactRequest : public AsyncHttpRequest
 
 struct DeleteContactRequest : public AsyncHttpRequest
 {
-	DeleteContactRequest(const char *who) :
-		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/users/SELF/contacts/" + mir_urlEncode(who))
+	DeleteContactRequest(CSkypeProto *ppro, const char *who) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS)
 	{
+		m_szUrl.AppendFormat("/users/%s/contacts/%s", ppro->m_szMyname.c_str(), who);
+
 		AddHeader("Accept", "application/json");
 	}
 };
