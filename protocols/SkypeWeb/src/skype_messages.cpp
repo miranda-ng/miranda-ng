@@ -109,6 +109,10 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	if (m_bHistorySynced)
 		setDword(hContact, "LastMsgTime", timestamp);
 
+	uint32_t dwFlags = DBEF_UTF;
+	if (IsMe(szFromSkypename))
+		dwFlags |= DBEF_SENT;
+
 	if (strMessageType == "Control/Typing") {
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
 	}
@@ -124,7 +128,7 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 				mir_cslock lck(m_lckOutMessagesList);
 				m_OutMessages.remove(hMessage);
 			}
-			else AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, DBEF_UTF | DBEF_SENT, wszContent.c_str()+nEmoteOffset, szMessageId);
+			else AddDbEvent(nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION, hContact, timestamp, dwFlags, wszContent.c_str()+nEmoteOffset, szMessageId);
 		}
 		else {
 			CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
@@ -144,28 +148,28 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 		}
 	}
 	else if (strMessageType == "Event/Call") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_CALL_INFO, hContact, timestamp, dwFlags, wszContent, szMessageId);
 	}
 	else if (strMessageType == "RichText/Files") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, DBEF_UTF, wszContent , szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, hContact, timestamp, dwFlags, wszContent , szMessageId);
 	}
 	else if (strMessageType == "RichText/UriObject") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_URIOBJ, hContact, timestamp, dwFlags, wszContent, szMessageId);
 	}
 	else if (strMessageType == "RichText/Contacts") {
 		ProcessContactRecv(hContact, timestamp, T2Utf(wszContent), szMessageId);
 	}
 	else if (strMessageType == "RichText/Media_FlikMsg") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_MOJI, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_MOJI, hContact, timestamp, dwFlags, wszContent, szMessageId);
 	}
 	else if (strMessageType == "RichText/Media_GenericFile") {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILE, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_FILE, hContact, timestamp, dwFlags, wszContent, szMessageId);
 	}
 	else if (strMessageType == "RichText/Media_Album") {
 		// do nothing
 	}
 	else {
-		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, DBEF_UTF, wszContent, szMessageId);
+		AddDbEvent(SKYPE_DB_EVENT_TYPE_UNKNOWN, hContact, timestamp, dwFlags, wszContent, szMessageId);
 	}
 }
 
