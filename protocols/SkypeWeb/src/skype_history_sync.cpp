@@ -134,7 +134,7 @@ void CSkypeProto::ReadHistoryRest(const char *szUrl)
 		PushRequest(new SyncHistoryFirstRequest(p+ g_plugin.szDefaultServer.GetLength()+3));
 }
 
-INT_PTR CSkypeProto::GetContactHistory(WPARAM hContact, LPARAM)
+INT_PTR CSkypeProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 {
 	PushRequest(new GetHistoryRequest(getId(hContact), 100, 0, false));
 	return 0;
@@ -177,4 +177,14 @@ void CSkypeProto::OnSyncHistory(MHttpResponse *response, AsyncHttpRequest*)
 	}
 
 	m_bHistorySynced = true;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CSkypeProto::SvcEmptyHistory(WPARAM hContact, LPARAM flags)
+{
+	if (flags & CDF_DEL_HISTORY) {
+		PushRequest(new EmptyHistoryRequest(getId(hContact)));
+	}
+	return 0;
 }

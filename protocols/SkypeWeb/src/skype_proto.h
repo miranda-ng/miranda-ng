@@ -339,7 +339,8 @@ private:
 	INT_PTR __cdecl UnblockContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl GetContactHistory(WPARAM hContact, LPARAM lParam);
+	INT_PTR __cdecl SvcLoadHistory(WPARAM hContact, LPARAM lParam);
+	INT_PTR __cdecl SvcEmptyHistory(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
 

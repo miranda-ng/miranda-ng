@@ -45,7 +45,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 
 	CreateProtoService(PS_MENU_REQAUTH, &CSkypeProto::OnRequestAuth);
 	CreateProtoService(PS_MENU_GRANTAUTH, &CSkypeProto::OnGrantAuth);
-	CreateProtoService(PS_MENU_LOADHISTORY, &CSkypeProto::GetContactHistory);
+
+	CreateProtoService(PS_MENU_LOADHISTORY, &CSkypeProto::SvcLoadHistory);
+	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CSkypeProto::SvcEmptyHistory);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 

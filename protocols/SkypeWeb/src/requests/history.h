@@ -35,11 +35,9 @@ struct SyncHistoryFirstRequest : public AsyncHttpRequest
 
 struct GetHistoryRequest : public AsyncHttpRequest
 {
-	GetHistoryRequest(const char *username, int pageSize, uint32_t timestamp, bool bOperative) :
-		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CSkypeProto::OnGetServerHistory)
+	GetHistoryRequest(const char *who, int pageSize, uint32_t timestamp, bool bOperative) :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(who) + "/messages", &CSkypeProto::OnGetServerHistory)
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
-
 		if (bOperative)
 			pUserInfo = this;
 
@@ -51,6 +49,14 @@ struct GetHistoryRequest : public AsyncHttpRequest
 		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, url, &CSkypeProto::OnGetServerHistory)
 	{
 		pUserInfo = pInfo;
+	}
+};
+
+struct EmptyHistoryRequest : public AsyncHttpRequest
+{
+	EmptyHistoryRequest(const char *who) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(who) + "/messages")
+	{
 	}
 };
 
