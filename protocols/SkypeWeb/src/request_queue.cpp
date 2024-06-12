@@ -39,6 +39,11 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	requestType = type;
 }
 
+void AsyncHttpRequest::AddRegister(CSkypeProto *ppro)
+{
+	AddHeader("RegistrationToken", CMStringA("registrationToken=") + ppro->m_szToken);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSkypeProto::StartQueue()
@@ -97,9 +102,9 @@ MHttpResponse* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
 		if (m_szApiToken)
 			pReq->AddHeader((pReq->m_host == HOST_CONTACTS) ? "X-SkypeToken" : "X-Skypetoken", m_szApiToken);
 
-		pReq->AddHeader("Accept", "application/json; ver=1.0;");
+		pReq->AddHeader("Accept", "application/json");
 		pReq->AddHeader("Origin", "https://web.skype.com");
-		pReq->AddHeader("Referer", "https://web.skype.com/main");
+		pReq->AddHeader("Referer", "https://web.skype.com/");
 		break;
 
 	case HOST_GRAPH:
@@ -110,7 +115,7 @@ MHttpResponse* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
 
 	case HOST_DEFAULT:
 		if (m_szToken)
-			pReq->AddHeader("RegistrationToken", CMStringA(FORMAT, "registrationToken=%s", m_szToken.get()));
+			pReq->AddRegister(this);
 		pReq->AddHeader("Accept", "application/json, text/javascript");
 		break;
 	}

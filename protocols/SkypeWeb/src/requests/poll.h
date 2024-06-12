@@ -30,7 +30,7 @@ struct PollRequest : public AsyncHttpRequest
 
 		AddHeader("Referer", "https://web.skype.com/main");
 		AddHeader("ClientInfo", "os=Windows; osVer=8.1; proc=Win32; lcid=en-us; deviceType=1; country=n/a; clientName=swx-skype.com; clientVer=908/1.85.0.29");
-		AddHeader("Accept", "application/json; ver=1.0");
+		AddHeader("Accept", "application/json");
 		AddHeader("Accept-Language", "en, C");
 	}
 };

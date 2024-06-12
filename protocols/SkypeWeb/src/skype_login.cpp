@@ -271,7 +271,7 @@ void CSkypeProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 	m_hPollingEvent.Set();
 
 	PushRequest(new LoadChatsRequest());
-	PushRequest(new GetContactListRequest(this, nullptr));
+	PushRequest(new GetContactListRequest());
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl")), 0));
 
 	if (bAutoHistorySync)

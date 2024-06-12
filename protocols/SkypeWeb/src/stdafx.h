@@ -105,6 +105,8 @@ struct AsyncHttpRequest : public MTHttpRequest<CSkypeProto>
 	MCONTACT hContact = 0;
 
 	AsyncHttpRequest(int type, SkypeHost host, LPCSTR url = nullptr, MTHttpRequestHandler pFunc = nullptr);
+
+	void AddRegister(CSkypeProto *ppro);
 };
 
 #include "requests/avatars.h"

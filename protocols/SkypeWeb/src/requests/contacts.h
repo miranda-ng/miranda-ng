@@ -20,14 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct GetContactListRequest : public AsyncHttpRequest
 {
-	GetContactListRequest(CSkypeProto *ppro, const char *filter) :
-	  AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, 0, &CSkypeProto::LoadContactList)
+	GetContactListRequest() :
+	  AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/contacts", &CSkypeProto::LoadContactList)
 	{
-		m_szUrl.AppendFormat("/users/%s/contacts", ppro->m_szSkypename.MakeLower().GetBuffer());
-
-		// ?filter=contacts[?(@.type="skype" or @.type="msn")]
-		if (filter != NULL)
-			this << CHAR_PARAM("filter", filter);
 	}
 };
 
@@ -58,7 +53,7 @@ struct DeleteContactRequest : public AsyncHttpRequest
 	DeleteContactRequest(CSkypeProto *ppro, const char *who) :
 		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS)
 	{
-		m_szUrl.AppendFormat("/users/%s/contacts/%s", ppro->m_szMyname.c_str(), who);
+		m_szUrl.AppendFormat("/users/%s/contacts/%s", ppro->m_szSkypename.c_str(), who);
 
 		AddHeader("Accept", "application/json");
 	}
@@ -69,7 +64,7 @@ struct AuthAcceptRequest : public AsyncHttpRequest
 	AuthAcceptRequest(CSkypeProto *ppro, const char *who) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS)
 	{
-		m_szUrl.AppendFormat("/users/%s/invites/%s/accept", ppro->m_szOwnSkypeId.get(), who);
+		m_szUrl.AppendFormat("/users/%s/invites/%s/accept", ppro->m_szSkypename.c_str(), who);
 
 		AddHeader("Accept", "application/json");
 	}
@@ -80,7 +75,7 @@ struct AuthDeclineRequest : public AsyncHttpRequest
 	AuthDeclineRequest(CSkypeProto *ppro, const char *who) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS)
 	{
-		m_szUrl.AppendFormat("/users/%s/invites/%s/decline", ppro->m_szOwnSkypeId.get(), who);
+		m_szUrl.AppendFormat("/users/%s/invites/%s/decline", ppro->m_szSkypename.c_str(), who);
 
 		AddHeader("Accept", "application/json");
 	}
@@ -89,9 +84,8 @@ struct AuthDeclineRequest : public AsyncHttpRequest
 struct BlockContactRequest : public AsyncHttpRequest
 {
 	BlockContactRequest(CSkypeProto *ppro, MCONTACT hContact) :
-		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, 0, &CSkypeProto::OnBlockContact)
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, "/users/SELF/contacts/blocklist/" + ppro->getId(hContact), &CSkypeProto::OnBlockContact)
 	{
-		m_szUrl.AppendFormat("/users/SELF/contacts/blocklist/%s", ppro->getId(hContact).c_str());
 		m_szParam = "{\"report_abuse\":\"false\",\"ui_version\":\"skype.com\"}";
 		pUserInfo = (void *)hContact;
 
