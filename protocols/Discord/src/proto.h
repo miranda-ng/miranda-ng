@@ -167,12 +167,57 @@ struct CDiscordVoiceState : public MZeroedObject
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CDiscordVoiceCall : public MZeroedObject
+class CDiscordVoiceCall : public MZeroedObject
 {
+	friend class CDiscordProto;
+
+	CDiscordProto *ppro;
+
+	CTimer m_timer;
+	HNETLIBCONN m_hConn;
+	HNETLIBBIND m_hBind;
+	mir_cs m_cs;
+	bool m_bTerminated;
+	time_t startTime;
+
+	CMStringA m_szIp;
+	int m_iPort, m_iSsrc;
+	OBJLIST<char> m_arModes;
+
+	OpusEncoder *m_encoder;
+	OpusRepacketizer *m_repacketizer;
+
+	void onTimer(CTimer *)
+	{
+		if (m_hConn) {
+			JSONNode d; d << INT_PARAM("", rand());
+			write(3, d);
+		}
+	}
+
+	static void GetConnection(HNETLIBCONN /*hNewConnection*/, uint32_t /*dwRemoteIP*/, void *pExtra);
+
+public:
+	CDiscordVoiceCall(CDiscordProto *pOwner);
+	~CDiscordVoiceCall();
+
+	// config
 	SnowFlake channelId, guildId;
 	CMStringA szSessionId, szToken, szEndpoint;
-	time_t    startTime;
+
+	__forceinline operator bool() const {
+		return !m_bTerminated;
+	}
+
+	bool connect(HNETLIBUSER);
+	void write(int op, JSONNode &d);
+
+	void process(const JSONNode &node);
+	void processHello(const JSONNode &d);
+	void processStreams(const JSONNode &d);
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct CDiscordGuildMember : public MZeroedObject
 {
@@ -252,6 +297,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	friend class CDiscardAccountOptions;
 	friend class CMfaDialog;
 	friend class CGroupchatInviteDlg;
+	friend class CDiscordVoiceCall;
 
 	class CDiscordProtoImpl
 	{

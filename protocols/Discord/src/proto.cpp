@@ -113,7 +113,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	CMStringA module(FORMAT, "%s.Gateway", m_szModuleName);
 	nlu.szSettingsModule = module.GetBuffer();
-	nlu.flags = NUF_OUTGOING | NUF_UNICODE;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_UNICODE;
 	descr.Format(TranslateT("%s gateway connection"), m_tszUserName);
 	nlu.szDescriptiveName.w = descr.GetBuffer();
 	m_hGatewayNetlibUser = Netlib_RegisterUser(&nlu);
