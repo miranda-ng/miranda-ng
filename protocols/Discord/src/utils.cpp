@@ -194,7 +194,6 @@ CDiscordUser* CDiscordProto::FindUserByChannel(SnowFlake channelId)
 
 void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 {
-	SESSION_INFO *si;
 	CDiscordUser *pUser = nullptr;
 
 	CMStringW wszChannelId = root["id"].as_mstring();
@@ -234,53 +233,54 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 					break;
 			}
 		}
-		
-		si = pUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
-		pUser->hContact = si->hContact;
 
-		Chat_AddGroup(si, LPGENW("Owners"));
-		Chat_AddGroup(si, LPGENW("Participants"));
-		{
-			SnowFlake ownerId = ::getId(root["owner_id"]);
-			setId(pUser->hContact, DB_KEY_OWNERID, ownerId);
+		if (auto *si = pUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName)) {
+			pUser->hContact = si->hContact;
 
-			CheckAvatarChange(si->hContact, root["icon"].as_mstring());
+			Chat_AddGroup(si, LPGENW("Owners"));
+			Chat_AddGroup(si, LPGENW("Participants"));
+			{
+				SnowFlake ownerId = ::getId(root["owner_id"]);
+				setId(pUser->hContact, DB_KEY_OWNERID, ownerId);
 
-			bool bHasMe = false;
-			GCEVENT gce = { si, GC_EVENT_JOIN };
-			for (auto &it : root["recipients"]) {
-				CMStringW wszId = it["id"].as_mstring();
-				CMStringW wszNick = it["global_name"].as_mstring();
-				if (wszNick.IsEmpty())
-					wszNick = getNick(it);
+				CheckAvatarChange(si->hContact, root["icon"].as_mstring());
 
-				gce.bIsMe = _wtoi64(wszId) == m_ownId;
-				gce.pszUID.w = wszId;
-				gce.pszNick.w = wszNick;
-				gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
-				Chat_Event(&gce);
+				bool bHasMe = false;
+				GCEVENT gce = { si, GC_EVENT_JOIN };
+				for (auto &it : root["recipients"]) {
+					CMStringW wszId = it["id"].as_mstring();
+					CMStringW wszNick = it["global_name"].as_mstring();
+					if (wszNick.IsEmpty())
+						wszNick = getNick(it);
 
-				if (gce.bIsMe)
-					bHasMe = true;
+					gce.bIsMe = _wtoi64(wszId) == m_ownId;
+					gce.pszUID.w = wszId;
+					gce.pszNick.w = wszNick;
+					gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
+					Chat_Event(&gce);
+
+					if (gce.bIsMe)
+						bHasMe = true;
+				}
+
+				if (!bHasMe) {
+					CMStringW wszId(FORMAT, L"%lld", getId(DB_KEY_ID)), wszNick;
+					if (auto iDiscr = getDword(DB_KEY_DISCR))
+						wszNick.Format(L"%s#%d", getMStringW(DB_KEY_NICK).c_str(), iDiscr);
+					else
+						wszNick = getMStringW(DB_KEY_NICK);
+
+					gce.bIsMe = true;
+					gce.pszUID.w = wszId;
+					gce.pszNick.w = wszNick;
+					gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
+					Chat_Event(&gce);
+				}
 			}
-		
-			if (!bHasMe) {
-				CMStringW wszId(FORMAT, L"%lld", getId(DB_KEY_ID)), wszNick;
-				if (auto iDiscr = getDword(DB_KEY_DISCR))
-					wszNick.Format(L"%s#%d", getMStringW(DB_KEY_NICK).c_str(), iDiscr);
-				else
-					wszNick = getMStringW(DB_KEY_NICK);
 
-				gce.bIsMe = true;
-				gce.pszUID.w = wszId;
-				gce.pszNick.w = wszNick;
-				gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
-				Chat_Event(&gce);
-			}
+			Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+			Chat_Control(si, SESSION_ONLINE);
 		}
-
-		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-		Chat_Control(si, SESSION_ONLINE);
 		break;
 
 	default:
