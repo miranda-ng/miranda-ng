@@ -676,8 +676,8 @@ UnregisterHppLogger @786
 ?RegisterSrmmLog@@YAPEAXPEAUCMPlugin@@PEBDPEB_WP6APEAVCSrmmLogWindow@@AEAVCMsgDialog@@@Z@Z @805 NONAME
 ?UnregisterSrmmLog@@YAXPEAX@Z @806 NONAME
 ?GetType@CRtfLogWindow@@UEAAHXZ @807 NONAME
-WebSocket_InitHeader @809 NONAME
-WebSocket_Connect @810 NONAME
+?run@MWebSocket@@QEAAXXZ @809 NONAME
+?connect@MWebSocket@@QEAAPEAUMHttpResponse@@PEAXPEBDPEBUMHttpHeaders@@@Z @810 NONAME
 ?log@CSrmmBaseDialog@@QEBAPEAVCSrmmLogWindow@@XZ @811 NONAME
 Netlib_Dump @812 NONAME
 ?ProtoBroadcastAsync@PROTO_INTERFACE@@QEAAXIHHPEAX_J@Z @813 NONAME
@@ -736,8 +736,8 @@ Netlib_GetTlsUnique @831 NONAME
 ?IsPluginOnWhiteList@@YA_NPEBD@Z @866 NONAME
 ?SetPluginOnWhiteList@@YAXPEBD_N@Z @867 NONAME
 Chat_Mute @868
-WebSocket_SendBinary @869 NONAME
-WebSocket_SendText @870 NONAME
+?sendBinary@MWebSocket@@QEAAXPEBX_K@Z @869 NONAME
+?sendText@MWebSocket@@QEAAXPEBD@Z @870 NONAME
 ?OnContactAdded@PROTO_INTERFACE@@UEAAXI@Z @871 NONAME
 Netlib_SslConnect @872 NONAME
 Netlib_SslFree @873 NONAME
@@ -977,3 +977,11 @@ g_hevEventSetJson @1103 NONAME
 ?addReaction@EventInfo@DB@@QEAAXPEBD@Z @1107 NONAME
 ?delReaction@EventInfo@DB@@QEAAXPEBD@Z @1108 NONAME
 ?getText@EventInfo@DB@@QEBAPEA_WXZ @1109 NONAME
+??0MWebSocket@@QEAA@XZ @1110 NONAME
+??1MWebSocket@@QEAA@XZ @1111 NONAME
+??_7MWebSocket@@6B@ @1112 NONAME
+?terminate@MWebSocket@@QEAAXXZ @1113 NONAME
+??0MJsonWebSocket@@QEAA@XZ @1114 NONAME
+??1MJsonWebSocket@@QEAA@XZ @1115 NONAME
+??_7MJsonWebSocket@@6B@ @1116 NONAME
+?process@MJsonWebSocket@@EEAAXPEBE_K@Z @1117 NONAME

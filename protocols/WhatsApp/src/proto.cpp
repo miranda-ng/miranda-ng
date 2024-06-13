@@ -223,19 +223,19 @@ int WhatsAppProto::SetStatus(int iNewStatus)
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
 		SetServerStatus(m_iDesiredStatus);
 
-		if (m_hServerConn != nullptr)
-			Netlib_Shutdown(m_hServerConn);
+		if (m_ws != nullptr)
+			m_ws->terminate();
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if (m_hServerConn == nullptr && !IsStatusConnecting(m_iStatus)) {
+	else if (m_ws == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 		ForkThread(&WhatsAppProto::ServerThread);
 	}
-	else if (m_hServerConn != nullptr) {
+	else if (m_ws != nullptr) {
 		SetServerStatus(m_iDesiredStatus);
 
 		m_iStatus = m_iDesiredStatus;

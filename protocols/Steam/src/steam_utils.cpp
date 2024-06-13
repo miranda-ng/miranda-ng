@@ -37,14 +37,12 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 	uint32_t type = (uint32_t)msgType;
 	type |= STEAM_PROTOCOL_MASK;
 	hdrbuf.appendBefore(&type, sizeof(type));
-	Netlib_Dump(m_hServerConn, hdrbuf.data(), hdrbuf.length(), true, 0);
 
 	MBinBuffer body(protobuf_c_message_get_packed_size(&msg));
 	protobuf_c_message_pack(&msg, body.data());
-	Netlib_Dump(m_hServerConn, body.data(), body.length(), true, 0);
 
 	hdrbuf.append(body);
-	WebSocket_SendBinary(m_hServerConn, hdrbuf.data(), hdrbuf.length());
+	m_ws->sendBinary(hdrbuf.data(), hdrbuf.length());
 }
 
 void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback)

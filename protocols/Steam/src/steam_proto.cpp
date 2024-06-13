@@ -290,7 +290,7 @@ int CSteamProto::SetStatus(int new_status)
 
 		Logout();
 	}
-	else if (m_hServerConn == nullptr && !IsStatusConnecting(m_iStatus)) {
+	else if (m_ws == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ForkThread(&CSteamProto::ServerThread);
 

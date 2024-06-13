@@ -27,7 +27,9 @@ void WhatsAppProto::ServerThreadWorker()
 	MHttpHeaders hdrs;
 	hdrs.AddHeader("Origin", "https://web.whatsapp.com");
 
-	NLHR_PTR pReply(WebSocket_Connect(m_hNetlibUser, "web.whatsapp.com/ws/chat", &hdrs));
+	WebSocket<WhatsAppProto> ws(this);
+
+	NLHR_PTR pReply(ws.connect(m_hNetlibUser, "web.whatsapp.com/ws/chat", &hdrs));
 	if (pReply == nullptr) {
 		debugLogA("Server connection failed, exiting");
 		return;
@@ -41,7 +43,7 @@ void WhatsAppProto::ServerThreadWorker()
 	m_noise->init();
 
 	debugLogA("Server connection succeeded");
-	m_hServerConn = pReply->nlc;
+	m_ws = &ws;
 	m_lastRecvTime = time(0);
 	m_iPacketId = 1;
 
@@ -55,134 +57,18 @@ void WhatsAppProto::ServerThreadWorker()
 	msg.clienthello = &client;
 	WSSend(msg);
 
-	MBinBuffer netbuf;
-
-	for (m_bTerminated = false; !m_bTerminated;) {
-		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf, _countof(buf), MSG_NODUMP);
-		if (bufSize == 0) {
-			debugLogA("Gateway connection gracefully closed");
-			break;
-		}
-		if (bufSize < 0) {
-			debugLogA("Gateway connection error, exiting");
-			break;
-		}
-
-		netbuf.append(buf, bufSize);
-
-		WSHeader hdr;
-		if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length()))
-			continue;
-		
-		// we lack some data, let's read them
-		if (netbuf.length() < hdr.headerSize + hdr.payloadSize)
-			if (!WSReadPacket(hdr, netbuf))
-				break;
-
-		// debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
-		//		netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
-		// Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
-
-		m_lastRecvTime = time(0);
-
-		// read all payloads from the current buffer, one by one
-		while (true) {
-			MBinBuffer currPacket;
-			currPacket.assign(netbuf.data() + hdr.headerSize, hdr.payloadSize);
-			
-			switch (hdr.opCode) {
-			case 1: // json packet
-				debugLogA("Text packet, skipping");
-				/*
-					currPacket.append("", 1); // add 0 to use strchr safely
-					CMStringA szJson(pos, (int)dataSize);
-
-					JSONNode root = JSONNode::parse(szJson);
-					if (root) {
-						debugLogA("JSON received:\n%s", start);
-
-						CMStringA szPrefix(start, int(pos - start - 1));
-						auto *pReq = m_arPacketQueue.find((WARequest *)&szPrefix);
-						if (pReq != nullptr) {
-							root << CHAR_PARAM("$id$", szPrefix);
-						}
-					}
-				}
-				*/
-				break;
-
-			case 2: // binary packet
-				if (hdr.payloadSize > 32)
-					ProcessBinaryPacket(currPacket.data(), hdr.payloadSize);
-				break;
-
-			case 8: // close
-				debugLogA("server required to exit");
-				m_bRespawn = m_bTerminated = true; // simply reconnect, don't exit
-				break;
-
-			default:
-				Netlib_Dump(m_hServerConn, currPacket.data(), hdr.payloadSize, false, 0);
-			}
-
-			netbuf.remove(hdr.headerSize + hdr.payloadSize);
-			// debugLogA("%d bytes removed from network buffer, %d bytes remain", hdr.headerSize + hdr.payloadSize, netbuf.length());
-			if (netbuf.length() == 0)
-				break;
-
-			// if we have not enough data for header, continue reading
-			if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length())) {
-				debugLogA("not enough data for header, continue reading");
-				break;
-			}
-
-			// if we have not enough data for data, continue reading
-			if (hdr.headerSize + hdr.payloadSize > netbuf.length()) {
-				debugLogA("not enough place for data (%d+%d > %d), continue reading", hdr.headerSize, hdr.payloadSize, netbuf.length());
-				break;
-			}
-
-			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
-				netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
-		}
-	}
-
-	debugLogA("Server connection dropped");
-	Netlib_CloseHandle(m_hServerConn);
-	m_hServerConn = nullptr;
-}
-
-bool WhatsAppProto::WSReadPacket(const WSHeader &hdr, MBinBuffer &res)
-{
-	size_t currPacketSize = res.length() - hdr.headerSize;
-
-	char buf[1024];
-	while (currPacketSize < hdr.payloadSize) {
-		int result = Netlib_Recv(m_hServerConn, buf, _countof(buf), MSG_NODUMP);
-		if (result == 0) {
-			debugLogA("Gateway connection gracefully closed");
-			return false;
-		}
-		if (result < 0) {
-			debugLogA("Gateway connection error, exiting");
-			return false;
-		}
-
-		currPacketSize += result;
-		res.append(buf, result);
-	}
-	return true;
+	ws.run();
+	m_ws = nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Binary data processing
 
-void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
+void WebSocket<WhatsAppProto>::process(const uint8_t *pData, size_t cbDataLen)
 {
-	while (size_t payloadLen = m_noise->decodeFrame(pData, cbDataLen)) {
-		if (m_noise->bInitFinished) {
-			MBinBuffer buf = m_noise->decrypt(pData, payloadLen);
+	while (size_t payloadLen = p->m_noise->decodeFrame(pData, cbDataLen)) {
+		if (p->m_noise->bInitFinished) {
+			MBinBuffer buf = p->m_noise->decrypt(pData, payloadLen);
 
 			WAReader rdr(buf.data(), buf.length());
 			auto b = rdr.readInt8();
@@ -195,22 +81,22 @@ void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
 			if (WANode *pNode = rdr.readNode()) {
 				CMStringA szText;
 				pNode->print(szText);
-				debugLogA("Got binary node:\n%s", szText.c_str());
+				p->debugLogA("Got binary node:\n%s", szText.c_str());
 
-				auto pHandler = FindPersistentHandler(*pNode);
+				auto pHandler = p->FindPersistentHandler(*pNode);
 				if (pHandler)
-					(this->*pHandler)(*pNode);
+					(p->*pHandler)(*pNode);
 				else
-					debugLogA("cannot handle incoming message");
+					p->debugLogA("cannot handle incoming message");
 
 				delete pNode;
 			}
 			else {
-				debugLogA("wrong or broken payload");
-				Netlib_Dump(m_hServerConn, pData, cbDataLen, false, 0);
+				p->debugLogA("wrong or broken payload");
+				Netlib_Dump(m_hConn, pData, cbDataLen, false, 0);
 			}
 		}
-		else OnProcessHandshake(pData, (int)payloadLen);
+		else p->OnProcessHandshake(pData, (int)payloadLen);
 
 		pData = (BYTE*)pData + payloadLen;
 		cbDataLen -= payloadLen;
@@ -408,8 +294,8 @@ void WhatsAppProto::ShutdownSession()
 	debugLogA("WhatsAppProto::ShutdownSession");
 
 	// shutdown all resources
-	if (m_hServerConn)
-		Netlib_Shutdown(m_hServerConn);
+	if (m_ws)
+		m_ws->terminate();
 
 	OnLoggedOut();
 }

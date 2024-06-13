@@ -206,8 +206,8 @@ void CDiscordProto::OnShutdown()
 	for (auto &it : arGuilds)
 		it->SaveToFile();
 
-	if (m_hGatewayConnection)
-		Netlib_Shutdown(m_hGatewayConnection);
+	if (m_ws)
+		m_ws->terminate();
 
 	if (g_plugin.bVoiceService)
 		CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)m_szModuleName, 0);

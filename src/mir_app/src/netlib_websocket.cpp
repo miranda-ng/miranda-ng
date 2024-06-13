@@ -27,8 +27,73 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../libs/zlib/src/zlib.h"
 
-MIR_APP_DLL(MHttpResponse*) WebSocket_Connect(HNETLIBUSER nlu, const char *szHost, const MHttpHeaders *pHeaders)
+struct WSHeader
 {
+	WSHeader()
+	{
+		memset(this, 0, sizeof(*this));
+	}
+
+	bool bIsFinal, bIsMasked;
+	int opCode, firstByte;
+	size_t payloadSize, headerSize;
+
+	bool init(const void *pData, size_t bufSize)
+	{
+		if (bufSize < 2)
+			return false;
+
+		auto *buf = (const uint8_t *)pData;
+		bIsFinal = (buf[0] & 0x80) != 0;
+		bIsMasked = (buf[1] & 0x80) != 0;
+		opCode = buf[0] & 0x0F;
+		firstByte = buf[1] & 0x7F;
+		headerSize = 2 + (firstByte == 0x7E ? 2 : 0) + (firstByte == 0x7F ? 8 : 0) + (bIsMasked ? 4 : 0);
+		if (bufSize < headerSize)
+			return false;
+
+		uint64_t tmpSize = 0;
+		switch (firstByte) {
+		case 0x7F:
+			tmpSize += ((uint64_t)buf[2]) << 56;
+			tmpSize += ((uint64_t)buf[3]) << 48;
+			tmpSize += ((uint64_t)buf[4]) << 40;
+			tmpSize += ((uint64_t)buf[5]) << 32;
+			tmpSize += ((uint64_t)buf[6]) << 24;
+			tmpSize += ((uint64_t)buf[7]) << 16;
+			tmpSize += ((uint64_t)buf[8]) << 8;
+			tmpSize += ((uint64_t)buf[9]);
+			break;
+
+		case 0x7E:
+			tmpSize += ((uint64_t)buf[2]) << 8;
+			tmpSize += ((uint64_t)buf[3]);
+			break;
+
+		default:
+			tmpSize = firstByte;
+		}
+		payloadSize = tmpSize;
+		return true;
+	}
+};
+
+MWebSocket::MWebSocket()
+{
+}
+
+MWebSocket::~MWebSocket()
+{
+	if (m_hConn)
+		Netlib_CloseHandle(m_hConn);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+MHttpResponse* MWebSocket::connect(HANDLE nlu, const char *szHost, const MHttpHeaders *pHeaders)
+{
+	m_nlu = (HNETLIBUSER)nlu;
+
 	CMStringA tmpHost(szHost);
 
 	// connect to the gateway server
@@ -54,55 +119,17 @@ MIR_APP_DLL(MHttpResponse*) WebSocket_Connect(HNETLIBUSER nlu, const char *szHos
 		for (auto &it: *pHeaders)
 			nlhr.AddHeader(it->szName, it->szValue);
 
-	auto *pReply = Netlib_HttpTransaction(nlu, &nlhr);
+	auto *pReply = Netlib_HttpTransaction(m_nlu, &nlhr);
 	if (pReply == nullptr) {
-		Netlib_Logf(nlu, "Error establishing WebSocket connection to %s, send failed", tmpHost.c_str());
+		Netlib_Logf(m_nlu, "Error establishing WebSocket connection to %s, send failed", tmpHost.c_str());
 		return nullptr;
 	}
 
+	m_hConn = pReply->nlc;
 	if (pReply->resultCode != 101)
-		Netlib_Logf(nlu, "Error establishing WebSocket connection to %s, status %d", tmpHost.c_str(), pReply->resultCode);
+		Netlib_Logf(m_nlu, "Error establishing WebSocket connection to %s, status %d", tmpHost.c_str(), pReply->resultCode);
 
 	return pReply;
-}
-
-MIR_APP_DLL(bool) WebSocket_InitHeader(WSHeader &hdr, const void *pData, size_t bufSize)
-{
-	if (bufSize < 2)
-		return false;
-
-	auto *buf = (const uint8_t *)pData;
-	hdr.bIsFinal = (buf[0] & 0x80) != 0;
-	hdr.bIsMasked = (buf[1] & 0x80) != 0;
-	hdr.opCode = buf[0] & 0x0F;
-	hdr.firstByte = buf[1] & 0x7F;
-	hdr.headerSize = 2 + (hdr.firstByte == 0x7E ? 2 : 0) + (hdr.firstByte == 0x7F ? 8 : 0) + (hdr.bIsMasked ? 4 : 0);
-	if (bufSize < hdr.headerSize)
-		return false;
-
-	uint64_t tmpSize = 0;
-	switch (hdr.firstByte) {
-	case 0x7F:
-		tmpSize += ((uint64_t)buf[2]) << 56;
-		tmpSize += ((uint64_t)buf[3]) << 48;
-		tmpSize += ((uint64_t)buf[4]) << 40;
-		tmpSize += ((uint64_t)buf[5]) << 32;
-		tmpSize += ((uint64_t)buf[6]) << 24;
-		tmpSize += ((uint64_t)buf[7]) << 16;
-		tmpSize += ((uint64_t)buf[8]) << 8;
-		tmpSize += ((uint64_t)buf[9]);
-		break;
-
-	case 0x7E:
-		tmpSize += ((uint64_t)buf[2]) << 8;
-		tmpSize += ((uint64_t)buf[3]);
-		break;
-
-	default:
-		tmpSize = hdr.firstByte;
-	}
-	hdr.payloadSize = tmpSize;
-	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -156,14 +183,131 @@ static void WebSocket_Send(HNETLIBCONN nlc, const void *pData, int64_t dataLen, 
 	Netlib_Send(nlc, sendBuf, int(dataLen + cbLen), MSG_NODUMP);
 }
 
-MIR_APP_DLL(void) WebSocket_SendText(HNETLIBCONN nlc, const char *pData)
+void MWebSocket::sendText(const char *pData)
 {
-	if (nlc && pData)
-		WebSocket_Send(nlc, pData, strlen(pData), 1);
+	if (m_hConn && pData) {
+		mir_cslock lck(m_cs);
+		WebSocket_Send(m_hConn, pData, strlen(pData), 1);
+	}
 }
 
-MIR_APP_DLL(void) WebSocket_SendBinary(HNETLIBCONN nlc, const void *pData, size_t dataLen)
+void MWebSocket::sendBinary(const void *pData, size_t dataLen)
 {
-	if (nlc && pData)
-		WebSocket_Send(nlc, pData, dataLen, 2);
+	if (m_hConn && pData) {
+		mir_cslock lck(m_cs);
+		WebSocket_Send(m_hConn, pData, dataLen, 2);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void MWebSocket::terminate()
+{
+	m_bTerminated = true;
+
+	if (m_hConn)
+		Netlib_Shutdown(m_hConn);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void MWebSocket::run()
+{
+	int offset = 0;
+	MBinBuffer netbuf;
+
+	while (!m_bTerminated) {
+		unsigned char buf[2048];
+		int bufSize = Netlib_Recv(m_hConn, (char *)buf + offset, _countof(buf) - offset, MSG_NODUMP);
+		if (bufSize == 0) {
+			Netlib_Log(m_nlu, "Websocket connection gracefully closed");
+			break;
+		}
+		if (bufSize < 0) {
+			Netlib_Log(m_nlu, "Websocket connection error, exiting");
+			break;
+		}
+
+		WSHeader hdr;
+		if (!hdr.init(buf, bufSize)) {
+			offset += bufSize;
+			continue;
+		}
+		offset = 0;
+
+		// we have some additional data, not only opcode
+		if ((size_t)bufSize > hdr.headerSize) {
+			size_t currPacketSize = bufSize - hdr.headerSize;
+			netbuf.append(buf, bufSize);
+			while (currPacketSize < hdr.payloadSize) {
+				int result = Netlib_Recv(m_hConn, (char *)buf, _countof(buf), MSG_NODUMP);
+				if (result == 0) {
+					Netlib_Log(m_nlu, "Websocket connection gracefully closed");
+					break;
+				}
+				if (result < 0) {
+					Netlib_Log(m_nlu, "Websocket connection error, exiting");
+					break;
+				}
+				currPacketSize += result;
+				netbuf.append(buf, result);
+			}
+		}
+
+		// read all payloads from the current buffer, one by one
+		size_t prevSize = 0;
+		while (true) {
+			switch (hdr.opCode) {
+			case 0: // text packet
+			case 1: // binary packet
+			case 2: // continuation
+				if (hdr.bIsFinal) {
+					// process a packet here
+					process((uint8_t*)netbuf.data() + hdr.headerSize, (int)hdr.payloadSize);
+				}
+				break;
+
+			case 8: // close
+				Netlib_Log(m_nlu, "server required to exit");
+				m_bTerminated = true; // simply reconnect, don't exit
+				break;
+
+			case 9: // ping
+				Netlib_Log(m_nlu, "ping received");
+				Netlib_Send(m_hConn, (char *)buf + hdr.headerSize, bufSize - int(hdr.headerSize), 0);
+				break;
+			}
+
+			if (hdr.bIsFinal)
+				netbuf.remove(hdr.headerSize + hdr.payloadSize);
+
+			if (netbuf.length() == 0)
+				break;
+
+			// if we have not enough data for header, continue reading
+			if (!hdr.init(netbuf.data(), netbuf.length()))
+				break;
+
+			// if we have not enough data for data, continue reading
+			if (hdr.headerSize + hdr.payloadSize > netbuf.length())
+				break;
+
+			if (prevSize == netbuf.length()) {
+				netbuf.remove(prevSize);
+				break;
+			}
+
+			prevSize = netbuf.length();
+		}
+	}
+}
+
+void MJsonWebSocket::process(const uint8_t *buf, size_t cbLen)
+{
+	CMStringA szJson((char*)buf, (int)cbLen);
+	Netlib_Logf(m_nlu, "JSON received:\n%s", szJson.c_str());
+
+	JSONNode root = JSONNode::parse(szJson);
+	if (root)
+		process(root);
 }

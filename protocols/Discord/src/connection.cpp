@@ -93,8 +93,8 @@ void CDiscordProto::ShutdownSession()
 		pMfaDialog->Close();
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
-	if (m_hGatewayConnection)
-		Netlib_Shutdown(m_hGatewayConnection);
+	if (m_ws)
+		m_ws->terminate();
 	if (m_hAPIConnection)
 		Netlib_Shutdown(m_hAPIConnection);
 

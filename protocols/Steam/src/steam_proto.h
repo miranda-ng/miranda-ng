@@ -66,6 +66,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	friend class CSteamOptionsMain;
 	friend class CSteamOptionsBlockList;
 	friend class PollRequest;
+	friend class WebSocket<CSteamProto>;
 
 	ptrW m_password;
 	bool m_bTerminated;
@@ -87,7 +88,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	std::map<HANDLE, time_t> m_mpOutMessages;
 
 	// connection
-	HNETLIBCONN m_hServerConn;
+	WebSocket<CSteamProto> *m_ws;
+
 	void __cdecl ServerThread(void *);
 	bool ServerThreadStub(const char *szHost);
 
@@ -95,7 +97,6 @@ class CSteamProto : public PROTO<CSteamProto>
    OBJLIST<ProtoRequest> m_arRequests;
 
    void ProcessMulti(const uint8_t *buf, size_t cbLen);
-   void ProcessPacket(const uint8_t *buf, size_t cbLen);
    void ProcessMessage(const uint8_t *buf, size_t cbLen);
 
 	void WSSend(EMsg msgType, const ProtobufCppMessage &msg);

@@ -164,6 +164,7 @@ struct WACollection
 class WANoise
 {
 	friend class WhatsAppProto;
+	friend class WebSocket<WhatsAppProto>;
 
 	WhatsAppProto *ppro;
 	uint32_t readCounter = 0, writeCounter = 0;
@@ -268,6 +269,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	friend class WANoise;
 	friend class CWhatsAppQRDlg;
 	friend class COptionsDlg;
+	friend class WebSocket<WhatsAppProto>;
 
 	class CWhatsAppProtoImpl
 	{
@@ -347,7 +349,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	/// Network ////////////////////////////////////////////////////////////////////////////
 
 	time_t m_lastRecvTime;
-	HNETLIBCONN m_hServerConn;
+	WebSocket<WhatsAppProto> *m_ws;
 
 	mir_cs m_csPacketQueue;
 	OBJLIST<WARequestBase> m_arPacketQueue;
@@ -365,7 +367,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead);
 
-	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const ProtobufCMessage &msg);
 	int  WSSendNode(WANode &node);
 	int  WSSendNode(WANode &node, WA_PKT_HANDLER);
@@ -450,7 +451,7 @@ public:
 	~WhatsAppProto();
 
 	__forceinline bool isOnline() const
-	{	return m_hServerConn != 0;
+	{	return m_ws != 0;
 	}
 
 	__forceinline void writeStr(const char *pszSetting, const JSONNode &node)

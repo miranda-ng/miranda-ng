@@ -30,7 +30,7 @@ void __cdecl CSteamProto::ServerThread(void *)
 	}
 
 	srand(time(0));
-	m_hServerConn = nullptr;
+	m_ws = nullptr;
 
 	CMStringA szHost;
 	do {
@@ -44,7 +44,9 @@ void __cdecl CSteamProto::ServerThread(void *)
 
 bool CSteamProto::ServerThreadStub(const char *szHost)
 {
-	NLHR_PTR pReply(WebSocket_Connect(m_hNetlibUser, szHost));
+	WebSocket<CSteamProto> ws(this);
+
+	NLHR_PTR pReply(ws.connect(m_hNetlibUser, szHost));
 	if (pReply == nullptr) {
 		debugLogA("websocket connection failed");
 		return false;
@@ -55,116 +57,21 @@ bool CSteamProto::ServerThreadStub(const char *szHost)
 		return false;
 	}
 
-	m_hServerConn = pReply->nlc;
+	m_ws = &ws;
+
 	debugLogA("Websocket connection succeeded");
 
 	// Send init packets
 	Login();
 
-	bool bExit = false;
-	int offset = 0;
-	MBinBuffer netbuf;
-
-	while (!bExit) {
-		if (m_bTerminated)
-			break;
-
-		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf + offset, _countof(buf) - offset, 0);
-		if (bufSize == 0) {
-			debugLogA("Gateway connection gracefully closed");
-			bExit = !m_bTerminated;
-			break;
-		}
-		if (bufSize < 0) {
-			debugLogA("Gateway connection error, exiting");
-			break;
-		}
-
-		WSHeader hdr;
-		if (!WebSocket_InitHeader(hdr, buf, bufSize)) {
-			offset += bufSize;
-			continue;
-		}
-		offset = 0;
-
-		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
-
-		// we have some additional data, not only opcode
-		if ((size_t)bufSize > hdr.headerSize) {
-			size_t currPacketSize = bufSize - hdr.headerSize;
-			netbuf.append(buf, bufSize);
-			while (currPacketSize < hdr.payloadSize) {
-				int result = Netlib_Recv(m_hServerConn, (char *)buf, _countof(buf), 0);
-				if (result == 0) {
-					debugLogA("Gateway connection gracefully closed");
-					bExit = !m_bTerminated;
-					break;
-				}
-				if (result < 0) {
-					debugLogA("Gateway connection error, exiting");
-					break;
-				}
-				currPacketSize += result;
-				netbuf.append(buf, result);
-			}
-		}
-
-		// read all payloads from the current buffer, one by one
-		size_t prevSize = 0;
-		while (true) {
-			switch (hdr.opCode) {
-			case 0: // text packet
-			case 1: // binary packet
-			case 2: // continuation
-				if (hdr.bIsFinal)
-					ProcessPacket((const uint8_t *)netbuf.data() + hdr.headerSize, hdr.payloadSize);
-				break;
-
-			case 8: // close
-				debugLogA("server required to exit");
-				bExit = true; // simply reconnect, don't exit
-				break;
-
-			case 9: // ping
-				debugLogA("ping received");
-				Netlib_Send(m_hServerConn, (char *)buf + hdr.headerSize, bufSize - int(hdr.headerSize), 0);
-				break;
-			}
-
-			if (hdr.bIsFinal)
-				netbuf.remove(hdr.headerSize + hdr.payloadSize);
-
-			if (netbuf.length() == 0)
-				break;
-
-			// if we have not enough data for header, continue reading
-			if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length()))
-				break;
-
-			// if we have not enough data for data, continue reading
-			if (hdr.headerSize + hdr.payloadSize > netbuf.length())
-				break;
-
-			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
-			if (prevSize == netbuf.length()) {
-				netbuf.remove(prevSize);
-				debugLogA("dropping current packet, exiting");
-				break;
-			}
-
-			prevSize = netbuf.length();
-		}
-	}
-
-	Netlib_CloseHandle(m_hServerConn);
-	m_hServerConn = nullptr;
-	return bExit;
+	ws.run();
+	m_ws = nullptr;
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CSteamProto::ProcessPacket(const uint8_t *buf, size_t cbLen)
+void WebSocket<CSteamProto>::process(const uint8_t *buf, size_t cbLen)
 {
 	uint32_t dwSign = *(uint32_t *)buf;
 	EMsg msgType = (EMsg)(dwSign & ~STEAM_PROTOCOL_MASK);
@@ -172,9 +79,9 @@ void CSteamProto::ProcessPacket(const uint8_t *buf, size_t cbLen)
 	// now process the body
 	if (msgType == EMsg::Multi) {
 		buf += 8; cbLen -= 8;
-		ProcessMulti(buf, cbLen);
+		p->ProcessMulti(buf, cbLen);
 	}
-	else ProcessMessage(buf, cbLen);
+	else p->ProcessMessage(buf, cbLen);
 }
 
 void CSteamProto::ProcessMulti(const uint8_t *buf, size_t cbLen)

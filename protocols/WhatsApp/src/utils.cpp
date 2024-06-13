@@ -169,14 +169,14 @@ CMStringA WhatsAppProto::GenerateMessageId()
 
 int WhatsAppProto::WSSend(const ProtobufCMessage &msg)
 {
-	if (m_hServerConn == nullptr)
+	if (m_ws == nullptr)
 		return -1;
 
 	MBinBuffer buf(proto::Serialize(&msg));
-	Netlib_Dump(m_hServerConn, buf.data(), buf.length(), true, 0);
+	// Netlib_Dump(m_hServerConn, buf.data(), buf.length(), true, 0);
 
 	MBinBuffer payload = m_noise->encodeFrame(buf.data(), buf.length());
-	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
+	m_ws->sendBinary(payload.data(), payload.length());
 	return 0;
 }
 
@@ -184,7 +184,7 @@ int WhatsAppProto::WSSend(const ProtobufCMessage &msg)
 
 int WhatsAppProto::WSSendNode(WANode &node)
 {
-	if (m_hServerConn == nullptr)
+	if (m_ws == nullptr)
 		return 0;
 
 	CMStringA szText;
@@ -196,13 +196,13 @@ int WhatsAppProto::WSSendNode(WANode &node)
 
 	MBinBuffer encData = m_noise->encrypt(writer.body.data(), writer.body.length());
 	MBinBuffer payload = m_noise->encodeFrame(encData.data(), encData.length());
-	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
+	m_ws->sendBinary(payload.data(), payload.length());
 	return 1;
 }
 
 int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 {
-	if (m_hServerConn == nullptr)
+	if (m_ws == nullptr)
 		return 0;
 
 	CMStringA id(GenerateMessageId());
@@ -217,7 +217,7 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 
 int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER_FULL pHandler, void *pUserInfo)
 {
-	if (m_hServerConn == nullptr)
+	if (m_ws == nullptr)
 		return 0;
 
 	CMStringA id(GenerateMessageId());

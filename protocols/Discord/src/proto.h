@@ -173,8 +173,9 @@ class CDiscordVoiceCall : public MZeroedObject
 
 	CDiscordProto *ppro;
 
+	JsonWebSocket<CDiscordVoiceCall> *m_ws;
+
 	CTimer m_timer;
-	HNETLIBCONN m_hConn;
 	HNETLIBBIND m_hBind;
 	mir_cs m_cs;
 	bool m_bTerminated;
@@ -189,10 +190,8 @@ class CDiscordVoiceCall : public MZeroedObject
 
 	void onTimer(CTimer *)
 	{
-		if (m_hConn) {
-			JSONNode d; d << INT_PARAM("", rand());
-			write(3, d);
-		}
+		JSONNode d; d << INT_PARAM("", rand());
+		write(3, d);
 	}
 
 	static void GetConnection(HNETLIBCONN /*hNewConnection*/, uint32_t /*dwRemoteIP*/, void *pExtra);
@@ -209,7 +208,6 @@ public:
 		return !m_bTerminated;
 	}
 
-	bool connect(HNETLIBUSER);
 	void write(int op, JSONNode &d);
 
 	void process(const JSONNode &node);
@@ -298,6 +296,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	friend class CMfaDialog;
 	friend class CGroupchatInviteDlg;
 	friend class CDiscordVoiceCall;
+	friend class JsonWebSocket<CDiscordProto>;
 
 	class CDiscordProtoImpl
 	{
@@ -370,13 +369,12 @@ class CDiscordProto : public PROTO<CDiscordProto>
 		m_szWSCookie;          // cookie used for establishing websocket connection
 	
 	HNETLIBUSER m_hGatewayNetlibUser; // the separate netlib user handle for gateways
-	HNETLIBCONN m_hGatewayConnection;      // gateway connection
-	
+	JsonWebSocket<CDiscordProto> *m_ws;
+
 	void __cdecl GatewayThread(void*);
 	bool  GatewayThreadWorker(void);
 	
 	bool  GatewaySend(const JSONNode &pNode);
-	bool  GatewayProcess(const JSONNode &pNode);
 
 	void  GatewaySendGuildInfo(CDiscordGuild *pGuild);
 	void  GatewaySendHeartbeat(void);

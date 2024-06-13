@@ -152,7 +152,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 				if (WAJid(szChatId).isUser())
 					pszReceiptTo = szAuthor;
 			}
-			else if (!m_hServerConn)
+			else if (!m_ws)
 				pszReceiptType = "inactive";
 
 			SendReceipt(szChatId, pszReceiptTo, msgId, pszReceiptType);

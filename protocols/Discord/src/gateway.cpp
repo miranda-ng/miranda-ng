@@ -22,12 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 bool CDiscordProto::GatewaySend(const JSONNode &pRoot)
 {
-	if (m_hGatewayConnection == nullptr)
+	if (m_ws == nullptr)
 		return false;
 
 	json_string szText = pRoot.write();
 	debugLogA("Gateway send: %s", szText.c_str());
-	WebSocket_SendText(m_hGatewayConnection, szText.c_str());
+	m_ws->sendText(szText.c_str());
 	return true;
 }
 
@@ -51,7 +51,8 @@ bool CDiscordProto::GatewayThreadWorker()
 		hdrs.AddHeader("Cookie", m_szWSCookie);
 	}
 
-	NLHR_PTR pReply(WebSocket_Connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", &hdrs));
+	JsonWebSocket<CDiscordProto> ws(this);
+	NLHR_PTR pReply(ws.connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", &hdrs));
 	if (pReply == nullptr) {
 		debugLogA("Gateway connection failed, exiting");
 		return false;
@@ -72,164 +73,62 @@ bool CDiscordProto::GatewayThreadWorker()
 
 	// succeeded!
 	debugLogA("Gateway connection succeeded");
-	m_hGatewayConnection = pReply->nlc;
 
-	bool bExit = false;
-	int offset = 0;
-	MBinBuffer netbuf;
+	m_ws = &ws;
+	ws.run();
 
-	while (!bExit) {
-		if (m_bTerminated)
-			break;
-
-		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hGatewayConnection, (char*)buf + offset, _countof(buf) - offset, MSG_NODUMP);
-		if (bufSize == 0) {
-			debugLogA("Gateway connection gracefully closed");
-			bExit = !m_bTerminated;
-			break;
-		}
-		if (bufSize < 0) {
-			debugLogA("Gateway connection error, exiting");
-			break;
-		}
-
-		WSHeader hdr;
-		if (!WebSocket_InitHeader(hdr, buf, bufSize)) {
-			offset += bufSize;
-			continue;
-		}
-		offset = 0;
-
-		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
-
-		// we have some additional data, not only opcode
-		if ((size_t)bufSize > hdr.headerSize) {
-			size_t currPacketSize = bufSize - hdr.headerSize;
-			netbuf.append(buf, bufSize);
-			while (currPacketSize < hdr.payloadSize) {
-				int result = Netlib_Recv(m_hGatewayConnection, (char*)buf, _countof(buf), MSG_NODUMP);
-				if (result == 0) {
-					debugLogA("Gateway connection gracefully closed");
-					bExit = !m_bTerminated;
-					break;
-				}
-				if (result < 0) {
-					debugLogA("Gateway connection error, exiting");
-					break;
-				}
-				currPacketSize += result;
-				netbuf.append(buf, result);
-			}
-		}
-
-		// read all payloads from the current buffer, one by one
-		size_t prevSize = 0;
-		while (true) {
-			switch (hdr.opCode) {
-			case 0: // text packet
-			case 1: // binary packet
-			case 2: // continuation
-				if (hdr.bIsFinal) {
-					// process a packet here
-					CMStringA szJson((char*)netbuf.data() + hdr.headerSize, (int)hdr.payloadSize);
-					debugLogA("JSON received:\n%s", szJson.c_str());
-					JSONNode root = JSONNode::parse(szJson);
-					if (root)
-						bExit = GatewayProcess(root);
-				}
-				break;
-
-			case 8: // close
-				debugLogA("server required to exit");
-				bExit = true; // simply reconnect, don't exit
-				break;
-
-			case 9: // ping
-				debugLogA("ping received");
-				Netlib_Send(m_hGatewayConnection, (char*)buf + hdr.headerSize, bufSize - int(hdr.headerSize), 0);
-				break;
-			}
-
-			if (hdr.bIsFinal)
-				netbuf.remove(hdr.headerSize + hdr.payloadSize);
-
-			if (netbuf.length() == 0)
-				break;
-
-			// if we have not enough data for header, continue reading
-			if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length()))
-				break;
-
-			// if we have not enough data for data, continue reading
-			if (hdr.headerSize + hdr.payloadSize > netbuf.length())
-				break;
-
-			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
-			if (prevSize == netbuf.length()) {
-				netbuf.remove(prevSize);
-				debugLogA("dropping current packet, exiting");
-				break;
-			}
-
-			prevSize = netbuf.length();
-		}
-	}
-
-	Netlib_CloseHandle(m_hGatewayConnection);
-	m_hGatewayConnection = nullptr;
-	return bExit;
+	m_ws = nullptr;
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
 // handles server commands
 
-bool CDiscordProto::GatewayProcess(const JSONNode &pRoot)
+void JsonWebSocket<CDiscordProto>::process(const JSONNode &json)
 {
-	int opCode = pRoot["op"].as_int();
+	int opCode = json["op"].as_int();
 	switch (opCode) {
 	case OPCODE_DISPATCH:  // process incoming command
 		{
-			int iSeq = pRoot["s"].as_int();
+			int iSeq = json["s"].as_int();
 			if (iSeq != 0)
-				m_iGatewaySeq = iSeq;
+				p->m_iGatewaySeq = iSeq;
 
-			CMStringW wszCommand = pRoot["t"].as_mstring();
-			debugLogA("got a server command to dispatch: %S", wszCommand.c_str());
-			
-			GatewayHandlerFunc pFunc = GetHandler(wszCommand);
+			CMStringW wszCommand = json["t"].as_mstring();
+			p->debugLogA("got a server command to dispatch: %S", wszCommand.c_str());
+
+			GatewayHandlerFunc pFunc = p->GetHandler(wszCommand);
 			if (pFunc)
-				(this->*pFunc)(pRoot["d"]);
+				(p->*pFunc)(json["d"]);
 		}
 		break;
 
 	case OPCODE_RECONNECT:  // we need to reconnect asap
-		debugLogA("we need to reconnect, leaving worker thread");
-		return true;
+		p->debugLogA("we need to reconnect, leaving worker thread");
+		p->m_bTerminated = true;
+		return;
 
 	case OPCODE_INVALID_SESSION:  // session invalidated
-		if (pRoot["d"].as_bool()) // session can be resumed
-			GatewaySendResume();
+		if (json["d"].as_bool()) // session can be resumed
+			p->GatewaySendResume();
 		else {
 			Sleep(5000); // 5 seconds - recommended timeout
-			GatewaySendIdentify();
+			p->GatewaySendIdentify();
 		}
 		break;
 
 	case OPCODE_HELLO: // hello
-		m_iHartbeatInterval = pRoot["d"]["heartbeat_interval"].as_int();
+		p->m_iHartbeatInterval = json["d"]["heartbeat_interval"].as_int();
 
-		GatewaySendIdentify();
+		p->GatewaySendIdentify();
 		break;
-	
+
 	case OPCODE_HEARTBEAT_ACK: // heartbeat ack
 		break;
 
 	default:
-		debugLogA("ACHTUNG! Unknown opcode: %d, report it to developer", opCode);
+		p->debugLogA("ACHTUNG! Unknown opcode: %d, report it to developer", opCode);
 	}
-
-	return false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////

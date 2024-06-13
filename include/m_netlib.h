@@ -755,27 +755,65 @@ EXTERN_C MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen, int
 /////////////////////////////////////////////////////////////////////////////////////////
 // WebSocket support
 
-struct WSHeader
+class MIR_APP_EXPORT MWebSocket : public MNonCopyable
 {
-	WSHeader()
-	{
-		memset(this, 0, sizeof(*this));
-	}
+	mir_cs m_cs;
+	bool m_bTerminated = false;
 
-	bool bIsFinal, bIsMasked;
-	int opCode, firstByte;
-	size_t payloadSize, headerSize;
+protected:
+	HNETLIBUSER m_nlu = 0;
+	HNETLIBCONN m_hConn = 0;
+
+public:
+	MWebSocket();
+	~MWebSocket();
+
+	// packet processor
+	virtual void process(const uint8_t *buf, size_t cbLen) = 0;
+
+	// connects to a WebSocket server
+	MHttpResponse* connect(HANDLE nlu, const char *szHost, const MHttpHeaders *pHeaders = nullptr);
+
+	// runs a socket reading cycle
+	void run();
+
+	// terminates a reading cycle
+	void terminate();
+
+	// sends a packet to WebSocket
+	void sendText(const char *pData);
+	void sendBinary(const void *pData, size_t strLen);
 };
 
-// connects to a WebSocket server
-EXTERN_C MIR_APP_DLL(MHttpResponse*) WebSocket_Connect(HNETLIBUSER, const char *szHost, const MHttpHeaders *pHeaders = nullptr);
+class MIR_APP_EXPORT MJsonWebSocket : public MWebSocket
+{
+	void process(const uint8_t *buf, size_t cbLen) override;
 
-// validates that the provided buffer contains full WebSocket datagram
-EXTERN_C MIR_APP_DLL(bool) WebSocket_InitHeader(WSHeader &hdr, const void *pData, size_t bufSize);
+public:
+	MJsonWebSocket() {}
 
-// sends a packet to WebSocket
-EXTERN_C MIR_APP_DLL(void) WebSocket_SendText(HNETLIBCONN nlc, const char *pData);
-EXTERN_C MIR_APP_DLL(void) WebSocket_SendBinary(HNETLIBCONN nlc, const void *pData, size_t strLen);
+	virtual void process(const class JSONNode &json) = 0;
+};
+
+template<class T> class WebSocket : public MWebSocket
+{
+	T *p;
+
+public:
+	WebSocket(T *_1) : p(_1) {}
+
+	void process(const uint8_t *buf, size_t cbLen) override;
+};
+
+template<class T> class JsonWebSocket : public MJsonWebSocket
+{
+	T *p;
+
+public:
+	JsonWebSocket(T *_1) : p(_1) {}
+
+	void process(const JSONNode &node) override;
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Netlib hooks (0.8+)
