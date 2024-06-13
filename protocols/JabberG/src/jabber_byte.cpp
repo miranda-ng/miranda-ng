@@ -199,7 +199,6 @@ void CJabberProto::ByteSendThread(JABBER_BYTE_TRANSFER *jbt)
 			NETLIBBIND nlb = {};
 			nlb.pfnNewConnection = JabberByteSendConnection;
 			nlb.pExtra = this;
-			nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 
 			jbt->hConn = Netlib_BindPort(m_hNetlibUser, &nlb);
 			if (jbt->hConn == nullptr) {

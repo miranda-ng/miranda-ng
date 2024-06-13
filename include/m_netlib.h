@@ -267,6 +267,7 @@ typedef void (*NETLIBNEWCONNECTIONPROC)(HNETLIBCONN hNewConnection, uint32_t dwR
 struct NETLIBBIND
 {
 	NETLIBNEWCONNECTIONPROC pfnNewConnection;
+	int iType;  // SOCK_STREAM or 0 by default, SOCK_DGRAM, SOCK_RAW
 
 	// function to call when there's a new connection. Params are: the
 	// new connection, IP of remote machine (host byte order)

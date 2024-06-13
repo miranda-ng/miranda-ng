@@ -306,15 +306,16 @@ LBL_Error:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-NetlibBoundPort::NetlibBoundPort(HNETLIBUSER _nlu, NETLIBBIND *nlb)
-	: handleType(NLH_BOUNDPORT),
+NetlibBoundPort::NetlibBoundPort(HNETLIBUSER _nlu, NETLIBBIND *nlb) :
+	handleType(NLH_BOUNDPORT),
 	nlu(_nlu)
 {
 	pfnNewConnection = nlb->pfnNewConnection;
 	pExtra = nlb->pExtra;
 
-	s = socket(PF_INET, SOCK_STREAM, 0);
-	s6 = socket(PF_INET6, SOCK_STREAM, 0);
+	int type = (nlb->iType) ? nlb->iType : SOCK_STREAM;
+	s = socket(PF_INET, type, 0);
+	s6 = socket(PF_INET6, type, 0);
 }
 
 void NetlibBoundPort::close()

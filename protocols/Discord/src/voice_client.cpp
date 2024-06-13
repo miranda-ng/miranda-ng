@@ -132,8 +132,9 @@ void CDiscordVoiceCall::processStreams(const JSONNode &d)
 	}
 
 	NETLIBBIND nlb = {};
-	nlb.pfnNewConnection = &GetConnection;
+	nlb.iType = SOCK_DGRAM;  // UDP connection
 	nlb.pExtra = this;
+	nlb.pfnNewConnection = &GetConnection;
 	m_hBind = Netlib_BindPort(ppro->m_hGatewayNetlibUser, &nlb);
 	if (m_hBind == nullptr) {
 		ppro->debugLogA("UDP port binding failed, exiting");

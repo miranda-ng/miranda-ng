@@ -395,7 +395,6 @@ void __cdecl CJabberProto::FileServerThread(filetransfer *ft)
 	NETLIBBIND nlb = {};
 	nlb.pfnNewConnection = JabberFileServerConnection;
 	nlb.pExtra = this;
-	nlb.wPort = 0;	// Use user-specified incoming port ranges, if available
 	
 	info.s = (HNETLIBCONN)Netlib_BindPort(m_hNetlibUser, &nlb);
 	if (info.s == nullptr) {
