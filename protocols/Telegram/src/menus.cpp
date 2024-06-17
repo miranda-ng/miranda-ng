@@ -159,10 +159,10 @@ public:
 		DB::EventInfo dbei(m_hEvent, false);
 		__int64 msgId = ::dbei2id(dbei);
 		
-		char *pszEmoji = (char *)cmbReactions.GetCurData();
-		auto reaction = TD::make_object<TD::reactionTypeEmoji>(pszEmoji);
-
-		m_proto->SendQuery(new TD::addMessageReaction(m_pUser->chatId, msgId, std::move(reaction), false, false));
+		if (char *pszEmoji = (char *)cmbReactions.GetCurData()) {
+			auto reaction = TD::make_object<TD::reactionTypeEmoji>(pszEmoji);
+			m_proto->SendQuery(new TD::addMessageReaction(m_pUser->chatId, msgId, std::move(reaction), false, false));
+		}
 		return true;
 	}
 };
