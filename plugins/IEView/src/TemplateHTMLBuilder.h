@@ -33,11 +33,11 @@ protected:
 	time_t 		startedTime;
 	time_t 		getStartedTime();
 	const char *groupTemplate;
-	char *getAvatar(MCONTACT hContact, const char *szProto);
+	char* getAvatar(MCONTACT hContact, const char *szProto);
 	void buildHeadTemplate(IEView *, IEVIEWEVENT *event, ProtocolSettings* protoSettings);
 	void appendEventTemplate(IEView *, IEVIEWEVENT *event, ProtocolSettings* protoSettings);
-	virtual TemplateMap *getTemplateMap(ProtocolSettings *);
-	virtual int getFlags(ProtocolSettings *);
+	virtual TemplateMap *getTemplateMap(MCONTACT hContact, ProtocolSettings *protoSettings);
+	virtual int getFlags(ProtocolSettings *protoSettings);
 public:
 	TemplateHTMLBuilder();
 	virtual ~TemplateHTMLBuilder();

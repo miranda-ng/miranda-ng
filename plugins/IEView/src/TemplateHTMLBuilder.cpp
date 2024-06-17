@@ -61,22 +61,26 @@ char* TemplateHTMLBuilder::getAvatar(MCONTACT hContact, const char *szProto)
 		}
 		db_free(&dbv);
 	}
-	char* res = mir_utf8encodeW(result);
+	char *res = mir_utf8encodeW(result);
 	Utils::convertPath(res);
 	return res;
 }
 
-TemplateMap *TemplateHTMLBuilder::getTemplateMap(ProtocolSettings * protoSettings)
+TemplateMap* TemplateHTMLBuilder::getTemplateMap(MCONTACT hContact, ProtocolSettings *protoSettings)
 {
+	if (Contact::IsGroupChat(hContact))
+		if (auto *result = TemplateMap::getTemplateMap(_T2A(protoSettings->getChatTemplateFilename())))
+			return result;
+
 	return TemplateMap::getTemplateMap(_T2A(protoSettings->getSRMMTemplateFilename()));
 }
 
-int TemplateHTMLBuilder::getFlags(ProtocolSettings * protoSettings)
+int TemplateHTMLBuilder::getFlags(ProtocolSettings *protoSettings)
 {
 	return protoSettings->getSRMMFlags();
 }
 
-char *TemplateHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int mode)
+char* TemplateHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int mode)
 {
 	static char szResult[512]; szResult[0] = '\0';
 	wchar_t str[300];
@@ -109,7 +113,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		return;
 
 	DBVARIANT dbv;
-	
+
 	char tempStr[1024];
 	char *szNameIn = nullptr;
 	char *szNameOut = nullptr;
@@ -122,7 +126,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	MCONTACT hRealContact = getRealContact(event->hContact);
 	const char *szRealProto = Proto_GetBaseAccountName(hRealContact);
 
-	TemplateMap *tmpm = getTemplateMap(protoSettings);
+	TemplateMap *tmpm = getTemplateMap(hRealContact, protoSettings);
 	if (tmpm == nullptr)
 		return;
 
@@ -147,13 +151,13 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		szNameIn = mir_strdup("&nbsp;");
 	}
 	mir_snprintf(tempStr, "%snoavatar.png", tempBase);
-	
+
 	CMStringW szNoAvatarPath(protoSettings->getSRMMTemplateFilename());
 	int idx = szNoAvatarPath.Find('\\');
 	if (idx != -1)
 		szNoAvatarPath.Delete(0, idx);
 	szNoAvatarPath.Append(L"\\noavatar.png");
-	
+
 	if (_waccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else
@@ -263,7 +267,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	iLastEventType = -1;
 }
 
-void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, ProtocolSettings* protoSettings)
+void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, ProtocolSettings *protoSettings)
 {
 	if (protoSettings == nullptr)
 		return;
@@ -290,12 +294,12 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	const char *szProto = Proto_GetBaseAccountName(event->hContact);
 	tempBase[0] = '\0';
 
-	TemplateMap *tmpm = getTemplateMap(protoSettings);
+	TemplateMap *tmpm = getTemplateMap(hRealContact, protoSettings);
 	if (tmpm != nullptr) {
 		strncpy_s(tempBase, "file://", _TRUNCATE);
 		mir_strcat(tempBase, _T2A(tmpm->getFilename()));
 
-		char* pathrun = nullptr;
+		char *pathrun = nullptr;
 		if (pathrun = strrchr(tempBase, '\\'))
 			*(++pathrun) = '\0';
 		else if (pathrun = strrchr(tempBase, '/'))
@@ -322,7 +326,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	if (idx != -1)
 		szNoAvatarPath.Delete(0, idx);
 	szNoAvatarPath.Append(L"\\noavatar.png");
-	
+
 	if (_waccess(szNoAvatarPath, 0) == -1)
 		mir_snprintf(tempStr, "%snoavatar.jpg", tempBase);
 	else
@@ -364,7 +368,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			CMStringA str;
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) && tmpm->isRTL();
-			bool isHistory = (eventData->time < (uint32_t)getStartedTime() && (eventData->dwFlags &IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
+			bool isHistory = (eventData->time < (uint32_t)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
 			bool isGroupBreak = true;
 			if ((getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES) && eventData->dwFlags == LOWORD(getLastEventType())
 				&& eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE
