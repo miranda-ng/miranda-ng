@@ -56,7 +56,7 @@ wstring __inline _DBGetStringW(MCONTACT hContact, const char *szModule, const ch
 
 void UpdateFileToColWidth();
 
-wstring GetFilePathFromUser(MCONTACT hContact);
+wstring GetFilePathFromUser(MCONTACT hContact, bool bIgnoreRename = false);
 
 void ReplaceDefines(MCONTACT hContact, wstring &sTarget);
 void ReplaceTimeVariables(wstring &sRet);

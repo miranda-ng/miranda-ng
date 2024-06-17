@@ -184,11 +184,11 @@ int nContactDeleted(WPARAM hContact, LPARAM)
 	if (g_enDeleteAction == eDANothing)
 		return 0;
 
-	wstring sFilePath = GetFilePathFromUser(hContact);
+	wstring sFilePath = GetFilePathFromUser(hContact, true);
 
 	// Test if there is another user using this file
 	for (auto &hOtherContact : Contacts())
-		if (hContact != hOtherContact && sFilePath == GetFilePathFromUser(hOtherContact))
+		if (hContact != hOtherContact && sFilePath == GetFilePathFromUser(hOtherContact, true))
 			return 0; // we found another contact abort mission :-)
 
 	// Test to see if there is a file to delete
@@ -241,8 +241,12 @@ static bool CompareNoExt(const wstring &s1, const wstring &s2)
 	return t1 == t2;
 }
 
-wstring GetFilePathFromUser(MCONTACT hContact)
+wstring GetFilePathFromUser(MCONTACT hContact, bool bIgnoreRename)
 {
+	wstring sPrevFileName = _DBGetStringW(hContact, MODULENAME, "PrevFileName", L"");
+	if (!sPrevFileName.empty() && bIgnoreRename)
+		return sPrevFileName;
+
 	wstring sFilePath = g_sExportDir + _DBGetStringW(hContact, MODULENAME, "FileName", g_sDefaultFile.c_str());
 	if (g_bUseJson)
 		sFilePath += L".json";
@@ -257,7 +261,6 @@ wstring GetFilePathFromUser(MCONTACT hContact)
 	ReplaceDBPath(sFilePath);
 
 	// Previous file name check to see if it has changed !!
-	wstring sPrevFileName = _DBGetStringW(hContact, MODULENAME, "PrevFileName", L"");
 	if (!CompareNoExt(sNoDBPath, sPrevFileName)) {
 		if (!sPrevFileName.empty()) {
 			ReplaceDBPath(sPrevFileName);
