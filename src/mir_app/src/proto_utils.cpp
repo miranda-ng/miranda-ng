@@ -105,6 +105,17 @@ MIR_APP_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact, 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(bool) Proto_CanDeleteHistory(const char *szModule, MCONTACT hContact)
+{
+	if (!ProtoServiceExists(szModule, PS_EMPTY_SRV_HISTORY))
+		return false;
+	
+	// CallProtoService can return CALLSERVICE_NOTFOUND, we don't care
+	return CallProtoService(szModule, PS_CAN_EMPTY_HISTORY, hContact) != 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void PROTO_INTERFACE::setAllContactStatuses(int iStatus, bool bSkipChats)
 {
 	for (auto &hContact : AccContacts()) {

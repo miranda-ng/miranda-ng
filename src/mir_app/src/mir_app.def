@@ -985,3 +985,4 @@ g_hevEventSetJson @1109 NONAME
 ??1MJsonWebSocket@@QAE@XZ @1121 NONAME
 ??_7MJsonWebSocket@@6B@ @1122 NONAME
 ?process@MJsonWebSocket@@EAEXPBEI@Z @1123 NONAME
+_Proto_CanDeleteHistory@8 @1124 NONAME

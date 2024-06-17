@@ -588,6 +588,13 @@ struct PROTOFILERESUME
 #define PS_EMPTY_SRV_HISTORY "/EmptyServerHistory"
 
 ///////////////////////////////////////////////////////////////////////////////
+// Checks that server history for a contact can be removed
+// wParam = hContact
+// lParam = 0
+
+#define PS_CAN_EMPTY_HISTORY "/CanEmptyHistory"
+
+///////////////////////////////////////////////////////////////////////////////
 //                            SENDING SERVICES
 // these should be called with ProtoChainSend()
 

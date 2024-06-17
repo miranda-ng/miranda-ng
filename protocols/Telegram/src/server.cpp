@@ -498,10 +498,18 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+INT_PTR CTelegramProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM)
+{
+	if (auto *pUser = FindUser(GetId(hContact))) {
+		TG_SUPER_GROUP tmp(pUser->id, 0);
+		return m_arSuperGroups.find(&tmp) == nullptr;
+	}
+
+	return 0;
+}
+
 INT_PTR CTelegramProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
 {
-	debugLogW(L"SvcEmptyServerHistory was called for cc=%d (%s)", (int)hContact, Clist_GetContactDisplayName(hContact));
-
 	if (auto *pUser = FindUser(GetId(hContact)))
 		if (pUser->chatId != -1)
 			SendQuery(new TD::deleteChatHistory(pUser->chatId, false, (lParam & CDF_FOR_EVERYONE) != 0));

@@ -339,7 +339,7 @@ public:
 		chkForEveryone(this, IDC_BOTH)
 	{
 		if (char *szProto = Proto_GetBaseAccountName(hContact)) {
-			bDelHistory = ProtoServiceExists(szProto, PS_EMPTY_SRV_HISTORY);
+			bDelHistory = Proto_CanDeleteHistory(szProto, hContact);
 			bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_DELETEFORALL) != 0;
 		}
 	}

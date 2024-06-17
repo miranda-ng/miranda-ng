@@ -419,6 +419,8 @@ public:
 
 	INT_PTR __cdecl SvcAddByPhone(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
+
+	INT_PTR __cdecl SvcCanEmptyHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM, LPARAM);
 

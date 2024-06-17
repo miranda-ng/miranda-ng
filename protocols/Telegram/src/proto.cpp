@@ -66,6 +66,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_SETMYAVATAR, &CTelegramProto::SvcSetMyAvatar);
 	
 	CreateProtoService(PS_MENU_LOADHISTORY, &CTelegramProto::SvcLoadServerHistory);
+	CreateProtoService(PS_CAN_EMPTY_HISTORY, &CTelegramProto::SvcCanEmptyHistory);
 	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CTelegramProto::SvcEmptyServerHistory);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
