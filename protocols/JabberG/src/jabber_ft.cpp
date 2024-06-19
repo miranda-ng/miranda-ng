@@ -716,7 +716,7 @@ LBL_Fail:
 		EVP_EncryptInit(ctx, EVP_aes_256_gcm(), key, iv);
 
 		int tmp_len = 0, outl;
-		nlhr.m_szParam.Truncate(_filelength(fileId) + _countof(key) - 1 + _countof(tag));
+		nlhr.m_szParam.Truncate(_filelength(fileId) + _countof(tag));
 		unsigned char *out = (unsigned char *)nlhr.m_szParam.GetBuffer();
 		unsigned char *in = (unsigned char *)mir_alloc(128 * 1024);
 		for (;;) {
