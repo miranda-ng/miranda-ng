@@ -150,7 +150,7 @@ class CUserInfoDlg : public CDlgBase
 				}
 			}
 
-			if (hParent == nullptr || (!hContact && mir_wstrcmp(pwszPrevGroup, it->pwszGroup))) {
+			if (hParent == nullptr || mir_wstrcmp(pwszPrevGroup, it->pwszGroup)) {
 				TVINSERTSTRUCT tvis = {};
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.lParam = (LPARAM)it;
