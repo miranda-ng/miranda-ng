@@ -640,7 +640,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			if (rc != 0 || st.st_size != iSaveSize) {
 				MHttpRequest nlhr(REQUEST_GET);
 				nlhr.flags = NLHRF_REDIRECT;
-				nlhr.m_szUrl = szUrl;
+				nlhr.m_szUrl = mir_urlEncode(szUrl);
 				nlhr.AddHeader("Sec-Fetch-User", "?1");
 				nlhr.AddHeader("Sec-Fetch-Site", "cross-site");
 				nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
