@@ -26,22 +26,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static UINT g_iRtf = 0;
 
+static void sttCopyAnsi(const char *pszString)
+{
+	if (size_t cbLen = mir_strlen(pszString))
+		if (HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, cbLen + 1)) {
+			mir_strcpy((char *)GlobalLock(hData), pszString);
+			GlobalUnlock(hData);
+			SetClipboardData(CF_TEXT, hData);
+		}
+}
+
+static void sttCopyUnicode(const wchar_t *pwszString)
+{
+	if (size_t cbLen = mir_wstrlen(pwszString))
+		if (HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (cbLen + 1) * sizeof(wchar_t))) {
+			mir_wstrcpy((wchar_t *)GlobalLock(hData), pwszString);
+			GlobalUnlock(hData);
+			SetClipboardData(CF_UNICODETEXT, hData);
+		}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MClipAnsi::MClipAnsi(const char *pszString) :
 	m_szString(pszString)
 {}
 
 void MClipAnsi::Copy() const
 {
-	size_t cbLen = mir_strlen(m_szString);
-	if (!cbLen)
-		return;
-
-	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, cbLen + 1);
-	if (hData) {
-		mir_strcpy((char *)GlobalLock(hData), m_szString);
-		GlobalUnlock(hData);
-		SetClipboardData(CF_TEXT, hData);
-	}
+	sttCopyAnsi(m_szString);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -52,19 +65,10 @@ MClipRtf::MClipRtf(const char *pszString) :
 
 void MClipRtf::Copy() const
 {
-	size_t cbLen = mir_strlen(m_szString);
-	if (!cbLen)
-		return;
-
 	if (g_iRtf == 0)
 		g_iRtf = RegisterClipboardFormatW(CF_RTF);
 
-	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, cbLen + 1);
-	if (hData) {
-		mir_strcpy((char *)GlobalLock(hData), m_szString);
-		GlobalUnlock(hData);
-		SetClipboardData(g_iRtf, hData);
-	}
+	sttCopyAnsi(m_szString);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -75,16 +79,18 @@ MClipUnicode::MClipUnicode(const wchar_t *pwszString) :
 
 void MClipUnicode::Copy() const
 {
-	size_t cbLen = mir_wstrlen(m_wszString);
-	if (!cbLen)
-		return;
+	sttCopyUnicode(m_wszString);
+}
 
-	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (cbLen + 1) * sizeof(wchar_t));
-	if (hData) {
-		mir_wstrcpy((wchar_t *)GlobalLock(hData), m_wszString);
-		GlobalUnlock(hData);
-		SetClipboardData(CF_UNICODETEXT, hData);
-	}
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MClipUtf8::MClipUtf8(const char *pszString) :
+	m_szString(pszString)
+{}
+
+void MClipUtf8::Copy() const
+{
+	sttCopyUnicode(Utf2T(m_szString));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

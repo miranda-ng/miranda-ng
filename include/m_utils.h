@@ -80,11 +80,13 @@ struct MIR_CORE_EXPORT MClipUnicode : public MClipData
 	void Copy() const override;
 };
 
-struct MClipUtf8 : public MClipUnicode
+struct MIR_CORE_EXPORT MClipUtf8 : public MClipData
 {
-	explicit MClipUtf8(const char *pszString) :
-		MClipUnicode(Utf2T(pszString))
-	{}
+	const char *m_szString;
+
+	explicit MClipUtf8(const char *pszString);
+
+	void Copy() const override;
 };
 
 struct MIR_CORE_EXPORT MClipRtf : public MClipData

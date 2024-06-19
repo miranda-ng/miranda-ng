@@ -1580,3 +1580,6 @@ newStrW @1789 NONAME
 ?SetTooltip@CCtrlMButton@@QEAAXPEBD@Z @1805 NONAME
 db_event_delivered @1806 NONAME
 ?Utils_GenerateUUID@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@XZ @1807 NONAME
+??0MClipUtf8@@QEAA@PEBD@Z @1808 NONAME
+??_7MClipUtf8@@6B@ @1809 NONAME
+?Copy@MClipUtf8@@UEBAXXZ @1810 NONAME
