@@ -6,18 +6,19 @@
 #include "core.h"
 #include "crypto_stream_chacha20.h"
 #include "private/common.h"
-#include "private/sse2_64_32.h"
 #include "utils.h"
 
 #if defined(HAVE_EMMINTRIN_H) && defined(HAVE_TMMINTRIN_H)
 
-# ifdef __GNUC__
-#  pragma GCC target("sse2")
-#  pragma GCC target("ssse3")
+# ifdef __clang__
+#  pragma clang attribute push(__attribute__((target("sse2,ssse3"))), apply_to = function)
+# elif defined(__GNUC__)
+#  pragma GCC target("sse2,ssse3")
 # endif
 
 # include <emmintrin.h>
 # include <tmmintrin.h>
+# include "private/sse2_64_32.h"
 
 # include "../stream_chacha20.h"
 # include "chacha20_dolbeau-ssse3.h"
@@ -167,5 +168,9 @@ struct crypto_stream_chacha20_implementation
         SODIUM_C99(.stream_xor_ic =) stream_ref_xor_ic,
         SODIUM_C99(.stream_ietf_ext_xor_ic =) stream_ietf_ext_ref_xor_ic
     };
+
+# ifdef __clang__
+#  pragma clang attribute pop
+# endif
 
 #endif

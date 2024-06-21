@@ -1,7 +1,7 @@
 #ifndef sse2_64_32_H
 #define sse2_64_32_H 1
 
-#include "common.h"
+#include "private/common.h"
 
 #ifdef HAVE_INTRIN_H
 # include <intrin.h>
@@ -9,7 +9,7 @@
 
 #if defined(HAVE_EMMINTRIN_H) && \
     !(defined(__amd64) || defined(__amd64__) || defined(__x86_64__) || \
-      defined(_M_X64) || defined(_M_AMD64))
+      defined(_M_X64))
 
 # include <emmintrin.h>
 # include <stdint.h>

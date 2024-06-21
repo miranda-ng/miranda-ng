@@ -8,11 +8,711 @@
     <ClCompile Include="src\*.cpp;src\*.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ResourceCompile Include="res\*.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
     <None Include="res\*.ico;res\*.bmp;res\*.cur">
       <Filter>Resource Files</Filter>
     </None>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\ref10\x25519_ref10.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\argon2\argon2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\argon2\argon2-core.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\argon2\argon2-encoding.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_core\ed25519\ref10\fe_51\base.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_core\ed25519\ref10\fe_25_5\base.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_core\ed25519\ref10\fe_51\base2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_core\ed25519\ref10\fe_25_5\base2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-compress-avx2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-compress-sse41.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-compress-ssse3.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-load-avx2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-load-sse2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-load-sse41.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\argon2\blake2b-long.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\argon2\blamka-round-avx2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\argon2\blamka-round-avx512f.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\argon2\blamka-round-ref.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\argon2\blamka-round-ssse3.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\chacha20\dolbeau\chacha20_dolbeau-avx2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\chacha20\dolbeau\chacha20_dolbeau-ssse3.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\chacha20\ref\chacha20_ref.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\private\common.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_core\ed25519\ref10\fe_25_5\constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_core\ed25519\ref10\fe_51\constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\sandy2x\consts_namespace.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\core.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_aead_aes256gcm.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_aead_chacha20poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_aead_xchacha20poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_auth.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_auth_hmacsha256.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_auth_hmacsha512.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_auth_hmacsha512256.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_box.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_box_curve25519xchacha20poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_box_curve25519xsalsa20poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_core_ed25519.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_core_hchacha20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_core_hsalsa20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_core_salsa20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_core_salsa208.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_core_salsa2012.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_generichash.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_generichash_blake2b.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_hash.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_hash_sha256.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_hash_sha512.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_kdf.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_kdf_blake2b.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_kx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_onetimeauth.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_onetimeauth_poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_pwhash.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_pwhash_argon2i.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_pwhash_argon2id.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_pwhash_scryptsalsa208sha256.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_scalarmult.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_scalarmult_curve25519.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_scalarmult_ed25519.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\scryptsalsa208sha256\crypto_scrypt.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_secretbox.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_secretbox_xchacha20poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_secretbox_xsalsa20poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_secretstream_xchacha20poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_shorthash.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_shorthash_siphash24.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_sign.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_sign_ed25519.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_stream.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_stream_chacha20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_stream_salsa20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_stream_salsa208.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_stream_salsa2012.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_stream_xchacha20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_stream_xsalsa20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_verify_16.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_verify_32.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\crypto_verify_64.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\sandy2x\curve25519_sandy2x.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\private\ed25519_ref10.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\private\ed25519_ref10_fe_25_5.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\private\ed25519_ref10_fe_51.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\export.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_core\ed25519\ref10\fe_51\fe.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_core\ed25519\ref10\fe_25_5\fe.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\sandy2x\fe.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\sandy2x\fe51.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\sandy2x\fe51_namespace.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\private\implementations.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\sandy2x\ladder.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\sandy2x\ladder_namespace.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\private\mutex.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_onetimeauth\poly1305\onetimeauth_poly1305.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_pwhash\scryptsalsa208sha256\pbkdf2-sha256.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_onetimeauth\poly1305\donna\poly1305_donna.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_onetimeauth\poly1305\donna\poly1305_donna32.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_onetimeauth\poly1305\donna\poly1305_donna64.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_onetimeauth\poly1305\sse2\poly1305_sse2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\randombytes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\randombytes_sysrandom.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\runtime.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\ref\salsa20_ref.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\xmm6\salsa20_xmm6.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\xmm6int\salsa20_xmm6int-avx2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\xmm6int\salsa20_xmm6int-sse2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_scalarmult\curve25519\scalarmult_curve25519.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_shorthash\siphash24\ref\shorthash_siphash_ref.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_sign\ed25519\ref10\sign_ed25519_ref10.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\private\sse2_64_32.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\chacha20\stream_chacha20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\stream_salsa20.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\xmm6int\u0.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\chacha20\dolbeau\u0.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\xmm6int\u1.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\chacha20\dolbeau\u1.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\chacha20\dolbeau\u4.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\xmm6int\u4.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\chacha20\dolbeau\u8.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_stream\salsa20\xmm6int\u8.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\include\sodium\version.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\crypto_aead\aes256gcm\aesni\aead_aes256gcm_aesni.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\argon2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\argon2-core.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\argon2-encoding.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\argon2-fill-block-avx2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\argon2-fill-block-avx512f.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\argon2-fill-block-ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\argon2-fill-block-ssse3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_auth\hmacsha256\auth_hmacsha256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_auth\hmacsha512\auth_hmacsha512.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_auth\hmacsha512256\auth_hmacsha512256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_generichash\blake2b\ref\blake2b-compress-avx2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_generichash\blake2b\ref\blake2b-compress-ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_generichash\blake2b\ref\blake2b-compress-sse41.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_generichash\blake2b\ref\blake2b-compress-ssse3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\blake2b-long.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_generichash\blake2b\ref\blake2b-ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_box\curve25519xchacha20poly1305\box_curve25519xchacha20poly1305.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_box\curve25519xsalsa20poly1305\box_curve25519xsalsa20poly1305.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_box\curve25519xchacha20poly1305\box_seal_curve25519xchacha20poly1305.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\chacha20\dolbeau\chacha20_dolbeau-avx2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\chacha20\dolbeau\chacha20_dolbeau-ssse3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\chacha20\ref\chacha20_ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sodium\codecs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sodium\core.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_core\ed25519\core_ed25519.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_core\hchacha20\core_hchacha20.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_core\hsalsa20\core_hsalsa20.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_core\hsalsa20\ref2\core_hsalsa20_ref2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_core\salsa\ref\core_salsa_ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_auth\crypto_auth.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_box\crypto_box.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_box\crypto_box_easy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_box\crypto_box_seal.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_generichash\crypto_generichash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_hash\crypto_hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_kdf\crypto_kdf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_kx\crypto_kx.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_onetimeauth\crypto_onetimeauth.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\crypto_pwhash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_scalarmult\crypto_scalarmult.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\scryptsalsa208sha256\crypto_scrypt-common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_secretbox\crypto_secretbox.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_secretbox\crypto_secretbox_easy.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_shorthash\crypto_shorthash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_sign\crypto_sign.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\crypto_stream.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_scalarmult\curve25519\sandy2x\curve25519_sandy2x.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_core\ed25519\ref10\ed25519_ref10.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_scalarmult\curve25519\sandy2x\fe_frombytes_sandy2x.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_scalarmult\curve25519\sandy2x\fe51_invert.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_generichash\blake2b\generichash_blake2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_generichash\blake2b\ref\generichash_blake2b.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_hash\sha256\hash_sha256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_hash\sha256\cp\hash_sha256_cp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_hash\sha512\hash_sha512.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_hash\sha512\cp\hash_sha512_cp.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_kdf\blake2b\kdf_blake2b.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_sign\ed25519\ref10\keypair.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_onetimeauth\poly1305\onetimeauth_poly1305.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_sign\ed25519\ref10\open.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\scryptsalsa208sha256\pbkdf2-sha256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_onetimeauth\poly1305\donna\poly1305_donna.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_onetimeauth\poly1305\sse2\poly1305_sse2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\pwhash_argon2i.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\argon2\pwhash_argon2id.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\scryptsalsa208sha256\pwhash_scryptsalsa208sha256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\scryptsalsa208sha256\nosse\pwhash_scryptsalsa208sha256_nosse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\scryptsalsa208sha256\sse\pwhash_scryptsalsa208sha256_sse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\randombytes\randombytes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\randombytes\sysrandom\randombytes_sysrandom.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sodium\runtime.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa20\ref\salsa20_ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa20\xmm6\salsa20_xmm6.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa20\xmm6int\salsa20_xmm6int-avx2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa20\xmm6int\salsa20_xmm6int-sse2.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_scalarmult\curve25519\scalarmult_curve25519.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_scalarmult\ed25519\ref10\scalarmult_ed25519_ref10.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_pwhash\scryptsalsa208sha256\scrypt_platform.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_secretbox\xchacha20poly1305\secretbox_xchacha20poly1305.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_secretbox\xsalsa20poly1305\secretbox_xsalsa20poly1305.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_secretstream\xchacha20poly1305\secretstream_xchacha20poly1305.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_shorthash\siphash24\shorthash_siphash24.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_shorthash\siphash24\ref\shorthash_siphash24_ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_shorthash\siphash24\shorthash_siphashx24.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_shorthash\siphash24\ref\shorthash_siphashx24_ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_sign\ed25519\ref10\sign.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_sign\ed25519\sign_ed25519.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\chacha20\stream_chacha20.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa20\stream_salsa20.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa208\stream_salsa208.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa208\ref\stream_salsa208_ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa2012\stream_salsa2012.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\salsa2012\ref\stream_salsa2012_ref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\xchacha20\stream_xchacha20.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_stream\xsalsa20\stream_xsalsa20.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sodium\utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sodium\version.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_scalarmult\curve25519\ref10\x25519_ref10.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_verify\verify.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_aead\aegis256\aead_aegis256.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_aead\aegis256\aegis256_aesni.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_aead\aegis256\aegis256_soft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_aead\aegis128l\aead_aegis128l.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_aead\aegis128l\aegis128l_aesni.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_aead\aegis128l\aegis128l_soft.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_core\softaes\softaes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_core\ed25519\core_h2c.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

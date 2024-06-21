@@ -6,6 +6,8 @@
 
 #include "sodium/core.h"
 #include "sodium/crypto_aead_aes256gcm.h"
+#include "sodium/crypto_aead_aegis128l.h"
+#include "sodium/crypto_aead_aegis256.h"
 #include "sodium/crypto_aead_chacha20poly1305.h"
 #include "sodium/crypto_aead_xchacha20poly1305.h"
 #include "sodium/crypto_auth.h"
@@ -25,6 +27,8 @@
 #include "sodium/crypto_hash_sha256.h"
 #include "sodium/crypto_hash_sha512.h"
 #include "sodium/crypto_kdf.h"
+#include "sodium/crypto_kdf_hkdf_sha256.h"
+#include "sodium/crypto_kdf_hkdf_sha512.h"
 #include "sodium/crypto_kdf_blake2b.h"
 #include "sodium/crypto_kx.h"
 #include "sodium/crypto_onetimeauth.h"
@@ -47,11 +51,10 @@
 #include "sodium/crypto_verify_16.h"
 #include "sodium/crypto_verify_32.h"
 #include "sodium/crypto_verify_64.h"
+#include "sodium/crypto_vrf.h"
+#include "sodium/crypto_vrf_rfc9381.h"
 #include "sodium/randombytes.h"
-#ifdef __native_client__
-# include "sodium/randombytes_nativeclient.h"
-#endif
-#include "sodium/randombytes_salsa20_random.h"
+#include "sodium/randombytes_internal_random.h"
 #include "sodium/randombytes_sysrandom.h"
 #include "sodium/runtime.h"
 #include "sodium/utils.h"
@@ -59,7 +62,9 @@
 #ifndef SODIUM_LIBRARY_MINIMAL
 # include "sodium/crypto_box_curve25519xchacha20poly1305.h"
 # include "sodium/crypto_core_ed25519.h"
+# include "sodium/crypto_core_ristretto255.h"
 # include "sodium/crypto_scalarmult_ed25519.h"
+# include "sodium/crypto_scalarmult_ristretto255.h"
 # include "sodium/crypto_secretbox_xchacha20poly1305.h"
 # include "sodium/crypto_pwhash_scryptsalsa208sha256.h"
 # include "sodium/crypto_stream_salsa2012.h"

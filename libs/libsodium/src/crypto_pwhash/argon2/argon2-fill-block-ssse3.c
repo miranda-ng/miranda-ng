@@ -18,13 +18,13 @@
 #include "argon2-core.h"
 #include "argon2.h"
 #include "private/common.h"
-#include "private/sse2_64_32.h"
 
 #if defined(HAVE_EMMINTRIN_H) && defined(HAVE_TMMINTRIN_H)
 
-# ifdef __GNUC__
-#  pragma GCC target("sse2")
-#  pragma GCC target("ssse3")
+# ifdef __clang__
+#  pragma clang attribute push(__attribute__((target("sse2,ssse3"))), apply_to = function)
+# elif defined(__GNUC__)
+#  pragma GCC target("sse2,ssse3")
 # endif
 
 # ifdef _MSC_VER
@@ -32,6 +32,7 @@
 # endif
 # include <emmintrin.h>
 # include <tmmintrin.h>
+# include "private/sse2_64_32.h"
 
 # include "blamka-round-ssse3.h"
 
@@ -140,8 +141,8 @@ generate_addresses(const argon2_instance_t *instance,
 }
 
 void
-fill_segment_ssse3(const argon2_instance_t *instance,
-                   argon2_position_t        position)
+argon2_fill_segment_ssse3(const argon2_instance_t *instance,
+                          argon2_position_t        position)
 {
     block    *ref_block = NULL, *curr_block = NULL;
     uint64_t  pseudo_rand, ref_index, ref_lane;
@@ -235,4 +236,9 @@ fill_segment_ssse3(const argon2_instance_t *instance,
         }
     }
 }
+
+#ifdef __clang__
+# pragma clang attribute pop
+#endif
+
 #endif

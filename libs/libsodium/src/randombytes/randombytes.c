@@ -13,14 +13,11 @@
 #include "core.h"
 #include "crypto_stream_chacha20.h"
 #include "randombytes.h"
-#ifdef RANDOMBYTES_DEFAULT_IMPLEMENTATION
-# include "randombytes_default.h"
-#else
-# ifdef __native_client__
-#  include "randombytes_nativeclient.h"
-# else
-#  include "randombytes_sysrandom.h"
+#ifndef RANDOMBYTES_CUSTOM_IMPLEMENTATION
+# ifdef RANDOMBYTES_DEFAULT_IMPLEMENTATION
+#  include "randombytes_internal.h"
 # endif
+# include "randombytes_sysrandom.h"
 #endif
 #include "private/common.h"
 
@@ -33,64 +30,28 @@ static const randombytes_implementation *implementation;
 # ifdef __EMSCRIPTEN__
 #  define RANDOMBYTES_DEFAULT_IMPLEMENTATION NULL
 # else
-#  ifdef __native_client__
-#   define RANDOMBYTES_DEFAULT_IMPLEMENTATION &randombytes_nativeclient_implementation;
-#  else
-#   define RANDOMBYTES_DEFAULT_IMPLEMENTATION &randombytes_sysrandom_implementation;
-#  endif
+#  define RANDOMBYTES_DEFAULT_IMPLEMENTATION &randombytes_sysrandom_implementation
 # endif
 #endif
 
-static void
-randombytes_init_if_needed(void)
+#ifdef __EMSCRIPTEN__
+static const char *
+javascript_implementation_name(void)
 {
-    if (implementation == NULL) {
-        implementation = RANDOMBYTES_DEFAULT_IMPLEMENTATION;
-        randombytes_stir();
-    }
-}
-
-int
-randombytes_set_implementation(randombytes_implementation *impl)
-{
-    implementation = impl;
-
-    return 0;
-}
-
-const char *
-randombytes_implementation_name(void)
-{
-#ifndef __EMSCRIPTEN__
-    randombytes_init_if_needed();
-    return implementation->implementation_name();
-#else
     return "js";
-#endif
 }
 
-uint32_t
-randombytes_random(void)
+static uint32_t
+javascript_random(void)
 {
-#ifndef __EMSCRIPTEN__
-    randombytes_init_if_needed();
-    return implementation->random();
-#else
     return EM_ASM_INT_V({
         return Module.getRandomValue();
     });
-#endif
 }
 
-void
-randombytes_stir(void)
+static void
+javascript_stir(void)
 {
-#ifndef __EMSCRIPTEN__
-    randombytes_init_if_needed();
-    if (implementation->stir != NULL) {
-        implementation->stir();
-    }
-#else
     EM_ASM({
         if (Module.getRandomValue === undefined) {
             try {
@@ -118,7 +79,66 @@ randombytes_stir(void)
             }
         }
     });
+}
+
+static void
+javascript_buf(void * const buf, const size_t size)
+{
+    unsigned char *p = (unsigned char *) buf;
+    size_t         i;
+
+    for (i = (size_t) 0U; i < size; i++) {
+        p[i] = (unsigned char) randombytes_random();
+    }
+}
 #endif
+
+static void
+randombytes_init_if_needed(void)
+{
+    if (implementation == NULL) {
+#ifdef __EMSCRIPTEN__
+        static randombytes_implementation javascript_implementation;
+        javascript_implementation.implementation_name = javascript_implementation_name;
+        javascript_implementation.random = javascript_random;
+        javascript_implementation.stir = javascript_stir;
+        javascript_implementation.buf = javascript_buf;
+        implementation = &javascript_implementation;
+#else
+        implementation = RANDOMBYTES_DEFAULT_IMPLEMENTATION;
+#endif
+        randombytes_stir();
+    }
+}
+
+int
+randombytes_set_implementation(const randombytes_implementation *impl)
+{
+    implementation = impl;
+    return 0;
+}
+
+const char *
+randombytes_implementation_name(void)
+{
+    randombytes_init_if_needed();
+    return implementation->implementation_name();
+}
+
+uint32_t
+randombytes_random(void)
+{
+    randombytes_init_if_needed();
+    return implementation->random();
+}
+
+void
+randombytes_stir(void)
+{
+    randombytes_init_if_needed();
+    if (implementation->stir != NULL) {
+        implementation->stir();
+    }
 }
 
 uint32_t
@@ -127,12 +147,10 @@ randombytes_uniform(const uint32_t upper_bound)
     uint32_t min;
     uint32_t r;
 
-#ifndef __EMSCRIPTEN__
     randombytes_init_if_needed();
     if (implementation->uniform != NULL) {
         return implementation->uniform(upper_bound);
     }
-#endif
     if (upper_bound < 2) {
         return 0;
     }
@@ -149,19 +167,10 @@ randombytes_uniform(const uint32_t upper_bound)
 void
 randombytes_buf(void * const buf, const size_t size)
 {
-#ifndef __EMSCRIPTEN__
     randombytes_init_if_needed();
     if (size > (size_t) 0U) {
         implementation->buf(buf, size);
     }
-#else
-    unsigned char *p = (unsigned char *) buf;
-    size_t         i;
-
-    for (i = (size_t) 0U; i < size; i++) {
-        p[i] = (unsigned char) randombytes_random();
-    }
-#endif
 }
 
 void

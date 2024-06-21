@@ -57,6 +57,7 @@ sodium_strnlen(const char *str, size_t maxlen)
 {
     size_t i = 0U;
 
+    ACQUIRE_FENCE;
     while (i < maxlen && str[i] != 0) {
         i++;
     }
@@ -105,13 +106,13 @@ crypto_pwhash_scryptsalsa208sha256_strprefix(void)
     return crypto_pwhash_scryptsalsa208sha256_STRPREFIX;
 }
 
-size_t
+unsigned long long
 crypto_pwhash_scryptsalsa208sha256_opslimit_min(void)
 {
     return crypto_pwhash_scryptsalsa208sha256_OPSLIMIT_MIN;
 }
 
-size_t
+unsigned long long
 crypto_pwhash_scryptsalsa208sha256_opslimit_max(void)
 {
     return crypto_pwhash_scryptsalsa208sha256_OPSLIMIT_MAX;
@@ -129,7 +130,7 @@ crypto_pwhash_scryptsalsa208sha256_memlimit_max(void)
     return crypto_pwhash_scryptsalsa208sha256_MEMLIMIT_MAX;
 }
 
-size_t
+unsigned long long
 crypto_pwhash_scryptsalsa208sha256_opslimit_interactive(void)
 {
     return crypto_pwhash_scryptsalsa208sha256_OPSLIMIT_INTERACTIVE;
@@ -141,7 +142,7 @@ crypto_pwhash_scryptsalsa208sha256_memlimit_interactive(void)
     return crypto_pwhash_scryptsalsa208sha256_MEMLIMIT_INTERACTIVE;
 }
 
-size_t
+unsigned long long
 crypto_pwhash_scryptsalsa208sha256_opslimit_sensitive(void)
 {
     return crypto_pwhash_scryptsalsa208sha256_OPSLIMIT_SENSITIVE;
@@ -175,6 +176,10 @@ crypto_pwhash_scryptsalsa208sha256(unsigned char *const       out,
         pickparams(opslimit, memlimit, &N_log2, &p, &r) != 0) {
         errno = EINVAL; /* LCOV_EXCL_LINE */
         return -1;      /* LCOV_EXCL_LINE */
+    }
+    if ((const void *) out == (const void *) passwd) {
+        errno = EINVAL;
+        return -1;
     }
     return crypto_pwhash_scryptsalsa208sha256_ll(
         (const uint8_t *) passwd, (size_t) passwdlen, (const uint8_t *) salt,
@@ -238,7 +243,7 @@ crypto_pwhash_scryptsalsa208sha256_str(
 
 int
 crypto_pwhash_scryptsalsa208sha256_str_verify(
-    const char        str[crypto_pwhash_scryptsalsa208sha256_STRBYTES],
+    const char        *str,
     const char *const passwd, unsigned long long passwdlen)
 {
     char            wanted[crypto_pwhash_scryptsalsa208sha256_STRBYTES];
@@ -268,7 +273,7 @@ crypto_pwhash_scryptsalsa208sha256_str_verify(
 
 int
 crypto_pwhash_scryptsalsa208sha256_str_needs_rehash(
-    const char str[crypto_pwhash_scryptsalsa208sha256_STRBYTES],
+    const char * str,
     unsigned long long opslimit, size_t memlimit)
 {
     uint32_t N_log2, N_log2_;

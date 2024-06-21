@@ -3,6 +3,7 @@
 /*
    This file is basically amd64-51/fe25519_mul.s.
 */
+#include "private/asm_cet.h"
 #include "fe51_namespace.h"
 #include "consts_namespace.h"
 .text
@@ -19,6 +20,8 @@ ASM_HIDE_SYMBOL _fe51_mul
 #endif
 fe51_mul:
 _fe51_mul:
+
+_CET_ENDBR
 mov %rsp,%r11
 and $31,%r11
 add $96,%r11
@@ -30,7 +33,6 @@ movq %r14,24(%rsp)
 movq %r15,32(%rsp)
 movq %rbx,40(%rsp)
 movq %rbp,48(%rsp)
-movq %rdi,56(%rsp)
 mov  %rdx,%rcx
 movq   24(%rsi),%rdx
 imulq  $19,%rdx,%rax

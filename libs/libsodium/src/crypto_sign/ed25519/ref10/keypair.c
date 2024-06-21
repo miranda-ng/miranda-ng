@@ -50,12 +50,13 @@ crypto_sign_ed25519_pk_to_curve25519(unsigned char *curve25519_pk,
     fe25519    x;
     fe25519    one_minus_y;
 
-    if (ge25519_has_small_order(ed25519_pk) != 0 ||
-        ge25519_frombytes_negate_vartime(&A, ed25519_pk) != 0 ||
+    if (ge25519_frombytes_negate_vartime(&A, ed25519_pk) != 0 ||
+        ge25519_has_small_order(&A) != 0 ||
         ge25519_is_on_main_subgroup(&A) == 0) {
         return -1;
     }
     fe25519_1(one_minus_y);
+    /* assumes A.Z=1 */
     fe25519_sub(one_minus_y, one_minus_y, A.Y);
     fe25519_1(x);
     fe25519_add(x, x, A.Y);

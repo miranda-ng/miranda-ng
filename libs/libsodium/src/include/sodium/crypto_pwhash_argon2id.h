@@ -48,11 +48,11 @@ const char *crypto_pwhash_argon2id_strprefix(void);
 
 #define crypto_pwhash_argon2id_OPSLIMIT_MIN 1U
 SODIUM_EXPORT
-size_t crypto_pwhash_argon2id_opslimit_min(void);
+unsigned long long crypto_pwhash_argon2id_opslimit_min(void);
 
 #define crypto_pwhash_argon2id_OPSLIMIT_MAX 4294967295U
 SODIUM_EXPORT
-size_t crypto_pwhash_argon2id_opslimit_max(void);
+unsigned long long crypto_pwhash_argon2id_opslimit_max(void);
 
 #define crypto_pwhash_argon2id_MEMLIMIT_MIN 8192U
 SODIUM_EXPORT
@@ -65,7 +65,7 @@ size_t crypto_pwhash_argon2id_memlimit_max(void);
 
 #define crypto_pwhash_argon2id_OPSLIMIT_INTERACTIVE 2U
 SODIUM_EXPORT
-size_t crypto_pwhash_argon2id_opslimit_interactive(void);
+unsigned long long crypto_pwhash_argon2id_opslimit_interactive(void);
 
 #define crypto_pwhash_argon2id_MEMLIMIT_INTERACTIVE 67108864U
 SODIUM_EXPORT
@@ -73,7 +73,7 @@ size_t crypto_pwhash_argon2id_memlimit_interactive(void);
 
 #define crypto_pwhash_argon2id_OPSLIMIT_MODERATE 3U
 SODIUM_EXPORT
-size_t crypto_pwhash_argon2id_opslimit_moderate(void);
+unsigned long long crypto_pwhash_argon2id_opslimit_moderate(void);
 
 #define crypto_pwhash_argon2id_MEMLIMIT_MODERATE 268435456U
 SODIUM_EXPORT
@@ -81,7 +81,7 @@ size_t crypto_pwhash_argon2id_memlimit_moderate(void);
 
 #define crypto_pwhash_argon2id_OPSLIMIT_SENSITIVE 4U
 SODIUM_EXPORT
-size_t crypto_pwhash_argon2id_opslimit_sensitive(void);
+unsigned long long crypto_pwhash_argon2id_opslimit_sensitive(void);
 
 #define crypto_pwhash_argon2id_MEMLIMIT_SENSITIVE 1073741824U
 SODIUM_EXPORT
@@ -105,13 +105,13 @@ int crypto_pwhash_argon2id_str(char out[crypto_pwhash_argon2id_STRBYTES],
             __attribute__ ((warn_unused_result)) __attribute__ ((nonnull));
 
 SODIUM_EXPORT
-int crypto_pwhash_argon2id_str_verify(const char str[crypto_pwhash_argon2id_STRBYTES],
+int crypto_pwhash_argon2id_str_verify(const char * str,
                                       const char * const passwd,
                                       unsigned long long passwdlen)
             __attribute__ ((warn_unused_result))  __attribute__ ((nonnull));
 
 SODIUM_EXPORT
-int crypto_pwhash_argon2id_str_needs_rehash(const char str[crypto_pwhash_argon2id_STRBYTES],
+int crypto_pwhash_argon2id_str_needs_rehash(const char * str,
                                             unsigned long long opslimit, size_t memlimit)
             __attribute__ ((warn_unused_result))  __attribute__ ((nonnull));
 
