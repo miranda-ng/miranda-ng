@@ -601,8 +601,12 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	// convert a file info into Miranda's file transfer
 	if (pFileInfo) {
-		auto *p = strrchr(pFileInfo->szUrl, '/');
-		auto *pszShortName = (p == nullptr) ? pFileInfo->szUrl.c_str() : p + 1;
+		auto *pszShortName = pFileInfo->szUrl.c_str();
+		int slashPos = pFileInfo->szUrl.ReverseFind('/');
+		if (slashPos != -1) {
+			slashPos++;
+			pszShortName += slashPos;
+		}
 
 		DB::EventInfo dbei(hEvent);
 		dbei.eventType = EVENTTYPE_FILE;
@@ -640,7 +644,10 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			if (rc != 0 || st.st_size != iSaveSize) {
 				MHttpRequest nlhr(REQUEST_GET);
 				nlhr.flags = NLHRF_REDIRECT;
-				nlhr.m_szUrl = mir_urlEncode(szUrl);
+				if (slashPos == -1)
+					nlhr.m_szUrl = mir_urlEncode(szUrl);
+				else
+					nlhr.m_szUrl = szUrl.Mid(0, slashPos) + mir_urlEncode(szUrl.Mid(slashPos));
 				nlhr.AddHeader("Sec-Fetch-User", "?1");
 				nlhr.AddHeader("Sec-Fetch-Site", "cross-site");
 				nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
