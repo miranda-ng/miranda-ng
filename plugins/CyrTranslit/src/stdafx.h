@@ -32,8 +32,9 @@
 
 #include "version.h"
 #include "MirandaContact.h"
-#include "TransliterationMap.h"
 #include "TransliterationProtocol.h"
+
+CMStringA cyrillicToLatin(const char *src);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

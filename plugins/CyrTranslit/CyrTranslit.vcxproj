@@ -36,7 +36,6 @@
     <ClInclude Include="src\MirandaContact.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\TransliterationMap.h" />
     <ClInclude Include="src\TransliterationProtocol.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>

@@ -46,13 +46,8 @@ public:
 	*/
 	static INT_PTR sendMessage(WPARAM wParam, LPARAM lParam);
 
-	static void TranslateMessageUTF(WPARAM wParam, LPARAM lParam);
-
 private:
-	static char *MODULENAME;
-
 	TransliterationProtocol();
-	~TransliterationProtocol();
 };
 
 }

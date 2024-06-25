@@ -28,9 +28,6 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\TransliterationMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\TransliterationProtocol.h">
       <Filter>Header Files</Filter>
     </ClInclude>

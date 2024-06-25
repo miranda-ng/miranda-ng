@@ -19,60 +19,34 @@
 
 #include "stdafx.h"
 
+#define MODULENAME "ProtoCyrTranslitByIKR"
+
 namespace CyrTranslit
 {
+	//------------------------------------------------------------------------------
 
-char *TransliterationProtocol::MODULENAME = "ProtoCyrTranslitByIKR";
+	void TransliterationProtocol::initialize()
+	{
+		Proto_RegisterModule(PROTOTYPE_TRANSLATION, MODULENAME);
 
-//------------------------------------------------------------------------------
-
-void TransliterationProtocol::initialize()
-{
-	Proto_RegisterModule(PROTOTYPE_TRANSLATION, MODULENAME);
-
-	CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, sendMessage);
-}
-
-//------------------------------------------------------------------------------
-void TransliterationProtocol::TranslateMessageUTF(WPARAM, LPARAM lParam)
-{
-	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
-
-	wchar_t* txtWdecoded = mir_utf8decodeW(reinterpret_cast<const char*>(ccs->lParam));
-	std::wstring txtW = txtWdecoded;
-	mir_free(txtWdecoded);
-
-	txtW = TransliterationMap::getInstance().cyrillicToLatin(txtW);
-
-	char* txtUTFencoded = mir_utf8encodeW(txtW.c_str());
-	std::string txtUTF = txtUTFencoded;
-	mir_free(txtUTFencoded);
-
-	ccs->lParam = reinterpret_cast<LPARAM>(mir_alloc(txtUTF.length()));
-	mir_strcpy(reinterpret_cast<char*>(ccs->lParam), txtUTF.c_str());
-}
-
-//------------------------------------------------------------------------------
-
-INT_PTR TransliterationProtocol::sendMessage(WPARAM wParam, LPARAM lParam)
-{
-	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
-	if ( !MirandaContact::bIsActive(ccs->hContact))
-		return Proto_ChainSend(wParam, ccs);
-
-	LPARAM oldlParam = ccs->lParam;
-	bool msgProcessed = true;
-
-	TranslateMessageUTF(wParam, lParam);
-
-	int ret = Proto_ChainSend(wParam, ccs);
-
-	if (msgProcessed) {
-		mir_free(reinterpret_cast<void*>(ccs->lParam));
-		ccs->lParam = oldlParam;
+		CreateProtoServiceFunction(MODULENAME, PSS_MESSAGE, sendMessage);
 	}
 
-	return ret;
-}
+	//------------------------------------------------------------------------------
 
+	INT_PTR TransliterationProtocol::sendMessage(WPARAM wParam, LPARAM lParam)
+	{
+		CCSDATA *ccs = (CCSDATA *)lParam;
+		if (!MirandaContact::bIsActive(ccs->hContact))
+			return Proto_ChainSend(wParam, ccs);
+
+		LPARAM oldlParam = ccs->lParam;
+		
+		CMStringA szEncoded(cyrillicToLatin((char *)ccs->lParam));
+		ccs->lParam = (LPARAM)szEncoded.c_str();
+
+		int ret = Proto_ChainSend(wParam, ccs);
+		ccs->lParam = oldlParam;
+		return ret;
+	}
 }
