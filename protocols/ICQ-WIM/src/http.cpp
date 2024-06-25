@@ -201,9 +201,9 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			}
 		}
 
-		if (pReq->m_conn == CONN_RAPI && reply->body.Find("\"code\": 40201") != -1) {
+		if (pReq->m_conn == CONN_RAPI && reply->body.Find("\"code\":") != -1) {
 			RobustReply r(reply);
-			if (r.error() == 40201) { // robust token expired
+			if (r.error() == 40201 || r.error() == 40200) { // robust token expired
 				m_szRToken.Empty();
 				
 				// if token refresh succeeded, replace it in the query and push request back
