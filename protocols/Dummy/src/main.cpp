@@ -68,17 +68,6 @@ struct CMPluginAim : public ACCPROTOPLUGIN<CDummyProto>
 }
 static g_pluginAim;
 
-#ifndef MIRANDA_VERSION_ISALPHA
-struct CMPluginDiscord : public ACCPROTOPLUGIN<CDummyProto>
-{
-	CMPluginDiscord() : ACCPROTOPLUGIN<CDummyProto>("Discord", pluginInfoEx)
-	{
-		SetUniqueId("id");
-	}
-}
-static g_pluginDiscord;
-#endif
-
 struct CMPluginYahoo : public ACCPROTOPLUGIN<CDummyProto>
 {
 	CMPluginYahoo() : ACCPROTOPLUGIN<CDummyProto>("YAHOO", pluginInfoEx)
