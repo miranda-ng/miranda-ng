@@ -368,7 +368,7 @@ static int OnDeleteContact(WPARAM wParam, LPARAM)
 
 static int OnShutdown(WPARAM, LPARAM)
 {
-	WindowList_BroadcastAsync(g_hWindowList, WM_DESTROY, 0, 0);
+	WindowList_Broadcast(g_hWindowList, WM_CLOSE, 0, 0);
 	return 0;
 }
 
