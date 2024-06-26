@@ -371,18 +371,14 @@ LBL_Error:
 	Wa__DeviceProps__AppVersion appVersion;
 	T2Utf devName(m_wszDeviceName);
 
-	MFileVersion v;
-	Miranda_GetFileVersion(&v);
-
 	// not received our jid from server? generate registration packet then
 	if (m_szJid.IsEmpty()) {
 		uint8_t buildHash[16];
 		mir_md5_hash((BYTE *)WA_APPVERSION_STRING, sizeof(WA_APPVERSION_STRING) - 1, buildHash);
 
-		appVersion.primary = v[0];    appVersion.has_primary = true;
-		appVersion.secondary = v[1];  appVersion.has_secondary = true;
-		appVersion.tertiary = v[2];   appVersion.has_tertiary = true;
-		appVersion.quaternary = v[3]; appVersion.has_quaternary = true;
+		appVersion.primary   = WA_PROTO_MAJOR; appVersion.has_primary = true;
+		appVersion.secondary = WA_PROTO_MINOR; appVersion.has_secondary = true;
+		appVersion.tertiary  = WA_PROTO_BUILD; appVersion.has_tertiary = true;
 
 		companion.os = devName.get();
 		companion.version = &appVersion;

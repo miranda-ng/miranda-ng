@@ -9,8 +9,8 @@ Copyright © 2019-24 George Hazan
 #define PROTO_H
 
 #define WA_PROTO_MAJOR 2
-#define WA_PROTO_MINOR 2323
-#define WA_PROTO_BUILD 4
+#define WA_PROTO_MINOR 2413
+#define WA_PROTO_BUILD 1
 #define WA_APPVERSION  WA_PROTO_MAJOR,WA_PROTO_MINOR,WA_PROTO_BUILD
 
 #define WA_STRINGIFY_IMPL(x)      #x
