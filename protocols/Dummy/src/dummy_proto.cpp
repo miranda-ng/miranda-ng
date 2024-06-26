@@ -27,7 +27,7 @@ const ttemplate templates[] =
 	{ "EmLAN",            "Nick",     LPGEN("User name")        },
 	{ "Facebook",         "ID",       LPGEN("Facebook ID")      },
 	{ "GG",               "UIN",      LPGEN("Gadu-Gadu number") },
-	{ "ICQ",              "UIN",      LPGEN("User ID")          },
+	{ "ICQ",              "aimId",    LPGEN("User ID")          },
 	{ "ICQCorp",          "UIN",      LPGEN("ICQ number")       },
 	{ "IRC",              "Nick",     LPGEN("Nickname")         },
 	{ "Jabber",           "jid",      LPGEN("JID")              },
