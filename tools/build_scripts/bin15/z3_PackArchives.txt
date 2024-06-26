@@ -1,4 +1,4 @@
-fLibs\api-ms-win-core-console-l1-1-0.dll
+Libs\api-ms-win-core-console-l1-1-0.dll
 Libs\api-ms-win-core-datetime-l1-1-0.dll
 Libs\api-ms-win-core-debug-l1-1-0.dll
 Libs\api-ms-win-core-errorhandling-l1-1-0.dll
