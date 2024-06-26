@@ -5,7 +5,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME            "ICQ-WIM protocol"
+#define __PLUGIN_NAME            "WIM protocol"
 #define __FILENAME               "ICQ.dll"
 #define __DESCRIPTION            "MRA protocol support for Miranda NG."
 #define __AUTHOR                 "George Hazan"

@@ -492,7 +492,7 @@ function ParseRCFile(FileTextVar, array) {
     //now make a job, till end of matching regexp
     while ((string = find.exec(FileTextVar)) !== null) {
         // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
-        onestring = string[2].replace(/^(((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect|IndSndList|&?[Oo][Kk]|ANSI|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|Google Talk|GPG|ICQ|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|Miranda NG|mRadio|NewStory|NickServ|OSD|OTR|PCS|PGP|PSK|PUB|S.ms|SASL|SMS|SSL|Steam|Steam Guard|Tox|Twitter|Winamp \(\*\)|Windows|X400|Yahoo|&\w)|(%.(.*%)?))$/g, "");
+        onestring = string[2].replace(/^(((List|Tab|Tree|Spin|Custom|Slider|DateTimePicker|Radio|Check|HotKey|Progress)\d)|(whiterect|IndSndList|&?[Oo][Kk]|ANSI|APOP|BBS|Bing|CTCP|DCC|Foodnetwork|Google|Google Talk|GPG|ICQ Corp|ID|IP|ISDN|iTunes|Jabber|JID|Miranda|Miranda NG|MRA|mRadio|NewStory|NickServ|OSD|OTR|PCS|PGP|PSK|PUB|S.ms|SASL|SMS|SSL|Steam|Steam Guard|Tox|Twitter|Winamp \(\*\)|Windows|X400|Yahoo|&\w)|(%.(.*%)?))$/g, "");
         // ignore some popup menu craps
         if (string[1] == "POPUP" && onestring.match(/^([a-zA-Z ]*(menu|context|popup(?!s)))|([A-Z][a-z]+([A-Z][a-z]*)+)|(new item)$/g)) {
             continue;
