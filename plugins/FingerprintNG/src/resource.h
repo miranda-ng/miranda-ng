@@ -55,7 +55,6 @@
 #define IDI_PLATFORM_X32                76
 #define IDI_PLATFORM_X64                77
 #define IDI_GMAIL_OVERLAY               79
-#define IDI_ICQ_OVERLAY                 80
 #define IDI_IRC_OVERLAY                 82
 #define IDI_JABBER_OVERLAY              83
 #define IDI_JGTALK_OVERLAY              84
@@ -105,11 +104,7 @@
 #define IDI_MIRANDA_WATCHER             139
 #define IDI_MIRANDA_YAOL                140
 #define IDI_MIRANDA_ZELEBOBA            141
-#define IDI_ICQ                         190
-#define IDI_ICQ8_OVERLAY                198
 #define IDI_ASIA                        202
-#define IDI_MANDARIN_IM                 219
-#define IDI_RANDQ                       220
 #define IDI_IRC                         300
 #define IDI_AMIRC                       301
 #define IDI_AMULE                       302
@@ -511,7 +506,6 @@
 #define IDC_GROUP_MIRANDA_PACKS         10027
 #define IDC_GROUP_MULTI                 10028
 #define IDC_GROUP_GG                    10030
-#define IDC_GROUP_ICQ                   10032
 #define IDC_GROUP_IRC                   10033
 #define IDC_GROUP_JABBER                10034
 #define IDC_GROUP_RSS                   10038

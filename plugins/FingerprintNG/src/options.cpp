@@ -34,7 +34,6 @@ static settings[] =
 
 	{ IDC_GROUP_MULTI, TRUE, "GroupMulti" },
 	{ IDC_GROUP_GG, TRUE, "GroupGG" },
-	{ IDC_GROUP_ICQ, TRUE, "GroupICQ" },
 	{ IDC_GROUP_IRC, TRUE, "GroupIRC" },
 	{ IDC_GROUP_JABBER, TRUE, "GroupJabber" },
 	{ IDC_GROUP_RSS, TRUE, "GroupRSS" },
@@ -56,7 +55,7 @@ static settings[] =
 class COptDialog : public CDlgBase
 {
 	CCtrlCheck m_chkMiranda, m_chkMirandaPacks, m_chkMirandaVer, m_chkOverRes, m_chkOverPlatf, m_chkOverProto, m_chkOverUnicode, m_chkOverSecur,
-		m_chkFacebbok, m_chkGG, m_chkICQ, m_chkIRC, m_chkJabber, m_chkRSS, m_chkVK, m_chkWeather, m_chkMulti, m_chkOthersProto,
+		m_chkFacebbok, m_chkGG, m_chkIRC, m_chkJabber, m_chkRSS, m_chkVK, m_chkWeather, m_chkMulti, m_chkOthersProto,
 		m_chkOthers, m_chkStatusBar;
 
 	void LoadDBCheckState(int idCtrl, LPCSTR szSetting, uint8_t bDef)
@@ -84,7 +83,6 @@ public:
 		m_chkOverSecur(this, IDC_GROUP_OVERLAYS_SECURITY),
 		m_chkFacebbok(this, IDC_GROUP_FACEBOOK),
 		m_chkGG(this, IDC_GROUP_GG),
-		m_chkICQ(this, IDC_GROUP_ICQ),
 		m_chkIRC(this, IDC_GROUP_IRC),
 		m_chkJabber(this, IDC_GROUP_JABBER),
 		m_chkRSS(this, IDC_GROUP_RSS),

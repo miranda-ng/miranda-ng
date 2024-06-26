@@ -189,14 +189,6 @@ static KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Yoono", L"*Yoono*", L"Yoono", IDI_YOONO, MULTI_CASE, TRUE },
 
 	/////////////////////////////////////////////////////////////////////////////////////////
-	// ICQ
-
-	{ "client_Mandarin_IM", L"Mandarin IM*", L"Mandarin IM", IDI_MANDARIN_IM, ICQ_CASE, TRUE },
-	{ "client_R&Q", L"|R&Q*|&RQ*", L"R&Q", IDI_RANDQ, ICQ_CASE, TRUE },
-
-	{ "client_ICQ_all", L"|ICQ?|ICQ?.?|ICQ *|ICQ2*|ICQ", L"ICQ client", IDI_ICQ, ICQ_CASE },
-
-	/////////////////////////////////////////////////////////////////////////////////////////
 	// JABBER
 
 	{ "client_Akeni", L"*Akeni*", L"Akeni", IDI_AKENI, JABBER_CASE, TRUE },
@@ -604,7 +596,6 @@ static KN_FP_MASK def_kn_fp_overlays_mask[] =
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO OVERLAYS
 
-	{ "client_ICQ_overlay", L"|^ICQ|^ICQ*|*ICQ*", LPGENW("ICQ overlay"), IDI_ICQ_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_IRC_overlay", L"|^IRC*|Miranda*IRC*", LPGENW("IRC overlay"), IDI_IRC_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGmail_overlay", L"*JGmail*", LPGENW("JGmail overlay"), IDI_GMAIL_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_JGTalk_overlay", L"*JGTalk*", LPGENW("JGTalk overlay"), IDI_JGTALK_OVERLAY, OVERLAYS_PROTO_CASE },
@@ -614,8 +605,6 @@ static KN_FP_MASK def_kn_fp_overlays_mask[] =
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// CLIENT VERSION OVERLAYS
-
-	{ "client_ICQ8_over", L"ICQ*8*", LPGENW("ICQ v8.x overlay"), IDI_ICQ8_OVERLAY, ICQ_CASE },
 
 	{ "client_GG_11", L"|Gadu-Gadu*11*|GG*11*", LPGENW("Gadu-Gadu v11 client"), IDI_GG11_OVERLAY, GG_CASE },
 	{ "client_GG_10", L"|Gadu-Gadu*10*|GG*10", LPGENW("Gadu-Gadu v10 client"), IDI_GG10_OVERLAY, GG_CASE },
@@ -629,8 +618,8 @@ static KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_on_iOS", L"|*ipad*|*iphone*|*iOS*", LPGENW("iOS overlay (iPhone/iPad)"), IDI_PLATFORM_IOS, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Mac", L"|^*smack*|* Mac *|*mac*|*OSX*", LPGENW("MacOS overlay"), IDI_PLATFORM_MAC, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Linux", L"*Linux*", LPGENW("Linux overlay"), IDI_PLATFORM_LINUX, OVERLAYS_PLATFORM_CASE },
-	{ "client_on_Flash", L"|*Flash*|*Web*ICQ*", LPGENW("Flash overlay"), IDI_PLATFORM_FLASH, OVERLAYS_PLATFORM_CASE },
-	{ "client_on_Java", L"|*Java*|jagent*|ICQ2Go!*", LPGENW("Java overlay"), IDI_PLATFORM_JAVA, OVERLAYS_PLATFORM_CASE },
+	{ "client_on_Flash", L"*Flash*", LPGENW("Flash overlay"), IDI_PLATFORM_FLASH, OVERLAYS_PLATFORM_CASE },
+	{ "client_on_Java", L"|*Java*|jagent*", LPGENW("Java overlay"), IDI_PLATFORM_JAVA, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Symbian", L"|*Symbian*|sagent*", LPGENW("Symbian overlay"), IDI_PLATFORM_SYMBIAN, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Amiga", L"*Amiga*", LPGENW("Amiga overlay"), IDI_PLATFORM_AMIGA, OVERLAYS_PLATFORM_CASE },
 	{ "client_on_Android", L"|*Android*|*(android)*", LPGENW("Android overlay"), IDI_PLATFORM_ANDROID, OVERLAYS_PLATFORM_CASE },

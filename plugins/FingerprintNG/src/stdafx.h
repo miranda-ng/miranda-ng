@@ -1,4 +1,4 @@
-/*
+а/*
 Fingerprint NG (client version) icons module for Miranda NG
 
 Copyright © 2006-24 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors.
@@ -82,7 +82,6 @@ struct FOUNDINFO
 
 #define MULTI_CASE               3004  // multi-protocol clients
 #define GG_CASE                  3006  // Gadu-Gadu clients
-#define ICQ_CASE                 3008  // ICQ clients
 #define IRC_CASE                 3009  // IRC clients
 #define JABBER_CASE              3010  // Jabber clients
 #define RSS_CASE                 3014  // RSS clients

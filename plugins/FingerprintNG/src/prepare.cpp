@@ -52,11 +52,6 @@ static wchar_t *getSectionName(int flag)
 			return LPGENW("Client icons") L"/" LPGENW("Gadu-Gadu clients");
 		break;
 
-	case ICQ_CASE:
-		if (g_plugin.getByte("GroupICQ", 1))
-			return LPGENW("Client icons") L"/" LPGENW("ICQ clients");
-		break;
-
 	case IRC_CASE:
 		if (g_plugin.getByte("GroupIRC", 1))
 			return LPGENW("Client icons") L"/" LPGENW("IRC clients");
