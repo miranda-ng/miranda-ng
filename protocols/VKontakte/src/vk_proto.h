@@ -238,7 +238,9 @@ private:
 		m_csRequestsQueue,
 		m_csSetStatus,
 		m_csWorkThreadTimer,
-		m_csPoolThreadTimer;
+		m_csPoolThreadTimer,
+		m_csAPIConnection,
+		m_csPoolingConnection;
 
 	time_t
 		m_tWorkThreadTimer,

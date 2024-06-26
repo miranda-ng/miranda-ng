@@ -142,6 +142,8 @@ void CVkProto::ClosePollingConnection(bool bShutdown)
 	if (!m_hPollingConn)
 		return;
 
+	mir_cslock lck(m_csPoolingConnection);
+
 	debugLogA("CVkProto::ClosePollingConnection %d", bShutdown ? 1 : 0);
 
 	if (bShutdown)
@@ -155,6 +157,8 @@ void CVkProto::CloseAPIConnection(bool bShutdown)
 {
 	if (!m_hAPIConnection)
 		return;
+	
+	mir_cslock lck(m_csAPIConnection);
 
 	debugLogA("CVkProto::CloseAPIConnection %d", bShutdown ? 1 : 0);
 
