@@ -617,7 +617,7 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM hContact, LPARAM)
 
 static int ShutdownUserInfo(WPARAM, LPARAM)
 {
-	WindowList_Broadcast(hWindowList, WM_DESTROY, 0, 0);
+	WindowList_Broadcast(hWindowList, WM_CLOSE, 0, 0);
 	WindowList_Destroy(hWindowList);
 	return 0;
 }
