@@ -1,14 +1,14 @@
 #muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ-WIM protocol
+;  Plugin: WIM protocol
 ;  Version: 0.96.5.1
 ;  Authors: George Hazan
 ;============================================================
-[ICQ protocol support for Miranda NG.]
+[MRA protocol support for Miranda NG.]
 ;file \protocols\ICQ-WIM\res\resources.rc
 [Edit server groups]
-[UIN/e-mail:]
+[E-mail:]
 [Password:]
 [Sign in/sign up using phone]
 [Do not open chat windows on creation]
@@ -32,7 +32,7 @@
 [First name:]
 [Last name:]
 [About:]
-[Enter ICQ Password]
+[Enter MRA password]
 [Enter a password:]
 [Remember this session password]
 [Forward message]
@@ -65,10 +65,8 @@
 ;file \protocols\ICQ-WIM\src\proto.cpp
 [%s error notifications]
 [Synchronize server groups]
-[Edit my web profile]
-[UIN/e-mail/phone]
 ;file \protocols\ICQ-WIM\src\server.cpp
-[You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
+[You have not entered a login or password.\nConfigure this in Options -> Network -> MRA and try again.]
 [Connection failed.\nYour login or password was rejected (%d).]
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 [Connection failed.\nUnknown error during sign on: %d]

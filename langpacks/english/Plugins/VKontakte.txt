@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.9
+;  Version: 0.1.16.11
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -220,10 +220,6 @@
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 [Wall message for %s]
-[You delete %s from the contact list.\nWhat needs to be done additionally?]
-[Remove %s from your friend list]
-[Clear server history with %s]
-[Deleting %s from contact list]
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [VKontakte]
 [New news]

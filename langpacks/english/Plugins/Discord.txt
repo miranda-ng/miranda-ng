@@ -52,6 +52,8 @@
 [Do you really want to leave the guild?]
 [Disable sync]
 [Enable sync]
+[Disable database history for a guild]
+[Enable database history for a guild]
 [Join guild]
 [Copy my Discord ID]
 [Leave guild]
@@ -69,7 +71,6 @@
 [Network]
 [Account]
 ;file \protocols\Discord\src\proto.cpp
-[Incoming call]
 [%s server connection]
 [%s gateway connection]
 [Discord voice call]
@@ -89,5 +90,3 @@
 [%s removed %s from the group]
 [%s left the group]
 [%s changed the group icon]
-;file \protocols\Discord\src\voice.cpp
-[Call ended, %d seconds long]

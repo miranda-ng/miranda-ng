@@ -24,6 +24,7 @@
 [Cancel]
 [Forward message]
 [Forward]
+[Add reaction]
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 [Enter verification code received by email]
