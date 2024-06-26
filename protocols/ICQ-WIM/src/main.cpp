@@ -40,23 +40,6 @@ CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CMPluginMra : public ACCPROTOPLUGIN<CIcqProto>
-{
-	CMPluginMra() : ACCPROTOPLUGIN<CIcqProto>("MRA", pluginInfoEx)
-	{
-		SetUniqueId(DB_KEY_ID);
-	}
-
-	void Register()
-	{
-		m_hInst = g_plugin.getInst();
-		RegisterProtocol(PROTOTYPE_PROTOCOL, g_plugin.fnInit, g_plugin.fnUninit);
-	}
-}
-static g_pluginMra;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CIcqProto>(MODULENAME, pluginInfoEx)
 {
@@ -91,9 +74,6 @@ static IconItem iconList[] =
 
 int CMPlugin::Load()
 {
-	// register the second instance of this plugin as MRA
-	g_pluginMra.Register();
-
 	registerIcon("Protocols/ICQ", iconList, "ICQ");
 
 	HookEvent(ME_SYSTEM_MODULELOAD, ModuleLoad);

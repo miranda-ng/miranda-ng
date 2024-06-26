@@ -84,7 +84,7 @@
 // ICQ plugin includes
 #include "version.h"
 
-#define MODULENAME "ICQ"
+#define MODULENAME "MRA"
 
 #define DB_KEY_ID "aimId"
 #define DB_KEY_ABOUT "About"

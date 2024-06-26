@@ -119,19 +119,8 @@ void CIcqProto::CheckPassword()
 		return;
 	}
 
-	if (m_isMra) {
-		m_bError462 = false;
-		SendMrimLogin(nullptr);
-	}
-	else {
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
-		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", appId())
-			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << WCHAR_PARAM("s", m_szOwnId) << CHAR_PARAM("pwd", m_szPassword);
-		#ifndef _DEBUG
-			pReq->flags |= NLHRF_NODUMPSEND;
-		#endif
-		Push(pReq);
-	}
+	m_bError462 = false;
+	SendMrimLogin(nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -738,7 +727,7 @@ bool CIcqProto::RefreshRobustToken(AsyncHttpRequest *pOrigReq)
 	#endif
 
 	int ts = TS();
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", APP_ID) << CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
 	CalcHash(pReq);
 
 	CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
@@ -757,7 +746,7 @@ LBL_Error:
 	#ifndef _DEBUG
 		pReq->flags |= NLHRF_NODUMPSEND;
 	#endif
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", appId()) << INT_PARAM("ts", ts)
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", APP_ID) << INT_PARAM("ts", ts)
 		<< CHAR_PARAM("client", "icq") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken);
 	pReq->pUserInfo = &bRet;
 	if (!ExecuteRequest(pReq))
@@ -788,7 +777,7 @@ void CIcqProto::RetrieveUserCaps(IcqUser *pUser)
 	auto *pReq = new AsyncHttpRequest(CONN_OLD, REQUEST_GET, "/presence/get", &CIcqProto::OnGetUserCaps);
 	pReq->hContact = pUser->m_hContact;
 	pReq->pUserInfo = pUser;
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", appId()) << CHAR_PARAM("r", pReq->m_reqId)
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", APP_ID) << CHAR_PARAM("r", pReq->m_reqId)
 		<< WCHAR_PARAM("t", GetUserId(pUser->m_hContact)) << INT_PARAM("mdir", 0) << INT_PARAM("capabilities", 1);
 	Push(pReq);
 }
@@ -814,7 +803,7 @@ void CIcqProto::RetrievePresence(MCONTACT hContact)
 
 	auto *pReq = new AsyncHttpRequest(CONN_OLD, REQUEST_GET, "/presence/get", &CIcqProto::OnGePresence);
 	pReq->hContact = hContact;
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", appId()) << CHAR_PARAM("r", pReq->m_reqId)
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", APP_ID) << CHAR_PARAM("r", pReq->m_reqId)
 		<< WCHAR_PARAM("t", wszId) << INT_PARAM("mdir", 1);
 	Push(pReq);
 }
@@ -1093,7 +1082,7 @@ void CIcqProto::StartSession()
 		<< INT_PARAM("buildNumber", __BUILD_NUM) << CHAR_PARAM("deviceId", szDeviceId) << CHAR_PARAM("events", EVENTS)
 		<< CHAR_PARAM("f", "json") << CHAR_PARAM("imf", "plain") << CHAR_PARAM("inactiveView", "offline")
 		<< CHAR_PARAM("includePresenceFields", FIELDS) << CHAR_PARAM("invisible", "false")
-		<< CHAR_PARAM("k", appId()) << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", pReq->m_reqId)
+		<< CHAR_PARAM("k", APP_ID) << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", pReq->m_reqId)
 		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
 
 	CalcHash(pReq);
@@ -1240,7 +1229,7 @@ LBL_Error:
 			m_arOwnIds.insert(pOwn);
 		}
 
-		pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
+		pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", APP_ID) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
 			<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
 		Push(pReq);
 		return;
@@ -1248,7 +1237,7 @@ LBL_Error:
 
 	// else send the next portion
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", appId()) << INT_PARAM("ts", TS());
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", APP_ID) << INT_PARAM("ts", TS());
 	CalcHash(pReq);
 	pReq->m_szUrl.AppendChar('?');
 	pReq->m_szUrl += pReq->m_szParam; pReq->m_szParam.Empty();
@@ -1283,7 +1272,7 @@ LBL_Error:
 	pTransfer->m_szHost = L"https://" + wszHost + wszUrl;
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", appId()) << INT_PARAM("ts", TS());
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", APP_ID) << INT_PARAM("ts", TS());
 	CalcHash(pReq);
 	pReq->m_szUrl.AppendChar('?');
 	pReq->m_szUrl += pReq->m_szParam; pReq->m_szParam.Empty();
@@ -1508,7 +1497,7 @@ void CIcqProto::SendMessageParts(MCONTACT hContact, const JSONNode &parts, IcqOw
 	if (pOwn)
 		pOwn->setGuid(pReq->m_reqId);
 
-	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "")
+	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", APP_ID) << CHAR_PARAM("mentions", "")
 		<< CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("parts", parts.write().c_str()) << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
 	Push(pReq);
 }

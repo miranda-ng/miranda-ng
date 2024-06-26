@@ -29,7 +29,7 @@ void CIcqProto::SendMrimLogin(MHttpResponse *pReply)
 	pReq->AddHeader("User-Agent", NETLIB_USER_AGENT);
 	if (!m_szMraCookie.IsEmpty())
 		pReq->AddHeader("Cookie", m_szMraCookie);
-	pReq << CHAR_PARAM("clientName", "webagent") << INT_PARAM("clientVersion", 711) << CHAR_PARAM("devId", MRA_APP_ID)
+	pReq << CHAR_PARAM("clientName", "webagent") << INT_PARAM("clientVersion", 711) << CHAR_PARAM("devId", APP_ID)
 		<< CHAR_PARAM("r", "91640-1626423568") << CHAR_PARAM("f", "json");
 #ifndef _DEBUG
 	pReq->flags |= NLHRF_NODUMPSEND;

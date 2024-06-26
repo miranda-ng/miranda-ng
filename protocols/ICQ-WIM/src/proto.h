@@ -33,8 +33,8 @@
 #include "m_system.h"
 #include "m_protoint.h"
 
-#define MRA_APP_ID "ic1pzYNtEU6dDnEQ"
-#define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
+#define APP_ID "ic1pzYNtEU6dDnEQ"
+
 #define ICQ_FILE_SERVER "https://u.icq.net/files/api/v1.1"
 #define ICQ_FAKE_EVENT_ID 0xBABAEB
 #define ICQ_ROBUST_SERVER "https://u.icq.net/rapi"
@@ -213,7 +213,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
-	bool          m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462, m_bInvisible, m_bRemoveForAll;
+	bool          m_bOnline, m_bTerminated, m_bFirstBos, m_bError462, m_bInvisible, m_bRemoveForAll;
 	int           m_iTimeShift;
 		
 	MCONTACT      CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
@@ -414,7 +414,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	INT_PTR   __cdecl SvcOfflineFile(WPARAM, LPARAM);
 
 	INT_PTR   __cdecl EditGroups(WPARAM, LPARAM);
-	INT_PTR   __cdecl EditProfile(WPARAM, LPARAM);
 	INT_PTR   __cdecl SvcGetEmailCount(WPARAM, LPARAM);
 	INT_PTR   __cdecl SvcGotoInbox(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);
@@ -485,10 +484,6 @@ public:
 
 	__forceinline int TS() const
 	{	return time(0) - m_iTimeShift;
-	}
-
-	__forceinline const char *appId() const
-	{	return (m_isMra) ? MRA_APP_ID : ICQ_APP_ID;
 	}
 
 	void SetPermitDeny(const CMStringW &userId, bool bAllow);

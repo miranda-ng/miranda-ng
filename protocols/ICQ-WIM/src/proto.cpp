@@ -60,8 +60,6 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 {
 	db_set_resident(m_szModuleName, DB_KEY_ONLINETS);
 
-	m_isMra = !stricmp(Proto_GetAccount(m_szModuleName)->szProtoName, "MRA");
-
 	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bErrorPopups);
 
 	// services
@@ -369,23 +367,6 @@ void CIcqProto::OnBuildProtoMenu()
 	mi.position = 200002;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
-	// Profile viewer
-	if (!m_isMra) {
-		mi.pszService = "/EditProfile";
-		CreateProtoService(mi.pszService, &CIcqProto::EditProfile);
-		mi.name.a = LPGEN("Edit my web profile");
-		mi.position = 210001;
-		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
-		Menu_AddProtoMenuItem(&mi, m_szModuleName);
-	}
-}
-
-INT_PTR CIcqProto::EditProfile(WPARAM, LPARAM)
-{
-	if (mir_wstrlen(m_szOwnId))
-		Utils_OpenUrlW(CMStringW(FORMAT, L"https://icq.com/people/%s/edit/", (wchar_t*)m_szOwnId));
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -595,7 +576,7 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 
 		auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, "https://files.icq.com/files/init", &CIcqProto::OnFileInit);
 		pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("f", "json") << WCHAR_PARAM("filename", pTransfer->m_wszShortName)
-			<< CHAR_PARAM("k", appId()) << INT_PARAM("size", statbuf.st_size) << INT_PARAM("ts", TS());
+			<< CHAR_PARAM("k", APP_ID) << INT_PARAM("size", statbuf.st_size) << INT_PARAM("ts", TS());
 		CalcHash(pReq);
 		pReq->pUserInfo = pTransfer;
 		Push(pReq);
