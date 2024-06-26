@@ -348,11 +348,11 @@ void DB::EventInfo::flushJson()
 
 JSONNode& DB::EventInfo::setJson()
 {
+	if (m_json == nullptr)
+		m_json = new JSONNode(JSON_NODE);
+
 	if (!(flags & DBEF_JSON)) {
 		flags |= DBEF_JSON;
-
-		if (m_json == nullptr)
-			m_json = new JSONNode(JSON_NODE);
 		if (pBlob)
 			*m_json << CHAR_PARAM("b", (char *)pBlob);
 	}
