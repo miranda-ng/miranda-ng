@@ -53,11 +53,11 @@ Source: "Files\Sounds\*"; DestDir: "{app}\Sounds"; Components: sounds; Flags: ig
 ; Icons
 Source: "Files\Icons\Proto_Dummy.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_Facebook.dll"; DestDir: "{app}\Icons"; Components: protocols\facebook; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Icons\Proto_ICQ.dll"; DestDir: "{app}\Icons"; Components: protocols\icq; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Icons\Proto_ICQ.dll"; DestDir: "{app}\Icons"; Components: protocols\mra; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_IRC.dll"; DestDir: "{app}\Icons"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_Jabber.dll"; DestDir: "{app}\Icons"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_MetaContacts.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Icons\Proto_MRA.dll"; DestDir: "{app}\Icons"; Components: protocols\icq; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Icons\Proto_MRA.dll"; DestDir: "{app}\Icons"; Components: protocols\mra; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\xStatus_Jabber.dll"; DestDir: "{app}\Icons"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\TabSRMM_icons.dll"; DestDir: "{app}\Icons"; Components: messagewin\tabsrmm; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: clicts\modern; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -106,7 +106,7 @@ Source: "Files\pu_stub.exe"; DestDir: "{app}"; Components: program; Flags: ignor
 ; Protocols
 Source: "Files\Plugins\Dummy.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Facebook.dll"; DestDir: "{app}\Plugins"; Components: protocols\facebook; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Plugins\ICQ.dll"; DestDir: "{app}\Plugins"; Components: protocols\icq; Flags: ignoreversion; AfterInstall: ShowPercent()  
+Source: "Files\Plugins\ICQ.dll"; DestDir: "{app}\Plugins"; Components: protocols\mra; Flags: ignoreversion; AfterInstall: ShowPercent()  
 Source: "Files\Plugins\IRC.dll"; DestDir: "{app}\Plugins"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Jabber.dll"; DestDir: "{app}\Plugins"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libsignal.mir"; DestDir: "{app}\Libs"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -139,9 +139,9 @@ Name: "program"; Description: "{cm:Program}"; Types: extended regular minimal cu
 Name: "sounds"; Description: "{cm:Sounds}"; Types: extended custom 
 Name: "protocols"; Description: "{cm:Protocols}"; Types: extended regular minimal 
 Name: "protocols\facebook"; Description: "{cm:Facebook}"; Types: extended regular minimal 
-Name: "protocols\icq"; Description: "{cm:Icq}"; Types: extended regular minimal 
 Name: "protocols\irc"; Description: "{cm:Irc}"; Types: extended regular minimal 
 Name: "protocols\jabber"; Description: "{cm:Jabber}"; Types: extended regular minimal 
+Name: "protocols\mra"; Description: "{cm:Mra}"; Types: extended regular minimal 
 Name: "clists"; Description: "{cm:Clists}"; Types: extended regular minimal custom; Flags: fixed 
 Name: "clicts\stdclist"; Description: "{cm:StdClist}"; Types: minimal; Flags: exclusive 
 Name: "clicts\blind"; Description: "{cm:BlindClist}"; Types: custom; Flags: exclusive 
@@ -206,9 +206,9 @@ en.Program=Core components
 en.Sounds=Sound files
 en.Protocols=Protocols
 en.Facebook=Facebook protocol
-en.Icq=ICQ protocol
 en.Irc=IRC protocol
 en.Jabber=Jabber protocol
+en.Mra=MRA protocol
 en.Clists=Contact lists
 en.StdClist=StdClist contact list
 en.BlindClist=Contact list for blind folks
@@ -232,9 +232,9 @@ en.CoreFilesDescription=The minimum set of files needed to run the program.
 en.SoundsDescription=Sound notification support for various events.
 en.ProtocolsDescription=Various protocols for instant messaging and more.
 en.ProtocolsFbDescription=Facebook protocol support for Miranda NG. More advanced than XMPP facebook chat, supporting posting statuses, authorizations, searching contacts, and much more.
-en.ProtocolsICQDescription=ICQ (WIM) protocol support for Miranda NG.
 en.ProtocolsIRCDescription=Internet Relay Chat (IRC) protocol support for Miranda NG.
 en.ProtocolsJabberDescription=Open-standard communications protocol (XMPP) for message-oriented middleware based on XML.
+en.ProtocolsMRADescription=MRA (WIM) protocol support for Miranda NG.
 en.ClistsDescription=Contact list plugins.
 en.StdClistDescription=Basic contact list core module.
 en.BlindClistDescription=This is a contact list for blind folks. It uses a list control to show all contacts, so screen readers can "read" the clist to the user.
@@ -276,9 +276,9 @@ ru.Program=Основные файлы
 ru.Sounds=Звуки
 ru.Protocols=Протоколы
 ru.Facebook=Протокол Facebook
-ru.Icq=Протокол ICQ
 ru.Irc=Протокол IRC
 ru.Jabber=Протокол Jabber
+ru.Mra=Протокол MRA
 ru.Clists=Списки контактов
 ru.StdClist=Список контактов StdClist
 ru.BlindClist=Список контактов для слабовидящих
@@ -302,9 +302,9 @@ ru.CoreFilesDescription=Минимальный набор файлов, необ
 ru.SoundsDescription=Звуковые эффекты, проигрываемые при различных событиях в программе.
 ru.ProtocolsDescription=Различные протоколы для обмена сообщениями и не только.
 ru.ProtocolsFbDescription=Поддержка протокола Facebook в Miranda NG. Поддержка статусов, поиск контактов, авторизация и не только.
-ru.ProtocolsICQDescription=Поддержка протокола ICQ (WIM) в Miranda NG.
 ru.ProtocolsIRCDescription=Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
 ru.ProtocolsJabberDescription=Поддержка протокола Jabber (XMPP) в Miranda NG. Протокол основан на открытых стандартах, базирующихся на XML.
+ru.ProtocolsMRADescription=Поддержка протокола MRA (WIM) в Miranda NG.
 ru.ClistsDescription=Плагины списков контактов.
 ru.StdClistDescription=Список контактов, являющийся модулем ядра, обеспечивает базовый функционал.
 ru.BlindClistDescription=Список контактов для слабовидящих. Вспомогательные программы для людей с проблемами зрения могут легко "считать" информацию пользователю.
@@ -346,9 +346,9 @@ cz.Program=Základní komponenty
 cz.Sounds=Zvukové soubory
 cz.protocols=Protokoly
 cz.Facebook=Facebook protokol
-cz.Icq=ICQ protokol
 cz.Irc=IRC protokol
 cz.Jabber=Jabber protokol
+cz.Mra=MRA protokol
 cz.Clists=Seznamy kontaktů
 cz.StdClist=StdClist
 cz.BlindClist=Clist_blind (pro nevidomé)
@@ -372,9 +372,9 @@ cz.CoreFilesDescription=Balíček základních komponent vyžadovaných pro spu�
 cz.SoundsDescription=Podpora zvukových efektů pro různé události.
 cz.protocolsDescription=Různé protokoly pro rychlou komunikaci a další funkce.
 cz.protocolsFbDescription=Facebook protokol pro Mirandu NG. Pokročilejší verze než Facebook chat přes Jabber (XMPP). Podporuje sdílení stavů, neviditelnost, autorizace, vyhledávání kontaktů a mnohem více.
-cz.protocolsICQDescription=ICQ (WIM) protokol pro Mirandu NG. 
 cz.protocolsIRCDescription=Internet Relay Chat (IRC) protokol pro Mirandu NG.
 cz.protocolsJabberDescription=Otevřený komunikační protokol Jabber (XMPP) pro Mirandu NG.
+cz.protocolsMRADescription=MRA (WIM) protokol pro Mirandu NG.
 cz.ClistsDescription=Doplňky pro seznamy kontaktů.
 cz.StdClistDescription=Základní integrovaný modul pro seznam kontaktů.
 cz.BlindClistDescription=Seznam kontaktů pro nevidomé uživatele. Pro zobrazení kontaktů využívá jednoduchý seznam, který může být jednoduše přečten.
@@ -416,9 +416,9 @@ de.Program=Kernkomponenten
 de.Sounds=Klangdateien
 de.Protocols=Protokolle
 de.Facebook=Facebook-Protokoll
-de.Icq=ICQ-Protokoll
 de.Irc=IRC-Protokoll
 de.Jabber=Jabber-Protokoll
+de.Mra=MRA-Protokoll
 de.Clists=Kontaktlisten
 de.StdClist=Klassische Kontaktliste
 de.BlindClist=Kontaktliste für Blinde
@@ -442,9 +442,9 @@ de.CoreFilesDescription=Die für den Betrieb von Miranda NG notwendigen Dateien.
 de.SoundsDescription=Klangbenachrichtigungen für eine Vielzahl an Ereignissen.
 de.ProtocolsDescription=Verschiedene Protokolle für Sofortnachrichten und mehr.
 de.ProtocolsFbDescription=Facebook-Protokollunterstützung für Miranda NG. Funktionsreicher als der XMPP-Facebook-Chat, unterstützt das Veröffentlichen neuer Statusnachrichren, Autorisierung, Kontaktsuche und vieles mehr.
-de.ProtocolsICQDescription=ICQ- (WIM-)Protokollunterstützung für Miranda NG.
 de.ProtocolsIRCDescription=Internet-Relay-Chat- (IRC-)Protokollunterstützung für Miranda NG.
 de.ProtocolsJabberDescription=Unterstützung des Extensible Messaging and Presence Protocols (XMPP) für Miranda NG.
+de.ProtocolsMRADescription=MRA- (WIM-)Protokollunterstützung für Miranda NG.
 de.ClistsDescription=Kontaktlistenplugins.
 de.StdClistDescription=Grundlegendes Kontaktlisten-Kernmodul.
 de.BlindClistDescription=Dies ist eine Kontaktliste für Blinde. Sie benutzt eine Liste, um alle Kontakte anzuzeigen, so dass Bildschirmleser die Kontaktliste dem Benutzer "vorlesen" können.
@@ -486,9 +486,9 @@ pl.Program=Pliki rdzenia
 pl.Sounds=Dźwięki
 pl.Protocols=Protokoły
 pl.Facebook=Facebook
-pl.Icq=ICQ
 pl.Irc=IRC
 pl.Jabber=Jabber
+pl.Mra=MRA
 pl.Clists=Lista kontaktów
 pl.StdClist=Lista klasyczna (StdClist)
 pl.BlindClist=Dla niewidomych (Blind)
@@ -512,9 +512,9 @@ pl.CoreFilesDescription=Pliki konieczne do uruchomienia Mirandy.
 pl.SoundsDescription=Paczka predefiniowanych dźwięków dla różnych zdarzeń.
 pl.ProtocolsDescription=Wtyczki zapewniające wspracie dla różnych protokołów.
 pl.ProtocolsFbDescription=Zapewnia obsługę protokołu Facebook. Dostarcza więcej niż czat facebooka przez XMPP. Wspiera ustawianie statusu, zatwierdzanie znajomości, wyszukiwanie kontaktów i wiele inncyh.
-pl.ProtocolsICQDescription=Zapewnia obsługę protokołu ICQ (WIM).
 pl.ProtocolsIRCDescription=Zapewnia obsługę protokołu Internet Relay Chat (IRC).
 pl.ProtocolsJabberDescription=Zapewnia obsługę protokołu Jabber/XMPP.
+pl.ProtocolsMRADescription=Zapewnia obsługę protokołu MRA (WIM).
 pl.ClistsDescription=Wtyczki listy kontaktów.
 pl.StdClistDescription=Podstawowy moduł listy kontaktów zawarty w rdzeniu.
 pl.BlindClistDescription=Jest to lista kontaktów dla ludzi niewidomych. Używa kontrolki listy, aby pokazać wszystkie kontakty, dzięki temu czytnik ekranu może "czytać" listę użtkownikowi.
@@ -792,9 +792,9 @@ begin
     ComponentList.Add('sounds');
     ComponentList.Add('protocols');
     ComponentList.Add('protocols\facebook');
-    ComponentList.Add('protocols\icq');
     ComponentList.Add('protocols\irc');
     ComponentList.Add('protocols\jabber');
+    ComponentList.Add('protocols\mra');
     ComponentList.Add('clists');
     ComponentList.Add('clists\stdclist');
     ComponentList.Add('clists\blind');
@@ -878,9 +878,9 @@ begin
     ExpandConstant('{cm:SoundsDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsFbDescription}') + ';' +
-    ExpandConstant('{cm:ProtocolsICQDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsIRCDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsJabberDescription}') + ';' +
+    ExpandConstant('{cm:ProtocolsMRADescription}') + ';' +
     ExpandConstant('{cm:ClistsDescription}') + ';' +
     ExpandConstant('{cm:StdClistDescription}') + ';' +
     ExpandConstant('{cm:BlindClistDescription}') + ';' +
