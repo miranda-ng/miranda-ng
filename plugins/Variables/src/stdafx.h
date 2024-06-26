@@ -109,7 +109,7 @@ This will not parse the given string, any function, field or special character i
 This will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n\
 --- Contacts ---\r\n\r\n\
 Whenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n\
-(1) Using a unique ID (UIN for ICQ, JID for Jabber) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <JABBER:miranda@example.com> or <ICQ:123456789>.\r\n\r\n\
+(1) Using a unique ID (for example JID for Jabber) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <JABBER:miranda@example.com>.\r\n\r\n\
 (2) Using the contact function:\r\n\
 ?contact(x,y)\r\n\
 A contact will be searched which will have value x for its property y, y can be one of the following:\r\n\

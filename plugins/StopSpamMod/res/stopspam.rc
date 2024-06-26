@@ -92,7 +92,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,77,287,10
     CONTROL         "Add contact to server list",IDC_ADDTOSRVLST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,124,187,10
     EDITTEXT        IDC_AUTOADDGROUP,210,122,76,14,ES_AUTOHSCROLL
-    GROUPBOX        "After congratulation (ICQ only)",IDC_STATIC,15,113,278,51
+    GROUPBOX        "After congratulation (MRA only)",IDC_STATIC,15,113,278,51
     CONTROL         "Automatically grant authorization",IDC_AUTOAUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,136,263,10
     CONTROL         "Request authorization from contacts which pass StopSpam test",IDC_REQAUTH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,148,267,10

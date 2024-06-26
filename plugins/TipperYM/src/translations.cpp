@@ -721,7 +721,7 @@ static DBVTranslation internalTranslations[] =
 	{	TimestampToTime,               LPGENW("DWORD timestamp to time")                                         },
 	{	TimestampToTimeDifference,     LPGENW("DWORD timestamp to time difference")                              },
 	{	ByteToYesNo,                   LPGENW("BYTE to Yes/No")                                                  },
-	{	ByteToGender,                  LPGENW("BYTE to Male/Female (ICQ)")                                       },
+	{	ByteToGender,                  LPGENW("BYTE to Male/Female (MRA)")                                       },
 	{	WordToCountry,                 LPGENW("WORD to country name")                                            },
 	{	DwordToIp,                     LPGENW("DWORD to IP address")                                             },
 	{	DayMonthYearToDate,            LPGENW("<prefix>Day|Month|Year to date")                                  },
@@ -738,7 +738,7 @@ static DBVTranslation internalTranslations[] =
 	{	TimezoneToTime,                LPGENW("BYTE timezone to time")                                           },
 	{	ByteToDay,                     LPGENW("WORD to name of a day (0..6, 0 is Sunday)")                       },
 	{	ByteToMonth,                   LPGENW("WORD to name of a month (1..12, 1 is January)")                   },
-	{	ByteToLanguage,                LPGENW("BYTE to language (ICQ)")                                          },
+	{	ByteToLanguage,                LPGENW("BYTE to language (MRA)")                                          },
 };
 
 void InitTranslations()

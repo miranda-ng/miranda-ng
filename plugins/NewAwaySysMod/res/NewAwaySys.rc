@@ -79,7 +79,7 @@ BEGIN
     RTEXT           "On event...",IDC_REPLYDLG_STATIC_ONEVENT,43,19,59,8
     CONTROL         "",IDC_REPLYDLG_EVENTMSG,"Button",BS_AUTOCHECKBOX | BS_ICON | WS_TABSTOP,110,17,29,12
     CONTROL         "",IDC_REPLYDLG_EVENTFILE,"Button",BS_AUTOCHECKBOX | BS_ICON | WS_TABSTOP,145,17,29,12
-    CONTROL         "Don't reply to ICQ contacts",IDC_REPLYDLG_DONTSENDTOICQ,
+    CONTROL         "Don't reply to MRA contacts",IDC_REPLYDLG_DONTSENDTOICQ,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,119,275,10
     CONTROL         "Save autoreply to the history",IDC_REPLYDLG_LOGREPLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,34,275,10
@@ -185,7 +185,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,15,157,294,16
     CONTROL         "Use protocol specific nick for %nas_mynick%",IDC_MOREOPTDLG_MYNICKPERPROTO,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,6,175,294,8
-    CONTROL         "Update status messages for non-ICQ protocols every",IDC_MOREOPTDLG_UPDATEMSGS,
+    CONTROL         "Update status messages for non-MRA protocols every",IDC_MOREOPTDLG_UPDATEMSGS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,187,199,10
     EDITTEXT        IDC_MOREOPTDLG_UPDATEMSGSPERIOD,207,186,38,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "",IDC_MOREOPTDLG_UPDATEMSGSPERIOD_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,230,186,12,12

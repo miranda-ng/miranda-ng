@@ -179,7 +179,7 @@ public:
 			L"%nick%", TranslateT("nick of current contact (if defined)"),
 			L"%proto%", TranslateT("protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts"),
 			L"%accountname%", TranslateT("user-defined account name of current contact (if defined)."),
-			L"%userid%", TranslateT("user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc."),
+			L"%userid%", TranslateT("user ID of current contact (if defined). It is like JID for Jabber, etc."),
 			// global vars
 			L"%miranda_path%", TranslateT("path to Miranda root folder"),
 			L"%miranda_profilesdir%", TranslateT("path to folder containing Miranda profiles"),
