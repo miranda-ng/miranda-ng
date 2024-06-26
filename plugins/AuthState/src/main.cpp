@@ -71,10 +71,6 @@ INT_PTR getIconToUse(MCONTACT hContact, LPARAM)
 	if (!g_plugin.getByte(hContact, "ShowIcons", !g_plugin.bIconsForRecentContacts))
 		return ICON_NONE;
 
-	if (db_get_b(0, "ICQ", "UseServerCList", 0))
-		if (db_get_dw(hContact, proto, "ServerId", 1) == 0)
-			return ICON_BOTH;
-
 	// Facebook contact type
 	int type = db_get_b(hContact, proto, "ContactType", 0);
 
