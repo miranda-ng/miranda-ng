@@ -53,7 +53,6 @@ Source: "Files\Sounds\*"; DestDir: "{app}\Sounds"; Components: sounds; Flags: ig
 ; Icons
 Source: "Files\Icons\Proto_Dummy.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_Facebook.dll"; DestDir: "{app}\Icons"; Components: protocols\facebook; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Icons\Proto_ICQ.dll"; DestDir: "{app}\Icons"; Components: protocols\mra; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_IRC.dll"; DestDir: "{app}\Icons"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_Jabber.dll"; DestDir: "{app}\Icons"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_MetaContacts.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
