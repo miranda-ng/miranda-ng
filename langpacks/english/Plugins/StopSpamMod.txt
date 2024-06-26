@@ -30,7 +30,7 @@
 [Add contacts to specified group:]
 [Ignore URL in messages and auth requests]
 [Add contact to server list]
-[After congratulation (ICQ only)]
+[After congratulation (MRA only)]
 [Automatically grant authorization]
 [Request authorization from contacts which pass StopSpam test]
 [Use regex for answers checking]

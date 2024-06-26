@@ -9,7 +9,7 @@
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Enable autoreply]
 [On event...]
-[Don't reply to ICQ contacts]
+[Don't reply to MRA contacts]
 [Save autoreply to the history]
 [Reply only when Idle]
 [Reply only when contact's message window is closed]
@@ -54,7 +54,7 @@
 [Remember last message used for a contact...]
 [Store contact autoreply/ignore settings for each status separately]
 [Use protocol specific nick for %nas_mynick%]
-[Update status messages for non-ICQ protocols every]
+[Update status messages for non-MRA protocols every]
 [seconds]
 [Don't show the message dialog for]
 [%s message for %s]
