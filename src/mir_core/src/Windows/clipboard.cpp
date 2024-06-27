@@ -26,13 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static UINT g_iRtf = 0;
 
-static void sttCopyAnsi(const char *pszString)
+static void sttCopyAnsi(const char *pszString, int iFormat)
 {
 	if (size_t cbLen = mir_strlen(pszString))
 		if (HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, cbLen + 1)) {
 			mir_strcpy((char *)GlobalLock(hData), pszString);
 			GlobalUnlock(hData);
-			SetClipboardData(CF_TEXT, hData);
+			SetClipboardData(iFormat, hData);
 		}
 }
 
@@ -54,7 +54,7 @@ MClipAnsi::MClipAnsi(const char *pszString) :
 
 void MClipAnsi::Copy() const
 {
-	sttCopyAnsi(m_szString);
+	sttCopyAnsi(m_szString, CF_TEXT);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ void MClipRtf::Copy() const
 	if (g_iRtf == 0)
 		g_iRtf = RegisterClipboardFormatW(CF_RTF);
 
-	sttCopyAnsi(m_szString);
+	sttCopyAnsi(m_szString, g_iRtf);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
