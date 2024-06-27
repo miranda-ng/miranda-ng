@@ -919,7 +919,8 @@ void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
 	}
 	
 	// default handling (no win7 taskbar)
-	if (hIcon == PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]) {              // always set typing icon, but don't save it...
+	if (hIcon == PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]) {
+		// always set typing icon, but don't save it...
 		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)PluginConfig.g_IconTypingEventBig);
 		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 		return;

@@ -424,7 +424,7 @@ void TSAPI CreateImageList(bool bInitial)
 	PluginConfig.g_IconMsgEvent = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 	PluginConfig.g_IconMsgEventBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 	PluginConfig.g_IconTypingEventBig = Skin_LoadIcon(SKINICON_OTHER_TYPING, true);
-	PluginConfig.g_IconSend = PluginConfig.g_buttonBarIcons[9];
+	PluginConfig.g_IconSend = PluginConfig.g_buttonBarIcons[ICON_BUTTON_SEND];
 	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 }
 
@@ -433,18 +433,18 @@ void TSAPI CreateImageList(bool bInitial)
 
 static TIconDesc _toolbaricons[] =
 {
-	{ "tabSRMM_mlog", LPGEN("Message Log options"), &PluginConfig.g_buttonBarIcons[2], -IDI_MSGLOGOPT, 1 },
+	{ "tabSRMM_mlog", LPGEN("Message Log options"), &PluginConfig.g_buttonBarIcons[2], -IDI_MSGLOGOPT, 1 }, // 2
 	{ "tabSRMM_multi", LPGEN("Image tag"), &PluginConfig.g_buttonBarIcons[3], -IDI_IMAGETAG, 1 },
 	{ "tabSRMM_quote", LPGEN("Quote text"), &PluginConfig.g_buttonBarIcons[8], -IDI_QUOTE, 1 },
 	{ "tabSRMM_save", LPGEN("Save and close"), &PluginConfig.g_buttonBarIcons[7], -IDI_SAVE, 1 },
-	{ "tabSRMM_send", LPGEN("Send message"), &PluginConfig.g_buttonBarIcons[9], -IDI_SEND, 1 },
+	{ "tabSRMM_send", LPGEN("Send message"), &PluginConfig.g_buttonBarIcons[ICON_BUTTON_SEND], -IDI_SEND, 1 },
 	{ "tabSRMM_avatar", LPGEN("Edit user notes"), &PluginConfig.g_buttonBarIcons[10], -IDI_CONTACTPIC, 1 },
-	{ "tabSRMM_close", LPGEN("Close"), &PluginConfig.g_buttonBarIcons[6], -IDI_CLOSEMSGDLG, 1 }
+	{ "tabSRMM_close", LPGEN("Close"), &PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL], -IDI_CLOSEMSGDLG, 1 }
 };
 
 static TIconDesc _exttoolbaricons[] =
 {
-	{ "tabSRMM_emoticon", LPGEN("Smiley button"), &PluginConfig.g_buttonBarIcons[11], -IDI_SMILEYICON, 1 },
+	{ "tabSRMM_emoticon", LPGEN("Smiley button"), &PluginConfig.g_buttonBarIcons[11], -IDI_SMILEYICON, 1 }, // 9
 	{ "tabSRMM_bold", LPGEN("Format bold"), &PluginConfig.g_buttonBarIcons[17], -IDI_FONTBOLD, 1 },
 	{ "tabSRMM_italic", LPGEN("Format italic"), &PluginConfig.g_buttonBarIcons[18], -IDI_FONTITALIC, 1 },
 	{ "tabSRMM_underline", LPGEN("Format underline"), &PluginConfig.g_buttonBarIcons[19], -IDI_FONTUNDERLINE, 1 },
@@ -509,8 +509,6 @@ static ICONBLOCKS[] = {
 
 static int TSAPI SetupIconLibConfig()
 {
-	int j = 2;
-
 	HINSTANCE hIconDll = LoadLibraryA("icons\\tabsrmm_icons.dll");
 	if (hIconDll == nullptr) {
 		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE | MB_ICONERROR | MB_OK);
@@ -526,18 +524,13 @@ static int TSAPI SetupIconLibConfig()
 	sid.defaultFile.w = szFilename;
 	sid.flags = SIDF_PATH_UNICODE;
 
-	for (int n = 0; n < _countof(ICONBLOCKS); n++) {
-		auto &it = ICONBLOCKS[n];
+	for (auto &it: ICONBLOCKS) {
 		sid.section.a = it.szSection;
 		for (int i = 0; i < it.nItems; i++) {
 			sid.pszName = it.idesc[i].szName;
 			sid.description.a = it.idesc[i].szDesc;
-			sid.iDefaultIndex = it.idesc[i].uId == -IDI_HISTORY ? 0 : it.idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
-
-			if (n > 0 && n < 4)
-				PluginConfig.g_buttonBarIconHandles[j++] = g_plugin.addIcon(&sid);
-			else
-				g_plugin.addIcon(&sid);
+			sid.iDefaultIndex = it.idesc[i].uId == -IDI_HISTORY ? 0 : it.idesc[i].uId;
+			g_plugin.addIcon(&sid);
 		}
 	}
 
@@ -565,9 +558,6 @@ static int TSAPI LoadFromIconLib()
 
 	PluginConfig.g_buttonBarIcons[0] = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
 	PluginConfig.g_buttonBarIcons[1] = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
-	PluginConfig.g_buttonBarIconHandles[0] = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	PluginConfig.g_buttonBarIconHandles[1] = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
-	PluginConfig.g_buttonBarIconHandles[20] = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 
 	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] = PluginConfig.g_buttonBarIcons[12] = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 

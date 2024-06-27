@@ -53,7 +53,7 @@ static int RegisterCustomButton(WPARAM, LPARAM)
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON | BBBF_NOREADONLY | BBBF_NOREADONLY;
 	bbd.dwButtonID = 1;
 	bbd.dwDefPos = 200;
-	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];
+	bbd.hIcon = g_plugin.getIconHandle(IDI_IMAGETAG);
 	bbd.pszModuleName = "Tabmodplus";
 	bbd.pwszTooltip = LPGENW("Insert [img] tag / surround selected text with [img][/img]");
 	g_plugin.addButton(&bbd);

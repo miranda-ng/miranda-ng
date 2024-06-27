@@ -73,8 +73,7 @@ public:
 	HICON       g_IconMsgEvent, g_IconTypingEvent, g_IconFileEvent, g_IconSend;
 	HICON       g_IconMsgEventBig, g_IconTypingEventBig;
 	HMENU       g_hMenuContext, g_hMenuContainer;
-	HICON       g_buttonBarIcons[NR_BUTTONBARICONS];
-	HANDLE      g_buttonBarIconHandles[23];
+	HICON       g_buttonBarIcons[37];
 
 	// dynamic options, need reload when options change
 	int         m_iTabNameLimit;

@@ -221,8 +221,9 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	Skin->Init(true);
 	CSkin::initAeroEffect();
 
-	for (int i = 0; i < NR_BUTTONBARICONS; i++)
-		PluginConfig.g_buttonBarIcons[i] = nullptr;
+	for (auto &it: PluginConfig.g_buttonBarIcons)
+		it = nullptr;
+	
 	::LoadIconTheme();
 	::CreateImageList(true);
 	::CB_InitCustomButtons();

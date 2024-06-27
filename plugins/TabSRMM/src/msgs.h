@@ -168,8 +168,6 @@ struct TitleBtn {
 #define BTN_MAX 1
 #define BTN_CLOSE 2
 
-#define NR_BUTTONBARICONS 37//MaD: 29
-
 class CContactCache;
 class CMenuBar;
 class CMsgDialog;
@@ -1032,16 +1030,17 @@ struct SKINDESC
 #define SKIN_VERSION	 2
 
 // icon defintions (index into g_buttonBarIcons)
-#define ICON_DEFAULT_SOUNDS 			22
-#define ICON_DEFAULT_PULLDOWN			16
-#define ICON_DEFAULT_LEFT				25
-#define ICON_DEFAULT_RIGHT				28
-#define ICON_DEFAULT_UP					26
-#define ICON_DEFAULT_TYPING				5
+#define ICON_DEFAULT_SOUNDS        22
+#define ICON_DEFAULT_PULLDOWN      16
+#define ICON_DEFAULT_LEFT          25
+#define ICON_DEFAULT_RIGHT         28
+#define ICON_DEFAULT_UP            26
+#define ICON_DEFAULT_TYPING         5
 
-#define ICON_BUTTON_ADD					0
-#define ICON_BUTTON_CANCEL				6
-#define ICON_BUTTON_SAVE				7
+#define ICON_BUTTON_ADD             0
+#define ICON_BUTTON_CANCEL          6
+#define ICON_BUTTON_SAVE            7
+#define ICON_BUTTON_SEND            9
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
