@@ -132,6 +132,7 @@ MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile);
 
 int  GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
 void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
+void UnixTimeToFileTime(int unixTime, FILETIME *ft);
 
 // downloads or launches cloud file
 
@@ -153,6 +154,13 @@ struct OFD_Download : public OFD_Callback
 {
 	void Invoke(const OFDTHREAD &ofd) override
 	{
+		FILETIME ft;
+		UnixTimeToFileTime(ofd.dwTimestamp, &ft);
+		if (HANDLE hFile = CreateFileW(ofd.wszPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr)) {
+			SetFileTime(hFile, &ft, &ft, &ft);
+			CloseHandle(hFile);
+		}
+
 		if (ofd.bOpen)
 			ShellExecuteW(nullptr, L"open", ofd.wszPath, nullptr, nullptr, SW_SHOWDEFAULT);
 	}

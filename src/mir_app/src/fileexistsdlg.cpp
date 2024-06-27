@@ -24,21 +24,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "file.h"
 
-static void SetControlToUnixTime(HWND hwndDlg, UINT idCtrl, time_t unixTime)
+void UnixTimeToFileTime(int unixTime, FILETIME *ft)
 {
 	LARGE_INTEGER liFiletime;
-	FILETIME filetime;
-	SYSTEMTIME st;
-	char szTime[64], szDate[64], szOutput[128];
-
 	liFiletime.QuadPart = (11644473600ll + (__int64)unixTime) * 10000000;
-	filetime.dwHighDateTime = liFiletime.HighPart;
-	filetime.dwLowDateTime = liFiletime.LowPart;
+	ft->dwHighDateTime = liFiletime.HighPart;
+	ft->dwLowDateTime = liFiletime.LowPart;
+}
+
+static void SetControlToUnixTime(HWND hwndDlg, UINT idCtrl, time_t unixTime)
+{
+	FILETIME filetime;
+	UnixTimeToFileTime(unixTime, &filetime);
+
+	SYSTEMTIME st;
 	FileTimeToSystemTime(&filetime, &st);
-	GetTimeFormatA(LOCALE_USER_DEFAULT, 0, &st, NULL, szTime, _countof(szTime));
-	GetDateFormatA(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, szDate, _countof(szDate));
-	mir_snprintf(szOutput, "%s %s", szDate, szTime);
-	SetDlgItemTextA(hwndDlg, idCtrl, szOutput);
+
+	wchar_t szTime[64], szDate[64], szOutput[128];
+	GetTimeFormatW(LOCALE_USER_DEFAULT, 0, &st, NULL, szTime, _countof(szTime));
+	GetDateFormatW(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &st, NULL, szDate, _countof(szDate));
+	mir_snwprintf(szOutput, L"%s %s", szDate, szTime);
+	SetDlgItemTextW(hwndDlg, idCtrl, szOutput);
 }
 
 #define C_CONTEXTMENU  0

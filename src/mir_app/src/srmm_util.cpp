@@ -233,6 +233,7 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei
 
 		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, blob.getLocalName(), iCommand);
 		ofd->bLocked = true;
+		ofd->dwTimestamp = dbei.timestamp;
 		ofd->pCallback = callback.release();
 		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd);
 	}
