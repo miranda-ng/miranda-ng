@@ -436,7 +436,6 @@ static TIconDesc _toolbaricons[] =
 	{ "tabSRMM_mlog", LPGEN("Message Log options"), 0, -IDI_MSGLOGOPT, 1 }, // 2
 	{ "tabSRMM_multi", LPGEN("Image tag"), 0, -IDI_IMAGETAG, 1 },
 	{ "tabSRMM_quote", LPGEN("Quote text"), 0, -IDI_QUOTE, 1 },
-	{ "tabSRMM_avatar", LPGEN("Edit user notes"), 0, -IDI_CONTACTPIC, 1 },
 	{ "tabSRMM_save", LPGEN("Save and close"), &PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE], -IDI_SAVE, 1 },
 	{ "tabSRMM_send", LPGEN("Send message"), &PluginConfig.g_buttonBarIcons[ICON_BUTTON_SEND], -IDI_SEND, 1 },
 	{ "tabSRMM_close", LPGEN("Close"), &PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL], -IDI_CLOSEMSGDLG, 1 }

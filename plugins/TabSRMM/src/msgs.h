@@ -498,7 +498,6 @@ public:
 	bool     m_bActualHistory;
 	bool     m_bIsAutosizingInput;
 	bool     m_bCanFlashTab, m_bTabFlash;
-	bool     m_bEditNotesActive;
 	bool     m_bShowAvatar;
 	bool     m_bSaveBtn, m_bNeedCheckSize;
 	bool     m_bForcedClose;
@@ -879,7 +878,7 @@ struct TIconDescW
 #define HOTKEY_MODIFIERS_CTRLALT 1
 #define HOTKEY_MODIFIERS_ALTSHIFT 2
 
-#include "../TabSRMM_icons/resource.h"         // icon pack values
+#include "../TabSRMM_icons/res/resource.h"         // icon pack values
 
 struct TCpTable {
 	UINT cpId;
@@ -997,16 +996,15 @@ struct SIDEBARITEM
 #define TABSRMM_HK_USERDETAILS      22
 #define TABSRMM_HK_TOGGLEINFOPANEL  23
 #define TABSRMM_HK_CLEARLOG         24
-#define TABSRMM_HK_EDITNOTES        25
-#define TABSRMM_HK_TOGGLESENDLATER  26
-#define TABSRMM_HK_TOGGLESIDEBAR    27
-#define TABSRMM_HK_CHANNELMGR       28
-#define TABSRMM_HK_FILTERTOGGLE     29
-#define TABSRMM_HK_LISTTOGGLE       30
-#define TABSRMM_HK_MUC_SHOWSERVER   31
-#define TABSRMM_HK_CLOSE_OTHER      32
-#define TABSRMM_HK_SENDMENU         33
-#define TABSRMM_HK_PROTOMENU        34
+#define TABSRMM_HK_TOGGLESENDLATER  25
+#define TABSRMM_HK_TOGGLESIDEBAR    26
+#define TABSRMM_HK_CHANNELMGR       27
+#define TABSRMM_HK_FILTERTOGGLE     28
+#define TABSRMM_HK_LISTTOGGLE       29
+#define TABSRMM_HK_MUC_SHOWSERVER   30
+#define TABSRMM_HK_CLOSE_OTHER      31
+#define TABSRMM_HK_SENDMENU         32
+#define TABSRMM_HK_PROTOMENU        33
 
 #define TABSRMM_HK_SECTION_IM LPGEN("Message windows - IM")
 #define TABSRMM_HK_SECTION_GENERIC LPGEN("Message windows - all")

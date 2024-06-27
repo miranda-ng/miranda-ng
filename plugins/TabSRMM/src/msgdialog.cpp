@@ -703,15 +703,12 @@ void CMsgDialog::OnDestroy()
 	}
 
 	if (m_cache->isValid()) { // not valid means the contact was deleted
-		if (!m_bEditNotesActive) {
-			char *msg = m_message.GetRichTextRtf(true);
-			if (msg) {
-				g_plugin.setUString(m_hContact, "SavedMsg", msg);
-				mir_free(msg);
-			}
-			else g_plugin.delSetting(m_hContact, "SavedMsg");
+		char *msg = m_message.GetRichTextRtf(true);
+		if (msg) {
+			g_plugin.setUString(m_hContact, "SavedMsg", msg);
+			mir_free(msg);
 		}
-		else SendMessage(m_hwnd, WM_COMMAND, IDC_PIC, 0);
+		else g_plugin.delSetting(m_hContact, "SavedMsg");
 	}
 
 	if (AllowTyping())
@@ -768,11 +765,6 @@ void CMsgDialog::OnDestroy()
 
 void CMsgDialog::onClick_Ok(CCtrlButton *)
 {
-	if (m_bEditNotesActive) {
-		ActivateTooltip(IDC_PIC, TranslateT("You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode"));
-		return;
-	}
-
 	int final_sendformat;
 
 	if (!isChat()) {
@@ -1497,9 +1489,6 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		case TABSRMM_HK_USERDETAILS:
 			SendMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_NAME, BN_CLICKED), 0);
 			return _dlgReturn(m_hwnd, 1);
-		case TABSRMM_HK_EDITNOTES:
-			PostMessage(m_hwnd, WM_COMMAND, MAKELONG(IDC_PIC, BN_CLICKED), 0);
-			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_TOGGLESENDLATER:
 			if (SendLater::Avail) {
 				m_sendMode ^= SMODE_SENDLATER;
@@ -1901,9 +1890,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			replaceStrW(m_wszSearchResult, nullptr);
 		}
 
-		if (wParam == VK_RETURN && m_bEditNotesActive)
-			break;
-
 		if (isCtrl && !isAlt && !isShift) {
 			if (wParam == VK_UP || wParam == VK_DOWN) {          // input history scrolling (ctrl-up / down)
 				m_cache->inputHistoryEvent(wParam);
@@ -2103,7 +2089,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (CSkin::m_skinEnabled) {
 				UINT item_ids[] = { ID_EXTBKUSERLIST, ID_EXTBKHISTORY, ID_EXTBKINPUTAREA };
 				UINT ctl_ids[] = { IDC_SRMM_NICKLIST, IDC_SRMM_LOG, IDC_SRMM_MESSAGE };
-				BOOL isEditNotesReason = m_bEditNotesActive;
 				BOOL isSendLaterReason = (m_sendMode & SMODE_SENDLATER);
 				BOOL isMultipleReason = (m_sendMode & SMODE_MULTIPLE || m_sendMode & SMODE_CONTAINER);
 
@@ -2120,8 +2105,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 						rc.top = pt.y - item->MARGIN_TOP;
 						rc.right = rc.left + item->MARGIN_RIGHT + (rcWindow.right - rcWindow.left) + item->MARGIN_LEFT;
 						rc.bottom = rc.top + item->MARGIN_BOTTOM + (rcWindow.bottom - rcWindow.top) + item->MARGIN_TOP;
-						if (item_ids[i] == ID_EXTBKINPUTAREA && (isMultipleReason || isEditNotesReason || isSendLaterReason)) {
-							HBRUSH br = CreateSolidBrush(isMultipleReason ? RGB(255, 130, 130) : (isEditNotesReason ? RGB(80, 255, 80) : RGB(80, 80, 255)));
+						if (item_ids[i] == ID_EXTBKINPUTAREA && (isMultipleReason || isSendLaterReason)) {
+							HBRUSH br = CreateSolidBrush(isMultipleReason ? RGB(255, 130, 130) : RGB(80, 80, 255));
 							FillRect(hdcMem, &rc, br);
 							DeleteObject(br);
 						}

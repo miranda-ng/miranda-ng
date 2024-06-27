@@ -527,7 +527,6 @@ void CMsgDialog::DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis)
 void CMsgDialog::EnableSendButton(bool bMode) const
 {
 	SendDlgItemMessage(m_hwnd, IDOK, BUTTONSETASNORMAL, bMode, 0);
-	SendDlgItemMessage(m_hwnd, IDC_PIC, BUTTONSETASNORMAL, m_bEditNotesActive ? TRUE : (!bMode && m_iOpenJobs == 0) ? TRUE : FALSE, 0);
 
 	HWND hwndOK = GetDlgItem(GetParent(GetParent(m_hwnd)), IDOK);
 	if (IsWindow(hwndOK))

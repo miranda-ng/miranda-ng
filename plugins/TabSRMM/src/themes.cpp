@@ -1957,8 +1957,7 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID,
 		ReleaseDC(GetParent(hwnd), hdc);
 		return (bReturn) ? WVR_REDRAW : orig;
 	}
-	if ((mwdat->m_sendMode & SMODE_MULTIPLE || mwdat->m_sendMode & SMODE_CONTAINER ||
-		mwdat->m_bEditNotesActive || mwdat->m_sendMode & SMODE_SENDLATER) && skinID == ID_EXTBKINPUTAREA) {
+	if ((mwdat->m_sendMode & (SMODE_MULTIPLE | SMODE_CONTAINER | SMODE_SENDLATER)) && skinID == ID_EXTBKINPUTAREA) {
 		InflateRect(&nccp->rgrc[0], -1, -1);
 		return WVR_REDRAW;
 	}
@@ -1976,7 +1975,6 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, U
 	if (mwdat == nullptr)
 		return result;
 
-	BOOL isEditNotesReason = ((mwdat->m_bEditNotesActive) && (skinID == ID_EXTBKINPUTAREA));
 	BOOL isSendLaterReason = ((mwdat->m_sendMode & SMODE_SENDLATER) && (skinID == ID_EXTBKINPUTAREA));
 	BOOL isMultipleReason = ((skinID == ID_EXTBKINPUTAREA) && (mwdat->m_sendMode & SMODE_MULTIPLE || mwdat->m_sendMode & SMODE_CONTAINER));
 
@@ -2014,8 +2012,9 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, U
 		ReleaseDC(hwnd, hdc);
 		return result;
 	}
-	if (isMultipleReason || isEditNotesReason || isSendLaterReason) {
-		HBRUSH br = CreateSolidBrush(isMultipleReason ? RGB(255, 130, 130) : (isEditNotesReason ? RGB(80, 255, 80) : RGB(80, 80, 255)));
+
+	if (isMultipleReason || isSendLaterReason) {
+		HBRUSH br = CreateSolidBrush(isMultipleReason ? RGB(255, 130, 130) : RGB(80, 80, 255));
 		FillRect(hdc, &rcWindow, br);
 		DeleteObject(br);
 	}

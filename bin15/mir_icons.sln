@@ -22,8 +22,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_Jabber", "..\protoc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistoryPP_icons", "..\plugins\HistoryPlusPlus\historypp_icons\HistoryPP_icons.vcxproj", "{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins\TabSRMM\TabSRMM_icons\NOVA\ICONS_NOVA_15.vcxproj", "{F553F140-B7D3-4984-90B1-00D4831B8A6E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_mRadio", "..\plugins\mRadio\proto_mradio\Proto_mRadio.vcxproj", "{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_NewsAggregator", "..\protocols\NewsAggregator\proto_newsaggregator\Proto_NewsAggregator.vcxproj", "{B97882DC-7462-41DB-A390-BDFCE5295265}"
@@ -61,6 +59,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Telegram", "..\protocols\Telegram\proto_telegram\Proto_Telegram.vcxproj", "{129A4E61-45E8-E476-BD50-5E03BA80E9AD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Discord", "..\protocols\Discord\proto_discord\Proto_Discord.vcxproj", "{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins\TabSRMM\TabSRMM_icons\ICONS_NOVA_15.vcxproj", "{F553F140-B7D3-4984-90B1-00D4831B8A6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

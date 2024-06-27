@@ -375,47 +375,6 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 		SendMessage(m_pContainer->m_hwnd, WM_COMMAND, IDC_TOGGLESIDEBAR, 0);
 		break;
 
-	case IDC_PIC:
-		GetClientRect(m_hwnd, &rc);
-
-		m_bEditNotesActive = !m_bEditNotesActive;
-		if (m_bEditNotesActive) {
-			int iLen = GetWindowTextLength(m_message.GetHwnd());
-			if (iLen != 0) {
-				ActivateTooltip(IDC_SRMM_MESSAGE, TranslateT("You cannot edit user notes when there are unsent messages"));
-				m_bEditNotesActive = false;
-				break;
-			}
-
-			if (!m_bIsAutosizingInput) {
-				m_iSplitterSaved = m_iSplitterY;
-				m_iSplitterY = rc.bottom / 2;
-				Resize();
-			}
-
-			ptrW wszText(db_get_wsa(m_hContact, "UserInfo", "MyNotes"));
-			if (wszText != nullptr)
-				m_message.SetText(wszText);
-		}
-		else {
-			ptrW buf(m_message.GetText());
-			db_set_ws(m_hContact, "UserInfo", "MyNotes", buf);
-			m_message.SetText(L"");
-
-			if (!m_bIsAutosizingInput) {
-				m_iSplitterY = m_iSplitterSaved;
-				Resize();
-				DM_ScrollToBottom(0, 1);
-			}
-		}
-		SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
-			SWP_NOMOVE | SWP_NOSIZE | SWP_NOCOPYBITS);
-		RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
-
-		if (m_bEditNotesActive)
-			CWarning::show(CWarning::WARN_EDITUSERNOTES, MB_OK | MB_ICONINFORMATION);
-		break;
-
 	case IDM_CLEAR:
 		tabClearLog();
 		break;
@@ -776,7 +735,7 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 	MCONTACT hContact = m_cache->getActiveContact();
 
 	// editing user notes or preparing a message for queued delivery -> don't send MTN
-	if (m_bEditNotesActive || (m_sendMode & SMODE_SENDLATER))
+	if (m_sendMode & SMODE_SENDLATER)
 		return;
 
 	// allow supression of sending out TN for the contact (NOTE: for metacontacts, do NOT use the subcontact handle)
