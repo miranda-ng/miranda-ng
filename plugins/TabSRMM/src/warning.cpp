@@ -242,7 +242,7 @@ public:
 static wchar_t *Warnings[] = {
 	nullptr,
 	LPGENW("Save file|Unable to save temporary file"), // WARN_SAVEFILE 
-	LPGENW("Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode"),  // WARN_EDITUSERNOTES
+	nullptr, // WARN_UNUSED1
 	LPGENW("Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available"),		// WARN_ICONPACKMISSING
 	LPGENW("Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature."),	// WARN_AEROPEEKSKIN
 	LPGENW("File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list."), // WARN_IMGSVC_MISSING
