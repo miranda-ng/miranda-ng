@@ -1007,8 +1007,10 @@ void __fastcall CSideBar::m_DefaultContentRenderer(const HDC hdc, const RECT *rc
 	int stateID = item->m_buttonControl->stateId;
 
 	if (id == IDC_SIDEBARUP || id == IDC_SIDEBARDOWN) {
-		::DrawIconEx(hdc, (rcBox->left + rcBox->right) / 2 - 8, (rcBox->top + rcBox->bottom) / 2 - 8, id == IDC_SIDEBARUP ? PluginConfig.g_buttonBarIcons[26] : PluginConfig.g_buttonBarIcons[16],
+		::DrawIconEx(hdc, (rcBox->left + rcBox->right) / 2 - 8, (rcBox->top + rcBox->bottom) / 2 - 8, 
+			PluginConfig.g_buttonBarIcons[id == IDC_SIDEBARUP ? ICON_DEFAULT_UP : ICON_DEFAULT_PULLDOWN],
 			16, 16, 0, nullptr, DI_NORMAL);
+		
 		if (!M.isAero() && stateID == PBS_HOT)
 			::DrawEdge(hdc, const_cast<RECT *>(rcBox), BDR_INNER, BF_RECT | BF_SOFT | BF_FLAT);
 	}

@@ -433,32 +433,32 @@ void TSAPI CreateImageList(bool bInitial)
 
 static TIconDesc _toolbaricons[] =
 {
-	{ "tabSRMM_mlog", LPGEN("Message Log options"), &PluginConfig.g_buttonBarIcons[2], -IDI_MSGLOGOPT, 1 }, // 2
-	{ "tabSRMM_multi", LPGEN("Image tag"), &PluginConfig.g_buttonBarIcons[3], -IDI_IMAGETAG, 1 },
-	{ "tabSRMM_quote", LPGEN("Quote text"), &PluginConfig.g_buttonBarIcons[8], -IDI_QUOTE, 1 },
-	{ "tabSRMM_save", LPGEN("Save and close"), &PluginConfig.g_buttonBarIcons[7], -IDI_SAVE, 1 },
+	{ "tabSRMM_mlog", LPGEN("Message Log options"), 0, -IDI_MSGLOGOPT, 1 }, // 2
+	{ "tabSRMM_multi", LPGEN("Image tag"), 0, -IDI_IMAGETAG, 1 },
+	{ "tabSRMM_quote", LPGEN("Quote text"), 0, -IDI_QUOTE, 1 },
+	{ "tabSRMM_avatar", LPGEN("Edit user notes"), 0, -IDI_CONTACTPIC, 1 },
+	{ "tabSRMM_save", LPGEN("Save and close"), &PluginConfig.g_buttonBarIcons[ICON_BUTTON_SAVE], -IDI_SAVE, 1 },
 	{ "tabSRMM_send", LPGEN("Send message"), &PluginConfig.g_buttonBarIcons[ICON_BUTTON_SEND], -IDI_SEND, 1 },
-	{ "tabSRMM_avatar", LPGEN("Edit user notes"), &PluginConfig.g_buttonBarIcons[10], -IDI_CONTACTPIC, 1 },
 	{ "tabSRMM_close", LPGEN("Close"), &PluginConfig.g_buttonBarIcons[ICON_BUTTON_CANCEL], -IDI_CLOSEMSGDLG, 1 }
 };
 
 static TIconDesc _exttoolbaricons[] =
 {
-	{ "tabSRMM_emoticon", LPGEN("Smiley button"), &PluginConfig.g_buttonBarIcons[11], -IDI_SMILEYICON, 1 }, // 9
-	{ "tabSRMM_bold", LPGEN("Format bold"), &PluginConfig.g_buttonBarIcons[17], -IDI_FONTBOLD, 1 },
-	{ "tabSRMM_italic", LPGEN("Format italic"), &PluginConfig.g_buttonBarIcons[18], -IDI_FONTITALIC, 1 },
-	{ "tabSRMM_underline", LPGEN("Format underline"), &PluginConfig.g_buttonBarIcons[19], -IDI_FONTUNDERLINE, 1 },
-	{ "tabSRMM_face", LPGEN("Font face"), &PluginConfig.g_buttonBarIcons[20], -IDI_FONTFACE, 1 },
-	{ "tabSRMM_color", LPGEN("Font color"), &PluginConfig.g_buttonBarIcons[21], -IDI_FONTCOLOR, 1 },
-	{ "tabSRMM_strikeout", LPGEN("Format strike-through"), &PluginConfig.g_buttonBarIcons[30], -IDI_STRIKEOUT, 1 }
+	{ "tabSRMM_emoticon", LPGEN("Smiley button"), 0, -IDI_SMILEYICON, 1 }, // 9
+	{ "tabSRMM_bold", LPGEN("Format bold"), 0, -IDI_FONTBOLD, 1 },
+	{ "tabSRMM_italic", LPGEN("Format italic"), 0, -IDI_FONTITALIC, 1 },
+	{ "tabSRMM_underline", LPGEN("Format underline"), 0, -IDI_FONTUNDERLINE, 1 },
+	{ "tabSRMM_face", LPGEN("Font face"), 0, -IDI_FONTFACE, 1 },
+	{ "tabSRMM_color", LPGEN("Font color"), 0, -IDI_FONTCOLOR, 1 },
+	{ "tabSRMM_strikeout", LPGEN("Format strike-through"), 0, -IDI_STRIKEOUT, 1 }
 };
 
 static TIconDesc _chattoolbaricons[] =
 {
-	{ "chat_bkgcol", LPGEN("Background color"), &PluginConfig.g_buttonBarIcons[31], -IDI_BKGCOLOR, 1 },
-	{ "chat_settings", LPGEN("Room settings"), &PluginConfig.g_buttonBarIcons[32], -IDI_TOPICBUT, 1 },
-	{ "chat_filter", LPGEN("Event filter"), &PluginConfig.g_buttonBarIcons[33], -IDI_FILTER2, 1 },
-	{ "chat_shownicklist", LPGEN("Nick list"), &PluginConfig.g_buttonBarIcons[35], -IDI_SHOWNICKLIST, 1 }
+	{ "chat_bkgcol", LPGEN("Background color"), 0, -IDI_BKGCOLOR, 1 },
+	{ "chat_settings", LPGEN("Room settings"), 0, -IDI_TOPICBUT, 1 },
+	{ "chat_filter", LPGEN("Event filter"), 0, -IDI_FILTER2, 1 },
+	{ "chat_shownicklist", LPGEN("Nick list"), 0, -IDI_SHOWNICKLIST, 1 }
 };
 
 static TIconDesc _logicons[] =
@@ -553,13 +553,14 @@ static int TSAPI SetupIconLibConfig()
 static int TSAPI LoadFromIconLib()
 {
 	for (auto &it : ICONBLOCKS)
-		for (int i = 0; i < it.nItems; i++)
-			*(it.idesc[i].phIcon) = IcoLib_GetIcon(it.idesc[i].szName);
+		for (int i = 0; i < it.nItems; i++) {
+			auto &p = it.idesc[i];
+			if (p.phIcon)
+				*p.phIcon = IcoLib_GetIcon(p.szName);
+		}
 
-	PluginConfig.g_buttonBarIcons[0] = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
-	PluginConfig.g_buttonBarIcons[1] = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
-
-	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] = PluginConfig.g_buttonBarIcons[12] = Skin_LoadIcon(SKINICON_OTHER_TYPING);
+	PluginConfig.g_buttonBarIcons[ICON_BUTTON_ADD] = Skin_LoadIcon(SKINICON_OTHER_ADDCONTACT);
+	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
 	PluginConfig.g_iconOverlayDisabled = IcoLib_GetIcon("tabSRMM_overlay_disabled");
 
@@ -586,11 +587,13 @@ void TSAPI LoadIconTheme()
 static void UnloadIcons()
 {
 	for (auto &it : ICONBLOCKS)
-		for (int i = 0; i < it.nItems; i++)
-			if (*(it.idesc[i].phIcon) != nullptr) {
-				DestroyIcon(*(it.idesc[i].phIcon));
-				*(it.idesc[i].phIcon) = nullptr;
+		for (int i = 0; i < it.nItems; i++) {
+			auto &p = it.idesc[i];
+			if (p.phIcon && *p.phIcon != nullptr) {
+				DestroyIcon(*p.phIcon);
+				*p.phIcon = nullptr;
 			}
+		}
 
 	if (PluginConfig.g_hbmUnknown)
 		DeleteObject(PluginConfig.g_hbmUnknown);

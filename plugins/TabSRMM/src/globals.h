@@ -30,6 +30,21 @@
 #ifndef __GLOBALS_H
 #define __GLOBALS_H
 
+// icon defintions (index into g_buttonBarIcons)
+#define ICON_BUTTON_ADD             0
+#define ICON_BUTTON_CANCEL          1
+#define ICON_BUTTON_SAVE            2
+#define ICON_BUTTON_SEND            3
+
+#define ICON_DEFAULT_SOUNDS         4
+#define ICON_DEFAULT_PULLDOWN       5
+#define ICON_DEFAULT_LEFT           6
+#define ICON_DEFAULT_RIGHT          7
+#define ICON_DEFAULT_UP             8
+#define ICON_DEFAULT_TYPING         9
+
+#define ICON_DEFAULT_MAX           10
+
 struct TSplitterBroadCast {
 	TContainerData *pSrcContainer;
 	CMsgDialog *pSrcDat;
@@ -73,7 +88,7 @@ public:
 	HICON       g_IconMsgEvent, g_IconTypingEvent, g_IconFileEvent, g_IconSend;
 	HICON       g_IconMsgEventBig, g_IconTypingEventBig;
 	HMENU       g_hMenuContext, g_hMenuContainer;
-	HICON       g_buttonBarIcons[37];
+	HICON       g_buttonBarIcons[ICON_DEFAULT_MAX];
 
 	// dynamic options, need reload when options change
 	int         m_iTabNameLimit;
