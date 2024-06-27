@@ -573,8 +573,8 @@ var
 begin
   // wParam - hContact, lParam - 0
   CurContact := M.wParam;
-  if CurContact = 0 then
-    CurProto := 'ICQ'
+  if CurContact <> 0 then
+    CurProto := ''
   else
     CurProto := Proto_GetBaseAccountName(CurContact);
   laProgress.Caption := Format(TranslateW('Searching "%s"...'),

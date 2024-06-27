@@ -555,7 +555,7 @@ begin
     begin
       if Items[Index].hContact = 0 then
       begin
-        Grid.Protocol := 'ICQ';
+        Grid.Protocol := '';
         FSubProtocol := Grid.Protocol;
       end
       else

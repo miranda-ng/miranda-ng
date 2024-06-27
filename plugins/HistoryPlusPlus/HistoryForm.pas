@@ -3007,7 +3007,7 @@ begin
   if FhContact = 0 then
   begin
     FhSubContact := 0;
-    FProtocol := 'ICQ';
+    FProtocol := '';
     FSubProtocol := FProtocol;
   end
   else
