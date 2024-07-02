@@ -374,7 +374,6 @@ void RebuildSubGroup()
 {
 	int flag = 0;
 	uint8_t item = 0;
-	GroupMenuParam gmp = { 0 };
 
 	// load options
 	flag = g_plugin.getByte(SET_MI_SUBGROUP, MCAS_NOTINITIATED);
@@ -387,12 +386,8 @@ void RebuildSubGroup()
 	RemoveMenuItems(hSubGroupMenuItems, _countof(hSubGroupMenuItems));
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
-	char text[200];
-	mir_strcpy(text, "UserInfo");
 
 	CMenuItem mi(&g_plugin);
-	mi.pszService = text;
-	char* tDest = text + mir_strlen(text);
 
 	HGENMENU mhRoot;
 
@@ -430,23 +425,23 @@ void RebuildSubGroup()
 
 	// Export
 	SET_UID(mi, 0x65be2523, 0x15fd, 0x45ca, 0xae, 0xe6, 0xc2, 0x98, 0xd2, 0xa9, 0xff, 0xd5);
-	mir_strcpy(tDest, "/ExportGroup");		//mi.pszService
-	if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
+	mi.pszService = "UserInfo/ExportGroup";
+	CreateServiceFunction(mi.pszService, svcExportGroup);
 	mi.name.a = mhRoot!= NULL ? LPGEN("&Export") : LPGEN("&Export group");
 	mi.position = 1050200;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EXPORT);
-	gmp.wParam = TRUE;
-	hSubGroupMenuItems[item++] = Menu_AddGroupMenuItem(&mi, &gmp);
+	hSubGroupMenuItems[item++] = Menu_AddGroupMenuItem(&mi);
 
-	// Import
+	// Import (not implemented yet)
+	/*
 	SET_UID(mi, 0xf6be7278, 0x4adb, 0x4e6a, 0x9f, 0x63, 0x79, 0xda, 0xbb, 0xcd, 0xbe, 0x42);
-	mir_strcpy(tDest, "/ImportGroup");		//mi.pszService
-	if (!ServiceExists(mi.pszService)) CreateServiceFunction(mi.pszService, svcExIm_Group_Service);
+	mi.pszService = "UserInfo/ImportGroup";
+	CreateServiceFunction(mi.pszService, svcImportGroup);
 	mi.name.a = mhRoot != NULL ? LPGEN("&Import") : LPGEN("&Import group");
 	mi.position = 1050300;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_IMPORT);
-	gmp.wParam = FALSE;
-	hSubGroupMenuItems[item++] = Menu_AddGroupMenuItem(&mi, &gmp);
+	hSubGroupMenuItems[item++] = Menu_AddGroupMenuItem(&mi);
+	*/
 }
 
 int OnBuildGroupMenu(WPARAM wParam, LPARAM)
@@ -560,19 +555,21 @@ int OnBuildStatusMenu(WPARAM, LPARAM lParam)
 
 		// Export
 		mir_strcpy(tDest, "/ExportAccount");
-		CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
+		CreateServiceFunction(mi.pszService, svcExImAccount);
 		mi.name.a = LPGEN("&Export xml");
 		mi.position = 50200;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_EXPORT);
 		hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi, pa->szModuleName);
 
-		// Import
+		// Import (not implemented yet)
+		/*
 		mir_strcpy(tDest, "/ImportAccount");
-		CreateServiceFunction(mi.pszService, svcExIm_Account_Service);
+		CreateServiceFunction(mi.pszService, svcExImAccount);
 		mi.name.a = LPGEN("&Import xml");
 		mi.position = 50300;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_IMPORT);
 		hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi, pa->szModuleName);
+		*/
 	}
 	return 0;
 }

@@ -156,16 +156,16 @@ INT_PTR SvcExImport_Export(lpExImParam ExImContact, HWND hwndParent)
 
 INT_PTR SvcExImport_Import(lpExImParam ExImContact, HWND hwndParent)
 {
+	// Still under development
+	if (ExImContact->Typ == EXIM_ACCOUNT || ExImContact->Typ == EXIM_GROUP)
+		return 1;
+
 	wchar_t szFileName[MAX_PATH]; szFileName[0] = 0;
 
 	// create the filename to suggest the user for the to export contact
 	DisplayNameToFileName(ExImContact, szFileName, _countof(szFileName));
 
 	int nIndex = DlgExIm_OpenFileName(hwndParent, TranslateT("Import User Details from VCard"), FilterString(ExImContact), szFileName);
-
-	// Stop during develop
-	if (ExImContact->Typ == EXIM_ACCOUNT ||
-		ExImContact->Typ == EXIM_GROUP) return 1;
 
 	switch (nIndex) {
 	case 1:
@@ -199,7 +199,7 @@ INT_PTR SvcExImport_Import(lpExImParam ExImContact, HWND hwndParent)
   * Ex/import All (MainMenu)
   *********************************/
 
-INT_PTR svcExIm_MainExport_Service(WPARAM, LPARAM lParam)
+static INT_PTR svcExIm_MainExport_Service(WPARAM, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
@@ -208,7 +208,7 @@ INT_PTR svcExIm_MainExport_Service(WPARAM, LPARAM lParam)
 	return SvcExImport_Export(&ExIm, (HWND)lParam);
 }
 
-INT_PTR svcExIm_MainImport_Service(WPARAM, LPARAM lParam)
+static INT_PTR svcExIm_MainImport_Service(WPARAM, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
@@ -221,7 +221,7 @@ INT_PTR svcExIm_MainImport_Service(WPARAM, LPARAM lParam)
  * Ex/import Contact (ContactMenu)
  *********************************/
 
-INT_PTR svcExIm_ContactExport_Service(WPARAM hContact, LPARAM lParam)
+INT_PTR svcExportContact(WPARAM hContact, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
@@ -230,7 +230,7 @@ INT_PTR svcExIm_ContactExport_Service(WPARAM hContact, LPARAM lParam)
 	return SvcExImport_Export(&ExIm, (HWND)lParam);
 }
 
-INT_PTR svcExIm_ContactImport_Service(WPARAM hContact, LPARAM lParam)
+INT_PTR svcImportContact(WPARAM hContact, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
@@ -253,45 +253,29 @@ INT_PTR svcExIm_ContactImport_Service(WPARAM hContact, LPARAM lParam)
   * @return	always 0
   **/
 
-INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM)
+INT_PTR svcExportGroup(WPARAM wParam, LPARAM)
 {
+	auto *grp = (ClcGroup *)wParam;
+
 	ExImParam ExIm;
-	INT_PTR hItem = 0, hRoot = 0, hParent = 0;
-	wchar_t tszGroup[120], tszItem[120];
-	memset(&tszGroup, 0, sizeof(tszGroup));
-	memset(&tszItem, 0, sizeof(tszItem));
-	memset(&ExIm, 0, sizeof(ExIm));
-	LPTSTR ptszGroup = tszGroup;
-	LPTSTR ptszItem = tszItem;
-
-	HWND hClist = g_clistApi.hwndContactTree;
-	// get clist selection
-	hItem = SendMessage(hClist, CLM_GETSELECTION, 0, 0);
-	hRoot = SendMessage(hClist, CLM_GETNEXTITEM, (WPARAM)CLGN_ROOT, (LPARAM)hItem);
-	while (hItem) {
-		if (SendMessage(hClist, CLM_GETITEMTYPE, (WPARAM)hItem, 0) == CLCIT_GROUP) {
-			SendMessage(hClist, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)ptszItem);
-			LPTSTR temp = mir_wstrdup(ptszGroup);
-			mir_snwprintf(tszGroup, L"%s%s%s", ptszItem, mir_wstrlen(temp) ? L"\\" : L"", temp);
-			mir_free(temp);
-		}
-		hParent = SendMessage(hClist, CLM_GETNEXTITEM, (WPARAM)CLGN_PARENT, (LPARAM)hItem);
-		hItem = (hParent != hRoot) ? hParent : 0;
-	}
-	ExIm.ptszName = ptszGroup;
+	ExIm.ptszName = Clist_GroupGetName(grp->groupId);
 	ExIm.Typ = EXIM_SUBGROUP;
-
-	if (wParam) {
-		//Export	"/ExportGroup"
-		SvcExImport_Export(&ExIm, hClist);
-	}
-	else {
-		//Import	"/ImportGroup"
-		SvcExImport_Import(&ExIm, hClist);
-	}
-
+	SvcExImport_Export(&ExIm, g_clistApi.hwndContactTree);
 	return 0;
 };
+
+/*
+INT_PTR svcImportGroup(WPARAM wParam, LPARAM)
+{
+	auto *grp = (ClcGroup *)wParam;
+
+	ExImParam ExIm;
+	ExIm.ptszName = Clist_GroupGetName(grp->groupId);
+	ExIm.Typ = EXIM_SUBGROUP;
+	SvcExImport_Import(&ExIm, g_clistApi.hwndContactTree);
+	return 0;
+};
+*/
 
 /*********************************
  *Ex/Import Account (AccountMenu)
@@ -320,24 +304,19 @@ struct StatusMenuExecParam
  * @return	always 0
  **/
 
-INT_PTR svcExIm_Account_Service(WPARAM, LPARAM lParam)
+INT_PTR svcExImAccount(WPARAM, LPARAM lParam)
 {
 	ExImParam ExIm;
 	memset(&ExIm, 0, sizeof(ExIm));
 	HWND hClist = g_clistApi.hwndContactTree;
 	StatusMenuExecParam *smep = (StatusMenuExecParam*)Menu_GetItemData((HGENMENU)lParam);
-	ExIm.pszName = mir_strdup(smep->proto);
+	ExIm.pszName = smep->proto;
 	ExIm.Typ = EXIM_ACCOUNT;
 
-	if (strstr(smep->svc, "/ExportAccount")) {
-		//Export	"/ExportAccount"
+	if (strstr(smep->svc, "/ExportAccount"))
 		SvcExImport_Export(&ExIm, hClist);
-	}
-	else {
-		//Import	"/ImportAccount"
+	else 
 		SvcExImport_Import(&ExIm, hClist);
-	}
-	mir_free(ExIm.pszName);
 	return 0;
 };
 
@@ -352,6 +331,6 @@ void SvcExImport_LoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_VCARD_EXPORTALL, svcExIm_MainExport_Service);
 	CreateServiceFunction(MS_USERINFO_VCARD_IMPORTALL, svcExIm_MainImport_Service);
-	CreateServiceFunction(MS_USERINFO_VCARD_EXPORT, svcExIm_ContactExport_Service);
-	CreateServiceFunction(MS_USERINFO_VCARD_IMPORT, svcExIm_ContactImport_Service);
+	CreateServiceFunction(MS_USERINFO_VCARD_EXPORT, svcExportContact);
+	CreateServiceFunction(MS_USERINFO_VCARD_IMPORT, svcImportContact);
 }

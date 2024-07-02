@@ -1268,14 +1268,14 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			break;
 
 		case BTN_IMPORT:
-			svcExIm_ContactImport_Service((WPARAM)pPs->hContact, 0);
+			svcImportContact(pPs->hContact, 0);
 			break;
 
 		case BTN_EXPORT:
 			// save changes before exporting data
 			DlgProc(hDlg, WM_COMMAND, MAKEWPARAM(IDAPPLY, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, IDAPPLY));
 			// do the exporting stuff
-			svcExIm_ContactExport_Service((WPARAM)pPs->hContact, 0);
+			svcExportContact(pPs->hContact, 0);
 			break;
 		}
 		break;
