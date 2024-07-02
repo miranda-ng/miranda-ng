@@ -109,9 +109,9 @@ TiXmlElement *CExImContactXML::CreateXmlElement()
 			_xmlDoc.InsertEndChild(_xmlWriter = _xmlDoc.NewElement(XKEY_CONTACT));
 
 			LPSTR pszUID = uid2String(TRUE);
-			_xmlWriter->SetAttribute("ampro", _pszAMPro);
 			_xmlWriter->SetAttribute("proto", _pszProto);
 
+			if (_pszAMPro) _xmlWriter->SetAttribute("ampro", _pszAMPro);
 			if (_pszDisp)  _xmlWriter->SetAttribute("disp", _pszDisp);
 			if (_pszNick)  _xmlWriter->SetAttribute("nick", _pszNick);
 			if (_pszGroup) _xmlWriter->SetAttribute("group", _pszGroup);
