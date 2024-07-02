@@ -140,7 +140,6 @@ int CFileXml::Export(lpExImParam ExImContact, const wchar_t *pszFileName)
 			for (auto &hContact: Contacts()) {
 				switch (ExImContact->Typ) {
 				case EXIM_ALL:
-				case EXIM_GROUP:
 					// dont export meta subcontacts by default
 					if (!db_mc_isSub(hContact)) {
 						if (vContact.fromDB(hContact)) {

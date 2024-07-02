@@ -44,7 +44,6 @@ static void DisplayNameToFileName(lpExImParam ExImContact, wchar_t *pszFileName,
 
 	switch (ExImContact->Typ) {
 	case EXIM_ALL:
-	case EXIM_GROUP:
 		mir_wstrncpy(pszFileName, TranslateT("all Contacts"), cchFileName);
 		return;
 
@@ -98,7 +97,6 @@ static CMStringW FilterString(lpExImParam ExImContact)
 		__fallthrough;
 
 	case EXIM_ALL:
-	case EXIM_GROUP:
 		str.AppendFormat(L"%s (*.ini)\0*.ini\0", TranslateT("DBEditor++ File"));
 		__fallthrough;
 
@@ -157,7 +155,7 @@ INT_PTR SvcExImport_Export(lpExImParam ExImContact, HWND hwndParent)
 INT_PTR SvcExImport_Import(lpExImParam ExImContact, HWND hwndParent)
 {
 	// Still under development
-	if (ExImContact->Typ == EXIM_ACCOUNT || ExImContact->Typ == EXIM_GROUP)
+	if (ExImContact->Typ == EXIM_ACCOUNT || ExImContact->Typ == EXIM_SUBGROUP)
 		return 1;
 
 	wchar_t szFileName[MAX_PATH]; szFileName[0] = 0;
@@ -258,8 +256,8 @@ INT_PTR svcExportGroup(WPARAM wParam, LPARAM)
 	auto *grp = (ClcGroup *)wParam;
 
 	ExImParam ExIm;
-	ExIm.ptszName = Clist_GroupGetName(grp->groupId);
 	ExIm.Typ = EXIM_SUBGROUP;
+	ExIm.ptszName = Clist_GroupGetName(grp->groupId);
 	SvcExImport_Export(&ExIm, g_clistApi.hwndContactTree);
 	return 0;
 };
@@ -270,8 +268,8 @@ INT_PTR svcImportGroup(WPARAM wParam, LPARAM)
 	auto *grp = (ClcGroup *)wParam;
 
 	ExImParam ExIm;
-	ExIm.ptszName = Clist_GroupGetName(grp->groupId);
 	ExIm.Typ = EXIM_SUBGROUP;
+	ExIm.ptszName = Clist_GroupGetName(grp->groupId);
 	SvcExImport_Import(&ExIm, g_clistApi.hwndContactTree);
 	return 0;
 };

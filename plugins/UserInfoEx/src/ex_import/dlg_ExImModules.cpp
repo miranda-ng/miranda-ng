@@ -191,7 +191,6 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 					newTitle[MAXDATASIZE];
 				switch (pDat->ExImContact->Typ) {
 				case EXIM_ALL:
-				case EXIM_GROUP:
 					name = TranslateT("All Contacts");
 					break;
 				case EXIM_CONTACT:
@@ -279,7 +278,6 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 											// Filter by mode
 											switch (pDat->ExImContact->Typ) {
 											case EXIM_ALL:
-											case EXIM_GROUP:
 												break;
 											case EXIM_SUBGROUP:
 												if (mir_wstrncmp(pDat->ExImContact->ptszName, DB::Setting::GetWString(hContact, "CList", "Group"), mir_wstrlen(pDat->ExImContact->ptszName))) {

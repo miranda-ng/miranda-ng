@@ -37,9 +37,8 @@ enum ExImType
 {
 	EXIM_ALL = 1,
 	EXIM_CONTACT = 2,
-	EXIM_GROUP = 4,
-	EXIM_SUBGROUP = 8,
-	EXIM_ACCOUNT = 16
+	EXIM_SUBGROUP = 4,
+	EXIM_ACCOUNT = 8
 };
 
 INT_PTR svcExportContact(WPARAM wParam, LPARAM lParam);
