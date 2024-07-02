@@ -87,20 +87,13 @@ static void DisplayNameToFileName(lpExImParam ExImContact, wchar_t *pszFileName,
 static CMStringW FilterString(lpExImParam ExImContact)
 {
 	CMStringW str;
+	str.Format(L"%s 1.0 (*.xml)%c*.xml%c", TranslateT("XMLCard"), 0, 0);
 
-	switch (ExImContact->Typ) {
-	case EXIM_SUBGROUP:
-	case EXIM_ACCOUNT:
-		str.Format(L"%s 1.0 (*.xml)%c*.xml%c", TranslateT("XMLCard"), 0, 0);
-		__fallthrough;
-
-	case EXIM_ALL:
+	if (ExImContact->Typ == EXIM_ALL || ExImContact->Typ == EXIM_CONTACT)
 		str.AppendFormat(L"%s (*.ini)%c*.ini%c", TranslateT("DBEditor++ File"), 0, 0);
-		__fallthrough;
 
-	case EXIM_CONTACT:
+	if (ExImContact->Typ == EXIM_CONTACT)
 		str.AppendFormat(L"%s 2.1 (*.vcf)%c*.vcf%c", TranslateT("Standard vCard"), 0, 0);
-	}
 
 	str.AppendChar(0);
 	return str;
