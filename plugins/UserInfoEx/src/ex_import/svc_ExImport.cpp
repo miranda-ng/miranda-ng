@@ -36,8 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 static void DisplayNameToFileName(lpExImParam ExImContact, wchar_t *pszFileName, size_t cchFileName)
 {
-	LPCSTR disp = nullptr;
-	LPSTR	temp = nullptr;
+	LPCWSTR disp = nullptr;
 
 	cchFileName--;
 	pszFileName[0] = 0;
@@ -53,17 +52,16 @@ static void DisplayNameToFileName(lpExImParam ExImContact, wchar_t *pszFileName,
 			return;
 		}
 
-		disp = temp = mir_u2a(Clist_GetContactDisplayName(ExImContact->hContact));
+		disp = Clist_GetContactDisplayName(ExImContact->hContact);
 		break;
 
 	case EXIM_SUBGROUP:
-		temp = mir_u2a(ExImContact->ptszName);
-		disp = temp;
+		disp = ExImContact->ptszName;
 		break;
 
 	case EXIM_ACCOUNT:
 		PROTOACCOUNT *acc = Proto_GetAccount(ExImContact->pszName);
-		disp = temp = mir_u2a(acc->tszAccountName);
+		disp = acc->tszAccountName;
 		break;
 	}
 
@@ -82,7 +80,7 @@ static void DisplayNameToFileName(lpExImParam ExImContact, wchar_t *pszFileName,
 		disp++;
 		cchFileName--;
 	}
-	mir_free(temp);
+
 	pszFileName[0] = 0;
 }
 
@@ -93,16 +91,18 @@ static CMStringW FilterString(lpExImParam ExImContact)
 	switch (ExImContact->Typ) {
 	case EXIM_SUBGROUP:
 	case EXIM_ACCOUNT:
-		str.Format(L"%s 1.0 (*.xml)\0*.xml\0", TranslateT("XMLCard"));
+		str.Format(L"%s 1.0 (*.xml)%c*.xml%c", TranslateT("XMLCard"), 0, 0);
 		__fallthrough;
 
 	case EXIM_ALL:
-		str.AppendFormat(L"%s (*.ini)\0*.ini\0", TranslateT("DBEditor++ File"));
+		str.AppendFormat(L"%s (*.ini)%c*.ini%c", TranslateT("DBEditor++ File"), 0, 0);
 		__fallthrough;
 
 	case EXIM_CONTACT:
-		str.AppendFormat(L"%s 2.1 (*.vcf)\0*.vcf\0", TranslateT("Standard vCard"));
+		str.AppendFormat(L"%s 2.1 (*.vcf)%c*.vcf%c", TranslateT("Standard vCard"), 0, 0);
 	}
+
+	str.AppendChar(0);
 	return str;
 }
 
