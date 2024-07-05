@@ -763,7 +763,7 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei)
 		CLISTEVENT cle = {};
 		cle.hContact = m_hContact;
 		cle.hDbEvent = hEvent;
-		cle.hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
+		cle.hIcon = Skin_LoadIcon((dbei.eventType == EVENTTYPE_FILE) ? SKINICON_EVENT_FILE : SKINICON_EVENT_MESSAGE);
 		cle.pszService = MS_MSG_READMESSAGE;
 		g_clistApi.pfnAddEvent(&cle);
 
