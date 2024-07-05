@@ -737,8 +737,9 @@ int CMsgDialog::FindRTLLocale()
 void CMsgDialog::FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei)
 {
 	m_dwTickLastEvent = GetTickCount();
+	bool bSent = dbei.flags & DBEF_SENT;
 
-	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei.flags & DBEF_SENT) && dbei.eventType == EVENTTYPE_MESSAGE) {
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !bSent) {
 		m_dwUnread++;
 		AddUnreadContact(m_hContact);
 	}
@@ -749,7 +750,7 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei)
 	if (!g_plugin.bFlashOnClist || isChat())
 		return;
 
-	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei.flags & DBEF_SENT) && dbei.eventType == EVENTTYPE_MESSAGE && !m_bFlashClist) {
+	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !bSent && !m_bFlashClist) {
 		for (int i = 0;; i++) {
 			auto *cle = Clist_GetEvent(m_hContact, i);
 			if (cle == nullptr)
