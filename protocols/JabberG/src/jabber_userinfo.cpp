@@ -349,14 +349,13 @@ class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 		}
 
 		// logoff
-		char buf[256];
 		JABBER_RESOURCE_STATUS *r = item->getTemp();
 		if (r->m_dwIdleStartTime > 0) {
-			struct tm *lt = localtime(&r->m_dwIdleStartTime);
-			mir_snprintf(buf, "%d.%d.%d %d:%d", lt->tm_mday, lt->tm_mon, 1900 + lt->tm_year, lt->tm_hour, lt->tm_min);
+			wchar_t wbuf[100];
+			printDateTimeByContact(item->hContact, L"d t", wbuf, _countof(wbuf), 0);
 
 			FillInfoLine(htiRoot, nullptr,
-				(item->jid && strchr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), buf,
+				(item->jid && strchr(item->jid, '@')) ? TranslateT("Last logoff time") : TranslateT("Uptime"), T2Utf(wbuf),
 				sttInfoLineId(0, INFOLINE_LOGOFF));
 		}
 
