@@ -373,19 +373,18 @@ uint32_t INTSORT_GetLastMsgTime(MCONTACT hContact);
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // clcutils.c
-void   BeginRenameSelection(HWND hwnd, struct ClcData *dat);
-int    HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t *flags);
-void   ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
-void   RecalcScrollBar(HWND hwnd, struct ClcData *dat);
+void     BeginRenameSelection(HWND hwnd, struct ClcData *dat);
+int      HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t *flags);
+void     ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
+void     RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 
-int    GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
-void   LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
-uint8_t   GetCachedStatusMsg(TExtraCache* p, char *szProto);
-void   GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
-LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void   HideShowNotifyFrame();
-uint32_t  GetCLUIWindowStyle(uint8_t style);
-void   ApplyCLUIBorderStyle();
+void     LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
+uint8_t  GetCachedStatusMsg(TExtraCache* p, char *szProto);
+void     GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
+LRESULT  CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+void     HideShowNotifyFrame();
+uint32_t GetCLUIWindowStyle(uint8_t style);
+void     ApplyCLUIBorderStyle();
 
 int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar);
 int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar);
