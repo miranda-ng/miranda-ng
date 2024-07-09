@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>MRA</ProjectName>
+    <ProjectName>ICQ</ProjectName>
     <ProjectGuid>{EFB2355B-82B3-4759-B7D8-95F8E9506291}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
