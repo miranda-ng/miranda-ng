@@ -288,8 +288,8 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 	// shuffle list of groups up to fill gap
 	int shuffleFrom, shuffleTo, shuffleStep;
 	if (hGroupBefore == 0) {
-		shuffleFrom = 0;
-		shuffleTo = hGroup;
+		shuffleFrom = hGroup;
+		shuffleTo = hGroupBefore = arByIds.getCount() - 1;
 		shuffleStep = 1;
 	}
 	else {
