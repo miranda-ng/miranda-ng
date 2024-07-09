@@ -341,7 +341,7 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 			topItem = cliGetRowByIndex(dat, topItem, &topcontact, &topgroup);
 			ok = 1;
 		}
-		else if ((pt.y + dat->yScroll >= cliGetRowTopY(dat, hit + 1) - dat->insertionMarkHitHeight)
+		else if ((pt.y + dat->yScroll >= cliGetRowBottomY(dat, hit + 1) - dat->insertionMarkHitHeight)
 			|| (contact->type == CLCIT_GROUP && contact->group->bExpanded && contact->group->cl.getCount() > 0)) {
 			//could be insertion mark (below)
 			topItem = hit; bottomItem = hit + 1;

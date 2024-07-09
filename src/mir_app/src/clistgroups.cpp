@@ -294,8 +294,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 	}
 	else {
 		hGroupBefore--;
-		CGroupInternal *pDest = FindGroup(hGroupBefore);
-		if (pDest == nullptr)
+		if (!FindGroup(hGroupBefore))
 			return 0;
 
 		if (hGroup < hGroupBefore) {

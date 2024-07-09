@@ -1207,11 +1207,11 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_INSERTION:
-			ClcContact *contact, *destcontact;
-			ClcGroup *group, *destgroup;
 			{
-				BOOL NeedRename = FALSE;
-				wchar_t newName[128] = { 0 };
+				wchar_t newName[128]; newName[0] = 0;
+
+				ClcContact *contact, *destcontact;
+				ClcGroup *group, *destgroup;
 				g_clistApi.pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
 				int i = g_clistApi.pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
 				if (i != -1 && group->groupId != destgroup->groupId) {
@@ -1227,7 +1227,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 							shortGroup = groupName;
 					}
 					if (shortGroup) {
-						NeedRename = TRUE;
 						if (sourceGrName)
 							mir_snwprintf(newName, L"%s\\%s", sourceGrName, shortGroup);
 						else
@@ -1239,7 +1238,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 
 				int newIndex = Clist_GroupMoveBefore(contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
 				newIndex = newIndex ? newIndex : contact->groupId;
-				if (NeedRename)
+				if (newName[0])
 					Clist_GroupRename(newIndex, newName);
 			}
 			break;
