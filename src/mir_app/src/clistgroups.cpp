@@ -35,7 +35,7 @@ static mir_cs csGroups;
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int CompareGrpByName(const CGroupInternal *p1, const CGroupInternal *p2)
-{	return mir_wstrcmp(p1->groupName+1, p2->groupName+1);
+{	return mir_wstrcmp(p1->groupName, p2->groupName);
 }
 
 static LIST<CGroupInternal> arByName(20, CompareGrpByName);
