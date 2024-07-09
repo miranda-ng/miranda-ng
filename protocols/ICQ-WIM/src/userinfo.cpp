@@ -135,7 +135,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 	uip.szGroup.w = m_tszUserName;
 	uip.szProto = m_szModuleName;
 
-	uip.szTitle.w = L"ICQ";
+	uip.szTitle.w = L"MRA";
 	uip.position = -1900000000;
 	uip.pDialog = new IcqUserInfoDlg(this);
 	g_plugin.addUserInfo(wParam, &uip);
