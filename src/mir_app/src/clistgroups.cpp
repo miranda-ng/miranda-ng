@@ -298,6 +298,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 			return 0;
 
 		if (hGroup < hGroupBefore) {
+			hGroupBefore--;
 			shuffleFrom = hGroup;
 			shuffleTo = hGroupBefore;
 			shuffleStep = 1;
