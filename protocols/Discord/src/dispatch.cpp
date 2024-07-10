@@ -277,7 +277,8 @@ void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 
 	for (auto &it : arUsers.rev_iter())
 		if (it->pGuild == pGuild) {
-			db_delete_contact(it->si->hContact);
+			if (it->si)
+				db_delete_contact(it->si->hContact);
 			arUsers.removeItem(&it);
 		}
 
