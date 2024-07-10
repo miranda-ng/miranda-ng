@@ -125,7 +125,6 @@ Plugins\simplestatusmsg.dll
 Plugins\skypestatuschange.dll
 Plugins\skypeweb.dll
 Plugins\smileyadd.dll
-Plugins\spamotron.dll
 Plugins\spellchecker.dll
 Plugins\splashscreen.dll
 Plugins\startposition.dll
