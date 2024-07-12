@@ -941,11 +941,10 @@ next:
 	}
 
 	if (nlhrReply->resultCode >= 200 && (dataLen > 0 || (!isConnect && dataLen < 0))) {
-		if (chunked) {
+		if (chunked)
 			dataLen = NetlibHttpRecvChunkHeader(nlc, true, dflags | (cenctype ? MSG_NODUMP : 0));
-			if (dataLen == SOCKET_ERROR)
-				return nullptr;
-		}
+		if (dataLen == SOCKET_ERROR)
+			return nullptr;
 
 		ptrA tmpBuf((char *)mir_alloc(65536));
 		while (dataLen != 0) {
