@@ -272,6 +272,7 @@ public:
 		CUserInfoPageDlg(g_plugin, IDD_USERINFO),
 		btnDetail(this, IDC_MOREDETAIL)
 	{
+		btnDetail.OnClick = Callback(this, &WeatherUserInfoDlg::onClick_Detail);
 	}
 
 	bool OnInitDialog() override
