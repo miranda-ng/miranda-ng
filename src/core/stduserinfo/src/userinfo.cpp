@@ -317,7 +317,7 @@ public:
 		CheckOnline();
 		if (!CallContactService(m_hContact, PS_GETINFO, SGIF_ONOPEN)) {
 			btnUpdate.Disable();
-			SetTimer(m_hwnd, 1, 100, nullptr);
+			updateTimer.Start(100);
 		}
 		else ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_HIDE);
 

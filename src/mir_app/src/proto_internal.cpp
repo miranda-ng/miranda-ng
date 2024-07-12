@@ -217,7 +217,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int GetStatus() override
 	{
-		return (int)ProtoCallService(m_szModuleName, PS_SETSTATUS, 0, 0);
+		return (int)ProtoCallService(m_szModuleName, PS_GETSTATUS, 0, 0);
 	}
 
 	int SetStatus(int iNewStatus) override

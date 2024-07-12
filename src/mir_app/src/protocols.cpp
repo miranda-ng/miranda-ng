@@ -295,8 +295,13 @@ MIR_APP_DLL(int) Proto_GetStatus(const char *accName)
 	if (accName == nullptr)
 		return ID_STATUS_OFFLINE;
 
-	PROTOACCOUNT *pa = g_arAccounts.find((PROTOACCOUNT*)&accName);
-	return (pa) ? pa->iRealStatus : ID_STATUS_OFFLINE;
+	if (auto *pa = g_arAccounts.find((PROTOACCOUNT *)&accName)) {
+		if (pa->bOldProto)
+			return ProtoCallService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+		return pa->iRealStatus;
+	}
+
+	return ID_STATUS_OFFLINE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

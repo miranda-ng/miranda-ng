@@ -35,17 +35,18 @@ extern VARSW g_pwszIconsName;
 // protocol service function for setting weather protocol status
 INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM)
 {
-	new_status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-
 	// if we don't want to show status for default station
-	if (!opt.NoProtoCondition && status != new_status) {
+	if (status != new_status) {
 		old_status = status;
-		status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
+		status = new_status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 
-		UpdateMenu(new_status != ID_STATUS_OFFLINE);
-		if (new_status != ID_STATUS_OFFLINE)
-			UpdateAll(FALSE, FALSE);
+		if (!opt.NoProtoCondition) {
+			ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
+
+			UpdateMenu(new_status != ID_STATUS_OFFLINE);
+			if (new_status != ID_STATUS_OFFLINE)
+				UpdateAll(FALSE, FALSE);
+		}
 	}
 
 	return 0;

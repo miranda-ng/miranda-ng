@@ -54,22 +54,22 @@ static int BriefDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 // also load brief info into message box
 static void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 {
-	WEATHERINFO winfo;
 	wchar_t str[4096];
 
 	// load weather information from the contact into the WEATHERINFO struct
-	winfo = LoadWeatherInfo(hContact);
+	WEATHERINFO winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
 	if (!g_plugin.getByte(hContact, "IsUpdated"))
-		wcsncpy(str, TranslateT("No information available.\r\nPlease update weather condition first."), _countof(str) - 1);
-	else
+		SetDlgItemTextW(hwndDlg, IDC_MTEXT, TranslateT("No information available.\r\nPlease update weather condition first."));
+	else {
 		// set the display text and show the message box
 		GetDisplay(&winfo, GetTextValue('B'), str);
-	SetDlgItemText(hwndDlg, IDC_MTEXT, str);
+		SetDlgItemTextW(hwndDlg, IDC_MTEXT, str);
+	}
 
 	GetDisplay(&winfo, L"%c, %t", str);
-	SetWindowText(hwndDlg, winfo.city);
-	SetDlgItemText(hwndDlg, IDC_HEADERBAR, str);
+	SetWindowTextW(hwndDlg, winfo.city);
+	SetDlgItemTextW(hwndDlg, IDC_HEADERBAR, str);
 }
 
 // dialog process for more data in the user info window
