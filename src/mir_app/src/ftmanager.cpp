@@ -169,7 +169,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		}
 
 		if(dat->runningCount == 0 && wParam == ACKRESULT_SUCCESS && File::bAutoClose)
-			ShowWindow(hwndFtMgr, SW_HIDE);
+			PostMessage(hwndFtMgr, WM_CLOSE, 0, 0);
 		break;
 
 	case WM_FT_CLEANUP:
@@ -423,6 +423,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 		}
 		lParam = 0;
+		__fallthrough;
 
 	case WM_TIMER:
 		if (pTaskbarInterface) {
