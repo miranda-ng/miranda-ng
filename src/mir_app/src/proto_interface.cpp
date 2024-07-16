@@ -361,6 +361,7 @@ void InitProtoMenus(void)
 	mi.position = -2000001001;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_GRANT);
 	hGrantAuth = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, stubGrantAuth);
 
 	// "Revoke authorization"
 	SET_UID(mi, 0x619efdcb, 0x99c0, 0x44a8, 0xbf, 0x28, 0xc3, 0xe0, 0x2f, 0xb3, 0x7e, 0x77);
@@ -369,6 +370,7 @@ void InitProtoMenus(void)
 	mi.position = -2000001000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_AUTH_REVOKE);
 	hRevokeAuth = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, stubRevokeAuth);
 
 	SET_UID(mi, 0xd15b841d, 0xb0fc, 0x4ab5, 0x96, 0x94, 0xcf, 0x6c, 0x6e, 0x99, 0x4b, 0x3c); // {D15B841D-B0FC-4AB5-9694-CF6C6E994B3C}
 	mi.pszService = "Proto/Menu/LoadHistory";
