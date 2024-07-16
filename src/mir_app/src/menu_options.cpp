@@ -176,22 +176,22 @@ class CGenMenuOptionsPage : public CDlgBase
 			BuildTree(MenuObjectID, true);
 	}
 
-	void BuildTreeInternal(const char *pszModule, bool bReread, TMO_IntMenuItem *pFirst, HTREEITEM hRoot)
+	void BuildTreeInternal(const char *pszModule, bool bReread, const TMO_LinkedList &pList, HTREEITEM hRoot)
 	{
 		LIST<MenuItemOptData> arItems(10, SortMenuItems);
 
-		for (TMO_IntMenuItem *p = pFirst; p != nullptr; p = p->next) {
+		for (auto &it : pList) {
 			// filter out items whose presence & position might not be changed
-			if (p->mi.flags & CMIF_SYSTEM)
+			if (it->mi.flags & CMIF_SYSTEM)
 				continue;
 
 			MenuItemOptData *PD = new MenuItemOptData();
-			PD->pimi = p;
-			PD->defname = mir_wstrdup(GetMenuItemText(p));
-			PD->name = mir_wstrdup((bReread && p->ptszCustomName != nullptr) ? p->ptszCustomName : PD->defname);
-			PD->bShow = (p->mi.flags & CMIF_HIDDEN) == 0;
-			PD->pos = (bReread) ? p->mi.position : p->originalPosition;
-			PD->id = p->iCommand;
+			PD->pimi = it;
+			PD->defname = mir_wstrdup(GetMenuItemText(it));
+			PD->name = mir_wstrdup((bReread && it->ptszCustomName != nullptr) ? it->ptszCustomName : PD->defname);
+			PD->bShow = (it->mi.flags & CMIF_HIDDEN) == 0;
+			PD->pos = (bReread) ? it->mi.position : it->originalPosition;
+			PD->id = it->iCommand;
 			arItems.insert(PD);
 		}
 
@@ -222,8 +222,7 @@ class CGenMenuOptionsPage : public CDlgBase
 			tvis.item.pszText = it->name;
 			tvis.item.state = INDEXTOSTATEIMAGEMASK(it->bShow ? 2 : 1);
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-
-			tvis.item.cChildren = it->pimi->submenu.first != nullptr;
+			tvis.item.cChildren = it->pimi->submenu.getCount() != 0;
 
 			HTREEITEM hti = m_menuItems.InsertItem(&tvis);
 			if (bIsFirst) {
@@ -232,8 +231,8 @@ class CGenMenuOptionsPage : public CDlgBase
 				bIsFirst = false;
 			}
 
-			if (it->pimi->submenu.first != nullptr) {
-				BuildTreeInternal(pszModule, bReread, it->pimi->submenu.first, hti);
+			if (it->pimi->submenu.getCount()) {
+				BuildTreeInternal(pszModule, bReread, it->pimi->submenu, hti);
 				m_menuItems.Expand(hti, TVE_EXPAND);
 			}
 
@@ -246,18 +245,18 @@ class CGenMenuOptionsPage : public CDlgBase
 		FreeTreeData();
 
 		TIntMenuObject *pmo = GetMenuObjbyId(MenuObjectId);
-		if (pmo == nullptr || pmo->m_items.first == nullptr)
+		if (!pmo || !pmo->m_items.getCount())
 			return false;
 
 		auto szModule(pmo->getModule());
 
 		if (bReread) // no need to reread database on reset
-			MO_RecursiveWalkMenu(pmo->m_items.first, Menu_LoadFromDatabase, szModule);
+			Menu_LoadAllFromDatabase(pmo->m_items, szModule.c_str());
 
 		m_menuItems.SetDraw(false);
 		m_menuItems.DeleteAllItems();
 
-		BuildTreeInternal(szModule, bReread, pmo->m_items.first, nullptr);
+		BuildTreeInternal(szModule, bReread, pmo->m_items, nullptr);
 
 		m_menuItems.SetDraw(true);
 

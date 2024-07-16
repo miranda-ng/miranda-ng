@@ -103,7 +103,7 @@ MIR_APP_DLL(void) Clist_ContactDoubleClicked(MCONTACT hContact)
 	if (pmo != nullptr) {
 		NotifyEventHooks(hPreBuildContactMenuEvent, hContact, 0);
 
-		TMO_IntMenuItem *pimi = Menu_GetDefaultItem(pmo->m_items.first);
+		TMO_IntMenuItem *pimi = MO_GetDefaultItem(pmo->m_items);
 		if (pimi != nullptr)
 			Menu_ProcessCommand(pimi, hContact);
 	}

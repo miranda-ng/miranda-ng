@@ -118,12 +118,6 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_DrawItem(LPARAM);
 EXTERN_C MIR_APP_DLL(void) Menu_EnableItem(HGENMENU hMenuItem, bool bEnable);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Retrieves a default menu item for the menu passed
-// Returns a menu handle on success or NULL on failure
-
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetDefaultItem(HGENMENU hMenu);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Retrieves user info from a menu item
 // Returns ownerdata on success, NULL on failure
 // Useful to get and free ownerdata before delete menu item.

@@ -32,18 +32,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct TIntMenuObject;
 struct TMO_IntMenuItem;
 
-struct TMO_LinkedList
+struct TMO_LinkedList : public OBJLIST<TMO_IntMenuItem>
 {
-	TMO_IntMenuItem
-		*first, // first element of submenu, or nullptr
-		*last;  // last element of submenu, or nullptr
+	typedef LIST<TMO_IntMenuItem> CSuper;
 
-	void insert(TMO_IntMenuItem*);
-	void remove(TMO_IntMenuItem*);
+	TMO_LinkedList() :
+		OBJLIST<TMO_IntMenuItem>(1)
+	{}
+
+	void remove(TMO_IntMenuItem *p);
 };
 
-struct TMO_IntMenuItem
+struct TMO_IntMenuItem : public MZeroedObject
 {
+	TMO_IntMenuItem();
+	~TMO_IntMenuItem();
+
 	uint32_t     signature;
 	int          iCommand;
 	int          iconId;           // icon index in the section's image list
@@ -59,10 +63,11 @@ struct TMO_IntMenuItem
 	WPARAM       execParam;
 	void*        pUserData;
 
-	TMO_IntMenuItem *next; // next item in list
-	TIntMenuObject  *parent;
-	TMO_LinkedList  *owner;
-	TMO_LinkedList   submenu;
+	TIntMenuObject *parent;
+	TMO_LinkedList *owner;
+	TMO_LinkedList submenu;
+
+	void relink(TMO_LinkedList *pList);
 };
 
 struct TIntMenuObject : public MZeroedObject
@@ -97,7 +102,6 @@ struct TIntMenuObject : public MZeroedObject
 	HIMAGELIST m_hMenuIcons;
 	bool m_bUseUserDefinedItems;
 
-	void freeItem(TMO_IntMenuItem*);
 	CMStringA getModule() const;
 };
 
@@ -111,20 +115,18 @@ TMO_IntMenuItem* MO_GetIntMenuItem(HGENMENU);
 int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam);
 
 // function returns TRUE if the walk should be immediately stopped
-typedef int (*pfnWalkFunc)(TMO_IntMenuItem*, void*);
+typedef int (*pfnWalkFunc)(TMO_IntMenuItem*, const void*);
 
 // returns the item, on which pfnWalkFunc returned TRUE
-TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem*, pfnWalkFunc, void* = nullptr);
+TMO_IntMenuItem* MO_RecursiveWalkMenu(const TMO_LinkedList &pList, pfnWalkFunc, const void* = nullptr);
 
-__forceinline TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *pimi, pfnWalkFunc pFunc, const char *pszParam) {
-	return MO_RecursiveWalkMenu(pimi, pFunc, (void *)pszParam);
-}
+TMO_IntMenuItem* MO_GetDefaultItem(const TMO_LinkedList &pList);
 
 // general stuff
 int InitGenMenu();
 int UninitGenMenu();
 
-int Menu_LoadFromDatabase(TMO_IntMenuItem *pimi, void *param);
+void Menu_LoadAllFromDatabase(const TMO_LinkedList &pList, const char *param);
 
 HMENU Menu_BuildGroupMenu(struct ClcGroup *group);
 

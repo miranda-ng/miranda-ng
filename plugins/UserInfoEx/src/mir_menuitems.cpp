@@ -65,11 +65,12 @@ static INT_PTR RemoveMenuItems(HGENMENU *pItems, int Count)
  * @return	nothing
  **/
 
+static HGENMENU hContactMenuItems[4];
+
 void RebuildContact()
 {
 	HGENMENU mhRoot = nullptr;
 	HGENMENU mhExIm = nullptr;
-	static HGENMENU hMenuItem[4] = { nullptr, nullptr, nullptr, nullptr };
 
 	SvcEMailRebuildMenu();
 	SvcHomepageRebuildMenu();
@@ -82,7 +83,7 @@ void RebuildContact()
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
+	RemoveMenuItems(hContactMenuItems, _countof(hContactMenuItems));
 
 	// support new genmenu style
 	CMenuItem mi(&g_plugin);
@@ -91,7 +92,7 @@ void RebuildContact()
 	case 3:
 		//cascade off
 		mhRoot = mhExIm = nullptr;
-		hMenuItem[0] = nullptr;
+		hContactMenuItems[0] = nullptr;
 		break;
 	case 5:
 		//cascade all
@@ -100,7 +101,7 @@ void RebuildContact()
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
 		mi.name.a = MODULELONGNAME;
 		mhRoot = Menu_AddContactMenuItem(&mi);
-		hMenuItem[0] = mhRoot;
+		hContactMenuItems[0] = mhRoot;
 		mhExIm = mhRoot;
 		break;
 	case 9:
@@ -110,7 +111,7 @@ void RebuildContact()
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
 		mhExIm = Menu_AddContactMenuItem(&mi);
-		hMenuItem[0] = mhExIm;
+		hContactMenuItems[0] = mhExIm;
 		mhRoot = nullptr;
 		break;
 	default:
@@ -125,9 +126,9 @@ void RebuildContact()
 	mi.name.a = LPGEN("User &details");
 	mi.position = 1000050000;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
-	hMenuItem[1] = Menu_AddContactMenuItem(&mi);
+	hContactMenuItems[1] = Menu_AddContactMenuItem(&mi);
 
-	Menu_ConfigureItem(hMenuItem[1], MCI_OPT_HOTKEY, MAKELPARAM(VK_F3, MOD_ALT));
+	Menu_ConfigureItem(hContactMenuItems[1], MCI_OPT_HOTKEY, MAKELPARAM(VK_F3, MOD_ALT));
 
 	// VCard's Ex/Import menuitems
 	mi.root = mhExIm;
@@ -138,7 +139,7 @@ void RebuildContact()
 	mi.name.a = mhExIm != NULL ? LPGEN("&Export") : LPGEN("&Export user details");
 	mi.position = 1000050200;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EXPORT);
-	hMenuItem[2] = Menu_AddContactMenuItem(&mi);
+	hContactMenuItems[2] = Menu_AddContactMenuItem(&mi);
 
 	// Import
 	SET_UID(mi, 0x3DD52244, 0x0AD8, 0x4A0E, 0xB2, 0x6B, 0xB4, 0xB8, 0x4B, 0x1C, 0x33, 0x7C);
@@ -146,7 +147,7 @@ void RebuildContact()
 	mi.name.a = mhExIm != NULL ? LPGEN("&Import") : LPGEN("&Import user details");
 	mi.position = 1000050300;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_IMPORT);
-	hMenuItem[3] = Menu_AddContactMenuItem(&mi);
+	hContactMenuItems[3] = Menu_AddContactMenuItem(&mi);
 }
 
 /**
@@ -158,13 +159,15 @@ void RebuildContact()
  *
  * @return	nothing
  **/
+
+static HGENMENU hMainMenuItems[8];
+
 void RebuildMain()
 {
-	uint8_t item = 0;
+	int item = 0;
 
 	HGENMENU mhRoot = nullptr;
 	HGENMENU mhExIm = nullptr;
-	static HGENMENU hMenuItem[8] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 	// load options
 	int flag = g_plugin.getByte(SET_MI_MAIN, MCAS_NOTINITIATED);
@@ -174,7 +177,7 @@ void RebuildMain()
 	}
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
-	RemoveMenuItems(hMenuItem, _countof(hMenuItem));
+	RemoveMenuItems(hMainMenuItems, _countof(hMainMenuItems));
 
 	// support new genmenu style
 	CMenuItem mi(&g_plugin);
@@ -183,18 +186,18 @@ void RebuildMain()
 	case 3:
 		//cascade off
 		mhRoot = mhExIm = nullptr;
-		hMenuItem[item++] = nullptr;
 		break;
+
 	case 5:
 		//cascade all
 		SET_UID(mi, 0x17d277d5, 0x2772, 0x40c6, 0xbd, 0xbb, 0x2c, 0x3a, 0xcc, 0xda, 0xc, 0x72);
 		mi.position = 500050000;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
 		mi.name.a = MODULELONGNAME;
-		mhRoot = Menu_AddMainMenuItem(&mi);
-		hMenuItem[item++] = mhRoot;
+		hMainMenuItems[item++] = mhRoot = Menu_AddMainMenuItem(&mi);
 		mhExIm = mhRoot;
 		break;
+
 	case 9:
 		//cascade Ex/Import
 		SET_UID(mi, 0x80666af7, 0x1c92, 0x4ea6, 0xa8, 0xdc, 0x25, 0x88, 0x88, 0x27, 0x92, 0x68);
@@ -202,9 +205,10 @@ void RebuildMain()
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_BTN_EXIMPORT);
 		mi.name.a = LPGEN("Export/import contact");
 		mhExIm = Menu_AddMainMenuItem(&mi);
-		hMenuItem[item++] = mhExIm;
+		hMainMenuItems[item++] = mhExIm;
 		mhRoot = nullptr;
 		break;
+
 	default:
 		//disable Menue
 		return;
@@ -217,7 +221,7 @@ void RebuildMain()
 	mi.name.a = LPGEN("View/change my &details...");
 	mi.position = 500050000;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAIN);
-	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
+	hMainMenuItems[item++] = Menu_AddMainMenuItem(&mi);
 
 	// VCard's Ex/Import menuitems
 	mi.root = mhExIm;
@@ -228,7 +232,7 @@ void RebuildMain()
 	mi.name.a = LPGEN("Export all contacts");
 	mi.position = 500150000;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EXPORT);
-	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
+	hMainMenuItems[item++] = Menu_AddMainMenuItem(&mi);
 
 	// Import
 	SET_UID(mi, 0x80f7441, 0xa907, 0x48ad, 0xa3, 0xf0, 0x13, 0x1e, 0xc0, 0xef, 0xd0, 0x4d);
@@ -236,7 +240,7 @@ void RebuildMain()
 	mi.name.a = LPGEN("Import all contacts");
 	mi.position = 500151000;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_IMPORT);
-	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
+	hMainMenuItems[item++] = Menu_AddMainMenuItem(&mi);
 
 	// reminder
 	mi.root = mhRoot;
@@ -248,11 +252,7 @@ void RebuildMain()
 		mi.name.a = LPGEN("Check anniversaries");
 		mi.position = 500251000;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_SEARCH);
-		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
-	}
-	else {
-		hMenuItem[item++] = nullptr;
-		hMenuItem[item++] = nullptr;
+		hMainMenuItems[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
 	// Refresh Contact Details
@@ -261,7 +261,7 @@ void RebuildMain()
 	mi.name.a = LPGEN("Refresh contact details");
 	mi.position = 500254000;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_BTN_UPDATE);
-	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
+	hMainMenuItems[item++] = Menu_AddMainMenuItem(&mi);
 
 	// anniversary list
 	SET_UID(mi, 0x1b5e5630, 0xdaef, 0x40e0, 0xae, 0xb1, 0x62, 0x85, 0x9, 0x8e, 0x5e, 0x45);
@@ -269,7 +269,7 @@ void RebuildMain()
 	mi.name.a = LPGEN("Anniversary list");
 	mi.position = 500252000;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ANNIVERSARY);
-	hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
+	hMainMenuItems[item++] = Menu_AddMainMenuItem(&mi);
 }
 
 /**
