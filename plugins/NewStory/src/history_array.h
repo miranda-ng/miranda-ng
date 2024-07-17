@@ -124,6 +124,7 @@ struct SearchResult
 
 class HistoryArray
 {
+	std::map<std::wstring, MCONTACT> gcCache;
 	LIST<wchar_t> strings;
 	OBJLIST<ItemBlock> pages;
 	int iLastPageCounter = 0;

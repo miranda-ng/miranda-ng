@@ -569,7 +569,8 @@ bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT 
 	auto *pPrev = (numItems == 0) ? nullptr : get(numItems - 1);
 	
 	SESSION_INFO *si = nullptr;
-	if (Contact::IsGroupChat(hContact))
+	bool isChat = Contact::IsGroupChat(hContact);
+	if (isChat)
 		si = Chat_Find(hContact);
 
 	if (count == 1) {
@@ -577,7 +578,7 @@ bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT 
 		p.pOwner = pOwner;
 		p.hContact = hContact;
 		p.dbe = hEvent;
-		if (si) {
+		if (isChat) {
 			checkGC(p, si);
 			pPrev = p.checkPrevGC(pPrev);
 		}
@@ -594,7 +595,7 @@ bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT 
 			p.pOwner = pOwner;
 			p.hContact = hContact;
 			p.dbe = hEvent;
-			if (si) {
+			if (isChat) {
 				checkGC(p, si);
 				pPrev = p.checkPrevGC(pPrev);
 			}
@@ -649,8 +650,40 @@ void HistoryArray::checkGC(ItemData &p, SESSION_INFO *si)
 		Utf2T wszUser(p.dbe.szUserId);
 		if (auto *pUser = g_chatApi.UM_FindUser(si, wszUser))
 			addNick(p, pUser->pszNick);
-		else
+		else {
+			if (si == nullptr) {
+				MCONTACT hContact = INVALID_CONTACT_ID;
+				auto *szProto = Proto_GetBaseAccountName(p.hContact);
+
+				if (gcCache.size() == 0) {
+					ptrW wszNick(Contact::GetInfo(CNF_UNIQUEID, 0, szProto));
+					gcCache[wszNick.get()] = 0;
+				}
+			
+				auto pCache = gcCache.find(wszUser.get());
+				if (pCache == gcCache.end()) {
+					for (auto &cc : Contacts(szProto)) {
+						ptrW wszId(Contact::GetInfo(CNF_UNIQUEID, cc));
+						if (!mir_wstrcmp(wszId, wszUser)) {
+							gcCache[wszId.get()] = cc;
+							hContact = cc;
+							break;
+						}
+					}
+				}
+				else hContact = (*pCache).second;
+
+				if (hContact != INVALID_CONTACT_ID) {
+					if (hContact == 0)
+						addNick(p, ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto)));
+					else
+						addNick(p, Clist_GetContactDisplayName(hContact));
+					return;
+				}
+			}
+
 			addNick(p, wszUser);
+		}
 	}
 }
 
