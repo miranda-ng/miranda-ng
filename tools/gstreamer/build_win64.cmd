@@ -4,17 +4,21 @@ cd /d "%TEMP%"
 rd /s /q gstreamer
 mkdir gstreamer
 
-call %VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars64.bat 
+call %VS141COMNTOOLS%\..\..\VC\Auxiliary\Build\vcvars64.bat 10.0.17763.0
 
 cd /d "%GSTREAMER_ROOT%"
 mkdir builddir
-meson setup --prefix="%TEMP%\gstreamer" builddir 10.0.17763.0
+meson setup --prefix="%TEMP%\gstreamer" builddir
+IF ERRORLEVEL 1 EXIT
+
 meson compile -C builddir
+IF ERRORLEVEL 1 EXIT
+
 cd builddir
 meson install
 cd ..
 rd /s /q builddir
-
+                	
 cd /d "%TEMP%\gstreamer\bin"
 copy ffi-7.dll            %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
 copy gio-2.0-0.dll        %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
@@ -34,7 +38,6 @@ copy gsttag-1.0-0.dll     %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
 copy gstvideo-1.0-0.dll   %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
 copy gstwebrtc-1.0-0.dll  %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
 copy gstwinrt-1.0-0.dll   %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
-copy gst_plugins          %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
 copy intl-8.dll           %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
 copy nice-10.dll          %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
 copy opus-0.dll           %MIRANDA_BUILD_ROOT%\redist\x64\gstreamer
