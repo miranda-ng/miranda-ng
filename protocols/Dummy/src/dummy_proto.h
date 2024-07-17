@@ -47,8 +47,9 @@ struct CDummyProto : public PROTO<CDummyProto>
 	char uniqueIdText[100];
 	wchar_t uniqueIdSetting[100];
 
-	int getTemplateId();
 	void selectTemplate(HWND, int templateId);
 
 	volatile unsigned int msgid;
 };
+
+int getDummyProtocolId(const char *pszModuleName);

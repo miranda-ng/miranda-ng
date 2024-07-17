@@ -19,11 +19,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const ttemplate templates[] =
 {
-	{ LPGEN("Custom"), "", "" },
-	{ "AIM", "SN", LPGEN("Screen name") },
-#ifndef MIRANDA_VERSION_ISALPHA
-	{ "Discord", "id", LPGEN("Discord ID") },
-#endif
+	{ LPGEN("Custom"),    "",         ""                        },
+	{ "AIM",              "SN",       LPGEN("Screen name")      },
 	{ "EmLAN",            "Nick",     LPGEN("User name")        },
 	{ "Facebook",         "ID",       LPGEN("Facebook ID")      },
 	{ "GG",               "UIN",      LPGEN("Gadu-Gadu number") },
@@ -83,7 +80,7 @@ CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) 
 {
 	msgid = 0;
 
-	int id = getTemplateId();
+	int id = getDummyProtocolId(m_szModuleName);
 	ptrA setting(id > 0 ? mir_strdup(templates[id].setting) : getStringA(DUMMY_ID_SETTING));
 	if (setting != NULL) {
 		strncpy_s(uniqueIdText, setting, _TRUNCATE);
@@ -100,18 +97,18 @@ CDummyProto::~CDummyProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CDummyProto::getTemplateId()
+int getDummyProtocolId(const char *pszModuleName)
 {
-	int id = this->getByte(DUMMY_ID_TEMPLATE, -1);
+	int id = db_get_b(0, pszModuleName, DUMMY_ID_TEMPLATE, -1);
 	if (id >= 0 && id < _countof(templates))
 		return id;
 	
-	CMStringA szProto(getMStringA("AM_BaseProto"));
+	CMStringA szProto(db_get_sm(0, pszModuleName, "AM_BaseProto"));
 	for (auto &it : templates)
 		if (!stricmp(it.name, szProto))
 			return int(&it - templates);
 
-	return 0;
+	return -1;
 }
 
 void CDummyProto::selectTemplate(HWND hwndDlg, int templateId)
@@ -152,7 +149,7 @@ INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
 
 	case PFLAG_UNIQUEIDTEXT:
 		if (uniqueIdSetting[0] == '\0') {
-			int id = getTemplateId();
+			int id = getDummyProtocolId(m_szModuleName);
 			ptrW setting(id > 0 ? mir_a2u(Translate(templates[id].text)) : getWStringA(DUMMY_ID_TEXT));
 			if (setting != NULL)
 				wcsncpy_s(uniqueIdSetting, setting, _TRUNCATE);

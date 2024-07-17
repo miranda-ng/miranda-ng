@@ -51,8 +51,20 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
+static int OnDummyDoubleClicked(WPARAM hContact, LPARAM)
+{
+	if (auto *pa = Proto_GetContactAccount(hContact))
+		if (getDummyProtocolId(pa->szModuleName) != -1 && Contact::IsGroupChat(hContact)) {
+			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
+			return 1;
+		}
+
+	return 0;
+}
+
 int CMPlugin::Load()
 {
+	HookEvent(ME_CLIST_DOUBLECLICKED, OnDummyDoubleClicked);
 	return 0;
 }
 

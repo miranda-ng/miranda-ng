@@ -36,6 +36,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_file.h>
 #include <m_fontservice.h>
 #include <m_genmenu.h>
+#include <m_history.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 #include <m_idle.h>
