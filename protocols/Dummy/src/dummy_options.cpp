@@ -35,7 +35,7 @@ INT_PTR CALLBACK DummyAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 		{
 			FillTemplateCombo(hwndDlg, IDC_TEMPLATE);
 		
-			int templateId = getDummyProtocolId(ppro->m_szModuleName);
+			int templateId = ppro->getTemplateId();
 			SendDlgItemMessage(hwndDlg, IDC_TEMPLATE, CB_SETCURSEL, templateId, 0);
 
 			boolean allowSending = ppro->getByte(DUMMY_KEY_ALLOW_SENDING, 0);

@@ -80,7 +80,7 @@ CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) 
 {
 	msgid = 0;
 
-	int id = getDummyProtocolId(m_szModuleName);
+	int id = getTemplateId();
 	ptrA setting(id > 0 ? mir_strdup(templates[id].setting) : getStringA(DUMMY_ID_SETTING));
 	if (setting != NULL) {
 		strncpy_s(uniqueIdText, setting, _TRUNCATE);
@@ -97,18 +97,18 @@ CDummyProto::~CDummyProto()
 
 //////////////////////////////////////////////////////////////////////////////
 
-int getDummyProtocolId(const char *pszModuleName)
+int CDummyProto::getTemplateId()
 {
-	int id = db_get_b(0, pszModuleName, DUMMY_ID_TEMPLATE, -1);
+	int id = getByte(DUMMY_ID_TEMPLATE, -1);
 	if (id >= 0 && id < _countof(templates))
 		return id;
 	
-	CMStringA szProto(db_get_sm(0, pszModuleName, "AM_BaseProto"));
+	CMStringA szProto(getMStringA("AM_BaseProto"));
 	for (auto &it : templates)
 		if (!stricmp(it.name, szProto))
 			return int(&it - templates);
 
-	return -1;
+	return 0;
 }
 
 void CDummyProto::selectTemplate(HWND hwndDlg, int templateId)
@@ -149,12 +149,15 @@ INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
 
 	case PFLAG_UNIQUEIDTEXT:
 		if (uniqueIdSetting[0] == '\0') {
-			int id = getDummyProtocolId(m_szModuleName);
+			int id = getTemplateId();
 			ptrW setting(id > 0 ? mir_a2u(Translate(templates[id].text)) : getWStringA(DUMMY_ID_TEXT));
 			if (setting != NULL)
 				wcsncpy_s(uniqueIdSetting, setting, _TRUNCATE);
 		}
 		return (INT_PTR)uniqueIdSetting;
+
+	case 1000: // hidden caps
+		return TRUE;
 	}
 	return 0;
 }
@@ -164,7 +167,7 @@ INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
 int CDummyProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 {
 	std::string message = msg;
-	unsigned int id = InterlockedIncrement(&this->msgid);
+	unsigned int id = InterlockedIncrement(&msgid);
 
 	if (getByte(DUMMY_KEY_ALLOW_SENDING, 0))
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id);

@@ -54,7 +54,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 static int OnDummyDoubleClicked(WPARAM hContact, LPARAM)
 {
 	if (auto *pa = Proto_GetContactAccount(hContact))
-		if (getDummyProtocolId(pa->szModuleName) != -1 && Contact::IsGroupChat(hContact)) {
+		if (pa->ppro && pa->ppro->GetCaps(1000)) {
 			CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
 			return 1;
 		}
