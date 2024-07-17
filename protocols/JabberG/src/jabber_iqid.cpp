@@ -1526,8 +1526,7 @@ void CJabberProto::OnIqResultEntityTime(const TiXmlElement *pIqNode, CJabberIqIn
 		return;
 
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
-		auto *xmlTime = XmlGetChildByTag(pIqNode, "time", "xmlns", JABBER_FEAT_ENTITY_TIME);
-		if (xmlTime) {
+		if (auto *xmlTime = XmlGetChildByTag(pIqNode, "time", "xmlns", JABBER_FEAT_ENTITY_TIME)) {
 			const char *szTzo = XmlGetChildText(xmlTime, "tzo");
 			if (szTzo && szTzo[0]) {
 				const char *szMin = strchr(szTzo, ':');
