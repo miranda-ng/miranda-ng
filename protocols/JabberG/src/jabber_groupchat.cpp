@@ -1134,8 +1134,9 @@ void CJabberProto::GroupchatProcessInvite(const char *roomJid, const char *from,
 	if (roomJid == nullptr)
 		return;
 
-	if (ListGetItemPtr(LIST_CHATROOM, roomJid))
-		return;
+	if (auto *item = ListGetItemPtr(LIST_CHATROOM, roomJid))
+		if (Contact::GetStatus(item->hContact) != ID_STATUS_OFFLINE)
+			return;
 
 	if (m_bAutoAcceptMUC)
 		AcceptGroupchatInvite(roomJid, MyNick(), password);
