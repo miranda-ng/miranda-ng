@@ -294,7 +294,7 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 
 	CMStringA szName(getMStringA("Identity", "Miranda")); // hidden setting to be entered from dbeditor++
 	if (m_bAllowVersionRequests)
-		szName.AppendFormat(" %s", __VERSION_STRING_DOTS);
+		szName.AppendFormat(" %s", MIRANDA_VERSION_CORE_STRING);
 	query << XCHILD("identity") << XATTR("category", "client") << XATTR("type", "pc") << XATTR("name", szName);
 
 	for (auto &it : GetSortedFeatStrings(GetOwnCaps())) {
@@ -384,7 +384,7 @@ void CJabberProto::UpdateFeatHash()
 {
 	CMStringA szName(getMStringA("Identity", "Miranda")); // hidden setting to be entered from dbeditor++
 	if (m_bAllowVersionRequests)
-		szName.AppendFormat(" %s", __VERSION_STRING_DOTS);
+		szName.AppendFormat(" %s", MIRANDA_VERSION_CORE_STRING);
 	CMStringA feat_buf(FORMAT, "client/pc//%s<", szName.c_str());
 
 	for (auto &it : GetSortedFeatStrings(GetOwnCaps())) {
