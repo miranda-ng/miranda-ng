@@ -247,10 +247,10 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 	SMADD_BATCHPARSE sp = {};
 	SMADD_BATCHPARSERES *spRes = nullptr;
 	if (g_plugin.bHasSmileys) {
-		sp.Protocolname = Proto_GetBaseAccountName(hContact);
+		sp.Protocolname = Proto_GetBaseAccountName(dbe.hContact);
 		sp.flag = SAFL_PATH | SAFL_UNICODE;
 		sp.str.w = wszOrigText;
-		sp.hContact = hContact;
+		sp.hContact = dbe.hContact;
 		spRes = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	}
 
@@ -453,7 +453,7 @@ CMStringW ItemData::formatStringEx(wchar_t *sztpl)
 	auto &T = templates[tpl];
 	for (auto &it : T.vf)
 		if (it)
-			it(&vars, hContact, this);
+			it(&vars, dbe.hContact, this);
 
 	for (wchar_t *p = sztpl; *p; p++) {
 		if (*p == '%') {
@@ -528,14 +528,14 @@ void vfEvent(TemplateVars *vars, MCONTACT, ItemData *item)
 	//  %N: Nickname
 	if (!item->m_bIsResult && (item->dbe.flags & DBEF_SENT)) {
 		if (!item->wszNick) {
-			char *proto = Proto_GetBaseAccountName(item->hContact);
+			char *proto = Proto_GetBaseAccountName(item->dbe.hContact);
 			ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
 			vars->SetNick(nick);
 		}
 		else vars->SetNick(item->wszNick);
 	}
 	else {
-		wchar_t *nick = (item->wszNick) ? item->wszNick : Clist_GetContactDisplayName(item->hContact, 0);
+		wchar_t *nick = (item->wszNick) ? item->wszNick : Clist_GetContactDisplayName(item->dbe.hContact, 0);
 		vars->SetNick(nick);
 	}
 

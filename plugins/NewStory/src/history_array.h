@@ -12,8 +12,6 @@ CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
 
 struct ItemData
 {
-	MCONTACT hContact;
-
 	bool m_bSelected, m_bHighlighted;
 	bool m_bLoaded, m_bIsResult;
 	bool m_bOfflineFile;
@@ -48,7 +46,7 @@ struct ItemData
 	const char* getUrl() const;
 
 	CMStringW formatHtml(const wchar_t *pwszStr = 0);
-	CMStringW formatString() { return TplFormatString(getTemplate(), hContact, this); }
+	CMStringW formatString() { return TplFormatString(getTemplate(), dbe.hContact, this); }
 	CMStringW formatStringEx(wchar_t *sztpl);
 
 	inline wchar_t* getWBuf()

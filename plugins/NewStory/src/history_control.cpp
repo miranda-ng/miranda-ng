@@ -313,7 +313,7 @@ void NewstoryListData::CopyUrl()
 {
 	if (auto *pItem = GetItem(caret)) {
 		if (pItem->m_bOfflineFile)
-			Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_COPYURL);
+			Srmm_DownloadOfflineFile(pItem->dbe.hContact, pItem->dbe.getEvent(), OFD_COPYURL);
 		else if (auto *pszUrl = pItem->getUrl())
 			Utils_ClipboardCopy(MClipUnicode(Utf2T(pszUrl)));
 	}
@@ -427,7 +427,7 @@ void NewstoryListData::DeleteItems(void)
 void NewstoryListData::Download(int options)
 {
 	if (auto *p = LoadItem(caret))
-		Srmm_DownloadOfflineFile(p->hContact, p->dbe.getEvent(), options);
+		Srmm_DownloadOfflineFile(p->dbe.hContact, p->dbe.getEvent(), options);
 }
 
 void NewstoryListData::EndEditItem(bool bAccept)
@@ -445,7 +445,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 			GetWindowTextW(hwndEditBox, pItem->wtext, iTextLen+1);
 			pItem->wtext[iTextLen] = 0;
 
-			if (pItem->hContact && pItem->dbe.getEvent()) {
+			if (pItem->dbe.hContact && pItem->dbe.getEvent()) {
 				DBEVENTINFO dbei = pItem->dbe;
 
 				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
@@ -968,7 +968,7 @@ void NewstoryListData::TryUp(int iCount)
 	
 	if (totalCount != 0) {
 		auto *pTop = GetItem(0);
-		hContact = pTop->hContact;
+		hContact = pTop->dbe.hContact;
 		hTopEvent = pTop->dbe.getEvent();
 		if (hTopEvent == 0)
 			return;
@@ -989,7 +989,7 @@ void NewstoryListData::TryUp(int iCount)
 
 		auto *p = items.insert(0);
 		p->pOwner = this;
-		p->hContact = hContact;
+		p->dbe.hContact = hContact;
 		p->dbe = hPrev;
 		totalCount++;
 	}
@@ -1466,7 +1466,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			pt.y -= pItem->savedTop;
 
 			if (pItem->m_bOfflineFile) {
-				Srmm_DownloadOfflineFile(pItem->hContact, pItem->dbe.getEvent(), OFD_DOWNLOAD | OFD_RUN);
+				Srmm_DownloadOfflineFile(pItem->dbe.hContact, pItem->dbe.getEvent(), OFD_DOWNLOAD | OFD_RUN);
 				return 0;
 			}
 

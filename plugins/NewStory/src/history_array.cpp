@@ -88,7 +88,7 @@ ItemData::~ItemData()
 
 static bool isEqual(const ItemData *p1, const ItemData *p2)
 {
-	if (p1->hContact != p2->hContact)
+	if (p1->dbe.hContact != p2->dbe.hContact)
 		return false;
 	if (p1->dbe.eventType != p2->dbe.eventType)
 		return false;
@@ -226,7 +226,7 @@ int ItemData::calcHeight(int width)
 
 bool ItemData::fetch(void)
 {
-	// if this event is virtual (for example, in group chats), don't try to laod it
+	// if this event is virtual (for example, in group chats), don't try to load it
 	if (!dbe.getEvent())
 		return false;
 
@@ -367,7 +367,6 @@ void ItemData::load(bool bLoadAlways)
 		return;
 
 	m_bLoaded = true;
-	hContact = dbe.hContact; // save true contact
 
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -418,7 +417,7 @@ void ItemData::load(bool bLoadAlways)
 			CMStringW wszFileName;
 			if (!PathIsAbsoluteW(blob.getName())) {
 				wchar_t buf[MAX_PATH];
-				File::GetReceivedFolder(hContact, buf, _countof(buf));
+				File::GetReceivedFolder(dbe.hContact, buf, _countof(buf));
 				wszFileName = buf;
 			}
 			wszFileName.Append(blob.getName());
@@ -444,15 +443,15 @@ void ItemData::load(bool bLoadAlways)
 				wchar_t wszTime[100];
 				TimeZone_PrintTimeStamp(0, dbei.timestamp, L"D t", wszTime, _countof(wszTime), 0);
 
-				if (Contact::IsGroupChat(hContact) && dbei.szUserId)
+				if (Contact::IsGroupChat(dbe.hContact) && dbei.szUserId)
 					wszNick = Utf2T(dbei.szUserId);
 				else if (dbei.flags & DBEF_SENT) {
-					if (char *szProto = Proto_GetBaseAccountName(hContact))
+					if (char *szProto = Proto_GetBaseAccountName(dbe.hContact))
 						wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
 					else
 						wszNick = TranslateT("I"); // shall never happen
 				}
-				else wszNick = Clist_GetContactDisplayName(hContact, 0);
+				else wszNick = Clist_GetContactDisplayName(dbe.hContact, 0);
 				
 				str.AppendFormat(L"%s %s %s:\n", wszTime, wszNick.c_str(), TranslateT("wrote"));
 
@@ -509,7 +508,7 @@ void HistoryArray::addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, cons
 	int numItems = getCount();
 	auto &p = allocateItem();
 	p.pOwner = pOwner;
-	p.hContact = si->hContact;
+	p.dbe.hContact = si->hContact;
 
 	if (si->pMI->bDatabase && lin->hEvent) {
 		p.dbe = lin->hEvent;
@@ -576,7 +575,7 @@ bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT 
 	if (count == 1) {
 		auto &p = allocateItem();
 		p.pOwner = pOwner;
-		p.hContact = hContact;
+		p.dbe.hContact = hContact;
 		p.dbe = hEvent;
 		if (isChat) {
 			checkGC(p, si);
@@ -593,7 +592,7 @@ bool HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT 
 
 			auto &p = allocateItem();
 			p.pOwner = pOwner;
-			p.hContact = hContact;
+			p.dbe.hContact = hContact;
 			p.dbe = hEvent;
 			if (isChat) {
 				checkGC(p, si);
@@ -623,7 +622,7 @@ void HistoryArray::addResults(NewstoryListData *pOwner, const OBJLIST<SearchResu
 	for (auto &it : pArray) {
 		auto &p = allocateItem();
 		p.pOwner = pOwner;
-		p.hContact = it->hContact;
+		p.dbe.hContact = it->hContact;
 		p.dbe = it->hEvent;
 		p.m_bIsResult = true;
 		pPrev = p.checkPrev(pPrev);
@@ -653,7 +652,7 @@ void HistoryArray::checkGC(ItemData &p, SESSION_INFO *si)
 		else {
 			if (si == nullptr) {
 				MCONTACT hContact = INVALID_CONTACT_ID;
-				auto *szProto = Proto_GetBaseAccountName(p.hContact);
+				auto *szProto = Proto_GetBaseAccountName(p.dbe.hContact);
 
 				if (gcCache.size() == 0) {
 					ptrW wszNick(Contact::GetInfo(CNF_UNIQUEID, 0, szProto));

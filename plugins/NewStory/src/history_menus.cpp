@@ -35,8 +35,8 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 {
 	bool bNotProtected = true;
 	if (item != nullptr)
-		if (auto *szProto = Proto_GetBaseAccountName(item->hContact))
-			bNotProtected = db_get_b(item->hContact, szProto, "Protected") == 0;
+		if (auto *szProto = Proto_GetBaseAccountName(item->dbe.hContact))
+			bNotProtected = db_get_b(item->dbe.hContact, szProto, "Protected") == 0;
 
 	Menu_ShowItem(hmiCopy, bNotProtected);
 	Menu_ShowItem(hmiCopyText, bNotProtected);
@@ -65,11 +65,11 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 		bShowEventActions = item->dbe.getEvent() != 0;
 
 		DB::EventInfo dbei(item->dbe.getEvent());
-		NotifyEventHooks(hEventPreBuildMenu, item->hContact, (LPARAM)&dbei);
+		NotifyEventHooks(hEventPreBuildMenu, item->dbe.hContact, (LPARAM)&dbei);
 
 		if (data->pMsgDlg) {
-			INT_PTR caps = CallProtoService(Proto_GetBaseAccountName(item->hContact), PS_GETCAPS, PFLAGNUM_4, 0);
-			Menu_ShowItem(hmiReply, (caps & PF4_REPLY) != 0 && mir_strlen(dbei.szId) > 0 && !Contact::IsReadonly(item->hContact));
+			INT_PTR caps = CallProtoService(Proto_GetBaseAccountName(item->dbe.hContact), PS_GETCAPS, PFLAGNUM_4, 0);
+			Menu_ShowItem(hmiReply, (caps & PF4_REPLY) != 0 && mir_strlen(dbei.szId) > 0 && !Contact::IsReadonly(item->dbe.hContact));
 		}
 	}
 	else {
