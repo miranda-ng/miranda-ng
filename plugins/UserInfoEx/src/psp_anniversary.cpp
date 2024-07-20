@@ -130,7 +130,7 @@ struct PSPAnniversaryDlg : public PSPBaseDlg
 
 		switch(uMsg) {
 		case WM_NOTIFY:
-			switch (((LPNMHDR)lParam)->code) {
+			switch (((LPNMHDR)lParam)->idFrom) {
 			case EDIT_ANNIVERSARY_DATE:
 				if (!PspIsLocked(m_hwnd) && PtrIsValid(pDateCtrl)) {
 					LPNMHDR lpNmhdr = (LPNMHDR)lParam;
