@@ -180,7 +180,6 @@ private:
 	mir_cs m_lckOutMessagesList;
 	mir_cs messageSyncLock;
 	mir_cs m_StatusLock;
-	mir_cs m_AppendMessageLock;
 
 	bool m_bThreadsTerminated;
 
@@ -253,15 +252,9 @@ private:
 	// messages
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
 
-	MEVENT GetMessageFromDb(const char *messageId);
-	MEVENT AddDbEvent(uint16_t type, MCONTACT hContact, uint32_t timestamp, uint32_t flags, const CMStringW &content, const CMStringA &msgId);
-	void EditEvent(MEVENT hEvent, const CMStringW &content, time_t edit_time);
-
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	void MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent);
-
-	void OnPrivateMessageEvent(const JSONNode &node);
 
 	void ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId);
 
@@ -278,7 +271,6 @@ private:
 	void OnChatEvent(const JSONNode &node);
 	wchar_t* GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name = nullptr);
 
-	void AddMessageToChat(SESSION_INFO *si, const wchar_t *from, const wchar_t *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading = false);
 	void AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
 	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, bool isKick = false, const wchar_t *initiator = L"");
 	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);

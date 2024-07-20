@@ -189,20 +189,5 @@ void CSkypeProto::ProcessUserPresence(const JSONNode &node)
 	}
 }
 
-void CSkypeProto::ProcessNewMessage(const JSONNode &node)
-{
-	debugLogA(__FUNCTION__);
-
-	std::string conversationLink = node["conversationLink"].as_string();
-
-	int iUserType;
-	UrlToSkypeId(conversationLink.c_str(), &iUserType);
-
-	if (iUserType == 2 || iUserType == 8)
-		OnPrivateMessageEvent(node);
-	else if (iUserType == 19)
-		OnChatEvent(node);
-}
-
 void CSkypeProto::ProcessConversationUpdate(const JSONNode &) {}
 void CSkypeProto::ProcessThreadUpdate(const JSONNode &) {}

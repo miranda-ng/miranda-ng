@@ -17,7 +17,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-struct { int type; char *name; uint32_t flags; } g_SkypeDBTypes[] =
+struct {
+	int type;
+	char *name;
+	int flags;
+}
+static g_SkypeDBTypes[] =
 {
 	{ SKYPE_DB_EVENT_TYPE_INCOMING_CALL, LPGEN("Incoming call"), DETF_NONOTIFY },
 	{ SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, LPGEN("Edited message"), 0 },
@@ -29,73 +34,6 @@ struct { int type; char *name; uint32_t flags; } g_SkypeDBTypes[] =
 	{ SKYPE_DB_EVENT_TYPE_FILE, LPGEN("File"), 0 },
 	{ SKYPE_DB_EVENT_TYPE_UNKNOWN, LPGEN("Unknown event"), 0 },
 };
-
-MEVENT CSkypeProto::GetMessageFromDb(const char *messageId)
-{
-	if (messageId == nullptr)
-		return NULL;
-
-	return db_event_getById(m_szModuleName, messageId);
-}
-
-MEVENT CSkypeProto::AddDbEvent(uint16_t type, MCONTACT hContact, uint32_t timestamp, uint32_t flags, const CMStringW &content, const CMStringA &msgId)
-{
-	if (MEVENT hDbEvent = GetMessageFromDb(msgId))
-		return hDbEvent;
-
-	T2Utf szMsg(content);
-	DBEVENTINFO dbei = {};
-	dbei.szModule = m_szModuleName;
-	dbei.timestamp = timestamp;
-	dbei.eventType = type;
-	dbei.cbBlob = (uint32_t)mir_strlen(szMsg) + 1;
-	dbei.pBlob = szMsg;
-	dbei.flags = flags;
-	dbei.szId = msgId;
-	return db_event_add(hContact, &dbei);
-}
-
-void CSkypeProto::EditEvent(MEVENT hEvent, const CMStringW &szContent, time_t edit_time)
-{
-	mir_cslock lck(m_AppendMessageLock);
-	
-	DB::EventInfo dbei(hEvent);
-	if (!dbei)
-		return;
-
-	JSONNode jMsg = JSONNode::parse((char*)dbei.pBlob);
-	if (jMsg) {
-		JSONNode &jEdits = jMsg["edits"];
-		if (jEdits) {
-			for (auto &it : jEdits)
-				if (it["time"].as_int() == edit_time)
-					return;
-
-			JSONNode jEdit;
-			jEdit << INT_PARAM("time", (long)edit_time) << WCHAR_PARAM("text", szContent);
-			jEdits << jEdit;
-		}
-	}
-	else {
-		JSONNode jOriginalMsg; jOriginalMsg.set_name("original_message");
-		jOriginalMsg << INT_PARAM("time", (long)dbei.timestamp) << CHAR_PARAM("text", (char *)dbei.pBlob);
-
-		jMsg = JSONNode();
-		jMsg << jOriginalMsg;
-
-		JSONNode jEdit;
-		jEdit << INT_PARAM("time", (long)edit_time) << WCHAR_PARAM("text", szContent);
-
-		JSONNode jEdits(JSON_ARRAY); jEdits.set_name("edits");
-		jEdits << jEdit;
-		jMsg << jEdits;
-	}
-	
-	std::string newMsg = jMsg.write().c_str();
-	dbei.cbBlob = int(newMsg.size() + 1);
-	dbei.pBlob = (char *)newMsg.c_str();
-	db_event_edit(hEvent, &dbei, true);
-}
 
 void CSkypeProto::InitDBEvents()
 {

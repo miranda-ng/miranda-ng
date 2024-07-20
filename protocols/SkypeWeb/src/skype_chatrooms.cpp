@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CSkypeProto::InitGroupChatModule()
 {
 	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_DATABASE | GC_PERSISTENT;
 	gcr.iMaxText = 0;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
@@ -248,10 +249,6 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	CMStringW wszTopic(node["threadtopic"].as_mstring());
 	CMStringW wszContent(node["content"].as_mstring());
 
-	time_t timestamp = IsoToUnixTime(node["composetime"].as_string());
-
-	int nEmoteOffset = node["skypeemoteoffset"].as_int();
-
 	SESSION_INFO *si = Chat_Find(wszChatId, m_szModuleName);
 	if (si == nullptr) {
 		si = StartChatRoom(wszChatId, wszTopic);
@@ -262,11 +259,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	}
 
 	std::string messageType = node["messagetype"].as_string();
-	if (messageType == "Text" || messageType == "RichText") {
-		CMStringW wszClearedContent(messageType == "RichText" ? RemoveHtml(wszContent) : wszContent);
-		AddMessageToChat(si, szFromId, wszClearedContent, nEmoteOffset != NULL, nEmoteOffset, timestamp);
-	}
-	else if (messageType == "ThreadActivity/AddMember") {
+	if (messageType == "ThreadActivity/AddMember") {
 		// <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 		TiXmlDocument doc;
 		if (0 != doc.Parse(T2Utf(wszContent)))
@@ -353,31 +346,6 @@ void CSkypeProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 		PushRequest(new SendChatActionRequest(chat_id, time(0), szMessage));
 	else
 		PushRequest(new SendChatMessageRequest(chat_id, time(0), szMessage));
-}
-
-void CSkypeProto::AddMessageToChat(SESSION_INFO *si, const wchar_t *from, const wchar_t *content, bool isAction, int emoteOffset, time_t timestamp, bool isLoading)
-{
-	ptrW tnick(GetChatContactNick(si->hContact, from));
-
-	GCEVENT gce = { si, isAction ? GC_EVENT_ACTION : GC_EVENT_MESSAGE };
-	gce.bIsMe = IsMe(from);
-	gce.pszNick.w = tnick;
-	gce.time = timestamp;
-	gce.pszUID.w = from;
-
-	CMStringW wszText(content);
-	wszText.Replace(L"%", L"%%");
-
-	if (!isAction) {
-		gce.pszText.w = wszText;
-		gce.dwFlags |= GCEF_ADDTOLOG;
-	}
-	else gce.pszText.w = wszText.c_str() + emoteOffset;
-
-	if (isLoading)
-		gce.dwFlags |= GCEF_NOTNOTIFY;
-
-	Chat_Event(&gce);
 }
 
 void CSkypeProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
