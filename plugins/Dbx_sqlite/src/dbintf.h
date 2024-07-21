@@ -69,7 +69,8 @@ class CDbxSQLite : public MDatabaseCommon, public MIDatabaseChecker, public MZer
 
 	// contacts
 	void InitContacts();
-	CQuery qCntCount, qCntAdd, qCntDel, qCntDelSettings, qCntDelEvents, qCntDelEventSrt;
+	int  GetContactEventCount(MCONTACT hContact);
+	CQuery qCntCount, qCntAdd, qCntDel, qCntDelSettings, qCntCountEvents, qCntDelEvents, qCntDelEventSrt;
 
 	// encryption
 	void InitEncryption();

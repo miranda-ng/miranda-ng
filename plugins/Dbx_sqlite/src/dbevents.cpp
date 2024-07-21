@@ -713,6 +713,8 @@ BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSu
 		sqlite3_reset(stmt);
 		if (rc != SQLITE_DONE)
 			return FALSE;
+
+		ccMeta->m_count = GetContactEventCount(ccMeta->contactID);
 	}
 
 	DBFlush();

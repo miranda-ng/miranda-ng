@@ -14,11 +14,17 @@ void CDbxSQLite::InitContacts()
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_finalize(stmt);
 
-	sqlite3_prepare_v2(m_db, "SELECT COUNT(1) FROM events_srt WHERE contact_id=0;", -1, &stmt, nullptr);
-	rc = sqlite3_step(stmt);
-	logError(rc, __FILE__, __LINE__);
-	m_system.m_count = sqlite3_column_int64(stmt, 0);
-	sqlite3_finalize(stmt);
+	m_system.m_count = GetContactEventCount(0);
+}
+
+int CDbxSQLite::GetContactEventCount(MCONTACT hContact)
+{
+	auto *stmt = InitQuery("SELECT COUNT(1) FROM events_srt WHERE contact_id = ?;", qCntCountEvents);
+	sqlite3_bind_int64(stmt, 1, hContact);
+	logError(sqlite3_step(stmt), __FILE__, __LINE__);
+	int count = sqlite3_column_int64(stmt, 0);
+	sqlite3_reset(stmt);
+	return count;
 }
 
 int CDbxSQLite::GetContactCount()
