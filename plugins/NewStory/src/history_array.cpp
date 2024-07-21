@@ -644,7 +644,7 @@ ItemData& HistoryArray::allocateItem()
 
 void HistoryArray::checkGC(ItemData &p, SESSION_INFO *si)
 {
-	p.load();
+	p.fetch();
 	if (p.dbe.szUserId) {
 		Utf2T wszUser(p.dbe.szUserId);
 		if (auto *pUser = g_chatApi.UM_FindUser(si, wszUser))
