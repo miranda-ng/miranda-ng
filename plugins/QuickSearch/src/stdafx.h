@@ -87,6 +87,7 @@ struct ColumnItem : public MZeroedObject
 	ColumnItem(const ColumnItem &src);
 	~ColumnItem();
 
+	int  HasImage(const wchar_t *pwsztext) const;
 	void SetSpecialColumns();
 
 	wchar_t *title;
@@ -102,12 +103,12 @@ struct ColumnItem : public MZeroedObject
 			bool bFilter : 1;
 			bool isXstatus : 1;
 			bool isGender : 1;
+			bool isAccount : 1;
 			bool isClient : 1;
 			bool isGroup : 1;
 			bool isContainer : 1;
 		};
 	};
-
 
 	union {
 		// 0: db setting

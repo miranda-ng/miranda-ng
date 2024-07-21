@@ -128,18 +128,19 @@ void QSMainDlg::ToggleColumn(int col)
 		// screen
 		int lvcol = ColumnToListView(col);
 		AddColumn(lvcol, &pCol);
+		pCol.SetSpecialColumns();
 		
 		int nCount = m_grid.GetItemCount();
 		for (int i = 0; i < nCount; i++) {
 			auto *pRow = GetRow(i);
 
-			LV_ITEMW li;
+			LV_ITEM li;
 			li.iItem = i;
 			li.iSubItem = lvcol;
-			li.mask = LVIF_TEXT;
 			li.pszText = pRow->pValues[col].text;
-			if ((pCol.isClient && (g_plugin.m_flags & QSO_CLIENTICONS) && li.pszText) || pCol.isGender || pCol.isXstatus)
-				li.mask |= LVIF_IMAGE;
+			li.mask = LVIF_TEXT + pCol.HasImage(li.pszText);
+			if (pCol.isAccount)
+				li.iImage = Clist_GetContactIcon(pRow->hContact);
 			m_grid.SetItem(&li);
 		}
 	}
@@ -753,6 +754,9 @@ void QSMainDlg::onCustomDraw_Grid(CCtrlListView::TEventInfo *ev)
 		pRow->GetCellColor(lplvcd->nmcd.dwItemSpec, lplvcd->clrTextBk, lplvcd->clrText);
 		{
 			int sub = ListViewToColumn(lplvcd->iSubItem);
+			if (sub == -1)
+				break;
+
 			auto *pCol = &g_plugin.m_columns[sub];
 			if (pCol == nullptr)
 				break;

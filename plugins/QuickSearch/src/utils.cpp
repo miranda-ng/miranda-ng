@@ -118,23 +118,36 @@ ColumnItem::~ColumnItem()
 	}
 }
 
+int ColumnItem::HasImage(const wchar_t *pwsztext) const
+{
+	if (isClient && (g_plugin.m_flags & QSO_CLIENTICONS) && pwsztext)
+		return LVIF_IMAGE;
+	
+	if (isGender || isXstatus || isAccount)
+		return LVIF_IMAGE;
+
+	return 0;
+}
+
 void ColumnItem::SetSpecialColumns()
 {
-    if (setting_type == QST_SETTING) {
-		 if (datatype == QSTS_STRING && !mir_strcmp(module, "CList") && !mir_strcmp(setting, "Group"))
-			 isGroup = true;
+	if (setting_type == QST_SETTING) {
+		if (datatype == QSTS_STRING && !mir_strcmp(module, "CList") && !mir_strcmp(setting, "Group"))
+			isGroup = true;
 
-		 else if (datatype == QSTS_STRING && !mir_strcmp(module, "Tab_SRMsg") && !mir_strcmp(setting, "containerW"))
-			 isContainer = true;
+		else if (datatype == QSTS_STRING && !mir_strcmp(module, "Tab_SRMsg") && !mir_strcmp(setting, "containerW"))
+			isContainer = true;
 
-		 else if (datatype == QSTS_BYTE && !mir_strcmpi(setting, "XStatusId"))
-			 isXstatus = true;
+		else if (datatype == QSTS_BYTE && !mir_strcmpi(setting, "XStatusId"))
+			isXstatus = true;
 
-		 else if (datatype == QSTS_STRING && !mir_strcmp(setting, "MirVer") && g_bFingerInstalled)
-			 isClient = true;
-	 }
-	 else if (setting_type == QST_CONTACTINFO && cnftype == CNF_GENDER)
-		 isGender = true;
+		else if (datatype == QSTS_STRING && !mir_strcmp(setting, "MirVer") && g_bFingerInstalled)
+			isClient = true;
+	}
+	else if (setting_type == QST_CONTACTINFO && cnftype == CNF_GENDER)
+		isGender = true;
+	else if (setting_type == QST_OTHER && cnftype == QSTO_ACCOUNT)
+		isAccount = true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -322,6 +335,7 @@ void CMPlugin::LoadColumn(int n, ColumnItem &col)
 		if (!mir_strcmp(col.svc.service, "Proto/GetContactBaseAccount")) {
 			col.setting_type = QST_OTHER;
 			col.other = QSTO_ACCOUNT;
+			col.isAccount = true;
 			break;
 		}
 

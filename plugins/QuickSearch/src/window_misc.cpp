@@ -95,27 +95,23 @@ void QSMainDlg::MakePattern(const wchar_t *pwszPattern)
 
 void QSMainDlg::AddColumn(int idx, ColumnItem *pCol)
 {
-	LV_COLUMN lvcol = {};
-	lvcol.mask = LVCF_TEXT | LVCF_WIDTH;
-	lvcol.pszText = TranslateW(pCol->title);
-	lvcol.cx = pCol->width;
-	m_grid.InsertColumn(idx, &lvcol);
+	LV_COLUMN lvc = {};
+	lvc.mask = LVCF_TEXT | LVCF_WIDTH;
+	lvc.pszText = TranslateW(pCol->title);
+	lvc.cx = pCol->width;
+	m_grid.InsertColumn(idx, &lvc);
 
 	HDITEM hdi;
 	hdi.mask = HDI_FORMAT;
-	if (pCol->bFilter)
-		hdi.fmt = HDF_LEFT | HDF_STRING | HDF_CHECKBOX | HDF_CHECKED;
-	else
-		hdi.fmt = HDF_LEFT | HDF_STRING | HDF_CHECKBOX;
+	hdi.fmt = HDF_LEFT | HDF_STRING | HDF_CHECKBOX | (pCol->bFilter ? HDF_CHECKED : 0);
 	SendMessage(m_grid.GetHeader(), HDM_SETITEM, idx, LPARAM(&hdi));
 }
 
 void QSMainDlg::AddContactToList(MCONTACT hContact, CRowItem *pRow)
 {
-	LV_ITEMW li = {};
-	li.mask = LVIF_IMAGE | LVIF_PARAM;
+	LV_ITEM li = {};
+	li.mask = LVIF_PARAM;
 	li.iItem = 100000;
-	li.iImage = Clist_GetContactIcon(hContact);
 	li.lParam = LPARAM(pRow);
 
 	li.iItem = m_grid.InsertItem(&li);
@@ -129,9 +125,9 @@ void QSMainDlg::AddContactToList(MCONTACT hContact, CRowItem *pRow)
 
 		// Client icons preprocess
 		li.pszText = pRow->pValues[i].text;
-		li.mask = LVIF_TEXT;
-		if ((col.isClient && (g_plugin.m_flags & QSO_CLIENTICONS) && li.pszText != 0) || col.isXstatus || col.isGender)
-			li.mask |= LVIF_IMAGE;
+		li.mask = LVIF_TEXT + col.HasImage(li.pszText);
+		if (col.isAccount)
+			li.iImage = Clist_GetContactIcon(hContact);
 		m_grid.SetItem(&li);
 		li.iSubItem++;
 	}
@@ -171,10 +167,10 @@ void QSMainDlg::ChangeStatusPicture(CRowItem *pRow, MCONTACT, LPARAM lParam)
 	if (idx == -1)
 		return;
 
-	LV_ITEMW li = {};
+	LV_ITEM li = {};
 	li.iItem = idx;
 	li.mask = LVIF_IMAGE;
-	li.iImage = lParam; //CallService(MS_CLIST_GETCONTACTICON,hContact,0);
+	li.iImage = lParam;
 	m_grid.SetItem(&li);
 }
 
@@ -432,7 +428,7 @@ void QSMainDlg::PrepareTable(bool bReset)
 	}
 
 	if (bReset)
-		for (int i = old + tableColumns - 1; i >= tableColumns; i--)
+		for (int i = old - 1; i >= tableColumns; i--)
 			m_grid.DeleteColumn(i);
 }
 
