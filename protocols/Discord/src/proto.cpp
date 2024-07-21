@@ -136,43 +136,6 @@ CDiscordProto::~CDiscordProto()
 
 void CDiscordProto::OnModulesLoaded()
 {
-	std::vector<MCONTACT> lostIds;
-
-	// Fill users list
-	for (auto &hContact : AccContacts()) {
-		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
-		pNew->hContact = hContact;
-		pNew->lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
-		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
-		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
-
-		// set EnableSync = 1 by default for all existing guilds
-		switch (getByte(hContact, "ChatRoom")) {
-		case 2: // guild
-			delSetting(hContact, DB_KEY_CHANNELID);
-			surelyGetBool(hContact, DB_KEY_ENABLE_HIST);
-			surelyGetBool(hContact, DB_KEY_ENABLE_SYNC);
-			break;
-
-		case 1: // group chat
-			pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
-			if (!pNew->channelId) {
-				lostIds.push_back(hContact);
-				delete pNew;
-				continue;
-			}
-			break;
-
-		default:
-			pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
-			break;
-		}
-		arUsers.insert(pNew);
-	}
-
-	for (auto &hContact: lostIds)
-		db_delete_contact(hContact);
-
 	// Clist
 	Clist_GroupCreate(0, m_wszDefaultGroup);
 
@@ -639,6 +602,48 @@ int CDiscordProto::OnAccountChanged(WPARAM iAction, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CDiscordProto::OnCacheInit()
+{
+	std::vector<MCONTACT> lostIds;
+
+	// Fill users list
+	for (auto &hContact : AccContacts()) {
+		m_bCacheInited = true;
+
+		CDiscordUser *pNew = new CDiscordUser(getId(hContact, DB_KEY_ID));
+		pNew->hContact = hContact;
+		pNew->lastMsgId = getId(hContact, DB_KEY_LASTMSGID);
+		pNew->wszUsername = ptrW(getWStringA(hContact, DB_KEY_NICK));
+		pNew->iDiscriminator = getDword(hContact, DB_KEY_DISCR);
+
+		// set EnableSync = 1 by default for all existing guilds
+		switch (getByte(hContact, "ChatRoom")) {
+		case 2: // guild
+			delSetting(hContact, DB_KEY_CHANNELID);
+			surelyGetBool(hContact, DB_KEY_ENABLE_HIST);
+			surelyGetBool(hContact, DB_KEY_ENABLE_SYNC);
+			break;
+
+		case 1: // group chat
+			pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
+			if (!pNew->channelId) {
+				lostIds.push_back(hContact);
+				delete pNew;
+				continue;
+			}
+			break;
+
+		default:
+			pNew->channelId = getId(hContact, DB_KEY_CHANNELID);
+			break;
+		}
+		arUsers.insert(pNew);
+	}
+
+	for (auto &hContact : lostIds)
+		db_delete_contact(hContact);
+}
 
 bool CDiscordProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {

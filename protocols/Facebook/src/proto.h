@@ -522,9 +522,10 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
 
-	void OnContactAdded(MCONTACT) override;
-	void OnModulesLoaded() override;
-	void OnShutdown() override;
+	void     OnCacheInit() override;
+	void     OnContactAdded(MCONTACT) override;
+	void     OnModulesLoaded() override;
+	void     OnShutdown() override;
 
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact) override;

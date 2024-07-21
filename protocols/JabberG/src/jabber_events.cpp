@@ -29,6 +29,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_disco.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// OnCacheInit - cache initialization
+
+void CJabberProto::OnCacheInit()
+{
+	for (auto &hContact : AccContacts()) {
+		m_bCacheInited = true;
+
+		SetContactOfflineStatus(hContact);
+
+		if (getByte(hContact, "IsTransport", 0)) {
+			ptrA jid(getUStringA(hContact, "jid"));
+			if (jid == nullptr)
+				continue;
+
+			char *resourcepos = strchr(jid, '/');
+			if (resourcepos != nullptr)
+				*resourcepos = '\0';
+
+			m_lstTransports.insert(mir_strdup(jid));
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // OnContactDeleted - processes a contact deletion
 
 bool CJabberProto::OnContactDeleted(MCONTACT hContact, uint32_t)

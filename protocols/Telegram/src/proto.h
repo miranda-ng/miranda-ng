@@ -394,6 +394,7 @@ public:
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 		
 	void     OnBuildProtoMenu() override;
+	void     OnCacheInit() override;
 	void     OnContactAdded(MCONTACT hContact) override;
 	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow hwndParent) override;

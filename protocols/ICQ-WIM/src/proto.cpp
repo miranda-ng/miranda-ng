@@ -134,7 +134,6 @@ CIcqProto::~CIcqProto()
 
 void CIcqProto::OnModulesLoaded()
 {
-	InitContactCache();
 	InitMenus();
 
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
@@ -146,6 +145,42 @@ void CIcqProto::OnModulesLoaded()
 void CIcqProto::OnShutdown()
 {
 	m_bTerminated = true;
+}
+
+void CIcqProto::OnCacheInit()
+{
+	mir_cslock l(m_csCache);
+	for (auto &it : AccContacts()) {
+		m_bCacheInited = true;
+
+		if (isChatRoom(it))
+			continue;
+
+		// that was previously an ICQ contact
+		ptrW wszUin(GetUIN(it));
+		if (wszUin != nullptr) {
+			delSetting(it, "UIN");
+			setWString(it, DB_KEY_ID, wszUin);
+		}
+		// that was previously a MRA contact
+		else {
+			CMStringW wszEmail(getMStringW(it, "e-mail"));
+			if (!wszEmail.IsEmpty()) {
+				delSetting(it, "e-mail");
+				setWString(it, DB_KEY_ID, wszEmail);
+			}
+		}
+
+		CMStringW wszId = GetUserId(it);
+		auto *pUser = FindUser(wszId);
+		if (pUser == nullptr) {
+			pUser = new IcqUser(wszId, it);
+
+			mir_cslock lck(m_csCache);
+			m_arCache.insert(pUser);
+		}
+		pUser->m_iProcessedMsgId = getId(it, DB_KEY_LASTMSGID);
+	}
 }
 
 void CIcqProto::OnContactAdded(MCONTACT hContact)

@@ -32,9 +32,10 @@ static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr,
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol constructor & destructor
 
-PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName)
+PROTO_INTERFACE::PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName) :
+	m_iVersion(2),
+	m_bCacheInited(false)
 {
-	m_iVersion = 2;
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 	m_szModuleName = mir_strdup(pszModuleName);
 	m_tszUserName = mir_wstrdup(ptszUserName);
@@ -75,6 +76,9 @@ CMStringW PROTO_INTERFACE::GetPreviewPath() const
 }
 
 void PROTO_INTERFACE::OnBuildProtoMenu()
+{}
+
+void PROTO_INTERFACE::OnCacheInit()
 {}
 
 void PROTO_INTERFACE::OnContactAdded(MCONTACT)

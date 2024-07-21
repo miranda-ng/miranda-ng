@@ -378,7 +378,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	mir_cs    m_csCache;
 	OBJLIST<IcqUser> m_arCache;
 
-	void      InitContactCache(void);
 	IcqUser*  FindUser(const CMStringW &pwszId);
 	MCONTACT  CreateContact(const CMStringW &pwszId, bool bTemporary);
 	
@@ -431,34 +430,35 @@ class CIcqProto : public PROTO<CIcqProto>
 	////////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
 
-	MCONTACT  AddToList( int flags, PROTOSEARCHRESULT *psr) override;
-			    
-	int       AuthRecv(MCONTACT, DB::EventInfo &dbei) override;
-	int       AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
+	MCONTACT AddToList( int flags, PROTOSEARCHRESULT *psr) override;
+			   
+	int      AuthRecv(MCONTACT, DB::EventInfo &dbei) override;
+	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 
-	INT_PTR   GetCaps(int type, MCONTACT hContact = NULL) override;
-	int       GetInfo(MCONTACT hContact, int infoType) override;
-			    
-	HANDLE    SearchBasic(const wchar_t *id) override;
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	int      GetInfo(MCONTACT hContact, int infoType) override;
+			   
+	HANDLE   SearchBasic(const wchar_t *id) override;
 
-	HANDLE    SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	int       SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
-			    
-	int       SetStatus(int iNewStatus) override;
-			    
-	int       UserIsTyping(MCONTACT hContact, int type) override;
-			    
-	void      OnBuildProtoMenu(void) override;
-	void      OnContactAdded(MCONTACT) override;
-	bool      OnContactDeleted(MCONTACT, uint32_t flags) override;
-	MWindow   OnCreateAccMgrUI(MWindow) override;
-	void      OnEventDeleted(MCONTACT, MEVENT, int) override;
-	void      OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
-	void      OnMarkRead(MCONTACT, MEVENT) override;
-	void      OnModulesLoaded() override;
-	void      OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;
-	void      OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *ft) override;
-	void      OnShutdown() override;
+	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
+	int      SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
+			   
+	int      SetStatus(int iNewStatus) override;
+			   
+	int      UserIsTyping(MCONTACT hContact, int type) override;
+			   
+	void     OnBuildProtoMenu(void) override;
+	void     OnCacheInit() override;
+	void     OnContactAdded(MCONTACT) override;
+	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
+	void     OnEventDeleted(MCONTACT, MEVENT, int) override;
+	void     OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
+	void     OnMarkRead(MCONTACT, MEVENT) override;
+	void     OnModulesLoaded() override;
+	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;
+	void     OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *ft) override;
+	void     OnShutdown() override;
 
 public:
 	CIcqProto(const char*, const wchar_t*);

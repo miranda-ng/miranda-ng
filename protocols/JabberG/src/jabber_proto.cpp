@@ -311,23 +311,6 @@ void CJabberProto::OnModulesLoaded()
 	HookProtoEvent(ME_IDLE_CHANGED, &CJabberProto::OnIdleChanged);
 
 	CheckAllContactsAreTransported();
-
-	// Set all contacts to offline
-	for (auto &hContact : AccContacts()) {
-		SetContactOfflineStatus(hContact);
-
-		if (getByte(hContact, "IsTransport", 0)) {
-			ptrA jid(getUStringA(hContact, "jid"));
-			if (jid == nullptr)
-				continue;
-
-			char *resourcepos = strchr(jid, '/');
-			if (resourcepos != nullptr)
-				*resourcepos = '\0';
-
-			m_lstTransports.insert(mir_strdup(jid));
-		}
-	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

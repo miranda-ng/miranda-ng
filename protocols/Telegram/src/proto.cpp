@@ -109,6 +109,26 @@ CTelegramProto::~CTelegramProto()
 {
 }
 
+void CTelegramProto::OnCacheInit()
+{
+	int iCompatLevel = getByte(DBKEY_COMPAT);
+	VARSW cachePath(L"%miranda_userdata%\\ChatCache");
+
+	for (auto &cc : AccContacts()) {
+		m_bCacheInited = true;
+
+		if (int64_t id = GetId(cc)) {
+			bool isGroupChat = isChatRoom(cc);
+			auto *pUser = new TG_USER(id, cc, isGroupChat);
+			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);
+			m_arUsers.insert(pUser);
+			if (isGroupChat && iCompatLevel < 3)
+				_wremove(CMStringW(FORMAT, L"%s\\%d.json", cachePath.get(), cc));
+		}
+	}
+	setByte(DBKEY_COMPAT, 3);
+}
+
 void CTelegramProto::OnContactAdded(MCONTACT hContact)
 {
 	if (int64_t id = GetId(hContact)) {
@@ -146,21 +166,6 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 
 void CTelegramProto::OnModulesLoaded()
 {
-	int iCompatLevel = getByte(DBKEY_COMPAT);
-	VARSW cachePath(L"%miranda_userdata%\\ChatCache");
-
-	for (auto &cc : AccContacts()) {
-		if (int64_t id = GetId(cc)) {
-			bool isGroupChat = isChatRoom(cc);
-			auto *pUser = new TG_USER(id, cc, isGroupChat);
-			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);
-			m_arUsers.insert(pUser);
-			if (isGroupChat && iCompatLevel < 3)
-				_wremove(CMStringW(FORMAT, L"%s\\%d.json", cachePath.get(), cc));
-		}
-	}
-	setByte(DBKEY_COMPAT, 3);
-
 	m_bSmileyAdd = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
 	if (m_bSmileyAdd)
 		SmileyAdd_LoadContactSmileys(SMADD_FOLDER, m_szModuleName, GetAvatarPath() + L"\\Stickers\\*.*");

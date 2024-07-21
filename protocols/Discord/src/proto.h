@@ -544,6 +544,7 @@ public:
 	int      SetStatus(int iNewStatus) override;
 
 	void     OnBuildProtoMenu() override;
+	void     OnCacheInit() override;
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	void     OnEventDeleted(MCONTACT, MEVENT, int flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;

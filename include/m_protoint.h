@@ -80,8 +80,8 @@ protected:
 public:
 	int         m_iStatus;         // current protocol status
 	int         m_iDesiredStatus;  // status to be set after logging in
-	int         m_iXStatus;        // extanded status
-	int         m_iVersion;        // version 2 or higher designate support of Unicode services
+	uint8_t     m_iVersion;        // version 2 or higher designate support of Unicode services
+	bool        m_bCacheInited;    // was cache initialized or not
 	wchar_t*    m_tszUserName;     // human readable protocol's name
 	char*       m_szModuleName;    // internal protocol name, also its database module name
 	HANDLE      m_hProtoIcon = 0;  // icon to be displayed in the account manager
@@ -256,6 +256,8 @@ public:
 
 	// builds the account's protocol menu
 	virtual void OnBuildProtoMenu(void);
+
+	virtual void OnCacheInit(void);
 
 	// called when an account's contact is added
 	virtual void OnContactAdded(MCONTACT);

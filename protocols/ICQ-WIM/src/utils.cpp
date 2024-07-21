@@ -20,40 +20,6 @@
 
 #include "stdafx.h"
 
-void CIcqProto::InitContactCache()
-{
-	mir_cslock l(m_csCache);
-	for (auto &it : AccContacts()) {
-		if (isChatRoom(it))
-			continue;
-
-		// that was previously an ICQ contact
-		ptrW wszUin(GetUIN(it));
-		if (wszUin != nullptr) {
-			delSetting(it, "UIN");
-			setWString(it, DB_KEY_ID, wszUin);
-		}
-		// that was previously a MRA contact
-		else {
-			CMStringW wszEmail(getMStringW(it, "e-mail"));
-			if (!wszEmail.IsEmpty()) {
-				delSetting(it, "e-mail");
-				setWString(it, DB_KEY_ID, wszEmail);
-			}
-		}
-
-		CMStringW wszId = GetUserId(it);
-		auto *pUser = FindUser(wszId);
-		if (pUser == nullptr) {
-			pUser = new IcqUser(wszId, it);
-
-			mir_cslock lck(m_csCache);
-			m_arCache.insert(pUser);
-		}
-		pUser->m_iProcessedMsgId = getId(it, DB_KEY_LASTMSGID);
-	}
-}
-
 IcqUser* CIcqProto::FindUser(const CMStringW &wszId)
 {
 	IcqUser tmp(wszId, -1);

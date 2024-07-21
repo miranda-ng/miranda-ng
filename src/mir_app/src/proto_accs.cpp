@@ -241,12 +241,13 @@ bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 			return false;
 
 		pa->ppro = ppi;
+		ppi->OnCacheInit();
 
 		if (bIsDynamic) {
 			if (g_bModulesLoadedFired)
-				pa->ppro->OnModulesLoaded();
+				ppi->OnModulesLoaded();
 			if (!db_get_b(0, "CList", "MoveProtoMenus", true))
-				pa->ppro->OnBuildProtoMenu();
+				ppi->OnBuildProtoMenu();
 			pa->bDynDisabled = false;
 		}
 	}

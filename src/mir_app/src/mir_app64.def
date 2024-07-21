@@ -985,3 +985,4 @@ g_hevEventSetJson @1103 NONAME
 ??_7MJsonWebSocket@@6B@ @1116 NONAME
 ?process@MJsonWebSocket@@EEAAXPEBE_K@Z @1117 NONAME
 Proto_CanDeleteHistory @1118 NONAME
+?OnCacheInit@PROTO_INTERFACE@@UEAAXXZ @1119 NONAME

@@ -118,6 +118,17 @@ FacebookProto::~FacebookProto()
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol events
 
+void FacebookProto::OnCacheInit()
+{
+	for (auto &cc : AccContacts()) {
+		m_bCacheInited = true;
+
+		CMStringA szId(getMStringA(cc, DBKEY_ID));
+		if (!szId.IsEmpty())
+			m_users.insert(new FacebookUser(_atoi64(szId), cc, isChatRoom(cc)));
+	}
+}
+
 void FacebookProto::OnContactAdded(MCONTACT hContact)
 {
 	__int64 userId = _atoi64(getMStringA(hContact, DBKEY_ID));
@@ -136,13 +147,6 @@ void FacebookProto::OnModulesLoaded()
 
 	wszPath.Format(L"%s\\%S\\Stickers\\*.webp", wszCache.get(), m_szModuleName);
 	SmileyAdd_LoadContactSmileys(SMADD_FOLDER, m_szModuleName, wszPath);
-
-	// contacts cache
-	for (auto &cc : AccContacts()) {
-		CMStringA szId(getMStringA(cc, DBKEY_ID));
-		if (!szId.IsEmpty())
-			m_users.insert(new FacebookUser(_atoi64(szId), cc, isChatRoom(cc)));
-	}
 
 	// Default group
 	Clist_GroupCreate(0, m_wszDefaultGroup);

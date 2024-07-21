@@ -472,9 +472,9 @@ public:
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
+	void     OnCacheInit() override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnErase() override;
-	void     OnModulesLoaded() override;
 
 	// Events //////////////////////////////////////////////////////////////////////////////
 

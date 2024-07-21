@@ -1058,6 +1058,22 @@ void CImportBatch::DoImport()
 	AddMessage(L"");
 	dstDb->Flush();
 
+	// Create contact's cache for new accounts
+	{
+		int protoCount;
+		PROTOACCOUNT **accs;
+		Proto_EnumAccounts(&protoCount, &accs);
+
+		for (int i = 0; i < protoCount; i++) {
+			auto *pa = accs[i];
+
+			if (!pa->ppro)
+				continue;
+			if (!pa->ppro->m_bCacheInited)
+				pa->ppro->OnCacheInit();
+		}
+	}
+
 	// Restore database writing mode
 	dstDb->SetCacheSafetyMode(TRUE);
 	db_setCurrent(dstDb);
