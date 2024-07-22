@@ -165,18 +165,9 @@ bool UidName(char *szProto, wchar_t *buff, int bufflen)
 wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 {
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
-		DBEVENTINFO dbei = {};
-		db_event_get(hDbEvent, &dbei);
+		DB::EventInfo dbei(hDbEvent);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received) {
-			dbei.pBlob = (char *)alloca(dbei.cbBlob);
-			db_event_get(hDbEvent, &dbei);
-			if (dbei.cbBlob == 0 || dbei.pBlob == nullptr)
-				return nullptr;
-
-			wchar_t *buff = DbEvent_GetText(&dbei);
-			wchar_t *swzMsg = mir_wstrdup(buff);
-			mir_free(buff);
-
+			wchar_t *swzMsg = dbei.getText();
 			StripBBCodesInPlace(swzMsg);
 			return swzMsg;
 		}
