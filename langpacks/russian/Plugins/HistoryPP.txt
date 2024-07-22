@@ -457,8 +457,6 @@ HTML файл
 Неизвестная кодовая страница %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 Невозможно загрузить History++, так как отсутствует riched20.dll. Нажмите "Да" для продолжения загрузки программы.
-[User %s (%d) changed ICQ client: %s]
-%s (%d) сменил клиент ICQ: %s
 [Status request by %s (%d):%s]
 Запрос статуса от %s (%d):%s
 [Ignored status request by %s (%d):%s]

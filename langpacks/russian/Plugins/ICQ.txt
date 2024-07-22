@@ -1,17 +1,17 @@
 #muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ-WIM protocol
+;  Plugin: WIM protocol
 ;  Version: 0.96.5.1
 ;  Authors: George Hazan
 ;============================================================
-[ICQ protocol support for Miranda NG.]
-Поддержка протокола ICQ в Miranda NG.
+[MRA protocol support for Miranda NG.]
+Поддержка протокола MRA в Miranda NG.
 ;file \protocols\ICQ-WIM\res\resources.rc
 [Edit server groups]
 Редактировать группы на сервере
-[UIN/e-mail:]
-UIN/почта:
+[E-mail:]
+Почта:
 [Password:]
 Пароль:
 [Sign in/sign up using phone]
@@ -58,8 +58,8 @@ UIN/почта:
 Фамилия:
 [About:]
 Информация:
-[Enter ICQ Password]
-Введите пароль ICQ
+[Enter MRA password]
+Введите пароль MRA
 [Enter a password:]
 Введите пароль
 [Remember this session password]
@@ -117,13 +117,9 @@ UIN/почта:
 Уведомления об ошибках %s
 [Synchronize server groups]
 Синхронизировать группы с сервером
-[Edit my web profile]
-Редактировать профиль на веб-сайте
-[UIN/e-mail/phone]
-UIN/почта/телефон
 ;file \protocols\ICQ-WIM\src\server.cpp
-[You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
-Вы не ввели логин либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
+[You have not entered a login or password.\nConfigure this in Options -> Network -> MRA and try again.]
+Вы не ввели логин либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> MRA" и попробуйте снова.
 [Connection failed.\nYour login or password was rejected (%d).]
 Ошибка подключения.\nВаш логин или пароль не приняты сервером (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]

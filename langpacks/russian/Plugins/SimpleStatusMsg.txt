@@ -58,8 +58,8 @@
 секунд
 [Do not update variables during idle]
 Не обновлять переменные в режиме ожидания
-[Do not update variables on ICQ status message requests]
-Не обновлять переменные при смене сообщений статуса ICQ
+[Do not update variables on MRA status message requests]
+Не обновлять переменные при смене сообщений статуса MRA
 [Leave last played track's title after exiting the player]
 Оставлять последний трек после выключения плеера
 [Enable status messages parsing by Variables plugin]

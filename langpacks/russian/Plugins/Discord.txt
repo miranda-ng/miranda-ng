@@ -63,7 +63,7 @@
 [Add friend]
 Добавить друга
 [Kick user]
-выкинул(а) пользователя
+Выкинуть пользователя
 [Make group owner]
 Сделать владельцем чата
 [Do you really want to destroy this channel? This action is non-revertable.]
@@ -94,6 +94,10 @@
 Выключить синхронизацию
 [Enable sync]
 Включить синхронизацию
+[Disable database history for a guild]
+Не сохранять историю чатов этого сервера в базе
+[Enable database history for a guild]
+Сохранять историю чатов этого сервера в базе
 [Join guild]
 Присоединиться к гильдии
 [Copy my Discord ID]
@@ -125,8 +129,6 @@
 [Account]
 Учётная запись
 ;file \protocols\Discord\src\proto.cpp
-[Incoming call]
-Входящий звонок
 [%s server connection]
 %s подключение к серверу
 [%s gateway connection]
@@ -163,6 +165,3 @@ ID пользователя
 %s покидает чат
 [%s changed the group icon]
 %s изменяет значок чата
-;file \protocols\Discord\src\voice.cpp
-[Call ended, %d seconds long]
-Звонок завершён, длительность - %d секунд

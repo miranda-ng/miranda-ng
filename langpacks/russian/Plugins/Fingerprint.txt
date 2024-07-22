@@ -32,8 +32,6 @@ Fingerprint NG отображает значки клиентов, исполь�
 Клиенты Facebook
 [Gadu-Gadu clients]
 Клиенты Gadu-Gadu
-[ICQ clients]
-Клиенты ICQ
 [IRC clients]
 Клиенты IRC
 [Jabber clients]
@@ -80,8 +78,6 @@ XMPP клиент
 Неизвестный клиент
 [Undetected client]
 Неопределённый клиент
-[ICQ overlay]
-Оверлей ICQ
 [IRC overlay]
 Оверлей IRC
 [JGmail overlay]
@@ -94,8 +90,6 @@ XMPP клиент
 Оверлей VK
 [Skype overlay]
 Оверлей Skype
-[ICQ v8.x overlay]
-ICQ v8.x оверлей
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клиент
 [Gadu-Gadu v10 client]

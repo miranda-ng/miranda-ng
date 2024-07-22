@@ -715,8 +715,6 @@ BBCode ([b][i][u])
 Настройки бесед
 [View user's history]
 История сообщений
-[Edit user notes]
-Редактировать заметки о пользователе
 [Select a foreground color for the text (Ctrl+K)]
 Выбрать цвет текста (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
@@ -975,8 +973,8 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
 [user-defined account name of current contact (if defined).]
 имя учётной записи текущего контакта (если определено).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-ID текущего контакта (если определён). Например, UIN для ICQ, JID для Jabber и т.д.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+ID текущего контакта (если определён). Например, JID для Jabber и т.д.
 [path to Miranda root folder]
 путь к папке программы
 [path to folder containing Miranda profiles]
@@ -1097,8 +1095,6 @@ ID текущего контакта (если определён). Наприм
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Нет сообщения статуса
-[You cannot edit user notes when there are unsent messages]
-Вы не можете править заметки, если есть неотправленные сообщения
 [%s is typing a message...]
 %s набирает текст...
 [Last received: %s at %s]
@@ -1273,8 +1269,6 @@ TabSRMM: набор текста
 Ещё раз
 [Send later]
 Отправить позже
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячую клавишу (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим набора ообщений
 [Selection copied to clipboard]
 Выделенный текст скопирован в буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1785,8 +1779,6 @@ TabSRMM: %s
 Предупреждение TabSRMM
 [Save file|Unable to save temporary file]
 Сохранение файла|Не удалось сохранить временный файл
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Редактирование заметок о пользователе|Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячую клавишу (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим набора ообщений
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Недостающий компонент|Набор значков не найден. Пожалуйста, установите его в директорию значков по умолчанию.\n\nНа данный момент значки недоступны
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]

@@ -54,8 +54,8 @@
 Игнорировать ссылки в сообщениях и запросах авторизации
 [Add contact to server list]
 Добавить контакт в список на сервере
-[After congratulation (ICQ only)]
-После поздравления (только для ICQ)
+[After congratulation (MRA only)]
+После поздравления (только для MRA)
 [Automatically grant authorization]
 Авторизовать автоматически
 [Request authorization from contacts which pass StopSpam test]

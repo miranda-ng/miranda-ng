@@ -7616,7 +7616,7 @@ Angeli-Ka (графика), FYR (шаблон)
 Индикатор изменения размера
 [Draw background skin]
 Использовать скин для фона
-[Show ICQ extended status icons]
+[Show MRA extended status icons]
 Показывать значки xСтатуса
 [Mark protocols locked from global status changes]
 Помечать протоколы, для которых не применяется смена статуса
@@ -9613,7 +9613,7 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 [Add friend]
 Добавить друга
 [Kick user]
-выкинул(а) пользователя
+Выкинуть пользователя
 [Make group owner]
 Сделать владельцем чата
 [Do you really want to destroy this channel? This action is non-revertable.]
@@ -9642,6 +9642,10 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Выключить синхронизацию
 [Enable sync]
 Включить синхронизацию
+[Disable database history for a guild]
+Не сохранять историю чатовс этого сервера в базе
+[Enable database history for a guild]
+Сохранять историю чатовс этого сервера в базе
 [Join guild]
 Присоединиться к гильдии
 [Copy my Discord ID]
@@ -9668,8 +9672,6 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Сеть
 [Account]
 Учётная запись
-[Incoming call]
-Входящий звонок
 [%s server connection]
 %s подключение к серверу
 [%s gateway connection]
@@ -9704,8 +9706,6 @@ ID пользователя
 %s покидает чат
 [%s changed the group icon]
 %s изменяет значок чата
-[Call ended, %d seconds long]
-Звонок завершён, длительность - %d секунд
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
@@ -10141,8 +10141,6 @@ Fingerprint NG отображает значки клиентов, исполь�
 Клиенты Facebook
 [Gadu-Gadu clients]
 Клиенты Gadu-Gadu
-[ICQ clients]
-Клиенты ICQ
 [IRC clients]
 Клиенты IRC
 [Jabber clients]
@@ -10187,8 +10185,6 @@ XMPP клиент
 Неизвестный клиент
 [Undetected client]
 Неопределённый клиент
-[ICQ overlay]
-Оверлей ICQ
 [IRC overlay]
 Оверлей IRC
 [JGmail overlay]
@@ -10201,8 +10197,6 @@ XMPP клиент
 Оверлей VK
 [Skype overlay]
 Оверлей Skype
-[ICQ v8.x overlay]
-ICQ v8.x оверлей
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клиент
 [Gadu-Gadu v10 client]
@@ -11724,8 +11718,6 @@ HTML файл
 Неизвестная кодовая страница %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 Невозможно загрузить History++, так как отсутствует riched20.dll. Нажмите "Да" для продолжения загрузки программы.
-[User %s (%d) changed ICQ client: %s]
-%s (%d) сменил клиент ICQ: %s
 [Status request by %s (%d):%s]
 Запрос статуса от %s (%d):%s
 [Ignored status request by %s (%d):%s]
@@ -13135,16 +13127,16 @@ Hardware HotKeys
 #muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
 ;============================================================
 ;  File: ICQ.dll
-;  Plugin: ICQ-WIM protocol
+;  Plugin: WIM protocol
 ;  Version: 0.96.5.1
 ;  Authors: George Hazan
 ;============================================================
-[ICQ protocol support for Miranda NG.]
-Поддержка протокола ICQ в Miranda NG.
+[MRA protocol support for Miranda NG.]
+Поддержка протокола MRA в Miranda NG.
 [Edit server groups]
 Редактировать группы на сервере
-[UIN/e-mail:]
-UIN/почта:
+[E-mail:]
+Почта:
 [Password:]
 Пароль:
 [Sign in/sign up using phone]
@@ -13191,8 +13183,8 @@ UIN/почта:
 Фамилия:
 [About:]
 Информация:
-[Enter ICQ Password]
-Введите пароль ICQ
+[Enter MRA password]
+Введите пароль MRA
 [Enter a password:]
 Введите пароль
 [Remember this session password]
@@ -13243,12 +13235,8 @@ UIN/почта:
 Уведомления об ошибках %s
 [Synchronize server groups]
 Синхронизировать группы с сервером
-[Edit my web profile]
-Редактировать профиль на веб-сайте
-[UIN/e-mail/phone]
-UIN/почта/телефон
-[You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
-Вы не ввели логин либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
+[You have not entered a login or password.\nConfigure this in Options -> Network -> MRA and try again.]
+Вы не ввели логин либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> MRA" и попробуйте снова.
 [Connection failed.\nYour login or password was rejected (%d).]
 Ошибка подключения.\nВаш логин или пароль не приняты сервером (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
@@ -14544,6 +14532,8 @@ Nickserv убить фантома
 Порт:
 [Use SSL]
 SSL
+[Use STARTTLS]
+STARTTLS
 [Unregister]
 Удалить
 [Expert]
@@ -18288,6 +18278,8 @@ bass.dll не найден! Укажите путь к нему
 мин.
 [max]
 макс.
+[Status Message]
+Статусное сообщение
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -18682,8 +18674,8 @@ ID пользователя
 Включить автоответчик
 [On event...]
 При...
-[Don't reply to ICQ contacts]
-Не отвечать контактам ICQ
+[Don't reply to MRA contacts]
+Не отвечать контактам MRA
 [Save autoreply to the history]
 Сохранять сообщение автоответчика в истории
 [Reply only when Idle]
@@ -18772,8 +18764,8 @@ ID пользователя
 Хранить настройки автоответчика/игнорирования контакта для каждого статуса отдельно
 [Use protocol specific nick for %nas_mynick%]
 Использовать особый псевдоним протокола для %nas_mynick%
-[Update status messages for non-ICQ protocols every]
-Обновл. сообщения для не-ICQ протоколов каждые
+[Update status messages for non-MRA protocols every]
+Обновл. сообщения для не-MRA протоколов каждые
 [seconds]
 секунд(ы)
 [Don't show the message dialog for]
@@ -23411,8 +23403,8 @@ IP токена не совпадает
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
 [user-defined account name of current contact (if defined).]
 имя учётной записи текущего контакта (если определено).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-ID текущего контакта (если определён). Например, UIN для ICQ, JID для Jabber и т.д.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+ID текущего контакта (если определён). Например, JID для Jabber и т.д.
 [path to Miranda root folder]
 путь к папке программы
 [path to folder containing Miranda profiles]
@@ -24938,8 +24930,8 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 секунд
 [Do not update variables during idle]
 Не обновлять переменные в режиме ожидания
-[Do not update variables on ICQ status message requests]
-Не обновлять переменные при смене сообщений статуса ICQ
+[Do not update variables on MRA status message requests]
+Не обновлять переменные при смене сообщений статуса MRA
 [Leave last played track's title after exiting the player]
 Оставлять последний трек после выключения плеера
 [Enable status messages parsing by Variables plugin]
@@ -25387,181 +25379,6 @@ URI объект
 Эмодзи
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Ошибочное регулярное выражение "%s" в наборе смайлов "%s".
-#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
-;============================================================
-;  File: Spamotron.dll
-;  Plugin: Spam-o-tron
-;  Version: 0.0.4.7
-;  Authors: vu1tur
-;============================================================
-[Anti-spam plugin with captcha and Bayes filtering.]
-Антиспам с капчей и Байесовской фильтрацией.
-[Enabled]
-Включён
-[Learned ham messages:]
-Не спамерских сообщений в базе:
-[Learned spam messages:]
-Спамерских сообщений в базе:
-[Filtering options]
-Настройки фильтрации:
-[Do not send challenge request if message score above]
-Блокировать сообщение, если спам-рейтинг выше
-[Auto approve contact if message score below]
-Одобрять контакт при спам-рейтинге ниже
-[and learn as ham]
-и считать не спамом
-[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
-Не включайте эти настройки до тех пор, пока в базе не будет как минимум 20 не спамерских и 50 спамерских сообщений.
-[Learning options]
-Настройки обучения
-[Auto-learn messages from approved contacts as ham]
-Считать сообщения от одобренных контактов не спамом
-[Auto-learn messages from contacts if not approved in]
-Считать сообщения спамом, если не одобрено за
-[days as spam]
-дня
-[Auto-learn outgoing messages as ham]
-Считать исходящие сообщения не спамом
-[Learn message:]
-Добавить сообщение в базу:
-[Spam]
-Спам
-[Ham]
-Не спам
-[Analyze]
-Проверить
-[Settings]
-Настройки
-[Enabled accounts:]
-Включить для:
-[Auto approve on:]
-Автоподтверждение при:
-[Outgoing message]
-Исходящем сообщении
-[Incoming message with any word from list:]
-Входящем сообщении с любым из слов:
-[Hide contact until verified]
-Прятать контакт до подтверждения
-[Add permanently to list on verified]
-Добавлять контакт при подтверждении
-[Log actions to system history]
-Вести журнал действий
-[Flood protection]
-Защита от флуда
-[Do not send more than]
-Не отправлять более
-[messages to one contact per day]
-контрольных вопросов контакту в день
-[Do not reply to the same message more than]
-Не отвечать на сообщения-дубли больше
-[times a day]
-раз в день
-[Do not reply to messages with words in this list:]
-Чёрный список слов во входящих сообщениях:
-[Mode:]
-Режим:
-[Case-sensitive]
-Учитывать регистр
-[will be saved in %mathexpr%]
-находится в %mathexpr%
-[Send challenge on incoming message:]
-Отправлять контрольный вопрос при входящем сообщении:
-[Responses: (saved in %response%, %response-n% variables)]
-Ответы: (находятся в переменных %response%, %response-n%)
-[Reply on success:]
-Уведомлять при подтверждении:
-[Send challenge on authorization request:]
-Отправлять контрольный вопрос при запросе авторизации:
-[Keep blocked messages in contact history]
-Хранить заблокированные сообщения в истории
-[and mark them unread after approval]
-и помечать непрочитанными при подтверждении
-[Reset to defaults]
-По умолчанию
-[Enable popup notifications]
-Включить уведомления всплывающими окнами
-[Appearance]
-Внешний вид
-[Foreground]
-Текст
-[Background]
-Фон
-[Timeout (sec)]
-Длительность (сек)
-[Contact blocked]
-Контакт заблокирован
-[Contact approved]
-Контакт подтверждён
-[Challenge sent]
-Отправлен вопрос
-[Use default colors]
-Цвета по умолчанию
-[Use Windows colors]
-Цвета Windows
-[Default timeout]
-Длительность по умолчанию
-[Preview]
-Предпросмотр
-[Bayes database path]
-Расположение базы Байеса
-[Simple]
-Простой
-[Math expression]
-Математический
-[Round-robin]
-Циклический
-[Random]
-Случайный
-[Will be automatically evaluated from %mathexpr%]
-Будет автоматически вычислен исходя из %mathexpr%
-[Invalid regular expression.\nKeeping previous value.]
-Ошибка в регулярном выражении.\nБудет использовано старое значение.
-[Message score]
-Спам-рейтинг
-[Message sessions]
-Беседы
-[Messages]
-Сообщения
-[Bayes]
-Байес
-[Popups]
-Всплывающие окна
-[Message blocked due to preview action]
-Сообщение заблокировано для примера
-[Contact approved due to preview action]
-Контакт подтверждён для примера
-[Challenge sent to preview contact]
-Отправка контрольного вопроса для примера
-[Contact %s approved.]
-Контакт %s подтверждён.
-[Message from %s rejected because it reached a maximum for challenge requests per day.]
-Сообщение от %s заблокировано, т.к. превышено максимальное количество контрольных вопросов в день.
-[Message from %s rejected because it reached a maximum for same responses per day.]
-Сообщение от %s заблокировано, т.к. превышено максимальное количество одинаковых сообщений в день.
-[Message from %s dropped because it has a word from black list.]
-Сообщение от %s заблокировано, т.к. содержит слово из чёрного списка.
-[Message from %s dropped because of high spam score.]
-Сообщение от %s заблокировано, т.к. у него высокая вероятность спама.
-[Sending plain challenge to %s.]
-Отправка контрольного вопроса %s.
-[Sending round-robin challenge to %s.]
-Отправка контрольного вопроса %s.
-[Sending random challenge to %s.]
-Отправка случайного контрольного вопроса %s.
-[Sending math expression challenge to %s.]
-Отправка математического контрольного вопроса %s.
-[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-Сообщение временно заблокировано. Напишите "%response%" без кавычек.
-[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-Сообщение временно заблокировано. Сколько будет %mathexpr%?
-[Verified.]
-Одобрено.
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-Запрос авторизации временно заблокирован. Напишите "%response%" без кавычек.
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-Запрос авторизации временно заблокирован. Сколько будет %mathexpr%?
-[Their message was]
-Сообщение было
 #muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
 ;  File: SpellChecker.dll
@@ -26459,8 +26276,8 @@ StopSpam: отправьте сообщение и ответьте на воп�
 Игнорировать ссылки в сообщениях и запросах авторизации
 [Add contact to server list]
 Добавить контакт в список на сервере
-[After congratulation (ICQ only)]
-После поздравления (только для ICQ)
+[After congratulation (MRA only)]
+После поздравления (только для MRA)
 [Automatically grant authorization]
 Авторизовать автоматически
 [Request authorization from contacts which pass StopSpam test]
@@ -27214,8 +27031,6 @@ BBCode ([b][i][u])
 Настройки бесед
 [View user's history]
 История сообщений
-[Edit user notes]
-Редактировать заметки о пользователе
 [Select a foreground color for the text (Ctrl+K)]
 Выбрать цвет текста (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
@@ -27472,8 +27287,8 @@ IRC-стиль (текстовый) индикаторов ролей в жур�
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
 [user-defined account name of current contact (if defined).]
 имя учётной записи текущего контакта (если определено).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-ID текущего контакта (если определён). Например, UIN для ICQ, JID для Jabber и т.д.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+ID текущего контакта (если определён). Например, JID для Jabber и т.д.
 [path to Miranda root folder]
 путь к папке программы
 [path to folder containing Miranda profiles]
@@ -27590,8 +27405,6 @@ ID текущего контакта (если определён). Наприм
 Отправляется %d сообщений. Длина сообщения: %d байт, ограничение длины: %d байт\n\n%d сообщений в очереди для последующей доставки
 [No status message]
 Нет сообщения статуса
-[You cannot edit user notes when there are unsent messages]
-Вы не можете править заметки, если есть неотправленные сообщения
 [%s is typing a message...]
 %s набирает текст...
 [Last received: %s at %s]
@@ -27760,8 +27573,6 @@ TabSRMM: набор текста
 Ещё раз
 [Send later]
 Отправить позже
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячую клавишу (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим набора ообщений
 [Selection copied to clipboard]
 Выделенный текст скопирован в буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -28254,8 +28065,6 @@ TabSRMM: %s
 Предупреждение TabSRMM
 [Save file|Unable to save temporary file]
 Сохранение файла|Не удалось сохранить временный файл
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Редактирование заметок о пользователе|Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячую клавишу (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим набора ообщений
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Недостающий компонент|Набор значков не найден. Пожалуйста, установите его в директорию значков по умолчанию.\n\nНа данный момент значки недоступны
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
@@ -28317,6 +28126,8 @@ TabSRMM: %s
 Переслать сообщение
 [Forward]
 Переслать
+[Add reaction]
+Добавить реакцию
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
 [Enter verification code received by email]
@@ -29084,8 +28895,8 @@ xСтатус:
 Дв. слово - в разницу времени
 [BYTE to Yes/No]
 Байт - в значение Да/Нет
-[BYTE to Male/Female (ICQ)]
-Байт - в пол (М/Ж) (ICQ)
+[BYTE to Male/Female (MRA)]
+Байт - в пол (М/Ж) (MRA)
 [WORD to country name]
 Слово - в название страны
 [DWORD to IP address]
@@ -29118,8 +28929,8 @@ xСтатус: пустое имя в имя по умолчанию
 Слово - в название дня недели (0..6, 0 - воскресенье)
 [WORD to name of a month (1..12, 1 is January)]
 Слово - в название месяца (1..12, 1 - январь)
-[BYTE to language (ICQ)]
-Байт - в язык (ICQ)
+[BYTE to language (MRA)]
+Байт - в язык (MRA)
 #muuid {1fdbd8f0-3929-41bc-92d1-020779460769}
 ;============================================================
 ;  File: Toaster.dll
@@ -30208,8 +30019,8 @@ Twitter (аватары)
 Закачать детали
 [Protocol '%s' is offline]
 Протокол '%s' не в сети
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Вы сейчас не подключены к сети ICQ.\nВы должны быть в сети, чтобы обновить информацию на сервере.\n\nИзменения будут сохранены только в локальную базу данных.
+[You are not currently connected to the MRA network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+Вы сейчас не подключены к сети MRA.\nВы должны быть в сети, чтобы обновить информацию на сервере.\n\nИзменения будут сохранены только в локальную базу данных.
 [Creating the image list failed!]
 Ошибка при создании imagelist!
 [Could not find contact's protocol. Maybe it is not active!]
@@ -30228,8 +30039,8 @@ Twitter (аватары)
 Редактировать данные контакта
 [View personal user details and more]
 Просмотр личных данных пользователя
-[Upload ICQ details]
-Загрузить детали ICQ
+[Upload MRA details]
+Загрузить детали MRA
 [Upload failed]
 Загрузка не удалась
 [Your details were not uploaded successfully.\nThey were written to database only.]
@@ -30366,12 +30177,8 @@ Twitter (аватары)
 Экспорт/Импорт группы
 [&Export group]
 &Экспортировать группу
-[&Import group]
-&Импортировать группу
 [&Export xml]
 &экспорт xml
-[&Import xml]
-&импорт xml
 [My notes:]
 Мои заметки:
 [About:]
@@ -30622,8 +30429,8 @@ Twitter (аватары)
 Ученик средней школы
 [Home]
 Дом
-[ICQ - Providing Help]
-ICQ - поддержка
+[MRA - Providing Help]
+MRA - поддержка
 [Law]
 Закон
 [Managerial]
@@ -31324,13 +31131,13 @@ y > 0: строка номер y из файла x, y = 0: целый файл, 
 x, и сохраняет y, как переменную с именем x
 [only stores y as variables x]
 только сохраняет y, как переменную x
-[--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique ID (UIN for ICQ, JID for Jabber) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <JABBER:miranda@example.com> or <ICQ:123456789>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, ID or display\r\n\r\nFor example: ?contact(miranda@example.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
---- Специальные символы ---\r\n\r\nСледующие символы имеют специальное значение в строке форматирования:\r\n\r\n?<функция>(<аргументы>)\r\nОбработка функции с заданными аргументами, результат обрабатывается снова. Пример: сегодня ?cdate(yyyy/MM/dd).\r\n\r\n!<функция>(<аргументы>)\r\nОбработка функции с заданными аргументами, результат НЕ обрабатывается снова. Пример: Входящее сообщение: !message(,first,rcvd,unread).\r\n\r\n%<поле>%\r\nОбработает это поле. Пример: Я установил Miranda NG в: %mirandapath%.\r\n\r\n`<строка>`\r\nНе обработает эту строку, функцию, поле или специальный символ в строке. Пример: Используйте `%mirandapath%` для показа пути установки.\r\n\r\n#<комментарий>\r\nДобавление комментария. Всё за символом # до конца строки будет удалено. Пример: %dbprofile% #это бесполезный комментарий.\r\n\r\n\r\n--- Контакты ---\r\n\r\nЕсли функции нужен контакт как аргумент, его можно получить двумя путями:\r\n\r\n(1) используя уникальный ID (UIN для ICQ, JID для Jabber) или ID контакта, следующим за ID протокола в формате <PROTOID:UNIQUEID>, (например, <JABBER:miranda@example.com> или <ICQ:123456789>).\r\n\r\n(2) используя функцию contact:\r\n?contact(x,y)\r\nВернёт контакт со значением x свойства y, y может быть одним из:\r\nfirst, last, nick, email, ID или display\r\n\r\nПример: ?contact(miranda@example.com,email) или ?contact(Miranda,nick). Функция contact возвращает уникальный контакт, найденный по заданным аргументам, либо не возвращает ничего, если не найдено ни одного или найдено несколько контактов.
+[--- Special characters ---\r\n\r\nThe following characters have a special meaning in a formatting string:\r\n\r\n?<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n!<function>(<arguments>)\r\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n%<field>%\r\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n`<string>`\r\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n#<comment>\r\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n--- Contacts ---\r\n\r\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n(1) Using a unique ID (for example JID for Jabber) or, a protocol ID followed by a unique ID in the form <PROTOID:UNIQUEID>, for example <JABBER:miranda@example.com>.\r\n\r\n(2) Using the contact function:\r\n?contact(x,y)\r\nA contact will be searched which will have value x for its property y, y can be one of the following:\r\nfirst, last, nick, email, ID or display\r\n\r\nFor example: ?contact(miranda@example.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
+--- Специальные символы ---\r\n\r\nСледующие символы имеют специальное значение в строке форматирования:\r\n\r\n?<функция>(<аргументы>)\r\nОбработка функции с заданными аргументами, результат обрабатывается снова. Пример: сегодня ?cdate(yyyy/MM/dd).\r\n\r\n!<функция>(<аргументы>)\r\nОбработка функции с заданными аргументами, результат НЕ обрабатывается снова. Пример: Входящее сообщение: !message(,first,rcvd,unread).\r\n\r\n%<поле>%\r\nОбработает это поле. Пример: Я установил Miranda NG в: %mirandapath%.\r\n\r\n`<строка>`\r\nНе обработает эту строку, функцию, поле или специальный символ в строке. Пример: Используйте `%mirandapath%` для показа пути установки.\r\n\r\n#<комментарий>\r\nДобавление комментария. Всё за символом # до конца строки будет удалено. Пример: %dbprofile% #это бесполезный комментарий.\r\n\r\n\r\n--- Контакты ---\r\n\r\nЕсли функции нужен контакт как аргумент, его можно получить двумя путями:\r\n\r\n(1) используя уникальный ID (например, JID для Jabber) или ID контакта, следующим за ID протокола в формате <PROTOID:UNIQUEID>, (например, <JABBER:miranda@example.com> или <ICQ:123456789>).\r\n\r\n(2) используя функцию contact:\r\n?contact(x,y)\r\nВернёт контакт со значением x свойства y, y может быть одним из:\r\nfirst, last, nick, email, ID или display\r\n\r\nПример: ?contact(miranda@example.com,email) или ?contact(Miranda,nick). Функция contact возвращает уникальный контакт, найденный по заданным аргументам, либо не возвращает ничего, если не найдено ни одного или найдено несколько контактов.
 #muuid {32579908-724b-467f-adad-22b6359a749a}
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.9
+;  Version: 0.1.16.11
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31755,14 +31562,6 @@ URL:
 Введите текст, который видите
 [Wall message for %s]
 Сообщение на стену для %s
-[You delete %s from the contact list.\nWhat needs to be done additionally?]
-Вы удаляете %s списка контактов.\nЧто нужно сделать дополнительно?
-[Remove %s from your friend list]
-Удалить %s из списка друзей
-[Clear server history with %s]
-Удалить историю переписки с %s на сервере
-[Deleting %s from contact list]
-Удаление %s из списка контактов
 [VKontakte]
 ВКонтакте
 [New news]
@@ -32453,8 +32252,8 @@ VBR или пусто
 Если эта настройка включена, плагин попытается получить информацию о музыке от плеера, работает не со всеми плеерами
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Если эта настройка включена, xСтатус меняется только при уже установленном в "Музыка" статусе.
-[If this option is "ON", xStatus doesn't depend of ICQ's status.]
-Если эта настройка включена, xСтатус не зависит от статуса ICQ.
+[If this option is "ON", xStatus doesn't depend of MRA's status.]
+Если эта настройка включена, xСтатус не зависит от статуса MRA.
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 Если эта настройка включена, xСтатус не изменится при выключении плеера.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
@@ -32613,8 +32412,8 @@ VBR или нет
 Использовать "Variables"
 [Acoustic]
 Акустика
-[Use ICQ xStatus]
-Использовать xCтатус ICQ
+[Use MRA xStatus]
+Использовать xCтатус MRA
 [Winamp Track]
 Сейчас играет (WATrack)
 [Pause Pushed]
@@ -32968,7 +32767,7 @@ Miranda NG прекрасна, а это - пример длинного соо�
 [Fahrenheit]
 Фаренгейт
 [Degree sign:]
-Единицы температуры
+Единицы температуры:
 [Wind]
 Ветер
 [km/h]

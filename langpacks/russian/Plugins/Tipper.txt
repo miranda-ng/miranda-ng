@@ -679,8 +679,8 @@ xСтатус:
 Дв. слово - в разницу времени
 [BYTE to Yes/No]
 Байт - в значение Да/Нет
-[BYTE to Male/Female (ICQ)]
-Байт - в пол (М/Ж) (ICQ)
+[BYTE to Male/Female (MRA)]
+Байт - в пол (М/Ж) (MRA)
 [WORD to country name]
 Слово - в название страны
 [DWORD to IP address]
@@ -713,5 +713,5 @@ xСтатус: пустое имя в имя по умолчанию
 Слово - в название дня недели (0..6, 0 - воскресенье)
 [WORD to name of a month (1..12, 1 is January)]
 Слово - в название месяца (1..12, 1 - январь)
-[BYTE to language (ICQ)]
-Байт - в язык (ICQ)
+[BYTE to language (MRA)]
+Байт - в язык (MRA)

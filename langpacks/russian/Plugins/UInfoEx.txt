@@ -424,8 +424,8 @@
 Закачать детали
 [Protocol '%s' is offline]
 Протокол '%s' не в сети
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Вы сейчас не подключены к сети ICQ.\nВы должны быть в сети, чтобы обновить информацию на сервере.\n\nИзменения будут сохранены только в локальную базу данных.
+[You are not currently connected to the MRA network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+Вы сейчас не подключены к сети MRA.\nВы должны быть в сети, чтобы обновить информацию на сервере.\n\nИзменения будут сохранены только в локальную базу данных.
 [Creating the image list failed!]
 Ошибка при создании imagelist!
 [Could not find contact's protocol. Maybe it is not active!]
@@ -444,8 +444,8 @@
 Редактировать данные контакта
 [View personal user details and more]
 Просмотр личных данных пользователя
-[Upload ICQ details]
-Загрузить детали ICQ
+[Upload MRA details]
+Загрузить детали MRA
 [Upload failed]
 Загрузка не удалась
 [Your details were not uploaded successfully.\nThey were written to database only.]
@@ -586,12 +586,8 @@
 Экспорт/Импорт группы
 [&Export group]
 &Экспортировать группу
-[&Import group]
-&Импортировать группу
 [&Export xml]
 &экспорт xml
-[&Import xml]
-&импорт xml
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Мои заметки:
@@ -851,8 +847,8 @@
 Ученик средней школы
 [Home]
 Дом
-[ICQ - Providing Help]
-ICQ - поддержка
+[MRA - Providing Help]
+MRA - поддержка
 [Law]
 Закон
 [Managerial]

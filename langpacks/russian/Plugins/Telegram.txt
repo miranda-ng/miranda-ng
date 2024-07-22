@@ -42,6 +42,8 @@
 Переслать сообщение
 [Forward]
 Переслать
+[Add reaction]
+Добавить реакцию
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
