@@ -62,7 +62,7 @@ BEGIN
     LTEXT           "Temperature",IDC_STATIC,8,116,53,8
     CONTROL         "Celsius",IDC_T1,"Button",BS_AUTORADIOBUTTON,65,116,40,8
     CONTROL         "Fahrenheit",IDC_T2,"Button",BS_AUTORADIOBUTTON,120,116,47,8
-    LTEXT           "Degree sign:",IDC_STATIC,227,116,55,8
+    RTEXT           "Degree sign:",IDC_STATIC,194,116,85,8
     EDITTEXT        IDC_DEGREE,283,116,13,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
     LTEXT           "Wind",IDC_STATIC,8,125,53,8
     CONTROL         "km/h",IDC_W1,"Button",BS_AUTORADIOBUTTON,65,125,34,8
