@@ -40,11 +40,11 @@ bool DBGetContactSettingAsString(MCONTACT hContact, const char *szModuleName, co
 			_ltow(dbv.dVal, buff, 10);
 			break;
 		case DBVT_ASCIIZ:
-			if (dbv.pszVal) a2t(dbv.pszVal, buff, bufflen);
+			if (dbv.pszVal) a2w(dbv.pszVal, buff, bufflen);
 			buff[bufflen - 1] = 0;
 			break;
 		case DBVT_UTF8:
-			if (dbv.pszVal) utf2t(dbv.pszVal, buff, bufflen);
+			if (dbv.pszVal) utf2w(dbv.pszVal, buff, bufflen);
 			buff[bufflen - 1] = 0;
 			break;
 
@@ -134,7 +134,7 @@ uint32_t LastMessageTimestamp(MCONTACT hContact, bool received)
 void FormatTimestamp(uint32_t ts, char *szFormat, wchar_t *buff, int bufflen)
 {
 	wchar_t swzForm[16];
-	a2t(szFormat, swzForm, 16);
+	a2w(szFormat, swzForm, 16);
 	TimeZone_ToStringW(ts, swzForm, buff, bufflen);
 }
 
@@ -247,7 +247,7 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 	if (!mir_wstrcmp(swzRawSpec, L"proto")) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto) {
-			a2t(szProto, buff, bufflen);
+			a2w(szProto, buff, bufflen);
 			return true;
 		}
 	}
@@ -525,7 +525,7 @@ bool ApplySubst(MCONTACT hContact, const wchar_t *swzSource, bool parseTipperVar
 
 						while (p <= last + 1) {
 							len = (int)wcscspn(p, L",");
-							t2a(p, sproto, len);
+							w2a(p, sproto, len);
 							sproto[len] = 0;
 							p += len + 1;
 
@@ -549,7 +549,7 @@ bool ApplySubst(MCONTACT hContact, const wchar_t *swzSource, bool parseTipperVar
 					if (mir_wstrlen(p) > 4 && wcsncmp(p, L"raw:", 4) == 0) { // raw db substitution
 						char raw_spec[LABEL_LEN];
 						p += 4;
-						t2a(p, raw_spec, LABEL_LEN);
+						w2a(p, raw_spec, LABEL_LEN);
 						GetRawSubstText(hContact, raw_spec, swzAlt, VALUE_LEN);
 					}
 					else if (mir_wstrlen(p) > 4 && wcsncmp(p, L"sys:", 4) == 0) { // 'system' substitution
@@ -582,7 +582,7 @@ bool ApplySubst(MCONTACT hContact, const wchar_t *swzSource, bool parseTipperVar
 				if (v > 4 && wcsncmp(swzVName, L"raw:", 4) == 0) // raw db substitution
 				{
 					char raw_spec[LABEL_LEN];
-					t2a(&swzVName[4], raw_spec, LABEL_LEN);
+					w2a(&swzVName[4], raw_spec, LABEL_LEN);
 					bSubst = GetRawSubstText(hContact, raw_spec, swzRep, VALUE_LEN);
 				}
 				else if (v > 4 && wcsncmp(swzVName, L"sys:", 4) == 0) // 'system' substitution

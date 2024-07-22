@@ -77,7 +77,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (pa->IsLocked())
 						mir_snwprintf(pwd->swzTitle, TranslateT("%s (locked)"), pwd->swzTitle);
 				}
-				else a2t(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
+				else a2w(pwd->clcit.szProto, pwd->swzTitle, TITLE_TEXT_LEN);
 
 				// protocol status
 				int wStatus = Proto_GetStatus(pwd->clcit.szProto);
@@ -258,7 +258,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						buff[iBuffPos] = 0;
 
 						if (iBuffPos) {
-							pwd->rows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData)* (pwd->iRowCount + 1));
+							pwd->rows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData) * (pwd->iRowCount + 1));
 							pwd->rows[pwd->iRowCount].bValueNewline = false;
 							pwd->rows[pwd->iRowCount].swzLabel = mir_wstrdup(buff);
 							if (pwd->iRowCount == 1 && bTopMessage)
@@ -662,7 +662,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (pwd->rows[i].iValueHeight) {
 					if (pwd->rows[i].bValueNewline || !pwd->rows[i].iLabelHeight) tr.top += opt.iTextPadding;
-					if (pwd->rows[i].iLabelHeight > pwd->rows[i].iValueHeight && pwd->bIsTextTip&& pwd->rows[i].bIsTitle)
+					if (pwd->rows[i].iLabelHeight > pwd->rows[i].iValueHeight && pwd->bIsTextTip && pwd->rows[i].bIsTitle)
 						tr.top = tr.bottom - pwd->rows[i].iValueHeight - 2;
 					else
 						tr.bottom = tr.top + iRowHeight;
@@ -1030,7 +1030,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							mir_free(pwd->rows[pwd->iRowCount].swzValue);
 							Smileys_FreeParse(pwd->rows[pwd->iRowCount].spi);	//prevent possible mem leak
 						}
-						else pwd->rows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData)* (pwd->iRowCount + 1));
+						else pwd->rows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData) * (pwd->iRowCount + 1));
 
 						char *szProto = Proto_GetBaseAccountName(pwd->hContact);
 
@@ -1597,12 +1597,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 
 							wchar_t *swzNick = Clist_GetContactDisplayName(hContact);
-							if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
-								wchar_t *swzProto = a2t(proto);
-								mir_snwprintf(swzName, L"%s (%s)", swzNick, swzProto);
-								mir_free(swzProto);
-							}
-							else mir_wstrcpy(swzName, swzNick);
+							if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO)
+								mir_snwprintf(swzName, L"%s (%S)", swzNick, proto);
+							else
+								mir_wstrcpy(swzName, swzNick);
 
 							AddRow(pwd, swzName, swzStatus, nullptr, false, false, false);
 						}

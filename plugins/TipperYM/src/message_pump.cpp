@@ -245,7 +245,7 @@ INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 
 	if (wParam) // wParam is char pointer containing text - e.g. status bar tooltip
 	{
-		clcit2->swzText = a2t((char *)wParam);
+		clcit2->swzText = mir_a2u((char *)wParam);
 		GetCursorPos(&clcit2->ptCursor);
 	}
 

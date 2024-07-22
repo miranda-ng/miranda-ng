@@ -148,7 +148,7 @@ PRESETSUBST* GetPresetSubstByName(const char *szName)
 {
 	if (!szName)
 		return nullptr;
-	
+
 	for (auto &it : presetSubsts)
 		if (mir_strcmp(it.szID, szName) == 0)
 			return &it;
@@ -354,14 +354,14 @@ void SaveDI(DISPLAYITEM *di, int index)
 	mir_snprintf(setting, "DILabel%d", index);
 	if (db_set_ws(0, MODULE_ITEMS, setting, di->swzLabel)) {
 		char buff[LABEL_LEN];
-		t2a(di->swzLabel, buff, LABEL_LEN);
+		w2a(di->swzLabel, buff, LABEL_LEN);
 		db_set_s(0, MODULE_ITEMS, setting, buff);
 	}
 
 	mir_snprintf(setting, "DIValue%d", index);
 	if (db_set_ws(0, MODULE_ITEMS, setting, di->swzValue)) {
 		char buff[VALUE_LEN];
-		t2a(di->swzValue, buff, VALUE_LEN);
+		w2a(di->swzValue, buff, VALUE_LEN);
 		db_set_s(0, MODULE_ITEMS, setting, buff);
 	}
 

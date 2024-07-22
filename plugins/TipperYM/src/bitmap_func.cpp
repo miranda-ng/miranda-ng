@@ -150,7 +150,7 @@ void CreateFromBitmaps(bool bServiceTip)
 		if (i == SKIN_ITEM_SIDEBAR && (!opt.iSidebarWidth || bServiceTip))
 			continue;
 
-		wchar_t* tszFileName = opt.szImgFile[i];
+		wchar_t *tszFileName = opt.szImgFile[i];
 		if (tszFileName && *tszFileName != 0) {
 			FIBITMAP *fib = nullptr;
 			if (!skin.bCached) {
@@ -551,9 +551,9 @@ static __forceinline COLOR32 geta(COLOR32 c)
 void PremultipleChannels()
 {
 	for (int i = 0; i < skin.iWidth * skin.iHeight; i++)
-		skin.colBits[i] = rgba(getr(skin.colBits[i])*geta(skin.colBits[i]) / 255,
-			getg(skin.colBits[i])*geta(skin.colBits[i]) / 255,
-			getb(skin.colBits[i])*geta(skin.colBits[i]) / 255,
+		skin.colBits[i] = rgba(getr(skin.colBits[i]) * geta(skin.colBits[i]) / 255,
+			getg(skin.colBits[i]) * geta(skin.colBits[i]) / 255,
+			getb(skin.colBits[i]) * geta(skin.colBits[i]) / 255,
 			geta(skin.colBits[i]));
 }
 
@@ -588,9 +588,9 @@ void ColorizeBitmap()
 
 		skin.colBits[i] = (cl > 128) ?
 			rgba(
-				PU_DIV255((koef1r * cl + br)*alpha),
-				PU_DIV255((koef1g * cl + bg)*alpha),
-				PU_DIV255((koef1b * cl + bb)*alpha),
+				PU_DIV255((koef1r * cl + br) * alpha),
+				PU_DIV255((koef1g * cl + bg) * alpha),
+				PU_DIV255((koef1b * cl + bb) * alpha),
 				alpha) :
 			rgba(
 				PU_DIV255(koef2r * cl * alpha),

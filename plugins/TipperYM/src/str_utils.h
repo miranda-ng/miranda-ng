@@ -21,8 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef _STR_UTILS_INC
 #define _STR_UTILS_INC
 
-void set_codepage();
-
 bool a2w(const char *as, wchar_t *buff, int bufflen);
 bool w2a(const wchar_t *ws, char *buff, int bufflen);
 
@@ -31,34 +29,6 @@ bool w2utf(const wchar_t *ws, char *buff, int bufflen);
 
 bool a2utf(const char *as, char *buff, int bufflen);
 bool utf2a(const char *ws, char *buff, int bufflen);
-
-bool t2w(const wchar_t *ts, wchar_t *buff, int bufflen);
-bool w2t(const wchar_t *ws, wchar_t *buff, int bufflen);
-
-bool t2a(const wchar_t *ts, char *buff, int bufflen);
-bool a2t(const char *as, wchar_t *buff, int bufflen);
-
-bool t2utf(const wchar_t *ts, char *buff, int bufflen);
-bool utf2t(const char *us, wchar_t *buff, int bufflen);
-
-// remember to free return value
-wchar_t *a2w(const char *as);
-char *w2a(const wchar_t *ws);
-
-wchar_t *utf2w(const char *us);
-char *w2utf(const wchar_t *ws);
-
-char *utf2a(const char *us);
-char *a2utf(const char *as);
-
-wchar_t *t2w(const wchar_t *ts);
-wchar_t *w2t(const wchar_t *ws);
-
-wchar_t *utf2t(const char *us);
-char *t2utf(const wchar_t *ts);
-
-char *t2a(const wchar_t *ts);
-wchar_t *a2t(const char *as);
 
 wchar_t *myfgets(wchar_t *Buf, int MaxCount, FILE *File);
 

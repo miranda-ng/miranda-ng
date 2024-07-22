@@ -284,7 +284,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const wchar_t *szText, int len, SM
 	RestoreAlpha(&free_rc, pBits);
 }
 
-void DestroySmileyList(SortedList* p_list)
+void DestroySmileyList(SortedList *p_list)
 {
 	if (p_list == nullptr)
 		return;
