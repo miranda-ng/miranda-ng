@@ -106,3 +106,4 @@
 [bass.dll not found! Choose bass.dll path manually]
 [min]
 [max]
+[Status Message]

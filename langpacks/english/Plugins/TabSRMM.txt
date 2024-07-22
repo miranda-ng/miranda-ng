@@ -362,7 +362,6 @@
 [Quote last message OR selected text]
 [Message log options]
 [View user's history]
-[Edit user notes]
 [Select a foreground color for the text (Ctrl+K)]
 [Select a background color for the text (Ctrl+L)]
 [Show/hide the nick list (Ctrl+N)]
@@ -556,7 +555,6 @@
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
-[You cannot edit user notes when there are unsent messages]
 [%s is typing a message...]
 [Last received: %s at %s]
 [%s has entered text.]
@@ -647,7 +645,6 @@
 [Click for contact menu\nClick dropdown for window settings]
 [Retry]
 [Send later]
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 [Selection copied to clipboard]
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
 [The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
@@ -912,7 +909,6 @@
 ;file \plugins\TabSRMM\src\warning.cpp
 [TabSRMM warning message]
 [Save file|Unable to save temporary file]
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 [File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]

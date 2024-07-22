@@ -302,9 +302,7 @@
 [Import all contacts]
 [Export/import group]
 [&Export group]
-[&Import group]
 [&Export xml]
-[&Import xml]
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 [About:]
