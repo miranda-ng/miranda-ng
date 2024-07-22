@@ -23,7 +23,7 @@ void CSkypeProto::PollingThread(void *)
 
 	while (true) {
 		m_hPollingEvent.Wait();
-		if (m_bThreadsTerminated)
+		if (m_isTerminated)
 			break;
 
 		int nErrors = 0;

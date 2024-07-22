@@ -21,7 +21,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CSkypeProto>(protoName, userName),
 	m_PopupClasses(1),
 	m_OutMessages(3, PtrKeySortT),
-	m_bThreadsTerminated(false),
 	m_impl(*this),
 	m_requests(1),
 	bAutoHistorySync(this, "AutoSync", true),
@@ -65,8 +64,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 
 CSkypeProto::~CSkypeProto()
 {
-	StopQueue();
 	if (m_hRequestQueueThread) {
+		m_hRequestQueueEvent.Set();
+
 		WaitForSingleObject(m_hRequestQueueThread, INFINITE);
 		m_hRequestQueueThread = nullptr;
 	}
@@ -74,6 +74,8 @@ CSkypeProto::~CSkypeProto()
 	UninitPopups();
 
 	if (m_hPollingThread) {
+		m_hPollingEvent.Set();
+
 		WaitForSingleObject(m_hPollingThread, INFINITE);
 		m_hPollingThread = nullptr;
 	}
@@ -91,14 +93,7 @@ void CSkypeProto::OnModulesLoaded()
 
 void CSkypeProto::OnShutdown()
 {
-	debugLogA(__FUNCTION__);
-
 	StopQueue();
-
-	m_bThreadsTerminated = true;
-
-	m_hPollingEvent.Set();
-	m_hTrouterEvent.Set();
 }
 
 INT_PTR CSkypeProto::GetCaps(int type, MCONTACT)

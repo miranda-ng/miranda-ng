@@ -181,13 +181,8 @@ private:
 	mir_cs messageSyncLock;
 	mir_cs m_StatusLock;
 
-	bool m_bThreadsTerminated;
-
 	EventHandle m_hPollingEvent;
-	EventHandle m_hTrouterEvent;
-
-	EventHandle m_hTrouterHealthEvent;
-
+	
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);

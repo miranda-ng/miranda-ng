@@ -58,11 +58,13 @@ void CSkypeProto::StartQueue()
 
 void CSkypeProto::StopQueue()
 {
-	if (m_isTerminated)
-		return;
-
 	m_isTerminated = true;
-	m_hRequestQueueEvent.Set();
+
+	if (m_hRequestQueueThread)
+		m_hRequestQueueEvent.Set();
+
+	if (m_hPollingThread)
+		m_hPollingEvent.Set();
 }
 
 void CSkypeProto::PushRequest(AsyncHttpRequest *request)

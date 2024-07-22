@@ -59,7 +59,7 @@ void CSkypeProto::Login()
 		return;
 	}
 
-	m_bHistorySynced = m_bThreadsTerminated = false;
+	m_bHistorySynced = false;
 	if ((tokenExpires - 1800) > time(0))
 		OnLoginSuccess();
 	else
@@ -134,7 +134,6 @@ void CSkypeProto::OnLoginSuccess()
 	if (!IsStatusConnecting(m_iStatus))
 		return;
 
-	m_bThreadsTerminated = false;
 	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
 
 	int oldStatus = m_iStatus;
