@@ -100,6 +100,7 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 		pRoot->SetAttribute("url_thumbnail", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s/views/imgt1_anim", fup->uid.get()));
 		pRoot->SetAttribute("width", FreeImage_GetWidth(pBitmap));
 		pRoot->SetAttribute("height", FreeImage_GetHeight(pBitmap));
+		pRoot->SetText("To view this file, go to:");
 		FreeImage_Unload(pBitmap);
 
 		href.Format("https://login.skype.com/login/sso?go=xmmfallback?pic=%s", fup->uid.get());
@@ -107,11 +108,9 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	else {
 		pRoot->SetAttribute("type", "File.1");
 		pRoot->SetAttribute("url_thumbnail", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s/views/original", fup->uid.get()));
+		pRoot->SetText("To view this shared photo, go to:");
 		href.Format("https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", fup->uid.get());
 	}
-
-	auto *pTitle = doc.NewElement("Title"); pTitle->SetText(tszFile); pRoot->InsertEndChild(pTitle);
-	auto *pDescr = doc.NewElement("Description"); pDescr->SetText(fup->tszDesc.get()); pRoot->InsertEndChild(pDescr);
 
 	auto *xmlA = doc.NewElement("a"); xmlA->SetText(href);
 	xmlA->SetAttribute("href", href);
