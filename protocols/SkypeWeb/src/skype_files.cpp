@@ -88,19 +88,43 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	auto *pRoot = doc.NewElement("URIObject");
 	doc.InsertEndChild(pRoot);
 
+	pRoot->SetAttribute("doc_id", fup->uid.get());
+	pRoot->SetAttribute("uri", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s", fup->uid.get()));
+
+	// is that a picture?
+	CMStringA href;
+	bool bIsPictture = false;
+	if (auto *pBitmap = FreeImage_LoadU(FreeImage_GetFIFFromFilenameU(fup->tszFileName), fup->tszFileName)) {
+		bIsPictture = true;
+		pRoot->SetAttribute("type", "File.1" /*"Picture.1"*/);
+		pRoot->SetAttribute("url_thumbnail", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s/views/imgt1_anim", fup->uid.get()));
+		pRoot->SetAttribute("width", FreeImage_GetWidth(pBitmap));
+		pRoot->SetAttribute("height", FreeImage_GetHeight(pBitmap));
+		FreeImage_Unload(pBitmap);
+
+		href.Format("https://login.skype.com/login/sso?go=xmmfallback?pic=%s", fup->uid.get());
+	}
+	else {
+		pRoot->SetAttribute("type", "File.1");
+		pRoot->SetAttribute("url_thumbnail", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s/views/original", fup->uid.get()));
+		href.Format("https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", fup->uid.get());
+	}
+
 	auto *pTitle = doc.NewElement("Title"); pTitle->SetText(tszFile); pRoot->InsertEndChild(pTitle);
 	auto *pDescr = doc.NewElement("Description"); pDescr->SetText(fup->tszDesc.get()); pRoot->InsertEndChild(pDescr);
 
-	auto *xmlA = doc.NewElement("a"); xmlA->SetText(CMStringA(FORMAT, "https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", fup->uid.get()));
-	xmlA->SetAttribute("href", CMStringA(FORMAT, "https://login.skype.com/login/sso?go=webclient.xmm&docid=%s", fup->uid.get()));
+	auto *xmlA = doc.NewElement("a"); xmlA->SetText(href);
+	xmlA->SetAttribute("href", href);
 	pRoot->InsertEndChild(xmlA);
 
 	auto *xmlOrigName = doc.NewElement("OriginalName"); xmlOrigName->SetAttribute("v", tszFile); pRoot->InsertEndChild(xmlOrigName);
 	auto *xmlSize = doc.NewElement("FileSize"); xmlSize->SetAttribute("v", (int)fup->size); pRoot->InsertEndChild(xmlSize);
 
-	pRoot->SetAttribute("Type", "File.1");
-	pRoot->SetAttribute("uri", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s", fup->uid.get()));
-	pRoot->SetAttribute("url_thumbnail", CMStringA(FORMAT, "https://api.asm.skype.com/v1/objects/%s/views/thumbnail", fup->uid.get()));
+	if (bIsPictture) {
+		auto xmlMeta = doc.NewElement("meta"); 
+		xmlMeta->SetAttribute("type", "photo"); xmlMeta->SetAttribute("originalName", tszFile);
+		pRoot->InsertEndChild(xmlMeta);
+	}
 
 	tinyxml2::XMLPrinter printer(0, true);
 	doc.Print(&printer);
@@ -110,7 +134,7 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	Utils_GetRandom(&param->hMessage, sizeof(param->hMessage));
 	param->hMessage &= ~0x80000000;
 
-	auto *pReq = new SendMessageRequest(getId(fup->hContact), time(NULL), printer.CStr(), "RichText/Media_GenericFile");
+	auto *pReq = new SendFileRequest(getId(fup->hContact), time(NULL), printer.CStr(), "RichText/Media_GenericFile", fup->uid);
 	pReq->pUserInfo = param;
 	PushRequest(pReq);
 

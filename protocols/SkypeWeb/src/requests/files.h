@@ -41,3 +41,19 @@ struct ASMObjectUploadRequest : public AsyncHttpRequest
 		memcpy(m_szParam.GetBuffer(), data, size);
 	}
 };
+
+struct SendFileRequest : public AsyncHttpRequest
+{
+	SendFileRequest(const char *username, time_t timestamp, const char *message, const char *messageType, const char *asmRef) :
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
+	{
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
+
+		JSONNode node, ref(JSON_ARRAY);
+		ref.set_name("amsreferences"); ref.push_back(JSONNode("", asmRef));
+
+		node << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", messageType)
+			<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message) << ref;
+		m_szParam = node.write().c_str();
+	}
+};
