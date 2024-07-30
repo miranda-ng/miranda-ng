@@ -35,14 +35,15 @@ int CSendHost_Imgur::Send()
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
 	}
-	memset(&m_nlhr, 0, sizeof(m_nlhr));
+	
+	m_pRequest.reset(new MHttpRequest(REQUEST_POST));
 	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
 		{ "Authorization", HTTPFORM_HEADER("Client-ID 2a7303d78abe041") },
 		{ "image", HTTPFORM_FILE(tmp) },
 	};
 
-	int error = HTTPFormCreate(&m_nlhr, "https://api.imgur.com/3/image", frm, _countof(frm));
+	int error = HTTPFormCreate(m_pRequest.get(), "https://api.imgur.com/3/image", frm, _countof(frm));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
@@ -59,7 +60,7 @@ void CSendHost_Imgur::SendThread(void* obj)
 {
 	CSendHost_Imgur *self = (CSendHost_Imgur*)obj;
 	// send DATA and wait for m_nlreply
-	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr));
+	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, self->m_pRequest.get()));
 	if (reply) {
 		if (reply->body.GetLength()) {
 			JSONROOT root(reply->body);

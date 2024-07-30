@@ -38,7 +38,8 @@ int CSendHost_UploadPie::Send()
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
 	}
-	memset(&m_nlhr, 0, sizeof(m_nlhr));
+	
+	m_pRequest.reset(new MHttpRequest(REQUEST_POST));
 	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
 		{ "MAX_FILE_SIZE", HTTPFORM_INT(3145728) },
@@ -47,7 +48,7 @@ int CSendHost_UploadPie::Send()
 		{ "expire", HTTPFORM_INT(m_expire) },
 	};
 
-	int error = HTTPFormCreate(&m_nlhr, kHostURL, frm, _countof(frm));
+	int error = HTTPFormCreate(m_pRequest.get(), kHostURL, frm, _countof(frm));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
@@ -65,7 +66,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 {
 	CSendHost_UploadPie* self = (CSendHost_UploadPie*)obj;
 	// send DATA and wait for m_nlreply
-	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, &self->m_nlhr));
+	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, self->m_pRequest.get()));
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->body.GetLength()) {
 			char* url = reply->body.GetBuffer();

@@ -98,7 +98,7 @@ protected:
 	wchar_t*    m_ErrorMsg;
 	wchar_t*    m_ErrorTitle;
 
-	MHttpRequest m_nlhr;
+	std::unique_ptr<MHttpRequest> m_pRequest;
 
 	void Unhook(){if(m_hOnSend) {UnhookEvent(m_hOnSend);m_hOnSend = nullptr;}}
 	void DB_EventAdd(uint16_t EventType);

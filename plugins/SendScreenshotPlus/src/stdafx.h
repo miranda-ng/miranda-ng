@@ -40,6 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <UxTheme.h>
 
 #include <map>
+#include <memory>
 #include <string>
 using namespace std;
 

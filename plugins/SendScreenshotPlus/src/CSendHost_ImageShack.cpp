@@ -50,7 +50,8 @@ int CSendHost_ImageShack::Send()
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
 	}
-	memset(&m_nlhr, 0, sizeof(m_nlhr));
+
+	m_pRequest.reset(new MHttpRequest(REQUEST_POST));
 	char* tmp; tmp = mir_u2a(m_pszFile);
 	HTTPFormData frm[] = {
 		// { "Referer", HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php") },
@@ -59,7 +60,7 @@ int CSendHost_ImageShack::Send()
 		{ "public", "no" },
 		{ "key", HTTPFORM_8BIT(DEVKEY_IMAGESHACK) },
 	};
-	int error = HTTPFormCreate(&m_nlhr, "http://imageshack.us/upload_api.php", frm, sizeof(frm) / sizeof(HTTPFormData));
+	int error = HTTPFormCreate(m_pRequest.get(), "http://imageshack.us/upload_api.php", frm, sizeof(frm) / sizeof(HTTPFormData));
 	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
@@ -75,7 +76,7 @@ int CSendHost_ImageShack::Send()
 void CSendHost_ImageShack::SendThread()
 {
 	// send DATA and wait for m_nlreply
-	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, &m_nlhr));
+	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, m_pRequest.get()));
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->body.GetLength()) {
 			const char* url = nullptr;

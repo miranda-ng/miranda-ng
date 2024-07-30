@@ -45,8 +45,7 @@ CSend::CSend(HWND /*Owner*/, MCONTACT hContact, bool bAsync, bool bSilent) :
 	m_hSend(nullptr),
 	m_hOnSend(nullptr),
 	m_ErrorMsg(nullptr),
-	m_ErrorTitle(nullptr),
-	m_nlhr(REQUEST_POST)
+	m_ErrorTitle(nullptr)
 {
 	SetContact(hContact);
 }
@@ -165,7 +164,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			}
 			else len = GetDlgItemText(hwndDlg, edtID, tmp, _countof(tmp));
 
-			Utils_ClipboardCopy(MClipUnicode(CMStringW(tmp, len + 1)));
+			Utils_ClipboardCopy(MClipUnicode(CMStringW(tmp, (int)len + 1)));
 			
 			if (LOWORD(wParam) == IDOK)
 				DestroyWindow(hwndDlg);
@@ -492,7 +491,7 @@ int CSend::HTTPFormCreate(MHttpRequest* nlhr, const char* url, HTTPFormData* frm
 			str.Append("\r\n\r\n");
 			
 			/// add file content
-			size_t filesize = 0;
+			long filesize = 0;
 			FILE *fp = fopen(iter->value_str, "rb");
 			if (fp) {
 				fseek(fp, 0, SEEK_END);
