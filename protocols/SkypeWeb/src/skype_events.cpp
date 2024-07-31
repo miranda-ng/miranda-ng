@@ -23,26 +23,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 
 	CMStringA szText = Translate("SkypeWeb error: Invalid data!");
 
-	BOOL bUseBB = db_get_b(0, dbei->szModule, "UseBBCodes", 1);
 	switch (dbei->eventType) {
-	case SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE:
-		{
-			JSONNode jMsg = JSONNode::parse((char*)dbei->pBlob);
-			if (jMsg) {
-				JSONNode &jOriginalMsg = jMsg["original_message"];
-				szText.AppendFormat(bUseBB ? Translate("[b]Original message:[/b]\n%s\n") : Translate("Original message:\n%s\n"), mir_utf8decodeA(jOriginalMsg["text"].as_string().c_str()));
-				JSONNode &jEdits = jMsg["edits"];
-				for (auto &it : jEdits) {
-					time_t time = it["time"].as_int();
-					char szTime[MAX_PATH];
-					strftime(szTime, sizeof(szTime), "%X %x", localtime(&time));
-
-					szText.AppendFormat(bUseBB ? Translate("[b]Edited at %s:[/b]\n%s\n") : Translate("Edited at %s:\n%s\n"), szTime, mir_utf8decodeA(it["text"].as_string().c_str()));
-				}
-			}
-		}
-		break;
-
 	case SKYPE_DB_EVENT_TYPE_CALL_INFO:
 		{
 			TiXmlDocument doc;
