@@ -71,7 +71,9 @@
    the necessary dynamic detection features, so the SDK falls back to
    a codepath that sets both the old and new macro to 1. */
 #if defined(TARGET_OS_MAC) && TARGET_OS_MAC && \
-  defined(TARGET_OS_OSX) && !TARGET_OS_OSX
+  defined(TARGET_OS_OSX) && !TARGET_OS_OSX && \
+  (!defined(TARGET_OS_IPHONE) || !TARGET_OS_IPHONE) && \
+  (!defined(TARGET_OS_SIMULATOR) || !TARGET_OS_SIMULATOR)
 #undef TARGET_OS_OSX
 #define TARGET_OS_OSX TARGET_OS_MAC
 #endif
@@ -97,6 +99,16 @@
 #  ifndef NOGDI
 #    define NOGDI
 #  endif
+/* Detect Windows App environment which has a restricted access
+ * to the Win32 APIs. */
+# if (defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0602)) || \
+  defined(WINAPI_FAMILY)
+#  include <winapifamily.h>
+#  if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) &&  \
+     !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#    define CURL_WINDOWS_APP
+#  endif
+# endif
 #endif
 
 /* Compatibility */

@@ -6,6 +6,475 @@
 
                                   Changelog
 
+Version 8.9.1 (31 Jul 2024)
+
+Daniel Stenberg (31 Jul 2024)
+
+- RELEASE-NOTES: synced
+
+- THANKS: add names from the 8.9.1 release notes
+
+  Also remove duplicates
+
+Stefan Eissing (30 Jul 2024)
+
+- x509asn1: unittests and fixes for gtime2str
+
+  Fix issues in GTime2str() and add unit test cases to verify correct
+  behaviour.
+
+  Follow-up to 3c914bc6801
+
+  Closes #14316
+
+Tal Regev (30 Jul 2024)
+
+- vtls: avoid forward declaration in MultiSSL builds
+
+  The MSVC compiler cannot have forward declaration with const and static
+  variable, causing this error:
+  ```
+  curl\lib\vtls\vtls.c(417,44): warning C4132: 'Curl_ssl_multi': const object s
+  hould be initialized
+  ```
+
+  Ref: #14276
+  Closes #14305
+
+Viktor Szakats (30 Jul 2024)
+
+- tidy-up: URL updates (one more)
+
+  Follow-up to 767d5811b5c783b42cea999dd42ecf0453085d17 #14318
+
+- tidy-up: URL updates
+
+  Closes #14318
+
+- cmake: drop `if(PKG_CONFIG_FOUND)` guard for `pkg_check_modules()`
+
+  The oldest cmake supported by curl is v3.7.0, which already has such
+  guard (using `PKG_CONFIG_EXECUTABLE`) inside `pkg_check_modules()`. The
+  advantage of leaving that guard to CMake is that it will define/reset
+  all output variables, while the manual guard doesn't do this and also
+  leaves for example `NETTLE_FOUND` undefined.
+
+  Delete the single use of this guard from the recently added `nettle`
+  detection, where I included it by accident. Then possibly re-introduce
+  it universally if we find it useful after more evaluation.
+
+  Follow-up to 669ce42275635dc1f881dab3dfc9a55c9ab49b21 #14285
+  Closes #14309
+
+Daniel Stenberg (30 Jul 2024)
+
+- mailmap: dedupe an author showing up twice in shortlog -s
+
+Ivan Kuchin (30 Jul 2024)
+
+- misc: cleanup after removing years from copyright
+
+  - remove leftover copyright years from few test files
+  - fix email in copyright lines
+  - consistent format of copyright lines
+
+  Closes #14312
+
+Alex Snast (30 Jul 2024)
+
+- wolfssl: avoid calling get_cached_x509_store if store is uncachable
+
+  There's no need for get_cached_x509_store call if the return value won't
+  be used for caching anyway.
+
+  Closes #14306
+
+Daniel Stenberg (30 Jul 2024)
+
+- contrithanks.sh: use -F with -v to match lines as strings
+
+  Makes names involving [brackets] work.
+
+Viktor Szakats (30 Jul 2024)
+
+- GHA/non-native: bump FreeBSD/arm64 python modules
+
+  FreeBSD seems to upgrade their Python separately for arm64
+  and Intel. Today, arm64 caught up with the Intel packages.
+  Update our CI to reflect it.
+
+  Closes #14310
+
+dependabot[bot] (30 Jul 2024)
+
+- GHA: bump github/codeql-action and msys2/setup-msys2
+
+  - bump github/codeql-action from 3.25.13 to 3.25.15
+
+  Bumps [github/codeql-action](https://github.com/github/codeql-action) from 3.
+  25.13 to 3.25.15.
+  - [Release notes](https://github.com/github/codeql-action/releases)
+  - [Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/github/codeql-action/compare/2d790406f505036ef
+  40ecba973cc774a50395aac...afb54ba388a7dca6ecae48f608c4ff05ff4cc77a)
+
+  ---
+  updated-dependencies:
+  - dependency-name: github/codeql-action
+    dependency-type: direct:production
+    update-type: version-update:semver-patch
+  ...
+
+  Signed-off-by: dependabot[bot] <support@github.com>
+  Closes #14300
+
+  - bump msys2/setup-msys2 from 2.23.0 to 2.24.0
+
+  Bumps [msys2/setup-msys2](https://github.com/msys2/setup-msys2) from 2.23.0 t
+  o 2.24.0.
+  - [Release notes](https://github.com/msys2/setup-msys2/releases)
+  - [Changelog](https://github.com/msys2/setup-msys2/blob/main/CHANGELOG.md)
+  - [Commits](https://github.com/msys2/setup-msys2/compare/d0e80f58dffbc64f6a3a
+  1f43527d469b4fc7b6c8...5df0ca6cbf14efcd08f8d5bd5e049a3cc8e07fd2)
+
+  ---
+  updated-dependencies:
+  - dependency-name: msys2/setup-msys2
+    dependency-type: direct:production
+    update-type: version-update:semver-minor
+  ...
+
+  Signed-off-by: dependabot[bot] <support@github.com>
+  Closes #14301
+
+Daniel Stenberg (30 Jul 2024)
+
+- x509asn1: clean up GTime2str
+
+  Co-authored-by: Stefan Eissing
+  Reported-by: Dov Murik
+
+  Closes #14307
+
+- tool_operate: more defensive socket code
+
+  - use 'struct sockaddr' to getsockname() and its sa_family member
+
+  - use 'curl_socklen_t' instead of 'socklen_t'
+
+  - check for AF_INET6 to exist instead assuming it does
+
+  Should be generally more portable.
+
+  Reported-by: Harry Sintonen
+  Closes #14304
+
+Viktor Szakats (29 Jul 2024)
+
+- configure: limit `__builtin_available` test to Darwin
+
+  This feature test always fails on non-Apple systems. (For Apple targets
+  it's supported by llvm and Apple clang.)
+
+  Syncs behaviour with CMake.
+
+  Follow-up to cfd6f43d6ca7e57670b422bab7bbf10221a2cf3e #14127
+  Cherry-picked from #14097
+  Closes #14196
+
+Daniel Stenberg (29 Jul 2024)
+
+- RELEASE-NOTES: synced
+
+- CURLOPT_SSL_CTX_FUNCTION.md: mention CA caching
+
+  and add a few more see-also
+
+  Closes #14302
+
+Viktor Szakats (29 Jul 2024)
+
+- cmake: detect `libssh` via `pkg-config`
+
+  Also:
+  - fix broken libssh `pkg-config` behaviour on old Linux.
+    (when found, `LIBSSH_LINK_LIBRARIES` remains undefined.)
+
+  - delete manual libssh config from Old Linux CI job,
+    it's no longer necessary.
+
+  Closes #14199
+
+- GHA/non-native: improve, migrate x86_64 FreeBSD with tests from Cirrus CI
+
+  - run tests via `make test-ci` instead of `make check` with autotools.
+  - add `x86_64` job for FreeBSD, with tests.
+    It matches the existing Cirrus CI job, with these differences:
+    - finishes 3x faster (thanks to parallel tests enabled).
+    - librtmp is not enabled because it's slated for removal by FreeBSD.
+      (already past the removal deadline, thought the package still
+      installs.)
+    - DICT and TELNET servers fail to start. Couldn't figure out why.
+      It means skipping test 1450 and 1452.
+    - it runs more tests, e.g. websockets and ip6-localhost.
+    - no `pkg update -f`.
+    - it misses the `CRYPTOGRAPHY_DONT_BUILD_RUST=1`, `pkg delete curl`,
+      `chmod 777`, `sudo -u nobody` and `sysctl net.inet.tcp.blackhole`
+      tricks. The latter is the default in these runners, the others did
+      not affect results.
+  - set `-j0` for tests in the NetBSD job. Flaky otherwise.
+
+  Closes #14244
+
+- cmake: detect `nettle` when building with GnuTLS
+
+  `nettle` is a direct dependency of curl, when building with GnuTLS.
+  Add a new `Find` module to detect it.
+
+  Also:
+  - GHA/macos: drop `nettle` hack no longer necessary.
+  - add `nettle` to `libcurl.pc`.
+  - also add `nettle` to `libcurl.pc` in autotools builds.
+
+  Follow-up to 781242ffa44a9f9b95b6da5ac5a1bf6372ec6257 #11967
+  Closes #14285
+
+- macos: fix Apple SDK bug workaround for non-macOS targets
+
+  Turns out that MAC != OSX, despite what these names otherwise mean and
+  what's suggested by source code comments. "MAC" in fact means Darwin
+  (aka Apple), not macOS. "OSX" means macOS.
+
+  GitHub bumped the macos-14 runner default to Xcode 15.4, hitting the
+  llvm@15 incompatibility bug by default. Meaning the previous workaround
+  for the SDK bug is necessary.
+
+  This patch extend the workaround to not apply to mobile OS variants.
+
+  Follow-up to ff784af461175584c73e7e2b65af00b1a5a6f67f #14159
+  Reported-by: Sergey
+  Confirmed-by: Marcel Raad
+  Fixes #14269
+  Closes #14275
+
+Stefan Eissing (29 Jul 2024)
+
+- wolfssl: CA store share fix
+
+  When sharing the x509 store in wolfSSL, always use an explicitly
+  constructed one, as the SSLCTX might have "only" an internal one which
+  is not obeying reference count lifetimes.
+
+  Fixes #14278
+  Reported-by: Alex Snast
+  Closes #14279
+
+Randall S. Becker (29 Jul 2024)
+
+- curl: support __ss_family use on NonStop platforms
+
+  The definition of sockaddr_storage incorrectly specifies the ss_family
+  field as __ss_family. This fix conditionally allows builds to succeed on
+  all NonStop platforms.
+
+  Signed-off-by: Randall S. Becker <randall.becker@nexbridge.ca>
+
+  Closes #14273
+
+Daniel Stenberg (29 Jul 2024)
+
+- test993: list 1000 messages over POP3
+
+  Attempt to verify issue #14201
+
+  Closes #14297
+
+Stefan Eissing (29 Jul 2024)
+
+- connect: fix connection shutdown for event based processing
+
+  connections being shutdown would register sockets for events, but then
+  never remove these sockets again. Nor would the shutdown effectively
+  been performed.
+
+  - If a socket event involves a transfer, check if that is the
+    connection cache internal handle and run its multi_perform()
+    instead (the internal handle is used for all shutdowns).
+  - When a timer triggers for a transfer, check also if it is
+    about the connection cache internal handle.
+  - During processing shutdowns in the connection cache, assess
+    the shutdown timeouts. Register a Curl_expire() of the lowest
+    value for the cache's internal handle.
+
+  Reported-by: Gordon Parke
+  Fixes #14280
+  Closes #14296
+
+Daniel Stenberg (29 Jul 2024)
+
+- tests: provide FTP directory contents in the test file
+
+  Instead of providing a fixed single synthetic response in the test
+  server itself. To allow us to better use *different* directory listings
+  in different test cases. In this change, most listings remain the same
+  as before.
+
+  The wildcard match tests still use synthetic responses but we should fix
+  that as well.
+
+  Updated numerous test cases to use this.
+
+  Closes #14295
+
+- ftpserver.pl: make POP3 LIST serve content from the test file
+
+  instead of a fixed list in the test server.
+
+  Adjust test 853 accordingly.
+
+  Closes #14293
+
+- TODO: thread-safe sharing
+
+- CURLSHOPT_SHARE.md: mention sessions/cookies as not thread-safe
+
+  Sharing of these between threads are apparently also not done safely.
+
+  Ref: #14290
+  Reported-by: Aki Sakurai
+  Closes #14292
+
+- RELEASE-NOTES: synced
+
+Patrick Monnerat (28 Jul 2024)
+
+- os400: build cli manual.
+
+  Use PASE perl to run manual generation scripts.
+
+  As PASE perl is not aware of all possible input file encoding, convert
+  all files to UTF-8 upon build start (this might be lengthy).
+
+  OS/400 terminal emulation may only offer 76 columns, thus a new -c
+  parameter has been added to the managen program, defining the allowed
+  width.
+
+  If perl is not available, omit generation and disable online manual.
+
+  Closes #14289
+
+Daniel Stenberg (27 Jul 2024)
+
+- example/multi-uv: remove the use of globals
+
+  - shows how to pass on local variables (better)
+
+  - start the transfers nicer (with curl_multi_socket_action)
+
+  - consistent and helpful function naming - to better show what functions
+    and callbacks that are used for what
+
+  - build warning-free with gcc -W -Wall -pedantic
+
+  Closes #14287
+
+Viktor Szakats (27 Jul 2024)
+
+- runtests: fold timing details with GHA, sync `-r` tflags
+
+  - move timing details into a foldable group when run in GitHub Actions.
+    Spec:
+    https://docs.github.com/en/actions/using-workflows/workflow-commands-for-gi
+  thub-actions#grouping-log-lines
+
+  - enable `-r` (run time stats) option in autotools' `test-ci` target,
+    syncing it with cmake.
+
+  Closes #14284
+
+- GHA/windows: increase timeout for vcpkg build step [ci skip]
+
+  Examples:
+  https://github.com/curl/curl/actions/runs/10102112253/job/27937088909?pr=1427
+  4
+  https://github.com/curl/curl/actions/runs/10102112253/job/27937082353?pr=1427
+  4
+  https://github.com/curl/curl/actions/runs/10102112253/job/27937088478?pr=1427
+  4
+
+- GHA/macos: update comment about default Xcode on macos-14 runner [ci skip]
+
+  New default since:
+  https://github.com/actions/runner-images/blob/releases/macos-14-arm64/2024072
+  2/images/macos/macos-14-arm64-Readme.md
+
+Patrick Monnerat (27 Jul 2024)
+
+- os400: workaround an IBM ASCII run-time library bug
+
+  IBM-provided ASCII function puts() does not output an expected trailing
+  newline: emulate the correct behavior using other functions.
+
+  Closes #14281
+
+Stefan Eissing (27 Jul 2024)
+
+- transfer: speed limiting fix for 32bit systems
+
+  When checking if a speed limit on receives applies, compare the receive
+  sizes using the large int type to prevent an overflow on systems where
+  size_t is 32bit.
+
+  Fixes #14272
+  Reported-by: Mamoru Tasaka
+  Closes #14277
+
+Anthony Hu (26 Jul 2024)
+
+- wolfSSL: allow wolfSSL's implementation of kyber to be used
+
+  Closes #14268
+
+Daniel Stenberg (26 Jul 2024)
+
+- lib: survive some NULL input args
+
+  The input string pointer to:
+
+  curl_escape
+  curl_easy_escape
+  curl_unescape
+  curl_easy_unescape
+
+  The running_handles pointer to:
+
+  curl_multi_perform
+  curl_multi_socket_action
+  curl_multi_socket_all
+  curl_multi_socket
+
+  Reported-by: icy17 on github
+  Fixes #14247
+  Closes #14262
+
+- RELEASE-PROCEDURE.md: restore next release date
+
+  Pointed-out-by: extrimexxx on github
+  Bug: https://github.com/curl/curl/pull/14267#issuecomment-2247062235
+
+- RELEASE-NOTES: synced
+
+  bumped to 8.9.1
+
+- RELEASE-PROCEDURE.md: remove the initial build step
+
+  Because it is no longer needed to be done by a person as the dmaketgz
+  script does it by itself.
+
+  Removed two past release dates, added two new future ones
+
+  Closes #14267
+
 Version 8.9.0 (24 Jul 2024)
 
 Daniel Stenberg (24 Jul 2024)
@@ -11351,382 +11820,3 @@ Michał Antoniak (10 Feb 2024)
 Dan Fandrich (9 Feb 2024)
 
 - CI: bump to actions/cache@v4 to avoid warning
-
-Evgeny Grin (Karlson2k) (9 Feb 2024)
-
-- test1165: improve pattern matching
-
-  * Fix excluded digits at the end of the symbols ('CURL_DISABLE_POP3'
-    was checked as 'CURL_DISABLE_POP')
-
-  Closes #12903
-
-Dan Fandrich (9 Feb 2024)
-
-- scripts: Fix cijobs.pl for Azure and GHA
-
-  The spacing in the yaml files changed.
-
-Daniel Stenberg (9 Feb 2024)
-
-- RELEASE-NOTES: synced
-
-- TODO: use pkg-config to find libpsl
-
-  Closes #12919
-
-- TODO: avoid nroff
-
-  Instead of adjusting roffit, skip the nroff step.
-
-  Closes #12919
-
-Dan Fandrich (9 Feb 2024)
-
-- Revert "CI: run Circle macOS builds on x86 for now"
-
-  This reverts commit 2683de3078eadc86d9b182e7417f4ee75a247e2c.
-  ARM resources are now available in Circle CI, so run these builds on ARM
-  again. This platform needs explicit paths set to libpsl and its
-  dependency icu4c.
-
-  Follow-up to 2683de30
-
-  Closes #12635
-
-Viktor Szakats (9 Feb 2024)
-
-- cmake: add warning for using TLS libraries without 1.3 support
-
-  Closes #12900
-
-Daniel Stenberg (9 Feb 2024)
-
-- configure: add warning for using TLS libraries without 1.3 support
-
-  Closes #12900
-
-Michał Antoniak (9 Feb 2024)
-
-- mbedtls: fix building when MBEDTLS_X509_REMOVE_INFO flag is defined
-
-  Closes #12904
-
-Stefan Eissing (9 Feb 2024)
-
-- ftp: fix socket wait activity in ftp_domore_getsock
-
-  - when waiting on the data connection, always add the control socket to
-    the pollset on state STOP or let the pingpong add the socket according
-    to its needs.
-
-  Reported-by: Fabian Vogt
-  Fixes #12901
-  Closes #12913
-
-Daniel Stenberg (9 Feb 2024)
-
-- dist: make sure the http tests are in the tarball
-
-  Fixes #12914
-  Reported-by: Fabian Vogt
-  Closes #12917
-
-Stefan Eissing (9 Feb 2024)
-
-- multi: add xfer_buf to multi handle
-
-  - can be borrowed by transfer during recv-write operation
-  - needs to be released before borrowing again
-  - adjustis size to `data->set.buffer_size`
-  - used in transfer.c readwrite_data()
-
-  Closes #12805
-
-Daniel Stenberg (9 Feb 2024)
-
-- write-out.md: clarify error handling details
-
-  - it gets used even if the transfer fails
-
-  - it does not cause error to be returned even if it fails
-
-  Closes #12909
-
-Stefan Eissing (8 Feb 2024)
-
-- ftp: do lineend conversions in client writer
-
-  - remove the ftp special handling from sendf.c
-  - let ftp_do() add a client writer that does
-    the linened conversions
-  - change the lineend conversion to no longer
-    modify the passed buffer, but write smaller
-    chunks to the next cwriter instead. The
-    inefficiency of this will be mitigated once
-    we add output buffering for all client writes.
-
-  Closes #12878
-
-- ftp: tracing improvements
-
-  - trace socketindex for connection filters when not the first
-  - trace socket fd in tcp
-  - trace pollset adjusts in vtls
-
-  Closes #12902
-
-Karthikdasari0423 (8 Feb 2024)
-
-- HTTP3.md: adjust the OpenSSL QUIC install instructions
-
-  tried installing with old steps but failed
-  tried with newly added setps and able to build
-  ```
-  root@ubuntu:~/curl# ./src/curl -V
-  /root/curl/src/.libs/curl: /lib/x86_64-linux-gnu/libssl.so.3: version `OPENSS
-  L_3.2.0' not found (required by /root/curl/lib/.libs/libcurl.so.4)
-  root@ubuntu:~/curl#
-  ```
-  ```
-  root@ubuntu:~/curl# ./src/curl -V
-  curl 8.6.1-DEV (x86_64-pc-linux-gnu) libcurl/8.6.1-DEV OpenSSL/3.2.0 zlib/1.2
-  .11 brotli/1.0.9 libpsl/0.21.0 nghttp3/1.1.0 OpenLDAP/2.5.16
-  Release-Date: [unreleased]
-  Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns 
-  ldap ldaps mqtt pop3 pop3s rtsp smb smbs smtp smtps telnet tftp
-  Features: alt-svc AsynchDNS brotli HSTS HTTP3 HTTPS-proxy IPv6 Largefile libz
-   NTLM PSL SSL threadsafe TLS-SRP UnixSockets
-  root@ubuntu:~/curl#
-  ```
-
-  Closes #12896
-
-Daniel Stenberg (8 Feb 2024)
-
-- TODO: align the TOC with the header
-
-- docs: make sure curl.1 is included in dist tarballs
-
-  Ref: https://github.com/curl/curl/issues/12832#issuecomment-1933271873
-
-  Closes #12892
-
-Karthikdasari0423 (8 Feb 2024)
-
-- HTTP3.md: remove quiche word in Openssl 3.2
-
-  Closes #12893
-
-Daniel Stenberg (7 Feb 2024)
-
-- curl: when allocating variables, add the name into the struct
-
-  This saves the name from being an extra separate allocation.
-
-  Closes #12891
-
-- lib582: remove code causing warning that is never run
-
-  The previous realloc code in this code could trigger a compiler warning,
-  but since that code path cannot happen in normal circumstances it now
-  instead exits with an error message there.
-
-  Ref: #12887
-  Closes #12890
-
-Stefan Eissing (7 Feb 2024)
-
-- vtls: revert "receive max buffer" + add test case
-
-  - add test_05_04 for requests using http/1.0, http/1.1 and h2 against an
-    Apache resource that does an unclean TLS shutdown.
-  - revert special workarund in openssl.c for suppressing shutdown errors
-    on multiplexed connections
-  - vlts.c restore to its state before 9a90c9dd64d2f03601833a70786d485851bd1b53
-
-  Fixes #12885
-  Fixes #12844
-
-  Closes #12848
-
-Daniel Stenberg (7 Feb 2024)
-
-- tests: support setting/using blank content env variables
-
-  - test450: remove --config from the keywords
-  - test2080: change return code
-  - test428: add --config as a keyword
-  - test428: disable on Windows due to CI problems
-
-- curl: exit on config file parser errors
-
-  Like when trying to import an environment variable that does not exist.
-
-  Also fix a bug for reading env variables when there is a default value
-  set.
-
-  Bug: https://curl.se/mail/archive-2024-02/0008.html
-  Reported-by: Brett Buddin
-
-  Add test 462 to verify.
-
-  Closes #12862
-
-Daniel Szmulewicz (7 Feb 2024)
-
-- CURLOPT_WRITEFUNCTION.md: typo fix
-
-  The maximum amount of body data that is <be> passed to the write
-  callback is defined in the curl.h header file
-
-  Closes #12889
-
-Daniel Stenberg (7 Feb 2024)
-
-- lib: convert Curl_get_line to use dynbuf
-
-  Create the line in a dynbuf. Aborts the reading of the file on
-  errors. Avoids having to always allocate maximum amount from the
-  start. Avoids direct malloc.
-
-  Closes #12846
-
-- KNOWN_BUGS: unicode on Windows
-
-  Closes #11461
-  Closes #12231
-  Closes #12883
-
-- tool_operate: change precedence of server Retry-After time
-
-  - When calculating the retry time, no longer allow a server's requested
-    Retry-After time to take precedence over a longer retry time (either
-    default algorithmic or user-specified).
-
-  Prior to this change the server's Retry-After time took precedence over
-  curl's retry time in all cases, but that's not always practical for
-  short Retry-After times depending on how busy the server is.
-
-  Bug: https://curl.se/mail/archive-2024-01/0022.html
-  Reported-by: Dirk Hünniger
-
-  Closes https://github.com/curl/curl/pull/12871
-
-- cmdline-docs: quote and angle bracket cleanup
-
-  - make sure angle brackets are escaped
-  - remove a lot of superfluous double quotes
-  - replace several double quotes with backticks
-
-  To make nicer-looking markdown.
-
-  Closes #12884
-
-- badwords: use hostname, not host name
-
-  and username, filename - consistently. Fixed the patterns in
-  badwords.txt to catch these.
-
-  Closes #12888
-
-Viktor Szakats (6 Feb 2024)
-
-- cmake: fix function description in comment [ci skip]
-
-  Closes #12879
-
-Daniel Stenberg (6 Feb 2024)
-
-- header.md: remove backslash, make nicer markdown
-
-  - remove a leftover backslash before a dash
-  - use backticks for "code" strings
-
-  Closes #12877
-
-- docs: add mk-ca-bundle.1 to dist
-
-  ... which also makes it get built. But don't build this or curl-config.1
-  if build docs is disabled.
-
-  Closes #12875
-
-Stefan Eissing (6 Feb 2024)
-
-- https-proxy: use IP address and cert with ip in alt names
-
-  - improve info logging when peer verification fails to indicate
-    if DNS name or ip address has been tried to match
-  - add test case for contacting https proxy with ip address
-  - add pytest env check on loaded credentials and re-issue
-    when they are no longer valid
-  - disable proxy ip address test for bearssl, since not supported there
-
-  Ref: #12831
-  Closes #12838
-
-Jiawen Geng (6 Feb 2024)
-
-- docs: add necessary setup for nghttp3
-
-  Now nghttp3 has submodules
-  https://github.com/ngtcp2/nghttp3/blob/main/.gitmodules
-
-  Closes #12859
-
-Peter Krefting (6 Feb 2024)
-
-- version: allow building with ancient libpsl
-
-  The psl_check_version_number() API was added in libpsl 0.11.0. CentOS 7
-  ships with version 0.7.0 which lacks this API. Revert to using the older
-  versioning API if we detect an old libpsl version.
-
-  Follow-up to 72bd88adde0e8cf6e63644a7d6df1da01a399db4
-  Bug: https://curl.se/mail/archive-2024-02/0004.html
-  Reported-by: Scott Mutter
-  Closes #12872
-
-Daniel Stenberg (6 Feb 2024)
-
-- TODO: Support latest rustls
-
-  Closes #12737
-  Closes #12874
-
-- docs: make curldown do angle brackets like markdown
-
-  Make sure we use \< and \> in markdown all over so that it renders
-  correctly, on GitHub and elsewhere. cd2nroff now outputs a warning if it
-  finds an unescaled angle bracket.
-
-  Ref: #12854
-  Closes #12869
-
-- docs: fix the --disable-docs for autotools
-
-  Follow-up to 541321507e386
-
-  Closes #12870
-
-- RELEASE-NOTES: synced
-
-- libcurl-security.md: Active FTP passes on the local IP address
-
-  Reported-by: Harry Sintonen
-  Closes #12867
-
-Stefan Eissing (5 Feb 2024)
-
-- configure: do not link with nghttp3 unless necessary
-
-  Fixes #12833
-  Closes #12864
-  Reported-by: Ryan Carsten Schmidt
-
-Daniel Stenberg (5 Feb 2024)
-
-- THANKS: add Dmitry Tretyakov
-
-  ... since I missed to give credit to the report in the fix of #12861
