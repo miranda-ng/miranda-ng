@@ -53,12 +53,12 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		if (timestamp > getDword(hContact, "LastMsgTime", 0))
 			setDword(hContact, "LastMsgTime", timestamp);
 
-		CMStringW wszContent = message["content"].as_mstring();
-		T2Utf szMsg(wszContent);
-		if (messageType == "RichText/Contacts") {
-			ProcessContactRecv(hContact, timestamp, szMsg, szMessageId);
-			return;
-		}
+		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
+		dbei.szModule = m_szModuleName;
+		dbei.timestamp = timestamp;
+		dbei.szId = szMessageId;
+		if (iUserType == 19)
+			dbei.szUserId = szFrom;
 
 		uint32_t id = message["id"].as_int();
 		if (id > lastMsgTime)
@@ -67,13 +67,22 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		if (bUseLocalTime)
 			timestamp = iLocalTime;
 
-		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
-
 		dbei.flags = DBEF_UTF;
 		if (!markAllAsUnread)
 			dbei.flags |= DBEF_READ;
 		if (IsMe(szFrom))
 			dbei.flags |= DBEF_SENT;
+
+		CMStringW wszContent = message["content"].as_mstring();
+		T2Utf szMsg(wszContent);
+		if (messageType == "RichText/UriObject") {
+			ProcessFileRecv(hContact, szMsg, dbei);
+			return;
+		}
+		if (messageType == "RichText/Contacts") {
+			ProcessContactRecv(hContact, szMsg, dbei);
+			return;
+		}
 
 		if (messageType == "Text" || messageType == "RichText") {
 			CMStringW szMessage(messageType == "RichText" ? RemoveHtml(wszContent) : wszContent);
@@ -85,9 +94,6 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		else if (messageType == "RichText/Files") {
 			dbei.eventType = SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO;
 		}
-		else if (messageType == "RichText/UriObject") {
-			dbei.eventType = SKYPE_DB_EVENT_TYPE_URIOBJ;
-		}
 		else if (messageType == "RichText/Media_Album") {
 			// do nothing
 		}
@@ -95,13 +101,8 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 			dbei.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
 		}
 
-		dbei.szModule = m_szModuleName;
-		dbei.timestamp = timestamp;
 		dbei.cbBlob = (uint32_t)mir_strlen(szMsg);
 		dbei.pBlob = szMsg;
-		dbei.szId = szMessageId;
-		if (iUserType == 19)
-			dbei.szUserId = szFrom;
 
 		if (dbei) {
 			db_event_edit(dbei.getEvent(), &dbei, true);

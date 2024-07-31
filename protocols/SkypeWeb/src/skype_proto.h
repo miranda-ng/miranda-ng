@@ -18,6 +18,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_PROTO_H_
 #define _SKYPE_PROTO_H_
 
+struct CSkypeTransfer
+{
+	CMStringA docId, fileName, url;
+	int iFileSize = 0;
+};
+
 struct CSkypeProto : public PROTO <CSkypeProto>
 {
 	friend class CSkypeOptionsMain;
@@ -72,6 +78,7 @@ public:
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
+	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;
 	void     OnShutdown() override;
 
 	// icons
@@ -251,7 +258,8 @@ private:
 
 	void MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent);
 
-	void ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId);
+	void ProcessContactRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei);
+	void ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei);
 
 	// chats
 	void InitGroupChatModule();

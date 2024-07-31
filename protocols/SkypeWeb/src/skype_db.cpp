@@ -28,9 +28,7 @@ static g_SkypeDBTypes[] =
 	{ SKYPE_DB_EVENT_TYPE_ACTION, LPGEN("Action"), 0 },
 	{ SKYPE_DB_EVENT_TYPE_CALL_INFO, LPGEN("Call information"), 0 },
 	{ SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO, LPGEN("File transfer information"), 0 },
-	{ SKYPE_DB_EVENT_TYPE_URIOBJ, LPGEN("URI object"), 0 },
 	{ SKYPE_DB_EVENT_TYPE_MOJI, LPGEN("Moji"), 0 },
-	{ SKYPE_DB_EVENT_TYPE_FILE, LPGEN("File"), 0 },
 	{ SKYPE_DB_EVENT_TYPE_UNKNOWN, LPGEN("Unknown event"), 0 },
 };
 

@@ -96,12 +96,6 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
 	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_mstring()));
 
-	CMStringW wszContent = node["content"].as_mstring();
-
-	std::string strMessageType = node["messagetype"].as_string();
-	if (strMessageType == "RichText")
-		wszContent = RemoveHtml(wszContent);
-
 	time_t timestamp = time(0); // fuck the server time, we need to place events in the order of our local time
 
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
@@ -115,6 +109,7 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	if (IsMe(szFromSkypename))
 		dwFlags |= DBEF_SENT;
 
+	std::string strMessageType = node["messagetype"].as_string();
 	if (strMessageType == "Control/Typing") {
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
 		return;
@@ -124,15 +119,23 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		return;
 	}
 	
+	CMStringW wszContent = node["content"].as_mstring();
 	T2Utf szMsg(wszContent);
 
 	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
 	dbei.timestamp = timestamp;
-	dbei.pBlob = szMsg;
-	dbei.cbBlob = (uint32_t)mir_strlen(szMsg);
 	dbei.szId = szMessageId;
 	if (iUserType == 19)
 		dbei.szUserId = szFromSkypename;
+
+	if (strMessageType == "RichText/Media_GenericFile") {
+		ProcessFileRecv(hContact, szMsg, dbei);
+		return;
+	}
+	if (strMessageType == "RichText/Contacts") {
+		ProcessContactRecv(hContact, T2Utf(wszContent), dbei);
+		return;
+	}
 
 	if (strMessageType == "Text" || strMessageType == "RichText") {
 		if (IsMe(szFromSkypename)) {
@@ -147,6 +150,9 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		}
 		else CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
+		if (strMessageType == "RichText")
+			wszContent = RemoveHtml(wszContent);
+
 		dbei.eventType = nEmoteOffset == 0 ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION;
 	}
 	else if (strMessageType == "Event/Call") {
@@ -155,18 +161,8 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	else if (strMessageType == "RichText/Files") {
 		dbei.eventType = SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO;
 	}
-	else if (strMessageType == "RichText/UriObject") {
-		dbei.eventType = SKYPE_DB_EVENT_TYPE_URIOBJ;
-	}
-	else if (strMessageType == "RichText/Contacts") {
-		ProcessContactRecv(hContact, timestamp, T2Utf(wszContent), szMessageId);
-		return;
-	}
 	else if (strMessageType == "RichText/Media_FlikMsg") {
 		dbei.eventType = SKYPE_DB_EVENT_TYPE_MOJI;
-	}
-	else if (strMessageType == "RichText/Media_GenericFile") {
-		dbei.eventType = SKYPE_DB_EVENT_TYPE_FILE;
 	}
 	else if (strMessageType == "RichText/Media_Album") {
 		// do nothing
@@ -178,6 +174,9 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	else {
 		dbei.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
 	}
+
+	dbei.pBlob = szMsg;
+	dbei.cbBlob = (uint32_t)mir_strlen(szMsg);
 
 	if (dbei) {
 		db_event_edit(dbei.getEvent(), &dbei, true);
@@ -204,7 +203,66 @@ void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)
 		PushRequest(new MarkMessageReadRequest(getId(hContact), timestamp, timestamp));
 }
 
-void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const char *szContent, const char *szMessageId)
+void CSkypeProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob)
+{
+	if (auto *ft = (CSkypeTransfer *)blob.getUserInfo()) {
+		blob.setUrl(ft->url);
+		blob.setSize(ft->iFileSize);
+		delete ft;
+	}
+}
+
+void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei)
+{
+	TiXmlDocument doc;
+	if (0 != doc.Parse(szContent))
+		return;
+
+	auto *xmlRoot = doc.FirstChildElement("URIObject");
+	if (xmlRoot == nullptr)
+		return;
+
+	const char *pszFileType = 0;
+	CSkypeTransfer *ft = new CSkypeTransfer;
+	if (auto *str = xmlRoot->Attribute("doc_id"))
+		ft->docId = str;
+	if (auto *str = xmlRoot->Attribute("uri"))
+		ft->url = str;
+	if (auto *str = xmlRoot->Attribute("type"))
+		pszFileType = str;
+	if (auto *xml = xmlRoot->FirstChildElement("FileSize"))
+		if (auto *str = xml->Attribute("v"))
+			ft->iFileSize = atoi(str);
+	if (auto *xml = xmlRoot->FirstChildElement("OriginalName"))
+		if (auto *str = xml->Attribute("v"))
+			ft->fileName = str;
+
+	if (ft->url.IsEmpty() || ft->fileName.IsEmpty() || ft->iFileSize == 0) {
+		debugLogA("Missing file info: url=<%s> name=<%s> %d", ft->url.c_str(), ft->fileName.c_str(), ft->iFileSize);
+		delete ft;
+		return;
+	}
+
+	// ordinary file
+	if (!mir_strcmp(pszFileType, "File.1")) {
+	}
+	else {
+		debugLogA("Invalid or unsupported file type <%s> ignored", pszFileType);
+		return;
+	}
+
+	dbei.flags |= DBEF_TEMPORARY;
+	if (dbei) {
+		DB::FILE_BLOB blob(dbei);
+		OnReceiveOfflineFile(blob);
+		blob.write(dbei);
+		db_event_edit(dbei.getEvent(), &dbei, true);
+		delete ft;
+	}
+	else ProtoChainRecvFile(hContact, DB::FILE_BLOB(ft, ft->fileName), dbei);
+}
+
+void CSkypeProto::ProcessContactRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei)
 {
 	TiXmlDocument doc;
 	if (0 != doc.Parse(szContent))
@@ -231,11 +289,8 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 	}
 
 	if (nCount) {
-		DB::EventInfo dbei;
-		dbei.timestamp = (uint32_t)timestamp;
 		dbei.pBlob = (char*)psr;
 		dbei.cbBlob = nCount;
-		dbei.szId = szMessageId;
 
 		ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&dbei);
 		for (int i = 0; i < nCount; i++) {

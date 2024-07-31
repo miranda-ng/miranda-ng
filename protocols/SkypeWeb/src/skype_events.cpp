@@ -72,9 +72,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 		}
 		break;
 
-	case SKYPE_DB_EVENT_TYPE_FILE:
 	case SKYPE_DB_EVENT_TYPE_MOJI:
-	case SKYPE_DB_EVENT_TYPE_URIOBJ:
 		{
 			TiXmlDocument doc;
 			if (0 != doc.Parse((char*)dbei->pBlob))
@@ -130,10 +128,6 @@ INT_PTR CSkypeProto::EventGetIcon(WPARAM flags, LPARAM pEvent)
 
 	case SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO:
 		icon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		break;
-
-	case SKYPE_DB_EVENT_TYPE_URIOBJ:
-		icon = Skin_LoadIcon(SKINICON_EVENT_URL);
 		break;
 
 	case SKYPE_DB_EVENT_TYPE_UNKNOWN:
