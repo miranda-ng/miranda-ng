@@ -95,13 +95,13 @@ public:
 	static void InitLanguages();
 
 	// search
-	void __cdecl SearchBasicThread(void* id);
+	void __cdecl SearchBasicThread(void *param);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// services
 
-	static INT_PTR EventGetIcon(WPARAM wParam, LPARAM lParam);
-	static INT_PTR GetEventText(WPARAM, LPARAM lParam);
+	static INT_PTR __cdecl SvcEventGetIcon(WPARAM, LPARAM);
+	static INT_PTR __cdecl SvcGetEventText(WPARAM, LPARAM);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// settings
@@ -251,6 +251,11 @@ private:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
+	// files
+	void __cdecl ReceiveFileThread(void *param);
+
+	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
+
 	// messages
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
 
@@ -326,10 +331,10 @@ private:
 
 	CMStringW ChangeTopicForm();
 
-	//events
+	// events
 	void InitDBEvents();
 
-	//services
+	// services
 	INT_PTR __cdecl BlockContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl UnblockContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);

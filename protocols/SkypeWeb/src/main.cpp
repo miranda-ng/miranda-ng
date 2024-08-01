@@ -68,8 +68,8 @@ int CMPlugin::Load()
 	CSkypeProto::InitMenus();
 	CSkypeProto::InitLanguages();
 
-	CreateServiceFunction(MODULE "/GetEventIcon", &CSkypeProto::EventGetIcon);
-	CreateServiceFunction(MODULE "/GetEventText", &CSkypeProto::GetEventText);
+	CreateServiceFunction(MODULE "/GetEventIcon", &CSkypeProto::SvcEventGetIcon);
+	CreateServiceFunction(MODULE "/GetEventText", &CSkypeProto::SvcGetEventText);
 
 	g_hCallEvent = CreateHookableEvent(MODULE "/IncomingCall");
 

@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
+INT_PTR CSkypeProto::SvcGetEventText(WPARAM pEvent, LPARAM datatype)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO*)pEvent;
 
@@ -111,7 +111,7 @@ INT_PTR CSkypeProto::GetEventText(WPARAM pEvent, LPARAM datatype)
 	return (datatype == DBVT_WCHAR) ? (INT_PTR)mir_a2u(szText) : (INT_PTR)szText.Detach();
 }
 
-INT_PTR CSkypeProto::EventGetIcon(WPARAM flags, LPARAM pEvent)
+INT_PTR CSkypeProto::SvcEventGetIcon(WPARAM flags, LPARAM pEvent)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO*)pEvent;
 	HICON icon = nullptr;

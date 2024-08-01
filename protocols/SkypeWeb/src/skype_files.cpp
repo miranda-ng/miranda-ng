@@ -1,5 +1,70 @@
 #include "stdafx.h"
 
+////////////////////////////////////////////////////////////////////////////////////////
+// File receiving
+
+static void __cdecl DownloadCallack(size_t iProgress, void *pParam)
+{
+	auto *ofd = (OFDTHREAD *)pParam;
+
+	DBVARIANT dbv = { DBVT_DWORD };
+	dbv.dVal = unsigned(iProgress);
+	db_event_setJson(ofd->hDbEvent, "ft", &dbv);
+}
+
+void CSkypeProto::ReceiveFileThread(void *param)
+{
+	auto *ofd = (OFDTHREAD *)param;
+
+	DB::EventInfo dbei(ofd->hDbEvent);
+	if (IsOnline() && dbei && !strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
+		DB::FILE_BLOB blob(dbei);
+
+		if (ofd->bCopy) {
+			ofd->wszPath = Utf2T(blob.getUrl()).get();
+			ofd->pCallback->Invoke(*ofd);
+		}
+		else {
+			CMStringA szCookie;
+			szCookie.AppendFormat("skypetoken_asm=%s", m_szApiToken.get());
+
+			MHttpRequest nlhr(REQUEST_GET);
+			nlhr.m_szUrl = blob.getUrl();
+			nlhr.AddHeader("Sec-Fetch-User", "?1");
+			nlhr.AddHeader("Sec-Fetch-Site", "same-site");
+			nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
+			nlhr.AddHeader("Sec-Fetch-Dest", "empty");
+			nlhr.AddHeader("Accept", "*/*");
+			nlhr.AddHeader("Accept-Encoding", "gzip");
+			nlhr.AddHeader("Cookie", szCookie);
+			nlhr.AddHeader("Referer", "https://web.skype.com/");
+
+			NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, ofd->wszPath, DownloadCallack, ofd));
+			if (reply && reply->resultCode == 200) {
+				struct _stat st;
+				_wstat(ofd->wszPath, &st);
+
+				DBVARIANT dbv = { DBVT_DWORD };
+				dbv.dVal = st.st_size;
+				db_event_setJson(ofd->hDbEvent, "ft", &dbv);
+
+				ofd->Finish();
+			}
+		}
+	}
+
+	delete ofd;
+}
+
+INT_PTR CSkypeProto::SvcOfflineFile(WPARAM param, LPARAM)
+{
+	ForkThread(&CSkypeProto::ReceiveFileThread, (void *)param);
+	return 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
+// File sending
+
 #define FILETRANSFER_FAILED(fup) { ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup); delete fup; fup = nullptr;} 
 
 HANDLE CSkypeProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
