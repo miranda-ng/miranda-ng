@@ -201,7 +201,7 @@ void CTelegramProto::OnBuildProtoMenu()
 	mi.flags = CMIF_UNMOVABLE;
 
 	// Groups uploader
-	mi.pszService = "/UploadGroups";
+	mi.pszService = "/AddByPhone";
 	CreateProtoService(mi.pszService, &CTelegramProto::SvcAddByPhone);
 	mi.name.a = LPGEN("Add phone contact");
 	mi.position = 200001;
