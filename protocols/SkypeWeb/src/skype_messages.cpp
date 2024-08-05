@@ -120,7 +120,6 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	}
 	
 	CMStringW wszContent = node["content"].as_mstring();
-	T2Utf szMsg(wszContent);
 
 	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
 	dbei.timestamp = timestamp;
@@ -129,7 +128,7 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		dbei.szUserId = szFromSkypename;
 
 	if (strMessageType == "RichText/Media_GenericFile") {
-		ProcessFileRecv(hContact, szMsg, dbei);
+		ProcessFileRecv(hContact, T2Utf(wszContent), dbei);
 		return;
 	}
 	if (strMessageType == "RichText/Contacts") {
@@ -175,6 +174,7 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		dbei.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
 	}
 
+	T2Utf szMsg(wszContent);
 	dbei.pBlob = szMsg;
 	dbei.cbBlob = (uint32_t)mir_strlen(szMsg);
 
