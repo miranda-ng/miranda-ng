@@ -413,6 +413,7 @@ EXTERN_C MIR_APP_DLL(NETLIBIPLIST*) Netlib_GetMyIp(bool bGlobalOnly);
 #define REQUEST_PATCH    7
 
 #define NLHRF_MANUALHOST      0x00000001   // do not remove any host and/or protocol portion of szUrl before sending it
+#define NLHRF_NOUSERAGENT     0x00000002   // skip automatic user agent substitution
 #define NLHRF_HTTP11          0x00000010   // use HTTP 1.1
 #define NLHRF_PERSISTENT      0x00000020   // preserve connection on exit, open connection provided in the nlc field of the reply
                                            // it should be supplied in nlc field of request for reuse or closed if not needed

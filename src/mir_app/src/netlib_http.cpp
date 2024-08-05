@@ -1053,7 +1053,7 @@ static MHttpResponse* HttpTransactionWorker(HNETLIBUSER nlu, MHttpRequest *nlhr,
 		nlhr->m_szParam.Empty();
 	}
 
-	if (!nlhr->FindHeader("User-Agent")) {
+	if (!nlhr->FindHeader("User-Agent") && !(nlhr->flags & NLHRF_NOUSERAGENT)) {
 		char szUserAgent[64], szMirandaVer[64];
 		strncpy_s(szMirandaVer, MIRANDA_VERSION_STRING, _TRUNCATE);
 		#if defined(_WIN64)

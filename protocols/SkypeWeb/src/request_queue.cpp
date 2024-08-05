@@ -122,7 +122,6 @@ MHttpResponse* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
 		break;
 	}
 
-	pReq->m_szUrl = pReq->m_szUrl.GetBuffer();
 	debugLogA("Send request to %s", pReq->m_szUrl.c_str());
 
 	return Netlib_HttpTransaction(m_hNetlibUser, pReq);

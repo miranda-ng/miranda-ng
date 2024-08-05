@@ -25,30 +25,46 @@ void CSkypeProto::ReceiveFileThread(void *param)
 			ofd->pCallback->Invoke(*ofd);
 		}
 		else {
-			CMStringA szCookie;
+			CMStringA szCookie, szUrl;
 			szCookie.AppendFormat("skypetoken_asm=%s", m_szApiToken.get());
+			{
+				MHttpRequest nlhr(REQUEST_GET);
+				nlhr.flags = NLHRF_HTTP11 | NLHRF_NOUSERAGENT;
+				nlhr.m_szUrl = blob.getUrl();
+				nlhr.m_szUrl += "/views/original/status";
+				nlhr.AddHeader("Accept", "*/*");
+				nlhr.AddHeader("Accept-Encoding", "gzip, deflate");
+				nlhr.AddHeader("Cookie", szCookie);
+				NLHR_PTR response(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
+				if (response) {
+					JsonReply reply(response);
+					if (!reply.error()) {
+						auto &root = reply.data();
+						if (root["view_state"].as_string() == "ready")
+							szUrl = root["view_location"].as_string().c_str();
+					}
+				}
+			}
 
-			MHttpRequest nlhr(REQUEST_GET);
-			nlhr.m_szUrl = blob.getUrl();
-			nlhr.AddHeader("Sec-Fetch-User", "?1");
-			nlhr.AddHeader("Sec-Fetch-Site", "same-site");
-			nlhr.AddHeader("Sec-Fetch-Mode", "navigate");
-			nlhr.AddHeader("Sec-Fetch-Dest", "empty");
-			nlhr.AddHeader("Accept", "*/*");
-			nlhr.AddHeader("Accept-Encoding", "gzip");
-			nlhr.AddHeader("Cookie", szCookie);
-			nlhr.AddHeader("Referer", "https://web.skype.com/");
+			if (!szUrl.IsEmpty()) {
+				MHttpRequest nlhr(REQUEST_GET);
+				nlhr.flags = NLHRF_HTTP11 | NLHRF_NOUSERAGENT;
+				nlhr.m_szUrl = szUrl;
+				nlhr.AddHeader("Accept", "*/*");
+				nlhr.AddHeader("Accept-Encoding", "gzip, deflate");
+				nlhr.AddHeader("Cookie", szCookie);
 
-			NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, ofd->wszPath, DownloadCallack, ofd));
-			if (reply && reply->resultCode == 200) {
-				struct _stat st;
-				_wstat(ofd->wszPath, &st);
+				NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &nlhr, ofd->wszPath, DownloadCallack, ofd));
+				if (reply && reply->resultCode == 200) {
+					struct _stat st;
+					_wstat(ofd->wszPath, &st);
 
-				DBVARIANT dbv = { DBVT_DWORD };
-				dbv.dVal = st.st_size;
-				db_event_setJson(ofd->hDbEvent, "ft", &dbv);
+					DBVARIANT dbv = { DBVT_DWORD };
+					dbv.dVal = st.st_size;
+					db_event_setJson(ofd->hDbEvent, "ft", &dbv);
 
-				ofd->Finish();
+					ofd->Finish();
+				}
 			}
 		}
 	}
