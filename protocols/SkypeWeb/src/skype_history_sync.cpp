@@ -74,18 +74,18 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 			dbei.flags |= DBEF_SENT;
 
 		CMStringW wszContent = message["content"].as_mstring();
-		T2Utf szMsg(wszContent);
 		if (messageType == "RichText/UriObject") {
-			ProcessFileRecv(hContact, szMsg, dbei);
-			return;
+			ProcessFileRecv(hContact, T2Utf(wszContent), dbei);
+			continue;
 		}
 		if (messageType == "RichText/Contacts") {
-			ProcessContactRecv(hContact, szMsg, dbei);
-			return;
+			ProcessContactRecv(hContact, T2Utf(wszContent), dbei);
+			continue;
 		}
 
 		if (messageType == "Text" || messageType == "RichText") {
-			CMStringW szMessage(messageType == "RichText" ? RemoveHtml(wszContent) : wszContent);
+			if (messageType == "RichText")
+				wszContent = RemoveHtml(wszContent);
 			dbei.eventType = (emoteOffset == 0) ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION;
 		}
 		else if (messageType == "Event/Call") {
@@ -96,11 +96,13 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		}
 		else if (messageType == "RichText/Media_Album") {
 			// do nothing
+			continue;
 		}
 		else {
 			dbei.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
 		}
 
+		T2Utf szMsg(wszContent);
 		dbei.cbBlob = (uint32_t)mir_strlen(szMsg);
 		dbei.pBlob = szMsg;
 

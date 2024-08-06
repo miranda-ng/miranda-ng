@@ -96,18 +96,18 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
 	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_mstring()));
 
-	time_t timestamp = time(0); // fuck the server time, we need to place events in the order of our local time
-
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
 
 	MCONTACT hContact = AddContact(szConversationName, nullptr, true);
 
+	time_t timestamp = time(0); // fuck the server time, we need to place events in the order of our local time
 	if (m_bHistorySynced)
 		setDword(hContact, "LastMsgTime", timestamp);
 
-	uint32_t dwFlags = DBEF_UTF;
-	if (IsMe(szFromSkypename))
-		dwFlags |= DBEF_SENT;
+	if (iUserType == 19) {
+		OnChatEvent(node);
+		return;
+	}
 
 	std::string strMessageType = node["messagetype"].as_string();
 	if (strMessageType == "Control/Typing") {
@@ -118,12 +118,15 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 		return;
 	}
-	
+
 	CMStringW wszContent = node["content"].as_mstring();
 
 	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
 	dbei.timestamp = timestamp;
 	dbei.szId = szMessageId;
+	dbei.flags = DBEF_UTF;
+	if (IsMe(szFromSkypename))
+		dbei.flags |= DBEF_SENT;
 	if (iUserType == 19)
 		dbei.szUserId = szFromSkypename;
 
@@ -165,10 +168,6 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	}
 	else if (strMessageType == "RichText/Media_Album") {
 		// do nothing
-	}
-	else if (iUserType == 19) {
-		OnChatEvent(node);
-		return;
 	}
 	else {
 		dbei.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
