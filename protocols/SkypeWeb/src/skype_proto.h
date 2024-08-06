@@ -276,7 +276,7 @@ private:
 
 	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname);
 
-	void OnChatEvent(const JSONNode &node);
+	bool OnChatEvent(const JSONNode &node);
 	wchar_t* GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name = nullptr);
 
 	void AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
@@ -288,6 +288,7 @@ private:
 	// polling
 	void __cdecl PollingThread(void*);
 
+	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
 	void ParsePollData(const char*);
 
 	void ProcessNewMessage(const JSONNode &node);

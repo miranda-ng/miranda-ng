@@ -46,14 +46,13 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		CMStringA szFrom = UrlToSkypeId(message["from"].as_mstring());
 
 		MCONTACT hContact = FindContact(szChatId);
-		std::string messageType = message["messagetype"].as_string();
-		int emoteOffset = message["skypeemoteoffset"].as_int();
 
 		time_t timestamp = IsoToUnixTime(message["composetime"].as_string());
 		if (timestamp > getDword(hContact, "LastMsgTime", 0))
 			setDword(hContact, "LastMsgTime", timestamp);
 
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
+		dbei.hContact = hContact;
 		dbei.szModule = m_szModuleName;
 		dbei.timestamp = timestamp;
 		dbei.szId = szMessageId;
@@ -73,44 +72,12 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		if (IsMe(szFrom))
 			dbei.flags |= DBEF_SENT;
 
-		CMStringW wszContent = message["content"].as_mstring();
-		if (messageType == "RichText/UriObject") {
-			ProcessFileRecv(hContact, T2Utf(wszContent), dbei);
-			continue;
+		if (ParseMessage(message, dbei)) {
+			if (dbei)
+				db_event_edit(dbei.getEvent(), &dbei, true);
+			else
+				db_event_add(hContact, &dbei);
 		}
-		if (messageType == "RichText/Contacts") {
-			ProcessContactRecv(hContact, T2Utf(wszContent), dbei);
-			continue;
-		}
-
-		if (messageType == "Text" || messageType == "RichText") {
-			if (messageType == "RichText")
-				wszContent = RemoveHtml(wszContent);
-			dbei.eventType = (emoteOffset == 0) ? EVENTTYPE_MESSAGE : SKYPE_DB_EVENT_TYPE_ACTION;
-		}
-		else if (messageType == "Event/Call") {
-			dbei.eventType = SKYPE_DB_EVENT_TYPE_CALL_INFO;
-		}
-		else if (messageType == "RichText/Files") {
-			dbei.eventType = SKYPE_DB_EVENT_TYPE_FILETRANSFER_INFO;
-		}
-		else if (messageType == "RichText/Media_Album") {
-			// do nothing
-			continue;
-		}
-		else {
-			dbei.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
-		}
-
-		T2Utf szMsg(wszContent);
-		dbei.cbBlob = (uint32_t)mir_strlen(szMsg);
-		dbei.pBlob = szMsg;
-
-		if (dbei) {
-			db_event_edit(dbei.getEvent(), &dbei, true);
-			dbei.pBlob = nullptr;
-		}
-		else db_event_add(hContact, &dbei);
 	}
 
 	if (totalCount >= 99 || conv.size() >= 99) {

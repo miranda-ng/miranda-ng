@@ -241,7 +241,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 
 /* CHAT EVENT */
 
-void CSkypeProto::OnChatEvent(const JSONNode &node)
+bool CSkypeProto::OnChatEvent(const JSONNode &node)
 {
 	CMStringW wszChatId(UrlToSkypeId(node["conversationLink"].as_mstring()));
 	CMStringW szFromId(UrlToSkypeId(node["from"].as_mstring()));
@@ -254,7 +254,7 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 		si = StartChatRoom(wszChatId, wszTopic);
 		if (si == nullptr) {
 			debugLogW(L"unable to create chat %s", wszChatId.c_str());
-			return;
+			return true;
 		}
 	}
 
@@ -262,72 +262,75 @@ void CSkypeProto::OnChatEvent(const JSONNode &node)
 	if (messageType == "ThreadActivity/AddMember") {
 		// <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 		TiXmlDocument doc;
-		if (0 != doc.Parse(T2Utf(wszContent)))
-			return;
-
-		if (auto *pRoot = doc.FirstChildElement("addMember")) {
-			CMStringW target = Utf2T(XmlGetChildText(pRoot, "target"));
-			AddChatContact(si, target, L"User");
+		if (!doc.Parse(T2Utf(wszContent))) {
+			if (auto *pRoot = doc.FirstChildElement("addMember")) {
+				CMStringW target = Utf2T(XmlGetChildText(pRoot, "target"));
+				AddChatContact(si, target, L"User");
+			}
 		}
+		return true;
 	}
-	else if (messageType == "ThreadActivity/DeleteMember") {
+	
+	if (messageType == "ThreadActivity/DeleteMember") {
 		// <deletemember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></deletemember>
 		TiXmlDocument doc;
-		if (0 != doc.Parse(T2Utf(wszContent)))
-			return;
-
-		if (auto *pRoot = doc.FirstChildElement("deletemember")) {
-			CMStringW target = Utf2T(UrlToSkypeId(XmlGetChildText(pRoot, "target")));
-			CMStringW initiator = Utf2T(XmlGetChildText(pRoot, "initiator"));
-			RemoveChatContact(si, target, true, initiator);
+		if (!doc.Parse(T2Utf(wszContent))) {
+			if (auto *pRoot = doc.FirstChildElement("deletemember")) {
+				CMStringW target = Utf2T(UrlToSkypeId(XmlGetChildText(pRoot, "target")));
+				CMStringW initiator = Utf2T(XmlGetChildText(pRoot, "initiator"));
+				RemoveChatContact(si, target, true, initiator);
+			}
 		}
+		return true;
 	}
-	else if (messageType == "ThreadActivity/TopicUpdate") {
+	
+	if (messageType == "ThreadActivity/TopicUpdate") {
 		// <topicupdate><eventtime>1429532702130</eventtime><initiator>8:user</initiator><value>test topic</value></topicupdate>
 		TiXmlDocument doc;
-		if (0 != doc.Parse(T2Utf(wszContent)))
-			return;
+		if (!doc.Parse(T2Utf(wszContent))) {
+			if (auto *pRoot = doc.FirstChildElement("topicupdate")) {
+				CMStringW initiator = Utf2T(XmlGetChildText(pRoot, "initiator"));
+				CMStringW value = Utf2T(XmlGetChildText(pRoot, "value"));
+				Chat_ChangeSessionName(si, value);
 
-		auto *pRoot = doc.FirstChildElement("topicupdate");
-		if (pRoot) {
-			CMStringW initiator = Utf2T(XmlGetChildText(pRoot, "initiator"));
-			CMStringW value = Utf2T(XmlGetChildText(pRoot, "value"));
-			Chat_ChangeSessionName(si, value);
-
-			GCEVENT gce = { si, GC_EVENT_TOPIC };
-			gce.pszUID.w = initiator;
-			gce.pszNick.w = GetSkypeNick(initiator);
-			gce.pszText.w = wszTopic;
-			Chat_Event(&gce);
-		}
-	}
-	else if (messageType == "ThreadActivity/RoleUpdate") {
-		// <roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
-		TiXmlDocument doc;
-		if (0 != doc.Parse(T2Utf(wszContent)))
-			return;
-
-		auto *pRoot = doc.FirstChildElement("roleupdate");
-		if (pRoot) {
-			CMStringW initiator = Utf2T(UrlToSkypeId(XmlGetChildText(pRoot, "initiator")));
-
-			auto *pTarget = pRoot->FirstChildElement("target");
-			if (pTarget) {
-				CMStringW id = Utf2T(UrlToSkypeId(XmlGetChildText(pTarget, "id")));
-				const char *role = XmlGetChildText(pTarget, "role");
-
-				GCEVENT gce = { si, !mir_strcmpi(role, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
-				gce.dwFlags = GCEF_ADDTOLOG;
-				gce.pszNick.w = id;
-				gce.pszUID.w = id;
-				gce.pszText.w = initiator;
-				gce.time = time(0);
-				gce.bIsMe = IsMe(T2Utf(id));
-				gce.pszStatus.w = TranslateT("Admin");
+				GCEVENT gce = { si, GC_EVENT_TOPIC };
+				gce.pszUID.w = initiator;
+				gce.pszNick.w = GetSkypeNick(initiator);
+				gce.pszText.w = wszTopic;
 				Chat_Event(&gce);
 			}
 		}
+		return true;
 	}
+	
+	if (messageType == "ThreadActivity/RoleUpdate") {
+		// <roleupdate><eventtime>1429551258363</eventtime><initiator>8:user</initiator><target><id>8:user1</id><role>admin</role></target></roleupdate>
+		TiXmlDocument doc;
+		if (!doc.Parse(T2Utf(wszContent))) {
+			if (auto *pRoot = doc.FirstChildElement("roleupdate")) {
+				CMStringW initiator = Utf2T(UrlToSkypeId(XmlGetChildText(pRoot, "initiator")));
+
+				auto *pTarget = pRoot->FirstChildElement("target");
+				if (pTarget) {
+					CMStringW id = Utf2T(UrlToSkypeId(XmlGetChildText(pTarget, "id")));
+					const char *role = XmlGetChildText(pTarget, "role");
+
+					GCEVENT gce = { si, !mir_strcmpi(role, "Admin") ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS };
+					gce.dwFlags = GCEF_ADDTOLOG;
+					gce.pszNick.w = id;
+					gce.pszUID.w = id;
+					gce.pszText.w = initiator;
+					gce.time = time(0);
+					gce.bIsMe = IsMe(T2Utf(id));
+					gce.pszStatus.w = TranslateT("Admin");
+					Chat_Event(&gce);
+				}
+			}
+		}
+		return true;
+	}
+
+	return false;
 }
 
 void CSkypeProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)

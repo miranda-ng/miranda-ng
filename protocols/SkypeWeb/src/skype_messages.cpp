@@ -87,70 +87,33 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 
 /* MESSAGE EVENT */
 
-void CSkypeProto::ProcessNewMessage(const JSONNode &node)
+bool CSkypeProto::ParseMessage(const JSONNode &node, DB::EventInfo &dbei)
 {
-	int iUserType;
-	UrlToSkypeId(node["conversationLink"].as_string().c_str(), &iUserType);
-
-	CMStringA szMessageId = node["clientmessageid"] ? node["clientmessageid"].as_mstring() : node["skypeeditedid"].as_mstring();
-	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
-	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_mstring()));
-
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
-
-	MCONTACT hContact = AddContact(szConversationName, nullptr, true);
-
-	time_t timestamp = time(0); // fuck the server time, we need to place events in the order of our local time
-	if (m_bHistorySynced)
-		setDword(hContact, "LastMsgTime", timestamp);
-
-	if (iUserType == 19) {
-		OnChatEvent(node);
-		return;
-	}
-
-	std::string strMessageType = node["messagetype"].as_string();
-	if (strMessageType == "Control/Typing") {
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
-		return;
-	}
-	if (strMessageType == "Control/ClearTyping") {
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
-		return;
-	}
-
 	CMStringW wszContent = node["content"].as_mstring();
 
-	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
-	dbei.timestamp = timestamp;
-	dbei.szId = szMessageId;
-	dbei.flags = DBEF_UTF;
-	if (IsMe(szFromSkypename))
-		dbei.flags |= DBEF_SENT;
-	if (iUserType == 19)
-		dbei.szUserId = szFromSkypename;
-
+	std::string strMessageType = node["messagetype"].as_string();
 	if (strMessageType == "RichText/Media_GenericFile") {
-		ProcessFileRecv(hContact, T2Utf(wszContent), dbei);
-		return;
+		ProcessFileRecv(dbei.hContact, node["content"].as_string().c_str(), dbei);
+		return false;
 	}
 	if (strMessageType == "RichText/Contacts") {
-		ProcessContactRecv(hContact, T2Utf(wszContent), dbei);
-		return;
+		ProcessContactRecv(dbei.hContact, node["content"].as_string().c_str(), dbei);
+		return false;
 	}
 
 	if (strMessageType == "Text" || strMessageType == "RichText") {
-		if (IsMe(szFromSkypename)) {
-			HANDLE hMessage = (HANDLE)atoi(szMessageId);
+		if ((dbei.flags & DBEF_SENT) && dbei.szId) {
+			HANDLE hMessage = (HANDLE)atoi(dbei.szId);
 			if (m_OutMessages.getIndex(hMessage) != -1) {
-				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, (LPARAM)szMessageId.c_str());
+				ProtoBroadcastAck(dbei.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, (LPARAM)dbei.szId);
 
 				mir_cslock lck(m_lckOutMessagesList);
 				m_OutMessages.remove(hMessage);
-				return;
+				return false;
 			}
 		}
-		else CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+		else CallService(MS_PROTO_CONTACTISTYPING, dbei.hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 		if (strMessageType == "RichText")
 			wszContent = RemoveHtml(wszContent);
@@ -167,21 +130,62 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		dbei.eventType = SKYPE_DB_EVENT_TYPE_MOJI;
 	}
 	else if (strMessageType == "RichText/Media_Album") {
-		// do nothing
+		return false;
 	}
 	else {
 		dbei.eventType = SKYPE_DB_EVENT_TYPE_UNKNOWN;
 	}
 
-	T2Utf szMsg(wszContent);
-	dbei.pBlob = szMsg;
-	dbei.cbBlob = (uint32_t)mir_strlen(szMsg);
+	replaceStr(dbei.pBlob, mir_utf8encodeW(wszContent));
+	dbei.cbBlob = (uint32_t)mir_strlen(dbei.pBlob);
+	return true;
+}
 
-	if (dbei) {
-		db_event_edit(dbei.getEvent(), &dbei, true);
-		dbei.pBlob = nullptr;
+void CSkypeProto::ProcessNewMessage(const JSONNode &node)
+{
+	int iUserType;
+	UrlToSkypeId(node["conversationLink"].as_string().c_str(), &iUserType);
+
+	CMStringA szMessageId = node["clientmessageid"] ? node["clientmessageid"].as_mstring() : node["skypeeditedid"].as_mstring();
+	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
+	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_mstring()));
+
+	MCONTACT hContact = AddContact(szConversationName, nullptr, true);
+
+	time_t timestamp = time(0); // fuck the server time, we need to place events in the order of our local time
+	if (m_bHistorySynced)
+		setDword(hContact, "LastMsgTime", timestamp);
+
+	if (iUserType == 19)
+		if (OnChatEvent(node))
+			return;
+
+	std::string strMessageType = node["messagetype"].as_string();
+	if (strMessageType == "Control/Typing") {
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
+		return;
 	}
-	else ProtoChainRecvMsg(hContact, dbei);
+	if (strMessageType == "Control/ClearTyping") {
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+		return;
+	}
+
+	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
+	dbei.hContact = hContact;
+	dbei.timestamp = timestamp;
+	dbei.szId = szMessageId;
+	dbei.flags = DBEF_UTF;
+	if (IsMe(szFromSkypename))
+		dbei.flags |= DBEF_SENT;
+	if (iUserType == 19)
+		dbei.szUserId = szFromSkypename;
+
+	if (ParseMessage(node, dbei)) {
+		if (dbei)
+			db_event_edit(dbei.getEvent(), &dbei, true);
+		else
+			ProtoChainRecvMsg(hContact, dbei);
+	}
 }
 
 void CSkypeProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
