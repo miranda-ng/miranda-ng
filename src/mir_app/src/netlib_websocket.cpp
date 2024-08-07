@@ -305,7 +305,7 @@ void MWebSocket::run()
 void MJsonWebSocket::process(const uint8_t *buf, size_t cbLen)
 {
 	CMStringA szJson((char*)buf, (int)cbLen);
-	Netlib_Logf(m_nlu, "JSON received:\n%s", szJson.c_str());
+	Netlib_Log(m_nlu, szJson);
 
 	JSONNode root = JSONNode::parse(szJson);
 	if (root)

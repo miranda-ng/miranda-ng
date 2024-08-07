@@ -204,7 +204,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 	bool bIsVoice = false;
 
 	// filter our all channels but the text ones
-	switch (pch["type"].as_int()) {
+	switch (auto iChannelType = pch["type"].as_int()) {
 	case 4: // channel group
 		if (!m_bUseGuildGroups) // ignore groups when they aren't enabled
 			return nullptr;
@@ -230,6 +230,7 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 		__fallthrough;
 
 	case 0: // text channel
+	case 5: // announcement channel
 		// check permissions to enter the channel
 		auto permissions = pGuild->CalcPermissionOverride(m_ownId, pch["permission_overwrites"]);
 		if (!(permissions & Permission::VIEW_CHANNEL))
@@ -246,6 +247,10 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 		if (pGuild->arChannels.find(pUser) == nullptr)
 			pGuild->arChannels.insert(pUser);
+
+		// make announcement channels read-only
+		if (iChannelType == 5)
+			Contact::Readonly(pUser->hContact, true);
 
 		pUser->wszUsername = wszChannelId;
 		if (m_bUseGuildGroups)
