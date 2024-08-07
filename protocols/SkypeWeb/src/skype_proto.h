@@ -159,7 +159,7 @@ public:
 	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnSyncHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnLoadChats(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
@@ -261,8 +261,6 @@ private:
 
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
-	void MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent);
-
 	void ProcessContactRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei);
 	void ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei);
 
@@ -298,7 +296,6 @@ private:
 	void ProcessConversationUpdate(const JSONNode &node);
 
 	void RefreshStatuses(void);
-	void ReadHistoryRest(const char *url);
 
 	// utils
 	template <typename T>
@@ -314,6 +311,9 @@ private:
 
 	bool IsMe(const wchar_t *str);
 	bool IsMe(const char *str);
+
+	int64_t getLastTime(MCONTACT);
+	void setLastTime(MCONTACT, int64_t);
 
 	static time_t IsoToUnixTime(const std::string &stamp);
 

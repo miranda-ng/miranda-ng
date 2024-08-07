@@ -71,13 +71,13 @@ struct SendTypingRequest : public AsyncHttpRequest
 
 struct MarkMessageReadRequest : public AsyncHttpRequest
 {
-	MarkMessageReadRequest(const char *username, LONGLONG /*msgId*/, LONGLONG msgTimestamp) :
+	MarkMessageReadRequest(const char *username, int64_t msgTimestamp) :
 	  AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT)
 	{
 		m_szUrl.AppendFormat("/users/ME/conversations/%s/properties?name=consumptionhorizon", mir_urlEncode(username).c_str());
 
 		JSONNode node(JSON_NODE);
-		node << CHAR_PARAM("consumptionhorizon", CMStringA(::FORMAT, "%lld000;%lld000;%lld000", msgTimestamp, time(NULL), msgTimestamp));
+		node << CHAR_PARAM("consumptionhorizon", CMStringA(::FORMAT, "%lld;%lld;%lld", msgTimestamp, msgTimestamp, msgTimestamp));
 		m_szParam = node.write().c_str();
 	}
 };

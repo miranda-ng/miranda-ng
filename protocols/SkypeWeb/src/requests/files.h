@@ -16,12 +16,15 @@ struct ASMObjectCreateRequest : public AsyncHttpRequest
 		T2Utf uszFileName(fup->tszFileName);
 		const char *szFileName = strrchr(uszFileName.get() + 1, '\\');
 
-		JSONNode node, jPermissions, jPermission(JSON_ARRAY);
-		jPermissions.set_name("permissions");
-		jPermission.set_name(szContact.c_str());
-		jPermission << CHAR_PARAM("", "read");
-		jPermissions << jPermission;
-		node << CHAR_PARAM("type", "sharing/file") << CHAR_PARAM("filename", szFileName) << jPermissions;
+		JSONNode node;
+		if (fup->isPicture)
+			node << CHAR_PARAM("type", "pish/image");
+		else
+			node << CHAR_PARAM("type", "sharing/file");
+		
+		JSONNode jPermission(JSON_ARRAY); jPermission.set_name(szContact.c_str()); jPermission << CHAR_PARAM("", "read");
+		JSONNode jPermissions; jPermissions.set_name("permissions"); jPermissions << jPermission;
+		node << CHAR_PARAM("filename", szFileName) << jPermissions;
 		m_szParam = node.write().c_str();
 	}
 };
@@ -31,11 +34,12 @@ struct ASMObjectUploadRequest : public AsyncHttpRequest
 	ASMObjectUploadRequest(CSkypeProto *ppro, const char *szObject, const uint8_t *data, int size, CFileUploadParam *fup) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_OTHER, 0, &CSkypeProto::OnASMObjectUploaded)
 	{
-		m_szUrl.AppendFormat("https://api.asm.skype.com/v1/objects/%s/content/original", szObject);
+		m_szUrl.AppendFormat("https://api.asm.skype.com/v1/objects/%s/content/%s", 
+			szObject, fup->isPicture ? "imgpsh" : "original");
 		pUserInfo = fup;
 
 		AddHeader("Authorization", CMStringA(FORMAT, "skype_token %s", ppro->m_szApiToken.get()));
-		AddHeader("Content-Type", "application/octet-stream");
+		AddHeader("Content-Type", fup->isPicture ? "application" : "application/octet-stream");
 
 		m_szParam.Truncate(size);
 		memcpy(m_szParam.GetBuffer(), data, size);
@@ -44,16 +48,20 @@ struct ASMObjectUploadRequest : public AsyncHttpRequest
 
 struct SendFileRequest : public AsyncHttpRequest
 {
-	SendFileRequest(const char *username, time_t timestamp, const char *message, const char *messageType, const char *asmRef) :
+	SendFileRequest(CFileUploadParam *fup, const char *username, const char *message) :
 		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
 	{
 		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
 
-		JSONNode node, ref(JSON_ARRAY);
-		ref.set_name("amsreferences"); ref.push_back(JSONNode("", asmRef));
+		JSONNode ref(JSON_ARRAY); ref.set_name("amsreferences"); ref << CHAR_PARAM("", fup->uid);
 
-		node << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", messageType)
-			<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message) << ref;
+		JSONNode node;
+		if (fup->isPicture)
+			node << CHAR_PARAM("messagetype", "RichText/UriObject");
+		else
+			node << CHAR_PARAM("messagetype", "RichText/Media_GenericFile");
+
+		node << INT64_PARAM("clientmessageid", time(0)) << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message) << ref;
 		m_szParam = node.write().c_str();
 	}
 };

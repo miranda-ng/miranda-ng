@@ -21,34 +21,27 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct SyncHistoryFirstRequest : public AsyncHttpRequest
 {
 	SyncHistoryFirstRequest(int pageSize) :
-		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CSkypeProto::OnSyncHistory)
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CSkypeProto::OnSyncConversations)
 	{
 		this << INT_PARAM("startTime", 0) << INT_PARAM("pageSize", pageSize)
 			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync");
-	}
-
-	SyncHistoryFirstRequest(const char *url) :
-		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, url, &CSkypeProto::OnSyncHistory)
-	{
 	}
 };
 
 struct GetHistoryRequest : public AsyncHttpRequest
 {
-	GetHistoryRequest(const char *who, int pageSize, uint32_t timestamp, bool bOperative) :
-		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(who) + "/messages", &CSkypeProto::OnGetServerHistory)
+	CMStringA m_who;
+
+	GetHistoryRequest(MCONTACT _1, const char *who, int pageSize, int64_t timestamp, bool bOperative) :
+		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(who) + "/messages", &CSkypeProto::OnGetServerHistory),
+		m_who(who)
 	{
+		hContact = _1;
 		if (bOperative)
 			pUserInfo = this;
 
-		this << INT_PARAM("startTime", timestamp) << INT_PARAM("pageSize", pageSize)
+		this << INT64_PARAM("startTime", timestamp) << INT_PARAM("pageSize", pageSize)
 			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread");
-	}
-
-	GetHistoryRequest(const char *url, void *pInfo) :
-		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, url, &CSkypeProto::OnGetServerHistory)
-	{
-		pUserInfo = pInfo;
 	}
 };
 

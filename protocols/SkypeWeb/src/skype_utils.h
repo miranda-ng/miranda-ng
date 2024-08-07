@@ -42,16 +42,24 @@ public:
 	__inline operator HANDLE() { return _hEvent; }
 };
 
-struct CFileUploadParam : public MZeroedObject {
+struct CFileUploadParam : public MZeroedObject
+{
 	ptrW tszFileName;
 	ptrW tszDesc;
 	ptrA atr;
 	ptrA fname;
 	ptrA uid;
-	size_t size;
+	long size;
+	int  width, height;
 	MCONTACT hContact;
+	bool isPicture;
 
-	__forceinline CFileUploadParam(MCONTACT _hContact, const wchar_t* _desc, wchar_t** _files) : hContact(_hContact), tszDesc(mir_wstrdup(_desc)), tszFileName(mir_wstrdup(_files[0])) {};
+	__forceinline CFileUploadParam(MCONTACT _hContact, const wchar_t* _desc, wchar_t** _files) :
+		hContact(_hContact),
+		tszDesc(mir_wstrdup(_desc)),
+		tszFileName(mir_wstrdup(_files[0]))
+	{};
+	
 	__forceinline bool IsAccess() { return ::_waccess(tszFileName, 0) == 0; }
 };
 

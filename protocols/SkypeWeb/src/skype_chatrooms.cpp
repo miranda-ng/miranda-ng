@@ -40,15 +40,17 @@ SESSION_INFO* CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tnam
 	if (!si)
 		return nullptr;
 
-	// Create a user statuses
-	Chat_AddGroup(si, TranslateT("Admin"));
-	Chat_AddGroup(si, TranslateT("User"));
+	if (si->arUsers.getCount() == 0) {
+		// Create a user statuses
+		Chat_AddGroup(si, TranslateT("Admin"));
+		Chat_AddGroup(si, TranslateT("User"));
+
+		PushRequest(new GetChatInfoRequest(tid));
+	}
 
 	// Finish initialization
 	Chat_Control(si, (getBool("HideChats", 1) ? WINDOW_HIDDEN : SESSION_INITDONE));
 	Chat_Control(si, SESSION_ONLINE);
-
-	PushRequest(new GetChatInfoRequest(tid));
 	return si;
 }
 
@@ -59,14 +61,10 @@ void CSkypeProto::OnLoadChats(MHttpResponse *response, AsyncHttpRequest*)
 		return;
 
 	auto &root = reply.data();
-	const JSONNode &metadata = root["_metadata"];
+	// const JSONNode &metadata = root["_metadata"];
 	const JSONNode &conversations = root["conversations"].as_array();
 
-	int totalCount = metadata["totalCount"].as_int();
-	std::string syncState = metadata["syncState"].as_string();
-
-	if (totalCount >= 99 || conversations.size() >= 99)
-		ReadHistoryRest(syncState.c_str());
+	// int totalCount = metadata["totalCount"].as_int();
 
 	for (auto &it : conversations) {
 		auto &props = it["threadProperties"];
@@ -373,7 +371,7 @@ void CSkypeProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 		AddChatContact(si, username, role, true);
 	}
 	
-	PushRequest(new GetHistoryRequest(T2Utf(si->ptszID), 100, 0, true));
+	PushRequest(new GetHistoryRequest(si->hContact, T2Utf(si->ptszID), 100, 0, true));
 }
 
 wchar_t* CSkypeProto::GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name)

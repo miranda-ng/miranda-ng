@@ -79,6 +79,8 @@ time_t CSkypeProto::IsoToUnixTime(const std::string &stamp)
 	return (t >= 0) ? t : 0;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+
 struct HtmlEntity
 {
 	const char *entity;
@@ -473,6 +475,21 @@ bool CSkypeProto::IsMe(const wchar_t *str)
 bool CSkypeProto::IsMe(const char *str)
 {
 	return (!mir_strcmpi(str, m_szMyname) || !mir_strcmp(str, m_szOwnSkypeId));
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+int64_t CSkypeProto::getLastTime(MCONTACT hContact)
+{
+	ptrA szLastTime(getStringA(hContact, "LastMsgTime"));
+	return (szLastTime) ? _atoi64(szLastTime) : 0;
+}
+
+void CSkypeProto::setLastTime(MCONTACT hContact, int64_t iValue)
+{
+	char buf[100];
+	_i64toa(iValue, buf, 10);
+	setString(hContact, "LastMsgTime", buf);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

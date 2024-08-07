@@ -25,6 +25,7 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 	if (reply.error())
 		return;
 
+	auto *pOrig = (GetHistoryRequest *)pRequest;
 	auto &root = reply.data();
 	const JSONNode &metadata = root["_metadata"];
 
@@ -33,7 +34,9 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 
 	bool markAllAsUnread = getBool("MarkMesUnread", true);
 	bool bUseLocalTime = !bUseServerTime && pRequest->pUserInfo != 0;
-	uint32_t lastMsgTime = 0;
+	bool bSetLastTime = false;
+
+	int64_t lastMsgTime = 0; // max timestamp on this page
 	time_t iLocalTime = time(0);
 
 	auto &conv = root["messages"];
@@ -47,24 +50,19 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 
 		MCONTACT hContact = FindContact(szChatId);
 
-		time_t timestamp = IsoToUnixTime(message["composetime"].as_string());
-		if (timestamp > getDword(hContact, "LastMsgTime", 0))
-			setDword(hContact, "LastMsgTime", timestamp);
-
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
 		dbei.hContact = hContact;
 		dbei.szModule = m_szModuleName;
-		dbei.timestamp = timestamp;
+		dbei.timestamp = (bUseLocalTime) ? iLocalTime : IsoToUnixTime(message["composetime"].as_string());
 		dbei.szId = szMessageId;
 		if (iUserType == 19)
 			dbei.szUserId = szFrom;
 
-		uint32_t id = message["id"].as_int();
-		if (id > lastMsgTime)
+		int64_t id = _atoi64(message["id"].as_string().c_str());
+		if (id > lastMsgTime) {
+			bSetLastTime = true;
 			lastMsgTime = id;
-
-		if (bUseLocalTime)
-			timestamp = iLocalTime;
+		}
 
 		dbei.flags = DBEF_UTF;
 		if (!markAllAsUnread)
@@ -80,37 +78,20 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		}
 	}
 
-	if (totalCount >= 99 || conv.size() >= 99) {
-		CMStringA szUrl(pRequest->m_szUrl);
-		int i1 = szUrl.Find("startTime=");
-		int i2 = szUrl.Find("&", i1);
-		if (i1 != -1 && i2 != -1) {
-			i1 += 10;
-			szUrl.Delete(i1, i2 - i1);
+	if (bSetLastTime && lastMsgTime > getLastTime(pOrig->hContact))
+		setLastTime(pOrig->hContact, lastMsgTime);
 
-			char buf[100];
-			itoa(lastMsgTime, buf, sizeof(buf));
-			szUrl.Insert(i1, buf);
-
-			PushRequest(new GetHistoryRequest(szUrl, pRequest->pUserInfo));
-		}
-	}
-}
-
-void CSkypeProto::ReadHistoryRest(const char *szUrl)
-{
-	auto *p = strstr(szUrl, g_plugin.szDefaultServer);
-	if (p)
-		PushRequest(new SyncHistoryFirstRequest(p+ g_plugin.szDefaultServer.GetLength()+3));
+	if (totalCount >= 99 || conv.size() >= 99)
+		PushRequest(new GetHistoryRequest(pOrig->hContact, pOrig->m_who, 100, lastMsgTime, pRequest->pUserInfo != 0));
 }
 
 INT_PTR CSkypeProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(getId(hContact), 100, 0, false));
+	PushRequest(new GetHistoryRequest(hContact, getId(hContact), 100, 0, false));
 	return 0;
 }
 
-void CSkypeProto::OnSyncHistory(MHttpResponse *response, AsyncHttpRequest*)
+void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (reply.error())
@@ -120,11 +101,8 @@ void CSkypeProto::OnSyncHistory(MHttpResponse *response, AsyncHttpRequest*)
 	const JSONNode &metadata = root["_metadata"];
 	const JSONNode &conversations = root["conversations"].as_array();
 
-	int totalCount = metadata["totalCount"].as_int();
+	// int totalCount = metadata["totalCount"].as_int();
 	std::string syncState = metadata["syncState"].as_string();
-
-	if (totalCount >= 99 || conversations.size() >= 99)
-		ReadHistoryRest(syncState.c_str());
 
 	for (auto &conversation : conversations) {
 		const JSONNode &lastMessage = conversation["lastMessage"];
@@ -135,13 +113,13 @@ void CSkypeProto::OnSyncHistory(MHttpResponse *response, AsyncHttpRequest*)
 		std::string strConversationLink = lastMessage["conversationLink"].as_string();
 		CMStringA szSkypename = UrlToSkypeId(strConversationLink.c_str(), &iUserType);
 		if (iUserType == 8 || iUserType == 2) {
-			time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string()));
+			int64_t id = _atoi64(lastMessage["id"].as_string().c_str());
 
 			MCONTACT hContact = FindContact(szSkypename);
 			if (hContact != NULL) {
-				uint32_t lastMsgTime = getDword(hContact, "LastMsgTime", 0);
-				if (lastMsgTime && lastMsgTime < composeTime)
-					PushRequest(new GetHistoryRequest(szSkypename, 100, lastMsgTime, true));
+				auto lastMsgTime = getLastTime(hContact);
+				if (lastMsgTime && lastMsgTime < id)
+					PushRequest(new GetHistoryRequest(hContact, szSkypename, 100, lastMsgTime, true));
 			}
 		}
 	}
