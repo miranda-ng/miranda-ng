@@ -265,8 +265,7 @@ void CDiscordProto::OnCommandFriendRemoved(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandGuildCreated(const JSONNode &pRoot)
 {
-	if (m_bUseGroupchats)
-		ProcessGuild(pRoot);
+	ProcessGuild(pRoot);
 }
 
 void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
@@ -623,9 +622,8 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 
 	m_szGatewaySessionId = pRoot["session_id"].as_mstring();
 
-	if (m_bUseGroupchats)
-		for (auto &it : pRoot["guilds"])
-			ProcessGuild(it);
+	for (auto &it : pRoot["guilds"])
+		ProcessGuild(it);
 
 	for (auto &it : pRoot["relationships"]) {
 		CDiscordUser *pUser = PrepareUser(it["user"]);

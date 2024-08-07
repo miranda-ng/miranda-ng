@@ -121,6 +121,9 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 
 void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 {
+	if (!m_bUseGroupchats)
+		return;
+
 	SnowFlake guildId = ::getId(pRoot["id"]);
 
 	CDiscordGuild *pGuild = FindGuild(guildId);
@@ -146,13 +149,14 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 
 	Chat_Control(si, WINDOW_HIDDEN);
 	Chat_Control(si, SESSION_ONLINE);
-
+	
 	for (auto &it : pRoot["roles"])
 		pGuild->ProcessRole(it);
 
 	BuildStatusList(pGuild, si);
 
-	if (!pGuild->m_bSynced && getByte(si->hContact, DB_KEY_ENABLE_SYNC))
+	bool bEnableSync = getByte(si->hContact, DB_KEY_ENABLE_SYNC);
+	if (!pGuild->m_bSynced && bEnableSync)
 		GatewaySendGuildInfo(pGuild);
 
 	// store all guild members
@@ -183,7 +187,7 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	for (auto &it : pGuild->arChatUsers)
 		AddGuildUser(pGuild, *it);
 
-	if (!m_bTerminated)
+	if (!m_bTerminated && bEnableSync)
 		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
 
 	pGuild->m_bSynced = true;
