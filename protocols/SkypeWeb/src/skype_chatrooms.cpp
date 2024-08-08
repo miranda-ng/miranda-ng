@@ -54,25 +54,6 @@ SESSION_INFO* CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tnam
 	return si;
 }
 
-void CSkypeProto::OnLoadChats(MHttpResponse *response, AsyncHttpRequest*)
-{
-	JsonReply reply(response);
-	if (reply.error())
-		return;
-
-	auto &root = reply.data();
-	// const JSONNode &metadata = root["_metadata"];
-	const JSONNode &conversations = root["conversations"].as_array();
-
-	// int totalCount = metadata["totalCount"].as_int();
-
-	for (auto &it : conversations) {
-		auto &props = it["threadProperties"];
-		if (it["lastMessage"] && props["members"] && !props["lastleaveat"])
-			StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring());
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Group chat invitation dialog
 

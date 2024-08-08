@@ -18,16 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_CHATS_H_
 #define _SKYPE_REQUEST_CHATS_H_
 
-struct LoadChatsRequest : public AsyncHttpRequest
-{
-	LoadChatsRequest() :
-		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CSkypeProto::OnLoadChats)
-	{
-		this << INT_PARAM("startTime", 0) << INT_PARAM("pageSize", 100)
-			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Thread");
-	}
-};
-
 struct SendChatMessageRequest : public AsyncHttpRequest
 {
 	SendChatMessageRequest(const char *to, time_t timestamp, const char *message) :

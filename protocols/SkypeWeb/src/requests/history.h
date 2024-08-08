@@ -18,13 +18,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_HISTORY_H_
 #define _SKYPE_REQUEST_HISTORY_H_
 
-struct SyncHistoryFirstRequest : public AsyncHttpRequest
+struct SyncConversations : public AsyncHttpRequest
 {
-	SyncHistoryFirstRequest(int pageSize) :
+	SyncConversations() :
 		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CSkypeProto::OnSyncConversations)
 	{
-		this << INT_PARAM("startTime", 0) << INT_PARAM("pageSize", pageSize)
-			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync");
+		this << INT_PARAM("startTime", 0) << INT_PARAM("pageSize", 100)
+			<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread");
 	}
 };
 

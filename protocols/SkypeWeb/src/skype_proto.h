@@ -161,7 +161,6 @@ public:
 	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnLoadChats(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnReceiveAwayMsg(MHttpResponse *response, AsyncHttpRequest *pRequest);
 

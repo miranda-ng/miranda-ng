@@ -104,8 +104,8 @@ void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*
 	// int totalCount = metadata["totalCount"].as_int();
 	std::string syncState = metadata["syncState"].as_string();
 
-	for (auto &conversation : conversations) {
-		const JSONNode &lastMessage = conversation["lastMessage"];
+	for (auto &it: conversations) {
+		const JSONNode &lastMessage = it["lastMessage"];
 		if (!lastMessage)
 			continue;
 
@@ -118,9 +118,14 @@ void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*
 			MCONTACT hContact = FindContact(szSkypename);
 			if (hContact != NULL) {
 				auto lastMsgTime = getLastTime(hContact);
-				if (lastMsgTime && lastMsgTime < id)
+				if (lastMsgTime && lastMsgTime < id && bAutoHistorySync)
 					PushRequest(new GetHistoryRequest(hContact, szSkypename, 100, lastMsgTime, true));
 			}
+		}
+		else if (iUserType == 19) {
+			auto &props = it["threadProperties"];
+			if (props["members"] && !props["lastleaveat"])
+				StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring());
 		}
 	}
 
