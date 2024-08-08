@@ -112,7 +112,17 @@ void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*
 		int iUserType;
 		std::string strConversationLink = lastMessage["conversationLink"].as_string();
 		CMStringA szSkypename = UrlToSkypeId(strConversationLink.c_str(), &iUserType);
-		if (iUserType == 8 || iUserType == 2) {
+		switch (iUserType) {
+		case 19:
+			{
+				auto &props = it["threadProperties"];
+				if (props["members"] && !props["lastleaveat"])
+					StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring());
+			}
+			__fallthrough;
+
+		case 8:
+		case 2:
 			int64_t id = _atoi64(lastMessage["id"].as_string().c_str());
 
 			MCONTACT hContact = FindContact(szSkypename);
@@ -121,11 +131,6 @@ void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*
 				if (lastMsgTime && lastMsgTime < id && bAutoHistorySync)
 					PushRequest(new GetHistoryRequest(hContact, szSkypename, 100, lastMsgTime, true));
 			}
-		}
-		else if (iUserType == 19) {
-			auto &props = it["threadProperties"];
-			if (props["members"] && !props["lastleaveat"])
-				StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring());
 		}
 	}
 
