@@ -146,8 +146,6 @@ void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 
 	auto &root = reply.data();
 	for (auto &item : root["contacts"]) {
-		const JSONNode &name = item["name"];
-
 		CMStringA szSkypeId = item["person_id"].as_mstring();
 		if (!IsPossibleUserType(szSkypeId))
 			continue;
@@ -170,33 +168,48 @@ void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 			delSetting(hContact, "IsBlocked");
 
 		ptrW wszGroup(Clist_GetGroup(hContact));
-		if (wszGroup == nullptr) {
-			if (wstrCListGroup) {
-				Clist_GroupCreate(0, wstrCListGroup);
-				Clist_SetGroup(hContact, wstrCListGroup);
+		if (wszGroup == nullptr && wstrCListGroup) {
+			Clist_GroupCreate(0, wstrCListGroup);
+			Clist_SetGroup(hContact, wstrCListGroup);
+		}
+
+		auto &profile = item["profile"];
+		SetString(hContact, "Homepage", profile["website"]);
+
+		auto wstr = profile["birthday"].as_mstring();
+		if (!wstr.IsEmpty() ) {
+			int nYear, nMonth, nDay;
+			if (swscanf(wstr, L"%d-%d-%d", &nYear, &nMonth, &nDay) == 3) {
+				setWord(hContact, "BirthYear", nYear);
+				setByte(hContact, "BirthMonth", nMonth);
+				setByte(hContact, "BirthDay", nDay);
 			}
 		}
 
+		wstr = profile["gender"].as_mstring();
+		if (wstr == "male")
+			setByte(hContact, "Gender", 'M');
+		else if (wstr == "female")
+			setByte(hContact, "Gender", 'F');
+
+		auto &name = profile["name"];
 		SetString(hContact, "FirstName", name["first"]);
 		SetString(hContact, "LastName", name["surname"]);
 
-		if (item["mood"])
+		if (profile["mood"])
 			db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_mstring()));
 
-		SetAvatarUrl(hContact, item["avatar_url"].as_mstring());
+		SetAvatarUrl(hContact, profile["avatar_url"].as_mstring());
 		ReloadAvatarInfo(hContact);
 
-		for (auto &phone : item["phones"]) {
+		for (auto &phone : profile["phones"]) {
 			CMStringW number = phone["number"].as_mstring();
 
-			switch (phone["type"].as_int()) {
-			case 0:
-				setWString(hContact, "Phone", number);
-				break;
-			case 2:
+			auto wszType = phone["type"].as_mstring();
+			if (wszType == L"mobile")
 				setWString(hContact, "Cellular", number);
-				break;
-			}
+			else if (wszType == L"phone")
+				setWString(hContact, "Phone", number);
 		}
 	}
 
