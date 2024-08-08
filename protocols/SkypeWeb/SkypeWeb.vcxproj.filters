@@ -67,9 +67,6 @@
     <ClCompile Include="src\skype_search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\skype_trouter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

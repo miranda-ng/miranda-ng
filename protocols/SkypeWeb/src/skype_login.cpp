@@ -41,6 +41,15 @@ void CSkypeProto::CheckConvert()
 	}
 }
 
+void CSkypeProto::ProcessTimer()
+{
+	if (!IsOnline())
+		return;
+
+	PushRequest(new GetContactListRequest());
+	SendPresence();
+}
+
 void CSkypeProto::Login()
 {
 	CheckConvert();
@@ -208,8 +217,6 @@ void CSkypeProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 				m_szId = val.Detach();
 		}
 	}
-
-	RefreshStatuses();
 
 	PushRequest(new CreateSubscriptionsRequest());
 }

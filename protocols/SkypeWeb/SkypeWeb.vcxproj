@@ -46,7 +46,6 @@
     <ClCompile Include="src\skype_profile.cpp" />
     <ClCompile Include="src\skype_proto.cpp" />
     <ClCompile Include="src\skype_search.cpp" />
-    <ClCompile Include="src\skype_trouter.cpp" />
     <ClCompile Include="src\skype_utils.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
