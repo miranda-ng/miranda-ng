@@ -66,21 +66,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 
 CSkypeProto::~CSkypeProto()
 {
-	if (m_hRequestQueueThread) {
-		m_hRequestQueueEvent.Set();
-
-		WaitForSingleObject(m_hRequestQueueThread, INFINITE);
-		m_hRequestQueueThread = nullptr;
-	}
-
 	UninitPopups();
-
-	if (m_hPollingThread) {
-		m_hPollingEvent.Set();
-
-		WaitForSingleObject(m_hPollingThread, INFINITE);
-		m_hPollingThread = nullptr;
-	}
 }
 
 void CSkypeProto::OnModulesLoaded()
