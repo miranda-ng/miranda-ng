@@ -214,21 +214,23 @@ void CVkProto::OnSendMessage(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		JSONNode jnRoot;
 		const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 		if (jnResponse) {
-			debugLogA("CVkProto::OnSendMessage jnResponse %d", jnResponse.as_int());
-			switch (jnResponse.type()) {
-			case JSON_NUMBER:
-				iMessageId = jnResponse.as_int();
-				break;
-			case JSON_STRING:
-				if (swscanf(jnResponse.as_mstring(), L"%u", &iMessageId) != 1)
+			iMessageId = jnResponse["message_id"].as_int();
+			debugLogA("CVkProto::OnSendMessage jnResponse %d", iMessageId ? iMessageId : jnResponse.as_int());
+			if (!iMessageId)
+				switch (jnResponse.type()) {
+				case JSON_NUMBER:
+					iMessageId = jnResponse.as_int();
+					break;
+				case JSON_STRING:
+					if (swscanf(jnResponse.as_mstring(), L"%u", &iMessageId) != 1)
+						iMessageId = 0;
+					break;
+				case JSON_ARRAY:
+					iMessageId = jnResponse.as_array()[json_index_t(0)].as_int();
+					break;
+				default:
 					iMessageId = 0;
-				break;
-			case JSON_ARRAY:
-				iMessageId = jnResponse.as_array()[json_index_t(0)].as_int();
-				break;
-			default:
-				iMessageId = 0;
-			}
+				}
 
 			if (iMessageId > ReadQSWord(param->hContact, "lastmsgid"))
 				WriteQSWord(param->hContact, "lastmsgid", iMessageId);
