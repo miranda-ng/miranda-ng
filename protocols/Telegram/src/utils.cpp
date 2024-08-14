@@ -427,8 +427,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 
 	char szReplyId[100];
 
-	MEVENT hDbEvent = db_event_getById(m_szModuleName, F.pszId);
-	DB::EventInfo dbei(hDbEvent);
+	DB::EventInfo dbei(db_event_getById(m_szModuleName, F.pszId));
 	dbei.flags = DBEF_TEMPORARY;
 	dbei.timestamp = F.pMsg->date_;
 	dbei.szId = F.pszId;
@@ -446,7 +445,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 		DB::FILE_BLOB blob(dbei);
 		OnReceiveOfflineFile(blob);
 		blob.write(dbei);
-		db_event_edit(hDbEvent, &dbei, true);
+		db_event_edit(dbei.getEvent(), &dbei, true);
 		delete pRequest;
 	}
 	else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, pszFileName, F.szBody), dbei);
