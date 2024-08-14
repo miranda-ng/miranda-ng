@@ -113,7 +113,6 @@ bool CSkypeProto::ParseMessage(const JSONNode &node, DB::EventInfo &dbei)
 				return false;
 			}
 		}
-		else CallService(MS_PROTO_CONTACTISTYPING, dbei.hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 		if (strMessageType == "RichText")
 			wszContent = RemoveHtml(wszContent);
@@ -164,7 +163,7 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 
 	std::string strMessageType = node["messagetype"].as_string();
 	if (strMessageType == "Control/Typing") {
-		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_INFINITE);
+		CallService(MS_PROTO_CONTACTISTYPING, hContact, 30);
 		return;
 	}
 	if (strMessageType == "Control/ClearTyping") {
