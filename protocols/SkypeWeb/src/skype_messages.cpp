@@ -93,7 +93,7 @@ bool CSkypeProto::ParseMessage(const JSONNode &node, DB::EventInfo &dbei)
 	CMStringW wszContent = node["content"].as_mstring();
 
 	std::string strMessageType = node["messagetype"].as_string();
-	if (strMessageType == "RichText/Media_GenericFile" || strMessageType == "RichText/UriObject") {
+	if (strMessageType == "RichText/Media_GenericFile" || strMessageType == "RichText/Media_Video" || strMessageType == "RichText/UriObject" ) {
 		ProcessFileRecv(dbei.hContact, node["content"].as_string().c_str(), dbei);
 		return false;
 	}
@@ -224,6 +224,8 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 		ft->docId = str;
 	if (auto *str = xmlRoot->Attribute("uri"))
 		ft->url = str;
+	int iWidth = xmlRoot->IntAttribute("width", -1);
+	int iHeight = xmlRoot->IntAttribute("heighr", -1);
 	if (auto *str = xmlRoot->Attribute("type"))
 		pszFileType = str;
 	if (auto *xml = xmlRoot->FirstChildElement("FileSize"))
@@ -240,7 +242,7 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 	}
 
 	// ordinary file
-	if (!mir_strcmp(pszFileType, "File.1") || !mir_strcmp(pszFileType, "Picture.1")) {
+	if (!mir_strcmp(pszFileType, "File.1") || !mir_strcmp(pszFileType, "Picture.1") || !mir_strcmp(pszFileType, "Video.1")) {
 		MEVENT hEvent;
 		dbei.flags |= DBEF_TEMPORARY | DBEF_JSON;
 		if (dbei) {
@@ -256,6 +258,16 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 		DBVARIANT dbv = { DBVT_UTF8 };
 		dbv.pszVal = (char*)pszFileType;
 		db_event_setJson(hEvent, "skft", &dbv);
+
+		dbv.type = DBVT_DWORD;
+		if (iWidth != -1) {
+			dbv.dVal = iWidth;
+			db_event_setJson(hEvent, "w", &dbv);
+		}
+		if (iHeight != -1) {
+			dbv.dVal = iHeight;
+			db_event_setJson(hEvent, "h", &dbv);
+		}
 	}
 	else debugLogA("Invalid or unsupported file type <%s> ignored", pszFileType);
 }

@@ -30,11 +30,19 @@ void CSkypeProto::ReceiveFileThread(void *param)
 			{
 				auto &json = dbei.getJson();
 				auto skft = json["skft"].as_string();
+				
+				const char *preview;
+				if (skft == "Picture.1")
+					preview = "imgpsh_mobile_save_anim";
+				else if (skft == "Video.1")
+					preview = "video";
+				else
+					preview = "original";
 
 				MHttpRequest nlhr(REQUEST_GET);
 				nlhr.flags = NLHRF_HTTP11 | NLHRF_NOUSERAGENT;
 				nlhr.m_szUrl = blob.getUrl();
-				nlhr.m_szUrl.AppendFormat("/views/%s/status", skft == "Picture.1" ? "imgpsh_mobile_save_anim" : "original");
+				nlhr.m_szUrl.AppendFormat("/views/%s/status", preview);
 				nlhr.AddHeader("Accept", "*/*");
 				nlhr.AddHeader("Accept-Encoding", "gzip, deflate");
 				nlhr.AddHeader("Cookie", szCookie);
