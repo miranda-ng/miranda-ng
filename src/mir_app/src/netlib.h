@@ -92,8 +92,9 @@ public:
 
 class MFileChunkStorage : public MChunkHandler
 {
-	int fileId;
+	int fileId = -1;
 	size_t prevBlocks = 0;
+	const MFilePath &wszPath;
 
 	pfnDownloadCallback pCallback;
 	void *pCallbackInfo;

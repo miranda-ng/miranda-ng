@@ -1131,10 +1131,10 @@ MIR_APP_DLL(MHttpResponse *) Netlib_HttpTransaction(HNETLIBUSER nlu, MHttpReques
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MFileChunkStorage::MFileChunkStorage(const MFilePath &_1, pfnDownloadCallback _2, void *_3) :
+	wszPath(_1),
 	pCallback(_2),
 	pCallbackInfo(_3)
 {
-	fileId = _wopen(_1, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
 }
 
 MFileChunkStorage::~MFileChunkStorage()
@@ -1156,6 +1156,12 @@ void MFileChunkStorage::apply(MHttpResponse *nlhr)
 
 bool MFileChunkStorage::updateChunk(const void *pData, size_t cbLen)
 {
+	if (fileId == -1) {
+		fileId = _wopen(wszPath, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
+		if (fileId == -1)
+			return false;
+	}
+
 	if (cbLen != (unsigned)_write(fileId, pData, unsigned(cbLen))) {
 		_close(fileId);
 		fileId = -1;
@@ -1180,9 +1186,10 @@ MIR_APP_DLL(MHttpResponse *) Netlib_DownloadFile(
 	pfnDownloadCallback pCallback,
 	void *pCallbackInfo)
 {
-	MFileChunkStorage storage(wszFileName, pCallback, pCallbackInfo);
-	if (!storage)
-		return nullptr;
+	// prevent server from bothering with gzip/deflate while saving to file
+	if (!nlhr->FindHeader("Accept-Encoding"))
+		nlhr->AddHeader("Accept-Encoding", "none");
 
+	MFileChunkStorage storage(wszFileName, pCallback, pCallbackInfo);
 	return HttpTransactionWorker(nlu, nlhr, storage);
 }
