@@ -599,8 +599,9 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						dbei.timestamp = time(0);
 
 						DB::FILE_BLOB blob(dat->szFilenames, dat->szMsg);
-						if (auto *ppro = Proto_GetContactInstance(dat->hContact))
-							ppro->OnSendOfflineFile(dbei, blob, fs);
+						if (auto *pa = Proto_GetAccount(ack->szModule))
+							if (pa->ppro)
+								pa->ppro->OnSendOfflineFile(dbei, blob, fs);
 						blob.write(dbei);
 
 						db_event_add(dat->hContact, &dbei);
