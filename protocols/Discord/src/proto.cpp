@@ -80,6 +80,8 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	CreateProtoService(PS_LEAVECHAT, &CDiscordProto::SvcLeaveChat);
 
+	CreateProtoService(PS_OFFLINEFILE, &CDiscordProto::SvcOfflineFile);
+
 	CreateProtoService(PS_VOICE_CAPS, &CDiscordProto::VoiceCaps);
 
 	// Events
@@ -685,114 +687,4 @@ INT_PTR CDiscordProto::RequestFriendship(WPARAM hContact, LPARAM)
 {
 	AuthRequest(hContact, 0);
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct SendFileThreadParam
-{
-	MCONTACT hContact;
-	CMStringW wszDescr, wszFileName;
-
-	SendFileThreadParam(MCONTACT _p1, LPCWSTR _p2, LPCWSTR _p3) :
-		hContact(_p1),
-		wszFileName(_p2),
-		wszDescr(_p3)
-	{}
-};
-
-void CDiscordProto::SendFileThread(void *param)
-{
-	SendFileThreadParam *p = (SendFileThreadParam*)param;
-
-	FILE *in = _wfopen(p->wszFileName, L"rb");
-	if (in == nullptr) {
-		debugLogA("cannot open file %S for reading", p->wszFileName.c_str());
-	LBL_Error:
-		ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, param);
-		delete p;
-		return;
-	}
-
-	ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, param);
-
-	char szRandom[16], szRandomText[33];
-	Utils_GetRandom(szRandom, _countof(szRandom));
-	bin2hex(szRandom, _countof(szRandom), szRandomText);
-	CMStringA szBoundary(FORMAT, "----Boundary%s", szRandomText);
-
-	CMStringA szUrl(FORMAT, "/channels/%lld/messages", getId(p->hContact, DB_KEY_CHANNELID));
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveFile);
-	pReq->AddHeader("Content-Type", CMStringA("multipart/form-data; boundary=" + szBoundary));
-	pReq->AddHeader("Accept", "*/*");
-
-	szBoundary.Insert(0, "--");
-
-	CMStringA szBody;
-	szBody.Append(szBoundary + "\r\n");
-	szBody.Append("Content-Disposition: form-data; name=\"content\"\r\n\r\n");
-	szBody.Append(ptrA(mir_utf8encodeW(p->wszDescr)));
-	szBody.Append("\r\n");
-
-	szBody.Append(szBoundary + "\r\n");
-	szBody.Append("Content-Disposition: form-data; name=\"tts\"\r\n\r\nfalse\r\n");
-
-	wchar_t *pFileName = wcsrchr(p->wszFileName.GetBuffer(), '\\');
-	if (pFileName != nullptr)
-		pFileName++;
-	else
-		pFileName = p->wszFileName.GetBuffer();
-
-	szBody.Append(szBoundary + "\r\n");
-	szBody.AppendFormat("Content-Disposition: form-data; name=\"file\"; filename=\"%s\"\r\n", ptrA(mir_utf8encodeW(pFileName)).get());
-	szBody.AppendFormat("Content-Type: %S\r\n", ProtoGetAvatarMimeType(ProtoGetAvatarFileFormat(p->wszFileName)));
-	szBody.Append("\r\n");
-
-	size_t cbBytes = filelength(fileno(in));
-
-	szBoundary.Insert(0, "\r\n");
-	szBoundary.Append("--\r\n");
-	pReq->m_szParam.Truncate(int(szBody.GetLength() + szBoundary.GetLength() + cbBytes));
-
-	memcpy(pReq->m_szParam.GetBuffer(), szBody.c_str(), szBody.GetLength());
-	size_t cbRead = fread(pReq->m_szParam.GetBuffer() + szBody.GetLength(), 1, cbBytes, in);
-	fclose(in);
-	if (cbBytes != cbRead) {
-		debugLogA("cannot read file %S: %d bytes read instead of %d", p->wszFileName.c_str(), cbRead, cbBytes);
-		delete pReq;
-		goto LBL_Error;
-	}
-	
-	memcpy(pReq->m_szParam.GetBuffer() + szBody.GetLength() + cbBytes, szBoundary, szBoundary.GetLength());
-	pReq->pUserInfo = p;
-	Push(pReq);
-
-	ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTED, param);
-}
-
-void CDiscordProto::OnReceiveFile(MHttpResponse *pReply, AsyncHttpRequest *pReq)
-{
-	SendFileThreadParam *p = (SendFileThreadParam*)pReq->pUserInfo;
-	if (pReply->resultCode != 200) {
-		ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, p);
-		debugLogA("CDiscordProto::SendFile failed: %d", pReply->resultCode);
-	}
-	else {
-		ProtoBroadcastAck(p->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, p);
-		debugLogA("CDiscordProto::SendFile succeeded");
-	}
-
-	delete p;
-}
-
-HANDLE CDiscordProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
-{
-	SnowFlake id = getId(hContact, DB_KEY_CHANNELID);
-	if (id == 0)
-		return nullptr;
-
-	// we don't wanna block the main thread, right?
-	SendFileThreadParam *param = new SendFileThreadParam(hContact, ppszFiles[0], szDescription);
-	ForkThread(&CDiscordProto::SendFileThread, param);
-	return param;
 }

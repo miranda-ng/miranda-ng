@@ -273,6 +273,14 @@ struct CDiscordGuild : public MZeroedObject
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct CDiscordAttachment : public MZeroedObject
+{
+	CMStringA szFileName, szUrl;
+	int iFileSize;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define OPCODE_DISPATCH              0
 #define OPCODE_HEARTBEAT             1
 #define OPCODE_IDENTIFY              2
@@ -331,6 +339,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void __cdecl SearchThread(void *param);
 	void __cdecl BatchChatCreate(void* param);
 	void __cdecl GetAwayMsgThread(void *param);
+	void __cdecl OfflineFileThread(void *param);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// session control
@@ -366,6 +375,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 		m_szGateway,           // gateway url
 		m_szGatewaySessionId,  // current session id
 		m_szCookie,            // cookie used for all http queries
+		m_szFileCookie,        // cookie used for files downloads from CDN
 		m_szWSCookie;          // cookie used for establishing websocket connection
 	
 	HNETLIBUSER m_hGatewayNetlibUser; // the separate netlib user handle for gateways
@@ -550,12 +560,15 @@ public:
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
+	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob);
 	void     OnShutdown() override;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Services
 
 	INT_PTR __cdecl RequestFriendship(WPARAM, LPARAM);
+
+	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
 
 	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM, LPARAM);

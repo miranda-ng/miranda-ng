@@ -29,6 +29,7 @@
     <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\dispatch.cpp" />
+    <ClCompile Include="src\files.cpp" />
     <ClCompile Include="src\gateway.cpp" />
     <ClCompile Include="src\groupchat.cpp" />
     <ClCompile Include="src\guilds.cpp" />

@@ -360,18 +360,44 @@ CDiscordUser* CDiscordProto::PrepareUser(const JSONNode &user)
 CMStringW CDiscordProto::PrepareMessageText(const JSONNode &pRoot, CDiscordUser *pUser)
 {
 	CMStringW wszText = pRoot["content"].as_mstring();
+	CMStringA szUserId = pRoot["author"]["id"].as_mstring();
 
-	bool bDelimiterAdded = false;
+	bool bFilesAdded = false;
 	for (auto &it : pRoot["attachments"]) {
-		CMStringW wszUrl = it["url"].as_mstring();
-		if (!wszUrl.IsEmpty()) {
-			if (!bDelimiterAdded) {
-				bDelimiterAdded = true;
-				wszText.Append(L"\n-----------------");
-			}
-			wszText.AppendFormat(L"\n%s: %s", TranslateT("Attachment"), wszUrl.c_str());
+		CMStringA szUrl = it["url"].as_mstring();
+		if (szUrl.IsEmpty())
+			continue;
+
+		bFilesAdded = true;
+		CMStringA szId = it["id"].as_mstring();
+		
+		auto *pFile = new CDiscordAttachment();
+		pFile->szUrl = szUrl;
+		pFile->szFileName = it["filename"].as_mstring();
+		pFile->iFileSize = it["size"].as_int();
+
+		T2Utf szDescr(wszText);
+	
+		DB::EventInfo dbei(db_event_getById(m_szModuleName, szId));
+		dbei.flags = DBEF_TEMPORARY;
+		dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
+		dbei.szId = szId;
+		dbei.szUserId = szUserId;
+		if (_atoi64(szUserId) == m_ownId)
+			dbei.flags |= DBEF_READ | DBEF_SENT;
+
+		if (dbei) {
+			DB::FILE_BLOB blob(dbei);
+			OnReceiveOfflineFile(blob);
+			blob.write(dbei);
+			db_event_edit(dbei.getEvent(), &dbei, true);
+			delete pFile;
 		}
+		else ProtoChainRecvFile(pUser->hContact, DB::FILE_BLOB(pFile, pFile->szFileName, szDescr), dbei);
 	}
+
+	if (bFilesAdded)
+		return L"";
 
 	for (auto &it : pRoot["embeds"]) {
 		wszText.Append(L"\n-----------------");
