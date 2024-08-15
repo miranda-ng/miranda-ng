@@ -1579,7 +1579,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_DESTROY:
-		WindowList_Add(g_hNewstoryLogs, hwnd);
+		WindowList_Remove(g_hNewstoryLogs, hwnd);
 		delete data;
 		SetWindowLongPtr(hwnd, 0, 0);
 		break;
