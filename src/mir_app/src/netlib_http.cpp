@@ -95,12 +95,12 @@ EXTERN_C MIR_APP_DLL(bool) Netlib_FreeHttpRequest(MHttpResponse *nlhr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int RecvWithTimeoutTime(NetlibConnection *nlc, int dwTimeoutTime, char *buf, int len, int flags)
+static int RecvWithTimeoutTime(NetlibConnection *nlc, uint32_t dwTimeoutTime, char *buf, int len, int flags)
 {
 	if (!nlc->foreBuf.isEmpty() || Netlib_SslPending(nlc->hSsl)) 
 		return Netlib_Recv(nlc, buf, len, flags);
 
-	int dwTimeNow;
+	uint32_t dwTimeNow;
 	while ((dwTimeNow = GetTickCount()) < dwTimeoutTime) {
 		int dwDeltaTime = min(dwTimeoutTime - dwTimeNow, 1000);
 		int res = WaitUntilReadable(nlc->s, dwDeltaTime);
