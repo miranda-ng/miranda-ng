@@ -218,6 +218,9 @@ void CSkypeProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 		}
 	}
 
+	if (m_szId && m_hPollingThread == nullptr)
+		ForkThread(&CSkypeProto::PollingThread);
+
 	PushRequest(new CreateSubscriptionsRequest());
 }
 
@@ -273,8 +276,6 @@ void CSkypeProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 	PushRequest(new CreateContactsSubscriptionRequest(skypenames));
 	FreeList(skypenames);
 	skypenames.destroy();
-
-	m_hPollingEvent.Set();
 
 	PushRequest(new GetContactListRequest());
 	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl")), 0));

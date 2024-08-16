@@ -23,6 +23,7 @@ struct PollRequest : public AsyncHttpRequest
 	PollRequest(CSkypeProto *ppro) :
 		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(ppro->m_szId) + "/subscriptions/0/poll")
 	{
+		flags |= NLHRF_PERSISTENT;
 		timeout = 120000;
 
 		if (ppro->m_iPollingId != -1)

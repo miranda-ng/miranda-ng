@@ -21,44 +21,38 @@ void CSkypeProto::PollingThread(void *)
 {
 	debugLogA(__FUNCTION__ ": entering");
 
+	int nErrors = 0;
+	m_iPollingId = -1;
+
 	while (true) {
-		m_hPollingEvent.Wait();
-		if (m_isTerminated)
+		if (m_isTerminated || m_szId == nullptr)
 			break;
 
-		int nErrors = 0;
-		m_iPollingId = -1;
+		std::unique_ptr<PollRequest> request(new PollRequest(this));
+		request->nlc = m_hPollingConn;
+		NLHR_PTR response(DoSend(request.get()));
+		if (m_isTerminated || m_szId == nullptr)
+			break;
 
-		while ((nErrors < POLLING_ERRORS_LIMIT) && m_iStatus != ID_STATUS_OFFLINE) {
-			std::unique_ptr<PollRequest> request(new PollRequest(this));
-			NLHR_PTR response(DoSend(request.get()));
-			if (response == nullptr) {
+		if (response == nullptr || response->resultCode != 200) {
+			if (nErrors < POLLING_ERRORS_LIMIT) {
 				nErrors++;
 				continue;
 			}
-
-			if (response->resultCode == 200) {
-				nErrors = 0;
-				if (!response->body.IsEmpty())
-					ParsePollData(response->body);
-			}
-			else {
-				nErrors++;
-
-				if (!response->body.IsEmpty()) {
-					JSONNode root = JSONNode::parse(response->body);
-					const JSONNode &error = root["errorCode"];
-					if (error && error.as_int() == 729)
-						break;
-				}
-			}
+			break;
 		}
 
-		if (m_iStatus != ID_STATUS_OFFLINE) {
-			debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
-			SetStatus(ID_STATUS_OFFLINE);
-		}
+		m_hPollingConn = response->nlc;
+		if (!response->body.IsEmpty())
+			ParsePollData(response->body);
 	}
+
+	if (!m_isTerminated) {
+		debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
+		SetStatus(ID_STATUS_OFFLINE);
+	}
+
+	m_hPollingConn = nullptr;
 	m_hPollingThread = nullptr;
 	debugLogA(__FUNCTION__ ": leaving");
 }

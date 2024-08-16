@@ -176,8 +176,6 @@ private:
 	std::map<std::string, std::string> cookies;
 	static std::map<std::wstring, std::wstring> languages;
 
-	HANDLE m_hPollingThread;
-
 	LIST<void> m_PopupClasses;
 	LIST<void> m_OutMessages;
 
@@ -186,8 +184,9 @@ private:
 	mir_cs messageSyncLock;
 	mir_cs m_StatusLock;
 
-	EventHandle m_hPollingEvent;
-	
+	HANDLE m_hPollingThread;
+	HNETLIBCONN m_hPollingConn;
+
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
