@@ -75,6 +75,21 @@ struct DestroyChatroomRequest : public AsyncHttpRequest
 	}
 };
 
+struct GetChatMembersRequest : public AsyncHttpRequest
+{
+	GetChatMembersRequest(const LIST<char> &ids, SESSION_INFO *si) :
+		AsyncHttpRequest(REQUEST_POST, HOST_PEOPLE, "/profiles", &CSkypeProto::OnGetChatMembers)
+	{
+		JSONNode node, mris(JSON_ARRAY); mris.set_name("mris");
+		for (auto &it : ids)
+			mris.push_back(JSONNode("", it));
+		node << mris << CHAR_PARAM("locale", "en-US");
+		m_szParam = node.write().c_str();
+
+		pUserInfo = si;
+	}
+};
+
 struct GetChatInfoRequest : public AsyncHttpRequest
 {
 	GetChatInfoRequest(const wchar_t *chatId) :

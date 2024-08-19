@@ -156,16 +156,17 @@ public:
 	void OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnReceiveAwayMsg(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnReceiveAwayMsg(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void CheckConvert(void);
-
 	bool CheckOauth(const char *szResponse);
+	
 	void LoadProfile(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);
@@ -272,9 +273,9 @@ private:
 	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname);
 
 	bool OnChatEvent(const JSONNode &node);
-	wchar_t* GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name = nullptr);
+	wchar_t* GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name = nullptr, bool *isQualified = nullptr);
 
-	void AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
+	bool AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
 	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, bool isKick = false, const wchar_t *initiator = L"");
 	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
 
