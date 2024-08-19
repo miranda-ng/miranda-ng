@@ -27,10 +27,10 @@ void CSkypeProto::ReceiveFileThread(void *param)
 		else {
 			CMStringA szCookie, szUrl;
 			szCookie.AppendFormat("skypetoken_asm=%s", m_szApiToken.get());
+
+			auto &json = dbei.getJson();
+			auto skft = json["skft"].as_string();
 			{
-				auto &json = dbei.getJson();
-				auto skft = json["skft"].as_string();
-				
 				const char *preview;
 				if (skft == "Picture.1")
 					preview = "imgpsh_mobile_save_anim";
@@ -60,7 +60,14 @@ void CSkypeProto::ReceiveFileThread(void *param)
 			if (!szUrl.IsEmpty()) {
 				MHttpRequest nlhr(REQUEST_GET);
 				nlhr.flags = NLHRF_HTTP11 | NLHRF_NOUSERAGENT;
-				nlhr.m_szUrl = szUrl;
+				nlhr.m_szUrl = blob.getUrl();
+				if (skft == "Picture.1")
+					nlhr.m_szUrl += "/views/imgpsh_fullsize_anim";
+				else if (skft == "Video.1")
+					nlhr.m_szUrl += "/views/video";
+				else
+					nlhr.m_szUrl += "/views/original";
+
 				nlhr.AddHeader("Accept", "*/*");
 				nlhr.AddHeader("Accept-Encoding", "gzip, deflate");
 				nlhr.AddHeader("Cookie", szCookie);
