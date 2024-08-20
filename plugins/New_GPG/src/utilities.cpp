@@ -431,7 +431,7 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 				return Proto_ChainSend(w, ccs);
 		}
 		if (!supported_proto) {
-			if (MessageBox(nullptr, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for Jabber and MRA protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
+			if (MessageBox(nullptr, TranslateT("Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for Jabber protocol.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?"), TranslateT("File transfer warning"), MB_YESNO) == IDNO)
 				return Proto_ChainSend(w, ccs);
 		}
 		HistoryLog(ccs->hContact, TranslateU("encrypting file for transfer"), DBEF_SENT);
