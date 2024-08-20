@@ -142,3 +142,12 @@ struct CMPluginIcq : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 static g_pluginIcq;
+
+struct CMPluginMra : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginMra() : ACCPROTOPLUGIN<CDummyProto>("MRA", pluginInfoEx)
+	{
+		SetUniqueId("aimId");
+	}
+}
+static g_pluginMra;

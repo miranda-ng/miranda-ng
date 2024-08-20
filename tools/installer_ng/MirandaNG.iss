@@ -56,7 +56,6 @@ Source: "Files\Icons\Proto_Facebook.dll"; DestDir: "{app}\Icons"; Components: pr
 Source: "Files\Icons\Proto_IRC.dll"; DestDir: "{app}\Icons"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_Jabber.dll"; DestDir: "{app}\Icons"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_MetaContacts.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Icons\Proto_MRA.dll"; DestDir: "{app}\Icons"; Components: protocols\mra; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\xStatus_Jabber.dll"; DestDir: "{app}\Icons"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\TabSRMM_icons.dll"; DestDir: "{app}\Icons"; Components: messagewin\tabsrmm; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Toolbar_icons.dll"; DestDir: "{app}\Icons"; Components: clicts\modern; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -105,7 +104,6 @@ Source: "Files\pu_stub.exe"; DestDir: "{app}"; Components: program; Flags: ignor
 ; Protocols
 Source: "Files\Plugins\Dummy.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Facebook.dll"; DestDir: "{app}\Plugins"; Components: protocols\facebook; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Plugins\ICQ.dll"; DestDir: "{app}\Plugins"; Components: protocols\mra; Flags: ignoreversion; AfterInstall: ShowPercent()  
 Source: "Files\Plugins\IRC.dll"; DestDir: "{app}\Plugins"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Jabber.dll"; DestDir: "{app}\Plugins"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libsignal.mir"; DestDir: "{app}\Libs"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -140,7 +138,6 @@ Name: "protocols"; Description: "{cm:Protocols}"; Types: extended regular minima
 Name: "protocols\facebook"; Description: "{cm:Facebook}"; Types: extended regular minimal 
 Name: "protocols\irc"; Description: "{cm:Irc}"; Types: extended regular minimal 
 Name: "protocols\jabber"; Description: "{cm:Jabber}"; Types: extended regular minimal 
-Name: "protocols\mra"; Description: "{cm:Mra}"; Types: extended regular minimal 
 Name: "clists"; Description: "{cm:Clists}"; Types: extended regular minimal custom; Flags: fixed 
 Name: "clicts\stdclist"; Description: "{cm:StdClist}"; Types: minimal; Flags: exclusive 
 Name: "clicts\blind"; Description: "{cm:BlindClist}"; Types: custom; Flags: exclusive 
@@ -207,7 +204,6 @@ en.Protocols=Protocols
 en.Facebook=Facebook protocol
 en.Irc=IRC protocol
 en.Jabber=Jabber protocol
-en.Mra=MRA protocol
 en.Clists=Contact lists
 en.StdClist=StdClist contact list
 en.BlindClist=Contact list for blind folks
@@ -233,7 +229,6 @@ en.ProtocolsDescription=Various protocols for instant messaging and more.
 en.ProtocolsFbDescription=Facebook protocol support for Miranda NG. More advanced than XMPP facebook chat, supporting posting statuses, authorizations, searching contacts, and much more.
 en.ProtocolsIRCDescription=Internet Relay Chat (IRC) protocol support for Miranda NG.
 en.ProtocolsJabberDescription=Open-standard communications protocol (XMPP) for message-oriented middleware based on XML.
-en.ProtocolsMRADescription=MRA (WIM) protocol support for Miranda NG.
 en.ClistsDescription=Contact list plugins.
 en.StdClistDescription=Basic contact list core module.
 en.BlindClistDescription=This is a contact list for blind folks. It uses a list control to show all contacts, so screen readers can "read" the clist to the user.
@@ -277,7 +272,6 @@ ru.Protocols=Протоколы
 ru.Facebook=Протокол Facebook
 ru.Irc=Протокол IRC
 ru.Jabber=Протокол Jabber
-ru.Mra=Протокол MRA
 ru.Clists=Списки контактов
 ru.StdClist=Список контактов StdClist
 ru.BlindClist=Список контактов для слабовидящих
@@ -303,7 +297,6 @@ ru.ProtocolsDescription=Различные протоколы для обмен�
 ru.ProtocolsFbDescription=Поддержка протокола Facebook в Miranda NG. Поддержка статусов, поиск контактов, авторизация и не только.
 ru.ProtocolsIRCDescription=Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
 ru.ProtocolsJabberDescription=Поддержка протокола Jabber (XMPP) в Miranda NG. Протокол основан на открытых стандартах, базирующихся на XML.
-ru.ProtocolsMRADescription=Поддержка протокола MRA (WIM) в Miranda NG.
 ru.ClistsDescription=Плагины списков контактов.
 ru.StdClistDescription=Список контактов, являющийся модулем ядра, обеспечивает базовый функционал.
 ru.BlindClistDescription=Список контактов для слабовидящих. Вспомогательные программы для людей с проблемами зрения могут легко "считать" информацию пользователю.
@@ -347,7 +340,6 @@ cz.protocols=Protokoly
 cz.Facebook=Facebook protokol
 cz.Irc=IRC protokol
 cz.Jabber=Jabber protokol
-cz.Mra=MRA protokol
 cz.Clists=Seznamy kontaktů
 cz.StdClist=StdClist
 cz.BlindClist=Clist_blind (pro nevidomé)
@@ -373,7 +365,6 @@ cz.protocolsDescription=Různé protokoly pro rychlou komunikaci a další funkc
 cz.protocolsFbDescription=Facebook protokol pro Mirandu NG. Pokročilejší verze než Facebook chat přes Jabber (XMPP). Podporuje sdílení stavů, neviditelnost, autorizace, vyhledávání kontaktů a mnohem více.
 cz.protocolsIRCDescription=Internet Relay Chat (IRC) protokol pro Mirandu NG.
 cz.protocolsJabberDescription=Otevřený komunikační protokol Jabber (XMPP) pro Mirandu NG.
-cz.protocolsMRADescription=MRA (WIM) protokol pro Mirandu NG. 
 cz.ClistsDescription=Doplňky pro seznamy kontaktů.
 cz.StdClistDescription=Základní integrovaný modul pro seznam kontaktů.
 cz.BlindClistDescription=Seznam kontaktů pro nevidomé uživatele. Pro zobrazení kontaktů využívá jednoduchý seznam, který může být jednoduše přečten.
@@ -417,7 +408,6 @@ de.Protocols=Protokolle
 de.Facebook=Facebook-Protokoll
 de.Irc=IRC-Protokoll
 de.Jabber=Jabber-Protokoll
-de.Mra=MRA-Protokoll
 de.Clists=Kontaktlisten
 de.StdClist=Klassische Kontaktliste
 de.BlindClist=Kontaktliste für Blinde
@@ -443,7 +433,6 @@ de.ProtocolsDescription=Verschiedene Protokolle für Sofortnachrichten und mehr.
 de.ProtocolsFbDescription=Facebook-Protokollunterstützung für Miranda NG. Funktionsreicher als der XMPP-Facebook-Chat, unterstützt das Veröffentlichen neuer Statusnachrichren, Autorisierung, Kontaktsuche und vieles mehr.
 de.ProtocolsIRCDescription=Internet-Relay-Chat- (IRC-)Protokollunterstützung für Miranda NG.
 de.ProtocolsJabberDescription=Unterstützung des Extensible Messaging and Presence Protocols (XMPP) für Miranda NG.
-de.ProtocolsMRADescription=MRA- (WIM-)Protokollunterstützung für Miranda NG.
 de.ClistsDescription=Kontaktlistenplugins.
 de.StdClistDescription=Grundlegendes Kontaktlisten-Kernmodul.
 de.BlindClistDescription=Dies ist eine Kontaktliste für Blinde. Sie benutzt eine Liste, um alle Kontakte anzuzeigen, so dass Bildschirmleser die Kontaktliste dem Benutzer "vorlesen" können.
@@ -487,7 +476,6 @@ pl.Protocols=Protokoły
 pl.Facebook=Facebook
 pl.Irc=IRC
 pl.Jabber=Jabber
-pl.Mra=MRA
 pl.Clists=Lista kontaktów
 pl.StdClist=Lista klasyczna (StdClist)
 pl.BlindClist=Dla niewidomych (Blind)
@@ -513,7 +501,6 @@ pl.ProtocolsDescription=Wtyczki zapewniające wspracie dla różnych protokołó
 pl.ProtocolsFbDescription=Zapewnia obsługę protokołu Facebook. Dostarcza więcej niż czat facebooka przez XMPP. Wspiera ustawianie statusu, zatwierdzanie znajomości, wyszukiwanie kontaktów i wiele inncyh.
 pl.ProtocolsIRCDescription=Zapewnia obsługę protokołu Internet Relay Chat (IRC).
 pl.ProtocolsJabberDescription=Zapewnia obsługę protokołu Jabber/XMPP.
-pl.ProtocolsMRADescription=Zapewnia obsługę protokołu MRA (WIM).
 pl.ClistsDescription=Wtyczki listy kontaktów.
 pl.StdClistDescription=Podstawowy moduł listy kontaktów zawarty w rdzeniu.
 pl.BlindClistDescription=Jest to lista kontaktów dla ludzi niewidomych. Używa kontrolki listy, aby pokazać wszystkie kontakty, dzięki temu czytnik ekranu może "czytać" listę użtkownikowi.
@@ -582,7 +569,7 @@ const
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
 
   // don't forget to increment it after adding new components!
-  COMPONENTS_COUNT = 18; // Index of the first language
+  COMPONENTS_COUNT = 17; // Index of the first language
 
 // Default installation check
 function IsDefault: Boolean;
@@ -793,7 +780,6 @@ begin
     ComponentList.Add('protocols\facebook');
     ComponentList.Add('protocols\irc');
     ComponentList.Add('protocols\jabber');
-    ComponentList.Add('protocols\mra');
     ComponentList.Add('clists');
     ComponentList.Add('clists\stdclist');
     ComponentList.Add('clists\blind');
@@ -879,7 +865,6 @@ begin
     ExpandConstant('{cm:ProtocolsFbDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsIRCDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsJabberDescription}') + ';' +
-    ExpandConstant('{cm:ProtocolsMRADescription}') + ';' +
     ExpandConstant('{cm:ClistsDescription}') + ';' +
     ExpandConstant('{cm:StdClistDescription}') + ';' +
     ExpandConstant('{cm:BlindClistDescription}') + ';' +

@@ -54,7 +54,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="FTPFile.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libcurl.mir" "Libs\libssh2.mir")
 	if /I "%%a"=="GG.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_GG.dll")
 	if /I "%%a"=="HistoryPP.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\HistoryPP_icons.dll")
-	if /I "%%a"=="ICQ.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_MRA.dll")
 	if /I "%%a"=="IRC.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_IRC.dll")
 	if /I "%%a"=="Import.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\Import\*.ini")
 	if /I "%%a"=="Jabber.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Jabber.dll" "Icons\xStatus_Jabber.dll" "Libs\libsignal.mir")

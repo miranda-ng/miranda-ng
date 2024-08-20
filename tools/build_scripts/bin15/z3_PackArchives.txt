@@ -69,7 +69,6 @@ Icons\Proto_Facebook.dll
 Icons\Proto_IRC.dll
 Icons\Proto_Jabber.dll
 Icons\Proto_MetaContacts.dll
-Icons\Proto_MRA.dll
 Icons\TabSRMM_icons.dll
 Icons\Toolbar_icons.dll
 Icons\xStatus_Jabber.dll
@@ -81,7 +80,6 @@ Plugins\DbChecker.dll
 Plugins\Dbx_sqlite.dll
 Plugins\Dummy.dll
 Plugins\Facebook.dll
-Plugins\ICQ.dll
 Plugins\Import.dll
 Plugins\IRC.dll
 Plugins\Jabber.dll

@@ -61,7 +61,6 @@ Plugins\historystats.dll
 Plugins\historysweeperlight.dll
 Plugins\httpserver.dll
 Plugins\hwhotkeys.dll
-Plugins\icq.dll
 Plugins\icqcorp.dll
 Plugins\iehistory.dll
 Plugins\ieview.dll
@@ -210,7 +209,6 @@ Icons\proto_irc.dll
 Icons\proto_jabber.dll
 Icons\proto_metacontacts.dll
 Icons\proto_minecraftdynmap.dll
-Icons\proto_mra.dll
 Icons\proto_mradio.dll
 Icons\proto_newsaggregator.dll
 Icons\proto_sametime.dll

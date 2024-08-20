@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Proto_ICQ.rc
+// Used by Proto_Discord.rc
 //
 #define IDI_ICON1                       105
 #define IDI_ICON2                       104
