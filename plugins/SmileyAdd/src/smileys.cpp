@@ -865,24 +865,11 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 
 void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, const CMStringW &defaultFile)
 {
-	char *proto = Proto_GetBaseAccountName(hContact);
-	if (proto == nullptr)
-		return;
-
-	CMStringW displayName(db_get_wsm(hContact, proto, "Transport"));
-	if (displayName.IsEmpty())
-		return;
-
-	char *trsp = mir_u2a(displayName);
-	_strlwr(trsp);
-
-	const char *packname = nullptr;
-	if (strstr(trsp, "icq") != nullptr)
-		packname = "icq";
-
-	mir_free(trsp);
-
-	AddCategory(displayName, displayName, smcTransportProto, defaultFile);
+	if (char *proto = Proto_GetBaseAccountName(hContact)) {
+		CMStringW displayName(db_get_wsm(hContact, proto, "Transport"));
+		if (!displayName.IsEmpty())
+			AddCategory(displayName, displayName, smcTransportProto, defaultFile);
+	}
 }
 
 void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
