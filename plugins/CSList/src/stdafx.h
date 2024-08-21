@@ -70,7 +70,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 //====[ DEFAULT DB VALUES ]==================================================
 
-#define DEFAULT_ICQ_XSTATUS_ENABLED                 1
 #define DEFAULT_PLUGIN_SHOW_RELNOTES                0
 #define DEFAULT_PLUGIN_SHOW_NONSTANDARD_XSTATUSES   1
 #define DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION       1
