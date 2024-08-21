@@ -74,8 +74,6 @@ wchar_t* GetStatusTypeAsString(int type, wchar_t *buff)
 		mir_wstrcpy(buff, TranslateT("Mood")); return buff;
 	case TYPE_JABBER_ACTIVITY:
 		mir_wstrcpy(buff, TranslateT("Activity")); return buff;
-	case TYPE_ICQ_XSTATUS:
-		mir_wstrcpy(buff, TranslateT("xStatus")); return buff;
 	default:
 		mir_wstrcpy(buff, TranslateT("<unknown>")); return buff;
 	}
@@ -169,10 +167,6 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 			db_free(&dbv);
 		}
 		break;
-
-	case TYPE_ICQ_XSTATUS:
-		int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
-		hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
 	}
 
 	if (hIcon == nullptr)
@@ -232,9 +226,6 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 				db_free(&dbv);
 			}
 			break;
-		case TYPE_ICQ_XSTATUS:
-			int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
-			hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
 		}
 	}
 
@@ -371,10 +362,6 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	if (g_plugin.getByte(xsc->szProto, 1) == 0 && !opt.PXOnConnect)
 		bEnablePopup = false;
 
-	int xstatusID = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
-	if (opt.PXDisableForMusic && xsc->type == TYPE_ICQ_XSTATUS && xstatusID == XSTATUS_MUSIC)
-		bEnableSound = bEnablePopup = false;
-
 	if (bEnablePopup && g_plugin.getByte(xsc->hContact, "EnablePopups", 1) && g_plugin.bPopups)
 		ShowXStatusPopup(xsc);
 
@@ -383,9 +370,6 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 
 	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && g_plugin.bPopups)
 		BlinkXStatusIcon(xsc);
-
-	if (opt.XLogDisableForMusic && xsc->type == TYPE_ICQ_XSTATUS && xstatusID == XSTATUS_MUSIC)
-		bEnableLog = false;
 
 	if (!(templates.LogXFlags & xsc->action))
 		bEnableLog = false;
@@ -480,13 +464,6 @@ void AddXStatusEventThread(void *arg)
 		if (stzTitle[0]) {
 			GetJabberAdvStatusText(hContact, szProto, "activity", "text", stzText, _countof(stzText));
 			LogXstatusChange(hContact, szProto, TYPE_JABBER_ACTIVITY, stzTitle, stzText);
-		}
-	}
-	else {
-		GetIcqXStatus(hContact, szProto, "XStatusName", stzTitle, _countof(stzTitle));
-		if (stzTitle[0]) {
-			GetIcqXStatus(hContact, szProto, "XStatusMsg", stzText, _countof(stzText));
-			LogXstatusChange(hContact, szProto, TYPE_ICQ_XSTATUS, stzTitle, stzText);
 		}
 	}
 }

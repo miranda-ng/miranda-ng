@@ -68,7 +68,6 @@ void LoadOptions()
 	
 	// IDD_OPT_XPOPUP
 	opt.PXOnConnect = g_plugin.getByte("PXOnConnect", 0);
-	opt.PXDisableForMusic = g_plugin.getByte("PXDisableForMusic", 1);
 	opt.PXMsgTruncate = g_plugin.getByte("PXMsgTruncate", 0);
 	opt.PXMsgLen = g_plugin.getDword("PXMsgLen", 64);
 	
@@ -103,7 +102,6 @@ void LoadOptions()
 	opt.XLogToDB = g_plugin.getByte("XLogToDB", 0);
 	opt.XLogToDB_WinOpen = g_plugin.getByte("XLogToDB_WinOpen", 1);
 	opt.XLogToDB_Remove = g_plugin.getByte("XLogToDB_Remove", 0);
-	opt.XLogDisableForMusic = g_plugin.getByte("XLogDisableForMusic", 1);
 	
 	// IDD_OPT_SMPOPUP
 	opt.PSMsgOnConnect = g_plugin.getByte("PSMsgOnConnect", 0);
@@ -162,7 +160,6 @@ void SaveOptions()
 	g_plugin.setByte("RightClickAction", opt.RightClickAction);
 	// IDD_OPT_XPOPUP
 	g_plugin.setByte("PXOnConnect", opt.PXOnConnect);
-	g_plugin.setByte("PXDisableForMusic", opt.PXDisableForMusic);
 	g_plugin.setByte("PXMsgTruncate", opt.PXMsgTruncate);
 	g_plugin.setDword("PXMsgLen", opt.PXMsgLen);
 	// IDD_OPT_GENERAL
@@ -174,10 +171,12 @@ void SaveOptions()
 	g_plugin.setByte("BlinkIcon_Status", opt.BlinkIcon_Status);
 	g_plugin.setByte("BlinkIcon_ForMsgs", opt.BlinkIcon_ForMsgs);
 	g_plugin.setWString("LogFilePath", opt.LogFilePath);
+
 	// IDD_AUTODISABLE
 	g_plugin.setByte("OnlyGlobalChanges", opt.OnlyGlobalChanges);
 	g_plugin.setByte("DisablePopupGlobally", opt.DisablePopupGlobally);
 	g_plugin.setByte("DisableSoundGlobally", opt.DisableSoundGlobally);
+
 	// IDD_OPT_LOG
 	g_plugin.setByte("LogToFile", opt.LogToFile);
 	g_plugin.setByte("LogToDB", opt.LogToDB);
@@ -188,12 +187,13 @@ void SaveOptions()
 	g_plugin.setByte("SMsgLogToDB", opt.SMsgLogToDB);
 	g_plugin.setByte("SMsgLogToDB_WinOpen", opt.SMsgLogToDB_WinOpen);
 	g_plugin.setByte("SMsgLogToDB_Remove", opt.SMsgLogToDB_Remove);
+
 	// IDD_OPT_XLOG
 	g_plugin.setByte("XLogToFile", opt.XLogToFile);
 	g_plugin.setByte("XLogToDB", opt.XLogToDB);
 	g_plugin.setByte("XLogToDB_WinOpen", opt.XLogToDB_WinOpen);
 	g_plugin.setByte("XLogToDB_Remove", opt.XLogToDB_Remove);
-	g_plugin.setByte("XLogDisableForMusic", opt.XLogDisableForMusic);
+
 	// IDD_OPT_SMPOPUP
 	g_plugin.setByte("PSMsgOnConnect", opt.PSMsgOnConnect);
 	g_plugin.setByte("PSMsgTruncate", opt.PSMsgTruncate);
@@ -527,7 +527,6 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		SendDlgItemMessage(hwndDlg, IDC_UD_MSGLEN, UDM_SETRANGE, 0, MAKELONG(999, 1));
 
 		CheckDlgButton(hwndDlg, IDC_XONCONNECT, opt.PXOnConnect ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHK_DISABLEMUSIC, opt.PXDisableForMusic ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_CUTMSG, opt.PXMsgTruncate ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemInt(hwndDlg, IDC_ED_MSGLEN, opt.PXMsgLen, FALSE);
 
@@ -603,7 +602,6 @@ INT_PTR CALLBACK DlgProcXPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			opt.PXOnConnect = IsDlgButtonChecked(hwndDlg, IDC_XONCONNECT);
-			opt.PXDisableForMusic = IsDlgButtonChecked(hwndDlg, IDC_CHK_DISABLEMUSIC);
 			opt.PXMsgTruncate = IsDlgButtonChecked(hwndDlg, IDC_CHK_CUTMSG);
 			opt.PXMsgLen = GetDlgItemInt(hwndDlg, IDC_ED_MSGLEN, nullptr, FALSE);
 
@@ -869,7 +867,6 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		CheckDlgButton(hwndDlg, IDC_XLOGTODB, opt.XLogToDB ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_XLOGTODB_WINOPEN, opt.XLogToDB_WinOpen ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_XLOGTODB_REMOVE, opt.XLogToDB_Remove ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHK_DISABLEMUSIC, opt.XLogDisableForMusic ? BST_CHECKED : BST_UNCHECKED);
 
 		//Templates
 		CheckDlgButton(hwndDlg, IDC_CHK_XSTATUSCHANGED, (templates.LogXFlags & NOTIFY_NEW_XSTATUS) ? BST_CHECKED : BST_UNCHECKED);
@@ -952,7 +949,6 @@ INT_PTR CALLBACK DlgProcXLogOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			opt.XLogToDB = IsDlgButtonChecked(hwndDlg, IDC_XLOGTODB);
 			opt.XLogToDB_WinOpen = IsDlgButtonChecked(hwndDlg, IDC_XLOGTODB_WINOPEN);
 			opt.XLogToDB_Remove = IsDlgButtonChecked(hwndDlg, IDC_XLOGTODB_REMOVE);
-			opt.XLogDisableForMusic = IsDlgButtonChecked(hwndDlg, IDC_CHK_DISABLEMUSIC);
 
 			templates.LogXFlags = 0;
 			templates.LogXFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHK_XSTATUSCHANGED) ? NOTIFY_NEW_XSTATUS : 0) |

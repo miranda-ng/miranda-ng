@@ -30,7 +30,6 @@
 #define IDC_CONNECTIONTIMEOUT_VALUE_SPIN 1009
 #define IDC_STATUS_STATIC_SEC2          1010
 #define IDC_READAWAYMSG                 1011
-#define IDC_CHK_DISABLEMUSIC            1011
 #define IDC_SHOWPREVIOUSSTATUS          1012
 #define IDC_CHK_CUTMSG                  1012
 #define IDC_USEPOPUPCOLORS              1013

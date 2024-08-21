@@ -172,8 +172,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Notification",IDC_STATIC,3,6,299,50
     CONTROL         "Show Popups when I connect",IDC_XONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,18,285,8
-    CONTROL         "Disable for extra status 'Music'",IDC_CHK_DISABLEMUSIC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,30,285,8
     CONTROL         "Truncate message length to:",IDC_CHK_CUTMSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,42,140,8
     EDITTEXT        IDC_ED_MSGLEN,153,38,34,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_UD_MSGLEN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,176,38,11,14
@@ -244,8 +242,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,36,272,8
     CONTROL         "Remove events from history when closing message window",IDC_XLOGTODB_REMOVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,47,264,10
-    CONTROL         "Disable for extra status 'Music'",IDC_CHK_DISABLEMUSIC,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,58,280,8
     GROUPBOX        "Templates",IDC_STATIC,3,75,294,156
     CONTROL         "Log when contact changes extra status",IDC_CHK_XSTATUSCHANGED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,86,280,8

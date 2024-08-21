@@ -40,7 +40,6 @@ struct OPTIONS
 
 	// IDD_OPT_XPOPUP
 	uint8_t PXOnConnect;
-	uint8_t PXDisableForMusic;
 	uint8_t PXMsgTruncate;
 	uint32_t PXMsgLen;
 
@@ -75,7 +74,6 @@ struct OPTIONS
 	uint8_t XLogToDB;
 	uint8_t XLogToDB_WinOpen;
 	uint8_t XLogToDB_Remove;
-	uint8_t XLogDisableForMusic;
 
 	// IDD_OPT_SMPOPUP
 	uint8_t PSMsgOnConnect;

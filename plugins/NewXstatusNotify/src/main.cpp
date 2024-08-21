@@ -569,43 +569,6 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		return 1;
 	}
 
-	if (strstr(cws->szSetting, "XStatus")) {
-		if (mir_strcmp(cws->szModule, szProto))
-			return 0;
-
-		if (mir_strcmp(cws->szSetting, "XStatusName") == 0) {
-			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusName");
-			if (smi.compare == COMPARE_SAME) {
-				replaceStrW(smi.newstatusmsg, nullptr);
-				replaceStrW(smi.oldstatusmsg, nullptr);
-			}
-
-			if (cws->value.type == DBVT_DELETED)
-				db_unset(hContact, "UserOnline", "LastXStatusName");
-			else
-				db_set(hContact, "UserOnline", "LastXStatusName", &cws->value);
-
-			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, smi.compare, smi.newstatusmsg, nullptr);
-			ExtraStatusChanged(xsc);
-		}
-		else if (!mir_strcmp(cws->szSetting, "XStatusMsg")) {
-			smi.compare = CompareStatusMsg(&smi, cws, "LastXStatusMsg");
-			if (smi.compare == COMPARE_SAME) {
-				replaceStrW(smi.newstatusmsg, nullptr);
-				replaceStrW(smi.oldstatusmsg, nullptr);
-			}
-
-			if (cws->value.type == DBVT_DELETED)
-				db_unset(hContact, "UserOnline", "LastXStatusMsg");
-			else
-				db_set(hContact, "UserOnline", "LastXStatusMsg", &cws->value);
-
-			xsc = NewXSC(hContact, szProto, TYPE_ICQ_XSTATUS, smi.compare * 4, nullptr, smi.newstatusmsg);
-			ExtraStatusChanged(xsc);
-		}
-		return 1;
-	}
-
 	return 0;
 }
 
