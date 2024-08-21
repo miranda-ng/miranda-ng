@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define COLOR_USERINFO RGB(138, 190, 160)
 #define COLOR_MBIRTHDAY RGB(222, 222, 88)
 #define COLOR_BIRTHDAYREMINDER RGB(200, 120, 240)
-#define COLOR_MICQBIRTHDAY RGB(88, 88, 240)
 #define COLOR_PROTOCOL RGB(255, 153, 153)
 
 void UpdateBirthday(MCONTACT);

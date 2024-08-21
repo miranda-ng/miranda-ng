@@ -25,12 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define LOG_FILE "wwi.log"
 
-#define ANCHOR_LEFT     0x000001
-#define ANCHOR_RIGHT		0x000002
-#define ANCHOR_TOP      0x000004
-#define ANCHOR_BOTTOM   0x000008
-#define ANCHOR_ALL      ANCHOR_LEFT | ANCHOR_RIGHT | ANCHOR_TOP | ANCHOR_BOTTOM
-
 int LogInit();
 int Log(char *format, ...);
 int Info(char *title, char *format, ...);
