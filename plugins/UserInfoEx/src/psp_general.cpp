@@ -48,11 +48,6 @@ struct PSPGeneralDlg : public PSPBaseDlg
 		// marital groupbox
 		GetMaritalList(&nList, &pList);
 		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_MARITAL, SET_CONTACT_MARITAL, DBVT_BYTE, pList, nList));
-
-		GetLanguageList(&nList, &pList);
-		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_LANG1, SET_CONTACT_LANG1, DBVT_WCHAR, pList, nList));
-		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_LANG2, SET_CONTACT_LANG2, DBVT_WCHAR, pList, nList));
-		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_LANG3, SET_CONTACT_LANG3, DBVT_WCHAR, pList, nList));
 		return true;
 	}
 

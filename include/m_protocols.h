@@ -58,7 +58,6 @@ struct CCSDATA
 #define ACKTYPE_AUTHREQ    5
 #define ACKTYPE_ADDED      6
 #define ACKTYPE_GETINFO    7
-#define ACKTYPE_SETINFO    8
 #define ACKTYPE_LOGIN      9
 #define ACKTYPE_SEARCH     10
 #define ACKTYPE_NEWUSER    11

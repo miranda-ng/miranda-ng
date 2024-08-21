@@ -83,102 +83,6 @@ void CPsHdr::Free_pPages()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// class CPsUpload
-
-class CPsUpload
-{
-public:
-	enum EPsUpReturn
-	{
-		UPLOAD_CONTINUE = 0,
-		UPLOAD_FINISH = 1,
-		UPLOAD_FINISH_CLOSE = 2
-	};
-
-private:
-	PROTOACCOUNT **_pPd;
-	int _numProto;
-	uint8_t _bExitAfterUploading;
-	HANDLE _hUploading;
-	LPPS _pPs;
-
-	////////////////////////////////////////////////////////////////////////////////////////
-	// @name Upload
-	// @class CPsUpload
-	// @desc start upload process for the current protocol
-	// @return 0 on success or 1 otherwise
-
-	int Upload()
-	{
-		// check if icq is online
-		if (!IsProtoOnline((*_pPd)->szModuleName))
-			MsgBox(_pPs->hDlg, MB_ICON_WARNING, TranslateT("Upload details"),
-				CMStringW(FORMAT, TranslateT("Protocol '%s' is offline"), _A2T((*_pPd)->szModuleName).get()),
-				TranslateT("You are not currently connected to the MRA network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only."));
-
-		// start uploading process
-		else _hUploading = 0;
-
-		return 1;
-	}
-
-public:
-	////////////////////////////////////////////////////////////////////////////////////////
-	// @name	CPsUpload
-	// @class	CPsUpload
-	// @desc	retrieves the list of installed protocols and initializes the class
-	// @param	pPs			- the owning propertysheet
-	// @param	bExitAfter	- whether the dialog is to close after upload or not
-
-	CPsUpload(LPPS pPs, uint8_t bExitAfter)
-	{
-		_pPs = pPs;
-		_pPd = nullptr;
-		_numProto = 0;
-		_hUploading = nullptr;
-		_bExitAfterUploading = bExitAfter;
-	}
-
-	int UploadFirst()
-	{
-		// create a list of all protocols which support uploading contact information
-		Proto_EnumAccounts(&_numProto, &_pPd);
-		return UploadNext();
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////
-	// @name	~CPsUpload
-	// @class CPsUpload
-
-	~CPsUpload()
-	{
-		_pPs->pUpload = nullptr;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////
-	// @name	Handle
-	// @class CPsUpload
-	// @desc	returns the handle of the current upload process
-	// @return handle of the current upload process
-
-	__inline HANDLE Handle() const
-	{
-		return _hUploading;
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////////
-	// @name	UploadNext
-	// @class CPsUpload
-	// @desc	Search the next protocol which supports uploading contact information
-	//			and start uploading. Delete the object if ready
-
-	int UploadNext()
-	{
-		return _bExitAfterUploading ? UPLOAD_FINISH_CLOSE : UPLOAD_FINISH;
-	}
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // propertysheet
 
 // @name	SortProc()
@@ -893,62 +797,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (!ack->hContact && ack->type == ACKTYPE_STATUS)
 				return DlgProc(hDlg, M_CHECKONLINE, NULL, NULL);
 
-			switch (ack->type) {
-			case ACKTYPE_SETINFO:
-				if (ack->hContact != pPs->hContact || !pPs->pUpload || pPs->pUpload->Handle() != ack->hProcess)
-					break;
-				if (ack->result == ACKRESULT_SUCCESS) {
-					ShowWindow(GetDlgItem(hDlg, TXT_UPDATING), SW_HIDE);
-					KillTimer(hDlg, TIMERID_UPDATING);
-					// upload next protocols contact information
-					switch (pPs->pUpload->UploadNext()) {
-					case CPsUpload::UPLOAD_FINISH_CLOSE:
-						MIR_DELETE(pPs->pUpload);
-						DestroyWindow(hDlg);
-					case CPsUpload::UPLOAD_CONTINUE:
-						return FALSE;
-					case CPsUpload::UPLOAD_FINISH:
-						MIR_DELETE(pPs->pUpload);
-						break;
-					}
-					DlgProc(hDlg, M_CHECKONLINE, NULL, NULL);
-					EnableWindow(pPs->pTree->Window(), TRUE);
-					if (CPsTreeItem *pti = pPs->pTree->CurrentItem())
-						EnableWindow(pti->Wnd(), TRUE);
-					EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
-					pPs->dwFlags &= ~PSF_LOCKED;
-				}
-				else if (ack->result == ACKRESULT_FAILED) {
-					MsgBox(hDlg, MB_ICON_WARNING,
-						LPGENW("Upload MRA details"),
-						LPGENW("Upload failed"),
-						LPGENW("Your details were not uploaded successfully.\nThey were written to database only."));
-					KillTimer(hDlg, TIMERID_UPDATING);
-					ShowWindow(GetDlgItem(hDlg, TXT_UPDATING), SW_HIDE);
-					DlgProc(hDlg, M_CHECKONLINE, NULL, NULL);
-
-					// upload next protocols contact information
-					switch (pPs->pUpload->UploadNext()) {
-					case CPsUpload::UPLOAD_FINISH_CLOSE:
-						MIR_DELETE(pPs->pUpload);
-						DestroyWindow(hDlg);
-					case CPsUpload::UPLOAD_CONTINUE:
-						return 0;
-					case CPsUpload::UPLOAD_FINISH:
-						MIR_DELETE(pPs->pUpload);
-						break;
-					}
-					if (CPsTreeItem *pti = pPs->pTree->CurrentItem())
-						EnableWindow(pti->Wnd(), TRUE);
-
-					// activate all controls again
-					EnableWindow(pPs->pTree->Window(), TRUE);
-					EnableWindow(GetDlgItem(hDlg, IDOK), TRUE);
-					pPs->dwFlags &= ~PSF_LOCKED;
-				}
-				break;
-
-			case ACKTYPE_GETINFO:
+			if (ack->type == ACKTYPE_GETINFO) {
 				// is contact the owner of the dialog or any metasubcontact of the owner? skip handling otherwise!
 				if (ack->hContact != pPs->hContact) {
 					if (!g_plugin.bMetaScan)
@@ -963,8 +812,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					if (i == pPs->nSubContacts)
 						break;
 				}
-				else
-					iSubContact = 0;
+				else iSubContact = 0;
 
 				// if they're not gonna send any more ACK's don't let that mean we should crash
 				if (!pPs->infosUpdated || (!ack->hProcess && !ack->lParam)) {

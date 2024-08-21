@@ -110,10 +110,7 @@
 #define EDIT_AGE                        1220
 #define EDIT_REMIND                     1221
 #define EDIT_REMIND2                    1222
-#define EDIT_LANG1                      1223
 #define EDIT_REMIND_SOUNDOFFSET         1223
-#define EDIT_LANG2                      1224
-#define EDIT_LANG3                      1225
 #define EDIT_MARITAL                    1226
 #define EDIT_PARTNER                    1227
 #define EDIT_TIMEZONE                   1228

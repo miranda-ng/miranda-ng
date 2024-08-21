@@ -156,7 +156,6 @@ typedef struct CIDList
 } IDSTRLIST, *LPIDSTRLIST;
 
 INT_PTR GetMaritalList(LPUINT pListSize, LPIDSTRLIST *pList);
-INT_PTR GetLanguageList(LPUINT pListSize, LPIDSTRLIST *pList);
 INT_PTR GetCountryList(LPUINT pListSize, LPIDSTRLIST *pList);
 INT_PTR GetOccupationList(LPUINT pListSize, LPIDSTRLIST *pList);
 INT_PTR GetInterestsList(LPUINT pListSize, LPIDSTRLIST *pList);

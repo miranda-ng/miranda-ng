@@ -266,7 +266,6 @@ struct TPropSheet
 	// controls
 	HWND hDlg;
 	CPsTree *pTree;
-	CPsUpload *pUpload;
 };
 
 void DlgContactInfoInitTreeIcons();

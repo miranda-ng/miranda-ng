@@ -21,82 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static IDSTRLIST TmplLanguages[] = {
-	{ 0, LPGENW("Unspecified"), nullptr},
-	{55, LPGENW("Afrikaans"), nullptr},
-	{58, LPGENW("Albanian"), nullptr},
-	{ 1, LPGENW("Arabic"), nullptr},
-	{59, LPGENW("Armenian"), nullptr},
-	{68, LPGENW("Azerbaijani"), nullptr},
-	{72, LPGENW("Belorussian"), nullptr},
-	{ 2, LPGENW("Bhojpuri"), nullptr},
-	{56, LPGENW("Bosnian"), nullptr},
-	{ 3, LPGENW("Bulgarian"), nullptr},
-	{ 4, LPGENW("Burmese"), nullptr},
-	{ 5, LPGENW("Cantonese"), nullptr},
-	{ 6, LPGENW("Catalan"), nullptr},
-	{61, LPGENW("Chamorro"), nullptr},
-	{ 7, LPGENW("Chinese"), nullptr},
-	{ 8, LPGENW("Croatian"), nullptr},
-	{ 9, LPGENW("Czech"), nullptr},
-	{10, LPGENW("Danish"), nullptr},
-	{11, LPGENW("Dutch"), nullptr},
-	{12, LPGENW("English"), nullptr},
-	{13, LPGENW("Esperanto"), nullptr},
-	{14, LPGENW("Estonian"), nullptr},
-	{15, LPGENW("Farsi"), nullptr},
-	{16, LPGENW("Finnish"), nullptr},
-	{17, LPGENW("French"), nullptr},
-	{18, LPGENW("Gaelic"), nullptr},
-	{19, LPGENW("German"), nullptr},
-	{20, LPGENW("Greek"), nullptr},
-	{70, LPGENW("Gujarati"), nullptr},
-	{21, LPGENW("Hebrew"), nullptr},
-	{22, LPGENW("Hindi"), nullptr},
-	{23, LPGENW("Hungarian"), nullptr},
-	{24, LPGENW("Icelandic"), nullptr},
-	{25, LPGENW("Indonesian"), nullptr},
-	{26, LPGENW("Italian"), nullptr},
-	{27, LPGENW("Japanese"), nullptr},
-	{28, LPGENW("Khmer"), nullptr},
-	{29, LPGENW("Korean"), nullptr},
-	{69, LPGENW("Kurdish"), nullptr},
-	{30, LPGENW("Lao"), nullptr},
-	{31, LPGENW("Latvian"), nullptr},
-	{32, LPGENW("Lithuanian"), nullptr},
-	{65, LPGENW("Macedonian"), nullptr},
-	{33, LPGENW("Malay"), nullptr},
-	{63, LPGENW("Mandarin"), nullptr},
-	{62, LPGENW("Mongolian"), nullptr},
-	{34, LPGENW("Norwegian"), nullptr},
-	{57, LPGENW("Persian"), nullptr},
-	{35, LPGENW("Polish"), nullptr},
-	{36, LPGENW("Portuguese"), nullptr},
-	{60, LPGENW("Punjabi"), nullptr},
-	{37, LPGENW("Romanian"), nullptr},
-	{38, LPGENW("Russian"), nullptr},
-	{39, LPGENW("Serbo-Croatian"), nullptr},
-	{66, LPGENW("Sindhi"), nullptr},
-	{40, LPGENW("Slovak"), nullptr},
-	{41, LPGENW("Slovenian"), nullptr},
-	{42, LPGENW("Somali"), nullptr},
-	{43, LPGENW("Spanish"), nullptr},
-	{44, LPGENW("Swahili"), nullptr},
-	{45, LPGENW("Swedish"), nullptr},
-	{46, LPGENW("Tagalog"), nullptr},
-	{64, LPGENW("Taiwanese"), nullptr},
-	{71, LPGENW("Tamil"), nullptr},
-	{47, LPGENW("Tatar"), nullptr},
-	{48, LPGENW("Thai"), nullptr},
-	{49, LPGENW("Turkish"), nullptr},
-	{50, LPGENW("Ukrainian"), nullptr},
-	{51, LPGENW("Urdu"), nullptr},
-	{52, LPGENW("Vietnamese"), nullptr},
-	{67, LPGENW("Welsh"), nullptr},
-	{53, LPGENW("Yiddish"), nullptr},
-	{54, LPGENW("Yoruba"), nullptr},
-};
-
 static IDSTRLIST TmplOccupations[] = {
 	{ 0, LPGENW("Unspecified"), nullptr},
 	{ 1, LPGENW("Academic"), nullptr},
@@ -111,7 +35,7 @@ static IDSTRLIST TmplOccupations[] = {
 	{10, LPGENW("Government"), nullptr},
 	{11, LPGENW("High School Student"), nullptr},
 	{12, LPGENW("Home"), nullptr},
-	{13, LPGENW("MRA - Providing Help"), nullptr},
+	{13, LPGENW("Providing Help"), nullptr},
 	{14, LPGENW("Law"), nullptr},
 	{15, LPGENW("Managerial"), nullptr},
 	{16, LPGENW("Manufacturing"), nullptr},
@@ -140,7 +64,7 @@ static IDSTRLIST TmplInterests[] = {
 	{106, LPGENW("Fitness"), nullptr},
 	{107, LPGENW("Games"), nullptr},
 	{108, LPGENW("Hobbies"), nullptr},
-	{109, LPGENW("MRA - Providing Help"), nullptr},
+	{109, LPGENW("Providing Help"), nullptr},
 	{110, LPGENW("Internet"), nullptr},
 	{111, LPGENW("Lifestyle"), nullptr},
 	{112, LPGENW("Movies/TV"), nullptr},
@@ -334,14 +258,6 @@ INT_PTR GetMaritalList(LPUINT pnListSize, LPIDSTRLIST *pList)
 	return MIR_OK;
 }
 
-INT_PTR GetLanguageList(LPUINT pnListSize, LPIDSTRLIST *pList)
-{
-	*pnListSize = _countof(TmplLanguages);
-	*pList = TmplLanguages;
-	SvcConstantsTranslateList(TmplLanguages, *pnListSize);
-	return MIR_OK;
-}
-
 INT_PTR GetOccupationList(LPUINT pnListSize, LPIDSTRLIST *pList)
 {
 	*pnListSize = _countof(TmplOccupations);
@@ -389,7 +305,6 @@ void SvcConstantsLoadModule(void)
 
 	// precache translation
 	GetMaritalList(&nListSize, &pList);
-	GetLanguageList(&nListSize, &pList);
 	GetCountryList(&nListSize, &pList);
 	GetOccupationList(&nListSize, &pList);
 	GetInterestsList(&nListSize, &pList);
