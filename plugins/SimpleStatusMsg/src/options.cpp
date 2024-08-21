@@ -954,7 +954,6 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 
 			CheckDlgButton(hwndDlg, IDC_CUPDATEMSG, g_plugin.getByte("UpdateMsgOn", 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CNOIDLE, g_plugin.getByte("NoUpdateOnIdle", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CNOICQREQ, g_plugin.getByte("NoUpdateOnICQReq", 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLEAVEWINAMP, g_plugin.getByte("AmpLeaveTitle", 1) ? BST_CHECKED : BST_UNCHECKED);
 			if (ServiceExists(MS_VARS_FORMATSTRING)) {
 				CheckDlgButton(hwndDlg, IDC_CVARIABLES, g_plugin.getByte("EnableVariables", 1) ? BST_CHECKED : BST_UNCHECKED);
@@ -975,7 +974,6 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ESECUPDTMSG), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SSECUPDTMSG), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CNOIDLE), bChecked);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CNOICQREQ), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CLEAVEWINAMP), bChecked);
 			break;
 		}
@@ -1019,7 +1017,6 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 			}
 
 			g_plugin.setByte("NoUpdateOnIdle", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CNOIDLE) == BST_CHECKED));
-			g_plugin.setByte("NoUpdateOnICQReq", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CNOICQREQ) == BST_CHECKED));
 			g_plugin.setByte("AmpLeaveTitle", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CLEAVEWINAMP) == BST_CHECKED));
 			if (ServiceExists(MS_VARS_FORMATSTRING)) {
 				g_plugin.setByte("EnableVariables", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED));

@@ -132,8 +132,6 @@ BEGIN
     CONTROL         "Spin2",IDC_SSECUPDTMSG,"msctls_updown32",UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,188,14,11,14
     LTEXT           "seconds",IDC_STATIC,202,16,32,8
     CONTROL         "Do not update variables during idle",IDC_CNOIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,30,274,8
-    CONTROL         "Do not update variables on MRA status message requests",IDC_CNOICQREQ,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,44,274,8
     CONTROL         "Leave last played track's title after exiting the player",IDC_CLEAVEWINAMP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,58,274,8
     CONTROL         "Enable status messages parsing by Variables plugin",IDC_CVARIABLES,

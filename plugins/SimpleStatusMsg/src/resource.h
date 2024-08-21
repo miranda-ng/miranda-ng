@@ -72,7 +72,6 @@
 #define IDC_BDEL                        1054
 #define IDC_BCLEAR                      1055
 #define IDC_CNOIDLE                     1056
-#define IDC_CNOICQREQ                   1057
 #define IDC_CVARIABLES                  1058
 #define IDC_CDATEPARSING                1059
 #define IDC_MAXLENGTH                   1060
