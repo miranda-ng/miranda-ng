@@ -595,7 +595,7 @@ public:
 		int iOldCaret = m_histCtrl->caret;
 		int res = m_histCtrl->FindNext(ptrW(edtSearchText.GetText()));
 		if (res == -1)
-			SetWindowTextW(m_hwndStatus, TranslateT("No more occuurences found"));
+			SetWindowTextW(m_hwndStatus, TranslateT("No more occurrences found"));
 		else if (res < iOldCaret)
 			SetWindowTextW(m_hwndStatus, TranslateT("Passed the end of history"));
 		else
