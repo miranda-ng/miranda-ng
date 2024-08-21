@@ -23,8 +23,4 @@ extern wstring gbQuestion;
 extern wstring gbAnswer;
 extern wstring gbCongratulation;
 extern std::wstring gbAuthRepl;
-extern BOOL gbAutoAuth; 
-extern BOOL gbAutoAddToServerList; 
-extern BOOL gbAutoReqAuth; 
-extern wstring gbAutoAuthGroup;
 extern BOOL gbLogToFile;

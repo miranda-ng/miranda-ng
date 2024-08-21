@@ -157,30 +157,9 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 			Contact::PutOnList(hContact);
 
 		// send congratulation
-		if (bSendMsg) {
-			wstring prot = DBGetContactSettingStringPAN(NULL, dbei->szModule, "AM_BaseProto", L"");
-			// for notICQ protocols or disable auto auth. request
-			if ((Stricmp(L"ICQ", prot.c_str())) || (!gbAutoReqAuth)) {
-				char *buf = mir_utf8encodeW(variables_parse(gbCongratulation, hContact).c_str());
-				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
-				mir_free(buf);
-			}
-			// Note: For ANSI can be not work
-			if (!Stricmp(L"ICQ", prot.c_str())) {
-				// grand auth.
-				if (gbAutoAuth)
-					CallProtoService(dbei->szModule, "/GrantAuth", hContact, 0);
-				// add contact to server list and local group
-				if (gbAutoAddToServerList) {
-					Clist_SetGroup(hContact, gbAutoAuthGroup.c_str());
-					Contact::PutOnList(hContact);
-				}
+		if (bSendMsg)
+			DBGetContactSettingStringPAN(NULL, dbei->szModule, "AM_BaseProto", L"");
 
-				// auto auth. request with send congratulation
-				if (gbAutoReqAuth)
-					ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, (LPARAM)variables_parse(gbCongratulation, hContact).c_str());
-			}
-		}
 		return 0;
 	}
 	// URL contains check

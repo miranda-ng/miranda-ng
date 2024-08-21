@@ -39,12 +39,8 @@
 #define ID_EXCLUDE                      1021
 #define ID_ADDPERMANENT3                1022
 #define ID_DEL_NO_IN_LIST               1022
-#define IDC_ADDTOSRVLST                 1022
 #define ID_IGNOREURL                    1023
 #define IDC_EDIT1                       1024
-#define IDC_AUTOADDGROUP                1024
-#define IDC_AUTOAUTH                    1025
-#define IDC_REQAUTH                     1026
 #define IDC_LOGSPAMTOFILE               1027
 #define ID_LOGSPAMTOFILE                1027
 #define IDC_REGEX                       1028

@@ -39,15 +39,11 @@ BOOL gbRegexMatch = 0;
 BOOL gbInvisDisable = 0;
 BOOL gbIgnoreURL = 1;
 BOOL gbLogToFile = 0;
-BOOL gbAutoAuth = 0;
-BOOL gbAutoAddToServerList = 0;
-BOOL gbAutoReqAuth = 1;
 BOOL gbMathExpression = 0;
 
 HANDLE hStopSpamLogDirH = nullptr;
 
 wstring gbSpammersGroup = L"Spammers";
-wstring gbAutoAuthGroup = L"NotSpammers";
 
 wstring gbQuestion;
 wstring gbAnswer;
@@ -101,10 +97,6 @@ void InitVars()
 	gbRegexMatch = g_plugin.getByte("RegexMatch", 0);
 	gbInvisDisable = g_plugin.getByte("DisableInInvis", 0);
 	gbIgnoreURL = g_plugin.getByte("IgnoreURL", 0);
-	gbAutoAuthGroup = DBGetContactSettingStringPAN(0, MODULENAME, "AutoAuthGroup", L"Not Spammers");
-	gbAutoAuth = g_plugin.getByte("AutoAuth", 0);
-	gbAutoAddToServerList = g_plugin.getByte("AutoAddToServerList", 0);
-	gbAutoReqAuth = g_plugin.getByte("AutoReqAuth", 0);
 	gbLogToFile = g_plugin.getByte("LogSpamToFile", 0);
 	gbHistoryLog = g_plugin.getByte("HistoryLog", 0);
 	gbMathExpression = g_plugin.getByte("MathExpression", 0);

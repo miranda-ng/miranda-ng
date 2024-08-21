@@ -196,9 +196,9 @@ public:
 
 class COptAdvancedDlg : public CDlgBase
 {
-	CCtrlEdit edit_SPECIALGROUPNAME, edit_AUTOADDGROUP;
+	CCtrlEdit edit_SPECIALGROUPNAME;
 	CCtrlCheck chk_INVIS_DISABLE, chk_CASE_INSENSITIVE, chk_SPECIALGROUP, chk_EXCLUDE, chk_REMOVE_TMP;
-	CCtrlCheck chk_IGNOREURL, chk_AUTOAUTH, chk_ADDTOSRVLST, chk_REQAUTH, chk_REGEX, chk_HISTORY_LOG, chk_MATH_QUESTION;
+	CCtrlCheck chk_IGNOREURL, chk_REGEX, chk_HISTORY_LOG, chk_MATH_QUESTION;
 	CCtrlButton btn_MATH_DETAILS;
 
 public:
@@ -209,14 +209,10 @@ public:
 		chk_EXCLUDE(this, ID_EXCLUDE),
 		chk_REMOVE_TMP(this, ID_REMOVE_TMP),
 		chk_IGNOREURL(this, ID_IGNOREURL),
-		chk_AUTOAUTH(this, IDC_AUTOAUTH),
-		chk_ADDTOSRVLST(this, IDC_ADDTOSRVLST),
-		chk_REQAUTH(this, IDC_REQAUTH),
 		chk_REGEX(this, IDC_REGEX),
 		chk_HISTORY_LOG(this, IDC_HISTORY_LOG),
 		chk_MATH_QUESTION(this, IDC_MATH_QUESTION),
 		edit_SPECIALGROUPNAME(this, ID_SPECIALGROUPNAME),
-		edit_AUTOADDGROUP(this, IDC_AUTOADDGROUP),
 		btn_MATH_DETAILS(this, IDC_MATH_DETAILS)
 	{
 		btn_MATH_DETAILS.OnClick = Callback(this, &COptAdvancedDlg::onClick_MATH_DETAILS);
@@ -230,13 +226,9 @@ public:
 		chk_EXCLUDE.SetState(gbExclude);
 		chk_REMOVE_TMP.SetState(gbDelExcluded);
 		chk_IGNOREURL.SetState(gbIgnoreURL);
-		chk_AUTOAUTH.SetState(gbAutoAuth);
-		chk_ADDTOSRVLST.SetState(gbAutoAddToServerList);
-		chk_REQAUTH.SetState(gbAutoReqAuth);
 		chk_REGEX.SetState(gbRegexMatch);
 		chk_HISTORY_LOG.SetState(gbHistoryLog);
 		chk_MATH_QUESTION.SetState(gbMathExpression);
-		edit_AUTOADDGROUP.SetText(gbAutoAuthGroup.c_str());
 		return true;
 	}
 
@@ -260,23 +252,9 @@ public:
 		g_plugin.setByte("DelExcluded", gbDelExcluded = chk_REMOVE_TMP.GetState());
 		g_plugin.setByte("IgnoreURL", gbIgnoreURL = chk_IGNOREURL.GetState());
 
-		g_plugin.setByte("AutoAuth", gbAutoAuth = chk_AUTOAUTH.GetState());
-		g_plugin.setByte("AutoAddToServerList", gbAutoAddToServerList = chk_ADDTOSRVLST.GetState());
-		g_plugin.setByte("AutoReqAuth", gbAutoReqAuth = chk_REQAUTH.GetState());
 		g_plugin.setByte("RegexMatch", gbRegexMatch = chk_REGEX.GetState());
 		g_plugin.setByte("HistoryLog", gbHistoryLog = chk_HISTORY_LOG.GetState());
 		g_plugin.setByte("MathExpression", gbMathExpression = chk_MATH_QUESTION.GetState());
-		{
-			static wstring NewAGroupName = edit_AUTOADDGROUP.GetText(), CurrentAGroupName;
-			CurrentAGroupName = gbAutoAuthGroup = DBGetContactSettingStringPAN(0, MODULENAME, "AutoAuthGroup", L"0");
-			if (mir_wstrcmp(CurrentAGroupName.c_str(), NewAGroupName.c_str()) != 0) {
-				bool GroupExist = Clist_GroupExists(NewAGroupName.c_str()) != NULL;
-				g_plugin.setWString("AutoAuthGroup", NewAGroupName.c_str());
-				gbAutoAuthGroup = DBGetContactSettingStringPAN(0, MODULENAME, "AutoAuthGroup", L"Not Spammers");
-				if (!GroupExist && gbAutoAddToServerList)
-					Clist_GroupCreate(0, gbAutoAuthGroup.c_str());
-			}
-		}
 		return true;
 	}
 
