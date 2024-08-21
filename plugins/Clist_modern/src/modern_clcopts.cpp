@@ -967,26 +967,6 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			db_free(&dbv);
 
 			SendDlgItemMessage(hwndDlg, IDC_TITLETEXT, CB_ADDSTRING, 0, (LPARAM)MIRANDANAME);
-
-			char szUin[20];
-			mir_snprintf(szUin, "%u", db_get_dw(0, "ICQ", "UIN", 0));
-			SendDlgItemMessage(hwndDlg, IDC_TITLETEXT, CB_ADDSTRING, 0, (LPARAM)szUin);
-
-			if (!db_get_s(0, "ICQ", "Nick", &dbv)) {
-				SendDlgItemMessage(hwndDlg, IDC_TITLETEXT, CB_ADDSTRING, 0, (LPARAM)dbv.pszVal);
-				db_free(&dbv);
-				dbv.pszVal = nullptr;
-			}
-			if (!db_get_s(0, "ICQ", "FirstName", &dbv)) {
-				SendDlgItemMessage(hwndDlg, IDC_TITLETEXT, CB_ADDSTRING, 0, (LPARAM)dbv.pszVal);
-				db_free(&dbv);
-				dbv.pszVal = nullptr;
-			}
-			if (!db_get_s(0, "ICQ", "e-mail", &dbv)) {
-				SendDlgItemMessage(hwndDlg, IDC_TITLETEXT, CB_ADDSTRING, 0, (LPARAM)dbv.pszVal);
-				db_free(&dbv);
-				dbv.pszVal = nullptr;
-			}
 		}
 		CheckDlgButton(hwndDlg, IDC_TRANSPARENT, g_plugin.getByte("Transparent", SETTING_TRANSPARENT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
