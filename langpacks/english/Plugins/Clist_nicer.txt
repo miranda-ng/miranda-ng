@@ -142,7 +142,7 @@
 [Show bevels on panels]
 [Show resize grip indicator]
 [Draw background skin]
-[Show MRA extended status icons]
+[Show extended status icons]
 [Mark protocols locked from global status changes]
 [Available view modes]
 [Include protocols]

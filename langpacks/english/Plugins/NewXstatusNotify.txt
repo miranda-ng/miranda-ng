@@ -68,7 +68,6 @@
 [On right click]
 [Notification]
 [Show Popups when I connect]
-[Disable for extra status 'Music']
 [Truncate message length to:]
 [characters]
 [Templates]
@@ -196,7 +195,6 @@
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 [Activity]
-[xStatus]
 [<no title>]
 [%s changed %s]
 ;file \plugins\NewXstatusNotify\src\xstatus.h

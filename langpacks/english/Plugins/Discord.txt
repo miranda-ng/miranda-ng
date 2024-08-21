@@ -82,7 +82,6 @@
 ;file \protocols\Discord\src\utils.cpp
 [Owners]
 [Participants]
-[Attachment]
 [Embed]
 [Preview]
 [%s added %s to the group]

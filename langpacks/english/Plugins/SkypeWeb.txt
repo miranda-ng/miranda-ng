@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -47,20 +47,13 @@
 [Are you sure?]
 ;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
-[Edited message]
 [Action]
 [Call information]
 [File transfer information]
-[URI object]
 [Moji]
-[File]
 [Unknown event]
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
-[[b]Original message:[/b]\n%s\n]
-[Original message:\n%s\n]
-[[b]Edited at %s:[/b]\n%s\n]
-[Edited at %s:\n%s\n]
 [Call]
 [Call missed]
 [Call ended (%s)]

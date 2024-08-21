@@ -101,7 +101,7 @@
 [Conversations]
 [Bookmarks]
 [You need to install the Import plugin to export events]
-[No more occuurences found]
+[No more occurrences found]
 [Passed the end of history]
 [The required plugin 'Import' isn't loaded to perform this operation.]
 [Do you want to install it using Plugin Updater?]

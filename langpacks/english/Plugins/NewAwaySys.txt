@@ -9,7 +9,6 @@
 ;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
 [Enable autoreply]
 [On event...]
-[Don't reply to MRA contacts]
 [Save autoreply to the history]
 [Reply only when Idle]
 [Reply only when contact's message window is closed]
