@@ -26,83 +26,6 @@ DBVTranslation *translations = nullptr;
 uint32_t dwNextFuncId;
 HANDLE hServiceAdd;
 
-static LISTTYPEDATAITEM languages[] =
-{
-  {0, LPGEN("None")},
-  {55,LPGEN("Afrikaans")},
-  {58,LPGEN("Albanian")},
-  {1, LPGEN("Arabic")},
-  {59,LPGEN("Armenian")},
-  {68,LPGEN("Azerbaijani")},
-  {72,LPGEN("Belorussian")},
-  {2, LPGEN("Bhojpuri")},
-  {56,LPGEN("Bosnian")},
-  {3, LPGEN("Bulgarian")},
-  {4, LPGEN("Burmese")},
-  {5, LPGEN("Cantonese")},
-  {6, LPGEN("Catalan")},
-  {61,LPGEN("Chamorro")},
-  {7, LPGEN("Chinese")},
-  {8, LPGEN("Croatian")},
-  {9, LPGEN("Czech")},
-  {10,LPGEN("Danish")},
-  {11,LPGEN("Dutch")},
-  {12,LPGEN("English")},
-  {13,LPGEN("Esperanto")},
-  {14,LPGEN("Estonian")},
-  {15,LPGEN("Farsi")},
-  {16,LPGEN("Finnish")},
-  {17,LPGEN("French")},
-  {18,LPGEN("Gaelic")},
-  {19,LPGEN("German")},
-  {20,LPGEN("Greek")},
-  {70,LPGEN("Gujarati")},
-  {21,LPGEN("Hebrew")},
-  {22,LPGEN("Hindi")},
-  {23,LPGEN("Hungarian")},
-  {24,LPGEN("Icelandic")},
-  {25,LPGEN("Indonesian")},
-  {26,LPGEN("Italian")},
-  {27,LPGEN("Japanese")},
-  {28,LPGEN("Khmer")},
-  {29,LPGEN("Korean")},
-  {69,LPGEN("Kurdish")},
-  {30,LPGEN("Lao")},
-  {31,LPGEN("Latvian")},
-  {32,LPGEN("Lithuanian")},
-  {65,LPGEN("Macedonian")},
-  {33,LPGEN("Malay")},
-  {63,LPGEN("Mandarin")},
-  {62,LPGEN("Mongolian")},
-  {34,LPGEN("Norwegian")},
-  {57,LPGEN("Persian")},
-  {35,LPGEN("Polish")},
-  {36,LPGEN("Portuguese")},
-  {60,LPGEN("Punjabi")},
-  {37,LPGEN("Romanian")},
-  {38,LPGEN("Russian")},
-  {39,LPGEN("Serbo-Croatian")},
-  {66,LPGEN("Sindhi")},
-  {40,LPGEN("Slovak")},
-  {41,LPGEN("Slovenian")},
-  {42,LPGEN("Somali")},
-  {43,LPGEN("Spanish")},
-  {44,LPGEN("Swahili")},
-  {45,LPGEN("Swedish")},
-  {46,LPGEN("Tagalog")},
-  {64,LPGEN("Taiwanese")},
-  {71,LPGEN("Tamil")},
-  {47,LPGEN("Tatar")},
-  {48,LPGEN("Thai")},
-  {49,LPGEN("Turkish")},
-  {50,LPGEN("Ukrainian")},
-  {51,LPGEN("Urdu")},
-  {52,LPGEN("Vietnamese")},
-  {67,LPGEN("Welsh")},
-  {53,LPGEN("Yiddish")},
-  {54,LPGEN("Yoruba")},
-};
-
 static char *days[7] =
 {
 	LPGEN("Sunday"), LPGEN("Monday"), LPGEN("Tuesday"), LPGEN("Wednesday"), LPGEN("Thursday"), LPGEN("Friday"), LPGEN("Saturday")
@@ -689,22 +612,6 @@ wchar_t* ByteToMonth(MCONTACT hContact, const char *szModuleName, const char *sz
 	return nullptr;
 }
 
-wchar_t* ByteToLanguage(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
-{
-	int iLang = db_get_b(hContact, szModuleName, szSettingName, 0);
-	if (iLang) {
-		for (auto &it : languages) {
-			if (iLang == it.id) {
-				a2w(Translate(it.szValue), buff, bufflen);
-				buff[bufflen - 1] = 0;
-				return buff;
-			}
-		}
-	}
-
-	return nullptr;
-}
-
 INT_PTR ServiceAddTranslation(WPARAM, LPARAM lParam)
 {
 	if (!lParam) return 1;
@@ -722,11 +629,11 @@ static DBVTranslation internalTranslations[] =
 	{	TimestampToTime,               LPGENW("DWORD timestamp to time")                                         },
 	{	TimestampToTimeDifference,     LPGENW("DWORD timestamp to time difference")                              },
 	{	ByteToYesNo,                   LPGENW("BYTE to Yes/No")                                                  },
-	{	ByteToGender,                  LPGENW("BYTE to Male/Female (MRA)")                                       },
+	{	ByteToGender,                  LPGENW("BYTE to Male/Female")                                             },
 	{	WordToCountry,                 LPGENW("WORD to country name")                                            },
 	{	DwordToIp,                     LPGENW("DWORD to IP address")                                             },
 	{	DayMonthYearToDate,            LPGENW("<prefix>Day|Month|Year to date")                                  },
-	{   DayMonthYearToAge,             LPGENW("<prefix>Day|Month|Year to age")                                   },
+	{  DayMonthYearToAge,             LPGENW("<prefix>Day|Month|Year to age")                                   },
 	{	HoursMinutesSecondsToTime,     LPGENW("<prefix>Hours|Minutes|Seconds to time")                           },
 	{	DmyToTimeDifference,           LPGENW("<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference") },
 	{	DayMonthToDaysToNextBirthday,  LPGENW("<prefix>Day|Month to days to next birthday")                      },
@@ -739,7 +646,6 @@ static DBVTranslation internalTranslations[] =
 	{	TimezoneToTime,                LPGENW("BYTE timezone to time")                                           },
 	{	ByteToDay,                     LPGENW("WORD to name of a day (0..6, 0 is Sunday)")                       },
 	{	ByteToMonth,                   LPGENW("WORD to name of a month (1..12, 1 is January)")                   },
-	{	ByteToLanguage,                LPGENW("BYTE to language (MRA)")                                          },
 };
 
 void InitTranslations()
