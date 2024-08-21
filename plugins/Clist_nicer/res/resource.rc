@@ -326,7 +326,7 @@ BEGIN
     CONTROL         "Show bevels on panels",IDC_SBPANELBEVEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,93,265,10
     CONTROL         "Show resize grip indicator",IDC_SHOWGRIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,108,265,10
     CONTROL         "Draw background skin",IDC_SKINBACKGROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,123,265,10
-    CONTROL         "Show MRA extended status icons",IDC_SHOWXSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,186,275,9
+    CONTROL         "Show extended status icons",IDC_SHOWXSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,186,275,9
     CONTROL         "Mark protocols locked from global status changes",IDC_MARKLOCKED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,200,275,9
 END
