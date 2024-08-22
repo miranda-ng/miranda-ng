@@ -117,4 +117,6 @@ void InitIcons(void)
 	}
 
 	HookEvent(ME_SKIN_ICONSCHANGED, ReloadIcons);
+
+	g_hCLIcon = ExtraIcon_RegisterCallback(MODULENAME, LPGEN("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
 }

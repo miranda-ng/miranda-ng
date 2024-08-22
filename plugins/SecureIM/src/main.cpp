@@ -345,9 +345,6 @@ int CMPlugin::Load(void)
 	CreateServiceFunction(MODULENAME"/MODE_PGP", Service_ModePGP);
 	CreateServiceFunction(MODULENAME"/MODE_GPG", Service_ModeGPG);
 	CreateServiceFunction(MODULENAME"/MODE_RSA", Service_ModeRSAAES);
-
-	g_hCLIcon = ExtraIcon_RegisterCallback(MODULENAME, LPGEN("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
-
 	return 0;
 }
 
