@@ -33,15 +33,22 @@ void CSkypeProto::InitGroupChatModule()
 	CreateProtoService(PS_LEAVECHAT, &CSkypeProto::OnLeaveChatRoom);
 }
 
-SESSION_INFO* CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname)
+SESSION_INFO* CSkypeProto::StartChatRoom(const wchar_t *tid, const wchar_t *tname, const char *pszVersion)
 {
 	// Create the group chat session
 	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, tid, tname);
 	if (!si)
 		return nullptr;
 
-	if (si->arUsers.getCount() == 0) {
-		// Create a user statuses
+	bool bFetchInfo = si->arUsers.getCount() == 0;
+	if (pszVersion) {
+		CMStringA oldVersion(getMStringA(si->hContact, "Version"));
+		if (oldVersion != pszVersion)
+			bFetchInfo = true;
+	}
+
+	if (bFetchInfo) {
+		// Create user statuses
 		Chat_AddGroup(si, TranslateT("Admin"));
 		Chat_AddGroup(si, TranslateT("User"));
 
@@ -367,6 +374,8 @@ void CSkypeProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 	auto *si = Chat_Find(wszChatId, m_szModuleName);
 	if (si == nullptr)
 		return;
+
+	setString(si->hContact, "Version", root["version"].as_string().c_str());
 
 	OBJLIST<char> arIds(1);
 	for (auto &member : root["members"]) {

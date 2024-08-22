@@ -270,7 +270,7 @@ private:
 	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
-	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname);
+	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname, const char *pszVersion = nullptr);
 
 	bool OnChatEvent(const JSONNode &node);
 	wchar_t* GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name = nullptr, bool *isQualified = nullptr);

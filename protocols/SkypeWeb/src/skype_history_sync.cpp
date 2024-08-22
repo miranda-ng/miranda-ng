@@ -116,8 +116,8 @@ void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*
 		case 19:
 			{
 				auto &props = it["threadProperties"];
-				if (props["members"] && !props["lastleaveat"])
-					StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring());
+				if (props["membercount"].as_int() && !props["lastleaveat"])
+					StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring(), props["version"].as_string().c_str());
 			}
 			__fallthrough;
 
