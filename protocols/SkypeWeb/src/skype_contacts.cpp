@@ -196,8 +196,8 @@ void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 		SetString(hContact, "FirstName", name["first"]);
 		SetString(hContact, "LastName", name["surname"]);
 
-		if (profile["mood"])
-			db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(item["mood"].as_mstring()));
+		if (auto &pMood = profile["mood"])
+			db_set_ws(hContact, "CList", "StatusMsg", RemoveHtml(pMood.as_mstring()));
 
 		SetAvatarUrl(hContact, profile["avatar_url"].as_mstring());
 		ReloadAvatarInfo(hContact);

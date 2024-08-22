@@ -344,13 +344,30 @@ const HtmlEntity htmlEntities[] =
 	{ "zwnj", "\xE2\x80\x8C" }
 };
 
+static void Utf32toUtf16(uint32_t c, CMStringW &dest)
+{
+	if (c < 0x10000)
+		dest.AppendChar(c);
+	else {
+		unsigned int t = c - 0x10000;
+		dest.AppendChar((((t << 12) >> 22) + 0xD800));
+		dest.AppendChar((((t << 22) >> 22) + 0xDC00));
+	}
+}
+
 CMStringW RemoveHtml(const CMStringW &data)
 {
+	bool inSS = false;
 	CMStringW new_string;
 
 	for (int i = 0; i < data.GetLength(); i++) {
 		wchar_t c = data[i];
 		if (c == '<') {
+			if (!wcsncmp(data.c_str() + i + 1, L"ss ", 3))
+				inSS = true;
+			else if (!wcsncmp(data.c_str() + i + 1, L"/ss>", 4))
+				inSS = false;
+
 			i = data.Find('>', i);
 			if (i == -1)
 				break;
@@ -420,6 +437,18 @@ CMStringW RemoveHtml(const CMStringW &data)
 					continue;
 				else
 					i = begin;
+			}
+		}
+
+		if (c == '(' && inSS) {
+			uint32_t code = 0;
+			if (1 == swscanf(data.c_str() + i + 1, L"%x_", &code))
+				Utf32toUtf16(code, new_string);
+
+			int iEnd = data.Find(')', i);
+			if (iEnd != -1) {
+				i = iEnd;
+				continue;
 			}
 		}
 
