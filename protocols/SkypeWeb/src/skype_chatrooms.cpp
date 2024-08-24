@@ -352,8 +352,11 @@ void CSkypeProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pR
 
 	for (auto &it : root["profiles"]) {
 		CMStringW wszUserId(Utf2T(it.name()));
-		if (auto *pUser = g_chatApi.UM_FindUser(si, wszUserId))
-			replaceStrW(pUser->pszNick, it["profile"]["displayName"].as_mstring());
+		if (auto *pUser = g_chatApi.UM_FindUser(si, wszUserId)) {
+			auto &pProfile = it["profile"];
+			if (auto &pName = pProfile["displayName"])
+				replaceStrW(pUser->pszNick, pName.as_mstring());
+		}
 	}
 
 	g_chatApi.OnChangeNick(si);
