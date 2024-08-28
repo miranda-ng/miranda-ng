@@ -24,7 +24,6 @@
 #define IDC_CLIST                       1030
 #define IDC_TITLE                       1031
 #define IDC_CONTACT                     1032
-#define IDC_MESASUREAD                  1033
 #define IDC_PLACE                       1034
 #define IDC_USEHOST                     1035
 #define IDC_CHECK1                      1036

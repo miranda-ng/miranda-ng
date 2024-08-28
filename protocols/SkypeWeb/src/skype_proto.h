@@ -107,7 +107,6 @@ public:
 	// settings
 
 	CMOption<bool> bAutoHistorySync;
-	CMOption<bool> bMarkAllAsUnread;
 	CMOption<bool> bUseBBCodes;
 	CMOption<bool> bUseServerTime; // hidden setting!
 

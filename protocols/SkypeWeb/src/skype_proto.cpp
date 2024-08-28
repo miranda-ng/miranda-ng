@@ -24,7 +24,6 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	m_impl(*this),
 	m_requests(1),
 	bAutoHistorySync(this, "AutoSync", true),
-	bMarkAllAsUnread(this, "MarkMesUnread", true),
 	bUseHostnameAsPlace(this, "UseHostName", true),
 	bUseBBCodes(this, "UseBBCodes", true),
 	bUseServerTime(this, "UseServerTime", false),

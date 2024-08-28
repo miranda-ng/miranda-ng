@@ -32,7 +32,6 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 	int totalCount = metadata["totalCount"].as_int();
 	std::string syncState = metadata["syncState"].as_string();
 
-	bool markAllAsUnread = getBool("MarkMesUnread", true);
 	bool bUseLocalTime = !bUseServerTime && pRequest->pUserInfo != 0;
 	bool bSetLastTime = false;
 
@@ -65,8 +64,7 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		}
 
 		dbei.flags = DBEF_UTF;
-		if (!markAllAsUnread)
-			dbei.flags |= DBEF_READ;
+		dbei.flags |= DBEF_READ;
 		if (IsMe(szFrom))
 			dbei.flags |= DBEF_SENT;
 

@@ -137,12 +137,10 @@ BEGIN
     EDITTEXT        IDC_GROUP,79,49,117,12,ES_AUTOHSCROLL
     GROUPBOX        "Others",IDC_STATIC,5,79,298,65
     CONTROL         "Automatic messages synchronization",IDC_AUTOSYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,89,176,10
-    CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,100,285,10
+    CONTROL         "Use BBCode",IDC_BBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,100,176,10
     EDITTEXT        IDC_PLACE,80,117,109,14,ES_AUTOHSCROLL
     RTEXT           "Place:",IDC_STATIC,13,120,62,11
     CONTROL         "Use hostname",IDC_USEHOST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,196,120,102,10
-    CONTROL         "Use BBCode",IDC_BBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,196,89,102,10
     CONTROL         "Change password",IDC_CHANGEPASS,"Hyperlink",WS_TABSTOP,203,33,60,12
 END
 

@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class CSkypeOptionsMain : public CSkypeDlgBase
 {
 	CCtrlEdit m_skypename, m_password, m_group, m_place;
-	CCtrlCheck m_autosync, m_allasunread, m_usehostname, m_usebb;
+	CCtrlCheck m_autosync, m_usehostname, m_usebb;
 	CCtrlHyperlink m_link;
 
 public:
@@ -31,14 +31,12 @@ public:
 		m_group(this, IDC_GROUP),
 		m_place(this, IDC_PLACE),
 		m_autosync(this, IDC_AUTOSYNC),
-		m_allasunread(this, IDC_MESASUREAD),
 		m_usehostname(this, IDC_USEHOST),
 		m_usebb(this, IDC_BBCODES),
 		m_link(this, IDC_CHANGEPASS, "https://login.skype.com/recovery/password-change") // TODO : ...?username=%username%
 	{
 		CreateLink(m_group, proto->wstrCListGroup);
 		CreateLink(m_autosync, proto->bAutoHistorySync);
-		CreateLink(m_allasunread, proto->bMarkAllAsUnread);
 		CreateLink(m_place, proto->wstrPlace);
 		CreateLink(m_usehostname, proto->bUseHostnameAsPlace);
 		CreateLink(m_usebb, proto->bUseBBCodes);
