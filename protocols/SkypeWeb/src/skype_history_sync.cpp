@@ -32,7 +32,8 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 	int totalCount = metadata["totalCount"].as_int();
 	std::string syncState = metadata["syncState"].as_string();
 
-	bool bUseLocalTime = !bUseServerTime && pRequest->pUserInfo != 0;
+	bool bOperative = pRequest->pUserInfo != 0;
+	bool bUseLocalTime = !bUseServerTime && bOperative;
 	bool bSetLastTime = false;
 
 	int64_t lastMsgTime = 0; // max timestamp on this page
@@ -64,7 +65,8 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		}
 
 		dbei.flags = DBEF_UTF;
-		dbei.flags |= DBEF_READ;
+		if (!bOperative)
+			dbei.flags |= DBEF_READ;
 		if (IsMe(szFrom))
 			dbei.flags |= DBEF_SENT;
 

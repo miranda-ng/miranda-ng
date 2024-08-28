@@ -45,8 +45,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CSkypeDlgBase::OnInitDialog();
-
 		m_skypename.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
 		m_password.SetTextA(pass_ptrA(m_proto->getStringA("Password")));
 		m_place.Enable(!m_proto->bUseHostnameAsPlace);
