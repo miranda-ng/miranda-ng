@@ -244,6 +244,23 @@ Nachrichten
 Notizen
 [Host]
 Host
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+Channel
+[Mode]
+Modus
+[Please wait...]
+Bitte warten...
+[%s - Filtered - %d items]
+%s - gefilterte - %d Elemente
+[Downloading list (%u%%) - %u channels]
+Laden der Liste (%u%%) - %u Channels
+[Downloading list - %u channels]
+Laden der Liste - %u Channels
+[Done: %u channels]
+Fertig: %u Channels
+[(probably truncated by server)]
+(wahrscheinlich vom Server unterbrochen)
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP-Chatanfrage von %s
@@ -296,14 +313,6 @@ Op
 Halfop
 [Voice]
 Stimme
-[Downloading list (%u%%) - %u channels]
-Laden der Liste (%u%%) - %u Channels
-[Downloading list - %u channels]
-Laden der Liste - %u Channels
-[Done: %u channels]
-Fertig: %u Channels
-[(probably truncated by server)]
-(wahrscheinlich vom Server unterbrochen)
 [%ud, %uh, %um, %us]
 %uT, %uS, %uM, %uS
 [%uh, %um, %us]
@@ -711,14 +720,6 @@ Einstellungen können nicht gespeichert werden! Das Feld "Nick" muss mindestens 
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Einstellungen konnten nicht gespeichert werden!\n\nFür diese Methode der Statusbestimmung muss eine komplette Hostmaske angegeben werden.
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-Bitte warten...
-[Channel]
-Channel
-[Mode]
-Modus
-[%s - Filtered - %d items]
-%s - gefilterte - %d Elemente
 [Add ban/invite/exception]
 Bann/Einladung/Ausnahme hinzufügen
 [Edit selected ban/invite/exception]

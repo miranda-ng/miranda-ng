@@ -506,18 +506,8 @@ Alle Titelleisten verstecken
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 Zeigen/&Ausblenden
-[&Find/add contacts...]
-Kontakte suchen/hinzu&fügen...
-[&Main menu]
-&Hauptmenü
-[&Status]
-&Status
-[&Options...]
-&Einstellungen...
-[&About]
-&Über
-[&Show offline users in here]
-Offline-Kontakte hier an&zeigen
+[Show offline users in here]
+Offline-Kontakte hier anzeigen
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
 Zuletzt gesehen
@@ -803,8 +793,6 @@ Hauptmenü
 Statusmenü
 [Accounts]
 Konten
-[Accounts...]
-Konten...
 [Show/Hide offline contacts]
 Offline-Kontakte anzeigen/ausblenden
 [Hide offline contacts]

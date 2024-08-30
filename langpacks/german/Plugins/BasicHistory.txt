@@ -207,7 +207,7 @@ Mit Zitat antworten
 [Delete group]
 Gruppe löschen
 [Delete all contact history]
-
+Verlauf aller Kontakte löschen
 [Options]
 Einstellungen
 [Filters]

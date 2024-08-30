@@ -122,8 +122,6 @@ Erweiterte Einstellungen
 Tooltip erst anzeigen, wenn Inhalt verfügbar (Avatar && Statusnachricht)
 [Retrieve new status message]
 Neue Statusnachricht abrufen
-[Disable in invisible status]
-Im Unsichtbar-Status deaktivieren
 [Retrieve xStatus details if auto-retrieve is disabled]
 xStatus-Details abrufen, auch wenn automatischer Empfang deaktiviert
 [Status bar and tray tooltip]
@@ -481,150 +479,6 @@ Neu laden
 [Apply]
 Übernehmen
 ;file \plugins\TipperYM\src\translations.cpp
-[Afrikaans]
-Afrikaans
-[Albanian]
-Albanisch
-[Arabic]
-Arabisch
-[Armenian]
-Armenisch
-[Azerbaijani]
-Aserbaidschanisch
-[Belorussian]
-Weissrussisch
-[Bhojpuri]
-Bhojpuri
-[Bosnian]
-Bosnisch
-[Bulgarian]
-Bulgarisch
-[Burmese]
-Birmanisch
-[Cantonese]
-Kantonesisch
-[Catalan]
-Katalanisch
-[Chamorro]
-Chamorro
-[Chinese]
-Chinesisch
-[Croatian]
-Kroatisch
-[Czech]
-Tschechisch
-[Danish]
-Dänisch
-[Dutch]
-Niederländisch
-[English]
-Englisch
-[Esperanto]
-Esperanto
-[Estonian]
-Estnisch
-[Farsi]
-Farsi
-[Finnish]
-Finnisch
-[French]
-Französisch
-[Gaelic]
-Gälisch
-[German]
-Deutsch
-[Greek]
-Griechisch
-[Gujarati]
-Gujarati
-[Hebrew]
-Hebräisch
-[Hindi]
-Hindi
-[Hungarian]
-Ungarisch
-[Icelandic]
-Isländisch
-[Indonesian]
-Indonesisch
-[Italian]
-Italienisch
-[Japanese]
-Japanisch
-[Khmer]
-Khmer
-[Korean]
-Koreanisch
-[Kurdish]
-Kurdisch
-[Lao]
-Laotisch
-[Latvian]
-Lettisch
-[Lithuanian]
-Litauisch
-[Macedonian]
-Mazedonisch
-[Malay]
-Malayisch
-[Mandarin]
-Mandarin
-[Mongolian]
-Mongolisch
-[Norwegian]
-Norwegisch
-[Persian]
-Persisch
-[Polish]
-Polnisch
-[Portuguese]
-Portugiesisch
-[Punjabi]
-Panjabi
-[Romanian]
-Rumänisch
-[Russian]
-Russisch
-[Serbo-Croatian]
-Serbokroatisch
-[Sindhi]
-Sindhi
-[Slovak]
-Slowakisch
-[Slovenian]
-Slowenisch
-[Somali]
-Somalisch
-[Spanish]
-Spanisch
-[Swahili]
-Suaheli
-[Swedish]
-Schwedisch
-[Tagalog]
-Tagalog
-[Taiwanese]
-Taiwanesisch
-[Tamil]
-Tamilisch
-[Tatar]
-Tatarisch
-[Thai]
-Thailändisch
-[Turkish]
-Türkisch
-[Ukrainian]
-Ukrainisch
-[Urdu]
-Urdu
-[Vietnamese]
-Vietnamesisch
-[Welsh]
-Walisisch
-[Yiddish]
-Jiddisch
-[Yoruba]
-Yoruba
 [Sunday]
 Sonntag
 [Monday]
@@ -681,8 +535,8 @@ DWORD-Zeitstempel in Zeit
 DWORD-Zeitstempel in Zeitunterschied
 [BYTE to Yes/No]
 BYTE in Ja/Nein
-[BYTE to Male/Female (ICQ)]
-BYTE in Geschlecht (ICQ)
+[BYTE to Male/Female]
+BYTE in Geschlecht
 [WORD to country name]
 WORD in Landesname
 [DWORD to IP address]
@@ -715,5 +569,3 @@ BYTE-Zeitzone in Zeit
 WORD in Tagesnamen (0..6, 0 ist Sonntag)
 [WORD to name of a month (1..12, 1 is January)]
 WORD in Monatsnamen (1..12, 1 ist Januar)
-[BYTE to language (ICQ)]
-BYTE in Sprache (ICQ)

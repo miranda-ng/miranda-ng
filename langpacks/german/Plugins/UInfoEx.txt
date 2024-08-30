@@ -44,8 +44,6 @@ männlich
 Familienstand:
 [Partner:]
 Partner:
-[Language skills]
-Sprachkenntnisse
 [Street:]
 Straße:
 [Postal code:]
@@ -420,12 +418,6 @@ Ignorieren
 [Error]
 Fehler
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload details]
-Profil hochladen
-[Protocol '%s' is offline]
-Protokoll '%s' ist offline.
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Es besteht momentan keine Verbindung mit dem ICQ-Netzwerk.\nUm das Profil hochladen zu können, muss vorher eine Verbindung aufgebaut werden.\n\nDas Profil wird nur in der Datenbank gespeichert.
 [Creating the image list failed!]
 Das Erstellen der Bildliste ist fehlgeschlagen!
 [Could not find contact's protocol. Maybe it is not active!]
@@ -444,12 +436,6 @@ Inhaber
 Kontakt-Informationen bearbeiten
 [View personal user details and more]
 Persönliche Benutzerdetails und mehr ansehen
-[Upload ICQ details]
-ICQ-Profil hochladen
-[Upload failed]
-Hochladen fehlgeschlagen
-[Your details were not uploaded successfully.\nThey were written to database only.]
-Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Datenbank gespeichert.
 [updating]
 Aktualisieren
 ;file \plugins\UserInfoEx\src\init.cpp
@@ -586,12 +572,8 @@ Alle Kontakte importieren
 Gruppe ex-/importieren
 [&Export group]
 Gruppe &exportieren
-[&Import group]
-Gruppe &importieren
 [&Export xml]
 XML &exportieren
-[&Import xml]
-XML &importieren
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Meine Notizen:
@@ -683,150 +665,6 @@ Soll dieser Eintrag wirklich gelöscht werden?
 [Profile]
 Profil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
-[Afrikaans]
-Afrikaans
-[Albanian]
-Albanisch
-[Arabic]
-Arabisch
-[Armenian]
-Armenisch
-[Azerbaijani]
-Aserbaidschanisch
-[Belorussian]
-Weissrussisch
-[Bhojpuri]
-Bhojpuri
-[Bosnian]
-Bosnisch
-[Bulgarian]
-Bulgarisch
-[Burmese]
-Birmanisch
-[Cantonese]
-Kantonesisch
-[Catalan]
-Katalanisch
-[Chamorro]
-Chamorro
-[Chinese]
-Chinesisch
-[Croatian]
-Kroatisch
-[Czech]
-Tschechisch
-[Danish]
-Dänisch
-[Dutch]
-Niederländisch
-[English]
-Englisch
-[Esperanto]
-Esperanto
-[Estonian]
-Estnisch
-[Farsi]
-Farsi
-[Finnish]
-Finnisch
-[French]
-Französisch
-[Gaelic]
-Gälisch
-[German]
-Deutsch
-[Greek]
-Griechisch
-[Gujarati]
-Gujarati
-[Hebrew]
-Hebräisch
-[Hindi]
-Hindi
-[Hungarian]
-Ungarisch
-[Icelandic]
-Isländisch
-[Indonesian]
-Indonesisch
-[Italian]
-Italienisch
-[Japanese]
-Japanisch
-[Khmer]
-Khmer
-[Korean]
-Koreanisch
-[Kurdish]
-Kurdisch
-[Lao]
-Laotisch
-[Latvian]
-Lettisch
-[Lithuanian]
-Litauisch
-[Macedonian]
-Mazedonisch
-[Malay]
-Malayisch
-[Mandarin]
-Mandarin
-[Mongolian]
-Mongolisch
-[Norwegian]
-Norwegisch
-[Persian]
-Persisch
-[Polish]
-Polnisch
-[Portuguese]
-Portugiesisch
-[Punjabi]
-Panjabi
-[Romanian]
-Rumänisch
-[Russian]
-Russisch
-[Serbo-Croatian]
-Serbokroatisch
-[Sindhi]
-Sindhi
-[Slovak]
-Slowakisch
-[Slovenian]
-Slowenisch
-[Somali]
-Somalisch
-[Spanish]
-Spanisch
-[Swahili]
-Suaheli
-[Swedish]
-Schwedisch
-[Tagalog]
-Tagalog
-[Taiwanese]
-Taiwanesisch
-[Tamil]
-Tamilisch
-[Tatar]
-Tatarisch
-[Thai]
-Thailändisch
-[Turkish]
-Türkisch
-[Ukrainian]
-Ukrainisch
-[Urdu]
-Urdu
-[Vietnamese]
-Vietnamesisch
-[Welsh]
-Walisisch
-[Yiddish]
-Jiddisch
-[Yoruba]
-Yoruba
 [Academic]
 Akademisch
 [Administrative]
@@ -851,8 +689,8 @@ Politik
 Mittelschüler
 [Home]
 Wohnort
-[ICQ - Providing Help]
-ICQ - Helfer
+[Providing Help]
+Helfer
 [Law]
 Gesetz
 [Managerial]
@@ -1167,11 +1005,11 @@ Einige grundlegende Statistiken
 [all Contacts]
 alle Kontakte
 [XMLCard]
-
+XMLCard
 [DBEditor++ File]
-
+DBEditor++ Datei
 [Standard vCard]
-
+Standard vCard
 [Select a destination file...]
 Zieldatei auswählen...
 [Import User Details from VCard]

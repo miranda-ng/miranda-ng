@@ -1,4 +1,0 @@
-[Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
-[Do you really want to log out from account? You will have to link your devices again.]
-[Connection cannot be established! You have not completed all necessary fields (Nick).]
-[This account was logged out from mobile phone, you need to link it again]

@@ -11,7 +11,7 @@ Unterstützung für WhatsApp in Miranda NG.
 [Link a device]
 Ein Gerät verknüpfen
 [Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
-
+Öffnen Sie WhatsApp auf Ihrem mobilen Gerät, wählen Sie "Verknüpfte Geräte" und scannen Sie diesen QR-Code.\nEin Fenster verschwindet kurz darauf. 
 [Nick:]
 Nick:
 [Default group:]
@@ -48,7 +48,7 @@ Teilnehmer
 WhatsApp (HTTP)
 ;file \protocols\WhatsApp\src\options.cpp
 [Do you really want to log out from account? You will have to link your devices again.]
-
+Möchten Sie sich wirklich von diesem Konto abmelden? Sie müssen Ihr Gerät dann erneut verknüpfen.
 [Network]
 Netzwerk
 [Account]
@@ -57,12 +57,12 @@ Konto
 [%s (server)]
 %s (Server)
 [Connection cannot be established! You have not completed all necessary fields (Nick).]
-
+Die Verbindung konnte nicht aufgebaut werden! Sie haben nicht alle nötigen Felder (Nick) ausgefüllt.
 [Error]
 Fehler
 ;file \protocols\WhatsApp\src\server.cpp
 [This account was logged out from mobile phone, you need to link it again]
-
+Dieses Konto wurde im Mobiltelefon abgemeldet, Sie müssen es erneut verknüpfen.
 ;file \protocols\WhatsApp\src\utils.cpp
 [%s error notifications]
 %s Fehlerbenachrichtigungen

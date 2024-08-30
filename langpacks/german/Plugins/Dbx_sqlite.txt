@@ -9,7 +9,7 @@
 Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
 ;file \plugins\Dbx_sqlite\res\dbx_sqlite.rc
 [Converting database...]
-
+Konvertiere Datenbank...
 ;file \plugins\Dbx_sqlite\src\dbcheck.cpp
 [Orphaned event with wrong contact ID %d, deleting]
 Verwaistes Ereignis mit falscher Kontakt-ID %d, löschen

@@ -278,8 +278,8 @@ Rahmen um Protokolle
 Ecke zur Größenänderung anzeigen
 [Draw background skin]
 Skin im Hintergrund zeichnen
-[Show ICQ extended status icons]
-Erweiterte ICQ-Statusicons anzeigen
+[Show extended status icons]
+Erweiterte Statusicons anzeigen
 [Mark protocols locked from global status changes]
 Vom globalen Status ausgenommene Protokolle markieren
 [Available view modes]
@@ -609,12 +609,6 @@ Zusätzliche Buttons anzeigen
 Eingefallene Ecken benutzen
 [&Hide/show]
 Zeigen/Ausblenden
-[&Find/add contacts...]
-Kontakte suchen/hinzu&fügen...
-[&Main menu]
-&Hauptmenü
-[&Status]
-&Status
 [Appearance]
 Erscheinungsbild
 [&Options...]

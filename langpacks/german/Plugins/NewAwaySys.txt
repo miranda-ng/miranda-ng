@@ -12,10 +12,6 @@ Erweitertes Abwesenheitssystem mit vordefinierten Abwesenheitsnachrichten und vi
 Autoantwort aktivieren
 [On event...]
 Beim Ereignis...
-[Don't reply to ICQ contacts]
-ICQ-Kontakten nicht antworten
-[Don't reply when I'm invisible to the contact]
-Nicht antworten, wenn ich unsichtbar bin
 [Save autoreply to the history]
 Autoantwort im Verlauf speichern
 [Reply only when Idle]
@@ -104,8 +100,8 @@ Letzte Nachricht für einen Kontakt verwenden...
 Kontaktautoantwort/-ignoriereinstellungen für jeden Status separat speichern
 [Use protocol specific nick for %nas_mynick%]
 Protokollspezifischen Alias für %nas_mynick% verwenden
-[Update status messages for non-ICQ protocols every]
-Aktualisiere Statusnachricht für Nicht-ICQ-Kontakte alle
+[Update status messages every]
+Aktualisiere Statusnachricht alle
 [seconds]
 Sekunden
 [Don't show the message dialog for]

@@ -29,5 +29,8 @@ Nachricht-gelesen-Icon
 Senden-fehlgeschlagen-Icon
 [Sending message icon]
 Nachricht-senden-Icon
-[Unread clist extra icon]
+[Unread contact list extra icon]
 Ungelesen-Kontaktlistenicon
+;file \plugins\MessageState\src\stdafx.h
+[MessageState]
+MessageState

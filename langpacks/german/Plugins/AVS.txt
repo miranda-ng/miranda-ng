@@ -6,7 +6,7 @@
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
-Läd und verwaltet Kontaktbilder für andere Plugins.
+Lädt und verwaltet Kontaktbilder für andere Plugins.
 ;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 Die hier eingestellten Bilder werden als Standard-Avatare für Kontakte genutzt, die keinen eigenen Avatar gesetzt haben. Mit den entsprechenden Auswahlfeldern können diese für einzelne Protokolle ein- und ausgeschaltet werden.
@@ -98,7 +98,7 @@ Mein globaler Avatar-Cache
 [Avatar]
 Avatar
 [AVS]
-
+AVS
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Globaler Avatar für %s-Konten

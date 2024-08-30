@@ -1,5 +1,0 @@
-[Turn on Jabber presence signing (required by XEP-0027)]
-[Choose file to export key]
-[Any file]
-[Choose file to export keys]
-[Choose file to import keys from]

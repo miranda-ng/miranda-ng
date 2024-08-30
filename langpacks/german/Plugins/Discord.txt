@@ -1,0 +1,165 @@
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Discord support for Miranda NG.]
+Discord-Protokollunterstützung für Miranda NG.
+;file \protocols\Discord\res\discord.rc
+[User details]
+Kontaktprofil
+[E-mail or phone:]
+E-Mail oder Telefon:
+[Password:]
+Passwort:
+[Contacts]
+Kontakte
+[Default group:]
+Standardgruppe:
+[Enable guilds (servers)]
+Gilden aktivieren (Server)
+[Do not open chat windows on creation]
+Chatfenster bei der Erzeugung nicht öffnen
+[Use subgroups for server channels (requires restart)]
+Untergruppen für Server-Channels verwenden (erfordert Neustart)
+[Delete messages in Miranda when they are deleted from server]
+Nachrichten in Miranda löschen wenn sie vom Server gelöcht werden
+[Log out]
+Abmelden
+[Delete contacts in Miranda when they are deleted from server]
+Kontakte in Miranda löschen wenn sie vom Server gelöcht werden
+[Nick:]
+Nick:
+[Multi-factor authentication]
+Multi-Faktor Authentifizierung
+[Cancel]
+Abbrechen
+[Send group chat invitation]
+Gruppenchateinladung senden
+[&Invite]
+E&inladen
+;file \protocols\Discord\src\dispatch.cpp
+[edited at]
+bearbeitet um
+;file \protocols\Discord\src\groupchat.cpp
+[Change &nickname]
+&Nickname ändern
+[Invite users]
+Benutzer einladen
+[Channel control]
+Channel verwalten
+[Change &topic]
+&Thema ändern
+[&Rename channel]
+Channel &umbenennen
+[Destroy channel]
+Channel &zerstören
+[Leave channel]
+Channel verlassen
+[Copy ID]
+ID kopieren
+[Add friend]
+Freund hinzufügen
+[Kick user]
+Benutzer kicken
+[Make group owner]
+Gruppenbesitzer erschaffen
+[Do you really want to destroy this channel? This action is non-revertable.]
+Möchten Sie diesen Channel wirklich zerstören? Diese Aktion kann nicht rückgängig gemacht werden.
+[Enter new channel name:]
+Neuen Channelnamen eingeben:
+[Enter new topic:]
+Neues Thema eingeben:
+[Enter your new nick name:]
+Neuen Nicknamen eingeben:
+;file \protocols\Discord\src\main.cpp
+[Main icon]
+Haupticon
+[Group chats]
+Gruppenchats
+[Call]
+Anruf
+[Call ended]
+Anruf beendet
+;file \protocols\Discord\src\menus.cpp
+[Enter channel name]
+Channelnamen eingeben
+[Enter invitation code you received]
+Geben Sie den empfangenen Einladungscode ein
+[Do you really want to leave the guild?]
+Möchten Sie die Gilde wirklich verlassen?
+[Disable sync]
+Sync deaktivieren
+[Enable sync]
+Sync aktivieren
+[Disable database history for a guild]
+Datenbankverlauf für eine Gilde deaktivieren
+[Enable database history for a guild]
+Datenbankverlauf für eine Gilde aktivieren
+[Join guild]
+Gilde betreten
+[Copy my Discord ID]
+Meine Discord-ID kopieren
+[Leave guild]
+Gilde verlassen
+[Create new channel]
+Neuen Channel aktivieren
+[Enable guild sync]
+Gilden-Synchronisierung aktivieren
+;file \protocols\Discord\src\mfa.cpp
+[Use your authenticator app]
+Authentificator-App verwenden
+[Use a code sent to your phone]
+Code an Ihr Telefon senden
+[Use a backup code]
+Backupcode verwenden
+[6-digit authentication code:]
+6-stelliger Authentifizierungscode:
+[8-digit backup code:]
+8-stelliger Backupcode:
+[Invalid two-factor code]
+Ungültiger Zwei-Faktor-Code
+[MFA initialization]
+MFA-Initialisierung
+;file \protocols\Discord\src\options.cpp
+[Network]
+Netzwerk
+[Account]
+Konto
+;file \protocols\Discord\src\proto.cpp
+[%s server connection]
+%s Serververbindung
+[%s gateway connection]
+%s Gatewayverbindung
+[Discord voice call]
+Discord-Sprachanruf
+[User ID]
+Nutzer-ID
+[Message send failed]
+Senden der Nachricht fehlgeschlagen
+;file \protocols\Discord\src\server.cpp
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+Der Server verlangt, dass Sie das Captcha eingeben. Miranda wird Sie nun an den Browser weiterleiten.
+[Connection failed.\n%s (%s).]
+Verbindung fehlgeschlagen.\n%s (%s).
+;file \protocols\Discord\src\utils.cpp
+[Owners]
+Besitzer
+[Participants]
+Teilnehmer
+[Embed]
+Eingebettet
+[Preview]
+Vorschau
+[%s added %s to the group]
+%s hat %s zur Gruppe hinzugefügt
+[%s joined the group]
+%s ist der Gruppe beigetreten
+[%s removed %s from the group]
+%s hat %s aus der Gruppe entfernt
+[%s left the group]
+%s hat die Gruppe verlassen
+[%s changed the group icon]
+%s hat das Gruppen-Icon geändert

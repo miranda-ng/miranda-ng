@@ -234,6 +234,8 @@ Einzeilige Tab-Anordnung (*)
 Schließen-Schaltflache auf den Tabs
 [Use button tabs (*)]
 Tab-Schaltflächen verwenden (*)
+[Side bar width]
+Breite der Seitenleiste
 [You have chosen to disable all event notifications for open message windows.]
 Sie haben sich entschieden, alle Ereignisbenachrichtigungen für geöffnete Nachrichtenfenster zu deaktivieren.
 [Show contact avatars]
@@ -262,17 +264,19 @@ Größe und Darstellungsoptionen für Avatardarstellung unten
 Maximale Anzeigehöhe (Pixel)
 [(0 = no limit)]
 (0 = unbegrenzt)
-[Try to keep original size]
-Versuche Originalgröße beizubehalten
+[Use the original size if it is smaller]
+Originalgröße verwenden wenn es kleiner ist
 [Help on this]
 Hilfe hierzu
 [Reset all hidden warnings]
 'Warnung nicht wieder zeigen' zurücksetzen
-[Load unread events only]
+[Preload history events on window opening]
+Verlaufsereignisse beim Öffnen des Fensters laden
+[Preload unread events only]
 Nur ungelesene Ereignisse laden
-[Load number of previous events]
+[Preload number of previous events]
 Lade Anzahl vorheriger Ereignisse
-[Load previous events less than]
+[Preload previous events less than]
 Lade Ereignisse, die nicht älter als
 [minutes old]
 Minuten alt
@@ -288,8 +292,6 @@ Formatvorlagen für Nachrichten
 Normale Vorlagen...
 [RTL templates...]
 RTL-Vorlagen...
-[Load history events]
-Vergangene Ereignisse laden
 [Typing notification options]
 Tippbenachrichtigungseinstellungen
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -713,8 +715,6 @@ Letzte Nachricht oder Textmarkierung zitieren
 Verlaufseinstellungen
 [View user's history]
 Verlauf anzeigen
-[Edit user notes]
-Benutzernotizen bearbeiten
 [Select a foreground color for the text (Ctrl+K)]
 Schriftfarbe wählen (Strg+K)
 [Select a background color for the text (Ctrl+L)]
@@ -973,8 +973,8 @@ Nick des aktuellen Kontaktes (falls definiert)
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [user-defined account name of current contact (if defined).]
 Selbstgewählter Kontenname des aktuellen Kontaktes (falls definiert).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-Benutzer-ID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+Benutzer-ID des aktuellen Kontaktes (falls definiert). Es ist wie JID für Jabber, etc.
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to folder containing Miranda profiles]
@@ -1095,8 +1095,6 @@ Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begr
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Keine Statusnachricht
-[You cannot edit user notes when there are unsent messages]
-Sie können keine Benutzernachrichten editieren, wenn ungesendete Nachrichten ausstehen.
 [%s is typing a message...]
 %s tippt eine Nachricht...
 [Last received: %s at %s]
@@ -1126,8 +1124,8 @@ Sonstige
 TabSRMM: Tippen
 [&Messaging settings...]
 Nachrichteneinstellungen...
-[&Send later job list...]
-&Später-senden-Aufgabenliste...
+[Send later job list...]
+Später-senden-Aufgabenliste...
 [signed off.]
 ist nun offline.
 [signed on and is now %s.]
@@ -1271,8 +1269,6 @@ Klicken Sie auf die Schaltfläche für Kontaktmenü\nKlicken Sie auf das Auswahl
 Wiederholen
 [Send later]
 Später senden
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
 [Selection copied to clipboard]
 Auswahl in die Zwischenablage kopiert
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1283,8 +1279,6 @@ Die Nachricht, die Sie versuchten einzufügen, überschritt die maximale Größe
 Zustellungsfehler: %s
 [The message send timed out]
 Zeitüberschreitung beim Versenden einer Nachricht
-[Contact is offline and this protocol does not support sending files to offline users.]
-Kontakt ist offline, und das Protokoll unterstützt keine Datenübertragung zu Leuten, die offline sind.
 ;file \plugins\TabSRMM\src\msgdlgother.cpp
 ['(Unknown contact)']
 (Unbekannter Kontakt)
@@ -1302,8 +1296,6 @@ Kontaktbild speichern
 Bilddateien
 [The file exists. Do you want to overwrite it?]
 Diese Datei existiert bereits. Wollen Sie diese überschreiben?
-[JPEG-compressed images]
-JPEG-komprimierte Bilder
 [Copy all]
 Alles kopieren
 [Save and close session]
@@ -1469,7 +1461,7 @@ BBCode-Formatierung verwenden
 [Use normal templates (uncheck to use simple templates if your template set supports them)]
 Verwende normale Vorlagen (deaktivieren für einfache Vorlagen, falls unterstützt)
 [Message log control]
-
+Nachrichtenverlauf
 [Log status changes]
 Statuswechsel aufzeichnen
 [Automatically copy selected text]
@@ -1618,7 +1610,7 @@ Statusänderung
 [Secure message]
 Sichere Nachricht
 [Secure verified message]
-
+Sichere verifizierte Nachricht
 [Static container icon]
 Statisches Containericon
 [Sounds (status bar)]
@@ -1699,10 +1691,6 @@ Bevorstehend
 Die Nachricht kann nicht verzögert gesendet werden oder an mehrere Kontakte weitergeleitet werden, denn sie überschreitet die maximale Länge der Nachricht, es sind nur %d Byte erlaubt.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Eine Nachrichtenübertragung schlug fehl, nachdem der Kontakt das Chatfenster geschlossen hatte. Sie möchten vielleicht die letzte Nachricht erneut senden.
-[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
-Ungesendete Nachrichten warten auf Bestätigung.\nWenn Sie das Fenster nun schließen, wird Miranda weiterhin versuchen, sie zu senden; es ist aber nicht immer möglich, Sie über mögliche Übertragungsfehler zu informieren.\n\Wollen Sie das Nachrichtenfenster wirklich schließen?
-[Message window warning]
-Nachrichtenfensterwarnung
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Nachricht erfolgreich in der Warteschlange für spätere Übertragung gesichert.\nSie wird so bald wie möglich gesendet werden, Sie werden über ein Popup über das Ergebnis informiert.
 [The send later feature is not available on this protocol.]
@@ -1791,8 +1779,6 @@ TabSRMM-Nachricht (%s)
 TabSRMM-Warnmeldung
 [Save file|Unable to save temporary file]
 Datei speichern|Konnte temporäre Datei nicht speichern
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Editiere Benutzernachricht|Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Fehlende Komponenten|Das Icon-Pack fehlt. Bitte installieren Sie es in den Standard-"Icons"-Ordner.\n\nKeine Icons sind vorhanden.
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
@@ -1809,3 +1795,5 @@ Fenster schließen|Sie sind dabei ein Fenster mit mehreren Tabs zu schließen.\n
 Optionsdialog schließen|Um die Änderungen, die durch den Import eines Themes im Optionsdialog vorgenommen werden, zu übernehmen, muss der Dialog nach dem Laden eines Themes geschlossen werden \\b1und ungespeicherte Änderungen könnten verloren gehen\\b0.\n\nMöchten Sie den Vorgang fortsetzen?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins überschreiben.\n\nWollen Sie fortfahren?
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+Ungesendete Nachrichten warten auf Bestätigung.\nWenn Sie das Fenster nun schließen, wird Miranda weiterhin versuchen, sie zu senden; es ist aber nicht immer möglich, Sie über mögliche Übertragungsfehler zu informieren.\n\Wollen Sie das Nachrichtenfenster wirklich schließen?

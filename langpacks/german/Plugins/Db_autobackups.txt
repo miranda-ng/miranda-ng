@@ -58,8 +58,8 @@ Datenbank wird gerade gesichert...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
 Sicherheitskopie des Profils erstellen
-[Save profile as...]
-Profil speichern unter...
+[Save database as...]
+Datenbank speichern unter...
 [Miranda NG databases]
 Miranda-NG-Datenbanken
 [Compressed Miranda NG databases]

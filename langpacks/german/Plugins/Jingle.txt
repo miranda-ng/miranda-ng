@@ -2,11 +2,16 @@
 ;============================================================
 ;  File: Jingle
 ;  Plugin: Jingle
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: George Hazan
 ;============================================================
 [Jingle support for Jabber protocol.]
 Unterstützung für Jingle für das Jabber-Protokoll.
+;file \plugins\Jingle\res\resource.rc
+[Enable VoIP]
+VoIP aktivieren
+[STUN server address:]
+Adresse des STUN-Servers:
 ;file \plugins\Jingle\src\account.cpp
 [Supports Jingle]
 Unterstützt Jingle
@@ -18,3 +23,8 @@ Jingle RTP
 Jingle DTLS
 [Jingle RTP Audio]
 Jingle RTP Audio
+;file \plugins\Jingle\src\options.cpp
+[Network]
+Netzwerk
+[VoIP]
+VoIP

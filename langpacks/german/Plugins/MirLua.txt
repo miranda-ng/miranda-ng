@@ -45,3 +45,6 @@ Dienste
 C-Bibliotheken-Verzeichnis
 [Scripts folder]
 Skriptverzeichnis
+;file \plugins\MirLua\src\stdafx.h
+[MirLua]
+MirLua

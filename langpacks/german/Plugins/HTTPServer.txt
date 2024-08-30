@@ -130,4 +130,4 @@ HTTP-Server deaktivieren
 [Enable HTTP server]
 HTTP-Server aktivieren
 [Failed to read configuration file: HTTPMimeTypes]
-
+Die Einstellungsdatei HTTPMimeTypes konnte nicht gelesen werden.

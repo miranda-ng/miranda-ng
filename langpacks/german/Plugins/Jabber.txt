@@ -60,8 +60,8 @@ Computername als Standort verwenden
 Port:
 [Use SSL]
 SSL verwenden
-[Use TLS]
-TLS verwenden
+[Use STARTTLS]
+STARTTLS verwenden
 [Unregister]
 Löschen
 [Expert]
@@ -517,7 +517,7 @@ Empfängt Informationen über OMEMO-Geräte
 [Supports message carbons (XEP-0280)]
 Unterstützt Nachrichtendurchschläge (XEP-0280)
 [Supports offline messages (XEP-0160)]
-
+Unterstützt Offline-Nachrichten (XEP-0160)
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -1418,24 +1418,20 @@ Bilder in Nachrichten einbetten (XEP-0231)
 Senden von Chatstatus aktivieren (XEP-0085)
 [Enable server-side history (XEP-0136)]
 Serverseitigen Verlauf aktivieren (XEP-0136)
-[Enable Message Archive Management (XEP-0313)]
-Message Archive Management aktivieren (XEP-0313)
+[Enable Message Archive Management (XEP-0313) (experimental)]
+Message Archive Management aktivieren (XEP-0313) (experimentell)
 [Enable carbon copies (XEP-0280)]
 Durchschlagskopien aktivieren (XEP-0280)
 [Enable HTTP File Upload (XEP-0363)]
 HTTP File Upload aktivieren (XEP-0363)
-[Enable VOIP (experimental)]
-VOIP aktivieren (experimentell)
 [Server options]
 Servereinstellungen
-[Use Stream Management (XEP-0198) if possible (experimental)]
-Stream Management (XEP-0198) verwenden falls möglich (experimentell)
+[Use Stream Management (XEP-0198)]
+Stream Management verwenden (XEP-0198)
 [Disable SASL authentication (for old servers)]
 SASL-Authentifizierung deaktivieren (für ältere Server)
-[Enable stream compression (if possible)]
-Datenstromkompression aktivieren (falls möglich)
-[Use TLS 1.3 bindings (if possible)]
-TLS 1.3 Bindings aktivieren (falls möglich)
+[Enable stream compression]
+Datenstromkompression aktivieren
 [Other]
 Sonstige
 [Enable remote controlling (from another resource of same JID only)]
@@ -1454,16 +1450,18 @@ XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
 Server-Roster ignorieren (Gruppen und Nicknamen)
 [Security]
 Sicherheit
-[Allow local time and timezone requests (XEP-0202)]
-Abfragen der lokalen Zeit und Zeitzone erlauben (XEP-0202)
-[Allow servers to request version (XEP-0092)]
-Servern das Abfragen der Version erlauben (XEP-0092)
-[Show information about operating system in version replies]
+[Allow local time and timezone replies (XEP-0202)]
+Antworten der lokalen Zeit und Zeitzone erlauben (XEP-0202)
+[Allow last activity replies (XEP-0319 & XEP-0012)]
+Antworten zur letzten Aktivität erlauben (XEP-0319 & XEP-0012)
+[Allow version replies (XEP-0092)]
+Versionsantworten erlauben (XEP-0092)
+[Include OS information in version replies]
 Informationen über das Betriebssystem bei Versionsanfragen anzeigen
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP-Authentifizierungs-Anfragen akzeptieren (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
-OMEMO-Verschlüsselung für Nachrichten verwenden wenn möglich (XEP-0384) (Basis-Unterstützung ohne GUI)
+[Use OMEMO encryption (XEP-0384)]
+OMEMO-Verschlüsselung verwenden (XEP-0384)
 [General]
 Allgemein
 [Autoaccept multiuser chat invitations]
@@ -1514,8 +1512,6 @@ League Of Legends (EU West)
 League Of Legends (Ozeanien)
 [League Of Legends (US)]
 League Of Legends (US)
-[Odnoklassniki]
-Odnoklassniki
 [S.ms]
 S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -1780,10 +1776,10 @@ Echte JID:
 Passwort für %s eingeben
 [Error: Not enough memory]
 Fehler: Nicht genug Speicher
+[Requesting XMPP service address through proxy is not supported.\nPlease allow direct DNS in options or specify the hostname manually]
+Anfrage der XMPP-Dienst-Adresse über einen Proxy wird nicht unterstützt.\nBitte erlauben Sie direktes DNS in den Einstellungen oder geben Sie den Hostnamen manuell ein.
 [Error: Cannot connect to the server]
 Fehler: Verbindung zum Server fehlgeschlagen
-[SSL initialization failed]
-SSL-Initialisierung fehlgeschlagen
 [Error: Connection lost]
 Fehler: Verbindung unterbrochen
 [Requesting registration instruction...]
@@ -1801,20 +1797,12 @@ Registrierungsdaten werden gesendet...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [<not specified>]
 <nicht angegeben>
-[Resource]
-Standort
 [Software]
 Software
-[Version]
-Version
-[System]
-System
-[<currently online>]
-<aktuell online>
 [Last activity]
 Letzte Aktivität
-[Client capabilities]
-Fähigkeiten dieses Clients
+[Client capabilities (only ones known to Miranda)]
+Fähigkeiten dieses Clients (nur die für Miranda bekannt sind)
 [Software information]
 Software-Information
 [Operating system]
@@ -1837,10 +1825,10 @@ Zuletzt abgemeldet
 Laufzeit
 [Logoff message]
 Abmeldenachricht
-[<no information available>]
-<keine Informationen verfügbar>
 [Last active resource]
 Letzter aktiver Standort
+[Received vCard does not contain any information.]
+Empfangene vCard enthält keine Informationen.
 [Please switch online to see more details.]
 Bitte gehen Sie online um weitere Details zu sehen.
 [Copy]

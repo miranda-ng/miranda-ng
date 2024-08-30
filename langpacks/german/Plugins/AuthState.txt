@@ -30,5 +30,7 @@ Authstate-Icon aktivieren
 [Auth state]
 Auth.Status
 ;file \plugins\AuthState\src\options.cpp
+[Customize]
+Customize
 [Icons]
 Icons

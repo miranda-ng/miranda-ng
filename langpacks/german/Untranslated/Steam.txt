@@ -1,2 +1,0 @@
-[Default group]
-[Device name]

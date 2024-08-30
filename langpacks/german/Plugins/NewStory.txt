@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -33,21 +33,49 @@ Vertikalen Scrollbalken aktivieren
 [Draw window edge]
 Fensterrand darstellen
 [Ascending events sort order]
-
+Ereignisse aufsteigend sortieren
 [History++ compatiblity mode]
-
+History++ Kompatibilitätsmodus
+[Show event type]
+Ereignisart anzeigen
+[Show event direction]
+Ereignisrichtung anzeigen
+[Show picture preview]
+Bildvorschau anzeigen
 [Template list:]
 Liste der Vorlagen:
 [Edit template:]
 Vorlage bearbeiten:
-[Text preview:]
-Textvorschau:
 [Graphic preview:]
 Grafische Vorschau:
+[Text preview:]
+Textvorschau:
+[[c2]]
+\[c2]
+[[c4]]
+\[c4]
+[[c6]]
+\[c6]
+[[c3]]
+\[c3]
+[[c5]]
+\[c5]
+[Empty history]
+Verlauf leeren
+[Do you really want to delete selected item?]
+Möchen Sie den ausgewählten Eintrag wirklich löschen?
+[Remove server history]
+Serververlauf entfernen
+[Remove history for everyone]
+Verlauf für andere entfernen
+[&Yes]
+&Ja
+[&No]
+&Nein
 [Filter]
 Filter
 [Show all events]
-Alle Ereignisse
+Alle Ereignisse anzeigen
 [Show incoming events only]
 Nur eingehende Ereignisse anzeigen
 [Show outgoing events only]
@@ -102,52 +130,40 @@ Hintergrund des ausgewählten Eintrags
 [Selected item's frame]
 Rahmen des ausgewählten Eintrags
 [Highlighted messages]
-
+Hervorgehobene Nachrichten
 [Grid background]
 Hintergrund des Verlaufsfensters
+[Quoting]
+Zitierung
 [Separator]
 Trennlinie
+[Progress indicator]
+Prozessanzeige
+[Links]
+Links
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
 Unbenannt
+[ %u KB]
+ %u KB
+[I]
+Ich
+[wrote]
+geschrieben
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
-
+Lesezeichen umschalten
 [Search]
 Suchen
 [Search forward]
-
+Vorwärts suchen
 [Search backward]
-
-[Are you sure to remove selected event(s)?]
-Möchten Sie die ausgewählten Ereignisse wirklich löschen?
+Rückwärts suchen
+[Do you really want to delete selected items (%d)?]
+Möchten Sie die %d ausgewählten Einträge wirklich löschen?
 ;file \plugins\NewStory\src\history_dlg.cpp
-[FirstName]
-Vorname
-[LastName]
-Nachname
-[e-mail]
-E-Mail
-[Nick]
-Nick
-[Age]
-Alter
-[Gender]
-Geschlecht
-[City]
-Stadt
-[State]
-Region
-[Phone]
-Telefon
-[Homepage]
-Homepage
-[About]
-Über
 [Global history search]
 Globale Verlaufssuche
-[System history]
-Systemverlauf
 [All results]
 Alle Ergebnisse
 [Copy]
@@ -174,37 +190,47 @@ Finde vorherige
 Unterhaltungen
 [Bookmarks]
 Lesezeichen
-[No more occuurences found]
-
+[You need to install the Import plugin to export events]
+Sie müssen das Import-Plugin installieren um Ereignisse zu exportieren.
+[No more occurrences found]
+Keine weiteren Vorkommen gefunden
 [Passed the end of history]
-
+Ende des Verlaufes erreicht
+[The required plugin 'Import' isn't loaded to perform this operation.]
+Das für diese Operation benötigte import-Plugin wurde nicht gefunden.
+[Do you want to install it using Plugin Updater?]
+Möchten Sie es über den Plugin Updater installieren?
+[Missing plugin]
+Fehlendes Plugin
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 Es ist ein Metakontakt. Verwenden Sie zum Export einen seiner Unterkontakte:\r\n%s
 [Export warning]
 Export-Warnung
 [JSON files]
 JSON-Dateien
-[Export %s history]
-Verlauf von %s exportieren
+[Export history]
+Verlauf exportieren
 [Complete]
 Fertig
 [History export]
 Verlaufsexport
 [Passed the beginning of history]
-
+Anfang des Verlaufs überschritten
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file path]
-
-[Copy URL]
-URL kopieren
 [History]
 Verlauf
 [Global search]
-
+Globale Suche
 [Copy text]
 Text kopieren
+[Copy URL]
+URL kopieren
+[Copy file path]
+Dateipfad kopieren
+[Show in folder]
+In Verzeichnis anzeigen
 [Quote]
-Zitat
+Zitieren
 [Save as]
 Speichern als
 [Download]
@@ -215,6 +241,8 @@ Bearbeiten
 Löschen
 [Select all]
 Alles auswählen
+[Reply]
+Antworten
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Haupticon
@@ -235,7 +263,7 @@ Vorlage Gruppe
 [Cancel edit]
 Bearbeitung abbrechen
 [Downloaded]
-
+Heruntergeladen
 [Help]
 Hilfe
 ;file \plugins\NewStory\src\options.cpp
@@ -257,10 +285,6 @@ Mein Nickname
 Nickname des Freundes
 [event count]
 Ereigniszähler
-[icon]
-Icon
-[direction icon]
-Ein-/Ausgehend Icon
 [direction symbol]
 Ein-/Ausgehend Symbol
 [timestamp]
@@ -287,6 +311,12 @@ AM/PM-Zeichen
 Monatsname
 [the message string itself]
 Die Nachricht selbst
+[default text color]
+Standard Textfarbe
+[nickname's color]
+Nickname Farbe
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
+Eine der benutzerdefinierten Farben aus der Optionsseite für die folgende Textausgabe (X ist eine Zahl von 2 bis 6, die sich auf den Farbindex bezieht)
 [Advanced]
 Erweitert
 ;file \plugins\NewStory\src\templates.cpp
@@ -328,6 +358,8 @@ Oktober
 November
 [December]
 Dezember
+[System history]
+Systemverlauf
 [System event]
 Systemereignis
 [Interface]
@@ -335,11 +367,11 @@ Oberfläche
 [Window title]
 Fenstertitel
 [%N - history [%c messages total]]
-
+%N - Verlauf [%c Nachrichten insgesamt]
 [Message log]
 Nachrichtenverlauf
 [Group head]
-
+Gruppenkopf
 [Grouped messages]
 Gruppierte Nachrichten
 [Presence requests]
@@ -354,3 +386,8 @@ Autorisierungsanfragen
 'Sie wurden gelöscht' Ereignisse
 [Clipboard]
 Zwischenablage
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+Diese URL könnte ein ausführbares Programm oder einen Virus ausführen. Sind Sie dich dicher?
+[Potentially dangerous URL]
+Potentiell gefährliche URL

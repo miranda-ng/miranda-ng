@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,36 +88,12 @@ News-Aggregator
 %s\nist keine gültige Feed-Adresse
 [empty]
 leer
-;file \protocols\NewsAggregator\Src\Icons.cpp
-[Protocol icon]
-Protokollicon
-[Check All Feeds]
-Alle Feeds prüfen
-[Add Feed]
-Feed hinzufügen
-[Import Feeds]
-Importiere Feeds
-[Export Feeds]
-Exportiere Feeds
-[Auto Update Enabled]
-Autom. Aktualisierung aktiviert
-[Auto Update Disabled]
-Autom. Aktualisierung deaktiviert
-;file \protocols\NewsAggregator\Src\Menus.cpp
-[Check feed]
-Feed prüfen
-[Change feed]
-Feed ändern
-;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
-;file \protocols\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\ExportFeed.cpp
 [OPML files]
 OPML-Dateien
-[Not valid import file.]
-Keine gültige Import-Datei.
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-%d Feed(s) wurden importiert.\r\n%d Duplikate wurden nicht importiert.
-[Imported %d feed(s).]
-%d Feed(s) wurden importiert.
+;file \protocols\NewsAggregator\Src\FeedEditor.cpp
+[Add Feed]
+Feed hinzufügen
 [Change Feed]
 Feed ändern
 [Wait...]
@@ -148,6 +124,33 @@ Feed-Tag-Hilfe
 Feednamen eingeben:
 [Enter message format]
 Nachrichtenformat eingeben
+;file \protocols\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Protokollicon
+[Check All Feeds]
+Alle Feeds prüfen
+[Import Feeds]
+Importiere Feeds
+[Export Feeds]
+Exportiere Feeds
+[Auto Update Enabled]
+Autom. Aktualisierung aktiviert
+[Auto Update Disabled]
+Autom. Aktualisierung deaktiviert
+;file \protocols\NewsAggregator\Src\ImportFeed.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+%d Feed(s) wurden importiert.\r\n%d Duplikate wurden nicht importiert.
+[Imported %d feed(s).]
+%d Feed(s) wurden importiert.
+[Not valid import file.]
+Keine gültige Import-Datei.
+;file \protocols\NewsAggregator\Src\Menus.cpp
+[Check feed]
+Feed prüfen
+[Change feed]
+Feed ändern
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [Feed]
 Feed
 [Contact deleting]

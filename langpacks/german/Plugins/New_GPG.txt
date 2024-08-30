@@ -157,7 +157,7 @@ Zu:
 [Strip all tags in outgoing messages]
 Alle Tags aus ausgehenden Nachrichten entfernen
 [Turn on Jabber presence signing (required by XEP-0027)]
-
+Jabber Presence Signing aktivieren (für XEP-0027 erforderlich)
 [Export keys]
 Schlüssel exportieren
 [Import keys]
@@ -354,9 +354,9 @@ Standard
 [key ID]
 Schlüssel-ID
 [Choose file to export key]
-
+Datei zum Export des Schlüssels auswählen
 [Any file]
-
+Beliebige Datei
 [Generating new random key, please wait]
 Erstelle neuen zufälligen Schlüssel, bitte warten
 [There is existing key for contact, would you like to replace it with new key?]
@@ -384,12 +384,12 @@ Die Zieldatei ist bereits vorhanden, wollen Sie diese ersetzen?
 Kapazitäten zur Entschlüsselung der Datei auf der anderen Seite nicht gefunden.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?
 [File transfer warning]
 Dateiübertragungswarnung
-[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for ICQ and Jabber protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
-Kann Kapazitäten zur Verschlüsselung auf der anderen Seite nicht überprüfen.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nKapazitätenprüfung unterstützt aktuell nur das ICQ- und das Jabber-Protokoll.\nEs funktioniert mit jedem anderen Protokoll wenn Miranda mit New_GPG auf der anderen Seite verwendet werden.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?
+[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for Jabber protocol.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
+Kann Kapazitäten zur Verschlüsselung auf der anderen Seite nicht überprüfen.\nDer Empfänger kann diese Datei(en) möglicherweise nicht entschlüsseln.\nKapazitätenprüfung unterstützt aktuell nur das Jabber-Protokoll.\nEs funktioniert mit jedem anderen Protokoll wenn Miranda mit New_GPG auf der anderen Seite verwendet werden.\nMöchten Sie diese Datei(en) trotzdem verschlüsseln?
 [encrypting file for transfer]
 Verschlüssele Datei für Übertragung
 [Choose file to export keys]
-
+Datei zum Export der Schlüsel auswählen
 [We have successfully exported %d public keys and all private keys.]
 Wir haben %d öffentliche Schlüssel und alle privaten Schlüssel erfolgreich exportiert.
 [We have successfully exported all private keys.]
@@ -399,7 +399,7 @@ Wir haben %d öffentliche Schlüssel erfolgreich exportiert.
 [Keys export result]
 Ergebnis Schlüssel exportieren
 [Choose file to import keys from]
-
+Datei zum Import der Schlüssel auswählen
 [We have successfully processed %d public keys and some private keys.]
 Wir haben %d öffentliche Schlüssel und einige private Schlüssel erfolgreich verarbeitet.
 [We have successfully processed %d public keys.]

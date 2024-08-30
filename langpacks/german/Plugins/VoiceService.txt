@@ -145,7 +145,7 @@ Nichts tun
 [Close popup]
 Popup schließen
 [Open call window]
-
+Anruffenster öffnen
 [Test Contact]
 Test-Kontakt
 [Test description]

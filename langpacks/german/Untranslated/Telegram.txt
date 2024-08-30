@@ -1,2 +1,0 @@
-[Reaction]
-[Error %d: %s]

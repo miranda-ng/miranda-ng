@@ -407,9 +407,9 @@ Auto
 Favorit
 [Block]
 Blockieren
-[Popup Mode: Auto]
+[Popup mode: Auto]
 Popup-Modus: Auto
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 Popup-Modus: Favorit
-[Popup Mode: Ignore fullscreen]
+[Popup mode: Ignore fullscreen]
 Popup-Modus: Vollbildschirm ignorieren

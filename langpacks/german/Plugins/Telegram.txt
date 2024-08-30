@@ -18,12 +18,16 @@ Standardgruppe:
 Gerätename:
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
+[Log out]
+Abmelden
 [Compress files on send]
 Dateien beim Senden komprimieren
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 Danach diesen Status setzen und nach folgender Anzahl Sekunden Offline setzen (0 - deaktivieren)
+[Software]
+Software
 [Add phone contact]
 Telefonkontakt hinzufügen
 [First name:]
@@ -38,13 +42,15 @@ Abbrechen
 Nachricht weiterleiten
 [Forward]
 Weiterleiten
+[Add reaction]
+Reaktion hinzufügen
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 E-Mail-Adresse zur Kontenüberprüfung eingeben
 [Enter verification code received by email]
 Geben Sie den per E-Mail empfangenen Überprüfungscode ein
 [Enter the secret code sent to another device]
-eben Sie den Geheimcode ein, der an ein anderes Gerät gesendet wurde
+Geben Sie den Geheimcode ein, der an ein anderes Gerät gesendet wurde
 [Enter password]
 Passwort eingeben
 [ (hint: %s)]
@@ -57,6 +63,11 @@ Fehler
 Ungültiger Geheimcode
 [Invalid password]
 Ungültiges Passwort
+;file \protocols\Telegram\src\avatars.cpp
+[Avatar file must be a picture in JPEG format]
+Die Avatar-Datei muss ein Bild im JPEG-Format sein.
+[Error setting avatar]
+Fehler beim Setzen des Avatars
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
 Ersteller
@@ -70,42 +81,64 @@ SuperAdministrator
 Besucher
 [&Leave chat session]
 Chatsitzung ver&lassen
+[%d member(s)]
+%d Mitglied(er)
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
 Telegram-Premiumnutzer
 [Reaction]
-
+Reaktion
+[Bot]
+Bot
 ;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
+[Name]
+Name
+[Platform]
+Plattform
+[Country]
+Land
+[Last active]
+Letzte Aktivität
+[Kill session]
+Sitzung beenden
+[Unknown]
+Unbekannt
 [Network]
 Netzwerk
 [Account]
 Konto
 [Advanced]
 Erweitert
+[Sessions]
+Sitzungen
 ;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
-
-[%d member(s)]
-%d Mitglieder
+Fehler %d: %s
+[General]
+Allgemein
+[Archive]
+Archiv
 [Saved messages]
 Gespeicherte Nachrichten
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 Keine
-[Chat rooms]
-Chaträume
 [%s error notifications]
 %s Fehlerbenachrichtigungen
 [Errors]
 Fehler
+[wrote]
+geschrieben
 [Picture]
 Bild
-[Video]
-Video
+[Audio]
+Audio
 [seconds]
 Sekunden
+[Video]
+Video
 [Voice message]
 Sprachnachricht
 [SmileyAdd plugin required to support stickers]

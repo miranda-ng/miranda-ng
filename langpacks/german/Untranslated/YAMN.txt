@@ -1,2 +1,0 @@
-[Show current date]
-[Force popups for manual operations]

@@ -207,3 +207,5 @@ Bass.dll nicht gefunden! Wählen Sie das bass.dll Verzeichnis manuell.
 Min
 [max]
 Max
+[Status Message]
+Statusnachricht

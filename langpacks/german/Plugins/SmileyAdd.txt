@@ -97,6 +97,6 @@ Smiley #%u in Datei %s für Smileypack %s nicht gefunden.
 [Standard]
 Standard
 [Emoji]
-
+Emoji
 [Regular expression "%s" in smiley pack "%s" malformed.]
 Regulärer Ausdruck "%s" in Smileypack "%s" deformiert.

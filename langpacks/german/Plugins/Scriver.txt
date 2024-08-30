@@ -78,18 +78,16 @@ Min. Größe Eingabefeld
 Linien
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 Sie können Variablen verwenden: %name% für den Namen des Kontaktes, %status% für seinen Status, %statusmsg% für seine Statusnachricht und %account% für den Kontonamen.
-[Preload]
-Laden
-[Unread events only]
-Nur ungelesene Ereignisse
-[Last]
-Letzte
-[Events in the last]
-Ereignisse in den letzten
-[events]
-Ereignisse
-[minutes]
-Minuten
+[Preload history events on window opening]
+Verlaufsereignisse beim Öffnen des Fensters laden
+[Preload unread events only]
+Nur ungelesene Ereignisse laden
+[Preload number of previous events]
+Lade Anzahl vorheriger Ereignisse
+[Preload previous events less than]
+Lade Ereignisse, die nicht älter als
+[minutes old]
+Minuten alt
 [Message window event log]
 Nachrichtenfenster-Ereignisverlauf
 [Show icons]
@@ -314,8 +312,8 @@ Nick des aktuellen Kontaktes (falls definiert)
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [user-defined account name of current contact (if defined).]
 Selbstgewählter Kontenname des aktuellen Kontaktes (falls definiert).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-BenutzerID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+Benutzer-ID des aktuellen Kontaktes (falls definiert). Es ist wie JID für Jabber, etc.
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis
 [path to folder containing Miranda profiles]
@@ -396,9 +394,9 @@ Ausgehende Nachricht (10x10)
 [Notice (10x10)]
 Notiz (10x10)
 [Secure message (10x10)]
-
+Sichere Nachricht (10x10)
 [Secure verified message (10x10)]
-
+Sichere verifizierte Nachricht (10x10)
 [Window Icon]
 Fenstericon
 [Text color]
@@ -452,7 +450,7 @@ Information (10x10)
 [Single Messaging]
 Einzelchats
 [Group chat events]
-
+Gruppenchat-Ereignisse
 [Thai]
 Thailändisch
 [Japanese]

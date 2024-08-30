@@ -22,5 +22,7 @@ Länderflagge als &Extra Icon in &Kontaktliste anzeigen
 [Country flag]
 Länderflagge
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
+Customize
 [Icons]
 Icons

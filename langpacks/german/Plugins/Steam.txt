@@ -13,9 +13,9 @@ Benutzername
 [Password]
 Passwort
 [Default group]
-
+Standardgruppe
 [Device name]
-
+Gerätename
 [Account]
 Konto
 [Username:]

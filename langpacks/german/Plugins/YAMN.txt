@@ -99,7 +99,7 @@ Einstellungen für E-Mail-Browser
 [Show long localized date]
 Langes Datumsformat anzeigen
 [Show current date]
-
+Aktuelles Datum anzeigen
 [Date/Time Representation]
 Datums-/Zeitdarstellung
 [Show seconds]
@@ -109,21 +109,21 @@ E-Mail-Hinweis
 [Popup]
 Popup
 [Single popup]
-Einzelnes Popup anzeigen
+Einzelnes Popup
 [Multi popup]
-Mehrere Popups anzeigen
+Mehrere Popups
 [Use custom color]
 Benutzerdefinierte Farbe
 [No new mail notifications]
 Keine neue E-Mail - Hinweis
 [Popup if no mail]
-Popup anzeigen
+Popup wenn keine neue E-Mail
 [Persistent message]
 Dauerhafte Mitteilung
 [Connection failure notifications]
 Verbindungsfehler - Hinweis
 [Popup notification if failed]
-Popup anzeigen
+Popup anzeigen bei Fehlern
 [..s Popup duration]
 s Anzeigedauer
 [Preview]
@@ -133,7 +133,7 @@ Hintergrundfarbe
 [Text color]
 Textfarbe
 [Force popups for manual operations]
-
+Popup bei manuellen Operationen erzwingen
 ;file \protocols\YAMN\src\account.cpp
 [No new mail message]
 Keine neue E-Mail-Nachricht
@@ -147,7 +147,7 @@ Programm ausführen
 [YAMN]
 YAMN
 [YAMN Account Folder]
-Kontoordner
+YAMN-Kontoordner
 [Check mail]
 E-Mails abrufen
 [Connect Fail]

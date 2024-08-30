@@ -1,3 +1,0 @@
-[Secure message (10x10)]
-[Secure verified message (10x10)]
-[Group chat events]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.96.3.1
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -24,6 +24,8 @@ Dateiname:
 Alle Ereignisse als gelesen markieren
 [Fix UTF-8 encoding in old events]
 UTF-8-Kodierung in alten Ereignissen korrigieren
+[Fix RTF text in old events]
+RTF-Text in alten Ereignissen korrigieren
 [Remove duplicate events]
 Duplizierte Ereignisse entfernen
 [Fix server event IDs]
@@ -46,7 +48,7 @@ Datenbank
 [Check database]
 Datenbank prüfen
 [DbChecker]
-
+DbChecker
 ;file \plugins\DbChecker\src\options.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 Datenbankprüfung kann kein passendes Datenbank-Plugin finden um '%s' zu öffnen.
@@ -67,6 +69,8 @@ Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen,
 Datenbankverarbeitungsfunktion gestartet
 [%d events marked as read]
 %d Ereignisse wurden als gelesen markiert
+[RTF format fixed in %d events]
+RTF-Format wurde in %d Ereignissen korrigiert
 [%d duplicate events removed]
 %d duplizierte Ereignisse wurden entfernt
 [%d server event IDs fixed]

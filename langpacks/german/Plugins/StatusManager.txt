@@ -102,30 +102,40 @@ Verknüpfung erstellen
 Neues Profil hinzufügen
 [Profile name]
 Profilname
-[Set window state]
-Fensteranzeige
-[Show dialog]
-Dialog anzeigen
-[Set status to offline before exit]
-Vor Beenden Offlinemodus setzen
-[Show CMDL]
-Befehlszeile
-[Activate status profile]
-Aktiviere Statusprofil
-[Set docked]
-Andocken
-[Other]
-Sonstige
 [Status on startup]
 Status beim Start
-[ms]
-ms
+[Activate status profile]
+Aktiviere Statusprofil
 [Set after]
 nach
+[ms]
+ms
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Hinweis: Statusprofile können im 'Statusprofile'-Dialog erstellt werden.
+[Allow override]
+Aufheben möglich
+[Show dialog]
+Dialog anzeigen
 [Timeout]
 Timeout
 [s]
 s
+[Dial-up (experimental)]
+Verbindungsaufbau/-abbau (experimentell)
+[Automatically dial on startup]
+Verbindung beim Start herstellen
+[Automatically hang up on exit]
+Verbindung beim Beenden trennen
+[Other]
+Sonstige
+[Set status to offline before exit]
+Vor Beenden Offlinemodus setzen
+[Window on startup]
+Kontaktliste beim Start
+[Set window state]
+Fensteranzeige
+[Set docked]
+Andocken
 [Set window location]
 Fensterposition
 [Left]
@@ -136,20 +146,10 @@ Oben
 Fenstergröße
 [Width]
 Breite
+[Show CMDL]
+Befehlszeile
 [Height]
 Höhe
-[Allow override]
-Aufheben möglich
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Hinweis: Statusprofile können im 'Statusprofile'-Dialog erstellt werden.
-[Window on startup]
-Kontaktliste beim Start
-[Automatically dial on startup]
-Verbindung beim Start herstellen
-[Automatically hang up on exit]
-Verbindung beim Beenden trennen
-[Dial-up (experimental)]
-Verbindungsaufbau/-abbau (experimentell)
 [Background color]
 Hintergrundfarbe
 [Text color]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,10 +24,14 @@ Verlauf für alle Kontakte von VK laden
 Kontakte außerhalb der Freundesliste löschen
 [Visit profile]
 Profil ansehen
+[Support BBCode for NewStory]
+BBCode für NewStory unterstützen
 [[img] BBCode support for image]
 \[img]-BBCode-Unterstützung für Bilder
 [off]
 Aus
+[for preview max height 320 px]
+Für Vorschau, max. Höhe 320px
 [for original size images]
 Für Bilder in Originalgröße
 [for preview max 130*130 px]
@@ -54,6 +58,8 @@ Links für Audioanhänge abkürzen
 Nicht-Standard-Popups für Neuigkeiten und Ereignisbenachrichtigungen verwenden
 [Add message link to messages with attachments]
 Nachrichtenlink zu Nachrichten mit Anhängen hinzufügen
+[Add original message version in edited message]
+Originalversion der Nachricht in bearbeiteten Nachrichten hinzufügen
 [News and event notifications]
 Neuigkeiten- und Ereignisbenachrichtigungen
 [WARNING: Causes excessive network traffic!!!]
@@ -186,18 +192,18 @@ Im Browser öffnen
 Benutzer zum Chat einladen
 [Choose one of your contacts to be invited:]
 Wählen Sie einen Kontakt aus, den Sie einladen wollen:
-[Create group chat]
-Gruppenchat erstellen
-[Mark users you want to invite to a new chat]
-Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
-[New chat's title:]
-Titel des neuen Chats:
 [Share]
 Teilen
 [URL:]
 URL:
 [Only for friends]
 Nur für Freunde
+[Mark contacts for forwarding messages]
+Kontakte zum Weiterleiten der Nachricht auswählen
+[Mark contacts you want to forward messages]
+Kontakte auswählen, denen Sie Nachrichten weiterleiten wollen
+[Enter accompanying message]
+Begleitende Nachricht eingeben
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 Benachrichtigungsicon
@@ -223,6 +229,10 @@ Statusicon
 Pinnwandicon
 [Mark messages as read icon]
 Nachrichten-als-gelesen-markieren-Icon
+[Forward icon]
+Weiterleiten-Icon
+[Reload messages icon]
+Nachricht-neu-Laden-Icon
 [Access denied! Data will not be sent or received.]
 Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 [Error]
@@ -295,6 +305,8 @@ teilte Ihr Foto
 teilte Ihr Video
 [Photo]
 Foto
+[Video]
+Video
 [Attachments:]
 Anhänge:
 [Audio]
@@ -305,8 +317,6 @@ Audio-Nachricht
 Transkription
 [Graffiti]
 Graffiti
-[Video]
-Video
 [Link]
 Link
 [Document]
@@ -349,13 +359,19 @@ Teilnehmer
 [Owners]
 Besitzer
 [Adding bots, MUC or groups to MUC is not supported]
-
+Bots, MUC oder Gruppen können nicht hinzugefügt werden
 [Not supported]
 Wird nicht unterstützt
 [This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
 Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
 [Warning]
 Warnung
+[%x at %X]
+%x am %X
+[Edited message (updated %s):\n]
+Nachricht bearbeitet (aktualisiert %s):\n
+[\nOriginal message:\n]
+\nOriginalnachricht:\n
 [Message link]
 Nachrichtenlink
 [create chat]
@@ -404,19 +420,17 @@ Nick ändern
 &Kick
 [%s is typing a message...]
 %s tippt eine Nachricht...
+[Create group chat]
+Gruppenchat erstellen
+[Mark users you want to invite to a new chat]
+Kontakte auswählen, die Sie in einen neuen Chat einladen wollen
+[New chat's title:]
+Titel des neuen Chats:
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
 [Wall message for %s]
 Pinnwandnachricht für %s
-[You delete %s from the contact list.\nWhat needs to be done additionally?]
-Sie haben %s aus Ihrer Kontaktliste gelöscht.
-[Remove %s from your friend list]
-%s aus Ihrer Freundesliste entfernen
-[Clear server history with %s]
-Serververlauf mit %s löschen
-[Deleting %s from contact list]
-%s aus Ihrer Kontaktliste löschen
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [VKontakte]
 VKontakte
@@ -492,15 +506,11 @@ Nachrichten für alle Kontakte wurden komplett geladen.
 Verlauf laden
 [Error loading message history for %s from server.]
 Fehler beim Laden des Nachrichtenverlaufes von %s vom Server.
-[%x at %X]
-%x am %X
-[Edited message (updated %s):\n]
-Nachricht bearbeitet (aktualisiert %s):\n
 [Loading messages for %s is completed.]
 Laden der Nachrichten von %s ist fertig.
 ;file \protocols\VKontakte\src\vk_messages.cpp
-[\nOriginal message:\n]
-\nOriginalnachricht:\n
+[Me]
+Ich
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Netzwerk
@@ -554,6 +564,10 @@ Diese Nachricht wurde vom Absender um %s gelöscht:\n
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
 Newsfeed- und Benachrichtigungsereignis
+[Forward]
+Weiterleiten
+[Reload messages]
+Nachrichten neu laden
 [Mark messages as read]
 Nachrichten als gelesen markieren
 [Send message to user's wall]
