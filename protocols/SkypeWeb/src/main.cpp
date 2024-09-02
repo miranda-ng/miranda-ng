@@ -66,7 +66,6 @@ int CMPlugin::Load()
 
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitMenus();
-	CSkypeProto::InitLanguages();
 
 	CreateServiceFunction(MODULE "/GetEventIcon", &CSkypeProto::SvcEventGetIcon);
 	CreateServiceFunction(MODULE "/GetEventText", &CSkypeProto::SvcGetEventText);

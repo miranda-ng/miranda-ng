@@ -344,18 +344,7 @@ const HtmlEntity htmlEntities[] =
 	{ "zwnj", "\xE2\x80\x8C" }
 };
 
-static void Utf32toUtf16(uint32_t c, CMStringW &dest)
-{
-	if (c < 0x10000)
-		dest.AppendChar(c);
-	else {
-		unsigned int t = c - 0x10000;
-		dest.AppendChar((((t << 12) >> 22) + 0xD800));
-		dest.AppendChar((((t << 22) >> 22) + 0xDC00));
-	}
-}
-
-CMStringW RemoveHtml(const CMStringW &data)
+CMStringW CSkypeProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 {
 	bool inSS = false;
 	CMStringW new_string;
@@ -363,10 +352,14 @@ CMStringW RemoveHtml(const CMStringW &data)
 	for (int i = 0; i < data.GetLength(); i++) {
 		wchar_t c = data[i];
 		if (c == '<') {
-			if (!wcsncmp(data.c_str() + i + 1, L"ss ", 3))
+			if (bCheckSS && !wcsncmp(data.c_str() + i + 1, L"ss ", 3))
 				inSS = true;
-			else if (!wcsncmp(data.c_str() + i + 1, L"/ss>", 4))
+			else if (!wcsncmp(data.c_str() + i + 1, L"/ss>", 4)) {
+				CMStringW wszStatusMsg = data.Mid(i + 5);
+				wszStatusMsg.Trim();
+				wstrMoodMessage = wszStatusMsg;
 				inSS = false;
+			}
 
 			i = data.Find('>', i);
 			if (i == -1)
@@ -441,12 +434,17 @@ CMStringW RemoveHtml(const CMStringW &data)
 		}
 
 		if (c == '(' && inSS) {
-			uint32_t code = 0;
-			if (1 == swscanf(data.c_str() + i + 1, L"%x_", &code))
-				Utf32toUtf16(code, new_string);
-
 			int iEnd = data.Find(')', i);
 			if (iEnd != -1) {
+				CMStringW ss(data.Mid(i + 1, iEnd - i - 1));
+				uint32_t code = getMoodIndex(T2Utf(ss));
+				if (code != -1)
+					iMood = code;
+				else if (1 == swscanf(ss, L"%x_", &code)) {
+					Utf32toUtf16(code, new_string);
+					wstrMoodEmoji = new_string;
+				}
+
 				i = iEnd;
 				continue;
 			}
@@ -456,6 +454,34 @@ CMStringW RemoveHtml(const CMStringW &data)
 	}
 
 	return new_string;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+void Utf32toUtf16(uint32_t c, CMStringW &dest)
+{
+	if (c < 0x10000)
+		dest.AppendChar(c);
+	else {
+		unsigned int t = c - 0x10000;
+		dest.AppendChar((((t << 12) >> 22) + 0xD800));
+		dest.AppendChar((((t << 22) >> 22) + 0xDC00));
+	}
+}
+
+bool is_surrogate(wchar_t uc) { return (uc - 0xd800u) < 2048u; }
+bool is_high_surrogate(wchar_t uc) { return (uc & 0xfffffc00) == 0xd800; }
+bool is_low_surrogate(wchar_t uc) { return (uc & 0xfffffc00) == 0xdc00; }
+
+uint32_t Utf16toUtf32(const wchar_t *str)
+{
+	if (!is_surrogate(str[0]))
+		return str[0];
+
+	if (is_high_surrogate(str[0]) && is_low_surrogate(str[1]))
+		return (str[0] << 10) + str[1] - 0x35fdc00;
+
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

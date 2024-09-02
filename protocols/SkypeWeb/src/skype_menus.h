@@ -27,10 +27,4 @@ enum
 	CMI_MAX // this item shall be the last one
 };
 
-enum ProtoMenuIndexes {
-	SMI_CREATECHAT
-};
-
-#define SMI_POSITION 200000
-
 #endif //_SKYPE_MENUS_H_

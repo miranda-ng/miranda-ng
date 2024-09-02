@@ -17,197 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-std::map<std::wstring, std::wstring> CSkypeProto::languages;
-
-void CSkypeProto::InitLanguages()
-{
-	std::map<std::wstring, std::wstring> result;
-	result[L"ab"] = L"Abkhazian";
-	result[L"aa"] = L"Afar";
-	result[L"af"] = L"Afrikaans";
-	result[L"ak"] = L"Akan";
-	result[L"sq"] = L"Albanian";
-	result[L"am"] = L"Amharic";
-	result[L"ar"] = L"Arabic";
-	result[L"an"] = L"Aragonese";
-	result[L"hy"] = L"Armenian";
-	result[L"as"] = L"Assamese";
-	result[L"av"] = L"Avaric";
-	result[L"ae"] = L"Avestan";
-	result[L"ay"] = L"Aymara";
-	result[L"az"] = L"Azerbaijani";
-	result[L"bm"] = L"Bambara";
-	result[L"ba"] = L"Bashkir";
-	result[L"eu"] = L"Basque";
-	result[L"be"] = L"Belarusian";
-	result[L"bn"] = L"Bengali";
-	result[L"bh"] = L"Bihari languages";
-	result[L"bi"] = L"Bislama";
-	result[L"nb"] = L"Bokmal, Norwegian";
-	result[L"bs"] = L"Bosnian";
-	result[L"br"] = L"Breton";
-	result[L"bg"] = L"Bulgarian";
-	result[L"my"] = L"Burmese";
-	result[L"ca"] = L"Catalan";
-	result[L"km"] = L"Central Khmer";
-	result[L"ch"] = L"Chamorro";
-	result[L"ce"] = L"Chechen";
-	result[L"ny"] = L"Chichewa";
-	result[L"zh"] = L"Chinese";
-	result[L"za"] = L"Chuang";
-	result[L"cu"] = L"Church Slavic";
-	result[L"cv"] = L"Chuvash";
-	result[L"kw"] = L"Cornish";
-	result[L"co"] = L"Corsican";
-	result[L"cr"] = L"Cree";
-	result[L"hr"] = L"Croatian";
-	result[L"cs"] = L"Czech";
-	result[L"da"] = L"Danish";
-	result[L"dv"] = L"Divehi";
-	result[L"nl"] = L"Dutch";
-	result[L"dz"] = L"Dzongkha";
-	result[L"en"] = L"English";
-	result[L"eo"] = L"Esperanto";
-	result[L"et"] = L"Estonian";
-	result[L"ee"] = L"Ewe";
-	result[L"fo"] = L"Faroese";
-	result[L"fj"] = L"Fijian";
-	result[L"fi"] = L"Finnish";
-	result[L"fr"] = L"French";
-	result[L"ff"] = L"Fulah";
-	result[L"gd"] = L"Gaelic";
-	result[L"gl"] = L"Galician";
-	result[L"lg"] = L"Ganda";
-	result[L"ka"] = L"Georgian";
-	result[L"de"] = L"German";
-	result[L"ki"] = L"Gikuyu";
-	result[L"el"] = L"Greek, Modern (1453-)";
-	result[L"kl"] = L"Greenlandic";
-	result[L"gn"] = L"Guarani";
-	result[L"gu"] = L"Gujarati";
-	result[L"ht"] = L"Haitian Creole";
-	result[L"ha"] = L"Hausa";
-	result[L"he"] = L"Hebrew";
-	result[L"hz"] = L"Herero";
-	result[L"hi"] = L"Hindi";
-	result[L"ho"] = L"Hiri Motu";
-	result[L"hu"] = L"Hungarian";
-	result[L"is"] = L"Icelandic";
-	result[L"io"] = L"Ido";
-	result[L"ig"] = L"Igbo";
-	result[L"id"] = L"Indonesian";
-	result[L"ia"] = L"Interlingua (International Auxiliary Language Association)";
-	result[L"ie"] = L"Interlingue";
-	result[L"iu"] = L"Inuktitut";
-	result[L"ik"] = L"Inupiaq";
-	result[L"ga"] = L"Irish";
-	result[L"it"] = L"Italian";
-	result[L"ja"] = L"Japanese";
-	result[L"jv"] = L"Javanese";
-	result[L"kn"] = L"Kannada";
-	result[L"kr"] = L"Kanuri";
-	result[L"ks"] = L"Kashmiri";
-	result[L"kk"] = L"Kazakh";
-	result[L"rw"] = L"Kinyarwanda";
-	result[L"ky"] = L"Kirghiz";
-	result[L"kv"] = L"Komi";
-	result[L"kg"] = L"Kongo";
-	result[L"ko"] = L"Korean";
-	result[L"kj"] = L"Kuanyama";
-	result[L"ku"] = L"Kurdish";
-	result[L"lo"] = L"Lao";
-	result[L"la"] = L"Latin";
-	result[L"lv"] = L"Latvian";
-	result[L"lb"] = L"Letzeburgesch";
-	result[L"this"] = L"Limburgan";
-	result[L"ln"] = L"Lingala";
-	result[L"lt"] = L"Lithuanian";
-	result[L"lu"] = L"Luba-Katanga";
-	result[L"mk"] = L"Macedonian";
-	result[L"mg"] = L"Malagasy";
-	result[L"ms"] = L"Malay";
-	result[L"ml"] = L"Malayalam";
-	result[L"mt"] = L"Maltese";
-	result[L"gv"] = L"Manx";
-	result[L"mi"] = L"Maori";
-	result[L"mr"] = L"Marathi";
-	result[L"mh"] = L"Marshallese";
-	result[L"mn"] = L"Mongolian";
-	result[L"na"] = L"Nauru";
-	result[L"nv"] = L"Navajo";
-	result[L"nd"] = L"Ndebele, North";
-	result[L"nr"] = L"Ndebele, South";
-	result[L"ng"] = L"Ndonga";
-	result[L"ne"] = L"Nepali";
-	result[L"se"] = L"Northern Sami";
-	result[L"no"] = L"Norwegian";
-	result[L"nn"] = L"Norwegian Nynorsk";
-	result[L"ii"] = L"Nuosu";
-	result[L"oc"] = L"Occitan (post 1500)";
-	result[L"oj"] = L"Ojibwa";
-	result[L"or"] = L"Oriya";
-	result[L"om"] = L"Oromo";
-	result[L"os"] = L"Ossetic";
-	result[L"pi"] = L"Pali";
-	result[L"pa"] = L"Panjabi";
-	result[L"ps"] = L"Pashto";
-	result[L"fa"] = L"Persian";
-	result[L"pl"] = L"Polish";
-	result[L"pt"] = L"Portuguese";
-	result[L"qu"] = L"Quechua";
-	result[L"ro"] = L"Romanian";
-	result[L"rm"] = L"Romansh";
-	result[L"rn"] = L"Rundi";
-	result[L"ru"] = L"Russian";
-	result[L"sm"] = L"Samoan";
-	result[L"sg"] = L"Sango";
-	result[L"sa"] = L"Sanskrit";
-	result[L"sc"] = L"Sardinian";
-	result[L"sr"] = L"Serbian";
-	result[L"sn"] = L"Shona";
-	result[L"sd"] = L"Sindhi";
-	result[L"si"] = L"Sinhalese";
-	result[L"sk"] = L"Slovak";
-	result[L"sl"] = L"Slovenian";
-	result[L"so"] = L"Somali";
-	result[L"st"] = L"Sotho, Southern";
-	result[L"es"] = L"Spanish";
-	result[L"su"] = L"Sundanese";
-	result[L"sw"] = L"Swahili";
-	result[L"ss"] = L"Swati";
-	result[L"sv"] = L"Swedish";
-	result[L"tl"] = L"Tagalog";
-	result[L"ty"] = L"Tahitian";
-	result[L"tg"] = L"Tajik";
-	result[L"ta"] = L"Tamil";
-	result[L"tt"] = L"Tatar";
-	result[L"te"] = L"Telugu";
-	result[L"th"] = L"Thai";
-	result[L"bo"] = L"Tibetan";
-	result[L"ti"] = L"Tigrinya";
-	result[L"to"] = L"Tonga (Tonga Islands)";
-	result[L"ts"] = L"Tsonga";
-	result[L"tn"] = L"Tswana";
-	result[L"tr"] = L"Turkish";
-	result[L"tk"] = L"Turkmen";
-	result[L"tw"] = L"Twi";
-	result[L"ug"] = L"Uighur";
-	result[L"uk"] = L"Ukrainian";
-	result[L"ur"] = L"Urdu";
-	result[L"uz"] = L"Uzbek";
-	result[L"ve"] = L"Venda";
-	result[L"vi"] = L"Vietnamese";
-	result[L"vo"] = L"Volapuk";
-	result[L"wa"] = L"Walloon";
-	result[L"cy"] = L"Welsh";
-	result[L"fy"] = L"Western Frisian";
-	result[L"wo"] = L"Wolof";
-	result[L"xh"] = L"Xhosa";
-	result[L"yi"] = L"Yiddish";
-	result[L"yo"] = L"Yoruba";
-	result[L"zu"] = L"Zulu";
-}
-
 void CSkypeProto::UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact)
 {
 	ptrW firstname(getWStringA(hContact, "FirstName"));
@@ -260,15 +69,6 @@ void CSkypeProto::UpdateProfileCountry(const JSONNode &root, MCONTACT hContact)
 		setString(hContact, "Country", country);
 	}
 	else delSetting(hContact, "Country");
-}
-
-void CSkypeProto::UpdateProfileLanguage(const JSONNode &root, MCONTACT hContact)
-{
-	CMStringW isocode = root["language"].as_mstring();
-	if (!isocode.IsEmpty() && isocode != "null")
-		setWString(hContact, "Language0", languages[isocode.GetBuffer()].c_str());
-	else
-		delSetting(hContact, "Language0");
 }
 
 void CSkypeProto::UpdateProfileEmails(const JSONNode &root, MCONTACT hContact)
@@ -332,14 +132,15 @@ void CSkypeProto::LoadProfile(MHttpResponse *response, AsyncHttpRequest *pReques
 	SetString(hContact, "Homepage", root["homepage"]);
 	SetString(hContact, "LastName", root["lastname"]);
 	SetString(hContact, "FirstName", root["firstname"]);
-	SetString(hContact, "XStatusMsg", root["richMood"]);
 	SetString(hContact, "CompanyPhone", root["phoneOffice"]);
+
+	if (auto &pMood = root["richMood"])
+		RemoveHtml(pMood.as_mstring(), true); // this call extracts only emoji / mood id
 
 	UpdateProfileDisplayName(root, hContact);
 	UpdateProfileGender(root, hContact);
 	UpdateProfileBirthday(root, hContact);
 	UpdateProfileCountry(root, hContact);
-	UpdateProfileLanguage(root, hContact);
 	UpdateProfileEmails(root, hContact);
 	UpdateProfileAvatar(root, hContact);
 

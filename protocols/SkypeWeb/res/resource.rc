@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Нейтральный (по умолчанию) resources
+// Neutral (Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
@@ -27,19 +27,27 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_SKYPE               ICON                    "Icons\\skype.ico"
+
 IDI_CONFERENCE          ICON                    "Icons\\conference.ico"
+
 IDI_BLOCKUSER           ICON                    "Icons\\user_block.ico"
+
 IDI_UNBLOCKUSER         ICON                    "Icons\\user_unblock.ico"
+
 IDI_CALL                ICON                    "Icons\\call.ico"
+
 IDI_NOTIFY              ICON                    "Icons\\notify.ico"
+
 IDI_ACTION_ME           ICON                    "Icons\\me.ico"
+
 IDI_ERRORICON           ICON                    "Icons\\error.ico"
-#endif    // Нейтральный (по умолчанию) resources
+
+#endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -70,12 +78,12 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Английский resources
+// English (Neutral) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -144,19 +152,6 @@ BEGIN
     CONTROL         "Change password",IDC_CHANGEPASS,"Hyperlink",WS_TABSTOP,203,33,60,12
 END
 
-IDD_PASSWORD_EDITOR DIALOGEX 0, 0, 209, 75
-STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_TOOLWINDOW | WS_EX_APPWINDOW
-CAPTION "Enter password"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    EDITTEXT        IDC_PASSWORD,7,24,197,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Save password",IDC_SAVEPERMANENTLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,40,197,12
-    DEFPUSHBUTTON   "OK",IDOK,101,56,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,154,56,50,14
-    LTEXT           "Enter the password to continue.",IDC_STATIC,7,5,197,18
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -206,14 +201,70 @@ BEGIN
         HORZGUIDE, 131
         HORZGUIDE, 138
     END
+END
+#endif    // APSTUDIO_INVOKED
 
-    IDD_PASSWORD_EDITOR, DIALOG
+#endif    // English (Neutral) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MOOD DIALOGEX 0, 0, 288, 64
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Set mood"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,177,43,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,231,43,50,14
+    LTEXT           "Mood",IDC_STATIC,7,8,47,8
+    COMBOBOX        IDC_MOOD_COMBO,63,7,196,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MOOD_EMOJI,262,7,19,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MOOD_TEXT,63,26,217,14,ES_AUTOHSCROLL
+    LTEXT           "Text",IDC_STATIC,8,29,16,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_MOOD, DIALOG
     BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 281
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 57
     END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Английский resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_MOOD AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

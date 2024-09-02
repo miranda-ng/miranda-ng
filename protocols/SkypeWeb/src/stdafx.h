@@ -57,6 +57,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_file.h>
 
 struct CSkypeProto;
+typedef CProtoDlgBase<CSkypeProto> CSkypeDlg;
 
 extern char g_szMirVer[];
 extern HANDLE g_hCallEvent;

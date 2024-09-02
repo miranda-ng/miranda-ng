@@ -39,6 +39,7 @@
     <ClCompile Include="src\skype_login.cpp" />
     <ClCompile Include="src\skype_menus.cpp" />
     <ClCompile Include="src\skype_messages.cpp" />
+    <ClCompile Include="src\skype_mood.cpp" />
     <ClCompile Include="src\skype_oauth.cpp" />
     <ClCompile Include="src\skype_options.cpp" />
     <ClCompile Include="src\skype_polling.cpp" />

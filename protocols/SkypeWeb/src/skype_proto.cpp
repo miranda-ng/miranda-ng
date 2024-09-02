@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
+CSkypeProto::CSkypeProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CSkypeProto>(protoName, userName),
 	m_PopupClasses(1),
 	m_OutMessages(3, PtrKeySortT),
@@ -28,7 +28,10 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	bUseBBCodes(this, "UseBBCodes", true),
 	bUseServerTime(this, "UseServerTime", false),
 	wstrCListGroup(this, SKYPE_SETTINGS_GROUP, L"Skype"),
-	wstrPlace(this, "Place", L"")
+	wstrPlace(this, "Place", L""),
+	iMood(this, "Mood", 0),
+	wstrMoodEmoji(this, "MoodEmoji", L""),
+	wstrMoodMessage(this, "XStatusMsg", L"")
 {
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
@@ -98,38 +101,7 @@ INT_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-int CSkypeProto::SetAwayMsg(int, const wchar_t *msg)
-{
-	if (IsOnline())
-		PushRequest(new SetStatusMsgRequest(msg ? T2Utf(msg) : ""));
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void CSkypeProto::OnReceiveAwayMsg(MHttpResponse *response, AsyncHttpRequest *pRequest)
-{
-	JsonReply reply(response);
-	if (reply.error())
-		return;
-
-	MCONTACT hContact = DWORD_PTR(pRequest->pUserInfo);
-	auto &root = reply.data();
-	if (JSONNode &mood = root["mood"]) {
-		CMStringW str = mood.as_mstring();
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str.c_str());
-	}
-	else {
-		ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-	}
-}
-
-HANDLE CSkypeProto::GetAwayMsg(MCONTACT hContact)
-{
-	auto *pReq = new GetProfileRequest(this, hContact);
-	pReq->m_pFunc = &CSkypeProto::OnReceiveAwayMsg;
-	return (HANDLE)1;
-}
 
 MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {

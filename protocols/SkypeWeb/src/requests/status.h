@@ -29,16 +29,4 @@ struct SetStatusRequest : public AsyncHttpRequest
 	}
 };
 
-struct SetStatusMsgRequest : public AsyncHttpRequest
-{
-	SetStatusMsgRequest(const char *status) :
-		AsyncHttpRequest(REQUEST_POST, HOST_API, "/users/self/profile/partial")
-	{
-		JSONNode node, payload;
-		payload.set_name("payload");
-		node << (payload << CHAR_PARAM("mood", status));
-		m_szParam = node.write().c_str();
-	}
-};
-
 #endif //_SKYPE_REQUEST_STATUS_H_

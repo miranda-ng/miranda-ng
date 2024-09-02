@@ -29,6 +29,7 @@ struct CSkypeProto : public PROTO <CSkypeProto>
 	friend class CSkypeOptionsMain;
 	friend class CSkypeGCCreateDlg;
 	friend class CSkypeInviteDlg;
+	friend class CMoodDialog;
 
 	class CSkypeProtoImpl
 	{
@@ -70,8 +71,6 @@ public:
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 	int      RecvContacts(MCONTACT hContact, DB::EventInfo &dbei) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
-	HANDLE   GetAwayMsg(MCONTACT hContact) override;
-	int      SetAwayMsg(int m_iStatus, const wchar_t *msg) override;
 
 	void     OnBuildProtoMenu(void) override;
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
@@ -91,11 +90,11 @@ public:
 	void InitPopups();
 	void UninitPopups();
 
-	// languages
-	static void InitLanguages();
-
 	// search
 	void __cdecl SearchBasicThread(void *param);
+
+	// threads
+	void __cdecl CSkypeProto::SendFileThread(void *p);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// services
@@ -114,6 +113,9 @@ public:
 	CMOption<wchar_t*> wstrPlace;
 
 	CMOption<wchar_t*> wstrCListGroup;
+
+	CMOption<uint8_t> iMood;
+	CMOption<wchar_t*> wstrMoodMessage, wstrMoodEmoji;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// other data
@@ -155,7 +157,6 @@ public:
 	void OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnReceiveAwayMsg(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
@@ -227,11 +228,8 @@ private:
 	void UpdateProfileGender(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileCountry(const JSONNode &node, MCONTACT hContact = NULL);
-	void UpdateProfileLanguage(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileEmails(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
-
-	void __cdecl CSkypeProto::SendFileThread(void *p);
 
 	// contacts
 	uint16_t GetContactStatus(MCONTACT hContact);
@@ -310,6 +308,8 @@ private:
 	int64_t getLastTime(MCONTACT);
 	void setLastTime(MCONTACT, int64_t);
 
+	CMStringW RemoveHtml(const CMStringW &src, bool bCheckSS = false);
+
 	static time_t IsoToUnixTime(const std::string &stamp);
 
 	static int SkypeToMirandaStatus(const char *status);
@@ -333,11 +333,12 @@ private:
 	// services
 	INT_PTR __cdecl BlockContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl UnblockContact(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
+	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl SvcLoadHistory(WPARAM hContact, LPARAM lParam);
-	INT_PTR __cdecl SvcEmptyHistory(WPARAM hContact, LPARAM lParam);
+	INT_PTR __cdecl SvcLoadHistory(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcEmptyHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcSetMood(WPARAM, LPARAM);
 	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
 
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
