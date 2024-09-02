@@ -71,9 +71,10 @@ MIR_CORE_DLL(int) XmlGetChildInt(const TiXmlElement *hXml, const char *key)
 
 MIR_CORE_DLL(const TiXmlElement*) XmlGetChildByTag(const TiXmlElement *hXml, const char *key, const char *attrName, const char *attrValue)
 {
-	for (auto *pChild : TiXmlFilter(hXml, key))
-		if (pChild->Attribute(attrName, attrValue))
-			return pChild;
+	if (hXml)
+		for (auto *pChild : TiXmlFilter(hXml, key))
+			if (pChild->Attribute(attrName, attrValue))
+				return pChild;
 
 	return nullptr;
 }
@@ -81,9 +82,11 @@ MIR_CORE_DLL(const TiXmlElement*) XmlGetChildByTag(const TiXmlElement *hXml, con
 MIR_CORE_DLL(int) XmlGetChildCount(const TiXmlElement *hXml)
 {
 	int iCount = 0;
-	for (auto *it : TiXmlEnum(hXml)) {
-		UNREFERENCED_PARAMETER(it);
-		iCount++;
-	}
+	if (hXml)
+		for (auto *it : TiXmlEnum(hXml)) {
+			UNREFERENCED_PARAMETER(it);
+			iCount++;
+		}
+
 	return iCount;
 }

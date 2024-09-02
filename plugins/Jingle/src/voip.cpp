@@ -382,20 +382,18 @@ bool CJabberAccount::OnRTPDescription(const TiXmlElement *jingleNode)
 
 	CMStringA sdp_string(FORMAT, "v=0\r\no=- 0 0 IN IP4 0.0.0.0\r\ns=-\r\nt=0 0\r\na=ice-options:trickle\r\n"
 		"m=audio 9 UDP/TLS/RTP/SAVPF 111\r\nc=IN IP4 0.0.0.0\r\na=ice-ufrag:%s\r\na=ice-pwd:%s\r\na=rtcp-mux\r\na=sendrecv\r\na=rtpmap:111 OPUS/48000/2\r\n"
+		"a=rtcp-fb:111 transport-cc\r\na=fmtp:111 minptime=10;useinbandfec=1\r\n",
+		XmlGetAttr(transport, "ufrag"), XmlGetAttr(transport, "pwd"));
 
-		"a=rtcp-fb:111 transport-cc\r\na=fmtp:111 minptime=10;useinbandfec=1\r\n"
-		"a=ssrc:%s msid:%s\r\n"
-		"a=ssrc:%s cname:%s\r\n"
+	if (source) {
+		sdp_string.AppendFormat("a=ssrc:%s msid:%s\r\na=ssrc:%s cname:%s\r\n",
+			XmlGetAttr(source, "ssrc"),
+			XmlGetAttr(XmlGetChildByTag(source, "parameter", "name", "msid"), "value"),
+			XmlGetAttr(source, "ssrc"),
+			XmlGetAttr(XmlGetChildByTag(source, "parameter", "name", "cname"), "value"));
+	}
 
-		"a=mid:%s\r\na=setup:%s\r\na=fingerprint:sha-256 %s\r\na=rtcp-mux-only\r\n",
-		XmlGetAttr(transport, "ufrag"),
-		XmlGetAttr(transport, "pwd"),
-
-		XmlGetAttr(source, "ssrc"),
-		XmlGetAttr(XmlGetChildByTag(source, "parameter", "name", "msid"), "value"),
-		XmlGetAttr(source, "ssrc"),
-		XmlGetAttr(XmlGetChildByTag(source, "parameter", "name", "cname"), "value"),
-
+	sdp_string.AppendFormat("a=mid:%s\r\na=setup:%s\r\na=fingerprint:sha-256 %s\r\na=rtcp-mux-only\r\n",
 		XmlGetAttr(content, "name"),
 		XmlGetAttr(XmlFirstChild(transport, "fingerprint"), "setup"),
 		XmlFirstChild(transport, "fingerprint")->GetText());
