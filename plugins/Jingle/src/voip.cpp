@@ -376,14 +376,21 @@ bool CJabberAccount::OnRTPDescription(const TiXmlElement *jingleNode)
 
 	// process remote offer
 	auto *content = XmlGetChildByTag(jingleNode, "content", "creator", "initiator");
-	auto *transport = XmlGetChildByTag(content, "transport", "xmlns", "urn:xmpp:jingle:transports:ice-udp:1");
 	auto *description = XmlGetChildByTag(content, "description", "xmlns", "urn:xmpp:jingle:apps:rtp:1");
 	auto *source = XmlGetChildByTag(description, "source", "xmlns", "urn:xmpp:jingle:apps:rtp:ssma:0");
 
 	CMStringA sdp_string(FORMAT, "v=0\r\no=- 0 0 IN IP4 0.0.0.0\r\ns=-\r\nt=0 0\r\na=ice-options:trickle\r\n"
-		"m=audio 9 UDP/TLS/RTP/SAVPF 111\r\nc=IN IP4 0.0.0.0\r\na=ice-ufrag:%s\r\na=ice-pwd:%s\r\na=rtcp-mux\r\na=sendrecv\r\na=rtpmap:111 OPUS/48000/2\r\n"
-		"a=rtcp-fb:111 transport-cc\r\na=fmtp:111 minptime=10;useinbandfec=1\r\n",
-		XmlGetAttr(transport, "ufrag"), XmlGetAttr(transport, "pwd"));
+		"m=audio 9 UDP/TLS/RTP/SAVPF 111\r\nc=IN IP4 0.0.0.0\r\na=rtcp-mux\r\na=sendrecv\r\na=rtpmap:111 OPUS/48000/2\r\n"
+		"a=rtcp-fb:111 transport-cc\r\na=fmtp:111 minptime=10;useinbandfec=1\r\n");
+
+	if (auto *transport = XmlGetChildByTag(content, "transport", "xmlns", "urn:xmpp:jingle:transports:ice-udp:1")) {
+		sdp_string.AppendFormat("a=ice-ufrag:%s\r\na=ice-pwd:%s\r\n",
+			XmlGetAttr(transport, "ufrag"), XmlGetAttr(transport, "pwd"));
+
+		if (auto *pFinger = XmlFirstChild(transport, "fingerprint"))
+			sdp_string.AppendFormat("a=setup:%s\r\na=fingerprint:sha-256 %s\r\n",
+				XmlGetAttr(pFinger, "setup"), pFinger->GetText());
+	}
 
 	if (source) {
 		sdp_string.AppendFormat("a=ssrc:%s msid:%s\r\na=ssrc:%s cname:%s\r\n",
@@ -393,10 +400,7 @@ bool CJabberAccount::OnRTPDescription(const TiXmlElement *jingleNode)
 			XmlGetAttr(XmlGetChildByTag(source, "parameter", "name", "cname"), "value"));
 	}
 
-	sdp_string.AppendFormat("a=mid:%s\r\na=setup:%s\r\na=fingerprint:sha-256 %s\r\na=rtcp-mux-only\r\n",
-		XmlGetAttr(content, "name"),
-		XmlGetAttr(XmlFirstChild(transport, "fingerprint"), "setup"),
-		XmlFirstChild(transport, "fingerprint")->GetText());
+	sdp_string.AppendFormat("a=mid:%s\r\nna=rtcp-mux-only\r\n", XmlGetAttr(content, "name"));
 
 	GstSDPMessage *sdp;
 	int ret = gst_sdp_message_new(&sdp);
