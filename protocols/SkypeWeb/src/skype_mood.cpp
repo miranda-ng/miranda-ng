@@ -114,6 +114,7 @@ public:
 		for (auto &it : moods)
 			cmbMoods.AddString(TranslateW(it.defStatus), int(&it - moods));
 		cmbMoods.SetCurSel(m_proto->iMood);
+		onChangeSel_Mood(0);
 		return true;
 	}
 
