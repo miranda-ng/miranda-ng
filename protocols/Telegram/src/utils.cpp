@@ -82,7 +82,7 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 	return res;
 }
 
-static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
+CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pText)
 {
 	if (pText->get_id() == TD::formattedText::ID) {
 		CMStringW ret(Utf2T(pText->text_.c_str()));
@@ -95,8 +95,12 @@ static CMStringA getFormattedText(TD::object_ptr<TD::formattedText> &pText)
 			case TD::textEntityTypeItalic::ID: iCode = 1; break;
 			case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
 			case TD::textEntityTypeUnderline::ID: iCode = 3; break;
-			case TD::textEntityTypeUrl::ID: iCode = 4; break;
 			case TD::textEntityTypeCode::ID: iCode = 5; break;
+			case TD::textEntityTypeUrl::ID:
+				if (!m_bUrlPreview)
+					continue;
+				iCode = 4;
+				break;
 			default:
 				continue;
 			}
@@ -712,17 +716,18 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			ret.Format("%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_)/100.0, pInvoice->currency_.c_str());
 			if (!pInvoice->title_.empty())
 				ret.AppendFormat("\r\n%s: %s", TranslateU("Title"), pInvoice->title_.c_str());
-			if (auto pszText = getFormattedText(pInvoice->description_))
+			if (auto pszText = GetFormattedText(pInvoice->description_))
 				ret.AppendFormat("\r\n%s", pszText.c_str());
 		}
 		break;
 
 	case TD::messageText::ID:
 		if (auto *pText = ((TD::messageText *)pBody)) {
-			ret = getFormattedText(pText->text_);
+			ret = GetFormattedText(pText->text_);
 
 			if (auto *pWeb = pText->web_page_.get()) {
-				ret.AppendFormat("\r\n[url]%s[/url]", pWeb->embed_url_.c_str());
+				if (!pWeb->embed_url_.empty() && m_bUrlPreview)
+					ret.AppendFormat("\r\n[url]%s[/url]", pWeb->embed_url_.c_str());
 
 				if (pWeb->photo_) {
 					const TD::photoSize *pSize = nullptr;
@@ -737,7 +742,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 						ret.AppendFormat("\r\n[img=%s][/img]", szText.c_str());
 				}
 
-				if (auto szText = getFormattedText(pWeb->description_))
+				if (auto szText = GetFormattedText(pWeb->description_))
 					ret.AppendFormat("\r\n%s", szText.c_str());
 			}
 		}

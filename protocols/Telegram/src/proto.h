@@ -295,7 +295,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	};
 	
 	bool GetMessageFile(const EmbeddedFile &embed, TG_FILE_REQUEST::Type, const TD::file *pFile, const char *pszFileName, const char *pszCaption);
-
+	
+	CMStringA GetFormattedText(TD::object_ptr<TD::formattedText> &pText);
 	CMStringA GetMessagePreview(const TD::file *pFile);
 	CMStringA GetMessageSticker(const TD::file *pFile, const char *pwszExtension);
 	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin = false, bool bRead = false);
@@ -433,6 +434,7 @@ public:
 	CMOption<wchar_t*> m_wszDeviceName;    // how do you see this session in Device List
 	CMOption<bool>     m_bHideGroupchats;  // do not open chat windows on creation
 	CMOption<bool>     m_bUsePopups;
+	CMOption<bool>     m_bUrlPreview;      // embrace URLs into [url] tags
 	CMOption<bool>     m_bCompressFiles;   // embed pictures & videos into a message on send
 	CMOption<uint32_t> m_iTimeDiff1;		   // set this status to m_iStatus1 after this interval of secs
 	CMOption<uint32_t> m_iStatus1;

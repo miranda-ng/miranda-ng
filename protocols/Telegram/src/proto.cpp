@@ -55,6 +55,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	m_wszDeviceName(this, "DeviceName", L"Miranda NG"),
 	m_wszDefaultGroup(this, "DefaultGroup", L"Telegram"),
 	m_bUsePopups(this, "UsePopups", true),
+	m_bUrlPreview(this, "UrlPreview", true),
 	m_bCompressFiles(this, "CompressFiles", true),
 	m_bHideGroupchats(this, "HideChats", true)
 {
