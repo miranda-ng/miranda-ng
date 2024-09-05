@@ -502,7 +502,8 @@ INT_PTR CTelegramProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM)
 {
 	if (auto *pUser = FindUser(GetId(hContact))) {
 		TG_SUPER_GROUP tmp(pUser->id, 0);
-		return m_arSuperGroups.find(&tmp) == nullptr;
+		if (auto *pGroup = m_arSuperGroups.find(&tmp))
+			return !pGroup->group->is_channel_;
 	}
 
 	return 0;
