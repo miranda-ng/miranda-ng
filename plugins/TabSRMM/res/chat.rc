@@ -154,15 +154,15 @@ BEGIN
     CONTROL         "Enable highlighting for user names",IDC_HIGHLIGHTNICKENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,20,278,11
     CONTROL         "Also look in user IDs",IDC_HIGHLIGHTNICKUID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,278,11
-    EDITTEXT        IDC_HIGHLIGHTNICKPATTERN,11,69,283,35,ES_AUTOHSCROLL
+    EDITTEXT        IDC_HIGHLIGHTNICKPATTERN,10,69,287,35,ES_AUTOHSCROLL
     LTEXT           "Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces",IDC_STATIC,10,49,284,19
     GROUPBOX        "Highlight message text",IDC_STATIC,3,113,300,115
     CONTROL         "Enable highlighting for message text",IDC_HIGHLIGHTTEXTENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,125,278,11
-    EDITTEXT        IDC_HIGHLIGHTTEXTPATTERN,11,170,283,35,ES_AUTOHSCROLL
-    LTEXT           "Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.",IDC_STATIC,10,141,284,23
+    EDITTEXT        IDC_HIGHLIGHTTEXTPATTERN,9,187,287,35,ES_AUTOHSCROLL
+    LTEXT           "Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.",IDC_STATIC,10,153,284,23
     CONTROL         "Highlight messages containing my own nickname",IDC_HIGHLIGHTME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,211,278,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,138,278,11
 END
 
 
@@ -198,6 +198,10 @@ BEGIN
         RIGHTMARGIN, 295
         TOPMARGIN, 1
         BOTTOMMARGIN, 207
+    END
+
+    IDD_OPTIONS4, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -236,6 +240,11 @@ END
 //
 
 IDD_OPTIONS2 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPTIONS4 AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
