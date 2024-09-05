@@ -739,7 +739,7 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 
 	GCEVENT gce = { si, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_ADDTOLOG;
-	if (dbei.flags & DBEF_READ)
+	if (dbei.markedRead())
 		gce.dwFlags |= GCEF_NOTNOTIFY;
 
 	Utf2T wszUserId(dbei.szUserId);
