@@ -19,6 +19,17 @@
 
 #include "stdafx.h"
 
+CKSPlugin::CKSPlugin() :
+	CFakePlugin(KSMODULENAME),
+	iInitDelay(KSMODULENAME, "InitDelay", 10),   // in seconds
+	iMaxRetries(KSMODULENAME, "MaxRetries", 0),
+	bPingHost(KSMODULENAME, "ByPingingHost", false),
+	bContCheck(KSMODULENAME, "ContinueslyCheck", false),
+	bCheckInet(KSMODULENAME, "CheckInet", false),
+	bShowPopups(KSMODULENAME, "ShowConnectionPopups", false),
+	bCheckConnection(KSMODULENAME, "CheckConnection", true)
+{}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic options
 
@@ -28,14 +39,14 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		SetDlgItemInt(hwndDlg, IDC_MAXRETRIES, KSPlugin.getByte(SETTING_MAXRETRIES, DEFAULT_MAXRETRIES), FALSE);
-		SetDlgItemInt(hwndDlg, IDC_INITDELAY, KSPlugin.getDword(SETTING_INITDELAY, DEFAULT_INITDELAY), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_MAXRETRIES, KSPlugin.iMaxRetries, 0);
+		SetDlgItemInt(hwndDlg, IDC_INITDELAY, KSPlugin.iInitDelay, 0);
 		SetDlgItemTextA(hwndDlg, IDC_PINGHOST, KSPlugin.getMStringA(SETTING_PINGHOST));
-		CheckDlgButton(hwndDlg, IDC_CHECKCONNECTION, KSPlugin.getByte(SETTING_CHECKCONNECTION, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWCONNECTIONPOPUPS, KSPlugin.getByte(SETTING_SHOWCONNECTIONPOPUPS, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHKINET, KSPlugin.getByte(SETTING_CHKINET, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CONTCHECK, KSPlugin.getByte(SETTING_CONTCHECK, FALSE) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_BYPING, KSPlugin.getByte(SETTING_BYPING, FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECKCONNECTION, KSPlugin.bCheckConnection);
+		CheckDlgButton(hwndDlg, IDC_SHOWCONNECTIONPOPUPS, KSPlugin.bShowPopups);
+		CheckDlgButton(hwndDlg, IDC_CHKINET, KSPlugin.bCheckInet);
+		CheckDlgButton(hwndDlg, IDC_CONTCHECK, KSPlugin.bContCheck);
+		CheckDlgButton(hwndDlg, IDC_BYPING, KSPlugin.bPingHost);
 		{
 			// proto list
 			HWND hList = GetDlgItem(hwndDlg, IDC_PROTOCOLLIST);
@@ -117,13 +128,13 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			break;
 
 		case PSN_APPLY:
-			KSPlugin.setByte(SETTING_MAXRETRIES, (uint8_t)GetDlgItemInt(hwndDlg, IDC_MAXRETRIES, nullptr, FALSE));
-			KSPlugin.setByte(SETTING_CHECKCONNECTION, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
-			KSPlugin.setByte(SETTING_SHOWCONNECTIONPOPUPS, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWCONNECTIONPOPUPS));
-			KSPlugin.setDword(SETTING_INITDELAY, (uint32_t)GetDlgItemInt(hwndDlg, IDC_INITDELAY, nullptr, FALSE));
-			KSPlugin.setByte(SETTING_CHKINET, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CHKINET));
-			KSPlugin.setByte(SETTING_CONTCHECK, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CONTCHECK));
-			KSPlugin.setByte(SETTING_BYPING, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_BYPING));
+			KSPlugin.iMaxRetries = GetDlgItemInt(hwndDlg, IDC_MAXRETRIES, nullptr, FALSE);
+			KSPlugin.bCheckConnection = IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION);
+			KSPlugin.bShowPopups = IsDlgButtonChecked(hwndDlg, IDC_SHOWCONNECTIONPOPUPS);
+			KSPlugin.iInitDelay = GetDlgItemInt(hwndDlg, IDC_INITDELAY, nullptr, FALSE);
+			KSPlugin.bCheckInet = IsDlgButtonChecked(hwndDlg, IDC_CHKINET);
+			KSPlugin.bContCheck = IsDlgButtonChecked(hwndDlg, IDC_CONTCHECK);
+			KSPlugin.bPingHost = IsDlgButtonChecked(hwndDlg, IDC_BYPING);
 			if (IsDlgButtonChecked(hwndDlg, IDC_BYPING)) {
 				int len = SendDlgItemMessage(hwndDlg, IDC_PINGHOST, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {

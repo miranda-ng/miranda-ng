@@ -21,18 +21,12 @@
 #define __KEEPSTATUS_HEADER
 
 #define KSMODULENAME                 "KeepStatus"
-#define SETTING_CHECKCONNECTION      "CheckConnection"
-#define SETTING_MAXRETRIES           "MaxRetries"
+
 #define SETTING_INCREASEEXPONENTIAL  "IncreaseExponential"
-#define SETTING_INITDELAY            "InitDelay"
 #define SETTING_MAXDELAY             "MaxDelay"
-#define SETTING_SHOWCONNECTIONPOPUPS "ShowConnectionPopups"
-#define SETTING_CHKINET              "CheckInet"
 #define SETTING_CNCOTHERLOC          "CancelIfOtherLocation"
 #define SETTING_LOGINERR             "OnLoginErr"
 #define SETTING_LOGINERR_DELAY       "OnLoginErrDelay"
-#define SETTING_CONTCHECK            "ContinueslyCheck"
-#define SETTING_BYPING               "ByPingingHost"
 #define SETTING_PINGHOST             "HostToPing"
 #define SETTING_CHECKAPMRESUME       "CheckAPMResume"
 #define SETTING_FIRSTOFFLINE         "FirstOffline"
@@ -42,8 +36,6 @@
 #define DEFAULT_PINGCOUNT            1
 #define SETTING_CNTDELAY             "CntDelay"
 #define STATUSCHANGEDELAY            500 // ms
-#define DEFAULT_MAXRETRIES           0
-#define DEFAULT_INITDELAY            10 // s
 #define DEFAULT_MAXDELAY             900 // s
 #define AFTERCHECK_DELAY             10000 //ms (divided by 2)
 #define CHECKCONTIN_DELAY            10 // s

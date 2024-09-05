@@ -51,12 +51,21 @@ struct CFakePlugin : public CMPluginBase
 	CFakePlugin(const char *szModuleName);
 };
 
+struct CKSPlugin : public CFakePlugin
+{
+	CKSPlugin();
+
+	CMOption<bool> bCheckConnection, bShowPopups, bCheckInet, bContCheck, bPingHost;
+	CMOption<int>  iMaxRetries, iInitDelay;
+};
+
 #include "commonstatus.h"
 #include "keepstatus.h"
 #include "startupstatus.h"
 #include "advancedautoaway.h"
 
-extern CFakePlugin AAAPlugin, KSPlugin, SSPlugin;
+extern CKSPlugin KSPlugin;
+extern CFakePlugin AAAPlugin, SSPlugin;
 extern CMOption<bool> g_AAAEnabled, g_KSEnabled, g_SSEnabled;
 
 int OnCommonOptionsInit(WPARAM wParam, LPARAM);

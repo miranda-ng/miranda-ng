@@ -19,7 +19,7 @@
 
 #include "stdafx.h"
 
-CFakePlugin KSPlugin(KSMODULENAME);
+CKSPlugin KSPlugin;
 
 static HANDLE hConnectionEvent = nullptr;
 static HANDLE hServices[4], hEvents[2];
@@ -93,18 +93,18 @@ int KSLoadOptions()
 {
 	KSUnloadOptions();
 
-	if (KSPlugin.getByte(SETTING_CHECKCONNECTION, FALSE)) {
-		if (KSPlugin.getByte(SETTING_CONTCHECK, FALSE)) {
-			if (KSPlugin.getByte(SETTING_BYPING, FALSE)) {
+	if (KSPlugin.bCheckConnection) {
+		if (KSPlugin.bContCheck) {
+			if (KSPlugin.bPingHost) {
 				WSADATA wsaData;
 				WSAStartup(MAKEWORD(2, 2), &wsaData);
 			}
 			StartTimer(IDT_CHECKCONTIN, 0, FALSE);
 		}
 		increaseExponential = KSPlugin.getByte(SETTING_INCREASEEXPONENTIAL, FALSE);
-		currentDelay = initDelay = 1000 * KSPlugin.getDword(SETTING_INITDELAY, DEFAULT_INITDELAY);
+		currentDelay = initDelay = 1000 * KSPlugin.iInitDelay;
 		maxDelay = 1000 * KSPlugin.getDword(SETTING_MAXDELAY, DEFAULT_MAXDELAY);
-		maxRetries = KSPlugin.getByte(SETTING_MAXRETRIES, 0);
+		maxRetries = KSPlugin.iMaxRetries;
 		if (maxRetries == 0)
 			maxRetries = -1;
 		hProtoAckHook = HookEvent(ME_PROTO_ACK, ProcessProtoAck);
@@ -575,7 +575,7 @@ static void CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 		if (increaseExponential)
 			currentDelay = min(2 * currentDelay, maxDelay);
 
-		if (((KSPlugin.getByte(SETTING_CHKINET, 0)) && (!InternetGetConnectedState(nullptr, 0))) || ((KSPlugin.getByte(SETTING_BYPING, FALSE)) && (!bLastPingResult))) {
+		if ((KSPlugin.bCheckInet && !InternetGetConnectedState(nullptr, 0)) || (KSPlugin.bPingHost && !bLastPingResult)) {
 			// no network
 			NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_RETRYNOCONN, (LPARAM)retryCount + 1);
 			ProcessPopup(KS_CONN_STATE_RETRYNOCONN, 0);
@@ -670,7 +670,7 @@ static void CheckContinuouslyFunction(void *)
 		return;
 	}
 
-	BOOL ping = KSPlugin.getByte(SETTING_BYPING, FALSE);
+	BOOL ping = KSPlugin.bPingHost;
 	if (ping) {
 		DBVARIANT dbv;
 		if (db_get_s(0, KSMODULENAME, SETTING_PINGHOST, &dbv))
@@ -748,7 +748,7 @@ static void CheckContinuouslyFunction(void *)
 		log_info(0, "KeepStatus: connection lost! (continuesly check)");
 		NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, 0);
 		ProcessPopup(KS_CONN_STATE_LOST, 0);
-		maxRetries = KSPlugin.getByte(SETTING_MAXRETRIES, 0);
+		maxRetries = KSPlugin.iMaxRetries;
 		if (maxRetries == 0)
 			maxRetries = -1;
 		StartTimer(IDT_CHECKCONN, initDelay, FALSE);
@@ -757,7 +757,7 @@ static void CheckContinuouslyFunction(void *)
 
 static VOID CALLBACK CheckContinueslyTimer(HWND, UINT, UINT_PTR, DWORD)
 {
-	if (KSPlugin.getByte(SETTING_BYPING, FALSE))
+	if (KSPlugin.bPingHost)
 		mir_forkthread(CheckContinuouslyFunction);
 	else
 		CheckContinuouslyFunction(nullptr);
@@ -809,7 +809,7 @@ static wchar_t* GetHumanName(LPARAM lParam)
 
 static int ProcessPopup(int reason, LPARAM lParam)
 {
-	if (!KSPlugin.getByte(SETTING_SHOWCONNECTIONPOPUPS, FALSE))
+	if (!KSPlugin.bShowPopups)
 		return -1;
 
 	HICON hIcon = nullptr;
