@@ -743,10 +743,12 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 		gce.dwFlags |= GCEF_NOTNOTIFY;
 
 	Utf2T wszUserId(dbei.szUserId);
-	if (g_chatApi.UM_FindUser(si, wszUserId))
+	if (auto *pUser = g_chatApi.UM_FindUser(si, wszUserId)) {
 		gce.pszUID.w = wszUserId;
-	else
-		gce.pszNick.w = wszUserId;
+		gce.pszNick.w = pUser->pszNick;
+	}
+	else gce.pszNick.w = wszUserId;
+
 	gce.pszText.w = wszText;
 	gce.time = dbei.timestamp;
 	gce.hEvent = hDbEvent;
