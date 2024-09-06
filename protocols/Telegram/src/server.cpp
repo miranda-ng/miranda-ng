@@ -20,6 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 {
 	m_bTerminated = true;
+	delSetting(DBKEY_AUTHORIZED);
 }
 
 void __cdecl CTelegramProto::ServerThread(void *)

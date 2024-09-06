@@ -52,7 +52,6 @@ public:
 			CreateLink(chkCompressFiles, ppro->m_bCompressFiles);
 		}
 
-		btnLogout.Enable(m_proto->getByte(DBKEY_AUTHORIZED));
 		btnLogout.OnClick = Callback(this, &COptionsDlg::onClick_Logout);
 
 		cmbCountry.OnChange = Callback(this, &COptionsDlg::onChange_Country);
@@ -71,6 +70,11 @@ public:
 				cmbCountry.SetCurSel(idx);
 		}
 		
+		bool bAuthorized = m_proto->getBool(DBKEY_AUTHORIZED);
+		btnLogout.Enable(bAuthorized);
+		edtPhone.Enable(!bAuthorized);
+		cmbCountry.Enable(!bAuthorized);
+
 		onChange_Country(0);
 		return true;
 	}
@@ -93,6 +97,9 @@ public:
 	void onClick_Logout(CCtrlButton *)
 	{
 		m_proto->UnregisterSession();
+
+		edtPhone.Enable();
+		cmbCountry.Enable();
 	}
 
 	void onChange_Country(CCtrlCombo *)
