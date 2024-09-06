@@ -90,7 +90,15 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 bool CSkypeProto::ParseMessage(const JSONNode &node, DB::EventInfo &dbei)
 {
 	int nEmoteOffset = node["skypeemoteoffset"].as_int();
-	CMStringW wszContent = node["content"].as_mstring();
+
+	auto &pContent = node["content"];
+	if (!pContent) {
+		if (dbei)
+			db_event_delete(dbei.getEvent());
+		return false;
+	}
+	
+	CMStringW wszContent = pContent.as_mstring();
 
 	std::string strMessageType = node["messagetype"].as_string();
 	if (strMessageType == "RichText/Media_GenericFile" || strMessageType == "RichText/Media_Video" || strMessageType == "RichText/UriObject" ) {

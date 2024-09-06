@@ -70,25 +70,19 @@ void CSkypeProto::ParsePollData(const char *szData)
 		if (eventId > m_iPollingId)
 			m_iPollingId = eventId;
 
-		const JSONNode &resType = message["resourceType"];
 		const JSONNode &resource = message["resource"];
 
-		std::string resourceType = resType.as_string();
-		if (resourceType == "NewMessage") {
+		std::string resourceType = message["resourceType"].as_string();
+		if (resourceType == "NewMessage")
 			ProcessNewMessage(resource);
-		}
-		else if (resourceType == "UserPresence") {
+		else if (resourceType == "UserPresence")
 			ProcessUserPresence(resource);
-		}
-		else if (resourceType == "EndpointPresence") {
+		else if (resourceType == "EndpointPresence")
 			ProcessEndpointPresence(resource);
-		}
-		else if (resourceType == "ConversationUpdate") {
+		else if (resourceType == "ConversationUpdate")
 			ProcessConversationUpdate(resource);
-		}
-		else if (resourceType == "ThreadUpdate") {
+		else if (resourceType == "ThreadUpdate")
 			ProcessThreadUpdate(resource);
-		}
 	}
 }
 
@@ -149,9 +143,8 @@ void CSkypeProto::ProcessEndpointPresence(const JSONNode &node)
 	
 	if (privateInfo != NULL) {
 		std::string epname = privateInfo["epname"].as_string();
-		if (!epname.empty()) {
+		if (!epname.empty())
 			MirVer.AppendFormat(" [%s]", epname.c_str());
-		}
 	}
 	
 	setString(hContact, "MirVer", MirVer);
