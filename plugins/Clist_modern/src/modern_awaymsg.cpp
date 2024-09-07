@@ -43,7 +43,7 @@ static HANDLE  hamProcessEvent = nullptr;
 static uint32_t   amRequestTick = 0;
 
 /*
-*  Add contact handle to requests queue
+*  Add a contact handle to request queue
 */
 static int amAddHandleToChain(MCONTACT hContact)
 {
@@ -58,7 +58,7 @@ static int amAddHandleToChain(MCONTACT hContact)
 }
 
 /*
-*	Gets handle from queue for request
+*	Gets a handle from queue for request
 */
 static MCONTACT amGetCurrentChain()
 {

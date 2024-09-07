@@ -454,7 +454,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 			}
 
 			if (optionNode != nullptr) {
-				// Found known stream mechanism
+				// Found a known stream mechanism
 				filetransfer *ft = new filetransfer(this, 0);
 				ft->dwExpectedRecvFileSize = filesize;
 				ft->jid = mir_strdup(from);

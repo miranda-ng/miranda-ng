@@ -150,7 +150,7 @@ void __cdecl CJabberProto::FileReceiveHttpThread(filetransfer *ft)
 
 void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, const char *pszUrl, const char *pszDescr)
 {
-	// create incoming file transfer instead of writing message
+	// create incoming file transfer instead of a writing message
 	CMStringA szName;
 	const char *b = strrchr(pszUrl, '/') + 1;
 	while (*b != 0 && *b != '#' && *b != '?')

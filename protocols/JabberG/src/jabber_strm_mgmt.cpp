@@ -253,7 +253,7 @@ void strm_mgmt::RequestAck()
 		return;
 
 	if (!m_bRequestPending) {
-		// We should save m_nLocalSCount here bc the server acknowlages stanza count for the moment when it receives <r>
+		// We should save m_nLocalSCount here bc the server acknowledges stanzas count for the moment when it receives <r>
 		// NOT for the moment it sends <a>
 		m_bRequestPending = true;
 		m_nReqLocalSCount = m_nLocalSCount;
@@ -278,7 +278,7 @@ bool strm_mgmt::IsResumeIdPresent()
 
 void strm_mgmt::FinishLoginProcess(ThreadData *info)
 {
-	if (proto->m_arAuthMechs.getCount()) { //We are already logged-in
+	if (proto->m_arAuthMechs.getCount()) { //We are already logged in
 		info->send(
 			XmlNodeIq(proto->AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 			<< XCHILDNS("bind", JABBER_FEAT_BIND)

@@ -250,7 +250,7 @@ public:
 			pRule = pRule->GetNext();
 		}
 
-		// create pointer array for sort procedure
+		// create a pointer array for sort procedure
 		CPrivacyListRule **pRules = (CPrivacyListRule **)mir_alloc(dwCount * sizeof(CPrivacyListRule *));
 		if (!pRules)
 			return false;

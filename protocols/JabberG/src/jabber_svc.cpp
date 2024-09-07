@@ -479,7 +479,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	// send file
+	// send the file
 	if (!mir_wstrcmpi(szCommand, L"sendfile")) {
 		MCONTACT hContact = HContactFromJID(jid, false);
 		if (hContact == 0)

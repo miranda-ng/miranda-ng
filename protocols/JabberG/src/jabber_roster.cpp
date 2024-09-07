@@ -294,7 +294,7 @@ public:
 				_RosterInsertListItem(jid, name, group, subscription, true);
 			}
 
-			// now it is require to process whole contact list to add not in roster contacts
+			// now it is required to process a whole contact list to add not in roster contacts
 			for (auto &hContact : m_proto->AccContacts()) {
 				ptrW tszJid(m_proto->getWStringA(hContact, "jid"));
 				if (tszJid == nullptr || Contact::IsGroupChat(hContact))

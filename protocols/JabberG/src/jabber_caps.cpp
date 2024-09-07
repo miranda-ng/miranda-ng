@@ -270,7 +270,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const char *jid, pResourceS
 		return jcbCaps | r->m_jcbManualDiscoveredCaps;
 	}
 
-	// no XEP-0115: send query each time it's needed
+	// no XEP-0115: send a query each time it's needed
 	switch (r->m_dwDiscoInfoRequestTime) {
 	case -1:
 		return r->m_jcbCachedCaps;

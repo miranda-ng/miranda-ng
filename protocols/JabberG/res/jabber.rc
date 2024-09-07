@@ -804,7 +804,7 @@ END
 // Icon
 //
 
-// Icon with lowest ID value placed first to ensure application icon
+// Icon with the lowest ID value placed first to ensure the application icon
 // remains consistent on all systems.
 IDI_JABBER              ICON                    "jabber.ico"
 

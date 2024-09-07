@@ -833,7 +833,7 @@ static int ActivityCheck(const char *szFirstNode, const char *szSecondNode)
 
 	int i = 0, nFirst = -1, nSecond = -1;
 	while (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond) {
-		// check first node
+		// check the first node
 		if (g_arrActivities[i].szFirst && !mir_strcmp(szFirstNode, g_arrActivities[i].szFirst)) {
 			// first part found
 			nFirst = i;

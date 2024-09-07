@@ -68,7 +68,7 @@ static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lPara
 			}
 		}
 
-		// Transmit focus set notification to parent window
+		// Transmit focus set notification to a parent window
 		if (HIWORD(wParam) == EN_SETFOCUS)
 			PostMessage(GetParent(hwndDlg), WM_COMMAND, MAKEWPARAM(0, EN_SETFOCUS), (LPARAM)hwndDlg);
 	}
@@ -201,7 +201,7 @@ void CJabberProto::OnIqResultGetSearchFields(const TiXmlElement *iqNode, CJabber
 //////////////////////////////////////////////////////////////////////////////////////////
 //  Return results to search dialog
 //  The pmFields is the pointer to map of <field Name, field Label> Not unical but ordered
-//	This can help to made result parser routines more simple
+//	This can help to make result parser routines more simple
 
 static char *nickfields[] = { "nick", "nickname", "fullname", "name", "given", "first", "jid", nullptr };
 
@@ -215,7 +215,7 @@ static void SearchReturnResults(CJabberProto *ppro, HANDLE id, LIST<UNIQUE_MAP> 
 	LIST<char> ListOfNonEmptyFields(20, TCharKeyCmp);
 	LIST<char> ListOfFields(20);
 
-	// lets fill the ListOfNonEmptyFields but in users order
+	// let's fill the ListOfNonEmptyFields but in user's order
 	for (auto &pmUserData : plUsersInfo) {
 		int nUserFields = pmUserData->getCount();
 		for (int j = 0; j < nUserFields; j++) {
@@ -234,7 +234,7 @@ static void SearchReturnResults(CJabberProto *ppro, HANDLE id, LIST<UNIQUE_MAP> 
 		ListOfFields.insert(var);
 	}
 
-	// now lets transfer field names
+	// now let's transfer field names
 	int nFieldCount = ListOfFields.getCount();
 
 	CUSTOMSEARCHRESULTS Results = { 0 };
@@ -292,7 +292,7 @@ static void SearchReturnResults(CJabberProto *ppro, HANDLE id, LIST<UNIQUE_MAP> 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Search field request result handler  (XEP-0055. Examples 3, 8)
+// Search field request result handler (XEP-0055. Examples 3, 8)
 
 void CJabberProto::OnIqResultAdvancedSearch(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
@@ -536,7 +536,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 				SendDlgItemMessageA(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, jud);
 			}
 
-			//TO DO: Add Transports here
+			//TODO: Add Transports here
 			for (auto &it : dat->ppro->m_lstTransports)
 				if (it != nullptr)
 					JabberSearchAddUrlToRecentCombo(hwndDlg, Utf2T(it));
@@ -549,7 +549,7 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 					JabberSearchAddUrlToRecentCombo(hwndDlg, szValue);
 			}
 
-			//TO DO: Add 4 recently used
+			//TODO: Add 4 of recently used
 			dat->lastRequestIq = dat->ppro->SearchRenewFields(hwndDlg, dat);
 		}
 		return TRUE;
@@ -725,7 +725,7 @@ HANDLE CJabberProto::SearchAdvanced(HWND hwndDlg)
 	if (!dat)
 		return nullptr; //error
 
-	// check if server connected (at least one field exists)
+	// check if the server connected (at least one field exists)
 	if (dat->nJSInfCount == 0)
 		return nullptr;
 

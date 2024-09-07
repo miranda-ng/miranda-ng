@@ -599,7 +599,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 	BOOL InClistWindow = (dat->hWnd == g_clistApi.hwndContactTree);
 	int height = RowHeight_CalcRowHeight(dat, Drawing, -1);
 
-	// TO DO DEPRECATE OLD ROW LAYOUT
+	// TODO DEPRECATE OLD ROW LAYOUT
 
 	if (Drawing->type == CLCIT_GROUP &&
 		Drawing->group->parent->groupId == 0 &&
@@ -1540,7 +1540,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 				if (rc.left < rc.right) // Store position
 					_StoreItemPos(Drawing, CIT_AVATAR, &rc);
-				//TO DO: CALC avatar overlays
+				//TODO: CALC avatar overlays
 			}
 			break;
 
@@ -1957,7 +1957,7 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 
 	*in_free_row_rc = free_row_rc;
 	*in_row_rc = row_rc;
-	Drawing->ext_fItemsValid = FALSE; /*TO DO: correctly implement placement recalculation*/
+	Drawing->ext_fItemsValid = FALSE; //TODO: correctly implement placement recalculation
 }
 
 BOOL CLCPaint::__IsVisible(RECT *firtRect, RECT *secondRect)

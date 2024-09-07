@@ -264,7 +264,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 	// fully reset strm_mgmt state
 	m_StrmMgmt.ResetState();
 
-	// quit all chatrooms (will send quit message)
+	// quit all chatrooms (will send a quit message)
 	LISTFOREACH(i, this, LIST_CHATROOM)
 		if (auto *item = ListGetItemPtrFromIndex(i)) {
 			if (item->si)
@@ -395,9 +395,9 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 		}
 	}
 	else {
-		// Register new user connection, all connection parameters are already filled-in.
-		// Multiple thread allowed, although not possible :)
-		// thinking again.. multiple thread should not be allowed
+		// Register new user connection, all connection parameters are already filled in.
+		// Multiple threads allowed, although not possible :)
+		// Thinking again. The multiple threads should not be allowed.
 		info.reg_done = false;
 		info.conn.SetProgress(25, TranslateT("Connecting..."));
 		iqIdRegGetReg = -1;
@@ -765,7 +765,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 	if (m_bEnableStreamMgmt && m_StrmMgmt.IsResumeIdPresent()) // resume should be done here
 		m_StrmMgmt.CheckState();
 	else {
-		if (m_arAuthMechs.getCount()) { // we are already logged-in
+		if (m_arAuthMechs.getCount()) { // we are already logged in
 			info->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS("bind", JABBER_FEAT_BIND)
@@ -832,7 +832,7 @@ void CJabberProto::OnProcessSuccess(const TiXmlElement *node, ThreadData *info)
 	const char *type;
 	//	int iqId;
 	// RECVED: <success ...
-	// ACTION: if successfully logged in, continue by requesting roster list and set my initial status
+	// ACTION: if successfully logged in, continue by requesting a roster list and set my initial status
 	if ((type = XmlGetAttr(node, "xmlns")) == nullptr)
 		return;
 
@@ -1202,7 +1202,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		if (szMsgId = n->Attribute("id"))
 			setString("LastMamId", szMsgId);
 
-	// If message is from a stranger (not in roster), item is nullptr
+	// If a message is from a stranger (not in roster), item is nullptr
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, from);
 	if (item == nullptr)
 		item = ListGetItemPtr(LIST_VCARD_TEMP, from);
@@ -1400,7 +1400,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		return;
 	}
 
-	// we ignore messages without server id either if MAM is enabled
+	// we ignore messages without a server id either if MAM is enabled
 	if ((info->jabberServerCaps & JABBER_CAPS_MAM) && m_bEnableMam && m_iMamMode != 0 && szMsgId == nullptr) {
 		debugLogA("MAM is enabled, but there's no stanza-id: ignoting a message");
 		return;

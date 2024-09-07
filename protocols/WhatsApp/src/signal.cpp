@@ -215,7 +215,7 @@ static int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_
 	}
 
 	*record = signal_buffer_create(blob.data(), blob.length());
-	return SG_SUCCESS; //key exists and succesfully loaded
+	return SG_SUCCESS; //key exists and successfully loaded
 }
 
 static int remove_pre_key(uint32_t pre_key_id, void *user_data)
@@ -280,7 +280,7 @@ static int load_signed_pre_key(signal_buffer **record, uint32_t signed_pre_key_i
 	}
 
 	*record = signal_buffer_create(blob.data(), blob.length());
-	return SG_SUCCESS; //key exist and succesfully loaded
+	return SG_SUCCESS; //key exist and successfully loaded
 }
 
 static int store_signed_pre_key(uint32_t signed_pre_key_id, uint8_t *record, size_t record_len, void *user_data)

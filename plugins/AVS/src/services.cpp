@@ -46,7 +46,7 @@ INT_PTR ProtectAvatar(WPARAM hContact, LPARAM lParam)
 {
 	uint8_t was_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
-	if (was_locked == (uint8_t)lParam)      // no need for redundant lockings...
+	if (was_locked == (uint8_t)lParam)      // no need for redundant locks...
 		return 0;
 
 	if (hContact) {
@@ -62,8 +62,8 @@ INT_PTR ProtectAvatar(WPARAM hContact, LPARAM lParam)
 
 /*
  * set an avatar (service function)
- * if lParam == NULL, a open file dialog will be opened, otherwise, lParam is taken as a FULL
- * image filename (will be checked for existance, though)
+ * if lParam == NULL, an open file dialog will be opened, otherwise, lParam is taken as a FULL
+ * image filename (will be checked for existence, though)
  */
 
 struct OpenFileSubclassData
@@ -521,7 +521,7 @@ static int InternalSetMyAvatar(char *protocol, wchar_t *szFinalName, SetMyAvatar
 		if (ret)
 			g_plugin.setByte("GlobalUserAvatarNotConsistent", 1);
 		else {
-			// Copy avatar file to store as global one
+			// Copy an avatar file to store as global one
 			wchar_t globalFile[1024];
 			BOOL saved = TRUE;
 			if (FoldersGetCustomPathW(hGlobalAvatarFolder, globalFile, _countof(globalFile), L"")) {

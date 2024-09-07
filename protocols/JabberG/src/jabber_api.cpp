@@ -255,7 +255,7 @@ int CJabberProto::AddFeatures(const char *szFeatures)
 	const char *szFeat = szFeatures;
 	while (szFeat[0]) {
 		JabberFeatCapPairDynamic *fcp = FindFeature(szFeat);
-		// if someone is trying to add one of core features, RegisterFeature() will return false, so we don't have to perform this check here
+		// if someone is trying to add one of the core features, RegisterFeature() will return false, so we don't have to perform this check here
 		if (!fcp) { // if the feature is not registered yet
 			if (!RegisterFeature(szFeat, nullptr))
 				ret = false;
