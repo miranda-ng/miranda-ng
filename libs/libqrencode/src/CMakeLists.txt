@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.11)
 
 project(QRencode VERSION 4.1.0 LANGUAGES C)
 
