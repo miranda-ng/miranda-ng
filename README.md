@@ -1,17 +1,17 @@
-# Miranda NG #
+# Miranda NG
 
 Miranda NG is a successor of a popular multi-protocol instant messaging client
-for Windows — [Miranda IM][1]. Very light on system resources and extremely
-fast.
+for Windows — [Miranda IM][1].
+It's very light on system resources and extremely fast.
 
-## Protocol support ##
+## Protocol support
 
 - Discord
 - Em-LAN
 - Facebook
 - Gadu-Gadu
 - IRC (Internet Relay Chat)
-- Jabber
+- XMPP (Jabber)
 - MinecraftDynmap
 - Sametime
 - Skype
@@ -21,25 +21,25 @@ fast.
 - Twitter
 - VKontakte
 
-## Supported operating systems ##
+## Supported operating systems
 
 Windows 2003 / XP / Vista / 7 / 8 / 10 / 11
 
 
-## License ##
+## License
 
 Miranda NG is published under the [GNU GPL license][2].
 
 
-## Links ##
+## Links
 
-- [Official web site](https://miranda-ng.org/)
+- [Official website](https://miranda-ng.org/)
 - [Forums](https://forum.miranda-ng.org/)
 - [Community wiki](https://wiki.miranda-ng.org/)
 - [Main Git repository](https://github.com/miranda-ng/miranda-ng)
 
 
-## Miranda NG communities ##
+## Miranda NG communities
 
 - [Miranda NG on Facebook](https://www.facebook.com/miranda.newgen)
 - [Miranda NG on Twitter](https://twitter.com/MirandaNewgen)
