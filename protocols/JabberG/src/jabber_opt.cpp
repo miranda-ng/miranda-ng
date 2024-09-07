@@ -32,6 +32,29 @@ static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, uint32_t) = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberRegisterDlgProc - the dialog proc for registering new account
 
+// Public XMPP providers of class A from https://providers.xmpp.net/
+// The jabber.org added manually because it was always used as a default in Miranda.
+char *szProviders[] = {
+	"07f.de",
+	"chalec.org",
+	"chapril.org",
+	"chatrix.one",
+	"draugr.de",
+	"hookipa.net",
+	"jabber.fr",
+	"jabber.org",
+	"macaw.me",
+	"magicbroccoli.de",
+	"nixnet.services",
+	"projectsegfau.lt",
+	"redlibre.es",
+	"suchat.org",
+	"sure.im",
+	"trashserver.net",
+	"xmpp.earth",
+	"yax.im",
+};
+
 struct { char *szCode; wchar_t *szDescription; } g_LanguageCodes[] = {
 	{ "aa", LPGENW("Afar") },
 	{ "ab", LPGENW("Abkhazian") },
@@ -338,7 +361,7 @@ class CDlgOptAccount : public CJabberDlgBase
 	CCtrlCombo		m_cbResource;
 	CCtrlCheck		m_chkUseHostnameAsResource;
 	CCtrlCheck		m_chkUseDomainLogin;
-	CCtrlEdit		m_txtServer;
+	CCtrlCombo		m_cbServer;
 	CCtrlEdit		m_txtPort;
 	CCtrlCheck		m_chkUseSsl;
 	CCtrlCheck		m_chkUseTls;
@@ -363,7 +386,7 @@ public:
 		m_chkUseHostnameAsResource(this, IDC_HOSTNAME_AS_RESOURCE),
 		m_chkUseDomainLogin(this, IDC_USEDOMAINLOGIN),
 		m_cbMam(this, IDC_MAM_MODE),
-		m_txtServer(this, IDC_EDIT_LOGIN_SERVER),
+		m_cbServer(this, IDC_EDIT_LOGIN_SERVER),
 		m_txtPort(this, IDC_PORT),
 		m_chkUseSsl(this, IDC_USE_SSL),
 		m_chkUseTls(this, IDC_USE_TLS),
@@ -383,7 +406,7 @@ public:
 		CreateLink(m_cbResource, "Resource", L"Miranda");
 		CreateLink(m_chkUseHostnameAsResource, proto->m_bHostNameAsResource);
 		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
-		CreateLink(m_txtServer, "LoginServer", L"jabber.org");
+		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseSsl, proto->m_bUseSSL);
 		CreateLink(m_chkUseTls, proto->m_bUseTLS);
@@ -411,6 +434,9 @@ protected:
 		CSuper::OnInitDialog();
 
 		SendDlgItemMessage(m_hwnd, IDC_PRIORITY_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(127, -128));
+
+		for (auto &it : szProviders)
+			m_cbServer.AddStringA(it);
 
 		wchar_t *passw = m_proto->getWStringA(0, "Password");
 		if (passw) {
@@ -490,11 +516,11 @@ protected:
 		if (m_cbMam.Enabled() && m_cbMam.GetCurSel() != m_proto->m_iMamMode)
 			m_proto->MamSetMode(m_cbMam.GetCurSel());
 
-		sttStoreJidFromUI(m_proto, m_txtUsername, m_txtServer);
+		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
 
 		if (m_proto->m_bJabberOnline) {
 			if (m_txtUsername.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
-				m_txtServer.IsChanged() || m_chkUseHostnameAsResource.IsChanged() || m_txtPort.IsChanged() ||
+				m_cbServer.IsChanged() || m_chkUseHostnameAsResource.IsChanged() || m_txtPort.IsChanged() ||
 				m_txtManualHost.IsChanged() || m_txtManualPort.IsChanged() || m_cbLocale.IsChanged()) {
 				MessageBox(m_hwnd,
 					TranslateT("These changes will take effect the next time you connect to the Jabber network."),
@@ -534,7 +560,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.IsChecked()) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -636,7 +662,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.IsChecked()) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -854,7 +880,7 @@ class CJabberDlgAccMgrUI : public CJabberDlgBase
 
 	CCtrlCombo		m_cbType;
 	CCtrlEditJid	m_txtUsername;
-	CCtrlEdit		m_txtServer;
+	CCtrlCombo		m_cbServer;
 	CCtrlEdit		m_txtPassword;
 	CCtrlCheck		m_chkSavePassword;
 	CCtrlCheck		m_chkUseDomainLogin;
@@ -876,7 +902,7 @@ public:
 		m_chkUseDomainLogin(this, IDC_USEDOMAINLOGIN),
 		m_chkSavePassword(this, IDC_SAVEPASSWORD),
 		m_cbResource(this, IDC_COMBO_RESOURCE),
-		m_txtServer(this, IDC_EDIT_LOGIN_SERVER),
+		m_cbServer(this, IDC_EDIT_LOGIN_SERVER),
 		m_chkManualHost(this, IDC_MANUAL),
 		m_txtManualHost(this, IDC_HOST),
 		m_txtManualPort(this, IDC_HOSTPORT),
@@ -887,7 +913,7 @@ public:
 		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_chkSavePassword, proto->m_bSavePassword);
 		CreateLink(m_cbResource, "Resource", L"Miranda");
-		CreateLink(m_txtServer, "LoginServer", L"jabber.org");
+		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
 		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
 		CreateLink(m_chkManualHost, proto->m_bManualConnect);
 		CreateLink(m_txtManualHost, "ManualHost", L"");
@@ -947,7 +973,7 @@ protected:
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
 		char server[256];
-		m_txtServer.GetTextA(server, _countof(server));
+		m_cbServer.GetTextA(server, _countof(server));
 
 		m_canregister = true;
 		if (!mir_strcmp(server, "chat.hipchat.com")) {
@@ -1045,11 +1071,11 @@ protected:
 
 		m_proto->setWord("Port", m_iDefPort);
 
-		sttStoreJidFromUI(m_proto, m_txtUsername, m_txtServer);
+		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
 
 		if (m_proto->m_bJabberOnline) {
 			if (m_cbType.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
-				m_txtServer.IsChanged() || m_txtManualPort.IsChanged() || m_txtManualHost.IsChanged()) {
+				m_cbServer.IsChanged() || m_txtManualPort.IsChanged() || m_txtManualHost.IsChanged()) {
 				MessageBox(m_hwnd,
 					TranslateT("Some changes will take effect the next time you connect to the Jabber network."),
 					TranslateT("Jabber Protocol Option"), MB_OK | MB_SETFOREGROUND);
@@ -1076,7 +1102,7 @@ protected:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = (uint16_t)m_iDefPort;
 		if (m_chkManualHost.IsChecked())
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -1125,7 +1151,7 @@ protected:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = m_iDefPort;
 		if (m_chkManualHost.IsChecked())
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -1178,7 +1204,7 @@ protected:
 	void setupHipchat()
 	{
 		m_canregister = false;
-		m_txtServer.SetTextA("chat.hipchat.com");
+		m_cbServer.SetTextA("chat.hipchat.com");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_iDefPort = 5222;
 		setupHost(false, true);
@@ -1187,7 +1213,7 @@ protected:
 	void setupLJ()
 	{
 		m_canregister = false;
-		m_txtServer.SetTextA("livejournal.com");
+		m_cbServer.SetTextA("livejournal.com");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_iDefPort = 5222;
 		setupHost(false, true);
@@ -1196,7 +1222,7 @@ protected:
 	void setupLOLEN()
 	{
 		m_canregister = false;
-		m_txtServer.SetTextA("pvp.net");
+		m_cbServer.SetTextA("pvp.net");
 		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("chat.eun1.lol.riotgames.com");
 		m_txtManualPort.SetInt(m_iDefPort = 5223);
@@ -1206,7 +1232,7 @@ protected:
 	void setupLOLEW()
 	{
 		m_canregister = false;
-		m_txtServer.SetTextA("pvp.net");
+		m_cbServer.SetTextA("pvp.net");
 		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("chat.euw1.lol.riotgames.com");
 		m_txtManualPort.SetInt(m_iDefPort = 5223);
@@ -1216,7 +1242,7 @@ protected:
 	void setupLOLOC()
 	{
 		m_canregister = false;
-		m_txtServer.SetTextA("pvp.net");
+		m_cbServer.SetTextA("pvp.net");
 		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("chat.oc1.lol.riotgames.com");
 		m_txtManualPort.SetInt(m_iDefPort = 5223);
@@ -1226,7 +1252,7 @@ protected:
 	void setupLOLUS()
 	{
 		m_canregister = false;
-		m_txtServer.SetTextA("pvp.net");
+		m_cbServer.SetTextA("pvp.net");
 		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("chat.na2.lol.riotgames.com");
 		m_txtManualPort.SetInt(m_iDefPort = 5223);
@@ -1236,7 +1262,7 @@ protected:
 	void setupSMS()
 	{
 		m_canregister = false;
-		m_txtServer.SetTextA("S.ms");
+		m_cbServer.SetTextA("S.ms");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_iDefPort = 5222;
 		setupHost(false, true);
@@ -1244,7 +1270,7 @@ protected:
 
 	void setupHost(bool bCustomizable, bool bManual)
 	{
-		m_txtServer.Enable(bCustomizable);
+		m_cbServer.Enable(bCustomizable);
 		m_btnRegister.Enable(bCustomizable);
 		m_chkManualHost.Enable(bCustomizable);
 
