@@ -24,7 +24,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon
 //
 
-// Icon with lowest ID value placed first to ensure application icon
+// Icon with the lowest ID value placed first to ensure the application icon
 // remains consistent on all systems.
 1201                     ICON         "moods/afraid.ico"
 1202                     ICON         "moods/amazed.ico"

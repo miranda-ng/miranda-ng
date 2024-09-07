@@ -908,12 +908,12 @@ void CJabberProto::SetServerVcard(bool bPhotoChanged, wchar_t *szPhotoFileName)
 	n << XCHILD("HOME");
 	AppendVcardFromDB(n, "STREET", "Street");
 	AppendVcardFromDB(n, "EXTADR", "Street2");
-	AppendVcardFromDB(n, "EXTADD", "Street2");	// for compatibility with client using old vcard format
+	AppendVcardFromDB(n, "EXTADD", "Street2");	// for compatibility with a client using old vcard format
 	AppendVcardFromDB(n, "LOCALITY", "City");
 	AppendVcardFromDB(n, "REGION", "State");
 	AppendVcardFromDB(n, "PCODE", "ZIP");
 	AppendVcardFromDB(n, "CTRY", "Country");
-	AppendVcardFromDB(n, "COUNTRY", "Country");	// for compatibility with client using old vcard format
+	AppendVcardFromDB(n, "COUNTRY", "Country");	// for compatibility with a client using old vcard format
 	if (XmlGetChildCount(n) == 1)
 		v->DeleteChild(n);
 
@@ -921,12 +921,12 @@ void CJabberProto::SetServerVcard(bool bPhotoChanged, wchar_t *szPhotoFileName)
 	n << XCHILD("WORK");
 	AppendVcardFromDB(n, "STREET", "CompanyStreet");
 	AppendVcardFromDB(n, "EXTADR", "CompanyStreet2");
-	AppendVcardFromDB(n, "EXTADD", "CompanyStreet2");	// for compatibility with client using old vcard format
+	AppendVcardFromDB(n, "EXTADD", "CompanyStreet2");	// for compatibility with a client using old vcard format
 	AppendVcardFromDB(n, "LOCALITY", "CompanyCity");
 	AppendVcardFromDB(n, "REGION", "CompanyState");
 	AppendVcardFromDB(n, "PCODE", "CompanyZIP");
 	AppendVcardFromDB(n, "CTRY", "CompanyCountry");
-	AppendVcardFromDB(n, "COUNTRY", "CompanyCountry");	// for compatibility with client using old vcard format
+	AppendVcardFromDB(n, "COUNTRY", "CompanyCountry");	// for compatibility with a client using old vcard format
 	if (XmlGetChildCount(n) == 1)
 		v->DeleteChild(n);
 

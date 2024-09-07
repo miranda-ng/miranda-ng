@@ -154,7 +154,7 @@ public:
 			JabberFormGetData(hwndFrame, query, xNode);
 		}
 		else {
-			// use old registration information form
+			// use an old registration information form
 			for (auto *n : TiXmlEnum(queryNode)) {
 				const char *pszName = n->Name();
 				if (pszName) {
@@ -222,7 +222,7 @@ public:
 			JabberFormCreateUI(hwndFrame, xNode, &m_formHeight);
 		}
 		else {
-			// use old registration information form
+			// use an old registration information form
 			TJabberFormLayoutInfo layout_info(hwndFrame, false);
 			for (auto *n : TiXmlEnum(queryNode)) {
 				const char *pszName = n->Name();

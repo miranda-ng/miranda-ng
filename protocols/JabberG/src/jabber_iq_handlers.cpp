@@ -214,7 +214,7 @@ bool CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 		if (jid == nullptr || str == nullptr)
 			continue;
 
-		// we will not add new account when subscription=remove
+		// we will not add a new account when subscription=remove
 		if (!mir_strcmp(str, "to") || !mir_strcmp(str, "both") || !mir_strcmp(str, "from") || !mir_strcmp(str, "none")) {
 			const char *name = XmlGetAttr(itemNode, "name");
 			ptrA nick((name != nullptr) ? mir_strdup(name) : JabberNickFromJID(jid));
@@ -245,7 +245,7 @@ bool CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 
 			debugLogA("Roster push for jid=%s (hContact=%d), set subscription to %s", jid, item->hContact, str);
 
-			// subscription = remove is to remove from roster list
+			// subscription = remove is to remove from the roster list
 			// but we will just set the contact to offline and not actually
 			// remove, so that history will be retained.
 			if (!mir_strcmp(str, "remove")) {

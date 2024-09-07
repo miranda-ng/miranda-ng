@@ -77,7 +77,7 @@ void CJabberProto::MamRetrieveMissingMessages()
 	auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
 
 	if (szLastId.IsEmpty()) {
-		m_bMamDisableMessages = true; // our goal is to save message id, not to store messages
+		m_bMamDisableMessages = true; // our goal is to save a message id, not to store messages
 		m_bMamCreateRead = false;
 
 		char buf[100];
@@ -126,7 +126,7 @@ void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInf
 	m_bMamDisableMessages = false;
 
 	if (auto *fin = XmlGetChildByTag(iqNode, "fin", "xmlns", JABBER_FEAT_MAM)) {
-		// if dataset is complete, there's nothing more to do
+		// if the dataset is complete, there's nothing more to do
 		if (!mir_strcmp(XmlGetAttr(fin, "complete"), "true"))
 			return;
 

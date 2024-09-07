@@ -1368,7 +1368,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 		}
 	}
 	else {
-		// item in list already
+		// item is in the list already
 		if (contact && contact->iImage == lParam)
 			return 0;
 

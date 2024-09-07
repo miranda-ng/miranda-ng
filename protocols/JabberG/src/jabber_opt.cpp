@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, uint32_t) = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// JabberRegisterDlgProc - the dialog proc for registering new account
+// JabberRegisterDlgProc - the dialog proc for registering a new account
 
 struct { char *szCode; wchar_t *szDescription; } g_LanguageCodes[] = {
 	{ "aa", LPGENW("Afar") },

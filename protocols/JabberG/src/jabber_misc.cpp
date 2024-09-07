@@ -259,7 +259,7 @@ static sttCapsNodeToName_Map[] =
 
 const char* CJabberProto::GetSoftName(const char *szName)
 {
-	// search through known software list
+	// search through the known software list
 	for (auto &it : sttCapsNodeToName_Map)
 		if (strstr(szName, it.node))
 			return it.name;

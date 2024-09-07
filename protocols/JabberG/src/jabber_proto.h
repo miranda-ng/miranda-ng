@@ -875,7 +875,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       SendPresenceTo(int status, const char* to, const TiXmlElement *extra = nullptr, const char *msg = nullptr);
 	void       SendPresence(int iStatus, bool bSendToAll);
 
-	int        SerialNext();  // Returns id that can be used for next message sent through SendXmlNode().
+	int        SerialNext();  // Returns id that can be used for the next message sent through SendXmlNode().
 
 	// returns buf or nullptr on error
 	char*      GetClientJID(MCONTACT hContact, char *dest, size_t destLen);

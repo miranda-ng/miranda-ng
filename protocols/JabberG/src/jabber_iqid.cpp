@@ -250,7 +250,7 @@ void CJabberProto::OnLoggedIn()
 	// XEP-0083 support
 //	if (!(m_StrmMgmt.IsSessionResumed()))
 //	{
-		// ugly hack to prevent hangup during login process
+		// ugly hack to prevent hangup during a login process
 		CJabberIqInfo *pIqInfo = AddIQ(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
 		pIqInfo->SetTimeout(30000);
 		m_ThreadInfo->send(XmlNodeIq(pIqInfo) << XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS("roster", JABBER_FEAT_NESTED_ROSTER_GROUPS));
@@ -349,7 +349,7 @@ void CJabberProto::OnIqResultSetAuth(const TiXmlElement *iqNode, CJabberIqInfo*)
 	const char *type;
 
 	// RECVED: authentication result
-	// ACTION: if successfully logged in, continue by requesting roster list and set my initial status
+	// ACTION: if successfully logged in, continue by requesting a roster list and set my initial status
 	debugLogA("<iq/> iqIdSetAuth");
 	if ((type = XmlGetAttr(iqNode, "type")) == nullptr) return;
 
@@ -468,7 +468,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 
 		MCONTACT hContact = HContactFromJID(jid);
 		if (hContact == 0) // Received roster has a new JID.
-			hContact = DBCreateContact(jid, nick, false, false); // Add the jid (with empty resource) to Miranda contact list.
+			hContact = DBCreateContact(jid, nick, false, false); // Add the jid (with empty resource) to a Miranda's contact list.
 
 		JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
 		item->subscription = sub;
@@ -606,7 +606,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 				item = ListGetItemPtr(LIST_CHATROOM, jid);
 
 			if (item == nullptr) {
-				item = ListAdd(LIST_VCARD_TEMP, jid); // adding to the temp list to store information about photo
+				item = ListAdd(LIST_VCARD_TEMP, jid); // adding to the temp list to store information about a photo
 				if (item != nullptr)
 					item->bUseResource = true;
 			}
@@ -1150,7 +1150,7 @@ void CJabberProto::OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJab
 			delSetting(szSetting);
 		}
 
-		OmemoAnnounceDevice(false, true); //Publish own device if we can't retrieve up to date list 
+		OmemoAnnounceDevice(false, true); //Publish an own device if we can't retrieve the up-to-date list
 		OmemoSendBundle();
 	}
 }

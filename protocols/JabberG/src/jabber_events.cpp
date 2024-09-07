@@ -73,7 +73,7 @@ bool CJabberProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 				m_ThreadInfo->send(XmlNodeIq("set", SerialNext(), jid) << XQUERY(JABBER_FEAT_REGISTER) << XCHILD("remove"));
 		}
 
-		// Remove from roster, server also handles the presence unsubscription process.
+		// Remove from a roster, the server also handles the presence unsubscription process.
 		m_ThreadInfo->send(XmlNodeIq("set", SerialNext())
 			<< XQUERY(JABBER_FEAT_IQ_ROSTER) << XCHILD("item") << XATTR("jid", jid) << XATTR("subscription", "remove"));
 

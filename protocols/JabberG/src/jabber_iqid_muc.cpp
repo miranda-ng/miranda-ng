@@ -99,7 +99,7 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 
 		FreeList();
 
-		// Populate displayed list from iqNode
+		// Populate the displayed list from iqNode
 		LVITEM lvi = {};
 		wchar_t tszItemText[JABBER_MAX_JID_LEN + 256];
 		TiXmlElement *iqNode = m_info->iqNode;
@@ -256,7 +256,7 @@ public:
 		// Set new GWL_USERDATA
 		m_info = pInfo;
 
-		// Populate displayed list from iqNode
+		// Populate the displayed list from iqNode
 		wchar_t title[256];
 		mir_wstrncpy(title, TranslateT("JID List"), _countof(title));
 		if (pInfo != nullptr) {

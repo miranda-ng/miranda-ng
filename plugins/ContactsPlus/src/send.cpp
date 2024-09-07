@@ -282,7 +282,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case MSGERROR_DONE:
-			// contacts were delivered succesfully after timeout
+			// contacts were delivered successfully after timeout
 			SetFocus(GetDlgItem(hwndDlg, IDC_LIST));
 			wndData->UnhookProtoAck();
 			break;

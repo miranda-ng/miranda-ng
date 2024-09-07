@@ -161,7 +161,7 @@ static BOOL _GetParamValue(char *szText, unsigned int &start, unsigned int lengt
 			if (state == STATE_VALUE) break;
 			except |= EXCEPTION_NOT_EQUAL;
 			exitLoop = TRUE;
-			// fall trough
+			// fall through
 		case '=':
 			if (state == STATE_VALUE) break;
 			// search value end

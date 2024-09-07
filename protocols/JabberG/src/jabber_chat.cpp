@@ -742,7 +742,7 @@ public:
 
 		T2Utf text(ptrW(m_txtReason.GetText()));
 
-		// invite users from roster
+		// invite users from the roster
 		for (auto &hContact : m_proto->AccContacts()) {
 			if (m_proto->isChatRoom(hContact))
 				continue;
@@ -999,7 +999,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			dwLastBanKickTime = GetTickCount();
 			szBuffer.Format(L"%s: ", Utf2T(me->m_szResourceName).get());
 			szTitle.Format(TranslateT("Reason to kick %s"), Utf2T(him->m_szResourceName).get());
-			char *resourceName_copy = mir_strdup(him->m_szResourceName); // copy resource name to prevent possible crash if user list rebuilds
+			char *resourceName_copy = mir_strdup(him->m_szResourceName); // copy resource name to prevent possible crash if the user list rebuilds
 			if (ppro->EnterString(szBuffer, szTitle, ESF_MULTILINE, "gcReason_"))
 				ppro->m_ThreadInfo->send(
 				XmlNodeIq("set", ppro->SerialNext(), item->jid) << XQUERY(JABBER_FEAT_MUC_ADMIN)
@@ -1092,7 +1092,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 	case IDM_LINK0: case IDM_LINK1: case IDM_LINK2: case IDM_LINK3: case IDM_LINK4:
 	case IDM_LINK5: case IDM_LINK6: case IDM_LINK7: case IDM_LINK8: case IDM_LINK9:
 		if ((GetTickCount() - dwLastBanKickTime) > BAN_KICK_INTERVAL) {
-			// copy resource name to prevent possible crash if user list rebuilds
+			// copy resource name to prevent possible crash if the user list rebuilds
 			char *resourceName_copy(NEWSTR_ALLOCA(him->m_szResourceName));
 
 			char *szInviteTo = nullptr;
@@ -1420,20 +1420,20 @@ void CJabberProto::AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const ch
 void CJabberProto::DeleteMucListItem(JABBER_MUC_JIDLIST_INFO *jidListInfo, const char *jid)
 {
 	switch (jidListInfo->type) {
-	case MUC_VOICELIST:		// change role to visitor (from participant)
+	case MUC_VOICELIST:		// change a role to a visitor (from a participant)
 		AdminSet(jidListInfo->roomJid, JABBER_FEAT_MUC_ADMIN, "jid", jid, "role", "visitor");
 		break;
-	case MUC_BANLIST:		// change affiliation to none (from outcast)
-	case MUC_MEMBERLIST:	// change affiliation to none (from member)
+	case MUC_BANLIST:		// change an affiliation to none (from an outcast)
+	case MUC_MEMBERLIST:	// change an affiliation to none (from a member)
 		AdminSet(jidListInfo->roomJid, JABBER_FEAT_MUC_ADMIN, "jid", jid, "affiliation", "none");
 		break;
-	case MUC_MODERATORLIST:	// change role to participant (from moderator)
+	case MUC_MODERATORLIST:	// change a role to a participant (from a moderator)
 		AdminSet(jidListInfo->roomJid, JABBER_FEAT_MUC_ADMIN, "jid", jid, "role", "participant");
 		break;
-	case MUC_ADMINLIST:		// change affiliation to member (from admin)
+	case MUC_ADMINLIST:		// change an affiliation to a member (from an admin)
 		AdminSet(jidListInfo->roomJid, JABBER_FEAT_MUC_ADMIN, "jid", jid, "affiliation", "member");
 		break;
-	case MUC_OWNERLIST:		// change affiliation to admin (from owner)
+	case MUC_OWNERLIST:		// change an affiliation to an admin (from an owner)
 		AdminSet(jidListInfo->roomJid, JABBER_FEAT_MUC_ADMIN, "jid", jid, "affiliation", "admin");
 		break;
 	}

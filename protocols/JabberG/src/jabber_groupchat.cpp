@@ -1069,7 +1069,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	gce.pszText.a = szText;
 	gce.bIsMe = nick == nullptr ? FALSE : (mir_strcmp(resource, item->nick) == 0);
 
-	// if we log chat events, add them to log window
+	// if we log chat events, add them to a log window
 	if (item->bChatLogging)
 		gce.dwFlags |= GCEF_ADDTOLOG;
 	else if (m_bGcLogChatHistory) // else we need to suppress disk logging and sounds/popups

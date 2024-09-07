@@ -423,7 +423,7 @@ INT_PTR __cdecl CJabberProto::OnMenuTransportResolve(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 {
 	if (!hContact)
-		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
+		return 0; // do not add yourself to the roster. (buggy situation and should not happen)
 
 	ptrA roomID(ContactToJID(hContact));
 	if (roomID == nullptr)
@@ -538,7 +538,7 @@ void CJabberProto::OnBuildProtoMenu()
 		BuildPrivacyListsMenu(false);
 
 	//////////////////////////////////////////////////////////////////////////////////////
-	// build priority menu
+	// build a priority menu
 
 	BuildPriorityMenu();
 

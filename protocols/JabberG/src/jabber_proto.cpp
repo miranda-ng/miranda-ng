@@ -399,7 +399,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 
 	m_ThreadInfo->send(XmlNode("presence") << XATTR("to", blob.get_email()) << XATTR("type", "subscribed"));
 
-	// Automatically add this user to my roster if option is enabled
+	// Automatically add this user to my roster if the option is enabled
 	if (m_bAutoAdd) {
 		if (auto *item = ListGetItemPtr(LIST_ROSTER, blob.get_email())) {
 			if (item->subscription != SUB_BOTH && item->subscription != SUB_TO) {
@@ -946,11 +946,11 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 
 	int id = SerialNext();
 	if (
-		// if message delivery check disabled by entity caps manager
+		// if the message delivery check disabled by entity caps manager
 		(jcb & JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY) ||
-		// if client knows nothing about delivery
+		// if the client knows nothing about delivery
 		!(jcb & JABBER_CAPS_MESSAGE_RECEIPTS) ||
-		// if message sent to groupchat
+		// if the message sent to groupchat
 		!mir_strcmp(msgType, "groupchat") ||
 		// if message delivery check disabled in settings
 		!bSendReceipt) {

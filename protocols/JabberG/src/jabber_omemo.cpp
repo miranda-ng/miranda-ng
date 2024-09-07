@@ -506,7 +506,7 @@ complete:
 		}
 		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
-		return 1; //session exist and succesfully loaded
+		return 1; // session exists and successfully loaded
 	}
 
 	struct db_enum_settings_sub_cb_data
@@ -702,7 +702,7 @@ complete:
 		}
 		*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
-		return SG_SUCCESS; //key exist and succesfully loaded
+		return SG_SUCCESS; //key exist and successfully loaded
 	}
 
 	int store_pre_key(uint32_t pre_key_id, uint8_t *record, size_t record_len, void *user_data)
@@ -789,7 +789,7 @@ complete:
 			return SG_ERR_INVALID_KEY_ID;
 		}
 		*record = signal_buffer_create(blob.data(), blob.length());
-		return SG_SUCCESS; //key exist and succesfully loaded
+		return SG_SUCCESS; //key exist and successfully loaded
 	}
 
 	int store_signed_pre_key(uint32_t signed_pre_key_id, uint8_t *record, size_t record_len, void *user_data)
@@ -1047,7 +1047,7 @@ complete:
 		}
 		mir_free(key_buf); // TODO: check this
 
-		// load  identity key
+		// load the identity key
 		ec_public_key *identity_key_p;
 		key_buf = (uint8_t*)mir_base64_decode(identity_key, &key_buf_len);
 		if (curve_decode_point(&identity_key_p, key_buf, key_buf_len, global_context)) {
@@ -1063,7 +1063,7 @@ complete:
 		session_pre_key_bundle_create(&retrieved_pre_key, registration_id, dev_id_int, key_id_int, prekey, signed_pre_key_id_int, signed_prekey, key_buf, key_buf_len, identity_key_p);
 		mir_free(key_buf);
 
-		/* Build a session with a pre key retrieved from the server. */
+		/* Build a session with the pre-key retrieved from the server. */
 		int ret = session_builder_process_pre_key_bundle(builder, retrieved_pre_key);
 		switch (ret) {
 		case SG_SUCCESS:
@@ -1093,7 +1093,7 @@ complete:
 	{
 		uint32_t id = pre_key_signal_message_get_pre_key_id(psm);
 
-		// generate and save pre keys set
+		// generate and save the pre-keys set
 		signal_protocol_key_helper_pre_key_list_node *keys_root;
 		signal_protocol_key_helper_generate_pre_keys(&keys_root, id, 1, proto->m_omemo.global_context);
 
@@ -1182,7 +1182,7 @@ void CJabberProto::OmemoInitDevice()
 		} while (!dev_id);
 		setDword("OmemoDeviceId", dev_id);
 
-		// generate and save device key
+		// generate and save a device key
 		if (signal_protocol_key_helper_generate_identity_key_pair(&device_key, m_omemo.global_context)) {
 			debugLogA("Jabber OMEMO: signal_protocol_key_helper_generate_identity_key_pair failed");
 			//TODO: handle error
@@ -1267,7 +1267,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		signal_buffer *decrypted_key = nullptr;
 		bool decrypted = false;
 		if (isprekey) {
-			//try to decrypt as  pre_key_signal_message
+			//try to decrypt as a pre_key_signal_message
 			pre_key_signal_message *pm = nullptr;
 			int ret = pre_key_signal_message_deserialize(&pm, encrypted_key, encrypted_key_len, m_omemo.global_context);
 			if (ret == SG_SUCCESS && pm) {
@@ -1281,7 +1281,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 			}
 			else debugLogA("Jabber OMEMO: error %d at pre_key_signal_message_deserialize", ret);
 		}
-		else { //try to decrypt as signal message
+		else { //try to decrypt as a signal message
 			signal_message *sm = nullptr;
 			int ret = signal_message_deserialize(&sm, encrypted_key, encrypted_key_len, m_omemo.global_context);
 			if (ret == SG_SUCCESS && sm) {
@@ -1417,7 +1417,7 @@ bool CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 		}
 	}
 
-	//check if our device exist
+	//check if our device exists
 	bool own_device_listed = false;
 	int own_id = m_omemo.GetOwnDeviceId();
 	int i = 0;
@@ -1501,7 +1501,7 @@ void CJabberProto::OmemoSendBundle()
 	bundle_node << XCHILD("signedPreKeySignature", signature);
 	SIGNAL_UNREF(sspk);
 
-	// add identity key
+	// add an identity key
 	// it is must be a public key right ?, standart is a bit confusing...
 	bundle_node << XCHILD("identityKey", ptrA(getUStringA("OmemoDevicePublicKey")));
 
@@ -1606,7 +1606,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 
 	const char *type = XmlGetAttr(iqNode, "type");
 	if (mir_strcmp(type, "result")) {
-		// failed to get bundle, do not try to build session
+		// failed to get a bundle, do not try to build session
 		debugLogA("Jabber OMEMO: error: failed to get bundle for device, this may be due to absent data on server or due to our bug (incorrect device id in request)");
 		return;
 	}

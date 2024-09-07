@@ -76,7 +76,7 @@ bool CJabberProto::OnMessageGroupchat(const TiXmlElement *node, ThreadData*, CJa
 	if (chatItem) // process GC message
 		GroupchatProcessMessage(node);
 	
-	// got message from unknown conference... let's leave it :)
+	// got a message from unknown conference... let's leave it :)
 	else { 
 //			wchar_t *conference = NEWWSTR_ALLOCA(from);
 //			if (wchar_t *s = wcschr(conference, '/')) *s = 0;
