@@ -1,7 +1,7 @@
 # Miranda NG
 
 Miranda NG is a successor of a popular multi-protocol instant messaging client
-for Windows — [Miranda IM][1].
+for Windows — [Miranda IM](https://sourceforge.net/projects/miranda/).
 It's very light on system resources and extremely fast.
 
 ## Protocol support
@@ -23,12 +23,13 @@ It's very light on system resources and extremely fast.
 
 ## Supported operating systems
 
-Windows 2003 / XP / Vista / 7 / 8 / 10 / 11
+* Windows 2003 / XP / Vista / 7 / 8 / 10 / 11
+* Linux with Wine 9: See [Miranda under Wine](https://wiki.miranda-ng.org/Miranda_under_Wine)
 
 
 ## License
 
-Miranda NG is published under the [GNU GPL license][2].
+[GNU GPL license v2](https://www.gnu.org/licenses/gpl-2.0.html).
 
 
 ## Links
@@ -44,6 +45,3 @@ Miranda NG is published under the [GNU GPL license][2].
 - [Miranda NG on Facebook](https://www.facebook.com/miranda.newgen)
 - [Miranda NG on Twitter](https://twitter.com/MirandaNewgen)
 - [Miranda NG commits on Twitter](https://twitter.com/MirandaNGcommit)
-
-[1]: https://sourceforge.net/projects/miranda/
-[2]: https://www.gnu.org/licenses/gpl-2.0.html
