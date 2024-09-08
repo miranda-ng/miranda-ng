@@ -75,6 +75,7 @@ public:
 	void     OnBuildProtoMenu(void) override;
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
+	void     OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;

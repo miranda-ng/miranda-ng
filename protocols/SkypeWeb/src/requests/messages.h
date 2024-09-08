@@ -69,13 +69,23 @@ struct SendTypingRequest : public AsyncHttpRequest
 	}
 };
 
+struct DeleteMessageRequest : public AsyncHttpRequest
+{
+	DeleteMessageRequest(CSkypeProto *ppro, const char *username, const char *msgId) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(username) + "/messages/" + msgId)
+	{
+		AddAuthentication(ppro);
+
+		AddHeader("Origin", "https://web.skype.com");
+		AddHeader("Referer", "https://web.skype.com/");
+	}
+};
+
 struct MarkMessageReadRequest : public AsyncHttpRequest
 {
 	MarkMessageReadRequest(const char *username, int64_t msgTimestamp) :
-	  AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT)
+	  AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(username) + "/properties?name=consumptionhorizon")
 	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/properties?name=consumptionhorizon", mir_urlEncode(username).c_str());
-
 		JSONNode node(JSON_NODE);
 		node << CHAR_PARAM("consumptionhorizon", CMStringA(::FORMAT, "%lld;%lld;%lld", msgTimestamp, msgTimestamp, msgTimestamp));
 		m_szParam = node.write().c_str();

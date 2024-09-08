@@ -40,6 +40,11 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	requestType = type;
 }
 
+void AsyncHttpRequest::AddAuthentication(CSkypeProto *ppro)
+{
+	AddHeader("Authentication", CMStringA("skypetoken=") + ppro->m_szApiToken);
+}
+
 void AsyncHttpRequest::AddRegister(CSkypeProto *ppro)
 {
 	AddHeader("RegistrationToken", CMStringA("registrationToken=") + ppro->m_szToken);

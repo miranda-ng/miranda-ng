@@ -42,7 +42,7 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 	auto &conv = root["messages"];
 	for (auto it = conv.rbegin(); it != conv.rend(); ++it) {
 		auto &message = *it;
-		CMStringA szMessageId = message["clientmessageid"] ? message["clientmessageid"].as_string().c_str() : message["skypeeditedid"].as_string().c_str();
+		CMStringA szMessageId = message["id"].as_mstring();
 
 		int iUserType;
 		CMStringA szChatId = UrlToSkypeId(message["conversationLink"].as_mstring(), &iUserType);
@@ -58,7 +58,7 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		if (iUserType == 19)
 			dbei.szUserId = szFrom;
 
-		int64_t id = _atoi64(message["id"].as_string().c_str());
+		int64_t id = _atoi64(szMessageId);
 		if (id > lastMsgTime) {
 			bSetLastTime = true;
 			lastMsgTime = id;

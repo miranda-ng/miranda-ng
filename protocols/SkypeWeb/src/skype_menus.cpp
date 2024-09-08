@@ -55,8 +55,6 @@ void CSkypeProto::InitMenus()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &CSkypeProto::PrebuildContactMenu);
 
-	//hChooserMenu = Menu_AddObject("SkypeAccountChooser", LPGEN("Skype menu chooser"), 0, "Skype/MenuChoose");
-
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 

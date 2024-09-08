@@ -25,7 +25,7 @@ struct CreateEndpointRequest : public AsyncHttpRequest
 	{
 		m_szParam = "{}";
 
-		AddHeader("Authentication", CMStringA(FORMAT, "skypetoken=%s", ppro->m_szApiToken.get()));
+		AddAuthentication(ppro);
 	}
 };
 

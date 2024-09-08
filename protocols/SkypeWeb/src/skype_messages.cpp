@@ -93,12 +93,15 @@ bool CSkypeProto::ParseMessage(const JSONNode &node, DB::EventInfo &dbei)
 
 	auto &pContent = node["content"];
 	if (!pContent) {
+LBL_Deleted:
 		if (dbei)
 			db_event_delete(dbei.getEvent());
 		return false;
 	}
 	
 	CMStringW wszContent = pContent.as_mstring();
+	if (wszContent.IsEmpty())
+		goto LBL_Deleted;
 
 	std::string strMessageType = node["messagetype"].as_string();
 	if (strMessageType == "RichText/Media_GenericFile" || strMessageType == "RichText/Media_Video" || strMessageType == "RichText/UriObject" ) {
@@ -153,14 +156,14 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	int iUserType;
 	UrlToSkypeId(node["conversationLink"].as_string().c_str(), &iUserType);
 
-	CMStringA szMessageId = node["clientmessageid"] ? node["clientmessageid"].as_mstring() : node["skypeeditedid"].as_mstring();
+	CMStringA szMessageId = node["id"].as_mstring();
 	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
 	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_mstring()));
 
 	MCONTACT hContact = AddContact(szConversationName, nullptr, true);
 
 	if (m_bHistorySynced) {
-		int64_t lastMsgId = _atoi64(node["id"].as_string().c_str());
+		int64_t lastMsgId = _atoi64(szMessageId);
 		if (lastMsgId > getLastTime(hContact))
 			setLastTime(hContact, lastMsgId);
 	}

@@ -69,6 +69,16 @@ CSkypeProto::~CSkypeProto()
 	UninitPopups();
 }
 
+void CSkypeProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
+{
+	if (!hContact || !(flags & CDF_DEL_HISTORY))
+		return;
+
+	DB::EventInfo dbei(hDbEvent, false);
+	if (dbei.szId)
+		PushRequest(new DeleteMessageRequest(this, getId(hContact), dbei.szId));
+}
+
 void CSkypeProto::OnModulesLoaded()
 {
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
