@@ -197,6 +197,13 @@ void CTelegramProto::RemoveFromClist(TG_USER *pUser)
 	}
 }
 
+int CTelegramProto::GetDefaultMute(const TG_USER *pUser)
+{
+	if (pUser->isGroupChat)
+		return (pUser->isChannel) ? m_iDefaultMuteChannel : m_iDefaultMuteGroup;
+	return m_iDefaultMutePrivate;
+}
+
 MCONTACT CTelegramProto::GetRealContact(const TG_USER *pUser)
 {
 	return (pUser->hContact != 0) ? pUser->hContact : m_iSavedMessages;

@@ -314,6 +314,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessOption((TD::updateOption *)response.object.get());
 		break;
 
+	case TD::updateScopeNotificationSettings::ID:
+		ProcessScopeNotification((TD::updateScopeNotificationSettings *)response.object.get());
+		break;
+
 	case TD::updateSupergroup::ID:
 		ProcessSuperGroup((TD::updateSupergroup *)response.object.get());
 		break;
@@ -527,6 +531,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	int64_t userId;
 	auto *pChat = pObj->chat_.get();
 	std::string szTitle;
+	bool isChannel = false;
 	
 	switch (pChat->type_->get_id()) {
 	case TD::chatTypePrivate::ID:
@@ -540,8 +545,12 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		break;
 
 	case TD::chatTypeSupergroup::ID:
-		userId = ((TD::chatTypeSupergroup *)pChat->type_.get())->supergroup_id_;
-		szTitle = pChat->title_;
+		{
+			auto *pGroup = (TD::chatTypeSupergroup *)pChat->type_.get();
+			userId = pGroup->supergroup_id_;
+			szTitle = pChat->title_;
+			isChannel = pGroup->is_channel_;
+		}
 		break;
 
 	default:
@@ -556,6 +565,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	}
 
 	pUser->chatId = pChat->id_;
+	pUser->isChannel = isChannel;
 
 	MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
 
@@ -643,10 +653,13 @@ void CTelegramProto::ProcessChatNotification(TD::updateChatNotificationSettings 
 		return;
 
 	auto &pSettings = pObj->notification_settings_;
-	if (!pSettings->use_default_mute_for_ && pSettings->mute_for_ != 0)
-		Chat_Mute(pUser->hContact, CHATMODE_MUTE);
+
+	TD::int32 muteFor;
+	if (!pSettings->use_default_mute_for_)
+		muteFor = pSettings->mute_for_;
 	else
-		Chat_Mute(pUser->hContact, CHATMODE_NORMAL);
+		muteFor = GetDefaultMute(pUser);
+	Chat_Mute(pUser->hContact, muteFor ? CHATMODE_MUTE : CHATMODE_NORMAL);
 
 	memcpy(&pUser->notificationSettings, pSettings.get(), sizeof(pUser->notificationSettings));
 }
@@ -1057,6 +1070,25 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 			m_botIds.push_back(iValue);
 			return;
 		}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::ProcessScopeNotification(TD::updateScopeNotificationSettings *pObj)
+{
+	switch (pObj->scope_->get_id()) {
+	case TD::notificationSettingsScopePrivateChats::ID:
+		m_iDefaultMutePrivate = pObj->notification_settings_->mute_for_;
+		break;
+
+	case TD::notificationSettingsScopeGroupChats::ID:
+		m_iDefaultMuteGroup = pObj->notification_settings_->mute_for_;
+		break;
+
+	case TD::notificationSettingsScopeChannelChats::ID:
+		m_iDefaultMuteChannel = pObj->notification_settings_->mute_for_;
+		break;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

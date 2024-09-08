@@ -101,7 +101,7 @@ struct TG_USER : public MZeroedObject
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
 	int       folderId = -1, nHistoryChunks;
-	bool      isGroupChat, isBot, isForum, bLoadMembers, bStartChat, bInited;
+	bool      isGroupChat, isChannel, isBot, isForum, bLoadMembers, bStartChat, bInited;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
 	time_t    m_timer1 = 0, m_timer2 = 0;
@@ -208,6 +208,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
 	int32_t m_iClientId, m_iQueryId;
+	TD::int32 m_iDefaultMutePrivate, m_iDefaultMuteGroup, m_iDefaultMuteChannel;
 	CMStringA m_defaultEmoji;
 
 	OBJLIST<TG_OWN_MESSAGE> m_arOwnMsg;
@@ -275,6 +276,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessMessageContent(TD::updateMessageContent *pObj);
 	void ProcessMessageReactions(TD::updateMessageInteractionInfo *pObj);
 	void ProcessOption(TD::updateOption *pObj);
+	void ProcessScopeNotification(TD::updateScopeNotificationSettings *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);
@@ -353,6 +355,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	
 	int64_t  GetId(MCONTACT, const char *pszSetting = DBKEY_ID);
 	void     SetId(MCONTACT, int64_t id, const char *pszSetting = DBKEY_ID);
+
+	int      GetDefaultMute(const TG_USER *pUser);
 
 	MCONTACT GetRealContact(const TG_USER *pUser);
 	void     RemoveFromClist(TG_USER *pUser);

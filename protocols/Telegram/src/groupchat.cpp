@@ -171,17 +171,10 @@ int CTelegramProto::GcMuteHook(WPARAM hContact, LPARAM mode)
 			auto settings = TD::make_object<TD::chatNotificationSettings>();
 			memcpy(settings.get(), &pUser->notificationSettings, sizeof(pUser->notificationSettings));
 
-			switch (mode) {
-			case CHATMODE_MUTE:
-				settings->use_default_mute_for_ = false;
-				settings->mute_for_ = 45000000;
-				break;
-
-			default:
-				settings->use_default_mute_for_ = true;
-				settings->mute_for_ = 0;
-				break;
-			}
+			TD::int32 defaultMute = GetDefaultMute(pUser);
+			TD::int32 newMute = (mode == CHATMODE_MUTE) ? 421689178 : 0;
+			settings->use_default_mute_for_ = (newMute == defaultMute);
+			settings->mute_for_ = newMute;
 			SendQuery(new TD::setChatNotificationSettings(pUser->chatId, std::move(settings)));
 		}
 	}
