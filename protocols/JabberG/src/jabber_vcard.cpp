@@ -379,14 +379,7 @@ public:
 		ofn.Flags = OFN_FILEMUSTEXIST | OFN_DONTADDTORECENT;
 		szFileName[0] = '\0';
 		if (GetOpenFileName(&ofn)) {
-			struct _stat st;
-			HBITMAP hNewBitmap;
-
 			ppro->debugLogW(L"File selected is %s", szFileName);
-			if (_wstat(szFileName, &st) < 0 || st.st_size > 40 * 1024) {
-				MessageBox(m_hwnd, TranslateT("Only JPG, GIF, and BMP image files smaller than 40 KB are supported."), TranslateT("Jabber vCard"), MB_OK | MB_SETFOREGROUND);
-				return;
-			}
 
 			wchar_t szTempFileName[MAX_PATH], szTempPath[MAX_PATH];
 			if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
@@ -395,7 +388,7 @@ public:
 			if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
 				ppro->debugLogW(L"Temp file = %s", szTempFileName);
 				if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
-					if ((hNewBitmap = Bitmap_Load(szTempFileName)) != nullptr) {
+					if (HBITMAP hNewBitmap = Bitmap_Load(szTempFileName)) {
 						if (hBitmap) {
 							DeleteObject(hBitmap);
 							DeleteFile(ppro->m_szPhotoFileName);
