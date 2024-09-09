@@ -860,22 +860,20 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 	if (pObj->last_read_inbox_message_id_)
 		pUser->bInited = true;
 
-	MEVENT hLastRead = db_event_getById(m_szModuleName, msg2id(pObj->chat_id_, pObj->last_read_inbox_message_id_));
-	if (hLastRead == 0) {
+	CMStringA szMaxId(msg2id(pObj->chat_id_, pObj->last_read_inbox_message_id_));
+	if (db_event_getById(m_szModuleName, szMaxId) == 0) {
 		debugLogA("unknown event, ignored");
 		return;
 	}
 
-	bool bExit = false;
+	// make sure that all events with ids lower or equal than szMaxId are marked read
 	for (MEVENT hEvent = db_event_firstUnread(pUser->hContact); hEvent; hEvent = db_event_next(pUser->hContact, hEvent)) {
-		if (bExit)
-			break;
-
-		bExit = (hEvent == hLastRead);
-
-		DBEVENTINFO dbei = {};
-		if (db_event_get(hEvent, &dbei))
+		DB::EventInfo dbei(hEvent, false);
+		if (!dbei || !dbei.szId)
 			continue;
+
+		if (dbei.szId > szMaxId)
+			break;
 
 		if (!dbei.markedRead())
 			db_event_markRead(pUser->hContact, hEvent, true);
