@@ -47,7 +47,7 @@ public:
 	{
 		szProto = Proto_GetBaseAccountName(hContact);
 		bDelHistory = Proto_CanDeleteHistory(szProto, hContact);
-		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_DELETEFORALL) != 0;
+		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, hContact) & PF4_DELETEFORALL) != 0;
 	}
 
 	bool OnInitDialog() override

@@ -148,7 +148,7 @@ public:
 		szProto = Proto_GetBaseAccountName(hContact);
 		bHasServer = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1) & PF1_SERVERCLIST) != 0;
 		bHasHistory = Proto_CanDeleteHistory(szProto, hContact);
-		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4) & PF4_DELETEFORALL) != 0;
+		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, hContact) & PF4_DELETEFORALL) != 0;
 
 		chkDelHistory.OnChange = Callback(this, &CDeleteContactDlg::onChange_Server);
 	}
