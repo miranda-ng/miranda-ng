@@ -878,6 +878,9 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 		if (!dbei.markedRead())
 			db_event_markRead(pUser->hContact, hEvent, true);
 	}
+
+	if (Contact::IsGroupChat(pUser->hContact) && pObj->unread_count_ == 0)
+		delSetting(pUser->hContact, "ApparentMode");
 }
 
 void CTelegramProto::ProcessMessage(const TD::message *pMessage)
