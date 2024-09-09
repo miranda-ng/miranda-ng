@@ -349,8 +349,14 @@ public:
 		chkDelHistory.SetState(bDelHistory);
 		chkDelHistory.Enable(bDelHistory);
 
-		chkForEveryone.SetState(false);
-		chkForEveryone.Enable(bDelHistory && bForEveryone);
+		if (Contact::IsGroupChat(m_hContact)) {
+			chkForEveryone.SetState(true);
+			chkForEveryone.Disable();
+		}
+		else {
+			chkForEveryone.SetState(false);
+			chkForEveryone.Enable(bDelHistory && bForEveryone);
+		}
 
 		if (m_iNumEvents > 1) {
 			CMStringW wszText(FORMAT, TranslateT("Do you really want to delete selected items (%d)?"), m_iNumEvents);
