@@ -23,7 +23,7 @@ struct GetProfileRequest : public AsyncHttpRequest
 	GetProfileRequest(CSkypeProto *ppro, MCONTACT hContact) :
 		AsyncHttpRequest(REQUEST_GET, HOST_API, 0, &CSkypeProto::LoadProfile)
 	{
-		m_szUrl.AppendFormat("/users/%s/profile", (hContact == 0) ? "self" : ppro->getId(hContact).c_str());
+		m_szUrl.AppendFormat("/users/%s/profile", (hContact == 0) ? "self" : mir_urlEncode(ppro->getId(hContact)));
 		pUserInfo = (void *)hContact;
 
 		AddHeader("Accept", "application/json");

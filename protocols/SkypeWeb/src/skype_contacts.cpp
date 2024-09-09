@@ -230,7 +230,7 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(this, getId(hContact)));
+	PushRequest(new AuthAcceptRequest(getId(hContact)));
 	return 0;
 }
 
@@ -240,7 +240,7 @@ bool CSkypeProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 		if (isChatRoom(hContact))
 			PushRequest(new DestroyChatroomRequest(getId(hContact)));
 		else
-			PushRequest(new DeleteContactRequest(this, getId(hContact)));
+			PushRequest(new DeleteContactRequest(getId(hContact)));
 	}
 	return true;
 }

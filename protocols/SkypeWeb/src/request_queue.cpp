@@ -23,7 +23,7 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	switch (host) {
 	case HOST_API:       m_szUrl = "api.skype.com"; break;
 	case HOST_PEOPLE:    m_szUrl = "people.skype.com/v2"; break;
-	case HOST_CONTACTS:  m_szUrl = "contacts.skype.com/contacts/v2"; break;
+	case HOST_CONTACTS:  m_szUrl = "edge.skype.com/pcs/contacts/v2"; break;
 	case HOST_GRAPH:     m_szUrl = "skypegraph.skype.com"; break;
 	case HOST_LOGIN:     m_szUrl = "login.skype.com"; break;
 	case HOST_DEFAULT:
@@ -112,7 +112,7 @@ MHttpResponse* CSkypeProto::DoSend(AsyncHttpRequest *pReq)
 	case HOST_PEOPLE:
 	case HOST_CONTACTS:
 		if (m_szApiToken)
-			pReq->AddHeader((pReq->m_host == HOST_CONTACTS) ? "X-SkypeToken" : "X-Skypetoken", m_szApiToken);
+			pReq->AddHeader("X-Skypetoken", m_szApiToken);
 
 		pReq->AddHeader("Accept", "application/json");
 		pReq->AddHeader("Origin", "https://web.skype.com");
