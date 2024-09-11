@@ -125,16 +125,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 // Flags
-#define GC_BOLD            0x0001 // enable the 'bold' button
-#define GC_ITALICS         0x0002 // enable the 'italics' button
-#define GC_UNDERLINE	      0x0004 // enable the 'underline' button
-#define GC_COLOR           0x0008 // enable the 'foreground color' button
-#define GC_BKGCOLOR        0x0010 // enable the 'background color' button
-#define GC_ACKMSG          0x0020 // the protocol must acknowlege messages sent
-#define GC_TYPNOTIF        0x0040 // enable typing notifications.
-#define GC_CHANMGR         0x0080 // enable the 'channel settings' button
-#define GC_DATABASE        0x0100 // all events are backed in the database
-#define GC_PERSISTENT      0x0200 // chat structure is stored offline not to retrieve it each time
+#define GC_CHANMGR         0x0001 // enable the 'channel settings' button
+#define GC_DATABASE        0x0002 // all events are backed in the database
+#define GC_PERSISTENT      0x0004 // chat structure is stored offline not to retrieve it each time
+#define GC_ACKMSG          0x0008 // the protocol must acknowlege messages sent
+#define GC_TYPNOTIF        0x0010 // enable typing notifications.
 
 // Error messages
 #define GC_ERROR                1 // An internal error occurred.

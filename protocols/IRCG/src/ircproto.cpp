@@ -67,7 +67,7 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 
 	// group chats
 	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_CHANMGR | GC_BOLD | GC_ITALICS | GC_UNDERLINE | GC_COLOR | GC_BKGCOLOR;
+	gcr.dwFlags = GC_CHANMGR;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);

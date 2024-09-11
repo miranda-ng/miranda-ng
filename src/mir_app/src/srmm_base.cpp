@@ -73,14 +73,9 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	if (si) {
 		m_hContact = si->hContact;
 
-		if (si->pMI->bColor) {
-			m_iFG = 4;
-			m_bFGSet = true;
-		}
-		if (si->pMI->bBkgColor) {
-			m_iBG = 2;
-			m_bBGSet = true;
-		}
+		m_iFG = 4;
+		m_iBG = 2;
+		m_bFGSet = m_bBGSet = true;
 
 		m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", Chat::bFilterEnabled) != 0;
 		m_iLogFilterFlags = Chat::iFilterFlags;
@@ -689,11 +684,6 @@ void CSrmmBaseDialog::UpdateChatOptions()
 	UpdateFilterButton();
 
 	MODULEINFO *mi = m_si->pMI;
-	m_btnBold.Enable(mi->bBold);
-	m_btnColor.Enable(mi->bColor);
-	m_btnItalic.Enable(mi->bItalics);
-	m_btnBkColor.Enable(mi->bBkgColor);
-	m_btnUnderline.Enable(mi->bUnderline);
 	if (m_si->iType == GCW_CHATROOM)
 		m_btnChannelMgr.Enable(mi->bChanMgr);
 
@@ -1076,48 +1066,38 @@ void CSrmmBaseDialog::RefreshButtonStatus()
 	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;
 	m_message.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
-	if (m_si->pMI->bColor) {
-		bool bState = m_btnColor.IsPushed();
-		if (!bState && cf.crTextColor != m_clrInputFG)
-			m_btnColor.Push(true);
-		else if (bState && cf.crTextColor == m_clrInputFG)
-			m_btnColor.Push(false);
-	}
+	bool bState = m_btnColor.IsPushed();
+	if (!bState && cf.crTextColor != m_clrInputFG)
+		m_btnColor.Push(true);
+	else if (bState && cf.crTextColor == m_clrInputFG)
+		m_btnColor.Push(false);
 
-	if (m_si->pMI->bBkgColor) {
-		bool bState = m_btnBkColor.IsPushed();
-		if (!bState && cf.crBackColor != m_clrInputBG)
-			m_btnBkColor.Push(true);
-		else if (bState && cf.crBackColor == m_clrInputBG)
-			m_btnBkColor.Push(false);
-	}
+	bState = m_btnBkColor.IsPushed();
+	if (!bState && cf.crBackColor != m_clrInputBG)
+		m_btnBkColor.Push(true);
+	else if (bState && cf.crBackColor == m_clrInputBG)
+		m_btnBkColor.Push(false);
 
-	if (m_si->pMI->bBold) {
-		bool bState = m_btnBold.IsPushed();
-		UINT u2 = cf.dwEffects & CFE_BOLD;
-		if (!bState && u2 != 0)
-			m_btnBold.Push(true);
-		else if (bState && u2 == 0)
-			m_btnBold.Push(false);
-	}
+	bState = m_btnBold.IsPushed();
+	UINT u2 = cf.dwEffects & CFE_BOLD;
+	if (!bState && u2 != 0)
+		m_btnBold.Push(true);
+	else if (bState && u2 == 0)
+		m_btnBold.Push(false);
 
-	if (m_si->pMI->bItalics) {
-		bool bState = m_btnItalic.IsPushed();
-		UINT u2 = cf.dwEffects & CFE_ITALIC;
-		if (!bState && u2 != 0)
-			m_btnItalic.Push(true);
-		else if (bState && u2 == 0)
-			m_btnItalic.Push(false);
-	}
+	bState = m_btnItalic.IsPushed();
+	u2 = cf.dwEffects & CFE_ITALIC;
+	if (!bState && u2 != 0)
+		m_btnItalic.Push(true);
+	else if (bState && u2 == 0)
+		m_btnItalic.Push(false);
 
-	if (m_si->pMI->bUnderline) {
-		bool bState = m_btnUnderline.IsPushed();
-		UINT u2 = cf.dwEffects & CFE_UNDERLINE;
-		if (!bState && u2 != 0)
-			m_btnUnderline.Push(true);
-		else if (bState && u2 == 0)
-			m_btnUnderline.Push(false);
-	}
+	bState = m_btnUnderline.IsPushed();
+	u2 = cf.dwEffects & CFE_UNDERLINE;
+	if (!bState && u2 != 0)
+		m_btnUnderline.Push(true);
+	else if (bState && u2 == 0)
+		m_btnUnderline.Push(false);
 }
 
 void CSrmmBaseDialog::SetQuoteEvent(MEVENT hEvent)

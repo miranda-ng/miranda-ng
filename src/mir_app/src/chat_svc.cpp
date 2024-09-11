@@ -178,11 +178,6 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 		return GC_ERROR;
 
 	mi->ptszModDispName = mir_wstrdup(gcr->ptszDispName);
-	mi->bBold = (gcr->dwFlags & GC_BOLD) != 0;
-	mi->bUnderline = (gcr->dwFlags & GC_UNDERLINE) != 0;
-	mi->bItalics = (gcr->dwFlags & GC_ITALICS) != 0;
-	mi->bColor = (gcr->dwFlags & GC_COLOR) != 0;
-	mi->bBkgColor = (gcr->dwFlags & GC_BKGCOLOR) != 0;
 	mi->bAckMsg = (gcr->dwFlags & GC_ACKMSG) != 0;
 	mi->bChanMgr = (gcr->dwFlags & GC_CHANMGR) != 0;
 	mi->bDatabase = (gcr->dwFlags & GC_DATABASE) != 0;

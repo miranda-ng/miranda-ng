@@ -260,8 +260,6 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 	}
 	else idx += 5;
 
-	MODULEINFO *mi = (isChat()) ? m_si->pMI : nullptr;
-
 	bool bInsideColor = false, bInsideUl = false;
 	CMStringW res;
 
@@ -284,14 +282,12 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 
 				if (iCol > 0) {
 					if (isChat()) {
-						if (mi && mi->bColor) {
-							if (iInd >= 0) {
-								if (!(res.IsEmpty() && m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA] == pColors[iInd]))
-									res.AppendFormat(L"%%c%u", iInd);
-							}
-							else if (!res.IsEmpty())
-								res.Append(L"%%C");
+						if (iInd >= 0) {
+							if (!(res.IsEmpty() && m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA] == pColors[iInd]))
+								res.AppendFormat(L"%%c%u", iInd);
 						}
+						else if (!res.IsEmpty())
+							res.Append(L"%%C");
 					}
 					else res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_clrs[iInd].szName);
 				}
@@ -300,16 +296,14 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 			}
 			else if (!wcsncmp(p, L"\\highlight", 10)) { // background color
 				if (isChat()) {
-					if (mi && mi->bBkgColor) {
-						int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
-						if (iInd >= 0) {
-							// if the entry field is empty & the color passed is the back color, skip it
-							if (!(res.IsEmpty() && m_pContainer->m_theme.inputbg == pColors[iInd]))
-								res.AppendFormat(L"%%f%u", iInd);
-						}
-						else if (!res.IsEmpty())
-							res.AppendFormat(L"%%F");
+					int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
+					if (iInd >= 0) {
+						// if the entry field is empty & the color passed is the back color, skip it
+						if (!(res.IsEmpty() && m_pContainer->m_theme.inputbg == pColors[iInd]))
+							res.AppendFormat(L"%%f%u", iInd);
 					}
+					else if (!res.IsEmpty())
+						res.AppendFormat(L"%%F");
 				}
 			}
 			else if (!wcsncmp(p, L"\\line", 5)) { // soft line break;
@@ -338,8 +332,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 			}
 			else if (!wcsncmp(p, L"\\b", 2)) { //bold
 				if (isChat()) {
-					if (mi && mi->bBold)
-						res.Append((p[2] != '0') ? L"%b" : L"%B");
+					res.Append((p[2] != '0') ? L"%b" : L"%B");
 				}
 				else {
 					if (!(lf.lfWeight == FW_BOLD)) // only allow bold if the font itself isn't a bold one, otherwise just strip it..
@@ -349,13 +342,10 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 			}
 			else if (!wcsncmp(p, L"\\i", 2)) { // italics
 				if (isChat()) {
-					if (mi && mi->bItalics)
-						res.Append((p[2] != '0') ? L"%i" : L"%I");
+					res.Append((p[2] != '0') ? L"%i" : L"%I");
 				}
-				else {
-					if (!lf.lfItalic && m_bSendFormat)
-						res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
-				}
+				else if (!lf.lfItalic && m_bSendFormat)
+					res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
 			}
 			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
 				if (!lf.lfStrikeOut && m_bSendFormat)
@@ -363,8 +353,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 			}
 			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
 				if (isChat()) {
-					if (mi && mi->bUnderline)
-						res.Append((p[3] != '0') ? L"%u" : L"%U");
+					res.Append((p[3] != '0') ? L"%u" : L"%U");
 				}
 				else {
 					if (!lf.lfUnderline && m_bSendFormat) {
