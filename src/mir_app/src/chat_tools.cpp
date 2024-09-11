@@ -757,9 +757,9 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(wchar_t*) Chat_GetGroup()
+MIR_APP_DLL(CMStringW) Chat_GetGroup()
 {
-	return db_get_wsa(0, CHAT_MODULE, "AddToGroup", TranslateT("Chat rooms"));
+	return db_get_wsm(0, CHAT_MODULE, "AddToGroup", TranslateT("Chat rooms"));
 }
 
 MIR_APP_DLL(void) Chat_SetGroup(const wchar_t *pwszGroupName)

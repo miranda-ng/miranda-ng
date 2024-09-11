@@ -58,7 +58,7 @@ static void sttSetGroupName(MCONTACT hContact, const wchar_t *pwszGroupName)
 {
 	ptrW wszOldName(Clist_GetGroup(hContact));
 	if (wszOldName != nullptr) {
-		ptrW wszChatGroup(Chat_GetGroup());
+		CMStringW wszChatGroup(Chat_GetGroup());
 		if (mir_wstrcmpi(wszOldName, wszChatGroup))
 			return; // custom group, don't touch it
 	}

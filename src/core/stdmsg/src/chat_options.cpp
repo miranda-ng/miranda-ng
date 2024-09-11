@@ -91,13 +91,20 @@ class COptMainDlg : public CChatOptionsBaseDlg
 {
 	uint32_t m_dwFlags;
 
+	CCtrlEdit edtGroup;
+	CCtrlCheck chkUseGroup;
 	CCtrlTreeOpts checkBoxes;
 
 public:
 	COptMainDlg() :
 		CChatOptionsBaseDlg(IDD_OPTIONS1),
-		checkBoxes(this, IDC_CHECKBOXES)
+		edtGroup(this, IDC_GROUP),
+		checkBoxes(this, IDC_CHECKBOXES),
+		chkUseGroup(this, IDC_CHAT_USEGROUP)
 	{
+		CreateLink(chkUseGroup, Chat::bUseGroup);
+		chkUseGroup.OnChange = Callback(this, &COptMainDlg::onChange_UseGroup);
+
 		m_dwFlags = db_get_dw(0, CHAT_MODULE, "IconFlags");
 
 		auto *pwszSection = TranslateT("Appearance and functionality of chat room windows");
@@ -135,10 +142,22 @@ public:
 		checkBoxes.AddOption(pwszSection, TranslateT("Show icon for status changes"), m_dwFlags, GC_EVENT_ADDSTATUS);
 	}
 
+	bool OnInitDialog() override
+	{
+		edtGroup.SetText(Chat_GetGroup());
+		return true;
+	}
+
 	bool OnApply() override
 	{
+		Chat_SetGroup(ptrW(rtrimw(edtGroup.GetText())));
 		db_set_dw(0, CHAT_MODULE, "IconFlags", m_dwFlags);
 		return true;
+	}
+
+	void onChange_UseGroup(CCtrlCheck *)
+	{
+		edtGroup.Enable(chkUseGroup.IsChecked());
 	}
 };
 
@@ -163,7 +182,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 
 class COptLogDlg : public CChatOptionsBaseDlg
 {
-	CCtrlEdit edtGroup, edtLogDir, edtLogTimestamp, edtTimestamp, edtHighlight, edtInStamp, edtOutStamp, edtLimit;
+	CCtrlEdit edtLogDir, edtLogTimestamp, edtTimestamp, edtHighlight, edtInStamp, edtOutStamp, edtLimit;
 	CCtrlSpin spin2, spin3, spin4;
 	CCtrlCheck chkLogging, chkHighlight;
 	CCtrlButton btnFontChoose;
@@ -175,7 +194,6 @@ public:
 		spin3(this, IDC_SPIN3, 10000),
 		spin4(this, IDC_SPIN4, 255, 10),
 		
-		edtGroup(this, IDC_GROUP),
 		edtLimit(this, IDC_LIMIT),
 		edtLogDir(this, IDC_LOGDIRECTORY),
 		edtInStamp(this, IDC_INSTAMP),
@@ -186,7 +204,7 @@ public:
 
 		chkLogging(this, IDC_LOGGING),
 		chkHighlight(this, IDC_HIGHLIGHT),
-		
+
 		btnFontChoose(this, IDC_FONTCHOOSE)
 	{
 		chkLogging.OnChange = Callback(this, &COptLogDlg::onChange_Logging);
@@ -200,8 +218,6 @@ public:
 		spin2.SetPosition(db_get_w(0, CHAT_MODULE, "LogLimit", 100));
 		spin3.SetPosition(db_get_w(0, CHAT_MODULE, "LoggingLimit", 100));
 		spin4.SetPosition(db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12));
-
-		edtGroup.SetText(ptrW(Chat_GetGroup()));
 
 		wchar_t szTemp[MAX_PATH];
 		PathToRelativeW(g_Settings.pszLogDir, szTemp);
@@ -260,8 +276,6 @@ public:
 			db_set_ws(0, CHAT_MODULE, "HeaderOutgoing", pszText);
 		else
 			db_unset(0, CHAT_MODULE, "HeaderOutgoing");
-
-		Chat_SetGroup(ptrW(rtrimw(edtGroup.GetText())));
 
 		g_Settings.bHighlightEnabled = chkHighlight.GetState();
 		db_set_b(0, CHAT_MODULE, "HighlightEnabled", g_Settings.bHighlightEnabled);

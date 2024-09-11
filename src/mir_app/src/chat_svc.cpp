@@ -26,6 +26,8 @@ CMOption<bool> Chat::bShowNicklist(CHAT_MODULE, "ShowNicklist", true);
 CMOption<bool> Chat::bFilterEnabled(CHAT_MODULE, "FilterEnabled", false);
 CMOption<bool> Chat::bTopicOnClist(CHAT_MODULE, "TopicOnClist", false);
 CMOption<bool> Chat::bPopupOnJoin(CHAT_MODULE, "PopupOnJoin", false);
+CMOption<bool> Chat::bUseGroup(CHAT_MODULE, "UseGroup", true);
+
 CMOption<bool> Chat::bDoubleClick4Privat(CHAT_MODULE, "DoubleClick4Privat", false);
 CMOption<bool> Chat::bShowContactStatus(CHAT_MODULE, "ShowContactStatus", true);
 CMOption<bool> Chat::bContactStatusFirst(CHAT_MODULE, "ContactStatusFirst", false);

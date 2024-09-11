@@ -101,6 +101,7 @@
 #define IDC_LOGLIMIT                    1024
 #define IDC_CLOSE                       1025
 #define IDC_CHKACTR_DISMISS             1026
+#define IDC_CHAT_USEGROUP               1027
 #define IDC_CHKACTR_OPEN                1028
 #define IDC_CONTACTPIC                  1029
 #define IDC_CHAT_SPIN2                  1029

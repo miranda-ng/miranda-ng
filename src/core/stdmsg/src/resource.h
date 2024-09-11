@@ -106,6 +106,7 @@
 #define IDC_RADIO2                      1068
 #define IDC_RADIO3                      1069
 #define IDC_ADD                         1070
+#define IDC_CHAT_USEGROUP               1071
 #define IDC_TAB                         1074
 #define IDC_1                           1075
 #define IDC_2                           1076

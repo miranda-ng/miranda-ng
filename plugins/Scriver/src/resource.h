@@ -186,6 +186,7 @@
 #define IDC_CHAT_LOGDIRECTORY           5048
 #define IDC_CHAT_LIMIT                  5050
 #define IDC_CHAT_LOGTIMESTAMP           5051
+#define IDC_CHAT_USEGROUP               5052
 #define IDC_CHAT_GROUP                  5057
 #define IDC_CHAT_HIGHLIGHT              5068
 #define IDC_CHAT_TEXTO                  5069

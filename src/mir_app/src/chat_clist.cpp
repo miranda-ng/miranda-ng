@@ -38,23 +38,16 @@ static MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
 
 MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType)
 {
-	ptrW pwszGroup(Chat_GetGroup());
-	if (mir_wstrlen(pwszGroup)) {
-		MGROUP hGroup = Clist_GroupExists(pwszGroup);
-		if (hGroup == 0) {
-			hGroup = Clist_GroupCreate(0, pwszGroup);
-			if (hGroup)
-				Clist_GroupSetExpanded(hGroup, 1);
-		}
-	}
+	auto wszGroup(Chat_GetGroup());
+	bool bNeedGroup = Chat::bUseGroup && !wszGroup.IsEmpty();
 
 	MCONTACT hContact = FindRoom(pszModule, pszRoom);
 	if (hContact) {
 		// contact exists, let's assign the standard group name if it's missing
-		if (mir_wstrlen(pwszGroup)) {
+		if (bNeedGroup) {
 			ptrW pwszOldGroup(Clist_GetGroup(hContact));
 			if (!mir_wstrlen(pwszOldGroup))
-				Clist_SetGroup(hContact, pwszGroup);
+				Clist_SetGroup(hContact, wszGroup);
 		}
 
 		db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
@@ -67,7 +60,18 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 		return 0;
 
 	Proto_AddToContact(hContact, pszModule);
-	Clist_SetGroup(hContact, pwszGroup);
+
+	// create the 'Chat rooms' group only if needed
+	if (bNeedGroup) {
+		MGROUP hGroup = Clist_GroupExists(wszGroup);
+		if (hGroup == 0) {
+			hGroup = Clist_GroupCreate(0, wszGroup);
+			if (hGroup)
+				Clist_GroupSetExpanded(hGroup, 1);
+		}
+
+		Clist_SetGroup(hContact, wszGroup);
+	}
 
 	if (auto *pa = Proto_GetAccount(pszModule)) {
 		if (MBaseProto *pd = g_arProtos.find((MBaseProto *)&pa->szProtoName)) {

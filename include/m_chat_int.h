@@ -396,6 +396,7 @@ namespace Chat
 		bFilterEnabled,
 		bTopicOnClist,
 		bPopupOnJoin,
+		bUseGroup,
 		bDoubleClick4Privat,
 		bShowContactStatus,
 		bContactStatusFirst,

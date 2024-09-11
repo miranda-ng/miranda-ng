@@ -723,7 +723,7 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 		wchar_t *pwszDefaultGroup = m_wszDefaultGroup;
 		if (!pwszExistingGroup || pUser->isForum
 			|| !mir_wstrncmp(pwszExistingGroup, pwszDefaultGroup, mir_wstrlen(pwszDefaultGroup))
-			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, ptrW(Chat_GetGroup()))))
+			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, Chat_GetGroup())))
 		{
 			CMStringW wszNewGroup(pwszDefaultGroup);
 			if (!wszGroup.IsEmpty())

@@ -49,6 +49,7 @@ class CGeneralOptsDlg : public CChatOptionsBaseDlg
 
 	CCtrlSpin spin2;
 	CCtrlEdit m_group;
+	CCtrlCheck m_useGroup;
 	CCtrlTreeOpts m_opts;
 
 public:
@@ -56,8 +57,12 @@ public:
 		CChatOptionsBaseDlg(IDD_OPTIONS1),
 		m_opts(this, IDC_CHAT_CHECKBOXES),
 		m_group(this, IDC_CHAT_GROUP),
+		m_useGroup(this, IDC_CHAT_USEGROUP),
 		spin2(this, IDC_CHAT_SPIN2, 255, 10)
 	{
+		CreateLink(m_useGroup, Chat::bUseGroup);
+		m_useGroup.OnChange = Callback(this, &CGeneralOptsDlg::onChange_UseGroup);
+
 		auto *pwszSection = TranslateT("Appearance and functionality of chat windows");
 		m_opts.AddOption(pwszSection, TranslateT("Flash when someone speaks"), Chat::bFlashWindow);
 		m_opts.AddOption(pwszSection, TranslateT("Flash when a word is highlighted"), Chat::bFlashWindowHighlight);
@@ -88,17 +93,13 @@ public:
 	bool OnInitDialog() override
 	{
 		spin2.SetPosition(db_get_b(0, CHAT_MODULE, "NicklistRowDist", 12));
-		m_group.SetText(ptrW(Chat_GetGroup()));
+		m_group.SetText(Chat_GetGroup());
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		ptrW wszGroup(m_group.GetText());
-		if (mir_wstrlen(wszGroup) > 0)
-			Chat_SetGroup(wszGroup);
-		else 
-			Chat_SetGroup(nullptr);
+		Chat_SetGroup(ptrW(m_group.GetText()));
 
 		int iPos = spin2.GetPosition();
 		if (iPos > 0)
@@ -108,6 +109,11 @@ public:
 
 		db_set_dw(0, CHAT_MODULE, "IconFlags", g_Settings.dwIconFlags = m_dwFlags);
 		return true;
+	}
+
+	void onChange_UseGroup(CCtrlCheck *)
+	{
+		m_group.Enable(m_useGroup.IsChecked());
 	}
 };
 

@@ -488,14 +488,19 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 
 	CCtrlTreeOpts treeCheck;
 	CCtrlEdit edtGroup, edtAutocomplete;
+	CCtrlCheck chkUseGroup;
 
 public:
 	CChatSettingsDlg() :
 		CChatBaseOptionDlg(IDD_OPTIONS1),
+		chkUseGroup(this, IDC_CHAT_USEGROUP),
 		edtGroup(this, IDC_GROUP),
 		edtAutocomplete(this, IDC_AUTOCOMPLETE),
 		treeCheck(this, IDC_CHECKBOXES)
 	{
+		CreateLink(chkUseGroup, Chat::bUseGroup);
+		chkUseGroup.OnChange = Callback(this, &CChatSettingsDlg::onChange_UseGroup);
+
 		auto *pwszSection = LPGENW("Appearance and functionality of chat room windows");
 		treeCheck.AddOption(pwszSection, LPGENW("Open new chat rooms in the default container"), g_plugin.bOpenInDefault);
 		treeCheck.AddOption(pwszSection, LPGENW("Flash window when someone speaks"), Chat::bFlashWindow);
@@ -534,7 +539,7 @@ public:
 		if (mir_wstrlen(g_Settings.pwszAutoText))
 			edtAutocomplete.SetText(g_Settings.pwszAutoText);
 
-		edtGroup.SetText(ptrW(Chat_GetGroup()));
+		edtGroup.SetText(Chat_GetGroup());
 		return true;
 	}
 
@@ -554,6 +559,11 @@ public:
 
 		b = treeCheck.GetItemState(hListHeading2, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch2Exp", b);
+	}
+
+	void onChange_UseGroup(CCtrlCheck *)
+	{
+		edtGroup.Enable(chkUseGroup.IsChecked());
 	}
 };
 
