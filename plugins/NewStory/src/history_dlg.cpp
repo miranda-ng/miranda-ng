@@ -321,7 +321,7 @@ class CHistoryDlg : public CDlgBase
 			if (CurYear != PrevYear) {
 				_itow(CurYear, buf, 10);
 				tvi.item.pszText = buf;
-				tvi.item.lParam = 0;
+				tvi.item.lParam = CurYear;
 				hCurYear = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 				PrevYear = CurYear;
 			}
@@ -336,7 +336,7 @@ class CHistoryDlg : public CDlgBase
 				_itow(CurDay, buf, 10);
 				tvi.hParent = hCurMonth;
 				tvi.item.pszText = buf;
-				tvi.item.lParam = 0;
+				tvi.item.lParam = CurDay;
 				hCurDay = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 				PrevDay = CurDay;
 			}
@@ -344,6 +344,41 @@ class CHistoryDlg : public CDlgBase
 		disableTimeTreeChange = true;
 		HTREEITEM root = m_timeTree.GetRoot();
 		m_timeTree.SelectItem(root);
+	}
+
+	HTREEITEM FindSibling(HTREEITEM root, int value)
+	{
+		if (root) {
+			if (value < 1000)
+				root = m_timeTree.GetChild(root);
+
+			for (HTREEITEM hti = root; hti; hti = m_timeTree.GetNextSibling(hti)) {
+				TVITEMEX tvi;
+				tvi.mask = TVIF_PARAM;
+				m_timeTree.GetItem(hti, &tvi);
+				if (tvi.lParam == value)
+					return hti;
+			}
+		}
+
+		return nullptr;
+	}
+
+	void LocateDateTime(int iTimestamp)
+	{
+		struct tm ts = { 0 };
+		time_t timestamp = iTimestamp;
+		errno_t err = localtime_s(&ts, &timestamp);  /* statically alloced, local time correction */
+		if (err != 0)
+			return;
+
+		HTREEITEM hti = FindSibling(m_timeTree.GetRoot(), ts.tm_year + 1900);
+		hti = FindSibling(hti, ts.tm_mon + 1);
+		hti = FindSibling(hti, ts.tm_mday);
+		if (hti) {
+			disableTimeTreeChange = true;
+			m_timeTree.SelectItem(hti);
+		}
 	}
 
 	CSplitter splitTime;
@@ -1113,6 +1148,13 @@ public:
 		case WM_USER + 0x600:
 			if (wParam)
 				m_histWindow.SendMsg(NSM_SEEKTIME, wParam, 0);
+			break;
+		
+		case UM_LOCATETIME:
+			if (m_dwOptions & WND_OPT_TIMETREE)
+				if (auto *pItem = m_histCtrl->GetItem(wParam))
+					LocateDateTime(pItem->dbe.timestamp);
+			break;
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);

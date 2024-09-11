@@ -27,6 +27,7 @@ enum
 	UM_GET_EVENT_CONTACT,
 
 	UM_BOOKMARKS = WM_USER + 0x601,
+	UM_LOCATETIME = WM_USER + 0x602,
 };
 
 extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs;

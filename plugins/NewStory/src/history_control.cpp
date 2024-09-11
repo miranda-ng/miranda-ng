@@ -888,7 +888,11 @@ void NewstoryListData::ScheduleDraw()
 void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
 {
 	if (idx < totalCount) {
-		caret = idx;
+		if (idx != caret) {
+			caret = idx;
+			PostMessage(GetParent(m_hwnd), UM_LOCATETIME, caret, 0);
+		}
+
 		if (bEnsureVisible)
 			EnsureVisible(idx);
 	}
