@@ -145,8 +145,9 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 	if (id == 0)
 		return false;
 
+	bool bDelContact = (flags & CDF_DEL_CONTACT) != 0;
 	if (auto *pUser = FindUser(id)) {
-		if (pUser->m_si) {
+		if (pUser->m_si && bDelContact) {
 			SvcLeaveChat(hContact, 0);
 			return false;
 		}
@@ -157,7 +158,7 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 		pUser->wszLastName = getMStringW(hContact, "LastName");
 	}
 
-	if (flags & CDF_DEL_CONTACT) {
+	if (bDelContact) {
 		TD::array<TD::int53> ids;
 		ids.push_back(id);
 		SendQuery(new TD::removeContacts(std::move(ids)));
