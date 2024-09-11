@@ -39,6 +39,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "JSONWorker.h"
 
+#include "m_netlib.h"
+
 #ifdef JSON_MEMORY_MANAGE
 	auto_expand StringHandler;
 	auto_expand_node NodeHandler;
@@ -93,7 +95,13 @@ JSONNode JSONNode::parse(const json_char *str)
 	if (str == nullptr)
 		return JSONNode();
 
-	return JSONWorker::parse(str);
+	try {
+		return JSONWorker::parse(str);
+	}
+	catch (...) {
+		Netlib_Logf(0, "Exception in uncrunching JSON from string: %s", str);
+	}
+	return JSONNode();
 }
 
 LIBJSON_DLL(JSONNode*) json_parse(const json_char *json) {
