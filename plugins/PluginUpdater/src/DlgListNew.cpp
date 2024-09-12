@@ -303,9 +303,6 @@ public:
 		HNETLIBCONN nlc = nullptr;
 		int i = 0;
 		for (auto &p : *todo) {
-			if (p->IsFiltered(m_wszFilter))
-				continue;
-
 			m_list.EnsureVisible(i, FALSE);
 			if (p->bEnabled) {
 				// download update
