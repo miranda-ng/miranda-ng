@@ -1509,6 +1509,14 @@ static void EditReminder(REMINDERDATA *p)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static INT_PTR CALLBACK ListWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_KEYDOWN && wParam == VK_DELETE)
+		PostMessage(GetParent(hwnd), WM_COMMAND, ID_CONTEXTMENUREMINDER_DELETE, 0);
+
+	return mir_callNextSubclass(hwnd, ListWindowProc, msg, wParam, lParam);
+}
+
 class CReminderListDlg : public CDlgBase
 {
 	typedef CDlgBase CSuper;
@@ -1587,8 +1595,9 @@ public:
 		pListDialog = this;
 		Window_SetIcon_IcoLib(m_hwnd, iconList[6].hIcolib);
 
-		TranslateDialogDefault(m_hwnd);
 		SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
+
+		mir_subclassWindow(m_list.GetHwnd(), ListWindowProc);
 
 		int cx1 = 150, cx2 = 205;
 		ptrA colWidth(g_plugin.getStringA("ColWidth"));
@@ -1682,38 +1691,8 @@ public:
 		ClientToScreen(m_list.GetHwnd(), &pt);
 
 		TranslateMenu(FhMenu);
-		int iSel = TrackPopupMenu(FhMenu, TPM_RETURNCMD | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, m_hwnd, nullptr);
+		TrackPopupMenu(FhMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, m_hwnd, nullptr);
 		DestroyMenu(hMenuLoad);
-
-		switch(iSel) {
-		case ID_CONTEXTMENUREMINDER_EDIT:
-			idx = m_list.GetSelectionMark();
-			if (idx != -1)
-				EditReminder(getData(idx));
-			break;
-
-		case ID_CONTEXTMENUREMINDER_NEW:
-			PluginMenuCommandNewReminder(0, 0);
-			break;
-
-		case ID_CONTEXTMENUREMINDER_DELETEALL:
-			if (arReminders.getCount() && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
-				SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
-				DeleteReminders();
-				RefreshList();
-			}
-			break;
-
-		case ID_CONTEXTMENUREMINDER_DELETE:
-			idx = m_list.GetSelectionMark();
-			if (idx != -1 && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
-				SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
-				DeleteReminder(getData(idx));
-				JustSaveReminders();
-				RefreshList();
-			}
-			break;
-		}
 	}
 
 	void Reload()
@@ -1760,6 +1739,38 @@ public:
 				}
 			}
 			break;
+
+		case WM_COMMAND:
+			int idx;
+			switch (wParam) {
+			case ID_CONTEXTMENUREMINDER_EDIT:
+				idx = m_list.GetSelectionMark();
+				if (idx != -1)
+					EditReminder(getData(idx));
+				break;
+
+			case ID_CONTEXTMENUREMINDER_NEW:
+				PluginMenuCommandNewReminder(0, 0);
+				break;
+
+			case ID_CONTEXTMENUREMINDER_DELETEALL:
+				if (arReminders.getCount() && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+					SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
+					DeleteReminders();
+					RefreshList();
+				}
+				break;
+
+			case ID_CONTEXTMENUREMINDER_DELETE:
+				idx = m_list.GetSelectionMark();
+				if (idx != -1 && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+					SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
+					DeleteReminder(getData(idx));
+					JustSaveReminders();
+					RefreshList();
+				}
+				break;
+			}
 		}
 
 		return CSuper::DlgProc(msg, wParam, lParam);
