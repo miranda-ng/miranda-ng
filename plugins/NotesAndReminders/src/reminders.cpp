@@ -1509,7 +1509,7 @@ static void EditReminder(REMINDERDATA *p)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK ListWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK ListWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_KEYDOWN && wParam == VK_DELETE)
 		PostMessage(GetParent(hwnd), WM_COMMAND, ID_CONTEXTMENUREMINDER_DELETE, 0);

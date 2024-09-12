@@ -76,7 +76,7 @@ void CIrcProto::AddToJTemp(wchar_t op, CMStringW& sCommand)
 	setWString("JTemp", res);
 }
 
-CMStringW __stdcall GetWord(const wchar_t* text, int index)
+CMStringW GetWord(const wchar_t* text, int index)
 {
 	if (text && *text) {
 		wchar_t* p1 = (wchar_t*)text;
@@ -109,7 +109,7 @@ CMStringW __stdcall GetWord(const wchar_t* text, int index)
 	return CMStringW();
 }
 
-const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index)
+const wchar_t* GetWordAddress(const wchar_t* text, int index)
 {
 	if (!text || !mir_wstrlen(text))
 		return text;
@@ -135,7 +135,7 @@ const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index)
 	return temp;
 }
 
-void __stdcall RemoveLinebreaks(CMStringW &Message)
+void RemoveLinebreaks(CMStringW &Message)
 {
 	while (Message.Find(L"\r\n\r\n", 0) != -1)
 		Message.Replace(L"\r\n\r\n", L"\r\n");
@@ -147,7 +147,7 @@ void __stdcall RemoveLinebreaks(CMStringW &Message)
 		Message.Delete(Message.GetLength() - 2, 2);
 }
 
-char* __stdcall IrcLoadFile(wchar_t* szPath)
+char* IrcLoadFile(wchar_t* szPath)
 {
 	char * szContainer = nullptr;
 	uint32_t dwSiz = 0;
@@ -166,7 +166,7 @@ char* __stdcall IrcLoadFile(wchar_t* szPath)
 	return nullptr;
 }
 
-int __stdcall WCCmp(const wchar_t* wild, const wchar_t* string)
+int WCCmp(const wchar_t* wild, const wchar_t* string)
 {
 	if (wild == nullptr || !mir_wstrlen(wild) || string == nullptr || !mir_wstrlen(string))
 		return 1;
@@ -220,7 +220,7 @@ bool CIrcProto::IsChannel(const char *sName)
 	return (sChannelPrefixes.Find(sName[0]) != -1);
 }
 
-CMStringA __stdcall GetWord(const char* text, int index)
+CMStringA GetWord(const char* text, int index)
 {
 	if (text && text[0]) {
 		char* p1 = (char*)text;
