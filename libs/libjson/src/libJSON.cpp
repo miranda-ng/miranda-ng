@@ -338,12 +338,24 @@ LIBJSON_DLL(JSONNode*) json_as_array(const JSONNode *node) {
 #ifdef JSON_WRITER
 	LIBJSON_DLL(wchar_t*) json_write(const JSONNode *node) {
 		JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_write"), return toCString(EMPTY_CSTRING););
-		return toCString(node->write());
+		try {
+			return toCString(node->write());
+		}
+		catch (...) {
+			Netlib_Logf(0, "Exception in writing JSON");
+		}
+		return mir_wstrdup(L"");
 	}
 
 	LIBJSON_DLL(wchar_t*) json_write_formatted(const JSONNode *node) {
 		JSON_ASSERT_SAFE(node, JSON_TEXT("null node to json_write_formatted"), return toCString(EMPTY_CSTRING););
-		return toCString(node->write_formatted());
+		try {
+			return toCString(node->write_formatted());
+		}
+		catch (...) {
+			Netlib_Logf(0, "Exception in writing JSON");
+		}
+		return mir_wstrdup(L"");
 	}
 #endif
 
