@@ -490,7 +490,6 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			return true;
 
 		CMStringW S = L"/ME " + DoIdentifiers(GetWordAddress(text, 1), window);
-		S.Replace(L"%", L"%%");
 		Chat_SendUserMessage(m_szModuleName, S);
 		return true;
 	}
@@ -500,7 +499,6 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			return true;
 
 		CMStringW S = DoIdentifiers(GetWordAddress(text, 1), window);
-		S.Replace(L"%", L"%%");
 		Chat_SendUserMessage(m_szModuleName, S);
 		return true;
 	}

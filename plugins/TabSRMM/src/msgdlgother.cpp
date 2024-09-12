@@ -260,7 +260,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 	}
 	else idx += 5;
 
-	bool bInsideColor = false, bInsideUl = false;
+	bool bInsideUl = false;
 	CMStringW res;
 
 	// iterate through all characters, if rtf control character found then take action
@@ -277,34 +277,21 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 			}
 
 			if (!wcsncmp(p, L"\\cf", 3)) { // foreground color
-				int iCol = _wtoi(p + 3);
-				int iInd = RtfColorToIndex(iNumColors, pIndex, iCol);
-
-				if (iCol > 0) {
-					if (isChat()) {
-						if (iInd >= 0) {
-							if (!(res.IsEmpty() && m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA] == pColors[iInd]))
-								res.AppendFormat(L"%%c%u", iInd);
-						}
-						else if (!res.IsEmpty())
-							res.Append(L"%%C");
-					}
-					else res.AppendFormat((iInd >= 0) ? (bInsideColor ? L"[/color][color=%s]" : L"[color=%s]") : (bInsideColor ? L"[/color]" : L""), Utils::rtf_clrs[iInd].szName);
-				}
-
-				bInsideColor = iInd >= 0;
+				int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 3));
+				if (iInd >= 0)
+					res.AppendFormat(L"[color=%08X]", Utils::rtf_clrs[iInd].clr);
+				else if (!res.IsEmpty())
+					res.Append(L"[/color]");
 			}
 			else if (!wcsncmp(p, L"\\highlight", 10)) { // background color
-				if (isChat()) {
-					int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
-					if (iInd >= 0) {
-						// if the entry field is empty & the color passed is the back color, skip it
-						if (!(res.IsEmpty() && m_pContainer->m_theme.inputbg == pColors[iInd]))
-							res.AppendFormat(L"%%f%u", iInd);
-					}
-					else if (!res.IsEmpty())
-						res.AppendFormat(L"%%F");
+				int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
+				if (iInd >= 0) {
+					// if the entry field is empty & the color passed is the back color, skip it
+					if (m_pContainer->m_theme.inputbg != pColors[iInd])
+						res.AppendFormat(L"[bkcolor=%08X]", Utils::rtf_clrs[iInd].clr);
 				}
+				else if (!res.IsEmpty())
+					res.AppendFormat(L"[/bkcolor]");
 			}
 			else if (!wcsncmp(p, L"\\line", 5)) { // soft line break;
 				res.AppendChar('\n');
@@ -331,20 +318,12 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 				res.AppendChar(0x2019);
 			}
 			else if (!wcsncmp(p, L"\\b", 2)) { //bold
-				if (isChat()) {
-					res.Append((p[2] != '0') ? L"%b" : L"%B");
-				}
-				else {
-					if (!(lf.lfWeight == FW_BOLD)) // only allow bold if the font itself isn't a bold one, otherwise just strip it..
-						if (m_bSendFormat)
-							res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
-				}
+				// only allow bold if the font itself isn't a bold one, otherwise just strip it..
+				if (lf.lfWeight != FW_BOLD && m_bSendFormat)
+					res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
 			}
 			else if (!wcsncmp(p, L"\\i", 2)) { // italics
-				if (isChat()) {
-					res.Append((p[2] != '0') ? L"%i" : L"%I");
-				}
-				else if (!lf.lfItalic && m_bSendFormat)
+				if (!lf.lfItalic && m_bSendFormat)
 					res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
 			}
 			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
@@ -352,20 +331,15 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 					res.Append((p[7] != '0') ? L"[s]" : L"[/s]");
 			}
 			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
-				if (isChat()) {
-					res.Append((p[3] != '0') ? L"%u" : L"%U");
-				}
-				else {
-					if (!lf.lfUnderline && m_bSendFormat) {
-						if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
-							res.Append(L"[u]");
-							bInsideUl = true;
-						}
-						else if (!wcsncmp(p + 3, L"none", 4)) {
-							if (bInsideUl)
-								res.Append(L"[/u]");
-							bInsideUl = false;
-						}
+				if (!lf.lfUnderline && m_bSendFormat) {
+					if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
+						res.Append(L"[u]");
+						bInsideUl = true;
+					}
+					else if (!wcsncmp(p + 3, L"none", 4)) {
+						if (bInsideUl)
+							res.Append(L"[/u]");
+						bInsideUl = false;
 					}
 				}
 			}
@@ -402,22 +376,12 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 			p++;
 			break;
 
-		case '%': // double % for stupid chat engine
-			if (isChat())
-				res.Append(L"%%");
-			else
-				res.AppendChar(*p);
-			p++;
-			break;
-
 		default: // other text that should not be touched
 			res.AppendChar(*p++);
 			break;
 		}
 	}
 
-	if (bInsideColor && !isChat())
-		res.Append(L"[/color]");
 	if (bInsideUl)
 		res.Append(L"[/u]");
 

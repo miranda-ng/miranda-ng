@@ -516,7 +516,6 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 
 			// need to make sure that %'s are doubled to avoid having chat interpret as color codes
 			CMStringW sFileCorrect = dci->sFile;
-			sFileCorrect.Replace(L"%", L"%%");
 
 			// is it an reverse filetransfer (receiver acts as server)
 			if (dci->bReverse) {

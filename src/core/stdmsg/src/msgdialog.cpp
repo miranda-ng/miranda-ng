@@ -325,8 +325,6 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		m_cmdList.insert(mir_wstrdup(ptszText));
 		m_cmdListInd = -1;
 
-		ptszText.Replace(L"%", L"%%");
-
 		if (m_si->pMI->bAckMsg) {
 			m_message.Disable();
 			m_message.SendMsg(EM_SETREADONLY, TRUE, 0);

@@ -743,8 +743,7 @@ void CSrmmBaseDialog::UpdateChatLog()
 		DB::EventInfo dbei(hDbEvent);
 		if (dbei && !mir_strcmp(szProto, dbei.szModule) && g_chatApi.DbEventIsShown(dbei) && dbei.szUserId) {
 			Utf2T wszUserId(dbei.szUserId);
-			CMStringW wszText(ptrW(dbei.getText()));
-			wszText.Replace(L"%", L"%%");
+			ptrW wszText(dbei.getText());
 
 			GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
 			gce.dwFlags = GCEF_ADDTOLOG;

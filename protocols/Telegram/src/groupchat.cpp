@@ -203,7 +203,6 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_MESSAGE:
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
-			Chat_UnescapeTags(gch->ptszText);
 			if (auto *pUser = FindUser(userId)) {
 				TD::int53 replyId = 0;
 				if (auto *pDlg = gch->si->pDlg) {

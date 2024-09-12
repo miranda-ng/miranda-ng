@@ -521,8 +521,6 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 			wszBody.AppendFormat(L": %s (%s)", TranslateT("chat action not supported"), wszAction.c_str());
 	}
 
-	wszBody.Replace(L"%", L"%%");
-
 	if (vkChatInfo->m_bHistoryRead) {
 		AppendChatMessage(vkChatInfo, iMessageId, iReplyMsgId, iUserId, tMsgTime, wszBody, bIsHistory, bIsAction);
 	}
@@ -657,7 +655,6 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 		if (IsOnline() && mir_wstrlen(gch->ptszText) > 0) {
 			ptrW pwszBuf(mir_wstrdup(gch->ptszText));
 			rtrimw(pwszBuf);
-			Chat_UnescapeTags(pwszBuf);
 			SendMsg(cc->m_si->hContact, gch->si->pDlg ? gch->si->pDlg->m_hQuoteEvent : 0, T2Utf(pwszBuf));
 		}
 		break;

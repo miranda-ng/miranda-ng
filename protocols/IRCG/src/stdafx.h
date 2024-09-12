@@ -207,14 +207,14 @@ void    UninitContactMenus(void);
 void    InitIcons(void);
 
 // tools.cpp
-int            __stdcall WCCmp(const wchar_t* wild, const wchar_t* string);
-char*          __stdcall IrcLoadFile(wchar_t * szPath);
-CMStringW      __stdcall GetWord(const wchar_t* text, int index);
-const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index);
-void           __stdcall RemoveLinebreaks(CMStringW& Message);
-wchar_t*       __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplacePercent);
+int            WCCmp(const wchar_t* wild, const wchar_t* string);
+char*          IrcLoadFile(wchar_t * szPath);
+CMStringW      GetWord(const wchar_t* text, int index);
+const wchar_t* GetWordAddress(const wchar_t* text, int index);
+void           RemoveLinebreaks(CMStringW& Message);
+CMStringW      DoColorCodes(const wchar_t* text, bool bStrip = true);
 
-CMStringA      __stdcall GetWord(const char* text, int index);
+CMStringA      GetWord(const char* text, int index);
 
 __forceinline const wchar_t* s2null(const CMStringW &str)
 {

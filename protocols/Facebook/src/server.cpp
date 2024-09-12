@@ -969,7 +969,6 @@ bool FacebookProto::CheckOwnMessage(FacebookUser *pUser, __int64 offlineId, cons
 
 	if (pUser->bIsChat) {
 		CMStringW wszId(FORMAT, L"%lld", m_uid);
-		tmp.wszText.Replace(L"%", L"%%");
 
 		wchar_t userId[100];
 		_i64tow_s(pUser->id, userId, _countof(userId), 10);

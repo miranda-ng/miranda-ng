@@ -328,12 +328,9 @@ void CSkypeProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 	if (!IsOnline())
 		return;
 
-	wchar_t *buf = NEWWSTR_ALLOCA(tszMessage);
-	rtrimw(buf);
-	Chat_UnescapeTags(buf);
-
 	T2Utf chat_id(si->ptszID);
-	ptrA szMessage(mir_utf8encodeW(buf));
+	ptrA szMessage(mir_utf8encodeW(tszMessage));
+	rtrim(szMessage);
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		PushRequest(new SendChatActionRequest(chat_id, time(0), szMessage));

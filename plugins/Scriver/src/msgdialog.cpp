@@ -331,7 +331,6 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		CMStringW ptszText(ptrW(mir_utf8decodeW(msi.sendBuffer)));
 		g_chatApi.DoRtfToTags(ptszText, 0, nullptr);
 		ptszText.Trim();
-		ptszText.Replace(L"%", L"%%");
 
 		if (m_si->pMI->bAckMsg) {
 			EnableWindow(m_message.GetHwnd(), FALSE);

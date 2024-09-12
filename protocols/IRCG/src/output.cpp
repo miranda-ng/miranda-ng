@@ -109,9 +109,6 @@ BOOL CIrcProto::ShowMessage(const CIrcMessage* pmsg)
 {
 	CMStringW mess = FormatOutput(pmsg);
 
-	if (!pmsg->m_bIncoming)
-		mess.Replace(L"%%", L"%");
-
 	int iTemp = _wtoi(pmsg->sCommand);
 
 	//To active window

@@ -398,8 +398,6 @@ MIR_APP_DLL(int) Chat_SetStatusbarText(SESSION_INFO *si, const wchar_t *wszText)
 MIR_APP_DLL(CMStringW) Chat_GetGroup(void);
 MIR_APP_DLL(void) Chat_SetGroup(const wchar_t*);
 
-MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define GC_SSE_ONLYLISTED     0x0001  // processes only listed contacts, resets all contacts otherwise

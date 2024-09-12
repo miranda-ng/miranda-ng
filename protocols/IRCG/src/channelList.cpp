@@ -293,8 +293,9 @@ public:
 			wszTopic.Delete(0, iEnd);
 		}
 
+		wszTopic = DoColorCodes(wszTopic);
 		lvItem.iSubItem = 3;
-		lvItem.pszText = DoColorCodes(wszTopic, TRUE, FALSE);
+		lvItem.pszText = wszTopic.GetBuffer();
 		m_list.SetItem(&lvItem);
 
 		int percent = 100;

@@ -734,8 +734,7 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 	if (mir_strcmp(szProto, dbei.szModule) || !g_chatApi.DbEventIsShown(dbei) || !dbei.szUserId)
 		return;
 
-	CMStringW wszText(ptrW(dbei.getText()));
-	wszText.Replace(L"%", L"%%");
+	ptrW wszText(dbei.getText());
 
 	GCEVENT gce = { si, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_ADDTOLOG;
@@ -768,20 +767,6 @@ MIR_APP_DLL(void) Chat_SetGroup(const wchar_t *pwszGroupName)
 		db_set_ws(0, CHAT_MODULE, "AddToGroup", pwszGroupName);
 	else
 		db_unset(0, CHAT_MODULE, "AddToGroup");
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(wchar_t*) Chat_UnescapeTags(wchar_t *str_in)
-{
-	wchar_t *s = str_in, *d = str_in;
-	while (*s) {
-		if (*s == '%' && s[1] == '%')
-			s++;
-		*d++ = *s++;
-	}
-	*d = 0;
-	return str_in;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -274,60 +274,43 @@ static const wchar_t* DoEnterNumber(const wchar_t *text, int &res)
 	return text;
 }
 
-wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplacePercent)
+CMStringW DoColorCodes(const wchar_t *text, bool bStrip)
 {
-	static wchar_t szTemp[4000]; szTemp[0] = 0;
-	wchar_t* p = szTemp;
+	CMStringW ret;
 	bool bBold = false;
 	bool bUnderline = false;
 	bool bItalics = false;
-	int iFG = -1, iBG = -1;
-
+	int iFG = -1, iBG = -1, numColors = 0;
+	COLORREF *pClrTable = Srmm_GetColorTable(&numColors);
+	
 	if (!text)
-		return szTemp;
+		return ret;
 
 	while (*text != 0) {
 		switch (*text) {
-		case '%': // escape
-			*p++ = '%';
-			if (bReplacePercent)
-				*p++ = '%';
-			text++;
-			break;
-
 		case irc::BOLD:
-			if (!bStrip) {
-				*p++ = '%';
-				*p++ = bBold ? 'B' : 'b';
-			}
 			bBold = !bBold;
+			if (!bStrip)
+				ret.Append(bBold ? L"[b]" : L"[/b]");			
 			text++;
 			break;
 
 		case irc::RESET:
-			if (!bStrip) {
-				*p++ = '%';
-				*p++ = 'r';
-			}
 			bUnderline = bItalics = bBold = false;
 			text++;
 			break;
 
 		case irc::ITALICS:
-			if (!bStrip) {
-				*p++ = '%';
-				*p++ = bItalics ? 'I' : 'i';
-			}
 			bItalics = !bItalics;
+			if (!bStrip)
+				ret.Append(bItalics ? L"[i]" : L"[/i]");
 			text++;
 			break;
 
 		case irc::UNDERLINE:
-			if (!bStrip) {
-				*p++ = '%';
-				*p++ = bUnderline ? 'U' : 'u';
-			}
 			bUnderline = !bUnderline;
+			if (!bStrip)
+				ret.Append(bUnderline ? L"[u]" : L"[/u]");
 			text++;
 			break;
 
@@ -343,41 +326,29 @@ wchar_t* __stdcall DoColorCodes(const wchar_t *text, bool bStrip, bool bReplaceP
 
 			// create tag for chat.dll
 			if (!bStrip) {
-				wchar_t buf[10];
 				if (iFG != iOldFG) {
-					*p++ = '%';
 					if (iFG == -1)
-						*p++ = 'C';
-					else {
-						*p++ = 'c';
-						mir_snwprintf(buf, L"%02u", iFG);
-						*p++ = buf[0];
-						*p++ = buf[1];
-					}
+						ret.Append(L"[/color]");
+					else if (iFG < numColors)
+						ret.Append(L"[color=%08X]", pClrTable[iFG]);
 				}
 
 				if (iBG != iOldBG) {
-					*p++ = '%';
-					if (iBG == -1)
-						*p++ = 'F';
-					else {
-						*p++ = 'f';
-						mir_snwprintf(buf, L"%02u", iBG);
-						*p++ = buf[0];
-						*p++ = buf[1];
-					}
+					if (iFG == -1)
+						ret.Append(L"[/bkcolor]");
+					else if (iFG < numColors)
+						ret.Append(L"[bkcolor=%08X]", pClrTable[iFG]);
 				}
 			}
 			break;
 
 		default:
-			*p++ = *text++;
+			ret.AppendChar(*text++);
 			break;
 		}
 	}
 
-	*p = 0;
-	return szTemp;
+	return ret;
 }
 
 INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *pszNick,
@@ -389,7 +360,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *
 
 	CMStringW sText;
 	if (pszText)
-		sText = DoColorCodes(pszText, FALSE, TRUE);
+		sText = DoColorCodes(pszText, false);
 
 	GCEVENT gce = {};
 	if (pszWindow)
@@ -537,7 +508,7 @@ int CIrcProto::SetChannelSBText(CMStringW sWindow, CHANNELINFO *wi)
 	}
 	if (wi->pszTopic)
 		sTemp += wi->pszTopic;
-	sTemp = DoColorCodes(sTemp, TRUE, FALSE);
+	sTemp = DoColorCodes(sTemp);
 	Chat_SetStatusbarText(Chat_Find(sWindow, m_szModuleName), sTemp);
 	return 0;
 }

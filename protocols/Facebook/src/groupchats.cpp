@@ -161,15 +161,12 @@ int FacebookProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 			break;
 
 		if (m_bOnline) {
-			wchar_t *wszText = NEWWSTR_ALLOCA(gch->ptszText);
-			Chat_UnescapeTags(wszText);
-
-			int mid = SendMsg(si->hContact, 0, T2Utf(wszText));
+			int mid = SendMsg(si->hContact, 0, T2Utf(gch->ptszText));
 
 			mir_cslock lck(m_csOwnMessages);
 			for (auto &msg : arOwnMessages)
 				if (msg->reqId == mid)
-					msg->wszText = wszText;
+					msg->wszText = gch->ptszText;
 		}
 		break;
 

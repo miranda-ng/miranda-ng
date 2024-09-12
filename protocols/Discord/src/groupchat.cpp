@@ -370,7 +370,6 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 				}
 			}
 
-			Chat_UnescapeTags(wszText.GetBuffer());
 			SendMsg(si->hContact, (si->pDlg) ? si->pDlg->m_hQuoteEvent : 0, T2Utf(wszText));
 		}
 		break;

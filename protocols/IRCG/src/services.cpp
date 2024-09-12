@@ -352,76 +352,64 @@ static wchar_t* DoPrintColor(wchar_t *pDest, int iFG, int iBG)
 	return pDest;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static void DoChatFormatting(CMStringW &wszText)
 {
 	int iFG = -1, iBG = -1;
 	wchar_t InsertThis[50];
+	CMStringW tmp;
 
-	for (int i = 0; i < wszText.GetLength(); i++) {
-		if (wszText[i] != '%')
+	for (const wchar_t *p = wszText; *p; p++) {
+		if (*p != '[') {
+			tmp.AppendChar(*p);
 			continue;
-
-		switch (wszText[i + 1]) {
-		case 'B':
-		case 'b':
-			wszText.Delete(i, 2);
-			wszText.Insert(i, irc::BOLD);
-			break;
-		case 'I':
-		case 'i':
-			wszText.Delete(i, 2);
-			wszText.Insert(i, irc::ITALICS);
-			break;
-		case 'U':
-		case 'u':
-			wszText.Delete(i, 2);
-			wszText.Insert(i, irc::UNDERLINE);
-			break;
-
-		case 'c':
-			wszText.Delete(i, 2);
-			iFG = _wtoi(wszText.GetString() + i);
-			wszText.Delete(i, (iFG < 10) ? 1 : 2);
-
-			iFG = (iFG < 0 || iFG >= _countof(mapSrmm2irc)) ? -1 : mapSrmm2irc[iFG];
-			wszText.Insert(i, DoPrintColor(InsertThis, iFG, iBG));
-			break;
-
-		case 'C':
-			if (wszText[i + 2] == '%' && wszText[i + 3] == 'F') {
-				wszText.Delete(i, 4);
-				iBG = -1;
-			}
-			else wszText.Delete(i, 2);
-			iFG = -1;
-			wszText.Insert(i, DoPrintColor(InsertThis, iFG, iBG));
-			break;
-
-		case 'f':
-			wszText.Delete(i, 2);
-			iBG = _wtoi(wszText.GetString() + i);
-			wszText.Delete(i, (iBG < 10) ? 1 : 2);
-
-			iBG = (iBG < 0 || iBG >= _countof(mapSrmm2irc)) ? -1 : mapSrmm2irc[iBG];
-			wszText.Insert(i, DoPrintColor(InsertThis, iFG, iBG));
-			break;
-
-		case 'F':
-			wszText.Delete(i, 2);
-			iBG = -1;
-			wszText.Insert(i, DoPrintColor(InsertThis, iFG, iBG));
-			break;
-
-		case '%':
-			wszText.Delete(i, 1);
-			i++;
-			break;
-
-		default:
-			wszText.Delete(i, 2);
-			break;
 		}
+
+		p++;
+		bool bEnable = true;
+		if (*p == '/') {
+			p++;
+			bEnable = false;
+		}
+
+		if (!wcsncmp(p, L"b]", 2)) {
+			tmp.AppendChar(irc::BOLD);
+			p++;
+		}
+		else if (!wcsncmp(p, L"i]", 2)) {
+			tmp.AppendChar(irc::ITALICS);
+			p++;
+		}
+		else if (!wcsncmp(p, L"u]", 2)) {
+			tmp.AppendChar(irc::UNDERLINE);
+			p++;
+		}
+		else if (!wcsncmp(p, L"color=", 6)) {
+			if (1 != swscanf(p + 6, L"%08X", &iFG))
+				iFG = -1;
+			tmp.Append(DoPrintColor(InsertThis, iFG, iBG));
+			p = wcschr(p, ']');
+		}
+		else if (!wcsncmp(p, L"color]", 6) && !bEnable) {
+			iFG = -1;
+			tmp.Append(DoPrintColor(InsertThis, iFG, iBG));
+			p += 6;
+		}
+		else if (!wcsncmp(p, L"bkcolor=", 8)) {
+			if (1 != swscanf(p + 6, L"%08X", &iBG))
+				iBG = -1;
+			tmp.Append(DoPrintColor(InsertThis, iFG, iBG));
+			p = wcschr(p, ']');
+		}
+		else if (!wcsncmp(p, L"bkcolor]", 8) && !bEnable) {
+			iBG = -1;
+			tmp.Append(DoPrintColor(InsertThis, iFG, iBG));
+			p += 8;
+		}
+		else tmp.AppendChar('['); // sometimes a banana is just a banana
 	}
+	wszText = tmp;
 }
 
 int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)

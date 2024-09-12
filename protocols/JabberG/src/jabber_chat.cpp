@@ -224,8 +224,6 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus 
 	}
 
 	if (!buf.IsEmpty()) {
-		buf.Replace("%", "%%");
-
 		GCEVENT gce = { item->si, GC_EVENT_INFORMATION };
 		gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 		gce.pszNick.a = gce.pszUID.a = user->m_szResourceName;
@@ -966,7 +964,6 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 				buf.Format("%s%s%s", szMessage.get(), him->m_szResourceName.get(), p + 2);
 			}
 			else buf = szMessage;
-			buf.Replace("%%", "%");
 
 			ppro->m_ThreadInfo->send(
 				XmlNode("message") << XATTR("to", item->jid) << XATTR("type", "groupchat")
@@ -1345,7 +1342,6 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_MESSAGE:
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
-			Chat_UnescapeTags(gch->ptszText);
 			SendMsg(item->hContact, 0, T2Utf(gch->ptszText));
 		}
 		break;

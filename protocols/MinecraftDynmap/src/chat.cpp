@@ -24,13 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, const time_t timestamp, bool addtolog)
 {
 	// replace % to %% to not interfere with chat color codes
-	CMStringA szMessage(message);
-	szMessage.Replace("%", "%%");
-
 	GCEVENT gce = {m_si, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_UTF8;
 	gce.time = timestamp;
-	gce.pszText.a = szMessage.c_str();
+	gce.pszText.a = message;
 
 	if (name == NULL) {
 		gce.iType = GC_EVENT_INFORMATION;
@@ -56,7 +53,6 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 	case GC_USER_MESSAGE:
 		{
 			CMStringA szText(ptrA(mir_utf8encodeW(hook->ptszText)));
-			szText.Replace("%%", "%");
 			if (szText.IsEmpty())
 				break;
 

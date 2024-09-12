@@ -315,7 +315,6 @@ CMStringW CVkProto::GetVkFeedback(const JSONNode &jnFeedback, VKObjType vkFeedba
 	if (iUserId) {
 		vkUser = GetVkUserInfo(iUserId, vkUsers);
 		CMStringW wszText(jnFeedback["text"].as_mstring());
-		wszText.Replace(L"%", L"%%");
 		wszRes.AppendFormat(wszFormat, SetBBCString(vkUser->m_wszUserNick, m_vkOptions.BBCForNews(), vkbbcUrl, vkUser->m_wszLink).c_str(), ClearFormatNick(wszText).c_str());
 	}
 

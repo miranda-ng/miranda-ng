@@ -1059,7 +1059,6 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	else nick = nullptr;
 
 	CMStringA szText(msgText);
-	szText.Replace("%", "%%");
 	szText += imgLink;
 
 	gce.dwFlags = GCEF_UTF8;

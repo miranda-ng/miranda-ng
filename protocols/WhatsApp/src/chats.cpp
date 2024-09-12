@@ -144,7 +144,6 @@ int WhatsAppProto::GcEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_MESSAGE:
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
-			Chat_UnescapeTags(gch->ptszText);
 			SendTextMessage(pUser->szId, T2Utf(gch->ptszText));
 		}
 		break;

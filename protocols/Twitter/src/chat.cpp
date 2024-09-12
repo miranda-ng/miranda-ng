@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 void CTwitterProto::UpdateChat(const twitter_user &update)
 {
 	CMStringA chatText = update.status.text.c_str();
-	chatText.Replace("%", "%%");
 
 	GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
@@ -54,7 +53,6 @@ int CTwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 		debugLogW(L"**Chat - Outgoing message: %s", hook->ptszText);
 		{
 			CMStringA tweet(T2Utf(hook->ptszText).get());
-			tweet.Replace("%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
 
 			char *varTweet = mir_strdup(tweet.c_str());
 			ForkThread(&CTwitterProto::SendTweetWorker, varTweet);

@@ -221,7 +221,7 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, const wchar_t *msg)
 	if (m_iStatus == ID_STATUS_OFFLINE || m_iStatus == ID_STATUS_CONNECTING)
 		return 0;
 
-	CMStringW S = DoColorCodes(msg, TRUE, FALSE);
+	CMStringW S = DoColorCodes(msg);
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
@@ -682,7 +682,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage *pmsg)
 		bool bIsChannel = IsChannel(pmsg->parameters[0]);
 
 		if (pmsg->m_bIncoming && !bIsChannel) {
-			mess = DoColorCodes(mess, TRUE, FALSE);
+			mess = DoColorCodes(mess);
 
 			CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
 
@@ -772,8 +772,6 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 			if (IsChannel(pmsg->parameters[0])) {
 				if (mess.GetLength() > 1) {
 					mess.Delete(0, 1);
-					if (!pmsg->m_bIncoming)
-						mess.Replace(L"%%", L"%");
 
 					DoEvent(GC_EVENT_ACTION, pmsg->parameters[0], pmsg->m_bIncoming ? pmsg->prefix.sNick : m_info.sNick, mess, nullptr, nullptr, NULL, true, pmsg->m_bIncoming ? false : true);
 				}
@@ -1173,7 +1171,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 			CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
 			MCONTACT hContact = CList_FindContact(&user);
 			if (hContact)
-				setWString(hContact, "MirVer", DoColorCodes(GetWordAddress(mess, 1), TRUE, FALSE));
+				setWString(hContact, "MirVer", DoColorCodes(GetWordAddress(mess, 1)));
 		}
 
 		// if the whois window is visible and the ctcp reply belongs to the user in it, then show the reply in the whois window
@@ -1182,7 +1180,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 			if (mir_wstrcmpi(szTemp, pmsg->prefix.sNick) == 0) {
 				if (pmsg->m_bIncoming && (command == L"version" || command == L"userinfo" || command == L"time")) {
 					SetActiveWindow(m_whoisDlg->GetHwnd());
-					m_whoisDlg->m_Reply.SetText(DoColorCodes(GetWordAddress(mess, 1), TRUE, FALSE));
+					m_whoisDlg->m_Reply.SetText(DoColorCodes(GetWordAddress(mess, 1)));
 					return true;
 				}
 				if (pmsg->m_bIncoming && command == L"ping") {
@@ -1194,7 +1192,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 					else
 						mir_snwprintf(szTmp, TranslateT("%u seconds"), s);
 
-					m_whoisDlg->m_Reply.SetText(DoColorCodes(szTmp, TRUE, FALSE));
+					m_whoisDlg->m_Reply.SetText(DoColorCodes(szTmp));
 					return true;
 				}
 			}
@@ -1742,7 +1740,7 @@ bool CIrcProto::OnIrc_ERROR(const CIrcMessage *pmsg)
 	if (pmsg->m_bIncoming && !m_disableErrorPopups && m_iDesiredStatus != ID_STATUS_OFFLINE) {
 		CMStringW S;
 		if (pmsg->parameters.getCount() > 0)
-			S = DoColorCodes(pmsg->parameters[0], TRUE, FALSE);
+			S = DoColorCodes(pmsg->parameters[0]);
 		else
 			S = TranslateT("Unknown");
 		Clist_TrayNotifyW(m_szModuleName, TranslateT("IRC error"), S, NIIF_ERROR, 15000);
