@@ -508,6 +508,28 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	int messageEditWidth = w - 2;
 	int hSplitterPos = (m_bReadOnly) ? 0 : pdat->iSplitterY;
 
+	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
+	int infobarHeight = INFO_BAR_HEIGHT;
+
+	if (!pdat->flags2.bShowInfoBar || m_si) {
+		infobarHeight = 0;
+		infobarInnerHeight = 0;
+	}
+
+	int hSplitterMinTop = toolbarHeight + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
+	if (hSplitterMinBottom < g_dat.minInputAreaHeight)
+		hSplitterMinBottom = g_dat.minInputAreaHeight;
+
+	if (hSplitterPos > (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2)
+		hSplitterPos = (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2;
+
+	if (h - hSplitterPos - infobarHeight < hSplitterMinTop)
+		hSplitterPos = h - hSplitterMinTop - infobarHeight;
+
+	hSplitterMinBottom -= toolbarHeight - 2;
+	if (hSplitterPos < hSplitterMinBottom)
+		hSplitterPos = hSplitterMinBottom;
+
 	if (!pdat->flags2.bShowInfoBar) {
 		if (m_hbmpAvatarPic && g_dat.flags.bShowAvatar) {
 			avatarWidth = BOTTOM_RIGHT_AVATAR_HEIGHT;
@@ -530,30 +552,6 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 		}
 	}
 
-	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
-	int infobarHeight = INFO_BAR_HEIGHT;
-
-	if (!pdat->flags2.bShowInfoBar || m_si) {
-		infobarHeight = 0;
-		infobarInnerHeight = 0;
-	}
-
-	int hSplitterMinTop = toolbarHeight + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
-	if (hSplitterMinBottom < g_dat.minInputAreaHeight)
-		hSplitterMinBottom = g_dat.minInputAreaHeight;
-
-	if (hSplitterPos > (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2)
-		hSplitterPos = (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2;
-
-	if (h - hSplitterPos - infobarHeight < hSplitterMinTop)
-		hSplitterPos = h - hSplitterMinTop - infobarHeight;
-
-	if (hSplitterPos < avatarHeight)
-		hSplitterPos = avatarHeight;
-
-	if (hSplitterPos < hSplitterMinBottom)
-		hSplitterPos = hSplitterMinBottom;
-
 	if (m_bReadOnly)
 		hSplitterPos = 0;
 	else
@@ -562,11 +560,6 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	HDWP hdwp;
 	if (isChat()) {
 		bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
-
-		if (h - pdat->iSplitterY < hSplitterMinTop)
-			pdat->iSplitterY = h - hSplitterMinTop;
-		if (pdat->iSplitterY < hSplitterMinBottom)
-			pdat->iSplitterY = hSplitterMinBottom;
 
 		m_splitterX.Show(bNick);
 		if (m_si->iType != GCW_SERVER)
