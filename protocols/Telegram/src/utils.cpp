@@ -488,6 +488,7 @@ CMStringA CTelegramProto::GetMessageSticker(const TD::file *pFile, const char *p
 	auto *pFileId = pFile->remote_->unique_id_.c_str();
 
 	auto *pRequest = new TG_FILE_REQUEST(TG_FILE_REQUEST::AVATAR, pFile->id_, pFileId);
+	pRequest->m_isSmiley = true;
 	pRequest->m_destPath = GetAvatarPath() + L"\\Stickers";
 	CreateDirectoryW(pRequest->m_destPath, 0);
 

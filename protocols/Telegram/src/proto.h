@@ -81,7 +81,7 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	CMStringA m_uniqueId, m_szUserId;
 	CMStringW m_destPath, m_fileName, m_wszDescr;
 	OFDTHREAD *ofd = 0;
-	bool m_bRecv = false;
+	bool m_bRecv = false, m_isSmiley = false;
 };
 
 struct TG_USER : public MZeroedObject

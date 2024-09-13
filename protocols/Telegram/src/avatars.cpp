@@ -255,7 +255,8 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 			}
 			else MoveFileW(wszExistingFile, wszFullName);
 
-			SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFullName);
+			if (F->m_isSmiley)
+				SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFullName);
 
 			mir_cslock lck(m_csFiles);
 			m_arFiles.remove(F);
