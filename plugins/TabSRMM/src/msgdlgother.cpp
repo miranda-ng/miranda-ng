@@ -260,7 +260,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 	}
 	else idx += 5;
 
-	bool bInsideUl = false;
+	bool bInsideUl = false, bStart = true;
 	CMStringW res;
 
 	// iterate through all characters, if rtf control character found then take action
@@ -269,53 +269,65 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 		case '\\':
 			if (p[1] == '\\' || p[1] == '{' || p[1] == '}') { // escaped characters
 				res.AppendChar(p[1]);
+				bStart = false;
 				p += 2; break;
 			}
 			if (p[1] == '~') { // non-breaking space
 				res.AppendChar(0xA0);
+				bStart = false;
 				p += 2; break;
 			}
 
 			if (!wcsncmp(p, L"\\cf", 3)) { // foreground color
-				int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 3));
-				if (iInd >= 0)
-					res.AppendFormat(L"[color=%08X]", Utils::rtf_clrs[iInd].clr);
-				else if (!res.IsEmpty())
-					res.Append(L"[/color]");
+				if (!bStart) {
+					int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 3));
+					if (iInd >= 0)
+						res.AppendFormat(L"[color=%08X]", Utils::rtf_clrs[iInd].clr);
+					else
+						res.Append(L"[/color]");
+				}
 			}
 			else if (!wcsncmp(p, L"\\highlight", 10)) { // background color
 				int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
 				if (iInd >= 0) {
 					// if the entry field is empty & the color passed is the back color, skip it
-					if (m_pContainer->m_theme.inputbg != pColors[iInd])
+					if (!bStart || m_pContainer->m_theme.inputbg != pColors[iInd])
 						res.AppendFormat(L"[bkcolor=%08X]", Utils::rtf_clrs[iInd].clr);
 				}
-				else if (!res.IsEmpty())
+				else if (!bStart)
 					res.AppendFormat(L"[/bkcolor]");
 			}
 			else if (!wcsncmp(p, L"\\line", 5)) { // soft line break;
 				res.AppendChar('\n');
+				bStart = false;
 			}
 			else if (!wcsncmp(p, L"\\endash", 7)) {
 				res.AppendChar(0x2013);
+				bStart = false;
 			}
 			else if (!wcsncmp(p, L"\\emdash", 7)) {
 				res.AppendChar(0x2014);
+				bStart = false;
 			}
 			else if (!wcsncmp(p, L"\\bullet", 7)) {
 				res.AppendChar(0x2022);
+				bStart = false;
 			}
 			else if (!wcsncmp(p, L"\\ldblquote", 10)) {
 				res.AppendChar(0x201C);
+				bStart = false;
 			}
 			else if (!wcsncmp(p, L"\\rdblquote", 10)) {
 				res.AppendChar(0x201D);
+				bStart = false;
 			}
 			else if (!wcsncmp(p, L"\\lquote", 7)) {
 				res.AppendChar(0x2018);
+				bStart = false;
 			}
 			else if (!wcsncmp(p, L"\\rquote", 7)) {
 				res.AppendChar(0x2019);
+				bStart = false;
 			}
 			else if (!wcsncmp(p, L"\\b", 2)) { //bold
 				// only allow bold if the font itself isn't a bold one, otherwise just strip it..
@@ -362,6 +374,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 					// convert string containing char in hex format to int.
 					wchar_t *stoppedHere;
 					res.AppendChar(wcstol(tmp, &stoppedHere, 16));
+					bStart = false;
 				}
 			}
 
@@ -378,6 +391,7 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 
 		default: // other text that should not be touched
 			res.AppendChar(*p++);
+			bStart = false;
 			break;
 		}
 	}
