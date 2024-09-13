@@ -68,6 +68,14 @@ __forceinline HGENMENU Menu_AddNewStoryMenuItem(TMO_MenuItem *pmi, int param)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// service for refreshing downloaded files
+
+__forceinline void NS_NotifyFileReady(const wchar_t *pwszFileName)
+{
+	CallService("NewStory/FileReady", (WPARAM)pwszFileName, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // event for changing NewStory menu items
 // wparam = (MCONTACT)hContact - contact id
 // lparam = (DB::EventInfo*)dbei - event

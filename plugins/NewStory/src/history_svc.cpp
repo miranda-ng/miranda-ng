@@ -57,6 +57,7 @@ static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 void InitServices()
 {
 	CreateServiceFunction("NewStory/GetSrmm", &SvcGetSrmm);
+	CreateServiceFunction("NewStory/FileReady", &SvcFileReady);
 	CreateServiceFunction("NewStory/GetCurrent", &SvcGetCurrent);
 	CreateServiceFunction("NewStory/GetSelection", &SvcGetSelection);
 }

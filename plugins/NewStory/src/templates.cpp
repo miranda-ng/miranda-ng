@@ -49,7 +49,7 @@ static void AppendImage(CMStringW &buf, const CMStringW &wszUrl, const CMStringW
 {
 	if (g_plugin.bShowPreview) {
 		int iHeight = uMaxHeight;
-		pItem->pOwner->webPage.load_image(wszUrl);
+		pItem->pOwner->webPage.load_image(wszUrl, pItem);
 		if (Bitmap *pImage = pItem->pOwner->webPage.find_image(wszUrl))
 			if (pImage->GetHeight() < uMaxHeight)
 				iHeight = pImage->GetHeight();

@@ -257,6 +257,8 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 			if (F->m_isSmiley)
 				SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFullName);
+			else
+				NS_NotifyFileReady(wszFullName);
 
 			mir_cslock lck(m_csFiles);
 			m_arFiles.remove(F);

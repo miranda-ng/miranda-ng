@@ -87,7 +87,9 @@ public:
 	COLORREF clText = -1, clBack = -1;
 
 	Bitmap* find_image(const wchar_t *pwszUrl);
-	Bitmap* load_image(const wchar_t *pwszUrl);
+	Bitmap* load_image(const wchar_t *pwszUrl, ItemData *pItem);
+
+	void draw();
 };
 
 struct NewstoryListData : public MZeroedObject
@@ -187,5 +189,7 @@ struct NewstoryListData : public MZeroedObject
 };
 
 void InitNewstoryControl();
+
+INT_PTR SvcFileReady(WPARAM wParam, LPARAM);
 
 #endif // __history_control_h__

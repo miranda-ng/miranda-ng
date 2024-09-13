@@ -18,6 +18,42 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+struct NSWebCache
+{
+	NSWebCache(NSWebPage *_1, const wchar_t *_2, ItemData *_3) :
+		pPage(_1),
+		pItem(_3),
+		wszPath(_2)
+	{}
+
+	ItemData *pItem;
+	NSWebPage *pPage;
+	CMStringW  wszPath;
+};
+
+static int CompareFiles(const NSWebCache *p1, const NSWebCache *p2)
+{
+	return mir_wstrcmp(p1->wszPath, p2->wszPath);
+}
+
+static mir_cs g_csMissingFiles;
+static OBJLIST<NSWebCache> g_arMissingFiles(10, CompareFiles);
+
+INT_PTR SvcFileReady(WPARAM wParam, LPARAM)
+{
+	NSWebCache tmp(0, (const wchar_t *)wParam, 0);
+
+	mir_cslock lck(g_csMissingFiles);
+	if (auto *pCache = g_arMissingFiles.find(&tmp)) {
+		pCache->pPage->load_image(tmp.wszPath, pCache->pItem);
+		pCache->pItem->m_doc = 0;
+		pCache->pItem->savedHeight = -1;
+		pCache->pItem->setText();
+		g_arMissingFiles.remove(pCache);
+	}
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Litehtml interface
 
@@ -100,11 +136,22 @@ NSWebPage::~NSWebPage()
 {
 	clear_images();
 	GdiplusShutdown(m_gdiplusToken);
-
-	if (m_hClipRgn) {
-		DeleteObject(m_hClipRgn);
+	{
+		mir_cslock lck(g_csMissingFiles);
+		for (auto &it : g_arMissingFiles.rev_iter())
+			if (it->pPage == this)
+				g_arMissingFiles.remove(g_arMissingFiles.indexOf(&it));
 	}
+
+	if (m_hClipRgn)
+		DeleteObject(m_hClipRgn);
+
 	ReleaseDC(NULL, m_tmp_hdc);
+}
+
+void NSWebPage::draw()
+{
+	ctrl.ScheduleDraw();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -287,7 +334,7 @@ void NSWebPage::make_url_utf8(const char *url, const char *basepath, std::wstrin
 	make_url(Utf2T(url), Utf2T(basepath), out);
 }
 
-Bitmap* NSWebPage::load_image(const wchar_t *pwszUrl)
+Bitmap* NSWebPage::load_image(const wchar_t *pwszUrl, ItemData *pItem)
 {
 	mir_cslockfull lck(m_csImages);
 	auto img = m_images.find(pwszUrl);
@@ -298,6 +345,12 @@ Bitmap* NSWebPage::load_image(const wchar_t *pwszUrl)
 		add_image(pwszUrl, newImg);
 		return (Bitmap *)newImg;
 	}
+
+	NSWebCache tmp(this, pwszUrl, pItem);
+	mir_cslock lck2(g_csMissingFiles);
+	if (!g_arMissingFiles.find(&tmp))
+		g_arMissingFiles.insert(new NSWebCache(tmp));
+
 	return 0;
 }
 
