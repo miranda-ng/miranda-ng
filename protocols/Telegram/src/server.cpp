@@ -322,6 +322,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessSuperGroup((TD::updateSupergroup *)response.object.get());
 		break;
 
+	case TD::updateSupergroupFullInfo::ID:
+		ProcessSuperGroupInfo((TD::updateSupergroupFullInfo *)response.object.get());
+		break;
+
 	case TD::updateUserStatus::ID:
 		ProcessStatus((TD::updateUserStatus *)response.object.get());
 		break;
@@ -540,7 +544,10 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		break;
 
 	case TD::chatTypeBasicGroup::ID:
-		userId = ((TD::chatTypeBasicGroup *)pChat->type_.get())->basic_group_id_;
+		{
+			auto *pGroup = (TD::chatTypeBasicGroup *)pChat->type_.get();
+			userId = pGroup->basic_group_id_;
+		}
 		szTitle = pChat->title_;
 		break;
 
@@ -548,9 +555,9 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		{
 			auto *pGroup = (TD::chatTypeSupergroup *)pChat->type_.get();
 			userId = pGroup->supergroup_id_;
-			szTitle = pChat->title_;
 			isChannel = pGroup->is_channel_;
 		}
+		szTitle = pChat->title_;
 		break;
 
 	default:
@@ -573,10 +580,8 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		m_arChats.insert(pUser);
 
 	if (!szTitle.empty()) {
-		if (hContact != INVALID_CONTACT_ID) {
-			setUString(hContact, "Nick", szTitle.c_str());
-			pUser->wszNick = Utf2T(szTitle.c_str());
-		}
+		if (hContact != INVALID_CONTACT_ID)
+			GcChangeTopic(pUser, szTitle);
 		else if (pUser->wszNick.IsEmpty())
 			pUser->wszFirstName = Utf2T(szTitle.c_str());
 	}

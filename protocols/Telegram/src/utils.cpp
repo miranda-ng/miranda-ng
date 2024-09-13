@@ -599,7 +599,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 	case TD::messageChatChangeTitle::ID:
 		if (auto *pDoc = (TD::messageChatChangeTitle *)pBody)
-			GcChangeTopic(pUser, Utf2T(pDoc->title_.c_str()));
+			setUString(pUser->hContact, "Nick", pDoc->title_.c_str());
 		break;
 
 	case TD::messagePhoto::ID:

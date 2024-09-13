@@ -308,13 +308,14 @@ void CTelegramProto::GcChangeMember(TG_USER *pChat, const char *adminId, TD::int
 	}
 }
 
-void CTelegramProto::GcChangeTopic(TG_USER *pChat, const wchar_t *pwszNewTopic)
+void CTelegramProto::GcChangeTopic(TG_USER *pChat, const std::string &szNewTopic)
 {
-	if (pChat->m_si == nullptr || pwszNewTopic == nullptr)
+	if (pChat->m_si == nullptr)
 		return;
 
+	Utf2T wszTopic(szNewTopic.c_str());
 	GCEVENT gce = { pChat->m_si, GC_EVENT_TOPIC };
-	gce.pszText.w = pwszNewTopic;
+	gce.pszText.w = wszTopic;
 	gce.time = time(0);
 	Chat_Event(&gce);
 }
@@ -400,7 +401,7 @@ void CTelegramProto::ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj)
 
 	if (auto *pInfo = pObj->basic_group_full_info_.get()) {
 		if (!pInfo->description_.empty())
-			GcChangeTopic(pChat, Utf2T(pInfo->description_.c_str()));
+			GcChangeTopic(pChat, pInfo->description_);
 
 		g_chatApi.UM_RemoveAll(pChat->m_si);
 		GcAddMembers(pChat, pInfo->members_, true);
@@ -434,6 +435,19 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 
 	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(si, SESSION_ONLINE);
+}
+
+void CTelegramProto::ProcessSuperGroupInfo(TD::updateSupergroupFullInfo *pObj)
+{
+	auto *pChat = FindUser(pObj->supergroup_id_);
+	if (pChat == nullptr) {
+		debugLogA("Uknown super group id %lld, skipping", pObj->supergroup_id_);
+		return;
+	}
+
+	auto *pInfo = pObj->supergroup_full_info_.get();
+	if (!pInfo->description_.empty())
+		GcChangeTopic(pChat, pInfo->description_);
 }
 
 void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)

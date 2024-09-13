@@ -279,6 +279,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessScopeNotification(TD::updateScopeNotificationSettings *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
+	void ProcessSuperGroupInfo(TD::updateSupergroupFullInfo *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 
 	void UnregisterSession();
@@ -328,7 +329,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	bool GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest);
 	void GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr<TD::chatMember>> &pMembers, bool bSilent);
 	void GcChangeMember(TG_USER *pChat, const char *adminId, TD::int53 userId, bool bJoined);
-	void GcChangeTopic(TG_USER *pChat, const wchar_t *pwszNewTopic);
+	void GcChangeTopic(TG_USER *pChat, const std::string &szNewTopic);
 	void GcRun(TG_USER *pChat);
 
 	// Search
