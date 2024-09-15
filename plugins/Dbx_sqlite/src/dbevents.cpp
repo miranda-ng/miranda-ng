@@ -266,14 +266,17 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 
 	DBEVENTINFO tmp = *dbei;
 	mir_ptr<char> pCryptBlob;
-	if (m_bEncrypted && tmp.pBlob) {
-		size_t len;
-		char *pResult = (char*)m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
-		if (pResult != nullptr) {
-			pCryptBlob = tmp.pBlob = pResult;
-			tmp.cbBlob = (uint16_t)len;
-			tmp.flags |= DBEF_ENCRYPTED;
+	if (m_bEncrypted) {
+		if (tmp.pBlob) {
+			size_t len;
+			char *pResult = (char *)m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
+			if (pResult != nullptr) {
+				pCryptBlob = tmp.pBlob = pResult;
+				tmp.cbBlob = (uint16_t)len;
+				tmp.flags |= DBEF_ENCRYPTED;
+			}
 		}
+		else tmp.flags |= DBEF_ENCRYPTED;
 	}
 
 	mir_cslockfull lock(m_csDbAccess);
