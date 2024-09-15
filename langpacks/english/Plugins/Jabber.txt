@@ -973,7 +973,6 @@
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 [Female]
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
 [Jabber vCard]
 [Jabber vCard: Edit Email Address]
 [Jabber vCard: Edit Phone Number]

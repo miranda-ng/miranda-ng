@@ -1917,8 +1917,6 @@ Neznámé chybové hlášení
 muž
 [Female]
 žena
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Povoleny jsou pouze obrázky typu JPG, GIF a BMP menší než 40 kB.
 [Jabber vCard]
 Jabber vCard
 [Jabber vCard: Edit Email Address]

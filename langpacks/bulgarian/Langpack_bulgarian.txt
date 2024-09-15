@@ -13131,8 +13131,6 @@ XML (кодиран с UTF-8)
 Мъж
 [Female]
 Жена
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Поддържат се само JPG, GIF и BMP изображения, по-малки от 40kB
 [Jabber vCard]
 Jabber vCard
 [Jabber vCard: Edit Email Address]

@@ -9485,8 +9485,6 @@ Erreur de message inconnu
 Homme
 [Female]
 Femme
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Seules les images JPG, GIF, et BMP de moins de 40ko sont supportées.
 [Jabber vCard]
 Détails Jabber
 [Jabber vCard: Edit Email Address]

@@ -15304,8 +15304,6 @@ XML (кодування UTF-8)
 Чоловіча
 [Female]
 Жіноча
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Підтримуються тільки зображення JPG, GIF і BMP, менші 40 КБ.
 [Jabber vCard: Edit Email Address]
 Jabber vCard: редагування E-mail
 [Jabber vCard: Edit Phone Number]

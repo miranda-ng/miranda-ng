@@ -14533,8 +14533,6 @@ XML (кадзіроўка UTF-8)
 Мужчынскі
 [Female]
 Жаночы
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Толькі файлы малюнкаў JPG, GIF, BMP і не больш за 40 Кб.
 [Jabber vCard]
 Jabber vCard
 [Jabber vCard: Edit Email Address]

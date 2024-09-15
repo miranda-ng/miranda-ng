@@ -16308,8 +16308,6 @@ ID устройства
 Мужской
 [Female]
 Женский
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Поддерживаются только изображения JPG, GIF и BMP, которые меньше 40 Кб.
 [Jabber vCard]
 Jabber vCard
 [Jabber vCard: Edit Email Address]
