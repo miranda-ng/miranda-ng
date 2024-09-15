@@ -775,6 +775,8 @@ void HistoryArray::remove(int id)
 	}
 	else {
 		iLastPageCounter--;
-		memset(&pages[nPages].data[iLastPageCounter], 0, sizeof(ItemData));
+		auto &pLast = pages[nPages].data[iLastPageCounter];
+		memset(&pLast, 0, sizeof(ItemData));
+		pLast.savedHeight = -1;
 	}
 }
