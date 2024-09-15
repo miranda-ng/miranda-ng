@@ -160,6 +160,10 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
 	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_mstring()));
 
+	if (iUserType == 19)
+		if (OnChatEvent(node))
+			return;
+
 	MCONTACT hContact = AddContact(szConversationName, nullptr, true);
 
 	if (m_bHistorySynced) {
@@ -167,10 +171,6 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 		if (lastMsgId > getLastTime(hContact))
 			setLastTime(hContact, lastMsgId);
 	}
-
-	if (iUserType == 19)
-		if (OnChatEvent(node))
-			return;
 
 	std::string strMessageType = node["messagetype"].as_string();
 	if (strMessageType == "Control/Typing") {

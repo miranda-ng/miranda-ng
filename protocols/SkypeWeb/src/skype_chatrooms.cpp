@@ -320,6 +320,10 @@ bool CSkypeProto::OnChatEvent(const JSONNode &node)
 		return true;
 	}
 
+	// some slack, let's drop it
+	if (messageType == "ThreadActivity/HistoryDisclosedUpdate" || messageType == "ThreadActivity/JoiningEnabledUpdate")
+		return true;
+
 	return false;
 }
 
