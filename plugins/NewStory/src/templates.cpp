@@ -189,6 +189,20 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 				}
 				else p--;
 			}
+			else if (!wcsncmp(p, L"color=", 6)) {
+				p += 6;
+
+				if (auto *p1 = wcschr(p, ']')) {
+					CMStringW wszColor(p, int(p1 - p));
+					buf.AppendFormat(L"<font color=#%06X>", color2html(wcstoul(wszColor, 0, 16)));
+					p = p1;
+				}
+				else p--;
+			}
+			else if (!wcsncmp(p, L"color]", 6)) {
+				p += 5;
+				buf.AppendFormat(L"</font>");
+			}
 			else if (!wcsncmp(p, L"code]", 5)) {
 				p += 5;
 
