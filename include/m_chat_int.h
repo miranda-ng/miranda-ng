@@ -308,7 +308,6 @@ struct CHAT_MANAGER
 	wchar_t*      (*RemoveFormatting)(const wchar_t *pszText);
 	void          (*ReloadSettings)(void);
 
-	int           (*DoRtfToTags)(CMStringW &pszText, int iNumColors, COLORREF *pColors);
 	void          (*CreateNick)(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &dest);
 
 	int logPixelSY, logPixelSX;

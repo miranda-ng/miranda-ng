@@ -56,6 +56,7 @@ CMPlugin::CMPlugin() :
 	bAutoClose(SRMM_MODULE, "AutoClose", false),
 	bAutoPopup(SRMM_MODULE, "AutoPopupMsg", false),
 	bSaveDrafts(SRMM_MODULE, "SaveDrafts", false),
+	bSendFormat(SRMM_MODULE, "SendFormat", false),
 	bTypingUnknown(SRMM_MODULE, "UnknownTyping", false),
 	bHideContainer(SRMM_MODULE, "HideContainers", false),
 	bStayMinimized(SRMM_MODULE, "StayMinimized", false),

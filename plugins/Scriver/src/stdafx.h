@@ -76,7 +76,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<uint8_t> bUseTransparency, bTopmost, bAutoClose, bTypingNew, bTypingUnknown;
 	CMOption<uint8_t> bShowTitleBar, bShowStatusBar, bShowToolBar, bShowInfoBar;
 	CMOption<uint8_t> bShowAvatar, bShowProgress, bShowIcons, bShowTime, bShowSeconds, bShowDate, bLongDate, bRelativeDate;
-	CMOption<uint8_t>	bGroupMessages, bMarkFollowups, bMsgOnNewline, bDrawLines, bHideNames, bIndentText;
+	CMOption<uint8_t>	bGroupMessages, bMarkFollowups, bMsgOnNewline, bDrawLines, bHideNames, bIndentText, bSendFormat;
 	CMOption<uint8_t> bUseTabs, bLimitTabs, bLimitChatTabs, bLimitNames, bSeparateChats, bTabCloseButton, bHideOneTab, bTabsAtBottom, bSwitchToActive;
 	CMOption<uint8_t> bShowTyping, bShowTypingWin, bShowTypingTray, bShowTypingClist, bShowTypingSwitch;
 	CMOption<uint8_t> iFlashCount, iHistoryMode;

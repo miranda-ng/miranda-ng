@@ -170,6 +170,12 @@ bool CMsgDialog::GetFirstEvent()
 	return notifyUnread;
 }
 
+void CMsgDialog::GetInputFont(LOGFONTW &lf, COLORREF &bg, COLORREF &fg) const
+{
+	bg = m_clrInputBG;
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &fg);
+}
+
 void CMsgDialog::FixTabIcons()
 {
 	HICON hIcon;

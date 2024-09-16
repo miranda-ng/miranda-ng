@@ -53,4 +53,48 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\action.ico" />
+    <Image Include="res\addmode.ico" />
+    <Image Include="res\bkgcolor.ico" />
+    <Image Include="res\blank.ico" />
+    <Image Include="res\bold.ico" />
+    <Image Include="res\close.ico" />
+    <Image Include="res\color.ico" />
+    <Image Include="res\excl.ico" />
+    <Image Include="res\filter.ico" />
+    <Image Include="res\filter2.ico" />
+    <Image Include="res\highlight.ico" />
+    <Image Include="res\history.ico" />
+    <Image Include="res\incoming.ico" />
+    <Image Include="res\info.ico" />
+    <Image Include="res\italics.ico" />
+    <Image Include="res\join.ico" />
+    <Image Include="res\kick.ico" />
+    <Image Include="res\message.ico" />
+    <Image Include="res\messageout.ico" />
+    <Image Include="res\nick.ico" />
+    <Image Include="res\nicklist.ico" />
+    <Image Include="res\nicklist2.ico" />
+    <Image Include="res\notice.ico" />
+    <Image Include="res\outgoing.ico" />
+    <Image Include="res\overlay.ico" />
+    <Image Include="res\part.ico" />
+    <Image Include="res\private.ico" />
+    <Image Include="res\quit.ico" />
+    <Image Include="res\removestatus.ico" />
+    <Image Include="res\smiley.ico" />
+    <Image Include="res\tag1.ico" />
+    <Image Include="res\tag2.ico" />
+    <Image Include="res\topic.ico" />
+    <Image Include="res\topicbut.ico" />
+    <Image Include="res\underline.ico" />
+    <Image Include="res\unverified.ico" />
+    <Image Include="res\window.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\dragcopy.cur" />
+    <None Include="res\dropuser.cur" />
+    <None Include="res\hyperlin.cur" />
+  </ItemGroup>
 </Project>

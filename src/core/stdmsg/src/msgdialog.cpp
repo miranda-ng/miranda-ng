@@ -71,6 +71,7 @@ void CMsgDialog::Init()
 	m_autoClose = 0;
 	m_forceResizable = true;
 	m_bNoActivate = g_plugin.bDoNotStealFocus;
+	m_bSendFormat = g_plugin.bSendFormat;
 
 	g_arDialogs.insert(this);
 
@@ -319,7 +320,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 
 	if (isChat()) {
 		CMStringW ptszText(ptrW(mir_utf8decodeW(msgText)));
-		g_chatApi.DoRtfToTags(ptszText, 0, nullptr);
+		DoRtfToTags(ptszText);
 		ptszText.Trim();
 
 		m_cmdList.insert(mir_wstrdup(ptszText));
@@ -1318,6 +1319,12 @@ bool CMsgDialog::GetFirstEvent()
 		break;
 	}
 	return true;
+}
+
+void CMsgDialog::GetInputFont(LOGFONTW &lf, COLORREF &bg, COLORREF &fg) const
+{
+	bg = g_plugin.getDword(SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR);
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, &fg);
 }
 
 void CMsgDialog::NotifyTyping(int mode)

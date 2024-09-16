@@ -306,6 +306,7 @@ protected:
 	#endif
 	bool ProcessHotkeys(int key, bool bShift, bool bCtrl, bool bAlt);
 	void RefreshButtonStatus(void);
+	bool DoRtfToTags(CMStringW &pszText) const;
 	void RunUserMenu(HWND hwndOwner, struct USERINFO *ui, const POINT &pt);
 	void UpdateChatLog(void);
 
@@ -347,9 +348,10 @@ public:
 	MCONTACT m_hContact;
 	MEVENT m_hDbEventFirst, m_hQuoteEvent = 0;
 	int m_iLogFilterFlags;
-	bool m_bFilterEnabled, m_bNicklistEnabled, m_bReadOnly = false;
+	bool m_bFilterEnabled, m_bNicklistEnabled, m_bReadOnly = false, m_bSendFormat;
 	bool m_bFGSet, m_bBGSet;
 	bool m_bInMenu, m_bActive;
+
 	COLORREF m_iFG, m_iBG;
 	CTimer timerFlash, timerType, timerNickList, timerRedraw;
 
@@ -369,6 +371,7 @@ public:
 	virtual void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) = 0;
 	virtual void EventAdded(MEVENT, const DB::EventInfo &dbei) = 0;
 	virtual bool GetFirstEvent() = 0;
+	virtual void GetInputFont(LOGFONTW &lf, COLORREF &bg, COLORREF &fg) const = 0;
 	virtual bool IsActive() const = 0;
 	virtual void LoadSettings() = 0;
 	virtual void OnOptionsApplied();

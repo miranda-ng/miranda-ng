@@ -108,6 +108,7 @@ void CMsgDialog::Init()
 	SetParent(GetParentWindow(m_hContact, isChat()));
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 
+	m_bSendFormat = g_plugin.bSendFormat;
 	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 
 	timerType.OnEvent = Callback(this, &CMsgDialog::onType);
@@ -329,7 +330,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 
 	if (isChat()) {
 		CMStringW ptszText(ptrW(mir_utf8decodeW(msi.sendBuffer)));
-		g_chatApi.DoRtfToTags(ptszText, 0, nullptr);
+		DoRtfToTags(ptszText);
 		ptszText.Trim();
 
 		if (m_si->pMI->bAckMsg) {

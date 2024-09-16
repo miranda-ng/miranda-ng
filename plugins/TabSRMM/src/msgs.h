@@ -413,7 +413,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void     AdjustBottomAvatarDisplay(void);
 	bool     CalcDynamicAvatarSize(BITMAP *bminfo);
 	void     DetermineMinHeight(void);
-	BOOL     DoRtfToTags(CMStringW &pszText) const;
 	int      FindRTLLocale(void);
 	void     FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei);
 	void     FlashTab(bool bInvertMode);
@@ -465,7 +464,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	bool     m_bInsertMode, m_bInitMode = true;
 	bool     m_bDeferredScroll;
 	bool     m_bWasBackgroundCreate;
-	bool     m_bSendFormat;
 
 	int      m_iRealAvatarHeight;
 	int      m_iButtonBarReallyNeeds;
@@ -591,6 +589,7 @@ public:
 	void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) override;
 	void EventAdded(MEVENT, const DB::EventInfo &dbei) override;
 	bool GetFirstEvent() override;
+	void GetInputFont(LOGFONTW &lf, COLORREF &bg, COLORREF &fg) const override;
 	bool IsActive() const override;
 	void LoadSettings() override;
 	void OnOptionsApplied() override;

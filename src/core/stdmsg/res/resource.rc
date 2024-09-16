@@ -36,29 +36,31 @@ BEGIN
     CONTROL         "Don't steal focus",IDC_DONOTSTEALFOCUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,21,130,10
     LTEXT           "Maximum number of flashes (0 = indefinite)",IDC_STATIC,7,35,151,8
     EDITTEXT        IDC_NFLASHES,160,33,25,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Close the message window on send",IDC_AUTOCLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,50,289,10
-    CONTROL         "Minimize the message window on send",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,62,289,10
+    CONTROL         "Close the message window on send",IDC_AUTOCLOSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,50,289,8
+    CONTROL         "Minimize the message window on send",IDC_AUTOMIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,62,289,8
     CONTROL         "Use the contact's status icon as the window icon",IDC_STATUSWIN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,75,290,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,74,290,8
     CONTROL         "Save the window size and location individually for each contact",IDC_SAVEPERCONTACT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,88,289,10
-    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,100,289,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,86,289,8
+    CONTROL         "Cascade new windows",IDC_CASCADE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,98,289,8
     CONTROL         "Support Ctrl+Up/Down in message area to show previously sent messages",IDC_CTRLSUPPORT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,112,289,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,110,289,8
     CONTROL         "Delete temporary contacts when closing message window",IDC_DELTEMP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,124,287,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,122,287,8
     CONTROL         "Enable avatar support in the message window",IDC_AVATARSUPPORT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,137,289,10
-    CONTROL         "Limit avatar height to",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,151,126,10
-    EDITTEXT        IDC_AVATARHEIGHT,150,150,28,13,ES_AUTOHSCROLL
-    LTEXT           "pixels",IDC_STATIC,183,152,35,8
-    CONTROL         "Show 'Send' button",IDC_SHOWSENDBTN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,166,135,10
-    CONTROL         "Show character count",IDC_CHARCOUNT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,179,135,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,135,289,8
+    CONTROL         "Limit avatar height to",IDC_LIMITAVATARH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,148,126,10
+    EDITTEXT        IDC_AVATARHEIGHT,150,146,28,13,ES_AUTOHSCROLL
+    LTEXT           "pixels",IDC_STATIC,183,148,35,8
+    CONTROL         "Show 'Send' button",IDC_SHOWSENDBTN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,161,289,8
+    CONTROL         "Show character count",IDC_CHARCOUNT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,173,289,8
     CONTROL         "Show toolbar buttons on top row",IDC_SHOWBUTTONLINE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,192,139,10
-    LTEXT           "Show warning when message has not been received after",IDC_STATIC,8,208,211,8
-    EDITTEXT        IDC_SECONDS,223,206,25,12,ES_AUTOHSCROLL
-    LTEXT           "seconds",IDC_STATIC,253,208,44,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,185,289,8
+    CONTROL         "Use BBCodes to send format inside messages",IDC_SEND_FORMAT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,198,289,8
+    LTEXT           "Show warning when message has not been received after",IDC_STATIC,8,213,211,8
+    EDITTEXT        IDC_SECONDS,223,211,25,12,ES_AUTOHSCROLL
+    LTEXT           "seconds",IDC_STATIC,253,213,44,8
 END
 
 IDD_MSGSENDERROR DIALOGEX 0, 0, 187, 110
@@ -243,12 +245,6 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_MSGDLG, DIALOG
     BEGIN
-        VERTGUIDE, 7
-        VERTGUIDE, 22
-        VERTGUIDE, 51
-        VERTGUIDE, 148
-        VERTGUIDE, 297
-        VERTGUIDE, 300
         BOTTOMMARGIN, 231
     END
 
@@ -515,6 +511,11 @@ BEGIN
 END
 
 IDD_OPTIONS1 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_MSGDLG AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

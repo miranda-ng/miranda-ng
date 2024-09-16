@@ -162,7 +162,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	// private chat log options
 	CMOption<bool> bShowButtons, bSendButton, bShowTyping, bShowTypingWin, bShowTypingTray, bShowTypingClist;
 	CMOption<bool> bShowIcons, bShowTime, bShowDate, bShowAvatar, bShowNames, bShowSecs, bShowReadChar;
-	CMOption<bool> bAutoClose, bAutoMin, bTypingNew, bTypingUnknown, bCtrlSupport, bShowFormat;
+	CMOption<bool> bAutoClose, bAutoMin, bTypingNew, bTypingUnknown, bCtrlSupport, bShowFormat, bSendFormat;
 	CMOption<bool> bSavePerContact, bDoNotStealFocus, bCascade, bDeleteTempCont, bUseStatusWinIcon, bAutoCopy;
 
 	CMOption<bool> bLimitAvatarHeight;

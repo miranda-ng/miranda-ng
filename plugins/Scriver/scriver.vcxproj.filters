@@ -106,4 +106,152 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\addcontact.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\details.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\history.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\send.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\smiley.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\typing.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\typingoff.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\clock.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\quote.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\message.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\messageout.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\highlight.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\closex.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\underline.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\bold.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\italic.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\join.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\topic.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\addmode.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\info.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\kick.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\nick.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\notice.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\part.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\quit.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\removestatus.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\action.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\topicbut.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\bkgcolor.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\window.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\color.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\filter.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\nicklist.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\overlay.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\nicklist2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\chat\filter2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\google.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bing.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\yandex.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\wikipedia.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\gmaps.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\gtranslate.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\yahoo.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\foodnetwork.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\unverified.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\private.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\hyperlin.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

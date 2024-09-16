@@ -64,4 +64,56 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\addcontact.ico" />
+    <Image Include="res\bing.ico" />
+    <Image Include="res\chat\action.ico" />
+    <Image Include="res\chat\addmode.ico" />
+    <Image Include="res\chat\bkgcolor.ico" />
+    <Image Include="res\chat\bold.ico" />
+    <Image Include="res\chat\color.ico" />
+    <Image Include="res\chat\filter.ico" />
+    <Image Include="res\chat\filter2.ico" />
+    <Image Include="res\chat\info.ico" />
+    <Image Include="res\chat\italic.ico" />
+    <Image Include="res\chat\join.ico" />
+    <Image Include="res\chat\kick.ico" />
+    <Image Include="res\chat\nick.ico" />
+    <Image Include="res\chat\nicklist.ico" />
+    <Image Include="res\chat\nicklist2.ico" />
+    <Image Include="res\chat\notice.ico" />
+    <Image Include="res\chat\overlay.ico" />
+    <Image Include="res\chat\part.ico" />
+    <Image Include="res\chat\quit.ico" />
+    <Image Include="res\chat\removestatus.ico" />
+    <Image Include="res\chat\topic.ico" />
+    <Image Include="res\chat\topicbut.ico" />
+    <Image Include="res\chat\underline.ico" />
+    <Image Include="res\chat\window.ico" />
+    <Image Include="res\clock.ico" />
+    <Image Include="res\closex.ico" />
+    <Image Include="res\details.ico" />
+    <Image Include="res\foodnetwork.ico" />
+    <Image Include="res\gmaps.ico" />
+    <Image Include="res\google.ico" />
+    <Image Include="res\gtranslate.ico" />
+    <Image Include="res\highlight.ico" />
+    <Image Include="res\history.ico" />
+    <Image Include="res\message.ico" />
+    <Image Include="res\messageout.ico" />
+    <Image Include="res\private.ico" />
+    <Image Include="res\quote.ico" />
+    <Image Include="res\send.ico" />
+    <Image Include="res\smiley.ico" />
+    <Image Include="res\typing.ico" />
+    <Image Include="res\typingoff.ico" />
+    <Image Include="res\unverified.ico" />
+    <Image Include="res\wikipedia.ico" />
+    <Image Include="res\yahoo.ico" />
+    <Image Include="res\yandex.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\dragcopy.cur" />
+    <None Include="res\hyperlin.cur" />
+  </ItemGroup>
 </Project>

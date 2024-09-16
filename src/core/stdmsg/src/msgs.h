@@ -138,6 +138,7 @@ public:
 	void DrawNickList(USERINFO *ui, DRAWITEMSTRUCT *dis) override;
 	void EventAdded(MEVENT, const DB::EventInfo &dbei) override;
 	bool GetFirstEvent() override;
+	void GetInputFont(LOGFONTW &lf, COLORREF &bg, COLORREF &fg) const override;
 	bool IsActive() const override;
 	void LoadSettings() override;
 	void OnOptionsApplied() override;

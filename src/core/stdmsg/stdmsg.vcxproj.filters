@@ -73,4 +73,128 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\underline.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\incoming.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\outgoing.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\notice.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tag1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\tag2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bold.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\italics.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\smiley.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\join.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\topic.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\addmode.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\info.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\kick.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\message.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\nick.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\excl.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\part.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\quit.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\removestatus.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\highlight.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\messageout.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\action.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\topicbut.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bkgcolor.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\window.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\color.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\filter.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\history.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\nicklist.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\blank.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\close.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\overlay.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\nicklist2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\filter2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\unverified.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\private.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\hyperlin.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dropuser.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

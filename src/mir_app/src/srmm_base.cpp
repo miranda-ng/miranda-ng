@@ -1114,3 +1114,4 @@ void CSrmmBaseDialog::SetQuoteEvent(MEVENT hEvent)
 		Resize();
 	}
 }
+

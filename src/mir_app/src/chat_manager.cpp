@@ -774,7 +774,6 @@ static void ResetApi()
 
 	g_chatApi.SetOffline = ::SetOffline;
 	g_chatApi.SetAllOffline = ::SetAllOffline;
-	g_chatApi.DoRtfToTags = ::DoRtfToTags;
 
 	g_chatApi.LoadMsgDlgFont = ::LoadMsgDlgFont;
 	g_chatApi.MakeTimeStamp = ::MakeTimeStamp;

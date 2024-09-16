@@ -64,6 +64,7 @@ CMPlugin::CMPlugin() :
 	bAutoClose(SRMM_MODULE, "AutoClose", false),
 	bShowNames(SRMM_MODULE, "ShowNames", false),
 	bShowFormat(SRMM_MODULE, "ShowFormatting", true),
+	bSendFormat(SRMM_MODULE, "SendFormat", false),
 	bSendButton(SRMM_MODULE, "UseSendButton", false),
 	bCtrlSupport(SRMM_MODULE, "SupportCtrlUpDn", true),
 	bShowReadChar(SRMM_MODULE, "ShowCharCount", false),
