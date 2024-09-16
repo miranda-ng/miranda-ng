@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.96.3.1
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -23,6 +23,8 @@ Nazwa pliku:
 [Mark all events as read]
 Oznacz wszystkie zdarzenia jako przeczytane
 [Fix UTF-8 encoding in old events]
+
+[Fix RTF text in old events]
 
 [Remove duplicate events]
 
@@ -67,6 +69,8 @@ Przetwarzanie nie zostało jeszcze ukończone, jeśli zrezygnujesz teraz następ
 Aktywowano wątek roboczy profilu
 [%d events marked as read]
 %d zdarzeń oznaczonych jako przeczytane
+[RTF format fixed in %d events]
+
 [%d duplicate events removed]
 
 [%d server event IDs fixed]

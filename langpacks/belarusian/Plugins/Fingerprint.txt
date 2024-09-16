@@ -32,8 +32,6 @@ Fingerprint NG адлюстроўвае абразкі кліентаў, вык�
 Кліенты Facebook
 [Gadu-Gadu clients]
 Кліенты Gadu-Gadu
-[ICQ clients]
-Кліенты ICQ
 [IRC clients]
 Кліенты IRC
 [Jabber clients]
@@ -80,8 +78,6 @@ XMPP
 Невядомы кліент
 [Undetected client]
 Нязнойдзены кліент
-[ICQ overlay]
-ICQ
 [IRC overlay]
 IRC
 [JGmail overlay]
@@ -93,8 +89,6 @@ Jabber
 [VK overlay]
 
 [Skype overlay]
-
-[ICQ v8.x overlay]
 
 [Gadu-Gadu v11 client]
 
@@ -177,6 +171,8 @@ x32
 [SecureIM overlay]
 SecureIM
 ;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
+Тонкая налада
 [Icons]
 Абразкі
 ;file \plugins\FingerprintNG\src\prepare.cpp

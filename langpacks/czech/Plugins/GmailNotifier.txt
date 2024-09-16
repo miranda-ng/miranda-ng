@@ -61,8 +61,6 @@ Kontrolování...
 Nelze zaslat data o účtu!
 [Wrong name or password!]
 Neplatné jméno nebo heslo!
-[Can't get RSS feed!]
-Nelze přečíst kanál RSS!
 ;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Ostatní

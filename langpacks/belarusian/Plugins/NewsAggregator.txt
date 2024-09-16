@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,36 +88,12 @@
 %s\nняслушны адрас канала
 [empty]
 пуста
-;file \protocols\NewsAggregator\Src\Icons.cpp
-[Protocol icon]
-Абразок конту
-[Check All Feeds]
-Праверка ўсіх каналаў
-[Add Feed]
-Дадаць канал
-[Import Feeds]
-Імпарт каналаў
-[Export Feeds]
-Экспарт каналаў
-[Auto Update Enabled]
-Аўтаабнаўленне ўключана
-[Auto Update Disabled]
-Аўтаабнаўленне выключана
-;file \protocols\NewsAggregator\Src\Menus.cpp
-[Check feed]
-Праверыць канал
-[Change feed]
-Змяніць канал
-;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
-;file \protocols\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\ExportFeed.cpp
 [OPML files]
 Файлы OPML
-[Not valid import file.]
-Наслушны файл імпарта
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-Імпартавана каналаў: %d \r\nПрапушчана дублікатаў: %d
-[Imported %d feed(s).]
-Імпартавана каналаў: %d
+;file \protocols\NewsAggregator\Src\FeedEditor.cpp
+[Add Feed]
+Дадаць канал
 [Change Feed]
 Змяніць канал
 [Wait...]
@@ -148,6 +124,33 @@ ID навіны.
 Увядзіце імя канала
 [Enter message format]
 увядзіце фармат паведамлення
+;file \protocols\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Абразок конту
+[Check All Feeds]
+Праверка ўсіх каналаў
+[Import Feeds]
+Імпарт каналаў
+[Export Feeds]
+Экспарт каналаў
+[Auto Update Enabled]
+Аўтаабнаўленне ўключана
+[Auto Update Disabled]
+Аўтаабнаўленне выключана
+;file \protocols\NewsAggregator\Src\ImportFeed.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Імпартавана каналаў: %d \r\nПрапушчана дублікатаў: %d
+[Imported %d feed(s).]
+Імпартавана каналаў: %d
+[Not valid import file.]
+Наслушны файл імпарта
+;file \protocols\NewsAggregator\Src\Menus.cpp
+[Check feed]
+Праверыць канал
+[Change feed]
+Змяніць канал
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [Feed]
 Канал
 [Contact deleting]

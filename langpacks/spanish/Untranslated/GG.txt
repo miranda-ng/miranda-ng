@@ -47,7 +47,6 @@
 [Concurrent %s Login Sessions]
 [View information on active concurrent sessions]
 [Sign out all sessions]
-[Cannot create avatar file. ERROR: %d: %s\n%s]
 [Cannot open avatar file. ERROR: %d: %s\n%s]
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]

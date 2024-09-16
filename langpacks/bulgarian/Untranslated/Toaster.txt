@@ -1,5 +1,6 @@
 [Provides popup services based on Windows toast notification for different plugins.]
 [Add shortcut]
+[Popup mode]
 [This plugin requires Windows 8 or higher]
 [Failed to create temporary directory]
 [Failed to create shortcut]

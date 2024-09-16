@@ -133,10 +133,6 @@ Błąd ładowania pliku źródłowego, zamykanie.
 Liczba kontaktów w bazie: %d
 [Error mapping accounts, exiting.]
 Błąd przypisania kont, zamykanie.
-[Importing groups.]
-Import grup.
-[Group import failed.]
-Nie udało się zaimportować grupy
 [Importing contacts.]
 Import kontaktów.
 [Skipping new contacts import.]

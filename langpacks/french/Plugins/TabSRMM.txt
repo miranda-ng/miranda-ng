@@ -80,7 +80,7 @@ Nombre maxi d'évènements dans la fenêtre de message
 
 [Enable highlighting for message text]
 
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
 
 [Highlight messages containing my own nickname]
 
@@ -234,6 +234,8 @@ Statique
 
 [Use button tabs (*)]
 
+[Side bar width]
+
 [You have chosen to disable all event notifications for open message windows.]
 
 [Show contact avatars]
@@ -262,18 +264,20 @@ Options de la fenêtre de message
 
 [(0 = no limit)]
 (0=sans limite)
-[Try to keep original size]
-Tenter de conserver la taille
+[Use the original size if it is smaller]
+
 [Help on this]
 
 [Reset all hidden warnings]
 
-[Load unread events only]
-Voir seulement les messages non lus
-[Load number of previous events]
-Voir les x derniers évènements
-[Load previous events less than]
-Voir les évènements ayant moins de
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 minutes
 [Indent values]
@@ -288,8 +292,6 @@ Modèle
 Modèles standards...
 [RTL templates...]
 Modèles DàG...
-[Load history events]
-Derniers échanges
 [Typing notification options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -713,8 +715,6 @@ Citer le dernier message ou le texte sélectionné
 Options
 [View user's history]
 Voir l'historique
-[Edit user notes]
-
 [Select a foreground color for the text (Ctrl+K)]
 Couleur du texte (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
@@ -973,7 +973,7 @@ Réduire les icônes à 10x10 pixels dans la fenêtre de chat
 
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
 
 [path to Miranda root folder]
 
@@ -1095,8 +1095,6 @@ L'envoi de notification d'écriture est %s.
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 
-[You cannot edit user notes when there are unsent messages]
-
 [%s is typing a message...]
 %s écrit un message...
 [Last received: %s at %s]
@@ -1126,7 +1124,7 @@ Autre
 
 [&Messaging settings...]
 
-[&Send later job list...]
+[Send later job list...]
 
 [signed off.]
 déconnecté.
@@ -1271,8 +1269,6 @@ Clic pour le menu du contact\nClic sur la flèche pour le réglage de la fenêtr
 
 [Send later]
 Différer l'envoi
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-
 [Selection copied to clipboard]
 Sélection mise dans le presse-papier
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1283,8 +1279,6 @@ Votre message exède le nombre miximum de caractères du protocole. Seul les %d 
 Échec d'envoi : %s
 [The message send timed out]
 Délai d'envoi du message expiré
-[Contact is offline and this protocol does not support sending files to offline users.]
-Contact non connecté. Ce protocole ne supporte pas les envois hors-ligne.
 ;file \plugins\TabSRMM\src\msgdlgother.cpp
 ['(Unknown contact)']
 '(Contacts Inconnus)'
@@ -1302,8 +1296,6 @@ Sauver l'image du contact
 
 [The file exists. Do you want to overwrite it?]
 Le fichier existe déjà, Voulez-vous l'écraser ?
-[JPEG-compressed images]
-
 [Copy all]
 Tout copier
 [Save and close session]
@@ -1699,10 +1691,6 @@ Message
 
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 
-[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
-Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fenêtre maintenant, Miranda tentera de les renvoyer, mais sans pouvoir vous informer des éventuelles erreurs qui pourraient survenir lors de l'envoi.\nVoulez-vous vraiment fermer cette fenêtre de message ?
-[Message window warning]
-
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 
 [The send later feature is not available on this protocol.]
@@ -1791,8 +1779,6 @@ Message TabSRMM (%s)
 
 [Save file|Unable to save temporary file]
 
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
@@ -1809,3 +1795,5 @@ Message TabSRMM (%s)
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fenêtre maintenant, Miranda tentera de les renvoyer, mais sans pouvoir vous informer des éventuelles erreurs qui pourraient survenir lors de l'envoi.\nVoulez-vous vraiment fermer cette fenêtre de message ?

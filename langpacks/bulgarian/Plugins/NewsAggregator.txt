@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,36 +88,12 @@ URL
 %s\nне е валиден адрес на емисия.
 [empty]
 празно
-;file \protocols\NewsAggregator\Src\Icons.cpp
-[Protocol icon]
-Икона на протокола
-[Check All Feeds]
-Проверява всички емисии
-[Add Feed]
-Добавяне на емисия
-[Import Feeds]
-Внос на емисии
-[Export Feeds]
-Износ на емисии
-[Auto Update Enabled]
-Автообновяването е включено
-[Auto Update Disabled]
-Автообновяването е изключено
-;file \protocols\NewsAggregator\Src\Menus.cpp
-[Check feed]
-Проверка за новини
-[Change feed]
-Редактиране на емисията
-;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
-;file \protocols\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\ExportFeed.cpp
 [OPML files]
 OPML файлове
-[Not valid import file.]
-Файлът за импортиране не е валиден.
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-
-[Imported %d feed(s).]
-Внесени са %d емисии.
+;file \protocols\NewsAggregator\Src\FeedEditor.cpp
+[Add Feed]
+Добавяне на емисия
 [Change Feed]
 Редактиране на емисията
 [Wait...]
@@ -148,6 +124,33 @@ URL адрес на страницата за коментари към нови
 Въведете име на емисията
 [Enter message format]
 Въведете формат за съобщенията
+;file \protocols\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Икона на протокола
+[Check All Feeds]
+Проверява всички емисии
+[Import Feeds]
+Внос на емисии
+[Export Feeds]
+Износ на емисии
+[Auto Update Enabled]
+Автообновяването е включено
+[Auto Update Disabled]
+Автообновяването е изключено
+;file \protocols\NewsAggregator\Src\ImportFeed.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+
+[Imported %d feed(s).]
+Внесени са %d емисии.
+[Not valid import file.]
+Файлът за импортиране не е валиден.
+;file \protocols\NewsAggregator\Src\Menus.cpp
+[Check feed]
+Проверка за новини
+[Change feed]
+Редактиране на емисията
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [Feed]
 Емисия
 [Contact deleting]

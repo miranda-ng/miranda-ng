@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,36 +88,12 @@ Zadejte vaše heslo
 %s\nnení platná adresa zdroje.
 [empty]
 prázdné
-;file \protocols\NewsAggregator\Src\Icons.cpp
-[Protocol icon]
-Ikona protokolu
-[Check All Feeds]
-
-[Add Feed]
-Přidat zdroj
-[Import Feeds]
-Importovat zdroje
-[Export Feeds]
-Exportovat zdroje
-[Auto Update Enabled]
-Deaktivovat automatickou aktualizaci
-[Auto Update Disabled]
-Aktivovat automatickou aktualizaci
-;file \protocols\NewsAggregator\Src\Menus.cpp
-[Check feed]
-Zkont. zdroj
-[Change feed]
-Změnit zdroj
-;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
-;file \protocols\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\ExportFeed.cpp
 [OPML files]
 
-[Not valid import file.]
-
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-
-[Imported %d feed(s).]
-
+;file \protocols\NewsAggregator\Src\FeedEditor.cpp
+[Add Feed]
+Přidat zdroj
 [Change Feed]
 Změnit zdroj
 [Wait...]
@@ -148,6 +124,33 @@ Opravdu chcete pokračovat?
 
 [Enter message format]
 
+;file \protocols\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Ikona protokolu
+[Check All Feeds]
+
+[Import Feeds]
+Importovat zdroje
+[Export Feeds]
+Exportovat zdroje
+[Auto Update Enabled]
+Deaktivovat automatickou aktualizaci
+[Auto Update Disabled]
+Aktivovat automatickou aktualizaci
+;file \protocols\NewsAggregator\Src\ImportFeed.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+
+[Imported %d feed(s).]
+
+[Not valid import file.]
+
+;file \protocols\NewsAggregator\Src\Menus.cpp
+[Check feed]
+Zkont. zdroj
+[Change feed]
+Změnit zdroj
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [Feed]
 Zdroj
 [Contact deleting]

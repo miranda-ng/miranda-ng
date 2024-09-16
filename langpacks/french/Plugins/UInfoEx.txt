@@ -44,8 +44,6 @@ Homme
 Situation :
 [Partner:]
 Concubin :
-[Language skills]
-Langues parlées
 [Street:]
 Rue :
 [Postal code:]
@@ -420,12 +418,6 @@ Ignorer
 [Error]
 Erreur
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload details]
-Mise à jour des détails
-[Protocol '%s' is offline]
-
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin de mettre à jour les infos sur le serveur.\nVos changements ne seront que sauvegardés dans votre profil Miranda.
 [Creating the image list failed!]
 
 [Could not find contact's protocol. Maybe it is not active!]
@@ -444,12 +436,6 @@ Propriétaire
 éditer les détails d'un contact
 [View personal user details and more]
 Voir les informations personnelles de l'utilisateur et plus
-[Upload ICQ details]
-Mise à jour des détails ICQ
-[Upload failed]
-Mise à jour échouée
-[Your details were not uploaded successfully.\nThey were written to database only.]
-Vous détails non pas été mis à jour.\nIls ont seulement été écrits dans votre base de données.
 [updating]
 mise à jour
 ;file \plugins\UserInfoEx\src\init.cpp
@@ -586,11 +572,7 @@ Importer tous les contacts
 
 [&Export group]
 
-[&Import group]
-
 [&Export xml]
-
-[&Import xml]
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
@@ -683,150 +665,6 @@ Voulez-vous vraiment supprimer cette information ?
 [Profile]
 Profil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
-[Afrikaans]
-Afrikaans
-[Albanian]
-Albanais
-[Arabic]
-Arabe
-[Armenian]
-
-[Azerbaijani]
-
-[Belorussian]
-
-[Bhojpuri]
-
-[Bosnian]
-
-[Bulgarian]
-Bulgare
-[Burmese]
-Birman
-[Cantonese]
-
-[Catalan]
-
-[Chamorro]
-
-[Chinese]
-Chinois
-[Croatian]
-Croate
-[Czech]
-Tchèque
-[Danish]
-Danois
-[Dutch]
-
-[English]
-Anglais
-[Esperanto]
-Esperanto
-[Estonian]
-Estonien
-[Farsi]
-
-[Finnish]
-Finnois
-[French]
-Français
-[Gaelic]
-
-[German]
-Allemand
-[Greek]
-Grecque
-[Gujarati]
-
-[Hebrew]
-Hébreux
-[Hindi]
-Hindi
-[Hungarian]
-Hongrois
-[Icelandic]
-Islandais
-[Indonesian]
-Indonésien
-[Italian]
-Italien
-[Japanese]
-Japonais
-[Khmer]
-
-[Korean]
-Coréen
-[Kurdish]
-Kurde
-[Lao]
-
-[Latvian]
-Letton
-[Lithuanian]
-Lituanien
-[Macedonian]
-Macédonien
-[Malay]
-Malais
-[Mandarin]
-
-[Mongolian]
-Mongol
-[Norwegian]
-Norvégien
-[Persian]
-Perse
-[Polish]
-Polonais
-[Portuguese]
-Portugais
-[Punjabi]
-
-[Romanian]
-Roumain
-[Russian]
-Russe
-[Serbo-Croatian]
-
-[Sindhi]
-
-[Slovak]
-Slovaque
-[Slovenian]
-Slovène
-[Somali]
-Somali
-[Spanish]
-
-[Swahili]
-
-[Swedish]
-Suédois
-[Tagalog]
-
-[Taiwanese]
-
-[Tamil]
-
-[Tatar]
-
-[Thai]
-Thaïlandais
-[Turkish]
-Turque
-[Ukrainian]
-Ukrainien
-[Urdu]
-
-[Vietnamese]
-Vietnamien
-[Welsh]
-
-[Yiddish]
-Yiddish
-[Yoruba]
-
 [Academic]
 
 [Administrative]
@@ -851,7 +689,7 @@ Yiddish
 
 [Home]
 Domicile
-[ICQ - Providing Help]
+[Providing Help]
 
 [Law]
 

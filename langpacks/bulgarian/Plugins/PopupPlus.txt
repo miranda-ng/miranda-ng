@@ -407,9 +407,9 @@ Popup Plus Предупреждение
 Любим
 [Block]
 Блокиране
-[Popup Mode: Auto]
+[Popup mode: Auto]
 Popup режим: Автоматичен
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 Popup режим: Любим
-[Popup Mode: Ignore fullscreen]
+[Popup mode: Ignore fullscreen]
 Popup режим: Игнориране на режим "цял екран"

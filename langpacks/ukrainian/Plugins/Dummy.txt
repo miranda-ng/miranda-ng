@@ -51,6 +51,8 @@ ID користувача
 Логін Skype
 [Steam ID]
 
+[Telegram ID]
+
 [Tlen login]
 Логін Tlen
 [Tox ID]

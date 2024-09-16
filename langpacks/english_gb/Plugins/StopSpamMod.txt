@@ -5,7 +5,3 @@
 ;  Version: 0.0.2.4
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
-[Automatically grant authorization]
-Automatically grant authorisation
-[Request authorization from contacts which pass StopSpam test]
-Request authorisation from contacts which pass StopSpam test

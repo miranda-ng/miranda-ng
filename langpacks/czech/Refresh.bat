@@ -3,8 +3,8 @@
 REM ====== VARIABLES ========
 
 set "language=czech"
-set "oldLangpackPath=Deprecated\old langpack\langpack_czech2.txt"
-set "mirandaPath=D:\Programy\Miranda NG"
+set "oldLangpackPath="
+set "mirandaPath="
 
 REM =========================
 

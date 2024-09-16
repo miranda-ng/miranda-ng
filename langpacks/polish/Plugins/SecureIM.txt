@@ -240,6 +240,8 @@ Tryb PGP
 Tryb GPG
 [RSA/AES mode]
 Tryb RSA/AES
+[SecureIM status]
+Stauts SecureIM
 ;file \plugins\SecureIM\src\main.cpp
 [SecureIM mode (Native)]
 Tryb SecureIM (Natywny)
@@ -283,8 +285,6 @@ Załaduj klucz GPG
 Wyładuj klucz GPG
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 SecureIM nie zostanie załadowany ponieważ cryptopp.dll nie został znaleziony lub zła wersja.
-[SecureIM status]
-Stauts SecureIM
 ;file \plugins\SecureIM\src\options.cpp
 [ASC files]
 Plik ASC

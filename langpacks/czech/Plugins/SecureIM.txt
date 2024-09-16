@@ -240,6 +240,8 @@ PGP mód
 GPG mód
 [RSA/AES mode]
 RSA/AES mód
+[SecureIM status]
+Stav SecureIM
 ;file \plugins\SecureIM\src\main.cpp
 [SecureIM mode (Native)]
 
@@ -283,8 +285,6 @@ Nahrát GPG klíč
 Opustit GPG klíč
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 SecureIM nebyl nahrán. Knihovna cryptopp.dll chybí/špatná verze!
-[SecureIM status]
-Stav SecureIM
 ;file \plugins\SecureIM\src\options.cpp
 [ASC files]
 Soubory ASC

@@ -1,6 +1,5 @@
 [Adds some useful options to a contacts menu.]
 [Shown menu items]
-[Show alpha icons]
 [Hide from list]
 [Copy to Account (Ctrl+click for move to Account)]
 [Browse Received Files]

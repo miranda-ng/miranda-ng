@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -30,22 +30,20 @@
 Іншае
 [Automatic messages synchronization]
 Аўтаматычная сінхранізацыя паведамленняў 
-[Always notify as unread for all incoming message]
-Заўжды паведамляць аб уваходзячых паведамленнях
+[Use BBCode]
+Выкарыстоўваць BBCode
 [Place:]
 Месца:
 [Use hostname]
 Выкарыстоўваць імя хоста
-[Use BBCode]
-Выкарыстоўваць BBCode
 [Change password]
 Змяніць пароль
-[Enter password]
-Увядзіце пароль
-[Save password]
-Захаваць пароль
-[Enter the password to continue.]
-
+[Set mood]
+Настрой
+[Mood]
+Настрой
+[Text]
+Тэкст
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Спасылка Skype
@@ -84,32 +82,18 @@
 ;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 
-[Edited message]
-Рэдагаванае паведамленне
 [Action]
 Дзеянне
 [Call information]
 Інфармацыя пра тэлефанаванне
 [File transfer information]
 Інфармацыя пра перадачу файла
-[URI object]
-URI аб'ект
 [Moji]
 
-[File]
-Файл
 [Unknown event]
 Невядомая з'ява
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
-
-[[b]Original message:[/b]\n%s\n]
-
-[Original message:\n%s\n]
-
-[[b]Edited at %s:[/b]\n%s\n]
-
-[Edited at %s:\n%s\n]
 
 [Call]
 
@@ -160,11 +144,38 @@ URI аб'ект
 Разблакаваць карыстальніка
 [Create new chat]
 Стварыць чат
+[Set own mood]
+
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
 Невядомая памылка
 [Network error!]
 Сеткавая памылка
+;file \protocols\SkypeWeb\src\skype_mood.cpp
+[None]
+Няма
+[Custom emoji]
+
+[Be right back]
+
+[Out for lunch]
+
+[In meetings]
+
+[At school]
+
+[At the movies]
+
+[Traveling]
+У дарозе
+[Celebrating]
+
+[Driving]
+За рулём
+[At the gym]
+
+[Working from home]
+
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Сеціва

@@ -26,6 +26,8 @@ Při zavření okno pouze skrýt
 Uložit neodeslané zprávy
 [Delete temporary contacts on closing]
 Při zavření smazat dočasné kontakty
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [seconds]
@@ -78,17 +80,15 @@ Min. velikost pole pro zadávání textu:
 řádky
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
-[Preload]
-Cache
-[Unread events only]
-Pouze nepřečtené události
-[Last]
-Poslední
-[Events in the last]
-Předchozí události starší méně než
-[events]
-událostí
-[minutes]
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
+[minutes old]
 min.
 [Message window event log]
 Záznam událostí
@@ -314,8 +314,8 @@ přezdívka stávajícího kontaktu (pokud je definováno)
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
 [user-defined account name of current contact (if defined).]
 uživatelem definovaný název účtu (pokud je definován)
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+Identifikátor stávajícího kontaktu (pokud je definován). To znamená JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
 [path to folder containing Miranda profiles]

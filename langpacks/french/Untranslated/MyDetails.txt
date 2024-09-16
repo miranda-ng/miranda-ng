@@ -12,6 +12,8 @@
 [Show previous account]
 [Cycle through accounts]
 [Don't cycle through accounts]
+[<no nickname>]
+[<nothing playing>]
 [Status message]
 [Avatar border]
 [Previous account]

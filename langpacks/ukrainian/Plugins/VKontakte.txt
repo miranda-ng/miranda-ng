@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,10 +24,14 @@
 Видалити контакти поза списком друзів
 [Visit profile]
 Профіль на сайті
+[Support BBCode for NewStory]
+
 [[img] BBCode support for image]
 Підтримка тега [img] для зображень
 [off]
 Вимкнути
+[for preview max height 320 px]
+
 [for original size images]
 оригінального розміру
 [for preview max 130*130 px]
@@ -53,6 +57,8 @@
 [Use non-standard popups for news and event notifications]
 Нестандартні спливаючі вікна для новин і подій
 [Add message link to messages with attachments]
+
+[Add original message version in edited message]
 
 [News and event notifications]
 Новини і сповіщення
@@ -186,18 +192,18 @@
 Запросити користувача до чату
 [Choose one of your contacts to be invited:]
 Виберіть користувача, якого ви хочете запросити до чату:
-[Create group chat]
-Створити чат-кімнату
-[Mark users you want to invite to a new chat]
-Позначте користувачів, яких ви хочете запросити до чату
-[New chat's title:]
-Назва нової кімнати:
 [Share]
 Поділитися
 [URL:]
 Посилання:
 [Only for friends]
 Тільки друзям
+[Mark contacts for forwarding messages]
+
+[Mark contacts you want to forward messages]
+
+[Enter accompanying message]
+
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 Сповіщення
@@ -223,6 +229,10 @@
 Повідомлення на стіні
 [Mark messages as read icon]
 Позначити як прочитані
+[Forward icon]
+
+[Reload messages icon]
+
 [Access denied! Data will not be sent or received.]
 Відмовлено в доступі! Дані не передаватимуться і не прийматимуться.
 [Error]
@@ -295,6 +305,8 @@
 поділився вашим відео
 [Photo]
 Фото
+[Video]
+Відео
 [Attachments:]
 Вкладення:
 [Audio]
@@ -305,8 +317,6 @@
 
 [Graffiti]
 
-[Video]
-Відео
 [Link]
 Посилання
 [Document]
@@ -356,6 +366,12 @@
 Цей чат буде видалено разом з усім його вмістом. Цю дію не можна буде скасувати. Ви впевнені?
 [Warning]
 Попередження
+[%x at %X]
+
+[Edited message (updated %s):\n]
+
+[\nOriginal message:\n]
+
 [Message link]
 
 [create chat]
@@ -404,19 +420,17 @@
 &Вигнати
 [%s is typing a message...]
 %s друкує вам повідомлення...
+[Create group chat]
+Створити чат-кімнату
+[Mark users you want to invite to a new chat]
+Позначте користувачів, яких ви хочете запросити до чату
+[New chat's title:]
+Назва нової кімнати:
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Введіть текст, який бачите
 [Wall message for %s]
 Повідомлення на стіну %s
-[You delete %s from the contact list.\nWhat needs to be done additionally?]
-
-[Remove %s from your friend list]
-
-[Clear server history with %s]
-
-[Deleting %s from contact list]
-
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [VKontakte]
 ВКонтакті
@@ -492,15 +506,11 @@ ID отримувача помилковий або невідомий
 Завантаження історії
 [Error loading message history for %s from server.]
 Помилка при завантаженні повідомлень для %s з сервера.
-[%x at %X]
-
-[Edited message (updated %s):\n]
-
 [Loading messages for %s is completed.]
 Завершено завантаження повідомлень для %s.
 ;file \protocols\VKontakte\src\vk_messages.cpp
-[\nOriginal message:\n]
-
+[Me]
+Я
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Мережа
@@ -554,6 +564,10 @@ ID отримувача помилковий або невідомий
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
 Новини і сповіщення
+[Forward]
+
+[Reload messages]
+
 [Mark messages as read]
 Позначити повідомлення як прочитані
 [Send message to user's wall]

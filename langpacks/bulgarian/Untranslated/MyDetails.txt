@@ -1,1 +1,4 @@
 [Shows and allows you to edit your details for all accounts.]
+[<no nickname>]
+[<no status message>]
+[<nothing playing>]

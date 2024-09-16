@@ -10,10 +10,6 @@
 ;file \plugins\MenuItemEx\res\resource.rc
 [Shown menu items]
 
-[Visibility]
-Visibilité
-[Show alpha icons]
-
 [Hide from list]
 
 [Ignore]

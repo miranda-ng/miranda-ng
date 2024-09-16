@@ -130,8 +130,6 @@ xСтатус
 Уведомление
 [Show Popups when I connect]
 Вспл. окна при подключении
-[Disable for extra status 'Music']
-Отключить для xСтатуса "Музыка"
 [Truncate message length to:]
 Обрезать сообщение до:
 [characters]
@@ -379,8 +377,6 @@ xСтатус
 Настроение
 [Activity]
 Занятие
-[xStatus]
-xСтатус
 [<no title>]
 <без заголовка>
 [%s changed %s]

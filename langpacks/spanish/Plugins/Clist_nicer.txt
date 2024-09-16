@@ -278,7 +278,7 @@ Mostrar biseles en los paneles
 Mostrar indicador de cambio de tamaño
 [Draw background skin]
 
-[Show ICQ extended status icons]
+[Show extended status icons]
 
 [Mark protocols locked from global status changes]
 
@@ -609,12 +609,6 @@ Pieles
 
 [&Hide/show]
 &Mostrar/Ocultar
-[&Find/add contacts...]
-&Buscar/Agregar contactos...
-[&Main menu]
-&Menú principal
-[&Status]
-E&stado
 [Appearance]
 Apariencia
 [&Options...]

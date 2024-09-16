@@ -56,7 +56,7 @@
 [If you enable this, the background settings will affect the entire contact list frame.]
 [Show account names]
 [Draw background skin]
-[Show ICQ extended status icons]
+[Show extended status icons]
 [Mark protocols locked from global status changes]
 [Per contact skins:]
 [< Reload]

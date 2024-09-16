@@ -278,7 +278,7 @@
 Індикатор зміни розміру
 [Draw background skin]
 Використовувати скін для фону
-[Show ICQ extended status icons]
+[Show extended status icons]
 Показувати значки xСтатусу
 [Mark protocols locked from global status changes]
 Позначати протоколи, для яких не застосовується зміна статусу
@@ -609,12 +609,6 @@
 Утоплений фрейм
 [&Hide/show]
 &Сховати/Показати
-[&Find/add contacts...]
-Додати &контакти...
-[&Main menu]
-&Головне меню
-[&Status]
-&Статус
 [Appearance]
 Зовнішній вигляд
 [&Options...]

@@ -1,5 +1,5 @@
 [All item's tags are valid. Put them between #. Example: #<author>#]
 [News Aggregator]
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
 [Tags Mask Reset]
 [Feed Tag Help]
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]

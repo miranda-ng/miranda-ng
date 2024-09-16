@@ -1,5 +1,8 @@
 [Jingle support for Jabber protocol.]
+[Enable VoIP]
+[STUN server address:]
 [Jingle ICE-UDP Transport]
 [Jingle RTP]
 [Jingle DTLS]
 [Jingle RTP Audio]
+[VoIP]

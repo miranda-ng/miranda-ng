@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -44,8 +44,6 @@ Registro
 
 [Cancel]
 Cancelar
-[Popup settings...]
-
 [Currency Converter]
 
 [&to:]
@@ -58,7 +56,31 @@ Cancelar
 
 [Close]
 Cerrar
-[Popup settings]
+[Current Rate:]
+
+[Rate Fetch Time:]
+
+[Previous Rate:]
+
+[Provider:]
+
+[&Add]
+&Añadir
+[&Watched currency rates:]
+
+[&Remove]
+
+[&Refresh Rates Every:]
+
+[&Display in Contact List as:]
+
+[&Status Message:]
+
+[&Tendency:]
+
+[&Personal key:]
+
+[Get key]
 
 [Colors]
 Colores
@@ -82,49 +104,16 @@ Permanente
 
 [Preview]
 Previsualizar
-[Current Rate:]
-
-[Rate Fetch Time:]
-
-[Previous Rate:]
-
-[&Convert:]
-
-[&Add]
-&Añadir
-[&Watched currency rates:]
-
-[&Remove]
-
-[&Refresh Rates Every:]
-
-[&Display in Contact List as:]
-
-[&Status Message:]
-
-[&Tendency:]
-
-[&Personal key:]
-
-[&Advanced Settings...]
-
 [Rate Info]
 
+[Add currency pair]
+
+[From:]
+De:
+[To:]
+A:
 ;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
-
-;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
-[Seconds]
-Segundos
-[Minutes]
-Minutos
-[Hours]
-Horas
-[Enter integer value between 1 and 60.]
-
-[Enter integer value between 1 and 24.]
-
-[Enter text to display in contact list.]
 
 ;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
@@ -135,7 +124,19 @@ Horas
 [Currency Rate]
 
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Currency Rates]
+
 [Test contact]
+
+[From Currency Full Name]
+
+[From Currency Short Name]
+
+[Into Currency Full Name]
+
+[Into Currency Short Name]
+
+[Short notation for "%f/%i"]
 
 [Source of information]
 
@@ -162,22 +163,13 @@ Horas
 
 [Error occurred during site access.]
 
-[From Currency Full Name]
-
-[From Currency Short Name]
-
-[Into Currency Full Name]
-
-[Into Currency Short Name]
-
-[Short notation for "%f/%i"]
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
 
 ;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 
 [Auto Update Disabled]
-
-[Currency Rates]
 
 [Enable/Disable Auto Update]
 
@@ -205,8 +197,6 @@ Refrescar
 
 [Currency Symbol]
 
-[Network]
-Red
 [Protocol icon]
 
 [Currency Rate up]
@@ -224,23 +214,36 @@ Red
 [Import]
 
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+[This plugin requires a personal key. Open the Options dialog to obtain it.]
 
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 
 [All files (*.*)]
 
-;file \protocols\CurrencyRates\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-
-[Enter integer value]
-
+;file \protocols\CurrencyRates\src\Options.cpp
+[Seconds]
+Segundos
+[Minutes]
+Minutos
+[Hours]
+Horas
 [Enter log file name.]
 
 [Enter log file format.]
 
 [Enter history format.]
+
+[Network]
+Red
+[General]
+General
+[Advanced]
+Avanzado
+[Popups]
+Ventanas emergentes
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
 
 [Enter popup window format.]
 

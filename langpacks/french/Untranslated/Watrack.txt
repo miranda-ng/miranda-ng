@@ -50,7 +50,6 @@
 [If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
-[If this option is "ON", xStatus doesn't depend of ICQ's status.]
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
 [If this option is "ON", one template will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]

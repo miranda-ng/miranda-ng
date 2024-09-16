@@ -274,5 +274,5 @@ Następująca wiadomość, otrzymana od "%s", nie została zaszyfrowana:\n\n%s
 [unknown OTR message received, please report that to Miranda NG developers]
 Otrzymano nieznaną wiadomość OTR, proszę zgłosić to do zespołu Mirandy NG
 ;file \plugins\MirOTR\src\otr.h
-[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
- zażądał prywatnej rozmowy Off-the-Record, jednakże nie posiadasz wtyczki, która by to wspierała.\nZobacz http://pl.wikipedia.org/wiki/Off-the-record_messaging, aby uzyskać więcej informacji
+[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee https://otr.cypherpunks.ca for more information.]
+ zażądał prywatnej rozmowy Off-the-Record, jednakże nie posiadasz wtyczki, która by to wspierała.\nZobacz https://otr.cypherpunks.ca, aby uzyskać więcej informacji

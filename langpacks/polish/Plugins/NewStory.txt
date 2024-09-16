@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -36,14 +36,42 @@ Rysuj krawędź okna
 
 [History++ compatiblity mode]
 
+[Show event type]
+
+[Show event direction]
+
+[Show picture preview]
+
 [Template list:]
 Lista szablonów:
 [Edit template:]
 Edytuj szablon:
-[Text preview:]
-Podgląd tekstowy:
 [Graphic preview:]
 Podgląd graficzny:
+[Text preview:]
+Podgląd tekstowy:
+[[c2]]
+
+[[c4]]
+
+[[c6]]
+
+[[c3]]
+
+[[c5]]
+
+[Empty history]
+Usuń historię
+[Do you really want to delete selected item?]
+Czy na pewno chcesz usunąć wybrany wpis?
+[Remove server history]
+
+[Remove history for everyone]
+
+[&Yes]
+&Tak
+[&No]
+&Nie
 [Filter]
 Filtruj
 [Show all events]
@@ -105,10 +133,22 @@ Ramka wybranego elementu
 
 [Grid background]
 Kolor tła
+[Quoting]
+
 [Separator]
 Separator
+[Progress indicator]
+
+[Links]
+Linki
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
+
+[ %u KB]
+
+[I]
+
+[wrote]
 
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
@@ -119,35 +159,11 @@ Szukaj
 
 [Search backward]
 
-[Are you sure to remove selected event(s)?]
-Czy na pewno chcesz usunąć wybrane wydarzenia?
+[Do you really want to delete selected items (%d)?]
+
 ;file \plugins\NewStory\src\history_dlg.cpp
-[FirstName]
-Imię
-[LastName]
-Nazwisko
-[e-mail]
-E-mail
-[Nick]
-Nick
-[Age]
-Wiek
-[Gender]
-Płeć
-[City]
-Miasto
-[State]
-Stan
-[Phone]
-Telefon
-[Homepage]
-Strona WWW
-[About]
-O wtyczce
 [Global history search]
 Wyszukiwanie w globalnej historii
-[System history]
-Historia systemowa
 [All results]
 Wszystkie wyniki
 [Copy]
@@ -174,9 +190,17 @@ Wyszukaj poprzedni
 Rozmowa
 [Bookmarks]
 Zakładki
-[No more occuurences found]
+[You need to install the Import plugin to export events]
+
+[No more occurrences found]
 
 [Passed the end of history]
+
+[The required plugin 'Import' isn't loaded to perform this operation.]
+
+[Do you want to install it using Plugin Updater?]
+
+[Missing plugin]
 
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 To jest metakontakt. Do eksportu użyj jednego z tych podkontaktów:\r\n%s
@@ -184,8 +208,8 @@ To jest metakontakt. Do eksportu użyj jednego z tych podkontaktów:\r\n%s
 Ostrzeżenie dotyczące eksportu
 [JSON files]
 Pliki JSON
-[Export %s history]
-Eksport historii %s
+[Export history]
+
 [Complete]
 Zakończone
 [History export]
@@ -193,16 +217,18 @@ Eksport historii
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file path]
-
-[Copy URL]
-Kopiuj link
 [History]
 Historia
 [Global search]
 
 [Copy text]
 Kopiuj tekst
+[Copy URL]
+Kopiuj link
+[Copy file path]
+
+[Show in folder]
+
 [Quote]
 Cytat
 [Save as]
@@ -215,6 +241,8 @@ Edytuj
 Usuń
 [Select all]
 Zaznacz wszystko
+[Reply]
+Odpowiedź
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Główna ikona
@@ -257,10 +285,6 @@ moja nazwa
 nazwa kontaktu
 [event count]
 liczba zdarzeń
-[icon]
-ikona
-[direction icon]
-ikona kierunku
 [direction symbol]
 symbol kierunku
 [timestamp]
@@ -287,6 +311,12 @@ symbol AM/PM
 nazwa miesiąca, przetłumaczalny
 [the message string itself]
 sam ciąg wiadomości
+[default text color]
+
+[nickname's color]
+
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
+
 [Advanced]
 Zaawansowane
 ;file \plugins\NewStory\src\templates.cpp
@@ -328,6 +358,8 @@ Październik
 Listopad
 [December]
 Grudzień
+[System history]
+Historia systemowa
 [System event]
 Zdarzenia systemowe
 [Interface]
@@ -354,3 +386,8 @@ Zdarzenia „Zostałeś dodany”
 Zdarzenia „Zostałeś usunięty”
 [Clipboard]
 Schowek
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+
+[Potentially dangerous URL]
+

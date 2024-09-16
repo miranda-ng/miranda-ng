@@ -457,8 +457,6 @@ Skrýt nabídku
 Neznámá kódová stránka %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 
-[User %s (%d) changed ICQ client: %s]
-Uživatel %s (%d) změnil ICQ klienta na %s
 [Status request by %s (%d):%s]
 Požadavek na zjištění stavu od %s (%d):%s
 [Ignored status request by %s (%d):%s]

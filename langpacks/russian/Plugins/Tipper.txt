@@ -479,150 +479,6 @@ xСтатус:
 [Apply]
 Применить
 ;file \plugins\TipperYM\src\translations.cpp
-[Afrikaans]
-Африкаанс
-[Albanian]
-Албанский
-[Arabic]
-Арабский
-[Armenian]
-Армянский
-[Azerbaijani]
-Азербайджанский
-[Belorussian]
-Белорусский
-[Bhojpuri]
-Хойпурийский
-[Bosnian]
-Боснийский
-[Bulgarian]
-Болгарский
-[Burmese]
-Бирманский
-[Cantonese]
-Катонезийский
-[Catalan]
-Каталанский
-[Chamorro]
-Чаморрский
-[Chinese]
-Китайский
-[Croatian]
-Хорватский
-[Czech]
-Чешский
-[Danish]
-Датский
-[Dutch]
-Голландский
-[English]
-Английский
-[Esperanto]
-Эсперанто
-[Estonian]
-Эстонский
-[Farsi]
-Фарси
-[Finnish]
-Финский
-[French]
-Французский
-[Gaelic]
-Гайский
-[German]
-Немецкий
-[Greek]
-Греческий
-[Gujarati]
-Гуджаратский
-[Hebrew]
-Иврит
-[Hindi]
-Хинди
-[Hungarian]
-Венгерский
-[Icelandic]
-Исландский
-[Indonesian]
-Индонезийский
-[Italian]
-Итальянский
-[Japanese]
-Японский
-[Khmer]
-Хмерский
-[Korean]
-Корейский
-[Kurdish]
-Курдский
-[Lao]
-Лаосский
-[Latvian]
-Латышский
-[Lithuanian]
-Литовский
-[Macedonian]
-Македонский
-[Malay]
-Малайский
-[Mandarin]
-Мандарин
-[Mongolian]
-Монгольский
-[Norwegian]
-Норвежский
-[Persian]
-Персидский
-[Polish]
-Польский
-[Portuguese]
-Португальский
-[Punjabi]
-Панджабский
-[Romanian]
-Румынский
-[Russian]
-Русский
-[Serbo-Croatian]
-Сербохорватский
-[Sindhi]
-Синди
-[Slovak]
-Словацкий
-[Slovenian]
-Словенский
-[Somali]
-Сомалийский
-[Spanish]
-Испанский
-[Swahili]
-Суахили
-[Swedish]
-Шведский
-[Tagalog]
-Тагалог
-[Taiwanese]
-Тайваньский
-[Tamil]
-Тамильский
-[Tatar]
-Татарский
-[Thai]
-Тайский
-[Turkish]
-Турецкий
-[Ukrainian]
-Украинский
-[Urdu]
-Урду
-[Vietnamese]
-Вьетнамский
-[Welsh]
-Уэльский
-[Yiddish]
-Идиш
-[Yoruba]
-Ёрубский
 [Sunday]
 Воскресенье
 [Monday]
@@ -679,8 +535,8 @@ xСтатус:
 Дв. слово - в разницу времени
 [BYTE to Yes/No]
 Байт - в значение Да/Нет
-[BYTE to Male/Female (MRA)]
-Байт - в пол (М/Ж) (MRA)
+[BYTE to Male/Female]
+Байт - в пол (М/Ж)
 [WORD to country name]
 Слово - в название страны
 [DWORD to IP address]
@@ -713,5 +569,3 @@ xСтатус: пустое имя в имя по умолчанию
 Слово - в название дня недели (0..6, 0 - воскресенье)
 [WORD to name of a month (1..12, 1 is January)]
 Слово - в название месяца (1..12, 1 - январь)
-[BYTE to language (MRA)]
-Байт - в язык (MRA)

@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.4
+;  Version: 0.96.6
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -261,6 +261,8 @@
 Паказваць лічыльнік знакаў
 [Show toolbar buttons on top row]
 Паказваць кнопкі ў верхнім радку
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [Send error]
@@ -275,12 +277,14 @@
 Скасаваць
 [&Send]
 &Адправіць
-[Load unread events only]
-Толькі непрачытаныя падзеі
-[Load number of previous events]
-Папярэднія падзеі ў колькасці
-[Load previous events less than]
-Падзеі, атрыманыя
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 хвілін назад
 [Message window event log]
@@ -297,8 +301,6 @@
 Паказаць фарматаванне
 [Automatically copy selected text]
 Аўтаматычна капіяваць вылучаны тэкст
-[Load history events]
-Падгрузка гісторыі
 [Use a tabbed interface]
 Выкарыстоўваць укладкі
 [Close tab on double click]
@@ -343,6 +345,8 @@
 Абвесткі
 [Options]
 Налады
+[Add new rooms to group:]
+Дадаваць чаты ў гурт:
 [Log options]
 Налады лога
 [Log timestamp]
@@ -367,8 +371,6 @@
 Тэчка лога
 [Other]
 Іншае
-[Add new rooms to group:]
-Дадаваць чаты ў гурт:
 [Nick list row distance (pixels):]
 Адлегласць паміж радкамі (пікс.):
 [Message]
@@ -440,8 +442,6 @@
 Размяшчэнне
 [Avatar size:]
 Аватар:
-[Disable when]
-Выключыць калі
 [Global hover]
 Агульнае навядзенне
 [Sidebar width:]
@@ -452,6 +452,12 @@
 Прамежак:
 [Round corners (avatar)]
 Акругляць куты аватара
+[Disable when]
+Выключыць калі
+[Fullscreen mode]
+Поўны экран
+[Statuses]
+Статусы
 [Text color:]
 Колер тэксту:
 [Background color:]
@@ -490,8 +496,6 @@
 Абнавіць
 [Updating]
 Абнаўленне
-[Nickname:]
-Мянушка:
 [First name:]
 Імя:
 [Gender:]
@@ -565,10 +569,22 @@
 Гурт:
 [Authorization request]
 Запыт аўтарызацыі
+[Remove contact from server too]
+
+[Remove server history]
+
+[Remove history for everyone]
+
 [&Yes]
 &Так
 [&No]
 &Не
+[Empty history]
+Сцерці гісторыю
+[Are you sure to wipe the history for %s?]
+
+[This will erase all history for this contact!]
+
 [Contact display options]
 Параметры паказу кантактаў
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
@@ -723,12 +739,6 @@
 Ігнараваць
 [Typing]
 Набор тэксту
-[Visibility]
-Бачнасць
-[You are visible to this person even when in invisible mode]
-Вы заўсёды бачныя для гэтага чалавека
-[You are never visible to this person]
-Вы заўсёды нябачныя для гэтага чалавека
 [Icon index]
 Нумар абразка
 [Icon library:]
@@ -1189,6 +1199,8 @@ UIN, E-mail і г.д.
 
 [KBytes (0 - always)]
 
+[Remove cached files when an event is deleted]
+
 [Virus scanner]
 Антывірус
 [Scan files:]
@@ -1205,38 +1217,6 @@ UIN, E-mail і г.д.
 %f = імя правяранага файла ці тэчкі
 [Warn me before opening a file that has not been scanned]
 Папярэджваць пры адкрыцці неправеранага файла
-[&Hide/Show]
-С&хаваць/паказаць
-[E&xit]
-Выхад
-[Nowhere]
-Нідзе
-[&New group]
-Стварыць гурт
-[&Hide offline users]
-Схаваць адключаных
-[Hide &offline users out here]
-Схаваць адключаных па-за гуртоў
-[Hide &empty groups]
-Схаваць пустыя гурты
-[Disable &groups]
-Адключыць гурты
-[Hide Miranda]
-Схаваць спіс кантактаў
-[Group]
-Гурт
-[&New subgroup]
-Стварыць падгурт
-[&Hide offline users in here]
-Схаваць адключаных у гурце
-[&Rename group]
-Пераназваць гурт
-[&Delete group]
-Выдаліць гурт
-[&Reset to default]
-&Скінуць
-[find/add]
-знайсці/дадаць
 [&Add to list]
 &Дадаць у спіс
 [Send &message]
@@ -1247,6 +1227,10 @@ UIN, E-mail і г.д.
 Капіяваць спасылку
 [Cancel change]
 Адкаціць змены
+[&Reset to default]
+&Скінуць
+[Group]
+Гурт
 [Ungroup]
 Разгуртаваць
 [List]
@@ -1267,6 +1251,8 @@ UIN, E-mail і г.д.
 
 [&Main menu]
 Галоўнае меню
+[E&xit]
+Выхад
 [&Status]
 Статус
 [&Offline\tCtrl+0]
@@ -1673,8 +1659,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Аватар злева
 [Right avatar]
 Аватар справа
-[Full-screen app running]
-Поўнаэкраннае прыкладанне
 [No animate]
 Няма анімацыі
 [Horizontal animate]
@@ -1723,7 +1707,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 Урэзка
 [Title underline]
 Падкрэсленне загалоўка
-[Popup Mode]
+[Popup mode]
 
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
@@ -1866,12 +1850,12 @@ Miranda не здолела загрузіць убудаваную сістэм
 [%u added you to their contact list]
 %u дадаў(ла) вас у свой спіс
 ;file \src\mir_app\src\chat_log.cpp
-[%s has joined]
-%s увайшоў
+[%s has joined %s]
+%s увайшоў у %s
 [You have joined %s]
 Вы прыйшлі на '%s'
-[%s has left]
-%s выйшаў
+[%s has left %s]
+%s выйшаў з %s
 [%s has disconnected]
 %s адключыўся
 [%s is now known as %s]
@@ -1975,10 +1959,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 %s патрабуе Вашай увагі ў %s
 [%s speaks in %s]
 %s кажа ў %s
-[%s has joined %s]
-%s увайшоў у %s
-[%s has left %s]
-%s выйшаў з %s
 [%s kicked %s from %s]
 %s выкінуў %s з %s
 [Topic change in %s]
@@ -2255,6 +2235,8 @@ Ctrl+Шукаць дадае карыстальніка
 Пошук
 [All networks]
 Усе пратаколы
+[Unique ID]
+Асабісты конт
 [Handle]
 Назва
 [&Find/add contacts...]
@@ -2427,16 +2409,12 @@ xСтатус
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Меню гуртоў
+[New subgroup]
+
 [Hide offline users out here]
 Схаваць адключаных па-за гуртоў
 [Disable groups]
 Адключыць гурты
-[Exit]
-Выйсце
-[Subgroup menu]
-Меню падгуртоў
-[New subgroup]
-
 [Hide offline users in here]
 Схаваць адключаных у гурце
 ;file \src\mir_app\src\menu_options.cpp
@@ -2601,10 +2579,6 @@ xСтатус
 Уключыць плагін?
 [Unable to load plugin in service mode!]
 Немагчыма загрузіць плагін у службовым рэжыме!
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Немагчыма загрузіць ніводны з усталяваных плагінаў спісу кантактаў. Нават адключаныя ў наладах не запускаюцца.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Не знойдзены плагін спісу канактаў. Вам патрэбны StdClist ці Clist_*.
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Плагін ядра '%s' не можа быць загружана ці адсутнічае. Праграма змушана завяршыць працу
 [Fatal error]
@@ -2662,16 +2636,16 @@ xСтатус
 Вы ўпэўнены, што хочаце выдаліць профіль "%s"?
 [&Convert]
 &Канвертаваць
-[Run]
-Запусціць
-[Check database]
-
 [Size]
 Памер
 [Created]
 Створаны
 [Modified]
 Зменены
+[Run]
+Запусціць
+[Check database]
+
 [My profiles]
 Мае профілі
 [New profile]
@@ -2683,6 +2657,8 @@ xСтатус
 [Protocols]
 Пратаколы
 ;file \src\mir_app\src\proto_interface.cpp
+[Preview folder]
+
 [Request authorization]
 Запытаць аўтарызацыю
 [Grant authorization]
@@ -2746,6 +2722,8 @@ ID конта
 
 [Account internal name has to be unique. Please enter unique name.]
 
+[Account's name has to be unique. Please enter unique name.]
+
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2804,6 +2782,8 @@ ID конта
 ANSI плагін
 [Show/Hide]
 Схаваць/паказаць
+[Exit]
+Выйсце
 [Join chat]
 Увайсці ў чат
 [Leave chat]
@@ -2824,10 +2804,6 @@ ANSI плагін
 Увага
 [Blank]
 
-[Always visible]
-Заўсёды бачны
-[Always invisible]
-Заўсёды нябачны
 [Locked status]
 Блакаваны статус
 [Status icons]
@@ -2844,15 +2820,17 @@ ANSI плагін
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[Remove quoting]
+
 [&Message %s]
 &Паведамленне %s
 [Nickname]
 Мянушка
-[Unique ID]
-Асабісты конт
 [Disable the event filter (Ctrl+F)]
 
 [Enable the event filter (Ctrl+F)]
+
+[In reply to]
 
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
@@ -2878,10 +2856,8 @@ ANSI плагін
 [No word to look up]
 Няма слоў для пошуку
 ;file \src\mir_app\src\srmm_main.cpp
-[Are you sure to remove all events from history?]
+[Are you sure to wipe the system history?]
 
-[Empty history]
-Сцерці гісторыю
 [Empty system history]
 
 ;file \src\mir_app\src\srmm_toolbar.cpp
@@ -3393,7 +3369,6 @@ ANSI плагін
 Замбія
 [Zimbabwe]
 Зімбабвэ
-;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
 [Windows bitmaps]
 BMP

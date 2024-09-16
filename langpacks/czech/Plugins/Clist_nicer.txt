@@ -278,8 +278,8 @@ Zobrazit efekt zkosení panelů
 Zobrazit tlač. změny velik.
 [Draw background skin]
 Použít skin pozadí
-[Show ICQ extended status icons]
-Zobrazit ikony rozšířeného stavu ICQ
+[Show extended status icons]
+Zobrazit ikony rozšířeného stavu
 [Mark protocols locked from global status changes]
 Označit protokoly se zamknutým stavem
 [Available view modes]
@@ -609,12 +609,6 @@ Zobrazit doplňková tlačítka
 Použít zanořený rámeček
 [&Hide/show]
 Skrýt/Zo&brazit
-[&Find/add contacts...]
-&Vyhledat kontakty...
-[&Main menu]
-&Hlavní nabídka
-[&Status]
-&Stav
 [Appearance]
 Vzhled
 [&Options...]

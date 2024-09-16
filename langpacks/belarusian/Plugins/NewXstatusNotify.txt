@@ -130,8 +130,6 @@
 Абвесткі
 [Show Popups when I connect]
 Вокны пры злучэнні
-[Disable for extra status 'Music']
-Адключыць для дад. статусу "Музыка"
 [Truncate message length to:]
 Абразаць паведамленне да:
 [characters]
@@ -379,8 +377,6 @@
 Настрой
 [Activity]
 Занятак
-[xStatus]
-xСтатус
 [<no title>]
 
 [%s changed %s]

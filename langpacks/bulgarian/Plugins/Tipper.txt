@@ -122,8 +122,6 @@
 Показване след зареждане на цялото съдържание (аватар и текст за състояние)
 [Retrieve new status message]
 
-[Disable in invisible status]
-
 [Retrieve xStatus details if auto-retrieve is disabled]
 Извличане на подробности за xСъстояние при изключено автоизвличане
 [Status bar and tray tooltip]
@@ -481,150 +479,6 @@ Tipper
 [Apply]
 Прилагане
 ;file \plugins\TipperYM\src\translations.cpp
-[Afrikaans]
-африкаанс (бурски)
-[Albanian]
-албански
-[Arabic]
-арабски
-[Armenian]
-арменски
-[Azerbaijani]
-азербайджански
-[Belorussian]
-белоруски
-[Bhojpuri]
-божпури
-[Bosnian]
-босненски
-[Bulgarian]
-български
-[Burmese]
-бирмански
-[Cantonese]
-кантонски
-[Catalan]
-каталонски
-[Chamorro]
-чаморо
-[Chinese]
-китайски
-[Croatian]
-хърватски
-[Czech]
-чешки
-[Danish]
-датски
-[Dutch]
-нидерландски (холандски)
-[English]
-английски
-[Esperanto]
-есперанто
-[Estonian]
-естонски
-[Farsi]
-персийски (фарси)
-[Finnish]
-фински (финландски)
-[French]
-френски
-[Gaelic]
-келтски
-[German]
-немски
-[Greek]
-гръцки
-[Gujarati]
-гуджарати (гуджаратски)
-[Hebrew]
-иврит
-[Hindi]
-хинди
-[Hungarian]
-унгарски
-[Icelandic]
-исландски
-[Indonesian]
-индонезийски
-[Italian]
-италиански
-[Japanese]
-японски
-[Khmer]
-кхмерски
-[Korean]
-корейски
-[Kurdish]
-кюрдски
-[Lao]
-лао (лаоски)
-[Latvian]
-латвийски
-[Lithuanian]
-литовски
-[Macedonian]
-македонски
-[Malay]
-малайски
-[Mandarin]
-мандарин
-[Mongolian]
-монголски
-[Norwegian]
-норвежки
-[Persian]
-персийски
-[Polish]
-полски
-[Portuguese]
-португалски
-[Punjabi]
-пенджаби (пенджабски)
-[Romanian]
-румънски
-[Russian]
-руски
-[Serbo-Croatian]
-сърбохърватски
-[Sindhi]
-синдхи
-[Slovak]
-словашки
-[Slovenian]
-словенски
-[Somali]
-сомали
-[Spanish]
-испански
-[Swahili]
-суахили
-[Swedish]
-шведски
-[Tagalog]
-тагалог (тагалски)
-[Taiwanese]
-тайвански
-[Tamil]
-тамилски
-[Tatar]
-татарски
-[Thai]
-тайски (тайландски)
-[Turkish]
-турски
-[Ukrainian]
-украински
-[Urdu]
-урду
-[Vietnamese]
-виетнамски
-[Welsh]
-уелски
-[Yiddish]
-идиш
-[Yoruba]
-йоруба
 [Sunday]
 неделя
 [Monday]
@@ -681,8 +535,8 @@ DWORD времева марка към час
 DWORD времева марка към часова разлика
 [BYTE to Yes/No]
 BYTE към Да/Не
-[BYTE to Male/Female (ICQ)]
-BYTE към Мъж/Жена (ICQ)
+[BYTE to Male/Female]
+BYTE към Мъж/Жена
 [WORD to country name]
 WORD към име на държава
 [DWORD to IP address]
@@ -715,5 +569,3 @@ BYTE към часови пояс
 WORD към име на ден (0 до 6, 0 е неделя)
 [WORD to name of a month (1..12, 1 is January)]
 WORD към име на месец (1 до 12, 1 е януари)
-[BYTE to language (ICQ)]
-BYTE към език (ICQ)

@@ -122,8 +122,6 @@ Zaawansowane opcje
 Pokaż podpowiedź gdy zawartość będzie gotowa (awatar i opis)
 [Retrieve new status message]
 Pobierz nowe opisy
-[Disable in invisible status]
-Wyłącz gdy status to "Niewidoczny"
 [Retrieve xStatus details if auto-retrieve is disabled]
 Pobierz szczegóły xStatus, jeśli auto-pobieranie jest wyłączone
 [Status bar and tray tooltip]
@@ -481,150 +479,6 @@ Odśwież
 [Apply]
 Zastosuj
 ;file \plugins\TipperYM\src\translations.cpp
-[Afrikaans]
-Afrykanerski
-[Albanian]
-Albański
-[Arabic]
-Arabski
-[Armenian]
-Armeński
-[Azerbaijani]
-Azerski
-[Belorussian]
-Białoruski
-[Bhojpuri]
-Bhodźpuri
-[Bosnian]
-Bośniacki
-[Bulgarian]
-Bułgarski
-[Burmese]
-Birmański
-[Cantonese]
-Kantoński
-[Catalan]
-Kataloński
-[Chamorro]
-Chamorro
-[Chinese]
-Chiński
-[Croatian]
-Chorwacki
-[Czech]
-Czeski
-[Danish]
-Duński
-[Dutch]
-Niderlandzki
-[English]
-Angielski
-[Esperanto]
-Esperanto
-[Estonian]
-Estoński
-[Farsi]
-Perski
-[Finnish]
-Fiński
-[French]
-Francuski
-[Gaelic]
-Gaelicki
-[German]
-Niemiecki
-[Greek]
-Grecki
-[Gujarati]
-Gudżarati
-[Hebrew]
-Hebrajski
-[Hindi]
-Hinduski
-[Hungarian]
-Węgierski
-[Icelandic]
-Islandzki
-[Indonesian]
-Indonezyjski
-[Italian]
-Włoski
-[Japanese]
-Japoński
-[Khmer]
-Khmerski
-[Korean]
-Koreański
-[Kurdish]
-Kurdyjski
-[Lao]
-Laotański
-[Latvian]
-Łotewski
-[Lithuanian]
-Litewski
-[Macedonian]
-Macedoński
-[Malay]
-Malajski
-[Mandarin]
-Mandaryński
-[Mongolian]
-Mongolski
-[Norwegian]
-Norweski
-[Persian]
-Perski
-[Polish]
-Polski
-[Portuguese]
-Portugalski
-[Punjabi]
-Pendżabski
-[Romanian]
-Rumuński
-[Russian]
-Rosyjski
-[Serbo-Croatian]
-Chorwackoserbski
-[Sindhi]
-Sindhi
-[Slovak]
-Słowacki
-[Slovenian]
-Słoweński
-[Somali]
-Somalijski
-[Spanish]
-Hiszpański
-[Swahili]
-Suahili
-[Swedish]
-Szwedzki
-[Tagalog]
-Tagalog
-[Taiwanese]
-Tajwański
-[Tamil]
-Tamilski
-[Tatar]
-Tatarski
-[Thai]
-Tajski
-[Turkish]
-Turecki
-[Ukrainian]
-Ukraiński
-[Urdu]
-Urdu
-[Vietnamese]
-Wietnamski
-[Welsh]
-Walijski
-[Yiddish]
-Jidysz
-[Yoruba]
-Joruba
 [Sunday]
 Niedziela
 [Monday]
@@ -681,8 +535,8 @@ DWORD znacznika czasu dla czasu
 DWORD znacznika czasu dla różnicy czasu
 [BYTE to Yes/No]
 BYTE dla Tak/Nie
-[BYTE to Male/Female (ICQ)]
-BYTE dla Płci (ICQ)
+[BYTE to Male/Female]
+BYTE dla Płci
 [WORD to country name]
 WORD dla nazwy kraju
 [DWORD to IP address]
@@ -715,5 +569,3 @@ BYTE strefy czasowej dla czasu
 WORD dla nazwy dnia (0..6, 0 to Niedziela)
 [WORD to name of a month (1..12, 1 is January)]
 WORD dla nazwy miesiąca (1..12, 1 to Styczeń)
-[BYTE to language (ICQ)]
-BYTE dla języka (ICQ)

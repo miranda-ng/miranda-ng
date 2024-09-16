@@ -44,8 +44,6 @@ Mężczyzna
 Stan cywilny:
 [Partner:]
 Partner:
-[Language skills]
-Znane języki
 [Street:]
 Ulica:
 [Postal code:]
@@ -420,12 +418,6 @@ Ignorowanie
 [Error]
 Błąd
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload details]
-Załaduj szczegóły
-[Protocol '%s' is offline]
-Protokół "%s" jest rozłączony
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Obecnie nie jesteś podłączony do sieci ICQ.\n Musisz być połączony aby uaktualnić informacje na serwer.\n\nTwoje zmian zostaną zapisane tylko do profilu.
 [Creating the image list failed!]
 Tworzenie listy obrazków nie powiodło się!
 [Could not find contact's protocol. Maybe it is not active!]
@@ -444,12 +436,6 @@ Właściciel
 edytuj informacje o kontakcie
 [View personal user details and more]
 Zobacz osobiste dane użytkownika
-[Upload ICQ details]
-Załaduj informacje ICQ
-[Upload failed]
-Błąd wysyłania
-[Your details were not uploaded successfully.\nThey were written to database only.]
-Twoje dane nie zostały załadowane pomyślnie.\nZostały one zapisane tylko w bazie danych.
 [updating]
 Aktualizacja
 ;file \plugins\UserInfoEx\src\init.cpp
@@ -586,12 +572,8 @@ Importuj wszystkie kontakty
 Eksportuj/importuj grupę
 [&Export group]
 &Eksportuj grupę
-[&Import group]
-&Importuj grupę
 [&Export xml]
 &Eksportuj xml
-[&Import xml]
-&Importuj xml
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Moje notatki:
@@ -683,150 +665,6 @@ Czy na pewno chcesz usunąć te dane?
 [Profile]
 Profil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
-[Afrikaans]
-Afrykanerski
-[Albanian]
-Albański
-[Arabic]
-Arabski
-[Armenian]
-Armeński
-[Azerbaijani]
-Azerski
-[Belorussian]
-Białoruski
-[Bhojpuri]
-Bhodźpuri
-[Bosnian]
-Bośniacki
-[Bulgarian]
-Bułgarski
-[Burmese]
-Birmański
-[Cantonese]
-Kantoński
-[Catalan]
-Kataloński
-[Chamorro]
-Chamorro
-[Chinese]
-Chiński
-[Croatian]
-Chorwacki
-[Czech]
-Czeski
-[Danish]
-Duński
-[Dutch]
-Niderlandzki
-[English]
-Angielski
-[Esperanto]
-Esperanto
-[Estonian]
-Estoński
-[Farsi]
-Perski
-[Finnish]
-Fiński
-[French]
-Francuski
-[Gaelic]
-Gaelicki
-[German]
-Niemiecki
-[Greek]
-Grecki
-[Gujarati]
-Gudżarati
-[Hebrew]
-Hebrajski
-[Hindi]
-Hinduski
-[Hungarian]
-Węgierski
-[Icelandic]
-Islandzki
-[Indonesian]
-Indonezyjski
-[Italian]
-Włoski
-[Japanese]
-Japoński
-[Khmer]
-Khmerski
-[Korean]
-Koreański
-[Kurdish]
-Kurdyjski
-[Lao]
-Laotański
-[Latvian]
-Łotewski
-[Lithuanian]
-Litewski
-[Macedonian]
-Macedoński
-[Malay]
-Malajski
-[Mandarin]
-Mandaryński
-[Mongolian]
-Mongolski
-[Norwegian]
-Norweski
-[Persian]
-Perski
-[Polish]
-Polski
-[Portuguese]
-Portugalski
-[Punjabi]
-Pendżabski
-[Romanian]
-Rumuński
-[Russian]
-Rosyjski
-[Serbo-Croatian]
-Chorwackoserbski
-[Sindhi]
-Sindhi
-[Slovak]
-Słowacki
-[Slovenian]
-Słoweński
-[Somali]
-Somalijski
-[Spanish]
-Hiszpański
-[Swahili]
-Suahili
-[Swedish]
-Szwedzki
-[Tagalog]
-Tagalog
-[Taiwanese]
-Tajwański
-[Tamil]
-Tamilski
-[Tatar]
-Tatarski
-[Thai]
-Tajski
-[Turkish]
-Turecki
-[Ukrainian]
-Ukraiński
-[Urdu]
-Urdu
-[Vietnamese]
-Wietnamski
-[Welsh]
-Walijski
-[Yiddish]
-Jidysz
-[Yoruba]
-Joruba
 [Academic]
 Akademicka
 [Administrative]
@@ -851,8 +689,8 @@ Rząd
 Uczeń
 [Home]
 Dom
-[ICQ - Providing Help]
-Wsparcie techniczne ICQ
+[Providing Help]
+Wsparcie techniczne
 [Law]
 Prawo
 [Managerial]

@@ -407,9 +407,9 @@ Notificar
 
 [Block]
 
-[Popup Mode: Auto]
+[Popup mode: Auto]
 
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 
-[Popup Mode: Ignore fullscreen]
+[Popup mode: Ignore fullscreen]
 

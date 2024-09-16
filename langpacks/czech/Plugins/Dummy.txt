@@ -51,6 +51,8 @@ Live ID
 Skype jméno
 [Steam ID]
 Steam ID
+[Telegram ID]
+
 [Tlen login]
 Tlen login
 [Tox ID]

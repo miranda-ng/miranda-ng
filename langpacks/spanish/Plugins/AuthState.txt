@@ -30,5 +30,7 @@ Habilitar iconos estado de autenticación
 [Auth state]
 Estado de autenticación
 ;file \plugins\AuthState\src\options.cpp
+[Customize]
+Personalizar
 [Icons]
 Iconos

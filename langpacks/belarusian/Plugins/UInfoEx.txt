@@ -44,8 +44,6 @@
 Сямейнае становішча:
 [Partner:]
 Партнёр:
-[Language skills]
-Валоданне мовамі
 [Street:]
 Вуліца:
 [Postal code:]
@@ -420,12 +418,6 @@
 [Error]
 Памылка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload details]
-Запампаваць дэталі
-[Protocol '%s' is offline]
-Пратакол '%s' не далучаны
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Зараз вы не далучаны да ICQ.\nКаб абнавіць інфармацыю на серверы, вы павінны далучыцца.\n\nЗмяненні захаваюцца толькі лакальна.
 [Creating the image list failed!]
 Памылка пры стварэнні imagelist!
 [Could not find contact's protocol. Maybe it is not active!]
@@ -444,12 +436,6 @@
 рэдагаваць дадзеныя кантакту
 [View personal user details and more]
 Прагляд асабістых дадзеных кантакта
-[Upload ICQ details]
-Загрузіць дэталі ICQ
-[Upload failed]
-Загрузка не ўдалася
-[Your details were not uploaded successfully.\nThey were written to database only.]
-Вашыя дэталі не загружаныя.\nЯны захаваныя лакальна.
 [updating]
 абнаўленне
 ;file \plugins\UserInfoEx\src\init.cpp
@@ -586,11 +572,7 @@ E-Mail
 
 [&Export group]
 Экспартаваць гурт
-[&Import group]
-Імпартаваць гурт
 [&Export xml]
-
-[&Import xml]
 
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
@@ -683,150 +665,6 @@ E-Mail
 [Profile]
 Профіль
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
-[Afrikaans]
-Афрыкаанс
-[Albanian]
-Албанскі
-[Arabic]
-Арабскі
-[Armenian]
-Армянскі
-[Azerbaijani]
-Азербайджанскі
-[Belorussian]
-Беларускі
-[Bhojpuri]
-Хайпурыйскі
-[Bosnian]
-Баснійскі
-[Bulgarian]
-Балгарскі
-[Burmese]
-Бурмескі
-[Cantonese]
-Катанезійскі
-[Catalan]
-Каталанскі
-[Chamorro]
-Чаморскій
-[Chinese]
-Кітайскі
-[Croatian]
-Харвацкі
-[Czech]
-Чэшскі
-[Danish]
-Дацкі
-[Dutch]
-Галандскі
-[English]
-Ангельскі
-[Esperanto]
-Эсперанта
-[Estonian]
-Эстонскі
-[Farsi]
-Фарсі
-[Finnish]
-Фінскі
-[French]
-Французскі
-[Gaelic]
-Гайскі
-[German]
-Нямецкі
-[Greek]
-Грэцкі
-[Gujarati]
-Гуджарацкі
-[Hebrew]
-Іўрыт
-[Hindi]
-Хінді
-[Hungarian]
-Вугорскі
-[Icelandic]
-Ісландскі
-[Indonesian]
-Інданэзійскі
-[Italian]
-Італьянскі
-[Japanese]
-Японскі
-[Khmer]
-Кхмерскі
-[Korean]
-Карэйскі
-[Kurdish]
-Курдскі
-[Lao]
-Лаоскі
-[Latvian]
-Латышскі
-[Lithuanian]
-Літоўскі
-[Macedonian]
-Македонскі
-[Malay]
-Малайскі
-[Mandarin]
-Мандарын
-[Mongolian]
-Мангольскі
-[Norwegian]
-Нарвежскі
-[Persian]
-Персідскі
-[Polish]
-Польскі
-[Portuguese]
-Партугальскі
-[Punjabi]
-Панджабскі
-[Romanian]
-Румынскі
-[Russian]
-Рускі
-[Serbo-Croatian]
-Сербахарвацкі
-[Sindhi]
-Сіндзі
-[Slovak]
-Славацкі
-[Slovenian]
-Славенскі
-[Somali]
-Самалійскі
-[Spanish]
-Гішпанскі
-[Swahili]
-Суахілі
-[Swedish]
-Швецкі
-[Tagalog]
-Тагалог
-[Taiwanese]
-Тайваньскі
-[Tamil]
-Тамільскі
-[Tatar]
-Татарскі
-[Thai]
-Тайскі
-[Turkish]
-Турэцкі
-[Ukrainian]
-Украінскі
-[Urdu]
-Урду
-[Vietnamese]
-В'етнамскі
-[Welsh]
-Валійскі
-[Yiddish]
-Ідыш
-[Yoruba]
-Ерубскі
 [Academic]
 Акадэмія
 [Administrative]
@@ -851,8 +689,8 @@ E-Mail
 Вучань сярэдняй школы
 [Home]
 Дома
-[ICQ - Providing Help]
-ICQ - падтрымка
+[Providing Help]
+Падтрымка
 [Law]
 Закон
 [Managerial]

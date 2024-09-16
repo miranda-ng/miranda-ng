@@ -278,8 +278,8 @@ CList nicer изключение
 Индикатор за ръчна промяна на размера
 [Draw background skin]
 
-[Show ICQ extended status icons]
-Показване на ICQ икони за разширено състояние
+[Show extended status icons]
+Показване икони за разширено състояние
 [Mark protocols locked from global status changes]
 Маркиране на протоколите, чието състояние не се променя с общото
 [Available view modes]
@@ -609,12 +609,6 @@ CList nicer изключение
 Вградена рамка
 [&Hide/show]
 Показване/Скриване
-[&Find/add contacts...]
-Търсене/Добавяне на контакти
-[&Main menu]
-Главно меню
-[&Status]
-Състояние
 [Appearance]
 Външен вид
 [&Options...]

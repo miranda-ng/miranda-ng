@@ -22,5 +22,7 @@
 [Country flag]
 Държавно знаме
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
+Персонализиране
 [Icons]
 Икони

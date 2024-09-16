@@ -2,6 +2,7 @@
 [Facebook ID]
 [Live ID]
 [Steam ID]
+[Telegram ID]
 [Tox ID]
 [VKontakte ID]
 [WhatsApp ID]

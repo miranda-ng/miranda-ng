@@ -52,14 +52,6 @@ Usuń wykluczone kontakty po ponownym uruchomieniu
 Dodaj kontakty do specjalnej grupy
 [Ignore URL in messages and auth requests]
 Ignoruj linki w wiadomościach i prośbach o autoryzację
-[Add contact to server list]
-Dodaj kontakt do listy na serwerze
-[After congratulation (ICQ only)]
-Po potwierdzeniu (tyko ICQ)
-[Automatically grant authorization]
-Automatycznie udzielaj autoryzacji
-[Request authorization from contacts which pass StopSpam test]
-Wymagaj autoryzacji od kontaktów, które zdały test StopSpam
 [Use regex for answers checking]
 Użyj regex dla kontroli odpowiedzi
 [Log Spammers to system history]

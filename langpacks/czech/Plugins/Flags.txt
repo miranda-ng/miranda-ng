@@ -22,5 +22,7 @@ Použít &neznámou vlajku pokud země nelze zjistit
 [Country flag]
 Vlajka státu
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
+Vlastní úpravy
 [Icons]
 Ikony

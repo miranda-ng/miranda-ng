@@ -207,3 +207,5 @@ Nový
 min
 [max]
 max
+[Status Message]
+Zpráva stavu

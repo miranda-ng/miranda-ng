@@ -133,10 +133,6 @@ Chyba načítání vstupního souboru, ukončování.
 Počet kontaktů v databázi: %d
 [Error mapping accounts, exiting.]
 Chyba při mapování účtů, ukončování.
-[Importing groups.]
-Importování skupin.
-[Group import failed.]
-Import skupiny se nezdařil.
 [Importing contacts.]
 Importování kontaktů.
 [Skipping new contacts import.]

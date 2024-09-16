@@ -506,17 +506,7 @@ xСтатус: xПовідомлення
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 С&ховати/Показати
-[&Find/add contacts...]
-Додати &контакти...
-[&Main menu]
-&Головне меню
-[&Status]
-&Статус
-[&Options...]
-&Налаштування...
-[&About]
-Про &програму
-[&Show offline users in here]
+[Show offline users in here]
 Показати відключених у групі
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
@@ -803,8 +793,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Меню статусу
 [Accounts]
 Облікові записи
-[Accounts...]
-Облікові записи...
 [Show/Hide offline contacts]
 Показати/сховати відключених
 [Hide offline contacts]

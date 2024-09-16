@@ -299,8 +299,6 @@ Jestliže je tato možnost zapnuta, bude hláška stavu nahrazena informací o h
 Jestliže je tato možnost zapnuta, pokusí se doplněk získat informace o neznámém hudebním formátu z přehrávače (ne všechny přehrávače fungují!)
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Jestliže je tato možnost zapnuta, bude rozšířený stav změněn na "Poslouchám hudbu" pouze tehdy, byl-li takto změněn už předtím ručně.
-[If this option is "ON", xStatus doesn't depend of ICQ's status.]
-
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 Jestliže je tato možnost zapnuta, bude rozšířený stav ponechán i po vypnutí přehrávače
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
@@ -458,8 +456,6 @@ Název rozšířeného stavu
 ["Variables" module use]
 
 [Acoustic]
-
-[Use ICQ xStatus]
 
 [Winamp Track]
 Sledování hudby

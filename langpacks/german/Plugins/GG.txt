@@ -149,8 +149,6 @@ Informationen zu aktiven gleichzeitigen Sitzungen anzeigen
 [Sign out all sessions]
 Alle Sitzungen abmelden
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatar file. ERROR: %d: %s\n%s]
-Kann Avatardatei nicht erzeugen. Fehler: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]
 Kann Avatardatei nicht öffnen. Fehler: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp

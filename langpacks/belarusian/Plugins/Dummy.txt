@@ -51,6 +51,8 @@ ID кантакта
 
 [Steam ID]
 
+[Telegram ID]
+
 [Tlen login]
 Tlen уваход
 [Tox ID]

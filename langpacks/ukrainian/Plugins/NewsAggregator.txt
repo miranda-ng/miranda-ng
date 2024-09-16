@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,36 +88,12 @@
 %s\nнеправильна адреса каналу
 [empty]
 Порожній
-;file \protocols\NewsAggregator\Src\Icons.cpp
-[Protocol icon]
-Значок протоколу
-[Check All Feeds]
-Перевірити всі канали
-[Add Feed]
-Додати канал
-[Import Feeds]
-Імпорт каналів
-[Export Feeds]
-Експорт каналів
-[Auto Update Enabled]
-Автооновлення ввімкнено
-[Auto Update Disabled]
-Автооновлення вимкнено
-;file \protocols\NewsAggregator\Src\Menus.cpp
-[Check feed]
-Перевірити канал
-[Change feed]
-Змінити канал
-;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
-;file \protocols\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\ExportFeed.cpp
 [OPML files]
 Файли OPML
-[Not valid import file.]
-Неправильний файл для імпорту
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-Імпортовано каналів: %d \r\nНе імпортовано дублікатів: %d
-[Imported %d feed(s).]
-Імпортовано каналів: %d.
+;file \protocols\NewsAggregator\Src\FeedEditor.cpp
+[Add Feed]
+Додати канал
 [Change Feed]
 Змінити канал
 [Wait...]
@@ -148,6 +124,33 @@ URL сторінки з коментарями до новини.
 Введіть ім'я каналу
 [Enter message format]
 Введіть формат повідомлення
+;file \protocols\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Значок протоколу
+[Check All Feeds]
+Перевірити всі канали
+[Import Feeds]
+Імпорт каналів
+[Export Feeds]
+Експорт каналів
+[Auto Update Enabled]
+Автооновлення ввімкнено
+[Auto Update Disabled]
+Автооновлення вимкнено
+;file \protocols\NewsAggregator\Src\ImportFeed.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Імпортовано каналів: %d \r\nНе імпортовано дублікатів: %d
+[Imported %d feed(s).]
+Імпортовано каналів: %d.
+[Not valid import file.]
+Неправильний файл для імпорту
+;file \protocols\NewsAggregator\Src\Menus.cpp
+[Check feed]
+Перевірити канал
+[Change feed]
+Змінити канал
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [Feed]
 Канал
 [Contact deleting]

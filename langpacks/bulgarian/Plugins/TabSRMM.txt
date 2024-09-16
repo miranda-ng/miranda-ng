@@ -80,8 +80,8 @@
 Отличаване на текст от съобщения
 [Enable highlighting for message text]
 Включване
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
-Думи за отличаване, разрешени са wildcards като * и ?, разделяйте записите с интервал. Не въвеждайте думи ако желаете само вашият прякор да бъде отличаван.
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
+Думи за отличаване, разрешени са wildcards като * и ?, разделяйте записите с интервал.
 [Highlight messages containing my own nickname]
 Отличаване на съобщения, които съдържат моя прякор
 ;file \plugins\TabSRMM\res\msgwindow.rc
@@ -234,6 +234,8 @@ ID на потребителя в лентата за състояние
 Бутон "Затваряне" на всеки таб
 [Use button tabs (*)]
 Ползване на бутонни табове*
+[Side bar width]
+
 [You have chosen to disable all event notifications for open message windows.]
 Избрали сте всички уведомявания за отворените прозорци да бъдат изключени.
 [Show contact avatars]
@@ -262,18 +264,20 @@ ID на потребителя в лентата за състояние
 Максимална височина (в пиксели)
 [(0 = no limit)]
 0 = неограничена
-[Try to keep original size]
-Запазване на ориг. размер
+[Use the original size if it is smaller]
+
 [Help on this]
 Помощ
 [Reset all hidden warnings]
 Анулиране на скритите предупреждения
-[Load unread events only]
-Само непрочетените събития
-[Load number of previous events]
-Предишни събития на брой
-[Load previous events less than]
-Събития от преди
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 минути
 [Indent values]
@@ -288,8 +292,6 @@ ID на потребителя в лентата за състояние
 Стандартни шаблони...
 [RTL templates...]
 Шаблони (Л<Д)...
-[Load history events]
-Допълнително зареждани събития
 [Typing notification options]
 Настройки за уведомяване при писане
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -713,8 +715,6 @@ Mаксимална ширина за лента с бутони
 Настройки на дневника за съобщения
 [View user's history]
 История на съобщенията
-[Edit user notes]
-Бележки за потребителя
 [Select a foreground color for the text (Ctrl+K)]
 Цвят на текста (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
@@ -973,7 +973,7 @@ UIN
 протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
 
 [path to Miranda root folder]
 път до главната папка на Miranda
@@ -1095,8 +1095,6 @@ UIN
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Няма текст за състоянието
-[You cannot edit user notes when there are unsent messages]
-Редактирането на бележките за потребителя е невъзможно докато има неизпратени съобщения
 [%s is typing a message...]
 %s пише съобщение...
 [Last received: %s at %s]
@@ -1126,7 +1124,7 @@ UIN
 TabSRMM: Писане
 [&Messaging settings...]
 Настройки на разговорите...
-[&Send later job list...]
+[Send later job list...]
 Съобщения за изпращане след време...
 [signed off.]
 излезе.
@@ -1271,8 +1269,6 @@ TabSRMM
 Нов опит
 [Send later]
 Изпрати след време
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Редактирате бележките за потребителя. За запаметяване на промените и връщане към нормалния режим за писане/изпращане на съобщения натиснете отново бутона или клавишната комбинация, обикновено: Alt+N
 [Selection copied to clipboard]
 Маркираното бе копирано в клипборда
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1283,8 +1279,6 @@ TabSRMM
 Неуспешно доставяне: %s
 [The message send timed out]
 
-[Contact is offline and this protocol does not support sending files to offline users.]
-Контактът е извън линия, а протоколът не поддържа изпращане на съобщения до контакти извън линия.
 ;file \plugins\TabSRMM\src\msgdlgother.cpp
 ['(Unknown contact)']
 "(Непознат контакт)"
@@ -1302,8 +1296,6 @@ TabSRMM
 Изображения
 [The file exists. Do you want to overwrite it?]
 Файлът съществува. Желаете ли да бъде презаписан?
-[JPEG-compressed images]
-JPEG компресирани изображения
 [Copy all]
 Копиране на всичко
 [Save and close session]
@@ -1699,10 +1691,6 @@ Latin I
 Съобщението не може да бъде изпратено по-късно или до няколко потребителя защото надвишава максималната разрешена дължина от %d байта
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Неуспешно доставяне на съобщението след затваряне на прозореца за съобщения. Може би, желаете съобщението да бъде изпратено отново
-[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
-Неизпратени съобщения чакат за потвърждение.\nСлед затваряне на прозореца ще бъдат направени нови опити за изпращане, но уведомяването при недоставяне не е сигурно.\nНаистина ли желаете да затворите прозореца(ите)?
-[Message window warning]
-
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Съобщението е добавено в списъка за изпращане след време.\nЩе бъде изпратено при първа възможност, тогава ще бъдете уведомени за резултата с popup.
 [The send later feature is not available on this protocol.]
@@ -1791,8 +1779,6 @@ TabSRMM съобщение (%s)
 TabSRMM предупреждение
 [Save file|Unable to save temporary file]
 
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Редактиране на бележки за потребител|Редактирате бележките за потребителя. За запаметяване на промените и връщане към нормалния режим за писане/изпращане на съобщения натиснете отново бутона или клавишната комбинация, обикновено: Alt+N
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
@@ -1809,3 +1795,5 @@ TabSRMM предупреждение
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+Неизпратени съобщения чакат за потвърждение.\nСлед затваряне на прозореца ще бъдат направени нови опити за изпращане, но уведомяването при недоставяне не е сигурно.\nНаистина ли желаете да затворите прозореца(ите)?

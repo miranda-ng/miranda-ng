@@ -506,17 +506,7 @@ Skrýt záhlaví rámečků
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 Skrýt/Zo&brazit
-[&Find/add contacts...]
-&Vyhledat kontakty...
-[&Main menu]
-&Hlavní nabídka
-[&Status]
-&Stav
-[&Options...]
-M&ožnosti...
-[&About]
-O progr&amu
-[&Show offline users in here]
+[Show offline users in here]
 Zobrazit &uživatele offline
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
@@ -803,8 +793,6 @@ Hlavní nabídka
 Nabídka stavů
 [Accounts]
 Účty
-[Accounts...]
-Účty...
 [Show/Hide offline contacts]
 Zobrazit/skrýt offline uživatele
 [Hide offline contacts]

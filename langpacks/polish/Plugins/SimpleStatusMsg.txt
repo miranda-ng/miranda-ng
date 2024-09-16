@@ -58,8 +58,6 @@ Aktualizuj zmienne w opisie co
 s
 [Do not update variables during idle]
 Nie aktualizuj zmiennych podczas bezczynności
-[Do not update variables on ICQ status message requests]
-Nie aktualizuj zmiennych w ICQ na żądanie opisu
 [Leave last played track's title after exiting the player]
 Pozostaw tytuł ostatnio słuchanego utworu po wyłączeniu odtwarzacza
 [Enable status messages parsing by Variables plugin]

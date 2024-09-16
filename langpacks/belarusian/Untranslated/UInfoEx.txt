@@ -1,7 +1,6 @@
 [A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
 [Export/import group]
 [&Export xml]
-[&Import xml]
 [Address and contact]
 [Past Work Place]
 [Past Organization]

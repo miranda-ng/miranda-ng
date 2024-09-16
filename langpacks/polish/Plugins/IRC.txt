@@ -244,6 +244,23 @@ Wiadomości
 Powiadomienia
 [Host]
 
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+Kanał
+[Mode]
+Tryb
+[Please wait...]
+Proszę czekać...
+[%s - Filtered - %d items]
+%s - Wybrano - %d elementów
+[Downloading list (%u%%) - %u channels]
+Pobieranie listy (%u%%) - %u kanałów
+[Downloading list - %u channels]
+Pobieranie listy - %u kanałów
+[Done: %u channels]
+Pobrano: %u kanałów
+[(probably truncated by server)]
+(prawdopodobnie okrojona przez serwer)
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Żądanie rozmowy CTCP od %s
@@ -296,14 +313,6 @@ Admin
 
 [Voice]
 Głos
-[Downloading list (%u%%) - %u channels]
-Pobieranie listy (%u%%) - %u kanałów
-[Downloading list - %u channels]
-Pobieranie listy - %u kanałów
-[Done: %u channels]
-Pobrano: %u kanałów
-[(probably truncated by server)]
-(prawdopodobnie okrojona przez serwer)
 [%ud, %uh, %um, %us]
 %ud, %uh, %um, %us
 [%uh, %um, %us]
@@ -711,14 +720,6 @@ Ustawienia nie mogły zostać zapisane!\n\nPole "Nick" musi zawierać co najmnie
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Ustawienia nie mogły zostać zapisane!\n\nPełna maska hosta musi zostać podana, by ten tryb wykrywania dostępności mógł działać.
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-Proszę czekać...
-[Channel]
-Kanał
-[Mode]
-Tryb
-[%s - Filtered - %d items]
-%s - Wybrano - %d elementów
 [Add ban/invite/exception]
 Dodaj ban/zaproszenie/wyjątek
 [Edit selected ban/invite/exception]

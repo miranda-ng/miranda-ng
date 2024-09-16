@@ -22,5 +22,7 @@ Użyj &pustej flagi jeśli nie rozpoznano kraju
 [Country flag]
 Flaga kraju
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
+Personalizacja
 [Icons]
 Ikony

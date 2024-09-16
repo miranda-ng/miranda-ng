@@ -10,10 +10,6 @@ Fügt einige nützliche Einstellungen zum Kontaktmenü hinzu.
 ;file \plugins\MenuItemEx\res\resource.rc
 [Shown menu items]
 Menüeinträge anzeigen
-[Visibility]
-Sichtbarkeit
-[Show alpha icons]
-Alpha-Icons anzeigen
 [Hide from list]
 In Liste verstecken
 [Ignore]

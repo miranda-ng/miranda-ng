@@ -44,8 +44,6 @@
 Семейное положение:
 [Partner:]
 Партнёр:
-[Language skills]
-Владение языками
 [Street:]
 Улица:
 [Postal code:]
@@ -420,12 +418,6 @@
 [Error]
 Ошибка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload details]
-Закачать детали
-[Protocol '%s' is offline]
-Протокол '%s' не в сети
-[You are not currently connected to the MRA network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Вы сейчас не подключены к сети MRA.\nВы должны быть в сети, чтобы обновить информацию на сервере.\n\nИзменения будут сохранены только в локальную базу данных.
 [Creating the image list failed!]
 Ошибка при создании imagelist!
 [Could not find contact's protocol. Maybe it is not active!]
@@ -444,12 +436,6 @@
 Редактировать данные контакта
 [View personal user details and more]
 Просмотр личных данных пользователя
-[Upload MRA details]
-Загрузить детали MRA
-[Upload failed]
-Загрузка не удалась
-[Your details were not uploaded successfully.\nThey were written to database only.]
-Ваши детали не загружены.\nОни сохранены локально.
 [updating]
 обновление
 ;file \plugins\UserInfoEx\src\init.cpp
@@ -679,150 +665,6 @@
 [Profile]
 Профиль
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
-[Afrikaans]
-Африкаанс
-[Albanian]
-Албанский
-[Arabic]
-Арабский
-[Armenian]
-Армянский
-[Azerbaijani]
-Азербайджанский
-[Belorussian]
-Белорусский
-[Bhojpuri]
-Хойпурийский
-[Bosnian]
-Боснийский
-[Bulgarian]
-Болгарский
-[Burmese]
-Бирманский
-[Cantonese]
-Катонезийский
-[Catalan]
-Каталанский
-[Chamorro]
-Чаморрский
-[Chinese]
-Китайский
-[Croatian]
-Хорватский
-[Czech]
-Чешский
-[Danish]
-Датский
-[Dutch]
-Голландский
-[English]
-Английский
-[Esperanto]
-Эсперанто
-[Estonian]
-Эстонский
-[Farsi]
-Фарси
-[Finnish]
-Финский
-[French]
-Французский
-[Gaelic]
-Гайский
-[German]
-Немецкий
-[Greek]
-Греческий
-[Gujarati]
-Гуджаратский
-[Hebrew]
-Иврит
-[Hindi]
-Хинди
-[Hungarian]
-Венгерский
-[Icelandic]
-Исландский
-[Indonesian]
-Индонезийский
-[Italian]
-Итальянский
-[Japanese]
-Японский
-[Khmer]
-Хмерский
-[Korean]
-Корейский
-[Kurdish]
-Курдский
-[Lao]
-Лаосский
-[Latvian]
-Латышский
-[Lithuanian]
-Литовский
-[Macedonian]
-Македонский
-[Malay]
-Малайский
-[Mandarin]
-Мандарин
-[Mongolian]
-Монгольский
-[Norwegian]
-Норвежский
-[Persian]
-Персидский
-[Polish]
-Польский
-[Portuguese]
-Португальский
-[Punjabi]
-Панджабский
-[Romanian]
-Румынский
-[Russian]
-Русский
-[Serbo-Croatian]
-Сербохорватский
-[Sindhi]
-Синди
-[Slovak]
-Словацкий
-[Slovenian]
-Словенский
-[Somali]
-Сомалийский
-[Spanish]
-Испанский
-[Swahili]
-Суахили
-[Swedish]
-Шведский
-[Tagalog]
-Тагалог
-[Taiwanese]
-Тайваньский
-[Tamil]
-Тамильский
-[Tatar]
-Татарский
-[Thai]
-Тайский
-[Turkish]
-Турецкий
-[Ukrainian]
-Украинский
-[Urdu]
-Урду
-[Vietnamese]
-Вьетнамский
-[Welsh]
-Уэльский
-[Yiddish]
-Идиш
-[Yoruba]
-Ёрубский
 [Academic]
 Академия
 [Administrative]
@@ -847,8 +689,8 @@
 Ученик средней школы
 [Home]
 Дом
-[MRA - Providing Help]
-MRA - поддержка
+[Providing Help]
+Поддержка
 [Law]
 Закон
 [Managerial]

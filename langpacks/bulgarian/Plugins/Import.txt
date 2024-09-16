@@ -133,10 +133,6 @@
 Брой контакти в базата от данни: %d
 [Error mapping accounts, exiting.]
 
-[Importing groups.]
-Внасяне на групи.
-[Group import failed.]
-Неуспешно внасяне на група.
 [Importing contacts.]
 Внасяне на контакти.
 [Skipping new contacts import.]

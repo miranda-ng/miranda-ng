@@ -80,8 +80,8 @@
 Підсвічування тексту в повідомленні
 [Enable highlighting for message text]
 Увімкнути підсвічування тексту в повідомленні
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
-Слова для підсвічування (допускаються маски виду * та ?, кілька слів для підсвічування розділяються пробілами, для підсвічування лише свого ніку залиште пустим):
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
+Слова для підсвічування (допускаються маски виду * та ?, кілька слів для підсвічування розділяються пробілами.
 [Highlight messages containing my own nickname]
 Підсвічувати повідомлення, що містять свій нік
 ;file \plugins\TabSRMM\res\msgwindow.rc
@@ -234,6 +234,8 @@ ID користувача в панелі статусу
 Кнопка "Закрити" на вкладках
 [Use button tabs (*)]
 Вкладки-кнопки (*)
+[Side bar width]
+
 [You have chosen to disable all event notifications for open message windows.]
 Ви вимкнули всі сповіщення про події, які відкривають вікно повідомлень.
 [Show contact avatars]
@@ -262,18 +264,20 @@ ID користувача в панелі статусу
 Максимальна висота (в пікселях)
 [(0 = no limit)]
 (0=без обмежень)
-[Try to keep original size]
-Зберігати оригінальний розмір
+[Use the original size if it is smaller]
+
 [Help on this]
 Опис налаштувань
 [Reset all hidden warnings]
 Скинути всі приховані попередження
-[Load unread events only]
-Лише непереглянуті події
-[Load number of previous events]
-Попередні події в кількості
-[Load previous events less than]
-Події, отримані пізніше ніж
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 хвилин тому
 [Indent values]
@@ -288,8 +292,6 @@ ID користувача в панелі статусу
 Стандартні шаблони...
 [RTL templates...]
 Шаблони RTL...
-[Load history events]
-Показувати історію
 [Typing notification options]
 Налаштування сповіщень про друк
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -713,8 +715,6 @@ BBCode ([b][i][u])
 Налаштування бесід
 [View user's history]
 Історія повідомлень
-[Edit user notes]
-Редагувати нотатки про користувача
 [Select a foreground color for the text (Ctrl+K)]
 Вибрати колір тексту (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
@@ -973,8 +973,8 @@ IRC-стиль (текстовий) індикаторів ролей у жур�
 ім'я протоколу поточного контакту (якщо вказано). Ім'я облікового запису використовується, коли протокол підтримує кілька облікових записів.
 [user-defined account name of current contact (if defined).]
 ім'я облікового запису поточного контакту (якщо вказано).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-ID поточного контакту (якщо визначено). Наприклад, UIN для ICQ, JID для Jabber тощо.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+ID поточного контакту (якщо визначено). Наприклад, JID для Jabber тощо.
 [path to Miranda root folder]
 шлях до кореневої папки Miranda
 [path to folder containing Miranda profiles]
@@ -1095,8 +1095,6 @@ ID поточного контакту (якщо визначено). Напри
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Немає повідомлення статусу
-[You cannot edit user notes when there are unsent messages]
-Не можна правити нотатки, якщо є ненадіслані повідомлення
 [%s is typing a message...]
 %s друкує вам повідомлення...
 [Last received: %s at %s]
@@ -1126,8 +1124,8 @@ ID поточного контакту (якщо визначено). Напри
 TabSRMM: Набирає
 [&Messaging settings...]
 &Налаштування бесід...
-[&Send later job list...]
-&Завдання для відправки з затримкою...
+[Send later job list...]
+Завдання для відправки з затримкою...
 [signed off.]
 відключений(а).
 [signed on and is now %s.]
@@ -1271,8 +1269,6 @@ TabSRMM: Набирає
 Повторити
 [Send later]
 Надіслати пізніше
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Ви знаходитесь в режимі редагування нотаток про користувача. Натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень.
 [Selection copied to clipboard]
 Виділений текст скопійований у буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1283,8 +1279,6 @@ TabSRMM: Набирає
 Доставка не вдалася: %s
 [The message send timed out]
 Час надсилання повідомлення вичерпано.
-[Contact is offline and this protocol does not support sending files to offline users.]
-Контакт не в мережі, а цей протокол не підтримує надсилання в офлайн.
 ;file \plugins\TabSRMM\src\msgdlgother.cpp
 ['(Unknown contact)']
 '(Невідомий контакт)'
@@ -1302,8 +1296,6 @@ TabSRMM: Набирає
 Файли зображень
 [The file exists. Do you want to overwrite it?]
 Файл уже існує. Перезаписати?
-[JPEG-compressed images]
-Файли JPEG
 [Copy all]
 Копіювати все
 [Save and close session]
@@ -1699,10 +1691,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Неможливо надіслати це повідомлення кільком контактам одночасно, бо воно перевищує максимально допустиму довжину %d байтів.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Не вдалося передати повідомлення після закриття вікна бесіди. Можливо, вам потрібно відправити його ще раз.
-[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
-У черзі є ненадіслані повідомлення, що чекають підтвердження.\nЯкщо ви закриєте вікно, Miranda спробує відправити їх, але не зможе попередити про можливі помилки.\nВи дійсно хочете закрити вікно(а)?
-[Message window warning]
-Попередження вікна бесіди
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Повідомлення розміщено у чергу для подальшої доставки.\nВоно буде надіслане якомога раніше і ви будете сповіщені спливаючим вікном.
 [The send later feature is not available on this protocol.]
@@ -1791,8 +1779,6 @@ TabSRMM: %s
 Попередження TabSRMM
 [Save file|Unable to save temporary file]
 
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Редагування нотаток про користувача|Ви знаходитесь в режимі редагування нотаток про користувача. Натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень.
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Компонент відсутній|Набір значків не знайдено. Будь ласка, встановіть його в директорію значків за замовчанням.\n\nНа даний момент значки недоступні.
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
@@ -1809,3 +1795,5 @@ TabSRMM: %s
 Закриття налаштувань|Щоб показати зміни, пов'язані з імпортом теми, у вікні налаштувань, воно повинно бути закрите після завантаження теми \\b1 і незбережені зміни можуть бути втрачені\\b0 .\n\nВи хочете продовжити?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Завантаження теми|Завантаження кольорів і шрифтів може змінити налаштування, встановлені вашим скіном.\n\nВи хочете продовжити?
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+У черзі є ненадіслані повідомлення, що чекають підтвердження.\nЯкщо ви закриєте вікно, Miranda спробує відправити їх, але не зможе попередити про можливі помилки.\nВи дійсно хочете закрити вікно(а)?

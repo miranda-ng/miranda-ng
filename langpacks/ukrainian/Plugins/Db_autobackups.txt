@@ -58,8 +58,8 @@
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
 Резервувати профіль
-[Save profile as...]
-Зберегти профіль як...
+[Save database as...]
+Зберегти базу даних як...
 [Miranda NG databases]
 Бази даних Miranda NG
 [Compressed Miranda NG databases]

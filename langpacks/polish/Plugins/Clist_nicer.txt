@@ -278,8 +278,8 @@ Pokaz separatory na panelach
 Pokaż wskaźnik rozmiaru uchwytu
 [Draw background skin]
 Rysuj tło skóry
-[Show ICQ extended status icons]
-Pokaż dodatkowe ikony ICQ
+[Show extended status icons]
+Pokaż dodatkowe ikony
 [Mark protocols locked from global status changes]
 Oznacz zablokowane protokoły dla globalnej zmiany statusu
 [Available view modes]
@@ -609,12 +609,6 @@ Pokaż dodatkowe przyciski
 Rysuj zatopioną ramkę
 [&Hide/show]
 &Ukryj/pokaż
-[&Find/add contacts...]
-&Szukaj/dodaj kontakty...
-[&Main menu]
-&Menu główne
-[&Status]
-&Status
 [Appearance]
 Personalizacja
 [&Options...]

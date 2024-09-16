@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -36,8 +36,6 @@ UTF-8 у нових файлах
 Додатковий рядок
 [Use << and >>]
 Знаки << і >>
-[Help]
-Довідка
 [Exporting old messages]
 Експорт старих повідомлень
 [History file for %s (%s, format %s)]
@@ -78,6 +76,51 @@ UTF-8 у нових файлах
 Очистити
 [Copy]
 Копіювати
+;file \plugins\Msg_Export\src\export.cpp
+[FirstName]
+Ім'я
+[LastName]
+Прізвище
+[e-mail]
+Пошта
+[Nick]
+Нік
+[Age]
+Вік
+[Gender]
+Стать
+[City]
+Місто
+[State]
+Область
+[Phone]
+Телефон
+[Homepage]
+Сайт
+[About]
+Про себе
+[      History for]
+
+[User]
+Користувач
+[Account]
+Обліковий запис
+[User ID]
+ID користувача
+[Nick      :]
+Нік       :
+[FirstName :]
+Ім'я      :
+[LastName  :]
+Прізвище  :
+[e-mail    :]
+Пошта     :
+[Reason    :]
+Причина   :
+[Invalid Database event received. Type %d, size %d]
+
+[Unknown event type %d, size %d]
+Невідомий тип події %d, розмір %d
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
@@ -119,12 +162,6 @@ UTF-8 у нових файлах
 Вибрати папку для запису
 [File]
 Файл
-[Nick]
-Нік
-[Account]
-Обліковий запис
-[User ID]
-ID користувача
 [No contacts found to export]
 Немає контактів для експорту
 [Export accounts]
@@ -145,6 +182,12 @@ ID користувача
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 
+[User has been deleted. Do you want to delete the file?]
+Контакт видалений. Видалити файл?
+[Failed to delete the file]
+Не вдалося видалити файл
+[No_Nick]
+
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Ім'я файлу для контакту "%s" змінилось!\n\nз:\t%s\nна:\t%s\n\nПерейменувати файл?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -155,67 +198,3 @@ ID користувача
 \nПовідомлення не збережено!\n
 [Do you wish to save debug information?]
 Зберегти інформацію налагодження?
-[All\0*.*\0Text\0*.TXT\0\0]
-Усі файли\0*.*\0Текстові файли\0*.txt\0\0
-[FirstName]
-Ім'я
-[LastName]
-Прізвище
-[e-mail]
-Пошта
-[Age]
-Вік
-[Gender]
-Стать
-[City]
-Місто
-[State]
-Область
-[Phone]
-Телефон
-[Homepage]
-Сайт
-[About]
-Про себе
-[      History for]
-
-[User]
-Користувач
-[File: ]
-Файл:\s
-[Description: ]
-Опис:\s
-[Size: ]
-
-[Transferred: ]
-
-[Path: ]
-
-[URL: ]
-
-[Nick      :]
-Нік       :
-[FirstName :]
-Ім'я      :
-[LastName  :]
-Прізвище  :
-[e-mail    :]
-Пошта     :
-[Reason    :]
-Причина   :
-[Invalid Database event received. Type %d, size %d]
-
-[The following user made an authorization request:]
-Користувач запросив авторизацію:
-[The following user added you to their contact list:]
-Користувач додав вас у свій список контактів:
-[UIN       :]
-
-[Unknown event type %d, size %d]
-Невідомий тип події %d, розмір %d
-[User has been deleted. Do you want to delete the file?]
-Контакт видалений. Видалити файл?
-[Failed to delete the file]
-Не вдалося видалити файл
-[No_Nick]
-

@@ -60,8 +60,8 @@ Jako prostředek použít název počítače
 Port:
 [Use SSL]
 Použít SSL
-[Use TLS]
-Použít TLS
+[Use STARTTLS]
+Použít STARTTLS
 [Unregister]
 Zrušit reg.
 [Expert]
@@ -1418,23 +1418,20 @@ Automaticky uložit obdržené poznámky
 
 [Enable server-side history (XEP-0136)]
 Povolit historii na serveru
-[Enable Message Archive Management (XEP-0313)]
+[Enable Message Archive Management (XEP-0313) (experimental)]
 
 [Enable carbon copies (XEP-0280)]
 
 [Enable HTTP File Upload (XEP-0363)]
 
-[Enable VOIP (experimental)]
-
 [Server options]
 Možnosti serveru
-[Use Stream Management (XEP-0198) if possible (experimental)]
+[Use Stream Management (XEP-0198)]
 
 [Disable SASL authentication (for old servers)]
 Vypnout ověření přes SASL (pro zastaralé servery)
-[Enable stream compression (if possible)]
+[Enable stream compression]
 Povolit kompresi přenášených dat
-[Use TLS 1.3 bindings (if possible)]
 
 [Other]
 Ostatní
@@ -1454,15 +1451,17 @@ Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
 
 [Security]
 Zabezpečení
-[Allow local time and timezone requests (XEP-0202)]
+[Allow local time and timezone replies (XEP-0202)]
 
-[Allow servers to request version (XEP-0092)]
-Povolit žádosti serveru o verzi (XEP-0092)
-[Show information about operating system in version replies]
-S verzí zobrazit zároveň i informace o operačním systému
+[Allow last activity replies (XEP-0319 & XEP-0012)]
+
+[Allow version replies (XEP-0092)]
+
+[Include OS information in version replies]
+
 [Accept HTTP Authentication requests (XEP-0070)]
 Povolit ověření pomocí HTTP a XMPP (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
+[Use OMEMO encryption (XEP-0384)]
 
 [General]
 Obecné
@@ -1514,8 +1513,6 @@ LiveJournal Talk
 
 [League Of Legends (US)]
 
-[Odnoklassniki]
-Odnoklassniki
 [S.ms]
 
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -1780,10 +1777,10 @@ Reálné JID:
 Zadejte heslo pro %s
 [Error: Not enough memory]
 Chyba: Nedostatek paměti
+[Requesting XMPP service address through proxy is not supported.\nPlease allow direct DNS in options or specify the hostname manually]
+
 [Error: Cannot connect to the server]
 Chyba: Nelze navázat spojení se serverem
-[SSL initialization failed]
-
 [Error: Connection lost]
 Chyba: Spojení nečekaně ukončeno
 [Requesting registration instruction...]
@@ -1801,20 +1798,12 @@ Odesílání registračních údajů...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [<not specified>]
 <neurčeno>
-[Resource]
-Zdroj
 [Software]
 Software
-[Version]
-Verze
-[System]
-Systém
-[<currently online>]
-
 [Last activity]
 
-[Client capabilities]
-Možnosti klientského softwaru
+[Client capabilities (only ones known to Miranda)]
+
 [Software information]
 
 [Operating system]
@@ -1837,10 +1826,10 @@ Doba posledního odhlášení
 
 [Logoff message]
 Zpráva při odhlášení
-[<no information available>]
-<neuvedeno>
 [Last active resource]
 Naposledy aktivní umístění
+[Received vCard does not contain any information.]
+
 [Please switch online to see more details.]
 
 [Copy]
@@ -1917,10 +1906,6 @@ Neznámé chybové hlášení
 muž
 [Female]
 žena
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Povoleny jsou pouze obrázky typu JPG, GIF a BMP menší než 40 kB.
-[Jabber vCard]
-Jabber vCard
 [Jabber vCard: Edit Email Address]
 Jabber vCard: Upravit e-mail
 [Jabber vCard: Edit Phone Number]

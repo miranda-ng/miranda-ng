@@ -506,17 +506,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 С&хаваць/паказаць
-[&Find/add contacts...]
-Дадаць &кантакты
-[&Main menu]
-Галоўнае меню
-[&Status]
-Статус
-[&Options...]
-&Налады
-[&About]
-Пра праграму
-[&Show offline users in here]
+[Show offline users in here]
 Паказаць адключаных у гурце
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
@@ -803,8 +793,6 @@ Angeli-Ka (графіка), FYR (шаблон)
 Меню статусаў
 [Accounts]
 Конты
-[Accounts...]
-Конты...
 [Show/Hide offline contacts]
 Паказаць/схаваць адключаных
 [Hide offline contacts]

@@ -60,8 +60,8 @@
 Порт:
 [Use SSL]
 SSL
-[Use TLS]
-TLS
+[Use STARTTLS]
+STARTTLS
 [Unregister]
 Выдаліць
 [Expert]
@@ -1418,23 +1418,20 @@ Jabber Рэсурс
 
 [Enable server-side history (XEP-0136)]
 Уключыць гісторыю на серверы (XEP-0136)
-[Enable Message Archive Management (XEP-0313)]
+[Enable Message Archive Management (XEP-0313) (experimental)]
 
 [Enable carbon copies (XEP-0280)]
 
 [Enable HTTP File Upload (XEP-0363)]
 
-[Enable VOIP (experimental)]
-
 [Server options]
 Налады сервера
-[Use Stream Management (XEP-0198) if possible (experimental)]
+[Use Stream Management (XEP-0198)]
 
 [Disable SASL authentication (for old servers)]
 Адключыць аўтэнтыфікацыю SASL (старыя серверы)
-[Enable stream compression (if possible)]
-Сціскаць струмень (калі магчыма)
-[Use TLS 1.3 bindings (if possible)]
+[Enable stream compression]
+Сціскаць струмень
 
 [Other]
 Іншае
@@ -1454,15 +1451,17 @@ Jabber Рэсурс
 
 [Security]
 Бяспека
-[Allow local time and timezone requests (XEP-0202)]
+[Allow local time and timezone replies (XEP-0202)]
 
-[Allow servers to request version (XEP-0092)]
-Адказваць на запыты пра версіі (XEP-0092)
-[Show information about operating system in version replies]
-Пасылаць інфармацыю пра аперацыйную сістэму ў запытах версіі
+[Allow last activity replies (XEP-0319 & XEP-0012)]
+
+[Allow version replies (XEP-0092)]
+
+[Include OS information in version replies]
+
 [Accept HTTP Authentication requests (XEP-0070)]
 Прымаць запыты аўтэнтыфікацыі HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
+[Use OMEMO encryption (XEP-0384)]
 
 [General]
 Агульнае
@@ -1514,8 +1513,6 @@ Hipchat
 
 [League Of Legends (US)]
 
-[Odnoklassniki]
-Аднакласнікі
 [S.ms]
 S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -1780,10 +1777,10 @@ XML (кадзіроўка UTF-8)
 увядзіце пароль для %s
 [Error: Not enough memory]
 Памылка: Не хапае памяці
+[Requesting XMPP service address through proxy is not supported.\nPlease allow direct DNS in options or specify the hostname manually]
+
 [Error: Cannot connect to the server]
 Памылка: Немагчыма далучыцца ды сервера
-[SSL initialization failed]
-
 [Error: Connection lost]
 Памылка: Злучэнне страчана
 [Requesting registration instruction...]
@@ -1801,19 +1798,11 @@ XML (кадзіроўка UTF-8)
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [<not specified>]
 <не паказана>
-[Resource]
-Рэсурс
 [Software]
 Кліент
-[Version]
-Версія
-[System]
-Сістэма
-[<currently online>]
-
 [Last activity]
 
-[Client capabilities]
+[Client capabilities (only ones known to Miranda)]
 
 [Software information]
 
@@ -1837,10 +1826,10 @@ XML (кадзіроўка UTF-8)
 Час працы
 [Logoff message]
 Паведамленне адключэння
-[<no information available>]
-
 [Last active resource]
 Апошні актыўны рэсурс
+[Received vCard does not contain any information.]
+
 [Please switch online to see more details.]
 
 [Copy]
@@ -1917,10 +1906,6 @@ XML (кадзіроўка UTF-8)
 Мужчынскі
 [Female]
 Жаночы
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Толькі файлы малюнкаў JPG, GIF, BMP і не больш за 40 Кб.
-[Jabber vCard]
-Jabber vCard
 [Jabber vCard: Edit Email Address]
 Jabber vCard: рэдагаванне E-mail
 [Jabber vCard: Edit Phone Number]

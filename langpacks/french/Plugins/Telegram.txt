@@ -18,12 +18,18 @@ Groupes :
 
 [Do not open chat windows on creation]
 
+[Log out]
+
 [Compress files on send]
+
+[Generate URL previews]
 
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 
+[Software]
+Logiciel
 [Add phone contact]
 
 [First name:]
@@ -37,6 +43,8 @@ Annuler
 [Forward message]
 
 [Forward]
+
+[Add reaction]
 
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
@@ -57,6 +65,11 @@ Erreur
 
 [Invalid password]
 
+;file \protocols\Telegram\src\avatars.cpp
+[Avatar file must be a picture in JPEG format]
+
+[Error setting avatar]
+
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
 
@@ -70,42 +83,64 @@ Erreur
 Visiteur
 [&Leave chat session]
 
+[%d member(s)]
+
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
 
 [Reaction]
 
+[Bot]
+
 ;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
+[Name]
+Nom
+[Platform]
+
+[Country]
+Pays
+[Last active]
+Dernière activité
+[Kill session]
+
+[Unknown]
+Inconnu
 [Network]
 Réseau
 [Account]
 Compte
 [Advanced]
 Avancé
+[Sessions]
+
 ;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
 
-[%d member(s)]
+[General]
+Général
+[Archive]
 
 [Saved messages]
 
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 aucun
-[Chat rooms]
-
 [%s error notifications]
 
 [Errors]
 Erreurs
+[wrote]
+
 [Picture]
 
-[Video]
-Video
+[Audio]
+Audio
 [seconds]
 secondes
+[Video]
+Video
 [Voice message]
 
 [SmileyAdd plugin required to support stickers]

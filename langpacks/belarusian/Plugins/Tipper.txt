@@ -122,8 +122,6 @@
 Паказаць падказку толькі пасля загрузкі ўсяго змесціва
 [Retrieve new status message]
 Запытваць паведамленне статусу
-[Disable in invisible status]
-Адключыць запыт, калі нябачны
 [Retrieve xStatus details if auto-retrieve is disabled]
 Запытваць падрабязны xСтатус, калі аўтазапыт выключаны
 [Status bar and tray tooltip]
@@ -481,150 +479,6 @@ xСтатус:
 [Apply]
 Ужыць
 ;file \plugins\TipperYM\src\translations.cpp
-[Afrikaans]
-Афрыкаанс
-[Albanian]
-Албанскі
-[Arabic]
-Арабскі
-[Armenian]
-Армянскі
-[Azerbaijani]
-Азербайджанскі
-[Belorussian]
-Беларускі
-[Bhojpuri]
-Хайпурыйскі
-[Bosnian]
-Баснійскі
-[Bulgarian]
-Балгарскі
-[Burmese]
-Бурмескі
-[Cantonese]
-Катанезійскі
-[Catalan]
-Каталанскі
-[Chamorro]
-Чаморскій
-[Chinese]
-Кітайскі
-[Croatian]
-Харвацкі
-[Czech]
-Чэшскі
-[Danish]
-Дацкі
-[Dutch]
-Галандскі
-[English]
-Ангельскі
-[Esperanto]
-Эсперанта
-[Estonian]
-Эстонскі
-[Farsi]
-Фарсі
-[Finnish]
-Фінскі
-[French]
-Французскі
-[Gaelic]
-Гайскі
-[German]
-Нямецкі
-[Greek]
-Грэцкі
-[Gujarati]
-Гуджарацкі
-[Hebrew]
-Іўрыт
-[Hindi]
-Хінді
-[Hungarian]
-Вугорскі
-[Icelandic]
-Ісландскі
-[Indonesian]
-Інданэзійскі
-[Italian]
-Італьянскі
-[Japanese]
-Японскі
-[Khmer]
-Кхмерскі
-[Korean]
-Карэйскі
-[Kurdish]
-Курдскі
-[Lao]
-Лаоскі
-[Latvian]
-Латышскі
-[Lithuanian]
-Літоўскі
-[Macedonian]
-Македонскі
-[Malay]
-Малайскі
-[Mandarin]
-Мандарын
-[Mongolian]
-Мангольскі
-[Norwegian]
-Нарвежскі
-[Persian]
-Персідскі
-[Polish]
-Польскі
-[Portuguese]
-Партугальскі
-[Punjabi]
-Панджабскі
-[Romanian]
-Румынскі
-[Russian]
-Рускі
-[Serbo-Croatian]
-Сербахарвацкі
-[Sindhi]
-Сіндзі
-[Slovak]
-Славацкі
-[Slovenian]
-Славенскі
-[Somali]
-Самалійскі
-[Spanish]
-Гішпанскі
-[Swahili]
-Суахілі
-[Swedish]
-Швецкі
-[Tagalog]
-Тагалог
-[Taiwanese]
-Тайваньскі
-[Tamil]
-Тамільскі
-[Tatar]
-Татарскі
-[Thai]
-Тайскі
-[Turkish]
-Турэцкі
-[Ukrainian]
-Украінскі
-[Urdu]
-Урду
-[Vietnamese]
-В'етнамскі
-[Welsh]
-Валійскі
-[Yiddish]
-Ідыш
-[Yoruba]
-Ерубскі
 [Sunday]
 Нядзеля
 [Monday]
@@ -681,8 +535,8 @@ xСтатус:
 Дв. слова - у розніцу часу
 [BYTE to Yes/No]
 Байт - у значэнне Ды/Не
-[BYTE to Male/Female (ICQ)]
-Байт - у падлогу (М/Ж) (ICQ)
+[BYTE to Male/Female]
+Байт - у падлогу (М/Ж)
 [WORD to country name]
 Слова - у назву краіны
 [DWORD to IP address]
@@ -715,5 +569,3 @@ xСтатус: пустое імя ў імя па змаўчанні
 Слова - у назву дня тыдня (0..6, 0 - нядзеля)
 [WORD to name of a month (1..12, 1 is January)]
 Слова - у назву месяца (1..12, 1 - студзень)
-[BYTE to language (ICQ)]
-Байт - у мову (ICQ)

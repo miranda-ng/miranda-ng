@@ -133,10 +133,6 @@
 Кількість контактів у базі: %d
 [Error mapping accounts, exiting.]
 Не знайдено відповідних облікових записів.
-[Importing groups.]
-Імпорт груп.
-[Group import failed.]
-Помилка імпорту групи
 [Importing contacts.]
 Імпорт контактів.
 [Skipping new contacts import.]

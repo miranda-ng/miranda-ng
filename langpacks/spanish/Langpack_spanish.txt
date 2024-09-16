@@ -16,7 +16,7 @@ Author-email: carlos1994sanchez@gmail.com
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.4
+;  Version: 0.96.6
 ;============================================================
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
@@ -280,12 +280,6 @@ Intentar de nuevo
 Cancelar
 [&Send]
 &Enviar
-[Load unread events only]
-Cargar eventos sólo sin leer
-[Load number of previous events]
-Número de eventos anteriores a cargar
-[Load previous events less than]
-Cargar eventos previos de menos de
 [minutes old]
 minutos de pasado
 [Message window event log]
@@ -300,8 +294,6 @@ Mostrar segundos
 Mostrar fechas
 [Show formatting]
 Mostrar formateando
-[Load history events]
-Cargar historial de eventos
 [Use a tabbed interface]
 Usar interfaz con pestañas
 [Close tab on double click]
@@ -346,6 +338,8 @@ Usuarios sacados
 Avisos
 [Options]
 Opciones
+[Add new rooms to group:]
+Añadir nuevas salas de grupo:
 [Log options]
 Opciones de registro
 [Log timestamp]
@@ -370,8 +364,6 @@ Habilitar registro en el disco
 Directorio de registro
 [Other]
 Otro
-[Add new rooms to group:]
-Añadir nuevas salas de grupo:
 [Nick list row distance (pixels):]
 Lista de usuarios distancia entre hileras (píxeles):
 [Message]
@@ -448,8 +440,6 @@ Ver detalles personales del usuario y más
 Actualizar ahora
 [Updating]
 Actualizando
-[Nickname:]
-Apodo:
 [First name:]
 Primer nombre:
 [Gender:]
@@ -676,12 +666,6 @@ Sólo los contactos marcados se muestran en la lista de contactos principal
 Ignorar
 [Typing]
 Escribiendo
-[Visibility]
-Visibilidad
-[You are visible to this person even when in invisible mode]
-Usted es visible a esta persona, incluso cuando está en modo invisible
-[You are never visible to this person]
-Nunca es visible a esta persona
 [Icon index]
 Índice de icono
 [Icon library:]
@@ -1044,38 +1028,6 @@ Comandos:
 %f será reemplazado por el nombre del archivo o carpeta a escanear
 [Warn me before opening a file that has not been scanned]
 Avisar antes de abrir un archivo que no se ha explorado
-[&Hide/Show]
-&Mostrar/Ocultar
-[E&xit]
-&Salir
-[Nowhere]
-En ninguna parte
-[&New group]
-&Nuevo Grupo
-[&Hide offline users]
-&Ocultar usuarios Fuera de línea
-[Hide &offline users out here]
-Ocultar usuarios fuera de línea fuera de aquí
-[Hide &empty groups]
-Ocu&ltar grupos vacíos
-[Disable &groups]
-Desactivar &grupos
-[Hide Miranda]
-Ocultar Miranda
-[Group]
-Grupo
-[&New subgroup]
-&Nuevo subgrupo
-[&Hide offline users in here]
-Ocul&tar usuarios fuera de línea aquí
-[&Rename group]
-&Renombrar grupo
-[&Delete group]
-El&iminar Grupo
-[&Reset to default]
-Restablecer valores predeterminados
-[find/add]
-buscar/añadir
 [&Add to list]
 &Añadir a la lista
 [Send &message]
@@ -1086,6 +1038,10 @@ Enviar mensaje
 Copiar enlace
 [Cancel change]
 Cancelar cambio
+[&Reset to default]
+Restablecer valores predeterminados
+[Group]
+Grupo
 [Ungroup]
 Desagrupar
 [List]
@@ -1098,6 +1054,8 @@ Limpiar re&gistro
 Palabra de búsqueda
 [&Main menu]
 &Menú principal
+[E&xit]
+&Salir
 [&Status]
 E&stado
 [&Offline\tCtrl+0]
@@ -1550,12 +1508,12 @@ La función no está soportada por el protocolo
 %s te ha añadido a su lista de contactos
 [%u added you to their contact list]
 %u te ha añadido a su lista de contactos
-[%s has joined]
-%s se ha unido
+[%s has joined %s]
+%s se ha unido %s
 [You have joined %s]
 Te has unido a %s
-[%s has left]
-%s ha salido
+[%s has left %s]
+%s ha dejado %s
 [%s has disconnected]
 %s se ha desconectado
 [%s is now known as %s]
@@ -1640,10 +1598,6 @@ El tema ha sido cambiado
 %s quiere su atención en %s
 [%s speaks in %s]
 %s habla en %s
-[%s has joined %s]
-%s se ha unido %s
-[%s has left %s]
-%s ha dejado %s
 [%s kicked %s from %s]
 %s echado %s de %s
 [Topic change in %s]
@@ -1842,6 +1796,8 @@ No hay resultados para mostrar.
 Buscando
 [All networks]
 Todas las redes
+[Unique ID]
+ID único
 [Handle]
 Manejar
 [&Find/add contacts...]
@@ -1950,8 +1906,6 @@ Menú principal
 Ocultar usuarios fuera de línea fuera de aquí
 [Disable groups]
 Desactivar grupos
-[Exit]
-Salir
 [Hide offline users in here]
 Ocul&tar usuarios fuera de línea aquí
 [Menus]
@@ -2000,10 +1954,6 @@ El servidor al que nos estamos conectando no es el del certificado emitido
 Volver a activar el plugin de Miranda?
 [Unable to load plugin in service mode!]
 ¡No se pueden cargar plugins en el modo de servicio!
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-¡No se puede encontrar un complemento de lista de contactos! Necesitas StdClist o cualquier otro plugin de clist.
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Módulo básico '%s' no se puede cargar o falta.
 [Fatal error]
@@ -2050,14 +2000,14 @@ Problema al crear el perfil
 &Crear
 [Are you sure you want to remove profile "%s"?]
 ¿Está seguro que desea eliminar el perfil "%s"?
-[Run]
-Ejecutar
 [Size]
 Tamaño
 [Created]
 Creado
 [Modified]
 Modificado
+[Run]
+Ejecutar
 [My profiles]
 Mis perfiles
 [New profile]
@@ -2170,6 +2120,8 @@ Plugin unicode
 Plugin ANSI
 [Show/Hide]
 Mostrar/Ocultar
+[Exit]
+Salir
 [Join chat]
 Entrar al chat
 [Leave chat]
@@ -2186,10 +2138,6 @@ Contraseña
 Marcos
 [Warning]
 Advertencia
-[Always visible]
-Siempre visible
-[Always invisible]
-Siempre invisible
 [Locked status]
 Estado bloqueado
 [Status icons]
@@ -2206,8 +2154,6 @@ Archivos WAV
 &Mensaje %s
 [Nickname]
 Apodo
-[Unique ID]
-ID único
 [Download]
 Descargar
 [Look up '%s':]
@@ -3212,6 +3158,8 @@ Deshabilitar iconos estado de autenticación
 Habilitar iconos estado de autenticación
 [Auth state]
 Estado de autenticación
+[Customize]
+Personalizar
 [Icons]
 Iconos
 #muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
@@ -4120,14 +4068,6 @@ Estado
 Apodo
 [&Hide/show]
 &Mostrar/Ocultar
-[&Find/add contacts...]
-&Buscar/Agregar contactos...
-[&Main menu]
-&Menú principal
-[&Status]
-E&stado
-[&Options...]
-&Opciones
 [Skins]
 Pieles
 [Contact list]
@@ -4226,8 +4166,6 @@ Menú principal
 Menú de estado
 [Accounts]
 Cuentas
-[Accounts...]
-Cuentas...
 [Show/Hide offline contacts]
 Mostrar/Ocultar contactos desconectados
 [Hide offline contacts]
@@ -4579,12 +4517,6 @@ Marcos
 Pieles
 [&Hide/show]
 &Mostrar/Ocultar
-[&Find/add contacts...]
-&Buscar/Agregar contactos...
-[&Main menu]
-&Menú principal
-[&Status]
-E&stado
 [Appearance]
 Apariencia
 [&Options...]
@@ -4841,7 +4773,7 @@ Menú del usuario
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: borkra
 ;============================================================
 [Close]
@@ -4916,7 +4848,7 @@ Establecer
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Log]
@@ -4925,6 +4857,8 @@ Registro
 Cancelar
 [Close]
 Cerrar
+[&Add]
+&Añadir
 [Colors]
 Colores
 [Use default colors]
@@ -4945,18 +4879,26 @@ Personalizado
 Permanente
 [Preview]
 Previsualizar
-[&Add]
-&Añadir
+[From:]
+De:
+[To:]
+A:
+[Refresh]
+Refrescar
 [Seconds]
 Segundos
 [Minutes]
 Minutos
 [Hours]
 Horas
-[Refresh]
-Refrescar
 [Network]
 Red
+[General]
+General
+[Advanced]
+Avanzado
+[Popups]
+Ventanas emergentes
 #muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
 ;============================================================
 ;  File: CyrTranslit.dll
@@ -4972,7 +4914,7 @@ Reemplaza (sólo para los contactos seleccionados) las letras del cirílico en l
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.96.3.1
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [Cancel]
@@ -5084,6 +5026,37 @@ horas
 minutos
 [Variables]
 Variables
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[User details]
+Información del usuario
+[Password:]
+Contraseña:
+[Contacts]
+Contactos
+[Default group:]
+Grupo predeterminado:
+[Nick:]
+Nick:
+[Cancel]
+Cancelar
+[Main icon]
+Icono principal
+[Group chats]
+Grupo de chats
+[Network]
+Red
+[Account]
+Cuenta
+[User ID]
+ID de usuario
+[Preview]
+Previsualizar
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
@@ -5265,6 +5238,8 @@ Eventos
 ;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
+[Customize]
+Personalizar
 [Icons]
 Iconos
 [Protocol]
@@ -5290,6 +5265,8 @@ Usar la base de datos de &IP a país para la detección de país
 Usar bandera desconocida, si el país no se puede determinar
 [Country flag]
 Bandera de País
+[Customize]
+Personalizar
 [Icons]
 Iconos
 #muuid {53c715a8-eb01-4136-a73c-441868610074}
@@ -5746,41 +5723,6 @@ Mostrar/Ocultar lista de contactos
 Leer mensaje
 [Customize]
 Personalizar
-#muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
-;============================================================
-;  File: ICQ.dll
-;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.4.1
-;  Authors: George Hazan
-;============================================================
-[ICQ protocol support for Miranda NG.]
-Compatibilidad con el protocolo ICQ para Miranda NG.
-[Password:]
-Contraseña:
-[Notifications]
-Notificaciones
-[Cancel]
-Cancelar
-[Account registration]
-Registro de cuenta
-[Nick:]
-Nick:
-[Phone number:]
-Número de teléfono:
-[Name]
-Nombre
-[Rename]
-Renombrar
-[Delete]
-Eliminar
-[E-mail]
-E-mail
-[Network]
-Red
-[General]
-General
-[Advanced]
-Avanzado
 #muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
@@ -6084,8 +6026,6 @@ Nombre de host como recurso
 Puerto:
 [Use SSL]
 Usar SSL
-[Use TLS]
-Usar TLS
 [Unregister]
 Anular registro
 [Expert]
@@ -6320,10 +6260,6 @@ Conectando...
 Nick:
 [<not specified>]
 <no especificado>
-[Version]
-Versión
-[System]
-Sistema
 [Copy]
 Copiar
 [Photo]
@@ -6346,9 +6282,11 @@ en el teléfono
 ;============================================================
 ;  File: Jingle
 ;  Plugin: Jingle
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: George Hazan
 ;============================================================
+[Network]
+Red
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -6529,8 +6467,6 @@ Personalizar
 ;  Version: 1.3.2.0
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-[Visibility]
-Visibilidad
 [Ignore]
 Ignorar
 [Always visible]
@@ -6757,13 +6693,11 @@ Mensaje con asterisco
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Browse]
 Navegar
-[Help]
-Ayuda
 [&Find...]
 &Buscar...
 [&Close]
@@ -6778,30 +6712,14 @@ Seleccionar todo
 Limpiar todo
 [Copy]
 Copiar
-[Executable files]
-Archivos ejecutables
-[All files]
-Todos los archivos
-[File]
-Archivo
-[Nick]
-Apodo
-[Account]
-Cuenta
-[User ID]
-ID de usuario
-[History]
-Historial
-[General]
-General
-[Contacts]
-Contactos
 [FirstName]
 Nombre
 [LastName]
 Apellido
 [e-mail]
 E-mail
+[Nick]
+Apodo
 [Age]
 Edad
 [Gender]
@@ -6816,8 +6734,10 @@ Telefono
 Sitio web
 [About]
 Acerca de
-[File: ]
-Archivo:\s
+[Account]
+Cuenta
+[User ID]
+ID de usuario
 [Nick      :]
 Apodo      :
 [FirstName :]
@@ -6826,11 +6746,23 @@ Nombre     :
 Apellido   :
 [e-mail    :]
 E-mail     :
+[Executable files]
+Archivos ejecutables
+[All files]
+Todos los archivos
+[File]
+Archivo
+[History]
+Historial
+[General]
+General
+[Contacts]
+Contactos
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Nickname:]
@@ -7009,7 +6941,7 @@ Contactos
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [Add]
@@ -7044,7 +6976,7 @@ Avatares
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [Messages]
@@ -7055,6 +6987,10 @@ Archivos
 Entrante
 [Outgoing]
 Saliendo
+[&Yes]
+&Sí
+[&No]
+&No
 [Show messages]
 Mostrar mensajes
 [Log options]
@@ -7073,30 +7009,10 @@ Mensajes entrantes
 Mensajes salientes
 [Status changes]
 Cambios de estado
+[Links]
+Enlaces
 [Search]
 Buscar
-[FirstName]
-Nombre
-[LastName]
-Apellido
-[e-mail]
-E-mail
-[Nick]
-Apodo
-[Age]
-Edad
-[Gender]
-Genero
-[City]
-Ciudad
-[State]
-Estado
-[Phone]
-Telefono
-[Homepage]
-Sitio web
-[About]
-Acerca de...
 [Copy]
 Copiar
 [Export...]
@@ -8155,10 +8071,8 @@ Mostrar barra de título
 Mostrar barra de estado
 [Show avatars]
 Mostrar avatares
-[events]
-eventos
-[minutes]
-minutos
+[minutes old]
+minutos de pasado
 [Message window event log]
 Ventana de mensajes de registro de eventos
 [Show icons]
@@ -8625,7 +8539,7 @@ Desconocido
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: Merlin
 ;============================================================
 [Dialog]
@@ -8827,7 +8741,7 @@ Plugins
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
@@ -8842,20 +8756,20 @@ Cuenta
 Lugar:
 [Change password]
 Cambiar contraseña
-[Save password]
-Guardar contraseña
+[Text]
+Texto
 [Warning]
 Advertencia
 [&Invite user...]
 &Invitar usuario...
 [&Leave chat session]
 &Abandonar sesión de charla
-[File]
-Archivo
 [Preview]
 Previsualizar
 [Protocols]
 Protocolos
+[None]
+Ninguno
 [Network]
 Red
 [Notifications]
@@ -8883,35 +8797,6 @@ Todos los archivos
 Personalizar
 [General]
 General
-#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
-;============================================================
-;  File: Spamotron.dll
-;  Plugin: Spam-o-tron
-;  Version: 0.0.4.7
-;  Authors: vu1tur
-;============================================================
-[Settings]
-Ajustes
-[Outgoing message]
-Mensaje saliente
-[Appearance]
-Apariencia
-[Background]
-Fondo
-[Timeout (sec)]
-Tiempo de espera (segundos)
-[Use default colors]
-Usar colores predeterminados
-[Use Windows colors]
-Usar colores de Windows
-[Preview]
-Previsualizar
-[Message sessions]
-Sesiones de mensaje
-[Messages]
-Mensajes
-[Popups]
-Ventanas emergentes
 #muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
 ;  File: SpellChecker.dll
@@ -9150,30 +9035,40 @@ Crear acceso directo
 Añadir nuevo perfil
 [Profile name]
 Nombre del perfil
-[Set window state]
-Establecer estado de la ventana
-[Show dialog]
-Mostrar diálogo
-[Set status to offline before exit]
-Establecer estado a Fuera de línea antes de la salir
-[Show CMDL]
-Mostrar CMDL
-[Activate status profile]
-Activar perfil de estado
-[Set docked]
-Establecer acoplado
-[Other]
-Otro
 [Status on startup]
 Estado al arranque
-[ms]
-ms
+[Activate status profile]
+Activar perfil de estado
 [Set after]
 Establecer después
+[ms]
+ms
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Nota: Los perfiles de estado se pueden crear en la pantalla de opciones 'Eerfiles de estado'
+[Allow override]
+Permitir anular
+[Show dialog]
+Mostrar diálogo
 [Timeout]
 Tiempo de espera
 [s]
 s
+[Dial-up (experimental)]
+Dial-up (experimental)
+[Automatically dial on startup]
+Usar automáticamente al arranque
+[Automatically hang up on exit]
+Suspender automáticamente al salir
+[Other]
+Otro
+[Set status to offline before exit]
+Establecer estado a Fuera de línea antes de la salir
+[Window on startup]
+Ventana al arranque
+[Set window state]
+Establecer estado de la ventana
+[Set docked]
+Establecer acoplado
 [Set window location]
 Establecer ubicación de ventana
 [Left]
@@ -9184,20 +9079,10 @@ Superior
 Establecer tamaño de ventana
 [Width]
 Ancho
+[Show CMDL]
+Mostrar CMDL
 [Height]
 Alto
-[Allow override]
-Permitir anular
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Nota: Los perfiles de estado se pueden crear en la pantalla de opciones 'Eerfiles de estado'
-[Window on startup]
-Ventana al arranque
-[Automatically dial on startup]
-Usar automáticamente al arranque
-[Automatically hang up on exit]
-Suspender automáticamente al salir
-[Dial-up (experimental)]
-Dial-up (experimental)
 [Background color]
 Color de fondo
 [Text color]
@@ -9516,16 +9401,8 @@ Cancelar
 Eventos
 [Apply]
 Aplicar
-[Load unread events only]
-Cargar eventos sólo sin leer
-[Load number of previous events]
-Número de eventos anteriores a cargar
-[Load previous events less than]
-Cargar eventos previos de menos de
 [minutes old]
 minutos de pasado
-[Load history events]
-Cargar historial de eventos
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
 [Show typing notification when no message dialog is open]
@@ -9805,20 +9682,26 @@ Cancelar
 Error
 [&Leave chat session]
 &Abandonar sesión de charla
+[Name]
+Nombre
+[Unknown]
+Desconocido
 [Network]
 Red
 [Account]
 Cuenta
 [Advanced]
 Avanzado
+[General]
+General
 [none]
 Ninguno
 [Errors]
 Errores
-[Video]
-Vídeo
 [seconds]
 segundos
+[Video]
+Vídeo
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -10424,7 +10307,7 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -10467,10 +10350,10 @@ Error
 Leer mensaje: %s
 [Photo]
 Foto
-[Attachments:]
-Adjuntos:
 [Video]
 Vídeo
+[Attachments:]
+Adjuntos:
 [Link]
 Enlace
 [(Unknown contact)]

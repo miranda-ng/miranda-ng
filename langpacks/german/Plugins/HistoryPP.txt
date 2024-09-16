@@ -457,8 +457,6 @@ Dateiaktionen
 Unbekannte Codepage %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 History++ Modul konnte nicht geladen werden, riched20.dll fehlt. Klicken Sie auf Ja um Miranda zu laden
-[User %s (%d) changed ICQ client: %s]
-Benutzer %s (%d) ändert ICQ-Client: %s
 [Status request by %s (%d):%s]
 Statusanfrage von %s (%d):%s
 [Ignored status request by %s (%d):%s]

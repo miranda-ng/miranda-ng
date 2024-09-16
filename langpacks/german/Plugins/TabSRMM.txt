@@ -80,8 +80,8 @@ Namen, die hervorgeoben werden sollen, Platzhalter wie * und ? sind erlaubt, meh
 Hervorherbungen fur Nachrichtentext
 [Enable highlighting for message text]
 Hervorhebungen für Nachrichtentexte aktivieren
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
-Wörter, die hervorgehoben werden sollen; Platzhalter wie * und ? sind erlaubt, mehrere Einträge durch Leerzeichen trennen. Lassen Sie es leer, wenn Sie nur Ihren eigenen Nicknamen hervorheben wollen.
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
+Wörter, die hervorgehoben werden sollen; Platzhalter wie * und ? sind erlaubt, mehrere Einträge durch Leerzeichen trennen.
 [Highlight messages containing my own nickname]
 Nachrichten, die meinen eigenen Nicknamen enthalten, hervorheben
 ;file \plugins\TabSRMM\res\msgwindow.rc

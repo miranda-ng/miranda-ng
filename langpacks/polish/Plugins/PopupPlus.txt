@@ -407,9 +407,9 @@ Automatyczny
 Ulubiony
 [Block]
 Blokuj
-[Popup Mode: Auto]
+[Popup mode: Auto]
 Tryb powiadomień: Auto
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 Tryb powiadomień: Ulubione
-[Popup Mode: Ignore fullscreen]
+[Popup mode: Ignore fullscreen]
 Tryb powiadomień: Ignoruj pełny ekran

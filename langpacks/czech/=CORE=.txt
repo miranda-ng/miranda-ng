@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.4
+;  Version: 0.96.6
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -261,6 +261,8 @@ Zobrazit tlačítko 'Poslat'
 Zobrazit počet napsaných znaků
 [Show toolbar buttons on top row]
 Zobrazit nahoře lištu s tlačítky
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [Send error]
@@ -275,12 +277,14 @@ Opakovat
 Zrušit
 [&Send]
 Po&slat
-[Load unread events only]
-Pouze nepřečtené události
-[Load number of previous events]
-Konkrétní počet předchozích událostí
-[Load previous events less than]
-Předchozí události starší méně než
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 min.
 [Message window event log]
@@ -297,8 +301,6 @@ Zobrazit datum
 Zobrazit formátování
 [Automatically copy selected text]
 Automaticky kopírovat vybraný text
-[Load history events]
-Načtení historie
 [Use a tabbed interface]
 Použít systém záložek
 [Close tab on double click]
@@ -343,6 +345,8 @@ Vykopnutí
 Poznámky
 [Options]
 Možnosti
+[Add new rooms to group:]
+Nové místnosti přidat do skupiny:
 [Log options]
 Možnosti záznamu
 [Log timestamp]
@@ -367,8 +371,6 @@ Aktivovat záznam
 Složka pro záznam
 [Other]
 Ostatní
-[Add new rooms to group:]
-Nové místnosti přidat do skupiny:
 [Nick list row distance (pixels):]
 Odstup účastníků v seznamu (v pix.):
 [Message]
@@ -440,8 +442,6 @@ Průhledné pozadí
 Rozvržení
 [Avatar size:]
 Velikost avataru:
-[Disable when]
-Neaktivní při
 [Global hover]
 Nezavírat po umístění myši
 [Sidebar width:]
@@ -452,6 +452,12 @@ Odsazení textu:
 Vyplnění:
 [Round corners (avatar)]
 Zaoblit rohy avatarů
+[Disable when]
+Neaktivní při
+[Fullscreen mode]
+Celoobrazovkový režim
+[Statuses]
+Stavy
 [Text color:]
 Barva textu:
 [Background color:]
@@ -490,8 +496,6 @@ Přehled informací o vybrané osobě
 Aktualizovat
 [Updating]
 Aktualizace
-[Nickname:]
-Přezdívka:
 [First name:]
 Jméno:
 [Gender:]
@@ -565,10 +569,22 @@ Vlastní jméno:
 Skupina:
 [Authorization request]
 Žádost o autorizaci
+[Remove contact from server too]
+
+[Remove server history]
+
+[Remove history for everyone]
+
 [&Yes]
 &Ano
 [&No]
 &Ne
+[Empty history]
+Vymazání historie
+[Are you sure to wipe the history for %s?]
+
+[This will erase all history for this contact!]
+
 [Contact display options]
 Možnosti zobrazení seznamu
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
@@ -723,12 +739,6 @@ V seznamu kontaktů se objeví pouze ty skupiny nebo uživatelé, které zaškrt
 Filtrování
 [Typing]
 Oznámení o psaní
-[Visibility]
-Viditelnost
-[You are visible to this person even when in invisible mode]
-Vůči dané osobě viditelný i ve stavu 'Neviditelný'
-[You are never visible to this person]
-Vůči dané osobě neviditelný za všech okolností
 [Icon index]
 Přehled ikon
 [Icon library:]
@@ -1189,6 +1199,8 @@ V případě, že příchozí soubor již existuje
 
 [KBytes (0 - always)]
 
+[Remove cached files when an event is deleted]
+
 [Virus scanner]
 Antivirová kontrola
 [Scan files:]
@@ -1205,38 +1217,6 @@ Příkazový řádek:
 Proměnná %f bude nahrazena souborem nebo složkou ke kontrole
 [Warn me before opening a file that has not been scanned]
 Upozornit před otevřením nezkontrolovaného souboru
-[&Hide/Show]
-Skrýt/Zo&brazit
-[E&xit]
-U&končit
-[Nowhere]
-Nikde
-[&New group]
-&Nová skupina
-[&Hide offline users]
-&Skrýt uživatele offline
-[Hide &offline users out here]
-Skrýt uživatele &offline mimo skupiny
-[Hide &empty groups]
-S&krýt prázdné skupiny
-[Disable &groups]
-Vypnout zobrazení s&kupin
-[Hide Miranda]
-Skrýt Mirandu
-[Group]
-Skupina
-[&New subgroup]
-&Nová podskupina
-[&Hide offline users in here]
-Skrýt uživatele o&ffline
-[&Rename group]
-Př&ejmenovat skupinu
-[&Delete group]
-&Smazat skupinu
-[&Reset to default]
-O&bnovit výchozí
-[find/add]
-najít/přidat
 [&Add to list]
 Přid&at do seznamu
 [Send &message]
@@ -1247,6 +1227,10 @@ Poslat zp&rávu
 Z&kopírovat odkaz
 [Cancel change]
 &Obnovit předchozí
+[&Reset to default]
+O&bnovit výchozí
+[Group]
+Skupina
 [Ungroup]
 Zrušit skupinu
 [List]
@@ -1267,6 +1251,8 @@ Mapy Google
 Překladač Google
 [&Main menu]
 &Hlavní nabídka
+[E&xit]
+U&končit
 [&Status]
 &Stav
 [&Offline\tCtrl+0]
@@ -1673,8 +1659,6 @@ Bez avataru
 Avatar vlevo
 [Right avatar]
 Avatar vpravo
-[Full-screen app running]
-Celoobrazovkový režim
 [No animate]
 Bez animace
 [Horizontal animate]
@@ -1723,7 +1707,7 @@ Druhý řádek
 Boční pruh
 [Title underline]
 Podtržení záhlaví
-[Popup Mode]
+[Popup mode]
 
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
@@ -1866,12 +1850,12 @@ Funkce není protokolem podporována
 [%u added you to their contact list]
 %u si vás přidal mezi své kontakty
 ;file \src\mir_app\src\chat_log.cpp
-[%s has joined]
-Příchod: %s
+[%s has joined %s]
+%s přišel (na %s)
 [You have joined %s]
 Příchod na %s
-[%s has left]
-Odchod: %s
+[%s has left %s]
+%s odešel (z %s)
 [%s has disconnected]
 Odpojení: %s
 [%s is now known as %s]
@@ -1975,10 +1959,6 @@ Změna tématu diskuse
 %s žádá o pozornost na kanále %s
 [%s speaks in %s]
 %s píše (na %s)
-[%s has joined %s]
-%s přišel (na %s)
-[%s has left %s]
-%s odešel (z %s)
 [%s kicked %s from %s]
 %s vykopnul %s (z %s)
 [Topic change in %s]
@@ -2255,6 +2235,8 @@ Zadejte kritéria hledání.
 Hledám
 [All networks]
 Všechny sítě
+[Unique ID]
+Identifikátor
 [Handle]
 Ukazatel
 [&Find/add contacts...]
@@ -2427,16 +2409,12 @@ Nabídka rámečků
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Nabídka skupiny
+[New subgroup]
+
 [Hide offline users out here]
 Skrýt uživatele offline mimo skupiny
 [Disable groups]
 Vypnout skupiny
-[Exit]
-Ukončit
-[Subgroup menu]
-Nabídka podskupiny
-[New subgroup]
-
 [Hide offline users in here]
 Skrýt uživatele offline
 ;file \src\mir_app\src\menu_options.cpp
@@ -2601,10 +2579,6 @@ Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
 Chcete znovu aktivovat tento doplněk?
 [Unable to load plugin in service mode!]
 Nelze načíst doplněk v nouzovém režimu
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Nelze spustit žádný z nainstalovaných doplňků pro seznam kontaktů a to i přesto, že byla ignorována vaše volba konkrétního doplňku.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Nelze nalézt doplněk pro seznam kontaktů! Potřebujete StdClist nebo jiný doplněk pro seznam kontaktů.
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
 [Fatal error]
@@ -2662,16 +2636,16 @@ Chyba při vytváření profilu
 Opravdu si přejete odstranit profil "%s"?
 [&Convert]
 &Zkonvertovat
-[Run]
-Spustit
-[Check database]
-
 [Size]
 Velikost
 [Created]
 Vytvořeno
 [Modified]
 Změněno
+[Run]
+Spustit
+[Check database]
+
 [My profiles]
 Seznam profilů
 [New profile]
@@ -2683,6 +2657,8 @@ Protokol je offline
 [Protocols]
 Protokoly
 ;file \src\mir_app\src\proto_interface.cpp
+[Preview folder]
+
 [Request authorization]
 Požádat o autorizaci
 [Grant authorization]
@@ -2746,6 +2722,8 @@ Chyba účtu
 
 [Account internal name has to be unique. Please enter unique name.]
 
+[Account's name has to be unique. Please enter unique name.]
+
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2804,6 +2782,8 @@ Doplněk Unicode
 Doplněk ANSI
 [Show/Hide]
 Zobrazit nebo skrýt
+[Exit]
+Ukončit
 [Join chat]
 Přidat se do diskuse
 [Leave chat]
@@ -2824,10 +2804,6 @@ Přidat skupinu
 Upozornění
 [Blank]
 
-[Always visible]
-Tento člověk mě vždy uvidí
-[Always invisible]
-Vždy neviditelný
 [Locked status]
 Zamknuto
 [Status icons]
@@ -2844,15 +2820,17 @@ Soubory WAV
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[Remove quoting]
+
 [&Message %s]
 &Zpráva pro '%s'
 [Nickname]
 Přezdívka
-[Unique ID]
-Identifikátor
 [Disable the event filter (Ctrl+F)]
 
 [Enable the event filter (Ctrl+F)]
+
+[In reply to]
 
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
@@ -2878,10 +2856,8 @@ Vyhledat '%s':
 [No word to look up]
 Není co vyhledat
 ;file \src\mir_app\src\srmm_main.cpp
-[Are you sure to remove all events from history?]
+[Are you sure to wipe the system history?]
 
-[Empty history]
-Vymazání historie
 [Empty system history]
 
 ;file \src\mir_app\src\srmm_toolbar.cpp
@@ -3393,7 +3369,6 @@ Jemen
 Zambie
 [Zimbabwe]
 Zimbabwe
-;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
 [Windows bitmaps]
 Obrázky typu BMP

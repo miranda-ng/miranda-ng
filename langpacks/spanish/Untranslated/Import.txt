@@ -52,8 +52,6 @@
 [Error loading source file, exiting.]
 [Number of contacts in database: %d]
 [Error mapping accounts, exiting.]
-[Importing groups.]
-[Group import failed.]
 [Importing contacts.]
 [Skipping new contacts import.]
 [Importing system history.]

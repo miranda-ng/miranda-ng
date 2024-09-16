@@ -60,8 +60,8 @@
 Порт:
 [Use SSL]
 Ползване на SSL
-[Use TLS]
-Ползване на TLS
+[Use STARTTLS]
+Ползване на STARTTLS
 [Unregister]
 Премахване
 [Expert]
@@ -1418,23 +1418,20 @@ Jabber източник
 
 [Enable server-side history (XEP-0136)]
 
-[Enable Message Archive Management (XEP-0313)]
+[Enable Message Archive Management (XEP-0313) (experimental)]
 
 [Enable carbon copies (XEP-0280)]
 
 [Enable HTTP File Upload (XEP-0363)]
 
-[Enable VOIP (experimental)]
-
 [Server options]
 Настройки за сървъра
-[Use Stream Management (XEP-0198) if possible (experimental)]
+[Use Stream Management (XEP-0198)]
 
 [Disable SASL authentication (for old servers)]
 Изключване на SASL удостоверяването (за стари сървъри)
-[Enable stream compression (if possible)]
-Компресиране на потока (ако е възможно) - спестява трафик
-[Use TLS 1.3 bindings (if possible)]
+[Enable stream compression]
+Компресиране на потока
 
 [Other]
 Друго
@@ -1454,15 +1451,17 @@ Jabber източник
 
 [Security]
 Сигурност
-[Allow local time and timezone requests (XEP-0202)]
+[Allow local time and timezone replies (XEP-0202)]
 
-[Allow servers to request version (XEP-0092)]
-Разрешаване на сървърите да заявяват инф. за версията (XEP-0092)
-[Show information about operating system in version replies]
-Показване на информация за операционната ви система в отговор на заявки за версията
+[Allow last activity replies (XEP-0319 & XEP-0012)]
+
+[Allow version replies (XEP-0092)]
+
+[Include OS information in version replies]
+
 [Accept HTTP Authentication requests (XEP-0070)]
 Приемане на HTTP молби за удостоверяване (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
+[Use OMEMO encryption (XEP-0384)]
 
 [General]
 Основни
@@ -1513,8 +1512,6 @@ LiveJournal Talk
 [League Of Legends (Oceania)]
 
 [League Of Legends (US)]
-
-[Odnoklassniki]
 
 [S.ms]
 S.ms
@@ -1780,10 +1777,10 @@ XML (кодиран с UTF-8)
 Въведете парола за %s
 [Error: Not enough memory]
 Грешка: Недостатъчна памет
+[Requesting XMPP service address through proxy is not supported.\nPlease allow direct DNS in options or specify the hostname manually]
+
 [Error: Cannot connect to the server]
 Грешка: Свързването със сървъра е невъзможно
-[SSL initialization failed]
-
 [Error: Connection lost]
 Грешка: Връзката е изгубена
 [Requesting registration instruction...]
@@ -1801,19 +1798,11 @@ XML (кодиран с UTF-8)
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [<not specified>]
 <неуточнено>
-[Resource]
-Източник
 [Software]
 Софтуер
-[Version]
-Версия
-[System]
-Система
-[<currently online>]
-
 [Last activity]
 
-[Client capabilities]
+[Client capabilities (only ones known to Miranda)]
 
 [Software information]
 
@@ -1837,10 +1826,10 @@ XML (кодиран с UTF-8)
 Работи от
 [Logoff message]
 Текст при отписването
-[<no information available>]
-
 [Last active resource]
 Последно активен източник
+[Received vCard does not contain any information.]
+
 [Please switch online to see more details.]
 
 [Copy]
@@ -1917,10 +1906,6 @@ XML (кодиран с UTF-8)
 Мъж
 [Female]
 Жена
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Поддържат се само JPG, GIF и BMP изображения, по-малки от 40kB
-[Jabber vCard]
-Jabber vCard
 [Jabber vCard: Edit Email Address]
 Jabber vCard: Редактиране адреса на имейла
 [Jabber vCard: Edit Phone Number]

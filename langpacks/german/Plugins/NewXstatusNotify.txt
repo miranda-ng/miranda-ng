@@ -130,8 +130,6 @@ Bei Rechtsklick
 Benachrichtigung
 [Show Popups when I connect]
 Popups beim Verbinden
-[Disable for extra status 'Music']
-Für den Zusatzstatus 'Musik' deaktivieren
 [Truncate message length to:]
 Länge der Nachricht kürzen auf:
 [characters]
@@ -379,8 +377,6 @@ NewXstatusNotify
 Stimmung
 [Activity]
 Aktivität
-[xStatus]
-xStatus
 [<no title>]
 <kein Titel>
 [%s changed %s]

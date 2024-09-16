@@ -299,8 +299,6 @@ VBR или празно
 
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 xСъстоянието ще бъде променяно само при условие, че предварително е зададено състояние "Слуша музика".
-[If this option is "ON", xStatus doesn't depend of ICQ's status.]
-
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 xСъстоянието няма да бъде променяно след изключване на плейъра.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
@@ -458,8 +456,6 @@ xСъстояние
 ["Variables" module use]
 
 [Acoustic]
-
-[Use ICQ xStatus]
 
 [Winamp Track]
 

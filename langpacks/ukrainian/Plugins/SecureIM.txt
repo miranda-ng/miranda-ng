@@ -240,6 +240,8 @@ SecureIM вимкнений...
 Режим GPG
 [RSA/AES mode]
 Режим RSA/AES
+[SecureIM status]
+Статус шифрування
 ;file \plugins\SecureIM\src\main.cpp
 [SecureIM mode (Native)]
 Шифрування (за замовчанням)
@@ -283,8 +285,6 @@ SecureIM (завжди намагатися)
 Вивантажити ключ GPG
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
 Плагін SecureIM не може бути завантажений, тому що бібліотека cryptopp.dll не знайдена або неправильної версії!
-[SecureIM status]
-Статус шифрування
 ;file \plugins\SecureIM\src\options.cpp
 [ASC files]
 Файли ASC

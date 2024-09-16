@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -36,14 +36,42 @@ Sortant
 
 [History++ compatiblity mode]
 
+[Show event type]
+
+[Show event direction]
+
+[Show picture preview]
+
 [Template list:]
 
 [Edit template:]
 
-[Text preview:]
-
 [Graphic preview:]
 
+[Text preview:]
+
+[[c2]]
+
+[[c4]]
+
+[[c6]]
+
+[[c3]]
+
+[[c5]]
+
+[Empty history]
+Effacer l'historique
+[Do you really want to delete selected item?]
+
+[Remove server history]
+
+[Remove history for everyone]
+
+[&Yes]
+&Oui
+[&No]
+&Non
 [Filter]
 
 [Show all events]
@@ -105,10 +133,22 @@ Changements d'état
 
 [Grid background]
 
+[Quoting]
+
 [Separator]
 Séparateur
+[Progress indicator]
+
+[Links]
+Liens
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
+
+[ %u KB]
+
+[I]
+
+[wrote]
 
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
@@ -119,35 +159,11 @@ Recherche
 
 [Search backward]
 
-[Are you sure to remove selected event(s)?]
+[Do you really want to delete selected items (%d)?]
 
 ;file \plugins\NewStory\src\history_dlg.cpp
-[FirstName]
-Prénom
-[LastName]
-Nom
-[e-mail]
-courriel
-[Nick]
-Pseudo
-[Age]
-
-[Gender]
-Sexe
-[City]
-Ville
-[State]
-État
-[Phone]
-Téléphone
-[Homepage]
-Page web
-[About]
-À propos
 [Global history search]
 Recherche dans l'historique système
-[System history]
-Historique du système
 [All results]
 Tous les résultats
 [Copy]
@@ -174,9 +190,17 @@ Précédent
 
 [Bookmarks]
 Favoris
-[No more occuurences found]
+[You need to install the Import plugin to export events]
+
+[No more occurrences found]
 
 [Passed the end of history]
+
+[The required plugin 'Import' isn't loaded to perform this operation.]
+
+[Do you want to install it using Plugin Updater?]
+
+[Missing plugin]
 
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 
@@ -184,7 +208,7 @@ Favoris
 
 [JSON files]
 
-[Export %s history]
+[Export history]
 
 [Complete]
 Terminé
@@ -193,15 +217,17 @@ Terminé
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file path]
-
-[Copy URL]
-Copier l'URL
 [History]
 Historique
 [Global search]
 
 [Copy text]
+
+[Copy URL]
+Copier l'URL
+[Copy file path]
+
+[Show in folder]
 
 [Quote]
 
@@ -215,6 +241,8 @@ Téléchargement
 Effacer
 [Select all]
 Tout sélectionner
+[Reply]
+Réponse
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 
@@ -257,10 +285,6 @@ Le rapide renard brun a sauté par-dessus le chien paresseux.
 
 [event count]
 
-[icon]
-
-[direction icon]
-
 [direction symbol]
 
 [timestamp]
@@ -286,6 +310,12 @@ année (4 chiffres)
 [name of month, translatable]
 
 [the message string itself]
+
+[default text color]
+
+[nickname's color]
+
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
 
 [Advanced]
 Avancé
@@ -328,6 +358,8 @@ Avancé
 
 [December]
 
+[System history]
+Historique du système
 [System event]
 
 [Interface]
@@ -354,3 +386,8 @@ Autres événements
 
 [Clipboard]
 Presse-papiers
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+
+[Potentially dangerous URL]
+

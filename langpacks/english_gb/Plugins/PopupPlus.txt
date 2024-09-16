@@ -17,5 +17,5 @@ Favourite contact
 Use Windows colours
 [Favorite]
 Favourite
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 Popup Mode: Favourite

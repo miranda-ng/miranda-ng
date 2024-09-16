@@ -12,10 +12,6 @@
 
 [On event...]
 
-[Don't reply to ICQ contacts]
-
-[Don't reply when I'm invisible to the contact]
-
 [Save autoreply to the history]
 
 [Reply only when Idle]
@@ -104,7 +100,7 @@ Eliminar
 
 [Use protocol specific nick for %nas_mynick%]
 
-[Update status messages for non-ICQ protocols every]
+[Update status messages every]
 
 [seconds]
 segundos

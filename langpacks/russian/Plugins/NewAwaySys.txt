@@ -12,8 +12,6 @@
 Включить автоответчик
 [On event...]
 При...
-[Don't reply to MRA contacts]
-Не отвечать контактам MRA
 [Save autoreply to the history]
 Сохранять сообщение автоответчика в истории
 [Reply only when Idle]
@@ -102,8 +100,8 @@
 Хранить настройки автоответчика/игнорирования контакта для каждого статуса отдельно
 [Use protocol specific nick for %nas_mynick%]
 Использовать особый псевдоним протокола для %nas_mynick%
-[Update status messages for non-MRA protocols every]
-Обновл. сообщения для не-MRA протоколов каждые
+[Update status messages every]
+Обновлять сообщения статуса каждые
 [seconds]
 секунд(ы)
 [Don't show the message dialog for]

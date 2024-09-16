@@ -29,5 +29,8 @@
 Помилка надсилання
 [Sending message icon]
 Надсилання
-[Unread clist extra icon]
+[Unread contact list extra icon]
 Непрочитане повідомлення в списку контактів
+;file \plugins\MessageState\src\stdafx.h
+[MessageState]
+

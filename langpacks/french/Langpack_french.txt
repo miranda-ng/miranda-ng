@@ -9,7 +9,7 @@ Authors: Dagobert_78, Jerbifor, soopah
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.4
+;  Version: 0.96.6
 ;============================================================
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
@@ -271,12 +271,6 @@ Réessayer
 Annuler
 [&Send]
 &Envoyer
-[Load unread events only]
-Voir seulement les messages non lus
-[Load number of previous events]
-Voir les x derniers évènements
-[Load previous events less than]
-Voir les évènements ayant moins de
 [minutes old]
 minutes
 [Message window event log]
@@ -293,8 +287,6 @@ Voir la date
 Afficher le formatage
 [Automatically copy selected text]
 Copier le texte sélectionné
-[Load history events]
-Derniers échanges
 [Use a tabbed interface]
 Utiliser une interface à onglets
 [Close tab on double click]
@@ -339,6 +331,8 @@ Kicks d'usagers
 Notifications
 [Options]
 Paramètres
+[Add new rooms to group:]
+Ajouter salons au groupe :
 [Log options]
 Options du journal
 [Log timestamp]
@@ -363,8 +357,6 @@ Sauvegarde du journal
 Répertoire :
 [Other]
 Autre
-[Add new rooms to group:]
-Ajouter salons au groupe :
 [Nick list row distance (pixels):]
 Écart entre rangs (pixels) :
 [Message]
@@ -461,8 +453,6 @@ Voir les informations personnelles de l'utilisateur et plus
 Mettre à jour
 [Updating]
 Mise à jour
-[Nickname:]
-Pseudo :
 [First name:]
 Prénom :
 [Gender:]
@@ -539,6 +529,8 @@ Demande d'autorisation
 &Oui
 [&No]
 &Non
+[Empty history]
+Effacer l'historique
 [Contact display options]
 Options d'affichage des contacts
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
@@ -689,12 +681,6 @@ Seuls les contacts cochés seront affichés sur la liste de contacts principale
 Ignorer
 [Typing]
 Écrit
-[Visibility]
-Visibilité
-[You are visible to this person even when in invisible mode]
-Vous êtes visible pour cette personne, même en mode Invisible.
-[You are never visible to this person]
-Vous n'êtes jamais visible pour cette personne.
 [Icon index]
 Index de l'icône
 [Icon library:]
@@ -967,6 +953,8 @@ Afficher les icônes dans le systray que si le salon est inactif
 st pas actif
 [Show button menus when right clicking the buttons]
 Afficher les menus des boutons par un clic droit dessus
+[Enter your new password]
+Entrer votre nouveau mot de passe
 [Enter password]
 Entrez le passe
 [Change password]
@@ -1093,38 +1081,6 @@ Commande :
 %f sera remplacé par le nom de fichier ou dossier à analyser
 [Warn me before opening a file that has not been scanned]
 M'avertir avant d'ouvrir un fichier non analysé
-[&Hide/Show]
-&Afficher/Cacher
-[E&xit]
-&Quitter
-[Nowhere]
-Autre
-[&New group]
-Nouveau groupe
-[&Hide offline users]
-Cacher les contacts hors ligne
-[Hide &offline users out here]
-Cacher les &Hors ligne de ce groupe
-[Hide &empty groups]
-Cacher les groupes vides
-[Disable &groups]
-Désactiver les groupes
-[Hide Miranda]
-Cacher Miranda
-[Group]
-Groupe
-[&New subgroup]
-&Nouveau sous-groupe
-[&Hide offline users in here]
-Cacher les Hors ligne de ce groupe
-[&Rename group]
-&Renommer le groupe
-[&Delete group]
-Effacer le groupe
-[&Reset to default]
-&Paramètres par défaut
-[find/add]
-cherche/ajoute
 [&Add to list]
 &Ajouter à la liste
 [Send &message]
@@ -1135,6 +1091,10 @@ Envoyer
 &Copier le lien
 [Cancel change]
 Annuler les changements
+[&Reset to default]
+&Paramètres par défaut
+[Group]
+Groupe
 [Ungroup]
 Dégrouper
 [List]
@@ -1155,6 +1115,8 @@ Google Maps
 Google Translate
 [&Main menu]
 &Menu principal
+[E&xit]
+&Quitter
 [&Status]
 &État
 [&Offline\tCtrl+0]
@@ -1487,8 +1449,6 @@ Heure sur la gauche
 Heure sur la droite
 [Time above avatar]
 Heure sur l'avatar
-[Full-screen app running]
-Programme en plein écran
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Vous ne pouvez pas régler le délai par défaut à 0.\nLa valeur a été resetée.
 [Error]
@@ -1605,12 +1565,12 @@ Cette fonctionnalité n'est pas supportée par le protocole
 %s vous a ajouté à sa liste de contacts
 [%u added you to their contact list]
 %u vous a ajouté à sa liste de contacts
-[%s has joined]
-%s est arrivé
+[%s has joined %s]
+%s a rejoint %s
 [You have joined %s]
 Vous avez rejoint %s
-[%s has left]
-%s est sorti
+[%s has left %s]
+%s est parti de %s
 [%s has disconnected]
 %s s'est déconnecté
 [%s is now known as %s]
@@ -1695,10 +1655,6 @@ Le sujet a été changé
 %s demande votre attention dans %s
 [%s speaks in %s]
 % cause dans %s
-[%s has joined %s]
-%s a rejoint %s
-[%s has left %s]
-%s est parti de %s
 [%s kicked %s from %s]
 %s a été kické de %s
 [Topic change in %s]
@@ -1889,6 +1845,8 @@ Résultats
 Il n'y a pas de résultat à afficher.
 [Searching]
 Recherche en cours...
+[Unique ID]
+ID unique
 [Handle]
 Pseudo
 [&Find/add contacts...]
@@ -1967,8 +1925,6 @@ Menu principal
 Cacher les Hors ligne de ce groupe
 [Disable groups]
 Désactiver les groupes
-[Exit]
-Quitter
 [Hide offline users in here]
 Cacher les Hors ligne de ce groupe
 [Menus]
@@ -2077,10 +2033,6 @@ Réseau
 '%S' est inactif, le réactiver ?
 [Re-enable Miranda plugin?]
 Réactiver le plugin ?
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Impossible de lancer aucune des listes de contacts installées. Vos préférences d'affichage incompatibles ont dut être également ignoré.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Aucun plugin de liste de contact chargés. S'il vous plaît installer/activer l'un des plugins de liste de contact, par exemple, "StdClist.dll"
 [Fatal error]
 Erreur fatale
 [<all modules>]
@@ -2119,14 +2071,14 @@ Souci à la création de profil
 &Créer
 [Are you sure you want to remove profile "%s"?]
 Êtes-vous sûr que vous voulez supprimer le profil "%s"?
-[Run]
-Lancer
-[Check database]
-Vérifiez la base de données
 [Size]
 Taille
 [Created]
 Créée
+[Run]
+Lancer
+[Check database]
+Vérifiez la base de données
 [My profiles]
 Mes profils
 [New profile]
@@ -2231,6 +2183,8 @@ Plugin Unicode
 Plugin ANSI
 [Show/Hide]
 Afficher/Masquer
+[Exit]
+Quitter
 [Join chat]
 Joindre un salon
 [Leave chat]
@@ -2243,10 +2197,6 @@ Mot de passe
 Cadres
 [Warning]
 Avertissement
-[Always visible]
-Toujours visible
-[Always invisible]
-Toujours invisible
 [Locked status]
 État verrouillé
 [Status icons]
@@ -2263,8 +2213,6 @@ Fichiers WAV
 &Message %s
 [Nickname]
 Pseudo
-[Unique ID]
-ID unique
 [Download]
 Téléchargement
 [Copy URL]
@@ -2275,8 +2223,6 @@ Sauver sous
 Tout copier
 [No word to look up]
 Aucun mot à chercher
-[Empty history]
-Effacer l'historique
 [<Separator>]
 <Séparateur>
 [Toolbar]
@@ -3223,6 +3169,8 @@ Miranda-IM ne peut ouvrir cet URL
 ;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
+[Customize]
+Apparence
 [Icons]
 Icônes
 #muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
@@ -4699,16 +4647,6 @@ Montrer toutes les barres de titres
 Cacher toutes les barres de titres
 [&Hide/show]
 &Afficher/Cacher
-[&Find/add contacts...]
-&Chercher/Ajouter des contacts...
-[&Main menu]
-&Menu principal
-[&Status]
-&État
-[&Options...]
-&Paramètres...
-[&Show offline users in here]
-&Afficher les contacts hors ligne de ce groupe
 [Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
 Voulez-vous que le contact '%s' soit converti en metacontact et y ajouter '%s' ?
 [Converting to metacontact]
@@ -5250,8 +5188,6 @@ Voir les effets 3D
 Afficher l'ancre de redimensionnement
 [Draw background skin]
 dessiner arrière plan skin
-[Show ICQ extended status icons]
-Afficher les icônes d'état étendu de ICQ
 [Mark protocols locked from global status changes]
 Les protocoles marqués sont isolés de l'état général
 [Available view modes]
@@ -5544,12 +5480,6 @@ Voir l'icône du metacontact
 Voir boutons supplémentaires
 [&Hide/show]
 &Afficher/Cacher
-[&Find/add contacts...]
-&Chercher/Ajouter des contacts...
-[&Main menu]
-&Menu principal
-[&Status]
-&État
 [Appearance]
 Apparence
 [&Options...]
@@ -5802,7 +5732,7 @@ Menu Contact
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: borkra
 ;============================================================
 [Close]
@@ -5867,7 +5797,7 @@ OK
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Variable List]
@@ -5878,6 +5808,10 @@ Journal
 Annuler
 [Close]
 Fermer
+[&Add]
+&Ajouter
+[&Remove]
+&Supprimer
 [Colors]
 Couleurs
 [Use default colors]
@@ -5896,24 +5830,30 @@ Défaut
 Défini
 [Preview]
 Aperçu
-[&Add]
-&Ajouter
-[&Remove]
-&Supprimer
+[From:]
+De :
+[To:]
+À :
+[Test contact]
+Test : Contact
+[Refresh]
+Actualiser
+[All files (*.*)]
+Tous les fichiers (*.*)
 [Seconds]
 secondes
 [Minutes]
 Minutes
 [Hours]
 Heures
-[Test contact]
-Test : Contact
-[Refresh]
-Actualiser
 [Network]
 Réseau
-[All files (*.*)]
-Tous les fichiers (*.*)
+[General]
+Général
+[Advanced]
+Avancé
+[Popups]
+Popups
 #muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
 ;============================================================
 ;  File: CyrTranslit.dll
@@ -5925,7 +5865,7 @@ Tous les fichiers (*.*)
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.96.3.1
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 [Cancel]
@@ -6229,6 +6169,41 @@ minutes
 Erreur à la création du répertoire de sauvegarde
 [Select backup folder]
 Sélectionner le répertoire de sauvegarde
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[User details]
+Détails du contact
+[Password:]
+Passe :
+[Contacts]
+Contacts
+[Default group:]
+Groupes :
+[Nick:]
+Pseudo :
+[Cancel]
+Annuler
+[Send group chat invitation]
+Envoyer des invitations de groupe de chat
+[&Invite]
+&Inviter
+[Invite users]
+Inviter des utilisateurs
+[Group chats]
+Groupe chats
+[Network]
+Réseau
+[Account]
+Compte
+[%s server connection]
+%s serveur connexion
+[Preview]
+Aperçu
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
@@ -6442,6 +6417,8 @@ Fichier comme message...
 ;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
+[Customize]
+Apparence
 [Icons]
 Icônes
 [Security]
@@ -6455,6 +6432,8 @@ Protocole
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
+[Customize]
+Apparence
 [Icons]
 Icônes
 #muuid {53c715a8-eb01-4136-a73c-441868610074}
@@ -7437,8 +7416,6 @@ Inclure les évènements personnalisés (0-65535)
 Cacher le menu
 [Unknown codepage %u]
 Codepage inconnu %u
-[User %s (%d) changed ICQ client: %s]
-%s (%d) a changé de client ICQ : %s
 [Status request by %s (%d):%s]
 Demande d'état par %s (%d) : %s
 [Ignored status request by %s (%d):%s]
@@ -7699,59 +7676,6 @@ Afficher/Masquer la liste de contacts
 Lire le message
 [Customize]
 Apparence
-#muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
-;============================================================
-;  File: ICQ.dll
-;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.4.1
-;  Authors: George Hazan
-;============================================================
-[ICQ protocol support for Miranda NG.]
-Support du protocole ICQ pour Miranda NG.
-[Password:]
-Passe :
-[Notifications]
-Notifications
-[Send group chat invitation]
-Envoyer des invitations de groupe de chat
-[&Invite]
-&Inviter
-[Cancel]
-Annuler
-[Account registration]
-Enregistrement d'un compte
-[UIN:]
-UIN :
-[Online since:]
-En ligne depuis :
-[Idle since:]
-Inactif depuis :
-[Nick:]
-Pseudo :
-[Member since:]
-Inscrit depuis :
-[Phone number:]
-Téléphone :
-[Enter ICQ Password]
-Entrer le passe ICQ
-[Enter a password:]
-Entrer le passe :
-[member]
-membre
-[Name]
-Nom
-[Rename]
-Renommer
-[Delete]
-Effacer
-[E-mail]
-Courriel
-[Network]
-Réseau
-[General]
-Général
-[Advanced]
-Avancé
 #muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
@@ -8232,6 +8156,16 @@ Recherches
 Messages
 [Notices]
 Notifications
+[Channel]
+Canal
+[Downloading list (%u%%) - %u channels]
+Chargement de la liste (%u%%) - %u canaux
+[Downloading list - %u channels]
+Chargement de la liste - u canaux
+[Done: %u channels]
+Terminé : %u canaux
+[(probably truncated by server)]
+(probablement tronqué par le serveur)
 [CTCP chat request from %s]
 Requête de chat CTCP de %s
 [%s sets mode %s]
@@ -8270,14 +8204,6 @@ Réponse %s CTCP de %s : %s
 Propriétaire
 [Voice]
 Voix
-[Downloading list (%u%%) - %u channels]
-Chargement de la liste (%u%%) - %u canaux
-[Downloading list - %u channels]
-Chargement de la liste - u canaux
-[Done: %u channels]
-Terminé : %u canaux
-[(probably truncated by server)]
-(probablement tronqué par le serveur)
 [Change nickname]
 Changer le pseudo
 [Unknown]
@@ -8566,8 +8492,6 @@ Ajouter à la liste des &ignorés
 &Ajouter usager
 [Connecting to]
 Se connecte à
-[Channel]
-Canal
 [Add ban/invite/exception]
 Ajouter ban/invite/exception
 [Edit selected ban/invite/exception]
@@ -8651,8 +8575,6 @@ Utilisez le nom de l'ordinateur
 Port :
 [Use SSL]
 Connexion SSL
-[Use TLS]
-Connexion TLS
 [Unregister]
 Désenregistrer
 [Expert]
@@ -9273,8 +9195,6 @@ Envoi de message
 Options du serveur
 [Disable SASL authentication (for old servers)]
 Désactiver l'authentification SASL (pour les anciens serveurs)
-[Enable stream compression (if possible)]
-Activer la compression du Stream (si disponible)
 [Other]
 Autre
 [Show transport agents on contact list]
@@ -9419,20 +9339,12 @@ Envoi des infos d'enregistrement...
 <non spécifié>
 [Software]
 Logiciel
-[Version]
-Version
-[System]
-Système
-[Client capabilities]
-Capacités du client
 [Operating system]
 Système d'exploitation
 [Operating system version]
 Version du système d'exploitation
 [Software version]
 Version du logiciel
-[<no information available>]
-<aucune information disponible>
 [Copy]
 Copier
 [format]
@@ -9485,10 +9397,6 @@ Erreur de message inconnu
 Homme
 [Female]
 Femme
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Seules les images JPG, GIF, et BMP de moins de 40ko sont supportées.
-[Jabber vCard]
-Détails Jabber
 [Jabber vCard: Edit Email Address]
 Détails Jabber : Éditer l'adresse électronique
 [Jabber vCard: Edit Phone Number]
@@ -9731,9 +9639,11 @@ Activité : %s
 ;============================================================
 ;  File: Jingle
 ;  Plugin: Jingle
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: George Hazan
 ;============================================================
+[Network]
+Réseau
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;============================================================
 ;  File: KeyboardNotify.dll
@@ -10036,8 +9946,6 @@ Apparence
 ;  Version: 1.3.2.0
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-[Visibility]
-Visibilité
 [Ignore]
 Ignorer
 [Browse Received Files]
@@ -10272,7 +10180,7 @@ Popups
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -10299,8 +10207,6 @@ Utiliser l'UTF-8
 Ajouter une ligne de plus
 [Use << and >>]
 Utiliser << et >>
-[Help]
-Aide
 [Exporting old messages]
 Exportation des anciens messages
 [History file for %s (%s, format %s)]
@@ -10333,6 +10239,42 @@ Nommage auto
 Tout effacer
 [Copy]
 Copier
+[FirstName]
+Prénom
+[LastName]
+Nom
+[e-mail]
+Courriel
+[Nick]
+Pseudo
+[Gender]
+Sexe
+[City]
+Ville
+[State]
+État
+[Phone]
+Téléphone
+[Homepage]
+Page web
+[About]
+À propos
+[User]
+Utilisateur
+[Account]
+Compte
+[Nick      :]
+Pseudo    :
+[FirstName :]
+Prénom    :
+[LastName  :]
+Nom       :
+[e-mail    :]
+Courriel  :
+[Reason    :]
+Motif     :
+[Invalid Database event received. Type %d, size %d]
+Évènement de base de données reçu invalide. Type %d, taille %d
 [Search string was not found!]
 Ligne recherchée non trouvée!
 [Color...]
@@ -10357,10 +10299,6 @@ Tous les fichiers
 Choix du répertoire de destination
 [File]
 Fichier
-[Nick]
-Pseudo
-[Account]
-Compte
 [No contacts found to export]
 Pas de contacts à exporter trouvés
 [Message export]
@@ -10371,59 +10309,17 @@ Historique
 Général
 [Contacts]
 Contacts
+[Failed to delete the file]
+Échec de la suppression du fichier
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Échec du renommage/déplacement du fichier\n\nde :\t%s\nen :\t%s\n\nErreur : %s
 [\nError: ]
 \nErreur :\s
-[FirstName]
-Prénom
-[LastName]
-Nom
-[e-mail]
-Courriel
-[Gender]
-Sexe
-[City]
-Ville
-[State]
-État
-[Phone]
-Téléphone
-[Homepage]
-Page web
-[About]
-À propos
-[User]
-Utilisateur
-[File: ]
-Fichier :\s
-[Description: ]
-Description :\s
-[URL: ]
-Lien :\s
-[Nick      :]
-Pseudo    :
-[FirstName :]
-Prénom    :
-[LastName  :]
-Nom       :
-[e-mail    :]
-Courriel  :
-[Reason    :]
-Motif     :
-[Invalid Database event received. Type %d, size %d]
-Évènement de base de données reçu invalide. Type %d, taille %d
-[The following user made an authorization request:]
-Le contact suivant vous fait une demande d'autorisation :
-[The following user added you to their contact list:]
-Le contact suivant vous a ajouté à sa liste :
-[Failed to delete the file]
-Échec de la suppression du fichier
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Set my nickname]
@@ -10504,6 +10400,8 @@ Changer mon message d'état...
 Afficher ce que l'autre écoute
 [<no status name>]
 <aucun état>
+[<no status message>]
+<aucun message d'état>
 [Nickname]
 Pseudo
 [Status]
@@ -10736,7 +10634,7 @@ Notification de nouveaux évènements
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [Add]
@@ -10785,7 +10683,7 @@ Avatars
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [Messages]
@@ -10798,6 +10696,12 @@ Adresses URL
 Entrant
 [Outgoing]
 Sortant
+[Empty history]
+Effacer l'historique
+[&Yes]
+&Oui
+[&No]
+&Non
 [Show all events]
 Afficher tous les évènements
 [Incoming events]
@@ -10826,32 +10730,12 @@ Fichiers entrants
 Changements d'état
 [Separator]
 Séparateur
+[Links]
+Liens
 [Search]
 Recherche
-[FirstName]
-Prénom
-[LastName]
-Nom
-[e-mail]
-courriel
-[Nick]
-Pseudo
-[Gender]
-Sexe
-[City]
-Ville
-[State]
-État
-[Phone]
-Téléphone
-[Homepage]
-Page web
-[About]
-À propos
 [Global history search]
 Recherche dans l'historique système
-[System history]
-Historique du système
 [All results]
 Tous les résultats
 [Copy]
@@ -10870,10 +10754,10 @@ Précédent
 Favoris
 [Complete]
 Terminé
-[Copy URL]
-Copier l'URL
 [History]
 Historique
+[Copy URL]
+Copier l'URL
 [Save as]
 Sauver sous
 [Download]
@@ -10884,6 +10768,8 @@ Téléchargement
 Effacer
 [Select all]
 Tout sélectionner
+[Reply]
+Réponse
 [Incoming message]
 Message reçu
 [Outgoing message]
@@ -10908,6 +10794,8 @@ mois
 année (4 chiffres)
 [Advanced]
 Avancé
+[System history]
+Historique du système
 [Message log]
 Historique récent
 [Other events]
@@ -12554,17 +12442,7 @@ inactive
 Taille min de la zone d'entrée
 [lines]
 lignes
-[Preload]
-Historique
-[Unread events only]
-Événements non lus seulement
-[Last]
-Derniers
-[Events in the last]
-Événements dans les dernières
-[events]
-Évènements
-[minutes]
+[minutes old]
 minutes
 [Message window event log]
 Zone de texte de la Fenêtre
@@ -13200,7 +13078,7 @@ Inconnu
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: Merlin
 ;============================================================
 [Dialog]
@@ -13482,7 +13360,7 @@ Plugins
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Cancel]
@@ -13497,10 +13375,8 @@ Compte
 Autres
 [Change password]
 Changer le mot de passe
-[Enter password]
-Entrez le passe
-[Save password]
-Enregistrer le passe
+[Text]
+Texte
 [Skype Link Protocol]
 Raccourci du protocole Skype
 [User]
@@ -13513,14 +13389,14 @@ Avertissement
 &Contact
 [Are you sure?]
 Etes-vous sûr?
-[File]
-Fichier
 [Unknown event]
 Évènement inconnu
 [Preview]
 Aperçu
 [Protocols]
 Protocoles
+[None]
+Aucun
 [Network]
 Réseau
 [Notifications]
@@ -13580,37 +13456,6 @@ Il s'est produit une erreur lors du chargement du pack de smileys (il doit être
 le smiley #%u, du fichier %s, du pack %s, est introuvable.
 [Regular expression "%s" in smiley pack "%s" malformed.]
 L'expression régulière "%s" du pack de smileys "%s" est mal construite.
-#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
-;============================================================
-;  File: Spamotron.dll
-;  Plugin: Spam-o-tron
-;  Version: 0.0.4.7
-;  Authors: vu1tur
-;============================================================
-[Settings]
-Paramètres
-[Outgoing message]
-Message envoyé
-[Enable popup notifications]
-Activer les notifications par popup
-[Appearance]
-Apparence
-[Background]
-Arrière-plan
-[Timeout (sec)]
-Délai du popup (sec)
-[Use default colors]
-Couleurs par défaut
-[Use Windows colors]
-Utiliser les couleurs Windows
-[Preview]
-Aperçu
-[Message sessions]
-Sessions de message
-[Messages]
-Messages
-[Popups]
-Popups
 #muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
 ;  File: SpellChecker.dll
@@ -13765,12 +13610,12 @@ OK
 Copier dans le Presse-Papiers
 [Command line:]
 Commande :
-[Other]
-Autre
 [ms]
 ms
 [Timeout]
 Délai du popup
+[Other]
+Autre
 [Left]
 Gauche
 [Top]
@@ -14103,14 +13948,6 @@ Afficher mes propres avatars
 Options de la fenêtre de message
 [(0 = no limit)]
 (0=sans limite)
-[Try to keep original size]
-Tenter de conserver la taille
-[Load unread events only]
-Voir seulement les messages non lus
-[Load number of previous events]
-Voir les x derniers évènements
-[Load previous events less than]
-Voir les évènements ayant moins de
 [minutes old]
 minutes
 [Indent values]
@@ -14123,8 +13960,6 @@ Modèle
 Modèles standards...
 [RTL templates...]
 Modèles DàG...
-[Load history events]
-Derniers échanges
 [Typing notification options]
 Options de notification de frappe
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -14657,8 +14492,6 @@ Votre message exède le nombre miximum de caractères du protocole. Seul les %d 
 Échec d'envoi : %s
 [The message send timed out]
 Délai d'envoi du message expiré
-[Contact is offline and this protocol does not support sending files to offline users.]
-Contact non connecté. Ce protocole ne supporte pas les envois hors-ligne.
 ['(Unknown contact)']
 '(Contacts Inconnus)'
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
@@ -14885,8 +14718,6 @@ Contact
 Message
 [Failed]
 ÉCHOUÉ
-[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
-Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fenêtre maintenant, Miranda tentera de les renvoyer, mais sans pouvoir vous informer des éventuelles erreurs qui pourraient survenir lors de l'envoi.\nVoulez-vous vraiment fermer cette fenêtre de message ?
 [Server window]
 Fenêtre du serveur
 [All message containers need to close before the skin can be changed\nProceed?]
@@ -14901,6 +14732,8 @@ Changer le skin
 Notification de frappe
 [TabSRMM message (%s)]
 Message TabSRMM (%s)
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fenêtre maintenant, Miranda tentera de les renvoyer, mais sans pouvoir vous informer des éventuelles erreurs qui pourraient survenir lors de l'envoi.\nVoulez-vous vraiment fermer cette fenêtre de message ?
 #muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
 ;============================================================
 ;  File: Telegram.dll
@@ -14916,6 +14749,8 @@ Pays :
 Téléphone :
 [Default group:]
 Groupes :
+[Software]
+Logiciel
 [First name:]
 Prénom :
 [Last name:]
@@ -14930,20 +14765,32 @@ Entrez le passe
 Erreur
 [Visitor]
 Visiteur
+[Name]
+Nom
+[Country]
+Pays
+[Last active]
+Dernière activité
+[Unknown]
+Inconnu
 [Network]
 Réseau
 [Account]
 Compte
 [Advanced]
 Avancé
+[General]
+Général
 [none]
 aucun
 [Errors]
 Erreurs
-[Video]
-Video
+[Audio]
+Audio
 [seconds]
 secondes
+[Video]
+Video
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -15121,96 +14968,6 @@ Valeurs
 Recharger
 [Apply]
 Appliquer
-[Afrikaans]
-Afrikaans
-[Albanian]
-Albanais
-[Arabic]
-Arabe
-[Bulgarian]
-Bulgare
-[Burmese]
-Birman
-[Chinese]
-Chinois
-[Croatian]
-Croate
-[Czech]
-Tchèque
-[Danish]
-Danois
-[English]
-Anglais
-[Esperanto]
-Esperanto
-[Estonian]
-Estonien
-[Finnish]
-Finnois
-[French]
-Français
-[German]
-Allemand
-[Greek]
-Grecque
-[Hebrew]
-Hébreux
-[Hindi]
-Hindi
-[Hungarian]
-Hongrois
-[Icelandic]
-Islandais
-[Indonesian]
-Indonésien
-[Italian]
-Italien
-[Japanese]
-Japonais
-[Korean]
-Coréen
-[Kurdish]
-Kurde
-[Latvian]
-Letton
-[Lithuanian]
-Lituanien
-[Macedonian]
-Macédonien
-[Malay]
-Malais
-[Mongolian]
-Mongol
-[Norwegian]
-Norvégien
-[Persian]
-Perse
-[Polish]
-Polonais
-[Portuguese]
-Portugais
-[Romanian]
-Roumain
-[Russian]
-Russe
-[Slovak]
-Slovaque
-[Slovenian]
-Slovène
-[Somali]
-Somali
-[Swedish]
-Suédois
-[Thai]
-Thaïlandais
-[Turkish]
-Turque
-[Ukrainian]
-Ukrainien
-[Vietnamese]
-Vietnamien
-[Yiddish]
-Yiddish
 [Female]
 Femme
 [Male]
@@ -15573,8 +15330,6 @@ Homme
 Situation :
 [Partner:]
 Concubin :
-[Language skills]
-Langues parlées
 [Street:]
 Rue :
 [Postal code:]
@@ -15829,10 +15584,6 @@ Annuler
 Ignorer
 [Error]
 Erreur
-[Upload details]
-Mise à jour des détails
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin de mettre à jour les infos sur le serveur.\nVos changements ne seront que sauvegardés dans votre profil Miranda.
 [Export to file]
 Exporter vers un fichier
 [Import from file]
@@ -15843,12 +15594,6 @@ Propriétaire
 éditer les détails d'un contact
 [View personal user details and more]
 Voir les informations personnelles de l'utilisateur et plus
-[Upload ICQ details]
-Mise à jour des détails ICQ
-[Upload failed]
-Mise à jour échouée
-[Your details were not uploaded successfully.\nThey were written to database only.]
-Vous détails non pas été mis à jour.\nIls ont seulement été écrits dans votre base de données.
 [updating]
 mise à jour
 [User &details]
@@ -15949,96 +15694,6 @@ Définir cette valeur
 Voulez-vous vraiment supprimer cette information ?
 [Profile]
 Profil
-[Afrikaans]
-Afrikaans
-[Albanian]
-Albanais
-[Arabic]
-Arabe
-[Bulgarian]
-Bulgare
-[Burmese]
-Birman
-[Chinese]
-Chinois
-[Croatian]
-Croate
-[Czech]
-Tchèque
-[Danish]
-Danois
-[English]
-Anglais
-[Esperanto]
-Esperanto
-[Estonian]
-Estonien
-[Finnish]
-Finnois
-[French]
-Français
-[German]
-Allemand
-[Greek]
-Grecque
-[Hebrew]
-Hébreux
-[Hindi]
-Hindi
-[Hungarian]
-Hongrois
-[Icelandic]
-Islandais
-[Indonesian]
-Indonésien
-[Italian]
-Italien
-[Japanese]
-Japonais
-[Korean]
-Coréen
-[Kurdish]
-Kurde
-[Latvian]
-Letton
-[Lithuanian]
-Lituanien
-[Macedonian]
-Macédonien
-[Malay]
-Malais
-[Mongolian]
-Mongol
-[Norwegian]
-Norvégien
-[Persian]
-Perse
-[Polish]
-Polonais
-[Portuguese]
-Portugais
-[Romanian]
-Roumain
-[Russian]
-Russe
-[Slovak]
-Slovaque
-[Slovenian]
-Slovène
-[Somali]
-Somali
-[Swedish]
-Suédois
-[Thai]
-Thaïlandais
-[Turkish]
-Turque
-[Ukrainian]
-Ukrainien
-[Vietnamese]
-Vietnamien
-[Yiddish]
-Yiddish
 [Home]
 Domicile
 [Sports]
@@ -16175,7 +15830,7 @@ Utilisateur
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -16216,10 +15871,10 @@ Erreur
 Message lu : %s
 [Photo]
 Photo
-[Audio]
-Audio
 [Video]
 Video
+[Audio]
+Audio
 [Link]
 Lien
 [Document]
@@ -16620,8 +16275,6 @@ xStatus - Titre
  Utiliser le plugin "Variable"
 [Acoustic]
 Acoustique
-[Use ICQ xStatus]
-Utiliser xStatus
 [Disable Plugin]
 Désactiver Plugin
 [Artist]

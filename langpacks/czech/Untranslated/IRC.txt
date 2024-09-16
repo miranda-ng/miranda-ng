@@ -1,4 +1,5 @@
 [Host]
+[%s - Filtered - %d items]
 [%u second]
 [%u seconds]
 [Op]
@@ -69,4 +70,3 @@
 [Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
 [Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
-[%s - Filtered - %d items]

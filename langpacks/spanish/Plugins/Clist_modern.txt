@@ -506,17 +506,7 @@ Apodo
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 &Mostrar/Ocultar
-[&Find/add contacts...]
-&Buscar/Agregar contactos...
-[&Main menu]
-&Menú principal
-[&Status]
-E&stado
-[&Options...]
-&Opciones
-[&About]
-
-[&Show offline users in here]
+[Show offline users in here]
 
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
@@ -803,8 +793,6 @@ Menú principal
 Menú de estado
 [Accounts]
 Cuentas
-[Accounts...]
-Cuentas...
 [Show/Hide offline contacts]
 Mostrar/Ocultar contactos desconectados
 [Hide offline contacts]

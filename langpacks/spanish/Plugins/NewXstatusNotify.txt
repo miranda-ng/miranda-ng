@@ -130,8 +130,6 @@ En clic derecho
 Notificación
 [Show Popups when I connect]
 
-[Disable for extra status 'Music']
-
 [Truncate message length to:]
 
 [characters]
@@ -378,8 +376,6 @@ No hacer nada
 [Mood]
 
 [Activity]
-
-[xStatus]
 
 [<no title>]
 

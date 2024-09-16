@@ -122,8 +122,6 @@ Iconos adicionales
 
 [Retrieve new status message]
 
-[Disable in invisible status]
-
 [Retrieve xStatus details if auto-retrieve is disabled]
 
 [Status bar and tray tooltip]
@@ -481,150 +479,6 @@ Divisores
 [Apply]
 Aplicar
 ;file \plugins\TipperYM\src\translations.cpp
-[Afrikaans]
-
-[Albanian]
-
-[Arabic]
-
-[Armenian]
-
-[Azerbaijani]
-
-[Belorussian]
-
-[Bhojpuri]
-
-[Bosnian]
-
-[Bulgarian]
-
-[Burmese]
-
-[Cantonese]
-
-[Catalan]
-
-[Chamorro]
-
-[Chinese]
-
-[Croatian]
-
-[Czech]
-
-[Danish]
-
-[Dutch]
-
-[English]
-
-[Esperanto]
-
-[Estonian]
-
-[Farsi]
-
-[Finnish]
-
-[French]
-
-[Gaelic]
-
-[German]
-
-[Greek]
-
-[Gujarati]
-
-[Hebrew]
-
-[Hindi]
-
-[Hungarian]
-
-[Icelandic]
-
-[Indonesian]
-
-[Italian]
-
-[Japanese]
-
-[Khmer]
-
-[Korean]
-
-[Kurdish]
-
-[Lao]
-
-[Latvian]
-
-[Lithuanian]
-
-[Macedonian]
-
-[Malay]
-
-[Mandarin]
-
-[Mongolian]
-
-[Norwegian]
-
-[Persian]
-
-[Polish]
-
-[Portuguese]
-
-[Punjabi]
-
-[Romanian]
-
-[Russian]
-
-[Serbo-Croatian]
-
-[Sindhi]
-
-[Slovak]
-
-[Slovenian]
-
-[Somali]
-
-[Spanish]
-
-[Swahili]
-
-[Swedish]
-
-[Tagalog]
-
-[Taiwanese]
-
-[Tamil]
-
-[Tatar]
-
-[Thai]
-
-[Turkish]
-
-[Ukrainian]
-
-[Urdu]
-
-[Vietnamese]
-
-[Welsh]
-
-[Yiddish]
-
-[Yoruba]
-
 [Sunday]
 
 [Monday]
@@ -681,7 +535,7 @@ Masculino
 
 [BYTE to Yes/No]
 
-[BYTE to Male/Female (ICQ)]
+[BYTE to Male/Female]
 
 [WORD to country name]
 
@@ -714,6 +568,4 @@ Masculino
 [WORD to name of a day (0..6, 0 is Sunday)]
 
 [WORD to name of a month (1..12, 1 is January)]
-
-[BYTE to language (ICQ)]
 

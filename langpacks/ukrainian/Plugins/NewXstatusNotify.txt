@@ -130,8 +130,6 @@ xСтатуси
 Сповіщення
 [Show Popups when I connect]
 Показувати спливаючі вікна, коли я підключаюся
-[Disable for extra status 'Music']
-Вимкнути для xСтатусу "Музика"
 [Truncate message length to:]
 Обрізати повідомлення до
 [characters]
@@ -379,8 +377,6 @@ xСтатус
 Настрій
 [Activity]
 Заняття
-[xStatus]
-xСтатус
 [<no title>]
 <без заголовка>
 [%s changed %s]

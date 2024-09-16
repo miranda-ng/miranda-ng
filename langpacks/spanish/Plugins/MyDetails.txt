@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all accounts.]
@@ -114,6 +114,12 @@ No &molestar
 [<no status name>]
 
 ;file \plugins\MyDetails\src\frame.cpp
+[<no nickname>]
+
+[<no status message>]
+
+[<nothing playing>]
+
 [Nickname]
 Apodo
 [Status]

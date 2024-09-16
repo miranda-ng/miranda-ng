@@ -80,8 +80,9 @@ Jména ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé 
 Zvýraznění textu zprávy
 [Enable highlighting for message text]
 Povolit zvýraznění textu zprávy
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
-Slova ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé položky se oddělují mezerami. Ponechte prázdné pokud chcete zvýraznit pouze vaši vlastní přezdívku.
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
+Slova ke zvýraznění, zástupné znaky jako * a ? jsou povoleny, jednotlivé položky se oddělují mezerami.
+
 [Highlight messages containing my own nickname]
 Zvýraznit zprávy obsahující vlastní přezdívku
 ;file \plugins\TabSRMM\res\msgwindow.rc
@@ -234,6 +235,8 @@ Panely v jednom řádku (*)
 Zavírací tlačítko na záložce
 [Use button tabs (*)]
 Použít tlačíkové panely (*)
+[Side bar width]
+
 [You have chosen to disable all event notifications for open message windows.]
 Zakázali jste všechna oznámení událostí pro otevřená komunikační okna.
 [Show contact avatars]
@@ -262,18 +265,20 @@ Velikost avataru umístěného dole
 Maximální výška zobrazení (pixely)
 [(0 = no limit)]
 (0 = neomezeně)
-[Try to keep original size]
-Udržovat původní velikost
+[Use the original size if it is smaller]
+
 [Help on this]
 Nápověda
 [Reset all hidden warnings]
 Obnovit všechna skrytá oznámení
-[Load unread events only]
-Pouze nepřečtené události
-[Load number of previous events]
-Konkrétní počet předchozích událostí
-[Load previous events less than]
-Předchozí události starší méně než
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 min.
 [Indent values]
@@ -288,8 +293,6 @@ Sady šablon
 Standardní šablony...
 [RTL templates...]
 Šablony Zprava doleva...
-[Load history events]
-Načtení historie
 [Typing notification options]
 Upozornění na psaní zprávy
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -713,8 +716,6 @@ Citovat poslední zprávu NEBO vybraný text
 Možnosti záznamu komunikace
 [View user's history]
 Zobrazit historii
-[Edit user notes]
-Editovat poznámky uživatele
 [Select a foreground color for the text (Ctrl+K)]
 Změní barvu textu (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
@@ -973,8 +974,8 @@ přezdívka stávajícího kontaktu (pokud je definováno)
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
 [user-defined account name of current contact (if defined).]
 uživatelem definovaný název účtu (pokud je definován)
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+Identifikátor stávajícího kontaktu (pokud je definován). To znamená JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
 [path to folder containing Miranda profiles]
@@ -1095,8 +1096,6 @@ Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprá
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Žádná zpráva stavu
-[You cannot edit user notes when there are unsent messages]
-Nemůžete upravovat poznámky k uživateli pokud existují neodeslané zprávy.
 [%s is typing a message...]
 %s píše zprávu...
 [Last received: %s at %s]
@@ -1126,7 +1125,7 @@ Ostatní
 TabSRMM: psaní
 [&Messaging settings...]
 &Nastavení komunikace...
-[&Send later job list...]
+[Send later job list...]
 Fronta zpožděných zpráv...
 [signed off.]
 se odhlásil/a.
@@ -1271,8 +1270,6 @@ Kliknutím zobrazíte uživatelské menu\nKliknutím na šipku možnosti okna
 Znovu
 [Send later]
 Poslat později
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Editujete poznámky k uživateli. Klikněte na tlačítko znovu nebo použijte klávesovou zkratku (výchozí: Alt+N) pro uložení poznámek a návrat do normálního režimu
 [Selection copied to clipboard]
 Výběr zkopírován do schránky
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1283,8 +1280,6 @@ UPOZORNĚNÍ: Zpráva, kterou se pokoušíte vložit, je delší, než povolený
 Chyba při odesílání: %s
 [The message send timed out]
 Čas na odeslání vypršel
-[Contact is offline and this protocol does not support sending files to offline users.]
-Kontakt je offline a tento protokol nepodporuje posílání souborů offline uživatelům
 ;file \plugins\TabSRMM\src\msgdlgother.cpp
 ['(Unknown contact)']
 '(neznámý kontakt)'
@@ -1302,8 +1297,6 @@ Uložit obrázek kontaktu
 Soubory obrázků
 [The file exists. Do you want to overwrite it?]
 Soubor existuje. Chcete jej přepsat?
-[JPEG-compressed images]
-JPEG-komprimované obrázky
 [Copy all]
 Zkopírovat vše
 [Save and close session]
@@ -1699,10 +1692,6 @@ Pozastaveno
 Zpráva nemůže být odeslána, protože překračuje maximální povolenou délku %d bytů
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Nezdařilo se doručení zprávy poté, co kontakt zavřel okno. Pošlete zprávu znovu
-[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
-Některé neodeslané zprávy čekají na potvrzení.\nPokud nyní zavřete komunikační okno, Miranda se je pokusí poslat, avšak pokud se jí to nepodaří, možná vás nebude moci informovat o chybách.\nOpravdu chcete zavřít toto okno?
-[Message window warning]
-Varování komunikačního okna
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Zpráva úspěšně zařazena pro pozdější doručení.\nZpráva bude odeslána jakmile to bude možné a oznámení vás bude informovat o výsledku.
 [The send later feature is not available on this protocol.]
@@ -1791,8 +1780,6 @@ TabSRMM zpráva (%s)
 TabSRMM varování
 [Save file|Unable to save temporary file]
 
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Editovat poznámky k uživateli|Editujete poznámky k uživateli. Klikněte na tlačítko znovu nebo použijte klávesovou zkratku (výchozí: Alt+N) pro uložení poznámek a návrat do normálního režimu
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
@@ -1809,3 +1796,5 @@ Zavírání okna|Pokoušíte se zavřít okno s několika otevřenými panely.\n
 Zavření okna|Pro projevení změn nahraného tématu v okně možností, musí být po nahrání tématu toto okno zavřeno\\b1 a neuložené změny mohou být ztraceny\\b0 .\n\nPřejete si pokračovat?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení definované vaším skinem.\n\nPřejete si pokračovat?
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+Některé neodeslané zprávy čekají na potvrzení.\nPokud nyní zavřete komunikační okno, Miranda se je pokusí poslat, avšak pokud se jí to nepodaří, možná vás nebude moci informovat o chybách.\nOpravdu chcete zavřít toto okno?

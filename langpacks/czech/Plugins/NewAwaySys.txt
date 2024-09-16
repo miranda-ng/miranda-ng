@@ -12,10 +12,6 @@ Umožňuje pohodlně spravovat stavové zprávy.
 Povolit automatickou odpověď
 [On event...]
 Událost...
-[Don't reply to ICQ contacts]
-Neodpovídat kontaktům sítě ICQ
-[Don't reply when I'm invisible to the contact]
-Neodpovídat, pokud jsem vůči kontaktu neviditelný
 [Save autoreply to the history]
 Ukládat automatické odpovědi do historie
 [Reply only when Idle]
@@ -104,8 +100,8 @@ Pamatovat poslední zprávu pro každý kontakt zvlášť
 Ukládat nastavení autom. odpovědi či ignorování pro každý kontakt zvlášť
 [Use protocol specific nick for %nas_mynick%]
 Pro %nas_mynick% použít přezdívku nastavenou pro protokol
-[Update status messages for non-ICQ protocols every]
-Aktualizovat stavové zprávy pro protokoly jiné než ICQ co
+[Update status messages every]
+Aktualizovat stavové zprávy každý
 [seconds]
 sek.
 [Don't show the message dialog for]

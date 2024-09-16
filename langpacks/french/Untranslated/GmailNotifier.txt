@@ -17,7 +17,6 @@
 [Checking...]
 [Can't send account data!]
 [Wrong name or password!]
-[Can't get RSS feed!]
 [Gmail: New thread(s)]
 [GmailNotifier]
 [&Check all Gmail inboxes]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -30,22 +30,20 @@ Výchozí skupina:
 Ostatní
 [Automatic messages synchronization]
 Automatická synchronizace zpráv
-[Always notify as unread for all incoming message]
-Vždy upozornit všechny příchozí zprávy jako nepřečtené
+[Use BBCode]
+Použít BBCode
 [Place:]
 Místo:
 [Use hostname]
 Použít název hostitele
-[Use BBCode]
-Použít BBCode
 [Change password]
 Změnit heslo
-[Enter password]
-Zadejte heslo
-[Save password]
-Uložit heslo
-[Enter the password to continue.]
-Zadejte heslo pro pokračování.
+[Set mood]
+Zadání nalády
+[Mood]
+Nálada
+[Text]
+Text
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Odkaz protokolu Skype
@@ -84,33 +82,19 @@ Opravdu chcete pokračovat?
 ;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 Příchozí hovor
-[Edited message]
-Upravená zpráva
 [Action]
 Akce
 [Call information]
 Informace o hovoru
 [File transfer information]
 Informace o přenosu souboru
-[URI object]
-Objekt URI
 [Moji]
 Moji
-[File]
-Soubor
 [Unknown event]
 Neznámá událost
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 SkypeWeb chyba: Neplatná data!
-[[b]Original message:[/b]\n%s\n]
-\[b]Původní zpráva:[/b]\n%s\n
-[Original message:\n%s\n]
-Původní zpráva:\n%s\n
-[[b]Edited at %s:[/b]\n%s\n]
-\[b]Upraveno v %s:[/b]\n%s\n
-[Edited at %s:\n%s\n]
-Upraveno v %s:\n%s\n
 [Call]
 Hovor
 [Call missed]
@@ -160,11 +144,38 @@ Zablokovat kontakt
 Odblokovat kontakt
 [Create new chat]
 Založit novou diskusi
+[Set own mood]
+
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
 Neznámá chyba!
 [Network error!]
 Chyba sítě!
+;file \protocols\SkypeWeb\src\skype_mood.cpp
+[None]
+---
+[Custom emoji]
+
+[Be right back]
+
+[Out for lunch]
+
+[In meetings]
+
+[At school]
+
+[At the movies]
+
+[Traveling]
+na cestě
+[Celebrating]
+
+[Driving]
+řídím
+[At the gym]
+
+[Working from home]
+
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Sítě

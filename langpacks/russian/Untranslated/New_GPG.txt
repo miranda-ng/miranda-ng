@@ -9,6 +9,6 @@
 [Any file]
 [Do you want to toggle encryption for all subcontacts?]
 [Capability to decrypt file not found on other side.\nRecipient may be unable to decrypt file(s).\nDo you want to encrypt file(s) anyway?]
-[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for Jabber and MRA protocols.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
+[Unable to check encryption support on other side.\nRecipient may be unable to decrypt file(s).\nCurrently capability check supported only for Jabber protocol.\nIt will work for any other proto if Miranda with New_GPG is used on other side.\nDo you want to encrypt file(s) anyway?]
 [Choose file to export keys]
 [Choose file to import keys from]

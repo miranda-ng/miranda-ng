@@ -299,8 +299,6 @@ Wenn diese Einstellung aktiv ist, werden alle Plugin-Einstellungen in der INI-Da
 Wenn diese Einstellung aktiv ist, versucht das Plugin unbekannte Formatangaben vom Player zu beziehen (funktioniert nicht mit allen Playern!)
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Wenn diese Einstellung aktiv ist, ändert sich der xStatus nur, wenn xStatus "Musik" bereits gesetzt ist.
-[If this option is "ON", xStatus doesn't depend of ICQ's status.]
-Wenn diese Einstellung aktiv ist, hängt der xStatus nicht vom ICQ-Status ab.
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 Wenn diese Einstellung aktiv ist, ändert sich der xStatus nach dem Beenden des Players nicht.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
@@ -459,8 +457,6 @@ xStatus-Titel
 "Variablen"-Modul verwenden
 [Acoustic]
 Akustisch
-[Use ICQ xStatus]
-ICQ-xStatus verwenden
 [Winamp Track]
 Winamp Track
 [Pause Pushed]

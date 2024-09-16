@@ -299,8 +299,6 @@ VBR или пусто
 Если эта настройка включена, плагин попытается получить информацию о музыке от плеера, работает не со всеми плеерами
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Если эта настройка включена, xСтатус меняется только при уже установленном в "Музыка" статусе.
-[If this option is "ON", xStatus doesn't depend of MRA's status.]
-Если эта настройка включена, xСтатус не зависит от статуса MRA.
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 Если эта настройка включена, xСтатус не изменится при выключении плеера.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
@@ -459,8 +457,6 @@ VBR или нет
 Использовать "Variables"
 [Acoustic]
 Акустика
-[Use MRA xStatus]
-Использовать xCтатус MRA
 [Winamp Track]
 Сейчас играет (WATrack)
 [Pause Pushed]

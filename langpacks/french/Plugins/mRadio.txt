@@ -207,3 +207,5 @@ Nouveau
 min
 [max]
 
+[Status Message]
+

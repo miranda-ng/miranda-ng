@@ -133,10 +133,6 @@ Nueva cuenta
 
 [Error mapping accounts, exiting.]
 
-[Importing groups.]
-
-[Group import failed.]
-
 [Importing contacts.]
 
 [Skipping new contacts import.]

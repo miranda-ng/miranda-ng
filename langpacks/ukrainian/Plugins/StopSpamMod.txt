@@ -52,14 +52,6 @@
 Додати контакти до групи:
 [Ignore URL in messages and auth requests]
 Ігнорувати посилання в повідомленнях і запити авторизації
-[Add contact to server list]
-Додати контакт до списку на сервері
-[After congratulation (ICQ only)]
-Після привітання (тільки для ICQ)
-[Automatically grant authorization]
-Авторизувати автоматично
-[Request authorization from contacts which pass StopSpam test]
-Запитувати авторизацію в контактів, які пройшли перевірку антиспаму
 [Use regex for answers checking]
 Використовувати регулярні вирази для перевірки відповідей
 [Log Spammers to system history]

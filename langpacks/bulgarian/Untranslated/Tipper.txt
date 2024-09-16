@@ -5,7 +5,6 @@
 [Preset items:]
 [Use protocol smileys]
 [Retrieve new status message]
-[Disable in invisible status]
 [Load tooltip proportions]
 [Handle tray tooltips by Tipper]
 [Hide offline]

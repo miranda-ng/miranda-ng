@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -30,22 +30,20 @@
 Други
 [Automatic messages synchronization]
 
-[Always notify as unread for all incoming message]
+[Use BBCode]
 
 [Place:]
 Място:
 [Use hostname]
 
-[Use BBCode]
-
 [Change password]
 Промяна на паролата
-[Enter password]
-Въведете парола
-[Save password]
-Запис на паролата
-[Enter the password to continue.]
-
+[Set mood]
+Избор на настроение
+[Mood]
+Настроение
+[Text]
+Текст
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Протокол за Skype връзки
@@ -84,32 +82,18 @@
 ;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 Входящо обаждане
-[Edited message]
-
 [Action]
 Действие
 [Call information]
 
 [File transfer information]
 
-[URI object]
-
 [Moji]
 
-[File]
-Файл
 [Unknown event]
 Неизвестно събитие
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
-
-[[b]Original message:[/b]\n%s\n]
-
-[Original message:\n%s\n]
-
-[[b]Edited at %s:[/b]\n%s\n]
-
-[Edited at %s:\n%s\n]
 
 [Call]
 Обаждане
@@ -160,10 +144,37 @@
 
 [Create new chat]
 Създаване на нов чат
+[Set own mood]
+
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
 
 [Network error!]
+
+;file \protocols\SkypeWeb\src\skype_mood.cpp
+[None]
+Няма
+[Custom emoji]
+
+[Be right back]
+
+[Out for lunch]
+
+[In meetings]
+
+[At school]
+
+[At the movies]
+
+[Traveling]
+Пътува
+[Celebrating]
+
+[Driving]
+кара кола
+[At the gym]
+
+[Working from home]
 
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]

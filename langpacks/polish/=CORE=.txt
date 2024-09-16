@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.4
+;  Version: 0.96.6
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -261,6 +261,8 @@ Pokaż przycisk "Wyślij"
 Pokazuj liczbę znaków
 [Show toolbar buttons on top row]
 Pokazuj pasek narzędzi u góry
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [Send error]
@@ -275,12 +277,14 @@ Spróbuj ponownie
 Anuluj
 [&Send]
 &Wyślij
-[Load unread events only]
-Tylko nieprzeczytane zdarzenia
-[Load number of previous events]
-Ilość zdarzeń do wczytania
-[Load previous events less than]
-Wczytaj zdarzenia nowsze niż
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 minut(y)
 [Message window event log]
@@ -297,8 +301,6 @@ Pokaż daty
 Pokaż formatowanie
 [Automatically copy selected text]
 Automatycznie kopiuj zaznaczony tekst
-[Load history events]
-Wczytaj zdarzenia z historii
 [Use a tabbed interface]
 Użyj kart
 [Close tab on double click]
@@ -343,6 +345,8 @@ Wyrzucanie użytkownika
 Powiadomienia
 [Options]
 Opcje
+[Add new rooms to group:]
+Dodaj nowe pokoje do grupy:
 [Log options]
 Opcje dziennika
 [Log timestamp]
@@ -367,8 +371,6 @@ Zapisuj dziennik na dysku
 Folder dziennika
 [Other]
 Inne
-[Add new rooms to group:]
-Dodaj nowe pokoje do grupy:
 [Nick list row distance (pixels):]
 Odstęp między wierszami (px):
 [Message]
@@ -440,8 +442,6 @@ Przezroczyste tło
 Układ
 [Avatar size:]
 Rozmiar:
-[Disable when]
-Wyłącz gdy
 [Global hover]
 Globalne przeciągnięcie
 [Sidebar width:]
@@ -452,6 +452,12 @@ Wcięcie tekstu:
 Wypełnienie:
 [Round corners (avatar)]
 Zaokrąglone rogi (awatara)
+[Disable when]
+Wyłącz gdy
+[Fullscreen mode]
+Tryb pełnoekranowy
+[Statuses]
+Statusy
 [Text color:]
 Kolor tekstu:
 [Background color:]
@@ -490,8 +496,6 @@ Zobacz osobiste dane użytkownika
 Odśwież
 [Updating]
 Aktualizowanie
-[Nickname:]
-Nick:
 [First name:]
 Imię:
 [Gender:]
@@ -565,10 +569,22 @@ Nazwa:
 Grupa:
 [Authorization request]
 Prośba o autoryzację
+[Remove contact from server too]
+
+[Remove server history]
+
+[Remove history for everyone]
+
 [&Yes]
 &Tak
 [&No]
 &Nie
+[Empty history]
+Usuń historię
+[Are you sure to wipe the history for %s?]
+
+[This will erase all history for this contact!]
+
 [Contact display options]
 Opcje wyświetlania kontaktu
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
@@ -723,12 +739,6 @@ Tylko zaznaczone kontakty będą pokazywane na liście kontaktów
 Ignorowanie
 [Typing]
 Pisanie
-[Visibility]
-Widoczność
-[You are visible to this person even when in invisible mode]
-Jesteś widoczny dla tej osoby, nawet w trybie niewidocznym
-[You are never visible to this person]
-Zawsze jesteś niewidoczny dla tej osoby
 [Icon index]
 Indeks ikon
 [Icon library:]
@@ -1189,6 +1199,8 @@ Jeśli przychodzące pliki już istnieją
 
 [KBytes (0 - always)]
 
+[Remove cached files when an event is deleted]
+
 [Virus scanner]
 Skaner antywirusowy
 [Scan files:]
@@ -1205,38 +1217,6 @@ Linia poleceń:
 %f zostanie zamienione nazwą pliku lub folderu do przeskanowania
 [Warn me before opening a file that has not been scanned]
 Ostrzegaj przed otworzeniem nieprzeskanowanego pliku
-[&Hide/Show]
-&Pokaż/ukryj
-[E&xit]
-W&yjdź
-[Nowhere]
-Nigdzie
-[&New group]
-&Nowa grupa
-[&Hide offline users]
-&Ukryj rozłączonych
-[Hide &offline users out here]
-Ukryj &rozłączonych tutaj
-[Hide &empty groups]
-Ukryj &puste grupy
-[Disable &groups]
-Wyłącz &grupy
-[Hide Miranda]
-Ukryj Mirandę
-[Group]
-Grupa
-[&New subgroup]
-&Nowa podgrupa
-[&Hide offline users in here]
-&Ukryj rozłączonych tutaj
-[&Rename group]
-&Zmień nazwę grupy
-[&Delete group]
-&Usuń grupę
-[&Reset to default]
-&Przywróć domyślne
-[find/add]
-znajdź/dodaj
 [&Add to list]
 &Dodaj do listy
 [Send &message]
@@ -1247,6 +1227,10 @@ Wyślij &wiadomość
 &Kopiuj link
 [Cancel change]
 Anuluj zmianę
+[&Reset to default]
+&Przywróć domyślne
+[Group]
+Grupa
 [Ungroup]
 Anuluj grupowanie
 [List]
@@ -1267,6 +1251,8 @@ Google Maps
 Google Translate
 [&Main menu]
 &Menu główne
+[E&xit]
+W&yjdź
 [&Status]
 &Status
 [&Offline\tCtrl+0]
@@ -1673,8 +1659,6 @@ Brak awatara
 Awatar po lewej
 [Right avatar]
 Awatar po prawej
-[Full-screen app running]
-Uruchomiona jest aplikacja pełnoekranowa
 [No animate]
 Brak animacji
 [Horizontal animate]
@@ -1723,7 +1707,7 @@ Pokaż czas
 Boczny pasek
 [Title underline]
 Podkreślony tytuł
-[Popup Mode]
+[Popup mode]
 
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
@@ -1866,12 +1850,12 @@ Funkcja nie wspierana przez protokół
 [%u added you to their contact list]
 %u dodał(a) cię do swojej listy kontaktów
 ;file \src\mir_app\src\chat_log.cpp
-[%s has joined]
-%s dołączył(a)
+[%s has joined %s]
+%s dołączył(a) %s
 [You have joined %s]
 Dołączyłeś do %s
-[%s has left]
-%s opuścił(a) czat
+[%s has left %s]
+%s opuścił(a) %s
 [%s has disconnected]
 %s został rozłączony
 [%s is now known as %s]
@@ -1975,10 +1959,6 @@ Temat został zmieniony
 %s chce twojej uwagi w pokoju: %s
 [%s speaks in %s]
 %s mówi w %s
-[%s has joined %s]
-%s dołączył(a) %s
-[%s has left %s]
-%s opuścił(a) %s
 [%s kicked %s from %s]
 %s wyrzucony %s przez %s
 [Topic change in %s]
@@ -2255,6 +2235,8 @@ Nie ma żadnych wyników do wyświetlenia.
 Wyszukiwanie
 [All networks]
 Wszystkie sieci
+[Unique ID]
+Unikalne ID
 [Handle]
 Uchwyt
 [&Find/add contacts...]
@@ -2427,16 +2409,12 @@ Menu ramki
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Menu grupy
+[New subgroup]
+
 [Hide offline users out here]
 Ukryj rozłączonych tutaj
 [Disable groups]
 Wyłącz grupy
-[Exit]
-Wyłącz
-[Subgroup menu]
-Menu podgrupy
-[New subgroup]
-
 [Hide offline users in here]
 Ukryj rozłączonych tutaj
 ;file \src\mir_app\src\menu_options.cpp
@@ -2601,10 +2579,6 @@ Host, z którym się łączymy, nie jest tym, dla którego został wystawiony ce
 Załadować ponownie wtyczkę?
 [Unable to load plugin in service mode!]
 Nie udało się załadować wtyczki w trybie serwisowym!
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Nie można załadować żadnej z zainstalowanych list kontaktów, nawet po zignorowaniu ich ustawień.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Nie udało się znaleźć wtyczki listy kontaktów! Potrzebujesz StdClist lub jakiejkolwiek innej wtyczki listy kontaktów.
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Wtyczka rdzenia "%s" nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
 [Fatal error]
@@ -2662,16 +2636,16 @@ Problem z utworzeniem profilu
 Czy na pewno chcesz usunąć profil "%s"?
 [&Convert]
 &Konwertuj
-[Run]
-Uruchom
-[Check database]
-Sprawdź profil
 [Size]
 Rozmiar
 [Created]
 Utworzono
 [Modified]
 Zmodyfikowano
+[Run]
+Uruchom
+[Check database]
+Sprawdź profil
 [My profiles]
 Moje profile
 [New profile]
@@ -2683,6 +2657,8 @@ Protokół jest rozłączony
 [Protocols]
 Protokoły
 ;file \src\mir_app\src\proto_interface.cpp
+[Preview folder]
+
 [Request authorization]
 Poproś o autoryzację
 [Grant authorization]
@@ -2746,6 +2722,8 @@ Błąd konta
 
 [Account internal name has to be unique. Please enter unique name.]
 
+[Account's name has to be unique. Please enter unique name.]
+
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2804,6 +2782,8 @@ Wtyczka Unicode
 Wtyczka ANSI
 [Show/Hide]
 Pokaż/ukryj
+[Exit]
+Wyłącz
 [Join chat]
 Dołącz do pokoju
 [Leave chat]
@@ -2824,10 +2804,6 @@ Dodaj grupę
 Ostrzeżenie
 [Blank]
 
-[Always visible]
-Zawsze widoczny
-[Always invisible]
-Zawsze niewidoczny
 [Locked status]
 Zablokowany status
 [Status icons]
@@ -2844,15 +2820,17 @@ Pliki WAV
 [Unselect all]
 Odznacz wszystko
 ;file \src\mir_app\src\srmm_base.cpp
+[Remove quoting]
+
 [&Message %s]
 &Wiadomość %s
 [Nickname]
 Nick
-[Unique ID]
-Unikalne ID
 [Disable the event filter (Ctrl+F)]
 
 [Enable the event filter (Ctrl+F)]
+
+[In reply to]
 
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
@@ -2878,10 +2856,8 @@ Zobacz "%s":
 [No word to look up]
 Nie podano słowa do wyszukania
 ;file \src\mir_app\src\srmm_main.cpp
-[Are you sure to remove all events from history?]
-Czy na pewno chcesz usunąć wszystkie wydarzenia z historii?
-[Empty history]
-Usuń historię
+[Are you sure to wipe the system history?]
+
 [Empty system history]
 
 ;file \src\mir_app\src\srmm_toolbar.cpp
@@ -3393,7 +3369,6 @@ Jemen
 Zambia
 [Zimbabwe]
 Zimbabwe
-;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
 [Windows bitmaps]
 Mapa bitowa Windows

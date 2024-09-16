@@ -1,3 +1,4 @@
 [Auto evaluation]
 [Evaluate]
 [Compile]
+[MirLua]

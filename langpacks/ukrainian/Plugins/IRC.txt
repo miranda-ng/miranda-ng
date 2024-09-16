@@ -244,6 +244,23 @@ Wildcard пошук по мережі
 Повідомлення
 [Host]
 
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+Чат-кімната
+[Mode]
+Режим
+[Please wait...]
+Будь ласка, зачекайте...
+[%s - Filtered - %d items]
+%s - відфільтровано - %d пунктів
+[Downloading list (%u%%) - %u channels]
+Завантажується список (%u%%) - %u% чат-кімнат
+[Downloading list - %u channels]
+Завантажується список - %u чат-кімнат
+[Done: %u channels]
+Готово: %u чат-кімнат
+[(probably truncated by server)]
+(можливо, обмежено сервером)
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запит СТСР-чату від %s
@@ -296,14 +313,6 @@ DCC: Запит на продовження закачування файлу в
 Напівоп
 [Voice]
 Войс
-[Downloading list (%u%%) - %u channels]
-Завантажується список (%u%%) - %u% чат-кімнат
-[Downloading list - %u channels]
-Завантажується список - %u чат-кімнат
-[Done: %u channels]
-Готово: %u чат-кімнат
-[(probably truncated by server)]
-(можливо, обмежено сервером)
 [%ud, %uh, %um, %us]
 %u дн, %u год, %u хв, %u с
 [%uh, %um, %us]
@@ -711,14 +720,6 @@ Nickserv вбити фантома
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Налаштування не збережені.\n\nДля цього режиму виявлення повинна бути встановлена повна маска вузла.
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-Будь ласка, зачекайте...
-[Channel]
-Чат-кімната
-[Mode]
-Режим
-[%s - Filtered - %d items]
-%s - відфільтровано - %d пунктів
 [Add ban/invite/exception]
 Додати бан/запрошення/виняток
 [Edit selected ban/invite/exception]

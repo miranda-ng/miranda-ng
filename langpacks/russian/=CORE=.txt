@@ -261,6 +261,8 @@
 Показывать счётчик символов
 [Show toolbar buttons on top row]
 Показывать кнопки в верхней строке
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Сообщать, если сообщение не удалось отправить за
 [Send error]
@@ -343,6 +345,8 @@
 Уведомления
 [Options]
 Настройки
+[Add new rooms to group:]
+Добавлять комнаты чата в группу:
 [Log options]
 Настройки журнала
 [Log timestamp]
@@ -367,8 +371,6 @@
 Папка журнала
 [Other]
 Другое
-[Add new rooms to group:]
-Добавлять комнаты чата в группу:
 [Nick list row distance (pixels):]
 Расстояние между строками (пикселей):
 [Message]

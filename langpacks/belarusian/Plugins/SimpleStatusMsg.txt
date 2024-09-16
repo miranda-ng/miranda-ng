@@ -58,8 +58,6 @@
 секунд(ы)
 [Do not update variables during idle]
 Не абнаўляць зьменныя ў рэжыме чакання
-[Do not update variables on ICQ status message requests]
-Не абнаўляць зьменныя пры змене статуснага певедамлення ICQ
 [Leave last played track's title after exiting the player]
 Пакідаць апошні трэк, пасля выключэння плэера
 [Enable status messages parsing by Variables plugin]

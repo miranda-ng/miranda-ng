@@ -102,30 +102,40 @@ Crear acceso directo
 Añadir nuevo perfil
 [Profile name]
 Nombre del perfil
-[Set window state]
-Establecer estado de la ventana
-[Show dialog]
-Mostrar diálogo
-[Set status to offline before exit]
-Establecer estado a Fuera de línea antes de la salir
-[Show CMDL]
-Mostrar CMDL
-[Activate status profile]
-Activar perfil de estado
-[Set docked]
-Establecer acoplado
-[Other]
-Otro
 [Status on startup]
 Estado al arranque
-[ms]
-ms
+[Activate status profile]
+Activar perfil de estado
 [Set after]
 Establecer después
+[ms]
+ms
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Nota: Los perfiles de estado se pueden crear en la pantalla de opciones 'Eerfiles de estado'
+[Allow override]
+Permitir anular
+[Show dialog]
+Mostrar diálogo
 [Timeout]
 Tiempo de espera
 [s]
 s
+[Dial-up (experimental)]
+Dial-up (experimental)
+[Automatically dial on startup]
+Usar automáticamente al arranque
+[Automatically hang up on exit]
+Suspender automáticamente al salir
+[Other]
+Otro
+[Set status to offline before exit]
+Establecer estado a Fuera de línea antes de la salir
+[Window on startup]
+Ventana al arranque
+[Set window state]
+Establecer estado de la ventana
+[Set docked]
+Establecer acoplado
 [Set window location]
 Establecer ubicación de ventana
 [Left]
@@ -136,20 +146,10 @@ Superior
 Establecer tamaño de ventana
 [Width]
 Ancho
+[Show CMDL]
+Mostrar CMDL
 [Height]
 Alto
-[Allow override]
-Permitir anular
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Nota: Los perfiles de estado se pueden crear en la pantalla de opciones 'Eerfiles de estado'
-[Window on startup]
-Ventana al arranque
-[Automatically dial on startup]
-Usar automáticamente al arranque
-[Automatically hang up on exit]
-Suspender automáticamente al salir
-[Dial-up (experimental)]
-Dial-up (experimental)
 [Background color]
 Color de fondo
 [Text color]

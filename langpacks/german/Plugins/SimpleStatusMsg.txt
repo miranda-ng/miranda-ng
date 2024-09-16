@@ -58,8 +58,6 @@ Aktualisiere Variablen in Statusnachricht alle
 Sekunden
 [Do not update variables during idle]
 Variablen nicht erneuern, wenn untätig
-[Do not update variables on ICQ status message requests]
-Variablen nicht bei ICQ Statusnachrichtenanfragen erneuern
 [Leave last played track's title after exiting the player]
 Letzten abgespielten Track beibehalten, wenn Player beendet wird.
 [Enable status messages parsing by Variables plugin]

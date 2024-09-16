@@ -32,8 +32,6 @@ Miranda клиенти
 Facebook клиенти
 [Gadu-Gadu clients]
 Gadu-Gadu клиенти
-[ICQ clients]
-ICQ клиенти
 [IRC clients]
 IRC клиенти
 [Jabber clients]
@@ -80,8 +78,6 @@ XMPP клиент
 Непознат клиент
 [Undetected client]
 Незасечен клиент
-[ICQ overlay]
-ICQ
 [IRC overlay]
 IRC
 [JGmail overlay]
@@ -94,8 +90,6 @@ Jabber
 VK
 [Skype overlay]
 Skype
-[ICQ v8.x overlay]
-ICQ v8.x
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клиент
 [Gadu-Gadu v10 client]
@@ -177,6 +171,8 @@ MirOTR
 [SecureIM overlay]
 SecureIM
 ;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
+Персонализиране
 [Icons]
 Икони
 ;file \plugins\FingerprintNG\src\prepare.cpp

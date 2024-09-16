@@ -32,8 +32,6 @@ Zaznacz protokoły
 Klienty Facebooka
 [Gadu-Gadu clients]
 Klienty Gadu-Gadu
-[ICQ clients]
-Klienty ICQ
 [IRC clients]
 Klienty IRC
 [Jabber clients]
@@ -80,8 +78,6 @@ Klient nie znaleziony
 Nieznany klient
 [Undetected client]
 Nie wykryty klient
-[ICQ overlay]
-Nakładka ICQ
 [IRC overlay]
 Nakładka IRC
 [JGmail overlay]
@@ -94,8 +90,6 @@ Nakładka Jabber
 Nakładka VK
 [Skype overlay]
 Nakładka Skype
-[ICQ v8.x overlay]
-Nakładka ICQ v8.x
 [Gadu-Gadu v11 client]
 Klient Gadu-Gadu v11
 [Gadu-Gadu v10 client]
@@ -177,6 +171,8 @@ Nakładka MirOTR
 [SecureIM overlay]
 Nakładka SecureIM
 ;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
+Personalizacja
 [Icons]
 Ikony
 ;file \plugins\FingerprintNG\src\prepare.cpp

@@ -26,6 +26,8 @@ Ukryj okna przy zamykaniu
 Zapamiętaj niewysłane wiadomości
 [Delete temporary contacts on closing]
 Kasuj niezapisane kontakty przy zamykaniu
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [seconds]
@@ -78,18 +80,16 @@ Wysokość okna wpisywania tekstu
 linie
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 Możesz użyć osadzonych zmiennych: %name% dla nazwy kontaktu, %status% dla jego statusu, %statusmsg% dla opisu i %account% dla nazwy jego konta
-[Preload]
-Wczytywanie
-[Unread events only]
-Tylko nie przeczytane zdarzenia
-[Last]
-Ostatnie
-[Events in the last]
-Zdarzenia z ostatnich
-[events]
-zdarzeń
-[minutes]
-minut
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
+[minutes old]
+minut(y)
 [Message window event log]
 Dziennik okna rozmowy
 [Show icons]
@@ -314,7 +314,7 @@ nick obecnego kontaktu (jeśli zdefiniowany)
 nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeśli protokół wspiera wiele kont, użyta zostanie nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to Miranda root folder]
 folder docelowy Mirandy

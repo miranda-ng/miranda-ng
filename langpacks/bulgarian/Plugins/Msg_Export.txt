@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -36,8 +36,6 @@ UTF-8 за нови файлове
 Допълнителен ред
 [Use << and >>]
 
-[Help]
-Помощ
 [Exporting old messages]
 Изнасяне на стари съобщения
 [History file for %s (%s, format %s)]
@@ -78,6 +76,51 @@ UTF-8 за нови файлове
 Изчисти всички
 [Copy]
 Копиране
+;file \plugins\Msg_Export\src\export.cpp
+[FirstName]
+Име
+[LastName]
+Фамилия
+[e-mail]
+Имейл
+[Nick]
+Прякор
+[Age]
+Възраст
+[Gender]
+Пол
+[City]
+Град
+[State]
+Област
+[Phone]
+Телефон
+[Homepage]
+Домашна страница
+[About]
+Относно
+[      History for]
+							История за
+[User]
+Потребител
+[Account]
+Акаунт
+[User ID]
+
+[Nick      :]
+Прякор     :
+[FirstName :]
+Име        :
+[LastName  :]
+Фамилия    :
+[e-mail    :]
+Имейл      :
+[Reason    :]
+Причина    :
+[Invalid Database event received. Type %d, size %d]
+
+[Unknown event type %d, size %d]
+Неизвестен тип събитие %d, размер %d
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
@@ -119,12 +162,6 @@ UTF-8 за нови файлове
 Изберете директория
 [File]
 Файл
-[Nick]
-Прякор
-[Account]
-Акаунт
-[User ID]
-
 [No contacts found to export]
 Не са открити контакти за изнасяне
 [Export accounts]
@@ -145,6 +182,12 @@ Miranda NG (приставка Message Export)
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 Без–Група
+[User has been deleted. Do you want to delete the file?]
+Изтрит е потребител. Да бъде ли изтрит и файла?
+[Failed to delete the file]
+Изтриването на файла се провали
+[No_Nick]
+
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 Името на файла за потребител "%s" е променено!\n\nот:\t%s\nна:\t%s\n\nЖелаете ли да бъде променено името на файла?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -155,67 +198,3 @@ Miranda NG (приставка Message Export)
 \nСъобщението не е записано!\n
 [Do you wish to save debug information?]
 Да бъде ли записана дебъг информацията?
-[All\0*.*\0Text\0*.TXT\0\0]
-Всички\0*.*\0Текст\0*.TXT\0\0
-[FirstName]
-Име
-[LastName]
-Фамилия
-[e-mail]
-Имейл
-[Age]
-Възраст
-[Gender]
-Пол
-[City]
-Град
-[State]
-Област
-[Phone]
-Телефон
-[Homepage]
-Домашна страница
-[About]
-Относно
-[      History for]
-							История за
-[User]
-Потребител
-[File: ]
-Файл:
-[Description: ]
-Описание:
-[Size: ]
-
-[Transferred: ]
-
-[Path: ]
-
-[URL: ]
-
-[Nick      :]
-Прякор     :
-[FirstName :]
-Име        :
-[LastName  :]
-Фамилия    :
-[e-mail    :]
-Имейл      :
-[Reason    :]
-Причина    :
-[Invalid Database event received. Type %d, size %d]
-
-[The following user made an authorization request:]
-Следният потребител изпрати молба за упълномощаване:
-[The following user added you to their contact list:]
-Следният потребител Ви добави към списъка си контакти:
-[UIN       :]
-UIN        :
-[Unknown event type %d, size %d]
-Неизвестен тип събитие %d, размер %d
-[User has been deleted. Do you want to delete the file?]
-Изтрит е потребител. Да бъде ли изтрит и файла?
-[Failed to delete the file]
-Изтриването на файла се провали
-[No_Nick]
-

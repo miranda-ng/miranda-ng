@@ -244,6 +244,23 @@ Mensajes
 Avisos
 [Host]
 
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+
+[Mode]
+
+[Please wait...]
+
+[%s - Filtered - %d items]
+
+[Downloading list (%u%%) - %u channels]
+
+[Downloading list - %u channels]
+
+[Done: %u channels]
+
+[(probably truncated by server)]
+
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 
@@ -296,14 +313,6 @@ Propietario
 
 [Voice]
 Voz
-[Downloading list (%u%%) - %u channels]
-
-[Downloading list - %u channels]
-
-[Done: %u channels]
-
-[(probably truncated by server)]
-
 [%ud, %uh, %um, %us]
 
 [%uh, %um, %us]
@@ -711,14 +720,6 @@ Avanzado
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-
-[Channel]
-
-[Mode]
-
-[%s - Filtered - %d items]
-
 [Add ban/invite/exception]
 
 [Edit selected ban/invite/exception]

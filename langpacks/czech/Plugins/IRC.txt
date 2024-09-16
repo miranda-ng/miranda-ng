@@ -244,6 +244,23 @@ Zprávy
 Poznámky
 [Host]
 
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+Kanál
+[Mode]
+Mód
+[Please wait...]
+Počkejte prosím...
+[%s - Filtered - %d items]
+
+[Downloading list (%u%%) - %u channels]
+Stahování seznamu (%u %%) - %u kanálů
+[Downloading list - %u channels]
+Stahování seznamu - %u kanálů
+[Done: %u channels]
+Počet kanálů: %u
+[(probably truncated by server)]
+(pravděpodobně oříznuto serverem)
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Žádost CTCP Chat od %s
@@ -296,14 +313,6 @@ Admin
 
 [Voice]
 Hlas
-[Downloading list (%u%%) - %u channels]
-Stahování seznamu (%u %%) - %u kanálů
-[Downloading list - %u channels]
-Stahování seznamu - %u kanálů
-[Done: %u channels]
-Počet kanálů: %u
-[(probably truncated by server)]
-(pravděpodobně oříznuto serverem)
 [%ud, %uh, %um, %us]
 %ud, %uh, %um, %us
 [%uh, %um, %us]
@@ -711,14 +720,6 @@ Připojování k
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-Počkejte prosím...
-[Channel]
-Kanál
-[Mode]
-Mód
-[%s - Filtered - %d items]
-
 [Add ban/invite/exception]
 Přidání zákazu/pozvání/výjimky
 [Edit selected ban/invite/exception]

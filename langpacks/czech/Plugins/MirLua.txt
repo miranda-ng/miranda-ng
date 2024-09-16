@@ -45,3 +45,6 @@ Služby
 Složka s knihovnami C
 [Scripts folder]
 Složka se skripty
+;file \plugins\MirLua\src\stdafx.h
+[MirLua]
+

@@ -26,6 +26,8 @@ Cacher les fenêtres à la fermeture
 Se rappeler des messages non envoyés
 [Delete temporary contacts on closing]
 Supprimer les contacts temporaires à la fermeture
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 M'alerter quand le message n'a pas été reçu après
 [seconds]
@@ -78,17 +80,15 @@ Taille min de la zone d'entrée
 lignes
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
-[Preload]
-Historique
-[Unread events only]
-Événements non lus seulement
-[Last]
-Derniers
-[Events in the last]
-Événements dans les dernières
-[events]
-Évènements
-[minutes]
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
+[minutes old]
 minutes
 [Message window event log]
 Zone de texte de la Fenêtre
@@ -314,7 +314,7 @@ Mettre la deuxième ligne d'un message en retrait
 
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
 
 [path to Miranda root folder]
 

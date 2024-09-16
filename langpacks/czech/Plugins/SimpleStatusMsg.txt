@@ -58,8 +58,6 @@ Aktualizovat proměnné ve zprávě stavu co
 sek.
 [Do not update variables during idle]
 Neaktualizovat proměnné během nečinnosti
-[Do not update variables on ICQ status message requests]
-Neaktualizovat proměnné pro požadavky o zprávu stavu ICQ
 [Leave last played track's title after exiting the player]
 Ponechat název poslední skladby po vypnutí přehrávače
 [Enable status messages parsing by Variables plugin]

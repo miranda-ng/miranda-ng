@@ -278,8 +278,8 @@ Voir les effets 3D
 Afficher l'ancre de redimensionnement
 [Draw background skin]
 dessiner arrière plan skin
-[Show ICQ extended status icons]
-Afficher les icônes d'état étendu de ICQ
+[Show extended status icons]
+Afficher les icônes d'état étendu
 [Mark protocols locked from global status changes]
 Les protocoles marqués sont isolés de l'état général
 [Available view modes]
@@ -609,12 +609,6 @@ Voir boutons supplémentaires
 
 [&Hide/show]
 &Afficher/Cacher
-[&Find/add contacts...]
-&Chercher/Ajouter des contacts...
-[&Main menu]
-&Menu principal
-[&Status]
-&État
 [Appearance]
 Apparence
 [&Options...]

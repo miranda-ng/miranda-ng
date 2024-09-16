@@ -244,6 +244,23 @@ Wildcard пошук па сетцы
 Абвесткі
 [Host]
 
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+Канал
+[Mode]
+Рэжым
+[Please wait...]
+Пачакайце, калі ласка...
+[%s - Filtered - %d items]
+%s - адфільтравана - %d
+[Downloading list (%u%%) - %u channels]
+Загружаецца спіс (%u%%) - %u% чатаў
+[Downloading list - %u channels]
+Загружаецца спіс - %u чатаў
+[Done: %u channels]
+Выканана: %u чатаў
+[(probably truncated by server)]
+(магчыма абмежавана серверам)
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Запыт CTCP-чата ад %s
@@ -296,14 +313,6 @@ CTCP %s адказ ад %s: %s
 
 [Voice]
 Голас
-[Downloading list (%u%%) - %u channels]
-Загружаецца спіс (%u%%) - %u% чатаў
-[Downloading list - %u channels]
-Загружаецца спіс - %u чатаў
-[Done: %u channels]
-Выканана: %u чатаў
-[(probably truncated by server)]
-(магчыма абмежавана серверам)
 [%ud, %uh, %um, %us]
 
 [%uh, %um, %us]
@@ -711,14 +720,6 @@ Nickserv забіць фантому
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 Налады не захаваны!\n\nДля гэтага рэжыма павінна быць пазначана поўная маска хаста.
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-Пачакайце, калі ласка...
-[Channel]
-Канал
-[Mode]
-Рэжым
-[%s - Filtered - %d items]
-%s - адфільтравана - %d
 [Add ban/invite/exception]
 Дадаць бан/запрашэнне/выключэнне
 [Edit selected ban/invite/exception]

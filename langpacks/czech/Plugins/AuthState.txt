@@ -30,5 +30,7 @@ Povolit ikony Stavu autorizace
 [Auth state]
 Stav autorizace
 ;file \plugins\AuthState\src\options.cpp
+[Customize]
+Vlastní úpravy
 [Icons]
 Ikony

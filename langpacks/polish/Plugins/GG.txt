@@ -149,8 +149,6 @@ Wyświetl informacje o aktywnych równoległych sesjach
 [Sign out all sessions]
 Wyloguj wszystkie sesje
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatar file. ERROR: %d: %s\n%s]
-Nie można utworzyć pliku awatara. BŁĄD: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]
 Nie można otworzyć pliku awatara. BŁĄD: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp

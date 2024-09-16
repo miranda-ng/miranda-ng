@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -44,8 +44,6 @@
 Показувати спливаюче вікно тільки якщо змінилося значення
 [Cancel]
 Скасувати
-[Popup settings...]
-Налаштування сплив. вікон...
 [Currency Converter]
 Конвертер валют
 [&to:]
@@ -58,8 +56,32 @@
 Інформація надана <a href="http://www.google.com">Google</a>
 [Close]
 Закрити
-[Popup settings]
-Налаштування спливаючих вікон
+[Current Rate:]
+Поточне значення:
+[Rate Fetch Time:]
+Час оновлення:
+[Previous Rate:]
+Попереднє значення:
+[Provider:]
+
+[&Add]
+&Додати
+[&Watched currency rates:]
+&Відслідковані курси валют:
+[&Remove]
+&Очистити
+[&Refresh Rates Every:]
+&Оновлювати курси кожні:
+[&Display in Contact List as:]
+&Показувати в списку як:
+[&Status Message:]
+&Повідомлення статусу:
+[&Tendency:]
+&Тенденція:
+[&Personal key:]
+
+[Get key]
+
 [Colors]
 Кольори
 [Use default colors]
@@ -82,50 +104,17 @@
 Не додавати в історію сплив. вікон
 [Preview]
 Тест
-[Current Rate:]
-Поточне значення:
-[Rate Fetch Time:]
-Час оновлення:
-[Previous Rate:]
-Попереднє значення:
-[&Convert:]
-З:
-[&Add]
-&Додати
-[&Watched currency rates:]
-&Відслідковані курси валют:
-[&Remove]
-&Очистити
-[&Refresh Rates Every:]
-&Оновлювати курси кожні:
-[&Display in Contact List as:]
-&Показувати в списку як:
-[&Status Message:]
-&Повідомлення статусу:
-[&Tendency:]
-&Тенденція:
-[&Personal key:]
-
-[&Advanced Settings...]
-&Додаткові параметри...
 [Rate Info]
 Інформація про курс валют
+[Add currency pair]
+
+[From:]
+Від:
+[To:]
+Для:
 ;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 Немає даних для показу
-;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
-[Seconds]
-секунд
-[Minutes]
-хвилин
-[Hours]
-годин
-[Enter integer value between 1 and 60.]
-Введіть ціле число від 1 до 60.
-[Enter integer value between 1 and 24.]
-Введіть ціле число від 1 до 24.
-[Enter text to display in contact list.]
-
 ;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Інформація надана
@@ -135,8 +124,20 @@
 [Currency Rate]
 Курс валюти
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Currency Rates]
+Курси валют
 [Test contact]
 Тестовий контакт
+[From Currency Full Name]
+Повна назва вихідної валюти
+[From Currency Short Name]
+Коротка назва вихідної валюти
+[Into Currency Full Name]
+Повна назва цільової валюти
+[Into Currency Short Name]
+Коротка назва цільової валюти
+[Short notation for "%f/%i"]
+Коротке позначення "%f/%i"
 [Source of information]
 Джерело інформації
 [Rate value]
@@ -162,23 +163,14 @@
 Помилка під час аналізу html.
 [Error occurred during site access.]
 Помилка при доступі до сайту.
-[From Currency Full Name]
-Повна назва вихідної валюти
-[From Currency Short Name]
-Коротка назва вихідної валюти
-[Into Currency Full Name]
-Повна назва цільової валюти
-[Into Currency Short Name]
-Коротка назва цільової валюти
-[Short notation for "%f/%i"]
-Коротке позначення "%f/%i"
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
+
 ;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Автооновлення увімкнено
 [Auto Update Disabled]
 Автооновлення вимкнено
-[Currency Rates]
-Курси валют
 [Enable/Disable Auto Update]
 Увімк./вимк. автооновлення
 [Refresh All Rates]
@@ -205,8 +197,6 @@
 Автооновлення курсів валют вимкнено
 [Currency Symbol]
 Символ валюти
-[Network]
-Мережа
 [Protocol icon]
 Значок протоколу
 [Currency Rate up]
@@ -224,23 +214,36 @@
 [Import]
 Імпорт
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+[This plugin requires a personal key. Open the Options dialog to obtain it.]
 
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 Файл XML (*.xml)
 [All files (*.*)]
 Усі файли (*.*)
-;file \protocols\CurrencyRates\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-Журнали (*.txt,*.log)
-[Enter integer value]
-
+;file \protocols\CurrencyRates\src\Options.cpp
+[Seconds]
+секунд
+[Minutes]
+хвилин
+[Hours]
+годин
 [Enter log file name.]
 
 [Enter log file format.]
 
 [Enter history format.]
 
+[Network]
+Мережа
+[General]
+Загальне
+[Advanced]
+Розширений
+[Popups]
+Спливаючі вікна
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Журнали (*.txt,*.log)
 [Enter popup window format.]
 

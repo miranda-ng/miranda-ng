@@ -10,10 +10,6 @@ Přidává některé užitečné možnosti do menu kontaktu.
 ;file \plugins\MenuItemEx\res\resource.rc
 [Shown menu items]
 Viditelné položky v menu
-[Visibility]
-Viditelnost
-[Show alpha icons]
-Zobrazit průhledné ikony
 [Hide from list]
 Skrýt
 [Ignore]

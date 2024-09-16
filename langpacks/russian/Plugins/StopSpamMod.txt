@@ -52,14 +52,6 @@
 Добавить контакты в группу:
 [Ignore URL in messages and auth requests]
 Игнорировать ссылки в сообщениях и запросах авторизации
-[Add contact to server list]
-Добавить контакт в список на сервере
-[After congratulation (MRA only)]
-После поздравления (только для MRA)
-[Automatically grant authorization]
-Авторизовать автоматически
-[Request authorization from contacts which pass StopSpam test]
-Запрашивать авторизацию у контактов, прошедших проверку антиспама
 [Use regex for answers checking]
 Использовать регулярные выражения для проверки ответов
 [Log Spammers to system history]

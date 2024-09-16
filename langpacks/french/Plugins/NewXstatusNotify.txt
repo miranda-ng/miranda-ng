@@ -130,8 +130,6 @@ Clic droit
 
 [Show Popups when I connect]
 
-[Disable for extra status 'Music']
-
 [Truncate message length to:]
 
 [characters]
@@ -378,8 +376,6 @@ Filtres
 [Mood]
 
 [Activity]
-
-[xStatus]
 
 [<no title>]
 

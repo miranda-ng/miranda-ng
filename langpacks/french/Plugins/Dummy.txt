@@ -51,6 +51,8 @@ Adresse électronique
 Pseudo
 [Steam ID]
 
+[Telegram ID]
+
 [Tlen login]
 login Tlen
 [Tox ID]

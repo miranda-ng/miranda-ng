@@ -4,4 +4,4 @@
 [Error: I could not register the Popup Window class.\r\nThe plugin will not operate.]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 ['Reorder popups' option is currently disabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewXstatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
-[Popup Mode: Favorite]
+[Popup mode: Favorite]

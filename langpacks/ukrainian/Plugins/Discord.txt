@@ -1,0 +1,165 @@
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Discord support for Miranda NG.]
+
+;file \protocols\Discord\res\discord.rc
+[User details]
+Про користувача
+[E-mail or phone:]
+
+[Password:]
+Пароль:
+[Contacts]
+Контакти
+[Default group:]
+Група:
+[Enable guilds (servers)]
+
+[Do not open chat windows on creation]
+Не відкривати вікно чату при створенні
+[Use subgroups for server channels (requires restart)]
+
+[Delete messages in Miranda when they are deleted from server]
+
+[Log out]
+
+[Delete contacts in Miranda when they are deleted from server]
+
+[Nick:]
+Нік:
+[Multi-factor authentication]
+
+[Cancel]
+Скасувати
+[Send group chat invitation]
+Запросити до чат-кімнати
+[&Invite]
+&Запросити
+;file \protocols\Discord\src\dispatch.cpp
+[edited at]
+
+;file \protocols\Discord\src\groupchat.cpp
+[Change &nickname]
+Змінити &нік
+[Invite users]
+
+[Channel control]
+
+[Change &topic]
+
+[&Rename channel]
+
+[Destroy channel]
+
+[Leave channel]
+
+[Copy ID]
+Копіювати ID
+[Add friend]
+
+[Kick user]
+вигнав(ла) користувача
+[Make group owner]
+
+[Do you really want to destroy this channel? This action is non-revertable.]
+
+[Enter new channel name:]
+
+[Enter new topic:]
+
+[Enter your new nick name:]
+
+;file \protocols\Discord\src\main.cpp
+[Main icon]
+Головний значок
+[Group chats]
+Групові чати
+[Call]
+Дзвінок
+[Call ended]
+
+;file \protocols\Discord\src\menus.cpp
+[Enter channel name]
+
+[Enter invitation code you received]
+
+[Do you really want to leave the guild?]
+
+[Disable sync]
+
+[Enable sync]
+
+[Disable database history for a guild]
+
+[Enable database history for a guild]
+
+[Join guild]
+
+[Copy my Discord ID]
+
+[Leave guild]
+
+[Create new channel]
+
+[Enable guild sync]
+
+;file \protocols\Discord\src\mfa.cpp
+[Use your authenticator app]
+
+[Use a code sent to your phone]
+
+[Use a backup code]
+
+[6-digit authentication code:]
+
+[8-digit backup code:]
+
+[Invalid two-factor code]
+
+[MFA initialization]
+
+;file \protocols\Discord\src\options.cpp
+[Network]
+Мережа
+[Account]
+Обліковий запис
+;file \protocols\Discord\src\proto.cpp
+[%s server connection]
+
+[%s gateway connection]
+
+[Discord voice call]
+
+[User ID]
+ID користувача
+[Message send failed]
+
+;file \protocols\Discord\src\server.cpp
+[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+
+[Connection failed.\n%s (%s).]
+
+;file \protocols\Discord\src\utils.cpp
+[Owners]
+Власники
+[Participants]
+Учасники
+[Embed]
+
+[Preview]
+Тест
+[%s added %s to the group]
+
+[%s joined the group]
+
+[%s removed %s from the group]
+
+[%s left the group]
+
+[%s changed the group icon]
+

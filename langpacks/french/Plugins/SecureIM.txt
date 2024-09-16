@@ -240,6 +240,8 @@ Désactivé
 
 [RSA/AES mode]
 
+[SecureIM status]
+
 ;file \plugins\SecureIM\src\main.cpp
 [SecureIM mode (Native)]
 
@@ -282,8 +284,6 @@ Icônes
 [Unload GPG Key]
 
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
-
-[SecureIM status]
 
 ;file \plugins\SecureIM\src\options.cpp
 [ASC files]

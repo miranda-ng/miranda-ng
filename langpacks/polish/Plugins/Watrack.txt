@@ -299,8 +299,6 @@ Jeśli ta opcja jest włączona, wszystkie ustawienia wtyczki będą zapisywane 
 Jeśli ta opcja jest włączona, wtyczka będzie próbowała pobrać info z odtwarzacza.
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Gdy ta opcja jest włączona, xStatus zmieni się tylko wtedy, gdy xStatus z muzyką jest już ustawiony.
-[If this option is "ON", xStatus doesn't depend of ICQ's status.]
-Jeśli ta opcja jest włączona, xStatus nie zależy od statusu ICQ.
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 Jeśli ta opcja jest włączona, xStatus nie zmieni się kiedy odtwarzacz będzie wyłączony.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
@@ -459,8 +457,6 @@ Czas odświeżania (w sekundach) to czas, co jaki odświeżane są informacje o 
 Użyto moduł "Variables"
 [Acoustic]
 Akustyka
-[Use ICQ xStatus]
-Użyj xStatus ICQ
 [Winamp Track]
 Utwór w Winampie
 [Pause Pushed]

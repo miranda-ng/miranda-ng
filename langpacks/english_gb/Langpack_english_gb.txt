@@ -7,7 +7,7 @@ Author-email: doctor.z01db3rg@gmail.com
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.4
+;  Version: 0.96.6
 ;============================================================
 [Minimize to tray]
 Minimise to tray
@@ -145,6 +145,8 @@ Customise
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 If a contact didn't authorise you, this plugin puts an icon in front of the contact's name.
+[Customize]
+Customise
 #muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
 ;============================================================
 ;  File: AutoRun.dll
@@ -390,7 +392,7 @@ Set popup colours
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: borkra
 ;============================================================
 #muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
@@ -417,7 +419,7 @@ Favourite
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Colors]
@@ -441,7 +443,7 @@ Text colour
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.96.3.1
+;  Version: 0.96.4.1
 ;  Authors: George Hazan
 ;============================================================
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
@@ -485,6 +487,13 @@ Text colour
 ;============================================================
 [Go to the "Options -> Customize -> Folders" to change settings]
 Go to the "Options -> Customise -> Folders" to change settings
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: Discord.dll
+;  Plugin: Discord protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
@@ -564,6 +573,8 @@ Cancelled by user
 ;  Version: 0.2.1.1
 ;  Authors: faith_healer, ghazan, Mataes
 ;============================================================
+[Customize]
+Customise
 #muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;============================================================
 ;  File: Flags.dll
@@ -571,6 +582,8 @@ Cancelled by user
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
+[Customize]
+Customise
 #muuid {53c715a8-eb01-4136-a73c-441868610074}
 ;============================================================
 ;  File: FltContacts.dll
@@ -711,13 +724,6 @@ Initialising
 ;============================================================
 [Customize]
 Customise
-#muuid {EFB2355B-82B3-4759-b7d8-95f8e9506291}
-;============================================================
-;  File: ICQ.dll
-;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.4.1
-;  Authors: George Hazan
-;============================================================
 #muuid {4b5ea279-0014-431f-ab27-f76d4b284893}
 ;============================================================
 ;  File: ICQCorp.dll
@@ -803,8 +809,6 @@ Automatically add contact when accept authorisation
 Automatically accept authorisation requests
 [Unauthorized]
 Unauthorised
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Only JPG, GIF and BMP image files smaller than 40 KB are supported.
 [socializing]
 socialising
 [Traveling]
@@ -813,7 +817,7 @@ Travelling
 ;============================================================
 ;  File: Jingle
 ;  Plugin: Jingle
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: George Hazan
 ;============================================================
 #muuid {119d7288-2050-448d-9900-d86ac70426bf}
@@ -968,18 +972,16 @@ Text colour
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Color...]
 Colour...
-[The following user made an authorization request:]
-The following user made an authorisation request:
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 #muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
@@ -1012,7 +1014,7 @@ Requests your authorisation
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [Visualization]
@@ -1021,7 +1023,7 @@ Visualisation
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 #muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
@@ -1170,7 +1172,7 @@ Favourite contact
 Use Windows colours
 [Favorite]
 Favourite
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 Popup Mode: Favourite
 #muuid {4df0c267-6efb-4410-b651-385f87158509}
 ;============================================================
@@ -1322,7 +1324,7 @@ Reset colours
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: Merlin
 ;============================================================
 [The type of a recipient was not MAPI_TO, MAPI_CC, or MAPI_BCC]
@@ -1382,11 +1384,13 @@ Synchronise if current status differs from previous one
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Automatic messages synchronization]
 Automatic messages synchronisation
+[Traveling]
+Travelling
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
@@ -1400,25 +1404,6 @@ Background colour
 Customise
 [Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customize -> Smileys.]
 Smiley pack %s for category "%s" not found.\nSelect correct smiley pack in the Options -> Customise -> Smileys.
-#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
-;============================================================
-;  File: Spamotron.dll
-;  Plugin: Spam-o-tron
-;  Version: 0.0.4.7
-;  Authors: vu1tur
-;============================================================
-[Analyze]
-Analyse
-[Send challenge on authorization request:]
-Send challenge on authorisation request:
-[Use default colors]
-Use default colours
-[Use Windows colors]
-Use Windows colours
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-Spam-o-tron delayed authorisation request. First reply with "%response%" without quotes.
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-Spam-o-tron delayed authorisation request. First reply with a result of expression %mathexpr%.
 #muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
 ;  File: SpellChecker.dll
@@ -1498,10 +1483,6 @@ Show chat state events (i.e. user closed chat session)
 ;  Version: 0.0.2.4
 ;  Authors: Roman Miklashevsky, sss, Elzor
 ;============================================================
-[Automatically grant authorization]
-Automatically grant authorisation
-[Request authorization from contacts which pass StopSpam test]
-Request authorisation from contacts which pass StopSpam test
 #muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
 ;============================================================
 ;  File: TabSRMM.dll
@@ -1721,7 +1702,7 @@ Mail order catalogue
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [Please authorize me to add you to my friend list.]

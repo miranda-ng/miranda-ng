@@ -15,6 +15,8 @@ Přidat zástupce
 [Enable popups]
 Povolit oznámení
 ;file \plugins\Toaster\src\main.cpp
+[Popup mode]
+
 [This plugin requires Windows 8 or higher]
 Tento doplněk vyžaduje Windows 8 nebo novější
 [Failed to create temporary directory]

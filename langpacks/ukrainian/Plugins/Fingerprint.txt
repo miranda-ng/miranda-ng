@@ -32,8 +32,6 @@
 Клієнти Facebook
 [Gadu-Gadu clients]
 Клієнти Gadu-Gadu
-[ICQ clients]
-Клієнти ICQ
 [IRC clients]
 Клієнти IRC
 [Jabber clients]
@@ -80,8 +78,6 @@ MP3-скрипт для mIRC
 Невідомий клієнт
 [Undetected client]
 Невизначений клієнт
-[ICQ overlay]
-Оверлей ICQ
 [IRC overlay]
 Оверлей IRC
 [JGmail overlay]
@@ -94,8 +90,6 @@ MP3-скрипт для mIRC
 Оверлей ВКонтакті
 [Skype overlay]
 Оверлей Skype
-[ICQ v8.x overlay]
-Оверлей ICQ v8.x
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клієнт
 [Gadu-Gadu v10 client]
@@ -177,6 +171,8 @@ Gadu-Gadu v8 клієнт
 [SecureIM overlay]
 Оверлей SecureIM
 ;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
+Тонке налаштування
 [Icons]
 Значки
 ;file \plugins\FingerprintNG\src\prepare.cpp

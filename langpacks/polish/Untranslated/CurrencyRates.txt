@@ -1,1 +1,6 @@
+[Provider:]
+[Get key]
+[Add currency pair]
 [Rate delta]
+[CurrencyRates]
+[This plugin requires a personal key. Open the Options dialog to obtain it.]

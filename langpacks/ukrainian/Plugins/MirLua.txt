@@ -45,3 +45,6 @@
 Папка з бібліотеками C
 [Scripts folder]
 Папка зі скриптами
+;file \plugins\MirLua\src\stdafx.h
+[MirLua]
+

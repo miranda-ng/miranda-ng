@@ -18,12 +18,18 @@
 
 [Do not open chat windows on creation]
 Не відкривати вікно чату при створенні
+[Log out]
+
 [Compress files on send]
+
+[Generate URL previews]
 
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 
+[Software]
+Клієнт
 [Add phone contact]
 
 [First name:]
@@ -37,6 +43,8 @@
 [Forward message]
 
 [Forward]
+
+[Add reaction]
 
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
@@ -57,6 +65,11 @@
 
 [Invalid password]
 
+;file \protocols\Telegram\src\avatars.cpp
+[Avatar file must be a picture in JPEG format]
+
+[Error setting avatar]
+
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
 
@@ -70,42 +83,64 @@
 Відвідувач
 [&Leave chat session]
 &Вийти з чату
+[%d member(s)]
+
 ;file \protocols\Telegram\src\main.cpp
 [Telegram Premium user]
 
 [Reaction]
 
+[Bot]
+
 ;file \protocols\Telegram\src\menus.cpp
 ;file \protocols\Telegram\src\options.cpp
+[Name]
+Ім'я
+[Platform]
+Операційна система
+[Country]
+Країна
+[Last active]
+Останній активний
+[Kill session]
+
+[Unknown]
+Невідомо
 [Network]
 Мережа
 [Account]
 Обліковий запис
 [Advanced]
 Розширений
+[Sessions]
+Сесії
 ;file \protocols\Telegram\src\proto.cpp
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
 
-[%d member(s)]
+[General]
+Загальне
+[Archive]
 
 [Saved messages]
 
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 немає
-[Chat rooms]
-Чати
 [%s error notifications]
 
 [Errors]
 Помилки
+[wrote]
+
 [Picture]
 
-[Video]
-Відео
+[Audio]
+Аудіо
 [seconds]
 секунд
+[Video]
+Відео
 [Voice message]
 
 [SmileyAdd plugin required to support stickers]

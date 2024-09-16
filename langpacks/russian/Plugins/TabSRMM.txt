@@ -80,8 +80,8 @@
 Подсветка текста в сообщении
 [Enable highlighting for message text]
 Включить подсветку текста в сообщении
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
-Слова для подсветки, допускаются маски вида * и ?, несколько слов для подсветки разделяются пробелами. Оставьте пустым, если хотите подсвечивать свой ник.
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
+Слова для подсветки, допускаются маски вида * и ?, несколько слов для подсветки разделяются пробелами.
 [Highlight messages containing my own nickname]
 Подсвечивать сообщения, содержащие свой ник
 ;file \plugins\TabSRMM\res\msgwindow.rc

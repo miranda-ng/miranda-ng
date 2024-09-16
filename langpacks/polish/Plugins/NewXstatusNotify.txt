@@ -130,8 +130,6 @@ PPM
 Powiadomienie
 [Show Popups when I connect]
 Pokaż powiadomienia podczas łączenia
-[Disable for extra status 'Music']
-Wyłącz dla xStatusu "Muzyka"
 [Truncate message length to:]
 Przytnij wiadomość do:
 [characters]
@@ -379,8 +377,6 @@ Zmiany statusu
 Nastrój
 [Activity]
 Aktywność
-[xStatus]
-xStatus
 [<no title>]
 <brak tytułu>
 [%s changed %s]

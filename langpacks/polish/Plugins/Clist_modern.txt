@@ -506,18 +506,8 @@ Ukryj wszystkie paski tytułów
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 U&kryj/pokaż
-[&Find/add contacts...]
-S&zukaj/dodaj kontakty...
-[&Main menu]
-&Menu główne
-[&Status]
-&Status
-[&Options...]
-&Opcje...
-[&About]
-&Informacje
-[&Show offline users in here]
-&Pokaż rozłączonych tutaj
+[Show offline users in here]
+Pokaż rozłączonych tutaj
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
 Ostatnio widziany
@@ -803,8 +793,6 @@ Menu główne
 Menu statusu
 [Accounts]
 Konta
-[Accounts...]
-Konta...
 [Show/Hide offline contacts]
 Pokaż/ukryj rozłączonych
 [Hide offline contacts]

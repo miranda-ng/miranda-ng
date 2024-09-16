@@ -93,3 +93,4 @@
 [Quick Open]
 [bass.dll not found! Choose bass.dll path manually]
 [max]
+[Status Message]

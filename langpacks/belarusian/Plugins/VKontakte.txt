@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,10 +24,14 @@
 
 [Visit profile]
 Профіль
+[Support BBCode for NewStory]
+
 [[img] BBCode support for image]
 Падтрымка BB-кода [img] для выяў
 [off]
 адкл.
+[for preview max height 320 px]
+
 [for original size images]
 для арыгінальнага памеру
 [for preview max 130*130 px]
@@ -53,6 +57,8 @@
 [Use non-standard popups for news and event notifications]
 
 [Add message link to messages with attachments]
+
+[Add original message version in edited message]
 
 [News and event notifications]
 Паведамленні аб навінах і падзеях
@@ -186,17 +192,17 @@
 Запрасіць у чат
 [Choose one of your contacts to be invited:]
 Абярыце кантакт для запрашэння ў чат:
-[Create group chat]
-Стварыць чат
-[Mark users you want to invite to a new chat]
-Вылучыць карыстальнікаў для запрашэння ў чат
-[New chat's title:]
-Загаловак новага пакою:
 [Share]
 Падзяліцца
 [URL:]
 Спасылка:
 [Only for friends]
+
+[Mark contacts for forwarding messages]
+
+[Mark contacts you want to forward messages]
+
+[Enter accompanying message]
 
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
@@ -222,6 +228,10 @@
 [Wall message icon]
 
 [Mark messages as read icon]
+
+[Forward icon]
+
+[Reload messages icon]
 
 [Access denied! Data will not be sent or received.]
 
@@ -295,6 +305,8 @@
 
 [Photo]
 Фота
+[Video]
+Відэё
 [Attachments:]
 Укладанні:
 [Audio]
@@ -305,8 +317,6 @@
 
 [Graffiti]
 
-[Video]
-Відэё
 [Link]
 Спасылка
 [Document]
@@ -356,6 +366,12 @@
 Гэты чат будзе знішчаны з усімі кантактамі. Гэта дзеянне нельга адкаціць. Вы ўпэўнены?
 [Warning]
 Папярэджанне
+[%x at %X]
+
+[Edited message (updated %s):\n]
+
+[\nOriginal message:\n]
+
 [Message link]
 
 [create chat]
@@ -404,18 +420,16 @@
 Выкінуць
 [%s is typing a message...]
 %s набірае тэкст...
+[Create group chat]
+Стварыць чат
+[Mark users you want to invite to a new chat]
+Вылучыць карыстальнікаў для запрашэння ў чат
+[New chat's title:]
+Загаловак новага пакою:
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
 [Wall message for %s]
-
-[You delete %s from the contact list.\nWhat needs to be done additionally?]
-
-[Remove %s from your friend list]
-
-[Clear server history with %s]
-
-[Deleting %s from contact list]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [VKontakte]
@@ -492,15 +506,11 @@
 
 [Error loading message history for %s from server.]
 
-[%x at %X]
-
-[Edited message (updated %s):\n]
-
 [Loading messages for %s is completed.]
 
 ;file \protocols\VKontakte\src\vk_messages.cpp
-[\nOriginal message:\n]
-
+[Me]
+Я
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Сеціва
@@ -553,6 +563,10 @@
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
+
+[Forward]
+
+[Reload messages]
 
 [Mark messages as read]
 Пазначыць павеламленні прачытанымі

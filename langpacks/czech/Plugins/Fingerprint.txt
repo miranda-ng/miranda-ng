@@ -32,8 +32,6 @@ Vybrat protokoly
 Klienti Facebook
 [Gadu-Gadu clients]
 Klienti Gadu-Gadu
-[ICQ clients]
-Klienti ICQ
 [IRC clients]
 Klienti IRC
 [Jabber clients]
@@ -80,8 +78,6 @@ Klient nenalezen
 Neznámý klient
 [Undetected client]
 Nezjištěný klient
-[ICQ overlay]
-
 [IRC overlay]
 
 [JGmail overlay]
@@ -93,8 +89,6 @@ Nezjištěný klient
 [VK overlay]
 
 [Skype overlay]
-
-[ICQ v8.x overlay]
 
 [Gadu-Gadu v11 client]
 
@@ -177,6 +171,8 @@ Nezjištěný klient
 [SecureIM overlay]
 
 ;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
+Vlastní úpravy
 [Icons]
 Ikony
 ;file \plugins\FingerprintNG\src\prepare.cpp

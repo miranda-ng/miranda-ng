@@ -274,5 +274,5 @@ OTR: встановлений SecureIM
 [unknown OTR message received, please report that to Miranda NG developers]
 отримано невідоме повідомлення OTR, повідомте про це розробників Miranda NG
 ;file \plugins\MirOTR\src\otr.h
-[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee http://wikipedia.org/wiki/Off-the-Record_Messaging for more information.]
+[ has requested an Off-the-Record private conversation. However, you do not have a plugin to support that.\nSee https://otr.cypherpunks.ca for more information.]
 

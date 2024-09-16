@@ -6,3 +6,4 @@
 [Loaded]
 [Compile]
 [C libs folder]
+[MirLua]

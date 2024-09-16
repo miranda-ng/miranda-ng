@@ -457,8 +457,6 @@ Cacher le menu
 Codepage inconnu %u
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 
-[User %s (%d) changed ICQ client: %s]
-%s (%d) a changé de client ICQ : %s
 [Status request by %s (%d):%s]
 Demande d'état par %s (%d) : %s
 [Ignored status request by %s (%d):%s]

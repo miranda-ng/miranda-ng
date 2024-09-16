@@ -29,5 +29,8 @@ Ikona přečtené zprávy
 Ikona chyby odesílání
 [Sending message icon]
 Ikony odesílání zprávy
-[Unread clist extra icon]
+[Unread contact list extra icon]
 Ikona nepřečtené zprávy v seznamu
+;file \plugins\MessageState\src\stdafx.h
+[MessageState]
+

@@ -102,30 +102,40 @@
 Дадаць профіль
 [Profile name]
 Імя профіля
-[Set window state]
-Стан вакна
-[Show dialog]
-Паказваць дыялог
-[Set status to offline before exit]
-"Адключаны" пры выйсці
-[Show CMDL]
-Кам. радок
-[Activate status profile]
-Статус-профіль
-[Set docked]
-Паркаваць
-[Other]
-Іншае
 [Status on startup]
 Статус пры запуску
-[ms]
-мс
+[Activate status profile]
+Статус-профіль
 [Set after]
 праз
+[ms]
+мс
+[Note: status profiles can be created in the 'Status profiles' options screen]
+статус-профіль можна стварыць ва ўкладцы "Профілі статусаў".
+[Allow override]
+Змяняць
+[Show dialog]
+Паказваць дыялог
 [Timeout]
 Затрымка
 [s]
 з
+[Dial-up (experimental)]
+Dial-up (эксперыментальна)
+[Automatically dial on startup]
+далучацца пры старце
+[Automatically hang up on exit]
+Раздзіраць сувязь пры выйсці
+[Other]
+Іншае
+[Set status to offline before exit]
+"Адключаны" пры выйсці
+[Window on startup]
+Вакно пры запуску
+[Set window state]
+Стан вакна
+[Set docked]
+Паркаваць
 [Set window location]
 Пазіцыя вакна
 [Left]
@@ -136,20 +146,10 @@
 Памер вакна
 [Width]
 Шырыня
+[Show CMDL]
+Кам. радок
 [Height]
 Вышыня
-[Allow override]
-Змяняць
-[Note: status profiles can be created in the 'Status profiles' options screen]
-статус-профіль можна стварыць ва ўкладцы "Профілі статусаў".
-[Window on startup]
-Вакно пры запуску
-[Automatically dial on startup]
-далучацца пры старце
-[Automatically hang up on exit]
-Раздзіраць сувязь пры выйсці
-[Dial-up (experimental)]
-Dial-up (эксперыментальна)
 [Background color]
 Колер фону
 [Text color]

@@ -102,30 +102,40 @@
 Додати профіль
 [Profile name]
 Ім'я профілю
-[Set window state]
-Стан вікна
-[Show dialog]
-Показувати діалог
-[Set status to offline before exit]
-"Не в мережі" при виході
-[Show CMDL]
-Ком. рядок
-[Activate status profile]
-Статус-профіль
-[Set docked]
-Паркувати
-[Other]
-Інше
 [Status on startup]
 Статус при запуску
-[ms]
-мс
+[Activate status profile]
+Статус-профіль
 [Set after]
 через
+[ms]
+мс
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Статус-профіль можна створити у вкладці "Профілі статусів".
+[Allow override]
+Змінювати
+[Show dialog]
+Показувати діалог
 [Timeout]
 Таймаут
 [s]
 с
+[Dial-up (experimental)]
+Від. доступ (експериментально)
+[Automatically dial on startup]
+Підключатися при старті
+[Automatically hang up on exit]
+Розривати зв'язок при виході
+[Other]
+Інше
+[Set status to offline before exit]
+"Не в мережі" при виході
+[Window on startup]
+Вікно при запуску
+[Set window state]
+Стан вікна
+[Set docked]
+Паркувати
 [Set window location]
 Позиція вікна
 [Left]
@@ -136,20 +146,10 @@
 Розмір вікна
 [Width]
 Ширина
+[Show CMDL]
+Ком. рядок
 [Height]
 Висота
-[Allow override]
-Змінювати
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Статус-профіль можна створити у вкладці "Профілі статусів".
-[Window on startup]
-Вікно при запуску
-[Automatically dial on startup]
-Підключатися при старті
-[Automatically hang up on exit]
-Розривати зв'язок при виході
-[Dial-up (experimental)]
-Від. доступ (експериментально)
 [Background color]
 Колір фону
 [Text color]

@@ -45,3 +45,6 @@
 
 [Scripts folder]
 Каталог скыптоў
+;file \plugins\MirLua\src\stdafx.h
+[MirLua]
+

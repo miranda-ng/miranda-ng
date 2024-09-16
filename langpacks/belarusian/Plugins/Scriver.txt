@@ -26,6 +26,8 @@
 Памятаць неадпраўленыя паведамленні
 [Delete temporary contacts on closing]
 Пры ўключэнні выдаляць часавыя кантакты
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [seconds]
@@ -78,18 +80,16 @@
 ліній
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
-[Preload]
-Падгружаць гісторыю
-[Unread events only]
-Толькі непрачытаныя падзеі
-[Last]
-Апошн.
-[Events in the last]
-Падзеі атрыманыя пазней, чым
-[events]
-падзеі(й)
-[minutes]
-хвілін(ы)
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
+[minutes old]
+хвілін назад
 [Message window event log]
 Журнал гутаркі
 [Show icons]
@@ -314,8 +314,8 @@ KB
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+ID бягучага кантакту (калі вызначаны). Напрыклад, JID для Jabber і г.д.
 [path to Miranda root folder]
 шлях да тэчкі праграмы
 [path to folder containing Miranda profiles]

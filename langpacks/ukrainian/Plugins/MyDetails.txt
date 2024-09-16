@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all accounts.]
@@ -114,6 +114,12 @@
 [<no status name>]
 <немає імені статусу>
 ;file \plugins\MyDetails\src\frame.cpp
+[<no nickname>]
+
+[<no status message>]
+<немає повідомлення статусу>
+[<nothing playing>]
+
 [Nickname]
 Нік
 [Status]

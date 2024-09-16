@@ -45,3 +45,6 @@ Servicios
 
 [Scripts folder]
 
+;file \plugins\MirLua\src\stdafx.h
+[MirLua]
+

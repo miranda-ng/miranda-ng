@@ -2,10 +2,8 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Color...]
 Colour...
-[The following user made an authorization request:]
-The following user made an authorisation request:

@@ -2,8 +2,10 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Automatic messages synchronization]
 Automatic messages synchronisation
+[Traveling]
+Travelling

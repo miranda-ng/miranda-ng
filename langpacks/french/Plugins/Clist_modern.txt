@@ -506,18 +506,9 @@ Cacher toutes les barres de titres
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 &Afficher/Cacher
-[&Find/add contacts...]
-&Chercher/Ajouter des contacts...
-[&Main menu]
-&Menu principal
-[&Status]
-&État
-[&Options...]
-&Paramètres...
-[&About]
+[Show offline users in here]
+Afficher les contacts hors ligne de ce groupe
 
-[&Show offline users in here]
-&Afficher les contacts hors ligne de ce groupe
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
 
@@ -803,8 +794,6 @@ Menu principal
 Menu états
 [Accounts]
 Comptes
-[Accounts...]
-
 [Show/Hide offline contacts]
 Afficher/Cacher contacts hors-ligne
 [Hide offline contacts]

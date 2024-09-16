@@ -58,8 +58,8 @@ Probíhá záloha databáze...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
 Zazálohovat profil
-[Save profile as...]
-Uložit profil jako...
+[Save database as...]
+
 [Miranda NG databases]
 Databáze Mirandy NG
 [Compressed Miranda NG databases]

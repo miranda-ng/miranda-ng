@@ -22,5 +22,7 @@
 [Country flag]
 
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
+Apparence
 [Icons]
 Icônes

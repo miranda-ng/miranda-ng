@@ -1,4 +1,5 @@
 [Backup file mask:]
 [Uploading to cloud failed]
+[Save database as...]
 [AutoBackups notifications]
 [Next backup is scheduled to]

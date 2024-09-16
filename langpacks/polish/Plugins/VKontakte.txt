@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,10 +24,14 @@ Załaduj historię dla wszystkich kontaktów z VK
 Usuń kontakty spoza listy znajomych
 [Visit profile]
 Odwiedź profil
+[Support BBCode for NewStory]
+
 [[img] BBCode support for image]
 Wsparcie tagu BBCode [img] dla obrazków
 [off]
 wyłączone
+[for preview max height 320 px]
+
 [for original size images]
 dla obrazków w oryginalnym rozmiarze
 [for preview max 130*130 px]
@@ -54,6 +58,8 @@ Skracaj linki do załączników audio
 Używaj niestandardowych powiadomień dla  aktualności i zdarzeń
 [Add message link to messages with attachments]
 Dodawaj wiadomość z linkiem w przypadku wiadomości z załącznikiem
+[Add original message version in edited message]
+
 [News and event notifications]
 Powiadomienia o aktualnościach i zdarzeniach
 [WARNING: Causes excessive network traffic!!!]
@@ -186,18 +192,18 @@ Otwórz w przeglądarce
 Zaproś użytkownika do czatu
 [Choose one of your contacts to be invited:]
 Wybierz jeden z kontaktów, który chcesz zaprosić:
-[Create group chat]
-Utwórz czat grupowy
-[Mark users you want to invite to a new chat]
-Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
-[New chat's title:]
-Nazwa nowego czatu:
 [Share]
 Udostępnij
 [URL:]
 Link:
 [Only for friends]
 Tylko dla znajomych
+[Mark contacts for forwarding messages]
+
+[Mark contacts you want to forward messages]
+
+[Enter accompanying message]
+
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 Ikona powiadomienia
@@ -223,6 +229,10 @@ Ikona Statusu
 Ikona posta na tablicy
 [Mark messages as read icon]
 Ikona odczytania wiadomości
+[Forward icon]
+
+[Reload messages icon]
+
 [Access denied! Data will not be sent or received.]
 Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 [Error]
@@ -295,6 +305,8 @@ udostępnił/a twoje zdjęcie
 udostępnił/a twój film
 [Photo]
 Zdjęcie
+[Video]
+Wideo
 [Attachments:]
 Załączniki:
 [Audio]
@@ -305,8 +317,6 @@ Audio
 
 [Graffiti]
 
-[Video]
-Wideo
 [Link]
 Link
 [Document]
@@ -356,6 +366,12 @@ Nie obsługiwane
 Ten czat zostanie zniszczony wraz z zawartością. Ta operacja nie będzie mogła zostać cofnięta. Czy jesteś pewien?
 [Warning]
 Ostrzeżenie
+[%x at %X]
+
+[Edited message (updated %s):\n]
+
+[\nOriginal message:\n]
+
 [Message link]
 Link wiadomości
 [create chat]
@@ -404,19 +420,17 @@ Zmień nick
 &Wyrzuć
 [%s is typing a message...]
 %s pisze wiadomość...
+[Create group chat]
+Utwórz czat grupowy
+[Mark users you want to invite to a new chat]
+Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
+[New chat's title:]
+Nazwa nowego czatu:
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
 [Wall message for %s]
 Post na tablicy dla %s
-[You delete %s from the contact list.\nWhat needs to be done additionally?]
-
-[Remove %s from your friend list]
-
-[Clear server history with %s]
-
-[Deleting %s from contact list]
-
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [VKontakte]
 VKontakte
@@ -492,15 +506,11 @@ Zakończono pobieranie wiadomości dla wszystkich kontaktów.
 Pobieranie historii
 [Error loading message history for %s from server.]
 
-[%x at %X]
-
-[Edited message (updated %s):\n]
-
 [Loading messages for %s is completed.]
 Zakończono pobieranie wiadomości dla %s.
 ;file \protocols\VKontakte\src\vk_messages.cpp
-[\nOriginal message:\n]
-
+[Me]
+Ja
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Protokoły
@@ -554,6 +564,10 @@ Protokół VKontakte
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
 Zdarzenie powiadomień kanału aktualności
+[Forward]
+
+[Reload messages]
+
 [Mark messages as read]
 Oznacz wiadomości jako przeczytane
 [Send message to user's wall]

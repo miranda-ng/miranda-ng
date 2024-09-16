@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,10 +24,14 @@ Zpráva stavu
 
 [Visit profile]
 Zobrazit profil
+[Support BBCode for NewStory]
+
 [[img] BBCode support for image]
 
 [off]
 vyp
+[for preview max height 320 px]
+
 [for original size images]
 
 [for preview max 130*130 px]
@@ -53,6 +57,8 @@ Ostatní
 [Use non-standard popups for news and event notifications]
 
 [Add message link to messages with attachments]
+
+[Add original message version in edited message]
 
 [News and event notifications]
 
@@ -186,17 +192,17 @@ Otevřít v prohlížeči
 Pozvat uživatele k diskusi
 [Choose one of your contacts to be invited:]
 Zvolte kontakty, které chcete pozvat:
-[Create group chat]
-Vytvořit diskusi
-[Mark users you want to invite to a new chat]
-Označte kontakty, které chcete pozvat do nové diskuse
-[New chat's title:]
-
 [Share]
 Sdílet
 [URL:]
 Odkaz:
 [Only for friends]
+
+[Mark contacts for forwarding messages]
+
+[Mark contacts you want to forward messages]
+
+[Enter accompanying message]
 
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
@@ -222,6 +228,10 @@ Ikona přečtené zprávy
 [Wall message icon]
 
 [Mark messages as read icon]
+
+[Forward icon]
+
+[Reload messages icon]
 
 [Access denied! Data will not be sent or received.]
 
@@ -295,6 +305,8 @@ Zpráva byla přečtena: %s
 
 [Photo]
 Fotka
+[Video]
+Video
 [Attachments:]
 Přílohy:
 [Audio]
@@ -305,8 +317,6 @@ Audio
 
 [Graffiti]
 
-[Video]
-Video
 [Link]
 Adresa
 [Document]
@@ -356,6 +366,12 @@ Není podporováno
 Tato diskuse bude navždy zrušena s veškerým jejím obsahem. Tuto akci nelze vrátit zpět. Přejete si pokračovat?
 [Warning]
 Upozornění
+[%x at %X]
+
+[Edited message (updated %s):\n]
+
+[\nOriginal message:\n]
+
 [Message link]
 
 [create chat]
@@ -404,18 +420,16 @@ Informace o &uživateli
 Vy&kopnout
 [%s is typing a message...]
 %s píše zprávu...
+[Create group chat]
+Vytvořit diskusi
+[Mark users you want to invite to a new chat]
+Označte kontakty, které chcete pozvat do nové diskuse
+[New chat's title:]
+
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
 [Wall message for %s]
-
-[You delete %s from the contact list.\nWhat needs to be done additionally?]
-
-[Remove %s from your friend list]
-
-[Clear server history with %s]
-
-[Deleting %s from contact list]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [VKontakte]
@@ -492,15 +506,11 @@ Protokol je offline
 
 [Error loading message history for %s from server.]
 
-[%x at %X]
-
-[Edited message (updated %s):\n]
-
 [Loading messages for %s is completed.]
 
 ;file \protocols\VKontakte\src\vk_messages.cpp
-[\nOriginal message:\n]
-
+[Me]
+Já
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Sítě
@@ -553,6 +563,10 @@ Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní 
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
+
+[Forward]
+Další
+[Reload messages]
 
 [Mark messages as read]
 

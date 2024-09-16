@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -44,8 +44,6 @@ Pokaż &powiadomienia
 Pokaż powiadomienia tylko, jeśli wartość się &zmieniła
 [Cancel]
 Anuluj
-[Popup settings...]
-Ustawienia powiadomień...
 [Currency Converter]
 Przelicznik walut
 [&to:]
@@ -58,8 +56,32 @@ Konwertuj
 Informacje dostarczone przez <a href="http://www.google.com">Google</a>
 [Close]
 Zamknij
-[Popup settings]
-Ustawienia powiadomień
+[Current Rate:]
+Aktualny wskaźnik:
+[Rate Fetch Time:]
+Czas pobierania wskaźnika:
+[Previous Rate:]
+Poprzedni wskaźnik:
+[Provider:]
+
+[&Add]
+&Dodaj
+[&Watched currency rates:]
+&Obserwowane wskaźniki walutowe:
+[&Remove]
+&Usuń
+[&Refresh Rates Every:]
+&Odświeżaj wskaźniki co:
+[&Display in Contact List as:]
+&Wyświetlaj na liście jako:
+[&Status Message:]
+&Opis:
+[&Tendency:]
+&Tendencja:
+[&Personal key:]
+&Klucz osobisty:
+[Get key]
+
 [Colors]
 Kolory
 [Use default colors]
@@ -82,50 +104,17 @@ Trwale
 Nie dodawaj powiadomień do historii
 [Preview]
 Podgląd
-[Current Rate:]
-Aktualny wskaźnik:
-[Rate Fetch Time:]
-Czas pobierania wskaźnika:
-[Previous Rate:]
-Poprzedni wskaźnik:
-[&Convert:]
-&Konwertuj:
-[&Add]
-&Dodaj
-[&Watched currency rates:]
-&Obserwowane wskaźniki walutowe:
-[&Remove]
-&Usuń
-[&Refresh Rates Every:]
-&Odświeżaj wskaźniki co:
-[&Display in Contact List as:]
-&Wyświetlaj na liście jako:
-[&Status Message:]
-&Opis:
-[&Tendency:]
-&Tendencja:
-[&Personal key:]
-&Klucz osobisty:
-[&Advanced Settings...]
-&Zaawansowane ustawienia...
 [Rate Info]
 Informacje o walucie
+[Add currency pair]
+
+[From:]
+Od:
+[To:]
+Do:
 ;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 Nie ma co pokazać
-;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
-[Seconds]
-Sekund
-[Minutes]
-Minut
-[Hours]
-Godzin
-[Enter integer value between 1 and 60.]
-Wprowadź wartość liczbową pomiędzy 1, a 60.
-[Enter integer value between 1 and 24.]
-Wprowadź wartość liczbową pomiędzy 1, a 24.
-[Enter text to display in contact list.]
-Wprowadź tekst do wyświetlenia na liście kontaktów.
 ;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Informacje dostarczone przez
@@ -135,8 +124,20 @@ Wprowadź liczbę dodatnią.
 [Currency Rate]
 Kurs waluty
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Currency Rates]
+Kursy walut
 [Test contact]
 Testowy kontakt
+[From Currency Full Name]
+Z waluty pełna nazwa
+[From Currency Short Name]
+Z waluty skrót
+[Into Currency Full Name]
+Na walutę pełna nazwa
+[Into Currency Short Name]
+Na walutę skrót
+[Short notation for "%f/%i"]
+Skrócona notacja dla "%f/%i"
 [Source of information]
 Źródło informacji
 [Rate value]
@@ -162,23 +163,14 @@ Lewy ukośnik (\\)
 Wystąpił błąd podczas przetwarzania HTML.
 [Error occurred during site access.]
 Wystąpił błąd podczas uzyskiwania dostępu do strony.
-[From Currency Full Name]
-Z waluty pełna nazwa
-[From Currency Short Name]
-Z waluty skrót
-[Into Currency Full Name]
-Na walutę pełna nazwa
-[Into Currency Short Name]
-Na walutę skrót
-[Short notation for "%f/%i"]
-Skrócona notacja dla "%f/%i"
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
+
 ;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Auto-aktualizacja włączona
 [Auto Update Disabled]
 Auto-aktualizacja wyłączona
-[Currency Rates]
-Kursy walut
 [Enable/Disable Auto Update]
 Włącz/wyłącz autoaktualizację
 [Refresh All Rates]
@@ -205,8 +197,6 @@ Włączono automatyczną aktualizację kursów walut
 Wyłączono automatyczną aktualizację kursów walut
 [Currency Symbol]
 Symbol waluty
-[Network]
-Protokoły
 [Protocol icon]
 Ikona protokołu
 [Currency Rate up]
@@ -224,23 +214,36 @@ Przycisk zamiany
 [Import]
 Importuj
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-Ta wtyczka wymaga klucza osobistego. Naciśnij przycisk Tak, aby uzyskać go w witrynie, a następnie wprowadź wynik w oknie dialogowym Opcje, w przeciwnym razie wtyczka nie będzie działać poprawnie.
+[This plugin requires a personal key. Open the Options dialog to obtain it.]
+
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 Plik XML (*.xml)
 [All files (*.*)]
 Wszystkie pliki (*.*)
-;file \protocols\CurrencyRates\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-Pliki logu (*.txt, *.log)
-[Enter integer value]
-Wprowadź wartość liczbową
+;file \protocols\CurrencyRates\src\Options.cpp
+[Seconds]
+Sekund
+[Minutes]
+Minut
+[Hours]
+Godzin
 [Enter log file name.]
 Wpisz nazwę pliku dziennika.
 [Enter log file format.]
 Wpisz format pliku dziennika.
 [Enter history format.]
 Wprowadź format historii.
+[Network]
+Protokoły
+[General]
+Ogólne
+[Advanced]
+Zaawansowane
+[Popups]
+Powiadomienia
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Pliki logu (*.txt, *.log)
 [Enter popup window format.]
 Wprowadź format powiadomienia.

@@ -407,9 +407,9 @@ History++ для гісторыі вокнаў
 Абранае
 [Block]
 Заблакаваць
-[Popup Mode: Auto]
+[Popup mode: Auto]
 Рэжым усплывальных вокнаў: па змаўчанні
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 
-[Popup Mode: Ignore fullscreen]
+[Popup mode: Ignore fullscreen]
 Рэжым усплывальных вокнаў: ігнараваць поўнаэкранныя прыкладанні

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -36,8 +36,6 @@ Navegar
 
 [Use << and >>]
 
-[Help]
-Ayuda
 [Exporting old messages]
 
 [History file for %s (%s, format %s)]
@@ -78,6 +76,51 @@ Seleccionar todo
 Limpiar todo
 [Copy]
 Copiar
+;file \plugins\Msg_Export\src\export.cpp
+[FirstName]
+Nombre
+[LastName]
+Apellido
+[e-mail]
+E-mail
+[Nick]
+Apodo
+[Age]
+Edad
+[Gender]
+Genero
+[City]
+Ciudad
+[State]
+Estado
+[Phone]
+Telefono
+[Homepage]
+Sitio web
+[About]
+Acerca de
+[      History for]
+
+[User]
+
+[Account]
+Cuenta
+[User ID]
+ID de usuario
+[Nick      :]
+Apodo      :
+[FirstName :]
+Nombre     :
+[LastName  :]
+Apellido   :
+[e-mail    :]
+E-mail     :
+[Reason    :]
+
+[Invalid Database event received. Type %d, size %d]
+
+[Unknown event type %d, size %d]
+
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
@@ -119,12 +162,6 @@ Todos los archivos
 
 [File]
 Archivo
-[Nick]
-Apodo
-[Account]
-Cuenta
-[User ID]
-ID de usuario
 [No contacts found to export]
 
 [Export accounts]
@@ -145,6 +182,12 @@ Contactos
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 
+[User has been deleted. Do you want to delete the file?]
+
+[Failed to delete the file]
+
+[No_Nick]
+
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -154,68 +197,4 @@ Contactos
 [\nMessage has not been saved!\n]
 
 [Do you wish to save debug information?]
-
-[All\0*.*\0Text\0*.TXT\0\0]
-
-[FirstName]
-Nombre
-[LastName]
-Apellido
-[e-mail]
-E-mail
-[Age]
-Edad
-[Gender]
-Genero
-[City]
-Ciudad
-[State]
-Estado
-[Phone]
-Telefono
-[Homepage]
-Sitio web
-[About]
-Acerca de
-[      History for]
-
-[User]
-
-[File: ]
-Archivo:\s
-[Description: ]
-
-[Size: ]
-
-[Transferred: ]
-
-[Path: ]
-
-[URL: ]
-
-[Nick      :]
-Apodo      :
-[FirstName :]
-Nombre     :
-[LastName  :]
-Apellido   :
-[e-mail    :]
-E-mail     :
-[Reason    :]
-
-[Invalid Database event received. Type %d, size %d]
-
-[The following user made an authorization request:]
-
-[The following user added you to their contact list:]
-
-[UIN       :]
-
-[Unknown event type %d, size %d]
-
-[User has been deleted. Do you want to delete the file?]
-
-[Failed to delete the file]
-
-[No_Nick]
 

@@ -299,8 +299,6 @@ VBR ці пуста
 Калі опцыя ўключана, плагін паспрабуе атрымаць інфармацыю пра музыку ад плэера, працуе не з усімі плэерамі
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 Калі опцыя ўключана, xСтатус змяняецца толькі пры ўжо ўсталяваным у "Музыка" статусе.
-[If this option is "ON", xStatus doesn't depend of ICQ's status.]
-Калі ўключана гэта опцыя, xСтатус не залежыць ад статусу ICQ.
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 Калі опцыя ўключана, xСтатус не зменіцца пры выключэнні плэера.
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
@@ -459,8 +457,6 @@ VBR ці няма
 Выкарыстоўваць плагін зменных
 [Acoustic]
 Акустыка
-[Use ICQ xStatus]
-Выкарыстоўваць xCтатус ICQ
 [Winamp Track]
 Слухаю (WATrack)
 [Pause Pushed]

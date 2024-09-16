@@ -26,6 +26,8 @@ Scriver - за изпращане и получаване на съобщени�
 Запомняне на неизпратените съобщения
 [Delete temporary contacts on closing]
 Изтриване на временните контакти след затваряне
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Предупреждение, ако съобщение не е получено след
 [seconds]
@@ -78,17 +80,15 @@ Scriver - за изпращане и получаване на съобщени�
 линии
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
-[Preload]
-Допълнително зареждани събития
-[Unread events only]
-Само непрочетени събития
-[Last]
-Последните
-[Events in the last]
-Събития от последните
-[events]
-събития
-[minutes]
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
+[minutes old]
 минути
 [Message window event log]
 Дневник на събитията в прозореца за съобщения
@@ -314,7 +314,7 @@ KB
 протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
 
 [path to Miranda root folder]
 път до главната папка на Miranda

@@ -8,4 +8,5 @@
 [Read message icon]
 [Failed sending icon]
 [Sending message icon]
-[Unread clist extra icon]
+[Unread contact list extra icon]
+[MessageState]

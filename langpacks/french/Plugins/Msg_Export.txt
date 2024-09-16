@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.9
+;  Version: 3.1.2.10
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -36,8 +36,6 @@ Utiliser l'UTF-8
 Ajouter une ligne de plus
 [Use << and >>]
 Utiliser << et >>
-[Help]
-Aide
 [Exporting old messages]
 Exportation des anciens messages
 [History file for %s (%s, format %s)]
@@ -78,6 +76,51 @@ Nommage auto
 Tout effacer
 [Copy]
 Copier
+;file \plugins\Msg_Export\src\export.cpp
+[FirstName]
+Prénom
+[LastName]
+Nom
+[e-mail]
+Courriel
+[Nick]
+Pseudo
+[Age]
+
+[Gender]
+Sexe
+[City]
+Ville
+[State]
+État
+[Phone]
+Téléphone
+[Homepage]
+Page web
+[About]
+À propos
+[      History for]
+
+[User]
+Utilisateur
+[Account]
+Compte
+[User ID]
+
+[Nick      :]
+Pseudo    :
+[FirstName :]
+Prénom    :
+[LastName  :]
+Nom       :
+[e-mail    :]
+Courriel  :
+[Reason    :]
+Motif     :
+[Invalid Database event received. Type %d, size %d]
+Évènement de base de données reçu invalide. Type %d, taille %d
+[Unknown event type %d, size %d]
+
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 
@@ -119,12 +162,6 @@ Tous les fichiers
 Choix du répertoire de destination
 [File]
 Fichier
-[Nick]
-Pseudo
-[Account]
-Compte
-[User ID]
-
 [No contacts found to export]
 Pas de contacts à exporter trouvés
 [Export accounts]
@@ -145,6 +182,12 @@ Contacts
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Group]
 
+[User has been deleted. Do you want to delete the file?]
+
+[Failed to delete the file]
+Échec de la suppression du fichier
+[No_Nick]
+
 [File name for the user "%s" has changed!\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file?]
 
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
@@ -154,68 +197,4 @@ Contacts
 [\nMessage has not been saved!\n]
 
 [Do you wish to save debug information?]
-
-[All\0*.*\0Text\0*.TXT\0\0]
-
-[FirstName]
-Prénom
-[LastName]
-Nom
-[e-mail]
-Courriel
-[Age]
-
-[Gender]
-Sexe
-[City]
-Ville
-[State]
-État
-[Phone]
-Téléphone
-[Homepage]
-Page web
-[About]
-À propos
-[      History for]
-
-[User]
-Utilisateur
-[File: ]
-Fichier :\s
-[Description: ]
-Description :\s
-[Size: ]
-
-[Transferred: ]
-
-[Path: ]
-
-[URL: ]
-Lien :\s
-[Nick      :]
-Pseudo    :
-[FirstName :]
-Prénom    :
-[LastName  :]
-Nom       :
-[e-mail    :]
-Courriel  :
-[Reason    :]
-Motif     :
-[Invalid Database event received. Type %d, size %d]
-Évènement de base de données reçu invalide. Type %d, taille %d
-[The following user made an authorization request:]
-Le contact suivant vous fait une demande d'autorisation :
-[The following user added you to their contact list:]
-Le contact suivant vous a ajouté à sa liste :
-[UIN       :]
-
-[Unknown event type %d, size %d]
-
-[User has been deleted. Do you want to delete the file?]
-
-[Failed to delete the file]
-Échec de la suppression du fichier
-[No_Nick]
 

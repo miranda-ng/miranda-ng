@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -36,14 +36,42 @@ Saliendo
 
 [History++ compatiblity mode]
 
+[Show event type]
+
+[Show event direction]
+
+[Show picture preview]
+
 [Template list:]
 
 [Edit template:]
 
-[Text preview:]
-
 [Graphic preview:]
 
+[Text preview:]
+
+[[c2]]
+
+[[c4]]
+
+[[c6]]
+
+[[c3]]
+
+[[c5]]
+
+[Empty history]
+
+[Do you really want to delete selected item?]
+
+[Remove server history]
+
+[Remove history for everyone]
+
+[&Yes]
+&Sí
+[&No]
+&No
 [Filter]
 
 [Show all events]
@@ -105,10 +133,22 @@ Cambios de estado
 
 [Grid background]
 
+[Quoting]
+
 [Separator]
 
+[Progress indicator]
+
+[Links]
+Enlaces
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
+
+[ %u KB]
+
+[I]
+
+[wrote]
 
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
@@ -119,34 +159,10 @@ Buscar
 
 [Search backward]
 
-[Are you sure to remove selected event(s)?]
+[Do you really want to delete selected items (%d)?]
 
 ;file \plugins\NewStory\src\history_dlg.cpp
-[FirstName]
-Nombre
-[LastName]
-Apellido
-[e-mail]
-E-mail
-[Nick]
-Apodo
-[Age]
-Edad
-[Gender]
-Genero
-[City]
-Ciudad
-[State]
-Estado
-[Phone]
-Telefono
-[Homepage]
-Sitio web
-[About]
-Acerca de...
 [Global history search]
-
-[System history]
 
 [All results]
 
@@ -174,9 +190,17 @@ Menú del usuario
 
 [Bookmarks]
 
-[No more occuurences found]
+[You need to install the Import plugin to export events]
+
+[No more occurrences found]
 
 [Passed the end of history]
+
+[The required plugin 'Import' isn't loaded to perform this operation.]
+
+[Do you want to install it using Plugin Updater?]
+
+[Missing plugin]
 
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 
@@ -184,7 +208,7 @@ Menú del usuario
 
 [JSON files]
 
-[Export %s history]
+[Export history]
 
 [Complete]
 Completo
@@ -193,15 +217,17 @@ Completo
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file path]
-
-[Copy URL]
-
 [History]
 Historial
 [Global search]
 
 [Copy text]
+
+[Copy URL]
+
+[Copy file path]
+
+[Show in folder]
 
 [Quote]
 
@@ -215,6 +241,8 @@ Editar
 Eliminar
 [Select all]
 Seleccionar todo
+[Reply]
+
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Icono principal
@@ -257,10 +285,6 @@ Restaurar por defecto
 
 [event count]
 
-[icon]
-
-[direction icon]
-
 [direction symbol]
 
 [timestamp]
@@ -286,6 +310,12 @@ Marca de tiempo
 [name of month, translatable]
 
 [the message string itself]
+
+[default text color]
+
+[nickname's color]
+
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
 
 [Advanced]
 Avanzado
@@ -328,6 +358,8 @@ Avanzado
 
 [December]
 
+[System history]
+
 [System event]
 
 [Interface]
@@ -353,4 +385,9 @@ Otros eventos
 ['You were deleted' events]
 
 [Clipboard]
+
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+
+[Potentially dangerous URL]
 

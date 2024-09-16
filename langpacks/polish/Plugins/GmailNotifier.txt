@@ -61,8 +61,6 @@ Sprawdzanie...
 Nie udało się wysłać danych konta!
 [Wrong name or password!]
 Błędna nazwa użytkownika lub hasło!
-[Can't get RSS feed!]
-Nie można pobrać kanału RSS!
 ;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Inne

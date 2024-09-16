@@ -102,30 +102,40 @@ Utwórz skrót
 Dodaj nowy profil
 [Profile name]
 Nazwa profilu
-[Set window state]
-Stan okna
-[Show dialog]
-Pokaż okno
-[Set status to offline before exit]
-Przy wyjściu zmień na rozłączony
-[Show CMDL]
-Pokaż CMDL
-[Activate status profile]
-Włącz profil statusu
-[Set docked]
-Strona dokowania
-[Other]
-Inne
 [Status on startup]
 Status podczas uruchamiania
-[ms]
-ms
+[Activate status profile]
+Włącz profil statusu
 [Set after]
 Ustaw po
+[ms]
+ms
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Info: profile statusów mogą zostać utworzone w menu "Profile statusów"
+[Allow override]
+Nadpisuj
+[Show dialog]
+Pokaż okno
 [Timeout]
 Wyświetlaj
 [s]
 s
+[Dial-up (experimental)]
+Połączenie (eksperymentalne)
+[Automatically dial on startup]
+Automatycznie łącz na starcie
+[Automatically hang up on exit]
+Automatycznie rozłącz przy wyjściu
+[Other]
+Inne
+[Set status to offline before exit]
+Przy wyjściu zmień na rozłączony
+[Window on startup]
+Okno podczas uruchamiania
+[Set window state]
+Stan okna
+[Set docked]
+Strona dokowania
 [Set window location]
 Położenie okna
 [Left]
@@ -136,20 +146,10 @@ Góra
 Rozmiar okna
 [Width]
 Szerokość
+[Show CMDL]
+Pokaż CMDL
 [Height]
 Wysokość
-[Allow override]
-Nadpisuj
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Info: profile statusów mogą zostać utworzone w menu "Profile statusów"
-[Window on startup]
-Okno podczas uruchamiania
-[Automatically dial on startup]
-Automatycznie łącz na starcie
-[Automatically hang up on exit]
-Automatycznie rozłącz przy wyjściu
-[Dial-up (experimental)]
-Połączenie (eksperymentalne)
 [Background color]
 Kolor tła
 [Text color]

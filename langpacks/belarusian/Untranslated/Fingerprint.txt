@@ -1,6 +1,5 @@
 [VK overlay]
 [Skype overlay]
-[ICQ v8.x overlay]
 [Gadu-Gadu v11 client]
 [Gadu-Gadu v10 client]
 [Gadu-Gadu v9 client]

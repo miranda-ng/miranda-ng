@@ -149,8 +149,6 @@
 [Sign out all sessions]
 Вийти з усіх сесій
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatar file. ERROR: %d: %s\n%s]
-Не вдалося створити файл аватару. Помилка: %d: %s\n%s
 [Cannot open avatar file. ERROR: %d: %s\n%s]
 Не вдалося відкрити файл аватару. Помилка: %d: %s\n%s
 ;file \protocols\Gadu-Gadu\src\core.cpp

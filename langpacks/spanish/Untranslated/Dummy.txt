@@ -16,6 +16,7 @@
 [Live ID]
 [Skype name]
 [Steam ID]
+[Telegram ID]
 [Tlen login]
 [Tox ID]
 [VKontakte ID]

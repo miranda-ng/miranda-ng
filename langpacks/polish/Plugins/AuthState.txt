@@ -30,5 +30,7 @@ Włącz ikony autoryzacji
 [Auth state]
 Status autoryzacji
 ;file \plugins\AuthState\src\options.cpp
+[Customize]
+Personalizacja
 [Icons]
 Ikony

@@ -122,8 +122,6 @@ Pokročilé možnosti
 Zobrazit tip až po načtení celého obsahu (avatar && zpráva stavu)
 [Retrieve new status message]
 Načíst novou zprávu stavu
-[Disable in invisible status]
-Zakázat ve stavu Neviditelný
 [Retrieve xStatus details if auto-retrieve is disabled]
 Zjišťovat rozšířený stav i když je automatika vypnuta
 [Status bar and tray tooltip]
@@ -481,150 +479,6 @@ Načíst znovu
 [Apply]
 Použít
 ;file \plugins\TipperYM\src\translations.cpp
-[Afrikaans]
-afrikánština
-[Albanian]
-albánština
-[Arabic]
-arabština
-[Armenian]
-arménština
-[Azerbaijani]
-ázerbajdžánština
-[Belorussian]
-běloruština
-[Bhojpuri]
-bhodžpuri
-[Bosnian]
-bosenština
-[Bulgarian]
-bulharština
-[Burmese]
-barmština
-[Cantonese]
-kantonština
-[Catalan]
-katalánština
-[Chamorro]
-čamoro
-[Chinese]
-čínština
-[Croatian]
-chorvatština
-[Czech]
-čeština
-[Danish]
-dánština
-[Dutch]
-holandština
-[English]
-angličtina
-[Esperanto]
-esperanto
-[Estonian]
-estonština
-[Farsi]
-perština
-[Finnish]
-finština
-[French]
-francouzština
-[Gaelic]
-gaelština
-[German]
-němčina
-[Greek]
-řečtina
-[Gujarati]
-gudžarátština
-[Hebrew]
-hebrejština
-[Hindi]
-hindština
-[Hungarian]
-maďarština
-[Icelandic]
-islandština
-[Indonesian]
-indonézština
-[Italian]
-italština
-[Japanese]
-japonština
-[Khmer]
-khmerština
-[Korean]
-korejština
-[Kurdish]
-kurdština
-[Lao]
-laoština
-[Latvian]
-lotyšština
-[Lithuanian]
-litevština
-[Macedonian]
-makedonština
-[Malay]
-malajština
-[Mandarin]
-mandarínština
-[Mongolian]
-mongolština
-[Norwegian]
-norština
-[Persian]
-perština
-[Polish]
-polština
-[Portuguese]
-portugalština
-[Punjabi]
-pandžábština
-[Romanian]
-rumunština
-[Russian]
-ruština
-[Serbo-Croatian]
-srbochorvatština
-[Sindhi]
-sindhština
-[Slovak]
-slovenština
-[Slovenian]
-slovinština
-[Somali]
-somálština
-[Spanish]
-španělština
-[Swahili]
-svahilština
-[Swedish]
-švédština
-[Tagalog]
-tagalština
-[Taiwanese]
-tchaiwanština
-[Tamil]
-tamilština
-[Tatar]
-tatarština
-[Thai]
-thajština
-[Turkish]
-turečtina
-[Ukrainian]
-ukrajinština
-[Urdu]
-urdu
-[Vietnamese]
-vietnamština
-[Welsh]
-velština
-[Yiddish]
-jidiš
-[Yoruba]
-jorubština
 [Sunday]
 neděle
 [Monday]
@@ -681,8 +535,8 @@ popis stavu (WORD)
 časový údaj pro časový rozdíl (DWORD)
 [BYTE to Yes/No]
 definice ano/ne (BYTE)
-[BYTE to Male/Female (ICQ)]
-rozlišení pohlaví v síti ICQ (BYTE)
+[BYTE to Male/Female]
+rozlišení pohlaví (BYTE)
 [WORD to country name]
 název země (WORD)
 [DWORD to IP address]
@@ -715,5 +569,3 @@ počet sekund pro časový rozdíl (DWORD)
 WORD na název dne (0..6, 0 je neděle)
 [WORD to name of a month (1..12, 1 is January)]
 WORD na název měsíce (1..12, 1 je leden)
-[BYTE to language (ICQ)]
-BYTE na jazyk (ICQ)

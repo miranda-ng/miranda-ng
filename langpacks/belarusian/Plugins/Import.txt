@@ -133,10 +133,6 @@
 Колькасць кантактаў у базе: %d
 [Error mapping accounts, exiting.]
 
-[Importing groups.]
-Імпарт гуртоў.
-[Group import failed.]
-Памылка імпарту гурта
 [Importing contacts.]
 Імпарт кантактаў.
 [Skipping new contacts import.]

@@ -22,5 +22,7 @@
 [Country flag]
 Сцяг краіны
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
+Тонкая налада
 [Icons]
 Абразкі

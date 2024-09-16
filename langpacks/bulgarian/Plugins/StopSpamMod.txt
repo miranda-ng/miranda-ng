@@ -52,14 +52,6 @@
 Добавяне на контактите към следната група:
 [Ignore URL in messages and auth requests]
 Игнориране на URL адресите в съобщенията и в молбите за упълномощаване
-[Add contact to server list]
-Добавяне на контакта в списъка на сървъра
-[After congratulation (ICQ only)]
-След изпращане на поздрава (само за ICQ)
-[Automatically grant authorization]
-Автоматично упълномощаване
-[Request authorization from contacts which pass StopSpam test]
-Изискване на упълномощаване от контактите, които преминат теста
 [Use regex for answers checking]
 Проверяване на отговорите с регулярен израз
 [Log Spammers to system history]

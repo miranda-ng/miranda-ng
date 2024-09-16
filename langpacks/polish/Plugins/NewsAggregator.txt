@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News aggregator
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
 [RSS/Atom news aggregator.]
@@ -88,36 +88,12 @@ RSS/Atom
 %s\nnie jest poprawnym adresem RSS.
 [empty]
 pusty
-;file \protocols\NewsAggregator\Src\Icons.cpp
-[Protocol icon]
-Ikona protokołu
-[Check All Feeds]
-Sprawdź wszystkie kanały
-[Add Feed]
-Dodawanie kanału
-[Import Feeds]
-Importuj kanały
-[Export Feeds]
-Eksportuj kanały
-[Auto Update Enabled]
-Auto-aktualizacja włączona
-[Auto Update Disabled]
-Auto-aktualizacja wyłączona
-;file \protocols\NewsAggregator\Src\Menus.cpp
-[Check feed]
-Sprawdź kanał
-[Change feed]
-Zmień ustawienia kanału
-;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
-;file \protocols\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\ExportFeed.cpp
 [OPML files]
 Pliki OPML
-[Not valid import file.]
-Plik importu nieprawidłowy.
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-Zaimportowano %d kanałów\r\nNie zaimportowano %d duplikatów
-[Imported %d feed(s).]
-Zaimportowano %d kanałów
+;file \protocols\NewsAggregator\Src\FeedEditor.cpp
+[Add Feed]
+Dodawanie kanału
 [Change Feed]
 Edycja kanału
 [Wait...]
@@ -148,6 +124,33 @@ Pomoc
 Wpisz nazwę kanału
 [Enter message format]
 Format wpisywanej wiadomości
+;file \protocols\NewsAggregator\Src\Icons.cpp
+[Protocol icon]
+Ikona protokołu
+[Check All Feeds]
+Sprawdź wszystkie kanały
+[Import Feeds]
+Importuj kanały
+[Export Feeds]
+Eksportuj kanały
+[Auto Update Enabled]
+Auto-aktualizacja włączona
+[Auto Update Disabled]
+Auto-aktualizacja wyłączona
+;file \protocols\NewsAggregator\Src\ImportFeed.cpp
+[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
+Zaimportowano %d kanałów\r\nNie zaimportowano %d duplikatów
+[Imported %d feed(s).]
+Zaimportowano %d kanałów
+[Not valid import file.]
+Plik importu nieprawidłowy.
+;file \protocols\NewsAggregator\Src\Menus.cpp
+[Check feed]
+Sprawdź kanał
+[Change feed]
+Zmień ustawienia kanału
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [Feed]
 Kanał
 [Contact deleting]

@@ -29,5 +29,8 @@ Ikona odczytania wiadomości
 Ikona nieudanego wysyłania
 [Sending message icon]
 Ikona wysyłania wiadomości
-[Unread clist extra icon]
+[Unread contact list extra icon]
 Dodatkowa ikona nieodczytania, lista kontaktów
+;file \plugins\MessageState\src\stdafx.h
+[MessageState]
+

@@ -122,8 +122,6 @@ Options avancées
 
 [Retrieve new status message]
 
-[Disable in invisible status]
-
 [Retrieve xStatus details if auto-retrieve is disabled]
 
 [Status bar and tray tooltip]
@@ -481,150 +479,6 @@ Recharger
 [Apply]
 Appliquer
 ;file \plugins\TipperYM\src\translations.cpp
-[Afrikaans]
-Afrikaans
-[Albanian]
-Albanais
-[Arabic]
-Arabe
-[Armenian]
-
-[Azerbaijani]
-
-[Belorussian]
-
-[Bhojpuri]
-
-[Bosnian]
-
-[Bulgarian]
-Bulgare
-[Burmese]
-Birman
-[Cantonese]
-
-[Catalan]
-
-[Chamorro]
-
-[Chinese]
-Chinois
-[Croatian]
-Croate
-[Czech]
-Tchèque
-[Danish]
-Danois
-[Dutch]
-
-[English]
-Anglais
-[Esperanto]
-Esperanto
-[Estonian]
-Estonien
-[Farsi]
-
-[Finnish]
-Finnois
-[French]
-Français
-[Gaelic]
-
-[German]
-Allemand
-[Greek]
-Grecque
-[Gujarati]
-
-[Hebrew]
-Hébreux
-[Hindi]
-Hindi
-[Hungarian]
-Hongrois
-[Icelandic]
-Islandais
-[Indonesian]
-Indonésien
-[Italian]
-Italien
-[Japanese]
-Japonais
-[Khmer]
-
-[Korean]
-Coréen
-[Kurdish]
-Kurde
-[Lao]
-
-[Latvian]
-Letton
-[Lithuanian]
-Lituanien
-[Macedonian]
-Macédonien
-[Malay]
-Malais
-[Mandarin]
-
-[Mongolian]
-Mongol
-[Norwegian]
-Norvégien
-[Persian]
-Perse
-[Polish]
-Polonais
-[Portuguese]
-Portugais
-[Punjabi]
-
-[Romanian]
-Roumain
-[Russian]
-Russe
-[Serbo-Croatian]
-
-[Sindhi]
-
-[Slovak]
-Slovaque
-[Slovenian]
-Slovène
-[Somali]
-Somali
-[Spanish]
-
-[Swahili]
-
-[Swedish]
-Suédois
-[Tagalog]
-
-[Taiwanese]
-
-[Tamil]
-
-[Tatar]
-
-[Thai]
-Thaïlandais
-[Turkish]
-Turque
-[Ukrainian]
-Ukrainien
-[Urdu]
-
-[Vietnamese]
-Vietnamien
-[Welsh]
-
-[Yiddish]
-Yiddish
-[Yoruba]
-
 [Sunday]
 
 [Monday]
@@ -681,7 +535,7 @@ Homme
 
 [BYTE to Yes/No]
 
-[BYTE to Male/Female (ICQ)]
+[BYTE to Male/Female]
 
 [WORD to country name]
 
@@ -714,6 +568,4 @@ Homme
 [WORD to name of a day (0..6, 0 is Sunday)]
 
 [WORD to name of a month (1..12, 1 is January)]
-
-[BYTE to language (ICQ)]
 

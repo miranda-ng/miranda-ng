@@ -261,6 +261,8 @@ Avatarhöhe begrenzen auf
 Zeichenzähler anzeigen
 [Show toolbar buttons on top row]
 Toolbarbuttons oben anzeigen
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [Send error]
@@ -343,6 +345,8 @@ Gekickte Benutzer
 Notizen
 [Options]
 Einstellungen
+[Add new rooms to group:]
+Gruppe für neue Räume:
 [Log options]
 Verlaufseinstellungen
 [Log timestamp]
@@ -367,8 +371,6 @@ Logdatei aktivieren
 Verzeichnis für Logdateien
 [Other]
 Sonstige
-[Add new rooms to group:]
-Gruppe für neue Räume:
 [Nick list row distance (pixels):]
 Vertikaler Abstand Benutzerliste:
 [Message]

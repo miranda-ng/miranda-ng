@@ -80,8 +80,8 @@ Podświetlone nazwy, znak * oraz ? jest dozwolony. Oddzielaj wpisy spacjami.
 Podświetlany tekst
 [Enable highlighting for message text]
 Włącz podświetlanie dla tekstu wiadomości.
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
-Podświetlone słowa, znak * oraz ? jest dozwolony. Oddzielaj wpisy spacjami. Pozostaw puste jeśli chcesz podświetlić tylko swój nick.
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
+Podświetlone słowa, znak * oraz ? jest dozwolony. Oddzielaj wpisy spacjami.
 [Highlight messages containing my own nickname]
 Podświetlaj wiadomości zawierające mój nick.
 ;file \plugins\TabSRMM\res\msgwindow.rc
@@ -234,6 +234,8 @@ Pojedynczy wiersz kart (*)
 Przycisk zamykania na kartach
 [Use button tabs (*)]
 Użyj przycisków zakładek (*)
+[Side bar width]
+
 [You have chosen to disable all event notifications for open message windows.]
 Wybrano wyłączenie wszystkich powiadomień dla otwartych okien rozmowy.
 [Show contact avatars]
@@ -262,18 +264,20 @@ Rozmiar i opcje skalowania dla wyświetlania awataru
 Maksymalna wysokość wyświetlana (pixele)
 [(0 = no limit)]
 (0 - brak limitu)
-[Try to keep original size]
-Spróbuj utrzymać oryginalny rozmiar
+[Use the original size if it is smaller]
+
 [Help on this]
 Pomoc na ten temat
 [Reset all hidden warnings]
 Resetuj wszystkie ostrzeżenia
-[Load unread events only]
-Tylko nieprzeczytane zdarzenia
-[Load number of previous events]
-Ilość zdarzeń do wczytania
-[Load previous events less than]
-Wczytaj zdarzenia nowsze niż
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 minut(y)
 [Indent values]
@@ -288,8 +292,6 @@ Zbiory szablonów
 Standardowe szablony...
 [RTL templates...]
 Szablony RTL...
-[Load history events]
-Wczytaj zdarzenia z historii
 [Typing notification options]
 Opcje powiadomień o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
@@ -713,8 +715,6 @@ Cytuje ostatnią wiadomość lub zaznaczony tekst
 Opcje dziennika wiadomości
 [View user's history]
 Zobacz historię użytkownika
-[Edit user notes]
-Edytuj notatkę kontaktu
 [Select a foreground color for the text (Ctrl+K)]
 Wybierz kolor dla tekstu (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
@@ -973,7 +973,7 @@ nick obecnego kontaktu (jeśli zdefiniowany)
 nazwa protokołu obecnego kontaktu (jeśli zdefiniowana). Jeśli protokół wspiera wiele kont, użyta zostanie nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to Miranda root folder]
 folder docelowy Mirandy
@@ -1095,8 +1095,6 @@ Wysyłanie powiadomienia o pisaniu jest %s.
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Kontakt nie ma opisu.
-[You cannot edit user notes when there are unsent messages]
-Nie możesz edytować notatek o użytkowniku, podczas gdy istnieją niewysłane wiadomości
 [%s is typing a message...]
 %s pisze wiadomość...
 [Last received: %s at %s]
@@ -1126,7 +1124,7 @@ Inne
 TabSRMM: pisanie
 [&Messaging settings...]
 Opcje &rozmowy...
-[&Send later job list...]
+[Send later job list...]
 Lista zadań "&wyślij później"...
 [signed off.]
 Rozłączony
@@ -1271,8 +1269,6 @@ Kliknij, by pokazać menu kontaktu\nKliknij strzałkę, by pokazać ustawienia o
 Gotowy
 [Send later]
 Wyślij później
-[You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Edytujesz notatki o użytkowniku. Użyj przycisku ponownie lub naciśnij skrót klawiszowy (domyślnie: Alt+N), aby zapisać notatki i powrócić do normalnego trybu wiadomości
 [Selection copied to clipboard]
 Zaznaczenie skopiowano do schowka
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1283,8 +1279,6 @@ UWAGA: Wiadomość, którą próbujesz wkleić przekracza limit długości dla a
 Dostarczenie nie powiodło się: %s
 [The message send timed out]
 Przekroczono limit czasu wysyłania wiadomości
-[Contact is offline and this protocol does not support sending files to offline users.]
-Kontakt jest rozłączony, protokół nie wspiera wysyłania plików do rozłączonych kontaktów.
 ;file \plugins\TabSRMM\src\msgdlgother.cpp
 ['(Unknown contact)']
 "(Nieznany kontakt)"
@@ -1302,8 +1296,6 @@ Zapisz obrazek kontaktu
 Pliki obrazów
 [The file exists. Do you want to overwrite it?]
 Plik istnieje. Chcesz nadpisać?
-[JPEG-compressed images]
-Skompresowane obrazy JPEG
 [Copy all]
 Kopiuj wszystko
 [Save and close session]
@@ -1699,10 +1691,6 @@ Wysyłanie
 Wiadomość nie może zostać wysłana do jednego lub więcej nadawców lub opóźniona, ponieważ przekracza ona maksymalną długość wiadomości wynoszącą %d bajtów
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
 Po zamknięciu okna rozmowy, dostarczenie wiadomości nie powiodło się. Musisz ponownie wysłać ostatnią wiadomość
-[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
-Niewysłane wiadomości czekają na potwierdzenie.\nJeśli teraz zamkniesz okno, Miranda spróbuje je wysłać, ale może nie być w stanie powiadomić o ewentualnych błędach.\nNa pewno chcesz zamknąć okno/okna?
-[Message window warning]
-Ostrzeżenie okna rozmowy
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Wiadomość poprawnie dodana do listy wysyłania.\nZostanie wysłana jak będzie to możliwe, rezultat zostanie wyświetlony w powiadomieniu.
 [The send later feature is not available on this protocol.]
@@ -1791,8 +1779,6 @@ Wiadomość TabSRMM (%s)
 Ostrzeżenie TabSRMM
 [Save file|Unable to save temporary file]
 Zapisz plik|Nie można zapisać pliku tymczasowego
-[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-Edycja notatek kontaktu|Kliknij przycisk ponownie lub użyj skrótu klawiszowego (domyślnie: Alt+N) aby zapisać informacje i powrócić do normalnego trybu wiadomości.
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 Brakujący komponent|Brakuje ikon. Zainstaluj je w domyślnym folderze ikon.\n\nŻadne ikony nie będą dostępne.
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
@@ -1809,3 +1795,5 @@ Zamykanie okna|Czy na pewno chcesz zamknąć okno rozmowy z otwartymi kilkoma ka
 Zamykanie okna opcji|Aby uwzględnić zmiany spowodowane zaimportowaniem skórki w oknie opcji, okno musi zostać zamknięte po załadowaniu skórki, |\\b1 a niezapisane zmiany mogą zostać utracone\\b0 .\n\nCzy chcesz kontynuować?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Ładowanie skórki| Załadowanie skórki kolorów i czcionek może nadpisać twoje ustawienia.\n\nCzy chcesz kontynuować?
+[There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
+Niewysłane wiadomości czekają na potwierdzenie.\nJeśli teraz zamkniesz okno, Miranda spróbuje je wysłać, ale może nie być w stanie powiadomić o ewentualnych błędach.\nNa pewno chcesz zamknąć okno/okna?

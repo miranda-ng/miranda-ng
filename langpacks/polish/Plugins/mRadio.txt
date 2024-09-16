@@ -207,3 +207,5 @@ Nie znaleziono bass.dll! Wybierz położenie bass.dll ręcznie
 min
 [max]
 max
+[Status Message]
+Opis

@@ -10,7 +10,7 @@
 [Uploading to cloud failed]
 [Database backed up]
 [Database back up in process...]
-[Save profile as...]
+[Save database as...]
 [Miranda NG databases]
 [Compressed Miranda NG databases]
 [Database]

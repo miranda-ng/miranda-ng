@@ -102,30 +102,40 @@ Vytvořit zástupce
 Přidat nový profil
 [Profile name]
 Název profilu
-[Set window state]
-Stav okna
-[Show dialog]
-Zobrazit dialog
-[Set status to offline before exit]
-Před ukončením přejít do 'Offline'
-[Show CMDL]
-Příkazový ř.
-[Activate status profile]
-Aktivovat profil
-[Set docked]
-Zadokovat
-[Other]
-Ostatní
 [Status on startup]
 Stav po spuštění
-[ms]
-ms
+[Activate status profile]
+Aktivovat profil
 [Set after]
 Zpozdit o
+[ms]
+ms
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Pozn.: Profily lze vytvořit v sekci Startovní profily.
+[Allow override]
+Povolit potlačení
+[Show dialog]
+Zobrazit dialog
 [Timeout]
 Doba zobrazení
 [s]
 s
+[Dial-up (experimental)]
+Vytáčené spojení (experimentální)
+[Automatically dial on startup]
+Automaticky vytáčet po spuštění
+[Automatically hang up on exit]
+Automaticky zavěsit po ukončení
+[Other]
+Ostatní
+[Set status to offline before exit]
+Před ukončením přejít do 'Offline'
+[Window on startup]
+Okno po startu
+[Set window state]
+Stav okna
+[Set docked]
+Zadokovat
 [Set window location]
 Umístit na souřadnice
 [Left]
@@ -136,20 +146,10 @@ Nahoře
 Velikost okna
 [Width]
 Šířka
+[Show CMDL]
+Příkazový ř.
 [Height]
 Výška
-[Allow override]
-Povolit potlačení
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Pozn.: Profily lze vytvořit v sekci Startovní profily.
-[Window on startup]
-Okno po startu
-[Automatically dial on startup]
-Automaticky vytáčet po spuštění
-[Automatically hang up on exit]
-Automaticky zavěsit po ukončení
-[Dial-up (experimental)]
-Vytáčené spojení (experimentální)
 [Background color]
 Barva pozadí
 [Text color]

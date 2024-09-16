@@ -14,7 +14,6 @@
 [Variables]
 [Update variables in status messages every]
 [Do not update variables during idle]
-[Do not update variables on ICQ status message requests]
 [Leave last played track's title after exiting the player]
 [Enable status messages parsing by Variables plugin]
 [Exclude %date% token from parsing (restart required)]

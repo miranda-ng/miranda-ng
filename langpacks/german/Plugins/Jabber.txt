@@ -1905,10 +1905,6 @@ Unbekannte Fehlernachricht
 männlich
 [Female]
 weiblich
-[Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Nur JPG-, GIF- und BMP-Bilder unter 40 KB werden unterstützt.
-[Jabber vCard]
-Jabber-vCard
 [Jabber vCard: Edit Email Address]
 Jabber-vCard: E-Mail-Adresse bearbeiten
 [Jabber vCard: Edit Phone Number]

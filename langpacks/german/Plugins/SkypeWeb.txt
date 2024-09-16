@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -30,22 +30,20 @@ Konto
 Sonstiges
 [Automatic messages synchronization]
 Automatische Nachrichtensynchronisierung
-[Always notify as unread for all incoming message]
-Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
+[Use BBCode]
+BBCode verwenden
 [Place:]
 Ort:
 [Use hostname]
 Hostname verwenden
-[Use BBCode]
-BBCode verwenden
 [Change password]
 Passwort ändern
-[Enter password]
-Passwort eingeben
-[Save password]
-Passwort speichern
-[Enter the password to continue.]
-Passwort eingeben um fortzufahren.
+[Set mood]
+Setze Stimmung
+[Mood]
+Stimmung
+[Text]
+Text
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Skype-Link-Protokoll
@@ -84,33 +82,19 @@ Sind Sie sich sicher?
 ;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 Eingehender Anruf
-[Edited message]
-Bearbeitete Nachricht
 [Action]
 Aktion
 [Call information]
 Anrufinformation
 [File transfer information]
 Dateiübertragungsinformation
-[URI object]
-URI-Objekt
 [Moji]
 Moji
-[File]
-Datei
 [Unknown event]
 Unbekanntes Ereignis
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 SkypeWeb-Fehler: Ungültige Daten!
-[[b]Original message:[/b]\n%s\n]
-\[b]Originalnachricht:[/b]\n%s\n
-[Original message:\n%s\n]
-Originalnachricht:\n%s\n
-[[b]Edited at %s:[/b]\n%s\n]
-\[b]Bearbeitet um %s:[/b]\n%s\n
-[Edited at %s:\n%s\n]
-Bearbeitet um %s:\n%s\n
 [Call]
 Anrufen
 [Call missed]
@@ -160,11 +144,38 @@ Kontakt blockieren
 Blockierung aufheben
 [Create new chat]
 Neuen Chat erstellen
+[Set own mood]
+
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
 Unbekannter Fehler!
 [Network error!]
 Netzwerkfehler!
+;file \protocols\SkypeWeb\src\skype_mood.cpp
+[None]
+Keine
+[Custom emoji]
+
+[Be right back]
+
+[Out for lunch]
+
+[In meetings]
+
+[At school]
+
+[At the movies]
+
+[Traveling]
+Reisen
+[Celebrating]
+Feiern
+[Driving]
+Fahren
+[At the gym]
+
+[Working from home]
+
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Netzwerk

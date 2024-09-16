@@ -45,3 +45,6 @@ Usługi
 Folder bibliotek C
 [Scripts folder]
 Folder skryptów
+;file \plugins\MirLua\src\stdafx.h
+[MirLua]
+

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -30,22 +30,20 @@ Konto
 Inne
 [Automatic messages synchronization]
 Automatyczna synchronizacja wiadomości
-[Always notify as unread for all incoming message]
-Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
+[Use BBCode]
+Używaj BBCode
 [Place:]
 Miejsce:
 [Use hostname]
 Używaj nazwy hosta
-[Use BBCode]
-Używaj BBCode
 [Change password]
 Zmień hasło
-[Enter password]
-Wprowadź hasło
-[Save password]
-Zapisz hasło
-[Enter the password to continue.]
-Wprowadź hasło, by kontynuować.
+[Set mood]
+Wybierz nastrój
+[Mood]
+Nastrój
+[Text]
+Tekst
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Powiązanie protokołu Skype
@@ -84,33 +82,19 @@ Jesteś pewien?
 ;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 Połączenie przychodzące
-[Edited message]
-Wiadomość edytowana
 [Action]
 Akcja
 [Call information]
 Informacje o rozmowie
 [File transfer information]
 Informacje o transferze pliku
-[URI object]
-Obiekt URI
 [Moji]
 Moji
-[File]
-Plik
 [Unknown event]
 Nieznane zdarzenie
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 Błąd SkypeWeb: Nieprawidłowe dane!
-[[b]Original message:[/b]\n%s\n]
-\[b]Wiadomość oryginalna:[/b]\n%s\n
-[Original message:\n%s\n]
-Wiadomość oryginalna:\n%s\n
-[[b]Edited at %s:[/b]\n%s\n]
-\[b]edytowana %s:[/b]\n%s\n
-[Edited at %s:\n%s\n]
-edytowana %s:\n%s\n
 [Call]
 Zadzwoń
 [Call missed]
@@ -160,11 +144,38 @@ Zablokuj kontakt
 Odblokuj kontakt
 [Create new chat]
 Utwórz nowy czat
+[Set own mood]
+
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
 Nieznany błąd!
 [Network error!]
 Błąd sieciowy!
+;file \protocols\SkypeWeb\src\skype_mood.cpp
+[None]
+Brak
+[Custom emoji]
+
+[Be right back]
+
+[Out for lunch]
+
+[In meetings]
+
+[At school]
+
+[At the movies]
+
+[Traveling]
+Podróżowanie
+[Celebrating]
+
+[Driving]
+kierowca
+[At the gym]
+
+[Working from home]
+
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Protokoły

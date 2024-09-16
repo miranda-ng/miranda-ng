@@ -44,8 +44,6 @@ muž
 Rodinný stav:
 [Partner:]
 Partner:
-[Language skills]
-Jazykové dovednosti
 [Street:]
 Ulice:
 [Postal code:]
@@ -420,12 +418,6 @@ Filtrování
 [Error]
 Chyba
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload details]
-Uložit změny
-[Protocol '%s' is offline]
-Protokol '%s' je offline
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Informace na serveru lze aktualizovat až po připojení\nk síti ICQ. Do té doby budou provedené změny uloženy\npouze lokálně, do databáze Mirandy.
 [Creating the image list failed!]
 Nepodařilo se vytvořit seznam obrázků!
 [Could not find contact's protocol. Maybe it is not active!]
@@ -444,12 +436,6 @@ Něco o sobě
 Úprava informací o uživateli
 [View personal user details and more]
 Přehled informací o vybrané osobě
-[Upload ICQ details]
-Nahrát detaily ICQ na server
-[Upload failed]
-Aktualizace se nezdařila
-[Your details were not uploaded successfully.\nThey were written to database only.]
-Vaše údaje nebyly úspěšně aktualizovány\nByly pouze zapsány do databáze.
 [updating]
 Aktualizace
 ;file \plugins\UserInfoEx\src\init.cpp
@@ -586,12 +572,8 @@ Importovat všechny kontakty
 Export/import skupiny
 [&Export group]
 &Exportovat skupinu
-[&Import group]
-&Importovat skupinu
 [&Export xml]
 &Exportovat xml
-[&Import xml]
-&Importovat xml
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Poznámky:
@@ -683,150 +665,6 @@ Chcete opravdu smazat tuto položku
 [Profile]
 Profil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
-[Afrikaans]
-afrikánština
-[Albanian]
-albánština
-[Arabic]
-arabština
-[Armenian]
-arménština
-[Azerbaijani]
-ázerbajdžánština
-[Belorussian]
-běloruština
-[Bhojpuri]
-bhodžpuri
-[Bosnian]
-bosenština
-[Bulgarian]
-bulharština
-[Burmese]
-barmština
-[Cantonese]
-kantonština
-[Catalan]
-katalánština
-[Chamorro]
-čamoro
-[Chinese]
-čínština
-[Croatian]
-chorvatština
-[Czech]
-čeština
-[Danish]
-dánština
-[Dutch]
-holandština
-[English]
-angličtina
-[Esperanto]
-esperanto
-[Estonian]
-estonština
-[Farsi]
-perština
-[Finnish]
-finština
-[French]
-francouzština
-[Gaelic]
-gaelština
-[German]
-němčina
-[Greek]
-řečtina
-[Gujarati]
-gudžarátština
-[Hebrew]
-hebrejština
-[Hindi]
-hindština
-[Hungarian]
-maďarština
-[Icelandic]
-islandština
-[Indonesian]
-indonézština
-[Italian]
-italština
-[Japanese]
-japonština
-[Khmer]
-khmerština
-[Korean]
-korejština
-[Kurdish]
-kurdština
-[Lao]
-laoština
-[Latvian]
-lotyšština
-[Lithuanian]
-litevština
-[Macedonian]
-makedonština
-[Malay]
-malajština
-[Mandarin]
-mandarínština
-[Mongolian]
-mongolština
-[Norwegian]
-norština
-[Persian]
-perština
-[Polish]
-polština
-[Portuguese]
-portugalština
-[Punjabi]
-pandžábština
-[Romanian]
-rumunština
-[Russian]
-ruština
-[Serbo-Croatian]
-srbochorvatština
-[Sindhi]
-sindhština
-[Slovak]
-slovenština
-[Slovenian]
-slovinština
-[Somali]
-somálština
-[Spanish]
-španělština
-[Swahili]
-svahilština
-[Swedish]
-švédština
-[Tagalog]
-tagalština
-[Taiwanese]
-tchaiwanština
-[Tamil]
-tamilština
-[Tatar]
-tatarština
-[Thai]
-thajština
-[Turkish]
-turečtina
-[Ukrainian]
-ukrajinština
-[Urdu]
-urdu
-[Vietnamese]
-vietnamština
-[Welsh]
-velština
-[Yiddish]
-jidiš
-[Yoruba]
-jorubština
 [Academic]
 Výzkum
 [Administrative]
@@ -851,8 +689,8 @@ Státní správa
 Škola (SŠ)
 [Home]
 Domov
-[ICQ - Providing Help]
-Pomoc uživatelům ICQ
+[Providing Help]
+Pomoc uživatelům
 [Law]
 Právo
 [Managerial]

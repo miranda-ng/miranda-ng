@@ -61,8 +61,6 @@
 Не можу відправити дані облікового запису!
 [Wrong name or password!]
 Неправильне ім'я користувача або пароль!
-[Can't get RSS feed!]
-Не можу прочитати стрічку RSS!
 ;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Інше

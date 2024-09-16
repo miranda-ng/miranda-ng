@@ -506,17 +506,7 @@ x100 ms
 ;file \plugins\Clist_modern\src\groupmenu.cpp
 [&Hide/show]
 Показване/Скриване
-[&Find/add contacts...]
-Търсене/Добавяне на контакти
-[&Main menu]
-Главно меню
-[&Status]
-Състояние
-[&Options...]
-Настройки...
-[&About]
-Относно
-[&Show offline users in here]
+[Show offline users in here]
 Показване на контактите "Извън линия" тук
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [Last seen]
@@ -803,8 +793,6 @@ Angeli-Ka (изображения), FYR (шаблон)
 Меню на състоянието
 [Accounts]
 Акаунти
-[Accounts...]
-Акаунти...
 [Show/Hide offline contacts]
 Показване/Скриване на контактите "Извън линия"
 [Hide offline contacts]

@@ -299,8 +299,6 @@ Tout en minuscule
 
 [If this option is "ON", xStatus changes only if "Music" xStatus was set already.]
 
-[If this option is "ON", xStatus doesn't depend of ICQ's status.]
-
 [If this option is "ON", xStatus won't be changed when player is shut down.]
 
 [If this option is "ON", xStatus will be changed to "Music" and status text will be replaced by music info.]
@@ -459,8 +457,6 @@ xStatus - Titre
  Utiliser le plugin "Variable"
 [Acoustic]
 Acoustique
-[Use ICQ xStatus]
-Utiliser xStatus
 [Winamp Track]
 
 [Pause Pushed]

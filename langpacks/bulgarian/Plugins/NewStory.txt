@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -36,14 +36,42 @@
 
 [History++ compatiblity mode]
 
+[Show event type]
+
+[Show event direction]
+
+[Show picture preview]
+
 [Template list:]
 
 [Edit template:]
 
-[Text preview:]
-
 [Graphic preview:]
 
+[Text preview:]
+
+[[c2]]
+
+[[c4]]
+
+[[c6]]
+
+[[c3]]
+
+[[c5]]
+
+[Empty history]
+Изтриване на историята
+[Do you really want to delete selected item?]
+Наистина ли желаете маркираният елемент да бъде изтрит?
+[Remove server history]
+
+[Remove history for everyone]
+
+[&Yes]
+Да
+[&No]
+Не
 [Filter]
 Филтър
 [Show all events]
@@ -105,10 +133,22 @@
 
 [Grid background]
 Фон на мрежата
+[Quoting]
+
 [Separator]
 Разделител
+[Progress indicator]
+
+[Links]
+Връзки
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
+
+[ %u KB]
+
+[I]
+
+[wrote]
 
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
@@ -119,35 +159,11 @@
 
 [Search backward]
 
-[Are you sure to remove selected event(s)?]
+[Do you really want to delete selected items (%d)?]
 
 ;file \plugins\NewStory\src\history_dlg.cpp
-[FirstName]
-Име
-[LastName]
-Фамилия
-[e-mail]
-Имейл
-[Nick]
-Прякор
-[Age]
-Възраст
-[Gender]
-Пол
-[City]
-Град
-[State]
-Област
-[Phone]
-Телефон
-[Homepage]
-Домашна страница
-[About]
-Относно
 [Global history search]
 Общо търсене в историята
-[System history]
-Системна история
 [All results]
 Всички резултати
 [Copy]
@@ -174,9 +190,17 @@
 Разговори
 [Bookmarks]
 Отметки
-[No more occuurences found]
+[You need to install the Import plugin to export events]
+
+[No more occurrences found]
 
 [Passed the end of history]
+
+[The required plugin 'Import' isn't loaded to perform this operation.]
+
+[Do you want to install it using Plugin Updater?]
+
+[Missing plugin]
 
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 
@@ -184,7 +208,7 @@
 
 [JSON files]
 
-[Export %s history]
+[Export history]
 
 [Complete]
 Завършен
@@ -193,16 +217,18 @@
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file path]
-
-[Copy URL]
-Копиране на URL
 [History]
 История
 [Global search]
 
 [Copy text]
 Копиране на текста
+[Copy URL]
+Копиране на URL
+[Copy file path]
+
+[Show in folder]
+
 [Quote]
 Цитиране
 [Save as]
@@ -215,6 +241,8 @@
 Изтриване
 [Select all]
 Избор - всичко
+[Reply]
+
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Главна икона
@@ -257,10 +285,6 @@
 
 [event count]
 Брой събития
-[icon]
-Икона
-[direction icon]
-
 [direction symbol]
 
 [timestamp]
@@ -286,6 +310,12 @@
 [name of month, translatable]
 
 [the message string itself]
+
+[default text color]
+
+[nickname's color]
+
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
 
 [Advanced]
 Разширени
@@ -328,6 +358,8 @@
 ноември
 [December]
 декември
+[System history]
+Системна история
 [System event]
 
 [Interface]
@@ -354,3 +386,8 @@
 
 [Clipboard]
 Клипборд
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+
+[Potentially dangerous URL]
+

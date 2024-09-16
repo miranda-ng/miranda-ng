@@ -32,8 +32,6 @@
 
 [Gadu-Gadu clients]
 
-[ICQ clients]
-
 [IRC clients]
 
 [Jabber clients]
@@ -80,8 +78,6 @@
 
 [Undetected client]
 
-[ICQ overlay]
-
 [IRC overlay]
 
 [JGmail overlay]
@@ -93,8 +89,6 @@
 [VK overlay]
 
 [Skype overlay]
-
-[ICQ v8.x overlay]
 
 [Gadu-Gadu v11 client]
 
@@ -177,6 +171,8 @@
 [SecureIM overlay]
 
 ;file \plugins\FingerprintNG\src\options.cpp
+[Customize]
+Apparence
 [Icons]
 Icônes
 ;file \plugins\FingerprintNG\src\prepare.cpp

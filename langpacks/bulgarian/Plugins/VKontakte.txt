@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.15.0
+;  Version: 0.1.16.12
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,10 +24,14 @@
 Изтриване на контаките, които не са в приятели
 [Visit profile]
 Профил на сайта
+[Support BBCode for NewStory]
+
 [[img] BBCode support for image]
 
 [off]
 изкл.
+[for preview max height 320 px]
+
 [for original size images]
 
 [for preview max 130*130 px]
@@ -53,6 +57,8 @@
 [Use non-standard popups for news and event notifications]
 
 [Add message link to messages with attachments]
+
+[Add original message version in edited message]
 
 [News and event notifications]
 
@@ -186,17 +192,17 @@
 
 [Choose one of your contacts to be invited:]
 
-[Create group chat]
-
-[Mark users you want to invite to a new chat]
-
-[New chat's title:]
-
 [Share]
 Сподели
 [URL:]
 URL:
 [Only for friends]
+
+[Mark contacts for forwarding messages]
+
+[Mark contacts you want to forward messages]
+
+[Enter accompanying message]
 
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
@@ -222,6 +228,10 @@ URL:
 [Wall message icon]
 
 [Mark messages as read icon]
+
+[Forward icon]
+
+[Reload messages icon]
 
 [Access denied! Data will not be sent or received.]
 
@@ -295,6 +305,8 @@ URL:
 
 [Photo]
 Снимка
+[Video]
+Видео
 [Attachments:]
 Прикачени:
 [Audio]
@@ -305,8 +317,6 @@ URL:
 
 [Graffiti]
 
-[Video]
-Видео
 [Link]
 Връзка
 [Document]
@@ -356,6 +366,12 @@ URL:
 
 [Warning]
 Предупреждение
+[%x at %X]
+
+[Edited message (updated %s):\n]
+
+[\nOriginal message:\n]
+
 [Message link]
 
 [create chat]
@@ -404,18 +420,16 @@ URL:
 Изгонване
 [%s is typing a message...]
 %s пише съобщение...
+[Create group chat]
+
+[Mark users you want to invite to a new chat]
+
+[New chat's title:]
+
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Въведете текста, който виждате
 [Wall message for %s]
-
-[You delete %s from the contact list.\nWhat needs to be done additionally?]
-
-[Remove %s from your friend list]
-
-[Clear server history with %s]
-
-[Deleting %s from contact list]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [VKontakte]
@@ -492,15 +506,11 @@ URL:
 
 [Error loading message history for %s from server.]
 
-[%x at %X]
-
-[Edited message (updated %s):\n]
-
 [Loading messages for %s is completed.]
 
 ;file \protocols\VKontakte\src\vk_messages.cpp
-[\nOriginal message:\n]
-
+[Me]
+Аз
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 Мрежа
@@ -553,6 +563,10 @@ URL:
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]
+
+[Forward]
+
+[Reload messages]
 
 [Mark messages as read]
 Маркиране на съобщенията като прочетени

@@ -26,6 +26,8 @@ Ventanas en cascada nueva
 
 [Delete temporary contacts on closing]
 
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Mostrar aviso cuando el mensaje no se ha recibido después de
 [seconds]
@@ -78,18 +80,16 @@ Mostrar avatares
 
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
-[Preload]
+[Preload history events on window opening]
 
-[Unread events only]
+[Preload unread events only]
 
-[Last]
+[Preload number of previous events]
 
-[Events in the last]
+[Preload previous events less than]
 
-[events]
-eventos
-[minutes]
-minutos
+[minutes old]
+minutos de pasado
 [Message window event log]
 Ventana de mensajes de registro de eventos
 [Show icons]
@@ -314,7 +314,7 @@ Sangría de la segunda línea de un mensaje
 
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
 
 [path to Miranda root folder]
 

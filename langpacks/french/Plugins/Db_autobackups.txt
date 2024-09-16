@@ -58,7 +58,7 @@ Erreur
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
 Sauvegarder votre profil
-[Save profile as...]
+[Save database as...]
 
 [Miranda NG databases]
 

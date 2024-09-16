@@ -26,6 +26,8 @@
 Помнить неотправленные сообщения
 [Delete temporary contacts on closing]
 При включении удалять временные контакты
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Сообщать, если сообщение не удалось отправить за
 [seconds]

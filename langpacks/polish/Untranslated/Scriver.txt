@@ -1,3 +1,8 @@
+[Use BBCodes to send format inside messages]
+[Preload history events on window opening]
+[Preload unread events only]
+[Preload number of previous events]
+[Preload previous events less than]
 [Secure message (10x10)]
 [Secure verified message (10x10)]
 [Group chat events]

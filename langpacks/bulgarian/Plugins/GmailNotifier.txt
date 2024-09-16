@@ -61,8 +61,6 @@ Popup приставка
 
 [Wrong name or password!]
 Грешно име или парола!
-[Can't get RSS feed!]
-
 ;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Друго

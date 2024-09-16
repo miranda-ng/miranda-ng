@@ -244,6 +244,23 @@ Messages
 Notifications
 [Host]
 
+;file \protocols\IRCG\src\channelList.cpp
+[Channel]
+Canal
+[Mode]
+
+[Please wait...]
+
+[%s - Filtered - %d items]
+
+[Downloading list (%u%%) - %u channels]
+Chargement de la liste (%u%%) - %u canaux
+[Downloading list - %u channels]
+Chargement de la liste - u canaux
+[Done: %u channels]
+Terminé : %u canaux
+[(probably truncated by server)]
+(probablement tronqué par le serveur)
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 Requête de chat CTCP de %s
@@ -296,14 +313,6 @@ Propriétaire
 
 [Voice]
 Voix
-[Downloading list (%u%%) - %u channels]
-Chargement de la liste (%u%%) - %u canaux
-[Downloading list - %u channels]
-Chargement de la liste - u canaux
-[Done: %u channels]
-Terminé : %u canaux
-[(probably truncated by server)]
-(probablement tronqué par le serveur)
 [%ud, %uh, %um, %us]
 
 [%uh, %um, %us]
@@ -711,14 +720,6 @@ Se connecte à
 [Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
 
 ;file \protocols\IRCG\src\windows.cpp
-[Please wait...]
-
-[Channel]
-Canal
-[Mode]
-
-[%s - Filtered - %d items]
-
 [Add ban/invite/exception]
 Ajouter ban/invite/exception
 [Edit selected ban/invite/exception]

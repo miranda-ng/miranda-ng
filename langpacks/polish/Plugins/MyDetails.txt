@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all accounts.]
@@ -114,6 +114,12 @@ Nie przełączaj kont
 [<no status name>]
 <brak opisu>
 ;file \plugins\MyDetails\src\frame.cpp
+[<no nickname>]
+
+[<no status message>]
+<brak opisu>
+[<nothing playing>]
+
 [Nickname]
 Nick
 [Status]

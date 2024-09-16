@@ -61,8 +61,6 @@ segundos
 
 [Wrong name or password!]
 
-[Can't get RSS feed!]
-
 ;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 Otro

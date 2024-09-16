@@ -44,8 +44,6 @@
 Сімейний стан:
 [Partner:]
 Партнер:
-[Language skills]
-Володіння мовами
 [Street:]
 Вулиця:
 [Postal code:]
@@ -420,12 +418,6 @@
 [Error]
 Помилка
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload details]
-Завантажити деталі
-[Protocol '%s' is offline]
-Протокол '%s' не в мережі
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Ви не підключені до мережі ICQ.\nЩоб оновлювати дані на сервері, потрібно підключитися до мережі ICQ.\n\nЗміни будуть збережені тільки в локальній базі даних.
 [Creating the image list failed!]
 Помилка при створенні imagelist.
 [Could not find contact's protocol. Maybe it is not active!]
@@ -444,12 +436,6 @@
 редагувати дані контакту
 [View personal user details and more]
 Перегляд особистих даних користувача
-[Upload ICQ details]
-Завантжити деталі ICQ
-[Upload failed]
-Завантаження не вдалося
-[Your details were not uploaded successfully.\nThey were written to database only.]
-Ваші дані не завантажено.\nВони збережені в локальній базі даних.
 [updating]
 оновлення
 ;file \plugins\UserInfoEx\src\init.cpp
@@ -586,12 +572,8 @@
 Експорт/Імпорт групи
 [&Export group]
 &Експортувати групу
-[&Import group]
-&Імпортувати групу
 [&Export xml]
 &Експорт XML
-[&Import xml]
-&Імпорт XML
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Мої нотатки:
@@ -683,150 +665,6 @@
 [Profile]
 Профіль
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
-[Afrikaans]
-Африкаанс
-[Albanian]
-Албанська
-[Arabic]
-Арабська
-[Armenian]
-Вірменська
-[Azerbaijani]
-Азербайджанська
-[Belorussian]
-Білоруська
-[Bhojpuri]
-Бходжпурі
-[Bosnian]
-Боснійська
-[Bulgarian]
-Болгарська
-[Burmese]
-Бірманська
-[Cantonese]
-Кантонська
-[Catalan]
-Каталонська
-[Chamorro]
-Чаморро
-[Chinese]
-Китайська
-[Croatian]
-Хорватська
-[Czech]
-Чеська
-[Danish]
-Данська
-[Dutch]
-Голландська
-[English]
-Англійська
-[Esperanto]
-Есперанто
-[Estonian]
-Естонська
-[Farsi]
-Фарсі
-[Finnish]
-Фінська
-[French]
-Французька
-[Gaelic]
-Гельська
-[German]
-Німецька
-[Greek]
-Грецька
-[Gujarati]
-Гуджаратська
-[Hebrew]
-Іврит
-[Hindi]
-Гінді
-[Hungarian]
-Угорська
-[Icelandic]
-Ісландська
-[Indonesian]
-Індонезійська
-[Italian]
-Італійська
-[Japanese]
-Японська
-[Khmer]
-Кхмерська
-[Korean]
-Корейська
-[Kurdish]
-Курдська
-[Lao]
-Лаоська
-[Latvian]
-Латвійська
-[Lithuanian]
-Литовська
-[Macedonian]
-Македонська
-[Malay]
-Малайська
-[Mandarin]
-Мандарин
-[Mongolian]
-Монгольська
-[Norwegian]
-Норвезька
-[Persian]
-Перська
-[Polish]
-Польська
-[Portuguese]
-Португальська
-[Punjabi]
-Панджабі
-[Romanian]
-Румунська
-[Russian]
-Російська
-[Serbo-Croatian]
-Сербохорватська
-[Sindhi]
-Сінді
-[Slovak]
-Словацька
-[Slovenian]
-Словенська
-[Somali]
-Сомалійська
-[Spanish]
-Іспанська
-[Swahili]
-Суахілі
-[Swedish]
-Шведська
-[Tagalog]
-Тагальська
-[Taiwanese]
-Тайванська
-[Tamil]
-Тамільська
-[Tatar]
-Татарська
-[Thai]
-Тайська
-[Turkish]
-Турецька
-[Ukrainian]
-Українська
-[Urdu]
-Урду
-[Vietnamese]
-В'єтнамська
-[Welsh]
-Уельська
-[Yiddish]
-Ідиш
-[Yoruba]
-Йоруба
 [Academic]
 Викладач
 [Administrative]
@@ -851,8 +689,8 @@
 Учень середньої школи
 [Home]
 Дім
-[ICQ - Providing Help]
-ICQ - підтримка
+[Providing Help]
+Підтримка
 [Law]
 Юриспруденція
 [Managerial]

@@ -10,10 +10,6 @@ Dodaje przydatne opcje do menu kontaktu.
 ;file \plugins\MenuItemEx\res\resource.rc
 [Shown menu items]
 Pokaż wpisy w menu
-[Visibility]
-Widoczność
-[Show alpha icons]
-Przezroczyste ikony
 [Hide from list]
 Ukryj na liście
 [Ignore]

@@ -1,5 +1,6 @@
 [Show groups folded]
 [Show account names]
+[Show offline users in here]
 [Contract meta]
 [Expand meta]
 [Add view mode]

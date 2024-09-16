@@ -130,8 +130,6 @@ Pravé tlačítko
 Oznámení
 [Show Popups when I connect]
 Zobrazit oznámení při připojení
-[Disable for extra status 'Music']
-Vypnout pro rozšířený stav 'Hudba'
 [Truncate message length to:]
 Oříznout délku zprávy na:
 [characters]
@@ -379,8 +377,6 @@ Oznámení stavu
 Nálada
 [Activity]
 Činnost
-[xStatus]
-Rozšířený stav
 [<no title>]
 <bez názvu>
 [%s changed %s]

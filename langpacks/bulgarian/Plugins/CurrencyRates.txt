@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -44,8 +44,6 @@
 Показване на popup само при промяна на стойността
 [Cancel]
 Отказ
-[Popup settings...]
-Popup настройки...
 [Currency Converter]
 Конвертор на валута
 [&to:]
@@ -58,7 +56,31 @@ Popup настройки...
 Източник на информацията Google
 [Close]
 Затваряне
-[Popup settings]
+[Current Rate:]
+Текущ курс:
+[Rate Fetch Time:]
+Получен в:
+[Previous Rate:]
+Предишен курс:
+[Provider:]
+
+[&Add]
+Добавяне
+[&Watched currency rates:]
+Наблюдавани валутни курсове:
+[&Remove]
+Премахване
+[&Refresh Rates Every:]
+Обновяване през:
+[&Display in Contact List as:]
+Изобразяване като:
+[&Status Message:]
+Текст за състояние:
+[&Tendency:]
+Тенденция:
+[&Personal key:]
+
+[Get key]
 
 [Colors]
 Цветове
@@ -82,50 +104,17 @@ Popup настройки...
 Без добавяне към popup историята
 [Preview]
 Образец
-[Current Rate:]
-Текущ курс:
-[Rate Fetch Time:]
-Получен в:
-[Previous Rate:]
-Предишен курс:
-[&Convert:]
-Превръщане на:
-[&Add]
-Добавяне
-[&Watched currency rates:]
-Наблюдавани валутни курсове:
-[&Remove]
-Премахване
-[&Refresh Rates Every:]
-Обновяване през:
-[&Display in Contact List as:]
-Изобразяване като:
-[&Status Message:]
-Текст за състояние:
-[&Tendency:]
-Тенденция:
-[&Personal key:]
-
-[&Advanced Settings...]
-Допълнителни настройки...
 [Rate Info]
 Инф. за курса
+[Add currency pair]
+
+[From:]
+От:
+[To:]
+За:
 ;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 Няма за изобразяване
-;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
-[Seconds]
-Секунди
-[Minutes]
-Минути
-[Hours]
-Часове
-[Enter integer value between 1 and 60.]
-Въведете цяла стойност между 1 и 60.
-[Enter integer value between 1 and 24.]
-Въведете цяла стойност между 1 и 24.
-[Enter text to display in contact list.]
-Въведете текст за изобразяване в списъка с контакти.
 ;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Източник
@@ -135,8 +124,20 @@ Popup настройки...
 [Currency Rate]
 
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Currency Rates]
+Валутни курсове
 [Test contact]
 Тестови контакт
+[From Currency Full Name]
+От валута (цялото име)
+[From Currency Short Name]
+От валута (кратко име)
+[Into Currency Full Name]
+Във валута (цялото име)
+[Into Currency Short Name]
+Във валута (кратко име)
+[Short notation for "%f/%i"]
+Кратко означаване на "%f/%i"
 [Source of information]
 Източник на информация
 [Rate value]
@@ -162,23 +163,14 @@ Popup настройки...
 
 [Error occurred during site access.]
 
-[From Currency Full Name]
-От валута (цялото име)
-[From Currency Short Name]
-От валута (кратко име)
-[Into Currency Full Name]
-Във валута (цялото име)
-[Into Currency Short Name]
-Във валута (кратко име)
-[Short notation for "%f/%i"]
-Кратко означаване на "%f/%i"
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
+
 ;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Автообновяването е включено
 [Auto Update Disabled]
 Автообновяването е изключено
-[Currency Rates]
-Валутни курсове
 [Enable/Disable Auto Update]
 Вкл / Изкл на автоматично обновяване
 [Refresh All Rates]
@@ -205,8 +197,6 @@ Popup настройки...
 
 [Currency Symbol]
 
-[Network]
-Мрежа
 [Protocol icon]
 Икона на протокола
 [Currency Rate up]
@@ -224,23 +214,36 @@ Popup настройки...
 [Import]
 Внос
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+[This plugin requires a personal key. Open the Options dialog to obtain it.]
 
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 XML файлове (*.xml)
 [All files (*.*)]
 Всички файлове (*.*)
-;file \protocols\CurrencyRates\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-
-[Enter integer value]
-
+;file \protocols\CurrencyRates\src\Options.cpp
+[Seconds]
+Секунди
+[Minutes]
+Минути
+[Hours]
+Часове
 [Enter log file name.]
 Въведете име на дневника.
 [Enter log file format.]
 Въведете формат за името.
 [Enter history format.]
 Въведете формат за историята.
+[Network]
+Мрежа
+[General]
+Основни
+[Advanced]
+Разширени
+[Popups]
+Рopups
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+
 [Enter popup window format.]
 

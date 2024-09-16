@@ -278,7 +278,7 @@
 Индикатор изменения размера
 [Draw background skin]
 Использовать скин для фона
-[Show MRA extended status icons]
+[Show extended status icons]
 Показывать значки xСтатуса
 [Mark protocols locked from global status changes]
 Помечать протоколы, для которых не применяется смена статуса

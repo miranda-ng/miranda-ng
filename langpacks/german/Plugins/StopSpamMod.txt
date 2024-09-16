@@ -52,14 +52,6 @@ Ausgeschlossene Kontakte nach Neustart entfernen
 Kontakt in angegebene Gruppe hinzufügen:
 [Ignore URL in messages and auth requests]
 URLs in Nachrichten und Autorisierungsanfragen ignorieren
-[Add contact to server list]
-Kontakt in Serverliste hinzufügen
-[After congratulation (ICQ only)]
-Nach Gratulation (nur ICQ)
-[Automatically grant authorization]
-Automatisch Autorisierung gewähren
-[Request authorization from contacts which pass StopSpam test]
-Autorisierung von Kontakten, die den Spam-Test bestanden haben, anfragen
 [Use regex for answers checking]
 Prüfe Antwort mit regulärem Ausdruck
 [Log Spammers to system history]

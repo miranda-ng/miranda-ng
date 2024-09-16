@@ -12,10 +12,6 @@
 Увімкнути автовідповідач
 [On event...]
 При:
-[Don't reply to ICQ contacts]
-Не відповідати контактам ICQ
-[Don't reply when I'm invisible to the contact]
-Не відповідати, коли я невидимий для користувача
 [Save autoreply to the history]
 Зберігати повідомлення автовідповідача в історії
 [Reply only when Idle]
@@ -104,8 +100,8 @@
 Зберігати налаштування автовідповідача/ігнорування контакту окремо для кожного статусу
 [Use protocol specific nick for %nas_mynick%]
 Використовувати нік протоколу для %nas_mynick%
-[Update status messages for non-ICQ protocols every]
-Оновл. повідомлення для не-ICQ протоколів кожні
+[Update status messages every]
+Оновл. повідомлення кожні
 [seconds]
 секунд
 [Don't show the message dialog for]

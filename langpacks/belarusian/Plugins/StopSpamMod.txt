@@ -52,14 +52,6 @@
 Дадаць кантакты ў гурт:
 [Ignore URL in messages and auth requests]
 Ігнараваць спасылкі ў паведамленнях і запытах аўтарызацыі
-[Add contact to server list]
-Дадаць кантакт у спіс на серверы
-[After congratulation (ICQ only)]
-Пасля віншавання (толькі для ICQ)
-[Automatically grant authorization]
-Аўтарызаваць аўтаматычна
-[Request authorization from contacts which pass StopSpam test]
-Запытваць аўтарызацыю ў кантактаў мінулых праверку антыспаму
 [Use regex for answers checking]
 Выкарыстоўваць рэгулярныя выразы для праверкі адказаў
 [Log Spammers to system history]

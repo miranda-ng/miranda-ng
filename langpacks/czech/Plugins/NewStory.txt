@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -36,14 +36,42 @@ Seskupovat zprávy
 
 [History++ compatiblity mode]
 
+[Show event type]
+
+[Show event direction]
+
+[Show picture preview]
+
 [Template list:]
 
 [Edit template:]
 
-[Text preview:]
-
 [Graphic preview:]
 
+[Text preview:]
+
+[[c2]]
+
+[[c4]]
+
+[[c6]]
+
+[[c3]]
+
+[[c5]]
+
+[Empty history]
+Vymazání historie
+[Do you really want to delete selected item?]
+Opravdu chcete odstranit vybraný stav?
+[Remove server history]
+
+[Remove history for everyone]
+
+[&Yes]
+&Ano
+[&No]
+&Ne
 [Filter]
 Filtr
 [Show all events]
@@ -105,10 +133,22 @@ Změny stavu
 Zvýrazněné zprávy
 [Grid background]
 Pozadí mřížky
+[Quoting]
+
 [Separator]
 Oddělovač
+[Progress indicator]
+
+[Links]
+Odkazy
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
+
+[ %u KB]
+
+[I]
+
+[wrote]
 
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
@@ -119,35 +159,11 @@ Hledat
 
 [Search backward]
 
-[Are you sure to remove selected event(s)?]
+[Do you really want to delete selected items (%d)?]
 
 ;file \plugins\NewStory\src\history_dlg.cpp
-[FirstName]
-Jméno
-[LastName]
-Příjmení
-[e-mail]
-e-mail
-[Nick]
-Přezdívka
-[Age]
-Věk
-[Gender]
-Pohlaví
-[City]
-Město
-[State]
-Stát
-[Phone]
-Telefon
-[Homepage]
-Dom. stránka
-[About]
-Informace
 [Global history search]
 Vyhledávání v globální historii
-[System history]
-Historie systému
 [All results]
 Všechny výsledky
 [Copy]
@@ -174,9 +190,17 @@ Najít předchozí
 Konverzace
 [Bookmarks]
 Záložky
-[No more occuurences found]
+[You need to install the Import plugin to export events]
+
+[No more occurrences found]
 
 [Passed the end of history]
+
+[The required plugin 'Import' isn't loaded to perform this operation.]
+
+[Do you want to install it using Plugin Updater?]
+
+[Missing plugin]
 
 [It is metacontact. For export use one of this subcontacts:\r\n%s]
 
@@ -184,7 +208,7 @@ Záložky
 
 [JSON files]
 
-[Export %s history]
+[Export history]
 
 [Complete]
 Dokončeno
@@ -193,16 +217,18 @@ Dokončeno
 [Passed the beginning of history]
 
 ;file \plugins\NewStory\src\history_menus.cpp
-[Copy file path]
-
-[Copy URL]
-
 [History]
 Historie
 [Global search]
 
 [Copy text]
 Zkopírovat text
+[Copy URL]
+
+[Copy file path]
+
+[Show in folder]
+
 [Quote]
 Citovat
 [Save as]
@@ -215,6 +241,8 @@ Upravit
 Smazat
 [Select all]
 Vybrat vše
+[Reply]
+Odpovědět
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Hlavní ikona
@@ -257,10 +285,6 @@ Testovací kontakt
 
 [event count]
 Počet událostí
-[icon]
-Ikona
-[direction icon]
-
 [direction symbol]
 
 [timestamp]
@@ -286,6 +310,12 @@ rok (4 číslice)
 [name of month, translatable]
 
 [the message string itself]
+
+[default text color]
+
+[nickname's color]
+
+[one of the user defined custom color from the options page for the following text output (X is a number from 2 to 6, referring to the color index)]
 
 [Advanced]
 Extra
@@ -328,6 +358,8 @@ září
 listopad
 [December]
 prosinec
+[System history]
+Historie systému
 [System event]
 
 [Interface]
@@ -354,3 +386,8 @@ Jiné události
 
 [Clipboard]
 Schránka
+;file \plugins\NewStory\src\webpage.cpp
+[This url might launch an executable program or virus, are you sure?]
+
+[Potentially dangerous URL]
+

@@ -130,8 +130,6 @@
 Уведомяване
 [Show Popups when I connect]
 
-[Disable for extra status 'Music']
-Изключване за допълнително състояние "Слуша музика"
 [Truncate message length to:]
 Орязване на съобщенията до:
 [characters]
@@ -379,8 +377,6 @@
 Настроение
 [Activity]
 Дейност
-[xStatus]
-xСъстояние
 [<no title>]
 
 [%s changed %s]

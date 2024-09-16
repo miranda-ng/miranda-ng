@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -44,8 +44,6 @@ Zobrazit &oznámení
 Zo&brazit oznámení pouze pokud se hodnota změní
 [Cancel]
 Zrušit
-[Popup settings...]
-Nastavení oznámení...
 [Currency Converter]
 Převod měn
 [&to:]
@@ -58,8 +56,32 @@ Nahradit
 Informace poskytuje <a href="http://www.google.com">Google</a>
 [Close]
 Zavřít
-[Popup settings]
-Nastavení oznámení
+[Current Rate:]
+
+[Rate Fetch Time:]
+
+[Previous Rate:]
+
+[Provider:]
+
+[&Add]
+Přid&at
+[&Watched currency rates:]
+
+[&Remove]
+Odst&ranit
+[&Refresh Rates Every:]
+
+[&Display in Contact List as:]
+&Zobrazit v seznamu kontaktů jako:
+[&Status Message:]
+Zpráva &stavu
+[&Tendency:]
+
+[&Personal key:]
+
+[Get key]
+
 [Colors]
 Barvy
 [Use default colors]
@@ -82,50 +104,17 @@ Trvale
 
 [Preview]
 Náhled
-[Current Rate:]
-
-[Rate Fetch Time:]
-
-[Previous Rate:]
-
-[&Convert:]
-
-[&Add]
-Přid&at
-[&Watched currency rates:]
-
-[&Remove]
-Odst&ranit
-[&Refresh Rates Every:]
-
-[&Display in Contact List as:]
-&Zobrazit v seznamu kontaktů jako:
-[&Status Message:]
-Zpráva &stavu
-[&Tendency:]
-
-[&Personal key:]
-
-[&Advanced Settings...]
-Pokročilé nastavení...
 [Rate Info]
 
+[Add currency pair]
+
+[From:]
+Od:
+[To:]
+Pro:
 ;file \protocols\CurrencyRates\src\Chart.h
 [There is nothing to show]
 
-;file \protocols\CurrencyRates\src\CommonOptionDlg.cpp
-[Seconds]
-sekund
-[Minutes]
-minut
-[Hours]
-hodin
-[Enter integer value between 1 and 60.]
-Zadejte číselnou hodnotu mezi 1 a 60.
-[Enter integer value between 1 and 24.]
-Zadejte číselnou hodnotu mezi 1 a 24.
-[Enter text to display in contact list.]
-Zadejte text pro zobrazení v seznamu kontaktů.
 ;file \protocols\CurrencyRates\src\CurrencyConverter.cpp
 [Info provided by]
 Informace poskytuje
@@ -135,8 +124,20 @@ Informace poskytuje
 [Currency Rate]
 
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
+[Currency Rates]
+Kurzy měn
 [Test contact]
 Testovací kontakt
+[From Currency Full Name]
+
+[From Currency Short Name]
+
+[Into Currency Full Name]
+
+[Into Currency Short Name]
+
+[Short notation for "%f/%i"]
+
 [Source of information]
 
 [Rate value]
@@ -162,23 +163,14 @@ Testovací kontakt
 
 [Error occurred during site access.]
 
-[From Currency Full Name]
-
-[From Currency Short Name]
-
-[Into Currency Full Name]
-
-[Into Currency Short Name]
-
-[Short notation for "%f/%i"]
+;file \protocols\CurrencyRates\src\EconomicRateInfo.h
+[CurrencyRates]
 
 ;file \protocols\CurrencyRates\src\Forex.cpp
 [Auto Update Enabled]
 Deaktivovat automatickou aktualizaci
 [Auto Update Disabled]
 Aktivovat automatickou aktualizaci
-[Currency Rates]
-Kurzy měn
 [Enable/Disable Auto Update]
 Povolit/zakázat automatickou aktualizaci
 [Refresh All Rates]
@@ -205,8 +197,6 @@ Upravit nastavení...
 
 [Currency Symbol]
 
-[Network]
-Sítě
 [Protocol icon]
 Ikona protokolu
 [Currency Rate up]
@@ -224,23 +214,36 @@ Exportovat
 [Import]
 Importovat
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+[This plugin requires a personal key. Open the Options dialog to obtain it.]
 
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 XML soubory (*.xml)
 [All files (*.*)]
 Všechny soubory (*.*)
-;file \protocols\CurrencyRates\src\SettingsDlg.cpp
-[Log Files (*.txt,*.log)]
-Záznamové soubory (*.txt,*.log)
-[Enter integer value]
-Zadejte číselnou hodnotu
+;file \protocols\CurrencyRates\src\Options.cpp
+[Seconds]
+sekund
+[Minutes]
+minut
+[Hours]
+hodin
 [Enter log file name.]
 Zadejte název záznamového souboru.
 [Enter log file format.]
 Zadejte formát záznamového souboru.
 [Enter history format.]
 Zadejte formát historie.
+[Network]
+Sítě
+[General]
+Obecné
+[Advanced]
+Extra
+[Popups]
+Oznámení
+;file \protocols\CurrencyRates\src\SettingsDlg.cpp
+[Log Files (*.txt,*.log)]
+Záznamové soubory (*.txt,*.log)
 [Enter popup window format.]
 Zadejte formát oznámení.

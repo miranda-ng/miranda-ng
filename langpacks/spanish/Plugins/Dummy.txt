@@ -51,6 +51,8 @@ Dirección E-mail
 
 [Steam ID]
 
+[Telegram ID]
+
 [Tlen login]
 
 [Tox ID]

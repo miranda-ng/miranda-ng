@@ -58,8 +58,8 @@ Tworzenie kopii zapasowej bazy danych w toku...
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
 Kopia zapasowa profilu
-[Save profile as...]
-Zapisz profil w...
+[Save database as...]
+
 [Miranda NG databases]
 Bazy danych Mirandy NG
 [Compressed Miranda NG databases]

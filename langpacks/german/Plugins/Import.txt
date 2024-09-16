@@ -133,10 +133,6 @@ Fehler beim Laden der Quelldatei, beende.
 Anzahl Kontakte in Datenbank: %d
 [Error mapping accounts, exiting.]
 Fehler beim Abbilden der Konten, Beenden.
-[Importing groups.]
-Importiere Gruppen.
-[Group import failed.]
-Import der Gruppe fehlgeschlagen.
 [Importing contacts.]
 Kontakte importieren.
 [Skipping new contacts import.]

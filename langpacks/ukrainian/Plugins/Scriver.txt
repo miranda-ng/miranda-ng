@@ -26,6 +26,8 @@
 Пам'ятати ненадіслані повідомлення
 [Delete temporary contacts on closing]
 Видаляти тимчасові контакти при закритті
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Сповіщати, якщо повідомл. не вдалося надіслати протягом
 [seconds]
@@ -78,18 +80,16 @@
 рядків
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
 
-[Preload]
-Показувати історію
-[Unread events only]
-Лише непереглянуті події
-[Last]
-Останні
-[Events in the last]
-Події, отримані пізніше ніж
-[events]
-подій
-[minutes]
-хвилин
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
+[minutes old]
+хвилин тому
 [Message window event log]
 Журнал у вікні повідомлень
 [Show icons]
@@ -314,8 +314,8 @@
 ім'я протоколу поточного контакту (якщо вказано). Ім'я облікового запису використовується, коли протокол підтримує кілька облікових записів.
 [user-defined account name of current contact (if defined).]
 ім'я облікового запису поточного контакту (якщо вказано).
-[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
-ID поточного контакту (якщо визначено). Наприклад, UIN для ICQ, JID для Jabber тощо.
+[user ID of current contact (if defined). It is like JID for Jabber, etc.]
+ID поточного контакту (якщо визначено). Наприклад, JID для Jabber тощо.
 [path to Miranda root folder]
 шлях до кореневої папки Miranda
 [path to folder containing Miranda profiles]

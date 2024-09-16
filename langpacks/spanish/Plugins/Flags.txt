@@ -22,5 +22,7 @@ Usar bandera desconocida, si el país no se puede determinar
 [Country flag]
 Bandera de País
 ;file \plugins\CountryFlags\src\options.cpp
+[Customize]
+Personalizar
 [Icons]
 Iconos

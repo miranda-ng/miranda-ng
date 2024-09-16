@@ -407,9 +407,9 @@ Výchozí
 Oblíbené
 [Block]
 Blokovat
-[Popup Mode: Auto]
+[Popup mode: Auto]
 Režim oznámení: Výchozí
-[Popup Mode: Favorite]
+[Popup mode: Favorite]
 Režim oznámení: Oblíbený kontakt
-[Popup Mode: Ignore fullscreen]
+[Popup mode: Ignore fullscreen]
 Režim oznámení: Ignorovat celoobrazovkový režim

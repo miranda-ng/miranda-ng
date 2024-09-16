@@ -21,7 +21,7 @@
 [Database backed up]
 [Database back up in process...]
 [Backup profile]
-[Save profile as...]
+[Save database as...]
 [Miranda NG databases]
 [Compressed Miranda NG databases]
 [Database backups]

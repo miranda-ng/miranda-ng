@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeWeb.dll
 ;  Plugin: Skype protocol (Web)
-;  Version: 0.96.3.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Skype protocol support for Miranda NG. Based on new Skype for Web.]
@@ -30,22 +30,20 @@
 Інше
 [Automatic messages synchronization]
 Автоматична синхронізація повідомлень
-[Always notify as unread for all incoming message]
-Позначати всі вхідні повідомлення непрочитаними
+[Use BBCode]
+Підтримка BBCode
 [Place:]
 Місце:
 [Use hostname]
 Використ. ім'я хоста
-[Use BBCode]
-Підтримка BBCode
 [Change password]
 Змінити пароль
-[Enter password]
-Введіть пароль
-[Save password]
-Зберегти пароль
-[Enter the password to continue.]
-Введіть пароль для продовження.
+[Set mood]
+Настрій
+[Mood]
+Настрій
+[Text]
+Текст
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 Протокол Skype
@@ -84,33 +82,19 @@
 ;file \protocols\SkypeWeb\src\skype_db.cpp
 [Incoming call]
 Вхідний дзвінок
-[Edited message]
-Відредаговане повідомлення
 [Action]
 Дія
 [Call information]
 Інформація про дзвінок
 [File transfer information]
 Інформація про передачу файлу
-[URI object]
-Об'єкт URI
 [Moji]
 Модзі
-[File]
-Файл
 [Unknown event]
 Невідома подія
 ;file \protocols\SkypeWeb\src\skype_events.cpp
 [SkypeWeb error: Invalid data!]
 Помилка SkypeWeb: Неправильні дані!
-[[b]Original message:[/b]\n%s\n]
-\[b]Початкове повідомлення:[/b]\n%s\n
-[Original message:\n%s\n]
-Початкове повідомлення:\n%s\n
-[[b]Edited at %s:[/b]\n%s\n]
-\[b]Відредаговане о %s:[/b]\n%s\n
-[Edited at %s:\n%s\n]
-Відредаговане о %s:\n%s\n
 [Call]
 Дзвінок
 [Call missed]
@@ -160,11 +144,38 @@
 Розблокувати контакт
 [Create new chat]
 Створити новий чат
+[Set own mood]
+
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
 Невідома помилка!
 [Network error!]
 Помилка мережі!
+;file \protocols\SkypeWeb\src\skype_mood.cpp
+[None]
+Нічого
+[Custom emoji]
+
+[Be right back]
+
+[Out for lunch]
+
+[In meetings]
+
+[At school]
+
+[At the movies]
+
+[Traveling]
+В дорозі
+[Celebrating]
+
+[Driving]
+за кермом
+[At the gym]
+
+[Working from home]
+
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Мережа

@@ -102,30 +102,40 @@
 Добавяне на нов профил
 [Profile name]
 Име на профила
-[Set window state]
-Състояние на прозореца
-[Show dialog]
-Показване на прозореца
-[Set status to offline before exit]
-Задай състояние "Извън линия" преди излизане
-[Show CMDL]
-Команден ред
-[Activate status profile]
-Ползване на профил
-[Set docked]
-Загнездване
-[Other]
-Друго
 [Status on startup]
 Състояние при стартиране
-[ms]
-ms
+[Activate status profile]
+Ползване на профил
 [Set after]
 Задай след
+[ms]
+ms
+[Note: status profiles can be created in the 'Status profiles' options screen]
+Можете да създадете нов профил от таб "Профили на състоянията"
+[Allow override]
+
+[Show dialog]
+Показване на прозореца
 [Timeout]
 Времетраене
 [s]
 сек
+[Dial-up (experimental)]
+Dial-up (експериментално)
+[Automatically dial on startup]
+Автоматично набиране при стартиране
+[Automatically hang up on exit]
+Автоматично затваряне при излизане
+[Other]
+Друго
+[Set status to offline before exit]
+Задай състояние "Извън линия" преди излизане
+[Window on startup]
+Прозорец при стартиране
+[Set window state]
+Състояние на прозореца
+[Set docked]
+Загнездване
 [Set window location]
 Местоположение на прозореца
 [Left]
@@ -136,20 +146,10 @@ ms
 Размер на прозореца
 [Width]
 Ширина
+[Show CMDL]
+Команден ред
 [Height]
 Височина
-[Allow override]
-
-[Note: status profiles can be created in the 'Status profiles' options screen]
-Можете да създадете нов профил от таб "Профили на състоянията"
-[Window on startup]
-Прозорец при стартиране
-[Automatically dial on startup]
-Автоматично набиране при стартиране
-[Automatically hang up on exit]
-Автоматично затваряне при излизане
-[Dial-up (experimental)]
-Dial-up (експериментално)
 [Background color]
 Цвят на фона
 [Text color]

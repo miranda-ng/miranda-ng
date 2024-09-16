@@ -12,10 +12,6 @@ Pozwala Ci zarządzać swoimi opisami w wygodny sposób.
 Włącz autoodpowiedzi
 [On event...]
 Dla...
-[Don't reply to ICQ contacts]
-Nie odpowiadaj kontaktom ICQ
-[Don't reply when I'm invisible to the contact]
-Nie odpowiadaj kiedy jestem niewidoczny dla kontaktu
 [Save autoreply to the history]
 Zapisuj autoodpowiedź do historii
 [Reply only when Idle]
@@ -104,8 +100,8 @@ Pamiętaj ostatnią wiadomość użytą dla kontaktu
 Zachowuj ustawienia ignorowania kontaktów przy wysyłce autoodpowiedzi osobno dla każdego statusu.
 [Use protocol specific nick for %nas_mynick%]
 Używaj nicka specyficznego dla protokołu w zmiennej %nas_mynick%
-[Update status messages for non-ICQ protocols every]
-Aktualizuj opisy w protokołach innych niż ICQ co
+[Update status messages every]
+Aktualizuj opisy o statusie co
 [seconds]
 s
 [Don't show the message dialog for]

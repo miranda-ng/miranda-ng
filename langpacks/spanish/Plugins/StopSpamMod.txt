@@ -52,14 +52,6 @@
 
 [Ignore URL in messages and auth requests]
 
-[Add contact to server list]
-
-[After congratulation (ICQ only)]
-
-[Automatically grant authorization]
-
-[Request authorization from contacts which pass StopSpam test]
-
 [Use regex for answers checking]
 
 [Log Spammers to system history]

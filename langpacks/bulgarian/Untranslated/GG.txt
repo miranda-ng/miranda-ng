@@ -5,7 +5,6 @@
 [Enter token to continue]
 [Open]
 [Concurrent %s Login Sessions]
-[Cannot create avatar file. ERROR: %d: %s\n%s]
 [Cannot open avatar file. ERROR: %d: %s\n%s]
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 [Received invalid server response.]

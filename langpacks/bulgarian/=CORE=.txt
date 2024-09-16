@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.4
+;  Version: 0.96.6
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -261,6 +261,8 @@
 Показване броя на знаците
 [Show toolbar buttons on top row]
 Лента с инструменти на горния ред
+[Use BBCodes to send format inside messages]
+
 [Show warning when message has not been received after]
 Предупреждение, ако съобщение не е получено след
 [Send error]
@@ -275,12 +277,14 @@
 Отказ
 [&Send]
 Изпращане
-[Load unread events only]
-Само непрочетените събития
-[Load number of previous events]
-Предишни събития на брой
-[Load previous events less than]
-Събития от преди
+[Preload history events on window opening]
+
+[Preload unread events only]
+
+[Preload number of previous events]
+
+[Preload previous events less than]
+
 [minutes old]
 минути
 [Message window event log]
@@ -297,8 +301,6 @@
 
 [Automatically copy selected text]
 Автокопиране на маркирания текст
-[Load history events]
-Допълнително зареждани събития
 [Use a tabbed interface]
 Ползване на табове
 [Close tab on double click]
@@ -343,6 +345,8 @@
 Известия
 [Options]
 Настройки
+[Add new rooms to group:]
+Добавяне на новите стаи към група:
 [Log options]
 Настройки на дневника
 [Log timestamp]
@@ -367,8 +371,6 @@
 Директория на дневника
 [Other]
 Друго
-[Add new rooms to group:]
-Добавяне на новите стаи към група:
 [Nick list row distance (pixels):]
 Височина на ред в списъка с прякори (пиксела):
 [Message]
@@ -440,8 +442,6 @@
 Изглед
 [Avatar size:]
 Аватар (размер):
-[Disable when]
-Изключване, когато
 [Global hover]
 
 [Sidebar width:]
@@ -452,6 +452,12 @@
 Отстъп:
 [Round corners (avatar)]
 Закръглени ъгли (на аватара)
+[Disable when]
+Изключване, когато
+[Fullscreen mode]
+Режим на цял екран
+[Statuses]
+
 [Text color:]
 Цвят на текста:
 [Background color:]
@@ -490,8 +496,6 @@
 Обновяване
 [Updating]
 Актуализиране
-[Nickname:]
-Прякор:
 [First name:]
 Име:
 [Gender:]
@@ -565,10 +569,22 @@
 Група:
 [Authorization request]
 Молба за упълномощаване
+[Remove contact from server too]
+
+[Remove server history]
+
+[Remove history for everyone]
+
 [&Yes]
 Да
 [&No]
 Не
+[Empty history]
+Изтриване на историята
+[Are you sure to wipe the history for %s?]
+
+[This will erase all history for this contact!]
+
 [Contact display options]
 Изобразяване на контактите
 [Instead of displaying contacts by their nickname,\ndrag to choose another order:]
@@ -723,12 +739,6 @@ OutputDebugString()
 Игнориране
 [Typing]
 Пише
-[Visibility]
-Видимост
-[You are visible to this person even when in invisible mode]
-Винаги сте видим за този човек, дори и при състояние Невидим
-[You are never visible to this person]
-Винаги сте невидим за този човек
 [Icon index]
 Индекс на иконите
 [Icon library:]
@@ -1189,6 +1199,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 
 [KBytes (0 - always)]
 
+[Remove cached files when an event is deleted]
+
 [Virus scanner]
 Сканиране за вируси
 [Scan files:]
@@ -1205,38 +1217,6 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 %f ще бъде заменено от името на файла или папката
 [Warn me before opening a file that has not been scanned]
 Предупреждение преди отваряне на файл, който не е бил сканиран
-[&Hide/Show]
-Показване/Скриване
-[E&xit]
-Изход
-[Nowhere]
-Никъде
-[&New group]
-Нова група
-[&Hide offline users]
-Скриване на контактите "Извън линия"
-[Hide &offline users out here]
-Скриване на контактите "Извън линия" тук
-[Hide &empty groups]
-Скриване на празните групи
-[Disable &groups]
-Без групи
-[Hide Miranda]
-Скриване на Miranda
-[Group]
-Група
-[&New subgroup]
-Нова подгрупа
-[&Hide offline users in here]
-Скриване на контактите "Извън линия" тук
-[&Rename group]
-Преименуване на групата
-[&Delete group]
-Изтриване на групата
-[&Reset to default]
-Стандарт
-[find/add]
-
 [&Add to list]
 Добавяне в списъка
 [Send &message]
@@ -1247,6 +1227,10 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Копиране на връзката
 [Cancel change]
 Отказ на промяната
+[&Reset to default]
+Стандарт
+[Group]
+Група
 [Ungroup]
 Дегрупиране
 [List]
@@ -1267,6 +1251,8 @@ Google Maps
 Google Translate
 [&Main menu]
 Главно меню
+[E&xit]
+Изход
 [&Status]
 Състояние
 [&Offline\tCtrl+0]
@@ -1673,8 +1659,6 @@ Google Translate
 Аватар отляво
 [Right avatar]
 Аватар отдясно
-[Full-screen app running]
-Приложение на цял екран
 [No animate]
 Без анимиране
 [Horizontal animate]
@@ -1723,7 +1707,7 @@ Popups са изключени
 Странична лента
 [Title underline]
 Подчертаване на заглавието
-[Popup Mode]
+[Popup mode]
 
 ;file \src\core\stdpopup\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
@@ -1866,12 +1850,12 @@ Popups са изключени
 [%u added you to their contact list]
 %u ви добави в списъка си с контакти
 ;file \src\mir_app\src\chat_log.cpp
-[%s has joined]
-%s влезе
+[%s has joined %s]
+%s влезе %s
 [You have joined %s]
 Вие влязохте в %s
-[%s has left]
-%s излезе
+[%s has left %s]
+%s излезе %s
 [%s has disconnected]
 %s излезе от мрежата
 [%s is now known as %s]
@@ -1975,10 +1959,6 @@ Popups са изключени
 %s изисква вниманието ви в %s
 [%s speaks in %s]
 %s говори в %s
-[%s has joined %s]
-%s влезе %s
-[%s has left %s]
-%s излезе %s
 [%s kicked %s from %s]
 %s изгони %s от %s
 [Topic change in %s]
@@ -2255,6 +2235,8 @@ Popups са изключени
 Търсене
 [All networks]
 Всички мрежи
+[Unique ID]
+Уникален ID
 [Handle]
 
 [&Find/add contacts...]
@@ -2427,16 +2409,12 @@ Win +\s
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 Меню на групите
+[New subgroup]
+
 [Hide offline users out here]
 Скриване на контактите "Извън линия" тук
 [Disable groups]
 Без групи
-[Exit]
-Изход
-[Subgroup menu]
-Меню на подгрупите
-[New subgroup]
-
 [Hide offline users in here]
 Скриване на контактите "Извън линия" тук
 ;file \src\mir_app\src\menu_options.cpp
@@ -2601,10 +2579,6 @@ Win +\s
 
 [Unable to load plugin in service mode!]
 Зареждането на приставката в сервизен режим е невъзможно!
-[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-Нито една от инсталираните приставки за списъка с контакти не може да бъде заредена.
-[Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
-Не е намерена приставка за списъка с контакти! Необходима е StdClist или всяка друга clist приставка.
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Приставката "%s" от ядрото не може да бъде заредена. Miranda ще се изключи
 [Fatal error]
@@ -2662,16 +2636,16 @@ Win +\s
 Наистина ли желаете профилът "%s" да бъде изтрит?
 [&Convert]
 Конвертиране
-[Run]
-Изпълнение
-[Check database]
-
 [Size]
 Размер
 [Created]
 Създаден
 [Modified]
 Променен
+[Run]
+Изпълнение
+[Check database]
+
 [My profiles]
 Моите профили
 [New profile]
@@ -2683,6 +2657,8 @@ Win +\s
 [Protocols]
 Протоколи
 ;file \src\mir_app\src\proto_interface.cpp
+[Preview folder]
+
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
@@ -2746,6 +2722,8 @@ ID на акаунта
 
 [Account internal name has to be unique. Please enter unique name.]
 
+[Account's name has to be unique. Please enter unique name.]
+
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -2804,6 +2782,8 @@ Unicode приставка
 ANSI приставка
 [Show/Hide]
 Показване/Скриване
+[Exit]
+Изход
 [Join chat]
 Влизане в чата
 [Leave chat]
@@ -2824,10 +2804,6 @@ ANSI приставка
 Предупреждение
 [Blank]
 
-[Always visible]
-Винаги видимо
-[Always invisible]
-Винаги невидим
 [Locked status]
 Заключено състояние
 [Status icons]
@@ -2844,15 +2820,17 @@ WAV файлове
 [Unselect all]
 
 ;file \src\mir_app\src\srmm_base.cpp
+[Remove quoting]
+
 [&Message %s]
 Съобщение %s
 [Nickname]
 Прякор
-[Unique ID]
-Уникален ID
 [Disable the event filter (Ctrl+F)]
 
 [Enable the event filter (Ctrl+F)]
+
+[In reply to]
 
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
@@ -2878,10 +2856,8 @@ WAV файлове
 [No word to look up]
 Няма дума за търсене
 ;file \src\mir_app\src\srmm_main.cpp
-[Are you sure to remove all events from history?]
+[Are you sure to wipe the system history?]
 
-[Empty history]
-Изтриване на историята
 [Empty system history]
 
 ;file \src\mir_app\src\srmm_toolbar.cpp
@@ -3393,7 +3369,6 @@ WAV файлове
 Замбия
 [Zimbabwe]
 Зимбабве
-;file \src\mir_app\src\visibility.cpp
 ;file \src\mir_core\src\bitmaps.cpp
 [Windows bitmaps]
 BMP изображения
