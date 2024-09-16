@@ -191,47 +191,21 @@ void CMsgDialog::DetermineMinHeight()
 
 static wchar_t tszRtfBreaks[] = L" \\\n\r";
 
-static void CreateColorMap(CMStringW &Text, int iCount, COLORREF *pSrc, int *pDst)
+static void CreateColorMap(const wchar_t *pszText, std::vector<COLORREF> &res)
 {
-	const wchar_t *pszText = Text;
-	int iIndex = 1;
-
-	static const wchar_t *lpszFmt = L"\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];";
-	wchar_t szRed[10], szGreen[10], szBlue[10];
-
 	const wchar_t *p1 = wcsstr(pszText, L"\\colortbl");
 	if (!p1)
 		return;
 
 	const wchar_t *pEnd = wcschr(p1, '}');
 
-	const wchar_t *p2 = wcsstr(p1, L"\\red");
+	for (const wchar_t *p2 = wcsstr(p1, L"\\red"); p2 && p2 < pEnd; p2 = wcsstr(p1, L"\\red")) {
+		int iRed, iGreen, iBlue;
+		if (swscanf(p2, L"\\red%d\\green%d\\blue%d;", &iRed, &iGreen, &iBlue) > 0)
+			res.push_back(RGB(iRed, iGreen, iBlue));
 
-	for (int i = 0; i < iCount; i++)
-		pDst[i] = -1;
-
-	while (p2 && p2 < pEnd) {
-		if (swscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
-			for (int i = 0; i < iCount; i++) {
-				if (pSrc[i] == RGB(_wtoi(szRed), _wtoi(szGreen), _wtoi(szBlue)))
-					pDst[i] = iIndex;
-			}
-		}
-		iIndex++;
-		p1 = p2;
-		p1++;
-
-		p2 = wcsstr(p1, L"\\red");
+		p1 = p2 + 1;
 	}
-}
-
-static int RtfColorToIndex(int iNumColors, int *pIndex, int iCol)
-{
-	for (int i = 0; i < iNumColors; i++)
-		if (pIndex[i] == iCol)
-			return i;
-
-	return -1;
 }
 
 BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
@@ -244,12 +218,8 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
-	int iNumColors = Utils::rtf_clrs.getCount();
-	int *pIndex = (int *)_alloca(iNumColors * sizeof(int));
-	COLORREF *pColors = (COLORREF *)_alloca(iNumColors * sizeof(COLORREF));
-	for (int i = 0; i < iNumColors; i++)
-		pColors[i] = Utils::rtf_clrs[i].clr;
-	CreateColorMap(pszText, iNumColors, pColors, pIndex);
+	std::vector<COLORREF> colorTable;
+	CreateColorMap(pszText, colorTable);
 
 	// scan the file for rtf commands and remove or parse them
 	int idx = pszText.Find(L"\\pard");
@@ -279,21 +249,16 @@ BOOL CMsgDialog::DoRtfToTags(CMStringW &pszText) const
 			}
 
 			if (!wcsncmp(p, L"\\cf", 3)) { // foreground color
-				if (!bStart) {
-					int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 3));
-					if (iInd >= 0)
-						res.AppendFormat(L"[color=%08X]", Utils::rtf_clrs[iInd].clr);
-					else
-						res.Append(L"[/color]");
-				}
+				COLORREF cr = colorTable[_wtoi(p + 3) - 1];
+				if (cr != m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA])
+					res.AppendFormat(L"[color=%08X]", cr);
+				else if (!bStart)
+					res.Append(L"[/color]");
 			}
 			else if (!wcsncmp(p, L"\\highlight", 10)) { // background color
-				int iInd = RtfColorToIndex(iNumColors, pIndex, _wtoi(p + 10));
-				if (iInd >= 0) {
-					// if the entry field is empty & the color passed is the back color, skip it
-					if (!bStart || m_pContainer->m_theme.inputbg != pColors[iInd])
-						res.AppendFormat(L"[bkcolor=%08X]", Utils::rtf_clrs[iInd].clr);
-				}
+				COLORREF cr = colorTable[_wtoi(p + 10) - 1];
+				if (cr != m_pContainer->m_theme.inputbg)
+					res.AppendFormat(L"[bkcolor=%08X]", cr);
 				else if (!bStart)
 					res.AppendFormat(L"[/bkcolor]");
 			}
