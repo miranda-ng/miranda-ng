@@ -125,6 +125,7 @@
 [PGP mode]
 [GPG mode]
 [RSA/AES mode]
+[SecureIM status]
 ;file \plugins\SecureIM\src\main.cpp
 [SecureIM mode (Native)]
 [SecureIM mode (PGP)]
@@ -147,7 +148,6 @@
 [Load GPG Key]
 [Unload GPG Key]
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version!]
-[SecureIM status]
 ;file \plugins\SecureIM\src\options.cpp
 [ASC files]
 [All files]

@@ -53,7 +53,7 @@
 [Remember last message used for a contact...]
 [Store contact autoreply/ignore settings for each status separately]
 [Use protocol specific nick for %nas_mynick%]
-[Update status messages for non-MRA protocols every]
+[Update status messages every]
 [seconds]
 [Don't show the message dialog for]
 [%s message for %s]

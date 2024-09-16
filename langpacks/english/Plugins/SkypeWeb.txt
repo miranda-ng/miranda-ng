@@ -18,14 +18,13 @@
 [Account]
 [Others]
 [Automatic messages synchronization]
-[Always notify as unread for all incoming message]
+[Use BBCode]
 [Place:]
 [Use hostname]
-[Use BBCode]
 [Change password]
-[Enter password]
-[Save password]
-[Enter the password to continue.]
+[Set mood]
+[Mood]
+[Text]
 ;file \protocols\SkypeWeb\src\main.cpp
 [Skype Link Protocol]
 ;file \protocols\SkypeWeb\src\skype_chatrooms.cpp
@@ -80,9 +79,23 @@
 [Block contact]
 [Unblock contact]
 [Create new chat]
+[Set own mood]
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
 [Network error!]
+;file \protocols\SkypeWeb\src\skype_mood.cpp
+[None]
+[Custom emoji]
+[Be right back]
+[Out for lunch]
+[In meetings]
+[At school]
+[At the movies]
+[Traveling]
+[Celebrating]
+[Driving]
+[At the gym]
+[Working from home]
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 ;file \protocols\SkypeWeb\src\skype_popups.cpp

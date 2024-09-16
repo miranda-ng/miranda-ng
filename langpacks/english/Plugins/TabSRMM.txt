@@ -43,7 +43,7 @@
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
 [Highlight message text]
 [Enable highlighting for message text]
-[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nickname.]
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces.]
 [Highlight messages containing my own nickname]
 ;file \plugins\TabSRMM\res\msgwindow.rc
 [&Retry]
