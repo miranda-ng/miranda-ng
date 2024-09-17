@@ -112,7 +112,6 @@ struct AsyncHttpRequest : public MTHttpRequest<CSkypeProto>
 	void AddAuthentication(CSkypeProto *ppro);
 };
 
-#include "requests/avatars.h"
 #include "requests/capabilities.h"
 #include "requests/chatrooms.h"
 #include "requests/contacts.h"

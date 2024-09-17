@@ -17,6 +17,58 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen)
+{
+	CMStringW wszPath(GetAvatarPath());
+	wszPath += '\\';
+
+	const wchar_t *szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
+	CMStringA username(getId(hContact));
+	username.Replace("live:", "__live_");
+	username.Replace("facebook:", "__facebook_");
+	wszPath.AppendFormat(L"%S%s", username.c_str(), szFileType);
+
+	wcsncpy_s(pszDest, cbLen, wszPath, _TRUNCATE);
+}
+
+void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
+{
+	if (hContact == NULL) {
+		ReportSelfAvatarChanged();
+		return;
+	}
+
+	PROTO_AVATAR_INFORMATION ai = { 0 };
+	ai.hContact = hContact;
+	SvcGetAvatarInfo(0, (LPARAM)&ai);
+}
+
+void CSkypeProto::SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl)
+{
+	ptrW oldUrl(getWStringA(hContact, "AvatarUrl"));
+	if (oldUrl != NULL)
+		if (tszUrl == oldUrl)
+			return;
+
+	if (tszUrl.IsEmpty()) {
+		delSetting(hContact, "AvatarUrl");
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
+	}
+	else {
+		setWString(hContact, "AvatarUrl", tszUrl);
+		setByte(hContact, "NeedNewAvatar", 1);
+
+		PROTO_AVATAR_INFORMATION ai = {};
+		ai.hContact = hContact;
+		GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename));
+		ai.format = ProtoGetAvatarFormat(ai.filename);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Avatar services for Miranda
+
 INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
@@ -41,16 +93,47 @@ INT_PTR CSkypeProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CSkypeProto::ReloadAvatarInfo(MCONTACT hContact)
+INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	if (hContact == NULL) {
-		ReportSelfAvatarChanged();
-		return;
-	}
-	PROTO_AVATAR_INFORMATION ai = { 0 };
-	ai.hContact = hContact;
-	SvcGetAvatarInfo(0, (LPARAM)&ai);
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
+
+	pai->format = getByte(pai->hContact, "AvatarType", PA_FORMAT_JPEG);
+
+	wchar_t tszFileName[MAX_PATH];
+	GetAvatarFileName(pai->hContact, tszFileName, _countof(tszFileName));
+	wcsncpy(pai->filename, tszFileName, _countof(pai->filename));
+
+	if (::_waccess(pai->filename, 0) == 0 && !getBool(pai->hContact, "NeedNewAvatar", 0))
+		return GAIR_SUCCESS;
+
+	if (IsOnline())
+		if (ReceiveAvatar(pai->hContact))
+			return GAIR_WAITFOR;
+
+	debugLogA("No avatar");
+	return GAIR_NOAVATAR;
 }
+
+INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
+{
+	wchar_t path[MAX_PATH];
+	GetAvatarFileName(NULL, path, _countof(path));
+	wcsncpy((wchar_t *)wParam, path, (int)lParam);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Avatars' receiving
+
+struct GetAvatarRequest : public AsyncHttpRequest
+{
+	GetAvatarRequest(const char *url, MCONTACT hContact) :
+		AsyncHttpRequest(REQUEST_GET, HOST_OTHER, url, &CSkypeProto::OnReceiveAvatar)
+	{
+		flags |= NLHRF_REDIRECT;
+		pUserInfo = (void *)hContact;
+	}
+};
 
 void CSkypeProto::OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
@@ -78,82 +161,39 @@ void CSkypeProto::OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRe
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
 }
 
+bool CSkypeProto::ReceiveAvatar(MCONTACT hContact)
+{
+	ptrA szUrl(getStringA(hContact, "AvatarUrl"));
+	if (!mir_strlen(szUrl))
+		return false;
+
+	PushRequest(new GetAvatarRequest(szUrl, hContact));
+	debugLogA("Requested to read an avatar from '%s'", szUrl.get());
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Setting my own avatar
+
+struct SetAvatarRequest : public AsyncHttpRequest
+{
+	SetAvatarRequest(const uint8_t *data, int dataSize, const char *szMime, CSkypeProto *ppro) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_API, 0, &CSkypeProto::OnSentAvatar)
+	{
+		m_szUrl.AppendFormat("/users/%s/profile/avatar", ppro->m_szSkypename.MakeLower().c_str());
+
+		AddHeader("Content-Type", szMime);
+
+		m_szParam.Truncate(dataSize);
+		memcpy(m_szParam.GetBuffer(), data, dataSize);
+	}
+};
+
 void CSkypeProto::OnSentAvatar(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply root(response);
 	if (root.error())
 		return;
-}
-
-INT_PTR CSkypeProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
-{
-	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
-
-	ptrA szUrl(getStringA(pai->hContact, "AvatarUrl"));
-	if (szUrl == NULL)
-		return GAIR_NOAVATAR;
-
-	pai->format = getByte(pai->hContact, "AvatarType", PA_FORMAT_JPEG);
-
-	wchar_t tszFileName[MAX_PATH];
-	GetAvatarFileName(pai->hContact, tszFileName, _countof(tszFileName));
-	wcsncpy(pai->filename, tszFileName, _countof(pai->filename));
-
-	if (::_waccess(pai->filename, 0) == 0 && !getBool(pai->hContact, "NeedNewAvatar", 0))
-		return GAIR_SUCCESS;
-
-	if (IsOnline()) {
-		PushRequest(new GetAvatarRequest(szUrl, pai->hContact));
-		debugLogA("Requested to read an avatar from '%s'", szUrl.get());
-		return GAIR_WAITFOR;
-	}
-
-	debugLogA("No avatar");
-	return GAIR_NOAVATAR;
-}
-
-INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
-{
-	wchar_t path[MAX_PATH];
-	GetAvatarFileName(NULL, path, _countof(path));
-	wcsncpy((wchar_t*)wParam, path, (int)lParam);
-	return 0;
-}
-
-void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
-{
-	CMStringW wszPath(GetAvatarPath());
-	wszPath += '\\';
-
-	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
-	CMStringA username(getId(hContact));
-	username.Replace("live:", "__live_");
-	username.Replace("facebook:", "__facebook_");
-	wszPath.AppendFormat(L"%S%s", username.c_str(), szFileType);
-
-	wcsncpy_s(pszDest, cbLen, wszPath, _TRUNCATE);
-}
-
-void CSkypeProto::SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl)
-{
-	ptrW oldUrl(getWStringA(hContact, "AvatarUrl"));
-	if (oldUrl != NULL)
-		if (tszUrl == oldUrl)
-			return;
-
-	if (tszUrl.IsEmpty()) {
-		delSetting(hContact, "AvatarUrl");
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
-	}
-	else {
-		setWString(hContact, "AvatarUrl", tszUrl);
-		setByte(hContact, "NeedNewAvatar", 1);
-		PROTO_AVATAR_INFORMATION ai = { 0 };
-		ai.hContact = hContact;
-		GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename));
-		ai.format = ProtoGetAvatarFormat(ai.filename);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
-	}
 }
 
 INT_PTR CSkypeProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)

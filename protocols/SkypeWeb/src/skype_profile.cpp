@@ -94,9 +94,9 @@ void CSkypeProto::UpdateProfileEmails(const JSONNode &root, MCONTACT hContact)
 
 void CSkypeProto::UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact)
 {
-	CMStringW province = root["avatarUrl"].as_mstring();
-	if (!province.IsEmpty() && province != "null") {
-		SetAvatarUrl(hContact, province);
+	CMStringW szUrl = root["avatarUrl"].as_mstring();
+	if (!szUrl.IsEmpty() && szUrl != "null") {
+		SetAvatarUrl(hContact, szUrl);
 		ReloadAvatarInfo(hContact);
 	}
 }

@@ -78,9 +78,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\requests\avatars.h">
-      <Filter>Header Files\Requests</Filter>
-    </ClInclude>
     <ClInclude Include="src\requests\capabilities.h">
       <Filter>Header Files\Requests</Filter>
     </ClInclude>

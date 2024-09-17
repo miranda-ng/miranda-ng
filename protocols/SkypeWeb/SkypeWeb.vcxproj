@@ -51,7 +51,6 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="src\requests\avatars.h" />
     <ClInclude Include="src\requests\capabilities.h" />
     <ClInclude Include="src\requests\chatrooms.h" />
     <ClInclude Include="src\requests\contacts.h" />

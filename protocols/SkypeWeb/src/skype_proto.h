@@ -129,8 +129,6 @@ public:
 		return getMStringA(hContact, SKYPE_SETTINGS_ID);
 	}
 
-	void OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnSentAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnSearch(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	// login
@@ -156,6 +154,9 @@ public:
 
 	void OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
+	void OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnSentAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
@@ -189,11 +190,6 @@ private:
 	HANDLE m_hPollingThread;
 	HNETLIBCONN m_hPollingConn;
 
-	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
-
 	// requests
 	bool m_isTerminated = true;
 	mir_cs m_requestQueueLock;
@@ -210,6 +206,17 @@ private:
 
 	void Execute(AsyncHttpRequest *request);
 	void PushRequest(AsyncHttpRequest *request);
+
+	// avatars
+	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
+	bool ReceiveAvatar(MCONTACT hContact);
+	void ReloadAvatarInfo(MCONTACT hContact);
+	void GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
+
+	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
@@ -235,10 +242,6 @@ private:
 	// contacts
 	uint16_t GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
-
-	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
-	void ReloadAvatarInfo(MCONTACT hContact);
-	void GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen);
 
 	MCONTACT FindContact(const char *skypeId);
 	MCONTACT FindContact(const wchar_t *skypeId);

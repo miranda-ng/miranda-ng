@@ -277,8 +277,8 @@ void CSkypeProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 	FreeList(skypenames);
 	skypenames.destroy();
 
+	ReceiveAvatar(0);
 	PushRequest(new GetContactListRequest());
-	PushRequest(new GetAvatarRequest(ptrA(getStringA("AvatarUrl")), 0));
 	PushRequest(new SyncConversations());
 
 	JSONNode root = JSONNode::parse(response->body);
