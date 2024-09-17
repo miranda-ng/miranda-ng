@@ -612,7 +612,7 @@ CMStringW ParseUrl(const wchar_t *url, const wchar_t *token)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int possibleTypes[] = { 1, 2, 8, 19 };
+static int possibleTypes[] = { 1, 2, 4, 8, 19, 28 };
 
 bool IsPossibleUserType(const char *pszUserId)
 {
