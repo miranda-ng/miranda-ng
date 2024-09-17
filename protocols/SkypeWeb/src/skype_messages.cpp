@@ -229,7 +229,7 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 	if (xmlRoot == nullptr)
 		return;
 
-	const char *pszFileType = 0;
+	CMStringA szFileType;
 	CSkypeTransfer *ft = new CSkypeTransfer;
 	if (auto *str = xmlRoot->Attribute("doc_id"))
 		ft->docId = str;
@@ -238,7 +238,7 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 	int iWidth = xmlRoot->IntAttribute("width", -1);
 	int iHeight = xmlRoot->IntAttribute("heighr", -1);
 	if (auto *str = xmlRoot->Attribute("type"))
-		pszFileType = str;
+		szFileType = str;
 	if (auto *xml = xmlRoot->FirstChildElement("FileSize"))
 		if (auto *str = xml->Attribute("v"))
 			ft->iFileSize = atoi(str);
@@ -252,8 +252,12 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 		return;
 	}
 
+	int idx = szFileType.Find('/');
+	if (idx != -1)
+		szFileType = szFileType.Left(idx);
+
 	// ordinary file
-	if (!mir_strcmp(pszFileType, "File.1") || !mir_strcmp(pszFileType, "Picture.1") || !mir_strcmp(pszFileType, "Video.1")) {
+	if (szFileType == "File.1" || szFileType == "Picture.1" || szFileType == "Video.1") {
 		MEVENT hEvent;
 		dbei.flags |= DBEF_TEMPORARY | DBEF_JSON;
 		if (dbei) {
@@ -267,7 +271,7 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 		else hEvent = ProtoChainRecvFile(hContact, DB::FILE_BLOB(ft, ft->fileName), dbei);
 
 		DBVARIANT dbv = { DBVT_UTF8 };
-		dbv.pszVal = (char*)pszFileType;
+		dbv.pszVal = szFileType.GetBuffer();
 		db_event_setJson(hEvent, "skft", &dbv);
 
 		dbv.type = DBVT_DWORD;
@@ -280,7 +284,7 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 			db_event_setJson(hEvent, "h", &dbv);
 		}
 	}
-	else debugLogA("Invalid or unsupported file type <%s> ignored", pszFileType);
+	else debugLogA("Invalid or unsupported file type <%s> ignored", szFileType.c_str());
 }
 
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei)
