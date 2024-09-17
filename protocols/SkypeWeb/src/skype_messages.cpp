@@ -114,8 +114,9 @@ LBL_Deleted:
 	}
 
 	if (strMessageType == "Text" || strMessageType == "RichText") {
-		if ((dbei.flags & DBEF_SENT) && dbei.szId) {
-			HANDLE hMessage = (HANDLE)atoi(dbei.szId);
+		std::string szOwnMessageId = node["clientmessageid"].as_string();
+		if ((dbei.flags & DBEF_SENT) && !szOwnMessageId.empty()) {
+			HANDLE hMessage = (HANDLE)atoi(szOwnMessageId.c_str());
 			if (m_OutMessages.getIndex(hMessage) != -1) {
 				ProtoBroadcastAck(dbei.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, (LPARAM)dbei.szId);
 
