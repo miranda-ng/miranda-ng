@@ -43,6 +43,11 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 	for (auto it = conv.rbegin(); it != conv.rend(); ++it) {
 		auto &message = *it;
 		CMStringA szMessageId = message["id"].as_mstring();
+		int64_t id = _atoi64(szMessageId);
+		if (id > lastMsgTime) {
+			bSetLastTime = true;
+			lastMsgTime = id;
+		}
 
 		int iUserType;
 		CMStringA szChatId = UrlToSkypeId(message["conversationLink"].as_mstring(), &iUserType);
@@ -55,13 +60,12 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		dbei.szModule = m_szModuleName;
 		dbei.timestamp = (bUseLocalTime) ? iLocalTime : IsoToUnixTime(message["composetime"].as_string());
 		dbei.szId = szMessageId;
-		if (iUserType == 19)
+		if (iUserType == 19) {
 			dbei.szUserId = szFrom;
 
-		int64_t id = _atoi64(szMessageId);
-		if (id > lastMsgTime) {
-			bSetLastTime = true;
-			lastMsgTime = id;
+			CMStringA szType(message["messagetype"].as_mstring());
+			if (szType.Left(15) == "ThreadActivity/")
+				continue;
 		}
 
 		dbei.flags = DBEF_UTF;
