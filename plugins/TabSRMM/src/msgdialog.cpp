@@ -904,7 +904,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 	CMStringW szQuoted;
 	int iOutputWidth = M.GetDword("quoteLineLength", 64);
 
-	wchar_t *selected = m_pLog->GetSelection();
+	wchar_t *selected = m_pLog->GetSelectedText();
 	if (selected != nullptr)
 		szQuoted = Srmm_Quote(selected, iOutputWidth);
 	else {

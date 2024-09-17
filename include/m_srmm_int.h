@@ -133,14 +133,14 @@ public:
 	virtual void     Clear() = 0;
 	virtual int      GetType() = 0;
 	virtual HWND     GetHwnd() = 0;
-	virtual wchar_t* GetSelection() = 0;
+	virtual wchar_t* GetSelectedText() = 0;
 	virtual void     LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) = 0;
 	virtual void     LogChatEvents(const LOGINFO *lin) = 0;
 	virtual void     Resize() = 0;
 	virtual void     ScrollToBottom() = 0;
 	virtual void     UpdateOptions() {};
 
-	virtual INT_PTR Notify(WPARAM, LPARAM) { return 0; }
+	virtual INT_PTR   Notify(WPARAM, LPARAM) { return 0; }
 
 	__forceinline CMsgDialog& GetDialog() const
 	{	return m_pDlg;
@@ -260,7 +260,7 @@ public:
 	bool     AtBottom() override;
 	void     Clear() override;
 	HWND     GetHwnd() override;
-	wchar_t* GetSelection() override;
+	wchar_t* GetSelectedText() override;
 	int      GetType() override;
 	void     Resize() override;
 	void     ScrollToBottom() override;

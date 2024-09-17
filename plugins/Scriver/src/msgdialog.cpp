@@ -371,7 +371,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 	if (!hDbEventLast)
 		return;
 
-	wchar_t *buffer = m_pLog->GetSelection();
+	wchar_t *buffer = m_pLog->GetSelectedText();
 	if (buffer != nullptr) {
 		SetMessageText(Srmm_Quote(buffer));
 		mir_free(buffer);

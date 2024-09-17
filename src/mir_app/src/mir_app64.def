@@ -664,7 +664,7 @@ UnregisterHppLogger @786
 ?Clear@CRtfLogWindow@@UEAAXXZ @795 NONAME
 ?Detach@CRtfLogWindow@@UEAAXXZ @796 NONAME
 ?GetHwnd@CRtfLogWindow@@UEAAPEAUHWND__@@XZ @797 NONAME
-?GetSelection@CRtfLogWindow@@UEAAPEA_WXZ @798 NONAME
+?GetSelectedText@CRtfLogWindow@@UEAAPEA_WXZ @798 NONAME
 ?Notify@CRtfLogWindow@@UEAA_J_K_J@Z @799 NONAME
 ?Notify@CSrmmLogWindow@@UEAA_J_K_J@Z @800 NONAME
 ?Resize@CRtfLogWindow@@UEAAXXZ @801 NONAME

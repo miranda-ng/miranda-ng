@@ -138,7 +138,7 @@ static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-wchar_t* CRtfLogWindow::GetSelection()
+wchar_t* CRtfLogWindow::GetSelectedText()
 {
 	CHARRANGE sel;
 	SendMessage(m_rtf.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);

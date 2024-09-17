@@ -78,7 +78,7 @@ public:
 		return m_hwnd;
 	}
 	
-	wchar_t* GetSelection() override
+	wchar_t* GetSelectedText() override
 	{
 		auto *view = IEView::get(m_hwnd);
 		return (view != nullptr) ? view->selection() : nullptr;

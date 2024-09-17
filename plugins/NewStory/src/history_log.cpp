@@ -63,9 +63,9 @@ public:
 		return m_hwnd;
 	}
 
-	wchar_t *GetSelection() override
+	wchar_t* GetSelectedText() override
 	{
-		return nullptr;
+		return m_histCtrl->GatherSelected(true).Detach();
 	}
 
 	int GetType() override

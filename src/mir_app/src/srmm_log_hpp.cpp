@@ -85,7 +85,7 @@ public:
 		return 2;
 	}
 
-	wchar_t* GetSelection() override
+	wchar_t* GetSelectedText() override
 	{
 		IEVIEWEVENT event = {};
 		event.hwnd = m_hwnd;
