@@ -218,9 +218,7 @@ INT_PTR CSkypeProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 		Chat_Control(si, SESSION_OFFLINE);
 		Chat_Terminate(si);
 
-		PushRequest(new KickUserRequest(_T2A(idT), m_szSkypename));
-
-		db_delete_contact(hContact, CDF_FROM_SERVER);
+		db_delete_contact(hContact, CDF_DEL_CONTACT);
 	}
 	return 0;
 }

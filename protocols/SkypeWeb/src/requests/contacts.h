@@ -45,15 +45,6 @@ struct AddContactRequest : public AsyncHttpRequest
 	}
 };
 
-struct DeleteContactRequest : public AsyncHttpRequest
-{
-	DeleteContactRequest(const char *who) :
-		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS)
-	{
-		m_szUrl.AppendFormat("/users/SELF/contacts/%s", mir_urlEncode(who).c_str());
-	}
-};
-
 struct AuthAcceptRequest : public AsyncHttpRequest
 {
 	AuthAcceptRequest(const char *who) :

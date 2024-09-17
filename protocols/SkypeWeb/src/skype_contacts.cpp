@@ -234,16 +234,35 @@ INT_PTR CSkypeProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct DestroyChatroomRequest : public AsyncHttpRequest
+{
+	DestroyChatroomRequest(const char *room_id, const char *user_id) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/threads/" + mir_urlEncode(room_id) + "/members/" + mir_urlEncode(user_id))
+	{}
+};
+
+struct DeleteContactRequest : public AsyncHttpRequest
+{
+	DeleteContactRequest(const char *who) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/users/SELF/contacts/" + mir_urlEncode(who))
+	{
+	}
+};
+
 bool CSkypeProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
 	if (IsOnline() && hContact && (flags & CDF_DEL_CONTACT)) {
 		if (isChatRoom(hContact))
-			PushRequest(new DestroyChatroomRequest(getId(hContact)));
+			PushRequest(new DestroyChatroomRequest(getId(hContact), m_szOwnSkypeId));
 		else
 			PushRequest(new DeleteContactRequest(getId(hContact)));
 	}
 	return true;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CSkypeProto::BlockContact(WPARAM hContact, LPARAM)
 {
