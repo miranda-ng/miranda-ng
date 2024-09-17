@@ -604,6 +604,8 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				Chat_ChangeSessionName(pUser->m_si, Utf2T(pDoc->title_.c_str()));
 			else
 				setUString(pUser->hContact, "Nick", pDoc->title_.c_str());
+
+			ret.AppendFormat("%s %s", TranslateU("Chat name was changed to"), pDoc->title_.c_str());
 		}
 		break;
 
