@@ -146,7 +146,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_NICKLISTMENU:
 		switch (gch->dwData) {
 		case 10:
-			PushRequest(new KickUserRequest(chat_id, user_id));
+			KickChatUser(chat_id, user_id);
 			break;
 		case 30:
 			PushRequest(new InviteUserToChatRequest(chat_id, user_id, "Admin"));
@@ -468,6 +468,11 @@ void CSkypeProto::RemoveChatContact(SESSION_INFO *si, const wchar_t *id, bool is
 	}
 
 	Chat_Event(&gce);
+}
+
+void CSkypeProto::KickChatUser(const char *chatId, const char *userId)
+{
+	PushRequest(new AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/threads/" + mir_urlEncode(chatId) + "/members/" + mir_urlEncode(userId)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

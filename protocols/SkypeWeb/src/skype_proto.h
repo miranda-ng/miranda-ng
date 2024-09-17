@@ -280,6 +280,8 @@ private:
 	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, bool isKick = false, const wchar_t *initiator = L"");
 	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
 
+	void KickChatUser(const char *chatId, const char *userId);
+
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
 	// polling

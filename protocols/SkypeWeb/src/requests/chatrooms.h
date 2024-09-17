@@ -105,15 +105,6 @@ struct InviteUserToChatRequest : public AsyncHttpRequest
 	}
 };
 
-struct KickUserRequest : public AsyncHttpRequest
-{
-	KickUserRequest(const char *chatId, const char *skypename) :
-		AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT)
-	{
-		m_szUrl.AppendFormat("/threads/%s/members/%s", chatId, skypename);
-	}
-};
-
 struct SetChatPropertiesRequest : public AsyncHttpRequest
 {
 	SetChatPropertiesRequest(const char *chatId, const char *propname, const char *value) :
