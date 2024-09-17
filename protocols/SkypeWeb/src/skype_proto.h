@@ -124,6 +124,7 @@ public:
 	int m_iPollingId;
 	ptrA m_szApiToken, m_szToken, m_szId, m_szOwnSkypeId;
 	CMStringA m_szSkypename, m_szMyname;
+	MCONTACT m_hMyContact;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {
 		return getMStringA(hContact, SKYPE_SETTINGS_ID);

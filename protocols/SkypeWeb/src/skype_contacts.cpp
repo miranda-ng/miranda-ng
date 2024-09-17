@@ -151,10 +151,20 @@ void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 			continue;
 
 		MCONTACT hContact = AddContact(szSkypeId, nullptr);
+		if (szSkypeId == "28:e7a9407c-2467-4a04-9546-70081f4ea80d")
+			m_hMyContact = hContact;
 
 		std::string displayName = item["display_name"].as_string();
-		if (!displayName.empty())
+		if (!displayName.empty()) {
+			if (m_hMyContact == hContact) {
+				displayName = getMStringU("Nick");
+				displayName += " ";
+				displayName += TranslateU("(You)");
+
+				setWord(hContact, "Status", ID_STATUS_ONLINE);
+			}
 			setUString(hContact, "Nick", displayName.c_str());
+		}
 
 		if (item["authorized"].as_bool()) {
 			delSetting(hContact, "Auth");
