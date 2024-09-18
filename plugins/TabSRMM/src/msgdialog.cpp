@@ -791,10 +791,12 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 	if (decoded.IsEmpty())
 		return;
 
+	if (final_sendformat)
+		DoRtfToTags(decoded);
+	decoded.TrimRight();
+
 	if (isChat()) {
 		m_cache->saveHistory();
-		DoRtfToTags(decoded);
-		decoded.Trim();
 
 		if (m_si->pMI->bAckMsg) {
 			m_message.Enable(false);
@@ -820,10 +822,6 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 				Skin_PlaySound("SendMsg");
 	}
 	else {
-		if (final_sendformat)
-			DoRtfToTags(decoded);
-		decoded.TrimRight();
-
 		T2Utf utfResult(decoded);
 		size_t memRequired = mir_strlen(utfResult) + 1;
 

@@ -291,62 +291,69 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 	if (!pButton->Enabled() || m_hContact == 0)
 		return;
 
-	PARAFORMAT2 pf2;
-	memset(&pf2, 0, sizeof(pf2));
-	pf2.cbSize = sizeof(pf2);
-	pf2.dwMask = PFM_RTLPARA;
-	m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
-
-	SendQueue::Item msi = {};
-	if (pf2.wEffects & PFE_RTLPARA)
-		msi.flags |= DBEF_RTL;
-
-	msi.sendBuffer = m_message.GetRichTextRtf(true);
-	msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
-	if (msi.sendBufferSize == 0)
+	ptrA streamOut(m_message.GetRichTextRtf(!m_bSendFormat));
+	if (streamOut == nullptr)
 		return;
 
-	if (Utils_IsRtl(ptrW(mir_utf8decodeW(msi.sendBuffer))))
-		msi.flags |= DBEF_RTL;
+	CMStringW wszText(ptrW(mir_utf8decodeW(streamOut)));
+	if (wszText.IsEmpty())
+		return;
 
-	// Store messaging history
-	TCmdList *cmdListNew = tcmdlist_last(cmdList);
-	while (cmdListNew != nullptr && cmdListNew->temporary) {
-		cmdList = tcmdlist_remove(cmdList, cmdListNew);
-		cmdListNew = tcmdlist_last(cmdList);
-	}
-	if (msi.sendBuffer != nullptr)
-		cmdList = tcmdlist_append(cmdList, mir_strdup(rtrim(msi.sendBuffer)), 20, FALSE);
-
-	cmdListCurrent = nullptr;
+	if (m_bSendFormat)
+		DoRtfToTags(wszText);
+	wszText.TrimRight();
 
 	if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 		NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-	m_message.SetText(L"");
-	m_btnOk.Disable();
-	if (g_plugin.bAutoMin)
-		ShowWindow(m_hwndParent, SW_MINIMIZE);
-
 	if (isChat()) {
-		CMStringW ptszText(ptrW(mir_utf8decodeW(msi.sendBuffer)));
-		DoRtfToTags(ptszText);
-		ptszText.Trim();
-
 		if (m_si->pMI->bAckMsg) {
 			EnableWindow(m_message.GetHwnd(), FALSE);
 			m_message.SendMsg(EM_SETREADONLY, TRUE, 0);
 		}
 		else m_message.SetText(L"");
 
-		Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
+		Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, wszText, 0);
 	}
 	else {
+		PARAFORMAT2 pf2;
+		memset(&pf2, 0, sizeof(pf2));
+		pf2.cbSize = sizeof(pf2);
+		pf2.dwMask = PFM_RTLPARA;
+		m_message.SendMsg(EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
+
+		SendQueue::Item msi = {};
+		if (pf2.wEffects & PFE_RTLPARA)
+			msi.flags |= DBEF_RTL;
+
+		msi.sendBuffer = mir_utf8encodeW(wszText);
+		msi.sendBufferSize = (int)mir_strlen(msi.sendBuffer);
+
+		if (Utils_IsRtl(wszText))
+			msi.flags |= DBEF_RTL;
+
+		// Store messaging history
+		TCmdList *cmdListNew = tcmdlist_last(cmdList);
+		while (cmdListNew != nullptr && cmdListNew->temporary) {
+			cmdList = tcmdlist_remove(cmdList, cmdListNew);
+			cmdListNew = tcmdlist_last(cmdList);
+		}
+		if (msi.sendBuffer != nullptr)
+			cmdList = tcmdlist_append(cmdList, mir_strdup(rtrim(msi.sendBuffer)), 20, FALSE);
+
+		cmdListCurrent = nullptr;
+
 		if (pButton == nullptr)
 			m_pParent->MessageSend(msi);
 		else
 			MessageSend(msi);
 	}
+
+	m_message.SetText(L"");
+	m_btnOk.Disable();
+	if (g_plugin.bAutoMin)
+		ShowWindow(m_hwndParent, SW_MINIMIZE);
+
 	m_btnCloseQuote.Click();
 }
 
@@ -708,12 +715,27 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		return result;
 
 	switch (msg) {
-	case WM_KEYDOWN:
-		if (isChat()) {
-			bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-			bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
-			bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
+	case EM_ACTIVATE:
+		SetActiveWindow(m_hwnd);
+		break;
 
+	case WM_SYSCHAR:
+		if ((wParam == 's' || wParam == 'S') && (GetKeyState(VK_MENU) & 0x8000)) {
+			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+			return 0;
+		}
+		break;
+
+	case WM_CONTEXTMENU:
+		InputAreaContextMenu(m_message.GetHwnd(), wParam, lParam, m_hContact);
+		return TRUE;
+
+	case WM_KEYDOWN:
+		bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
+		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
+
+		if (isChat()) {
 			if (wParam == VK_TAB && isShift && !isCtrl) { // SHIFT-TAB (go to nick list)
 				SetFocus(m_nickList.GetHwnd());
 				return TRUE;
@@ -726,7 +748,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				RedrawWindow(m_nickList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 				return 0;
 			}
-			
+
 			if (wParam != VK_RIGHT && wParam != VK_LEFT) {
 				replaceStrW(m_wszSearchQuery, nullptr);
 				replaceStrW(m_wszSearchResult, nullptr);
@@ -753,26 +775,11 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					m_btnChannelMgr.Click();
 				return TRUE;
 			}
-
-			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
-				return TRUE;
 		}
-		break;
 
-	case EM_ACTIVATE:
-		SetActiveWindow(m_hwnd);
+		if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+			return TRUE;
 		break;
-
-	case WM_SYSCHAR:
-		if ((wParam == 's' || wParam == 'S') && (GetKeyState(VK_MENU) & 0x8000)) {
-			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-			return 0;
-		}
-		break;
-
-	case WM_CONTEXTMENU:
-		InputAreaContextMenu(m_message.GetHwnd(), wParam, lParam, m_hContact);
-		return TRUE;
 	}
 	return CSuper::WndProc_Message(msg, wParam, lParam);
 }

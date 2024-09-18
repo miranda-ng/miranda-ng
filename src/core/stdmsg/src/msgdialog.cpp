@@ -314,16 +314,20 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	ptrA msgText(m_message.GetRichTextRtf(true));
-	if (msgText == nullptr)
+	ptrA streamOut(m_message.GetRichTextRtf(!m_bSendFormat));
+	if (streamOut == nullptr)
 		return;
 
-	if (isChat()) {
-		CMStringW ptszText(ptrW(mir_utf8decodeW(msgText)));
-		DoRtfToTags(ptszText);
-		ptszText.Trim();
+	CMStringW wszText(ptrW(mir_utf8decodeW(streamOut)));
+	if (wszText.IsEmpty())
+		return;
 
-		m_cmdList.insert(mir_wstrdup(ptszText));
+	if (m_bSendFormat)
+		DoRtfToTags(wszText);
+	wszText.TrimRight();
+
+	if (isChat()) {
+		m_cmdList.insert(mir_wstrdup(wszText));
 		m_cmdListInd = -1;
 
 		if (m_si->pMI->bAckMsg) {
@@ -332,16 +336,12 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 		}
 		else m_message.SetText(L"");
 
-		Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, ptszText, 0);
+		Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, wszText, 0);
 	}
 	else {
-		ptrW temp(mir_utf8decodeW(msgText));
-		if (!temp[0])
-			return;
-
-		int sendId = SendMessageDirect(m_hContact, m_hQuoteEvent, rtrimw(temp));
+		int sendId = SendMessageDirect(m_hContact, m_hQuoteEvent, wszText);
 		if (sendId) {
-			m_cmdList.insert(temp.detach());
+			m_cmdList.insert(wszText.Detach());
 			m_cmdListInd = -1;
 
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)

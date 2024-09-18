@@ -181,12 +181,6 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			return 0;
 		}
 
-		if (wParam == 'I' && isCtrl) // ctrl-i (italics)
-			return FALSE;
-
-		if (wParam == VK_SPACE && isCtrl) // ctrl-space (paste clean text)
-			return FALSE;
-
 		if (wParam == 'R' && isCtrl && isShift) { // ctrl-shift-r
 			ToggleRtl();
 			return FALSE;

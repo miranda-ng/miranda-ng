@@ -545,6 +545,14 @@ bool CSrmmBaseDialog::OnInitDialog()
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
 	Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 
+	if (!m_bSendFormat) {
+		m_btnBold.Disable();
+		m_btnItalic.Disable();
+		m_btnUnderline.Disable();
+		m_btnColor.Disable();
+		m_btnBkColor.Disable();
+	}
+
 	mir_subclassWindow(m_btnFilter.GetHwnd(), stubButtonSubclassProc);
 	mir_subclassWindow(m_btnColor.GetHwnd(), stubButtonSubclassProc);
 	mir_subclassWindow(m_btnBkColor.GetHwnd(), stubButtonSubclassProc);
