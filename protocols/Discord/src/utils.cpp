@@ -388,7 +388,7 @@ CMStringW CDiscordProto::PrepareMessageText(const JSONNode &pRoot, CDiscordUser 
 
 		if (dbei) {
 			DB::FILE_BLOB blob(dbei);
-			OnReceiveOfflineFile(blob);
+			OnReceiveOfflineFile(dbei, blob);
 			blob.write(dbei);
 			db_event_edit(dbei.getEvent(), &dbei, true);
 			delete pFile;

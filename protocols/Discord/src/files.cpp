@@ -78,7 +78,7 @@ INT_PTR CDiscordProto::SvcOfflineFile(WPARAM param, LPARAM)
 	return 0;
 }
 
-void CDiscordProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob)
+void CDiscordProto::OnReceiveOfflineFile(DB::EventInfo&, DB::FILE_BLOB &blob)
 {
 	if (auto *ft = (CDiscordAttachment *)blob.getUserInfo()) {
 		blob.setUrl(ft->szUrl.GetBuffer());

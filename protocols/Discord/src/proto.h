@@ -560,7 +560,7 @@ public:
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
-	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob);
+	void     OnReceiveOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob);
 	void     OnShutdown() override;
 
 	//////////////////////////////////////////////////////////////////////////////////////

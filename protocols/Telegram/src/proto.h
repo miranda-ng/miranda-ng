@@ -409,7 +409,7 @@ public:
 	void     OnEventEdited(MCONTACT, MEVENT, const DBEVENTINFO &dbei) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
-	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;
+	void     OnReceiveOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob) override;
 	void     OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *hTransfer) override;
 	void     OnShutdown() override;
 

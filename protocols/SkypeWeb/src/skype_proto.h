@@ -20,8 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CSkypeTransfer
 {
-	CMStringA docId, fileName, url;
-	int iFileSize = 0;
+	CMStringA docId, fileName, fileType, url;
+	int iFileSize = 0, iWidth = -1, iHeight = -1;
 };
 
 struct CSkypeProto : public PROTO <CSkypeProto>
@@ -78,7 +78,7 @@ public:
 	void     OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
-	void     OnReceiveOfflineFile(DB::FILE_BLOB &blob) override;
+	void     OnReceiveOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob) override;
 	void     OnShutdown() override;
 
 	// icons

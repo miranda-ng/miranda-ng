@@ -454,7 +454,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 
 	if (dbei) {
 		DB::FILE_BLOB blob(dbei);
-		OnReceiveOfflineFile(blob);
+		OnReceiveOfflineFile(dbei, blob);
 		blob.write(dbei);
 		db_event_edit(dbei.getEvent(), &dbei, true);
 		delete pRequest;

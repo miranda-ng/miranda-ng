@@ -210,11 +210,18 @@ void CSkypeProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 	}
 }
 
-void CSkypeProto::OnReceiveOfflineFile(DB::FILE_BLOB &blob)
+void CSkypeProto::OnReceiveOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob)
 {
 	if (auto *ft = (CSkypeTransfer *)blob.getUserInfo()) {
 		blob.setUrl(ft->url);
 		blob.setSize(ft->iFileSize);
+
+		auto &json = dbei.setJson();
+		json << CHAR_PARAM("skft", ft->fileType);
+		if (ft->iHeight != -1)
+			json << INT_PARAM("h", ft->iHeight);
+		if (ft->iWidth != -1)
+			json << INT_PARAM("w", ft->iWidth);
 		delete ft;
 	}
 }
@@ -229,16 +236,15 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 	if (xmlRoot == nullptr)
 		return;
 
-	CMStringA szFileType;
 	CSkypeTransfer *ft = new CSkypeTransfer;
 	if (auto *str = xmlRoot->Attribute("doc_id"))
 		ft->docId = str;
 	if (auto *str = xmlRoot->Attribute("uri"))
 		ft->url = str;
-	int iWidth = xmlRoot->IntAttribute("width", -1);
-	int iHeight = xmlRoot->IntAttribute("heighr", -1);
+	ft->iWidth = xmlRoot->IntAttribute("width", -1);
+	ft->iHeight = xmlRoot->IntAttribute("heighr", -1);
 	if (auto *str = xmlRoot->Attribute("type"))
-		szFileType = str;
+		ft->fileType = str;
 	if (auto *xml = xmlRoot->FirstChildElement("FileSize"))
 		if (auto *str = xml->Attribute("v"))
 			ft->iFileSize = atoi(str);
@@ -252,39 +258,25 @@ void CSkypeProto::ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::
 		return;
 	}
 
-	int idx = szFileType.Find('/');
+	int idx = ft->fileType.Find('/');
 	if (idx != -1)
-		szFileType = szFileType.Left(idx);
+		ft->fileType = ft->fileType.Left(idx);
 
 	// ordinary file
-	if (szFileType == "File.1" || szFileType == "Picture.1" || szFileType == "Video.1") {
+	if (ft->fileType == "File.1" || ft->fileType == "Picture.1" || ft->fileType == "Video.1") {
 		MEVENT hEvent;
 		dbei.flags |= DBEF_TEMPORARY | DBEF_JSON;
 		if (dbei) {
 			DB::FILE_BLOB blob(dbei);
-			OnReceiveOfflineFile(blob);
+			OnReceiveOfflineFile(dbei, blob);
 			blob.write(dbei);
 			db_event_edit(dbei.getEvent(), &dbei, true);
 			delete ft;
 			hEvent = dbei.getEvent();
 		}
 		else hEvent = ProtoChainRecvFile(hContact, DB::FILE_BLOB(ft, ft->fileName), dbei);
-
-		DBVARIANT dbv = { DBVT_UTF8 };
-		dbv.pszVal = szFileType.GetBuffer();
-		db_event_setJson(hEvent, "skft", &dbv);
-
-		dbv.type = DBVT_DWORD;
-		if (iWidth != -1) {
-			dbv.dVal = iWidth;
-			db_event_setJson(hEvent, "w", &dbv);
-		}
-		if (iHeight != -1) {
-			dbv.dVal = iHeight;
-			db_event_setJson(hEvent, "h", &dbv);
-		}
 	}
-	else debugLogA("Invalid or unsupported file type <%s> ignored", szFileType.c_str());
+	else debugLogA("Invalid or unsupported file type <%s> ignored", ft->fileType.c_str());
 }
 
 void CSkypeProto::ProcessContactRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei)
