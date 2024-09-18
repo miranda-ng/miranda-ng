@@ -734,6 +734,7 @@ namespace DB
 		bool isSrmm() const; // could be displayed in a SRMM window
 		bool isHistory() const; // could be displayed in a history window
 		bool isAlertable() const; // should raise SRMM window
+		bool isCustom(int iType) const; // iType = DETF_* constant
 
 		wchar_t* getString(const char *str) const;
 		wchar_t* getText() const;

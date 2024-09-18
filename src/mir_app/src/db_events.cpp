@@ -199,11 +199,18 @@ void DB::EventInfo::wipeNotify()
 	Clist_RemoveEvent(-1, m_hEvent);
 }
 
+// is a custom event of the specified type
+bool DB::EventInfo::isCustom(int iType) const
+{
+	auto *et = DbEvent_GetType(szModule, eventType);
+	return et && (et->flags & iType) != 0;
+}
+
 // could be displayed in a SRMM window
 bool DB::EventInfo::isSrmm() const
 {
-	if (auto *et = DbEvent_GetType(szModule, eventType))
-		return (et->flags & DETF_MSGWINDOW) != 0;
+	if (isCustom(DETF_MSGWINDOW))
+		return true;
 	
 	return (eventType == EVENTTYPE_MESSAGE || eventType == EVENTTYPE_FILE);
 }
@@ -211,8 +218,8 @@ bool DB::EventInfo::isSrmm() const
 // could be displayed in a history window
 bool DB::EventInfo::isHistory() const
 {
-	if (auto *et = DbEvent_GetType(szModule, eventType))
-		return (et->flags & DETF_HISTORY) != 0;
+	if (isCustom(DETF_HISTORY))
+		return true;
 
 	return (eventType == EVENTTYPE_MESSAGE || eventType == EVENTTYPE_FILE);
 }

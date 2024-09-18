@@ -101,7 +101,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 		else
 			RemakeLog();
 
-		if (!(dbei.flags & DBEF_SENT) && !dbei.isSrmm()) {
+		if (!(dbei.flags & DBEF_SENT) && !dbei.isCustom(DETF_MSGWINDOW)) {
 			if (!bIsActive) {
 				m_iShowUnread = 1;
 				UpdateIcon();

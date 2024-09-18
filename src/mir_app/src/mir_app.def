@@ -987,3 +987,4 @@ _Proto_CanDeleteHistory@8 @1124 NONAME
 ?OnCacheInit@PROTO_INTERFACE@@UAEXXZ @1125 NONAME
 ?DoRtfToTags@CSrmmBaseDialog@@IBE_NAAV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@@Z @1126 NONAME
 ?bUseGroup@Chat@@3V?$CMOption@_N@@A @1127 NONAME
+?isCustom@EventInfo@DB@@QBE_NH@Z @1128 NONAME
