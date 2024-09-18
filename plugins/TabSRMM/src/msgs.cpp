@@ -186,8 +186,12 @@ INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 static INT_PTR TypingMessageCommand(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
-	if (cle)
-		SendMessageCommand((WPARAM)cle->hContact, 0);
+	if (cle) {
+		if (Contact::IsGroupChat(cle->hContact))
+			return CALLSERVICE_NOTFOUND;
+
+		SendMessageCommand(cle->hContact, 0);
+	}
 	return 0;
 }
 
