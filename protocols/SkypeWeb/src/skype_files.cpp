@@ -51,7 +51,7 @@ void CSkypeProto::ReceiveFileThread(void *param)
 					JsonReply reply(response);
 					if (!reply.error()) {
 						auto &root = reply.data();
-						if (root["view_state"].as_string() == "ready")
+						if (root["content_state"].as_string() == "ready")
 							szUrl = root["view_location"].as_string().c_str();
 					}
 				}
