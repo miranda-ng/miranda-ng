@@ -88,8 +88,12 @@ void NewstoryListData::OnContextMenu(int index, POINT pt)
 	Menu_DestroyNestedMenu(hMenu);
 }
 
-void NewstoryListData::OnResize(int newWidth, int newHeight)
+void NewstoryListData::OnResize()
 {
+	RECT rc;
+	GetClientRect(m_hwnd, &rc);
+	int newWidth = rc.right - rc.left, newHeight = rc.bottom - rc.top;
+
 	if (dib.width() < newWidth || dib.height() < newHeight) {
 		dib.destroy();
 		dib.create(newWidth, newHeight, true);
@@ -110,7 +114,7 @@ void NewstoryListData::OnResize(int newWidth, int newHeight)
 	}
 
 	if (bDraw)
-		InvalidateRect(m_hwnd, 0, FALSE);
+		ScheduleDraw();
 }
 
 void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
@@ -1250,7 +1254,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_SIZE:
-		data->OnResize(LOWORD(lParam), HIWORD(lParam));
+		data->OnResize();
 		break;
 
 	case WM_COMMAND:

@@ -126,7 +126,7 @@ struct NewstoryListData : public MZeroedObject
 	simpledib::dib dib;
 
 	void      OnContextMenu(int index, POINT pt);
-	void      OnResize(int newWidth, int newHeight);
+	void      OnResize();
 	
 	void      onTimer_Draw(CTimer *pTimer);
 
