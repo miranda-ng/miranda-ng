@@ -2298,9 +2298,6 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
 	bool bAllowAutoCreate = false;
-	bool bAutoCreate = g_plugin.bAutoTabs;
-	bool bAutoPopup = g_plugin.bAutoPopup;
-	bool bAutoContainer = g_plugin.bAutoContainer;
 
 	uint32_t dwStatusMask = M.GetDword("autopopupmask", -1);
 	if (dwStatusMask == -1)
@@ -2317,8 +2314,8 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 		}
 	}
 
-	if (bAllowAutoCreate && (bAutoPopup || bAutoCreate)) {
-		if (bAutoPopup) {
+	if (bAllowAutoCreate && (g_plugin.bAutoPopup || g_plugin.bAutoTabs)) {
+		if (g_plugin.bAutoPopup) {
 			TContainerData *pContainer = FindContainerByName(szName);
 			if (pContainer == nullptr)
 				pContainer = CreateContainer(szName, 0, hContact);
@@ -2332,7 +2329,7 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
 				pContainer = FindMatchingContainer(L"default");
 
-		if (pContainer == nullptr && bAutoContainer)
+		if (pContainer == nullptr && g_plugin.bAutoContainer)
 			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact);
 
 		if (pContainer != nullptr) {
