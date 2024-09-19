@@ -455,15 +455,10 @@ void CMsgDialog::DM_InitRichEdit()
 		cf2.yHeight = abs(lf.lfHeight) * 15;
 	}
 	else {
-		LOGFONTW lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
-		COLORREF inputcharcolor = m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA];
-
-		for (auto &it : Utils::rtf_clrs)
-			if (it->clr == inputcharcolor)
-				inputcharcolor = RGB(GetRValue(inputcharcolor), GetGValue(inputcharcolor), GetBValue(inputcharcolor) == 0 ? GetBValue(inputcharcolor) + 1 : GetBValue(inputcharcolor) - 1);
+		LOGFONTW &lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
 
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
-		cf2.crTextColor = inputcharcolor;
+		cf2.crTextColor = m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA];
 		cf2.bCharSet = lf.lfCharSet;
 		wcsncpy_s(cf2.szFaceName, lf.lfFaceName, _TRUNCATE);
 		cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0) | (lf.lfUnderline ? CFE_UNDERLINE : 0) | (lf.lfStrikeOut ? CFE_STRIKEOUT : 0);

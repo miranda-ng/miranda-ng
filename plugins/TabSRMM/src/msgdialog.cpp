@@ -350,6 +350,8 @@ CMsgDialog::CMsgDialog(SESSION_INFO *si) :
 
 void CMsgDialog::Init()
 {
+	GetSendFormat();
+
 	m_szProto = Proto_GetBaseAccountName(m_hContact);
 	m_autoClose = CLOSE_ON_CANCEL;
 	m_forceResizable = true;
