@@ -436,36 +436,19 @@ void CMsgDialog::DM_InitRichEdit()
 
 	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_pContainer->m_theme.inputbg);
 
+	LOGFONTW &lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
+
 	CHARFORMAT2 cf2 = {};
 	cf2.cbSize = sizeof(cf2);
-
-	if (isChat()) {
-		LOGFONTW lf;
-		COLORREF inputcharcolor;
-		LoadMsgDlgFont(FONTSECTION_IM, MSGFONTID_MESSAGEAREA, &lf, &inputcharcolor);
-
-		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_ITALIC | CFM_BACKCOLOR;
-		cf2.crTextColor = inputcharcolor;
-		cf2.bCharSet = lf.lfCharSet;
-		cf2.crBackColor = m_pContainer->m_theme.inputbg;
-		wcsncpy_s(cf2.szFaceName, lf.lfFaceName, _TRUNCATE);
-		cf2.dwEffects = 0;
-		cf2.wWeight = (uint16_t)lf.lfWeight;
-		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
-		cf2.yHeight = abs(lf.lfHeight) * 15;
-	}
-	else {
-		LOGFONTW &lf = m_pContainer->m_theme.logFonts[MSGFONTID_MESSAGEAREA];
-
-		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
-		cf2.crTextColor = m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA];
-		cf2.bCharSet = lf.lfCharSet;
-		wcsncpy_s(cf2.szFaceName, lf.lfFaceName, _TRUNCATE);
-		cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0) | (lf.lfUnderline ? CFE_UNDERLINE : 0) | (lf.lfStrikeOut ? CFE_STRIKEOUT : 0);
-		cf2.wWeight = (uint16_t)lf.lfWeight;
-		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
-		cf2.yHeight = abs(lf.lfHeight) * 15;
-	}
+	cf2.dwMask = CFM_COLOR | CFM_BACKCOLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
+	cf2.crBackColor = m_pContainer->m_theme.inputbg;
+	cf2.crTextColor = m_pContainer->m_theme.fontColors[MSGFONTID_MESSAGEAREA];
+	cf2.bCharSet = lf.lfCharSet;
+	wcsncpy_s(cf2.szFaceName, lf.lfFaceName, _TRUNCATE);
+	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0) | (lf.lfUnderline ? CFE_UNDERLINE : 0) | (lf.lfStrikeOut ? CFE_STRIKEOUT : 0);
+	cf2.wWeight = (uint16_t)lf.lfWeight;
+	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
+	cf2.yHeight = abs(lf.lfHeight) * 15;
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&cf2);
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2); /* WINE: fix send colour text. */
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf2); /* WINE: fix send colour text. */
@@ -474,8 +457,7 @@ void CMsgDialog::DM_InitRichEdit()
 	// LOG is always set to RTL, because this is needed for proper bidirectional operation later.
 	// The real text direction is then enforced by the streaming code which adds appropiate paragraph
 	// and textflow formatting commands to the
-	PARAFORMAT2 pf2;
-	memset(&pf2, 0, sizeof(PARAFORMAT2));
+	PARAFORMAT2 pf2 = {};
 	pf2.cbSize = sizeof(pf2);
 	pf2.wEffects = PFE_RTLPARA;
 	pf2.dwMask = PFM_RTLPARA;
