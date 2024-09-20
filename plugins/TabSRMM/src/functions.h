@@ -53,9 +53,7 @@ CMsgDialog* TSAPI CreateNewTabForContact(
 	MCONTACT hContact, 
 	bool bActivateTAb, 
 	bool bPopupContainer,
-	MEVENT hdbEvent = 0,
-	bool bIsWchar = false,
-	const char *pszInitialText = nullptr);
+	MEVENT hdbEvent = 0);
 
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI CreateImageList(bool bInitial);
@@ -64,7 +62,7 @@ TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName);
 TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT hContactFrom);
 TContainerData* TSAPI FindContainerByName(const wchar_t *name);
 
-CMsgDialog* TSAPI AutoCreateWindow(TContainerData*, MCONTACT, MEVENT, bool bActivate = false);
+CMsgDialog* TSAPI AutoCreateWindow(TContainerData*, MCONTACT hContact, bool bActivate = false);
 
 int   TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd);
 HWND  TSAPI GetTabWindow(HWND hwndTab, int idx);

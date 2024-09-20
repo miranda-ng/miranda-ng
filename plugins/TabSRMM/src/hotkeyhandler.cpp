@@ -225,7 +225,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case DM_CREATECONTAINER:
-		if (!AutoCreateWindow(0, wParam, lParam)) {
+		if (!AutoCreateWindow(0, wParam)) {
 			// no window created, simply add an unread event to contact list
 			DB::EventInfo dbei(lParam, false);
 			if (dbei && !(dbei.flags & DBEF_READ)) {

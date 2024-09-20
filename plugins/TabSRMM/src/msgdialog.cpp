@@ -154,6 +154,15 @@ void CMsgDialog::SetDialogToType()
 	m_pPanel.Configure();
 }
 
+void CMsgDialog::SetInitMessage(const wchar_t *pwszInitMessage)
+{
+	m_message.SetText(pwszInitMessage);
+	int len = GetWindowTextLength(m_message.GetHwnd());
+	PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
+	if (len)
+		EnableSendButton(true);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // subclasses the avatar display controls, needed for skinning and to prevent
 // it from flickering during resize/move operations.
@@ -604,15 +613,6 @@ bool CMsgDialog::OnInitDialog()
 		UpdateSaveAndSendButton();
 		if (m_pContainer->m_hwndActive == m_hwnd)
 			UpdateReadChars();
-	}
-
-	if (wszInitialText) {
-		m_message.SetText(wszInitialText);
-		int len = GetWindowTextLength(m_message.GetHwnd());
-		PostMessage(m_message.GetHwnd(), EM_SETSEL, len, len);
-		if (len)
-			EnableSendButton(true);
-		mir_free(wszInitialText);
 	}
 
 	m_pContainer->QueryClientArea(rc);

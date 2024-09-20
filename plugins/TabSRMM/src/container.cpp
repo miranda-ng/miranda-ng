@@ -2292,7 +2292,7 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact, MEVENT hDbEvent, bool bActivate)
+CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact, bool bActivate)
 {
 	wchar_t szName[CONTAINER_NAMELEN + 1];
 	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
@@ -2331,7 +2331,7 @@ CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact
 		if (pContainer == nullptr && g_plugin.bAutoContainer)
 			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact);
 
-		return CreateNewTabForContact(pContainer, hContact, bActivate, g_plugin.bPopupContainer, hDbEvent);
+		return CreateNewTabForContact(pContainer, hContact, bActivate, g_plugin.bPopupContainer);
 	}
 
 	return nullptr;

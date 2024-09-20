@@ -115,7 +115,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 		if (pContainer == nullptr)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, true, true, 0);
+			CreateNewTabForContact(pContainer, hContact, true, true);
 	}
 	return 0;
 }
@@ -126,15 +126,11 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 // it is implemented as a service, so external plugins can use it to open a message window.
 // contacts handle must be passed in wParam.
 
-INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar)
+INT_PTR SendMessageCommand_Worker(MCONTACT hContact, const wchar_t *pwszInitMsg)
 {
 	// make sure that only the main UI thread will handle window creation
 	if (GetCurrentThreadId() != PluginConfig.dwThreadID) {
-		if (pszMsg) {
-			wchar_t *tszText = (isWchar) ? mir_wstrdup((wchar_t*)pszMsg) : mir_a2u(pszMsg);
-			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, (LPARAM)tszText);
-		}
-		else PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, 0);
+		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_SENDMESSAGECOMMANDW, hContact, LPARAM(mir_wstrdup(pwszInitMsg)));
 		return 0;
 	}
 
@@ -145,17 +141,9 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	if (0 == (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
 
-	if (auto *pDlg = Srmm_FindDialog(hContact)) {
-		if (pszMsg) {
-			HWND hEdit = GetDlgItem(pDlg->GetHwnd(), IDC_SRMM_MESSAGE);
-			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
-			if (isWchar)
-				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
-			else
-				SendMessageA(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
-		}
+	auto *pDlg = Srmm_FindDialog(hContact);
+	if (pDlg)
 		pDlg->ActivateTab();
-	}
 	else {
 		wchar_t szName[CONTAINER_NAMELEN + 1];
 		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
@@ -164,19 +152,23 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 		if (pContainer == nullptr)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, true, true, 0, isWchar, pszMsg);
+			pDlg = CreateNewTabForContact(pContainer, hContact, true, true);
 	}
+
+	if (pDlg && pwszInitMsg)
+		pDlg->SetInitMessage(pwszInitMsg);
+
 	return 0;
 }
 
 INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 {
-	return SendMessageCommand_Worker(hContact, LPCSTR(lParam), false);
+	return SendMessageCommand_Worker(hContact, _A2T((const char*)lParam));
 }
 
 INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 {
-	return SendMessageCommand_Worker(hContact, LPCSTR(lParam), true);
+	return SendMessageCommand_Worker(hContact, (const wchar_t*)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -250,9 +242,7 @@ CMsgDialog* TSAPI CreateNewTabForContact(
 	MCONTACT hContact,
 	bool bActivateTab,
 	bool bPopupContainer,
-	MEVENT hdbEvent,
-	bool bIsUnicode,
-	const char *pszInitialText)
+	MEVENT hdbEvent)
 {
 	if (pContainer == nullptr)
 		return nullptr;
@@ -340,8 +330,6 @@ CMsgDialog* TSAPI CreateNewTabForContact(
 	pWindow->m_bActivate = bActivateTab;
 	pWindow->m_bWantPopup = !bActivateTab;
 	pWindow->m_hDbEventFirst = hdbEvent;
-	if (pszInitialText)
-		pWindow->wszInitialText = (bIsUnicode) ? mir_wstrdup((const wchar_t *)pszInitialText) : mir_a2u(pszInitialText);
 	pWindow->SetParent(pContainer->m_hwndTabs);
 	pWindow->Create();
 

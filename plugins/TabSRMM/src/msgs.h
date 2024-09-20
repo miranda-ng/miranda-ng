@@ -535,7 +535,6 @@ public:
 	int      rcLogBottom;
 	bool     m_bActivate, m_bWantPopup, m_bIsMeta;
 
-	wchar_t* wszInitialText;
 	TOOLINFO ti;
 	CInfoPanel m_pPanel;
 	CProxyWindow *m_pWnd;	// proxy window object (win7+, for taskbar support).
@@ -646,6 +645,7 @@ public:
 	void SaveSplitter(void);
 	void SelectContainer(void);
 	void SetDialogToType(void);
+	void SetInitMessage(const wchar_t *pwszInitMessage);
 	void ShowPicture(bool showNewPic);
 	void SplitterMoved(int x, HWND hwnd);
 	void SwitchToContainer(const wchar_t *szNewName);

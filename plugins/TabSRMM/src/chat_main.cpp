@@ -199,7 +199,7 @@ static void CheckUpdate()
 void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 {
 	if (si)
-		AutoCreateWindow(pContainer, si->hContact, 0);
+		AutoCreateWindow(pContainer, si->hContact);
 }
 
 static void stubShowRoom(SESSION_INFO *si)
@@ -211,7 +211,7 @@ static void stubShowRoom(SESSION_INFO *si)
 	if (si->pDlg)
 		si->pDlg->ActivateTab();
 	else
-		AutoCreateWindow(nullptr, si->hContact, 0, true);
+		AutoCreateWindow(nullptr, si->hContact, true);
 }
 
 static MODULEINFO* MM_CreateModule()
