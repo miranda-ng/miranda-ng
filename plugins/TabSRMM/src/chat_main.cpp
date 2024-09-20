@@ -198,132 +198,20 @@ static void CheckUpdate()
 
 void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 {
-	if (si == nullptr)
-		return;
-
-	if (si->pDlg != nullptr) {
-		si->pDlg->ActivateTab();
-		return;
-	}
-
-	wchar_t szName[CONTAINER_NAMELEN + 2]; szName[0] = 0;
-
-	if (pContainer == nullptr)
-		if (si->pDlg != nullptr)
-			pContainer = si->pDlg->m_pContainer;
-
-	if (pContainer == nullptr) {
-		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
-		if (!g_plugin.bOpenInDefault && !mir_wstrcmp(szName, L"default"))
-			wcsncpy_s(szName, L"Chat Rooms", _TRUNCATE);
-		szName[CONTAINER_NAMELEN] = 0;
-		pContainer = FindContainerByName(szName);
-	}
-
-	if (pContainer == nullptr)
-		pContainer = CreateContainer(szName, FALSE, si->hContact);
-	if (pContainer == nullptr)
-		return; // smth went wrong, nothing to do here
-
-	MCONTACT hContact = si->hContact;
-	if (Srmm_FindWindow(hContact) != nullptr)
-		return;
-
-	if (hContact != 0 && M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
-		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
-			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
-				return;
-
-	wchar_t *contactName = Clist_GetContactDisplayName(hContact);
-
-	// cut nickname if larger than x chars...
-	wchar_t newcontactname[128];
-	if (mir_wstrlen(contactName) > 0) {
-		if (M.GetByte("cuttitle", 0))
-			CutContactName(contactName, newcontactname, _countof(newcontactname));
-		else
-			wcsncpy_s(newcontactname, contactName, _TRUNCATE);
-	}
-	else wcsncpy_s(newcontactname, L"_U_", _TRUNCATE);
-
-	// hide the active tab
-	if (pContainer->m_hwndActive)
-		ShowWindow(pContainer->m_hwndActive, SW_HIDE);
-
-	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->m_iChilds * 100);
-	int iCount = TabCtrl_GetItemCount(pContainer->m_hwndTabs);
-
-	pContainer->m_iTabIndex = iCount;
-	if (iCount > 0) {
-		for (int i = iCount - 1; i >= 0; i--) {
-			HWND hwnd = GetTabWindow(pContainer->m_hwndTabs, i);
-			CMsgDialog *dat = (CMsgDialog *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-			if (dat) {
-				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
-				if (iTabIndex_wanted <= relPos)
-					pContainer->m_iTabIndex = i;
-			}
-		}
-	}
-
-	TCITEM item = {};
-	item.pszText = newcontactname;
-	item.mask = TCIF_TEXT | TCIF_IMAGE;
-	int iTabId = TabCtrl_InsertItem(pContainer->m_hwndTabs, pContainer->m_iTabIndex, &item);
-
-	SendMessage(pContainer->m_hwndTabs, EM_REFRESHWITHOUTCLIP, 0, 0);
-	TabCtrl_SetCurSel(pContainer->m_hwndTabs, iTabId);
-	pContainer->m_iChilds++;
-
-	CMsgDialog *pDlg = new CMsgDialog(si);
-	pDlg->m_iTabID = iTabId;
-	pDlg->m_pContainer = pContainer;
-	pDlg->SetParent(pContainer->m_hwndTabs);
-	pDlg->Create();
-
-	HWND hwndNew = pDlg->GetHwnd();
-	item.lParam = (LPARAM)hwndNew;
-	TabCtrl_SetItem(pContainer->m_hwndTabs, iTabId, &item);
-
-	if (pContainer->cfg.flags.m_bSideBar)
-		pContainer->m_pSideBar->addSession(pDlg, pContainer->m_iTabIndex);
-
-	SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 0);
-	// if the container is minimized, then pop it up...
-	if (IsIconic(pContainer->m_hwnd)) {
-		SendMessage(pContainer->m_hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-		SetFocus(pContainer->m_hwndActive);
-	}
-
-	if (g_plugin.bHideOnClose && !IsWindowVisible(pContainer->m_hwnd)) {
-		WINDOWPLACEMENT wp = { 0 };
-		wp.length = sizeof(wp);
-		GetWindowPlacement(pContainer->m_hwnd, &wp);
-
-		pContainer->BroadCastContainer(DM_CHECKSIZE, 0, 0);			// make sure all tabs will re-check layout on activation
-		if (wp.showCmd == SW_SHOWMAXIMIZED)
-			ShowWindow(pContainer->m_hwnd, SW_SHOWMAXIMIZED);
-		else {
-			ShowWindow(pContainer->m_hwnd, SW_SHOWNORMAL);
-		}
-		SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);
-		SetFocus(hwndNew);
-	}
-	else {
-		SetFocus(hwndNew);
-		RedrawWindow(pContainer->m_hwnd, nullptr, nullptr, RDW_INVALIDATE);
-		UpdateWindow(pContainer->m_hwnd);
-		if (GetForegroundWindow() != pContainer->m_hwnd)
-			SetForegroundWindow(pContainer->m_hwnd);
-	}
-
-	if (IsWinVer7Plus() && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled && !M.GetByte("forceAeroPeek", 0))
-		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING | MB_OK);
+	if (si)
+		AutoCreateWindow(pContainer, si->hContact, 0);
 }
 
 static void stubShowRoom(SESSION_INFO *si)
 {
-	ShowRoom(nullptr, si);
+	if (!si)
+		return;
+
+	// when a group chat window is popped up from dblclick, we always activate it
+	if (si->pDlg)
+		si->pDlg->ActivateTab();
+	else
+		AutoCreateWindow(nullptr, si->hContact, 0, true);
 }
 
 static MODULEINFO* MM_CreateModule()

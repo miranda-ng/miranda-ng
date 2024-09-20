@@ -48,7 +48,15 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
  * gneric msgwindow functions(creation, container management etc.)
  */
 
-void  TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTAb, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent = 0, bool bIsWchar = false, const char *pszInitialText = nullptr);
+CMsgDialog* TSAPI CreateNewTabForContact(
+	TContainerData *pContainer,
+	MCONTACT hContact, 
+	bool bActivateTAb, 
+	bool bPopupContainer,
+	MEVENT hdbEvent = 0,
+	bool bIsWchar = false,
+	const char *pszInitialText = nullptr);
+
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI CreateImageList(bool bInitial);
 
@@ -56,13 +64,14 @@ TContainerData* TSAPI FindMatchingContainer(const wchar_t *szName);
 TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT hContactFrom);
 TContainerData* TSAPI FindContainerByName(const wchar_t *name);
 
+CMsgDialog* TSAPI AutoCreateWindow(TContainerData*, MCONTACT, MEVENT, bool bActivate = false);
+
 int   TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd);
 HWND  TSAPI GetTabWindow(HWND hwndTab, int idx);
 int   TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt);
 void  TSAPI CloseOtherTabs(HWND hwndTab, CMsgDialog &dat);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 
-void  TSAPI AutoCreateWindow(MCONTACT, MEVENT);
 void  TSAPI CloseAllContainers();
 void  TSAPI DeleteContainer(int iIndex);
 void  TSAPI RenameContainer(int iIndex, const wchar_t *newName);

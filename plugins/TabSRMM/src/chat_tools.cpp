@@ -223,17 +223,12 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (Chat::bFlashWindowHighlight && bInactive)
 			bMustFlash = true;
 
-		bMustAutoswitch = true;
+		bMustAutoswitch = g_plugin.bAutoSwitchTabs;
 		if (g_plugin.bCreateWindowOnHighlight && dat == nullptr) {
-			Clist_ContactDoubleClicked(si->hContact);
-			bActiveTab = true;
-			bInactive = bMustAutoswitch = bMustFlash = false;
-		}
-
-		if (dat && g_plugin.bAnnoyingHighlight && bInactive && dat->m_pContainer->m_hwnd != GetForegroundWindow()) {
-			bActiveTab = true;
-			bInactive = bMustAutoswitch = bMustFlash = false;
-			dat->ActivateTab();
+			ShowRoom(0, si);
+			dat = si->pDlg;
+			bInactive = (dat) ? !dat->IsActive() : true;
+			bMustFlash = false;
 		}
 	}
 	else {

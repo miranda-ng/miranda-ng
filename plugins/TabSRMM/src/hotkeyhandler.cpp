@@ -225,7 +225,14 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case DM_CREATECONTAINER:
-		AutoCreateWindow(wParam, lParam);
+		if (!AutoCreateWindow(0, wParam, lParam)) {
+			// no window created, simply add an unread event to contact list
+			DB::EventInfo dbei(lParam, false);
+			if (dbei && !(dbei.flags & DBEF_READ)) {
+				AddUnreadContact(wParam);
+				Srmm_AddEvent(wParam, lParam);
+			}
+		}
 		break;
 
 	case DM_DOCREATETAB:
@@ -244,7 +251,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (szProto != nullptr && Contact::IsGroupChat(lParam, szProto))
 						ShowRoom((TContainerData*)wParam, SM_FindSessionByHCONTACT(lParam));
 					else
-						CreateNewTabForContact((TContainerData*)wParam, lParam, true, true, false);
+						CreateNewTabForContact((TContainerData*)wParam, lParam, true, true);
 				}
 			}
 		}

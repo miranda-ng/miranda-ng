@@ -127,11 +127,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (!Contact::IsGroupChat(hContact, szProto))
 		return 0;
 
-	ptrW roomid(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
-	if (roomid == nullptr)
-		return 0;
-
-	SESSION_INFO *si = Chat_Find(roomid, szProto);
+	SESSION_INFO *si = Chat_Find(hContact, szProto);
 	if (si) {
 		if (si->pDlg != nullptr && !Clist_GetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
 			si->pDlg->CloseTab();

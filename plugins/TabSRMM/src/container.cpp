@@ -2292,7 +2292,7 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
+CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact, MEVENT hDbEvent, bool bActivate)
 {
 	wchar_t szName[CONTAINER_NAMELEN + 1];
 	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
@@ -2315,16 +2315,15 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 	}
 
 	if (bAllowAutoCreate && (g_plugin.bAutoPopup || g_plugin.bAutoTabs)) {
+		if (pContainer == nullptr)
+			pContainer = FindContainerByName(szName);
+
 		if (g_plugin.bAutoPopup) {
-			TContainerData *pContainer = FindContainerByName(szName);
 			if (pContainer == nullptr)
 				pContainer = CreateContainer(szName, 0, hContact);
-			if (pContainer)
-				CreateNewTabForContact(pContainer, hContact, true, true, false);
-			return;
+			return CreateNewTabForContact(pContainer, hContact, true, true);
 		}
 
-		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer != nullptr)
 			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
 				pContainer = FindMatchingContainer(L"default");
@@ -2332,20 +2331,10 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 		if (pContainer == nullptr && g_plugin.bAutoContainer)
 			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact);
 
-		if (pContainer != nullptr) {
-			CreateNewTabForContact(pContainer, hContact, false, g_plugin.bPopupContainer, true, hDbEvent);
-			return;
-		}
+		return CreateNewTabForContact(pContainer, hContact, bActivate, g_plugin.bPopupContainer, hDbEvent);
 	}
 
-	// no window created, simply add an unread event to contact list
-	DBEVENTINFO dbei = {};
-	db_event_get(hDbEvent, &dbei);
-
-	if (!(dbei.flags & DBEF_READ)) {
-		AddUnreadContact(hContact);
-		Srmm_AddEvent(hContact, hDbEvent);
-	}
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

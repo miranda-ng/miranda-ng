@@ -115,7 +115,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 		if (pContainer == nullptr)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, true, true, false, 0);
+			CreateNewTabForContact(pContainer, hContact, true, true, 0);
 	}
 	return 0;
 }
@@ -164,7 +164,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 		if (pContainer == nullptr)
 			pContainer = CreateContainer(szName, FALSE, hContact);
 		if (pContainer)
-			CreateNewTabForContact(pContainer, hContact, true, true, false, 0, isWchar, pszMsg);
+			CreateNewTabForContact(pContainer, hContact, true, true, 0, isWchar, pszMsg);
 	}
 	return 0;
 }
@@ -245,23 +245,33 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 // bActivateTab: make the new tab the active one
 // bPopupContainer: restore container if it was minimized, otherwise flash it...
 
-void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, bool bActivateTab, bool bPopupContainer, bool bWantPopup, MEVENT hdbEvent, bool bIsUnicode, const char *pszInitialText)
+CMsgDialog* TSAPI CreateNewTabForContact(
+	TContainerData *pContainer,
+	MCONTACT hContact,
+	bool bActivateTab,
+	bool bPopupContainer,
+	MEVENT hdbEvent,
+	bool bIsUnicode,
+	const char *pszInitialText)
 {
+	if (pContainer == nullptr)
+		return nullptr;
+
 	if (hContact == 0) {
 		_DebugPopup(hContact, L"Warning: trying to create a window for empty contact");
-		return;
+		return nullptr;
 	}
 
 	if (Srmm_FindWindow(hContact) != nullptr) {
 		_DebugPopup(hContact, L"Warning: trying to create duplicate window");
-		return ;
+		return nullptr;
 	}
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
 	if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
 		if ((pContainer = FindMatchingContainer(L"default")) == nullptr)
 			if ((pContainer = CreateContainer(L"default", CNT_CREATEFLAG_CLONED, hContact)) == nullptr)
-				return;
+				return nullptr;
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
 
@@ -298,7 +308,7 @@ void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (iCount > 0) {
 		for (int i = iCount - 1; i >= 0; i--) {
 			HWND hwnd = GetTabWindow(pContainer->m_hwndTabs, i);
-			CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			CMsgDialog *dat = (CMsgDialog *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			if (dat) {
 				int relPos = M.GetDword(dat->m_hContact, "tabindex", i * 100);
 				if (iTabIndex_wanted <= relPos)
@@ -317,17 +327,21 @@ void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	SendMessage(pContainer->m_hwndTabs, EM_REFRESHWITHOUTCLIP, 0, 0);
 	if (bActivateTab)
 		TabCtrl_SetCurSel(pContainer->m_hwndTabs, iTabId);
-	
-	CMsgDialog *pWindow = new CMsgDialog(IDD_MSGSPLITNEW, hContact);
+
+	CMsgDialog *pWindow;
+	if (Contact::IsGroupChat(hContact))
+		pWindow = new CMsgDialog(Chat_Find(hContact, szProto));
+	else
+		pWindow = new CMsgDialog(IDD_MSGSPLITNEW, hContact);
 	pWindow->m_iTabID = iTabId;
 	pWindow->m_pContainer = pContainer;
 	pContainer->m_iChilds++;
 
 	pWindow->m_bActivate = bActivateTab;
-	pWindow->m_bWantPopup = bWantPopup;
+	pWindow->m_bWantPopup = !bActivateTab;
 	pWindow->m_hDbEventFirst = hdbEvent;
 	if (pszInitialText)
-		pWindow->wszInitialText = (bIsUnicode) ? mir_wstrdup((const wchar_t*)pszInitialText) : mir_a2u(pszInitialText);
+		pWindow->wszInitialText = (bIsUnicode) ? mir_wstrdup((const wchar_t *)pszInitialText) : mir_a2u(pszInitialText);
 	pWindow->SetParent(pContainer->m_hwndTabs);
 	pWindow->Create();
 
@@ -388,6 +402,8 @@ void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (ServiceExists(MS_HPP_EG_EVENT) && ServiceExists(MS_IEVIEW_EVENT) && db_get_b(0, "HistoryPlusPlus", "IEViewAPI", 0))
 		if (IDYES == CWarning::show(CWarning::WARN_HPP_APICHECK, MB_ICONWARNING | MB_YESNO))
 			db_set_b(0, "HistoryPlusPlus", "IEViewAPI", 0);
+
+	return pWindow;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

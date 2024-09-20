@@ -90,7 +90,6 @@ CMPlugin::CMPlugin() :
 	bClassicIndicators(CHAT_MODULE, "ClassicIndicators", false),
 	bLogClassicIndicators(CHAT_MODULE, "LogClassicIndicators", false),
 	bAlternativeSorting(CHAT_MODULE, "AlternativeSorting", true),
-	bAnnoyingHighlight(CHAT_MODULE, "AnnoyingHighlight", false),
 	bLogSymbols(CHAT_MODULE, "LogSymbols", true),
 	bClickableNicks(CHAT_MODULE, "ClickableNicks", true),
 	bColorizeNicks(CHAT_MODULE, "ColorizeNicks", true),
