@@ -2294,10 +2294,7 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 
 CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact, bool bActivate)
 {
-	wchar_t szName[CONTAINER_NAMELEN + 1];
-	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
-
-	bool bAllowAutoCreate = false;
+	bool bAllowAutoCreate = false, bForceCreate = g_plugin.bAutoPopup || bActivate;
 
 	uint32_t dwStatusMask = M.GetDword("autopopupmask", -1);
 	if (dwStatusMask == -1)
@@ -2314,11 +2311,14 @@ CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact
 		}
 	}
 
-	if (bAllowAutoCreate && (g_plugin.bAutoPopup || g_plugin.bAutoTabs)) {
+	if (bAllowAutoCreate && (bForceCreate || g_plugin.bAutoTabs)) {
+		wchar_t szName[CONTAINER_NAMELEN + 1];
+		GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
+
 		if (pContainer == nullptr)
 			pContainer = FindContainerByName(szName);
 
-		if (g_plugin.bAutoPopup) {
+		if (bForceCreate) {
 			if (pContainer == nullptr)
 				pContainer = CreateContainer(szName, 0, hContact);
 			return CreateNewTabForContact(pContainer, hContact, true, true);
