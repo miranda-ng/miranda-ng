@@ -133,6 +133,8 @@
 Ошибки
 [wrote]
 писал(а)
+[Chat name was changed to]
+Название чата изменилось на
 [Picture]
 Изображение
 [Audio]

@@ -77,6 +77,8 @@
 [Enter new chatroom topic]
 Введите новую тему комнаты чата
 ;file \protocols\SkypeWeb\src\skype_contacts.cpp
+[(You)]
+(Вы)
 [Are you sure?]
 Вы уверены?
 ;file \protocols\SkypeWeb\src\skype_db.cpp

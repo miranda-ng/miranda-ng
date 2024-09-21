@@ -261,8 +261,8 @@
 Показывать счётчик символов
 [Show toolbar buttons on top row]
 Показывать кнопки в верхней строке
-[Use BBCodes to send format inside messages]
-
+[Allow BBCode formatting in outgoing messages]
+Разрешить BBCode для исходящих сообщений
 [Show warning when message has not been received after]
 Сообщать, если сообщение не удалось отправить за
 [Send error]

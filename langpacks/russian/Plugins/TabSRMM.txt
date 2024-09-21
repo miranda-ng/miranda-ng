@@ -915,8 +915,6 @@ BBCode ([b][i][u])
 Мигать окном, если есть подсвеченные сообщения
 [Create tabs or windows for highlight events]
 Создавать вкладку или окно при подсвеченном событии
-[Activate chat window on highlight]
-Активировать окно чата при подсвеченном событии
 [Show list of users in the chat room]
 Показывать список пользователей в комнате чата
 [Colorize nicknames in member list (you need to adjust colors)]
