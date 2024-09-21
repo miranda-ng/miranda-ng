@@ -463,7 +463,6 @@
 [Flash window when someone speaks]
 [Flash window when a word is highlighted]
 [Create tabs or windows for highlight events]
-[Activate chat window on highlight]
 [Show list of users in the chat room]
 [Colorize nicknames in member list (you need to adjust colors)]
 [Show topic as status message on the contact list]

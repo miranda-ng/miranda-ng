@@ -134,7 +134,7 @@
 [Show 'Send' button]
 [Show character count]
 [Show toolbar buttons on top row]
-[Use BBCodes to send format inside messages]
+[Allow BBCode formatting in outgoing messages]
 [Show warning when message has not been received after]
 [Send error]
 [An error has occurred. The protocol reported the following error:]

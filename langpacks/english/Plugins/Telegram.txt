@@ -74,6 +74,7 @@
 [%s error notifications]
 [Errors]
 [wrote]
+[Chat name was changed to]
 [Picture]
 [Audio]
 [seconds]

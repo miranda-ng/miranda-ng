@@ -16,7 +16,7 @@
 [Hide windows on close]
 [Remember unsent messages]
 [Delete temporary contacts on closing]
-[Use BBCodes to send format inside messages]
+[Allow BBCode formatting in outgoing messages]
 [Show warning when message has not been received after]
 [seconds]
 [Tabs]
