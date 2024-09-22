@@ -360,6 +360,26 @@ CMStringW CSkypeProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 				m_wstrMoodMessage = wszStatusMsg;
 				inSS = false;
 			}
+			else if (m_bUseBBCodes) {
+				bool bEnable = true;
+				if (data[i + 1] == '/') {
+					i++;
+					bEnable = false;
+				}
+
+				switch (data[i + 1]) {
+				case 'b': new_string.Append(bEnable ? L"[b]" : L"[/b]"); break;
+				case 'i': new_string.Append(bEnable ? L"[i]" : L"[/i]"); break;
+				case 'u': new_string.Append(bEnable ? L"[u]" : L"[/u]"); break;
+				case 's': new_string.Append(bEnable ? L"[s]" : L"[/s]"); break;
+				default:
+					if (!wcsncmp(data.c_str() + i + 1, L"pre ", 4))
+						new_string.Append(L"[code]");
+					else if (!wcsncmp(data.c_str() + i + 1, L"pre>", 4))
+						new_string.Append(L"[/code]");
+					break;
+				}
+			}
 
 			i = data.Find('>', i);
 			if (i == -1)
@@ -454,6 +474,52 @@ CMStringW CSkypeProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 	}
 
 	return new_string;
+}
+
+void AddBbcodes(CMStringA &str)
+{
+	CMStringA ret;
+
+	for (const char *p = str; *p; p++) {
+		if (*p == '[') {
+			p++;
+			if (!strncmp(p, "b]", 2)) {
+				p++;
+				ret.Append("<b _pre=\"*\" _post=\"*\">");
+			}
+			else if (!strncmp(p, "/b]", 3)) {
+				p += 2;
+				ret.Append("</b>");
+			}
+			else if (!strncmp(p, "i]", 2)) {
+				p++;
+				ret.Append("<i _pre=\"_\" _post=\"_\">");
+			}
+			else if (!strncmp(p, "/i]", 3)) {
+				p += 2;
+				ret.Append("</i>");
+			}
+			else if (!strncmp(p, "s]", 2)) {
+				p++;
+				ret.Append("<s _pre=\"~\" _post=\"~\">");
+			}
+			else if (!strncmp(p, "/s]", 3)) {
+				p += 2;
+				ret.Append("</s>");
+			}
+			else if (!strncmp(p, "code]", 5)) {
+				p += 4;
+				ret.Append("<pre _pre=\"```\" _post=\"```\">");
+			}
+			else if (!strncmp(p, "/code]", 6)) {
+				p += 5;
+				ret.Append("</pre>");
+			}
+		}
+		else ret.AppendChar(*p);
+	}
+
+	str = ret;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

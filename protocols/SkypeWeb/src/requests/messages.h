@@ -18,43 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_MESSAGES_H_
 #define _SKYPE_REQUEST_MESSAGES_H_
 
-struct SendMessageParam
-{
-	MCONTACT hContact;
-	uint32_t hMessage;
-};
-
-struct SendMessageRequest : public AsyncHttpRequest
-{
-	SendMessageRequest(const char *username, time_t timestamp, const char *message, const char *MessageType = nullptr) :
-	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
-	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
-
-		JSONNode node;
-		node  << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", MessageType ? MessageType : "Text")
-			<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message);
-		m_szParam = node.write().c_str();
-	}
-};
-
-struct SendActionRequest : public AsyncHttpRequest
-{
-	SendActionRequest(const char *username, time_t timestamp, const char *message, CSkypeProto *ppro) :
-	  AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
-	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
-
-		CMStringA content;
-		content.AppendFormat("%s %s", ppro->m_szSkypename.c_str(), message);
-
-		JSONNode node;
-		node << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", "RichText") << CHAR_PARAM("contenttype", "text")
-			<< CHAR_PARAM("content", content) << INT_PARAM("skypeemoteoffset", ppro->m_szSkypename.GetLength() + 1);
-		m_szParam = node.write().c_str();
-	}
-};
-
 struct SendTypingRequest : public AsyncHttpRequest
 {
 	SendTypingRequest(const char *username, int iState) :

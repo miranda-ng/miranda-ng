@@ -26,6 +26,8 @@ const wchar_t* GetSkypeNick(const wchar_t *szSkypeId);
 
 CMStringA ParseUrl(const char *url, const char *token);
 
+void AddBbcodes(CMStringA &str);
+
 bool IsPossibleUserType(const char *pszUserId);
 
 CMStringA UrlToSkypeId(const char *url, int *pUserType = nullptr);

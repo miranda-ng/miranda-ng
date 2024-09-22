@@ -232,13 +232,13 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	tinyxml2::XMLPrinter printer(0, true);
 	doc.Print(&printer);
 
-	SendMessageParam *param = new SendMessageParam();
-	param->hContact = fup->hContact;
-	Utils_GetRandom(&param->hMessage, sizeof(param->hMessage));
-	param->hMessage &= ~0x80000000;
+	uint32_t hMessage;
+	Utils_GetRandom(&hMessage, sizeof(hMessage));
+	hMessage &= ~0x80000000;
 
 	auto *pReq = new SendFileRequest(fup, getId(fup->hContact), printer.CStr());
-	pReq->pUserInfo = param;
+	pReq->hContact = fup->hContact;
+	pReq->pUserInfo = (HANDLE)hMessage;
 	PushRequest(pReq);
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);

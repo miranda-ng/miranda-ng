@@ -17,40 +17,44 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-/* MESSAGE SENDING */
+/////////////////////////////////////////////////////////////////////////////////////////
+// MESSAGE SENDING
 
-// outcoming message flow
-int CSkypeProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMessage)
+struct SendMessageRequest : public AsyncHttpRequest
 {
-	if (!IsOnline())
-		return -1;
+	SendMessageRequest(const char *username, time_t timestamp, const char *message, const char *MessageType = nullptr) :
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
+	{
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
 
-	SendMessageParam *param = new SendMessageParam();
-	param->hContact = hContact;
-	Utils_GetRandom(&param->hMessage, sizeof(param->hMessage));
-	param->hMessage &= ~0x80000000;
+		JSONNode node;
+		node << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", MessageType ? MessageType : "Text")
+			<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message);
+		m_szParam = node.write().c_str();
+	}
+};
 
-	CMStringA id(getId(hContact));
+struct SendActionRequest : public AsyncHttpRequest
+{
+	SendActionRequest(const char *username, time_t timestamp, const char *message, CSkypeProto *ppro) :
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
+	{
+		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
 
-	AsyncHttpRequest *pReq;
-	if (strncmp(szMessage, "/me ", 4) == 0)
-		pReq = new SendActionRequest(id, param->hMessage, &szMessage[4], this);
-	else
-		pReq = new SendMessageRequest(id, param->hMessage, szMessage);
-	pReq->pUserInfo = param;
-	PushRequest(pReq);
+		CMStringA content;
+		content.AppendFormat("%s %s", ppro->m_szSkypename.c_str(), message);
 
-	mir_cslock lck(m_lckOutMessagesList);
-	m_OutMessages.insert((void*)param->hMessage);
-	return param->hMessage;
-}
+		JSONNode node;
+		node << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", "RichText") << CHAR_PARAM("contenttype", "text")
+			<< CHAR_PARAM("content", content) << INT_PARAM("skypeemoteoffset", ppro->m_szSkypename.GetLength() + 1);
+		m_szParam = node.write().c_str();
+	}
+};
 
 void CSkypeProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
-	auto *param = (SendMessageParam*)pRequest->pUserInfo;
-	MCONTACT hContact = param->hContact;
-	HANDLE hMessage = (HANDLE)param->hMessage;
-	delete param;
+	MCONTACT hContact = pRequest->hContact;
+	HANDLE hMessage = (HANDLE)pRequest->pUserInfo;
 
 	if (response != nullptr) {
 		if (response->resultCode != 201) {
@@ -67,6 +71,33 @@ void CSkypeProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 		}
 	}
 	else ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)TranslateT("Network error!"));
+}
+
+// outcoming message flow
+int CSkypeProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMessage)
+{
+	if (!IsOnline())
+		return -1;
+
+	uint32_t hMessage;
+	Utils_GetRandom(&hMessage, sizeof(hMessage));
+	hMessage &= ~0x80000000;
+
+	CMStringA str(szMessage);
+	AddBbcodes(str);
+
+	AsyncHttpRequest *pReq;
+	if (strncmp(str, "/me ", 4) == 0)
+		pReq = new SendActionRequest(getId(hContact), hMessage, str.c_str() + 4, this);
+	else
+		pReq = new SendMessageRequest(getId(hContact), hMessage, str);
+	pReq->hContact = hContact;
+	pReq->pUserInfo = (HANDLE)hMessage;
+	PushRequest(pReq);
+
+	mir_cslock lck(m_lckOutMessagesList);
+	m_OutMessages.insert((void*)hMessage);
+	return hMessage;
 }
 
 // preparing message/action to be written into db

@@ -331,8 +331,9 @@ void CSkypeProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 		return;
 
 	T2Utf chat_id(si->ptszID);
-	ptrA szMessage(mir_utf8encodeW(tszMessage));
-	rtrim(szMessage);
+	CMStringA szMessage(ptrA(mir_utf8encodeW(tszMessage)));
+	szMessage.TrimRight();
+	AddBbcodes(szMessage);
 
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		PushRequest(new SendChatActionRequest(chat_id, time(0), szMessage));
