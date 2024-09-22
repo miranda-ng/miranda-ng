@@ -87,9 +87,9 @@ MCONTACT CSkypeProto::AddContact(const char *skypeId, const char *nick, bool isT
 	setString(hContact, SKYPE_SETTINGS_ID, skypeId);
 	setUString(hContact, "Nick", (nick) ? nick : GetSkypeNick(skypeId));
 
-	if (wstrCListGroup) {
-		Clist_GroupCreate(0, wstrCListGroup);
-		Clist_SetGroup(hContact, wstrCListGroup);
+	if (m_wstrCListGroup) {
+		Clist_GroupCreate(0, m_wstrCListGroup);
+		Clist_SetGroup(hContact, m_wstrCListGroup);
 	}
 
 	setByte(hContact, "Auth", 1);
@@ -178,9 +178,9 @@ void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 			delSetting(hContact, "IsBlocked");
 
 		ptrW wszGroup(Clist_GetGroup(hContact));
-		if (wszGroup == nullptr && wstrCListGroup) {
-			Clist_GroupCreate(0, wstrCListGroup);
-			Clist_SetGroup(hContact, wstrCListGroup);
+		if (wszGroup == nullptr && m_wstrCListGroup) {
+			Clist_GroupCreate(0, m_wstrCListGroup);
+			Clist_SetGroup(hContact, m_wstrCListGroup);
 		}
 
 		auto &profile = item["profile"];

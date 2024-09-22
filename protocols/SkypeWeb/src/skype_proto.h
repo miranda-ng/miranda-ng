@@ -106,17 +106,17 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// settings
 
-	CMOption<bool> bAutoHistorySync;
-	CMOption<bool> bUseBBCodes;
-	CMOption<bool> bUseServerTime; // hidden setting!
+	CMOption<bool> m_bAutoHistorySync;
+	CMOption<bool> m_bUseBBCodes;
+	CMOption<bool> m_bUseServerTime; // hidden setting!
 
-	CMOption<bool> bUseHostnameAsPlace;
-	CMOption<wchar_t*> wstrPlace;
+	CMOption<bool> m_bUseHostnameAsPlace;
+	CMOption<wchar_t*> m_wstrPlace;
 
-	CMOption<wchar_t*> wstrCListGroup;
+	CMOption<wchar_t*> m_wstrCListGroup;
 
-	CMOption<uint8_t> iMood;
-	CMOption<wchar_t*> wstrMoodMessage, wstrMoodEmoji;
+	CMOption<uint8_t> m_iMood;
+	CMOption<wchar_t*> m_wstrMoodMessage, m_wstrMoodEmoji;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// other data

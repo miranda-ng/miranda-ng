@@ -246,8 +246,8 @@ void CSkypeProto::SendPresence()
 {
 	ptrA epname;
 
-	if (!bUseHostnameAsPlace && wstrPlace && *wstrPlace)
-		epname = mir_utf8encodeW(wstrPlace);
+	if (!m_bUseHostnameAsPlace && m_wstrPlace && *m_wstrPlace)
+		epname = mir_utf8encodeW(m_wstrPlace);
 	else {
 		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = _countof(compName);

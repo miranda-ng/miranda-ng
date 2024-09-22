@@ -33,7 +33,7 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 	std::string syncState = metadata["syncState"].as_string();
 
 	bool bOperative = pRequest->pUserInfo != 0;
-	bool bUseLocalTime = !bUseServerTime && bOperative;
+	bool bUseLocalTime = !m_bUseServerTime && bOperative;
 	bool bSetLastTime = false;
 
 	int64_t lastMsgTime = 0; // max timestamp on this page
@@ -132,7 +132,7 @@ void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*
 			MCONTACT hContact = FindContact(szSkypename);
 			if (hContact != NULL) {
 				auto lastMsgTime = getLastTime(hContact);
-				if (lastMsgTime && lastMsgTime < id && bAutoHistorySync)
+				if (lastMsgTime && lastMsgTime < id && m_bAutoHistorySync)
 					PushRequest(new GetHistoryRequest(hContact, szSkypename, 100, lastMsgTime, false));
 			}
 		}

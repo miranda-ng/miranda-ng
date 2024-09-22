@@ -357,7 +357,7 @@ CMStringW CSkypeProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 			else if (!wcsncmp(data.c_str() + i + 1, L"/ss>", 4)) {
 				CMStringW wszStatusMsg = data.Mid(i + 5);
 				wszStatusMsg.Trim();
-				wstrMoodMessage = wszStatusMsg;
+				m_wstrMoodMessage = wszStatusMsg;
 				inSS = false;
 			}
 
@@ -439,10 +439,10 @@ CMStringW CSkypeProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 				CMStringW ss(data.Mid(i + 1, iEnd - i - 1));
 				uint32_t code = getMoodIndex(T2Utf(ss));
 				if (code != -1)
-					iMood = code;
+					m_iMood = code;
 				else if (1 == swscanf(ss, L"%x_", &code)) {
 					Utf32toUtf16(code, new_string);
-					wstrMoodEmoji = new_string;
+					m_wstrMoodEmoji = new_string;
 				}
 
 				i = iEnd;

@@ -23,15 +23,15 @@ CSkypeProto::CSkypeProto(const char *protoName, const wchar_t *userName) :
 	m_OutMessages(3, PtrKeySortT),
 	m_impl(*this),
 	m_requests(1),
-	bAutoHistorySync(this, "AutoSync", true),
-	bUseHostnameAsPlace(this, "UseHostName", true),
-	bUseBBCodes(this, "UseBBCodes", true),
-	bUseServerTime(this, "UseServerTime", false),
-	wstrCListGroup(this, SKYPE_SETTINGS_GROUP, L"Skype"),
-	wstrPlace(this, "Place", L""),
-	iMood(this, "Mood", 0),
-	wstrMoodEmoji(this, "MoodEmoji", L""),
-	wstrMoodMessage(this, "XStatusMsg", L"")
+	m_bAutoHistorySync(this, "AutoSync", true),
+	m_bUseHostnameAsPlace(this, "UseHostName", true),
+	m_bUseBBCodes(this, "UseBBCodes", true),
+	m_bUseServerTime(this, "UseServerTime", false),
+	m_wstrCListGroup(this, SKYPE_SETTINGS_GROUP, L"Skype"),
+	m_wstrPlace(this, "Place", L""),
+	m_iMood(this, "Mood", 0),
+	m_wstrMoodEmoji(this, "MoodEmoji", L""),
+	m_wstrMoodMessage(this, "XStatusMsg", L"")
 {
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
