@@ -199,7 +199,7 @@ static void CheckUpdate()
 void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 {
 	if (si)
-		AutoCreateWindow(pContainer, si->hContact);
+		AutoCreateWindow(pContainer, si->hContact, true);
 }
 
 static void stubShowRoom(SESSION_INFO *si)
