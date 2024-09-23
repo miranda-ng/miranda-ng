@@ -18,35 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_REQUEST_CHATS_H_
 #define _SKYPE_REQUEST_CHATS_H_
 
-struct SendChatMessageRequest : public AsyncHttpRequest
-{
-	SendChatMessageRequest(const char *to, time_t timestamp, const char *message) :
-		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
-	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", to);
-
-		JSONNode node;
-		node << CHAR_PARAM("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
-			<< CHAR_PARAM("messagetype", "RichText") << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message);
-		m_szParam = node.write().c_str();
-	}
-};
-
-struct SendChatActionRequest : public AsyncHttpRequest
-{
-	SendChatActionRequest(const char *to, time_t timestamp, const char *message) :
-		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT)
-	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", to);
-
-		JSONNode node(JSON_NODE);
-		node << CHAR_PARAM("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)timestamp))
-			<< CHAR_PARAM("messagetype", "RichText") << CHAR_PARAM("contenttype", "text")
-			<< CHAR_PARAM("content", message) << INT_PARAM("skypeemoteoffset", 4);
-		m_szParam = node.write().c_str();
-	}
-};
-
 struct CreateChatroomRequest : public AsyncHttpRequest
 {
 	CreateChatroomRequest(const LIST<char> &skypenames, CSkypeProto *ppro) :

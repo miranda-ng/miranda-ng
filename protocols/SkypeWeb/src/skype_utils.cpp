@@ -476,8 +476,9 @@ CMStringW CSkypeProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 	return new_string;
 }
 
-void AddBbcodes(CMStringA &str)
+bool AddBbcodes(CMStringA &str)
 {
+	bool bUsed = false;
 	CMStringA ret;
 
 	for (const char *p = str; *p; p++) {
@@ -486,40 +487,50 @@ void AddBbcodes(CMStringA &str)
 			if (!strncmp(p, "b]", 2)) {
 				p++;
 				ret.Append("<b _pre=\"*\" _post=\"*\">");
+				bUsed = true;
 			}
 			else if (!strncmp(p, "/b]", 3)) {
 				p += 2;
 				ret.Append("</b>");
+				bUsed = true;
 			}
 			else if (!strncmp(p, "i]", 2)) {
 				p++;
 				ret.Append("<i _pre=\"_\" _post=\"_\">");
+				bUsed = true;
 			}
 			else if (!strncmp(p, "/i]", 3)) {
 				p += 2;
 				ret.Append("</i>");
+				bUsed = true;
 			}
 			else if (!strncmp(p, "s]", 2)) {
 				p++;
 				ret.Append("<s _pre=\"~\" _post=\"~\">");
+				bUsed = true;
 			}
 			else if (!strncmp(p, "/s]", 3)) {
 				p += 2;
 				ret.Append("</s>");
+				bUsed = true;
 			}
 			else if (!strncmp(p, "code]", 5)) {
 				p += 4;
 				ret.Append("<pre _pre=\"```\" _post=\"```\">");
+				bUsed = true;
 			}
 			else if (!strncmp(p, "/code]", 6)) {
 				p += 5;
 				ret.Append("</pre>");
+				bUsed = true;
 			}
 		}
 		else ret.AppendChar(*p);
 	}
 
-	str = ret;
+	if (bUsed)
+		str = ret;
+	return bUsed;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

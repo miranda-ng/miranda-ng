@@ -325,21 +325,31 @@ bool CSkypeProto::OnChatEvent(const JSONNode &node)
 	return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSkypeProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 {
 	if (!IsOnline())
 		return;
 
-	T2Utf chat_id(si->ptszID);
 	CMStringA szMessage(ptrA(mir_utf8encodeW(tszMessage)));
 	szMessage.TrimRight();
-	AddBbcodes(szMessage);
+	bool bRich = AddBbcodes(szMessage);
 
+	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(T2Utf(si->ptszID)) + "/messages";
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CSkypeProto::OnMessageSent);
+
+	JSONNode node;
+	node << CHAR_PARAM("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)time(0)))
+		<< CHAR_PARAM("messagetype", bRich ? "RichText" : "Text") << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", szMessage);
 	if (strncmp(szMessage, "/me ", 4) == 0)
-		PushRequest(new SendChatActionRequest(chat_id, time(0), szMessage));
-	else
-		PushRequest(new SendChatMessageRequest(chat_id, time(0), szMessage));
+		node << INT_PARAM("skypeemoteoffset", 4);
+	pReq->m_szParam = node.write().c_str();
+	
+	PushRequest(pReq);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CSkypeProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {

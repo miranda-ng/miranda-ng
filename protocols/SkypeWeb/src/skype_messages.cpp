@@ -20,37 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // MESSAGE SENDING
 
-struct SendMessageRequest : public AsyncHttpRequest
-{
-	SendMessageRequest(const char *username, time_t timestamp, const char *message, const char *MessageType = nullptr) :
-		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
-	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
-
-		JSONNode node;
-		node << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", MessageType ? MessageType : "Text")
-			<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", message);
-		m_szParam = node.write().c_str();
-	}
-};
-
-struct SendActionRequest : public AsyncHttpRequest
-{
-	SendActionRequest(const char *username, time_t timestamp, const char *message, CSkypeProto *ppro) :
-		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent)
-	{
-		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
-
-		CMStringA content;
-		content.AppendFormat("%s %s", ppro->m_szSkypename.c_str(), message);
-
-		JSONNode node;
-		node << INT64_PARAM("clientmessageid", timestamp) << CHAR_PARAM("messagetype", "RichText") << CHAR_PARAM("contenttype", "text")
-			<< CHAR_PARAM("content", content) << INT_PARAM("skypeemoteoffset", ppro->m_szSkypename.GetLength() + 1);
-		m_szParam = node.write().c_str();
-	}
-};
-
 void CSkypeProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	MCONTACT hContact = pRequest->hContact;
@@ -84,15 +53,21 @@ int CSkypeProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMessage)
 	hMessage &= ~0x80000000;
 
 	CMStringA str(szMessage);
-	AddBbcodes(str);
+	bool bRich = AddBbcodes(str);
 
-	AsyncHttpRequest *pReq;
-	if (strncmp(str, "/me ", 4) == 0)
-		pReq = new SendActionRequest(getId(hContact), hMessage, str.c_str() + 4, this);
-	else
-		pReq = new SendMessageRequest(getId(hContact), hMessage, str);
+	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages";
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CSkypeProto::OnMessageSent);
 	pReq->hContact = hContact;
 	pReq->pUserInfo = (HANDLE)hMessage;
+
+	JSONNode node;
+	node << INT64_PARAM("clientmessageid", hMessage) << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text") << CHAR_PARAM("contenttype", "text");
+	if (strncmp(str, "/me ", 4) == 0)
+		node << CHAR_PARAM("content", m_szSkypename + " " + str);
+	else
+		node << CHAR_PARAM("content", str);
+	pReq->m_szParam = node.write().c_str();
+
 	PushRequest(pReq);
 
 	mir_cslock lck(m_lckOutMessagesList);
