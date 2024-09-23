@@ -605,7 +605,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			else
 				setUString(pUser->hContact, "Nick", pDoc->title_.c_str());
 
-			ret.AppendFormat("%s %s", TranslateU("Chat name was changed to"), pDoc->title_.c_str());
+			ret.AppendFormat(TranslateU("Chat name was changed to %s"), pDoc->title_.c_str());
 		}
 		break;
 
