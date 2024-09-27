@@ -646,6 +646,7 @@ MCONTACT CVkProto::AddToList(int, PROTOSEARCHRESULT *psr)
 		return 0;
 
 	MCONTACT hContact = FindUser(iUserId, true);
+	Contact::Hide(hContact, false);
 	RetrieveUserInfo(iUserId);
 	return hContact;
 }
