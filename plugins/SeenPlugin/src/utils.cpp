@@ -38,18 +38,22 @@ void LoadWatchedProtos()
 	}
 
 	ptrA szProtos(g_plugin.getStringA("WatchedAccounts"));
-	if (szProtos == NULL)
-		return;
+	if (szProtos != NULL) {
+		OBJLIST<char> oldProtos(1);
+		for (char *p = strtok(szProtos, "\n"); p != nullptr; p = strtok(nullptr, "\n"))
+			oldProtos.insert(newStr(rtrim(p)));
 
-	for (char *p = strtok(szProtos, "\n"); p != nullptr; p = strtok(nullptr, "\n"))
-		arWatchedProtos.insert(mir_strdup(p));
-}
-
-void UnloadWatchedProtos()
-{
-	for (auto &it : arWatchedProtos)
-		mir_free(it);
-	arWatchedProtos.destroy();
+		for (auto *pa : Accounts()) {
+			db_set_b(0, pa->szModuleName, MODULENAME "Enabled", false);
+			for (auto &it: oldProtos) {
+				if (!mir_strcmp(pa->szModuleName, it)) {
+					db_set_b(0, pa->szModuleName, MODULENAME "Enabled", true);
+					break;
+				}
+			}
+		}
+		g_plugin.delSetting("WatchedAccounts");
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +68,7 @@ int IsWatchedProtocol(const char* szProto)
 	if (pd == nullptr || CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 		return 0;
 
-	return arWatchedProtos.find((char*)szProto) != nullptr;
+	return db_get_b(0, szProto, MODULENAME "Enabled", true);
 }
 
 bool isJabber(const char *protoname)

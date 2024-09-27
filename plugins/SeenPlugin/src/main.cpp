@@ -55,12 +55,7 @@ DBVTranslation idleTr[TRANSNUMBER] = {
 	{ any_to_Idle, L"Any to /Idle or empty", 0 }
 };
 
-static int CompareProtos(const char *p1, const char *p2)
-{	return mir_strcmp(p1, p2);
-}
-
 BOOL includeIdle;
-LIST<char> arWatchedProtos(10, CompareProtos);
 LIST<logthread_info> arContacts(16, NumericKeySortT);
 mir_cs csContacts;
 
@@ -144,7 +139,6 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	UninitFileOutput();
-	UnloadWatchedProtos();
 
 	WindowList_Destroy(g_pUserInfo);
 

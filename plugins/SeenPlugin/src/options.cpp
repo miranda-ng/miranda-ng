@@ -342,22 +342,11 @@ public:
 		g_plugin.setByte("IdleSupport", IsDlgButtonChecked(m_hwnd, IDC_IDLESUPPORT));
 
 		// save protocol list
-		CMStringA watchedProtocols;
-
 		int nItems = protocols.GetItemCount();
-		for (int i=0; i < nItems; i++) {
-			if (!protocols.GetCheckState(i))
-				continue;
-
+		for (int i = 0; i < nItems; i++) {
 			char *szProto = (char *)protocols.GetItemData(i);
-			if (!watchedProtocols.IsEmpty())
-				watchedProtocols.AppendChar('\n');
-			watchedProtocols.Append(szProto);
+			db_set_b(0, szProto, MODULENAME "Enabled", protocols.GetCheckState(i));
 		}
-		g_plugin.setString("WatchedAccounts", watchedProtocols);
-
-		UnloadWatchedProtos();
-		LoadWatchedProtos();
 		return true;
 	}
 

@@ -138,8 +138,6 @@ extern uint32_t dwmirver;
 extern bool g_bFileActive;
 
 void   LoadWatchedProtos();
-void   UnloadWatchedProtos();
-extern LIST<char> arWatchedProtos;
 
 extern LIST<logthread_info> arContacts;
 extern mir_cs csContacts;
