@@ -32,17 +32,32 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessa
 
 	CreateDirectoryTreeW(buf);
 
-	CMStringW wszUrl = _wszUrl;
+	CMStringW wszUrl = _wszUrl, wszAltFileName;
 	wszUrl.Replace(L"\\", L"/");
 	
 	int i = wszUrl.Find('?');
-	if (i > -1)
+	if (i > -1) {
+		wszAltFileName = wszUrl.Mid(i + 1);
 		wszUrl.Truncate(i);
+	}
 	
 	i = wszUrl.ReverseFind('/');
 	if (i > -1)
 		wszUrl = wszUrl.Mid(i + 1);
 
+	i = wszUrl.ReverseFind('.');
+	if (i < 0) { 
+		i = wszAltFileName.Find('&');
+		if (i > -1)
+			wszAltFileName.Truncate(i);
+
+		i = wszAltFileName.ReverseFind('=');
+		if (i > -1)
+			wszAltFileName = wszAltFileName.Mid(i + 1);
+
+		wszUrl = wszAltFileName + L".jpg";
+	}
+		
 	wszUrl.Insert(0, buf);
 
 	if (::_waccess(wszUrl.c_str(), 0) && IsOnline())

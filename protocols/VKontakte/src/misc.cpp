@@ -1351,10 +1351,15 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			if (!jnVideo)
 				continue;
 
-			CMStringW wszTitle(jnVideo["title"].as_mstring());
+			CMStringW wszTitle(jnVideo["title"].as_mstring()), wszUrl;
 			int iVideoId = jnVideo["id"].as_int();
 			VKUserID_t iOwnerId = jnVideo["owner_id"].as_int();
-			CMStringW wszUrl(FORMAT, L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
+			CMStringW wszAccessKey(jnVideo["access_key"].as_mstring());
+
+			if (iMessageId == -1)
+				wszUrl.Format(L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
+			else
+				wszUrl.Format(L"https://vk.com/im?z=video%d_%d/%s", iOwnerId, iVideoId, wszAccessKey.IsEmpty() ? L"" : wszAccessKey.c_str());
 
 			if (jnVideo["image"]) {
 				CMStringW wszPreviewImage = GetVkPhotoForVideoItem(jnVideo["image"], hContact, iMessageId);
