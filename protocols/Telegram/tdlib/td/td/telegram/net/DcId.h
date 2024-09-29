@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,8 +17,10 @@ class DcId {
  public:
   DcId() = default;
 
+  static constexpr int32 MAX_RAW_DC_ID = 1000;
+
   static bool is_valid(int32 dc_id) {
-    return 1 <= dc_id && dc_id <= 1000;
+    return 1 <= dc_id && dc_id <= MAX_RAW_DC_ID;
   }
   static DcId main() {
     return DcId{MainDc, false};

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -21,6 +21,7 @@
 #include "td/utils/common.h"
 #include "td/utils/FlatHashMap.h"
 #include "td/utils/FlatHashSet.h"
+#include "td/utils/HashTableUtils.h"
 #include "td/utils/Promise.h"
 #include "td/utils/Status.h"
 
@@ -44,20 +45,24 @@ class BackgroundManager final : public Actor {
   void set_background(const td_api::InputBackground *input_background, const td_api::BackgroundType *background_type,
                       bool for_dark_theme, Promise<td_api::object_ptr<td_api::background>> &&promise);
 
+  void delete_background(bool for_dark_theme, Promise<Unit> &&promise);
+
   void remove_background(BackgroundId background_id, Promise<Unit> &&promise);
 
   void reset_backgrounds(Promise<Unit> &&promise);
 
   void set_dialog_background(DialogId dialog_id, const td_api::InputBackground *input_background,
-                             const td_api::BackgroundType *background_type, int32 dark_theme_dimming,
+                             const td_api::BackgroundType *background_type, int32 dark_theme_dimming, bool for_both,
                              Promise<Unit> &&promise);
+
+  void delete_dialog_background(DialogId dialog_id, bool restore_previous, Promise<Unit> &&promise);
 
   td_api::object_ptr<td_api::background> get_background_object(BackgroundId background_id, bool for_dark_theme,
                                                                const BackgroundType *type) const;
 
   std::pair<BackgroundId, BackgroundType> on_get_background(
       BackgroundId expected_background_id, const string &expected_background_name,
-      telegram_api::object_ptr<telegram_api::WallPaper> wallpaper_ptr, bool replace_type);
+      telegram_api::object_ptr<telegram_api::WallPaper> wallpaper_ptr, bool replace_type, bool allow_empty);
 
   FileSourceId get_background_file_source_id(BackgroundId background_id, int64 access_hash);
 
@@ -93,6 +98,19 @@ class BackgroundManager final : public Actor {
     void parse(ParserT &parser);
   };
 
+  struct LocalBackgroundHash {
+    uint32 operator()(const Background &background) const {
+      return Hash<string>()(background.name);
+    }
+  };
+
+  struct LocalBackgroundEquals {
+    bool operator()(const Background &lhs, const Background &rhs) const {
+      return lhs.name == rhs.name && lhs.type == rhs.type && lhs.is_creator == rhs.is_creator &&
+             lhs.is_default == rhs.is_default && lhs.is_dark == rhs.is_dark;
+    }
+  };
+
   class BackgroundLogEvent;
   class BackgroundsLogEvent;
 
@@ -114,15 +132,19 @@ class BackgroundManager final : public Actor {
                                      telegram_api::object_ptr<telegram_api::InputWallPaper> &&input_wallpaper,
                                      Promise<Unit> &&promise) const;
 
-  td_api::object_ptr<td_api::updateSelectedBackground> get_update_selected_background_object(bool for_dark_theme) const;
+  td_api::object_ptr<td_api::updateDefaultBackground> get_update_default_background_object(bool for_dark_theme) const;
 
   td_api::object_ptr<td_api::backgrounds> get_backgrounds_object(bool for_dark_theme) const;
 
-  void send_update_selected_background(bool for_dark_theme) const;
+  void send_update_default_background(bool for_dark_theme) const;
 
   void set_max_local_background_id(BackgroundId background_id);
 
   BackgroundId get_next_local_background_id();
+
+  void set_local_background_id(Background &background);
+
+  void add_local_background_to_cache(const Background &background);
 
   BackgroundId add_local_background(const BackgroundType &type);
 
@@ -140,13 +162,15 @@ class BackgroundManager final : public Actor {
 
   Result<FileId> prepare_input_file(const tl_object_ptr<td_api::InputFile> &input_file);
 
-  void do_set_dialog_background(DialogId dialog_id, BackgroundId background_id, BackgroundType type,
+  Result<DialogId> get_background_dialog(DialogId dialog_id);
+
+  void do_set_dialog_background(DialogId dialog_id, BackgroundId background_id, BackgroundType type, bool for_both,
                                 Promise<Unit> &&promise);
 
   void send_set_dialog_background_query(DialogId dialog_id,
                                         telegram_api::object_ptr<telegram_api::InputWallPaper> input_wallpaper,
                                         telegram_api::object_ptr<telegram_api::wallPaperSettings> settings,
-                                        MessageId old_message_id, Promise<Unit> &&promise);
+                                        MessageId old_message_id, bool for_both, Promise<Unit> &&promise);
 
   void set_background(BackgroundId background_id, BackgroundType type, bool for_dark_theme,
                       Promise<td_api::object_ptr<td_api::background>> &&promise);
@@ -204,6 +228,8 @@ class BackgroundManager final : public Actor {
     }
   };
   FlatHashMap<FileId, UploadedFileInfo, FileIdHash> being_uploaded_files_;
+
+  FlatHashMap<Background, BackgroundId, LocalBackgroundHash, LocalBackgroundEquals> local_backgrounds_;
 
   BackgroundId max_local_background_id_;
   vector<BackgroundId> local_background_ids_[2];

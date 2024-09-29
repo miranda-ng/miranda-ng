@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,13 +11,12 @@
 #include "td/telegram/StickersManager.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/TdDb.h"
+#include "td/telegram/telegram_api.h"
 
 #include "td/utils/algorithm.h"
 #include "td/utils/buffer.h"
 #include "td/utils/logging.h"
 #include "td/utils/Status.h"
-
-#include <limits>
 
 namespace td {
 
@@ -26,12 +25,12 @@ struct EmojiStatuses {
   vector<EmojiStatus> emoji_statuses_;
 
   td_api::object_ptr<td_api::emojiStatuses> get_emoji_statuses_object() const {
-    auto emoji_statuses = transform(emoji_statuses_, [](const EmojiStatus &emoji_status) {
+    auto custom_emoji_ids = transform(emoji_statuses_, [](const EmojiStatus &emoji_status) {
       CHECK(!emoji_status.is_empty());
-      return emoji_status.get_emoji_status_object();
+      return emoji_status.get_custom_emoji_id().get();
     });
 
-    return td_api::make_object<td_api::emojiStatuses>(std::move(emoji_statuses));
+    return td_api::make_object<td_api::emojiStatuses>(std::move(custom_emoji_ids));
   }
 
   EmojiStatuses() = default;
@@ -68,6 +67,11 @@ struct EmojiStatuses {
 
 static const string &get_default_emoji_statuses_database_key() {
   static string key = "def_emoji_statuses";
+  return key;
+}
+
+static const string &get_default_channel_emoji_statuses_database_key() {
+  static string key = "def_ch_emoji_statuses";
   return key;
 }
 
@@ -122,6 +126,48 @@ class GetDefaultEmojiStatusesQuery final : public Td::ResultHandler {
     CHECK(emoji_statuses_ptr->get_id() == telegram_api::account_emojiStatuses::ID);
     EmojiStatuses emoji_statuses(move_tl_object_as<telegram_api::account_emojiStatuses>(emoji_statuses_ptr));
     save_emoji_statuses(get_default_emoji_statuses_database_key(), emoji_statuses);
+
+    if (promise_) {
+      promise_.set_value(emoji_statuses.get_emoji_statuses_object());
+    }
+  }
+
+  void on_error(Status status) final {
+    promise_.set_error(std::move(status));
+  }
+};
+
+class GetChannelDefaultEmojiStatusesQuery final : public Td::ResultHandler {
+  Promise<td_api::object_ptr<td_api::emojiStatuses>> promise_;
+
+ public:
+  explicit GetChannelDefaultEmojiStatusesQuery(Promise<td_api::object_ptr<td_api::emojiStatuses>> &&promise)
+      : promise_(std::move(promise)) {
+  }
+
+  void send(int64 hash) {
+    send_query(G()->net_query_creator().create(telegram_api::account_getChannelDefaultEmojiStatuses(hash), {{"me"}}));
+  }
+
+  void on_result(BufferSlice packet) final {
+    auto result_ptr = fetch_result<telegram_api::account_getChannelDefaultEmojiStatuses>(packet);
+    if (result_ptr.is_error()) {
+      return on_error(result_ptr.move_as_error());
+    }
+
+    auto emoji_statuses_ptr = result_ptr.move_as_ok();
+    LOG(INFO) << "Receive result for GetChannelDefaultEmojiStatusesQuery: " << to_string(emoji_statuses_ptr);
+
+    if (emoji_statuses_ptr->get_id() == telegram_api::account_emojiStatusesNotModified::ID) {
+      if (promise_) {
+        promise_.set_error(Status::Error(500, "Receive wrong server response"));
+      }
+      return;
+    }
+
+    CHECK(emoji_statuses_ptr->get_id() == telegram_api::account_emojiStatuses::ID);
+    EmojiStatuses emoji_statuses(move_tl_object_as<telegram_api::account_emojiStatuses>(emoji_statuses_ptr));
+    save_emoji_statuses(get_default_channel_emoji_statuses_database_key(), emoji_statuses);
 
     if (promise_) {
       promise_.set_value(emoji_statuses.get_emoji_statuses_object());
@@ -201,18 +247,18 @@ class ClearRecentEmojiStatusesQuery final : public Td::ResultHandler {
   }
 };
 
-EmojiStatus::EmojiStatus(const td_api::object_ptr<td_api::emojiStatus> &emoji_status, int32 duration) {
+EmojiStatus::EmojiStatus(const td_api::object_ptr<td_api::emojiStatus> &emoji_status) {
   if (emoji_status == nullptr) {
     return;
   }
 
   custom_emoji_id_ = CustomEmojiId(emoji_status->custom_emoji_id_);
-  if (duration != 0) {
+  if (emoji_status->expiration_date_ != 0) {
     int32 current_time = G()->unix_time();
-    if (duration >= std::numeric_limits<int32>::max() - current_time) {
-      until_date_ = std::numeric_limits<int32>::max();
+    if (emoji_status->expiration_date_ > current_time) {
+      until_date_ = emoji_status->expiration_date_;
     } else {
-      until_date_ = current_time + duration;
+      custom_emoji_id_ = {};
     }
   }
 }
@@ -254,17 +300,17 @@ td_api::object_ptr<td_api::emojiStatus> EmojiStatus::get_emoji_status_object() c
   if (is_empty()) {
     return nullptr;
   }
-  return td_api::make_object<td_api::emojiStatus>(custom_emoji_id_.get());
+  return td_api::make_object<td_api::emojiStatus>(custom_emoji_id_.get(), until_date_);
 }
 
-CustomEmojiId EmojiStatus::get_effective_custom_emoji_id(bool is_premium, int32 unix_time) const {
+EmojiStatus EmojiStatus::get_effective_emoji_status(bool is_premium, int32 unix_time) const {
   if (!is_premium) {
-    return CustomEmojiId();
+    return EmojiStatus();
   }
   if (until_date_ != 0 && until_date_ <= unix_time) {
-    return CustomEmojiId();
+    return EmojiStatus();
   }
-  return custom_emoji_id_;
+  return *this;
 }
 
 StringBuilder &operator<<(StringBuilder &string_builder, const EmojiStatus &emoji_status) {
@@ -278,6 +324,11 @@ StringBuilder &operator<<(StringBuilder &string_builder, const EmojiStatus &emoj
   return string_builder;
 }
 
+td_api::object_ptr<td_api::emojiStatuses> get_emoji_statuses_object(const vector<CustomEmojiId> &custom_emoji_ids) {
+  return td_api::make_object<td_api::emojiStatuses>(
+      transform(custom_emoji_ids, [](CustomEmojiId custom_emoji_id) { return custom_emoji_id.get(); }));
+}
+
 void get_default_emoji_statuses(Td *td, Promise<td_api::object_ptr<td_api::emojiStatuses>> &&promise) {
   auto statuses = load_emoji_statuses(get_default_emoji_statuses_database_key());
   if (statuses.hash_ != -1 && promise) {
@@ -285,6 +336,15 @@ void get_default_emoji_statuses(Td *td, Promise<td_api::object_ptr<td_api::emoji
     promise = Promise<td_api::object_ptr<td_api::emojiStatuses>>();
   }
   td->create_handler<GetDefaultEmojiStatusesQuery>(std::move(promise))->send(statuses.hash_);
+}
+
+void get_default_channel_emoji_statuses(Td *td, Promise<td_api::object_ptr<td_api::emojiStatuses>> &&promise) {
+  auto statuses = load_emoji_statuses(get_default_channel_emoji_statuses_database_key());
+  if (statuses.hash_ != -1 && promise) {
+    promise.set_value(statuses.get_emoji_statuses_object());
+    promise = Promise<td_api::object_ptr<td_api::emojiStatuses>>();
+  }
+  td->create_handler<GetChannelDefaultEmojiStatusesQuery>(std::move(promise))->send(statuses.hash_);
 }
 
 void get_recent_emoji_statuses(Td *td, Promise<td_api::object_ptr<td_api::emojiStatuses>> &&promise) {
@@ -313,12 +373,8 @@ void add_recent_emoji_status(Td *td, EmojiStatus emoji_status) {
   }
 
   statuses.hash_ = 0;
-  td::remove(statuses.emoji_statuses_, emoji_status);
-  statuses.emoji_statuses_.insert(statuses.emoji_statuses_.begin(), emoji_status);
   constexpr size_t MAX_RECENT_EMOJI_STATUSES = 50;  // server-side limit
-  if (statuses.emoji_statuses_.size() > MAX_RECENT_EMOJI_STATUSES) {
-    statuses.emoji_statuses_.resize(MAX_RECENT_EMOJI_STATUSES);
-  }
+  add_to_top(statuses.emoji_statuses_, MAX_RECENT_EMOJI_STATUSES, emoji_status);
   save_emoji_statuses(get_recent_emoji_statuses_database_key(), statuses);
 }
 

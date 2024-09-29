@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,16 +9,18 @@
 #include "td/telegram/CallId.h"
 #include "td/telegram/DialogId.h"
 #include "td/telegram/Document.h"
-#include "td/telegram/FullMessageId.h"
 #include "td/telegram/MessageId.h"
 #include "td/telegram/Notification.h"
 #include "td/telegram/NotificationGroupId.h"
 #include "td/telegram/NotificationGroupKey.h"
 #include "td/telegram/NotificationGroupType.h"
 #include "td/telegram/NotificationId.h"
+#include "td/telegram/NotificationObjectFullId.h"
+#include "td/telegram/NotificationObjectId.h"
 #include "td/telegram/NotificationType.h"
 #include "td/telegram/Photo.h"
 #include "td/telegram/td_api.h"
+#include "td/telegram/telegram_api.h"
 #include "td/telegram/UserId.h"
 
 #include "td/actor/actor.h"
@@ -41,7 +43,7 @@ namespace td {
 extern int VERBOSITY_NAME(notifications);
 
 struct BinlogEvent;
-
+class JsonObject;
 class Td;
 
 class NotificationManager final : public Actor {
@@ -67,6 +69,8 @@ class NotificationManager final : public Actor {
 
   void load_group_force(NotificationGroupId group_id);
 
+  bool have_group_force(NotificationGroupId group_id);
+
   void add_notification(NotificationGroupId group_id, NotificationGroupType group_type, DialogId dialog_id, int32 date,
                         DialogId notification_settings_dialog_id, bool disable_notification, int64 ringtone_id,
                         int32 min_delay_ms, NotificationId notification_id, unique_ptr<NotificationType> type,
@@ -80,11 +84,11 @@ class NotificationManager final : public Actor {
 
   void remove_temporary_notifications(NotificationGroupId group_id, const char *source);
 
-  void remove_temporary_notification_by_message_id(NotificationGroupId group_id, MessageId message_id,
-                                                   bool force_update, const char *source);
+  void remove_temporary_notification_by_object_id(NotificationGroupId group_id, NotificationObjectId object_id,
+                                                  bool force_update, const char *source);
 
   void remove_notification_group(NotificationGroupId group_id, NotificationId max_notification_id,
-                                 MessageId max_message_id, int32 new_total_count, bool force_update,
+                                 NotificationObjectId max_object_id, int32 new_total_count, bool force_update,
                                  Promise<Unit> &&promise);
 
   void set_notification_total_count(NotificationGroupId group_id, int32 new_total_count);
@@ -236,22 +240,22 @@ class NotificationManager final : public Actor {
 
   static NotificationId get_last_notification_id(const NotificationGroup &group);
 
-  static MessageId get_first_message_id(const NotificationGroup &group);
+  static NotificationObjectId get_first_object_id(const NotificationGroup &group);
 
-  static MessageId get_last_message_id(const NotificationGroup &group);
+  static NotificationObjectId get_last_object_id(const NotificationGroup &group);
 
-  static MessageId get_last_message_id_by_notification_id(const NotificationGroup &group,
-                                                          NotificationId max_notification_id);
+  static NotificationObjectId get_last_object_id_by_notification_id(const NotificationGroup &group,
+                                                                    NotificationId max_notification_id);
 
   static int32 get_temporary_notification_total_count(const NotificationGroup &group);
 
   int32 load_message_notification_groups_from_database(int32 limit, bool send_update);
 
-  void load_message_notifications_from_database(const NotificationGroupKey &group_key, NotificationGroup &group,
-                                                size_t desired_size);
+  void load_notifications_from_database(const NotificationGroupKey &group_key, NotificationGroup &group,
+                                        size_t desired_size);
 
-  void on_get_message_notifications_from_database(NotificationGroupId group_id, size_t limit,
-                                                  Result<vector<Notification>> r_notifications);
+  void on_get_notifications_from_database(NotificationGroupId group_id, size_t limit,
+                                          Result<vector<Notification>> r_notifications);
 
   void add_notifications_to_group_begin(NotificationGroups::iterator group_it, vector<Notification> notifications);
 
@@ -307,6 +311,12 @@ class NotificationManager final : public Actor {
   static Result<string> decrypt_push_payload(int64 encryption_key_id, string encryption_key, string payload);
 
   static string convert_loc_key(const string &loc_key);
+
+  void add_push_notification_user(UserId sender_user_id, int64 sender_access_hash, const string &sender_name,
+                                  telegram_api::object_ptr<telegram_api::UserProfilePhoto> &&sender_photo);
+
+  Status parse_push_notification_attach(DialogId dialog_id, string &loc_key, JsonObject &custom, Photo &attached_photo,
+                                        Document &attached_document);
 
   Status process_push_notification_payload(string payload, bool was_encrypted, Promise<Unit> &promise);
 
@@ -398,8 +408,8 @@ class NotificationManager final : public Actor {
     string sender_name;
     bool is_outgoing;
   };
-  FlatHashMap<FullMessageId, TemporaryNotification, FullMessageIdHash> temporary_notifications_;
-  FlatHashMap<NotificationId, FullMessageId, NotificationIdHash> temporary_notification_message_ids_;
+  FlatHashMap<NotificationObjectFullId, TemporaryNotification, NotificationObjectFullIdHash> temporary_notifications_;
+  FlatHashMap<NotificationId, NotificationObjectFullId, NotificationIdHash> temporary_notification_object_ids_;
   FlatHashMap<NotificationId, vector<Promise<Unit>>, NotificationIdHash> push_notification_promises_;
 
   struct ActiveCallNotification {

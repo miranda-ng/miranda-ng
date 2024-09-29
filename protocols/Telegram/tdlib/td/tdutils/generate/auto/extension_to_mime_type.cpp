@@ -1,5 +1,5 @@
-/* ANSI-C code produced by gperf version 3.0.1 */
-/* Command-line: 'C:\\Util\\gperf.exe' -m100 --output-file=auto/extension_to_mime_type.cpp auto/extension_to_mime_type.gperf  */
+/* ANSI-C code produced by gperf version 3.1 */
+/* Command-line: 'W:\\Test\\td\\vcpkg\\installed\\x64-windows\\tools\\gperf\\gperf.exe' -m100 --output-file=auto/extension_to_mime_type.cpp auto/extension_to_mime_type.gperf  */
 /* Computed positions: -k'1-4,6,$' */
 
 #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
@@ -26,7 +26,7 @@
       && ('w' == 119) && ('x' == 120) && ('y' == 121) && ('z' == 122) \
       && ('{' == 123) && ('|' == 124) && ('}' == 125) && ('~' == 126))
 /* The character set is not based on ISO-646.  */
-#error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gnu-gperf@gnu.org>."
+#error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gperf@gnu.org>."
 #endif
 
 #line 12 "auto/extension_to_mime_type.gperf"
@@ -86,7 +86,7 @@ inline
 #endif
 #endif
 static unsigned int
-extension_hash (register const char *str, register unsigned int len)
+extension_hash (register const char *str, register size_t len)
 {
   static const unsigned short asso_values[] =
     {
@@ -122,7 +122,7 @@ extension_hash (register const char *str, register unsigned int len)
       3376, 3376, 3376, 3376, 3376, 3376, 3376, 3376, 3376, 3376,
       3376, 3376, 3376, 3376, 3376, 3376, 3376, 3376, 3376, 3376
     };
-  register int hval = len;
+  register unsigned int hval = len;
 
   switch (hval)
     {
@@ -146,11 +146,8 @@ extension_hash (register const char *str, register unsigned int len)
   return hval + asso_values[(unsigned char)str[len - 1]];
 }
 
-#ifdef __GNUC__
-__inline
-#endif
 const struct extension_and_mime_type *
-search_extension (register const char *str, register unsigned int len)
+search_extension (register const char *str, register size_t len)
 {
   enum
     {
@@ -3036,9 +3033,9 @@ search_extension (register const char *str, register unsigned int len)
 
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
     {
-      register int key = extension_hash (str, len);
+      register unsigned int key = extension_hash (str, len);
 
-      if (key <= MAX_HASH_VALUE && key >= 0)
+      if (key <= MAX_HASH_VALUE)
         {
           register const char *s = wordlist[key].extension;
 

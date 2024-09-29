@@ -2,6 +2,8 @@
 
 const char *getName(const TD::usernames *pName);
 
+TD::int53 getReplyId(const TD::MessageReplyTo *pReply);
+
 TD::object_ptr<TD::inputFileLocal> makeFile(const wchar_t *pwszFilename);
 
 TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText);

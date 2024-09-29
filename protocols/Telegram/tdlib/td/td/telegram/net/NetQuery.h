@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -46,10 +46,11 @@ class NetQueryCallback : public Actor {
 };
 
 class NetQuery final : public TsListNode<NetQueryDebug> {
+  enum class State : int8 { Empty, Query, OK, Error };
+
  public:
   NetQuery() = default;
 
-  enum class State : int8 { Empty, Query, OK, Error };
   enum class Type : int8 { Common, Upload, Download, DownloadSmall };
   enum class AuthFlag : int8 { Off, On };
   enum class GzipFlag : int8 { Off, On };
@@ -79,38 +80,19 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
     return tl_constructor_;
   }
 
-  void resend(DcId new_dc_id) {
-    VLOG(net_query) << "Resend " << *this;
-    {
-      auto guard = lock();
-      get_data_unsafe().resend_count_++;
-    }
-    dc_id_ = new_dc_id;
-    status_ = Status::OK();
-    state_ = State::Query;
-  }
+  void resend(DcId new_dc_id);
 
   void resend() {
     resend(dc_id_);
   }
 
-  BufferSlice &query() {
+  const BufferSlice &query() const {
     return query_;
-  }
-
-  BufferSlice &ok() {
-    CHECK(state_ == State::OK);
-    return answer_;
   }
 
   const BufferSlice &ok() const {
     CHECK(state_ == State::OK);
     return answer_;
-  }
-
-  Status &error() {
-    CHECK(state_ == State::Error);
-    return status_;
   }
 
   const Status &error() const {
@@ -123,18 +105,14 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
     clear();
     return ok;
   }
+
   Status move_as_error() TD_WARN_UNUSED_RESULT {
     auto status = std::move(status_);
     clear();
     return status;
   }
 
-  void set_ok(BufferSlice slice) {
-    VLOG(net_query) << "Receive answer " << *this;
-    CHECK(state_ == State::Query);
-    answer_ = std::move(slice);
-    state_ = State::OK;
-  }
+  void set_ok(BufferSlice slice);
 
   void on_net_write(size_t size);
   void on_net_read(size_t size);
@@ -153,16 +131,7 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
     set_error_impl(Status::Error<Error::ResendInvokeAfter>());
   }
 
-  bool update_is_ready() {
-    if (state_ == State::Query) {
-      if (cancellation_token_.load(std::memory_order_relaxed) == 0 || cancel_slot_.was_signal()) {
-        set_error_canceled();
-        return true;
-      }
-      return false;
-    }
-    return true;
-  }
+  bool update_is_ready();
 
   bool is_ready() const {
     return state_ != State::Query;
@@ -180,10 +149,6 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
     return tl_magic(answer_);
   }
 
-  void ignore() const {
-    status_.ignore();
-  }
-
   uint64 session_id() const {
     return session_id_.load(std::memory_order_relaxed);
   }
@@ -194,8 +159,10 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
   uint64 message_id() const {
     return message_id_;
   }
+
   void set_message_id(uint64 message_id) {
     message_id_ = message_id;
+    cancel_slot_.clear_event();
   }
 
   Span<NetQueryRef> invoke_after() const {
@@ -218,15 +185,8 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
     cancellation_token_.store(cancellation_token, std::memory_order_relaxed);
   }
 
-  void clear() {
-    if (!is_ready()) {
-      auto guard = lock();
-      LOG(ERROR) << "Destroy not ready query " << *this << " " << tag("state", get_data_unsafe().state_);
-    }
-    // TODO: CHECK if net_query is lost here
-    cancel_slot_.close();
-    *this = NetQuery();
-  }
+  void clear();
+
   bool empty() const {
     return state_ == State::Empty || !nq_counter_ || may_be_lost_;
   }
@@ -278,6 +238,12 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
     return in_sequence_dispacher_;
   }
 
+  void add_verification_prefix(const string &prefix);
+
+  bool has_verification_prefix() const {
+    return verification_prefix_length_ != 0;
+  }
+
  private:
   State state_ = State::Empty;
   Type type_ = Type::Common;
@@ -291,6 +257,7 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
   BufferSlice query_;
   BufferSlice answer_;
   int32 tl_constructor_ = 0;
+  int32 verification_prefix_length_ = 0;
 
   vector<NetQueryRef> invoke_after_;
   vector<uint64> chain_ids_;
@@ -322,12 +289,7 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
   movable_atomic<int32> cancellation_token_{-1};  // == 0 if query is canceled
   ActorShared<NetQueryCallback> callback_;
 
-  void set_error_impl(Status status, string source = string()) {
-    VLOG(net_query) << "Receive error " << *this << " " << status;
-    status_ = std::move(status);
-    state_ = State::Error;
-    source_ = std::move(source);
-  }
+  void set_error_impl(Status status, string source = string());
 
   static int32 tl_magic(const BufferSlice &buffer_slice);
 
@@ -343,34 +305,13 @@ class NetQuery final : public TsListNode<NetQueryDebug> {
   Promise<> quick_ack_promise_;     // for Session and to be set by caller
   bool need_resend_on_503_ = true;  // for NetQueryDispatcher and to be set by caller
 
-  NetQuery(State state, uint64 id, BufferSlice &&query, BufferSlice &&answer, DcId dc_id, Type type, AuthFlag auth_flag,
-           GzipFlag gzip_flag, int32 tl_constructor, int32 total_timeout_limit, NetQueryStats *stats,
-           vector<ChainId> chain_ids);
+  NetQuery(uint64 id, BufferSlice &&query, DcId dc_id, Type type, AuthFlag auth_flag, GzipFlag gzip_flag,
+           int32 tl_constructor, int32 total_timeout_limit, NetQueryStats *stats, vector<ChainId> chain_ids);
 };
 
-inline StringBuilder &operator<<(StringBuilder &stream, const NetQuery &net_query) {
-  stream << "[Query:";
-  stream << tag("id", net_query.id());
-  stream << tag("tl", format::as_hex(net_query.tl_constructor()));
-  if (!net_query.is_ready()) {
-    stream << tag("state", "Query");
-  } else if (net_query.is_error()) {
-    stream << tag("state", "Error");
-    stream << net_query.error();
-  } else if (net_query.is_ok()) {
-    stream << tag("state", "Result");
-    stream << tag("tl", format::as_hex(net_query.ok_tl_constructor()));
-  }
-  stream << "]";
-  return stream;
-}
+StringBuilder &operator<<(StringBuilder &stream, const NetQuery &net_query);
 
-inline StringBuilder &operator<<(StringBuilder &stream, const NetQueryPtr &net_query_ptr) {
-  if (net_query_ptr.empty()) {
-    return stream << "[Query: null]";
-  }
-  return stream << *net_query_ptr;
-}
+StringBuilder &operator<<(StringBuilder &stream, const NetQueryPtr &net_query_ptr);
 
 inline void cancel_query(NetQueryRef &ref) {
   if (ref.empty()) {

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,6 +7,8 @@
 #include "td/utils/misc.h"
 
 #include "td/utils/port/thread_local.h"
+#include "td/utils/StackAllocator.h"
+#include "td/utils/StringBuilder.h"
 #include "td/utils/utf8.h"
 
 #include <algorithm>
@@ -81,11 +83,11 @@ string oneline(Slice str) {
 
 namespace detail {
 Status get_to_integer_safe_error(Slice str) {
-  auto status = Status::Error(PSLICE() << "Can't parse \"" << str << "\" as an integer");
-  if (!check_utf8(status.message())) {
-    status = Status::Error("Strings must be encoded in UTF-8");
+  auto error_message = PSTRING() << "Can't parse as an integer string \"" << str << '"';
+  if (!check_utf8(error_message)) {
+    return Status::Error("Strings must be encoded in UTF-8");
   }
-  return status;
+  return Status::Error(error_message);
 }
 }  // namespace detail
 
@@ -201,60 +203,72 @@ string buffer_to_hex(Slice buffer) {
   return res;
 }
 
-namespace {
-
-template <class F>
-string x_decode(Slice s, F &&f) {
-  string res;
-  for (size_t n = s.size(), i = 0; i < n; i++) {
-    if (i + 1 < n && f(s[i])) {
-      res.append(static_cast<unsigned char>(s[i + 1]), s[i]);
-      i++;
-      continue;
-    }
-    res.push_back(s[i]);
-  }
-  return res;
-}
-
-template <class F>
-string x_encode(Slice s, F &&f) {
-  string res;
-  for (size_t n = s.size(), i = 0; i < n; i++) {
-    res.push_back(s[i]);
-    if (f(s[i])) {
+string zero_encode(Slice data) {
+  auto buffer = StackAllocator::alloc(1024);
+  auto res = StringBuilder(buffer.as_slice(), true);
+  for (size_t n = data.size(), i = 0; i < n; i++) {
+    res.push_back(data[i]);
+    if (data[i] == 0) {
       unsigned char cnt = 1;
-      while (cnt < 250 && i + cnt < n && s[i + cnt] == s[i]) {
+      while (cnt < 250 && i + cnt < n && data[i + cnt] == data[i]) {
         cnt++;
       }
       res.push_back(static_cast<char>(cnt));
       i += cnt - 1;
     }
   }
-  return res;
+  return res.as_cslice().str();
 }
 
-bool is_zero(unsigned char c) {
-  return c == 0;
+string zero_decode(Slice data) {
+  auto buffer = StackAllocator::alloc(1024);
+  auto res = StringBuilder(buffer.as_slice(), true);
+  for (size_t n = data.size(), i = 0; i < n; i++) {
+    if (data[i] == 0 && i + 1 < n) {
+      for (int cnt = static_cast<unsigned char>(data[i + 1]); cnt > 0; cnt--) {
+        res.push_back(data[i]);
+      }
+      i++;
+      continue;
+    }
+    res.push_back(data[i]);
+  }
+  return res.as_cslice().str();
 }
 
-bool is_zero_or_one(unsigned char c) {
-  return c == 0 || c == 0xff;
+string zero_one_encode(Slice data) {
+  auto buffer = StackAllocator::alloc(1024);
+  auto res = StringBuilder(buffer.as_slice(), true);
+  for (size_t n = data.size(), i = 0; i < n; i++) {
+    res.push_back(data[i]);
+    auto c = static_cast<unsigned char>(data[i]);
+    if (c == 0 || c == 0xff) {
+      unsigned char cnt = 1;
+      while (cnt < 250 && i + cnt < n && data[i + cnt] == data[i]) {
+        cnt++;
+      }
+      res.push_back(static_cast<char>(cnt));
+      i += cnt - 1;
+    }
+  }
+  return res.as_cslice().str();
 }
 
-}  // namespace
-
-std::string zero_encode(Slice data) {
-  return x_encode(data, is_zero);
-}
-std::string zero_decode(Slice data) {
-  return x_decode(data, is_zero);
-}
-std::string zero_one_encode(Slice data) {
-  return x_encode(data, is_zero_or_one);
-}
-std::string zero_one_decode(Slice data) {
-  return x_decode(data, is_zero_or_one);
+string zero_one_decode(Slice data) {
+  auto buffer = StackAllocator::alloc(1024);
+  auto res = StringBuilder(buffer.as_slice(), true);
+  for (size_t n = data.size(), i = 0; i < n; i++) {
+    auto c = static_cast<unsigned char>(data[i]);
+    if ((c == 0 || c == 0xff) && i + 1 < n) {
+      for (int cnt = static_cast<unsigned char>(data[i + 1]); cnt > 0; cnt--) {
+        res.push_back(data[i]);
+      }
+      i++;
+      continue;
+    }
+    res.push_back(data[i]);
+  }
+  return res.as_cslice().str();
 }
 
 }  // namespace td

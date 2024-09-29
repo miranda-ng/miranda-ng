@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -97,8 +97,9 @@ class FileDownloadGenerateActor final : public FileGenerateActor {
                 [file_type = file_type_, file_id = file_id_, callback = std::move(callback_)]() mutable {
                   auto file_view = G()->td().get_actor_unsafe()->file_manager_->get_file_view(file_id);
                   CHECK(!file_view.empty());
-                  if (file_view.has_local_location()) {
-                    auto location = file_view.local_location();
+                  const auto *full_local_location = file_view.get_full_local_location();
+                  if (full_local_location != nullptr) {
+                    auto location = *full_local_location;
                     location.file_type_ = file_type;
                     callback->on_ok(std::move(location));
                   } else {
@@ -265,7 +266,7 @@ class WebFileDownloadGenerateActor final : public FileGenerateActor {
 
 class FileExternalGenerateActor final : public FileGenerateActor {
  public:
-  FileExternalGenerateActor(uint64 query_id, const FullGenerateFileLocation &generate_location,
+  FileExternalGenerateActor(FileGenerateManager::QueryId query_id, const FullGenerateFileLocation &generate_location,
                             const LocalFileLocation &local_location, string name,
                             unique_ptr<FileGenerateCallback> callback, ActorShared<> parent)
       : query_id_(query_id)
@@ -294,7 +295,7 @@ class FileExternalGenerateActor final : public FileGenerateActor {
   }
 
  private:
-  uint64 query_id_;
+  FileGenerateManager::QueryId query_id_;
   FullGenerateFileLocation generate_location_;
   LocalFileLocation local_;
   string name_;
@@ -351,7 +352,7 @@ class FileExternalGenerateActor final : public FileGenerateActor {
       return Status::Error(400, "Invalid local prefix size");
     }
     callback_->on_partial_generate(PartialLocalFileLocation{generate_location_.file_type_, local_prefix_size, path_, "",
-                                                            Bitmask(Bitmask::Ones{}, 1).encode()},
+                                                            Bitmask(Bitmask::Ones{}, 1).encode(), local_prefix_size},
                                    expected_size);
     return Status::OK();
   }
@@ -422,7 +423,7 @@ static Status check_mtime(std::string &conversion, CSlice original_path) {
                                 << tag("actual modification time", actual_mtime));
 }
 
-void FileGenerateManager::generate_file(uint64 query_id, FullGenerateFileLocation generate_location,
+void FileGenerateManager::generate_file(QueryId query_id, FullGenerateFileLocation generate_location,
                                         const LocalFileLocation &local_location, string name,
                                         unique_ptr<FileGenerateCallback> callback) {
   LOG(INFO) << "Begin to generate file with " << generate_location;
@@ -455,7 +456,7 @@ void FileGenerateManager::generate_file(uint64 query_id, FullGenerateFileLocatio
   }
 }
 
-void FileGenerateManager::cancel(uint64 query_id) {
+void FileGenerateManager::cancel(QueryId query_id) {
   auto it = query_id_to_query_.find(query_id);
   if (it == query_id_to_query_.end()) {
     return;
@@ -463,7 +464,7 @@ void FileGenerateManager::cancel(uint64 query_id) {
   it->second.worker_.reset();
 }
 
-void FileGenerateManager::external_file_generate_write_part(uint64 query_id, int64 offset, string data,
+void FileGenerateManager::external_file_generate_write_part(QueryId query_id, int64 offset, string data,
                                                             Promise<> promise) {
   auto it = query_id_to_query_.find(query_id);
   if (it == query_id_to_query_.end()) {
@@ -474,8 +475,8 @@ void FileGenerateManager::external_file_generate_write_part(uint64 query_id, int
                std::move(safe_promise));
 }
 
-void FileGenerateManager::external_file_generate_progress(uint64 query_id, int64 expected_size, int64 local_prefix_size,
-                                                          Promise<> promise) {
+void FileGenerateManager::external_file_generate_progress(QueryId query_id, int64 expected_size,
+                                                          int64 local_prefix_size, Promise<> promise) {
   auto it = query_id_to_query_.find(query_id);
   if (it == query_id_to_query_.end()) {
     return promise.set_error(Status::Error(400, "Unknown generation_id"));
@@ -485,7 +486,7 @@ void FileGenerateManager::external_file_generate_progress(uint64 query_id, int64
                std::move(safe_promise));
 }
 
-void FileGenerateManager::external_file_generate_finish(uint64 query_id, Status status, Promise<> promise) {
+void FileGenerateManager::external_file_generate_finish(QueryId query_id, Status status, Promise<> promise) {
   auto it = query_id_to_query_.find(query_id);
   if (it == query_id_to_query_.end()) {
     return promise.set_error(Status::Error(400, "Unknown generation_id"));
@@ -495,7 +496,7 @@ void FileGenerateManager::external_file_generate_finish(uint64 query_id, Status 
                std::move(safe_promise));
 }
 
-void FileGenerateManager::do_cancel(uint64 query_id) {
+void FileGenerateManager::do_cancel(QueryId query_id) {
   query_id_to_query_.erase(query_id);
 }
 

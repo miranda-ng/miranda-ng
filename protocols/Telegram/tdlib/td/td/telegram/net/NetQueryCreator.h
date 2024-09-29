@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,6 +12,7 @@
 #include "td/telegram/net/NetQueryStats.h"
 #include "td/telegram/UniqueId.h"
 
+#include "td/utils/common.h"
 #include "td/utils/ObjectPool.h"
 
 #include <memory>
@@ -34,15 +35,21 @@ class NetQueryCreator {
                      NetQuery::Type type = NetQuery::Type::Common);
 
   NetQueryPtr create_unauth(const telegram_api::Function &function, DcId dc_id = DcId::main()) {
-    return create(UniqueId::next(), function, {}, dc_id, NetQuery::Type::Common, NetQuery::AuthFlag::Off);
+    return create(UniqueId::next(), nullptr, function, {}, dc_id, NetQuery::Type::Common, NetQuery::AuthFlag::Off);
   }
 
-  NetQueryPtr create(uint64 id, const telegram_api::Function &function, vector<ChainId> &&chain_ids, DcId dc_id,
+  NetQueryPtr create_with_prefix(const telegram_api::object_ptr<telegram_api::Function> &prefix,
+                                 const telegram_api::Function &function, DcId dc_id, vector<ChainId> chain_ids = {},
+                                 NetQuery::Type type = NetQuery::Type::Common);
+
+  NetQueryPtr create(uint64 id, const telegram_api::object_ptr<telegram_api::Function> &prefix,
+                     const telegram_api::Function &function, vector<ChainId> &&chain_ids, DcId dc_id,
                      NetQuery::Type type, NetQuery::AuthFlag auth_flag);
 
  private:
   std::shared_ptr<NetQueryStats> net_query_stats_;
   ObjectPool<NetQuery> object_pool_;
+  int32 current_scheduler_id_ = 0;
 };
 
 }  // namespace td

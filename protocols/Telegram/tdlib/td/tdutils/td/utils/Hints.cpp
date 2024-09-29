@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -115,7 +115,7 @@ void Hints::add_search_results(vector<KeyT> &results, const string &word,
   LOG(DEBUG) << "Search for word " << word;
   auto it = word_to_keys.lower_bound(word);
   while (it != word_to_keys.end() && begins_with(it->first, word)) {
-    results.insert(results.end(), it->second.begin(), it->second.end());
+    append(results, it->second);
     ++it;
   }
 }

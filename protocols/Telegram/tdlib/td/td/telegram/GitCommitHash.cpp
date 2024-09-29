@@ -9,7 +9,7 @@
 namespace td {
 
 const char *get_git_commit_hash() {
-  return "d581e0499a534a2b98474843289e2a77e15a1d2d";
+  return "cd5e746ec203c8c3c61647e0886a8df8c1e78e41";
 }
 
 }  // namespace td

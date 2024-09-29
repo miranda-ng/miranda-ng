@@ -6,7 +6,6 @@ if (NOT DEFINED CMAKE_INSTALL_LIBDIR)
   set(CMAKE_INSTALL_LIBDIR "lib")
 endif()
 
-#SOURCE SETS
 set(TDACTOR_SOURCE
   td/actor/ConcurrentScheduler.cpp
   td/actor/impl/Scheduler.cpp
@@ -21,9 +20,9 @@ set(TDACTOR_SOURCE
   td/actor/impl/ActorId.h
   td/actor/impl/ActorInfo-decl.h
   td/actor/impl/ActorInfo.h
+  td/actor/impl/Event.h
   td/actor/impl/EventFull-decl.h
   td/actor/impl/EventFull.h
-  td/actor/impl/Event.h
   td/actor/impl/Scheduler-decl.h
   td/actor/impl/Scheduler.h
   td/actor/MultiPromise.h
@@ -43,10 +42,6 @@ set(TDACTOR_TEST_SOURCE
   PARENT_SCOPE
 )
 
-#RULES
-
-#LIBRARIES
-
 add_library(tdactor STATIC ${TDACTOR_SOURCE})
 target_include_directories(tdactor PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 target_link_libraries(tdactor PUBLIC tdutils)
@@ -56,7 +51,7 @@ if (NOT CMAKE_CROSSCOMPILING)
   target_link_libraries(example PRIVATE tdactor)
 endif()
 
-install(TARGETS tdactor EXPORT TdTargets
+install(TARGETS tdactor EXPORT TdStaticTargets
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 )

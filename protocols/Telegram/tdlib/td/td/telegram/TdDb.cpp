@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -13,6 +13,7 @@
 #include "td/telegram/logevent/LogEvent.h"
 #include "td/telegram/MessageDb.h"
 #include "td/telegram/MessageThreadDb.h"
+#include "td/telegram/StoryDb.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/Version.h"
 
@@ -124,9 +125,19 @@ Status init_binlog(Binlog &binlog, string path, BinlogKeyValue<Binlog> &binlog_p
       case LogEvent::HandlerType::ReadAllDialogReactionsOnServer:
       case LogEvent::HandlerType::DeleteTopicHistoryOnServer:
       case LogEvent::HandlerType::ToggleDialogIsTranslatableOnServer:
+      case LogEvent::HandlerType::ToggleDialogViewAsMessagesOnServer:
+      case LogEvent::HandlerType::SendQuickReplyShortcutMessages:
         events.to_messages_manager.push_back(event.clone());
         break;
+      case LogEvent::HandlerType::DeleteStoryOnServer:
+      case LogEvent::HandlerType::ReadStoriesOnServer:
+      case LogEvent::HandlerType::LoadDialogExpiringStories:
+      case LogEvent::HandlerType::SendStory:
+      case LogEvent::HandlerType::EditStory:
+        events.to_story_manager.push_back(event.clone());
+        break;
       case LogEvent::HandlerType::UpdateScopeNotificationSettingsOnServer:
+      case LogEvent::HandlerType::UpdateReactionNotificationSettingsOnServer:
         events.to_notification_settings_manager.push_back(event.clone());
         break;
       case LogEvent::HandlerType::AddMessagePushNotification:
@@ -135,6 +146,17 @@ Status init_binlog(Binlog &binlog, string path, BinlogKeyValue<Binlog> &binlog_p
         break;
       case LogEvent::HandlerType::SaveAppLog:
         events.save_app_log_events.push_back(event.clone());
+        break;
+      case LogEvent::HandlerType::ChangeAuthorizationSettingsOnServer:
+      case LogEvent::HandlerType::InvalidateSignInCodesOnServer:
+      case LogEvent::HandlerType::ResetAuthorizationOnServer:
+      case LogEvent::HandlerType::ResetAuthorizationsOnServer:
+      case LogEvent::HandlerType::ResetWebAuthorizationOnServer:
+      case LogEvent::HandlerType::ResetWebAuthorizationsOnServer:
+      case LogEvent::HandlerType::SetAccountTtlOnServer:
+      case LogEvent::HandlerType::SetAuthorizationTtlOnServer:
+      case LogEvent::HandlerType::SetDefaultHistoryTtlOnServer:
+        events.to_account_manager.push_back(event.clone());
         break;
       case LogEvent::HandlerType::BinlogPmcMagic:
         binlog_pmc.external_init_handle(event);
@@ -226,6 +248,14 @@ DialogDbAsyncInterface *TdDb::get_dialog_db_async() {
   return dialog_db_async_.get();
 }
 
+StoryDbSyncInterface *TdDb::get_story_db_sync() {
+  return &story_db_sync_safe_->get();
+}
+
+StoryDbAsyncInterface *TdDb::get_story_db_async() {
+  return story_db_async_.get();
+}
+
 void TdDb::flush_all() {
   LOG(INFO) << "Flush all databases";
   if (message_db_async_) {
@@ -237,20 +267,26 @@ void TdDb::flush_all() {
   if (dialog_db_async_) {
     dialog_db_async_->force_flush();
   }
+  if (story_db_async_) {
+    story_db_async_->force_flush();
+  }
+  CHECK(binlog_ != nullptr);
   binlog_->force_flush();
 }
 
-void TdDb::close_all(Promise<> on_finished) {
-  LOG(INFO) << "Close all databases";
-  do_close(std::move(on_finished), false /*destroy_flag*/);
+void TdDb::close(int32 scheduler_id, bool destroy_flag, Promise<Unit> on_finished) {
+  Scheduler::instance()->run_on_scheduler(scheduler_id,
+                                          [this, destroy_flag, on_finished = std::move(on_finished)](Unit) mutable {
+                                            do_close(destroy_flag, std::move(on_finished));
+                                          });
 }
 
-void TdDb::close_and_destroy_all(Promise<> on_finished) {
-  LOG(INFO) << "Destroy all databases";
-  do_close(std::move(on_finished), true /*destroy_flag*/);
-}
-
-void TdDb::do_close(Promise<> on_finished, bool destroy_flag) {
+void TdDb::do_close(bool destroy_flag, Promise<Unit> on_finished) {
+  if (destroy_flag) {
+    LOG(INFO) << "Destroy all databases";
+  } else {
+    LOG(INFO) << "Close all databases";
+  }
   MultiPromiseActorSafe mpas{"TdDbCloseMultiPromiseActor"};
   mpas.add_promise(PromiseCreator::lambda(
       [promise = std::move(on_finished), sql_connection = std::move(sql_connection_), destroy_flag](Unit) mutable {
@@ -292,6 +328,11 @@ void TdDb::do_close(Promise<> on_finished, bool destroy_flag) {
     dialog_db_async_->close(mpas.get_promise());
   }
 
+  story_db_sync_safe_.reset();
+  if (story_db_async_) {
+    story_db_async_->close(mpas.get_promise());
+  }
+
   // binlog_pmc is dependent on binlog_ and anyway it doesn't support close_and_destroy
   CHECK(binlog_pmc_.unique());
   binlog_pmc_.reset();
@@ -318,10 +359,11 @@ Status TdDb::init_sqlite(const Parameters &parameters, const DbKey &key, const D
   const string sql_database_path = get_sqlite_path(parameters);
 
   bool use_sqlite = parameters.use_file_database_;
-  bool use_file_database_ = parameters.use_file_database_;
+  bool use_file_database = parameters.use_file_database_;
   bool use_dialog_db = parameters.use_message_database_;
   bool use_message_thread_db = parameters.use_message_database_ && false;
-  bool use_message_database_ = parameters.use_message_database_;
+  bool use_message_database = parameters.use_message_database_;
+  bool use_story_database = parameters.use_message_database_;
 
   was_dialog_db_created_ = false;
 
@@ -363,14 +405,21 @@ Status TdDb::init_sqlite(const Parameters &parameters, const DbKey &key, const D
   }
 
   // init MessageDb
-  if (use_message_database_) {
+  if (use_message_database) {
     TRY_STATUS(init_message_db(db, user_version));
   } else {
     TRY_STATUS(drop_message_db(db, user_version));
   }
 
+  // init StoryDb
+  if (use_story_database) {
+    TRY_STATUS(init_story_db(db, user_version));
+  } else {
+    TRY_STATUS(drop_story_db(db, user_version));
+  }
+
   // init FileDb
-  if (use_file_database_) {
+  if (use_file_database) {
     TRY_STATUS(init_file_db(db, user_version));
   } else {
     TRY_STATUS(drop_file_db(db, user_version));
@@ -389,10 +438,13 @@ Status TdDb::init_sqlite(const Parameters &parameters, const DbKey &key, const D
     binlog_pmc.erase_by_prefix("unread_message_count");
     binlog_pmc.erase_by_prefix("unread_dialog_count");
     binlog_pmc.erase("sponsored_dialog_id");
-    binlog_pmc.erase_by_prefix("top_dialogs");
+    binlog_pmc.erase_by_prefix("top_dialogs#");
     binlog_pmc.erase("dlds_counter");
     binlog_pmc.erase_by_prefix("dlds#");
     binlog_pmc.erase("fetched_marks_as_unread");
+    binlog_pmc.erase_by_prefix("public_channels");
+    binlog_pmc.erase("channels_to_send_stories");
+    binlog_pmc.erase_by_prefix("saved_messages_tags");
   }
   if (user_version == 0) {
     binlog_pmc.erase("next_contacts_sync_date");
@@ -401,7 +453,7 @@ Status TdDb::init_sqlite(const Parameters &parameters, const DbKey &key, const D
     binlog_pmc.erase("invalidate_old_featured_sticker_sets");
     binlog_pmc.erase(AttachMenuManager::get_attach_menu_bots_database_key());
   }
-  binlog_pmc.force_sync({});
+  binlog_pmc.force_sync(Auto(), "init_sqlite");
 
   TRY_STATUS(db.exec("COMMIT TRANSACTION"));
 
@@ -411,8 +463,10 @@ Status TdDb::init_sqlite(const Parameters &parameters, const DbKey &key, const D
   common_kv_async_ = create_sqlite_key_value_async(common_kv_safe_);
 
   if (was_dialog_db_created_) {
-    get_sqlite_sync_pmc()->erase("calls_db_state");
-    get_sqlite_sync_pmc()->erase("di_active_live_location_messages");
+    auto *sqlite_pmc = get_sqlite_sync_pmc();
+    sqlite_pmc->erase("calls_db_state");
+    sqlite_pmc->erase("di_active_live_location_messages");
+    sqlite_pmc->erase_by_prefix("channel_recommendations");
   }
 
   if (use_dialog_db) {
@@ -425,9 +479,14 @@ Status TdDb::init_sqlite(const Parameters &parameters, const DbKey &key, const D
     message_thread_db_async_ = create_message_thread_db_async(message_thread_db_sync_safe_);
   }
 
-  if (use_message_database_) {
+  if (use_message_database) {
     message_db_sync_safe_ = create_message_db_sync(sql_connection_);
     message_db_async_ = create_message_db_async(message_db_sync_safe_);
+  }
+
+  if (use_story_database) {
+    story_db_sync_safe_ = create_story_db_sync(sql_connection_);
+    story_db_async_ = create_story_db_async(story_db_sync_safe_);
   }
 
   return Status::OK();
@@ -480,7 +539,9 @@ void TdDb::open_impl(Parameters parameters, Promise<OpenedDatabase> &&promise) {
       sqlite_key = string(32, ' ');
       Random::secure_bytes(sqlite_key);
       binlog_pmc->set("sqlite_key", sqlite_key);
-      binlog_pmc->force_sync(Auto());
+      if (parameters.use_file_database_) {
+        binlog_pmc->force_sync(Auto(), "TdDb::open_impl 1");
+      }
     }
     new_sqlite_key = DbKey::raw_key(std::move(sqlite_key));
   } else {
@@ -506,7 +567,7 @@ void TdDb::open_impl(Parameters parameters, Promise<OpenedDatabase> &&promise) {
   }
   if (drop_sqlite_key) {
     binlog_pmc->erase("sqlite_key");
-    binlog_pmc->force_sync(Auto());
+    binlog_pmc->force_sync(Auto(), "TdDb::open_impl 2");
   }
 
   VLOG(td_init) << "Create concurrent_binlog_pmc";
@@ -546,7 +607,10 @@ void TdDb::open_impl(Parameters parameters, Promise<OpenedDatabase> &&promise) {
 }
 
 TdDb::TdDb() = default;
-TdDb::~TdDb() = default;
+
+TdDb::~TdDb() {
+  LOG_IF(ERROR, binlog_ != nullptr) << "Failed to close the database";
+}
 
 Status TdDb::check_parameters(Parameters &parameters) {
   if (parameters.database_directory_.empty()) {
@@ -598,6 +662,13 @@ Status TdDb::check_parameters(Parameters &parameters) {
   return Status::OK();
 }
 
+DbKey TdDb::as_db_key(string key) {
+  if (key.empty()) {
+    return DbKey::raw_key("cucumber");
+  }
+  return DbKey::raw_key(std::move(key));
+}
+
 void TdDb::change_key(DbKey key, Promise<> promise) {
   get_binlog()->change_key(std::move(key), std::move(promise));
 }
@@ -610,6 +681,7 @@ Status TdDb::destroy(const Parameters &parameters) {
 
 void TdDb::with_db_path(const std::function<void(CSlice)> &callback) {
   SqliteDb::with_db_path(get_sqlite_path(parameters_), callback);
+  CHECK(binlog_ != nullptr);
   callback(binlog_->get_path());
 }
 
@@ -637,6 +709,7 @@ Result<string> TdDb::get_stats() {
                               << mask << "'",
                      PSLICE() << table << ":" << mask);
   };
+  TRY_STATUS(run_query("SELECT 0, SUM(length(data)), COUNT(*) FROM stories WHERE 1", "stories"));
   TRY_STATUS(run_query("SELECT 0, SUM(length(data)), COUNT(*) FROM messages WHERE 1", "messages"));
   TRY_STATUS(run_query("SELECT 0, SUM(length(data)), COUNT(*) FROM dialogs WHERE 1", "dialogs"));
   TRY_STATUS(run_kv_query("%", "common"));

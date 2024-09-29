@@ -61,9 +61,6 @@
     <ClCompile Include="td\td\telegram\Contact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="td\td\telegram\ContactsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="td\td\telegram\DelayDispatcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -179,9 +176,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="td\td\generate\auto\td\telegram\secret_api.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="td\td\telegram\Account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="td\td\telegram\Client.cpp">
@@ -529,9 +523,6 @@
     <ClCompile Include="td\td\telegram\net\NetStatsManager.cpp">
       <Filter>Source Files\net</Filter>
     </ClCompile>
-    <ClCompile Include="td\td\telegram\net\PublicRsaKeyShared.cpp">
-      <Filter>Source Files\net</Filter>
-    </ClCompile>
     <ClCompile Include="td\td\telegram\net\PublicRsaKeyWatchdog.cpp">
       <Filter>Source Files\net</Filter>
     </ClCompile>
@@ -575,9 +566,6 @@
       <Filter>Source Files\files</Filter>
     </ClCompile>
     <ClCompile Include="td\td\telegram\files\FileHashUploader.cpp">
-      <Filter>Source Files\files</Filter>
-    </ClCompile>
-    <ClCompile Include="td\td\telegram\files\FileLoader.cpp">
       <Filter>Source Files\files</Filter>
     </ClCompile>
     <ClCompile Include="td\td\telegram\files\FileLoaderUtils.cpp">
@@ -691,6 +679,261 @@
     <ClCompile Include="td\td\telegram\WebApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="td\td\telegram\AccountManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BaseTheme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\Birthdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BoostManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BotQueries.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessAwayMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessAwayMessageSchedule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessBotManageBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessChatLink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessConnectedBot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessConnectionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessGreetingMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessIntro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessRecipients.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessWorkHours.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ChannelRecommendationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ChatManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\CommonDialogManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ConnectionStateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\DialogActionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\DialogInviteLinkManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\DialogManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\DialogParticipantManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\FactCheck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\files\FileDownloadManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\AlarmManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\GiveawayParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\GlobalPrivacySettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\InlineMessageManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\InputBusinessChatLink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MediaArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MediaAreaCoordinates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageForwardInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageImportManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageInputReplyTo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageOrigin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageQuote.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageReactor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageSearchOffset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageSelfDestructType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MissingInvitee.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\NotificationGroupInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\NotificationGroupType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\OnlineManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\PeerColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\PeopleNearbyManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\PromoDataManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\QuickReplyManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReactionListType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReactionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReactionNotificationSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReactionNotificationsFrom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReactionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\RepliedMessageInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\Requests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\SavedMessagesManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\SavedMessagesTopicId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\SharedDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarSubscription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarSubscriptionPricing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StatisticsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StickerListType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StoryContent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StoryContentType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StoryDb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StoryForwardInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StoryInteractionInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StoryManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StoryStealthMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StoryViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\SynchronousRequests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\TermsOfServiceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ThemeSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\TimeZoneManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\TranscriptionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\UserManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\UserPrivacySetting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\UserPrivacySettingRule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\net\PublicRsaKeySharedCdn.cpp">
+      <Filter>Source Files\net</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\files\FileUploadManager.cpp">
+      <Filter>Source Files\files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\net\PublicRsaKeySharedMain.cpp">
+      <Filter>Source Files\net</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\net\NetQueryVerifier.cpp">
+      <Filter>Source Files\net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="td\td\mtproto\AuthData.h">
@@ -783,9 +1026,6 @@
     <ClInclude Include="td\td\telegram\Contact.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="td\td\telegram\ContactsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="td\td\telegram\DelayDispatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -814,9 +1054,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="td\td\telegram\files\FileLoaderActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="td\td\telegram\files\FileLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="td\td\telegram\files\FileLoaderUtils.h">
@@ -1206,9 +1443,6 @@
     <ClInclude Include="td\td\telegram\ForumTopicManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="td\td\telegram\FullMessageId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="td\td\telegram\GameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1575,9 +1809,6 @@
     <ClInclude Include="td\td\telegram\net\NetType.h">
       <Filter>Source Files\net</Filter>
     </ClInclude>
-    <ClInclude Include="td\td\telegram\net\PublicRsaKeyShared.h">
-      <Filter>Source Files\net</Filter>
-    </ClInclude>
     <ClInclude Include="td\td\telegram\net\PublicRsaKeyWatchdog.h">
       <Filter>Source Files\net</Filter>
     </ClInclude>
@@ -1769,6 +2000,300 @@
     </ClInclude>
     <ClInclude Include="td\td\telegram\WebApp.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\AccentColorId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\AccountManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\AlarmManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BaseTheme.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\Birthdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BlockListId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BoostManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BotQueries.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessAwayMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessAwayMessageSchedule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessBotManageBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessChatLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessConnectedBot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessConnectionId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessConnectionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessGreetingMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessIntro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessRecipients.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessWorkHours.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ChannelRecommendationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ChatManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\CommonDialogManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ConnectionStateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\DialogActionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\DialogBoostLinkInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\DialogInviteLinkManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\DialogManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\DialogParticipantManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\FactCheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\GiveawayParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\GlobalPrivacySettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\InlineMessageManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\InputBusinessChatLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MediaArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MediaAreaCoordinates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageEffectId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageForwardInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageFullId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageImportManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageInputReplyTo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageOrigin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageQuote.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageReactor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageSearchOffset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageSelfDestructType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MissingInvitee.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\NotificationGroupFromDatabase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\NotificationGroupInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\NotificationObjectFullId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\NotificationObjectId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\OnlineManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\PeerColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\PeopleNearbyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\PromoDataManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\QuickReplyManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\QuickReplyMessageFullId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\QuickReplyShortcutId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReactionListType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReactionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReactionNotificationSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReactionNotificationsFrom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReactionType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReactionUnavailabilityReason.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\RepliedMessageInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\Requests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\SavedMessagesManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\SavedMessagesTopicId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\SharedDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarSubscription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarSubscriptionPricing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StatisticsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StickerListType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryContentType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryDb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryForwardInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryFullId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryInteractionInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryListId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryNotificationSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryStealthMode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StoryViewer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\SynchronousRequests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\TermsOfServiceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ThemeSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\TimeZoneManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\TranscriptionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\UserManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\UserPrivacySetting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\UserPrivacySettingRule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\net\NetQueryVerifier.h">
+      <Filter>Source Files\net</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\net\PublicRsaKeySharedCdn.h">
+      <Filter>Source Files\net</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\net\PublicRsaKeySharedMain.h">
+      <Filter>Source Files\net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

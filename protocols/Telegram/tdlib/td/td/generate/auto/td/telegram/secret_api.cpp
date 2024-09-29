@@ -248,12 +248,10 @@ object_ptr<DecryptedMessage> decryptedMessage8::fetch(TlParser &p) {
 }
 
 decryptedMessage8::decryptedMessage8(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : random_id_(TlFetchLong::parse(p))
   , random_bytes_(TlFetchBytes<bytes>::parse(p))
   , message_(TlFetchString<string>::parse(p))
   , media_(TlFetchObject<DecryptedMessageMedia>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessage8::store(TlStorerCalcLength &s) const {
@@ -296,11 +294,9 @@ object_ptr<DecryptedMessage> decryptedMessageService8::fetch(TlParser &p) {
 }
 
 decryptedMessageService8::decryptedMessageService8(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : random_id_(TlFetchLong::parse(p))
   , random_bytes_(TlFetchBytes<bytes>::parse(p))
   , action_(TlFetchObject<DecryptedMessageAction>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageService8::store(TlStorerCalcLength &s) const {
@@ -341,12 +337,10 @@ object_ptr<DecryptedMessage> decryptedMessage23::fetch(TlParser &p) {
 }
 
 decryptedMessage23::decryptedMessage23(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : random_id_(TlFetchLong::parse(p))
   , ttl_(TlFetchInt::parse(p))
   , message_(TlFetchString<string>::parse(p))
   , media_(TlFetchObject<DecryptedMessageMedia>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessage23::store(TlStorerCalcLength &s) const {
@@ -388,10 +382,8 @@ object_ptr<DecryptedMessage> decryptedMessageService::fetch(TlParser &p) {
 }
 
 decryptedMessageService::decryptedMessageService(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : random_id_(TlFetchLong::parse(p))
   , action_(TlFetchObject<DecryptedMessageAction>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageService::store(TlStorerCalcLength &s) const {
@@ -531,7 +523,7 @@ object_ptr<DecryptedMessage> decryptedMessage::fetch(TlParser &p) {
   object_ptr<decryptedMessage> res = make_tl_object<decryptedMessage>();
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
-  if (var0 & 32) { res->silent_ = TlFetchTrue::parse(p); }
+  res->silent_ = (var0 & 32) != 0;
   res->random_id_ = TlFetchLong::parse(p);
   res->ttl_ = TlFetchInt::parse(p);
   res->message_ = TlFetchString<string>::parse(p);
@@ -578,6 +570,7 @@ void decryptedMessage::store(TlStorerToString &s, const char *field_name) const 
     s.store_class_begin(field_name, "decryptedMessage");
   int32 var0;
     s.store_field("flags", (var0 = flags_));
+    if (var0 & 32) { s.store_field("silent", true); }
     s.store_field("random_id", random_id_);
     s.store_field("ttl", ttl_);
     s.store_field("message", message_);
@@ -637,9 +630,7 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionSetMessageTTL::fetch(Tl
 }
 
 decryptedMessageActionSetMessageTTL::decryptedMessageActionSetMessageTTL(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : ttl_seconds_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionSetMessageTTL::store(TlStorerCalcLength &s) const {
@@ -671,9 +662,7 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionReadMessages::fetch(TlP
 }
 
 decryptedMessageActionReadMessages::decryptedMessageActionReadMessages(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : random_ids_(TlFetchBoxed<TlFetchVector<TlFetchLong>, 481674261>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionReadMessages::store(TlStorerCalcLength &s) const {
@@ -705,9 +694,7 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionDeleteMessages::fetch(T
 }
 
 decryptedMessageActionDeleteMessages::decryptedMessageActionDeleteMessages(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : random_ids_(TlFetchBoxed<TlFetchVector<TlFetchLong>, 481674261>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionDeleteMessages::store(TlStorerCalcLength &s) const {
@@ -739,9 +726,7 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionScreenshotMessages::fet
 }
 
 decryptedMessageActionScreenshotMessages::decryptedMessageActionScreenshotMessages(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : random_ids_(TlFetchBoxed<TlFetchVector<TlFetchLong>, 481674261>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionScreenshotMessages::store(TlStorerCalcLength &s) const {
@@ -795,10 +780,8 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionResend::fetch(TlParser 
 }
 
 decryptedMessageActionResend::decryptedMessageActionResend(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : start_seq_no_(TlFetchInt::parse(p))
   , end_seq_no_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionResend::store(TlStorerCalcLength &s) const {
@@ -833,9 +816,7 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionNotifyLayer::fetch(TlPa
 }
 
 decryptedMessageActionNotifyLayer::decryptedMessageActionNotifyLayer(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : layer_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionNotifyLayer::store(TlStorerCalcLength &s) const {
@@ -867,9 +848,7 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionTyping::fetch(TlParser 
 }
 
 decryptedMessageActionTyping::decryptedMessageActionTyping(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : action_(TlFetchObject<SendMessageAction>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionTyping::store(TlStorerCalcLength &s) const {
@@ -902,10 +881,8 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionRequestKey::fetch(TlPar
 }
 
 decryptedMessageActionRequestKey::decryptedMessageActionRequestKey(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : exchange_id_(TlFetchLong::parse(p))
   , g_a_(TlFetchBytes<bytes>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionRequestKey::store(TlStorerCalcLength &s) const {
@@ -942,11 +919,9 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionAcceptKey::fetch(TlPars
 }
 
 decryptedMessageActionAcceptKey::decryptedMessageActionAcceptKey(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : exchange_id_(TlFetchLong::parse(p))
   , g_b_(TlFetchBytes<bytes>::parse(p))
   , key_fingerprint_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionAcceptKey::store(TlStorerCalcLength &s) const {
@@ -984,9 +959,7 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionAbortKey::fetch(TlParse
 }
 
 decryptedMessageActionAbortKey::decryptedMessageActionAbortKey(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : exchange_id_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionAbortKey::store(TlStorerCalcLength &s) const {
@@ -1019,10 +992,8 @@ object_ptr<DecryptedMessageAction> decryptedMessageActionCommitKey::fetch(TlPars
 }
 
 decryptedMessageActionCommitKey::decryptedMessageActionCommitKey(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : exchange_id_(TlFetchLong::parse(p))
   , key_fingerprint_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageActionCommitKey::store(TlStorerCalcLength &s) const {
@@ -1082,13 +1053,11 @@ object_ptr<decryptedMessageLayer> decryptedMessageLayer::fetch(TlParser &p) {
 }
 
 decryptedMessageLayer::decryptedMessageLayer(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : random_bytes_(TlFetchBytes<bytes>::parse(p))
   , layer_(TlFetchInt::parse(p))
   , in_seq_no_(TlFetchInt::parse(p))
   , out_seq_no_(TlFetchInt::parse(p))
   , message_(TlFetchObject<DecryptedMessage>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageLayer::store(TlStorerCalcLength &s) const {
@@ -1202,7 +1171,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaPhoto8::fetch(TlParser &p
 }
 
 decryptedMessageMediaPhoto8::decryptedMessageMediaPhoto8(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : thumb_(TlFetchBytes<bytes>::parse(p))
   , thumb_w_(TlFetchInt::parse(p))
   , thumb_h_(TlFetchInt::parse(p))
@@ -1211,7 +1179,6 @@ decryptedMessageMediaPhoto8::decryptedMessageMediaPhoto8(TlParser &p)
   , size_(TlFetchInt::parse(p))
   , key_(TlFetchBytes<bytes>::parse(p))
   , iv_(TlFetchBytes<bytes>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaPhoto8::store(TlStorerCalcLength &s) const {
@@ -1272,7 +1239,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaVideo8::fetch(TlParser &p
 }
 
 decryptedMessageMediaVideo8::decryptedMessageMediaVideo8(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : thumb_(TlFetchBytes<bytes>::parse(p))
   , thumb_w_(TlFetchInt::parse(p))
   , thumb_h_(TlFetchInt::parse(p))
@@ -1282,7 +1248,6 @@ decryptedMessageMediaVideo8::decryptedMessageMediaVideo8(TlParser &p)
   , size_(TlFetchInt::parse(p))
   , key_(TlFetchBytes<bytes>::parse(p))
   , iv_(TlFetchBytes<bytes>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaVideo8::store(TlStorerCalcLength &s) const {
@@ -1339,10 +1304,8 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaGeoPoint::fetch(TlParser 
 }
 
 decryptedMessageMediaGeoPoint::decryptedMessageMediaGeoPoint(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : lat_(TlFetchDouble::parse(p))
   , long_(TlFetchDouble::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaGeoPoint::store(TlStorerCalcLength &s) const {
@@ -1380,12 +1343,10 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaContact::fetch(TlParser &
 }
 
 decryptedMessageMediaContact::decryptedMessageMediaContact(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : phone_number_(TlFetchString<string>::parse(p))
   , first_name_(TlFetchString<string>::parse(p))
   , last_name_(TlFetchString<string>::parse(p))
   , user_id_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaContact::store(TlStorerCalcLength &s) const {
@@ -1433,7 +1394,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaDocument8::fetch(TlParser
 }
 
 decryptedMessageMediaDocument8::decryptedMessageMediaDocument8(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : thumb_(TlFetchBytes<bytes>::parse(p))
   , thumb_w_(TlFetchInt::parse(p))
   , thumb_h_(TlFetchInt::parse(p))
@@ -1442,7 +1402,6 @@ decryptedMessageMediaDocument8::decryptedMessageMediaDocument8(TlParser &p)
   , size_(TlFetchInt::parse(p))
   , key_(TlFetchBytes<bytes>::parse(p))
   , iv_(TlFetchBytes<bytes>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaDocument8::store(TlStorerCalcLength &s) const {
@@ -1498,12 +1457,10 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaAudio8::fetch(TlParser &p
 }
 
 decryptedMessageMediaAudio8::decryptedMessageMediaAudio8(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : duration_(TlFetchInt::parse(p))
   , size_(TlFetchInt::parse(p))
   , key_(TlFetchBytes<bytes>::parse(p))
   , iv_(TlFetchBytes<bytes>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaAudio8::store(TlStorerCalcLength &s) const {
@@ -1553,7 +1510,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaVideo23::fetch(TlParser &
 }
 
 decryptedMessageMediaVideo23::decryptedMessageMediaVideo23(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : thumb_(TlFetchBytes<bytes>::parse(p))
   , thumb_w_(TlFetchInt::parse(p))
   , thumb_h_(TlFetchInt::parse(p))
@@ -1564,7 +1520,6 @@ decryptedMessageMediaVideo23::decryptedMessageMediaVideo23(TlParser &p)
   , size_(TlFetchInt::parse(p))
   , key_(TlFetchBytes<bytes>::parse(p))
   , iv_(TlFetchBytes<bytes>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaVideo23::store(TlStorerCalcLength &s) const {
@@ -1627,13 +1582,11 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaAudio::fetch(TlParser &p)
 }
 
 decryptedMessageMediaAudio::decryptedMessageMediaAudio(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : duration_(TlFetchInt::parse(p))
   , mime_type_(TlFetchString<string>::parse(p))
   , size_(TlFetchInt::parse(p))
   , key_(TlFetchBytes<bytes>::parse(p))
   , iv_(TlFetchBytes<bytes>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaAudio::store(TlStorerCalcLength &s) const {
@@ -1684,7 +1637,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaExternalDocument::fetch(T
 }
 
 decryptedMessageMediaExternalDocument::decryptedMessageMediaExternalDocument(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : id_(TlFetchLong::parse(p))
   , access_hash_(TlFetchLong::parse(p))
   , date_(TlFetchInt::parse(p))
@@ -1693,7 +1645,6 @@ decryptedMessageMediaExternalDocument::decryptedMessageMediaExternalDocument(TlP
   , thumb_(TlFetchObject<PhotoSize>::parse(p))
   , dc_id_(TlFetchInt::parse(p))
   , attributes_(TlFetchBoxed<TlFetchVector<TlFetchObject<DocumentAttribute>>, 481674261>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaExternalDocument::store(TlStorerCalcLength &s) const {
@@ -1754,7 +1705,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaPhoto::fetch(TlParser &p)
 }
 
 decryptedMessageMediaPhoto::decryptedMessageMediaPhoto(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : thumb_(TlFetchBytes<bytes>::parse(p))
   , thumb_w_(TlFetchInt::parse(p))
   , thumb_h_(TlFetchInt::parse(p))
@@ -1764,7 +1714,6 @@ decryptedMessageMediaPhoto::decryptedMessageMediaPhoto(TlParser &p)
   , key_(TlFetchBytes<bytes>::parse(p))
   , iv_(TlFetchBytes<bytes>::parse(p))
   , caption_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaPhoto::store(TlStorerCalcLength &s) const {
@@ -1830,7 +1779,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaVideo::fetch(TlParser &p)
 }
 
 decryptedMessageMediaVideo::decryptedMessageMediaVideo(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : thumb_(TlFetchBytes<bytes>::parse(p))
   , thumb_w_(TlFetchInt::parse(p))
   , thumb_h_(TlFetchInt::parse(p))
@@ -1842,7 +1790,6 @@ decryptedMessageMediaVideo::decryptedMessageMediaVideo(TlParser &p)
   , key_(TlFetchBytes<bytes>::parse(p))
   , iv_(TlFetchBytes<bytes>::parse(p))
   , caption_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaVideo::store(TlStorerCalcLength &s) const {
@@ -1912,7 +1859,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaDocument46::fetch(TlParse
 }
 
 decryptedMessageMediaDocument46::decryptedMessageMediaDocument46(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : thumb_(TlFetchBytes<bytes>::parse(p))
   , thumb_w_(TlFetchInt::parse(p))
   , thumb_h_(TlFetchInt::parse(p))
@@ -1922,7 +1868,6 @@ decryptedMessageMediaDocument46::decryptedMessageMediaDocument46(TlParser &p)
   , iv_(TlFetchBytes<bytes>::parse(p))
   , attributes_(TlFetchBoxed<TlFetchVector<TlFetchObject<DocumentAttribute>>, 481674261>::parse(p))
   , caption_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaDocument46::store(TlStorerCalcLength &s) const {
@@ -1983,14 +1928,12 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaVenue::fetch(TlParser &p)
 }
 
 decryptedMessageMediaVenue::decryptedMessageMediaVenue(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : lat_(TlFetchDouble::parse(p))
   , long_(TlFetchDouble::parse(p))
   , title_(TlFetchString<string>::parse(p))
   , address_(TlFetchString<string>::parse(p))
   , provider_(TlFetchString<string>::parse(p))
   , venue_id_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaVenue::store(TlStorerCalcLength &s) const {
@@ -2037,9 +1980,7 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaWebPage::fetch(TlParser &
 }
 
 decryptedMessageMediaWebPage::decryptedMessageMediaWebPage(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : url_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaWebPage::store(TlStorerCalcLength &s) const {
@@ -2079,7 +2020,6 @@ object_ptr<DecryptedMessageMedia> decryptedMessageMediaDocument::fetch(TlParser 
 }
 
 decryptedMessageMediaDocument::decryptedMessageMediaDocument(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : thumb_(TlFetchBytes<bytes>::parse(p))
   , thumb_w_(TlFetchInt::parse(p))
   , thumb_h_(TlFetchInt::parse(p))
@@ -2089,7 +2029,6 @@ decryptedMessageMediaDocument::decryptedMessageMediaDocument(TlParser &p)
   , iv_(TlFetchBytes<bytes>::parse(p))
   , attributes_(TlFetchBoxed<TlFetchVector<TlFetchObject<DocumentAttribute>>, 481674261>::parse(p))
   , caption_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void decryptedMessageMediaDocument::store(TlStorerCalcLength &s) const {
@@ -2176,10 +2115,8 @@ object_ptr<DocumentAttribute> documentAttributeImageSize::fetch(TlParser &p) {
 }
 
 documentAttributeImageSize::documentAttributeImageSize(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : w_(TlFetchInt::parse(p))
   , h_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void documentAttributeImageSize::store(TlStorerCalcLength &s) const {
@@ -2258,11 +2195,9 @@ object_ptr<DocumentAttribute> documentAttributeVideo23::fetch(TlParser &p) {
 }
 
 documentAttributeVideo23::documentAttributeVideo23(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : duration_(TlFetchInt::parse(p))
   , w_(TlFetchInt::parse(p))
   , h_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void documentAttributeVideo23::store(TlStorerCalcLength &s) const {
@@ -2300,9 +2235,7 @@ object_ptr<DocumentAttribute> documentAttributeAudio23::fetch(TlParser &p) {
 }
 
 documentAttributeAudio23::documentAttributeAudio23(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : duration_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void documentAttributeAudio23::store(TlStorerCalcLength &s) const {
@@ -2334,9 +2267,7 @@ object_ptr<DocumentAttribute> documentAttributeFilename::fetch(TlParser &p) {
 }
 
 documentAttributeFilename::documentAttributeFilename(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : file_name_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void documentAttributeFilename::store(TlStorerCalcLength &s) const {
@@ -2370,11 +2301,9 @@ object_ptr<DocumentAttribute> documentAttributeAudio45::fetch(TlParser &p) {
 }
 
 documentAttributeAudio45::documentAttributeAudio45(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : duration_(TlFetchInt::parse(p))
   , title_(TlFetchString<string>::parse(p))
   , performer_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void documentAttributeAudio45::store(TlStorerCalcLength &s) const {
@@ -2413,10 +2342,8 @@ object_ptr<DocumentAttribute> documentAttributeSticker::fetch(TlParser &p) {
 }
 
 documentAttributeSticker::documentAttributeSticker(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : alt_(TlFetchString<string>::parse(p))
   , stickerset_(TlFetchObject<InputStickerSet>::parse(p))
-#undef FAIL
 {}
 
 void documentAttributeSticker::store(TlStorerCalcLength &s) const {
@@ -2465,7 +2392,7 @@ object_ptr<DocumentAttribute> documentAttributeAudio::fetch(TlParser &p) {
   object_ptr<documentAttributeAudio> res = make_tl_object<documentAttributeAudio>();
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
-  if (var0 & 1024) { res->voice_ = TlFetchTrue::parse(p); }
+  res->voice_ = (var0 & 1024) != 0;
   res->duration_ = TlFetchInt::parse(p);
   if (var0 & 1) { res->title_ = TlFetchString<string>::parse(p); }
   if (var0 & 2) { res->performer_ = TlFetchString<string>::parse(p); }
@@ -2500,6 +2427,7 @@ void documentAttributeAudio::store(TlStorerToString &s, const char *field_name) 
     s.store_class_begin(field_name, "documentAttributeAudio");
   int32 var0;
     s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_field("voice", true); }
     s.store_field("duration", duration_);
     if (var0 & 1) { s.store_field("title", title_); }
     if (var0 & 2) { s.store_field("performer", performer_); }
@@ -2531,7 +2459,7 @@ object_ptr<DocumentAttribute> documentAttributeVideo::fetch(TlParser &p) {
   object_ptr<documentAttributeVideo> res = make_tl_object<documentAttributeVideo>();
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
-  if (var0 & 1) { res->round_message_ = TlFetchTrue::parse(p); }
+  res->round_message_ = (var0 & 1) != 0;
   res->duration_ = TlFetchInt::parse(p);
   res->w_ = TlFetchInt::parse(p);
   res->h_ = TlFetchInt::parse(p);
@@ -2563,6 +2491,7 @@ void documentAttributeVideo::store(TlStorerToString &s, const char *field_name) 
     s.store_class_begin(field_name, "documentAttributeVideo");
   int32 var0;
     s.store_field("flags", (var0 = flags_));
+    if (var0 & 1) { s.store_field("round_message", true); }
     s.store_field("duration", duration_);
     s.store_field("w", w_);
     s.store_field("h", h_);
@@ -2597,11 +2526,9 @@ object_ptr<FileLocation> fileLocationUnavailable::fetch(TlParser &p) {
 }
 
 fileLocationUnavailable::fileLocationUnavailable(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : volume_id_(TlFetchLong::parse(p))
   , local_id_(TlFetchInt::parse(p))
   , secret_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void fileLocationUnavailable::store(TlStorerCalcLength &s) const {
@@ -2642,12 +2569,10 @@ object_ptr<FileLocation> fileLocation::fetch(TlParser &p) {
 }
 
 fileLocation::fileLocation(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : dc_id_(TlFetchInt::parse(p))
   , volume_id_(TlFetchLong::parse(p))
   , local_id_(TlFetchInt::parse(p))
   , secret_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void fileLocation::store(TlStorerCalcLength &s) const {
@@ -2702,9 +2627,7 @@ object_ptr<InputStickerSet> inputStickerSetShortName::fetch(TlParser &p) {
 }
 
 inputStickerSetShortName::inputStickerSetShortName(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : short_name_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void inputStickerSetShortName::store(TlStorerCalcLength &s) const {
@@ -2808,10 +2731,8 @@ object_ptr<MessageEntity> messageEntityUnknown::fetch(TlParser &p) {
 }
 
 messageEntityUnknown::messageEntityUnknown(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityUnknown::store(TlStorerCalcLength &s) const {
@@ -2847,10 +2768,8 @@ object_ptr<MessageEntity> messageEntityMention::fetch(TlParser &p) {
 }
 
 messageEntityMention::messageEntityMention(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityMention::store(TlStorerCalcLength &s) const {
@@ -2886,10 +2805,8 @@ object_ptr<MessageEntity> messageEntityHashtag::fetch(TlParser &p) {
 }
 
 messageEntityHashtag::messageEntityHashtag(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityHashtag::store(TlStorerCalcLength &s) const {
@@ -2925,10 +2842,8 @@ object_ptr<MessageEntity> messageEntityBotCommand::fetch(TlParser &p) {
 }
 
 messageEntityBotCommand::messageEntityBotCommand(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityBotCommand::store(TlStorerCalcLength &s) const {
@@ -2964,10 +2879,8 @@ object_ptr<MessageEntity> messageEntityUrl::fetch(TlParser &p) {
 }
 
 messageEntityUrl::messageEntityUrl(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityUrl::store(TlStorerCalcLength &s) const {
@@ -3003,10 +2916,8 @@ object_ptr<MessageEntity> messageEntityEmail::fetch(TlParser &p) {
 }
 
 messageEntityEmail::messageEntityEmail(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityEmail::store(TlStorerCalcLength &s) const {
@@ -3042,10 +2953,8 @@ object_ptr<MessageEntity> messageEntityBold::fetch(TlParser &p) {
 }
 
 messageEntityBold::messageEntityBold(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityBold::store(TlStorerCalcLength &s) const {
@@ -3081,10 +2990,8 @@ object_ptr<MessageEntity> messageEntityItalic::fetch(TlParser &p) {
 }
 
 messageEntityItalic::messageEntityItalic(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityItalic::store(TlStorerCalcLength &s) const {
@@ -3120,10 +3027,8 @@ object_ptr<MessageEntity> messageEntityCode::fetch(TlParser &p) {
 }
 
 messageEntityCode::messageEntityCode(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityCode::store(TlStorerCalcLength &s) const {
@@ -3160,11 +3065,9 @@ object_ptr<MessageEntity> messageEntityPre::fetch(TlParser &p) {
 }
 
 messageEntityPre::messageEntityPre(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
   , language_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void messageEntityPre::store(TlStorerCalcLength &s) const {
@@ -3204,11 +3107,9 @@ object_ptr<MessageEntity> messageEntityTextUrl::fetch(TlParser &p) {
 }
 
 messageEntityTextUrl::messageEntityTextUrl(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
   , url_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void messageEntityTextUrl::store(TlStorerCalcLength &s) const {
@@ -3248,11 +3149,9 @@ object_ptr<MessageEntity> messageEntityMentionName::fetch(TlParser &p) {
 }
 
 messageEntityMentionName::messageEntityMentionName(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
   , user_id_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityMentionName::store(TlStorerCalcLength &s) const {
@@ -3291,10 +3190,8 @@ object_ptr<MessageEntity> messageEntityPhone::fetch(TlParser &p) {
 }
 
 messageEntityPhone::messageEntityPhone(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityPhone::store(TlStorerCalcLength &s) const {
@@ -3330,10 +3227,8 @@ object_ptr<MessageEntity> messageEntityCashtag::fetch(TlParser &p) {
 }
 
 messageEntityCashtag::messageEntityCashtag(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityCashtag::store(TlStorerCalcLength &s) const {
@@ -3369,10 +3264,8 @@ object_ptr<MessageEntity> messageEntityBankCard::fetch(TlParser &p) {
 }
 
 messageEntityBankCard::messageEntityBankCard(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityBankCard::store(TlStorerCalcLength &s) const {
@@ -3408,10 +3301,8 @@ object_ptr<MessageEntity> messageEntityUnderline::fetch(TlParser &p) {
 }
 
 messageEntityUnderline::messageEntityUnderline(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityUnderline::store(TlStorerCalcLength &s) const {
@@ -3447,10 +3338,8 @@ object_ptr<MessageEntity> messageEntityStrike::fetch(TlParser &p) {
 }
 
 messageEntityStrike::messageEntityStrike(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityStrike::store(TlStorerCalcLength &s) const {
@@ -3486,10 +3375,8 @@ object_ptr<MessageEntity> messageEntityBlockquote::fetch(TlParser &p) {
 }
 
 messageEntityBlockquote::messageEntityBlockquote(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntityBlockquote::store(TlStorerCalcLength &s) const {
@@ -3525,10 +3412,8 @@ object_ptr<MessageEntity> messageEntitySpoiler::fetch(TlParser &p) {
 }
 
 messageEntitySpoiler::messageEntitySpoiler(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void messageEntitySpoiler::store(TlStorerCalcLength &s) const {
@@ -3565,11 +3450,9 @@ object_ptr<MessageEntity> messageEntityCustomEmoji::fetch(TlParser &p) {
 }
 
 messageEntityCustomEmoji::messageEntityCustomEmoji(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : offset_(TlFetchInt::parse(p))
   , length_(TlFetchInt::parse(p))
   , document_id_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void messageEntityCustomEmoji::store(TlStorerCalcLength &s) const {
@@ -3623,9 +3506,7 @@ object_ptr<PhotoSize> photoSizeEmpty::fetch(TlParser &p) {
 }
 
 photoSizeEmpty::photoSizeEmpty(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : type_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void photoSizeEmpty::store(TlStorerCalcLength &s) const {
@@ -3661,13 +3542,11 @@ object_ptr<PhotoSize> photoSize::fetch(TlParser &p) {
 }
 
 photoSize::photoSize(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : type_(TlFetchString<string>::parse(p))
   , location_(TlFetchObject<FileLocation>::parse(p))
   , w_(TlFetchInt::parse(p))
   , h_(TlFetchInt::parse(p))
   , size_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void photoSize::store(TlStorerCalcLength &s) const {
@@ -3715,13 +3594,11 @@ object_ptr<PhotoSize> photoCachedSize::fetch(TlParser &p) {
 }
 
 photoCachedSize::photoCachedSize(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : type_(TlFetchString<string>::parse(p))
   , location_(TlFetchObject<FileLocation>::parse(p))
   , w_(TlFetchInt::parse(p))
   , h_(TlFetchInt::parse(p))
   , bytes_(TlFetchBytes<bytes>::parse(p))
-#undef FAIL
 {}
 
 void photoCachedSize::store(TlStorerCalcLength &s) const {

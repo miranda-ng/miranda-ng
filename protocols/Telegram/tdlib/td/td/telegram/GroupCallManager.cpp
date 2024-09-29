@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,9 +8,12 @@
 
 #include "td/telegram/AccessRights.h"
 #include "td/telegram/AuthManager.h"
-#include "td/telegram/ContactsManager.h"
+#include "td/telegram/ChatManager.h"
 #include "td/telegram/DialogAction.h"
+#include "td/telegram/DialogActionManager.h"
+#include "td/telegram/DialogManager.h"
 #include "td/telegram/DialogParticipantFilter.h"
+#include "td/telegram/DialogParticipantManager.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/MessageId.h"
 #include "td/telegram/MessageSender.h"
@@ -19,7 +22,9 @@
 #include "td/telegram/net/DcId.h"
 #include "td/telegram/net/NetQuery.h"
 #include "td/telegram/Td.h"
+#include "td/telegram/telegram_api.h"
 #include "td/telegram/UpdatesManager.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/utils/algorithm.h"
 #include "td/utils/buffer.h"
@@ -122,7 +127,7 @@ class GetGroupCallJoinAsQuery final : public Td::ResultHandler {
   void send(DialogId dialog_id) {
     dialog_id_ = dialog_id;
 
-    auto input_peer = td_->messages_manager_->get_input_peer(dialog_id, AccessRights::Read);
+    auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Read);
     CHECK(input_peer != nullptr);
 
     send_query(G()->net_query_creator().create(telegram_api::phone_getGroupCallJoinAs(std::move(input_peer))));
@@ -137,14 +142,14 @@ class GetGroupCallJoinAsQuery final : public Td::ResultHandler {
     auto ptr = result_ptr.move_as_ok();
     LOG(INFO) << "Receive result for GetGroupCallJoinAsQuery: " << to_string(ptr);
 
-    td_->contacts_manager_->on_get_users(std::move(ptr->users_), "GetGroupCallJoinAsQuery");
-    td_->contacts_manager_->on_get_chats(std::move(ptr->chats_), "GetGroupCallJoinAsQuery");
+    td_->user_manager_->on_get_users(std::move(ptr->users_), "GetGroupCallJoinAsQuery");
+    td_->chat_manager_->on_get_chats(std::move(ptr->chats_), "GetGroupCallJoinAsQuery");
 
     promise_.set_value(convert_message_senders_object(td_, ptr->peers_));
   }
 
   void on_error(Status status) final {
-    td_->messages_manager_->on_get_dialog_error(dialog_id_, status, "GetGroupCallJoinAsQuery");
+    td_->dialog_manager_->on_get_dialog_error(dialog_id_, status, "GetGroupCallJoinAsQuery");
     promise_.set_error(std::move(status));
   }
 };
@@ -157,10 +162,10 @@ class SaveDefaultGroupCallJoinAsQuery final : public Td::ResultHandler {
   }
 
   void send(DialogId dialog_id, DialogId as_dialog_id) {
-    auto input_peer = td_->messages_manager_->get_input_peer(dialog_id, AccessRights::Read);
+    auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Read);
     CHECK(input_peer != nullptr);
 
-    auto as_input_peer = td_->messages_manager_->get_input_peer(as_dialog_id, AccessRights::Read);
+    auto as_input_peer = td_->dialog_manager_->get_input_peer(as_dialog_id, AccessRights::Read);
     CHECK(as_input_peer != nullptr);
 
     send_query(G()->net_query_creator().create(
@@ -180,7 +185,7 @@ class SaveDefaultGroupCallJoinAsQuery final : public Td::ResultHandler {
   }
 
   void on_error(Status status) final {
-    // td_->messages_manager_->on_get_dialog_error(dialog_id_, status, "GetGroupCallJoinAsQuery");
+    // td_->dialog_manager_->on_get_dialog_error(dialog_id_, status, "GetGroupCallJoinAsQuery");
     promise_.set_error(std::move(status));
   }
 };
@@ -196,7 +201,7 @@ class CreateGroupCallQuery final : public Td::ResultHandler {
   void send(DialogId dialog_id, const string &title, int32 start_date, bool is_rtmp_stream) {
     dialog_id_ = dialog_id;
 
-    auto input_peer = td_->messages_manager_->get_input_peer(dialog_id, AccessRights::Read);
+    auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Read);
     CHECK(input_peer != nullptr);
 
     int32 flags = 0;
@@ -242,7 +247,7 @@ class CreateGroupCallQuery final : public Td::ResultHandler {
   }
 
   void on_error(Status status) final {
-    td_->messages_manager_->on_get_dialog_error(dialog_id_, status, "CreateGroupCallQuery");
+    td_->dialog_manager_->on_get_dialog_error(dialog_id_, status, "CreateGroupCallQuery");
     promise_.set_error(std::move(status));
   }
 };
@@ -259,7 +264,7 @@ class GetGroupCallRtmpStreamUrlGroupCallQuery final : public Td::ResultHandler {
   void send(DialogId dialog_id, bool revoke) {
     dialog_id_ = dialog_id;
 
-    auto input_peer = td_->messages_manager_->get_input_peer(dialog_id, AccessRights::Read);
+    auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Read);
     CHECK(input_peer != nullptr);
 
     send_query(
@@ -277,7 +282,7 @@ class GetGroupCallRtmpStreamUrlGroupCallQuery final : public Td::ResultHandler {
   }
 
   void on_error(Status status) final {
-    td_->messages_manager_->on_get_dialog_error(dialog_id_, status, "GetGroupCallRtmpStreamUrlGroupCallQuery");
+    td_->dialog_manager_->on_get_dialog_error(dialog_id_, status, "GetGroupCallRtmpStreamUrlGroupCallQuery");
     promise_.set_error(std::move(status));
   }
 };
@@ -429,7 +434,7 @@ class JoinGroupCallQuery final : public Td::ResultHandler {
 
     tl_object_ptr<telegram_api::InputPeer> join_as_input_peer;
     if (as_dialog_id.is_valid()) {
-      join_as_input_peer = td_->messages_manager_->get_input_peer(as_dialog_id, AccessRights::Read);
+      join_as_input_peer = td_->dialog_manager_->get_input_peer(as_dialog_id, AccessRights::Read);
     } else {
       join_as_input_peer = make_tl_object<telegram_api::inputPeerSelf>();
     }
@@ -747,7 +752,7 @@ class EditGroupCallParticipantQuery final : public Td::ResultHandler {
             int32 volume_level, bool set_raise_hand, bool raise_hand, bool set_video_is_stopped, bool video_is_stopped,
             bool set_video_is_paused, bool video_is_paused, bool set_presentation_is_paused,
             bool presentation_is_paused) {
-    auto input_peer = td_->messages_manager_->get_input_peer(dialog_id, AccessRights::Know);
+    auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Know);
     if (input_peer == nullptr) {
       return on_error(Status::Error(400, "Can't access the chat"));
     }
@@ -1097,8 +1102,8 @@ void GroupCallManager::on_send_speaking_action_timeout(GroupCallId group_call_id
 
   pending_send_speaking_action_timeout_.add_timeout_in(group_call_id.get(), 4.0);
 
-  td_->messages_manager_->send_dialog_action(group_call->dialog_id, MessageId(), DialogAction::get_speaking_action(),
-                                             Promise<Unit>());
+  td_->dialog_action_manager_->send_dialog_action(group_call->dialog_id, MessageId(), {},
+                                                  DialogAction::get_speaking_action(), Promise<Unit>());
 }
 
 void GroupCallManager::on_recent_speaker_update_timeout_callback(void *group_call_manager_ptr,
@@ -1218,22 +1223,14 @@ GroupCallManager::GroupCall *GroupCallManager::get_group_call(InputGroupCallId i
 }
 
 Status GroupCallManager::can_join_group_calls(DialogId dialog_id) const {
-  if (!dialog_id.is_valid()) {
-    return Status::Error(400, "Invalid chat identifier specified");
-  }
-  if (!td_->messages_manager_->have_dialog_force(dialog_id, "get_group_call_join_as")) {
-    return Status::Error(400, "Chat not found");
-  }
-  if (!td_->messages_manager_->have_input_peer(dialog_id, AccessRights::Read)) {
-    return Status::Error(400, "Can't access chat");
-  }
+  TRY_STATUS(td_->dialog_manager_->check_dialog_access(dialog_id, false, AccessRights::Read, "can_join_group_calls"));
   switch (dialog_id.get_type()) {
     case DialogType::Chat:
     case DialogType::Channel:
       break;
     case DialogType::User:
-    case DialogType::SecretChat:
       return Status::Error(400, "Chat can't have a voice chat");
+    case DialogType::SecretChat:
     case DialogType::None:
     default:
       UNREACHABLE();
@@ -1246,14 +1243,14 @@ Status GroupCallManager::can_manage_group_calls(DialogId dialog_id) const {
   switch (dialog_id.get_type()) {
     case DialogType::Chat: {
       auto chat_id = dialog_id.get_chat_id();
-      if (!td_->contacts_manager_->get_chat_permissions(chat_id).can_manage_calls()) {
+      if (!td_->chat_manager_->get_chat_permissions(chat_id).can_manage_calls()) {
         return Status::Error(400, "Not enough rights in the chat");
       }
       break;
     }
     case DialogType::Channel: {
       auto channel_id = dialog_id.get_channel_id();
-      if (!td_->contacts_manager_->get_channel_permissions(channel_id).can_manage_calls()) {
+      if (!td_->chat_manager_->get_channel_permissions(channel_id).can_manage_calls()) {
         return Status::Error(400, "Not enough rights in the chat");
       }
       break;
@@ -1303,13 +1300,13 @@ void GroupCallManager::set_group_call_default_join_as(DialogId dialog_id, Dialog
 
   switch (as_dialog_id.get_type()) {
     case DialogType::User:
-      if (as_dialog_id != DialogId(td_->contacts_manager_->get_my_id())) {
+      if (as_dialog_id != td_->dialog_manager_->get_my_dialog_id()) {
         return promise.set_error(Status::Error(400, "Can't join voice chat as another user"));
       }
       break;
     case DialogType::Chat:
     case DialogType::Channel:
-      if (!td_->messages_manager_->have_dialog_force(as_dialog_id, "set_group_call_default_join_as 2")) {
+      if (!td_->dialog_manager_->have_dialog_force(as_dialog_id, "set_group_call_default_join_as 2")) {
         return promise.set_error(Status::Error(400, "Participant chat not found"));
       }
       break;
@@ -1318,7 +1315,7 @@ void GroupCallManager::set_group_call_default_join_as(DialogId dialog_id, Dialog
     default:
       return promise.set_error(Status::Error(400, "Invalid default participant identifier specified"));
   }
-  if (!td_->messages_manager_->have_input_peer(as_dialog_id, AccessRights::Read)) {
+  if (!td_->dialog_manager_->have_input_peer(as_dialog_id, false, AccessRights::Read)) {
     return promise.set_error(Status::Error(400, "Can't access specified default participant chat"));
   }
 
@@ -1328,16 +1325,8 @@ void GroupCallManager::set_group_call_default_join_as(DialogId dialog_id, Dialog
 
 void GroupCallManager::create_voice_chat(DialogId dialog_id, string title, int32 start_date, bool is_rtmp_stream,
                                          Promise<GroupCallId> &&promise) {
-  if (!dialog_id.is_valid()) {
-    return promise.set_error(Status::Error(400, "Invalid chat identifier specified"));
-  }
-  if (!td_->messages_manager_->have_dialog_force(dialog_id, "create_voice_chat")) {
-    return promise.set_error(Status::Error(400, "Chat not found"));
-  }
-  if (!td_->messages_manager_->have_input_peer(dialog_id, AccessRights::Read)) {
-    return promise.set_error(Status::Error(400, "Can't access chat"));
-  }
-
+  TRY_STATUS_PROMISE(
+      promise, td_->dialog_manager_->check_dialog_access(dialog_id, false, AccessRights::Read, "create_voice_chat"));
   TRY_STATUS_PROMISE(promise, can_manage_group_calls(dialog_id));
 
   title = clean_name(title, MAX_TITLE_LENGTH);
@@ -1357,16 +1346,8 @@ void GroupCallManager::create_voice_chat(DialogId dialog_id, string title, int32
 
 void GroupCallManager::get_voice_chat_rtmp_stream_url(DialogId dialog_id, bool revoke,
                                                       Promise<td_api::object_ptr<td_api::rtmpUrl>> &&promise) {
-  if (!dialog_id.is_valid()) {
-    return promise.set_error(Status::Error(400, "Invalid chat identifier specified"));
-  }
-  if (!td_->messages_manager_->have_dialog_force(dialog_id, "get_voice_chat_rtmp_stream_url")) {
-    return promise.set_error(Status::Error(400, "Chat not found"));
-  }
-  if (!td_->messages_manager_->have_input_peer(dialog_id, AccessRights::Read)) {
-    return promise.set_error(Status::Error(400, "Can't access chat"));
-  }
-
+  TRY_STATUS_PROMISE(promise, td_->dialog_manager_->check_dialog_access(dialog_id, false, AccessRights::Read,
+                                                                        "get_voice_chat_rtmp_stream_url"));
   TRY_STATUS_PROMISE(promise, can_manage_group_calls(dialog_id));
 
   td_->create_handler<GetGroupCallRtmpStreamUrlGroupCallQuery>(std::move(promise))->send(dialog_id, revoke);
@@ -1456,8 +1437,8 @@ void GroupCallManager::finish_get_group_call(InputGroupCallId input_group_call_i
   load_group_call_queries_.erase(it);
 
   if (result.is_ok()) {
-    td_->contacts_manager_->on_get_users(std::move(result.ok_ref()->users_), "finish_get_group_call");
-    td_->contacts_manager_->on_get_chats(std::move(result.ok_ref()->chats_), "finish_get_group_call");
+    td_->user_manager_->on_get_users(std::move(result.ok_ref()->users_), "finish_get_group_call");
+    td_->chat_manager_->on_get_chats(std::move(result.ok_ref()->chats_), "finish_get_group_call");
 
     if (update_group_call(result.ok()->call_, DialogId()) != input_group_call_id) {
       LOG(ERROR) << "Expected " << input_group_call_id << ", but received " << to_string(result.ok());
@@ -1601,8 +1582,8 @@ void GroupCallManager::on_get_group_call_participants(
   LOG(INFO) << "Receive group call participants: " << to_string(participants);
 
   CHECK(participants != nullptr);
-  td_->contacts_manager_->on_get_users(std::move(participants->users_), "on_get_group_call_participants");
-  td_->contacts_manager_->on_get_chats(std::move(participants->chats_), "on_get_group_call_participants");
+  td_->user_manager_->on_get_users(std::move(participants->users_), "on_get_group_call_participants");
+  td_->chat_manager_->on_get_chats(std::move(participants->chats_), "on_get_group_call_participants");
 
   if (!need_group_call_participants(input_group_call_id)) {
     return;
@@ -1721,7 +1702,7 @@ GroupCallParticipant *GroupCallManager::get_group_call_participant(GroupCallPart
   if (!dialog_id.is_valid()) {
     return nullptr;
   }
-  if (dialog_id == DialogId(td_->contacts_manager_->get_my_id())) {
+  if (dialog_id == td_->dialog_manager_->get_my_dialog_id()) {
     for (auto &group_call_participant : group_call_participants->participants) {
       if (group_call_participant.is_self) {
         return &group_call_participant;
@@ -1807,7 +1788,7 @@ void GroupCallManager::on_update_group_call_participants(
     }
     if (!missing_participants.empty()) {
       LOG(INFO) << "Can't apply min updates about " << missing_participants << " in " << input_group_call_id;
-      auto input_peers = transform(missing_participants, &MessagesManager::get_input_peer_force);
+      auto input_peers = transform(missing_participants, &DialogManager::get_input_peer_force);
       auto query_promise =
           PromiseCreator::lambda([actor_id = actor_id(this), input_group_call_id,
                                   participants = std::move(participants), version](Result<Unit> &&result) mutable {
@@ -1843,7 +1824,7 @@ void GroupCallManager::on_update_group_call_participants(
     }
     auto dialog_id = participant.dialog_id;
     if (dialog_id.get_type() != DialogType::User && participant.joined_date != 0) {
-      td_->messages_manager_->force_create_dialog(dialog_id, "on_update_group_call_participants 2", true);
+      td_->dialog_manager_->force_create_dialog(dialog_id, "on_update_group_call_participants 2", true);
     }
 
     bool is_versioned = GroupCallParticipant::is_versioned_update(group_call_participant);
@@ -2087,7 +2068,7 @@ void GroupCallManager::process_group_call_participants(
         continue;
       }
       if (participant.dialog_id.get_type() != DialogType::User) {
-        td_->messages_manager_->force_create_dialog(participant.dialog_id, "process_group_call_participants", true);
+        td_->dialog_manager_->force_create_dialog(participant.dialog_id, "process_group_call_participants", true);
       }
 
       on_participant_speaking_in_group_call(input_group_call_id, participant);
@@ -2119,7 +2100,7 @@ void GroupCallManager::process_group_call_participants(
       continue;
     }
     if (participant.dialog_id.get_type() != DialogType::User) {
-      td_->messages_manager_->force_create_dialog(participant.dialog_id, "process_group_call_participants", true);
+      td_->dialog_manager_->force_create_dialog(participant.dialog_id, "process_group_call_participants", true);
     }
 
     if (is_load) {
@@ -2240,7 +2221,7 @@ void GroupCallManager::process_my_group_call_participant(InputGroupCallId input_
     return;
   }
   auto my_participant = get_group_call_participant(add_group_call_participants(input_group_call_id),
-                                                   DialogId(td_->contacts_manager_->get_my_id()));
+                                                   td_->dialog_manager_->get_my_dialog_id());
   if (my_participant == nullptr || my_participant->is_fake || my_participant->joined_date < participant.joined_date ||
       (my_participant->joined_date <= participant.joined_date &&
        my_participant->audio_source != participant.audio_source)) {
@@ -2629,7 +2610,7 @@ void GroupCallManager::join_group_call(GroupCallId group_call_id, DialogId as_di
 
   bool have_as_dialog_id = true;
   {
-    auto my_dialog_id = DialogId(td_->contacts_manager_->get_my_id());
+    auto my_dialog_id = td_->dialog_manager_->get_my_dialog_id();
     if (!as_dialog_id.is_valid()) {
       as_dialog_id = my_dialog_id;
     }
@@ -2638,19 +2619,16 @@ void GroupCallManager::join_group_call(GroupCallId group_call_id, DialogId as_di
       if (as_dialog_id != my_dialog_id) {
         return promise.set_error(Status::Error(400, "Can't join voice chat as another user"));
       }
-      if (!td_->contacts_manager_->have_user_force(as_dialog_id.get_user_id())) {
+      if (!td_->user_manager_->have_user_force(as_dialog_id.get_user_id(), "join_group_call")) {
         have_as_dialog_id = false;
       }
     } else {
-      if (!td_->messages_manager_->have_dialog_force(as_dialog_id, "join_group_call")) {
+      if (!td_->dialog_manager_->have_dialog_force(as_dialog_id, "join_group_call")) {
         return promise.set_error(Status::Error(400, "Join as chat not found"));
       }
     }
-    if (!td_->messages_manager_->have_input_peer(as_dialog_id, AccessRights::Read)) {
+    if (!td_->dialog_manager_->have_input_peer(as_dialog_id, false, AccessRights::Read)) {
       return promise.set_error(Status::Error(400, "Can't access the join as participant"));
-    }
-    if (dialog_type == DialogType::SecretChat) {
-      return promise.set_error(Status::Error(400, "Can't join voice chat as a secret chat"));
     }
   }
 
@@ -2682,14 +2660,14 @@ void GroupCallManager::join_group_call(GroupCallId group_call_id, DialogId as_di
                                                                                   true);
   } else {
     if (as_dialog_id.get_type() != DialogType::User) {
-      td_->messages_manager_->force_create_dialog(as_dialog_id, "join_group_call");
+      td_->dialog_manager_->force_create_dialog(as_dialog_id, "join_group_call");
     }
   }
   if (group_call->is_inited && have_as_dialog_id) {
     GroupCallParticipant participant;
     participant.is_self = true;
     participant.dialog_id = as_dialog_id;
-    participant.about = td_->contacts_manager_->get_dialog_about(participant.dialog_id);
+    participant.about = td_->dialog_manager_->get_dialog_about(participant.dialog_id);
     participant.audio_source = audio_source;
     participant.joined_date = G()->unix_time();
     // if can_self_unmute has never been inited from self-participant,
@@ -2814,7 +2792,7 @@ void GroupCallManager::try_load_group_call_administrators(InputGroupCallId input
         send_closure(actor_id, &GroupCallManager::finish_load_group_call_administrators, input_group_call_id,
                      std::move(result));
       });
-  td_->contacts_manager_->search_dialog_participants(
+  td_->dialog_participant_manager_->search_dialog_participants(
       dialog_id, string(), 100, DialogParticipantFilter(td_api::make_object<td_api::chatMembersFilterAdministrators>()),
       std::move(promise));
 }
@@ -2842,7 +2820,7 @@ void GroupCallManager::finish_load_group_call_administrators(InputGroupCallId in
   auto participants = result.move_as_ok();
   for (auto &administrator : participants.participants_) {
     if (administrator.status_.can_manage_calls() &&
-        administrator.dialog_id_ != DialogId(td_->contacts_manager_->get_my_id())) {
+        administrator.dialog_id_ != td_->dialog_manager_->get_my_dialog_id()) {
       administrator_dialog_ids.push_back(administrator.dialog_id_);
     }
   }
@@ -2953,7 +2931,7 @@ void GroupCallManager::finish_join_group_call(InputGroupCallId input_group_call_
 
   if (group_call != nullptr && group_call->dialog_id.is_valid()) {
     update_group_call_dialog(group_call, "finish_join_group_call", false);
-    td_->messages_manager_->reload_dialog_info_full(group_call->dialog_id, "finish_join_group_call");
+    td_->dialog_manager_->reload_dialog_info_full(group_call->dialog_id, "finish_join_group_call");
   }
 }
 
@@ -3516,9 +3494,9 @@ void GroupCallManager::invite_group_call_participants(GroupCallId group_call_id,
   TRY_RESULT_PROMISE(promise, input_group_call_id, get_input_group_call_id(group_call_id));
 
   vector<tl_object_ptr<telegram_api::InputUser>> input_users;
-  auto my_user_id = td_->contacts_manager_->get_my_id();
+  auto my_user_id = td_->user_manager_->get_my_id();
   for (auto user_id : user_ids) {
-    TRY_RESULT_PROMISE(promise, input_user, td_->contacts_manager_->get_input_user(user_id));
+    TRY_RESULT_PROMISE(promise, input_user, td_->user_manager_->get_input_user(user_id));
 
     if (user_id == my_user_id) {
       // can't invite self
@@ -4121,9 +4099,9 @@ void GroupCallManager::on_group_call_left_impl(GroupCall *group_call, bool need_
   group_call->need_rejoin = need_rejoin && !group_call->is_being_left;
   if (group_call->need_rejoin && group_call->dialog_id.is_valid()) {
     auto dialog_id = group_call->dialog_id;
-    if (!td_->messages_manager_->have_input_peer(dialog_id, AccessRights::Read) ||
+    if (!td_->dialog_manager_->have_input_peer(dialog_id, false, AccessRights::Read) ||
         (dialog_id.get_type() == DialogType::Chat &&
-         !td_->contacts_manager_->get_chat_status(dialog_id.get_chat_id()).is_member())) {
+         !td_->chat_manager_->get_chat_status(dialog_id.get_chat_id()).is_member())) {
       group_call->need_rejoin = false;
     }
   }
@@ -4442,7 +4420,7 @@ InputGroupCallId GroupCallManager::update_group_call(const tl_object_ptr<telegra
       }
       if (call.scheduled_start_date != group_call->scheduled_start_date &&
           call.scheduled_start_date_version >= group_call->scheduled_start_date_version) {
-        LOG_IF(ERROR, group_call->scheduled_start_date == 0) << call.group_call_id << " became scheduled";
+        LOG_IF(ERROR, group_call->scheduled_start_date == 0) << input_group_call_id << " became scheduled";
         group_call->scheduled_start_date = call.scheduled_start_date;
         group_call->scheduled_start_date_version = call.scheduled_start_date_version;
         need_update = true;
@@ -4545,7 +4523,7 @@ void GroupCallManager::on_user_speaking_in_group_call(GroupCallId group_call_id,
     return;
   }
 
-  if (!td_->messages_manager_->have_dialog_info_force(dialog_id) ||
+  if (!td_->dialog_manager_->have_dialog_info_force(dialog_id, "on_user_speaking_in_group_call") ||
       (!is_recursive && need_group_call_participants(input_group_call_id, group_call) &&
        get_group_call_participant(input_group_call_id, dialog_id) == nullptr)) {
     if (is_recursive) {
@@ -4559,7 +4537,7 @@ void GroupCallManager::on_user_speaking_in_group_call(GroupCallId group_call_id,
             }
           });
       vector<tl_object_ptr<telegram_api::InputPeer>> input_peers;
-      input_peers.push_back(MessagesManager::get_input_peer_force(dialog_id));
+      input_peers.push_back(DialogManager::get_input_peer_force(dialog_id));
       td_->create_handler<GetGroupCallParticipantQuery>(std::move(query_promise))
           ->send(input_group_call_id, std::move(input_peers), {});
     }
@@ -4591,7 +4569,7 @@ void GroupCallManager::on_user_speaking_in_group_call(GroupCallId group_call_id,
   for (size_t i = 0; i <= recent_speakers->users.size(); i++) {
     if (i == recent_speakers->users.size() || recent_speakers->users[i].second <= date) {
       if (dialog_id.get_type() != DialogType::User) {
-        td_->messages_manager_->force_create_dialog(dialog_id, "on_user_speaking_in_group_call", true);
+        td_->dialog_manager_->force_create_dialog(dialog_id, "on_user_speaking_in_group_call", true);
       }
       recent_speakers->users.insert(recent_speakers->users.begin() + i, {dialog_id, date});
       break;

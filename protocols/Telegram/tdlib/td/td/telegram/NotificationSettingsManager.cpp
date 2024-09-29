@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,7 +10,8 @@
 #include "td/telegram/AudiosManager.h"
 #include "td/telegram/AudiosManager.hpp"
 #include "td/telegram/AuthManager.h"
-#include "td/telegram/ContactsManager.h"
+#include "td/telegram/ChatManager.h"
+#include "td/telegram/DialogManager.h"
 #include "td/telegram/Document.h"
 #include "td/telegram/DocumentsManager.h"
 #include "td/telegram/FileReferenceManager.h"
@@ -25,11 +26,13 @@
 #include "td/telegram/NotificationManager.h"
 #include "td/telegram/NotificationSound.h"
 #include "td/telegram/OptionManager.h"
+#include "td/telegram/ReactionNotificationSettings.hpp"
 #include "td/telegram/ScopeNotificationSettings.hpp"
 #include "td/telegram/Td.h"
 #include "td/telegram/TdDb.h"
 #include "td/telegram/telegram_api.h"
 #include "td/telegram/UpdatesManager.h"
+#include "td/telegram/UserManager.h"
 #include "td/telegram/VoiceNotesManager.h"
 
 #include "td/db/binlog/BinlogEvent.h"
@@ -42,7 +45,6 @@
 #include "td/utils/misc.h"
 #include "td/utils/PathView.h"
 #include "td/utils/Random.h"
-#include "td/utils/SliceBuilder.h"
 #include "td/utils/tl_helpers.h"
 
 #include <algorithm>
@@ -84,8 +86,9 @@ class UploadRingtoneQuery final : public Td::ResultHandler {
     if (FileReferenceManager::is_file_reference_error(status)) {
       LOG(ERROR) << "Receive file reference error " << status;
     }
-    if (begins_with(status.message(), "FILE_PART_") && ends_with(status.message(), "_MISSING")) {
-      // TODO support FILE_PART_*_MISSING
+    auto bad_parts = FileManager::get_missing_file_parts(status);
+    if (!bad_parts.empty()) {
+      // TODO reupload the file
     }
 
     td_->file_manager_->delete_partial_remote_location(file_id_);
@@ -215,7 +218,7 @@ class GetDialogNotifySettingsQuery final : public Td::ResultHandler {
   }
 
   void on_error(Status status) final {
-    td_->messages_manager_->on_get_dialog_error(dialog_id_, status, "GetDialogNotifySettingsQuery");
+    td_->dialog_manager_->on_get_dialog_error(dialog_id_, status, "GetDialogNotifySettingsQuery");
     td_->notification_settings_manager_->on_get_dialog_notification_settings_query_finished(
         dialog_id_, top_thread_message_id_, std::move(status));
   }
@@ -238,8 +241,8 @@ class GetNotifySettingsExceptionsQuery final : public Td::ResultHandler {
     if (compare_sound) {
       flags |= telegram_api::account_getNotifyExceptions::COMPARE_SOUND_MASK;
     }
-    send_query(G()->net_query_creator().create(
-        telegram_api::account_getNotifyExceptions(flags, false /*ignored*/, std::move(input_notify_peer))));
+    send_query(G()->net_query_creator().create(telegram_api::account_getNotifyExceptions(
+        flags, false /*ignored*/, false /*ignored*/, std::move(input_notify_peer))));
   }
 
   void on_result(BufferSlice packet) final {
@@ -270,12 +273,70 @@ class GetNotifySettingsExceptionsQuery final : public Td::ResultHandler {
         break;
       }
     }
-    td_->contacts_manager_->on_get_users(std::move(users), "GetNotifySettingsExceptionsQuery");
-    td_->contacts_manager_->on_get_chats(std::move(chats), "GetNotifySettingsExceptionsQuery");
+    td_->user_manager_->on_get_users(std::move(users), "GetNotifySettingsExceptionsQuery");
+    td_->chat_manager_->on_get_chats(std::move(chats), "GetNotifySettingsExceptionsQuery");
     for (auto &dialog_id : dialog_ids) {
-      td_->messages_manager_->force_create_dialog(dialog_id, "GetNotifySettingsExceptionsQuery");
+      td_->dialog_manager_->force_create_dialog(dialog_id, "GetNotifySettingsExceptionsQuery");
     }
     td_->updates_manager_->on_get_updates(std::move(updates_ptr), std::move(promise_));
+  }
+
+  void on_error(Status status) final {
+    promise_.set_error(std::move(status));
+  }
+};
+
+class GetStoryNotifySettingsExceptionsQuery final : public Td::ResultHandler {
+  Promise<td_api::object_ptr<td_api::chats>> promise_;
+
+ public:
+  explicit GetStoryNotifySettingsExceptionsQuery(Promise<td_api::object_ptr<td_api::chats>> &&promise)
+      : promise_(std::move(promise)) {
+  }
+
+  void send() {
+    int32 flags = telegram_api::account_getNotifyExceptions::COMPARE_STORIES_MASK;
+    send_query(G()->net_query_creator().create(
+        telegram_api::account_getNotifyExceptions(flags, false /*ignored*/, false /*ignored*/, nullptr)));
+  }
+
+  void on_result(BufferSlice packet) final {
+    auto result_ptr = fetch_result<telegram_api::account_getNotifyExceptions>(packet);
+    if (result_ptr.is_error()) {
+      return on_error(result_ptr.move_as_error());
+    }
+
+    auto updates_ptr = result_ptr.move_as_ok();
+    auto dialog_ids = UpdatesManager::get_update_notify_settings_dialog_ids(updates_ptr.get());
+    vector<tl_object_ptr<telegram_api::User>> users;
+    vector<tl_object_ptr<telegram_api::Chat>> chats;
+    switch (updates_ptr->get_id()) {
+      case telegram_api::updatesCombined::ID: {
+        auto updates = static_cast<telegram_api::updatesCombined *>(updates_ptr.get());
+        users = std::move(updates->users_);
+        chats = std::move(updates->chats_);
+        reset_to_empty(updates->users_);
+        reset_to_empty(updates->chats_);
+        break;
+      }
+      case telegram_api::updates::ID: {
+        auto updates = static_cast<telegram_api::updates *>(updates_ptr.get());
+        users = std::move(updates->users_);
+        chats = std::move(updates->chats_);
+        reset_to_empty(updates->users_);
+        reset_to_empty(updates->chats_);
+        break;
+      }
+    }
+    td_->user_manager_->on_get_users(std::move(users), "GetStoryNotifySettingsExceptionsQuery");
+    td_->chat_manager_->on_get_chats(std::move(chats), "GetStoryNotifySettingsExceptionsQuery");
+    for (auto &dialog_id : dialog_ids) {
+      td_->dialog_manager_->force_create_dialog(dialog_id, "GetStoryNotifySettingsExceptionsQuery");
+    }
+    auto chat_ids = td_->dialog_manager_->get_chats_object(-1, dialog_ids, "GetStoryNotifySettingsExceptionsQuery");
+    auto promise = PromiseCreator::lambda([promise = std::move(promise_), chat_ids = std::move(chat_ids)](
+                                              Result<Unit>) mutable { promise.set_value(std::move(chat_ids)); });
+    td_->updates_manager_->on_get_updates(std::move(updates_ptr), std::move(promise));
   }
 
   void on_error(Status status) final {
@@ -315,6 +376,34 @@ class GetScopeNotifySettingsQuery final : public Td::ResultHandler {
   }
 };
 
+class GetReactionsNotifySettingsQuery final : public Td::ResultHandler {
+  Promise<Unit> promise_;
+
+ public:
+  explicit GetReactionsNotifySettingsQuery(Promise<Unit> &&promise) : promise_(std::move(promise)) {
+  }
+
+  void send() {
+    send_query(G()->net_query_creator().create(telegram_api::account_getReactionsNotifySettings()));
+  }
+
+  void on_result(BufferSlice packet) final {
+    auto result_ptr = fetch_result<telegram_api::account_getReactionsNotifySettings>(packet);
+    if (result_ptr.is_error()) {
+      return on_error(result_ptr.move_as_error());
+    }
+
+    auto ptr = result_ptr.move_as_ok();
+    td_->notification_settings_manager_->on_update_reaction_notification_settings(
+        ReactionNotificationSettings(std::move(ptr)));
+    promise_.set_value(Unit());
+  }
+
+  void on_error(Status status) final {
+    promise_.set_error(std::move(status));
+  }
+};
+
 class UpdateDialogNotifySettingsQuery final : public Td::ResultHandler {
   Promise<Unit> promise_;
   DialogId dialog_id_;
@@ -334,23 +423,8 @@ class UpdateDialogNotifySettingsQuery final : public Td::ResultHandler {
       return on_error(Status::Error(500, "Can't update chat notification settings"));
     }
 
-    int32 flags = 0;
-    if (!new_settings.use_default_mute_until) {
-      flags |= telegram_api::inputPeerNotifySettings::MUTE_UNTIL_MASK;
-    }
-    if (new_settings.sound != nullptr) {
-      flags |= telegram_api::inputPeerNotifySettings::SOUND_MASK;
-    }
-    if (!new_settings.use_default_show_preview) {
-      flags |= telegram_api::inputPeerNotifySettings::SHOW_PREVIEWS_MASK;
-    }
-    if (new_settings.silent_send_message) {
-      flags |= telegram_api::inputPeerNotifySettings::SILENT_MASK;
-    }
     send_query(G()->net_query_creator().create(telegram_api::account_updateNotifySettings(
-        std::move(input_notify_peer), make_tl_object<telegram_api::inputPeerNotifySettings>(
-                                          flags, new_settings.show_preview, new_settings.silent_send_message,
-                                          new_settings.mute_until, get_input_notification_sound(new_settings.sound)))));
+        std::move(input_notify_peer), new_settings.get_input_peer_notify_settings())));
   }
 
   void on_result(BufferSlice packet) final {
@@ -368,7 +442,7 @@ class UpdateDialogNotifySettingsQuery final : public Td::ResultHandler {
   }
 
   void on_error(Status status) final {
-    if (!td_->messages_manager_->on_get_dialog_error(dialog_id_, status, "UpdateDialogNotifySettingsQuery")) {
+    if (!td_->dialog_manager_->on_get_dialog_error(dialog_id_, status, "UpdateDialogNotifySettingsQuery")) {
       LOG(INFO) << "Receive error for set chat notification settings: " << status;
     }
 
@@ -394,15 +468,8 @@ class UpdateScopeNotifySettingsQuery final : public Td::ResultHandler {
   void send(NotificationSettingsScope scope, const ScopeNotificationSettings &new_settings) {
     auto input_notify_peer = get_input_notify_peer(scope);
     CHECK(input_notify_peer != nullptr);
-    int32 flags = telegram_api::inputPeerNotifySettings::MUTE_UNTIL_MASK |
-                  telegram_api::inputPeerNotifySettings::SHOW_PREVIEWS_MASK;
-    if (new_settings.sound != nullptr) {
-      flags |= telegram_api::inputPeerNotifySettings::SOUND_MASK;
-    }
     send_query(G()->net_query_creator().create(telegram_api::account_updateNotifySettings(
-        std::move(input_notify_peer), make_tl_object<telegram_api::inputPeerNotifySettings>(
-                                          flags, new_settings.show_preview, false, new_settings.mute_until,
-                                          get_input_notification_sound(new_settings.sound)))));
+        std::move(input_notify_peer), new_settings.get_input_peer_notify_settings())));
     scope_ = scope;
   }
 
@@ -426,6 +493,41 @@ class UpdateScopeNotifySettingsQuery final : public Td::ResultHandler {
     if (!td_->auth_manager_->is_bot()) {
       // trying to repair notification settings for this scope
       td_->notification_settings_manager_->send_get_scope_notification_settings_query(scope_, Promise<>());
+    }
+
+    promise_.set_error(std::move(status));
+  }
+};
+
+class SetReactionsNotifySettingsQuery final : public Td::ResultHandler {
+  Promise<Unit> promise_;
+
+ public:
+  explicit SetReactionsNotifySettingsQuery(Promise<Unit> &&promise) : promise_(std::move(promise)) {
+  }
+
+  void send(const ReactionNotificationSettings &settings) {
+    send_query(G()->net_query_creator().create(
+        telegram_api::account_setReactionsNotifySettings(settings.get_input_reactions_notify_settings())));
+  }
+
+  void on_result(BufferSlice packet) final {
+    auto result_ptr = fetch_result<telegram_api::account_setReactionsNotifySettings>(packet);
+    if (result_ptr.is_error()) {
+      return on_error(result_ptr.move_as_error());
+    }
+
+    auto ptr = result_ptr.move_as_ok();
+    LOG(INFO) << "Receive result for SetReactionsNotifySettingsQuery: " << to_string(ptr);
+    promise_.set_value(Unit());
+  }
+
+  void on_error(Status status) final {
+    LOG(INFO) << "Receive error for set reaction notification settings: " << status;
+
+    if (!td_->auth_manager_->is_bot()) {
+      // trying to repair notification settings
+      td_->notification_settings_manager_->send_get_reaction_notification_settings_query(Promise<>());
     }
 
     promise_.set_error(std::move(status));
@@ -554,7 +656,7 @@ void NotificationSettingsManager::init() {
 
         VLOG(notifications) << "Loaded notification settings in " << scope << ": " << *current_settings;
 
-        schedule_scope_unmute(scope, current_settings->mute_until);
+        schedule_scope_unmute(scope, current_settings->mute_until, G()->unix_time());
 
         send_closure(G()->td(), &Td::send_update, get_update_scope_notification_settings_object(scope));
       }
@@ -562,10 +664,22 @@ void NotificationSettingsManager::init() {
     if (!channels_notification_settings_.is_synchronized && is_authorized) {
       channels_notification_settings_ = ScopeNotificationSettings(
           chats_notification_settings_.mute_until, dup_notification_sound(chats_notification_settings_.sound),
-          chats_notification_settings_.show_preview, false, false);
+          chats_notification_settings_.show_preview, chats_notification_settings_.use_default_mute_stories,
+          chats_notification_settings_.mute_stories, nullptr, false, false, false);
       channels_notification_settings_.is_synchronized = false;
       send_get_scope_notification_settings_query(NotificationSettingsScope::Channel, Promise<>());
     }
+    auto reaction_notification_settings_string =
+        G()->td_db()->get_binlog_pmc()->get(get_reaction_notification_settings_database_key());
+    if (!reaction_notification_settings_string.empty()) {
+      log_event_parse(reaction_notification_settings_, reaction_notification_settings_string).ensure();
+      have_reaction_notification_settings_ = true;
+
+      VLOG(notifications) << "Loaded reaction notification settings: " << reaction_notification_settings_;
+    } else {
+      send_get_reaction_notification_settings_query(Promise<Unit>());
+    }
+    send_closure(G()->td(), &Td::send_update, get_update_reaction_notification_settings_object());
   }
   G()->td_db()->get_binlog_pmc()->erase("nsfac");
 }
@@ -591,13 +705,27 @@ int32 NotificationSettingsManager::get_scope_mute_until(NotificationSettingsScop
   return get_scope_notification_settings(scope)->mute_until;
 }
 
+std::pair<bool, bool> NotificationSettingsManager::get_scope_mute_stories(NotificationSettingsScope scope) const {
+  auto *settings = get_scope_notification_settings(scope);
+  return {settings->use_default_mute_stories, settings->mute_stories};
+}
+
 const unique_ptr<NotificationSound> &NotificationSettingsManager::get_scope_notification_sound(
     NotificationSettingsScope scope) const {
   return get_scope_notification_settings(scope)->sound;
 }
 
+const unique_ptr<NotificationSound> &NotificationSettingsManager::get_scope_story_notification_sound(
+    NotificationSettingsScope scope) const {
+  return get_scope_notification_settings(scope)->story_sound;
+}
+
 bool NotificationSettingsManager::get_scope_show_preview(NotificationSettingsScope scope) const {
   return get_scope_notification_settings(scope)->show_preview;
+}
+
+bool NotificationSettingsManager::get_scope_hide_story_sender(NotificationSettingsScope scope) const {
+  return get_scope_notification_settings(scope)->hide_story_sender;
 }
 
 bool NotificationSettingsManager::get_scope_disable_pinned_message_notifications(
@@ -614,7 +742,7 @@ tl_object_ptr<telegram_api::InputNotifyPeer> NotificationSettingsManager::get_in
   if (!td_->messages_manager_->have_dialog(dialog_id)) {
     return nullptr;
   }
-  auto input_peer = td_->messages_manager_->get_input_peer(dialog_id, AccessRights::Read);
+  auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Read);
   if (input_peer == nullptr) {
     return nullptr;
   }
@@ -664,6 +792,12 @@ NotificationSettingsManager::get_update_scope_notification_settings_object(Notif
       get_notification_settings_scope_object(scope), get_scope_notification_settings_object(notification_settings));
 }
 
+td_api::object_ptr<td_api::updateReactionNotificationSettings>
+NotificationSettingsManager::get_update_reaction_notification_settings_object() const {
+  return td_api::make_object<td_api::updateReactionNotificationSettings>(
+      reaction_notification_settings_.get_reaction_notification_settings_object());
+}
+
 void NotificationSettingsManager::on_scope_unmute(NotificationSettingsScope scope) {
   if (td_->auth_manager_->is_bot()) {
     // just in case
@@ -677,11 +811,11 @@ void NotificationSettingsManager::on_scope_unmute(NotificationSettingsScope scop
     return;
   }
 
-  auto now = G()->unix_time();
-  if (notification_settings->mute_until > now) {
-    LOG(ERROR) << "Failed to unmute " << scope << " in " << now << ", will be unmuted in "
-               << notification_settings->mute_until;
-    schedule_scope_unmute(scope, notification_settings->mute_until);
+  auto unix_time = G()->unix_time();
+  if (notification_settings->mute_until > unix_time) {
+    LOG(INFO) << "Failed to unmute " << scope << " in " << unix_time << ", will be unmuted in "
+              << notification_settings->mute_until;
+    schedule_scope_unmute(scope, notification_settings->mute_until, unix_time);
     return;
   }
 
@@ -773,10 +907,50 @@ bool NotificationSettingsManager::update_scope_notification_settings(Notificatio
   return need_update_server;
 }
 
-void NotificationSettingsManager::schedule_scope_unmute(NotificationSettingsScope scope, int32 mute_until) {
-  auto now = G()->unix_time_cached();
-  if (mute_until >= now && mute_until < now + 366 * 86400) {
-    scope_unmute_timeout_.set_timeout_in(static_cast<int64>(scope) + 1, mute_until - now + 1);
+void NotificationSettingsManager::send_get_reaction_notification_settings_query(Promise<Unit> &&promise) {
+  if (td_->auth_manager_->is_bot()) {
+    LOG(ERROR) << "Can't get reaction notification settings";
+    return promise.set_error(Status::Error(500, "Wrong getReactionNotificationSettings query"));
+  }
+
+  td_->create_handler<GetReactionsNotifySettingsQuery>(std::move(promise))->send();
+}
+
+void NotificationSettingsManager::on_update_reaction_notification_settings(
+    ReactionNotificationSettings reaction_notification_settings) {
+  CHECK(!td_->auth_manager_->is_bot());
+  if (reaction_notification_settings == reaction_notification_settings_) {
+    if (!have_reaction_notification_settings_) {
+      have_reaction_notification_settings_ = true;
+      save_reaction_notification_settings();
+    }
+    return;
+  }
+
+  VLOG(notifications) << "Update reaction notification settings from " << reaction_notification_settings_ << " to "
+                      << reaction_notification_settings;
+
+  reaction_notification_settings_ = std::move(reaction_notification_settings);
+  have_reaction_notification_settings_ = true;
+
+  save_reaction_notification_settings();
+
+  send_closure(G()->td(), &Td::send_update, get_update_reaction_notification_settings_object());
+}
+
+string NotificationSettingsManager::get_reaction_notification_settings_database_key() {
+  return "rns";
+}
+
+void NotificationSettingsManager::save_reaction_notification_settings() const {
+  string key = get_reaction_notification_settings_database_key();
+  G()->td_db()->get_binlog_pmc()->set(key, log_event_store(reaction_notification_settings_).as_slice().str());
+}
+
+void NotificationSettingsManager::schedule_scope_unmute(NotificationSettingsScope scope, int32 mute_until,
+                                                        int32 unix_time) {
+  if (mute_until >= unix_time && mute_until < unix_time + 366 * 86400) {
+    scope_unmute_timeout_.set_timeout_in(static_cast<int64>(scope) + 1, mute_until - unix_time + 1);
   } else {
     scope_unmute_timeout_.cancel_timeout(static_cast<int64>(scope) + 1);
   }
@@ -795,7 +969,7 @@ void NotificationSettingsManager::update_scope_unmute_timeout(NotificationSettin
   }
   CHECK(old_mute_until >= 0);
 
-  schedule_scope_unmute(scope, new_mute_until);
+  schedule_scope_unmute(scope, new_mute_until, G()->unix_time());
 
   auto was_muted = old_mute_until != 0;
   auto is_muted = new_mute_until != 0;
@@ -835,8 +1009,9 @@ FileId NotificationSettingsManager::get_saved_ringtone(int64 ringtone_id, Promis
     auto file_view = td_->file_manager_->get_file_view(file_id);
     CHECK(!file_view.empty());
     CHECK(file_view.get_type() == FileType::Ringtone);
-    CHECK(file_view.has_remote_location());
-    if (file_view.remote_location().get_id() == ringtone_id) {
+    const auto *full_remote_location = file_view.get_full_remote_location();
+    CHECK(full_remote_location != nullptr);
+    if (full_remote_location->get_id() == ringtone_id) {
       return file_view.get_main_file_id();
     }
   }
@@ -861,11 +1036,12 @@ void NotificationSettingsManager::send_save_ringtone_query(
   // TODO log event
   auto file_view = td_->file_manager_->get_file_view(ringtone_file_id);
   CHECK(!file_view.empty());
-  CHECK(file_view.has_remote_location());
-  CHECK(file_view.remote_location().is_document());
-  CHECK(!file_view.remote_location().is_web());
+  const auto *full_remote_location = file_view.get_full_remote_location();
+  CHECK(full_remote_location != nullptr);
+  CHECK(full_remote_location->is_document());
+  CHECK(!full_remote_location->is_web());
   td_->create_handler<SaveRingtoneQuery>(std::move(promise))
-      ->send(ringtone_file_id, file_view.remote_location().as_input_document(), unsave);
+      ->send(ringtone_file_id, full_remote_location->as_input_document(), unsave);
 }
 
 void NotificationSettingsManager::add_saved_ringtone(td_api::object_ptr<td_api::InputFile> &&input_file,
@@ -907,9 +1083,10 @@ void NotificationSettingsManager::add_saved_ringtone(td_api::object_ptr<td_api::
   if (duration > td_->option_manager_->get_option_integer("notification_sound_duration_max")) {
     return promise.set_error(Status::Error(400, "Notification sound is too long"));
   }
-  if (file_view.has_remote_location() && !file_view.is_encrypted()) {
-    CHECK(file_view.remote_location().is_document());
-    if (file_view.main_remote_location().is_web()) {
+  const auto *main_remote_location = file_view.get_main_remote_location();
+  if (main_remote_location != nullptr && !file_view.is_encrypted()) {
+    CHECK(main_remote_location->is_document());
+    if (main_remote_location->is_web()) {
       return promise.set_error(Status::Error(400, "Can't use web document as notification sound"));
     }
 
@@ -918,7 +1095,7 @@ void NotificationSettingsManager::add_saved_ringtone(td_api::object_ptr<td_api::
       if (file_type != FileType::Audio && file_type != FileType::VoiceNote) {
         return promise.set_error(Status::Error(400, "Unsupported file specified"));
       }
-      auto &remote = file_view.main_remote_location();
+      auto &remote = *main_remote_location;
       ringtone_file_id = td_->file_manager_->register_remote(
           FullRemoteFileLocation(FileType::Ringtone, remote.get_id(), remote.get_access_hash(), remote.get_dc_id(),
                                  remote.get_file_reference().str()),
@@ -984,23 +1161,25 @@ void NotificationSettingsManager::on_upload_ringtone(FileId file_id,
   FileView file_view = td_->file_manager_->get_file_view(file_id);
   CHECK(!file_view.is_encrypted());
   CHECK(file_view.get_type() == FileType::Ringtone);
-  if (input_file == nullptr && file_view.has_remote_location()) {
-    if (file_view.main_remote_location().is_web()) {
+  const auto *main_remote_location = file_view.get_main_remote_location();
+  if (input_file == nullptr && main_remote_location != nullptr) {
+    if (main_remote_location->is_web()) {
       return promise.set_error(Status::Error(400, "Can't use web document as notification sound"));
     }
     if (is_reupload) {
       return promise.set_error(Status::Error(400, "Failed to reupload the file"));
     }
 
+    auto main_file_id = file_view.get_main_file_id();
     send_save_ringtone_query(
-        file_view.get_main_file_id(), false,
+        main_file_id, false,
         PromiseCreator::lambda(
-            [actor_id = actor_id(this), file_id = file_view.get_main_file_id(), promise = std::move(promise)](
+            [actor_id = actor_id(this), main_file_id, promise = std::move(promise)](
                 Result<telegram_api::object_ptr<telegram_api::account_SavedRingtone>> &&result) mutable {
               if (result.is_error()) {
                 promise.set_error(result.move_as_error());
               } else {
-                send_closure(actor_id, &NotificationSettingsManager::on_add_saved_ringtone, file_id,
+                send_closure(actor_id, &NotificationSettingsManager::on_add_saved_ringtone, main_file_id,
                              result.move_as_ok(), std::move(promise));
               }
             }));
@@ -1099,8 +1278,9 @@ void NotificationSettingsManager::remove_saved_ringtone(int64 ringtone_id, Promi
     auto file_view = td_->file_manager_->get_file_view(file_id);
     CHECK(!file_view.empty());
     CHECK(file_view.get_type() == FileType::Ringtone);
-    CHECK(file_view.has_remote_location());
-    if (file_view.remote_location().get_id() == ringtone_id) {
+    const auto *full_remote_location = file_view.get_full_remote_location();
+    CHECK(full_remote_location != nullptr);
+    if (full_remote_location->get_id() == ringtone_id) {
       send_save_ringtone_query(
           file_view.get_main_file_id(), true,
           PromiseCreator::lambda(
@@ -1138,8 +1318,9 @@ void NotificationSettingsManager::on_remove_saved_ringtone(int64 ringtone_id, Pr
     auto file_view = td_->file_manager_->get_file_view(*it);
     CHECK(!file_view.empty());
     CHECK(file_view.get_type() == FileType::Ringtone);
-    CHECK(file_view.has_remote_location());
-    if (file_view.remote_location().get_id() == ringtone_id) {
+    const auto *full_remote_location = file_view.get_full_remote_location();
+    CHECK(full_remote_location != nullptr);
+    if (full_remote_location->get_id() == ringtone_id) {
       saved_ringtone_file_ids_.erase(it);
       saved_ringtone_hash_ = 0;
       on_saved_ringtones_updated(false);
@@ -1309,8 +1490,9 @@ NotificationSettingsManager::get_update_saved_notification_sounds_object() const
     auto file_view = file_manager->get_file_view(file_id);
     CHECK(!file_view.empty());
     CHECK(file_view.get_type() == FileType::Ringtone);
-    CHECK(file_view.has_remote_location());
-    return file_view.remote_location().get_id();
+    const auto *full_remote_location = file_view.get_full_remote_location();
+    CHECK(full_remote_location != nullptr);
+    return full_remote_location->get_id();
   });
   return td_api::make_object<td_api::updateSavedNotificationSounds>(std::move(ringtone_ids));
 }
@@ -1352,14 +1534,12 @@ FileSourceId NotificationSettingsManager::get_saved_ringtones_file_source_id() {
 void NotificationSettingsManager::send_get_dialog_notification_settings_query(DialogId dialog_id,
                                                                               MessageId top_thread_message_id,
                                                                               Promise<Unit> &&promise) {
-  if (td_->auth_manager_->is_bot() || dialog_id.get_type() == DialogType::SecretChat) {
-    LOG(WARNING) << "Can't get notification settings for " << dialog_id;
+  if (td_->auth_manager_->is_bot()) {
+    LOG(ERROR) << "Can't get notification settings for " << dialog_id;
     return promise.set_error(Status::Error(500, "Wrong getDialogNotificationSettings query"));
   }
-  if (!td_->messages_manager_->have_input_peer(dialog_id, AccessRights::Read)) {
-    LOG(WARNING) << "Have no access to " << dialog_id << " to get notification settings";
-    return promise.set_error(Status::Error(400, "Can't access the chat"));
-  }
+  TRY_STATUS_PROMISE(promise,
+                     td_->dialog_manager_->check_dialog_access_in_memory(dialog_id, false, AccessRights::Read));
 
   auto &promises = get_dialog_notification_settings_queries_[{dialog_id, top_thread_message_id}];
   promises.push_back(std::move(promise));
@@ -1471,9 +1651,69 @@ void NotificationSettingsManager::reset_notify_settings(Promise<Unit> &&promise)
   td_->create_handler<ResetNotifySettingsQuery>(std::move(promise))->send();
 }
 
+Status NotificationSettingsManager::set_reaction_notification_settings(
+    ReactionNotificationSettings &&notification_settings) {
+  CHECK(!td_->auth_manager_->is_bot());
+  notification_settings.update_default_notification_sound(reaction_notification_settings_);
+  if (notification_settings == reaction_notification_settings_) {
+    have_reaction_notification_settings_ = true;
+    return Status::OK();
+  }
+
+  VLOG(notifications) << "Update reaction notification settings from " << reaction_notification_settings_ << " to "
+                      << notification_settings;
+
+  reaction_notification_settings_ = std::move(notification_settings);
+  have_reaction_notification_settings_ = true;
+
+  save_reaction_notification_settings();
+
+  send_closure(G()->td(), &Td::send_update, get_update_reaction_notification_settings_object());
+
+  update_reaction_notification_settings_on_server(0);
+  return Status::OK();
+}
+
+class NotificationSettingsManager::UpdateReactionNotificationSettingsOnServerLogEvent {
+ public:
+  template <class StorerT>
+  void store(StorerT &storer) const {
+    BEGIN_STORE_FLAGS();
+    END_STORE_FLAGS();
+  }
+
+  template <class ParserT>
+  void parse(ParserT &parser) {
+    BEGIN_PARSE_FLAGS();
+    END_PARSE_FLAGS();
+  }
+};
+
+uint64 NotificationSettingsManager::save_update_reaction_notification_settings_on_server_log_event() {
+  UpdateReactionNotificationSettingsOnServerLogEvent log_event;
+  return binlog_add(G()->td_db()->get_binlog(), LogEvent::HandlerType::UpdateReactionNotificationSettingsOnServer,
+                    get_log_event_storer(log_event));
+}
+
+void NotificationSettingsManager::update_reaction_notification_settings_on_server(uint64 log_event_id) {
+  CHECK(!td_->auth_manager_->is_bot());
+  if (log_event_id == 0) {
+    log_event_id = save_update_reaction_notification_settings_on_server_log_event();
+  }
+
+  LOG(INFO) << "Update reaction notification settings on server with log_event " << log_event_id;
+  td_->create_handler<SetReactionsNotifySettingsQuery>(get_erase_log_event_promise(log_event_id))
+      ->send(reaction_notification_settings_);
+}
+
 void NotificationSettingsManager::get_notify_settings_exceptions(NotificationSettingsScope scope, bool filter_scope,
                                                                  bool compare_sound, Promise<Unit> &&promise) {
   td_->create_handler<GetNotifySettingsExceptionsQuery>(std::move(promise))->send(scope, filter_scope, compare_sound);
+}
+
+void NotificationSettingsManager::get_story_notification_settings_exceptions(
+    Promise<td_api::object_ptr<td_api::chats>> &&promise) {
+  td_->create_handler<GetStoryNotifySettingsExceptionsQuery>(std::move(promise))->send();
 }
 
 void NotificationSettingsManager::on_binlog_events(vector<BinlogEvent> &&events) {
@@ -1488,6 +1728,13 @@ void NotificationSettingsManager::on_binlog_events(vector<BinlogEvent> &&events)
         log_event_parse(log_event, event.get_data()).ensure();
 
         update_scope_notification_settings_on_server(log_event.scope_, event.id_);
+        break;
+      }
+      case LogEvent::HandlerType::UpdateReactionNotificationSettingsOnServer: {
+        UpdateReactionNotificationSettingsOnServerLogEvent log_event;
+        log_event_parse(log_event, event.get_data()).ensure();
+
+        update_reaction_notification_settings_on_server(event.id_);
         break;
       }
       default:
@@ -1509,6 +1756,8 @@ void NotificationSettingsManager::get_current_state(vector<td_api::object_ptr<td
       updates.push_back(get_update_scope_notification_settings_object(scope));
     }
   }
+
+  updates.push_back(get_update_reaction_notification_settings_object());
 
   if (are_saved_ringtones_loaded_) {
     updates.push_back(get_update_saved_notification_sounds_object());

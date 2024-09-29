@@ -324,7 +324,7 @@ void CTelegramProto::OnGetSessions(td::ClientManager::Response &response, void *
 			pwszType = TranslateT("Unknown");
 		}
 		pList->SetItemText(iItem, 1, pwszType);
-		pList->SetItemText(iItem, 2, Utf2T(pSession->country_.c_str()));
+		pList->SetItemText(iItem, 2, Utf2T(pSession->location_.c_str()));
 
 		wchar_t wszLastLogin[100];
 		TimeZone_PrintTimeStamp(0, pSession->last_active_date_, L"d t", wszLastLogin, _countof(wszLastLogin), 0);

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -81,6 +81,8 @@ Slice get_operating_system_version() {
     return "iOS" + os_version;
 #elif TD_DARWIN_TV_OS
     return "tvOS" + os_version;
+#elif TD_DARWIN_VISION_OS
+    return "visionOS" + os_version;
 #elif TD_DARWIN_WATCH_OS
     return "watchOS" + os_version;
 #elif TD_DARWIN_MAC

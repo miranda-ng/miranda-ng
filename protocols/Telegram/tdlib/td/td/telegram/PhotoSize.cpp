@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,6 +9,7 @@
 #include "td/telegram/files/FileLocation.h"
 #include "td/telegram/files/FileManager.h"
 #include "td/telegram/Td.h"
+#include "td/telegram/telegram_api.h"
 
 #include "td/utils/base64.h"
 #include "td/utils/HttpUrl.h"
@@ -241,6 +242,16 @@ Variant<PhotoSize, string> get_photo_size(FileManager *file_manager, PhotoSizeSo
       res.type = 0;
     }
   }
+  if (format == PhotoFormat::Tgs) {
+    if (res.type == 's') {
+      format = PhotoFormat::Webp;
+    } else if (res.type == 'v') {
+      format = PhotoFormat::Webm;
+    } else if (res.type != 'a') {
+      LOG(ERROR) << "Receive sticker set thumbnail of type " << res.type;
+      format = PhotoFormat::Webp;
+    }
+  }
   if (source.get_type("get_photo_size") == PhotoSizeSource::Type::Thumbnail) {
     source.thumbnail().thumbnail_type = res.type;
   }
@@ -410,25 +421,26 @@ PhotoSize get_web_document_photo_size(FileManager *file_manager, FileType file_t
 
 Result<PhotoSize> get_input_photo_size(FileManager *file_manager, FileId file_id, int32 width, int32 height) {
   if (width < 0 || width > 10000) {
-    return Status::Error(400, "Wrong photo width");
+    return Status::Error(400, "Width of the photo is too big");
   }
   if (height < 0 || height > 10000) {
-    return Status::Error(400, "Wrong photo height");
+    return Status::Error(400, "Height of the photo is too big");
   }
   if (width + height > 10000) {
-    return Status::Error(400, "Photo dimensions are too big");
+    return Status::Error(400, "Dimensions of the photo are too big");
   }
 
   auto file_view = file_manager->get_file_view(file_id);
   auto file_size = file_view.size();
   if (file_size < 0 || file_size >= 1000000000) {
-    return Status::Error(400, "Photo is too big");
+    return Status::Error(400, "Size of the photo is too big");
   }
 
   int32 type = 'i';
-  if (file_view.has_remote_location() && !file_view.remote_location().is_web()) {
-    auto photo_size_source = file_view.remote_location().get_source();
-    if (photo_size_source.get_type("create_input_message_content") == PhotoSizeSource::Type::Thumbnail) {
+  const auto *full_remote_location = file_view.get_full_remote_location();
+  if (full_remote_location != nullptr && !full_remote_location->is_web()) {
+    auto photo_size_source = full_remote_location->get_source();
+    if (photo_size_source.get_type("get_input_photo_size") == PhotoSizeSource::Type::Thumbnail) {
       auto old_type = photo_size_source.thumbnail().thumbnail_type;
       if (old_type != 't') {
         type = old_type;
@@ -459,7 +471,7 @@ PhotoSize get_input_thumbnail_photo_size(FileManager *file_manager, const td_api
       CHECK(thumbnail.file_id.is_valid());
 
       FileView thumbnail_file_view = file_manager->get_file_view(thumbnail.file_id);
-      if (thumbnail_file_view.has_remote_location()) {
+      if (thumbnail_file_view.has_full_remote_location()) {
         // TODO file_manager->delete_remote_location(thumbnail.file_id);
       }
     }

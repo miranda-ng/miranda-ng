@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,38 +11,62 @@
 #include "td/telegram/Td.h"
 #include "td/telegram/telegram_api.h"
 
+#include "td/actor/actor.h"
+
 #include "td/utils/buffer.h"
 #include "td/utils/format.h"
 #include "td/utils/Gzip.h"
 #include "td/utils/logging.h"
+#include "td/utils/Slice.h"
 #include "td/utils/Storer.h"
 
 namespace td {
 
 NetQueryCreator::NetQueryCreator(std::shared_ptr<NetQueryStats> net_query_stats)
-    : net_query_stats_(std::move(net_query_stats)) {
+    : net_query_stats_(std::move(net_query_stats))
+    , current_scheduler_id_(Scheduler::instance() == nullptr ? -2 : Scheduler::instance()->sched_id()) {
   object_pool_.set_check_empty(true);
 }
 
 NetQueryPtr NetQueryCreator::create(const telegram_api::Function &function, vector<ChainId> chain_ids, DcId dc_id,
                                     NetQuery::Type type) {
-  return create(UniqueId::next(), function, std::move(chain_ids), dc_id, type, NetQuery::AuthFlag::On);
+  return create(UniqueId::next(), nullptr, function, std::move(chain_ids), dc_id, type, NetQuery::AuthFlag::On);
 }
 
-NetQueryPtr NetQueryCreator::create(uint64 id, const telegram_api::Function &function, vector<ChainId> &&chain_ids,
-                                    DcId dc_id, NetQuery::Type type, NetQuery::AuthFlag auth_flag) {
+NetQueryPtr NetQueryCreator::create_with_prefix(const telegram_api::object_ptr<telegram_api::Function> &prefix,
+                                                const telegram_api::Function &function, DcId dc_id,
+                                                vector<ChainId> chain_ids, NetQuery::Type type) {
+  return create(UniqueId::next(), prefix, function, std::move(chain_ids), dc_id, type, NetQuery::AuthFlag::On);
+}
+
+NetQueryPtr NetQueryCreator::create(uint64 id, const telegram_api::object_ptr<telegram_api::Function> &prefix,
+                                    const telegram_api::Function &function, vector<ChainId> &&chain_ids, DcId dc_id,
+                                    NetQuery::Type type, NetQuery::AuthFlag auth_flag) {
   LOG(INFO) << "Create query " << to_string(function);
+  string prefix_str;
+  if (prefix != nullptr) {
+    auto storer = DefaultStorer<telegram_api::Function>(*prefix);
+    prefix_str.resize(storer.size());
+    auto real_size = storer.store(MutableSlice(prefix_str).ubegin());
+    CHECK(real_size == prefix_str.size());
+  }
+
   auto storer = DefaultStorer<telegram_api::Function>(function);
-  BufferSlice slice(storer.size());
-  auto real_size = storer.store(slice.as_mutable_slice().ubegin());
-  LOG_CHECK(real_size == slice.size()) << real_size << " " << slice.size() << " "
-                                       << format::as_hex_dump<4>(slice.as_slice());
+  BufferSlice slice(prefix_str.size() + storer.size());
+  auto real_size = storer.store(slice.as_mutable_slice().ubegin() + prefix_str.size());
+  LOG_CHECK(prefix_str.size() + real_size == slice.size())
+      << prefix_str.size() << ' ' << real_size << ' ' << slice.size() << ' '
+      << format::as_hex_dump<4>(slice.as_slice());
+  if (prefix != nullptr) {
+    slice.as_mutable_slice().copy_from(prefix_str);
+  }
 
   size_t min_gzipped_size = 128;
   int32 tl_constructor = function.get_id();
   int32 total_timeout_limit = 60;
 
-  if (!G()->close_flag()) {
+  if (Scheduler::instance() != nullptr && current_scheduler_id_ == Scheduler::instance()->sched_id() &&
+      !G()->close_flag()) {
     auto td = G()->td();
     if (!td.empty()) {
       auto auth_manager = td.get_actor_unsafe()->auth_manager_.get();
@@ -77,9 +101,8 @@ NetQueryPtr NetQueryCreator::create(uint64 id, const telegram_api::Function &fun
     }
   }
 
-  auto query =
-      object_pool_.create(NetQuery::State::Query, id, std::move(slice), BufferSlice(), dc_id, type, auth_flag,
-                          gzip_flag, tl_constructor, total_timeout_limit, net_query_stats_.get(), std::move(chain_ids));
+  auto query = object_pool_.create(id, std::move(slice), dc_id, type, auth_flag, gzip_flag, tl_constructor,
+                                   total_timeout_limit, net_query_stats_.get(), std::move(chain_ids));
   query->set_cancellation_token(query.generation());
   return query;
 }

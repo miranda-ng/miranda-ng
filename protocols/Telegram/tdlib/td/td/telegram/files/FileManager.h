@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,6 +8,7 @@
 
 #include "td/telegram/DialogId.h"
 #include "td/telegram/files/FileDbId.h"
+#include "td/telegram/files/FileDownloadManager.h"
 #include "td/telegram/files/FileEncryptionKey.h"
 #include "td/telegram/files/FileGenerateManager.h"
 #include "td/telegram/files/FileId.h"
@@ -16,6 +17,7 @@
 #include "td/telegram/files/FileLocation.h"
 #include "td/telegram/files/FileSourceId.h"
 #include "td/telegram/files/FileType.h"
+#include "td/telegram/files/FileUploadManager.h"
 #include "td/telegram/Location.h"
 #include "td/telegram/PhotoSizeSource.h"
 #include "td/telegram/td_api.h"
@@ -63,8 +65,9 @@ struct NewRemoteFileLocation {
   optional<FullRemoteFileLocation> full;
   bool is_full_alive{false};  // if false, then we may try to upload this file
   FileLocationSource full_source{FileLocationSource::None};
-  int64 ready_size = 0;
 };
+
+StringBuilder &operator<<(StringBuilder &string_builder, const NewRemoteFileLocation &location);
 
 class FileNode {
  public:
@@ -83,13 +86,13 @@ class FileNode {
       , main_file_id_(main_file_id)
       , main_file_id_priority_(main_file_id_priority) {
     init_ready_size();
+    file_ids_.push_back(main_file_id);
   }
   void drop_local_location();
-  void set_local_location(const LocalFileLocation &local, int64 ready_size, int64 prefix_offset,
-                          int64 ready_prefix_size);
+  void set_local_location(const LocalFileLocation &local, int64 prefix_offset, int64 ready_prefix_size);
   void set_new_remote_location(NewRemoteFileLocation remote);
   void delete_partial_remote_location();
-  void set_partial_remote_location(PartialRemoteFileLocation remote, int64 ready_size);
+  void set_partial_remote_location(PartialRemoteFileLocation remote);
 
   bool delete_file_reference(Slice file_reference);
   void set_generate_location(unique_ptr<FullGenerateFileLocation> &&generate);
@@ -132,18 +135,17 @@ class FileNode {
   static constexpr char PERSISTENT_ID_VERSION = 4;
 
   LocalFileLocation local_;
-  FileLoadManager::QueryId upload_id_ = 0;
+  FileUploadManager::QueryId upload_id_ = 0;
   int64 download_offset_ = 0;
   int64 private_download_limit_ = 0;
-  int64 local_ready_size_ = 0;         // PartialLocal only
   int64 local_ready_prefix_size_ = 0;  // PartialLocal only
 
   NewRemoteFileLocation remote_;
 
-  FileLoadManager::QueryId download_id_ = 0;
+  FileDownloadManager::QueryId download_id_ = 0;
 
   unique_ptr<FullGenerateFileLocation> generate_;
-  FileLoadManager::QueryId generate_id_ = 0;
+  FileGenerateManager::QueryId generate_id_ = 0;
 
   int64 size_ = 0;
   int64 expected_size_ = 0;
@@ -194,7 +196,41 @@ class FileNode {
   void init_ready_size();
 
   void recalc_ready_prefix_size(int64 prefix_offset, int64 ready_prefix_size);
+
   void update_effective_download_limit(int64 old_download_limit);
+
+  string get_persistent_file_id() const;
+
+  string get_unique_file_id() const;
+
+  static string get_unique_id(const FullGenerateFileLocation &location);
+  static string get_unique_id(const FullRemoteFileLocation &location);
+
+  static string get_persistent_id(const FullGenerateFileLocation &location);
+  static string get_persistent_id(const FullRemoteFileLocation &location);
+
+  FileType get_type() const {
+    if (local_.type() == LocalFileLocation::Type::Full) {
+      return local_.full().file_type_;
+    }
+    if (remote_.full) {
+      return remote_.full.value().file_type_;
+    }
+    if (generate_ != nullptr) {
+      return generate_->file_type_;
+    }
+    return FileType::Temp;
+  }
+
+  int64 expected_size(bool may_guess = false) const;
+  bool is_downloading() const;
+  int64 downloaded_prefix(int64 offset) const;
+  int64 local_prefix_size() const;
+  int64 local_total_size() const;
+  bool is_uploading() const;
+  int64 remote_size() const;
+  string path() const;
+  bool can_delete() const;
 };
 
 class FileManager;
@@ -237,6 +273,10 @@ class ConstFileNodePtr {
     return file_node_ptr_.get_remote();
   }
 
+  const FileNode *get() const {
+    return file_node_ptr_.get();
+  }
+
  private:
   FileNodePtr file_node_ptr_;
 };
@@ -248,21 +288,31 @@ class FileView {
 
   bool empty() const;
 
-  bool has_local_location() const;
-  const FullLocalFileLocation &local_location() const;
-  bool has_remote_location() const;
-  bool has_alive_remote_location() const;
-  bool has_active_upload_remote_location() const;
-  bool has_active_download_remote_location() const;
-  const FullRemoteFileLocation &remote_location() const;
-  const FullRemoteFileLocation &main_remote_location() const;
+  bool has_full_local_location() const;
+
+  const FullLocalFileLocation *get_full_local_location() const;
+
   bool has_generate_location() const;
-  const FullGenerateFileLocation &generate_location() const;
+
+  const FullGenerateFileLocation *get_generate_location() const;
+
+  bool has_full_remote_location() const;
+
+  bool has_alive_remote_location() const;
+
+  bool has_active_upload_remote_location() const;
+
+  bool has_active_download_remote_location() const;
+
+  const FullRemoteFileLocation *get_full_remote_location() const;
+
+  const FullRemoteFileLocation *get_main_remote_location() const;
 
   bool has_url() const;
-  const string &url() const;
 
-  const string &remote_name() const;
+  const string *get_url() const;
+
+  string remote_name() const;
 
   string suggested_path() const;
 
@@ -292,16 +342,7 @@ class FileView {
   bool can_delete() const;
 
   FileType get_type() const {
-    if (has_local_location()) {
-      return local_location().file_type_;
-    }
-    if (has_remote_location()) {
-      return remote_location().file_type_;
-    }
-    if (has_generate_location()) {
-      return generate_location().file_type_;
-    }
-    return FileType::Temp;
+    return node_->get_type();
   }
   bool is_encrypted_secret() const {
     return get_type() == FileType::Encrypted;
@@ -310,45 +351,46 @@ class FileView {
     return get_type() == FileType::SecureEncrypted;
   }
   bool is_secure() const {
-    return get_type() == FileType::SecureEncrypted || get_type() == FileType::SecureDecrypted;
+    auto type = get_type();
+    return type == FileType::SecureEncrypted || type == FileType::SecureDecrypted;
   }
   bool is_encrypted_any() const {
-    return is_encrypted_secret() || is_encrypted_secure();
+    auto type = get_type();
+    return type == FileType::Encrypted || type == FileType::SecureEncrypted;
   }
   bool is_encrypted() const {
-    return is_encrypted_secret() || is_secure();
+    auto type = get_type();
+    return type == FileType::Encrypted || type == FileType::SecureEncrypted || type == FileType::SecureDecrypted;
   }
   const FileEncryptionKey &encryption_key() const {
     return node_->encryption_key_;
   }
 
   bool may_reload_photo() const {
-    if (!has_remote_location()) {
+    const auto *full_remote_location = get_full_remote_location();
+    if (full_remote_location == nullptr) {
       return false;
     }
-    if (!remote_location().is_photo()) {
+    if (!full_remote_location->is_photo()) {
       return false;
     }
-    auto type = remote_location().get_source().get_type("may_reload_photo");
+    auto type = full_remote_location->get_source().get_type("may_reload_photo");
     return type != PhotoSizeSource::Type::Legacy && type != PhotoSizeSource::Type::FullLegacy &&
            type != PhotoSizeSource::Type::Thumbnail;
   }
 
-  string get_persistent_file_id() const;
-
-  string get_unique_file_id() const;
+  string get_unique_file_id() const {
+    if (!empty()) {
+      return node_->get_unique_file_id();
+    }
+    return string();
+  }
 
  private:
   ConstFileNodePtr node_{};
-
-  static string get_unique_id(const FullGenerateFileLocation &location);
-  static string get_unique_id(const FullRemoteFileLocation &location);
-
-  static string get_persistent_id(const FullGenerateFileLocation &location);
-  static string get_persistent_id(const FullRemoteFileLocation &location);
 };
 
-class FileManager final : public FileLoadManager::Callback {
+class FileManager final : public Actor {
  public:
   static constexpr int64 KEEP_DOWNLOAD_LIMIT = -1;
   static constexpr int64 KEEP_DOWNLOAD_OFFSET = -1;
@@ -421,6 +463,8 @@ class FileManager final : public FileLoadManager::Callback {
 
   static bool is_remotely_generated_file(Slice conversion);
 
+  static vector<int> get_missing_file_parts(const Status &error);
+
   void init_actor();
 
   FileId dup_file_id(FileId file_id, const char *source);
@@ -430,17 +474,21 @@ class FileManager final : public FileLoadManager::Callback {
   void on_file_unlink(const FullLocalFileLocation &location);
 
   FileId register_empty(FileType type);
+
   Result<FileId> register_local(FullLocalFileLocation location, DialogId owner_dialog_id, int64 size,
-                                bool get_by_hash = false, bool force = false, bool skip_file_size_checks = false,
+                                bool get_by_hash = false, bool skip_file_size_checks = false,
                                 FileId merge_file_id = FileId()) TD_WARN_UNUSED_RESULT;
+
   FileId register_remote(FullRemoteFileLocation location, FileLocationSource file_location_source,
                          DialogId owner_dialog_id, int64 size, int64 expected_size,
                          string remote_name) TD_WARN_UNUSED_RESULT;
-  Result<FileId> register_generate(FileType file_type, FileLocationSource file_location_source, string original_path,
-                                   string conversion, DialogId owner_dialog_id,
-                                   int64 expected_size) TD_WARN_UNUSED_RESULT;
+
+  FileId register_generate(FileType file_type, string original_path, string conversion, DialogId owner_dialog_id,
+                           int64 expected_size) TD_WARN_UNUSED_RESULT;
 
   Status merge(FileId x_file_id, FileId y_file_id, bool no_sync = false);
+
+  void try_merge_documents(FileId old_file_id, FileId new_file_id);
 
   void add_file_source(FileId file_id, FileSourceId file_source_id);
 
@@ -461,12 +509,16 @@ class FileManager final : public FileLoadManager::Callback {
   void download(FileId file_id, std::shared_ptr<DownloadCallback> callback, int32 new_priority, int64 offset,
                 int64 limit, Promise<td_api::object_ptr<td_api::file>> promise);
   void upload(FileId file_id, std::shared_ptr<UploadCallback> callback, int32 new_priority, uint64 upload_order);
-  void resume_upload(FileId file_id, std::vector<int> bad_parts, std::shared_ptr<UploadCallback> callback,
+  void resume_upload(FileId file_id, vector<int> bad_parts, std::shared_ptr<UploadCallback> callback,
                      int32 new_priority, uint64 upload_order, bool force = false, bool prefer_small = false);
   void cancel_upload(FileId file_id);
   bool delete_partial_remote_location(FileId file_id);
+  void delete_partial_remote_location_if_needed(FileId file_id, const Status &error);
   void delete_file_reference(FileId file_id, Slice file_reference);
   void get_content(FileId file_id, Promise<BufferSlice> promise);
+
+  void preliminary_upload_file(const td_api::object_ptr<td_api::InputFile> &input_file, FileType file_type,
+                               int32 priority, Promise<td_api::object_ptr<td_api::file>> &&promise);
 
   Result<string> get_suggested_file_name(FileId file_id, const string &directory);
 
@@ -503,16 +555,21 @@ class FileManager final : public FileLoadManager::Callback {
 
   vector<tl_object_ptr<telegram_api::InputDocument>> get_input_documents(const vector<FileId> &file_ids);
 
-  static bool extract_was_uploaded(const tl_object_ptr<telegram_api::InputMedia> &input_media);
-  static bool extract_was_thumbnail_uploaded(const tl_object_ptr<telegram_api::InputMedia> &input_media);
-  static string extract_file_reference(const tl_object_ptr<telegram_api::InputMedia> &input_media);
+  static bool extract_was_uploaded(const telegram_api::object_ptr<telegram_api::InputMedia> &input_media);
 
-  static string extract_file_reference(const tl_object_ptr<telegram_api::InputDocument> &input_document);
+  static bool extract_was_thumbnail_uploaded(const telegram_api::object_ptr<telegram_api::InputMedia> &input_media);
 
-  static string extract_file_reference(const tl_object_ptr<telegram_api::InputPhoto> &input_photo);
+  static string extract_file_reference(const telegram_api::object_ptr<telegram_api::InputMedia> &input_media);
 
-  static bool extract_was_uploaded(const tl_object_ptr<telegram_api::InputChatPhoto> &input_chat_photo);
-  static string extract_file_reference(const tl_object_ptr<telegram_api::InputChatPhoto> &input_chat_photo);
+  static vector<string> extract_file_references(const telegram_api::object_ptr<telegram_api::InputMedia> &input_media);
+
+  static string extract_file_reference(const telegram_api::object_ptr<telegram_api::InputDocument> &input_document);
+
+  static string extract_file_reference(const telegram_api::object_ptr<telegram_api::InputPhoto> &input_photo);
+
+  static bool extract_was_uploaded(const telegram_api::object_ptr<telegram_api::InputChatPhoto> &input_chat_photo);
+
+  static string extract_file_reference(const telegram_api::object_ptr<telegram_api::InputChatPhoto> &input_chat_photo);
 
   template <class StorerT>
   void store_file(FileId file_id, StorerT &storer, int32 ttl = 5) const;
@@ -521,38 +578,157 @@ class FileManager final : public FileLoadManager::Callback {
   FileId parse_file(ParserT &parser);
 
  private:
+  static constexpr bool STORE_FILE_INFO = false;
+
+  class FileDownloadManagerCallback final : public FileDownloadManager::Callback {
+   public:
+    explicit FileDownloadManagerCallback(ActorId<FileManager> actor_id) : actor_id_(std::move(actor_id)) {
+    }
+
+   private:
+    ActorId<FileManager> actor_id_;
+
+    void on_start_download(FileDownloadManager::QueryId query_id) final {
+      send_closure(actor_id_, &FileManager::on_start_download, query_id);
+    }
+
+    void on_partial_download(FileDownloadManager::QueryId query_id, PartialLocalFileLocation partial_local,
+                             int64 size) final {
+      send_closure(actor_id_, &FileManager::on_partial_download, query_id, std::move(partial_local), size);
+    }
+
+    void on_download_ok(FileDownloadManager::QueryId query_id, FullLocalFileLocation local, int64 size,
+                        bool is_new) final {
+      send_closure(actor_id_, &FileManager::on_download_ok, query_id, std::move(local), size, is_new);
+    }
+
+    void on_error(FileDownloadManager::QueryId query_id, Status status) final {
+      send_closure(actor_id_, &FileManager::on_download_error, query_id, std::move(status));
+    }
+  };
+  class FileUploadManagerCallback final : public FileUploadManager::Callback {
+   public:
+    explicit FileUploadManagerCallback(ActorId<FileManager> actor_id) : actor_id_(std::move(actor_id)) {
+    }
+
+   private:
+    ActorId<FileManager> actor_id_;
+
+    void on_partial_upload(FileUploadManager::QueryId query_id, PartialRemoteFileLocation partial_remote) final {
+      send_closure(actor_id_, &FileManager::on_partial_upload, query_id, std::move(partial_remote));
+    }
+
+    void on_hash(FileUploadManager::QueryId query_id, string hash) final {
+      send_closure(actor_id_, &FileManager::on_hash, query_id, std::move(hash));
+    }
+
+    void on_upload_ok(FileUploadManager::QueryId query_id, FileType file_type, PartialRemoteFileLocation remote) final {
+      send_closure(actor_id_, &FileManager::on_upload_ok, query_id, file_type, std::move(remote));
+    }
+
+    void on_upload_full_ok(FileUploadManager::QueryId query_id, FullRemoteFileLocation remote) final {
+      send_closure(actor_id_, &FileManager::on_upload_full_ok, query_id, std::move(remote));
+    }
+
+    void on_error(FileUploadManager::QueryId query_id, Status status) final {
+      send_closure(actor_id_, &FileManager::on_upload_error, query_id, std::move(status));
+    }
+  };
+
+  class PreliminaryUploadFileCallback;
+
   Result<FileId> check_input_file_id(FileType type, Result<FileId> result, bool is_encrypted, bool allow_zero,
                                      bool is_secure) TD_WARN_UNUSED_RESULT;
 
-  FileId register_url(string url, FileType file_type, FileLocationSource file_location_source,
-                      DialogId owner_dialog_id);
-  Result<FileId> register_file(FileData &&data, FileLocationSource file_location_source, FileId merge_file_id,
-                               const char *source, bool force, bool skip_file_size_checks = false);
+  FileId do_register_generate(unique_ptr<FullGenerateFileLocation> generate, DialogId owner_dialog_id,
+                              int64 expected_size, string url) TD_WARN_UNUSED_RESULT;
+
+  FileId register_url(string url, FileType file_type, DialogId owner_dialog_id);
+
+  Result<FileId> register_file(FileData &&data, FileLocationSource file_location_source, const char *source);
 
   static constexpr int8 FROM_BYTES_PRIORITY = 10;
 
   using FileNodeId = int32;
 
-  using QueryId = FileLoadManager::QueryId;
-  class Query {
-   public:
+  struct DownloadQuery {
+    FileId file_id_;
+    enum class Type : int32 {
+      DownloadWaitFileReference,
+      DownloadReloadDialog,
+      Download,
+      SetContent,
+    } type_;
+  };
+  friend StringBuilder &operator<<(StringBuilder &string_builder, DownloadQuery::Type type);
+
+  struct GenerateQuery {
+    FileId file_id_;
+  };
+
+  struct UploadQuery {
     FileId file_id_;
     enum class Type : int32 {
       UploadByHash,
       UploadWaitFileReference,
       Upload,
-      DownloadWaitFileReference,
-      DownloadReloadDialog,
-      Download,
-      SetContent,
-      Generate
     } type_;
   };
+  friend StringBuilder &operator<<(StringBuilder &string_builder, UploadQuery::Type type);
 
-  friend StringBuilder &operator<<(StringBuilder &string_builder, Query::Type type);
+  enum class FileInfoType { Local, Generate, Remote };
+
+  class FileInfo {
+   public:
+    FileInfo() = default;
+    FileInfo(const FileInfo &) = delete;
+    FileInfo &operator=(const FileInfo &) = delete;
+    FileInfo(FileInfo &&) = delete;
+    FileInfo &operator=(FileInfo &&) = delete;
+    virtual ~FileInfo() = default;
+
+    virtual FileInfoType get_file_info_type() const = 0;
+
+    virtual FileType get_file_type() const = 0;
+
+    virtual int64 get_local_size() const = 0;
+
+    virtual int64 get_remote_size() const = 0;
+
+    virtual int64 get_size() const = 0;
+
+    virtual int64 get_expected_size(bool may_guess) const = 0;
+
+    virtual const FullLocalFileLocation *get_local_location() const = 0;
+
+    virtual const FullGenerateFileLocation *get_generate_location() const = 0;
+
+    virtual const FullRemoteFileLocation *get_remote_location() const = 0;
+
+    virtual const string *get_url() const = 0;
+
+    virtual string get_path() const = 0;
+
+    virtual string get_suggested_path() const = 0;
+
+    virtual string get_remote_name() const = 0;
+
+    virtual string get_persistent_file_id() const = 0;
+
+    virtual string get_unique_file_id() const = 0;
+
+    virtual bool can_be_deleted() const = 0;
+
+    virtual unique_ptr<FileInfo> clone() const = 0;
+  };
+
+  class FileInfoLocal;
+  class FileInfoGenerate;
+  class FileInfoRemote;
 
   struct FileIdInfo {
     FileNodeId node_id_{0};
+    unique_ptr<FileInfo> file_info_;
     bool send_updates_flag_{false};
     bool pin_flag_{false};
     bool sent_file_id_flag_{false};
@@ -595,13 +771,17 @@ class FileManager final : public FileLoadManager::Callback {
   std::map<FullLocalFileLocation, FileId> local_location_to_file_id_;
   std::map<FullGenerateFileLocation, FileId> generate_location_to_file_id_;
 
-  WaitFreeVector<FileIdInfo> file_id_info_;
+  WaitFreeVector<unique_ptr<FileIdInfo>> file_id_info_;
   WaitFreeVector<int32> empty_file_ids_;
   WaitFreeVector<unique_ptr<FileNode>> file_nodes_;
+  ActorOwn<FileDownloadManager> file_download_manager_;
   ActorOwn<FileLoadManager> file_load_manager_;
+  ActorOwn<FileUploadManager> file_upload_manager_;
   ActorOwn<FileGenerateManager> file_generate_manager_;
 
-  Container<Query> queries_container_;
+  Container<DownloadQuery> download_queries_;
+  Container<GenerateQuery> generate_queries_;
+  Container<UploadQuery> upload_queries_;
 
   bool is_closed_ = false;
 
@@ -612,16 +792,7 @@ class FileManager final : public FileLoadManager::Callback {
   FileId next_file_id();
   FileNodeId next_file_node_id();
   int32 next_pmc_file_id();
-  FileId create_file_id(int32 file_node_id, FileNode *file_node);
-  void try_forget_file_id(FileId file_id);
-
-  void load_from_pmc(FileId file_id, FullLocalFileLocation full_local);
-  void load_from_pmc(FileId file_id, const FullRemoteFileLocation &full_remote);
-  void load_from_pmc(FileId file_id, const FullGenerateFileLocation &full_generate);
-  template <class LocationT>
-  void load_from_pmc_impl(FileId file_id, const LocationT &location);
-  void load_from_pmc_result(FileId file_id, Result<FileData> &&result);
-  FileId register_pmc_file_data(FileData &&data);
+  bool try_forget_file_id(FileId file_id);
 
   void download_impl(FileId file_id, std::shared_ptr<DownloadCallback> callback, int32 new_priority, int64 offset,
                      int64 limit, Status check_status, Promise<td_api::object_ptr<td_api::file>> promise);
@@ -672,22 +843,31 @@ class FileManager final : public FileLoadManager::Callback {
   void run_download(FileNodePtr node, bool force_update_priority);
   void run_generate(FileNodePtr node);
 
-  void on_start_download(QueryId query_id) final;
-  void on_partial_download(QueryId query_id, PartialLocalFileLocation partial_local, int64 ready_size,
-                           int64 size) final;
-  void on_hash(QueryId query_id, string hash) final;
-  void on_partial_upload(QueryId query_id, PartialRemoteFileLocation partial_remote, int64 ready_size) final;
-  void on_download_ok(QueryId query_id, FullLocalFileLocation local, int64 size, bool is_new) final;
-  void on_upload_ok(QueryId query_id, FileType file_type, PartialRemoteFileLocation partial_remote, int64 size) final;
-  void on_upload_full_ok(QueryId query_id, FullRemoteFileLocation remote) final;
-  void on_error(QueryId query_id, Status status) final;
+  void on_start_download(FileDownloadManager::QueryId query_id);
+  void on_partial_download(FileDownloadManager::QueryId query_id, PartialLocalFileLocation partial_local, int64 size);
+  void on_download_ok(FileDownloadManager::QueryId query_id, FullLocalFileLocation local, int64 size, bool is_new);
+  void on_download_error(FileDownloadManager::QueryId query_id, Status status);
+  void on_download_error_impl(FileNodePtr node, DownloadQuery::Type type, bool was_active, Status status);
 
-  void on_error_impl(FileNodePtr node, Query::Type type, bool was_active, Status status);
+  void on_hash(FileUploadManager::QueryId query_id, string hash);
+  void on_partial_upload(FileUploadManager::QueryId query_id, PartialRemoteFileLocation partial_remote);
+  void on_upload_ok(FileUploadManager::QueryId query_id, FileType file_type, PartialRemoteFileLocation partial_remote);
+  void on_upload_full_ok(FileUploadManager::QueryId query_id, FullRemoteFileLocation remote);
+  void on_upload_error(FileUploadManager::QueryId query_id, Status status);
+  void on_upload_error_impl(FileNodePtr node, UploadQuery::Type type, bool was_active, Status status);
 
-  void on_partial_generate(QueryId, PartialLocalFileLocation partial_local, int64 expected_size);
-  void on_generate_ok(QueryId, FullLocalFileLocation local);
+  void on_partial_generate(FileGenerateManager::QueryId, PartialLocalFileLocation partial_local, int64 expected_size);
+  void on_generate_ok(FileGenerateManager::QueryId, FullLocalFileLocation local);
+  void on_generate_error(FileGenerateManager::QueryId query_id, Status status);
+  void on_generate_error_impl(FileNodePtr node, bool was_active, Status status);
 
-  std::pair<Query, bool> finish_query(QueryId query_id);
+  void on_file_load_error(FileNodePtr node, Status status);
+
+  std::pair<DownloadQuery, bool> finish_download_query(FileDownloadManager::QueryId query_id);
+
+  std::pair<GenerateQuery, bool> finish_generate_query(FileGenerateManager::QueryId query_id);
+
+  std::pair<UploadQuery, bool> finish_upload_query(FileUploadManager::QueryId query_id);
 
   FullRemoteFileLocation *get_remote(int32 key);
 

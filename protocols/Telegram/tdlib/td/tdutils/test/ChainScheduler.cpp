@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -116,7 +116,7 @@ TEST(ChainScheduler, Stress) {
   td::vector<QueryWithParents> active_queries;
 
   td::ChainScheduler<QueryPtr> scheduler;
-  td::vector<td::vector<QueryPtr>> chains(ChainsN);
+  td::vector<td::vector<QueryPtr>> chains(ChainsN + 1);
   int inflight_queries{};
   int current_query_id{};
   int sent_cnt{};
@@ -138,7 +138,7 @@ TEST(ChainScheduler, Stress) {
     query->id = query_id;
     int chain_n = rnd.fast(1, ChainsN);
     td::vector<ChainId> chain_ids(ChainsN);
-    std::iota(chain_ids.begin(), chain_ids.end(), 0);
+    std::iota(chain_ids.begin(), chain_ids.end(), 1);
     td::rand_shuffle(td::as_mutable_span(chain_ids), rnd);
     chain_ids.resize(chain_n);
     for (auto chain_id : chain_ids) {
@@ -151,7 +151,7 @@ TEST(ChainScheduler, Stress) {
   };
 
   auto check_parents_ok = [&](const QueryWithParents &query_with_parents) -> bool {
-    return td::all_of(query_with_parents.parents, [](auto &parent) { return parent->is_ok; });
+    return td::all_of(query_with_parents.parents, [](const auto &parent) { return parent->is_ok; });
   };
 
   auto to_query_ptr = [&](TaskId task_id) {

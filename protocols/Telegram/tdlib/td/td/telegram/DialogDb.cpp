@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,7 +10,6 @@
 
 #include "td/db/SqliteConnectionSafe.h"
 #include "td/db/SqliteDb.h"
-#include "td/db/SqliteKeyValue.h"
 #include "td/db/SqliteStatement.h"
 
 #include "td/actor/actor.h"
@@ -34,9 +33,7 @@ Status init_dialog_db(SqliteDb &db, int32 version, KeyValueSyncInterface &binlog
   TRY_RESULT(has_table, db.has_table("dialogs"));
   if (!has_table) {
     version = 0;
-  }
-
-  if (version < static_cast<int32>(DbVersion::DialogDbCreated) || version > current_db_version()) {
+  } else if (version > current_db_version()) {
     TRY_STATUS(drop_dialog_db(db, version));
     version = 0;
   }
@@ -104,17 +101,8 @@ Status init_dialog_db(SqliteDb &db, int32 version, KeyValueSyncInterface &binlog
 
 // NB: must happen inside a transaction
 Status drop_dialog_db(SqliteDb &db, int version) {
-  if (version < static_cast<int32>(DbVersion::DialogDbCreated)) {
-    if (version != 0) {
-      LOG(WARNING) << "Drop old pmc dialog_db";
-    }
-    SqliteKeyValue kv;
-    kv.init_with_connection(db.clone(), "common").ensure();
-    kv.erase_by_prefix("di");
-  }
-
   if (version != 0) {
-    LOG(WARNING) << "Drop dialog_db " << tag("version", version) << tag("current_db_version", current_db_version());
+    LOG(WARNING) << "Drop chat database " << tag("version", version) << tag("current_db_version", current_db_version());
   }
   auto status = db.exec("DROP TABLE IF EXISTS dialogs");
   TRY_STATUS(db.exec("DROP TABLE IF EXISTS notification_groups"));

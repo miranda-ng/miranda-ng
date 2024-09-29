@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,10 +9,12 @@
 #include "td/telegram/AuthManager.h"
 #include "td/telegram/net/ConnectionCreator.h"
 #include "td/telegram/net/NetQueryDispatcher.h"
+#include "td/telegram/net/NetQueryStats.h"
 #include "td/telegram/net/TempAuthKeyWatchdog.h"
 #include "td/telegram/OptionManager.h"
 #include "td/telegram/StateManager.h"
 #include "td/telegram/TdDb.h"
+#include "td/telegram/UpdatesManager.h"
 
 #include "td/utils/format.h"
 #include "td/utils/logging.h"
@@ -24,7 +26,13 @@
 
 namespace td {
 
-Global::Global() = default;
+Global::Global() {
+  auto current_scheduler_id = Scheduler::instance()->sched_id();
+  auto max_scheduler_id = Scheduler::instance()->sched_count() - 1;
+  database_scheduler_id_ = min(current_scheduler_id + 1, max_scheduler_id);
+  gc_scheduler_id_ = min(current_scheduler_id + 2, max_scheduler_id);
+  slow_net_scheduler_id_ = min(current_scheduler_id + 3, max_scheduler_id);
+}
 
 Global::~Global() = default;
 
@@ -32,13 +40,9 @@ void Global::log_out(Slice reason) {
   send_closure(auth_manager_, &AuthManager::on_authorization_lost, reason.str());
 }
 
-void Global::close_all(Promise<> on_finished) {
-  td_db_->close_all(std::move(on_finished));
-  state_manager_.clear();
-}
-
-void Global::close_and_destroy_all(Promise<> on_finished) {
-  td_db_->close_and_destroy_all(std::move(on_finished));
+void Global::close_all(bool destroy_flag, Promise<Unit> on_finished) {
+  td_db_->close(use_sqlite_pmc() ? get_database_scheduler_id() : get_slow_net_scheduler_id(), destroy_flag,
+                std::move(on_finished));
   state_manager_.clear();
 }
 
@@ -86,9 +90,6 @@ struct ServerTimeDiff {
 };
 
 Status Global::init(ActorId<Td> td, unique_ptr<TdDb> td_db_ptr) {
-  gc_scheduler_id_ = min(Scheduler::instance()->sched_id() + 2, Scheduler::instance()->sched_count() - 1);
-  slow_net_scheduler_id_ = min(Scheduler::instance()->sched_id() + 3, Scheduler::instance()->sched_count() - 1);
-
   td_ = td;
   td_db_ = std::move(td_db_ptr);
 
@@ -342,6 +343,10 @@ void Global::add_location_access_hash(double latitude, double longitude, int64 a
   }
 
   location_access_hashes_[get_location_key(latitude, longitude)] = access_hash;
+}
+
+void Global::notify_speed_limited(bool is_upload) {
+  send_closure(updates_manager_, &UpdatesManager::notify_speed_limited, is_upload);
 }
 
 double get_global_server_time() {

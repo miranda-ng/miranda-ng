@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,6 +8,7 @@
 
 #include "td/telegram/misc.h"
 #include "td/telegram/ServerMessageId.h"
+#include "td/telegram/telegram_api.h"
 
 #include "td/utils/emoji.h"
 #include "td/utils/misc.h"
@@ -356,8 +357,10 @@ bool DialogAction::is_canceled_by_message_of_type(MessageContentType message_con
     case MessageContentType::ExpiredVideo:
     case MessageContentType::Video:
       return type_ == Type::RecordingVideo || type_ == Type::UploadingVideo;
+    case MessageContentType::ExpiredVideoNote:
     case MessageContentType::VideoNote:
       return type_ == Type::RecordingVideoNote || type_ == Type::UploadingVideoNote;
+    case MessageContentType::ExpiredVoiceNote:
     case MessageContentType::VoiceNote:
       return type_ == Type::RecordingVoiceNote || type_ == Type::UploadingVoiceNote;
     case MessageContentType::Contact:
@@ -370,6 +373,7 @@ bool DialogAction::is_canceled_by_message_of_type(MessageContentType message_con
       return type_ == Type::ChoosingSticker;
     case MessageContentType::Game:
     case MessageContentType::Invoice:
+    case MessageContentType::PaidMedia:
     case MessageContentType::Text:
     case MessageContentType::Unsupported:
     case MessageContentType::ChatCreate:
@@ -410,6 +414,18 @@ bool DialogAction::is_canceled_by_message_of_type(MessageContentType message_con
     case MessageContentType::RequestedDialog:
     case MessageContentType::WebViewWriteAccessAllowed:
     case MessageContentType::SetBackground:
+    case MessageContentType::Story:
+    case MessageContentType::WriteAccessAllowedByRequest:
+    case MessageContentType::GiftCode:
+    case MessageContentType::Giveaway:
+    case MessageContentType::GiveawayLaunch:
+    case MessageContentType::GiveawayResults:
+    case MessageContentType::GiveawayWinners:
+    case MessageContentType::BoostApply:
+    case MessageContentType::DialogShared:
+    case MessageContentType::PaymentRefunded:
+    case MessageContentType::GiftStars:
+    case MessageContentType::PrizeStars:
       return false;
     default:
       UNREACHABLE();
@@ -422,6 +438,7 @@ DialogAction DialogAction::get_uploading_action(MessageContentType message_conte
     case MessageContentType::Animation:
     case MessageContentType::Audio:
     case MessageContentType::Document:
+    case MessageContentType::PaidMedia:
       return DialogAction(Type::UploadingDocument, progress);
     case MessageContentType::Photo:
       return DialogAction(Type::UploadingPhoto, progress);

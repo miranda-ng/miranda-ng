@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,7 +23,7 @@
 namespace td {
 
 void DcOptionsSet::add_dc_options(DcOptions dc_options) {
-  std::vector<DcOptionId> new_ordered_options;
+  vector<DcOptionId> new_ordered_options;
   for (auto &option : dc_options.dc_options) {
     auto *info = register_dc_option(std::move(option));
     new_ordered_options.push_back(DcOptionId{info->pos});
@@ -55,8 +55,8 @@ vector<DcOptionsSet::ConnectionInfo> DcOptionsSet::find_all_connections(DcId dc_
                                                                         bool only_http) {
   LOG(DEBUG) << "Find all " << (allow_media_only ? "media " : "") << "connections in " << dc_id
              << ". use_static = " << use_static << ", prefer_ipv6 = " << prefer_ipv6 << ", only_http = " << only_http;
-  std::vector<ConnectionInfo> options;
-  std::vector<ConnectionInfo> static_options;
+  vector<ConnectionInfo> options;
+  vector<ConnectionInfo> static_options;
 
   if (prefer_ipv6) {
     use_static = false;
@@ -93,7 +93,12 @@ vector<DcOptionsSet::ConnectionInfo> DcOptionsSet::find_all_connections(DcId dc_
     }
 
     if (only_http) {
-      if (!option.is_obfuscated_tcp_only() && !option.is_static() && (prefer_ipv6 || !option.is_ipv6())) {
+#if TD_DARWIN_WATCH_OS
+      bool allow_ipv6 = true;
+#else
+      bool allow_ipv6 = prefer_ipv6;
+#endif
+      if (!option.is_obfuscated_tcp_only() && !option.is_static() && (allow_ipv6 || !option.is_ipv6())) {
         info.use_http = true;
         info.stat = &option_stat->http_stat;
         options.push_back(info);
@@ -105,7 +110,7 @@ vector<DcOptionsSet::ConnectionInfo> DcOptionsSet::find_all_connections(DcId dc_
     if (!static_options.empty()) {
       options = std::move(static_options);
     } else {
-      bool have_ipv4 = std::any_of(options.begin(), options.end(), [](auto &v) { return !v.option->is_ipv6(); });
+      bool have_ipv4 = any_of(options, [](const auto &v) { return !v.option->is_ipv6(); });
       if (have_ipv4) {
         td::remove_if(options, [](auto &v) { return v.option->is_ipv6(); });
       }
@@ -117,13 +122,13 @@ vector<DcOptionsSet::ConnectionInfo> DcOptionsSet::find_all_connections(DcId dc_
   }
 
   if (prefer_ipv6) {
-    bool have_ipv6 = std::any_of(options.begin(), options.end(), [](auto &v) { return v.option->is_ipv6(); });
+    bool have_ipv6 = any_of(options, [](const auto &v) { return v.option->is_ipv6(); });
     if (have_ipv6) {
       td::remove_if(options, [](auto &v) { return !v.option->is_ipv6(); });
     }
   }
 
-  bool have_media_only = std::any_of(options.begin(), options.end(), [](auto &v) { return v.option->is_media_only(); });
+  bool have_media_only = any_of(options, [](const auto &v) { return v.option->is_media_only(); });
   if (have_media_only) {
     td::remove_if(options, [](auto &v) { return !v.option->is_media_only(); });
   }
@@ -183,15 +188,19 @@ DcOptionsSet::DcOptionInfo *DcOptionsSet::register_dc_option(DcOption &&option) 
 
 void DcOptionsSet::init_option_stat(DcOptionInfo *option_info) {
   const auto &ip_address = option_info->option.get_ip_address();
-  auto it_ok = option_to_stat_id_.emplace(ip_address, 0);
-  if (it_ok.second) {
-    it_ok.first->second = option_stats_.create(make_unique<OptionStat>());
+  for (size_t i = 0; i < option_stats_.size(); i++) {
+    if (option_stats_[i].first == ip_address) {
+      option_info->stat_id = i;
+      return;
+    }
   }
-  option_info->stat_id = it_ok.first->second;
+  option_stats_.emplace_back(ip_address, make_unique<OptionStat>());
+  option_info->stat_id = option_stats_.size() - 1;
 }
 
 DcOptionsSet::OptionStat *DcOptionsSet::get_option_stat(const DcOptionInfo *option_info) {
-  return option_stats_.get(option_info->stat_id)->get();
+  CHECK(option_info->stat_id < option_stats_.size());
+  return option_stats_[option_info->stat_id].second.get();
 }
 
 }  // namespace td

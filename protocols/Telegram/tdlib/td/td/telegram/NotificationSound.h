@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -55,12 +55,14 @@ int64 get_notification_sound_ringtone_id(const unique_ptr<NotificationSound> &no
 
 unique_ptr<NotificationSound> get_legacy_notification_sound(const string &sound);
 
+unique_ptr<NotificationSound> get_notification_sound(telegram_api::NotificationSound *notification_sound);
+
 unique_ptr<NotificationSound> get_notification_sound(bool use_default_sound, int64 ringtone_id);
 
-unique_ptr<NotificationSound> get_notification_sound(telegram_api::peerNotifySettings *settings);
+unique_ptr<NotificationSound> get_notification_sound(telegram_api::peerNotifySettings *settings, bool for_stories);
 
 telegram_api::object_ptr<telegram_api::NotificationSound> get_input_notification_sound(
-    const unique_ptr<NotificationSound> &notification_sound);
+    const unique_ptr<NotificationSound> &notification_sound, bool return_non_null = false);
 
 unique_ptr<NotificationSound> dup_notification_sound(const unique_ptr<NotificationSound> &notification_sound);
 

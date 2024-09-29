@@ -1,12 +1,11 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/CallActor.h"
 
-#include "td/telegram/ContactsManager.h"
 #include "td/telegram/DhCache.h"
 #include "td/telegram/DialogId.h"
 #include "td/telegram/files/FileManager.h"
@@ -17,8 +16,9 @@
 #include "td/telegram/net/NetQueryDispatcher.h"
 #include "td/telegram/NotificationManager.h"
 #include "td/telegram/Td.h"
-#include "td/telegram/telegram_api.hpp"
+#include "td/telegram/telegram_api.h"
 #include "td/telegram/UpdatesManager.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/utils/algorithm.h"
 #include "td/utils/as.h"
@@ -124,7 +124,8 @@ tl_object_ptr<td_api::CallState> CallState::get_call_state_object() const {
     case Type::Ready: {
       auto call_connections = transform(connections, [](auto &c) { return c.get_call_server_object(); });
       return make_tl_object<td_api::callStateReady>(protocol.get_call_protocol_object(), std::move(call_connections),
-                                                    config, key, vector<string>(emojis_fingerprint), allow_p2p);
+                                                    config, key, vector<string>(emojis_fingerprint), allow_p2p,
+                                                    custom_parameters);
     }
     case Type::HangingUp:
       return make_tl_object<td_api::callStateHangingUp>();
@@ -365,7 +366,7 @@ void CallActor::send_call_log(td_api::object_ptr<td_api::InputFile> log_file, Pr
   if (file_view.is_encrypted()) {
     return promise.set_error(Status::Error(400, "Can't use encrypted file"));
   }
-  if (!file_view.has_local_location() && !file_view.has_generate_location()) {
+  if (!file_view.has_full_local_location() && !file_view.has_generate_location()) {
     return promise.set_error(Status::Error(400, "Need local or generate location to upload call log"));
   }
 
@@ -458,8 +459,9 @@ void CallActor::on_save_log_query_result(FileId file_id, Promise<Unit> promise, 
   auto res = fetch_result<telegram_api::phone_saveCallLog>(std::move(r_net_query));
   if (res.is_error()) {
     auto error = res.move_as_error();
-    if (begins_with(error.message(), "FILE_PART_") && ends_with(error.message(), "_MISSING")) {
-      // TODO on_upload_log_file_part_missing(file_id, to_integer<int32>(error.message().substr(10)));
+    auto bad_parts = FileManager::get_missing_file_parts(error);
+    if (!bad_parts.empty()) {
+      // TODO on_upload_log_file_parts_missing(file_id, std::move(bad_parts));
       // return;
     }
     return promise.set_error(std::move(error));
@@ -475,8 +477,25 @@ void CallActor::on_save_log_query_result(FileId file_id, Promise<Unit> promise, 
 // Requests
 void CallActor::update_call(tl_object_ptr<telegram_api::PhoneCall> call) {
   LOG(INFO) << "Receive " << to_string(call);
-  Status status;
-  downcast_call(*call, [&](auto &call) { status = this->do_update_call(call); });
+  auto status = [&] {
+    switch (call->get_id()) {
+      case telegram_api::phoneCallEmpty::ID:
+        return do_update_call(static_cast<const telegram_api::phoneCallEmpty &>(*call));
+      case telegram_api::phoneCallWaiting::ID:
+        return do_update_call(static_cast<const telegram_api::phoneCallWaiting &>(*call));
+      case telegram_api::phoneCallRequested::ID:
+        return do_update_call(static_cast<const telegram_api::phoneCallRequested &>(*call));
+      case telegram_api::phoneCallAccepted::ID:
+        return do_update_call(static_cast<const telegram_api::phoneCallAccepted &>(*call));
+      case telegram_api::phoneCall::ID:
+        return do_update_call(static_cast<const telegram_api::phoneCall &>(*call));
+      case telegram_api::phoneCallDiscarded::ID:
+        return do_update_call(static_cast<const telegram_api::phoneCallDiscarded &>(*call));
+      default:
+        UNREACHABLE();
+        return Status::OK();
+    }
+  }();
   if (status.is_error()) {
     LOG(INFO) << "Receive error " << status << ", while handling update " << to_string(call);
     on_error(std::move(status));
@@ -486,15 +505,15 @@ void CallActor::update_call(tl_object_ptr<telegram_api::PhoneCall> call) {
 
 void CallActor::update_call_inner(tl_object_ptr<telegram_api::phone_phoneCall> call) {
   LOG(INFO) << "Update call with " << to_string(call);
-  send_closure(G()->contacts_manager(), &ContactsManager::on_get_users, std::move(call->users_), "UpdatePhoneCall");
+  send_closure(G()->user_manager(), &UserManager::on_get_users, std::move(call->users_), "UpdatePhoneCall");
   update_call(std::move(call->phone_call_));
 }
 
-Status CallActor::do_update_call(telegram_api::phoneCallEmpty &call) {
+Status CallActor::do_update_call(const telegram_api::phoneCallEmpty &call) {
   return Status::Error(400, "Call is finished");
 }
 
-Status CallActor::do_update_call(telegram_api::phoneCallWaiting &call) {
+Status CallActor::do_update_call(const telegram_api::phoneCallWaiting &call) {
   if (state_ != State::WaitRequestResult && state_ != State::WaitAcceptResult) {
     return Status::Error(500, PSLICE() << "Drop unexpected " << to_string(call));
   }
@@ -518,9 +537,7 @@ Status CallActor::do_update_call(telegram_api::phoneCallWaiting &call) {
   is_video_ |= call.video_;
   call_admin_user_id_ = UserId(call.admin_id_);
   // call_participant_user_id_ = UserId(call.participant_id_);
-  if (call_id_promise_) {
-    call_id_promise_.set_value(std::move(call.id_));
-  }
+  on_get_call_id();
 
   if (!call_state_.is_created) {
     call_state_.is_created = true;
@@ -530,7 +547,7 @@ Status CallActor::do_update_call(telegram_api::phoneCallWaiting &call) {
   return Status::OK();
 }
 
-Status CallActor::do_update_call(telegram_api::phoneCallRequested &call) {
+Status CallActor::do_update_call(const telegram_api::phoneCallRequested &call) {
   if (state_ != State::Empty) {
     return Status::Error(500, PSLICE() << "Drop unexpected " << to_string(call));
   }
@@ -541,9 +558,7 @@ Status CallActor::do_update_call(telegram_api::phoneCallRequested &call) {
   is_video_ |= call.video_;
   call_admin_user_id_ = UserId(call.admin_id_);
   // call_participant_user_id_ = UserId(call.participant_id_);
-  if (call_id_promise_) {
-    call_id_promise_.set_value(std::move(call.id_));
-  }
+  on_get_call_id();
 
   dh_handshake_.set_g_a_hash(call.g_a_hash_.as_slice());
   state_ = State::SendAcceptQuery;
@@ -562,7 +577,7 @@ tl_object_ptr<telegram_api::inputPhoneCall> CallActor::get_input_phone_call(cons
   return make_tl_object<telegram_api::inputPhoneCall>(call_id_, call_access_hash_);
 }
 
-Status CallActor::do_update_call(telegram_api::phoneCallAccepted &call) {
+Status CallActor::do_update_call(const telegram_api::phoneCallAccepted &call) {
   if (state_ != State::WaitRequestResult) {
     return Status::Error(500, PSLICE() << "Drop unexpected " << to_string(call));
   }
@@ -574,9 +589,7 @@ Status CallActor::do_update_call(telegram_api::phoneCallAccepted &call) {
     is_call_id_inited_ = true;
     call_admin_user_id_ = UserId(call.admin_id_);
     // call_participant_user_id_ = UserId(call.participant_id_);
-    if (call_id_promise_) {
-      call_id_promise_.set_value(std::move(call.id_));
-    }
+    on_get_call_id();
   }
   is_video_ |= call.video_;
   dh_handshake_.set_g_a(call.g_b_.as_slice());
@@ -596,7 +609,7 @@ void CallActor::on_begin_exchanging_key() {
   set_timeout_in(timeout);
 }
 
-Status CallActor::do_update_call(telegram_api::phoneCall &call) {
+Status CallActor::do_update_call(const telegram_api::phoneCall &call) {
   if (state_ != State::WaitAcceptResult && state_ != State::WaitConfirmResult) {
     return Status::Error(500, PSLICE() << "Drop unexpected " << to_string(call));
   }
@@ -622,16 +635,27 @@ Status CallActor::do_update_call(telegram_api::phoneCall &call) {
   }
   call_state_.protocol = CallProtocol(*call.protocol_);
   call_state_.allow_p2p = call.p2p_allowed_;
+  if (call.custom_parameters_ != nullptr) {
+    call_state_.custom_parameters = std::move(call.custom_parameters_->data_);
+  }
   call_state_.type = CallState::Type::Ready;
   call_state_need_flush_ = true;
 
   return Status::OK();
 }
 
-Status CallActor::do_update_call(telegram_api::phoneCallDiscarded &call) {
+Status CallActor::do_update_call(const telegram_api::phoneCallDiscarded &call) {
   LOG(DEBUG) << "Do update call to Discarded";
   on_call_discarded(get_call_discard_reason(call.reason_), call.need_rating_, call.need_debug_, call.video_);
   return Status::OK();
+}
+
+void CallActor::on_get_call_id() {
+  if (call_id_promise_) {
+    int64 call_id = call_id_;
+    call_id_promise_.set_value(std::move(call_id));
+    call_id_promise_ = {};
+  }
 }
 
 void CallActor::on_call_discarded(CallDiscardReason reason, bool need_rating, bool need_debug, bool is_video) {
@@ -900,12 +924,16 @@ void CallActor::flush_call_state() {
     }
     call_state_need_flush_ = false;
 
-    // TODO can't call const function
-    // send_closure(G()->contacts_manager(), &ContactsManager::get_user_id_object, user_id_, "flush_call_state");
-    send_closure(G()->td(), &Td::send_update,
-                 make_tl_object<td_api::updateCall>(make_tl_object<td_api::call>(
-                     local_call_id_.get(), is_outgoing_ ? user_id_.get() : call_admin_user_id_.get(), is_outgoing_,
-                     is_video_, call_state_.get_call_state_object())));
+    auto peer_id = is_outgoing_ ? user_id_ : call_admin_user_id_;
+    auto update = td_api::make_object<td_api::updateCall>(td_api::make_object<td_api::call>(
+        local_call_id_.get(), 0, is_outgoing_, is_video_, call_state_.get_call_state_object()));
+    send_closure(G()->user_manager(), &UserManager::get_user_id_object_async, peer_id,
+                 [td_actor = G()->td(), update = std::move(update)](Result<int64> r_user_id) mutable {
+                   if (r_user_id.is_ok()) {
+                     update->call_->user_id_ = r_user_id.ok();
+                     send_closure(td_actor, &Td::send_update, std::move(update));
+                   }
+                 });
   }
 }
 

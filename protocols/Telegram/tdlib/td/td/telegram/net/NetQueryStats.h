@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,7 +23,7 @@ struct NetQueryDebug {
   double state_timestamp_ = 0;
   int32 state_change_count_ = 0;
   int32 send_failed_count_ = 0;
-  int ack_state_ = 0;
+  int32 ack_state_ = 0;
   bool unknown_state_ = false;
 };
 

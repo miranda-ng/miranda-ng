@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -66,7 +66,7 @@ class GoogleDnsResolver final : public Actor {
         return Status::Error("Failed to parse DNS result: Answer[0] is not an object");
       }
       auto &answer_0 = array[0].get_object();
-      TRY_RESULT(ip_str, get_json_object_string_field(answer_0, "data", false));
+      TRY_RESULT(ip_str, answer_0.get_required_string_field("data"));
       IPAddress ip;
       TRY_STATUS(ip.init_host_port(ip_str, 0));
       return ip;
@@ -82,7 +82,8 @@ class GoogleDnsResolver final : public Actor {
       if (json_value.type() != JsonValue::Type::Object) {
         return Status::Error("Failed to parse DNS result: not an object");
       }
-      TRY_RESULT(answer, get_json_object_field(json_value.get_object(), "Answer", JsonValue::Type::Array, false));
+      auto &object = json_value.get_object();
+      TRY_RESULT(answer, object.extract_required_field("Answer", JsonValue::Type::Array));
       return get_ip_address(answer);
     }
   }

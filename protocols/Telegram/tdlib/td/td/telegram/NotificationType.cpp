@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,7 +9,6 @@
 #include "td/telegram/AnimationsManager.h"
 #include "td/telegram/AudiosManager.h"
 #include "td/telegram/DocumentsManager.h"
-#include "td/telegram/Global.h"
 #include "td/telegram/MessageSender.h"
 #include "td/telegram/MessagesManager.h"
 #include "td/telegram/PhotoFormat.h"
@@ -19,6 +18,7 @@
 #include "td/telegram/VideosManager.h"
 #include "td/telegram/VoiceNotesManager.h"
 
+#include "td/utils/logging.h"
 #include "td/utils/misc.h"
 #include "td/utils/Slice.h"
 
@@ -35,7 +35,7 @@ class NotificationTypeMessage final : public NotificationType {
     return false;
   }
 
-  MessageId get_message_id() const final {
+  NotificationObjectId get_object_id() const final {
     return message_id_;
   }
 
@@ -43,9 +43,9 @@ class NotificationTypeMessage final : public NotificationType {
     return {};
   }
 
-  td_api::object_ptr<td_api::NotificationType> get_notification_type_object(DialogId dialog_id) const final {
-    auto message_object = G()->td().get_actor_unsafe()->messages_manager_->get_message_object(
-        {dialog_id, message_id_}, "get_notification_type_object");
+  td_api::object_ptr<td_api::NotificationType> get_notification_type_object(Td *td, DialogId dialog_id) const final {
+    auto message_object =
+        td->messages_manager_->get_message_object({dialog_id, message_id_}, "get_notification_type_object");
     if (message_object == nullptr) {
       return nullptr;
     }
@@ -74,15 +74,15 @@ class NotificationTypeSecretChat final : public NotificationType {
     return false;
   }
 
-  MessageId get_message_id() const final {
-    return MessageId();
+  NotificationObjectId get_object_id() const final {
+    return NotificationObjectId();
   }
 
   vector<FileId> get_file_ids(const Td *td) const final {
     return {};
   }
 
-  td_api::object_ptr<td_api::NotificationType> get_notification_type_object(DialogId dialog_id) const final {
+  td_api::object_ptr<td_api::NotificationType> get_notification_type_object(Td *, DialogId) const final {
     return td_api::make_object<td_api::notificationTypeNewSecretChat>();
   }
 
@@ -104,15 +104,15 @@ class NotificationTypeCall final : public NotificationType {
     return false;
   }
 
-  MessageId get_message_id() const final {
-    return MessageId::max();
+  NotificationObjectId get_object_id() const final {
+    return NotificationObjectId::max();
   }
 
   vector<FileId> get_file_ids(const Td *td) const final {
     return {};
   }
 
-  td_api::object_ptr<td_api::NotificationType> get_notification_type_object(DialogId dialog_id) const final {
+  td_api::object_ptr<td_api::NotificationType> get_notification_type_object(Td *, DialogId) const final {
     return td_api::make_object<td_api::notificationTypeNewCall>(call_id_.get());
   }
 
@@ -136,7 +136,7 @@ class NotificationTypePushMessage final : public NotificationType {
     return true;
   }
 
-  MessageId get_message_id() const final {
+  NotificationObjectId get_object_id() const final {
     return message_id_;
   }
 
@@ -148,7 +148,8 @@ class NotificationTypePushMessage final : public NotificationType {
     return photo_get_file_ids(photo_);
   }
 
-  static td_api::object_ptr<td_api::PushMessageContent> get_push_message_content_object(Slice key, const string &arg,
+  static td_api::object_ptr<td_api::PushMessageContent> get_push_message_content_object(Td *td, Slice key,
+                                                                                        const string &arg,
                                                                                         const Photo &photo,
                                                                                         const Document &document) {
     bool is_pinned = false;
@@ -167,14 +168,12 @@ class NotificationTypePushMessage final : public NotificationType {
     switch (key[8]) {
       case 'A':
         if (key == "MESSAGE_ANIMATION") {
-          auto animations_manager = G()->td().get_actor_unsafe()->animations_manager_.get();
           return td_api::make_object<td_api::pushMessageContentAnimation>(
-              animations_manager->get_animation_object(document.file_id), arg, is_pinned);
+              td->animations_manager_->get_animation_object(document.file_id), arg, is_pinned);
         }
         if (key == "MESSAGE_AUDIO") {
-          auto audios_manager = G()->td().get_actor_unsafe()->audios_manager_.get();
           return td_api::make_object<td_api::pushMessageContentAudio>(
-              audios_manager->get_audio_object(document.file_id), is_pinned);
+              td->audios_manager_->get_audio_object(document.file_id), is_pinned);
         }
         if (key == "MESSAGE_AUDIOS") {
           return td_api::make_object<td_api::pushMessageContentMediaAlbum>(to_integer<int32>(arg), false, false, true,
@@ -229,9 +228,8 @@ class NotificationTypePushMessage final : public NotificationType {
         break;
       case 'D':
         if (key == "MESSAGE_DOCUMENT") {
-          auto documents_manager = G()->td().get_actor_unsafe()->documents_manager_.get();
           return td_api::make_object<td_api::pushMessageContentDocument>(
-              documents_manager->get_document_object(document.file_id, PhotoFormat::Jpeg), is_pinned);
+              td->documents_manager_->get_document_object(document.file_id, PhotoFormat::Jpeg), is_pinned);
         }
         if (key == "MESSAGE_DOCUMENTS") {
           return td_api::make_object<td_api::pushMessageContentMediaAlbum>(to_integer<int32>(arg), false, false, false,
@@ -257,6 +255,37 @@ class NotificationTypePushMessage final : public NotificationType {
           }
           return td_api::make_object<td_api::pushMessageContentGameScore>(title, score, is_pinned);
         }
+        if (key == "MESSAGE_GIFTCODE") {
+          auto month_count = to_integer<int32>(arg);
+          return td_api::make_object<td_api::pushMessageContentPremiumGiftCode>(month_count);
+        }
+        if (key == "MESSAGE_GIVEAWAY") {
+          int32 user_count = 0;
+          int32 month_count = 0;
+          if (!is_pinned) {
+            string user_count_str;
+            string month_count_str;
+            std::tie(user_count_str, month_count_str) = split(arg);
+            user_count = to_integer<int32>(user_count_str);
+            month_count = to_integer<int32>(month_count_str);
+          }
+          return td_api::make_object<td_api::pushMessageContentGiveaway>(
+              user_count, is_pinned ? nullptr : td_api::make_object<td_api::giveawayPrizePremium>(month_count),
+              is_pinned);
+        }
+        if (key == "MESSAGE_GIVEAWAY_STARS") {
+          int32 user_count = 0;
+          int64 star_count = 0;
+          if (!is_pinned) {
+            string user_count_str;
+            string star_count_str;
+            std::tie(user_count_str, star_count_str) = split(arg);
+            user_count = to_integer<int32>(user_count_str);
+            star_count = to_integer<int64>(star_count_str);
+          }
+          return td_api::make_object<td_api::pushMessageContentGiveaway>(
+              user_count, is_pinned ? nullptr : td_api::make_object<td_api::giveawayPrizeStars>(star_count), is_pinned);
+        }
         break;
       case 'I':
         if (key == "MESSAGE_INVOICE") {
@@ -273,9 +302,8 @@ class NotificationTypePushMessage final : public NotificationType {
         break;
       case 'P':
         if (key == "MESSAGE_PHOTO") {
-          auto file_manager = G()->td().get_actor_unsafe()->file_manager_.get();
-          return td_api::make_object<td_api::pushMessageContentPhoto>(get_photo_object(file_manager, photo), arg, false,
-                                                                      is_pinned);
+          return td_api::make_object<td_api::pushMessageContentPhoto>(get_photo_object(td->file_manager_.get(), photo),
+                                                                      arg, false, is_pinned);
         }
         if (key == "MESSAGE_PHOTOS") {
           return td_api::make_object<td_api::pushMessageContentMediaAlbum>(to_integer<int32>(arg), true, false, false,
@@ -283,6 +311,13 @@ class NotificationTypePushMessage final : public NotificationType {
         }
         if (key == "MESSAGE_POLL") {
           return td_api::make_object<td_api::pushMessageContentPoll>(arg, true, is_pinned);
+        }
+        if (key == "MESSAGE_PAID_MEDIA") {
+          int64 star_count = 0;
+          if (!is_pinned) {
+            star_count = to_integer<int64>(arg);
+          }
+          return td_api::make_object<td_api::pushMessageContentPaidMedia>(star_count, is_pinned);
         }
         break;
       case 'Q':
@@ -309,9 +344,11 @@ class NotificationTypePushMessage final : public NotificationType {
           return td_api::make_object<td_api::pushMessageContentVideo>(nullptr, arg, true, false);
         }
         if (key == "MESSAGE_STICKER") {
-          auto stickers_manager = G()->td().get_actor_unsafe()->stickers_manager_.get();
           return td_api::make_object<td_api::pushMessageContentSticker>(
-              stickers_manager->get_sticker_object(document.file_id), trim(arg), is_pinned);
+              td->stickers_manager_->get_sticker_object(document.file_id), trim(arg), is_pinned);
+        }
+        if (key == "MESSAGE_STORY") {
+          return td_api::make_object<td_api::pushMessageContentStory>(is_pinned);
         }
         if (key == "MESSAGE_SUGGEST_PHOTO") {
           return td_api::make_object<td_api::pushMessageContentSuggestProfilePhoto>();
@@ -324,23 +361,20 @@ class NotificationTypePushMessage final : public NotificationType {
         break;
       case 'V':
         if (key == "MESSAGE_VIDEO") {
-          auto videos_manager = G()->td().get_actor_unsafe()->videos_manager_.get();
           return td_api::make_object<td_api::pushMessageContentVideo>(
-              videos_manager->get_video_object(document.file_id), arg, false, is_pinned);
+              td->videos_manager_->get_video_object(document.file_id), arg, false, is_pinned);
         }
         if (key == "MESSAGE_VIDEO_NOTE") {
-          auto video_notes_manager = G()->td().get_actor_unsafe()->video_notes_manager_.get();
           return td_api::make_object<td_api::pushMessageContentVideoNote>(
-              video_notes_manager->get_video_note_object(document.file_id), is_pinned);
+              td->video_notes_manager_->get_video_note_object(document.file_id), is_pinned);
         }
         if (key == "MESSAGE_VIDEOS") {
           return td_api::make_object<td_api::pushMessageContentMediaAlbum>(to_integer<int32>(arg), false, true, false,
                                                                            false);
         }
         if (key == "MESSAGE_VOICE_NOTE") {
-          auto voice_notes_manager = G()->td().get_actor_unsafe()->voice_notes_manager_.get();
           return td_api::make_object<td_api::pushMessageContentVoiceNote>(
-              voice_notes_manager->get_voice_note_object(document.file_id), is_pinned);
+              td->voice_notes_manager_->get_voice_note_object(document.file_id), is_pinned);
         }
         break;
       case 'W':
@@ -351,15 +385,15 @@ class NotificationTypePushMessage final : public NotificationType {
       default:
         break;
     }
-    UNREACHABLE();
+    LOG(FATAL) << "Have unsupported push notification key " << key;
+    return nullptr;
   }
 
-  td_api::object_ptr<td_api::NotificationType> get_notification_type_object(DialogId dialog_id) const final {
-    auto sender = get_message_sender_object(G()->td().get_actor_unsafe(), sender_user_id_, sender_dialog_id_,
-                                            "get_notification_type_object");
+  td_api::object_ptr<td_api::NotificationType> get_notification_type_object(Td *td, DialogId) const final {
+    auto sender = get_message_sender_object(td, sender_user_id_, sender_dialog_id_, "get_notification_type_object");
     return td_api::make_object<td_api::notificationTypeNewPushMessage>(
         message_id_.get(), std::move(sender), sender_name_, is_outgoing_,
-        get_push_message_content_object(key_, arg_, photo_, document_));
+        get_push_message_content_object(td, key_, arg_, photo_, document_));
   }
 
   StringBuilder &to_string_builder(StringBuilder &string_builder) const final {

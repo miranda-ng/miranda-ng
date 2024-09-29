@@ -1,12 +1,11 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/SecretChatsManager.h"
 
-#include "td/telegram/ContactsManager.h"
 #include "td/telegram/DhCache.h"
 #include "td/telegram/EncryptedFile.h"
 #include "td/telegram/FolderId.h"
@@ -14,11 +13,14 @@
 #include "td/telegram/logevent/SecretChatEvent.h"
 #include "td/telegram/MessageId.h"
 #include "td/telegram/MessagesManager.h"
+#include "td/telegram/net/NetQuery.h"
 #include "td/telegram/net/NetQueryDispatcher.h"
+#include "td/telegram/SecretChatDb.h"
 #include "td/telegram/SequenceDispatcher.h"
 #include "td/telegram/StateManager.h"
 #include "td/telegram/TdDb.h"
-#include "td/telegram/telegram_api.hpp"
+#include "td/telegram/telegram_api.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/mtproto/DhCallback.h"
 
@@ -167,7 +169,7 @@ void SecretChatsManager::on_update_chat(tl_object_ptr<telegram_api::updateEncryp
   PendingChatUpdate pending_update;
   pending_update.online_process_time_ = Timestamp::now();
   if (update->chat_->get_id() == telegram_api::encryptedChatRequested::ID) {
-#if TD_ANDROID || TD_DARWIN_IOS || TD_DARWIN_WATCH_OS || TD_TIZEN
+#if TD_ANDROID || TD_DARWIN_IOS
     pending_update.offline_process_time_ = Timestamp::in(1.0);
 #else
     pending_update.online_process_time_ = Timestamp::in(2.0);
@@ -181,12 +183,24 @@ void SecretChatsManager::on_update_chat(tl_object_ptr<telegram_api::updateEncryp
 }
 
 void SecretChatsManager::do_update_chat(tl_object_ptr<telegram_api::updateEncryption> update) {
-  int32 id = 0;
-  downcast_call(*update->chat_, [&](auto &x) { id = x.id_; });
-
-  send_closure(
-      update->chat_->get_id() == telegram_api::encryptedChatDiscarded::ID ? get_chat_actor(id) : create_chat_actor(id),
-      &SecretChatActor::update_chat, std::move(update->chat_));
+  auto actor_id = [this, chat = update->chat_.get()] {
+    switch (chat->get_id()) {
+      case telegram_api::encryptedChatEmpty::ID:
+        return create_chat_actor(static_cast<const telegram_api::encryptedChatEmpty *>(chat)->id_);
+      case telegram_api::encryptedChatWaiting::ID:
+        return create_chat_actor(static_cast<const telegram_api::encryptedChatWaiting *>(chat)->id_);
+      case telegram_api::encryptedChatRequested::ID:
+        return create_chat_actor(static_cast<const telegram_api::encryptedChatRequested *>(chat)->id_);
+      case telegram_api::encryptedChat::ID:
+        return create_chat_actor(static_cast<const telegram_api::encryptedChat *>(chat)->id_);
+      case telegram_api::encryptedChatDiscarded::ID:
+        return get_chat_actor(static_cast<const telegram_api::encryptedChatDiscarded *>(chat)->id_);
+      default:
+        UNREACHABLE();
+        return ActorId<SecretChatActor>();
+    }
+  }();
+  send_closure(actor_id, &SecretChatActor::update_chat, std::move(update->chat_));
 }
 
 void SecretChatsManager::on_new_message(tl_object_ptr<telegram_api::EncryptedMessage> &&message_ptr,
@@ -198,14 +212,24 @@ void SecretChatsManager::on_new_message(tl_object_ptr<telegram_api::EncryptedMes
 
   auto event = make_unique<log_event::InboundSecretMessage>();
   event->promise = std::move(promise);
-  downcast_call(*message_ptr, [&](auto &x) {
-    event->chat_id = x.chat_id_;
-    event->date = x.date_;
-    event->encrypted_message = std::move(x.bytes_);
-  });
-  if (message_ptr->get_id() == telegram_api::encryptedMessage::ID) {
-    auto message = move_tl_object_as<telegram_api::encryptedMessage>(message_ptr);
-    event->file = EncryptedFile::get_encrypted_file(std::move(message->file_));
+  switch (message_ptr->get_id()) {
+    case telegram_api::encryptedMessage::ID: {
+      auto message = telegram_api::move_object_as<telegram_api::encryptedMessage>(message_ptr);
+      event->chat_id = message->chat_id_;
+      event->date = message->date_;
+      event->encrypted_message = std::move(message->bytes_);
+      event->file = EncryptedFile::get_encrypted_file(std::move(message->file_));
+      break;
+    }
+    case telegram_api::encryptedMessageService::ID: {
+      auto message = telegram_api::move_object_as<telegram_api::encryptedMessageService>(message_ptr);
+      event->chat_id = message->chat_id_;
+      event->date = message->date_;
+      event->encrypted_message = std::move(message->bytes_);
+      break;
+    }
+    default:
+      UNREACHABLE();
   }
   add_inbound_message(std::move(event));
 }
@@ -343,8 +367,8 @@ unique_ptr<SecretChatActor::Context> SecretChatsManager::make_secret_chat_contex
 
     void on_update_secret_chat(int64 access_hash, UserId user_id, SecretChatState state, bool is_outbound, int32 ttl,
                                int32 date, string key_hash, int32 layer, FolderId initial_folder_id) final {
-      send_closure(G()->contacts_manager(), &ContactsManager::on_update_secret_chat, secret_chat_id_, access_hash,
-                   user_id, state, is_outbound, ttl, date, key_hash, layer, initial_folder_id);
+      send_closure(G()->user_manager(), &UserManager::on_update_secret_chat, secret_chat_id_, access_hash, user_id,
+                   state, is_outbound, ttl, date, key_hash, layer, initial_folder_id);
     }
 
     void on_inbound_message(UserId user_id, MessageId message_id, int32 date, unique_ptr<EncryptedFile> file,

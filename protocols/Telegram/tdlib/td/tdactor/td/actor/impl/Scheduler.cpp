@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,6 +12,7 @@
 #include "td/actor/impl/Event.h"
 #include "td/actor/impl/EventFull.h"
 
+#include "td/utils/algorithm.h"
 #include "td/utils/common.h"
 #include "td/utils/ExitGuard.h"
 #include "td/utils/format.h"
@@ -23,10 +24,10 @@
 #include "td/utils/port/thread_local.h"
 #include "td/utils/Promise.h"
 #include "td/utils/ScopeGuard.h"
+#include "td/utils/SliceBuilder.h"
 #include "td/utils/Time.h"
 
 #include <functional>
-#include <iterator>
 #include <memory>
 #include <utility>
 
@@ -80,6 +81,7 @@ void Scheduler::ServiceActor::start_up() {
 void Scheduler::ServiceActor::loop() {
   auto &queue = inbound_;
   int ready_n = queue->reader_wait_nonblock();
+  VLOG(actor) << "Have " << ready_n << " pending events";
   if (ready_n == 0) {
     return;
   }
@@ -228,7 +230,7 @@ void Scheduler::init(int32 id, std::vector<std::shared_ptr<MpscPollableQueue<Eve
   sched_id_ = id;
   sched_n_ = static_cast<int32>(outbound_queues_.size());
   service_actor_.set_queue(inbound_queue_);
-  register_actor("ServiceActor", &service_actor_).release();
+  register_actor(PSLICE() << "ServiceActor" << id, &service_actor_).release();
 }
 
 void Scheduler::clear() {
@@ -299,9 +301,36 @@ void Scheduler::do_event(ActorInfo *actor_info, Event &&event) {
   // can't clear event here. It may be already destroyed during destroy_actor
 }
 
+void Scheduler::get_actor_sched_id_to_send_immediately(const ActorInfo *actor_info, int32 &actor_sched_id,
+                                                       bool &on_current_sched, bool &can_send_immediately) {
+  bool is_migrating;
+  std::tie(actor_sched_id, is_migrating) = actor_info->migrate_dest_flag_atomic();
+  on_current_sched = !is_migrating && sched_id_ == actor_sched_id;
+  CHECK(has_guard_ || !on_current_sched);
+  can_send_immediately = on_current_sched && !actor_info->is_running() && actor_info->mailbox_.empty();
+}
+
+void Scheduler::send_later_impl(const ActorId<> &actor_id, Event &&event) {
+  ActorInfo *actor_info = actor_id.get_actor_info();
+  if (unlikely(actor_info == nullptr || close_flag_)) {
+    return;
+  }
+
+  int32 actor_sched_id;
+  bool is_migrating;
+  std::tie(actor_sched_id, is_migrating) = actor_info->migrate_dest_flag_atomic();
+  bool on_current_sched = !is_migrating && sched_id_ == actor_sched_id;
+  CHECK(has_guard_ || !on_current_sched);
+
+  if (on_current_sched) {
+    add_to_mailbox(actor_info, std::move(event));
+  } else {
+    send_to_scheduler(actor_sched_id, actor_id, std::move(event));
+  }
+}
+
 void Scheduler::register_migrated_actor(ActorInfo *actor_info) {
-  VLOG(actor) << "Register migrated actor: " << tag("name", *actor_info) << tag("ptr", actor_info)
-              << tag("actor_count", actor_count_);
+  VLOG(actor) << "Register migrated actor " << *actor_info << ", " << tag("actor_count", actor_count_);
   actor_count_++;
   LOG_CHECK(actor_info->is_migrating()) << *actor_info << ' ' << actor_count_ << ' ' << sched_id_ << ' '
                                         << actor_info->migrate_dest() << ' ' << actor_info->is_running() << ' '
@@ -314,8 +343,7 @@ void Scheduler::register_migrated_actor(ActorInfo *actor_info) {
   }
   auto it = pending_events_.find(actor_info);
   if (it != pending_events_.end()) {
-    actor_info->mailbox_.insert(actor_info->mailbox_.end(), std::make_move_iterator(it->second.begin()),
-                                std::make_move_iterator(it->second.end()));
+    append(actor_info->mailbox_, std::move(it->second));
     pending_events_.erase(it);
   }
   if (actor_info->mailbox_.empty()) {
@@ -390,6 +418,7 @@ void Scheduler::add_to_mailbox(ActorInfo *actor_info, Event &&event) {
 void Scheduler::do_stop_actor(Actor *actor) {
   return do_stop_actor(actor->get_info());
 }
+
 void Scheduler::do_stop_actor(ActorInfo *actor_info) {
   CHECK(!actor_info->is_migrating());
   LOG_CHECK(actor_info->migrate_dest() == sched_id_) << actor_info->migrate_dest() << " " << sched_id_;
@@ -411,6 +440,7 @@ void Scheduler::do_stop_actor(ActorInfo *actor_info) {
 void Scheduler::migrate_actor(Actor *actor, int32 dest_sched_id) {
   migrate_actor(actor->get_info(), dest_sched_id);
 }
+
 void Scheduler::migrate_actor(ActorInfo *actor_info, int32 dest_sched_id) {
   CHECK(event_context_ptr_->actor_info == actor_info);
   if (sched_id_ == dest_sched_id) {
@@ -423,6 +453,7 @@ void Scheduler::migrate_actor(ActorInfo *actor_info, int32 dest_sched_id) {
 void Scheduler::do_migrate_actor(Actor *actor, int32 dest_sched_id) {
   do_migrate_actor(actor->get_info(), dest_sched_id);
 }
+
 void Scheduler::do_migrate_actor(ActorInfo *actor_info, int32 dest_sched_id) {
 #if TD_THREAD_UNSUPPORTED || TD_EVENTFD_UNSUPPORTED
   dest_sched_id = 0;
@@ -439,7 +470,7 @@ void Scheduler::start_migrate_actor(Actor *actor, int32 dest_sched_id) {
 }
 
 void Scheduler::start_migrate_actor(ActorInfo *actor_info, int32 dest_sched_id) {
-  VLOG(actor) << "Start migrate actor: " << tag("name", actor_info) << tag("ptr", actor_info)
+  VLOG(actor) << "Start migrate actor " << *actor_info << " to scheduler " << dest_sched_id << ", "
               << tag("actor_count", actor_count_);
   actor_count_--;
   CHECK(actor_count_ >= 0);
@@ -490,6 +521,18 @@ void Scheduler::run_poll(Timestamp timeout) {
 #endif
 }
 
+void Scheduler::flush_mailbox(ActorInfo *actor_info) {
+  auto &mailbox = actor_info->mailbox_;
+  size_t mailbox_size = mailbox.size();
+  CHECK(mailbox_size != 0);
+  EventGuard guard(this, actor_info);
+  size_t i = 0;
+  for (; i < mailbox_size && guard.can_run(); i++) {
+    do_event(actor_info, std::move(mailbox[i]));
+  }
+  mailbox.erase(mailbox.begin(), mailbox.begin() + i);
+}
+
 void Scheduler::run_mailbox() {
   VLOG(actor) << "Run mailbox : begin";
   ListNode actors_list = std::move(ready_actors_list_);
@@ -497,7 +540,7 @@ void Scheduler::run_mailbox() {
     ListNode *node = actors_list.get();
     CHECK(node);
     auto actor_info = ActorInfo::from_list_node(node);
-    flush_mailbox(actor_info, static_cast<void (*)(ActorInfo *)>(nullptr), static_cast<Event (*)()>(nullptr));
+    flush_mailbox(actor_info);
   }
   VLOG(actor) << "Run mailbox : finish " << actor_count_;
 
@@ -525,7 +568,7 @@ Timestamp Scheduler::run_timeout() {
   while (!timeout_queue_.empty() && timeout_queue_.top_key() < now) {
     HeapNode *node = timeout_queue_.pop();
     ActorInfo *actor_info = ActorInfo::from_heap_node(node);
-    send<ActorSendType::Immediate>(actor_info->actor_id(), Event::timeout());
+    send_immediately(actor_info->actor_id(), Event::timeout());
   }
   return get_timeout();
 }

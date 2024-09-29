@@ -1,33 +1,38 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/OptionManager.h"
 
+#include "td/telegram/AccountManager.h"
 #include "td/telegram/AnimationsManager.h"
 #include "td/telegram/AttachMenuManager.h"
 #include "td/telegram/AuthManager.h"
+#include "td/telegram/ChatManager.h"
 #include "td/telegram/ConfigManager.h"
-#include "td/telegram/ContactsManager.h"
 #include "td/telegram/CountryInfoManager.h"
 #include "td/telegram/DialogId.h"
 #include "td/telegram/GitCommitHash.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/JsonValue.h"
 #include "td/telegram/LanguagePackManager.h"
-#include "td/telegram/MessageReaction.h"
 #include "td/telegram/net/MtprotoHeader.h"
 #include "td/telegram/net/NetQueryDispatcher.h"
 #include "td/telegram/NotificationManager.h"
+#include "td/telegram/OnlineManager.h"
+#include "td/telegram/PeopleNearbyManager.h"
+#include "td/telegram/ReactionType.h"
 #include "td/telegram/StateManager.h"
 #include "td/telegram/StickersManager.h"
 #include "td/telegram/StorageManager.h"
+#include "td/telegram/StoryManager.h"
 #include "td/telegram/SuggestedAction.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/TdDb.h"
 #include "td/telegram/TopDialogManager.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/db/KeyValueSyncInterface.h"
 #include "td/db/TsSeqKeyValue.h"
@@ -35,6 +40,7 @@
 #include "td/actor/actor.h"
 
 #include "td/utils/algorithm.h"
+#include "td/utils/FlatHashSet.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
 #include "td/utils/port/Clocks.h"
@@ -54,70 +60,179 @@ OptionManager::OptionManager(Td *td)
     , option_pmc_(G()->td_db()->get_config_pmc_shared()) {
   send_unix_time_update();
 
-  auto all_options = option_pmc_->get_all();
-  all_options["utc_time_offset"] = PSTRING() << 'I' << Clocks::tz_offset();
-  for (const auto &name_value : all_options) {
-    const string &name = name_value.first;
-    options_->set(name, name_value.second);
+  auto &options = options_->inner();
+
+  option_pmc_->for_each([&](Slice name, Slice value) {
+    if (name == "utc_time_offset") {
+      return;
+    }
+    CHECK(!name.empty());
+    options.set(name, value);
     if (!is_internal_option(name)) {
       send_closure(G()->td(), &Td::send_update,
-                   td_api::make_object<td_api::updateOption>(name, get_option_value_object(name_value.second)));
+                   td_api::make_object<td_api::updateOption>(name.str(), get_option_value_object(value)));
     } else {
       auto update = get_internal_option_update(name);
       if (update != nullptr) {
         send_closure(G()->td(), &Td::send_update, std::move(update));
       }
     }
+  });
+
+  auto utc_time_offset = PSTRING() << 'I' << Clocks::tz_offset();
+  options.set("utc_time_offset", utc_time_offset);
+  send_closure(G()->td(), &Td::send_update,
+               td_api::make_object<td_api::updateOption>("utc_time_offset", get_option_value_object(utc_time_offset)));
+
+  bool is_test_dc = G()->is_test_dc();
+  auto set_default_integer_option = [&](string name, int64 value) {
+    if (options.isset(name)) {
+      return;
+    }
+    auto str_value = PSTRING() << 'I' << value;
+    options.set(name, str_value);
+    option_pmc_->set(name, str_value);
+
+    if (!is_internal_option(name)) {
+      send_closure(
+          G()->td(), &Td::send_update,
+          td_api::make_object<td_api::updateOption>(name, td_api::make_object<td_api::optionValueInteger>(value)));
+    }
+  };
+  set_default_integer_option("telegram_service_notifications_chat_id",
+                             DialogId(UserManager::get_service_notifications_user_id()).get());
+  set_default_integer_option("replies_bot_chat_id", DialogId(UserManager::get_replies_bot_user_id()).get());
+  set_default_integer_option("group_anonymous_bot_user_id", UserManager::get_anonymous_bot_user_id().get());
+  set_default_integer_option("channel_bot_user_id", UserManager::get_channel_bot_user_id().get());
+  set_default_integer_option("anti_spam_bot_user_id", UserManager::get_anti_spam_bot_user_id().get());
+  set_default_integer_option("message_caption_length_max", 1024);
+  set_default_integer_option("message_reply_quote_length_max", 1024);
+  set_default_integer_option("story_caption_length_max", 200);
+  set_default_integer_option("bio_length_max", 70);
+  set_default_integer_option("suggested_video_note_length", 384);
+  set_default_integer_option("suggested_video_note_video_bitrate", 1000);
+  set_default_integer_option("suggested_video_note_audio_bitrate", 64);
+  set_default_integer_option("notification_sound_duration_max", 5);
+  set_default_integer_option("notification_sound_size_max", 307200);
+  set_default_integer_option("notification_sound_count_max", is_test_dc ? 5 : 100);
+  set_default_integer_option("chat_folder_count_max", is_test_dc ? 3 : 10);
+  set_default_integer_option("chat_folder_chosen_chat_count_max", is_test_dc ? 5 : 100);
+  set_default_integer_option("aggressive_anti_spam_supergroup_member_count_min", is_test_dc ? 1 : 100);
+  set_default_integer_option("pinned_forum_topic_count_max", is_test_dc ? 3 : 5);
+  set_default_integer_option("story_stealth_mode_past_period", 300);
+  set_default_integer_option("story_stealth_mode_future_period", 1500);
+  set_default_integer_option("story_stealth_mode_cooldown_period", 3600);
+  set_default_integer_option("giveaway_additional_chat_count_max", is_test_dc ? 3 : 10);
+  set_default_integer_option("giveaway_country_count_max", is_test_dc ? 3 : 10);
+  set_default_integer_option("giveaway_boost_count_per_premium", 4);
+  set_default_integer_option("giveaway_duration_max", 7 * 86400);
+  set_default_integer_option("premium_gift_boost_count", 3);
+  set_default_integer_option("chat_boost_level_max", is_test_dc ? 10 : 100);
+  set_default_integer_option("chat_available_reaction_count_max", 100);
+  set_default_integer_option("channel_bg_icon_level_min", is_test_dc ? 1 : 4);
+  set_default_integer_option("channel_custom_wallpaper_level_min", is_test_dc ? 4 : 10);
+  set_default_integer_option("channel_emoji_status_level_min", is_test_dc ? 2 : 8);
+  set_default_integer_option("channel_profile_bg_icon_level_min", is_test_dc ? 1 : 7);
+  set_default_integer_option("channel_restrict_sponsored_level_min", is_test_dc ? 5 : 50);
+  set_default_integer_option("channel_wallpaper_level_min", is_test_dc ? 3 : 9);
+  set_default_integer_option("pm_read_date_expire_period", 604800);
+  set_default_integer_option("group_transcribe_level_min", is_test_dc ? 4 : 6);
+  set_default_integer_option("group_emoji_stickers_level_min", is_test_dc ? 1 : 4);
+  set_default_integer_option("group_profile_bg_icon_level_min", is_test_dc ? 1 : 5);
+  set_default_integer_option("group_emoji_status_level_min", is_test_dc ? 2 : 8);
+  set_default_integer_option("group_wallpaper_level_min", is_test_dc ? 3 : 9);
+  set_default_integer_option("group_custom_wallpaper_level_min", is_test_dc ? 4 : 10);
+  set_default_integer_option("quick_reply_shortcut_count_max", is_test_dc ? 10 : 100);
+  set_default_integer_option("quick_reply_shortcut_message_count_max", 20);
+  set_default_integer_option("business_start_page_title_length_max", 32);
+  set_default_integer_option("business_start_page_message_length_max", 70);
+  set_default_integer_option("premium_download_speedup", 10);
+  set_default_integer_option("premium_upload_speedup", 10);
+  set_default_integer_option("upload_premium_speedup_notify_period", 3600);
+  set_default_integer_option("business_chat_link_count_max", is_test_dc ? 5 : 100);
+  set_default_integer_option("pinned_story_count_max", 3);
+  set_default_integer_option("fact_check_length_max", 1024);
+  set_default_integer_option("star_withdrawal_count_min", is_test_dc ? 10 : 1000);
+  set_default_integer_option("story_link_area_count_max", 3);
+  set_default_integer_option("paid_media_message_star_count_max", 10000);
+  set_default_integer_option("bot_media_preview_count_max", 12);
+  set_default_integer_option("paid_reaction_star_count_max", 2500);
+  set_default_integer_option("subscription_star_count_max", 2500);
+  set_default_integer_option("usd_to_thousand_star_rate", 1410);
+  set_default_integer_option("thousand_star_to_usd_rate", 1300);
+
+  if (options.isset("my_phone_number") || !options.isset("my_id")) {
+    update_premium_options();
   }
 
-  if (!have_option("message_text_length_max")) {
-    set_option_integer("message_text_length_max", 4096);
-  }
-  if (!have_option("message_caption_length_max")) {
-    set_option_integer("message_caption_length_max", 1024);
-  }
-  if (!have_option("bio_length_max")) {
-    set_option_integer("bio_length_max", 70);
-  }
-  if (!have_option("suggested_video_note_length")) {
-    set_option_integer("suggested_video_note_length", 384);
-  }
-  if (!have_option("suggested_video_note_video_bitrate")) {
-    set_option_integer("suggested_video_note_video_bitrate", 1000);
-  }
-  if (!have_option("suggested_video_note_audio_bitrate")) {
-    set_option_integer("suggested_video_note_audio_bitrate", 64);
-  }
-  if (!have_option("notification_sound_duration_max")) {
-    set_option_integer("notification_sound_duration_max", 5);
-  }
-  if (!have_option("notification_sound_size_max")) {
-    set_option_integer("notification_sound_size_max", 307200);
-  }
-  if (!have_option("notification_sound_count_max")) {
-    set_option_integer("notification_sound_count_max", G()->is_test_dc() ? 5 : 100);
-  }
-  if (!have_option("chat_folder_count_max")) {
-    set_option_integer("chat_folder_count_max", G()->is_test_dc() ? 3 : 10);
-  }
-  if (!have_option("chat_folder_chosen_chat_count_max")) {
-    set_option_integer("chat_folder_chosen_chat_count_max", G()->is_test_dc() ? 5 : 100);
-  }
-  if (!have_option("aggressive_anti_spam_supergroup_member_count_min")) {
-    set_option_integer("aggressive_anti_spam_supergroup_member_count_min", G()->is_test_dc() ? 1 : 100);
-  }
-  if (!have_option("pinned_forum_topic_count_max")) {
-    set_option_integer("pinned_forum_topic_count_max", G()->is_test_dc() ? 3 : 5);
-  }
-
+  set_option_empty("archive_and_mute_new_chats_from_unknown_users");
+  set_option_empty("business_intro_title_length_max");
+  set_option_empty("business_intro_message_length_max");
+  set_option_empty("channel_custom_accent_color_boost_level_min");
   set_option_empty("chat_filter_count_max");
   set_option_empty("chat_filter_chosen_chat_count_max");
   set_option_empty("forum_member_count_min");
   set_option_empty("themed_emoji_statuses_sticker_set_id");
   set_option_empty("themed_premium_statuses_sticker_set_id");
+  set_option_empty("usd_to_1000_star_rate");
+  set_option_empty("1000_star_to_usd_rate");
 }
 
 OptionManager::~OptionManager() = default;
+
+void OptionManager::update_premium_options() {
+  bool is_premium = get_option_boolean("is_premium");
+  if (is_premium) {
+    set_option_integer("saved_animations_limit", get_option_integer("saved_gifs_limit_premium", 400));
+    set_option_integer("favorite_stickers_limit", get_option_integer("stickers_faved_limit_premium", 10));
+    set_option_integer("chat_folder_count_max", get_option_integer("dialog_filters_limit_premium", 20));
+    set_option_integer("chat_folder_chosen_chat_count_max",
+                       get_option_integer("dialog_filters_chats_limit_premium", 200));
+    set_option_integer("pinned_chat_count_max", get_option_integer("dialogs_pinned_limit_premium", 100));
+    set_option_integer("pinned_archived_chat_count_max",
+                       get_option_integer("dialogs_folder_pinned_limit_premium", 200));
+    set_option_integer("pinned_saved_messages_topic_count_max",
+                       get_option_integer("saved_dialogs_pinned_limit_premium", 100));
+    set_option_integer("bio_length_max", get_option_integer("about_length_limit_premium", 140));
+    set_option_integer("chat_folder_invite_link_count_max", get_option_integer("chatlist_invites_limit_premium", 20));
+    set_option_integer("added_shareable_chat_folder_count_max",
+                       get_option_integer("chatlists_joined_limit_premium", 20));
+    set_option_integer("active_story_count_max", get_option_integer("story_expiring_limit_premium", 100));
+    set_option_integer("story_caption_length_max", get_option_integer("story_caption_length_limit_premium", 2048));
+    set_option_integer("weekly_sent_story_count_max", get_option_integer("stories_sent_weekly_limit_premium", 700));
+    set_option_integer("monthly_sent_story_count_max", get_option_integer("stories_sent_monthly_limit_premium", 3000));
+    set_option_integer("story_suggested_reaction_area_count_max",
+                       get_option_integer("stories_suggested_reactions_limit_premium", 5));
+
+    set_option_boolean("can_set_new_chat_privacy_settings", true);
+    set_option_boolean("can_use_text_entities_in_story_caption", true);
+  } else {
+    set_option_integer("saved_animations_limit", get_option_integer("saved_gifs_limit_default", 200));
+    set_option_integer("favorite_stickers_limit", get_option_integer("stickers_faved_limit_default", 5));
+    set_option_integer("chat_folder_count_max", get_option_integer("dialog_filters_limit_default", 10));
+    set_option_integer("chat_folder_chosen_chat_count_max",
+                       get_option_integer("dialog_filters_chats_limit_default", 100));
+    set_option_integer("pinned_chat_count_max", get_option_integer("dialogs_pinned_limit_default", 5));
+    set_option_integer("pinned_archived_chat_count_max",
+                       get_option_integer("dialogs_folder_pinned_limit_default", 100));
+    set_option_integer("pinned_saved_messages_topic_count_max",
+                       get_option_integer("saved_dialogs_pinned_limit_default", 5));
+    set_option_integer("bio_length_max", get_option_integer("about_length_limit_default", 70));
+    set_option_integer("chat_folder_invite_link_count_max", get_option_integer("chatlist_invites_limit_default", 3));
+    set_option_integer("added_shareable_chat_folder_count_max",
+                       get_option_integer("chatlists_joined_limit_default", 2));
+    set_option_integer("active_story_count_max", get_option_integer("story_expiring_limit_default", 3));
+    set_option_integer("story_caption_length_max", get_option_integer("story_caption_length_limit_default", 200));
+    set_option_integer("weekly_sent_story_count_max", get_option_integer("stories_sent_weekly_limit_default", 7));
+    set_option_integer("monthly_sent_story_count_max", get_option_integer("stories_sent_monthly_limit_default", 30));
+    set_option_integer("story_suggested_reaction_area_count_max",
+                       get_option_integer("stories_suggested_reactions_limit_default", 1));
+
+    set_option_boolean("can_set_new_chat_privacy_settings", !get_option_boolean("need_premium_for_new_chat_privacy"));
+    set_option_boolean("can_use_text_entities_in_story_caption",
+                       !get_option_boolean("need_premium_for_story_caption_entities"));
+  }
+}
 
 void OptionManager::on_td_inited() {
   is_td_inited_ = true;
@@ -240,66 +355,121 @@ void OptionManager::on_update_server_time_difference() {
 }
 
 bool OptionManager::is_internal_option(Slice name) {
-  switch (name[0]) {
-    case 'a':
-      return name == "about_length_limit_default" || name == "about_length_limit_premium" ||
-             name == "aggressive_anti_spam_supergroup_member_count_min" || name == "animated_emoji_zoom" ||
-             name == "animation_search_emojis" || name == "animation_search_provider";
-    case 'b':
-      return name == "base_language_pack_version";
-    case 'c':
-      return name == "call_receive_timeout_ms" || name == "call_ring_timeout_ms" ||
-             name == "caption_length_limit_default" || name == "caption_length_limit_premium" ||
-             name == "channels_limit_default" || name == "channels_limit_premium" ||
-             name == "channels_public_limit_default" || name == "channels_public_limit_premium" ||
-             name == "channels_read_media_period" || name == "chat_read_mark_expire_period" ||
-             name == "chat_read_mark_size_threshold";
-    case 'd':
-      return name == "dc_txt_domain_name" || name == "default_reaction" || name == "default_reaction_needs_sync" ||
-             name == "dialog_filters_chats_limit_default" || name == "dialog_filters_chats_limit_premium" ||
-             name == "dialog_filters_limit_default" || name == "dialog_filters_limit_premium" ||
-             name == "dialogs_folder_pinned_limit_default" || name == "dialogs_folder_pinned_limit_premium" ||
-             name == "dialogs_pinned_limit_default" || name == "dialogs_pinned_limit_premium" ||
-             name == "dice_emojis" || name == "dice_success_values";
-    case 'e':
-      return name == "edit_time_limit" || name == "emoji_sounds";
-    case 'f':
-      return name == "fragment_prefixes";
-    case 'h':
-      return name == "hidden_members_group_size_min";
-    case 'i':
-      return name == "ignored_restriction_reasons";
-    case 'l':
-      return name == "language_pack_version";
-    case 'm':
-      return name == "my_phone_number";
-    case 'n':
-      return name == "notification_cloud_delay_ms" || name == "notification_default_delay_ms";
-    case 'o':
-      return name == "online_cloud_timeout_ms" || name == "online_update_period_ms" || name == "otherwise_relogin_days";
-    case 'p':
-      return name == "premium_bot_username" || name == "premium_features" || name == "premium_invoice_slug";
-    case 'r':
-      return name == "rating_e_decay" || name == "reactions_uniq_max" || name == "reactions_user_max_default" ||
-             name == "reactions_user_max_premium" || name == "recent_stickers_limit" || name == "revoke_pm_inbox" ||
-             name == "revoke_time_limit" || name == "revoke_pm_time_limit";
-    case 's':
-      return name == "saved_animations_limit" || name == "saved_gifs_limit_default" ||
-             name == "saved_gifs_limit_premium" || name == "session_count" || name == "since_last_open" ||
-             name == "stickers_faved_limit_default" || name == "stickers_faved_limit_premium" ||
-             name == "stickers_normal_by_emoji_per_premium_num" || name == "stickers_premium_by_emoji_num";
-    case 'v':
-      return name == "video_note_size_max";
-    case 'w':
-      return name == "webfile_dc_id";
-    default:
-      return false;
-  }
+  static const FlatHashSet<Slice, SliceHash> internal_options{"about_length_limit_default",
+                                                              "about_length_limit_premium",
+                                                              "aggressive_anti_spam_supergroup_member_count_min",
+                                                              "animated_emoji_zoom",
+                                                              "animation_search_emojis",
+                                                              "animation_search_provider",
+                                                              "authorization_autoconfirm_period",
+                                                              "base_language_pack_version",
+                                                              "business_features",
+                                                              "call_receive_timeout_ms",
+                                                              "call_ring_timeout_ms",
+                                                              "can_edit_fact_check",
+                                                              "caption_length_limit_default",
+                                                              "caption_length_limit_premium",
+                                                              "channel_bg_icon_level_min",
+                                                              "channel_custom_wallpaper_level_min",
+                                                              "channel_emoji_status_level_min",
+                                                              "channel_profile_bg_icon_level_min",
+                                                              "channel_restrict_sponsored_level_min",
+                                                              "channel_wallpaper_level_min",
+                                                              "channels_limit_default",
+                                                              "channels_limit_premium",
+                                                              "channels_public_limit_default",
+                                                              "channels_public_limit_premium",
+                                                              "channels_read_media_period",
+                                                              "chat_read_mark_expire_period",
+                                                              "chat_read_mark_size_threshold",
+                                                              "chatlist_invites_limit_default",
+                                                              "chatlist_invites_limit_premium",
+                                                              "chatlists_joined_limit_default",
+                                                              "chatlists_joined_limit_premium",
+                                                              "dc_txt_domain_name",
+                                                              "default_reaction",
+                                                              "default_reaction_needs_sync",
+                                                              "dialog_filters_chats_limit_default",
+                                                              "dialog_filters_chats_limit_premium",
+                                                              "dialog_filters_limit_default",
+                                                              "dialog_filters_limit_premium",
+                                                              "dialogs_folder_pinned_limit_default",
+                                                              "dialogs_folder_pinned_limit_premium",
+                                                              "dialogs_pinned_limit_default",
+                                                              "dialogs_pinned_limit_premium",
+                                                              "dice_emojis",
+                                                              "dice_success_values",
+                                                              "dismiss_birthday_contact_today",
+                                                              "edit_time_limit",
+                                                              "emoji_sounds",
+                                                              "fragment_prefixes",
+                                                              "group_transcribe_level_min",
+                                                              "group_emoji_stickers_level_min",
+                                                              "group_profile_bg_icon_level_min",
+                                                              "group_emoji_status_level_min",
+                                                              "group_wallpaper_level_min",
+                                                              "group_custom_wallpaper_level_min",
+                                                              "hidden_members_group_size_min",
+                                                              "ignored_restriction_reasons",
+                                                              "language_pack_version",
+                                                              "my_phone_number",
+                                                              "need_premium_for_new_chat_privacy",
+                                                              "need_premium_for_story_caption_entities",
+                                                              "need_synchronize_archive_all_stories",
+                                                              "notification_cloud_delay_ms",
+                                                              "notification_default_delay_ms",
+                                                              "online_cloud_timeout_ms",
+                                                              "online_update_period_ms",
+                                                              "otherwise_relogin_days",
+                                                              "pm_read_date_expire_period",
+                                                              "premium_bot_username",
+                                                              "premium_features",
+                                                              "premium_invoice_slug",
+                                                              "premium_manage_subscription_url",
+                                                              "rating_e_decay",
+                                                              "reactions_uniq_max",
+                                                              "reactions_user_max_default",
+                                                              "reactions_user_max_premium",
+                                                              "recent_stickers_limit",
+                                                              "recommended_channels_limit_default",
+                                                              "recommended_channels_limit_premium",
+                                                              "restriction_add_platforms",
+                                                              "revoke_pm_inbox",
+                                                              "revoke_time_limit",
+                                                              "revoke_pm_time_limit",
+                                                              "saved_animations_limit",
+                                                              "saved_dialogs_pinned_limit_default",
+                                                              "saved_dialogs_pinned_limit_premium",
+                                                              "saved_gifs_limit_default",
+                                                              "saved_gifs_limit_premium",
+                                                              "session_count",
+                                                              "since_last_open",
+                                                              "stickers_faved_limit_default",
+                                                              "stickers_faved_limit_premium",
+                                                              "stickers_normal_by_emoji_per_premium_num",
+                                                              "stickers_premium_by_emoji_num",
+                                                              "stories_changelog_user_id",
+                                                              "stories_sent_monthly_limit_default",
+                                                              "stories_sent_monthly_limit_premium",
+                                                              "stories_sent_weekly_limit_default",
+                                                              "stories_sent_weekly_limit_premium",
+                                                              "stories_suggested_reactions_limit_default",
+                                                              "stories_suggested_reactions_limit_premium",
+                                                              "story_caption_length_limit_default",
+                                                              "story_caption_length_limit_premium",
+                                                              "story_expiring_limit_default",
+                                                              "story_expiring_limit_premium",
+                                                              "ton_proxy_address",
+                                                              "upload_premium_speedup_notify_period",
+                                                              "video_note_size_max",
+                                                              "weather_bot_username",
+                                                              "webfile_dc_id"};
+  return internal_options.count(name) > 0;
 }
 
 td_api::object_ptr<td_api::Update> OptionManager::get_internal_option_update(Slice name) const {
   if (name == "default_reaction") {
-    return get_update_default_reaction_type(get_option_string(name));
+    return ReactionType(get_option_string(name)).get_update_default_reaction_type();
   }
   if (name == "otherwise_relogin_days") {
     auto days = narrow_cast<int32>(get_option_integer(name));
@@ -332,6 +502,9 @@ void OptionManager::on_option_updated(Slice name) {
       if (name == "animation_search_provider") {
         td_->animations_manager_->on_update_animation_search_provider();
       }
+      if (name == "authorization_autoconfirm_period") {
+        td_->account_manager_->update_unconfirmed_authorization_timeout(true);
+      }
       break;
     case 'b':
       if (name == "base_language_pack_version") {
@@ -362,6 +535,9 @@ void OptionManager::on_option_updated(Slice name) {
       if (name == "disable_top_chats") {
         send_closure(td_->top_dialog_manager_actor_, &TopDialogManager::update_is_enabled, !get_option_boolean(name));
       }
+      if (name == "dismiss_birthday_contact_today") {
+        send_closure(td_->user_manager_actor_, &UserManager::reload_contact_birthdates, true);
+      }
       break;
     case 'e':
       if (name == "emoji_sounds") {
@@ -378,12 +554,16 @@ void OptionManager::on_option_updated(Slice name) {
       break;
     case 'i':
       if (name == "ignored_restriction_reasons") {
-        send_closure(td_->contacts_manager_actor_, &ContactsManager::on_ignored_restriction_reasons_changed);
+        send_closure(td_->chat_manager_actor_, &ChatManager::on_ignored_restriction_reasons_changed);
+        send_closure(td_->user_manager_actor_, &UserManager::on_ignored_restriction_reasons_changed);
       }
       if (name == "is_emulator") {
         if (G()->mtproto_header().set_is_emulator(get_option_boolean(name))) {
           G()->net_query_dispatcher().update_mtproto_header();
         }
+      }
+      if (name == "is_premium") {
+        update_premium_options();
       }
       break;
     case 'l':
@@ -404,7 +584,21 @@ void OptionManager::on_option_updated(Slice name) {
         }
       }
       break;
+    case 'm':
+      if (name == "my_phone_number") {
+        send_closure(G()->config_manager(), &ConfigManager::reget_config, Promise<Unit>());
+      }
+      break;
     case 'n':
+      if (name == "need_premium_for_new_chat_privacy") {
+        update_premium_options();
+      }
+      if (name == "need_premium_for_story_caption_entities") {
+        update_premium_options();
+      }
+      if (name == "need_synchronize_archive_all_stories") {
+        send_closure(td_->story_manager_actor_, &StoryManager::try_synchronize_archive_all_stories);
+      }
       if (name == "notification_cloud_delay_ms") {
         send_closure(td_->notification_manager_actor_, &NotificationManager::on_notification_cloud_delay_changed);
       }
@@ -468,11 +662,6 @@ void OptionManager::get_option(const string &name, Promise<td_api::object_ptr<td
   };
   switch (name[0]) {
     // all these options should be added to getCurrentState
-    case 'a':
-      if (!is_bot && name == "archive_and_mute_new_chats_from_unknown_users") {
-        return send_closure_later(td_->config_manager_, &ConfigManager::get_global_privacy_settings, wrap_promise());
-      }
-      break;
     case 'c':
       if (!is_bot && name == "can_ignore_sensitive_content_restrictions") {
         return send_closure_later(td_->config_manager_, &ConfigManager::get_content_settings, wrap_promise());
@@ -495,7 +684,8 @@ void OptionManager::get_option(const string &name, Promise<td_api::object_ptr<td
       }
       if (!is_bot && name == "is_location_visible") {
         if (is_td_inited_) {
-          send_closure_later(td_->contacts_manager_actor_, &ContactsManager::get_is_location_visible, wrap_promise());
+          send_closure_later(td_->people_nearby_manager_actor_, &PeopleNearbyManager::get_is_location_visible,
+                             wrap_promise());
         } else {
           pending_get_options_.emplace_back(name, std::move(promise));
         }
@@ -504,7 +694,7 @@ void OptionManager::get_option(const string &name, Promise<td_api::object_ptr<td
       break;
     case 'o':
       if (name == "online") {
-        return promise.set_value(td_api::make_object<td_api::optionValueBoolean>(td_->is_online()));
+        return promise.set_value(td_api::make_object<td_api::optionValueBoolean>(td_->online_manager_->is_online()));
       }
       break;
     case 'u':
@@ -526,7 +716,7 @@ td_api::object_ptr<td_api::OptionValue> OptionManager::get_option_synchronously(
       break;
     case 'v':
       if (name == "version") {
-        return td_api::make_object<td_api::optionValueString>("1.8.14");
+        return td_api::make_object<td_api::optionValueString>("1.8.36");
       }
       break;
   }
@@ -616,19 +806,12 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
       if (set_boolean_option("always_parse_markdown")) {
         return;
       }
-      if (!is_bot && name == "archive_and_mute_new_chats_from_unknown_users") {
-        if (value_constructor_id != td_api::optionValueBoolean::ID &&
-            value_constructor_id != td_api::optionValueEmpty::ID) {
-          return promise.set_error(
-              Status::Error(400, "Option \"archive_and_mute_new_chats_from_unknown_users\" must have boolean value"));
-        }
-
-        auto archive_and_mute = value_constructor_id == td_api::optionValueBoolean::ID &&
-                                static_cast<td_api::optionValueBoolean *>(value.get())->value_;
-        send_closure_later(td_->config_manager_, &ConfigManager::set_archive_and_mute, archive_and_mute,
-                           std::move(promise));
+      /*
+      if (!is_bot && set_boolean_option("archive_all_stories")) {
+        set_option_boolean("need_synchronize_archive_all_stories", true);
         return;
       }
+      */
       break;
     case 'c':
       if (!is_bot && set_string_option("connection_parameters", [](Slice value) {
@@ -649,19 +832,19 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
       if (!is_bot && set_boolean_option("disable_contact_registered_notifications")) {
         return;
       }
-      if (!is_bot && set_boolean_option("disable_sent_scheduled_message_notifications")) {
-        return;
-      }
-      if (!is_bot && set_boolean_option("disable_top_chats")) {
-        return;
-      }
       if (set_boolean_option("disable_network_statistics")) {
         return;
       }
       if (set_boolean_option("disable_persistent_network_statistics")) {
         return;
       }
+      if (!is_bot && set_boolean_option("disable_sent_scheduled_message_notifications")) {
+        return;
+      }
       if (set_boolean_option("disable_time_adjustment_protection")) {
+        return;
+      }
+      if (!is_bot && set_boolean_option("disable_top_chats")) {
         return;
       }
       if (name == "drop_notification_ids") {
@@ -708,7 +891,7 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
         return;
       }
       if (!is_bot && set_boolean_option("is_location_visible")) {
-        ContactsManager::set_location_visibility(td_);
+        PeopleNearbyManager::set_location_visibility(td_);
         return;
       }
       break;
@@ -716,10 +899,10 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
       if (!is_bot && set_string_option("language_pack_database_path", [](Slice value) { return true; })) {
         return;
       }
-      if (!is_bot && set_string_option("localization_target", LanguagePackManager::check_language_pack_name)) {
+      if (!is_bot && set_string_option("language_pack_id", LanguagePackManager::check_language_code_name)) {
         return;
       }
-      if (!is_bot && set_string_option("language_pack_id", LanguagePackManager::check_language_code_name)) {
+      if (!is_bot && set_string_option("localization_target", LanguagePackManager::check_language_pack_name)) {
         return;
       }
       break;
@@ -748,7 +931,7 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
         }
         bool is_online = value_constructor_id == td_api::optionValueEmpty::ID ||
                          static_cast<const td_api::optionValueBoolean *>(value.get())->value_;
-        td_->set_is_online(is_online);
+        td_->online_manager_->set_is_online(is_online);
         if (!is_bot) {
           send_closure(td_->state_manager_, &StateManager::on_online, is_online);
         }
@@ -758,6 +941,9 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
     case 'p':
       if (set_boolean_option("prefer_ipv6")) {
         send_closure(td_->state_manager_, &StateManager::on_network_updated);
+        return;
+      }
+      if (set_boolean_option("process_pinned_messages_as_mentions")) {
         return;
       }
       break;
@@ -867,7 +1053,7 @@ void OptionManager::get_current_state(vector<td_api::object_ptr<td_api::Update>>
   get_common_state(updates);
 
   updates.push_back(td_api::make_object<td_api::updateOption>(
-      "online", td_api::make_object<td_api::optionValueBoolean>(td_->is_online())));
+      "online", td_api::make_object<td_api::optionValueBoolean>(td_->online_manager_->is_online())));
 
   updates.push_back(td_api::make_object<td_api::updateOption>("unix_time", get_unix_time_option_value_object()));
 

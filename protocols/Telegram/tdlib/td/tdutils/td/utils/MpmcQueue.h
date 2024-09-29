@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -324,7 +324,7 @@ class MpmcQueueOld {
   char pad2[TD_CONCURRENCY_PAD - sizeof(std::atomic<Node *>)];
   size_t block_size_;
   HazardPointers<Node, 1> hazard_pointers_;
-  // HazardPointers is already padded
+  // HazardPointers class is already padded
 };
 
 template <class T>
@@ -454,7 +454,7 @@ class MpmcQueue {
   std::atomic<Node *> read_pos_{nullptr};
   char pad2[TD_CONCURRENCY_PAD - sizeof(std::atomic<Node *>)];
   HazardPointers<Node, 1> hazard_pointers_;
-  // HazardPointers is already padded
+  // HazardPointers class is already padded
 };
 
 }  // namespace td

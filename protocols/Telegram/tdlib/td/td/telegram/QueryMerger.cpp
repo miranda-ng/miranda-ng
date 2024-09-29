@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,8 +15,8 @@ QueryMerger::QueryMerger(Slice name, size_t max_concurrent_query_count, size_t m
   register_actor(name, this).release();
 }
 
-void QueryMerger::add_query(int64 query_id, Promise<Unit> &&promise) {
-  LOG(INFO) << "Add query " << query_id << " with" << (promise ? "" : "out") << " promise";
+void QueryMerger::add_query(int64 query_id, Promise<Unit> &&promise, const char *source) {
+  LOG(INFO) << "Add query " << query_id << " with" << (promise ? "" : "out") << " promise from " << source;
   CHECK(query_id != 0);
   auto &query = queries_[query_id];
   query.promises_.push_back(std::move(promise));

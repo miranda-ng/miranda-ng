@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,16 +9,13 @@
 #include "td/telegram/AuthManager.h"
 #include "td/telegram/files/FileManager.h"
 #include "td/telegram/Global.h"
-#include "td/telegram/MessagesManager.h"
 #include "td/telegram/OptionManager.h"
 #include "td/telegram/PhotoFormat.h"
 #include "td/telegram/secret_api.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
-#include "td/telegram/UpdatesManager.h"
-
-#include "td/actor/actor.h"
+#include "td/telegram/TranscriptionManager.h"
 
 #include "td/utils/buffer.h"
 #include "td/utils/logging.h"
@@ -42,6 +39,15 @@ int32 VideoNotesManager::get_video_note_duration(FileId file_id) const {
   auto video_note = get_video_note(file_id);
   CHECK(video_note != nullptr);
   return video_note->duration;
+}
+
+TranscriptionInfo *VideoNotesManager::get_video_note_transcription_info(FileId file_id, bool allow_creation) {
+  auto video_note = get_video_note(file_id);
+  CHECK(video_note != nullptr);
+  if (video_note->transcription_info == nullptr && allow_creation) {
+    video_note->transcription_info = make_unique<TranscriptionInfo>();
+  }
+  return video_note->transcription_info.get();
 }
 
 tl_object_ptr<td_api::videoNote> VideoNotesManager::get_video_note_object(FileId file_id) const {
@@ -89,7 +95,7 @@ FileId VideoNotesManager::on_get_video_note(unique_ptr<VideoNote> new_video_note
       v->thumbnail = std::move(new_video_note->thumbnail);
     }
     if (TranscriptionInfo::update_from(v->transcription_info, std::move(new_video_note->transcription_info))) {
-      on_video_note_transcription_completed(file_id);
+      td_->transcription_manager_->on_transcription_completed(file_id);
     }
   }
   return file_id;
@@ -170,129 +176,6 @@ void VideoNotesManager::create_video_note(FileId file_id, string minithumbnail, 
   on_get_video_note(std::move(v), replace);
 }
 
-void VideoNotesManager::register_video_note(FileId video_note_file_id, FullMessageId full_message_id,
-                                            const char *source) {
-  if (full_message_id.get_message_id().is_scheduled() || !full_message_id.get_message_id().is_server() ||
-      td_->auth_manager_->is_bot()) {
-    return;
-  }
-  LOG(INFO) << "Register video note " << video_note_file_id << " from " << full_message_id << " from " << source;
-  CHECK(video_note_file_id.is_valid());
-  bool is_inserted = video_note_messages_[video_note_file_id].insert(full_message_id).second;
-  LOG_CHECK(is_inserted) << source << ' ' << video_note_file_id << ' ' << full_message_id;
-  is_inserted = message_video_notes_.emplace(full_message_id, video_note_file_id).second;
-  CHECK(is_inserted);
-}
-
-void VideoNotesManager::unregister_video_note(FileId video_note_file_id, FullMessageId full_message_id,
-                                              const char *source) {
-  if (full_message_id.get_message_id().is_scheduled() || !full_message_id.get_message_id().is_server() ||
-      td_->auth_manager_->is_bot()) {
-    return;
-  }
-  LOG(INFO) << "Unregister video note " << video_note_file_id << " from " << full_message_id << " from " << source;
-  CHECK(video_note_file_id.is_valid());
-  auto &message_ids = video_note_messages_[video_note_file_id];
-  auto is_deleted = message_ids.erase(full_message_id) > 0;
-  LOG_CHECK(is_deleted) << source << ' ' << video_note_file_id << ' ' << full_message_id;
-  if (message_ids.empty()) {
-    video_note_messages_.erase(video_note_file_id);
-  }
-  is_deleted = message_video_notes_.erase(full_message_id) > 0;
-  CHECK(is_deleted);
-}
-
-void VideoNotesManager::recognize_speech(FullMessageId full_message_id, Promise<Unit> &&promise) {
-  auto it = message_video_notes_.find(full_message_id);
-  CHECK(it != message_video_notes_.end());
-
-  auto file_id = it->second;
-  auto video_note = get_video_note(file_id);
-  CHECK(video_note != nullptr);
-  if (video_note->transcription_info == nullptr) {
-    video_note->transcription_info = make_unique<TranscriptionInfo>();
-  }
-
-  auto handler = [actor_id = actor_id(this),
-                  file_id](Result<telegram_api::object_ptr<telegram_api::updateTranscribedAudio>> r_update) {
-    send_closure(actor_id, &VideoNotesManager::on_transcribed_audio_update, file_id, true, std::move(r_update));
-  };
-  if (video_note->transcription_info->recognize_speech(td_, full_message_id, std::move(promise), std::move(handler))) {
-    on_video_note_transcription_updated(file_id);
-  }
-}
-
-void VideoNotesManager::on_transcribed_audio_update(
-    FileId file_id, bool is_initial, Result<telegram_api::object_ptr<telegram_api::updateTranscribedAudio>> r_update) {
-  if (G()->close_flag()) {
-    return;
-  }
-
-  auto video_note = get_video_note(file_id);
-  CHECK(video_note != nullptr);
-  CHECK(video_note->transcription_info != nullptr);
-
-  if (r_update.is_error()) {
-    auto promises = video_note->transcription_info->on_failed_transcription(r_update.error().clone());
-    on_video_note_transcription_updated(file_id);
-    fail_promises(promises, r_update.move_as_error());
-    return;
-  }
-  auto update = r_update.move_as_ok();
-  auto transcription_id = update->transcription_id_;
-  if (!update->pending_) {
-    auto promises = video_note->transcription_info->on_final_transcription(std::move(update->text_), transcription_id);
-    on_video_note_transcription_completed(file_id);
-    set_promises(promises);
-  } else {
-    auto is_changed =
-        video_note->transcription_info->on_partial_transcription(std::move(update->text_), transcription_id);
-    if (is_changed) {
-      on_video_note_transcription_updated(file_id);
-    }
-
-    if (is_initial) {
-      td_->updates_manager_->subscribe_to_transcribed_audio_updates(
-          transcription_id, [actor_id = actor_id(this),
-                             file_id](Result<telegram_api::object_ptr<telegram_api::updateTranscribedAudio>> r_update) {
-            send_closure(actor_id, &VideoNotesManager::on_transcribed_audio_update, file_id, false,
-                         std::move(r_update));
-          });
-    }
-  }
-}
-
-void VideoNotesManager::on_video_note_transcription_updated(FileId file_id) {
-  auto it = video_note_messages_.find(file_id);
-  if (it != video_note_messages_.end()) {
-    for (const auto &full_message_id : it->second) {
-      td_->messages_manager_->on_external_update_message_content(full_message_id);
-    }
-  }
-}
-
-void VideoNotesManager::on_video_note_transcription_completed(FileId file_id) {
-  auto it = video_note_messages_.find(file_id);
-  if (it != video_note_messages_.end()) {
-    for (const auto &full_message_id : it->second) {
-      td_->messages_manager_->on_update_message_content(full_message_id);
-    }
-  }
-}
-
-void VideoNotesManager::rate_speech_recognition(FullMessageId full_message_id, bool is_good, Promise<Unit> &&promise) {
-  auto it = message_video_notes_.find(full_message_id);
-  CHECK(it != message_video_notes_.end());
-
-  auto file_id = it->second;
-  auto video_note = get_video_note(file_id);
-  CHECK(video_note != nullptr);
-  if (video_note->transcription_info == nullptr) {
-    return promise.set_value(Unit());
-  }
-  video_note->transcription_info->rate_speech_recognition(td_, full_message_id, is_good, std::move(promise));
-}
-
 SecretInputMedia VideoNotesManager::get_secret_input_media(FileId video_note_file_id,
                                                            tl_object_ptr<telegram_api::InputEncryptedFile> input_file,
                                                            BufferSlice thumbnail, int32 layer) const {
@@ -302,8 +185,9 @@ SecretInputMedia VideoNotesManager::get_secret_input_media(FileId video_note_fil
   if (!file_view.is_encrypted_secret() || file_view.encryption_key().empty()) {
     return SecretInputMedia{};
   }
-  if (file_view.has_remote_location()) {
-    input_file = file_view.main_remote_location().as_input_encrypted_file();
+  const auto *main_remote_location = file_view.get_main_remote_location();
+  if (main_remote_location != nullptr) {
+    input_file = main_remote_location->as_input_encrypted_file();
   }
   if (!input_file) {
     return SecretInputMedia{};
@@ -328,17 +212,27 @@ SecretInputMedia VideoNotesManager::get_secret_input_media(FileId video_note_fil
 
 tl_object_ptr<telegram_api::InputMedia> VideoNotesManager::get_input_media(
     FileId file_id, tl_object_ptr<telegram_api::InputFile> input_file,
-    tl_object_ptr<telegram_api::InputFile> input_thumbnail) const {
+    tl_object_ptr<telegram_api::InputFile> input_thumbnail, int32 ttl) const {
   auto file_view = td_->file_manager_->get_file_view(file_id);
   if (file_view.is_encrypted()) {
     return nullptr;
   }
-  if (file_view.has_remote_location() && !file_view.main_remote_location().is_web() && input_file == nullptr) {
-    return make_tl_object<telegram_api::inputMediaDocument>(
-        0, false /*ignored*/, file_view.main_remote_location().as_input_document(), 0, string());
+  const auto *main_remote_location = file_view.get_main_remote_location();
+  if (main_remote_location != nullptr && !main_remote_location->is_web() && input_file == nullptr) {
+    int32 flags = 0;
+    if (ttl != 0) {
+      flags |= telegram_api::inputMediaDocument::TTL_SECONDS_MASK;
+    }
+    return make_tl_object<telegram_api::inputMediaDocument>(flags, false /*ignored*/,
+                                                            main_remote_location->as_input_document(), ttl, string());
   }
-  if (file_view.has_url()) {
-    return make_tl_object<telegram_api::inputMediaDocumentExternal>(0, false /*ignored*/, file_view.url(), 0);
+  const auto *url = file_view.get_url();
+  if (url != nullptr) {
+    int32 flags = 0;
+    if (ttl != 0) {
+      flags |= telegram_api::inputMediaDocumentExternal::TTL_SECONDS_MASK;
+    }
+    return make_tl_object<telegram_api::inputMediaDocumentExternal>(flags, false /*ignored*/, *url, ttl);
   }
 
   if (input_file != nullptr) {
@@ -350,18 +244,22 @@ tl_object_ptr<telegram_api::InputMedia> VideoNotesManager::get_input_media(
         narrow_cast<int32>(td_->option_manager_->get_option_integer("suggested_video_note_length", 384));
     attributes.push_back(make_tl_object<telegram_api::documentAttributeVideo>(
         telegram_api::documentAttributeVideo::ROUND_MESSAGE_MASK, false /*ignored*/, false /*ignored*/,
-        video_note->duration, video_note->dimensions.width ? video_note->dimensions.width : suggested_video_note_length,
-        video_note->dimensions.height ? video_note->dimensions.height : suggested_video_note_length));
+        false /*ignored*/, video_note->duration,
+        video_note->dimensions.width ? video_note->dimensions.width : suggested_video_note_length,
+        video_note->dimensions.height ? video_note->dimensions.height : suggested_video_note_length, 0, 0.0));
     int32 flags = telegram_api::inputMediaUploadedDocument::NOSOUND_VIDEO_MASK;
+    if (ttl != 0) {
+      flags |= telegram_api::inputMediaUploadedDocument::TTL_SECONDS_MASK;
+    }
     if (input_thumbnail != nullptr) {
       flags |= telegram_api::inputMediaUploadedDocument::THUMB_MASK;
     }
     return make_tl_object<telegram_api::inputMediaUploadedDocument>(
         flags, false /*ignored*/, false /*ignored*/, false /*ignored*/, std::move(input_file),
         std::move(input_thumbnail), "video/mp4", std::move(attributes),
-        vector<tl_object_ptr<telegram_api::InputDocument>>(), 0);
+        vector<tl_object_ptr<telegram_api::InputDocument>>(), ttl);
   } else {
-    CHECK(!file_view.has_remote_location());
+    CHECK(main_remote_location == nullptr);
   }
 
   return nullptr;

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,13 +7,15 @@
 #include "td/telegram/AutosaveManager.h"
 
 #include "td/telegram/AccessRights.h"
-#include "td/telegram/ContactsManager.h"
+#include "td/telegram/ChatManager.h"
 #include "td/telegram/Dependencies.h"
+#include "td/telegram/DialogManager.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/logevent/LogEvent.h"
-#include "td/telegram/MessagesManager.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/TdDb.h"
+#include "td/telegram/telegram_api.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/db/SqliteKeyValueAsync.h"
 
@@ -74,13 +76,8 @@ class SaveAutoSaveSettingsQuery final : public Td::ResultHandler {
       flags |= telegram_api::account_saveAutoSaveSettings::BROADCASTS_MASK;
     } else {
       flags |= telegram_api::account_saveAutoSaveSettings::PEER_MASK;
-      input_peer = td_->messages_manager_->get_input_peer(dialog_id, AccessRights::Read);
-      if (input_peer == nullptr) {
-        if (dialog_id.get_type() == DialogType::SecretChat) {
-          return on_error(Status::Error(400, "Can't set autosave settings for secret chats"));
-        }
-        return on_error(Status::Error(400, "Can't access the chat"));
-      }
+      input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Read);
+      CHECK(input_peer != nullptr);
     }
     send_query(G()->net_query_creator().create(
         telegram_api::account_saveAutoSaveSettings(flags, false /*ignored*/, false /*ignored*/, false /*ignored*/,
@@ -182,7 +179,7 @@ td_api::object_ptr<td_api::autosaveSettingsException>
 AutosaveManager::DialogAutosaveSettings::get_autosave_settings_exception_object(const Td *td,
                                                                                 DialogId dialog_id) const {
   return td_api::make_object<td_api::autosaveSettingsException>(
-      td->messages_manager_->get_chat_id_object(dialog_id, "autosaveSettingsException"),
+      td->dialog_manager_->get_chat_id_object(dialog_id, "autosaveSettingsException"),
       get_scope_autosave_settings_object());
 }
 
@@ -383,8 +380,8 @@ void AutosaveManager::on_get_autosave_settings(
   }
 
   auto settings = r_settings.move_as_ok();
-  td_->contacts_manager_->on_get_users(std::move(settings->users_), "on_get_autosave_settings");
-  td_->contacts_manager_->on_get_chats(std::move(settings->chats_), "on_get_autosave_settings");
+  td_->user_manager_->on_get_users(std::move(settings->users_), "on_get_autosave_settings");
+  td_->chat_manager_->on_get_chats(std::move(settings->chats_), "on_get_autosave_settings");
 
   DialogAutosaveSettings new_user_settings(settings->users_settings_.get());
   DialogAutosaveSettings new_chat_settings(settings->chats_settings_.get());
@@ -415,14 +412,14 @@ void AutosaveManager::on_get_autosave_settings(
     if (!dialog_id.is_valid()) {
       continue;
     }
-    td_->messages_manager_->force_create_dialog(dialog_id, "on_get_autosave_settings");
+    td_->dialog_manager_->force_create_dialog(dialog_id, "on_get_autosave_settings");
     DialogAutosaveSettings new_settings(exception->settings_.get());
     auto &current_settings = settings_.exceptions_[dialog_id];
     if (current_settings != new_settings) {
       current_settings = std::move(new_settings);
       send_update_autosave_settings(
           td_api::make_object<td_api::autosaveSettingsScopeChat>(
-              td_->messages_manager_->get_chat_id_object(dialog_id, "autosaveSettingsScopeChat")),
+              td_->dialog_manager_->get_chat_id_object(dialog_id, "autosaveSettingsScopeChat")),
           current_settings);
     }
     exception_dialog_ids.erase(dialog_id);
@@ -431,7 +428,7 @@ void AutosaveManager::on_get_autosave_settings(
     settings_.exceptions_.erase(dialog_id);
     send_update_autosave_settings(
         td_api::make_object<td_api::autosaveSettingsScopeChat>(
-            td_->messages_manager_->get_chat_id_object(dialog_id, "autosaveSettingsScopeChat 2")),
+            td_->dialog_manager_->get_chat_id_object(dialog_id, "autosaveSettingsScopeChat 2")),
         DialogAutosaveSettings());
   }
 
@@ -481,9 +478,8 @@ void AutosaveManager::set_autosave_settings(td_api::object_ptr<td_api::AutosaveS
       break;
     case td_api::autosaveSettingsScopeChat::ID:
       dialog_id = DialogId(static_cast<const td_api::autosaveSettingsScopeChat *>(scope.get())->chat_id_);
-      if (!td_->messages_manager_->have_dialog_force(dialog_id, "set_autosave_settings")) {
-        return promise.set_error(Status::Error(400, "Chat not found"));
-      }
+      TRY_STATUS_PROMISE(promise, td_->dialog_manager_->check_dialog_access(dialog_id, false, AccessRights::Read,
+                                                                            "set_autosave_settings"));
       old_settings = &settings_.exceptions_[dialog_id];
       break;
     default:
@@ -511,7 +507,7 @@ void AutosaveManager::set_autosave_settings(td_api::object_ptr<td_api::AutosaveS
       ->send(users, chats, broadcasts, dialog_id, new_settings.get_input_auto_save_settings());
 }
 
-void AutosaveManager::clear_autosave_settings_excpetions(Promise<Unit> &&promise) {
+void AutosaveManager::clear_autosave_settings_exceptions(Promise<Unit> &&promise) {
   if (!settings_.are_inited_) {
     return promise.set_error(Status::Error(400, "Autosave settings must be loaded first"));
   }

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,7 +10,7 @@
 
 namespace td {
 
-constexpr int32 MTPROTO_LAYER = 158;
+constexpr int32 MTPROTO_LAYER = 187;
 
 enum class Version : int32 {
   Initial,  // 0
@@ -61,15 +61,22 @@ enum class Version : int32 {
   AddMessageMediaSpoiler,  // 45
   MakeParticipantFlags64Bit,
   AddDocumentFlags,
+  AddUserFlags2,
+  AddMessageTextFlags,
+  AddPageBlockChatLinkFlags,  // 50
+  SupportRepliesInOtherChats,
+  SupportMultipleSharedUsers,
+  SupportMoreEmojiGroups,
+  SupportStarGiveaways,
   Next
 };
 
 enum class DbVersion : int32 {
-  DialogDbCreated = 3,
-  MessageDbMediaIndex,
-  MessageDb30MediaIndex,
-  MessageDbFts,
-  MessagesCallIndex,
+  CreateDialogDb = 3,
+  AddMessageDbMediaIndex,
+  AddMessageDb30MediaIndex,
+  AddMessageDbFts,
+  AddMessagesCallIndex,
   FixFileRemoteLocationKeyBug,
   AddNotificationsSupport,
   AddFolders,

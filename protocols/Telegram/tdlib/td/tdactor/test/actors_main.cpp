@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -126,8 +126,8 @@ class QueryActor final : public td::Actor {
       callback_->on_result(std::move(query));
     } else {
       auto future = td::Random::fast(0, 3) == 0
-                        ? td::send_promise<td::ActorSendType::Immediate>(rand_elem(workers_), &Worker::query, x, p)
-                        : td::send_promise<td::ActorSendType::Later>(rand_elem(workers_), &Worker::query, x, p);
+                        ? td::send_promise_immediately(rand_elem(workers_), &Worker::query, x, p)
+                        : td::send_promise_later(rand_elem(workers_), &Worker::query, x, p);
       if (future.is_ready()) {
         query.result = future.move_as_ok();
         callback_->on_result(std::move(query));
@@ -301,9 +301,8 @@ class SimpleActor final : public td::Actor {
     }
     q_++;
     p_ = td::Random::fast_bool() ? 1 : 10000;
-    auto future = td::Random::fast(0, 3) == 0
-                      ? td::send_promise<td::ActorSendType::Immediate>(worker_, &Worker::query, q_, p_)
-                      : td::send_promise<td::ActorSendType::Later>(worker_, &Worker::query, q_, p_);
+    auto future = td::Random::fast(0, 3) == 0 ? td::send_promise_immediately(worker_, &Worker::query, q_, p_)
+                                              : td::send_promise_later(worker_, &Worker::query, q_, p_);
     if (future.is_ready()) {
       auto result = future.move_as_ok();
       CHECK(result == fast_pow_mod_uint32(q_, p_));

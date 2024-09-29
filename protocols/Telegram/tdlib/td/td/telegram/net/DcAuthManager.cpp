@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -96,27 +96,23 @@ DcAuthManager::DcInfo *DcAuthManager::find_dc(int32 dc_id) {
 void DcAuthManager::update_auth_key_state() {
   auto dc_id = narrow_cast<int32>(get_link_token());
   auto &dc = get_dc(dc_id);
+  auto old_auth_key_state = dc.auth_key_state;
   dc.auth_key_state = get_auth_key_state(dc.shared_auth_data->get_auth_key());
-  VLOG(dc) << "Update " << dc_id << " auth key state from " << dc.auth_key_state << " to " << dc.auth_key_state;
+  VLOG(dc) << "Update DcId{" << dc_id << "} auth key state from " << old_auth_key_state << " to " << dc.auth_key_state;
 
   loop();
 }
 
-void DcAuthManager::on_result(NetQueryPtr result) {
+void DcAuthManager::on_result(NetQueryPtr net_query) {
   auto dc_id = narrow_cast<int32>(get_link_token());
   auto &dc = get_dc(dc_id);
-  CHECK(dc.wait_id == result->id());
+  CHECK(dc.wait_id == net_query->id());
   dc.wait_id = std::numeric_limits<decltype(dc.wait_id)>::max();
   switch (dc.state) {
     case DcInfo::State::Import: {
-      if (result->is_error()) {
-        LOG(WARNING) << "DC auth_exportAuthorization error: " << result->error();
-        dc.state = DcInfo::State::Export;
-        break;
-      }
-      auto r_result_auth_exported = fetch_result<telegram_api::auth_exportAuthorization>(result->ok());
+      auto r_result_auth_exported = fetch_result<telegram_api::auth_exportAuthorization>(std::move(net_query));
       if (r_result_auth_exported.is_error()) {
-        LOG(WARNING) << "Failed to parse result to auth_exportAuthorization: " << r_result_auth_exported.error();
+        LOG(WARNING) << "Receive error for auth.exportAuthorization: " << r_result_auth_exported.error();
         dc.state = DcInfo::State::Export;
         break;
       }
@@ -126,14 +122,9 @@ void DcAuthManager::on_result(NetQueryPtr result) {
       break;
     }
     case DcInfo::State::BeforeOk: {
-      if (result->is_error()) {
-        LOG(WARNING) << "DC authImport error: " << result->error();
-        dc.state = DcInfo::State::Export;
-        break;
-      }
-      auto result_auth = fetch_result<telegram_api::auth_importAuthorization>(result->ok());
+      auto result_auth = fetch_result<telegram_api::auth_importAuthorization>(std::move(net_query));
       if (result_auth.is_error()) {
-        LOG(WARNING) << "Failed to parse result to auth_importAuthorization: " << result_auth.error();
+        LOG(WARNING) << "Receive error for auth.importAuthorization: " << result_auth.error();
         dc.state = DcInfo::State::Export;
         break;
       }
@@ -143,7 +134,6 @@ void DcAuthManager::on_result(NetQueryPtr result) {
     default:
       UNREACHABLE();
   }
-  result->clear();
   loop();
 }
 
@@ -166,8 +156,9 @@ void DcAuthManager::dc_loop(DcInfo &dc) {
       // send auth.exportAuthorization to auth_dc
       VLOG(dc) << "Send exportAuthorization to " << dc.dc_id;
       auto id = UniqueId::next();
-      auto query = G()->net_query_creator().create(id, telegram_api::auth_exportAuthorization(dc.dc_id.get_raw_id()),
-                                                   {}, DcId::main(), NetQuery::Type::Common, NetQuery::AuthFlag::On);
+      auto query =
+          G()->net_query_creator().create(id, nullptr, telegram_api::auth_exportAuthorization(dc.dc_id.get_raw_id()),
+                                          {}, DcId::main(), NetQuery::Type::Common, NetQuery::AuthFlag::On);
       query->total_timeout_limit_ = 60 * 60 * 24;
       G()->net_query_dispatcher().dispatch_with_callback(std::move(query), actor_shared(this, dc.dc_id.get_raw_id()));
       dc.wait_id = id;
@@ -183,7 +174,7 @@ void DcAuthManager::dc_loop(DcInfo &dc) {
       uint64 id = UniqueId::next();
       VLOG(dc) << "Send importAuthorization to " << dc.dc_id;
       auto query = G()->net_query_creator().create(
-          id, telegram_api::auth_importAuthorization(dc.export_id, std::move(dc.export_bytes)), {}, dc.dc_id,
+          id, nullptr, telegram_api::auth_importAuthorization(dc.export_id, std::move(dc.export_bytes)), {}, dc.dc_id,
           NetQuery::Type::Common, NetQuery::AuthFlag::Off);
       query->total_timeout_limit_ = 60 * 60 * 24;
       G()->net_query_dispatcher().dispatch_with_callback(std::move(query), actor_shared(this, dc.dc_id.get_raw_id()));
@@ -198,25 +189,28 @@ void DcAuthManager::dc_loop(DcInfo &dc) {
   }
 }
 
-void DcAuthManager::destroy(Promise<> promise) {
+void DcAuthManager::destroy(Promise<Unit> promise) {
+  need_destroy_auth_key_ = true;
   destroy_promise_ = std::move(promise);
   loop();
 }
 
 void DcAuthManager::destroy_loop() {
-  if (!destroy_promise_) {
+  if (!need_destroy_auth_key_) {
     return;
   }
-  bool is_ready{true};
+  bool is_ready = true;
   for (auto &dc : dcs_) {
-    is_ready &= dc.auth_key_state == AuthKeyState::Empty;
+    if (dc.auth_key_state != AuthKeyState::Empty) {
+      is_ready = false;
+      VLOG(dc) << "Auth key in " << dc.dc_id << " in state " << dc.auth_key_state << " must be destroyed";
+    }
   }
 
   if (is_ready) {
-    VLOG(dc) << "Destroy auth keys loop is ready, all keys are destroyed";
+    VLOG(dc) << "All keys were destroyed";
     destroy_promise_.set_value(Unit());
-  } else {
-    VLOG(dc) << "DC is not ready for destroying auth key";
+    need_destroy_auth_key_ = false;
   }
 }
 

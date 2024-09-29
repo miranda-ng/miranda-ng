@@ -72,7 +72,20 @@ Result<int32> tl_constructor_from_string(td_api::BackgroundType *object, const s
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"backgroundTypeWallpaper", 1972128891},
     {"backgroundTypePattern", 1290213117},
-    {"backgroundTypeFill", 993008684}
+    {"backgroundTypeFill", 993008684},
+    {"backgroundTypeChatTheme", 1299879762}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::BlockList *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"blockListMain", 1352930172},
+    {"blockListStories", 103323228}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -90,6 +103,40 @@ Result<int32> tl_constructor_from_string(td_api::BotCommandScope *object, const 
     {"botCommandScopeChat", -430234971},
     {"botCommandScopeChatAdministrators", 1119682126},
     {"botCommandScopeChatMember", -211380494}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::BusinessAwayMessageSchedule *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"businessAwayMessageScheduleAlways", -910564679},
+    {"businessAwayMessageScheduleOutsideOfOpeningHours", -968630506},
+    {"businessAwayMessageScheduleCustom", -1967108654}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::BusinessFeature *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"businessFeatureLocation", -1064304004},
+    {"businessFeatureOpeningHours", 461054701},
+    {"businessFeatureQuickReplies", -1674048894},
+    {"businessFeatureGreetingMessage", 1789424756},
+    {"businessFeatureAwayMessage", 1090119901},
+    {"businessFeatureAccountLinks", 1878693646},
+    {"businessFeatureStartPage", 401471457},
+    {"businessFeatureBots", 275084773},
+    {"businessFeatureEmojiStatus", -846282523},
+    {"businessFeatureChatFolderTags", -543880918},
+    {"businessFeatureUpgradedStories", -1812245550}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -157,8 +204,8 @@ Result<int32> tl_constructor_from_string(td_api::ChatAction *object, const std::
 
 Result<int32> tl_constructor_from_string(td_api::ChatAvailableReactions *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
-    {"chatAvailableReactionsAll", -537887666},
-    {"chatAvailableReactionsSome", -640810821}
+    {"chatAvailableReactionsAll", 694160279},
+    {"chatAvailableReactionsSome", 152513153}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -184,7 +231,7 @@ Result<int32> tl_constructor_from_string(td_api::ChatMemberStatus *object, const
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"chatMemberStatusCreator", -160019714},
     {"chatMemberStatusAdministrator", -70024163},
-    {"chatMemberStatusMember", 844723285},
+    {"chatMemberStatusMember", -32707562},
     {"chatMemberStatusRestricted", 1661432998},
     {"chatMemberStatusLeft", -5815259},
     {"chatMemberStatusBanned", -1653518666}
@@ -225,18 +272,10 @@ Result<int32> tl_constructor_from_string(td_api::ChatPhotoStickerType *object, c
   return it->second;
 }
 
-Result<int32> tl_constructor_from_string(td_api::ChatReportReason *object, const std::string &str) {
+Result<int32> tl_constructor_from_string(td_api::CollectibleItemType *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
-    {"chatReportReasonSpam", -510848863},
-    {"chatReportReasonViolence", -1330235395},
-    {"chatReportReasonPornography", 722614385},
-    {"chatReportReasonChildAbuse", -1070686531},
-    {"chatReportReasonCopyright", 986898080},
-    {"chatReportReasonUnrelatedLocation", 2632403},
-    {"chatReportReasonFake", -1713230446},
-    {"chatReportReasonIllegalDrugs", -844539307},
-    {"chatReportReasonPersonalDetails", 1121159029},
-    {"chatReportReasonCustom", 1288925974}
+    {"collectibleItemTypeUsername", 458680273},
+    {"collectibleItemTypePhoneNumber", 1256251714}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -283,6 +322,7 @@ Result<int32> tl_constructor_from_string(td_api::EmailAddressAuthentication *obj
 Result<int32> tl_constructor_from_string(td_api::EmojiCategoryType *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"emojiCategoryTypeDefault", 1188782699},
+    {"emojiCategoryTypeRegularStickers", -1337484846},
     {"emojiCategoryTypeEmojiStatus", 1381282631},
     {"emojiCategoryTypeChatPhoto", 1059063081}
   };
@@ -301,6 +341,7 @@ Result<int32> tl_constructor_from_string(td_api::FileType *object, const std::st
     {"fileTypeDocument", -564722929},
     {"fileTypeNotificationSound", -1020289271},
     {"fileTypePhoto", -1718914651},
+    {"fileTypePhotoStory", 2018995956},
     {"fileTypeProfilePhoto", 1795089315},
     {"fileTypeSecret", -1871899401},
     {"fileTypeSecretThumbnail", -1401326026},
@@ -310,6 +351,7 @@ Result<int32> tl_constructor_from_string(td_api::FileType *object, const std::st
     {"fileTypeUnknown", -2011566768},
     {"fileTypeVideo", 1430816539},
     {"fileTypeVideoNote", -518412385},
+    {"fileTypeVideoStory", -2146754143},
     {"fileTypeVoiceNote", -588681661},
     {"fileTypeWallpaper", 1854930076}
   };
@@ -456,7 +498,8 @@ Result<int32> tl_constructor_from_string(td_api::InputInlineQueryResult *object,
 Result<int32> tl_constructor_from_string(td_api::InputInvoice *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"inputInvoiceMessage", 1490872848},
-    {"inputInvoiceName", -1312155917}
+    {"inputInvoiceName", -1312155917},
+    {"inputInvoiceTelegram", -1762853139}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -467,23 +510,50 @@ Result<int32> tl_constructor_from_string(td_api::InputInvoice *object, const std
 
 Result<int32> tl_constructor_from_string(td_api::InputMessageContent *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
-    {"inputMessageText", 247050392},
-    {"inputMessageAnimation", 850750601},
+    {"inputMessageText", -212805484},
+    {"inputMessageAnimation", -210404059},
     {"inputMessageAudio", -626786126},
     {"inputMessageDocument", 1633383097},
-    {"inputMessagePhoto", 1658132071},
+    {"inputMessagePaidMedia", -1274819374},
+    {"inputMessagePhoto", -810129442},
     {"inputMessageSticker", 1072805625},
-    {"inputMessageVideo", -1699308024},
-    {"inputMessageVideoNote", 279108859},
-    {"inputMessageVoiceNote", 2136519657},
+    {"inputMessageVideo", 615537686},
+    {"inputMessageVideoNote", -714598691},
+    {"inputMessageVoiceNote", 1461977004},
     {"inputMessageLocation", 648735088},
     {"inputMessageVenue", 1447926269},
     {"inputMessageContact", -982446849},
     {"inputMessageDice", 841574313},
     {"inputMessageGame", 1252944610},
-    {"inputMessageInvoice", 885857632},
-    {"inputMessagePoll", 2054629900},
+    {"inputMessageInvoice", -1162047631},
+    {"inputMessagePoll", -263337164},
+    {"inputMessageStory", 554278243},
     {"inputMessageForwarded", 1696232440}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::InputMessageReplyTo *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"inputMessageReplyToMessage", -1033987837},
+    {"inputMessageReplyToExternalMessage", -1993530582},
+    {"inputMessageReplyToStory", 1370410616}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::InputPaidMediaType *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"inputPaidMediaTypePhoto", -761660134},
+    {"inputPaidMediaTypeVideo", -1336673796}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -534,6 +604,35 @@ Result<int32> tl_constructor_from_string(td_api::InputPassportElementErrorSource
   return it->second;
 }
 
+Result<int32> tl_constructor_from_string(td_api::InputStoryAreaType *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"inputStoryAreaTypeLocation", -1433714887},
+    {"inputStoryAreaTypeFoundVenue", -1395809130},
+    {"inputStoryAreaTypePreviousVenue", 1846693388},
+    {"inputStoryAreaTypeSuggestedReaction", 2101826003},
+    {"inputStoryAreaTypeMessage", -266607529},
+    {"inputStoryAreaTypeLink", 1408441160},
+    {"inputStoryAreaTypeWeather", -1212686691}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::InputStoryContent *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"inputStoryContentPhoto", -309196727},
+    {"inputStoryContentVideo", 3809243}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
 Result<int32> tl_constructor_from_string(td_api::InternalLinkType *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"internalLinkTypeActiveSessions", 1886108589},
@@ -543,7 +642,10 @@ Result<int32> tl_constructor_from_string(td_api::InternalLinkType *object, const
     {"internalLinkTypeBotAddToChannel", 1401602752},
     {"internalLinkTypeBotStart", 1066950637},
     {"internalLinkTypeBotStartInGroup", -905081650},
+    {"internalLinkTypeBusinessChat", -1606751785},
+    {"internalLinkTypeBuyStars", -1454587065},
     {"internalLinkTypeChangePhoneNumber", -265856255},
+    {"internalLinkTypeChatBoost", -716571328},
     {"internalLinkTypeChatFolderInvite", -1984804546},
     {"internalLinkTypeChatFolderSettings", -1073805988},
     {"internalLinkTypeChatInvite", 428621017},
@@ -554,26 +656,30 @@ Result<int32> tl_constructor_from_string(td_api::InternalLinkType *object, const
     {"internalLinkTypeInvoice", -213094996},
     {"internalLinkTypeLanguagePack", -1450766996},
     {"internalLinkTypeLanguageSettings", -1340479770},
+    {"internalLinkTypeMainWebApp", -1668012442},
     {"internalLinkTypeMessage", 978541650},
     {"internalLinkTypeMessageDraft", 661633749},
     {"internalLinkTypePassportDataRequest", -988819839},
     {"internalLinkTypePhoneNumberConfirmation", 1757375254},
     {"internalLinkTypePremiumFeatures", 1216892745},
+    {"internalLinkTypePremiumGift", 1523936577},
+    {"internalLinkTypePremiumGiftCode", -564356974},
     {"internalLinkTypePrivacyAndSecuritySettings", -1386255665},
     {"internalLinkTypeProxy", -1313788694},
-    {"internalLinkTypePublicChat", -1485547717},
+    {"internalLinkTypePublicChat", 1769614592},
     {"internalLinkTypeQrCodeAuthentication", -1089332956},
     {"internalLinkTypeRestorePurchases", 606090371},
     {"internalLinkTypeSettings", 393561524},
     {"internalLinkTypeStickerSet", -1589227614},
+    {"internalLinkTypeStory", 1471997511},
     {"internalLinkTypeTheme", -200935417},
     {"internalLinkTypeThemeSettings", -1051903722},
     {"internalLinkTypeUnknownDeepLink", 625596379},
     {"internalLinkTypeUnsupportedProxy", -566649079},
-    {"internalLinkTypeUserPhoneNumber", -1955751319},
+    {"internalLinkTypeUserPhoneNumber", 273398536},
     {"internalLinkTypeUserToken", -1462248615},
     {"internalLinkTypeVideoChat", -2020149068},
-    {"internalLinkTypeWebApp", -57094065}
+    {"internalLinkTypeWebApp", 1281932045}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -604,8 +710,8 @@ Result<int32> tl_constructor_from_string(td_api::KeyboardButtonType *object, con
     {"keyboardButtonTypeRequestPhoneNumber", -1529235527},
     {"keyboardButtonTypeRequestLocation", -125661955},
     {"keyboardButtonTypeRequestPoll", 1902435512},
-    {"keyboardButtonTypeRequestUser", -1996508112},
-    {"keyboardButtonTypeRequestChat", 272541602},
+    {"keyboardButtonTypeRequestUsers", -1738765315},
+    {"keyboardButtonTypeRequestChat", 1511138485},
     {"keyboardButtonTypeWebApp", 1892220770}
   };
   auto it = m.find(str);
@@ -667,6 +773,18 @@ Result<int32> tl_constructor_from_string(td_api::MessageSchedulingState *object,
   return it->second;
 }
 
+Result<int32> tl_constructor_from_string(td_api::MessageSelfDestructType *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"messageSelfDestructTypeTimer", 1351440333},
+    {"messageSelfDestructTypeImmediately", -1036218363}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
 Result<int32> tl_constructor_from_string(td_api::MessageSender *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"messageSenderUser", -336109341},
@@ -689,6 +807,7 @@ Result<int32> tl_constructor_from_string(td_api::MessageSource *object, const st
     {"messageSourceSearch", 1921333105},
     {"messageSourceChatEventLog", -1028777540},
     {"messageSourceNotification", -1046406163},
+    {"messageSourceScreenshot", 469982474},
     {"messageSourceOther", 901818114}
   };
   auto it = m.find(str);
@@ -775,6 +894,19 @@ Result<int32> tl_constructor_from_string(td_api::PassportElementType *object, co
   return it->second;
 }
 
+Result<int32> tl_constructor_from_string(td_api::PhoneNumberCodeType *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"phoneNumberCodeTypeChange", 87144986},
+    {"phoneNumberCodeTypeVerify", -1029402661},
+    {"phoneNumberCodeTypeConfirmOwnership", -485404696}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
 Result<int32> tl_constructor_from_string(td_api::PollType *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"pollTypeRegular", 641265698},
@@ -803,7 +935,16 @@ Result<int32> tl_constructor_from_string(td_api::PremiumFeature *object, const s
     {"premiumFeatureAnimatedProfilePhoto", -100741914},
     {"premiumFeatureForumTopicIcon", -823172286},
     {"premiumFeatureAppIcons", 1585050761},
-    {"premiumFeatureRealTimeChatTranslation", -1143471488}
+    {"premiumFeatureRealTimeChatTranslation", -1143471488},
+    {"premiumFeatureUpgradedStories", -1878522597},
+    {"premiumFeatureChatBoost", 1576574747},
+    {"premiumFeatureAccentColor", 907724190},
+    {"premiumFeatureBackgroundForBoth", 575074042},
+    {"premiumFeatureSavedMessagesTags", 1003219334},
+    {"premiumFeatureMessagePrivacy", 802322678},
+    {"premiumFeatureLastSeenTimes", -762230129},
+    {"premiumFeatureBusiness", -1503619324},
+    {"premiumFeatureMessageEffects", -723300255}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -822,10 +963,17 @@ Result<int32> tl_constructor_from_string(td_api::PremiumLimitType *object, const
     {"premiumLimitTypeChatFolderCount", 377489774},
     {"premiumLimitTypeChatFolderChosenChatCount", 1691435861},
     {"premiumLimitTypePinnedArchivedChatCount", 1485515276},
+    {"premiumLimitTypePinnedSavedMessagesTopicCount", -1544854305},
     {"premiumLimitTypeCaptionLength", 293984314},
     {"premiumLimitTypeBioLength", -1146976765},
     {"premiumLimitTypeChatFolderInviteLinkCount", -128702950},
-    {"premiumLimitTypeShareableChatFolderCount", 1612625095}
+    {"premiumLimitTypeShareableChatFolderCount", 1612625095},
+    {"premiumLimitTypeActiveStoryCount", -1926486372},
+    {"premiumLimitTypeWeeklySentStoryCount", 40485707},
+    {"premiumLimitTypeMonthlySentStoryCount", 819481475},
+    {"premiumLimitTypeStoryCaptionLength", -1093324030},
+    {"premiumLimitTypeStorySuggestedReactionAreaCount", -1170032633},
+    {"premiumLimitTypeSimilarChatCount", -1563549935}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -838,8 +986,27 @@ Result<int32> tl_constructor_from_string(td_api::PremiumSource *object, const st
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"premiumSourceLimitExceeded", -2052159742},
     {"premiumSourceFeature", 445813541},
+    {"premiumSourceBusinessFeature", -1492946340},
+    {"premiumSourceStoryFeature", -1030737556},
     {"premiumSourceLink", 2135071132},
     {"premiumSourceSettings", -285702859}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::PremiumStoryFeature *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"premiumStoryFeaturePriorityOrder", -1880001849},
+    {"premiumStoryFeatureStealthMode", 1194605988},
+    {"premiumStoryFeaturePermanentViewsHistory", -1029683296},
+    {"premiumStoryFeatureCustomExpirationDuration", -593229162},
+    {"premiumStoryFeatureSaveStories", -1501286467},
+    {"premiumStoryFeatureLinksAndFormatting", -622623753},
+    {"premiumStoryFeatureVideoQuality", -1162887511}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -873,10 +1040,24 @@ Result<int32> tl_constructor_from_string(td_api::PublicChatType *object, const s
   return it->second;
 }
 
+Result<int32> tl_constructor_from_string(td_api::ReactionNotificationSource *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"reactionNotificationSourceNone", 366374940},
+    {"reactionNotificationSourceContacts", 555501621},
+    {"reactionNotificationSourceAll", 1241689234}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
 Result<int32> tl_constructor_from_string(td_api::ReactionType *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"reactionTypeEmoji", -1942084920},
-    {"reactionTypeCustomEmoji", -989117709}
+    {"reactionTypeCustomEmoji", -989117709},
+    {"reactionTypePaid", 436294381}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -891,6 +1072,38 @@ Result<int32> tl_constructor_from_string(td_api::ReplyMarkup *object, const std:
     {"replyMarkupForceReply", 1101461919},
     {"replyMarkupShowKeyboard", -791495984},
     {"replyMarkupInlineKeyboard", -619317658}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::ReportReason *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"reportReasonSpam", -1207032897},
+    {"reportReasonViolence", 2038679353},
+    {"reportReasonPornography", 1306467575},
+    {"reportReasonChildAbuse", 761086718},
+    {"reportReasonCopyright", 1474441135},
+    {"reportReasonUnrelatedLocation", 87562288},
+    {"reportReasonFake", 352862176},
+    {"reportReasonIllegalDrugs", -61599200},
+    {"reportReasonPersonalDetails", -1588882414},
+    {"reportReasonCustom", -1380459917}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::ResendCodeReason *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"resendCodeReasonUserRequest", -441923456},
+    {"resendCodeReasonVerificationFailed", 529870273}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -918,6 +1131,18 @@ Result<int32> tl_constructor_from_string(td_api::SearchMessagesFilter *object, c
     {"searchMessagesFilterUnreadReaction", -1379651328},
     {"searchMessagesFilterFailedToSend", -596322564},
     {"searchMessagesFilterPinned", 371805512}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::StarTransactionDirection *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"starTransactionDirectionIncoming", -1295335866},
+    {"starTransactionDirectionOutgoing", 1854125472}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -955,7 +1180,38 @@ Result<int32> tl_constructor_from_string(td_api::StickerType *object, const std:
 Result<int32> tl_constructor_from_string(td_api::StorePaymentPurpose *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"storePaymentPurposePremiumSubscription", 1263894804},
-    {"storePaymentPurposeGiftedPremium", 1916846289}
+    {"storePaymentPurposeGiftedPremium", 1916846289},
+    {"storePaymentPurposePremiumGiftCodes", -1527840798},
+    {"storePaymentPurposePremiumGiveaway", 1302624938},
+    {"storePaymentPurposeStarGiveaway", 211212441},
+    {"storePaymentPurposeStars", -1803497708},
+    {"storePaymentPurposeGiftedStars", 893691428}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::StoryList *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"storyListMain", -672222209},
+    {"storyListArchive", -41900223}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
+Result<int32> tl_constructor_from_string(td_api::StoryPrivacySettings *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"storyPrivacySettingsEveryone", 890847843},
+    {"storyPrivacySettingsContacts", 50285309},
+    {"storyPrivacySettingsCloseFriends", 2097122144},
+    {"storyPrivacySettingsSelectedUsers", -1885772602}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -973,7 +1229,12 @@ Result<int32> tl_constructor_from_string(td_api::SuggestedAction *object, const 
     {"suggestedActionConvertToBroadcastGroup", -965071304},
     {"suggestedActionSetPassword", 1863613848},
     {"suggestedActionUpgradePremium", 1890220539},
-    {"suggestedActionSubscribeToAnnualPremium", 373913787}
+    {"suggestedActionRestorePremium", -385229468},
+    {"suggestedActionSubscribeToAnnualPremium", 373913787},
+    {"suggestedActionGiftPremiumForChristmas", -1816924561},
+    {"suggestedActionSetBirthdate", -356672766},
+    {"suggestedActionExtendPremium", -566207286},
+    {"suggestedActionExtendStarSubscriptions", -47000234}
   };
   auto it = m.find(str);
   if (it == m.end()) {
@@ -1013,6 +1274,22 @@ Result<int32> tl_constructor_from_string(td_api::TargetChat *object, const std::
   return it->second;
 }
 
+Result<int32> tl_constructor_from_string(td_api::TelegramPaymentPurpose *object, const std::string &str) {
+  static const FlatHashMap<Slice, int32, SliceHash> m = {
+    {"telegramPaymentPurposePremiumGiftCodes", -1637144394},
+    {"telegramPaymentPurposePremiumGiveaway", -760757441},
+    {"telegramPaymentPurposeStars", -495718830},
+    {"telegramPaymentPurposeGiftedStars", -1850308042},
+    {"telegramPaymentPurposeStarGiveaway", 1014604689},
+    {"telegramPaymentPurposeJoinChat", -1914869880}
+  };
+  auto it = m.find(str);
+  if (it == m.end()) {
+    return Status::Error(PSLICE() << "Unknown class \"" << str << "\"");
+  }
+  return it->second;
+}
+
 Result<int32> tl_constructor_from_string(td_api::TextEntityType *object, const std::string &str) {
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"textEntityTypeMention", 934535013},
@@ -1031,6 +1308,8 @@ Result<int32> tl_constructor_from_string(td_api::TextEntityType *object, const s
     {"textEntityTypeCode", -974534326},
     {"textEntityTypePre", 1648958606},
     {"textEntityTypePreCode", -945325397},
+    {"textEntityTypeBlockQuote", -1003999032},
+    {"textEntityTypeExpandableBlockQuote", 36572261},
     {"textEntityTypeTextUrl", 445719651},
     {"textEntityTypeMentionName", -1570974289},
     {"textEntityTypeCustomEmoji", 1724820677},
@@ -1062,6 +1341,7 @@ Result<int32> tl_constructor_from_string(td_api::TopChatCategory *object, const 
     {"topChatCategoryGroups", 1530056846},
     {"topChatCategoryChannels", -500825885},
     {"topChatCategoryInlineBots", 377023356},
+    {"topChatCategoryWebAppBots", 100062973},
     {"topChatCategoryCalls", 356208861},
     {"topChatCategoryForwardChats", 1695922133}
   };
@@ -1078,6 +1358,8 @@ Result<int32> tl_constructor_from_string(td_api::UserPrivacySetting *object, con
     {"userPrivacySettingShowProfilePhoto", 1408485877},
     {"userPrivacySettingShowLinkInForwardedMessages", 592688870},
     {"userPrivacySettingShowPhoneNumber", -791567831},
+    {"userPrivacySettingShowBio", 959981409},
+    {"userPrivacySettingShowBirthdate", 1167504607},
     {"userPrivacySettingAllowChatInvites", 1271668007},
     {"userPrivacySettingAllowCalls", -906967291},
     {"userPrivacySettingAllowPeerToPeerCalls", 352500032},
@@ -1095,6 +1377,7 @@ Result<int32> tl_constructor_from_string(td_api::UserPrivacySettingRule *object,
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"userPrivacySettingRuleAllowAll", -1967186881},
     {"userPrivacySettingRuleAllowContacts", -1892733680},
+    {"userPrivacySettingRuleAllowPremiumUsers", 1624147265},
     {"userPrivacySettingRuleAllowUsers", 1110988334},
     {"userPrivacySettingRuleAllowChatMembers", -2048749863},
     {"userPrivacySettingRuleRestrictAll", -1406495408},
@@ -1113,7 +1396,8 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"accountTtl", 1324495492},
     {"address", -2043654342},
-    {"autoDownloadSettings", -813805749},
+    {"archiveChatListSettings", 1058499236},
+    {"autoDownloadSettings", 991433696},
     {"autosaveSettingsScopePrivateChats", 1395227007},
     {"autosaveSettingsScopeGroupChats", 853544526},
     {"autosaveSettingsScopeChannelChats", -499572783},
@@ -1124,6 +1408,10 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"backgroundTypeWallpaper", 1972128891},
     {"backgroundTypePattern", 1290213117},
     {"backgroundTypeFill", 993008684},
+    {"backgroundTypeChatTheme", 1299879762},
+    {"birthdate", 1644064030},
+    {"blockListMain", 1352930172},
+    {"blockListStories", 103323228},
     {"botCommand", -1032140601},
     {"botCommandScopeDefault", 795652779},
     {"botCommandScopeAllPrivateChats", -344889543},
@@ -1133,6 +1421,27 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"botCommandScopeChatAdministrators", 1119682126},
     {"botCommandScopeChatMember", -211380494},
     {"botMenuButton", -944407322},
+    {"businessAwayMessageScheduleAlways", -910564679},
+    {"businessAwayMessageScheduleOutsideOfOpeningHours", -968630506},
+    {"businessAwayMessageScheduleCustom", -1967108654},
+    {"businessAwayMessageSettings", 353084137},
+    {"businessConnectedBot", -330241321},
+    {"businessFeatureLocation", -1064304004},
+    {"businessFeatureOpeningHours", 461054701},
+    {"businessFeatureQuickReplies", -1674048894},
+    {"businessFeatureGreetingMessage", 1789424756},
+    {"businessFeatureAwayMessage", 1090119901},
+    {"businessFeatureAccountLinks", 1878693646},
+    {"businessFeatureStartPage", 401471457},
+    {"businessFeatureBots", 275084773},
+    {"businessFeatureEmojiStatus", -846282523},
+    {"businessFeatureChatFolderTags", -543880918},
+    {"businessFeatureUpgradedStories", -1812245550},
+    {"businessGreetingMessageSettings", 1689140754},
+    {"businessLocation", -1084969126},
+    {"businessOpeningHours", 816603700},
+    {"businessOpeningHoursInterval", -1108322732},
+    {"businessRecipients", 868656909},
     {"callProblemEcho", 801116548},
     {"callProblemNoise", 1053065359},
     {"callProblemInterruptions", 1119493218},
@@ -1161,11 +1470,11 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"chatActionUploadingVideoNote", 1172364918},
     {"chatActionWatchingAnimations", 2052990641},
     {"chatActionCancel", 1160523958},
-    {"chatAdministratorRights", -1384650041},
-    {"chatAvailableReactionsAll", -537887666},
-    {"chatAvailableReactionsSome", -640810821},
-    {"chatEventLogFilters", 1648261677},
-    {"chatFolder", -459081051},
+    {"chatAdministratorRights", 1599049796},
+    {"chatAvailableReactionsAll", 694160279},
+    {"chatAvailableReactionsSome", 152513153},
+    {"chatEventLogFilters", -1032965711},
+    {"chatFolder", -474905057},
     {"chatFolderIcon", -146104090},
     {"chatInviteLinkMember", 29156795},
     {"chatJoinRequest", 59341416},
@@ -1175,7 +1484,7 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"chatLocation", -1566863583},
     {"chatMemberStatusCreator", -160019714},
     {"chatMemberStatusAdministrator", -70024163},
-    {"chatMemberStatusMember", 844723285},
+    {"chatMemberStatusMember", -32707562},
     {"chatMemberStatusRestricted", 1661432998},
     {"chatMemberStatusLeft", -5815259},
     {"chatMemberStatusBanned", -1653518666},
@@ -1186,21 +1495,13 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"chatMembersFilterRestricted", 1256282813},
     {"chatMembersFilterBanned", -1863102648},
     {"chatMembersFilterBots", -1422567288},
-    {"chatNotificationSettings", 944322400},
-    {"chatPermissions", -1355062837},
+    {"chatNotificationSettings", -572779825},
+    {"chatPermissions", -118334855},
     {"chatPhotoSticker", -1459387485},
     {"chatPhotoStickerTypeRegularOrMask", -415147620},
     {"chatPhotoStickerTypeCustomEmoji", -266224943},
-    {"chatReportReasonSpam", -510848863},
-    {"chatReportReasonViolence", -1330235395},
-    {"chatReportReasonPornography", 722614385},
-    {"chatReportReasonChildAbuse", -1070686531},
-    {"chatReportReasonCopyright", 986898080},
-    {"chatReportReasonUnrelatedLocation", 2632403},
-    {"chatReportReasonFake", -1713230446},
-    {"chatReportReasonIllegalDrugs", -844539307},
-    {"chatReportReasonPersonalDetails", 1121159029},
-    {"chatReportReasonCustom", 1288925974},
+    {"collectibleItemTypeUsername", 458680273},
+    {"collectibleItemTypePhoneNumber", 1256251714},
     {"contact", -1993844876},
     {"date", -277956960},
     {"deviceTokenFirebaseCloudMessaging", -797881849},
@@ -1215,14 +1516,15 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"deviceTokenBlackBerryPush", 1559167234},
     {"deviceTokenTizenPush", -1359947213},
     {"deviceTokenHuaweiPush", 1989103142},
-    {"draftMessage", 1373050112},
+    {"draftMessage", 1125328749},
     {"emailAddressAuthenticationCode", -993257022},
     {"emailAddressAuthenticationAppleId", 633948265},
     {"emailAddressAuthenticationGoogleId", -19142846},
     {"emojiCategoryTypeDefault", 1188782699},
+    {"emojiCategoryTypeRegularStickers", -1337484846},
     {"emojiCategoryTypeEmojiStatus", 1381282631},
     {"emojiCategoryTypeChatPhoto", 1059063081},
-    {"emojiStatus", 1092133478},
+    {"emojiStatus", -606529994},
     {"error", -1679978726},
     {"fileTypeNone", 2003009189},
     {"fileTypeAnimation", -290816582},
@@ -1230,6 +1532,7 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"fileTypeDocument", -564722929},
     {"fileTypeNotificationSound", -1020289271},
     {"fileTypePhoto", -1718914651},
+    {"fileTypePhotoStory", 2018995956},
     {"fileTypeProfilePhoto", 1795089315},
     {"fileTypeSecret", -1871899401},
     {"fileTypeSecretThumbnail", -1401326026},
@@ -1239,12 +1542,14 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"fileTypeUnknown", -2011566768},
     {"fileTypeVideo", 1430816539},
     {"fileTypeVideoNote", -518412385},
+    {"fileTypeVideoStory", -2146754143},
     {"fileTypeVoiceNote", -588681661},
     {"fileTypeWallpaper", 1854930076},
     {"firebaseAuthenticationSettingsAndroid", -1771112932},
     {"firebaseAuthenticationSettingsIos", 222930116},
     {"formattedText", -252624564},
     {"forumTopicIcon", -818765421},
+    {"giveawayParameters", 1171549354},
     {"groupCallVideoQualityThumbnail", -379186304},
     {"groupCallVideoQualityMedium", 394968234},
     {"groupCallVideoQualityFull", -2125916617},
@@ -1264,6 +1569,8 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"inputBackgroundLocal", -1747094364},
     {"inputBackgroundRemote", -274976231},
     {"inputBackgroundPrevious", -351905954},
+    {"inputBusinessChatLink", 237858296},
+    {"inputBusinessStartPage", -327383072},
     {"inputChatPhotoPrevious", 23128529},
     {"inputChatPhotoStatic", 1979179699},
     {"inputChatPhotoAnimation", 90846242},
@@ -1276,7 +1583,7 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"inputFileRemote", -107574466},
     {"inputFileLocal", 2056030919},
     {"inputFileGenerated", -1333385216},
-    {"inputIdentityDocument", -381776063},
+    {"inputIdentityDocument", 767353688},
     {"inputInlineQueryResultAnimation", -1489808874},
     {"inputInlineQueryResultArticle", 1973670156},
     {"inputInlineQueryResultAudio", 1260139988},
@@ -1291,23 +1598,32 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"inputInlineQueryResultVoiceNote", -1790072503},
     {"inputInvoiceMessage", 1490872848},
     {"inputInvoiceName", -1312155917},
-    {"inputMessageText", 247050392},
-    {"inputMessageAnimation", 850750601},
+    {"inputInvoiceTelegram", -1762853139},
+    {"inputMessageText", -212805484},
+    {"inputMessageAnimation", -210404059},
     {"inputMessageAudio", -626786126},
     {"inputMessageDocument", 1633383097},
-    {"inputMessagePhoto", 1658132071},
+    {"inputMessagePaidMedia", -1274819374},
+    {"inputMessagePhoto", -810129442},
     {"inputMessageSticker", 1072805625},
-    {"inputMessageVideo", -1699308024},
-    {"inputMessageVideoNote", 279108859},
-    {"inputMessageVoiceNote", 2136519657},
+    {"inputMessageVideo", 615537686},
+    {"inputMessageVideoNote", -714598691},
+    {"inputMessageVoiceNote", 1461977004},
     {"inputMessageLocation", 648735088},
     {"inputMessageVenue", 1447926269},
     {"inputMessageContact", -982446849},
     {"inputMessageDice", 841574313},
     {"inputMessageGame", 1252944610},
-    {"inputMessageInvoice", 885857632},
-    {"inputMessagePoll", 2054629900},
+    {"inputMessageInvoice", -1162047631},
+    {"inputMessagePoll", -263337164},
+    {"inputMessageStory", 554278243},
     {"inputMessageForwarded", 1696232440},
+    {"inputMessageReplyToMessage", -1033987837},
+    {"inputMessageReplyToExternalMessage", -1993530582},
+    {"inputMessageReplyToStory", 1370410616},
+    {"inputPaidMedia", 475844035},
+    {"inputPaidMediaTypePhoto", -761660134},
+    {"inputPaidMediaTypeVideo", -1336673796},
     {"inputPassportElementPersonalDetails", 164791359},
     {"inputPassportElementPassport", -497011356},
     {"inputPassportElementDriverLicense", 304813264},
@@ -1332,7 +1648,19 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"inputPassportElementErrorSourceFile", -298492469},
     {"inputPassportElementErrorSourceFiles", -2008541640},
     {"inputPersonalDocument", 1676966826},
-    {"inputSticker", 735226185},
+    {"inputSticker", 1589392402},
+    {"inputStoryArea", 122859135},
+    {"inputStoryAreaTypeLocation", -1433714887},
+    {"inputStoryAreaTypeFoundVenue", -1395809130},
+    {"inputStoryAreaTypePreviousVenue", 1846693388},
+    {"inputStoryAreaTypeSuggestedReaction", 2101826003},
+    {"inputStoryAreaTypeMessage", -266607529},
+    {"inputStoryAreaTypeLink", 1408441160},
+    {"inputStoryAreaTypeWeather", -1212686691},
+    {"inputStoryAreas", -883247088},
+    {"inputStoryContentPhoto", -309196727},
+    {"inputStoryContentVideo", 3809243},
+    {"inputTextQuote", -1219859172},
     {"inputThumbnail", 1582387236},
     {"internalLinkTypeActiveSessions", 1886108589},
     {"internalLinkTypeAttachmentMenuBot", 1682719269},
@@ -1341,7 +1669,10 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"internalLinkTypeBotAddToChannel", 1401602752},
     {"internalLinkTypeBotStart", 1066950637},
     {"internalLinkTypeBotStartInGroup", -905081650},
+    {"internalLinkTypeBusinessChat", -1606751785},
+    {"internalLinkTypeBuyStars", -1454587065},
     {"internalLinkTypeChangePhoneNumber", -265856255},
+    {"internalLinkTypeChatBoost", -716571328},
     {"internalLinkTypeChatFolderInvite", -1984804546},
     {"internalLinkTypeChatFolderSettings", -1073805988},
     {"internalLinkTypeChatInvite", 428621017},
@@ -1352,27 +1683,31 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"internalLinkTypeInvoice", -213094996},
     {"internalLinkTypeLanguagePack", -1450766996},
     {"internalLinkTypeLanguageSettings", -1340479770},
+    {"internalLinkTypeMainWebApp", -1668012442},
     {"internalLinkTypeMessage", 978541650},
     {"internalLinkTypeMessageDraft", 661633749},
     {"internalLinkTypePassportDataRequest", -988819839},
     {"internalLinkTypePhoneNumberConfirmation", 1757375254},
     {"internalLinkTypePremiumFeatures", 1216892745},
+    {"internalLinkTypePremiumGift", 1523936577},
+    {"internalLinkTypePremiumGiftCode", -564356974},
     {"internalLinkTypePrivacyAndSecuritySettings", -1386255665},
     {"internalLinkTypeProxy", -1313788694},
-    {"internalLinkTypePublicChat", -1485547717},
+    {"internalLinkTypePublicChat", 1769614592},
     {"internalLinkTypeQrCodeAuthentication", -1089332956},
     {"internalLinkTypeRestorePurchases", 606090371},
     {"internalLinkTypeSettings", 393561524},
     {"internalLinkTypeStickerSet", -1589227614},
+    {"internalLinkTypeStory", 1471997511},
     {"internalLinkTypeTheme", -200935417},
     {"internalLinkTypeThemeSettings", -1051903722},
     {"internalLinkTypeUnknownDeepLink", 625596379},
     {"internalLinkTypeUnsupportedProxy", -566649079},
-    {"internalLinkTypeUserPhoneNumber", -1955751319},
+    {"internalLinkTypeUserPhoneNumber", 273398536},
     {"internalLinkTypeUserToken", -1462248615},
     {"internalLinkTypeVideoChat", -2020149068},
-    {"internalLinkTypeWebApp", -57094065},
-    {"invoice", 1977205639},
+    {"internalLinkTypeWebApp", 1281932045},
+    {"invoice", 1039926674},
     {"jsonObjectMember", -1803309418},
     {"jsonValueNull", -92872499},
     {"jsonValueBoolean", -2142186576},
@@ -1385,8 +1720,8 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"keyboardButtonTypeRequestPhoneNumber", -1529235527},
     {"keyboardButtonTypeRequestLocation", -125661955},
     {"keyboardButtonTypeRequestPoll", 1902435512},
-    {"keyboardButtonTypeRequestUser", -1996508112},
-    {"keyboardButtonTypeRequestChat", 272541602},
+    {"keyboardButtonTypeRequestUsers", -1738765315},
+    {"keyboardButtonTypeRequestChat", 1511138485},
     {"keyboardButtonTypeWebApp", 1892220770},
     {"labeledPricePart", 552789798},
     {"languagePackInfo", 542199642},
@@ -1394,7 +1729,9 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"languagePackStringValueOrdinary", -249256352},
     {"languagePackStringValuePluralized", 1906840261},
     {"languagePackStringValueDeleted", 1834792698},
+    {"linkPreviewOptions", 1046590451},
     {"location", -443392141},
+    {"locationAddress", -1545940190},
     {"logStreamDefault", 1390581436},
     {"logStreamFile", 1532136933},
     {"logStreamEmpty", -499912244},
@@ -1404,10 +1741,12 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"maskPointChin", 534995335},
     {"maskPosition", -2097433026},
     {"messageAutoDeleteTime", 1972045589},
-    {"messageCopyOptions", 1208442937},
+    {"messageCopyOptions", 1079772090},
     {"messageSchedulingStateSendAtDate", -1485570073},
     {"messageSchedulingStateSendWhenOnline", 2092947464},
-    {"messageSendOptions", 32902046},
+    {"messageSelfDestructTypeTimer", 1351440333},
+    {"messageSelfDestructTypeImmediately", -1036218363},
+    {"messageSendOptions", -2105243218},
     {"messageSenderUser", -336109341},
     {"messageSenderChat", -239660751},
     {"messageSourceChatHistory", -1090386116},
@@ -1418,6 +1757,7 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"messageSourceSearch", 1921333105},
     {"messageSourceChatEventLog", -1028777540},
     {"messageSourceNotification", -1046406163},
+    {"messageSourceScreenshot", 469982474},
     {"messageSourceOther", 901818114},
     {"networkStatisticsEntryFile", 188452706},
     {"networkStatisticsEntryCall", 737000365},
@@ -1426,6 +1766,7 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"networkTypeMobileRoaming", -1435199760},
     {"networkTypeWiFi", -633872070},
     {"networkTypeOther", 1942128539},
+    {"newChatPrivacySettings", 1528154694},
     {"notificationSettingsScopePrivateChats", 937446759},
     {"notificationSettingsScopeGroupChats", 1212142067},
     {"notificationSettingsScopeChannelChats", 548013448},
@@ -1448,7 +1789,10 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"passportElementTypePhoneNumber", -995361172},
     {"passportElementTypeEmailAddress", -79321405},
     {"personalDetails", -1061656137},
-    {"phoneNumberAuthenticationSettings", -493266762},
+    {"phoneNumberAuthenticationSettings", 1881885547},
+    {"phoneNumberCodeTypeChange", 87144986},
+    {"phoneNumberCodeTypeVerify", -1029402661},
+    {"phoneNumberCodeTypeConfirmOwnership", -485404696},
     {"pollTypeRegular", 641265698},
     {"pollTypeQuiz", 657013913},
     {"premiumFeatureIncreasedLimits", 1785455031},
@@ -1466,6 +1810,15 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"premiumFeatureForumTopicIcon", -823172286},
     {"premiumFeatureAppIcons", 1585050761},
     {"premiumFeatureRealTimeChatTranslation", -1143471488},
+    {"premiumFeatureUpgradedStories", -1878522597},
+    {"premiumFeatureChatBoost", 1576574747},
+    {"premiumFeatureAccentColor", 907724190},
+    {"premiumFeatureBackgroundForBoth", 575074042},
+    {"premiumFeatureSavedMessagesTags", 1003219334},
+    {"premiumFeatureMessagePrivacy", 802322678},
+    {"premiumFeatureLastSeenTimes", -762230129},
+    {"premiumFeatureBusiness", -1503619324},
+    {"premiumFeatureMessageEffects", -723300255},
     {"premiumLimitTypeSupergroupCount", -247467131},
     {"premiumLimitTypePinnedChatCount", -998947871},
     {"premiumLimitTypeCreatedPublicChatCount", 446086841},
@@ -1474,27 +1827,61 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"premiumLimitTypeChatFolderCount", 377489774},
     {"premiumLimitTypeChatFolderChosenChatCount", 1691435861},
     {"premiumLimitTypePinnedArchivedChatCount", 1485515276},
+    {"premiumLimitTypePinnedSavedMessagesTopicCount", -1544854305},
     {"premiumLimitTypeCaptionLength", 293984314},
     {"premiumLimitTypeBioLength", -1146976765},
     {"premiumLimitTypeChatFolderInviteLinkCount", -128702950},
     {"premiumLimitTypeShareableChatFolderCount", 1612625095},
+    {"premiumLimitTypeActiveStoryCount", -1926486372},
+    {"premiumLimitTypeWeeklySentStoryCount", 40485707},
+    {"premiumLimitTypeMonthlySentStoryCount", 819481475},
+    {"premiumLimitTypeStoryCaptionLength", -1093324030},
+    {"premiumLimitTypeStorySuggestedReactionAreaCount", -1170032633},
+    {"premiumLimitTypeSimilarChatCount", -1563549935},
     {"premiumSourceLimitExceeded", -2052159742},
     {"premiumSourceFeature", 445813541},
+    {"premiumSourceBusinessFeature", -1492946340},
+    {"premiumSourceStoryFeature", -1030737556},
     {"premiumSourceLink", 2135071132},
     {"premiumSourceSettings", -285702859},
+    {"premiumStoryFeaturePriorityOrder", -1880001849},
+    {"premiumStoryFeatureStealthMode", 1194605988},
+    {"premiumStoryFeaturePermanentViewsHistory", -1029683296},
+    {"premiumStoryFeatureCustomExpirationDuration", -593229162},
+    {"premiumStoryFeatureSaveStories", -1501286467},
+    {"premiumStoryFeatureLinksAndFormatting", -622623753},
+    {"premiumStoryFeatureVideoQuality", -1162887511},
     {"proxyTypeSocks5", -890027341},
     {"proxyTypeHttp", -1547188361},
     {"proxyTypeMtproto", -1964826627},
     {"publicChatTypeHasUsername", 350789758},
     {"publicChatTypeIsLocationBased", 1183735952},
+    {"reactionNotificationSettings", 733017684},
+    {"reactionNotificationSourceNone", 366374940},
+    {"reactionNotificationSourceContacts", 555501621},
+    {"reactionNotificationSourceAll", 1241689234},
     {"reactionTypeEmoji", -1942084920},
     {"reactionTypeCustomEmoji", -989117709},
+    {"reactionTypePaid", 436294381},
+    {"readDatePrivacySettings", 1654842920},
     {"replyMarkupRemoveKeyboard", -691252879},
     {"replyMarkupForceReply", 1101461919},
     {"replyMarkupShowKeyboard", -791495984},
     {"replyMarkupInlineKeyboard", -619317658},
+    {"reportReasonSpam", -1207032897},
+    {"reportReasonViolence", 2038679353},
+    {"reportReasonPornography", 1306467575},
+    {"reportReasonChildAbuse", 761086718},
+    {"reportReasonCopyright", 1474441135},
+    {"reportReasonUnrelatedLocation", 87562288},
+    {"reportReasonFake", 352862176},
+    {"reportReasonIllegalDrugs", -61599200},
+    {"reportReasonPersonalDetails", -1588882414},
+    {"reportReasonCustom", -1380459917},
+    {"resendCodeReasonUserRequest", -441923456},
+    {"resendCodeReasonVerificationFailed", 529870273},
     {"scopeAutosaveSettings", 1546821427},
-    {"scopeNotificationSettings", -1383458661},
+    {"scopeNotificationSettings", -599105185},
     {"searchMessagesFilterEmpty", -869395657},
     {"searchMessagesFilterAnimation", -155713339},
     {"searchMessagesFilterAudio", 867505275},
@@ -1513,6 +1900,9 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"searchMessagesFilterFailedToSend", -596322564},
     {"searchMessagesFilterPinned", 371805512},
     {"shippingOption", 1425690001},
+    {"starSubscriptionPricing", -1767733162},
+    {"starTransactionDirectionIncoming", -1295335866},
+    {"starTransactionDirectionOutgoing", 1854125472},
     {"stickerFormatWebp", -2123043040},
     {"stickerFormatTgs", 1614588662},
     {"stickerFormatWebm", -2070162097},
@@ -1521,6 +1911,19 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"stickerTypeCustomEmoji", -120752249},
     {"storePaymentPurposePremiumSubscription", 1263894804},
     {"storePaymentPurposeGiftedPremium", 1916846289},
+    {"storePaymentPurposePremiumGiftCodes", -1527840798},
+    {"storePaymentPurposePremiumGiveaway", 1302624938},
+    {"storePaymentPurposeStarGiveaway", 211212441},
+    {"storePaymentPurposeStars", -1803497708},
+    {"storePaymentPurposeGiftedStars", 893691428},
+    {"storyAreaPosition", -1533023124},
+    {"storyFullId", 1880961525},
+    {"storyListMain", -672222209},
+    {"storyListArchive", -41900223},
+    {"storyPrivacySettingsEveryone", 890847843},
+    {"storyPrivacySettingsContacts", 50285309},
+    {"storyPrivacySettingsCloseFriends", 2097122144},
+    {"storyPrivacySettingsSelectedUsers", -1885772602},
     {"suggestedActionEnableArchiveAndMuteNewChats", 2017586255},
     {"suggestedActionCheckPassword", 1910534839},
     {"suggestedActionCheckPhoneNumber", 648771563},
@@ -1528,7 +1931,12 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"suggestedActionConvertToBroadcastGroup", -965071304},
     {"suggestedActionSetPassword", 1863613848},
     {"suggestedActionUpgradePremium", 1890220539},
+    {"suggestedActionRestorePremium", -385229468},
     {"suggestedActionSubscribeToAnnualPremium", 373913787},
+    {"suggestedActionGiftPremiumForChristmas", -1816924561},
+    {"suggestedActionSetBirthdate", -356672766},
+    {"suggestedActionExtendPremium", -566207286},
+    {"suggestedActionExtendStarSubscriptions", -47000234},
     {"supergroupMembersFilterRecent", 1178199509},
     {"supergroupMembersFilterContacts", -1282910856},
     {"supergroupMembersFilterAdministrators", -2097380265},
@@ -1540,6 +1948,12 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"targetChatCurrent", -416689904},
     {"targetChatChosen", -307442990},
     {"targetChatInternalLink", -579301408},
+    {"telegramPaymentPurposePremiumGiftCodes", -1637144394},
+    {"telegramPaymentPurposePremiumGiveaway", -760757441},
+    {"telegramPaymentPurposeStars", -495718830},
+    {"telegramPaymentPurposeGiftedStars", -1850308042},
+    {"telegramPaymentPurposeStarGiveaway", 1014604689},
+    {"telegramPaymentPurposeJoinChat", -1914869880},
     {"testInt", -574804983},
     {"testString", -27891572},
     {"textEntity", -1951688280},
@@ -1559,24 +1973,29 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"textEntityTypeCode", -974534326},
     {"textEntityTypePre", 1648958606},
     {"textEntityTypePreCode", -945325397},
+    {"textEntityTypeBlockQuote", -1003999032},
+    {"textEntityTypeExpandableBlockQuote", 36572261},
     {"textEntityTypeTextUrl", 445719651},
     {"textEntityTypeMentionName", -1570974289},
     {"textEntityTypeCustomEmoji", 1724820677},
     {"textEntityTypeMediaTimestamp", -1841898992},
     {"textParseModeMarkdown", 360073407},
     {"textParseModeHTML", 1660208627},
-    {"themeParameters", -644809106},
+    {"themeParameters", -276589137},
     {"topChatCategoryUsers", 1026706816},
     {"topChatCategoryBots", -1577129195},
     {"topChatCategoryGroups", 1530056846},
     {"topChatCategoryChannels", -500825885},
     {"topChatCategoryInlineBots", 377023356},
+    {"topChatCategoryWebAppBots", 100062973},
     {"topChatCategoryCalls", 356208861},
     {"topChatCategoryForwardChats", 1695922133},
     {"userPrivacySettingShowStatus", 1862829310},
     {"userPrivacySettingShowProfilePhoto", 1408485877},
     {"userPrivacySettingShowLinkInForwardedMessages", 592688870},
     {"userPrivacySettingShowPhoneNumber", -791567831},
+    {"userPrivacySettingShowBio", 959981409},
+    {"userPrivacySettingShowBirthdate", 1167504607},
     {"userPrivacySettingAllowChatInvites", 1271668007},
     {"userPrivacySettingAllowCalls", -906967291},
     {"userPrivacySettingAllowPeerToPeerCalls", 352500032},
@@ -1584,6 +2003,7 @@ Result<int32> tl_constructor_from_string(td_api::Object *object, const std::stri
     {"userPrivacySettingAllowPrivateVoiceAndVideoNoteMessages", 338112060},
     {"userPrivacySettingRuleAllowAll", -1967186881},
     {"userPrivacySettingRuleAllowContacts", -1892733680},
+    {"userPrivacySettingRuleAllowPremiumUsers", 1624147265},
     {"userPrivacySettingRuleAllowUsers", 1110988334},
     {"userPrivacySettingRuleAllowChatMembers", -2048749863},
     {"userPrivacySettingRuleRestrictAll", -1406495408},
@@ -1604,49 +2024,59 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
   static const FlatHashMap<Slice, int32, SliceHash> m = {
     {"acceptCall", -646618416},
     {"acceptTermsOfService", 2130576356},
-    {"addApplicationChangelog", -1946976311},
+    {"activateStoryStealthMode", -1009023855},
+    {"addBotMediaPreview", 1347126571},
     {"addChatFolderByInviteLink", -858593816},
-    {"addChatMember", 499426810},
-    {"addChatMembers", -519951226},
+    {"addChatMember", 1720144407},
+    {"addChatMembers", -1675991329},
     {"addChatToList", -80523595},
     {"addContact", 1869640000},
     {"addCustomServerLanguagePack", 4492771},
     {"addFavoriteSticker", 324504799},
     {"addFileToDownloads", 867533751},
-    {"addLocalMessage", -1998878725},
+    {"addLocalMessage", -166217823},
     {"addLogMessage", 1597427692},
     {"addMessageReaction", 1419269613},
     {"addNetworkStatistics", 1264825305},
+    {"addPendingPaidMessageReaction", 1716816153},
     {"addProxy", 331529432},
+    {"addQuickReplyShortcutInlineQueryResultMessage", -2017449468},
+    {"addQuickReplyShortcutMessage", 1058573098},
+    {"addQuickReplyShortcutMessageAlbum", 1348436244},
     {"addRecentSticker", -1478109026},
     {"addRecentlyFoundChat", -1746396787},
     {"addSavedAnimation", -1538525088},
     {"addSavedNotificationSound", 1043956975},
     {"addStickerToSet", 1457266235},
+    {"allowBotToSendMessages", 1776928142},
     {"answerCallbackQuery", -1153028490},
     {"answerCustomQuery", -1293603521},
     {"answerInlineQuery", 1343853844},
     {"answerPreCheckoutQuery", -1486789653},
     {"answerShippingQuery", -434601324},
     {"answerWebAppQuery", -1598776079},
+    {"applyPremiumGiftCode", -1347138530},
     {"assignAppStoreTransaction", -2030892112},
     {"assignGooglePlayTransaction", -1992704860},
     {"banChatMember", -888111748},
     {"blockMessageSenderFromReplies", -1214384757},
-    {"canPurchasePremium", -371319616},
+    {"boostChat", 1945750252},
+    {"canBotSendMessages", 544052364},
+    {"canPurchaseFromStore", 1017811816},
+    {"canSendMessageToUser", 1529489462},
+    {"canSendStory", -1226825365},
     {"canTransferOwnership", 634602508},
     {"cancelDownloadFile", -1954524450},
     {"cancelPasswordReset", 940733538},
     {"cancelPreliminaryUploadFile", 823412414},
+    {"cancelRecoveryEmailAddressVerification", -1516728691},
     {"changeImportedContacts", 1968207955},
-    {"changePhoneNumber", -124666973},
     {"changeStickerSet", 449357293},
     {"checkAuthenticationBotToken", 639321206},
     {"checkAuthenticationCode", -302103382},
     {"checkAuthenticationEmailCode", -582827361},
     {"checkAuthenticationPassword", -2025698400},
     {"checkAuthenticationPasswordRecoveryCode", -603309083},
-    {"checkChangePhoneNumberCode", -1720278429},
     {"checkChatFolderInviteLink", 522557851},
     {"checkChatInviteLink", -496940997},
     {"checkChatUsername", -119119344},
@@ -1654,8 +2084,9 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"checkEmailAddressVerificationCode", -426386685},
     {"checkLoginEmailAddressCode", -1454244766},
     {"checkPasswordRecoveryCode", -200794600},
-    {"checkPhoneNumberConfirmationCode", -1348060966},
-    {"checkPhoneNumberVerificationCode", 1497462718},
+    {"checkPhoneNumberCode", -603626079},
+    {"checkPremiumGiftCode", -1786063260},
+    {"checkQuickReplyShortcutName", 2101203241},
     {"checkRecoveryEmailAddressCode", -1997039589},
     {"checkStickerSetName", -1789392642},
     {"cleanFileName", 967964667},
@@ -1666,23 +2097,30 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"clearRecentReactions", 1298253650},
     {"clearRecentStickers", -321242684},
     {"clearRecentlyFoundChats", -285582542},
+    {"clearSearchedForTags", 512017238},
     {"clickAnimatedEmojiMessage", 196179554},
+    {"clickChatSponsoredMessage", -641687573},
     {"clickPremiumSubscriptionButton", -369319162},
     {"close", -1187782273},
     {"closeChat", 39749353},
     {"closeSecretChat", -471006133},
+    {"closeStory", 1144852309},
     {"closeWebApp", 1755391174},
+    {"commitPendingPaidMessageReactions", -171354618},
     {"confirmQrCodeAuthentication", -376199379},
+    {"confirmSession", -674647009},
     {"createBasicGroupChat", 1972024548},
+    {"createBusinessChatLink", -1861018304},
     {"createCall", -1104663024},
     {"createChatFolder", 1015399680},
     {"createChatFolderInviteLink", -2037911099},
     {"createChatInviteLink", 287744833},
+    {"createChatSubscriptionInviteLink", 2255717},
     {"createForumTopic", -1040570140},
     {"createInvoiceLink", 216787233},
-    {"createNewBasicGroupChat", 624404360},
+    {"createNewBasicGroupChat", 1806454709},
     {"createNewSecretChat", -620682651},
-    {"createNewStickerSet", 1057318406},
+    {"createNewStickerSet", -481065727},
     {"createNewSupergroupChat", 804058822},
     {"createPrivateChat", -947758327},
     {"createSecretChat", 1930285615},
@@ -1692,7 +2130,11 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"deleteAccount", 1395816134},
     {"deleteAllCallMessages", -1466445325},
     {"deleteAllRevokedChatInviteLinks", 1112020698},
+    {"deleteBotMediaPreviews", -1397512722},
+    {"deleteBusinessChatLink", -1101895865},
+    {"deleteBusinessConnectedBot", -1633976747},
     {"deleteChat", -171253666},
+    {"deleteChatBackground", 320267896},
     {"deleteChatFolder", -1956364551},
     {"deleteChatFolderInviteLink", -930057858},
     {"deleteChatHistory", -1472081761},
@@ -1700,16 +2142,22 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"deleteChatMessagesBySender", -1164235161},
     {"deleteChatReplyMarkup", 100637531},
     {"deleteCommands", 1002732586},
+    {"deleteDefaultBackground", -1297814210},
     {"deleteFile", 1807653676},
     {"deleteForumTopic", 1864916152},
     {"deleteLanguagePack", -2108761026},
     {"deleteMessages", 1130090173},
     {"deletePassportElement", -1719555468},
     {"deleteProfilePhoto", 1319794625},
+    {"deleteQuickReplyShortcut", -246911978},
+    {"deleteQuickReplyShortcutMessages", -40522947},
     {"deleteRevokedChatInviteLink", -1859711873},
     {"deleteSavedCredentials", 826300114},
+    {"deleteSavedMessagesTopicHistory", 1776237930},
+    {"deleteSavedMessagesTopicMessagesByDate", 1444389},
     {"deleteSavedOrderInfo", 1629058164},
     {"deleteStickerSet", 1577745325},
+    {"deleteStory", -1623871722},
     {"destroy", 685331274},
     {"disableAllSupergroupUsernames", 843511216},
     {"disableProxy", -2100095102},
@@ -1717,58 +2165,87 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"disconnectAllWebsites", -1082985981},
     {"disconnectWebsite", -778767395},
     {"downloadFile", 1059402292},
+    {"editBotMediaPreview", -2037031582},
+    {"editBusinessChatLink", 1594947110},
+    {"editBusinessMessageCaption", -1071562045},
+    {"editBusinessMessageLiveLocation", 494972447},
+    {"editBusinessMessageMedia", -60733576},
+    {"editBusinessMessageReplyMarkup", 701787159},
+    {"editBusinessMessageText", -1149169252},
     {"editChatFolder", 53672754},
     {"editChatFolderInviteLink", -2141872095},
     {"editChatInviteLink", 1320303996},
+    {"editChatSubscriptionInviteLink", -951826989},
     {"editCustomLanguagePackInfo", 1320751257},
     {"editForumTopic", -1485402016},
-    {"editInlineMessageCaption", -760985929},
-    {"editInlineMessageLiveLocation", -156902912},
+    {"editInlineMessageCaption", 1409762552},
+    {"editInlineMessageLiveLocation", 2134352044},
     {"editInlineMessageMedia", 23553921},
     {"editInlineMessageReplyMarkup", -67565858},
     {"editInlineMessageText", -855457307},
-    {"editMessageCaption", 1154677038},
-    {"editMessageLiveLocation", -14047982},
+    {"editMessageCaption", -2020117951},
+    {"editMessageLiveLocation", -1890511980},
     {"editMessageMedia", -1152678125},
     {"editMessageReplyMarkup", 332127881},
     {"editMessageSchedulingState", -1372976192},
     {"editMessageText", 196272567},
     {"editProxy", -1605883821},
+    {"editQuickReplyMessage", 80517006},
+    {"editStarSubscription", 2048538904},
+    {"editStory", 1584013745},
+    {"editStoryCover", -1423307701},
     {"enableProxy", 1494450838},
     {"endGroupCall", 573131959},
     {"endGroupCallRecording", -75799927},
     {"endGroupCallScreenSharing", -2047599540},
     {"finishFileGeneration", -1055060835},
-    {"forwardMessages", -1054441908},
+    {"forwardMessages", 966156347},
     {"getAccountTtl", -443905161},
-    {"getActiveLiveLocationMessages", -1425459567},
     {"getActiveSessions", 1119710526},
     {"getAllPassportElements", -2038945045},
+    {"getAllStickerEmojis", 296562224},
     {"getAnimatedEmoji", 1065635702},
     {"getApplicationConfig", -1823144318},
     {"getApplicationDownloadLink", 112013252},
+    {"getArchiveChatListSettings", -2087874976},
     {"getArchivedStickerSets", 1001931341},
     {"getAttachedStickerSets", 1302172429},
     {"getAttachmentMenuBot", 1034248699},
     {"getAuthorizationState", 1949154877},
     {"getAutoDownloadSettingsPresets", -1721088201},
     {"getAutosaveSettings", 2136207914},
+    {"getAvailableChatBoostSlots", 1929898965},
     {"getBackgroundUrl", 733769682},
-    {"getBackgrounds", 249072633},
     {"getBankCardInfo", -1310515792},
     {"getBasicGroup", -1635174828},
     {"getBasicGroupFullInfo", -1822039253},
-    {"getBlockedMessageSenders", 1947079776},
+    {"getBlockedMessageSenders", -1931137258},
     {"getBotInfoDescription", -762841035},
     {"getBotInfoShortDescription", 1243358740},
+    {"getBotMediaPreviewInfo", 1358299446},
+    {"getBotMediaPreviews", 577131608},
     {"getBotName", -1707118036},
+    {"getBusinessChatLinkInfo", 797670986},
+    {"getBusinessChatLinks", 710287703},
+    {"getBusinessConnectedBot", 911058883},
+    {"getBusinessConnection", -2114706400},
+    {"getBusinessFeatures", -997171199},
     {"getCallbackQueryAnswer", 116357727},
     {"getCallbackQueryMessage", -1121939086},
     {"getChat", 1866601536},
+    {"getChatActiveStories", 776993781},
     {"getChatAdministrators", 1544468155},
+    {"getChatArchivedStories", -1356950392},
     {"getChatAvailableMessageSenders", 1158670635},
+    {"getChatBoostFeatures", -389994336},
+    {"getChatBoostLevelFeatures", 1172717195},
+    {"getChatBoostLink", 1458662533},
+    {"getChatBoostLinkInfo", 654068572},
+    {"getChatBoostStatus", -810775857},
+    {"getChatBoosts", -1419859400},
     {"getChatEventLog", -1281344669},
     {"getChatFolder", 92809880},
+    {"getChatFolderChatCount", 2111097790},
     {"getChatFolderChatsToLeave", -1916672337},
     {"getChatFolderDefaultIconName", 754425959},
     {"getChatFolderInviteLinks", 329079776},
@@ -1776,38 +2253,53 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getChatHistory", -799960451},
     {"getChatInviteLink", -479575555},
     {"getChatInviteLinkCounts", 890299025},
-    {"getChatInviteLinkMembers", -977921638},
+    {"getChatInviteLinkMembers", 1728376124},
     {"getChatInviteLinks", 883252396},
     {"getChatJoinRequests", -388428126},
     {"getChatListsToAddChat", 654956193},
     {"getChatMember", -792636814},
     {"getChatMessageByDate", 1062564150},
-    {"getChatMessageCalendar", -326164204},
-    {"getChatMessageCount", 205435308},
-    {"getChatMessagePosition", -559474920},
+    {"getChatMessageCalendar", -2119225929},
+    {"getChatMessageCount", 955746569},
+    {"getChatMessagePosition", 136051911},
     {"getChatNotificationSettingsExceptions", 201199121},
     {"getChatPinnedMessage", 359865008},
+    {"getChatPostedToChatPageStories", -46414037},
+    {"getChatRevenueStatistics", 701995836},
+    {"getChatRevenueTransactions", 1194264341},
+    {"getChatRevenueWithdrawalUrl", 506595104},
     {"getChatScheduledMessages", -549638149},
-    {"getChatSparseMessagePositions", -462227580},
+    {"getChatSimilarChatCount", 1178506894},
+    {"getChatSimilarChats", -1152348285},
+    {"getChatSparseMessagePositions", 994389757},
     {"getChatSponsoredMessages", 1353203864},
     {"getChatStatistics", 327057816},
+    {"getChatStoryInteractions", -974359690},
     {"getChats", -972768574},
     {"getChatsForChatFolderInviteLink", 1873561929},
+    {"getChatsToSendStories", 586802084},
+    {"getCloseFriends", -1445628722},
+    {"getCollectibleItemInfo", -217797238},
     {"getCommands", 1488621559},
     {"getConnectedWebsites", -170536110},
     {"getContacts", -1417722768},
     {"getCountries", -51902050},
     {"getCountryCode", 1540593906},
+    {"getCountryFlagEmoji", 981871098},
     {"getCreatedPublicChats", 710354415},
     {"getCurrentState", -1191417719},
+    {"getCurrentWeather", -1965384759},
     {"getCustomEmojiReactionAnimations", 1232375250},
     {"getCustomEmojiStickers", -2127427955},
     {"getDatabaseStatistics", -1942760263},
     {"getDeepLinkInfo", 680673150},
+    {"getDefaultBackgroundCustomEmojiStickers", 485910542},
+    {"getDefaultChatEmojiStatuses", -1481996570},
     {"getDefaultChatPhotoCustomEmojiStickers", -376342683},
     {"getDefaultEmojiStatuses", 618946243},
     {"getDefaultMessageAutoDeleteTime", -450857574},
     {"getDefaultProfilePhotoCustomEmojiStickers", 1280041655},
+    {"getDisallowedChatEmojiStatuses", -770421344},
     {"getEmojiCategories", 2139537774},
     {"getEmojiReaction", -449572388},
     {"getEmojiSuggestionsUrl", -1404101841},
@@ -1823,6 +2315,9 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getForumTopicLink", -914650933},
     {"getForumTopics", -72647334},
     {"getGameHighScores", 15746459},
+    {"getGiveawayInfo", -1215852357},
+    {"getGreetingStickers", 374873372},
+    {"getGrossingWebAppBots", 1696779802},
     {"getGroupCall", 1468491406},
     {"getGroupCallInviteLink", 719407396},
     {"getGroupCallStreamSegment", -2077959515},
@@ -1832,14 +2327,17 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getInactiveSupergroupChats", -657720907},
     {"getInlineGameHighScores", -533107798},
     {"getInlineQueryResults", 2044524652},
+    {"getInstalledBackgrounds", -1051406241},
     {"getInstalledStickerSets", 1630467830},
     {"getInternalLink", 962654640},
     {"getInternalLinkType", -1948428535},
     {"getJsonString", 663458849},
     {"getJsonValue", -1829086715},
+    {"getKeywordEmojis", -1969795990},
     {"getLanguagePackInfo", 2077809320},
     {"getLanguagePackString", 150789747},
     {"getLanguagePackStrings", 1246259088},
+    {"getLinkPreview", -1039572191},
     {"getLocalizationTargetInfo", 1849499526},
     {"getLogStream", 1167608667},
     {"getLogTagVerbosityLevel", 951004547},
@@ -1847,6 +2345,7 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getLogVerbosityLevel", 594057956},
     {"getLoginUrl", 791844305},
     {"getLoginUrlInfo", -859202125},
+    {"getMainWebApp", -1098632550},
     {"getMapThumbnailFile", -152660070},
     {"getMarkdownText", 164524584},
     {"getMe", -191516033},
@@ -1854,20 +2353,25 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getMessage", -1821196160},
     {"getMessageAddedReactions", 2110172754},
     {"getMessageAvailableReactions", 1994098354},
+    {"getMessageEffect", -1638843116},
     {"getMessageEmbeddingCode", 1654967561},
     {"getMessageFileType", -490270764},
     {"getMessageImportConfirmationText", 390627752},
     {"getMessageLink", -984158342},
     {"getMessageLinkInfo", -700533672},
     {"getMessageLocally", -603575444},
-    {"getMessagePublicForwards", 1611049289},
+    {"getMessageProperties", 773382571},
+    {"getMessagePublicForwards", 1369285812},
+    {"getMessageReadDate", -1484455101},
     {"getMessageStatistics", 1270194648},
     {"getMessageThread", 2062695998},
     {"getMessageThreadHistory", -1808411608},
     {"getMessageViewers", -1584457010},
     {"getMessages", 425299338},
     {"getNetworkStatistics", -986228706},
+    {"getNewChatPrivacySettings", -1295299657},
     {"getOption", -1572495746},
+    {"getOwnedStickerSets", 1493074208},
     {"getPassportAuthorizationForm", 1636107398},
     {"getPassportAuthorizationFormAvailableElements", 1068700924},
     {"getPassportElement", -1882398342},
@@ -1876,9 +2380,10 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getPaymentReceipt", 1013758294},
     {"getPhoneNumberInfo", -1608344583},
     {"getPhoneNumberInfoSync", 547061048},
-    {"getPollVoters", 2075288734},
+    {"getPollVoters", -1000625748},
     {"getPreferredCountryLanguage", -933049386},
     {"getPremiumFeatures", -1260640695},
+    {"getPremiumGiftCodePaymentOptions", -1991099860},
     {"getPremiumLimit", 1075313898},
     {"getPremiumState", 663632610},
     {"getPremiumStickerExamples", 1399442328},
@@ -1886,30 +2391,52 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getProxies", -95026381},
     {"getProxyLink", -1054495112},
     {"getPushReceiverId", -286505294},
+    {"getReadDatePrivacySettings", 451435451},
     {"getRecentEmojiStatuses", -1371914967},
     {"getRecentInlineBots", 1437823548},
     {"getRecentStickers", -579622241},
     {"getRecentlyOpenedChats", -1924156893},
     {"getRecentlyVisitedTMeUrls", 806754961},
     {"getRecommendedChatFolders", -145540217},
+    {"getRecommendedChats", -649884303},
     {"getRecoveryEmailAddress", -1594770947},
     {"getRemoteFile", 2137204530},
     {"getRepliedMessage", -641918531},
     {"getSavedAnimations", 7051032},
+    {"getSavedMessagesTags", -1932105815},
+    {"getSavedMessagesTopicHistory", 2011552360},
+    {"getSavedMessagesTopicMessageByDate", -1050786176},
     {"getSavedNotificationSound", 459569431},
     {"getSavedNotificationSounds", -1070305368},
     {"getSavedOrderInfo", -1152016675},
     {"getScopeNotificationSettings", -995613361},
+    {"getSearchedForTags", -1692716851},
     {"getSecretChat", 40599169},
+    {"getStarAdAccountUrl", 1940473181},
+    {"getStarGiftPaymentOptions", -500735773},
+    {"getStarGiveawayPaymentOptions", -883172578},
+    {"getStarPaymentOptions", 1838351940},
+    {"getStarRevenueStatistics", -260356841},
+    {"getStarSubscriptions", -641223956},
+    {"getStarTransactions", -258541327},
+    {"getStarWithdrawalUrl", -1445841134},
     {"getStatisticalGraph", 1100975515},
     {"getStickerEmojis", -1895508665},
     {"getStickerSet", 1052318659},
+    {"getStickerSetName", 1039849089},
     {"getStickers", 1158058819},
     {"getStorageStatistics", -853193929},
     {"getStorageStatisticsFast", 61368066},
+    {"getStory", 1903893624},
+    {"getStoryAvailableReactions", 595938619},
+    {"getStoryInteractions", 483475469},
+    {"getStoryNotificationSettingsExceptions", 627715760},
+    {"getStoryPublicForwards", 1761074363},
+    {"getStoryStatistics", 982926146},
     {"getSuggestedFileName", -2049399674},
     {"getSuggestedStickerSetName", -1340995520},
     {"getSuitableDiscussionChats", 49044982},
+    {"getSuitablePersonalChats", -1870357515},
     {"getSupergroup", 989663458},
     {"getSupergroupFullInfo", 1099776056},
     {"getSupergroupMembers", -570940984},
@@ -1918,10 +2445,13 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getTemporaryPasswordState", -12670830},
     {"getTextEntities", -341490693},
     {"getThemeParametersJsonString", -1850145288},
+    {"getThemedChatEmojiStatuses", -76325707},
     {"getThemedEmojiStatuses", 1791346882},
+    {"getTimeZones", 1340268632},
     {"getTopChats", -388410847},
     {"getTrendingStickerSets", -531085986},
     {"getUser", 1117363211},
+    {"getUserChatBoosts", -1190205543},
     {"getUserFullInfo", -776823720},
     {"getUserLink", 1226839270},
     {"getUserPrivacySettingRules", -2077223311},
@@ -1932,7 +2462,7 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"getWebAppLinkUrl", 1326379980},
     {"getWebAppUrl", 1690578110},
     {"getWebPageInstantView", -1962649975},
-    {"getWebPagePreview", 573441580},
+    {"hideContactCloseBirthdays", -1163065221},
     {"hideSuggestedAction", -1561384065},
     {"importContacts", -215132767},
     {"importMessages", -1864116784},
@@ -1940,14 +2470,21 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"joinChat", 326769313},
     {"joinChatByInviteLink", -1049973882},
     {"joinGroupCall", -1043773467},
+    {"launchPrepaidGiveaway", 639465530},
     {"leaveChat", -1825080735},
     {"leaveGroupCall", 980152233},
+    {"loadActiveStories", 2106390328},
     {"loadChats", -1885635205},
     {"loadGroupCallParticipants", 938720974},
+    {"loadQuickReplyShortcutMessages", -46092588},
+    {"loadQuickReplyShortcuts", -1016614243},
+    {"loadSavedMessagesTopics", 289855160},
     {"logOut", -1581923301},
     {"openChat", -323371509},
+    {"openChatSimilarChat", -1884883949},
     {"openMessageContent", -739088005},
-    {"openWebApp", -763742925},
+    {"openStory", -824542083},
+    {"openWebApp", -1339660624},
     {"optimizeStorage", 853186759},
     {"parseMarkdown", 756366063},
     {"parseTextEntities", -1709194593},
@@ -1965,120 +2502,156 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"readAllMessageThreadReactions", -792975554},
     {"readChatList", -1117480790},
     {"readFilePart", 906798861},
+    {"readdQuickReplyShortcutMessages", 387399566},
     {"recognizeSpeech", 1741947577},
     {"recoverAuthenticationPassword", -131001053},
     {"recoverPassword", -1524262541},
+    {"refundStarPayment", -1804165035},
     {"registerDevice", 366088823},
-    {"registerUser", -109994467},
+    {"registerUser", -1012247828},
     {"removeAllFilesFromDownloads", -1186433402},
-    {"removeBackground", -1484545642},
+    {"removeBusinessConnectedBotFromChat", 2020766707},
     {"removeChatActionBar", -1650968070},
     {"removeContacts", 1943858054},
     {"removeFavoriteSticker", 1152945264},
     {"removeFileFromDownloads", 1460060142},
+    {"removeInstalledBackground", 1346446652},
     {"removeMessageReaction", -1756934789},
     {"removeNotification", 862630734},
     {"removeNotificationGroup", 1713005454},
+    {"removePendingPaidMessageReactions", 1100258555},
     {"removeProxy", 1369219847},
     {"removeRecentHashtag", -1013735260},
     {"removeRecentSticker", 1246577677},
     {"removeRecentlyFoundChat", 717340444},
     {"removeSavedAnimation", -495605479},
     {"removeSavedNotificationSound", -480032946},
+    {"removeSearchedForTag", 891382730},
     {"removeStickerFromSet", 1642196644},
     {"removeTopChat", -1907876267},
-    {"reorderActiveBotUsernames", 1801166592},
     {"reorderActiveUsernames", -455399375},
+    {"reorderBotActiveUsernames", -1602301664},
+    {"reorderBotMediaPreviews", 630851043},
     {"reorderChatFolders", 1665299546},
     {"reorderInstalledStickerSets", 1074928158},
+    {"reorderQuickReplyShortcuts", -2052799232},
     {"reorderSupergroupActiveUsernames", -1962466095},
     {"replacePrimaryChatInviteLink", 1067350941},
+    {"replaceStickerInSet", -406311399},
     {"replaceVideoChatRtmpUrl", 558862304},
-    {"reportChat", -964543587},
-    {"reportChatPhoto", 734652708},
+    {"reportAuthenticationCodeMissing", -1846555064},
+    {"reportChat", -1071617544},
+    {"reportChatPhoto", -646966648},
+    {"reportChatSponsoredMessage", -868330562},
     {"reportMessageReactions", 919111719},
+    {"reportPhoneNumberCodeMissing", -895175341},
+    {"reportStory", -1688244069},
     {"reportSupergroupAntiSpamFalsePositive", -516050872},
     {"reportSupergroupSpam", -94825000},
     {"requestAuthenticationPasswordRecovery", 1393896118},
     {"requestPasswordRecovery", -13777582},
     {"requestQrCodeAuthentication", 1363496527},
-    {"resendAuthenticationCode", -814377191},
-    {"resendChangePhoneNumberCode", -786772060},
+    {"resendAuthenticationCode", -1506755656},
     {"resendEmailAddressVerificationCode", -1872416732},
     {"resendLoginEmailAddressCode", 292966933},
-    {"resendMessages", -940655817},
-    {"resendPhoneNumberConfirmationCode", 2069068522},
-    {"resendPhoneNumberVerificationCode", 1367629820},
+    {"resendMessages", -2010327226},
+    {"resendPhoneNumberCode", 1808704551},
     {"resendRecoveryEmailAddressCode", 433483548},
     {"resetAllNotificationSettings", -174020359},
     {"resetAuthenticationEmailAddress", -415075796},
-    {"resetBackgrounds", 204852088},
+    {"resetInstalledBackgrounds", 1884553559},
     {"resetNetworkStatistics", 1646452102},
     {"resetPassword", -593589091},
+    {"reuseStarSubscription", 778531905},
     {"revokeChatInviteLink", -776514135},
     {"revokeGroupCallInviteLink", 501589140},
     {"saveApplicationLogEvent", -811154930},
     {"searchBackground", -2130996959},
     {"searchCallMessages", -1942229221},
     {"searchChatMembers", -445823291},
-    {"searchChatMessages", 1879195132},
+    {"searchChatMessages", -539052602},
     {"searchChatRecentLocationMessages", 950238950},
     {"searchChats", -1879787060},
     {"searchChatsNearby", -196753377},
     {"searchChatsOnServer", -1158402188},
     {"searchContacts", -1794690715},
-    {"searchEmojis", 398837927},
+    {"searchEmojis", -1456187668},
     {"searchFileDownloads", 706611286},
     {"searchHashtags", 1043637617},
     {"searchInstalledStickerSets", 2120122276},
-    {"searchMessages", 714016935},
+    {"searchMessages", 838452169},
     {"searchOutgoingDocumentMessages", -1071397762},
     {"searchPublicChat", 857135533},
     {"searchPublicChats", 970385337},
+    {"searchPublicMessagesByTag", 630680746},
+    {"searchPublicStoriesByLocation", 1596709256},
+    {"searchPublicStoriesByTag", -1437593502},
+    {"searchPublicStoriesByVenue", -686136790},
+    {"searchQuote", 1751384351},
+    {"searchRecentlyFoundChats", 1647445393},
+    {"searchSavedMessages", -1969512554},
     {"searchSecretMessages", -852865892},
     {"searchStickerSet", 1157930222},
-    {"searchStickerSets", -1082314629},
+    {"searchStickerSets", 262801004},
     {"searchStickers", -1709577973},
-    {"searchUserByPhoneNumber", -1562236142},
+    {"searchStringsByPrefix", -2023251463},
+    {"searchUserByPhoneNumber", -343757368},
     {"searchUserByToken", -666766282},
     {"searchWebApp", -1241740747},
     {"sendAuthenticationFirebaseSms", 364994111},
     {"sendBotStartMessage", -1435877650},
+    {"sendBusinessMessage", 159888387},
+    {"sendBusinessMessageAlbum", 788608366},
     {"sendCallDebugInformation", 2019243839},
     {"sendCallLog", 1057638353},
     {"sendCallRating", -1402719502},
     {"sendCallSignalingData", 1412280732},
-    {"sendChatAction", 2096947540},
-    {"sendChatScreenshotTakenNotification", 448399457},
+    {"sendChatAction", -2010910050},
     {"sendCustomRequest", 285045153},
     {"sendEmailAddressVerificationCode", -221621379},
-    {"sendInlineQueryResultMessage", -948639588},
-    {"sendMessage", 960453021},
-    {"sendMessageAlbum", -1639797862},
+    {"sendInlineQueryResultMessage", 1182553208},
+    {"sendMessage", -533921303},
+    {"sendMessageAlbum", -1985013029},
     {"sendPassportAuthorizationForm", 652160701},
     {"sendPaymentForm", -965855094},
-    {"sendPhoneNumberConfirmationCode", -1901171495},
-    {"sendPhoneNumberVerificationCode", 2081689035},
+    {"sendPhoneNumberCode", 1084112144},
+    {"sendPhoneNumberFirebaseSms", 261910660},
+    {"sendQuickReplyShortcutMessages", 232068765},
+    {"sendStory", -424987902},
+    {"sendWebAppCustomRequest", 922705352},
     {"sendWebAppData", -1423978996},
+    {"setAccentColor", 1669974841},
     {"setAccountTtl", 701389032},
     {"setAlarm", -873497067},
+    {"setApplicationVerificationToken", 927248261},
+    {"setArchiveChatListSettings", -884650998},
     {"setAuthenticationEmailAddress", 1773323522},
     {"setAuthenticationPhoneNumber", 868276259},
     {"setAutoDownloadSettings", -353671948},
     {"setAutosaveSettings", 6846656},
-    {"setBackground", -1035439225},
     {"setBio", -1619582124},
+    {"setBirthdate", 1319755160},
     {"setBotInfoDescription", 693574984},
     {"setBotInfoShortDescription", 982956771},
     {"setBotName", -761922959},
     {"setBotProfilePhoto", -1115272346},
     {"setBotUpdatesStatus", -1154926191},
+    {"setBusinessAwayMessageSettings", 1232357484},
+    {"setBusinessConnectedBot", -1393459472},
+    {"setBusinessGreetingMessageSettings", -873120707},
+    {"setBusinessLocation", -344717547},
+    {"setBusinessMessageIsPinned", -15403536},
+    {"setBusinessOpeningHours", -462379918},
+    {"setBusinessStartPage", -1628616290},
+    {"setChatAccentColor", 882857930},
+    {"setChatActiveStoriesList", -521970415},
     {"setChatAvailableReactions", 267075078},
-    {"setChatBackground", 1027545896},
+    {"setChatBackground", 246727678},
     {"setChatClientData", -827119811},
     {"setChatDescription", 1957213277},
     {"setChatDiscussionGroup", -918801736},
     {"setChatDraftMessage", 1683889946},
+    {"setChatEmojiStatus", 1434982674},
     {"setChatLocation", -767091286},
     {"setChatMemberStatus", 81794847},
     {"setChatMessageAutoDeleteTime", -1505643265},
@@ -2086,19 +2659,23 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"setChatNotificationSettings", 777199614},
     {"setChatPermissions", 2138507006},
     {"setChatPhoto", -377778941},
+    {"setChatPinnedStories", -669062355},
+    {"setChatProfileAccentColor", 1109896826},
     {"setChatSlowModeDelay", -540350914},
     {"setChatTheme", -1895234925},
     {"setChatTitle", 164282047},
+    {"setCloseFriends", -1908013258},
     {"setCommands", -907165606},
     {"setCustomEmojiStickerSetThumbnail", -1122836246},
     {"setCustomLanguagePack", -296742819},
     {"setCustomLanguagePackString", 1316365592},
     {"setDatabaseEncryptionKey", -1204599371},
+    {"setDefaultBackground", -1982748511},
     {"setDefaultChannelAdministratorRights", -234004967},
     {"setDefaultGroupAdministratorRights", 1700231016},
     {"setDefaultMessageAutoDeleteTime", -1772301460},
     {"setDefaultReactionType", 1694730813},
-    {"setEmojiStatus", -1310680569},
+    {"setEmojiStatus", -1829224867},
     {"setFileGenerationProgress", 1836403518},
     {"setForumTopicNotificationSettings", 524498023},
     {"setGameScore", 2127359430},
@@ -2113,27 +2690,42 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"setLogVerbosityLevel", -303429678},
     {"setLoginEmailAddress", 935019476},
     {"setMenuButton", -1269841599},
+    {"setMessageFactCheck", -4309752},
+    {"setMessageReactions", -372524900},
+    {"setMessageSenderBlockList", -1987355503},
     {"setName", 1711693584},
     {"setNetworkType", -701635234},
+    {"setNewChatPrivacySettings", 1774139215},
     {"setOption", 2114670322},
     {"setPassportElement", 2068173212},
     {"setPassportElementErrors", -2056754881},
     {"setPassword", -1193589027},
+    {"setPersonalChat", -1068782668},
     {"setPinnedChats", -695640000},
     {"setPinnedForumTopics", -475084011},
+    {"setPinnedSavedMessagesTopics", -194818924},
     {"setPollAnswer", -1399388792},
+    {"setProfileAccentColor", -1986281112},
     {"setProfilePhoto", -2048260627},
+    {"setQuickReplyShortcutName", 186709105},
+    {"setReactionNotificationSettings", 1186124949},
+    {"setReadDatePrivacySettings", 493913782},
     {"setRecoveryEmailAddress", -1981836385},
+    {"setSavedMessagesTagLabel", -1338323696},
     {"setScopeNotificationSettings", -2049984966},
     {"setStickerEmojis", -638843855},
     {"setStickerKeywords", 137223565},
     {"setStickerMaskPosition", 1202280912},
     {"setStickerPositionInSet", 2075281185},
-    {"setStickerSetThumbnail", 1870737953},
+    {"setStickerSetThumbnail", 1677617458},
     {"setStickerSetTitle", 1693004706},
+    {"setStoryPrivacySettings", -655801550},
+    {"setStoryReaction", -1400156249},
+    {"setSupergroupCustomEmojiStickerSet", 1328894639},
     {"setSupergroupStickerSet", -2056344215},
+    {"setSupergroupUnrestrictBoostCount", 969814179},
     {"setSupergroupUsername", 1346325252},
-    {"setTdlibParameters", 1384743481},
+    {"setTdlibParameters", -775883218},
     {"setUserPersonalProfilePhoto", 464136438},
     {"setUserPrivacySettingRules", -473812741},
     {"setUserSupportInfo", -2088986621},
@@ -2141,10 +2733,11 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"setVideoChatDefaultParticipant", -240749901},
     {"shareChatWithBot", -1504507166},
     {"sharePhoneNumber", 1097130069},
-    {"shareUserWithBot", -248315940},
+    {"shareUsersWithBot", -1574608333},
     {"startGroupCallRecording", 1757774971},
     {"startGroupCallScreenSharing", -884068051},
     {"startScheduledGroupCall", 1519938838},
+    {"stopBusinessPoll", -1142218400},
     {"stopPoll", 1659374253},
     {"suggestUserProfilePhoto", -1788742557},
     {"synchronizeLanguagePack", -2065307858},
@@ -2166,11 +2759,14 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"toggleAllDownloadsArePaused", 1251512322},
     {"toggleBotIsAddedToAttachmentMenu", -1906712934},
     {"toggleBotUsernameIsActive", 2036569097},
+    {"toggleBusinessConnectedBotChatIsPaused", 1328957509},
     {"toggleChatDefaultDisableNotification", 314794002},
+    {"toggleChatFolderTags", -2092209084},
     {"toggleChatHasProtectedContent", 975231309},
     {"toggleChatIsMarkedAsUnread", -986129697},
     {"toggleChatIsPinned", -1485429186},
     {"toggleChatIsTranslatable", -1812345889},
+    {"toggleChatViewAsTopics", 724009948},
     {"toggleDownloadIsPaused", -947493099},
     {"toggleForumTopicIsClosed", -949712141},
     {"toggleForumTopicIsPinned", 1181543092},
@@ -2182,9 +2778,13 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"toggleGroupCallParticipantIsHandRaised", -1896127519},
     {"toggleGroupCallParticipantIsMuted", -1308093433},
     {"toggleGroupCallScreenSharingIsPaused", -1602530464},
-    {"toggleMessageSenderIsBlocked", -2008084779},
+    {"toggleHasSponsoredMessagesEnabled", 1963285740},
+    {"togglePaidMessageReactionIsAnonymous", -1753949423},
+    {"toggleSavedMessagesTopicIsPinned", -1588378164},
     {"toggleSessionCanAcceptCalls", 1819027208},
     {"toggleSessionCanAcceptSecretChats", 1000843390},
+    {"toggleStoryIsPostedToChatPage", -300987649},
+    {"toggleSupergroupCanHaveSponsoredMessages", -1098204302},
     {"toggleSupergroupHasAggressiveAntiSpamEnabled", 1748956943},
     {"toggleSupergroupHasHiddenMembers", -1537892918},
     {"toggleSupergroupIsAllHistoryAvailable", 1155110478},
@@ -2192,7 +2792,7 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
     {"toggleSupergroupIsForum", -1771071990},
     {"toggleSupergroupJoinByRequest", 2111807454},
     {"toggleSupergroupJoinToSendMessages", -182022642},
-    {"toggleSupergroupSignMessages", 1156568356},
+    {"toggleSupergroupSignMessages", 572268491},
     {"toggleSupergroupUsernameIsActive", -1500811777},
     {"toggleUsernameIsActive", 1244098019},
     {"transferChatOwnership", 2006977043},
@@ -2217,29 +2817,37 @@ Result<int32> tl_constructor_from_string(td_api::Function *object, const std::st
 }
 
 Status from_json(td_api::accountTtl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.days_, get_json_object_field_force(from, "days")));
+  TRY_STATUS(from_json(to.days_, from.extract_field("days")));
   return Status::OK();
 }
 
 Status from_json(td_api::address &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.country_code_, get_json_object_field_force(from, "country_code")));
-  TRY_STATUS(from_json(to.state_, get_json_object_field_force(from, "state")));
-  TRY_STATUS(from_json(to.city_, get_json_object_field_force(from, "city")));
-  TRY_STATUS(from_json(to.street_line1_, get_json_object_field_force(from, "street_line1")));
-  TRY_STATUS(from_json(to.street_line2_, get_json_object_field_force(from, "street_line2")));
-  TRY_STATUS(from_json(to.postal_code_, get_json_object_field_force(from, "postal_code")));
+  TRY_STATUS(from_json(to.country_code_, from.extract_field("country_code")));
+  TRY_STATUS(from_json(to.state_, from.extract_field("state")));
+  TRY_STATUS(from_json(to.city_, from.extract_field("city")));
+  TRY_STATUS(from_json(to.street_line1_, from.extract_field("street_line1")));
+  TRY_STATUS(from_json(to.street_line2_, from.extract_field("street_line2")));
+  TRY_STATUS(from_json(to.postal_code_, from.extract_field("postal_code")));
+  return Status::OK();
+}
+
+Status from_json(td_api::archiveChatListSettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.archive_and_mute_new_chats_from_unknown_users_, from.extract_field("archive_and_mute_new_chats_from_unknown_users")));
+  TRY_STATUS(from_json(to.keep_unmuted_chats_archived_, from.extract_field("keep_unmuted_chats_archived")));
+  TRY_STATUS(from_json(to.keep_chats_from_folders_archived_, from.extract_field("keep_chats_from_folders_archived")));
   return Status::OK();
 }
 
 Status from_json(td_api::autoDownloadSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_auto_download_enabled_, get_json_object_field_force(from, "is_auto_download_enabled")));
-  TRY_STATUS(from_json(to.max_photo_file_size_, get_json_object_field_force(from, "max_photo_file_size")));
-  TRY_STATUS(from_json(to.max_video_file_size_, get_json_object_field_force(from, "max_video_file_size")));
-  TRY_STATUS(from_json(to.max_other_file_size_, get_json_object_field_force(from, "max_other_file_size")));
-  TRY_STATUS(from_json(to.video_upload_bitrate_, get_json_object_field_force(from, "video_upload_bitrate")));
-  TRY_STATUS(from_json(to.preload_large_videos_, get_json_object_field_force(from, "preload_large_videos")));
-  TRY_STATUS(from_json(to.preload_next_audio_, get_json_object_field_force(from, "preload_next_audio")));
-  TRY_STATUS(from_json(to.use_less_data_for_calls_, get_json_object_field_force(from, "use_less_data_for_calls")));
+  TRY_STATUS(from_json(to.is_auto_download_enabled_, from.extract_field("is_auto_download_enabled")));
+  TRY_STATUS(from_json(to.max_photo_file_size_, from.extract_field("max_photo_file_size")));
+  TRY_STATUS(from_json(to.max_video_file_size_, from.extract_field("max_video_file_size")));
+  TRY_STATUS(from_json(to.max_other_file_size_, from.extract_field("max_other_file_size")));
+  TRY_STATUS(from_json(to.video_upload_bitrate_, from.extract_field("video_upload_bitrate")));
+  TRY_STATUS(from_json(to.preload_large_videos_, from.extract_field("preload_large_videos")));
+  TRY_STATUS(from_json(to.preload_next_audio_, from.extract_field("preload_next_audio")));
+  TRY_STATUS(from_json(to.preload_stories_, from.extract_field("preload_stories")));
+  TRY_STATUS(from_json(to.use_less_data_for_calls_, from.extract_field("use_less_data_for_calls")));
   return Status::OK();
 }
 
@@ -2256,49 +2864,69 @@ Status from_json(td_api::autosaveSettingsScopeChannelChats &to, JsonObject &from
 }
 
 Status from_json(td_api::autosaveSettingsScopeChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::backgroundFillSolid &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.color_, get_json_object_field_force(from, "color")));
+  TRY_STATUS(from_json(to.color_, from.extract_field("color")));
   return Status::OK();
 }
 
 Status from_json(td_api::backgroundFillGradient &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.top_color_, get_json_object_field_force(from, "top_color")));
-  TRY_STATUS(from_json(to.bottom_color_, get_json_object_field_force(from, "bottom_color")));
-  TRY_STATUS(from_json(to.rotation_angle_, get_json_object_field_force(from, "rotation_angle")));
+  TRY_STATUS(from_json(to.top_color_, from.extract_field("top_color")));
+  TRY_STATUS(from_json(to.bottom_color_, from.extract_field("bottom_color")));
+  TRY_STATUS(from_json(to.rotation_angle_, from.extract_field("rotation_angle")));
   return Status::OK();
 }
 
 Status from_json(td_api::backgroundFillFreeformGradient &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.colors_, get_json_object_field_force(from, "colors")));
+  TRY_STATUS(from_json(to.colors_, from.extract_field("colors")));
   return Status::OK();
 }
 
 Status from_json(td_api::backgroundTypeWallpaper &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_blurred_, get_json_object_field_force(from, "is_blurred")));
-  TRY_STATUS(from_json(to.is_moving_, get_json_object_field_force(from, "is_moving")));
+  TRY_STATUS(from_json(to.is_blurred_, from.extract_field("is_blurred")));
+  TRY_STATUS(from_json(to.is_moving_, from.extract_field("is_moving")));
   return Status::OK();
 }
 
 Status from_json(td_api::backgroundTypePattern &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.fill_, get_json_object_field_force(from, "fill")));
-  TRY_STATUS(from_json(to.intensity_, get_json_object_field_force(from, "intensity")));
-  TRY_STATUS(from_json(to.is_inverted_, get_json_object_field_force(from, "is_inverted")));
-  TRY_STATUS(from_json(to.is_moving_, get_json_object_field_force(from, "is_moving")));
+  TRY_STATUS(from_json(to.fill_, from.extract_field("fill")));
+  TRY_STATUS(from_json(to.intensity_, from.extract_field("intensity")));
+  TRY_STATUS(from_json(to.is_inverted_, from.extract_field("is_inverted")));
+  TRY_STATUS(from_json(to.is_moving_, from.extract_field("is_moving")));
   return Status::OK();
 }
 
 Status from_json(td_api::backgroundTypeFill &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.fill_, get_json_object_field_force(from, "fill")));
+  TRY_STATUS(from_json(to.fill_, from.extract_field("fill")));
+  return Status::OK();
+}
+
+Status from_json(td_api::backgroundTypeChatTheme &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.theme_name_, from.extract_field("theme_name")));
+  return Status::OK();
+}
+
+Status from_json(td_api::birthdate &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.day_, from.extract_field("day")));
+  TRY_STATUS(from_json(to.month_, from.extract_field("month")));
+  TRY_STATUS(from_json(to.year_, from.extract_field("year")));
+  return Status::OK();
+}
+
+Status from_json(td_api::blockListMain &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::blockListStories &to, JsonObject &from) {
   return Status::OK();
 }
 
 Status from_json(td_api::botCommand &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.command_, get_json_object_field_force(from, "command")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
+  TRY_STATUS(from_json(to.command_, from.extract_field("command")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
   return Status::OK();
 }
 
@@ -2319,24 +2947,133 @@ Status from_json(td_api::botCommandScopeAllChatAdministrators &to, JsonObject &f
 }
 
 Status from_json(td_api::botCommandScopeChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::botCommandScopeChatAdministrators &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::botCommandScopeChatMember &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::botMenuButton &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  return Status::OK();
+}
+
+Status from_json(td_api::businessAwayMessageScheduleAlways &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessAwayMessageScheduleOutsideOfOpeningHours &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessAwayMessageScheduleCustom &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.start_date_, from.extract_field("start_date")));
+  TRY_STATUS(from_json(to.end_date_, from.extract_field("end_date")));
+  return Status::OK();
+}
+
+Status from_json(td_api::businessAwayMessageSettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_id_, from.extract_field("shortcut_id")));
+  TRY_STATUS(from_json(to.recipients_, from.extract_field("recipients")));
+  TRY_STATUS(from_json(to.schedule_, from.extract_field("schedule")));
+  TRY_STATUS(from_json(to.offline_only_, from.extract_field("offline_only")));
+  return Status::OK();
+}
+
+Status from_json(td_api::businessConnectedBot &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.recipients_, from.extract_field("recipients")));
+  TRY_STATUS(from_json(to.can_reply_, from.extract_field("can_reply")));
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureLocation &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureOpeningHours &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureQuickReplies &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureGreetingMessage &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureAwayMessage &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureAccountLinks &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureStartPage &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureBots &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureEmojiStatus &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureChatFolderTags &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessFeatureUpgradedStories &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::businessGreetingMessageSettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_id_, from.extract_field("shortcut_id")));
+  TRY_STATUS(from_json(to.recipients_, from.extract_field("recipients")));
+  TRY_STATUS(from_json(to.inactivity_days_, from.extract_field("inactivity_days")));
+  return Status::OK();
+}
+
+Status from_json(td_api::businessLocation &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.address_, from.extract_field("address")));
+  return Status::OK();
+}
+
+Status from_json(td_api::businessOpeningHours &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.time_zone_id_, from.extract_field("time_zone_id")));
+  TRY_STATUS(from_json(to.opening_hours_, from.extract_field("opening_hours")));
+  return Status::OK();
+}
+
+Status from_json(td_api::businessOpeningHoursInterval &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.start_minute_, from.extract_field("start_minute")));
+  TRY_STATUS(from_json(to.end_minute_, from.extract_field("end_minute")));
+  return Status::OK();
+}
+
+Status from_json(td_api::businessRecipients &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_ids_, from.extract_field("chat_ids")));
+  TRY_STATUS(from_json(to.excluded_chat_ids_, from.extract_field("excluded_chat_ids")));
+  TRY_STATUS(from_json(to.select_existing_chats_, from.extract_field("select_existing_chats")));
+  TRY_STATUS(from_json(to.select_new_chats_, from.extract_field("select_new_chats")));
+  TRY_STATUS(from_json(to.select_contacts_, from.extract_field("select_contacts")));
+  TRY_STATUS(from_json(to.select_non_contacts_, from.extract_field("select_non_contacts")));
+  TRY_STATUS(from_json(to.exclude_selected_, from.extract_field("exclude_selected")));
   return Status::OK();
 }
 
@@ -2377,27 +3114,27 @@ Status from_json(td_api::callProblemPixelatedVideo &to, JsonObject &from) {
 }
 
 Status from_json(td_api::callProtocol &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.udp_p2p_, get_json_object_field_force(from, "udp_p2p")));
-  TRY_STATUS(from_json(to.udp_reflector_, get_json_object_field_force(from, "udp_reflector")));
-  TRY_STATUS(from_json(to.min_layer_, get_json_object_field_force(from, "min_layer")));
-  TRY_STATUS(from_json(to.max_layer_, get_json_object_field_force(from, "max_layer")));
-  TRY_STATUS(from_json(to.library_versions_, get_json_object_field_force(from, "library_versions")));
+  TRY_STATUS(from_json(to.udp_p2p_, from.extract_field("udp_p2p")));
+  TRY_STATUS(from_json(to.udp_reflector_, from.extract_field("udp_reflector")));
+  TRY_STATUS(from_json(to.min_layer_, from.extract_field("min_layer")));
+  TRY_STATUS(from_json(to.max_layer_, from.extract_field("max_layer")));
+  TRY_STATUS(from_json(to.library_versions_, from.extract_field("library_versions")));
   return Status::OK();
 }
 
 Status from_json(td_api::callbackQueryPayloadData &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json_bytes(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
 Status from_json(td_api::callbackQueryPayloadDataWithPassword &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
-  TRY_STATUS(from_json_bytes(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
+  TRY_STATUS(from_json_bytes(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
 Status from_json(td_api::callbackQueryPayloadGame &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.game_short_name_, get_json_object_field_force(from, "game_short_name")));
+  TRY_STATUS(from_json(to.game_short_name_, from.extract_field("game_short_name")));
   return Status::OK();
 }
 
@@ -2410,7 +3147,7 @@ Status from_json(td_api::chatActionRecordingVideo &to, JsonObject &from) {
 }
 
 Status from_json(td_api::chatActionUploadingVideo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.progress_, get_json_object_field_force(from, "progress")));
+  TRY_STATUS(from_json(to.progress_, from.extract_field("progress")));
   return Status::OK();
 }
 
@@ -2419,17 +3156,17 @@ Status from_json(td_api::chatActionRecordingVoiceNote &to, JsonObject &from) {
 }
 
 Status from_json(td_api::chatActionUploadingVoiceNote &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.progress_, get_json_object_field_force(from, "progress")));
+  TRY_STATUS(from_json(to.progress_, from.extract_field("progress")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatActionUploadingPhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.progress_, get_json_object_field_force(from, "progress")));
+  TRY_STATUS(from_json(to.progress_, from.extract_field("progress")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatActionUploadingDocument &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.progress_, get_json_object_field_force(from, "progress")));
+  TRY_STATUS(from_json(to.progress_, from.extract_field("progress")));
   return Status::OK();
 }
 
@@ -2454,12 +3191,12 @@ Status from_json(td_api::chatActionRecordingVideoNote &to, JsonObject &from) {
 }
 
 Status from_json(td_api::chatActionUploadingVideoNote &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.progress_, get_json_object_field_force(from, "progress")));
+  TRY_STATUS(from_json(to.progress_, from.extract_field("progress")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatActionWatchingAnimations &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.emoji_, get_json_object_field_force(from, "emoji")));
+  TRY_STATUS(from_json(to.emoji_, from.extract_field("emoji")));
   return Status::OK();
 }
 
@@ -2468,82 +3205,89 @@ Status from_json(td_api::chatActionCancel &to, JsonObject &from) {
 }
 
 Status from_json(td_api::chatAdministratorRights &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.can_manage_chat_, get_json_object_field_force(from, "can_manage_chat")));
-  TRY_STATUS(from_json(to.can_change_info_, get_json_object_field_force(from, "can_change_info")));
-  TRY_STATUS(from_json(to.can_post_messages_, get_json_object_field_force(from, "can_post_messages")));
-  TRY_STATUS(from_json(to.can_edit_messages_, get_json_object_field_force(from, "can_edit_messages")));
-  TRY_STATUS(from_json(to.can_delete_messages_, get_json_object_field_force(from, "can_delete_messages")));
-  TRY_STATUS(from_json(to.can_invite_users_, get_json_object_field_force(from, "can_invite_users")));
-  TRY_STATUS(from_json(to.can_restrict_members_, get_json_object_field_force(from, "can_restrict_members")));
-  TRY_STATUS(from_json(to.can_pin_messages_, get_json_object_field_force(from, "can_pin_messages")));
-  TRY_STATUS(from_json(to.can_manage_topics_, get_json_object_field_force(from, "can_manage_topics")));
-  TRY_STATUS(from_json(to.can_promote_members_, get_json_object_field_force(from, "can_promote_members")));
-  TRY_STATUS(from_json(to.can_manage_video_chats_, get_json_object_field_force(from, "can_manage_video_chats")));
-  TRY_STATUS(from_json(to.is_anonymous_, get_json_object_field_force(from, "is_anonymous")));
+  TRY_STATUS(from_json(to.can_manage_chat_, from.extract_field("can_manage_chat")));
+  TRY_STATUS(from_json(to.can_change_info_, from.extract_field("can_change_info")));
+  TRY_STATUS(from_json(to.can_post_messages_, from.extract_field("can_post_messages")));
+  TRY_STATUS(from_json(to.can_edit_messages_, from.extract_field("can_edit_messages")));
+  TRY_STATUS(from_json(to.can_delete_messages_, from.extract_field("can_delete_messages")));
+  TRY_STATUS(from_json(to.can_invite_users_, from.extract_field("can_invite_users")));
+  TRY_STATUS(from_json(to.can_restrict_members_, from.extract_field("can_restrict_members")));
+  TRY_STATUS(from_json(to.can_pin_messages_, from.extract_field("can_pin_messages")));
+  TRY_STATUS(from_json(to.can_manage_topics_, from.extract_field("can_manage_topics")));
+  TRY_STATUS(from_json(to.can_promote_members_, from.extract_field("can_promote_members")));
+  TRY_STATUS(from_json(to.can_manage_video_chats_, from.extract_field("can_manage_video_chats")));
+  TRY_STATUS(from_json(to.can_post_stories_, from.extract_field("can_post_stories")));
+  TRY_STATUS(from_json(to.can_edit_stories_, from.extract_field("can_edit_stories")));
+  TRY_STATUS(from_json(to.can_delete_stories_, from.extract_field("can_delete_stories")));
+  TRY_STATUS(from_json(to.is_anonymous_, from.extract_field("is_anonymous")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatAvailableReactionsAll &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.max_reaction_count_, from.extract_field("max_reaction_count")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatAvailableReactionsSome &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.reactions_, get_json_object_field_force(from, "reactions")));
+  TRY_STATUS(from_json(to.reactions_, from.extract_field("reactions")));
+  TRY_STATUS(from_json(to.max_reaction_count_, from.extract_field("max_reaction_count")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatEventLogFilters &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.message_edits_, get_json_object_field_force(from, "message_edits")));
-  TRY_STATUS(from_json(to.message_deletions_, get_json_object_field_force(from, "message_deletions")));
-  TRY_STATUS(from_json(to.message_pins_, get_json_object_field_force(from, "message_pins")));
-  TRY_STATUS(from_json(to.member_joins_, get_json_object_field_force(from, "member_joins")));
-  TRY_STATUS(from_json(to.member_leaves_, get_json_object_field_force(from, "member_leaves")));
-  TRY_STATUS(from_json(to.member_invites_, get_json_object_field_force(from, "member_invites")));
-  TRY_STATUS(from_json(to.member_promotions_, get_json_object_field_force(from, "member_promotions")));
-  TRY_STATUS(from_json(to.member_restrictions_, get_json_object_field_force(from, "member_restrictions")));
-  TRY_STATUS(from_json(to.info_changes_, get_json_object_field_force(from, "info_changes")));
-  TRY_STATUS(from_json(to.setting_changes_, get_json_object_field_force(from, "setting_changes")));
-  TRY_STATUS(from_json(to.invite_link_changes_, get_json_object_field_force(from, "invite_link_changes")));
-  TRY_STATUS(from_json(to.video_chat_changes_, get_json_object_field_force(from, "video_chat_changes")));
-  TRY_STATUS(from_json(to.forum_changes_, get_json_object_field_force(from, "forum_changes")));
+  TRY_STATUS(from_json(to.message_edits_, from.extract_field("message_edits")));
+  TRY_STATUS(from_json(to.message_deletions_, from.extract_field("message_deletions")));
+  TRY_STATUS(from_json(to.message_pins_, from.extract_field("message_pins")));
+  TRY_STATUS(from_json(to.member_joins_, from.extract_field("member_joins")));
+  TRY_STATUS(from_json(to.member_leaves_, from.extract_field("member_leaves")));
+  TRY_STATUS(from_json(to.member_invites_, from.extract_field("member_invites")));
+  TRY_STATUS(from_json(to.member_promotions_, from.extract_field("member_promotions")));
+  TRY_STATUS(from_json(to.member_restrictions_, from.extract_field("member_restrictions")));
+  TRY_STATUS(from_json(to.info_changes_, from.extract_field("info_changes")));
+  TRY_STATUS(from_json(to.setting_changes_, from.extract_field("setting_changes")));
+  TRY_STATUS(from_json(to.invite_link_changes_, from.extract_field("invite_link_changes")));
+  TRY_STATUS(from_json(to.video_chat_changes_, from.extract_field("video_chat_changes")));
+  TRY_STATUS(from_json(to.forum_changes_, from.extract_field("forum_changes")));
+  TRY_STATUS(from_json(to.subscription_extensions_, from.extract_field("subscription_extensions")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatFolder &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.icon_, get_json_object_field_force(from, "icon")));
-  TRY_STATUS(from_json(to.is_shareable_, get_json_object_field_force(from, "is_shareable")));
-  TRY_STATUS(from_json(to.pinned_chat_ids_, get_json_object_field_force(from, "pinned_chat_ids")));
-  TRY_STATUS(from_json(to.included_chat_ids_, get_json_object_field_force(from, "included_chat_ids")));
-  TRY_STATUS(from_json(to.excluded_chat_ids_, get_json_object_field_force(from, "excluded_chat_ids")));
-  TRY_STATUS(from_json(to.exclude_muted_, get_json_object_field_force(from, "exclude_muted")));
-  TRY_STATUS(from_json(to.exclude_read_, get_json_object_field_force(from, "exclude_read")));
-  TRY_STATUS(from_json(to.exclude_archived_, get_json_object_field_force(from, "exclude_archived")));
-  TRY_STATUS(from_json(to.include_contacts_, get_json_object_field_force(from, "include_contacts")));
-  TRY_STATUS(from_json(to.include_non_contacts_, get_json_object_field_force(from, "include_non_contacts")));
-  TRY_STATUS(from_json(to.include_bots_, get_json_object_field_force(from, "include_bots")));
-  TRY_STATUS(from_json(to.include_groups_, get_json_object_field_force(from, "include_groups")));
-  TRY_STATUS(from_json(to.include_channels_, get_json_object_field_force(from, "include_channels")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.icon_, from.extract_field("icon")));
+  TRY_STATUS(from_json(to.color_id_, from.extract_field("color_id")));
+  TRY_STATUS(from_json(to.is_shareable_, from.extract_field("is_shareable")));
+  TRY_STATUS(from_json(to.pinned_chat_ids_, from.extract_field("pinned_chat_ids")));
+  TRY_STATUS(from_json(to.included_chat_ids_, from.extract_field("included_chat_ids")));
+  TRY_STATUS(from_json(to.excluded_chat_ids_, from.extract_field("excluded_chat_ids")));
+  TRY_STATUS(from_json(to.exclude_muted_, from.extract_field("exclude_muted")));
+  TRY_STATUS(from_json(to.exclude_read_, from.extract_field("exclude_read")));
+  TRY_STATUS(from_json(to.exclude_archived_, from.extract_field("exclude_archived")));
+  TRY_STATUS(from_json(to.include_contacts_, from.extract_field("include_contacts")));
+  TRY_STATUS(from_json(to.include_non_contacts_, from.extract_field("include_non_contacts")));
+  TRY_STATUS(from_json(to.include_bots_, from.extract_field("include_bots")));
+  TRY_STATUS(from_json(to.include_groups_, from.extract_field("include_groups")));
+  TRY_STATUS(from_json(to.include_channels_, from.extract_field("include_channels")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatFolderIcon &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatInviteLinkMember &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.joined_chat_date_, get_json_object_field_force(from, "joined_chat_date")));
-  TRY_STATUS(from_json(to.via_chat_folder_invite_link_, get_json_object_field_force(from, "via_chat_folder_invite_link")));
-  TRY_STATUS(from_json(to.approver_user_id_, get_json_object_field_force(from, "approver_user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.joined_chat_date_, from.extract_field("joined_chat_date")));
+  TRY_STATUS(from_json(to.via_chat_folder_invite_link_, from.extract_field("via_chat_folder_invite_link")));
+  TRY_STATUS(from_json(to.approver_user_id_, from.extract_field("approver_user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatJoinRequest &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.date_, get_json_object_field_force(from, "date")));
-  TRY_STATUS(from_json(to.bio_, get_json_object_field_force(from, "bio")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.date_, from.extract_field("date")));
+  TRY_STATUS(from_json(to.bio_, from.extract_field("bio")));
   return Status::OK();
 }
 
@@ -2556,38 +3300,39 @@ Status from_json(td_api::chatListArchive &to, JsonObject &from) {
 }
 
 Status from_json(td_api::chatListFolder &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatLocation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
-  TRY_STATUS(from_json(to.address_, get_json_object_field_force(from, "address")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.address_, from.extract_field("address")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatMemberStatusCreator &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.custom_title_, get_json_object_field_force(from, "custom_title")));
-  TRY_STATUS(from_json(to.is_anonymous_, get_json_object_field_force(from, "is_anonymous")));
-  TRY_STATUS(from_json(to.is_member_, get_json_object_field_force(from, "is_member")));
+  TRY_STATUS(from_json(to.custom_title_, from.extract_field("custom_title")));
+  TRY_STATUS(from_json(to.is_anonymous_, from.extract_field("is_anonymous")));
+  TRY_STATUS(from_json(to.is_member_, from.extract_field("is_member")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatMemberStatusAdministrator &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.custom_title_, get_json_object_field_force(from, "custom_title")));
-  TRY_STATUS(from_json(to.can_be_edited_, get_json_object_field_force(from, "can_be_edited")));
-  TRY_STATUS(from_json(to.rights_, get_json_object_field_force(from, "rights")));
+  TRY_STATUS(from_json(to.custom_title_, from.extract_field("custom_title")));
+  TRY_STATUS(from_json(to.can_be_edited_, from.extract_field("can_be_edited")));
+  TRY_STATUS(from_json(to.rights_, from.extract_field("rights")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatMemberStatusMember &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.member_until_date_, from.extract_field("member_until_date")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatMemberStatusRestricted &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_member_, get_json_object_field_force(from, "is_member")));
-  TRY_STATUS(from_json(to.restricted_until_date_, get_json_object_field_force(from, "restricted_until_date")));
-  TRY_STATUS(from_json(to.permissions_, get_json_object_field_force(from, "permissions")));
+  TRY_STATUS(from_json(to.is_member_, from.extract_field("is_member")));
+  TRY_STATUS(from_json(to.restricted_until_date_, from.extract_field("restricted_until_date")));
+  TRY_STATUS(from_json(to.permissions_, from.extract_field("permissions")));
   return Status::OK();
 }
 
@@ -2596,7 +3341,7 @@ Status from_json(td_api::chatMemberStatusLeft &to, JsonObject &from) {
 }
 
 Status from_json(td_api::chatMemberStatusBanned &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.banned_until_date_, get_json_object_field_force(from, "banned_until_date")));
+  TRY_STATUS(from_json(to.banned_until_date_, from.extract_field("banned_until_date")));
   return Status::OK();
 }
 
@@ -2613,7 +3358,7 @@ Status from_json(td_api::chatMembersFilterMembers &to, JsonObject &from) {
 }
 
 Status from_json(td_api::chatMembersFilterMention &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
   return Status::OK();
 }
 
@@ -2630,200 +3375,181 @@ Status from_json(td_api::chatMembersFilterBots &to, JsonObject &from) {
 }
 
 Status from_json(td_api::chatNotificationSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.use_default_mute_for_, get_json_object_field_force(from, "use_default_mute_for")));
-  TRY_STATUS(from_json(to.mute_for_, get_json_object_field_force(from, "mute_for")));
-  TRY_STATUS(from_json(to.use_default_sound_, get_json_object_field_force(from, "use_default_sound")));
-  TRY_STATUS(from_json(to.sound_id_, get_json_object_field_force(from, "sound_id")));
-  TRY_STATUS(from_json(to.use_default_show_preview_, get_json_object_field_force(from, "use_default_show_preview")));
-  TRY_STATUS(from_json(to.show_preview_, get_json_object_field_force(from, "show_preview")));
-  TRY_STATUS(from_json(to.use_default_disable_pinned_message_notifications_, get_json_object_field_force(from, "use_default_disable_pinned_message_notifications")));
-  TRY_STATUS(from_json(to.disable_pinned_message_notifications_, get_json_object_field_force(from, "disable_pinned_message_notifications")));
-  TRY_STATUS(from_json(to.use_default_disable_mention_notifications_, get_json_object_field_force(from, "use_default_disable_mention_notifications")));
-  TRY_STATUS(from_json(to.disable_mention_notifications_, get_json_object_field_force(from, "disable_mention_notifications")));
+  TRY_STATUS(from_json(to.use_default_mute_for_, from.extract_field("use_default_mute_for")));
+  TRY_STATUS(from_json(to.mute_for_, from.extract_field("mute_for")));
+  TRY_STATUS(from_json(to.use_default_sound_, from.extract_field("use_default_sound")));
+  TRY_STATUS(from_json(to.sound_id_, from.extract_field("sound_id")));
+  TRY_STATUS(from_json(to.use_default_show_preview_, from.extract_field("use_default_show_preview")));
+  TRY_STATUS(from_json(to.show_preview_, from.extract_field("show_preview")));
+  TRY_STATUS(from_json(to.use_default_mute_stories_, from.extract_field("use_default_mute_stories")));
+  TRY_STATUS(from_json(to.mute_stories_, from.extract_field("mute_stories")));
+  TRY_STATUS(from_json(to.use_default_story_sound_, from.extract_field("use_default_story_sound")));
+  TRY_STATUS(from_json(to.story_sound_id_, from.extract_field("story_sound_id")));
+  TRY_STATUS(from_json(to.use_default_show_story_sender_, from.extract_field("use_default_show_story_sender")));
+  TRY_STATUS(from_json(to.show_story_sender_, from.extract_field("show_story_sender")));
+  TRY_STATUS(from_json(to.use_default_disable_pinned_message_notifications_, from.extract_field("use_default_disable_pinned_message_notifications")));
+  TRY_STATUS(from_json(to.disable_pinned_message_notifications_, from.extract_field("disable_pinned_message_notifications")));
+  TRY_STATUS(from_json(to.use_default_disable_mention_notifications_, from.extract_field("use_default_disable_mention_notifications")));
+  TRY_STATUS(from_json(to.disable_mention_notifications_, from.extract_field("disable_mention_notifications")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatPermissions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.can_send_basic_messages_, get_json_object_field_force(from, "can_send_basic_messages")));
-  TRY_STATUS(from_json(to.can_send_audios_, get_json_object_field_force(from, "can_send_audios")));
-  TRY_STATUS(from_json(to.can_send_documents_, get_json_object_field_force(from, "can_send_documents")));
-  TRY_STATUS(from_json(to.can_send_photos_, get_json_object_field_force(from, "can_send_photos")));
-  TRY_STATUS(from_json(to.can_send_videos_, get_json_object_field_force(from, "can_send_videos")));
-  TRY_STATUS(from_json(to.can_send_video_notes_, get_json_object_field_force(from, "can_send_video_notes")));
-  TRY_STATUS(from_json(to.can_send_voice_notes_, get_json_object_field_force(from, "can_send_voice_notes")));
-  TRY_STATUS(from_json(to.can_send_polls_, get_json_object_field_force(from, "can_send_polls")));
-  TRY_STATUS(from_json(to.can_send_other_messages_, get_json_object_field_force(from, "can_send_other_messages")));
-  TRY_STATUS(from_json(to.can_add_web_page_previews_, get_json_object_field_force(from, "can_add_web_page_previews")));
-  TRY_STATUS(from_json(to.can_change_info_, get_json_object_field_force(from, "can_change_info")));
-  TRY_STATUS(from_json(to.can_invite_users_, get_json_object_field_force(from, "can_invite_users")));
-  TRY_STATUS(from_json(to.can_pin_messages_, get_json_object_field_force(from, "can_pin_messages")));
-  TRY_STATUS(from_json(to.can_manage_topics_, get_json_object_field_force(from, "can_manage_topics")));
+  TRY_STATUS(from_json(to.can_send_basic_messages_, from.extract_field("can_send_basic_messages")));
+  TRY_STATUS(from_json(to.can_send_audios_, from.extract_field("can_send_audios")));
+  TRY_STATUS(from_json(to.can_send_documents_, from.extract_field("can_send_documents")));
+  TRY_STATUS(from_json(to.can_send_photos_, from.extract_field("can_send_photos")));
+  TRY_STATUS(from_json(to.can_send_videos_, from.extract_field("can_send_videos")));
+  TRY_STATUS(from_json(to.can_send_video_notes_, from.extract_field("can_send_video_notes")));
+  TRY_STATUS(from_json(to.can_send_voice_notes_, from.extract_field("can_send_voice_notes")));
+  TRY_STATUS(from_json(to.can_send_polls_, from.extract_field("can_send_polls")));
+  TRY_STATUS(from_json(to.can_send_other_messages_, from.extract_field("can_send_other_messages")));
+  TRY_STATUS(from_json(to.can_add_link_previews_, from.extract_field("can_add_link_previews")));
+  TRY_STATUS(from_json(to.can_change_info_, from.extract_field("can_change_info")));
+  TRY_STATUS(from_json(to.can_invite_users_, from.extract_field("can_invite_users")));
+  TRY_STATUS(from_json(to.can_pin_messages_, from.extract_field("can_pin_messages")));
+  TRY_STATUS(from_json(to.can_create_topics_, from.extract_field("can_create_topics")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatPhotoSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.background_fill_, get_json_object_field_force(from, "background_fill")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.background_fill_, from.extract_field("background_fill")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatPhotoStickerTypeRegularOrMask &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_set_id_, get_json_object_field_force(from, "sticker_set_id")));
-  TRY_STATUS(from_json(to.sticker_id_, get_json_object_field_force(from, "sticker_id")));
+  TRY_STATUS(from_json(to.sticker_set_id_, from.extract_field("sticker_set_id")));
+  TRY_STATUS(from_json(to.sticker_id_, from.extract_field("sticker_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::chatPhotoStickerTypeCustomEmoji &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.custom_emoji_id_, get_json_object_field_force(from, "custom_emoji_id")));
+  TRY_STATUS(from_json(to.custom_emoji_id_, from.extract_field("custom_emoji_id")));
   return Status::OK();
 }
 
-Status from_json(td_api::chatReportReasonSpam &to, JsonObject &from) {
+Status from_json(td_api::collectibleItemTypeUsername &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
   return Status::OK();
 }
 
-Status from_json(td_api::chatReportReasonViolence &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::chatReportReasonPornography &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::chatReportReasonChildAbuse &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::chatReportReasonCopyright &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::chatReportReasonUnrelatedLocation &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::chatReportReasonFake &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::chatReportReasonIllegalDrugs &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::chatReportReasonPersonalDetails &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::chatReportReasonCustom &to, JsonObject &from) {
+Status from_json(td_api::collectibleItemTypePhoneNumber &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
   return Status::OK();
 }
 
 Status from_json(td_api::contact &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
-  TRY_STATUS(from_json(to.first_name_, get_json_object_field_force(from, "first_name")));
-  TRY_STATUS(from_json(to.last_name_, get_json_object_field_force(from, "last_name")));
-  TRY_STATUS(from_json(to.vcard_, get_json_object_field_force(from, "vcard")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
+  TRY_STATUS(from_json(to.first_name_, from.extract_field("first_name")));
+  TRY_STATUS(from_json(to.last_name_, from.extract_field("last_name")));
+  TRY_STATUS(from_json(to.vcard_, from.extract_field("vcard")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::date &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.day_, get_json_object_field_force(from, "day")));
-  TRY_STATUS(from_json(to.month_, get_json_object_field_force(from, "month")));
-  TRY_STATUS(from_json(to.year_, get_json_object_field_force(from, "year")));
+  TRY_STATUS(from_json(to.day_, from.extract_field("day")));
+  TRY_STATUS(from_json(to.month_, from.extract_field("month")));
+  TRY_STATUS(from_json(to.year_, from.extract_field("year")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenFirebaseCloudMessaging &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
-  TRY_STATUS(from_json(to.encrypt_, get_json_object_field_force(from, "encrypt")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
+  TRY_STATUS(from_json(to.encrypt_, from.extract_field("encrypt")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenApplePush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.device_token_, get_json_object_field_force(from, "device_token")));
-  TRY_STATUS(from_json(to.is_app_sandbox_, get_json_object_field_force(from, "is_app_sandbox")));
+  TRY_STATUS(from_json(to.device_token_, from.extract_field("device_token")));
+  TRY_STATUS(from_json(to.is_app_sandbox_, from.extract_field("is_app_sandbox")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenApplePushVoIP &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.device_token_, get_json_object_field_force(from, "device_token")));
-  TRY_STATUS(from_json(to.is_app_sandbox_, get_json_object_field_force(from, "is_app_sandbox")));
-  TRY_STATUS(from_json(to.encrypt_, get_json_object_field_force(from, "encrypt")));
+  TRY_STATUS(from_json(to.device_token_, from.extract_field("device_token")));
+  TRY_STATUS(from_json(to.is_app_sandbox_, from.extract_field("is_app_sandbox")));
+  TRY_STATUS(from_json(to.encrypt_, from.extract_field("encrypt")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenWindowsPush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.access_token_, get_json_object_field_force(from, "access_token")));
+  TRY_STATUS(from_json(to.access_token_, from.extract_field("access_token")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenMicrosoftPush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.channel_uri_, get_json_object_field_force(from, "channel_uri")));
+  TRY_STATUS(from_json(to.channel_uri_, from.extract_field("channel_uri")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenMicrosoftPushVoIP &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.channel_uri_, get_json_object_field_force(from, "channel_uri")));
+  TRY_STATUS(from_json(to.channel_uri_, from.extract_field("channel_uri")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenWebPush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.endpoint_, get_json_object_field_force(from, "endpoint")));
-  TRY_STATUS(from_json(to.p256dh_base64url_, get_json_object_field_force(from, "p256dh_base64url")));
-  TRY_STATUS(from_json(to.auth_base64url_, get_json_object_field_force(from, "auth_base64url")));
+  TRY_STATUS(from_json(to.endpoint_, from.extract_field("endpoint")));
+  TRY_STATUS(from_json(to.p256dh_base64url_, from.extract_field("p256dh_base64url")));
+  TRY_STATUS(from_json(to.auth_base64url_, from.extract_field("auth_base64url")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenSimplePush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.endpoint_, get_json_object_field_force(from, "endpoint")));
+  TRY_STATUS(from_json(to.endpoint_, from.extract_field("endpoint")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenUbuntuPush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenBlackBerryPush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenTizenPush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.reg_id_, get_json_object_field_force(from, "reg_id")));
+  TRY_STATUS(from_json(to.reg_id_, from.extract_field("reg_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::deviceTokenHuaweiPush &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
-  TRY_STATUS(from_json(to.encrypt_, get_json_object_field_force(from, "encrypt")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
+  TRY_STATUS(from_json(to.encrypt_, from.extract_field("encrypt")));
   return Status::OK();
 }
 
 Status from_json(td_api::draftMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.reply_to_message_id_, get_json_object_field_force(from, "reply_to_message_id")));
-  TRY_STATUS(from_json(to.date_, get_json_object_field_force(from, "date")));
-  TRY_STATUS(from_json(to.input_message_text_, get_json_object_field_force(from, "input_message_text")));
+  TRY_STATUS(from_json(to.reply_to_, from.extract_field("reply_to")));
+  TRY_STATUS(from_json(to.date_, from.extract_field("date")));
+  TRY_STATUS(from_json(to.input_message_text_, from.extract_field("input_message_text")));
+  TRY_STATUS(from_json(to.effect_id_, from.extract_field("effect_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::emailAddressAuthenticationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
 Status from_json(td_api::emailAddressAuthenticationAppleId &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
   return Status::OK();
 }
 
 Status from_json(td_api::emailAddressAuthenticationGoogleId &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
   return Status::OK();
 }
 
 Status from_json(td_api::emojiCategoryTypeDefault &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::emojiCategoryTypeRegularStickers &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -2836,13 +3562,14 @@ Status from_json(td_api::emojiCategoryTypeChatPhoto &to, JsonObject &from) {
 }
 
 Status from_json(td_api::emojiStatus &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.custom_emoji_id_, get_json_object_field_force(from, "custom_emoji_id")));
+  TRY_STATUS(from_json(to.custom_emoji_id_, from.extract_field("custom_emoji_id")));
+  TRY_STATUS(from_json(to.expiration_date_, from.extract_field("expiration_date")));
   return Status::OK();
 }
 
 Status from_json(td_api::error &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
-  TRY_STATUS(from_json(to.message_, get_json_object_field_force(from, "message")));
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
+  TRY_STATUS(from_json(to.message_, from.extract_field("message")));
   return Status::OK();
 }
 
@@ -2867,6 +3594,10 @@ Status from_json(td_api::fileTypeNotificationSound &to, JsonObject &from) {
 }
 
 Status from_json(td_api::fileTypePhoto &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::fileTypePhotoStory &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -2906,6 +3637,10 @@ Status from_json(td_api::fileTypeVideoNote &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::fileTypeVideoStory &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::fileTypeVoiceNote &to, JsonObject &from) {
   return Status::OK();
 }
@@ -2919,20 +3654,31 @@ Status from_json(td_api::firebaseAuthenticationSettingsAndroid &to, JsonObject &
 }
 
 Status from_json(td_api::firebaseAuthenticationSettingsIos &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.device_token_, get_json_object_field_force(from, "device_token")));
-  TRY_STATUS(from_json(to.is_app_sandbox_, get_json_object_field_force(from, "is_app_sandbox")));
+  TRY_STATUS(from_json(to.device_token_, from.extract_field("device_token")));
+  TRY_STATUS(from_json(to.is_app_sandbox_, from.extract_field("is_app_sandbox")));
   return Status::OK();
 }
 
 Status from_json(td_api::formattedText &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.entities_, get_json_object_field_force(from, "entities")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.entities_, from.extract_field("entities")));
   return Status::OK();
 }
 
 Status from_json(td_api::forumTopicIcon &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.color_, get_json_object_field_force(from, "color")));
-  TRY_STATUS(from_json(to.custom_emoji_id_, get_json_object_field_force(from, "custom_emoji_id")));
+  TRY_STATUS(from_json(to.color_, from.extract_field("color")));
+  TRY_STATUS(from_json(to.custom_emoji_id_, from.extract_field("custom_emoji_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::giveawayParameters &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.boosted_chat_id_, from.extract_field("boosted_chat_id")));
+  TRY_STATUS(from_json(to.additional_chat_ids_, from.extract_field("additional_chat_ids")));
+  TRY_STATUS(from_json(to.winners_selection_date_, from.extract_field("winners_selection_date")));
+  TRY_STATUS(from_json(to.only_new_members_, from.extract_field("only_new_members")));
+  TRY_STATUS(from_json(to.has_public_winners_, from.extract_field("has_public_winners")));
+  TRY_STATUS(from_json(to.country_codes_, from.extract_field("country_codes")));
+  TRY_STATUS(from_json(to.prize_description_, from.extract_field("prize_description")));
   return Status::OK();
 }
 
@@ -2949,35 +3695,35 @@ Status from_json(td_api::groupCallVideoQualityFull &to, JsonObject &from) {
 }
 
 Status from_json(td_api::inlineKeyboardButton &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::inlineKeyboardButtonTypeUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
   return Status::OK();
 }
 
 Status from_json(td_api::inlineKeyboardButtonTypeLoginUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.forward_text_, get_json_object_field_force(from, "forward_text")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.forward_text_, from.extract_field("forward_text")));
   return Status::OK();
 }
 
 Status from_json(td_api::inlineKeyboardButtonTypeWebApp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
   return Status::OK();
 }
 
 Status from_json(td_api::inlineKeyboardButtonTypeCallback &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json_bytes(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
 Status from_json(td_api::inlineKeyboardButtonTypeCallbackWithPassword &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json_bytes(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
@@ -2986,8 +3732,8 @@ Status from_json(td_api::inlineKeyboardButtonTypeCallbackGame &to, JsonObject &f
 }
 
 Status from_json(td_api::inlineKeyboardButtonTypeSwitchInline &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.target_chat_, get_json_object_field_force(from, "target_chat")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.target_chat_, from.extract_field("target_chat")));
   return Status::OK();
 }
 
@@ -2996,560 +3742,714 @@ Status from_json(td_api::inlineKeyboardButtonTypeBuy &to, JsonObject &from) {
 }
 
 Status from_json(td_api::inlineKeyboardButtonTypeUser &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::inlineQueryResultsButton &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::inlineQueryResultsButtonTypeStartBot &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.parameter_, get_json_object_field_force(from, "parameter")));
+  TRY_STATUS(from_json(to.parameter_, from.extract_field("parameter")));
   return Status::OK();
 }
 
 Status from_json(td_api::inlineQueryResultsButtonTypeWebApp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputBackgroundLocal &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.background_, get_json_object_field_force(from, "background")));
+  TRY_STATUS(from_json(to.background_, from.extract_field("background")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputBackgroundRemote &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.background_id_, get_json_object_field_force(from, "background_id")));
+  TRY_STATUS(from_json(to.background_id_, from.extract_field("background_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputBackgroundPrevious &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputBusinessChatLink &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputBusinessStartPage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.message_, from.extract_field("message")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputChatPhotoPrevious &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_photo_id_, get_json_object_field_force(from, "chat_photo_id")));
+  TRY_STATUS(from_json(to.chat_photo_id_, from.extract_field("chat_photo_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputChatPhotoStatic &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.photo_, get_json_object_field_force(from, "photo")));
+  TRY_STATUS(from_json(to.photo_, from.extract_field("photo")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputChatPhotoAnimation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.animation_, get_json_object_field_force(from, "animation")));
-  TRY_STATUS(from_json(to.main_frame_timestamp_, get_json_object_field_force(from, "main_frame_timestamp")));
+  TRY_STATUS(from_json(to.animation_, from.extract_field("animation")));
+  TRY_STATUS(from_json(to.main_frame_timestamp_, from.extract_field("main_frame_timestamp")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputChatPhotoSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputCredentialsSaved &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.saved_credentials_id_, get_json_object_field_force(from, "saved_credentials_id")));
+  TRY_STATUS(from_json(to.saved_credentials_id_, from.extract_field("saved_credentials_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputCredentialsNew &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.data_, get_json_object_field_force(from, "data")));
-  TRY_STATUS(from_json(to.allow_save_, get_json_object_field_force(from, "allow_save")));
+  TRY_STATUS(from_json(to.data_, from.extract_field("data")));
+  TRY_STATUS(from_json(to.allow_save_, from.extract_field("allow_save")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputCredentialsApplePay &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputCredentialsGooglePay &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputFileId &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputFileRemote &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputFileLocal &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.path_, get_json_object_field_force(from, "path")));
+  TRY_STATUS(from_json(to.path_, from.extract_field("path")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputFileGenerated &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.original_path_, get_json_object_field_force(from, "original_path")));
-  TRY_STATUS(from_json(to.conversion_, get_json_object_field_force(from, "conversion")));
-  TRY_STATUS(from_json(to.expected_size_, get_json_object_field_force(from, "expected_size")));
+  TRY_STATUS(from_json(to.original_path_, from.extract_field("original_path")));
+  TRY_STATUS(from_json(to.conversion_, from.extract_field("conversion")));
+  TRY_STATUS(from_json(to.expected_size_, from.extract_field("expected_size")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputIdentityDocument &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.number_, get_json_object_field_force(from, "number")));
-  TRY_STATUS(from_json(to.expiry_date_, get_json_object_field_force(from, "expiry_date")));
-  TRY_STATUS(from_json(to.front_side_, get_json_object_field_force(from, "front_side")));
-  TRY_STATUS(from_json(to.reverse_side_, get_json_object_field_force(from, "reverse_side")));
-  TRY_STATUS(from_json(to.selfie_, get_json_object_field_force(from, "selfie")));
-  TRY_STATUS(from_json(to.translation_, get_json_object_field_force(from, "translation")));
+  TRY_STATUS(from_json(to.number_, from.extract_field("number")));
+  TRY_STATUS(from_json(to.expiration_date_, from.extract_field("expiration_date")));
+  TRY_STATUS(from_json(to.front_side_, from.extract_field("front_side")));
+  TRY_STATUS(from_json(to.reverse_side_, from.extract_field("reverse_side")));
+  TRY_STATUS(from_json(to.selfie_, from.extract_field("selfie")));
+  TRY_STATUS(from_json(to.translation_, from.extract_field("translation")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultAnimation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.thumbnail_mime_type_, get_json_object_field_force(from, "thumbnail_mime_type")));
-  TRY_STATUS(from_json(to.video_url_, get_json_object_field_force(from, "video_url")));
-  TRY_STATUS(from_json(to.video_mime_type_, get_json_object_field_force(from, "video_mime_type")));
-  TRY_STATUS(from_json(to.video_duration_, get_json_object_field_force(from, "video_duration")));
-  TRY_STATUS(from_json(to.video_width_, get_json_object_field_force(from, "video_width")));
-  TRY_STATUS(from_json(to.video_height_, get_json_object_field_force(from, "video_height")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.thumbnail_mime_type_, from.extract_field("thumbnail_mime_type")));
+  TRY_STATUS(from_json(to.video_url_, from.extract_field("video_url")));
+  TRY_STATUS(from_json(to.video_mime_type_, from.extract_field("video_mime_type")));
+  TRY_STATUS(from_json(to.video_duration_, from.extract_field("video_duration")));
+  TRY_STATUS(from_json(to.video_width_, from.extract_field("video_width")));
+  TRY_STATUS(from_json(to.video_height_, from.extract_field("video_height")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultArticle &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
-  TRY_STATUS(from_json(to.hide_url_, get_json_object_field_force(from, "hide_url")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.thumbnail_width_, get_json_object_field_force(from, "thumbnail_width")));
-  TRY_STATUS(from_json(to.thumbnail_height_, get_json_object_field_force(from, "thumbnail_height")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  TRY_STATUS(from_json(to.hide_url_, from.extract_field("hide_url")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.thumbnail_width_, from.extract_field("thumbnail_width")));
+  TRY_STATUS(from_json(to.thumbnail_height_, from.extract_field("thumbnail_height")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultAudio &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.performer_, get_json_object_field_force(from, "performer")));
-  TRY_STATUS(from_json(to.audio_url_, get_json_object_field_force(from, "audio_url")));
-  TRY_STATUS(from_json(to.audio_duration_, get_json_object_field_force(from, "audio_duration")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.performer_, from.extract_field("performer")));
+  TRY_STATUS(from_json(to.audio_url_, from.extract_field("audio_url")));
+  TRY_STATUS(from_json(to.audio_duration_, from.extract_field("audio_duration")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultContact &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.contact_, get_json_object_field_force(from, "contact")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.thumbnail_width_, get_json_object_field_force(from, "thumbnail_width")));
-  TRY_STATUS(from_json(to.thumbnail_height_, get_json_object_field_force(from, "thumbnail_height")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.contact_, from.extract_field("contact")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.thumbnail_width_, from.extract_field("thumbnail_width")));
+  TRY_STATUS(from_json(to.thumbnail_height_, from.extract_field("thumbnail_height")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultDocument &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
-  TRY_STATUS(from_json(to.document_url_, get_json_object_field_force(from, "document_url")));
-  TRY_STATUS(from_json(to.mime_type_, get_json_object_field_force(from, "mime_type")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.thumbnail_width_, get_json_object_field_force(from, "thumbnail_width")));
-  TRY_STATUS(from_json(to.thumbnail_height_, get_json_object_field_force(from, "thumbnail_height")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
+  TRY_STATUS(from_json(to.document_url_, from.extract_field("document_url")));
+  TRY_STATUS(from_json(to.mime_type_, from.extract_field("mime_type")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.thumbnail_width_, from.extract_field("thumbnail_width")));
+  TRY_STATUS(from_json(to.thumbnail_height_, from.extract_field("thumbnail_height")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultGame &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.game_short_name_, get_json_object_field_force(from, "game_short_name")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.game_short_name_, from.extract_field("game_short_name")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultLocation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
-  TRY_STATUS(from_json(to.live_period_, get_json_object_field_force(from, "live_period")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.thumbnail_width_, get_json_object_field_force(from, "thumbnail_width")));
-  TRY_STATUS(from_json(to.thumbnail_height_, get_json_object_field_force(from, "thumbnail_height")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.live_period_, from.extract_field("live_period")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.thumbnail_width_, from.extract_field("thumbnail_width")));
+  TRY_STATUS(from_json(to.thumbnail_height_, from.extract_field("thumbnail_height")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultPhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.photo_url_, get_json_object_field_force(from, "photo_url")));
-  TRY_STATUS(from_json(to.photo_width_, get_json_object_field_force(from, "photo_width")));
-  TRY_STATUS(from_json(to.photo_height_, get_json_object_field_force(from, "photo_height")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.photo_url_, from.extract_field("photo_url")));
+  TRY_STATUS(from_json(to.photo_width_, from.extract_field("photo_width")));
+  TRY_STATUS(from_json(to.photo_height_, from.extract_field("photo_height")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.sticker_url_, get_json_object_field_force(from, "sticker_url")));
-  TRY_STATUS(from_json(to.sticker_width_, get_json_object_field_force(from, "sticker_width")));
-  TRY_STATUS(from_json(to.sticker_height_, get_json_object_field_force(from, "sticker_height")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.sticker_url_, from.extract_field("sticker_url")));
+  TRY_STATUS(from_json(to.sticker_width_, from.extract_field("sticker_width")));
+  TRY_STATUS(from_json(to.sticker_height_, from.extract_field("sticker_height")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultVenue &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.venue_, get_json_object_field_force(from, "venue")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.thumbnail_width_, get_json_object_field_force(from, "thumbnail_width")));
-  TRY_STATUS(from_json(to.thumbnail_height_, get_json_object_field_force(from, "thumbnail_height")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.venue_, from.extract_field("venue")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.thumbnail_width_, from.extract_field("thumbnail_width")));
+  TRY_STATUS(from_json(to.thumbnail_height_, from.extract_field("thumbnail_height")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultVideo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
-  TRY_STATUS(from_json(to.thumbnail_url_, get_json_object_field_force(from, "thumbnail_url")));
-  TRY_STATUS(from_json(to.video_url_, get_json_object_field_force(from, "video_url")));
-  TRY_STATUS(from_json(to.mime_type_, get_json_object_field_force(from, "mime_type")));
-  TRY_STATUS(from_json(to.video_width_, get_json_object_field_force(from, "video_width")));
-  TRY_STATUS(from_json(to.video_height_, get_json_object_field_force(from, "video_height")));
-  TRY_STATUS(from_json(to.video_duration_, get_json_object_field_force(from, "video_duration")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
+  TRY_STATUS(from_json(to.thumbnail_url_, from.extract_field("thumbnail_url")));
+  TRY_STATUS(from_json(to.video_url_, from.extract_field("video_url")));
+  TRY_STATUS(from_json(to.mime_type_, from.extract_field("mime_type")));
+  TRY_STATUS(from_json(to.video_width_, from.extract_field("video_width")));
+  TRY_STATUS(from_json(to.video_height_, from.extract_field("video_height")));
+  TRY_STATUS(from_json(to.video_duration_, from.extract_field("video_duration")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInlineQueryResultVoiceNote &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.voice_note_url_, get_json_object_field_force(from, "voice_note_url")));
-  TRY_STATUS(from_json(to.voice_note_duration_, get_json_object_field_force(from, "voice_note_duration")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.voice_note_url_, from.extract_field("voice_note_url")));
+  TRY_STATUS(from_json(to.voice_note_duration_, from.extract_field("voice_note_duration")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInvoiceMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputInvoiceName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputInvoiceTelegram &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.purpose_, from.extract_field("purpose")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageText &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.disable_web_page_preview_, get_json_object_field_force(from, "disable_web_page_preview")));
-  TRY_STATUS(from_json(to.clear_draft_, get_json_object_field_force(from, "clear_draft")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.link_preview_options_, from.extract_field("link_preview_options")));
+  TRY_STATUS(from_json(to.clear_draft_, from.extract_field("clear_draft")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageAnimation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.animation_, get_json_object_field_force(from, "animation")));
-  TRY_STATUS(from_json(to.thumbnail_, get_json_object_field_force(from, "thumbnail")));
-  TRY_STATUS(from_json(to.added_sticker_file_ids_, get_json_object_field_force(from, "added_sticker_file_ids")));
-  TRY_STATUS(from_json(to.duration_, get_json_object_field_force(from, "duration")));
-  TRY_STATUS(from_json(to.width_, get_json_object_field_force(from, "width")));
-  TRY_STATUS(from_json(to.height_, get_json_object_field_force(from, "height")));
-  TRY_STATUS(from_json(to.caption_, get_json_object_field_force(from, "caption")));
-  TRY_STATUS(from_json(to.has_spoiler_, get_json_object_field_force(from, "has_spoiler")));
+  TRY_STATUS(from_json(to.animation_, from.extract_field("animation")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.added_sticker_file_ids_, from.extract_field("added_sticker_file_ids")));
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
+  TRY_STATUS(from_json(to.width_, from.extract_field("width")));
+  TRY_STATUS(from_json(to.height_, from.extract_field("height")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.show_caption_above_media_, from.extract_field("show_caption_above_media")));
+  TRY_STATUS(from_json(to.has_spoiler_, from.extract_field("has_spoiler")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageAudio &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.audio_, get_json_object_field_force(from, "audio")));
-  TRY_STATUS(from_json(to.album_cover_thumbnail_, get_json_object_field_force(from, "album_cover_thumbnail")));
-  TRY_STATUS(from_json(to.duration_, get_json_object_field_force(from, "duration")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.performer_, get_json_object_field_force(from, "performer")));
-  TRY_STATUS(from_json(to.caption_, get_json_object_field_force(from, "caption")));
+  TRY_STATUS(from_json(to.audio_, from.extract_field("audio")));
+  TRY_STATUS(from_json(to.album_cover_thumbnail_, from.extract_field("album_cover_thumbnail")));
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.performer_, from.extract_field("performer")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageDocument &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.document_, get_json_object_field_force(from, "document")));
-  TRY_STATUS(from_json(to.thumbnail_, get_json_object_field_force(from, "thumbnail")));
-  TRY_STATUS(from_json(to.disable_content_type_detection_, get_json_object_field_force(from, "disable_content_type_detection")));
-  TRY_STATUS(from_json(to.caption_, get_json_object_field_force(from, "caption")));
+  TRY_STATUS(from_json(to.document_, from.extract_field("document")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.disable_content_type_detection_, from.extract_field("disable_content_type_detection")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputMessagePaidMedia &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  TRY_STATUS(from_json(to.paid_media_, from.extract_field("paid_media")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.show_caption_above_media_, from.extract_field("show_caption_above_media")));
+  TRY_STATUS(from_json(to.payload_, from.extract_field("payload")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessagePhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.photo_, get_json_object_field_force(from, "photo")));
-  TRY_STATUS(from_json(to.thumbnail_, get_json_object_field_force(from, "thumbnail")));
-  TRY_STATUS(from_json(to.added_sticker_file_ids_, get_json_object_field_force(from, "added_sticker_file_ids")));
-  TRY_STATUS(from_json(to.width_, get_json_object_field_force(from, "width")));
-  TRY_STATUS(from_json(to.height_, get_json_object_field_force(from, "height")));
-  TRY_STATUS(from_json(to.caption_, get_json_object_field_force(from, "caption")));
-  TRY_STATUS(from_json(to.self_destruct_time_, get_json_object_field_force(from, "self_destruct_time")));
-  TRY_STATUS(from_json(to.has_spoiler_, get_json_object_field_force(from, "has_spoiler")));
+  TRY_STATUS(from_json(to.photo_, from.extract_field("photo")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.added_sticker_file_ids_, from.extract_field("added_sticker_file_ids")));
+  TRY_STATUS(from_json(to.width_, from.extract_field("width")));
+  TRY_STATUS(from_json(to.height_, from.extract_field("height")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.show_caption_above_media_, from.extract_field("show_caption_above_media")));
+  TRY_STATUS(from_json(to.self_destruct_type_, from.extract_field("self_destruct_type")));
+  TRY_STATUS(from_json(to.has_spoiler_, from.extract_field("has_spoiler")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
-  TRY_STATUS(from_json(to.thumbnail_, get_json_object_field_force(from, "thumbnail")));
-  TRY_STATUS(from_json(to.width_, get_json_object_field_force(from, "width")));
-  TRY_STATUS(from_json(to.height_, get_json_object_field_force(from, "height")));
-  TRY_STATUS(from_json(to.emoji_, get_json_object_field_force(from, "emoji")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.width_, from.extract_field("width")));
+  TRY_STATUS(from_json(to.height_, from.extract_field("height")));
+  TRY_STATUS(from_json(to.emoji_, from.extract_field("emoji")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageVideo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.video_, get_json_object_field_force(from, "video")));
-  TRY_STATUS(from_json(to.thumbnail_, get_json_object_field_force(from, "thumbnail")));
-  TRY_STATUS(from_json(to.added_sticker_file_ids_, get_json_object_field_force(from, "added_sticker_file_ids")));
-  TRY_STATUS(from_json(to.duration_, get_json_object_field_force(from, "duration")));
-  TRY_STATUS(from_json(to.width_, get_json_object_field_force(from, "width")));
-  TRY_STATUS(from_json(to.height_, get_json_object_field_force(from, "height")));
-  TRY_STATUS(from_json(to.supports_streaming_, get_json_object_field_force(from, "supports_streaming")));
-  TRY_STATUS(from_json(to.caption_, get_json_object_field_force(from, "caption")));
-  TRY_STATUS(from_json(to.self_destruct_time_, get_json_object_field_force(from, "self_destruct_time")));
-  TRY_STATUS(from_json(to.has_spoiler_, get_json_object_field_force(from, "has_spoiler")));
+  TRY_STATUS(from_json(to.video_, from.extract_field("video")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.added_sticker_file_ids_, from.extract_field("added_sticker_file_ids")));
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
+  TRY_STATUS(from_json(to.width_, from.extract_field("width")));
+  TRY_STATUS(from_json(to.height_, from.extract_field("height")));
+  TRY_STATUS(from_json(to.supports_streaming_, from.extract_field("supports_streaming")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.show_caption_above_media_, from.extract_field("show_caption_above_media")));
+  TRY_STATUS(from_json(to.self_destruct_type_, from.extract_field("self_destruct_type")));
+  TRY_STATUS(from_json(to.has_spoiler_, from.extract_field("has_spoiler")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageVideoNote &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.video_note_, get_json_object_field_force(from, "video_note")));
-  TRY_STATUS(from_json(to.thumbnail_, get_json_object_field_force(from, "thumbnail")));
-  TRY_STATUS(from_json(to.duration_, get_json_object_field_force(from, "duration")));
-  TRY_STATUS(from_json(to.length_, get_json_object_field_force(from, "length")));
+  TRY_STATUS(from_json(to.video_note_, from.extract_field("video_note")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
+  TRY_STATUS(from_json(to.length_, from.extract_field("length")));
+  TRY_STATUS(from_json(to.self_destruct_type_, from.extract_field("self_destruct_type")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageVoiceNote &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.voice_note_, get_json_object_field_force(from, "voice_note")));
-  TRY_STATUS(from_json(to.duration_, get_json_object_field_force(from, "duration")));
-  TRY_STATUS(from_json_bytes(to.waveform_, get_json_object_field_force(from, "waveform")));
-  TRY_STATUS(from_json(to.caption_, get_json_object_field_force(from, "caption")));
+  TRY_STATUS(from_json(to.voice_note_, from.extract_field("voice_note")));
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
+  TRY_STATUS(from_json_bytes(to.waveform_, from.extract_field("waveform")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.self_destruct_type_, from.extract_field("self_destruct_type")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageLocation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
-  TRY_STATUS(from_json(to.live_period_, get_json_object_field_force(from, "live_period")));
-  TRY_STATUS(from_json(to.heading_, get_json_object_field_force(from, "heading")));
-  TRY_STATUS(from_json(to.proximity_alert_radius_, get_json_object_field_force(from, "proximity_alert_radius")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.live_period_, from.extract_field("live_period")));
+  TRY_STATUS(from_json(to.heading_, from.extract_field("heading")));
+  TRY_STATUS(from_json(to.proximity_alert_radius_, from.extract_field("proximity_alert_radius")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageVenue &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.venue_, get_json_object_field_force(from, "venue")));
+  TRY_STATUS(from_json(to.venue_, from.extract_field("venue")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageContact &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.contact_, get_json_object_field_force(from, "contact")));
+  TRY_STATUS(from_json(to.contact_, from.extract_field("contact")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageDice &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.emoji_, get_json_object_field_force(from, "emoji")));
-  TRY_STATUS(from_json(to.clear_draft_, get_json_object_field_force(from, "clear_draft")));
+  TRY_STATUS(from_json(to.emoji_, from.extract_field("emoji")));
+  TRY_STATUS(from_json(to.clear_draft_, from.extract_field("clear_draft")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageGame &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.game_short_name_, get_json_object_field_force(from, "game_short_name")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.game_short_name_, from.extract_field("game_short_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageInvoice &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invoice_, get_json_object_field_force(from, "invoice")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
-  TRY_STATUS(from_json(to.photo_url_, get_json_object_field_force(from, "photo_url")));
-  TRY_STATUS(from_json(to.photo_size_, get_json_object_field_force(from, "photo_size")));
-  TRY_STATUS(from_json(to.photo_width_, get_json_object_field_force(from, "photo_width")));
-  TRY_STATUS(from_json(to.photo_height_, get_json_object_field_force(from, "photo_height")));
-  TRY_STATUS(from_json_bytes(to.payload_, get_json_object_field_force(from, "payload")));
-  TRY_STATUS(from_json(to.provider_token_, get_json_object_field_force(from, "provider_token")));
-  TRY_STATUS(from_json(to.provider_data_, get_json_object_field_force(from, "provider_data")));
-  TRY_STATUS(from_json(to.start_parameter_, get_json_object_field_force(from, "start_parameter")));
-  TRY_STATUS(from_json(to.extended_media_content_, get_json_object_field_force(from, "extended_media_content")));
+  TRY_STATUS(from_json(to.invoice_, from.extract_field("invoice")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
+  TRY_STATUS(from_json(to.photo_url_, from.extract_field("photo_url")));
+  TRY_STATUS(from_json(to.photo_size_, from.extract_field("photo_size")));
+  TRY_STATUS(from_json(to.photo_width_, from.extract_field("photo_width")));
+  TRY_STATUS(from_json(to.photo_height_, from.extract_field("photo_height")));
+  TRY_STATUS(from_json_bytes(to.payload_, from.extract_field("payload")));
+  TRY_STATUS(from_json(to.provider_token_, from.extract_field("provider_token")));
+  TRY_STATUS(from_json(to.provider_data_, from.extract_field("provider_data")));
+  TRY_STATUS(from_json(to.start_parameter_, from.extract_field("start_parameter")));
+  TRY_STATUS(from_json(to.paid_media_, from.extract_field("paid_media")));
+  TRY_STATUS(from_json(to.paid_media_caption_, from.extract_field("paid_media_caption")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessagePoll &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.question_, get_json_object_field_force(from, "question")));
-  TRY_STATUS(from_json(to.options_, get_json_object_field_force(from, "options")));
-  TRY_STATUS(from_json(to.is_anonymous_, get_json_object_field_force(from, "is_anonymous")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.open_period_, get_json_object_field_force(from, "open_period")));
-  TRY_STATUS(from_json(to.close_date_, get_json_object_field_force(from, "close_date")));
-  TRY_STATUS(from_json(to.is_closed_, get_json_object_field_force(from, "is_closed")));
+  TRY_STATUS(from_json(to.question_, from.extract_field("question")));
+  TRY_STATUS(from_json(to.options_, from.extract_field("options")));
+  TRY_STATUS(from_json(to.is_anonymous_, from.extract_field("is_anonymous")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.open_period_, from.extract_field("open_period")));
+  TRY_STATUS(from_json(to.close_date_, from.extract_field("close_date")));
+  TRY_STATUS(from_json(to.is_closed_, from.extract_field("is_closed")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputMessageStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputMessageForwarded &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.from_chat_id_, get_json_object_field_force(from, "from_chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.in_game_share_, get_json_object_field_force(from, "in_game_share")));
-  TRY_STATUS(from_json(to.copy_options_, get_json_object_field_force(from, "copy_options")));
+  TRY_STATUS(from_json(to.from_chat_id_, from.extract_field("from_chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.in_game_share_, from.extract_field("in_game_share")));
+  TRY_STATUS(from_json(to.copy_options_, from.extract_field("copy_options")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputMessageReplyToMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.quote_, from.extract_field("quote")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputMessageReplyToExternalMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.quote_, from.extract_field("quote")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputMessageReplyToStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputPaidMedia &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.media_, from.extract_field("media")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.added_sticker_file_ids_, from.extract_field("added_sticker_file_ids")));
+  TRY_STATUS(from_json(to.width_, from.extract_field("width")));
+  TRY_STATUS(from_json(to.height_, from.extract_field("height")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputPaidMediaTypePhoto &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::inputPaidMediaTypeVideo &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
+  TRY_STATUS(from_json(to.supports_streaming_, from.extract_field("supports_streaming")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementPersonalDetails &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.personal_details_, get_json_object_field_force(from, "personal_details")));
+  TRY_STATUS(from_json(to.personal_details_, from.extract_field("personal_details")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementPassport &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.passport_, get_json_object_field_force(from, "passport")));
+  TRY_STATUS(from_json(to.passport_, from.extract_field("passport")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementDriverLicense &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.driver_license_, get_json_object_field_force(from, "driver_license")));
+  TRY_STATUS(from_json(to.driver_license_, from.extract_field("driver_license")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementIdentityCard &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.identity_card_, get_json_object_field_force(from, "identity_card")));
+  TRY_STATUS(from_json(to.identity_card_, from.extract_field("identity_card")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementInternalPassport &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.internal_passport_, get_json_object_field_force(from, "internal_passport")));
+  TRY_STATUS(from_json(to.internal_passport_, from.extract_field("internal_passport")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementAddress &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.address_, get_json_object_field_force(from, "address")));
+  TRY_STATUS(from_json(to.address_, from.extract_field("address")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementUtilityBill &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.utility_bill_, get_json_object_field_force(from, "utility_bill")));
+  TRY_STATUS(from_json(to.utility_bill_, from.extract_field("utility_bill")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementBankStatement &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bank_statement_, get_json_object_field_force(from, "bank_statement")));
+  TRY_STATUS(from_json(to.bank_statement_, from.extract_field("bank_statement")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementRentalAgreement &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.rental_agreement_, get_json_object_field_force(from, "rental_agreement")));
+  TRY_STATUS(from_json(to.rental_agreement_, from.extract_field("rental_agreement")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementPassportRegistration &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.passport_registration_, get_json_object_field_force(from, "passport_registration")));
+  TRY_STATUS(from_json(to.passport_registration_, from.extract_field("passport_registration")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementTemporaryRegistration &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.temporary_registration_, get_json_object_field_force(from, "temporary_registration")));
+  TRY_STATUS(from_json(to.temporary_registration_, from.extract_field("temporary_registration")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementPhoneNumber &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementEmailAddress &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.email_address_, get_json_object_field_force(from, "email_address")));
+  TRY_STATUS(from_json(to.email_address_, from.extract_field("email_address")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementError &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.message_, get_json_object_field_force(from, "message")));
-  TRY_STATUS(from_json(to.source_, get_json_object_field_force(from, "source")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.message_, from.extract_field("message")));
+  TRY_STATUS(from_json(to.source_, from.extract_field("source")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceUnspecified &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.element_hash_, get_json_object_field_force(from, "element_hash")));
+  TRY_STATUS(from_json_bytes(to.element_hash_, from.extract_field("element_hash")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceDataField &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.field_name_, get_json_object_field_force(from, "field_name")));
-  TRY_STATUS(from_json_bytes(to.data_hash_, get_json_object_field_force(from, "data_hash")));
+  TRY_STATUS(from_json(to.field_name_, from.extract_field("field_name")));
+  TRY_STATUS(from_json_bytes(to.data_hash_, from.extract_field("data_hash")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceFrontSide &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.file_hash_, get_json_object_field_force(from, "file_hash")));
+  TRY_STATUS(from_json_bytes(to.file_hash_, from.extract_field("file_hash")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceReverseSide &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.file_hash_, get_json_object_field_force(from, "file_hash")));
+  TRY_STATUS(from_json_bytes(to.file_hash_, from.extract_field("file_hash")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceSelfie &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.file_hash_, get_json_object_field_force(from, "file_hash")));
+  TRY_STATUS(from_json_bytes(to.file_hash_, from.extract_field("file_hash")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceTranslationFile &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.file_hash_, get_json_object_field_force(from, "file_hash")));
+  TRY_STATUS(from_json_bytes(to.file_hash_, from.extract_field("file_hash")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceTranslationFiles &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_hashes_, get_json_object_field_force(from, "file_hashes")));
+  TRY_STATUS(from_json(to.file_hashes_, from.extract_field("file_hashes")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceFile &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.file_hash_, get_json_object_field_force(from, "file_hash")));
+  TRY_STATUS(from_json_bytes(to.file_hash_, from.extract_field("file_hash")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPassportElementErrorSourceFiles &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_hashes_, get_json_object_field_force(from, "file_hashes")));
+  TRY_STATUS(from_json(to.file_hashes_, from.extract_field("file_hashes")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputPersonalDocument &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.files_, get_json_object_field_force(from, "files")));
-  TRY_STATUS(from_json(to.translation_, get_json_object_field_force(from, "translation")));
+  TRY_STATUS(from_json(to.files_, from.extract_field("files")));
+  TRY_STATUS(from_json(to.translation_, from.extract_field("translation")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
-  TRY_STATUS(from_json(to.emojis_, get_json_object_field_force(from, "emojis")));
-  TRY_STATUS(from_json(to.mask_position_, get_json_object_field_force(from, "mask_position")));
-  TRY_STATUS(from_json(to.keywords_, get_json_object_field_force(from, "keywords")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
+  TRY_STATUS(from_json(to.format_, from.extract_field("format")));
+  TRY_STATUS(from_json(to.emojis_, from.extract_field("emojis")));
+  TRY_STATUS(from_json(to.mask_position_, from.extract_field("mask_position")));
+  TRY_STATUS(from_json(to.keywords_, from.extract_field("keywords")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryArea &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.position_, from.extract_field("position")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryAreaTypeLocation &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.address_, from.extract_field("address")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryAreaTypeFoundVenue &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.query_id_, from.extract_field("query_id")));
+  TRY_STATUS(from_json(to.result_id_, from.extract_field("result_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryAreaTypePreviousVenue &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.venue_provider_, from.extract_field("venue_provider")));
+  TRY_STATUS(from_json(to.venue_id_, from.extract_field("venue_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryAreaTypeSuggestedReaction &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.reaction_type_, from.extract_field("reaction_type")));
+  TRY_STATUS(from_json(to.is_dark_, from.extract_field("is_dark")));
+  TRY_STATUS(from_json(to.is_flipped_, from.extract_field("is_flipped")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryAreaTypeMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryAreaTypeLink &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryAreaTypeWeather &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.temperature_, from.extract_field("temperature")));
+  TRY_STATUS(from_json(to.emoji_, from.extract_field("emoji")));
+  TRY_STATUS(from_json(to.background_color_, from.extract_field("background_color")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryAreas &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.areas_, from.extract_field("areas")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryContentPhoto &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.photo_, from.extract_field("photo")));
+  TRY_STATUS(from_json(to.added_sticker_file_ids_, from.extract_field("added_sticker_file_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputStoryContentVideo &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.video_, from.extract_field("video")));
+  TRY_STATUS(from_json(to.added_sticker_file_ids_, from.extract_field("added_sticker_file_ids")));
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
+  TRY_STATUS(from_json(to.cover_frame_timestamp_, from.extract_field("cover_frame_timestamp")));
+  TRY_STATUS(from_json(to.is_animation_, from.extract_field("is_animation")));
+  return Status::OK();
+}
+
+Status from_json(td_api::inputTextQuote &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.position_, from.extract_field("position")));
   return Status::OK();
 }
 
 Status from_json(td_api::inputThumbnail &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.thumbnail_, get_json_object_field_force(from, "thumbnail")));
-  TRY_STATUS(from_json(to.width_, get_json_object_field_force(from, "width")));
-  TRY_STATUS(from_json(to.height_, get_json_object_field_force(from, "height")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.width_, from.extract_field("width")));
+  TRY_STATUS(from_json(to.height_, from.extract_field("height")));
   return Status::OK();
 }
 
@@ -3558,39 +4458,50 @@ Status from_json(td_api::internalLinkTypeActiveSessions &to, JsonObject &from) {
 }
 
 Status from_json(td_api::internalLinkTypeAttachmentMenuBot &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.target_chat_, get_json_object_field_force(from, "target_chat")));
-  TRY_STATUS(from_json(to.bot_username_, get_json_object_field_force(from, "bot_username")));
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.target_chat_, from.extract_field("target_chat")));
+  TRY_STATUS(from_json(to.bot_username_, from.extract_field("bot_username")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeAuthenticationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeBackground &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.background_name_, get_json_object_field_force(from, "background_name")));
+  TRY_STATUS(from_json(to.background_name_, from.extract_field("background_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeBotAddToChannel &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_username_, get_json_object_field_force(from, "bot_username")));
-  TRY_STATUS(from_json(to.administrator_rights_, get_json_object_field_force(from, "administrator_rights")));
+  TRY_STATUS(from_json(to.bot_username_, from.extract_field("bot_username")));
+  TRY_STATUS(from_json(to.administrator_rights_, from.extract_field("administrator_rights")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeBotStart &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_username_, get_json_object_field_force(from, "bot_username")));
-  TRY_STATUS(from_json(to.start_parameter_, get_json_object_field_force(from, "start_parameter")));
-  TRY_STATUS(from_json(to.autostart_, get_json_object_field_force(from, "autostart")));
+  TRY_STATUS(from_json(to.bot_username_, from.extract_field("bot_username")));
+  TRY_STATUS(from_json(to.start_parameter_, from.extract_field("start_parameter")));
+  TRY_STATUS(from_json(to.autostart_, from.extract_field("autostart")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeBotStartInGroup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_username_, get_json_object_field_force(from, "bot_username")));
-  TRY_STATUS(from_json(to.start_parameter_, get_json_object_field_force(from, "start_parameter")));
-  TRY_STATUS(from_json(to.administrator_rights_, get_json_object_field_force(from, "administrator_rights")));
+  TRY_STATUS(from_json(to.bot_username_, from.extract_field("bot_username")));
+  TRY_STATUS(from_json(to.start_parameter_, from.extract_field("start_parameter")));
+  TRY_STATUS(from_json(to.administrator_rights_, from.extract_field("administrator_rights")));
+  return Status::OK();
+}
+
+Status from_json(td_api::internalLinkTypeBusinessChat &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.link_name_, from.extract_field("link_name")));
+  return Status::OK();
+}
+
+Status from_json(td_api::internalLinkTypeBuyStars &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  TRY_STATUS(from_json(to.purpose_, from.extract_field("purpose")));
   return Status::OK();
 }
 
@@ -3598,8 +4509,13 @@ Status from_json(td_api::internalLinkTypeChangePhoneNumber &to, JsonObject &from
   return Status::OK();
 }
 
+Status from_json(td_api::internalLinkTypeChatBoost &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  return Status::OK();
+}
+
 Status from_json(td_api::internalLinkTypeChatFolderInvite &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
@@ -3608,7 +4524,7 @@ Status from_json(td_api::internalLinkTypeChatFolderSettings &to, JsonObject &fro
 }
 
 Status from_json(td_api::internalLinkTypeChatInvite &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
@@ -3621,24 +4537,24 @@ Status from_json(td_api::internalLinkTypeEditProfileSettings &to, JsonObject &fr
 }
 
 Status from_json(td_api::internalLinkTypeGame &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_username_, get_json_object_field_force(from, "bot_username")));
-  TRY_STATUS(from_json(to.game_short_name_, get_json_object_field_force(from, "game_short_name")));
+  TRY_STATUS(from_json(to.bot_username_, from.extract_field("bot_username")));
+  TRY_STATUS(from_json(to.game_short_name_, from.extract_field("game_short_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeInstantView &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
-  TRY_STATUS(from_json(to.fallback_url_, get_json_object_field_force(from, "fallback_url")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  TRY_STATUS(from_json(to.fallback_url_, from.extract_field("fallback_url")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeInvoice &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invoice_name_, get_json_object_field_force(from, "invoice_name")));
+  TRY_STATUS(from_json(to.invoice_name_, from.extract_field("invoice_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeLanguagePack &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_pack_id_, get_json_object_field_force(from, "language_pack_id")));
+  TRY_STATUS(from_json(to.language_pack_id_, from.extract_field("language_pack_id")));
   return Status::OK();
 }
 
@@ -3646,34 +4562,51 @@ Status from_json(td_api::internalLinkTypeLanguageSettings &to, JsonObject &from)
   return Status::OK();
 }
 
+Status from_json(td_api::internalLinkTypeMainWebApp &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_username_, from.extract_field("bot_username")));
+  TRY_STATUS(from_json(to.start_parameter_, from.extract_field("start_parameter")));
+  TRY_STATUS(from_json(to.is_compact_, from.extract_field("is_compact")));
+  return Status::OK();
+}
+
 Status from_json(td_api::internalLinkTypeMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeMessageDraft &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.contains_link_, get_json_object_field_force(from, "contains_link")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.contains_link_, from.extract_field("contains_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypePassportDataRequest &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
-  TRY_STATUS(from_json(to.public_key_, get_json_object_field_force(from, "public_key")));
-  TRY_STATUS(from_json(to.nonce_, get_json_object_field_force(from, "nonce")));
-  TRY_STATUS(from_json(to.callback_url_, get_json_object_field_force(from, "callback_url")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  TRY_STATUS(from_json(to.public_key_, from.extract_field("public_key")));
+  TRY_STATUS(from_json(to.nonce_, from.extract_field("nonce")));
+  TRY_STATUS(from_json(to.callback_url_, from.extract_field("callback_url")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypePhoneNumberConfirmation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.hash_, get_json_object_field_force(from, "hash")));
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
+  TRY_STATUS(from_json(to.hash_, from.extract_field("hash")));
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypePremiumFeatures &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.referrer_, get_json_object_field_force(from, "referrer")));
+  TRY_STATUS(from_json(to.referrer_, from.extract_field("referrer")));
+  return Status::OK();
+}
+
+Status from_json(td_api::internalLinkTypePremiumGift &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.referrer_, from.extract_field("referrer")));
+  return Status::OK();
+}
+
+Status from_json(td_api::internalLinkTypePremiumGiftCode &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
@@ -3682,14 +4615,16 @@ Status from_json(td_api::internalLinkTypePrivacyAndSecuritySettings &to, JsonObj
 }
 
 Status from_json(td_api::internalLinkTypeProxy &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.server_, get_json_object_field_force(from, "server")));
-  TRY_STATUS(from_json(to.port_, get_json_object_field_force(from, "port")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.server_, from.extract_field("server")));
+  TRY_STATUS(from_json(to.port_, from.extract_field("port")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypePublicChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_username_, get_json_object_field_force(from, "chat_username")));
+  TRY_STATUS(from_json(to.chat_username_, from.extract_field("chat_username")));
+  TRY_STATUS(from_json(to.draft_text_, from.extract_field("draft_text")));
+  TRY_STATUS(from_json(to.open_profile_, from.extract_field("open_profile")));
   return Status::OK();
 }
 
@@ -3706,13 +4641,19 @@ Status from_json(td_api::internalLinkTypeSettings &to, JsonObject &from) {
 }
 
 Status from_json(td_api::internalLinkTypeStickerSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_set_name_, get_json_object_field_force(from, "sticker_set_name")));
-  TRY_STATUS(from_json(to.expect_custom_emoji_, get_json_object_field_force(from, "expect_custom_emoji")));
+  TRY_STATUS(from_json(to.sticker_set_name_, from.extract_field("sticker_set_name")));
+  TRY_STATUS(from_json(to.expect_custom_emoji_, from.extract_field("expect_custom_emoji")));
+  return Status::OK();
+}
+
+Status from_json(td_api::internalLinkTypeStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_username_, from.extract_field("story_sender_username")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeTheme &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.theme_name_, get_json_object_field_force(from, "theme_name")));
+  TRY_STATUS(from_json(to.theme_name_, from.extract_field("theme_name")));
   return Status::OK();
 }
 
@@ -3721,7 +4662,7 @@ Status from_json(td_api::internalLinkTypeThemeSettings &to, JsonObject &from) {
 }
 
 Status from_json(td_api::internalLinkTypeUnknownDeepLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.link_, get_json_object_field_force(from, "link")));
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
   return Status::OK();
 }
 
@@ -3730,49 +4671,53 @@ Status from_json(td_api::internalLinkTypeUnsupportedProxy &to, JsonObject &from)
 }
 
 Status from_json(td_api::internalLinkTypeUserPhoneNumber &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
+  TRY_STATUS(from_json(to.draft_text_, from.extract_field("draft_text")));
+  TRY_STATUS(from_json(to.open_profile_, from.extract_field("open_profile")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeUserToken &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeVideoChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_username_, get_json_object_field_force(from, "chat_username")));
-  TRY_STATUS(from_json(to.invite_hash_, get_json_object_field_force(from, "invite_hash")));
-  TRY_STATUS(from_json(to.is_live_stream_, get_json_object_field_force(from, "is_live_stream")));
+  TRY_STATUS(from_json(to.chat_username_, from.extract_field("chat_username")));
+  TRY_STATUS(from_json(to.invite_hash_, from.extract_field("invite_hash")));
+  TRY_STATUS(from_json(to.is_live_stream_, from.extract_field("is_live_stream")));
   return Status::OK();
 }
 
 Status from_json(td_api::internalLinkTypeWebApp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_username_, get_json_object_field_force(from, "bot_username")));
-  TRY_STATUS(from_json(to.web_app_short_name_, get_json_object_field_force(from, "web_app_short_name")));
-  TRY_STATUS(from_json(to.start_parameter_, get_json_object_field_force(from, "start_parameter")));
+  TRY_STATUS(from_json(to.bot_username_, from.extract_field("bot_username")));
+  TRY_STATUS(from_json(to.web_app_short_name_, from.extract_field("web_app_short_name")));
+  TRY_STATUS(from_json(to.start_parameter_, from.extract_field("start_parameter")));
+  TRY_STATUS(from_json(to.is_compact_, from.extract_field("is_compact")));
   return Status::OK();
 }
 
 Status from_json(td_api::invoice &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.currency_, get_json_object_field_force(from, "currency")));
-  TRY_STATUS(from_json(to.price_parts_, get_json_object_field_force(from, "price_parts")));
-  TRY_STATUS(from_json(to.max_tip_amount_, get_json_object_field_force(from, "max_tip_amount")));
-  TRY_STATUS(from_json(to.suggested_tip_amounts_, get_json_object_field_force(from, "suggested_tip_amounts")));
-  TRY_STATUS(from_json(to.recurring_payment_terms_of_service_url_, get_json_object_field_force(from, "recurring_payment_terms_of_service_url")));
-  TRY_STATUS(from_json(to.is_test_, get_json_object_field_force(from, "is_test")));
-  TRY_STATUS(from_json(to.need_name_, get_json_object_field_force(from, "need_name")));
-  TRY_STATUS(from_json(to.need_phone_number_, get_json_object_field_force(from, "need_phone_number")));
-  TRY_STATUS(from_json(to.need_email_address_, get_json_object_field_force(from, "need_email_address")));
-  TRY_STATUS(from_json(to.need_shipping_address_, get_json_object_field_force(from, "need_shipping_address")));
-  TRY_STATUS(from_json(to.send_phone_number_to_provider_, get_json_object_field_force(from, "send_phone_number_to_provider")));
-  TRY_STATUS(from_json(to.send_email_address_to_provider_, get_json_object_field_force(from, "send_email_address_to_provider")));
-  TRY_STATUS(from_json(to.is_flexible_, get_json_object_field_force(from, "is_flexible")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.price_parts_, from.extract_field("price_parts")));
+  TRY_STATUS(from_json(to.max_tip_amount_, from.extract_field("max_tip_amount")));
+  TRY_STATUS(from_json(to.suggested_tip_amounts_, from.extract_field("suggested_tip_amounts")));
+  TRY_STATUS(from_json(to.recurring_payment_terms_of_service_url_, from.extract_field("recurring_payment_terms_of_service_url")));
+  TRY_STATUS(from_json(to.terms_of_service_url_, from.extract_field("terms_of_service_url")));
+  TRY_STATUS(from_json(to.is_test_, from.extract_field("is_test")));
+  TRY_STATUS(from_json(to.need_name_, from.extract_field("need_name")));
+  TRY_STATUS(from_json(to.need_phone_number_, from.extract_field("need_phone_number")));
+  TRY_STATUS(from_json(to.need_email_address_, from.extract_field("need_email_address")));
+  TRY_STATUS(from_json(to.need_shipping_address_, from.extract_field("need_shipping_address")));
+  TRY_STATUS(from_json(to.send_phone_number_to_provider_, from.extract_field("send_phone_number_to_provider")));
+  TRY_STATUS(from_json(to.send_email_address_to_provider_, from.extract_field("send_email_address_to_provider")));
+  TRY_STATUS(from_json(to.is_flexible_, from.extract_field("is_flexible")));
   return Status::OK();
 }
 
 Status from_json(td_api::jsonObjectMember &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.key_, get_json_object_field_force(from, "key")));
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.key_, from.extract_field("key")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
@@ -3781,33 +4726,33 @@ Status from_json(td_api::jsonValueNull &to, JsonObject &from) {
 }
 
 Status from_json(td_api::jsonValueBoolean &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::jsonValueNumber &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::jsonValueString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::jsonValueArray &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.values_, get_json_object_field_force(from, "values")));
+  TRY_STATUS(from_json(to.values_, from.extract_field("values")));
   return Status::OK();
 }
 
 Status from_json(td_api::jsonValueObject &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.members_, get_json_object_field_force(from, "members")));
+  TRY_STATUS(from_json(to.members_, from.extract_field("members")));
   return Status::OK();
 }
 
 Status from_json(td_api::keyboardButton &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
@@ -3824,80 +4769,87 @@ Status from_json(td_api::keyboardButtonTypeRequestLocation &to, JsonObject &from
 }
 
 Status from_json(td_api::keyboardButtonTypeRequestPoll &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.force_regular_, get_json_object_field_force(from, "force_regular")));
-  TRY_STATUS(from_json(to.force_quiz_, get_json_object_field_force(from, "force_quiz")));
+  TRY_STATUS(from_json(to.force_regular_, from.extract_field("force_regular")));
+  TRY_STATUS(from_json(to.force_quiz_, from.extract_field("force_quiz")));
   return Status::OK();
 }
 
-Status from_json(td_api::keyboardButtonTypeRequestUser &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.restrict_user_is_bot_, get_json_object_field_force(from, "restrict_user_is_bot")));
-  TRY_STATUS(from_json(to.user_is_bot_, get_json_object_field_force(from, "user_is_bot")));
-  TRY_STATUS(from_json(to.restrict_user_is_premium_, get_json_object_field_force(from, "restrict_user_is_premium")));
-  TRY_STATUS(from_json(to.user_is_premium_, get_json_object_field_force(from, "user_is_premium")));
+Status from_json(td_api::keyboardButtonTypeRequestUsers &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.restrict_user_is_bot_, from.extract_field("restrict_user_is_bot")));
+  TRY_STATUS(from_json(to.user_is_bot_, from.extract_field("user_is_bot")));
+  TRY_STATUS(from_json(to.restrict_user_is_premium_, from.extract_field("restrict_user_is_premium")));
+  TRY_STATUS(from_json(to.user_is_premium_, from.extract_field("user_is_premium")));
+  TRY_STATUS(from_json(to.max_quantity_, from.extract_field("max_quantity")));
+  TRY_STATUS(from_json(to.request_name_, from.extract_field("request_name")));
+  TRY_STATUS(from_json(to.request_username_, from.extract_field("request_username")));
+  TRY_STATUS(from_json(to.request_photo_, from.extract_field("request_photo")));
   return Status::OK();
 }
 
 Status from_json(td_api::keyboardButtonTypeRequestChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.chat_is_channel_, get_json_object_field_force(from, "chat_is_channel")));
-  TRY_STATUS(from_json(to.restrict_chat_is_forum_, get_json_object_field_force(from, "restrict_chat_is_forum")));
-  TRY_STATUS(from_json(to.chat_is_forum_, get_json_object_field_force(from, "chat_is_forum")));
-  TRY_STATUS(from_json(to.restrict_chat_has_username_, get_json_object_field_force(from, "restrict_chat_has_username")));
-  TRY_STATUS(from_json(to.chat_has_username_, get_json_object_field_force(from, "chat_has_username")));
-  TRY_STATUS(from_json(to.chat_is_created_, get_json_object_field_force(from, "chat_is_created")));
-  TRY_STATUS(from_json(to.user_administrator_rights_, get_json_object_field_force(from, "user_administrator_rights")));
-  TRY_STATUS(from_json(to.bot_administrator_rights_, get_json_object_field_force(from, "bot_administrator_rights")));
-  TRY_STATUS(from_json(to.bot_is_member_, get_json_object_field_force(from, "bot_is_member")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.chat_is_channel_, from.extract_field("chat_is_channel")));
+  TRY_STATUS(from_json(to.restrict_chat_is_forum_, from.extract_field("restrict_chat_is_forum")));
+  TRY_STATUS(from_json(to.chat_is_forum_, from.extract_field("chat_is_forum")));
+  TRY_STATUS(from_json(to.restrict_chat_has_username_, from.extract_field("restrict_chat_has_username")));
+  TRY_STATUS(from_json(to.chat_has_username_, from.extract_field("chat_has_username")));
+  TRY_STATUS(from_json(to.chat_is_created_, from.extract_field("chat_is_created")));
+  TRY_STATUS(from_json(to.user_administrator_rights_, from.extract_field("user_administrator_rights")));
+  TRY_STATUS(from_json(to.bot_administrator_rights_, from.extract_field("bot_administrator_rights")));
+  TRY_STATUS(from_json(to.bot_is_member_, from.extract_field("bot_is_member")));
+  TRY_STATUS(from_json(to.request_title_, from.extract_field("request_title")));
+  TRY_STATUS(from_json(to.request_username_, from.extract_field("request_username")));
+  TRY_STATUS(from_json(to.request_photo_, from.extract_field("request_photo")));
   return Status::OK();
 }
 
 Status from_json(td_api::keyboardButtonTypeWebApp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
   return Status::OK();
 }
 
 Status from_json(td_api::labeledPricePart &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.label_, get_json_object_field_force(from, "label")));
-  TRY_STATUS(from_json(to.amount_, get_json_object_field_force(from, "amount")));
+  TRY_STATUS(from_json(to.label_, from.extract_field("label")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
   return Status::OK();
 }
 
 Status from_json(td_api::languagePackInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.base_language_pack_id_, get_json_object_field_force(from, "base_language_pack_id")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.native_name_, get_json_object_field_force(from, "native_name")));
-  TRY_STATUS(from_json(to.plural_code_, get_json_object_field_force(from, "plural_code")));
-  TRY_STATUS(from_json(to.is_official_, get_json_object_field_force(from, "is_official")));
-  TRY_STATUS(from_json(to.is_rtl_, get_json_object_field_force(from, "is_rtl")));
-  TRY_STATUS(from_json(to.is_beta_, get_json_object_field_force(from, "is_beta")));
-  TRY_STATUS(from_json(to.is_installed_, get_json_object_field_force(from, "is_installed")));
-  TRY_STATUS(from_json(to.total_string_count_, get_json_object_field_force(from, "total_string_count")));
-  TRY_STATUS(from_json(to.translated_string_count_, get_json_object_field_force(from, "translated_string_count")));
-  TRY_STATUS(from_json(to.local_string_count_, get_json_object_field_force(from, "local_string_count")));
-  TRY_STATUS(from_json(to.translation_url_, get_json_object_field_force(from, "translation_url")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.base_language_pack_id_, from.extract_field("base_language_pack_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.native_name_, from.extract_field("native_name")));
+  TRY_STATUS(from_json(to.plural_code_, from.extract_field("plural_code")));
+  TRY_STATUS(from_json(to.is_official_, from.extract_field("is_official")));
+  TRY_STATUS(from_json(to.is_rtl_, from.extract_field("is_rtl")));
+  TRY_STATUS(from_json(to.is_beta_, from.extract_field("is_beta")));
+  TRY_STATUS(from_json(to.is_installed_, from.extract_field("is_installed")));
+  TRY_STATUS(from_json(to.total_string_count_, from.extract_field("total_string_count")));
+  TRY_STATUS(from_json(to.translated_string_count_, from.extract_field("translated_string_count")));
+  TRY_STATUS(from_json(to.local_string_count_, from.extract_field("local_string_count")));
+  TRY_STATUS(from_json(to.translation_url_, from.extract_field("translation_url")));
   return Status::OK();
 }
 
 Status from_json(td_api::languagePackString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.key_, get_json_object_field_force(from, "key")));
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.key_, from.extract_field("key")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::languagePackStringValueOrdinary &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::languagePackStringValuePluralized &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.zero_value_, get_json_object_field_force(from, "zero_value")));
-  TRY_STATUS(from_json(to.one_value_, get_json_object_field_force(from, "one_value")));
-  TRY_STATUS(from_json(to.two_value_, get_json_object_field_force(from, "two_value")));
-  TRY_STATUS(from_json(to.few_value_, get_json_object_field_force(from, "few_value")));
-  TRY_STATUS(from_json(to.many_value_, get_json_object_field_force(from, "many_value")));
-  TRY_STATUS(from_json(to.other_value_, get_json_object_field_force(from, "other_value")));
+  TRY_STATUS(from_json(to.zero_value_, from.extract_field("zero_value")));
+  TRY_STATUS(from_json(to.one_value_, from.extract_field("one_value")));
+  TRY_STATUS(from_json(to.two_value_, from.extract_field("two_value")));
+  TRY_STATUS(from_json(to.few_value_, from.extract_field("few_value")));
+  TRY_STATUS(from_json(to.many_value_, from.extract_field("many_value")));
+  TRY_STATUS(from_json(to.other_value_, from.extract_field("other_value")));
   return Status::OK();
 }
 
@@ -3905,10 +4857,27 @@ Status from_json(td_api::languagePackStringValueDeleted &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::linkPreviewOptions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.is_disabled_, from.extract_field("is_disabled")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  TRY_STATUS(from_json(to.force_small_media_, from.extract_field("force_small_media")));
+  TRY_STATUS(from_json(to.force_large_media_, from.extract_field("force_large_media")));
+  TRY_STATUS(from_json(to.show_above_text_, from.extract_field("show_above_text")));
+  return Status::OK();
+}
+
 Status from_json(td_api::location &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.latitude_, get_json_object_field_force(from, "latitude")));
-  TRY_STATUS(from_json(to.longitude_, get_json_object_field_force(from, "longitude")));
-  TRY_STATUS(from_json(to.horizontal_accuracy_, get_json_object_field_force(from, "horizontal_accuracy")));
+  TRY_STATUS(from_json(to.latitude_, from.extract_field("latitude")));
+  TRY_STATUS(from_json(to.longitude_, from.extract_field("longitude")));
+  TRY_STATUS(from_json(to.horizontal_accuracy_, from.extract_field("horizontal_accuracy")));
+  return Status::OK();
+}
+
+Status from_json(td_api::locationAddress &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.country_code_, from.extract_field("country_code")));
+  TRY_STATUS(from_json(to.state_, from.extract_field("state")));
+  TRY_STATUS(from_json(to.city_, from.extract_field("city")));
+  TRY_STATUS(from_json(to.street_, from.extract_field("street")));
   return Status::OK();
 }
 
@@ -3917,9 +4886,9 @@ Status from_json(td_api::logStreamDefault &to, JsonObject &from) {
 }
 
 Status from_json(td_api::logStreamFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.path_, get_json_object_field_force(from, "path")));
-  TRY_STATUS(from_json(to.max_file_size_, get_json_object_field_force(from, "max_file_size")));
-  TRY_STATUS(from_json(to.redirect_stderr_, get_json_object_field_force(from, "redirect_stderr")));
+  TRY_STATUS(from_json(to.path_, from.extract_field("path")));
+  TRY_STATUS(from_json(to.max_file_size_, from.extract_field("max_file_size")));
+  TRY_STATUS(from_json(to.redirect_stderr_, from.extract_field("redirect_stderr")));
   return Status::OK();
 }
 
@@ -3944,27 +4913,28 @@ Status from_json(td_api::maskPointChin &to, JsonObject &from) {
 }
 
 Status from_json(td_api::maskPosition &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.point_, get_json_object_field_force(from, "point")));
-  TRY_STATUS(from_json(to.x_shift_, get_json_object_field_force(from, "x_shift")));
-  TRY_STATUS(from_json(to.y_shift_, get_json_object_field_force(from, "y_shift")));
-  TRY_STATUS(from_json(to.scale_, get_json_object_field_force(from, "scale")));
+  TRY_STATUS(from_json(to.point_, from.extract_field("point")));
+  TRY_STATUS(from_json(to.x_shift_, from.extract_field("x_shift")));
+  TRY_STATUS(from_json(to.y_shift_, from.extract_field("y_shift")));
+  TRY_STATUS(from_json(to.scale_, from.extract_field("scale")));
   return Status::OK();
 }
 
 Status from_json(td_api::messageAutoDeleteTime &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.time_, get_json_object_field_force(from, "time")));
+  TRY_STATUS(from_json(to.time_, from.extract_field("time")));
   return Status::OK();
 }
 
 Status from_json(td_api::messageCopyOptions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.send_copy_, get_json_object_field_force(from, "send_copy")));
-  TRY_STATUS(from_json(to.replace_caption_, get_json_object_field_force(from, "replace_caption")));
-  TRY_STATUS(from_json(to.new_caption_, get_json_object_field_force(from, "new_caption")));
+  TRY_STATUS(from_json(to.send_copy_, from.extract_field("send_copy")));
+  TRY_STATUS(from_json(to.replace_caption_, from.extract_field("replace_caption")));
+  TRY_STATUS(from_json(to.new_caption_, from.extract_field("new_caption")));
+  TRY_STATUS(from_json(to.new_show_caption_above_media_, from.extract_field("new_show_caption_above_media")));
   return Status::OK();
 }
 
 Status from_json(td_api::messageSchedulingStateSendAtDate &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.send_date_, get_json_object_field_force(from, "send_date")));
+  TRY_STATUS(from_json(to.send_date_, from.extract_field("send_date")));
   return Status::OK();
 }
 
@@ -3972,23 +4942,34 @@ Status from_json(td_api::messageSchedulingStateSendWhenOnline &to, JsonObject &f
   return Status::OK();
 }
 
+Status from_json(td_api::messageSelfDestructTypeTimer &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.self_destruct_time_, from.extract_field("self_destruct_time")));
+  return Status::OK();
+}
+
+Status from_json(td_api::messageSelfDestructTypeImmediately &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::messageSendOptions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.disable_notification_, get_json_object_field_force(from, "disable_notification")));
-  TRY_STATUS(from_json(to.from_background_, get_json_object_field_force(from, "from_background")));
-  TRY_STATUS(from_json(to.protect_content_, get_json_object_field_force(from, "protect_content")));
-  TRY_STATUS(from_json(to.update_order_of_installed_sticker_sets_, get_json_object_field_force(from, "update_order_of_installed_sticker_sets")));
-  TRY_STATUS(from_json(to.scheduling_state_, get_json_object_field_force(from, "scheduling_state")));
-  TRY_STATUS(from_json(to.sending_id_, get_json_object_field_force(from, "sending_id")));
+  TRY_STATUS(from_json(to.disable_notification_, from.extract_field("disable_notification")));
+  TRY_STATUS(from_json(to.from_background_, from.extract_field("from_background")));
+  TRY_STATUS(from_json(to.protect_content_, from.extract_field("protect_content")));
+  TRY_STATUS(from_json(to.update_order_of_installed_sticker_sets_, from.extract_field("update_order_of_installed_sticker_sets")));
+  TRY_STATUS(from_json(to.scheduling_state_, from.extract_field("scheduling_state")));
+  TRY_STATUS(from_json(to.effect_id_, from.extract_field("effect_id")));
+  TRY_STATUS(from_json(to.sending_id_, from.extract_field("sending_id")));
+  TRY_STATUS(from_json(to.only_preview_, from.extract_field("only_preview")));
   return Status::OK();
 }
 
 Status from_json(td_api::messageSenderUser &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::messageSenderChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
@@ -4024,23 +5005,27 @@ Status from_json(td_api::messageSourceNotification &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::messageSourceScreenshot &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::messageSourceOther &to, JsonObject &from) {
   return Status::OK();
 }
 
 Status from_json(td_api::networkStatisticsEntryFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_type_, get_json_object_field_force(from, "file_type")));
-  TRY_STATUS(from_json(to.network_type_, get_json_object_field_force(from, "network_type")));
-  TRY_STATUS(from_json(to.sent_bytes_, get_json_object_field_force(from, "sent_bytes")));
-  TRY_STATUS(from_json(to.received_bytes_, get_json_object_field_force(from, "received_bytes")));
+  TRY_STATUS(from_json(to.file_type_, from.extract_field("file_type")));
+  TRY_STATUS(from_json(to.network_type_, from.extract_field("network_type")));
+  TRY_STATUS(from_json(to.sent_bytes_, from.extract_field("sent_bytes")));
+  TRY_STATUS(from_json(to.received_bytes_, from.extract_field("received_bytes")));
   return Status::OK();
 }
 
 Status from_json(td_api::networkStatisticsEntryCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.network_type_, get_json_object_field_force(from, "network_type")));
-  TRY_STATUS(from_json(to.sent_bytes_, get_json_object_field_force(from, "sent_bytes")));
-  TRY_STATUS(from_json(to.received_bytes_, get_json_object_field_force(from, "received_bytes")));
-  TRY_STATUS(from_json(to.duration_, get_json_object_field_force(from, "duration")));
+  TRY_STATUS(from_json(to.network_type_, from.extract_field("network_type")));
+  TRY_STATUS(from_json(to.sent_bytes_, from.extract_field("sent_bytes")));
+  TRY_STATUS(from_json(to.received_bytes_, from.extract_field("received_bytes")));
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
   return Status::OK();
 }
 
@@ -4064,6 +5049,11 @@ Status from_json(td_api::networkTypeOther &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::newChatPrivacySettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.allow_new_chats_from_unknown_users_, from.extract_field("allow_new_chats_from_unknown_users")));
+  return Status::OK();
+}
+
 Status from_json(td_api::notificationSettingsScopePrivateChats &to, JsonObject &from) {
   return Status::OK();
 }
@@ -4077,7 +5067,7 @@ Status from_json(td_api::notificationSettingsScopeChannelChats &to, JsonObject &
 }
 
 Status from_json(td_api::optionValueBoolean &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
@@ -4086,20 +5076,20 @@ Status from_json(td_api::optionValueEmpty &to, JsonObject &from) {
 }
 
 Status from_json(td_api::optionValueInteger &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::optionValueString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::orderInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
-  TRY_STATUS(from_json(to.email_address_, get_json_object_field_force(from, "email_address")));
-  TRY_STATUS(from_json(to.shipping_address_, get_json_object_field_force(from, "shipping_address")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
+  TRY_STATUS(from_json(to.email_address_, from.extract_field("email_address")));
+  TRY_STATUS(from_json(to.shipping_address_, from.extract_field("shipping_address")));
   return Status::OK();
 }
 
@@ -4156,37 +5146,51 @@ Status from_json(td_api::passportElementTypeEmailAddress &to, JsonObject &from) 
 }
 
 Status from_json(td_api::personalDetails &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.first_name_, get_json_object_field_force(from, "first_name")));
-  TRY_STATUS(from_json(to.middle_name_, get_json_object_field_force(from, "middle_name")));
-  TRY_STATUS(from_json(to.last_name_, get_json_object_field_force(from, "last_name")));
-  TRY_STATUS(from_json(to.native_first_name_, get_json_object_field_force(from, "native_first_name")));
-  TRY_STATUS(from_json(to.native_middle_name_, get_json_object_field_force(from, "native_middle_name")));
-  TRY_STATUS(from_json(to.native_last_name_, get_json_object_field_force(from, "native_last_name")));
-  TRY_STATUS(from_json(to.birthdate_, get_json_object_field_force(from, "birthdate")));
-  TRY_STATUS(from_json(to.gender_, get_json_object_field_force(from, "gender")));
-  TRY_STATUS(from_json(to.country_code_, get_json_object_field_force(from, "country_code")));
-  TRY_STATUS(from_json(to.residence_country_code_, get_json_object_field_force(from, "residence_country_code")));
+  TRY_STATUS(from_json(to.first_name_, from.extract_field("first_name")));
+  TRY_STATUS(from_json(to.middle_name_, from.extract_field("middle_name")));
+  TRY_STATUS(from_json(to.last_name_, from.extract_field("last_name")));
+  TRY_STATUS(from_json(to.native_first_name_, from.extract_field("native_first_name")));
+  TRY_STATUS(from_json(to.native_middle_name_, from.extract_field("native_middle_name")));
+  TRY_STATUS(from_json(to.native_last_name_, from.extract_field("native_last_name")));
+  TRY_STATUS(from_json(to.birthdate_, from.extract_field("birthdate")));
+  TRY_STATUS(from_json(to.gender_, from.extract_field("gender")));
+  TRY_STATUS(from_json(to.country_code_, from.extract_field("country_code")));
+  TRY_STATUS(from_json(to.residence_country_code_, from.extract_field("residence_country_code")));
   return Status::OK();
 }
 
 Status from_json(td_api::phoneNumberAuthenticationSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.allow_flash_call_, get_json_object_field_force(from, "allow_flash_call")));
-  TRY_STATUS(from_json(to.allow_missed_call_, get_json_object_field_force(from, "allow_missed_call")));
-  TRY_STATUS(from_json(to.is_current_phone_number_, get_json_object_field_force(from, "is_current_phone_number")));
-  TRY_STATUS(from_json(to.allow_sms_retriever_api_, get_json_object_field_force(from, "allow_sms_retriever_api")));
-  TRY_STATUS(from_json(to.firebase_authentication_settings_, get_json_object_field_force(from, "firebase_authentication_settings")));
-  TRY_STATUS(from_json(to.authentication_tokens_, get_json_object_field_force(from, "authentication_tokens")));
+  TRY_STATUS(from_json(to.allow_flash_call_, from.extract_field("allow_flash_call")));
+  TRY_STATUS(from_json(to.allow_missed_call_, from.extract_field("allow_missed_call")));
+  TRY_STATUS(from_json(to.is_current_phone_number_, from.extract_field("is_current_phone_number")));
+  TRY_STATUS(from_json(to.has_unknown_phone_number_, from.extract_field("has_unknown_phone_number")));
+  TRY_STATUS(from_json(to.allow_sms_retriever_api_, from.extract_field("allow_sms_retriever_api")));
+  TRY_STATUS(from_json(to.firebase_authentication_settings_, from.extract_field("firebase_authentication_settings")));
+  TRY_STATUS(from_json(to.authentication_tokens_, from.extract_field("authentication_tokens")));
+  return Status::OK();
+}
+
+Status from_json(td_api::phoneNumberCodeTypeChange &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::phoneNumberCodeTypeVerify &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::phoneNumberCodeTypeConfirmOwnership &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.hash_, from.extract_field("hash")));
   return Status::OK();
 }
 
 Status from_json(td_api::pollTypeRegular &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.allow_multiple_answers_, get_json_object_field_force(from, "allow_multiple_answers")));
+  TRY_STATUS(from_json(to.allow_multiple_answers_, from.extract_field("allow_multiple_answers")));
   return Status::OK();
 }
 
 Status from_json(td_api::pollTypeQuiz &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.correct_option_id_, get_json_object_field_force(from, "correct_option_id")));
-  TRY_STATUS(from_json(to.explanation_, get_json_object_field_force(from, "explanation")));
+  TRY_STATUS(from_json(to.correct_option_id_, from.extract_field("correct_option_id")));
+  TRY_STATUS(from_json(to.explanation_, from.extract_field("explanation")));
   return Status::OK();
 }
 
@@ -4250,6 +5254,42 @@ Status from_json(td_api::premiumFeatureRealTimeChatTranslation &to, JsonObject &
   return Status::OK();
 }
 
+Status from_json(td_api::premiumFeatureUpgradedStories &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumFeatureChatBoost &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumFeatureAccentColor &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumFeatureBackgroundForBoth &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumFeatureSavedMessagesTags &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumFeatureMessagePrivacy &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumFeatureLastSeenTimes &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumFeatureBusiness &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumFeatureMessageEffects &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::premiumLimitTypeSupergroupCount &to, JsonObject &from) {
   return Status::OK();
 }
@@ -4282,6 +5322,10 @@ Status from_json(td_api::premiumLimitTypePinnedArchivedChatCount &to, JsonObject
   return Status::OK();
 }
 
+Status from_json(td_api::premiumLimitTypePinnedSavedMessagesTopicCount &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::premiumLimitTypeCaptionLength &to, JsonObject &from) {
   return Status::OK();
 }
@@ -4298,18 +5342,52 @@ Status from_json(td_api::premiumLimitTypeShareableChatFolderCount &to, JsonObjec
   return Status::OK();
 }
 
+Status from_json(td_api::premiumLimitTypeActiveStoryCount &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumLimitTypeWeeklySentStoryCount &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumLimitTypeMonthlySentStoryCount &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumLimitTypeStoryCaptionLength &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumLimitTypeStorySuggestedReactionAreaCount &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumLimitTypeSimilarChatCount &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::premiumSourceLimitExceeded &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.limit_type_, get_json_object_field_force(from, "limit_type")));
+  TRY_STATUS(from_json(to.limit_type_, from.extract_field("limit_type")));
   return Status::OK();
 }
 
 Status from_json(td_api::premiumSourceFeature &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.feature_, get_json_object_field_force(from, "feature")));
+  TRY_STATUS(from_json(to.feature_, from.extract_field("feature")));
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumSourceBusinessFeature &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.feature_, from.extract_field("feature")));
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumSourceStoryFeature &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.feature_, from.extract_field("feature")));
   return Status::OK();
 }
 
 Status from_json(td_api::premiumSourceLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.referrer_, get_json_object_field_force(from, "referrer")));
+  TRY_STATUS(from_json(to.referrer_, from.extract_field("referrer")));
   return Status::OK();
 }
 
@@ -4317,21 +5395,49 @@ Status from_json(td_api::premiumSourceSettings &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::premiumStoryFeaturePriorityOrder &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumStoryFeatureStealthMode &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumStoryFeaturePermanentViewsHistory &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumStoryFeatureCustomExpirationDuration &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumStoryFeatureSaveStories &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumStoryFeatureLinksAndFormatting &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::premiumStoryFeatureVideoQuality &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::proxyTypeSocks5 &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::proxyTypeHttp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
-  TRY_STATUS(from_json(to.http_only_, get_json_object_field_force(from, "http_only")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
+  TRY_STATUS(from_json(to.http_only_, from.extract_field("http_only")));
   return Status::OK();
 }
 
 Status from_json(td_api::proxyTypeMtproto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.secret_, get_json_object_field_force(from, "secret")));
+  TRY_STATUS(from_json(to.secret_, from.extract_field("secret")));
   return Status::OK();
 }
 
@@ -4343,55 +5449,137 @@ Status from_json(td_api::publicChatTypeIsLocationBased &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::reactionNotificationSettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.message_reaction_source_, from.extract_field("message_reaction_source")));
+  TRY_STATUS(from_json(to.story_reaction_source_, from.extract_field("story_reaction_source")));
+  TRY_STATUS(from_json(to.sound_id_, from.extract_field("sound_id")));
+  TRY_STATUS(from_json(to.show_preview_, from.extract_field("show_preview")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reactionNotificationSourceNone &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reactionNotificationSourceContacts &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reactionNotificationSourceAll &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::reactionTypeEmoji &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.emoji_, get_json_object_field_force(from, "emoji")));
+  TRY_STATUS(from_json(to.emoji_, from.extract_field("emoji")));
   return Status::OK();
 }
 
 Status from_json(td_api::reactionTypeCustomEmoji &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.custom_emoji_id_, get_json_object_field_force(from, "custom_emoji_id")));
+  TRY_STATUS(from_json(to.custom_emoji_id_, from.extract_field("custom_emoji_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reactionTypePaid &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::readDatePrivacySettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.show_read_date_, from.extract_field("show_read_date")));
   return Status::OK();
 }
 
 Status from_json(td_api::replyMarkupRemoveKeyboard &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_personal_, get_json_object_field_force(from, "is_personal")));
+  TRY_STATUS(from_json(to.is_personal_, from.extract_field("is_personal")));
   return Status::OK();
 }
 
 Status from_json(td_api::replyMarkupForceReply &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_personal_, get_json_object_field_force(from, "is_personal")));
-  TRY_STATUS(from_json(to.input_field_placeholder_, get_json_object_field_force(from, "input_field_placeholder")));
+  TRY_STATUS(from_json(to.is_personal_, from.extract_field("is_personal")));
+  TRY_STATUS(from_json(to.input_field_placeholder_, from.extract_field("input_field_placeholder")));
   return Status::OK();
 }
 
 Status from_json(td_api::replyMarkupShowKeyboard &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.rows_, get_json_object_field_force(from, "rows")));
-  TRY_STATUS(from_json(to.is_persistent_, get_json_object_field_force(from, "is_persistent")));
-  TRY_STATUS(from_json(to.resize_keyboard_, get_json_object_field_force(from, "resize_keyboard")));
-  TRY_STATUS(from_json(to.one_time_, get_json_object_field_force(from, "one_time")));
-  TRY_STATUS(from_json(to.is_personal_, get_json_object_field_force(from, "is_personal")));
-  TRY_STATUS(from_json(to.input_field_placeholder_, get_json_object_field_force(from, "input_field_placeholder")));
+  TRY_STATUS(from_json(to.rows_, from.extract_field("rows")));
+  TRY_STATUS(from_json(to.is_persistent_, from.extract_field("is_persistent")));
+  TRY_STATUS(from_json(to.resize_keyboard_, from.extract_field("resize_keyboard")));
+  TRY_STATUS(from_json(to.one_time_, from.extract_field("one_time")));
+  TRY_STATUS(from_json(to.is_personal_, from.extract_field("is_personal")));
+  TRY_STATUS(from_json(to.input_field_placeholder_, from.extract_field("input_field_placeholder")));
   return Status::OK();
 }
 
 Status from_json(td_api::replyMarkupInlineKeyboard &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.rows_, get_json_object_field_force(from, "rows")));
+  TRY_STATUS(from_json(to.rows_, from.extract_field("rows")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonSpam &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonViolence &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonPornography &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonChildAbuse &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonCopyright &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonUnrelatedLocation &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonFake &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonIllegalDrugs &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonPersonalDetails &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::reportReasonCustom &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::resendCodeReasonUserRequest &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::resendCodeReasonVerificationFailed &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.error_message_, from.extract_field("error_message")));
   return Status::OK();
 }
 
 Status from_json(td_api::scopeAutosaveSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.autosave_photos_, get_json_object_field_force(from, "autosave_photos")));
-  TRY_STATUS(from_json(to.autosave_videos_, get_json_object_field_force(from, "autosave_videos")));
-  TRY_STATUS(from_json(to.max_video_file_size_, get_json_object_field_force(from, "max_video_file_size")));
+  TRY_STATUS(from_json(to.autosave_photos_, from.extract_field("autosave_photos")));
+  TRY_STATUS(from_json(to.autosave_videos_, from.extract_field("autosave_videos")));
+  TRY_STATUS(from_json(to.max_video_file_size_, from.extract_field("max_video_file_size")));
   return Status::OK();
 }
 
 Status from_json(td_api::scopeNotificationSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.mute_for_, get_json_object_field_force(from, "mute_for")));
-  TRY_STATUS(from_json(to.sound_id_, get_json_object_field_force(from, "sound_id")));
-  TRY_STATUS(from_json(to.show_preview_, get_json_object_field_force(from, "show_preview")));
-  TRY_STATUS(from_json(to.disable_pinned_message_notifications_, get_json_object_field_force(from, "disable_pinned_message_notifications")));
-  TRY_STATUS(from_json(to.disable_mention_notifications_, get_json_object_field_force(from, "disable_mention_notifications")));
+  TRY_STATUS(from_json(to.mute_for_, from.extract_field("mute_for")));
+  TRY_STATUS(from_json(to.sound_id_, from.extract_field("sound_id")));
+  TRY_STATUS(from_json(to.show_preview_, from.extract_field("show_preview")));
+  TRY_STATUS(from_json(to.use_default_mute_stories_, from.extract_field("use_default_mute_stories")));
+  TRY_STATUS(from_json(to.mute_stories_, from.extract_field("mute_stories")));
+  TRY_STATUS(from_json(to.story_sound_id_, from.extract_field("story_sound_id")));
+  TRY_STATUS(from_json(to.show_story_sender_, from.extract_field("show_story_sender")));
+  TRY_STATUS(from_json(to.disable_pinned_message_notifications_, from.extract_field("disable_pinned_message_notifications")));
+  TRY_STATUS(from_json(to.disable_mention_notifications_, from.extract_field("disable_mention_notifications")));
   return Status::OK();
 }
 
@@ -4464,9 +5652,23 @@ Status from_json(td_api::searchMessagesFilterPinned &to, JsonObject &from) {
 }
 
 Status from_json(td_api::shippingOption &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.price_parts_, get_json_object_field_force(from, "price_parts")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.price_parts_, from.extract_field("price_parts")));
+  return Status::OK();
+}
+
+Status from_json(td_api::starSubscriptionPricing &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.period_, from.extract_field("period")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::starTransactionDirectionIncoming &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::starTransactionDirectionOutgoing &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -4495,15 +5697,97 @@ Status from_json(td_api::stickerTypeCustomEmoji &to, JsonObject &from) {
 }
 
 Status from_json(td_api::storePaymentPurposePremiumSubscription &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_restore_, get_json_object_field_force(from, "is_restore")));
-  TRY_STATUS(from_json(to.is_upgrade_, get_json_object_field_force(from, "is_upgrade")));
+  TRY_STATUS(from_json(to.is_restore_, from.extract_field("is_restore")));
+  TRY_STATUS(from_json(to.is_upgrade_, from.extract_field("is_upgrade")));
   return Status::OK();
 }
 
 Status from_json(td_api::storePaymentPurposeGiftedPremium &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.currency_, get_json_object_field_force(from, "currency")));
-  TRY_STATUS(from_json(to.amount_, get_json_object_field_force(from, "amount")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storePaymentPurposePremiumGiftCodes &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.boosted_chat_id_, from.extract_field("boosted_chat_id")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storePaymentPurposePremiumGiveaway &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.parameters_, from.extract_field("parameters")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storePaymentPurposeStarGiveaway &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.parameters_, from.extract_field("parameters")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.winner_count_, from.extract_field("winner_count")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storePaymentPurposeStars &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storePaymentPurposeGiftedStars &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storyAreaPosition &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.x_percentage_, from.extract_field("x_percentage")));
+  TRY_STATUS(from_json(to.y_percentage_, from.extract_field("y_percentage")));
+  TRY_STATUS(from_json(to.width_percentage_, from.extract_field("width_percentage")));
+  TRY_STATUS(from_json(to.height_percentage_, from.extract_field("height_percentage")));
+  TRY_STATUS(from_json(to.rotation_angle_, from.extract_field("rotation_angle")));
+  TRY_STATUS(from_json(to.corner_radius_percentage_, from.extract_field("corner_radius_percentage")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storyFullId &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.sender_chat_id_, from.extract_field("sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storyListMain &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::storyListArchive &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::storyPrivacySettingsEveryone &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.except_user_ids_, from.extract_field("except_user_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storyPrivacySettingsContacts &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.except_user_ids_, from.extract_field("except_user_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::storyPrivacySettingsCloseFriends &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::storyPrivacySettingsSelectedUsers &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
   return Status::OK();
 }
 
@@ -4524,12 +5808,12 @@ Status from_json(td_api::suggestedActionViewChecksHint &to, JsonObject &from) {
 }
 
 Status from_json(td_api::suggestedActionConvertToBroadcastGroup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::suggestedActionSetPassword &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.authorization_delay_, get_json_object_field_force(from, "authorization_delay")));
+  TRY_STATUS(from_json(to.authorization_delay_, from.extract_field("authorization_delay")));
   return Status::OK();
 }
 
@@ -4537,7 +5821,28 @@ Status from_json(td_api::suggestedActionUpgradePremium &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::suggestedActionRestorePremium &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::suggestedActionSubscribeToAnnualPremium &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::suggestedActionGiftPremiumForChristmas &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::suggestedActionSetBirthdate &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::suggestedActionExtendPremium &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.manage_premium_subscription_url_, from.extract_field("manage_premium_subscription_url")));
+  return Status::OK();
+}
+
+Status from_json(td_api::suggestedActionExtendStarSubscriptions &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -4546,7 +5851,7 @@ Status from_json(td_api::supergroupMembersFilterRecent &to, JsonObject &from) {
 }
 
 Status from_json(td_api::supergroupMembersFilterContacts &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
   return Status::OK();
 }
 
@@ -4555,23 +5860,23 @@ Status from_json(td_api::supergroupMembersFilterAdministrators &to, JsonObject &
 }
 
 Status from_json(td_api::supergroupMembersFilterSearch &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
   return Status::OK();
 }
 
 Status from_json(td_api::supergroupMembersFilterRestricted &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
   return Status::OK();
 }
 
 Status from_json(td_api::supergroupMembersFilterBanned &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
   return Status::OK();
 }
 
 Status from_json(td_api::supergroupMembersFilterMention &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
   return Status::OK();
 }
 
@@ -4584,32 +5889,79 @@ Status from_json(td_api::targetChatCurrent &to, JsonObject &from) {
 }
 
 Status from_json(td_api::targetChatChosen &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.allow_user_chats_, get_json_object_field_force(from, "allow_user_chats")));
-  TRY_STATUS(from_json(to.allow_bot_chats_, get_json_object_field_force(from, "allow_bot_chats")));
-  TRY_STATUS(from_json(to.allow_group_chats_, get_json_object_field_force(from, "allow_group_chats")));
-  TRY_STATUS(from_json(to.allow_channel_chats_, get_json_object_field_force(from, "allow_channel_chats")));
+  TRY_STATUS(from_json(to.allow_user_chats_, from.extract_field("allow_user_chats")));
+  TRY_STATUS(from_json(to.allow_bot_chats_, from.extract_field("allow_bot_chats")));
+  TRY_STATUS(from_json(to.allow_group_chats_, from.extract_field("allow_group_chats")));
+  TRY_STATUS(from_json(to.allow_channel_chats_, from.extract_field("allow_channel_chats")));
   return Status::OK();
 }
 
 Status from_json(td_api::targetChatInternalLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.link_, get_json_object_field_force(from, "link")));
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
+  return Status::OK();
+}
+
+Status from_json(td_api::telegramPaymentPurposePremiumGiftCodes &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.boosted_chat_id_, from.extract_field("boosted_chat_id")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
+  TRY_STATUS(from_json(to.month_count_, from.extract_field("month_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::telegramPaymentPurposePremiumGiveaway &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.parameters_, from.extract_field("parameters")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.winner_count_, from.extract_field("winner_count")));
+  TRY_STATUS(from_json(to.month_count_, from.extract_field("month_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::telegramPaymentPurposeStars &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::telegramPaymentPurposeGiftedStars &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::telegramPaymentPurposeStarGiveaway &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.parameters_, from.extract_field("parameters")));
+  TRY_STATUS(from_json(to.currency_, from.extract_field("currency")));
+  TRY_STATUS(from_json(to.amount_, from.extract_field("amount")));
+  TRY_STATUS(from_json(to.winner_count_, from.extract_field("winner_count")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::telegramPaymentPurposeJoinChat &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::testInt &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::testString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::textEntity &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.length_, get_json_object_field_force(from, "length")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.length_, from.extract_field("length")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
@@ -4674,32 +6026,40 @@ Status from_json(td_api::textEntityTypePre &to, JsonObject &from) {
 }
 
 Status from_json(td_api::textEntityTypePreCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_, get_json_object_field_force(from, "language")));
+  TRY_STATUS(from_json(to.language_, from.extract_field("language")));
+  return Status::OK();
+}
+
+Status from_json(td_api::textEntityTypeBlockQuote &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::textEntityTypeExpandableBlockQuote &to, JsonObject &from) {
   return Status::OK();
 }
 
 Status from_json(td_api::textEntityTypeTextUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
   return Status::OK();
 }
 
 Status from_json(td_api::textEntityTypeMentionName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::textEntityTypeCustomEmoji &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.custom_emoji_id_, get_json_object_field_force(from, "custom_emoji_id")));
+  TRY_STATUS(from_json(to.custom_emoji_id_, from.extract_field("custom_emoji_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::textEntityTypeMediaTimestamp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.media_timestamp_, get_json_object_field_force(from, "media_timestamp")));
+  TRY_STATUS(from_json(to.media_timestamp_, from.extract_field("media_timestamp")));
   return Status::OK();
 }
 
 Status from_json(td_api::textParseModeMarkdown &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.version_, get_json_object_field_force(from, "version")));
+  TRY_STATUS(from_json(to.version_, from.extract_field("version")));
   return Status::OK();
 }
 
@@ -4708,13 +6068,21 @@ Status from_json(td_api::textParseModeHTML &to, JsonObject &from) {
 }
 
 Status from_json(td_api::themeParameters &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.background_color_, get_json_object_field_force(from, "background_color")));
-  TRY_STATUS(from_json(to.secondary_background_color_, get_json_object_field_force(from, "secondary_background_color")));
-  TRY_STATUS(from_json(to.text_color_, get_json_object_field_force(from, "text_color")));
-  TRY_STATUS(from_json(to.hint_color_, get_json_object_field_force(from, "hint_color")));
-  TRY_STATUS(from_json(to.link_color_, get_json_object_field_force(from, "link_color")));
-  TRY_STATUS(from_json(to.button_color_, get_json_object_field_force(from, "button_color")));
-  TRY_STATUS(from_json(to.button_text_color_, get_json_object_field_force(from, "button_text_color")));
+  TRY_STATUS(from_json(to.background_color_, from.extract_field("background_color")));
+  TRY_STATUS(from_json(to.secondary_background_color_, from.extract_field("secondary_background_color")));
+  TRY_STATUS(from_json(to.header_background_color_, from.extract_field("header_background_color")));
+  TRY_STATUS(from_json(to.bottom_bar_background_color_, from.extract_field("bottom_bar_background_color")));
+  TRY_STATUS(from_json(to.section_background_color_, from.extract_field("section_background_color")));
+  TRY_STATUS(from_json(to.section_separator_color_, from.extract_field("section_separator_color")));
+  TRY_STATUS(from_json(to.text_color_, from.extract_field("text_color")));
+  TRY_STATUS(from_json(to.accent_text_color_, from.extract_field("accent_text_color")));
+  TRY_STATUS(from_json(to.section_header_text_color_, from.extract_field("section_header_text_color")));
+  TRY_STATUS(from_json(to.subtitle_text_color_, from.extract_field("subtitle_text_color")));
+  TRY_STATUS(from_json(to.destructive_text_color_, from.extract_field("destructive_text_color")));
+  TRY_STATUS(from_json(to.hint_color_, from.extract_field("hint_color")));
+  TRY_STATUS(from_json(to.link_color_, from.extract_field("link_color")));
+  TRY_STATUS(from_json(to.button_color_, from.extract_field("button_color")));
+  TRY_STATUS(from_json(to.button_text_color_, from.extract_field("button_text_color")));
   return Status::OK();
 }
 
@@ -4735,6 +6103,10 @@ Status from_json(td_api::topChatCategoryChannels &to, JsonObject &from) {
 }
 
 Status from_json(td_api::topChatCategoryInlineBots &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::topChatCategoryWebAppBots &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -4759,6 +6131,14 @@ Status from_json(td_api::userPrivacySettingShowLinkInForwardedMessages &to, Json
 }
 
 Status from_json(td_api::userPrivacySettingShowPhoneNumber &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::userPrivacySettingShowBio &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::userPrivacySettingShowBirthdate &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -4790,13 +6170,17 @@ Status from_json(td_api::userPrivacySettingRuleAllowContacts &to, JsonObject &fr
   return Status::OK();
 }
 
+Status from_json(td_api::userPrivacySettingRuleAllowPremiumUsers &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::userPrivacySettingRuleAllowUsers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_ids_, get_json_object_field_force(from, "user_ids")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::userPrivacySettingRuleAllowChatMembers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_ids_, get_json_object_field_force(from, "chat_ids")));
+  TRY_STATUS(from_json(to.chat_ids_, from.extract_field("chat_ids")));
   return Status::OK();
 }
 
@@ -4809,236 +6193,306 @@ Status from_json(td_api::userPrivacySettingRuleRestrictContacts &to, JsonObject 
 }
 
 Status from_json(td_api::userPrivacySettingRuleRestrictUsers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_ids_, get_json_object_field_force(from, "user_ids")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::userPrivacySettingRuleRestrictChatMembers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_ids_, get_json_object_field_force(from, "chat_ids")));
+  TRY_STATUS(from_json(to.chat_ids_, from.extract_field("chat_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::userPrivacySettingRules &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.rules_, get_json_object_field_force(from, "rules")));
+  TRY_STATUS(from_json(to.rules_, from.extract_field("rules")));
   return Status::OK();
 }
 
 Status from_json(td_api::venue &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.address_, get_json_object_field_force(from, "address")));
-  TRY_STATUS(from_json(to.provider_, get_json_object_field_force(from, "provider")));
-  TRY_STATUS(from_json(to.id_, get_json_object_field_force(from, "id")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.address_, from.extract_field("address")));
+  TRY_STATUS(from_json(to.provider_, from.extract_field("provider")));
+  TRY_STATUS(from_json(to.id_, from.extract_field("id")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::acceptCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.call_id_, get_json_object_field_force(from, "call_id")));
-  TRY_STATUS(from_json(to.protocol_, get_json_object_field_force(from, "protocol")));
+  TRY_STATUS(from_json(to.call_id_, from.extract_field("call_id")));
+  TRY_STATUS(from_json(to.protocol_, from.extract_field("protocol")));
   return Status::OK();
 }
 
 Status from_json(td_api::acceptTermsOfService &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.terms_of_service_id_, get_json_object_field_force(from, "terms_of_service_id")));
+  TRY_STATUS(from_json(to.terms_of_service_id_, from.extract_field("terms_of_service_id")));
   return Status::OK();
 }
 
-Status from_json(td_api::addApplicationChangelog &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.previous_application_version_, get_json_object_field_force(from, "previous_application_version")));
+Status from_json(td_api::activateStoryStealthMode &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::addBotMediaPreview &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.content_, from.extract_field("content")));
   return Status::OK();
 }
 
 Status from_json(td_api::addChatFolderByInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
-  TRY_STATUS(from_json(to.chat_ids_, get_json_object_field_force(from, "chat_ids")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
+  TRY_STATUS(from_json(to.chat_ids_, from.extract_field("chat_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::addChatMember &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.forward_limit_, get_json_object_field_force(from, "forward_limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.forward_limit_, from.extract_field("forward_limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::addChatMembers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.user_ids_, get_json_object_field_force(from, "user_ids")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::addChatToList &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.chat_list_, get_json_object_field_force(from, "chat_list")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.chat_list_, from.extract_field("chat_list")));
   return Status::OK();
 }
 
 Status from_json(td_api::addContact &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.contact_, get_json_object_field_force(from, "contact")));
-  TRY_STATUS(from_json(to.share_phone_number_, get_json_object_field_force(from, "share_phone_number")));
+  TRY_STATUS(from_json(to.contact_, from.extract_field("contact")));
+  TRY_STATUS(from_json(to.share_phone_number_, from.extract_field("share_phone_number")));
   return Status::OK();
 }
 
 Status from_json(td_api::addCustomServerLanguagePack &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_pack_id_, get_json_object_field_force(from, "language_pack_id")));
+  TRY_STATUS(from_json(to.language_pack_id_, from.extract_field("language_pack_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::addFavoriteSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::addFileToDownloads &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.priority_, get_json_object_field_force(from, "priority")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.priority_, from.extract_field("priority")));
   return Status::OK();
 }
 
 Status from_json(td_api::addLocalMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.sender_id_, get_json_object_field_force(from, "sender_id")));
-  TRY_STATUS(from_json(to.reply_to_message_id_, get_json_object_field_force(from, "reply_to_message_id")));
-  TRY_STATUS(from_json(to.disable_notification_, get_json_object_field_force(from, "disable_notification")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.sender_id_, from.extract_field("sender_id")));
+  TRY_STATUS(from_json(to.reply_to_, from.extract_field("reply_to")));
+  TRY_STATUS(from_json(to.disable_notification_, from.extract_field("disable_notification")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::addLogMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.verbosity_level_, get_json_object_field_force(from, "verbosity_level")));
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
+  TRY_STATUS(from_json(to.verbosity_level_, from.extract_field("verbosity_level")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
   return Status::OK();
 }
 
 Status from_json(td_api::addMessageReaction &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reaction_type_, get_json_object_field_force(from, "reaction_type")));
-  TRY_STATUS(from_json(to.is_big_, get_json_object_field_force(from, "is_big")));
-  TRY_STATUS(from_json(to.update_recent_reactions_, get_json_object_field_force(from, "update_recent_reactions")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reaction_type_, from.extract_field("reaction_type")));
+  TRY_STATUS(from_json(to.is_big_, from.extract_field("is_big")));
+  TRY_STATUS(from_json(to.update_recent_reactions_, from.extract_field("update_recent_reactions")));
   return Status::OK();
 }
 
 Status from_json(td_api::addNetworkStatistics &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.entry_, get_json_object_field_force(from, "entry")));
+  TRY_STATUS(from_json(to.entry_, from.extract_field("entry")));
+  return Status::OK();
+}
+
+Status from_json(td_api::addPendingPaidMessageReaction &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  TRY_STATUS(from_json(to.use_default_is_anonymous_, from.extract_field("use_default_is_anonymous")));
+  TRY_STATUS(from_json(to.is_anonymous_, from.extract_field("is_anonymous")));
   return Status::OK();
 }
 
 Status from_json(td_api::addProxy &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.server_, get_json_object_field_force(from, "server")));
-  TRY_STATUS(from_json(to.port_, get_json_object_field_force(from, "port")));
-  TRY_STATUS(from_json(to.enable_, get_json_object_field_force(from, "enable")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.server_, from.extract_field("server")));
+  TRY_STATUS(from_json(to.port_, from.extract_field("port")));
+  TRY_STATUS(from_json(to.enable_, from.extract_field("enable")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  return Status::OK();
+}
+
+Status from_json(td_api::addQuickReplyShortcutInlineQueryResultMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_name_, from.extract_field("shortcut_name")));
+  TRY_STATUS(from_json(to.reply_to_message_id_, from.extract_field("reply_to_message_id")));
+  TRY_STATUS(from_json(to.query_id_, from.extract_field("query_id")));
+  TRY_STATUS(from_json(to.result_id_, from.extract_field("result_id")));
+  TRY_STATUS(from_json(to.hide_via_bot_, from.extract_field("hide_via_bot")));
+  return Status::OK();
+}
+
+Status from_json(td_api::addQuickReplyShortcutMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_name_, from.extract_field("shortcut_name")));
+  TRY_STATUS(from_json(to.reply_to_message_id_, from.extract_field("reply_to_message_id")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
+  return Status::OK();
+}
+
+Status from_json(td_api::addQuickReplyShortcutMessageAlbum &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_name_, from.extract_field("shortcut_name")));
+  TRY_STATUS(from_json(to.reply_to_message_id_, from.extract_field("reply_to_message_id")));
+  TRY_STATUS(from_json(to.input_message_contents_, from.extract_field("input_message_contents")));
   return Status::OK();
 }
 
 Status from_json(td_api::addRecentSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_attached_, get_json_object_field_force(from, "is_attached")));
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.is_attached_, from.extract_field("is_attached")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::addRecentlyFoundChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::addSavedAnimation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.animation_, get_json_object_field_force(from, "animation")));
+  TRY_STATUS(from_json(to.animation_, from.extract_field("animation")));
   return Status::OK();
 }
 
 Status from_json(td_api::addSavedNotificationSound &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sound_, get_json_object_field_force(from, "sound")));
+  TRY_STATUS(from_json(to.sound_, from.extract_field("sound")));
   return Status::OK();
 }
 
 Status from_json(td_api::addStickerToSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
+  return Status::OK();
+}
+
+Status from_json(td_api::allowBotToSendMessages &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::answerCallbackQuery &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.callback_query_id_, get_json_object_field_force(from, "callback_query_id")));
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.show_alert_, get_json_object_field_force(from, "show_alert")));
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
-  TRY_STATUS(from_json(to.cache_time_, get_json_object_field_force(from, "cache_time")));
+  TRY_STATUS(from_json(to.callback_query_id_, from.extract_field("callback_query_id")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.show_alert_, from.extract_field("show_alert")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  TRY_STATUS(from_json(to.cache_time_, from.extract_field("cache_time")));
   return Status::OK();
 }
 
 Status from_json(td_api::answerCustomQuery &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.custom_query_id_, get_json_object_field_force(from, "custom_query_id")));
-  TRY_STATUS(from_json(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json(to.custom_query_id_, from.extract_field("custom_query_id")));
+  TRY_STATUS(from_json(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
 Status from_json(td_api::answerInlineQuery &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inline_query_id_, get_json_object_field_force(from, "inline_query_id")));
-  TRY_STATUS(from_json(to.is_personal_, get_json_object_field_force(from, "is_personal")));
-  TRY_STATUS(from_json(to.button_, get_json_object_field_force(from, "button")));
-  TRY_STATUS(from_json(to.results_, get_json_object_field_force(from, "results")));
-  TRY_STATUS(from_json(to.cache_time_, get_json_object_field_force(from, "cache_time")));
-  TRY_STATUS(from_json(to.next_offset_, get_json_object_field_force(from, "next_offset")));
+  TRY_STATUS(from_json(to.inline_query_id_, from.extract_field("inline_query_id")));
+  TRY_STATUS(from_json(to.is_personal_, from.extract_field("is_personal")));
+  TRY_STATUS(from_json(to.button_, from.extract_field("button")));
+  TRY_STATUS(from_json(to.results_, from.extract_field("results")));
+  TRY_STATUS(from_json(to.cache_time_, from.extract_field("cache_time")));
+  TRY_STATUS(from_json(to.next_offset_, from.extract_field("next_offset")));
   return Status::OK();
 }
 
 Status from_json(td_api::answerPreCheckoutQuery &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.pre_checkout_query_id_, get_json_object_field_force(from, "pre_checkout_query_id")));
-  TRY_STATUS(from_json(to.error_message_, get_json_object_field_force(from, "error_message")));
+  TRY_STATUS(from_json(to.pre_checkout_query_id_, from.extract_field("pre_checkout_query_id")));
+  TRY_STATUS(from_json(to.error_message_, from.extract_field("error_message")));
   return Status::OK();
 }
 
 Status from_json(td_api::answerShippingQuery &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.shipping_query_id_, get_json_object_field_force(from, "shipping_query_id")));
-  TRY_STATUS(from_json(to.shipping_options_, get_json_object_field_force(from, "shipping_options")));
-  TRY_STATUS(from_json(to.error_message_, get_json_object_field_force(from, "error_message")));
+  TRY_STATUS(from_json(to.shipping_query_id_, from.extract_field("shipping_query_id")));
+  TRY_STATUS(from_json(to.shipping_options_, from.extract_field("shipping_options")));
+  TRY_STATUS(from_json(to.error_message_, from.extract_field("error_message")));
   return Status::OK();
 }
 
 Status from_json(td_api::answerWebAppQuery &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.web_app_query_id_, get_json_object_field_force(from, "web_app_query_id")));
-  TRY_STATUS(from_json(to.result_, get_json_object_field_force(from, "result")));
+  TRY_STATUS(from_json(to.web_app_query_id_, from.extract_field("web_app_query_id")));
+  TRY_STATUS(from_json(to.result_, from.extract_field("result")));
+  return Status::OK();
+}
+
+Status from_json(td_api::applyPremiumGiftCode &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
 Status from_json(td_api::assignAppStoreTransaction &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.receipt_, get_json_object_field_force(from, "receipt")));
-  TRY_STATUS(from_json(to.purpose_, get_json_object_field_force(from, "purpose")));
+  TRY_STATUS(from_json_bytes(to.receipt_, from.extract_field("receipt")));
+  TRY_STATUS(from_json(to.purpose_, from.extract_field("purpose")));
   return Status::OK();
 }
 
 Status from_json(td_api::assignGooglePlayTransaction &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.package_name_, get_json_object_field_force(from, "package_name")));
-  TRY_STATUS(from_json(to.store_product_id_, get_json_object_field_force(from, "store_product_id")));
-  TRY_STATUS(from_json(to.purchase_token_, get_json_object_field_force(from, "purchase_token")));
-  TRY_STATUS(from_json(to.purpose_, get_json_object_field_force(from, "purpose")));
+  TRY_STATUS(from_json(to.package_name_, from.extract_field("package_name")));
+  TRY_STATUS(from_json(to.store_product_id_, from.extract_field("store_product_id")));
+  TRY_STATUS(from_json(to.purchase_token_, from.extract_field("purchase_token")));
+  TRY_STATUS(from_json(to.purpose_, from.extract_field("purpose")));
   return Status::OK();
 }
 
 Status from_json(td_api::banChatMember &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.member_id_, get_json_object_field_force(from, "member_id")));
-  TRY_STATUS(from_json(to.banned_until_date_, get_json_object_field_force(from, "banned_until_date")));
-  TRY_STATUS(from_json(to.revoke_messages_, get_json_object_field_force(from, "revoke_messages")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.member_id_, from.extract_field("member_id")));
+  TRY_STATUS(from_json(to.banned_until_date_, from.extract_field("banned_until_date")));
+  TRY_STATUS(from_json(to.revoke_messages_, from.extract_field("revoke_messages")));
   return Status::OK();
 }
 
 Status from_json(td_api::blockMessageSenderFromReplies &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.delete_message_, get_json_object_field_force(from, "delete_message")));
-  TRY_STATUS(from_json(to.delete_all_messages_, get_json_object_field_force(from, "delete_all_messages")));
-  TRY_STATUS(from_json(to.report_spam_, get_json_object_field_force(from, "report_spam")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.delete_message_, from.extract_field("delete_message")));
+  TRY_STATUS(from_json(to.delete_all_messages_, from.extract_field("delete_all_messages")));
+  TRY_STATUS(from_json(to.report_spam_, from.extract_field("report_spam")));
   return Status::OK();
 }
 
-Status from_json(td_api::canPurchasePremium &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.purpose_, get_json_object_field_force(from, "purpose")));
+Status from_json(td_api::boostChat &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.slot_ids_, from.extract_field("slot_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::canBotSendMessages &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::canPurchaseFromStore &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.purpose_, from.extract_field("purpose")));
+  return Status::OK();
+}
+
+Status from_json(td_api::canSendMessageToUser &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.only_local_, from.extract_field("only_local")));
+  return Status::OK();
+}
+
+Status from_json(td_api::canSendStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
@@ -5047,8 +6501,8 @@ Status from_json(td_api::canTransferOwnership &to, JsonObject &from) {
 }
 
 Status from_json(td_api::cancelDownloadFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.only_if_pending_, get_json_object_field_force(from, "only_if_pending")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.only_if_pending_, from.extract_field("only_if_pending")));
   return Status::OK();
 }
 
@@ -5057,121 +6511,119 @@ Status from_json(td_api::cancelPasswordReset &to, JsonObject &from) {
 }
 
 Status from_json(td_api::cancelPreliminaryUploadFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::cancelRecoveryEmailAddressVerification &to, JsonObject &from) {
   return Status::OK();
 }
 
 Status from_json(td_api::changeImportedContacts &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.contacts_, get_json_object_field_force(from, "contacts")));
-  return Status::OK();
-}
-
-Status from_json(td_api::changePhoneNumber &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
-  TRY_STATUS(from_json(to.settings_, get_json_object_field_force(from, "settings")));
+  TRY_STATUS(from_json(to.contacts_, from.extract_field("contacts")));
   return Status::OK();
 }
 
 Status from_json(td_api::changeStickerSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.set_id_, get_json_object_field_force(from, "set_id")));
-  TRY_STATUS(from_json(to.is_installed_, get_json_object_field_force(from, "is_installed")));
-  TRY_STATUS(from_json(to.is_archived_, get_json_object_field_force(from, "is_archived")));
+  TRY_STATUS(from_json(to.set_id_, from.extract_field("set_id")));
+  TRY_STATUS(from_json(to.is_installed_, from.extract_field("is_installed")));
+  TRY_STATUS(from_json(to.is_archived_, from.extract_field("is_archived")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkAuthenticationBotToken &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkAuthenticationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkAuthenticationEmailCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkAuthenticationPassword &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkAuthenticationPasswordRecoveryCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.recovery_code_, get_json_object_field_force(from, "recovery_code")));
-  return Status::OK();
-}
-
-Status from_json(td_api::checkChangePhoneNumberCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+  TRY_STATUS(from_json(to.recovery_code_, from.extract_field("recovery_code")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkChatFolderInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkChatInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkChatUsername &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkCreatedPublicChatsLimit &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkEmailAddressVerificationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkLoginEmailAddressCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkPasswordRecoveryCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.recovery_code_, get_json_object_field_force(from, "recovery_code")));
+  TRY_STATUS(from_json(to.recovery_code_, from.extract_field("recovery_code")));
   return Status::OK();
 }
 
-Status from_json(td_api::checkPhoneNumberConfirmationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+Status from_json(td_api::checkPhoneNumberCode &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
-Status from_json(td_api::checkPhoneNumberVerificationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+Status from_json(td_api::checkPremiumGiftCode &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
+  return Status::OK();
+}
+
+Status from_json(td_api::checkQuickReplyShortcutName &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkRecoveryEmailAddressCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.code_, get_json_object_field_force(from, "code")));
+  TRY_STATUS(from_json(to.code_, from.extract_field("code")));
   return Status::OK();
 }
 
 Status from_json(td_api::checkStickerSetName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
   return Status::OK();
 }
 
 Status from_json(td_api::cleanFileName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_name_, get_json_object_field_force(from, "file_name")));
+  TRY_STATUS(from_json(to.file_name_, from.extract_field("file_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::clearAllDraftMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.exclude_secret_chats_, get_json_object_field_force(from, "exclude_secret_chats")));
+  TRY_STATUS(from_json(to.exclude_secret_chats_, from.extract_field("exclude_secret_chats")));
   return Status::OK();
 }
 
@@ -5192,7 +6644,7 @@ Status from_json(td_api::clearRecentReactions &to, JsonObject &from) {
 }
 
 Status from_json(td_api::clearRecentStickers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_attached_, get_json_object_field_force(from, "is_attached")));
+  TRY_STATUS(from_json(to.is_attached_, from.extract_field("is_attached")));
   return Status::OK();
 }
 
@@ -5200,9 +6652,20 @@ Status from_json(td_api::clearRecentlyFoundChats &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::clearSearchedForTags &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.clear_cashtags_, from.extract_field("clear_cashtags")));
+  return Status::OK();
+}
+
 Status from_json(td_api::clickAnimatedEmojiMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::clickChatSponsoredMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
@@ -5215,244 +6678,323 @@ Status from_json(td_api::close &to, JsonObject &from) {
 }
 
 Status from_json(td_api::closeChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::closeSecretChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.secret_chat_id_, get_json_object_field_force(from, "secret_chat_id")));
+  TRY_STATUS(from_json(to.secret_chat_id_, from.extract_field("secret_chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::closeStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::closeWebApp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.web_app_launch_id_, get_json_object_field_force(from, "web_app_launch_id")));
+  TRY_STATUS(from_json(to.web_app_launch_id_, from.extract_field("web_app_launch_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::commitPendingPaidMessageReactions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::confirmQrCodeAuthentication &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.link_, get_json_object_field_force(from, "link")));
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
+  return Status::OK();
+}
+
+Status from_json(td_api::confirmSession &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.session_id_, from.extract_field("session_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::createBasicGroupChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.basic_group_id_, get_json_object_field_force(from, "basic_group_id")));
-  TRY_STATUS(from_json(to.force_, get_json_object_field_force(from, "force")));
+  TRY_STATUS(from_json(to.basic_group_id_, from.extract_field("basic_group_id")));
+  TRY_STATUS(from_json(to.force_, from.extract_field("force")));
+  return Status::OK();
+}
+
+Status from_json(td_api::createBusinessChatLink &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.link_info_, from.extract_field("link_info")));
   return Status::OK();
 }
 
 Status from_json(td_api::createCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.protocol_, get_json_object_field_force(from, "protocol")));
-  TRY_STATUS(from_json(to.is_video_, get_json_object_field_force(from, "is_video")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.protocol_, from.extract_field("protocol")));
+  TRY_STATUS(from_json(to.is_video_, from.extract_field("is_video")));
   return Status::OK();
 }
 
 Status from_json(td_api::createChatFolder &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.folder_, get_json_object_field_force(from, "folder")));
+  TRY_STATUS(from_json(to.folder_, from.extract_field("folder")));
   return Status::OK();
 }
 
 Status from_json(td_api::createChatFolderInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.chat_ids_, get_json_object_field_force(from, "chat_ids")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.chat_ids_, from.extract_field("chat_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::createChatInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.expiration_date_, get_json_object_field_force(from, "expiration_date")));
-  TRY_STATUS(from_json(to.member_limit_, get_json_object_field_force(from, "member_limit")));
-  TRY_STATUS(from_json(to.creates_join_request_, get_json_object_field_force(from, "creates_join_request")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.expiration_date_, from.extract_field("expiration_date")));
+  TRY_STATUS(from_json(to.member_limit_, from.extract_field("member_limit")));
+  TRY_STATUS(from_json(to.creates_join_request_, from.extract_field("creates_join_request")));
+  return Status::OK();
+}
+
+Status from_json(td_api::createChatSubscriptionInviteLink &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.subscription_pricing_, from.extract_field("subscription_pricing")));
   return Status::OK();
 }
 
 Status from_json(td_api::createForumTopic &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.icon_, get_json_object_field_force(from, "icon")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.icon_, from.extract_field("icon")));
   return Status::OK();
 }
 
 Status from_json(td_api::createInvoiceLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invoice_, get_json_object_field_force(from, "invoice")));
+  TRY_STATUS(from_json(to.invoice_, from.extract_field("invoice")));
   return Status::OK();
 }
 
 Status from_json(td_api::createNewBasicGroupChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_ids_, get_json_object_field_force(from, "user_ids")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.message_auto_delete_time_, get_json_object_field_force(from, "message_auto_delete_time")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.message_auto_delete_time_, from.extract_field("message_auto_delete_time")));
   return Status::OK();
 }
 
 Status from_json(td_api::createNewSecretChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::createNewStickerSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.sticker_format_, get_json_object_field_force(from, "sticker_format")));
-  TRY_STATUS(from_json(to.sticker_type_, get_json_object_field_force(from, "sticker_type")));
-  TRY_STATUS(from_json(to.needs_repainting_, get_json_object_field_force(from, "needs_repainting")));
-  TRY_STATUS(from_json(to.stickers_, get_json_object_field_force(from, "stickers")));
-  TRY_STATUS(from_json(to.source_, get_json_object_field_force(from, "source")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.needs_repainting_, from.extract_field("needs_repainting")));
+  TRY_STATUS(from_json(to.stickers_, from.extract_field("stickers")));
+  TRY_STATUS(from_json(to.source_, from.extract_field("source")));
   return Status::OK();
 }
 
 Status from_json(td_api::createNewSupergroupChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.is_forum_, get_json_object_field_force(from, "is_forum")));
-  TRY_STATUS(from_json(to.is_channel_, get_json_object_field_force(from, "is_channel")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
-  TRY_STATUS(from_json(to.message_auto_delete_time_, get_json_object_field_force(from, "message_auto_delete_time")));
-  TRY_STATUS(from_json(to.for_import_, get_json_object_field_force(from, "for_import")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.is_forum_, from.extract_field("is_forum")));
+  TRY_STATUS(from_json(to.is_channel_, from.extract_field("is_channel")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.message_auto_delete_time_, from.extract_field("message_auto_delete_time")));
+  TRY_STATUS(from_json(to.for_import_, from.extract_field("for_import")));
   return Status::OK();
 }
 
 Status from_json(td_api::createPrivateChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.force_, get_json_object_field_force(from, "force")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.force_, from.extract_field("force")));
   return Status::OK();
 }
 
 Status from_json(td_api::createSecretChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.secret_chat_id_, get_json_object_field_force(from, "secret_chat_id")));
+  TRY_STATUS(from_json(to.secret_chat_id_, from.extract_field("secret_chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::createSupergroupChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.force_, get_json_object_field_force(from, "force")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.force_, from.extract_field("force")));
   return Status::OK();
 }
 
 Status from_json(td_api::createTemporaryPassword &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
-  TRY_STATUS(from_json(to.valid_for_, get_json_object_field_force(from, "valid_for")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
+  TRY_STATUS(from_json(to.valid_for_, from.extract_field("valid_for")));
   return Status::OK();
 }
 
 Status from_json(td_api::createVideoChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.start_date_, get_json_object_field_force(from, "start_date")));
-  TRY_STATUS(from_json(to.is_rtmp_stream_, get_json_object_field_force(from, "is_rtmp_stream")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.start_date_, from.extract_field("start_date")));
+  TRY_STATUS(from_json(to.is_rtmp_stream_, from.extract_field("is_rtmp_stream")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteAccount &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.reason_, get_json_object_field_force(from, "reason")));
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.reason_, from.extract_field("reason")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteAllCallMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.revoke_, get_json_object_field_force(from, "revoke")));
+  TRY_STATUS(from_json(to.revoke_, from.extract_field("revoke")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteAllRevokedChatInviteLinks &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.creator_user_id_, get_json_object_field_force(from, "creator_user_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.creator_user_id_, from.extract_field("creator_user_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteBotMediaPreviews &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.file_ids_, from.extract_field("file_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteBusinessChatLink &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteBusinessConnectedBot &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteChatBackground &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.restore_previous_, from.extract_field("restore_previous")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteChatFolder &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
-  TRY_STATUS(from_json(to.leave_chat_ids_, get_json_object_field_force(from, "leave_chat_ids")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
+  TRY_STATUS(from_json(to.leave_chat_ids_, from.extract_field("leave_chat_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteChatFolderInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteChatHistory &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.remove_from_chat_list_, get_json_object_field_force(from, "remove_from_chat_list")));
-  TRY_STATUS(from_json(to.revoke_, get_json_object_field_force(from, "revoke")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.remove_from_chat_list_, from.extract_field("remove_from_chat_list")));
+  TRY_STATUS(from_json(to.revoke_, from.extract_field("revoke")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteChatMessagesByDate &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.min_date_, get_json_object_field_force(from, "min_date")));
-  TRY_STATUS(from_json(to.max_date_, get_json_object_field_force(from, "max_date")));
-  TRY_STATUS(from_json(to.revoke_, get_json_object_field_force(from, "revoke")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.min_date_, from.extract_field("min_date")));
+  TRY_STATUS(from_json(to.max_date_, from.extract_field("max_date")));
+  TRY_STATUS(from_json(to.revoke_, from.extract_field("revoke")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteChatMessagesBySender &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.sender_id_, get_json_object_field_force(from, "sender_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.sender_id_, from.extract_field("sender_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteChatReplyMarkup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteCommands &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteDefaultBackground &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.for_dark_theme_, from.extract_field("for_dark_theme")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteForumTopic &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteLanguagePack &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_pack_id_, get_json_object_field_force(from, "language_pack_id")));
+  TRY_STATUS(from_json(to.language_pack_id_, from.extract_field("language_pack_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_ids_, get_json_object_field_force(from, "message_ids")));
-  TRY_STATUS(from_json(to.revoke_, get_json_object_field_force(from, "revoke")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
+  TRY_STATUS(from_json(to.revoke_, from.extract_field("revoke")));
   return Status::OK();
 }
 
 Status from_json(td_api::deletePassportElement &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteProfilePhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.profile_photo_id_, get_json_object_field_force(from, "profile_photo_id")));
+  TRY_STATUS(from_json(to.profile_photo_id_, from.extract_field("profile_photo_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteQuickReplyShortcut &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_id_, from.extract_field("shortcut_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteQuickReplyShortcutMessages &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_id_, from.extract_field("shortcut_id")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteRevokedChatInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::deleteSavedCredentials &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteSavedMessagesTopicHistory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteSavedMessagesTopicMessagesByDate &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
+  TRY_STATUS(from_json(to.min_date_, from.extract_field("min_date")));
+  TRY_STATUS(from_json(to.max_date_, from.extract_field("max_date")));
   return Status::OK();
 }
 
@@ -5461,7 +7003,13 @@ Status from_json(td_api::deleteSavedOrderInfo &to, JsonObject &from) {
 }
 
 Status from_json(td_api::deleteStickerSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  return Status::OK();
+}
+
+Status from_json(td_api::deleteStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
   return Status::OK();
 }
 
@@ -5470,7 +7018,7 @@ Status from_json(td_api::destroy &to, JsonObject &from) {
 }
 
 Status from_json(td_api::disableAllSupergroupUsernames &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
   return Status::OK();
 }
 
@@ -5479,11 +7027,11 @@ Status from_json(td_api::disableProxy &to, JsonObject &from) {
 }
 
 Status from_json(td_api::discardCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.call_id_, get_json_object_field_force(from, "call_id")));
-  TRY_STATUS(from_json(to.is_disconnected_, get_json_object_field_force(from, "is_disconnected")));
-  TRY_STATUS(from_json(to.duration_, get_json_object_field_force(from, "duration")));
-  TRY_STATUS(from_json(to.is_video_, get_json_object_field_force(from, "is_video")));
-  TRY_STATUS(from_json(to.connection_id_, get_json_object_field_force(from, "connection_id")));
+  TRY_STATUS(from_json(to.call_id_, from.extract_field("call_id")));
+  TRY_STATUS(from_json(to.is_disconnected_, from.extract_field("is_disconnected")));
+  TRY_STATUS(from_json(to.duration_, from.extract_field("duration")));
+  TRY_STATUS(from_json(to.is_video_, from.extract_field("is_video")));
+  TRY_STATUS(from_json(to.connection_id_, from.extract_field("connection_id")));
   return Status::OK();
 }
 
@@ -5492,193 +7040,290 @@ Status from_json(td_api::disconnectAllWebsites &to, JsonObject &from) {
 }
 
 Status from_json(td_api::disconnectWebsite &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.website_id_, get_json_object_field_force(from, "website_id")));
+  TRY_STATUS(from_json(to.website_id_, from.extract_field("website_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::downloadFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.priority_, get_json_object_field_force(from, "priority")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.synchronous_, get_json_object_field_force(from, "synchronous")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.priority_, from.extract_field("priority")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.synchronous_, from.extract_field("synchronous")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editBotMediaPreview &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.content_, from.extract_field("content")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editBusinessChatLink &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
+  TRY_STATUS(from_json(to.link_info_, from.extract_field("link_info")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editBusinessMessageCaption &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.show_caption_above_media_, from.extract_field("show_caption_above_media")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editBusinessMessageLiveLocation &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.live_period_, from.extract_field("live_period")));
+  TRY_STATUS(from_json(to.heading_, from.extract_field("heading")));
+  TRY_STATUS(from_json(to.proximity_alert_radius_, from.extract_field("proximity_alert_radius")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editBusinessMessageMedia &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editBusinessMessageReplyMarkup &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editBusinessMessageText &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::editChatFolder &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
-  TRY_STATUS(from_json(to.folder_, get_json_object_field_force(from, "folder")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
+  TRY_STATUS(from_json(to.folder_, from.extract_field("folder")));
   return Status::OK();
 }
 
 Status from_json(td_api::editChatFolderInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.chat_ids_, get_json_object_field_force(from, "chat_ids")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.chat_ids_, from.extract_field("chat_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::editChatInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.expiration_date_, get_json_object_field_force(from, "expiration_date")));
-  TRY_STATUS(from_json(to.member_limit_, get_json_object_field_force(from, "member_limit")));
-  TRY_STATUS(from_json(to.creates_join_request_, get_json_object_field_force(from, "creates_join_request")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.expiration_date_, from.extract_field("expiration_date")));
+  TRY_STATUS(from_json(to.member_limit_, from.extract_field("member_limit")));
+  TRY_STATUS(from_json(to.creates_join_request_, from.extract_field("creates_join_request")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editChatSubscriptionInviteLink &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
   return Status::OK();
 }
 
 Status from_json(td_api::editCustomLanguagePackInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.info_, get_json_object_field_force(from, "info")));
+  TRY_STATUS(from_json(to.info_, from.extract_field("info")));
   return Status::OK();
 }
 
 Status from_json(td_api::editForumTopic &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.edit_icon_custom_emoji_, get_json_object_field_force(from, "edit_icon_custom_emoji")));
-  TRY_STATUS(from_json(to.icon_custom_emoji_id_, get_json_object_field_force(from, "icon_custom_emoji_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.edit_icon_custom_emoji_, from.extract_field("edit_icon_custom_emoji")));
+  TRY_STATUS(from_json(to.icon_custom_emoji_id_, from.extract_field("icon_custom_emoji_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::editInlineMessageCaption &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inline_message_id_, get_json_object_field_force(from, "inline_message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.caption_, get_json_object_field_force(from, "caption")));
+  TRY_STATUS(from_json(to.inline_message_id_, from.extract_field("inline_message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.show_caption_above_media_, from.extract_field("show_caption_above_media")));
   return Status::OK();
 }
 
 Status from_json(td_api::editInlineMessageLiveLocation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inline_message_id_, get_json_object_field_force(from, "inline_message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
-  TRY_STATUS(from_json(to.heading_, get_json_object_field_force(from, "heading")));
-  TRY_STATUS(from_json(to.proximity_alert_radius_, get_json_object_field_force(from, "proximity_alert_radius")));
+  TRY_STATUS(from_json(to.inline_message_id_, from.extract_field("inline_message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.live_period_, from.extract_field("live_period")));
+  TRY_STATUS(from_json(to.heading_, from.extract_field("heading")));
+  TRY_STATUS(from_json(to.proximity_alert_radius_, from.extract_field("proximity_alert_radius")));
   return Status::OK();
 }
 
 Status from_json(td_api::editInlineMessageMedia &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inline_message_id_, get_json_object_field_force(from, "inline_message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.inline_message_id_, from.extract_field("inline_message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::editInlineMessageReplyMarkup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inline_message_id_, get_json_object_field_force(from, "inline_message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
+  TRY_STATUS(from_json(to.inline_message_id_, from.extract_field("inline_message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
   return Status::OK();
 }
 
 Status from_json(td_api::editInlineMessageText &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inline_message_id_, get_json_object_field_force(from, "inline_message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.inline_message_id_, from.extract_field("inline_message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::editMessageCaption &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.caption_, get_json_object_field_force(from, "caption")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.show_caption_above_media_, from.extract_field("show_caption_above_media")));
   return Status::OK();
 }
 
 Status from_json(td_api::editMessageLiveLocation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
-  TRY_STATUS(from_json(to.heading_, get_json_object_field_force(from, "heading")));
-  TRY_STATUS(from_json(to.proximity_alert_radius_, get_json_object_field_force(from, "proximity_alert_radius")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.live_period_, from.extract_field("live_period")));
+  TRY_STATUS(from_json(to.heading_, from.extract_field("heading")));
+  TRY_STATUS(from_json(to.proximity_alert_radius_, from.extract_field("proximity_alert_radius")));
   return Status::OK();
 }
 
 Status from_json(td_api::editMessageMedia &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::editMessageReplyMarkup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
   return Status::OK();
 }
 
 Status from_json(td_api::editMessageSchedulingState &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.scheduling_state_, get_json_object_field_force(from, "scheduling_state")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.scheduling_state_, from.extract_field("scheduling_state")));
   return Status::OK();
 }
 
 Status from_json(td_api::editMessageText &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::editProxy &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.proxy_id_, get_json_object_field_force(from, "proxy_id")));
-  TRY_STATUS(from_json(to.server_, get_json_object_field_force(from, "server")));
-  TRY_STATUS(from_json(to.port_, get_json_object_field_force(from, "port")));
-  TRY_STATUS(from_json(to.enable_, get_json_object_field_force(from, "enable")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.proxy_id_, from.extract_field("proxy_id")));
+  TRY_STATUS(from_json(to.server_, from.extract_field("server")));
+  TRY_STATUS(from_json(to.port_, from.extract_field("port")));
+  TRY_STATUS(from_json(to.enable_, from.extract_field("enable")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editQuickReplyMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_id_, from.extract_field("shortcut_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editStarSubscription &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.subscription_id_, from.extract_field("subscription_id")));
+  TRY_STATUS(from_json(to.is_canceled_, from.extract_field("is_canceled")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.content_, from.extract_field("content")));
+  TRY_STATUS(from_json(to.areas_, from.extract_field("areas")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  return Status::OK();
+}
+
+Status from_json(td_api::editStoryCover &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.cover_frame_timestamp_, from.extract_field("cover_frame_timestamp")));
   return Status::OK();
 }
 
 Status from_json(td_api::enableProxy &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.proxy_id_, get_json_object_field_force(from, "proxy_id")));
+  TRY_STATUS(from_json(to.proxy_id_, from.extract_field("proxy_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::endGroupCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::endGroupCallRecording &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::endGroupCallScreenSharing &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::finishFileGeneration &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.generation_id_, get_json_object_field_force(from, "generation_id")));
-  TRY_STATUS(from_json(to.error_, get_json_object_field_force(from, "error")));
+  TRY_STATUS(from_json(to.generation_id_, from.extract_field("generation_id")));
+  TRY_STATUS(from_json(to.error_, from.extract_field("error")));
   return Status::OK();
 }
 
 Status from_json(td_api::forwardMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.from_chat_id_, get_json_object_field_force(from, "from_chat_id")));
-  TRY_STATUS(from_json(to.message_ids_, get_json_object_field_force(from, "message_ids")));
-  TRY_STATUS(from_json(to.options_, get_json_object_field_force(from, "options")));
-  TRY_STATUS(from_json(to.send_copy_, get_json_object_field_force(from, "send_copy")));
-  TRY_STATUS(from_json(to.remove_caption_, get_json_object_field_force(from, "remove_caption")));
-  TRY_STATUS(from_json(to.only_preview_, get_json_object_field_force(from, "only_preview")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.from_chat_id_, from.extract_field("from_chat_id")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
+  TRY_STATUS(from_json(to.options_, from.extract_field("options")));
+  TRY_STATUS(from_json(to.send_copy_, from.extract_field("send_copy")));
+  TRY_STATUS(from_json(to.remove_caption_, from.extract_field("remove_caption")));
   return Status::OK();
 }
 
 Status from_json(td_api::getAccountTtl &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::getActiveLiveLocationMessages &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -5687,12 +7332,20 @@ Status from_json(td_api::getActiveSessions &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getAllPassportElements &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getAllStickerEmojis &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.return_only_main_emoji_, from.extract_field("return_only_main_emoji")));
   return Status::OK();
 }
 
 Status from_json(td_api::getAnimatedEmoji &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.emoji_, get_json_object_field_force(from, "emoji")));
+  TRY_STATUS(from_json(to.emoji_, from.extract_field("emoji")));
   return Status::OK();
 }
 
@@ -5704,20 +7357,24 @@ Status from_json(td_api::getApplicationDownloadLink &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::getArchiveChatListSettings &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::getArchivedStickerSets &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_type_, get_json_object_field_force(from, "sticker_type")));
-  TRY_STATUS(from_json(to.offset_sticker_set_id_, get_json_object_field_force(from, "offset_sticker_set_id")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.offset_sticker_set_id_, from.extract_field("offset_sticker_set_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getAttachedStickerSets &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getAttachmentMenuBot &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
   return Status::OK();
 }
 
@@ -5733,255 +7390,405 @@ Status from_json(td_api::getAutosaveSettings &to, JsonObject &from) {
   return Status::OK();
 }
 
-Status from_json(td_api::getBackgroundUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+Status from_json(td_api::getAvailableChatBoostSlots &to, JsonObject &from) {
   return Status::OK();
 }
 
-Status from_json(td_api::getBackgrounds &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.for_dark_theme_, get_json_object_field_force(from, "for_dark_theme")));
+Status from_json(td_api::getBackgroundUrl &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::getBankCardInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bank_card_number_, get_json_object_field_force(from, "bank_card_number")));
+  TRY_STATUS(from_json(to.bank_card_number_, from.extract_field("bank_card_number")));
   return Status::OK();
 }
 
 Status from_json(td_api::getBasicGroup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.basic_group_id_, get_json_object_field_force(from, "basic_group_id")));
+  TRY_STATUS(from_json(to.basic_group_id_, from.extract_field("basic_group_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getBasicGroupFullInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.basic_group_id_, get_json_object_field_force(from, "basic_group_id")));
+  TRY_STATUS(from_json(to.basic_group_id_, from.extract_field("basic_group_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getBlockedMessageSenders &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.block_list_, from.extract_field("block_list")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getBotInfoDescription &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
   return Status::OK();
 }
 
 Status from_json(td_api::getBotInfoShortDescription &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getBotMediaPreviewInfo &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getBotMediaPreviews &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getBotName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getBusinessChatLinkInfo &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.link_name_, from.extract_field("link_name")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getBusinessChatLinks &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getBusinessConnectedBot &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getBusinessConnection &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.connection_id_, from.extract_field("connection_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getBusinessFeatures &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.source_, from.extract_field("source")));
   return Status::OK();
 }
 
 Status from_json(td_api::getCallbackQueryAnswer &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.payload_, get_json_object_field_force(from, "payload")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.payload_, from.extract_field("payload")));
   return Status::OK();
 }
 
 Status from_json(td_api::getCallbackQueryMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.callback_query_id_, get_json_object_field_force(from, "callback_query_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.callback_query_id_, from.extract_field("callback_query_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatActiveStories &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatAdministrators &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatArchivedStories &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.from_story_id_, from.extract_field("from_story_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatAvailableMessageSenders &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatBoostFeatures &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.is_channel_, from.extract_field("is_channel")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatBoostLevelFeatures &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.is_channel_, from.extract_field("is_channel")));
+  TRY_STATUS(from_json(to.level_, from.extract_field("level")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatBoostLink &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatBoostLinkInfo &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatBoostStatus &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatBoosts &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.only_gift_codes_, from.extract_field("only_gift_codes")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatEventLog &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.from_event_id_, get_json_object_field_force(from, "from_event_id")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.filters_, get_json_object_field_force(from, "filters")));
-  TRY_STATUS(from_json(to.user_ids_, get_json_object_field_force(from, "user_ids")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.from_event_id_, from.extract_field("from_event_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.filters_, from.extract_field("filters")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatFolder &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatFolderChatCount &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.folder_, from.extract_field("folder")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatFolderChatsToLeave &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatFolderDefaultIconName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.folder_, get_json_object_field_force(from, "folder")));
+  TRY_STATUS(from_json(to.folder_, from.extract_field("folder")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatFolderInviteLinks &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatFolderNewChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatHistory &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.from_message_id_, get_json_object_field_force(from, "from_message_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.only_local_, get_json_object_field_force(from, "only_local")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.from_message_id_, from.extract_field("from_message_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.only_local_, from.extract_field("only_local")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatInviteLinkCounts &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatInviteLinkMembers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
-  TRY_STATUS(from_json(to.offset_member_, get_json_object_field_force(from, "offset_member")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
+  TRY_STATUS(from_json(to.only_with_expired_subscription_, from.extract_field("only_with_expired_subscription")));
+  TRY_STATUS(from_json(to.offset_member_, from.extract_field("offset_member")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatInviteLinks &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.creator_user_id_, get_json_object_field_force(from, "creator_user_id")));
-  TRY_STATUS(from_json(to.is_revoked_, get_json_object_field_force(from, "is_revoked")));
-  TRY_STATUS(from_json(to.offset_date_, get_json_object_field_force(from, "offset_date")));
-  TRY_STATUS(from_json(to.offset_invite_link_, get_json_object_field_force(from, "offset_invite_link")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.creator_user_id_, from.extract_field("creator_user_id")));
+  TRY_STATUS(from_json(to.is_revoked_, from.extract_field("is_revoked")));
+  TRY_STATUS(from_json(to.offset_date_, from.extract_field("offset_date")));
+  TRY_STATUS(from_json(to.offset_invite_link_, from.extract_field("offset_invite_link")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatJoinRequests &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.offset_request_, get_json_object_field_force(from, "offset_request")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.offset_request_, from.extract_field("offset_request")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatListsToAddChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatMember &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.member_id_, get_json_object_field_force(from, "member_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.member_id_, from.extract_field("member_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatMessageByDate &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.date_, get_json_object_field_force(from, "date")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.date_, from.extract_field("date")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatMessageCalendar &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
-  TRY_STATUS(from_json(to.from_message_id_, get_json_object_field_force(from, "from_message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
+  TRY_STATUS(from_json(to.from_message_id_, from.extract_field("from_message_id")));
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatMessageCount &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
-  TRY_STATUS(from_json(to.return_local_, get_json_object_field_force(from, "return_local")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
+  TRY_STATUS(from_json(to.return_local_, from.extract_field("return_local")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatMessagePosition &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatNotificationSettingsExceptions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
-  TRY_STATUS(from_json(to.compare_sound_, get_json_object_field_force(from, "compare_sound")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  TRY_STATUS(from_json(to.compare_sound_, from.extract_field("compare_sound")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatPinnedMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatPostedToChatPageStories &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.from_story_id_, from.extract_field("from_story_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatRevenueStatistics &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.is_dark_, from.extract_field("is_dark")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatRevenueTransactions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatRevenueWithdrawalUrl &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatScheduledMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatSimilarChatCount &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.return_local_, from.extract_field("return_local")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatSimilarChats &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatSparseMessagePositions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
-  TRY_STATUS(from_json(to.from_message_id_, get_json_object_field_force(from, "from_message_id")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
+  TRY_STATUS(from_json(to.from_message_id_, from.extract_field("from_message_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatSponsoredMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatStatistics &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.is_dark_, get_json_object_field_force(from, "is_dark")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.is_dark_, from.extract_field("is_dark")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatStoryInteractions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.reaction_type_, from.extract_field("reaction_type")));
+  TRY_STATUS(from_json(to.prefer_forwards_, from.extract_field("prefer_forwards")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_list_, get_json_object_field_force(from, "chat_list")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_list_, from.extract_field("chat_list")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getChatsForChatFolderInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getChatsToSendStories &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getCloseFriends &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getCollectibleItemInfo &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::getCommands &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
   return Status::OK();
 }
 
@@ -6001,12 +7808,22 @@ Status from_json(td_api::getCountryCode &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::getCountryFlagEmoji &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.country_code_, from.extract_field("country_code")));
+  return Status::OK();
+}
+
 Status from_json(td_api::getCreatedPublicChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::getCurrentState &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getCurrentWeather &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
   return Status::OK();
 }
 
@@ -6015,7 +7832,7 @@ Status from_json(td_api::getCustomEmojiReactionAnimations &to, JsonObject &from)
 }
 
 Status from_json(td_api::getCustomEmojiStickers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.custom_emoji_ids_, get_json_object_field_force(from, "custom_emoji_ids")));
+  TRY_STATUS(from_json(to.custom_emoji_ids_, from.extract_field("custom_emoji_ids")));
   return Status::OK();
 }
 
@@ -6024,7 +7841,15 @@ Status from_json(td_api::getDatabaseStatistics &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getDeepLinkInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.link_, get_json_object_field_force(from, "link")));
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getDefaultBackgroundCustomEmojiStickers &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getDefaultChatEmojiStatuses &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -6044,29 +7869,33 @@ Status from_json(td_api::getDefaultProfilePhotoCustomEmojiStickers &to, JsonObje
   return Status::OK();
 }
 
+Status from_json(td_api::getDisallowedChatEmojiStatuses &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::getEmojiCategories &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::getEmojiReaction &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.emoji_, get_json_object_field_force(from, "emoji")));
+  TRY_STATUS(from_json(to.emoji_, from.extract_field("emoji")));
   return Status::OK();
 }
 
 Status from_json(td_api::getEmojiSuggestionsUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
   return Status::OK();
 }
 
 Status from_json(td_api::getExternalLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.link_, get_json_object_field_force(from, "link")));
-  TRY_STATUS(from_json(to.allow_write_access_, get_json_object_field_force(from, "allow_write_access")));
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
+  TRY_STATUS(from_json(to.allow_write_access_, from.extract_field("allow_write_access")));
   return Status::OK();
 }
 
 Status from_json(td_api::getExternalLinkInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.link_, get_json_object_field_force(from, "link")));
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
   return Status::OK();
 }
 
@@ -6075,29 +7904,29 @@ Status from_json(td_api::getFavoriteStickers &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getFileDownloadedPrefixSize &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
   return Status::OK();
 }
 
 Status from_json(td_api::getFileExtension &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.mime_type_, get_json_object_field_force(from, "mime_type")));
+  TRY_STATUS(from_json(to.mime_type_, from.extract_field("mime_type")));
   return Status::OK();
 }
 
 Status from_json(td_api::getFileMimeType &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_name_, get_json_object_field_force(from, "file_name")));
+  TRY_STATUS(from_json(to.file_name_, from.extract_field("file_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::getForumTopic &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
   return Status::OK();
 }
 
@@ -6106,57 +7935,73 @@ Status from_json(td_api::getForumTopicDefaultIcons &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getForumTopicLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getForumTopics &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.offset_date_, get_json_object_field_force(from, "offset_date")));
-  TRY_STATUS(from_json(to.offset_message_id_, get_json_object_field_force(from, "offset_message_id")));
-  TRY_STATUS(from_json(to.offset_message_thread_id_, get_json_object_field_force(from, "offset_message_thread_id")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.offset_date_, from.extract_field("offset_date")));
+  TRY_STATUS(from_json(to.offset_message_id_, from.extract_field("offset_message_id")));
+  TRY_STATUS(from_json(to.offset_message_thread_id_, from.extract_field("offset_message_thread_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getGameHighScores &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getGiveawayInfo &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getGreetingStickers &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getGrossingWebAppBots &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getGroupCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getGroupCallInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.can_self_unmute_, get_json_object_field_force(from, "can_self_unmute")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.can_self_unmute_, from.extract_field("can_self_unmute")));
   return Status::OK();
 }
 
 Status from_json(td_api::getGroupCallStreamSegment &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.time_offset_, get_json_object_field_force(from, "time_offset")));
-  TRY_STATUS(from_json(to.scale_, get_json_object_field_force(from, "scale")));
-  TRY_STATUS(from_json(to.channel_id_, get_json_object_field_force(from, "channel_id")));
-  TRY_STATUS(from_json(to.video_quality_, get_json_object_field_force(from, "video_quality")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.time_offset_, from.extract_field("time_offset")));
+  TRY_STATUS(from_json(to.scale_, from.extract_field("scale")));
+  TRY_STATUS(from_json(to.channel_id_, from.extract_field("channel_id")));
+  TRY_STATUS(from_json(to.video_quality_, from.extract_field("video_quality")));
   return Status::OK();
 }
 
 Status from_json(td_api::getGroupCallStreams &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getGroupsInCommon &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.offset_chat_id_, get_json_object_field_force(from, "offset_chat_id")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.offset_chat_id_, from.extract_field("offset_chat_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
@@ -6169,67 +8014,84 @@ Status from_json(td_api::getInactiveSupergroupChats &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getInlineGameHighScores &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inline_message_id_, get_json_object_field_force(from, "inline_message_id")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.inline_message_id_, from.extract_field("inline_message_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getInlineQueryResults &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.user_location_, get_json_object_field_force(from, "user_location")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.user_location_, from.extract_field("user_location")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getInstalledBackgrounds &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.for_dark_theme_, from.extract_field("for_dark_theme")));
   return Status::OK();
 }
 
 Status from_json(td_api::getInstalledStickerSets &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_type_, get_json_object_field_force(from, "sticker_type")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
   return Status::OK();
 }
 
 Status from_json(td_api::getInternalLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.is_http_, get_json_object_field_force(from, "is_http")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.is_http_, from.extract_field("is_http")));
   return Status::OK();
 }
 
 Status from_json(td_api::getInternalLinkType &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.link_, get_json_object_field_force(from, "link")));
+  TRY_STATUS(from_json(to.link_, from.extract_field("link")));
   return Status::OK();
 }
 
 Status from_json(td_api::getJsonString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.json_value_, get_json_object_field_force(from, "json_value")));
+  TRY_STATUS(from_json(to.json_value_, from.extract_field("json_value")));
   return Status::OK();
 }
 
 Status from_json(td_api::getJsonValue &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.json_, get_json_object_field_force(from, "json")));
+  TRY_STATUS(from_json(to.json_, from.extract_field("json")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getKeywordEmojis &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.input_language_codes_, from.extract_field("input_language_codes")));
   return Status::OK();
 }
 
 Status from_json(td_api::getLanguagePackInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_pack_id_, get_json_object_field_force(from, "language_pack_id")));
+  TRY_STATUS(from_json(to.language_pack_id_, from.extract_field("language_pack_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getLanguagePackString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_pack_database_path_, get_json_object_field_force(from, "language_pack_database_path")));
-  TRY_STATUS(from_json(to.localization_target_, get_json_object_field_force(from, "localization_target")));
-  TRY_STATUS(from_json(to.language_pack_id_, get_json_object_field_force(from, "language_pack_id")));
-  TRY_STATUS(from_json(to.key_, get_json_object_field_force(from, "key")));
+  TRY_STATUS(from_json(to.language_pack_database_path_, from.extract_field("language_pack_database_path")));
+  TRY_STATUS(from_json(to.localization_target_, from.extract_field("localization_target")));
+  TRY_STATUS(from_json(to.language_pack_id_, from.extract_field("language_pack_id")));
+  TRY_STATUS(from_json(to.key_, from.extract_field("key")));
   return Status::OK();
 }
 
 Status from_json(td_api::getLanguagePackStrings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_pack_id_, get_json_object_field_force(from, "language_pack_id")));
-  TRY_STATUS(from_json(to.keys_, get_json_object_field_force(from, "keys")));
+  TRY_STATUS(from_json(to.language_pack_id_, from.extract_field("language_pack_id")));
+  TRY_STATUS(from_json(to.keys_, from.extract_field("keys")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getLinkPreview &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.link_preview_options_, from.extract_field("link_preview_options")));
   return Status::OK();
 }
 
 Status from_json(td_api::getLocalizationTargetInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.only_local_, get_json_object_field_force(from, "only_local")));
+  TRY_STATUS(from_json(to.only_local_, from.extract_field("only_local")));
   return Status::OK();
 }
 
@@ -6238,7 +8100,7 @@ Status from_json(td_api::getLogStream &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getLogTagVerbosityLevel &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.tag_, get_json_object_field_force(from, "tag")));
+  TRY_STATUS(from_json(to.tag_, from.extract_field("tag")));
   return Status::OK();
 }
 
@@ -6251,32 +8113,41 @@ Status from_json(td_api::getLogVerbosityLevel &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getLoginUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.button_id_, get_json_object_field_force(from, "button_id")));
-  TRY_STATUS(from_json(to.allow_write_access_, get_json_object_field_force(from, "allow_write_access")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.button_id_, from.extract_field("button_id")));
+  TRY_STATUS(from_json(to.allow_write_access_, from.extract_field("allow_write_access")));
   return Status::OK();
 }
 
 Status from_json(td_api::getLoginUrlInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.button_id_, get_json_object_field_force(from, "button_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.button_id_, from.extract_field("button_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getMainWebApp &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.start_parameter_, from.extract_field("start_parameter")));
+  TRY_STATUS(from_json(to.theme_, from.extract_field("theme")));
+  TRY_STATUS(from_json(to.application_name_, from.extract_field("application_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMapThumbnailFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
-  TRY_STATUS(from_json(to.zoom_, get_json_object_field_force(from, "zoom")));
-  TRY_STATUS(from_json(to.width_, get_json_object_field_force(from, "width")));
-  TRY_STATUS(from_json(to.height_, get_json_object_field_force(from, "height")));
-  TRY_STATUS(from_json(to.scale_, get_json_object_field_force(from, "scale")));
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  TRY_STATUS(from_json(to.zoom_, from.extract_field("zoom")));
+  TRY_STATUS(from_json(to.width_, from.extract_field("width")));
+  TRY_STATUS(from_json(to.height_, from.extract_field("height")));
+  TRY_STATUS(from_json(to.scale_, from.extract_field("scale")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMarkdownText &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
   return Status::OK();
 }
 
@@ -6285,138 +8156,165 @@ Status from_json(td_api::getMe &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getMenuButton &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageAddedReactions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reaction_type_, get_json_object_field_force(from, "reaction_type")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reaction_type_, from.extract_field("reaction_type")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageAvailableReactions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.row_size_, get_json_object_field_force(from, "row_size")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.row_size_, from.extract_field("row_size")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getMessageEffect &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.effect_id_, from.extract_field("effect_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageEmbeddingCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.for_album_, get_json_object_field_force(from, "for_album")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.for_album_, from.extract_field("for_album")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageFileType &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.message_file_head_, get_json_object_field_force(from, "message_file_head")));
+  TRY_STATUS(from_json(to.message_file_head_, from.extract_field("message_file_head")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageImportConfirmationText &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.media_timestamp_, get_json_object_field_force(from, "media_timestamp")));
-  TRY_STATUS(from_json(to.for_album_, get_json_object_field_force(from, "for_album")));
-  TRY_STATUS(from_json(to.in_message_thread_, get_json_object_field_force(from, "in_message_thread")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.media_timestamp_, from.extract_field("media_timestamp")));
+  TRY_STATUS(from_json(to.for_album_, from.extract_field("for_album")));
+  TRY_STATUS(from_json(to.in_message_thread_, from.extract_field("in_message_thread")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageLinkInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageLocally &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getMessageProperties &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessagePublicForwards &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getMessageReadDate &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageStatistics &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.is_dark_, get_json_object_field_force(from, "is_dark")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.is_dark_, from.extract_field("is_dark")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageThread &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageThreadHistory &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.from_message_id_, get_json_object_field_force(from, "from_message_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.from_message_id_, from.extract_field("from_message_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessageViewers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_ids_, get_json_object_field_force(from, "message_ids")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::getNetworkStatistics &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.only_current_, get_json_object_field_force(from, "only_current")));
+  TRY_STATUS(from_json(to.only_current_, from.extract_field("only_current")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getNewChatPrivacySettings &to, JsonObject &from) {
   return Status::OK();
 }
 
 Status from_json(td_api::getOption &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getOwnedStickerSets &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.offset_sticker_set_id_, from.extract_field("offset_sticker_set_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPassportAuthorizationForm &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
-  TRY_STATUS(from_json(to.public_key_, get_json_object_field_force(from, "public_key")));
-  TRY_STATUS(from_json(to.nonce_, get_json_object_field_force(from, "nonce")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  TRY_STATUS(from_json(to.public_key_, from.extract_field("public_key")));
+  TRY_STATUS(from_json(to.nonce_, from.extract_field("nonce")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPassportAuthorizationFormAvailableElements &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.authorization_form_id_, get_json_object_field_force(from, "authorization_form_id")));
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.authorization_form_id_, from.extract_field("authorization_form_id")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPassportElement &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
@@ -6425,49 +8323,54 @@ Status from_json(td_api::getPasswordState &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getPaymentForm &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.input_invoice_, get_json_object_field_force(from, "input_invoice")));
-  TRY_STATUS(from_json(to.theme_, get_json_object_field_force(from, "theme")));
+  TRY_STATUS(from_json(to.input_invoice_, from.extract_field("input_invoice")));
+  TRY_STATUS(from_json(to.theme_, from.extract_field("theme")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPaymentReceipt &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPhoneNumberInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.phone_number_prefix_, get_json_object_field_force(from, "phone_number_prefix")));
+  TRY_STATUS(from_json(to.phone_number_prefix_, from.extract_field("phone_number_prefix")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPhoneNumberInfoSync &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
-  TRY_STATUS(from_json(to.phone_number_prefix_, get_json_object_field_force(from, "phone_number_prefix")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.phone_number_prefix_, from.extract_field("phone_number_prefix")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPollVoters &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.option_id_, get_json_object_field_force(from, "option_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.option_id_, from.extract_field("option_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPreferredCountryLanguage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.country_code_, get_json_object_field_force(from, "country_code")));
+  TRY_STATUS(from_json(to.country_code_, from.extract_field("country_code")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPremiumFeatures &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.source_, get_json_object_field_force(from, "source")));
+  TRY_STATUS(from_json(to.source_, from.extract_field("source")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getPremiumGiftCodePaymentOptions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.boosted_chat_id_, from.extract_field("boosted_chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPremiumLimit &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.limit_type_, get_json_object_field_force(from, "limit_type")));
+  TRY_STATUS(from_json(to.limit_type_, from.extract_field("limit_type")));
   return Status::OK();
 }
 
@@ -6480,7 +8383,7 @@ Status from_json(td_api::getPremiumStickerExamples &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getPremiumStickers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
@@ -6489,12 +8392,16 @@ Status from_json(td_api::getProxies &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getProxyLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.proxy_id_, get_json_object_field_force(from, "proxy_id")));
+  TRY_STATUS(from_json(to.proxy_id_, from.extract_field("proxy_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getPushReceiverId &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.payload_, get_json_object_field_force(from, "payload")));
+  TRY_STATUS(from_json(to.payload_, from.extract_field("payload")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getReadDatePrivacySettings &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -6507,17 +8414,17 @@ Status from_json(td_api::getRecentInlineBots &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getRecentStickers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_attached_, get_json_object_field_force(from, "is_attached")));
+  TRY_STATUS(from_json(to.is_attached_, from.extract_field("is_attached")));
   return Status::OK();
 }
 
 Status from_json(td_api::getRecentlyOpenedChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getRecentlyVisitedTMeUrls &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.referrer_, get_json_object_field_force(from, "referrer")));
+  TRY_STATUS(from_json(to.referrer_, from.extract_field("referrer")));
   return Status::OK();
 }
 
@@ -6525,20 +8432,24 @@ Status from_json(td_api::getRecommendedChatFolders &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::getRecommendedChats &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::getRecoveryEmailAddress &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::getRemoteFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.remote_file_id_, get_json_object_field_force(from, "remote_file_id")));
-  TRY_STATUS(from_json(to.file_type_, get_json_object_field_force(from, "file_type")));
+  TRY_STATUS(from_json(to.remote_file_id_, from.extract_field("remote_file_id")));
+  TRY_STATUS(from_json(to.file_type_, from.extract_field("file_type")));
   return Status::OK();
 }
 
 Status from_json(td_api::getRepliedMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
@@ -6546,8 +8457,27 @@ Status from_json(td_api::getSavedAnimations &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::getSavedMessagesTags &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getSavedMessagesTopicHistory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
+  TRY_STATUS(from_json(to.from_message_id_, from.extract_field("from_message_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getSavedMessagesTopicMessageByDate &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
+  TRY_STATUS(from_json(to.date_, from.extract_field("date")));
+  return Status::OK();
+}
+
 Status from_json(td_api::getSavedNotificationSound &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.notification_sound_id_, get_json_object_field_force(from, "notification_sound_id")));
+  TRY_STATUS(from_json(to.notification_sound_id_, from.extract_field("notification_sound_id")));
   return Status::OK();
 }
 
@@ -6560,42 +8490,99 @@ Status from_json(td_api::getSavedOrderInfo &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getScopeNotificationSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getSearchedForTags &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.tag_prefix_, from.extract_field("tag_prefix")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getSecretChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.secret_chat_id_, get_json_object_field_force(from, "secret_chat_id")));
+  TRY_STATUS(from_json(to.secret_chat_id_, from.extract_field("secret_chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStarAdAccountUrl &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.owner_id_, from.extract_field("owner_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStarGiftPaymentOptions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStarGiveawayPaymentOptions &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getStarPaymentOptions &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getStarRevenueStatistics &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.owner_id_, from.extract_field("owner_id")));
+  TRY_STATUS(from_json(to.is_dark_, from.extract_field("is_dark")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStarSubscriptions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.only_expiring_, from.extract_field("only_expiring")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStarTransactions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.owner_id_, from.extract_field("owner_id")));
+  TRY_STATUS(from_json(to.subscription_id_, from.extract_field("subscription_id")));
+  TRY_STATUS(from_json(to.direction_, from.extract_field("direction")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStarWithdrawalUrl &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.owner_id_, from.extract_field("owner_id")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::getStatisticalGraph &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
-  TRY_STATUS(from_json(to.x_, get_json_object_field_force(from, "x")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
+  TRY_STATUS(from_json(to.x_, from.extract_field("x")));
   return Status::OK();
 }
 
 Status from_json(td_api::getStickerEmojis &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::getStickerSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.set_id_, get_json_object_field_force(from, "set_id")));
+  TRY_STATUS(from_json(to.set_id_, from.extract_field("set_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStickerSetName &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.set_id_, from.extract_field("set_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getStickers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_type_, get_json_object_field_force(from, "sticker_type")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getStorageStatistics &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_limit_, get_json_object_field_force(from, "chat_limit")));
+  TRY_STATUS(from_json(to.chat_limit_, from.extract_field("chat_limit")));
   return Status::OK();
 }
 
@@ -6603,14 +8590,56 @@ Status from_json(td_api::getStorageStatisticsFast &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::getStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.only_local_, from.extract_field("only_local")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStoryAvailableReactions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.row_size_, from.extract_field("row_size")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStoryInteractions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.only_contacts_, from.extract_field("only_contacts")));
+  TRY_STATUS(from_json(to.prefer_forwards_, from.extract_field("prefer_forwards")));
+  TRY_STATUS(from_json(to.prefer_with_reaction_, from.extract_field("prefer_with_reaction")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStoryNotificationSettingsExceptions &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::getStoryPublicForwards &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getStoryStatistics &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.is_dark_, from.extract_field("is_dark")));
+  return Status::OK();
+}
+
 Status from_json(td_api::getSuggestedFileName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.directory_, get_json_object_field_force(from, "directory")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.directory_, from.extract_field("directory")));
   return Status::OK();
 }
 
 Status from_json(td_api::getSuggestedStickerSetName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
   return Status::OK();
 }
 
@@ -6618,21 +8647,25 @@ Status from_json(td_api::getSuitableDiscussionChats &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::getSuitablePersonalChats &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::getSupergroup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getSupergroupFullInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getSupergroupMembers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
@@ -6649,12 +8682,16 @@ Status from_json(td_api::getTemporaryPasswordState &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getTextEntities &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
   return Status::OK();
 }
 
 Status from_json(td_api::getThemeParametersJsonString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.theme_, get_json_object_field_force(from, "theme")));
+  TRY_STATUS(from_json(to.theme_, from.extract_field("theme")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getThemedChatEmojiStatuses &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -6662,26 +8699,36 @@ Status from_json(td_api::getThemedEmojiStatuses &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::getTimeZones &to, JsonObject &from) {
+  return Status::OK();
+}
+
 Status from_json(td_api::getTopChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.category_, get_json_object_field_force(from, "category")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.category_, from.extract_field("category")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getTrendingStickerSets &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_type_, get_json_object_field_force(from, "sticker_type")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getUser &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::getUserChatBoosts &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getUserFullInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
@@ -6690,125 +8737,151 @@ Status from_json(td_api::getUserLink &to, JsonObject &from) {
 }
 
 Status from_json(td_api::getUserPrivacySettingRules &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.setting_, get_json_object_field_force(from, "setting")));
+  TRY_STATUS(from_json(to.setting_, from.extract_field("setting")));
   return Status::OK();
 }
 
 Status from_json(td_api::getUserProfilePhotos &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::getUserSupportInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getVideoChatAvailableParticipants &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getVideoChatRtmpUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::getWebAppLinkUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.web_app_short_name_, get_json_object_field_force(from, "web_app_short_name")));
-  TRY_STATUS(from_json(to.start_parameter_, get_json_object_field_force(from, "start_parameter")));
-  TRY_STATUS(from_json(to.theme_, get_json_object_field_force(from, "theme")));
-  TRY_STATUS(from_json(to.application_name_, get_json_object_field_force(from, "application_name")));
-  TRY_STATUS(from_json(to.allow_write_access_, get_json_object_field_force(from, "allow_write_access")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.web_app_short_name_, from.extract_field("web_app_short_name")));
+  TRY_STATUS(from_json(to.start_parameter_, from.extract_field("start_parameter")));
+  TRY_STATUS(from_json(to.theme_, from.extract_field("theme")));
+  TRY_STATUS(from_json(to.application_name_, from.extract_field("application_name")));
+  TRY_STATUS(from_json(to.allow_write_access_, from.extract_field("allow_write_access")));
   return Status::OK();
 }
 
 Status from_json(td_api::getWebAppUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
-  TRY_STATUS(from_json(to.theme_, get_json_object_field_force(from, "theme")));
-  TRY_STATUS(from_json(to.application_name_, get_json_object_field_force(from, "application_name")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  TRY_STATUS(from_json(to.theme_, from.extract_field("theme")));
+  TRY_STATUS(from_json(to.application_name_, from.extract_field("application_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::getWebPageInstantView &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
-  TRY_STATUS(from_json(to.force_full_, get_json_object_field_force(from, "force_full")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  TRY_STATUS(from_json(to.force_full_, from.extract_field("force_full")));
   return Status::OK();
 }
 
-Status from_json(td_api::getWebPagePreview &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
+Status from_json(td_api::hideContactCloseBirthdays &to, JsonObject &from) {
   return Status::OK();
 }
 
 Status from_json(td_api::hideSuggestedAction &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.action_, get_json_object_field_force(from, "action")));
+  TRY_STATUS(from_json(to.action_, from.extract_field("action")));
   return Status::OK();
 }
 
 Status from_json(td_api::importContacts &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.contacts_, get_json_object_field_force(from, "contacts")));
+  TRY_STATUS(from_json(to.contacts_, from.extract_field("contacts")));
   return Status::OK();
 }
 
 Status from_json(td_api::importMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_file_, get_json_object_field_force(from, "message_file")));
-  TRY_STATUS(from_json(to.attached_files_, get_json_object_field_force(from, "attached_files")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_file_, from.extract_field("message_file")));
+  TRY_STATUS(from_json(to.attached_files_, from.extract_field("attached_files")));
   return Status::OK();
 }
 
 Status from_json(td_api::inviteGroupCallParticipants &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.user_ids_, get_json_object_field_force(from, "user_ids")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::joinChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::joinChatByInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::joinGroupCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.participant_id_, get_json_object_field_force(from, "participant_id")));
-  TRY_STATUS(from_json(to.audio_source_id_, get_json_object_field_force(from, "audio_source_id")));
-  TRY_STATUS(from_json(to.payload_, get_json_object_field_force(from, "payload")));
-  TRY_STATUS(from_json(to.is_muted_, get_json_object_field_force(from, "is_muted")));
-  TRY_STATUS(from_json(to.is_my_video_enabled_, get_json_object_field_force(from, "is_my_video_enabled")));
-  TRY_STATUS(from_json(to.invite_hash_, get_json_object_field_force(from, "invite_hash")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.participant_id_, from.extract_field("participant_id")));
+  TRY_STATUS(from_json(to.audio_source_id_, from.extract_field("audio_source_id")));
+  TRY_STATUS(from_json(to.payload_, from.extract_field("payload")));
+  TRY_STATUS(from_json(to.is_muted_, from.extract_field("is_muted")));
+  TRY_STATUS(from_json(to.is_my_video_enabled_, from.extract_field("is_my_video_enabled")));
+  TRY_STATUS(from_json(to.invite_hash_, from.extract_field("invite_hash")));
+  return Status::OK();
+}
+
+Status from_json(td_api::launchPrepaidGiveaway &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.giveaway_id_, from.extract_field("giveaway_id")));
+  TRY_STATUS(from_json(to.parameters_, from.extract_field("parameters")));
+  TRY_STATUS(from_json(to.winner_count_, from.extract_field("winner_count")));
+  TRY_STATUS(from_json(to.star_count_, from.extract_field("star_count")));
   return Status::OK();
 }
 
 Status from_json(td_api::leaveChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::leaveGroupCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::loadActiveStories &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_list_, from.extract_field("story_list")));
   return Status::OK();
 }
 
 Status from_json(td_api::loadChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_list_, get_json_object_field_force(from, "chat_list")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_list_, from.extract_field("chat_list")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::loadGroupCallParticipants &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::loadQuickReplyShortcutMessages &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_id_, from.extract_field("shortcut_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::loadQuickReplyShortcuts &to, JsonObject &from) {
+  return Status::OK();
+}
+
+Status from_json(td_api::loadSavedMessagesTopics &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
@@ -6817,334 +8890,420 @@ Status from_json(td_api::logOut &to, JsonObject &from) {
 }
 
 Status from_json(td_api::openChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::openChatSimilarChat &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.opened_chat_id_, from.extract_field("opened_chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::openMessageContent &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::openStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::openWebApp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.url_, get_json_object_field_force(from, "url")));
-  TRY_STATUS(from_json(to.theme_, get_json_object_field_force(from, "theme")));
-  TRY_STATUS(from_json(to.application_name_, get_json_object_field_force(from, "application_name")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.reply_to_message_id_, get_json_object_field_force(from, "reply_to_message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.url_, from.extract_field("url")));
+  TRY_STATUS(from_json(to.theme_, from.extract_field("theme")));
+  TRY_STATUS(from_json(to.application_name_, from.extract_field("application_name")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.reply_to_, from.extract_field("reply_to")));
   return Status::OK();
 }
 
 Status from_json(td_api::optimizeStorage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.size_, get_json_object_field_force(from, "size")));
-  TRY_STATUS(from_json(to.ttl_, get_json_object_field_force(from, "ttl")));
-  TRY_STATUS(from_json(to.count_, get_json_object_field_force(from, "count")));
-  TRY_STATUS(from_json(to.immunity_delay_, get_json_object_field_force(from, "immunity_delay")));
-  TRY_STATUS(from_json(to.file_types_, get_json_object_field_force(from, "file_types")));
-  TRY_STATUS(from_json(to.chat_ids_, get_json_object_field_force(from, "chat_ids")));
-  TRY_STATUS(from_json(to.exclude_chat_ids_, get_json_object_field_force(from, "exclude_chat_ids")));
-  TRY_STATUS(from_json(to.return_deleted_file_statistics_, get_json_object_field_force(from, "return_deleted_file_statistics")));
-  TRY_STATUS(from_json(to.chat_limit_, get_json_object_field_force(from, "chat_limit")));
+  TRY_STATUS(from_json(to.size_, from.extract_field("size")));
+  TRY_STATUS(from_json(to.ttl_, from.extract_field("ttl")));
+  TRY_STATUS(from_json(to.count_, from.extract_field("count")));
+  TRY_STATUS(from_json(to.immunity_delay_, from.extract_field("immunity_delay")));
+  TRY_STATUS(from_json(to.file_types_, from.extract_field("file_types")));
+  TRY_STATUS(from_json(to.chat_ids_, from.extract_field("chat_ids")));
+  TRY_STATUS(from_json(to.exclude_chat_ids_, from.extract_field("exclude_chat_ids")));
+  TRY_STATUS(from_json(to.return_deleted_file_statistics_, from.extract_field("return_deleted_file_statistics")));
+  TRY_STATUS(from_json(to.chat_limit_, from.extract_field("chat_limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::parseMarkdown &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
   return Status::OK();
 }
 
 Status from_json(td_api::parseTextEntities &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.parse_mode_, get_json_object_field_force(from, "parse_mode")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.parse_mode_, from.extract_field("parse_mode")));
   return Status::OK();
 }
 
 Status from_json(td_api::pinChatMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.disable_notification_, get_json_object_field_force(from, "disable_notification")));
-  TRY_STATUS(from_json(to.only_for_self_, get_json_object_field_force(from, "only_for_self")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.disable_notification_, from.extract_field("disable_notification")));
+  TRY_STATUS(from_json(to.only_for_self_, from.extract_field("only_for_self")));
   return Status::OK();
 }
 
 Status from_json(td_api::pingProxy &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.proxy_id_, get_json_object_field_force(from, "proxy_id")));
+  TRY_STATUS(from_json(to.proxy_id_, from.extract_field("proxy_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::preliminaryUploadFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_, get_json_object_field_force(from, "file")));
-  TRY_STATUS(from_json(to.file_type_, get_json_object_field_force(from, "file_type")));
-  TRY_STATUS(from_json(to.priority_, get_json_object_field_force(from, "priority")));
+  TRY_STATUS(from_json(to.file_, from.extract_field("file")));
+  TRY_STATUS(from_json(to.file_type_, from.extract_field("file_type")));
+  TRY_STATUS(from_json(to.priority_, from.extract_field("priority")));
   return Status::OK();
 }
 
 Status from_json(td_api::processChatFolderNewChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_id_, get_json_object_field_force(from, "chat_folder_id")));
-  TRY_STATUS(from_json(to.added_chat_ids_, get_json_object_field_force(from, "added_chat_ids")));
+  TRY_STATUS(from_json(to.chat_folder_id_, from.extract_field("chat_folder_id")));
+  TRY_STATUS(from_json(to.added_chat_ids_, from.extract_field("added_chat_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::processChatJoinRequest &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.approve_, get_json_object_field_force(from, "approve")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.approve_, from.extract_field("approve")));
   return Status::OK();
 }
 
 Status from_json(td_api::processChatJoinRequests &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
-  TRY_STATUS(from_json(to.approve_, get_json_object_field_force(from, "approve")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
+  TRY_STATUS(from_json(to.approve_, from.extract_field("approve")));
   return Status::OK();
 }
 
 Status from_json(td_api::processPushNotification &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.payload_, get_json_object_field_force(from, "payload")));
+  TRY_STATUS(from_json(to.payload_, from.extract_field("payload")));
   return Status::OK();
 }
 
 Status from_json(td_api::rateSpeechRecognition &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.is_good_, get_json_object_field_force(from, "is_good")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.is_good_, from.extract_field("is_good")));
   return Status::OK();
 }
 
 Status from_json(td_api::readAllChatMentions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::readAllChatReactions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::readAllMessageThreadMentions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::readAllMessageThreadReactions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::readChatList &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_list_, get_json_object_field_force(from, "chat_list")));
+  TRY_STATUS(from_json(to.chat_list_, from.extract_field("chat_list")));
   return Status::OK();
 }
 
 Status from_json(td_api::readFilePart &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.count_, get_json_object_field_force(from, "count")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.count_, from.extract_field("count")));
+  return Status::OK();
+}
+
+Status from_json(td_api::readdQuickReplyShortcutMessages &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_name_, from.extract_field("shortcut_name")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::recognizeSpeech &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::recoverAuthenticationPassword &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.recovery_code_, get_json_object_field_force(from, "recovery_code")));
-  TRY_STATUS(from_json(to.new_password_, get_json_object_field_force(from, "new_password")));
-  TRY_STATUS(from_json(to.new_hint_, get_json_object_field_force(from, "new_hint")));
+  TRY_STATUS(from_json(to.recovery_code_, from.extract_field("recovery_code")));
+  TRY_STATUS(from_json(to.new_password_, from.extract_field("new_password")));
+  TRY_STATUS(from_json(to.new_hint_, from.extract_field("new_hint")));
   return Status::OK();
 }
 
 Status from_json(td_api::recoverPassword &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.recovery_code_, get_json_object_field_force(from, "recovery_code")));
-  TRY_STATUS(from_json(to.new_password_, get_json_object_field_force(from, "new_password")));
-  TRY_STATUS(from_json(to.new_hint_, get_json_object_field_force(from, "new_hint")));
+  TRY_STATUS(from_json(to.recovery_code_, from.extract_field("recovery_code")));
+  TRY_STATUS(from_json(to.new_password_, from.extract_field("new_password")));
+  TRY_STATUS(from_json(to.new_hint_, from.extract_field("new_hint")));
+  return Status::OK();
+}
+
+Status from_json(td_api::refundStarPayment &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.telegram_payment_charge_id_, from.extract_field("telegram_payment_charge_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::registerDevice &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.device_token_, get_json_object_field_force(from, "device_token")));
-  TRY_STATUS(from_json(to.other_user_ids_, get_json_object_field_force(from, "other_user_ids")));
+  TRY_STATUS(from_json(to.device_token_, from.extract_field("device_token")));
+  TRY_STATUS(from_json(to.other_user_ids_, from.extract_field("other_user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::registerUser &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.first_name_, get_json_object_field_force(from, "first_name")));
-  TRY_STATUS(from_json(to.last_name_, get_json_object_field_force(from, "last_name")));
+  TRY_STATUS(from_json(to.first_name_, from.extract_field("first_name")));
+  TRY_STATUS(from_json(to.last_name_, from.extract_field("last_name")));
+  TRY_STATUS(from_json(to.disable_notification_, from.extract_field("disable_notification")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeAllFilesFromDownloads &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.only_active_, get_json_object_field_force(from, "only_active")));
-  TRY_STATUS(from_json(to.only_completed_, get_json_object_field_force(from, "only_completed")));
-  TRY_STATUS(from_json(to.delete_from_cache_, get_json_object_field_force(from, "delete_from_cache")));
+  TRY_STATUS(from_json(to.only_active_, from.extract_field("only_active")));
+  TRY_STATUS(from_json(to.only_completed_, from.extract_field("only_completed")));
+  TRY_STATUS(from_json(to.delete_from_cache_, from.extract_field("delete_from_cache")));
   return Status::OK();
 }
 
-Status from_json(td_api::removeBackground &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.background_id_, get_json_object_field_force(from, "background_id")));
+Status from_json(td_api::removeBusinessConnectedBotFromChat &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeChatActionBar &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeContacts &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_ids_, get_json_object_field_force(from, "user_ids")));
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeFavoriteSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeFileFromDownloads &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.delete_from_cache_, get_json_object_field_force(from, "delete_from_cache")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.delete_from_cache_, from.extract_field("delete_from_cache")));
+  return Status::OK();
+}
+
+Status from_json(td_api::removeInstalledBackground &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.background_id_, from.extract_field("background_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeMessageReaction &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reaction_type_, get_json_object_field_force(from, "reaction_type")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reaction_type_, from.extract_field("reaction_type")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeNotification &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.notification_group_id_, get_json_object_field_force(from, "notification_group_id")));
-  TRY_STATUS(from_json(to.notification_id_, get_json_object_field_force(from, "notification_id")));
+  TRY_STATUS(from_json(to.notification_group_id_, from.extract_field("notification_group_id")));
+  TRY_STATUS(from_json(to.notification_id_, from.extract_field("notification_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeNotificationGroup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.notification_group_id_, get_json_object_field_force(from, "notification_group_id")));
-  TRY_STATUS(from_json(to.max_notification_id_, get_json_object_field_force(from, "max_notification_id")));
+  TRY_STATUS(from_json(to.notification_group_id_, from.extract_field("notification_group_id")));
+  TRY_STATUS(from_json(to.max_notification_id_, from.extract_field("max_notification_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::removePendingPaidMessageReactions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeProxy &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.proxy_id_, get_json_object_field_force(from, "proxy_id")));
+  TRY_STATUS(from_json(to.proxy_id_, from.extract_field("proxy_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeRecentHashtag &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.hashtag_, get_json_object_field_force(from, "hashtag")));
+  TRY_STATUS(from_json(to.hashtag_, from.extract_field("hashtag")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeRecentSticker &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.is_attached_, get_json_object_field_force(from, "is_attached")));
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.is_attached_, from.extract_field("is_attached")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeRecentlyFoundChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeSavedAnimation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.animation_, get_json_object_field_force(from, "animation")));
+  TRY_STATUS(from_json(to.animation_, from.extract_field("animation")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeSavedNotificationSound &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.notification_sound_id_, get_json_object_field_force(from, "notification_sound_id")));
+  TRY_STATUS(from_json(to.notification_sound_id_, from.extract_field("notification_sound_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::removeSearchedForTag &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.tag_, from.extract_field("tag")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeStickerFromSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::removeTopChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.category_, get_json_object_field_force(from, "category")));
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  return Status::OK();
-}
-
-Status from_json(td_api::reorderActiveBotUsernames &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.usernames_, get_json_object_field_force(from, "usernames")));
+  TRY_STATUS(from_json(to.category_, from.extract_field("category")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::reorderActiveUsernames &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.usernames_, get_json_object_field_force(from, "usernames")));
+  TRY_STATUS(from_json(to.usernames_, from.extract_field("usernames")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reorderBotActiveUsernames &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.usernames_, from.extract_field("usernames")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reorderBotMediaPreviews &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.file_ids_, from.extract_field("file_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::reorderChatFolders &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_folder_ids_, get_json_object_field_force(from, "chat_folder_ids")));
-  TRY_STATUS(from_json(to.main_chat_list_position_, get_json_object_field_force(from, "main_chat_list_position")));
+  TRY_STATUS(from_json(to.chat_folder_ids_, from.extract_field("chat_folder_ids")));
+  TRY_STATUS(from_json(to.main_chat_list_position_, from.extract_field("main_chat_list_position")));
   return Status::OK();
 }
 
 Status from_json(td_api::reorderInstalledStickerSets &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_type_, get_json_object_field_force(from, "sticker_type")));
-  TRY_STATUS(from_json(to.sticker_set_ids_, get_json_object_field_force(from, "sticker_set_ids")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.sticker_set_ids_, from.extract_field("sticker_set_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reorderQuickReplyShortcuts &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_ids_, from.extract_field("shortcut_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::reorderSupergroupActiveUsernames &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.usernames_, get_json_object_field_force(from, "usernames")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.usernames_, from.extract_field("usernames")));
   return Status::OK();
 }
 
 Status from_json(td_api::replacePrimaryChatInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::replaceStickerInSet &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.old_sticker_, from.extract_field("old_sticker")));
+  TRY_STATUS(from_json(to.new_sticker_, from.extract_field("new_sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::replaceVideoChatRtmpUrl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reportAuthenticationCodeMissing &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.mobile_network_code_, from.extract_field("mobile_network_code")));
   return Status::OK();
 }
 
 Status from_json(td_api::reportChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_ids_, get_json_object_field_force(from, "message_ids")));
-  TRY_STATUS(from_json(to.reason_, get_json_object_field_force(from, "reason")));
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
+  TRY_STATUS(from_json(to.reason_, from.extract_field("reason")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
   return Status::OK();
 }
 
 Status from_json(td_api::reportChatPhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.reason_, get_json_object_field_force(from, "reason")));
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.reason_, from.extract_field("reason")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reportChatSponsoredMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json_bytes(to.option_id_, from.extract_field("option_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::reportMessageReactions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.sender_id_, get_json_object_field_force(from, "sender_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.sender_id_, from.extract_field("sender_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reportPhoneNumberCodeMissing &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.mobile_network_code_, from.extract_field("mobile_network_code")));
+  return Status::OK();
+}
+
+Status from_json(td_api::reportStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.reason_, from.extract_field("reason")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
   return Status::OK();
 }
 
 Status from_json(td_api::reportSupergroupAntiSpamFalsePositive &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::reportSupergroupSpam &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.message_ids_, get_json_object_field_force(from, "message_ids")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
   return Status::OK();
 }
 
@@ -7157,15 +9316,12 @@ Status from_json(td_api::requestPasswordRecovery &to, JsonObject &from) {
 }
 
 Status from_json(td_api::requestQrCodeAuthentication &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.other_user_ids_, get_json_object_field_force(from, "other_user_ids")));
+  TRY_STATUS(from_json(to.other_user_ids_, from.extract_field("other_user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::resendAuthenticationCode &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::resendChangePhoneNumberCode &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.reason_, from.extract_field("reason")));
   return Status::OK();
 }
 
@@ -7178,16 +9334,14 @@ Status from_json(td_api::resendLoginEmailAddressCode &to, JsonObject &from) {
 }
 
 Status from_json(td_api::resendMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_ids_, get_json_object_field_force(from, "message_ids")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
+  TRY_STATUS(from_json(to.quote_, from.extract_field("quote")));
   return Status::OK();
 }
 
-Status from_json(td_api::resendPhoneNumberConfirmationCode &to, JsonObject &from) {
-  return Status::OK();
-}
-
-Status from_json(td_api::resendPhoneNumberVerificationCode &to, JsonObject &from) {
+Status from_json(td_api::resendPhoneNumberCode &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.reason_, from.extract_field("reason")));
   return Status::OK();
 }
 
@@ -7203,7 +9357,7 @@ Status from_json(td_api::resetAuthenticationEmailAddress &to, JsonObject &from) 
   return Status::OK();
 }
 
-Status from_json(td_api::resetBackgrounds &to, JsonObject &from) {
+Status from_json(td_api::resetInstalledBackgrounds &to, JsonObject &from) {
   return Status::OK();
 }
 
@@ -7215,866 +9369,1172 @@ Status from_json(td_api::resetPassword &to, JsonObject &from) {
   return Status::OK();
 }
 
+Status from_json(td_api::reuseStarSubscription &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.subscription_id_, from.extract_field("subscription_id")));
+  return Status::OK();
+}
+
 Status from_json(td_api::revokeChatInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.invite_link_, get_json_object_field_force(from, "invite_link")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.invite_link_, from.extract_field("invite_link")));
   return Status::OK();
 }
 
 Status from_json(td_api::revokeGroupCallInviteLink &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::saveApplicationLogEvent &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchBackground &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchCallMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.only_missed_, get_json_object_field_force(from, "only_missed")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.only_missed_, from.extract_field("only_missed")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchChatMembers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchChatMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.sender_id_, get_json_object_field_force(from, "sender_id")));
-  TRY_STATUS(from_json(to.from_message_id_, get_json_object_field_force(from, "from_message_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.sender_id_, from.extract_field("sender_id")));
+  TRY_STATUS(from_json(to.from_message_id_, from.extract_field("from_message_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchChatRecentLocationMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchChatsNearby &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchChatsOnServer &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchContacts &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchEmojis &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.exact_match_, get_json_object_field_force(from, "exact_match")));
-  TRY_STATUS(from_json(to.input_language_codes_, get_json_object_field_force(from, "input_language_codes")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.input_language_codes_, from.extract_field("input_language_codes")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchFileDownloads &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.only_active_, get_json_object_field_force(from, "only_active")));
-  TRY_STATUS(from_json(to.only_completed_, get_json_object_field_force(from, "only_completed")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.only_active_, from.extract_field("only_active")));
+  TRY_STATUS(from_json(to.only_completed_, from.extract_field("only_completed")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchHashtags &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.prefix_, get_json_object_field_force(from, "prefix")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.prefix_, from.extract_field("prefix")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchInstalledStickerSets &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_type_, get_json_object_field_force(from, "sticker_type")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_list_, get_json_object_field_force(from, "chat_list")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
-  TRY_STATUS(from_json(to.min_date_, get_json_object_field_force(from, "min_date")));
-  TRY_STATUS(from_json(to.max_date_, get_json_object_field_force(from, "max_date")));
+  TRY_STATUS(from_json(to.chat_list_, from.extract_field("chat_list")));
+  TRY_STATUS(from_json(to.only_in_channels_, from.extract_field("only_in_channels")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
+  TRY_STATUS(from_json(to.min_date_, from.extract_field("min_date")));
+  TRY_STATUS(from_json(to.max_date_, from.extract_field("max_date")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchOutgoingDocumentMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchPublicChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchPublicChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  return Status::OK();
+}
+
+Status from_json(td_api::searchPublicMessagesByTag &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.tag_, from.extract_field("tag")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::searchPublicStoriesByLocation &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.address_, from.extract_field("address")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::searchPublicStoriesByTag &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.tag_, from.extract_field("tag")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::searchPublicStoriesByVenue &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.venue_provider_, from.extract_field("venue_provider")));
+  TRY_STATUS(from_json(to.venue_id_, from.extract_field("venue_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::searchQuote &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.quote_, from.extract_field("quote")));
+  TRY_STATUS(from_json(to.quote_position_, from.extract_field("quote_position")));
+  return Status::OK();
+}
+
+Status from_json(td_api::searchRecentlyFoundChats &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::searchSavedMessages &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
+  TRY_STATUS(from_json(to.tag_, from.extract_field("tag")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.from_message_id_, from.extract_field("from_message_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchSecretMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
-  TRY_STATUS(from_json(to.filter_, get_json_object_field_force(from, "filter")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.filter_, from.extract_field("filter")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchStickerSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchStickerSets &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.query_, get_json_object_field_force(from, "query")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchStickers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_type_, get_json_object_field_force(from, "sticker_type")));
-  TRY_STATUS(from_json(to.emojis_, get_json_object_field_force(from, "emojis")));
-  TRY_STATUS(from_json(to.limit_, get_json_object_field_force(from, "limit")));
+  TRY_STATUS(from_json(to.sticker_type_, from.extract_field("sticker_type")));
+  TRY_STATUS(from_json(to.emojis_, from.extract_field("emojis")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  return Status::OK();
+}
+
+Status from_json(td_api::searchStringsByPrefix &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.strings_, from.extract_field("strings")));
+  TRY_STATUS(from_json(to.query_, from.extract_field("query")));
+  TRY_STATUS(from_json(to.limit_, from.extract_field("limit")));
+  TRY_STATUS(from_json(to.return_none_for_empty_query_, from.extract_field("return_none_for_empty_query")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchUserByPhoneNumber &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
+  TRY_STATUS(from_json(to.only_local_, from.extract_field("only_local")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchUserByToken &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
   return Status::OK();
 }
 
 Status from_json(td_api::searchWebApp &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.web_app_short_name_, get_json_object_field_force(from, "web_app_short_name")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.web_app_short_name_, from.extract_field("web_app_short_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendAuthenticationFirebaseSms &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.token_, get_json_object_field_force(from, "token")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendBotStartMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.parameter_, get_json_object_field_force(from, "parameter")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.parameter_, from.extract_field("parameter")));
+  return Status::OK();
+}
+
+Status from_json(td_api::sendBusinessMessage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.reply_to_, from.extract_field("reply_to")));
+  TRY_STATUS(from_json(to.disable_notification_, from.extract_field("disable_notification")));
+  TRY_STATUS(from_json(to.protect_content_, from.extract_field("protect_content")));
+  TRY_STATUS(from_json(to.effect_id_, from.extract_field("effect_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
+  return Status::OK();
+}
+
+Status from_json(td_api::sendBusinessMessageAlbum &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.reply_to_, from.extract_field("reply_to")));
+  TRY_STATUS(from_json(to.disable_notification_, from.extract_field("disable_notification")));
+  TRY_STATUS(from_json(to.protect_content_, from.extract_field("protect_content")));
+  TRY_STATUS(from_json(to.effect_id_, from.extract_field("effect_id")));
+  TRY_STATUS(from_json(to.input_message_contents_, from.extract_field("input_message_contents")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendCallDebugInformation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.call_id_, get_json_object_field_force(from, "call_id")));
-  TRY_STATUS(from_json(to.debug_information_, get_json_object_field_force(from, "debug_information")));
+  TRY_STATUS(from_json(to.call_id_, from.extract_field("call_id")));
+  TRY_STATUS(from_json(to.debug_information_, from.extract_field("debug_information")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendCallLog &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.call_id_, get_json_object_field_force(from, "call_id")));
-  TRY_STATUS(from_json(to.log_file_, get_json_object_field_force(from, "log_file")));
+  TRY_STATUS(from_json(to.call_id_, from.extract_field("call_id")));
+  TRY_STATUS(from_json(to.log_file_, from.extract_field("log_file")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendCallRating &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.call_id_, get_json_object_field_force(from, "call_id")));
-  TRY_STATUS(from_json(to.rating_, get_json_object_field_force(from, "rating")));
-  TRY_STATUS(from_json(to.comment_, get_json_object_field_force(from, "comment")));
-  TRY_STATUS(from_json(to.problems_, get_json_object_field_force(from, "problems")));
+  TRY_STATUS(from_json(to.call_id_, from.extract_field("call_id")));
+  TRY_STATUS(from_json(to.rating_, from.extract_field("rating")));
+  TRY_STATUS(from_json(to.comment_, from.extract_field("comment")));
+  TRY_STATUS(from_json(to.problems_, from.extract_field("problems")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendCallSignalingData &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.call_id_, get_json_object_field_force(from, "call_id")));
-  TRY_STATUS(from_json_bytes(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json(to.call_id_, from.extract_field("call_id")));
+  TRY_STATUS(from_json_bytes(to.data_, from.extract_field("data")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendChatAction &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.action_, get_json_object_field_force(from, "action")));
-  return Status::OK();
-}
-
-Status from_json(td_api::sendChatScreenshotTakenNotification &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.action_, from.extract_field("action")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendCustomRequest &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.method_, get_json_object_field_force(from, "method")));
-  TRY_STATUS(from_json(to.parameters_, get_json_object_field_force(from, "parameters")));
+  TRY_STATUS(from_json(to.method_, from.extract_field("method")));
+  TRY_STATUS(from_json(to.parameters_, from.extract_field("parameters")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendEmailAddressVerificationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.email_address_, get_json_object_field_force(from, "email_address")));
+  TRY_STATUS(from_json(to.email_address_, from.extract_field("email_address")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendInlineQueryResultMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.reply_to_message_id_, get_json_object_field_force(from, "reply_to_message_id")));
-  TRY_STATUS(from_json(to.options_, get_json_object_field_force(from, "options")));
-  TRY_STATUS(from_json(to.query_id_, get_json_object_field_force(from, "query_id")));
-  TRY_STATUS(from_json(to.result_id_, get_json_object_field_force(from, "result_id")));
-  TRY_STATUS(from_json(to.hide_via_bot_, get_json_object_field_force(from, "hide_via_bot")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.reply_to_, from.extract_field("reply_to")));
+  TRY_STATUS(from_json(to.options_, from.extract_field("options")));
+  TRY_STATUS(from_json(to.query_id_, from.extract_field("query_id")));
+  TRY_STATUS(from_json(to.result_id_, from.extract_field("result_id")));
+  TRY_STATUS(from_json(to.hide_via_bot_, from.extract_field("hide_via_bot")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.reply_to_message_id_, get_json_object_field_force(from, "reply_to_message_id")));
-  TRY_STATUS(from_json(to.options_, get_json_object_field_force(from, "options")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
-  TRY_STATUS(from_json(to.input_message_content_, get_json_object_field_force(from, "input_message_content")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.reply_to_, from.extract_field("reply_to")));
+  TRY_STATUS(from_json(to.options_, from.extract_field("options")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
+  TRY_STATUS(from_json(to.input_message_content_, from.extract_field("input_message_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendMessageAlbum &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.reply_to_message_id_, get_json_object_field_force(from, "reply_to_message_id")));
-  TRY_STATUS(from_json(to.options_, get_json_object_field_force(from, "options")));
-  TRY_STATUS(from_json(to.input_message_contents_, get_json_object_field_force(from, "input_message_contents")));
-  TRY_STATUS(from_json(to.only_preview_, get_json_object_field_force(from, "only_preview")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.reply_to_, from.extract_field("reply_to")));
+  TRY_STATUS(from_json(to.options_, from.extract_field("options")));
+  TRY_STATUS(from_json(to.input_message_contents_, from.extract_field("input_message_contents")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendPassportAuthorizationForm &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.authorization_form_id_, get_json_object_field_force(from, "authorization_form_id")));
-  TRY_STATUS(from_json(to.types_, get_json_object_field_force(from, "types")));
+  TRY_STATUS(from_json(to.authorization_form_id_, from.extract_field("authorization_form_id")));
+  TRY_STATUS(from_json(to.types_, from.extract_field("types")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendPaymentForm &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.input_invoice_, get_json_object_field_force(from, "input_invoice")));
-  TRY_STATUS(from_json(to.payment_form_id_, get_json_object_field_force(from, "payment_form_id")));
-  TRY_STATUS(from_json(to.order_info_id_, get_json_object_field_force(from, "order_info_id")));
-  TRY_STATUS(from_json(to.shipping_option_id_, get_json_object_field_force(from, "shipping_option_id")));
-  TRY_STATUS(from_json(to.credentials_, get_json_object_field_force(from, "credentials")));
-  TRY_STATUS(from_json(to.tip_amount_, get_json_object_field_force(from, "tip_amount")));
+  TRY_STATUS(from_json(to.input_invoice_, from.extract_field("input_invoice")));
+  TRY_STATUS(from_json(to.payment_form_id_, from.extract_field("payment_form_id")));
+  TRY_STATUS(from_json(to.order_info_id_, from.extract_field("order_info_id")));
+  TRY_STATUS(from_json(to.shipping_option_id_, from.extract_field("shipping_option_id")));
+  TRY_STATUS(from_json(to.credentials_, from.extract_field("credentials")));
+  TRY_STATUS(from_json(to.tip_amount_, from.extract_field("tip_amount")));
   return Status::OK();
 }
 
-Status from_json(td_api::sendPhoneNumberConfirmationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.hash_, get_json_object_field_force(from, "hash")));
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
-  TRY_STATUS(from_json(to.settings_, get_json_object_field_force(from, "settings")));
+Status from_json(td_api::sendPhoneNumberCode &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
+  TRY_STATUS(from_json(to.settings_, from.extract_field("settings")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
-Status from_json(td_api::sendPhoneNumberVerificationCode &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
-  TRY_STATUS(from_json(to.settings_, get_json_object_field_force(from, "settings")));
+Status from_json(td_api::sendPhoneNumberFirebaseSms &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
+  return Status::OK();
+}
+
+Status from_json(td_api::sendQuickReplyShortcutMessages &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.shortcut_id_, from.extract_field("shortcut_id")));
+  TRY_STATUS(from_json(to.sending_id_, from.extract_field("sending_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::sendStory &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.content_, from.extract_field("content")));
+  TRY_STATUS(from_json(to.areas_, from.extract_field("areas")));
+  TRY_STATUS(from_json(to.caption_, from.extract_field("caption")));
+  TRY_STATUS(from_json(to.privacy_settings_, from.extract_field("privacy_settings")));
+  TRY_STATUS(from_json(to.active_period_, from.extract_field("active_period")));
+  TRY_STATUS(from_json(to.from_story_full_id_, from.extract_field("from_story_full_id")));
+  TRY_STATUS(from_json(to.is_posted_to_chat_page_, from.extract_field("is_posted_to_chat_page")));
+  TRY_STATUS(from_json(to.protect_content_, from.extract_field("protect_content")));
+  return Status::OK();
+}
+
+Status from_json(td_api::sendWebAppCustomRequest &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.method_, from.extract_field("method")));
+  TRY_STATUS(from_json(to.parameters_, from.extract_field("parameters")));
   return Status::OK();
 }
 
 Status from_json(td_api::sendWebAppData &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.button_text_, get_json_object_field_force(from, "button_text")));
-  TRY_STATUS(from_json(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.button_text_, from.extract_field("button_text")));
+  TRY_STATUS(from_json(to.data_, from.extract_field("data")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setAccentColor &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.accent_color_id_, from.extract_field("accent_color_id")));
+  TRY_STATUS(from_json(to.background_custom_emoji_id_, from.extract_field("background_custom_emoji_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::setAccountTtl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.ttl_, get_json_object_field_force(from, "ttl")));
+  TRY_STATUS(from_json(to.ttl_, from.extract_field("ttl")));
   return Status::OK();
 }
 
 Status from_json(td_api::setAlarm &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.seconds_, get_json_object_field_force(from, "seconds")));
+  TRY_STATUS(from_json(to.seconds_, from.extract_field("seconds")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setApplicationVerificationToken &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.verification_id_, from.extract_field("verification_id")));
+  TRY_STATUS(from_json(to.token_, from.extract_field("token")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setArchiveChatListSettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.settings_, from.extract_field("settings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setAuthenticationEmailAddress &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.email_address_, get_json_object_field_force(from, "email_address")));
+  TRY_STATUS(from_json(to.email_address_, from.extract_field("email_address")));
   return Status::OK();
 }
 
 Status from_json(td_api::setAuthenticationPhoneNumber &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.phone_number_, get_json_object_field_force(from, "phone_number")));
-  TRY_STATUS(from_json(to.settings_, get_json_object_field_force(from, "settings")));
+  TRY_STATUS(from_json(to.phone_number_, from.extract_field("phone_number")));
+  TRY_STATUS(from_json(to.settings_, from.extract_field("settings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setAutoDownloadSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.settings_, get_json_object_field_force(from, "settings")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.settings_, from.extract_field("settings")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
   return Status::OK();
 }
 
 Status from_json(td_api::setAutosaveSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
-  TRY_STATUS(from_json(to.settings_, get_json_object_field_force(from, "settings")));
-  return Status::OK();
-}
-
-Status from_json(td_api::setBackground &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.background_, get_json_object_field_force(from, "background")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.for_dark_theme_, get_json_object_field_force(from, "for_dark_theme")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  TRY_STATUS(from_json(to.settings_, from.extract_field("settings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setBio &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bio_, get_json_object_field_force(from, "bio")));
+  TRY_STATUS(from_json(to.bio_, from.extract_field("bio")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setBirthdate &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.birthdate_, from.extract_field("birthdate")));
   return Status::OK();
 }
 
 Status from_json(td_api::setBotInfoDescription &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
   return Status::OK();
 }
 
 Status from_json(td_api::setBotInfoShortDescription &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
-  TRY_STATUS(from_json(to.short_description_, get_json_object_field_force(from, "short_description")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.short_description_, from.extract_field("short_description")));
   return Status::OK();
 }
 
 Status from_json(td_api::setBotName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
   return Status::OK();
 }
 
 Status from_json(td_api::setBotProfilePhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.photo_, get_json_object_field_force(from, "photo")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.photo_, from.extract_field("photo")));
   return Status::OK();
 }
 
 Status from_json(td_api::setBotUpdatesStatus &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.pending_update_count_, get_json_object_field_force(from, "pending_update_count")));
-  TRY_STATUS(from_json(to.error_message_, get_json_object_field_force(from, "error_message")));
+  TRY_STATUS(from_json(to.pending_update_count_, from.extract_field("pending_update_count")));
+  TRY_STATUS(from_json(to.error_message_, from.extract_field("error_message")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setBusinessAwayMessageSettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.away_message_settings_, from.extract_field("away_message_settings")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setBusinessConnectedBot &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.bot_, from.extract_field("bot")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setBusinessGreetingMessageSettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.greeting_message_settings_, from.extract_field("greeting_message_settings")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setBusinessLocation &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setBusinessMessageIsPinned &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.is_pinned_, from.extract_field("is_pinned")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setBusinessOpeningHours &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.opening_hours_, from.extract_field("opening_hours")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setBusinessStartPage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.start_page_, from.extract_field("start_page")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setChatAccentColor &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.accent_color_id_, from.extract_field("accent_color_id")));
+  TRY_STATUS(from_json(to.background_custom_emoji_id_, from.extract_field("background_custom_emoji_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setChatActiveStoriesList &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.story_list_, from.extract_field("story_list")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatAvailableReactions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.available_reactions_, get_json_object_field_force(from, "available_reactions")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.available_reactions_, from.extract_field("available_reactions")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatBackground &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.background_, get_json_object_field_force(from, "background")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.dark_theme_dimming_, get_json_object_field_force(from, "dark_theme_dimming")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.background_, from.extract_field("background")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.dark_theme_dimming_, from.extract_field("dark_theme_dimming")));
+  TRY_STATUS(from_json(to.only_for_self_, from.extract_field("only_for_self")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatClientData &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.client_data_, get_json_object_field_force(from, "client_data")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.client_data_, from.extract_field("client_data")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatDescription &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.description_, get_json_object_field_force(from, "description")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.description_, from.extract_field("description")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatDiscussionGroup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.discussion_chat_id_, get_json_object_field_force(from, "discussion_chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.discussion_chat_id_, from.extract_field("discussion_chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatDraftMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.draft_message_, get_json_object_field_force(from, "draft_message")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.draft_message_, from.extract_field("draft_message")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setChatEmojiStatus &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.emoji_status_, from.extract_field("emoji_status")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatLocation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatMemberStatus &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.member_id_, get_json_object_field_force(from, "member_id")));
-  TRY_STATUS(from_json(to.status_, get_json_object_field_force(from, "status")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.member_id_, from.extract_field("member_id")));
+  TRY_STATUS(from_json(to.status_, from.extract_field("status")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatMessageAutoDeleteTime &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_auto_delete_time_, get_json_object_field_force(from, "message_auto_delete_time")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_auto_delete_time_, from.extract_field("message_auto_delete_time")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatMessageSender &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_sender_id_, get_json_object_field_force(from, "message_sender_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_sender_id_, from.extract_field("message_sender_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatNotificationSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.notification_settings_, get_json_object_field_force(from, "notification_settings")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.notification_settings_, from.extract_field("notification_settings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatPermissions &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.permissions_, get_json_object_field_force(from, "permissions")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.permissions_, from.extract_field("permissions")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatPhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.photo_, get_json_object_field_force(from, "photo")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.photo_, from.extract_field("photo")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setChatPinnedStories &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.story_ids_, from.extract_field("story_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setChatProfileAccentColor &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.profile_accent_color_id_, from.extract_field("profile_accent_color_id")));
+  TRY_STATUS(from_json(to.profile_background_custom_emoji_id_, from.extract_field("profile_background_custom_emoji_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatSlowModeDelay &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.slow_mode_delay_, get_json_object_field_force(from, "slow_mode_delay")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.slow_mode_delay_, from.extract_field("slow_mode_delay")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatTheme &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.theme_name_, get_json_object_field_force(from, "theme_name")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.theme_name_, from.extract_field("theme_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::setChatTitle &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setCloseFriends &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.user_ids_, from.extract_field("user_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::setCommands &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
-  TRY_STATUS(from_json(to.language_code_, get_json_object_field_force(from, "language_code")));
-  TRY_STATUS(from_json(to.commands_, get_json_object_field_force(from, "commands")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  TRY_STATUS(from_json(to.language_code_, from.extract_field("language_code")));
+  TRY_STATUS(from_json(to.commands_, from.extract_field("commands")));
   return Status::OK();
 }
 
 Status from_json(td_api::setCustomEmojiStickerSetThumbnail &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.custom_emoji_id_, get_json_object_field_force(from, "custom_emoji_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.custom_emoji_id_, from.extract_field("custom_emoji_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::setCustomLanguagePack &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.info_, get_json_object_field_force(from, "info")));
-  TRY_STATUS(from_json(to.strings_, get_json_object_field_force(from, "strings")));
+  TRY_STATUS(from_json(to.info_, from.extract_field("info")));
+  TRY_STATUS(from_json(to.strings_, from.extract_field("strings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setCustomLanguagePackString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_pack_id_, get_json_object_field_force(from, "language_pack_id")));
-  TRY_STATUS(from_json(to.new_string_, get_json_object_field_force(from, "new_string")));
+  TRY_STATUS(from_json(to.language_pack_id_, from.extract_field("language_pack_id")));
+  TRY_STATUS(from_json(to.new_string_, from.extract_field("new_string")));
   return Status::OK();
 }
 
 Status from_json(td_api::setDatabaseEncryptionKey &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.new_encryption_key_, get_json_object_field_force(from, "new_encryption_key")));
+  TRY_STATUS(from_json_bytes(to.new_encryption_key_, from.extract_field("new_encryption_key")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setDefaultBackground &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.background_, from.extract_field("background")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.for_dark_theme_, from.extract_field("for_dark_theme")));
   return Status::OK();
 }
 
 Status from_json(td_api::setDefaultChannelAdministratorRights &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.default_channel_administrator_rights_, get_json_object_field_force(from, "default_channel_administrator_rights")));
+  TRY_STATUS(from_json(to.default_channel_administrator_rights_, from.extract_field("default_channel_administrator_rights")));
   return Status::OK();
 }
 
 Status from_json(td_api::setDefaultGroupAdministratorRights &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.default_group_administrator_rights_, get_json_object_field_force(from, "default_group_administrator_rights")));
+  TRY_STATUS(from_json(to.default_group_administrator_rights_, from.extract_field("default_group_administrator_rights")));
   return Status::OK();
 }
 
 Status from_json(td_api::setDefaultMessageAutoDeleteTime &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.message_auto_delete_time_, get_json_object_field_force(from, "message_auto_delete_time")));
+  TRY_STATUS(from_json(to.message_auto_delete_time_, from.extract_field("message_auto_delete_time")));
   return Status::OK();
 }
 
 Status from_json(td_api::setDefaultReactionType &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.reaction_type_, get_json_object_field_force(from, "reaction_type")));
+  TRY_STATUS(from_json(to.reaction_type_, from.extract_field("reaction_type")));
   return Status::OK();
 }
 
 Status from_json(td_api::setEmojiStatus &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.emoji_status_, get_json_object_field_force(from, "emoji_status")));
-  TRY_STATUS(from_json(to.duration_, get_json_object_field_force(from, "duration")));
+  TRY_STATUS(from_json(to.emoji_status_, from.extract_field("emoji_status")));
   return Status::OK();
 }
 
 Status from_json(td_api::setFileGenerationProgress &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.generation_id_, get_json_object_field_force(from, "generation_id")));
-  TRY_STATUS(from_json(to.expected_size_, get_json_object_field_force(from, "expected_size")));
-  TRY_STATUS(from_json(to.local_prefix_size_, get_json_object_field_force(from, "local_prefix_size")));
+  TRY_STATUS(from_json(to.generation_id_, from.extract_field("generation_id")));
+  TRY_STATUS(from_json(to.expected_size_, from.extract_field("expected_size")));
+  TRY_STATUS(from_json(to.local_prefix_size_, from.extract_field("local_prefix_size")));
   return Status::OK();
 }
 
 Status from_json(td_api::setForumTopicNotificationSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.notification_settings_, get_json_object_field_force(from, "notification_settings")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.notification_settings_, from.extract_field("notification_settings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setGameScore &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.edit_message_, get_json_object_field_force(from, "edit_message")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.score_, get_json_object_field_force(from, "score")));
-  TRY_STATUS(from_json(to.force_, get_json_object_field_force(from, "force")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.edit_message_, from.extract_field("edit_message")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.score_, from.extract_field("score")));
+  TRY_STATUS(from_json(to.force_, from.extract_field("force")));
   return Status::OK();
 }
 
 Status from_json(td_api::setGroupCallParticipantIsSpeaking &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.audio_source_, get_json_object_field_force(from, "audio_source")));
-  TRY_STATUS(from_json(to.is_speaking_, get_json_object_field_force(from, "is_speaking")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.audio_source_, from.extract_field("audio_source")));
+  TRY_STATUS(from_json(to.is_speaking_, from.extract_field("is_speaking")));
   return Status::OK();
 }
 
 Status from_json(td_api::setGroupCallParticipantVolumeLevel &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.participant_id_, get_json_object_field_force(from, "participant_id")));
-  TRY_STATUS(from_json(to.volume_level_, get_json_object_field_force(from, "volume_level")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.participant_id_, from.extract_field("participant_id")));
+  TRY_STATUS(from_json(to.volume_level_, from.extract_field("volume_level")));
   return Status::OK();
 }
 
 Status from_json(td_api::setGroupCallTitle &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
   return Status::OK();
 }
 
 Status from_json(td_api::setInactiveSessionTtl &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inactive_session_ttl_days_, get_json_object_field_force(from, "inactive_session_ttl_days")));
+  TRY_STATUS(from_json(to.inactive_session_ttl_days_, from.extract_field("inactive_session_ttl_days")));
   return Status::OK();
 }
 
 Status from_json(td_api::setInlineGameScore &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.inline_message_id_, get_json_object_field_force(from, "inline_message_id")));
-  TRY_STATUS(from_json(to.edit_message_, get_json_object_field_force(from, "edit_message")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.score_, get_json_object_field_force(from, "score")));
-  TRY_STATUS(from_json(to.force_, get_json_object_field_force(from, "force")));
+  TRY_STATUS(from_json(to.inline_message_id_, from.extract_field("inline_message_id")));
+  TRY_STATUS(from_json(to.edit_message_, from.extract_field("edit_message")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.score_, from.extract_field("score")));
+  TRY_STATUS(from_json(to.force_, from.extract_field("force")));
   return Status::OK();
 }
 
 Status from_json(td_api::setLocation &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.location_, get_json_object_field_force(from, "location")));
+  TRY_STATUS(from_json(to.location_, from.extract_field("location")));
   return Status::OK();
 }
 
 Status from_json(td_api::setLogStream &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.log_stream_, get_json_object_field_force(from, "log_stream")));
+  TRY_STATUS(from_json(to.log_stream_, from.extract_field("log_stream")));
   return Status::OK();
 }
 
 Status from_json(td_api::setLogTagVerbosityLevel &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.tag_, get_json_object_field_force(from, "tag")));
-  TRY_STATUS(from_json(to.new_verbosity_level_, get_json_object_field_force(from, "new_verbosity_level")));
+  TRY_STATUS(from_json(to.tag_, from.extract_field("tag")));
+  TRY_STATUS(from_json(to.new_verbosity_level_, from.extract_field("new_verbosity_level")));
   return Status::OK();
 }
 
 Status from_json(td_api::setLogVerbosityLevel &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.new_verbosity_level_, get_json_object_field_force(from, "new_verbosity_level")));
+  TRY_STATUS(from_json(to.new_verbosity_level_, from.extract_field("new_verbosity_level")));
   return Status::OK();
 }
 
 Status from_json(td_api::setLoginEmailAddress &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.new_login_email_address_, get_json_object_field_force(from, "new_login_email_address")));
+  TRY_STATUS(from_json(to.new_login_email_address_, from.extract_field("new_login_email_address")));
   return Status::OK();
 }
 
 Status from_json(td_api::setMenuButton &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.menu_button_, get_json_object_field_force(from, "menu_button")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.menu_button_, from.extract_field("menu_button")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setMessageFactCheck &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setMessageReactions &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reaction_types_, from.extract_field("reaction_types")));
+  TRY_STATUS(from_json(to.is_big_, from.extract_field("is_big")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setMessageSenderBlockList &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.sender_id_, from.extract_field("sender_id")));
+  TRY_STATUS(from_json(to.block_list_, from.extract_field("block_list")));
   return Status::OK();
 }
 
 Status from_json(td_api::setName &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.first_name_, get_json_object_field_force(from, "first_name")));
-  TRY_STATUS(from_json(to.last_name_, get_json_object_field_force(from, "last_name")));
+  TRY_STATUS(from_json(to.first_name_, from.extract_field("first_name")));
+  TRY_STATUS(from_json(to.last_name_, from.extract_field("last_name")));
   return Status::OK();
 }
 
 Status from_json(td_api::setNetworkType &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setNewChatPrivacySettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.settings_, from.extract_field("settings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setOption &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.value_, get_json_object_field_force(from, "value")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.value_, from.extract_field("value")));
   return Status::OK();
 }
 
 Status from_json(td_api::setPassportElement &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.element_, get_json_object_field_force(from, "element")));
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.element_, from.extract_field("element")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::setPassportElementErrors &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.errors_, get_json_object_field_force(from, "errors")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.errors_, from.extract_field("errors")));
   return Status::OK();
 }
 
 Status from_json(td_api::setPassword &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.old_password_, get_json_object_field_force(from, "old_password")));
-  TRY_STATUS(from_json(to.new_password_, get_json_object_field_force(from, "new_password")));
-  TRY_STATUS(from_json(to.new_hint_, get_json_object_field_force(from, "new_hint")));
-  TRY_STATUS(from_json(to.set_recovery_email_address_, get_json_object_field_force(from, "set_recovery_email_address")));
-  TRY_STATUS(from_json(to.new_recovery_email_address_, get_json_object_field_force(from, "new_recovery_email_address")));
+  TRY_STATUS(from_json(to.old_password_, from.extract_field("old_password")));
+  TRY_STATUS(from_json(to.new_password_, from.extract_field("new_password")));
+  TRY_STATUS(from_json(to.new_hint_, from.extract_field("new_hint")));
+  TRY_STATUS(from_json(to.set_recovery_email_address_, from.extract_field("set_recovery_email_address")));
+  TRY_STATUS(from_json(to.new_recovery_email_address_, from.extract_field("new_recovery_email_address")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setPersonalChat &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::setPinnedChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_list_, get_json_object_field_force(from, "chat_list")));
-  TRY_STATUS(from_json(to.chat_ids_, get_json_object_field_force(from, "chat_ids")));
+  TRY_STATUS(from_json(to.chat_list_, from.extract_field("chat_list")));
+  TRY_STATUS(from_json(to.chat_ids_, from.extract_field("chat_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::setPinnedForumTopics &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_ids_, get_json_object_field_force(from, "message_thread_ids")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_ids_, from.extract_field("message_thread_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setPinnedSavedMessagesTopics &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.saved_messages_topic_ids_, from.extract_field("saved_messages_topic_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::setPollAnswer &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.option_ids_, get_json_object_field_force(from, "option_ids")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.option_ids_, from.extract_field("option_ids")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setProfileAccentColor &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.profile_accent_color_id_, from.extract_field("profile_accent_color_id")));
+  TRY_STATUS(from_json(to.profile_background_custom_emoji_id_, from.extract_field("profile_background_custom_emoji_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::setProfilePhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.photo_, get_json_object_field_force(from, "photo")));
-  TRY_STATUS(from_json(to.is_public_, get_json_object_field_force(from, "is_public")));
+  TRY_STATUS(from_json(to.photo_, from.extract_field("photo")));
+  TRY_STATUS(from_json(to.is_public_, from.extract_field("is_public")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setQuickReplyShortcutName &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.shortcut_id_, from.extract_field("shortcut_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setReactionNotificationSettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.notification_settings_, from.extract_field("notification_settings")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setReadDatePrivacySettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.settings_, from.extract_field("settings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setRecoveryEmailAddress &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
-  TRY_STATUS(from_json(to.new_recovery_email_address_, get_json_object_field_force(from, "new_recovery_email_address")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
+  TRY_STATUS(from_json(to.new_recovery_email_address_, from.extract_field("new_recovery_email_address")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setSavedMessagesTagLabel &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.tag_, from.extract_field("tag")));
+  TRY_STATUS(from_json(to.label_, from.extract_field("label")));
   return Status::OK();
 }
 
 Status from_json(td_api::setScopeNotificationSettings &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.scope_, get_json_object_field_force(from, "scope")));
-  TRY_STATUS(from_json(to.notification_settings_, get_json_object_field_force(from, "notification_settings")));
+  TRY_STATUS(from_json(to.scope_, from.extract_field("scope")));
+  TRY_STATUS(from_json(to.notification_settings_, from.extract_field("notification_settings")));
   return Status::OK();
 }
 
 Status from_json(td_api::setStickerEmojis &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
-  TRY_STATUS(from_json(to.emojis_, get_json_object_field_force(from, "emojis")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
+  TRY_STATUS(from_json(to.emojis_, from.extract_field("emojis")));
   return Status::OK();
 }
 
 Status from_json(td_api::setStickerKeywords &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
-  TRY_STATUS(from_json(to.keywords_, get_json_object_field_force(from, "keywords")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
+  TRY_STATUS(from_json(to.keywords_, from.extract_field("keywords")));
   return Status::OK();
 }
 
 Status from_json(td_api::setStickerMaskPosition &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
-  TRY_STATUS(from_json(to.mask_position_, get_json_object_field_force(from, "mask_position")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
+  TRY_STATUS(from_json(to.mask_position_, from.extract_field("mask_position")));
   return Status::OK();
 }
 
 Status from_json(td_api::setStickerPositionInSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
-  TRY_STATUS(from_json(to.position_, get_json_object_field_force(from, "position")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
+  TRY_STATUS(from_json(to.position_, from.extract_field("position")));
   return Status::OK();
 }
 
 Status from_json(td_api::setStickerSetThumbnail &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.thumbnail_, get_json_object_field_force(from, "thumbnail")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.thumbnail_, from.extract_field("thumbnail")));
+  TRY_STATUS(from_json(to.format_, from.extract_field("format")));
   return Status::OK();
 }
 
 Status from_json(td_api::setStickerSetTitle &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.name_, get_json_object_field_force(from, "name")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
+  TRY_STATUS(from_json(to.name_, from.extract_field("name")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setStoryPrivacySettings &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.privacy_settings_, from.extract_field("privacy_settings")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setStoryReaction &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.reaction_type_, from.extract_field("reaction_type")));
+  TRY_STATUS(from_json(to.update_recent_reactions_, from.extract_field("update_recent_reactions")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setSupergroupCustomEmojiStickerSet &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.custom_emoji_sticker_set_id_, from.extract_field("custom_emoji_sticker_set_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::setSupergroupStickerSet &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.sticker_set_id_, get_json_object_field_force(from, "sticker_set_id")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.sticker_set_id_, from.extract_field("sticker_set_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::setSupergroupUnrestrictBoostCount &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.unrestrict_boost_count_, from.extract_field("unrestrict_boost_count")));
   return Status::OK();
 }
 
 Status from_json(td_api::setSupergroupUsername &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
   return Status::OK();
 }
 
 Status from_json(td_api::setTdlibParameters &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.use_test_dc_, get_json_object_field_force(from, "use_test_dc")));
-  TRY_STATUS(from_json(to.database_directory_, get_json_object_field_force(from, "database_directory")));
-  TRY_STATUS(from_json(to.files_directory_, get_json_object_field_force(from, "files_directory")));
-  TRY_STATUS(from_json_bytes(to.database_encryption_key_, get_json_object_field_force(from, "database_encryption_key")));
-  TRY_STATUS(from_json(to.use_file_database_, get_json_object_field_force(from, "use_file_database")));
-  TRY_STATUS(from_json(to.use_chat_info_database_, get_json_object_field_force(from, "use_chat_info_database")));
-  TRY_STATUS(from_json(to.use_message_database_, get_json_object_field_force(from, "use_message_database")));
-  TRY_STATUS(from_json(to.use_secret_chats_, get_json_object_field_force(from, "use_secret_chats")));
-  TRY_STATUS(from_json(to.api_id_, get_json_object_field_force(from, "api_id")));
-  TRY_STATUS(from_json(to.api_hash_, get_json_object_field_force(from, "api_hash")));
-  TRY_STATUS(from_json(to.system_language_code_, get_json_object_field_force(from, "system_language_code")));
-  TRY_STATUS(from_json(to.device_model_, get_json_object_field_force(from, "device_model")));
-  TRY_STATUS(from_json(to.system_version_, get_json_object_field_force(from, "system_version")));
-  TRY_STATUS(from_json(to.application_version_, get_json_object_field_force(from, "application_version")));
-  TRY_STATUS(from_json(to.enable_storage_optimizer_, get_json_object_field_force(from, "enable_storage_optimizer")));
-  TRY_STATUS(from_json(to.ignore_file_names_, get_json_object_field_force(from, "ignore_file_names")));
+  TRY_STATUS(from_json(to.use_test_dc_, from.extract_field("use_test_dc")));
+  TRY_STATUS(from_json(to.database_directory_, from.extract_field("database_directory")));
+  TRY_STATUS(from_json(to.files_directory_, from.extract_field("files_directory")));
+  TRY_STATUS(from_json_bytes(to.database_encryption_key_, from.extract_field("database_encryption_key")));
+  TRY_STATUS(from_json(to.use_file_database_, from.extract_field("use_file_database")));
+  TRY_STATUS(from_json(to.use_chat_info_database_, from.extract_field("use_chat_info_database")));
+  TRY_STATUS(from_json(to.use_message_database_, from.extract_field("use_message_database")));
+  TRY_STATUS(from_json(to.use_secret_chats_, from.extract_field("use_secret_chats")));
+  TRY_STATUS(from_json(to.api_id_, from.extract_field("api_id")));
+  TRY_STATUS(from_json(to.api_hash_, from.extract_field("api_hash")));
+  TRY_STATUS(from_json(to.system_language_code_, from.extract_field("system_language_code")));
+  TRY_STATUS(from_json(to.device_model_, from.extract_field("device_model")));
+  TRY_STATUS(from_json(to.system_version_, from.extract_field("system_version")));
+  TRY_STATUS(from_json(to.application_version_, from.extract_field("application_version")));
   return Status::OK();
 }
 
 Status from_json(td_api::setUserPersonalProfilePhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.photo_, get_json_object_field_force(from, "photo")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.photo_, from.extract_field("photo")));
   return Status::OK();
 }
 
 Status from_json(td_api::setUserPrivacySettingRules &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.setting_, get_json_object_field_force(from, "setting")));
-  TRY_STATUS(from_json(to.rules_, get_json_object_field_force(from, "rules")));
+  TRY_STATUS(from_json(to.setting_, from.extract_field("setting")));
+  TRY_STATUS(from_json(to.rules_, from.extract_field("rules")));
   return Status::OK();
 }
 
 Status from_json(td_api::setUserSupportInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.message_, get_json_object_field_force(from, "message")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.message_, from.extract_field("message")));
   return Status::OK();
 }
 
 Status from_json(td_api::setUsername &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
   return Status::OK();
 }
 
 Status from_json(td_api::setVideoChatDefaultParticipant &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.default_participant_id_, get_json_object_field_force(from, "default_participant_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.default_participant_id_, from.extract_field("default_participant_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::shareChatWithBot &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.button_id_, get_json_object_field_force(from, "button_id")));
-  TRY_STATUS(from_json(to.shared_chat_id_, get_json_object_field_force(from, "shared_chat_id")));
-  TRY_STATUS(from_json(to.only_check_, get_json_object_field_force(from, "only_check")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.button_id_, from.extract_field("button_id")));
+  TRY_STATUS(from_json(to.shared_chat_id_, from.extract_field("shared_chat_id")));
+  TRY_STATUS(from_json(to.only_check_, from.extract_field("only_check")));
   return Status::OK();
 }
 
 Status from_json(td_api::sharePhoneNumber &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
   return Status::OK();
 }
 
-Status from_json(td_api::shareUserWithBot &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.button_id_, get_json_object_field_force(from, "button_id")));
-  TRY_STATUS(from_json(to.shared_user_id_, get_json_object_field_force(from, "shared_user_id")));
-  TRY_STATUS(from_json(to.only_check_, get_json_object_field_force(from, "only_check")));
+Status from_json(td_api::shareUsersWithBot &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.button_id_, from.extract_field("button_id")));
+  TRY_STATUS(from_json(to.shared_user_ids_, from.extract_field("shared_user_ids")));
+  TRY_STATUS(from_json(to.only_check_, from.extract_field("only_check")));
   return Status::OK();
 }
 
 Status from_json(td_api::startGroupCallRecording &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.title_, get_json_object_field_force(from, "title")));
-  TRY_STATUS(from_json(to.record_video_, get_json_object_field_force(from, "record_video")));
-  TRY_STATUS(from_json(to.use_portrait_orientation_, get_json_object_field_force(from, "use_portrait_orientation")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.title_, from.extract_field("title")));
+  TRY_STATUS(from_json(to.record_video_, from.extract_field("record_video")));
+  TRY_STATUS(from_json(to.use_portrait_orientation_, from.extract_field("use_portrait_orientation")));
   return Status::OK();
 }
 
 Status from_json(td_api::startGroupCallScreenSharing &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.audio_source_id_, get_json_object_field_force(from, "audio_source_id")));
-  TRY_STATUS(from_json(to.payload_, get_json_object_field_force(from, "payload")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.audio_source_id_, from.extract_field("audio_source_id")));
+  TRY_STATUS(from_json(to.payload_, from.extract_field("payload")));
   return Status::OK();
 }
 
 Status from_json(td_api::startScheduledGroupCall &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  return Status::OK();
+}
+
+Status from_json(td_api::stopBusinessPoll &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.business_connection_id_, from.extract_field("business_connection_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
   return Status::OK();
 }
 
 Status from_json(td_api::stopPoll &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.reply_markup_, get_json_object_field_force(from, "reply_markup")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.reply_markup_, from.extract_field("reply_markup")));
   return Status::OK();
 }
 
 Status from_json(td_api::suggestUserProfilePhoto &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.photo_, get_json_object_field_force(from, "photo")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.photo_, from.extract_field("photo")));
   return Status::OK();
 }
 
 Status from_json(td_api::synchronizeLanguagePack &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.language_pack_id_, get_json_object_field_force(from, "language_pack_id")));
+  TRY_STATUS(from_json(to.language_pack_id_, from.extract_field("language_pack_id")));
   return Status::OK();
 }
 
@@ -8083,12 +10543,12 @@ Status from_json(td_api::terminateAllOtherSessions &to, JsonObject &from) {
 }
 
 Status from_json(td_api::terminateSession &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.session_id_, get_json_object_field_force(from, "session_id")));
+  TRY_STATUS(from_json(to.session_id_, from.extract_field("session_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::testCallBytes &to, JsonObject &from) {
-  TRY_STATUS(from_json_bytes(to.x_, get_json_object_field_force(from, "x")));
+  TRY_STATUS(from_json_bytes(to.x_, from.extract_field("x")));
   return Status::OK();
 }
 
@@ -8097,27 +10557,27 @@ Status from_json(td_api::testCallEmpty &to, JsonObject &from) {
 }
 
 Status from_json(td_api::testCallString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.x_, get_json_object_field_force(from, "x")));
+  TRY_STATUS(from_json(to.x_, from.extract_field("x")));
   return Status::OK();
 }
 
 Status from_json(td_api::testCallVectorInt &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.x_, get_json_object_field_force(from, "x")));
+  TRY_STATUS(from_json(to.x_, from.extract_field("x")));
   return Status::OK();
 }
 
 Status from_json(td_api::testCallVectorIntObject &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.x_, get_json_object_field_force(from, "x")));
+  TRY_STATUS(from_json(to.x_, from.extract_field("x")));
   return Status::OK();
 }
 
 Status from_json(td_api::testCallVectorString &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.x_, get_json_object_field_force(from, "x")));
+  TRY_STATUS(from_json(to.x_, from.extract_field("x")));
   return Status::OK();
 }
 
 Status from_json(td_api::testCallVectorStringObject &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.x_, get_json_object_field_force(from, "x")));
+  TRY_STATUS(from_json(to.x_, from.extract_field("x")));
   return Status::OK();
 }
 
@@ -8130,21 +10590,21 @@ Status from_json(td_api::testNetwork &to, JsonObject &from) {
 }
 
 Status from_json(td_api::testProxy &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.server_, get_json_object_field_force(from, "server")));
-  TRY_STATUS(from_json(to.port_, get_json_object_field_force(from, "port")));
-  TRY_STATUS(from_json(to.type_, get_json_object_field_force(from, "type")));
-  TRY_STATUS(from_json(to.dc_id_, get_json_object_field_force(from, "dc_id")));
-  TRY_STATUS(from_json(to.timeout_, get_json_object_field_force(from, "timeout")));
+  TRY_STATUS(from_json(to.server_, from.extract_field("server")));
+  TRY_STATUS(from_json(to.port_, from.extract_field("port")));
+  TRY_STATUS(from_json(to.type_, from.extract_field("type")));
+  TRY_STATUS(from_json(to.dc_id_, from.extract_field("dc_id")));
+  TRY_STATUS(from_json(to.timeout_, from.extract_field("timeout")));
   return Status::OK();
 }
 
 Status from_json(td_api::testReturnError &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.error_, get_json_object_field_force(from, "error")));
+  TRY_STATUS(from_json(to.error_, from.extract_field("error")));
   return Status::OK();
 }
 
 Status from_json(td_api::testSquareInt &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.x_, get_json_object_field_force(from, "x")));
+  TRY_STATUS(from_json(to.x_, from.extract_field("x")));
   return Status::OK();
 }
 
@@ -8153,282 +10613,335 @@ Status from_json(td_api::testUseUpdate &to, JsonObject &from) {
 }
 
 Status from_json(td_api::toggleAllDownloadsArePaused &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.are_paused_, get_json_object_field_force(from, "are_paused")));
+  TRY_STATUS(from_json(to.are_paused_, from.extract_field("are_paused")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleBotIsAddedToAttachmentMenu &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.is_added_, get_json_object_field_force(from, "is_added")));
-  TRY_STATUS(from_json(to.allow_write_access_, get_json_object_field_force(from, "allow_write_access")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.is_added_, from.extract_field("is_added")));
+  TRY_STATUS(from_json(to.allow_write_access_, from.extract_field("allow_write_access")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleBotUsernameIsActive &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.bot_user_id_, get_json_object_field_force(from, "bot_user_id")));
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
-  TRY_STATUS(from_json(to.is_active_, get_json_object_field_force(from, "is_active")));
+  TRY_STATUS(from_json(to.bot_user_id_, from.extract_field("bot_user_id")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
+  TRY_STATUS(from_json(to.is_active_, from.extract_field("is_active")));
+  return Status::OK();
+}
+
+Status from_json(td_api::toggleBusinessConnectedBotChatIsPaused &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.is_paused_, from.extract_field("is_paused")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleChatDefaultDisableNotification &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.default_disable_notification_, get_json_object_field_force(from, "default_disable_notification")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.default_disable_notification_, from.extract_field("default_disable_notification")));
+  return Status::OK();
+}
+
+Status from_json(td_api::toggleChatFolderTags &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.are_tags_enabled_, from.extract_field("are_tags_enabled")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleChatHasProtectedContent &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.has_protected_content_, get_json_object_field_force(from, "has_protected_content")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.has_protected_content_, from.extract_field("has_protected_content")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleChatIsMarkedAsUnread &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.is_marked_as_unread_, get_json_object_field_force(from, "is_marked_as_unread")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.is_marked_as_unread_, from.extract_field("is_marked_as_unread")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleChatIsPinned &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_list_, get_json_object_field_force(from, "chat_list")));
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.is_pinned_, get_json_object_field_force(from, "is_pinned")));
+  TRY_STATUS(from_json(to.chat_list_, from.extract_field("chat_list")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.is_pinned_, from.extract_field("is_pinned")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleChatIsTranslatable &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.is_translatable_, get_json_object_field_force(from, "is_translatable")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.is_translatable_, from.extract_field("is_translatable")));
+  return Status::OK();
+}
+
+Status from_json(td_api::toggleChatViewAsTopics &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.view_as_topics_, from.extract_field("view_as_topics")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleDownloadIsPaused &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.file_id_, get_json_object_field_force(from, "file_id")));
-  TRY_STATUS(from_json(to.is_paused_, get_json_object_field_force(from, "is_paused")));
+  TRY_STATUS(from_json(to.file_id_, from.extract_field("file_id")));
+  TRY_STATUS(from_json(to.is_paused_, from.extract_field("is_paused")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleForumTopicIsClosed &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.is_closed_, get_json_object_field_force(from, "is_closed")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.is_closed_, from.extract_field("is_closed")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleForumTopicIsPinned &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
-  TRY_STATUS(from_json(to.is_pinned_, get_json_object_field_force(from, "is_pinned")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
+  TRY_STATUS(from_json(to.is_pinned_, from.extract_field("is_pinned")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleGeneralForumTopicIsHidden &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.is_hidden_, get_json_object_field_force(from, "is_hidden")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.is_hidden_, from.extract_field("is_hidden")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleGroupCallEnabledStartNotification &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.enabled_start_notification_, get_json_object_field_force(from, "enabled_start_notification")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.enabled_start_notification_, from.extract_field("enabled_start_notification")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleGroupCallIsMyVideoEnabled &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.is_my_video_enabled_, get_json_object_field_force(from, "is_my_video_enabled")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.is_my_video_enabled_, from.extract_field("is_my_video_enabled")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleGroupCallIsMyVideoPaused &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.is_my_video_paused_, get_json_object_field_force(from, "is_my_video_paused")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.is_my_video_paused_, from.extract_field("is_my_video_paused")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleGroupCallMuteNewParticipants &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.mute_new_participants_, get_json_object_field_force(from, "mute_new_participants")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.mute_new_participants_, from.extract_field("mute_new_participants")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleGroupCallParticipantIsHandRaised &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.participant_id_, get_json_object_field_force(from, "participant_id")));
-  TRY_STATUS(from_json(to.is_hand_raised_, get_json_object_field_force(from, "is_hand_raised")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.participant_id_, from.extract_field("participant_id")));
+  TRY_STATUS(from_json(to.is_hand_raised_, from.extract_field("is_hand_raised")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleGroupCallParticipantIsMuted &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.participant_id_, get_json_object_field_force(from, "participant_id")));
-  TRY_STATUS(from_json(to.is_muted_, get_json_object_field_force(from, "is_muted")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.participant_id_, from.extract_field("participant_id")));
+  TRY_STATUS(from_json(to.is_muted_, from.extract_field("is_muted")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleGroupCallScreenSharingIsPaused &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.group_call_id_, get_json_object_field_force(from, "group_call_id")));
-  TRY_STATUS(from_json(to.is_paused_, get_json_object_field_force(from, "is_paused")));
+  TRY_STATUS(from_json(to.group_call_id_, from.extract_field("group_call_id")));
+  TRY_STATUS(from_json(to.is_paused_, from.extract_field("is_paused")));
   return Status::OK();
 }
 
-Status from_json(td_api::toggleMessageSenderIsBlocked &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sender_id_, get_json_object_field_force(from, "sender_id")));
-  TRY_STATUS(from_json(to.is_blocked_, get_json_object_field_force(from, "is_blocked")));
+Status from_json(td_api::toggleHasSponsoredMessagesEnabled &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.has_sponsored_messages_enabled_, from.extract_field("has_sponsored_messages_enabled")));
+  return Status::OK();
+}
+
+Status from_json(td_api::togglePaidMessageReactionIsAnonymous &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.is_anonymous_, from.extract_field("is_anonymous")));
+  return Status::OK();
+}
+
+Status from_json(td_api::toggleSavedMessagesTopicIsPinned &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.saved_messages_topic_id_, from.extract_field("saved_messages_topic_id")));
+  TRY_STATUS(from_json(to.is_pinned_, from.extract_field("is_pinned")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSessionCanAcceptCalls &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.session_id_, get_json_object_field_force(from, "session_id")));
-  TRY_STATUS(from_json(to.can_accept_calls_, get_json_object_field_force(from, "can_accept_calls")));
+  TRY_STATUS(from_json(to.session_id_, from.extract_field("session_id")));
+  TRY_STATUS(from_json(to.can_accept_calls_, from.extract_field("can_accept_calls")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSessionCanAcceptSecretChats &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.session_id_, get_json_object_field_force(from, "session_id")));
-  TRY_STATUS(from_json(to.can_accept_secret_chats_, get_json_object_field_force(from, "can_accept_secret_chats")));
+  TRY_STATUS(from_json(to.session_id_, from.extract_field("session_id")));
+  TRY_STATUS(from_json(to.can_accept_secret_chats_, from.extract_field("can_accept_secret_chats")));
+  return Status::OK();
+}
+
+Status from_json(td_api::toggleStoryIsPostedToChatPage &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.story_sender_chat_id_, from.extract_field("story_sender_chat_id")));
+  TRY_STATUS(from_json(to.story_id_, from.extract_field("story_id")));
+  TRY_STATUS(from_json(to.is_posted_to_chat_page_, from.extract_field("is_posted_to_chat_page")));
+  return Status::OK();
+}
+
+Status from_json(td_api::toggleSupergroupCanHaveSponsoredMessages &to, JsonObject &from) {
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.can_have_sponsored_messages_, from.extract_field("can_have_sponsored_messages")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupHasAggressiveAntiSpamEnabled &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.has_aggressive_anti_spam_enabled_, get_json_object_field_force(from, "has_aggressive_anti_spam_enabled")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.has_aggressive_anti_spam_enabled_, from.extract_field("has_aggressive_anti_spam_enabled")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupHasHiddenMembers &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.has_hidden_members_, get_json_object_field_force(from, "has_hidden_members")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.has_hidden_members_, from.extract_field("has_hidden_members")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupIsAllHistoryAvailable &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.is_all_history_available_, get_json_object_field_force(from, "is_all_history_available")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.is_all_history_available_, from.extract_field("is_all_history_available")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupIsBroadcastGroup &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupIsForum &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.is_forum_, get_json_object_field_force(from, "is_forum")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.is_forum_, from.extract_field("is_forum")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupJoinByRequest &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.join_by_request_, get_json_object_field_force(from, "join_by_request")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.join_by_request_, from.extract_field("join_by_request")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupJoinToSendMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.join_to_send_messages_, get_json_object_field_force(from, "join_to_send_messages")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.join_to_send_messages_, from.extract_field("join_to_send_messages")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupSignMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.sign_messages_, get_json_object_field_force(from, "sign_messages")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.sign_messages_, from.extract_field("sign_messages")));
+  TRY_STATUS(from_json(to.show_message_sender_, from.extract_field("show_message_sender")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleSupergroupUsernameIsActive &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.supergroup_id_, get_json_object_field_force(from, "supergroup_id")));
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
-  TRY_STATUS(from_json(to.is_active_, get_json_object_field_force(from, "is_active")));
+  TRY_STATUS(from_json(to.supergroup_id_, from.extract_field("supergroup_id")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
+  TRY_STATUS(from_json(to.is_active_, from.extract_field("is_active")));
   return Status::OK();
 }
 
 Status from_json(td_api::toggleUsernameIsActive &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.username_, get_json_object_field_force(from, "username")));
-  TRY_STATUS(from_json(to.is_active_, get_json_object_field_force(from, "is_active")));
+  TRY_STATUS(from_json(to.username_, from.extract_field("username")));
+  TRY_STATUS(from_json(to.is_active_, from.extract_field("is_active")));
   return Status::OK();
 }
 
 Status from_json(td_api::transferChatOwnership &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.password_, get_json_object_field_force(from, "password")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.password_, from.extract_field("password")));
   return Status::OK();
 }
 
 Status from_json(td_api::translateMessageText &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
-  TRY_STATUS(from_json(to.to_language_code_, get_json_object_field_force(from, "to_language_code")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
+  TRY_STATUS(from_json(to.to_language_code_, from.extract_field("to_language_code")));
   return Status::OK();
 }
 
 Status from_json(td_api::translateText &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.text_, get_json_object_field_force(from, "text")));
-  TRY_STATUS(from_json(to.to_language_code_, get_json_object_field_force(from, "to_language_code")));
+  TRY_STATUS(from_json(to.text_, from.extract_field("text")));
+  TRY_STATUS(from_json(to.to_language_code_, from.extract_field("to_language_code")));
   return Status::OK();
 }
 
 Status from_json(td_api::unpinAllChatMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::unpinAllMessageThreadMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_thread_id_, get_json_object_field_force(from, "message_thread_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_thread_id_, from.extract_field("message_thread_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::unpinChatMessage &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_id_, get_json_object_field_force(from, "message_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_id_, from.extract_field("message_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::upgradeBasicGroupChatToSupergroupChat &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
   return Status::OK();
 }
 
 Status from_json(td_api::uploadStickerFile &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.user_id_, get_json_object_field_force(from, "user_id")));
-  TRY_STATUS(from_json(to.sticker_format_, get_json_object_field_force(from, "sticker_format")));
-  TRY_STATUS(from_json(to.sticker_, get_json_object_field_force(from, "sticker")));
+  TRY_STATUS(from_json(to.user_id_, from.extract_field("user_id")));
+  TRY_STATUS(from_json(to.sticker_format_, from.extract_field("sticker_format")));
+  TRY_STATUS(from_json(to.sticker_, from.extract_field("sticker")));
   return Status::OK();
 }
 
 Status from_json(td_api::validateOrderInfo &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.input_invoice_, get_json_object_field_force(from, "input_invoice")));
-  TRY_STATUS(from_json(to.order_info_, get_json_object_field_force(from, "order_info")));
-  TRY_STATUS(from_json(to.allow_save_, get_json_object_field_force(from, "allow_save")));
+  TRY_STATUS(from_json(to.input_invoice_, from.extract_field("input_invoice")));
+  TRY_STATUS(from_json(to.order_info_, from.extract_field("order_info")));
+  TRY_STATUS(from_json(to.allow_save_, from.extract_field("allow_save")));
   return Status::OK();
 }
 
 Status from_json(td_api::viewMessages &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.chat_id_, get_json_object_field_force(from, "chat_id")));
-  TRY_STATUS(from_json(to.message_ids_, get_json_object_field_force(from, "message_ids")));
-  TRY_STATUS(from_json(to.source_, get_json_object_field_force(from, "source")));
-  TRY_STATUS(from_json(to.force_read_, get_json_object_field_force(from, "force_read")));
+  TRY_STATUS(from_json(to.chat_id_, from.extract_field("chat_id")));
+  TRY_STATUS(from_json(to.message_ids_, from.extract_field("message_ids")));
+  TRY_STATUS(from_json(to.source_, from.extract_field("source")));
+  TRY_STATUS(from_json(to.force_read_, from.extract_field("force_read")));
   return Status::OK();
 }
 
 Status from_json(td_api::viewPremiumFeature &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.feature_, get_json_object_field_force(from, "feature")));
+  TRY_STATUS(from_json(to.feature_, from.extract_field("feature")));
   return Status::OK();
 }
 
 Status from_json(td_api::viewTrendingStickerSets &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.sticker_set_ids_, get_json_object_field_force(from, "sticker_set_ids")));
+  TRY_STATUS(from_json(to.sticker_set_ids_, from.extract_field("sticker_set_ids")));
   return Status::OK();
 }
 
 Status from_json(td_api::writeGeneratedFilePart &to, JsonObject &from) {
-  TRY_STATUS(from_json(to.generation_id_, get_json_object_field_force(from, "generation_id")));
-  TRY_STATUS(from_json(to.offset_, get_json_object_field_force(from, "offset")));
-  TRY_STATUS(from_json_bytes(to.data_, get_json_object_field_force(from, "data")));
+  TRY_STATUS(from_json(to.generation_id_, from.extract_field("generation_id")));
+  TRY_STATUS(from_json(to.offset_, from.extract_field("offset")));
+  TRY_STATUS(from_json_bytes(to.data_, from.extract_field("data")));
   return Status::OK();
+}
+
+void to_json(JsonValueScope &jv, const td_api::accentColor &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "accentColor");
+  jo("id", object.id_);
+  jo("built_in_accent_color_id", object.built_in_accent_color_id_);
+  jo("light_theme_colors", ToJson(object.light_theme_colors_));
+  jo("dark_theme_colors", ToJson(object.dark_theme_colors_));
+  jo("min_channel_chat_boost_level", object.min_channel_chat_boost_level_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::accountTtl &object) {
@@ -8446,6 +10959,7 @@ void to_json(JsonValueScope &jv, const td_api::addedReaction &object) {
   if (object.sender_id_) {
     jo("sender_id", ToJson(*object.sender_id_));
   }
+  jo("is_outgoing", JsonBool{object.is_outgoing_});
   jo("date", object.date_);
 }
 
@@ -8518,6 +11032,14 @@ void to_json(JsonValueScope &jv, const td_api::animations &object) {
   jo("animations", ToJson(object.animations_));
 }
 
+void to_json(JsonValueScope &jv, const td_api::archiveChatListSettings &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "archiveChatListSettings");
+  jo("archive_and_mute_new_chats_from_unknown_users", JsonBool{object.archive_and_mute_new_chats_from_unknown_users_});
+  jo("keep_unmuted_chats_archived", JsonBool{object.keep_unmuted_chats_archived_});
+  jo("keep_chats_from_folders_archived", JsonBool{object.keep_chats_from_folders_archived_});
+}
+
 void to_json(JsonValueScope &jv, const td_api::attachmentMenuBot &object) {
   auto jo = jv.enter_object();
   jo("@type", "attachmentMenuBot");
@@ -8527,8 +11049,11 @@ void to_json(JsonValueScope &jv, const td_api::attachmentMenuBot &object) {
   jo("supports_bot_chats", JsonBool{object.supports_bot_chats_});
   jo("supports_group_chats", JsonBool{object.supports_group_chats_});
   jo("supports_channel_chats", JsonBool{object.supports_channel_chats_});
-  jo("supports_settings", JsonBool{object.supports_settings_});
   jo("request_write_access", JsonBool{object.request_write_access_});
+  jo("is_added", JsonBool{object.is_added_});
+  jo("show_in_attachment_menu", JsonBool{object.show_in_attachment_menu_});
+  jo("show_in_side_menu", JsonBool{object.show_in_side_menu_});
+  jo("show_disclaimer_in_side_menu", JsonBool{object.show_disclaimer_in_side_menu_});
   jo("name", object.name_);
   if (object.name_color_) {
     jo("name_color", ToJson(*object.name_color_));
@@ -8542,11 +11067,20 @@ void to_json(JsonValueScope &jv, const td_api::attachmentMenuBot &object) {
   if (object.ios_animated_icon_) {
     jo("ios_animated_icon", ToJson(*object.ios_animated_icon_));
   }
+  if (object.ios_side_menu_icon_) {
+    jo("ios_side_menu_icon", ToJson(*object.ios_side_menu_icon_));
+  }
   if (object.android_icon_) {
     jo("android_icon", ToJson(*object.android_icon_));
   }
+  if (object.android_side_menu_icon_) {
+    jo("android_side_menu_icon", ToJson(*object.android_side_menu_icon_));
+  }
   if (object.macos_icon_) {
     jo("macos_icon", ToJson(*object.macos_icon_));
+  }
+  if (object.macos_side_menu_icon_) {
+    jo("macos_side_menu_icon", ToJson(*object.macos_side_menu_icon_));
   }
   if (object.icon_color_) {
     jo("icon_color", ToJson(*object.icon_color_));
@@ -8612,6 +11146,18 @@ void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeSms &object
   jo("length", object.length_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeSmsWord &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "authenticationCodeTypeSmsWord");
+  jo("first_letter", object.first_letter_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeSmsPhrase &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "authenticationCodeTypeSmsPhrase");
+  jo("first_word", object.first_word_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeCall &object) {
   auto jo = jv.enter_object();
   jo("@type", "authenticationCodeTypeCall");
@@ -8641,7 +11187,9 @@ void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeFragment &o
 void to_json(JsonValueScope &jv, const td_api::authenticationCodeTypeFirebaseAndroid &object) {
   auto jo = jv.enter_object();
   jo("@type", "authenticationCodeTypeFirebaseAndroid");
-  jo("nonce", base64_encode(object.nonce_));
+  if (object.device_verification_parameters_) {
+    jo("device_verification_parameters", ToJson(*object.device_verification_parameters_));
+  }
   jo("length", object.length_);
 }
 
@@ -8748,6 +11296,7 @@ void to_json(JsonValueScope &jv, const td_api::autoDownloadSettings &object) {
   jo("video_upload_bitrate", object.video_upload_bitrate_);
   jo("preload_large_videos", JsonBool{object.preload_large_videos_});
   jo("preload_next_audio", JsonBool{object.preload_next_audio_});
+  jo("preload_stories", JsonBool{object.preload_stories_});
   jo("use_less_data_for_calls", JsonBool{object.use_less_data_for_calls_});
 }
 
@@ -8830,6 +11379,10 @@ void to_json(JsonValueScope &jv, const td_api::availableReactions &object) {
   jo("recent_reactions", ToJson(object.recent_reactions_));
   jo("popular_reactions", ToJson(object.popular_reactions_));
   jo("allow_custom_emoji", JsonBool{object.allow_custom_emoji_});
+  jo("are_tags", JsonBool{object.are_tags_});
+  if (object.unavailability_reason_) {
+    jo("unavailability_reason", ToJson(*object.unavailability_reason_));
+  }
 }
 
 void to_json(JsonValueScope &jv, const td_api::background &object) {
@@ -8901,6 +11454,12 @@ void to_json(JsonValueScope &jv, const td_api::backgroundTypeFill &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::backgroundTypeChatTheme &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "backgroundTypeChatTheme");
+  jo("theme_name", object.theme_name_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::backgrounds &object) {
   auto jo = jv.enter_object();
   jo("@type", "backgrounds");
@@ -8950,6 +11509,28 @@ void to_json(JsonValueScope &jv, const td_api::basicGroupFullInfo &object) {
   jo("bot_commands", ToJson(object.bot_commands_));
 }
 
+void to_json(JsonValueScope &jv, const td_api::birthdate &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "birthdate");
+  jo("day", object.day_);
+  jo("month", object.month_);
+  jo("year", object.year_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::BlockList &object) {
+  td_api::downcast_call(const_cast<td_api::BlockList &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::blockListMain &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "blockListMain");
+}
+
+void to_json(JsonValueScope &jv, const td_api::blockListStories &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "blockListStories");
+}
+
 void to_json(JsonValueScope &jv, const td_api::botCommand &object) {
   auto jo = jv.enter_object();
   jo("@type", "botCommand");
@@ -8979,12 +11560,14 @@ void to_json(JsonValueScope &jv, const td_api::botInfo &object) {
     jo("menu_button", ToJson(*object.menu_button_));
   }
   jo("commands", ToJson(object.commands_));
+  jo("privacy_policy_url", object.privacy_policy_url_);
   if (object.default_group_administrator_rights_) {
     jo("default_group_administrator_rights", ToJson(*object.default_group_administrator_rights_));
   }
   if (object.default_channel_administrator_rights_) {
     jo("default_channel_administrator_rights", ToJson(*object.default_channel_administrator_rights_));
   }
+  jo("has_media_previews", JsonBool{object.has_media_previews_});
   if (object.edit_commands_link_) {
     jo("edit_commands_link", ToJson(*object.edit_commands_link_));
   }
@@ -8999,11 +11582,344 @@ void to_json(JsonValueScope &jv, const td_api::botInfo &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::botMediaPreview &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botMediaPreview");
+  jo("date", object.date_);
+  if (object.content_) {
+    jo("content", ToJson(*object.content_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::botMediaPreviewInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botMediaPreviewInfo");
+  jo("previews", ToJson(object.previews_));
+  jo("language_codes", ToJson(object.language_codes_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::botMediaPreviews &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botMediaPreviews");
+  jo("previews", ToJson(object.previews_));
+}
+
 void to_json(JsonValueScope &jv, const td_api::botMenuButton &object) {
   auto jo = jv.enter_object();
   jo("@type", "botMenuButton");
   jo("text", object.text_);
   jo("url", object.url_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::BotTransactionPurpose &object) {
+  td_api::downcast_call(const_cast<td_api::BotTransactionPurpose &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::botTransactionPurposePaidMedia &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botTransactionPurposePaidMedia");
+  jo("media", ToJson(object.media_));
+  jo("payload", object.payload_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::botTransactionPurposeInvoicePayment &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botTransactionPurposeInvoicePayment");
+  if (object.product_info_) {
+    jo("product_info", ToJson(*object.product_info_));
+  }
+  jo("invoice_payload", base64_encode(object.invoice_payload_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::BotWriteAccessAllowReason &object) {
+  td_api::downcast_call(const_cast<td_api::BotWriteAccessAllowReason &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::botWriteAccessAllowReasonConnectedWebsite &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botWriteAccessAllowReasonConnectedWebsite");
+  jo("domain_name", object.domain_name_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::botWriteAccessAllowReasonAddedToAttachmentMenu &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botWriteAccessAllowReasonAddedToAttachmentMenu");
+}
+
+void to_json(JsonValueScope &jv, const td_api::botWriteAccessAllowReasonLaunchedWebApp &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botWriteAccessAllowReasonLaunchedWebApp");
+  if (object.web_app_) {
+    jo("web_app", ToJson(*object.web_app_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::botWriteAccessAllowReasonAcceptedRequest &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "botWriteAccessAllowReasonAcceptedRequest");
+}
+
+void to_json(JsonValueScope &jv, const td_api::BusinessAwayMessageSchedule &object) {
+  td_api::downcast_call(const_cast<td_api::BusinessAwayMessageSchedule &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessAwayMessageScheduleAlways &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessAwayMessageScheduleAlways");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessAwayMessageScheduleOutsideOfOpeningHours &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessAwayMessageScheduleOutsideOfOpeningHours");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessAwayMessageScheduleCustom &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessAwayMessageScheduleCustom");
+  jo("start_date", object.start_date_);
+  jo("end_date", object.end_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessAwayMessageSettings &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessAwayMessageSettings");
+  jo("shortcut_id", object.shortcut_id_);
+  if (object.recipients_) {
+    jo("recipients", ToJson(*object.recipients_));
+  }
+  if (object.schedule_) {
+    jo("schedule", ToJson(*object.schedule_));
+  }
+  jo("offline_only", JsonBool{object.offline_only_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessBotManageBar &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessBotManageBar");
+  jo("bot_user_id", object.bot_user_id_);
+  jo("manage_url", object.manage_url_);
+  jo("is_bot_paused", JsonBool{object.is_bot_paused_});
+  jo("can_bot_reply", JsonBool{object.can_bot_reply_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessChatLink &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessChatLink");
+  jo("link", object.link_);
+  if (object.text_) {
+    jo("text", ToJson(*object.text_));
+  }
+  jo("title", object.title_);
+  jo("view_count", object.view_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessChatLinkInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessChatLinkInfo");
+  jo("chat_id", object.chat_id_);
+  if (object.text_) {
+    jo("text", ToJson(*object.text_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessChatLinks &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessChatLinks");
+  jo("links", ToJson(object.links_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessConnectedBot &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessConnectedBot");
+  jo("bot_user_id", object.bot_user_id_);
+  if (object.recipients_) {
+    jo("recipients", ToJson(*object.recipients_));
+  }
+  jo("can_reply", JsonBool{object.can_reply_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessConnection &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessConnection");
+  jo("id", object.id_);
+  jo("user_id", object.user_id_);
+  jo("user_chat_id", object.user_chat_id_);
+  jo("date", object.date_);
+  jo("can_reply", JsonBool{object.can_reply_});
+  jo("is_enabled", JsonBool{object.is_enabled_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::BusinessFeature &object) {
+  td_api::downcast_call(const_cast<td_api::BusinessFeature &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureLocation &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureLocation");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureOpeningHours &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureOpeningHours");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureQuickReplies &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureQuickReplies");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureGreetingMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureGreetingMessage");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureAwayMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureAwayMessage");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureAccountLinks &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureAccountLinks");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureStartPage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureStartPage");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureBots &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureBots");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureEmojiStatus &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureEmojiStatus");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureChatFolderTags &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureChatFolderTags");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatureUpgradedStories &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatureUpgradedStories");
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeaturePromotionAnimation &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeaturePromotionAnimation");
+  if (object.feature_) {
+    jo("feature", ToJson(*object.feature_));
+  }
+  if (object.animation_) {
+    jo("animation", ToJson(*object.animation_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessFeatures &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessFeatures");
+  jo("features", ToJson(object.features_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessGreetingMessageSettings &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessGreetingMessageSettings");
+  jo("shortcut_id", object.shortcut_id_);
+  if (object.recipients_) {
+    jo("recipients", ToJson(*object.recipients_));
+  }
+  jo("inactivity_days", object.inactivity_days_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessInfo");
+  if (object.location_) {
+    jo("location", ToJson(*object.location_));
+  }
+  if (object.opening_hours_) {
+    jo("opening_hours", ToJson(*object.opening_hours_));
+  }
+  if (object.local_opening_hours_) {
+    jo("local_opening_hours", ToJson(*object.local_opening_hours_));
+  }
+  jo("next_open_in", object.next_open_in_);
+  jo("next_close_in", object.next_close_in_);
+  if (object.greeting_message_settings_) {
+    jo("greeting_message_settings", ToJson(*object.greeting_message_settings_));
+  }
+  if (object.away_message_settings_) {
+    jo("away_message_settings", ToJson(*object.away_message_settings_));
+  }
+  if (object.start_page_) {
+    jo("start_page", ToJson(*object.start_page_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessLocation &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessLocation");
+  if (object.location_) {
+    jo("location", ToJson(*object.location_));
+  }
+  jo("address", object.address_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessMessage");
+  if (object.message_) {
+    jo("message", ToJson(*object.message_));
+  }
+  if (object.reply_to_message_) {
+    jo("reply_to_message", ToJson(*object.reply_to_message_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessMessages &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessMessages");
+  jo("messages", ToJson(object.messages_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessOpeningHours &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessOpeningHours");
+  jo("time_zone_id", object.time_zone_id_);
+  jo("opening_hours", ToJson(object.opening_hours_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessOpeningHoursInterval &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessOpeningHoursInterval");
+  jo("start_minute", object.start_minute_);
+  jo("end_minute", object.end_minute_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessRecipients &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessRecipients");
+  jo("chat_ids", ToJson(object.chat_ids_));
+  jo("excluded_chat_ids", ToJson(object.excluded_chat_ids_));
+  jo("select_existing_chats", JsonBool{object.select_existing_chats_});
+  jo("select_new_chats", JsonBool{object.select_new_chats_});
+  jo("select_contacts", JsonBool{object.select_contacts_});
+  jo("select_non_contacts", JsonBool{object.select_non_contacts_});
+  jo("exclude_selected", JsonBool{object.exclude_selected_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::businessStartPage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "businessStartPage");
+  jo("title", object.title_);
+  jo("message", object.message_);
+  if (object.sticker_) {
+    jo("sticker", ToJson(*object.sticker_));
+  }
 }
 
 void to_json(JsonValueScope &jv, const td_api::call &object) {
@@ -9122,6 +12038,7 @@ void to_json(JsonValueScope &jv, const td_api::callStateReady &object) {
   jo("encryption_key", base64_encode(object.encryption_key_));
   jo("emojis", ToJson(object.emojis_));
   jo("allow_p2p", JsonBool{object.allow_p2p_});
+  jo("custom_parameters", object.custom_parameters_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::callStateHangingUp &object) {
@@ -9179,6 +12096,61 @@ void to_json(JsonValueScope &jv, const td_api::callbackQueryPayloadGame &object)
   jo("game_short_name", object.game_short_name_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::CanSendMessageToUserResult &object) {
+  td_api::downcast_call(const_cast<td_api::CanSendMessageToUserResult &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendMessageToUserResultOk &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendMessageToUserResultOk");
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendMessageToUserResultUserIsDeleted &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendMessageToUserResultUserIsDeleted");
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendMessageToUserResultUserRestrictsNewChats &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendMessageToUserResultUserRestrictsNewChats");
+}
+
+void to_json(JsonValueScope &jv, const td_api::CanSendStoryResult &object) {
+  td_api::downcast_call(const_cast<td_api::CanSendStoryResult &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendStoryResultOk &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendStoryResultOk");
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendStoryResultPremiumNeeded &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendStoryResultPremiumNeeded");
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendStoryResultBoostNeeded &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendStoryResultBoostNeeded");
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendStoryResultActiveStoryLimitExceeded &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendStoryResultActiveStoryLimitExceeded");
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendStoryResultWeeklyLimitExceeded &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendStoryResultWeeklyLimitExceeded");
+  jo("retry_after", object.retry_after_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::canSendStoryResultMonthlyLimitExceeded &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "canSendStoryResultMonthlyLimitExceeded");
+  jo("retry_after", object.retry_after_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::CanTransferOwnershipResult &object) {
   td_api::downcast_call(const_cast<td_api::CanTransferOwnershipResult &>(object), [&jv](const auto &object) { to_json(jv, object); });
 }
@@ -9216,6 +12188,10 @@ void to_json(JsonValueScope &jv, const td_api::chat &object) {
   if (object.photo_) {
     jo("photo", ToJson(*object.photo_));
   }
+  jo("accent_color_id", object.accent_color_id_);
+  jo("background_custom_emoji_id", ToJson(JsonInt64{object.background_custom_emoji_id_}));
+  jo("profile_accent_color_id", object.profile_accent_color_id_);
+  jo("profile_background_custom_emoji_id", ToJson(JsonInt64{object.profile_background_custom_emoji_id_}));
   if (object.permissions_) {
     jo("permissions", ToJson(*object.permissions_));
   }
@@ -9223,13 +12199,17 @@ void to_json(JsonValueScope &jv, const td_api::chat &object) {
     jo("last_message", ToJson(*object.last_message_));
   }
   jo("positions", ToJson(object.positions_));
+  jo("chat_lists", ToJson(object.chat_lists_));
   if (object.message_sender_id_) {
     jo("message_sender_id", ToJson(*object.message_sender_id_));
+  }
+  if (object.block_list_) {
+    jo("block_list", ToJson(*object.block_list_));
   }
   jo("has_protected_content", JsonBool{object.has_protected_content_});
   jo("is_translatable", JsonBool{object.is_translatable_});
   jo("is_marked_as_unread", JsonBool{object.is_marked_as_unread_});
-  jo("is_blocked", JsonBool{object.is_blocked_});
+  jo("view_as_topics", JsonBool{object.view_as_topics_});
   jo("has_scheduled_messages", JsonBool{object.has_scheduled_messages_});
   jo("can_be_deleted_only_for_self", JsonBool{object.can_be_deleted_only_for_self_});
   jo("can_be_deleted_for_all_users", JsonBool{object.can_be_deleted_for_all_users_});
@@ -9247,12 +12227,18 @@ void to_json(JsonValueScope &jv, const td_api::chat &object) {
     jo("available_reactions", ToJson(*object.available_reactions_));
   }
   jo("message_auto_delete_time", object.message_auto_delete_time_);
+  if (object.emoji_status_) {
+    jo("emoji_status", ToJson(*object.emoji_status_));
+  }
   if (object.background_) {
     jo("background", ToJson(*object.background_));
   }
   jo("theme_name", object.theme_name_);
   if (object.action_bar_) {
     jo("action_bar", ToJson(*object.action_bar_));
+  }
+  if (object.business_bot_manage_bar_) {
+    jo("business_bot_manage_bar", ToJson(*object.business_bot_manage_bar_));
   }
   if (object.video_chat_) {
     jo("video_chat", ToJson(*object.video_chat_));
@@ -9397,6 +12383,18 @@ void to_json(JsonValueScope &jv, const td_api::chatActionBarJoinRequest &object)
   jo("request_date", object.request_date_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::chatActiveStories &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatActiveStories");
+  jo("chat_id", object.chat_id_);
+  if (object.list_) {
+    jo("list", ToJson(*object.list_));
+  }
+  jo("order", object.order_);
+  jo("max_read_story_id", object.max_read_story_id_);
+  jo("stories", ToJson(object.stories_));
+}
+
 void to_json(JsonValueScope &jv, const td_api::chatAdministrator &object) {
   auto jo = jv.enter_object();
   jo("@type", "chatAdministrator");
@@ -9419,6 +12417,9 @@ void to_json(JsonValueScope &jv, const td_api::chatAdministratorRights &object) 
   jo("can_manage_topics", JsonBool{object.can_manage_topics_});
   jo("can_promote_members", JsonBool{object.can_promote_members_});
   jo("can_manage_video_chats", JsonBool{object.can_manage_video_chats_});
+  jo("can_post_stories", JsonBool{object.can_post_stories_});
+  jo("can_edit_stories", JsonBool{object.can_edit_stories_});
+  jo("can_delete_stories", JsonBool{object.can_delete_stories_});
   jo("is_anonymous", JsonBool{object.is_anonymous_});
 }
 
@@ -9435,12 +12436,14 @@ void to_json(JsonValueScope &jv, const td_api::ChatAvailableReactions &object) {
 void to_json(JsonValueScope &jv, const td_api::chatAvailableReactionsAll &object) {
   auto jo = jv.enter_object();
   jo("@type", "chatAvailableReactionsAll");
+  jo("max_reaction_count", object.max_reaction_count_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatAvailableReactionsSome &object) {
   auto jo = jv.enter_object();
   jo("@type", "chatAvailableReactionsSome");
   jo("reactions", ToJson(object.reactions_));
+  jo("max_reaction_count", object.max_reaction_count_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatBackground &object) {
@@ -9450,6 +12453,123 @@ void to_json(JsonValueScope &jv, const td_api::chatBackground &object) {
     jo("background", ToJson(*object.background_));
   }
   jo("dark_theme_dimming", object.dark_theme_dimming_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoost &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoost");
+  jo("id", object.id_);
+  jo("count", object.count_);
+  if (object.source_) {
+    jo("source", ToJson(*object.source_));
+  }
+  jo("start_date", object.start_date_);
+  jo("expiration_date", object.expiration_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostFeatures &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostFeatures");
+  jo("features", ToJson(object.features_));
+  jo("min_profile_background_custom_emoji_boost_level", object.min_profile_background_custom_emoji_boost_level_);
+  jo("min_background_custom_emoji_boost_level", object.min_background_custom_emoji_boost_level_);
+  jo("min_emoji_status_boost_level", object.min_emoji_status_boost_level_);
+  jo("min_chat_theme_background_boost_level", object.min_chat_theme_background_boost_level_);
+  jo("min_custom_background_boost_level", object.min_custom_background_boost_level_);
+  jo("min_custom_emoji_sticker_set_boost_level", object.min_custom_emoji_sticker_set_boost_level_);
+  jo("min_speech_recognition_boost_level", object.min_speech_recognition_boost_level_);
+  jo("min_sponsored_message_disable_boost_level", object.min_sponsored_message_disable_boost_level_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostLevelFeatures &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostLevelFeatures");
+  jo("level", object.level_);
+  jo("story_per_day_count", object.story_per_day_count_);
+  jo("custom_emoji_reaction_count", object.custom_emoji_reaction_count_);
+  jo("title_color_count", object.title_color_count_);
+  jo("profile_accent_color_count", object.profile_accent_color_count_);
+  jo("can_set_profile_background_custom_emoji", JsonBool{object.can_set_profile_background_custom_emoji_});
+  jo("accent_color_count", object.accent_color_count_);
+  jo("can_set_background_custom_emoji", JsonBool{object.can_set_background_custom_emoji_});
+  jo("can_set_emoji_status", JsonBool{object.can_set_emoji_status_});
+  jo("chat_theme_background_count", object.chat_theme_background_count_);
+  jo("can_set_custom_background", JsonBool{object.can_set_custom_background_});
+  jo("can_set_custom_emoji_sticker_set", JsonBool{object.can_set_custom_emoji_sticker_set_});
+  jo("can_recognize_speech", JsonBool{object.can_recognize_speech_});
+  jo("can_disable_sponsored_messages", JsonBool{object.can_disable_sponsored_messages_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostLink &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostLink");
+  jo("link", object.link_);
+  jo("is_public", JsonBool{object.is_public_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostLinkInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostLinkInfo");
+  jo("is_public", JsonBool{object.is_public_});
+  jo("chat_id", object.chat_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostSlot &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostSlot");
+  jo("slot_id", object.slot_id_);
+  jo("currently_boosted_chat_id", object.currently_boosted_chat_id_);
+  jo("start_date", object.start_date_);
+  jo("expiration_date", object.expiration_date_);
+  jo("cooldown_until_date", object.cooldown_until_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostSlots &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostSlots");
+  jo("slots", ToJson(object.slots_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::ChatBoostSource &object) {
+  td_api::downcast_call(const_cast<td_api::ChatBoostSource &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostSourceGiftCode &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostSourceGiftCode");
+  jo("user_id", object.user_id_);
+  jo("gift_code", object.gift_code_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostSourceGiveaway &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostSourceGiveaway");
+  jo("user_id", object.user_id_);
+  jo("gift_code", object.gift_code_);
+  jo("star_count", object.star_count_);
+  jo("giveaway_message_id", object.giveaway_message_id_);
+  jo("is_unclaimed", JsonBool{object.is_unclaimed_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostSourcePremium &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostSourcePremium");
+  jo("user_id", object.user_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatBoostStatus &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatBoostStatus");
+  jo("boost_url", object.boost_url_);
+  jo("applied_slot_ids", ToJson(object.applied_slot_ids_));
+  jo("level", object.level_);
+  jo("gift_code_boost_count", object.gift_code_boost_count_);
+  jo("boost_count", object.boost_count_);
+  jo("current_level_boost_count", object.current_level_boost_count_);
+  jo("next_level_boost_count", object.next_level_boost_count_);
+  jo("premium_member_count", object.premium_member_count_);
+  jo("premium_member_percentage", object.premium_member_percentage_);
+  jo("prepaid_giveaways", ToJson(object.prepaid_giveaways_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatEvent &object) {
@@ -9576,6 +12696,18 @@ void to_json(JsonValueScope &jv, const td_api::chatEventMemberRestricted &object
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::chatEventMemberSubscriptionExtended &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatEventMemberSubscriptionExtended");
+  jo("user_id", object.user_id_);
+  if (object.old_status_) {
+    jo("old_status", ToJson(*object.old_status_));
+  }
+  if (object.new_status_) {
+    jo("new_status", ToJson(*object.new_status_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::chatEventAvailableReactionsChanged &object) {
   auto jo = jv.enter_object();
   jo("@type", "chatEventAvailableReactionsChanged");
@@ -9587,11 +12719,33 @@ void to_json(JsonValueScope &jv, const td_api::chatEventAvailableReactionsChange
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::chatEventBackgroundChanged &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatEventBackgroundChanged");
+  if (object.old_background_) {
+    jo("old_background", ToJson(*object.old_background_));
+  }
+  if (object.new_background_) {
+    jo("new_background", ToJson(*object.new_background_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::chatEventDescriptionChanged &object) {
   auto jo = jv.enter_object();
   jo("@type", "chatEventDescriptionChanged");
   jo("old_description", object.old_description_);
   jo("new_description", object.new_description_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatEventEmojiStatusChanged &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatEventEmojiStatusChanged");
+  if (object.old_emoji_status_) {
+    jo("old_emoji_status", ToJson(*object.old_emoji_status_));
+  }
+  if (object.new_emoji_status_) {
+    jo("new_emoji_status", ToJson(*object.new_emoji_status_));
+  }
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatEventLinkedChatChanged &object) {
@@ -9655,6 +12809,13 @@ void to_json(JsonValueScope &jv, const td_api::chatEventStickerSetChanged &objec
   jo("new_sticker_set_id", ToJson(JsonInt64{object.new_sticker_set_id_}));
 }
 
+void to_json(JsonValueScope &jv, const td_api::chatEventCustomEmojiStickerSetChanged &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatEventCustomEmojiStickerSetChanged");
+  jo("old_sticker_set_id", ToJson(JsonInt64{object.old_sticker_set_id_}));
+  jo("new_sticker_set_id", ToJson(JsonInt64{object.new_sticker_set_id_}));
+}
+
 void to_json(JsonValueScope &jv, const td_api::chatEventTitleChanged &object) {
   auto jo = jv.enter_object();
   jo("@type", "chatEventTitleChanged");
@@ -9674,6 +12835,24 @@ void to_json(JsonValueScope &jv, const td_api::chatEventActiveUsernamesChanged &
   jo("@type", "chatEventActiveUsernamesChanged");
   jo("old_usernames", ToJson(object.old_usernames_));
   jo("new_usernames", ToJson(object.new_usernames_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatEventAccentColorChanged &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatEventAccentColorChanged");
+  jo("old_accent_color_id", object.old_accent_color_id_);
+  jo("old_background_custom_emoji_id", ToJson(JsonInt64{object.old_background_custom_emoji_id_}));
+  jo("new_accent_color_id", object.new_accent_color_id_);
+  jo("new_background_custom_emoji_id", ToJson(JsonInt64{object.new_background_custom_emoji_id_}));
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatEventProfileAccentColorChanged &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatEventProfileAccentColorChanged");
+  jo("old_profile_accent_color_id", object.old_profile_accent_color_id_);
+  jo("old_profile_background_custom_emoji_id", ToJson(JsonInt64{object.old_profile_background_custom_emoji_id_}));
+  jo("new_profile_accent_color_id", object.new_profile_accent_color_id_);
+  jo("new_profile_background_custom_emoji_id", ToJson(JsonInt64{object.new_profile_background_custom_emoji_id_}));
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatEventHasProtectedContentToggled &object) {
@@ -9704,6 +12883,12 @@ void to_json(JsonValueScope &jv, const td_api::chatEventSignMessagesToggled &obj
   auto jo = jv.enter_object();
   jo("@type", "chatEventSignMessagesToggled");
   jo("sign_messages", JsonBool{object.sign_messages_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatEventShowMessageSenderToggled &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatEventShowMessageSenderToggled");
+  jo("show_message_sender", JsonBool{object.show_message_sender_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatEventInviteLinkEdited &object) {
@@ -9842,6 +13027,7 @@ void to_json(JsonValueScope &jv, const td_api::chatFolder &object) {
   if (object.icon_) {
     jo("icon", ToJson(*object.icon_));
   }
+  jo("color_id", object.color_id_);
   jo("is_shareable", JsonBool{object.is_shareable_});
   jo("pinned_chat_ids", ToJson(object.pinned_chat_ids_));
   jo("included_chat_ids", ToJson(object.included_chat_ids_));
@@ -9870,6 +13056,8 @@ void to_json(JsonValueScope &jv, const td_api::chatFolderInfo &object) {
   if (object.icon_) {
     jo("icon", ToJson(*object.icon_));
   }
+  jo("color_id", object.color_id_);
+  jo("is_shareable", JsonBool{object.is_shareable_});
   jo("has_my_invite_links", JsonBool{object.has_my_invite_links_});
 }
 
@@ -9906,8 +13094,12 @@ void to_json(JsonValueScope &jv, const td_api::chatInviteLink &object) {
   jo("date", object.date_);
   jo("edit_date", object.edit_date_);
   jo("expiration_date", object.expiration_date_);
+  if (object.subscription_pricing_) {
+    jo("subscription_pricing", ToJson(*object.subscription_pricing_));
+  }
   jo("member_limit", object.member_limit_);
   jo("member_count", object.member_count_);
+  jo("expired_member_count", object.expired_member_count_);
   jo("pending_join_request_count", object.pending_join_request_count_);
   jo("creates_join_request", JsonBool{object.creates_join_request_});
   jo("is_primary", JsonBool{object.is_primary_});
@@ -9940,11 +13132,18 @@ void to_json(JsonValueScope &jv, const td_api::chatInviteLinkInfo &object) {
   if (object.photo_) {
     jo("photo", ToJson(*object.photo_));
   }
+  jo("accent_color_id", object.accent_color_id_);
   jo("description", object.description_);
   jo("member_count", object.member_count_);
   jo("member_user_ids", ToJson(object.member_user_ids_));
+  if (object.subscription_info_) {
+    jo("subscription_info", ToJson(*object.subscription_info_));
+  }
   jo("creates_join_request", JsonBool{object.creates_join_request_});
   jo("is_public", JsonBool{object.is_public_});
+  jo("is_verified", JsonBool{object.is_verified_});
+  jo("is_scam", JsonBool{object.is_scam_});
+  jo("is_fake", JsonBool{object.is_fake_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatInviteLinkMember &object) {
@@ -9961,6 +13160,16 @@ void to_json(JsonValueScope &jv, const td_api::chatInviteLinkMembers &object) {
   jo("@type", "chatInviteLinkMembers");
   jo("total_count", object.total_count_);
   jo("members", ToJson(object.members_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatInviteLinkSubscriptionInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatInviteLinkSubscriptionInfo");
+  if (object.pricing_) {
+    jo("pricing", ToJson(*object.pricing_));
+  }
+  jo("can_reuse", JsonBool{object.can_reuse_});
+  jo("form_id", ToJson(JsonInt64{object.form_id_}));
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatInviteLinks &object) {
@@ -10065,6 +13274,7 @@ void to_json(JsonValueScope &jv, const td_api::chatMemberStatusAdministrator &ob
 void to_json(JsonValueScope &jv, const td_api::chatMemberStatusMember &object) {
   auto jo = jv.enter_object();
   jo("@type", "chatMemberStatusMember");
+  jo("member_until_date", object.member_until_date_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatMemberStatusRestricted &object) {
@@ -10126,6 +13336,12 @@ void to_json(JsonValueScope &jv, const td_api::chatNotificationSettings &object)
   jo("sound_id", ToJson(JsonInt64{object.sound_id_}));
   jo("use_default_show_preview", JsonBool{object.use_default_show_preview_});
   jo("show_preview", JsonBool{object.show_preview_});
+  jo("use_default_mute_stories", JsonBool{object.use_default_mute_stories_});
+  jo("mute_stories", JsonBool{object.mute_stories_});
+  jo("use_default_story_sound", JsonBool{object.use_default_story_sound_});
+  jo("story_sound_id", ToJson(JsonInt64{object.story_sound_id_}));
+  jo("use_default_show_story_sender", JsonBool{object.use_default_show_story_sender_});
+  jo("show_story_sender", JsonBool{object.show_story_sender_});
   jo("use_default_disable_pinned_message_notifications", JsonBool{object.use_default_disable_pinned_message_notifications_});
   jo("disable_pinned_message_notifications", JsonBool{object.disable_pinned_message_notifications_});
   jo("use_default_disable_mention_notifications", JsonBool{object.use_default_disable_mention_notifications_});
@@ -10144,11 +13360,11 @@ void to_json(JsonValueScope &jv, const td_api::chatPermissions &object) {
   jo("can_send_voice_notes", JsonBool{object.can_send_voice_notes_});
   jo("can_send_polls", JsonBool{object.can_send_polls_});
   jo("can_send_other_messages", JsonBool{object.can_send_other_messages_});
-  jo("can_add_web_page_previews", JsonBool{object.can_add_web_page_previews_});
+  jo("can_add_link_previews", JsonBool{object.can_add_link_previews_});
   jo("can_change_info", JsonBool{object.can_change_info_});
   jo("can_invite_users", JsonBool{object.can_invite_users_});
   jo("can_pin_messages", JsonBool{object.can_pin_messages_});
-  jo("can_manage_topics", JsonBool{object.can_manage_topics_});
+  jo("can_create_topics", JsonBool{object.can_create_topics_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatPhoto &object) {
@@ -10235,6 +13451,76 @@ void to_json(JsonValueScope &jv, const td_api::chatPosition &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::chatRevenueAmount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatRevenueAmount");
+  jo("cryptocurrency", object.cryptocurrency_);
+  jo("total_amount", ToJson(JsonInt64{object.total_amount_}));
+  jo("balance_amount", ToJson(JsonInt64{object.balance_amount_}));
+  jo("available_amount", ToJson(JsonInt64{object.available_amount_}));
+  jo("withdrawal_enabled", JsonBool{object.withdrawal_enabled_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatRevenueStatistics &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatRevenueStatistics");
+  if (object.revenue_by_hour_graph_) {
+    jo("revenue_by_hour_graph", ToJson(*object.revenue_by_hour_graph_));
+  }
+  if (object.revenue_graph_) {
+    jo("revenue_graph", ToJson(*object.revenue_graph_));
+  }
+  if (object.revenue_amount_) {
+    jo("revenue_amount", ToJson(*object.revenue_amount_));
+  }
+  jo("usd_rate", object.usd_rate_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatRevenueTransaction &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatRevenueTransaction");
+  jo("cryptocurrency", object.cryptocurrency_);
+  jo("cryptocurrency_amount", ToJson(JsonInt64{object.cryptocurrency_amount_}));
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::ChatRevenueTransactionType &object) {
+  td_api::downcast_call(const_cast<td_api::ChatRevenueTransactionType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatRevenueTransactionTypeEarnings &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatRevenueTransactionTypeEarnings");
+  jo("start_date", object.start_date_);
+  jo("end_date", object.end_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatRevenueTransactionTypeWithdrawal &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatRevenueTransactionTypeWithdrawal");
+  jo("withdrawal_date", object.withdrawal_date_);
+  jo("provider", object.provider_);
+  if (object.state_) {
+    jo("state", ToJson(*object.state_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatRevenueTransactionTypeRefund &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatRevenueTransactionTypeRefund");
+  jo("refund_date", object.refund_date_);
+  jo("provider", object.provider_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatRevenueTransactions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatRevenueTransactions");
+  jo("total_count", object.total_count_);
+  jo("transactions", ToJson(object.transactions_));
+}
+
 void to_json(JsonValueScope &jv, const td_api::ChatSource &object) {
   td_api::downcast_call(const_cast<td_api::ChatSource &>(object), [&jv](const auto &object) { to_json(jv, object); });
 }
@@ -10311,11 +13597,23 @@ void to_json(JsonValueScope &jv, const td_api::chatStatisticsChannel &object) {
   if (object.member_count_) {
     jo("member_count", ToJson(*object.member_count_));
   }
-  if (object.mean_view_count_) {
-    jo("mean_view_count", ToJson(*object.mean_view_count_));
+  if (object.mean_message_view_count_) {
+    jo("mean_message_view_count", ToJson(*object.mean_message_view_count_));
   }
-  if (object.mean_share_count_) {
-    jo("mean_share_count", ToJson(*object.mean_share_count_));
+  if (object.mean_message_share_count_) {
+    jo("mean_message_share_count", ToJson(*object.mean_message_share_count_));
+  }
+  if (object.mean_message_reaction_count_) {
+    jo("mean_message_reaction_count", ToJson(*object.mean_message_reaction_count_));
+  }
+  if (object.mean_story_view_count_) {
+    jo("mean_story_view_count", ToJson(*object.mean_story_view_count_));
+  }
+  if (object.mean_story_share_count_) {
+    jo("mean_story_share_count", ToJson(*object.mean_story_share_count_));
+  }
+  if (object.mean_story_reaction_count_) {
+    jo("mean_story_reaction_count", ToJson(*object.mean_story_reaction_count_));
   }
   jo("enabled_notifications_percentage", object.enabled_notifications_percentage_);
   if (object.member_count_graph_) {
@@ -10342,10 +13640,19 @@ void to_json(JsonValueScope &jv, const td_api::chatStatisticsChannel &object) {
   if (object.message_interaction_graph_) {
     jo("message_interaction_graph", ToJson(*object.message_interaction_graph_));
   }
+  if (object.message_reaction_graph_) {
+    jo("message_reaction_graph", ToJson(*object.message_reaction_graph_));
+  }
+  if (object.story_interaction_graph_) {
+    jo("story_interaction_graph", ToJson(*object.story_interaction_graph_));
+  }
+  if (object.story_reaction_graph_) {
+    jo("story_reaction_graph", ToJson(*object.story_reaction_graph_));
+  }
   if (object.instant_view_interaction_graph_) {
     jo("instant_view_interaction_graph", ToJson(*object.instant_view_interaction_graph_));
   }
-  jo("recent_message_interactions", ToJson(object.recent_message_interactions_));
+  jo("recent_interactions", ToJson(object.recent_interactions_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatStatisticsAdministratorActionsInfo &object) {
@@ -10357,19 +13664,22 @@ void to_json(JsonValueScope &jv, const td_api::chatStatisticsAdministratorAction
   jo("restricted_user_count", object.restricted_user_count_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::chatStatisticsInteractionInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatStatisticsInteractionInfo");
+  if (object.object_type_) {
+    jo("object_type", ToJson(*object.object_type_));
+  }
+  jo("view_count", object.view_count_);
+  jo("forward_count", object.forward_count_);
+  jo("reaction_count", object.reaction_count_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::chatStatisticsInviterInfo &object) {
   auto jo = jv.enter_object();
   jo("@type", "chatStatisticsInviterInfo");
   jo("user_id", object.user_id_);
   jo("added_member_count", object.added_member_count_);
-}
-
-void to_json(JsonValueScope &jv, const td_api::chatStatisticsMessageInteractionInfo &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "chatStatisticsMessageInteractionInfo");
-  jo("message_id", object.message_id_);
-  jo("view_count", object.view_count_);
-  jo("forward_count", object.forward_count_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatStatisticsMessageSenderInfo &object) {
@@ -10378,6 +13688,22 @@ void to_json(JsonValueScope &jv, const td_api::chatStatisticsMessageSenderInfo &
   jo("user_id", object.user_id_);
   jo("sent_message_count", object.sent_message_count_);
   jo("average_character_count", object.average_character_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::ChatStatisticsObjectType &object) {
+  td_api::downcast_call(const_cast<td_api::ChatStatisticsObjectType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatStatisticsObjectTypeMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatStatisticsObjectTypeMessage");
+  jo("message_id", object.message_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatStatisticsObjectTypeStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatStatisticsObjectTypeStory");
+  jo("story_id", object.story_id_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::chatTheme &object) {
@@ -10390,6 +13716,35 @@ void to_json(JsonValueScope &jv, const td_api::chatTheme &object) {
   if (object.dark_settings_) {
     jo("dark_settings", ToJson(*object.dark_settings_));
   }
+}
+
+void to_json(JsonValueScope &jv, const td_api::ChatTransactionPurpose &object) {
+  td_api::downcast_call(const_cast<td_api::ChatTransactionPurpose &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatTransactionPurposePaidMedia &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatTransactionPurposePaidMedia");
+  jo("message_id", object.message_id_);
+  jo("media", ToJson(object.media_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatTransactionPurposeJoin &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatTransactionPurposeJoin");
+  jo("period", object.period_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatTransactionPurposeReaction &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatTransactionPurposeReaction");
+  jo("message_id", object.message_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::chatTransactionPurposeGiveaway &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "chatTransactionPurposeGiveaway");
+  jo("giveaway_message_id", object.giveaway_message_id_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::ChatType &object) {
@@ -10489,10 +13844,30 @@ void to_json(JsonValueScope &jv, const td_api::checkStickerSetNameResultNameOccu
   jo("@type", "checkStickerSetNameResultNameOccupied");
 }
 
+void to_json(JsonValueScope &jv, const td_api::closeBirthdayUser &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "closeBirthdayUser");
+  jo("user_id", object.user_id_);
+  if (object.birthdate_) {
+    jo("birthdate", ToJson(*object.birthdate_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::closedVectorPath &object) {
   auto jo = jv.enter_object();
   jo("@type", "closedVectorPath");
   jo("commands", ToJson(object.commands_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::collectibleItemInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "collectibleItemInfo");
+  jo("purchase_date", object.purchase_date_);
+  jo("currency", object.currency_);
+  jo("amount", object.amount_);
+  jo("cryptocurrency", object.cryptocurrency_);
+  jo("cryptocurrency_amount", ToJson(JsonInt64{object.cryptocurrency_amount_}));
+  jo("url", object.url_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::connectedWebsite &object) {
@@ -10505,7 +13880,7 @@ void to_json(JsonValueScope &jv, const td_api::connectedWebsite &object) {
   jo("platform", object.platform_);
   jo("log_in_date", object.log_in_date_);
   jo("last_active_date", object.last_active_date_);
-  jo("ip", object.ip_);
+  jo("ip_address", object.ip_address_);
   jo("location", object.location_);
 }
 
@@ -10574,6 +13949,22 @@ void to_json(JsonValueScope &jv, const td_api::countryInfo &object) {
   jo("english_name", object.english_name_);
   jo("is_hidden", JsonBool{object.is_hidden_});
   jo("calling_codes", ToJson(object.calling_codes_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::createdBasicGroupChat &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "createdBasicGroupChat");
+  jo("chat_id", object.chat_id_);
+  if (object.failed_to_add_members_) {
+    jo("failed_to_add_members", ToJson(*object.failed_to_add_members_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::currentWeather &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "currentWeather");
+  jo("temperature", object.temperature_);
+  jo("emoji", object.emoji_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::customRequestResult &object) {
@@ -10680,11 +14071,14 @@ void to_json(JsonValueScope &jv, const td_api::downloadedFileCounts &object) {
 void to_json(JsonValueScope &jv, const td_api::draftMessage &object) {
   auto jo = jv.enter_object();
   jo("@type", "draftMessage");
-  jo("reply_to_message_id", object.reply_to_message_id_);
+  if (object.reply_to_) {
+    jo("reply_to", ToJson(*object.reply_to_));
+  }
   jo("date", object.date_);
   if (object.input_message_text_) {
     jo("input_message_text", ToJson(*object.input_message_text_));
   }
+  jo("effect_id", ToJson(JsonInt64{object.effect_id_}));
 }
 
 void to_json(JsonValueScope &jv, const td_api::emailAddressAuthenticationCodeInfo &object) {
@@ -10723,7 +14117,38 @@ void to_json(JsonValueScope &jv, const td_api::emojiCategory &object) {
   if (object.icon_) {
     jo("icon", ToJson(*object.icon_));
   }
+  if (object.source_) {
+    jo("source", ToJson(*object.source_));
+  }
+  jo("is_greeting", JsonBool{object.is_greeting_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::EmojiCategorySource &object) {
+  td_api::downcast_call(const_cast<td_api::EmojiCategorySource &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::emojiCategorySourceSearch &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "emojiCategorySourceSearch");
   jo("emojis", ToJson(object.emojis_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::emojiCategorySourcePremium &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "emojiCategorySourcePremium");
+}
+
+void to_json(JsonValueScope &jv, const td_api::emojiKeyword &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "emojiKeyword");
+  jo("emoji", object.emoji_);
+  jo("keyword", object.keyword_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::emojiKeywords &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "emojiKeywords");
+  jo("emoji_keywords", ToJson(object.emoji_keywords_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::emojiReaction &object) {
@@ -10759,12 +14184,13 @@ void to_json(JsonValueScope &jv, const td_api::emojiStatus &object) {
   auto jo = jv.enter_object();
   jo("@type", "emojiStatus");
   jo("custom_emoji_id", ToJson(JsonInt64{object.custom_emoji_id_}));
+  jo("expiration_date", object.expiration_date_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::emojiStatuses &object) {
   auto jo = jv.enter_object();
   jo("@type", "emojiStatuses");
-  jo("emoji_statuses", ToJson(object.emoji_statuses_));
+  jo("custom_emoji_ids", ToJson(JsonVectorInt64{object.custom_emoji_ids_}));
 }
 
 void to_json(JsonValueScope &jv, const td_api::emojis &object) {
@@ -10808,6 +14234,29 @@ void to_json(JsonValueScope &jv, const td_api::error &object) {
   jo("@type", "error");
   jo("code", object.code_);
   jo("message", object.message_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::factCheck &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "factCheck");
+  if (object.text_) {
+    jo("text", ToJson(*object.text_));
+  }
+  jo("country_code", object.country_code_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::failedToAddMember &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "failedToAddMember");
+  jo("user_id", object.user_id_);
+  jo("premium_would_allow_invite", JsonBool{object.premium_would_allow_invite_});
+  jo("premium_required_to_send_messages", JsonBool{object.premium_required_to_send_messages_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::failedToAddMembers &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "failedToAddMembers");
+  jo("failed_to_add_members", ToJson(object.failed_to_add_members_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::file &object) {
@@ -10882,6 +14331,11 @@ void to_json(JsonValueScope &jv, const td_api::fileTypePhoto &object) {
   jo("@type", "fileTypePhoto");
 }
 
+void to_json(JsonValueScope &jv, const td_api::fileTypePhotoStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "fileTypePhotoStory");
+}
+
 void to_json(JsonValueScope &jv, const td_api::fileTypeProfilePhoto &object) {
   auto jo = jv.enter_object();
   jo("@type", "fileTypeProfilePhoto");
@@ -10927,6 +14381,11 @@ void to_json(JsonValueScope &jv, const td_api::fileTypeVideoNote &object) {
   jo("@type", "fileTypeVideoNote");
 }
 
+void to_json(JsonValueScope &jv, const td_api::fileTypeVideoStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "fileTypeVideoStory");
+}
+
 void to_json(JsonValueScope &jv, const td_api::fileTypeVoiceNote &object) {
   auto jo = jv.enter_object();
   jo("@type", "fileTypeVoiceNote");
@@ -10935,6 +14394,23 @@ void to_json(JsonValueScope &jv, const td_api::fileTypeVoiceNote &object) {
 void to_json(JsonValueScope &jv, const td_api::fileTypeWallpaper &object) {
   auto jo = jv.enter_object();
   jo("@type", "fileTypeWallpaper");
+}
+
+void to_json(JsonValueScope &jv, const td_api::FirebaseDeviceVerificationParameters &object) {
+  td_api::downcast_call(const_cast<td_api::FirebaseDeviceVerificationParameters &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::firebaseDeviceVerificationParametersSafetyNet &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "firebaseDeviceVerificationParametersSafetyNet");
+  jo("nonce", base64_encode(object.nonce_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::firebaseDeviceVerificationParametersPlayIntegrity &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "firebaseDeviceVerificationParametersPlayIntegrity");
+  jo("nonce", object.nonce_);
+  jo("cloud_project_number", ToJson(JsonInt64{object.cloud_project_number_}));
 }
 
 void to_json(JsonValueScope &jv, const td_api::formattedText &object) {
@@ -11002,6 +14478,27 @@ void to_json(JsonValueScope &jv, const td_api::forumTopics &object) {
   jo("next_offset_message_thread_id", object.next_offset_message_thread_id_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::forwardSource &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "forwardSource");
+  jo("chat_id", object.chat_id_);
+  jo("message_id", object.message_id_);
+  if (object.sender_id_) {
+    jo("sender_id", ToJson(*object.sender_id_));
+  }
+  jo("sender_name", object.sender_name_);
+  jo("date", object.date_);
+  jo("is_outgoing", JsonBool{object.is_outgoing_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::foundChatBoosts &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "foundChatBoosts");
+  jo("total_count", object.total_count_);
+  jo("boosts", ToJson(object.boosts_));
+  jo("next_offset", object.next_offset_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::foundChatMessages &object) {
   auto jo = jv.enter_object();
   jo("@type", "foundChatMessages");
@@ -11025,6 +14522,34 @@ void to_json(JsonValueScope &jv, const td_api::foundMessages &object) {
   jo("@type", "foundMessages");
   jo("total_count", object.total_count_);
   jo("messages", ToJson(object.messages_));
+  jo("next_offset", object.next_offset_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::foundPosition &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "foundPosition");
+  jo("position", object.position_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::foundPositions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "foundPositions");
+  jo("total_count", object.total_count_);
+  jo("positions", ToJson(object.positions_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::foundStories &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "foundStories");
+  jo("total_count", object.total_count_);
+  jo("stories", ToJson(object.stories_));
+  jo("next_offset", object.next_offset_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::foundUsers &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "foundUsers");
+  jo("user_ids", ToJson(object.user_ids_));
   jo("next_offset", object.next_offset_);
 }
 
@@ -11068,6 +14593,93 @@ void to_json(JsonValueScope &jv, const td_api::gameHighScores &object) {
   auto jo = jv.enter_object();
   jo("@type", "gameHighScores");
   jo("scores", ToJson(object.scores_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::GiveawayInfo &object) {
+  td_api::downcast_call(const_cast<td_api::GiveawayInfo &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayInfoOngoing &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayInfoOngoing");
+  jo("creation_date", object.creation_date_);
+  if (object.status_) {
+    jo("status", ToJson(*object.status_));
+  }
+  jo("is_ended", JsonBool{object.is_ended_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayInfoCompleted &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayInfoCompleted");
+  jo("creation_date", object.creation_date_);
+  jo("actual_winners_selection_date", object.actual_winners_selection_date_);
+  jo("was_refunded", JsonBool{object.was_refunded_});
+  jo("is_winner", JsonBool{object.is_winner_});
+  jo("winner_count", object.winner_count_);
+  jo("activation_count", object.activation_count_);
+  jo("gift_code", object.gift_code_);
+  jo("won_star_count", object.won_star_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayParameters &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayParameters");
+  jo("boosted_chat_id", object.boosted_chat_id_);
+  jo("additional_chat_ids", ToJson(object.additional_chat_ids_));
+  jo("winners_selection_date", object.winners_selection_date_);
+  jo("only_new_members", JsonBool{object.only_new_members_});
+  jo("has_public_winners", JsonBool{object.has_public_winners_});
+  jo("country_codes", ToJson(object.country_codes_));
+  jo("prize_description", object.prize_description_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::GiveawayParticipantStatus &object) {
+  td_api::downcast_call(const_cast<td_api::GiveawayParticipantStatus &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayParticipantStatusEligible &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayParticipantStatusEligible");
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayParticipantStatusParticipating &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayParticipantStatusParticipating");
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayParticipantStatusAlreadyWasMember &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayParticipantStatusAlreadyWasMember");
+  jo("joined_chat_date", object.joined_chat_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayParticipantStatusAdministrator &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayParticipantStatusAdministrator");
+  jo("chat_id", object.chat_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayParticipantStatusDisallowedCountry &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayParticipantStatusDisallowedCountry");
+  jo("user_country_code", object.user_country_code_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::GiveawayPrize &object) {
+  td_api::downcast_call(const_cast<td_api::GiveawayPrize &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayPrizePremium &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayPrizePremium");
+  jo("month_count", object.month_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::giveawayPrizeStars &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "giveawayPrizeStars");
+  jo("star_count", object.star_count_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::groupCall &object) {
@@ -11185,8 +14797,8 @@ void to_json(JsonValueScope &jv, const td_api::identityDocument &object) {
   auto jo = jv.enter_object();
   jo("@type", "identityDocument");
   jo("number", object.number_);
-  if (object.expiry_date_) {
-    jo("expiry_date", ToJson(*object.expiry_date_));
+  if (object.expiration_date_) {
+    jo("expiration_date", ToJson(*object.expiration_date_));
   }
   if (object.front_side_) {
     jo("front_side", ToJson(*object.front_side_));
@@ -11487,7 +15099,9 @@ void to_json(JsonValueScope &jv, const td_api::inputMessageText &object) {
   if (object.text_) {
     jo("text", ToJson(*object.text_));
   }
-  jo("disable_web_page_preview", JsonBool{object.disable_web_page_preview_});
+  if (object.link_preview_options_) {
+    jo("link_preview_options", ToJson(*object.link_preview_options_));
+  }
   jo("clear_draft", JsonBool{object.clear_draft_});
 }
 
@@ -11507,6 +15121,7 @@ void to_json(JsonValueScope &jv, const td_api::inputMessageAnimation &object) {
   if (object.caption_) {
     jo("caption", ToJson(*object.caption_));
   }
+  jo("show_caption_above_media", JsonBool{object.show_caption_above_media_});
   jo("has_spoiler", JsonBool{object.has_spoiler_});
 }
 
@@ -11542,6 +15157,18 @@ void to_json(JsonValueScope &jv, const td_api::inputMessageDocument &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::inputMessagePaidMedia &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputMessagePaidMedia");
+  jo("star_count", object.star_count_);
+  jo("paid_media", ToJson(object.paid_media_));
+  if (object.caption_) {
+    jo("caption", ToJson(*object.caption_));
+  }
+  jo("show_caption_above_media", JsonBool{object.show_caption_above_media_});
+  jo("payload", object.payload_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::inputMessagePhoto &object) {
   auto jo = jv.enter_object();
   jo("@type", "inputMessagePhoto");
@@ -11557,7 +15184,10 @@ void to_json(JsonValueScope &jv, const td_api::inputMessagePhoto &object) {
   if (object.caption_) {
     jo("caption", ToJson(*object.caption_));
   }
-  jo("self_destruct_time", object.self_destruct_time_);
+  jo("show_caption_above_media", JsonBool{object.show_caption_above_media_});
+  if (object.self_destruct_type_) {
+    jo("self_destruct_type", ToJson(*object.self_destruct_type_));
+  }
   jo("has_spoiler", JsonBool{object.has_spoiler_});
 }
 
@@ -11592,7 +15222,10 @@ void to_json(JsonValueScope &jv, const td_api::inputMessageVideo &object) {
   if (object.caption_) {
     jo("caption", ToJson(*object.caption_));
   }
-  jo("self_destruct_time", object.self_destruct_time_);
+  jo("show_caption_above_media", JsonBool{object.show_caption_above_media_});
+  if (object.self_destruct_type_) {
+    jo("self_destruct_type", ToJson(*object.self_destruct_type_));
+  }
   jo("has_spoiler", JsonBool{object.has_spoiler_});
 }
 
@@ -11607,6 +15240,9 @@ void to_json(JsonValueScope &jv, const td_api::inputMessageVideoNote &object) {
   }
   jo("duration", object.duration_);
   jo("length", object.length_);
+  if (object.self_destruct_type_) {
+    jo("self_destruct_type", ToJson(*object.self_destruct_type_));
+  }
 }
 
 void to_json(JsonValueScope &jv, const td_api::inputMessageVoiceNote &object) {
@@ -11619,6 +15255,9 @@ void to_json(JsonValueScope &jv, const td_api::inputMessageVoiceNote &object) {
   jo("waveform", base64_encode(object.waveform_));
   if (object.caption_) {
     jo("caption", ToJson(*object.caption_));
+  }
+  if (object.self_destruct_type_) {
+    jo("self_destruct_type", ToJson(*object.self_destruct_type_));
   }
 }
 
@@ -11679,15 +15318,20 @@ void to_json(JsonValueScope &jv, const td_api::inputMessageInvoice &object) {
   jo("provider_token", object.provider_token_);
   jo("provider_data", object.provider_data_);
   jo("start_parameter", object.start_parameter_);
-  if (object.extended_media_content_) {
-    jo("extended_media_content", ToJson(*object.extended_media_content_));
+  if (object.paid_media_) {
+    jo("paid_media", ToJson(*object.paid_media_));
+  }
+  if (object.paid_media_caption_) {
+    jo("paid_media_caption", ToJson(*object.paid_media_caption_));
   }
 }
 
 void to_json(JsonValueScope &jv, const td_api::inputMessagePoll &object) {
   auto jo = jv.enter_object();
   jo("@type", "inputMessagePoll");
-  jo("question", object.question_);
+  if (object.question_) {
+    jo("question", ToJson(*object.question_));
+  }
   jo("options", ToJson(object.options_));
   jo("is_anonymous", JsonBool{object.is_anonymous_});
   if (object.type_) {
@@ -11696,6 +15340,13 @@ void to_json(JsonValueScope &jv, const td_api::inputMessagePoll &object) {
   jo("open_period", object.open_period_);
   jo("close_date", object.close_date_);
   jo("is_closed", JsonBool{object.is_closed_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::inputMessageStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputMessageStory");
+  jo("story_sender_chat_id", object.story_sender_chat_id_);
+  jo("story_id", object.story_id_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::inputMessageForwarded &object) {
@@ -11707,6 +15358,78 @@ void to_json(JsonValueScope &jv, const td_api::inputMessageForwarded &object) {
   if (object.copy_options_) {
     jo("copy_options", ToJson(*object.copy_options_));
   }
+}
+
+void to_json(JsonValueScope &jv, const td_api::InputMessageReplyTo &object) {
+  td_api::downcast_call(const_cast<td_api::InputMessageReplyTo &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::inputMessageReplyToMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputMessageReplyToMessage");
+  jo("message_id", object.message_id_);
+  if (object.quote_) {
+    jo("quote", ToJson(*object.quote_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::inputMessageReplyToExternalMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputMessageReplyToExternalMessage");
+  jo("chat_id", object.chat_id_);
+  jo("message_id", object.message_id_);
+  if (object.quote_) {
+    jo("quote", ToJson(*object.quote_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::inputMessageReplyToStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputMessageReplyToStory");
+  jo("story_sender_chat_id", object.story_sender_chat_id_);
+  jo("story_id", object.story_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::inputPaidMedia &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputPaidMedia");
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+  if (object.media_) {
+    jo("media", ToJson(*object.media_));
+  }
+  if (object.thumbnail_) {
+    jo("thumbnail", ToJson(*object.thumbnail_));
+  }
+  jo("added_sticker_file_ids", ToJson(object.added_sticker_file_ids_));
+  jo("width", object.width_);
+  jo("height", object.height_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::InputPaidMediaType &object) {
+  td_api::downcast_call(const_cast<td_api::InputPaidMediaType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::inputPaidMediaTypePhoto &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputPaidMediaTypePhoto");
+}
+
+void to_json(JsonValueScope &jv, const td_api::inputPaidMediaTypeVideo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputPaidMediaTypeVideo");
+  jo("duration", object.duration_);
+  jo("supports_streaming", JsonBool{object.supports_streaming_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::inputTextQuote &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inputTextQuote");
+  if (object.text_) {
+    jo("text", ToJson(*object.text_));
+  }
+  jo("position", object.position_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::inputThumbnail &object) {
@@ -11777,9 +15500,28 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypeBotStartInGroup &
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeBusinessChat &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "internalLinkTypeBusinessChat");
+  jo("link_name", object.link_name_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeBuyStars &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "internalLinkTypeBuyStars");
+  jo("star_count", object.star_count_);
+  jo("purpose", object.purpose_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeChangePhoneNumber &object) {
   auto jo = jv.enter_object();
   jo("@type", "internalLinkTypeChangePhoneNumber");
+}
+
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeChatBoost &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "internalLinkTypeChatBoost");
+  jo("url", object.url_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeChatFolderInvite &object) {
@@ -11840,6 +15582,14 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypeLanguageSettings 
   jo("@type", "internalLinkTypeLanguageSettings");
 }
 
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeMainWebApp &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "internalLinkTypeMainWebApp");
+  jo("bot_username", object.bot_username_);
+  jo("start_parameter", object.start_parameter_);
+  jo("is_compact", JsonBool{object.is_compact_});
+}
+
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeMessage &object) {
   auto jo = jv.enter_object();
   jo("@type", "internalLinkTypeMessage");
@@ -11878,6 +15628,18 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypePremiumFeatures &
   jo("referrer", object.referrer_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypePremiumGift &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "internalLinkTypePremiumGift");
+  jo("referrer", object.referrer_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypePremiumGiftCode &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "internalLinkTypePremiumGiftCode");
+  jo("code", object.code_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypePrivacyAndSecuritySettings &object) {
   auto jo = jv.enter_object();
   jo("@type", "internalLinkTypePrivacyAndSecuritySettings");
@@ -11897,6 +15659,8 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypePublicChat &objec
   auto jo = jv.enter_object();
   jo("@type", "internalLinkTypePublicChat");
   jo("chat_username", object.chat_username_);
+  jo("draft_text", object.draft_text_);
+  jo("open_profile", JsonBool{object.open_profile_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeQrCodeAuthentication &object) {
@@ -11919,6 +15683,13 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypeStickerSet &objec
   jo("@type", "internalLinkTypeStickerSet");
   jo("sticker_set_name", object.sticker_set_name_);
   jo("expect_custom_emoji", JsonBool{object.expect_custom_emoji_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::internalLinkTypeStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "internalLinkTypeStory");
+  jo("story_sender_username", object.story_sender_username_);
+  jo("story_id", object.story_id_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeTheme &object) {
@@ -11947,6 +15718,8 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypeUserPhoneNumber &
   auto jo = jv.enter_object();
   jo("@type", "internalLinkTypeUserPhoneNumber");
   jo("phone_number", object.phone_number_);
+  jo("draft_text", object.draft_text_);
+  jo("open_profile", JsonBool{object.open_profile_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::internalLinkTypeUserToken &object) {
@@ -11969,6 +15742,26 @@ void to_json(JsonValueScope &jv, const td_api::internalLinkTypeWebApp &object) {
   jo("bot_username", object.bot_username_);
   jo("web_app_short_name", object.web_app_short_name_);
   jo("start_parameter", object.start_parameter_);
+  jo("is_compact", JsonBool{object.is_compact_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::InviteLinkChatType &object) {
+  td_api::downcast_call(const_cast<td_api::InviteLinkChatType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::inviteLinkChatTypeBasicGroup &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inviteLinkChatTypeBasicGroup");
+}
+
+void to_json(JsonValueScope &jv, const td_api::inviteLinkChatTypeSupergroup &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inviteLinkChatTypeSupergroup");
+}
+
+void to_json(JsonValueScope &jv, const td_api::inviteLinkChatTypeChannel &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "inviteLinkChatTypeChannel");
 }
 
 void to_json(JsonValueScope &jv, const td_api::invoice &object) {
@@ -11979,6 +15772,7 @@ void to_json(JsonValueScope &jv, const td_api::invoice &object) {
   jo("max_tip_amount", object.max_tip_amount_);
   jo("suggested_tip_amounts", ToJson(object.suggested_tip_amounts_));
   jo("recurring_payment_terms_of_service_url", object.recurring_payment_terms_of_service_url_);
+  jo("terms_of_service_url", object.terms_of_service_url_);
   jo("is_test", JsonBool{object.is_test_});
   jo("need_name", JsonBool{object.need_name_});
   jo("need_phone_number", JsonBool{object.need_phone_number_});
@@ -12072,14 +15866,18 @@ void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestPoll &ob
   jo("force_quiz", JsonBool{object.force_quiz_});
 }
 
-void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestUser &object) {
+void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestUsers &object) {
   auto jo = jv.enter_object();
-  jo("@type", "keyboardButtonTypeRequestUser");
+  jo("@type", "keyboardButtonTypeRequestUsers");
   jo("id", object.id_);
   jo("restrict_user_is_bot", JsonBool{object.restrict_user_is_bot_});
   jo("user_is_bot", JsonBool{object.user_is_bot_});
   jo("restrict_user_is_premium", JsonBool{object.restrict_user_is_premium_});
   jo("user_is_premium", JsonBool{object.user_is_premium_});
+  jo("max_quantity", object.max_quantity_);
+  jo("request_name", JsonBool{object.request_name_});
+  jo("request_username", JsonBool{object.request_username_});
+  jo("request_photo", JsonBool{object.request_photo_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestChat &object) {
@@ -12099,6 +15897,9 @@ void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeRequestChat &ob
     jo("bot_administrator_rights", ToJson(*object.bot_administrator_rights_));
   }
   jo("bot_is_member", JsonBool{object.bot_is_member_});
+  jo("request_title", JsonBool{object.request_title_});
+  jo("request_username", JsonBool{object.request_username_});
+  jo("request_photo", JsonBool{object.request_photo_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::keyboardButtonTypeWebApp &object) {
@@ -12173,6 +15974,315 @@ void to_json(JsonValueScope &jv, const td_api::languagePackStrings &object) {
   jo("strings", ToJson(object.strings_));
 }
 
+void to_json(JsonValueScope &jv, const td_api::linkPreview &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreview");
+  jo("url", object.url_);
+  jo("display_url", object.display_url_);
+  jo("site_name", object.site_name_);
+  jo("title", object.title_);
+  if (object.description_) {
+    jo("description", ToJson(*object.description_));
+  }
+  jo("author", object.author_);
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+  jo("has_large_media", JsonBool{object.has_large_media_});
+  jo("show_large_media", JsonBool{object.show_large_media_});
+  jo("show_media_above_description", JsonBool{object.show_media_above_description_});
+  jo("skip_confirmation", JsonBool{object.skip_confirmation_});
+  jo("show_above_text", JsonBool{object.show_above_text_});
+  jo("instant_view_version", object.instant_view_version_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::LinkPreviewAlbumMedia &object) {
+  td_api::downcast_call(const_cast<td_api::LinkPreviewAlbumMedia &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewAlbumMediaPhoto &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewAlbumMediaPhoto");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewAlbumMediaVideo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewAlbumMediaVideo");
+  if (object.video_) {
+    jo("video", ToJson(*object.video_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewOptions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewOptions");
+  jo("is_disabled", JsonBool{object.is_disabled_});
+  jo("url", object.url_);
+  jo("force_small_media", JsonBool{object.force_small_media_});
+  jo("force_large_media", JsonBool{object.force_large_media_});
+  jo("show_above_text", JsonBool{object.show_above_text_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::LinkPreviewType &object) {
+  td_api::downcast_call(const_cast<td_api::LinkPreviewType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeAlbum &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeAlbum");
+  jo("media", ToJson(object.media_));
+  jo("caption", object.caption_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeAnimation &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeAnimation");
+  if (object.animation_) {
+    jo("animation", ToJson(*object.animation_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeApp &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeApp");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeArticle &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeArticle");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeAudio &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeAudio");
+  if (object.audio_) {
+    jo("audio", ToJson(*object.audio_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeBackground &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeBackground");
+  if (object.document_) {
+    jo("document", ToJson(*object.document_));
+  }
+  if (object.background_type_) {
+    jo("background_type", ToJson(*object.background_type_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeChannelBoost &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeChannelBoost");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeChat &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeChat");
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+  jo("creates_join_request", JsonBool{object.creates_join_request_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeDocument &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeDocument");
+  if (object.document_) {
+    jo("document", ToJson(*object.document_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeEmbeddedAnimationPlayer &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeEmbeddedAnimationPlayer");
+  jo("url", object.url_);
+  if (object.thumbnail_) {
+    jo("thumbnail", ToJson(*object.thumbnail_));
+  }
+  jo("duration", object.duration_);
+  jo("width", object.width_);
+  jo("height", object.height_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeEmbeddedAudioPlayer &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeEmbeddedAudioPlayer");
+  jo("url", object.url_);
+  if (object.thumbnail_) {
+    jo("thumbnail", ToJson(*object.thumbnail_));
+  }
+  jo("duration", object.duration_);
+  jo("width", object.width_);
+  jo("height", object.height_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeEmbeddedVideoPlayer &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeEmbeddedVideoPlayer");
+  jo("url", object.url_);
+  if (object.thumbnail_) {
+    jo("thumbnail", ToJson(*object.thumbnail_));
+  }
+  jo("duration", object.duration_);
+  jo("width", object.width_);
+  jo("height", object.height_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeExternalAudio &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeExternalAudio");
+  jo("url", object.url_);
+  jo("mime_type", object.mime_type_);
+  jo("duration", object.duration_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeExternalVideo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeExternalVideo");
+  jo("url", object.url_);
+  jo("mime_type", object.mime_type_);
+  jo("width", object.width_);
+  jo("height", object.height_);
+  jo("duration", object.duration_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeInvoice &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeInvoice");
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeMessage");
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypePhoto &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypePhoto");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypePremiumGiftCode &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypePremiumGiftCode");
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeShareableChatFolder &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeShareableChatFolder");
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeSticker &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeSticker");
+  if (object.sticker_) {
+    jo("sticker", ToJson(*object.sticker_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeStickerSet &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeStickerSet");
+  jo("stickers", ToJson(object.stickers_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeStory");
+  jo("story_sender_chat_id", object.story_sender_chat_id_);
+  jo("story_id", object.story_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeSupergroupBoost &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeSupergroupBoost");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeTheme &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeTheme");
+  jo("documents", ToJson(object.documents_));
+  if (object.settings_) {
+    jo("settings", ToJson(*object.settings_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeUnsupported &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeUnsupported");
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeUser &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeUser");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+  jo("is_bot", JsonBool{object.is_bot_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeVideo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeVideo");
+  if (object.video_) {
+    jo("video", ToJson(*object.video_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeVideoChat &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeVideoChat");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+  jo("is_live_stream", JsonBool{object.is_live_stream_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeVideoNote &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeVideoNote");
+  if (object.video_note_) {
+    jo("video_note", ToJson(*object.video_note_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeVoiceNote &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeVoiceNote");
+  if (object.voice_note_) {
+    jo("voice_note", ToJson(*object.voice_note_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::linkPreviewTypeWebApp &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "linkPreviewTypeWebApp");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::localFile &object) {
   auto jo = jv.enter_object();
   jo("@type", "localFile");
@@ -12198,6 +16308,15 @@ void to_json(JsonValueScope &jv, const td_api::location &object) {
   jo("latitude", object.latitude_);
   jo("longitude", object.longitude_);
   jo("horizontal_accuracy", object.horizontal_accuracy_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::locationAddress &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "locationAddress");
+  jo("country_code", object.country_code_);
+  jo("state", object.state_);
+  jo("city", object.city_);
+  jo("street", object.street_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::LogStream &object) {
@@ -12254,6 +16373,13 @@ void to_json(JsonValueScope &jv, const td_api::loginUrlInfoRequestConfirmation &
   jo("request_write_access", JsonBool{object.request_write_access_});
 }
 
+void to_json(JsonValueScope &jv, const td_api::mainWebApp &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "mainWebApp");
+  jo("url", object.url_);
+  jo("is_compact", JsonBool{object.is_compact_});
+}
+
 void to_json(JsonValueScope &jv, const td_api::MaskPoint &object) {
   td_api::downcast_call(const_cast<td_api::MaskPoint &>(object), [&jv](const auto &object) { to_json(jv, object); });
 }
@@ -12305,17 +16431,8 @@ void to_json(JsonValueScope &jv, const td_api::message &object) {
   }
   jo("is_outgoing", JsonBool{object.is_outgoing_});
   jo("is_pinned", JsonBool{object.is_pinned_});
-  jo("can_be_edited", JsonBool{object.can_be_edited_});
-  jo("can_be_forwarded", JsonBool{object.can_be_forwarded_});
+  jo("is_from_offline", JsonBool{object.is_from_offline_});
   jo("can_be_saved", JsonBool{object.can_be_saved_});
-  jo("can_be_deleted_only_for_self", JsonBool{object.can_be_deleted_only_for_self_});
-  jo("can_be_deleted_for_all_users", JsonBool{object.can_be_deleted_for_all_users_});
-  jo("can_get_added_reactions", JsonBool{object.can_get_added_reactions_});
-  jo("can_get_statistics", JsonBool{object.can_get_statistics_});
-  jo("can_get_message_thread", JsonBool{object.can_get_message_thread_});
-  jo("can_get_viewers", JsonBool{object.can_get_viewers_});
-  jo("can_get_media_timestamp_links", JsonBool{object.can_get_media_timestamp_links_});
-  jo("can_report_reactions", JsonBool{object.can_report_reactions_});
   jo("has_timestamped_media", JsonBool{object.has_timestamped_media_});
   jo("is_channel_post", JsonBool{object.is_channel_post_});
   jo("is_topic_message", JsonBool{object.is_topic_message_});
@@ -12325,19 +16442,33 @@ void to_json(JsonValueScope &jv, const td_api::message &object) {
   if (object.forward_info_) {
     jo("forward_info", ToJson(*object.forward_info_));
   }
+  if (object.import_info_) {
+    jo("import_info", ToJson(*object.import_info_));
+  }
   if (object.interaction_info_) {
     jo("interaction_info", ToJson(*object.interaction_info_));
   }
   jo("unread_reactions", ToJson(object.unread_reactions_));
-  jo("reply_in_chat_id", object.reply_in_chat_id_);
-  jo("reply_to_message_id", object.reply_to_message_id_);
+  if (object.fact_check_) {
+    jo("fact_check", ToJson(*object.fact_check_));
+  }
+  if (object.reply_to_) {
+    jo("reply_to", ToJson(*object.reply_to_));
+  }
   jo("message_thread_id", object.message_thread_id_);
-  jo("self_destruct_time", object.self_destruct_time_);
+  jo("saved_messages_topic_id", object.saved_messages_topic_id_);
+  if (object.self_destruct_type_) {
+    jo("self_destruct_type", ToJson(*object.self_destruct_type_));
+  }
   jo("self_destruct_in", object.self_destruct_in_);
   jo("auto_delete_in", object.auto_delete_in_);
   jo("via_bot_user_id", object.via_bot_user_id_);
+  jo("sender_business_bot_user_id", object.sender_business_bot_user_id_);
+  jo("sender_boost_count", object.sender_boost_count_);
   jo("author_signature", object.author_signature_);
   jo("media_album_id", ToJson(JsonInt64{object.media_album_id_}));
+  jo("effect_id", ToJson(JsonInt64{object.effect_id_}));
+  jo("has_sensitive_content", JsonBool{object.has_sensitive_content_});
   jo("restriction_reason", object.restriction_reason_);
   if (object.content_) {
     jo("content", ToJson(*object.content_));
@@ -12379,8 +16510,11 @@ void to_json(JsonValueScope &jv, const td_api::messageText &object) {
   if (object.text_) {
     jo("text", ToJson(*object.text_));
   }
-  if (object.web_page_) {
-    jo("web_page", ToJson(*object.web_page_));
+  if (object.link_preview_) {
+    jo("link_preview", ToJson(*object.link_preview_));
+  }
+  if (object.link_preview_options_) {
+    jo("link_preview_options", ToJson(*object.link_preview_options_));
   }
 }
 
@@ -12393,6 +16527,7 @@ void to_json(JsonValueScope &jv, const td_api::messageAnimation &object) {
   if (object.caption_) {
     jo("caption", ToJson(*object.caption_));
   }
+  jo("show_caption_above_media", JsonBool{object.show_caption_above_media_});
   jo("has_spoiler", JsonBool{object.has_spoiler_});
   jo("is_secret", JsonBool{object.is_secret_});
 }
@@ -12419,6 +16554,17 @@ void to_json(JsonValueScope &jv, const td_api::messageDocument &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::messagePaidMedia &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messagePaidMedia");
+  jo("star_count", object.star_count_);
+  jo("media", ToJson(object.media_));
+  if (object.caption_) {
+    jo("caption", ToJson(*object.caption_));
+  }
+  jo("show_caption_above_media", JsonBool{object.show_caption_above_media_});
+}
+
 void to_json(JsonValueScope &jv, const td_api::messagePhoto &object) {
   auto jo = jv.enter_object();
   jo("@type", "messagePhoto");
@@ -12428,13 +16574,9 @@ void to_json(JsonValueScope &jv, const td_api::messagePhoto &object) {
   if (object.caption_) {
     jo("caption", ToJson(*object.caption_));
   }
+  jo("show_caption_above_media", JsonBool{object.show_caption_above_media_});
   jo("has_spoiler", JsonBool{object.has_spoiler_});
   jo("is_secret", JsonBool{object.is_secret_});
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageExpiredPhoto &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "messageExpiredPhoto");
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageSticker &object) {
@@ -12455,13 +16597,9 @@ void to_json(JsonValueScope &jv, const td_api::messageVideo &object) {
   if (object.caption_) {
     jo("caption", ToJson(*object.caption_));
   }
+  jo("show_caption_above_media", JsonBool{object.show_caption_above_media_});
   jo("has_spoiler", JsonBool{object.has_spoiler_});
   jo("is_secret", JsonBool{object.is_secret_});
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageExpiredVideo &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "messageExpiredVideo");
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageVideoNote &object) {
@@ -12484,6 +16622,26 @@ void to_json(JsonValueScope &jv, const td_api::messageVoiceNote &object) {
     jo("caption", ToJson(*object.caption_));
   }
   jo("is_listened", JsonBool{object.is_listened_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageExpiredPhoto &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageExpiredPhoto");
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageExpiredVideo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageExpiredVideo");
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageExpiredVideoNote &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageExpiredVideoNote");
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageExpiredVoiceNote &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageExpiredVoiceNote");
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageLocation &object) {
@@ -12553,15 +16711,19 @@ void to_json(JsonValueScope &jv, const td_api::messagePoll &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::messageStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageStory");
+  jo("story_sender_chat_id", object.story_sender_chat_id_);
+  jo("story_id", object.story_id_);
+  jo("via_mention", JsonBool{object.via_mention_});
+}
+
 void to_json(JsonValueScope &jv, const td_api::messageInvoice &object) {
   auto jo = jv.enter_object();
   jo("@type", "messageInvoice");
-  jo("title", object.title_);
-  if (object.description_) {
-    jo("description", ToJson(*object.description_));
-  }
-  if (object.photo_) {
-    jo("photo", ToJson(*object.photo_));
+  if (object.product_info_) {
+    jo("product_info", ToJson(*object.product_info_));
   }
   jo("currency", object.currency_);
   jo("total_amount", object.total_amount_);
@@ -12569,8 +16731,11 @@ void to_json(JsonValueScope &jv, const td_api::messageInvoice &object) {
   jo("is_test", JsonBool{object.is_test_});
   jo("need_shipping_address", JsonBool{object.need_shipping_address_});
   jo("receipt_message_id", object.receipt_message_id_);
-  if (object.extended_media_) {
-    jo("extended_media", ToJson(*object.extended_media_));
+  if (object.paid_media_) {
+    jo("paid_media", ToJson(*object.paid_media_));
+  }
+  if (object.paid_media_caption_) {
+    jo("paid_media_caption", ToJson(*object.paid_media_caption_));
   }
 }
 
@@ -12695,6 +16860,7 @@ void to_json(JsonValueScope &jv, const td_api::messageChatSetBackground &object)
   if (object.background_) {
     jo("background", ToJson(*object.background_));
   }
+  jo("only_for_self", JsonBool{object.only_for_self_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageChatSetTheme &object) {
@@ -12708,6 +16874,12 @@ void to_json(JsonValueScope &jv, const td_api::messageChatSetMessageAutoDeleteTi
   jo("@type", "messageChatSetMessageAutoDeleteTime");
   jo("message_auto_delete_time", object.message_auto_delete_time_);
   jo("from_user_id", object.from_user_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageChatBoost &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageChatBoost");
+  jo("boost_count", object.boost_count_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageForumTopicCreated &object) {
@@ -12789,10 +16961,24 @@ void to_json(JsonValueScope &jv, const td_api::messagePaymentSuccessfulBot &obje
   jo("provider_payment_charge_id", object.provider_payment_charge_id_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::messagePaymentRefunded &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messagePaymentRefunded");
+  if (object.owner_id_) {
+    jo("owner_id", ToJson(*object.owner_id_));
+  }
+  jo("currency", object.currency_);
+  jo("total_amount", object.total_amount_);
+  jo("invoice_payload", base64_encode(object.invoice_payload_));
+  jo("telegram_payment_charge_id", object.telegram_payment_charge_id_);
+  jo("provider_payment_charge_id", object.provider_payment_charge_id_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::messageGiftedPremium &object) {
   auto jo = jv.enter_object();
   jo("@type", "messageGiftedPremium");
   jo("gifter_user_id", object.gifter_user_id_);
+  jo("receiver_user_id", object.receiver_user_id_);
   jo("currency", object.currency_);
   jo("amount", object.amount_);
   jo("cryptocurrency", object.cryptocurrency_);
@@ -12803,36 +16989,128 @@ void to_json(JsonValueScope &jv, const td_api::messageGiftedPremium &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::messagePremiumGiftCode &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messagePremiumGiftCode");
+  if (object.creator_id_) {
+    jo("creator_id", ToJson(*object.creator_id_));
+  }
+  jo("is_from_giveaway", JsonBool{object.is_from_giveaway_});
+  jo("is_unclaimed", JsonBool{object.is_unclaimed_});
+  jo("currency", object.currency_);
+  jo("amount", object.amount_);
+  jo("cryptocurrency", object.cryptocurrency_);
+  jo("cryptocurrency_amount", ToJson(JsonInt64{object.cryptocurrency_amount_}));
+  jo("month_count", object.month_count_);
+  if (object.sticker_) {
+    jo("sticker", ToJson(*object.sticker_));
+  }
+  jo("code", object.code_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageGiveawayCreated &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageGiveawayCreated");
+  jo("star_count", object.star_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageGiveaway &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageGiveaway");
+  if (object.parameters_) {
+    jo("parameters", ToJson(*object.parameters_));
+  }
+  jo("winner_count", object.winner_count_);
+  if (object.prize_) {
+    jo("prize", ToJson(*object.prize_));
+  }
+  if (object.sticker_) {
+    jo("sticker", ToJson(*object.sticker_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageGiveawayCompleted &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageGiveawayCompleted");
+  jo("giveaway_message_id", object.giveaway_message_id_);
+  jo("winner_count", object.winner_count_);
+  jo("is_star_giveaway", JsonBool{object.is_star_giveaway_});
+  jo("unclaimed_prize_count", object.unclaimed_prize_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageGiveawayWinners &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageGiveawayWinners");
+  jo("boosted_chat_id", object.boosted_chat_id_);
+  jo("giveaway_message_id", object.giveaway_message_id_);
+  jo("additional_chat_count", object.additional_chat_count_);
+  jo("actual_winners_selection_date", object.actual_winners_selection_date_);
+  jo("only_new_members", JsonBool{object.only_new_members_});
+  jo("was_refunded", JsonBool{object.was_refunded_});
+  if (object.prize_) {
+    jo("prize", ToJson(*object.prize_));
+  }
+  jo("prize_description", object.prize_description_);
+  jo("winner_count", object.winner_count_);
+  jo("winner_user_ids", ToJson(object.winner_user_ids_));
+  jo("unclaimed_prize_count", object.unclaimed_prize_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageGiftedStars &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageGiftedStars");
+  jo("gifter_user_id", object.gifter_user_id_);
+  jo("receiver_user_id", object.receiver_user_id_);
+  jo("currency", object.currency_);
+  jo("amount", object.amount_);
+  jo("cryptocurrency", object.cryptocurrency_);
+  jo("cryptocurrency_amount", ToJson(JsonInt64{object.cryptocurrency_amount_}));
+  jo("star_count", object.star_count_);
+  jo("transaction_id", object.transaction_id_);
+  if (object.sticker_) {
+    jo("sticker", ToJson(*object.sticker_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageGiveawayPrizeStars &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageGiveawayPrizeStars");
+  jo("star_count", object.star_count_);
+  jo("transaction_id", object.transaction_id_);
+  jo("boosted_chat_id", object.boosted_chat_id_);
+  jo("giveaway_message_id", object.giveaway_message_id_);
+  jo("is_unclaimed", JsonBool{object.is_unclaimed_});
+  if (object.sticker_) {
+    jo("sticker", ToJson(*object.sticker_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::messageContactRegistered &object) {
   auto jo = jv.enter_object();
   jo("@type", "messageContactRegistered");
 }
 
-void to_json(JsonValueScope &jv, const td_api::messageUserShared &object) {
+void to_json(JsonValueScope &jv, const td_api::messageUsersShared &object) {
   auto jo = jv.enter_object();
-  jo("@type", "messageUserShared");
-  jo("user_id", object.user_id_);
+  jo("@type", "messageUsersShared");
+  jo("users", ToJson(object.users_));
   jo("button_id", object.button_id_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageChatShared &object) {
   auto jo = jv.enter_object();
   jo("@type", "messageChatShared");
-  jo("chat_id", object.chat_id_);
+  if (object.chat_) {
+    jo("chat", ToJson(*object.chat_));
+  }
   jo("button_id", object.button_id_);
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageWebsiteConnected &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "messageWebsiteConnected");
-  jo("domain_name", object.domain_name_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageBotWriteAccessAllowed &object) {
   auto jo = jv.enter_object();
   jo("@type", "messageBotWriteAccessAllowed");
-  if (object.web_app_) {
-    jo("web_app", ToJson(*object.web_app_));
+  if (object.reason_) {
+    jo("reason", ToJson(*object.reason_));
   }
 }
 
@@ -12889,53 +17167,43 @@ void to_json(JsonValueScope &jv, const td_api::messageCopyOptions &object) {
   if (object.new_caption_) {
     jo("new_caption", ToJson(*object.new_caption_));
   }
+  jo("new_show_caption_above_media", JsonBool{object.new_show_caption_above_media_});
 }
 
-void to_json(JsonValueScope &jv, const td_api::MessageExtendedMedia &object) {
-  td_api::downcast_call(const_cast<td_api::MessageExtendedMedia &>(object), [&jv](const auto &object) { to_json(jv, object); });
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageExtendedMediaPreview &object) {
+void to_json(JsonValueScope &jv, const td_api::messageEffect &object) {
   auto jo = jv.enter_object();
-  jo("@type", "messageExtendedMediaPreview");
-  jo("width", object.width_);
-  jo("height", object.height_);
-  jo("duration", object.duration_);
-  if (object.minithumbnail_) {
-    jo("minithumbnail", ToJson(*object.minithumbnail_));
+  jo("@type", "messageEffect");
+  jo("id", ToJson(JsonInt64{object.id_}));
+  if (object.static_icon_) {
+    jo("static_icon", ToJson(*object.static_icon_));
   }
-  if (object.caption_) {
-    jo("caption", ToJson(*object.caption_));
-  }
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageExtendedMediaPhoto &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "messageExtendedMediaPhoto");
-  if (object.photo_) {
-    jo("photo", ToJson(*object.photo_));
-  }
-  if (object.caption_) {
-    jo("caption", ToJson(*object.caption_));
+  jo("emoji", object.emoji_);
+  jo("is_premium", JsonBool{object.is_premium_});
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
   }
 }
 
-void to_json(JsonValueScope &jv, const td_api::messageExtendedMediaVideo &object) {
+void to_json(JsonValueScope &jv, const td_api::MessageEffectType &object) {
+  td_api::downcast_call(const_cast<td_api::MessageEffectType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageEffectTypeEmojiReaction &object) {
   auto jo = jv.enter_object();
-  jo("@type", "messageExtendedMediaVideo");
-  if (object.video_) {
-    jo("video", ToJson(*object.video_));
+  jo("@type", "messageEffectTypeEmojiReaction");
+  if (object.select_animation_) {
+    jo("select_animation", ToJson(*object.select_animation_));
   }
-  if (object.caption_) {
-    jo("caption", ToJson(*object.caption_));
+  if (object.effect_animation_) {
+    jo("effect_animation", ToJson(*object.effect_animation_));
   }
 }
 
-void to_json(JsonValueScope &jv, const td_api::messageExtendedMediaUnsupported &object) {
+void to_json(JsonValueScope &jv, const td_api::messageEffectTypePremiumSticker &object) {
   auto jo = jv.enter_object();
-  jo("@type", "messageExtendedMediaUnsupported");
-  if (object.caption_) {
-    jo("caption", ToJson(*object.caption_));
+  jo("@type", "messageEffectTypePremiumSticker");
+  if (object.sticker_) {
+    jo("sticker", ToJson(*object.sticker_));
   }
 }
 
@@ -12967,46 +17235,17 @@ void to_json(JsonValueScope &jv, const td_api::messageForwardInfo &object) {
     jo("origin", ToJson(*object.origin_));
   }
   jo("date", object.date_);
+  if (object.source_) {
+    jo("source", ToJson(*object.source_));
+  }
   jo("public_service_announcement_type", object.public_service_announcement_type_);
-  jo("from_chat_id", object.from_chat_id_);
-  jo("from_message_id", object.from_message_id_);
 }
 
-void to_json(JsonValueScope &jv, const td_api::MessageForwardOrigin &object) {
-  td_api::downcast_call(const_cast<td_api::MessageForwardOrigin &>(object), [&jv](const auto &object) { to_json(jv, object); });
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageForwardOriginUser &object) {
+void to_json(JsonValueScope &jv, const td_api::messageImportInfo &object) {
   auto jo = jv.enter_object();
-  jo("@type", "messageForwardOriginUser");
-  jo("sender_user_id", object.sender_user_id_);
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageForwardOriginChat &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "messageForwardOriginChat");
-  jo("sender_chat_id", object.sender_chat_id_);
-  jo("author_signature", object.author_signature_);
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageForwardOriginHiddenUser &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "messageForwardOriginHiddenUser");
+  jo("@type", "messageImportInfo");
   jo("sender_name", object.sender_name_);
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageForwardOriginChannel &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "messageForwardOriginChannel");
-  jo("chat_id", object.chat_id_);
-  jo("message_id", object.message_id_);
-  jo("author_signature", object.author_signature_);
-}
-
-void to_json(JsonValueScope &jv, const td_api::messageForwardOriginMessageImport &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "messageForwardOriginMessageImport");
-  jo("sender_name", object.sender_name_);
+  jo("date", object.date_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageInteractionInfo &object) {
@@ -13017,7 +17256,9 @@ void to_json(JsonValueScope &jv, const td_api::messageInteractionInfo &object) {
   if (object.reply_info_) {
     jo("reply_info", ToJson(*object.reply_info_));
   }
-  jo("reactions", ToJson(object.reactions_));
+  if (object.reactions_) {
+    jo("reactions", ToJson(*object.reactions_));
+  }
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageLink &object) {
@@ -13040,6 +17281,37 @@ void to_json(JsonValueScope &jv, const td_api::messageLinkInfo &object) {
   jo("for_album", JsonBool{object.for_album_});
 }
 
+void to_json(JsonValueScope &jv, const td_api::MessageOrigin &object) {
+  td_api::downcast_call(const_cast<td_api::MessageOrigin &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageOriginUser &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageOriginUser");
+  jo("sender_user_id", object.sender_user_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageOriginHiddenUser &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageOriginHiddenUser");
+  jo("sender_name", object.sender_name_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageOriginChat &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageOriginChat");
+  jo("sender_chat_id", object.sender_chat_id_);
+  jo("author_signature", object.author_signature_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageOriginChannel &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageOriginChannel");
+  jo("chat_id", object.chat_id_);
+  jo("message_id", object.message_id_);
+  jo("author_signature", object.author_signature_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::messagePosition &object) {
   auto jo = jv.enter_object();
   jo("@type", "messagePosition");
@@ -13055,6 +17327,36 @@ void to_json(JsonValueScope &jv, const td_api::messagePositions &object) {
   jo("positions", ToJson(object.positions_));
 }
 
+void to_json(JsonValueScope &jv, const td_api::messageProperties &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageProperties");
+  jo("can_be_copied_to_secret_chat", JsonBool{object.can_be_copied_to_secret_chat_});
+  jo("can_be_deleted_only_for_self", JsonBool{object.can_be_deleted_only_for_self_});
+  jo("can_be_deleted_for_all_users", JsonBool{object.can_be_deleted_for_all_users_});
+  jo("can_be_edited", JsonBool{object.can_be_edited_});
+  jo("can_be_forwarded", JsonBool{object.can_be_forwarded_});
+  jo("can_be_paid", JsonBool{object.can_be_paid_});
+  jo("can_be_pinned", JsonBool{object.can_be_pinned_});
+  jo("can_be_replied", JsonBool{object.can_be_replied_});
+  jo("can_be_replied_in_another_chat", JsonBool{object.can_be_replied_in_another_chat_});
+  jo("can_be_saved", JsonBool{object.can_be_saved_});
+  jo("can_be_shared_in_story", JsonBool{object.can_be_shared_in_story_});
+  jo("can_edit_scheduling_state", JsonBool{object.can_edit_scheduling_state_});
+  jo("can_get_embedding_code", JsonBool{object.can_get_embedding_code_});
+  jo("can_get_link", JsonBool{object.can_get_link_});
+  jo("can_get_media_timestamp_links", JsonBool{object.can_get_media_timestamp_links_});
+  jo("can_get_message_thread", JsonBool{object.can_get_message_thread_});
+  jo("can_get_read_date", JsonBool{object.can_get_read_date_});
+  jo("can_get_statistics", JsonBool{object.can_get_statistics_});
+  jo("can_get_viewers", JsonBool{object.can_get_viewers_});
+  jo("can_recognize_speech", JsonBool{object.can_recognize_speech_});
+  jo("can_report_chat", JsonBool{object.can_report_chat_});
+  jo("can_report_reactions", JsonBool{object.can_report_reactions_});
+  jo("can_report_supergroup_spam", JsonBool{object.can_report_supergroup_spam_});
+  jo("can_set_fact_check", JsonBool{object.can_set_fact_check_});
+  jo("need_show_statistics", JsonBool{object.need_show_statistics_});
+}
+
 void to_json(JsonValueScope &jv, const td_api::messageReaction &object) {
   auto jo = jv.enter_object();
   jo("@type", "messageReaction");
@@ -13063,7 +17365,49 @@ void to_json(JsonValueScope &jv, const td_api::messageReaction &object) {
   }
   jo("total_count", object.total_count_);
   jo("is_chosen", JsonBool{object.is_chosen_});
+  if (object.used_sender_id_) {
+    jo("used_sender_id", ToJson(*object.used_sender_id_));
+  }
   jo("recent_sender_ids", ToJson(object.recent_sender_ids_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageReactions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageReactions");
+  jo("reactions", ToJson(object.reactions_));
+  jo("are_tags", JsonBool{object.are_tags_});
+  jo("paid_reactors", ToJson(object.paid_reactors_));
+  jo("can_get_added_reactions", JsonBool{object.can_get_added_reactions_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::MessageReadDate &object) {
+  td_api::downcast_call(const_cast<td_api::MessageReadDate &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageReadDateRead &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageReadDateRead");
+  jo("read_date", object.read_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageReadDateUnread &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageReadDateUnread");
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageReadDateTooOld &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageReadDateTooOld");
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageReadDateUserPrivacyRestricted &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageReadDateUserPrivacyRestricted");
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageReadDateMyPrivacyRestricted &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageReadDateMyPrivacyRestricted");
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageReplyInfo &object) {
@@ -13074,6 +17418,34 @@ void to_json(JsonValueScope &jv, const td_api::messageReplyInfo &object) {
   jo("last_read_inbox_message_id", object.last_read_inbox_message_id_);
   jo("last_read_outbox_message_id", object.last_read_outbox_message_id_);
   jo("last_message_id", object.last_message_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::MessageReplyTo &object) {
+  td_api::downcast_call(const_cast<td_api::MessageReplyTo &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageReplyToMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageReplyToMessage");
+  jo("chat_id", object.chat_id_);
+  jo("message_id", object.message_id_);
+  if (object.quote_) {
+    jo("quote", ToJson(*object.quote_));
+  }
+  if (object.origin_) {
+    jo("origin", ToJson(*object.origin_));
+  }
+  jo("origin_send_date", object.origin_send_date_);
+  if (object.content_) {
+    jo("content", ToJson(*object.content_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageReplyToStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageReplyToStory");
+  jo("story_sender_chat_id", object.story_sender_chat_id_);
+  jo("story_id", object.story_id_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::MessageSchedulingState &object) {
@@ -13089,6 +17461,21 @@ void to_json(JsonValueScope &jv, const td_api::messageSchedulingStateSendAtDate 
 void to_json(JsonValueScope &jv, const td_api::messageSchedulingStateSendWhenOnline &object) {
   auto jo = jv.enter_object();
   jo("@type", "messageSchedulingStateSendWhenOnline");
+}
+
+void to_json(JsonValueScope &jv, const td_api::MessageSelfDestructType &object) {
+  td_api::downcast_call(const_cast<td_api::MessageSelfDestructType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageSelfDestructTypeTimer &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageSelfDestructTypeTimer");
+  jo("self_destruct_time", object.self_destruct_time_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageSelfDestructTypeImmediately &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageSelfDestructTypeImmediately");
 }
 
 void to_json(JsonValueScope &jv, const td_api::MessageSender &object) {
@@ -13127,11 +17514,24 @@ void to_json(JsonValueScope &jv, const td_api::messageSendingStatePending &objec
 void to_json(JsonValueScope &jv, const td_api::messageSendingStateFailed &object) {
   auto jo = jv.enter_object();
   jo("@type", "messageSendingStateFailed");
-  jo("error_code", object.error_code_);
-  jo("error_message", object.error_message_);
+  if (object.error_) {
+    jo("error", ToJson(*object.error_));
+  }
   jo("can_retry", JsonBool{object.can_retry_});
   jo("need_another_sender", JsonBool{object.need_another_sender_});
+  jo("need_another_reply_quote", JsonBool{object.need_another_reply_quote_});
+  jo("need_drop_reply", JsonBool{object.need_drop_reply_});
   jo("retry_after", object.retry_after_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::messageSponsor &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "messageSponsor");
+  jo("url", object.url_);
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+  jo("info", object.info_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::messageStatistics &object) {
@@ -13139,6 +17539,9 @@ void to_json(JsonValueScope &jv, const td_api::messageStatistics &object) {
   jo("@type", "messageStatistics");
   if (object.message_interaction_graph_) {
     jo("message_interaction_graph", ToJson(*object.message_interaction_graph_));
+  }
+  if (object.message_reaction_graph_) {
+    jo("message_reaction_graph", ToJson(*object.message_reaction_graph_));
   }
 }
 
@@ -13247,6 +17650,12 @@ void to_json(JsonValueScope &jv, const td_api::networkTypeWiFi &object) {
 void to_json(JsonValueScope &jv, const td_api::networkTypeOther &object) {
   auto jo = jv.enter_object();
   jo("@type", "networkTypeOther");
+}
+
+void to_json(JsonValueScope &jv, const td_api::newChatPrivacySettings &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "newChatPrivacySettings");
+  jo("allow_new_chats_from_unknown_users", JsonBool{object.allow_new_chats_from_unknown_users_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::notification &object) {
@@ -13656,6 +18065,7 @@ void to_json(JsonValueScope &jv, const td_api::pageBlockChatLink &object) {
   if (object.photo_) {
     jo("photo", ToJson(*object.photo_));
   }
+  jo("accent_color_id", object.accent_color_id_);
   jo("username", object.username_);
 }
 
@@ -13787,6 +18197,54 @@ void to_json(JsonValueScope &jv, const td_api::pageBlockVerticalAlignmentMiddle 
 void to_json(JsonValueScope &jv, const td_api::pageBlockVerticalAlignmentBottom &object) {
   auto jo = jv.enter_object();
   jo("@type", "pageBlockVerticalAlignmentBottom");
+}
+
+void to_json(JsonValueScope &jv, const td_api::PaidMedia &object) {
+  td_api::downcast_call(const_cast<td_api::PaidMedia &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::paidMediaPreview &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paidMediaPreview");
+  jo("width", object.width_);
+  jo("height", object.height_);
+  jo("duration", object.duration_);
+  if (object.minithumbnail_) {
+    jo("minithumbnail", ToJson(*object.minithumbnail_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::paidMediaPhoto &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paidMediaPhoto");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::paidMediaVideo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paidMediaVideo");
+  if (object.video_) {
+    jo("video", ToJson(*object.video_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::paidMediaUnsupported &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paidMediaUnsupported");
+}
+
+void to_json(JsonValueScope &jv, const td_api::paidReactor &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paidReactor");
+  if (object.sender_id_) {
+    jo("sender_id", ToJson(*object.sender_id_));
+  }
+  jo("star_count", object.star_count_);
+  jo("is_top", JsonBool{object.is_top_});
+  jo("is_me", JsonBool{object.is_me_});
+  jo("is_anonymous", JsonBool{object.is_anonymous_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::passportAuthorizationForm &object) {
@@ -14082,10 +18540,25 @@ void to_json(JsonValueScope &jv, const td_api::paymentForm &object) {
   auto jo = jv.enter_object();
   jo("@type", "paymentForm");
   jo("id", ToJson(JsonInt64{object.id_}));
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+  jo("seller_bot_user_id", object.seller_bot_user_id_);
+  if (object.product_info_) {
+    jo("product_info", ToJson(*object.product_info_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::PaymentFormType &object) {
+  td_api::downcast_call(const_cast<td_api::PaymentFormType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::paymentFormTypeRegular &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paymentFormTypeRegular");
   if (object.invoice_) {
     jo("invoice", ToJson(*object.invoice_));
   }
-  jo("seller_bot_user_id", object.seller_bot_user_id_);
   jo("payment_provider_user_id", object.payment_provider_user_id_);
   if (object.payment_provider_) {
     jo("payment_provider", ToJson(*object.payment_provider_));
@@ -14097,13 +18570,12 @@ void to_json(JsonValueScope &jv, const td_api::paymentForm &object) {
   jo("saved_credentials", ToJson(object.saved_credentials_));
   jo("can_save_credentials", JsonBool{object.can_save_credentials_});
   jo("need_password", JsonBool{object.need_password_});
-  jo("product_title", object.product_title_);
-  if (object.product_description_) {
-    jo("product_description", ToJson(*object.product_description_));
-  }
-  if (object.product_photo_) {
-    jo("product_photo", ToJson(*object.product_photo_));
-  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::paymentFormTypeStars &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paymentFormTypeStars");
+  jo("star_count", object.star_count_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::paymentOption &object) {
@@ -14121,6 +18593,7 @@ void to_json(JsonValueScope &jv, const td_api::paymentProviderSmartGlocal &objec
   auto jo = jv.enter_object();
   jo("@type", "paymentProviderSmartGlocal");
   jo("public_token", object.public_token_);
+  jo("tokenize_url", object.tokenize_url_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::paymentProviderStripe &object) {
@@ -14141,15 +18614,23 @@ void to_json(JsonValueScope &jv, const td_api::paymentProviderOther &object) {
 void to_json(JsonValueScope &jv, const td_api::paymentReceipt &object) {
   auto jo = jv.enter_object();
   jo("@type", "paymentReceipt");
-  jo("title", object.title_);
-  if (object.description_) {
-    jo("description", ToJson(*object.description_));
-  }
-  if (object.photo_) {
-    jo("photo", ToJson(*object.photo_));
+  if (object.product_info_) {
+    jo("product_info", ToJson(*object.product_info_));
   }
   jo("date", object.date_);
   jo("seller_bot_user_id", object.seller_bot_user_id_);
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::PaymentReceiptType &object) {
+  td_api::downcast_call(const_cast<td_api::PaymentReceiptType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::paymentReceiptTypeRegular &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paymentReceiptTypeRegular");
   jo("payment_provider_user_id", object.payment_provider_user_id_);
   if (object.invoice_) {
     jo("invoice", ToJson(*object.invoice_));
@@ -14162,6 +18643,13 @@ void to_json(JsonValueScope &jv, const td_api::paymentReceipt &object) {
   }
   jo("credentials_title", object.credentials_title_);
   jo("tip_amount", object.tip_amount_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::paymentReceiptTypeStars &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "paymentReceiptTypeStars");
+  jo("star_count", object.star_count_);
+  jo("transaction_id", object.transaction_id_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::paymentResult &object) {
@@ -14239,10 +18727,12 @@ void to_json(JsonValueScope &jv, const td_api::poll &object) {
   auto jo = jv.enter_object();
   jo("@type", "poll");
   jo("id", ToJson(JsonInt64{object.id_}));
-  jo("question", object.question_);
+  if (object.question_) {
+    jo("question", ToJson(*object.question_));
+  }
   jo("options", ToJson(object.options_));
   jo("total_voter_count", object.total_voter_count_);
-  jo("recent_voter_user_ids", ToJson(object.recent_voter_user_ids_));
+  jo("recent_voter_ids", ToJson(object.recent_voter_ids_));
   jo("is_anonymous", JsonBool{object.is_anonymous_});
   if (object.type_) {
     jo("type", ToJson(*object.type_));
@@ -14255,7 +18745,9 @@ void to_json(JsonValueScope &jv, const td_api::poll &object) {
 void to_json(JsonValueScope &jv, const td_api::pollOption &object) {
   auto jo = jv.enter_object();
   jo("@type", "pollOption");
-  jo("text", object.text_);
+  if (object.text_) {
+    jo("text", ToJson(*object.text_));
+  }
   jo("voter_count", object.voter_count_);
   jo("vote_percentage", object.vote_percentage_);
   jo("is_chosen", JsonBool{object.is_chosen_});
@@ -14360,6 +18852,51 @@ void to_json(JsonValueScope &jv, const td_api::premiumFeatureRealTimeChatTransla
   jo("@type", "premiumFeatureRealTimeChatTranslation");
 }
 
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureUpgradedStories &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureUpgradedStories");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureChatBoost &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureChatBoost");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureAccentColor &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureAccentColor");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureBackgroundForBoth &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureBackgroundForBoth");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureSavedMessagesTags &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureSavedMessagesTags");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureMessagePrivacy &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureMessagePrivacy");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureLastSeenTimes &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureLastSeenTimes");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureBusiness &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureBusiness");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumFeatureMessageEffects &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumFeatureMessageEffects");
+}
+
 void to_json(JsonValueScope &jv, const td_api::premiumFeaturePromotionAnimation &object) {
   auto jo = jv.enter_object();
   jo("@type", "premiumFeaturePromotionAnimation");
@@ -14379,6 +18916,37 @@ void to_json(JsonValueScope &jv, const td_api::premiumFeatures &object) {
   if (object.payment_link_) {
     jo("payment_link", ToJson(*object.payment_link_));
   }
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumGiftCodeInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumGiftCodeInfo");
+  if (object.creator_id_) {
+    jo("creator_id", ToJson(*object.creator_id_));
+  }
+  jo("creation_date", object.creation_date_);
+  jo("is_from_giveaway", JsonBool{object.is_from_giveaway_});
+  jo("giveaway_message_id", object.giveaway_message_id_);
+  jo("month_count", object.month_count_);
+  jo("user_id", object.user_id_);
+  jo("use_date", object.use_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumGiftCodePaymentOption &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumGiftCodePaymentOption");
+  jo("currency", object.currency_);
+  jo("amount", object.amount_);
+  jo("winner_count", object.winner_count_);
+  jo("month_count", object.month_count_);
+  jo("store_product_id", object.store_product_id_);
+  jo("store_product_quantity", object.store_product_quantity_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumGiftCodePaymentOptions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumGiftCodePaymentOptions");
+  jo("options", ToJson(object.options_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::premiumLimit &object) {
@@ -14435,6 +19003,11 @@ void to_json(JsonValueScope &jv, const td_api::premiumLimitTypePinnedArchivedCha
   jo("@type", "premiumLimitTypePinnedArchivedChatCount");
 }
 
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypePinnedSavedMessagesTopicCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumLimitTypePinnedSavedMessagesTopicCount");
+}
+
 void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeCaptionLength &object) {
   auto jo = jv.enter_object();
   jo("@type", "premiumLimitTypeCaptionLength");
@@ -14453,6 +19026,36 @@ void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeChatFolderInviteL
 void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeShareableChatFolderCount &object) {
   auto jo = jv.enter_object();
   jo("@type", "premiumLimitTypeShareableChatFolderCount");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeActiveStoryCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumLimitTypeActiveStoryCount");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeWeeklySentStoryCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumLimitTypeWeeklySentStoryCount");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeMonthlySentStoryCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumLimitTypeMonthlySentStoryCount");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeStoryCaptionLength &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumLimitTypeStoryCaptionLength");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeStorySuggestedReactionAreaCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumLimitTypeStorySuggestedReactionAreaCount");
+}
+
+void to_json(JsonValueScope &jv, const td_api::premiumLimitTypeSimilarChatCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "premiumLimitTypeSimilarChatCount");
 }
 
 void to_json(JsonValueScope &jv, const td_api::premiumPaymentOption &object) {
@@ -14476,6 +19079,7 @@ void to_json(JsonValueScope &jv, const td_api::premiumState &object) {
   }
   jo("payment_options", ToJson(object.payment_options_));
   jo("animations", ToJson(object.animations_));
+  jo("business_animations", ToJson(object.business_animations_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::premiumStatePaymentOption &object) {
@@ -14487,6 +19091,52 @@ void to_json(JsonValueScope &jv, const td_api::premiumStatePaymentOption &object
   jo("is_current", JsonBool{object.is_current_});
   jo("is_upgrade", JsonBool{object.is_upgrade_});
   jo("last_transaction_id", object.last_transaction_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::prepaidGiveaway &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "prepaidGiveaway");
+  jo("id", ToJson(JsonInt64{object.id_}));
+  jo("winner_count", object.winner_count_);
+  if (object.prize_) {
+    jo("prize", ToJson(*object.prize_));
+  }
+  jo("boost_count", object.boost_count_);
+  jo("payment_date", object.payment_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::productInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "productInfo");
+  jo("title", object.title_);
+  if (object.description_) {
+    jo("description", ToJson(*object.description_));
+  }
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::profileAccentColor &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "profileAccentColor");
+  jo("id", object.id_);
+  if (object.light_theme_colors_) {
+    jo("light_theme_colors", ToJson(*object.light_theme_colors_));
+  }
+  if (object.dark_theme_colors_) {
+    jo("dark_theme_colors", ToJson(*object.dark_theme_colors_));
+  }
+  jo("min_supergroup_chat_boost_level", object.min_supergroup_chat_boost_level_);
+  jo("min_channel_chat_boost_level", object.min_channel_chat_boost_level_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::profileAccentColors &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "profileAccentColors");
+  jo("palette_colors", ToJson(object.palette_colors_));
+  jo("background_colors", ToJson(object.background_colors_));
+  jo("story_colors", ToJson(object.story_colors_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::profilePhoto &object) {
@@ -14548,6 +19198,34 @@ void to_json(JsonValueScope &jv, const td_api::proxyTypeMtproto &object) {
   auto jo = jv.enter_object();
   jo("@type", "proxyTypeMtproto");
   jo("secret", object.secret_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::PublicForward &object) {
+  td_api::downcast_call(const_cast<td_api::PublicForward &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::publicForwardMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "publicForwardMessage");
+  if (object.message_) {
+    jo("message", ToJson(*object.message_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::publicForwardStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "publicForwardStory");
+  if (object.story_) {
+    jo("story", ToJson(*object.story_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::publicForwards &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "publicForwards");
+  jo("total_count", object.total_count_);
+  jo("forwards", ToJson(object.forwards_));
+  jo("next_offset", object.next_offset_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::PushMessageContent &object) {
@@ -14629,6 +19307,13 @@ void to_json(JsonValueScope &jv, const td_api::pushMessageContentLocation &objec
   jo("is_pinned", JsonBool{object.is_pinned_});
 }
 
+void to_json(JsonValueScope &jv, const td_api::pushMessageContentPaidMedia &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "pushMessageContentPaidMedia");
+  jo("star_count", object.star_count_);
+  jo("is_pinned", JsonBool{object.is_pinned_});
+}
+
 void to_json(JsonValueScope &jv, const td_api::pushMessageContentPhoto &object) {
   auto jo = jv.enter_object();
   jo("@type", "pushMessageContentPhoto");
@@ -14648,6 +19333,22 @@ void to_json(JsonValueScope &jv, const td_api::pushMessageContentPoll &object) {
   jo("is_pinned", JsonBool{object.is_pinned_});
 }
 
+void to_json(JsonValueScope &jv, const td_api::pushMessageContentPremiumGiftCode &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "pushMessageContentPremiumGiftCode");
+  jo("month_count", object.month_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::pushMessageContentGiveaway &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "pushMessageContentGiveaway");
+  jo("winner_count", object.winner_count_);
+  if (object.prize_) {
+    jo("prize", ToJson(*object.prize_));
+  }
+  jo("is_pinned", JsonBool{object.is_pinned_});
+}
+
 void to_json(JsonValueScope &jv, const td_api::pushMessageContentScreenshotTaken &object) {
   auto jo = jv.enter_object();
   jo("@type", "pushMessageContentScreenshotTaken");
@@ -14660,6 +19361,12 @@ void to_json(JsonValueScope &jv, const td_api::pushMessageContentSticker &object
     jo("sticker", ToJson(*object.sticker_));
   }
   jo("emoji", object.emoji_);
+  jo("is_pinned", JsonBool{object.is_pinned_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::pushMessageContentStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "pushMessageContentStory");
   jo("is_pinned", JsonBool{object.is_pinned_});
 }
 
@@ -14786,6 +19493,74 @@ void to_json(JsonValueScope &jv, const td_api::pushReceiverId &object) {
   jo("id", ToJson(JsonInt64{object.id_}));
 }
 
+void to_json(JsonValueScope &jv, const td_api::quickReplyMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "quickReplyMessage");
+  jo("id", object.id_);
+  if (object.sending_state_) {
+    jo("sending_state", ToJson(*object.sending_state_));
+  }
+  jo("can_be_edited", JsonBool{object.can_be_edited_});
+  jo("reply_to_message_id", object.reply_to_message_id_);
+  jo("via_bot_user_id", object.via_bot_user_id_);
+  jo("media_album_id", ToJson(JsonInt64{object.media_album_id_}));
+  if (object.content_) {
+    jo("content", ToJson(*object.content_));
+  }
+  if (object.reply_markup_) {
+    jo("reply_markup", ToJson(*object.reply_markup_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::quickReplyMessages &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "quickReplyMessages");
+  jo("messages", ToJson(object.messages_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::quickReplyShortcut &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "quickReplyShortcut");
+  jo("id", object.id_);
+  jo("name", object.name_);
+  if (object.first_message_) {
+    jo("first_message", ToJson(*object.first_message_));
+  }
+  jo("message_count", object.message_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::reactionNotificationSettings &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reactionNotificationSettings");
+  if (object.message_reaction_source_) {
+    jo("message_reaction_source", ToJson(*object.message_reaction_source_));
+  }
+  if (object.story_reaction_source_) {
+    jo("story_reaction_source", ToJson(*object.story_reaction_source_));
+  }
+  jo("sound_id", ToJson(JsonInt64{object.sound_id_}));
+  jo("show_preview", JsonBool{object.show_preview_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::ReactionNotificationSource &object) {
+  td_api::downcast_call(const_cast<td_api::ReactionNotificationSource &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::reactionNotificationSourceNone &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reactionNotificationSourceNone");
+}
+
+void to_json(JsonValueScope &jv, const td_api::reactionNotificationSourceContacts &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reactionNotificationSourceContacts");
+}
+
+void to_json(JsonValueScope &jv, const td_api::reactionNotificationSourceAll &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reactionNotificationSourceAll");
+}
+
 void to_json(JsonValueScope &jv, const td_api::ReactionType &object) {
   td_api::downcast_call(const_cast<td_api::ReactionType &>(object), [&jv](const auto &object) { to_json(jv, object); });
 }
@@ -14800,6 +19575,31 @@ void to_json(JsonValueScope &jv, const td_api::reactionTypeCustomEmoji &object) 
   auto jo = jv.enter_object();
   jo("@type", "reactionTypeCustomEmoji");
   jo("custom_emoji_id", ToJson(JsonInt64{object.custom_emoji_id_}));
+}
+
+void to_json(JsonValueScope &jv, const td_api::reactionTypePaid &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reactionTypePaid");
+}
+
+void to_json(JsonValueScope &jv, const td_api::ReactionUnavailabilityReason &object) {
+  td_api::downcast_call(const_cast<td_api::ReactionUnavailabilityReason &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::reactionUnavailabilityReasonAnonymousAdministrator &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reactionUnavailabilityReasonAnonymousAdministrator");
+}
+
+void to_json(JsonValueScope &jv, const td_api::reactionUnavailabilityReasonGuest &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reactionUnavailabilityReasonGuest");
+}
+
+void to_json(JsonValueScope &jv, const td_api::readDatePrivacySettings &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "readDatePrivacySettings");
+  jo("show_read_date", JsonBool{object.show_read_date_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::recommendedChatFolder &object) {
@@ -14867,6 +19667,44 @@ void to_json(JsonValueScope &jv, const td_api::replyMarkupInlineKeyboard &object
   jo("rows", ToJson(object.rows_));
 }
 
+void to_json(JsonValueScope &jv, const td_api::reportChatSponsoredMessageOption &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reportChatSponsoredMessageOption");
+  jo("id", base64_encode(object.id_));
+  jo("text", object.text_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::ReportChatSponsoredMessageResult &object) {
+  td_api::downcast_call(const_cast<td_api::ReportChatSponsoredMessageResult &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::reportChatSponsoredMessageResultOk &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reportChatSponsoredMessageResultOk");
+}
+
+void to_json(JsonValueScope &jv, const td_api::reportChatSponsoredMessageResultFailed &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reportChatSponsoredMessageResultFailed");
+}
+
+void to_json(JsonValueScope &jv, const td_api::reportChatSponsoredMessageResultOptionRequired &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reportChatSponsoredMessageResultOptionRequired");
+  jo("title", object.title_);
+  jo("options", ToJson(object.options_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::reportChatSponsoredMessageResultAdsHidden &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reportChatSponsoredMessageResultAdsHidden");
+}
+
+void to_json(JsonValueScope &jv, const td_api::reportChatSponsoredMessageResultPremiumRequired &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "reportChatSponsoredMessageResultPremiumRequired");
+}
+
 void to_json(JsonValueScope &jv, const td_api::ResetPasswordResult &object) {
   td_api::downcast_call(const_cast<td_api::ResetPasswordResult &>(object), [&jv](const auto &object) { to_json(jv, object); });
 }
@@ -14886,6 +19724,27 @@ void to_json(JsonValueScope &jv, const td_api::resetPasswordResultDeclined &obje
   auto jo = jv.enter_object();
   jo("@type", "resetPasswordResultDeclined");
   jo("retry_date", object.retry_date_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::RevenueWithdrawalState &object) {
+  td_api::downcast_call(const_cast<td_api::RevenueWithdrawalState &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::revenueWithdrawalStatePending &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "revenueWithdrawalStatePending");
+}
+
+void to_json(JsonValueScope &jv, const td_api::revenueWithdrawalStateSucceeded &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "revenueWithdrawalStateSucceeded");
+  jo("date", object.date_);
+  jo("url", object.url_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::revenueWithdrawalStateFailed &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "revenueWithdrawalStateFailed");
 }
 
 void to_json(JsonValueScope &jv, const td_api::RichText &object) {
@@ -15046,6 +19905,59 @@ void to_json(JsonValueScope &jv, const td_api::savedCredentials &object) {
   jo("title", object.title_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::savedMessagesTag &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "savedMessagesTag");
+  if (object.tag_) {
+    jo("tag", ToJson(*object.tag_));
+  }
+  jo("label", object.label_);
+  jo("count", object.count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::savedMessagesTags &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "savedMessagesTags");
+  jo("tags", ToJson(object.tags_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::savedMessagesTopic &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "savedMessagesTopic");
+  jo("id", object.id_);
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+  jo("is_pinned", JsonBool{object.is_pinned_});
+  jo("order", ToJson(JsonInt64{object.order_}));
+  if (object.last_message_) {
+    jo("last_message", ToJson(*object.last_message_));
+  }
+  if (object.draft_message_) {
+    jo("draft_message", ToJson(*object.draft_message_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::SavedMessagesTopicType &object) {
+  td_api::downcast_call(const_cast<td_api::SavedMessagesTopicType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::savedMessagesTopicTypeMyNotes &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "savedMessagesTopicTypeMyNotes");
+}
+
+void to_json(JsonValueScope &jv, const td_api::savedMessagesTopicTypeAuthorHidden &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "savedMessagesTopicTypeAuthorHidden");
+}
+
+void to_json(JsonValueScope &jv, const td_api::savedMessagesTopicTypeSavedFromChat &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "savedMessagesTopicTypeSavedFromChat");
+  jo("chat_id", object.chat_id_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::scopeAutosaveSettings &object) {
   auto jo = jv.enter_object();
   jo("@type", "scopeAutosaveSettings");
@@ -15060,6 +19972,10 @@ void to_json(JsonValueScope &jv, const td_api::scopeNotificationSettings &object
   jo("mute_for", object.mute_for_);
   jo("sound_id", ToJson(JsonInt64{object.sound_id_}));
   jo("show_preview", JsonBool{object.show_preview_});
+  jo("use_default_mute_stories", JsonBool{object.use_default_mute_stories_});
+  jo("mute_stories", JsonBool{object.mute_stories_});
+  jo("story_sound_id", ToJson(JsonInt64{object.story_sound_id_}));
+  jo("show_story_sender", JsonBool{object.show_story_sender_});
   jo("disable_pinned_message_notifications", JsonBool{object.disable_pinned_message_notifications_});
   jo("disable_mention_notifications", JsonBool{object.disable_mention_notifications_});
 }
@@ -15114,6 +20030,7 @@ void to_json(JsonValueScope &jv, const td_api::session &object) {
   jo("id", ToJson(JsonInt64{object.id_}));
   jo("is_current", JsonBool{object.is_current_});
   jo("is_password_pending", JsonBool{object.is_password_pending_});
+  jo("is_unconfirmed", JsonBool{object.is_unconfirmed_});
   jo("can_accept_secret_chats", JsonBool{object.can_accept_secret_chats_});
   jo("can_accept_calls", JsonBool{object.can_accept_calls_});
   if (object.type_) {
@@ -15128,9 +20045,8 @@ void to_json(JsonValueScope &jv, const td_api::session &object) {
   jo("system_version", object.system_version_);
   jo("log_in_date", object.log_in_date_);
   jo("last_active_date", object.last_active_date_);
-  jo("ip", object.ip_);
-  jo("country", object.country_);
-  jo("region", object.region_);
+  jo("ip_address", object.ip_address_);
+  jo("location", object.location_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::SessionType &object) {
@@ -15229,6 +20145,29 @@ void to_json(JsonValueScope &jv, const td_api::sessions &object) {
   jo("inactive_session_ttl_days", object.inactive_session_ttl_days_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::sharedChat &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "sharedChat");
+  jo("chat_id", object.chat_id_);
+  jo("title", object.title_);
+  jo("username", object.username_);
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::sharedUser &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "sharedUser");
+  jo("user_id", object.user_id_);
+  jo("first_name", object.first_name_);
+  jo("last_name", object.last_name_);
+  jo("username", object.username_);
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::shippingOption &object) {
   auto jo = jv.enter_object();
   jo("@type", "shippingOption");
@@ -15266,18 +20205,17 @@ void to_json(JsonValueScope &jv, const td_api::sponsoredMessage &object) {
   jo("@type", "sponsoredMessage");
   jo("message_id", object.message_id_);
   jo("is_recommended", JsonBool{object.is_recommended_});
-  jo("sponsor_chat_id", object.sponsor_chat_id_);
-  if (object.sponsor_chat_info_) {
-    jo("sponsor_chat_info", ToJson(*object.sponsor_chat_info_));
-  }
-  jo("show_chat_photo", JsonBool{object.show_chat_photo_});
-  if (object.link_) {
-    jo("link", ToJson(*object.link_));
-  }
+  jo("can_be_reported", JsonBool{object.can_be_reported_});
   if (object.content_) {
     jo("content", ToJson(*object.content_));
   }
-  jo("sponsor_info", object.sponsor_info_);
+  if (object.sponsor_) {
+    jo("sponsor", ToJson(*object.sponsor_));
+  }
+  jo("title", object.title_);
+  jo("button_text", object.button_text_);
+  jo("accent_color_id", object.accent_color_id_);
+  jo("background_custom_emoji_id", ToJson(JsonInt64{object.background_custom_emoji_id_}));
   jo("additional_info", object.additional_info_);
 }
 
@@ -15286,6 +20224,193 @@ void to_json(JsonValueScope &jv, const td_api::sponsoredMessages &object) {
   jo("@type", "sponsoredMessages");
   jo("messages", ToJson(object.messages_));
   jo("messages_between", object.messages_between_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::starGiveawayPaymentOption &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starGiveawayPaymentOption");
+  jo("currency", object.currency_);
+  jo("amount", object.amount_);
+  jo("star_count", object.star_count_);
+  jo("store_product_id", object.store_product_id_);
+  jo("yearly_boost_count", object.yearly_boost_count_);
+  jo("winner_options", ToJson(object.winner_options_));
+  jo("is_default", JsonBool{object.is_default_});
+  jo("is_additional", JsonBool{object.is_additional_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::starGiveawayPaymentOptions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starGiveawayPaymentOptions");
+  jo("options", ToJson(object.options_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::starGiveawayWinnerOption &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starGiveawayWinnerOption");
+  jo("winner_count", object.winner_count_);
+  jo("won_star_count", object.won_star_count_);
+  jo("is_default", JsonBool{object.is_default_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::starPaymentOption &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starPaymentOption");
+  jo("currency", object.currency_);
+  jo("amount", object.amount_);
+  jo("star_count", object.star_count_);
+  jo("store_product_id", object.store_product_id_);
+  jo("is_additional", JsonBool{object.is_additional_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::starPaymentOptions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starPaymentOptions");
+  jo("options", ToJson(object.options_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::starRevenueStatistics &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starRevenueStatistics");
+  if (object.revenue_by_day_graph_) {
+    jo("revenue_by_day_graph", ToJson(*object.revenue_by_day_graph_));
+  }
+  if (object.status_) {
+    jo("status", ToJson(*object.status_));
+  }
+  jo("usd_rate", object.usd_rate_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::starRevenueStatus &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starRevenueStatus");
+  jo("total_count", object.total_count_);
+  jo("current_count", object.current_count_);
+  jo("available_count", object.available_count_);
+  jo("withdrawal_enabled", JsonBool{object.withdrawal_enabled_});
+  jo("next_withdrawal_in", object.next_withdrawal_in_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::starSubscription &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starSubscription");
+  jo("id", object.id_);
+  jo("chat_id", object.chat_id_);
+  jo("expiration_date", object.expiration_date_);
+  jo("can_reuse", JsonBool{object.can_reuse_});
+  jo("is_canceled", JsonBool{object.is_canceled_});
+  jo("is_expiring", JsonBool{object.is_expiring_});
+  jo("invite_link", object.invite_link_);
+  if (object.pricing_) {
+    jo("pricing", ToJson(*object.pricing_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::starSubscriptionPricing &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starSubscriptionPricing");
+  jo("period", object.period_);
+  jo("star_count", object.star_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::starSubscriptions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starSubscriptions");
+  jo("star_count", object.star_count_);
+  jo("subscriptions", ToJson(object.subscriptions_));
+  jo("required_star_count", object.required_star_count_);
+  jo("next_offset", object.next_offset_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransaction &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransaction");
+  jo("id", object.id_);
+  jo("star_count", object.star_count_);
+  jo("is_refund", JsonBool{object.is_refund_});
+  jo("date", object.date_);
+  if (object.partner_) {
+    jo("partner", ToJson(*object.partner_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::StarTransactionPartner &object) {
+  td_api::downcast_call(const_cast<td_api::StarTransactionPartner &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerTelegram &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerTelegram");
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerAppStore &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerAppStore");
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerGooglePlay &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerGooglePlay");
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerFragment &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerFragment");
+  if (object.withdrawal_state_) {
+    jo("withdrawal_state", ToJson(*object.withdrawal_state_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerTelegramAds &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerTelegramAds");
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerBot &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerBot");
+  jo("user_id", object.user_id_);
+  if (object.purpose_) {
+    jo("purpose", ToJson(*object.purpose_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerBusiness &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerBusiness");
+  jo("user_id", object.user_id_);
+  jo("media", ToJson(object.media_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerChat &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerChat");
+  jo("chat_id", object.chat_id_);
+  if (object.purpose_) {
+    jo("purpose", ToJson(*object.purpose_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerUser &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerUser");
+  jo("user_id", object.user_id_);
+  if (object.sticker_) {
+    jo("sticker", ToJson(*object.sticker_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactionPartnerUnsupported &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactionPartnerUnsupported");
+}
+
+void to_json(JsonValueScope &jv, const td_api::starTransactions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "starTransactions");
+  jo("star_count", object.star_count_);
+  jo("transactions", ToJson(object.transactions_));
+  jo("next_offset", object.next_offset_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::StatisticalGraph &object) {
@@ -15398,15 +20523,15 @@ void to_json(JsonValueScope &jv, const td_api::stickerSet &object) {
     jo("thumbnail", ToJson(*object.thumbnail_));
   }
   jo("thumbnail_outline", ToJson(object.thumbnail_outline_));
+  jo("is_owned", JsonBool{object.is_owned_});
   jo("is_installed", JsonBool{object.is_installed_});
   jo("is_archived", JsonBool{object.is_archived_});
   jo("is_official", JsonBool{object.is_official_});
-  if (object.sticker_format_) {
-    jo("sticker_format", ToJson(*object.sticker_format_));
-  }
   if (object.sticker_type_) {
     jo("sticker_type", ToJson(*object.sticker_type_));
   }
+  jo("needs_repainting", JsonBool{object.needs_repainting_});
+  jo("is_allowed_as_chat_emoji_status", JsonBool{object.is_allowed_as_chat_emoji_status_});
   jo("is_viewed", JsonBool{object.is_viewed_});
   jo("stickers", ToJson(object.stickers_));
   jo("emojis", ToJson(object.emojis_));
@@ -15422,15 +20547,15 @@ void to_json(JsonValueScope &jv, const td_api::stickerSetInfo &object) {
     jo("thumbnail", ToJson(*object.thumbnail_));
   }
   jo("thumbnail_outline", ToJson(object.thumbnail_outline_));
+  jo("is_owned", JsonBool{object.is_owned_});
   jo("is_installed", JsonBool{object.is_installed_});
   jo("is_archived", JsonBool{object.is_archived_});
   jo("is_official", JsonBool{object.is_official_});
-  if (object.sticker_format_) {
-    jo("sticker_format", ToJson(*object.sticker_format_));
-  }
   if (object.sticker_type_) {
     jo("sticker_type", ToJson(*object.sticker_type_));
   }
+  jo("needs_repainting", JsonBool{object.needs_repainting_});
+  jo("is_allowed_as_chat_emoji_status", JsonBool{object.is_allowed_as_chat_emoji_status_});
   jo("is_viewed", JsonBool{object.is_viewed_});
   jo("size", object.size_);
   jo("covers", ToJson(object.covers_));
@@ -15505,6 +20630,331 @@ void to_json(JsonValueScope &jv, const td_api::storageStatisticsFast &object) {
   jo("log_size", object.log_size_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::stories &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "stories");
+  jo("total_count", object.total_count_);
+  jo("stories", ToJson(object.stories_));
+  jo("pinned_story_ids", ToJson(object.pinned_story_ids_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::story &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "story");
+  jo("id", object.id_);
+  jo("sender_chat_id", object.sender_chat_id_);
+  if (object.sender_id_) {
+    jo("sender_id", ToJson(*object.sender_id_));
+  }
+  jo("date", object.date_);
+  jo("is_being_sent", JsonBool{object.is_being_sent_});
+  jo("is_being_edited", JsonBool{object.is_being_edited_});
+  jo("is_edited", JsonBool{object.is_edited_});
+  jo("is_posted_to_chat_page", JsonBool{object.is_posted_to_chat_page_});
+  jo("is_visible_only_for_self", JsonBool{object.is_visible_only_for_self_});
+  jo("can_be_deleted", JsonBool{object.can_be_deleted_});
+  jo("can_be_edited", JsonBool{object.can_be_edited_});
+  jo("can_be_forwarded", JsonBool{object.can_be_forwarded_});
+  jo("can_be_replied", JsonBool{object.can_be_replied_});
+  jo("can_toggle_is_posted_to_chat_page", JsonBool{object.can_toggle_is_posted_to_chat_page_});
+  jo("can_get_statistics", JsonBool{object.can_get_statistics_});
+  jo("can_get_interactions", JsonBool{object.can_get_interactions_});
+  jo("has_expired_viewers", JsonBool{object.has_expired_viewers_});
+  if (object.repost_info_) {
+    jo("repost_info", ToJson(*object.repost_info_));
+  }
+  if (object.interaction_info_) {
+    jo("interaction_info", ToJson(*object.interaction_info_));
+  }
+  if (object.chosen_reaction_type_) {
+    jo("chosen_reaction_type", ToJson(*object.chosen_reaction_type_));
+  }
+  if (object.privacy_settings_) {
+    jo("privacy_settings", ToJson(*object.privacy_settings_));
+  }
+  if (object.content_) {
+    jo("content", ToJson(*object.content_));
+  }
+  jo("areas", ToJson(object.areas_));
+  if (object.caption_) {
+    jo("caption", ToJson(*object.caption_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyArea &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyArea");
+  if (object.position_) {
+    jo("position", ToJson(*object.position_));
+  }
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyAreaPosition &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyAreaPosition");
+  jo("x_percentage", object.x_percentage_);
+  jo("y_percentage", object.y_percentage_);
+  jo("width_percentage", object.width_percentage_);
+  jo("height_percentage", object.height_percentage_);
+  jo("rotation_angle", object.rotation_angle_);
+  jo("corner_radius_percentage", object.corner_radius_percentage_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::StoryAreaType &object) {
+  td_api::downcast_call(const_cast<td_api::StoryAreaType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyAreaTypeLocation &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyAreaTypeLocation");
+  if (object.location_) {
+    jo("location", ToJson(*object.location_));
+  }
+  if (object.address_) {
+    jo("address", ToJson(*object.address_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyAreaTypeVenue &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyAreaTypeVenue");
+  if (object.venue_) {
+    jo("venue", ToJson(*object.venue_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyAreaTypeSuggestedReaction &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyAreaTypeSuggestedReaction");
+  if (object.reaction_type_) {
+    jo("reaction_type", ToJson(*object.reaction_type_));
+  }
+  jo("total_count", object.total_count_);
+  jo("is_dark", JsonBool{object.is_dark_});
+  jo("is_flipped", JsonBool{object.is_flipped_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyAreaTypeMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyAreaTypeMessage");
+  jo("chat_id", object.chat_id_);
+  jo("message_id", object.message_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyAreaTypeLink &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyAreaTypeLink");
+  jo("url", object.url_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyAreaTypeWeather &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyAreaTypeWeather");
+  jo("temperature", object.temperature_);
+  jo("emoji", object.emoji_);
+  jo("background_color", object.background_color_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::StoryContent &object) {
+  td_api::downcast_call(const_cast<td_api::StoryContent &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyContentPhoto &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyContentPhoto");
+  if (object.photo_) {
+    jo("photo", ToJson(*object.photo_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyContentVideo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyContentVideo");
+  if (object.video_) {
+    jo("video", ToJson(*object.video_));
+  }
+  if (object.alternative_video_) {
+    jo("alternative_video", ToJson(*object.alternative_video_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyContentUnsupported &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyContentUnsupported");
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyInfo");
+  jo("story_id", object.story_id_);
+  jo("date", object.date_);
+  jo("is_for_close_friends", JsonBool{object.is_for_close_friends_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyInteraction &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyInteraction");
+  if (object.actor_id_) {
+    jo("actor_id", ToJson(*object.actor_id_));
+  }
+  jo("interaction_date", object.interaction_date_);
+  if (object.block_list_) {
+    jo("block_list", ToJson(*object.block_list_));
+  }
+  if (object.type_) {
+    jo("type", ToJson(*object.type_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyInteractionInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyInteractionInfo");
+  jo("view_count", object.view_count_);
+  jo("forward_count", object.forward_count_);
+  jo("reaction_count", object.reaction_count_);
+  jo("recent_viewer_user_ids", ToJson(object.recent_viewer_user_ids_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::StoryInteractionType &object) {
+  td_api::downcast_call(const_cast<td_api::StoryInteractionType &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyInteractionTypeView &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyInteractionTypeView");
+  if (object.chosen_reaction_type_) {
+    jo("chosen_reaction_type", ToJson(*object.chosen_reaction_type_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyInteractionTypeForward &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyInteractionTypeForward");
+  if (object.message_) {
+    jo("message", ToJson(*object.message_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyInteractionTypeRepost &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyInteractionTypeRepost");
+  if (object.story_) {
+    jo("story", ToJson(*object.story_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyInteractions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyInteractions");
+  jo("total_count", object.total_count_);
+  jo("total_forward_count", object.total_forward_count_);
+  jo("total_reaction_count", object.total_reaction_count_);
+  jo("interactions", ToJson(object.interactions_));
+  jo("next_offset", object.next_offset_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::StoryList &object) {
+  td_api::downcast_call(const_cast<td_api::StoryList &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyListMain &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyListMain");
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyListArchive &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyListArchive");
+}
+
+void to_json(JsonValueScope &jv, const td_api::StoryOrigin &object) {
+  td_api::downcast_call(const_cast<td_api::StoryOrigin &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyOriginPublicStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyOriginPublicStory");
+  jo("chat_id", object.chat_id_);
+  jo("story_id", object.story_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyOriginHiddenUser &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyOriginHiddenUser");
+  jo("sender_name", object.sender_name_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::StoryPrivacySettings &object) {
+  td_api::downcast_call(const_cast<td_api::StoryPrivacySettings &>(object), [&jv](const auto &object) { to_json(jv, object); });
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyPrivacySettingsEveryone &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyPrivacySettingsEveryone");
+  jo("except_user_ids", ToJson(object.except_user_ids_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyPrivacySettingsContacts &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyPrivacySettingsContacts");
+  jo("except_user_ids", ToJson(object.except_user_ids_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyPrivacySettingsCloseFriends &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyPrivacySettingsCloseFriends");
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyPrivacySettingsSelectedUsers &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyPrivacySettingsSelectedUsers");
+  jo("user_ids", ToJson(object.user_ids_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyRepostInfo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyRepostInfo");
+  if (object.origin_) {
+    jo("origin", ToJson(*object.origin_));
+  }
+  jo("is_content_modified", JsonBool{object.is_content_modified_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyStatistics &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyStatistics");
+  if (object.story_interaction_graph_) {
+    jo("story_interaction_graph", ToJson(*object.story_interaction_graph_));
+  }
+  if (object.story_reaction_graph_) {
+    jo("story_reaction_graph", ToJson(*object.story_reaction_graph_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::storyVideo &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "storyVideo");
+  jo("duration", object.duration_);
+  jo("width", object.width_);
+  jo("height", object.height_);
+  jo("has_stickers", JsonBool{object.has_stickers_});
+  jo("is_animation", JsonBool{object.is_animation_});
+  if (object.minithumbnail_) {
+    jo("minithumbnail", ToJson(*object.minithumbnail_));
+  }
+  if (object.thumbnail_) {
+    jo("thumbnail", ToJson(*object.thumbnail_));
+  }
+  jo("preload_prefix_size", object.preload_prefix_size_);
+  jo("cover_frame_timestamp", object.cover_frame_timestamp_);
+  if (object.video_) {
+    jo("video", ToJson(*object.video_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::SuggestedAction &object) {
   td_api::downcast_call(const_cast<td_api::SuggestedAction &>(object), [&jv](const auto &object) { to_json(jv, object); });
 }
@@ -15546,9 +20996,35 @@ void to_json(JsonValueScope &jv, const td_api::suggestedActionUpgradePremium &ob
   jo("@type", "suggestedActionUpgradePremium");
 }
 
+void to_json(JsonValueScope &jv, const td_api::suggestedActionRestorePremium &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "suggestedActionRestorePremium");
+}
+
 void to_json(JsonValueScope &jv, const td_api::suggestedActionSubscribeToAnnualPremium &object) {
   auto jo = jv.enter_object();
   jo("@type", "suggestedActionSubscribeToAnnualPremium");
+}
+
+void to_json(JsonValueScope &jv, const td_api::suggestedActionGiftPremiumForChristmas &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "suggestedActionGiftPremiumForChristmas");
+}
+
+void to_json(JsonValueScope &jv, const td_api::suggestedActionSetBirthdate &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "suggestedActionSetBirthdate");
+}
+
+void to_json(JsonValueScope &jv, const td_api::suggestedActionExtendPremium &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "suggestedActionExtendPremium");
+  jo("manage_premium_subscription_url", object.manage_premium_subscription_url_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::suggestedActionExtendStarSubscriptions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "suggestedActionExtendStarSubscriptions");
 }
 
 void to_json(JsonValueScope &jv, const td_api::supergroup &object) {
@@ -15563,9 +21039,11 @@ void to_json(JsonValueScope &jv, const td_api::supergroup &object) {
     jo("status", ToJson(*object.status_));
   }
   jo("member_count", object.member_count_);
+  jo("boost_level", object.boost_level_);
   jo("has_linked_chat", JsonBool{object.has_linked_chat_});
   jo("has_location", JsonBool{object.has_location_});
   jo("sign_messages", JsonBool{object.sign_messages_});
+  jo("show_message_sender", JsonBool{object.show_message_sender_});
   jo("join_to_send_messages", JsonBool{object.join_to_send_messages_});
   jo("join_by_request", JsonBool{object.join_by_request_});
   jo("is_slow_mode_enabled", JsonBool{object.is_slow_mode_enabled_});
@@ -15573,9 +21051,12 @@ void to_json(JsonValueScope &jv, const td_api::supergroup &object) {
   jo("is_broadcast_group", JsonBool{object.is_broadcast_group_});
   jo("is_forum", JsonBool{object.is_forum_});
   jo("is_verified", JsonBool{object.is_verified_});
+  jo("has_sensitive_content", JsonBool{object.has_sensitive_content_});
   jo("restriction_reason", object.restriction_reason_);
   jo("is_scam", JsonBool{object.is_scam_});
   jo("is_fake", JsonBool{object.is_fake_});
+  jo("has_active_stories", JsonBool{object.has_active_stories_});
+  jo("has_unread_active_stories", JsonBool{object.has_unread_active_stories_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::supergroupFullInfo &object) {
@@ -15592,17 +21073,25 @@ void to_json(JsonValueScope &jv, const td_api::supergroupFullInfo &object) {
   jo("linked_chat_id", object.linked_chat_id_);
   jo("slow_mode_delay", object.slow_mode_delay_);
   jo("slow_mode_delay_expires_in", object.slow_mode_delay_expires_in_);
+  jo("can_enable_paid_reaction", JsonBool{object.can_enable_paid_reaction_});
   jo("can_get_members", JsonBool{object.can_get_members_});
   jo("has_hidden_members", JsonBool{object.has_hidden_members_});
   jo("can_hide_members", JsonBool{object.can_hide_members_});
-  jo("can_set_username", JsonBool{object.can_set_username_});
   jo("can_set_sticker_set", JsonBool{object.can_set_sticker_set_});
   jo("can_set_location", JsonBool{object.can_set_location_});
   jo("can_get_statistics", JsonBool{object.can_get_statistics_});
+  jo("can_get_revenue_statistics", JsonBool{object.can_get_revenue_statistics_});
+  jo("can_get_star_revenue_statistics", JsonBool{object.can_get_star_revenue_statistics_});
   jo("can_toggle_aggressive_anti_spam", JsonBool{object.can_toggle_aggressive_anti_spam_});
   jo("is_all_history_available", JsonBool{object.is_all_history_available_});
+  jo("can_have_sponsored_messages", JsonBool{object.can_have_sponsored_messages_});
   jo("has_aggressive_anti_spam_enabled", JsonBool{object.has_aggressive_anti_spam_enabled_});
+  jo("has_paid_media_allowed", JsonBool{object.has_paid_media_allowed_});
+  jo("has_pinned_stories", JsonBool{object.has_pinned_stories_});
+  jo("my_boost_count", object.my_boost_count_);
+  jo("unrestrict_boost_count", object.unrestrict_boost_count_);
   jo("sticker_set_id", ToJson(JsonInt64{object.sticker_set_id_}));
+  jo("custom_emoji_sticker_set_id", ToJson(JsonInt64{object.custom_emoji_sticker_set_id_}));
   if (object.location_) {
     jo("location", ToJson(*object.location_));
   }
@@ -15851,6 +21340,16 @@ void to_json(JsonValueScope &jv, const td_api::textEntityTypePreCode &object) {
   jo("language", object.language_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::textEntityTypeBlockQuote &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "textEntityTypeBlockQuote");
+}
+
+void to_json(JsonValueScope &jv, const td_api::textEntityTypeExpandableBlockQuote &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "textEntityTypeExpandableBlockQuote");
+}
+
 void to_json(JsonValueScope &jv, const td_api::textEntityTypeTextUrl &object) {
   auto jo = jv.enter_object();
   jo("@type", "textEntityTypeTextUrl");
@@ -15873,6 +21372,16 @@ void to_json(JsonValueScope &jv, const td_api::textEntityTypeMediaTimestamp &obj
   auto jo = jv.enter_object();
   jo("@type", "textEntityTypeMediaTimestamp");
   jo("media_timestamp", object.media_timestamp_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::textQuote &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "textQuote");
+  if (object.text_) {
+    jo("text", ToJson(*object.text_));
+  }
+  jo("position", object.position_);
+  jo("is_manual", JsonBool{object.is_manual_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::themeSettings &object) {
@@ -15941,12 +21450,35 @@ void to_json(JsonValueScope &jv, const td_api::thumbnailFormatWebp &object) {
   jo("@type", "thumbnailFormatWebp");
 }
 
+void to_json(JsonValueScope &jv, const td_api::timeZone &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "timeZone");
+  jo("id", object.id_);
+  jo("name", object.name_);
+  jo("utc_time_offset", object.utc_time_offset_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::timeZones &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "timeZones");
+  jo("time_zones", ToJson(object.time_zones_));
+}
+
 void to_json(JsonValueScope &jv, const td_api::trendingStickerSets &object) {
   auto jo = jv.enter_object();
   jo("@type", "trendingStickerSets");
   jo("total_count", object.total_count_);
   jo("sets", ToJson(object.sets_));
   jo("is_premium", JsonBool{object.is_premium_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::unconfirmedSession &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "unconfirmedSession");
+  jo("id", ToJson(JsonInt64{object.id_}));
+  jo("log_in_date", object.log_in_date_);
+  jo("device_model", object.device_model_);
+  jo("location", object.location_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::unreadReaction &object) {
@@ -16004,8 +21536,9 @@ void to_json(JsonValueScope &jv, const td_api::updateMessageSendFailed &object) 
     jo("message", ToJson(*object.message_));
   }
   jo("old_message_id", object.old_message_id_);
-  jo("error_code", object.error_code_);
-  jo("error_message", object.error_message_);
+  if (object.error_) {
+    jo("error", ToJson(*object.error_));
+  }
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateMessageContent &object) {
@@ -16071,6 +21604,16 @@ void to_json(JsonValueScope &jv, const td_api::updateMessageUnreadReactions &obj
   jo("unread_reaction_count", object.unread_reaction_count_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::updateMessageFactCheck &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateMessageFactCheck");
+  jo("chat_id", object.chat_id_);
+  jo("message_id", object.message_id_);
+  if (object.fact_check_) {
+    jo("fact_check", ToJson(*object.fact_check_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::updateMessageLiveLocationViewed &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateMessageLiveLocationViewed");
@@ -16102,6 +21645,16 @@ void to_json(JsonValueScope &jv, const td_api::updateChatPhoto &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::updateChatAccentColors &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatAccentColors");
+  jo("chat_id", object.chat_id_);
+  jo("accent_color_id", object.accent_color_id_);
+  jo("background_custom_emoji_id", ToJson(JsonInt64{object.background_custom_emoji_id_}));
+  jo("profile_accent_color_id", object.profile_accent_color_id_);
+  jo("profile_background_custom_emoji_id", ToJson(JsonInt64{object.profile_background_custom_emoji_id_}));
+}
+
 void to_json(JsonValueScope &jv, const td_api::updateChatPermissions &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateChatPermissions");
@@ -16130,6 +21683,24 @@ void to_json(JsonValueScope &jv, const td_api::updateChatPosition &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::updateChatAddedToList &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatAddedToList");
+  jo("chat_id", object.chat_id_);
+  if (object.chat_list_) {
+    jo("chat_list", ToJson(*object.chat_list_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateChatRemovedFromList &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatRemovedFromList");
+  jo("chat_id", object.chat_id_);
+  if (object.chat_list_) {
+    jo("chat_list", ToJson(*object.chat_list_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::updateChatReadInbox &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateChatReadInbox");
@@ -16154,6 +21725,15 @@ void to_json(JsonValueScope &jv, const td_api::updateChatActionBar &object) {
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::updateChatBusinessBotManageBar &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatBusinessBotManageBar");
+  jo("chat_id", object.chat_id_);
+  if (object.business_bot_manage_bar_) {
+    jo("business_bot_manage_bar", ToJson(*object.business_bot_manage_bar_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::updateChatAvailableReactions &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateChatAvailableReactions");
@@ -16171,6 +21751,15 @@ void to_json(JsonValueScope &jv, const td_api::updateChatDraftMessage &object) {
     jo("draft_message", ToJson(*object.draft_message_));
   }
   jo("positions", ToJson(object.positions_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateChatEmojiStatus &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatEmojiStatus");
+  jo("chat_id", object.chat_id_);
+  if (object.emoji_status_) {
+    jo("emoji_status", ToJson(*object.emoji_status_));
+  }
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateChatMessageSender &object) {
@@ -16281,11 +21870,20 @@ void to_json(JsonValueScope &jv, const td_api::updateChatIsMarkedAsUnread &objec
   jo("is_marked_as_unread", JsonBool{object.is_marked_as_unread_});
 }
 
-void to_json(JsonValueScope &jv, const td_api::updateChatIsBlocked &object) {
+void to_json(JsonValueScope &jv, const td_api::updateChatViewAsTopics &object) {
   auto jo = jv.enter_object();
-  jo("@type", "updateChatIsBlocked");
+  jo("@type", "updateChatViewAsTopics");
   jo("chat_id", object.chat_id_);
-  jo("is_blocked", JsonBool{object.is_blocked_});
+  jo("view_as_topics", JsonBool{object.view_as_topics_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateChatBlockList &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatBlockList");
+  jo("chat_id", object.chat_id_);
+  if (object.block_list_) {
+    jo("block_list", ToJson(*object.block_list_));
+  }
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateChatHasScheduledMessages &object) {
@@ -16300,6 +21898,7 @@ void to_json(JsonValueScope &jv, const td_api::updateChatFolders &object) {
   jo("@type", "updateChatFolders");
   jo("chat_folders", ToJson(object.chat_folders_));
   jo("main_chat_list_position", object.main_chat_list_position_);
+  jo("are_tags_enabled", JsonBool{object.are_tags_enabled_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateChatOnlineMemberCount &object) {
@@ -16307,6 +21906,47 @@ void to_json(JsonValueScope &jv, const td_api::updateChatOnlineMemberCount &obje
   jo("@type", "updateChatOnlineMemberCount");
   jo("chat_id", object.chat_id_);
   jo("online_member_count", object.online_member_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateSavedMessagesTopic &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateSavedMessagesTopic");
+  if (object.topic_) {
+    jo("topic", ToJson(*object.topic_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateSavedMessagesTopicCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateSavedMessagesTopicCount");
+  jo("topic_count", object.topic_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateQuickReplyShortcut &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateQuickReplyShortcut");
+  if (object.shortcut_) {
+    jo("shortcut", ToJson(*object.shortcut_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateQuickReplyShortcutDeleted &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateQuickReplyShortcutDeleted");
+  jo("shortcut_id", object.shortcut_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateQuickReplyShortcuts &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateQuickReplyShortcuts");
+  jo("shortcut_ids", ToJson(object.shortcut_ids_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateQuickReplyShortcutMessages &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateQuickReplyShortcutMessages");
+  jo("shortcut_id", object.shortcut_id_);
+  jo("messages", ToJson(object.messages_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateForumTopicInfo &object) {
@@ -16324,6 +21964,14 @@ void to_json(JsonValueScope &jv, const td_api::updateScopeNotificationSettings &
   if (object.scope_) {
     jo("scope", ToJson(*object.scope_));
   }
+  if (object.notification_settings_) {
+    jo("notification_settings", ToJson(*object.notification_settings_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateReactionNotificationSettings &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateReactionNotificationSettings");
   if (object.notification_settings_) {
     jo("notification_settings", ToJson(*object.notification_settings_));
   }
@@ -16527,6 +22175,14 @@ void to_json(JsonValueScope &jv, const td_api::updateFileRemovedFromDownloads &o
   }
 }
 
+void to_json(JsonValueScope &jv, const td_api::updateApplicationVerificationRequired &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateApplicationVerificationRequired");
+  jo("verification_id", object.verification_id_);
+  jo("nonce", object.nonce_);
+  jo("cloud_project_number", ToJson(JsonInt64{object.cloud_project_number_}));
+}
+
 void to_json(JsonValueScope &jv, const td_api::updateCall &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateCall");
@@ -16593,6 +22249,68 @@ void to_json(JsonValueScope &jv, const td_api::updateUnreadChatCount &object) {
   jo("marked_as_unread_unmuted_count", object.marked_as_unread_unmuted_count_);
 }
 
+void to_json(JsonValueScope &jv, const td_api::updateStory &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateStory");
+  if (object.story_) {
+    jo("story", ToJson(*object.story_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateStoryDeleted &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateStoryDeleted");
+  jo("story_sender_chat_id", object.story_sender_chat_id_);
+  jo("story_id", object.story_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateStorySendSucceeded &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateStorySendSucceeded");
+  if (object.story_) {
+    jo("story", ToJson(*object.story_));
+  }
+  jo("old_story_id", object.old_story_id_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateStorySendFailed &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateStorySendFailed");
+  if (object.story_) {
+    jo("story", ToJson(*object.story_));
+  }
+  if (object.error_) {
+    jo("error", ToJson(*object.error_));
+  }
+  if (object.error_type_) {
+    jo("error_type", ToJson(*object.error_type_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateChatActiveStories &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatActiveStories");
+  if (object.active_stories_) {
+    jo("active_stories", ToJson(*object.active_stories_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateStoryListChatCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateStoryListChatCount");
+  if (object.story_list_) {
+    jo("story_list", ToJson(*object.story_list_));
+  }
+  jo("chat_count", object.chat_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateStoryStealthMode &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateStoryStealthMode");
+  jo("active_until_date", object.active_until_date_);
+  jo("cooldown_until_date", object.cooldown_until_date_);
+}
+
 void to_json(JsonValueScope &jv, const td_api::updateOption &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateOption");
@@ -16655,9 +22373,9 @@ void to_json(JsonValueScope &jv, const td_api::updateSavedNotificationSounds &ob
   jo("notification_sound_ids", ToJson(JsonVectorInt64{object.notification_sound_ids_}));
 }
 
-void to_json(JsonValueScope &jv, const td_api::updateSelectedBackground &object) {
+void to_json(JsonValueScope &jv, const td_api::updateDefaultBackground &object) {
   auto jo = jv.enter_object();
-  jo("@type", "updateSelectedBackground");
+  jo("@type", "updateDefaultBackground");
   jo("for_dark_theme", JsonBool{object.for_dark_theme_});
   if (object.background_) {
     jo("background", ToJson(*object.background_));
@@ -16668,6 +22386,20 @@ void to_json(JsonValueScope &jv, const td_api::updateChatThemes &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateChatThemes");
   jo("chat_themes", ToJson(object.chat_themes_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateAccentColors &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateAccentColors");
+  jo("colors", ToJson(object.colors_));
+  jo("available_accent_color_ids", ToJson(object.available_accent_color_ids_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateProfileAccentColors &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateProfileAccentColors");
+  jo("colors", ToJson(object.colors_));
+  jo("available_accent_color_ids", ToJson(object.available_accent_color_ids_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateLanguagePackStrings &object) {
@@ -16701,6 +22433,14 @@ void to_json(JsonValueScope &jv, const td_api::updateUsersNearby &object) {
   jo("users_nearby", ToJson(object.users_nearby_));
 }
 
+void to_json(JsonValueScope &jv, const td_api::updateUnconfirmedSession &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateUnconfirmedSession");
+  if (object.session_) {
+    jo("session", ToJson(*object.session_));
+  }
+}
+
 void to_json(JsonValueScope &jv, const td_api::updateAttachmentMenuBots &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateAttachmentMenuBots");
@@ -16719,12 +22459,69 @@ void to_json(JsonValueScope &jv, const td_api::updateActiveEmojiReactions &objec
   jo("emojis", ToJson(object.emojis_));
 }
 
+void to_json(JsonValueScope &jv, const td_api::updateAvailableMessageEffects &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateAvailableMessageEffects");
+  jo("reaction_effect_ids", ToJson(JsonVectorInt64{object.reaction_effect_ids_}));
+  jo("sticker_effect_ids", ToJson(JsonVectorInt64{object.sticker_effect_ids_}));
+}
+
 void to_json(JsonValueScope &jv, const td_api::updateDefaultReactionType &object) {
   auto jo = jv.enter_object();
   jo("@type", "updateDefaultReactionType");
   if (object.reaction_type_) {
     jo("reaction_type", ToJson(*object.reaction_type_));
   }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateSavedMessagesTags &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateSavedMessagesTags");
+  jo("saved_messages_topic_id", object.saved_messages_topic_id_);
+  if (object.tags_) {
+    jo("tags", ToJson(*object.tags_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateActiveLiveLocationMessages &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateActiveLiveLocationMessages");
+  jo("messages", ToJson(object.messages_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateOwnedStarCount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateOwnedStarCount");
+  jo("star_count", object.star_count_);
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateChatRevenueAmount &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatRevenueAmount");
+  jo("chat_id", object.chat_id_);
+  if (object.revenue_amount_) {
+    jo("revenue_amount", ToJson(*object.revenue_amount_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateStarRevenueStatus &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateStarRevenueStatus");
+  if (object.owner_id_) {
+    jo("owner_id", ToJson(*object.owner_id_));
+  }
+  if (object.status_) {
+    jo("status", ToJson(*object.status_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateSpeechRecognitionTrial &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateSpeechRecognitionTrial");
+  jo("max_media_duration", object.max_media_duration_);
+  jo("weekly_count", object.weekly_count_);
+  jo("left_count", object.left_count_);
+  jo("next_reset_date", object.next_reset_date_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateDiceEmojis &object) {
@@ -16757,11 +22554,16 @@ void to_json(JsonValueScope &jv, const td_api::updateSuggestedActions &object) {
   jo("removed_actions", ToJson(object.removed_actions_));
 }
 
-void to_json(JsonValueScope &jv, const td_api::updateAddChatMembersPrivacyForbidden &object) {
+void to_json(JsonValueScope &jv, const td_api::updateSpeedLimitNotification &object) {
   auto jo = jv.enter_object();
-  jo("@type", "updateAddChatMembersPrivacyForbidden");
-  jo("chat_id", object.chat_id_);
-  jo("user_ids", ToJson(object.user_ids_));
+  jo("@type", "updateSpeedLimitNotification");
+  jo("is_upload", JsonBool{object.is_upload_});
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateContactCloseBirthdays &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateContactCloseBirthdays");
+  jo("close_birthday_users", ToJson(object.close_birthday_users_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateAutosaveSettings &object) {
@@ -16773,6 +22575,40 @@ void to_json(JsonValueScope &jv, const td_api::updateAutosaveSettings &object) {
   if (object.settings_) {
     jo("settings", ToJson(*object.settings_));
   }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateBusinessConnection &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateBusinessConnection");
+  if (object.connection_) {
+    jo("connection", ToJson(*object.connection_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateNewBusinessMessage &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateNewBusinessMessage");
+  jo("connection_id", object.connection_id_);
+  if (object.message_) {
+    jo("message", ToJson(*object.message_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateBusinessMessageEdited &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateBusinessMessageEdited");
+  jo("connection_id", object.connection_id_);
+  if (object.message_) {
+    jo("message", ToJson(*object.message_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateBusinessMessagesDeleted &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateBusinessMessagesDeleted");
+  jo("connection_id", object.connection_id_);
+  jo("chat_id", object.chat_id_);
+  jo("message_ids", ToJson(object.message_ids_));
 }
 
 void to_json(JsonValueScope &jv, const td_api::updateNewInlineQuery &object) {
@@ -16821,6 +22657,21 @@ void to_json(JsonValueScope &jv, const td_api::updateNewInlineCallbackQuery &obj
   jo("id", ToJson(JsonInt64{object.id_}));
   jo("sender_user_id", object.sender_user_id_);
   jo("inline_message_id", object.inline_message_id_);
+  jo("chat_instance", ToJson(JsonInt64{object.chat_instance_}));
+  if (object.payload_) {
+    jo("payload", ToJson(*object.payload_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateNewBusinessCallbackQuery &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateNewBusinessCallbackQuery");
+  jo("id", ToJson(JsonInt64{object.id_}));
+  jo("sender_user_id", object.sender_user_id_);
+  jo("connection_id", object.connection_id_);
+  if (object.message_) {
+    jo("message", ToJson(*object.message_));
+  }
   jo("chat_instance", ToJson(JsonInt64{object.chat_instance_}));
   if (object.payload_) {
     jo("payload", ToJson(*object.payload_));
@@ -16878,7 +22729,9 @@ void to_json(JsonValueScope &jv, const td_api::updatePollAnswer &object) {
   auto jo = jv.enter_object();
   jo("@type", "updatePollAnswer");
   jo("poll_id", ToJson(JsonInt64{object.poll_id_}));
-  jo("user_id", object.user_id_);
+  if (object.voter_id_) {
+    jo("voter_id", ToJson(*object.voter_id_));
+  }
   jo("option_ids", ToJson(object.option_ids_));
 }
 
@@ -16891,6 +22744,7 @@ void to_json(JsonValueScope &jv, const td_api::updateChatMember &object) {
   if (object.invite_link_) {
     jo("invite_link", ToJson(*object.invite_link_));
   }
+  jo("via_join_request", JsonBool{object.via_join_request_});
   jo("via_chat_folder_invite_link", JsonBool{object.via_chat_folder_invite_link_});
   if (object.old_chat_member_) {
     jo("old_chat_member", ToJson(*object.old_chat_member_));
@@ -16911,6 +22765,44 @@ void to_json(JsonValueScope &jv, const td_api::updateNewChatJoinRequest &object)
   if (object.invite_link_) {
     jo("invite_link", ToJson(*object.invite_link_));
   }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateChatBoost &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateChatBoost");
+  jo("chat_id", object.chat_id_);
+  if (object.boost_) {
+    jo("boost", ToJson(*object.boost_));
+  }
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateMessageReaction &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateMessageReaction");
+  jo("chat_id", object.chat_id_);
+  jo("message_id", object.message_id_);
+  if (object.actor_id_) {
+    jo("actor_id", ToJson(*object.actor_id_));
+  }
+  jo("date", object.date_);
+  jo("old_reaction_types", ToJson(object.old_reaction_types_));
+  jo("new_reaction_types", ToJson(object.new_reaction_types_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::updateMessageReactions &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updateMessageReactions");
+  jo("chat_id", object.chat_id_);
+  jo("message_id", object.message_id_);
+  jo("date", object.date_);
+  jo("reactions", ToJson(object.reactions_));
+}
+
+void to_json(JsonValueScope &jv, const td_api::updatePaidMediaPurchased &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "updatePaidMediaPurchased");
+  jo("user_id", object.user_id_);
+  jo("payload", object.payload_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::updates &object) {
@@ -16935,17 +22827,25 @@ void to_json(JsonValueScope &jv, const td_api::user &object) {
   if (object.profile_photo_) {
     jo("profile_photo", ToJson(*object.profile_photo_));
   }
+  jo("accent_color_id", object.accent_color_id_);
+  jo("background_custom_emoji_id", ToJson(JsonInt64{object.background_custom_emoji_id_}));
+  jo("profile_accent_color_id", object.profile_accent_color_id_);
+  jo("profile_background_custom_emoji_id", ToJson(JsonInt64{object.profile_background_custom_emoji_id_}));
   if (object.emoji_status_) {
     jo("emoji_status", ToJson(*object.emoji_status_));
   }
   jo("is_contact", JsonBool{object.is_contact_});
   jo("is_mutual_contact", JsonBool{object.is_mutual_contact_});
+  jo("is_close_friend", JsonBool{object.is_close_friend_});
   jo("is_verified", JsonBool{object.is_verified_});
   jo("is_premium", JsonBool{object.is_premium_});
   jo("is_support", JsonBool{object.is_support_});
   jo("restriction_reason", object.restriction_reason_);
   jo("is_scam", JsonBool{object.is_scam_});
   jo("is_fake", JsonBool{object.is_fake_});
+  jo("has_active_stories", JsonBool{object.has_active_stories_});
+  jo("has_unread_active_stories", JsonBool{object.has_unread_active_stories_});
+  jo("restricts_new_chats", JsonBool{object.restricts_new_chats_});
   jo("have_access", JsonBool{object.have_access_});
   if (object.type_) {
     jo("type", ToJson(*object.type_));
@@ -16966,18 +22866,30 @@ void to_json(JsonValueScope &jv, const td_api::userFullInfo &object) {
   if (object.public_photo_) {
     jo("public_photo", ToJson(*object.public_photo_));
   }
-  jo("is_blocked", JsonBool{object.is_blocked_});
+  if (object.block_list_) {
+    jo("block_list", ToJson(*object.block_list_));
+  }
   jo("can_be_called", JsonBool{object.can_be_called_});
   jo("supports_video_calls", JsonBool{object.supports_video_calls_});
   jo("has_private_calls", JsonBool{object.has_private_calls_});
   jo("has_private_forwards", JsonBool{object.has_private_forwards_});
   jo("has_restricted_voice_and_video_note_messages", JsonBool{object.has_restricted_voice_and_video_note_messages_});
+  jo("has_posted_to_profile_stories", JsonBool{object.has_posted_to_profile_stories_});
+  jo("has_sponsored_messages_enabled", JsonBool{object.has_sponsored_messages_enabled_});
   jo("need_phone_number_privacy_exception", JsonBool{object.need_phone_number_privacy_exception_});
+  jo("set_chat_background", JsonBool{object.set_chat_background_});
   if (object.bio_) {
     jo("bio", ToJson(*object.bio_));
   }
+  if (object.birthdate_) {
+    jo("birthdate", ToJson(*object.birthdate_));
+  }
+  jo("personal_chat_id", object.personal_chat_id_);
   jo("premium_gift_options", ToJson(object.premium_gift_options_));
   jo("group_in_common_count", object.group_in_common_count_);
+  if (object.business_info_) {
+    jo("business_info", ToJson(*object.business_info_));
+  }
   if (object.bot_info_) {
     jo("bot_info", ToJson(*object.bot_info_));
   }
@@ -17012,6 +22924,16 @@ void to_json(JsonValueScope &jv, const td_api::userPrivacySettingShowLinkInForwa
 void to_json(JsonValueScope &jv, const td_api::userPrivacySettingShowPhoneNumber &object) {
   auto jo = jv.enter_object();
   jo("@type", "userPrivacySettingShowPhoneNumber");
+}
+
+void to_json(JsonValueScope &jv, const td_api::userPrivacySettingShowBio &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "userPrivacySettingShowBio");
+}
+
+void to_json(JsonValueScope &jv, const td_api::userPrivacySettingShowBirthdate &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "userPrivacySettingShowBirthdate");
 }
 
 void to_json(JsonValueScope &jv, const td_api::userPrivacySettingAllowChatInvites &object) {
@@ -17051,6 +22973,11 @@ void to_json(JsonValueScope &jv, const td_api::userPrivacySettingRuleAllowAll &o
 void to_json(JsonValueScope &jv, const td_api::userPrivacySettingRuleAllowContacts &object) {
   auto jo = jv.enter_object();
   jo("@type", "userPrivacySettingRuleAllowContacts");
+}
+
+void to_json(JsonValueScope &jv, const td_api::userPrivacySettingRuleAllowPremiumUsers &object) {
+  auto jo = jv.enter_object();
+  jo("@type", "userPrivacySettingRuleAllowPremiumUsers");
 }
 
 void to_json(JsonValueScope &jv, const td_api::userPrivacySettingRuleAllowUsers &object) {
@@ -17117,16 +23044,19 @@ void to_json(JsonValueScope &jv, const td_api::userStatusOffline &object) {
 void to_json(JsonValueScope &jv, const td_api::userStatusRecently &object) {
   auto jo = jv.enter_object();
   jo("@type", "userStatusRecently");
+  jo("by_my_privacy_settings", JsonBool{object.by_my_privacy_settings_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::userStatusLastWeek &object) {
   auto jo = jv.enter_object();
   jo("@type", "userStatusLastWeek");
+  jo("by_my_privacy_settings", JsonBool{object.by_my_privacy_settings_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::userStatusLastMonth &object) {
   auto jo = jv.enter_object();
   jo("@type", "userStatusLastMonth");
+  jo("by_my_privacy_settings", JsonBool{object.by_my_privacy_settings_});
 }
 
 void to_json(JsonValueScope &jv, const td_api::userSupportInfo &object) {
@@ -17159,10 +23089,13 @@ void to_json(JsonValueScope &jv, const td_api::userTypeBot &object) {
   jo("can_be_edited", JsonBool{object.can_be_edited_});
   jo("can_join_groups", JsonBool{object.can_join_groups_});
   jo("can_read_all_group_messages", JsonBool{object.can_read_all_group_messages_});
+  jo("has_main_web_app", JsonBool{object.has_main_web_app_});
   jo("is_inline", JsonBool{object.is_inline_});
   jo("inline_query_placeholder", object.inline_query_placeholder_);
   jo("need_location", JsonBool{object.need_location_});
+  jo("can_connect_to_business", JsonBool{object.can_connect_to_business_});
   jo("can_be_added_to_attachment_menu", JsonBool{object.can_be_added_to_attachment_menu_});
+  jo("active_user_count", object.active_user_count_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::userTypeUnknown &object) {
@@ -17315,50 +23248,6 @@ void to_json(JsonValueScope &jv, const td_api::webAppInfo &object) {
   jo("@type", "webAppInfo");
   jo("launch_id", ToJson(JsonInt64{object.launch_id_}));
   jo("url", object.url_);
-}
-
-void to_json(JsonValueScope &jv, const td_api::webPage &object) {
-  auto jo = jv.enter_object();
-  jo("@type", "webPage");
-  jo("url", object.url_);
-  jo("display_url", object.display_url_);
-  jo("type", object.type_);
-  jo("site_name", object.site_name_);
-  jo("title", object.title_);
-  if (object.description_) {
-    jo("description", ToJson(*object.description_));
-  }
-  if (object.photo_) {
-    jo("photo", ToJson(*object.photo_));
-  }
-  jo("embed_url", object.embed_url_);
-  jo("embed_type", object.embed_type_);
-  jo("embed_width", object.embed_width_);
-  jo("embed_height", object.embed_height_);
-  jo("duration", object.duration_);
-  jo("author", object.author_);
-  if (object.animation_) {
-    jo("animation", ToJson(*object.animation_));
-  }
-  if (object.audio_) {
-    jo("audio", ToJson(*object.audio_));
-  }
-  if (object.document_) {
-    jo("document", ToJson(*object.document_));
-  }
-  if (object.sticker_) {
-    jo("sticker", ToJson(*object.sticker_));
-  }
-  if (object.video_) {
-    jo("video", ToJson(*object.video_));
-  }
-  if (object.video_note_) {
-    jo("video_note", ToJson(*object.video_note_));
-  }
-  if (object.voice_note_) {
-    jo("voice_note", ToJson(*object.voice_note_));
-  }
-  jo("instant_view_version", object.instant_view_version_);
 }
 
 void to_json(JsonValueScope &jv, const td_api::webPageInstantView &object) {

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -590,7 +590,7 @@ BENCHMARK_TEMPLATE(BM_mask, td::MaskSse2);
 #endif
 
 template <class KeyT, class ValueT, class HashT = td::Hash<KeyT>, class EqT = std::equal_to<KeyT>>
-using FlatHashMapImpl = td::FlatHashTable<td::MapNode<KeyT, ValueT>, HashT, EqT>;
+using FlatHashMapImpl = td::FlatHashTable<td::MapNode<KeyT, ValueT, EqT>, HashT, EqT>;
 
 #define FOR_EACH_TABLE(F)  \
   F(FlatHashMapImpl)       \

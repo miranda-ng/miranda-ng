@@ -121,7 +121,7 @@ public:
 				auto *pUser = m_proto->FindUser(m_proto->GetId(hContact));
 
 				TD::array<TD::int53> ids = message_ids;
-				m_proto->SendQuery(new TD::forwardMessages(pUser->chatId, 0, pMe->chatId, std::move(ids), 0, false, false, false));
+				m_proto->SendQuery(new TD::forwardMessages(pUser->chatId, 0, pMe->chatId, std::move(ids), 0, false, false));
 			}
 		}
 

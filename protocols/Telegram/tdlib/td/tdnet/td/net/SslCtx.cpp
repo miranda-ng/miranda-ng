@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -256,7 +256,7 @@ class SslCtxImpl {
     auto r_ssl_ctx_ptr = do_create_ssl_ctx(cert_file, verify_peer);
     auto elapsed_time = Time::now() - start_time;
     if (elapsed_time >= 0.1) {
-      LOG(ERROR) << "SSL context creation took " << elapsed_time << " seconds";
+      LOG(WARNING) << "SSL context creation took " << elapsed_time << " seconds";
     }
     if (r_ssl_ctx_ptr.is_error()) {
       return r_ssl_ctx_ptr.move_as_error();

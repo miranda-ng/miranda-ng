@@ -1,18 +1,21 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
+#include "td/telegram/ChannelId.h"
 #include "td/telegram/DialogId.h"
 #include "td/telegram/files/FileId.h"
 #include "td/telegram/files/FileSourceId.h"
-#include "td/telegram/FullMessageId.h"
-#include "td/telegram/SecretInputMedia.h"
+#include "td/telegram/MessageFullId.h"
+#include "td/telegram/QuickReplyMessageFullId.h"
+#include "td/telegram/StoryFullId.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
+#include "td/telegram/UserId.h"
 #include "td/telegram/WebPageId.h"
 
 #include "td/actor/actor.h"
@@ -44,28 +47,47 @@ class WebPagesManager final : public Actor {
   WebPagesManager &operator=(WebPagesManager &&) = delete;
   ~WebPagesManager() final;
 
+  struct GetWebPagePreviewOptions {
+    string first_url_;
+    bool skip_confirmation_ = false;
+    td_api::object_ptr<td_api::linkPreviewOptions> link_preview_options_;
+  };
+
+  static string get_web_page_url(const tl_object_ptr<telegram_api::WebPage> &web_page_ptr);
+
   WebPageId on_get_web_page(tl_object_ptr<telegram_api::WebPage> &&web_page_ptr, DialogId owner_dialog_id);
 
   void on_get_web_page_by_url(const string &url, WebPageId web_page_id, bool from_database);
 
   void on_get_web_page_instant_view_view_count(WebPageId web_page_id, int32 view_count);
 
-  void register_web_page(WebPageId web_page_id, FullMessageId full_message_id, const char *source);
+  void register_web_page(WebPageId web_page_id, MessageFullId message_full_id, const char *source);
 
-  void unregister_web_page(WebPageId web_page_id, FullMessageId full_message_id, const char *source);
+  void unregister_web_page(WebPageId web_page_id, MessageFullId message_full_id, const char *source);
+
+  void register_quick_reply_web_page(WebPageId web_page_id, QuickReplyMessageFullId message_full_id,
+                                     const char *source);
+
+  void unregister_quick_reply_web_page(WebPageId web_page_id, QuickReplyMessageFullId message_full_id,
+                                       const char *source);
 
   bool have_web_page(WebPageId web_page_id) const;
 
   bool have_web_page_force(WebPageId web_page_id);
 
-  tl_object_ptr<td_api::webPage> get_web_page_object(WebPageId web_page_id) const;
+  td_api::object_ptr<td_api::linkPreview> get_link_preview_object(WebPageId web_page_id, bool force_small_media,
+                                                                  bool force_large_media, bool skip_confirmation,
+                                                                  bool invert_media) const;
 
-  tl_object_ptr<td_api::webPageInstantView> get_web_page_instant_view_object(WebPageId web_page_id) const;
+  td_api::object_ptr<td_api::webPageInstantView> get_web_page_instant_view_object(WebPageId web_page_id) const;
 
   void get_web_page_preview(td_api::object_ptr<td_api::formattedText> &&text,
-                            Promise<td_api::object_ptr<td_api::webPage>> &&promise);
+                            td_api::object_ptr<td_api::linkPreviewOptions> &&link_preview_options,
+                            Promise<td_api::object_ptr<td_api::linkPreview>> &&promise);
 
   void get_web_page_instant_view(const string &url, bool force_full, Promise<WebPageId> &&promise);
+
+  string get_web_page_url(WebPageId web_page_id) const;
 
   WebPageId get_web_page_by_url(const string &url) const;
 
@@ -73,10 +95,9 @@ class WebPagesManager final : public Actor {
 
   void reload_web_page_by_url(const string &url, Promise<WebPageId> &&promise);
 
-  void on_get_web_page_preview(const string &url, tl_object_ptr<telegram_api::MessageMedia> &&message_media_ptr,
-                               Promise<td_api::object_ptr<td_api::webPage>> &&promise);
-
-  SecretInputMedia get_secret_input_media(WebPageId web_page_id) const;
+  void on_get_web_page_preview(unique_ptr<GetWebPagePreviewOptions> &&options,
+                               tl_object_ptr<telegram_api::MessageMedia> &&message_media_ptr,
+                               Promise<td_api::object_ptr<td_api::linkPreview>> &&promise);
 
   void on_binlog_web_page_event(BinlogEvent &&event);
 
@@ -85,6 +106,14 @@ class WebPagesManager final : public Actor {
   string get_web_page_search_text(WebPageId web_page_id) const;
 
   int32 get_web_page_media_duration(WebPageId web_page_id) const;
+
+  StoryFullId get_web_page_story_full_id(WebPageId web_page_id) const;
+
+  vector<UserId> get_web_page_user_ids(WebPageId web_page_id) const;
+
+  vector<ChannelId> get_web_page_channel_ids(WebPageId web_page_id) const;
+
+  void on_story_changed(StoryFullId story_full_id);
 
  private:
   class WebPage;
@@ -109,15 +138,20 @@ class WebPagesManager final : public Actor {
 
   void get_web_page_instant_view_impl(WebPageId web_page_id, bool force_full, Promise<WebPageId> &&promise);
 
-  tl_object_ptr<td_api::webPageInstantView> get_web_page_instant_view_object(
+  td_api::object_ptr<td_api::LinkPreviewType> get_link_preview_type_album_object(
+      const WebPageInstantView &instant_view) const;
+
+  td_api::object_ptr<td_api::LinkPreviewType> get_link_preview_type_object(const WebPage *web_page) const;
+
+  td_api::object_ptr<td_api::webPageInstantView> get_web_page_instant_view_object(
       WebPageId web_page_id, const WebPageInstantView *web_page_instant_view, Slice web_page_url) const;
 
   static void on_pending_web_page_timeout_callback(void *web_pages_manager_ptr, int64 web_page_id_int);
 
   void on_pending_web_page_timeout(WebPageId web_page_id);
 
-  void on_get_web_page_preview_success(const string &url, WebPageId web_page_id,
-                                       Promise<td_api::object_ptr<td_api::webPage>> &&promise);
+  void on_get_web_page_preview_success(unique_ptr<GetWebPagePreviewOptions> &&options, WebPageId web_page_id,
+                                       Promise<td_api::object_ptr<td_api::linkPreview>> &&promise);
 
   void on_get_web_page_instant_view(WebPage *web_page, tl_object_ptr<telegram_api::page> &&page, int32 hash,
                                     DialogId owner_dialog_id);
@@ -156,11 +190,15 @@ class WebPagesManager final : public Actor {
 
   void tear_down() final;
 
-  static int32 get_web_page_media_duration(const WebPage *web_page);
+  int32 get_web_page_media_duration(const WebPage *web_page) const;
 
   FileSourceId get_web_page_file_source_id(WebPage *web_page);
 
   vector<FileId> get_web_page_file_ids(const WebPage *web_page) const;
+
+  static bool can_web_page_be_album(const WebPage *web_page);
+
+  static bool is_web_page_album(const WebPage *web_page);
 
   Td *td_;
   ActorShared<> parent_;
@@ -175,12 +213,18 @@ class WebPagesManager final : public Actor {
   };
   FlatHashMap<WebPageId, PendingWebPageInstantViewQueries, WebPageIdHash> load_web_page_instant_view_queries_;
 
-  FlatHashMap<WebPageId, FlatHashSet<FullMessageId, FullMessageIdHash>, WebPageIdHash> web_page_messages_;
+  FlatHashMap<WebPageId, FlatHashSet<MessageFullId, MessageFullIdHash>, WebPageIdHash> web_page_messages_;
+  FlatHashMap<WebPageId, FlatHashSet<QuickReplyMessageFullId, QuickReplyMessageFullIdHash>, WebPageIdHash>
+      web_page_quick_reply_messages_;
 
-  FlatHashMap<WebPageId, vector<std::pair<string, Promise<td_api::object_ptr<td_api::webPage>>>>, WebPageIdHash>
+  FlatHashMap<WebPageId,
+              vector<std::pair<unique_ptr<GetWebPagePreviewOptions>, Promise<td_api::object_ptr<td_api::linkPreview>>>>,
+              WebPageIdHash>
       pending_get_web_pages_;
 
-  FlatHashMap<string, WebPageId> url_to_web_page_id_;
+  FlatHashMap<StoryFullId, FlatHashSet<WebPageId, WebPageIdHash>, StoryFullIdHash> story_web_pages_;
+
+  FlatHashMap<string, std::pair<WebPageId, bool>> url_to_web_page_id_;  // URL -> [WebPageId, from_database]
 
   FlatHashMap<string, FileSourceId> url_to_file_source_id_;
 

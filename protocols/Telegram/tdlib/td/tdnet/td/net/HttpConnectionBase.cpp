@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -102,7 +102,7 @@ void HttpConnectionBase::loop() {
     LOG(DEBUG) << "Can read from the connection";
     auto r = fd_.flush_read();
     if (r.is_error()) {
-      if (!begins_with(r.error().message(), "SSL error {336134278")) {  // if error is not yet outputed
+      if (!begins_with(r.error().message(), "SSL error {336134278")) {  // if error is not yet outputted
         LOG(INFO) << "Receive flush_read error: " << r.error();
       }
       on_error(Status::Error(r.error().public_message()));

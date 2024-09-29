@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,7 +15,7 @@
 #include <utility>
 
 namespace td {
-// A simple wrapper for absl::flat_hash_map, std::unordered_map and probably some our implementaion of hash map in
+// A simple wrapper for absl::flat_hash_map, std::unordered_map and probably some our implementation of hash map in
 // the future
 
 // We will introduce out own Hashing utility like an absl one.

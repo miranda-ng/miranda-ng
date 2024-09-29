@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -13,9 +13,9 @@
 
 namespace td {
 
-template <class KeyT>
+template <class EqT, class KeyT>
 bool is_hash_table_key_empty(const KeyT &key) {
-  return key == KeyT();
+  return EqT()(key, KeyT());
 }
 
 inline uint32 randomize_hash(uint32 h) {
@@ -67,6 +67,10 @@ inline uint32 Hash<uint64>::operator()(const uint64 &value) const {
 template <>
 inline uint32 Hash<string>::operator()(const string &value) const {
   return static_cast<uint32>(std::hash<string>()(value));
+}
+
+inline uint32 combine_hashes(uint32 first_hash, uint32 second_hash) {
+  return first_hash * 2023654985u + second_hash;
 }
 
 }  // namespace td

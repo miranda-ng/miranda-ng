@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,10 +7,12 @@
 #pragma once
 
 #include "td/utils/common.h"
+#include "td/utils/FlatHashMap.h"
 #include "td/utils/HashTableUtils.h"
 #include "td/utils/Promise.h"
 #include "td/utils/Slice.h"
 
+#include <functional>
 #include <unordered_map>
 
 namespace td {
@@ -34,9 +36,11 @@ class KeyValueSyncInterface {
 
   virtual string get(const string &key) = 0;
 
+  virtual void for_each(std::function<void(Slice, Slice)> func) = 0;
+
   virtual std::unordered_map<string, string, Hash<string>> prefix_get(Slice prefix) = 0;
 
-  virtual std::unordered_map<string, string, Hash<string>> get_all() = 0;
+  virtual FlatHashMap<string, string> get_all() = 0;
 
   virtual SeqNo erase(const string &key) = 0;
 
@@ -44,7 +48,7 @@ class KeyValueSyncInterface {
 
   virtual void erase_by_prefix(Slice prefix) = 0;
 
-  virtual void force_sync(Promise<> &&promise) = 0;
+  virtual void force_sync(Promise<> &&promise, const char *source) = 0;
 
   virtual void close(Promise<> promise) = 0;
 };

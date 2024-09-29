@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,6 +11,7 @@
 #include "td/db/DbKey.h"
 #include "td/db/KeyValueSyncInterface.h"
 
+#include "td/utils/common.h"
 #include "td/utils/Promise.h"
 #include "td/utils/Slice.h"
 #include "td/utils/Status.h"
@@ -38,6 +39,9 @@ class SqliteConnectionSafe;
 class SqliteKeyValueSafe;
 class SqliteKeyValueAsyncInterface;
 class SqliteKeyValue;
+class StoryDbSyncInterface;
+class StoryDbSyncSafeInterface;
+class StoryDbAsyncInterface;
 
 class TdDb {
  public:
@@ -68,10 +72,12 @@ class TdDb {
     vector<BinlogEvent> secret_chat_events;
     vector<BinlogEvent> web_page_events;
     vector<BinlogEvent> save_app_log_events;
-    vector<BinlogEvent> to_poll_manager;
+    vector<BinlogEvent> to_account_manager;
     vector<BinlogEvent> to_messages_manager;
     vector<BinlogEvent> to_notification_manager;
     vector<BinlogEvent> to_notification_settings_manager;
+    vector<BinlogEvent> to_poll_manager;
+    vector<BinlogEvent> to_story_manager;
 
     int64 since_last_open = 0;
   };
@@ -128,8 +134,7 @@ class TdDb {
 
   void flush_all();
 
-  void close_all(Promise<> on_finished);
-  void close_and_destroy_all(Promise<> on_finished);
+  void close(int32 scheduler_id, bool destroy_flag, Promise<Unit> on_finished);
 
   MessageDbSyncInterface *get_message_db_sync();
   MessageDbAsyncInterface *get_message_db_async();
@@ -139,6 +144,11 @@ class TdDb {
 
   DialogDbSyncInterface *get_dialog_db_sync();
   DialogDbAsyncInterface *get_dialog_db_async();
+
+  StoryDbSyncInterface *get_story_db_sync();
+  StoryDbAsyncInterface *get_story_db_async();
+
+  static DbKey as_db_key(string key);
 
   void change_key(DbKey key, Promise<> promise);
 
@@ -167,6 +177,9 @@ class TdDb {
   std::shared_ptr<DialogDbSyncSafeInterface> dialog_db_sync_safe_;
   std::shared_ptr<DialogDbAsyncInterface> dialog_db_async_;
 
+  std::shared_ptr<StoryDbSyncSafeInterface> story_db_sync_safe_;
+  std::shared_ptr<StoryDbAsyncInterface> story_db_async_;
+
   std::shared_ptr<BinlogKeyValue<ConcurrentBinlog>> binlog_pmc_;
   std::shared_ptr<BinlogKeyValue<ConcurrentBinlog>> config_pmc_;
   std::shared_ptr<ConcurrentBinlog> binlog_;
@@ -178,7 +191,7 @@ class TdDb {
   Status init_sqlite(const Parameters &parameters, const DbKey &key, const DbKey &old_key,
                      BinlogKeyValue<Binlog> &binlog_pmc);
 
-  void do_close(Promise<> on_finished, bool destroy_flag);
+  void do_close(bool destroy_flag, Promise<Unit> on_finished);
 };
 
 }  // namespace td

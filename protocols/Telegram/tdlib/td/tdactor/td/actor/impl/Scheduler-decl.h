@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -38,8 +38,6 @@ namespace td {
 extern int VERBOSITY_NAME(actor);
 
 class ActorInfo;
-
-enum class ActorSendType { Immediate, Later };
 
 class Scheduler;
 class SchedulerGuard {
@@ -103,17 +101,27 @@ class Scheduler {
   template <class T>
   void destroy_on_scheduler(int32 sched_id, T &value);
 
+  template <class T>
+  void destroy_on_scheduler_unique_ptr(int32 sched_id, T &value);
+
   template <class... ArgsT>
   void destroy_on_scheduler(int32 sched_id, ArgsT &...values);
 
-  template <ActorSendType send_type, class EventT>
-  void send_lambda(ActorRef actor_ref, EventT &&lambda);
+  template <class EventT>
+  void send_lambda_immediately(ActorRef actor_ref, EventT &&func);
 
-  template <ActorSendType send_type, class EventT>
-  void send_closure(ActorRef actor_ref, EventT &&closure);
+  template <class EventT>
+  void send_lambda_later(ActorRef actor_ref, EventT &&func);
 
-  template <ActorSendType send_type>
-  void send(ActorRef actor_ref, Event &&event);
+  template <class EventT>
+  void send_closure_immediately(ActorRef actor_ref, EventT &&closure);
+
+  template <class EventT>
+  void send_closure_later(ActorRef actor_ref, EventT &&closure);
+
+  void send_immediately(ActorRef actor_ref, Event &&event);
+
+  void send_later(ActorRef actor_ref, Event &&event);
 
   void before_tail_send(const ActorId<> &actor_id);
 
@@ -194,11 +202,15 @@ class Scheduler {
   void add_to_mailbox(ActorInfo *actor_info, Event &&event);
   void clear_mailbox(ActorInfo *actor_info);
 
-  template <class RunFuncT, class EventFuncT>
-  void flush_mailbox(ActorInfo *actor_info, const RunFuncT &run_func, const EventFuncT &event_func);
+  void flush_mailbox(ActorInfo *actor_info);
 
-  template <ActorSendType send_type, class RunFuncT, class EventFuncT>
-  void send_impl(const ActorId<> &actor_id, const RunFuncT &run_func, const EventFuncT &event_func);
+  void get_actor_sched_id_to_send_immediately(const ActorInfo *actor_info, int32 &actor_sched_id,
+                                              bool &on_current_sched, bool &can_send_immediately);
+
+  template <class RunFuncT, class EventFuncT>
+  void send_immediately_impl(const ActorId<> &actor_id, const RunFuncT &run_func, const EventFuncT &event_func);
+
+  void send_later_impl(const ActorId<> &actor_id, Event &&event);
 
   Timestamp run_timeout();
   void run_mailbox();
@@ -270,8 +282,8 @@ void send_closure(ActorIdT &&actor_id, FunctionT function, ArgsT &&...args) {
   using FunctionClassT = member_function_class_t<FunctionT>;
   static_assert(std::is_base_of<FunctionClassT, ActorT>::value, "unsafe send_closure");
 
-  Scheduler::instance()->send_closure<ActorSendType::Immediate>(
-      std::forward<ActorIdT>(actor_id), create_immediate_closure(function, std::forward<ArgsT>(args)...));
+  Scheduler::instance()->send_closure_immediately(std::forward<ActorIdT>(actor_id),
+                                                  create_immediate_closure(function, std::forward<ArgsT>(args)...));
 }
 
 template <class ActorIdT, class FunctionT, class... ArgsT>
@@ -280,23 +292,23 @@ void send_closure_later(ActorIdT &&actor_id, FunctionT function, ArgsT &&...args
   using FunctionClassT = member_function_class_t<FunctionT>;
   static_assert(std::is_base_of<FunctionClassT, ActorT>::value, "unsafe send_closure");
 
-  Scheduler::instance()->send<ActorSendType::Later>(std::forward<ActorIdT>(actor_id),
-                                                    Event::delayed_closure(function, std::forward<ArgsT>(args)...));
+  Scheduler::instance()->send_later(std::forward<ActorIdT>(actor_id),
+                                    Event::delayed_closure(function, std::forward<ArgsT>(args)...));
 }
 
 template <class... ArgsT>
 void send_lambda(ActorRef actor_ref, ArgsT &&...args) {
-  Scheduler::instance()->send_lambda<ActorSendType::Immediate>(actor_ref, std::forward<ArgsT>(args)...);
+  Scheduler::instance()->send_lambda_immediately(actor_ref, std::forward<ArgsT>(args)...);
 }
 
 template <class... ArgsT>
 void send_event(ActorRef actor_ref, ArgsT &&...args) {
-  Scheduler::instance()->send<ActorSendType::Immediate>(actor_ref, std::forward<ArgsT>(args)...);
+  Scheduler::instance()->send_immediately(actor_ref, std::forward<ArgsT>(args)...);
 }
 
 template <class... ArgsT>
 void send_event_later(ActorRef actor_ref, ArgsT &&...args) {
-  Scheduler::instance()->send<ActorSendType::Later>(actor_ref, std::forward<ArgsT>(args)...);
+  Scheduler::instance()->send_later(actor_ref, std::forward<ArgsT>(args)...);
 }
 
 }  // namespace td

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -83,8 +83,12 @@ class TL_writer {
 
   virtual std::string gen_int_const(const tl_tree *tree_c, const std::vector<var_description> &vars) const = 0;
 
-  virtual std::string gen_output_begin() const = 0;
+  virtual std::string gen_output_begin(const std::string &additional_imports) const = 0;
+  virtual std::string gen_output_begin_once() const = 0;
   virtual std::string gen_output_end() const = 0;
+
+  virtual std::string gen_import_declaration(const std::string &name, bool is_system) const = 0;
+  virtual std::string gen_package_suffix() const = 0;
 
   virtual std::string gen_forward_class_declaration(const std::string &class_name, bool is_proxy) const = 0;
 

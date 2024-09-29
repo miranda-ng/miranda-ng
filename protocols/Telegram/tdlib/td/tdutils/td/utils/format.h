@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -216,7 +216,7 @@ struct Array {
 template <class ArrayT>
 StringBuilder &operator<<(StringBuilder &stream, const Array<ArrayT> &array) {
   bool first = true;
-  stream << Slice("{");
+  stream << '{';
   for (auto &x : array.ref) {
     if (!first) {
       stream << Slice(", ");
@@ -224,12 +224,12 @@ StringBuilder &operator<<(StringBuilder &stream, const Array<ArrayT> &array) {
     stream << x;
     first = false;
   }
-  return stream << Slice("}");
+  return stream << '}';
 }
 
 inline StringBuilder &operator<<(StringBuilder &stream, const Array<vector<bool>> &array) {
   bool first = true;
-  stream << Slice("{");
+  stream << '{';
   for (bool x : array.ref) {
     if (!first) {
       stream << Slice(", ");
@@ -237,7 +237,7 @@ inline StringBuilder &operator<<(StringBuilder &stream, const Array<vector<bool>
     stream << x;
     first = false;
   }
-  return stream << Slice("}");
+  return stream << '}';
 }
 
 template <class ArrayT>
@@ -254,7 +254,7 @@ struct Tagged {
 
 template <class ValueT>
 StringBuilder &operator<<(StringBuilder &stream, const Tagged<ValueT> &tagged) {
-  return stream << "[" << tagged.tag << ":" << tagged.ref << "]";
+  return stream << '[' << tagged.tag << ':' << tagged.ref << ']';
 }
 
 template <class ValueT>
@@ -305,34 +305,8 @@ auto concat(const ArgsT &...args) {
   return Concat<decltype(std::tie(args...))>{std::tie(args...)};
 }
 
-template <class F>
-struct Lambda {
-  const F &f;
-};
-
-template <class F>
-StringBuilder &operator<<(StringBuilder &sb, const Lambda<F> &f) {
-  f.f(sb);
-  return sb;
-}
-
-template <class LambdaT>
-Lambda<LambdaT> lambda(const LambdaT &lambda) {
-  return Lambda<LambdaT>{lambda};
-}
-
 }  // namespace format
 
 using format::tag;
-
-template <class A, class B>
-StringBuilder &operator<<(StringBuilder &sb, const std::pair<A, B> &p) {
-  return sb << "[" << p.first << ";" << p.second << "]";
-}
-
-template <class T>
-StringBuilder &operator<<(StringBuilder &stream, const vector<T> &vec) {
-  return stream << format::as_array(vec);
-}
 
 }  // namespace td

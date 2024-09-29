@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,9 +8,11 @@
 
 #include "td/telegram/ChannelId.h"
 #include "td/telegram/DialogId.h"
-#include "td/telegram/FullMessageId.h"
+#include "td/telegram/MessageFullId.h"
 #include "td/telegram/MessageId.h"
+#include "td/telegram/MessageReactor.h"
 #include "td/telegram/MinChannel.h"
+#include "td/telegram/ReactionType.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
 #include "td/telegram/UserId.h"
@@ -33,9 +35,10 @@ class MessageReaction {
 
   static constexpr size_t MAX_RECENT_CHOOSERS = 3;
 
-  string reaction_;
+  ReactionType reaction_type_;
   int32 choose_count_ = 0;
   bool is_chosen_ = false;
+  DialogId my_recent_chooser_dialog_id_;
   vector<DialogId> recent_chooser_dialog_ids_;
   vector<std::pair<ChannelId, MinChannel>> recent_chooser_min_channels_;
 
@@ -45,14 +48,9 @@ class MessageReaction {
 
   friend struct MessageReactions;
 
-  MessageReaction(string reaction, int32 choose_count, bool is_chosen, vector<DialogId> &&recent_chooser_dialog_ids,
-                  vector<std::pair<ChannelId, MinChannel>> &&recent_chooser_min_channels)
-      : reaction_(std::move(reaction))
-      , choose_count_(choose_count)
-      , is_chosen_(is_chosen)
-      , recent_chooser_dialog_ids_(std::move(recent_chooser_dialog_ids))
-      , recent_chooser_min_channels_(std::move(recent_chooser_min_channels)) {
-  }
+  MessageReaction(ReactionType reaction_type, int32 choose_count, bool is_chosen, DialogId my_recent_chooser_dialog_id,
+                  vector<DialogId> &&recent_chooser_dialog_ids,
+                  vector<std::pair<ChannelId, MinChannel>> &&recent_chooser_min_channels);
 
   bool is_empty() const {
     return choose_count_ <= 0;
@@ -62,16 +60,30 @@ class MessageReaction {
     return is_chosen_;
   }
 
-  void set_is_chosen(bool is_chosen, DialogId chooser_dialog_id, bool have_recent_choosers);
+  void set_as_chosen(DialogId my_dialog_id, bool have_recent_choosers);
 
-  void add_recent_chooser_dialog_id(DialogId dialog_id);
+  void unset_as_chosen();
 
-  bool remove_recent_chooser_dialog_id(DialogId dialog_id);
+  void add_paid_reaction(int32 star_count);
+
+  void add_my_recent_chooser_dialog_id(DialogId dialog_id);
+
+  bool remove_my_recent_chooser_dialog_id();
+
+  void update_from(const MessageReaction &old_reaction);
 
   void update_recent_chooser_dialog_ids(const MessageReaction &old_reaction);
 
   int32 get_choose_count() const {
     return choose_count_;
+  }
+
+  void fix_choose_count();
+
+  void set_my_recent_chooser_dialog_id(DialogId my_dialog_id);
+
+  DialogId get_my_recent_chooser_dialog_id() const {
+    return my_recent_chooser_dialog_id_;
   }
 
   const vector<DialogId> &get_recent_chooser_dialog_ids() const {
@@ -88,8 +100,8 @@ class MessageReaction {
  public:
   MessageReaction() = default;
 
-  const string &get_reaction() const {
-    return reaction_;
+  const ReactionType &get_reaction_type() const {
+    return reaction_type_;
   }
 
   template <class StorerT>
@@ -108,7 +120,7 @@ inline bool operator!=(const MessageReaction &lhs, const MessageReaction &rhs) {
 StringBuilder &operator<<(StringBuilder &string_builder, const MessageReaction &reaction);
 
 class UnreadMessageReaction {
-  string reaction_;
+  ReactionType reaction_type_;
   DialogId sender_dialog_id_;
   bool is_big_ = false;
 
@@ -119,8 +131,8 @@ class UnreadMessageReaction {
  public:
   UnreadMessageReaction() = default;
 
-  UnreadMessageReaction(string reaction, DialogId sender_dialog_id, bool is_big)
-      : reaction_(std::move(reaction)), sender_dialog_id_(sender_dialog_id), is_big_(is_big) {
+  UnreadMessageReaction(ReactionType reaction_type, DialogId sender_dialog_id, bool is_big)
+      : reaction_type_(std::move(reaction_type)), sender_dialog_id_(sender_dialog_id), is_big_(is_big) {
   }
 
   td_api::object_ptr<td_api::unreadReaction> get_unread_reaction_object(Td *td) const;
@@ -143,38 +155,56 @@ StringBuilder &operator<<(StringBuilder &string_builder, const UnreadMessageReac
 struct MessageReactions {
   vector<MessageReaction> reactions_;
   vector<UnreadMessageReaction> unread_reactions_;
-  vector<string> chosen_reaction_order_;
+  vector<ReactionType> chosen_reaction_order_;
+  vector<MessageReactor> top_reactors_;
+  int32 pending_paid_reactions_ = 0;
+  bool pending_use_default_is_anonymous_ = false;
+  bool pending_is_anonymous_ = false;
   bool is_min_ = false;
   bool need_polling_ = true;
   bool can_get_added_reactions_ = false;
+  bool are_tags_ = false;
 
   MessageReactions() = default;
 
-  static unique_ptr<MessageReactions> get_message_reactions(Td *td,
-                                                            tl_object_ptr<telegram_api::messageReactions> &&reactions,
-                                                            bool is_bot);
+  bool are_empty() const;
 
-  MessageReaction *get_reaction(const string &reaction);
+  static unique_ptr<MessageReactions> get_message_reactions(
+      Td *td, telegram_api::object_ptr<telegram_api::messageReactions> &&reactions, bool is_bot);
 
-  const MessageReaction *get_reaction(const string &reaction) const;
+  MessageReaction *get_reaction(const ReactionType &reaction_type);
 
-  void update_from(const MessageReactions &old_reactions);
+  const MessageReaction *get_reaction(const ReactionType &reaction_type) const;
 
-  bool add_reaction(const string &reaction, bool is_big, DialogId chooser_dialog_id, bool have_recent_choosers);
+  void update_from(const MessageReactions &old_reactions, DialogId my_dialog_id);
 
-  bool remove_reaction(const string &reaction, DialogId chooser_dialog_id, bool have_recent_choosers);
+  bool add_my_reaction(const ReactionType &reaction_type, bool is_big, DialogId my_dialog_id, bool have_recent_choosers,
+                       bool is_tag);
 
-  void sort_reactions(const FlatHashMap<string, size_t> &active_reaction_pos);
+  bool remove_my_reaction(const ReactionType &reaction_type, DialogId my_dialog_id);
 
-  void fix_chosen_reaction(DialogId my_dialog_id);
+  void add_my_paid_reaction(Td *td, int32 star_count, bool use_default_is_anonymous, bool is_anonymous);
 
-  vector<string> get_chosen_reactions() const;
+  bool has_pending_paid_reactions() const;
 
-  bool are_consistent_with_list(const string &reaction, FlatHashMap<string, vector<DialogId>> reactions,
+  void drop_pending_paid_reactions(Td *td);
+
+  void sort_reactions(const FlatHashMap<ReactionType, size_t, ReactionTypeHash> &active_reaction_pos);
+
+  void fix_chosen_reaction();
+
+  void fix_my_recent_chooser_dialog_id(DialogId my_dialog_id);
+
+  vector<ReactionType> get_chosen_reaction_types() const;
+
+  bool are_consistent_with_list(const ReactionType &reaction_type,
+                                FlatHashMap<ReactionType, vector<DialogId>, ReactionTypeHash> reaction_types,
                                 int32 total_count) const;
 
-  vector<td_api::object_ptr<td_api::messageReaction>> get_message_reactions_object(Td *td, UserId my_user_id,
-                                                                                   UserId peer_user_id) const;
+  td_api::object_ptr<td_api::messageReactions> get_message_reactions_object(Td *td, UserId my_user_id,
+                                                                            UserId peer_user_id) const;
+
+  int32 get_non_paid_reaction_count() const;
 
   void add_min_channels(Td *td) const;
 
@@ -186,6 +216,11 @@ struct MessageReactions {
   static bool need_update_unread_reactions(const MessageReactions *old_reactions,
                                            const MessageReactions *new_reactions);
 
+  void send_paid_message_reaction(Td *td, MessageFullId message_full_id, int64 random_id, Promise<Unit> &&promise);
+
+  bool toggle_paid_message_reaction_is_anonymous(Td *td, MessageFullId message_full_id, bool is_anonymous,
+                                                 Promise<Unit> &&promise);
+
   template <class StorerT>
   void store(StorerT &storer) const;
 
@@ -193,48 +228,31 @@ struct MessageReactions {
   void parse(ParserT &parser);
 
  private:
-  bool do_remove_reaction(const string &reaction, DialogId chooser_dialog_id, bool have_recent_choosers);
+  bool do_remove_my_reaction(const ReactionType &reaction_type);
+
+  vector<MessageReactor> apply_reactor_pending_paid_reactions(DialogId my_dialog_id) const;
 };
 
 StringBuilder &operator<<(StringBuilder &string_builder, const MessageReactions &reactions);
 
 StringBuilder &operator<<(StringBuilder &string_builder, const unique_ptr<MessageReactions> &reactions);
 
-telegram_api::object_ptr<telegram_api::Reaction> get_input_reaction(const string &reaction);
-
-td_api::object_ptr<td_api::ReactionType> get_reaction_type_object(const string &reaction);
-
-string get_message_reaction_string(const telegram_api::object_ptr<telegram_api::Reaction> &reaction);
-
-string get_message_reaction_string(const td_api::object_ptr<td_api::ReactionType> &type);
-
-bool is_custom_reaction(const string &reaction);
-
-bool is_active_reaction(const string &reaction, const FlatHashMap<string, size_t> &active_reaction_pos);
-
 void reload_message_reactions(Td *td, DialogId dialog_id, vector<MessageId> &&message_ids);
 
-void send_message_reaction(Td *td, FullMessageId full_message_id, vector<string> reactions, bool is_big,
+void send_message_reaction(Td *td, MessageFullId message_full_id, vector<ReactionType> reaction_types, bool is_big,
                            bool add_to_recent, Promise<Unit> &&promise);
 
-void get_message_added_reactions(Td *td, FullMessageId full_message_id, string reaction, string offset, int32 limit,
-                                 Promise<td_api::object_ptr<td_api::addedReactions>> &&promise);
+void set_message_reactions(Td *td, MessageFullId message_full_id, vector<ReactionType> reaction_types, bool is_big,
+                           Promise<Unit> &&promise);
 
-void set_default_reaction(Td *td, string reaction, Promise<Unit> &&promise);
+void reload_paid_reaction_privacy(Td *td);
 
-void send_set_default_reaction_query(Td *td);
+void get_message_added_reactions(Td *td, MessageFullId message_full_id, ReactionType reaction_type, string offset,
+                                 int32 limit, Promise<td_api::object_ptr<td_api::addedReactions>> &&promise);
 
-td_api::object_ptr<td_api::updateDefaultReactionType> get_update_default_reaction_type(const string &default_reaction);
-
-void report_message_reactions(Td *td, FullMessageId full_message_id, DialogId chooser_dialog_id,
+void report_message_reactions(Td *td, MessageFullId message_full_id, DialogId chooser_dialog_id,
                               Promise<Unit> &&promise);
 
-vector<string> get_recent_reactions(Td *td);
-
-vector<string> get_top_reactions(Td *td);
-
-void add_recent_reaction(Td *td, const string &reaction);
-
-int64 get_reactions_hash(const vector<string> &reactions);
+vector<ReactionType> get_chosen_tags(const unique_ptr<MessageReactions> &message_reactions);
 
 }  // namespace td

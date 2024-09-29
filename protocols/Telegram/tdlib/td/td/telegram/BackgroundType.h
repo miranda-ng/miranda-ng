@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,6 +28,9 @@ class BackgroundFill {
   }
   BackgroundFill(int32 top_color, int32 bottom_color, int32 rotation_angle)
       : top_color_(top_color), bottom_color_(bottom_color), rotation_angle_(rotation_angle) {
+    if (get_type() != Type::Gradient) {
+      rotation_angle_ = 0;
+    }
   }
   BackgroundFill(int32 first_color, int32 second_color, int32 third_color, int32 fourth_color)
       : top_color_(first_color), bottom_color_(second_color), third_color_(third_color), fourth_color_(fourth_color) {
@@ -54,6 +57,8 @@ class BackgroundFill {
 
   friend bool operator==(const BackgroundFill &lhs, const BackgroundFill &rhs);
 
+  friend StringBuilder &operator<<(StringBuilder &string_builder, const BackgroundFill &fill);
+
   friend class BackgroundType;
 
   static Result<BackgroundFill> get_background_fill(Slice name);
@@ -63,13 +68,16 @@ class BackgroundFill {
 
 bool operator==(const BackgroundFill &lhs, const BackgroundFill &rhs);
 
+StringBuilder &operator<<(StringBuilder &string_builder, const BackgroundFill &fill);
+
 class BackgroundType {
-  enum class Type : int32 { Wallpaper, Pattern, Fill };
+  enum class Type : int32 { Wallpaper, Pattern, Fill, ChatTheme };
   Type type_ = Type::Fill;
   bool is_blurred_ = false;
   bool is_moving_ = false;
   int32 intensity_ = 0;
   BackgroundFill fill_;
+  string theme_name_;
 
   friend bool operator==(const BackgroundType &lhs, const BackgroundType &rhs);
 
@@ -84,11 +92,13 @@ class BackgroundType {
   BackgroundType(BackgroundFill &&fill, int32 dark_theme_dimming)
       : type_(Type::Fill), intensity_(dark_theme_dimming), fill_(std::move(fill)) {
   }
+  explicit BackgroundType(string theme_name) : type_(Type::ChatTheme), theme_name_(std::move(theme_name)) {
+  }
 
  public:
   BackgroundType() = default;
 
-  BackgroundType(bool is_fill, bool is_pattern, telegram_api::object_ptr<telegram_api::wallPaperSettings> settings);
+  BackgroundType(bool has_no_file, bool is_pattern, telegram_api::object_ptr<telegram_api::wallPaperSettings> settings);
 
   static Result<BackgroundType> get_background_type(const td_api::BackgroundType *background_type,
                                                     int32 dark_theme_dimming);

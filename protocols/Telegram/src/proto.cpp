@@ -254,8 +254,8 @@ void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO 
 
 	if (dbei.szId && dbei.cbBlob && dbei.pBlob && dbei.eventType == EVENTTYPE_MESSAGE) {
 		auto text = formatBbcodes((char*)dbei.pBlob);
-		auto content = TD::make_object<TD::inputMessageText>(std::move(text), false, false);
-		SendQuery(new TD::editMessageText(pUser->chatId, dbei2id(dbei), 0, std::move(content)));
+		// auto content = TD::make_object<TD::inputMessageText>(std::move(text), 0, false);
+		// SendQuery(new TD::editMessageText(pUser->chatId, dbei2id(dbei), 0, std::move(content)));
 	}
 }
 
@@ -683,7 +683,7 @@ int CTelegramProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (auto *pUser = FindUser(GetId(hContact)))
 		if (type == PROTOTYPE_SELFTYPING_ON)
-			SendQuery(new TD::sendChatAction(pUser->chatId, 0, TD::make_object<TD::chatActionTyping>()));
+			SendQuery(new TD::sendChatAction(pUser->chatId, 0, "", TD::make_object<TD::chatActionTyping>()));
 
 	return 0;
 }

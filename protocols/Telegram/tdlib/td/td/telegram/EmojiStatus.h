@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,7 +30,7 @@ class EmojiStatus {
  public:
   EmojiStatus() = default;
 
-  EmojiStatus(const td_api::object_ptr<td_api::emojiStatus> &emoji_status, int32 duration);
+  explicit EmojiStatus(const td_api::object_ptr<td_api::emojiStatus> &emoji_status);
 
   explicit EmojiStatus(tl_object_ptr<telegram_api::EmojiStatus> &&emoji_status);
 
@@ -38,7 +38,7 @@ class EmojiStatus {
 
   td_api::object_ptr<td_api::emojiStatus> get_emoji_status_object() const;
 
-  CustomEmojiId get_effective_custom_emoji_id(bool is_premium, int32 unix_time) const;
+  EmojiStatus get_effective_emoji_status(bool is_premium, int32 unix_time) const;
 
   bool is_empty() const {
     return !custom_emoji_id_.is_valid();
@@ -99,7 +99,11 @@ inline bool operator!=(const EmojiStatus &lhs, const EmojiStatus &rhs) {
 
 StringBuilder &operator<<(StringBuilder &string_builder, const EmojiStatus &emoji_status);
 
+td_api::object_ptr<td_api::emojiStatuses> get_emoji_statuses_object(const vector<CustomEmojiId> &custom_emoji_ids);
+
 void get_default_emoji_statuses(Td *td, Promise<td_api::object_ptr<td_api::emojiStatuses>> &&promise);
+
+void get_default_channel_emoji_statuses(Td *td, Promise<td_api::object_ptr<td_api::emojiStatuses>> &&promise);
 
 void get_recent_emoji_statuses(Td *td, Promise<td_api::object_ptr<td_api::emojiStatuses>> &&promise);
 

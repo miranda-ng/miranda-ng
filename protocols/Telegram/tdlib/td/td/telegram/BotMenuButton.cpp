@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,11 +7,12 @@
 #include "td/telegram/BotMenuButton.h"
 
 #include "td/telegram/AuthManager.h"
-#include "td/telegram/ContactsManager.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/LinkManager.h"
 #include "td/telegram/misc.h"
 #include "td/telegram/Td.h"
+#include "td/telegram/telegram_api.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/utils/buffer.h"
 #include "td/utils/logging.h"
@@ -28,7 +29,7 @@ class SetBotMenuButtonQuery final : public Td::ResultHandler {
   }
 
   void send(UserId user_id, telegram_api::object_ptr<telegram_api::BotMenuButton> input_bot_menu_button) {
-    auto input_user = user_id.is_valid() ? td_->contacts_manager_->get_input_user(user_id).move_as_ok()
+    auto input_user = user_id.is_valid() ? td_->user_manager_->get_input_user(user_id).move_as_ok()
                                          : make_tl_object<telegram_api::inputUserEmpty>();
     send_query(G()->net_query_creator().create(
         telegram_api::bots_setBotMenuButton(std::move(input_user), std::move(input_bot_menu_button))));
@@ -60,7 +61,7 @@ class GetBotMenuButtonQuery final : public Td::ResultHandler {
   }
 
   void send(UserId user_id) {
-    auto input_user = user_id.is_valid() ? td_->contacts_manager_->get_input_user(user_id).move_as_ok()
+    auto input_user = user_id.is_valid() ? td_->user_manager_->get_input_user(user_id).move_as_ok()
                                          : make_tl_object<telegram_api::inputUserEmpty>();
     send_query(G()->net_query_creator().create(telegram_api::bots_getBotMenuButton(std::move(input_user))));
   }

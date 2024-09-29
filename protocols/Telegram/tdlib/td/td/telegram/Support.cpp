@@ -1,17 +1,17 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/Support.h"
 
-#include "td/telegram/ContactsManager.h"
-#include "td/telegram/DialogId.h"
+#include "td/telegram/DialogManager.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/MessageEntity.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/telegram_api.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/utils/buffer.h"
 #include "td/utils/Status.h"
@@ -25,12 +25,12 @@ static td_api::object_ptr<td_api::userSupportInfo> get_user_support_info_object(
   FormattedText message;
   if (user_info->get_id() == telegram_api::help_userInfo::ID) {
     auto info = telegram_api::move_object_as<telegram_api::help_userInfo>(user_info);
-    message = get_message_text(td->contacts_manager_.get(), std::move(info->message_), std::move(info->entities_), true,
+    message = get_message_text(td->user_manager_.get(), std::move(info->message_), std::move(info->entities_), true,
                                true, info->date_, false, "get_user_support_info_object");
     result->author_ = std::move(info->author_);
     result->date_ = info->date_;
   }
-  result->message_ = get_formatted_text_object(message, true, 0);
+  result->message_ = get_formatted_text_object(td->user_manager_.get(), message, true, 0);
   return result;
 }
 
@@ -43,7 +43,7 @@ class GetUserInfoQuery final : public Td::ResultHandler {
   }
 
   void send(UserId user_id) {
-    auto r_input_user = td_->contacts_manager_->get_input_user(user_id);
+    auto r_input_user = td_->user_manager_->get_input_user(user_id);
     if (r_input_user.is_error()) {
       return on_error(r_input_user.move_as_error());
     }
@@ -74,14 +74,14 @@ class EditUserInfoQuery final : public Td::ResultHandler {
   }
 
   void send(UserId user_id, FormattedText &&formatted_text) {
-    auto r_input_user = td_->contacts_manager_->get_input_user(user_id);
+    auto r_input_user = td_->user_manager_->get_input_user(user_id);
     if (r_input_user.is_error()) {
       return on_error(r_input_user.move_as_error());
     }
 
     send_query(G()->net_query_creator().create(telegram_api::help_editUserInfo(
         r_input_user.move_as_ok(), formatted_text.text,
-        get_input_message_entities(td_->contacts_manager_.get(), &formatted_text, "EditUserInfoQuery"))));
+        get_input_message_entities(td_->user_manager_.get(), &formatted_text, "EditUserInfoQuery"))));
   }
 
   void on_result(BufferSlice packet) final {
@@ -129,9 +129,9 @@ void get_user_info(Td *td, UserId user_id, Promise<td_api::object_ptr<td_api::us
 
 void set_user_info(Td *td, UserId user_id, td_api::object_ptr<td_api::formattedText> &&message,
                    Promise<td_api::object_ptr<td_api::userSupportInfo>> &&promise) {
-  TRY_RESULT_PROMISE(promise, formatted_text,
-                     get_formatted_text(td, DialogId(td->contacts_manager_->get_my_id()), std::move(message), false,
-                                        true, true, false));
+  TRY_RESULT_PROMISE(
+      promise, formatted_text,
+      get_formatted_text(td, td->dialog_manager_->get_my_dialog_id(), std::move(message), false, true, true, false));
   td->create_handler<EditUserInfoQuery>(std::move(promise))->send(user_id, std::move(formatted_text));
 }
 

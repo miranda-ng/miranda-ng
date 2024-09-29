@@ -1,12 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/telegram/FullMessageId.h"
+#include "td/telegram/MessageFullId.h"
 #include "td/telegram/td_api.h"
 
 #include "td/utils/common.h"
@@ -37,7 +37,7 @@ void send_payment_form(Td *td, td_api::object_ptr<td_api::InputInvoice> &&input_
                        const td_api::object_ptr<td_api::InputCredentials> &credentials, int64 tip_amount,
                        Promise<td_api::object_ptr<td_api::paymentResult>> &&promise);
 
-void get_payment_receipt(Td *td, FullMessageId full_message_id,
+void get_payment_receipt(Td *td, MessageFullId message_full_id,
                          Promise<tl_object_ptr<td_api::paymentReceipt>> &&promise);
 
 void get_saved_order_info(Td *td, Promise<tl_object_ptr<td_api::orderInfo>> &&promise);
@@ -50,5 +50,8 @@ void export_invoice(Td *td, td_api::object_ptr<td_api::InputMessageContent> &&in
 
 void get_bank_card_info(Td *td, const string &bank_card_number,
                         Promise<td_api::object_ptr<td_api::bankCardInfo>> &&promise);
+
+void get_collectible_info(Td *td, td_api::object_ptr<td_api::CollectibleItemType> type,
+                          Promise<td_api::object_ptr<td_api::collectibleItemInfo>> &&promise);
 
 }  // namespace td

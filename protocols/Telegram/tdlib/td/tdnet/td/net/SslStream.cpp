@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -125,7 +125,7 @@ struct SslHandleDeleter {
     SSL_free(ssl_handle);
     auto elapsed_time = Time::now() - start_time;
     if (elapsed_time >= 0.1) {
-      LOG(ERROR) << "SSL_free took " << elapsed_time << " seconds";
+      LOG(WARNING) << "SSL_free took " << elapsed_time << " seconds";
     }
   }
 };
@@ -207,8 +207,8 @@ class SslStreamImpl {
     auto size = SSL_write(ssl_handle_.get(), slice.data(), static_cast<int>(slice.size()));
     auto elapsed_time = Time::now() - start_time;
     if (elapsed_time >= 0.1) {
-      LOG(ERROR) << "SSL_write of size " << slice.size() << " took " << elapsed_time << " seconds and returned " << size
-                 << ' ' << SSL_get_error(ssl_handle_.get(), size);
+      LOG(WARNING) << "SSL_write of size " << slice.size() << " took " << elapsed_time << " seconds and returned "
+                   << size << ' ' << SSL_get_error(ssl_handle_.get(), size);
     }
     if (size <= 0) {
       return process_ssl_error(size);
@@ -222,8 +222,8 @@ class SslStreamImpl {
     auto size = SSL_read(ssl_handle_.get(), slice.data(), static_cast<int>(slice.size()));
     auto elapsed_time = Time::now() - start_time;
     if (elapsed_time >= 0.1) {
-      LOG(ERROR) << "SSL_read took " << elapsed_time << " seconds and returned " << size << ' '
-                 << SSL_get_error(ssl_handle_.get(), size);
+      LOG(WARNING) << "SSL_read took " << elapsed_time << " seconds and returned " << size << ' '
+                   << SSL_get_error(ssl_handle_.get(), size);
     }
     if (size <= 0) {
       return process_ssl_error(size);

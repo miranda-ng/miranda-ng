@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,7 +12,6 @@
 #include "td/telegram/JsonValue.h"
 #include "td/telegram/LinkManager.h"
 #include "td/telegram/logevent/LogEvent.h"
-#include "td/telegram/MessageReaction.h"
 #include "td/telegram/misc.h"
 #include "td/telegram/net/AuthDataShared.h"
 #include "td/telegram/net/ConnectionCreator.h"
@@ -21,13 +20,18 @@
 #include "td/telegram/net/NetQuery.h"
 #include "td/telegram/net/NetQueryDispatcher.h"
 #include "td/telegram/net/NetType.h"
-#include "td/telegram/net/PublicRsaKeyShared.h"
+#include "td/telegram/net/PublicRsaKeySharedMain.h"
 #include "td/telegram/net/Session.h"
+#include "td/telegram/OptionManager.h"
 #include "td/telegram/Premium.h"
+#include "td/telegram/ReactionType.h"
 #include "td/telegram/StateManager.h"
+#include "td/telegram/SuggestedAction.hpp"
 #include "td/telegram/Td.h"
 #include "td/telegram/TdDb.h"
 #include "td/telegram/telegram_api.h"
+#include "td/telegram/TranscriptionManager.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/mtproto/AuthData.h"
 #include "td/mtproto/AuthKey.h"
@@ -52,10 +56,10 @@
 #include "td/utils/emoji.h"
 #include "td/utils/FlatHashMap.h"
 #include "td/utils/format.h"
+#include "td/utils/HttpDate.h"
 #include "td/utils/JsonBuilder.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
-#include "td/utils/Parser.h"
 #include "td/utils/port/Clocks.h"
 #include "td/utils/Random.h"
 #include "td/utils/SliceBuilder.h"
@@ -72,83 +76,6 @@
 namespace td {
 
 int VERBOSITY_NAME(config_recoverer) = VERBOSITY_NAME(INFO);
-
-Result<int32> HttpDate::to_unix_time(int32 year, int32 month, int32 day, int32 hour, int32 minute, int32 second) {
-  if (year < 1970 || year > 2037) {
-    return Status::Error("Invalid year");
-  }
-  if (month < 1 || month > 12) {
-    return Status::Error("Invalid month");
-  }
-  if (day < 1 || day > days_in_month(year, month)) {
-    return Status::Error("Invalid day");
-  }
-  if (hour < 0 || hour >= 24) {
-    return Status::Error("Invalid hour");
-  }
-  if (minute < 0 || minute >= 60) {
-    return Status::Error("Invalid minute");
-  }
-  if (second < 0 || second > 60) {
-    return Status::Error("Invalid second");
-  }
-
-  int32 res = 0;
-  for (int32 y = 1970; y < year; y++) {
-    res += (is_leap(y) + 365) * seconds_in_day();
-  }
-  for (int32 m = 1; m < month; m++) {
-    res += days_in_month(year, m) * seconds_in_day();
-  }
-  res += (day - 1) * seconds_in_day();
-  res += hour * 60 * 60;
-  res += minute * 60;
-  res += second;
-  return res;
-}
-
-Result<int32> HttpDate::parse_http_date(string slice) {
-  Parser p(slice);
-  p.read_till(',');  // ignore week day
-  p.skip(',');
-  p.skip_whitespaces();
-  p.skip_nofail('0');
-  TRY_RESULT(day, to_integer_safe<int32>(p.read_word()));
-  auto month_name = p.read_word();
-  to_lower_inplace(month_name);
-  TRY_RESULT(year, to_integer_safe<int32>(p.read_word()));
-  p.skip_whitespaces();
-  p.skip_nofail('0');
-  TRY_RESULT(hour, to_integer_safe<int32>(p.read_till(':')));
-  p.skip(':');
-  p.skip_nofail('0');
-  TRY_RESULT(minute, to_integer_safe<int32>(p.read_till(':')));
-  p.skip(':');
-  p.skip_nofail('0');
-  TRY_RESULT(second, to_integer_safe<int32>(p.read_word()));
-  auto gmt = p.read_word();
-  TRY_STATUS(std::move(p.status()));
-  if (gmt != "GMT") {
-    return Status::Error("Timezone must be GMT");
-  }
-
-  static Slice month_names[12] = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
-
-  int month = 0;
-
-  for (int m = 1; m <= 12; m++) {
-    if (month_names[m - 1] == month_name) {
-      month = m;
-      break;
-    }
-  }
-
-  if (month == 0) {
-    return Status::Error("Unknown month name");
-  }
-
-  return HttpDate::to_unix_time(year, month, day, hour, minute, second);
-}
 
 Result<SimpleConfig> decode_config(Slice input) {
   static auto rsa = mtproto::RSA::from_pem_public_key(
@@ -269,7 +196,7 @@ static ActorOwn<> get_simple_config_dns(Slice address, Slice host, Promise<Simpl
           return Status::Error("Expected JSON object");
         }
         auto &data_object = answer_part.get_object();
-        TRY_RESULT(part, get_json_object_string_field(data_object, "data", false));
+        TRY_RESULT(part, data_object.get_required_string_field("data"));
         parts.push_back(std::move(part));
       }
       if (parts.size() != 2) {
@@ -297,7 +224,7 @@ static ActorOwn<> get_simple_config_dns(Slice address, Slice host, Promise<Simpl
         return Status::Error("Expected JSON object");
       }
       auto &answer_object = json.get_object();
-      TRY_RESULT(answer, get_json_object_field(answer_object, "Answer", JsonValue::Type::Array, false));
+      TRY_RESULT(answer, answer_object.extract_required_field("Answer", JsonValue::Type::Array));
       return get_data(answer);
     }
   };
@@ -346,7 +273,7 @@ ActorOwn<> get_simple_config_firebase_remote_config(Promise<SimpleConfigResult> 
       return Status::Error("Expected JSON object");
     }
     auto &entries_object = json.get_object();
-    TRY_RESULT(config, get_json_object_string_field(entries_object, "ipconfigv3", false));
+    TRY_RESULT(config, entries_object.get_required_string_field("ipconfigv3"));
     return std::move(config);
   };
   return get_simple_config_impl(std::move(promise), scheduler_id, std::move(url), "firebaseremoteconfig.googleapis.com",
@@ -381,8 +308,10 @@ ActorOwn<> get_simple_config_firebase_firestore(Promise<SimpleConfigResult> prom
     if (json.type() != JsonValue::Type::Object) {
       return Status::Error("Expected JSON object");
     }
-    TRY_RESULT(data, get_json_object_field(json.get_object(), "data", JsonValue::Type::Object, false));
-    TRY_RESULT(config, get_json_object_string_field(data.get_object(), "stringValue", false));
+    auto &json_object = json.get_object();
+    TRY_RESULT(data, json_object.extract_required_field("data", JsonValue::Type::Object));
+    auto &data_object = data.get_object();
+    TRY_RESULT(config, data_object.get_required_string_field("stringValue"));
     return std::move(config);
   };
   return get_simple_config_impl(std::move(promise), scheduler_id, std::move(url), "firestore.googleapis.com", {},
@@ -437,12 +366,13 @@ static ActorOwn<> get_full_config(DcOption option, Promise<tl_object_ptr<telegra
 
   class SimpleAuthData final : public AuthDataShared {
    public:
-    explicit SimpleAuthData(DcId dc_id) : dc_id_(dc_id) {
+    explicit SimpleAuthData(DcId dc_id)
+        : dc_id_(dc_id), public_rsa_key_(PublicRsaKeySharedMain::create(G()->is_test_dc())) {
     }
     DcId dc_id() const final {
       return dc_id_;
     }
-    const std::shared_ptr<PublicRsaKeyShared> &public_rsa_key() final {
+    const std::shared_ptr<mtproto::PublicRsaKeyInterface> &public_rsa_key() final {
       return public_rsa_key_;
     }
     mtproto::AuthKey get_auth_key() final {
@@ -487,20 +417,20 @@ static ActorOwn<> get_full_config(DcOption option, Promise<tl_object_ptr<telegra
 
    private:
     DcId dc_id_;
-    std::shared_ptr<PublicRsaKeyShared> public_rsa_key_ =
-        std::make_shared<PublicRsaKeyShared>(DcId::empty(), G()->is_test_dc());
-
-    std::vector<unique_ptr<Listener>> auth_key_listeners_;
+    std::shared_ptr<mtproto::PublicRsaKeyInterface> public_rsa_key_;
+    vector<unique_ptr<Listener>> auth_key_listeners_;
+    /*
     void notify() {
       td::remove_if(auth_key_listeners_, [&](auto &listener) {
         CHECK(listener != nullptr);
         return !listener->notify();
       });
     }
-
+    */
     string auth_key_key() const {
       return PSTRING() << "config_recovery_auth" << dc_id().get_raw_id();
     }
+
     string future_salts_key() const {
       return PSTRING() << "config_recovery_salt" << dc_id().get_raw_id();
     }
@@ -522,10 +452,10 @@ static ActorOwn<> get_full_config(DcOption option, Promise<tl_object_ptr<telegra
       if (G()->is_test_dc()) {
         int_dc_id += 10000;
       }
-      session_ = create_actor<Session>("ConfigSession", std::move(session_callback), std::move(auth_data), raw_dc_id,
-                                       int_dc_id, false /*is_primary*/, false /*is_main*/, true /*use_pfs*/,
-                                       false /*is_cdn*/, false /*need_destroy_auth_key*/, mtproto::AuthKey(),
-                                       std::vector<mtproto::ServerSalt>());
+      session_ = create_actor<Session>(
+          "ConfigSession", std::move(session_callback), std::move(auth_data), raw_dc_id, int_dc_id,
+          false /*is_primary*/, false /*is_main*/, true /*use_pfs*/, false /*persist_tmp_auth_key*/, false /*is_cdn*/,
+          false /*need_destroy_auth_key*/, mtproto::AuthKey(), std::vector<mtproto::ServerSalt>());
       auto query = G()->net_query_creator().create_unauth(telegram_api::help_getConfig(), DcId::empty());
       query->total_timeout_limit_ = 60 * 60 * 24;
       query->set_callback(actor_shared(this));
@@ -861,8 +791,6 @@ class ConfigRecoverer final : public Actor {
     if (wakeup_timestamp) {
       VLOG(config_recoverer) << "Wakeup in " << format::as_time(wakeup_timestamp.in());
       set_timeout_at(wakeup_timestamp.at());
-    } else {
-      VLOG(config_recoverer) << "Wakeup never";
     }
   }
 
@@ -938,11 +866,25 @@ void ConfigManager::start_up() {
   send_closure(config_recoverer_, &ConfigRecoverer::on_dc_options_update, load_dc_options_update());
 
   auto expire_time = load_config_expire_time();
-  if (expire_time.is_in_past() || true) {
+  auto auth_manager = G()->td().get_actor_unsafe()->auth_manager_.get();
+  bool reload_config_on_restart = auth_manager == nullptr || !auth_manager->is_bot();
+  if (expire_time.is_in_past() || reload_config_on_restart) {
     request_config(false);
   } else {
     expire_time_ = expire_time;
     set_timeout_in(expire_time_.in());
+  }
+
+  auto log_event_string = G()->td_db()->get_binlog_pmc()->get(get_suggested_actions_database_key());
+  if (!log_event_string.empty()) {
+    vector<SuggestedAction> suggested_actions;
+    auto status = log_event_parse(suggested_actions, log_event_string);
+    if (status.is_error()) {
+      LOG(ERROR) << "Failed to parse suggested actions from binlog: " << status;
+      save_suggested_actions();
+    } else {
+      update_suggested_actions(suggested_actions_, std::move(suggested_actions));
+    }
   }
 }
 
@@ -1081,41 +1023,6 @@ void ConfigManager::set_content_settings(bool ignore_sensitive_content_restricti
   }
 }
 
-void ConfigManager::get_global_privacy_settings(Promise<Unit> &&promise) {
-  TRY_STATUS_PROMISE(promise, G()->close_status());
-
-  auto auth_manager = G()->td().get_actor_unsafe()->auth_manager_.get();
-  if (auth_manager == nullptr || !auth_manager->is_authorized() || auth_manager->is_bot()) {
-    return promise.set_value(Unit());
-  }
-
-  get_global_privacy_settings_queries_.push_back(std::move(promise));
-  if (get_global_privacy_settings_queries_.size() == 1) {
-    G()->net_query_dispatcher().dispatch_with_callback(
-        G()->net_query_creator().create(telegram_api::account_getGlobalPrivacySettings()), actor_shared(this, 5));
-  }
-}
-
-void ConfigManager::set_archive_and_mute(bool archive_and_mute, Promise<Unit> &&promise) {
-  TRY_STATUS_PROMISE(promise, G()->close_status());
-
-  if (archive_and_mute) {
-    remove_suggested_action(suggested_actions_, SuggestedAction{SuggestedAction::Type::EnableArchiveAndMuteNewChats});
-  }
-
-  last_set_archive_and_mute_ = archive_and_mute;
-  auto &queries = set_archive_and_mute_queries_[archive_and_mute];
-  queries.push_back(std::move(promise));
-  if (!is_set_archive_and_mute_request_sent_) {
-    is_set_archive_and_mute_request_sent_ = true;
-    int32 flags = telegram_api::globalPrivacySettings::ARCHIVE_AND_MUTE_NEW_NONCONTACT_PEERS_MASK;
-    auto settings = make_tl_object<telegram_api::globalPrivacySettings>(flags, archive_and_mute);
-    G()->net_query_dispatcher().dispatch_with_callback(
-        G()->net_query_creator().create(telegram_api::account_setGlobalPrivacySettings(std::move(settings))),
-        actor_shared(this, 6 + static_cast<uint64>(archive_and_mute)));
-  }
-}
-
 void ConfigManager::on_dc_options_update(DcOptions dc_options) {
   save_dc_options_update(dc_options);
   if (!dc_options.dc_options.empty()) {
@@ -1136,22 +1043,18 @@ void ConfigManager::request_config_from_dc_impl(DcId dc_id, bool reopen_sessions
 }
 
 void ConfigManager::do_set_ignore_sensitive_content_restrictions(bool ignore_sensitive_content_restrictions) {
+  if (G()->have_option("ignore_sensitive_content_restrictions") &&
+      G()->get_option_boolean("ignore_sensitive_content_restrictions") == ignore_sensitive_content_restrictions) {
+    return;
+  }
   G()->set_option_boolean("ignore_sensitive_content_restrictions", ignore_sensitive_content_restrictions);
-  bool have_ignored_restriction_reasons = G()->have_option("ignored_restriction_reasons");
-  if (have_ignored_restriction_reasons != ignore_sensitive_content_restrictions) {
-    reget_app_config(Auto());
-  }
-}
-
-void ConfigManager::do_set_archive_and_mute(bool archive_and_mute) {
-  if (archive_and_mute) {
-    remove_suggested_action(suggested_actions_, SuggestedAction{SuggestedAction::Type::EnableArchiveAndMuteNewChats});
-  }
-  G()->set_option_boolean("archive_and_mute_new_chats_from_unknown_users", archive_and_mute);
+  reget_app_config(Auto());
 }
 
 void ConfigManager::hide_suggested_action(SuggestedAction suggested_action) {
-  remove_suggested_action(suggested_actions_, suggested_action);
+  if (remove_suggested_action(suggested_actions_, suggested_action)) {
+    save_suggested_actions();
+  }
 }
 
 void ConfigManager::dismiss_suggested_action(SuggestedAction suggested_action, Promise<Unit> &&promise) {
@@ -1176,7 +1079,7 @@ void ConfigManager::dismiss_suggested_action(SuggestedAction suggested_action, P
   }
 }
 
-void ConfigManager::on_result(NetQueryPtr res) {
+void ConfigManager::on_result(NetQueryPtr net_query) {
   auto token = get_link_token();
   if (token >= 100 && token <= 200) {
     auto type = static_cast<int32>(token - 100);
@@ -1187,61 +1090,23 @@ void ConfigManager::on_result(NetQueryPtr res) {
     CHECK(dismiss_suggested_action_request_count_ >= promises.size());
     dismiss_suggested_action_request_count_ -= promises.size();
 
-    auto result_ptr = fetch_result<telegram_api::help_dismissSuggestion>(std::move(res));
+    auto result_ptr = fetch_result<telegram_api::help_dismissSuggestion>(std::move(net_query));
     if (result_ptr.is_error()) {
       fail_promises(promises, result_ptr.move_as_error());
       return;
     }
-    remove_suggested_action(suggested_actions_, suggested_action);
+    if (remove_suggested_action(suggested_actions_, suggested_action)) {
+      save_suggested_actions();
+    }
     reget_app_config(Auto());
 
     set_promises(promises);
     return;
   }
-  if (token == 6 || token == 7) {
-    is_set_archive_and_mute_request_sent_ = false;
-    bool archive_and_mute = (token == 7);
-    auto result_ptr = fetch_result<telegram_api::account_setGlobalPrivacySettings>(std::move(res));
-    if (result_ptr.is_error()) {
-      fail_promises(set_archive_and_mute_queries_[archive_and_mute], result_ptr.move_as_error());
-    } else {
-      if (last_set_archive_and_mute_ == archive_and_mute) {
-        do_set_archive_and_mute(archive_and_mute);
-      }
-
-      set_promises(set_archive_and_mute_queries_[archive_and_mute]);
-    }
-
-    if (!set_archive_and_mute_queries_[!archive_and_mute].empty()) {
-      if (archive_and_mute == last_set_archive_and_mute_) {
-        set_promises(set_archive_and_mute_queries_[!archive_and_mute]);
-      } else {
-        set_archive_and_mute(!archive_and_mute, Auto());
-      }
-    }
-    return;
-  }
-  if (token == 5) {
-    auto result_ptr = fetch_result<telegram_api::account_getGlobalPrivacySettings>(std::move(res));
-    if (result_ptr.is_error()) {
-      fail_promises(get_global_privacy_settings_queries_, result_ptr.move_as_error());
-      return;
-    }
-
-    auto result = result_ptr.move_as_ok();
-    if ((result->flags_ & telegram_api::globalPrivacySettings::ARCHIVE_AND_MUTE_NEW_NONCONTACT_PEERS_MASK) != 0) {
-      do_set_archive_and_mute(result->archive_and_mute_new_noncontact_peers_);
-    } else {
-      LOG(ERROR) << "Receive wrong response: " << to_string(result);
-    }
-
-    set_promises(get_global_privacy_settings_queries_);
-    return;
-  }
   if (token == 3 || token == 4) {
     is_set_content_settings_request_sent_ = false;
     bool ignore_sensitive_content_restrictions = (token == 4);
-    auto result_ptr = fetch_result<telegram_api::account_setContentSettings>(std::move(res));
+    auto result_ptr = fetch_result<telegram_api::account_setContentSettings>(std::move(net_query));
     if (result_ptr.is_error()) {
       fail_promises(set_content_settings_queries_[ignore_sensitive_content_restrictions], result_ptr.move_as_error());
     } else {
@@ -1263,7 +1128,7 @@ void ConfigManager::on_result(NetQueryPtr res) {
     return;
   }
   if (token == 2) {
-    auto result_ptr = fetch_result<telegram_api::account_getContentSettings>(std::move(res));
+    auto result_ptr = fetch_result<telegram_api::account_getContentSettings>(std::move(net_query));
     if (result_ptr.is_error()) {
       fail_promises(get_content_settings_queries_, result_ptr.move_as_error());
       return;
@@ -1282,7 +1147,7 @@ void ConfigManager::on_result(NetQueryPtr res) {
     auto unit_promises = std::move(reget_app_config_queries_);
     reget_app_config_queries_.clear();
     CHECK(!promises.empty() || !unit_promises.empty());
-    auto result_ptr = fetch_result<telegram_api::help_getAppConfig>(std::move(res));
+    auto result_ptr = fetch_result<telegram_api::help_getAppConfig>(std::move(net_query));
     if (result_ptr.is_error()) {
       fail_promises(promises, result_ptr.error().clone());
       fail_promises(unit_promises, result_ptr.move_as_error());
@@ -1308,6 +1173,7 @@ void ConfigManager::on_result(NetQueryPtr res) {
       CHECK(app_config_.config_ != nullptr);
       G()->td_db()->get_binlog_pmc()->set("app_config", log_event_store(app_config_).as_slice().str());
     }
+    G()->get_option_manager()->update_premium_options();
     for (auto &promise : promises) {
       promise.set_value(convert_json_value_object(app_config_.config_));
     }
@@ -1318,7 +1184,7 @@ void ConfigManager::on_result(NetQueryPtr res) {
   CHECK(token == 8 || token == 9);
   CHECK(config_sent_cnt_ > 0);
   config_sent_cnt_--;
-  auto r_config = fetch_result<telegram_api::help_getConfig>(std::move(res));
+  auto r_config = fetch_result<telegram_api::help_getConfig>(std::move(net_query));
   if (r_config.is_error()) {
     if (!G()->close_flag()) {
       LOG(WARNING) << "Failed to get config: " << r_config.error();
@@ -1382,7 +1248,7 @@ void ConfigManager::process_config(tl_object_ptr<telegram_api::config> config) {
   set_timeout_at(expire_time_.at());
   LOG_IF(ERROR, config->test_mode_ != G()->is_test_dc()) << "Wrong parameter is_test";
 
-  Global &options = *G();
+  OptionManager &options = *G()->get_option_manager();
 
   // Do not save dc_options in config, because it will be interpreted and saved by ConnectionCreator.
   DcOptions dc_options(config->dc_options_);
@@ -1458,10 +1324,12 @@ void ConfigManager::process_config(tl_object_ptr<telegram_api::config> config) {
   } else {
     options.set_option_string("animation_search_bot_username", config->gif_search_username_);
   }
-  if (config->venue_search_username_.empty()) {
-    options.set_option_empty("venue_search_bot_username");
-  } else {
-    options.set_option_string("venue_search_bot_username", config->venue_search_username_);
+  if (!options.have_option("venue_search_bot_username")) {
+    if (config->venue_search_username_.empty()) {
+      options.set_option_empty("venue_search_bot_username");
+    } else {
+      options.set_option_string("venue_search_bot_username", config->venue_search_username_);
+    }
   }
   if (config->img_search_username_.empty()) {
     options.set_option_empty("photo_search_bot_username");
@@ -1480,9 +1348,9 @@ void ConfigManager::process_config(tl_object_ptr<telegram_api::config> config) {
   options.set_option_integer("notification_default_delay_ms", fix_timeout_ms(config->notify_default_delay_ms_));
 
   if (is_from_main_dc && !options.have_option("default_reaction_need_sync")) {
-    auto reaction_str = get_message_reaction_string(config->reactions_default_);
-    if (!reaction_str.empty()) {
-      options.set_option_string("default_reaction", reaction_str);
+    ReactionType reaction_type(config->reactions_default_);
+    if (!reaction_type.is_empty() && !reaction_type.is_paid_reaction()) {
+      options.set_option_string("default_reaction", reaction_type.get_string());
     }
   }
 
@@ -1517,9 +1385,6 @@ void ConfigManager::process_config(tl_object_ptr<telegram_api::config> config) {
         !options.have_option("ignore_sensitive_content_restrictions")) {
       get_content_settings(Auto());
     }
-    if (!options.have_option("archive_and_mute_new_chats_from_unknown_users")) {
-      get_global_privacy_settings(Auto());
-    }
   }
 }
 
@@ -1541,6 +1406,7 @@ void ConfigManager::process_app_config(tl_object_ptr<telegram_api::JSONValue> &c
   string animation_search_provider;
   string animation_search_emojis;
   vector<SuggestedAction> suggested_actions;
+  vector<string> dismissed_suggestions;
   bool can_archive_and_mute_new_chats_from_unknown_users = false;
   int32 chat_read_mark_expire_period = 0;
   int32 chat_read_mark_size_threshold = 0;
@@ -1559,15 +1425,27 @@ void ConfigManager::process_app_config(tl_object_ptr<telegram_api::JSONValue> &c
   bool premium_gift_attach_menu_icon = false;
   bool premium_gift_text_field_icon = false;
   int32 dialog_filter_update_period = 300;
+  // bool archive_all_stories = false;
+  int32 story_viewers_expire_period = 86400;
+  int64 stories_changelog_user_id = UserManager::get_service_notifications_user_id().get();
+  int32 transcribe_audio_trial_weekly_number = 0;
+  int32 transcribe_audio_trial_duration_max = 0;
+  int32 transcribe_audio_trial_cooldown_until = 0;
+  vector<string> business_features;
+  string premium_manage_subscription_url;
+  bool need_premium_for_new_chat_privacy = true;
+  bool channel_revenue_withdrawal_enabled = false;
+  bool can_edit_fact_check = false;
   if (config->get_id() == telegram_api::jsonObject::ID) {
     for (auto &key_value : static_cast<telegram_api::jsonObject *>(config.get())->value_) {
       Slice key = key_value->key_;
       telegram_api::JSONValue *value = key_value->value_.get();
       if (key == "default_emoji_statuses_stickerset_id" || key == "forum_upgrade_participants_min" ||
           key == "getfile_experimental_params" || key == "message_animated_emoji_max" ||
-          key == "reactions_in_chat_max" || key == "stickers_emoji_cache_time" || key == "test" ||
+          key == "stickers_emoji_cache_time" || key == "stories_export_nopublic_link" || key == "test" ||
           key == "upload_max_fileparts_default" || key == "upload_max_fileparts_premium" ||
-          key == "wallet_blockchain_name" || key == "wallet_config" || key == "wallet_enabled") {
+          key == "wallet_blockchain_name" || key == "wallet_config" || key == "wallet_enabled" ||
+          key == "channel_color_level_min") {
         continue;
       }
       if (key == "ignore_restriction_reasons") {
@@ -1725,20 +1603,20 @@ void ConfigManager::process_app_config(tl_object_ptr<telegram_api::JSONValue> &c
         }
         continue;
       }
-      if (key == "pending_suggestions") {
+      if (key == "pending_suggestions" || key == "dismissed_suggestions") {
         if (value->get_id() == telegram_api::jsonArray::ID) {
           auto actions = std::move(static_cast<telegram_api::jsonArray *>(value)->value_);
-          const bool archive_and_mute = G()->get_option_boolean("archive_and_mute_new_chats_from_unknown_users");
           auto otherwise_relogin_days = G()->get_option_integer("otherwise_relogin_days");
           for (auto &action : actions) {
             auto action_str = get_json_value_string(std::move(action), key);
+            if (key == "dismissed_suggestions") {
+              dismissed_suggestions.push_back(action_str);
+              continue;
+            }
             SuggestedAction suggested_action(action_str);
             if (!suggested_action.is_empty()) {
-              if (archive_and_mute &&
-                  suggested_action == SuggestedAction{SuggestedAction::Type::EnableArchiveAndMuteNewChats}) {
-                LOG(INFO) << "Skip EnableArchiveAndMuteNewChats suggested action";
-              } else if (otherwise_relogin_days > 0 &&
-                         suggested_action == SuggestedAction{SuggestedAction::Type::SetPassword}) {
+              if (otherwise_relogin_days > 0 &&
+                  suggested_action == SuggestedAction{SuggestedAction::Type::SetPassword}) {
                 LOG(INFO) << "Skip SetPassword suggested action";
               } else {
                 suggested_actions.push_back(suggested_action);
@@ -1955,6 +1833,244 @@ void ConfigManager::process_app_config(tl_object_ptr<telegram_api::JSONValue> &c
         dialog_filter_update_period = get_json_value_int(std::move(key_value->value_), key);
         continue;
       }
+      if (key == "stories_all_hidden") {
+        // archive_all_stories = get_json_value_bool(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "story_viewers_expire_period") {
+        story_viewers_expire_period = get_json_value_int(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "stories_changelog_user_id") {
+        stories_changelog_user_id = get_json_value_long(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "stories_venue_search_username") {
+        G()->set_option_string("venue_search_bot_username", get_json_value_string(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stories_stealth_past_period") {
+        G()->set_option_integer("story_stealth_mode_past_period",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stories_stealth_future_period") {
+        G()->set_option_integer("story_stealth_mode_future_period",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stories_stealth_cooldown_period") {
+        G()->set_option_integer("story_stealth_mode_cooldown_period",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stories_entities") {
+        G()->set_option_boolean("need_premium_for_story_caption_entities",
+                                get_json_value_string(std::move(key_value->value_), key) == "premium");
+        continue;
+      }
+      if (key == "authorization_autoconfirm_period") {
+        G()->set_option_integer("authorization_autoconfirm_period",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "giveaway_add_peers_max") {
+        G()->set_option_integer("giveaway_additional_chat_count_max",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "giveaway_countries_max") {
+        G()->set_option_integer("giveaway_country_count_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "giveaway_boosts_per_premium") {
+        G()->set_option_integer("giveaway_boost_count_per_premium",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "giveaway_period_max") {
+        G()->set_option_integer("giveaway_duration_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "boosts_per_sent_gift") {
+        G()->set_option_integer("premium_gift_boost_count", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "quote_length_max") {
+        G()->set_option_integer("message_reply_quote_length_max",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "transcribe_audio_trial_weekly_number") {
+        transcribe_audio_trial_weekly_number = get_json_value_int(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "transcribe_audio_trial_duration_max") {
+        transcribe_audio_trial_duration_max = get_json_value_int(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "transcribe_audio_trial_cooldown_until") {
+        transcribe_audio_trial_cooldown_until = get_json_value_int(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "boosts_channel_level_max") {
+        G()->set_option_integer("chat_boost_level_max", max(0, get_json_value_int(std::move(key_value->value_), key)));
+        continue;
+      }
+      if (key == "reactions_in_chat_max") {
+        G()->set_option_integer("chat_available_reaction_count_max",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "channel_bg_icon_level_min" || key == "channel_custom_wallpaper_level_min" ||
+          key == "channel_emoji_status_level_min" || key == "channel_profile_bg_icon_level_min" ||
+          key == "channel_restrict_sponsored_level_min" || key == "channel_wallpaper_level_min" ||
+          key == "pm_read_date_expire_period" || key == "group_transcribe_level_min" ||
+          key == "group_emoji_stickers_level_min" || key == "group_profile_bg_icon_level_min" ||
+          key == "group_emoji_status_level_min" || key == "group_wallpaper_level_min" ||
+          key == "group_custom_wallpaper_level_min") {
+        G()->set_option_integer(key, get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "quick_replies_limit") {
+        G()->set_option_integer("quick_reply_shortcut_count_max",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "quick_reply_messages_limit") {
+        G()->set_option_integer("quick_reply_shortcut_message_count_max",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "intro_title_length_limit") {
+        G()->set_option_integer("business_start_page_title_length_max",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "intro_description_length_limit") {
+        G()->set_option_integer("business_start_page_message_length_max",
+                                get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "business_promo_order") {
+        if (value->get_id() == telegram_api::jsonArray::ID) {
+          auto features = std::move(static_cast<telegram_api::jsonArray *>(value)->value_);
+          for (auto &feature : features) {
+            auto business_feature = get_json_value_string(std::move(feature), key);
+            if (!td::contains(business_feature, ',')) {
+              business_features.push_back(std::move(business_feature));
+            }
+          }
+        } else {
+          LOG(ERROR) << "Receive unexpected business_promo_order " << to_string(*value);
+        }
+        continue;
+      }
+      if (key == "new_noncontact_peers_require_premium_without_ownpremium") {
+        need_premium_for_new_chat_privacy = !get_json_value_bool(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "channel_revenue_withdrawal_enabled") {
+        channel_revenue_withdrawal_enabled = get_json_value_bool(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "upload_premium_speedup_download") {
+        G()->set_option_integer("premium_download_speedup", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "upload_premium_speedup_upload") {
+        G()->set_option_integer("premium_upload_speedup", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "upload_premium_speedup_notify_period") {
+        G()->set_option_integer(key, get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "business_chat_links_limit") {
+        G()->set_option_integer("business_chat_link_count_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "premium_manage_subscription_url") {
+        premium_manage_subscription_url = get_json_value_string(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "stories_pinned_to_top_count_max") {
+        G()->set_option_integer("pinned_story_count_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "can_edit_factcheck") {
+        can_edit_fact_check = get_json_value_bool(std::move(key_value->value_), key);
+        continue;
+      }
+      if (key == "factcheck_length_limit") {
+        G()->set_option_integer("fact_check_length_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stars_revenue_withdrawal_min") {
+        G()->set_option_integer("star_withdrawal_count_min", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stories_area_url_max") {
+        G()->set_option_integer("story_link_area_count_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stars_paid_post_amount_max") {
+        G()->set_option_integer("paid_media_message_star_count_max",
+                                clamp(get_json_value_int(std::move(key_value->value_), key), 0, 1000000));
+        continue;
+      }
+      if (key == "web_app_allowed_protocols") {
+        if (value->get_id() == telegram_api::jsonArray::ID) {
+          vector<string> protocol_names;
+          auto protocols = std::move(static_cast<telegram_api::jsonArray *>(value)->value_);
+          for (auto &protocol : protocols) {
+            auto protocol_name = get_json_value_string(std::move(protocol), key);
+            if (!td::contains(protocol_name, ' ')) {
+              protocol_names.push_back(std::move(protocol_name));
+            }
+          }
+          G()->set_option_string("web_app_allowed_protocols", implode(protocol_names, ' '));
+        } else {
+          LOG(ERROR) << "Receive unexpected web_app_allowed_protocols " << to_string(*value);
+        }
+        continue;
+      }
+      if (key == "weather_search_username") {
+        G()->set_option_string("weather_bot_username", get_json_value_string(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "bot_preview_medias_max") {
+        G()->set_option_integer("bot_media_preview_count_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "story_weather_preload") {
+        G()->set_option_boolean("can_preload_weather", get_json_value_bool(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "ton_proxy_address") {
+        G()->set_option_string("ton_proxy_address", get_json_value_string(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stars_gifts_enabled") {
+        G()->set_option_boolean("can_gift_stars", get_json_value_bool(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stars_paid_reaction_amount_max") {
+        G()->set_option_integer("paid_reaction_star_count_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stars_subscription_amount_max") {
+        G()->set_option_integer("subscription_star_count_max", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stars_usd_sell_rate_x1000") {
+        G()->set_option_integer("usd_to_thousand_star_rate", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
+      if (key == "stars_usd_withdraw_rate_x1000") {
+        G()->set_option_integer("thousand_star_to_usd_rate", get_json_value_int(std::move(key_value->value_), key));
+        continue;
+      }
 
       new_values.push_back(std::move(key_value));
     }
@@ -1965,6 +2081,10 @@ void ConfigManager::process_app_config(tl_object_ptr<telegram_api::JSONValue> &c
 
   send_closure(G()->link_manager(), &LinkManager::update_autologin_domains, std::move(autologin_domains),
                std::move(url_auth_domains), std::move(whitelisted_domains));
+
+  send_closure(G()->transcription_manager(), &TranscriptionManager::on_update_trial_parameters,
+               transcribe_audio_trial_weekly_number, transcribe_audio_trial_duration_max,
+               transcribe_audio_trial_cooldown_until);
 
   Global &options = *G();
 
@@ -2049,51 +2169,23 @@ void ConfigManager::process_app_config(tl_object_ptr<telegram_api::JSONValue> &c
   if (dialog_filter_update_period > 0) {
     options.set_option_integer("chat_folder_new_chats_update_period", dialog_filter_update_period);
   }
-
-  bool is_premium = options.get_option_boolean("is_premium");
-  if (is_premium) {
-    options.set_option_integer("chat_folder_count_max", options.get_option_integer("dialog_filters_limit_premium", 20));
-    options.set_option_integer("chat_folder_chosen_chat_count_max",
-                               options.get_option_integer("dialog_filters_chats_limit_premium", 200));
-    options.set_option_integer("bio_length_max", options.get_option_integer("about_length_limit_premium", 140));
-    options.set_option_integer("saved_animations_limit", options.get_option_integer("saved_gifs_limit_premium", 400));
-    options.set_option_integer("favorite_stickers_limit",
-                               options.get_option_integer("stickers_faved_limit_premium", 10));
-    options.set_option_integer("pinned_chat_count_max",
-                               options.get_option_integer("dialogs_pinned_limit_premium", 200));
-    options.set_option_integer("pinned_archived_chat_count_max",
-                               options.get_option_integer("dialogs_folder_pinned_limit_premium", 200));
-    options.set_option_integer("chat_folder_invite_link_count_max",
-                               options.get_option_integer("chatlist_invites_limit_premium", 20));
-    options.set_option_integer("added_shareable_chat_folder_count_max",
-                               options.get_option_integer("chatlist_invites_limit_premium", 20));
+  if (td::contains(dismissed_suggestions, "BIRTHDAY_CONTACTS_TODAY")) {
+    options.set_option_boolean("dismiss_birthday_contact_today", true);
   } else {
-    options.set_option_integer("chat_folder_count_max", options.get_option_integer("dialog_filters_limit_default", 10));
-    options.set_option_integer("chat_folder_chosen_chat_count_max",
-                               options.get_option_integer("dialog_filters_chats_limit_default", 100));
-    options.set_option_integer("bio_length_max", options.get_option_integer("about_length_limit_default", 70));
-    options.set_option_integer("saved_animations_limit", options.get_option_integer("saved_gifs_limit_default", 200));
-    options.set_option_integer("favorite_stickers_limit",
-                               options.get_option_integer("stickers_faved_limit_default", 5));
-    options.set_option_integer("pinned_chat_count_max",
-                               options.get_option_integer("dialogs_pinned_limit_default", 100));
-    options.set_option_integer("pinned_archived_chat_count_max",
-                               options.get_option_integer("dialogs_folder_pinned_limit_default", 100));
-    options.set_option_integer("chat_folder_invite_link_count_max",
-                               options.get_option_integer("chatlist_invites_limit_default", 3));
-    options.set_option_integer("added_shareable_chat_folder_count_max",
-                               options.get_option_integer("chatlist_invites_limit_default", 2));
+    options.set_option_empty("dismiss_birthday_contact_today");
   }
 
   if (!is_premium_available) {
     premium_bot_username.clear();  // just in case
     premium_invoice_slug.clear();  // just in case
     premium_features.clear();      // just in case
+    business_features.clear();     // just in case
     options.set_option_empty("is_premium_available");
   } else {
     options.set_option_boolean("is_premium_available", is_premium_available);
   }
   options.set_option_string("premium_features", implode(premium_features, ','));
+  options.set_option_string("business_features", implode(business_features, ','));
   if (premium_bot_username.empty()) {
     options.set_option_empty("premium_bot_username");
   } else {
@@ -2120,16 +2212,60 @@ void ConfigManager::process_app_config(tl_object_ptr<telegram_api::JSONValue> &c
   } else {
     options.set_option_empty("gift_premium_from_input_field");
   }
+  if (stories_changelog_user_id != UserManager::get_service_notifications_user_id().get()) {
+    options.set_option_integer("stories_changelog_user_id", stories_changelog_user_id);
+  } else {
+    options.set_option_empty("stories_changelog_user_id");
+  }
+  if (can_edit_fact_check) {
+    options.set_option_boolean("can_edit_fact_check", can_edit_fact_check);
+  } else {
+    options.set_option_empty("can_edit_fact_check");
+  }
+
+  if (story_viewers_expire_period >= 0) {
+    options.set_option_integer("story_viewers_expiration_delay", story_viewers_expire_period);
+  }
+
+  if (!options.get_option_boolean("need_synchronize_archive_all_stories")) {
+    // options.set_option_boolean("archive_all_stories", archive_all_stories);
+  }
+  options.set_option_empty("archive_all_stories");
 
   options.set_option_integer("stickers_premium_by_emoji_num", stickers_premium_by_emoji_num);
   options.set_option_integer("stickers_normal_by_emoji_per_premium_num", stickers_normal_by_emoji_per_premium_num);
 
+  options.set_option_boolean("can_withdraw_chat_revenue", channel_revenue_withdrawal_enabled);
+  options.set_option_boolean("need_premium_for_new_chat_privacy", need_premium_for_new_chat_privacy);
+
   options.set_option_empty("default_ton_blockchain_config");
   options.set_option_empty("default_ton_blockchain_name");
+  options.set_option_empty("story_viewers_expire_period");
+
+  if (premium_manage_subscription_url.empty()) {
+    G()->set_option_empty("premium_manage_subscription_url");
+  } else {
+    G()->set_option_string("premium_manage_subscription_url", premium_manage_subscription_url);
+  }
 
   // do not update suggested actions while changing content settings or dismissing an action
   if (!is_set_content_settings_request_sent_ && dismiss_suggested_action_request_count_ == 0) {
-    update_suggested_actions(suggested_actions_, std::move(suggested_actions));
+    if (update_suggested_actions(suggested_actions_, std::move(suggested_actions))) {
+      save_suggested_actions();
+    }
+  }
+}
+
+string ConfigManager::get_suggested_actions_database_key() {
+  return "suggested_actions";
+}
+
+void ConfigManager::save_suggested_actions() {
+  if (suggested_actions_.empty()) {
+    G()->td_db()->get_binlog_pmc()->erase(get_suggested_actions_database_key());
+  } else {
+    G()->td_db()->get_binlog_pmc()->set(get_suggested_actions_database_key(),
+                                        log_event_store(suggested_actions_).as_slice().str());
   }
 }
 

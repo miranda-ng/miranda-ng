@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -112,8 +112,8 @@ static void test_pq_slow(td::uint64 first, td::uint64 second) {
   td::BigNum p_res = td::BigNum::from_binary(p_str);
   td::BigNum q_res = td::BigNum::from_binary(q_str);
 
-  LOG_CHECK(p_str == p.to_binary()) << td::tag("got", p_res.to_decimal()) << td::tag("expected", first);
-  LOG_CHECK(q_str == q.to_binary()) << td::tag("got", q_res.to_decimal()) << td::tag("expected", second);
+  LOG_CHECK(p_str == p.to_binary()) << td::tag("receive", p_res.to_decimal()) << td::tag("expected", first);
+  LOG_CHECK(q_str == q.to_binary()) << td::tag("receive", q_res.to_decimal()) << td::tag("expected", second);
 }
 #endif
 

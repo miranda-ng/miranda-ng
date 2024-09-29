@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -45,6 +45,7 @@
 #include "td/utils/StringBuilder.h"
 #include "td/utils/utf8.h"
 
+#include <cmath>
 #include <limits>
 
 namespace td {
@@ -120,10 +121,20 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
         UNREACHABLE();
     }
   }
+  bool video_is_animation = false;
+  double video_precise_duration = 0.0;
   int32 video_duration = 0;
+  int32 video_preload_prefix_size = 0;
+  double video_start_ts = 0.0;
   string video_waveform;
   if (video != nullptr) {
-    video_duration = video->duration_;
+    video_precise_duration = video->duration_;
+    video_duration = static_cast<int32>(std::ceil(video->duration_));
+    if (document_subtype == Subtype::Story) {
+      video_preload_prefix_size = video->preload_prefix_size_;
+      video_start_ts = video->video_start_ts_;
+    }
+    video_is_animation = video->nosound_;
     auto video_dimensions = get_dimensions(video->w_, video->h_, "documentAttributeVideo");
     if (dimensions.width == 0 || (video_dimensions.width != 0 && video_dimensions != dimensions)) {
       if (dimensions.width != 0) {
@@ -259,6 +270,14 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
       }
       file_type = FileType::Ringtone;
       default_extension = Slice("mp3");
+      break;
+    case Subtype::Story:
+      if (document_type != Document::Type::Video) {
+        LOG(ERROR) << "Receive story of type " << document_type;
+        document_type = Document::Type::Video;
+      }
+      file_type = FileType::VideoStory;
+      default_extension = Slice("mp4");
       break;
     default:
       break;
@@ -523,10 +542,10 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
                                              std::move(custom_emoji), sticker_format, load_data_multipromise_ptr);
       break;
     case Document::Type::Video:
-      td_->videos_manager_->create_video(file_id, std::move(minithumbnail), std::move(thumbnail),
-                                         std::move(animated_thumbnail), has_stickers, vector<FileId>(),
-                                         std::move(file_name), std::move(mime_type), video_duration, dimensions,
-                                         supports_streaming, !is_web);
+      td_->videos_manager_->create_video(
+          file_id, std::move(minithumbnail), std::move(thumbnail), std::move(animated_thumbnail), has_stickers,
+          vector<FileId>(), std::move(file_name), std::move(mime_type), video_duration, video_precise_duration,
+          dimensions, supports_streaming, video_is_animation, video_preload_prefix_size, video_start_ts, !is_web);
       break;
     case Document::Type::VideoNote:
       td_->video_notes_manager_->create_video_note(file_id, std::move(minithumbnail), std::move(thumbnail),
@@ -604,7 +623,8 @@ const DocumentsManager::GeneralDocument *DocumentsManager::get_document(FileId f
 bool DocumentsManager::has_input_media(FileId file_id, FileId thumbnail_file_id, bool is_secret) const {
   auto file_view = td_->file_manager_->get_file_view(file_id);
   if (is_secret) {
-    if (!file_view.is_encrypted_secret() || file_view.encryption_key().empty() || !file_view.has_remote_location()) {
+    if (!file_view.is_encrypted_secret() || file_view.encryption_key().empty() ||
+        !file_view.has_full_remote_location()) {
       return false;
     }
 
@@ -613,13 +633,13 @@ bool DocumentsManager::has_input_media(FileId file_id, FileId thumbnail_file_id,
     if (file_view.is_encrypted()) {
       return false;
     }
-    if (td_->auth_manager_->is_bot() && file_view.has_remote_location()) {
+    if (td_->auth_manager_->is_bot() && file_view.has_full_remote_location()) {
       return true;
     }
     // having remote location is not enough to have InputMedia, because the file may not have valid file_reference
     // also file_id needs to be duped, because upload can be called to repair the file_reference and every upload
     // request must have unique file_id
-    return /* file_view.has_remote_location() || */ file_view.has_url();
+    return /* file_view.has_full_remote_location() || */ file_view.has_url();
   }
 }
 
@@ -633,8 +653,9 @@ SecretInputMedia DocumentsManager::get_secret_input_media(FileId document_file_i
   if (!file_view.is_encrypted_secret() || file_view.encryption_key().empty()) {
     return SecretInputMedia{};
   }
-  if (file_view.has_remote_location()) {
-    input_file = file_view.main_remote_location().as_input_encrypted_file();
+  const auto *main_remote_location = file_view.get_main_remote_location();
+  if (main_remote_location != nullptr) {
+    input_file = main_remote_location->as_input_encrypted_file();
   }
   if (!input_file) {
     return SecretInputMedia{};
@@ -663,12 +684,14 @@ tl_object_ptr<telegram_api::InputMedia> DocumentsManager::get_input_media(
   if (file_view.is_encrypted()) {
     return nullptr;
   }
-  if (file_view.has_remote_location() && !file_view.main_remote_location().is_web() && input_file == nullptr) {
-    return make_tl_object<telegram_api::inputMediaDocument>(
-        0, false /*ignored*/, file_view.main_remote_location().as_input_document(), 0, string());
+  const auto *main_remote_location = file_view.get_main_remote_location();
+  if (main_remote_location != nullptr && !main_remote_location->is_web() && input_file == nullptr) {
+    return make_tl_object<telegram_api::inputMediaDocument>(0, false /*ignored*/,
+                                                            main_remote_location->as_input_document(), 0, string());
   }
-  if (file_view.has_url()) {
-    return make_tl_object<telegram_api::inputMediaDocumentExternal>(0, false /*ignored*/, file_view.url(), 0);
+  const auto *url = file_view.get_url();
+  if (url != nullptr) {
+    return make_tl_object<telegram_api::inputMediaDocumentExternal>(0, false /*ignored*/, *url, 0);
   }
 
   if (input_file != nullptr) {
@@ -692,7 +715,7 @@ tl_object_ptr<telegram_api::InputMedia> DocumentsManager::get_input_media(
         std::move(input_thumbnail), document->mime_type, std::move(attributes),
         vector<tl_object_ptr<telegram_api::InputDocument>>(), 0);
   } else {
-    CHECK(!file_view.has_remote_location());
+    CHECK(main_remote_location == nullptr);
   }
 
   return nullptr;
@@ -708,6 +731,12 @@ void DocumentsManager::delete_document_thumbnail(FileId file_id) {
   auto &document = documents_[file_id];
   CHECK(document != nullptr);
   document->thumbnail = PhotoSize();
+}
+
+Slice DocumentsManager::get_document_mime_type(FileId file_id) const {
+  auto document = get_document(file_id);
+  CHECK(document != nullptr);
+  return document->mime_type;
 }
 
 FileId DocumentsManager::dup_document(FileId new_id, FileId old_id) {

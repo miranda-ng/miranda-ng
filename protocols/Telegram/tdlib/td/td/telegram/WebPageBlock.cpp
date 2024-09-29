@@ -1,17 +1,18 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/WebPageBlock.h"
 
+#include "td/telegram/AccentColorId.h"
 #include "td/telegram/AnimationsManager.h"
 #include "td/telegram/AnimationsManager.hpp"
 #include "td/telegram/AudiosManager.h"
 #include "td/telegram/AudiosManager.hpp"
 #include "td/telegram/ChannelId.h"
-#include "td/telegram/ContactsManager.h"
+#include "td/telegram/ChatManager.h"
 #include "td/telegram/DialogId.h"
 #include "td/telegram/Dimensions.h"
 #include "td/telegram/Document.h"
@@ -20,10 +21,13 @@
 #include "td/telegram/files/FileId.h"
 #include "td/telegram/LinkManager.h"
 #include "td/telegram/Location.h"
+#include "td/telegram/PeerColor.h"
 #include "td/telegram/Photo.h"
 #include "td/telegram/Photo.hpp"
 #include "td/telegram/PhotoFormat.h"
 #include "td/telegram/Td.h"
+#include "td/telegram/telegram_api.h"
+#include "td/telegram/ThemeManager.h"
 #include "td/telegram/Version.h"
 #include "td/telegram/VideosManager.h"
 #include "td/telegram/VideosManager.hpp"
@@ -1416,11 +1420,18 @@ class WebPageBlockChatLink final : public WebPageBlock {
   string title;
   DialogPhoto photo;
   string username;
+  AccentColorId accent_color_id;
+  ChannelId channel_id;
 
  public:
   WebPageBlockChatLink() = default;
-  WebPageBlockChatLink(string &&title, DialogPhoto photo, string &&username)
-      : title(std::move(title)), photo(std::move(photo)), username(std::move(username)) {
+  WebPageBlockChatLink(string &&title, DialogPhoto photo, string &&username, AccentColorId accent_color_id,
+                       ChannelId channel_id)
+      : title(std::move(title))
+      , photo(std::move(photo))
+      , username(std::move(username))
+      , accent_color_id(accent_color_id)
+      , channel_id(channel_id) {
   }
 
   Type get_type() const final {
@@ -1433,23 +1444,80 @@ class WebPageBlockChatLink final : public WebPageBlock {
 
   td_api::object_ptr<td_api::PageBlock> get_page_block_object(Context *context) const final {
     return make_tl_object<td_api::pageBlockChatLink>(
-        title, get_chat_photo_info_object(context->td_->file_manager_.get(), &photo), username);
+        title, get_chat_photo_info_object(context->td_->file_manager_.get(), &photo),
+        context->td_->theme_manager_->get_accent_color_id_object(accent_color_id, AccentColorId(channel_id)), username);
   }
 
   template <class StorerT>
   void store(StorerT &storer) const {
     using ::td::store;
-    store(title, storer);
-    store(photo, storer);
-    store(username, storer);
+    bool has_title = !title.empty();
+    bool has_photo = photo.small_file_id.is_valid();
+    bool has_username = !username.empty();
+    bool has_accent_color_id = true;
+    bool has_channel_id = channel_id.is_valid();
+    BEGIN_STORE_FLAGS();
+    STORE_FLAG(has_title);
+    STORE_FLAG(has_photo);
+    STORE_FLAG(has_username);
+    STORE_FLAG(has_accent_color_id);
+    STORE_FLAG(has_channel_id);
+    END_STORE_FLAGS();
+    if (has_title) {
+      store(title, storer);
+    }
+    if (has_photo) {
+      store(photo, storer);
+    }
+    if (has_username) {
+      store(username, storer);
+    }
+    store(accent_color_id, storer);
+    if (has_channel_id) {
+      store(channel_id, storer);
+    }
   }
 
   template <class ParserT>
   void parse(ParserT &parser) {
     using ::td::parse;
-    parse(title, parser);
-    parse(photo, parser);
-    parse(username, parser);
+    bool has_title;
+    bool has_photo;
+    bool has_username;
+    bool has_accent_color_id = false;
+    bool has_channel_id = false;
+    if (parser.version() >= static_cast<int32>(Version::AddPageBlockChatLinkFlags)) {
+      BEGIN_PARSE_FLAGS();
+      PARSE_FLAG(has_title);
+      PARSE_FLAG(has_photo);
+      PARSE_FLAG(has_username);
+      PARSE_FLAG(has_accent_color_id);
+      PARSE_FLAG(has_channel_id);
+      END_PARSE_FLAGS();
+    } else {
+      has_title = true;
+      has_photo = true;
+      has_username = true;
+    }
+    if (has_title) {
+      parse(title, parser);
+    }
+    if (has_photo) {
+      parse(photo, parser);
+    }
+    if (has_username) {
+      parse(username, parser);
+    }
+    if (has_accent_color_id) {
+      parse(accent_color_id, parser);
+    } else {
+      accent_color_id = AccentColorId(5);  // blue
+    }
+    if (has_channel_id) {
+      parse(channel_id, parser);
+    } else {
+      channel_id = ChannelId(static_cast<int64>(5));  // blue
+    }
   }
 };
 
@@ -2136,19 +2204,22 @@ unique_ptr<WebPageBlock> get_web_page_block(Td *td, tl_object_ptr<telegram_api::
           return nullptr;
         }
 
-        if (td->contacts_manager_->have_channel_force(channel_id)) {
-          td->contacts_manager_->on_get_chat(std::move(page_block->channel_), "pageBlockChannel");
+        if (td->chat_manager_->have_channel_force(channel_id, "pageBlockChannel")) {
+          td->chat_manager_->on_get_chat(std::move(page_block->channel_), "pageBlockChannel");
           LOG(INFO) << "Receive known min " << channel_id;
-          return td::make_unique<WebPageBlockChatLink>(td->contacts_manager_->get_channel_title(channel_id),
-                                                       *td->contacts_manager_->get_channel_dialog_photo(channel_id),
-                                                       td->contacts_manager_->get_channel_first_username(channel_id));
+          return td::make_unique<WebPageBlockChatLink>(td->chat_manager_->get_channel_title(channel_id),
+                                                       *td->chat_manager_->get_channel_dialog_photo(channel_id),
+                                                       td->chat_manager_->get_channel_first_username(channel_id),
+                                                       td->chat_manager_->get_channel_accent_color_id(channel_id),
+                                                       channel_id);
         } else {
           bool has_access_hash = (channel->flags_ & telegram_api::channel::ACCESS_HASH_MASK) != 0;
+          PeerColor peer_color(channel->color_);
           return td::make_unique<WebPageBlockChatLink>(
               std::move(channel->title_),
               get_dialog_photo(td->file_manager_.get(), DialogId(channel_id),
                                has_access_hash ? channel->access_hash_ : 0, std::move(channel->photo_)),
-              std::move(channel->username_));
+              std::move(channel->username_), peer_color.accent_color_id_, channel_id);
         }
       } else {
         LOG(ERROR) << "Receive wrong channel " << to_string(page_block->channel_);
@@ -2242,7 +2313,7 @@ unique_ptr<WebPageBlock> get_web_page_block(Td *td, tl_object_ptr<telegram_api::
     }
     case telegram_api::pageBlockMap::ID: {
       auto page_block = move_tl_object_as<telegram_api::pageBlockMap>(page_block_ptr);
-      Location location(page_block->geo_);
+      Location location(td, page_block->geo_);
       auto zoom = page_block->zoom_;
       Dimensions dimensions = get_dimensions(page_block->w_, page_block->h_, "pageBlockMap");
       if (location.empty()) {
@@ -2418,6 +2489,21 @@ vector<td_api::object_ptr<td_api::PageBlock>> get_page_blocks_object(
   context.is_first_pass_ = false;
   context.anchors_.emplace(Slice(), nullptr);  // back to top
   return get_page_blocks_object(page_blocks, &context);
+}
+
+bool WebPageBlock::are_allowed_album_block_types(const vector<unique_ptr<WebPageBlock>> &page_blocks) {
+  for (const auto &block : page_blocks) {
+    switch (block->get_type()) {
+      case Type::Title:
+      case Type::AuthorDate:
+      case Type::Collage:
+      case Type::Slideshow:
+        continue;
+      default:
+        return false;
+    }
+  }
+  return true;
 }
 
 }  // namespace td

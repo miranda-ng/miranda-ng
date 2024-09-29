@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,7 +32,7 @@ class AutosaveManager final : public Actor {
   void set_autosave_settings(td_api::object_ptr<td_api::AutosaveSettingsScope> &&scope,
                              td_api::object_ptr<td_api::scopeAutosaveSettings> &&settings, Promise<Unit> &&promise);
 
-  void clear_autosave_settings_excpetions(Promise<Unit> &&promise);
+  void clear_autosave_settings_exceptions(Promise<Unit> &&promise);
 
   void get_current_state(vector<td_api::object_ptr<td_api::Update>> &updates) const;
 

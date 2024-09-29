@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,16 +32,22 @@ class VideosManager {
 
   int32 get_video_duration(FileId file_id) const;
 
-  tl_object_ptr<td_api::video> get_video_object(FileId file_id) const;
+  td_api::object_ptr<td_api::video> get_video_object(FileId file_id) const;
+
+  td_api::object_ptr<td_api::storyVideo> get_story_video_object(FileId file_id) const;
 
   void create_video(FileId file_id, string minithumbnail, PhotoSize thumbnail, AnimationSize animated_thumbnail,
                     bool has_stickers, vector<FileId> &&sticker_file_ids, string file_name, string mime_type,
-                    int32 duration, Dimensions dimensions, bool supports_streaming, bool replace);
+                    int32 duration, double precise_duration, Dimensions dimensions, bool supports_streaming,
+                    bool is_animation, int32 preload_prefix_size, double start_ts, bool replace);
 
   tl_object_ptr<telegram_api::InputMedia> get_input_media(FileId file_id,
                                                           tl_object_ptr<telegram_api::InputFile> input_file,
                                                           tl_object_ptr<telegram_api::InputFile> input_thumbnail,
                                                           int32 ttl, bool has_spoiler) const;
+
+  telegram_api::object_ptr<telegram_api::InputMedia> get_story_document_input_media(FileId file_id,
+                                                                                    double main_frame_timestamp) const;
 
   SecretInputMedia get_secret_input_media(FileId video_file_id,
                                           tl_object_ptr<telegram_api::InputEncryptedFile> input_file,
@@ -71,12 +77,16 @@ class VideosManager {
     string file_name;
     string mime_type;
     int32 duration = 0;
+    double precise_duration = 0;
     Dimensions dimensions;
     string minithumbnail;
     PhotoSize thumbnail;
     AnimationSize animated_thumbnail;
+    int32 preload_prefix_size = 0;
+    double start_ts = 0.0;
 
     bool supports_streaming = false;
+    bool is_animation = false;
 
     bool has_stickers = false;
     vector<FileId> sticker_file_ids;

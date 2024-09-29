@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,6 +25,8 @@
       #define TD_DARWIN_IOS 1
     #elif TARGET_OS_TV
       #define TD_DARWIN_TV_OS 1
+    #elif TARGET_OS_VISION
+      #define TD_DARWIN_VISION_OS 1
     #elif TARGET_OS_WATCH
       #define TD_DARWIN_WATCH_OS 1
     #else

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,14 +7,16 @@
 #include "td/telegram/RecentDialogList.h"
 
 #include "td/telegram/AccessRights.h"
-#include "td/telegram/ContactsManager.h"
+#include "td/telegram/ChatManager.h"
 #include "td/telegram/DialogListId.h"
+#include "td/telegram/DialogManager.h"
 #include "td/telegram/FolderId.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/MessagesManager.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/TdDb.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/actor/MultiPromise.h"
 
@@ -22,8 +24,6 @@
 #include "td/utils/misc.h"
 #include "td/utils/Slice.h"
 #include "td/utils/SliceBuilder.h"
-
-#include <algorithm>
 
 namespace td {
 
@@ -50,14 +50,14 @@ void RecentDialogList::save_dialogs() const {
       string username;
       switch (dialog_id.get_type()) {
         case DialogType::User:
-          if (!td_->contacts_manager_->is_user_contact(dialog_id.get_user_id())) {
-            username = td_->contacts_manager_->get_user_first_username(dialog_id.get_user_id());
+          if (!td_->user_manager_->is_user_contact(dialog_id.get_user_id())) {
+            username = td_->user_manager_->get_user_first_username(dialog_id.get_user_id());
           }
           break;
         case DialogType::Chat:
           break;
         case DialogType::Channel:
-          username = td_->contacts_manager_->get_channel_first_username(dialog_id.get_channel_id());
+          username = td_->chat_manager_->get_channel_first_username(dialog_id.get_channel_id());
           break;
         case DialogType::SecretChat:
           break;
@@ -100,13 +100,13 @@ void RecentDialogList::load_dialogs(Promise<Unit> &&promise) {
   vector<DialogId> dialog_ids;
   for (auto &found_dialog : found_dialogs) {
     if (found_dialog[0] == '@') {
-      td_->messages_manager_->search_public_dialog(found_dialog, false, mpas.get_promise());
+      td_->dialog_manager_->search_public_dialog(found_dialog, false, mpas.get_promise());
     } else {
       dialog_ids.push_back(DialogId(to_integer<int64>(found_dialog)));
     }
   }
   if (!dialog_ids.empty()) {
-    if (G()->use_chat_info_database()) {
+    if (G()->use_chat_info_database() && !G()->td_db()->was_dialog_db_created()) {
       td_->messages_manager_->load_dialogs(
           std::move(dialog_ids),
           PromiseCreator::lambda(
@@ -117,7 +117,7 @@ void RecentDialogList::load_dialogs(Promise<Unit> &&promise) {
           PromiseCreator::lambda([promise = mpas.get_promise()](td_api::object_ptr<td_api::chats> &&chats) mutable {
             promise.set_value(Unit());
           }));
-      td_->contacts_manager_->search_contacts("", 1, mpas.get_promise());
+      td_->user_manager_->search_contacts("", 1, mpas.get_promise());
     }
   }
 
@@ -138,14 +138,14 @@ void RecentDialogList::on_load_dialogs(vector<string> &&found_dialogs) {
   for (auto it = found_dialogs.rbegin(); it != found_dialogs.rend(); ++it) {
     DialogId dialog_id;
     if ((*it)[0] == '@') {
-      dialog_id = td_->messages_manager_->resolve_dialog_username(it->substr(1));
+      dialog_id = td_->dialog_manager_->get_resolved_dialog_by_username(it->substr(1));
     } else {
       dialog_id = DialogId(to_integer<int64>(*it));
     }
-    if (dialog_id.is_valid() && removed_dialog_ids_.count(dialog_id) == 0 &&
-        td_->messages_manager_->have_dialog_info(dialog_id) &&
-        td_->messages_manager_->have_input_peer(dialog_id, AccessRights::Read)) {
-      td_->messages_manager_->force_create_dialog(dialog_id, "recent dialog");
+    if (dialog_id.is_valid() && td::contains(removed_dialog_ids_, dialog_id) == 0 &&
+        td_->dialog_manager_->have_dialog_info(dialog_id) &&
+        td_->dialog_manager_->have_input_peer(dialog_id, true, AccessRights::Read)) {
+      td_->dialog_manager_->force_create_dialog(dialog_id, "recent dialog");
       do_add_dialog(dialog_id);
     }
   }
@@ -175,19 +175,9 @@ bool RecentDialogList::do_add_dialog(DialogId dialog_id) {
     return false;
   }
 
-  // TODO create function
-  auto it = std::find(dialog_ids_.begin(), dialog_ids_.end(), dialog_id);
-  if (it == dialog_ids_.end()) {
-    if (dialog_ids_.size() == max_size_) {
-      CHECK(!dialog_ids_.empty());
-      dialog_ids_.back() = dialog_id;
-    } else {
-      dialog_ids_.push_back(dialog_id);
-    }
-    it = dialog_ids_.end() - 1;
-  }
-  std::rotate(dialog_ids_.begin(), it, it + 1);
-  removed_dialog_ids_.erase(dialog_id);
+  add_to_top(dialog_ids_, max_size_, dialog_id);
+
+  td::remove(removed_dialog_ids_, dialog_id);
   return true;
 }
 
@@ -200,8 +190,8 @@ void RecentDialogList::remove_dialog(DialogId dialog_id) {
   }
   if (td::remove(dialog_ids_, dialog_id)) {
     save_dialogs();
-  } else if (!is_loaded_) {
-    removed_dialog_ids_.insert(dialog_id);
+  } else if (!is_loaded_ && !td::contains(removed_dialog_ids_, dialog_id)) {
+    removed_dialog_ids_.push_back(dialog_id);
   }
 }
 
@@ -217,7 +207,7 @@ void RecentDialogList::update_dialogs() {
         // always keep
         break;
       case DialogType::Chat: {
-        auto channel_id = td_->contacts_manager_->get_chat_migrated_to_channel_id(dialog_id.get_chat_id());
+        auto channel_id = td_->chat_manager_->get_chat_migrated_to_channel_id(dialog_id.get_chat_id());
         if (channel_id.is_valid() && td_->messages_manager_->have_dialog(DialogId(channel_id))) {
           dialog_id = DialogId(channel_id);
         }

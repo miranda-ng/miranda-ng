@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
             info[0].compressed_size += event.raw_event_.size();
             info[event.type_].compressed_size += event.raw_event_.size();
             if (event.type_ == ConfigPmcMagic || event.type_ == BinlogPmcMagic) {
-              auto key = td::TlParser(event.get_data()).fetch_string<td::Slice>();
+              auto key = td::TlParser(event.get_data()).template fetch_string<td::Slice>();
               info[event.type_].compressed_trie.add(key);
             }
           },
@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
             info[0].full_size += event.raw_event_.size();
             info[event.type_].full_size += event.raw_event_.size();
             if (event.type_ == ConfigPmcMagic || event.type_ == BinlogPmcMagic) {
-              auto key = td::TlParser(event.get_data()).fetch_string<td::Slice>();
+              auto key = td::TlParser(event.get_data()).template fetch_string<td::Slice>();
               info[event.type_].trie.add(key);
             }
             LOG(PLAIN) << "LogEvent[" << td::tag("event_id", td::format::as_hex(event.id_))

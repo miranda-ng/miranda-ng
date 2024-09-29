@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -83,7 +83,7 @@ class FileStats {
   static FileTypeStat get_nontemp_stat(const StatByType &by_type);
 
   static td_api::object_ptr<td_api::storageStatisticsByChat> get_storage_statistics_by_chat_object(
-      DialogId dialog_id, const StatByType &stat_by_type_);
+      DialogId dialog_id, const StatByType &stat_by_type);
 
   friend StringBuilder &operator<<(StringBuilder &sb, const FileStats &file_stats);
 

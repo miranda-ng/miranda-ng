@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,6 +8,7 @@
 
 #include "td/mtproto/AuthKey.h"
 #include "td/mtproto/Handshake.h"
+#include "td/mtproto/MessageId.h"
 #include "td/mtproto/NoCryptoStorer.h"
 #include "td/mtproto/PacketInfo.h"
 #include "td/mtproto/PacketStorer.h"
@@ -61,7 +62,7 @@ class HandshakeConnection final
   unique_ptr<AuthKeyHandshakeContext> context_;
 
   void send_no_crypto(const Storer &storer) final {
-    raw_connection_->send_no_crypto(PacketStorer<NoCryptoImpl>(0, storer));
+    raw_connection_->send_no_crypto(PacketStorer<NoCryptoImpl>(MessageId(), storer));
   }
 
   Status on_raw_packet(const PacketInfo &packet_info, BufferSlice packet) final {

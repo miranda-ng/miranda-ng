@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,6 +19,7 @@
 
 #include "td/utils/buffer.h"
 #include "td/utils/common.h"
+#include "td/utils/Slice.h"
 #include "td/utils/WaitFreeHashMap.h"
 
 #include <utility>
@@ -82,7 +83,7 @@ class DocumentsManager {
 
   tl_object_ptr<td_api::document> get_document_object(FileId file_id, PhotoFormat thumbnail_format) const;
 
-  enum class Subtype : int32 { Background, Pattern, Ringtone, Other };
+  enum class Subtype : int32 { Background, Pattern, Ringtone, Story, Other };
 
   Document on_get_document(RemoteDocument remote_document, DialogId owner_dialog_id,
                            MultiPromiseActor *load_data_multipromise_ptr = nullptr,
@@ -105,6 +106,8 @@ class DocumentsManager {
   FileId get_document_thumbnail_file_id(FileId file_id) const;
 
   void delete_document_thumbnail(FileId file_id);
+
+  Slice get_document_mime_type(FileId file_id) const;
 
   FileId dup_document(FileId new_id, FileId old_id);
 
@@ -133,7 +136,7 @@ class DocumentsManager {
   FileId on_get_document(unique_ptr<GeneralDocument> new_document, bool replace);
 
   Td *td_;
-  WaitFreeHashMap<FileId, unique_ptr<GeneralDocument>, FileIdHash> documents_;  // file_id -> GeneralDocument
+  WaitFreeHashMap<FileId, unique_ptr<GeneralDocument>, FileIdHash> documents_;
 };
 
 }  // namespace td

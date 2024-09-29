@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -14,6 +14,7 @@
 #include "td/utils/algorithm.h"
 #include "td/utils/buffer.h"
 #include "td/utils/common.h"
+#include "td/utils/FlatHashMap.h"
 #include "td/utils/HashTableUtils.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
@@ -25,6 +26,7 @@
 #include "td/utils/tl_parsers.h"
 #include "td/utils/tl_storers.h"
 
+#include <functional>
 #include <memory>
 #include <unordered_map>
 #include <utility>
@@ -83,6 +85,10 @@ class BinlogKeyValue final : public KeyValueSyncInterface {
         [&](const BinlogEvent &binlog_event) {
           Event event;
           event.parse(TlParser(binlog_event.get_data()));
+          if (event.key.empty()) {
+            LOG(ERROR) << "Have event with empty key";
+            return;
+          }
           map_.emplace(event.key.str(), std::make_pair(event.value.str(), binlog_event.id_));
         },
         std::move(db_key), DbKey::empty(), scheduler_id));
@@ -104,6 +110,10 @@ class BinlogKeyValue final : public KeyValueSyncInterface {
   void external_init_handle(const BinlogEvent &binlog_event) {
     Event event;
     event.parse(TlParser(binlog_event.get_data()));
+    if (event.key.empty()) {
+      LOG(ERROR) << "Have external event with empty key";
+      return;
+    }
     map_.emplace(event.key.str(), std::make_pair(event.value.str(), binlog_event.id_));
   }
 
@@ -121,6 +131,7 @@ class BinlogKeyValue final : public KeyValueSyncInterface {
   SeqNo set(string key, string value) final {
     auto lock = rw_mutex_.lock_write().move_as_ok();
     uint64 old_event_id = 0;
+    CHECK(!key.empty());
     auto it_ok = map_.emplace(key, std::make_pair(value, 0));
     if (!it_ok.second) {
       if (it_ok.first->second.first == value) {
@@ -202,12 +213,19 @@ class BinlogKeyValue final : public KeyValueSyncInterface {
     return it->second.first;
   }
 
-  void force_sync(Promise<> &&promise) final {
-    binlog_->force_sync(std::move(promise));
+  void force_sync(Promise<> &&promise, const char *source) final {
+    binlog_->force_sync(std::move(promise), source);
   }
 
   void lazy_sync(Promise<> &&promise) {
     binlog_->lazy_sync(std::move(promise));
+  }
+
+  void for_each(std::function<void(Slice, Slice)> func) final {
+    auto lock = rw_mutex_.lock_write().move_as_ok();
+    for (const auto &kv : map_) {
+      func(kv.first, kv.second.first);
+    }
   }
 
   std::unordered_map<string, string, Hash<string>> prefix_get(Slice prefix) final {
@@ -221,9 +239,10 @@ class BinlogKeyValue final : public KeyValueSyncInterface {
     return res;
   }
 
-  std::unordered_map<string, string, Hash<string>> get_all() final {
+  FlatHashMap<string, string> get_all() final {
     auto lock = rw_mutex_.lock_write().move_as_ok();
-    std::unordered_map<string, string, Hash<string>> res;
+    FlatHashMap<string, string> res;
+    res.reserve(map_.size());
     for (const auto &kv : map_) {
       res.emplace(kv.first, kv.second.first);
     }
@@ -248,6 +267,7 @@ class BinlogKeyValue final : public KeyValueSyncInterface {
       seq_no++;
     }
   }
+
   template <class T>
   friend class BinlogKeyValue;
 
@@ -256,7 +276,7 @@ class BinlogKeyValue final : public KeyValueSyncInterface {
   }
 
  private:
-  std::unordered_map<string, std::pair<string, uint64>, Hash<string>> map_;
+  FlatHashMap<string, std::pair<string, uint64>> map_;
   std::shared_ptr<BinlogT> binlog_;
   RwMutex rw_mutex_;
   int32 magic_ = MAGIC;
@@ -268,14 +288,14 @@ inline void BinlogKeyValue<Binlog>::add_event(uint64 seq_no, BufferSlice &&event
 }
 
 template <>
-inline void BinlogKeyValue<Binlog>::force_sync(Promise<> &&promise) {
-  binlog_->sync();
+inline void BinlogKeyValue<Binlog>::force_sync(Promise<> &&promise, const char *source) {
+  binlog_->sync(source);
   promise.set_value(Unit());
 }
 
 template <>
 inline void BinlogKeyValue<Binlog>::lazy_sync(Promise<> &&promise) {
-  force_sync(std::move(promise));
+  force_sync(std::move(promise), "lazy_sync");
 }
 
 }  // namespace td

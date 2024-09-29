@@ -50,6 +50,7 @@
     <ClCompile Include="td\tdutils\td\utils\ExitGuard.cpp" />
     <ClCompile Include="td\tdutils\td\utils\FlatHashTable.cpp" />
     <ClCompile Include="td\tdutils\td\utils\FloodControlGlobal.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\HttpDate.cpp" />
     <ClCompile Include="td\tdutils\td\utils\MpmcQueue.cpp" />
     <ClCompile Include="td\tdutils\td\utils\OptionParser.cpp" />
     <ClCompile Include="td\tdutils\td\utils\PathView.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="td\tdutils\td\utils\HashMap.h" />
     <ClInclude Include="td\tdutils\td\utils\HashSet.h" />
     <ClInclude Include="td\tdutils\td\utils\HashTableUtils.h" />
+    <ClInclude Include="td\tdutils\td\utils\HttpDate.h" />
     <ClInclude Include="td\tdutils\td\utils\MapNode.h" />
     <ClInclude Include="td\tdutils\td\utils\NullLog.h" />
     <ClInclude Include="td\tdutils\td\utils\OptionParser.h" />

@@ -67,28 +67,6 @@ std::string to_string(const std::vector<object_ptr<T>> &values) {
   return result;
 }
 
-class DecryptedMessage;
-
-class DecryptedMessageAction;
-
-class decryptedMessageLayer;
-
-class DecryptedMessageMedia;
-
-class DocumentAttribute;
-
-class FileLocation;
-
-class InputStickerSet;
-
-class MessageEntity;
-
-class PhotoSize;
-
-class SendMessageAction;
-
-class Object;
-
 class Object: public TlObject {
  public:
 
@@ -101,6 +79,12 @@ class Function: public TlObject {
   static object_ptr<Function> fetch(TlParser &p);
 };
 
+class DecryptedMessageAction;
+
+class DecryptedMessageMedia;
+
+class MessageEntity;
+
 class DecryptedMessage: public Object {
  public:
 
@@ -108,6 +92,10 @@ class DecryptedMessage: public Object {
 };
 
 class decryptedMessage8 final : public DecryptedMessage {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 random_id_;
   bytes random_bytes_;
@@ -117,9 +105,6 @@ class decryptedMessage8 final : public DecryptedMessage {
   decryptedMessage8(int64 random_id_, bytes &&random_bytes_, string const &message_, object_ptr<DecryptedMessageMedia> &&media_);
 
   static const std::int32_t ID = 528568095;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessage> fetch(TlParser &p);
 
@@ -133,6 +118,10 @@ class decryptedMessage8 final : public DecryptedMessage {
 };
 
 class decryptedMessageService8 final : public DecryptedMessage {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 random_id_;
   bytes random_bytes_;
@@ -141,9 +130,6 @@ class decryptedMessageService8 final : public DecryptedMessage {
   decryptedMessageService8(int64 random_id_, bytes &&random_bytes_, object_ptr<DecryptedMessageAction> &&action_);
 
   static const std::int32_t ID = -1438109059;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessage> fetch(TlParser &p);
 
@@ -157,6 +143,10 @@ class decryptedMessageService8 final : public DecryptedMessage {
 };
 
 class decryptedMessage23 final : public DecryptedMessage {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 random_id_;
   int32 ttl_;
@@ -166,9 +156,6 @@ class decryptedMessage23 final : public DecryptedMessage {
   decryptedMessage23(int64 random_id_, int32 ttl_, string const &message_, object_ptr<DecryptedMessageMedia> &&media_);
 
   static const std::int32_t ID = 541931640;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessage> fetch(TlParser &p);
 
@@ -182,6 +169,10 @@ class decryptedMessage23 final : public DecryptedMessage {
 };
 
 class decryptedMessageService final : public DecryptedMessage {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 random_id_;
   object_ptr<DecryptedMessageAction> action_;
@@ -189,9 +180,6 @@ class decryptedMessageService final : public DecryptedMessage {
   decryptedMessageService(int64 random_id_, object_ptr<DecryptedMessageAction> &&action_);
 
   static const std::int32_t ID = 1930838368;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessage> fetch(TlParser &p);
 
@@ -205,6 +193,10 @@ class decryptedMessageService final : public DecryptedMessage {
 };
 
 class decryptedMessage46 final : public DecryptedMessage {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 flags_;
   int64 random_id_;
@@ -221,9 +213,6 @@ class decryptedMessage46 final : public DecryptedMessage {
   decryptedMessage46(int32 flags_, int64 random_id_, int32 ttl_, string const &message_, object_ptr<DecryptedMessageMedia> &&media_, array<object_ptr<MessageEntity>> &&entities_, string const &via_bot_name_, int64 reply_to_random_id_);
 
   static const std::int32_t ID = 917541342;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessage> fetch(TlParser &p);
 
@@ -235,6 +224,10 @@ class decryptedMessage46 final : public DecryptedMessage {
 };
 
 class decryptedMessage final : public DecryptedMessage {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 flags_;
   bool silent_;
@@ -253,9 +246,6 @@ class decryptedMessage final : public DecryptedMessage {
   decryptedMessage(int32 flags_, bool silent_, int64 random_id_, int32 ttl_, string const &message_, object_ptr<DecryptedMessageMedia> &&media_, array<object_ptr<MessageEntity>> &&entities_, string const &via_bot_name_, int64 reply_to_random_id_, int64 grouped_id_);
 
   static const std::int32_t ID = -1848883596;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessage> fetch(TlParser &p);
 
@@ -266,6 +256,8 @@ class decryptedMessage final : public DecryptedMessage {
   void store(TlStorerToString &s, const char *field_name) const final;
 };
 
+class SendMessageAction;
+
 class DecryptedMessageAction: public Object {
  public:
 
@@ -273,15 +265,16 @@ class DecryptedMessageAction: public Object {
 };
 
 class decryptedMessageActionSetMessageTTL final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 ttl_seconds_;
 
   explicit decryptedMessageActionSetMessageTTL(int32 ttl_seconds_);
 
   static const std::int32_t ID = -1586283796;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -295,15 +288,16 @@ class decryptedMessageActionSetMessageTTL final : public DecryptedMessageAction 
 };
 
 class decryptedMessageActionReadMessages final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   array<int64> random_ids_;
 
   explicit decryptedMessageActionReadMessages(array<int64> &&random_ids_);
 
   static const std::int32_t ID = 206520510;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -317,15 +311,16 @@ class decryptedMessageActionReadMessages final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionDeleteMessages final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   array<int64> random_ids_;
 
   explicit decryptedMessageActionDeleteMessages(array<int64> &&random_ids_);
 
   static const std::int32_t ID = 1700872964;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -339,15 +334,16 @@ class decryptedMessageActionDeleteMessages final : public DecryptedMessageAction
 };
 
 class decryptedMessageActionScreenshotMessages final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   array<int64> random_ids_;
 
   explicit decryptedMessageActionScreenshotMessages(array<int64> &&random_ids_);
 
   static const std::int32_t ID = -1967000459;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -361,12 +357,13 @@ class decryptedMessageActionScreenshotMessages final : public DecryptedMessageAc
 };
 
 class decryptedMessageActionFlushHistory final : public DecryptedMessageAction {
- public:
-
-  static const std::int32_t ID = 1729750108;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = 1729750108;
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -378,6 +375,10 @@ class decryptedMessageActionFlushHistory final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionResend final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 start_seq_no_;
   int32 end_seq_no_;
@@ -385,9 +386,6 @@ class decryptedMessageActionResend final : public DecryptedMessageAction {
   decryptedMessageActionResend(int32 start_seq_no_, int32 end_seq_no_);
 
   static const std::int32_t ID = 1360072880;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -401,15 +399,16 @@ class decryptedMessageActionResend final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionNotifyLayer final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 layer_;
 
   explicit decryptedMessageActionNotifyLayer(int32 layer_);
 
   static const std::int32_t ID = -217806717;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -423,15 +422,16 @@ class decryptedMessageActionNotifyLayer final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionTyping final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   object_ptr<SendMessageAction> action_;
 
   explicit decryptedMessageActionTyping(object_ptr<SendMessageAction> &&action_);
 
   static const std::int32_t ID = -860719551;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -445,6 +445,10 @@ class decryptedMessageActionTyping final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionRequestKey final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 exchange_id_;
   bytes g_a_;
@@ -452,9 +456,6 @@ class decryptedMessageActionRequestKey final : public DecryptedMessageAction {
   decryptedMessageActionRequestKey(int64 exchange_id_, bytes &&g_a_);
 
   static const std::int32_t ID = -204906213;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -468,6 +469,10 @@ class decryptedMessageActionRequestKey final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionAcceptKey final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 exchange_id_;
   bytes g_b_;
@@ -476,9 +481,6 @@ class decryptedMessageActionAcceptKey final : public DecryptedMessageAction {
   decryptedMessageActionAcceptKey(int64 exchange_id_, bytes &&g_b_, int64 key_fingerprint_);
 
   static const std::int32_t ID = 1877046107;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -492,15 +494,16 @@ class decryptedMessageActionAcceptKey final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionAbortKey final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 exchange_id_;
 
   explicit decryptedMessageActionAbortKey(int64 exchange_id_);
 
   static const std::int32_t ID = -586814357;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -514,6 +517,10 @@ class decryptedMessageActionAbortKey final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionCommitKey final : public DecryptedMessageAction {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 exchange_id_;
   int64 key_fingerprint_;
@@ -521,9 +528,6 @@ class decryptedMessageActionCommitKey final : public DecryptedMessageAction {
   decryptedMessageActionCommitKey(int64 exchange_id_, int64 key_fingerprint_);
 
   static const std::int32_t ID = -332526693;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -537,12 +541,13 @@ class decryptedMessageActionCommitKey final : public DecryptedMessageAction {
 };
 
 class decryptedMessageActionNoop final : public DecryptedMessageAction {
- public:
-
-  static const std::int32_t ID = -1473258141;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -1473258141;
 
   static object_ptr<DecryptedMessageAction> fetch(TlParser &p);
 
@@ -553,7 +558,13 @@ class decryptedMessageActionNoop final : public DecryptedMessageAction {
   void store(TlStorerToString &s, const char *field_name) const final;
 };
 
+class DecryptedMessage;
+
 class decryptedMessageLayer final : public Object {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes random_bytes_;
   int32 layer_;
@@ -564,9 +575,6 @@ class decryptedMessageLayer final : public Object {
   decryptedMessageLayer(bytes &&random_bytes_, int32 layer_, int32 in_seq_no_, int32 out_seq_no_, object_ptr<DecryptedMessage> &&message_);
 
   static const std::int32_t ID = 467867529;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<decryptedMessageLayer> fetch(TlParser &p);
 
@@ -579,6 +587,10 @@ class decryptedMessageLayer final : public Object {
   void store(TlStorerToString &s, const char *field_name) const final;
 };
 
+class DocumentAttribute;
+
+class PhotoSize;
+
 class DecryptedMessageMedia: public Object {
  public:
 
@@ -586,12 +598,13 @@ class DecryptedMessageMedia: public Object {
 };
 
 class decryptedMessageMediaEmpty final : public DecryptedMessageMedia {
- public:
-
-  static const std::int32_t ID = 144661578;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = 144661578;
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -603,6 +616,10 @@ class decryptedMessageMediaEmpty final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaPhoto8 final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes thumb_;
   int32 thumb_w_;
@@ -616,9 +633,6 @@ class decryptedMessageMediaPhoto8 final : public DecryptedMessageMedia {
   decryptedMessageMediaPhoto8(bytes &&thumb_, int32 thumb_w_, int32 thumb_h_, int32 w_, int32 h_, int32 size_, bytes &&key_, bytes &&iv_);
 
   static const std::int32_t ID = 846826124;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -632,6 +646,10 @@ class decryptedMessageMediaPhoto8 final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaVideo8 final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes thumb_;
   int32 thumb_w_;
@@ -646,9 +664,6 @@ class decryptedMessageMediaVideo8 final : public DecryptedMessageMedia {
   decryptedMessageMediaVideo8(bytes &&thumb_, int32 thumb_w_, int32 thumb_h_, int32 duration_, int32 w_, int32 h_, int32 size_, bytes &&key_, bytes &&iv_);
 
   static const std::int32_t ID = 1290694387;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -662,6 +677,10 @@ class decryptedMessageMediaVideo8 final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaGeoPoint final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   double lat_;
   double long_;
@@ -669,9 +688,6 @@ class decryptedMessageMediaGeoPoint final : public DecryptedMessageMedia {
   decryptedMessageMediaGeoPoint(double lat_, double long_);
 
   static const std::int32_t ID = 893913689;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -685,6 +701,10 @@ class decryptedMessageMediaGeoPoint final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaContact final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   string phone_number_;
   string first_name_;
@@ -694,9 +714,6 @@ class decryptedMessageMediaContact final : public DecryptedMessageMedia {
   decryptedMessageMediaContact(string const &phone_number_, string const &first_name_, string const &last_name_, int32 user_id_);
 
   static const std::int32_t ID = 1485441687;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -710,6 +727,10 @@ class decryptedMessageMediaContact final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaDocument8 final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes thumb_;
   int32 thumb_w_;
@@ -723,9 +744,6 @@ class decryptedMessageMediaDocument8 final : public DecryptedMessageMedia {
   decryptedMessageMediaDocument8(bytes &&thumb_, int32 thumb_w_, int32 thumb_h_, string const &file_name_, string const &mime_type_, int32 size_, bytes &&key_, bytes &&iv_);
 
   static const std::int32_t ID = -1332395189;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -739,6 +757,10 @@ class decryptedMessageMediaDocument8 final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaAudio8 final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 duration_;
   int32 size_;
@@ -748,9 +770,6 @@ class decryptedMessageMediaAudio8 final : public DecryptedMessageMedia {
   decryptedMessageMediaAudio8(int32 duration_, int32 size_, bytes &&key_, bytes &&iv_);
 
   static const std::int32_t ID = 1619031439;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -764,6 +783,10 @@ class decryptedMessageMediaAudio8 final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaVideo23 final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes thumb_;
   int32 thumb_w_;
@@ -779,9 +802,6 @@ class decryptedMessageMediaVideo23 final : public DecryptedMessageMedia {
   decryptedMessageMediaVideo23(bytes &&thumb_, int32 thumb_w_, int32 thumb_h_, int32 duration_, string const &mime_type_, int32 w_, int32 h_, int32 size_, bytes &&key_, bytes &&iv_);
 
   static const std::int32_t ID = 1380598109;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -795,6 +815,10 @@ class decryptedMessageMediaVideo23 final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaAudio final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 duration_;
   string mime_type_;
@@ -805,9 +829,6 @@ class decryptedMessageMediaAudio final : public DecryptedMessageMedia {
   decryptedMessageMediaAudio(int32 duration_, string const &mime_type_, int32 size_, bytes &&key_, bytes &&iv_);
 
   static const std::int32_t ID = 1474341323;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -821,6 +842,10 @@ class decryptedMessageMediaAudio final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaExternalDocument final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 id_;
   int64 access_hash_;
@@ -834,9 +859,6 @@ class decryptedMessageMediaExternalDocument final : public DecryptedMessageMedia
   decryptedMessageMediaExternalDocument(int64 id_, int64 access_hash_, int32 date_, string const &mime_type_, int32 size_, object_ptr<PhotoSize> &&thumb_, int32 dc_id_, array<object_ptr<DocumentAttribute>> &&attributes_);
 
   static const std::int32_t ID = -90853155;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -850,6 +872,10 @@ class decryptedMessageMediaExternalDocument final : public DecryptedMessageMedia
 };
 
 class decryptedMessageMediaPhoto final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes thumb_;
   int32 thumb_w_;
@@ -864,9 +890,6 @@ class decryptedMessageMediaPhoto final : public DecryptedMessageMedia {
   decryptedMessageMediaPhoto(bytes &&thumb_, int32 thumb_w_, int32 thumb_h_, int32 w_, int32 h_, int32 size_, bytes &&key_, bytes &&iv_, string const &caption_);
 
   static const std::int32_t ID = -235238024;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -880,6 +903,10 @@ class decryptedMessageMediaPhoto final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaVideo final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes thumb_;
   int32 thumb_w_;
@@ -896,9 +923,6 @@ class decryptedMessageMediaVideo final : public DecryptedMessageMedia {
   decryptedMessageMediaVideo(bytes &&thumb_, int32 thumb_w_, int32 thumb_h_, int32 duration_, string const &mime_type_, int32 w_, int32 h_, int32 size_, bytes &&key_, bytes &&iv_, string const &caption_);
 
   static const std::int32_t ID = -1760785394;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -912,6 +936,10 @@ class decryptedMessageMediaVideo final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaDocument46 final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes thumb_;
   int32 thumb_w_;
@@ -926,9 +954,6 @@ class decryptedMessageMediaDocument46 final : public DecryptedMessageMedia {
   decryptedMessageMediaDocument46(bytes &&thumb_, int32 thumb_w_, int32 thumb_h_, string const &mime_type_, int32 size_, bytes &&key_, bytes &&iv_, array<object_ptr<DocumentAttribute>> &&attributes_, string const &caption_);
 
   static const std::int32_t ID = 2063502050;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -942,6 +967,10 @@ class decryptedMessageMediaDocument46 final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaVenue final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   double lat_;
   double long_;
@@ -953,9 +982,6 @@ class decryptedMessageMediaVenue final : public DecryptedMessageMedia {
   decryptedMessageMediaVenue(double lat_, double long_, string const &title_, string const &address_, string const &provider_, string const &venue_id_);
 
   static const std::int32_t ID = -1978796689;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -969,15 +995,16 @@ class decryptedMessageMediaVenue final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaWebPage final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   string url_;
 
   explicit decryptedMessageMediaWebPage(string const &url_);
 
   static const std::int32_t ID = -452652584;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -991,6 +1018,10 @@ class decryptedMessageMediaWebPage final : public DecryptedMessageMedia {
 };
 
 class decryptedMessageMediaDocument final : public DecryptedMessageMedia {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   bytes thumb_;
   int32 thumb_w_;
@@ -1005,9 +1036,6 @@ class decryptedMessageMediaDocument final : public DecryptedMessageMedia {
   decryptedMessageMediaDocument(bytes &&thumb_, int32 thumb_w_, int32 thumb_h_, string const &mime_type_, int64 size_, bytes &&key_, bytes &&iv_, array<object_ptr<DocumentAttribute>> &&attributes_, string const &caption_);
 
   static const std::int32_t ID = 1790809986;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DecryptedMessageMedia> fetch(TlParser &p);
 
@@ -1020,6 +1048,8 @@ class decryptedMessageMediaDocument final : public DecryptedMessageMedia {
   void store(TlStorerToString &s, const char *field_name) const final;
 };
 
+class InputStickerSet;
+
 class DocumentAttribute: public Object {
  public:
 
@@ -1027,6 +1057,10 @@ class DocumentAttribute: public Object {
 };
 
 class documentAttributeImageSize final : public DocumentAttribute {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 w_;
   int32 h_;
@@ -1034,9 +1068,6 @@ class documentAttributeImageSize final : public DocumentAttribute {
   documentAttributeImageSize(int32 w_, int32 h_);
 
   static const std::int32_t ID = 1815593308;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1050,12 +1081,13 @@ class documentAttributeImageSize final : public DocumentAttribute {
 };
 
 class documentAttributeAnimated final : public DocumentAttribute {
- public:
-
-  static const std::int32_t ID = 297109817;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = 297109817;
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1067,12 +1099,13 @@ class documentAttributeAnimated final : public DocumentAttribute {
 };
 
 class documentAttributeSticker23 final : public DocumentAttribute {
- public:
-
-  static const std::int32_t ID = -83208409;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -83208409;
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1084,6 +1117,10 @@ class documentAttributeSticker23 final : public DocumentAttribute {
 };
 
 class documentAttributeVideo23 final : public DocumentAttribute {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 duration_;
   int32 w_;
@@ -1092,9 +1129,6 @@ class documentAttributeVideo23 final : public DocumentAttribute {
   documentAttributeVideo23(int32 duration_, int32 w_, int32 h_);
 
   static const std::int32_t ID = 1494273227;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1108,15 +1142,16 @@ class documentAttributeVideo23 final : public DocumentAttribute {
 };
 
 class documentAttributeAudio23 final : public DocumentAttribute {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 duration_;
 
   explicit documentAttributeAudio23(int32 duration_);
 
   static const std::int32_t ID = 85215461;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1130,15 +1165,16 @@ class documentAttributeAudio23 final : public DocumentAttribute {
 };
 
 class documentAttributeFilename final : public DocumentAttribute {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   string file_name_;
 
   explicit documentAttributeFilename(string const &file_name_);
 
   static const std::int32_t ID = 358154344;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1152,6 +1188,10 @@ class documentAttributeFilename final : public DocumentAttribute {
 };
 
 class documentAttributeAudio45 final : public DocumentAttribute {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 duration_;
   string title_;
@@ -1160,9 +1200,6 @@ class documentAttributeAudio45 final : public DocumentAttribute {
   documentAttributeAudio45(int32 duration_, string const &title_, string const &performer_);
 
   static const std::int32_t ID = -556656416;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1176,6 +1213,10 @@ class documentAttributeAudio45 final : public DocumentAttribute {
 };
 
 class documentAttributeSticker final : public DocumentAttribute {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   string alt_;
   object_ptr<InputStickerSet> stickerset_;
@@ -1183,9 +1224,6 @@ class documentAttributeSticker final : public DocumentAttribute {
   documentAttributeSticker(string const &alt_, object_ptr<InputStickerSet> &&stickerset_);
 
   static const std::int32_t ID = 978674434;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1199,6 +1237,10 @@ class documentAttributeSticker final : public DocumentAttribute {
 };
 
 class documentAttributeAudio final : public DocumentAttribute {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 flags_;
   bool voice_;
@@ -1213,9 +1255,6 @@ class documentAttributeAudio final : public DocumentAttribute {
   documentAttributeAudio(int32 flags_, bool voice_, int32 duration_, string const &title_, string const &performer_, bytes &&waveform_);
 
   static const std::int32_t ID = -1739392570;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1227,6 +1266,10 @@ class documentAttributeAudio final : public DocumentAttribute {
 };
 
 class documentAttributeVideo final : public DocumentAttribute {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 flags_;
   bool round_message_;
@@ -1240,9 +1283,6 @@ class documentAttributeVideo final : public DocumentAttribute {
   documentAttributeVideo(int32 flags_, bool round_message_, int32 duration_, int32 w_, int32 h_);
 
   static const std::int32_t ID = 250621158;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<DocumentAttribute> fetch(TlParser &p);
 
@@ -1260,6 +1300,10 @@ class FileLocation: public Object {
 };
 
 class fileLocationUnavailable final : public FileLocation {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int64 volume_id_;
   int32 local_id_;
@@ -1268,9 +1312,6 @@ class fileLocationUnavailable final : public FileLocation {
   fileLocationUnavailable(int64 volume_id_, int32 local_id_, int64 secret_);
 
   static const std::int32_t ID = 2086234950;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<FileLocation> fetch(TlParser &p);
 
@@ -1284,6 +1325,10 @@ class fileLocationUnavailable final : public FileLocation {
 };
 
 class fileLocation final : public FileLocation {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 dc_id_;
   int64 volume_id_;
@@ -1293,9 +1338,6 @@ class fileLocation final : public FileLocation {
   fileLocation(int32 dc_id_, int64 volume_id_, int32 local_id_, int64 secret_);
 
   static const std::int32_t ID = 1406570614;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<FileLocation> fetch(TlParser &p);
 
@@ -1315,15 +1357,16 @@ class InputStickerSet: public Object {
 };
 
 class inputStickerSetShortName final : public InputStickerSet {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   string short_name_;
 
   explicit inputStickerSetShortName(string const &short_name_);
 
   static const std::int32_t ID = -2044933984;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<InputStickerSet> fetch(TlParser &p);
 
@@ -1337,12 +1380,13 @@ class inputStickerSetShortName final : public InputStickerSet {
 };
 
 class inputStickerSetEmpty final : public InputStickerSet {
- public:
-
-  static const std::int32_t ID = -4838507;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -4838507;
 
   static object_ptr<InputStickerSet> fetch(TlParser &p);
 
@@ -1360,6 +1404,10 @@ class MessageEntity: public Object {
 };
 
 class messageEntityUnknown final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1367,9 +1415,6 @@ class messageEntityUnknown final : public MessageEntity {
   messageEntityUnknown(int32 offset_, int32 length_);
 
   static const std::int32_t ID = -1148011883;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1383,6 +1428,10 @@ class messageEntityUnknown final : public MessageEntity {
 };
 
 class messageEntityMention final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1390,9 +1439,6 @@ class messageEntityMention final : public MessageEntity {
   messageEntityMention(int32 offset_, int32 length_);
 
   static const std::int32_t ID = -100378723;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1406,6 +1452,10 @@ class messageEntityMention final : public MessageEntity {
 };
 
 class messageEntityHashtag final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1413,9 +1463,6 @@ class messageEntityHashtag final : public MessageEntity {
   messageEntityHashtag(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 1868782349;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1429,6 +1476,10 @@ class messageEntityHashtag final : public MessageEntity {
 };
 
 class messageEntityBotCommand final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1436,9 +1487,6 @@ class messageEntityBotCommand final : public MessageEntity {
   messageEntityBotCommand(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 1827637959;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1452,6 +1500,10 @@ class messageEntityBotCommand final : public MessageEntity {
 };
 
 class messageEntityUrl final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1459,9 +1511,6 @@ class messageEntityUrl final : public MessageEntity {
   messageEntityUrl(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 1859134776;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1475,6 +1524,10 @@ class messageEntityUrl final : public MessageEntity {
 };
 
 class messageEntityEmail final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1482,9 +1535,6 @@ class messageEntityEmail final : public MessageEntity {
   messageEntityEmail(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 1692693954;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1498,6 +1548,10 @@ class messageEntityEmail final : public MessageEntity {
 };
 
 class messageEntityBold final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1505,9 +1559,6 @@ class messageEntityBold final : public MessageEntity {
   messageEntityBold(int32 offset_, int32 length_);
 
   static const std::int32_t ID = -1117713463;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1521,6 +1572,10 @@ class messageEntityBold final : public MessageEntity {
 };
 
 class messageEntityItalic final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1528,9 +1583,6 @@ class messageEntityItalic final : public MessageEntity {
   messageEntityItalic(int32 offset_, int32 length_);
 
   static const std::int32_t ID = -2106619040;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1544,6 +1596,10 @@ class messageEntityItalic final : public MessageEntity {
 };
 
 class messageEntityCode final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1551,9 +1607,6 @@ class messageEntityCode final : public MessageEntity {
   messageEntityCode(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 681706865;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1567,6 +1620,10 @@ class messageEntityCode final : public MessageEntity {
 };
 
 class messageEntityPre final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1575,9 +1632,6 @@ class messageEntityPre final : public MessageEntity {
   messageEntityPre(int32 offset_, int32 length_, string const &language_);
 
   static const std::int32_t ID = 1938967520;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1591,6 +1645,10 @@ class messageEntityPre final : public MessageEntity {
 };
 
 class messageEntityTextUrl final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1599,9 +1657,6 @@ class messageEntityTextUrl final : public MessageEntity {
   messageEntityTextUrl(int32 offset_, int32 length_, string const &url_);
 
   static const std::int32_t ID = 1990644519;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1615,6 +1670,10 @@ class messageEntityTextUrl final : public MessageEntity {
 };
 
 class messageEntityMentionName final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1623,9 +1682,6 @@ class messageEntityMentionName final : public MessageEntity {
   messageEntityMentionName(int32 offset_, int32 length_, int32 user_id_);
 
   static const std::int32_t ID = 892193368;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1639,6 +1695,10 @@ class messageEntityMentionName final : public MessageEntity {
 };
 
 class messageEntityPhone final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1646,9 +1706,6 @@ class messageEntityPhone final : public MessageEntity {
   messageEntityPhone(int32 offset_, int32 length_);
 
   static const std::int32_t ID = -1687559349;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1662,6 +1719,10 @@ class messageEntityPhone final : public MessageEntity {
 };
 
 class messageEntityCashtag final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1669,9 +1730,6 @@ class messageEntityCashtag final : public MessageEntity {
   messageEntityCashtag(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 1280209983;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1685,6 +1743,10 @@ class messageEntityCashtag final : public MessageEntity {
 };
 
 class messageEntityBankCard final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1692,9 +1754,6 @@ class messageEntityBankCard final : public MessageEntity {
   messageEntityBankCard(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 1981704948;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1708,6 +1767,10 @@ class messageEntityBankCard final : public MessageEntity {
 };
 
 class messageEntityUnderline final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1715,9 +1778,6 @@ class messageEntityUnderline final : public MessageEntity {
   messageEntityUnderline(int32 offset_, int32 length_);
 
   static const std::int32_t ID = -1672577397;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1731,6 +1791,10 @@ class messageEntityUnderline final : public MessageEntity {
 };
 
 class messageEntityStrike final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1738,9 +1802,6 @@ class messageEntityStrike final : public MessageEntity {
   messageEntityStrike(int32 offset_, int32 length_);
 
   static const std::int32_t ID = -1090087980;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1754,6 +1815,10 @@ class messageEntityStrike final : public MessageEntity {
 };
 
 class messageEntityBlockquote final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1761,9 +1826,6 @@ class messageEntityBlockquote final : public MessageEntity {
   messageEntityBlockquote(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 34469328;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1777,6 +1839,10 @@ class messageEntityBlockquote final : public MessageEntity {
 };
 
 class messageEntitySpoiler final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1784,9 +1850,6 @@ class messageEntitySpoiler final : public MessageEntity {
   messageEntitySpoiler(int32 offset_, int32 length_);
 
   static const std::int32_t ID = 852137487;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1800,6 +1863,10 @@ class messageEntitySpoiler final : public MessageEntity {
 };
 
 class messageEntityCustomEmoji final : public MessageEntity {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   int32 offset_;
   int32 length_;
@@ -1808,9 +1875,6 @@ class messageEntityCustomEmoji final : public MessageEntity {
   messageEntityCustomEmoji(int32 offset_, int32 length_, int64 document_id_);
 
   static const std::int32_t ID = -925956616;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<MessageEntity> fetch(TlParser &p);
 
@@ -1823,6 +1887,8 @@ class messageEntityCustomEmoji final : public MessageEntity {
   void store(TlStorerToString &s, const char *field_name) const final;
 };
 
+class FileLocation;
+
 class PhotoSize: public Object {
  public:
 
@@ -1830,15 +1896,16 @@ class PhotoSize: public Object {
 };
 
 class photoSizeEmpty final : public PhotoSize {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   string type_;
 
   explicit photoSizeEmpty(string const &type_);
 
   static const std::int32_t ID = 236446268;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<PhotoSize> fetch(TlParser &p);
 
@@ -1852,6 +1919,10 @@ class photoSizeEmpty final : public PhotoSize {
 };
 
 class photoSize final : public PhotoSize {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   string type_;
   object_ptr<FileLocation> location_;
@@ -1862,9 +1933,6 @@ class photoSize final : public PhotoSize {
   photoSize(string const &type_, object_ptr<FileLocation> &&location_, int32 w_, int32 h_, int32 size_);
 
   static const std::int32_t ID = 2009052699;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<PhotoSize> fetch(TlParser &p);
 
@@ -1878,6 +1946,10 @@ class photoSize final : public PhotoSize {
 };
 
 class photoCachedSize final : public PhotoSize {
+  std::int32_t get_id() const final {
+    return ID;
+  }
+
  public:
   string type_;
   object_ptr<FileLocation> location_;
@@ -1888,9 +1960,6 @@ class photoCachedSize final : public PhotoSize {
   photoCachedSize(string const &type_, object_ptr<FileLocation> &&location_, int32 w_, int32 h_, bytes &&bytes_);
 
   static const std::int32_t ID = -374917894;
-  std::int32_t get_id() const final {
-    return ID;
-  }
 
   static object_ptr<PhotoSize> fetch(TlParser &p);
 
@@ -1910,12 +1979,13 @@ class SendMessageAction: public Object {
 };
 
 class sendMessageTypingAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = 381645902;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = 381645902;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -1927,12 +1997,13 @@ class sendMessageTypingAction final : public SendMessageAction {
 };
 
 class sendMessageCancelAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -44119819;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -44119819;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -1944,12 +2015,13 @@ class sendMessageCancelAction final : public SendMessageAction {
 };
 
 class sendMessageRecordVideoAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -1584933265;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -1584933265;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -1961,12 +2033,13 @@ class sendMessageRecordVideoAction final : public SendMessageAction {
 };
 
 class sendMessageUploadVideoAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -1845219337;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -1845219337;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -1978,12 +2051,13 @@ class sendMessageUploadVideoAction final : public SendMessageAction {
 };
 
 class sendMessageRecordAudioAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -718310409;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -718310409;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -1995,12 +2069,13 @@ class sendMessageRecordAudioAction final : public SendMessageAction {
 };
 
 class sendMessageUploadAudioAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -424899985;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -424899985;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -2012,12 +2087,13 @@ class sendMessageUploadAudioAction final : public SendMessageAction {
 };
 
 class sendMessageUploadPhotoAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -1727382502;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -1727382502;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -2029,12 +2105,13 @@ class sendMessageUploadPhotoAction final : public SendMessageAction {
 };
 
 class sendMessageUploadDocumentAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -1884362354;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -1884362354;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -2046,12 +2123,13 @@ class sendMessageUploadDocumentAction final : public SendMessageAction {
 };
 
 class sendMessageGeoLocationAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = 393186209;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = 393186209;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -2063,12 +2141,13 @@ class sendMessageGeoLocationAction final : public SendMessageAction {
 };
 
 class sendMessageChooseContactAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = 1653390447;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = 1653390447;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -2080,12 +2159,13 @@ class sendMessageChooseContactAction final : public SendMessageAction {
 };
 
 class sendMessageRecordRoundAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -1997373508;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -1997373508;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -2097,12 +2177,13 @@ class sendMessageRecordRoundAction final : public SendMessageAction {
 };
 
 class sendMessageUploadRoundAction final : public SendMessageAction {
- public:
-
-  static const std::int32_t ID = -1150187996;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -1150187996;
 
   static object_ptr<SendMessageAction> fetch(TlParser &p);
 
@@ -2114,12 +2195,13 @@ class sendMessageUploadRoundAction final : public SendMessageAction {
 };
 
 class test_dummyFunction final : public Function {
- public:
-
-  static const std::int32_t ID = -936020215;
   std::int32_t get_id() const final {
     return ID;
   }
+
+ public:
+
+  static const std::int32_t ID = -936020215;
 
   using ReturnType = bool;
 

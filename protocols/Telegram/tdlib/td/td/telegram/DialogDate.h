@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -62,7 +62,7 @@ const int64 DEFAULT_ORDER = -1;
 
 struct DialogDateHash {
   uint32 operator()(const DialogDate &dialog_date) const {
-    return Hash<int64>()(dialog_date.get_order()) * 2023654985u + DialogIdHash()(dialog_date.get_dialog_id());
+    return combine_hashes(Hash<int64>()(dialog_date.get_order()), DialogIdHash()(dialog_date.get_dialog_id()));
   }
 };
 

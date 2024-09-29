@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -13,14 +13,10 @@
 #include "td/utils/Slice.h"
 #include "td/utils/Status.h"
 #include "td/utils/StorerBase.h"
+#include "td/utils/StringBuilder.h"
 #include "td/utils/UInt.h"
 
 namespace td {
-
-namespace mtproto_api {
-class Object;
-}  // namespace mtproto_api
-
 namespace mtproto {
 
 class DhCallback;
@@ -74,8 +70,8 @@ class AuthKeyHandshake {
   }
 
  private:
-  enum State : int32 { Start, ResPQ, ServerDHParams, DHGenResponse, Finish };
-  State state_ = Start;
+  enum class State : int32 { Start, ResPQ, ServerDHParams, DHGenResponse, Finish };
+  State state_ = State::Start;
   enum class Mode : int32 { Main, Temp };
   Mode mode_ = Mode::Main;
   int32 dc_id_ = 0;
@@ -95,7 +91,8 @@ class AuthKeyHandshake {
 
   string last_query_;
 
-  static string store_object(const mtproto_api::Object &object);
+  template <class T>
+  static string store_object(const T &object);
 
   void send(Callback *connection, const Storer &storer);
   static void do_send(Callback *connection, const Storer &storer);
@@ -104,6 +101,8 @@ class AuthKeyHandshake {
   Status on_res_pq(Slice message, Callback *connection, PublicRsaKeyInterface *public_rsa_key) TD_WARN_UNUSED_RESULT;
   Status on_server_dh_params(Slice message, Callback *connection, DhCallback *dh_callback) TD_WARN_UNUSED_RESULT;
   Status on_dh_gen_response(Slice message, Callback *connection) TD_WARN_UNUSED_RESULT;
+
+  friend StringBuilder &operator<<(StringBuilder &string_builder, const State &state);
 };
 
 }  // namespace mtproto

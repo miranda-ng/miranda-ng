@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -55,8 +55,10 @@ class InlineQueriesManager final : public Actor {
                              td_api::object_ptr<td_api::InputInlineQueryResult> &&input_result,
                              Promise<td_api::object_ptr<td_api::sentWebAppMessage>> &&promise) const;
 
-  uint64 send_inline_query(UserId bot_user_id, DialogId dialog_id, Location user_location, const string &query,
-                           const string &offset, Promise<Unit> &&promise);
+  void get_weather(Location location, Promise<td_api::object_ptr<td_api::currentWeather>> &&promise);
+
+  void send_inline_query(UserId bot_user_id, DialogId dialog_id, Location user_location, const string &query,
+                         const string &offset, Promise<td_api::object_ptr<td_api::inlineQueryResults>> &&promise);
 
   vector<UserId> get_recent_inline_bots(Promise<Unit> &&promise);
 
@@ -67,9 +69,8 @@ class InlineQueriesManager final : public Actor {
   UserId get_inline_bot_user_id(int64 query_id) const;
 
   void on_get_inline_query_results(DialogId dialog_id, UserId bot_user_id, uint64 query_hash,
-                                   tl_object_ptr<telegram_api::messages_botResults> &&results);
-
-  tl_object_ptr<td_api::inlineQueryResults> get_inline_query_results_object(uint64 query_hash);
+                                   tl_object_ptr<telegram_api::messages_botResults> &&results,
+                                   Promise<td_api::object_ptr<td_api::inlineQueryResults>> promise);
 
   void on_new_query(int64 query_id, UserId sender_user_id, Location user_location,
                     tl_object_ptr<telegram_api::InlineQueryPeerType> peer_type, const string &query,
@@ -78,17 +79,12 @@ class InlineQueriesManager final : public Actor {
   void on_chosen_result(UserId user_id, Location user_location, const string &query, const string &result_id,
                         tl_object_ptr<telegram_api::InputBotInlineMessageID> &&input_bot_inline_message_id);
 
-  static int32 get_inline_message_dc_id(const tl_object_ptr<telegram_api::InputBotInlineMessageID> &inline_message_id);
-
-  static tl_object_ptr<telegram_api::InputBotInlineMessageID> get_input_bot_inline_message_id(
-      const string &inline_message_id);
-
   static string get_inline_message_id(
       tl_object_ptr<telegram_api::InputBotInlineMessageID> &&input_bot_inline_message_id);
 
  private:
-  static constexpr int32 MAX_RECENT_INLINE_BOTS = 20;  // some reasonable value
-  static constexpr int32 INLINE_QUERY_DELAY_MS = 400;  // server side limit
+  static constexpr size_t MAX_RECENT_INLINE_BOTS = 20;  // some reasonable value
+  static constexpr int32 INLINE_QUERY_DELAY_MS = 400;   // server side limit
 
   static constexpr int32 BOT_INLINE_MEDIA_RESULT_FLAG_HAS_PHOTO = 1 << 0;
   static constexpr int32 BOT_INLINE_MEDIA_RESULT_FLAG_HAS_DOCUMENT = 1 << 1;
@@ -105,21 +101,29 @@ class InlineQueriesManager final : public Actor {
 
   bool register_inline_message_content(int64 query_id, const string &result_id, FileId file_id,
                                        tl_object_ptr<telegram_api::BotInlineMessage> &&inline_message,
-                                       int32 allowed_media_content_id, bool allow_invoice, Photo *photo = nullptr,
+                                       int32 allowed_media_content_id, bool is_secret_chat, Photo *photo = nullptr,
                                        Game *game = nullptr);
 
   tl_object_ptr<td_api::thumbnail> register_thumbnail(
       tl_object_ptr<telegram_api::WebDocument> &&web_document_ptr) const;
 
   static string get_web_document_url(const tl_object_ptr<telegram_api::WebDocument> &web_document_ptr);
+
   static string get_web_document_content_type(const tl_object_ptr<telegram_api::WebDocument> &web_document_ptr);
 
   bool update_bot_usage(UserId bot_user_id);
 
   void save_recently_used_bots();
+
   bool load_recently_used_bots(Promise<Unit> &promise);
 
-  tl_object_ptr<td_api::inlineQueryResults> decrease_pending_request_count(uint64 query_hash);
+  void do_get_weather(DialogId dialog_id, Location location,
+                      Promise<td_api::object_ptr<td_api::currentWeather>> &&promise);
+
+  void on_get_weather(td_api::object_ptr<td_api::inlineQueryResults> results,
+                      Promise<td_api::object_ptr<td_api::currentWeather>> &&promise);
+
+  td_api::object_ptr<td_api::inlineQueryResults> get_inline_query_results_object(uint64 query_hash);
 
   static void on_drop_inline_query_result_timeout_callback(void *inline_queries_manager_ptr, int64 query_hash);
 
@@ -140,7 +144,7 @@ class InlineQueriesManager final : public Actor {
     Location user_location;
     string query;
     string offset;
-    Promise<Unit> promise;
+    Promise<td_api::object_ptr<td_api::inlineQueryResults>> promise;
   };
 
   double next_inline_query_time_ = 0.0;
@@ -148,7 +152,7 @@ class InlineQueriesManager final : public Actor {
   NetQueryRef sent_query_;
 
   struct InlineQueryResult {
-    tl_object_ptr<td_api::inlineQueryResults> results;
+    td_api::object_ptr<td_api::inlineQueryResults> results;
     double cache_expire_time;
     int32 pending_request_count;
   };

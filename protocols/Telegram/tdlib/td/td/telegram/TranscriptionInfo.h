@@ -1,12 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/telegram/FullMessageId.h"
+#include "td/telegram/MessageFullId.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
 
@@ -35,8 +35,8 @@ class TranscriptionInfo {
   }
 
   bool recognize_speech(
-      Td *td, FullMessageId full_message_id, Promise<Unit> &&promise,
-      std::function<void(Result<telegram_api::object_ptr<telegram_api::updateTranscribedAudio>>)> &&handler);
+      Td *td, MessageFullId message_full_id, Promise<Unit> &&promise,
+      std::function<void(Result<telegram_api::object_ptr<telegram_api::messages_transcribedAudio>>)> &&handler);
 
   vector<Promise<Unit>> on_final_transcription(string &&text, int64 transcription_id);
 
@@ -44,7 +44,7 @@ class TranscriptionInfo {
 
   vector<Promise<Unit>> on_failed_transcription(Status &&error);
 
-  void rate_speech_recognition(Td *td, FullMessageId full_message_id, bool is_good, Promise<Unit> &&promise) const;
+  void rate_speech_recognition(Td *td, MessageFullId message_full_id, bool is_good, Promise<Unit> &&promise) const;
 
   static unique_ptr<TranscriptionInfo> copy_if_transcribed(const unique_ptr<TranscriptionInfo> &info);
 

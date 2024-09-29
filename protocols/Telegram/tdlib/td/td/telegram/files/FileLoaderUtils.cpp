@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -276,6 +276,7 @@ Result<FullLocalLocationInfo> check_full_local_location(FullLocalLocationInfo lo
   constexpr int64 MAX_THUMBNAIL_SIZE = 200 * (1 << 10) - 1 /* 200 KB - 1 B */;
   constexpr int64 MAX_PHOTO_SIZE = 10 * (1 << 20) /* 10 MB */;
   constexpr int64 DEFAULT_VIDEO_NOTE_SIZE_MAX = 12 * (1 << 20) /* 12 MB */;
+  constexpr int64 MAX_VIDEO_STORY_SIZE = 30 * (1 << 20) /* 30 MB */;
 
   FullLocalFileLocation &location = local_info.location_;
   int64 &size = local_info.size_;
@@ -304,7 +305,7 @@ Result<FullLocalLocationInfo> check_full_local_location(FullLocalLocationInfo lo
     return Status::Error(400, "File must be non-empty");
   }
 
-  if (size == 0) {
+  if (size <= 0) {
     size = stat.size_;
   }
   if (location.mtime_nsec_ == 0) {
@@ -337,6 +338,9 @@ Result<FullLocalLocationInfo> check_full_local_location(FullLocalLocationInfo lo
   if (location.file_type_ == FileType::VideoNote &&
       size > G()->get_option_integer("video_note_size_max", DEFAULT_VIDEO_NOTE_SIZE_MAX)) {
     return get_file_size_error(" for a video note");
+  }
+  if (location.file_type_ == FileType::VideoStory && size > MAX_VIDEO_STORY_SIZE) {
+    return get_file_size_error(" for a video story");
   }
   return std::move(local_info);
 }

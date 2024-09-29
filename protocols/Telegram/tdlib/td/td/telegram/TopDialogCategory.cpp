@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -26,6 +26,8 @@ CSlice get_top_dialog_category_name(TopDialogCategory category) {
       return CSlice("forward_users");
     case TopDialogCategory::ForwardChats:
       return CSlice("forward_chats");
+    case TopDialogCategory::BotApp:
+      return CSlice("bot_app");
     default:
       UNREACHABLE();
       return CSlice();
@@ -51,6 +53,8 @@ TopDialogCategory get_top_dialog_category(const td_api::object_ptr<td_api::TopCh
       return TopDialogCategory::Call;
     case td_api::topChatCategoryForwardChats::ID:
       return TopDialogCategory::ForwardUsers;
+    case td_api::topChatCategoryWebAppBots::ID:
+      return TopDialogCategory::BotApp;
     default:
       UNREACHABLE();
       return TopDialogCategory::Size;
@@ -76,6 +80,8 @@ TopDialogCategory get_top_dialog_category(const telegram_api::object_ptr<telegra
       return TopDialogCategory::ForwardUsers;
     case telegram_api::topPeerCategoryForwardChats::ID:
       return TopDialogCategory::ForwardChats;
+    case telegram_api::topPeerCategoryBotsApp::ID:
+      return TopDialogCategory::BotApp;
     default:
       UNREACHABLE();
       return TopDialogCategory::Size;
@@ -100,6 +106,8 @@ telegram_api::object_ptr<telegram_api::TopPeerCategory> get_input_top_peer_categ
       return make_tl_object<telegram_api::topPeerCategoryForwardUsers>();
     case TopDialogCategory::ForwardChats:
       return make_tl_object<telegram_api::topPeerCategoryForwardChats>();
+    case TopDialogCategory::BotApp:
+      return make_tl_object<telegram_api::topPeerCategoryBotsApp>();
     default:
       UNREACHABLE();
       return nullptr;

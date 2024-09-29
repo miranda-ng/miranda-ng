@@ -84,36 +84,32 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 
 CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pText)
 {
-	if (pText->get_id() == TD::formattedText::ID) {
-		CMStringW ret(Utf2T(pText->text_.c_str()));
-		unsigned offset = 0;
+	CMStringW ret(Utf2T(pText->text_.c_str()));
+	unsigned offset = 0;
 
-		for (auto &it : pText->entities_) {
-			int iCode;
-			switch (it->type_->get_id()) {
-			case TD::textEntityTypeBold::ID: iCode = 0; break;
-			case TD::textEntityTypeItalic::ID: iCode = 1; break;
-			case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
-			case TD::textEntityTypeUnderline::ID: iCode = 3; break;
-			case TD::textEntityTypeCode::ID: iCode = 5; break;
-			case TD::textEntityTypeUrl::ID:
-				if (!m_bUrlPreview)
-					continue;
-				iCode = 4;
-				break;
-			default:
+	for (auto &it : pText->entities_) {
+		int iCode;
+		switch (it->type_->get_id()) {
+		case TD::textEntityTypeBold::ID: iCode = 0; break;
+		case TD::textEntityTypeItalic::ID: iCode = 1; break;
+		case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
+		case TD::textEntityTypeUnderline::ID: iCode = 3; break;
+		case TD::textEntityTypeCode::ID: iCode = 5; break;
+		case TD::textEntityTypeUrl::ID:
+			if (!m_bUrlPreview)
 				continue;
-			}
-
-			auto &bb = bbCodes[iCode];
-			ret.Insert(offset + it->offset_ + it->length_, bb.end);
-			ret.Insert(offset + it->offset_, bb.begin);
-			offset += bb.len1 + bb.len2;
+			iCode = 4;
+			break;
+		default:
+			continue;
 		}
-		return T2Utf(ret).get();
+
+		auto &bb = bbCodes[iCode];
+		ret.Insert(offset + it->offset_ + it->length_, bb.end);
+		ret.Insert(offset + it->offset_, bb.begin);
+		offset += bb.len1 + bb.len2;
 	}
-	
-	return "";
+	return T2Utf(ret).get();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -168,6 +164,20 @@ TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
 		return TG_FILE_REQUEST::VOICE;
 
 	return TG_FILE_REQUEST::FILE;
+}
+
+TD::int53 getReplyId(const TD::MessageReplyTo *pReply)
+{
+	if (pReply) {
+		switch (pReply->get_id()) {
+		case TD::messageReplyToMessage::ID:
+			return ((TD::messageReplyToMessage *)pReply)->message_id_;
+
+		case TD::inputMessageReplyToExternalMessage::ID:
+			return ((TD::inputMessageReplyToExternalMessage *)pReply)->message_id_;
+		}
+	}
+	return 0;
 }
 
 CMStringW TG_USER::getDisplayName() const
@@ -422,11 +432,6 @@ bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *
 
 bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type iType, const TD::file *pFile, const char *pszFileName, const char *pszCaption)
 {
-	if (pFile->get_id() != TD::file::ID) {
-		debugLogA("Document contains unsupported type %d, exiting", pFile->get_id());
-		return false;
-	}
-
 	auto *pRequest = new TG_FILE_REQUEST(iType, pFile->id_, pFile->remote_->id_.c_str());
 	pRequest->m_fileName = Utf2T(pszFileName);
 	pRequest->m_fileSize = pFile->size_;
@@ -447,8 +452,8 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 		dbei.flags |= DBEF_SENT;
 	if (!F.pUser->bInited || F.bRead)
 		dbei.flags |= DBEF_READ;
-	if (F.pMsg->reply_to_message_id_) {
-		_i64toa(F.pMsg->reply_to_message_id_, szReplyId, 10);
+	if (auto iReplyId = getReplyId(F.pMsg->reply_to_.get())) {
+		_i64toa(iReplyId, szReplyId, 10);
 		dbei.szReplyId = szReplyId;
 	}
 
@@ -540,20 +545,20 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	if (auto *pForward = pMsg->forward_info_.get()) {
 		CMStringW wszNick;
 		switch (pForward->origin_->get_id()) {
-		case TD::messageForwardOriginUser::ID:
-			if (auto *p = FindUser(((TD::messageForwardOriginUser *)pForward->origin_.get())->sender_user_id_))
+		case TD::messageOriginUser::ID:
+			if (auto *p = FindUser(((TD::messageOriginUser *)pForward->origin_.get())->sender_user_id_))
 				wszNick = p->getDisplayName();
 			break;
-		case TD::messageForwardOriginChat::ID:
-			if (auto *p = FindChat(((TD::messageForwardOriginChat *)pForward->origin_.get())->sender_chat_id_))
+		case TD::messageOriginChat::ID:
+			if (auto *p = FindChat(((TD::messageOriginChat *)pForward->origin_.get())->sender_chat_id_))
 				wszNick = p->getDisplayName();
 			break;
-		case TD::messageForwardOriginHiddenUser::ID:
-			if (auto *p = (TD::messageForwardOriginHiddenUser *)pForward->origin_.get())
+		case TD::messageOriginHiddenUser::ID:
+			if (auto *p = (TD::messageOriginHiddenUser *)pForward->origin_.get())
 				wszNick = Utf2T(p->sender_name_.c_str());
 			break;
-		case TD::messageForwardOriginChannel::ID:
-			if (auto *p = FindChat(((TD::messageForwardOriginChannel *)pForward->origin_.get())->chat_id_))
+		case TD::messageOriginChannel::ID:
+			if (auto *p = FindChat(((TD::messageOriginChannel *)pForward->origin_.get())->chat_id_))
 				wszNick = p->getDisplayName();
 			break;
 		default:
@@ -728,9 +733,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageInvoice::ID:
 		if (auto *pInvoice = ((TD::messageInvoice *)pBody)) {
 			ret.Format("%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_)/100.0, pInvoice->currency_.c_str());
-			if (!pInvoice->title_.empty())
-				ret.AppendFormat("\r\n%s: %s", TranslateU("Title"), pInvoice->title_.c_str());
-			if (auto pszText = GetFormattedText(pInvoice->description_))
+			if (auto pszText = GetFormattedText(pInvoice->paid_media_caption_))
 				ret.AppendFormat("\r\n%s", pszText.c_str());
 		}
 		break;
@@ -739,18 +742,19 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		if (auto *pText = ((TD::messageText *)pBody)) {
 			ret = GetFormattedText(pText->text_);
 
-			if (auto *pWeb = pText->web_page_.get()) {
-				if (!pWeb->embed_url_.empty() && m_bUrlPreview)
-					ret.AppendFormat("\r\n[url]%s[/url]", pWeb->embed_url_.c_str());
+			if (auto *pWeb = pText->link_preview_.get()) {
+				if (!pWeb->display_url_.empty() && m_bUrlPreview)
+					ret.AppendFormat("\r\n[url]%s[/url]", pWeb->display_url_.c_str());
 
-				if (pWeb->photo_) {
+				if (pWeb->type_->get_id() == TD::linkPreviewTypePhoto::ID) {
+					auto *pPhoto = ((TD::linkPreviewTypePhoto *)pWeb->type_.get())->photo_.get();
 					const TD::photoSize *pSize = nullptr;
-					for (auto &it : pWeb->photo_->sizes_)
+					for (auto &it : pPhoto->sizes_)
 						if (it->type_ == "m")
 							pSize = it.get();
 
 					if (pSize == nullptr)
-						pSize = pWeb->photo_->sizes_[0].get();
+						pSize = pPhoto->sizes_[0].get();
 
 					if (auto szText = GetMessagePreview(pSize->photo_.get()))
 						ret.AppendFormat("\r\n[img=%s][/img]", szText.c_str());

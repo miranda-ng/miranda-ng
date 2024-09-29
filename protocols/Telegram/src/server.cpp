@@ -378,7 +378,8 @@ int CTelegramProto::SendTextMessage(int64_t chatId, int64_t threadId, int64_t re
 	pMessage->chat_id_ = chatId;
 	pMessage->input_message_content_ = std::move(pContent);
 	pMessage->message_thread_id_ = threadId;
-	pMessage->reply_to_message_id_ = replyId;
+	if (replyId)
+		pMessage->reply_to_.reset(new TD::inputMessageReplyToMessage(replyId, 0));
 	return SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 }
 
@@ -461,8 +462,8 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 			dbei.flags |= DBEF_SENT;
 		if (this->GetGcUserId(pUser, pMsg, szUserId))
 			dbei.szUserId = szUserId;
-		if (pMsg->reply_to_message_id_) {
-			szReplyId = msg2id(pMsg->chat_id_, pMsg->reply_to_message_id_);
+		if (auto iReplyId = getReplyId(pMsg->reply_to_.get())) {
+			szReplyId = msg2id(pMsg->chat_id_, iReplyId);
 			dbei.szReplyId = szReplyId;
 		}
 		db_event_add(GetRealContact(pUser), &dbei);
@@ -671,11 +672,6 @@ void CTelegramProto::ProcessChatNotification(TD::updateChatNotificationSettings 
 
 void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 {
-	if (pObj->position_->get_id() != TD::chatPosition::ID) {
-		debugLogA("Unsupport position");
-		return;
-	}
-
 	auto *pUser = FindChat(pObj->chat_id_);
 	if (pUser == nullptr) {
 		debugLogA("Unknown chat, skipping");
@@ -939,8 +935,8 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		dbei.flags |= DBEF_READ;
 	if (GetGcUserId(pUser, pMessage, szUserId))
 		dbei.szUserId = szUserId;
-	if (pMessage->reply_to_message_id_) {
-		szReplyId = msg2id(pMessage->chat_id_, pMessage->reply_to_message_id_);
+	if (auto iReplyId = getReplyId(pMessage->reply_to_.get())) {
+		szReplyId = msg2id(pMessage->chat_id_, iReplyId);
 		dbei.szReplyId = szReplyId;
 	}
 
@@ -1009,15 +1005,16 @@ void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *p
 	}
 
 	JSONNode reactions; reactions.set_name("r");
-	if (pObj->interaction_info_) {
-		for (auto &it : pObj->interaction_info_->reactions_) {
-			if (it->type_->get_id() != TD::reactionTypeEmoji::ID)
-				continue;
+	if (pObj->interaction_info_)
+		if (pObj->interaction_info_->reactions_) {
+			for (auto &it : pObj->interaction_info_->reactions_->reactions_) {
+				if (it->type_->get_id() != TD::reactionTypeEmoji::ID)
+					continue;
 
-			auto *pEmoji = (TD::reactionTypeEmoji *)it->type_.get();
-			reactions << INT_PARAM(pEmoji->emoji_.c_str(), it->total_count_);
+				auto *pEmoji = (TD::reactionTypeEmoji *)it->type_.get();
+				reactions << INT_PARAM(pEmoji->emoji_.c_str(), it->total_count_);
+			}
 		}
-	}
 
 	auto &json = dbei.setJson();
 	auto it = json.find("r");

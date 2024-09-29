@@ -1,12 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/telegram/FullMessageId.h"
+#include "td/telegram/MessageFullId.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
 #include "td/telegram/UserId.h"
@@ -29,17 +29,11 @@ class GameManager final : public Actor {
   GameManager &operator=(GameManager &&) = delete;
   ~GameManager() final;
 
-  void set_game_score(FullMessageId full_message_id, bool edit_message, UserId user_id, int32 score, bool force,
+  void set_game_score(MessageFullId message_full_id, bool edit_message, UserId user_id, int32 score, bool force,
                       Promise<td_api::object_ptr<td_api::message>> &&promise);
 
-  void set_inline_game_score(const string &inline_message_id, bool edit_message, UserId user_id, int32 score,
-                             bool force, Promise<Unit> &&promise);
-
-  void get_game_high_scores(FullMessageId full_message_id, UserId user_id,
+  void get_game_high_scores(MessageFullId message_full_id, UserId user_id,
                             Promise<td_api::object_ptr<td_api::gameHighScores>> &&promise);
-
-  void get_inline_game_high_scores(const string &inline_message_id, UserId user_id,
-                                   Promise<td_api::object_ptr<td_api::gameHighScores>> &&promise);
 
   td_api::object_ptr<td_api::gameHighScores> get_game_high_scores_object(
       telegram_api::object_ptr<telegram_api::messages_highScores> &&high_scores);
@@ -47,7 +41,7 @@ class GameManager final : public Actor {
  private:
   void tear_down() final;
 
-  void on_set_game_score(FullMessageId full_message_id, Promise<td_api::object_ptr<td_api::message>> &&promise);
+  void on_set_game_score(MessageFullId message_full_id, Promise<td_api::object_ptr<td_api::message>> &&promise);
 
   Td *td_;
   ActorShared<> parent_;

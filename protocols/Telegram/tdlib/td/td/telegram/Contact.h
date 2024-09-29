@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -21,6 +21,8 @@
 #include <tuple>
 
 namespace td {
+
+class Td;
 
 class Contact {
   string phone_number_;
@@ -52,7 +54,7 @@ class Contact {
 
   const string &get_last_name() const;
 
-  tl_object_ptr<td_api::contact> get_contact_object() const;
+  tl_object_ptr<td_api::contact> get_contact_object(Td *td) const;
 
   tl_object_ptr<telegram_api::inputMediaContact> get_input_media_contact() const;
 
@@ -136,14 +138,14 @@ struct ContactEqual {
 
 struct ContactHash {
   uint32 operator()(const Contact &contact) const {
-    return (Hash<string>()(contact.phone_number_) * 2023654985u + Hash<string>()(contact.first_name_)) * 2023654985u +
-           Hash<string>()(contact.last_name_);
+    return combine_hashes(combine_hashes(Hash<string>()(contact.phone_number_), Hash<string>()(contact.first_name_)),
+                          Hash<string>()(contact.last_name_));
   }
 };
 
-Result<Contact> get_contact(td_api::object_ptr<td_api::contact> &&contact) TD_WARN_UNUSED_RESULT;
+Result<Contact> get_contact(Td *td, td_api::object_ptr<td_api::contact> &&contact) TD_WARN_UNUSED_RESULT;
 
-Result<Contact> process_input_message_contact(tl_object_ptr<td_api::InputMessageContent> &&input_message_content)
-    TD_WARN_UNUSED_RESULT;
+Result<Contact> process_input_message_contact(
+    Td *td, td_api::object_ptr<td_api::InputMessageContent> &&input_message_content) TD_WARN_UNUSED_RESULT;
 
 }  // namespace td

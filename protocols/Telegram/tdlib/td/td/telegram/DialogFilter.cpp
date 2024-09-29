@@ -1,22 +1,23 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/DialogFilter.h"
 
-#include "td/telegram/ContactsManager.h"
+#include "td/telegram/ChatManager.h"
 #include "td/telegram/DialogId.h"
+#include "td/telegram/DialogManager.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/MessagesManager.h"
 #include "td/telegram/misc.h"
 #include "td/telegram/Td.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/utils/algorithm.h"
 #include "td/utils/emoji.h"
 #include "td/utils/FlatHashSet.h"
-#include "td/utils/format.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
 
@@ -48,6 +49,7 @@ unique_ptr<DialogFilter> DialogFilter::get_dialog_filter(
       dialog_filter->dialog_filter_id_ = dialog_filter_id;
       dialog_filter->title_ = std::move(filter->title_);
       dialog_filter->emoji_ = std::move(filter->emoticon_);
+      dialog_filter->color_id_ = (filter->flags_ & telegram_api::dialogFilter::COLOR_MASK) != 0 ? filter->color_ : -1;
       dialog_filter->pinned_dialog_ids_ = InputDialogId::get_input_dialog_ids(filter->pinned_peers_, &added_dialog_ids);
       dialog_filter->included_dialog_ids_ =
           InputDialogId::get_input_dialog_ids(filter->include_peers_, &added_dialog_ids);
@@ -62,6 +64,10 @@ unique_ptr<DialogFilter> DialogFilter::get_dialog_filter(
       dialog_filter->include_bots_ = (flags & telegram_api::dialogFilter::BOTS_MASK) != 0;
       dialog_filter->include_groups_ = (flags & telegram_api::dialogFilter::GROUPS_MASK) != 0;
       dialog_filter->include_channels_ = (flags & telegram_api::dialogFilter::BROADCASTS_MASK) != 0;
+      if (!is_valid_color_id(dialog_filter->color_id_)) {
+        LOG(ERROR) << "Receive color " << dialog_filter->color_id_;
+        dialog_filter->color_id_ = -1;
+      }
       return dialog_filter;
     }
     case telegram_api::dialogFilterChatlist::ID: {
@@ -79,11 +85,17 @@ unique_ptr<DialogFilter> DialogFilter::get_dialog_filter(
       dialog_filter->dialog_filter_id_ = dialog_filter_id;
       dialog_filter->title_ = std::move(filter->title_);
       dialog_filter->emoji_ = std::move(filter->emoticon_);
+      dialog_filter->color_id_ =
+          (filter->flags_ & telegram_api::dialogFilterChatlist::COLOR_MASK) != 0 ? filter->color_ : -1;
       dialog_filter->pinned_dialog_ids_ = InputDialogId::get_input_dialog_ids(filter->pinned_peers_, &added_dialog_ids);
       dialog_filter->included_dialog_ids_ =
           InputDialogId::get_input_dialog_ids(filter->include_peers_, &added_dialog_ids);
       dialog_filter->is_shareable_ = true;
       dialog_filter->has_my_invites_ = filter->has_my_invites_;
+      if (!is_valid_color_id(dialog_filter->color_id_)) {
+        LOG(ERROR) << "Receive color " << dialog_filter->color_id_;
+        dialog_filter->color_id_ = -1;
+      }
       return dialog_filter;
     }
     default:
@@ -116,7 +128,7 @@ Result<unique_ptr<DialogFilter>> DialogFilter::create_dialog_filter(Td *td, Dial
         continue;
       }
 
-      input_dialog_ids.push_back(td->messages_manager_->get_input_dialog_id(DialogId(chat_id)));
+      input_dialog_ids.push_back(td->dialog_manager_->get_input_dialog_id(DialogId(chat_id)));
     }
   };
   add_chats(dialog_filter->pinned_dialog_ids_, filter->pinned_chat_ids_);
@@ -131,6 +143,10 @@ Result<unique_ptr<DialogFilter>> DialogFilter::create_dialog_filter(Td *td, Dial
   dialog_filter->emoji_ = get_emoji_by_icon_name(icon_name);
   if (dialog_filter->emoji_.empty() && !icon_name.empty()) {
     return Status::Error(400, "Invalid icon name specified");
+  }
+  dialog_filter->color_id_ = filter->color_id_;
+  if (!is_valid_color_id(dialog_filter->color_id_)) {
+    return Status::Error(400, "Invalid color identifier specified");
   }
   dialog_filter->exclude_muted_ = filter->exclude_muted_;
   dialog_filter->exclude_read_ = filter->exclude_read_;
@@ -410,20 +426,20 @@ string DialogFilter::get_default_icon_name(const td_api::chatFolder *filter) {
 
 telegram_api::object_ptr<telegram_api::DialogFilter> DialogFilter::get_input_dialog_filter() const {
   if (is_shareable_) {
-    int32 flags = 0;
-    if (!emoji_.empty()) {
-      flags |= telegram_api::dialogFilterChatlist::EMOTICON_MASK;
+    int32 flags = telegram_api::dialogFilterChatlist::EMOTICON_MASK;
+    if (color_id_ != -1) {
+      flags |= telegram_api::dialogFilterChatlist::COLOR_MASK;
     }
     if (has_my_invites_) {
       flags |= telegram_api::dialogFilterChatlist::HAS_MY_INVITES_MASK;
     }
     return telegram_api::make_object<telegram_api::dialogFilterChatlist>(
-        flags, false /*ignored*/, dialog_filter_id_.get(), title_, emoji_,
+        flags, false /*ignored*/, dialog_filter_id_.get(), title_, emoji_, color_id_,
         InputDialogId::get_input_peers(pinned_dialog_ids_), InputDialogId::get_input_peers(included_dialog_ids_));
   }
-  int32 flags = 0;
-  if (!emoji_.empty()) {
-    flags |= telegram_api::dialogFilter::EMOTICON_MASK;
+  int32 flags = telegram_api::dialogFilter::EMOTICON_MASK;
+  if (color_id_ != -1) {
+    flags |= telegram_api::dialogFilter::COLOR_MASK;
   }
   if (exclude_muted_) {
     flags |= telegram_api::dialogFilter::EXCLUDE_MUTED_MASK;
@@ -452,7 +468,7 @@ telegram_api::object_ptr<telegram_api::DialogFilter> DialogFilter::get_input_dia
 
   return telegram_api::make_object<telegram_api::dialogFilter>(
       flags, false /*ignored*/, false /*ignored*/, false /*ignored*/, false /*ignored*/, false /*ignored*/,
-      false /*ignored*/, false /*ignored*/, false /*ignored*/, dialog_filter_id_.get(), title_, emoji_,
+      false /*ignored*/, false /*ignored*/, false /*ignored*/, dialog_filter_id_.get(), title_, emoji_, color_id_,
       InputDialogId::get_input_peers(pinned_dialog_ids_), InputDialogId::get_input_peers(included_dialog_ids_),
       InputDialogId::get_input_peers(excluded_dialog_ids_));
 }
@@ -477,15 +493,15 @@ td_api::object_ptr<td_api::chatFolder> DialogFilter::get_chat_folder_object(
     icon = td_api::make_object<td_api::chatFolderIcon>(icon_name);
   }
   return td_api::make_object<td_api::chatFolder>(
-      title_, std::move(icon), is_shareable_, get_chat_ids(pinned_dialog_ids_), get_chat_ids(included_dialog_ids_),
-      get_chat_ids(excluded_dialog_ids_), exclude_muted_, exclude_read_, exclude_archived_, include_contacts_,
-      include_non_contacts_, include_bots_, include_groups_, include_channels_);
+      title_, std::move(icon), color_id_, is_shareable_, get_chat_ids(pinned_dialog_ids_),
+      get_chat_ids(included_dialog_ids_), get_chat_ids(excluded_dialog_ids_), exclude_muted_, exclude_read_,
+      exclude_archived_, include_contacts_, include_non_contacts_, include_bots_, include_groups_, include_channels_);
 }
 
 td_api::object_ptr<td_api::chatFolderInfo> DialogFilter::get_chat_folder_info_object() const {
   return td_api::make_object<td_api::chatFolderInfo>(
       dialog_filter_id_.get(), title_, td_api::make_object<td_api::chatFolderIcon>(get_chosen_or_default_icon_name()),
-      has_my_invites_);
+      color_id_, is_shareable_, has_my_invites_);
 }
 
 void DialogFilter::for_each_dialog(std::function<void(const InputDialogId &)> callback) const {
@@ -512,12 +528,12 @@ unique_ptr<DialogFilter> DialogFilter::merge_dialog_filter_changes(const DialogF
   auto merge_ordered_changes = [dialog_filter_id](auto &new_dialog_ids, auto old_server_dialog_ids,
                                                   auto new_server_dialog_ids) {
     if (old_server_dialog_ids == new_server_dialog_ids) {
-      LOG(INFO) << "Pinned chats was not changed remotely in " << dialog_filter_id << ", keep local changes";
+      LOG(INFO) << "Pinned chats were not changed remotely in " << dialog_filter_id << ", keep local changes";
       return;
     }
 
     if (InputDialogId::are_equivalent(new_dialog_ids, old_server_dialog_ids)) {
-      LOG(INFO) << "Pinned chats was not changed locally in " << dialog_filter_id << ", keep remote changes";
+      LOG(INFO) << "Pinned chats were not changed locally in " << dialog_filter_id << ", keep remote changes";
 
       size_t kept_server_dialogs = 0;
       FlatHashSet<DialogId, DialogIdHash> removed_dialog_ids;
@@ -656,6 +672,7 @@ unique_ptr<DialogFilter> DialogFilter::merge_dialog_filter_changes(const DialogF
 
   update_value(new_filter->title_, old_server_filter->title_, new_server_filter->title_);
   update_value(new_filter->emoji_, old_server_filter->emoji_, new_server_filter->emoji_);
+  update_value(new_filter->color_id_, old_server_filter->color_id_, new_server_filter->color_id_);
 
   LOG(INFO) << "Old  local filter: " << *old_filter;
   LOG(INFO) << "Old server filter: " << *old_server_filter;
@@ -670,20 +687,18 @@ void DialogFilter::sort_input_dialog_ids(const Td *td, const char *source) {
     excluded_dialog_ids_.clear();
   }
 
-  auto sort_input_dialog_ids = [contacts_manager =
-                                    td->contacts_manager_.get()](vector<InputDialogId> &input_dialog_ids) {
-    std::sort(input_dialog_ids.begin(), input_dialog_ids.end(),
-              [contacts_manager](InputDialogId lhs, InputDialogId rhs) {
-                auto get_order = [contacts_manager](InputDialogId input_dialog_id) {
-                  auto dialog_id = input_dialog_id.get_dialog_id();
-                  if (dialog_id.get_type() != DialogType::SecretChat) {
-                    return dialog_id.get() * 10;
-                  }
-                  auto user_id = contacts_manager->get_secret_chat_user_id(dialog_id.get_secret_chat_id());
-                  return DialogId(user_id).get() * 10 + 1;
-                };
-                return get_order(lhs) < get_order(rhs);
-              });
+  auto sort_input_dialog_ids = [user_manager = td->user_manager_.get()](vector<InputDialogId> &input_dialog_ids) {
+    std::sort(input_dialog_ids.begin(), input_dialog_ids.end(), [user_manager](InputDialogId lhs, InputDialogId rhs) {
+      auto get_order = [user_manager](InputDialogId input_dialog_id) {
+        auto dialog_id = input_dialog_id.get_dialog_id();
+        if (dialog_id.get_type() != DialogType::SecretChat) {
+          return dialog_id.get() * 10;
+        }
+        auto user_id = user_manager->get_secret_chat_user_id(dialog_id.get_secret_chat_id());
+        return DialogId(user_id).get() * 10 + 1;
+      };
+      return get_order(lhs) < get_order(rhs);
+    });
   };
 
   sort_input_dialog_ids(excluded_dialog_ids_);
@@ -705,7 +720,7 @@ vector<DialogId> DialogFilter::get_dialogs_for_invite_link(Td *td) {
   vector<DialogId> result;
   for_each_dialog([&](const InputDialogId &input_dialog_id) {
     auto dialog_id = input_dialog_id.get_dialog_id();
-    if (!td->messages_manager_->have_dialog_force(dialog_id, "get_dialogs_for_invite_link")) {
+    if (!td->dialog_manager_->have_dialog_force(dialog_id, "get_dialogs_for_invite_link")) {
       return;
     }
     bool is_good = false;
@@ -713,16 +728,16 @@ vector<DialogId> DialogFilter::get_dialogs_for_invite_link(Td *td) {
       case DialogType::Chat: {
         auto chat_id = dialog_id.get_chat_id();
         // the user can manage invite links in the chat
-        is_good = td->contacts_manager_->get_chat_status(chat_id).can_manage_invite_links();
+        is_good = td->chat_manager_->get_chat_status(chat_id).can_manage_invite_links();
         break;
       }
       case DialogType::Channel: {
         auto channel_id = dialog_id.get_channel_id();
         // the user can manage invite links in the chat
         // or the chat is a public chat, which can be joined without administrator approval
-        is_good = td->contacts_manager_->get_channel_status(channel_id).can_manage_invite_links() ||
-                  (td->contacts_manager_->is_channel_public(channel_id) &&
-                   !td->contacts_manager_->get_channel_join_request(channel_id));
+        is_good = td->chat_manager_->get_channel_status(channel_id).can_manage_invite_links() ||
+                  (td->chat_manager_->is_channel_public(channel_id) &&
+                   !td->chat_manager_->get_channel_join_request(channel_id));
         break;
       }
       default:
@@ -751,7 +766,7 @@ bool DialogFilter::need_dialog(const Td *td, const DialogFilterDialogInfo &dialo
     return false;
   }
   if (dialog_id.get_type() == DialogType::SecretChat) {
-    auto user_id = td->contacts_manager_->get_secret_chat_user_id(dialog_id.get_secret_chat_id());
+    auto user_id = td->user_manager_->get_secret_chat_user_id(dialog_id.get_secret_chat_id());
     if (user_id.is_valid()) {
       auto user_dialog_id = DialogId(user_id);
       if (is_dialog_included(user_dialog_id)) {
@@ -776,10 +791,10 @@ bool DialogFilter::need_dialog(const Td *td, const DialogFilterDialogInfo &dialo
   switch (dialog_id.get_type()) {
     case DialogType::User: {
       auto user_id = dialog_id.get_user_id();
-      if (td->contacts_manager_->is_user_bot(user_id)) {
+      if (td->user_manager_->is_user_bot(user_id)) {
         return include_bots_;
       }
-      if (user_id == td->contacts_manager_->get_my_id() || td->contacts_manager_->is_user_contact(user_id)) {
+      if (user_id == td->user_manager_->get_my_id() || td->user_manager_->is_user_contact(user_id)) {
         return include_contacts_;
       }
       return include_non_contacts_;
@@ -787,14 +802,13 @@ bool DialogFilter::need_dialog(const Td *td, const DialogFilterDialogInfo &dialo
     case DialogType::Chat:
       return include_groups_;
     case DialogType::Channel:
-      return td->contacts_manager_->is_broadcast_channel(dialog_id.get_channel_id()) ? include_channels_
-                                                                                     : include_groups_;
+      return td->chat_manager_->is_broadcast_channel(dialog_id.get_channel_id()) ? include_channels_ : include_groups_;
     case DialogType::SecretChat: {
-      auto user_id = td->contacts_manager_->get_secret_chat_user_id(dialog_id.get_secret_chat_id());
-      if (td->contacts_manager_->is_user_bot(user_id)) {
+      auto user_id = td->user_manager_->get_secret_chat_user_id(dialog_id.get_secret_chat_id());
+      if (td->user_manager_->is_user_bot(user_id)) {
         return include_bots_;
       }
-      if (td->contacts_manager_->is_user_contact(user_id)) {
+      if (td->user_manager_->is_user_contact(user_id)) {
         return include_contacts_;
       }
       return include_non_contacts_;
@@ -873,8 +887,8 @@ bool DialogFilter::are_similar(const DialogFilter &lhs, const DialogFilter &rhs)
 }
 
 bool DialogFilter::are_equivalent(const DialogFilter &lhs, const DialogFilter &rhs) {
-  return lhs.title_ == rhs.title_ && lhs.emoji_ == rhs.emoji_ && lhs.is_shareable_ == rhs.is_shareable_ &&
-         lhs.has_my_invites_ == rhs.has_my_invites_ &&
+  return lhs.title_ == rhs.title_ && lhs.emoji_ == rhs.emoji_ && lhs.color_id_ == rhs.color_id_ &&
+         lhs.is_shareable_ == rhs.is_shareable_ && lhs.has_my_invites_ == rhs.has_my_invites_ &&
          InputDialogId::are_equivalent(lhs.pinned_dialog_ids_, rhs.pinned_dialog_ids_) &&
          InputDialogId::are_equivalent(lhs.included_dialog_ids_, rhs.included_dialog_ids_) &&
          InputDialogId::are_equivalent(lhs.excluded_dialog_ids_, rhs.excluded_dialog_ids_) && are_flags_equal(lhs, rhs);
@@ -916,6 +930,10 @@ void DialogFilter::init_icon_names() {
     return true;
   }();
   CHECK(is_inited);
+}
+
+bool DialogFilter::is_valid_color_id(int32 color_id) {
+  return -1 <= color_id && color_id <= 6;
 }
 
 bool DialogFilter::are_flags_equal(const DialogFilter &lhs, const DialogFilter &rhs) {

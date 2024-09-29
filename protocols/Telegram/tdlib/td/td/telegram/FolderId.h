@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,7 +20,10 @@ class FolderId {
  public:
   FolderId() = default;
 
-  explicit constexpr FolderId(int32 folder_id) : id(folder_id) {
+  explicit FolderId(int32 folder_id) : id(folder_id) {
+    if (id != 1) {
+      id = 0;
+    }
   }
   template <class T, typename = std::enable_if_t<std::is_convertible<T, int32>::value>>
   FolderId(T folder_id) = delete;
@@ -45,6 +48,9 @@ class FolderId {
   template <class ParserT>
   void parse(ParserT &parser) {
     id = parser.fetch_int();
+    if (id != 1) {
+      id = 0;
+    }
   }
 
   static FolderId main() {

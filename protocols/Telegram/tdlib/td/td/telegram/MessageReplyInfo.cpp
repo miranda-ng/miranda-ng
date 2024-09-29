@@ -1,16 +1,17 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/MessageReplyInfo.h"
 
-#include "td/telegram/ContactsManager.h"
+#include "td/telegram/ChatManager.h"
+#include "td/telegram/DialogManager.h"
 #include "td/telegram/MessageSender.h"
-#include "td/telegram/MessagesManager.h"
 #include "td/telegram/ServerMessageId.h"
 #include "td/telegram/Td.h"
+#include "td/telegram/UserManager.h"
 
 #include "td/utils/algorithm.h"
 #include "td/utils/logging.h"
@@ -55,17 +56,17 @@ MessageReplyInfo::MessageReplyInfo(Td *td, tl_object_ptr<telegram_api::messageRe
         LOG(ERROR) << "Receive duplicate " << dialog_id << " as a recent replier";
         continue;
       }
-      if (!td->messages_manager_->have_dialog_info(dialog_id)) {
+      if (!td->dialog_manager_->have_dialog_info(dialog_id)) {
         auto dialog_type = dialog_id.get_type();
         if (dialog_type == DialogType::User) {
           auto replier_user_id = dialog_id.get_user_id();
-          if (!td->contacts_manager_->have_min_user(replier_user_id)) {
+          if (!td->user_manager_->have_min_user(replier_user_id)) {
             LOG(ERROR) << "Receive unknown replied " << replier_user_id;
             continue;
           }
         } else if (dialog_type == DialogType::Channel) {
           auto replier_channel_id = dialog_id.get_channel_id();
-          auto min_channel = td->contacts_manager_->get_min_channel(replier_channel_id);
+          auto min_channel = td->chat_manager_->get_min_channel(replier_channel_id);
           if (min_channel == nullptr) {
             LOG(ERROR) << "Receive unknown replied " << replier_channel_id;
             continue;
@@ -100,6 +101,10 @@ bool MessageReplyInfo::need_update_to(const MessageReplyInfo &other) const {
   if (other.is_empty() && !is_empty()) {
     // ignore updates to empty reply info, because we will hide the info ourselves
     // return true;
+  }
+  if (other.is_comment_ != is_comment_ && !other.was_dropped()) {
+    LOG(ERROR) << "Reply info has changed from " << *this << " to " << other;
+    return true;
   }
   if (other.pts_ < pts_ && !other.was_dropped()) {
     return false;
@@ -162,13 +167,10 @@ bool MessageReplyInfo::add_reply(DialogId replier_dialog_id, MessageId reply_mes
       }
     }
 
-    td::remove(recent_replier_dialog_ids_, replier_dialog_id);
     if (diff > 0) {
-      recent_replier_dialog_ids_.insert(recent_replier_dialog_ids_.begin(), replier_dialog_id);
-      if (recent_replier_dialog_ids_.size() > MAX_RECENT_REPLIERS) {
-        recent_replier_dialog_ids_.pop_back();
-      }
+      add_to_top(recent_replier_dialog_ids_, MAX_RECENT_REPLIERS, replier_dialog_id);
     } else {
+      td::remove(recent_replier_dialog_ids_, replier_dialog_id);
       auto max_repliers = static_cast<size_t>(reply_count_);
       if (recent_replier_dialog_ids_.size() > max_repliers) {
         recent_replier_dialog_ids_.resize(max_repliers);
@@ -184,9 +186,9 @@ bool MessageReplyInfo::add_reply(DialogId replier_dialog_id, MessageId reply_mes
 
 bool MessageReplyInfo::need_reget(const Td *td) const {
   for (auto &dialog_id : recent_replier_dialog_ids_) {
-    if (dialog_id.get_type() != DialogType::User && !td->messages_manager_->have_dialog_info(dialog_id)) {
+    if (dialog_id.get_type() != DialogType::User && !td->dialog_manager_->have_dialog_info(dialog_id)) {
       if (dialog_id.get_type() == DialogType::Channel &&
-          td->contacts_manager_->have_min_channel(dialog_id.get_channel_id())) {
+          td->chat_manager_->have_min_channel(dialog_id.get_channel_id())) {
         return false;
       }
       LOG(INFO) << "Reget a message because of replied " << dialog_id;
@@ -222,10 +224,11 @@ StringBuilder &operator<<(StringBuilder &string_builder, const MessageReplyInfo 
   if (reply_info.is_comment_) {
     return string_builder << reply_info.reply_count_ << " comments in " << reply_info.channel_id_ << " by "
                           << reply_info.recent_replier_dialog_ids_ << " read up to "
-                          << reply_info.last_read_inbox_message_id_ << "/" << reply_info.last_read_outbox_message_id_;
+                          << reply_info.last_read_inbox_message_id_ << '/' << reply_info.last_read_outbox_message_id_
+                          << " with PTS " << reply_info.pts_;
   } else {
     return string_builder << reply_info.reply_count_ << " replies read up to " << reply_info.last_read_inbox_message_id_
-                          << "/" << reply_info.last_read_outbox_message_id_;
+                          << "/" << reply_info.last_read_outbox_message_id_ << " with PTS " << reply_info.pts_;
   }
 }
 

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,6 +25,7 @@ class ByteFlowInterface {
   virtual size_t get_write_size() = 0;
   virtual void reset_need_size() {
   }
+
   ByteFlowInterface() = default;
   ByteFlowInterface(const ByteFlowInterface &) = delete;
   ByteFlowInterface &operator=(const ByteFlowInterface &) = delete;
@@ -139,6 +140,7 @@ class ByteFlowBaseCommon : public ByteFlowInterface {
   bool can_read{true};
   bool can_write{true};
   Options options_;
+
   void finish(Status status) {
     stop_flag_ = true;
     need_size_ = 0;

@@ -63,7 +63,6 @@
     <ClCompile Include="td\td\telegram\ClientActor.cpp" />
     <ClCompile Include="td\td\telegram\ConfigManager.cpp" />
     <ClCompile Include="td\td\telegram\Contact.cpp" />
-    <ClCompile Include="td\td\telegram\ContactsManager.cpp" />
     <ClCompile Include="td\td\telegram\DelayDispatcher.cpp" />
     <ClCompile Include="td\td\telegram\DeviceTokenManager.cpp" />
     <ClCompile Include="td\td\telegram\DhCache.cpp" />
@@ -78,7 +77,6 @@
     <ClCompile Include="td\td\telegram\files\FileGcWorker.cpp" />
     <ClCompile Include="td\td\telegram\files\FileGenerateManager.cpp" />
     <ClCompile Include="td\td\telegram\files\FileHashUploader.cpp" />
-    <ClCompile Include="td\td\telegram\files\FileLoader.cpp" />
     <ClCompile Include="td\td\telegram\files\FileLoaderUtils.cpp" />
     <ClCompile Include="td\td\telegram\files\FileLoadManager.cpp" />
     <ClCompile Include="td\td\telegram\files\FileManager.cpp" />
@@ -106,7 +104,6 @@
     <ClCompile Include="td\td\telegram\net\NetQueryDelayer.cpp" />
     <ClCompile Include="td\td\telegram\net\NetQueryDispatcher.cpp" />
     <ClCompile Include="td\td\telegram\net\NetStatsManager.cpp" />
-    <ClCompile Include="td\td\telegram\net\PublicRsaKeyShared.cpp" />
     <ClCompile Include="td\td\telegram\net\PublicRsaKeyWatchdog.cpp" />
     <ClCompile Include="td\td\telegram\net\Session.cpp" />
     <ClCompile Include="td\td\telegram\net\SessionProxy.cpp" />
@@ -161,7 +158,6 @@
     <ClInclude Include="td\td\telegram\ClientActor.h" />
     <ClInclude Include="td\td\telegram\ConfigManager.h" />
     <ClInclude Include="td\td\telegram\Contact.h" />
-    <ClInclude Include="td\td\telegram\ContactsManager.h" />
     <ClInclude Include="td\td\telegram\DelayDispatcher.h" />
     <ClInclude Include="td\td\telegram\DeviceTokenManager.h" />
     <ClInclude Include="td\td\telegram\DhCache.h" />
@@ -179,7 +175,6 @@
     <ClInclude Include="td\td\telegram\files\FileHashUploader.h" />
     <ClInclude Include="td\td\telegram\files\FileId.h" />
     <ClInclude Include="td\td\telegram\files\FileLoaderActor.h" />
-    <ClInclude Include="td\td\telegram\files\FileLoader.h" />
     <ClInclude Include="td\td\telegram\files\FileLoaderUtils.h" />
     <ClInclude Include="td\td\telegram\files\FileLoadManager.h" />
     <ClInclude Include="td\td\telegram\files\FileLocation.h" />
@@ -216,7 +211,6 @@
     <ClInclude Include="td\td\telegram\net\NetQueryDispatcher.h" />
     <ClInclude Include="td\td\telegram\net\NetStatsManager.h" />
     <ClInclude Include="td\td\telegram\net\NetType.h" />
-    <ClInclude Include="td\td\telegram\net\PublicRsaKeyShared.h" />
     <ClInclude Include="td\td\telegram\net\PublicRsaKeyWatchdog.h" />
     <ClInclude Include="td\td\telegram\net\Session.h" />
     <ClInclude Include="td\td\telegram\net\SessionProxy.h" />

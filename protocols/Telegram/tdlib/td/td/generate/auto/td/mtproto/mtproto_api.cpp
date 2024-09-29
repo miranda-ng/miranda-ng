@@ -149,11 +149,9 @@ object_ptr<BadMsgNotification> bad_msg_notification::fetch(TlParser &p) {
 }
 
 bad_msg_notification::bad_msg_notification(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : bad_msg_id_(TlFetchLong::parse(p))
   , bad_msg_seqno_(TlFetchInt::parse(p))
   , error_code_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void bad_msg_notification::store(TlStorerCalcLength &s) const {
@@ -194,12 +192,10 @@ object_ptr<BadMsgNotification> bad_server_salt::fetch(TlParser &p) {
 }
 
 bad_server_salt::bad_server_salt(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : bad_msg_id_(TlFetchLong::parse(p))
   , bad_msg_seqno_(TlFetchInt::parse(p))
   , error_code_(TlFetchInt::parse(p))
   , new_server_salt_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void bad_server_salt::store(TlStorerCalcLength &s) const {
@@ -244,13 +240,11 @@ object_ptr<bind_auth_key_inner> bind_auth_key_inner::fetch(TlParser &p) {
 }
 
 bind_auth_key_inner::bind_auth_key_inner(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchLong::parse(p))
   , temp_auth_key_id_(TlFetchLong::parse(p))
   , perm_auth_key_id_(TlFetchLong::parse(p))
   , temp_session_id_(TlFetchLong::parse(p))
   , expires_at_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void bind_auth_key_inner::store(TlStorerCalcLength &s) const {
@@ -297,12 +291,10 @@ object_ptr<client_DH_inner_data> client_DH_inner_data::fetch(TlParser &p) {
 }
 
 client_DH_inner_data::client_DH_inner_data(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , retry_id_(TlFetchLong::parse(p))
   , g_b_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void client_DH_inner_data::store(TlStorerCalcLength &s) const {
@@ -424,11 +416,9 @@ object_ptr<future_salt> future_salt::fetch(TlParser &p) {
 }
 
 future_salt::future_salt(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : valid_since_(TlFetchInt::parse(p))
   , valid_until_(TlFetchInt::parse(p))
   , salt_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void future_salt::store(TlStorerCalcLength &s) const {
@@ -468,11 +458,9 @@ object_ptr<future_salts> future_salts::fetch(TlParser &p) {
 }
 
 future_salts::future_salts(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : req_msg_id_(TlFetchLong::parse(p))
   , now_(TlFetchInt::parse(p))
   , salts_(TlFetchVector<TlFetchObject<future_salt>>::parse(p))
-#undef FAIL
 {}
 
 void future_salts::store(TlStorerCalcLength &s) const {
@@ -510,9 +498,7 @@ object_ptr<gzip_packed> gzip_packed::fetch(TlParser &p) {
 }
 
 gzip_packed::gzip_packed(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : packed_data_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void gzip_packed::store(TlStorerCalcLength &s) const {
@@ -582,12 +568,10 @@ object_ptr<MsgDetailedInfo> msg_detailed_info::fetch(TlParser &p) {
 }
 
 msg_detailed_info::msg_detailed_info(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : msg_id_(TlFetchLong::parse(p))
   , answer_msg_id_(TlFetchLong::parse(p))
   , bytes_(TlFetchInt::parse(p))
   , status_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void msg_detailed_info::store(TlStorerCalcLength &s) const {
@@ -630,11 +614,9 @@ object_ptr<MsgDetailedInfo> msg_new_detailed_info::fetch(TlParser &p) {
 }
 
 msg_new_detailed_info::msg_new_detailed_info(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : answer_msg_id_(TlFetchLong::parse(p))
   , bytes_(TlFetchInt::parse(p))
   , status_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void msg_new_detailed_info::store(TlStorerCalcLength &s) const {
@@ -672,9 +654,7 @@ object_ptr<msg_resend_req> msg_resend_req::fetch(TlParser &p) {
 }
 
 msg_resend_req::msg_resend_req(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : msg_ids_(TlFetchBoxed<TlFetchVector<TlFetchLong>, 481674261>::parse(p))
-#undef FAIL
 {}
 
 void msg_resend_req::store(TlStorerCalcLength &s) const {
@@ -706,9 +686,7 @@ object_ptr<msgs_ack> msgs_ack::fetch(TlParser &p) {
 }
 
 msgs_ack::msgs_ack(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : msg_ids_(TlFetchBoxed<TlFetchVector<TlFetchLong>, 481674261>::parse(p))
-#undef FAIL
 {}
 
 void msgs_ack::store(TlStorerCalcLength &s) const {
@@ -741,10 +719,8 @@ object_ptr<msgs_all_info> msgs_all_info::fetch(TlParser &p) {
 }
 
 msgs_all_info::msgs_all_info(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : msg_ids_(TlFetchBoxed<TlFetchVector<TlFetchLong>, 481674261>::parse(p))
   , info_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void msgs_all_info::store(TlStorerCalcLength &s) const {
@@ -780,10 +756,8 @@ object_ptr<msgs_state_info> msgs_state_info::fetch(TlParser &p) {
 }
 
 msgs_state_info::msgs_state_info(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : req_msg_id_(TlFetchLong::parse(p))
   , info_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void msgs_state_info::store(TlStorerCalcLength &s) const {
@@ -818,9 +792,7 @@ object_ptr<msgs_state_req> msgs_state_req::fetch(TlParser &p) {
 }
 
 msgs_state_req::msgs_state_req(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : msg_ids_(TlFetchBoxed<TlFetchVector<TlFetchLong>, 481674261>::parse(p))
-#undef FAIL
 {}
 
 void msgs_state_req::store(TlStorerCalcLength &s) const {
@@ -854,11 +826,9 @@ object_ptr<new_session_created> new_session_created::fetch(TlParser &p) {
 }
 
 new_session_created::new_session_created(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : first_msg_id_(TlFetchLong::parse(p))
   , unique_id_(TlFetchLong::parse(p))
   , server_salt_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void new_session_created::store(TlStorerCalcLength &s) const {
@@ -916,7 +886,6 @@ object_ptr<P_Q_inner_data> p_q_inner_data_dc::fetch(TlParser &p) {
 }
 
 p_q_inner_data_dc::p_q_inner_data_dc(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : pq_(TlFetchString<string>::parse(p))
   , p_(TlFetchString<string>::parse(p))
   , q_(TlFetchString<string>::parse(p))
@@ -924,7 +893,6 @@ p_q_inner_data_dc::p_q_inner_data_dc(TlParser &p)
   , server_nonce_(TlFetchInt128::parse(p))
   , new_nonce_(TlFetchInt256::parse(p))
   , dc_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void p_q_inner_data_dc::store(TlStorerCalcLength &s) const {
@@ -981,7 +949,6 @@ object_ptr<P_Q_inner_data> p_q_inner_data_temp_dc::fetch(TlParser &p) {
 }
 
 p_q_inner_data_temp_dc::p_q_inner_data_temp_dc(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : pq_(TlFetchString<string>::parse(p))
   , p_(TlFetchString<string>::parse(p))
   , q_(TlFetchString<string>::parse(p))
@@ -990,7 +957,6 @@ p_q_inner_data_temp_dc::p_q_inner_data_temp_dc(TlParser &p)
   , new_nonce_(TlFetchInt256::parse(p))
   , dc_(TlFetchInt::parse(p))
   , expires_in_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void p_q_inner_data_temp_dc::store(TlStorerCalcLength &s) const {
@@ -1044,10 +1010,8 @@ object_ptr<pong> pong::fetch(TlParser &p) {
 }
 
 pong::pong(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : msg_id_(TlFetchLong::parse(p))
   , ping_id_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void pong::store(TlStorerCalcLength &s) const {
@@ -1083,10 +1047,8 @@ object_ptr<rsa_public_key> rsa_public_key::fetch(TlParser &p) {
 }
 
 rsa_public_key::rsa_public_key(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : n_(TlFetchString<string>::parse(p))
   , e_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void rsa_public_key::store(TlStorerCalcLength &s) const {
@@ -1124,12 +1086,10 @@ object_ptr<resPQ> resPQ::fetch(TlParser &p) {
 }
 
 resPQ::resPQ(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , pq_(TlFetchString<string>::parse(p))
   , server_public_key_fingerprints_(TlFetchBoxed<TlFetchVector<TlFetchLong>, 481674261>::parse(p))
-#undef FAIL
 {}
 
 void resPQ::store(TlStorerCalcLength &s) const {
@@ -1230,11 +1190,9 @@ object_ptr<RpcDropAnswer> rpc_answer_dropped::fetch(TlParser &p) {
 }
 
 rpc_answer_dropped::rpc_answer_dropped(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : msg_id_(TlFetchLong::parse(p))
   , seq_no_(TlFetchInt::parse(p))
   , bytes_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void rpc_answer_dropped::store(TlStorerCalcLength &s) const {
@@ -1273,10 +1231,8 @@ object_ptr<rpc_error> rpc_error::fetch(TlParser &p) {
 }
 
 rpc_error::rpc_error(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : error_code_(TlFetchInt::parse(p))
   , error_message_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void rpc_error::store(TlStorerCalcLength &s) const {
@@ -1313,11 +1269,9 @@ object_ptr<server_DH_params_ok> server_DH_params_ok::fetch(TlParser &p) {
 }
 
 server_DH_params_ok::server_DH_params_ok(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , encrypted_answer_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void server_DH_params_ok::store(TlStorerCalcLength &s) const {
@@ -1360,14 +1314,12 @@ object_ptr<server_DH_inner_data> server_DH_inner_data::fetch(TlParser &p) {
 }
 
 server_DH_inner_data::server_DH_inner_data(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , g_(TlFetchInt::parse(p))
   , dh_prime_(TlFetchString<string>::parse(p))
   , g_a_(TlFetchString<string>::parse(p))
   , server_time_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void server_DH_inner_data::store(TlStorerCalcLength &s) const {
@@ -1432,11 +1384,9 @@ object_ptr<Set_client_DH_params_answer> dh_gen_ok::fetch(TlParser &p) {
 }
 
 dh_gen_ok::dh_gen_ok(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , new_nonce_hash1_(TlFetchInt128::parse(p))
-#undef FAIL
 {}
 
 void dh_gen_ok::store(TlStorerCalcLength &s) const {
@@ -1476,11 +1426,9 @@ object_ptr<Set_client_DH_params_answer> dh_gen_retry::fetch(TlParser &p) {
 }
 
 dh_gen_retry::dh_gen_retry(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , new_nonce_hash2_(TlFetchInt128::parse(p))
-#undef FAIL
 {}
 
 void dh_gen_retry::store(TlStorerCalcLength &s) const {
@@ -1520,11 +1468,9 @@ object_ptr<Set_client_DH_params_answer> dh_gen_fail::fetch(TlParser &p) {
 }
 
 dh_gen_fail::dh_gen_fail(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , new_nonce_hash3_(TlFetchInt128::parse(p))
-#undef FAIL
 {}
 
 void dh_gen_fail::store(TlStorerCalcLength &s) const {
@@ -1591,9 +1537,7 @@ object_ptr<get_future_salts> get_future_salts::fetch(TlParser &p) {
 }
 
 get_future_salts::get_future_salts(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : num_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void get_future_salts::store(TlStorerCalcLength &s) const {
@@ -1635,11 +1579,9 @@ object_ptr<http_wait> http_wait::fetch(TlParser &p) {
 }
 
 http_wait::http_wait(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : max_delay_(TlFetchInt::parse(p))
   , wait_after_(TlFetchInt::parse(p))
   , max_wait_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void http_wait::store(TlStorerCalcLength &s) const {
@@ -1686,10 +1628,8 @@ object_ptr<ping_delay_disconnect> ping_delay_disconnect::fetch(TlParser &p) {
 }
 
 ping_delay_disconnect::ping_delay_disconnect(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : ping_id_(TlFetchLong::parse(p))
   , disconnect_delay_(TlFetchInt::parse(p))
-#undef FAIL
 {}
 
 void ping_delay_disconnect::store(TlStorerCalcLength &s) const {
@@ -1737,14 +1677,12 @@ object_ptr<req_DH_params> req_DH_params::fetch(TlParser &p) {
 }
 
 req_DH_params::req_DH_params(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , p_(TlFetchString<string>::parse(p))
   , q_(TlFetchString<string>::parse(p))
   , public_key_fingerprint_(TlFetchLong::parse(p))
   , encrypted_data_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void req_DH_params::store(TlStorerCalcLength &s) const {
@@ -1799,9 +1737,7 @@ object_ptr<req_pq_multi> req_pq_multi::fetch(TlParser &p) {
 }
 
 req_pq_multi::req_pq_multi(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
-#undef FAIL
 {}
 
 void req_pq_multi::store(TlStorerCalcLength &s) const {
@@ -1841,9 +1777,7 @@ object_ptr<rpc_drop_answer> rpc_drop_answer::fetch(TlParser &p) {
 }
 
 rpc_drop_answer::rpc_drop_answer(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : req_msg_id_(TlFetchLong::parse(p))
-#undef FAIL
 {}
 
 void rpc_drop_answer::store(TlStorerCalcLength &s) const {
@@ -1885,11 +1819,9 @@ object_ptr<set_client_DH_params> set_client_DH_params::fetch(TlParser &p) {
 }
 
 set_client_DH_params::set_client_DH_params(TlParser &p)
-#define FAIL(error) p.set_error(error)
   : nonce_(TlFetchInt128::parse(p))
   , server_nonce_(TlFetchInt128::parse(p))
   , encrypted_data_(TlFetchString<string>::parse(p))
-#undef FAIL
 {}
 
 void set_client_DH_params::store(TlStorerCalcLength &s) const {

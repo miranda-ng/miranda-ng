@@ -116,7 +116,6 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 			request->system_language_code_ = Langpack_GetDefaultLocaleName();
 			request->device_model_ = T2Utf(m_wszDeviceName).get();
 			request->application_version_ = text;
-			request->enable_storage_optimizer_ = true;
 			SendQuery(request, &CTelegramProto::OnUpdateAuth);
 		}
 		break;
