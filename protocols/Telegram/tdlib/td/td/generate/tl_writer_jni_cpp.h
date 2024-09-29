@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -16,7 +16,7 @@
 namespace td {
 
 class TD_TL_writer_jni_cpp final : public TD_TL_writer_cpp {
-  std::string gen_output_begin() const final;
+  std::string gen_output_begin_once() const final;
 
   std::string gen_vector_fetch(std::string field_name, const tl::tl_tree_type *t,
                                const std::vector<tl::var_description> &vars, int parser_type) const;

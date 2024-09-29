@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -190,27 +190,43 @@ std::string TD_TL_writer_java::gen_int_const(const tl::tl_tree *tree_c,
   return std::string();
 }
 
-std::string TD_TL_writer_java::gen_output_begin() const {
+std::string TD_TL_writer_java::gen_output_begin(const std::string &additional_imports) const {
   return "package " + package_name +
          ";\n\n"
          "public class " +
-         tl_name +
-         " {\n"
-         "    static {\n"
+         tl_name + " {\n";
+}
+
+std::string TD_TL_writer_java::gen_output_begin_once() const {
+#define DEFINE_STR_VALUE_IMPL(x) #x
+#define DEFINE_STR_VALUE(x) DEFINE_STR_VALUE_IMPL(x)
+  return "    static {\n"
          "        try {\n"
          "            System.loadLibrary(\"tdjni\");\n"
          "        } catch (UnsatisfiedLinkError e) {\n"
-         "            e.printStackTrace();\n" +
+         "            e.printStackTrace();\n"
          "        }\n"
          "    }\n\n"
+         "    private static final String GIT_COMMIT_HASH = \"" DEFINE_STR_VALUE(GIT_COMMIT_HASH)
+         "\";\n\n"
          "    private " +
          tl_name +
          "() {\n"
          "    }\n\n";
+#undef DEFINE_STR_VALUE
+#undef DEFINE_STR_VALUE_IMPL
 }
 
 std::string TD_TL_writer_java::gen_output_end() const {
   return "}\n";
+}
+
+std::string TD_TL_writer_java::gen_import_declaration(const std::string &name, bool is_system) const {
+  return "import " + name + ";\n";
+}
+
+std::string TD_TL_writer_java::gen_package_suffix() const {
+  return "";
 }
 
 std::string TD_TL_writer_java::gen_forward_class_declaration(const std::string &class_name, bool is_proxy) const {

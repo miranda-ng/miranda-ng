@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -45,6 +45,8 @@ class TD_TL_writer : public tl::TL_writer {
   std::vector<std::string> get_parsers() const override;
   std::vector<std::string> get_storers() const override;
 
+  std::string gen_import_declaration(const std::string &package_name, bool is_system) const override;
+  std::string gen_package_suffix() const override;
   std::string gen_base_tl_class_name() const override;
   std::string gen_base_type_class_name(int arity) const override;
   std::string gen_base_function_class_name() const override;

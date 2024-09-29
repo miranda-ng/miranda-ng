@@ -1,4 +1,4 @@
-# - Configures C++14 compiler, setting TDLib-specific compilation options.
+# Configures C++14 compiler, setting TDLib-specific compilation options.
 
 function(td_set_up_compiler)
   set(CMAKE_EXPORT_COMPILE_COMMANDS 1 PARENT_SCOPE)
@@ -62,6 +62,8 @@ function(td_set_up_compiler)
         set(TD_LINKER_FLAGS "-Wl,-z,ignore")
       elseif (EMSCRIPTEN)
         set(TD_LINKER_FLAGS "-Wl,--gc-sections")
+      elseif (ANDROID)
+        set(TD_LINKER_FLAGS "-Wl,--gc-sections -Wl,--exclude-libs,ALL -Wl,--icf=safe")
       else()
         set(TD_LINKER_FLAGS "-Wl,--gc-sections -Wl,--exclude-libs,ALL")
       endif()
@@ -121,8 +123,12 @@ function(td_set_up_compiler)
     add_cxx_compiler_flag("-Wdeprecated")
     add_cxx_compiler_flag("-Wno-unused-command-line-argument")
     add_cxx_compiler_flag("-Qunused-arguments")
+    add_cxx_compiler_flag("-Wno-unknown-warning-option")
     add_cxx_compiler_flag("-Wodr")
     add_cxx_compiler_flag("-flto-odr-type-merging")
+    add_cxx_compiler_flag("-Wno-psabi")
+    add_cxx_compiler_flag("-Wunused-member-function")
+    add_cxx_compiler_flag("-Wunused-private-field")
 
   #  add_cxx_compiler_flag("-Werror")
 
@@ -135,7 +141,7 @@ function(td_set_up_compiler)
   #  add_cxx_compiler_flag("-Wzero-as-null-pointer-constant")
   endif()
 
-  if (GCC AND NOT (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0))
+  if (GCC)
     add_cxx_compiler_flag("-Wno-maybe-uninitialized")  # too many false positives
   endif()
   if (WIN32 AND GCC AND NOT (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 8.0))
@@ -153,6 +159,10 @@ function(td_set_up_compiler)
   if (CLANG AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.5))
     # https://stackoverflow.com/questions/26744556/warning-returning-a-captured-reference-from-a-lambda
     add_cxx_compiler_flag("-Wno-return-stack-address")
+  endif()
+  if (GCC AND (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13.0))
+    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=104030
+    add_cxx_compiler_flag("-Wbidi-chars=none")
   endif()
 
   if (MINGW)

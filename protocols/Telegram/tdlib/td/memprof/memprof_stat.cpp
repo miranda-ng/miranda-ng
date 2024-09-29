@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -41,7 +41,7 @@ static std::atomic<std::size_t> total_memory_used;
 void register_xalloc(malloc_info *info, std::int32_t diff) {
   my_assert(info->size >= 0);
   // TODO: this is very slow in case of several threads.
-  // Currently this statistics is intended only for memory benchmarks.
+  // Currently, the statistics are intended only for memory benchmarks.
   total_memory_used.fetch_add(diff * info->size, std::memory_order_relaxed);
 }
 

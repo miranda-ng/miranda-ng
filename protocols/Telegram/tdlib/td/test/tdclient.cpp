@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -224,7 +224,7 @@ class DoAuthentication final : public TestClinetTask {
         function = td::make_tl_object<td::td_api::checkAuthenticationCode>(code_);
         break;
       case td::td_api::authorizationStateWaitRegistration::ID:
-        function = td::make_tl_object<td::td_api::registerUser>(name_, "");
+        function = td::make_tl_object<td::td_api::registerUser>(name_, "", false);
         break;
       case td::td_api::authorizationStateWaitTdlibParameters::ID: {
         auto request = td::td_api::make_object<td::td_api::setTdlibParameters>();
@@ -237,7 +237,6 @@ class DoAuthentication final : public TestClinetTask {
         request->system_language_code_ = "en";
         request->device_model_ = "Desktop";
         request->application_version_ = "tdclient-test";
-        request->enable_storage_optimizer_ = true;
         function = std::move(request);
         break;
       }
@@ -311,10 +310,10 @@ class SetUsername final : public TestClinetTask {
       CHECK(res->get_id() == td::td_api::chat::ID);
       auto chat = td::move_tl_object_as<td::td_api::chat>(res);
       this->send_query(td::make_tl_object<td::td_api::sendMessage>(
-                           chat->id_, 0, 0, nullptr, nullptr,
+                           chat->id_, 0, nullptr, nullptr, nullptr,
                            td::make_tl_object<td::td_api::inputMessageText>(
                                td::make_tl_object<td::td_api::formattedText>(PSTRING() << tag_ << " INIT", td::Auto()),
-                               false, false)),
+                               nullptr, false)),
                        [](auto res) {});
     });
   }
@@ -382,10 +381,10 @@ class TestA final : public TestClinetTask {
       for (int i = 0; i < 20; i++) {
         this->send_query(
             td::make_tl_object<td::td_api::sendMessage>(
-                chat->id_, 0, 0, nullptr, nullptr,
+                chat->id_, 0, nullptr, nullptr, nullptr,
                 td::make_tl_object<td::td_api::inputMessageText>(
                     td::make_tl_object<td::td_api::formattedText>(PSTRING() << tag_ << " " << (1000 + i), td::Auto()),
-                    false, false)),
+                    nullptr, false)),
             [&](auto res) { this->stop(); });
       }
     });
@@ -431,10 +430,10 @@ class TestSecretChat final : public TestClinetTask {
       for (int i = 0; i < 20; i++) {
         send_query(
             td::make_tl_object<td::td_api::sendMessage>(
-                chat_id_, 0, 0, nullptr, nullptr,
+                chat_id_, 0, nullptr, nullptr, nullptr,
                 td::make_tl_object<td::td_api::inputMessageText>(
                     td::make_tl_object<td::td_api::formattedText>(PSTRING() << tag_ << " " << (1000 + i), td::Auto()),
-                    false, false)),
+                    nullptr, false)),
             [](auto res) {});
       }
     }
@@ -495,7 +494,7 @@ class TestFileGenerated final : public TestClinetTask {
     file.flush_write().ensure();  // important
     file.close();
     send_query(td::make_tl_object<td::td_api::sendMessage>(
-                   chat_id_, 0, 0, nullptr, nullptr,
+                   chat_id_, 0, nullptr, nullptr, nullptr,
                    td::make_tl_object<td::td_api::inputMessageDocument>(
                        td::make_tl_object<td::td_api::inputFileGenerated>(file_path, "square", 0),
                        td::make_tl_object<td::td_api::inputThumbnail>(
@@ -504,7 +503,7 @@ class TestFileGenerated final : public TestClinetTask {
                [](auto res) { check_td_error(res); });
 
     send_query(td::make_tl_object<td::td_api::sendMessage>(
-                   chat_id_, 0, 0, nullptr, nullptr,
+                   chat_id_, 0, nullptr, nullptr, nullptr,
                    td::make_tl_object<td::td_api::inputMessageDocument>(
                        td::make_tl_object<td::td_api::inputFileGenerated>(file_path, "square", 0), nullptr, true,
                        td::make_tl_object<td::td_api::formattedText>(tag_, td::Auto()))),
@@ -612,10 +611,10 @@ class CheckTestC final : public TestClinetTask {
 
   void one_file() {
     send_query(td::make_tl_object<td::td_api::sendMessage>(
-                   chat_id_, 0, 0, nullptr, nullptr,
+                   chat_id_, 0, nullptr, nullptr, nullptr,
                    td::make_tl_object<td::td_api::inputMessageText>(
                        td::make_tl_object<td::td_api::formattedText>(PSTRING() << tag_ << " ONE_FILE", td::Auto()),
-                       false, false)),
+                       nullptr, false)),
                [](auto res) { check_td_error(res); });
   }
 

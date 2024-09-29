@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,8 +9,11 @@
 #include "td/telegram/Global.h"
 #include "td/telegram/logevent/LogEvent.h"
 #include "td/telegram/MessageId.h"
+#include "td/telegram/net/NetQuery.h"
+#include "td/telegram/net/NetQueryCreator.h"
 #include "td/telegram/secret_api.h"
 #include "td/telegram/SecretChatActor.h"
+#include "td/telegram/SecretChatDb.h"
 #include "td/telegram/SecretChatId.h"
 #include "td/telegram/telegram_api.h"
 #include "td/telegram/UserId.h"
@@ -66,7 +69,7 @@ class messages_getDhConfig {
 
   messages_getDhConfig() = default;
 
-  messages_getDhConfig(int32 version_, int32 random_length_);
+  messages_getDhConfig(int32 version, int32 random_length);
 
   static const int32 ID = 651135312;
 
@@ -225,8 +228,8 @@ class messages_dhConfig final {
 
   messages_dhConfig() = default;
 
-  messages_dhConfig(int32 g_, BufferSlice &&p_, int32 version_, BufferSlice &&random_)
-      : g_(g_), p_(std::move(p_)), version_(version_), random_(std::move(random_)) {
+  messages_dhConfig(int32 g, BufferSlice &&p, int32 version, BufferSlice &&random)
+      : g_(g), p_(std::move(p)), version_(version), random_(std::move(random)) {
   }
 
   static const int32 ID = 740433629;
@@ -249,6 +252,7 @@ class messages_dhConfig final {
     TlStoreString::store(random_, s);
   }
 };
+const int32 messages_dhConfig::ID;
 
 class encryptedChat final {
  public:
@@ -262,15 +266,15 @@ class encryptedChat final {
 
   encryptedChat() = default;
 
-  encryptedChat(int32 id_, int64 access_hash_, int32 date_, int64 admin_id_, int64 participant_id_,
-                BufferSlice &&g_a_or_b_, int64 key_fingerprint_)
-      : id_(id_)
-      , access_hash_(access_hash_)
-      , date_(date_)
-      , admin_id_(admin_id_)
-      , participant_id_(participant_id_)
-      , g_a_or_b_(std::move(g_a_or_b_))
-      , key_fingerprint_(key_fingerprint_) {
+  encryptedChat(int32 id, int64 access_hash, int32 date, int64 admin_id, int64 participant_id, BufferSlice &&g_a_or_b,
+                int64 key_fingerprint)
+      : id_(id)
+      , access_hash_(access_hash)
+      , date_(date)
+      , admin_id_(admin_id)
+      , participant_id_(participant_id)
+      , g_a_or_b_(std::move(g_a_or_b))
+      , key_fingerprint_(key_fingerprint) {
   }
 
   static const int32 ID = -94974410;
@@ -300,6 +304,7 @@ class encryptedChat final {
     TlStoreBinary::store(key_fingerprint_, s);
   }
 };
+const int32 encryptedChat::ID;
 
 class messages_sentEncryptedMessage final {
  public:
@@ -307,7 +312,7 @@ class messages_sentEncryptedMessage final {
 
   messages_sentEncryptedMessage() = default;
 
-  explicit messages_sentEncryptedMessage(int32 date_) : date_(date_) {
+  explicit messages_sentEncryptedMessage(int32 date) : date_(date) {
   }
 
   static const int32 ID = 1443858741;
@@ -361,7 +366,7 @@ class FakeBinlog final
   FakeBinlog() {
     register_actor("FakeBinlog", this).release();
   }
-  void force_sync(Promise<> promise) final {
+  void force_sync(Promise<> promise, const char *source) final {
     if (pending_events_.empty()) {
       pending_events_.emplace_back();
     }
@@ -527,7 +532,7 @@ class FakeSecretChatContext final : public SecretChatActor::Context {
     return false;
   }
 
-  // We don't want to expose the whole NetQueryDispatcher, MessagesManager and ContactsManager.
+  // We don't want to expose the whole NetQueryDispatcher, MessagesManager and UserManager.
   // So it is more clear which parts of MessagesManager is really used. And it is much easier to create tests.
   void send_net_query(NetQueryPtr query, ActorShared<NetQueryCallback> callback, bool ordered) final;
 
@@ -636,7 +641,7 @@ class Master final : public Actor {
       if (binlog_generation != binlog_generation_) {
         return promise.set_error(Status::Error("Binlog generation mismatch"));
       }
-      binlog_->force_sync(std::move(promise));
+      binlog_->force_sync(std::move(promise), "sync_binlog");
     }
     void on_closed() {
       LOG(INFO) << "CLOSED";

@@ -45,7 +45,7 @@ set (CMAKE_OSX_DEPLOYMENT_TARGET "" CACHE STRING "Force unset of the deployment 
 # Determine the cmake host system version so we know where to find the iOS SDKs
 find_program (CMAKE_UNAME uname /bin /usr/bin /usr/local/bin)
 if (CMAKE_UNAME)
-    exec_program(uname ARGS -r OUTPUT_VARIABLE CMAKE_HOST_SYSTEM_VERSION)
+    execute_process(COMMAND uname -r OUTPUT_VARIABLE CMAKE_HOST_SYSTEM_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
     string (REGEX REPLACE "^([0-9]+)\\.([0-9]+).*$" "\\1" DARWIN_MAJOR_VERSION "${CMAKE_HOST_SYSTEM_VERSION}")
 endif (CMAKE_UNAME)
 
@@ -114,6 +114,23 @@ elseif (IOS_PLATFORM STREQUAL "TVSIMULATOR")
     set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-tvsimulator")
 
     set (APPLE_TV True)
+elseif (IOS_PLATFORM STREQUAL "VISIONOS")
+    set (IOS_PLATFORM_LOCATION "XROS.platform")
+    set (XCODE_IOS_PLATFORM xros)
+
+    # This causes the installers to properly locate the output libraries
+    set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-xros")
+
+    set (APPLE_VISION True)
+elseif (IOS_PLATFORM STREQUAL "VISIONSIMULATOR")
+    set (SIMULATOR_FLAG true)
+    set (IOS_PLATFORM_LOCATION "XRSimulator.platform")
+    set (XCODE_IOS_PLATFORM xros-simulator)
+
+    # This causes the installers to properly locate the output libraries
+    set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-xrsimulator")
+
+    set (APPLE_VISION True)
 else (IOS_PLATFORM STREQUAL "OS")
     message (FATAL_ERROR "Unsupported IOS_PLATFORM value selected. Please choose OS, SIMULATOR, or WATCHOS.")
 endif ()
@@ -163,7 +180,7 @@ set (IOS_DEPLOYMENT_TARGET ${IOS_DEPLOYMENT_TARGET} CACHE STRING "Minimum iOS ve
 
 # Setup iOS developer location unless specified manually with CMAKE_IOS_DEVELOPER_ROOT
 # Note Xcode 4.3 changed the installation location, choose the most recent one available
-exec_program(/usr/bin/xcode-select ARGS -print-path OUTPUT_VARIABLE CMAKE_XCODE_DEVELOPER_DIR)
+execute_process(COMMAND /usr/bin/xcode-select -print-path OUTPUT_VARIABLE CMAKE_XCODE_DEVELOPER_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
 set (XCODE_POST_43_ROOT "${CMAKE_XCODE_DEVELOPER_DIR}/Platforms/${IOS_PLATFORM_LOCATION}/Developer")
 set (XCODE_PRE_43_ROOT "/Developer/Platforms/${IOS_PLATFORM_LOCATION}/Developer")
 if (NOT DEFINED CMAKE_IOS_DEVELOPER_ROOT)
@@ -195,16 +212,26 @@ set (CMAKE_OSX_SYSROOT ${CMAKE_IOS_SDK_ROOT} CACHE PATH "Sysroot used for iOS su
 # Set the architectures unless specified manually with IOS_ARCH
 if (NOT DEFINED IOS_ARCH)
     if (IOS_PLATFORM STREQUAL "OS")
-        set (IOS_ARCH "armv7;armv7s;arm64")
+        set (IOS_ARCH "arm64")
     elseif (IOS_PLATFORM STREQUAL "SIMULATOR")
-        set (IOS_ARCH "i386;x86_64;arm64")
+        set (IOS_ARCH "x86_64;arm64")
     elseif (IOS_PLATFORM STREQUAL "WATCHOS")
         set (IOS_ARCH "armv7k;arm64_32;arm64")
+
+        # Include C++ Standard Library for Xcode 15 builds.
+        include_directories(SYSTEM "${CMAKE_IOS_SDK_ROOT}/usr/include/c++/v1")
     elseif (IOS_PLATFORM STREQUAL "WATCHSIMULATOR")
-        set (IOS_ARCH "i386;x86_64;arm64")
+        set (IOS_ARCH "x86_64;arm64")
+
+        # Include C++ Standard Library for Xcode 15 builds.
+        include_directories(SYSTEM "${CMAKE_IOS_SDK_ROOT}/usr/include/c++/v1")
     elseif (IOS_PLATFORM STREQUAL "TVOS")
         set (IOS_ARCH "arm64")
     elseif (IOS_PLATFORM STREQUAL "TVSIMULATOR")
+        set (IOS_ARCH "x86_64;arm64")
+    elseif (IOS_PLATFORM STREQUAL "VISIONOS")
+        set (IOS_ARCH "arm64")
+    elseif (IOS_PLATFORM STREQUAL "VISIONSIMULATOR")
         set (IOS_ARCH "x86_64;arm64")
     endif()
 endif()

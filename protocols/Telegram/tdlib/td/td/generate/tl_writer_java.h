@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -53,8 +53,13 @@ class TD_TL_writer_java final : public tl::TL_writer {
 
   std::string gen_int_const(const tl::tl_tree *tree_c, const std::vector<tl::var_description> &vars) const final;
 
-  std::string gen_output_begin() const final;
+  std::string gen_output_begin(const std::string &additional_imports) const final;
+  std::string gen_output_begin_once() const final;
   std::string gen_output_end() const final;
+
+  std::string gen_import_declaration(const std::string &name, bool is_system) const final;
+
+  std::string gen_package_suffix() const final;
 
   std::string gen_forward_class_declaration(const std::string &class_name, bool is_proxy) const final;
 

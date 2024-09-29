@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -63,7 +63,8 @@ bool TD_TL_writer::is_full_constructor_generated(const tl::tl_combinator *t, boo
          t->name == "encryptedChatWaiting" || t->name == "encryptedChatRequested" || t->name == "encryptedChat" ||
          t->name == "langPackString" || t->name == "langPackStringPluralized" || t->name == "langPackStringDeleted" ||
          t->name == "peerUser" || t->name == "peerChat" || t->name == "updateServiceNotification" ||
-         t->name == "updateNewMessage" || t->name == "updateChannelTooLong" || t->name == "messages.stickerSet";
+         t->name == "updateNewMessage" || t->name == "updateChannelTooLong" || t->name == "messages.stickerSet" ||
+         t->name == "updates.differenceSlice" || t->name == "contacts.contactBirthdays";
 }
 
 int TD_TL_writer::get_storer_type(const tl::tl_combinator *t, const std::string &storer_name) const {
@@ -114,6 +115,18 @@ std::vector<std::string> TD_TL_writer::get_storers() const {
   }
   storers.push_back("TlStorerToString");
   return storers;
+}
+
+std::string TD_TL_writer::gen_import_declaration(const std::string &name, bool is_system) const {
+  if (is_system) {
+    return "#include <" + name + ">\n";
+  } else {
+    return "#include \"" + name + "\"\n";
+  }
+}
+
+std::string TD_TL_writer::gen_package_suffix() const {
+  return ".h";
 }
 
 std::string TD_TL_writer::gen_base_tl_class_name() const {

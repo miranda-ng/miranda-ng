@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2023
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -58,7 +58,7 @@ std::string TD_TL_writer_jni_h::gen_base_tl_class_name() const {
   return "Object";
 }
 
-std::string TD_TL_writer_jni_h::gen_output_begin() const {
+std::string TD_TL_writer_jni_h::gen_output_begin(const std::string &additional_imports) const {
   std::string ext_include_str;
   for (auto &it : ext_include) {
     ext_include_str += "#include " + it + "\n";
@@ -69,62 +69,25 @@ std::string TD_TL_writer_jni_h::gen_output_begin() const {
          "#include <utility>\n"
          "#include <vector>\n\n"
          "#include <jni.h>\n\n" +
-         ext_include_str +
-         "\n"
+         ext_include_str + "\n" + additional_imports +
 
-         "namespace td {\n" +
-         forward_declaration("TlStorerToString") +
+         "namespace td {\n" + forward_declaration("TlStorerToString") +
          "\n"
          "namespace " +
-         tl_name +
-         " {\n\n"
+         tl_name + " {\n\n";
+}
 
-         "using int32 = std::int32_t;\n"
-         "using int53 = std::int64_t;\n"
-         "using int64 = std::int64_t;\n\n"
-
-         "using string = " +
-         string_type +
-         ";\n\n"
-
-         "using bytes = " +
-         bytes_type +
-         ";\n\n"
-
-         "template <class Type>\n"
-         "using array = std::vector<Type>;\n\n"
-
-         "class " +
-         gen_base_tl_class_name() +
-         ";\n"
-         "using BaseObject = " +
-         gen_base_tl_class_name() +
-         ";\n\n"
-
-         "template <class Type>\n"
-         "using object_ptr = ::td::tl_object_ptr<Type>;\n\n"
-         "template <class Type, class... Args>\n"
-         "object_ptr<Type> make_object(Args &&... args) {\n"
-         "  return object_ptr<Type>(new Type(std::forward<Args>(args)...));\n"
-         "}\n\n"
-
-         "template <class ToType, class FromType>\n"
-         "object_ptr<ToType> move_object_as(FromType &&from) {\n"
-         "  return object_ptr<ToType>(static_cast<ToType *>(from.release()));\n"
-         "}\n\n"
-
-         "std::string to_string(const BaseObject &value);\n\n"
-
-         "template <class T>\n"
-         "std::string to_string(const object_ptr<T> &value) {\n"
-         "  if (value == nullptr) {\n"
-         "    return \"null\";\n"
-         "  }\n"
-         "\n"
-         "  return to_string(*value);\n"
-         "}\n\n"
-
-         "void set_package_name(const char *new_package_name);\n\n";
+std::string TD_TL_writer_jni_h::gen_output_begin_once() const {
+  std::string result = TD_TL_writer_h::gen_output_begin_once();
+  std::string old_base_object = "using BaseObject = ::td::TlObject";
+  std::size_t pos = result.find(old_base_object);
+  assert(pos != std::string::npos);
+  result.replace(pos, old_base_object.size(),
+                 "class " + gen_base_tl_class_name() +
+                     ";\n"
+                     "using BaseObject = " +
+                     gen_base_tl_class_name());
+  return result + "const char *&get_package_name_ref();\nconst char *get_git_commit_hash();\n\n";
 }
 
 std::string TD_TL_writer_jni_h::gen_class_begin(const std::string &class_name, const std::string &base_class_name,
@@ -136,16 +99,13 @@ std::string TD_TL_writer_jni_h::gen_class_begin(const std::string &class_name, c
            "  virtual ~" +
            class_name +
            "() {\n"
-           "  }\n\n" +
+           "  }\n\n"
            "  virtual void store(JNIEnv *env, jobject &s) const {\n"
            "  }\n\n"
            "  virtual void store(TlStorerToString &s, const char *field_name) const = 0;\n\n"
            "  static jclass Class;\n";
   }
-  return "class " + class_name + (!is_proxy ? " final " : "") + ": public " + base_class_name +
-         " {\n"
-         " public:\n"
-         "  static jclass Class;\n";
+  return TD_TL_writer_h::gen_class_begin(class_name, base_class_name, is_proxy, result) + "  static jclass Class;\n";
 }
 
 std::string TD_TL_writer_jni_h::gen_field_definition(const std::string &class_name, const std::string &type_name,
