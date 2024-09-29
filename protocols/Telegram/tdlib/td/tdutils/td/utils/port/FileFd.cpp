@@ -224,18 +224,10 @@ Result<FileFd> FileFd::open(CSlice filepath, int32 flags, int32 mode) {
   if (flags & WinStat) {
     native_flags |= FILE_FLAG_BACKUP_SEMANTICS;
   }
-#if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP | WINAPI_PARTITION_SYSTEM)
+
   auto handle =
       CreateFile(w_filepath.c_str(), desired_access, share_mode, nullptr, creation_disposition, native_flags, nullptr);
-#else
-  CREATEFILE2_EXTENDED_PARAMETERS extended_parameters;
-  std::memset(&extended_parameters, 0, sizeof(extended_parameters));
-  extended_parameters.dwSize = sizeof(extended_parameters);
-  extended_parameters.dwFileAttributes = FILE_ATTRIBUTE_NORMAL;
-  extended_parameters.dwFileFlags = native_flags;
-  auto handle = td::CreateFile2FromAppW(w_filepath.c_str(), desired_access, share_mode, creation_disposition,
-                                        &extended_parameters);
-#endif
+
   if (handle == INVALID_HANDLE_VALUE) {
     return OS_ERROR(PSLICE() << "File \"" << filepath << "\" can't be " << PrintFlags{flags});
   }
@@ -603,7 +595,9 @@ Result<Stat> FileFd::stat() const {
 #elif TD_PORT_WINDOWS
   Stat res;
 
-  FILE_BASIC_INFO basic_info;
+  struct __boo : public FILE_BASIC_INFO {
+	  DWORD __tmp;
+  } basic_info;
   auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, sizeof(basic_info));
   if (!status) {
     return OS_ERROR("Get FileBasicInfo failed");
