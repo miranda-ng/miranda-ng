@@ -184,7 +184,7 @@ passed:
 
 	if (iNewEvent == GC_EVENT_MESSAGE) {
 		ShowPopup(si->hContact, si, g_chatApi.getIcon(GC_EVENT_MESSAGE), si->pszModule, si->ptszName, clr ? clr : g_chatApi.aFonts[9].color,
-			L"%s%s:%s %s", bbStart, gce->pszNick.w, bbEnd, g_chatApi.RemoveFormatting(gce->pszText.w));
+			L"%s%s:%s %s", bbStart, gce->pszNick.w, bbEnd, gce->pszText.w);
 	}
 	else oldDoPopup(si, gce);
 

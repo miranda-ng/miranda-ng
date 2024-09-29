@@ -120,7 +120,6 @@ void          UnloadChatModule(void);
 
 // tools.c
 int           DoRtfToTags(CMStringW &pszText, int iNumColors, COLORREF *pColors);
-wchar_t*      RemoveFormatting(const wchar_t* pszText);
 BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 int           GetRichTextLength(HWND hwnd);
 bool          IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);

@@ -787,7 +787,6 @@ static void ResetApi()
 
 	g_chatApi.CreateNick = ::CreateNick;
 	g_chatApi.IsHighlighted = ::IsHighlighted;
-	g_chatApi.RemoveFormatting = ::RemoveFormatting;
 	g_chatApi.ReloadSettings = ::LoadGlobalSettings;
 }
 

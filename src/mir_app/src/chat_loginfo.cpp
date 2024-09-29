@@ -96,13 +96,9 @@ void LOGINFO::write(RtfChatLogStreamData *streamData, bool simpleMode, CMStringA
 		else if (*line == '\n') {
 			buf.Append("\\line ");
 		}
+		/*
 		else if (*line == '%' && !simpleMode) {
 			switch (*++line) {
-			case '\0':
-			case '%':
-				buf.AppendChar('%');
-				break;
-
 			case 'c':
 			case 'f':
 				if (g_Settings->bStripFormat || streamData->bStripFormat)
@@ -149,8 +145,13 @@ void LOGINFO::write(RtfChatLogStreamData *streamData, bool simpleMode, CMStringA
 				if (!streamData->bStripFormat)
 					buf.AppendFormat("%s ", Log_SetStyle(getIndex()));
 				break;
+
+			default:
+				buf.AppendChar('%');
+				break;
 			}
 		}
+		*/
 		else if (*line == '\t' && !streamData->bStripFormat) {
 			buf.Append("\\tab ");
 		}

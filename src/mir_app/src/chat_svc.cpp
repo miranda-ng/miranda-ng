@@ -462,27 +462,24 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 		return SM_SetContactStatus(si, gce.pszUID.w, (uint16_t)gce.dwItemData);
 
 	case GC_EVENT_TOPIC:
-		{
-			wchar_t *pwszNew = RemoveFormatting(gce.pszText.w);
-			if (!mir_wstrcmp(si->ptszTopic, pwszNew)) // nothing changed? exiting
-				return 0;
+		if (!mir_wstrcmp(si->ptszTopic, gce.pszText.w)) // nothing changed? exiting
+			return 0;
 
-			si->bIsDirty = true;
-			replaceStrW(si->ptszTopic, pwszNew);
-			if (pwszNew != nullptr)
-				db_set_ws(si->hContact, si->pszModule, "Topic", si->ptszTopic);
+		si->bIsDirty = true;
+		replaceStrW(si->ptszTopic, gce.pszText.w);
+		if (gce.pszText.w != nullptr)
+			db_set_ws(si->hContact, si->pszModule, "Topic", si->ptszTopic);
+		else
+			db_unset(si->hContact, si->pszModule, "Topic");
+
+		if (g_chatApi.OnSetTopic)
+			g_chatApi.OnSetTopic(si);
+
+		if (Chat::bTopicOnClist) {
+			if (gce.pszText.w != nullptr)
+				db_set_ws(si->hContact, "CList", "StatusMsg", si->ptszTopic);
 			else
-				db_unset(si->hContact, si->pszModule, "Topic");
-
-			if (g_chatApi.OnSetTopic)
-				g_chatApi.OnSetTopic(si);
-
-			if (Chat::bTopicOnClist) {
-				if (pwszNew != nullptr)
-					db_set_ws(si->hContact, "CList", "StatusMsg", si->ptszTopic);
-				else
-					db_unset(si->hContact, "CList", "StatusMsg");
-			}
+				db_unset(si->hContact, "CList", "StatusMsg");
 		}
 		break;
 

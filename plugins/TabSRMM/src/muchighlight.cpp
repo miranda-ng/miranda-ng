@@ -117,8 +117,7 @@ bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, uint32_t
 		return false;
 
 	if ((m_iMode & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != nullptr) {
-		wchar_t *p = g_chatApi.RemoveFormatting(pgce->pszText.w);
-		p = NEWWSTR_ALLOCA(p);
+		wchar_t *p = NEWWSTR_ALLOCA(pgce->pszText.w);
 		if (p == nullptr)
 			return false;
 		CharLower(p);

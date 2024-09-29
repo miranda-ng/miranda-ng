@@ -520,7 +520,7 @@ void HistoryArray::addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, cons
 		if (!bTextUsed && lin->ptszText) {
 			if (!wszText.IsEmpty())
 				wszText.AppendChar(' ');
-			wszText.Append(g_chatApi.RemoveFormatting(lin->ptszText));
+			wszText.Append(lin->ptszText);
 		}
 
 		p.wtext = wszText.Detach();

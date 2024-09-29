@@ -305,7 +305,6 @@ struct CHAT_MANAGER
 	char*         (*Log_SetStyle)(int style);
 
 	bool          (*IsHighlighted)(SESSION_INFO *si, GCEVENT *pszText);
-	wchar_t*      (*RemoveFormatting)(const wchar_t *pszText);
 	void          (*ReloadSettings)(void);
 
 	void          (*CreateNick)(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &dest);
