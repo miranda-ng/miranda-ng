@@ -880,6 +880,9 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 			db_event_markRead(pUser->hContact, hEvent, true);
 	}
 
+	if (g_plugin.hasMessageState && pObj->unread_count_ == 0)
+		CallService(MS_MESSAGESTATE_UPDATE, GetRealContact(pUser), MRD_TYPE_READ);
+
 	if (Contact::IsGroupChat(pUser->hContact) && pObj->unread_count_ == 0)
 		delSetting(pUser->hContact, "ApparentMode");
 }

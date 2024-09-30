@@ -25,6 +25,7 @@
 #include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
+#include <m_messagestate.h>
 #include <m_netlib.h>
 #include <m_NewStory.h>
 #include <m_options.h>
@@ -51,7 +52,8 @@ struct CMPlugin : public ACCPROTOPLUGIN<CTelegramProto>
 {
 	CMPlugin();
 
-	HANDLE m_hIcon;
+	bool hasMessageState = false;
+	HANDLE m_hIcon = 0;
 
 	int Load() override;
 };
