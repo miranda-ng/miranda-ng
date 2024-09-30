@@ -27,7 +27,7 @@ Ungesendete Nachrichten merken
 [Delete temporary contacts on closing]
 Temporäre Kontakte beim Schließen entfernen
 [Use BBCodes to send format inside messages]
-
+BBCodes zum Senden von Formatierungen in Nachrichten verwenden
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [seconds]

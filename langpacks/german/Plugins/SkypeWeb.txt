@@ -39,7 +39,7 @@ Hostname verwenden
 [Change password]
 Passwort ändern
 [Set mood]
-Setze Stimmung
+Stimmung setzen
 [Mood]
 Stimmung
 [Text]
@@ -145,7 +145,7 @@ Blockierung aufheben
 [Create new chat]
 Neuen Chat erstellen
 [Set own mood]
-
+Eigene Stimmung setzen
 ;file \protocols\SkypeWeb\src\skype_messages.cpp
 [Unknown error!]
 Unbekannter Fehler!
@@ -155,17 +155,17 @@ Netzwerkfehler!
 [None]
 Keine
 [Custom emoji]
-
+Eigenes Emoji
 [Be right back]
-
+Bin gleich zurück
 [Out for lunch]
-
+Am Essen
 [In meetings]
-
+In Besprechungen
 [At school]
-
+In der Schule
 [At the movies]
-
+Im Kino
 [Traveling]
 Reisen
 [Celebrating]
@@ -173,9 +173,9 @@ Feiern
 [Driving]
 Fahren
 [At the gym]
-
+Im Fitnessstudio
 [Working from home]
-
+Zu Hause arbeiten
 ;file \protocols\SkypeWeb\src\skype_options.cpp
 [Network]
 Netzwerk
