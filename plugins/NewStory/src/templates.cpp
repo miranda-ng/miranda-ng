@@ -204,13 +204,20 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 				buf.AppendFormat(L"</font>");
 			}
 			else if (!wcsncmp(p, L"code]", 5)) {
+				p += 4;
+				buf.AppendFormat(L"<pre>");
+			}
+			else if (!wcsncmp(p, L"/code]", 6)) {
 				p += 5;
-
-				if (auto *p1 = wcsstr(p, L"[/code]")) {
-					CMStringW wszUrl(p, int(p1 - p));
-					buf.AppendFormat(L"<pre>%s</pre>", wszUrl.c_str());
-					p = p1 + 6;
-				}
+				buf.AppendFormat(L"</pre>");
+			}
+			else if (!wcsncmp(p, L"quote]", 6)) {
+				p += 5;
+				buf.AppendFormat(L"<div class=\"quote\">");
+			}
+			else if (!wcsncmp(p, L"/quote]", 7)) {
+				p += 6;
+				buf.AppendFormat(L"</div>");
 			}
 			else {
 				buf.AppendChar('[');
@@ -237,8 +244,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
 	str.AppendFormat(L".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
 	str.AppendFormat(L".link {color: #%06X }\n", color2html(g_colorTable[COLOR_LINK].cl));
-	if (qtext)
-		str.AppendFormat(L".quote {border-left: 4px solid #%06X; padding-left: 8px; }\n", color2html(g_colorTable[COLOR_QUOTE].cl));
+	str.AppendFormat(L".quote {border-left: 4px solid #%06X; padding-left: 8px; }\n", color2html(g_colorTable[COLOR_QUOTE].cl));
 
 	str.Append(L"</style></head><body class=\"body\">\n");
 
