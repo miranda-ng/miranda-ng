@@ -22,8 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 
-bool g_bMessageState;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -53,18 +51,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static int OnModuleLoaded(WPARAM, LPARAM)
-{
-	g_bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE) != 0;
-	return 0;
-}
-
 int CMPlugin::Load()
 {
-	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoaded);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoaded);
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModuleLoaded);
-
-	// Initialize random generator (used only as fallback in utils)
 	return 0;
 }

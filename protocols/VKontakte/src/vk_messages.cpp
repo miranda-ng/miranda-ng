@@ -615,9 +615,8 @@ void CVkProto::OnReceiveDlgs(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			bool bIsRead = (jnLastMessage["id"].as_int() <= jnConversation["in_read"].as_int());
 
 			if (bIsRead && bIsOut)
-				CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_DELIVERED);
+				db_event_delivered(hContact, 0);
 		}
-
 		
 		if (m_vkOptions.iSyncHistoryMetod) {
 			VKMessageID_t iMessageId = jnLastMessage["id"].as_int();

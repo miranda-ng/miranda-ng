@@ -501,8 +501,6 @@ struct CMPlugin : public ACCPROTOPLUGIN<WhatsAppProto>
 	HNETLIBCONN hAvatarConn = nullptr;
 	bool SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai);
 
-	bool bHasMessageState = false;
-
 	CMPlugin();
 
 	int Load() override;

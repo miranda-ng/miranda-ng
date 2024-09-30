@@ -1231,8 +1231,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		if (nPacketId != -1)
 			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)nPacketId);
 
-		if (g_plugin.bMessageState)
-			CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_DELIVERED);
+		db_event_delivered(hContact, 0);
 	}
 
 	if (auto *n = XmlGetChildByTag(node, "displayed", "xmlns", JABBER_FEAT_CHAT_MARKERS))

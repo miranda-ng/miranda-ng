@@ -77,6 +77,12 @@ static int OnProtoAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+static int OnEventDelivered(WPARAM hContact, LPARAM)
+{
+	CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_DELIVERED);
+	return 0;
+}
+
 static int OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
@@ -112,6 +118,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnEventFilterAdd);
+	HookEvent(ME_DB_EVENT_DELIVERED, OnEventDelivered);
 	HookEvent(ME_MC_DEFAULTTCHANGED, OnMetaChanged);
 	HookEvent(ME_MC_SUBCONTACTSCHANGED, OnMetaChanged);
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowOpened);

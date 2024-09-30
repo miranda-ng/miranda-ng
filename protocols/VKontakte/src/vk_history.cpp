@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 //////////////////////////// History services ///////////////////////////////////////////
-INT_PTR CVkProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
+INT_PTR CVkProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcEmptyServerHistory was called for %s", Clist_GetContactDisplayName(hContact));
 
@@ -232,6 +232,7 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 	const JSONNode &jnFUsers = jnResponse["fwd_users"];
 	VKMessageID_t iLastMsgId = ReadQSWord(param->hContact, "lastmsgid", -1);
 	time_t tLastReadMessageTime = 0;
+	MEVENT hDbEvent = 0;
 	int count = 0;
 
 	for (auto it = jnMsgs.rbegin(); it != jnMsgs.rend(); ++it) {
@@ -334,7 +335,7 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 
 		ProtoChainRecvMsg(hContact, dbei);
 
-		MEVENT hDbEvent = db_event_getById(m_szModuleName, strcat(szMid, "_"));
+		hDbEvent = db_event_getById(m_szModuleName, strcat(szMid, "_"));
 		if (hDbEvent)
 			db_event_delete(hDbEvent, CDF_FROM_SERVER);
 
@@ -344,10 +345,9 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 		count++;
 	}
 
-	WriteQSWord(param->hContact, "lastmsgid", iLastMsgId);
+	db_event_delivered(param->hContact, hDbEvent);
 
-	if (g_bMessageState)
-		CallService(MS_MESSAGESTATE_UPDATE, param->hContact, MRD_TYPE_DELIVERED);
+	WriteQSWord(param->hContact, "lastmsgid", iLastMsgId);
 
 	int once = jnResponse["once"].as_int();
 	int iRCount = jnResponse["rcount"].as_int();

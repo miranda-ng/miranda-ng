@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#include <m_messagestate.h>
+
 MIR_CORE_EXPORT MDatabaseCommon* g_pCurrDb = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -486,11 +488,12 @@ MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent, bool bFr
 	if (!g_pCurrDb->MarkEventRead(hContact, hDbEvent))
 		return 1;
 
-	if (!bFromServer)
-		if (auto *ppro = Proto_GetInstance(hContact)) {
-			ppro->OnMarkRead(hContact, hDbEvent);
-			return 0;
-		}
+	if (bFromServer)
+		CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
+	else if (auto *ppro = Proto_GetInstance(hContact)) {
+		ppro->OnMarkRead(hContact, hDbEvent);
+		return 0;
+	}
 
 	return 1;
 }

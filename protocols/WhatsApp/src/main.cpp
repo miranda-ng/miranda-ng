@@ -39,18 +39,8 @@ CMPlugin::CMPlugin() :
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load
 
-static int OnPluginLoaded(WPARAM, LPARAM)
-{
-	g_plugin.bHasMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
-	return 0;
-}
-
 int CMPlugin::Load()
 {
-	HookEvent(ME_SYSTEM_MODULELOAD, OnPluginLoaded);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnPluginLoaded);
-	OnPluginLoaded(0, 0);
-
 	// special netlib user for reading avatars, blobs etc via HTTP protocol
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;

@@ -12,9 +12,9 @@ struct ContactData
 	MCONTACT hContact;
 
 	int type = -1, bHidden = true;
-	__time64_t dwLastReadTime = 0, dwLastSentTime = 0;
+	time_t dwLastReadTime = 0, dwLastSentTime = 0;
 
-	void __forceinline setSent(__time64_t _time)
+	void __forceinline setSent(time_t _time)
 	{
 		dwLastSentTime = _time;
 		type = 0;

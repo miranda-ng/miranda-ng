@@ -496,9 +496,6 @@ void WhatsAppProto::ProcessReceipt(MCONTACT hContact, const char *msgId, bool bR
 	if (hEvent == 0)
 		return;
 
-	if (g_plugin.bHasMessageState)
-		CallService(MS_MESSAGESTATE_UPDATE, hContact, bRead ? MRD_TYPE_READ : MRD_TYPE_DELIVERED);
-
 	if (bRead)
 		db_event_markRead(hContact, hEvent, true);
 }
