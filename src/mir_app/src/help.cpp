@@ -27,6 +27,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static class CAboutDlg *pAboutDialog;
 
+static CMStringA szCommitHash;
+
+static LRESULT HeaderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_LBUTTONDOWN && !szCommitHash.IsEmpty())
+		Utils_OpenUrl("https://github.com/miranda-ng/miranda-ng/commit/" + szCommitHash);
+
+	return mir_callNextSubclass(hwnd, HeaderWndProc, msg, wParam, lParam);
+}
+
 class CAboutDlg : public CDlgBase
 {
 	int m_iState = 0;
@@ -43,7 +53,7 @@ public:
 		ctrlWhiteRect(this, IDC_WHITERECT),
 		ctrlDevelopers(this, IDC_DEVS)
 	{
-		btnLink.OnClick = Callback(this, &CAboutDlg::onClick);
+		btnLink.OnClick = Callback(this, &CAboutDlg::onClick_Link);
 
 		ctrlCredits.UseSystemColors();
 		ctrlWhiteRect.UseSystemColors();
@@ -60,6 +70,13 @@ public:
 		char productVersion[56];
 		Miranda_GetVersionText(productVersion, _countof(productVersion));
 		ctrlHeaderBar.SetText(CMStringW(FORMAT, L"Miranda NG\nv%S", productVersion));
+
+		szCommitHash.Empty();
+		if (auto *p1 = strchr(productVersion, '('))
+			if (auto *p2 = strchr(++p1, ')')) {
+				szCommitHash.Append(p1, p2 - p1);
+				mir_subclassWindow(ctrlHeaderBar.GetHwnd(), HeaderWndProc);
+			}
 
 		HRSRC hResInfo = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CREDITS), L"TEXT");
 		uint32_t ResSize = SizeofResource(g_plugin.getInst(), hResInfo);
@@ -91,7 +108,7 @@ public:
 		Window_FreeIcon_IcoLib(m_hwnd);
 	}
 
-	void onClick(CCtrlButton*)
+	void onClick_Link(CCtrlButton*)
 	{
 		if (m_iState) {
 			btnLink.SetText(TranslateT("Credits >"));
