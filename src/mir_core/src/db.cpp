@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#include <m_json.h>
 #include <m_messagestate.h>
 
 MIR_CORE_EXPORT MDatabaseCommon* g_pCurrDb = nullptr;
@@ -527,7 +528,35 @@ MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId)
 
 MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv)
 {
-	return (g_pCurrDb == nullptr) ? 1 : g_pCurrDb->SetEventJson(hDbEvent, szSetting, dbv);
+	if (g_pCurrDb == nullptr)
+		return 1;
+
+	if (!g_pCurrDb->isEncrypted())
+		return g_pCurrDb->SetEventJson(hDbEvent, szSetting, dbv);
+
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
+		return 3;
+
+	auto &json = dbei.setJson();
+
+	switch (dbv->type) {
+	case DBVT_BYTE: json << INT_PARAM(szSetting, dbv->bVal); break;
+	case DBVT_WORD: json << INT_PARAM(szSetting, dbv->wVal); break;
+	case DBVT_DWORD: json << INT_PARAM(szSetting, dbv->dVal); break;
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+		json << CHAR_PARAM(szSetting, dbv->pszVal);
+		break;
+	case DBVT_WCHAR:
+		json << WCHAR_PARAM(szSetting, dbv->pwszVal);
+		break;
+	default:
+		return 2;
+	}
+	dbei.flushJson();
+
+	return db_event_edit(hDbEvent, &dbei);
 }
 
 MIR_CORE_DLL(int) db_event_updateId(MEVENT hDbEvent, const char *szId)
