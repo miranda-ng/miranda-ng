@@ -299,6 +299,7 @@ protected:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	bool AllowTyping() const;
+	void InsertBbcodeString(const wchar_t *pwszStr);
 	int  NotifyEvent(int code);
 	#ifdef _WINDOWS
 	bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);

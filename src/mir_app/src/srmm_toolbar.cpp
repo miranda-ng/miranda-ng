@@ -862,6 +862,39 @@ static int ConvertToolbarData(const char *szSetting, void*)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int OnToolbarLoaded(WPARAM, LPARAM)
+{
+	// predefined button
+	BBButton bbd = {};
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY | BBBF_CREATEBYID;
+	bbd.dwButtonID = IDC_CODE;
+	bbd.dwDefPos = 150;
+	bbd.hIcon = g_plugin.getIconHandle(IDI_CODE);
+	bbd.pszModuleName = SRMM_MODULE;
+	bbd.pwszTooltip = LPGENW("Custom bbcodes");
+	g_plugin.addButton(&bbd);
+	return 0;
+}
+
+static int OnToolbarClicked(WPARAM, LPARAM lParam)
+{
+	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
+	if (mir_strcmp(cbcd->pszModule, SRMM_MODULE))
+		return 0;
+
+	HMENU hMenu = CreatePopupMenu();
+	AppendMenuW(hMenu, MF_STRING, 1, TranslateT("[code]"));
+	AppendMenuW(hMenu, MF_STRING, 2, TranslateT("[quote]"));
+	int ret = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, nullptr);
+	if (ret != 0)
+		PostMessage(cbcd->hwndFrom, WM_COMMAND, IDC_CODE, ret);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void LoadSrmmToolbarModule()
 {
 	CreateServiceFunction("SRMsg/BroadcastMessage", BroadcastMessage);
@@ -884,6 +917,9 @@ void LoadSrmmToolbarModule()
 
 	dwSepCount = db_get_dw(0, BB_MODULE_NAME, "SeparatorsCount", 0);
 	CB_RegisterSeparators();
+
+	HookEvent(ME_MSG_BUTTONPRESSED, OnToolbarClicked);
+	HookEvent(ME_MSG_TOOLBARLOADED, OnToolbarLoaded);
 }
 
 void UnloadSrmmToolbarModule()

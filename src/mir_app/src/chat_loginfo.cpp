@@ -84,7 +84,7 @@ int LOGINFO::getIcon() const
 	return 0;
 }
 
-void LOGINFO::write(RtfChatLogStreamData *streamData, bool simpleMode, CMStringA &str, const wchar_t *line) const
+void LOGINFO::write(RtfChatLogStreamData *streamData, bool /*simpleMode*/, CMStringA &str, const wchar_t *line) const
 {
 	CMStringA buf;
 

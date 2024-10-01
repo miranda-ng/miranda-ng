@@ -1614,6 +1614,8 @@ IDI_OFF                 ICON                    "Off.ico"
 
 IDI_CHAT                ICON                    "chat_channel.ico"
 
+IDI_CODE                ICON                    "code.ico"
+
 IDI_MALE                ICON                    "male.ico"
 
 IDI_FEMALE              ICON                    "female.ico"

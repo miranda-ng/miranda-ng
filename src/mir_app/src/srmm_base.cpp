@@ -606,6 +606,15 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			Srmm_ClickToolbarIcon(m_hContact, wParam, m_hwnd, 0);
 			return 0;
 		}
+
+		if (wParam == IDC_CODE) {
+			switch (lParam) {
+			case 1: InsertBbcodeString(L"[code]"); break;
+			case 2: InsertBbcodeString(L"[quote]"); break;
+			default:
+				Srmm_ClickToolbarIcon(m_hContact, wParam, m_hwnd, 0);
+			}
+		}
 		break;
 
 	case WM_ACTIVATE:
@@ -668,6 +677,26 @@ bool CSrmmBaseDialog::AllowTyping() const
 void CSrmmBaseDialog::ClearLog()
 {
 	m_pLog->Clear();
+}
+
+void CSrmmBaseDialog::InsertBbcodeString(const wchar_t *pwszStr)
+{
+	CMStringW wszBbcode(pwszStr);
+	wszBbcode.Insert(1, '/');
+	
+	LRESULT sel = m_message.SendMsg(EM_GETSEL, 0, 0);
+	if (sel != 0) {
+		int start = LOWORD(sel), end = HIWORD(sel);
+		m_message.SendMsg(EM_SETSEL, end, end);
+		m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)wszBbcode.c_str());
+		
+		m_message.SendMsg(EM_SETSEL, start, start);
+		m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)pwszStr);
+	}
+	else {
+		wszBbcode.Insert(0, pwszStr);
+		SetMessageText(wszBbcode, true);
+	}
 }
 
 bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
@@ -1122,4 +1151,3 @@ void CSrmmBaseDialog::SetQuoteEvent(MEVENT hEvent)
 		Resize();
 	}
 }
-

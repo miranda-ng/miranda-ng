@@ -46,6 +46,7 @@
 #define IDD_OPTIONSPOPUP                137
 #define IDI_URL                         138
 #define IDI_ATTACH                      139
+#define IDI_CODE                        140
 #define IDI_MCMENUOFF                   144
 #define IDI_MCMENU                      145
 #define IDI_MCCONVERT                   146
@@ -323,6 +324,7 @@
 #define IDC_BLINKTIME                   1114
 #define IDC_BLINKSPIN                   1115
 #define IDC_ENABLE_TRAY_BLINK           1116
+#define IDC_CODE                        1117
 #define IDC_FINDWHAT                    1131
 #define IDC_FIND                        1132
 #define IDC_FILE                        1133
