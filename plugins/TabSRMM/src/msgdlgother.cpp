@@ -517,7 +517,7 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei)
 			if (!mir_strcmp(cle->pszService, MS_MSG_READMESSAGE))
 				return;
 		}
-		
+
 		CLISTEVENT cle = {};
 		cle.hContact = m_hContact;
 		cle.hDbEvent = hEvent;
@@ -676,7 +676,7 @@ ok:
 				beginmark++;
 				continue;
 			}
-			
+
 			int index = 0;
 			switch (endmarker) {
 			case '*':
@@ -879,7 +879,7 @@ bool CMsgDialog::GetAvatarVisibility()
 		switch (bAvatarMode) {
 		case 0: // globally on
 			m_bShowAvatar = true;
-		LBL_Check:
+LBL_Check:
 			if (!m_hwndContactPic)
 				m_hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, L"", WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(m_hwnd, IDC_CONTACTPIC), (HMENU)nullptr, nullptr, nullptr);
 			break;
@@ -1604,7 +1604,7 @@ void CMsgDialog::SaveAvatarToFile(HBITMAP hbm, int isOwnPic)
 	ofn.lpstrInitialDir = szFinalPath;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.nMaxFileTitle = MAX_PATH;
-	ofn.lCustData = (LPARAM)& setView;
+	ofn.lCustData = (LPARAM)&setView;
 	if (GetSaveFileName(&ofn)) {
 		if (PathFileExists(szFinalFilename))
 			if (MessageBox(nullptr, TranslateT("The file exists. Do you want to overwrite it?"), TranslateT("Save contact picture"), MB_YESNO | MB_ICONQUESTION) == IDNO)
@@ -1883,14 +1883,14 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 	mwpd.hMenu = hSubMenu;
 	mwpd.selection = 0;
 	mwpd.pt = pt;
-	NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)& mwpd);
+	NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
 
 	int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
 
 	// Second notification
 	mwpd.selection = iSelection;
 	mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
-	NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)& mwpd);
+	NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
 
 	switch (iSelection) {
 	case IDM_COPY:
@@ -1913,7 +1913,7 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		m_btnQuote.Click();
 		break;
 	case IDM_SELECTALL:
-		pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)& all);
+		pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
 		break;
 	case IDM_CLEAR:
 		tabClearLog();
@@ -2075,7 +2075,7 @@ bool CMsgDialog::TabAutoComplete()
 	GETTEXTEX gt = { 0 };
 	gt.codepage = 1200;
 	gt.flags = GTL_DEFAULT | GTL_PRECISE;
-	int iLen = m_message.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)& gt, 0);
+	int iLen = m_message.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gt, 0);
 	if (iLen <= 0)
 		return false;
 
@@ -2084,7 +2084,7 @@ bool CMsgDialog::TabAutoComplete()
 
 	gt.flags = GT_DEFAULT;
 	gt.cb = (iLen + 9) * sizeof(wchar_t);
-	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)& gt, (LPARAM)pszText);
+	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
 
 	if (m_wszSearchResult != nullptr) {
 		int cbResult = (int)mir_wstrlen(m_wszSearchResult);
@@ -2110,7 +2110,7 @@ LBL_SkipEnd:
 		if (topicStart > 5 && wcsstr(&pszText[topicStart - 6], L"/topic") == &pszText[topicStart - 6])
 			isTopic = true;
 	}
-	
+
 	if (m_wszSearchQuery == nullptr) {
 		m_wszSearchQuery = mir_wstrndup(pszText + start, end - start);
 		m_wszSearchResult = mir_wstrdup(m_wszSearchQuery);

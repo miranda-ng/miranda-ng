@@ -554,7 +554,6 @@ public:
 
 public:
 	CMsgDialog(int dlgId, MCONTACT hContact);
-	CMsgDialog(SESSION_INFO *si);
 	~CMsgDialog();
 
 	void onClick_Ok(CCtrlButton *);
