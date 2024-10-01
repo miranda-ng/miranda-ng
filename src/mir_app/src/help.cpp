@@ -29,7 +29,7 @@ static class CAboutDlg *pAboutDialog;
 
 static CMStringA szCommitHash;
 
-static LRESULT HeaderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK HeaderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_LBUTTONDOWN && !szCommitHash.IsEmpty())
 		Utils_OpenUrl("https://github.com/miranda-ng/miranda-ng/commit/" + szCommitHash);
