@@ -660,12 +660,13 @@ void CTelegramProto::ProcessChatNotification(TD::updateChatNotificationSettings 
 
 	auto &pSettings = pObj->notification_settings_;
 
+	bool bNever = Chat_IsMuted(pUser->hContact) == CHATMODE_UNMUTE;
 	TD::int32 muteFor;
 	if (!pSettings->use_default_mute_for_)
 		muteFor = pSettings->mute_for_;
 	else
 		muteFor = GetDefaultMute(pUser);
-	Chat_Mute(pUser->hContact, muteFor ? CHATMODE_MUTE : CHATMODE_NORMAL);
+	Chat_Mute(pUser->hContact, muteFor ? CHATMODE_MUTE : (bNever ? CHATMODE_UNMUTE : CHATMODE_NORMAL));
 
 	memcpy(&pUser->notificationSettings, pSettings.get(), sizeof(pUser->notificationSettings));
 }
