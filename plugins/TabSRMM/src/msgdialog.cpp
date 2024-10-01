@@ -330,35 +330,21 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 {
 	m_hContact = hContact;
 
-	m_btnAdd.OnClick = Callback(this, &CMsgDialog::onClick_Add);
 	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
-	m_btnCancelAdd.OnClick = Callback(this, &CMsgDialog::onClick_CancelAdd);
 
-	Init();
-}
+	if (Contact::IsGroupChat(hContact)) {
+		m_si = Chat_Find(hContact);
 
-CMsgDialog::CMsgDialog(SESSION_INFO *si) :
-	CSuper(g_plugin, IDD_CHANNEL, si),
-	m_pPanel(this),
-	timerAwayMsg(this, 100),
-	m_btnAdd(this, IDC_ADD),
-	m_btnQuote(this, IDC_QUOTE),
-	m_btnCancelAdd(this, IDC_CANCELADD),
-	m_btnStrikeout(this, IDC_FONTSTRIKEOUT)
-{
-	m_hContact = si->hContact;
+		m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
+		m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowNickList);
 
-	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
-	m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
-	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowNickList);
+		m_nickList.OnDblClick = Callback(this, &CMsgDialog::onDblClick_List);
+	}
+	else {
+		m_btnAdd.OnClick = Callback(this, &CMsgDialog::onClick_Add);
+		m_btnCancelAdd.OnClick = Callback(this, &CMsgDialog::onClick_CancelAdd);
+	}
 
-	m_nickList.OnDblClick = Callback(this, &CMsgDialog::onDblClick_List);
-
-	Init();
-}
-
-void CMsgDialog::Init()
-{
 	GetSendFormat();
 
 	m_szProto = Proto_GetBaseAccountName(m_hContact);

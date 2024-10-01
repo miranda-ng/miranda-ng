@@ -320,7 +320,7 @@ CMsgDialog* TSAPI CreateNewTabForContact(
 
 	CMsgDialog *pWindow;
 	if (Contact::IsGroupChat(hContact))
-		pWindow = new CMsgDialog(Chat_Find(hContact, szProto));
+		pWindow = new CMsgDialog(IDD_CHANNEL, hContact);
 	else
 		pWindow = new CMsgDialog(IDD_MSGSPLITNEW, hContact);
 	pWindow->m_iTabID = iTabId;

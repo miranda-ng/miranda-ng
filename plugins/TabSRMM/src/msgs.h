@@ -420,7 +420,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void     GetSendFormat(void);
 	HICON    GetXStatusIcon() const;
 	void     HandlePasteAndSend(void);
-	void     Init(void);
 	void     LoadContactAvatar(void);
 	void     LoadOwnAvatar(void);
 	void     LoadSplitter(void);
