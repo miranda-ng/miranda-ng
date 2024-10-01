@@ -894,25 +894,16 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 	if (selected != nullptr)
 		szQuoted = Srmm_Quote(selected, iOutputWidth);
 	else {
-		MEVENT hDBEvent = db_event_last(m_hContact);
-		if (hDBEvent == 0)
-			return;
-
-		if (m_iLogMode == WANT_BUILTIN_LOG) {
-			CHARRANGE sel;
-			LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				ptrA szFromStream(LOG()->RTF().GetRichTextRtf(true, true));
-				ptrW converted(mir_utf8decodeW(szFromStream));
-				Utils::FilterEventMarkers(converted);
-				szQuoted = Srmm_Quote(converted, iOutputWidth);
-			}
-		}
+		ptrW wszSelection(m_pLog->GetSelectedText());
+		if (mir_wstrlen(wszSelection))
+			szQuoted = Srmm_Quote(wszSelection, iOutputWidth);
 
 		if (szQuoted.IsEmpty()) {
-			DB::EventInfo dbei(hDBEvent);
-			if (dbei)
-				szQuoted = Srmm_Quote(ptrW(dbei.getText()), iOutputWidth);
+			if (MEVENT hDBEvent = db_event_last(m_hContact)) {
+				DB::EventInfo dbei(hDBEvent);
+				if (dbei)
+					szQuoted = Srmm_Quote(ptrW(dbei.getText()), iOutputWidth);
+			}
 		}
 	}
 
@@ -1458,7 +1449,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			File::Send(m_hContact);
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_QUOTEMSG:
-			SendMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);
+			m_btnQuote.Click();
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_CLEARMSG:
 			m_message.SetText(L"");

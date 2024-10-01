@@ -1910,7 +1910,7 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 			pCtrl.SendMsg(EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
 		break;
 	case IDM_QUOTE:
-		SendMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);
+		m_btnQuote.Click();
 		break;
 	case IDM_SELECTALL:
 		pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)& all);
