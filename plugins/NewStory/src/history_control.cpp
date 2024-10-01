@@ -1440,18 +1440,16 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			if (wParam & MK_CONTROL) {
 				data->ToggleSelection(idx, idx);
-				data->SetCaret(idx);
+				data->SetCaret(idx, false);
 			}
 			else if (wParam & MK_SHIFT) {
 				data->AddSelection(data->caret, idx);
-				data->SetCaret(idx);
+				data->SetCaret(idx, false);
 			}
 			else {
-				pt.y -= pItem->savedTop;
-
 				data->selStart = idx;
 				data->SetSelection(idx, idx);
-				data->SetCaret(idx);
+				data->SetCaret(idx, false);
 			}
 		}
 		SetFocus(hwnd);
