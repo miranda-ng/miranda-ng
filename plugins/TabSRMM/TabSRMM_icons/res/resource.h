@@ -62,7 +62,6 @@
 // reserved icons
 
 #define IDI_EMPTY           170
-#define IDI_IMAGETAG        171
 
 #define IDI_TRAYANIM1       190
 #define IDI_TRAYANIM2       191

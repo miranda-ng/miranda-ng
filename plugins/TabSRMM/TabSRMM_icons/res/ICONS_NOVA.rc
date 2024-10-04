@@ -29,7 +29,6 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_IMAGETAG            ICON                    "imgopen.ico"
 IDI_PULLDOWNARROW       ICON                    "pulldown.ico"
 IDI_LEFTARROW           ICON                    "leftarrow.ico"
 IDI_PULLUPARROW         ICON                    "pullup.ico"
