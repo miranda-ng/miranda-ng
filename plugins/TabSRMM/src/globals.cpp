@@ -233,8 +233,6 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 	::Chat_ModulesLoaded();
 	::BuildContainerMenu();
 
-	::ModPlus_Init();
-
 	if (M.GetByte("avatarmode", -1) == -1)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);
 

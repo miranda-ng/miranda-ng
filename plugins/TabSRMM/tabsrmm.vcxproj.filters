@@ -53,9 +53,6 @@
     <ClCompile Include="src\mim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\modplus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\msgdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

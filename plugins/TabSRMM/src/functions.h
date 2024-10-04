@@ -38,7 +38,6 @@ int  IcoLibIconsChanged(WPARAM wParam, LPARAM lParam);
 int  FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
 int  SmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam);
 int  IEViewOptionsChanged(WPARAM wParam, LPARAM lParam);
-int  ModPlus_Init();
 
 void RegisterFontServiceFonts();
 

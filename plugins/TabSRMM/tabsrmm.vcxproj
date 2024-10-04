@@ -43,7 +43,6 @@
     <ClCompile Include="src\ImageDataObject.cpp" />
     <ClCompile Include="src\infopanel.cpp" />
     <ClCompile Include="src\mim.cpp" />
-    <ClCompile Include="src\modplus.cpp" />
     <ClCompile Include="src\msgdialog.cpp" />
     <ClCompile Include="src\msgdlgother.cpp" />
     <ClCompile Include="src\msgdlgutils.cpp" />

@@ -885,8 +885,9 @@ static int OnToolbarClicked(WPARAM, LPARAM lParam)
 		return 0;
 
 	HMENU hMenu = CreatePopupMenu();
-	AppendMenuW(hMenu, MF_STRING, 1, TranslateT("[code]"));
-	AppendMenuW(hMenu, MF_STRING, 2, TranslateT("[quote]"));
+	for (int i = 0; i < N_CUSTOM_BBCODES; i++)
+		AppendMenuW(hMenu, MF_STRING, i + 1, wszBbcodes[i]);
+
 	int ret = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, nullptr);
 	if (ret != 0)
 		PostMessage(cbcd->hwndFrom, WM_COMMAND, IDC_CODE, ret);

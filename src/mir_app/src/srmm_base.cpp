@@ -581,6 +581,8 @@ static void doMarkEventRead(MCONTACT hContact, MEVENT hEvent)
 	Clist_RemoveEvent(-1, hEvent);
 }
 
+wchar_t *wszBbcodes[N_CUSTOM_BBCODES] = { L"[img]", L"[code]", L"[quote]" };
+
 INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -608,12 +610,10 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (wParam == IDC_CODE) {
-			switch (lParam) {
-			case 1: InsertBbcodeString(L"[code]"); break;
-			case 2: InsertBbcodeString(L"[quote]"); break;
-			default:
+			if (lParam > 0 && lParam < _countof(wszBbcodes))
+				InsertBbcodeString(wszBbcodes[lParam-1]);
+			else
 				Srmm_ClickToolbarIcon(m_hContact, wParam, m_hwnd, 0);
-			}
 		}
 		break;
 

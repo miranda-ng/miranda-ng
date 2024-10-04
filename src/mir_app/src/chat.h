@@ -30,6 +30,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define STREAMSTAGE_TAIL    2
 #define STREAMSTAGE_STOP    3
 
+#define N_CUSTOM_BBCODES    3
+extern wchar_t *wszBbcodes[N_CUSTOM_BBCODES];
+
 #define DM_OPTIONSAPPLIED (WM_USER+14)
 
 void Srmm_CreateToolbarIcons(CSrmmBaseDialog *pDlg, int flags);
