@@ -291,7 +291,7 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 	std::vector<MEVENT> m_arDisplayedEvents;
 
 protected:
-	CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, struct SESSION_INFO *si = nullptr);
+	CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT hContact);
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;

@@ -36,7 +36,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	friend class CTabbedWindow;
 	typedef CSrmmBaseDialog CSuper;
 
-	void Init(void);
 	void NotifyTyping(int mode);
 	void SetButtonsPos(void);
 	void ShowTime(bool bForce);
@@ -84,7 +83,6 @@ class CMsgDialog : public CSrmmBaseDialog
 
 public:
 	CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact);
-	CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si);
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;

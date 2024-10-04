@@ -148,7 +148,7 @@ static void ShowRoom(SESSION_INFO *si)
 		if (g_Settings.bTabsEnable)
 			pContainer->AddPage(si);
 		else {
-			CMsgDialog *pDlg = pContainer->m_pEmbed = new CMsgDialog(pContainer, si);
+			CMsgDialog *pDlg = pContainer->m_pEmbed = new CMsgDialog(pContainer, si->hContact);
 			pContainer->Create();
 			pDlg->SetParent(pContainer->GetHwnd());
 			pDlg->Create();

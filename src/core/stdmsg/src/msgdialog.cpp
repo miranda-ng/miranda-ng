@@ -36,37 +36,21 @@ LIST<CMsgDialog> g_arDialogs(10, PtrKeySortT);
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact) :
-	CSuper(g_plugin, IDD_MSG),
+	CSuper(g_plugin, IDD_MSG, hContact),
 	m_avatar(this, IDC_AVATAR),
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
 	m_cmdList(20),
 	m_pOwner(pOwner)
 {
-	m_hContact = hContact;
-	Init();
-}
+	if (isChat()) {
+		m_iSplitterX = g_Settings.iSplitterX;
+		m_splitterX.OnChange = Callback(this, &CMsgDialog::onSplitterX);
 
-CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si) :
-	CSuper(g_plugin, IDD_MSG, si),
-	m_avatar(this, IDC_AVATAR),
-	m_splitterX(this, IDC_SPLITTERX),
-	m_splitterY(this, IDC_SPLITTERY),
-	m_cmdList(20),
-	m_pOwner(pOwner)
-{
-	m_iSplitterX = g_Settings.iSplitterX;
+		m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
+		m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_NickList);
+	}
 
-	m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
-	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_NickList);
-
-	m_splitterX.OnChange = Callback(this, &CMsgDialog::onSplitterX);
-
-	Init();
-}
-
-void CMsgDialog::Init()
-{
 	m_szTabSave[0] = 0;
 	m_autoClose = 0;
 	m_forceResizable = true;

@@ -62,7 +62,7 @@ static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMsgDialog::CMsgDialog(MCONTACT hContact, bool bIncoming) :
-	CSuper(g_plugin, IDD_MSG),
+	CSuper(g_plugin, IDD_MSG, hContact),
 	m_bIncoming(bIncoming),
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
@@ -72,36 +72,20 @@ CMsgDialog::CMsgDialog(MCONTACT hContact, bool bIncoming) :
 	m_btnDetails(this, IDC_DETAILS),
 	m_btnUserMenu(this, IDC_USERMENU)
 {
-	m_hContact = hContact;
-
-	m_btnAdd.OnClick = Callback(this, &CMsgDialog::onClick_Add);
 	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
-	m_btnDetails.OnClick = Callback(this, &CMsgDialog::onClick_Details);
-	m_btnUserMenu.OnClick = Callback(this, &CMsgDialog::onClick_UserMenu);
-	
-	Init();
-}
 
-CMsgDialog::CMsgDialog(SESSION_INFO *si) :
-	CSuper(g_plugin, IDD_MSG, si),
-	m_splitterX(this, IDC_SPLITTERX),
-	m_splitterY(this, IDC_SPLITTERY),
+	if (isChat()) {
+		m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
+		m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowList);
 
-	m_btnAdd(this, IDC_ADD),
-	m_btnQuote(this, IDC_QUOTE),
-	m_btnDetails(this, IDC_DETAILS),
-	m_btnUserMenu(this, IDC_USERMENU)
-{
-	m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
-	m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowList);
+		m_splitterX.OnChange = Callback(this, &CMsgDialog::onChange_SplitterX);
+	}
+	else {
+		m_btnAdd.OnClick = Callback(this, &CMsgDialog::onClick_Add);
+		m_btnDetails.OnClick = Callback(this, &CMsgDialog::onClick_Details);
+		m_btnUserMenu.OnClick = Callback(this, &CMsgDialog::onClick_UserMenu);
+	}
 
-	m_splitterX.OnChange = Callback(this, &CMsgDialog::onChange_SplitterX);
-
-	Init();
-}
-
-void CMsgDialog::Init()
-{
 	m_autoClose = CLOSE_ON_CANCEL;
 	m_szProto = Proto_GetBaseAccountName(m_hContact);
 

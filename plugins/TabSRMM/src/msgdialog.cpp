@@ -320,7 +320,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
-	CSuper(g_plugin, iDlgId),
+	CSuper(g_plugin, iDlgId, hContact),
 	m_pPanel(this),
 	timerAwayMsg(this, 100),
 	m_btnAdd(this, IDC_ADD),
@@ -332,9 +332,7 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 
 	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
 
-	if (Contact::IsGroupChat(hContact)) {
-		m_si = Chat_Find(hContact);
-
+	if (m_si) {
 		m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
 		m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowNickList);
 

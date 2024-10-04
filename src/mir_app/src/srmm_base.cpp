@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "chat.h"
 #include "skin.h"
 
-CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_INFO *si) :
+CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT hContact) :
 	CDlgBase(pPlugin, idDialog),
 	timerFlash(this, 1),
 	timerType(this, 2),
@@ -52,8 +52,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_Quote(this, IDC_SRMM_QUOTE),
 	m_btnCloseQuote(this, IDC_SRMM_CLOSEQUOTE, SKINICON_OTHER_DELETE, LPGEN("Remove quoting")),
 
-	m_si(si),
-	m_hContact(0),
+	m_si(0),
+	m_hContact(hContact),
 	m_clrInputBG(GetSysColor(COLOR_WINDOW))
 {
 	m_btnColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_Color);
@@ -70,8 +70,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 
 	timerRedraw.OnEvent = Callback(this, &CSrmmBaseDialog::OnRedrawTimer);
 
-	if (si) {
-		m_hContact = si->hContact;
+	if (Contact::IsGroupChat(hContact)) {
+		m_si = Chat_Find(hContact);
 
 		m_iFG = 4;
 		m_iBG = 2;

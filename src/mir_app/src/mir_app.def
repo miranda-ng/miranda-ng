@@ -294,7 +294,7 @@ Netlib_NtlmCreateResponse @383
 ProtoGetAvatarFormatByMimeType @400
 ProtoGetAvatarMimeType @401
 ?set_uin@AUTH_BLOB@DB@@QAEXI@Z @402 NONAME
-??0CSrmmBaseDialog@@IAE@AAVCMPluginBase@@HPAUSESSION_INFO@@@Z @403 NONAME
+??0CSrmmBaseDialog@@IAE@AAVCMPluginBase@@HI@Z @403 NONAME
 Miranda_GetSystemWindow @404 NONAME
 ??1CSrmmBaseDialog@@UAE@XZ @405 NONAME
 Srmm_FindDialog @406 NONAME
@@ -988,3 +988,4 @@ _Proto_CanDeleteHistory@8 @1124 NONAME
 ?DoRtfToTags@CSrmmBaseDialog@@IBE_NAAV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@@Z @1126 NONAME
 ?bUseGroup@Chat@@3V?$CMOption@_N@@A @1127 NONAME
 ?isCustom@EventInfo@DB@@QBE_NH@Z @1128 NONAME
+?InsertBbcodeString@CSrmmBaseDialog@@IAEXPB_W@Z @1129 NONAME

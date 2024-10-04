@@ -266,7 +266,7 @@ void CTabbedWindow::AddPage(SESSION_INFO *si, int insertAt)
 		if (!IsWindowVisible(m_hwnd))
 			Show(SW_SHOW);
 
-		CMsgDialog *pDlg = new CMsgDialog(this, si);
+		CMsgDialog *pDlg = new CMsgDialog(this, si->hContact);
 		pDlg->SetParent(m_hwnd);
 		m_tab.AddPage(szTemp, nullptr, pDlg);
 		m_tab.ActivatePage(m_tab.GetCount() - 1);

@@ -117,7 +117,7 @@ static void ShowRoom(SESSION_INFO *si)
 	// Do we need to create a window?
 	CMsgDialog *pDlg;
 	if (si->pDlg == nullptr) {
-		pDlg = new CMsgDialog(si);
+		pDlg = new CMsgDialog(si->hContact, false);
 		pDlg->Show();
 
 		si->pDlg = pDlg;

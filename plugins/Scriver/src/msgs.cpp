@@ -156,7 +156,7 @@ static INT_PTR SendMessageCommandWorker(MCONTACT hContact, wchar_t *pszMsg)
 		pDlg->PopupWindow();
 	}
 	else {
-		pDlg = new CMsgDialog(hContact, false);
+		pDlg = new CMsgDialog(hContact, true);
 		pDlg->m_wszInitialText = pszMsg;
 		pDlg->Show();
 	}

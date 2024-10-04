@@ -51,7 +51,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void   ClearLog(void);
 	HICON  GetTabIcon(void);
 	void   GetTitlebarIcon(struct TitleBarData *tbd);
-	void   Init(void);
 	int    InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	void   MessageDialogResize(int w, int h);
 	void   MessageSend(const SendQueue::Item &msg);
@@ -68,7 +67,7 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	bool   m_bIncoming, m_bWindowCascaded;
+	bool   m_bIncoming = false, m_bWindowCascaded;
 
 	MEVENT m_hDbUnreadEventFirst;
 	int    m_minLogBoxHeight, m_minEditBoxHeight;
@@ -105,8 +104,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	CSplitter m_splitterX, m_splitterY;
 
 public:
-	CMsgDialog(MCONTACT hContact, bool bIncoming);
-	CMsgDialog(SESSION_INFO *);
+	CMsgDialog(MCONTACT hContact, bool);
 
 	bool OnInitDialog() override;
 	void OnDestroy() override;
