@@ -545,6 +545,9 @@ bool CSrmmBaseDialog::OnInitDialog()
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
 	Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 
+	if ((CallContactService(m_hContact, PS_GETCAPS, PFLAGNUM_4) & PF4_SERVERFORMATTING) == 0)
+		m_bSendFormat = false;
+
 	if (!m_bSendFormat) {
 		m_btnBold.Disable();
 		m_btnItalic.Disable();
