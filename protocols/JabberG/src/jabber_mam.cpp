@@ -88,7 +88,7 @@ void CJabberProto::MamRetrieveMissingMessages()
 		form << XCHILD("field") << XATTR("var", "end") << XCHILD("value", buf);
 	}
 	else {
-		auto *set = query << XCHILDNS("set", "http://jabber.org/protocol/rsm");
+		auto *set = query << XCHILDNS("set", JABBER_FEAT_RSM);
 		set << XCHILD("max", "1000");
 		set << XCHILD("after", szLastId);
 	}
@@ -112,7 +112,7 @@ void CJabberProto::MamSendForm(const char *pszWith, const char *pszAfter)
 	if (pszWith != nullptr)
 		form << XCHILD("field") << XATTR("var", "with") << XCHILD("value", pszWith);
 
-	auto *rsm = query << XCHILDNS("set", "http://jabber.org/protocol/rsm");
+	auto *rsm = query << XCHILDNS("set", JABBER_FEAT_RSM);
 	rsm << XCHILD("max", "1000");
 	if (pszAfter != nullptr)
 		rsm << XCHILD("after", pszAfter);
@@ -130,7 +130,7 @@ void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInf
 		if (!mir_strcmp(XmlGetAttr(fin, "complete"), "true"))
 			return;
 
-		if (auto *set = XmlGetChildByTag(fin, "set", "xmlns", "http://jabber.org/protocol/rsm"))
+		if (auto *set = XmlGetChildByTag(fin, "set", "xmlns", JABBER_FEAT_RSM))
 			if (auto *lastId = XmlGetChildText(set, "last"))
 				MamSendForm(ptrA(getUStringA(pInfo->GetHContact(), "jid")), lastId);
 	}

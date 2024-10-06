@@ -121,17 +121,17 @@ protected:
 	char *m_szJid;
 	char *m_szNode;
 	char *m_szName;
-	CJabberSDIdentity *m_pIdentities;
-	CJabberSDFeature *m_pFeatures;
-	CJabberSDNode *m_pNext;
-	CJabberSDNode *m_pChild;
-	uint32_t m_dwInfoRequestTime;
-	uint32_t m_dwItemsRequestTime;
-	int m_nInfoRequestId;
-	int m_nItemsRequestId;
-	HTREELISTITEM m_hTreeItem;
-	wchar_t *m_szInfoError;
-	wchar_t *m_szItemsError;
+	CJabberSDIdentity *m_pIdentities = nullptr;
+	CJabberSDFeature *m_pFeatures = nullptr;
+	CJabberSDNode *m_pNext = nullptr;
+	CJabberSDNode *m_pChild = nullptr;
+	uint32_t m_dwInfoRequestTime = 0;
+	uint32_t m_dwItemsRequestTime = 0;
+	int m_nInfoRequestId = 0;
+	int m_nItemsRequestId = 0;
+	HTREELISTITEM m_hTreeItem = 0;
+	wchar_t *m_szInfoError = 0;
+	wchar_t *m_szItemsError = 0;
 
 public:
 	CJabberSDNode(const char *szJid = nullptr, const char *szNode = nullptr, const char *szName = nullptr)
@@ -139,17 +139,6 @@ public:
 		m_szJid = mir_strdup(szJid);
 		m_szNode = mir_strdup(szNode);
 		m_szName = mir_strdup(szName);
-		m_pIdentities = nullptr;
-		m_pFeatures = nullptr;
-		m_pNext = nullptr;
-		m_pChild = nullptr;
-		m_dwInfoRequestTime = 0;
-		m_dwItemsRequestTime = 0;
-		m_nInfoRequestId = 0;
-		m_nItemsRequestId = 0;
-		m_hTreeItem = nullptr;
-		m_szInfoError = nullptr;
-		m_szItemsError = nullptr;
 	}
 	~CJabberSDNode()
 	{

@@ -208,6 +208,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_UPLOAD0                     "urn:xmpp:http:upload:0"
 #define JABBER_FEAT_CHANNEL_BINDING             "urn:xmpp:sasl-cb:0"
 
+#define JABBER_FEAT_RSM                         "http://jabber.org/protocol/rsm"
 #define JABBER_FEAT_PUBSUB_EVENT                "http://jabber.org/protocol/pubsub#event"
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          "http://jabber.org/protocol/pubsub#node_config"
 

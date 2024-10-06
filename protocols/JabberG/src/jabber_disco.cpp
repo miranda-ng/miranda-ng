@@ -149,11 +149,38 @@ void CJabberProto::OnIqResultServiceDiscoveryItems(const TiXmlElement *iqNode, C
 		if (query == nullptr)
 			pNode->SetItemsRequestId(JABBER_DISCO_RESULT_ERROR);
 		else {
-			for (auto *item : TiXmlEnum(query))
+			int iRows = 0;
+			for (auto *item : TiXmlFilter(query, "item")) {
+				iRows++;
 				pNode->AddChildNode(XmlGetAttr(item, "jid"), XmlGetAttr(item, "node"), XmlGetAttr(item, "name"));
+			}
 
-			pNode->SetItemsRequestId(JABBER_DISCO_RESULT_OK);
-			pNode->SetItemsRequestErrorText(nullptr);
+			if (auto *pSet = XmlGetChildByTag(query, "set", "xmlns", JABBER_FEAT_RSM)) {
+				if (iRows == 0) {
+					pNode->SetItemsRequestId(JABBER_DISCO_RESULT_OK);
+					pNode->SetItemsRequestErrorText(nullptr);
+				}
+				else if (auto *pszLast = XmlGetChildText(pSet, "last")) {
+					auto *pNew = AddIQ(&CJabberProto::OnIqResultServiceDiscoveryItems, JABBER_IQ_TYPE_GET, pNode->GetJid());
+					pNew->SetTimeout(60000);
+					pNode->SetItemsRequestId(pNew->GetIqId());
+
+					XmlNodeIq iq(pNew);
+					auto *pQuery = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
+					if (pNode->GetNode())
+						pQuery->SetAttribute("node", pNode->GetNode());
+
+					auto *pNextSet = pQuery << XCHILDNS("set", JABBER_FEAT_RSM);
+					pNextSet << XCHILD("max", "100");
+					pNextSet << XCHILD("after", pszLast);
+
+					m_ThreadInfo->send(iq);
+				}
+			}
+			else {
+				pNode->SetItemsRequestId(JABBER_DISCO_RESULT_OK);
+				pNode->SetItemsRequestErrorText(nullptr);
+			}
 		}
 	}
 	else {
@@ -279,6 +306,10 @@ bool CJabberProto::SendBothRequests(CJabberSDNode *pNode, TiXmlNode *parent)
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_DISCO_ITEMS);
 		if (pNode->GetNode())
 			query->SetAttribute("node", pNode->GetNode());
+
+		auto *pNextSet = query << XCHILDNS("set", JABBER_FEAT_RSM);
+		pNextSet << XCHILD("max", "100");
+		pNextSet << XCHILD("after", " ");
 
 		if (parent)
 			parent->InsertEndChild(iq.node()->DeepClone(parent->GetDocument()));
