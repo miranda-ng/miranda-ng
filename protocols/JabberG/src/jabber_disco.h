@@ -35,11 +35,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CJabberSDIdentity
 {
-protected:
 	char *m_szCategory;
 	char *m_szType;
 	char *m_szName;
-	CJabberSDIdentity *m_pNext;
 
 public:
 	CJabberSDIdentity(const char *szCategory, const char *szType, const char *szName)
@@ -47,72 +45,17 @@ public:
 		m_szCategory = mir_strdup(szCategory);
 		m_szType = mir_strdup(szType);
 		m_szName = mir_strdup(szName);
-		m_pNext = nullptr;
 	}
 	~CJabberSDIdentity()
 	{
 		mir_free(m_szCategory);
 		mir_free(m_szType);
 		mir_free(m_szName);
-		if (m_pNext)
-			delete m_pNext;
 	}
-	char *GetCategory()
-	{
-		return m_szCategory;
-	}
-	char *GetType()
-	{
-		return m_szType;
-	}
-	char *GetName()
-	{
-		return m_szName;
-	}
-	CJabberSDIdentity* GetNext()
-	{
-		return m_pNext;
-	}
-	CJabberSDIdentity* SetNext(CJabberSDIdentity *pNext)
-	{
-		CJabberSDIdentity *pRetVal = m_pNext;
-		m_pNext = pNext;
-		return pRetVal;
-	}
-};
 
-class CJabberSDFeature;
-class CJabberSDFeature
-{
-protected:
-	char *m_szVar;
-	CJabberSDFeature *m_pNext;
-public:
-	CJabberSDFeature(const char *szVar)
-	{
-		m_szVar = szVar ? mir_strdup(szVar) : nullptr;
-		m_pNext = nullptr;
-	}
-	~CJabberSDFeature()
-	{
-		mir_free(m_szVar);
-		if (m_pNext)
-			delete m_pNext;
-	}
-	char* GetVar()
-	{
-		return m_szVar;
-	}
-	CJabberSDFeature* GetNext()
-	{
-		return m_pNext;
-	}
-	CJabberSDFeature* SetNext(CJabberSDFeature *pNext)
-	{
-		CJabberSDFeature *pRetVal = m_pNext;
-		m_pNext = pNext;
-		return pRetVal;
-	}
+	char* GetCategory() const { return m_szCategory; }
+	char* GetType() const { return m_szType; }
+	char* GetName() const { return m_szName; }
 };
 
 class CJabberSDNode
@@ -121,8 +64,8 @@ protected:
 	char *m_szJid;
 	char *m_szNode;
 	char *m_szName;
-	CJabberSDIdentity *m_pIdentities = nullptr;
-	CJabberSDFeature *m_pFeatures = nullptr;
+	OBJLIST<CJabberSDIdentity> m_arIdentities;
+	OBJLIST<char> m_arFeatures;
 	CJabberSDNode *m_pNext = nullptr;
 	CJabberSDNode *m_pChild = nullptr;
 	uint32_t m_dwInfoRequestTime = 0;
@@ -134,12 +77,15 @@ protected:
 	wchar_t *m_szItemsError = 0;
 
 public:
-	CJabberSDNode(const char *szJid = nullptr, const char *szNode = nullptr, const char *szName = nullptr)
+	CJabberSDNode(const char *szJid = nullptr, const char *szNode = nullptr, const char *szName = nullptr) :
+		m_arFeatures(10),
+		m_arIdentities(10)
 	{
 		m_szJid = mir_strdup(szJid);
 		m_szNode = mir_strdup(szNode);
 		m_szName = mir_strdup(szName);
 	}
+
 	~CJabberSDNode()
 	{
 		RemoveAll();
@@ -150,24 +96,13 @@ public:
 		replaceStr(m_szJid, nullptr);
 		replaceStr(m_szNode, nullptr);
 		replaceStr(m_szName, nullptr);
-		replaceStrW(m_szInfoError, nullptr);
-		replaceStrW(m_szItemsError, nullptr);
-		if (m_pIdentities)
-			delete m_pIdentities;
-		m_pIdentities = nullptr;
-		if (m_pFeatures)
-			delete m_pFeatures;
-		m_pFeatures = nullptr;
+		
+		ResetInfo();
+
 		if (m_pNext)
 			delete m_pNext;
 		m_pNext = nullptr;
-		if (m_pChild)
-			delete m_pChild;
-		m_pChild = nullptr;
-		m_nInfoRequestId = JABBER_DISCO_RESULT_NOT_REQUESTED;
-		m_nItemsRequestId = JABBER_DISCO_RESULT_NOT_REQUESTED;
-		m_dwInfoRequestTime = 0;
-		m_dwItemsRequestTime = 0;
+
 		m_hTreeItem = nullptr;
 	}
 
@@ -175,12 +110,8 @@ public:
 	{
 		replaceStrW(m_szInfoError, nullptr);
 		replaceStrW(m_szItemsError, nullptr);
-		if (m_pIdentities)
-			delete m_pIdentities;
-		m_pIdentities = nullptr;
-		if (m_pFeatures)
-			delete m_pFeatures;
-		m_pFeatures = nullptr;
+		m_arIdentities.destroy();
+		m_arFeatures.destroy();
 		if (m_pChild)
 			delete m_pChild;
 		m_pChild = nullptr;
@@ -247,14 +178,22 @@ public:
 		return m_szName;
 	}
 
-	CJabberSDIdentity* GetFirstIdentity()
+	bool HasIdentity(const char *pszCategory, const char *pszType)
 	{
-		return m_pIdentities;
+		for (auto &it : m_arIdentities)
+			if (!mir_strcmp(it->GetCategory(), pszCategory) && (!pszType || !mir_strcmp(it->GetType(), pszType)))
+				return true;
+
+		return false;
 	}
-	
-	CJabberSDFeature* GetFirstFeature()
+
+	bool HasFeature(const char *pszFeature)
 	{
-		return m_pFeatures;
+		for (auto &it: m_arFeatures)
+			if (!mir_strcmp(pszFeature, it))
+				return true;
+
+		return false;
 	}
 	
 	CJabberSDNode* GetFirstChildNode()
@@ -299,13 +238,8 @@ public:
 	{
 		if (!szFeature)
 			return false;
-
-		CJabberSDFeature *pFeature = new CJabberSDFeature(szFeature);
-		if (!pFeature)
-			return false;
-
-		pFeature->SetNext(m_pFeatures);
-		m_pFeatures = pFeature;
+		
+		m_arFeatures.insert(newStr(szFeature));
 		return true;
 	}
 	
@@ -314,12 +248,7 @@ public:
 		if (!szCategory || !szType)
 			return false;
 
-		CJabberSDIdentity *pIdentity = new CJabberSDIdentity(szCategory, szType, szName);
-		if (!pIdentity)
-			return false;
-
-		pIdentity->SetNext(m_pIdentities);
-		m_pIdentities = pIdentity;
+		m_arIdentities.insert(new CJabberSDIdentity(szCategory, szType, szName));
 		return true;
 	}
 	
@@ -356,31 +285,28 @@ public:
 		if (m_szNode)
 			ret.AppendFormat("%s: %s\r\n", TranslateU("Node"), m_szNode);
 
-		if (m_pIdentities) {
+		if (m_arIdentities.getCount()) {
 			ret.AppendFormat("\r\n%s:\r\n", TranslateU("Identities"));
 
-			CJabberSDIdentity *pIdentity = m_pIdentities;
-			while (pIdentity) {
-				if (pIdentity->GetName())
+			for (auto &it : m_arIdentities) {
+				if (it->GetName())
 					ret.AppendFormat(" %c %s (%s: %s, %s: %s)\r\n",
-						CHR_BULLET, pIdentity->GetName(),
-							TranslateU("category"), pIdentity->GetCategory(),
-							TranslateU("type"), pIdentity->GetType());
+						CHR_BULLET, it->GetName(),
+							TranslateU("category"), it->GetCategory(),
+							TranslateU("type"), it->GetType());
 				else
 					ret.AppendFormat(" %c %s: %s, %s: %s\r\n",
 						CHR_BULLET,
-						TranslateU("Category"), pIdentity->GetCategory(),
-						TranslateU("Type"), pIdentity->GetType());
-
-				pIdentity = pIdentity->GetNext();
+						TranslateU("Category"), it->GetCategory(),
+						TranslateU("Type"), it->GetType());
 			}
 		}
 
-		if (m_pFeatures) {
+		if (m_arFeatures.getCount()) {
 			ret.AppendFormat("\r\n%s:\r\n", TranslateU("Supported features"));
 
-			for (CJabberSDFeature *pFeature = m_pFeatures; pFeature; pFeature = pFeature->GetNext())
-				ret.AppendFormat(" %c %s\r\n", CHR_BULLET, pFeature->GetVar());
+			for (auto &it : m_arFeatures)
+				ret.AppendFormat(" %c %s\r\n", CHR_BULLET, it);
 		}
 
 		if (m_szInfoError)
