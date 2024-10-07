@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "chat.h"
+#include "file.h"
 #include "skin.h"
 
 #define BB_MODULE_NAME "SRMM_Toolbar"
@@ -863,6 +864,7 @@ static int ConvertToolbarData(const char *szSetting, void*)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// predefined kernel buttons
 
 static int OnToolbarLoaded(WPARAM, LPARAM)
 {
@@ -874,6 +876,14 @@ static int OnToolbarLoaded(WPARAM, LPARAM)
 	bbd.hIcon = g_plugin.getIconHandle(IDI_CODE);
 	bbd.pszModuleName = SRMM_MODULE;
 	bbd.pwszTooltip = LPGENW("Custom bbcodes");
+	g_plugin.addButton(&bbd);
+
+	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
+	bbd.dwButtonID = 1;
+	bbd.dwDefPos = 50;
+	bbd.hIcon = g_plugin.getIconHandle(IDI_ATTACH);
+	bbd.pszModuleName = SRFILEMODULE;
+	bbd.pwszTooltip = LPGENW("Send file");
 	g_plugin.addButton(&bbd);
 	return 0;
 }
