@@ -227,8 +227,6 @@ void NewstoryListData::BeginEditItem()
 		return;
 
 	ItemData *item = LoadItem(caret);
-	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
-		return;
 
 	RECT rc; GetClientRect(m_hwnd, &rc);
 	int height = rc.bottom - rc.top, width = rc.right - rc.left;
@@ -261,6 +259,9 @@ void NewstoryListData::BeginEditItem()
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
+	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
+		SendMessage(hwndEditBox, EM_SETREADONLY, TRUE, 0);
+
 	ShowWindow(hwndEditBox, SW_SHOW);
 	SetFocus(hwndEditBox);
 	SetForegroundWindow(hwndEditBox);
@@ -1477,7 +1478,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			auto *pItem = data->LoadItem(idx);
 			pt.y -= pItem->savedTop;
 
-			if (pItem->m_bOfflineFile) {
+			if (pItem->m_bOfflineFile && !pItem->m_bOfflineDownloaded) {
 				Srmm_DownloadOfflineFile(pItem->dbe.hContact, pItem->dbe.getEvent(), OFD_DOWNLOAD | OFD_RUN);
 				return 0;
 			}
