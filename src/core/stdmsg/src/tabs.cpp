@@ -143,6 +143,7 @@ CTabbedWindow::CTabbedWindow() :
 	m_tab(this, IDC_TAB)
 {
 	SetMinSize(450, 350);
+	m_autoClose = CLOSE_ON_OK;
 }
 
 bool CTabbedWindow::OnInitDialog()
