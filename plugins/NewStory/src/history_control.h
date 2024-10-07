@@ -9,8 +9,6 @@ class NSWebPage : public document_container
 {
 	typedef std::map<std::wstring, uint_ptr> images_map;
 
-	ULONG_PTR m_gdiplusToken;
-
 	mir_cs m_csImages;
 	images_map m_images;
 
@@ -23,7 +21,6 @@ class NSWebPage : public document_container
 
 	std::string resolve_color(const string &color) const;
 	uint_ptr	get_image(LPCWSTR url_or_path, bool redraw_on_ready);
-	void make_url(LPCWSTR url, LPCWSTR basepath, std::wstring &out);
 
 	void get_client_rect(position &client) const override;
 	void import_css(string &text, const string &url, string &baseurl) override;
@@ -34,7 +31,6 @@ class NSWebPage : public document_container
 
 	void draw_image(uint_ptr hdc, const background_layer &layer, const std::string &url, const std::string &base_url) override;
 	void get_img_size(uint_ptr img, size &sz);
-	void free_image(uint_ptr img);
 
 	// document_container members
 	uint_ptr create_font(const char *faceName, int size, int weight, font_style italic, unsigned int decoration, font_metrics *fm) override;
@@ -73,8 +69,6 @@ class NSWebPage : public document_container
 	void del_clip() override;
 	void release_clip(HDC hdc);
 	void set_clip(const position &pos, const border_radiuses &bdr_radius) override;
-
-	void make_url_utf8(const char *url, const char *basepath, std::wstring &out);
 
 	void clear_images();
 

@@ -48,14 +48,17 @@ static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 static void AppendImage(CMStringW &buf, const CMStringW &wszUrl, const CMStringW &wszDescr, ItemData *pItem, UINT uMaxHeight = 300)
 {
 	if (g_plugin.bShowPreview) {
-		int iHeight = uMaxHeight;
 		pItem->pOwner->webPage.load_image(wszUrl, pItem);
-		if (Bitmap *pImage = pItem->pOwner->webPage.find_image(wszUrl))
+
+		int iHeight = uMaxHeight;
+		if (auto *pImage = pItem->pOwner->webPage.find_image(wszUrl)) {
 			if (pImage->GetHeight() < uMaxHeight)
 				iHeight = pImage->GetHeight();
-
-		buf.AppendFormat(L"<img style=\"height: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>",
-			iHeight, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
+			
+			buf.AppendFormat(L"<img style=\"height: %d;\" src=\"%s\" title=\"%s\" alt=\"%s\"/><br>", 
+				iHeight, wszUrl.c_str(), wszDescr.c_str(), wszDescr.c_str());
+		}
+		else buf.AppendFormat(L"<img src=\"%s\" title=\"%s\" alt=\"%s\"/><br>", wszUrl.c_str(), wszUrl.c_str(), wszUrl.c_str());
 	}
 	else buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszDescr.c_str());
 }

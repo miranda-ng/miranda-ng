@@ -185,6 +185,10 @@ int CMPlugin::Load()
 {
 	registerIcon(MODULETITLE, icons);
 
+	GdiplusStartupInput gdiplusStartupInput;
+	GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
+
+	m_pNoImage = LoadImageFromResource(getInst(), IDI_NO_IMAGE, L"PNG");
 	LoadOptions();
 
 	m_log = RegisterSrmmLog(this, MODULETITLE, _T(MODULENAME), NewStory_Stub);
@@ -210,6 +214,8 @@ int CMPlugin::Unload()
 {
 	WindowList_Destroy(g_hNewstoryLogs);
 	WindowList_Destroy(g_hNewstoryWindows);
+
+	GdiplusShutdown(m_gdiplusToken);
 
 	UnregisterSrmmLog(m_log);
 	UnregisterClass(_T(NEWSTORYLIST_CLASS), g_plugin.getInst());

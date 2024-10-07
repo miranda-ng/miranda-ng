@@ -21,6 +21,7 @@
 #define IDI_MSGOUT                      117
 #define IDI_SIGNIN                      118
 #define IDI_OK                          119
+#define IDI_NO_IMAGE                    120
 #define IDI_UNKNOWN                     121
 #define IDI_FINDPREV                    122
 #define IDI_FINDNEXT                    123

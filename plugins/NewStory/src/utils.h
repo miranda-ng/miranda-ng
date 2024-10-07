@@ -11,3 +11,5 @@ int GetFontHeight(const LOGFONTA &lf);
 
 void UrlAutodetect(CMStringW &str);
 void RemoveBbcodes(CMStringW &pwszText);
+
+Bitmap* LoadImageFromResource(HINSTANCE, int, const wchar_t *);

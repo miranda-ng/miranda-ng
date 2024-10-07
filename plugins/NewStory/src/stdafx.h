@@ -107,6 +107,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	HANDLE m_log;
 	HBRUSH hBackBrush;
 
+	Bitmap *m_pNoImage;
+	ULONG_PTR m_gdiplusToken;
+
 	CMOption<bool> bOptVScroll, bSortAscending;
 
 	// thesw options are a copy of static CMOption to keep performance high
