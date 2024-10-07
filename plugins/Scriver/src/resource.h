@@ -15,7 +15,6 @@
 #define IDD_OPT_MSGTABS                 115
 #define IDD_OPT_LAYOUT                  116
 #define IDI_ADDCONTACT                  120
-#define IDI_USERDETAILS                 121
 #define IDI_HISTORY                     122
 #define IDI_SEND                        123
 #define IDI_SMILEY                      125

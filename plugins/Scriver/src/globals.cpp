@@ -28,21 +28,20 @@ GlobalMessageData g_dat;
 static IconItem iconList1[] =
 {
 	{ LPGEN("Add contact"),                     "ADD",         IDI_ADDCONTACT  }, //  1
-	{ LPGEN("User's details"),                  "USERDETAILS", IDI_USERDETAILS }, //  2
-	{ LPGEN("User's history"),                  "HISTORY",     IDI_HISTORY     }, //  3
-	{ LPGEN("Send message"),                    "SEND",        IDI_SEND        }, //  4
-	{ LPGEN("Smiley button"),                   "SMILEY",      IDI_SMILEY      }, //  5
-	{ LPGEN("User is typing"),                  "TYPING",      IDI_TYPING      }, //  6
-	{ LPGEN("Typing notification off"),         "TYPINGOFF",   IDI_TYPINGOFF   }, //  7
-	{ LPGEN("Sending"),                         "DELIVERING",  IDI_TIMESTAMP   }, //  8
-	{ LPGEN("Quote button"),                    "QUOTE",       IDI_QUOTE       }, //  9
-	{ LPGEN("Close button"),                    "CLOSEX",      IDI_CLOSEX      }, // 10
-	{ LPGEN("Icon overlay"),                    "OVERLAY",     IDI_OVERLAY     }, // 11
-	{ LPGEN("Incoming message (10x10)"),        "INCOMING",    IDI_INCOMING, 10}, // 12
-	{ LPGEN("Outgoing message (10x10)"),        "OUTGOING",    IDI_OUTGOING, 10}, // 13  
-	{ LPGEN("Notice (10x10)"),                  "NOTICE",      IDI_NOTICE,   10}, // 14
-	{ LPGEN("Secure message (10x10)"),          "SECURE",      IDI_SECURE,   10}, // 15
-	{ LPGEN("Secure verified message (10x10)"), "STRONG",      IDI_STRONG,   10}, // 16 
+	{ LPGEN("User's history"),                  "HISTORY",     IDI_HISTORY     }, //  2
+	{ LPGEN("Send message"),                    "SEND",        IDI_SEND        }, //  3
+	{ LPGEN("Smiley button"),                   "SMILEY",      IDI_SMILEY      }, //  4
+	{ LPGEN("User is typing"),                  "TYPING",      IDI_TYPING      }, //  5
+	{ LPGEN("Typing notification off"),         "TYPINGOFF",   IDI_TYPINGOFF   }, //  6
+	{ LPGEN("Sending"),                         "DELIVERING",  IDI_TIMESTAMP   }, //  7
+	{ LPGEN("Quote button"),                    "QUOTE",       IDI_QUOTE       }, //  8
+	{ LPGEN("Close button"),                    "CLOSEX",      IDI_CLOSEX      }, //  9
+	{ LPGEN("Icon overlay"),                    "OVERLAY",     IDI_OVERLAY     }, // 10
+	{ LPGEN("Incoming message (10x10)"),        "INCOMING",    IDI_INCOMING, 10}, // 11
+	{ LPGEN("Outgoing message (10x10)"),        "OUTGOING",    IDI_OUTGOING, 10}, // 12  
+	{ LPGEN("Notice (10x10)"),                  "NOTICE",      IDI_NOTICE,   10}, // 13
+	{ LPGEN("Secure message (10x10)"),          "SECURE",      IDI_SECURE,   10}, // 14
+	{ LPGEN("Secure verified message (10x10)"), "STRONG",      IDI_STRONG,   10}, // 15 
 };
 
 static IconItem iconList2[] =

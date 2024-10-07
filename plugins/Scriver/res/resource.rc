@@ -428,8 +428,6 @@ END
 // remains consistent on all systems.
 IDI_ADDCONTACT          ICON                    "addcontact.ico"
 
-IDI_USERDETAILS         ICON                    "details.ico"
-
 IDI_HISTORY             ICON                    "history.ico"
 
 IDI_SEND                ICON                    "send.ico"

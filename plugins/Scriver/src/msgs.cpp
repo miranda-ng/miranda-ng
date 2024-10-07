@@ -381,7 +381,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 
 	bbd.dwButtonID = IDC_DETAILS;
 	bbd.dwDefPos = 40;
-	bbd.hIcon = g_plugin.getIconHandle(IDI_USERDETAILS);
+	bbd.hIcon = Skin_GetIconHandle(SKINICON_OTHER_USERDETAILS);
 	bbd.pwszText = LPGENW("User &details");
 	bbd.pwszTooltip = LPGENW("View user's details");
 	g_plugin.addButton(&bbd);
