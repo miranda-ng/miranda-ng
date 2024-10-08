@@ -276,6 +276,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessMessageContent(TD::updateMessageContent *pObj);
 	void ProcessMessageReactions(TD::updateMessageInteractionInfo *pObj);
 	void ProcessOption(TD::updateOption *pObj);
+	void ProcessRemoteMarkRead(TD::updateChatReadOutbox *pObj);
 	void ProcessScopeNotification(TD::updateScopeNotificationSettings *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);

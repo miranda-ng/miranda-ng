@@ -248,10 +248,14 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessMarkRead((TD::updateChatReadInbox *)response.object.get());
 		break;
 
+	case TD::updateChatReadOutbox::ID:
+		ProcessRemoteMarkRead((TD::updateChatReadOutbox *)response.object.get());
+		break;
+
 	case TD::updateDeleteMessages::ID:
 		ProcessDeleteMessage((TD::updateDeleteMessages*)response.object.get());
 		break;
-
+		
 	case TD::updateConnectionState::ID:
 		ProcessConnectionState((TD::updateConnectionState *)response.object.get());
 		break;
@@ -1080,6 +1084,17 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::ProcessRemoteMarkRead(TD::updateChatReadOutbox *pObj)
+{
+	auto *pUser = FindChat(pObj->chat_id_);
+	if (pUser == nullptr) {
+		debugLogA("message from unknown chat/user, ignored");
+		return;
+	}
+
+	CallService(MS_MESSAGESTATE_UPDATE, GetRealContact(pUser), MRD_TYPE_READ);
+}
 
 void CTelegramProto::ProcessScopeNotification(TD::updateScopeNotificationSettings *pObj)
 {
