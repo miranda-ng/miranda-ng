@@ -210,6 +210,25 @@ void CTelegramProto::RemoveFromClist(TG_USER *pUser)
 	}
 }
 
+void CTelegramProto::MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool bSent)
+{
+	for (MEVENT hEvent = db_event_firstUnread(hContact); hEvent; hEvent = db_event_next(hContact, hEvent)) {
+		DB::EventInfo dbei(hEvent, false);
+		if (!dbei || !dbei.szId)
+			continue;
+
+		if (dbei.szId > szMaxId)
+			break;
+
+		bool isSent = (dbei.flags & DBEF_SENT) != 0;
+		if (isSent != bSent)
+			continue;
+
+		if (!dbei.markedRead())
+			db_event_markRead(hContact, hEvent, true);
+	}
+}
+
 int CTelegramProto::GetDefaultMute(const TG_USER *pUser)
 {
 	if (pUser->isGroupChat)

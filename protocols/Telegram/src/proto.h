@@ -362,6 +362,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	MCONTACT GetRealContact(const TG_USER *pUser);
 	void     RemoveFromClist(TG_USER *pUser);
+	void     MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool bSent);
 
 	// Menus
 	HGENMENU hmiForward, hmiReaction;

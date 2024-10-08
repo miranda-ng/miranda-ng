@@ -873,17 +873,7 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 	}
 
 	// make sure that all events with ids lower or equal than szMaxId are marked read
-	for (MEVENT hEvent = db_event_firstUnread(pUser->hContact); hEvent; hEvent = db_event_next(pUser->hContact, hEvent)) {
-		DB::EventInfo dbei(hEvent, false);
-		if (!dbei || !dbei.szId)
-			continue;
-
-		if (dbei.szId > szMaxId)
-			break;
-
-		if (!dbei.markedRead())
-			db_event_markRead(pUser->hContact, hEvent, true);
-	}
+	MarkRead(pUser->hContact, szMaxId, true);
 
 	if (g_plugin.hasMessageState && pObj->unread_count_ == 0)
 		CallService(MS_MESSAGESTATE_UPDATE, GetRealContact(pUser), MRD_TYPE_READ);
@@ -1092,6 +1082,9 @@ void CTelegramProto::ProcessRemoteMarkRead(TD::updateChatReadOutbox *pObj)
 		debugLogA("message from unknown chat/user, ignored");
 		return;
 	}
+
+	CMStringA szMaxId(msg2id(pUser->chatId, pObj->last_read_outbox_message_id_));
+	MarkRead(pUser->hContact, szMaxId, false);
 
 	CallService(MS_MESSAGESTATE_UPDATE, GetRealContact(pUser), MRD_TYPE_READ);
 }
