@@ -880,9 +880,8 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) != WA_ACTIVE)
 			break;
 
+		SetFocus(m_message.GetHwnd());
 		if (isChat()) {
-			SetFocus(m_message.GetHwnd());
-
 			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 			if (Clist_GetEvent(m_hContact, 0))
