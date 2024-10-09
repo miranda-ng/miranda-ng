@@ -1,6 +1,7 @@
 #ifndef LH_TYPES_H
 #define LH_TYPES_H
 
+#include <algorithm>
 #include <cstdint>
 #include <memory>
 #include <string>
