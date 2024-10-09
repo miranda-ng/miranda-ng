@@ -70,6 +70,8 @@ class NSWebPage : public document_container
 	void release_clip(HDC hdc);
 	void set_clip(const position &pos, const border_radiuses &bdr_radius) override;
 
+	void on_mouse_event(const litehtml::element::ptr &, litehtml::mouse_event) override {}
+
 	void clear_images();
 
 	static int CALLBACK EnumFontsProc(const LOGFONT *lplf, const TEXTMETRIC *lptm, DWORD dwType, LPARAM lpData);

@@ -54,8 +54,8 @@ static void AppendImage(CMStringW &buf, const CMStringW &wszUrl, const CMStringW
 		if (auto *pImage = pItem->pOwner->webPage.find_image(wszUrl)) {
 			if (pImage->GetHeight() < uMaxHeight)
 				iHeight = pImage->GetHeight();
-			
-			buf.AppendFormat(L"<img style=\"height: %d;\" src=\"%s\"/><br>", iHeight, wszUrl.c_str());
+
+			buf.AppendFormat(L"<img style=\"height: %dpx;\" src=\"%s\"/><br>", iHeight, wszUrl.c_str());
 		}
 		else buf.AppendFormat(L"<img src=\"%s\"/><br>", wszUrl.c_str());
 	}

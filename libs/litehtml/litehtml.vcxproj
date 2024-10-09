@@ -48,10 +48,16 @@
     <ClCompile Include="src\css_length.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\css_parser.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\css_properties.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\css_selector.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\css_tokenizer.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\document.cpp">
@@ -172,6 +178,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\html.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\html_microsyntaxes.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\html_tag.cpp">
@@ -308,5 +317,6 @@
     <ClInclude Include="include\litehtml\types.h" />
     <ClInclude Include="include\litehtml\utf8_strings.h" />
     <ClInclude Include="include\litehtml\web_color.h" />
+    <ClInclude Include="src\internal.h" />
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ void litehtml::table_grid::add_cell(const std::shared_ptr<render_item>& el)
 
 	while( is_rowspanned( (int) m_cells.size() - 1, (int) m_cells.back().size() ) )
 	{
-		m_cells.back().push_back(table_cell());
+		m_cells.back().emplace_back();
 	}
 
 	m_cells.back().push_back(cell);
@@ -30,7 +30,7 @@ void litehtml::table_grid::begin_row(const std::shared_ptr<render_item>& row)
 	std::vector<table_cell> r;
 	m_cells.push_back(r);
 	
-	m_rows.push_back(table_row(0, row));
+	m_rows.emplace_back(0, row);
 }
 
 
@@ -72,7 +72,7 @@ void litehtml::table_grid::finish()
 	m_columns.clear();
 	for(int i = 0; i < m_cols_count; i++)
 	{
-		m_columns.push_back(table_column(0, 0));
+		m_columns.emplace_back(0, 0);
 	}
 
 	for(int col = 0; col < m_cols_count; col++)
@@ -256,12 +256,12 @@ void litehtml::table_grid::distribute_width( int width, int start, int end )
 					add = round_f( (float) width * ((float) (column->max_width - column->min_width) / (float) cols_width) );
 					if(column->width + add >= column->min_width)
 					{
-                        column->width	+= add;
+						column->width	+= add;
 						added_width		+= add;
 					} else
 					{
 						added_width	+= (column->width - column->min_width) * (add / abs(add));
-                        column->width = column->min_width;
+						column->width = column->min_width;
 					}
 				}
 				if(added_width < width && step)
@@ -595,15 +595,15 @@ int& litehtml::table_column_accessor_width::get( table_column& col )
 
 litehtml::table_row::table_row(int h, const std::shared_ptr<render_item>& row)
 {
-    min_height		= 0;
-    height			= h;
-    el_row			= row;
-    border_bottom	= 0;
-    border_top		= 0;
-    top				= 0;
-    bottom			= 0;
-    if (row)
-    {
-        css_height = row->src_el()->css().get_height();
-    }
+	min_height		= 0;
+	height			= h;
+	el_row			= row;
+	border_bottom	= 0;
+	border_top		= 0;
+	top				= 0;
+	bottom			= 0;
+	if (row)
+	{
+		css_height = row->src_el()->css().get_height();
+	}
 }

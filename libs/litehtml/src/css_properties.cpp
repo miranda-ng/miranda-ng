@@ -113,39 +113,39 @@ void litehtml::css_properties::compute(const html_tag* el, const document::ptr& 
 	m_css_max_width  = el->get_property<css_length>(_max_width_,  false, none, offset(m_css_max_width));
 	m_css_max_height = el->get_property<css_length>(_max_height_, false, none, offset(m_css_max_height));
 
-	doc->cvt_units(m_css_width, font_size);
-	doc->cvt_units(m_css_height, font_size);
+	doc->cvt_units(m_css_width, m_font_metrics, 0);
+	doc->cvt_units(m_css_height, m_font_metrics, 0);
 
-	doc->cvt_units(m_css_min_width, font_size);
-	doc->cvt_units(m_css_min_height, font_size);
+	doc->cvt_units(m_css_min_width, m_font_metrics, 0);
+	doc->cvt_units(m_css_min_height, m_font_metrics, 0);
 
-	doc->cvt_units(m_css_max_width, font_size);
-	doc->cvt_units(m_css_max_height, font_size);
+	doc->cvt_units(m_css_max_width, m_font_metrics, 0);
+	doc->cvt_units(m_css_max_height, m_font_metrics, 0);
 
 	m_css_margins.left   = el->get_property<css_length>(_margin_left_,   false, 0, offset(m_css_margins.left));
 	m_css_margins.right  = el->get_property<css_length>(_margin_right_,  false, 0, offset(m_css_margins.right));
 	m_css_margins.top    = el->get_property<css_length>(_margin_top_,    false, 0, offset(m_css_margins.top));
 	m_css_margins.bottom = el->get_property<css_length>(_margin_bottom_, false, 0, offset(m_css_margins.bottom));
 
-	doc->cvt_units(m_css_margins.left,	 font_size);
-	doc->cvt_units(m_css_margins.right,	 font_size);
-	doc->cvt_units(m_css_margins.top,	 font_size);
-	doc->cvt_units(m_css_margins.bottom, font_size);
+	doc->cvt_units(m_css_margins.left,	 m_font_metrics, 0);
+	doc->cvt_units(m_css_margins.right,	 m_font_metrics, 0);
+	doc->cvt_units(m_css_margins.top,	 m_font_metrics, 0);
+	doc->cvt_units(m_css_margins.bottom, m_font_metrics, 0);
 
 	m_css_padding.left   = el->get_property<css_length>(_padding_left_,   false, 0, offset(m_css_padding.left));
 	m_css_padding.right  = el->get_property<css_length>(_padding_right_,  false, 0, offset(m_css_padding.right));
 	m_css_padding.top    = el->get_property<css_length>(_padding_top_,    false, 0, offset(m_css_padding.top));
 	m_css_padding.bottom = el->get_property<css_length>(_padding_bottom_, false, 0, offset(m_css_padding.bottom));
 
-	doc->cvt_units(m_css_padding.left,	 font_size);
-	doc->cvt_units(m_css_padding.right,	 font_size);
-	doc->cvt_units(m_css_padding.top,	 font_size);
-	doc->cvt_units(m_css_padding.bottom, font_size);
+	doc->cvt_units(m_css_padding.left,	 m_font_metrics, 0);
+	doc->cvt_units(m_css_padding.right,	 m_font_metrics, 0);
+	doc->cvt_units(m_css_padding.top,	 m_font_metrics, 0);
+	doc->cvt_units(m_css_padding.bottom, m_font_metrics, 0);
 
-	m_css_borders.left.color   = el->get_property<web_color>(_border_left_color_,   false, m_color, offset(m_css_borders.left.color));
-	m_css_borders.right.color  = el->get_property<web_color>(_border_right_color_,  false, m_color, offset(m_css_borders.right.color));
-	m_css_borders.top.color    = el->get_property<web_color>(_border_top_color_,    false, m_color, offset(m_css_borders.top.color));
-	m_css_borders.bottom.color = el->get_property<web_color>(_border_bottom_color_, false, m_color, offset(m_css_borders.bottom.color));
+	m_css_borders.left.color   = get_color_property(el, _border_left_color_,   false, m_color, offset(m_css_borders.left.color));
+	m_css_borders.right.color  = get_color_property(el, _border_right_color_,  false, m_color, offset(m_css_borders.right.color));
+	m_css_borders.top.color    = get_color_property(el, _border_top_color_,    false, m_color, offset(m_css_borders.top.color));
+	m_css_borders.bottom.color = get_color_property(el, _border_bottom_color_, false, m_color, offset(m_css_borders.bottom.color));
 
 	m_css_borders.left.style   = (border_style) el->get_property<int>(_border_left_style_,   false, border_style_none, offset(m_css_borders.left.style));
 	m_css_borders.right.style  = (border_style) el->get_property<int>(_border_right_style_,  false, border_style_none, offset(m_css_borders.right.style));
@@ -166,10 +166,10 @@ void litehtml::css_properties::compute(const html_tag* el, const document::ptr& 
 	if (m_css_borders.bottom.style == border_style_none || m_css_borders.bottom.style == border_style_hidden)
 		m_css_borders.bottom.width = 0;
 
-	doc->cvt_units(m_css_borders.left.width,	font_size);
-	doc->cvt_units(m_css_borders.right.width,	font_size);
-	doc->cvt_units(m_css_borders.top.width,		font_size);
-	doc->cvt_units(m_css_borders.bottom.width,	font_size);
+	doc->cvt_units(m_css_borders.left.width,	m_font_metrics, 0);
+	doc->cvt_units(m_css_borders.right.width,	m_font_metrics, 0);
+	doc->cvt_units(m_css_borders.top.width,		m_font_metrics, 0);
+	doc->cvt_units(m_css_borders.bottom.width,	m_font_metrics, 0);
 
 	m_css_borders.radius.top_left_x = el->get_property<css_length>(_border_top_left_radius_x_, false, 0, offset(m_css_borders.radius.top_left_x));
 	m_css_borders.radius.top_left_y = el->get_property<css_length>(_border_top_left_radius_y_, false, 0, offset(m_css_borders.radius.top_left_y));
@@ -183,39 +183,39 @@ void litehtml::css_properties::compute(const html_tag* el, const document::ptr& 
 	m_css_borders.radius.bottom_right_x = el->get_property<css_length>(_border_bottom_right_radius_x_, false, 0, offset(m_css_borders.radius.bottom_right_x));
 	m_css_borders.radius.bottom_right_y = el->get_property<css_length>(_border_bottom_right_radius_y_, false, 0, offset(m_css_borders.radius.bottom_right_y));
 
-	doc->cvt_units( m_css_borders.radius.top_left_x,			font_size);
-	doc->cvt_units( m_css_borders.radius.top_left_y,			font_size);
-	doc->cvt_units( m_css_borders.radius.top_right_x,			font_size);
-	doc->cvt_units( m_css_borders.radius.top_right_y,			font_size);
-	doc->cvt_units( m_css_borders.radius.bottom_left_x,			font_size);
-	doc->cvt_units( m_css_borders.radius.bottom_left_y,			font_size);
-	doc->cvt_units( m_css_borders.radius.bottom_right_x,		font_size);
-	doc->cvt_units( m_css_borders.radius.bottom_right_y,		font_size);
+	doc->cvt_units( m_css_borders.radius.top_left_x,			m_font_metrics, 0);
+	doc->cvt_units( m_css_borders.radius.top_left_y,			m_font_metrics, 0);
+	doc->cvt_units( m_css_borders.radius.top_right_x,			m_font_metrics, 0);
+	doc->cvt_units( m_css_borders.radius.top_right_y,			m_font_metrics, 0);
+	doc->cvt_units( m_css_borders.radius.bottom_left_x,			m_font_metrics, 0);
+	doc->cvt_units( m_css_borders.radius.bottom_left_y,			m_font_metrics, 0);
+	doc->cvt_units( m_css_borders.radius.bottom_right_x,		m_font_metrics, 0);
+	doc->cvt_units( m_css_borders.radius.bottom_right_y,		m_font_metrics, 0);
 
 	m_border_collapse = (border_collapse) el->get_property<int>(_border_collapse_, true, border_collapse_separate, offset(m_border_collapse));
 
 	m_css_border_spacing_x = el->get_property<css_length>(__litehtml_border_spacing_x_, true, 0, offset(m_css_border_spacing_x));
 	m_css_border_spacing_y = el->get_property<css_length>(__litehtml_border_spacing_y_, true, 0, offset(m_css_border_spacing_y));
 
-	doc->cvt_units(m_css_border_spacing_x, font_size);
-	doc->cvt_units(m_css_border_spacing_y, font_size);
+	doc->cvt_units(m_css_border_spacing_x, m_font_metrics, 0);
+	doc->cvt_units(m_css_border_spacing_y, m_font_metrics, 0);
 
 	m_css_offsets.left	 = el->get_property<css_length>(_left_,	 false, _auto, offset(m_css_offsets.left));
 	m_css_offsets.right  = el->get_property<css_length>(_right_, false, _auto, offset(m_css_offsets.right));
 	m_css_offsets.top	 = el->get_property<css_length>(_top_,	 false, _auto, offset(m_css_offsets.top));
 	m_css_offsets.bottom = el->get_property<css_length>(_bottom_,false, _auto, offset(m_css_offsets.bottom));
 
-	doc->cvt_units(m_css_offsets.left,   font_size);
-	doc->cvt_units(m_css_offsets.right,  font_size);
-	doc->cvt_units(m_css_offsets.top,    font_size);
-	doc->cvt_units(m_css_offsets.bottom, font_size);
+	doc->cvt_units(m_css_offsets.left,   m_font_metrics, 0);
+	doc->cvt_units(m_css_offsets.right,  m_font_metrics, 0);
+	doc->cvt_units(m_css_offsets.top,    m_font_metrics, 0);
+	doc->cvt_units(m_css_offsets.bottom, m_font_metrics, 0);
 
 	m_z_index = el->get_property<css_length>(_z_index_, false, _auto, offset(m_z_index));
 	m_content = el->get_property<string>(_content_, false, "", offset(m_content));
 	m_cursor = el->get_property<string>(_cursor_, true, "auto", offset(m_cursor));
 
 	m_css_text_indent = el->get_property<css_length>(_text_indent_, true, 0, offset(m_css_text_indent));
-	doc->cvt_units(m_css_text_indent, font_size);
+	doc->cvt_units(m_css_text_indent, m_font_metrics, 0);
 
 	m_css_line_height = el->get_property<css_length>(_line_height_, true, normal, offset(m_css_line_height));
 	if(m_css_line_height.is_predefined())
@@ -226,7 +226,7 @@ void litehtml::css_properties::compute(const html_tag* el, const document::ptr& 
 		m_line_height = (int) std::nearbyint(m_css_line_height.val() * font_size);
 	} else
 	{
-		m_line_height = doc->to_pixels(m_css_line_height, font_size, font_size);
+		m_line_height = doc->to_pixels(m_css_line_height, m_font_metrics, m_font_metrics.font_size);
 		m_css_line_height = (float) m_line_height;
 	}
 
@@ -244,6 +244,14 @@ void litehtml::css_properties::compute(const html_tag* el, const document::ptr& 
 
 	compute_background(el, doc);
 	compute_flex(el, doc);
+}
+
+// used for all color properties except `color` (color:currentcolor is converted to color:inherit during parsing)
+litehtml::web_color litehtml::css_properties::get_color_property(const html_tag* el, string_id name, bool inherited, web_color default_value, uint_ptr member_offset) const
+{
+	web_color color = el->get_property<web_color>(name, inherited, default_value, member_offset);
+	if (color.is_current_color) color = m_color;
+	return color;
 }
 
 static const int font_size_table[8][7] =
@@ -334,22 +342,24 @@ void litehtml::css_properties::compute_font(const html_tag* el, const document::
 			font_size = sz.calc_percent(parent_sz);
 		} else
 		{
-			font_size = doc->to_pixels(sz, parent_sz);
+			font_metrics fm;
+			fm.x_height = fm.font_size = parent_sz;
+			font_size = doc->to_pixels(sz, fm, 0);
 		}
 	}
 	
 	m_font_size = (float)font_size;
 
 	// initialize font
-	m_font_family		=               el->get_property<string>(_font_family_,		true, doc->container()->get_default_font_name(),	offset(m_font_family));
-	m_font_weight		= (font_weight) el->get_property<int>(   _font_weight_,		true, font_weight_normal,							offset(m_font_weight));
-	m_font_style		= (font_style)  el->get_property<int>(   _font_style_,		true, font_style_normal,							offset(m_font_style));
-	m_text_decoration	=               el->get_property<string>(_text_decoration_,	true, "none",										offset(m_text_decoration));
+	m_font_family		=              el->get_property<string>(    _font_family_,		true, doc->container()->get_default_font_name(),	offset(m_font_family));
+	m_font_weight		=              el->get_property<css_length>(_font_weight_,		true, css_length::predef_value(font_weight_normal), offset(m_font_weight));
+	m_font_style		= (font_style) el->get_property<int>(       _font_style_,		true, font_style_normal,							offset(m_font_style));
+	m_text_decoration	=              el->get_property<string>(    _text_decoration_,	true, "none",										offset(m_text_decoration));
 
 	m_font = doc->get_font(
 		m_font_family.c_str(), 
 		font_size, 
-		index_value(m_font_weight, font_weight_strings).c_str(), 
+		m_font_weight.is_predefined() ? index_value(m_font_weight.predef(), font_weight_strings).c_str() : std::to_string(m_font_weight.val()).c_str(),
 		index_value(m_font_style, font_style_strings).c_str(),
 		m_text_decoration.c_str(), 
 		&m_font_metrics);
@@ -357,21 +367,19 @@ void litehtml::css_properties::compute_font(const html_tag* el, const document::
 
 void litehtml::css_properties::compute_background(const html_tag* el, const document::ptr& doc)
 {
-	int font_size = get_font_size();
-
-	m_bg.m_color		= el->get_property<web_color>(_background_color_, false, web_color::transparent, offset(m_bg.m_color));
+	m_bg.m_color		= get_color_property(el, _background_color_, false, web_color::transparent, offset(m_bg.m_color));
 
 	const css_size auto_auto(css_length::predef_value(background_size_auto), css_length::predef_value(background_size_auto));
 	m_bg.m_position_x	= el->get_property<length_vector>(_background_position_x_, false, { css_length(0, css_units_percentage) }, offset(m_bg.m_position_x));
 	m_bg.m_position_y	= el->get_property<length_vector>(_background_position_y_, false, { css_length(0, css_units_percentage) }, offset(m_bg.m_position_y));
 	m_bg.m_size			= el->get_property<size_vector>  (_background_size_,       false, { auto_auto }, offset(m_bg.m_size));
 
-	for (auto& x : m_bg.m_position_x) doc->cvt_units(x, font_size);
-	for (auto& y : m_bg.m_position_y) doc->cvt_units(y, font_size);
+	for (auto& x : m_bg.m_position_x) doc->cvt_units(x, m_font_metrics, 0);
+	for (auto& y : m_bg.m_position_y) doc->cvt_units(y, m_font_metrics, 0);
 	for (auto& size : m_bg.m_size)
 	{
-		doc->cvt_units(size.width,  font_size);
-		doc->cvt_units(size.height, font_size);
+		doc->cvt_units(size.width,  m_font_metrics, 0);
+		doc->cvt_units(size.height, m_font_metrics, 0);
 	}
 
 	m_bg.m_attachment = el->get_property<int_vector>(_background_attachment_, false, { background_attachment_scroll }, offset(m_bg.m_attachment));
@@ -379,7 +387,7 @@ void litehtml::css_properties::compute_background(const html_tag* el, const docu
 	m_bg.m_clip       = el->get_property<int_vector>(_background_clip_,       false, { background_box_border },        offset(m_bg.m_clip));
 	m_bg.m_origin     = el->get_property<int_vector>(_background_origin_,     false, { background_box_padding },       offset(m_bg.m_origin));
 
-	m_bg.m_image   = el->get_property<std::vector<background_image>>(_background_image_,  false, {{}}, offset(m_bg.m_image));
+	m_bg.m_image   = el->get_property<vector<image>>(_background_image_,  false, {{}}, offset(m_bg.m_image));
 	m_bg.m_baseurl = el->get_property<string>(_background_image_baseurl_, false, "",   offset(m_bg.m_baseurl));
 
 	for (auto& image : m_bg.m_image)
@@ -387,18 +395,19 @@ void litehtml::css_properties::compute_background(const html_tag* el, const docu
 		switch (image.type)
 		{
 
-			case background_image::bg_image_type_none:
+			case image::type_none:
 				break;
-			case background_image::bg_image_type_url:
+			case image::type_url:
 				if (!image.url.empty())
 				{
 					doc->container()->load_image(image.url.c_str(), m_bg.m_baseurl.c_str(), true);
 				}
 				break;
-			case background_image::bg_image_type_gradient:
-				for(auto& item : image.gradient.m_colors)
+			case image::type_gradient:
+				for(auto& item : image.m_gradient.m_colors)
 				{
-					doc->cvt_units(item.length,  font_size);
+					if (item.length)
+						doc->cvt_units(*item.length, m_font_metrics, 0);
 				}
 				break;
 		}
@@ -413,7 +422,7 @@ void litehtml::css_properties::compute_flex(const html_tag* el, const document::
 		m_flex_wrap = (flex_wrap) el->get_property<int>(_flex_wrap_, false, flex_wrap_nowrap, offset(m_flex_wrap));
 
 		m_flex_justify_content = (flex_justify_content) el->get_property<int>(_justify_content_, false, flex_justify_content_flex_start, offset(m_flex_justify_content));
-		m_flex_align_items = (flex_align_items) el->get_property<int>(_align_items_, false, flex_align_items_flex_normal, offset(m_flex_align_items));
+		m_flex_align_items = (flex_align_items) el->get_property<int>(_align_items_, false, flex_align_items_normal, offset(m_flex_align_items));
 		m_flex_align_content = (flex_align_content) el->get_property<int>(_align_content_, false, flex_align_content_stretch, offset(m_flex_align_content));
 	}
 	m_flex_align_self = (flex_align_items) el->get_property<int>(_align_self_, false, flex_align_items_auto, offset(m_flex_align_self));
@@ -428,7 +437,7 @@ void litehtml::css_properties::compute_flex(const html_tag* el, const document::
 			// flex-basis property must contain units
 			m_flex_basis.predef(flex_basis_auto);
 		}
-		doc->cvt_units(m_flex_basis, get_font_size());
+		doc->cvt_units(m_flex_basis, m_font_metrics, 0);
 		if(m_display == display_inline || m_display == display_inline_block)
 		{
 			m_display = display_block;
@@ -446,34 +455,34 @@ std::vector<std::tuple<litehtml::string, litehtml::string>> litehtml::css_proper
 {
 	std::vector<std::tuple<string, string>> ret;
 
-	ret.emplace_back(std::make_tuple("display", index_value(m_display, style_display_strings)));
-	ret.emplace_back(std::make_tuple("el_position", index_value(m_el_position, element_position_strings)));
-	ret.emplace_back(std::make_tuple("text_align", index_value(m_text_align, text_align_strings)));
-	ret.emplace_back(std::make_tuple("font_size", m_font_size.to_string()));
-	ret.emplace_back(std::make_tuple("overflow", index_value(m_overflow, overflow_strings)));
-	ret.emplace_back(std::make_tuple("white_space", index_value(m_white_space, white_space_strings)));
-	ret.emplace_back(std::make_tuple("visibility", index_value(m_visibility, visibility_strings)));
-	ret.emplace_back(std::make_tuple("box_sizing", index_value(m_box_sizing, box_sizing_strings)));
-	ret.emplace_back(std::make_tuple("z_index", m_z_index.to_string()));
-	ret.emplace_back(std::make_tuple("vertical_align", index_value(m_vertical_align, vertical_align_strings)));
-	ret.emplace_back(std::make_tuple("float", index_value(m_float, element_float_strings)));
-	ret.emplace_back(std::make_tuple("clear", index_value(m_clear, element_clear_strings)));
-	ret.emplace_back(std::make_tuple("margins", m_css_margins.to_string()));
-	ret.emplace_back(std::make_tuple("padding", m_css_padding.to_string()));
-	ret.emplace_back(std::make_tuple("borders", m_css_borders.to_string()));
-	ret.emplace_back(std::make_tuple("width", m_css_width.to_string()));
-	ret.emplace_back(std::make_tuple("height", m_css_height.to_string()));
-	ret.emplace_back(std::make_tuple("min_width", m_css_min_width.to_string()));
-	ret.emplace_back(std::make_tuple("min_height", m_css_min_width.to_string()));
-	ret.emplace_back(std::make_tuple("max_width", m_css_max_width.to_string()));
-	ret.emplace_back(std::make_tuple("max_height", m_css_max_width.to_string()));
-	ret.emplace_back(std::make_tuple("offsets", m_css_offsets.to_string()));
-	ret.emplace_back(std::make_tuple("text_indent", m_css_text_indent.to_string()));
-	ret.emplace_back(std::make_tuple("line_height", std::to_string(m_line_height)));
-	ret.emplace_back(std::make_tuple("list_style_type", index_value(m_list_style_type, list_style_type_strings)));
-	ret.emplace_back(std::make_tuple("list_style_position", index_value(m_list_style_position, list_style_position_strings)));
-	ret.emplace_back(std::make_tuple("border_spacing_x", m_css_border_spacing_x.to_string()));
-	ret.emplace_back(std::make_tuple("border_spacing_y", m_css_border_spacing_y.to_string()));
+	ret.emplace_back("display", index_value(m_display, style_display_strings));
+	ret.emplace_back("el_position", index_value(m_el_position, element_position_strings));
+	ret.emplace_back("text_align", index_value(m_text_align, text_align_strings));
+	ret.emplace_back("font_size", m_font_size.to_string());
+	ret.emplace_back("overflow", index_value(m_overflow, overflow_strings));
+	ret.emplace_back("white_space", index_value(m_white_space, white_space_strings));
+	ret.emplace_back("visibility", index_value(m_visibility, visibility_strings));
+	ret.emplace_back("box_sizing", index_value(m_box_sizing, box_sizing_strings));
+	ret.emplace_back("z_index", m_z_index.to_string());
+	ret.emplace_back("vertical_align", index_value(m_vertical_align, vertical_align_strings));
+	ret.emplace_back("float", index_value(m_float, element_float_strings));
+	ret.emplace_back("clear", index_value(m_clear, element_clear_strings));
+	ret.emplace_back("margins", m_css_margins.to_string());
+	ret.emplace_back("padding", m_css_padding.to_string());
+	ret.emplace_back("borders", m_css_borders.to_string());
+	ret.emplace_back("width", m_css_width.to_string());
+	ret.emplace_back("height", m_css_height.to_string());
+	ret.emplace_back("min_width", m_css_min_width.to_string());
+	ret.emplace_back("min_height", m_css_min_width.to_string());
+	ret.emplace_back("max_width", m_css_max_width.to_string());
+	ret.emplace_back("max_height", m_css_max_width.to_string());
+	ret.emplace_back("offsets", m_css_offsets.to_string());
+	ret.emplace_back("text_indent", m_css_text_indent.to_string());
+	ret.emplace_back("line_height", std::to_string(m_line_height));
+	ret.emplace_back("list_style_type", index_value(m_list_style_type, list_style_type_strings));
+	ret.emplace_back("list_style_position", index_value(m_list_style_position, list_style_position_strings));
+	ret.emplace_back("border_spacing_x", m_css_border_spacing_x.to_string());
+	ret.emplace_back("border_spacing_y", m_css_border_spacing_y.to_string());
 
 	return ret;
 }

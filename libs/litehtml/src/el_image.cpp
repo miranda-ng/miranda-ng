@@ -21,16 +21,14 @@ void litehtml::el_image::parse_attributes()
 {
 	m_src = get_attr("src", "");
 
-	const char* attr_height = get_attr("height");
-	if(attr_height)
-	{
-		m_style.add_property(_height_, attr_height);
-	}
-	const char* attr_width = get_attr("width");
-	if(attr_width)
-	{
-		m_style.add_property(_width_, attr_width);
-	}
+	// https://html.spec.whatwg.org/multipage/rendering.html#attributes-for-embedded-content-and-images:the-img-element-5
+	const char* str = get_attr("width");
+	if (str)
+		map_to_dimension_property(_width_, str);
+
+	str = get_attr("height");
+	if (str)
+		map_to_dimension_property(_height_, str);
 }
 
 void litehtml::el_image::draw(uint_ptr hdc, int x, int y, const position *clip, const std::shared_ptr<render_item> &ri)
@@ -76,12 +74,12 @@ void litehtml::el_image::compute_styles(bool recursive)
 
 litehtml::string litehtml::el_image::dump_get_name()
 {
-    return "img src=\"" + m_src + "\"";
+	return "img src=\"" + m_src + "\"";
 }
 
 std::shared_ptr<litehtml::render_item> litehtml::el_image::create_render_item(const std::shared_ptr<render_item>& parent_ri)
 {
-    auto ret = std::make_shared<render_item_image>(shared_from_this());
-    ret->parent(parent_ri);
-    return ret;
+	auto ret = std::make_shared<render_item_image>(shared_from_this());
+	ret->parent(parent_ri);
+	return ret;
 }
