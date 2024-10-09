@@ -1478,7 +1478,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			auto *pItem = data->LoadItem(idx);
 			pt.y -= pItem->savedTop;
 
-			if (pItem->m_bOfflineFile && !pItem->m_bOfflineDownloaded) {
+			if (pItem->m_bOfflineFile) {
 				Srmm_DownloadOfflineFile(pItem->dbe.hContact, pItem->dbe.getEvent(), OFD_DOWNLOAD | OFD_RUN);
 				return 0;
 			}
