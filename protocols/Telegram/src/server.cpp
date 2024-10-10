@@ -873,7 +873,7 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 	}
 
 	// make sure that all events with ids lower or equal than szMaxId are marked read
-	MarkRead(pUser->hContact, szMaxId, true);
+	MarkRead(pUser->hContact, szMaxId, false);
 
 	if (g_plugin.hasMessageState && pObj->unread_count_ == 0)
 		CallService(MS_MESSAGESTATE_UPDATE, GetRealContact(pUser), MRD_TYPE_READ);
@@ -1084,7 +1084,7 @@ void CTelegramProto::ProcessRemoteMarkRead(TD::updateChatReadOutbox *pObj)
 	}
 
 	CMStringA szMaxId(msg2id(pUser->chatId, pObj->last_read_outbox_message_id_));
-	MarkRead(pUser->hContact, szMaxId, false);
+	MarkRead(pUser->hContact, szMaxId, true);
 
 	CallService(MS_MESSAGESTATE_UPDATE, GetRealContact(pUser), MRD_TYPE_READ);
 }
