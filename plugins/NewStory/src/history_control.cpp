@@ -259,7 +259,7 @@ void NewstoryListData::BeginEditItem()
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
-	if (item->dbe.eventType != EVENTTYPE_MESSAGE)
+	if (item->dbe.eventType != EVENTTYPE_MESSAGE || !(item->dbe.flags & DBEF_SENT))
 		SendMessage(hwndEditBox, EM_SETREADONLY, TRUE, 0);
 
 	ShowWindow(hwndEditBox, SW_SHOW);
