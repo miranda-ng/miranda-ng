@@ -704,7 +704,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 
 		if (pItem->m_bHighlighted) {
 			webPage.clText = g_fontTable[FONT_HIGHLIGHT].cl;
-			webPage.clBack = g_colorTable[COLOR_HIGHLIGHT_BACK].cl;
+			webPage.clBack = g_colorTable[pItem->m_bSelected ? COLOR_SELBACK : COLOR_HIGHLIGHT_BACK].cl;
 			clLine = g_colorTable[COLOR_FRAME].cl;
 		}
 		else if (pItem->m_bSelected && !bReadOnly) {
@@ -794,8 +794,17 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 
 		// draw html itself
 		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos, iItemHeigth);
-		if (pItem->m_doc)
-			pItem->m_doc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);
+		if (auto &pDoc = pItem->m_doc) {
+			if (auto pBody = pDoc->root()->select_one("body")) {
+				litehtml::background back = pBody->css().get_bg();
+				back.m_color = litehtml::web_color(GetRValue(webPage.clBack), GetGValue(webPage.clBack), GetBValue(webPage.clBack));
+				pBody->css_w().set_bg(back);
+
+				pBody->css_w().set_color(litehtml::web_color(GetRValue(webPage.clText), GetGValue(webPage.clText), GetBValue(webPage.clText)));
+			}
+
+			pDoc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);
+		}
 
 		// draw border
 		HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 1, clLine));
