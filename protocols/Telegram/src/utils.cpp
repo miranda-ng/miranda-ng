@@ -773,11 +773,14 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			if (auto *pWeb = pText->link_preview_.get()) {
 				CMStringA szDescr;
 
-				if (!pWeb->display_url_.empty())
-					szDescr.AppendFormat("[b]%s[/b]\r\n", pWeb->display_url_.c_str());
-
 				if (!pWeb->site_name_.empty())
 					szDescr.AppendFormat("%s\r\n", pWeb->site_name_.c_str());
+
+				if (!pWeb->title_.empty())
+					szDescr.AppendFormat("[b]%s[/b]\r\n", pWeb->title_.c_str());
+
+				if (auto szText = GetFormattedText(pWeb->description_))
+					szDescr.AppendFormat("%s\r\n", szText.c_str());
 
 				if (pWeb->type_->get_id() == TD::linkPreviewTypePhoto::ID) {
 					auto *pPhoto = ((TD::linkPreviewTypePhoto *)pWeb->type_.get())->photo_.get();
@@ -792,9 +795,6 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 					if (auto szText = GetMessagePreview(pSize->photo_.get()))
 						szDescr.AppendFormat("[img=%s][/img]\r\n", szText.c_str());
 				}
-
-				if (auto szText = GetFormattedText(pWeb->description_))
-					szDescr.AppendFormat("%s\r\n", szText.c_str());
 
 				if (!szDescr.IsEmpty())
 					ret += "\r\n[quote]" + szDescr.Trim() + "[/quote]";
