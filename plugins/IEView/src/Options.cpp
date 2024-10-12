@@ -306,10 +306,10 @@ static void RefreshProtoIcons()
 static void RefreshIcons()
 {
 	hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_MASK | ILC_COLOR32, 0, 0);
-	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[3].hIcolib));
-	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[2].hIcolib));
-	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[1].hIcolib));
-	ImageList_AddIcon(hImageList, IcoLib_GetIconByHandle(iconList[0].hIcolib));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_GROUP_OFF));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_GROUP_ON));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_RTL_OFF));
+	ImageList_AddIcon(hImageList, g_plugin.getIcon(IDI_RTL_ON));
 }
 
 static void RefreshProtoList(HWND hwndDlg, int mode, bool protoTemplates)

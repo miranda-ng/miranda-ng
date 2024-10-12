@@ -9,7 +9,6 @@
 #define IDI_RTL_OFF                     101
 #define IDI_GROUP_ON                    102
 #define IDI_GROUP_OFF                   103
-#define IDI_CODE                        104
 #define IDD_SRMM_OPTIONS                153
 #define IDD_GENERAL_OPTIONS             155
 #define IDR_CONTEXTMENU                 200

@@ -49,8 +49,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 
-IDI_CODE                ICON                    "code.ico"
-
 IDI_RTL_ON              ICON                    "rtl_on.ico"
 
 IDI_RTL_OFF             ICON                    "rtl_off.ico"
