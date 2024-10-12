@@ -738,15 +738,21 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 			
 			if (m_bSmileyAdd) {
-				const char *pwszFileExt;
-				switch (pSticker->format_->get_id()) {
-				case TD::stickerFormatTgs::ID: pwszFileExt = "tga"; break;
-				case TD::stickerFormatWebm::ID: pwszFileExt = "webm"; break;
-				case TD::stickerFormatWebp::ID: pwszFileExt = "webp"; break;
-				default:pwszFileExt = "jpeg"; break;
+				if (pSticker->thumbnail_.get()) {
+					const char *pwszFileExt;
+					switch (pSticker->format_->get_id()) {
+					case TD::stickerFormatTgs::ID: pwszFileExt = "tga"; break;
+					case TD::stickerFormatWebm::ID: pwszFileExt = "webm"; break;
+					case TD::stickerFormatWebp::ID: pwszFileExt = "webp"; break;
+					default:
+						pwszFileExt = "jpeg"; break;
+					}
+					ret = GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
 				}
-
-				ret = GetMessageSticker(pSticker->thumbnail_->file_.get(), pwszFileExt);
+				else {
+					debugLogA("Strange sticker without preview");
+					ret.Append(pSticker->emoji_.c_str());
+				}
 			}
 			else ret.AppendFormat("%s: %s", TranslateU("SmileyAdd plugin required to support stickers"), pSticker->emoji_.c_str());
 		}

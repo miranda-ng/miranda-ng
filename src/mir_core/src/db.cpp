@@ -485,16 +485,19 @@ MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent, bool bFr
 {
 	if (g_pCurrDb == nullptr)
 		return 1;
-	
+
+	// we received remote mark read command
+	if (bFromServer)
+		CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
+
 	if (!g_pCurrDb->MarkEventRead(hContact, hDbEvent))
 		return 1;
 
-	if (bFromServer)
-		CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
-	else if (auto *ppro = Proto_GetInstance(hContact)) {
-		ppro->OnMarkRead(hContact, hDbEvent);
-		return 0;
-	}
+	if (!bFromServer)
+		if (auto *ppro = Proto_GetInstance(hContact)) {
+			ppro->OnMarkRead(hContact, hDbEvent);
+			return 0;
+		}
 
 	return 1;
 }
