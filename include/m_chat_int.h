@@ -43,8 +43,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CHAT_MODULE "Chat"
 #define CHATFONT_MODULE "ChatFonts"
 
-#define GC_FAKE_EVENT MEVENT(0xBABABEDA)
-
 #define GCW_TABROOM            10
 #define GCW_TABPRIVMSG         11
 
@@ -85,13 +83,13 @@ struct USERINFO : public MZeroedObject, public MNonCopyable
 
 	wchar_t* pszUID;
 	wchar_t* pszNick;
-	uint32_t iSignature = GC_FAKE_EVENT;
+	uint32_t iSignature = 0xDEADBEEF;
 	uint16_t Status;
 	uint16_t ContactStatus;
 	int      iStatusEx;
 
 	bool isValid() const {
-		return iSignature == GC_FAKE_EVENT;
+		return iSignature == 0xDEADBEEF;
 	}
 };
 
@@ -196,6 +194,7 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	}
 
 	const char* getSoundName(int iEventType) const;
+	void markRead(bool bForce = false);
 };
 
 struct GlobalLogSettingsBase

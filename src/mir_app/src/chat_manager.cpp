@@ -49,8 +49,7 @@ static int compareModules(const MODULEINFO *p1, const MODULEINFO *p2)
 static LIST<MODULEINFO> g_arModules(5, compareModules);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//	Session Manager functions
-//	Keeps track of all sessions and its windows
+// SESSION_INFO class members
 
 static int CompareEvents(const LOGINFO *p1, const LOGINFO *p2)
 {
@@ -98,6 +97,25 @@ const char* SESSION_INFO::SESSION_INFO::getSoundName(int iEventType) const
 	return nullptr;
 }
 
+void SESSION_INFO::markRead(bool bForce)
+{
+	if ((wState & STATE_TALK) || bForce) {
+		wState &= ~STATE_TALK;
+		db_unset(hContact, pszModule, "ApparentMode");
+	}
+
+	if ((wState & GC_EVENT_HIGHLIGHT) || bForce) {
+		wState &= ~GC_EVENT_HIGHLIGHT;
+
+		if (Clist_GetEvent(hContact, 0))
+			Clist_RemoveEvent(hContact, GC_FAKE_EVENT);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//	Session Manager functions
+//	Keeps track of all sessions and its windows
+
 static SESSION_INFO* SM_CreateSession(void)
 {
 	return new SESSION_INFO();
@@ -105,9 +123,7 @@ static SESSION_INFO* SM_CreateSession(void)
 
 void SM_FreeSession(SESSION_INFO *si)
 {
-	if (Clist_GetEvent(si->hContact, 0))
-		Clist_RemoveEvent(si->hContact, GC_FAKE_EVENT);
-	si->wState &= ~STATE_TALK;
+	si->markRead(true);
 	db_unset(si->hContact, si->pszModule, "ApparentMode");
 
 	if (si->pDlg)

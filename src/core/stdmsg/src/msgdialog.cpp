@@ -253,11 +253,7 @@ void CMsgDialog::OnActivate()
 
 	if (isChat()) {
 		UpdateStatusBar();
-
-		if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode") != 0)
-			db_unset(m_hContact, m_si->pszModule, "ApparentMode");
-		if (Clist_GetEvent(m_hContact, 0))
-			Clist_RemoveEvent(m_hContact, GC_FAKE_EVENT);
+		m_si->markRead(true);
 	}
 	else {
 		SetupStatusBar();

@@ -681,9 +681,7 @@ void CMsgDialog::OnDestroy()
 		DestroyWindow(m_hwndPanelPicParent);
 
 	if (m_si) {
-		if (Clist_GetEvent(m_si->hContact, 0))
-			Clist_RemoveEvent(m_si->hContact, GC_FAKE_EVENT);
-		m_si->wState &= ~STATE_TALK;
+		m_si->markRead(true);
 		m_si->pDlg = nullptr;
 		m_si = nullptr;
 	}

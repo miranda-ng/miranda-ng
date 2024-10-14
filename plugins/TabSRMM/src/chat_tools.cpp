@@ -40,8 +40,7 @@ static void __stdcall Chat_DismissPopup(void *pi)
 {
 	SESSION_INFO *si = (SESSION_INFO*)pi;
 	if (si->hContact)
-		if (Clist_GetEvent(si->hContact, 0))
-			Clist_RemoveEvent(si->hContact, GC_FAKE_EVENT);
+		si->markRead(true);
 
 	if (si->pDlg && si->pDlg->timerFlash.Stop())
 		FlashWindow(si->pDlg->GetHwnd(), FALSE);

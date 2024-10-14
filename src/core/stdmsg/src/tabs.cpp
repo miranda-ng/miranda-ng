@@ -467,17 +467,7 @@ void CTabbedWindow::TabClicked()
 
 	SESSION_INFO *si = pDlg->m_si;
 	if (si) {
-		if (si->wState & STATE_TALK) {
-			si->wState &= ~STATE_TALK;
-			db_unset(si->hContact, si->pszModule, "ApparentMode");
-		}
-
-		if (si->wState & GC_EVENT_HIGHLIGHT) {
-			si->wState &= ~GC_EVENT_HIGHLIGHT;
-
-			if (Clist_GetEvent(si->hContact, 0))
-				Clist_RemoveEvent(si->hContact, GC_FAKE_EVENT);
-		}
+		si->markRead();
 
 		if (!si->pDlg) {
 			g_chatApi.ShowRoom(si);

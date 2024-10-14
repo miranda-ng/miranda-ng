@@ -2590,10 +2590,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 	if (m_si) {
 		m_hTabIcon = m_hTabStatusIcon;
 
-		if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode") != 0)
-			db_unset(m_si->hContact, m_si->pszModule, "ApparentMode");
-		if (Clist_GetEvent(m_si->hContact, 0))
-			Clist_RemoveEvent(m_si->hContact, GC_FAKE_EVENT);
+		m_si->markRead(true);
 
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;

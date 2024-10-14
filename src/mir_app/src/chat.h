@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_popup.h>
 #include <m_fontservice.h>
 
+#define GC_FAKE_EVENT MEVENT(0xBABABEDA)
+
 #define STREAMSTAGE_HEADER  0
 #define STREAMSTAGE_EVENTS  1
 #define STREAMSTAGE_TAIL    2
