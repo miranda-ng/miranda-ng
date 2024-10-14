@@ -100,7 +100,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Telegram.dll" (
 		copy /V /Y ..\..\redist\x%tp%\lsc\p_s232.dll Libs
 		copy /V /Y ..\..\redist\x%tp%\lsc\pwrp_k32.dll Libs
-		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\ps2_32.dll" "Libs/pwrp_k32.dll"
+		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\p_s232.dll" "Libs\pwrp_k32.dll"
 		del "Libs/ps2_32.dll"
 		del "Libs/pwrp_k32.dll"
 	)
