@@ -98,8 +98,8 @@ void          UM_SortKeys(SESSION_INFO *si);
 
 // clist.c
 MCONTACT      AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType);
-BOOL          SetAllOffline(BOOL bHide, const char *pszModule);
-BOOL          SetOffline(MCONTACT hContact, BOOL bHide);
+BOOL          SetAllOffline(const char *pszModule);
+BOOL          SetOffline(MCONTACT hContact);
 		        
 int           RoomDoubleclicked(WPARAM wParam,LPARAM lParam);
 

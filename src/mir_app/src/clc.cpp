@@ -550,7 +550,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (szProto == nullptr)
 				break;
 
-			uint16_t apparentMode = db_get_w(wParam, szProto, "ApparentMode", 0);
+			uint16_t apparentMode = db_get_w(wParam, szProto, "ApparentMode");
 			contact->flags &= ~(CONTACTF_INVISTO | CONTACTF_VISTO);
 			if (apparentMode == ID_STATUS_OFFLINE)
 				contact->flags |= CONTACTF_INVISTO;

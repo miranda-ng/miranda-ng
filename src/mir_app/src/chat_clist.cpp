@@ -88,11 +88,11 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	return hContact;
 }
 
-BOOL SetOffline(MCONTACT hContact, BOOL)
+BOOL SetOffline(MCONTACT hContact)
 {
 	if (hContact) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
-		db_set_w(hContact, szProto, "ApparentMode", 0);
+		db_unset(hContact, szProto, "ApparentMode");
 		db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		return TRUE;
 	}
@@ -100,7 +100,7 @@ BOOL SetOffline(MCONTACT hContact, BOOL)
 	return FALSE;
 }
 
-BOOL SetAllOffline(BOOL, const char *pszModule)
+BOOL SetAllOffline(const char *pszModule)
 {
 	for (auto &hContact : Contacts(pszModule)) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
@@ -108,7 +108,7 @@ BOOL SetAllOffline(BOOL, const char *pszModule)
 			continue;
 		
 		if (Contact::IsGroupChat(hContact, szProto)) {
-			db_set_w(hContact, szProto, "ApparentMode", 0);
+			db_unset(hContact, szProto, "ApparentMode");
 			db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		}
 	}

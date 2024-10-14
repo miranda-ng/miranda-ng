@@ -41,19 +41,18 @@ static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 		return;
 
 	if (apparentMode <= 0)
-		apparentMode = db_get_w(hContact, proto, "ApparentMode", 0);
+		apparentMode = db_get_w(hContact, proto, "ApparentMode");
 
-	HANDLE hExtraIcon = nullptr, hIcolib = nullptr;
+	HANDLE hIcolib = nullptr;
 
 	// Is chat
 	if (Contact::IsGroupChat(hContact, proto)) {
-		hExtraIcon = hExtraChat;
 		if (apparentMode == ID_STATUS_OFFLINE)
-			hIcolib = IcoLib_GetIconHandle("ChatActivity");
+			hIcolib = g_plugin.getIconHandle(IDI_CHAT);
 	}
 
 	if (hIcolib != nullptr || clear)
-		ExtraIcon_SetIcon(hExtraIcon, hContact, hIcolib);
+		ExtraIcon_SetIcon(hExtraChat, hContact, hIcolib);
 }
 
 static void SetGender(MCONTACT hContact, int gender, bool clear)
@@ -70,16 +69,16 @@ static void SetGender(MCONTACT hContact, int gender, bool clear)
 	if (gender <= 0)
 		gender = db_get_b(hContact, "UserInfo", "Gender", 0);
 
-	const char *ico;
+	HANDLE hIcolib;
 	if (gender == 'M')
-		ico = "gender_male";
+		hIcolib = g_plugin.getIconHandle(IDI_MALE);
 	else if (gender == 'F')
-		ico = "gender_female";
+		hIcolib = g_plugin.getIconHandle(IDI_FEMALE);
 	else
-		ico = nullptr;
+		hIcolib = nullptr;
 
-	if (ico != nullptr || clear)
-		ExtraIcon_SetIconByName(hExtraGender, hContact, ico);
+	if (hIcolib != nullptr || clear)
+		ExtraIcon_SetIcon(hExtraGender, hContact, hIcolib);
 }
 
 static void SetChatMute(MCONTACT hContact, int mode)

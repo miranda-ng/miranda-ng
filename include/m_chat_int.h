@@ -291,9 +291,6 @@ struct CHAT_MANAGER
 	USERINFO*     (*UM_TakeStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
 	wchar_t*      (*UM_FindUserAutoComplete)(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 
-	BOOL          (*SetOffline)(MCONTACT hContact, BOOL bHide);
-	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
-
 	void          (*LoadMsgDlgFont)(int i, LOGFONT *lf, COLORREF *color);
 	wchar_t*      (*MakeTimeStamp)(wchar_t *pszStamp, time_t time);
 

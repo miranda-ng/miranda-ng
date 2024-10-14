@@ -195,7 +195,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	cc->pce = pce;
 	if (szProto != nullptr && !Clist_IsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 		cc->flags |= CONTACTF_ONLINE;
-	uint16_t apparentMode = szProto != nullptr ? db_get_w(hContact, szProto, "ApparentMode", 0) : 0;
+	uint16_t apparentMode = szProto != nullptr ? db_get_w(hContact, szProto, "ApparentMode") : 0;
 	if (apparentMode == ID_STATUS_OFFLINE)
 		cc->flags |= CONTACTF_INVISTO;
 	else if (apparentMode == ID_STATUS_ONLINE)

@@ -186,7 +186,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 	mi->bPersistent = (gcr->dwFlags & GC_PERSISTENT) != 0;
 	mi->iMaxText = gcr->iMaxText;
 
-	g_chatApi.SetAllOffline(TRUE, gcr->pszModule);
+	SetAllOffline(gcr->pszModule);
 	return 0;
 }
 
@@ -985,7 +985,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hMute2MenuItem = Menu_AddContactMenuItem(&mi);
 	Menu_ConfigureItem(hMute2MenuItem, MCI_OPT_EXECPARAM, INT_PTR(CHATMODE_UNMUTE));
 
-	g_chatApi.SetAllOffline(TRUE, nullptr);
+	SetAllOffline(nullptr);
 	return 0;
 }
 
