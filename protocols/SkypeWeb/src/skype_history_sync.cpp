@@ -69,7 +69,7 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		}
 
 		dbei.flags = DBEF_UTF;
-		if (!bOperative)
+		if (!bOperative && !dbei.getEvent())
 			dbei.flags |= DBEF_READ;
 		if (IsMe(szFrom))
 			dbei.flags |= DBEF_SENT;
