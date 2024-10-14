@@ -224,7 +224,7 @@ MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 	}
 
 	// create a new session
-	si = g_chatApi.SM_CreateSession();
+	si = new SESSION_INFO();
 	si->ptszID = mir_wstrdup(ptszID);
 	si->pszModule = mir_strdup(pszModule);
 	si->pMI = mi;

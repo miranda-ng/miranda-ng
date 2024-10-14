@@ -116,11 +116,6 @@ void SESSION_INFO::markRead(bool bForce)
 //	Session Manager functions
 //	Keeps track of all sessions and its windows
 
-static SESSION_INFO* SM_CreateSession(void)
-{
-	return new SESSION_INFO();
-}
-
 void SM_FreeSession(SESSION_INFO *si)
 {
 	si->markRead(true);
@@ -765,7 +760,6 @@ static void CreateNick(const SESSION_INFO *, const LOGINFO *lin, CMStringW &wszN
 
 static void ResetApi()
 {
-	g_chatApi.SM_CreateSession = ::SM_CreateSession;
 	g_chatApi.SM_GetStatusIcon = ::SM_GetStatusIcon;
 	g_chatApi.SM_GetCount = ::SM_GetCount;
 	g_chatApi.SM_FindSessionByIndex = ::SM_FindSessionByIndex;

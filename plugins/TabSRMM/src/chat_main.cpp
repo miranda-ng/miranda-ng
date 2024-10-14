@@ -219,11 +219,6 @@ static MODULEINFO* MM_CreateModule()
 	return new MODULEINFO();
 }
 
-static SESSION_INFO* SM_CreateSession()
-{
-	return new SESSION_INFO();
-}
-
 // load the module
 int Chat_Load()
 {
@@ -249,7 +244,6 @@ int Chat_Load()
 
 	g_chatApi.OnSetTopic = OnSetTopic;
 
-	g_chatApi.SM_CreateSession = SM_CreateSession;
 	g_chatApi.OnCreateSession = OnCreateSession;
 	g_chatApi.OnReplaceSession = OnReplaceSession;
 

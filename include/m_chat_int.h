@@ -267,7 +267,6 @@ struct CHAT_MANAGER
 {
 	CHAT_MANAGER();
 
-	SESSION_INFO* (*SM_CreateSession)(void);
 	HICON         (*SM_GetStatusIcon)(SESSION_INFO *si, USERINFO * ui);
 	int           (*SM_GetCount)(const char *pszModule);
 	SESSION_INFO* (*SM_FindSessionByIndex)(const char *pszModule, int iItem);
