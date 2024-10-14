@@ -469,7 +469,7 @@ void CTabbedWindow::TabClicked()
 	if (si) {
 		if (si->wState & STATE_TALK) {
 			si->wState &= ~STATE_TALK;
-			db_set_w(si->hContact, si->pszModule, "ApparentMode", 0);
+			db_unset(si->hContact, si->pszModule, "ApparentMode");
 		}
 
 		if (si->wState & GC_EVENT_HIGHLIGHT) {

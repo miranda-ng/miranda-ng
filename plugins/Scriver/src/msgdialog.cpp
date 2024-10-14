@@ -857,7 +857,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (isChat()) {
 			if (m_si->wState & STATE_TALK) {
 				m_si->wState &= ~STATE_TALK;
-				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
+				db_unset(m_hContact, m_si->pszModule, "ApparentMode");
 			}
 
 			if (m_si->wState & GC_EVENT_HIGHLIGHT) {
@@ -882,8 +882,8 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		SetFocus(m_message.GetHwnd());
 		if (isChat()) {
-			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
-				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
+			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode") != 0)
+				db_unset(m_hContact, m_si->pszModule, "ApparentMode");
 			if (Clist_GetEvent(m_hContact, 0))
 				Clist_RemoveEvent(m_hContact, GC_FAKE_EVENT);
 		}
