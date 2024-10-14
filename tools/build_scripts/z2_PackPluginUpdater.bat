@@ -96,6 +96,15 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 		rd /S /Q Libs
 		ren Libs2 Libs
 	)
+
+	if /I "%%a"=="Telegram.dll" (
+		copy /V /Y ..\..\redist\x%tp%\lsc\ps2_32.dll Libs
+		copy /V /Y ..\..\redist\x%tp%\lsc\pwrp_k32.dll Libs
+		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\ps2_32.dll" "Libs/pwrp_k32.dll"
+		del "Libs/ps2_32.dll"
+		del "Libs/pwrp_k32.dll"
+	)
+
 	rem now adding plugin itself into archive
 	%ZipIt% "%Arch%\Plugins\%%~na.zip" %%a
 )

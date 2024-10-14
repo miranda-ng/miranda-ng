@@ -47,7 +47,7 @@
     <Link>
       <AdditionalLibraryDirectories Condition="'$(Platform)'=='Win32'">.\tdlib\lib\$(Configuration)32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalLibraryDirectories Condition="'$(Platform)'=='x64'">.\tdlib\lib\$(Configuration)64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;crypt32.lib;psapi.lib;Normaliz.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>progwrp_k32.lib;p_s232.lib;libcrypto.lib;libssl.lib;crypt32.lib;psapi.lib;Normaliz.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
