@@ -1088,6 +1088,9 @@ void CTelegramProto::ProcessRemoteMarkRead(TD::updateChatReadOutbox *pObj)
 	MarkRead(pUser->hContact, szMaxId, true);
 
 	CallService(MS_MESSAGESTATE_UPDATE, GetRealContact(pUser), MRD_TYPE_READ);
+
+	if (auto hEvent = db_event_getById(m_szModuleName, szMaxId))
+		NS_NotifyRemoteRead(GetRealContact(pUser), hEvent);
 }
 
 void CTelegramProto::ProcessScopeNotification(TD::updateScopeNotificationSettings *pObj)

@@ -19,6 +19,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "chat.h"
 
+#include <m_NewStory.h>
+#include <m_messagestate.h>
+
 HCURSOR g_hCurHyperlinkHand;
 HANDLE hHookIconsChanged, hHookIconPressedEvt, hHookSrmmEvent;
 
@@ -26,6 +29,19 @@ static HGENMENU hmiEmpty;
 
 void LoadSrmmToolbarModule();
 void UnloadSrmmToolbarModule();
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool g_bHasMessageState, g_bHasNewStory;
+
+MIR_APP_DLL(void) Srmm_NotifyRemoteRead(MCONTACT hContact, MEVENT hEvent)
+{
+	if (g_bHasMessageState)
+		CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
+
+	if (g_bHasNewStory)
+		NS_NotifyRemoteRead(hContact, hEvent);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Empty history service for main menu
@@ -125,8 +141,19 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static int OnModuleLoaded(WPARAM, LPARAM)
+{
+	g_bHasMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
+	g_bHasNewStory = ServiceExists("NewStory/FileReady");
+	return 0;
+}
+
 void SrmmModulesLoaded()
 {
+	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoaded);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoaded);
+	OnModuleLoaded(0, 0);
+
 	// menu item
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x0d4306aa, 0xe31e, 0x46ee, 0x89, 0x88, 0x3a, 0x2e, 0x05, 0xa6, 0xf3, 0xbc);

@@ -990,3 +990,4 @@ Proto_CanDeleteHistory @1118 NONAME
 ?isCustom@EventInfo@DB@@QEBA_NH@Z @1122 NONAME
 ?InsertBbcodeString@CSrmmBaseDialog@@IEAAXPEB_W@Z @1123 NONAME
 ?markRead@SESSION_INFO@@QEAAX_N@Z @1124 NONAME
+?Srmm_NotifyRemoteRead@@YAXII@Z @1125 NONAME

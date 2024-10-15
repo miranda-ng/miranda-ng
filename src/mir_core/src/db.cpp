@@ -487,8 +487,10 @@ MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent, bool bFr
 		return 1;
 
 	// we received remote mark read command
-	if (bFromServer)
-		CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
+	if (bFromServer) {
+		MIR_APP_DLL(void) Srmm_NotifyRemoteRead(MCONTACT hContact, MEVENT hEvent);
+		Srmm_NotifyRemoteRead(hContact, hDbEvent);
+	}
 
 	if (!g_pCurrDb->MarkEventRead(hContact, hDbEvent))
 		return 1;

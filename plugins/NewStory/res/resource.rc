@@ -76,6 +76,10 @@ IDI_REPLY               ICON                    "reply.ico"
 
 IDI_NO_IMAGE            PNG                     "no-image-ico.png"
 
+IDI_DELIVERED           ICON                    "delivered.ico"
+
+IDI_REMOTEREAD            ICON                  "remoteread.ico"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog

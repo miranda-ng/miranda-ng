@@ -33,6 +33,8 @@
 #define IDI_TIMETREE                    129
 #define IDI_REPLY                       130
 #define IDD_EMPTYHISTORY                131
+#define IDI_REMOTEREAD                  132
+#define IDI_DELIVERED                   133
 #define IDC_USERINFO                    1000
 #define IDC_USERMENU                    1001
 #define IDC_MESSAGE                     1002

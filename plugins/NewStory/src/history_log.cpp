@@ -81,7 +81,7 @@ public:
 		if (!bAppend)
 			Clear();
 
-		m_histCtrl->AddEvent(m_pDlg.m_hContact, hDbEvent, count);
+		m_histCtrl->AddEvent(m_pDlg.m_hContact, hDbEvent, count, true);
 	}
 
 	void LogChatEvent(const LOGINFO &lin) override

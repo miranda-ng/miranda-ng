@@ -12,9 +12,15 @@ CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item);
 
 struct ItemData
 {
-	bool m_bSelected, m_bHighlighted;
-	bool m_bLoaded, m_bIsResult;
-	bool m_bOfflineFile;
+	bool m_bSelected : 1;
+	bool m_bHighlighted : 1;
+	bool m_bDelivered : 1;
+	bool m_bRemoteRead : 1;
+	bool m_bNew : 1;
+	bool m_bLoaded : 1;
+	bool m_bIsResult : 1;
+	bool m_bOfflineFile : 1;
+
 	uint8_t m_grouping, m_bOfflineDownloaded;
 	
 	int savedTop, savedHeight, leftOffset;
@@ -134,7 +140,7 @@ public:
 	HistoryArray();
 	~HistoryArray();
 
-	bool addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count);
+	ItemData* addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count);
 	void addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, const LOGINFO *pEvent);
 	void addResults(NewstoryListData *pOwner, const OBJLIST<SearchResult> &pArray);
 

@@ -990,3 +990,4 @@ _Proto_CanDeleteHistory@8 @1124 NONAME
 ?isCustom@EventInfo@DB@@QBE_NH@Z @1128 NONAME
 ?InsertBbcodeString@CSrmmBaseDialog@@IAEXPB_W@Z @1129 NONAME
 ?markRead@SESSION_INFO@@QAEX_N@Z @1130 NONAME
+?Srmm_NotifyRemoteRead@@YGXII@Z @1131 NONAME

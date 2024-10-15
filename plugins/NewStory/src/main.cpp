@@ -94,33 +94,24 @@ static IconItem icons[] =
 	{ LPGEN("Template group"), "tplgroup", IDI_TPLGROUP },
 	{ LPGEN("Cancel edit"), "reset", IDI_RESET },
 	{ LPGEN("Downloaded"), "downloaded", IDI_OK },
+	{ LPGEN("Delivered"), "delivered", IDI_DELIVERED },
+	{ LPGEN("Remote read"), "remoteread", IDI_REMOTEREAD },
 	{ LPGEN("Help"), "varhelp", IDI_VARHELP }
 };
-
-static int SmartSendEvent(int iEvent, MCONTACT hContact, LPARAM lParam)
-{
-	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
-		SendMessage(hwnd, iEvent, hContact, lParam);
-
-	if (db_mc_isMeta(hContact)) {
-		// Send a message to a real contact too
-		MCONTACT cc = db_event_getContact(lParam);
-		if (cc != hContact)
-			if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, cc))
-				SendMessage(hwnd, iEvent, cc, lParam);
-	}
-
-	return 0;
-}
 
 static int evtEventAdded(WPARAM hContact, LPARAM lParam)
 {
 	return SmartSendEvent(UM_ADD_EVENT, hContact, lParam);
 }
 
-static int evtEventDeleted(WPARAM hContact, LPARAM lParam)
+static int evtEventDeleted(WPARAM hContact, LPARAM hEvent)
 {
-	return (g_plugin.bDisableDelete) ? 0 : SmartSendEvent(UM_REMOVE_EVENT, hContact, lParam);
+	return (g_plugin.bDisableDelete) ? 0 : SmartSendEvent(UM_REMOVE_EVENT, hContact, hEvent);
+}
+
+static int evtEventDelivered(WPARAM hContact, LPARAM hEvent)
+{
+	return SmartSendEvent(UM_DELIVER_EVENT, hContact, hEvent);
 }
 
 static int evtEventEdited(WPARAM hContact, LPARAM lParam)
@@ -198,6 +189,7 @@ int CMPlugin::Load()
 
 	HookEvent(ME_DB_EVENT_ADDED, evtEventAdded);
 	HookEvent(ME_DB_EVENT_DELETED, evtEventDeleted);
+	HookEvent(ME_DB_EVENT_DELIVERED, evtEventDelivered);
 	HookEvent(ME_DB_EVENT_EDITED, evtEventEdited);
 	HookEvent(ME_DB_EVENT_SETJSON, evtEventEdited);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);

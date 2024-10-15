@@ -129,10 +129,11 @@ void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount)
+void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount, bool bNew)
 {
 	ScheduleDraw();
-	items.addEvent(this, hContact, hFirstEvent, iCount);
+	if (auto *p = items.addEvent(this, hContact, hFirstEvent, iCount))
+		p->m_bNew = bNew;
 	totalCount = items.getCount();
 }
 
@@ -434,6 +435,30 @@ void NewstoryListData::DeleteItems(void)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void NewstoryListData::DeliverEvent(MCONTACT hContact, MEVENT hEvent)
+{
+	bool isChanged = false;
+
+	for (int i = 0; i < totalCount; i++) {
+		auto *pItem = GetItem(i);
+		if (pItem->dbe.hContact != hContact || !(pItem->dbe.flags & DBEF_SENT))
+			continue;
+
+		if (pItem->dbe.getEvent() > hEvent)
+			break;
+
+		if (pItem->m_bNew && !pItem->m_bDelivered) {
+			pItem->m_bDelivered = true;
+			pItem->savedHeight = -1;
+			pItem->calcHeight(cachedWindowWidth);
+			isChanged = true;
+		}
+	}
+
+	if (isChanged)
+		InvalidateRect(m_hwnd, 0, FALSE);
+}
 
 void NewstoryListData::Download(int options)
 {
@@ -738,7 +763,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		SetBkMode(dib, TRANSPARENT);
 
 		// left offset of icons & text
-		int xPos = 2, yPos = top + 2;
+		int xPos = 2, yPos = top + 2, xRight = 0;
 
 		if (!bReadOnly) {
 			HICON hIcon;
@@ -782,7 +807,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			// Finished icon
 			if (pItem->m_bOfflineDownloaded != 0) {
 				if (pItem->completed())
-					DrawIconEx(dib, cachedWindowWidth - 20, yPos, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
 				else {
 					HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
 					MoveToEx(dib, rc.left, rc.bottom - 4, 0);
@@ -790,10 +815,16 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 					DeleteObject(SelectObject(dib, hpn));
 				}
 			}
+
+			// Delivered & remote read icons
+			if (pItem->m_bRemoteRead)
+				DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_REMOTEREAD), 16, 16, 0, 0, DI_NORMAL);
+			else if (pItem->m_bDelivered)
+				DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_DELIVERED), 16, 16, 0, 0, DI_NORMAL);
 		}
 
 		// draw html itself
-		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos, iItemHeigth);
+		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos - xRight, iItemHeigth);
 		if (auto &pDoc = pItem->m_doc) {
 			if (auto pBody = pDoc->root()->select_one("body")) {
 				litehtml::background back = pBody->css().get_bg();
@@ -831,6 +862,18 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 	if (g_plugin.bDrawEdge) {
 		RECT rc = { 0, 0, cachedWindowWidth, cachedWindowHeight };
 		DrawEdge(dib, &rc, BDR_SUNKENOUTER, BF_RECT);
+	}
+}
+
+void NewstoryListData::Quote()
+{
+	if (pMsgDlg) {
+		CMStringW wszText(GatherSelected(true));
+		wszText.TrimRight();
+		RemoveBbcodes(wszText);
+		pMsgDlg->SetMessageText(Srmm_Quote(wszText));
+
+		SetFocus(pMsgDlg->GetInput());
 	}
 }
 
@@ -872,16 +915,28 @@ void NewstoryListData::RecalcScrollBar()
 	}
 }
 
-void NewstoryListData::Quote()
+void NewstoryListData::RemoteRead(MCONTACT hContact, MEVENT hEvent)
 {
-	if (pMsgDlg) {
-		CMStringW wszText(GatherSelected(true));
-		wszText.TrimRight();
-		RemoveBbcodes(wszText);
-		pMsgDlg->SetMessageText(Srmm_Quote(wszText));
+	bool isChanged = false;
 
-		SetFocus(pMsgDlg->GetInput());
+	for (int i = 0; i < totalCount; i++) {
+		auto *pItem = GetItem(i);
+		if (pItem->dbe.hContact != hContact || !(pItem->dbe.flags & DBEF_SENT))
+			continue;
+
+		if (pItem->dbe.getEvent() > hEvent)
+			break;
+
+		if (pItem->m_bNew && !pItem->m_bRemoteRead) {
+			pItem->m_bRemoteRead = true;
+			pItem->savedHeight = -1;
+			pItem->calcHeight(cachedWindowWidth);
+			isChanged = true;
+		}
 	}
+
+	if (isChanged)
+		InvalidateRect(m_hwnd, 0, FALSE);
 }
 
 void NewstoryListData::Reply()
@@ -1227,10 +1282,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		return TRUE;
 
-	case NSM_ADDEVENT:
-		data->AddEvent(wParam, lParam, 1);
-		break;
-
 	case NSM_SET_OPTIONS:
 		data->bSortAscending = g_plugin.bSortAscending;
 		data->scrollTopPixel = 0;
@@ -1240,7 +1291,15 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case UM_ADD_EVENT:
 		if (data->pMsgDlg == nullptr)
-			data->AddEvent(wParam, lParam, 1);
+			data->AddEvent(wParam, lParam, 1, true);
+		break;
+
+	case UM_DELIVER_EVENT:
+		data->DeliverEvent(wParam, lParam);
+		break;
+
+	case UM_REMOTE_READ:
+		data->RemoteRead(wParam, lParam);
 		break;
 
 	case UM_EDIT_EVENT:

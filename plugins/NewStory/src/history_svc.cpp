@@ -51,6 +51,12 @@ static INT_PTR SvcGetSelection(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static INT_PTR SvcRemoteRead(WPARAM hContact, LPARAM hEvent)
+{
+	SmartSendEvent(UM_REMOTE_READ, hContact, hEvent);
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module entry point
 
@@ -58,6 +64,7 @@ void InitServices()
 {
 	CreateServiceFunction("NewStory/GetSrmm", &SvcGetSrmm);
 	CreateServiceFunction("NewStory/FileReady", &SvcFileReady);
+	CreateServiceFunction("NewStory/RemoteRead", &SvcRemoteRead);
 	CreateServiceFunction("NewStory/GetCurrent", &SvcGetCurrent);
 	CreateServiceFunction("NewStory/GetSelection", &SvcGetSelection);
 }

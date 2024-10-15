@@ -127,7 +127,7 @@ struct NewstoryListData : public MZeroedObject
 	void      onTimer_Draw(CTimer *pTimer);
 
 	void      AddChatEvent(SESSION_INFO *si, const LOGINFO *lin);
-	void      AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount);
+	void      AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount, bool bNew = false);
 	void      AddResults(const OBJLIST<SearchResult> &results);
 	void      AddSelection(int iFirst, int iLast);
 	bool      AtBottom(void) const;
@@ -140,6 +140,7 @@ struct NewstoryListData : public MZeroedObject
 	void      CopyPath();
 	void      CopyUrl();
 	void      DeleteItems(void);
+	void      DeliverEvent(MCONTACT hContact, MEVENT hEvent);
 	void      Download(int iOptions);
 	void      EndEditItem(bool bAccept);
 	void      EnsureVisible(int item);
@@ -168,6 +169,7 @@ struct NewstoryListData : public MZeroedObject
 	void      Paint(simpledib::dib &dib);
 	void      Quote();
 	void      RecalcScrollBar();
+	void      RemoteRead(MCONTACT hContact, MEVENT hEvent);
 	void      Reply();
 	void      ScheduleDraw();
 	void      ScrollBottom();

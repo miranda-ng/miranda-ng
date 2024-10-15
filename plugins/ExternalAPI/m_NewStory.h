@@ -13,10 +13,6 @@ enum
 	// result = number of total selected items
 	NSM_SELECTITEMS = NSM_FIRST,
 
-	// wParam = (MCONTACT)hContact = database contact
-	// lParam = (MEVENT)hDbEvent = database event
-	NSM_ADDEVENT,
-
 	//
 	NSM_SEEKTIME,
 
@@ -73,6 +69,14 @@ __forceinline HGENMENU Menu_AddNewStoryMenuItem(TMO_MenuItem *pmi, int param)
 __forceinline void NS_NotifyFileReady(const wchar_t *pwszFileName)
 {
 	CallService("NewStory/FileReady", (WPARAM)pwszFileName, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// service for refreshing downloaded files
+
+__forceinline void NS_NotifyRemoteRead(MCONTACT hContact, MEVENT hEvent)
+{
+	CallService("NewStory/RemoteRead", hContact, hEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
