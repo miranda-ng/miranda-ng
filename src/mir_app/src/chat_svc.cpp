@@ -867,6 +867,7 @@ static int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 					break;
 				}
 
+	Clist_RemoveEvent(hContact, hDbEvent);
 	return 0;
 }
 
