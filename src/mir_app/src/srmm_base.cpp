@@ -763,6 +763,11 @@ void CSrmmBaseDialog::OnRedrawTimer(CTimer *pTimer)
 		RemakeLog();
 }
 
+void CSrmmBaseDialog::RemakeLog()
+{
+	m_pLog->LogEvents(m_hDbEventFirst, -1, false);
+}
+
 void CSrmmBaseDialog::ScheduleRedrawLog()
 {
 	timerRedraw.Start(20);

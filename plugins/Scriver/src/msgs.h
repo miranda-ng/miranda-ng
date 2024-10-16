@@ -133,7 +133,6 @@ public:
 	void GetInputFont(LOGFONTW &lf, COLORREF &bg, COLORREF &fg) const override;
 	void LoadSettings() override;
 	void OnOptionsApplied() override;
-	void RemakeLog() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;
 	void UpdateFilterButton() override;

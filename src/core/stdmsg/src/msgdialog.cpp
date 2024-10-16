@@ -1345,11 +1345,6 @@ void CMsgDialog::NotifyTyping(int mode)
 	}
 }
 
-void CMsgDialog::RemakeLog()
-{
-	m_pLog->LogEvents(m_hDbEventFirst, -1, false);
-}
-
 void CMsgDialog::ShowTime(bool bForce)
 {
 	if (!m_hTimeZone)

@@ -541,7 +541,7 @@ void CMsgDialog::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 		m_bDeferredScroll = true;
 
 	if (m_iLogMode == WANT_BUILTIN_LOG)
-		((CLogWindow *)m_pLog)->ScrollToBottom(wParam != 0, lParam != 0);
+		LOG()->ScrollToBottom(wParam != 0, lParam != 0);
 	else
 		m_pLog->ScrollToBottom();
 }

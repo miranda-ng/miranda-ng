@@ -1548,7 +1548,10 @@ void CMsgDialog::RemakeLog()
 	m_szMicroLf[0] = 0;
 	m_lastEventTime = 0;
 	m_iLastEventType = -1;
-	StreamEvents(m_hDbEventFirst, -1, 0);
+	
+	CSuper::RemakeLog();
+	
+	DM_ScrollToBottom(0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

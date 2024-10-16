@@ -376,7 +376,7 @@ public:
 	virtual bool IsActive() const = 0;
 	virtual void LoadSettings() = 0;
 	virtual void OnOptionsApplied();
-	virtual void RemakeLog() = 0;
+	virtual void RemakeLog();
 	virtual void SetStatusText(const wchar_t *, HICON) {}
 	virtual void ShowFilterMenu() {}
 	virtual void UpdateFilterButton();
