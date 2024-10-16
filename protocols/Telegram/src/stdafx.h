@@ -52,7 +52,7 @@ struct CMPlugin : public ACCPROTOPLUGIN<CTelegramProto>
 {
 	CMPlugin();
 
-	bool hasMessageState = false;
+	bool hasMessageState = false, hasNewStory = false;
 	HANDLE m_hIcon = 0;
 
 	int Load() override;

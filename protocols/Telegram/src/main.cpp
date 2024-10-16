@@ -48,6 +48,7 @@ static IconItem iconList[] =
 
 static int OnModuleLoaded(WPARAM, LPARAM)
 {
+	g_plugin.hasNewStory = ServiceExists("NewStory/RemoteRead");
 	g_plugin.hasMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
 	return 0;
 }

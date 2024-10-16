@@ -140,7 +140,7 @@ public:
 	HistoryArray();
 	~HistoryArray();
 
-	ItemData* addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count);
+	void addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count, bool bNew = false);
 	void addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, const LOGINFO *pEvent);
 	void addResults(NewstoryListData *pOwner, const OBJLIST<SearchResult> &pArray);
 

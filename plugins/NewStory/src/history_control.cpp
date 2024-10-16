@@ -132,9 +132,13 @@ void NewstoryListData::AddChatEvent(SESSION_INFO *si, const LOGINFO *lin)
 void NewstoryListData::AddEvent(MCONTACT hContact, MEVENT hFirstEvent, int iCount, bool bNew)
 {
 	ScheduleDraw();
-	if (auto *p = items.addEvent(this, hContact, hFirstEvent, iCount))
-		p->m_bNew = bNew;
+	items.addEvent(this, hContact, hFirstEvent, iCount, bNew);
 	totalCount = items.getCount();
+
+	if (iCount == -1)
+		if (auto *szProto = Proto_GetBaseAccountName(hContact))
+			if (auto hEvent = db_get_dw(hContact, szProto, "RemoteRead"))
+				RemoteRead(hContact, hEvent);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -438,17 +442,17 @@ void NewstoryListData::DeleteItems(void)
 
 void NewstoryListData::DeliverEvent(MCONTACT hContact, MEVENT hEvent)
 {
-	bool isChanged = false;
+	bool isChanged = false, isActive = false;
 
-	for (int i = 0; i < totalCount; i++) {
+	for (int i = totalCount - 1; i >= 0; i--) {
 		auto *pItem = GetItem(i);
 		if (pItem->dbe.hContact != hContact || !(pItem->dbe.flags & DBEF_SENT))
 			continue;
 
-		if (pItem->dbe.getEvent() > hEvent)
-			break;
+		if (pItem->dbe.getEvent() == hEvent)
+			isActive = true;
 
-		if (pItem->m_bNew && !pItem->m_bDelivered) {
+		if (isActive && pItem->m_bNew && !pItem->m_bDelivered) {
 			pItem->m_bDelivered = true;
 			pItem->savedHeight = -1;
 			pItem->calcHeight(cachedWindowWidth);
@@ -917,17 +921,20 @@ void NewstoryListData::RecalcScrollBar()
 
 void NewstoryListData::RemoteRead(MCONTACT hContact, MEVENT hEvent)
 {
-	bool isChanged = false;
+	bool isChanged = false, isActive = false;
 
-	for (int i = 0; i < totalCount; i++) {
+	for (int i = totalCount-1; i >= 0; i--) {
 		auto *pItem = GetItem(i);
+		if (!pItem->m_bLoaded)
+			pItem->fetch();
+
 		if (pItem->dbe.hContact != hContact || !(pItem->dbe.flags & DBEF_SENT))
 			continue;
 
-		if (pItem->dbe.getEvent() > hEvent)
-			break;
+		if (pItem->dbe.getEvent() == hEvent)
+			isActive = true;
 
-		if (pItem->m_bNew && !pItem->m_bRemoteRead) {
+		if (isActive && pItem->m_bNew && !pItem->m_bRemoteRead) {
 			pItem->m_bRemoteRead = true;
 			pItem->savedHeight = -1;
 			pItem->calcHeight(cachedWindowWidth);
@@ -1060,6 +1067,13 @@ void NewstoryListData::TryUp(int iCount)
 	if (hContact == 0)
 		return;
 
+	bool hasRead = false;
+	for (int i=0; i < totalCount; i++)
+		if (GetItem(i)->m_bRemoteRead) {
+			hasRead = true;
+			break;
+		}
+
 	int i;
 	for (i = 0; i < iCount; i++) {
 		MEVENT hPrev = (hTopEvent == -1) ? db_event_last(hContact) : db_event_prev(hContact, hTopEvent);
@@ -1070,13 +1084,18 @@ void NewstoryListData::TryUp(int iCount)
 		p->pOwner = this;
 		p->dbe.hContact = hContact;
 		p->dbe = hPrev;
+		p->m_bNew = true;
 		totalCount++;
 	}
 
 	ItemData *pPrev = nullptr;
 	for (int j = 0; j < i + 1; j++)
-		if (auto *pItem = GetItem(j))
+		if (auto *pItem = GetItem(j)) {
+			pItem->fetch();
+			if (pItem->dbe.flags & DBEF_SENT)
+				pItem->m_bRemoteRead = hasRead;
 			pPrev = pItem->checkNext(pPrev);
+		}
 
 	caret = 0;
 	CalcBottom();

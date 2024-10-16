@@ -184,13 +184,18 @@ void CTelegramProto::OnShutdown()
 
 int CTelegramProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
 {
-	if (wParam == MSG_WINDOW_EVT_OPENING) {
-		auto *pDlg = (CMsgDialog *)lParam;
-		if (Proto_IsProtoOnContact(pDlg->m_hContact, m_szModuleName))
-			if (auto *pUser = FindUser(GetId(pDlg->m_hContact)))
-				if (pUser->chatId == -1 && !pDlg->isChat())
-					SendQuery(new TD::createPrivateChat(pUser->id, true));
-	}
+	auto *pDlg = (CMsgDialog *)lParam;
+	if (!Proto_IsProtoOnContact(pDlg->m_hContact, m_szModuleName))
+		return 0;
+
+	auto *pUser = FindUser(GetId(pDlg->m_hContact));
+	if (pUser == nullptr)
+		return 0;
+
+	if (wParam == MSG_WINDOW_EVT_OPENING)
+		if (pUser->chatId == -1 && !pDlg->isChat())
+			SendQuery(new TD::createPrivateChat(pUser->id, true));
+
 	return 0;
 }
 

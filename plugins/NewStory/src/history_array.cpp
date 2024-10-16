@@ -559,7 +559,7 @@ void HistoryArray::addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, cons
 	}
 }
 
-ItemData* HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count)
+void HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, MEVENT hEvent, int count, bool bNew)
 {
 	if (count == -1)
 		count = MAXINT;
@@ -577,34 +577,32 @@ ItemData* HistoryArray::addEvent(NewstoryListData *pOwner, MCONTACT hContact, ME
 		p.pOwner = pOwner;
 		p.dbe.hContact = hContact;
 		p.dbe = hEvent;
+		p.m_bNew = bNew;
 		if (isChat) {
 			checkGC(p, si);
 			pPrev = p.checkPrevGC(pPrev);
 		}
 		else pPrev = p.checkPrev(pPrev);
-		return &p;
 	}
+	else {
+		DB::ECPTR pCursor(DB::Events(hContact, hEvent));
+		for (int i = 0; i < count; i++) {
+			hEvent = pCursor.FetchNext();
+			if (!hEvent)
+				break;
 
-	ItemData *pRet = nullptr;
-	DB::ECPTR pCursor(DB::Events(hContact, hEvent));
-	for (int i = 0; i < count; i++) {
-		hEvent = pCursor.FetchNext();
-		if (!hEvent)
-			break;
-
-		auto &p = allocateItem();
-		p.pOwner = pOwner;
-		p.dbe.hContact = hContact;
-		p.dbe = hEvent;
-		if (isChat) {
-			checkGC(p, si);
-			pPrev = p.checkPrevGC(pPrev);
+			auto &p = allocateItem();
+			p.pOwner = pOwner;
+			p.dbe.hContact = hContact;
+			p.dbe = hEvent;
+			p.m_bNew = bNew;
+			if (isChat) {
+				checkGC(p, si);
+				pPrev = p.checkPrevGC(pPrev);
+			}
+			else pPrev = p.checkPrev(pPrev);
 		}
-		else pPrev = p.checkPrev(pPrev);
-		pRet = &p;
 	}
-
-	return pRet;
 }
 
 void HistoryArray::addNick(ItemData &pItem, wchar_t *pwszNick)

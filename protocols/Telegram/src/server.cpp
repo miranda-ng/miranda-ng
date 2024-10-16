@@ -1087,10 +1087,15 @@ void CTelegramProto::ProcessRemoteMarkRead(TD::updateChatReadOutbox *pObj)
 	CMStringA szMaxId(msg2id(pUser->chatId, pObj->last_read_outbox_message_id_));
 	MarkRead(pUser->hContact, szMaxId, true);
 
-	CallService(MS_MESSAGESTATE_UPDATE, GetRealContact(pUser), MRD_TYPE_READ);
+	auto hContact = GetRealContact(pUser);
+	if (g_plugin.hasMessageState)
+		CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
 
-	if (auto hEvent = db_event_getById(m_szModuleName, szMaxId))
-		NS_NotifyRemoteRead(GetRealContact(pUser), hEvent);
+	if (auto hEvent = db_event_getById(m_szModuleName, szMaxId)) {
+		setDword(hContact, DBKEY_REMOTE_READ, hEvent);
+		if (g_plugin.hasNewStory)
+			NS_NotifyRemoteRead(hContact, hEvent);
+	}
 }
 
 void CTelegramProto::ProcessScopeNotification(TD::updateScopeNotificationSettings *pObj)

@@ -5,6 +5,7 @@
 #define DBKEY_OWNER  "OwnerId"
 #define DBKEY_THREAD "ThreadId"
 #define DBKEY_AUTHORIZED "Authorized"
+#define DBKEY_REMOTE_READ "RemoteRead"
 
 #define DBKEY_AVATAR_HASH "AvatarHash"
 #define DBKEY_AVATAR_TYPE "AvatarType"
