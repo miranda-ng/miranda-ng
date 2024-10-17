@@ -665,18 +665,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_SRMM_LOG:
-		case IDC_SRMM_MESSAGE:
-			if (((LPNMHDR)lParam)->code == EN_MSGFILTER && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
-				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-				return TRUE;
-			}
-			break;
-		}
-		break;
-
 	case DM_UPDATETITLE:
 		if (lParam != 0) {
 			if (isChat()) {

@@ -660,6 +660,54 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		LPNMHDR hdr = (LPNMHDR)lParam;
 		if (hdr->hwndFrom == m_pLog->GetHwnd())
 			m_pLog->Notify(wParam, lParam);
+		else if (hdr->code == EN_MSGFILTER) {
+			auto *F = ((MSGFILTER *)lParam);
+			if ((F->msg == WM_LBUTTONDOWN || F->msg == WM_KEYUP || F->msg == WM_LBUTTONUP) && F->nmhdr.idFrom == IDC_SRMM_MESSAGE) {
+				int bBold = IsDlgButtonChecked(m_hwnd, IDC_SRMM_BOLD);
+				int bItalic = IsDlgButtonChecked(m_hwnd, IDC_SRMM_ITALICS);
+				int bUnder = IsDlgButtonChecked(m_hwnd, IDC_SRMM_UNDERLINE);
+				int bStrikeout = IsDlgButtonChecked(m_hwnd, IDC_SRMM_STRIKEOUT);
+
+				CHARFORMAT2 cf2;
+				cf2.cbSize = sizeof(CHARFORMAT2);
+				cf2.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_UNDERLINETYPE | CFM_STRIKEOUT;
+				cf2.dwEffects = 0;
+				m_message.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
+				if (cf2.dwEffects & CFE_BOLD) {
+					if (bBold == BST_UNCHECKED)
+						CheckDlgButton(m_hwnd, IDC_SRMM_BOLD, BST_CHECKED);
+				}
+				else if (bBold == BST_CHECKED)
+					CheckDlgButton(m_hwnd, IDC_SRMM_BOLD, BST_UNCHECKED);
+
+				if (cf2.dwEffects & CFE_ITALIC) {
+					if (bItalic == BST_UNCHECKED)
+						CheckDlgButton(m_hwnd, IDC_SRMM_ITALICS, BST_CHECKED);
+				}
+				else if (bItalic == BST_CHECKED)
+					CheckDlgButton(m_hwnd, IDC_SRMM_ITALICS, BST_UNCHECKED);
+
+				if (cf2.dwEffects & CFE_UNDERLINE && (cf2.bUnderlineType & CFU_UNDERLINE || cf2.bUnderlineType & CFU_UNDERLINEWORD)) {
+					if (bUnder == BST_UNCHECKED)
+						CheckDlgButton(m_hwnd, IDC_SRMM_UNDERLINE, BST_CHECKED);
+				}
+				else if (bUnder == BST_CHECKED)
+					CheckDlgButton(m_hwnd, IDC_SRMM_UNDERLINE, BST_UNCHECKED);
+
+				if (cf2.dwEffects & CFE_STRIKEOUT) {
+					if (bStrikeout == BST_UNCHECKED)
+						CheckDlgButton(m_hwnd, IDC_SRMM_STRIKEOUT, BST_CHECKED);
+				}
+				else if (bStrikeout == BST_CHECKED)
+					CheckDlgButton(m_hwnd, IDC_SRMM_STRIKEOUT, BST_UNCHECKED);
+			}
+
+			if ((hdr->idFrom == IDC_SRMM_LOG || hdr->idFrom == IDC_SRMM_MESSAGE) && F->msg == WM_RBUTTONUP) {
+				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
+				return TRUE;
+			}
+
+		}
 		break;
 	}
 

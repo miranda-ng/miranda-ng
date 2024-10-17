@@ -40,7 +40,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	g_plugin.addButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID | BBBF_NOREADONLY;
-	bbd.dwButtonID = IDC_FONTSTRIKEOUT;
+	bbd.dwButtonID = IDC_SRMM_STRIKEOUT;
 	bbd.dwDefPos = 70;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_STRIKEOUT);
 	bbd.pwszTooltip = LPGENW("Strike-through text");

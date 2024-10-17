@@ -35,7 +35,7 @@ LIST<void> g_arUnreadWindows(1, PtrKeySortT);
 static int g_cLinesPerPage = 0;
 static int g_iWheelCarryover = 0;
 
-static const UINT formatControls[] = { IDC_SRMM_BOLD, IDC_SRMM_ITALICS, IDC_SRMM_UNDERLINE, IDC_FONTSTRIKEOUT };
+static const UINT formatControls[] = { IDC_SRMM_BOLD, IDC_SRMM_ITALICS, IDC_SRMM_UNDERLINE, IDC_SRMM_STRIKEOUT };
 static const UINT addControls[] = { IDC_ADD, IDC_CANCELADD };
 static const UINT btnControls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER, IDC_ADD, IDC_CANCELADD };
 static const UINT errorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
@@ -326,7 +326,7 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnCancelAdd(this, IDC_CANCELADD),
-	m_btnStrikeout(this, IDC_FONTSTRIKEOUT)
+	m_btnStrikeout(this, IDC_SRMM_STRIKEOUT)
 {
 	m_hContact = hContact;
 
@@ -570,9 +570,6 @@ bool CMsgDialog::OnInitDialog()
 		UpdateStatusBar();
 		UpdateTitle();
 		m_hTabIcon = m_hTabStatusIcon;
-
-		if (!m_bSendFormat)
-			ShowMultipleControls(m_hwnd, formatControls, _countof(formatControls), SW_HIDE);
 
 		UpdateNickList();
 		UpdateChatLog();
@@ -1664,46 +1661,6 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			SendDlgItemMessage(m_hwnd, pFilter->nmhdr.code, WM_COPY, 0, 0);
 			return 0;
 		}
-	}
-
-	if ((msg == WM_LBUTTONDOWN || msg == WM_KEYUP || msg == WM_LBUTTONUP) && pFilter->nmhdr.idFrom == IDC_SRMM_MESSAGE) {
-		int bBold = IsDlgButtonChecked(m_hwnd, IDC_SRMM_BOLD);
-		int bItalic = IsDlgButtonChecked(m_hwnd, IDC_SRMM_ITALICS);
-		int bUnder = IsDlgButtonChecked(m_hwnd, IDC_SRMM_UNDERLINE);
-		int bStrikeout = IsDlgButtonChecked(m_hwnd, IDC_FONTSTRIKEOUT);
-
-		CHARFORMAT2 cf2;
-		cf2.cbSize = sizeof(CHARFORMAT2);
-		cf2.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_UNDERLINETYPE | CFM_STRIKEOUT;
-		cf2.dwEffects = 0;
-		m_message.SendMsg(EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2);
-		if (cf2.dwEffects & CFE_BOLD) {
-			if (bBold == BST_UNCHECKED)
-				CheckDlgButton(m_hwnd, IDC_SRMM_BOLD, BST_CHECKED);
-		}
-		else if (bBold == BST_CHECKED)
-			CheckDlgButton(m_hwnd, IDC_SRMM_BOLD, BST_UNCHECKED);
-
-		if (cf2.dwEffects & CFE_ITALIC) {
-			if (bItalic == BST_UNCHECKED)
-				CheckDlgButton(m_hwnd, IDC_SRMM_ITALICS, BST_CHECKED);
-		}
-		else if (bItalic == BST_CHECKED)
-			CheckDlgButton(m_hwnd, IDC_SRMM_ITALICS, BST_UNCHECKED);
-
-		if (cf2.dwEffects & CFE_UNDERLINE && (cf2.bUnderlineType & CFU_UNDERLINE || cf2.bUnderlineType & CFU_UNDERLINEWORD)) {
-			if (bUnder == BST_UNCHECKED)
-				CheckDlgButton(m_hwnd, IDC_SRMM_UNDERLINE, BST_CHECKED);
-		}
-		else if (bUnder == BST_CHECKED)
-			CheckDlgButton(m_hwnd, IDC_SRMM_UNDERLINE, BST_UNCHECKED);
-
-		if (cf2.dwEffects & CFE_STRIKEOUT) {
-			if (bStrikeout == BST_UNCHECKED)
-				CheckDlgButton(m_hwnd, IDC_FONTSTRIKEOUT, BST_CHECKED);
-		}
-		else if (bStrikeout == BST_CHECKED)
-			CheckDlgButton(m_hwnd, IDC_FONTSTRIKEOUT, BST_UNCHECKED);
 	}
 	
 	switch (msg) {

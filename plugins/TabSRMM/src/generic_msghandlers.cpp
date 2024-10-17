@@ -172,7 +172,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 	case IDC_SRMM_BOLD:
 	case IDC_SRMM_ITALICS:
 	case IDC_SRMM_UNDERLINE:
-	case IDC_FONTSTRIKEOUT:
+	case IDC_SRMM_STRIKEOUT:
 		if (m_bSendFormat) { // dont use formatting if disabled
 			auto *pCtrl = (CCtrlButton*)FindControl(cmd);
 			if (!pCtrl->Enabled())

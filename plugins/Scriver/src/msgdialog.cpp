@@ -1043,29 +1043,12 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		pNmhdr = (LPNMHDR)lParam;
 		switch (pNmhdr->idFrom) {
 		case IDC_SRMM_LOG:
-			switch (pNmhdr->code) {
-			case EN_MSGFILTER:
-				{
-					int result = InputAreaShortcuts(m_message.GetHwnd(), ((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam);
-					if (result != -1) {
-						SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-						return TRUE;
-					}
-				}
-
-				switch (((MSGFILTER *)lParam)->msg) {
-				case WM_RBUTTONUP:
+			if (pNmhdr->code == EN_MSGFILTER) {
+				int result = InputAreaShortcuts(m_message.GetHwnd(), ((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam);
+				if (result != -1) {
 					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
 					return TRUE;
 				}
-				break;
-			}
-			break;
-		
-		case IDC_SRMM_MESSAGE:
-			if (pNmhdr->code == EN_MSGFILTER && ((MSGFILTER *)lParam)->msg == WM_RBUTTONUP) {
-				SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, TRUE);
-				return TRUE;
 			}
 			break;
 		}
