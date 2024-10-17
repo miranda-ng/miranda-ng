@@ -83,3 +83,5 @@ struct MuuidReplacement
 };
 
 MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin);
+
+extern LIST<CMPluginBase> g_arPlugins;

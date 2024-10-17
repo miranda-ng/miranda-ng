@@ -27,6 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "plugins.h"
 #include "IcoLib.h"
 
+CMPluginBase *g_pLastPlugin;
+
 static int sttFakeID = -100;
 
 static int Compare(const CMPluginBase *p1, const CMPluginBase *p2)
@@ -34,11 +36,11 @@ static int Compare(const CMPluginBase *p1, const CMPluginBase *p2)
 	return INT_PTR(p1->getInst()) - INT_PTR(p2->getInst());
 }
 
-static LIST<CMPluginBase> g_arPlugins(10, Compare);
+LIST<CMPluginBase> g_arPlugins(10, Compare);
 
 void RegisterModule(CMPluginBase *pPlugin)
 {
-	g_arPlugins.insert(pPlugin);
+	g_pLastPlugin = pPlugin;
 }
 
 MIR_APP_DLL(HINSTANCE) GetInstByAddress(void *codePtr)
@@ -144,7 +146,7 @@ CMPluginBase::CMPluginBase(const char *moduleName, const PLUGININFOEX &pInfo) :
 	m_arIcons(10, CompareIcons)
 {
 	if (m_hInst != nullptr)
-		g_arPlugins.insert(this);
+		g_pLastPlugin = this;
 }
 
 CMPluginBase::~CMPluginBase()
