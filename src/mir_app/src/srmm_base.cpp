@@ -613,7 +613,7 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (wParam == IDC_CODE) {
-			if (lParam > 0 && lParam < _countof(wszBbcodes))
+			if (lParam > 0 && lParam <= _countof(wszBbcodes))
 				InsertBbcodeString(wszBbcodes[lParam-1]);
 			else
 				Srmm_ClickToolbarIcon(m_hContact, wParam, m_hwnd, 0);
