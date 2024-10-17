@@ -110,12 +110,12 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 		if (h == nullptr)
 			return true;
 
-		ppb = &GetPluginByInstance(h);
-		if (ppb->getInst() != h) {
+		if (!g_pLastPlugin || g_pLastPlugin->getInst() != h) {
 			FreeLibrary(h);
 			return true;
 		}
 
+		ppb = g_pLastPlugin;
 		bNeedsFree = true;
 	}
 	else {

@@ -56,6 +56,7 @@ struct pluginEntry
 extern LIST<pluginEntry> pluginList, servicePlugins, clistPlugins;
 extern MUUID miid_last;
 extern bool g_bLoadStd;
+extern CMPluginBase *g_pLastPlugin;
 
 int PluginOptionsInit(WPARAM, LPARAM);
 
