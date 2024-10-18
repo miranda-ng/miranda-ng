@@ -227,6 +227,9 @@ static bool validInterfaceList(const MUUID *piface)
 
 bool pluginEntry::checkAPI(wchar_t *plugin)
 {
+	if (bHasBasicApi)
+		return true;
+
 	SetErrorMode(SEM_FAILCRITICALERRORS); // disable error messages
 	HINSTANCE h = LoadLibrary(plugin);
 	SetErrorMode(0);							  // reset the system default
