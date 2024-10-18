@@ -1225,6 +1225,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	if (pUser->usernames_)
 		UpdateString(pu->hContact, "Nick", pUser->usernames_->editable_username_);
+	else
+		delSetting(pu->hContact, "Nick");
 
 	Contact::PutOnList(pu->hContact);
 
