@@ -480,10 +480,12 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	}
 
 	if (dbei) {
-		DB::FILE_BLOB blob(dbei);
-		OnReceiveOfflineFile(dbei, blob);
-		blob.write(dbei);
-		db_event_edit(dbei.getEvent(), &dbei, true);
+		if (!Ignore_IsIgnored(pRequest->m_hContact, IGNOREEVENT_FILE)) {
+			DB::FILE_BLOB blob(dbei);
+			OnReceiveOfflineFile(dbei, blob);
+			blob.write(dbei);
+			db_event_edit(dbei.getEvent(), &dbei, true);
+		}
 		delete pRequest;
 	}
 	else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, pszFileName, F.szBody), dbei);
