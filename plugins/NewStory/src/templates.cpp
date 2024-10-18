@@ -207,19 +207,11 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 			}
 			else if (!wcsncmp(p, L"code]", 5)) {
 				p += 4;
-				buf.AppendFormat(L"<pre>");
-			}
-			else if (!wcsncmp(p, L"/code]", 6)) {
-				p += 5;
-				buf.AppendFormat(L"</pre>");
+				buf.AppendFormat(*pEnd ? L"</pre>" : L"<pre>");
 			}
 			else if (!wcsncmp(p, L"quote]", 6)) {
 				p += 5;
-				buf.AppendFormat(L"<div class=\"quote\">");
-			}
-			else if (!wcsncmp(p, L"/quote]", 7)) {
-				p += 6;
-				buf.AppendFormat(L"</div>");
+				buf.AppendFormat(*pEnd ? L"</div>" : L"<div class=\"quote\">" );
 			}
 			else {
 				buf.AppendChar('[');
