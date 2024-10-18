@@ -27,6 +27,7 @@ void __cdecl CTelegramProto::ServerThread(void *)
 {
 	m_botIds.clear();
 
+	bool bWasAuthorized = getBool(DBKEY_AUTHORIZED);
 	m_bTerminated = m_bAuthorized = false;
 	m_pClientManager = std::make_unique<td::ClientManager>();
 	m_iClientId = m_pClientManager->create_client_id();
@@ -52,11 +53,13 @@ void __cdecl CTelegramProto::ServerThread(void *)
 			SendQuery(new TD::addProxy(nluSettings.szProxyServer, nluSettings.wProxyPort, true, std::move(proxyType)));
 	}
 
-	while (!m_bTerminated) {
+	while (!m_bTerminated)
 		ProcessResponse(m_pClientManager->receive(1));
-	}
 
 	m_pClientManager = std::move(nullptr);
+
+	if (!bWasAuthorized && !getBool(DBKEY_AUTHORIZED))
+		OnErase();
 }
 
 void CTelegramProto::UnregisterSession()
