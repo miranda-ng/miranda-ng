@@ -57,7 +57,8 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	m_bUsePopups(this, "UsePopups", true),
 	m_bCompressFiles(this, "CompressFiles", true),
 	m_bHideGroupchats(this, "HideChats", true),
-	m_bIncludePreviews(this, "IncludePreview", true)
+	m_bIncludePreviews(this, "IncludePreview", true),
+	m_bResidentChannels(this, "ResidentChannels", false)
 {
 	m_iOwnId = GetId(0);
 

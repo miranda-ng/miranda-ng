@@ -927,28 +927,39 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 			hContact = si->hContact;
 	}
 
-	DB::EventInfo dbei(hOldEvent);
-	dbei.szId = szMsgId;
-	dbei.cbBlob = szText.GetLength();
-	dbei.timestamp = pMessage->date_;
-	if (pMessage->is_outgoing_)
-		dbei.flags |= DBEF_SENT;
-	if (!pUser->bInited)
-		dbei.flags |= DBEF_READ;
-	if (GetGcUserId(pUser, pMessage, szUserId))
-		dbei.szUserId = szUserId;
-	if (auto iReplyId = getReplyId(pMessage->reply_to_.get())) {
-		szReplyId = msg2id(pMessage->chat_id_, iReplyId);
-		dbei.szReplyId = szReplyId;
-	}
-
-	if (dbei) {
-		replaceStr(dbei.pBlob, szText.Detach());
-		db_event_edit(hOldEvent, &dbei, true);
+	if (m_bResidentChannels && pUser->isChannel && pUser->m_si) {
+		GCEVENT gce = { pUser->m_si, GC_EVENT_MESSAGE };
+		gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+		gce.pszText.a = szText;
+		gce.pszNick.a = szUserId;
+		gce.pszUID.a = szUserId;
+		gce.time = pMessage->date_;
+		Chat_Event(&gce);
 	}
 	else {
-		dbei.pBlob = szText.GetBuffer();
-		ProtoChainRecvMsg(hContact, dbei);
+		DB::EventInfo dbei(hOldEvent);
+		dbei.szId = szMsgId;
+		dbei.cbBlob = szText.GetLength();
+		dbei.timestamp = pMessage->date_;
+		if (pMessage->is_outgoing_)
+			dbei.flags |= DBEF_SENT;
+		if (!pUser->bInited)
+			dbei.flags |= DBEF_READ;
+		if (GetGcUserId(pUser, pMessage, szUserId))
+			dbei.szUserId = szUserId;
+		if (auto iReplyId = getReplyId(pMessage->reply_to_.get())) {
+			szReplyId = msg2id(pMessage->chat_id_, iReplyId);
+			dbei.szReplyId = szReplyId;
+		}
+
+		if (dbei) {
+			replaceStr(dbei.pBlob, szText.Detach());
+			db_event_edit(hOldEvent, &dbei, true);
+		}
+		else {
+			dbei.pBlob = szText.GetBuffer();
+			ProtoChainRecvMsg(hContact, dbei);
+		}
 	}
 }
 

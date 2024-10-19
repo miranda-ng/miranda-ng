@@ -35,6 +35,7 @@
 #define IDC_COMPRESS_FILES              1017
 #define IDC_REACTIONS                   1018
 #define IDC_USE_PREVIEW                 1018
+#define IDC_RESIDENT_CHANNELS           1019
 #define IDC_SESSIONS                    1023
 #define IDC_SOFTWARE                    1025
 #define IDC_LOGOUT                      1025
