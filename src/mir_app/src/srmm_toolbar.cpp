@@ -875,7 +875,7 @@ static int OnToolbarLoaded(WPARAM, LPARAM)
 	bbd.dwDefPos = 150;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_CODE);
 	bbd.pszModuleName = SRMM_MODULE;
-	bbd.pwszTooltip = LPGENW("Custom bbcodes");
+	bbd.pwszTooltip = LPGENW("Custom BBCodes");
 	g_plugin.addButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_NOREADONLY;
