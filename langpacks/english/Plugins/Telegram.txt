@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Telegram.dll
 ;  Plugin: Telegram protocol
-;  Version: 0.11.0.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
@@ -14,7 +14,8 @@
 [Do not open chat windows on creation]
 [Log out]
 [Compress files on send]
-[Generate URL previews]
+[Include URL preview into message text]
+[Store channel messages in memory only]
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 [Software]
@@ -74,7 +75,7 @@
 [%s error notifications]
 [Errors]
 [wrote]
-[Chat name was changed to]
+[Chat name was changed to %s]
 [Picture]
 [Audio]
 [seconds]
@@ -82,4 +83,3 @@
 [Voice message]
 [SmileyAdd plugin required to support stickers]
 [You received an invoice]
-[Title]

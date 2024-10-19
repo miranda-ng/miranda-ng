@@ -189,7 +189,6 @@
 [Log formatting]
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
-[User's details]
 [User's history]
 [Send message]
 [Smiley button]

@@ -44,12 +44,10 @@
 [ requested authorization]
 [ was added.]
 ;file \plugins\IEView\src\ieview_main.cpp
-[Code]
 [RTL On]
 [RTL Off]
 [Group On]
 [Group Off]
-[Format text as code]
 [IEView]
 ;file \plugins\IEView\src\Options.cpp
 [Default]

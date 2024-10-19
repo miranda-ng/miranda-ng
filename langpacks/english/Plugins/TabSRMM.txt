@@ -632,8 +632,6 @@
 [Saved TabSRMM avatars]
 [Group chat logs root]
 [Typing notification]
-;file \plugins\TabSRMM\src\modplus.cpp
-[Insert [img] tag / surround selected text with [img][/img]]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 [Do not add this contact permanently]
@@ -797,7 +795,6 @@
 [Window layout tweaks]
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Message Log options]
-[Image tag]
 [Quote text]
 [Save and close]
 [Smiley button]

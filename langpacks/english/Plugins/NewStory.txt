@@ -138,6 +138,8 @@
 [Template group]
 [Cancel edit]
 [Downloaded]
+[Delivered]
+[Remote read]
 [Help]
 ;file \plugins\NewStory\src\options.cpp
 [Reset to default]

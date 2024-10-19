@@ -1093,9 +1093,9 @@
 ;file \src\mir_app\src\ei_services.cpp
 [Mute chat]
 [Attach]
+[Code]
 ;file \src\mir_app\src\file.cpp
 [&File]
-[Send file]
 [File from %s]
 [File &transfers...]
 [Incoming]
@@ -1492,6 +1492,8 @@
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 [Toolbar]
+[Custom BBCodes]
+[Send file]
 ;file \src\mir_app\src\srmm_util.cpp
 [Message from %s]
 ;file \src\mir_app\src\utils.cpp
