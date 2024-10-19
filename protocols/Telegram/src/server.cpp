@@ -289,8 +289,6 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 				if (auto hDbEvent = db_event_getById(m_szModuleName, szOldId))
 					db_event_updateId(hDbEvent, msg2id(pMessage));
 
-			ProcessMessage(pMessage);
-
 			TG_OWN_MESSAGE tmp(0, 0, szOldId);
 			if (auto *pOwnMsg = m_arOwnMsg.find(&tmp)) {
 				auto szMsgId = msg2id(pMessage);
@@ -301,6 +299,8 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 					db_event_delivered(pOwnMsg->hContact, hDbEvent);
 				m_arOwnMsg.remove(pOwnMsg);
 			}
+
+			ProcessMessage(pMessage);
 		}
 		break;
 
