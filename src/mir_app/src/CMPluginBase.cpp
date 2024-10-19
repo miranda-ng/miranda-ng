@@ -123,7 +123,7 @@ static void wipePluginData(CMPluginBase *pPlugin)
 EXTERN_C MIR_APP_DLL(void) RegisterPlugin(CMPluginBase *pPlugin)
 {
 	if (pPlugin->getInst() != nullptr)
-		g_arPlugins.insert(pPlugin);
+		g_pLastPlugin = pPlugin;
 }
 
 // emulates the call of CMPluginBase::~CMPluginBase for Pascal plugins
