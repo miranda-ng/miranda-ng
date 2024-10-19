@@ -98,11 +98,6 @@ CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pT
 		case TD::textEntityTypeUnderline::ID: iCode = 3; break;
 		case TD::textEntityTypeCode::ID: iCode = 5; break;
 		case TD::textEntityTypeBlockQuote::ID: iCode = 6; break;
-		case TD::textEntityTypeUrl::ID:
-			if (!m_bUrlPreview)
-				continue;
-			iCode = 4;
-			break;
 		default:
 			continue;
 		}
@@ -772,7 +767,8 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		if (auto *pText = ((TD::messageText *)pBody)) {
 			ret = GetFormattedText(pText->text_);
 
-			if (auto *pWeb = pText->link_preview_.get()) {
+			auto *pWeb = pText->link_preview_.get();
+			if (pWeb && m_bIncludePreviews) {
 				CMStringA szDescr;
 
 				if (!pWeb->site_name_.empty())

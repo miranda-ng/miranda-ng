@@ -97,7 +97,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,83,294,10
     CONTROL         "Compress files on send",IDC_COMPRESS_FILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,96,294,10
     PUSHBUTTON      "Log out",IDC_LOGOUT,212,168,86,14
-    CONTROL         "Generate URL previews",IDC_USE_PREVIEW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,109,294,10
+    CONTROL         "Include URL preview into message text",IDC_USE_PREVIEW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,109,294,10
 END
 
 IDD_OPTIONS_ADV DIALOGEX 0, 0, 310, 86

@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class COptionsDlg : public CTelegramDlgBase
 {
 	CCtrlButton btnLogout;
-	CCtrlCheck chkHideChats, chkUsePopups, chkCompressFiles, chkGenPreview;
+	CCtrlCheck chkHideChats, chkUsePopups, chkCompressFiles, chkIncludePreviews;
 	CCtrlCombo cmbCountry;
 	CCtrlEdit edtGroup, edtPhone, edtDeviceName;
 	ptrW m_wszOldGroup;
@@ -34,11 +34,11 @@ public:
 		cmbCountry(this, IDC_COUNTRY),
 		chkUsePopups(this, IDC_POPUPS),
 		chkHideChats(this, IDC_HIDECHATS),
-		chkGenPreview(this, IDC_USE_PREVIEW),
 		edtPhone(this, IDC_PHONE),
 		edtGroup(this, IDC_DEFGROUP),
 		edtDeviceName(this, IDC_DEVICE_NAME),
 		chkCompressFiles(this, IDC_COMPRESS_FILES),
+		chkIncludePreviews(this, IDC_USE_PREVIEW),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
 		CreateLink(edtPhone, ppro->m_szOwnPhone);
@@ -48,8 +48,8 @@ public:
 
 		if (bFullDlg) {
 			CreateLink(chkUsePopups, ppro->m_bUsePopups);
-			CreateLink(chkGenPreview, ppro->m_bUrlPreview);
 			CreateLink(chkCompressFiles, ppro->m_bCompressFiles);
+			CreateLink(chkIncludePreviews, ppro->m_bIncludePreviews);
 		}
 
 		btnLogout.OnClick = Callback(this, &COptionsDlg::onClick_Logout);
