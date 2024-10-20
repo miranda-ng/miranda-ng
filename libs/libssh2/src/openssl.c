@@ -155,7 +155,7 @@ int _libssh2_hmac_update(libssh2_hmac_ctx *ctx,
 #ifdef USE_OPENSSL_3
     return EVP_MAC_update(*ctx, data, datalen);
 #elif defined(HAVE_OPAQUE_STRUCTS)
-/* FIXME: upstream bug as of v5.6.0: datalen is int instead of size_t */
+/* FIXME: upstream bug as of v5.7.0: datalen is int instead of size_t */
 #if defined(LIBSSH2_WOLFSSL)
     return HMAC_Update(*ctx, data, (int)datalen);
 #else /* !LIBSSH2_WOLFSSL */
@@ -347,6 +347,8 @@ _libssh2_rsa_new(libssh2_rsa_ctx ** rsa,
 
     if(dbuf)
         OPENSSL_clear_free(dbuf, dlen);
+
+    EVP_PKEY_CTX_free(ctx);
 
     return (ret == 1) ? 0 : -1;
 #else
@@ -798,6 +800,9 @@ _libssh2_ecdsa_curve_name_with_octal_new(libssh2_ecdsa_ctx ** ec_ctx,
     char *group_name = NULL;
     unsigned char *data = NULL;
 
+    if(!ctx)
+        return -1;
+
     if(n) {
         group_name = OPENSSL_zalloc(strlen(n) + 1);
     }
@@ -822,17 +827,22 @@ _libssh2_ecdsa_curve_name_with_octal_new(libssh2_ecdsa_ctx ** ec_ctx,
 
         params[2] = OSSL_PARAM_construct_end();
 
-        if(EVP_PKEY_fromdata_init(ctx) > 0) {
+        if(EVP_PKEY_fromdata_init(ctx) > 0)
             ret = EVP_PKEY_fromdata(ctx, ec_ctx, EVP_PKEY_PUBLIC_KEY,
                                     params);
-        }
-
-        if(group_name)
-            OPENSSL_clear_free(group_name, strlen(n));
-
-        if(data)
-            OPENSSL_clear_free(data, k_len);
+        else
+            ret = -1;
     }
+    else
+        ret = -1;
+
+    if(group_name)
+        OPENSSL_clear_free(group_name, strlen(n));
+
+    if(data)
+        OPENSSL_clear_free(data, k_len);
+
+    EVP_PKEY_CTX_free(ctx);
 #else
     EC_KEY *ec_key = EC_KEY_new_by_curve_name(curve);
 
@@ -842,15 +852,26 @@ _libssh2_ecdsa_curve_name_with_octal_new(libssh2_ecdsa_ctx ** ec_ctx,
 
         ec_group = EC_KEY_get0_group(ec_key);
         point = EC_POINT_new(ec_group);
-        ret = EC_POINT_oct2point(ec_group, point, k, k_len, NULL);
-        ret = EC_KEY_set_public_key(ec_key, point);
 
-        if(point)
+        if(point) {
+            ret = EC_POINT_oct2point(ec_group, point, k, k_len, NULL);
+            if(ret == 1)
+                ret = EC_KEY_set_public_key(ec_key, point);
+
             EC_POINT_free(point);
+        }
+        else
+            ret = -1;
 
-        if(ec_ctx)
+        if(ret == 1 && ec_ctx)
             *ec_ctx = ec_key;
+        else {
+            EC_KEY_free(ec_key);
+            ret = -1;
+        }
     }
+    else
+        ret = -1;
 #endif
 
     return (ret == 1) ? 0 : -1;
@@ -916,7 +937,16 @@ _libssh2_ecdsa_verify(libssh2_ecdsa_ctx * ecdsa_ctx,
 
 #ifdef USE_OPENSSL_3
     ctx = EVP_PKEY_CTX_new(ecdsa_ctx, NULL);
+    if(!ctx) {
+        ret = -1;
+        goto cleanup;
+    }
+
     der_len = i2d_ECDSA_SIG(ecdsa_sig, &der);
+    if(der_len <= 0) {
+        ret = -1;
+        goto cleanup;
+    }
 #endif
 
     if(type == LIBSSH2_EC_CURVE_NISTP256) {
@@ -929,12 +959,24 @@ _libssh2_ecdsa_verify(libssh2_ecdsa_ctx * ecdsa_ctx,
         LIBSSH2_ECDSA_VERIFY(512);
     }
 
+#ifdef USE_OPENSSL_3
+cleanup:
+
+    if(ctx)
+        EVP_PKEY_CTX_free(ctx);
+
+    if(der)
+        OPENSSL_free(der);
+#endif
+
 #ifdef HAVE_OPAQUE_STRUCTS
     if(ecdsa_sig)
         ECDSA_SIG_free(ecdsa_sig);
 #else
-    BN_clear_free(ecdsa_sig_.s);
-    BN_clear_free(ecdsa_sig_.r);
+    if(ecdsa_sig_.s)
+        BN_clear_free(ecdsa_sig_.s);
+    if(ecdsa_sig_.r)
+        BN_clear_free(ecdsa_sig_.r);
 #endif
 
     return (ret == 1) ? 0 : -1;
@@ -1056,7 +1098,13 @@ _libssh2_cipher_crypt(_libssh2_cipher_ctx * ctx,
                decrypt: verify tag, if applicable
                in!=NULL is equivalent to EVP_CipherUpdate
                in==NULL is equivalent to EVP_CipherFinal */
-#ifdef HAVE_OPAQUE_STRUCTS
+#if defined(LIBSSH2_WOLFSSL) && LIBWOLFSSL_VERSION_HEX < 0x05007000
+            /* Workaround for wolfSSL bug fixed in v5.7.0:
+               https://github.com/wolfSSL/wolfssl/pull/7143 */
+            unsigned char buf2[EVP_MAX_BLOCK_LENGTH];
+            int outb;
+            ret = EVP_CipherFinal(*ctx, buf2, &outb);
+#elif defined(HAVE_OPAQUE_STRUCTS)
             ret = EVP_Cipher(*ctx, NULL, NULL, 0); /* final */
 #else
             ret = EVP_Cipher(ctx, NULL, NULL, 0); /* final */
@@ -1226,7 +1274,7 @@ gen_publickey_from_rsa(LIBSSH2_SESSION *session, libssh2_rsa_ctx *rsa,
 {
     int            e_bytes, n_bytes;
     unsigned long  len;
-    unsigned char *key;
+    unsigned char *key = NULL;
     unsigned char *p;
 
 #ifdef USE_OPENSSL_3
@@ -1249,7 +1297,7 @@ gen_publickey_from_rsa(LIBSSH2_SESSION *session, libssh2_rsa_ctx *rsa,
 #endif
 #endif
     if(!e || !n) {
-        return NULL;
+        goto fail;
     }
 
     e_bytes = BN_num_bytes(e) + 1;
@@ -1260,7 +1308,7 @@ gen_publickey_from_rsa(LIBSSH2_SESSION *session, libssh2_rsa_ctx *rsa,
 
     key = LIBSSH2_ALLOC(session, len);
     if(!key) {
-        return NULL;
+        goto fail;
     }
 
     /* Process key encoding. */
@@ -1275,6 +1323,11 @@ gen_publickey_from_rsa(LIBSSH2_SESSION *session, libssh2_rsa_ctx *rsa,
     p = write_bn(p, n, n_bytes);
 
     *key_len = (size_t)(p - key);
+fail:
+#ifdef USE_OPENSSL_3
+    BN_clear_free(e);
+    BN_clear_free(n);
+#endif
     return key;
 }
 
@@ -1661,18 +1714,18 @@ gen_publickey_from_dsa(LIBSSH2_SESSION* session, libssh2_dsa_ctx *dsa,
 {
     int            p_bytes, q_bytes, g_bytes, k_bytes;
     unsigned long  len;
-    unsigned char *key;
+    unsigned char *key = NULL;
     unsigned char *p;
 
 #ifdef USE_OPENSSL_3
-    BIGNUM * p_bn;
-    BIGNUM * q;
-    BIGNUM * g;
-    BIGNUM * pub_key;
+    BIGNUM * p_bn = NULL;
+    BIGNUM * q = NULL;
+    BIGNUM * g = NULL;
+    BIGNUM * pub_key = NULL;
 
     EVP_PKEY_get_bn_param(dsa, OSSL_PKEY_PARAM_FFC_P, &p_bn);
-    EVP_PKEY_get_bn_param(dsa, OSSL_PKEY_PARAM_FFC_G, &q);
-    EVP_PKEY_get_bn_param(dsa, OSSL_PKEY_PARAM_FFC_Q, &g);
+    EVP_PKEY_get_bn_param(dsa, OSSL_PKEY_PARAM_FFC_Q, &q);
+    EVP_PKEY_get_bn_param(dsa, OSSL_PKEY_PARAM_FFC_G, &g);
     EVP_PKEY_get_bn_param(dsa, OSSL_PKEY_PARAM_PUB_KEY, &pub_key);
 #else
     const BIGNUM * p_bn;
@@ -1703,7 +1756,7 @@ gen_publickey_from_dsa(LIBSSH2_SESSION* session, libssh2_dsa_ctx *dsa,
 
     key = LIBSSH2_ALLOC(session, len);
     if(!key) {
-        return NULL;
+        goto fail;
     }
 
     /* Process key encoding. */
@@ -1720,6 +1773,13 @@ gen_publickey_from_dsa(LIBSSH2_SESSION* session, libssh2_dsa_ctx *dsa,
     p = write_bn(p, pub_key, k_bytes);
 
     *key_len = (size_t)(p - key);
+fail:
+#ifdef USE_OPENSSL_3
+    BN_clear_free(p_bn);
+    BN_clear_free(q);
+    BN_clear_free(g);
+    BN_clear_free(pub_key);
+#endif
     return key;
 }
 
@@ -2717,6 +2777,7 @@ _libssh2_rsa_sha2_sign(LIBSSH2_SESSION * session,
 
     if(EVP_PKEY_get_bn_param(rsactx, OSSL_PKEY_PARAM_RSA_N, &n) > 0) {
         sig_len = BN_num_bytes(n);
+        BN_clear_free(n);
     }
 
     if(sig_len > 0)
@@ -4025,7 +4086,7 @@ _libssh2_ecdsa_create_key(LIBSSH2_SESSION *session,
     EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_EC, NULL);
 
     if(ctx &&
-       EVP_PKEY_keygen_init(ctx) >0 &&
+       EVP_PKEY_keygen_init(ctx) > 0 &&
        EVP_PKEY_CTX_set_ec_paramgen_curve_nid(ctx, curve_type) > 0) {
         ret = EVP_PKEY_keygen(ctx, &private_key);
     }
@@ -5120,6 +5181,16 @@ _libssh2_dh_dtor(_libssh2_dh_ctx *dhctx)
     *dhctx = NULL;
 }
 
+int
+_libssh2_bn_from_bin(_libssh2_bn *bn, size_t len, const unsigned char *val)
+{
+    if(!BN_bin2bn(val, (int)len, bn)) {
+        return -1;
+    }
+
+    return 0;
+}
+
 /* _libssh2_supported_key_sign_algorithms
  *
  * Return supported key hash algo upgrades, see crypto.h
@@ -5134,8 +5205,12 @@ _libssh2_supported_key_sign_algorithms(LIBSSH2_SESSION *session,
     (void)session;
 
 #if LIBSSH2_RSA_SHA2
-    if(key_method_len == 7 &&
-       memcmp(key_method, "ssh-rsa", key_method_len) == 0) {
+    if((key_method_len == 7 &&
+        memcmp(key_method, "ssh-rsa", key_method_len) == 0) ||
+       (key_method_len == 28 &&
+        memcmp(key_method, "ssh-rsa-cert-v01@openssh.com",
+               key_method_len) == 0)
+       ) {
         return "rsa-sha2-512,rsa-sha2-256"
 #if LIBSSH2_RSA_SHA1
             ",ssh-rsa"

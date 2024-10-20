@@ -80,6 +80,15 @@
     <ClCompile Include="src\userauth_kbd_packet.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\chacha.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cipher-chachapoly.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\poly1305.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\channel.h">
@@ -126,6 +135,15 @@
     </ClInclude>
     <ClInclude Include="src\userauth_kbd_packet.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\chacha.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\cipher-chachapoly.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\poly1305.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

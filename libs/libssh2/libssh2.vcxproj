@@ -58,7 +58,13 @@
     <ClCompile Include="src\blowfish.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\chacha.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\channel.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\cipher-chachapoly.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\comp.c">
@@ -100,6 +106,9 @@
     <ClCompile Include="src\pem.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\poly1305.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\publickey.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -124,7 +133,9 @@
     <ClCompile Include="src\version.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClInclude Include="src\chacha.h" />
     <ClInclude Include="src\channel.h" />
+    <ClInclude Include="src\cipher-chachapoly.h" />
     <ClInclude Include="src\comp.h" />
     <ClInclude Include="src\crypto.h" />
     <ClInclude Include="src\libgcrypt.h" />
@@ -134,6 +145,7 @@
     <ClInclude Include="src\misc.h" />
     <ClInclude Include="src\openssl.h" />
     <ClInclude Include="src\packet.h" />
+    <ClInclude Include="src\poly1305.h" />
     <ClInclude Include="src\session.h" />
     <ClInclude Include="src\sftp.h" />
     <ClInclude Include="src\transport.h" />

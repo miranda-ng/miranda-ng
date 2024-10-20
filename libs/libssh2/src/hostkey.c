@@ -498,6 +498,34 @@ static const LIBSSH2_HOSTKEY_METHOD hostkey_method_ssh_rsa_cert = {
 
 #endif /* LIBSSH2_RSA_SHA1 */
 
+#if LIBSSH2_RSA_SHA2
+
+static const LIBSSH2_HOSTKEY_METHOD hostkey_method_ssh_rsa_sha2_256_cert = {
+     "rsa-sha2-256-cert-v01@openssh.com",
+     SHA256_DIGEST_LENGTH,
+     NULL,
+     hostkey_method_ssh_rsa_initPEM,
+     hostkey_method_ssh_rsa_initPEMFromMemory,
+     NULL,
+     hostkey_method_ssh_rsa_sha2_256_signv,
+     NULL,                       /* encrypt */
+     hostkey_method_ssh_rsa_dtor,
+};
+
+static const LIBSSH2_HOSTKEY_METHOD hostkey_method_ssh_rsa_sha2_512_cert = {
+     "rsa-sha2-512-cert-v01@openssh.com",
+     SHA512_DIGEST_LENGTH,
+     NULL,
+     hostkey_method_ssh_rsa_initPEM,
+     hostkey_method_ssh_rsa_initPEMFromMemory,
+     NULL,
+     hostkey_method_ssh_rsa_sha2_512_signv,
+     NULL,                       /* encrypt */
+     hostkey_method_ssh_rsa_dtor,
+};
+
+#endif /* LIBSSH2_RSA_SHA2 */
+
 #endif /* LIBSSH2_RSA */
 
 #if LIBSSH2_DSA
@@ -1332,6 +1360,8 @@ static const LIBSSH2_HOSTKEY_METHOD *hostkey_methods[] = {
 #if LIBSSH2_RSA_SHA2
     &hostkey_method_ssh_rsa_sha2_512,
     &hostkey_method_ssh_rsa_sha2_256,
+    &hostkey_method_ssh_rsa_sha2_512_cert,
+    &hostkey_method_ssh_rsa_sha2_256_cert,
 #endif /* LIBSSH2_RSA_SHA2 */
 #if LIBSSH2_RSA_SHA1
     &hostkey_method_ssh_rsa,
@@ -1386,9 +1416,11 @@ static int hostkey_type(const unsigned char *hostkey, size_t len)
     static const unsigned char rsa[] = {
         0, 0, 0, 0x07, 's', 's', 'h', '-', 'r', 's', 'a'
     };
+#if LIBSSH2_DSA
     static const unsigned char dss[] = {
         0, 0, 0, 0x07, 's', 's', 'h', '-', 'd', 's', 's'
     };
+#endif
     static const unsigned char ecdsa_256[] = {
         0, 0, 0, 0x13, 'e', 'c', 'd', 's', 'a', '-', 's', 'h', 'a', '2', '-',
         'n', 'i', 's', 't', 'p', '2', '5', '6'
@@ -1411,8 +1443,10 @@ static int hostkey_type(const unsigned char *hostkey, size_t len)
     if(!memcmp(rsa, hostkey, 11))
         return LIBSSH2_HOSTKEY_TYPE_RSA;
 
+#if LIBSSH2_DSA
     if(!memcmp(dss, hostkey, 11))
         return LIBSSH2_HOSTKEY_TYPE_DSS;
+#endif
 
     if(len < 15)
         return LIBSSH2_HOSTKEY_TYPE_UNKNOWN;
