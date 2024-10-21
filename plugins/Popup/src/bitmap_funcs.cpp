@@ -38,30 +38,15 @@ typedef long pu_koef;
 
 MyBitmap::MyBitmap()
 {
-	dcBmp = nullptr;
-	hBmp = nullptr;
-	bits = nullptr;
-	width = height = 0;
-	bitsSave = nullptr;
 }
 
 MyBitmap::MyBitmap(int w, int h)
 {
-	dcBmp = nullptr;
-	hBmp = nullptr;
-	bits = nullptr;
-	width = height = 0;
-	bitsSave = nullptr;
 	allocate(w, h);
 }
 
 MyBitmap::MyBitmap(const wchar_t *fn)
 {
-	dcBmp = nullptr;
-	hBmp = nullptr;
-	bits = nullptr;
-	width = height = 0;
-	bitsSave = nullptr;
 	loadFromFile(fn);
 }
 
@@ -95,7 +80,7 @@ void MyBitmap::makeOpaqueRect(int x1, int y1, int x2, int y2)
 
 void MyBitmap::saveAlpha(int x, int y, int w, int h)
 {
-	if (x < 0 || y < 0)
+	if (x < 0 || y < 0 || !bits)
 		return;
 	if (!w) w = width;
 	if (!h) h = height;
@@ -124,7 +109,7 @@ void MyBitmap::saveAlpha(int x, int y, int w, int h)
 
 void MyBitmap::restoreAlpha(int x, int y, int w, int h)
 {
-	if (!bitsSave)
+	if (!bitsSave || !bits)
 		return;
 
 	GdiFlush();

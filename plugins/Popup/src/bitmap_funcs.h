@@ -35,11 +35,11 @@ public:
 	};
 
 private:
-	HBITMAP hBmpSave, hBmp;
-	HDC dcBmp;
-	COLOR32 *bits;
-	COLOR32 *bitsSave;
-	int width, height;
+	HBITMAP hBmpSave = 0, hBmp = 0;
+	HDC dcBmp = 0;
+	COLOR32 *bits = 0;
+	COLOR32 *bitsSave = 0;
+	int width = 0, height = 0;
 
 	void freemem();
 
