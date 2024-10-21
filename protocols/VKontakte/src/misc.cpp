@@ -834,7 +834,7 @@ void CVkProto::ContactTypingThread(void *p)
 	Sleep(4500);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact);
 
-	if (!g_bMessageState) {
+	if (!g_plugin.hasMessageState) {
 		Sleep(1500);
 		SetSrmmReadStatus(hContact);
 	}
@@ -865,7 +865,7 @@ int CVkProto::OnProcessSrmmEvent(WPARAM uType, LPARAM lParam)
 	if (szProto.IsEmpty() || szProto != m_szModuleName)
 		return 0;
 
-	if (uType == MSG_WINDOW_EVT_OPENING && !g_bMessageState)
+	if (uType == MSG_WINDOW_EVT_OPENING && !g_plugin.hasMessageState)
 		SetSrmmReadStatus(pDlg->m_hContact);
 
 	if (uType == MSG_WINDOW_EVT_OPENING && m_vkOptions.bLoadLastMessageOnMsgWindowsOpen && IsHystoryMessageExist(pDlg->m_hContact) != 1) {
@@ -913,6 +913,22 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 
 		hDBEvent = db_event_next(hContact, hDBEvent);
 	}
+}
+
+void CVkProto::MarkRemoteRead(MCONTACT hContact)
+{
+	MEVENT hEvent = db_event_last(hContact);
+
+	setDword(hContact, "LastMsgReadTime", time(0));
+	setDword(hContact, "RemoteRead", hEvent);
+
+	if (g_plugin.hasNewStory)
+		NS_NotifyRemoteRead(hContact, hEvent);
+
+	if (g_plugin.hasMessageState)
+		CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
+	else
+		SetSrmmReadStatus(hContact);
 }
 
 char* CVkProto::GetStickerId(const char *szMsg, int &iStickerId)

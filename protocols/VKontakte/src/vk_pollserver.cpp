@@ -104,11 +104,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			}
 
 			if (hContact != 0 && (iFlags & VKFLAG_MSGUNREAD) && !IsMessageExist(iMessageId, vkIN)) {
-				setDword(hContact, "LastMsgReadTime", time(0));
-				if (g_bMessageState)
-					CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
-				else
-					SetSrmmReadStatus(hContact);
+				MarkRemoteRead(hContact);
 
 				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);
@@ -177,11 +173,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			iUserId = jnChild[1].as_int();
 			hContact = FindUser(iUserId);
 			if (hContact != 0) {
-				setDword(hContact, "LastMsgReadTime", time(0));
-				if (g_bMessageState)
-					CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
-				else
-					SetSrmmReadStatus(hContact);
+				MarkRemoteRead(hContact);
 
 				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);

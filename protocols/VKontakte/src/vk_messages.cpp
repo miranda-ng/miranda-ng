@@ -610,7 +610,7 @@ void CVkProto::OnReceiveDlgs(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			hContact = FindChat(iChatId);
 		}
 
-		if (g_bMessageState) {
+		if (g_plugin.hasMessageState) {
 			bool bIsOut = jnLastMessage["out"].as_bool();
 			bool bIsRead = (jnLastMessage["id"].as_int() <= jnConversation["in_read"].as_int());
 

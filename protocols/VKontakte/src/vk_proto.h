@@ -386,6 +386,7 @@ private:
 	void __cdecl ContactTypingThread(void *p);
 	int IsHystoryMessageExist(MCONTACT hContact);
 	void SetSrmmReadStatus(MCONTACT hContact);
+	void MarkRemoteRead(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
 	void CheckUpdate();
 	bool IsGroupUser(MCONTACT hContact);
@@ -460,6 +461,8 @@ private:
 struct CMPlugin : public ACCPROTOPLUGIN<CVkProto>
 {
 	CMPlugin();
+
+	bool hasMessageState = false, hasNewStory = false;
 
 	int Load() override;
 };

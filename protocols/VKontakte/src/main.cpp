@@ -19,7 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "version.h"
 
 CMPlugin g_plugin;
-bool g_bMessageState;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,7 +51,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 static int OnModuleLoaded(WPARAM, LPARAM)
 {
-	g_bMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE) != 0;
+	g_plugin.hasNewStory = ServiceExists("NewStory/RemoteRead");
+	g_plugin.hasMessageState = ServiceExists(MS_MESSAGESTATE_UPDATE);
 	return 0;
 }
 
