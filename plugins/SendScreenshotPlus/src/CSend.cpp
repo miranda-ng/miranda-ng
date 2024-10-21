@@ -501,6 +501,7 @@ int CSend::HTTPFormCreate(MHttpRequest* nlhr, const char* url, HTTPFormData* frm
 					str.Append(buf, filesize);
 					fclose(fp), fp = nullptr;
 				}
+				else str.Append(buf, filesize);
 			}
 			if (!fp) {
 				Error(L"Error occurred when opening local file.\nAborting file upload...");
