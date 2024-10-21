@@ -344,6 +344,19 @@ const HtmlEntity htmlEntities[] =
 	{ "zwnj", "\xE2\x80\x8C" }
 };
 
+static CMStringW getAttrText(const wchar_t *pwszText, const wchar_t *pwszAttrName)
+{
+	if (auto *p1 = mir_wstrstri(pwszText, pwszAttrName)) {
+		p1 += wcslen(pwszAttrName);
+		if (p1[0] == '=' && p1[1] == '\"') {
+			p1 += 2;
+			if (auto *p2 = wcschr(p1, '\"'))
+				return CMStringW(p1, p2 - p1);
+		}
+	}
+	return L"";
+}
+
 CMStringW CSkypeProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 {
 	bool inSS = false;
@@ -362,22 +375,39 @@ CMStringW CSkypeProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 			}
 			else if (m_bUseBBCodes) {
 				bool bEnable = true;
-				if (data[i + 1] == '/') {
-					i++;
+				auto *p = data.c_str() + i + 1;
+				if (*p == '/') {
 					bEnable = false;
+					p++;
 				}
 
-				switch (data[i + 1]) {
-				case 'b': new_string.Append(bEnable ? L"[b]" : L"[/b]"); break;
-				case 'i': new_string.Append(bEnable ? L"[i]" : L"[/i]"); break;
-				case 'u': new_string.Append(bEnable ? L"[u]" : L"[/u]"); break;
-				case 's': new_string.Append(bEnable ? L"[s]" : L"[/s]"); break;
-				default:
-					if (!wcsncmp(data.c_str() + i + 1, L"pre ", 4))
-						new_string.Append(L"[code]");
-					else if (!wcsncmp(data.c_str() + i + 1, L"pre>", 4))
-						new_string.Append(L"[/code]");
-					break;
+				if (!wcsncmp(p, L"b>", 2))
+					new_string.Append(bEnable ? L"[b]" : L"[/b]");
+				else if (!wcsncmp(p, L"i>", 2))
+					new_string.Append(bEnable ? L"[i]" : L"[/i]");
+				else if (!wcsncmp(p, L"u>", 2))
+					new_string.Append(bEnable ? L"[u]" : L"[/u]");
+				else if (!wcsncmp(p, L"s>", 2))
+					new_string.Append(bEnable ? L"[s]" : L"[/s]");
+				else if (!wcsncmp(p, L"pre ", 4))
+					new_string.Append(L"[code]");
+				else if (!wcsncmp(p, L"pre>", 4))
+					new_string.Append(L"[/code]");
+				else if (!wcsncmp(p, L"legacyquote>", 12)) {
+					if (bEnable)
+						i = data.Find(L"legacyquote>", i+13);
+				}
+				else if (!wcsncmp(p, L"quote ", 6)) {
+					CMStringW author(getAttrText(p, L"authorname"));
+					CMStringW timestamp(getAttrText(p, L"timestamp"));
+
+					wchar_t wszTime[100];
+					TimeZone_PrintTimeStamp(0, _wtoi(timestamp), L"D t", wszTime, _countof(wszTime), 0);
+
+					new_string.AppendFormat(L"[quote]%s %s %s: \r\n", wszTime, author.c_str(), TranslateT("wrote"));
+				}
+				else if (!wcsncmp(p, L"quote>", 6)) {
+					new_string.Append(L"[/quote]");
 				}
 			}
 
