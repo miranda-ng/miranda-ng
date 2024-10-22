@@ -933,7 +933,7 @@ void CVkProto::MarkRemoteRead(MCONTACT hContact, VKMessageID_t iMessageId)
 	MEVENT hReadEvent = getDword(hContact, "RemoteRead");
 	if (hReadEvent) {
 		DB::EventInfo dbeiRead(hReadEvent);
-		VKMessageID_t iReadMessageId = strtol(strcat((char *)dbeiRead.szId, "_"), nullptr, 10);
+		VKMessageID_t iReadMessageId = strtol(dbeiRead.szId, nullptr, 10);
 		if (iReadMessageId >= iMessageId)
 			return;
 	}
