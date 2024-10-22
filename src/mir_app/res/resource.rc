@@ -1739,7 +1739,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Copy",                        IDM_COPY
         MENUITEM SEPARATOR
-        POPUP "Word lookup", GRAYED
+        POPUP "No word to look up", GRAYED
         BEGIN
             MENUITEM "Google",                      IDM_SEARCH_GOOGLE
             MENUITEM "Bing",                        IDM_SEARCH_BING

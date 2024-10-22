@@ -496,8 +496,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		ptl = pt;
 		ScreenToClient(m_rtf.GetHwnd(), &ptl);
 		{
-			wchar_t *pszWord = (wchar_t *)_alloca(8192);
-			pszWord[0] = '\0';
+			ptrW pszWord;
 
 			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_LOGMENU));
 			HMENU hSubMenu = GetSubMenu(hMenu, 0);
@@ -516,19 +515,28 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (sel.cpMax > sel.cpMin) {
-				TEXTRANGE tr = { 0 };
+				pszWord = (wchar_t*)mir_alloc(sizeof(wchar_t) * (sel.cpMax - sel.cpMin + 1));
+
+				TEXTRANGE tr = {};
 				tr.chrg = sel;
 				tr.lpstrText = pszWord;
 				int iRes = m_rtf.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 				if (iRes > 0) {
-					wchar_t *p = wcschr(pszWord, '\r');
-					if (p)
+					if (wchar_t *p = wcschr(pszWord, '\r'))
 						*p = 0;
 
 					size_t iLen = mir_wstrlen(pszWord) - 1;
-					while (wcschr(szTrimString, pszWord[iLen])) {
+					for (; iLen && wcschr(szTrimString, pszWord[iLen]); iLen--)
 						pszWord[iLen] = '\0';
-						iLen--;
+
+					if (iLen) {
+						CMStringW wszText(FORMAT, TranslateT("Look up '%s"), pszWord);
+						if (wszText.GetLength() > 30) {
+							wszText.Truncate(30);
+							wszText.AppendChar(L'\u2026');
+						}
+						wszText.AppendChar('\'');
+						ModifyMenu(hSubMenu, 4, MF_STRING | MF_BYPOSITION, 4, wszText);
 					}
 				}
 			}
@@ -539,16 +547,6 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			int flags = MF_BYPOSITION | (GetRichTextLength(m_rtf.GetHwnd()) == 0 ? MF_GRAYED : MF_ENABLED);
 			EnableMenuItem(hSubMenu, 0, flags);
 			EnableMenuItem(hSubMenu, 2, flags);
-
-			if (pszWord && pszWord[0]) {
-				CMStringW wszText(FORMAT, TranslateT("Look up '%s':"), pszWord);
-				if (wszText.GetLength() > 30) {
-					wszText.Truncate(30);
-					wszText.AppendChar('\'');
-				}
-				ModifyMenu(hSubMenu, 4, MF_STRING | MF_BYPOSITION, 4, wszText);
-			}
-			else ModifyMenu(hSubMenu, 4, MF_STRING | MF_GRAYED | MF_BYPOSITION, 4, TranslateT("No word to look up"));
 
 			Chat_CreateMenu(hSubMenu, m_pDlg.m_si, nullptr);
 			UINT uID = TrackPopupMenu(hSubMenu, TPM_RETURNCMD | TPM_RIGHTBUTTON, pt.x, pt.y, 0, m_rtf.GetHwnd(), nullptr);
@@ -594,28 +592,28 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					CMStringW szURL;
 					switch (uID) {
 					case IDM_SEARCH_WIKIPEDIA:
-						szURL.Format(L"https://en.wikipedia.org/wiki/%s", pszWord);
+						szURL.Format(L"https://en.wikipedia.org/wiki/%s", pszWord.get());
 						break;
 					case IDM_SEARCH_YAHOO:
-						szURL.Format(L"https://search.yahoo.com/search?p=%s&ei=UTF-8", pszWord);
+						szURL.Format(L"https://search.yahoo.com/search?p=%s&ei=UTF-8", pszWord.get());
 						break;
 					case IDM_SEARCH_FOODNETWORK:
-						szURL.Format(L"https://www.foodnetwork.com/search/%s-", pszWord);
+						szURL.Format(L"https://www.foodnetwork.com/search/%s-", pszWord.get());
 						break;
 					case IDM_SEARCH_BING:
-						szURL.Format(L"https://www.bing.com/search?q=%s&form=OSDSRC", pszWord);
+						szURL.Format(L"https://www.bing.com/search?q=%s&form=OSDSRC", pszWord.get());
 						break;
 					case IDM_SEARCH_GOOGLE_MAPS:
-						szURL.Format(L"https://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						szURL.Format(L"https://maps.google.com/maps?q=%s&ie=utf-8&oe=utf-8", pszWord.get());
 						break;
 					case IDM_SEARCH_GOOGLE_TRANSLATE:
-						szURL.Format(L"https://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						szURL.Format(L"https://translate.google.com/?q=%s&ie=utf-8&oe=utf-8", pszWord.get());
 						break;
 					case IDM_SEARCH_YANDEX:
-						szURL.Format(L"https://yandex.ru/yandsearch?text=%s", pszWord);
+						szURL.Format(L"https://yandex.ru/yandsearch?text=%s", pszWord.get());
 						break;
 					case IDM_SEARCH_GOOGLE:
-						szURL.Format(L"https://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", pszWord);
+						szURL.Format(L"https://www.google.com/search?q=%s&ie=utf-8&oe=utf-8", pszWord.get());
 						break;
 					}
 					Utils_OpenUrlW(szURL);
