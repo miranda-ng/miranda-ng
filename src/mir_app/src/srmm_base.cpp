@@ -660,7 +660,8 @@ INT_PTR CSrmmBaseDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		LPNMHDR hdr = (LPNMHDR)lParam;
 		if (hdr->hwndFrom == m_pLog->GetHwnd())
 			m_pLog->Notify(wParam, lParam);
-		else if (hdr->code == EN_MSGFILTER) {
+		
+		if (hdr->code == EN_MSGFILTER) {
 			auto *F = ((MSGFILTER *)lParam);
 			if ((F->msg == WM_LBUTTONDOWN || F->msg == WM_KEYUP || F->msg == WM_LBUTTONUP) && F->nmhdr.idFrom == IDC_SRMM_MESSAGE) {
 				int bBold = IsDlgButtonChecked(m_hwnd, IDC_SRMM_BOLD);
