@@ -47,6 +47,8 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 	CMStringW wszForwardMessagesTxt;
 
 	int iForwardVKMessageCount = 0;
+	MCONTACT hFromContact = INVALID_CONTACT_ID;
+
 	for (auto &mEvnt : vForvardEvents) {
 		if (iForwardVKMessageCount == VK_MAX_FORWARD_MESSAGES)
 			break;
@@ -80,6 +82,7 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 			if (!szIds.IsEmpty())
 				szIds.AppendChar(',');
 			szIds += dbei.szId;
+			hFromContact = dbei.hContact;
 		}
 	}
 
@@ -92,11 +95,21 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 		&CVkProto::OnSendMessage, 
 		AsyncHttpRequest::rpHigh
 	);
-	
-	pReq 
-		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId) 
-		<< INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100)
-		<< CHAR_PARAM("forward_messages", szIds);
+
+	CMStringA szForward;
+	if (hFromContact != INVALID_CONTACT_ID) {
+		szForward.AppendFormat(
+			"{\"peer_id\":%d, \"message_ids\":[%s]}",
+			isChatRoom(hFromContact) ? (ReadVKUserID(hFromContact) + VK_CHAT_MIN) : ReadVKUserID(hFromContact) ,
+			szIds.c_str()
+		);
+
+		pReq << CHAR_PARAM("forward", szForward);
+	}
+
+	pReq
+		<< INT_PARAM(bIsChat ? "chat_id" : "peer_id", iUserId)
+		<< INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
 	
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -167,8 +180,17 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 	
 	if (hReplyEvent) {
 		DB::EventInfo dbei(hReplyEvent, false);
-		if (dbei && mir_strlen(dbei.szId) > 0)
-			pReq << CHAR_PARAM("reply_to", dbei.szId);
+		if (dbei && mir_strlen(dbei.szId) > 0) {
+			MCONTACT hFromContact = dbei.hContact;
+			CMStringA szForward(
+					FORMAT,
+					"{\"peer_id\":%d, \"message_ids\":[%s], \"is_reply\":1}",
+					isChatRoom(hFromContact) ?  (ReadVKUserID(hFromContact) + VK_CHAT_MIN) : ReadVKUserID(hFromContact),
+					dbei.szId
+				);
+
+				pReq << CHAR_PARAM("forward", szForward);
+		}
 	}
 	
 	if (StickerId)
