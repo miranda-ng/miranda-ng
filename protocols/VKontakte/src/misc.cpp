@@ -915,10 +915,29 @@ void CVkProto::MarkDialogAsRead(MCONTACT hContact)
 	}
 }
 
-void CVkProto::MarkRemoteRead(MCONTACT hContact)
+void CVkProto::MarkRemoteRead(MCONTACT hContact, VKMessageID_t iMessageId)
 {
-	MEVENT hEvent = db_event_last(hContact);
+	MEVENT hEvent = 0;
 
+	if (iMessageId) {
+		char szMid[40];
+		_ltoa(iMessageId, szMid, 10);
+		hEvent = db_event_getById(m_szModuleName, szMid);
+	}
+	else
+		hEvent = db_event_last(hContact);
+
+	if (!hEvent)
+		return;
+
+	MEVENT hReadEvent = getDword(hContact, "RemoteRead");
+	if (hReadEvent) {
+		DB::EventInfo dbeiRead(hReadEvent);
+		VKMessageID_t iReadMessageId = strtol(strcat((char *)dbeiRead.szId, "_"), nullptr, 10);
+		if (iReadMessageId >= iMessageId)
+			return;
+	}
+	
 	setDword(hContact, "LastMsgReadTime", time(0));
 	setDword(hContact, "RemoteRead", hEvent);
 

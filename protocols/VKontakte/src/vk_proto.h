@@ -386,7 +386,7 @@ private:
 	void __cdecl ContactTypingThread(void *p);
 	int IsHystoryMessageExist(MCONTACT hContact);
 	void SetSrmmReadStatus(MCONTACT hContact);
-	void MarkRemoteRead(MCONTACT hContact);
+	void MarkRemoteRead(MCONTACT hContact, VKMessageID_t iMessageId = 0);
 	void MarkDialogAsRead(MCONTACT hContact);
 	void CheckUpdate();
 	bool IsGroupUser(MCONTACT hContact);

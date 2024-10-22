@@ -104,7 +104,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			}
 
 			if (hContact != 0 && (iFlags & VKFLAG_MSGUNREAD) && !IsMessageExist(iMessageId, vkIN)) {
-				MarkRemoteRead(hContact);
+				MarkRemoteRead(hContact, iMessageId);
 
 				if (m_vkOptions.bUserForceInvisibleOnActivity)
 					SetInvisible(hContact);
