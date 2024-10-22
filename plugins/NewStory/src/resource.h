@@ -102,7 +102,9 @@
 #define IDC_TOPLINE                     1062
 #define IDC_SHOW_PREVIEW                1062
 #define IDC_DELSERVERHISTORY            1063
+#define IDC_PREVIEW_HEIGHT              1063
 #define IDC_BOTH                        1064
+#define IDC_SPIN1                       1064
 #define IDC_COLOR1                      1065
 #define IDC_COLOR2                      1066
 #define IDC_COLOR3                      1067
@@ -130,7 +132,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         40019
-#define _APS_NEXT_CONTROL_VALUE         1061
+#define _APS_NEXT_CONTROL_VALUE         1065
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

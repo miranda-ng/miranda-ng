@@ -41,12 +41,14 @@ protected:
 
 class CGeneralOptsDlg : public CBaseOptsDlg
 {
+	CCtrlSpin  spinHeight;
 	CCtrlCheck chkGrouping, chkVScroll, chkDrawEdge, chkSortOrder, chkHppCompat;
 	CCtrlCheck chkShowType, chkShowPreview, chkShowDirection;
 
 public:
 	CGeneralOptsDlg() :
 		CBaseOptsDlg(IDD_OPT_ADVANCED),
+		spinHeight(this, IDC_SPIN1, 500, 200),
 		chkVScroll(this, IDC_VSCROLL),
 		chkShowType(this, IDC_SHOW_TYPE),
 		chkDrawEdge(this, IDC_DRAWEDGE),
@@ -60,11 +62,12 @@ public:
 		CreateLink(chkShowType, g_bShowType);
 		CreateLink(chkGrouping, g_bOptGrouping);
 		CreateLink(chkDrawEdge, g_bOptDrawEdge);
+		CreateLink(chkSortOrder, g_plugin.bSortAscending);
 		CreateLink(chkHppCompat, g_bOptHppCompat);
 		CreateLink(chkShowPreview, g_bShowPreview);
 		CreateLink(chkShowDirection, g_bShowDirection);
 
-		CreateLink(chkSortOrder, g_plugin.bSortAscending);
+		CreateLink(spinHeight, g_iPreviewHeight);
 	}
 
 	bool OnApply() override

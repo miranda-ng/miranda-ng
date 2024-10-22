@@ -74,11 +74,18 @@ IDI_USERS               ICON                    "users.ico"
 
 IDI_REPLY               ICON                    "reply.ico"
 
-IDI_NO_IMAGE            PNG                     "no-image-ico.png"
-
 IDI_DELIVERED           ICON                    "delivered.ico"
 
-IDI_REMOTEREAD            ICON                  "remoteread.ico"
+IDI_REMOTEREAD          ICON                    "remoteread.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDI_NO_IMAGE            PNG                     "no-image-ico.png"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -152,7 +159,7 @@ IDD_OPT_ADVANCED DIALOGEX 0, 0, 307, 223
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Log window",IDC_STATIC,0,0,307,119
+    GROUPBOX        "Log window",IDC_STATIC,0,0,307,133
     CONTROL         "Group messages",IDC_GROUPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,9,289,12
     CONTROL         "Enable vertical scroll bar",IDC_VSCROLL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,289,12
     CONTROL         "Draw window edge",IDC_DRAWEDGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,35,289,12
@@ -161,6 +168,9 @@ BEGIN
     CONTROL         "Show event type",IDC_SHOW_TYPE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,74,289,12
     CONTROL         "Show event direction",IDC_SHOW_DIRECTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,87,289,12
     CONTROL         "Show picture preview",IDC_SHOW_PREVIEW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,100,289,12
+    LTEXT           "Maximum preview height (in pixels)",IDC_STATIC,11,117,235,9
+    EDITTEXT        IDC_PREVIEW_HEIGHT,254,114,40,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,290,114,11,14
 END
 
 IDD_OPT_TEMPLATES DIALOGEX 0, 0, 307, 234

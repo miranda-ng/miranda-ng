@@ -45,7 +45,7 @@ static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 	return dest;
 }
 
-static void AppendImage(CMStringW &buf, const CMStringW &wszUrl, const CMStringW &wszDescr, ItemData *pItem, UINT uMaxHeight = 300)
+static void AppendImage(CMStringW &buf, const CMStringW &wszUrl, const CMStringW &wszDescr, ItemData *pItem, UINT uMaxHeight)
 {
 	if (g_plugin.bShowPreview) {
 		pItem->pOwner->webPage.load_image(wszUrl, pItem);
@@ -150,7 +150,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 
 					if (auto *p2 = wcsstr(p1, L"[/img]")) {
 						CMStringW wszDescr(p1, int(p2 - p1));
-						AppendImage(buf, wszUrl, wszDescr, pItem, iMaxHeight ? iMaxHeight : 300);
+						AppendImage(buf, wszUrl, wszDescr, pItem, iMaxHeight ? iMaxHeight : g_iPreviewHeight);
 						p = p2 + 5;
 					}
 				}
@@ -161,7 +161,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 
 				if (auto *p1 = wcsstr(p, L"[/img]")) {
 					CMStringW wszUrl(p, int(p1 - p));
-					AppendImage(buf, wszUrl, L"", pItem);
+					AppendImage(buf, wszUrl, L"", pItem, g_iPreviewHeight);
 					p = p1 + 5;
 				}
 				else p--;

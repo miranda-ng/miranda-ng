@@ -36,6 +36,8 @@ CMOption<uint32_t> g_clCustom2(MODULENAME, "CustomColor2", -1);
 CMOption<uint32_t> g_clCustom3(MODULENAME, "CustomColor3", -1);
 CMOption<uint32_t> g_clCustom4(MODULENAME, "CustomColor4", -1);
 
+CMOption<int> g_iPreviewHeight(MODULENAME, "PreviewHeight", 300);
+
 MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
