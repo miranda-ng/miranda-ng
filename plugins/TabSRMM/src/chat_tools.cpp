@@ -268,7 +268,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 	// if group chat is always muted, we don't play sounds & flash window
 	if (iMuteMode == CHATMODE_MUTE)
-		return;
+		return true;
 
 	auto sound = si->getSoundName(gce->iType);
 	if (dat) {
