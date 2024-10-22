@@ -203,7 +203,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bShortenLinksForAudio(proto, "ShortenLinksForAudio", true),
 	bAddMessageLinkToMesWAtt(proto, "AddMessageLinkToMesWAtt", true),
 	bShowReplyInMessage(proto, "ShowReplyInMessage", false),
-	bSplitFormatFwdMsg(proto, "SplitFormatFwdMsg", true),
+	bSplitFormatFwdMsg(proto, "SplitFormatFwdMsg", false),
 	bSyncReadMessageStatusFromServer(proto, "SyncReadMessageStatusFromServer", false),
 	bLoadFullCList(proto, "LoadFullCList", false),
 	bShowVkDeactivateEvents(proto, "ShowVkDeactivateEvents", true),

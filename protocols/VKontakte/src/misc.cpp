@@ -1258,6 +1258,9 @@ CMStringW CVkProto::SetBBCString(LPCWSTR pwszString, BBCSupport iBBC, VKBBCType 
 		{ vkbbcCode, bbcNo, L"%s" },
 		{ vkbbcCode, bbcBasic, L"%s" },
 		{ vkbbcCode, bbcAdvanced, L"[code]%s[/code]"},
+		{ vkbbcQuote, bbcNo, L"\n%s" },
+		{ vkbbcQuote, bbcBasic, L"\n%s" },
+		{ vkbbcQuote, bbcAdvanced, L"[quote]%s[/quote]"},
 		{ vkbbcImg, bbcNo, L"%s" },
 		{ vkbbcImg, bbcBasic, L"[img]%s[/img]" },
 		{ vkbbcImg, bbcAdvanced, L"[img]%s[/img]" },
@@ -1743,13 +1746,13 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 
 	wszBody.Replace(L"\n", L"\n\t");
 	wchar_t tcSplit = m_vkOptions.bSplitFormatFwdMsg ? '\n' : ' ';
-	CMStringW wszMes(FORMAT, L"%s %s%c%s %s:\n\n%s\n",
+	CMStringW wszMes(FORMAT, L"%s %s%c%s %s:%s\n",
 		SetBBCString(TranslateT("Message from"), iBBC, vkbbcB).c_str(),
 		SetBBCString(wszNick, iBBC, vkbbcUrl, wszUrl).c_str(),
 		tcSplit,
 		SetBBCString(TranslateT("at"), iBBC, vkbbcB).c_str(),
 		ttime,
-		wszBody.c_str());
+		SetBBCString(wszBody, m_vkOptions.bBBCNewStorySupport ? bbcAdvanced : bbcNo, vkbbcQuote).c_str());
 
 	return wszMes;
 

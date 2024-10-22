@@ -189,7 +189,7 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 					dbei.szId
 				);
 
-				pReq << CHAR_PARAM("forward", szForward);
+			pReq << CHAR_PARAM("forward", szForward);
 		}
 	}
 	
