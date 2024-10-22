@@ -525,9 +525,12 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (wchar_t *p = wcschr(pszWord, '\r'))
 						*p = 0;
 
-					size_t iLen = mir_wstrlen(pszWord) - 1;
-					for (; iLen && wcschr(szTrimString, pszWord[iLen]); iLen--)
-						pszWord[iLen] = '\0';
+					int iLen = (int)mir_wstrlen(pszWord) - 1;
+					while (iLen >= 0) {
+						if (!wcschr(szTrimString, pszWord[iLen]))
+							break;
+						pszWord[iLen--] = '\0';
+					}
 
 					if (iLen) {
 						CMStringW wszText(FORMAT, TranslateT("Look up '%s"), pszWord);
