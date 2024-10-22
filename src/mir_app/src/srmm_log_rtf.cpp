@@ -532,7 +532,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						pszWord[iLen--] = '\0';
 					}
 
-					if (iLen) {
+					if (iLen > 0) {
 						CMStringW wszText(FORMAT, TranslateT("Look up '%s"), pszWord);
 						if (wszText.GetLength() > 30) {
 							wszText.Truncate(30);

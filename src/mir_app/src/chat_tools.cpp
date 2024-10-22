@@ -320,13 +320,16 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		return FALSE;
 
 	BOOL bInactive = si->pDlg == nullptr || !si->pDlg->IsActive();
-	int iMuteMode = Chat_IsMuted(si->hContact);
 
 	if (bHighlight) {
 		gce->iType |= GC_EVENT_HIGHLIGHT;
 		if (Contact::IsHidden(si->hContact))
 			Contact::Hide(si->hContact, false);
 	}
+
+	// if group chat is always muted, we don't play sounds & flash window
+	if (Chat_IsMuted(si->hContact) == CHATMODE_MUTE)
+		return true;
 
 	// do blinking icons in tray
 	if (bInactive || !g_Settings->bTrayIconInactiveOnly)
@@ -335,9 +338,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	// stupid thing to not create multiple popups for a QUIT event for instance
 	if (bManyFix == 0) {
 		// do popups
-		if (iMuteMode != CHATMODE_MUTE)
-			if (bInactive || !g_Settings->bPopupInactiveOnly)
-				g_chatApi.DoPopup(si, gce);
+		if (bInactive || !g_Settings->bPopupInactiveOnly)
+			g_chatApi.DoPopup(si, gce);
 
 		// do tray icon flashing
 		if (gce->iType & GC_EVENT_MESSAGE) {
@@ -349,8 +351,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 				g_chatApi.OnFlashWindow(si, bInactive);
 		}
 
-		// no sounds in the Mute mode
-		if ((bInactive || !g_Settings->bSoundsFocus) && iMuteMode != CHATMODE_MUTE)
+		// sounds
+		if ((bInactive || !g_Settings->bSoundsFocus))
 			if (auto szSound = si->getSoundName(gce->iType))
 				Skin_PlaySound(szSound);
 	}
@@ -358,7 +360,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	if (bHighlight)
 		if (g_chatApi.OnFlashHighlight)
 			g_chatApi.OnFlashHighlight(si, bInactive);
-	return TRUE;
+	return true;
 }
 
 static wchar_t szTrimString[] = L":,.!?;\'>)";

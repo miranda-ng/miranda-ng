@@ -265,18 +265,20 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (dat->m_pWnd)
 			dat->m_pWnd->Invalidate();
 	}
-	
-	if (iMuteMode != CHATMODE_MUTE) {
-		auto sound = si->getSoundName(gce->iType);
-		if (dat) {
-			bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
-			bActiveTab = (dat->m_pContainer->m_hwndActive == dat->GetHwnd());
-			if (sound && dat->m_pContainer->MustPlaySound(dat))
-				Skin_PlaySound(sound);
-		}
-		else if (sound)
+
+	// if group chat is always muted, we don't play sounds & flash window
+	if (iMuteMode == CHATMODE_MUTE)
+		return;
+
+	auto sound = si->getSoundName(gce->iType);
+	if (dat) {
+		bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
+		bActiveTab = (dat->m_pContainer->m_hwndActive == dat->GetHwnd());
+		if (sound && dat->m_pContainer->MustPlaySound(dat))
 			Skin_PlaySound(sound);
 	}
+	else if (sound)
+		Skin_PlaySound(sound);
 
 	// dialog event processing
 	if (dat) {
