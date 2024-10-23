@@ -533,12 +533,11 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 
 					if (iLen > 0) {
-						CMStringW wszText(FORMAT, TranslateT("Look up '%s"), pszWord);
+						CMStringW wszText(FORMAT, TranslateT("Look up '%s':"), pszWord);
 						if (wszText.GetLength() > 30) {
 							wszText.Truncate(30);
-							wszText.AppendChar(L'\u2026');
+							wszText.Append(L"\u2026'");
 						}
-						wszText.AppendChar('\'');
 						ModifyMenu(hSubMenu, 4, MF_STRING | MF_BYPOSITION, 4, wszText);
 					}
 				}
