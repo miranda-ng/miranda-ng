@@ -420,7 +420,7 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwButtonID = IDC_SRMM_STRIKEOUT;
 	bbd.dwDefPos = 25;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_STRIKEOUT);
-	bbd.pwszText = LPGENW("&Strike-through ");
+	bbd.pwszText = LPGENW("&Strike-through");
 	bbd.pwszTooltip = LPGENW("Make the text strike-through");
 	g_plugin.addButton(&bbd);
 
