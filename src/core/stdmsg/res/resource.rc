@@ -56,8 +56,6 @@ BEGIN
     CONTROL         "Show character count",IDC_CHARCOUNT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,173,289,8
     CONTROL         "Show toolbar buttons on top row",IDC_SHOWBUTTONLINE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,185,289,8
-    CONTROL         "Allow BBCode formatting in outgoing messages",IDC_SEND_FORMAT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,198,289,8
     LTEXT           "Show warning when message has not been received after",IDC_STATIC,8,213,211,8
     EDITTEXT        IDC_SECONDS,223,211,25,12,ES_AUTOHSCROLL
     LTEXT           "seconds",IDC_STATIC,253,213,44,8

@@ -663,21 +663,6 @@ BEGIN
             MENUITEM "Global",                      ID_MODE_GLOBAL
             MENUITEM "Private",                     ID_MODE_PRIVATE
         END
-        MENUITEM SEPARATOR
-        POPUP "Send text formatting"
-        BEGIN
-            POPUP "Global"
-            BEGIN
-                MENUITEM "BBCode",                      ID_GLOBAL_BBCODE
-                MENUITEM "Off",                         ID_GLOBAL_OFF
-            END
-            POPUP "This contact"
-            BEGIN
-                MENUITEM "Global setting",              ID_THISCONTACT_GLOBALSETTING
-                MENUITEM "BBCode",                      ID_THISCONTACT_BBCODE
-                MENUITEM "Force off",                   ID_THISCONTACT_OFF
-            END
-        END
     END
     POPUP "Unread menu"
     BEGIN

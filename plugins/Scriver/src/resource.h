@@ -128,7 +128,6 @@
 #define IDC_NOTIFYBALLOON               1608
 #define IDC_DELTEMP                     1609
 #define IDC_DELTEMP2                    1610
-#define IDC_SEND_FORMAT                 1610
 #define IDC_AVATARSUPPORT               1611
 #define IDC_LIMITNAMES                  1615
 #define IDC_TRANSPARENCY                1616

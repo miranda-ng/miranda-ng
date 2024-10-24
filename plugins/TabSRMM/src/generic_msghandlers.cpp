@@ -227,74 +227,31 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 	case IDC_PROTOMENU:
 		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 4);
-		{
-			bool iOldGlobalSendFormat = g_plugin.bSendFormat;
-			int iLocalFormat = M.GetDword(m_hContact, "sendformat", -1);
-			int iNewLocalFormat = iLocalFormat;
 
-			GetWindowRect(GetDlgItem(m_hwnd, IDC_PROTOCOL), &rc);
+		GetWindowRect(GetDlgItem(m_hwnd, IDC_PROTOCOL), &rc);
 
-			CheckMenuItem(submenu, ID_MODE_GLOBAL, !m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(submenu, ID_MODE_PRIVATE, m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(submenu, ID_MODE_GLOBAL, !m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(submenu, ID_MODE_PRIVATE, m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED);
 
-			// formatting menu..
-			CheckMenuItem(submenu, ID_GLOBAL_BBCODE, (g_plugin.bSendFormat) ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(submenu, ID_GLOBAL_OFF, (g_plugin.bSendFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED);
+		iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
+		switch (iSelection) {
+		case ID_MODE_GLOBAL:
+			m_bSplitterOverride = false;
+			db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", 0);
+			LoadSplitter();
+			AdjustBottomAvatarDisplay();
+			DM_RecalcPictureSize();
+			Resize();
+			break;
 
-			CheckMenuItem(submenu, ID_THISCONTACT_GLOBALSETTING, (iLocalFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(submenu, ID_THISCONTACT_BBCODE, (iLocalFormat > 0) ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(submenu, ID_THISCONTACT_OFF, (iLocalFormat == -1) ? MF_CHECKED : MF_UNCHECKED);
-
-			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
-			switch (iSelection) {
-			case ID_MODE_GLOBAL:
-				m_bSplitterOverride = false;
-				db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", 0);
-				LoadSplitter();
-				AdjustBottomAvatarDisplay();
-				DM_RecalcPictureSize();
-				Resize();
-				break;
-
-			case ID_MODE_PRIVATE:
-				m_bSplitterOverride = true;
-				db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", 1);
-				LoadSplitter();
-				AdjustBottomAvatarDisplay();
-				DM_RecalcPictureSize();
-				Resize();
-				break;
-
-			case ID_GLOBAL_BBCODE:
-				g_plugin.bSendFormat = SENDFORMAT_BBCODE;
-				break;
-
-			case ID_GLOBAL_OFF:
-				g_plugin.bSendFormat = SENDFORMAT_NONE;
-				break;
-
-			case ID_THISCONTACT_GLOBALSETTING:
-				iNewLocalFormat = -1;
-				break;
-
-			case ID_THISCONTACT_BBCODE:
-				iNewLocalFormat = SENDFORMAT_BBCODE;
-				break;
-
-			case ID_THISCONTACT_OFF:
-				iNewLocalFormat = SENDFORMAT_NONE;
-				break;
-			}
-
-			if (iNewLocalFormat == -1)
-				db_unset(m_hContact, SRMSGMOD_T, "sendformat");
-			else if (iNewLocalFormat != iLocalFormat)
-				db_set_dw(m_hContact, SRMSGMOD_T, "sendformat", iNewLocalFormat);
-
-			if (iNewLocalFormat != iLocalFormat || g_plugin.bSendFormat != iOldGlobalSendFormat) {
-				GetSendFormat();
-				Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
-			}
+		case ID_MODE_PRIVATE:
+			m_bSplitterOverride = true;
+			db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", 1);
+			LoadSplitter();
+			AdjustBottomAvatarDisplay();
+			DM_RecalcPictureSize();
+			Resize();
+			break;
 		}
 		break;
 
@@ -758,7 +715,6 @@ void CMsgDialog::OnOptionsApplied()
 	}
 
 	DM_InitRichEdit();
-	GetSendFormat();
 
 	if (isChat()) {
 		m_btnOk.SendMsg(BUTTONSETASNORMAL, TRUE, 0);

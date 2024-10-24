@@ -81,7 +81,6 @@
 #define IDC_SHOWBUTTONLINE              1042
 #define IDC_LOADUNREAD                  1043
 #define IDC_SHOWBUTTONLINE2             1043
-#define IDC_SEND_FORMAT                 1043
 #define IDC_LOADCOUNT                   1044
 #define IDC_LOADTIMEN                   1045
 #define IDC_LOADTIMESPIN                1046

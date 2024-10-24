@@ -662,11 +662,6 @@
 #define ID_MODE_GLOBAL                  40148
 #define ID_MODE_PRIVATE                 40150
 #define ID_VIEW_BOTTOMTOOLBAR           40171
-#define ID_GLOBAL_OFF                   40172
-#define ID_THISCONTACT_GLOBALSETTING    40174
-#define ID_THISCONTACT_BBCODE           40175
-#define ID_THISCONTACT_OFF              40177
-#define ID_GLOBAL_BBCODE                40178
 #define ID_LOG_FREEZELOG                40183
 #define ID_SENDMENU_SENDWITHOUTTIMEOUTS 40203
 #define ID_VIEW_INFOPANEL               40208

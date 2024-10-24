@@ -147,7 +147,7 @@ class COptionMainDlg : public CDlgBase
 {
 	CCtrlEdit  edtNFlash, edtAvatarH, edtSecs;
 	CCtrlCheck chkAutoMin, chkAutoClose, chkSavePerContact, chkDoNotStealFocus, chkStatusWin;
-	CCtrlCheck chkDelTemp, chkCascade, chkCharCount, chkCtrlSupport, chkSendFormat;
+	CCtrlCheck chkDelTemp, chkCascade, chkCharCount, chkCtrlSupport;
 	CCtrlCheck chkAvatar, chkLimitAvatar;
 	CCtrlCheck chkShowSend, chkShowButtons;
 
@@ -199,7 +199,6 @@ public:
 		chkAutoClose(this, IDC_AUTOCLOSE),
 		chkCharCount(this, IDC_CHARCOUNT),
 		chkStatusWin(this, IDC_STATUSWIN),
-		chkSendFormat(this, IDC_SEND_FORMAT),
 		chkLimitAvatar(this, IDC_LIMITAVATARH),
 		chkShowButtons(this, IDC_SHOWBUTTONLINE),
 		chkCtrlSupport(this, IDC_CTRLSUPPORT),
@@ -226,7 +225,6 @@ public:
 		CreateLink(chkAutoClose, g_plugin.bAutoClose);
 		CreateLink(chkShowSend, g_plugin.bSendButton);
 		CreateLink(chkCharCount, g_plugin.bShowReadChar);
-		CreateLink(chkSendFormat, g_plugin.bSendFormat);
 		CreateLink(chkStatusWin, g_plugin.bUseStatusWinIcon);
 		CreateLink(chkShowButtons, g_plugin.bShowButtons);
 		CreateLink(chkCtrlSupport, g_plugin.bCtrlSupport);

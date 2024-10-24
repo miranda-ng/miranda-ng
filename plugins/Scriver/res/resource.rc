@@ -45,8 +45,6 @@ BEGIN
     CONTROL         "Remember unsent messages",IDC_SAVEDRAFTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,103,293,10
     CONTROL         "Delete temporary contacts on closing",IDC_DELTEMP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,114,293,10
-    CONTROL         "Allow BBCode formatting in outgoing messages",IDC_SEND_FORMAT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,126,293,10
     LTEXT           "Show warning when message has not been received after",IDC_STATIC,6,145,201,8
     EDITTEXT        IDC_SECONDS,213,143,35,12,ES_RIGHT | ES_NUMBER
     CONTROL         "",IDC_SECONDSSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,239,143,11,13

@@ -55,7 +55,6 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact) :
 	m_autoClose = 0;
 	m_forceResizable = true;
 	m_bNoActivate = g_plugin.bDoNotStealFocus;
-	m_bSendFormat = g_plugin.bSendFormat;
 
 	g_arDialogs.insert(this);
 

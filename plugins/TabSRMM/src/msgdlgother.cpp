@@ -971,15 +971,6 @@ LRESULT CMsgDialog::GetSendButtonState()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// reads send format and configures the toolbar buttons
-// if mode == 0, int only configures the buttons and does not change send format
-
-void CMsgDialog::GetSendFormat()
-{
-	m_bSendFormat = M.GetDword(m_hContact, "sendformat", g_plugin.bSendFormat) != 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 HICON CMsgDialog::GetXStatusIcon() const
 {

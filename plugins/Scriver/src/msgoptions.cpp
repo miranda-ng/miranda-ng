@@ -243,7 +243,7 @@ class CMainOptionsDlg : public CBaseOptionDlg
 
 	CCtrlSpin spinTimeout;
 	CCtrlCheck chkAutoMin, chkAutoPopup, chkCascade, chkSavePerContact, chkStayMinimized;
-	CCtrlCheck chkSaveDrafts, chkDelTemp, chkHideContainer, chkSendFormat;
+	CCtrlCheck chkSaveDrafts, chkDelTemp, chkHideContainer;
 	CCtrlTreeView m_tree;
 
 public:
@@ -255,7 +255,6 @@ public:
 		chkCascade(this, IDC_CASCADE),
 		chkDelTemp(this, IDC_DELTEMP),
 		chkAutoPopup(this, IDC_AUTOPOPUP),
-		chkSendFormat(this, IDC_SEND_FORMAT),
 		chkSaveDrafts(this, IDC_SAVEDRAFTS),
 		chkHideContainer(this, IDC_HIDECONTAINERS),
 		chkStayMinimized(this, IDC_STAYMINIMIZED),
@@ -265,7 +264,6 @@ public:
 		CreateLink(chkCascade, g_plugin.bCascade);
 		CreateLink(chkAutoMin, g_plugin.bAutoMin);
 		CreateLink(chkAutoPopup, g_plugin.bAutoPopup);
-		CreateLink(chkSendFormat, g_plugin.bSendFormat);
 		CreateLink(chkSaveDrafts, g_plugin.bSaveDrafts);
 		CreateLink(chkHideContainer, g_plugin.bHideContainer);
 		CreateLink(chkStayMinimized, g_plugin.bStayMinimized);

@@ -64,7 +64,6 @@ CMPlugin::CMPlugin() :
 	bAutoSplit(SRMSGMOD_T, "autosplit", false),
 	bDeleteTemp(SRMSGMOD_T, "deletetemp", false),
 	bUseXStatus(SRMSGMOD_T, "use_xicons", true),
-	bSendFormat(SRMSGMOD_T, "sendformat", false),
 	bHideOnClose(SRMSGMOD_T, "hideonclose", false),
 	bStatusOnTabs(SRMSGMOD_T, "tabstatus", true),
 	bFlashOnClist(SRMSGMOD_T, "flashcl", false),

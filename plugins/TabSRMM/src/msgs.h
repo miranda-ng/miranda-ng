@@ -417,7 +417,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void     FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei);
 	void     FlashTab(bool bInvertMode);
 	LRESULT  GetSendButtonState();
-	void     GetSendFormat(void);
 	HICON    GetXStatusIcon() const;
 	void     HandlePasteAndSend(void);
 	void     LoadContactAvatar(void);
@@ -1030,7 +1029,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	// window settings
 	CMOption<bool> bAutoMin, bAutoClose, bFlashOnClist, bDeleteTemp;
-	CMOption<bool> bPasteAndSend, bSendFormat, bAutoSplit, bUseSameSplitSize, bAutoCopy;
+	CMOption<bool> bPasteAndSend, bAutoSplit, bUseSameSplitSize, bAutoCopy;
 	CMOption<bool> bStatusOnTabs, bUseXStatus, bDetailedTooltips, bAllowOfflineMultisend;
 	CMOption<bool> bAutoPopup, bAutoTabs, bAutoSwitchTabs, bAutoContainer, bPopupContainer, bHideOnClose, bAllowTab;
 

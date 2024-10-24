@@ -92,7 +92,6 @@ CMsgDialog::CMsgDialog(MCONTACT hContact, bool bIncoming) :
 	SetParent(GetParentWindow(m_hContact, isChat()));
 	m_pParent = (ParentWindowData *)GetWindowLongPtr(m_hwndParent, GWLP_USERDATA);
 
-	m_bSendFormat = g_plugin.bSendFormat;
 	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 
 	timerType.OnEvent = Callback(this, &CMsgDialog::onType);

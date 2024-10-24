@@ -402,7 +402,6 @@ public:
 		treeOpts.AddOption(pwszSection, LPGENW("Minimize the message window on send"), g_plugin.bAutoMin);
 		treeOpts.AddOption(pwszSection, LPGENW("Close the message window on send"), g_plugin.bAutoClose);
 		treeOpts.AddOption(pwszSection, LPGENW("Enable \"Paste and send\" feature"), g_plugin.bPasteAndSend);
-		treeOpts.AddOption(pwszSection, LPGENW("Allow BBCode formatting in outgoing messages"), g_plugin.bSendFormat);
 
 		pwszSection = LPGENW("Other options");
 		treeOpts.AddOption(pwszSection, LPGENW("Automatically split long messages (experimental, use with care)"), g_plugin.bAutoSplit);

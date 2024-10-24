@@ -342,8 +342,6 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 		m_btnCancelAdd.OnClick = Callback(this, &CMsgDialog::onClick_CancelAdd);
 	}
 
-	GetSendFormat();
-
 	m_szProto = Proto_GetBaseAccountName(m_hContact);
 	m_autoClose = CLOSE_ON_CANCEL;
 	m_forceResizable = true;
@@ -2226,7 +2224,6 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTERY), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTERY), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 
 		if (lParam == 1) {
-			GetSendFormat();
 			SetDialogToType();
 			DM_RecalcPictureSize();
 			Resize();
