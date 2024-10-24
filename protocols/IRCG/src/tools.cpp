@@ -330,14 +330,14 @@ CMStringW DoColorCodes(const wchar_t *text, bool bStrip)
 					if (iFG == -1)
 						ret.Append(L"[/color]");
 					else if (iFG < numColors)
-						ret.Append(L"[color=%08X]", pClrTable[iFG]);
+						ret.AppendFormat(L"[color=%08X]", pClrTable[iFG]);
 				}
 
 				if (iBG != iOldBG) {
 					if (iFG == -1)
 						ret.Append(L"[/bkcolor]");
 					else if (iFG < numColors)
-						ret.Append(L"[bkcolor=%08X]", pClrTable[iFG]);
+						ret.AppendFormat(L"[bkcolor=%08X]", pClrTable[iFG]);
 				}
 			}
 			break;

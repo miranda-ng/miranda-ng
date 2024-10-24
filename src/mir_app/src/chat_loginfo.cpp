@@ -84,7 +84,7 @@ int LOGINFO::getIcon() const
 	return 0;
 }
 
-void LOGINFO::write(RtfChatLogStreamData *streamData, bool /*simpleMode*/, CMStringA &str, const wchar_t *line) const
+void LOGINFO::write(RtfChatLogStreamData *streamData, bool simpleMode, CMStringA &str, const wchar_t *line) const
 {
 	CMStringA buf;
 
@@ -96,62 +96,38 @@ void LOGINFO::write(RtfChatLogStreamData *streamData, bool /*simpleMode*/, CMStr
 		else if (*line == '\n') {
 			buf.Append("\\line ");
 		}
-		/*
-		else if (*line == '%' && !simpleMode) {
-			switch (*++line) {
-			case 'c':
-			case 'f':
-				if (g_Settings->bStripFormat || streamData->bStripFormat)
-					line += 2;
-
-				else if (line[1] != '\0' && line[2] != '\0') {
-					wchar_t szTemp3[3], c = *line;
-					int col;
-					szTemp3[0] = line[1];
-					szTemp3[1] = line[2];
-					szTemp3[2] = '\0';
-					line += 2;
-
-					col = _wtoi(szTemp3);
-					col += (OPTIONS_FONTCOUNT + 1);
-					buf.AppendFormat((c == 'c') ? "\\cf%u " : "\\highlight%u ", col);
-				}
-				break;
-			case 'C':
-			case 'F':
-				if (!g_Settings->bStripFormat && !streamData->bStripFormat) {
-					int j = bIsHighlighted ? 16 : getIndex();
-					if (*line == 'C')
-						buf.AppendFormat("\\cf%u ", j + 1);
-					else
-						buf.AppendFormat("\\highlight0 ");
-				}
-				break;
-			case 'b':
-			case 'u':
-			case 'i':
-				if (!streamData->bStripFormat)
-					buf.AppendFormat((*line == 'u') ? "\\%cl " : "\\%c ", *line);
-				break;
-
-			case 'B':
-			case 'U':
-			case 'I':
-				if (!streamData->bStripFormat)
-					buf.AppendFormat((*line == 'U') ? "\\%cl0 " : "\\%c0 ", tolower(*line));
-				break;
-
-			case 'r':
-				if (!streamData->bStripFormat)
-					buf.AppendFormat("%s ", Log_SetStyle(getIndex()));
-				break;
-
-			default:
-				buf.AppendChar('%');
-				break;
+		else if (*line == '[' && !simpleMode) {
+			line++;
+			bool bEnable = true;
+			if (*line == '/') {
+				line++;
+				bEnable = false;
 			}
+			
+			if (!wcsncmp(line, L"color", 5) || !wcsncmp(line, L"bkcolor", 7))
+				line = wcschr(line, ']');
+			else if (!wcsncmp(line, L"b]", 2)) {
+				line++;
+				if (!streamData->bStripFormat)
+					buf.Append(bEnable ? "\\b" : "\\b0");
+			}
+			else if (!wcsncmp(line, L"i]", 2)) {
+				line++;
+				if (!streamData->bStripFormat)
+					buf.Append(bEnable ? "\\i" : "\\i0");
+			}
+			else if (!wcsncmp(line, L"s]", 2)) {
+				line++;
+				if (!streamData->bStripFormat)
+					buf.Append(bEnable ? "\\s" : "\\s0");
+			}
+			else if (!wcsncmp(line, L"u]", 2)) {
+				line++;
+				if (!streamData->bStripFormat)
+					buf.Append(bEnable ? "\\ul" : "\\ul0");
+			}
+			else buf.AppendChar('[');
 		}
-		*/
 		else if (*line == '\t' && !streamData->bStripFormat) {
 			buf.Append("\\tab ");
 		}
