@@ -552,6 +552,7 @@ bool CSrmmBaseDialog::OnInitDialog()
 	if (!m_bSendFormat) {
 		m_btnBold.Disable();
 		m_btnItalic.Disable();
+		m_btnStrikeout.Disable();
 		m_btnUnderline.Disable();
 		m_btnColor.Disable();
 		m_btnBkColor.Disable();
