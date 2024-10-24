@@ -43,6 +43,7 @@
 #define IDI_BUNDERLINE                  420
 #define IDI_BBOLD                       421
 #define IDI_BITALICS                    422
+#define IDI_STRIKEOUT                   423
 #define IDI_TOPICBUT                    424
 #define IDI_BKGCOLOR                    425
 #define IDI_CHANMGR                     426

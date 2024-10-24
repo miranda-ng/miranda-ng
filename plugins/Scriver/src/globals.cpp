@@ -52,14 +52,15 @@ static IconItem iconList2[] =
 	{ LPGEN("Bold"),                   "bold",             IDI_BBOLD       }, //  4
 	{ LPGEN("Italics"),                "italics",          IDI_BITALICS    }, //  5
 	{ LPGEN("Underlined"),             "underline",        IDI_BUNDERLINE  }, //  6
-	{ LPGEN("Smiley button"),          "smiley",           IDI_SMILEY      }, //  7
-	{ LPGEN("Room history"),           "history",          IDI_HISTORY     }, //  8
-	{ LPGEN("Room settings"),          "settings",         IDI_TOPICBUT    }, //  9
-	{ LPGEN("Event filter disabled"),  "filter",           IDI_FILTER      }, // 10
-	{ LPGEN("Event filter enabled"),   "filter2",          IDI_FILTER2     }, // 11
-	{ LPGEN("Hide nick list"),         "nicklist",         IDI_NICKLIST    }, // 12
-	{ LPGEN("Show nick list"),         "nicklist2",        IDI_NICKLIST2   }, // 13
-	{ LPGEN("Icon overlay"),           "overlay",          IDI_OVERLAY     }, // 14
+	{ LPGEN("Strike through"),         "strikeout",        IDI_STRIKEOUT   }, //  7 
+	{ LPGEN("Smiley button"),          "smiley",           IDI_SMILEY      }, //  8
+	{ LPGEN("Room history"),           "history",          IDI_HISTORY     }, //  9
+	{ LPGEN("Room settings"),          "settings",         IDI_TOPICBUT    }, // 10
+	{ LPGEN("Event filter disabled"),  "filter",           IDI_FILTER      }, // 11
+	{ LPGEN("Event filter enabled"),   "filter2",          IDI_FILTER2     }, // 12
+	{ LPGEN("Hide nick list"),         "nicklist",         IDI_NICKLIST    }, // 13
+	{ LPGEN("Show nick list"),         "nicklist2",        IDI_NICKLIST2   }, // 14
+	{ LPGEN("Icon overlay"),           "overlay",          IDI_OVERLAY     }, // 15
 };
 
 static IconItem iconList3[] =

@@ -357,6 +357,8 @@ IDI_BBOLD               ICON                    "bold.ico"
 
 IDI_BITALICS            ICON                    "italics.ico"
 
+IDI_STRIKEOUT           ICON                    "strike.ico"
+
 IDI_BSMILEY             ICON                    "smiley.ico"
 
 IDI_JOIN                ICON                    "join.ico"

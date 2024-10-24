@@ -456,6 +456,8 @@ IDI_BBOLD               ICON                    "chat/bold.ico"
 
 IDI_BITALICS            ICON                    "chat/italic.ico"
 
+IDI_STRIKEOUT           ICON                    "chat/strike.ico"
+
 IDI_JOIN                ICON                    "chat/join.ico"
 
 IDI_TOPIC               ICON                    "chat/topic.ico"

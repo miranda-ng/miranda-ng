@@ -325,8 +325,7 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 	timerAwayMsg(this, 100),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
-	m_btnCancelAdd(this, IDC_CANCELADD),
-	m_btnStrikeout(this, IDC_SRMM_STRIKEOUT)
+	m_btnCancelAdd(this, IDC_CANCELADD)
 {
 	m_hContact = hContact;
 

@@ -331,7 +331,7 @@ protected:
 	CCtrlMButton m_btnCloseQuote;
 
 	CCtrlButton m_btnColor, m_btnBkColor, m_btnOk;
-	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
+	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnStrikeout;
 	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;
 
 	void onClick_BIU(CCtrlButton *);

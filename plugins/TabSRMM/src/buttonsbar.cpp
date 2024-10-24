@@ -39,7 +39,6 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Underlined text");
 	g_plugin.addButton(&bbd);
 
-	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISPUSHBUTTON | BBBF_CANBEHIDDEN | BBBF_CREATEBYID | BBBF_NOREADONLY;
 	bbd.dwButtonID = IDC_SRMM_STRIKEOUT;
 	bbd.dwDefPos = 70;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_STRIKEOUT);

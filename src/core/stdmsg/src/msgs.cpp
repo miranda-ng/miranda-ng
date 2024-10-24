@@ -377,15 +377,22 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.pwszTooltip = LPGENW("Make the text underlined (Ctrl+U)");
 	g_plugin.addButton(&bbd);
 
-	bbd.dwButtonID = IDC_SRMM_COLOR;
+	bbd.dwButtonID = IDC_SRMM_STRIKEOUT;
 	bbd.dwDefPos = 25;
+	bbd.hIcon = g_plugin.getIconHandle(IDI_STRIKEOUT);
+	bbd.pwszText = LPGENW("&Strike-through ");
+	bbd.pwszTooltip = LPGENW("Make the text strike-through");
+	g_plugin.addButton(&bbd);
+
+	bbd.dwButtonID = IDC_SRMM_COLOR;
+	bbd.dwDefPos = 30;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_COLOR);
 	bbd.pwszText = LPGENW("&Color");
 	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (Ctrl+K)");
 	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
-	bbd.dwDefPos = 30;
+	bbd.dwDefPos = 35;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_BKGCOLOR);
 	bbd.pwszText = LPGENW("&Background color");
 	bbd.pwszTooltip = LPGENW("Select a background color for the text (Ctrl+L)");

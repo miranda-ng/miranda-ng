@@ -48,6 +48,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT h
 
 	m_btnItalic(this, IDC_SRMM_ITALICS),
 	m_btnUnderline(this, IDC_SRMM_UNDERLINE),
+	m_btnStrikeout(this, IDC_SRMM_STRIKEOUT),
 
 	m_Quote(this, IDC_SRMM_QUOTE),
 	m_btnCloseQuote(this, IDC_SRMM_CLOSEQUOTE, SKINICON_OTHER_DELETE, LPGEN("Remove quoting")),
@@ -58,7 +59,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT h
 {
 	m_btnColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_Color);
 	m_btnBkColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BkColor);
-	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BIU);
+	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = m_btnStrikeout.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BIU);
 
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
@@ -960,7 +961,7 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 
 	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
-	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE;
+	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_STRIKEOUT;
 	cf.dwEffects = 0;
 
 	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_BOLD))
@@ -969,6 +970,8 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 		cf.dwEffects |= CFE_ITALIC;
 	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_UNDERLINE))
 		cf.dwEffects |= CFE_UNDERLINE;
+	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_STRIKEOUT))
+		cf.dwEffects |= CFM_STRIKEOUT;
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 }
 

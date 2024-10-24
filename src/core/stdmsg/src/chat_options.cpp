@@ -31,6 +31,7 @@ static IconItem iconList1[] =
 	{ LPGEN("Bold"),                  "bold",      IDI_BBOLD      },
 	{ LPGEN("Italics"),               "italics",   IDI_BITALICS   },
 	{ LPGEN("Underlined"),            "underline", IDI_BUNDERLINE },
+	{ LPGEN("Strike through"),        "strikeout", IDI_STRIKEOUT  },
 	{ LPGEN("Smiley button"),         "smiley",    IDI_BSMILEY    },
 	{ LPGEN("Room history"),          "history",   IDI_HISTORY    },
 	{ LPGEN("Room settings"),         "settings",  IDI_TOPICBUT   },
