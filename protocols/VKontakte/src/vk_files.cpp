@@ -32,30 +32,26 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessa
 
 	CreateDirectoryTreeW(buf);
 
-	CMStringW wszUrl = _wszUrl, wszAltFileName;
+	CMStringW wszUrl = _wszUrl;
 	wszUrl.Replace(L"\\", L"/");
 	
 	int i = wszUrl.Find('?');
-	if (i > -1) {
-		wszAltFileName = wszUrl.Mid(i + 1);
+	if (i > -1)
 		wszUrl.Truncate(i);
-	}
-	
+		
 	i = wszUrl.ReverseFind('/');
 	if (i > -1)
 		wszUrl = wszUrl.Mid(i + 1);
 
 	i = wszUrl.ReverseFind('.');
 	if (i < 0) { 
-		i = wszAltFileName.Find('&');
-		if (i > -1)
-			wszAltFileName.Truncate(i);
+		char szHash[33];
+		uint8_t digest[16];
+		mir_md5_hash((uint8_t*)_wszUrl.c_str(), _wszUrl.GetLength() * sizeof(wchar_t), digest);
+		bin2hex(digest, sizeof(digest), szHash);
 
-		i = wszAltFileName.ReverseFind('=');
-		if (i > -1)
-			wszAltFileName = wszAltFileName.Mid(i + 1);
-
-		wszUrl = wszAltFileName + L".jpg";
+		wszUrl = szHash;
+		wszUrl += ".jpg";
 	}
 		
 	wszUrl.Insert(0, buf);
