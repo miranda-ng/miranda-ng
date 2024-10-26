@@ -103,6 +103,14 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 
 	for (auto *itemNode : TiXmlEnum(chatNode)) {
 		int from;
+
+		if (m_bUseOMEMO) {
+			if (auto* encNode = XmlGetChildByTag(itemNode, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
+				OmemoHandleMessage(encNode, from, msgTime, bWasSent);
+				return; //we do not want any additional processing
+			}
+		}
+
 		const char *itemName = itemNode->Name();
 		if (!mir_strcmp(itemName, "to"))
 			from = DBEF_SENT;

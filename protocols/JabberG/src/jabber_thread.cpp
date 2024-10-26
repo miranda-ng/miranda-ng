@@ -1025,43 +1025,39 @@ MCONTACT CJabberProto::CreateTemporaryContact(const char *szJid, JABBER_LIST_ITE
 	return hContact;
 }
 
-void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
+time_t CJabberProto::XmppMsg::extract_timestamp()
 {
-	if (!node->Name() || mir_strcmp(node->Name(), "message"))
-		return;
-
-	time_t msgTime = 0;
-	bool bEnableDelivery = true, bCreateRead = false, bWasSent = false;
-	auto *from = XmlGetAttr(node, "from"), *type = XmlGetAttr(node, "type"), *idStr = XmlGetAttr(node, "id");
-	const char *szMsgId = nullptr; // MAM support
-
-	// check for MAM response
-	if (auto *mamResult = XmlGetChildByTag(node, "result", "xmlns", JABBER_FEAT_MAM)) {
-		szMsgId = XmlGetAttr(mamResult, "id");
-		if (szMsgId)
-			setString("LastMamId", szMsgId);
+	return 0;
+}
+void CJabberProto::XmppMsg::handle_mam()
+{
+	
+	if (auto* mamResult = XmlGetChildByTag(node, "result", "xmlns", JABBER_FEAT_MAM)) {
+		szMamMsgId = XmlGetAttr(mamResult, "id");
+		if (szMamMsgId)
+			m_proto->setString("LastMamId", szMamMsgId);
 
 		// we only collect ids, no need to store messages
-		if (m_bMamDisableMessages)
+		if (m_proto->m_bMamDisableMessages)
 			return;
 
-		auto *xmlForwarded = XmlGetChildByTag(mamResult, "forwarded", "xmlns", JABBER_XMLNS_FORWARD);
-		if (auto *xmlMessage = XmlFirstChild(xmlForwarded, "message")) {
+		auto* xmlForwarded = XmlGetChildByTag(mamResult, "forwarded", "xmlns", JABBER_XMLNS_FORWARD);
+		if (auto* xmlMessage = XmlFirstChild(xmlForwarded, "message")) {
 			node = xmlMessage;
 			type = XmlGetAttr(node, "type");
 			from = XmlGetAttr(node, "from");
-			auto *to = XmlGetAttr(node, "to");
+			auto* to = XmlGetAttr(node, "to");
 
 			char szJid[JABBER_MAX_JID_LEN];
 			JabberStripJid(from, szJid, _countof(szJid));
-			if (!mir_strcmpi(szJid, m_szJabberJID)) {
+			if (!mir_strcmpi(szJid, m_proto->m_szJabberJID)) {
 				bWasSent = true;
 				std::swap(from, to);
 			}
 
 			// we disable message reading with our resource only for the missing messages
-			if (!m_bMamCreateRead && !mir_strcmpi(to, info->fullJID)) {
-				debugLogA("MAM: outgoing message from this machine (%s), ignored", from);
+			if (!(m_proto->m_bMamCreateRead) && !mir_strcmpi(to, info->fullJID)) {
+				m_proto->debugLogA("MAM: outgoing message from this machine (%s), ignored", from);
 				return;
 			}
 		}
@@ -1069,43 +1065,17 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		JabberProcessDelay(xmlForwarded, msgTime);
 
 		bEnableDelivery = false;
-		bCreateRead = m_bMamCreateRead;
+		bCreateRead = m_proto->m_bMamCreateRead;
 	}
+	if (auto* n = XmlGetChildByTag(node, "stanza-id", "xmlns", JABBER_FEAT_SID))
+		if (szMamMsgId = n->Attribute("id"))
+			m_proto->setString("LastMamId", szMamMsgId);
+}
 
-	if (from == nullptr) {
-		debugLogA("no 'from' attribute, returning");
-		return;
-	}
-
-	pResourceStatus pFromResource(ResourceInfoFromJID(from));
-
-	// Message receipts delivery request. Reply here, before a call to HandleMessagePermanent() to make sure message receipts are handled for external plugins too.
-	if (IsSendAck(HContactFromJID(from)) && bEnableDelivery && (!type || mir_strcmpi(type, "error"))) {
-		bool bSendReceipt = XmlGetChildByTag(node, "request", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS) != 0;
-		bool bSendMark = XmlGetChildByTag(node, "markable", "xmlns", JABBER_FEAT_CHAT_MARKERS) != 0;
-		if (bSendReceipt || bSendMark) {
-			XmlNode reply("message"); reply << XATTR("to", from) << XATTR("id", idStr);
-			if (bSendReceipt) {
-				if (pFromResource)
-					pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_MESSAGE_RECEIPTS;
-				reply << XCHILDNS("received", JABBER_FEAT_MESSAGE_RECEIPTS) << XATTR("id", idStr);
-			}
-			if (bSendMark) {
-				if (pFromResource)
-					pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_CHAT_MARKERS;
-				reply << XCHILDNS("received", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", idStr);
-			}
-			info->send(reply);
-		}
-	}
-
-	if (m_messageManager.HandleMessagePermanent(node, info)) {
-		debugLogA("permanent message handler succeeded, returning");
-		return;
-	}
-
+void CJabberProto::XmppMsg::handle_carbon()
+{
 	// Handle carbons. The message MUST be coming from our bare JID.
-	const TiXmlElement *carbon = nullptr;
+	const TiXmlElement* carbon = nullptr;
 	if (IsMyOwnJID(from)) {
 		carbon = XmlGetChildByTag(node, "received", "xmlns", JABBER_FEAT_CARBONS);
 		if (!carbon) {
@@ -1120,8 +1090,8 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			}
 
 			bCreateRead = true;
-			auto *xmlForwarded = XmlGetChildByTag(carbon, "forwarded", "xmlns", JABBER_XMLNS_FORWARD);
-			auto *xmlMessage = XmlFirstChild(xmlForwarded, "message");
+			auto* xmlForwarded = XmlGetChildByTag(carbon, "forwarded", "xmlns", JABBER_XMLNS_FORWARD);
+			auto* xmlMessage = XmlFirstChild(xmlForwarded, "message");
 			// Carbons MUST have forwarded/message content
 			if (xmlMessage == nullptr) {
 				debugLogA("no 'forwarded' attribute in carbons, returning");
@@ -1150,55 +1120,15 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 	}
+}
 
-	MCONTACT hContact = HContactFromJID(from);
-	JABBER_LIST_ITEM *chatItem = ListGetItemPtr(LIST_CHATROOM, from);
-	if (chatItem) {
-		auto *xCaptcha = XmlFirstChild(node, "captcha");
-		if (xCaptcha)
-			if (ProcessCaptcha(xCaptcha, node, info)) {
-				debugLogA("captcha processing succeeded, returning");
-				return;
-			}
-	}
+void CJabberProto::XmppMsg::handle_omemo()
+{
 
-	CMStringA szMessage;
-	auto *bodyNode = XmlGetChildByTag(node, "body", "xml:lang", m_tszSelectedLang);
-	if (bodyNode == nullptr)
-		bodyNode = XmlFirstChild(node, "body");
+}
 
-	auto *subject = XmlGetChildText(node, "subject");
-	if (subject) {
-		szMessage.Append("Subject: ");
-		szMessage.Append(subject);
-		szMessage.Append("\r\n");
-	}
-
-	if (szMessage) if (auto *n = XmlGetChildByTag(node, "addresses", "xmlns", JABBER_FEAT_EXT_ADDRESSING)) {
-		auto *addressNode = XmlGetChildByTag(n, "address", "type", "ofrom");
-		if (addressNode) {
-			const char *szJid = XmlGetAttr(addressNode, "jid");
-			if (szJid) {
-				szMessage.AppendFormat(TranslateU("Message redirected from: %s\r\n"), from);
-				from = szJid;
-				// rewrite hContact
-				hContact = HContactFromJID(from);
-			}
-		}
-	}
-
-	if (bodyNode != nullptr)
-		szMessage.Append(bodyNode->GetText());
-
-	if (auto *n = XmlGetChildByTag(node, "stanza-id", "xmlns", JABBER_FEAT_SID))
-		if (szMsgId = n->Attribute("id"))
-			setString("LastMamId", szMsgId);
-
-	// If a message is from a stranger (not in roster), item is nullptr
-	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, from);
-	if (item == nullptr)
-		item = ListGetItemPtr(LIST_VCARD_TEMP, from);
-
+void CJabberProto::XmppMsg::handle_chatstates()
+{
 	// check chatstates availability
 	if (pFromResource && XmlGetChildByTag(node, "active", "xmlns", JABBER_FEAT_CHATSTATES))
 		pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_CHATSTATES;
@@ -1214,6 +1144,112 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	// chatstates inactive event
 	if (hContact && XmlGetChildByTag(node, "inactive", "xmlns", JABBER_FEAT_CHATSTATES))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+}
+
+void CJabberProto::XmppMsg::process()
+{
+	if (!m_proto)
+		return;
+	if (from == nullptr) {
+		m_proto->debugLogA("no 'from' attribute, returning");
+		return;
+	}
+	handle_mam();
+
+	pResourceStatus pFromResource(ResourceInfoFromJID(from));
+
+	// Message receipts delivery request. Reply here, before a call to HandleMessagePermanent() to make sure message receipts are handled for external plugins too.
+	if (IsSendAck(HContactFromJID(from)) && bEnableDelivery && (!type || mir_strcmpi(type, "error"))) {
+		bool bSendReceipt = XmlGetChildByTag(node, "request", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS) != 0;
+		bool bSendMark = XmlGetChildByTag(node, "markable", "xmlns", JABBER_FEAT_CHAT_MARKERS) != 0;
+		if (bSendReceipt || bSendMark) {
+			XmlNode reply("message"); reply << XATTR("to", from) << XATTR("id", idStr);
+			if (bSendReceipt) {
+				if (pFromResource)
+					pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_MESSAGE_RECEIPTS;
+				reply << XCHILDNS("received", JABBER_FEAT_MESSAGE_RECEIPTS) << XATTR("id", idStr);
+			}
+			if (bSendMark) {
+				if (pFromResource)
+					pFromResource->m_jcbManualDiscoveredCaps |= JABBER_CAPS_CHAT_MARKERS;
+				reply << XCHILDNS("received", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", idStr);
+			}
+			info->send(reply);
+		}
+	}
+
+	if (m_messageManager.HandleMessagePermanent(node, info)) {
+		debugLogA("permanent message handler succeeded, returning");
+		return;
+	}
+
+	handle_carbon();
+
+	hContact = HContactFromJID(from);
+	JABBER_LIST_ITEM* chatItem = ListGetItemPtr(LIST_CHATROOM, from);
+	if (chatItem) {
+		auto* xCaptcha = XmlFirstChild(node, "captcha");
+		if (xCaptcha)
+			if (ProcessCaptcha(xCaptcha, node, info)) {
+				debugLogA("captcha processing succeeded, returning");
+				return;
+			}
+	}
+
+	CMStringA szMessage;
+	auto* bodyNode = XmlGetChildByTag(node, "body", "xml:lang", m_tszSelectedLang);
+	if (bodyNode == nullptr)
+		bodyNode = XmlFirstChild(node, "body");
+
+	auto* subject = XmlGetChildText(node, "subject");
+	if (subject) {
+		szMessage.Append("Subject: ");
+		szMessage.Append(subject);
+		szMessage.Append("\r\n");
+	}
+
+	if (szMessage) if (auto* n = XmlGetChildByTag(node, "addresses", "xmlns", JABBER_FEAT_EXT_ADDRESSING)) {
+		auto* addressNode = XmlGetChildByTag(n, "address", "type", "ofrom");
+		if (addressNode) {
+			const char* szJid = XmlGetAttr(addressNode, "jid");
+			if (szJid) {
+				szMessage.AppendFormat(TranslateU("Message redirected from: %s\r\n"), from);
+				from = szJid;
+				// rewrite hContact
+				hContact = HContactFromJID(from);
+			}
+		}
+	}
+
+	if (bodyNode != nullptr)
+		szMessage.Append(bodyNode->GetText());
+
+	// If a message is from a stranger (not in roster), item is nullptr
+	JABBER_LIST_ITEM* item = ListGetItemPtr(LIST_ROSTER, from);
+	if (item == nullptr)
+		item = ListGetItemPtr(LIST_VCARD_TEMP, from);
+
+	handle_chatstates();
+
+}
+
+void CJabberProto::XmppMsg::add_to_db()
+{
+
+}
+
+void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
+{
+	if (!node->Name() || mir_strcmp(node->Name(), "message"))
+		return;
+
+	auto msg = XmppMsg(node, info, this);
+
+	msg.process();
+
+
+
+
 
 	// message receipts delivery notification
 	if (auto *n = XmlGetChildByTag(node, "received", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS)) {
@@ -1392,7 +1428,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	}
 
 	// we ignore messages without a server id either if MAM is enabled
-	if ((info->jabberServerCaps & JABBER_CAPS_MAM) && m_bEnableMam && m_iMamMode != 0 && szMsgId == nullptr) {
+	if ((info->jabberServerCaps & JABBER_CAPS_MAM) && m_bEnableMam && m_iMamMode != 0 && szMamMsgId == nullptr) {
 		debugLogA("MAM is enabled, but there's no stanza-id: ignoting a message");
 		return;
 	}
@@ -1426,7 +1462,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 
 	dbei.timestamp = (uint32_t)msgTime;
 	dbei.pBlob = szMessage.GetBuffer();
-	dbei.szId = szMsgId;
+	dbei.szId = szMamMsgId;
 
 	MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, dbei);
 	if (idStr)

@@ -74,10 +74,42 @@ struct CChatMark
 	CMStringA szId, szFrom;
 };
 
+
+
 struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 {
 	friend struct ThreadData;
 
+	struct XmppMsg
+	{
+		friend struct ThreadData;
+		friend struct CJabberProto;
+		~XmppMsg() {}
+		XmppMsg(const TiXmlElement* _node, ThreadData* _info, CJabberProto *proto):
+			node(_node), info(_info), m_proto(proto)
+		{
+			from = XmlGetAttr(node, "from"), type = XmlGetAttr(node, "type"),
+				idStr = XmlGetAttr(node, "id");
+		}
+		time_t extract_timestamp();
+		void process();
+		void handle_mam();
+		void handle_carbon();
+		void handle_omemo();
+		void handle_chatstates();
+		void add_to_db();
+
+	private:
+		time_t msgTime = 0;
+		bool bEnableDelivery = true, bCreateRead = false, bWasSent = false;
+		const char* from = nullptr, * type = nullptr,
+			* idStr = nullptr, * szMamMsgId = nullptr;
+		ThreadData* info = nullptr;
+		const TiXmlElement* node = nullptr;
+		
+		CJabberProto* m_proto;
+		MCONTACT hContact;
+	};
 	class CJabberProtoImpl
 	{
 		friend struct CJabberProto;
@@ -830,6 +862,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnProcessChallenge(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessProceed(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessCompressed(const TiXmlElement *node, ThreadData *info);
+	//message processing helpers
 	void       OnProcessMessage(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessPresence(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessPresenceCapabilites(const TiXmlElement *node, pResourceStatus &resource);
