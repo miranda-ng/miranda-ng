@@ -233,7 +233,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	else {
 		// do blinking icons in tray
 		if (bInactive || !g_Settings.bTrayIconInactiveOnly) {
-			g_chatApi.DoTrayIcon(si, gce);
+			if (iMuteMode != CHATMODE_MUTE)
+				g_chatApi.DoTrayIcon(si, gce);
 			if (iEvent == GC_EVENT_MESSAGE)
 				bFlagUnread = true;
 		}
