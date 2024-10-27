@@ -459,6 +459,9 @@ complete:
 			db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
+
+		if(proto->m_bJabberOnline)
+			proto->OmemoSendBundle();
 	}
 
 	static CMStringA getSessionSetting(const signal_protocol_address *address)
@@ -960,8 +963,10 @@ complete:
 		MCONTACT hContact = proto->HContactFromJID(address->name);
 		char val = proto->getByte(hContact, TrustSettingName, FP_ABSENT);
 		if (val == FP_ABSENT) {
-			//proto->setByte(hContact, TrustSettingName, FP_BAD);
-			proto->MsgPopup(hContact, omemo::FormatFingerprint(fp_hex), TranslateT("Unknown device added"));
+			uint32_t count = 0;
+			db_enum_settings(hContact, omemo::db_enum_settings_fps_cb, proto->m_szModuleName, &count);
+			if(count)
+				proto->MsgPopup(hContact, omemo::FormatFingerprint(fp_hex), TranslateT("Unknown device added"));
 		}
 
 		//always return true to decrypt incoming messages from untrusted devices
@@ -1472,6 +1477,9 @@ void CJabberProto::OmemoAnnounceDevice(bool include_cache, bool include_own)
 	// send device list back
 	// TODO handle response
 	m_ThreadInfo->send(iq);
+
+	//make it available without subscription
+	ConfigurePepNode(JABBER_FEAT_OMEMO ".devicelist", "open");
 }
 
 void CJabberProto::OmemoSendBundle()
@@ -1524,6 +1532,8 @@ void CJabberProto::OmemoSendBundle()
 	// send bundle
 	//TODOL handle response
 	m_ThreadInfo->send(iq);
+
+	ConfigurePepNode(CMStringA(FORMAT, "%s.bundles:%u", JABBER_FEAT_OMEMO, own_id), "open");
 }
 
 bool CJabberProto::OmemoCheckSession(MCONTACT hContact, bool requestBundles)
@@ -1545,7 +1555,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact, bool requestBundles)
 		ptrA jid(ContactToJID(_hContact));
 
 		uint32_t count = 0;
-		db_enum_settings(hContact, omemo::db_enum_settings_fps_cb, m_szModuleName, &count);
+		db_enum_settings(_hContact, omemo::db_enum_settings_fps_cb, m_szModuleName, &count);
 
 		for (int i = 0;; i++) {
 			int device_id = m_omemo.dbGetDeviceId(_hContact, i);
@@ -1568,6 +1578,14 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact, bool requestBundles)
 				}
 
 				ok = false;
+			}
+			else {
+				if(count == 0) {
+					MBinBuffer fp(getBlob(_hContact, omemo::IdentityPrefix + m_omemo.dbGetSuffix(_hContact, device_id)));
+					CMStringA fp_hex(omemo::hex_string(fp.data(), fp.length()));
+					setByte(hContact, "OmemoFingerprintTrusted_" + fp_hex, FP_TOFU);
+					MsgPopup(hContact, omemo::FormatFingerprint(fp_hex), TranslateT("Trust on first use"));
+				}
 			}
 		}
 	}

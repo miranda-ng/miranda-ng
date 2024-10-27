@@ -872,6 +872,23 @@ bool CJabberProto::IsSendAck(MCONTACT hContact)
 	return m_bMsgAck;
 }
 
+void CJabberProto::ConfigurePepNode(const char* nodename, const char* access_model, const char* max_items)
+{
+	char szBareJid[JABBER_MAX_JID_LEN];
+	XmlNodeIq iq("set", SerialNext());
+	iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
+
+	TiXmlElement *x_node = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub#owner")
+		<< XCHILD("configure") << XATTR("node", nodename)
+		<< XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "submit");
+	if (access_model)
+		x_node << XCHILD("field") << XATTR("var", "pubsub#access_model") << XCHILD("value", access_model);
+	if (max_items)
+		x_node << XCHILD("field") << XATTR("var", "pubsub#max_items") << XCHILD("value", max_items);
+
+	m_ThreadInfo->send(iq);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void __cdecl CJabberProto::LoadHttpAvatars(void* param)

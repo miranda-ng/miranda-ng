@@ -819,12 +819,14 @@ public:
 			CMStringA fp_hex;
 			if (!fp.isEmpty()) {
 				fp_hex = omemo::hex_string(fp.data(), fp.length());
-				int8_t trusted = ppro->getByte(m_hContact, "OmemoFingerprintTrusted_" + fp_hex);
+				int8_t trusted = ppro->getByte(m_hContact, "OmemoFingerprintTrusted_" + fp_hex, FP_ABSENT);
 				if (trusted > FP_VERIFIED)
 					trusted = FP_ABSENT;
-				
-				const wchar_t *status[] = { L"Bad", L"TOFU", L"Verified" };
-				wsStatus = TranslateW(status[trusted]);
+
+				if (trusted != FP_ABSENT) {
+					const wchar_t *status[] = { L"Bad", L"TOFU", L"Verified" };
+					wsStatus = TranslateW(status[trusted]);
+				}
 			}
 			MBinBuffer session(ppro->getBlob(m_hContact, "OmemoSignalSession_" + suffix));
 
@@ -851,16 +853,16 @@ public:
 		CMStringA TrustSettingName("OmemoFingerprintTrusted_");
 		TrustSettingName.Append(omemo::hex_string(fp.data(), fp.length()));
 
-		int8_t trusted = ppro->getByte(m_hContact, TrustSettingName);
+		int8_t trusted = ppro->getByte(m_hContact, TrustSettingName, FP_ABSENT);
 		bool ses = !ppro->getBlob(m_hContact, "OmemoSignalSession_" + suffix).isEmpty();
 
 		HMENU hMenu = CreatePopupMenu();
 		if (!owndevice) {
-			AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, trusted ? TranslateT("Untrust") : TranslateT("Trust"));
+			AppendMenu(hMenu, MF_STRING | (trusted != FP_ABSENT ? 0 : MF_GRAYED), (UINT_PTR)1, trusted ? TranslateT("Untrust") : TranslateT("Trust"));
 			AppendMenu(hMenu, MF_STRING | (ses ? 0 : MF_GRAYED), (UINT_PTR)2, TranslateT("Kill session"));
 		}
 		if (m_hContact == 0)
-			AppendMenu(hMenu, MF_STRING | (!owndevice && !ppro->m_bJabberOnline ? MF_GRAYED : 0), (UINT_PTR)3, TranslateT("Remove device"));
+			AppendMenu(hMenu, MF_STRING | (!ppro->m_bJabberOnline ? MF_GRAYED : 0), (UINT_PTR)3, TranslateT("Remove device"));
 
 		int nReturnCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr);
 		switch (nReturnCmd) {
