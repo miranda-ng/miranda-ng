@@ -888,7 +888,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool       IsMyOwnJID(const char *szJID);
 	bool       IsSendAck(MCONTACT hContact);
 
-	void ConfigurePepNode(const char * nodename, const char * access_model, const char * max_items = nullptr);
+	void       ConfigurePepNode(const char *nodename, const char *access_model, const char *max_items = nullptr);
 				 
 	void       __cdecl LoadHttpAvatars(void* param);
 	CMStringA  MyNick(MCONTACT hContact = 0);

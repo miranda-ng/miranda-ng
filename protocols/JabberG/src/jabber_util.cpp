@@ -872,7 +872,7 @@ bool CJabberProto::IsSendAck(MCONTACT hContact)
 	return m_bMsgAck;
 }
 
-void CJabberProto::ConfigurePepNode(const char* nodename, const char* access_model, const char* max_items)
+void CJabberProto::ConfigurePepNode(const char *nodename, const char *access_model, const char *max_items)
 {
 	char szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq("set", SerialNext());
