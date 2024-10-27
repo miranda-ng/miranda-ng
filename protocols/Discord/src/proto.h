@@ -372,6 +372,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	// gateway
 
 	CMStringA
+		m_szApiUrl,            // Discord API url
 		m_szGateway,           // gateway url
 		m_szGatewaySessionId,  // current session id
 		m_szCookie,            // cookie used for all http queries

@@ -143,9 +143,17 @@ void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pR
 /////////////////////////////////////////////////////////////////////////////////////////
 // retrieves user info
 
-void CDiscordProto::RetrieveMyInfo()
+void CDiscordProto::OnReceiveGateway(MHttpResponse *pReply, AsyncHttpRequest *)
 {
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveMyInfo));
+	JsonReply root(pReply);
+	if (!root) {
+		ShutdownSession();
+		return;
+	}
+
+	auto &data = root.data();
+	m_szGateway = data["url"].as_mstring();
+	ForkThread(&CDiscordProto::GatewayThread, nullptr);
 }
 
 void CDiscordProto::OnReceiveMyInfo(MHttpResponse *pReply, AsyncHttpRequest*)
@@ -178,20 +186,9 @@ void CDiscordProto::OnReceiveMyInfo(MHttpResponse *pReply, AsyncHttpRequest*)
 	CheckAvatarChange(0, data["avatar"].as_mstring());
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// finds a gateway address
-
-void CDiscordProto::OnReceiveGateway(MHttpResponse *pReply, AsyncHttpRequest*)
+void CDiscordProto::RetrieveMyInfo()
 {
-	JsonReply root(pReply);
-	if (!root) {
-		ShutdownSession();
-		return;
-	}
-
-	auto &data = root.data();
-	m_szGateway = data["url"].as_mstring();
-	ForkThread(&CDiscordProto::GatewayThread, nullptr);
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/users/@me", &CDiscordProto::OnReceiveMyInfo));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

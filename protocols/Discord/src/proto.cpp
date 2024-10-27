@@ -62,6 +62,9 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	m_bSyncDeleteMsgs(this, "DeleteServerMsgs", true),
 	m_bSyncDeleteUsers(this, "DeleteServerUsers", true)
 {
+	// Hidden setting!
+	m_szApiUrl = getMStringA("ApiUrl", "https://discord.com/api/v9");
+
 	// Services
 	CreateProtoService(PS_GETAVATARINFO, &CDiscordProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CDiscordProto::GetAvatarCaps);
