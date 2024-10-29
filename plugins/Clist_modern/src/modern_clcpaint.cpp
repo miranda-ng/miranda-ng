@@ -158,12 +158,11 @@ int CLCPaint::GetBasicFontID(ClcContact *contact)
 	case CLCIT_CONTACT:
 		if (contact->flags & CONTACTF_NOTONLIST)
 			return FONTID_NOTONLIST;
-		if (((contact->flags & CONTACTF_INVISTO) && Clist_GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE) ||
-			((contact->flags & CONTACTF_VISTO && Clist_GetRealStatus(contact, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE))) {
-			// the contact is in the always visible list and the proto is invisible
-			// the contact is in the always invisible and the proto is in any other mode
+		
+		// the contact is in the always visible list and the proto is invisible
+		// the contact is in the always invisible and the proto is in any other mode
+		if (Clist_AltVisible(contact))
 			return (contact->flags & CONTACTF_ONLINE) ? FONTID_INVIS : FONTID_OFFINVIS;
-		}
 
 		switch (contact->pce->getStatus()) {
 		case ID_STATUS_OFFLINE: return FONTID_OFFLINE;
@@ -1989,9 +1988,8 @@ void CLCPaint::_GetBlendMode(IN ClcData *dat, IN ClcContact *Drawing, IN BOOL se
 		colourFg = dat->selBkColour;
 		mode = ILD_NORMAL;
 	}
-	if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) &&
-		Clist_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE &&
-		(bFlag & GIM_IDLE_AFFECT))
+	if (Drawing->type == CLCIT_CONTACT && dat->bShowIdle && (Drawing->flags & CONTACTF_IDLE) && 
+		Clist_GetRealStatus(Drawing, ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE && (bFlag & GIM_IDLE_AFFECT))
 		mode = ILD_SELECTED;
 	if (OutColourFg) *OutColourFg = colourFg;
 	if (OutMode) {

@@ -45,12 +45,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TIMERID_REFRESH			18
 #define TIMERID_PAINT			19
 
-#define CONTACTF_ONLINE			1
-//#define CONTACTF_INVISTO		2
-//#define CONTACTF_VISTO		4
-#define CONTACTF_NOTONLIST		8
-#define CONTACTF_CHECKED		16
-#define CONTACTF_IDLE			32
 #define CONTACTF_STICKY			64
 #define CONTACTF_PRIORITY		128
 

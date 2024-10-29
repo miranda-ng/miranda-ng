@@ -220,15 +220,26 @@ MIR_APP_DLL(HANDLE) Clist_ContactToItemHandle(ClcContact *cc, uint32_t *nmFlags)
 	return nullptr;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(int) Clist_GetRealStatus(ClcContact *cc, int iDefaultValue)
 {
-	if (cc->pce) {
-		PROTOACCOUNT *pa = Proto_GetAccount(cc->pce->szProto);
-		if (pa)
+	if (cc->pce) 
+		if (auto *pa = Proto_GetAccount(cc->pce->szProto))
 			return pa->iRealStatus;
-	}
 
 	return iDefaultValue;
+}
+
+MIR_APP_DLL(bool) Clist_AltVisible(ClcContact *cc)
+{
+	if ((cc->flags & CONTACTF_INVISTO) && Clist_GetRealStatus(cc, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE)
+		return true;
+
+	if ((cc->flags & CONTACTF_VISTO) && Clist_GetRealStatus(cc, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE)
+		return true;
+
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

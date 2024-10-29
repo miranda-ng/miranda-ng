@@ -127,8 +127,7 @@ int GetBasicFontID(ClcContact *contact)
 		if (contact->flags & CONTACTF_NOTONLIST)
 			return FONTID_NOTONLIST;
 
-		if ((contact->flags & CONTACTF_INVISTO && Clist_GetRealStatus(contact, ID_STATUS_OFFLINE) != ID_STATUS_INVISIBLE)
-			|| (contact->flags & CONTACTF_VISTO && Clist_GetRealStatus(contact, ID_STATUS_OFFLINE) == ID_STATUS_INVISIBLE))
+		if (Clist_AltVisible(contact))
 			return contact->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS;
 
 		return contact->flags & CONTACTF_ONLINE ? FONTID_CONTACTS : FONTID_OFFLINE;
@@ -430,11 +429,8 @@ set_bg_l:
 	}
 	else if (type == CLCIT_CONTACT && flags & CONTACTF_NOTONLIST)
 		ChangeToFont(hdcMem, dat, FONTID_NOTONLIST, &fontHeight);
-	else if (type == CLCIT_CONTACT && ((flags & CONTACTF_INVISTO && Clist_GetRealStatus(contact, my_status) != ID_STATUS_INVISIBLE) || (flags & CONTACTF_VISTO && Clist_GetRealStatus(contact, my_status) == ID_STATUS_INVISIBLE))) {
-		// the contact is in the always visible list and the proto is invisible
-		// the contact is in the always invisible and the proto is in any other mode
+	else if (type == CLCIT_CONTACT && Clist_AltVisible(contact))
 		ChangeToFont(hdcMem, dat, flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
-	}
 	else if (type == CLCIT_CONTACT && !(flags & CONTACTF_ONLINE))
 		ChangeToFont(hdcMem, dat, FONTID_OFFLINE, &fontHeight);
 	else

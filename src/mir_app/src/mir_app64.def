@@ -426,6 +426,7 @@ Proto_GetAverageStatus @512
 ?RegisterProtocol@CMPluginBase@@IEAAXHP6APEAUPROTO_INTERFACE@@PEBDPEB_W@ZP6AHPEAU2@@Z@Z @547 NONAME
 Proto_GetUniqueId @548
 Proto_SetUniqueId @549
+Clist_AltVisible @550 NONAME
 ??4PROTOACCOUNT@@QEAAAEAU0@AEBU0@@Z @551 NONAME
 ?IsEnabled@PROTOACCOUNT@@QEBA_NXZ @552 NONAME
 ?IsLocked@PROTOACCOUNT@@QEBA_NXZ @553 NONAME
@@ -474,7 +475,7 @@ Clist_SaveStateAndRebuildList @595 NONAME
 Clist_DeleteItemFromTree @596 NONAME
 Clist_RemoveItemFromGroup @597 NONAME
 Clist_ClcOptionsChanged @598 NONAME
-Clist_GetRealStatus @599 NONAME
+?Clist_GetRealStatus@@YAHPEAUClcContact@@H@Z @599 NONAME
 Clist_GetGeneralizedStatus @600 NONAME
 Proto_GetStatus @601
 ?getCache@MDatabaseCommon@@QEBAPEAUMIDatabaseCache@@XZ @602 NONAME

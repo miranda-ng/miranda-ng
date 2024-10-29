@@ -246,6 +246,7 @@ struct MenuProto
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions
 
+MIR_APP_DLL(bool)      Clist_AltVisible(ClcContact *cc);
 MIR_APP_DLL(void)      Clist_Broadcast(int msg, WPARAM wParam, LPARAM lParam);
 MIR_APP_DLL(void)      Clist_BroadcastAsync(int msg, WPARAM wParam, LPARAM lParam);
 MIR_APP_DLL(void)      Clist_CalcEipPosition(ClcData *dat, ClcContact *contact, ClcGroup *group, POINT *result);

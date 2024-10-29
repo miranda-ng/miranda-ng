@@ -256,11 +256,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				ChangeToFont(hdcMem, dat, FONTID_DIVIDERS, &fontHeight);
 			else if (cc->type == CLCIT_CONTACT && cc->flags & CONTACTF_NOTONLIST)
 				ChangeToFont(hdcMem, dat, FONTID_NOTONLIST, &fontHeight);
-			else if (cc->type == CLCIT_CONTACT && ((cc->flags & CONTACTF_INVISTO && Clist_GetRealStatus(cc, status) != ID_STATUS_INVISIBLE) || (cc->flags & CONTACTF_VISTO && Clist_GetRealStatus(cc, status) == ID_STATUS_INVISIBLE))) {
-				// the contact is in the always visible list and the proto is invisible
-				// the contact is in the always invisible and the proto is in any other mode
+			else if (cc->type == CLCIT_CONTACT && Clist_AltVisible(cc))
 				ChangeToFont(hdcMem, dat, cc->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
-			}
 			else if (cc->type == CLCIT_CONTACT && !(cc->flags & CONTACTF_ONLINE))
 				ChangeToFont(hdcMem, dat, FONTID_OFFLINE, &fontHeight);
 			else
