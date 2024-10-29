@@ -37,13 +37,6 @@ document::document(document_container* container)
 document::~document()
 {
 	m_over_element = nullptr;
-	if(m_container)
-	{
-		for(auto& font : m_fonts)
-		{
-			m_container->delete_font(font.second.font);
-		}
-	}
 }
 
 document::ptr document::createFromString(
@@ -463,7 +456,7 @@ uint_ptr document::add_font( const char* name, int size, const char* weight, con
 	key += ":";
 	key += decoration;
 
-	if(m_fonts.find(key) == m_fonts.end())
+	if(m_container->m_fonts.find(key) == m_container->m_fonts.end())
 	{
 		font_style fs = (font_style) value_index(style, font_style_strings, font_style_normal);
 		int	fw = value_index(weight, font_weight_strings, -1);
@@ -517,7 +510,7 @@ uint_ptr document::add_font( const char* name, int size, const char* weight, con
 		font_item fi= {0, {}};
 
 		fi.font = m_container->create_font(name, size, fw, fs, decor, &fi.metrics);
-		m_fonts[key] = fi;
+		m_container->m_fonts[key] = fi;
 		ret = fi.font;
 		if(fm)
 		{
@@ -551,9 +544,9 @@ uint_ptr document::get_font( const char* name, int size, const char* weight, con
 	key += ":";
 	key += decoration;
 
-	auto el = m_fonts.find(key);
+	auto el = m_container->m_fonts.find(key);
 
-	if(el != m_fonts.end())
+	if(el != m_container->m_fonts.end())
 	{
 		if(fm)
 		{

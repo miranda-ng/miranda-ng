@@ -14,7 +14,6 @@ class NSWebPage : public document_container
 
 	position::vector	m_clips;
 	HRGN m_hClipRgn;
-	std::set<std::wstring> m_installed_fonts;
 	HDC m_tmp_hdc;
 
 	NewstoryListData &ctrl;
@@ -73,8 +72,6 @@ class NSWebPage : public document_container
 	void on_mouse_event(const litehtml::element::ptr &, litehtml::mouse_event) override {}
 
 	void clear_images();
-
-	static int CALLBACK EnumFontsProc(const LOGFONT *lplf, const TEXTMETRIC *lptm, DWORD dwType, LPARAM lpData);
 
 public:
 	NSWebPage(NewstoryListData &_1);
