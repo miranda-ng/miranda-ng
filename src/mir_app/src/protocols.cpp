@@ -284,7 +284,7 @@ HICON Proto_GetIcon(PROTO_INTERFACE *ppro, int iconIndex)
 
 MIR_APP_DLL(PROTOACCOUNT*) Proto_GetAccount(const char *accName)
 {
-	if (accName == nullptr)
+	if (accName == nullptr || IsBadReadPtr(accName, 1))
 		return nullptr;
 
 	return g_arAccounts.find((PROTOACCOUNT*)&accName);
