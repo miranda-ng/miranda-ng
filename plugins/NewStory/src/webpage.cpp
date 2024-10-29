@@ -325,16 +325,16 @@ void NSWebPage::draw_list_marker(uint_ptr hdc, const list_marker &marker)
 	release_clip((HDC)hdc);
 }
 
-Bitmap* NSWebPage::load_image(const wchar_t *pwszUrl, ItemData *pItem)
+FIBITMAP* NSWebPage::load_image(const wchar_t *pwszUrl, ItemData *pItem)
 {
 	mir_cslockfull lck(m_csImages);
 	auto img = m_images.find(pwszUrl);
 	if (img != m_images.end() && img->second)
-		return (Bitmap *)img->second;
+		return (FIBITMAP *)img->second;
 
 	if (uint_ptr newImg = get_image(pwszUrl, false)) {
 		add_image(pwszUrl, newImg);
-		return (Bitmap *)newImg;
+		return (FIBITMAP *)newImg;
 	}
 
 	NSWebCache tmp(this, pwszUrl, pItem);
@@ -364,12 +364,12 @@ void NSWebPage::add_image(LPCWSTR url, uint_ptr img)
 	m_images[url] = img;
 }
 
-Bitmap* NSWebPage::find_image(const wchar_t *pwszUrl)
+FIBITMAP* NSWebPage::find_image(const wchar_t *pwszUrl)
 {
 	mir_cslock lck(m_csImages);
 	auto img = m_images.find(pwszUrl);
 	if (img != m_images.end() && img->second)
-		return (Bitmap *)img->second;
+		return (FIBITMAP *)img->second;
 
 	return nullptr;
 }
@@ -391,7 +391,7 @@ void NSWebPage::clear_images()
 	mir_cslock lck(m_csImages);
 	for (auto &img : m_images)
 		if (img.second)
-			delete (Bitmap *)img.second;
+			delete (FIBITMAP *)img.second;
 
 	m_images.clear();
 }
@@ -487,6 +487,13 @@ void NSWebPage::link(const document::ptr &, const element::ptr &)
 /////////////////////////////////////////////////////////////////////////////////////////
 // GDI+ part (former gdiplus_container)
 
+static void FreeImage_Draw(HDC hdc, FIBITMAP *pdib, int x, int y, int w, int h)
+{
+	BITMAPINFO *pbmpi = FreeImage_GetInfo(pdib);
+	BYTE *pDibBits = FreeImage_GetBits(pdib);
+	::SetDIBitsToDevice(hdc, x, y, w, h, 0, 0, 0, h, pDibBits, pbmpi, DIB_RGB_COLORS);
+}
+
 static Color gdiplus_color(web_color color)
 {
 	return Color(color.alpha, color.red, color.green, color.blue);
@@ -524,10 +531,10 @@ void NSWebPage::fill_rect(HDC hdc, int x, int y, int width, int height, web_colo
 
 void NSWebPage::get_img_size(uint_ptr img, size &sz)
 {
-	Bitmap *bmp = (Bitmap *)img;
+	FIBITMAP *bmp = (FIBITMAP *)img;
 	if (bmp) {
-		sz.width = bmp->GetWidth();
-		sz.height = bmp->GetHeight();
+		sz.width = FreeImage_GetWidth(bmp);
+		sz.height = FreeImage_GetHeight(bmp);
 	}
 }
 
@@ -538,7 +545,7 @@ void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std:
 
 	std::wstring url = Utf2T(src.c_str());
 	
-	Bitmap *bgbmp = find_image(url.c_str());
+	FIBITMAP *bgbmp = find_image(url.c_str());
 	if (!bgbmp)
 		bgbmp = g_plugin.m_pNoImage;
 
@@ -546,62 +553,54 @@ void NSWebPage::draw_image(uint_ptr _hdc, const background_layer &bg, const std:
 	graphics.SetInterpolationMode(Gdiplus::InterpolationModeNearestNeighbor);
 	graphics.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHalf);
 
-	Region reg(Rect(bg.border_box.left(), bg.border_box.top(), bg.border_box.width, bg.border_box.height));
+	Gdiplus::Region reg(Rect(bg.border_box.left(), bg.border_box.top(), bg.border_box.width, bg.border_box.height));
 	graphics.SetClip(&reg);
 
-	Bitmap *scaled_img = nullptr;
-	if (bg.origin_box.width != (int)bgbmp->GetWidth() || bg.origin_box.height != (int)bgbmp->GetHeight()) {
-		scaled_img = new Bitmap(bg.origin_box.width, bg.origin_box.height);
-		Graphics gr(scaled_img);
-		gr.SetPixelOffsetMode(Gdiplus::PixelOffsetModeHighQuality);
-		gr.DrawImage(bgbmp, 0, 0, bg.origin_box.width, bg.origin_box.height);
-		bgbmp = scaled_img;
+	FIBITMAP *scaled_img = nullptr;
+	int iWidth = FreeImage_GetHeight(bgbmp), iHeight = FreeImage_GetWidth(bgbmp);
+	if (bg.origin_box.width != iWidth || bg.origin_box.height != iHeight) {
+		bgbmp = scaled_img = FreeImage_Rescale(bgbmp, bg.origin_box.width, bg.origin_box.height);
+		iWidth = bg.origin_box.width; iHeight = bg.origin_box.height;
 	}
 
 	switch (bg.repeat) {
 	case background_repeat_no_repeat:
-		{
-			graphics.DrawImage(bgbmp, bg.origin_box.x, bg.origin_box.y, bgbmp->GetWidth(), bgbmp->GetHeight());
-		}
+		FreeImage_Draw((HDC)_hdc, bgbmp, bg.origin_box.x, bg.origin_box.y, iWidth, iHeight);
 		break;
+
 	case background_repeat_repeat_x:
 		{
-			CachedBitmap bmp(bgbmp, &graphics);
 			int x = bg.origin_box.x;
-			while (x > bg.clip_box.left()) x -= bgbmp->GetWidth();
-			for (; x < bg.clip_box.right(); x += bgbmp->GetWidth()) {
-				graphics.DrawCachedBitmap(&bmp, x, bg.origin_box.y);
-			}
+			while (x > bg.clip_box.left())
+				x -= iWidth;
+			for (; x < bg.clip_box.right(); x += iWidth)
+				FreeImage_Draw((HDC)_hdc, bgbmp, x, bg.origin_box.y, iWidth, iHeight);
 		}
 		break;
 	case background_repeat_repeat_y:
 		{
-			CachedBitmap bmp(bgbmp, &graphics);
 			int y = bg.origin_box.y;
-			while (y > bg.clip_box.top()) y -= bgbmp->GetHeight();
-			for (; y < bg.clip_box.bottom(); y += bgbmp->GetHeight()) {
-				graphics.DrawCachedBitmap(&bmp, bg.origin_box.x, y);
-			}
+			while (y > bg.clip_box.top()) y -= iHeight;
+			for (; y < bg.clip_box.bottom(); y += iHeight)
+				FreeImage_Draw((HDC)_hdc, bgbmp, bg.origin_box.x, y, iWidth, iHeight);
 		}
 		break;
 	case background_repeat_repeat:
 		{
-			CachedBitmap bmp(bgbmp, &graphics);
 			int x = bg.origin_box.x;
-			while (x > bg.clip_box.left()) x -= bgbmp->GetWidth();
+			while (x > bg.clip_box.left()) x -= iWidth;
 			int y0 = bg.origin_box.y;
-			while (y0 > bg.clip_box.top()) y0 -= bgbmp->GetHeight();
+			while (y0 > bg.clip_box.top()) y0 -= iHeight;
 
-			for (; x < bg.clip_box.right(); x += bgbmp->GetWidth()) {
-				for (int y = y0; y < bg.clip_box.bottom(); y += bgbmp->GetHeight()) {
-					graphics.DrawCachedBitmap(&bmp, x, y);
-				}
-			}
+			for (; x < bg.clip_box.right(); x += iWidth)
+				for (int y = y0; y < bg.clip_box.bottom(); y += iHeight)
+					FreeImage_Draw((HDC)_hdc, bgbmp, x, y, iWidth, iHeight);
 		}
 		break;
 	}
 
-	delete scaled_img;
+	if (scaled_img)
+		FreeImage_Unload(scaled_img);
 }
 
 // length of dash and space for "dashed" style, in multiples of pen width
@@ -697,18 +696,7 @@ uint_ptr NSWebPage::get_image(LPCWSTR url_or_path, bool)
 	if (!mir_wstrncmp(url_or_path, L"file://", 7))
 		url_or_path += 7;
 
-	IStream *pStream = 0;
-	HRESULT hr = SHCreateStreamOnFileEx(url_or_path, STGM_READ | STGM_SHARE_DENY_NONE, 0, FALSE, 0, &pStream);
-	if (!SUCCEEDED(hr))
-		return 0;
-
-	auto *pImage = new Gdiplus::Bitmap(pStream);
-	pStream->Release();
-	if (pImage->GetLastStatus() != Ok) {
-		delete pImage;
-		return 0;
-	}
-	return (uint_ptr)pImage;
+	return (uint_ptr)FreeImage_LoadU(FreeImage_GetFIFFromFilenameU(url_or_path), url_or_path);
 }
 
 void NSWebPage::get_client_rect(position &pos) const

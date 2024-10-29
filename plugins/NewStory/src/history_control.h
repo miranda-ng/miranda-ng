@@ -82,8 +82,8 @@ public:
 
 	COLORREF clText = -1, clBack = -1;
 
-	Bitmap* find_image(const wchar_t *pwszUrl);
-	Bitmap* load_image(const wchar_t *pwszUrl, ItemData *pItem);
+	FIBITMAP* find_image(const wchar_t *pwszUrl);
+	FIBITMAP* load_image(const wchar_t *pwszUrl, ItemData *pItem);
 
 	void draw();
 };

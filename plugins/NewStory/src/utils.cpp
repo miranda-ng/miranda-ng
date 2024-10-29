@@ -20,27 +20,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <msapi/comptr.h>
 
-Bitmap* LoadImageFromResource(HINSTANCE hInst, int resourceId, const wchar_t *pwszType)
+FIBITMAP* LoadImageFromResource(HINSTANCE hInst, int resourceId, const wchar_t *pwszType)
 {
 	if (HRSRC hrsrc = FindResourceW(hInst, MAKEINTRESOURCE(resourceId), pwszType)) {
-		if (DWORD dwSize = SizeofResource(hInst, hrsrc)) {
-			if (HGLOBAL hRes = LoadResource(hInst, hrsrc)) {
-				void *pImage = LockResource(hRes);
-
-				if (HGLOBAL hGlobal = ::GlobalAlloc(GHND, dwSize)) {
-					void *pBuffer = ::GlobalLock(hGlobal);
-					if (pBuffer) {
-						memcpy(pBuffer, pImage, dwSize);
-
-						CComPtr<IStream> pStream;
-						HRESULT hr = CreateStreamOnHGlobal(hGlobal, TRUE, &pStream);
-						if (SUCCEEDED(hr))
-							return new Gdiplus::Bitmap(pStream);
-					}
-
-					GlobalFree(hGlobal); // free memory only if the function fails
-				}
-			}
+		if (HGLOBAL hRes = LoadResource(hInst, hrsrc)) {
+			auto *pMemory = FreeImage_OpenMemory((uint8_t*)LockResource(hRes), SizeofResource(hInst, hrsrc));
+			auto *pDib = FreeImage_LoadFromMemory(FIF_PNG, pMemory);
+			FreeImage_CloseMemory(pMemory);
+			return pDib;
 		}
 	}
 
