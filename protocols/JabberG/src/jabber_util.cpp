@@ -81,6 +81,10 @@ MCONTACT CJabberProto::HContactFromJID(const char *jid, bool bStripResource)
 	if (jid == nullptr)
 		return 0;
 
+	if (IsMyOwnJID(jid))
+		if (bStripResource || !strchr(jid, '/'))
+			return 0;
+
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 	if (item != nullptr && item->hContact)
 		return item->hContact;

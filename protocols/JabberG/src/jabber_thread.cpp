@@ -1417,8 +1417,12 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	}
 
 	// Create a temporary contact, if needed
-	if (hContact == 0)
-		hContact = CreateTemporaryContact(from, chatItem);
+	if (hContact == 0) {
+		if (item)
+			hContact = item->hContact;
+		else
+			hContact = CreateTemporaryContact(from, chatItem);
+	}
 	if (!bOffline)
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
@@ -1588,7 +1592,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 				debugLogA("SKIP Receive presence online from %s (who is not in my roster and not in list - skipping)", from);
 				return;
 			}
-			hContact = DBCreateContact(from, nick, true, true);
+			hContact = DBCreateContact(from, nick, true, false);
 		}
 
 		if (!ListGetItemPtr(LIST_ROSTER, from)) {

@@ -68,6 +68,8 @@ namespace omemo
 		CMStringA dbGetSuffix(MCONTACT hContact, int device_id);
 		CMStringA dbGetSuffix(const char* jid, int device_id);
 
+		int TOFUAllDevices(MCONTACT hContact);
+
 		TiXmlDocument doc;
 
 	private:

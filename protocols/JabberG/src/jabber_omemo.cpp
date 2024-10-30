@@ -966,8 +966,11 @@ complete:
 		if (val == FP_ABSENT) {
 			uint32_t count = 0;
 			db_enum_settings(hContact, omemo::db_enum_settings_fps_cb, proto->m_szModuleName, &count);
-			if (count)
-				proto->MsgPopup(hContact, omemo::FormatFingerprint(fp_hex), TranslateT("Unknown device added"));
+			if (count) {
+				proto->MsgPopup(hContact, TranslateT("Unknown OMEMO device added!"),
+					hContact ? Clist_GetContactDisplayName(hContact) : TranslateT("(My devices)"));
+				proto->setByte(hContact, TrustSettingName, FP_BAD);
+			}
 		}
 
 		//always return true to decrypt incoming messages from untrusted devices
@@ -1162,6 +1165,38 @@ complete:
 		mir_free(jiddev);
 
 		return CMStringA(suffix);
+	}
+
+	int omemo_impl::TOFUAllDevices(MCONTACT hContact)
+	{
+		int i;
+		for (i = 0;; i++) {
+			int device_id = dbGetDeviceId(hContact, i);
+			if (device_id == 0)
+				break;
+
+			MBinBuffer fp(proto->getBlob(hContact, IdentityPrefix + dbGetSuffix(hContact, device_id)));
+			CMStringA fp_hex(hex_string(fp.data(), fp.length()));
+			proto->setByte(hContact, "OmemoFingerprintTrusted_" + fp_hex, FP_TOFU);
+		}
+
+		if (i) {
+			POPUPDATAW ppd;
+			ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_HTTP_AUTH));
+			if (hContact) {
+				ppd.lchContact = hContact;
+				wcsncpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact), MAX_CONTACTNAME - 1);
+			}
+			else
+				wcsncpy(ppd.lpwzContactName, TranslateT("(My devices)"), MAX_CONTACTNAME - 1);
+
+			wcsncpy(ppd.lpwzText,
+				CMStringW(FORMAT, TranslateT("Trust on first use for\n%d devices"), i),
+				MAX_SECONDLINE - 1);
+			PUAddPopupW(&ppd);
+		}
+
+		return i;
 	}
 
 	CMStringA hex_string(const uint8_t *pData, const size_t length)
@@ -1555,9 +1590,6 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact, bool requestBundles)
 		MCONTACT _hContact = !c ? hContact : 0;
 		ptrA jid(ContactToJID(_hContact));
 
-		uint32_t count = 0;
-		db_enum_settings(_hContact, omemo::db_enum_settings_fps_cb, m_szModuleName, &count);
-
 		for (int i = 0;; i++) {
 			int device_id = m_omemo.dbGetDeviceId(_hContact, i);
 			if (device_id == 0)
@@ -1565,32 +1597,40 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact, bool requestBundles)
 
 			signal_protocol_address address = { jid, mir_strlen(jid), device_id };
 			if (!signal_protocol_session_contains_session(m_omemo.store_context, &address)) {
-				if (requestBundles) {
-					XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, (void *)!count));
-
-					char szBareJid[JABBER_MAX_JID_LEN];
-					iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid))) << XATTR("to", jid);
-					TiXmlElement *items = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("items");
-					CMStringA szBundle(FORMAT, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", device_id);
-					XmlAddAttr(items, "node", szBundle);
-					m_ThreadInfo->send(iq);
-				}
 
 				ok = false;
-			}
-			else {
-				if (count == 0) {
-					MBinBuffer fp(getBlob(_hContact, omemo::IdentityPrefix + m_omemo.dbGetSuffix(_hContact, device_id)));
-					CMStringA fp_hex(omemo::hex_string(fp.data(), fp.length()));
-					setByte(hContact, "OmemoFingerprintTrusted_" + fp_hex, FP_TOFU);
-					MsgPopup(hContact, omemo::FormatFingerprint(fp_hex), TranslateT("Trust on first use"));
-				}
+
+				if (!requestBundles)
+					break;
+
+				XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, (void *)hContact));
+
+				char szBareJid[JABBER_MAX_JID_LEN];
+				iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid))) << XATTR("to", jid);
+				TiXmlElement *items = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("items");
+				CMStringA szBundle(FORMAT, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", device_id);
+				XmlAddAttr(items, "node", szBundle);
+				m_ThreadInfo->send(iq);
 			}
 		}
 	}
 
-	if (ok && !requestBundles)
-		OmemoHandleMessageQueue();
+	if (ok) {
+		uint32_t count = 0;
+		db_enum_settings(hContact, omemo::db_enum_settings_fps_cb, m_szModuleName, &count);
+		if (count == 0)
+			m_omemo.TOFUAllDevices(hContact);
+
+		count = 0;
+		db_enum_settings(0, omemo::db_enum_settings_fps_cb, m_szModuleName, &count);
+		if (enCarbons && count == 0) {
+			m_omemo.TOFUAllDevices(0);
+			setByte(0, "OmemoFingerprintTrusted_" "05600dc0ffee", FP_TOFU);
+		}
+
+		if (!requestBundles)
+			OmemoHandleMessageQueue();
+	}
 
 	return ok;
 }
@@ -1688,21 +1728,12 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		return;
 	}
 
-	if (IqInfo->GetUserData()) {
-		size_t key_len;
-		uint8_t *key_buf = (uint8_t *)mir_base64_decode(identityKey->GetText(), &key_len);
-		CMStringA fp_hex(omemo::hex_string(key_buf, key_len));
-		mir_free(key_buf);
-		setByte(hContact, "OmemoFingerprintTrusted_" + fp_hex, FP_TOFU);
-		MsgPopup(hContact, omemo::FormatFingerprint(fp_hex), TranslateT("Trust on first use"));
-	}
-
 	if (!m_omemo.build_session(jid, device_id, preKeyId, preKeyPublic, signedPreKeyId, signedPreKeyPublic->GetText(), signedPreKeySignature->GetText(), identityKey->GetText())) {
 		debugLogA("Jabber OMEMO: error: omemo::build_session failed");
 		return; //failed to build signal(omemo) session
 	}
 
-	OmemoCheckSession(hContact, false);
+	OmemoCheckSession((MCONTACT)IqInfo->GetUserData(), false);
 }
 
 int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact)
