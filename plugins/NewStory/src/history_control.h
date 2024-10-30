@@ -86,9 +86,11 @@ public:
 struct NewstoryListData : public MZeroedObject
 {
 	NewstoryListData(HWND);
+	~NewstoryListData();
 
 	mir_cs m_csItems;
 	HistoryArray items;
+	std::map<std::string, HICON> m_protoIcons;
 
 	int scrollTopItem; // topmost item
 	int scrollTopPixel; // y coord of topmost item, this should be negative or zero

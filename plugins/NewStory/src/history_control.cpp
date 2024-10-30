@@ -67,6 +67,12 @@ NewstoryListData::NewstoryListData(HWND _1) :
 	iLineHeigth = GetFontHeight(g_fontTable[FONT_INMSG].lf);
 }
 
+NewstoryListData::~NewstoryListData()
+{
+	for (auto &it : m_protoIcons)
+		IcoLib_ReleaseIcon(it.second);
+}
+
 void NewstoryListData::onTimer_Draw(CTimer *pTimer)
 {
 	pTimer->Stop();
@@ -771,6 +777,21 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 
 		if (!bReadOnly) {
 			HICON hIcon;
+
+			// Protocol icon
+			if (m_hContact == INVALID_CONTACT_ID) {
+				if (auto *pa = Proto_GetContactAccount(pItem->dbe.hContact)) {
+					if (m_protoIcons.count(pa->szModuleName))
+						hIcon = m_protoIcons[pa->szModuleName];
+					else {
+						hIcon = Skin_LoadProtoIcon(pa->szModuleName, ID_STATUS_ONLINE);
+						m_protoIcons[pa->szModuleName] = hIcon;
+					}
+
+					DrawIconEx(dib, xPos, yPos, hIcon, 16, 16, 0, 0, DI_NORMAL);
+					xPos += 18;
+				}
+			}
 
 			// Message type icon
 			if (g_plugin.bShowType) {

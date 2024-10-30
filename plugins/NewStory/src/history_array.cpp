@@ -210,6 +210,9 @@ int ItemData::calcHeight(int width)
 		if (dbe.flags & DBEF_BOOKMARK) // Bookmark icon
 			xPos += 18;
 
+		if (pOwner->m_hContact == INVALID_CONTACT_ID) // Protocol icon
+			xPos += 18;
+
 		cx -= xPos;
 		if (m_bOfflineDownloaded != 0 || m_bDelivered || m_bRemoteRead) // Download completed icon
 			cx -= 18;

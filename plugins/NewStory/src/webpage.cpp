@@ -58,7 +58,7 @@ INT_PTR SvcFileReady(WPARAM wParam, LPARAM)
 
 static std::set<std::wstring> g_installed_fonts;
 
-int CALLBACK EnumFontsProc(const LOGFONTW *lplf, const TEXTMETRIC *, DWORD, LPARAM)
+static int CALLBACK EnumFontsProc(const LOGFONTW *lplf, const TEXTMETRIC *, DWORD, LPARAM)
 {
 	g_installed_fonts.insert(lplf->lfFaceName);
 	return 1;
