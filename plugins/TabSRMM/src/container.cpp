@@ -2294,6 +2294,9 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 
 CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact, bool bActivate)
 {
+	if (Chat_IsMuted(hContact) == CHATMODE_MUTE)
+		return nullptr;
+
 	bool bAllowAutoCreate = false, bForceCreate = g_plugin.bAutoPopup || bActivate;
 
 	uint32_t dwStatusMask = M.GetDword("autopopupmask", -1);
@@ -2306,7 +2309,7 @@ CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact
 
 		if (szProto) {
 			int dwStatus = Proto_GetStatus(szProto);
-			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE)
+			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & dwStatusMask))
 				bAllowAutoCreate = true;
 		}
 	}
