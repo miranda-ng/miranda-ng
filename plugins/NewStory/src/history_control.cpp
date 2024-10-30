@@ -727,23 +727,23 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		auto *pItem = LoadItem(idx);
 		pItem->calcHeight(cachedWindowWidth); // ensure that the item's height is calculated
 
-		COLORREF clLine;
+		COLORREF clLine, clText, clBack;
 		int fontid, colorid;
 		pItem->getFontColor(fontid, colorid);
 
 		if (pItem->m_bHighlighted) {
-			webPage.clText = g_fontTable[FONT_HIGHLIGHT].cl;
-			webPage.clBack = g_colorTable[pItem->m_bSelected ? COLOR_SELBACK : COLOR_HIGHLIGHT_BACK].cl;
+			clText = g_fontTable[FONT_HIGHLIGHT].cl;
+			clBack = g_colorTable[pItem->m_bSelected ? COLOR_SELBACK : COLOR_HIGHLIGHT_BACK].cl;
 			clLine = g_colorTable[COLOR_FRAME].cl;
 		}
 		else if (pItem->m_bSelected && !bReadOnly) {
-			webPage.clText = g_colorTable[COLOR_SELTEXT].cl;
-			webPage.clBack = g_colorTable[COLOR_SELBACK].cl;
+			clText = g_colorTable[COLOR_SELTEXT].cl;
+			clBack = g_colorTable[COLOR_SELBACK].cl;
 			clLine = g_colorTable[COLOR_SELFRAME].cl;
 		}
 		else {
-			webPage.clText = g_fontTable[fontid].cl;
-			webPage.clBack = g_colorTable[colorid].cl;
+			clText = g_fontTable[fontid].cl;
+			clBack = g_colorTable[colorid].cl;
 			clLine = g_colorTable[COLOR_FRAME].cl;
 		}
 
@@ -759,7 +759,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		}
 
 		// draw item background
-		HBRUSH hbr = CreateSolidBrush(webPage.clBack);
+		HBRUSH hbr = CreateSolidBrush(clBack);
 		RECT rc = { 0, top, cachedWindowWidth, top + iItemHeigth };
 		FillRect(dib, &rc, hbr);
 		DeleteObject(hbr);
@@ -832,10 +832,10 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		if (auto &pDoc = pItem->m_doc) {
 			if (auto pBody = pDoc->root()->select_one("body")) {
 				litehtml::background back = pBody->css().get_bg();
-				back.m_color = litehtml::web_color(GetRValue(webPage.clBack), GetGValue(webPage.clBack), GetBValue(webPage.clBack));
+				back.m_color = litehtml::web_color(GetRValue(clBack), GetGValue(clBack), GetBValue(clBack));
 				pBody->css_w().set_bg(back);
 
-				pBody->css_w().set_color(litehtml::web_color(GetRValue(webPage.clText), GetGValue(webPage.clText), GetBValue(webPage.clText)));
+				pBody->css_w().set_color(litehtml::web_color(GetRValue(clText), GetGValue(clText), GetBValue(clText)));
 			}
 
 			pDoc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);

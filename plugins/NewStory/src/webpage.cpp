@@ -105,22 +105,16 @@ static colors[] = {
 
 std::string NSWebPage::resolve_color(const std::string &color) const
 {
-	char buf[20];
-
-	if (color == "NSText") {
-		mir_snprintf(buf, "#%02X%02X%02X", GetRValue(clText), GetGValue(clText), GetBValue(clText));
-		return buf;
-	}
-
 	for (auto &clr : colors) {
 		if (!t_strcasecmp(color.c_str(), clr.name)) {
 			char  str_clr[20];
 			DWORD rgb_color = GetSysColor(clr.color_index);
-			t_snprintf(str_clr, 20, "#%02X%02X%02X", GetRValue(rgb_color), GetGValue(rgb_color), GetBValue(rgb_color));
-			return std::move(std::string(str_clr));
+			mir_snprintf(str_clr, "#%02X%02X%02X", GetRValue(rgb_color), GetGValue(rgb_color), GetBValue(rgb_color));
+			return str_clr;
 		}
 	}
-	return std::move(std::string());
+	
+	return "";
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

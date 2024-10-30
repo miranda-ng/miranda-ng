@@ -77,8 +77,6 @@ public:
 	NSWebPage(NewstoryListData &_1);
 	~NSWebPage();
 
-	COLORREF clText = -1, clBack = -1;
-
 	FIBITMAP* find_image(const wchar_t *pwszUrl);
 	FIBITMAP* load_image(const wchar_t *pwszUrl, ItemData *pItem);
 

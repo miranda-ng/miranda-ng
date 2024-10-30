@@ -470,12 +470,6 @@ void ItemData::setText(const wchar_t *pwszText)
 {
 	savedHeight = -1;
 
-	int fontid, colorid;
-	getFontColor(fontid, colorid);
-
-	pOwner->webPage.clText = g_fontTable[fontid].cl;
-	pOwner->webPage.clBack = g_colorTable[colorid].cl;
-
 	T2Utf szFormattedBody(formatHtml(pwszText));
 	if (szFormattedBody)
 		m_doc = litehtml::document::createFromString(litehtml::estring(szFormattedBody.get(), litehtml::encoding::utf_8), &pOwner->webPage);
