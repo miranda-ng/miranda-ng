@@ -84,7 +84,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	{
 		friend struct ThreadData;
 		friend struct CJabberProto;
-		~XmppMsg() {}
+		~XmppMsg()
+		{
+			delete pFromResource;
+		}
 		XmppMsg(const TiXmlElement* _node, ThreadData* _info, CJabberProto *proto):
 			node(_node), info(_info), m_proto(proto)
 		{
@@ -106,6 +109,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 			* idStr = nullptr, * szMamMsgId = nullptr;
 		ThreadData* info = nullptr;
 		const TiXmlElement* node = nullptr;
+		pResourceStatus *pFromResource;
+		const TiXmlElement* carbon = nullptr;
 		
 		CJabberProto* m_proto;
 		MCONTACT hContact;
