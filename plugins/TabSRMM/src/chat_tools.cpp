@@ -345,6 +345,14 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (bMustFlash && bInactive)
 			AddUnreadContact(dat->m_hContact);
 	}
+	else if (g_plugin.bApplyPrivateSettings) {
+		// we never raise up any channels unless they are unmuted
+		if (Contact::IsReadonly(si->hContact) && iMuteMode != CHATMODE_UNMUTE)
+			return true;
+
+		AutoCreateWindow(nullptr, si->hContact);
+	}
+
 	return true;
 }
 

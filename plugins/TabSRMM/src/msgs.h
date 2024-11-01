@@ -1037,7 +1037,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<bool> bCloseSend, bShowDesc, bMetaTab, bMetaBar, bErrorPopup;
 
 	// chat settings
-	CMOption<bool> bOpenInDefault, bCreateWindowOnHighlight, bBBCodeInPopups;
+	CMOption<bool> bOpenInDefault, bCreateWindowOnHighlight, bApplyPrivateSettings, bBBCodeInPopups;
 	CMOption<bool> bLogClassicIndicators, bAlternativeSorting;
 	CMOption<bool> bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
 	CMOption<bool> bScaleIcons, bNewLineAfterNames;

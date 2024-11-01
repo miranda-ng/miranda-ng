@@ -85,6 +85,7 @@ CMPlugin::CMPlugin() :
 	// chat settings
 	bOpenInDefault(CHAT_MODULE, "DefaultContainer", true),
 	bCreateWindowOnHighlight(CHAT_MODULE, "CreateWindowOnHighlight", false),
+	bApplyPrivateSettings(CHAT_MODULE, "ApplyPrivateSettings", false),
 	bBBCodeInPopups(CHAT_MODULE, "BBCodeInPopups", false),
 	bClassicIndicators(CHAT_MODULE, "ClassicIndicators", false),
 	bLogClassicIndicators(CHAT_MODULE, "LogClassicIndicators", false),

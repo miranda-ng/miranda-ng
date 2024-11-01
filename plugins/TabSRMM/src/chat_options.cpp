@@ -506,6 +506,7 @@ public:
 		treeCheck.AddOption(pwszSection, LPGENW("Flash window when someone speaks"), Chat::bFlashWindow);
 		treeCheck.AddOption(pwszSection, LPGENW("Flash window when a word is highlighted"), Chat::bFlashWindowHighlight);
 		treeCheck.AddOption(pwszSection, LPGENW("Create tabs or windows for highlight events"), g_plugin.bCreateWindowOnHighlight);
+		treeCheck.AddOption(pwszSection, LPGENW("Apply tab creation rules to group chats too"), g_plugin.bApplyPrivateSettings);
 		treeCheck.AddOption(pwszSection, LPGENW("Show list of users in the chat room"), Chat::bShowNicklist);
 		treeCheck.AddOption(pwszSection, LPGENW("Colorize nicknames in member list (you need to adjust colors)"), g_plugin.bColorizeNicks);
 		treeCheck.AddOption(pwszSection, LPGENW("Show topic as status message on the contact list"), Chat::bTopicOnClist);
