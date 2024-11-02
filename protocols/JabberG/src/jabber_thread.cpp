@@ -1123,7 +1123,12 @@ void CJabberProto::XmppMsg::handle_carbon()
 
 void CJabberProto::XmppMsg::handle_omemo()
 {
-
+	if (m_proto->m_bUseOMEMO) {
+		if (auto* encNode = XmlGetChildByTag(node, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
+			m_proto->OmemoHandleMessage(encNode, from, msgTime, bWasSent);
+			return; //we do not want any additional processing
+		}
+	}
 }
 
 void CJabberProto::XmppMsg::handle_chatstates()
@@ -1143,6 +1148,18 @@ void CJabberProto::XmppMsg::handle_chatstates()
 	// chatstates inactive event
 	if (hContact && XmlGetChildByTag(node, "inactive", "xmlns", JABBER_FEAT_CHATSTATES))
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
+	// chatstates gone event
+	if (hContact && XmlGetChildByTag(node, "gone", "xmlns", JABBER_FEAT_CHATSTATES) && m_proto->m_bLogChatstates) {
+		char bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
+		DBEVENTINFO _dbei = {};
+		_dbei.pBlob = &bEventType;
+		_dbei.cbBlob = 1;
+		_dbei.eventType = EVENTTYPE_JABBER_CHATSTATES;
+		_dbei.flags = DBEF_READ;
+		_dbei.timestamp = time(0);
+		_dbei.szModule = m_proto->m_szModuleName;
+		db_event_add(hContact, &_dbei);
+	}
 }
 
 void CJabberProto::XmppMsg::process()
@@ -1195,7 +1212,6 @@ void CJabberProto::XmppMsg::process()
 			}
 	}
 
-	CMStringA szMessage;
 	auto* bodyNode = XmlGetChildByTag(node, "body", "xml:lang", m_proto->m_tszSelectedLang);
 	if (bodyNode == nullptr)
 		bodyNode = XmlFirstChild(node, "body");
@@ -1268,18 +1284,6 @@ void CJabberProto::XmppMsg::process()
 			NotifyEventHooks(m_proto->m_hEventNudge, hContact, 0);
 	}
 
-	// chatstates gone event
-	if (hContact && XmlGetChildByTag(node, "gone", "xmlns", JABBER_FEAT_CHATSTATES) && m_proto->m_bLogChatstates) {
-		char bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
-		DBEVENTINFO dbei = {};
-		dbei.pBlob = &bEventType;
-		dbei.cbBlob = 1;
-		dbei.eventType = EVENTTYPE_JABBER_CHATSTATES;
-		dbei.flags = DBEF_READ;
-		dbei.timestamp = time(0);
-		dbei.szModule = m_proto->m_szModuleName;
-		db_event_add(hContact, &dbei);
-	}
 
 	if (auto* n = XmlGetChildByTag(node, "confirm", "xmlns", JABBER_FEAT_HTTP_AUTH)) if (m_proto->m_bAcceptHttpAuth) {
 		const char* szId = XmlGetAttr(n, "id");
@@ -1304,12 +1308,7 @@ void CJabberProto::XmppMsg::process()
 		return;
 	}
 
-	if (m_proto->m_bUseOMEMO) {
-		if (auto* encNode = XmlGetChildByTag(node, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
-			m_proto->OmemoHandleMessage(encNode, from, msgTime, bWasSent);
-			return; //we do not want any additional processing
-		}
-	}
+	handle_omemo();
 
 	// parsing extensions
 	for (auto* xNode : TiXmlEnum(node)) {
@@ -1435,7 +1434,11 @@ void CJabberProto::XmppMsg::process()
 	if (!bOffline)
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
-	DB::EventInfo dbei;
+	add_to_db();
+}
+
+void CJabberProto::XmppMsg::add_to_db()
+{
 	if (bCreateRead)
 		dbei.flags |= DBEF_READ;
 	if (bWasSent)
@@ -1451,17 +1454,12 @@ void CJabberProto::XmppMsg::process()
 
 }
 
-void CJabberProto::XmppMsg::add_to_db()
-{
-
-}
-
-void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
+void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *)
 {
 	if (!node->Name() || mir_strcmp(node->Name(), "message"))
 		return;
 
-	auto msg = XmppMsg(node, info, this);
+	auto msg = XmppMsg(node, this);
 
 	msg.process();
 

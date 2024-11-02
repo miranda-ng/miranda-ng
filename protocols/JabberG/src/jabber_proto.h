@@ -88,11 +88,13 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 		{
 			delete pFromResource;
 		}
-		XmppMsg(const TiXmlElement* _node, ThreadData* _info, CJabberProto *proto):
-			node(_node), info(_info), m_proto(proto)
+		XmppMsg(const TiXmlElement* _node, CJabberProto *proto):
+			node(_node), info(proto->m_ThreadInfo), m_proto(proto)
 		{
 			from = XmlGetAttr(node, "from"), type = XmlGetAttr(node, "type"),
 				idStr = XmlGetAttr(node, "id");
+			pFromResource = nullptr;
+			hContact = 0;
 		}
 		time_t extract_timestamp();
 		void process();
@@ -108,9 +110,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 		const char* from = nullptr, * type = nullptr,
 			* idStr = nullptr, * szMamMsgId = nullptr;
 		ThreadData* info = nullptr;
-		const TiXmlElement* node = nullptr;
+		const TiXmlElement *node = nullptr, *carbon = nullptr;
 		pResourceStatus *pFromResource;
-		const TiXmlElement* carbon = nullptr;
+		DB::EventInfo dbei;
+		CMStringA szMessage;
 		
 		CJabberProto* m_proto;
 		MCONTACT hContact;
