@@ -382,8 +382,6 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 
 void CTelegramProto::InitPopups(void)
 {
-	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bUsePopups);
-
 	char name[256];
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 

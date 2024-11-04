@@ -83,6 +83,9 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	// menus
 	InitMenus();
 
+	// popups
+	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bUsePopups);
+
 	// Cloud file transfer
 	CreateProtoService(PS_OFFLINEFILE, &CTelegramProto::SvcOfflineFile);
 
@@ -169,6 +172,8 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 
 void CTelegramProto::OnModulesLoaded()
 {
+	InitPopups();
+
 	m_bSmileyAdd = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
 	if (m_bSmileyAdd)
 		SmileyAdd_LoadContactSmileys(SMADD_FOLDER, m_szModuleName, GetAvatarPath() + L"\\Stickers\\*.*");
