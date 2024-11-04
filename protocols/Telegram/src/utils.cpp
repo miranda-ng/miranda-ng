@@ -96,6 +96,7 @@ CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pT
 		case TD::textEntityTypeItalic::ID: iCode = 1; break;
 		case TD::textEntityTypeStrikethrough::ID: iCode = 2; break;
 		case TD::textEntityTypeUnderline::ID: iCode = 3; break;
+		case TD::textEntityTypeTextUrl::ID: iCode = 4; break;
 		case TD::textEntityTypeCode::ID: iCode = 5; break;
 		case TD::textEntityTypeBlockQuote::ID: iCode = 6; break;
 		default:
