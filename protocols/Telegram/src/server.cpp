@@ -326,6 +326,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessScopeNotification((TD::updateScopeNotificationSettings *)response.object.get());
 		break;
 
+	case TD::updateServiceNotification::ID:
+		ProcessServiceNotification((TD::updateServiceNotification *)response.object.get());
+		break;
+
 	case TD::updateSupergroup::ID:
 		ProcessSuperGroup((TD::updateSupergroup *)response.object.get());
 		break;
@@ -1157,6 +1161,18 @@ void CTelegramProto::ProcessScopeNotification(TD::updateScopeNotificationSetting
 		m_iDefaultMuteChannel = pObj->notification_settings_->mute_for_;
 		break;
 	}
+}
+
+void CTelegramProto::ProcessServiceNotification(TD::updateServiceNotification *pObj)
+{
+	if (pObj->content_->get_id() != TD::messageText::ID) {
+		debugLogA("Expected type %d, but got %d, ignored", TD::messageText::ID, pObj->content_->get_id());
+		return;
+	}
+
+	auto *pMessageText = (TD::messageText *)pObj->content_.get();
+	CMStringA szMessage(GetFormattedText(pMessageText->text_));
+	Popup(0, Utf2T(szMessage), TranslateT("Service notification"));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
