@@ -2294,9 +2294,6 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 
 CMsgDialog* TSAPI AutoCreateWindow(TContainerData *pContainer, MCONTACT hContact, bool bActivate)
 {
-	if (Chat_IsMuted(hContact) == CHATMODE_MUTE)
-		return nullptr;
-
 	bool bAllowAutoCreate = false, bForceCreate = g_plugin.bAutoPopup || bActivate;
 
 	uint32_t dwStatusMask = M.GetDword("autopopupmask", -1);
