@@ -19,6 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 {
+	m_bUnregister = false;
 	m_bTerminated = true;
 	delSetting(DBKEY_AUTHORIZED);
 }
@@ -1088,7 +1089,7 @@ void CTelegramProto::ProcessOption(TD::updateOption *pObj)
 		m_iOwnId = iValue;
 		SetId(0, m_iOwnId);
 
-		if (m_iSavedMessages != 0)
+		if (m_iSavedMessages != 0 || m_bUnregister)
 			return;
 
 		if (auto *pUser = FindUser(iValue)) {
