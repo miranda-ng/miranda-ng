@@ -161,6 +161,9 @@
     <ClCompile Include="src\FreeImage\PluginPNG.cpp">
       <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\FreeImage\PluginTARGA.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\FreeImage\PluginWebP.cpp">
       <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>

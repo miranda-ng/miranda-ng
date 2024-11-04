@@ -52,6 +52,7 @@
 			#define DLL_API __declspec(dllexport)
 		#else
 			#define DLL_API __declspec(dllimport)
+			#pragma comment(lib, "freeimage.lib")
 		#endif // FREEIMAGE_EXPORTS
 	#else 
 		// try the gcc visibility support (see http://gcc.gnu.org/wiki/Visibility)
@@ -388,6 +389,7 @@ FI_ENUM(FREE_IMAGE_FORMAT) {
 	FIF_PNG     = 3,
 	FIF_GIF     = 4,
 	FIF_WEBP    = 5,
+	FIF_TARGA   = 6,
 	//FIF_JNG		= 3,
 	//FIF_KOALA		= 4,
 	//FIF_LBM		= 5,
@@ -403,7 +405,6 @@ FI_ENUM(FREE_IMAGE_FORMAT) {
 	//FIF_PPM		= 14,
 	//FIF_PPMRAW	= 15,
 	//FIF_RAS		= 16,
-	//FIF_TARGA		= 17,
 	//FIF_TIFF		= 18,
 	//FIF_WBMP		= 19,
 	//FIF_PSD		= 20,

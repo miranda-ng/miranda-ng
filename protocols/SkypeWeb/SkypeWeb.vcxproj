@@ -79,11 +79,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
-      <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
       <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
     </ProjectReference>

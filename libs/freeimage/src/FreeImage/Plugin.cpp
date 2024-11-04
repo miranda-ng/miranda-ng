@@ -232,6 +232,7 @@ FreeImage_Initialise(BOOL load_local_plugins_only) {
 			s_plugins->AddNode(InitPNG);
 			s_plugins->AddNode(InitGIF);
 			s_plugins->AddNode(InitWEBP);
+			s_plugins->AddNode(InitTARGA);
 			//s_plugins->AddNode(InitJNG);
 			//s_plugins->AddNode(InitKOALA);
 			//s_plugins->AddNode(InitIFF);
@@ -245,7 +246,6 @@ FreeImage_Initialise(BOOL load_local_plugins_only) {
 			//s_plugins->AddNode(InitPNM, NULL, "PPM", "Portable Pixelmap (ASCII)", "ppm", "^P3");
 			//s_plugins->AddNode(InitPNM, NULL, "PPMRAW", "Portable Pixelmap (RAW)", "ppm", "^P6");
 			//s_plugins->AddNode(InitRAS);
-			//s_plugins->AddNode(InitTARGA);
 			//s_plugins->AddNode(InitTIFF);
 			//s_plugins->AddNode(InitWBMP);
 			//s_plugins->AddNode(InitPSD);

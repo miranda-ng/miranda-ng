@@ -66,9 +66,6 @@
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
-      <Project>{5d14cff3-0d17-4528-99ea-de9dca47cc2e}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\libs\litehtml\litehtml.vcxproj">
       <Project>{51db004a-e160-47c7-b017-bec90fdc442d}</Project>
     </ProjectReference>

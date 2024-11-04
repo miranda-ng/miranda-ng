@@ -734,6 +734,9 @@
     <ClCompile Include="src\LibWebP\src\utils\utils.c">
       <Filter>Source Files\LibWebP</Filter>
     </ClCompile>
+    <ClCompile Include="src\FreeImage\PluginTARGA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CacheFile.h">

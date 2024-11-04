@@ -115,9 +115,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
-      <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\libs\libsignal\libsignal.vcxproj">
       <Project>{620e0be7-3763-4f35-9dbd-4770104e269c}</Project>
     </ProjectReference>

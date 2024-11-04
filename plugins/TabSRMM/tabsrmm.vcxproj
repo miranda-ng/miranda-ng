@@ -93,11 +93,6 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
-      <Project>{5D14CFF3-0D17-4528-99EA-DE9DCA47CC2E}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\chat.rc" />
     <ResourceCompile Include="res\msgwindow.rc" />
     <ResourceCompile Include="res\resource.rc" />

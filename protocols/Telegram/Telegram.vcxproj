@@ -58,9 +58,6 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\libs\freeimage\freeimage.vcxproj">
-      <Project>{5d14cff3-0d17-4528-99ea-de9dca47cc2e}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\libs\sqlite3\sqlite3.vcxproj">
       <Project>{0c02e395-e73f-47e3-8b95-b7924c0c7a6a}</Project>
     </ProjectReference>
