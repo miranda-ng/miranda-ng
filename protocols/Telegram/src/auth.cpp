@@ -111,6 +111,7 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 			request->database_directory_ = T2Utf(wszPath).get();
 			request->use_message_database_ = false;
 			request->use_secret_chats_ = true;
+			request->use_test_dc_ = getBool("UseTestServer"); // Hidden setting
 			request->api_id_ = MIRANDA_API_ID;
 			request->api_hash_ = MIRANDA_API_HASH;
 			request->system_language_code_ = Langpack_GetDefaultLocaleName();
