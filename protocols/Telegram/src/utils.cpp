@@ -649,39 +649,44 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 	case TD::messageAudio::ID:
 		if (auto *pDoc = (TD::messageAudio *)pBody) {
 			auto *pAudio = pDoc->audio_.get();
-			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Audio"), pAudio->duration_, TranslateU("seconds"));
-			std::string caption = fileName.c_str();
+			CMStringA caption(FORMAT, "%s (%d %s)", TranslateU("Audio"), pAudio->duration_, TranslateU("seconds"));
 			if (!pDoc->caption_->text_.empty()) {
 				caption += " ";
-				caption += pDoc->caption_->text_;
+				caption += pDoc->caption_->text_.c_str();
 			}
-			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pAudio->audio_.get(), pAudio->file_name_.c_str(), caption.c_str());
+			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pAudio->audio_.get(), pAudio->file_name_.c_str(), caption);
 		}
 		break;
 
 	case TD::messageVideo::ID:
 		if (auto *pDoc = (TD::messageVideo *)pBody) {
 			auto *pVideo = pDoc->video_.get();
-			CMStringA fileName(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
-			std::string caption = fileName.c_str();
+			CMStringA caption(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
 			if (!pDoc->caption_->text_.empty()) {
 				caption += " ";
-				caption += pDoc->caption_->text_;
+				caption += pDoc->caption_->text_.c_str();
 			}
-			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->video_.get(), pVideo->file_name_.c_str(), caption.c_str());
+			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->video_.get(), pVideo->file_name_.c_str(), caption);
 		}
 		break;
 
 	case TD::messageAnimation::ID:
 		if (auto *pDoc = (TD::messageAnimation *)pBody) {
 			auto *pVideo = pDoc->animation_.get();
-			CMStringA fileName(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
-			std::string caption = fileName.c_str();
+			CMStringA caption(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
 			if (!pDoc->caption_->text_.empty()) {
 				caption += " ";
-				caption += pDoc->caption_->text_;
+				caption += pDoc->caption_->text_.c_str();
 			}
 			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption.c_str());
+		}
+		break;
+
+	case TD::messageVideoNote::ID:
+		if (auto *pDoc = (TD::messageVideoNote *)pBody) {
+			auto *pVideo = pDoc->video_note_.get();
+			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Video note"), pVideo->duration_, TranslateU("seconds"));
+			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->video_.get(), fileName, "");
 		}
 		break;
 

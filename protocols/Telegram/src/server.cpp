@@ -627,9 +627,38 @@ void CTelegramProto::ProcessChatAction(TD::updateChatAction *pObj)
 		return;
 	}
 
+	auto hContact = GetRealContact(pChat);
 	switch (pObj->action_->get_id()) {
+	case TD::chatActionRecordingVideo::ID:
+		Srmm_SetStatusText(hContact, TranslateT("Recording video..."));
+		break;
+	case TD::chatActionRecordingVideoNote::ID:
+		Srmm_SetStatusText(hContact, TranslateT("Recording video note..."));
+		break;
+	case TD::chatActionRecordingVoiceNote::ID:
+		Srmm_SetStatusText(hContact, TranslateT("Recording voice note..."));
+		break;
+	case TD::chatActionUploadingDocument::ID:
+		Srmm_SetStatusText(hContact, TranslateT("Uploading file..."));
+		break;
+	case TD::chatActionUploadingPhoto::ID:
+		Srmm_SetStatusText(hContact, TranslateT("Uploading photo..."));
+		break;
+	case TD::chatActionUploadingVideo::ID:
+		Srmm_SetStatusText(hContact, TranslateT("Uploading video..."));
+		break;
+	case TD::chatActionUploadingVideoNote::ID:
+		Srmm_SetStatusText(hContact, TranslateT("Uploading video note..."));
+		break;
+	case TD::chatActionUploadingVoiceNote::ID:
+		Srmm_SetStatusText(hContact, TranslateT("Uploading voice note..."));
+		break;
 	case TD::chatActionTyping::ID:
-		CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, 1);
+		CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, 30);
+		break;
+	case TD::chatActionCancel::ID:
+		Srmm_SetStatusText(hContact, 0);
+		CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, PROTOTYPE_CONTACTTYPING_OFF);
 		break;
 	}
 }
