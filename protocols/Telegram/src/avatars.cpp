@@ -253,6 +253,14 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 					FreeImage_Unload(pImage);
 				}
 			}
+			else if (F->m_fileName.Right(4).MakeLower() == L".tga") {
+				if (auto *pImage = FreeImage_LoadU(FIF_TARGA, wszExistingFile)) {
+					wszFullName.Truncate(wszFullName.GetLength() - 5);
+					wszFullName += L".png";
+					FreeImage_SaveU(FIF_PNG, pImage, wszFullName);
+					FreeImage_Unload(pImage);
+				}
+			}
 			else MoveFileW(wszExistingFile, wszFullName);
 
 			if (F->m_isSmiley)

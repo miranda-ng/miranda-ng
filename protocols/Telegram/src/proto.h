@@ -304,7 +304,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	
 	CMStringA GetFormattedText(TD::object_ptr<TD::formattedText> &pText);
 	CMStringA GetMessagePreview(const TD::file *pFile);
-	CMStringA GetMessageSticker(const TD::file *pFile, const char *pwszExtension);
+	CMStringA GetMessageSticker(const TD::file *pFile, const TD::ThumbnailFormat *pFormat);
 	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin = false, bool bRead = false);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
