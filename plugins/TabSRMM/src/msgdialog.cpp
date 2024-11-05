@@ -1413,25 +1413,11 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 
 	if ((msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) && !(GetKeyState(VK_RMENU) & 0x8000)) {
 		MSG message = { m_hwnd, msg, wp, lp };
-		LRESULT mim_hotkey_check = Hotkey_Check(&message, isChat() ? TABSRMM_HK_SECTION_GC : TABSRMM_HK_SECTION_IM);
+		LRESULT mim_hotkey_check = Hotkey_Check(&message, TABSRMM_HK_SECTION_IM);
 		if (mim_hotkey_check)
 			m_bkeyProcessed = true;
 
 		switch (mim_hotkey_check) {
-		case TABSRMM_HK_CHANNELMGR:
-			m_btnChannelMgr.Click();
-			return _dlgReturn(m_hwnd, 1);
-		case TABSRMM_HK_FILTERTOGGLE:
-			m_btnFilter.Click();
-			InvalidateRect(m_btnFilter.GetHwnd(), nullptr, TRUE);
-			return _dlgReturn(m_hwnd, 1);
-		case TABSRMM_HK_LISTTOGGLE:
-			m_btnNickList.Click();
-			return _dlgReturn(m_hwnd, 1);
-		case TABSRMM_HK_MUC_SHOWSERVER:
-			if (m_si->iType != GCW_SERVER)
-				Chat_DoEventHook(m_si, GC_USER_MESSAGE, nullptr, L"/servershow", 0);
-			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_SETUSERPREFS:
 			CallService(MS_TABMSG_SETUSERPREFS, m_hContact, 0);
 			return _dlgReturn(m_hwnd, 1);

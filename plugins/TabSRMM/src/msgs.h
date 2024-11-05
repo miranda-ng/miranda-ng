@@ -994,17 +994,12 @@ struct SIDEBARITEM
 #define TABSRMM_HK_CLEARLOG         24
 #define TABSRMM_HK_TOGGLESENDLATER  25
 #define TABSRMM_HK_TOGGLESIDEBAR    26
-#define TABSRMM_HK_CHANNELMGR       27
-#define TABSRMM_HK_FILTERTOGGLE     28
-#define TABSRMM_HK_LISTTOGGLE       29
-#define TABSRMM_HK_MUC_SHOWSERVER   30
 #define TABSRMM_HK_CLOSE_OTHER      31
 #define TABSRMM_HK_SENDMENU         32
 #define TABSRMM_HK_PROTOMENU        33
 
 #define TABSRMM_HK_SECTION_IM LPGEN("Message windows - IM")
 #define TABSRMM_HK_SECTION_GENERIC LPGEN("Message windows - all")
-#define TABSRMM_HK_SECTION_GC LPGEN("Message windows - group chats")
 
 // encryption status bar indicator
 #define MSG_ICON_MODULE " TabSrmm"

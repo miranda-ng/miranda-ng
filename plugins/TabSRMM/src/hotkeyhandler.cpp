@@ -60,10 +60,6 @@ static HOTKEYDESC _hotkeydescs[] = {
 	{ "tabsrmm_msend", LPGEN("Toggle multi send"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'M'), 0, TABSRMM_HK_TOGGLEMULTISEND },
 	{ "tabsrmm_clearlog", LPGEN("Clear message log"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'L'), 0, TABSRMM_HK_CLEARLOG },
 	{ "tabsrmm_sbar", LPGEN("Collapse side bar"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(0, VK_F9), 0, TABSRMM_HK_TOGGLESIDEBAR },
-	{ "tabsrmm_muc_cmgr", LPGEN("Channel manager"), TABSRMM_HK_SECTION_GC, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'C'), 0, TABSRMM_HK_CHANNELMGR },
-	{ "tabsrmm_muc_filter", LPGEN("Toggle filter"), TABSRMM_HK_SECTION_GC, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'F'), 0, TABSRMM_HK_FILTERTOGGLE },
-	{ "tabsrmm_muc_nick", LPGEN("Toggle nick list"), TABSRMM_HK_SECTION_GC, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), 0, TABSRMM_HK_LISTTOGGLE },
-	{ "tabsrmm_muc_server_show", LPGEN("Show server window"), TABSRMM_HK_SECTION_GC, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, '1'), 0, TABSRMM_HK_MUC_SHOWSERVER },
 	{ "tabsrmm_close_other", LPGEN("Close other tabs"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'W'), 0, TABSRMM_HK_CLOSE_OTHER },
 };
 

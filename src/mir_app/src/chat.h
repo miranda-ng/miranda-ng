@@ -32,13 +32,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define STREAMSTAGE_TAIL    2
 #define STREAMSTAGE_STOP    3
 
+#define SRMM_HK_BOLD         40001
+#define SRMM_HK_ITALIC       40002
+#define SRMM_HK_UNDERLINE    40003
+#define SRMM_HK_BKCOLOR      40004
+#define SRMM_HK_COLOR        40005
+#define SRMM_HK_CLEAR        40006
+#define SRMM_HK_HISTORY      40007
+#define SRMM_HK_CHANNELMGR   40008
+#define SRMM_HK_FILTERTOGGLE 40009
+#define SRMM_HK_LISTTOGGLE   40010
+
 #define N_CUSTOM_BBCODES    3
 extern wchar_t *wszBbcodes[N_CUSTOM_BBCODES];
 
 #define DM_OPTIONSAPPLIED (WM_USER+14)
 
 void Srmm_CreateToolbarIcons(CSrmmBaseDialog *pDlg, int flags);
-void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
 void CheckChatCompatibility();
 

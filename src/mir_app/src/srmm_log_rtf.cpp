@@ -467,7 +467,7 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			MSG message = { m_pDlg.m_hwnd, msg, wParam, lParam };
 			LRESULT iButtonFrom = Hotkey_Check(&message, BB_HK_SECTION);
 			if (iButtonFrom) {
-				Srmm_ProcessToolbarHotkey(m_pDlg.m_hContact, iButtonFrom, m_pDlg.m_hwnd);
+				m_pDlg.ProcessToolbarHotkey(iButtonFrom);
 				return TRUE;
 			}
 		}

@@ -288,6 +288,8 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 	void OnNickListTimer(CTimer *);
 	void OnRedrawTimer(CTimer *);
 
+	void ProcessToolbarHotkey(INT_PTR iButtonFrom);
+
 	std::vector<MEVENT> m_arDisplayedEvents;
 
 protected:

@@ -249,7 +249,7 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			MSG message = { m_hwnd, msg, wParam, lParam };
 			LRESULT iButtonFrom = Hotkey_Check(&message, BB_HK_SECTION);
 			if (iButtonFrom) {
-				Srmm_ProcessToolbarHotkey(m_hContact, iButtonFrom, m_hwnd);
+				ProcessToolbarHotkey(iButtonFrom);
 				return TRUE;
 			}
 		}
@@ -1102,50 +1102,9 @@ bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool is
 		return true;
 	}
 
-	if (isCtrl && !isAlt) {
-		switch (key) {
-		case VK_SPACE: // ctrl-space (paste clean text)
-			m_btnBold.Push(false); m_btnBold.Click();
-			m_btnItalic.Push(false); m_btnItalic.Click();
-			m_btnUnderline.Push(false); m_btnUnderline.Click();
-
-			m_btnColor.Push(false); m_btnColor.Click();
-			m_btnBkColor.Push(false); m_btnBkColor.Click();
-			return true;
-
-		case 0x42: // ctrl-b (bold)
-			m_btnBold.Push(!m_btnBold.IsPushed());
-			m_btnBold.Click();
-			return true;
-
-		case 0x48: // ctrl-h (history)
-			m_btnHistory.Click();
-			return true;
-
-		case 0x49: // ctrl-i (italics)
-			m_btnItalic.Push(!m_btnItalic.IsPushed());
-			m_btnItalic.Click();
-			return true;
-
-		case 0x4b: // ctrl-k (text color)
-			m_btnColor.Push(!m_btnColor.IsPushed());
-			m_btnColor.Click();
-			return true;
-
-		case 0x4c: // ctrl-l (back color)
-			m_btnBkColor.Push(!m_btnBkColor.IsPushed());
-			m_btnBkColor.Click();
-			return true;
-
-		case 0x55: // ctrl-u (underlining)
-			m_btnUnderline.Push(!m_btnUnderline.IsPushed());
-			m_btnUnderline.Click();
-			return true;
-
-		case VK_F4: // ctrl-F4 
-			CloseTab();
-			return true;
-		}
+	if (isCtrl && !isAlt && key == VK_F4) { // ctrl-F4 
+		CloseTab();
+		return true;
 	}
 
 	return false;
@@ -1153,9 +1112,6 @@ bool CSrmmBaseDialog::ProcessHotkeys(int key, bool isShift, bool isCtrl, bool is
 
 void CSrmmBaseDialog::RefreshButtonStatus()
 {
-	if (m_si == nullptr)
-		return;
-
 	CHARFORMAT2 cf;
 	cf.cbSize = sizeof(CHARFORMAT2);
 	cf.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_BACKCOLOR | CFM_COLOR;

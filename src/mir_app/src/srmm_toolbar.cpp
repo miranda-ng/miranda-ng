@@ -219,38 +219,95 @@ MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, HWND hwnd
 	NotifyEventHooks(hHookButtonPressedEvt, hContact, (LPARAM)&cbcd);
 }
 
-void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSrmmBaseDialog::ProcessToolbarHotkey(INT_PTR iButtonFrom)
 {
-	HWND hwndFrom = nullptr;
+	switch (iButtonFrom) {
+	case SRMM_HK_CLEAR:
+		m_btnBold.Push(false); m_btnBold.Click();
+		m_btnItalic.Push(false); m_btnItalic.Click();
+		m_btnUnderline.Push(false); m_btnUnderline.Click();
 
-	CustomButtonClickData cbcd = {};
+		m_btnColor.Push(false); m_btnColor.Click();
+		m_btnBkColor.Push(false); m_btnBkColor.Click();
+		break;
 
-	for (auto &cbd : arButtonsList) {
-		if (cbd->m_hotkey == nullptr || cbd->m_bDisabled)
-			continue;
+	case SRMM_HK_BOLD:
+		m_btnBold.Push(!m_btnBold.IsPushed());
+		m_btnBold.Click();
+		break;
 
-		if (cbd->m_hotkey->lParam == iButtonFrom) {
-			cbcd.pszModule = cbd->m_pszModuleName;
-			cbcd.dwButtonId = cbd->m_dwButtonID;
-			hwndFrom = GetDlgItem(hwndDlg, cbd->m_dwButtonCID);
-			break;
+	case SRMM_HK_ITALIC:
+		m_btnItalic.Push(!m_btnItalic.IsPushed());
+		m_btnItalic.Click();
+		break;
+
+	case SRMM_HK_UNDERLINE:
+		m_btnUnderline.Push(!m_btnUnderline.IsPushed());
+		m_btnUnderline.Click();
+		break;
+
+	case SRMM_HK_COLOR:
+		m_btnColor.Push(!m_btnColor.IsPushed());
+		m_btnColor.Click();
+		break;
+
+	case SRMM_HK_BKCOLOR:
+		m_btnBkColor.Push(!m_btnBkColor.IsPushed());
+		m_btnBkColor.Click();
+		break;
+
+	case SRMM_HK_HISTORY:
+		m_btnHistory.Click();
+		break;
+
+	case SRMM_HK_CHANNELMGR:
+		m_btnChannelMgr.Click();
+		break;
+
+	case SRMM_HK_FILTERTOGGLE:
+		m_btnFilter.Click();
+		InvalidateRect(m_btnFilter.GetHwnd(), nullptr, TRUE);
+		break;
+
+	case SRMM_HK_LISTTOGGLE:
+		m_btnNickList.Click();
+		break;
+
+	default:
+		HWND hwndFrom = nullptr;
+
+		CustomButtonClickData cbcd = {};
+
+		for (auto &cbd : arButtonsList) {
+			if (cbd->m_hotkey == nullptr || cbd->m_bDisabled)
+				continue;
+
+			if (cbd->m_hotkey->lParam == iButtonFrom) {
+				cbcd.pszModule = cbd->m_pszModuleName;
+				cbcd.dwButtonId = cbd->m_dwButtonID;
+				hwndFrom = GetDlgItem(m_hwnd, cbd->m_dwButtonCID);
+				break;
+			}
+		}
+
+		if (hwndFrom) {
+			RECT rc;
+			GetWindowRect(hwndFrom, &rc);
+			cbcd.pt.x = rc.left;
+			cbcd.pt.y = rc.bottom;
+
+			cbcd.hwndFrom = GetParent(hwndFrom);
+			cbcd.hContact = m_hContact;
+			cbcd.flags = (GetKeyState(VK_SHIFT) & 0x8000 ? BBCF_SHIFTPRESSED : 0) | (GetKeyState(VK_CONTROL) & 0x8000 ? BBCF_CONTROLPRESSED : 0);
+
+			NotifyEventHooks(hHookButtonPressedEvt, m_hContact, (LPARAM)&cbcd);
 		}
 	}
-
-	if (hwndFrom == nullptr)
-		return;
-
-	RECT rc;
-	GetWindowRect(hwndFrom, &rc);
-	cbcd.pt.x = rc.left;
-	cbcd.pt.y = rc.bottom;
-
-	cbcd.hwndFrom = GetParent(hwndFrom);
-	cbcd.hContact = hContact;
-	cbcd.flags = (GetKeyState(VK_SHIFT) & 0x8000 ? BBCF_SHIFTPRESSED : 0) | (GetKeyState(VK_CONTROL) & 0x8000 ? BBCF_CONTROLPRESSED : 0);
-
-	NotifyEventHooks(hHookButtonPressedEvt, hContact, (LPARAM)&cbcd);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(void) Srmm_ResetToolbar()
 {
