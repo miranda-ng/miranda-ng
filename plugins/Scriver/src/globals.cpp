@@ -52,7 +52,7 @@ static IconItem iconList2[] =
 	{ LPGEN("Bold"),                   "bold",             IDI_BBOLD       }, //  4
 	{ LPGEN("Italics"),                "italics",          IDI_BITALICS    }, //  5
 	{ LPGEN("Underlined"),             "underline",        IDI_BUNDERLINE  }, //  6
-	{ LPGEN("Strike through"),         "strikeout",        IDI_STRIKEOUT   }, //  7 
+	{ LPGEN("Strikethrough"),          "strikeout",        IDI_STRIKEOUT   }, //  7 
 	{ LPGEN("Smiley button"),          "smiley",           IDI_SMILEY      }, //  8
 	{ LPGEN("Room history"),           "history",          IDI_HISTORY     }, //  9
 	{ LPGEN("Room settings"),          "settings",         IDI_TOPICBUT    }, // 10

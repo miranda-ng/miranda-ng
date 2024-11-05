@@ -456,7 +456,7 @@ static TIconDesc _exttoolbaricons[] =
 	{ "tabSRMM_underline", LPGEN("Format underline"), 0, -IDI_FONTUNDERLINE, 1 },
 	{ "tabSRMM_face", LPGEN("Font face"), 0, -IDI_FONTFACE, 1 },
 	{ "tabSRMM_color", LPGEN("Font color"), 0, -IDI_FONTCOLOR, 1 },
-	{ "tabSRMM_strikeout", LPGEN("Format strike-through"), 0, -IDI_STRIKEOUT, 1 }
+	{ "tabSRMM_strikeout", LPGEN("Format strikethrough"), 0, -IDI_STRIKEOUT, 1 }
 };
 
 static TIconDesc _chattoolbaricons[] =
