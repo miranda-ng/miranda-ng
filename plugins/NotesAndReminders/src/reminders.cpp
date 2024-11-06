@@ -1073,14 +1073,14 @@ class CReminderNotifyDlg : public CReminderBaseDlg
 	CCtrlEdit edtText;
 	CCtrlCheck chkAfter, chkOnDate;
 	CCtrlCombo cmbRemindAgainIn;
-	CCtrlButton btnDismiss, btnNone, btnRemindAgain;
+	CCtrlButton btnDismiss, btnCreateNote, btnRemindAgain;
 
 public:
 	CReminderNotifyDlg(REMINDERDATA *pReminder) :
 		CSuper(IDD_NOTIFYREMINDER),
 		m_pReminder(pReminder),
-		btnNone(this, IDC_NONE),
 		btnDismiss(this, IDC_DISMISS),
+		btnCreateNote(this, IDC_CREATE_NOTE),
 		btnRemindAgain(this, IDC_REMINDAGAIN),
 		edtText(this, IDC_REMDATA),
 		chkAfter(this, IDC_AFTER),
@@ -1094,8 +1094,8 @@ public:
 
 		cmbRemindAgainIn.OnKillFocus = Callback(this, &CReminderNotifyDlg::onKillFocus_RemindAgain);
 
-		btnNone.OnClick = Callback(this, &CReminderNotifyDlg::onClick_None);
 		btnDismiss.OnClick = Callback(this, &CReminderNotifyDlg::onClick_Dismiss);
+		btnCreateNote.OnClick = Callback(this, &CReminderNotifyDlg::onClick_None);
 		btnRemindAgain.OnClick = Callback(this, &CReminderNotifyDlg::onClick_RemindAgain);
 	}
 
@@ -1289,7 +1289,7 @@ class CReminderFormDlg : public CReminderBaseDlg
 
 	CCtrlEdit edtText;
 	CCtrlCheck chkRepeat;
-	CCtrlCombo cmbSound, cmbRepeat;
+	CCtrlCombo cmbSound, cmbRepeatSnd;
 	CCtrlButton btnAdd, btnView, btnPlaySound;
 
 public:
@@ -1302,7 +1302,7 @@ public:
 		edtText(this, IDC_REMINDER),
 		chkRepeat(this, IDC_CHECK_REPEAT),
 		cmbSound(this, IDC_COMBO_SOUND),
-		cmbRepeat(this, IDC_COMBO_REPEATSND)
+		cmbRepeatSnd(this, IDC_COMBO_REPEATSND)
 	{
 		btnAdd.OnClick = Callback(this, &CReminderFormDlg::onClick_Add);
 		btnView.OnClick = Callback(this, &CReminderFormDlg::onClick_View);
@@ -1356,32 +1356,32 @@ public:
 		wchar_t *lpszSeconds = TranslateT("Seconds");
 
 		// NOTE: use multiples of REMINDER_UPDATE_INTERVAL_SHORT (currently 5 seconds)
-		cmbRepeat.AddString(TranslateT("Never"), 0);
+		cmbRepeatSnd.AddString(TranslateT("Never"), 0);
 
 		mir_snwprintf(s, L"%s 5 %s", lpszEvery, lpszSeconds);
-		cmbRepeat.AddString(s, 5);
+		cmbRepeatSnd.AddString(s, 5);
 
 		mir_snwprintf(s, L"%s 10 %s", lpszEvery, lpszSeconds);
-		cmbRepeat.AddString(s, 10);
+		cmbRepeatSnd.AddString(s, 10);
 
 		mir_snwprintf(s, L"%s 15 %s", lpszEvery, lpszSeconds);
-		cmbRepeat.AddString(s, 15);
+		cmbRepeatSnd.AddString(s, 15);
 
 		mir_snwprintf(s, L"%s 20 %s", lpszEvery, lpszSeconds);
-		cmbRepeat.AddString(s, 20);
+		cmbRepeatSnd.AddString(s, 20);
 
 		mir_snwprintf(s, L"%s 30 %s", lpszEvery, lpszSeconds);
-		cmbRepeat.AddString(s, 30);
+		cmbRepeatSnd.AddString(s, 30);
 
 		mir_snwprintf(s, L"%s 60 %s", lpszEvery, lpszSeconds);
-		cmbRepeat.AddString(s, 60);
+		cmbRepeatSnd.AddString(s, 60);
 
 		if (m_pReminder && m_pReminder->RepeatSound) {
 			mir_snwprintf(s, L"%s %d %s", lpszEvery, m_pReminder->RepeatSound, lpszSeconds);
-			cmbRepeat.SetText(s);
-			cmbRepeat.SetCurSel(cmbRepeat.FindString(s, -1, true));
+			cmbRepeatSnd.SetText(s);
+			cmbRepeatSnd.SetCurSel(cmbRepeatSnd.FindString(s, -1, true));
 		}
-		else cmbRepeat.SetCurSel(0);
+		else cmbRepeatSnd.SetCurSel(0);
 
 		// populate sound selection combo
 		cmbSound.AddString(TranslateT("Default"), 0);
@@ -1400,7 +1400,7 @@ public:
 
 		if (m_pReminder && m_pReminder->SoundSel) {
 			btnPlaySound.Enable(m_pReminder->SoundSel >= 0);
-			cmbRepeat.Enable(m_pReminder->SoundSel >= 0);
+			cmbRepeatSnd.Enable(m_pReminder->SoundSel >= 0);
 		}
 
 		if (m_pReminder)
@@ -1424,7 +1424,7 @@ public:
 		if (!GetTriggerTime(m_savedLi, Date))
 			return;
 
-		int RepeatSound = cmbRepeat.GetCurData();
+		int RepeatSound = cmbRepeatSnd.GetCurData();
 		if (RepeatSound == -1)
 			RepeatSound = 0;
 
@@ -1489,7 +1489,7 @@ public:
 	{
 		int n = cmbSound.GetCurData();
 		btnPlaySound.Enable(n >= 0);
-		cmbRepeat.Enable(n >= 0);
+		cmbRepeatSnd.Enable(n >= 0);
 	}
 };
 

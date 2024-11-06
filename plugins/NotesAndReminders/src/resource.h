@@ -29,13 +29,10 @@
 #define IDC_REMINDAGAININ               1003
 #define IDC_AFTER                       1004
 #define IDC_ONDATE                      1005
+#define IDC_CREATE_NOTE                 1006
 #define IDC_BUTTON_RESET                1007
 #define IDC_VIEWREMINDERS               1007
-#define IDC_NONE                        1008
-#define IDC_DAILY                       1009
 #define IDC_CHECK_HIDENOTES             1010
-#define IDC_WEEKLY                      1010
-#define IDC_MONTHLY                     1011
 #define IDC_EDIT_WIDTH                  1012
 #define IDC_EDIT_HEIGHT                 1013
 #define IDC_SLIDER_TRANSPARENCY         1014
