@@ -86,9 +86,6 @@
     <ClCompile Include="src\curl_ntlm_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\curl_path.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\curl_range.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -497,6 +494,15 @@
     <ClCompile Include="src\ws.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vauth\gsasl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vtls\keylog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vssh\curl_path.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\altsvc.h">
@@ -629,9 +635,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_ntlm_core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\curl_path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_printf.h">
@@ -947,6 +950,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ws.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vssh\curl_path.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

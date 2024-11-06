@@ -110,9 +110,6 @@
     <ClCompile Include="src\curl_ntlm_core.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\curl_path.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\curl_range.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -431,6 +428,9 @@
     <ClCompile Include="src\vquic\vquic.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vssh\curl_path.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vssh\libssh.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -532,7 +532,6 @@
     <ClInclude Include="src\curl_memrchr.h" />
     <ClInclude Include="src\curl_multibyte.h" />
     <ClInclude Include="src\curl_ntlm_core.h" />
-    <ClInclude Include="src\curl_path.h" />
     <ClInclude Include="src\curl_printf.h" />
     <ClInclude Include="src\curl_range.h" />
     <ClInclude Include="src\curl_rtmp.h" />
@@ -636,6 +635,7 @@
     <ClInclude Include="src\vquic\curl_quiche.h" />
     <ClInclude Include="src\vquic\vquic.h" />
     <ClInclude Include="src\vquic\vquic_int.h" />
+    <ClInclude Include="src\vssh\curl_path.h" />
     <ClInclude Include="src\warnless.h" />
     <ClInclude Include="src\ws.h" />
   </ItemGroup>
