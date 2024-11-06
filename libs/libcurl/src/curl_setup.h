@@ -33,7 +33,7 @@
 
 /* FIXME: Delete this once the warnings have been fixed. */
 #if !defined(CURL_WARN_SIGN_CONVERSION)
-#ifdef __GNUC__
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic ignored "-Wsign-conversion"
 #endif
 #endif
@@ -45,8 +45,8 @@
 
 /* Workaround for Homebrew gcc 12.4.0, 13.3.0, 14.1.0 and newer (as of 14.1.0)
    that started advertising the `availability` attribute, which then gets used
-   by Apple SDK, but, in a way incompatible with gcc, resulting in a misc
-   errors inside SDK headers, e.g.:
+   by Apple SDK, but, in a way incompatible with gcc, resulting in misc errors
+   inside SDK headers, e.g.:
      error: attributes should be specified before the declarator in a function
             definition
      error: expected ',' or '}' before
@@ -102,6 +102,16 @@
 #  ifndef NOGDI
 #    define NOGDI
 #  endif
+/* Detect Windows App environment which has a restricted access
+ * to the Win32 APIs. */
+# if (defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0602)) || \
+  defined(WINAPI_FAMILY)
+#  include <winapifamily.h>
+#  if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) &&  \
+     !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#    define CURL_WINDOWS_UWP
+#  endif
+# endif
 #endif
 
 /* Compatibility */
@@ -197,6 +207,11 @@
 /*  If you need to include a system header file for your platform,  */
 /*  please, do it beyond the point further indicated in this file.  */
 /* ================================================================ */
+
+/* Give calloc a chance to be dragging in early, so we do not redefine */
+#if defined(USE_THREADS_POSIX) && defined(HAVE_PTHREAD_H)
+#  include <pthread.h>
+#endif
 
 /*
  * Disable other protocols when http is the only one desired.

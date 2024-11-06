@@ -149,15 +149,14 @@
 /* Define if you have the select function. */
 #define HAVE_SELECT 1
 
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
-
 /* Define if you have the setlocale function. */
 #define HAVE_SETLOCALE 1
 
 /* Define if you have the setmode function. */
 #define HAVE_SETMODE 1
+
+/* Define if you have the _setmode function. */
+#define HAVE__SETMODE 1
 
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
@@ -478,11 +477,8 @@ Vista
 #define USE_WIN32_LDAP 1
 #endif
 
-/* if SSL is enabled */
-#define USE_OPENSSL 1
-
 /* Define to use the Windows crypto library. */
-#if !defined(CURL_WINDOWS_APP)
+#if !defined(CURL_WINDOWS_UWP)
 #define USE_WIN32_CRYPTO
 #endif
 
@@ -494,19 +490,19 @@ Vista
 /* ---------------------------------------------------------------- */
 
 /* Define cpu-machine-OS */
-#ifndef OS
+#ifndef CURL_OS
 #if defined(_M_IX86) || defined(__i386__) /* x86 (MSVC or gcc) */
-#define OS "i386-pc-win32"
+#define CURL_OS "i386-pc-win32"
 #elif defined(_M_X64) || defined(__x86_64__) /* x86_64 (MSVC >=2005 or gcc) */
-#define OS "x86_64-pc-win32"
+#define CURL_OS "x86_64-pc-win32"
 #elif defined(_M_IA64) || defined(__ia64__) /* Itanium */
-#define OS "ia64-pc-win32"
+#define CURL_OS "ia64-pc-win32"
 #elif defined(_M_ARM_NT) || defined(__arm__) /* ARMv7-Thumb2 (Windows RT) */
-#define OS "thumbv7a-pc-win32"
+#define CURL_OS "thumbv7a-pc-win32"
 #elif defined(_M_ARM64) || defined(__aarch64__) /* ARM64 (Windows 10) */
-#define OS "aarch64-pc-win32"
+#define CURL_OS "aarch64-pc-win32"
 #else
-#define OS "unknown-pc-win32"
+#define CURL_OS "unknown-pc-win32"
 #endif
 #endif
 

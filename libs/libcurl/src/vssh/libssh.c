@@ -134,6 +134,7 @@ static void sftp_quote(struct Curl_easy *data);
 static void sftp_quote_stat(struct Curl_easy *data);
 static int myssh_getsock(struct Curl_easy *data,
                          struct connectdata *conn, curl_socket_t *sock);
+static void myssh_block2waitfor(struct connectdata *conn, bool block);
 
 static CURLcode myssh_setup_connection(struct Curl_easy *data,
                                        struct connectdata *conn);
@@ -495,11 +496,11 @@ static int myssh_is_known(struct Curl_easy *data)
         goto cleanup;
       }
 
-      Curl_set_in_callback(data, true);
+      Curl_set_in_callback(data, TRUE);
       rc = func(data, knownkeyp, /* from the knownhosts file */
                 &foundkey, /* from the remote host */
                 keymatch, data->set.ssh_keyfunc_userp);
-      Curl_set_in_callback(data, false);
+      Curl_set_in_callback(data, FALSE);
 
       switch(rc) {
       case CURLKHSTAT_FINE_ADD_TO_FILE:
@@ -693,8 +694,12 @@ static CURLcode myssh_statemach_act(struct Curl_easy *data, bool *block)
 
     case SSH_S_STARTUP:
       rc = ssh_connect(sshc->ssh_session);
-      if(rc == SSH_AGAIN)
+
+      myssh_block2waitfor(conn, (rc == SSH_AGAIN));
+      if(rc == SSH_AGAIN) {
+        DEBUGF(infof(data, "ssh_connect -> EAGAIN"));
         break;
+      }
 
       if(rc != SSH_OK) {
         failf(data, "Failure establishing ssh session");
@@ -1289,10 +1294,10 @@ static CURLcode myssh_statemach_act(struct Curl_easy *data, bool *block)
       if(data->state.resume_from > 0) {
         /* Let's read off the proper amount of bytes from the input. */
         if(data->set.seek_func) {
-          Curl_set_in_callback(data, true);
+          Curl_set_in_callback(data, TRUE);
           seekerr = data->set.seek_func(data->set.seek_client,
                                         data->state.resume_from, SEEK_SET);
-          Curl_set_in_callback(data, false);
+          Curl_set_in_callback(data, FALSE);
         }
 
         if(seekerr != CURL_SEEKFUNC_OK) {
@@ -2047,6 +2052,7 @@ static int myssh_getsock(struct Curl_easy *data,
   if(!conn->waitfor)
     bitmap |= GETSOCK_WRITESOCK(FIRSTSOCKET);
 
+  DEBUGF(infof(data, "ssh_getsock -> %x", bitmap));
   return bitmap;
 }
 
@@ -2060,13 +2066,12 @@ static void myssh_block2waitfor(struct connectdata *conn, bool block)
 
   if(block) {
     int dir = ssh_get_poll_flags(sshc->ssh_session);
-    if(dir & SSH_READ_PENDING) {
-      /* translate the libssh define bits into our own bit defines */
-      conn->waitfor = KEEP_RECV;
-    }
-    else if(dir & SSH_WRITE_PENDING) {
-      conn->waitfor = KEEP_SEND;
-    }
+    conn->waitfor = 0;
+    /* translate the libssh define bits into our own bit defines */
+    if(dir & SSH_READ_PENDING)
+      conn->waitfor |= KEEP_RECV;
+    if(dir & SSH_WRITE_PENDING)
+      conn->waitfor |= KEEP_SEND;
   }
 }
 
@@ -2080,7 +2085,7 @@ static CURLcode myssh_multi_statemach(struct Curl_easy *data,
                     implementation */
   CURLcode result = myssh_statemach_act(data, &block);
 
-  *done = (sshc->state == SSH_STOP) ? TRUE : FALSE;
+  *done = (sshc->state == SSH_STOP);
   myssh_block2waitfor(conn, block);
 
   return result;
@@ -2141,7 +2146,7 @@ static CURLcode myssh_setup_connection(struct Curl_easy *data,
   data->req.p.ssh = ssh = calloc(1, sizeof(struct SSHPROTO));
   if(!ssh)
     return CURLE_OUT_OF_MEMORY;
-  Curl_dyn_init(&sshc->readdir_buf, PATH_MAX * 2);
+  Curl_dyn_init(&sshc->readdir_buf, CURL_PATH_MAX * 2);
 
   return CURLE_OK;
 }
@@ -2312,7 +2317,7 @@ CURLcode scp_perform(struct Curl_easy *data,
 static CURLcode myssh_do_it(struct Curl_easy *data, bool *done)
 {
   CURLcode result;
-  bool connected = 0;
+  bool connected = FALSE;
   struct connectdata *conn = data->conn;
   struct ssh_conn *sshc = &conn->proto.sshc;
 
@@ -2410,7 +2415,7 @@ static ssize_t scp_send(struct Curl_easy *data, int sockindex,
   /* The following code is misleading, mostly added as wishful thinking
    * that libssh at some point will implement non-blocking ssh_scp_write/read.
    * Currently rc can only be number of bytes read or SSH_ERROR. */
-  myssh_block2waitfor(conn, (rc == SSH_AGAIN) ? TRUE : FALSE);
+  myssh_block2waitfor(conn, (rc == SSH_AGAIN));
 
   if(rc == SSH_AGAIN) {
     *err = CURLE_AGAIN;
@@ -2442,7 +2447,7 @@ static ssize_t scp_recv(struct Curl_easy *data, int sockindex,
    * that libssh at some point will implement non-blocking ssh_scp_write/read.
    * Currently rc can only be SSH_OK or SSH_ERROR. */
 
-  myssh_block2waitfor(conn, (nread == SSH_AGAIN) ? TRUE : FALSE);
+  myssh_block2waitfor(conn, (nread == SSH_AGAIN));
   if(nread == SSH_AGAIN) {
     *err = CURLE_AGAIN;
     nread = -1;
@@ -2609,7 +2614,7 @@ static ssize_t sftp_recv(struct Curl_easy *data, int sockindex,
                               mem, (uint32_t)len,
                               (uint32_t)conn->proto.sshc.sftp_file_index);
 
-      myssh_block2waitfor(conn, (nread == SSH_AGAIN)?TRUE:FALSE);
+      myssh_block2waitfor(conn, (nread == SSH_AGAIN));
 
       if(nread == SSH_AGAIN) {
         *err = CURLE_AGAIN;
