@@ -52,7 +52,7 @@
 #define IDC_BTN_PLAYSOUND               1030
 #define IDC_EDIT_ALTBROWSER             1031
 #define IDC_BTN_BROWSEBROWSER           1032
-#define IDC_CHECK_REPEAT                1033
+#define IDC_REPEAT_MODE                 1033
 #define IDC_LISTREMINDERS_HEADER        1034
 #define IDC_EDIT1                       1034
 #define IDC_FILTER                      1034
