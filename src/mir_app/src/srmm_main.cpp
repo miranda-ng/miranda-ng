@@ -184,9 +184,9 @@ static HOTKEYDESC srmmHotkeys[] = {
 	{ "srmm_bkcolor",  LPGEN("Toggle back color"),           BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'L'), 0, SRMM_HK_BKCOLOR },
 	{ "srmm_clear",    LPGEN("Clear formatting"),            BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, VK_SPACE), 0, SRMM_HK_CLEAR },
 	{ "srmm_history",  LPGEN("Open history window"),         BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'H'), 0, SRMM_HK_HISTORY},
-	{ "srmm_cmgr",     LPGEN("Channel manager"),             BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'C'), 0, SRMM_HK_CHANNELMGR },
-	{ "srmm_filter",   LPGEN("Toggle filter"),               BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'F'), 0, SRMM_HK_FILTERTOGGLE },
-	{ "srmm_nicklist", LPGEN("Toggle nick list"),            BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), 0, SRMM_HK_LISTTOGGLE },
+	{ "srmm_cmgr",     LPGEN("Channel manager"),             BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'O'), 0, SRMM_HK_CHANNELMGR },
+	{ "srmm_filter",   LPGEN("Toggle filter"),               BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'F'), 0, SRMM_HK_FILTERTOGGLE },
+	{ "srmm_nicklist", LPGEN("Toggle nick list"),            BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), 0, SRMM_HK_LISTTOGGLE },
 };
 
 int LoadSrmmModule()

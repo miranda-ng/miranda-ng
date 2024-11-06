@@ -875,21 +875,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (isChat()) {
-			if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (toggle filter)
-				m_btnFilter.Click();
-				return TRUE;
-			}
-
-			if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
-				m_btnNickList.Click();
-				return TRUE;
-			}
-
-			if (wParam == 0x4f && isCtrl && !isAlt) { // ctrl-o (options)
-				m_btnChannelMgr.Click();
-				return TRUE;
-			}
-
 			if (wParam == VK_TAB && isShift && !isCtrl) { // SHIFT-TAB (go to nick list)
 				SetFocus(m_nickList.GetHwnd());
 				return TRUE;
