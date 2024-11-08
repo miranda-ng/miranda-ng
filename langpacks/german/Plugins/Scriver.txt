@@ -26,8 +26,6 @@ Fenster beim Schließen verstecken
 Ungesendete Nachrichten merken
 [Delete temporary contacts on closing]
 Temporäre Kontakte beim Schließen entfernen
-[Use BBCodes to send format inside messages]
-BBCodes zum Senden von Formatierungen in Nachrichten verwenden
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [seconds]
@@ -369,8 +367,6 @@ Verlaufsformatierung
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Kontakt hinzufügen
-[User's details]
-Benutzerdetails
 [User's history]
 Verlauf
 [Send message]
@@ -411,6 +407,8 @@ Fett
 Kursiv
 [Underlined]
 Unterstrichen
+[Strikethrough]
+Durchgestrichen
 [Room history]
 Raumverlauf
 [Room settings]
@@ -610,40 +608,44 @@ Benutzer&details
 Benutzerdetails anzeigen
 [&History]
 &Verlauf
-[View user's history (Ctrl+H)]
-Verlauf anzeigen (Strg+H)
+[View user's history]
+Benutzerverlauf anzeigen
 [&Bold]
 &Fett
-[Make the text bold (Ctrl+B)]
-Fett (Strg+B)
+[Make the text bold]
+Text fett formatieren
 [&Italic]
 &Kursiv
-[Make the text italicized (Ctrl+I)]
-Kursiv (Strg+I)
+[Make the text italicized]
+Text kursiv formatieren
 [&Underline]
-&Unterstrichen
-[Make the text underlined (Ctrl+U)]
-Unterstrichen (Strg+U)
+&Unterstreichen
+[Make the text underlined]
+Text unterstreichen
+[&Strikethrough]
+&Durchstreichen
+[Make the text strikethrough]
+Text durchstreichen
 [&Color]
 &Farbe
-[Select a foreground color for the text (Ctrl+K)]
-Schriftfarbe wählen (Strg+K)
+[Select a foreground color for the text]
+Vordergrundfarbe des Textes wählen
 [&Background color]
 &Hintergrundfarbe
-[Select a background color for the text (Ctrl+L)]
-Schrifthintergrundfarbe wählen (Strg+L)
+[Select a background color for the text]
+Hintergrundfarbe des Textes wählen
 [&Room settings]
 &Raumeinstellungen
-[Control this room (Ctrl+O)]
-Raumeinstellungen (Strg+O)
+[Control this room]
+Diesen Raum kontrollieren
 [&Show/hide nick list]
-Nickliste &anzeigen/verbergen
-[Show/hide the nick list (Ctrl+N)]
-Benutzerliste anzeigen/verstecken (Strg+N)
+Benutzerliste &anzeigen/verbergen
+[Show/hide the nick list]
+Benutzerliste anzeigen/verstecken
 [&Filter]
 &Filter
-[Enable/disable the event filter (Ctrl+F)]
-Ereignisfilter aktivieren/deaktivieren (Strg+F)
+[Enable/disable the event filter]
+Ereignisfilter aktivieren/deaktivieren
 [&Message]
 Nachricht
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

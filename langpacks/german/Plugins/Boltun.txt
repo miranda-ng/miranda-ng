@@ -29,7 +29,7 @@ Zeit vor der Antwort
 [Typing time depends on message length (in chars)]
 Tippzeit abhängig von Nachrichtenlänge (in Zeichen)
 [Typing and thinking time can be much longer]
-Tippen- und Bedenkzeit kann viel länger sein
+Tipp- und Bedenkzeit kann viel länger sein
 [Typing time (for a message of 4 words):]
 Tippzeit (für eine Nachricht mit 4 Worten):
 [Thinking time:]
@@ -37,7 +37,7 @@ Bedenkzeit:
 [Engine]
 Sprachmodul
 [Base of remarks]
-
+Basis der Bemerkungen
 [Reload]
 Neu laden
 [Stay silent if have no good answers]
@@ -50,24 +50,24 @@ Antworten wie "Ich verstehe nicht" nicht verwenden
 [Message sessions]
 Nachrichtensitzungen
 [Mind Files]
-
+Mind-Dateien
 [All Files]
 Alle Dateien
 [Boltun/Auto Chat]
-
+Boltun/Auto Chat
 [Boltun/Not to Chat]
-
+Boltun/Nicht chatten
 [Boltun/Start Chatting]
-
+Botun/Chatten beginnen
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
-Hallo, ich bin Boltun. Ich werde mit Ihnen reden, während mein Meister abwesend ist. Bitte schreiben Sie fehlerfrei.
+Hallo, ich bin Boltun. Ich werde mit Ihnen reden, während mein Meister abwesend ist. Bitte schreiben Sie fehlerfrei!
 [Boltun Error]
 Boltun Fehler
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
-
+Fehler beim Laden der Basis der Bemerkungen. Fehler in Zeile %d von %s (oder einige Zeilen davor).
 [Failed to save base of remarks to %s]
-
+Fehler beim Speichern der Basis der Bemerkungen in %s
 [General Settings]
 Allgemeine Einstellungen
 [Engine Settings]
-Programmeinstellungen
+Sprachmodul-Einstellungen

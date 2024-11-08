@@ -608,18 +608,6 @@ Splitterposition
 Global
 [Private]
 Privat
-[Send text formatting]
-Textformatierung senden
-[BBCode]
-BBCode
-[Off]
-Aus
-[This contact]
-Für diesen Kontakt
-[Global setting]
-Globale Einstellung
-[Force off]
-Niemals senden
 [Set position for this session]
 Position für diese Sitzung speichern
 [Set and save for all sessions]
@@ -703,7 +691,7 @@ Fetter Text
 Kursiver Text
 [Underlined text]
 Unterstrichener Text
-[Strike-through text]
+[Strikethrough text]
 Durchgestrichener Text
 [Send message\nClick dropdown arrow for sending options]
 Nachricht senden\nDropdown für Sendeoptionen
@@ -915,8 +903,8 @@ Fenster blinkt, wenn jemand schreibt
 Fenster blinkt, wenn Wort hervorgehoben wird
 [Create tabs or windows for highlight events]
 Tabs oder Fenster bei Hervorhebung aktivieren
-[Activate chat window on highlight]
-Chatfenster bei Hervorhebung aktivieren
+[Apply tab creation rules to group chats too]
+Regeln zur Erstellung von Tabs auch auf Gruppenchats anwenden
 [Show list of users in the chat room]
 Benutzerliste im Chatfenster anzeigen
 [Colorize nicknames in member list (you need to adjust colors)]
@@ -1169,14 +1157,6 @@ Mehrfach-Senden umschalten
 Nachrichtenverlauf leeren
 [Collapse side bar]
 Sidebar schließen
-[Channel manager]
-Channelmanager
-[Toggle filter]
-Filter umschalten
-[Toggle nick list]
-Nickliste umschalten
-[Show server window]
-Serverfenster anzeigen
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Untätig: %dh,%02dm
@@ -1247,9 +1227,6 @@ Gespeicherte TabSRMM Avatare
 Gruppenchats Hauptverzeichnis
 [Typing notification]
 Tippbenachrichtigungen
-;file \plugins\TabSRMM\src\modplus.cpp
-[Insert [img] tag / surround selected text with [img][/img]]
-Füge [img]-Tag ein / Umschließe markierten Text mit [img][/img]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Kontakt dauerhaft zur Kontaktliste hinzufügen
@@ -1426,8 +1403,6 @@ Nachrichtenfenster beim Senden minimieren
 Nachrichtenfenster beim Senden schließen
 [Enable "Paste and send" feature]
 "Einfügen und Senden" Funktion aktivieren
-[Allow BBCode formatting in outgoing messages]
-BBCode-Formatierung in ausgehenden Nachrichten erlauben
 [Automatically split long messages (experimental, use with care)]
 Lange Nachrichten automatisch trennen (experimentell, Vorsicht)
 [Use the same splitter height for all sessions]
@@ -1571,8 +1546,6 @@ Fenster-Anordnung
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Message Log options]
 Verlaufseinstellungen
-[Image tag]
-Bild Tag
 [Quote text]
 Text zitieren
 [Save and close]
@@ -1589,8 +1562,8 @@ Unterstrichen formatieren
 Schriftart
 [Font color]
 Schriftfarbe
-[Format strike-through]
-Durchgestrichen
+[Format strikethrough]
+Durchgestrichen formatieren
 [Background color]
 Hintergrundfarbe
 [Room settings]
@@ -1644,8 +1617,6 @@ Funktion deaktiviert (als Overlay)
 Nachrichtenfenster - Direktnachrichten
 [Message windows - all]
 Nachrichtenfenster - Alle
-[Message windows - group chats]
-Nachrichtenfenster - Gruppenchats
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Container für %s auswählen
@@ -1769,6 +1740,10 @@ Kontakt beginnt zu tippen
 [Contact stopped typing]
 Kontakt tippt nicht mehr
 ;file \plugins\TabSRMM\src\userprefs.cpp
+[BBCode]
+BBCode
+[Force off]
+Niemals senden
 [Set messaging options for %s]
 Nachrichteneinstellungen für %s
 ;file \plugins\TabSRMM\src\utils.cpp

@@ -995,12 +995,14 @@ Sind Sie sich sicher?
 [Incoming note]
 Eingehende Notiz
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Unknown device added]
-Unbekanntes Gerät hinzugefügt
+[Unknown OMEMO device added!]
+Unbekanntes OMEMO-Gerät hinzugefügt!
+[(My devices)]
+(Meine Geräte)
+[Trust on first use for\n%d devices]
+Bei erster Verwendung vertrauen für\n%d Geräte
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 OMEMO kann keine privaten Nachrichten in öffentlichen Gruppenchats verschlüsseln. Im Klartext fortfahren?
-[Trust on first use]
-Bei erster Verwendung vertrauen
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Afarisch

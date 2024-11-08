@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Telegram.dll
 ;  Plugin: Telegram protocol
-;  Version: 0.11.0.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
@@ -22,8 +22,10 @@ Chatfenster bei der Erzeugung nicht öffnen
 Abmelden
 [Compress files on send]
 Dateien beim Senden komprimieren
-[Generate URL previews]
-URL-Vorschauen erzeugen
+[Include URL preview into message text]
+URL-Vorschau in Nachrichtentext einfügen
+[Store channel messages in memory only]
+Channel-Nachrichten nur temporär speichern
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -115,24 +117,44 @@ Erweitert
 [Sessions]
 Sitzungen
 ;file \protocols\Telegram\src\proto.cpp
+[%s error notifications]
+%s Fehlerbenachrichtigungen
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
 Fehler %d: %s
 [General]
 Allgemein
+[Recording video...]
+Video aufnehmen...
+[Recording video note...]
+Videohinweis aufnehmen...
+[Recording voice note...]
+Sprachhinweis aufnehmen...
+[Uploading file...]
+Datei hochladen...
+[Uploading photo...]
+Foto hochladen...
+[Uploading video...]
+Video hochladen...
+[Uploading video note...]
+Videohinweis hochladen...
+[Uploading voice note...]
+Sprachhinweis hochladen...
 [Archive]
 Archiv
 [Saved messages]
 Gespeicherte Nachrichten
+[Service notification]
+Dienstbenachrichtigung
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 Keine
-[%s error notifications]
-%s Fehlerbenachrichtigungen
 [Errors]
 Fehler
 [wrote]
-geschrieben
+hat geschrieben
+[Chat name was changed to %s]
+Chatname wurde zu %s geändert
 [Picture]
 Bild
 [Audio]
@@ -141,11 +163,11 @@ Audio
 Sekunden
 [Video]
 Video
+[Video note]
+Videohinweis
 [Voice message]
 Sprachnachricht
 [SmileyAdd plugin required to support stickers]
 Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [You received an invoice]
 Sie haben eine Rechnung empfangen
-[Title]
-Titel
