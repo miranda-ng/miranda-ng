@@ -133,7 +133,7 @@ void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*
 			if (hContact != NULL) {
 				auto lastMsgTime = getLastTime(hContact);
 				if (lastMsgTime && lastMsgTime < id && m_bAutoHistorySync)
-					PushRequest(new GetHistoryRequest(hContact, szSkypename, 100, lastMsgTime, false));
+					PushRequest(new GetHistoryRequest(hContact, szSkypename, 100, lastMsgTime, true));
 			}
 		}
 	}

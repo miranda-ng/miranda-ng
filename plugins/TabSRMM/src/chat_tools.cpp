@@ -350,7 +350,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (Contact::IsReadonly(si->hContact) && iMuteMode != CHATMODE_UNMUTE)
 			return true;
 
-		AutoCreateWindow(nullptr, si->hContact);
+		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_CREATECONTAINER, si->hContact, 0);
 	}
 
 	return true;
