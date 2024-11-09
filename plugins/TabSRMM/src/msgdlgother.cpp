@@ -1768,11 +1768,9 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			Chat_SetFilters(pDlg->getChat());
 			pDlg->RedrawLog();
 		}
-		DestroyWindow(hwndDlg);
-		break;
 
-	case WM_DESTROY:
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		pDlg->m_hwndFilter = nullptr;
+		DestroyWindow(hwndDlg);
 		break;
 	}
 	return FALSE;
@@ -2551,10 +2549,8 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 		RECT rcFilter;
 		GetWindowRect(m_hwndFilter, &rcFilter);
-		if (!PtInRect(&rcFilter, pt)) {
+		if (!PtInRect(&rcFilter, pt))
 			SendMessage(m_hwndFilter, WM_CLOSE, 1, 1);
-			m_hwndFilter = nullptr;
-		}
 	}
 
 	if (m_bIsAutosizingInput && m_iInputAreaHeight == -1) {
