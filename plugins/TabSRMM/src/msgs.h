@@ -540,7 +540,6 @@ public:
 	TContainerData *m_pContainer;		// parent container description structure
 	AVATARCACHEENTRY *m_ace, *m_ownAce;
 
-	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	bool TabAutoComplete();
 
 	HWND m_hwndFilter;

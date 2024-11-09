@@ -43,8 +43,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void UpdateIcon(WPARAM wParam);
 	void UpdateLastMessage(void);
 
-	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-
 	CCtrlBase m_avatar;
 	
 	void OnFlash(CTimer *);
@@ -125,6 +123,7 @@ public:
 	bool m_bIsAutoRTL = false;
 	HBITMAP m_avatarPic = 0;
 	wchar_t *m_wszInitialText = 0;
+	MWindow m_hwndFilter;
 
 	int GetImageId() const;
 

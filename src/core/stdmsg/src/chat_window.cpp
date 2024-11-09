@@ -32,52 +32,15 @@ void CMsgDialog::LoadSettings()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::ShowFilterMenu()
-{
-	HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
-	TranslateDialogDefault(hwnd);
-
-	RECT rc;
-	GetWindowRect(m_btnFilter.GetHwnd(), &rc);
-	SetWindowPos(hwnd, HWND_TOP, rc.left - 85, (IsWindowVisible(m_btnFilter.GetHwnd()) || IsWindowVisible(m_btnBold.GetHwnd())) ? rc.top - 206 : rc.top - 186, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-}
-
-void CMsgDialog::UpdateFilterButton()
-{
-	CSuper::UpdateFilterButton();
-
-	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2));
-	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2, FALSE));
-}
-
-void CMsgDialog::UpdateStatusBar()
-{
-	wchar_t *ptszDispName = m_si->pMI->ptszModDispName;
-	int x = 12;
-	x += Chat_GetTextPixelSize(ptszDispName, (HFONT)SendMessage(m_pOwner->m_hwndStatus, WM_GETFONT, 0, 0), TRUE);
-	x += GetSystemMetrics(SM_CXSMICON);
-	int iStatusbarParts[2] = { x, -1 };
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETPARTS, 2, (LPARAM)&iStatusbarParts);
-
-	HICON hIcon = ImageList_GetIcon(Clist_GetImageList(), GetImageId(), ILD_TRANSPARENT);
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
-	DestroyIcon(hIcon);
-
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
-	SendMessage(m_pOwner->m_hwndStatus, SB_SETTIPTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	int iFlags;
-	static CMsgDialog *pDlg = nullptr;
+	auto *pDlg = (CMsgDialog*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		pDlg = (CMsgDialog*)lParam;
+		pDlg = (CMsgDialog *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		iFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags");
 		CheckDlgButton(hwndDlg, IDC_1, iFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
@@ -139,9 +102,48 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		break;
 
 	case WM_CLOSE:
+		pDlg->m_hwndFilter = nullptr;
 		DestroyWindow(hwndDlg);
 		break;
 	}
 
 	return FALSE;
+}
+
+void CMsgDialog::ShowFilterMenu()
+{
+	m_hwndFilter = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
+	TranslateDialogDefault(m_hwndFilter);
+
+	RECT rc;
+	GetWindowRect(m_btnFilter.GetHwnd(), &rc);
+	SetWindowPos(m_hwndFilter, HWND_TOP, rc.left - 85, (IsWindowVisible(m_btnFilter.GetHwnd()) || IsWindowVisible(m_btnBold.GetHwnd())) ? rc.top - 206 : rc.top - 186, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CMsgDialog::UpdateFilterButton()
+{
+	CSuper::UpdateFilterButton();
+
+	m_btnFilter.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bFilterEnabled ? IDI_FILTER : IDI_FILTER2));
+	m_btnNickList.SendMsg(BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(m_bNicklistEnabled ? IDI_NICKLIST : IDI_NICKLIST2, FALSE));
+}
+
+void CMsgDialog::UpdateStatusBar()
+{
+	wchar_t *ptszDispName = m_si->pMI->ptszModDispName;
+	int x = 12;
+	x += Chat_GetTextPixelSize(ptszDispName, (HFONT)SendMessage(m_pOwner->m_hwndStatus, WM_GETFONT, 0, 0), TRUE);
+	x += GetSystemMetrics(SM_CXSMICON);
+	int iStatusbarParts[2] = { x, -1 };
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETPARTS, 2, (LPARAM)&iStatusbarParts);
+
+	HICON hIcon = ImageList_GetIcon(Clist_GetImageList(), GetImageId(), ILD_TRANSPARENT);
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hIcon);
+	DestroyIcon(hIcon);
+
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)ptszDispName);
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
+	SendMessage(m_pOwner->m_hwndStatus, SB_SETTIPTEXT, 1, (LPARAM)(m_si->ptszStatusbarText ? m_si->ptszStatusbarText : L""));
 }

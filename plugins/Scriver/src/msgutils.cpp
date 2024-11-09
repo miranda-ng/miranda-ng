@@ -450,14 +450,94 @@ void CMsgDialog::ShowAvatar()
 	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	int iFlags;
+	auto *pDlg = (CMsgDialog*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		pDlg = (CMsgDialog *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		iFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags");
+		CheckDlgButton(hwndDlg, IDC_CHAT_1, iFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_2, iFlags & GC_EVENT_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_3, iFlags & GC_EVENT_NICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_4, iFlags & GC_EVENT_JOIN ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_5, iFlags & GC_EVENT_PART ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_6, iFlags & GC_EVENT_TOPIC ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_7, iFlags & GC_EVENT_ADDSTATUS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_8, iFlags & GC_EVENT_INFORMATION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_9, iFlags & GC_EVENT_QUIT ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_10, iFlags & GC_EVENT_KICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHAT_11, iFlags & GC_EVENT_NOTICE ? BST_CHECKED : BST_UNCHECKED);
+		break;
+
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		SetTextColor((HDC)wParam, RGB(60, 60, 150));
+		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
+		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
+
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE) {
+			iFlags = 0;
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_1) == BST_CHECKED)
+				iFlags |= GC_EVENT_ACTION;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_2) == BST_CHECKED)
+				iFlags |= GC_EVENT_MESSAGE;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_3) == BST_CHECKED)
+				iFlags |= GC_EVENT_NICK;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_4) == BST_CHECKED)
+				iFlags |= GC_EVENT_JOIN;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_5) == BST_CHECKED)
+				iFlags |= GC_EVENT_PART;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_6) == BST_CHECKED)
+				iFlags |= GC_EVENT_TOPIC;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_7) == BST_CHECKED)
+				iFlags |= GC_EVENT_ADDSTATUS;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_8) == BST_CHECKED)
+				iFlags |= GC_EVENT_INFORMATION;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_9) == BST_CHECKED)
+				iFlags |= GC_EVENT_QUIT;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_10) == BST_CHECKED)
+				iFlags |= GC_EVENT_KICK;
+			if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_11) == BST_CHECKED)
+				iFlags |= GC_EVENT_NOTICE;
+
+			if (iFlags & GC_EVENT_ADDSTATUS)
+				iFlags |= GC_EVENT_REMOVESTATUS;
+
+			db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", iFlags);
+			db_set_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0xFFFF);
+
+			Chat_SetFilters(pDlg->getChat());
+			pDlg->RedrawLog();
+			PostMessage(hwndDlg, WM_CLOSE, 0, 0);
+		}
+		break;
+
+	case WM_CLOSE:
+		pDlg->m_hwndFilter = nullptr;
+		DestroyWindow(hwndDlg);
+		break;
+	}
+
+	return FALSE;
+}
+
 void CMsgDialog::ShowFilterMenu()
 {
-	HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
-	TranslateDialogDefault(hwnd);
+	m_hwndFilter = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILTER), m_hwnd, FilterWndProc, (LPARAM)this);
+	TranslateDialogDefault(m_hwndFilter);
 
 	RECT rc;
 	GetWindowRect(m_btnFilter.GetHwnd(), &rc);
-	SetWindowPos(hwnd, HWND_TOP, rc.left - 85, (IsWindowVisible(m_btnFilter.GetHwnd()) || IsWindowVisible(m_btnBold.GetHwnd())) ? rc.top - 206 : rc.top - 186, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
+	SetWindowPos(m_hwndFilter, HWND_TOP, rc.left - 85, (IsWindowVisible(m_btnFilter.GetHwnd()) || IsWindowVisible(m_btnBold.GetHwnd())) ? rc.top - 206 : rc.top - 186, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 }
 
 void CMsgDialog::ShowMessageSending()
