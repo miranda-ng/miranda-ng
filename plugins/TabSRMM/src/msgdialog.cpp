@@ -923,6 +923,9 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
 		ShowFilterMenu();
 	else {
+		if (m_hwndFilter)
+			SendMessage(m_hwndFilter, WM_CLOSE, 1, 1);
+
 		RedrawLog();
 		UpdateTitle();
 	}
