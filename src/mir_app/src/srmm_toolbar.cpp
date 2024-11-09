@@ -221,16 +221,23 @@ MIR_APP_DLL(void) Srmm_ClickToolbarIcon(MCONTACT hContact, int idFrom, HWND hwnd
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static void disablePush(CCtrlButton &btn)
+{
+	if (btn.IsPushed()) {
+		btn.Push(false);
+		btn.Click();
+	}
+}
+
 void CSrmmBaseDialog::ProcessToolbarHotkey(INT_PTR iButtonFrom)
 {
 	switch (iButtonFrom) {
 	case SRMM_HK_CLEAR:
-		m_btnBold.Push(false); m_btnBold.Click();
-		m_btnItalic.Push(false); m_btnItalic.Click();
-		m_btnUnderline.Push(false); m_btnUnderline.Click();
-
-		m_btnColor.Push(false); m_btnColor.Click();
-		m_btnBkColor.Push(false); m_btnBkColor.Click();
+		disablePush(m_btnBold);
+		disablePush(m_btnItalic);
+		disablePush(m_btnUnderline);
+		disablePush(m_btnColor);
+		disablePush(m_btnBkColor);
 		break;
 
 	case SRMM_HK_BOLD:
