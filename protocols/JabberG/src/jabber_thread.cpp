@@ -1031,6 +1031,7 @@ time_t CJabberProto::XmppMsg::extract_timestamp()
 }
 void CJabberProto::XmppMsg::handle_mam()
 {
+	dbei.flags |= DBEF_READ;
 	
 	if (auto* mamResult = XmlGetChildByTag(node, "result", "xmlns", JABBER_FEAT_MAM)) {
 		szMamMsgId = XmlGetAttr(mamResult, "id");
