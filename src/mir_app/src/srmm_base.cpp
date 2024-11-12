@@ -832,10 +832,15 @@ void CSrmmBaseDialog::UpdateChatLog()
 	m_pLog->Clear();
 	GetFirstEvent();
 
+	int iHistoryMode = Srmm::iHistoryMode;
+
 	auto *szProto = Proto_GetBaseAccountName(m_hContact);
 	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
 		DB::EventInfo dbei(hDbEvent);
 		if (dbei && !mir_strcmp(szProto, dbei.szModule) && g_chatApi.DbEventIsShown(dbei) && dbei.szUserId) {
+			if (iHistoryMode == LOADHISTORY_UNREAD && (dbei.flags & DBEF_READ) != 0)
+				continue;
+
 			Utf2T wszUserId(dbei.szUserId);
 			ptrW wszText(dbei.getText());
 
