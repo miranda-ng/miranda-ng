@@ -805,14 +805,9 @@ public:
 			break;
 		case LOADHISTORY_COUNT:
 			chkLoadCount.SetState(true);
-			Utils::enableDlgControl(m_hwnd, IDC_LOADCOUNTN, true);
-			spnLoadCount.Enable(true);
 			break;
 		case LOADHISTORY_TIME:
 			chkLoadTime.SetState(true);
-			Utils::enableDlgControl(m_hwnd, IDC_LOADTIMEN, true);
-			spnLoadTime.Enable(true);
-			Utils::enableDlgControl(m_hwnd, IDC_STMINSOLD, true);
 			break;
 		}
 

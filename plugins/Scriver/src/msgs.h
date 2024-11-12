@@ -213,8 +213,6 @@ extern int fontOptionsListSize;
 #define LOADHISTORY_COUNT		1
 #define LOADHISTORY_TIME		2
 
-#define SRMM_MODULE						"SRMM"
-
 #define SRMSGSET_BKGCOLOUR				"BkgColour"
 #define SRMSGDEFSET_BKGCOLOUR			GetSysColor(COLOR_WINDOW)
 #define SRMSGSET_INPUTBKGCOLOUR			"InputBkgColour"
