@@ -52,7 +52,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MWF_SHOW_MICROLF 16
 #define MWF_SHOW_MARKFOLLOWUPTS 32
 
-#define SRMSGMOD "SRMsg"
 #define SRMSGMOD_T "Tab_SRMsg"
 #define TABSRMM_FONTMODULE "TabSRMM_Fonts"
 
