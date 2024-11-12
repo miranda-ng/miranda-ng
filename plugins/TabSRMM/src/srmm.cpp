@@ -52,7 +52,7 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("SRMsg", pluginInfoEx),
+	PLUGIN<CMPlugin>(SRMM_MODULE, pluginInfoEx),
 
 	// main settings
 	bAutoMin(SRMSGMOD_T, "AutoMin", false),

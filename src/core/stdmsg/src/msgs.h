@@ -175,11 +175,6 @@ int OptInitialise(WPARAM, LPARAM);
 
 bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF* colour);
 
-#define LOADHISTORY_UNREAD    0
-#define LOADHISTORY_COUNT     1
-#define LOADHISTORY_TIME      2
-
-#define SRMSGMOD              "SRMsg"
 #define DBSAVEDMSG            "SavedMsg"
 
 #define SRMSGSET_TYPING  "SupportTyping"

@@ -799,7 +799,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		switch (g_plugin.getByte(SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
+		switch (Srmm::iHistoryMode) {
 		case LOADHISTORY_UNREAD:
 			chkLoadUnread.SetState(true);
 			break;
@@ -827,11 +827,12 @@ public:
 	bool OnApply() override
 	{
 		if (chkLoadCount.GetState())
-			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_COUNT);
+			Srmm::iHistoryMode = LOADHISTORY_COUNT;
 		else if (chkLoadTime.GetState())
-			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
+			Srmm::iHistoryMode = LOADHISTORY_TIME;
 		else
-			g_plugin.setByte(SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
+			Srmm::iHistoryMode = LOADHISTORY_UNREAD;
+		
 		g_plugin.setWord(SRMSGSET_LOADCOUNT, spnLoadCount.GetPosition());
 		g_plugin.setWord(SRMSGSET_LOADTIME, spnLoadTime.GetPosition());
 

@@ -209,10 +209,6 @@ int IsAutoPopup(MCONTACT hContact);
 void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour);
 extern int fontOptionsListSize;
 
-#define LOADHISTORY_UNREAD		0
-#define LOADHISTORY_COUNT		1
-#define LOADHISTORY_TIME		2
-
 #define SRMSGSET_BKGCOLOUR				"BkgColour"
 #define SRMSGDEFSET_BKGCOLOUR			GetSysColor(COLOR_WINDOW)
 #define SRMSGSET_INPUTBKGCOLOUR			"InputBkgColour"

@@ -85,10 +85,6 @@ void KillModuleToolbarIcons(CMPluginBase *pPlugin);
 
 int   PopupOptionsInit(WPARAM);
 
-/**** srmm.cpp *************************************************************************/
-
-#define SRMSGMOD "SRMsg"
-
 /**** utf.cpp **************************************************************************/
 
 __forceinline char* Utf8DecodeA(const char* src)

@@ -178,7 +178,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<uint32_t> msgTimeout;
 	CMOption<uint32_t> nFlashMax;
 
-	CMOption<uint8_t>  iLoadHistory;
 	CMOption<uint16_t> nLoadCount, nLoadTime;
 
 	bool bSmileyInstalled = false;

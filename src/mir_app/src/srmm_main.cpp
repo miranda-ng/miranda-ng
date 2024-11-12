@@ -22,6 +22,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_NewStory.h>
 #include <m_messagestate.h>
 
+MIR_APP_EXPORT CMOption<uint8_t> Srmm::iHistoryMode(SRMM_MODULE, "LoadHistory", LOADHISTORY_COUNT);
+
 HCURSOR g_hCurHyperlinkHand;
 HANDLE hHookIconsChanged, hHookIconPressedEvt, hHookSrmmEvent;
 

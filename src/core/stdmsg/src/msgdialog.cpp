@@ -1242,7 +1242,7 @@ bool CMsgDialog::GetFirstEvent()
 
 	DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
 
-	switch (g_plugin.iLoadHistory) {
+	switch (Srmm::iHistoryMode) {
 	case LOADHISTORY_COUNT:
 		for (int i = g_plugin.nLoadCount; i--;) {
 			MEVENT hPrevEvent = pCursor.FetchNext();

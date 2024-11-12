@@ -993,4 +993,5 @@ Proto_CanDeleteHistory @1118 NONAME
 ?markRead@SESSION_INFO@@QEAAX_N@Z @1124 NONAME
 ?Srmm_NotifyRemoteRead@@YAXII@Z @1125 NONAME
 ?RemakeLog@CSrmmBaseDialog@@UEAAXXZ @1126 NONAME
-?ProcessToolbarHotkey@CSrmmBaseDialog@@AEAAX_J@Z @1129 NONAME
+?ProcessToolbarHotkey@CSrmmBaseDialog@@AEAAX_J@Z @1127 NONAME
+?iHistoryMode@Srmm@@3V?$CMOption@E@@A @1128 NONAME

@@ -25,12 +25,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_SRMM_INT_H__
 #define M_SRMM_INT_H__ 1
 
-#include <shellapi.h>
 #include <vector>
 
 #include <m_gui.h>
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// global settings
+
 #define SRMM_MODULE "SRMM"
+#define SRMSGMOD    "SRMsg"
+
+#define LOADHISTORY_UNREAD    0
+#define LOADHISTORY_COUNT     1
+#define LOADHISTORY_TIME      2
+
+namespace Srmm
+{
+	extern MIR_APP_EXPORT CMOption<uint8_t> iHistoryMode;
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // toolbar button internal representation
@@ -272,6 +284,10 @@ public:
 // Basic SRMM window dialog
 
 #include <chat_resource.h>
+
+#ifndef _INC_SHELLAPI
+DECLARE_HANDLE(HDROP);
+#endif
 
 // message procedures' stubs
 EXTERN_C MIR_APP_DLL(LRESULT) CALLBACK stubLogProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

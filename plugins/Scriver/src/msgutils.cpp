@@ -117,7 +117,7 @@ bool CMsgDialog::GetFirstEvent()
 	bool notifyUnread = false;
 
 	if (m_hContact) {
-		int historyMode = g_plugin.iHistoryMode;
+		int historyMode = Srmm::iHistoryMode;
 		// This finds the first message to display, it works like shit
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
 		if (m_hDbEventFirst != 0) {

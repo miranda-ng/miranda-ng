@@ -400,9 +400,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 
 bool CMsgDialog::GetFirstEvent()
 {
-	int historyMode = g_plugin.getByte(m_hContact, SRMSGSET_LOADHISTORY, -1);
-	if (historyMode == -1)
-		historyMode = (int)g_plugin.getByte(SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY);
+	int historyMode = g_plugin.getByte(m_hContact, "LoadHistory", Srmm::iHistoryMode);
 
 	m_hDbEventFirst = db_event_firstUnread(m_hContact);
 

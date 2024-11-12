@@ -80,7 +80,6 @@ CMPlugin::CMPlugin() :
 
 	msgTimeout(SRMM_MODULE, "MessageTimeout", 65000),
 
-	iLoadHistory(SRMM_MODULE, "LoadHistory", LOADHISTORY_UNREAD),
 	nLoadCount(SRMM_MODULE, "LoadCount", 10),
 	nLoadTime(SRMM_MODULE, "LoadTime", 10),
 

@@ -802,16 +802,10 @@ struct TIconDescW
 #define IPFONTID_PROTO             3
 #define IPFONTID_TIME              4
 
-#define LOADHISTORY_UNREAD         0
-#define LOADHISTORY_COUNT          1
-#define LOADHISTORY_TIME           2
-
 #define SRMSGSET_MSGTIMEOUT        "MessageTimeout"
 #define SRMSGDEFSET_MSGTIMEOUT     30000
 #define SRMSGSET_MSGTIMEOUT_MIN    5000 // minimum value (5 seconds)
 
-#define SRMSGSET_LOADHISTORY       "LoadHistory"
-#define SRMSGDEFSET_LOADHISTORY    LOADHISTORY_COUNT
 #define SRMSGSET_LOADCOUNT         "LoadCount"
 #define SRMSGDEFSET_LOADCOUNT      10
 #define SRMSGSET_LOADTIME          "LoadTime"

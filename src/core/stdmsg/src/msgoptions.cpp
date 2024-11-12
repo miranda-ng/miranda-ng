@@ -335,7 +335,7 @@ public:
 	
 	bool OnInitDialog() override
 	{
-		switch (g_plugin.iLoadHistory) {
+		switch (Srmm::iHistoryMode) {
 		case LOADHISTORY_UNREAD:
 			chkLoadUnread.SetState(true);
 			break;
@@ -360,11 +360,11 @@ public:
 	bool OnApply() override
 	{
 		if (chkLoadCount.GetState())
-			g_plugin.iLoadHistory = LOADHISTORY_COUNT;
+			Srmm::iHistoryMode = LOADHISTORY_COUNT;
 		else if (chkLoadTime.GetState())
-			g_plugin.iLoadHistory = LOADHISTORY_TIME;
+			Srmm::iHistoryMode = LOADHISTORY_TIME;
 		else
-			g_plugin.iLoadHistory = LOADHISTORY_UNREAD;
+			Srmm::iHistoryMode = LOADHISTORY_UNREAD;
 		g_plugin.nLoadCount = spinCount.GetPosition();
 		g_plugin.nLoadTime = spinTime.GetPosition();
 

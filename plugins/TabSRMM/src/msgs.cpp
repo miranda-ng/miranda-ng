@@ -689,6 +689,11 @@ int LoadSendRecvMessageModule(void)
 		db_delete_module(0, NEN_OLD_MODULE);
 	}
 
+	if (!db_is_module_empty(0, SRMSGMOD)) {
+		db_copy_module(SRMSGMOD, SRMM_MODULE);
+		db_delete_module(0, SRMSGMOD);
+	}
+
 	if (M.GetDword("cWarningsV", 0) == 0)
 		db_set_dw(0, SRMSGMOD_T, "cWarningsV", M.GetDword("cWarningsL", 0));
 
