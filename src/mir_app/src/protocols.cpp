@@ -352,7 +352,7 @@ bool PROTOACCOUNT::IsVisible() const
 		if (pd == nullptr || (pd->type != PROTOTYPE_PROTOCOL && pd->type != PROTOTYPE_PROTOWITHACCS))
 			return false;
 
-		return (ppro->GetCaps(PFLAGNUM_2, 0) & ~ppro->GetCaps(PFLAGNUM_5, 0));
+		return (ppro->GetCaps(PFLAGNUM_2) & ~ppro->GetCaps(PFLAGNUM_5));
 	}
 
 	return false;

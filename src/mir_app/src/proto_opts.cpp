@@ -716,7 +716,7 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 		lps->rcItem.top += sz.cy + 2;
 
 		if (acc->ppro && Proto_IsProtocolLoaded(acc->szProtoName)) {
-			wchar_t *wszIdName = (wchar_t *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
+			wchar_t *wszIdName = (wchar_t *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT);
 			if (wszIdName == nullptr || (UINT_PTR)wszIdName == CALLSERVICE_NOTFOUND)
 				wszIdName = TranslateT("Account ID");
 			

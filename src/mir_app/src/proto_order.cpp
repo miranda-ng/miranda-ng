@@ -95,7 +95,7 @@ static bool isProtoSuitable(PROTO_INTERFACE *ppi)
 	if (ppi == nullptr)
 		return true;
 
-	return (ppi->GetCaps(PFLAGNUM_2, 0) & ~ppi->GetCaps(PFLAGNUM_5, 0)) != 0;
+	return (ppi->GetCaps(PFLAGNUM_2) & ~ppi->GetCaps(PFLAGNUM_5)) != 0;
 }
 
 static bool ProtoToInclude(PROTOACCOUNT *pa)
