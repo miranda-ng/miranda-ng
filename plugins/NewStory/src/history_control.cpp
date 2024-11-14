@@ -347,7 +347,7 @@ class CDeleteEventsDlg : public CDlgBase
 public:
 	bool bDelHistory = false, bForEveryone = false;
 
-	CDeleteEventsDlg(MCONTACT hContact, int nEvents) :
+	CDeleteEventsDlg(MCONTACT hContact, int nEvents, bool bIncoming) :
 		CDlgBase(g_plugin, IDD_EMPTYHISTORY),
 		m_hContact(hContact),
 		m_iNumEvents(nEvents),
@@ -355,7 +355,7 @@ public:
 		chkForEveryone(this, IDC_BOTH)
 	{
 		if (char *szProto = Proto_GetBaseAccountName(hContact)) {
-			bDelHistory = Proto_CanDeleteHistory(szProto, hContact);
+			bDelHistory = Proto_CanDeleteHistory(szProto, hContact, bIncoming);
 			bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, hContact) & PF4_DELETEFORALL) != 0;
 		}
 	}
@@ -406,11 +406,18 @@ public:
 void NewstoryListData::DeleteItems(void)
 {
 	int nSelected = 0;
-	for (int i = totalCount - 1; i >= 0; i--)
-		if (GetItem(i)->m_bSelected)
-			nSelected++;
+	bool bIncoming = false;
 
-	CDeleteEventsDlg dlg(m_hContact, nSelected);
+	for (int i = totalCount - 1; i >= 0; i--) {
+		auto *pItem = GetItem(i);
+		if (pItem->m_bSelected) {
+			if ((pItem->dbe.flags & DBEF_SENT) == 0)
+				bIncoming = true;
+			nSelected++;
+		}
+	}
+
+	CDeleteEventsDlg dlg(m_hContact, nSelected, bIncoming);
 	if (IDOK == dlg.DoModal()) {
 		g_plugin.bDisableDelete = true;
 

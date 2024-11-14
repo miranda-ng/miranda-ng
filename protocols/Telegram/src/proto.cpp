@@ -349,21 +349,12 @@ int CTelegramProto::AuthRequest(MCONTACT hContact, const wchar_t *)
 
 INT_PTR CTelegramProto::GetCaps(int type, MCONTACT hContact)
 {
-	uint32_t ret;
-
 	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILE | PF1_CHAT | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES | PF1_MODEMSGRECV | PF1_SERVERCLIST;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY;
-
-	case PFLAGNUM_4:
-		ret = PF4_NOCUSTOMAUTH | PF4_FORCEAUTH | PF4_OFFLINEFILES | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS 
-			| PF4_SERVERMSGID | PF4_REPLY | PF4_GROUPCHATFILES | PF4_IMSENDOFFLINE | PF4_SERVERFORMATTING;
-		if (GetId(hContact) != m_iOwnId)
-			ret |= PF4_DELETEFORALL;
-		return ret;
 		
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_LONGAWAY;
@@ -371,9 +362,17 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)L"ID";
 
-	default:
-		return 0;
+	case PFLAGNUM_4:
+		uint32_t ret = PF4_NOCUSTOMAUTH | PF4_FORCEAUTH | PF4_OFFLINEFILES | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS
+			| PF4_SERVERMSGID | PF4_REPLY | PF4_GROUPCHATFILES | PF4_IMSENDOFFLINE | PF4_SERVERFORMATTING;
+
+		if (GetId(hContact) != m_iOwnId)
+			ret |= PF4_DELETEFORALL;
+
+		return ret;
 	}
+
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

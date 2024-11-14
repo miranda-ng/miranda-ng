@@ -520,12 +520,16 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CTelegramProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM)
+INT_PTR CTelegramProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM bIncoming)
 {
 	if (auto *pUser = FindUser(GetId(hContact))) {
 		TG_SUPER_GROUP tmp(pUser->id, 0);
 		if (auto *pGroup = m_arSuperGroups.find(&tmp))
-			return !pGroup->group->is_channel_;
+			if (pGroup->group->is_channel_)
+				return 0;
+
+		if (!pUser->bDelOwn || (bIncoming && !pUser->bDelAll))
+			return 0;
 		
 		return 1;
 	}
@@ -586,6 +590,8 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 
 	pUser->chatId = pChat->id_;
 	pUser->isChannel = isChannel;
+	pUser->bDelAll = pChat->can_be_deleted_for_all_users_;
+	pUser->bDelOwn = pChat->can_be_deleted_only_for_self_;
 
 	MCONTACT hContact = (pUser->id == m_iOwnId) ? 0 : pUser->hContact;
 

@@ -984,7 +984,7 @@ g_hevEventSetJson @1103 NONAME
 ??1MJsonWebSocket@@QAE@XZ @1115 NONAME
 ??_7MJsonWebSocket@@6B@ @1116 NONAME
 ?process@MJsonWebSocket@@EAEXPBEI@Z @1117 NONAME
-_Proto_CanDeleteHistory@8 @1118 NONAME
+Proto_CanDeleteHistory @1118 NONAME
 ?OnCacheInit@PROTO_INTERFACE@@UAEXXZ @1119 NONAME
 ?DoRtfToTags@CSrmmBaseDialog@@IBE_NAAV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@@Z @1120 NONAME
 ?bUseGroup@Chat@@3V?$CMOption@_N@@A @1121 NONAME

@@ -699,7 +699,7 @@ void RebuildMenuOrder(void)
 		if (!pa->IsVisible())
 			continue;
 
-		uint32_t flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
+		uint32_t flags = pa->ppro->GetCaps(PFLAGNUM_2) & ~pa->ppro->GetCaps(PFLAGNUM_5);
 		HICON ic;
 		wchar_t tbuf[256];
 		int pos = 0;
@@ -797,7 +797,7 @@ void RebuildMenuOrder(void)
 			if (!pa->IsVisible())
 				continue;
 
-			uint32_t flags = pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0);
+			uint32_t flags = pa->ppro->GetCaps(PFLAGNUM_2) & ~pa->ppro->GetCaps(PFLAGNUM_5);
 			if (!(flags & it.Pf2flag))
 				continue;
 
