@@ -126,9 +126,10 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 static mir_cs csLocked;
 static std::map<MEVENT, bool> arLocked;
 
-OFDTHREAD::OFDTHREAD(MEVENT _1, const CMStringW &_2, int iCommand) :
-	hDbEvent(_1),
-	wszPath(_2)
+OFDTHREAD::OFDTHREAD(MCONTACT _1, MEVENT _2, const CMStringW &_3, int iCommand) :
+	hContact(_1),
+	hDbEvent(_2),
+	wszPath(_3)
 {
 	bOpen = (iCommand & OFD_RUN) != 0;
 	bCopy = (iCommand & OFD_COPYURL) != 0;
@@ -157,7 +158,7 @@ void OFDTHREAD::Finish()
 			fclose(out);
 		}
 
-	NotifyEventHooks(g_hevEventEdited, db_event_getContact(hDbEvent), hDbEvent);
+	NotifyEventHooks(g_hevEventEdited, hContact, hDbEvent);
 
 	pCallback->Invoke(*this);
 }
@@ -212,7 +213,7 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei
 	}
 
 	if (bDownloaded) {
-		OFDTHREAD ofd(hDbEvent, blob.getLocalName(), iCommand);
+		OFDTHREAD ofd(hContact, hDbEvent, blob.getLocalName(), iCommand);
 		pCallback->Invoke(ofd);
 	}
 	else {
@@ -224,7 +225,7 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei
 			arLocked[hDbEvent] = true;
 		}
 
-		OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, blob.getLocalName(), iCommand);
+		OFDTHREAD *ofd = new OFDTHREAD(hContact, hDbEvent, blob.getLocalName(), iCommand);
 		ofd->bLocked = true;
 		ofd->dwTimestamp = dbei.timestamp;
 		ofd->pCallback = callback.release();
@@ -244,7 +245,7 @@ MIR_APP_DLL(void) Srmm_DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, i
 	switch (iCommand & 0xFFF) {
 	case OFD_COPYURL:
 		{
-			OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, L"", iCommand);
+			OFDTHREAD *ofd = new OFDTHREAD(hContact, hDbEvent, L"", iCommand);
 			ofd->pCallback = new OFD_CopyUrl(blob.getUrl());
 			CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd);
 		}

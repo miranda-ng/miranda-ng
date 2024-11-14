@@ -724,13 +724,14 @@ __forceinline INT_PTR ProtoChainRecvFile(MCONTACT hContact, const DB::FILE_BLOB 
 
 struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 {
-	OFDTHREAD(MEVENT hDbEvent, const CMStringW &path, int iCommand);
+	OFDTHREAD(MCONTACT, MEVENT hDbEvent, const CMStringW &path, int iCommand);
 	~OFDTHREAD();
 
 	void Finish();
 	void ResetFileName(const wchar_t *pwszNewName);
 
 	MEVENT hDbEvent;
+	MCONTACT hContact;
 	MFilePath wszPath;
 	struct OFD_Callback *pCallback = nullptr;
 	uint32_t dwTimestamp = 0;

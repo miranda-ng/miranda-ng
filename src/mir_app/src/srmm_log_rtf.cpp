@@ -250,7 +250,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 
 			case 4:
 				{
-					OFDTHREAD *ofd = new OFDTHREAD(hDbEvent, L"", OFD_COPYURL);
+					OFDTHREAD *ofd = new OFDTHREAD(m_pDlg.m_hContact, hDbEvent, L"", OFD_COPYURL);
 					ofd->pCallback = new OFD_CopyUrl(blob.getUrl());
 					CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd);
 				}
