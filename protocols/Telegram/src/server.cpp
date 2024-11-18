@@ -599,8 +599,13 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		m_arChats.insert(pUser);
 
 	if (!szTitle.empty()) {
-		if (hContact != INVALID_CONTACT_ID)
-			GcChangeTopic(pUser, szTitle);
+		if (hContact != INVALID_CONTACT_ID) {
+			if (pUser->isForum) {
+				pUser->wszNick = Utf2T(szTitle.c_str());
+				SendQuery(new TD::getForumTopics(pUser->chatId, "", 0, 0, 0, 100));
+			}
+			else GcChangeTopic(pUser, szTitle);
+		}
 		else if (pUser->wszNick.IsEmpty())
 			pUser->wszFirstName = Utf2T(szTitle.c_str());
 	}

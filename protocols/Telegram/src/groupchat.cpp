@@ -197,13 +197,11 @@ int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
 		return 0;
 
-	auto userId = _wtoi64(gch->si->ptszID);
-
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
 			rtrimw(gch->ptszText);
-			if (auto *pUser = FindUser(userId)) {
+			if (auto *pUser = (TG_USER *)gch->si->pItemData) {
 				TD::int53 replyId = 0;
 				if (auto *pDlg = gch->si->pDlg) {
 					DB::EventInfo dbei(pDlg->m_hQuoteEvent, false);
@@ -416,8 +414,14 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 		return;
 	}
 
+	auto *pInfo = pForum->info_.get();
 	if (pUser->m_si == nullptr) {
 		debugLogA("No parent chat for id %lld, skipping", pForum->chat_id_);
+		return;
+	}
+
+	if (pInfo->is_general_) {
+		SetId(pUser->m_si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
 		return;
 	}
 
