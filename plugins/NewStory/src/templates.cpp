@@ -516,7 +516,7 @@ void vfContact(TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	// %N: buddy's nick (not for messages)
 	wchar_t *nick = (hContact == 0) ? TranslateT("System history") : Clist_GetContactDisplayName(hContact, 0);
-	vars->SetVar('N', nick, false);
+	vars->SetNick(nick);
 
 	wchar_t buf[20];
 	// %c: event count
@@ -527,7 +527,7 @@ void vfContact(TemplateVars *vars, MCONTACT hContact, ItemData *)
 void vfSystem(TemplateVars *vars, MCONTACT hContact, ItemData *)
 {
 	// %N: buddy's nick (not for messages)
-	vars->SetVar('N', TranslateT("System event"), false);
+	vars->SetNick(TranslateT("System event"));
 
 	// %c: event count
 	wchar_t  buf[20];
