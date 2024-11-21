@@ -780,7 +780,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		SetBkMode(dib, TRANSPARENT);
 
 		// left offset of icons & text
-		int xPos = 2, yPos = top + 2, xRight = 0;
+		int xPos = 2, yPos = top + 2, xRight = 0, yOffset = 0;
 
 		if (!bReadOnly) {
 			HICON hIcon;
@@ -845,6 +845,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 					MoveToEx(dib, rc.left, rc.bottom - 4, 0);
 					LineTo(dib, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
 					DeleteObject(SelectObject(dib, hpn));
+					yOffset = 4;
 				}
 			}
 
@@ -856,7 +857,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		}
 
 		// draw html itself
-		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos - xRight, iItemHeigth);
+		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos - xRight, iItemHeigth - yOffset);
 		if (auto &pDoc = pItem->m_doc) {
 			if (auto pBody = pDoc->root()->select_one("body")) {
 				litehtml::background back = pBody->css().get_bg();
