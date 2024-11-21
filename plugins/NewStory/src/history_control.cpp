@@ -914,22 +914,29 @@ void NewstoryListData::RecalcScrollBar()
 	if (totalCount == 0)
 		return;
 
-	int yTotal = 0, yTop = 0, numRec = 0;
+	int yTotal = 0, yTop = 0, yVis = 0, numRec = 0;
 	for (int i = 0; i < totalCount; i++) {
 		if (i == scrollTopItem)
 			yTop = yTotal - scrollTopPixel;
 
 		auto *pItem = GetItem(i);
 		if (pItem->m_bLoaded) {
-			yTotal += GetItemHeight(pItem);
 			numRec++;
+
+			int iHeight = GetItemHeight(pItem);
+			yTotal += iHeight;
+			if (i >= scrollTopItem)
+				yVis += iHeight;
 		}
 	}
 
 	if (numRec != totalCount) {
 		double averageH = double(yTotal) / double(numRec);
 		yTotal = totalCount * averageH;
-		yTop = scrollTopItem * averageH;
+		if (cachedMaxDrawnItem == totalCount - 1)
+			yTop = yTotal - ((scrollTopItem == 0) ? yVis : cachedWindowHeight);
+		else
+			yTop = scrollTopItem * averageH;
 	}
 
 	SCROLLINFO si = {};
