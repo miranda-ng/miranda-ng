@@ -71,6 +71,7 @@ wchar_t* GetDefaultUrl()
 
 class COptionsDlg : public CDlgBase
 {
+	CCtrlEdit edtCustom;
 	CCtrlSpin spinBackups, spinPeriod;
 	CCtrlCombo cmbPeriod;
 	CCtrlCheck chkPeriod, chkStable, chkStableSym, chkTrunk, chkTrunkSym, chkCustom;
@@ -86,19 +87,19 @@ class COptionsDlg : public CDlgBase
 		wchar_t defurl[MAX_PATH];
 		if (chkStable.GetState()) {
 			mir_snwprintf(defurl, DEFAULT_UPDATE_URL, GetBits());
-			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, defurl);
+			edtCustom.SetText(defurl);
 		}
 		else if (chkStableSym.GetState()) {
 			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, GetBits());
-			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, defurl);
+			edtCustom.SetText(defurl);
 		}
 		else if (chkTrunk.GetState()) {
 			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_TRUNK, GetBits());
-			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, defurl);
+			edtCustom.SetText(defurl);
 		}
 		else if (chkTrunkSym.GetState()) {
 			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS, GetBits());
-			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, defurl);
+			edtCustom.SetText(defurl);
 		}
 	}
 
@@ -119,6 +120,7 @@ public:
 		chkStable(this, IDC_STABLE),
 		chkStableSym(this, IDC_STABLE_SYMBOLS),
 		chkCustom(this, IDC_CUSTOM),
+		edtCustom(this, IDC_CUSTOMURL),
 
 		spinPeriod(this, IDC_PERIODSPIN, 99, 1),
 		spinBackups(this, IDC_BACKUPS_SPIN, 10, 1)
@@ -135,11 +137,8 @@ public:
 		chkPeriod.OnChange = Callback(this, &COptionsDlg::onChange_Period);
 		chkStartup.OnChange = Callback(this, &COptionsDlg::onChange_Startup);
 
-		chkTrunk.OnChange = Callback(this, &COptionsDlg::onChange_Trunk);
-		chkTrunkSym.OnChange = Callback(this, &COptionsDlg::onChange_TrunkSymbols);
-		chkStable.OnChange = Callback(this, &COptionsDlg::onChange_Stable);
-		chkStableSym.OnChange = Callback(this, &COptionsDlg::onChange_StableSymbols);
-		chkCustom.OnChange = Callback(this, &COptionsDlg::onChange_Custom);
+		chkTrunk.OnChange = chkTrunkSym.OnChange = chkStable.OnChange = chkStableSym.OnChange = chkCustom.OnChange =
+			Callback(this, &COptionsDlg::onChange_Source);
 	}
 
 	bool OnInitDialog() override
@@ -190,13 +189,13 @@ public:
 			break;
 		default:
 			chkCustom.SetState(true);
-			EnableWindow(GetDlgItem(m_hwnd, IDC_CUSTOMURL), TRUE);
+			edtCustom.Enable();
 			chkPlatform.Disable();
 
 			ptrW url(g_plugin.getWStringA(DB_SETTING_UPDATE_URL));
 			if (url == NULL)
 				url = GetDefaultUrl();
-			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, url);
+			edtCustom.SetText(url);
 		}
 
 #ifndef _WIN64
@@ -236,7 +235,7 @@ public:
 		}
 		else {
 			wchar_t wszUrl[100];
-			GetDlgItemText(m_hwnd, IDC_CUSTOMURL, wszUrl, _countof(wszUrl));
+			edtCustom.GetText(wszUrl, _countof(wszUrl));
 			g_plugin.setWString(DB_SETTING_UPDATE_URL, wszUrl);
 			iNewMode = UPDATE_MODE_CUSTOM;
 		}
@@ -293,43 +292,24 @@ public:
 		cmbPeriod.Enable(value);
 	}
 
-	void onChange_TrunkSymbols(CCtrlCheck *)
+	void onChange_Source(CCtrlCheck *pCheck)
 	{
-		chkPlatform.Enable();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CUSTOMURL), FALSE);
-		UpdateUrl();
-	}
+		if (!m_bInitialized)
+			return;
 
-	void onChange_Trunk(CCtrlCheck *)
-	{
-		chkPlatform.Enable();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CUSTOMURL), FALSE);
-		UpdateUrl();
-	}
+		if (pCheck->GetCtrlId() != IDC_CUSTOM) {
+			chkPlatform.Enable();
+			edtCustom.Disable();
+			UpdateUrl();
+		}
+		else {
+			chkPlatform.Disable();
+			edtCustom.Enable();
 
-	void onChange_Stable(CCtrlCheck *)
-	{
-		chkPlatform.Enable();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CUSTOMURL), FALSE);
-		UpdateUrl();
-	}
-
-	void onChange_StableSymbols(CCtrlCheck *)
-	{
-		chkPlatform.Enable();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CUSTOMURL), FALSE);
-		UpdateUrl();
-	}
-
-	void onChange_Custom(CCtrlCheck *)
-	{
-		chkPlatform.Disable();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CUSTOMURL), TRUE);
-		{
 			ptrW url(g_plugin.getWStringA(DB_SETTING_UPDATE_URL));
 			if (url == NULL)
 				url = GetDefaultUrl();
-			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, url);
+			edtCustom.SetText(url);
 		}
 	}
 
