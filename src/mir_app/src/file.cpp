@@ -158,6 +158,8 @@ static int SRFilePreShutdown(WPARAM, LPARAM)
 		WindowList_Destroy(g_hFileWindows);
 		g_hFileWindows = 0;
 	}
+
+	FtMgr_Destroy();
 	return 0;
 }
 
