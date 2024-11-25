@@ -490,8 +490,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == m_hwndStatus) {
-				CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
-				if (pDlg != nullptr)
+				if (auto *pDlg = CurrPage())
 					DrawStatusIcons(pDlg->m_hContact, dis->hDC, dis->rcItem, 2);
 				return TRUE;
 			}
@@ -500,11 +499,14 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK) {
-			CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
-			if (pDlg != nullptr) {
+			if (auto *pDlg = CurrPage()) {
 				pDlg->m_btnOk.Click();
 				return TRUE;
 			}
+		}
+		else if (LOWORD(wParam) == IDCANCEL) {
+			if (auto *pDlg = CurrPage())
+				SetFocus(pDlg->GetHwnd());
 		}
 		break;
 
@@ -526,8 +528,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				NMMOUSE *nm = (NMMOUSE *)lParam;
 				SendMessage(m_hwndStatus, SB_GETRECT, SendMessage(m_hwndStatus, SB_GETPARTS, 0, 0) - 1, (LPARAM)&rc);
 				if (nm->pt.x >= rc.left) {
-					CMsgDialog *pDlg = (g_Settings.bTabsEnable) ? (CMsgDialog*)m_tab.GetActivePage() : m_pEmbed;
-					if (pDlg != nullptr)
+					if (auto *pDlg = CurrPage())
 						CheckStatusIconClick(pDlg->m_hContact, m_hwndStatus, nm->pt, rc, 2, ((LPNMHDR)lParam)->code == NM_RCLICK ? MBCF_RIGHTBUTTON : 0);
 				}
 				return TRUE;

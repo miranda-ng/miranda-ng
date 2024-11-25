@@ -917,8 +917,11 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 		if (Clist_MenuProcessCommand(LOWORD(wParam), MPCF_CONTACTMENU, dat->m_hContact))
 			break;
 
-		if (LOWORD(wParam) == IDCANCEL)
+		if (LOWORD(wParam) == IDCANCEL) {
+			if (dat && dat->m_hwndActive)
+				SetFocus(dat->m_hwndActive);
 			return TRUE;
+		}
 		break;
 
 	case WM_NOTIFY:
