@@ -458,9 +458,6 @@ void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *
 			szUserId[0] = 0;
 
 		if (bCreateEvent) {
-			auto *pFileName = pFile->local_->path_.c_str();
-			CMStringA szDescr = GetMessageText(pUser, pMsg);
-
 			DB::EventInfo dbei;
 			dbei.szModule = Proto_GetBaseAccountName(ft->m_hContact);
 			dbei.eventType = EVENTTYPE_FILE;
@@ -468,7 +465,7 @@ void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *
 			dbei.timestamp = time(0);
 
 			TG_FILE_REQUEST localft(TG_FILE_REQUEST::FILE, 0, 0);
-			localft.m_fileName = Utf2T(pFileName);
+			localft.m_fileName = Utf2T(pFile->local_->path_.c_str());
 			localft.m_fileSize = pFile->size_;
 			localft.m_uniqueId = szMsgId;
 			localft.m_szUserId = szUserId;
