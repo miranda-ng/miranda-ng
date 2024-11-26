@@ -33,6 +33,7 @@
     <ClCompile Include="src\autoreplace.cpp" />
     <ClCompile Include="src\dictionary.cpp" />
     <ClCompile Include="src\hunspell.cpp" />
+    <ClCompile Include="src\native.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\RichEdit.cpp" />
     <ClCompile Include="src\spellchecker.cpp" />

@@ -57,7 +57,7 @@ static aditionalLanguages[] = {
 /////////////////////////////////////////////////////////////////////////////////////////
 // To get the names of the languages
 
-void Dictionary::GetInfo()
+bool Dictionary::GetInfo()
 {
 	for (auto &it : g_plugin.locales) {
 		if (mir_wstrcmpi(language, it.first.c_str()) == 0) {
@@ -82,35 +82,34 @@ void Dictionary::GetInfo()
 				mir_wstrncpy(localized_name, TranslateW(localName), _countof(localized_name));
 			}
 
-			if (localized_name[0] != 0)
-				mir_snwprintf(full_name, L"%s [%s]", localized_name, language);
-
-			break;
+			mir_snwprintf(full_name, L"%s [%s]", localized_name, language);
+			return true;
 		}
 	}
 
-	if (full_name[0] == '\0') {
-		DBVARIANT dbv;
+	DBVARIANT dbv;
 
-		char lang[128];
-		WideCharToMultiByte(CP_ACP, 0, language, -1, lang, sizeof(lang), nullptr, nullptr);
-		if (!g_plugin.getWString(lang, &dbv)) {
-			mir_wstrncpy(localized_name, dbv.pwszVal, _countof(localized_name));
-			db_free(&dbv);
-		}
+	char lang[128];
+	WideCharToMultiByte(CP_ACP, 0, language, -1, lang, sizeof(lang), nullptr, nullptr);
+	if (!g_plugin.getWString(lang, &dbv)) {
+		mir_wstrncpy(localized_name, dbv.pwszVal, _countof(localized_name));
+		db_free(&dbv);
+	}
 
-		if (localized_name[0] == '\0') {
-			for (auto &it : aditionalLanguages) {
-				if (!mir_wstrcmp(it.language, language)) {
-					mir_wstrncpy(localized_name, TranslateW(it.localized_name), _countof(localized_name));
-					break;
-				}
+	if (localized_name[0] == '\0') {
+		for (auto &it : aditionalLanguages) {
+			if (!mir_wstrcmp(it.language, language)) {
+				mir_wstrncpy(localized_name, TranslateW(it.localized_name), _countof(localized_name));
+				break;
 			}
 		}
-
-		if (localized_name[0] != '\0')
-			mir_snwprintf(full_name, L"%s [%s]", localized_name, language);
-		else
-			mir_wstrncpy(full_name, language, _countof(full_name));
 	}
+
+	if (localized_name[0] != '\0') {
+		mir_snwprintf(full_name, L"%s [%s]", localized_name, language);
+		return true;
+	}
+
+	mir_wstrncpy(full_name, language, _countof(full_name));
+	return false;
 }

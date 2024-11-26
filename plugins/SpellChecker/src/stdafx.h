@@ -83,7 +83,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	std::map<std::wstring, int> locales;
 
-	CComPtr<ISpellChecker> m_speller;
 	CComPtr<ISpellCheckerFactory> m_spellFactory;
 
 	int Load() override;

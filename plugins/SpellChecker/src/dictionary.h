@@ -38,16 +38,13 @@ struct Dictionary
 	Dictionary(const wchar_t *aLanguage, const wchar_t *aSource);
 	virtual ~Dictionary();
 
-	void GetInfo();
+	bool GetInfo();
 
 	// Return TRUE if the word is correct
 	virtual BOOL spell(const wchar_t *word) = 0;
 
 	// Return a list of suggestions to a word
 	virtual Suggestions suggest(const wchar_t *word) = 0;
-
-	// Return a list of auto suggestions to a word
-	virtual Suggestions autoSuggest(const wchar_t *word) = 0;
 
 	// Return a auto suggestions to a word
 	// You have to free the item
@@ -71,5 +68,6 @@ struct Dictionary
 
 // Return a list of avaible languages
 void GetAvaibleDictionaries(OBJLIST<Dictionary> &dicts, wchar_t *path, wchar_t *user_path);
-	
+void GetNativeDictionaries(OBJLIST<Dictionary> &dicts);
+
 #endif // __DICTIONARY_H__

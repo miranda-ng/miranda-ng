@@ -590,35 +590,6 @@ public:
 	}
 
 	// Return a list of auto suggestions to a word
-	virtual Suggestions autoSuggest(const wchar_t * word)
-	{
-		Suggestions ret;
-
-		load();
-		if (loaded != LANGUAGE_LOADED)
-			return ret;
-
-		char hunspell_word[1024];
-		toHunspell(hunspell_word, word, _countof(hunspell_word));
-
-		char **words;
-		int count = hunspell->suggest(&words, hunspell_word);
-		if (count <= 0)
-			return ret;
-
-		// Oki, lets make our array
-		for (int i = 0; i < count; i++) {
-			auto *p = fromHunspell(words[i]);
-			ret.push_back(p);
-			free(p);
-			free(words[i]);
-		}
-		free(words);
-
-		return ret;
-	}
-
-	// Return a list of auto suggestions to a word
 	// You have to free the list AND each item
 	virtual wchar_t * autoSuggestOne(const wchar_t * word)
 	{
