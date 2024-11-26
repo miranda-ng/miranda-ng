@@ -21,7 +21,6 @@ Boston, MA 02111-1307, USA.
 #ifndef __AUTOREPLACE_H__
 # define __AUTOREPLACE_H__
 
-
 struct AutoReplacement
 {
 	std::wstring replace;
@@ -31,9 +30,7 @@ struct AutoReplacement
 	AutoReplacement(const wchar_t *replace, BOOL useVariables);
 };
 
-
-class Dictionary;
-
+struct Dictionary;
 
 class AutoReplaceMap 
 {

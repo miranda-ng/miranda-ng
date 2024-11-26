@@ -25,10 +25,12 @@ Boston, MA 02111-1307, USA.
 
 #include <time.h>
 #include <windows.h>
+#include <msapi/comptr.h>
 #include <msapi/richedit5.h>
 #include <tom.h>
 #include <richole.h>
 #include <commctrl.h>
+#include <spellcheck.h>
 
 #include <map>
 #include <vector>
@@ -77,12 +79,16 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	bool hasVariables;
+
+	std::map<std::wstring, int> locales;
+
+	CComPtr<ISpellChecker> m_speller;
+	CComPtr<ISpellCheckerFactory> m_spellFactory;
+
 	int Load() override;
 	int Unload() override;
 };
-
-extern BOOL uinfoex_enabled;
-extern BOOL variables_enabled;
 
 #define FREE(_m_)		if (_m_ != NULL) { free(_m_); _m_ = NULL; }
 
@@ -94,7 +100,7 @@ extern BOOL variables_enabled;
 
 #define HOTKEY_ACTION_TOGGLE 1
 
-extern LIST<Dictionary> languages;
+extern OBJLIST<Dictionary> languages;
 extern BITMAP bmpChecked;
 extern HBITMAP hCheckedBmp;
 

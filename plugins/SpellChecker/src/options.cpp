@@ -93,7 +93,7 @@ void LoadOptions()
 		if (mir_wstrcmp(it->language, opts.default_language) == 0)
 			return;
 
-	mir_wstrcpy(opts.default_language, languages[0]->language);
+	mir_wstrcpy(opts.default_language, languages[0].language);
 }
 
 static void DrawItem(LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
@@ -166,10 +166,10 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			int sel = -1;
 			for (int i = 0; i < languages.getCount(); i++) {
-				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_ADDSTRING, 0, (LPARAM)languages[i]->full_name);
-				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETITEMDATA, i, (LPARAM)languages[i]);
+				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_ADDSTRING, 0, (LPARAM)languages[i].full_name);
+				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETITEMDATA, i, (LPARAM)&languages[i]);
 
-				if (!mir_wstrcmp(opts.default_language, languages[i]->language))
+				if (!mir_wstrcmp(opts.default_language, languages[i].language))
 					sel = i;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETCURSEL, sel, 0);
@@ -202,9 +202,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				int sel = SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_GETCURSEL, 0, 0);
 				if (sel >= languages.getCount())
 					sel = 0;
-				g_plugin.setWString("DefaultLanguage",
-					(wchar_t *)languages[sel]->language);
-				mir_wstrcpy(opts.default_language, languages[sel]->language);
+				g_plugin.setWString("DefaultLanguage", languages[sel].language);
+				mir_wstrcpy(opts.default_language, languages[sel].language);
 			}
 		}
 		break;
@@ -365,11 +364,11 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			int sel = -1;
 			for (int i = 0; i < languages.getCount(); i++) {
-				Dictionary *p = languages[i];
-				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_ADDSTRING, 0, (LPARAM)p->full_name);
-				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETITEMDATA, i, (LPARAM)new AutoreplaceData(p));
+				auto &p = languages[i];
+				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_ADDSTRING, 0, (LPARAM)p.full_name);
+				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETITEMDATA, i, (LPARAM)new AutoreplaceData(&p));
 
-				if (!mir_wstrcmp(opts.default_language, p->language))
+				if (!mir_wstrcmp(opts.default_language, p.language))
 					sel = i;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETCURSEL, sel, 0);

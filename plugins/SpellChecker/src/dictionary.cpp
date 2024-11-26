@@ -357,10 +357,10 @@ class HunspellDictionary : public Dictionary
 protected:
 	wchar_t fileWithoutExtension[1024];
 	wchar_t userPath[1024];
-	volatile int loaded;
-	Hunspell *hunspell;
-	wchar_t *wordChars;
-	UINT codePage;
+	volatile int loaded = LANGUAGE_NOT_LOADED;
+	Hunspell *hunspell = 0;
+	wchar_t *wordChars = 0;
+	UINT codePage = CP_ACP;
 
 	void loadCustomDict()
 	{
@@ -433,8 +433,7 @@ protected:
 		if (hunspellWord == nullptr)
 			return nullptr;
 
-		wchar_t *ret = fromHunspell(hunspellWord);
-		return ret;
+		return fromHunspell(hunspellWord);
 	}
 
 public:
@@ -448,14 +447,10 @@ public:
 		else
 			mir_wstrncpy(source, aSource, _countof(source));
 
-		loaded = LANGUAGE_NOT_LOADED;
 		localized_name[0] = '\0';
 		english_name[0] = '\0';
 		full_name[0] = '\0';
-		hunspell = nullptr;
-		wordChars = nullptr;
-		codePage = CP_ACP;
-		autoReplace = nullptr;
+		GetInfo();
 	}
 
 	virtual ~HunspellDictionary()
@@ -534,7 +529,6 @@ public:
 
 			const std::vector<w_char> wordchars_utf16 = hunspell->get_wordchars_utf16();
 			hwordchars = fromHunspell((char *)&wordchars_utf16[0]);
-
 		}
 		else {
 			for (auto &it : codepages) {
@@ -584,7 +578,7 @@ public:
 	// Return a list of suggestions to a word
 	virtual Suggestions suggest(const wchar_t * word)
 	{
-		Suggestions ret = {};
+		Suggestions ret;
 
 		load();
 		if (loaded != LANGUAGE_LOADED)
@@ -593,17 +587,19 @@ public:
 		char hunspell_word[1024];
 		toHunspell(hunspell_word, word, _countof(hunspell_word));
 
-		char ** words = nullptr;
-		ret.count = hunspell->suggest(&words, hunspell_word);
+		char **words = nullptr;
+		int count = hunspell->suggest(&words, hunspell_word);
 
-		if (ret.count > 0 && words != nullptr) {
+		if (count > 0 && words != nullptr) {
 			// Oki, lets make our array
-			ret.words = (wchar_t **)malloc(ret.count * sizeof(wchar_t *));
-			for (unsigned i = 0; i < ret.count; i++) {
-				ret.words[i] = fromHunspell(words[i]);
+			for (int i = 0; i < count; i++) {
+				auto *p = fromHunspell(words[i]);
+				ret.push_back(p);
+				free(p);
 				free(words[i]);
 			}
 		}
+
 		if (words != nullptr)
 			free(words);
 
@@ -613,7 +609,7 @@ public:
 	// Return a list of auto suggestions to a word
 	virtual Suggestions autoSuggest(const wchar_t * word)
 	{
-		Suggestions ret = {};
+		Suggestions ret;
 
 		load();
 		if (loaded != LANGUAGE_LOADED)
@@ -622,17 +618,16 @@ public:
 		char hunspell_word[1024];
 		toHunspell(hunspell_word, word, _countof(hunspell_word));
 
-		char ** words;
+		char **words;
 		int count = hunspell->suggest(&words, hunspell_word);
-
 		if (count <= 0)
 			return ret;
 
 		// Oki, lets make our array
-		ret.count = count;
-		ret.words = (wchar_t **)malloc(ret.count * sizeof(wchar_t *));
 		for (int i = 0; i < count; i++) {
-			ret.words[i] = fromHunspell(words[i]);
+			auto *p = fromHunspell(words[i]);
+			ret.push_back(p);
+			free(p);
 			free(words[i]);
 		}
 		free(words);
@@ -693,7 +688,6 @@ public:
 		return loaded == LANGUAGE_LOADED;
 	}
 
-
 	// Add a word to the user custom dict
 	virtual void addWord(const wchar_t * word)
 	{
@@ -714,91 +708,65 @@ void LoadThread(LPVOID hd)
 	dict->loadThread();
 }
 
-
-
-// To use with EnumLocalesProc :(
-LIST<Dictionary> *tmp_dicts;
-
 // To get the names of the languages
-BOOL CALLBACK EnumLocalesProc(LPTSTR lpLocaleString)
+
+void Dictionary::GetInfo()
 {
-	wchar_t *stopped = nullptr;
-	USHORT langID = (USHORT)wcstol(lpLocaleString, &stopped, 16);
+	for (auto &it : g_plugin.locales) {
+		if (mir_wstrcmpi(language, it.first.c_str()) == 0) {
+			int langID = it.second;
+			GetLocaleInfoW(MAKELCID(langID, 0), LOCALE_SENGLANGUAGE, english_name, _countof(english_name));
 
-	wchar_t ini[32];
-	wchar_t end[32];
-	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO639LANGNAME, ini, _countof(ini));
-	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, _countof(end));
-
-	wchar_t name[64];
-	mir_snwprintf(name, L"%s_%s", ini, end);
-
-	for (auto &dict : *tmp_dicts) {
-		if (mir_wstrcmpi(dict->language, name) == 0) {
-			GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SENGLANGUAGE, dict->english_name, _countof(dict->english_name));
-
-			GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SLANGUAGE, dict->localized_name, _countof(dict->localized_name));
-			if (dict->localized_name[0] == 0)
-				GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SLOCALIZEDLANGUAGENAME, dict->localized_name, _countof(dict->localized_name));
-			if (dict->localized_name[0] == 0)
-				GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SNATIVEDISPLAYNAME, dict->localized_name, _countof(dict->localized_name));
-			if (dict->localized_name[0] == 0 && dict->english_name[0] != 0) {
+			GetLocaleInfoW(MAKELCID(langID, 0), LOCALE_SLANGUAGE, localized_name, _countof(localized_name));
+			if (localized_name[0] == 0)
+				GetLocaleInfoW(MAKELCID(langID, 0), LOCALE_SLOCALIZEDLANGUAGENAME, localized_name, _countof(localized_name));
+			if (localized_name[0] == 0)
+				GetLocaleInfoW(MAKELCID(langID, 0), LOCALE_SNATIVEDISPLAYNAME, localized_name, _countof(localized_name));
+			if (localized_name[0] == 0 && english_name[0] != 0) {
 				wchar_t country[1024];
-				GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SENGCOUNTRY, country, _countof(country));
+				GetLocaleInfoW(MAKELCID(langID, 0), LOCALE_SENGCOUNTRY, country, _countof(country));
 
 				wchar_t localName[1024];
 				if (country[0] != 0)
-					mir_snwprintf(localName, L"%s (%s)", dict->english_name, country);
+					mir_snwprintf(localName, L"%s (%s)", english_name, country);
 				else
-					mir_wstrncpy(localName, dict->english_name, _countof(localName));
+					mir_wstrncpy(localName, english_name, _countof(localName));
 
-				mir_wstrncpy(dict->localized_name, TranslateW(localName), _countof(dict->localized_name));
+				mir_wstrncpy(localized_name, TranslateW(localName), _countof(localized_name));
 			}
 
-			if (dict->localized_name[0] != 0) {
-				mir_snwprintf(dict->full_name, L"%s [%s]", dict->localized_name, dict->language);
-			}
+			if (localized_name[0] != 0)
+				mir_snwprintf(full_name, L"%s [%s]", localized_name, language);
+
 			break;
 		}
 	}
-	return TRUE;
-}
 
+	if (full_name[0] == '\0') {
+		DBVARIANT dbv;
 
-void GetDictsInfo(LIST<Dictionary> &dicts)
-{
-	tmp_dicts = &dicts;
-	EnumSystemLocales(EnumLocalesProc, LCID_SUPPORTED);
+		char lang[128];
+		WideCharToMultiByte(CP_ACP, 0, language, -1, lang, sizeof(lang), nullptr, nullptr);
+		if (!g_plugin.getWString(lang, &dbv)) {
+			mir_wstrncpy(localized_name, dbv.pwszVal, _countof(localized_name));
+			db_free(&dbv);
+		}
 
-	// Try to get name from DB
-	for (auto &dict : dicts) {
-		if (dict->full_name[0] == '\0') {
-			DBVARIANT dbv;
-
-			char lang[128];
-			WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), nullptr, nullptr);
-			if (!g_plugin.getWString(lang, &dbv)) {
-				mir_wstrncpy(dict->localized_name, dbv.pwszVal, _countof(dict->localized_name));
-				db_free(&dbv);
-			}
-
-			if (dict->localized_name[0] == '\0') {
-				for (auto &it : aditionalLanguages) {
-					if (!mir_wstrcmp(it.language, dict->language)) {
-						mir_wstrncpy(dict->localized_name, TranslateW(it.localized_name), _countof(dict->localized_name));
-						break;
-					}
+		if (localized_name[0] == '\0') {
+			for (auto &it : aditionalLanguages) {
+				if (!mir_wstrcmp(it.language, language)) {
+					mir_wstrncpy(localized_name, TranslateW(it.localized_name), _countof(localized_name));
+					break;
 				}
 			}
-
-			if (dict->localized_name[0] != '\0')
-				mir_snwprintf(dict->full_name, L"%s [%s]", dict->localized_name, dict->language);
-			else
-				mir_wstrncpy(dict->full_name, dict->language, _countof(dict->full_name));
 		}
+
+		if (localized_name[0] != '\0')
+			mir_snwprintf(full_name, L"%s [%s]", localized_name, language);
+		else
+			mir_wstrncpy(full_name, language, _countof(full_name));
 	}
 }
-
 
 void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *user_path, wchar_t *source)
 {
@@ -853,9 +821,8 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, wchar_t *path, w
 	}
 }
 
-
 // Return a list of avaible languages
-void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *user_path)
+void GetAvaibleDictionaries(OBJLIST<Dictionary> &dicts, wchar_t *path, wchar_t *user_path)
 {
 	// Get miranda folder dicts
 	GetHunspellDictionariesFromFolder(dicts, path, user_path, nullptr);
@@ -908,46 +875,9 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 			}
 		}
 	}
-
-	GetDictsInfo(dicts);
-
-	// Yeah, yeah, yeah, I know, but this is the easiest way...
-	SortedList *sl = (SortedList *)&dicts;
-
-	// Sort dicts
-	for (int i = 0; i < dicts.getCount(); i++) {
-		for (int j = i + 1; j < dicts.getCount(); j++) {
-			if (mir_wstrcmp(dicts[i]->full_name, dicts[j]->full_name) > 0) {
-				Dictionary *dict = dicts[i];
-				sl->items[i] = dicts[j];
-				sl->items[j] = dict;
-			}
-		}
-	}
-}
-
-
-// Free the list returned by GetAvaibleDictionaries
-void FreeDictionaries(LIST<Dictionary> &dicts)
-{
-	for (auto &it : dicts)
-		delete it;
-	dicts.destroy();
 }
 
 Dictionary::~Dictionary()
 {
 	delete autoReplace;
-}
-
-// Free the list returned by GetAvaibleDictionaries
-void FreeSuggestions(Suggestions &suggestions)
-{
-	for (size_t i = 0; i < suggestions.count; i++)
-		free(suggestions.words[i]);
-
-	free(suggestions.words);
-
-	suggestions.words = nullptr;
-	suggestions.count = 0;
 }

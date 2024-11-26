@@ -35,10 +35,16 @@ wchar_t *flagsDllFolder;
 HBITMAP hCheckedBmp;
 BITMAP bmpChecked;
 
-BOOL variables_enabled = FALSE;
 BOOL loaded = FALSE;
 
-LIST<Dictionary> languages(1);
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int CompareDicts(const Dictionary *p1, const Dictionary *p2)
+{
+	return mir_wstrcmpi(p1->full_name, p2->full_name);
+}
+
+OBJLIST<Dictionary> languages(1, CompareDicts);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -62,6 +68,12 @@ CMPlugin::CMPlugin() :
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
+static int OnModuleLoad(WPARAM, LPARAM)
+{
+	g_plugin.hasVariables = ServiceExists(MS_VARS_FORMATSTRING);
+	return 0;
+}
+
 static int PreShutdown(WPARAM, LPARAM)
 {
 	mir_free(dictionariesFolder);
@@ -73,8 +85,6 @@ static int PreShutdown(WPARAM, LPARAM)
 // Called when all the modules are loaded
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	variables_enabled = ServiceExists(MS_VARS_FORMATSTRING);
-
 	// Folders plugin support
 	if (hDictionariesFolder = FoldersRegisterCustomPathW(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER)) {
 		dictionariesFolder = (wchar_t *)mir_alloc(sizeof(wchar_t) * MAX_PATH);
@@ -159,6 +169,10 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_MSG_WINDOWPOPUP, MsgWindowPopup);
 	HookEvent(ME_MSG_ICONPRESSED, IconPressed);
 
+	HookEvent(ME_SYSTEM_MODULELOAD, OnModuleLoad);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnModuleLoad);
+	OnModuleLoad(0, 0);
+
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME;
 	sid.hIconDisabled = IcoLib_GetIcon("spellchecker_disabled");
@@ -168,9 +182,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		sid.dwId = i;
 
 		wchar_t tmp[128];
-		mir_snwprintf(tmp, L"%s - %s", TranslateT("Spell Checker"), languages[i]->full_name);
+		mir_snwprintf(tmp, L"%s - %s", TranslateT("Spell Checker"), languages[i].full_name);
 		sid.szTooltip.w = tmp;
-		sid.hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i]->hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
+		sid.hIcon = (opts.use_flags) ? IcoLib_GetIconByHandle(languages[i].hIcolib) : IcoLib_GetIcon("spellchecker_enabled");
 		Srmm_AddIcon(&sid, &g_plugin);
 	}
 
@@ -189,6 +203,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+static bool bComInited = false;
+
 static IconItem iconList[] =
 {
 	{ LPGEN("Enabled"), "spellchecker_enabled", IDI_CHECK },
@@ -196,8 +212,34 @@ static IconItem iconList[] =
 	{ LPGEN("Unknown"), "spellchecker_unknown", IDI_UNKNOWN_FLAG }
 };
 
+static BOOL CALLBACK EnumLocalesProc(LPWSTR lpLocaleString)
+{
+	wchar_t *stopped = nullptr;
+	USHORT langID = (USHORT)wcstol(lpLocaleString, &stopped, 16);
+
+	wchar_t ini[32];
+	wchar_t end[32];
+	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO639LANGNAME, ini, _countof(ini));
+	GetLocaleInfo(MAKELCID(langID, 0), LOCALE_SISO3166CTRYNAME, end, _countof(end));
+
+	wchar_t name[64];
+	mir_snwprintf(name, L"%s_%s", ini, end);
+	g_plugin.locales[name] = langID;
+	return TRUE;
+}
+
 int CMPlugin::Load()
 {
+	bComInited = SUCCEEDED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED));
+	if (bComInited) {
+		if (FAILED(m_spellFactory.CoCreateInstance(__uuidof(SpellCheckerFactory), nullptr, CLSCTX_INPROC_SERVER))) {
+			bComInited = false;
+			CoUninitialize();
+		}
+	}
+
+	EnumSystemLocalesW(EnumLocalesProc, LCID_SUPPORTED);
+
 	// icons
 	g_plugin.registerIcon(LPGEN("Spell Checker"), iconList);
 
@@ -224,7 +266,9 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	DeleteObject(hCheckedBmp);
-	FreeDictionaries(languages);
+	languages.destroy();
 
+	if (bComInited)
+		CoUninitialize();
 	return 0;
 }

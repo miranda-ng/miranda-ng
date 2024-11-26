@@ -841,7 +841,8 @@ void InitTray(void)
 	fTrayInited = true;
 
 	if (IsWinVer7Plus())
-		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
+		if (FAILED(CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface)))
+			pTaskbarInterface = nullptr;
 }
 
 void UninitTray(void)

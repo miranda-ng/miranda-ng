@@ -181,7 +181,7 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OLD_PS), FALSE);
 			}
 
-			if (!variables_enabled) {
+			if (!g_plugin.hasVariables) {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_VARIABLES), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_VAR_HELP), FALSE);
 

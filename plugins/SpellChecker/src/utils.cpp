@@ -142,7 +142,7 @@ int FindURLEnd(Dialog *dlg, wchar_t *text, int start_pos, int *checked_until = n
 }
 
 
-int ReplaceWord(Dialog *dlg, CHARRANGE &sel, wchar_t *new_word)
+int ReplaceWord(Dialog *dlg, CHARRANGE &sel, const wchar_t *new_word)
 {
 	dlg->re->Stop();
 	dlg->re->ResumeUndo();
@@ -451,7 +451,7 @@ void LoadDictFromKbdl(Dialog *dlg)
 
 	int d = GetClosestLanguage(szKLName);
 	if (d >= 0) {
-		dlg->lang = languages[d];
+		dlg->lang = &languages[d];
 		dlg->lang->load();
 
 		if (dlg->srmm)
@@ -806,7 +806,7 @@ void GetContactLanguage(Dialog *dlg)
 	}
 
 	if (i >= 0) {
-		dlg->lang = languages[i];
+		dlg->lang = &languages[i];
 		dlg->lang->load();
 	}
 	else dlg->lang = nullptr;
@@ -815,7 +815,7 @@ void GetContactLanguage(Dialog *dlg)
 void ModifyIcon(Dialog *dlg)
 {
 	for (int i = 0; i < languages.getCount(); i++) {
-		if (languages[i] == dlg->lang)
+		if (&languages[i] == dlg->lang)
 			Srmm_SetIconFlags(dlg->hContact, MODULENAME, i, dlg->enabled ? 0 : MBF_DISABLED);
 		else
 			Srmm_SetIconFlags(dlg->hContact, MODULENAME, i, MBF_HIDDEN);
@@ -894,7 +894,7 @@ void FreePopupData(Dialog *dlg)
 			DESTROY_MENY((*dlg->wrong_words)[i].hCorrectSubMenu);
 			DESTROY_MENY((*dlg->wrong_words)[i].hReplaceSubMenu);
 
-			FreeSuggestions((*dlg->wrong_words)[i].suggestions);
+			(*dlg->wrong_words)[i].suggestions.clear();
 		}
 
 		delete dlg->wrong_words;
@@ -1048,19 +1048,20 @@ void AddMenuForWord(Dialog *dlg, const wchar_t *word, CHARRANGE &pos, HMENU hMen
 
 	data.hReplaceSubMenu = CreatePopupMenu();
 
-	InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + suggestions.count, TranslateT("Other..."));
-	if (suggestions.count > 0) {
+	int iCount = (int)suggestions.size();
+	InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + iCount, TranslateT("Other..."));
+	if (iCount > 0) {
 		InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
-		for (int i = (int)suggestions.count - 1; i >= 0; i--)
-			InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + i, suggestions.words[i]);
+		for (int i = iCount - 1; i >= 0; i--)
+			InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + i, suggestions[i].c_str());
 	}
 
 	AppendSubmenu(hMenu, data.hReplaceSubMenu, TranslateT("Always replace with"));
 
-	InsertMenu(hMenu, 0, MF_BYPOSITION, base + suggestions.count + 1, TranslateT("Ignore all"));
-	InsertMenu(hMenu, 0, MF_BYPOSITION, base + suggestions.count, TranslateT("Add to dictionary"));
+	InsertMenu(hMenu, 0, MF_BYPOSITION, base + iCount + 1, TranslateT("Ignore all"));
+	InsertMenu(hMenu, 0, MF_BYPOSITION, base + iCount, TranslateT("Add to dictionary"));
 
-	if (suggestions.count > 0) {
+	if (iCount > 0) {
 		HMENU hSubMenu;
 		if (opts.cascade_corrections) {
 			hSubMenu = data.hCorrectSubMenu = CreatePopupMenu();
@@ -1071,8 +1072,8 @@ void AddMenuForWord(Dialog *dlg, const wchar_t *word, CHARRANGE &pos, HMENU hMen
 			hSubMenu = hMenu;
 		}
 
-		for (int i = (int)suggestions.count - 1; i >= 0; i--)
-			InsertMenu(hSubMenu, 0, MF_BYPOSITION, base + i, suggestions.words[i]);
+		for (int i = iCount - 1; i >= 0; i--)
+			InsertMenu(hSubMenu, 0, MF_BYPOSITION, base + i, suggestions[i].c_str());
 	}
 
 	if (!in_submenu && opts.show_wrong_word) {
@@ -1119,8 +1120,8 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 
 		// First add languages
 		for (int i = 0; i < languages.getCount(); i++)
-			AppendMenu(dlg->hLanguageSubMenu, MF_STRING | (languages[i] == dlg->lang ? MF_CHECKED : 0),
-			LANGUAGE_MENU_ID_BASE + i, languages[i]->full_name);
+			AppendMenu(dlg->hLanguageSubMenu, MF_STRING | (&languages[i] == dlg->lang ? MF_CHECKED : 0),
+			LANGUAGE_MENU_ID_BASE + i, languages[i].full_name);
 
 		AppendSubmenu(hMenu, dlg->hLanguageSubMenu, TranslateT("Language"));
 	}
@@ -1150,7 +1151,6 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 	}
 }
 
-
 static void AddWordToDictCallback(BOOL canceled, Dictionary *dict,
 	const wchar_t *find, const wchar_t *replace, BOOL useVariables,
 	const wchar_t *, void *param)
@@ -1165,8 +1165,7 @@ static void AddWordToDictCallback(BOOL canceled, Dictionary *dict,
 		PostMessage(hwndParent, WMU_DICT_CHANGED, 0, 0);
 }
 
-
-BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
+BOOL HandleMenuSelection(Dialog *dlg, int selection)
 {
 	BOOL ret = FALSE;
 
@@ -1174,13 +1173,13 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 		ToggleEnabled(dlg);
 		ret = TRUE;
 	}
-	else if (selection >= LANGUAGE_MENU_ID_BASE && selection < LANGUAGE_MENU_ID_BASE + (unsigned)languages.getCount()) {
+	else if (selection >= LANGUAGE_MENU_ID_BASE && selection < LANGUAGE_MENU_ID_BASE + languages.getCount()) {
 		SetNoUnderline(dlg);
 
 		if (dlg->hContact == 0)
-			g_plugin.setWString(dlg->name, languages[selection - LANGUAGE_MENU_ID_BASE]->language);
+			g_plugin.setWString(dlg->name, languages[selection - LANGUAGE_MENU_ID_BASE].language);
 		else
-			g_plugin.setWString(dlg->hContact, "TalkLanguage", languages[selection - LANGUAGE_MENU_ID_BASE]->language);
+			g_plugin.setWString(dlg->hContact, "TalkLanguage", languages[selection - LANGUAGE_MENU_ID_BASE].language);
 
 		GetContactLanguage(dlg);
 
@@ -1189,38 +1188,37 @@ BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 
 		ret = TRUE;
 	}
-	else if (selection > 0 && dlg->wrong_words != nullptr
-				&& selection >= WORD_MENU_ID_BASE
-				&& selection < (dlg->wrong_words->size() + 1) * WORD_MENU_ID_BASE) {
+	else if (selection > 0 && dlg->wrong_words != nullptr && selection >= WORD_MENU_ID_BASE && selection < (dlg->wrong_words->size() + 1) * WORD_MENU_ID_BASE) {
 		int pos = selection / WORD_MENU_ID_BASE;
 		selection -= pos * WORD_MENU_ID_BASE;
 		pos--; // 0 based
 		WrongWordPopupMenuData &data = (*dlg->wrong_words)[pos];
 
-		if (selection < data.suggestions.count) {
+		int iCount = (int)data.suggestions.size();
+		if (selection < iCount) {
 			// TODO Assert that text hasn't changed
-			ReplaceWord(dlg, data.pos, data.suggestions.words[selection]);
+			ReplaceWord(dlg, data.pos, data.suggestions[selection].c_str());
 			ret = TRUE;
 		}
-		else if (selection == data.suggestions.count) {
+		else if (selection == iCount) {
 			dlg->lang->addWord(data.word);
 			ret = TRUE;
 		}
-		else if (selection == data.suggestions.count + 1) {
+		else if (selection == iCount + 1) {
 			dlg->lang->ignoreWord(data.word);
 			ret = TRUE;
 		}
-		else if (selection >= AUTOREPLACE_MENU_ID_BASE && selection < AUTOREPLACE_MENU_ID_BASE + data.suggestions.count + 1) {
+		else if (selection >= AUTOREPLACE_MENU_ID_BASE && selection < AUTOREPLACE_MENU_ID_BASE + iCount + 1) {
 			selection -= AUTOREPLACE_MENU_ID_BASE;
-			if (selection == data.suggestions.count) {
+			if (selection == iCount) {
 				ShowAutoReplaceDialog(dlg->hwnd_owner != nullptr ? dlg->hwnd_owner : dlg->hwnd, FALSE,
-											 dlg->lang, data.word, nullptr, FALSE,
-											 TRUE, &AddWordToDictCallback, dlg->hwnd);
+					dlg->lang, data.word, nullptr, FALSE,
+					TRUE, &AddWordToDictCallback, dlg->hwnd);
 			}
 			else {
 				// TODO Assert that text hasn't changed
-				ReplaceWord(dlg, data.pos, data.suggestions.words[selection]);
-				dlg->lang->autoReplace->add(data.word, data.suggestions.words[selection]);
+				ReplaceWord(dlg, data.pos, data.suggestions[selection].c_str());
+				dlg->lang->autoReplace->add(data.word, data.suggestions[selection].c_str());
 				ret = TRUE;
 			}
 		}
@@ -1357,7 +1355,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 
 			// First add languages
 			for (int i = 0; i < languages.getCount(); i++)
-				AppendMenu(hMenu, MF_STRING | (languages[i] == dlg->lang ? MF_CHECKED : 0), LANGUAGE_MENU_ID_BASE + i, languages[i]->full_name);
+				AppendMenu(hMenu, MF_STRING | (&languages[i] == dlg->lang ? MF_CHECKED : 0), LANGUAGE_MENU_ID_BASE + i, languages[i].full_name);
 
 			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
 		}
@@ -1412,12 +1410,12 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			int pos = lpdis->itemID - LANGUAGE_MENU_ID_BASE;
 
-			Dictionary *dict = languages[pos];
+			Dictionary *dict = &languages[pos];
 
 			COLORREF clrfore = SetTextColor(lpdis->hDC,
-													  GetSysColor(lpdis->itemState & ODS_SELECTED ? COLOR_HIGHLIGHTTEXT : COLOR_MENUTEXT));
+				GetSysColor(lpdis->itemState & ODS_SELECTED ? COLOR_HIGHLIGHTTEXT : COLOR_MENUTEXT));
 			COLORREF clrback = SetBkColor(lpdis->hDC,
-													GetSysColor(lpdis->itemState & ODS_SELECTED ? COLOR_HIGHLIGHT : COLOR_MENU));
+				GetSysColor(lpdis->itemState & ODS_SELECTED ? COLOR_HIGHLIGHT : COLOR_MENU));
 
 			FillRect(lpdis->hDC, &lpdis->rcItem, GetSysColorBrush(lpdis->itemState & ODS_SELECTED ? COLOR_HIGHLIGHT : COLOR_MENU));
 
@@ -1476,7 +1474,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		int pos = lpmis->itemID - LANGUAGE_MENU_ID_BASE;
 
-		Dictionary *dict = languages[pos];
+		Dictionary *dict = &languages[pos];
 
 		HDC hdc = GetDC(hwnd);
 

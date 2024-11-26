@@ -21,48 +21,45 @@ Boston, MA 02111-1307, USA.
 #ifndef __DICTIONARY_H__
 # define __DICTIONARY_H__
 
-
-struct Suggestions {
-	wchar_t ** words;
-	size_t count;
-};
-
+typedef std::vector<std::wstring> Suggestions;
 
 // A Dictionary interface
 // All dictionaries use a lazy interface
-class Dictionary {
-public:
+struct Dictionary
+{
 	wchar_t language[128];
 	wchar_t localized_name[128];
 	wchar_t english_name[128];
 	wchar_t full_name[256];
 	wchar_t source[128];
-	AutoReplaceMap *autoReplace;
+	AutoReplaceMap *autoReplace = 0;
 	HANDLE hIcolib;
 
 	virtual ~Dictionary();
 
+	void GetInfo();
+
 	// Return TRUE if the word is correct
-	virtual BOOL spell(const wchar_t *) = 0;
+	virtual BOOL spell(const wchar_t *word) = 0;
 
 	// Return a list of suggestions to a word
-	virtual Suggestions suggest(const wchar_t * word) = 0;
+	virtual Suggestions suggest(const wchar_t *word) = 0;
 
 	// Return a list of auto suggestions to a word
-	virtual Suggestions autoSuggest(const wchar_t * word) = 0;
+	virtual Suggestions autoSuggest(const wchar_t *word) = 0;
 
 	// Return a auto suggestions to a word
 	// You have to free the item
-	virtual wchar_t * autoSuggestOne(const wchar_t * word) = 0;
+	virtual wchar_t* autoSuggestOne(const wchar_t *word) = 0;
 
 	// Return TRUE if the char is a word char
 	virtual BOOL isWordChar(wchar_t c) = 0;
 
 	// Add a word to the user custom dict
-	virtual void addWord(const wchar_t * word) = 0;
+	virtual void addWord(const wchar_t *word) = 0;
 
 	// Add a word to the list of ignored words
-	virtual void ignoreWord(const wchar_t * word) = 0;
+	virtual void ignoreWord(const wchar_t *word) = 0;
 
 	// Assert that all needed data is loaded
 	virtual void load() = 0;
@@ -71,17 +68,7 @@ public:
 	virtual BOOL isLoaded() = 0;
 };
 
-
-
 // Return a list of avaible languages
-void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *user_path);
-
-// Free the list returned by GetAvaibleDictionaries
-void FreeDictionaries(LIST<Dictionary> &dicts);
-
-// Free the list returned by GetAvaibleDictionaries
-void FreeSuggestions(Suggestions &suggestions);
-
-
+void GetAvaibleDictionaries(OBJLIST<Dictionary> &dicts, wchar_t *path, wchar_t *user_path);
 	
 #endif // __DICTIONARY_H__
