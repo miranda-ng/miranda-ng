@@ -33,8 +33,9 @@ struct Dictionary
 	wchar_t full_name[256];
 	wchar_t source[128];
 	AutoReplaceMap *autoReplace = 0;
-	HANDLE hIcolib;
+	HANDLE hIcolib = 0;
 
+	Dictionary(const wchar_t *aLanguage, const wchar_t *aSource);
 	virtual ~Dictionary();
 
 	void GetInfo();
