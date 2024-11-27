@@ -107,7 +107,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	HANDLE m_log;
 	HBRUSH hBackBrush;
 
-	FIBITMAP *m_pNoImage;
+	Bitmap *m_pNoImage;
 	ULONG_PTR m_gdiplusToken;
 
 	CMOption<bool> bOptVScroll, bSortAscending;
