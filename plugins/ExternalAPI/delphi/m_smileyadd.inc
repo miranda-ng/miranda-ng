@@ -111,16 +111,4 @@ const
 // Code of WM_NOTIFY message (code)
   NM_FIREVIEWCHANGE =  NM_FIRST+1;
 
-type
-  TSMADD_CONT = record
-    hContact:TMCONTACT;
-    _type   :int;       // 0 - directory, 1 - file;
-    path    :TChar;     // smiley category name for reference
-  end;
-const
-//Loads all smileys for the contact
-//wParam = (WPARAM) 0; not used
-//lParam = (LPARAM) (SMADD_CONT*) &dir;  // pointer to directory to load smiley from
-  MS_SMILEYADD_LOADCONTACTSMILEYS:PAnsiChar = 'SmileyAdd/LoadContactSmileys';
-
 {$ENDIF}
