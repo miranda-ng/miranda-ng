@@ -51,26 +51,6 @@ struct SMADD_RICHEDIT
 #define MS_SMILEYADD_REPLACESMILEYS  "SmileyAdd/ReplaceSmileys"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// gets button smiley icon
-// wParam = (WPARAM) 0; not used
-// lParam = (LPARAM) (SMADD_INFO2*) &smgi;  //pointer to SMADD_INFO2
-// return: TRUE if API succeeded (all parameters were valid) , FALSE if not.
-
-struct SMADD_INFO
-{
-	char *Protocolname;
-	HICON ButtonIcon;           // RETURN VALUE: this is filled with the icon handle
-	                            // of the smiley that can be used on the button
-	                            // if used with GETINFO2 handle must be destroyed by user!
-	                            // NULL if the buttonicon is not defined...
-	int NumberOfVisibleSmileys; // Number of visible smileys defined.
-	int NumberOfSmileys;        // Number of total smileys defined
-};
-
-#define MS_SMILEYADD_GETINFO "SmileyAdd/GetInfo"
-#define MS_SMILEYADD_GETINFO2 "SmileyAdd/GetInfo2"
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Event notifies that SmileyAdd options have changed 
 // Message dialogs usually need to redraw it's content on reception of this event
 // wParam = Contact handle which options have changed, NULL if global options changed
