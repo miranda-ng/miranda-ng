@@ -3364,9 +3364,6 @@ begin
 
     if iObject.QueryInterface(IID_ITooltipData, iTooltipCtrl) = S_OK then
       OleCheck(iTooltipCtrl.GetTooltip(ObjectHint))
-    else if Supports(iObject, IID_IGifSmileyCtrl)   then ObjectHint := TranslateW('Running version of AniSmiley is not supported')
-    else if Supports(iObject, IID_ISmileyAddSmiley) then ObjectHint := TranslateW('Running version of SmileyAdd is not supported')
-    else if Supports(iObject, IID_IEmoticonsImage)  then ObjectHint := TranslateW('Running version of Emoticons is not supported')
     else
       break;
     if ObjectHint = '' then
@@ -4044,21 +4041,6 @@ begin
       if not IsRectEmpty(smRect) then
         InvalidateRect(Handle, @smRect, False);
     end
-    else if (nmh.bEvent = FVCN_GETINFO) and (nmh.bAction = FVCA_NONE) then
-    begin
-      RichItem := FRichCache.GetItemByHandle(Message.nmhdr^.hwndFrom);
-      if not Assigned(RichItem) then
-        exit;
-      if (RichItem.GridItem = -1) or (RichItem.GridItem = FItemInline) then
-        exit;
-      if not RichItem.BitmapDrawn then
-        exit;
-      // if (State = gsIdle) or (State = gsInline) then
-      nmh.bAction := FVCA_INFO;
-      nmh.rcRect := GetRichEditRect(RichItem.GridItem, True);
-      nmh.clrBackground := RichItem.Bitmap.TransparentColor;
-      nmh.fTransparent := False;
-    end;
   end
   else
 {$ENDIF}
