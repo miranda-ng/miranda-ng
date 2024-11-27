@@ -502,15 +502,20 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 		lastMsgId = dbei2id(dbei);
 	}
 
+	auto userId = GetId(hContact);
+
 	if (TD::int53 threadId = GetId(hContact, DBKEY_THREAD)) {
-		auto chatId = GetId(hContact);
-		auto *pUser = new TG_USER(-1, hContact, true);
-		pUser->chatId = chatId;
-		pUser->isForum = pUser->isGroupChat = true;
-		pUser->nHistoryChunks = 5;
-		SendQuery(new TD::getMessageThreadHistory(chatId, lastMsgId, lastMsgId, 0, 100), &CTelegramProto::OnGetHistory, pUser);
+		if (FindChat(userId)) {
+			auto *pUser = new TG_USER(-1, hContact, true);
+			pUser->chatId = userId;
+			pUser->isForum = pUser->isGroupChat = true;
+			pUser->nHistoryChunks = 5;
+			SendQuery(new TD::getMessageThreadHistory(pUser->chatId, lastMsgId, lastMsgId, 0, 100), &CTelegramProto::OnGetHistory, pUser);
+			return 0;
+		}
 	}
-	else if (auto *pUser = FindUser(GetId(hContact))) {
+	
+	if (auto *pUser = FindUser(userId)) {
 		pUser->nHistoryChunks = 5;
 		SendQuery(new TD::getChatHistory(pUser->chatId, lastMsgId, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
 	}
