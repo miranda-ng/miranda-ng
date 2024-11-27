@@ -24,6 +24,7 @@
 #include <Shlobj.h>
 #include <shellapi.h>
 
+#include <algorithm>
 #include <map>
 #include <unordered_set>
 #include <vector>
