@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -24,6 +24,7 @@
 [Show event type]
 [Show event direction]
 [Show picture preview]
+[Maximum preview height (in pixels)]
 [Template list:]
 [Edit template:]
 [Graphic preview:]

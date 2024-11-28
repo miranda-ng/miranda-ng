@@ -512,9 +512,10 @@
 [Are you sure?]
 [Incoming note]
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Unknown device added]
+[Unknown OMEMO device added!]
+[(My devices)]
+[Trust on first use for\n%d devices]
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
-[Trust on first use]
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 [Abkhazian]
@@ -730,6 +731,7 @@
 [Server options]
 [Use Stream Management (XEP-0198)]
 [Disable SASL authentication (for old servers)]
+[Enable SASL2 authentication, if present]
 [Enable stream compression]
 [Other]
 [Enable remote controlling (from another resource of same JID only)]
