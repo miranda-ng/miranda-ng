@@ -310,8 +310,13 @@ void CMPlugin::LoadColumn(int n, ColumnItem &col)
 
 	strcpy(buf + offset, so_title); col.title = getWStringA(buf);
 	strcpy(buf + offset, so_setting_type); col.setting_type = getWord(buf);
-	strcpy(buf + offset, so_flags); col.dwFlags = getWord(buf);
 	strcpy(buf + offset, so_width); col.width = getWord(buf);
+
+	strcpy(buf + offset, so_flags);
+	uint16_t wFlags = getWord(buf);
+	col.bEnabled = (wFlags & 1) != 0;
+	col.bFilter = (wFlags & 4) != 0;
+	col.SetSpecialColumns();
 
 	switch (col.setting_type) {
 	case QST_SETTING:
