@@ -129,11 +129,6 @@ void UnregisterCustomIcons();
 int  OnOptInitialise(WPARAM wParam, LPARAM lParam);
 int  OnExtraImageApply(WPARAM wParam, LPARAM lParam);
 
-HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop);
-HBITMAP __inline CreateBitmap32(int cx, int cy);
-HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits);
-HANDLE __fastcall GetIconIndexFromFI(LPTSTR szMirVer);
-
 BOOL __fastcall WildCompare(LPWSTR name, LPWSTR mask);
 
 void RegisterIcons();
