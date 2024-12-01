@@ -104,7 +104,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	}
 	else flagsDllFolder = Utils_ReplaceVarsW(FLAGS_DLL_FOLDER);
 
-	GetNativeDictionaries(languages);
+	if (bComInited)
+		GetNativeDictionaries(languages);
 	GetAvaibleDictionaries(languages, dictionariesFolder, customDictionariesFolder);
 
 	LoadOptions();
