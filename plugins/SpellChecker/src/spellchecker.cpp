@@ -37,6 +37,8 @@ BITMAP bmpChecked;
 
 BOOL loaded = FALSE;
 
+static bool bComInited = false;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int CompareDicts(const Dictionary *p1, const Dictionary *p2)
@@ -204,8 +206,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-
-static bool bComInited = false;
 
 static IconItem iconList[] =
 {
