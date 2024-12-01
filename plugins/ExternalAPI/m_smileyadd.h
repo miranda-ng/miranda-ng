@@ -213,6 +213,7 @@ void __forceinline SmileyAdd_LoadContactSmileys(int type, const char *pszModule,
 
 struct SMADD_SELECTSMILEY
 {
+	const char *pszProto;   // protocol module or NULL for emoji
 	const char *pszSmileys; // list of smileys or zero to display all pack
 	int xPosition;
 	int yPosition;

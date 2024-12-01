@@ -326,14 +326,18 @@ static INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 static INT_PTR SelectSmiley(WPARAM, LPARAM lParam)
 {
 	auto *pParam = (SMADD_SELECTSMILEY *)lParam;
-	if (pParam == nullptr || !g_pEmoji)
+	if (pParam == nullptr)
 		return 1;
+
+	auto *sml = (pParam->pszProto) ? FindSmileyPack(pParam->pszProto) : g_pEmoji;
+	if (sml == nullptr)
+		return 2;
 
 	SmileyPackType *pPack;
 	if (pParam->pszSmileys) {
 		ptrW pText(mir_utf8decodeW(pParam->pszSmileys));
 		pPack = new SmileyPackType();
-		auto &pList = g_pEmoji->GetSmileyList();
+		auto &pList = sml->GetSmileyList();
 
 		for (auto *p = wcstok(pText, L" "); p; p = wcstok(0, L" ")) {
 			for (auto &it : pList) {
@@ -344,7 +348,7 @@ static INT_PTR SelectSmiley(WPARAM, LPARAM lParam)
 			}
 		}
 	}
-	else pPack = new SmileyPackType(*g_pEmoji);
+	else pPack = new SmileyPackType(*sml);
 
 	SmileyToolWindowParam *stwp = new SmileyToolWindowParam;
 	stwp->pSmileyPack = pPack;
