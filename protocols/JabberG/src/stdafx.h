@@ -383,8 +383,7 @@ struct ThreadData
 
 	char*    gssapiHostName;
 	
-	class TJabberAuth *m_saslUpgrade;
-	ptrA     saslInitData;
+	class TUpgradeTask *m_saslUpgrade;
 
 	CJabberIqInfo *pPendingQuery;
 	JabberCapsBits jabberServerCaps;

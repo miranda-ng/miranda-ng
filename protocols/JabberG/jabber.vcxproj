@@ -34,6 +34,7 @@
     <ClCompile Include="src\jabber_agent.cpp" />
     <ClCompile Include="src\jabber_api.cpp" />
     <ClCompile Include="src\jabber_archive.cpp" />
+    <ClCompile Include="src\jabber_auth.cpp" />
     <ClCompile Include="src\jabber_bookmarks.cpp" />
     <ClCompile Include="src\jabber_byte.cpp" />
     <ClCompile Include="src\jabber_caps.cpp" />
@@ -70,7 +71,6 @@
     <ClCompile Include="src\jabber_roster.cpp" />
     <ClCompile Include="src\jabber_sasl2.cpp" />
     <ClCompile Include="src\jabber_search.cpp" />
-    <ClCompile Include="src\jabber_auth.cpp" />
     <ClCompile Include="src\jabber_send_manager.cpp" />
     <ClCompile Include="src\jabber_strm_mgmt.cpp" />
     <ClCompile Include="src\jabber_svc.cpp" />

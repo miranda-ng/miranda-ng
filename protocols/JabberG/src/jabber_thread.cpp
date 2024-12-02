@@ -709,8 +709,8 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 						// dunno why we need to handle that
 					}
 				}
-				else if (!mir_strcmp(c->Name(), "upgrade") && c->Attribute("xmlns", "urn:xmpp:sasl:upgrade:0"))
-					OnProcessUpgrade(c, info);
+				// else if (!mir_strcmp(c->Name(), "upgrade") && c->Attribute("xmlns", "urn:xmpp:sasl:upgrade:0"))
+				//	OnProcessUpgrade(c, info);
 			}
 		}
 		else if (!mir_strcmp(pszName, "session"))

@@ -57,13 +57,18 @@ static int compareAuth(const TJabberAuth *p1, const TJabberAuth *p2)
 	return p2->getPriority() - p1->getPriority(); // reverse sorting order
 }
 
+static int compareTasks(const TUpgradeTask *p1, const TUpgradeTask *p2)
+{
+	return p2->getPriority() - p1->getPriority(); // reverse sorting order
+}
+
 CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	PROTO<CJabberProto>(aProtoName, aUserName),
 	m_impl(*this),
 	m_omemo(this),
 	m_arChatMarks(50, NumericKeySortT),
 	m_arAuthMechs(1, compareAuth),
-	m_arSaslUpgrade(1, compareAuth),
+	m_arSaslUpgrade(1, compareTasks),
 	m_lstTransports(50, compareTransports),
 	m_lstRoster(50, compareListItems),
 	m_iqManager(this),

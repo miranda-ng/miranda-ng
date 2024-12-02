@@ -108,6 +108,36 @@ public:
 	}
 };
 
+class TUpgradeTask : public MZeroedObject
+{
+protected:
+	ptrA szName, szInitData;
+	ThreadData *info;
+	int priority;
+
+public:
+	TUpgradeTask(ThreadData *pInfo, const char *pszMech) :
+		info(pInfo),
+		szName(mir_strdup(pszMech))
+	{}
+
+	virtual ~TUpgradeTask() {}
+
+	__forceinline const char *getName() const {
+		return szName;
+	}
+
+	__forceinline int getPriority() const {
+		return priority;
+	}
+
+	void setInitData(const char *pszData) {
+		szInitData = mir_strdup(pszData);
+	}
+
+	virtual bool perform(const TiXmlElement *src, TiXmlElement *dest) = 0;
+};
+
 struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 {
 	friend struct ThreadData;
@@ -859,11 +889,11 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       SearchDeleteFromRecent(const char *szAddr, bool deleteLastFromDB);
 	void       SearchAddToRecent(const char *szAddr, HWND hwndDialog = nullptr);
 
-	//---- jabber_secur.cpp --------------------------------------------------------------
+	//---- jabber_auth.cpp ---------------------------------------------------------------
 
-	OBJLIST<TJabberAuth> m_arSaslUpgrade;
 	OBJLIST<TJabberAuth> m_arAuthMechs;
 
+	OBJLIST<TUpgradeTask> m_arSaslUpgrade;
 	bool       OnProcessMechanism(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessUpgrade(const TiXmlElement *node, ThreadData *info);
 

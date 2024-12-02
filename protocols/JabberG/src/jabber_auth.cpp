@@ -241,6 +241,24 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // SCRAM-SHA-1 authorization
 
+void Hi(const EVP_MD *hashMethod, uint8_t *res, char *passw, size_t passwLen, char *salt, size_t saltLen, int iterations)
+{
+	size_t bufLen = saltLen + sizeof(UINT32);
+	uint8_t *u = (uint8_t *)_alloca(max(bufLen, EVP_MAX_MD_SIZE));
+	memcpy(u, salt, saltLen); *(UINT32 *)(u + saltLen) = htonl(1);
+
+	memset(res, 0, EVP_MAX_MD_SIZE);
+
+	for (int i = 0; i < iterations; i++) {
+		unsigned int len;
+		HMAC(hashMethod, (uint8_t *)passw, (unsigned)passwLen, u, (unsigned)bufLen, u, &len);
+		bufLen = EVP_MD_size(hashMethod);
+
+		for (size_t j = 0; j < bufLen; j++)
+			res[j] ^= u[j];
+	}
+}
+
 class TScramAuth : public TJabberAuth
 {
 	typedef TJabberAuth CSuper;
@@ -294,7 +312,7 @@ public:
 	{
 		size_t chlLen, saltLen = 0;
 		ptrA snonce, salt;
-		int ind = -1;
+		int iterations = -1;
 
 		ptrA chl((char *)mir_base64_decode(challenge, &chlLen)), cbd;
 		if (bindData.isEmpty())
@@ -313,16 +331,16 @@ public:
 			else if (*p == 's' && p[1] == '=') // salt
 				salt = (char *)mir_base64_decode(p + 2, &saltLen);
 			else if (*p == 'i' && p[1] == '=')
-				ind = atoi(p + 2);
+				iterations = atoi(p + 2);
 		}
 
-		if (snonce == nullptr || salt == nullptr || ind == -1)
+		if (snonce == nullptr || salt == nullptr || iterations == -1)
 			return nullptr;
 
 		int hashSize = EVP_MD_size(hashMethod);
 
 		uint8_t saltedPassw[EVP_MAX_MD_SIZE];
-		Hi(saltedPassw, info->conn.password, mir_strlen(info->conn.password), salt, saltLen, ind);
+		Hi(hashMethod, saltedPassw, info->conn.password, mir_strlen(info->conn.password), salt, saltLen, iterations);
 
 		uint8_t clientKey[EVP_MAX_MD_SIZE];
 		unsigned int len;
@@ -363,24 +381,6 @@ public:
 		size_t chlLen;
 		ptrA chl((char *)mir_base64_decode(challenge, &chlLen));
 		return chl && strncmp((char *)chl + 2, serverSignature, chlLen - 2) == 0;
-	}
-
-	void Hi(uint8_t *res, char *passw, size_t passwLen, char *salt, size_t saltLen, int iterations)
-	{
-		size_t bufLen = saltLen + sizeof(UINT32);
-		uint8_t *u = (uint8_t *)_alloca(max(bufLen, EVP_MAX_MD_SIZE));
-		memcpy(u, salt, saltLen); *(UINT32 *)(u + saltLen) = htonl(1);
-
-		memset(res, 0, EVP_MAX_MD_SIZE);
-
-		for (int i = 0; i < iterations; i++) {
-			unsigned int len;
-			HMAC(hashMethod, (uint8_t *)passw, (unsigned)passwLen, u, (unsigned)bufLen, u, &len);
-			bufLen = EVP_MD_size(hashMethod);
-
-			for (size_t j = 0; j < bufLen; j++)
-				res[j] ^= u[j];
-		}
 	}
 };
 
