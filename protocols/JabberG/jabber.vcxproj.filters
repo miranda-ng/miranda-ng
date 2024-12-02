@@ -119,7 +119,7 @@
     <ClCompile Include="src\jabber_search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_secur.cpp">
+    <ClCompile Include="src\jabber_auth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\jabber_send_manager.cpp">

@@ -70,7 +70,7 @@
     <ClCompile Include="src\jabber_roster.cpp" />
     <ClCompile Include="src\jabber_sasl2.cpp" />
     <ClCompile Include="src\jabber_search.cpp" />
-    <ClCompile Include="src\jabber_secur.cpp" />
+    <ClCompile Include="src\jabber_auth.cpp" />
     <ClCompile Include="src\jabber_send_manager.cpp" />
     <ClCompile Include="src\jabber_strm_mgmt.cpp" />
     <ClCompile Include="src\jabber_svc.cpp" />
