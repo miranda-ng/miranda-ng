@@ -1422,9 +1422,9 @@ bool CJabberProto::OmemoHandleMessage(XmppMsg *msg, const TiXmlElement *node, co
 		msg->szMessage = result;
 		
 		if (trusted)
-			msg->dbei.flags = DBEF_STRONG;
+			msg->dbei.flags |= DBEF_STRONG;
 		if (isCarbon)
-			msg->dbei.flags = DBEF_SENT;
+			msg->dbei.flags |= DBEF_SENT;
 	}
 
 	return true;
