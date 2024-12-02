@@ -25,6 +25,61 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "jabber_secur.h"
 
+bool CJabberProto::OnProcessMechanism(const TiXmlElement *n, ThreadData *info)
+{
+	if (!mir_strcmp(n->Name(), "mechanism")) {
+		TJabberAuth *pAuth = nullptr;
+		const char *szMechanism = n->GetText();
+		if (!mir_strcmp(szMechanism, "PLAIN")) {
+			m_arAuthMechs.insert(new TPlainAuth(info, false));
+			pAuth = new TPlainAuth(info, true);
+		}
+		else if (!mir_strcmp(szMechanism, "DIGEST-MD5"))
+			pAuth = new TMD5Auth(info);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 500);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1-PLUS"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 601);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-224"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 510);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-224-PLUS"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 611);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 520);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256-PLUS"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 621);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-384"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 530);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-384-PLUS"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 631);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-512"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 540);
+		else if (!mir_strcmp(szMechanism, "SCRAM-SHA-512-PLUS"))
+			pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 641);
+		else if (!mir_strcmp(szMechanism, "NTLM") || !mir_strcmp(szMechanism, "GSS-SPNEGO") || !mir_strcmp(szMechanism, "GSSAPI"))
+			pAuth = new TNtlmAuth(info, szMechanism);
+		else {
+			debugLogA("Unsupported auth mechanism: %s, skipping", szMechanism);
+			return true;
+		}
+
+		if (!pAuth->isValid())
+			delete pAuth;
+		else
+			m_arAuthMechs.insert(pAuth);
+		return true;
+	}
+	
+	if (!mir_strcmp(n->Name(), "hostname")) {
+		const char *mech = XmlGetAttr(n, "mechanism");
+		if (mech && mir_strcmpi(mech, "GSSAPI") == 0)
+			info->gssapiHostName = mir_strdup(n->GetText());
+		return true;
+	}
+	
+	return false;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // ntlm auth - LanServer based authorization
 

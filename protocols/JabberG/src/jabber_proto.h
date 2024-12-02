@@ -203,6 +203,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bEnableMsgArchive;
 	CMOption<bool> m_bEnableMam;
 	CMOption<bool> m_bEnableRemoteControl;
+	CMOption<bool> m_bEnableSasl2;
 	CMOption<bool> m_bEnableStreamMgmt;
 	CMOption<bool> m_bEnableUserActivity;
 	CMOption<bool> m_bEnableUserMood;
@@ -816,7 +817,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	ptrW       m_savedPassword;
 
 	OBJLIST<class TJabberAuth> m_arAuthMechs;
-	bool       m_isSessionAvailable, m_isAuthAvailable;
+	bool       m_hasSession, m_hasAuth, m_hasSasl2;
 	
 	void       __cdecl ServerThread(JABBER_CONN_DATA *info);
 	bool       ServerThreadStub(ThreadData &info);
@@ -842,6 +843,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       PerformRegistration(ThreadData *info);
 	void       PerformIqAuth(ThreadData *info);
 	void       PerformAuthentication(ThreadData *info);
+	bool       OnProcessMechanism(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessFeatures(const TiXmlElement *node, ThreadData *info);
 		        
 	void       xmlStreamInitialize(char *which);

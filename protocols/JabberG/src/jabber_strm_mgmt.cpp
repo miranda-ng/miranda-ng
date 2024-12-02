@@ -52,7 +52,7 @@ void strm_mgmt::OnProcessEnabled(const TiXmlElement *node, ThreadData * /*info*/
 
 void strm_mgmt::OnProcessResumed(const TiXmlElement *node, ThreadData * /*info*/)
 {
-	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
+	if (mir_strcmp(XmlGetAttr(node, "xmlns"), JABBER_FEAT_SM))
 		return;
 
 	auto *var = XmlGetAttr(node, "previd");
@@ -74,7 +74,7 @@ void strm_mgmt::OnProcessResumed(const TiXmlElement *node, ThreadData * /*info*/
 
 void strm_mgmt::OnProcessSMa(const TiXmlElement *node)
 {
-	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
+	if (mir_strcmp(XmlGetAttr(node, "xmlns"), JABBER_FEAT_SM))
 		return;
 
 	if (!m_bRequestPending)
@@ -118,13 +118,13 @@ void strm_mgmt::ProcessCache(uint32_t nSrvHCount, bool resuming)
 
 void strm_mgmt::OnProcessSMr(const TiXmlElement *node)
 {
-	if (!mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
+	if (!mir_strcmp(XmlGetAttr(node, "xmlns"), JABBER_FEAT_SM))
 		SendAck();
 }
 
 void strm_mgmt::OnProcessFailed(const TiXmlElement *node, ThreadData *info) //used failed instead of failure, notes: https://xmpp.org/extensions/xep-0198.html#errors
 {
-	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
+	if (mir_strcmp(XmlGetAttr(node, "xmlns"), JABBER_FEAT_SM))
 		return;
 
 	proto->debugLogA("strm_mgmt: error: Failed to resume session %s", m_sResumeId.c_str());
@@ -147,11 +147,15 @@ void strm_mgmt::OnProcessFailed(const TiXmlElement *node, ThreadData *info) //us
 
 void strm_mgmt::CheckStreamFeatures(const TiXmlElement *node)
 {
+	// this may be necessary to reset counters if session resume id is not set
 	if (!IsResumeIdPresent())
-		ResetState(); //this may be necessary to reset counters if session resume id is not set
-	if (mir_strcmp(node->Name(), "sm") || !XmlGetAttr(node, "xmlns") || mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3")) //we work only with version 3 or higher of sm
+		ResetState();
+
+	// we work only with version 3 or higher of sm
+	if (mir_strcmp(node->Name(), "sm") || !XmlGetAttr(node, "xmlns") || mir_strcmp(XmlGetAttr(node, "xmlns"), JABBER_FEAT_SM))
 		return;
-	if (!(proto->m_bJabberOnline))
+
+	if (!proto->m_bJabberOnline)
 		m_bPendingEnable = true;
 	else
 		EnableStrmMgmt();
@@ -224,14 +228,14 @@ void strm_mgmt::EnableStrmMgmt()
 
 	if (m_sResumeId.empty()) {
 		XmlNode enable_sm("enable");
-		XmlAddAttr(enable_sm, "xmlns", "urn:xmpp:sm:3");
+		XmlAddAttr(enable_sm, "xmlns", JABBER_FEAT_SM);
 		XmlAddAttr(enable_sm, "resume", "true"); // enable resumption (most useful part of this xep)
 		proto->m_ThreadInfo->send(enable_sm);
 		m_nLocalSCount = 0;
 	}
 	else { // resume session
 		XmlNode enable_sm("resume");
-		enable_sm << XATTR("xmlns", "urn:xmpp:sm:3") << XATTRI("h", m_nLocalHCount) << XATTR("previd", m_sResumeId.c_str());
+		enable_sm << XATTR("xmlns", JABBER_FEAT_SM) << XATTRI("h", m_nLocalHCount) << XATTR("previd", m_sResumeId.c_str());
 		proto->m_ThreadInfo->send(enable_sm);
 	}
 }
@@ -243,7 +247,7 @@ void strm_mgmt::SendAck()
 
 	proto->debugLogA("strm_mgmt: info: sending ack: locally received node count %d", m_nLocalHCount);
 	XmlNode ack_node("a");
-	ack_node << XATTR("xmlns", "urn:xmpp:sm:3") << XATTRI("h", m_nLocalHCount);
+	ack_node << XATTR("xmlns", JABBER_FEAT_SM) << XATTRI("h", m_nLocalHCount);
 	proto->m_ThreadInfo->send_no_strm_mgmt(ack_node);
 }
 

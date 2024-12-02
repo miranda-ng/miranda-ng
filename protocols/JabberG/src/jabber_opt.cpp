@@ -741,6 +741,7 @@ public:
 
 		pOptions->AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198)"), m_proto->m_bEnableStreamMgmt);
 		pOptions->AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
+		pOptions->AddOption(LPGENW("Server options"), LPGENW("Enable SASL2 authentication, if present"), m_proto->m_bEnableSasl2);
 		pOptions->AddOption(LPGENW("Server options"), LPGENW("Enable stream compression"), m_proto->m_bEnableZlib);
 
 		pOptions->AddOption(LPGENW("Other"), LPGENW("Enable remote controlling (from another resource of same JID only)"), m_proto->m_bEnableRemoteControl);

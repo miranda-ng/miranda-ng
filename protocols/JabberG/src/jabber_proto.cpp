@@ -98,6 +98,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bEnableMam(this, "EnableMam", true),
 	m_bEnableMsgArchive(this, "EnableMsgArchive", false),
 	m_bEnableRemoteControl(this, "EnableRemoteControl", false),
+	m_bEnableSasl2(this, "EnableSasl2", true),
 	m_bEnableStreamMgmt(this, "UseStreamMgmt", false),
 	m_bEnableUserActivity(this, "EnableUserActivity", true),
 	m_bEnableUserMood(this, "EnableUserMood", true),

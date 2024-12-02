@@ -225,8 +225,11 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 	if (m_tszSelectedLang)
 		n << XATTR("xml:lang", m_tszSelectedLang);
 
-	if (!m_bDisable3920auth)
+	if (!m_bDisable3920auth) {
 		n << XATTR("version", "1.0");
+		if (m_bEnableSasl2)
+			n << XATTR("from", CMStringA(FORMAT, "%s@%s", info->conn.username, info->conn.server));
+	}
 
 	tinyxml2::XMLPrinter printer(0, true);
 	n.Print(&printer);
@@ -615,8 +618,8 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 	// no known mechanisms 
 	if (m_arAuthMechs.getCount() == 0) {
 		// if iq_auth is available, use it
-		if (m_isAuthAvailable) {
-			m_isAuthAvailable = false;
+		if (m_hasAuth) {
+			m_hasAuth = false;
 			PerformIqAuth(info);
 			return;
 		}
@@ -667,72 +670,45 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 			}
 		}
 
+		auto *xmlns = n->Attribute("xmlns");
 		if (!mir_strcmp(pszName, "mechanisms")) {
+			areMechanismsDefined = true;
 			m_arAuthMechs.destroy();
 			replaceStr(info->gssapiHostName, nullptr);
 
-			areMechanismsDefined = true;
-
-			for (auto *c : TiXmlEnum(n)) {
-				if (!mir_strcmp(c->Name(), "mechanism")) {
-					TJabberAuth *pAuth = nullptr;
-					const char *szMechanism = c->GetText();
-					if (!mir_strcmp(szMechanism, "PLAIN")) {
-						m_arAuthMechs.insert(new TPlainAuth(info, false));
-						pAuth = new TPlainAuth(info, true);
-					}
-					else if (!mir_strcmp(szMechanism, "DIGEST-MD5"))
-						pAuth = new TMD5Auth(info);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 500);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-1-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha1(), 601);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-224"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 510);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-224-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha224(), 611);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 520);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-256-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha256(), 621);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-384"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 530);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-384-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha384(), 631);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-512"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 540);
-					else if (!mir_strcmp(szMechanism, "SCRAM-SHA-512-PLUS"))
-						pAuth = new TScramAuth(info, szMechanism, EVP_sha512(), 641);
-					else if (!mir_strcmp(szMechanism, "NTLM") || !mir_strcmp(szMechanism, "GSS-SPNEGO") || !mir_strcmp(szMechanism, "GSSAPI"))
-						pAuth = new TNtlmAuth(info, szMechanism);
-					else {
-						debugLogA("Unsupported auth mechanism: %s, skipping", szMechanism);
-						continue;
-					}
-
-					if (!pAuth->isValid())
-						delete pAuth;
-					else
-						m_arAuthMechs.insert(pAuth);
-				}
-				else if (!mir_strcmp(c->Name(), "hostname")) {
-					const char *mech = XmlGetAttr(c, "mechanism");
-					if (mech && mir_strcmpi(mech, "GSSAPI") == 0)
-						info->gssapiHostName = mir_strdup(c->GetText());
-				}
-			}
+			for (auto *c : TiXmlEnum(n))
+				OnProcessMechanism(c, info);
 		}
 		else if (!mir_strcmp(pszName, "register"))
 			isRegisterAvailable = true;
 		else if (!mir_strcmp(pszName, "auth"))
-			m_isAuthAvailable = true;
+			m_hasAuth = true;
+		else if (!mir_strcmp(pszName, "authentication") && !mir_strcmp(xmlns, JABBER_FEAT_SASL2) && m_bEnableSasl2) {
+			m_hasSasl2 = areMechanismsDefined = true;
+			m_arAuthMechs.destroy();
+			replaceStr(info->gssapiHostName, nullptr);
+
+			for (auto *c : TiXmlEnum(n)) {
+				if (OnProcessMechanism(c, info))
+					continue;
+
+				if (!mir_strcmp(c->Name(), "inline")) {
+					if (auto *sm = XmlGetChildByTag(c, "sm", "xmlns", JABBER_FEAT_SM))
+						m_StrmMgmt.CheckStreamFeatures(sm);
+
+					if (auto *bind = XmlGetChildByTag(c, "sm", "xmlns", "urn:xmpp:bind:0")) {
+						// dunno why we need to handle that
+					}
+				}
+			}
+		}
 		else if (!mir_strcmp(pszName, "session"))
-			m_isSessionAvailable = true;
+			m_hasSession = true;
 		else if (m_bEnableStreamMgmt && !mir_strcmp(pszName, "sm"))
 			m_StrmMgmt.CheckStreamFeatures(n);
-		else if (!mir_strcmp(pszName, "csi") && n->Attribute("xmlns", JABBER_FEAT_CSI))
+		else if (!mir_strcmp(pszName, "csi") && !mir_strcmp(xmlns, JABBER_FEAT_CSI))
 			m_bCisAvailable = true;
-		else if (!mir_strcmp(pszName, "c") && !mir_strcmp(n->Attribute("xmlns"), JABBER_FEAT_ENTITY_CAPS)) {
+		else if (!mir_strcmp(pszName, "c") && !mir_strcmp(xmlns, JABBER_FEAT_ENTITY_CAPS)) {
 			auto *szNode = n->Attribute("node"), *szHash = n->Attribute("ver");
 			auto *pCaps = g_clientCapsManager.GetPartialCaps(szNode, szHash);
 			if (pCaps == nullptr) {
@@ -741,7 +717,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 			}
 			else info->jabberServerCaps |= pCaps->GetCaps();
 		}
-		else if (!mir_strcmp(pszName, "sasl-channel-binding") && !mir_strcmp(n->Attribute("xmlns"), JABBER_FEAT_CHANNEL_BINDING)) {
+		else if (!mir_strcmp(pszName, "sasl-channel-binding") && !mir_strcmp(xmlns, JABBER_FEAT_CHANNEL_BINDING)) {
 			for (auto *it : TiXmlFilter(n, "channel-binding")) {
 				if (auto *pszType = it->Attribute("type")) {
 					if (!mir_strcmp(pszType, "tls-exporter"))

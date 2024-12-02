@@ -1733,7 +1733,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		return; //failed to build signal(omemo) session
 	}
 
-	OmemoCheckSession((MCONTACT)IqInfo->GetUserData(), false);
+	OmemoCheckSession((UINT_PTR)IqInfo->GetUserData(), false);
 }
 
 int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact)

@@ -389,7 +389,7 @@ void CJabberProto::OnIqResultBind(const TiXmlElement *iqNode, CJabberIqInfo *pIn
 			}
 		}
 
-		if (m_isSessionAvailable) {
+		if (m_hasSession) {
 			m_ThreadInfo->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultSession, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS("session", "urn:ietf:params:xml:ns:xmpp-session"));
