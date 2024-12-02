@@ -183,7 +183,7 @@ static HOTKEYDESC srmmHotkeys[] = {
 	{ "srmm_italic",   LPGEN("Toggle italic formatting"),    BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'I'), 0, SRMM_HK_ITALIC },
 	{ "srmm_under",    LPGEN("Toggle underline formatting"), BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'U'), 0, SRMM_HK_UNDERLINE },
 	{ "srmm_color",    LPGEN("Toggle text color"),           BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'K'), 0, SRMM_HK_COLOR },
-	{ "srmm_bkcolor",  LPGEN("Toggle back color"),           BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'L'), 0, SRMM_HK_BKCOLOR },
+	{ "srmm_bkcolor",  LPGEN("Toggle background color"),     BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'L'), 0, SRMM_HK_BKCOLOR },
 	{ "srmm_clear",    LPGEN("Clear formatting"),            BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, VK_SPACE), 0, SRMM_HK_CLEAR },
 	{ "srmm_history",  LPGEN("Open history window"),         BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'H'), 0, SRMM_HK_HISTORY},
 	{ "srmm_filter",   LPGEN("Toggle filter"),               BB_HK_SECTION, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'F'), 0, SRMM_HK_FILTERTOGGLE },
