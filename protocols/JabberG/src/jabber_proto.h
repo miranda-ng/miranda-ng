@@ -100,7 +100,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 		void process();
 		void handle_mam();
 		void handle_carbon();
-		void handle_omemo();
+		bool handle_omemo();
 		void handle_chatstates();
 		void add_to_db();
 
@@ -762,7 +762,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_omemo.cpp --------------------------------------------------------------
 
-	bool       OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime, bool isCarbon);
+	bool       OmemoHandleMessage(XmppMsg *msg, const TiXmlElement *node, const char *jid, time_t msgTime, bool isCarbon);
 	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char *pszSrc);
 	void       OmemoHandleMessageQueue();
 	bool       OmemoHandleDeviceList(const char *from, const TiXmlElement *node);

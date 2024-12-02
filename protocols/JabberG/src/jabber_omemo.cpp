@@ -1255,7 +1255,7 @@ void CJabberProto::OmemoHandleMessageQueue()
 
 uint32_t JabberGetLastContactMessageTime(MCONTACT hContact);
 
-bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime, bool isCarbon)
+bool CJabberProto::OmemoHandleMessage(XmppMsg *msg, const TiXmlElement *node, const char *jid, time_t msgTime, bool isCarbon)
 {
 	auto *header_node = XmlFirstChild(node, "header");
 	if (!header_node) {
@@ -1418,14 +1418,13 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		db_event_add(hContact, &dbei);
 	}
 	else {
-		DB::EventInfo dbei;
-		dbei.timestamp = (uint32_t)msgTime;
-		dbei.pBlob = result.GetBuffer();
+		msg->msgTime = msgTime;
+		msg->szMessage = result;
+		
 		if (trusted)
-			dbei.flags = DBEF_STRONG;
+			msg->dbei.flags = DBEF_STRONG;
 		if (isCarbon)
-			dbei.flags = DBEF_SENT;
-		ProtoChainRecvMsg(hContact, dbei);
+			msg->dbei.flags = DBEF_SENT;
 	}
 
 	return true;

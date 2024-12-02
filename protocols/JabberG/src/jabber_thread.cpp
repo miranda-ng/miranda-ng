@@ -1031,9 +1031,8 @@ time_t CJabberProto::XmppMsg::extract_timestamp()
 }
 void CJabberProto::XmppMsg::handle_mam()
 {
-	dbei.flags |= DBEF_READ;
-	
 	if (auto* mamResult = XmlGetChildByTag(node, "result", "xmlns", JABBER_FEAT_MAM)) {
+		dbei.flags |= DBEF_READ;
 		szMamMsgId = XmlGetAttr(mamResult, "id");
 		if (szMamMsgId)
 			m_proto->setString("LastMamId", szMamMsgId);
@@ -1122,14 +1121,15 @@ void CJabberProto::XmppMsg::handle_carbon()
 	}
 }
 
-void CJabberProto::XmppMsg::handle_omemo()
+bool CJabberProto::XmppMsg::handle_omemo()
 {
 	if (m_proto->m_bUseOMEMO) {
 		if (auto* encNode = XmlGetChildByTag(node, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
-			m_proto->OmemoHandleMessage(encNode, from, msgTime, bWasSent);
-			return; //we do not want any additional processing
+			m_proto->OmemoHandleMessage(this, encNode, from, msgTime, bWasSent);
+			return true;
 		}
 	}
+	return false;
 }
 
 void CJabberProto::XmppMsg::handle_chatstates()

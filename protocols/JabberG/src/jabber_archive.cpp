@@ -102,41 +102,24 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
 
 	for (auto *itemNode : TiXmlEnum(chatNode)) {
-		int from;
 
 		XmppMsg msg(itemNode, this);
 
-		//TODO: integrate following logic into XmppMessage and remove it here
 		const char *itemName = itemNode->Name();
 		if (!mir_strcmp(itemName, "to"))
-			from = DBEF_SENT;
-		else if (!mir_strcmp(itemName, "from"))
-			from = 0;
-		else
+			msg.dbei.flags |= DBEF_SENT;
+		else if (mir_strcmp(itemName, "from"))
 			continue;
 
-		const TiXmlElement *body = XmlFirstChild(itemNode, "body");
-		if (!body)
-			continue;
-
-		const char *tszBody = body->GetText();
 		const char *tszSecs = XmlGetAttr(itemNode, "secs");
-		if (!tszBody || !tszSecs)
-			continue;
+		msg.msgTime = tmStart + atol(tszSecs);
 
-		DBEVENTINFO dbei = {};
-		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.szModule = m_szModuleName;
-		dbei.cbBlob = (uint32_t)mir_strlen(tszBody) + 1;
-		dbei.flags = DBEF_READ + DBEF_UTF + from;
-		dbei.pBlob = (char *)tszBody;
-		dbei.timestamp = tmStart + atol(tszSecs);
-		if (!DB::IsDuplicateEvent(hContact, dbei))
-			db_event_add(hContact, &dbei);
+		msg.process();
 
-		tmStart = dbei.timestamp;
-		if (dbei.timestamp > tmLast)
-			tmLast = dbei.timestamp;
+
+		tmStart = msg.dbei.timestamp;
+		if (msg.dbei.timestamp > tmLast)
+			tmLast = msg.dbei.timestamp;
 	}
 
 	if (tmLast != 0)
