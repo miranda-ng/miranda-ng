@@ -99,7 +99,7 @@ BEGIN
     PUSHBUTTON      "Log out",IDC_LOGOUT,212,168,86,14
     CONTROL         "Include URL preview into message text",IDC_USE_PREVIEW,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,109,294,10
-    CONTROL         "Store channel messages in memory only",IDC_RESIDENT_CHANNELS,
+    CONTROL         "Do not store channel history in the database",IDC_RESIDENT_CHANNELS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,122,294,10
 END
 
