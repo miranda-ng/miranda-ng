@@ -66,7 +66,6 @@ void strm_mgmt::OnProcessResumed(const TiXmlElement *node, ThreadData * /*info*/
 	m_bPendingEnable = false;
 	m_tConnLostTime = 0;
 
-	//FinishLoginProcess(info);
 	proto->OnLoggedIn();
 	proto->ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)proto->m_iStatus, proto->m_iDesiredStatus);
 	ProcessCache(node->IntAttribute("h", -1), true);

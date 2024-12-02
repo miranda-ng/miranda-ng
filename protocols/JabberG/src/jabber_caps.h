@@ -202,6 +202,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_CSI                         "urn:xmpp:csi:0"
 #define JABBER_FEAT_JUD                         "jabber:iq:search"
 #define JABBER_FEAT_IDLE                        "urn:xmpp:idle:1"
+#define JABBER_FEAT_SASL                        "urn:ietf:params:xml:ns:xmpp-sasl"
 #define JABBER_FEAT_SASL2                       "urn:xmpp:sasl:2"
 #define JABBER_FEAT_SERVER_AVATAR               "storage:client:avatar"
 #define JABBER_FEAT_SID                         "urn:xmpp:sid:0"

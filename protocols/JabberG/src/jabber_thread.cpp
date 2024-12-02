@@ -634,8 +634,15 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		return;
 	}
 
+	// grab the safest mechanism and proceed
 	auto &auth = m_arAuthMechs[0];
-	info->send(XmlNode("auth", ptrA(auth.getInitialRequest())) << XATTR("xmlns", "urn:ietf:params:xml:ns:xmpp-sasl") << XATTR("mechanism", auth.getName()));
+
+	if (m_hasSasl2) {
+		XmlNode node("authenticate");
+		node << XATTR("xmlns", JABBER_FEAT_SASL2) << XATTR("mechanism", auth.getName()) << XCHILD("initial-response", auth.getInitialRequest());
+		info->send(node);
+	}
+	else info->send(XmlNode("auth", ptrA(auth.getInitialRequest())) << XATTR("xmlns", JABBER_FEAT_SASL) << XATTR("mechanism", auth.getName()));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -756,7 +763,7 @@ void CJabberProto::OnProcessFailure(const TiXmlElement *node, ThreadData *info)
 {
 	// failure xmlns=\"urn:ietf:params:xml:ns:xmpp-sasl\"
 	const char *type = XmlGetAttr(node, "xmlns");
-	if (!mir_strcmp(type, "urn:ietf:params:xml:ns:xmpp-sasl")) {
+	if (!mir_strcmp(type, JABBER_FEAT_SASL) || !mir_strcmp(type, JABBER_FEAT_SASL2)) {
 		m_arAuthMechs.remove(0L);
 		PerformAuthentication(info);
 	}
@@ -812,20 +819,28 @@ void CJabberProto::OnProcessSuccess(const TiXmlElement *node, ThreadData *info)
 	if ((type = XmlGetAttr(node, "xmlns")) == nullptr)
 		return;
 
-	if (!mir_strcmp(type, "urn:ietf:params:xml:ns:xmpp-sasl")) {
-		if (!m_arAuthMechs[0].validateLogin(node->GetText())) {
-			info->send("</stream:stream>");
-			return;
-		}
-
-		debugLogA("Success: Logged-in.");
-		ptrA szNick(getUStringA("Nick"));
-		if (!mir_strlen(szNick))
-			setUString("Nick", info->conn.username);
-
-		xmlStreamInitialize("after successful sasl");
+	const char *pszFinal;
+	if (!mir_strcmp(type, JABBER_FEAT_SASL))
+		pszFinal = node->GetText();
+	else if (!mir_strcmp(type, JABBER_FEAT_SASL2))
+		pszFinal = XmlGetChildText(node, "additional-data");
+	else {
+		debugLogA("Success: unknown action %s.", type);
+		return;
 	}
-	else debugLogA("Success: unknown action %s.", type);
+	
+	if (!pszFinal || !m_arAuthMechs[0].validateLogin(pszFinal)) {
+		info->send("</stream:stream>");
+		return;
+	}
+
+	debugLogA("Success: Logged-in.");
+	ptrA szNick(getUStringA("Nick"));
+	if (!mir_strlen(szNick))
+		setUString("Nick", info->conn.username);
+
+	if (!m_hasSasl2)
+		xmlStreamInitialize("after successful sasl");
 }
 
 void CJabberProto::OnProcessChallenge(const TiXmlElement *node, ThreadData *info)
@@ -835,11 +850,12 @@ void CJabberProto::OnProcessChallenge(const TiXmlElement *node, ThreadData *info
 		return;
 	}
 
-	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:ietf:params:xml:ns:xmpp-sasl"))
+	auto *xmlns = XmlGetAttr(node, "xmlns");
+	if (mir_strcmp(xmlns, JABBER_FEAT_SASL) && mir_strcmp(xmlns, JABBER_FEAT_SASL2))
 		return;
 
 	char *challenge = m_arAuthMechs[0].getChallenge(node->GetText());
-	info->send(XmlNode("response", challenge) << XATTR("xmlns", "urn:ietf:params:xml:ns:xmpp-sasl"));
+	info->send(XmlNode("response", challenge) << XATTR("xmlns", xmlns));
 	mir_free(challenge);
 }
 
