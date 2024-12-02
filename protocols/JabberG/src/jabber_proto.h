@@ -74,7 +74,39 @@ struct CChatMark
 	CMStringA szId, szFrom;
 };
 
+// basic class - provides interface for various Jabber auth
 
+class TJabberAuth : public MZeroedObject
+{
+protected:  bool bIsValid = true;
+			ptrA szName;
+			unsigned complete;
+			int priority;
+			ThreadData *info;
+public:
+	TJabberAuth(ThreadData *pInfo, const char *pszMech) :
+		info(pInfo),
+		szName(mir_strdup(pszMech))
+	{}
+
+	virtual ~TJabberAuth() {}
+
+	virtual char* getInitialRequest() { return nullptr; }
+	virtual char* getChallenge(const char*) { return nullptr; }
+	virtual bool validateLogin(const char*) { return true; }
+
+	__forceinline int getPriority() const {
+		return priority;
+	}
+
+	__forceinline const char *getName() const {
+		return szName;
+	}
+
+	__forceinline bool isValid() const {
+		return bIsValid;
+	}
+};
 
 struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 {
@@ -827,6 +859,14 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       SearchDeleteFromRecent(const char *szAddr, bool deleteLastFromDB);
 	void       SearchAddToRecent(const char *szAddr, HWND hwndDialog = nullptr);
 
+	//---- jabber_secur.cpp --------------------------------------------------------------
+
+	OBJLIST<TJabberAuth> m_arSaslUpgrade;
+	OBJLIST<TJabberAuth> m_arAuthMechs;
+
+	bool       OnProcessMechanism(const TiXmlElement *node, ThreadData *info);
+	void       OnProcessUpgrade(const TiXmlElement *node, ThreadData *info);
+
 	//---- jabber_svc.c ------------------------------------------------------------------
 
 	void       CheckMenuItems();
@@ -856,7 +896,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	ptrA       m_szGroupDelimiter;
 	ptrW       m_savedPassword;
 
-	OBJLIST<class TJabberAuth> m_arAuthMechs;
 	bool       m_hasSession, m_hasAuth, m_hasSasl2;
 	
 	void       __cdecl ServerThread(JABBER_CONN_DATA *info);
@@ -868,6 +907,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnProcessError(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessSuccess(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessChallenge(const TiXmlElement *node, ThreadData *info);
+	void       OnProcessContinue(const TiXmlElement *node, ThreadData *info);
+	void       OnProcessTaskData(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessProceed(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessCompressed(const TiXmlElement *node, ThreadData *info);
 	//message processing helpers
@@ -884,7 +925,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       PerformRegistration(ThreadData *info);
 	void       PerformIqAuth(ThreadData *info);
 	void       PerformAuthentication(ThreadData *info);
-	bool       OnProcessMechanism(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessFeatures(const TiXmlElement *node, ThreadData *info);
 		        
 	void       xmlStreamInitialize(char *which);

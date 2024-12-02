@@ -68,6 +68,7 @@
     <ClCompile Include="src\jabber_proto.cpp" />
     <ClCompile Include="src\jabber_rc.cpp" />
     <ClCompile Include="src\jabber_roster.cpp" />
+    <ClCompile Include="src\jabber_sasl2.cpp" />
     <ClCompile Include="src\jabber_search.cpp" />
     <ClCompile Include="src\jabber_secur.cpp" />
     <ClCompile Include="src\jabber_send_manager.cpp" />
@@ -100,7 +101,6 @@
     <ClInclude Include="src\jabber_proto.h" />
     <ClInclude Include="src\jabber_rc.h" />
     <ClInclude Include="src\jabber_search.h" />
-    <ClInclude Include="src\jabber_secur.h" />
     <ClInclude Include="src\jabber_send_manager.h" />
     <ClInclude Include="src\jabber_strm_mgmt.h" />
     <ClInclude Include="src\jabber_xml.h" />

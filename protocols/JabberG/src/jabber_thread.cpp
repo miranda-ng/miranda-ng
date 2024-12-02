@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "jabber_list.h"
 #include "jabber_iq.h"
-#include "jabber_secur.h"
 #include "jabber_caps.h"
 #include "jabber_privacy.h"
 #include "jabber_rc.h"
@@ -639,6 +638,8 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 
 	if (m_hasSasl2) {
 		XmlNode node("authenticate");
+		for (auto &it : m_arSaslUpgrade)
+			node << XCHILD("upgrade", it->getName()) << XATTR("xmlns", "urn:xmpp:sasl:upgrade:0");
 		node << XATTR("xmlns", JABBER_FEAT_SASL2) << XATTR("mechanism", auth.getName()) << XCHILD("initial-response", auth.getInitialRequest());
 		info->send(node);
 	}
@@ -693,6 +694,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 		else if (!mir_strcmp(pszName, "authentication") && !mir_strcmp(xmlns, JABBER_FEAT_SASL2) && m_bEnableSasl2) {
 			m_hasSasl2 = areMechanismsDefined = true;
 			m_arAuthMechs.destroy();
+			m_arSaslUpgrade.destroy();
 			replaceStr(info->gssapiHostName, nullptr);
 
 			for (auto *c : TiXmlEnum(n)) {
@@ -707,6 +709,8 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 						// dunno why we need to handle that
 					}
 				}
+				else if (!mir_strcmp(c->Name(), "upgrade") && c->Attribute("xmlns", "urn:xmpp:sasl:upgrade:0"))
+					OnProcessUpgrade(c, info);
 			}
 		}
 		else if (!mir_strcmp(pszName, "session"))
@@ -867,40 +871,45 @@ void CJabberProto::OnProcessProtocol(const TiXmlElement *node, ThreadData *info)
 		if (m_StrmMgmt.HandleIncommingNode(node))
 			return;
 
-	if (!mir_strcmp(node->Name(), "proceed"))
+	auto *pszName = node->Name();
+	if (!mir_strcmp(pszName, "proceed"))
 		OnProcessProceed(node, info);
-	else if (!mir_strcmp(node->Name(), "compressed"))
+	else if (!mir_strcmp(pszName, "compressed"))
 		OnProcessCompressed(node, info);
-	else if (!mir_strcmp(node->Name(), "stream:features"))
+	else if (!mir_strcmp(pszName, "stream:features"))
 		OnProcessFeatures(node, info);
-	else if (!mir_strcmp(node->Name(), "stream:stream"))
+	else if (!mir_strcmp(pszName, "stream:stream"))
 		OnProcessStreamOpening(node, info);
-	else if (!mir_strcmp(node->Name(), "success"))
+	else if (!mir_strcmp(pszName, "success"))
 		OnProcessSuccess(node, info);
-	else if (!mir_strcmp(node->Name(), "failure"))
+	else if (!mir_strcmp(pszName, "failure"))
 		OnProcessFailure(node, info);
-	else if (!mir_strcmp(node->Name(), "stream:error"))
+	else if (!mir_strcmp(pszName, "continue"))
+		OnProcessContinue(node, info);
+	else if (!mir_strcmp(pszName, "task-data"))
+		OnProcessTaskData(node, info);
+	else if (!mir_strcmp(pszName, "stream:error"))
 		OnProcessError(node, info);
-	else if (!mir_strcmp(node->Name(), "challenge"))
+	else if (!mir_strcmp(pszName, "challenge"))
 		OnProcessChallenge(node, info);
 	else if (!info->bIsReg) {
-		if (!mir_strcmp(node->Name(), "message"))
+		if (!mir_strcmp(pszName, "message"))
 			OnProcessMessage(node, info);
-		else if (!mir_strcmp(node->Name(), "presence"))
+		else if (!mir_strcmp(pszName, "presence"))
 			OnProcessPresence(node, info);
-		else if (!mir_strcmp(node->Name(), "iq"))
+		else if (!mir_strcmp(pszName, "iq"))
 			OnProcessIq(node);
-		else if (!mir_strcmp(node->Name(), "failed"))
+		else if (!mir_strcmp(pszName, "failed"))
 			OnProcessFailed(node, info);
-		else if (!mir_strcmp(node->Name(), "enabled"))
+		else if (!mir_strcmp(pszName, "enabled"))
 			OnProcessEnabled(node, info);
-		else if (m_bEnableStreamMgmt && !mir_strcmp(node->Name(), "resumed"))
+		else if (m_bEnableStreamMgmt && !mir_strcmp(pszName, "resumed"))
 			m_StrmMgmt.OnProcessResumed(node, info);
 		else
 			debugLogA("Invalid top-level tag (only <message/> <presence/> and <iq/> allowed)");
 	}
 	else {
-		if (!mir_strcmp(node->Name(), "iq"))
+		if (!mir_strcmp(pszName, "iq"))
 			OnProcessRegIq(node, info);
 		else
 			debugLogA("Invalid top-level tag (only <iq/> allowed)");
