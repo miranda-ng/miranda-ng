@@ -648,6 +648,18 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CJabberProto::OnProcessChannelBinding(const TiXmlElement *node)
+{
+	for (auto *it : TiXmlFilter(node, "channel-binding")) {
+		if (auto *pszType = it->Attribute("type")) {
+			if (!mir_strcmp(pszType, "tls-exporter"))
+				m_bTlsExporter = true;
+			else if (!mir_strcmp(pszType, "tls-server-end-point"))
+				m_bTlsServerEndpoint = true;
+		}
+	}
+}
+
 void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 {
 	info->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;
@@ -711,6 +723,8 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 				}
 				else if (!mir_strcmp(c->Name(), "upgrade") && c->Attribute("xmlns", "urn:xmpp:sasl:upgrade:0"))
 					OnProcessUpgrade(c, info);
+				else if (!mir_strcmp(pszName, "sasl-channel-binding") && c->Attribute("xmlns", JABBER_FEAT_CHANNEL_BINDING))
+					OnProcessChannelBinding(c);
 			}
 		}
 		else if (!mir_strcmp(pszName, "session"))
@@ -728,16 +742,8 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 			}
 			else info->jabberServerCaps |= pCaps->GetCaps();
 		}
-		else if (!mir_strcmp(pszName, "sasl-channel-binding") && !mir_strcmp(xmlns, JABBER_FEAT_CHANNEL_BINDING)) {
-			for (auto *it : TiXmlFilter(n, "channel-binding")) {
-				if (auto *pszType = it->Attribute("type")) {
-					if (!mir_strcmp(pszType, "tls-exporter"))
-						m_bTlsExporter = true;
-					else if (!mir_strcmp(pszType, "tls-server-end-point"))
-						m_bTlsServerEndpoint = true;
-				}
-			}
-		}
+		else if (!mir_strcmp(pszName, "sasl-channel-binding") && !mir_strcmp(xmlns, JABBER_FEAT_CHANNEL_BINDING))
+			OnProcessChannelBinding(n);
 	}
 
 	if (areMechanismsDefined) {

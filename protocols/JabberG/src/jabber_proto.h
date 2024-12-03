@@ -898,6 +898,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	OBJLIST<TJabberAuth> m_arAuthMechs;
 
 	OBJLIST<TUpgradeTask> m_arSaslUpgrade;
+	void       OnProcessChannelBinding(const TiXmlElement *node);
 	bool       OnProcessMechanism(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessUpgrade(const TiXmlElement *node, ThreadData *info);
 
