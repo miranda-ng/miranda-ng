@@ -833,7 +833,7 @@ void CJabberProto::OnProcessSuccess(const TiXmlElement *node, ThreadData *info)
 		return;
 	}
 	
-	if (!pszFinal || !m_arAuthMechs[0].validateLogin(pszFinal)) {
+	if (!m_arAuthMechs[0].validateLogin(pszFinal)) {
 		info->send("</stream:stream>");
 		return;
 	}
