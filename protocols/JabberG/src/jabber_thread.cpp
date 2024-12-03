@@ -709,8 +709,8 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 						// dunno why we need to handle that
 					}
 				}
-				// else if (!mir_strcmp(c->Name(), "upgrade") && c->Attribute("xmlns", "urn:xmpp:sasl:upgrade:0"))
-				//	OnProcessUpgrade(c, info);
+				else if (!mir_strcmp(c->Name(), "upgrade") && c->Attribute("xmlns", "urn:xmpp:sasl:upgrade:0"))
+					OnProcessUpgrade(c, info);
 			}
 		}
 		else if (!mir_strcmp(pszName, "session"))
@@ -833,6 +833,9 @@ void CJabberProto::OnProcessSuccess(const TiXmlElement *node, ThreadData *info)
 		return;
 	}
 	
+	if (m_hasSasl2 && !pszFinal && info->m_saslUpgrade)
+		pszFinal = info->m_saslUpgrade->getInitData();
+
 	if (!m_arAuthMechs[0].validateLogin(pszFinal)) {
 		info->send("</stream:stream>");
 		return;

@@ -123,6 +123,10 @@ public:
 
 	virtual ~TUpgradeTask() {}
 
+	__forceinline const char *getInitData() const {
+		return szInitData;
+	}
+
 	__forceinline const char *getName() const {
 		return szName;
 	}

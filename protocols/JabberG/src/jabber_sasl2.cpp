@@ -47,35 +47,13 @@ struct TScramTask : public TUpgradeTask
 		ptrA szInit((char *)mir_base64_decode(szInitData, &cbNonce));
 		ptrA szNonce((char*)mir_base64_decode(szInit.get() + 2, &cbNonce));
 		ptrA szSalt((char *)mir_base64_decode(pszSalt, &cbSalt));
-		ptrA cbd(mir_base64_encode("n,,", 3)), chl(mir_strdup("")), msg1(mir_strdup(""));
 
 		int hashSize = EVP_MD_size(hashMethod);
 
 		uint8_t saltedPassw[EVP_MAX_MD_SIZE];
 		Hi(hashMethod, saltedPassw, info->conn.password, mir_strlen(info->conn.password), szSalt, cbSalt, iterations);
 
-		uint8_t clientKey[EVP_MAX_MD_SIZE];
-		unsigned int len;
-		HMAC(hashMethod, saltedPassw, hashSize, (uint8_t *)"Client Key", 10, clientKey, &len);
-
-		uint8_t storedKey[EVP_MAX_MD_SIZE];
-		{
-			EVP_MD_CTX *pctx = EVP_MD_CTX_new();
-			EVP_DigestInit(pctx, hashMethod);
-			EVP_DigestUpdate(pctx, clientKey, hashSize);
-			EVP_DigestFinal(pctx, storedKey, &len);
-			EVP_MD_CTX_free(pctx);
-		}
-
-		uint8_t clientSig[EVP_MAX_MD_SIZE];
-		CMStringA authmsg(FORMAT, "%s,%s,c=%s,r=%s", msg1, chl.get(), cbd.get(), szNonce.get());
-		HMAC(hashMethod, storedKey, hashSize, (uint8_t *)authmsg.c_str(), authmsg.GetLength(), clientSig, &len);
-
-		uint8_t clientProof[EVP_MAX_MD_SIZE];
-		for (int j = 0; j < hashSize; j++)
-			clientProof[j] = clientKey[j] ^ clientSig[j];
-
-		ptrA szEncoded(mir_base64_encode(clientProof, hashSize));
+		ptrA szEncoded(mir_base64_encode(saltedPassw, hashSize));
 		auto *pHash = dest << XCHILD("hash", szEncoded);
 		pHash << XATTR("xmlns", "urn:xmpp:scram-upgrade:0");
 		return true;
@@ -95,8 +73,8 @@ void CJabberProto::OnProcessUpgrade(const TiXmlElement *n, ThreadData *info)
 		pTask = new TScramTask(info, szMechanism, EVP_sha256(), 520);
 	else if (!mir_strcmp(szMechanism, "UPGR-SCRAM-SHA-384"))
 		pTask = new TScramTask(info, szMechanism, EVP_sha384(), 530);
-	else if (!mir_strcmp(szMechanism, "UPGR-SCRAM-SHA-512"))
-		pTask = new TScramTask(info, szMechanism, EVP_sha512(), 540);
+	//else if (!mir_strcmp(szMechanism, "UPGR-SCRAM-SHA-512"))
+		//pTask = new TScramTask(info, szMechanism, EVP_sha512(), 540);
 	else {
 		debugLogA("Unsupported mechanism for upgrade: %s, skipping", szMechanism);
 		return;
@@ -126,8 +104,10 @@ void CJabberProto::OnProcessContinue(const TiXmlElement *node, ThreadData *info)
 		return;
 	}
 
-	pTask->setInitData(XmlGetChildText(node, "additional-data"));
 	info->m_saslUpgrade = pTask;
+
+	if (auto *pszInitData = XmlGetChildText(node, "additional-data"))
+		pTask->setInitData(pszInitData);
 
 	XmlNode next("next");
 	next << XATTR("xmlns", JABBER_FEAT_SASL2) << XATTR("task", pTask->getName());
