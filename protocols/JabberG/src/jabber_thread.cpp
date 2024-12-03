@@ -717,7 +717,7 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 					if (auto *sm = XmlGetChildByTag(c, "sm", "xmlns", JABBER_FEAT_SM))
 						m_StrmMgmt.CheckStreamFeatures(sm);
 
-					if (auto *bind = XmlGetChildByTag(c, "sm", "xmlns", "urn:xmpp:bind:0")) {
+					if (auto *bind = XmlGetChildByTag(c, "bind", "xmlns", "urn:xmpp:bind:0")) {
 						// dunno why we need to handle that
 					}
 				}

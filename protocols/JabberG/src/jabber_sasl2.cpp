@@ -73,8 +73,9 @@ void CJabberProto::OnProcessUpgrade(const TiXmlElement *n, ThreadData *info)
 		pTask = new TScramTask(info, szMechanism, EVP_sha256(), 520);
 	else if (!mir_strcmp(szMechanism, "UPGR-SCRAM-SHA-384"))
 		pTask = new TScramTask(info, szMechanism, EVP_sha384(), 530);
-	//else if (!mir_strcmp(szMechanism, "UPGR-SCRAM-SHA-512"))
-		//pTask = new TScramTask(info, szMechanism, EVP_sha512(), 540);
+	// uncomment those lines when ejabberd will support SHA-512 normally
+	// else if (!mir_strcmp(szMechanism, "UPGR-SCRAM-SHA-512"))
+	//	pTask = new TScramTask(info, szMechanism, EVP_sha512(), 540);
 	else {
 		debugLogA("Unsupported mechanism for upgrade: %s, skipping", szMechanism);
 		return;
