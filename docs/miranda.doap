@@ -353,5 +353,17 @@
         <xmpp:version>1.0.2</xmpp:version>
       </xmpp:SupportedXep>
     </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0474.html"/>
+        <xmpp:version>0.3.1</xmpp:version>
+      </xmpp:SupportedXep>
+    </implements>
+    <implements>
+      <xmpp:SupportedXep>
+        <xmpp:xep rdf:resource="https://xmpp.org/extensions/xep-0480.html"/>
+        <xmpp:version>0.2.0</xmpp:version>
+      </xmpp:SupportedXep>
+    </implements>
   </Project>
 </rdf:RDF>
