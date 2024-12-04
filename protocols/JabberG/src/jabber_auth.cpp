@@ -134,7 +134,7 @@ public:
 
 		if (info->gssapiHostName && info->gssapiHostName[0]) {
 			wchar_t *szFullUserNameU = wcsupr(mir_wstrdup(szFullUserName));
-			mir_snwprintf(szSpn, dwSpnLen, L"xmpp/%s/%s@%s", info->gssapiHostName, szFullUserName, szFullUserNameU);
+			mir_snwprintf(szSpn, dwSpnLen, L"xmpp/%S/%s@%s", info->gssapiHostName, szFullUserName, szFullUserNameU);
 			mir_free(szFullUserNameU);
 		}
 		else {
