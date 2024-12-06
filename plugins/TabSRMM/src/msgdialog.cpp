@@ -614,7 +614,7 @@ bool CMsgDialog::OnInitDialog()
 		m_bWasBackgroundCreate = m_bNeedCheckSize = m_bDeferredScroll = true;
 	}
 
-	if (isChat()) {
+	if (isChat() && !g_plugin.bApplyPrivateSettings) {
 		m_pContainer->m_hwndActive = m_hwnd;
 		ShowWindow(m_hwnd, SW_SHOW);
 	}
