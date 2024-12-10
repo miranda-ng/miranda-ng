@@ -521,10 +521,11 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		if (userId == m_ownId)
 			dbei.flags |= DBEF_READ | DBEF_SENT;
 
-		if (auto &nReply = pRoot["message_reference"]) {
-			_i64toa(::getId(nReply["message_id"]), szReplyId, 10);
-			dbei.szReplyId = szReplyId;
-		}
+		if (auto &nReply = pRoot["message_reference"])
+			if (auto replyId = ::getId(nReply["message_id"])) {
+				_i64toa(replyId, szReplyId, 10);
+				dbei.szReplyId = szReplyId;
+			}
 
 		debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
 
