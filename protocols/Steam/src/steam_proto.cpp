@@ -292,10 +292,9 @@ int CSteamProto::SetStatus(int new_status)
 	}
 	else if (m_ws == nullptr && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
-		ForkThread(&CSteamProto::ServerThread);
-
-		Login();
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		ForkThread(&CSteamProto::ServerThread);
 	}
 	else if (IsOnline()) {
 		m_iStatus = new_status;
