@@ -1230,6 +1230,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		case TD::userTypeDeleted::ID:
 			return;
 
+		case TD::userTypeBot::ID:
 		case TD::userTypeRegular::ID:
 			auto *pu = AddFakeUser(pUser->id_, false);
 			if (pu->hContact != INVALID_CONTACT_ID)
