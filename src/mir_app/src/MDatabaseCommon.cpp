@@ -324,7 +324,7 @@ static bool ValidLookupName(const char *szModule, const char *szSetting)
 
 STDMETHODIMP_(int) MDatabaseCommon::GetContactSettingWorker(MCONTACT contactID, const char *szModule, const char *szSetting, DBVARIANT *dbv, int isStatic)
 {
-	if (szSetting == nullptr || szModule == nullptr)
+	if (szSetting == nullptr || szModule == nullptr || contactID == INVALID_CONTACT_ID)
 		return 1;
 
 	DBVARIANT *pCachedValue;
@@ -451,7 +451,7 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::FreeVariant(DBVARIANT *dbv)
 
 STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	if (dbv == nullptr || szSetting == nullptr || szModule == nullptr)
+	if (dbv == nullptr || szSetting == nullptr || szModule == nullptr || contactID == INVALID_CONTACT_ID)
 		return 1;
 
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
