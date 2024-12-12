@@ -112,6 +112,7 @@ void CSteamProto::ProcessMulti(const uint8_t *buf, size_t cbLen)
 
 	while ((int)cbLen > 0) {
 		uint32_t cbPacketLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
+		Netlib_Dump(m_ws->getConn(), buf, cbLen, false, 0);
 		ProcessMessage(buf, cbPacketLen);
 		buf += cbPacketLen; cbLen -= cbPacketLen;
 	}

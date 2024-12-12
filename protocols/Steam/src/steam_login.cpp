@@ -1,119 +1,8 @@
 #include "stdafx.h"
 
-/*
-void CSteamProto::OnGotCaptcha(const HttpResponse &response, void *arg)
-{
-	ptrA captchaId((char *)arg);
-
-	if (!response.IsSuccess()) {
-		debugLogA(__FUNCTION__ ": failed to get captcha");
-		return;
-	}
-
-	CSteamCaptchaDialog captchaDialog(this, (const uint8_t *)response.data(), response.length());
-	if (!captchaDialog.DoModal()) {
-		DeleteAuthSettings();
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	setString("CaptchaId", captchaId);
-	setString("CaptchaText", captchaDialog.GetCaptchaText());
-
-	ptrA username(getUStringA("Username"));
-	// SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
-}
-
-void CSteamProto::OnAuthorizationError(const JSONNode &root)
-{
-	CMStringW message = root["message"].as_mstring();
-	if (message == L"Incorrect login.") {
-		// We can't continue with incorrect login/password
-		debugLogA(__FUNCTION__ ": incorrect login");
-		DeleteAuthSettings();
-		SetStatus(ID_STATUS_OFFLINE);
-		ShowNotification(message);
-		return;
-	}
-
-	if (root["clear_password_field"].as_bool()) {
-		// describes if the password field was cleared. This can also be true if the twofactor code was wrong
-		debugLogA(__FUNCTION__ ": clear password field");
-		delSetting("Passowrd"); // experiment
-		delSetting("TwoFactorCode");
-		SetStatus(ID_STATUS_OFFLINE);
-		ShowNotification(message);
-	}
-
-	T2Utf username(getWStringA("Username"));
-
-	if (root["requires_twofactor"].as_bool()) {
-		debugLogA(__FUNCTION__ ": requires twofactor");
-		delSetting("TwoFactorCode");
-
-		CSteamTwoFactorDialog twoFactorDialog(this);
-		if (!twoFactorDialog.DoModal()) {
-			DeleteAuthSettings();
-			SetStatus(ID_STATUS_OFFLINE);
-			return;
-		}
-
-		setString("TwoFactorCode", twoFactorDialog.GetTwoFactorCode());
-
-		// SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
-	}
-
-	if (root["emailauth_needed"].as_bool()) {
-		debugLogA(__FUNCTION__ ": emailauth needed");
-
-		std::string guardId = root["emailsteamid"].as_string();
-		ptrA oldGuardId(getStringA("GuardId"));
-		if (mir_strcmp(guardId.c_str(), oldGuardId) == 0) {
-			delSetting("GuardId");
-			delSetting("GuardCode");
-		}
-
-		json_string domain = root["emaildomain"].as_string();
-
-		// Make absolute link
-		if (domain.find("://") == std::string::npos)
-			domain = "http://" + domain;
-
-		if (m_hwndGuard != nullptr)
-			return;
-
-		CSteamGuardDialog guardDialog(this, domain.c_str());
-		if (!guardDialog.DoModal()) {
-			DeleteAuthSettings();
-			SetStatus(ID_STATUS_OFFLINE);
-			return;
-		}
-
-		setString("GuardId", guardId.c_str());
-		setString("GuardCode", guardDialog.GetGuardCode());
-
-		// SendRequest(new GetRsaKeyRequest(username), &CSteamProto::OnGotRsaKey);
-		return;
-	}
-
-	if (root["captcha_needed"].as_bool()) {
-		debugLogA(__FUNCTION__ ": captcha needed");
-		delSetting("CaptchaId");
-		delSetting("CaptchaText");
-		json_string captchaId = root["captcha_gid"].as_string();
-		SendRequest(new GetCaptchaRequest(captchaId.c_str()), &CSteamProto::OnGotCaptcha, mir_strdup(captchaId.c_str()));
-		return;
-	}
-
-	// unhadled error
-	DeleteAuthSettings();
-	SetStatus(ID_STATUS_OFFLINE);
-	ShowNotification(message);
-}
-*/
-
 void CSteamProto::DeleteAuthSettings()
 {
+	m_requestId = MBinBuffer();
 	delSetting("TwoFactorCode");
 	delSetting("GuardId");
 	delSetting("GuardCode");
@@ -128,8 +17,7 @@ bool CSteamProto::IsOnline()
 
 bool CSteamProto::IsMe(const char *steamId)
 {
-	ptrA mySteamId(getStringA(DBKEY_STEAM_ID));
-	return mir_strcmp(steamId, mySteamId) == 0;
+	return m_iSteamId == _atoi64(steamId);
 }
 
 void CSteamProto::Login()
@@ -218,6 +106,61 @@ void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
 	WSSendService("Authentication.BeginAuthSessionViaCredentials#1", request, &CSteamProto::OnAuthorization);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR CALLBACK CSteamProto::EnterEmailCode(void *param)
+{
+	auto *ppro = (CSteamProto *)param;
+
+	ENTER_STRING es = {};
+	es.szModuleName = ppro->m_szModuleName;
+	es.caption = TranslateT("Enter email confimation code");
+	if (EnterString(&es)) {
+		ppro->SendConfirmationCode(true, T2Utf(es.ptszResult));
+		mir_free(es.ptszResult);
+	}
+	else ppro->LoginFailed();
+	return 0;
+}
+
+INT_PTR CALLBACK CSteamProto::EnterTotpCode(void *param)
+{
+	auto *ppro = (CSteamProto *)param;
+
+	ENTER_STRING es = {};
+	es.szModuleName = ppro->m_szModuleName;
+	es.caption = TranslateT("Enter email confimation code");
+	if (EnterString(&es)) {
+		ppro->SendConfirmationCode(false, T2Utf(es.ptszResult));
+		mir_free(es.ptszResult);
+	}
+	else ppro->LoginFailed();
+	return 0;
+}
+
+void CSteamProto::OnGotConfirmationCode(const uint8_t *buf, size_t cbLen)
+{
+	proto::AuthenticationUpdateAuthSessionWithSteamGuardCodeResponse reply(buf, cbLen);
+	if (reply == nullptr)
+		LoginFailed();
+	else
+		SendPollRequest();
+}
+
+void CSteamProto::SendConfirmationCode(bool isEmail, const char *pszCode)
+{
+	CAuthenticationUpdateAuthSessionWithSteamGuardCodeRequest request;
+	request.steamid = GetId(DBKEY_STEAM_ID); request.has_steamid = true;
+	request.client_id = GetId(DBKEY_CLIENT_ID); request.has_client_id = true;
+	if (isEmail)
+		request.code_type = EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_EmailCode;
+	else
+		request.code_type = EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_DeviceCode;
+	request.has_code_type = true;
+	request.code = (char*)pszCode;
+	WSSendService("Authentication.UpdateAuthSessionWithSteamGuardCode#1", request, &CSteamProto::OnGotConfirmationCode);
+}
+
 void CSteamProto::OnAuthorization(const uint8_t *buf, size_t cbLen)
 {
 	proto::AuthenticationBeginAuthSessionViaCredentialsResponse reply(buf, cbLen);
@@ -229,18 +172,46 @@ void CSteamProto::OnAuthorization(const uint8_t *buf, size_t cbLen)
 	// Success
 	if (reply->has_client_id && reply->has_steamid) {
 		DeleteAuthSettings();
-		SetId(DBKEY_STEAM_ID, reply->steamid);
-		SetId(DBKEY_CLIENT_ID, reply->client_id);
+		SetId(DBKEY_STEAM_ID, m_iSteamId = reply->steamid);
+		SetId(DBKEY_CLIENT_ID, m_iClientId = reply->client_id);
+		m_requestId.append(reply->request_id.data, reply->request_id.len);
 
-		CAuthenticationPollAuthSessionStatusRequest request;
-		request.client_id = reply->client_id; request.has_client_id = true;
-		request.request_id = reply->request_id; request.has_request_id = true;
-		WSSendService("Authentication.PollAuthSessionStatus#1", request, &CSteamProto::OnPollSession);
+		for (int i = 0; i < reply->n_allowed_confirmations; i++) {
+			auto &conf = reply->allowed_confirmations[i];
+			debugLogA("Confirmation required %d (%s)", conf->confirmation_type, conf->associated_message);
+			switch (conf->confirmation_type) {
+			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_None: // nothing to do
+				SendPollRequest();
+				return;
+
+			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_EmailCode: // email confirmation
+				CallFunctionSync(EnterEmailCode, this);
+				return;
+
+			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_DeviceCode: // totp confirmation
+				CallFunctionSync(EnterTotpCode, this);
+				return;
+			}
+
+			debugLogA("Unsupported confirmation code: %i", conf->confirmation_type);
+			LoginFailed();
+		}
+
+		// no confirmation needed - we've done
+		SendPollRequest();
 	}
 	else {
 		debugLogA("Something went wrong: %s", reply->extended_error_message);
 		LoginFailed();
 	}
+}
+
+void CSteamProto::SendPollRequest()
+{
+	CAuthenticationPollAuthSessionStatusRequest request;
+	request.client_id = GetId(DBKEY_CLIENT_ID); request.has_client_id = true;
+	request.request_id.data = m_requestId.data(); request.request_id.len = m_requestId.length();
+	WSSendService("Authentication.PollAuthSessionStatus#1", request, &CSteamProto::OnPollSession);
 }
 
 void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)

@@ -70,8 +70,9 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	ptrW m_password;
 	bool m_bTerminated;
-	HWND m_hwndGuard;
 	time_t m_idleTS;
+	int64_t m_iSteamId, m_iClientId;
+	MBinBuffer m_requestId;
 
 	int64_t  GetId(const char *pszSetting);
 	void     SetId(const char *pszSetting, int64_t id);
@@ -116,18 +117,20 @@ class CSteamProto : public PROTO<CSteamProto>
 	void LoginFailed();
 	void Logout();
 
+	static INT_PTR CALLBACK EnterTotpCode(void *param);
+	static INT_PTR CALLBACK EnterEmailCode(void *param);
+
    void OnAuthorization(const uint8_t *buf, size_t cbLen);
 	void OnGotRsaKey(const uint8_t *buf, size_t cbLen);
+	void OnGotConfirmationCode(const uint8_t *buf, size_t cbLen);
 	void OnLoggedOn(const uint8_t *buf, size_t cbLen);
 	void OnPollSession(const uint8_t *buf, size_t cbLen);
-
-	void OnGotCaptcha(const HttpResponse &response, void *arg);
-
-	void OnAuthorizationError(const JSONNode &root);
 
 	void OnGotHosts(const JSONNode &root, void *);
 
 	void DeleteAuthSettings();
+	void SendConfirmationCode(bool, const char *pszCode);
+	void SendPollRequest();
 
 	// contacts
 	void SetAllContactStatuses(int status);

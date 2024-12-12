@@ -11,9 +11,6 @@
 #define IDI_GAMING                      101
 #define IDD_PASSWORD_EDITOR             107
 #define IDC_SAVEPERMANENTLY             108
-#define IDD_CAPTCHA                     118
-#define IDD_GUARD                       119
-#define IDD_TWOFACTOR                   120
 #define IDC_SN                          1001
 #define IDC_PW                          1002
 #define IDC_PASSWORD                    1002
@@ -32,11 +29,9 @@
 #define IDC_BLOCK                       1059
 #define IDC_BM_LIST                     1064
 #define IDC_LIST                        1065
-#define IDC_TEXT                        1082
 #define IDC_POLLINGERRORLIMIT           1085
 #define IDC_POLLINGERRORLIMITSPIN       1086
 #define IDC_OPENDOMAIN                  1200
-#define IDC_GETDOMAIN                   1200
 
 // Next default values for new objects
 // 
