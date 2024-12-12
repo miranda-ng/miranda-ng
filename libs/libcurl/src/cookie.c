@@ -833,14 +833,16 @@ parse_netscape(struct Cookie *co,
   if(ptr)
     *ptr = 0; /* clear it */
 
-  firstptr = strtok_r((char *)lineptr, "\t", &tok_buf); /* tokenize on TAB */
+  /* tokenize on TAB */
+  firstptr = Curl_strtok_r((char *)lineptr, "\t", &tok_buf);
 
   /*
    * Now loop through the fields and init the struct we already have
    * allocated
    */
   fields = 0;
-  for(ptr = firstptr; ptr; ptr = strtok_r(NULL, "\t", &tok_buf), fields++) {
+  for(ptr = firstptr; ptr;
+      ptr = Curl_strtok_r(NULL, "\t", &tok_buf), fields++) {
     switch(fields) {
     case 0:
       if(ptr[0]=='.') /* skip preceding dots */
@@ -989,7 +991,7 @@ replace_existing(struct Curl_easy *data,
   size_t myhash = cookiehash(co->domain);
   for(n = Curl_llist_head(&ci->cookielist[myhash]); n; n = Curl_node_next(n)) {
     struct Cookie *clist = Curl_node_elem(n);
-    if(strcasecompare(clist->name, co->name)) {
+    if(!strcmp(clist->name, co->name)) {
       /* the names are identical */
       bool matching_domains = FALSE;
 
@@ -1029,7 +1031,7 @@ replace_existing(struct Curl_easy *data,
       }
     }
 
-    if(!replace_n && strcasecompare(clist->name, co->name)) {
+    if(!replace_n && !strcmp(clist->name, co->name)) {
       /* the names are identical */
 
       if(clist->domain && co->domain) {

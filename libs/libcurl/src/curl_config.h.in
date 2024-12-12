@@ -792,9 +792,6 @@
 /* Define to 1 if you have the <zstd.h> header file. */
 #undef HAVE_ZSTD_H
 
-/* Define to 1 if you have the `_fseeki64' function. */
-#undef HAVE__FSEEKI64
-
 /* Define to 1 if you have the `_setmode' function. */
 #undef HAVE__SETMODE
 
@@ -881,7 +878,7 @@
 /* GSASL support enabled */
 #undef USE_GSASL
 
-/* force HTTPS RR support for ECH */
+/* enable HTTPS RR support */
 #undef USE_HTTPSRR
 
 /* if hyper is in use */

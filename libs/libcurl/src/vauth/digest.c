@@ -227,12 +227,12 @@ static CURLcode auth_digest_get_qop_values(const char *options, int *value)
   *value = 0;
 
   /* Tokenise the list of qop values. Use a temporary clone of the buffer since
-     strtok_r() ruins it. */
+     Curl_strtok_r() ruins it. */
   tmp = strdup(options);
   if(!tmp)
     return CURLE_OUT_OF_MEMORY;
 
-  token = strtok_r(tmp, ",", &tok_buf);
+  token = Curl_strtok_r(tmp, ",", &tok_buf);
   while(token) {
     if(strcasecompare(token, DIGEST_QOP_VALUE_STRING_AUTH))
       *value |= DIGEST_QOP_VALUE_AUTH;
@@ -241,7 +241,7 @@ static CURLcode auth_digest_get_qop_values(const char *options, int *value)
     else if(strcasecompare(token, DIGEST_QOP_VALUE_STRING_AUTH_CONF))
       *value |= DIGEST_QOP_VALUE_AUTH_CONF;
 
-    token = strtok_r(NULL, ",", &tok_buf);
+    token = Curl_strtok_r(NULL, ",", &tok_buf);
   }
 
   free(tmp);
@@ -553,12 +553,12 @@ CURLcode Curl_auth_decode_digest_http_message(const char *chlg,
       else if(strcasecompare(value, "qop")) {
         char *tok_buf = NULL;
         /* Tokenize the list and choose auth if possible, use a temporary
-           clone of the buffer since strtok_r() ruins it */
+           clone of the buffer since Curl_strtok_r() ruins it */
         tmp = strdup(content);
         if(!tmp)
           return CURLE_OUT_OF_MEMORY;
 
-        token = strtok_r(tmp, ",", &tok_buf);
+        token = Curl_strtok_r(tmp, ",", &tok_buf);
         while(token) {
           /* Pass additional spaces here */
           while(*token && ISBLANK(*token))
@@ -569,7 +569,7 @@ CURLcode Curl_auth_decode_digest_http_message(const char *chlg,
           else if(strcasecompare(token, DIGEST_QOP_VALUE_STRING_AUTH_INT)) {
             foundAuthInt = TRUE;
           }
-          token = strtok_r(NULL, ",", &tok_buf);
+          token = Curl_strtok_r(NULL, ",", &tok_buf);
         }
 
         free(tmp);
@@ -709,13 +709,17 @@ static CURLcode auth_create_digest_http_message(
     digest->nc = 1;
 
   if(!digest->cnonce) {
-    char cnoncebuf[33];
-    result = Curl_rand_hex(data, (unsigned char *)cnoncebuf,
-                           sizeof(cnoncebuf));
+    char cnoncebuf[12];
+    result = Curl_rand_bytes(data,
+#ifdef DEBUGBUILD
+                             TRUE,
+#endif
+                             (unsigned char *)cnoncebuf,
+                             sizeof(cnoncebuf));
     if(result)
       return result;
 
-    result = Curl_base64_encode(cnoncebuf, strlen(cnoncebuf),
+    result = Curl_base64_encode(cnoncebuf, sizeof(cnoncebuf),
                                 &cnonce, &cnonce_sz);
     if(result)
       return result;
