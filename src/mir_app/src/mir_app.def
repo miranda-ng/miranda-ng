@@ -995,3 +995,4 @@ Proto_CanDeleteHistory @1118 NONAME
 ?RemakeLog@CSrmmBaseDialog@@UAEXXZ @1126 NONAME
 ?ProcessToolbarHotkey@CSrmmBaseDialog@@AAEXH@Z @1127 NONAME
 ?iHistoryMode@Srmm@@3V?$CMOption@E@@A @1128 NONAME
+?getConn@MWebSocket@@QBEPAUNetlibConnection@@XZ @1129 NONAME
