@@ -44,6 +44,8 @@ struct CAuthenticationGetAuthSessionsForAccountRequest;
 struct CAuthenticationGetAuthSessionsForAccountResponse;
 struct CAuthenticationMigrateMobileSessionRequest;
 struct CAuthenticationMigrateMobileSessionResponse;
+struct CAuthenticationTokenRevokeRequest;
+struct CAuthenticationTokenRevokeResponse;
 struct CAuthenticationRefreshTokenRevokeRequest;
 struct CAuthenticationRefreshTokenRevokeResponse;
 struct CAuthenticationSupportQueryRefreshTokensByAccountRequest;
@@ -90,12 +92,20 @@ typedef enum _EAuthSessionSecurityHistory {
   EAUTH_SESSION_SECURITY_HISTORY__k_EAuthSessionSecurityHistory_NoPriorHistory = 2
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(EAUTH_SESSION_SECURITY_HISTORY)
 } EAuthSessionSecurityHistory;
+typedef enum _ETokenRenewalType {
+  ETOKEN_RENEWAL_TYPE__k_ETokenRenewalType_None = 0,
+  ETOKEN_RENEWAL_TYPE__k_ETokenRenewalType_Allow = 1
+    PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(ETOKEN_RENEWAL_TYPE)
+} ETokenRenewalType;
 typedef enum _EAuthTokenRevokeAction {
   EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeLogout = 0,
   EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokePermanent = 1,
   EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeReplaced = 2,
   EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeSupport = 3,
-  EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeConsume = 4
+  EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeConsume = 4,
+  EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeNonRememberedLogout = 5,
+  EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeNonRememberedPermanent = 6,
+  EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeAutomatic = 7
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(EAUTH_TOKEN_REVOKE_ACTION)
 } EAuthTokenRevokeAction;
 typedef enum _EAuthTokenState {
@@ -115,6 +125,7 @@ typedef enum _EAuthTokenState {
 extern const ProtobufCEnumDescriptor    eauth_token_platform_type__descriptor;
 extern const ProtobufCEnumDescriptor    eauth_session_guard_type__descriptor;
 extern const ProtobufCEnumDescriptor    eauth_session_security_history__descriptor;
+extern const ProtobufCEnumDescriptor    etoken_renewal_type__descriptor;
 extern const ProtobufCEnumDescriptor    eauth_token_revoke_action__descriptor;
 extern const ProtobufCEnumDescriptor    eauth_token_state__descriptor;
 extern const ProtobufCMessageDescriptor cauthentication__get_password_rsapublic_key__request__descriptor;
@@ -143,6 +154,8 @@ extern const ProtobufCMessageDescriptor cauthentication__get_auth_sessions_for_a
 extern const ProtobufCMessageDescriptor cauthentication__get_auth_sessions_for_account__response__descriptor;
 extern const ProtobufCMessageDescriptor cauthentication__migrate_mobile_session__request__descriptor;
 extern const ProtobufCMessageDescriptor cauthentication__migrate_mobile_session__response__descriptor;
+extern const ProtobufCMessageDescriptor cauthentication__token__revoke__request__descriptor;
+extern const ProtobufCMessageDescriptor cauthentication__token__revoke__response__descriptor;
 extern const ProtobufCMessageDescriptor cauthentication__refresh_token__revoke__request__descriptor;
 extern const ProtobufCMessageDescriptor cauthentication__refresh_token__revoke__response__descriptor;
 extern const ProtobufCMessageDescriptor cauthentication_support__query_refresh_tokens_by_account__request__descriptor;
@@ -166,6 +179,16 @@ extern const ProtobufCServiceDescriptor authentication_support__descriptor;
 extern const ProtobufCServiceDescriptor cloud_gaming__descriptor;
 
 /* --- messages --- */
+
+extern "C" void message_init_generic(const ProtobufCMessageDescriptor * desc, ProtobufCMessage * message);
+
+struct ProtobufCppMessage : public ProtobufCMessage
+{
+	ProtobufCppMessage(const ProtobufCMessageDescriptor &descr)
+	{
+		message_init_generic(&descr, this);
+	}
+};
 
 struct CAuthenticationGetPasswordRSAPublicKeyRequest : public ProtobufCppMessage
 {
@@ -201,6 +224,10 @@ struct CAuthenticationDeviceDetails : public ProtobufCppMessage
   int32_t os_type;
   protobuf_c_boolean has_gaming_device_type;
   uint32_t gaming_device_type;
+  protobuf_c_boolean has_client_count;
+  uint32_t client_count;
+  protobuf_c_boolean has_machine_id;
+  ProtobufCBinaryData machine_id;
 };
 
 struct CAuthenticationBeginAuthSessionViaQRRequest : public ProtobufCppMessage
@@ -214,6 +241,7 @@ struct CAuthenticationBeginAuthSessionViaQRRequest : public ProtobufCppMessage
   EAuthTokenPlatformType platform_type;
   CAuthenticationDeviceDetails *device_details;
   char *website_id;
+extern char cauthentication__begin_auth_session_via_qr__request__website_id__default_value[];
 };
 
 struct CAuthenticationAllowedConfirmation : public ProtobufCppMessage
@@ -270,6 +298,7 @@ struct CAuthenticationBeginAuthSessionViaCredentialsRequest : public ProtobufCpp
   uint32_t language;
   protobuf_c_boolean has_qos_level;
   int32_t qos_level;
+extern char cauthentication__begin_auth_session_via_credentials__request__website_id__default_value[];
 };
 
 struct CAuthenticationBeginAuthSessionViaCredentialsResponse : public ProtobufCppMessage
@@ -422,6 +451,8 @@ struct CAuthenticationAccessTokenGenerateForAppRequest : public ProtobufCppMessa
   char *refresh_token;
   protobuf_c_boolean has_steamid;
   uint64_t steamid;
+  protobuf_c_boolean has_renewal_type;
+  ETokenRenewalType renewal_type;
 };
 
 struct CAuthenticationAccessTokenGenerateForAppResponse : public ProtobufCppMessage
@@ -431,6 +462,7 @@ struct CAuthenticationAccessTokenGenerateForAppResponse : public ProtobufCppMess
   {}
 
   char *access_token;
+  char *refresh_token;
 };
 
 struct CAuthenticationRefreshTokenEnumerateRequest : public ProtobufCppMessage
@@ -533,6 +565,25 @@ struct CAuthenticationMigrateMobileSessionResponse : public ProtobufCppMessage
 
   char *refresh_token;
   char *access_token;
+};
+
+struct CAuthenticationTokenRevokeRequest : public ProtobufCppMessage
+{
+  CAuthenticationTokenRevokeRequest() :
+     ProtobufCppMessage(cauthentication__token__revoke__request__descriptor)
+  {}
+
+  char *token;
+  protobuf_c_boolean has_revoke_action;
+  EAuthTokenRevokeAction revoke_action;
+};
+
+struct CAuthenticationTokenRevokeResponse : public ProtobufCppMessage
+{
+  CAuthenticationTokenRevokeResponse() :
+     ProtobufCppMessage(cauthentication__token__revoke__response__descriptor)
+  {}
+
 };
 
 struct CAuthenticationRefreshTokenRevokeRequest : public ProtobufCppMessage
@@ -1140,6 +1191,38 @@ CAuthenticationMigrateMobileSessionResponse *
 void   cauthentication__migrate_mobile_session__response__free_unpacked
                      (CAuthenticationMigrateMobileSessionResponse *message,
                       ProtobufCAllocator *allocator);
+size_t cauthentication__token__revoke__request__get_packed_size
+                     (const CAuthenticationTokenRevokeRequest   *message);
+size_t cauthentication__token__revoke__request__pack
+                     (const CAuthenticationTokenRevokeRequest   *message,
+                      uint8_t             *out);
+size_t cauthentication__token__revoke__request__pack_to_buffer
+                     (const CAuthenticationTokenRevokeRequest   *message,
+                      ProtobufCBuffer     *buffer);
+CAuthenticationTokenRevokeRequest *
+       cauthentication__token__revoke__request__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   cauthentication__token__revoke__request__free_unpacked
+                     (CAuthenticationTokenRevokeRequest *message,
+                      ProtobufCAllocator *allocator);
+size_t cauthentication__token__revoke__response__get_packed_size
+                     (const CAuthenticationTokenRevokeResponse   *message);
+size_t cauthentication__token__revoke__response__pack
+                     (const CAuthenticationTokenRevokeResponse   *message,
+                      uint8_t             *out);
+size_t cauthentication__token__revoke__response__pack_to_buffer
+                     (const CAuthenticationTokenRevokeResponse   *message,
+                      ProtobufCBuffer     *buffer);
+CAuthenticationTokenRevokeResponse *
+       cauthentication__token__revoke__response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   cauthentication__token__revoke__response__free_unpacked
+                     (CAuthenticationTokenRevokeResponse *message,
+                      ProtobufCAllocator *allocator);
 size_t cauthentication__refresh_token__revoke__request__get_packed_size
                      (const CAuthenticationRefreshTokenRevokeRequest   *message);
 size_t cauthentication__refresh_token__revoke__request__pack
@@ -1492,6 +1575,12 @@ typedef void (*CAuthenticationMigrateMobileSessionRequest_Closure)
 typedef void (*CAuthenticationMigrateMobileSessionResponse_Closure)
                  (const CAuthenticationMigrateMobileSessionResponse *message,
                   void *closure_data);
+typedef void (*CAuthenticationTokenRevokeRequest_Closure)
+                 (const CAuthenticationTokenRevokeRequest *message,
+                  void *closure_data);
+typedef void (*CAuthenticationTokenRevokeResponse_Closure)
+                 (const CAuthenticationTokenRevokeResponse *message,
+                  void *closure_data);
 typedef void (*CAuthenticationRefreshTokenRevokeRequest_Closure)
                  (const CAuthenticationRefreshTokenRevokeRequest *message,
                   void *closure_data);
@@ -1597,6 +1686,10 @@ struct Authentication_Service
                                  const CAuthenticationMigrateMobileSessionRequest *input,
                                  CAuthenticationMigrateMobileSessionResponse_Closure closure,
                                  void *closure_data);
+  void (*revoke_token)(Authentication_Service *service,
+                       const CAuthenticationTokenRevokeRequest *input,
+                       CAuthenticationTokenRevokeResponse_Closure closure,
+                       void *closure_data);
   void (*revoke_refresh_token)(Authentication_Service *service,
                                const CAuthenticationRefreshTokenRevokeRequest *input,
                                CAuthenticationRefreshTokenRevokeResponse_Closure closure,
@@ -1620,6 +1713,7 @@ void authentication__init (Authentication_Service *service,
       function_prefix__ ## enumerate_tokens,\
       function_prefix__ ## get_auth_sessions_for_account,\
       function_prefix__ ## migrate_mobile_session,\
+      function_prefix__ ## revoke_token,\
       function_prefix__ ## revoke_refresh_token  }
 void authentication__get_password_rsapublic_key(ProtobufCService *service,
                                                 const CAuthenticationGetPasswordRSAPublicKeyRequest *input,
@@ -1665,6 +1759,10 @@ void authentication__migrate_mobile_session(ProtobufCService *service,
                                             const CAuthenticationMigrateMobileSessionRequest *input,
                                             CAuthenticationMigrateMobileSessionResponse_Closure closure,
                                             void *closure_data);
+void authentication__revoke_token(ProtobufCService *service,
+                                  const CAuthenticationTokenRevokeRequest *input,
+                                  CAuthenticationTokenRevokeResponse_Closure closure,
+                                  void *closure_data);
 void authentication__revoke_refresh_token(ProtobufCService *service,
                                           const CAuthenticationRefreshTokenRevokeRequest *input,
                                           CAuthenticationRefreshTokenRevokeResponse_Closure closure,

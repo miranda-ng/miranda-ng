@@ -967,6 +967,86 @@ void   cauthentication__migrate_mobile_session__response__free_unpacked
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 
+size_t cauthentication__token__revoke__request__get_packed_size
+                     (const CAuthenticationTokenRevokeRequest *message)
+{
+  assert(message->descriptor == &cauthentication__token__revoke__request__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t cauthentication__token__revoke__request__pack
+                     (const CAuthenticationTokenRevokeRequest *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &cauthentication__token__revoke__request__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t cauthentication__token__revoke__request__pack_to_buffer
+                     (const CAuthenticationTokenRevokeRequest *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &cauthentication__token__revoke__request__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+CAuthenticationTokenRevokeRequest *
+       cauthentication__token__revoke__request__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (CAuthenticationTokenRevokeRequest *)
+     protobuf_c_message_unpack (&cauthentication__token__revoke__request__descriptor,
+                                allocator, len, data);
+}
+void   cauthentication__token__revoke__request__free_unpacked
+                     (CAuthenticationTokenRevokeRequest *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &cauthentication__token__revoke__request__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
+size_t cauthentication__token__revoke__response__get_packed_size
+                     (const CAuthenticationTokenRevokeResponse *message)
+{
+  assert(message->descriptor == &cauthentication__token__revoke__response__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t cauthentication__token__revoke__response__pack
+                     (const CAuthenticationTokenRevokeResponse *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &cauthentication__token__revoke__response__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t cauthentication__token__revoke__response__pack_to_buffer
+                     (const CAuthenticationTokenRevokeResponse *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &cauthentication__token__revoke__response__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+CAuthenticationTokenRevokeResponse *
+       cauthentication__token__revoke__response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (CAuthenticationTokenRevokeResponse *)
+     protobuf_c_message_unpack (&cauthentication__token__revoke__response__descriptor,
+                                allocator, len, data);
+}
+void   cauthentication__token__revoke__response__free_unpacked
+                     (CAuthenticationTokenRevokeResponse *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &cauthentication__token__revoke__response__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+
 size_t cauthentication__refresh_token__revoke__request__get_packed_size
                      (const CAuthenticationRefreshTokenRevokeRequest *message)
 {
@@ -1748,7 +1828,7 @@ const ProtobufCMessageDescriptor cauthentication__get_password_rsapublic_key__re
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const EAuthTokenPlatformType cauthentication__device_details__platform_type__default_value = EAUTH_TOKEN_PLATFORM_TYPE__k_EAuthTokenPlatformType_Unknown;
-static const ProtobufCFieldDescriptor cauthentication__device_details__field_descriptors[4] =
+static const ProtobufCFieldDescriptor cauthentication__device_details__field_descriptors[6] =
 {
   {
     "device_friendly_name",
@@ -1798,17 +1878,43 @@ static const ProtobufCFieldDescriptor cauthentication__device_details__field_des
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "client_count",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(CAuthenticationDeviceDetails, has_client_count),
+    offsetof(CAuthenticationDeviceDetails, client_count),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "machine_id",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(CAuthenticationDeviceDetails, has_machine_id),
+    offsetof(CAuthenticationDeviceDetails, machine_id),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned cauthentication__device_details__field_indices_by_name[] = {
+  4,   /* field[4] = client_count */
   0,   /* field[0] = device_friendly_name */
   3,   /* field[3] = gaming_device_type */
+  5,   /* field[5] = machine_id */
   2,   /* field[2] = os_type */
   1,   /* field[1] = platform_type */
 };
 static const ProtobufCIntRange cauthentication__device_details__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 6 }
 };
 const ProtobufCMessageDescriptor cauthentication__device_details__descriptor =
 {
@@ -1818,7 +1924,7 @@ const ProtobufCMessageDescriptor cauthentication__device_details__descriptor =
   "CAuthenticationDeviceDetails",
   "",
   sizeof(CAuthenticationDeviceDetails),
-  4,
+  6,
   cauthentication__device_details__field_descriptors,
   cauthentication__device_details__field_indices_by_name,
   1,  cauthentication__device_details__number_ranges,
@@ -3013,7 +3119,8 @@ const ProtobufCMessageDescriptor cauthentication__update_auth_session_with_steam
   1,  cauthentication__update_auth_session_with_steam_guard_code__response__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor cauthentication__access_token__generate_for_app__request__field_descriptors[2] =
+static const ETokenRenewalType cauthentication__access_token__generate_for_app__request__renewal_type__default_value = ETOKEN_RENEWAL_TYPE__k_ETokenRenewalType_None;
+static const ProtobufCFieldDescriptor cauthentication__access_token__generate_for_app__request__field_descriptors[3] =
 {
   {
     "refresh_token",
@@ -3039,15 +3146,28 @@ static const ProtobufCFieldDescriptor cauthentication__access_token__generate_fo
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "renewal_type",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(CAuthenticationAccessTokenGenerateForAppRequest, has_renewal_type),
+    offsetof(CAuthenticationAccessTokenGenerateForAppRequest, renewal_type),
+    &etoken_renewal_type__descriptor,
+    &cauthentication__access_token__generate_for_app__request__renewal_type__default_value,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned cauthentication__access_token__generate_for_app__request__field_indices_by_name[] = {
   0,   /* field[0] = refresh_token */
+  2,   /* field[2] = renewal_type */
   1,   /* field[1] = steamid */
 };
 static const ProtobufCIntRange cauthentication__access_token__generate_for_app__request__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 2 }
+  { 0, 3 }
 };
 const ProtobufCMessageDescriptor cauthentication__access_token__generate_for_app__request__descriptor =
 {
@@ -3057,13 +3177,13 @@ const ProtobufCMessageDescriptor cauthentication__access_token__generate_for_app
   "CAuthenticationAccessTokenGenerateForAppRequest",
   "",
   sizeof(CAuthenticationAccessTokenGenerateForAppRequest),
-  2,
+  3,
   cauthentication__access_token__generate_for_app__request__field_descriptors,
   cauthentication__access_token__generate_for_app__request__field_indices_by_name,
   1,  cauthentication__access_token__generate_for_app__request__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCFieldDescriptor cauthentication__access_token__generate_for_app__response__field_descriptors[1] =
+static const ProtobufCFieldDescriptor cauthentication__access_token__generate_for_app__response__field_descriptors[2] =
 {
   {
     "access_token",
@@ -3077,14 +3197,27 @@ static const ProtobufCFieldDescriptor cauthentication__access_token__generate_fo
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "refresh_token",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(CAuthenticationAccessTokenGenerateForAppResponse, refresh_token),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned cauthentication__access_token__generate_for_app__response__field_indices_by_name[] = {
   0,   /* field[0] = access_token */
+  1,   /* field[1] = refresh_token */
 };
 static const ProtobufCIntRange cauthentication__access_token__generate_for_app__response__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 1 }
+  { 0, 2 }
 };
 const ProtobufCMessageDescriptor cauthentication__access_token__generate_for_app__response__descriptor =
 {
@@ -3094,7 +3227,7 @@ const ProtobufCMessageDescriptor cauthentication__access_token__generate_for_app
   "CAuthenticationAccessTokenGenerateForAppResponse",
   "",
   sizeof(CAuthenticationAccessTokenGenerateForAppResponse),
-  1,
+  2,
   cauthentication__access_token__generate_for_app__response__field_descriptors,
   cauthentication__access_token__generate_for_app__response__field_indices_by_name,
   1,  cauthentication__access_token__generate_for_app__response__number_ranges,
@@ -3602,6 +3735,74 @@ const ProtobufCMessageDescriptor cauthentication__migrate_mobile_session__respon
   cauthentication__migrate_mobile_session__response__field_descriptors,
   cauthentication__migrate_mobile_session__response__field_indices_by_name,
   1,  cauthentication__migrate_mobile_session__response__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const EAuthTokenRevokeAction cauthentication__token__revoke__request__revoke_action__default_value = EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokePermanent;
+static const ProtobufCFieldDescriptor cauthentication__token__revoke__request__field_descriptors[2] =
+{
+  {
+    "token",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(CAuthenticationTokenRevokeRequest, token),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "revoke_action",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(CAuthenticationTokenRevokeRequest, has_revoke_action),
+    offsetof(CAuthenticationTokenRevokeRequest, revoke_action),
+    &eauth_token_revoke_action__descriptor,
+    &cauthentication__token__revoke__request__revoke_action__default_value,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned cauthentication__token__revoke__request__field_indices_by_name[] = {
+  1,   /* field[1] = revoke_action */
+  0,   /* field[0] = token */
+};
+static const ProtobufCIntRange cauthentication__token__revoke__request__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor cauthentication__token__revoke__request__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "CAuthentication_Token_Revoke_Request",
+  "CAuthenticationTokenRevokeRequest",
+  "CAuthenticationTokenRevokeRequest",
+  "",
+  sizeof(CAuthenticationTokenRevokeRequest),
+  2,
+  cauthentication__token__revoke__request__field_descriptors,
+  cauthentication__token__revoke__request__field_indices_by_name,
+  1,  cauthentication__token__revoke__request__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+#define cauthentication__token__revoke__response__field_descriptors NULL
+#define cauthentication__token__revoke__response__field_indices_by_name NULL
+#define cauthentication__token__revoke__response__number_ranges NULL
+const ProtobufCMessageDescriptor cauthentication__token__revoke__response__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "CAuthentication_Token_Revoke_Response",
+  "CAuthenticationTokenRevokeResponse",
+  "CAuthenticationTokenRevokeResponse",
+  "",
+  sizeof(CAuthenticationTokenRevokeResponse),
+  0,
+  cauthentication__token__revoke__response__field_descriptors,
+  cauthentication__token__revoke__response__field_indices_by_name,
+  0,  cauthentication__token__revoke__response__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const EAuthTokenRevokeAction cauthentication__refresh_token__revoke__request__revoke_action__default_value = EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokePermanent;
@@ -4699,21 +4900,55 @@ const ProtobufCEnumDescriptor eauth_session_security_history__descriptor =
   eauth_session_security_history__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCEnumValue eauth_token_revoke_action__enum_values_by_number[5] =
+static const ProtobufCEnumValue etoken_renewal_type__enum_values_by_number[2] =
+{
+  { "k_ETokenRenewalType_None", "ETOKEN_RENEWAL_TYPE__k_ETokenRenewalType_None", 0 },
+  { "k_ETokenRenewalType_Allow", "ETOKEN_RENEWAL_TYPE__k_ETokenRenewalType_Allow", 1 },
+};
+static const ProtobufCIntRange etoken_renewal_type__value_ranges[] = {
+{0, 0},{0, 2}
+};
+static const ProtobufCEnumValueIndex etoken_renewal_type__enum_values_by_name[2] =
+{
+  { "k_ETokenRenewalType_Allow", 1 },
+  { "k_ETokenRenewalType_None", 0 },
+};
+const ProtobufCEnumDescriptor etoken_renewal_type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "ETokenRenewalType",
+  "ETokenRenewalType",
+  "ETokenRenewalType",
+  "",
+  2,
+  etoken_renewal_type__enum_values_by_number,
+  2,
+  etoken_renewal_type__enum_values_by_name,
+  1,
+  etoken_renewal_type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCEnumValue eauth_token_revoke_action__enum_values_by_number[8] =
 {
   { "k_EAuthTokenRevokeLogout", "EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeLogout", 0 },
   { "k_EAuthTokenRevokePermanent", "EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokePermanent", 1 },
   { "k_EAuthTokenRevokeReplaced", "EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeReplaced", 2 },
   { "k_EAuthTokenRevokeSupport", "EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeSupport", 3 },
   { "k_EAuthTokenRevokeConsume", "EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeConsume", 4 },
+  { "k_EAuthTokenRevokeNonRememberedLogout", "EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeNonRememberedLogout", 5 },
+  { "k_EAuthTokenRevokeNonRememberedPermanent", "EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeNonRememberedPermanent", 6 },
+  { "k_EAuthTokenRevokeAutomatic", "EAUTH_TOKEN_REVOKE_ACTION__k_EAuthTokenRevokeAutomatic", 7 },
 };
 static const ProtobufCIntRange eauth_token_revoke_action__value_ranges[] = {
-{0, 0},{0, 5}
+{0, 0},{0, 8}
 };
-static const ProtobufCEnumValueIndex eauth_token_revoke_action__enum_values_by_name[5] =
+static const ProtobufCEnumValueIndex eauth_token_revoke_action__enum_values_by_name[8] =
 {
+  { "k_EAuthTokenRevokeAutomatic", 7 },
   { "k_EAuthTokenRevokeConsume", 4 },
   { "k_EAuthTokenRevokeLogout", 0 },
+  { "k_EAuthTokenRevokeNonRememberedLogout", 5 },
+  { "k_EAuthTokenRevokeNonRememberedPermanent", 6 },
   { "k_EAuthTokenRevokePermanent", 1 },
   { "k_EAuthTokenRevokeReplaced", 2 },
   { "k_EAuthTokenRevokeSupport", 3 },
@@ -4725,9 +4960,9 @@ const ProtobufCEnumDescriptor eauth_token_revoke_action__descriptor =
   "EAuthTokenRevokeAction",
   "EAuthTokenRevokeAction",
   "",
-  5,
+  8,
   eauth_token_revoke_action__enum_values_by_number,
-  5,
+  8,
   eauth_token_revoke_action__enum_values_by_name,
   1,
   eauth_token_revoke_action__value_ranges,
@@ -4773,7 +5008,7 @@ const ProtobufCEnumDescriptor eauth_token_state__descriptor =
   eauth_token_state__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCMethodDescriptor authentication__method_descriptors[12] =
+static const ProtobufCMethodDescriptor authentication__method_descriptors[13] =
 {
   { "GetPasswordRSAPublicKey", &cauthentication__get_password_rsapublic_key__request__descriptor, &cauthentication__get_password_rsapublic_key__response__descriptor },
   { "BeginAuthSessionViaQR", &cauthentication__begin_auth_session_via_qr__request__descriptor, &cauthentication__begin_auth_session_via_qr__response__descriptor },
@@ -4786,6 +5021,7 @@ static const ProtobufCMethodDescriptor authentication__method_descriptors[12] =
   { "EnumerateTokens", &cauthentication__refresh_token__enumerate__request__descriptor, &cauthentication__refresh_token__enumerate__response__descriptor },
   { "GetAuthSessionsForAccount", &cauthentication__get_auth_sessions_for_account__request__descriptor, &cauthentication__get_auth_sessions_for_account__response__descriptor },
   { "MigrateMobileSession", &cauthentication__migrate_mobile_session__request__descriptor, &cauthentication__migrate_mobile_session__response__descriptor },
+  { "RevokeToken", &cauthentication__token__revoke__request__descriptor, &cauthentication__token__revoke__response__descriptor },
   { "RevokeRefreshToken", &cauthentication__refresh_token__revoke__request__descriptor, &cauthentication__refresh_token__revoke__response__descriptor },
 };
 const unsigned authentication__method_indices_by_name[] = {
@@ -4798,7 +5034,8 @@ const unsigned authentication__method_indices_by_name[] = {
   0,        /* GetPasswordRSAPublicKey */
   10,        /* MigrateMobileSession */
   3,        /* PollAuthSessionStatus */
-  11,        /* RevokeRefreshToken */
+  12,        /* RevokeRefreshToken */
+  11,        /* RevokeToken */
   5,        /* UpdateAuthSessionWithMobileConfirmation */
   6         /* UpdateAuthSessionWithSteamGuardCode */
 };
@@ -4809,7 +5046,7 @@ const ProtobufCServiceDescriptor authentication__descriptor =
   "Authentication",
   "Authentication",
   "",
-  12,
+  13,
   authentication__method_descriptors,
   authentication__method_indices_by_name
 };
@@ -4901,13 +5138,21 @@ void authentication__migrate_mobile_session(ProtobufCService *service,
   assert(service->descriptor == &authentication__descriptor);
   service->invoke(service, 10, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
+void authentication__revoke_token(ProtobufCService *service,
+                                  const CAuthenticationTokenRevokeRequest *input,
+                                  CAuthenticationTokenRevokeResponse_Closure closure,
+                                  void *closure_data)
+{
+  assert(service->descriptor == &authentication__descriptor);
+  service->invoke(service, 11, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+}
 void authentication__revoke_refresh_token(ProtobufCService *service,
                                           const CAuthenticationRefreshTokenRevokeRequest *input,
                                           CAuthenticationRefreshTokenRevokeResponse_Closure closure,
                                           void *closure_data)
 {
   assert(service->descriptor == &authentication__descriptor);
-  service->invoke(service, 11, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
+  service->invoke(service, 12, (const ProtobufCMessage *) input, (ProtobufCClosure) closure, closure_data);
 }
 void authentication__init (Authentication_Service *service,
                            Authentication_ServiceDestroy destroy)

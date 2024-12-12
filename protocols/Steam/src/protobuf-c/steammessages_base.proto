@@ -1,4 +1,4 @@
-import "google/protobuf/descriptor.proto";
+import "descriptor.proto";
 
 option optimize_for = SPEED;
 option cc_generic_services = true;
