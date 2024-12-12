@@ -164,7 +164,7 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 	// persistent callbacks
 	switch (msgType) {
 	case EMsg::ClientLogOnResponse:
-		OnLoggedOn(buf, cbLen);
+		OnLoggedIn();
 		break;
 	}
 }

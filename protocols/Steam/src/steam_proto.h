@@ -12,10 +12,12 @@
 #define DBKEY_HOSTS_COUNT  "HostsCount"
 #define DBKEY_HOSTS_DATE   "HostsDate"
 
-#define DBKEY_CLIENT_ID    "ClientID"
-#define DBKEY_STEAM_ID     "SteamID"
-#define DBKEY_ACCOUNT_NAME "Username"
-#define DBKEY_MACHINE_ID   "MachineId"
+#define DBKEY_CLIENT_ID     "ClientID"
+#define DBKEY_STEAM_ID      "SteamID"
+#define DBKEY_ACCOUNT_NAME  "Username"
+#define DBKEY_MACHINE_ID    "MachineId"
+#define DBKEY_ACCESS_TOKEN  "AccessToken"
+#define DBKEY_REFRESH_TOKEN "RefreshToken"
 
 struct SendAuthParam
 {
@@ -68,8 +70,28 @@ class CSteamProto : public PROTO<CSteamProto>
 	friend class PollRequest;
 	friend class WebSocket<CSteamProto>;
 
+	class CProtoImpl
+	{
+		friend class CSteamProto;
+		CSteamProto &m_proto;
+
+		CTimer m_poll;
+		void OnPoll(CTimer *)
+		{
+			m_proto.SendPollRequest();
+		}
+
+		CProtoImpl(CSteamProto &pro) :
+			m_proto(pro),
+			m_poll(Miranda_GetSystemWindow(), UINT_PTR(this))
+		{
+			m_poll.OnEvent = Callback(this, &CProtoImpl::OnPoll);
+		}
+	}
+		m_impl;
+
 	ptrW m_password;
-	bool m_bTerminated;
+	bool m_bTerminated, m_bPollCanceled;
 	time_t m_idleTS;
 	int64_t m_iSteamId, m_iClientId;
 	MBinBuffer m_requestId;
@@ -84,6 +106,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	CMStringA m_szRefreshToken, m_szAccessToken;
 	ULONG hAuthProcess = 1;
 	ULONG hMessageProcess = 1;
+	int m_iPollingInterval;
+	time_t m_iPollingStartTime;
 	mir_cs m_addContactLock;
 	mir_cs m_setStatusLock;
 	std::map<HANDLE, time_t> m_mpOutMessages;
@@ -117,17 +141,19 @@ class CSteamProto : public PROTO<CSteamProto>
 	void LoginFailed();
 	void Logout();
 
+	void OnLoggedIn();
+
 	static INT_PTR CALLBACK EnterTotpCode(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);
 
-   void OnAuthorization(const uint8_t *buf, size_t cbLen);
+   void OnBeginSession(const uint8_t *buf, size_t cbLen);
 	void OnGotRsaKey(const uint8_t *buf, size_t cbLen);
 	void OnGotConfirmationCode(const uint8_t *buf, size_t cbLen);
-	void OnLoggedOn(const uint8_t *buf, size_t cbLen);
 	void OnPollSession(const uint8_t *buf, size_t cbLen);
 
 	void OnGotHosts(const JSONNode &root, void *);
 
+	void CancelLoginAttempt();
 	void DeleteAuthSettings();
 	void SendConfirmationCode(bool, const char *pszCode);
 	void SendPollRequest();

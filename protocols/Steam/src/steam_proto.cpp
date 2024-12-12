@@ -9,6 +9,7 @@ static int CompareRequests(const ProtoRequest *p1, const ProtoRequest *p2)
 
 CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CSteamProto>(protoName, userName),
+	m_impl(*this),
 	m_arRequests(10, CompareRequests),
 	m_wszGroupName(this, "DefaultGroup", L"Steam"),
 	m_wszDeviceName(this, "DeviceName", L"Miranda NG")
