@@ -106,14 +106,6 @@ extern const ProtobufCMessageDescriptor cmsg_client_emoticon_list__effect__descr
 
 extern "C" void message_init_generic(const ProtobufCMessageDescriptor * desc, ProtobufCMessage * message);
 
-struct ProtobufCppMessage : public ProtobufCMessage
-{
-	ProtobufCppMessage(const ProtobufCMessageDescriptor &descr)
-	{
-		message_init_generic(&descr, this);
-	}
-};
-
 struct CMsgClientFriendMsg : public ProtobufCppMessage
 {
   CMsgClientFriendMsg() :

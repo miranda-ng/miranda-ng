@@ -39,6 +39,12 @@
     <ClCompile Include="src\protobuf-c\steammessages_base.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_chat.steamclient.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\protobuf-c\steammessages_clientserver_login.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -79,6 +85,8 @@
     <ClInclude Include="src\protobuf-c\protobuf-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_auth.steamclient.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_base.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_chat.steamclient.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_login.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_unified_base.steamclient.pb-c.h" />
     <ClInclude Include="src\resource.h" />

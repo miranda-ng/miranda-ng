@@ -78,6 +78,12 @@
     <ClCompile Include="src\protobuf-c\enums.pb-c.cpp">
       <Filter>Source Files\protobuf</Filter>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_chat.steamclient.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -147,6 +153,12 @@
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="src\proto.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_chat.steamclient.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.h">
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
   </ItemGroup>

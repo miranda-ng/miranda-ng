@@ -182,14 +182,6 @@ extern const ProtobufCServiceDescriptor cloud_gaming__descriptor;
 
 extern "C" void message_init_generic(const ProtobufCMessageDescriptor * desc, ProtobufCMessage * message);
 
-struct ProtobufCppMessage : public ProtobufCMessage
-{
-	ProtobufCppMessage(const ProtobufCMessageDescriptor &descr)
-	{
-		message_init_generic(&descr, this);
-	}
-};
-
 struct CAuthenticationGetPasswordRSAPublicKeyRequest : public ProtobufCppMessage
 {
   CAuthenticationGetPasswordRSAPublicKeyRequest() :
@@ -241,7 +233,6 @@ struct CAuthenticationBeginAuthSessionViaQRRequest : public ProtobufCppMessage
   EAuthTokenPlatformType platform_type;
   CAuthenticationDeviceDetails *device_details;
   char *website_id;
-extern char cauthentication__begin_auth_session_via_qr__request__website_id__default_value[];
 };
 
 struct CAuthenticationAllowedConfirmation : public ProtobufCppMessage
@@ -298,7 +289,6 @@ struct CAuthenticationBeginAuthSessionViaCredentialsRequest : public ProtobufCpp
   uint32_t language;
   protobuf_c_boolean has_qos_level;
   int32_t qos_level;
-extern char cauthentication__begin_auth_session_via_credentials__request__website_id__default_value[];
 };
 
 struct CAuthenticationBeginAuthSessionViaCredentialsResponse : public ProtobufCppMessage

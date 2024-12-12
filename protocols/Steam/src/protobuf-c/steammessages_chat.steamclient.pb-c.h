@@ -402,14 +402,6 @@ extern const ProtobufCServiceDescriptor chat_usability_client__descriptor;
 
 extern "C" void message_init_generic(const ProtobufCMessageDescriptor * desc, ProtobufCMessage * message);
 
-struct ProtobufCppMessage : public ProtobufCMessage
-{
-	ProtobufCppMessage(const ProtobufCMessageDescriptor &descr)
-	{
-		message_init_generic(&descr, this);
-	}
-};
-
 struct CChatRequestFriendPersonaStatesRequest : public ProtobufCppMessage
 {
   CChatRequestFriendPersonaStatesRequest() :
