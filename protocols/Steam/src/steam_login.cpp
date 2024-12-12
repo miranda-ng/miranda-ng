@@ -67,8 +67,11 @@ void CSteamProto::Login()
 
 	m_szAccessToken = getMStringA(DBKEY_ACCESS_TOKEN);
 	m_szRefreshToken = getMStringA(DBKEY_REFRESH_TOKEN);
-	if (!m_szAccessToken.IsEmpty() && !m_szRefreshToken.IsEmpty())
+	if (!m_szAccessToken.IsEmpty() && !m_szRefreshToken.IsEmpty()) {
+		m_iSteamId = GetId(DBKEY_STEAM_ID);
+		m_iClientId = GetId(DBKEY_CLIENT_ID);
 		OnLoggedIn();
+	}
 	else {
 		CAuthenticationGetPasswordRSAPublicKeyRequest request;
 		request.account_name = username.get();

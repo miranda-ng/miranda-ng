@@ -207,10 +207,8 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 		setString(hContact, "ServerID", serverID.c_str());
 
 		CMStringW message(gameInfo);
-		if (gameId && message.IsEmpty()) {
-			ptrA token(getStringA("TokenSecret"));
-			SendRequest(new GetAppInfoRequest(token, appId.c_str()), &CSteamProto::OnGotAppInfo, (void*)hContact);
-		}
+		if (gameId && message.IsEmpty())
+			SendRequest(new GetAppInfoRequest(m_szAccessToken, appId.c_str()), &CSteamProto::OnGotAppInfo, (void*)hContact);
 		else {
 			if (!gameId)
 				message.Append(TranslateT(" (Non-Steam)"));
@@ -294,7 +292,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 
 	// create auth request event
 	ptrA steamId(getUStringA(hContact, DBKEY_STEAM_ID));
-	SendRequest(new GetUserSummariesRequest(this, steamId), &CSteamProto::OnGotUserSummaries);
+	SendRequest(new GetUserSummariesRequest(m_szAccessToken, steamId), &CSteamProto::OnGotUserSummaries);
 
 	ptrA nickName(getUStringA(hContact, "Nick"));
 	if (nickName == nullptr)
@@ -444,10 +442,10 @@ void CSteamProto::OnGotFriendList(const JSONNode &root, void *)
 	friendsMap.clear();
 
 	if (!steamIds.empty())
-		SendRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnGotUserSummaries);
+		SendRequest(new GetUserSummariesRequest(m_szAccessToken, steamIds.c_str()), &CSteamProto::OnGotUserSummaries);
 
 	// Load last conversations
-	SendRequest(new GetConversationsRequest(this), &CSteamProto::OnGotConversations);
+	SendRequest(new GetConversationsRequest(m_szAccessToken), &CSteamProto::OnGotConversations);
 }
 
 void CSteamProto::OnGotBlockList(const JSONNode &root, void *)
@@ -476,13 +474,13 @@ void CSteamProto::OnGotUserSummaries(const JSONNode &root, void *)
 	}
 }
 
-void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
+void CSteamProto::OnGotAvatar(const MHttpResponse &response, void *arg)
 {
 	PROTO_AVATAR_INFORMATION ai = { 0 };
 	ai.hContact = (UINT_PTR)arg;
 	GetDbAvatarInfo(ai);
 
-	if (!response.IsSuccess()) {
+	if (response.resultCode != 200) {
 		ptrA steamId(getStringA(ai.hContact, DBKEY_STEAM_ID));
 		debugLogA(__FUNCTION__ ": failed to get avatar %s", steamId.get());
 
@@ -493,7 +491,7 @@ void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
 
 	FILE *file = _wfopen(ai.filename, L"wb");
 	if (file) {
-		fwrite(response.data(), sizeof(char), response.length(), file);
+		fwrite(response.body, sizeof(char), response.body.GetLength(), file);
 		fclose(file);
 
 		if (ai.hContact)
@@ -503,12 +501,11 @@ void CSteamProto::OnGotAvatar(const HttpResponse &response, void *arg)
 	}
 }
 
-void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
+void CSteamProto::OnFriendAdded(const MHttpResponse &response, void *arg)
 {
 	SendAuthParam *param = (SendAuthParam *)arg;
 
-	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
-
+	if (response.resultCode != 200 || mir_strcmp(response.body, "true")) {
 		ptrW steamId(getWStringA(param->hContact, DBKEY_STEAM_ID));
 		ptrW who(getWStringA(param->hContact, "Nick"));
 		if (!who)
@@ -517,7 +514,7 @@ void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
 		wchar_t message[MAX_PATH];
 		mir_snwprintf(message, L"Error adding friend %s", who.get());
 
-		JSONNode root = JSONNode::parse(response.data());
+		JSONNode root = JSONNode::parse(response.body);
 		if (root) {
 			int success = root["success"].as_int();
 			if (success == 1) {
@@ -566,11 +563,11 @@ void CSteamProto::OnFriendAdded(const HttpResponse &response, void *arg)
 	ProtoBroadcastAck(param->hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, param->hAuth, 0);
 }
 
-void CSteamProto::OnFriendBlocked(const HttpResponse &response, void *arg)
+void CSteamProto::OnFriendBlocked(const MHttpResponse &response, void *arg)
 {
 	ptrA steamId((char *)arg);
 
-	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
+	if (response.resultCode != 200 || mir_strcmp(response.body, "true")) {
 		debugLogA(__FUNCTION__ ": failed to ignore friend %s", (char *)steamId);
 		return;
 	}
@@ -580,11 +577,11 @@ void CSteamProto::OnFriendBlocked(const HttpResponse &response, void *arg)
 		ContactIsBlocked(hContact);
 }
 
-void CSteamProto::OnFriendUnblocked(const HttpResponse &response, void *arg)
+void CSteamProto::OnFriendUnblocked(const MHttpResponse &response, void *arg)
 {
 	ptrA steamId((char *)arg);
 
-	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
+	if (response.resultCode != 200 || mir_strcmp(response.body, "true")) {
 		debugLogA(__FUNCTION__ ": failed to unignore friend %s", (char *)steamId);
 		return;
 	}
@@ -594,11 +591,11 @@ void CSteamProto::OnFriendUnblocked(const HttpResponse &response, void *arg)
 		ContactIsUnblocked(hContact);
 }
 
-void CSteamProto::OnFriendRemoved(const HttpResponse &response, void *arg)
+void CSteamProto::OnFriendRemoved(const MHttpResponse &response, void *arg)
 {
 	ptrA steamId((char *)arg);
 
-	if (!response.IsSuccess() || mir_strcmp(response.data(), "true")) {
+	if (response.resultCode != 200 || mir_strcmp(response.body, "true")) {
 		debugLogA(__FUNCTION__ ": failed to remove friend %s", (char *)steamId);
 		return;
 	}
@@ -650,17 +647,17 @@ void CSteamProto::OnPendingIgnoreded(const JSONNode &root, void *arg)
 	}
 }
 
-void CSteamProto::OnSearchResults(const HttpResponse &response, void *arg)
+void CSteamProto::OnSearchResults(const MHttpResponse &response, void *arg)
 {
 	HANDLE searchType = (HANDLE)arg;
 
-	if (!response.IsSuccess()) {
+	if (response.resultCode != 200) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, searchType, 0);
 		debugLogA(__FUNCTION__ ": failed to get summaries");
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response.data());
+	JSONNode root = JSONNode::parse(response.body);
 	if (root.isnull()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, searchType, 0);
 		debugLogA(__FUNCTION__ ": no data");
@@ -700,15 +697,15 @@ void CSteamProto::OnSearchResults(const HttpResponse &response, void *arg)
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, searchType, 0);
 }
 
-void CSteamProto::OnSearchByNameStarted(const HttpResponse &response, void *arg)
+void CSteamProto::OnSearchByNameStarted(const MHttpResponse &response, void *arg)
 {
-	if (!response.IsSuccess()) {
+	if (response.resultCode != 200) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)arg, 0);
 		debugLogA(__FUNCTION__ ": failed to get results");
 		return;
 	}
 
-	JSONNode root = JSONNode::parse(response.data());
+	JSONNode root = JSONNode::parse(response.body);
 	if (root.isnull()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)arg, 0);
 		debugLogA(__FUNCTION__ ": no data");
@@ -734,5 +731,5 @@ void CSteamProto::OnSearchByNameStarted(const HttpResponse &response, void *arg)
 	// remove trailing ","
 	steamIds.pop_back();
 
-	SendRequest(new GetUserSummariesRequest(this, steamIds.c_str()), &CSteamProto::OnSearchResults, (HANDLE)arg);
+	SendRequest(new GetUserSummariesRequest(m_szAccessToken, steamIds.c_str()), &CSteamProto::OnSearchResults, (HANDLE)arg);
 }

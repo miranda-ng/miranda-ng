@@ -14,14 +14,12 @@ int CSteamProto::OnSendMessage(MCONTACT hContact, const char *message)
 	param->hContact = hContact;
 	param->hMessage = (HANDLE)hMessage;
 
-	ptrA token(getStringA("TokenSecret"));
-	ptrA umqid(getStringA("UMQID"));
 	ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
-	SendRequest(new SendMessageRequest(token, umqid, steamId, message), &CSteamProto::OnMessageSent, param);
+	SendRequest(new SendMessageRequest(m_szAccessToken, m_szUmqId, steamId, message), &CSteamProto::OnMessageSent, param);
 	return hMessage;
 }
 
-void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
+void CSteamProto::OnMessageSent(const MHttpResponse &response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam *)arg;
 
@@ -29,16 +27,14 @@ void CSteamProto::OnMessageSent(const HttpResponse &response, void *arg)
 	ptrW steamId(getWStringA(param->hContact, DBKEY_STEAM_ID));
 	time_t timestamp = NULL;
 
-	if (response) {
-		JSONNode root = JSONNode::parse(response.data());
-		const JSONNode &node = root["error"];
-		if (node)
-			error = node.as_string();
+	JSONNode root = JSONNode::parse(response.body);
+	const JSONNode &node = root["error"];
+	if (node)
+		error = node.as_string();
 
-		timestamp = atol(root["utc_timestamp"].as_string().c_str());
-		if (timestamp > getDword(param->hContact, DB_KEY_LASTMSGTS))
-			setDword(param->hContact, DB_KEY_LASTMSGTS, timestamp);
-	}
+	timestamp = atol(root["utc_timestamp"].as_string().c_str());
+	if (timestamp > getDword(param->hContact, DB_KEY_LASTMSGTS))
+		setDword(param->hContact, DB_KEY_LASTMSGTS, timestamp);
 
 	if (mir_strcmpi(error.c_str(), "OK") != 0) {
 		debugLogA(__FUNCTION__ ": failed to send message for %s (%s)", steamId.get(), error.c_str());
@@ -77,9 +73,7 @@ int CSteamProto::UserIsTyping(MCONTACT hContact, int type)
 	if (type == PROTOTYPE_SELFTYPING_OFF)
 		return 0;
 
-	ptrA token(getStringA("TokenSecret"));
-	ptrA umqid(getStringA("UMQID"));
 	ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
-	SendRequest(new SendTypingRequest(token, umqid, steamId));
+	SendRequest(new SendTypingRequest(m_szAccessToken, m_szUmqId, steamId));
 	return 0;
 }

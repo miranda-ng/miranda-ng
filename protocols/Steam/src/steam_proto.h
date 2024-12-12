@@ -40,7 +40,7 @@ enum
 };
 
 typedef void (CSteamProto::*MsgCallback)(const uint8_t *pBuf, size_t cbLen);
-typedef void (CSteamProto::*HttpCallback)(const HttpResponse &, void *);
+typedef void (CSteamProto::*HttpCallback)(const MHttpResponse &, void *);
 typedef void (CSteamProto::*JsonCallback)(const JSONNode &, void *);
 
 struct HttpRequest : public MTHttpRequest<CSteamProto>
@@ -103,7 +103,7 @@ class CSteamProto : public PROTO<CSteamProto>
    void     SetId(MCONTACT, const char *pszSetting, int64_t id);
 
 	// polling
-	CMStringA m_szRefreshToken, m_szAccessToken;
+	CMStringA m_szRefreshToken, m_szAccessToken, m_szUmqId, m_szChatToken;
 	ULONG hAuthProcess = 1;
 	ULONG hMessageProcess = 1;
 	int m_iPollingInterval;
@@ -180,24 +180,24 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnGotFriendList(const JSONNode &root, void *);
 	void OnGotBlockList(const JSONNode &root, void *);
 	void OnGotUserSummaries(const JSONNode &root, void *);
-	void OnGotAvatar(const HttpResponse &response, void *arg);
+	void OnGotAvatar(const MHttpResponse &response, void *arg);
 
-	void OnFriendAdded(const HttpResponse &response, void *arg);
-	void OnFriendBlocked(const HttpResponse &response, void *arg);
-	void OnFriendUnblocked(const HttpResponse &response, void *arg);
-	void OnFriendRemoved(const HttpResponse &response, void *arg);
+	void OnFriendAdded(const MHttpResponse &response, void *arg);
+	void OnFriendBlocked(const MHttpResponse &response, void *arg);
+	void OnFriendUnblocked(const MHttpResponse &response, void *arg);
+	void OnFriendRemoved(const MHttpResponse &response, void *arg);
 
 	void OnAuthRequested(const JSONNode &root, void *arg);
 
 	void OnPendingApproved(const JSONNode &root, void *arg);
 	void OnPendingIgnoreded(const JSONNode &root, void *arg);
 
-	void OnSearchResults(const HttpResponse &response, void *arg);
-	void OnSearchByNameStarted(const HttpResponse &response, void *arg);
+	void OnSearchResults(const MHttpResponse &response, void *arg);
+	void OnSearchByNameStarted(const MHttpResponse &response, void *arg);
 
 	// messages
-	int OnSendMessage(MCONTACT hContact, const char *message);
-	void OnMessageSent(const HttpResponse &response, void *arg);
+	int  OnSendMessage(MCONTACT hContact, const char *message);
+	void OnMessageSent(const MHttpResponse &response, void *arg);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	// history

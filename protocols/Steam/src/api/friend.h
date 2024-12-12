@@ -1,13 +1,12 @@
 #ifndef _STEAM_REQUEST_FRIEND_H_
 #define _STEAM_REQUEST_FRIEND_H_
 
-class GetUserSummariesRequest : public HttpRequest
+struct GetUserSummariesRequest : public HttpRequest
 {
-public:
-	GetUserSummariesRequest(CSteamProto *ppro, const char *steamIds) :
+	GetUserSummariesRequest(const char *pszAccessToken, const char *steamIds) :
 		HttpRequest(REQUEST_GET, "/ISteamUserOAuth/GetUserSummaries/v0002")
 	{
-		this << CHAR_PARAM("access_token", ppro->getMStringA("TokenSecret")) << CHAR_PARAM("steamids", steamIds);
+		this << CHAR_PARAM("access_token", pszAccessToken) << CHAR_PARAM("steamids", steamIds);
 	}
 
 	//{

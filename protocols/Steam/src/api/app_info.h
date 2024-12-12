@@ -1,9 +1,8 @@
 #ifndef _STEAM_REQUEST_APP_INFO_H_
 #define _STEAM_REQUEST_APP_INFO_H_
 
-class GetAppInfoRequest : public HttpRequest
+struct GetAppInfoRequest : public HttpRequest
 {
-public:
 	GetAppInfoRequest(const char *token, const char *appIds) :
 		HttpRequest(REQUEST_GET, "/ISteamGameOAuth/GetAppInfo/v0001")
 	{

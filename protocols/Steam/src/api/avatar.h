@@ -1,9 +1,8 @@
 #ifndef _STEAM_REQUEST_AVATAR_H_
 #define _STEAM_REQUEST_AVATAR_H_
 
-class GetAvatarRequest : public HttpRequest
+struct GetAvatarRequest : public HttpRequest
 {
-public:
 	GetAvatarRequest(const char *url) :
 		HttpRequest(REQUEST_GET, url)
 	{

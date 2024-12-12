@@ -72,10 +72,8 @@
     <ClInclude Include="src\api\history.h" />
     <ClInclude Include="src\api\message.h" />
     <ClInclude Include="src\api\pending.h" />
-    <ClInclude Include="src\api\rsa_key.h" />
     <ClInclude Include="src\api\search.h" />
     <ClInclude Include="src\api\session.h" />
-    <ClInclude Include="src\http_request.h" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\protobuf-c\enums.pb-c.h" />
     <ClInclude Include="src\protobuf-c\protobuf-c.h" />

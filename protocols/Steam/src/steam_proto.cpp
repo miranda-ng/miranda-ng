@@ -124,16 +124,10 @@ int CSteamProto::Authorize(MEVENT hDbEvent)
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
 
-		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
-		ptrA steamId(getStringA(DBKEY_STEAM_ID));
 		char *who = getStringA(hContact, DBKEY_STEAM_ID);
 
-		SendRequest(
-			new ApprovePendingRequest(token, sessionId, steamId, who),
-			&CSteamProto::OnPendingApproved,
-			who);
-
+		SendRequest(new ApprovePendingRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnPendingApproved, who);
 		return 0;
 	}
 
@@ -154,16 +148,9 @@ int CSteamProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 		if (hContact == INVALID_CONTACT_ID)
 			return 1;
 
-		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
-		ptrA steamId(getStringA(DBKEY_STEAM_ID));
 		char *who = getStringA(hContact, DBKEY_STEAM_ID);
-
-		SendRequest(
-			new IgnorePendingRequest(token, sessionId, steamId, who),
-			&CSteamProto::OnPendingIgnoreded,
-			who);
-
+		SendRequest(new IgnorePendingRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnPendingIgnoreded, who);
 		return 0;
 	}
 
@@ -179,16 +166,9 @@ int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 		param->hContact = hContact;
 		param->hAuth = (HANDLE)hAuth;
 
-		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
-		ptrA steamId(getStringA(DBKEY_STEAM_ID));
 		ptrA who(getStringA(hContact, DBKEY_STEAM_ID));
-
-		SendRequest(
-			new AddFriendRequest(token, sessionId, steamId, who),
-			&CSteamProto::OnFriendAdded,
-			param);
-
+		SendRequest(new AddFriendRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnFriendAdded, param);
 		return hAuth;
 	}
 
@@ -219,7 +199,7 @@ HANDLE CSteamProto::SearchBasic(const wchar_t* id)
 		return nullptr;
 
 	ptrA steamId(mir_u2a(id));
-	SendRequest(new GetUserSummariesRequest(this, steamId), &CSteamProto::OnSearchResults, (HANDLE)STEAM_SEARCH_BYID);
+	SendRequest(new GetUserSummariesRequest(m_szAccessToken, steamId), &CSteamProto::OnSearchResults, (HANDLE)STEAM_SEARCH_BYID);
 
 	return (HANDLE)STEAM_SEARCH_BYID;
 }
@@ -233,11 +213,10 @@ HANDLE CSteamProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, 
 	wchar_t keywordsT[200];
 	mir_snwprintf(keywordsT, L"%s %s %s", nick, firstName, lastName);
 
-	ptrA token(getStringA("TokenSecret"));
 	ptrA keywords(mir_utf8encodeW(rtrimw(keywordsT)));
 
 	SendRequest(
-		new SearchRequest(token, keywords),
+		new SearchRequest(m_szAccessToken, keywords),
 		&CSteamProto::OnSearchByNameStarted,
 		(HANDLE)STEAM_SEARCH_BYNAME);
 
@@ -336,11 +315,9 @@ bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	// remove only authorized contacts
 	if (!getByte(hContact, "Auth", 0)) {
-		ptrA token(getStringA("TokenSecret"));
 		ptrA sessionId(getStringA("SessionID"));
-		ptrA steamId(getStringA(DBKEY_STEAM_ID));
 		char *who = getStringA(hContact, DBKEY_STEAM_ID);
-		SendRequest(new RemoveFriendRequest(token, sessionId, steamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
+		SendRequest(new RemoveFriendRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
 	}
 	return true;
 }

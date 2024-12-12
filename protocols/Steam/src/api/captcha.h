@@ -1,9 +1,8 @@
 #ifndef _STEAM_REQUEST_CAPTCHA_H_
 #define _STEAM_REQUEST_CAPTCHA_H_
 
-class GetCaptchaRequest : public HttpRequest
+struct GetCaptchaRequest : public HttpRequest
 {
-public:
 	GetCaptchaRequest(const char *captchaId) :
 		HttpRequest(REQUEST_GET, STEAM_WEB_URL "/public/captcha.php")
 	{

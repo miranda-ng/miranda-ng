@@ -2,36 +2,46 @@
 
 bool CSteamProto::SendRequest(HttpRequest *request)
 {
-	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
-	HttpResponse response(pResp);
-	delete request;
-	return response.IsSuccess();
+	if (auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get())) {
+		bool bSuccess = pResp->resultCode == 200;
+		delete pResp;
+		return bSuccess;
+	}
+	return false;
 }
 
 bool CSteamProto::SendRequest(HttpRequest *request, HttpCallback callback, void *param)
 {
-	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
-	HttpResponse response(pResp);
-	if (callback)
-		(this->*callback)(response, param);
-	delete request;
-	return response.IsSuccess();
+	if (auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get())) {
+		bool bSuccess = pResp->resultCode == 200;
+		if (callback)
+			(this->*callback)(*pResp, param);
+		delete request;
+		delete pResp;
+		return bSuccess;
+	}
+	return false;
 }
 
 bool CSteamProto::SendRequest(HttpRequest *request, JsonCallback callback, void *param)
 {
-	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get());
-	HttpResponse response(pResp);
-	if (callback) {
-		JSONNode root = JSONNode::parse(response.data());
-		(this->*callback)(root, param);
+	if (auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, request->Get())) {
+		bool bSuccess = pResp->resultCode == 200;
+		if (callback) {
+			JSONNode root = JSONNode::parse(pResp->body);
+			(this->*callback)(root, param);
+		}
+		delete request;
+		delete pResp;
+		return bSuccess;
 	}
-	delete request;
-	return response.IsSuccess();
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // HttpRequest
+
+#define STEAM_USER_AGENT "Valve/Steam HTTP Client 1.0"
 
 HttpRequest::HttpRequest(int iRequestType, const char *szUrl)
 {

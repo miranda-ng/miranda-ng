@@ -67,7 +67,6 @@ extern HANDLE hExtraXStatus;
 #define now() time(0)
 
 #include "steam_dialogs.h"
-#include "http_request.h"
 
 #include "api/enums.h"
 #include "steam_proto.h"
@@ -80,7 +79,6 @@ extern HANDLE hExtraXStatus;
 #include "api/history.h"
 #include "api/message.h"
 #include "api/pending.h"
-#include "api/rsa_key.h"
 #include "api/search.h"
 #include "api/session.h"
 
