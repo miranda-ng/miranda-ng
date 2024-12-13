@@ -66,6 +66,8 @@ extern HANDLE hExtraXStatus;
 
 #define now() time(0)
 
+int64_t getRandomInt();
+
 #include "steam_dialogs.h"
 
 #include "api/enums.h"

@@ -263,8 +263,6 @@ int CSteamProto::SetStatus(int new_status)
 	m_iDesiredStatus = new_status;
 
 	if (new_status == ID_STATUS_OFFLINE) {
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-
 		if (!Miranda_IsTerminated())
 			SetAllContactStatuses(ID_STATUS_OFFLINE);
 

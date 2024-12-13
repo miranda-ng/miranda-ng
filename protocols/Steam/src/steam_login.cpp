@@ -20,18 +20,11 @@ bool CSteamProto::IsMe(const char *steamId)
 	return m_iSteamId == _atoi64(steamId);
 }
 
-void CSteamProto::LoginFailed()
-{
-	m_bTerminated = true;
-
-	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iStatus);
-}
-
 void CSteamProto::Logout()
 {
 	m_bTerminated = true;
 
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iStatus);
 }
 
@@ -55,13 +48,15 @@ void CSteamProto::OnGotHosts(const JSONNode &root, void*)
 
 void CSteamProto::Login()
 {
+	m_iSessionId = 0;
+
 	CMsgClientHello hello;
 	hello.protocol_version = STEAM_PROTOCOL_VERSION; hello.has_protocol_version = true;
 	WSSend(EMsg::ClientHello, hello);
 
 	ptrA username(getUStringA("Username"));
 	if (username == NULL) {
-		LoginFailed();
+		Logout();
 		return;
 	}
 
@@ -74,7 +69,7 @@ void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
 {
 	proto::AuthenticationGetPasswordRSAPublicKeyResponse reply(buf, cbLen);
 	if (reply == nullptr || !reply->publickey_exp || !reply->publickey_mod) {
-		LoginFailed();
+		Logout();
 		return;
 	}
 
@@ -125,7 +120,7 @@ INT_PTR CALLBACK CSteamProto::EnterEmailCode(void *param)
 		ppro->SendConfirmationCode(true, T2Utf(es.ptszResult));
 		mir_free(es.ptszResult);
 	}
-	else ppro->LoginFailed();
+	else ppro->Logout();
 	return 0;
 }
 
@@ -140,7 +135,7 @@ INT_PTR CALLBACK CSteamProto::EnterTotpCode(void *param)
 		ppro->SendConfirmationCode(false, T2Utf(es.ptszResult));
 		mir_free(es.ptszResult);
 	}
-	else ppro->LoginFailed();
+	else ppro->Logout();
 	return 0;
 }
 
@@ -148,7 +143,7 @@ void CSteamProto::OnGotConfirmationCode(const uint8_t *buf, size_t cbLen)
 {
 	proto::AuthenticationUpdateAuthSessionWithSteamGuardCodeResponse reply(buf, cbLen);
 	if (reply == nullptr)
-		LoginFailed();
+		Logout();
 	else
 		SendPollRequest();
 }
@@ -173,7 +168,7 @@ void CSteamProto::OnBeginSession(const uint8_t *buf, size_t cbLen)
 {
 	proto::AuthenticationBeginAuthSessionViaCredentialsResponse reply(buf, cbLen);
 	if (reply == nullptr) {
-		LoginFailed();
+		Logout();
 		return;
 	}
 
@@ -207,7 +202,7 @@ void CSteamProto::OnBeginSession(const uint8_t *buf, size_t cbLen)
 			}
 
 			debugLogA("Unsupported confirmation code: %i", conf->confirmation_type);
-			LoginFailed();
+			Logout();
 		}
 
 		// no confirmation needed - we've done
@@ -215,7 +210,7 @@ void CSteamProto::OnBeginSession(const uint8_t *buf, size_t cbLen)
 	}
 	else {
 		debugLogA("Something went wrong: %s", reply->extended_error_message);
-		LoginFailed();
+		Logout();
 	}
 }
 
@@ -250,7 +245,7 @@ void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)
 {
 	proto::AuthenticationPollAuthSessionStatusResponse reply(buf, cbLen);
 	if (reply == nullptr) {
-		LoginFailed();
+		Logout();
 		return;
 	}
 
@@ -272,11 +267,54 @@ void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)
 	m_szAccessToken = reply->access_token;
 	m_szRefreshToken = reply->refresh_token;
 
-	OnLoggedIn();
+	// sending logon packet
+	ptrA szAccountName(getUStringA(DBKEY_ACCOUNT_NAME)), szPassword(getUStringA("Password"));
+	T2Utf szMachineName(m_wszDeviceName);
+	
+	MBinBuffer machineId(getBlob(DBKEY_MACHINE_ID));
+	if (!machineId.length()) {
+		uint8_t random[100], hashOut[20];
+		Utils_GetRandom(random, sizeof(random));
+		mir_sha1_hash(random, sizeof(random), hashOut);
+		
+		db_set_blob(0, m_szModuleName, DBKEY_MACHINE_ID, hashOut, sizeof(hashOut));
+		machineId.append(hashOut, sizeof(hashOut));
+	}
+
+	CMsgIPAddress privateIp;
+	privateIp.ip_case = CMSG_IPADDRESS__IP_V4;
+	privateIp.v4 = 0;
+
+	CMsgClientLogon request;
+	request.access_token = reply->access_token;
+	request.account_name = szAccountName;
+	request.password = szPassword;
+	request.machine_name = szMachineName;
+	request.client_language = "english";
+	request.client_os_type = 16; request.has_client_os_type = true;
+	request.should_remember_password = false; request.has_should_remember_password = true;
+	request.obfuscated_private_ip = &privateIp;
+	request.protocol_version = STEAM_PROTOCOL_VERSION; request.has_protocol_version = true;
+	request.client_package_version = 1771; request.has_client_package_version = true;
+	request.supports_rate_limit_response = request.has_supports_rate_limit_response = true;
+	request.steamguard_dont_remember_computer = false; request.has_steamguard_dont_remember_computer = true;
+	request.chat_mode = 2; request.has_chat_mode = true;
+	request.cell_id = 7; request.has_cell_id = true;
+	request.machine_id.data = machineId.data();
+	request.machine_id.len = machineId.length();
+	WSSend(EMsg::ClientLogon, request);
 }
 
-void CSteamProto::OnLoggedIn()
+void CSteamProto::OnClientLogon(const uint8_t *buf, size_t cbLen)
 {
+	proto::MsgClientLogonResponse reply(buf, cbLen);
+	if (reply == nullptr) {
+		Logout();
+		return;
+	}
+
+	m_impl.m_heartBeat.Start(1000);
+
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 

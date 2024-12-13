@@ -15,7 +15,7 @@
 #define DBKEY_CLIENT_ID     "ClientID"
 #define DBKEY_STEAM_ID      "SteamID"
 #define DBKEY_ACCOUNT_NAME  "Username"
-#define DBKEY_MACHINE_ID    "MachineId"
+#define DBKEY_MACHINE_ID    "DeviceId"
 
 struct SendAuthParam
 {
@@ -73,17 +73,24 @@ class CSteamProto : public PROTO<CSteamProto>
 		friend class CSteamProto;
 		CSteamProto &m_proto;
 
-		CTimer m_poll;
+		CTimer m_poll, m_heartBeat;
 		void OnPoll(CTimer *)
 		{
 			m_proto.SendPollRequest();
 		}
 
+		void OnHeartBeat(CTimer *)
+		{
+			m_proto.SendHeartBeat();
+		}
+
 		CProtoImpl(CSteamProto &pro) :
 			m_proto(pro),
-			m_poll(Miranda_GetSystemWindow(), UINT_PTR(this))
+			m_poll(Miranda_GetSystemWindow(), UINT_PTR(this)),
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this)+1)
 		{
 			m_poll.OnEvent = Callback(this, &CProtoImpl::OnPoll);
+			m_heartBeat.OnEvent = Callback(this, &CProtoImpl::OnHeartBeat);
 		}
 	}
 		m_impl;
@@ -91,7 +98,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	ptrW m_password;
 	bool m_bTerminated, m_bPollCanceled;
 	time_t m_idleTS;
-	int64_t m_iSteamId, m_iClientId;
+	int64_t m_iSteamId, m_iClientId, m_iSessionId;
 	MBinBuffer m_requestId;
 
 	int64_t  GetId(const char *pszSetting);
@@ -101,7 +108,7 @@ class CSteamProto : public PROTO<CSteamProto>
    void     SetId(MCONTACT, const char *pszSetting, int64_t id);
 
 	// polling
-	CMStringA m_szRefreshToken, m_szAccessToken, m_szUmqId, m_szChatToken;
+	CMStringA m_szRefreshToken, m_szAccessToken, m_szUmqId;
 	ULONG hAuthProcess = 1;
 	ULONG hMessageProcess = 1;
 	int m_iPollingInterval;
@@ -131,20 +138,20 @@ class CSteamProto : public PROTO<CSteamProto>
 	bool SendRequest(HttpRequest *request, HttpCallback callback, void *param = nullptr);
 	bool SendRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
 
+	void SendHeartBeat();
+
 	// login
 	bool IsOnline();
 	bool IsMe(const char *steamId);
 
 	void Login();
-	void LoginFailed();
 	void Logout();
-
-	void OnLoggedIn();
 
 	static INT_PTR CALLBACK EnterTotpCode(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);
 
-   void OnBeginSession(const uint8_t *buf, size_t cbLen);
+	void OnBeginSession(const uint8_t *buf, size_t cbLen);
+	void OnClientLogon(const uint8_t *buf, size_t cbLen);
 	void OnGotRsaKey(const uint8_t *buf, size_t cbLen);
 	void OnGotConfirmationCode(const uint8_t *buf, size_t cbLen);
 	void OnPollSession(const uint8_t *buf, size_t cbLen);
