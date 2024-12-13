@@ -29,7 +29,6 @@ class CVkOptionAccountForm : public CVkDlgBase
 	CCtrlHyperlink m_hlLink;
 	CCtrlEdit m_edtGroupName;
 	CCtrlCombo m_cbxVKLang;
-	CCtrlCheck m_cbDelivery;
 	CCtrlCheck m_cbLoadLastMessageOnMsgWindowsOpen;
 	CCtrlCheck m_cbUseLocalTime;
 	CCtrlCheck m_cbLoadOnlyFriends;

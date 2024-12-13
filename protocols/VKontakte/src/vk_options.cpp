@@ -165,7 +165,6 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
 	m_hlLink(this, IDC_URL, "https://vk.com/"),
 	m_edtGroupName(this, IDC_GROUPNAME),
 	m_cbxVKLang(this, IDC_COMBO_LANGUAGE),
-	m_cbDelivery(this, IDC_DELIVERY),
 	m_cbLoadLastMessageOnMsgWindowsOpen(this, IDC_LASTHISTORYLOAD),
 	m_cbUseLocalTime(this, IDC_USE_LOCAL_TIME),
 	m_cbLoadOnlyFriends(this, IDC_LOADONLYFRIENDS),
@@ -174,7 +173,6 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
 {
 	CreateLink(m_edtLogin, "Login", L"");
 	CreateLink(m_edtGroupName, m_proto->m_vkOptions.pwszDefaultGroup);
-	CreateLink(m_cbDelivery, m_proto->m_vkOptions.bServerDelivery);
 	CreateLink(m_cbLoadLastMessageOnMsgWindowsOpen, m_proto->m_vkOptions.bLoadLastMessageOnMsgWindowsOpen);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);
 	CreateLink(m_cbLoadOnlyFriends, m_proto->m_vkOptions.bLoadOnlyFriends);

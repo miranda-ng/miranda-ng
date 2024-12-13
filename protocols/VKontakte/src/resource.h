@@ -37,7 +37,6 @@
 #define IDC_FRAME1                      1008
 #define IDC_FRAME2                      1009
 #define IDC_SUBMIT                      1010
-#define IDC_DELIVERY                    1011
 #define IDC_GROUPNAME                   1012
 #define IDC_HIDECHATS                   1014
 #define IDC_CONTACT                     1015

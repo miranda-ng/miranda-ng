@@ -254,7 +254,6 @@ struct CVkCookie
 struct CVKOptions {
 	CMOption<uint8_t> bLoadLastMessageOnMsgWindowsOpen;
 	CMOption<uint8_t> bLoadOnlyFriends;
-	CMOption<uint8_t> bServerDelivery;
 	CMOption<uint8_t> bHideChats;
 	CMOption<uint8_t> bMesAsUnread;
 	CMOption<uint8_t> bUseLocalTime;

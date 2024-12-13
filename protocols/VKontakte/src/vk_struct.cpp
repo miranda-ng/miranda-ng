@@ -160,7 +160,6 @@ CVkChatUser* CVkChatInfo::GetUserById(VKUserID_t iUserId)
 CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bLoadLastMessageOnMsgWindowsOpen(proto, "LoadLastMessageOnMsgWindowsOpen", true),
 	bLoadOnlyFriends(proto, "LoadOnlyFriends", false),
-	bServerDelivery(proto, "BsDirect", true),
 	bHideChats(proto, "HideChats", true),
 	bMesAsUnread(proto, "MesAsUnread", false),
 	bUseLocalTime(proto, "UseLocalTime", false),

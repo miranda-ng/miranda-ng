@@ -307,7 +307,7 @@ BEGIN
     RTEXT           "Password:",IDC_STATIC,12,30,150,10
     EDITTEXT        IDC_PASSWORD,167,30,121,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,44,174,11
-    GROUPBOX        "Local settings",IDC_STATIC,4,58,293,122
+    GROUPBOX        "Local settings",IDC_STATIC,4,58,293,111
     RTEXT           "Contact list group:",IDC_STATIC,12,71,150,8
     EDITTEXT        IDC_GROUPNAME,167,69,121,12,ES_AUTOHSCROLL
     RTEXT           "Language for names and titles:",IDC_STATIC,12,86,148,10
@@ -322,7 +322,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,143,278,10
     CONTROL         "Load only friends to local contact list",IDC_LOADONLYFRIENDS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,153,278,10
-    CONTROL         "Server-side delivery confirmation",IDC_DELIVERY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,163,278,10
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224

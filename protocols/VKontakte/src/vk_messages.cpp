@@ -129,9 +129,6 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 	pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
 	Push(pReq);
 
-	if (!m_vkOptions.bServerDelivery)
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)uMsgId);
-
 	if (vForvardEvents.size() > VK_MAX_FORWARD_MESSAGES) {
 		std::vector vNextForvardEvents(vForvardEvents.begin() + VK_MAX_FORWARD_MESSAGES, vForvardEvents.end());
 		ForwardMsg(hContact, vNextForvardEvents, "");
@@ -210,9 +207,6 @@ int CVkProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *szMsg)
 	pReq->pUserInfo = new CVkSendMsgParam(hContact, uMsgId);
 	Push(pReq);
 
-	if (!m_vkOptions.bServerDelivery)
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)uMsgId);
-
 	if (!IsEmpty(pszRetMsg))
 		SendMsg(hContact, 0, pszRetMsg);
 	else if (m_iStatus == ID_STATUS_INVISIBLE)
@@ -272,7 +266,7 @@ void CVkProto::OnSendMessage(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		if (!pReq->bNeedsRestart || m_bTerminated)
 			delete param->pFUP;
 	}
-	else if (m_vkOptions.bServerDelivery)
+	else
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, (HANDLE)(param->iMsgID), (LPARAM)szMid);
 	
 
