@@ -20,6 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CSteamProto::SendHeartBeat()
 {
 	CMsgClientHeartBeat packet;
-	packet.has_send_reply = packet.send_reply = true;
+	packet.has_send_reply = true; packet.send_reply = false;
 	WSSend(EMsg::ClientHeartBeat, packet);
 }

@@ -147,6 +147,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	void Login();
 	void Logout();
 
+	void OnLoggedIn();
+
 	static INT_PTR CALLBACK EnterTotpCode(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);
 
