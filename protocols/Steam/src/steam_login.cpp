@@ -65,18 +65,9 @@ void CSteamProto::Login()
 		return;
 	}
 
-	m_szAccessToken = getMStringA(DBKEY_ACCESS_TOKEN);
-	m_szRefreshToken = getMStringA(DBKEY_REFRESH_TOKEN);
-	if (!m_szAccessToken.IsEmpty() && !m_szRefreshToken.IsEmpty()) {
-		m_iSteamId = GetId(DBKEY_STEAM_ID);
-		m_iClientId = GetId(DBKEY_CLIENT_ID);
-		OnLoggedIn();
-	}
-	else {
-		CAuthenticationGetPasswordRSAPublicKeyRequest request;
-		request.account_name = username.get();
-		WSSendService("Authentication.GetPasswordRSAPublicKey#1", request, &CSteamProto::OnGotRsaKey);
-	}
+	CAuthenticationGetPasswordRSAPublicKeyRequest request;
+	request.account_name = username.get();
+	WSSendService("Authentication.GetPasswordRSAPublicKey#1", request, &CSteamProto::OnGotRsaKey);
 }
 
 void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
@@ -95,6 +86,7 @@ void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
 
 	// run authorization request
 	ptrA userName(getUStringA("Username"));
+	ptrA machineId(getUStringA("MachineId"));
 	T2Utf deviceName(m_wszDeviceName);
 	
 	CAuthenticationDeviceDetails details;
@@ -108,13 +100,14 @@ void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
 	request.encrypted_password = base64RsaEncryptedPassword;
 	request.encryption_timestamp = reply->timestamp; request.has_encryption_timestamp = true;
 	request.persistence = ESESSION_PERSISTENCE__k_ESessionPersistence_Persistent; request.has_persistence = true;
-	request.remember_login = 0; request.has_remember_login = true;
+	request.remember_login = true; request.has_remember_login = true;
 	request.language = 1; request.has_language = true;
 	request.qos_level = 2; request.has_qos_level = true;
 
 	request.device_details = &details;
 	request.device_friendly_name = details.device_friendly_name;
 	request.platform_type = details.platform_type; request.has_platform_type = true;
+	request.guard_data = machineId;
 
 	WSSendService("Authentication.BeginAuthSessionViaCredentials#1", request, &CSteamProto::OnBeginSession);
 }
@@ -273,8 +266,11 @@ void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)
 	// stop polling
 	CancelLoginAttempt();
 
-	setString(DBKEY_ACCESS_TOKEN, reply->access_token);
-	setString(DBKEY_REFRESH_TOKEN, reply->refresh_token);
+	if (reply->new_guard_data)
+		setString("MachineId", reply->new_guard_data);
+
+	m_szAccessToken = reply->access_token;
+	m_szRefreshToken = reply->refresh_token;
 
 	OnLoggedIn();
 }

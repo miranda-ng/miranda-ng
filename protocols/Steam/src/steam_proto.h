@@ -16,8 +16,6 @@
 #define DBKEY_STEAM_ID      "SteamID"
 #define DBKEY_ACCOUNT_NAME  "Username"
 #define DBKEY_MACHINE_ID    "MachineId"
-#define DBKEY_ACCESS_TOKEN  "AccessToken"
-#define DBKEY_REFRESH_TOKEN "RefreshToken"
 
 struct SendAuthParam
 {
