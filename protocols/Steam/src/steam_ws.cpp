@@ -27,6 +27,7 @@ void __cdecl CSteamProto::ServerThread(void *)
 			Logout();
 			return;
 		}
+		iHostCount = db_get_dw(0, STEAM_MODULE, DBKEY_HOSTS_COUNT);
 	}
 
 	srand(time(0));
