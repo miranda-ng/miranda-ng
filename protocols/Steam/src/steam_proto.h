@@ -15,7 +15,6 @@
 #define DBKEY_CLIENT_ID     "ClientID"
 #define DBKEY_STEAM_ID      "SteamID"
 #define DBKEY_ACCOUNT_NAME  "Username"
-#define DBKEY_MACHINE_ID    "DeviceId"
 
 struct SendAuthParam
 {
@@ -150,6 +149,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	bool SendRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
 
 	void SendHeartBeat();
+	void SendLogout();
 
 	// login
 	bool IsOnline();
@@ -157,8 +157,6 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void Login();
 	void Logout();
-
-	void OnLoggedIn();
 
 	static INT_PTR CALLBACK EnterTotpCode(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);

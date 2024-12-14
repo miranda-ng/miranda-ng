@@ -23,3 +23,9 @@ void CSteamProto::SendHeartBeat()
 	packet.has_send_reply = true; packet.send_reply = false;
 	WSSend(EMsg::ClientHeartBeat, packet);
 }
+
+void CSteamProto::SendLogout()
+{
+	CMsgClientLogOff packet;
+	WSSend(EMsg::ClientLogOff, packet);
+}

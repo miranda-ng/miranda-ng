@@ -259,6 +259,9 @@ int CSteamProto::SetStatus(int new_status)
 		if (!Miranda_IsTerminated())
 			SetAllContactStatuses(ID_STATUS_OFFLINE);
 
+		if (IsOnline())
+			SendLogout();
+
 		Logout();
 	}
 	else if (m_ws == nullptr && !IsStatusConnecting(m_iStatus)) {

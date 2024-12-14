@@ -95,7 +95,7 @@ void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
 	request.encrypted_password = base64RsaEncryptedPassword;
 	request.encryption_timestamp = reply->timestamp; request.has_encryption_timestamp = true;
 	request.persistence = ESESSION_PERSISTENCE__k_ESessionPersistence_Persistent; request.has_persistence = true;
-	request.remember_login = true; request.has_remember_login = true;
+	request.remember_login = request.has_remember_login = true;
 	request.language = 1; request.has_language = true;
 	request.qos_level = 2; request.has_qos_level = true;
 
@@ -241,6 +241,45 @@ void CSteamProto::SendPollRequest()
 	WSSendService("Authentication.PollAuthSessionStatus#1", request, &CSteamProto::OnPollSession);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static MBinBuffer createMachineID(const char *accName)
+{
+	uint8_t hashOut[MIR_SHA1_HASH_SIZE];
+	char hashHex[MIR_SHA1_HASH_SIZE*2 + 1];
+
+	CMStringA _bb3 = CMStringA("SteamUser Hash BB3 ") + accName;
+	CMStringA _ff2 = CMStringA("SteamUser Hash FF2 ") + accName;
+	CMStringA _3b3 = CMStringA("SteamUser Hash 3B3 ") + accName;
+
+	MBinBuffer ret;
+	uint8_t c = 0;
+	ret.append(&c, 1);
+	ret.append("MessageObject", 14);
+
+	c = 1;
+	ret.append(&c, 1);
+	ret.append("BB3", 4);
+	mir_sha1_hash((uint8_t *)_bb3.c_str(), _bb3.GetLength(), hashOut);
+	bin2hex(hashOut, sizeof(hashOut), hashHex);
+	ret.append(hashHex, 41);
+
+	ret.append(&c, 1);
+	ret.append("FF2", 4);
+	mir_sha1_hash((uint8_t *)_ff2.c_str(), _ff2.GetLength(), hashOut);
+	bin2hex(hashOut, sizeof(hashOut), hashHex);
+	ret.append(hashHex, 41);
+
+	ret.append(&c, 1);
+	ret.append("3B3", 4);
+	mir_sha1_hash((uint8_t *)_3b3.c_str(), _3b3.GetLength(), hashOut);
+	bin2hex(hashOut, sizeof(hashOut), hashHex);
+	ret.append(hashHex, 41);
+
+	ret.append("\x08\x08", 2);
+	return ret;
+}
+
 void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)
 {
 	proto::AuthenticationPollAuthSessionStatusResponse reply(buf, cbLen);
@@ -267,27 +306,45 @@ void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)
 	m_szAccessToken = reply->access_token;
 	m_szRefreshToken = reply->refresh_token;
 
-	OnLoggedIn();
+	// sending logon packet
+	ptrA szAccountName(getUStringA(DBKEY_ACCOUNT_NAME)), szPassword(getUStringA("Password"));
+	T2Utf szMachineName(m_wszDeviceName);
+	MBinBuffer machineId(createMachineID(szAccountName));
+
+	CMsgIPAddress privateIp;
+	privateIp.ip_case = CMSG_IPADDRESS__IP_V4;
+	privateIp.v4 = 0;
+
+	CMsgClientLogon request;
+	request.access_token = reply->refresh_token;
+	request.machine_name = szMachineName;
+	request.client_language = "english";
+	request.client_os_type = 16; request.has_client_os_type = true;
+	request.should_remember_password = request.has_should_remember_password = true;
+	request.obfuscated_private_ip = &privateIp;
+	request.protocol_version = STEAM_PROTOCOL_VERSION; request.has_protocol_version = true;
+	request.supports_rate_limit_response = request.has_supports_rate_limit_response = true;
+	request.steamguard_dont_remember_computer = false; request.has_steamguard_dont_remember_computer = true;
+	request.chat_mode = 2; request.has_chat_mode = true;
+	request.cell_id = 7; request.has_cell_id = true;
+	request.machine_id.data = machineId.data(); request.machine_id.len = machineId.length();
+	WSSend(EMsg::ClientLogon, request);
 }
 
-void CSteamProto::OnLoggedIn()
+void CSteamProto::OnClientLogon(const uint8_t *buf, size_t cbLen)
 {
-	m_impl.m_heartBeat.Start(10000);
+	proto::MsgClientLogonResponse reply(buf, cbLen);
+	if (reply == nullptr || !reply->has_eresult || reply->eresult != (int)EResult::OK) {
+		Logout();
+		return;
+	}
+
+	if (reply->has_heartbeat_seconds)
+		m_impl.m_heartBeat.Start(reply->heartbeat_seconds * 1000);
 
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 
 	// load contact list
 	SendRequest(new GetFriendListRequest(m_szAccessToken, m_iSteamId, "friend,ignoredfriend,requestrecipient"), &CSteamProto::OnGotFriendList);
-}
-
-void CSteamProto::OnClientLogon(const uint8_t *buf, size_t cbLen)
-{
-	proto::MsgClientLogonResponse reply(buf, cbLen);
-	if (reply == nullptr) {
-		Logout();
-		return;
-	}
-
-	OnLoggedIn();
 }
