@@ -1,55 +1,48 @@
 #include "stdafx.h"
 
-struct SendMessageParam
+int CSteamProto::SendMsg(MCONTACT hContact, MEVENT, const char *message)
 {
-	MCONTACT hContact;
-	HANDLE hMessage;
-};
+	if (!IsOnline())
+		return -1;
 
-int CSteamProto::OnSendMessage(MCONTACT hContact, const char *message)
-{
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
+	CMStringA szId(FORMAT, "%d", hMessage);
+	{
+		mir_cslock lck(m_csOwnMessages);
+		m_arOwnMessages.insert(new COwnMessage(hContact, hMessage));
+	}
 
-	SendMessageParam *param = (SendMessageParam *)mir_calloc(sizeof(SendMessageParam));
-	param->hContact = hContact;
-	param->hMessage = (HANDLE)hMessage;
+	CFriendMessagesSendMessageRequest request;
+	request.chat_entry_type = (int)EChatEntryType::ChatMsg; request.has_chat_entry_type = true;
+	request.client_message_id = szId.GetBuffer();
+	request.contains_bbcode = request.has_contains_bbcode = true;
+	request.steamid = GetId(hContact, DBKEY_STEAM_ID); request.has_steamid = true;
+	request.message = (char *)message;
+	WSSendClient("FriendMessages.SendMessage#1", request, &CSteamProto::OnMessageSent);
 
-	ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
-	SendRequest(new SendMessageRequest(m_szAccessToken, m_szUmqId, steamId, message), &CSteamProto::OnMessageSent, param);
 	return hMessage;
 }
 
-void CSteamProto::OnMessageSent(const MHttpResponse &response, void *arg)
+void CSteamProto::OnMessageSent(const uint8_t *buf, size_t cbLen)
 {
-	SendMessageParam *param = (SendMessageParam *)arg;
+	proto::FriendMessagesSendMessageResponse reply(buf, cbLen);
+	if (!reply)
+		return;
 
-	std::string error = Translate("Unknown error");
-	ptrW steamId(getWStringA(param->hContact, DBKEY_STEAM_ID));
-	time_t timestamp = NULL;
-
-	JSONNode root = JSONNode::parse(response.body);
-	const JSONNode &node = root["error"];
-	if (node)
-		error = node.as_string();
-
-	timestamp = atol(root["utc_timestamp"].as_string().c_str());
-	if (timestamp > getDword(param->hContact, DB_KEY_LASTMSGTS))
-		setDword(param->hContact, DB_KEY_LASTMSGTS, timestamp);
-
-	if (mir_strcmpi(error.c_str(), "OK") != 0) {
-		debugLogA(__FUNCTION__ ": failed to send message for %s (%s)", steamId.get(), error.c_str());
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, _A2T(error.c_str()));
+	COwnMessage *pOwn;
+	{
+		mir_cslock lck(m_csOwnMessages);
+		pOwn = m_arOwnMessages.find((COwnMessage *)&reply->ordinal);
 	}
-	else {
-		// remember server time of this message
-		auto it = m_mpOutMessages.find(param->hMessage);
-		if (it == m_mpOutMessages.end() && timestamp != NULL)
-			m_mpOutMessages[param->hMessage] = timestamp;
+	
+	if (pOwn) {
+		uint32_t timestamp = (reply->has_server_timestamp) ? reply->server_timestamp : 0;
+		if (timestamp > getDword(pOwn->hContact, DB_KEY_LASTMSGTS))
+			setDword(pOwn->hContact, DB_KEY_LASTMSGTS, timestamp);
 
-		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, param->hMessage, 0);
+		pOwn->timestamp = timestamp;
+		ProtoBroadcastAck(pOwn->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pOwn->iMessageId, 0);
 	}
-
-	mir_free(param);
 }
 
 int CSteamProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
@@ -58,10 +51,10 @@ int CSteamProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	if (mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName))
 		return 0;
 
-	auto it = m_mpOutMessages.find((HANDLE)evt->seq);
-	if (it != m_mpOutMessages.end()) {
-		evt->dbei->timestamp = it->second;
-		m_mpOutMessages.erase(it);
+	mir_cslock lck(m_csOwnMessages);
+	if (auto *pOwn = m_arOwnMessages.find((COwnMessage *)&evt->seq)) {
+		evt->dbei->timestamp = pOwn->timestamp;
+		m_arOwnMessages.remove(pOwn);
 	}
 
 	return 0;
@@ -74,6 +67,6 @@ int CSteamProto::UserIsTyping(MCONTACT hContact, int type)
 		return 0;
 
 	ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
-	SendRequest(new SendTypingRequest(m_szAccessToken, m_szUmqId, steamId));
+	//SendRequest(new SendTypingRequest(m_szAccessToken, m_szUmqId, steamId));
 	return 0;
 }

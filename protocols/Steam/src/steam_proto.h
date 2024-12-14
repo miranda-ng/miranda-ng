@@ -59,6 +59,17 @@ struct ProtoRequest
    MsgCallback pCallback;
 };
 
+struct COwnMessage
+{
+	COwnMessage(MCONTACT _1, int _2) :
+		hContact(_1),
+		iMessageId(_2)
+	{}
+
+	int iMessageId, timestamp = 0;
+	MCONTACT hContact;
+};
+
 class CSteamProto : public PROTO<CSteamProto>
 {
 	friend class CSteamGuardDialog;
@@ -108,14 +119,13 @@ class CSteamProto : public PROTO<CSteamProto>
    void     SetId(MCONTACT, const char *pszSetting, int64_t id);
 
 	// polling
-	CMStringA m_szRefreshToken, m_szAccessToken, m_szUmqId;
+	CMStringA m_szRefreshToken, m_szAccessToken;
 	ULONG hAuthProcess = 1;
 	ULONG hMessageProcess = 1;
 	int m_iPollingInterval;
 	time_t m_iPollingStartTime;
 	mir_cs m_addContactLock;
 	mir_cs m_setStatusLock;
-	std::map<HANDLE, time_t> m_mpOutMessages;
 
 	// connection
 	WebSocket<CSteamProto> *m_ws;
@@ -131,6 +141,7 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void WSSend(EMsg msgType, const ProtobufCppMessage &msg);
 	void WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg);
+	void WSSendClient(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback = 0);
 	void WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback = 0);
 
 	// requests
@@ -203,8 +214,10 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnSearchByNameStarted(const MHttpResponse &response, void *arg);
 
 	// messages
-	int  OnSendMessage(MCONTACT hContact, const char *message);
-	void OnMessageSent(const MHttpResponse &response, void *arg);
+	mir_cs m_csOwnMessages;
+	OBJLIST<COwnMessage> m_arOwnMessages;
+
+	void OnMessageSent(const uint8_t *buf, size_t cbLen);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	// history

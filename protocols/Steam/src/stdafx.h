@@ -41,6 +41,7 @@
 
 #include "protobuf-c/steammessages_auth.steamclient.pb-c.h"
 #include "protobuf-c/steammessages_clientserver_login.pb-c.h"
+#include "protobuf-c/steammessages_friendmessages.steamclient.pb-c.h"
 #include "proto.h"
 
 #define MODULE "Steam"
@@ -79,7 +80,6 @@ int64_t getRandomInt();
 #include "api/friend.h"
 #include "api/friend_list.h"
 #include "api/history.h"
-#include "api/message.h"
 #include "api/pending.h"
 #include "api/search.h"
 #include "api/session.h"

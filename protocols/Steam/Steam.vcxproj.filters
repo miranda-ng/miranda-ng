@@ -87,6 +87,9 @@
     <ClCompile Include="src\steam_ws.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_friendmessages.steamclient.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -125,9 +128,6 @@
     <ClInclude Include="src\api\history.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\message.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\pending.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
@@ -162,6 +162,9 @@
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_friendmessages.steamclient.pb-c.h">
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
   </ItemGroup>

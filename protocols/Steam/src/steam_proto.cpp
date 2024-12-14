@@ -11,6 +11,7 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CSteamProto>(protoName, userName),
 	m_impl(*this),
 	m_arRequests(10, CompareRequests),
+	m_arOwnMessages(1, NumericKeySortT),
 	m_wszGroupName(this, "DefaultGroup", L"Steam"),
 	m_wszDeviceName(this, "DeviceName", L"Miranda NG")
 {
@@ -221,14 +222,6 @@ HANDLE CSteamProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, 
 		(HANDLE)STEAM_SEARCH_BYNAME);
 
 	return (HANDLE)STEAM_SEARCH_BYNAME;
-}
-
-int CSteamProto::SendMsg(MCONTACT hContact, MEVENT, const char *message)
-{
-	if (!IsOnline())
-		return -1;
-
-	return OnSendMessage(hContact, message);
 }
 
 int CSteamProto::SetStatus(int new_status)

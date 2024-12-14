@@ -1962,6 +1962,25 @@ enum class EMsg
    ServerSecretChanged = 12100,
 };
 
+enum class EChatEntryType
+{
+   Invalid = 0,
+   ChatMsg = 1,
+   Typing = 2,
+   InviteGame = 3,
+   Emote = 4, // removed "No longer supported by clients"
+   LobbyGameStart = 5, // removed "Listen for LobbyGameCreated_t callback instead"
+   LeftConversation = 6,
+   Entered = 7,
+   WasKicked = 8,
+   WasBanned = 9,
+   Disconnected = 10,
+   HistoricalChat = 11,
+   Reserved1 = 12,
+   Reserved2 = 13,
+   LinkBlocked = 14,
+};
+
 enum class EResult
 {
    Invalid = 0,
@@ -2123,9 +2142,10 @@ namespace proto
 
 	PROTOBUF_PTR(MsgMulti, cmsg_multi__descriptor);
 	PROTOBUF_PTR(MsgProtoBufHeader, cmsg_proto_buf_header__descriptor);
-   PROTOBUF_PTR(MsgClientLogonResponse, cmsg_client_logon_response__descriptor);
+	PROTOBUF_PTR(MsgClientLogonResponse, cmsg_client_logon_response__descriptor);
+	PROTOBUF_PTR(FriendMessagesSendMessageResponse, cfriend_messages__send_message__response__descriptor);
 	PROTOBUF_PTR(AuthenticationGetPasswordRSAPublicKeyResponse, cauthentication__get_password_rsapublic_key__response__descriptor);
 	PROTOBUF_PTR(AuthenticationBeginAuthSessionViaCredentialsResponse, cauthentication__begin_auth_session_via_credentials__response__descriptor);
-   PROTOBUF_PTR(AuthenticationPollAuthSessionStatusResponse, cauthentication__poll_auth_session_status__response__descriptor);
-   PROTOBUF_PTR(AuthenticationUpdateAuthSessionWithSteamGuardCodeResponse, cauthentication__update_auth_session_with_steam_guard_code__response__descriptor);
+	PROTOBUF_PTR(AuthenticationPollAuthSessionStatusResponse, cauthentication__poll_auth_session_status__response__descriptor);
+	PROTOBUF_PTR(AuthenticationUpdateAuthSessionWithSteamGuardCodeResponse, cauthentication__update_auth_session_with_steam_guard_code__response__descriptor);
 };

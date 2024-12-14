@@ -173,6 +173,10 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 	case EMsg::ClientLogOnResponse:
 		OnClientLogon(buf, cbLen);
 		break;
+
+	case EMsg::ClientLoggedOff:
+		Logout();
+		break;
 	}
 }
 
@@ -217,6 +221,24 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 	hdrbuf.append(body);
 	Netlib_Dump(HNETLIBCONN(m_ws->getConn()), hdrbuf.data(), hdrbuf.length(), true, 0);
 	m_ws->sendBinary(hdrbuf.data(), hdrbuf.length());
+}
+
+void CSteamProto::WSSendClient(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback)
+{
+	CMsgProtoBufHeader hdr;
+	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
+	hdr.client_sessionid = m_iSessionId;
+	hdr.jobid_source = getRandomInt();
+	hdr.jobid_target = -1;
+	hdr.target_job_name = (char *)pszServiceName;
+	hdr.realm = 1; hdr.has_realm = true;
+
+	if (pCallback) {
+		mir_cslock lck(m_csRequests);
+		m_arRequests.insert(new ProtoRequest(hdr.jobid_source, pCallback));
+	}
+
+	WSSendHeader(EMsg::ServiceMethodCallFromClient, hdr, msg);
 }
 
 void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback)
