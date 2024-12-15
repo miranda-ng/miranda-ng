@@ -207,9 +207,7 @@ void CSteamProto::WSSend(EMsg msgType, const ProtobufCppMessage &msg)
 
 void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg)
 {
-	auto *pszText = protobuf_c_text_to_string(&msg, 0);
-	debugLogA("Message sent: %s\r\n%s", msg.descriptor->c_name, pszText);
-	free(pszText);
+	debugLogA("Message sent:\n%s", protobuf_c_text_to_string(msg).c_str());
 
 	uint32_t hdrLen = (uint32_t)protobuf_c_message_get_packed_size(&hdr);
 	MBinBuffer hdrbuf(hdrLen);

@@ -44,11 +44,6 @@
 #include "protobuf-c/steammessages_friendmessages.steamclient.pb-c.h"
 #include "proto.h"
 
-extern "C"
-{
-	#include "protobuf-c/protobuf-c-text.h"
-}
-
 #define MODULE "Steam"
 #define DB_KEY_LASTMSGTS "LastMessageTS"
 
@@ -73,6 +68,7 @@ extern HANDLE hExtraXStatus;
 #define now() time(0)
 
 int64_t getRandomInt();
+CMStringA protobuf_c_text_to_string(const ProtobufCMessage &msg);
 
 #include "steam_dialogs.h"
 
