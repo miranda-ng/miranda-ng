@@ -65,12 +65,17 @@ void CSteamProto::Login()
 	WSSendService(GetPasswordRSAPublicKey, request, true);
 }
 
-void CSteamProto::OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse *pResponse)
+void CSteamProto::OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse &reply, const CMsgProtoBufHeader &hdr)
 {
+	if (hdr.failed()) {
+		Logout();
+		return;
+	}
+
 	// encrypt password
 	ptrA szPassword(getStringA("Password"));
 
-	MBinBuffer encPassword(RsaEncrypt(pResponse->publickey_mod, pResponse->publickey_exp, szPassword));
+	MBinBuffer encPassword(RsaEncrypt(reply.publickey_mod, reply.publickey_exp, szPassword));
 	ptrA base64RsaEncryptedPassword(mir_base64_encode(encPassword.data(), encPassword.length()));
 
 	// run authorization request
@@ -87,7 +92,7 @@ void CSteamProto::OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyRespon
 	request.account_name = userName.get();
 	request.website_id = "Client";
 	request.encrypted_password = base64RsaEncryptedPassword;
-	request.encryption_timestamp = pResponse->timestamp; request.has_encryption_timestamp = true;
+	request.encryption_timestamp = reply.timestamp; request.has_encryption_timestamp = true;
 	request.persistence = ESESSION_PERSISTENCE__k_ESessionPersistence_Persistent; request.has_persistence = true;
 	request.remember_login = request.has_remember_login = true;
 	request.language = 1; request.has_language = true;
@@ -101,18 +106,23 @@ void CSteamProto::OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyRespon
 	WSSendService(BeginAuthSessionViaCredentials, request, true);
 }
 
-void CSteamProto::OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse *pResponse)
+void CSteamProto::OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse &reply, const CMsgProtoBufHeader &hdr)
 {
-	if (pResponse->has_client_id && pResponse->has_steamid) {
+	if (hdr.failed()) {
+		Logout();
+		return;
+	}
+
+	if (reply.has_client_id && reply.has_steamid) {
 		DeleteAuthSettings();
-		SetId(DBKEY_STEAM_ID, m_iSteamId = pResponse->steamid);
-		SetId(DBKEY_CLIENT_ID, m_iClientId = pResponse->client_id);
+		SetId(DBKEY_STEAM_ID, m_iSteamId = reply.steamid);
+		SetId(DBKEY_CLIENT_ID, m_iClientId = reply.client_id);
 
-		if (pResponse->has_request_id)
-			m_requestId.append(pResponse->request_id.data, pResponse->request_id.len);
+		if (reply.has_request_id)
+			m_requestId.append(reply.request_id.data, reply.request_id.len);
 
-		for (int i = 0; i < pResponse->n_allowed_confirmations; i++) {
-			auto &conf = pResponse->allowed_confirmations[i];
+		for (int i = 0; i < reply.n_allowed_confirmations; i++) {
+			auto &conf = reply.allowed_confirmations[i];
 			debugLogA("Confirmation required %d (%s)", conf->confirmation_type, conf->associated_message);
 			switch (conf->confirmation_type) {
 			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_None: // nothing to do
@@ -136,7 +146,7 @@ void CSteamProto::OnBeginSession(const CAuthenticationBeginAuthSessionViaCredent
 		SendPollRequest();
 	}
 	else {
-		debugLogA("Something went wrong: %s", pResponse->extended_error_message);
+		debugLogA("Something went wrong: %s", reply.extended_error_message);
 		Logout();
 	}
 }
@@ -189,9 +199,12 @@ void CSteamProto::SendConfirmationCode(bool isEmail, const char *pszCode)
 	WSSendService(UpdateAuthSessionWithSteamGuardCode, request, true);
 }
 
-void CSteamProto::OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse*)
+void CSteamProto::OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse&, const CMsgProtoBufHeader &hdr)
 {
-	SendPollRequest();
+	if (hdr.failed())
+		Logout();
+	else
+		SendPollRequest();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -204,16 +217,16 @@ void CSteamProto::SendPollRequest()
 	WSSendService(PollAuthSessionStatus, request, true);
 }
 
-void CSteamProto::OnPollSession(const CAuthenticationPollAuthSessionStatusResponse *pResponse)
+void CSteamProto::OnPollSession(const CAuthenticationPollAuthSessionStatusResponse &reply, const CMsgProtoBufHeader &)
 {
-	if (pResponse->has_new_client_id)
-		m_iClientId = pResponse->new_client_id;
+	if (reply.has_new_client_id)
+		m_iClientId = reply.new_client_id;
 
-	if (pResponse->new_guard_data)
-		setString("MachineId", pResponse->new_guard_data);
+	if (reply.new_guard_data)
+		setString("MachineId", reply.new_guard_data);
 
-	m_szAccessToken = pResponse->access_token;
-	m_szRefreshToken = pResponse->refresh_token;
+	m_szAccessToken = reply.access_token;
+	m_szRefreshToken = reply.refresh_token;
 
 	// sending logon packet
 	ptrA szAccountName(getUStringA(DBKEY_ACCOUNT_NAME)), szPassword(getUStringA("Password"));
@@ -225,7 +238,7 @@ void CSteamProto::OnPollSession(const CAuthenticationPollAuthSessionStatusRespon
 	privateIp.v4 = 0;
 
 	CMsgClientLogon request;
-	request.access_token = pResponse->refresh_token;
+	request.access_token = reply.refresh_token;
 	request.machine_name = szMachineName;
 	request.client_language = "english";
 	request.client_os_type = 16; request.has_client_os_type = true;

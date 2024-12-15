@@ -175,7 +175,7 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 		break;
 
 	case EMsg::ServiceMethodResponse:
-		ProcessServiceResponce(buf, cbLen, hdr->target_job_name);
+		ProcessServiceResponse(buf, cbLen, *hdr);
 		break;
 
 	case EMsg::ClientLoggedOff:
@@ -188,12 +188,12 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 	}
 }
 
-void CSteamProto::ProcessServiceResponce(const uint8_t *buf, size_t cbLen, const char *pszServiceName)
+void CSteamProto::ProcessServiceResponse(const uint8_t *buf, size_t cbLen, const CMsgProtoBufHeader &hdr)
 {
-	char *tmpName = NEWSTR_ALLOCA(pszServiceName);
+	char *tmpName = NEWSTR_ALLOCA(hdr.target_job_name);
 	char *p = strchr(tmpName, '.');
 	if (!p) {
-		debugLogA("Invalid service function: %s", pszServiceName);
+		debugLogA("Invalid service function: %s", hdr.target_job_name);
 		return;
 	}
 
@@ -207,7 +207,7 @@ void CSteamProto::ProcessServiceResponce(const uint8_t *buf, size_t cbLen, const
 
 	auto pHandler = g_plugin.serviceHandlers.find(tmpName);
 	if (pHandler == g_plugin.serviceHandlers.end()) {
-		debugLogA("Unsupported service function: %s", pszServiceName);
+		debugLogA("Unsupported service function: %s", hdr.target_job_name);
 		return;
 	}
 
@@ -218,13 +218,13 @@ void CSteamProto::ProcessServiceResponce(const uint8_t *buf, size_t cbLen, const
 		auto *pDescr = pMethod->output;
 		
 		if (auto *pMessage = protobuf_c_message_unpack(pDescr, 0, cbLen, buf)) {
-			debugLogA("Processing service message: %s\n%s", pszServiceName, protobuf_c_text_to_string(*pMessage).c_str());
+			debugLogA("Processing service message: %s\n%s", hdr.target_job_name, protobuf_c_text_to_string(*pMessage).c_str());
 
-			(this->*(pHandler->second))(pMessage);
+			(this->*(pHandler->second))(*pMessage, hdr);
 			protobuf_c_message_free_unpacked(pMessage, 0);
 		}
 	}
-	else debugLogA("Unregistered service method: %s", pszServiceName);
+	else debugLogA("Unregistered service method: %s", hdr.target_job_name);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -271,7 +271,7 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 	m_ws->sendBinary(hdrbuf.data(), hdrbuf.length());
 }
 
-void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon)
+int64_t CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon)
 {
 	CMsgProtoBufHeader hdr;
 	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
@@ -281,4 +281,6 @@ void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMes
 	hdr.target_job_name = (char *)pszServiceName;
 	hdr.realm = 1; hdr.has_realm = true;
 	WSSendHeader(bAnon ? EMsg::ServiceMethodCallFromClientNonAuthed : EMsg::ServiceMethodCallFromClient, hdr, msg);
+
+	return hdr.jobid_source;
 }

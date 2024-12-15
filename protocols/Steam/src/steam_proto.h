@@ -75,6 +75,7 @@ struct COwnMessage
 
 	int iMessageId, timestamp = 0;
 	MCONTACT hContact;
+	uint64_t iSourceId = -1;
 };
 
 class CSteamProto : public PROTO<CSteamProto>
@@ -138,11 +139,11 @@ class CSteamProto : public PROTO<CSteamProto>
 
    void ProcessMulti(const uint8_t *buf, size_t cbLen);
    void ProcessMessage(const uint8_t *buf, size_t cbLen);
-	void ProcessServiceResponce(const uint8_t *buf, size_t cbLen, const char *pszServiceName);
+	void ProcessServiceResponse(const uint8_t *buf, size_t cbLen, const CMsgProtoBufHeader &hdr);
 
 	void WSSend(EMsg msgType, const ProtobufCppMessage &msg);
 	void WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg);
-	void WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon = false);
+	int64_t WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon = false);
 
 	// requests
 	bool SendRequest(HttpRequest *request);
@@ -163,11 +164,11 @@ class CSteamProto : public PROTO<CSteamProto>
 	static INT_PTR CALLBACK EnterTotpCode(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);
 
-	void OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse *pResponse);
+	void OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnClientLogon(const uint8_t *buf, size_t cbLen);
-	void OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse *pResponse);
-	void OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse *pResponse);
-	void OnPollSession(const CAuthenticationPollAuthSessionStatusResponse *pResponse);
+	void OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse &pResponse, const CMsgProtoBufHeader &hdr);
+	void OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse &pResponse, const CMsgProtoBufHeader &hdr);
+	void OnPollSession(const CAuthenticationPollAuthSessionStatusResponse &pResponse, const CMsgProtoBufHeader &hdr);
 
 	void OnGotHosts(const JSONNode &root, void *);
 
@@ -216,7 +217,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	OBJLIST<COwnMessage> m_arOwnMessages;
 
 	void SendFriendMessage(uint32_t msgId, int64_t steamId, const char *pszMessage);
-	void OnMessageSent(const CFriendMessagesSendMessageResponse *pResponse);
+	void OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	// history
@@ -349,7 +350,7 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>
 
 	std::map<std::string, const ProtobufCServiceDescriptor*> services;
 
-	typedef void (CSteamProto:: *ServiceResponseHandler)(const ProtobufCMessage *);
+	typedef void (CSteamProto:: *ServiceResponseHandler)(const ProtobufCMessage &msg, const CMsgProtoBufHeader &hdr);
 	std::map<std::string, ServiceResponseHandler> serviceHandlers;
 
 	int Load() override;

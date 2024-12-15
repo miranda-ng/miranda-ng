@@ -27,24 +27,40 @@ void CSteamProto::SendFriendMessage(uint32_t msgId, int64_t steamId, const char 
 	request.contains_bbcode = request.has_contains_bbcode = true;
 	request.steamid = steamId; request.has_steamid = true;
 	request.message = (char *)pszMessage;
-	WSSendService(FriendSendMessage, request);
+	
+	auto iSourceId = WSSendService(FriendSendMessage, request);
+	mir_cslock lck(m_csOwnMessages);
+	if (COwnMessage *pOwn = m_arOwnMessages.find((COwnMessage *)&msgId))
+		pOwn->iSourceId = iSourceId;
 }
 
-void CSteamProto::OnMessageSent(const CFriendMessagesSendMessageResponse *pResponse)
+void CSteamProto::OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr)
 {
-	COwnMessage *pOwn;
+	COwnMessage tmp(0, 0);
 	{
 		mir_cslock lck(m_csOwnMessages);
-		pOwn = m_arOwnMessages.find((COwnMessage *)&pResponse->ordinal);
+		for (auto &it : m_arOwnMessages)
+			if (it->iSourceId == hdr.jobid_target) {
+				tmp = *it;
+				m_arOwnMessages.remove(m_arOwnMessages.indexOf(&it));
+				break;
+			}
 	}
 
-	if (pOwn) {
-		uint32_t timestamp = (pResponse->has_server_timestamp) ? pResponse->server_timestamp : 0;
-		if (timestamp > getDword(pOwn->hContact, DB_KEY_LASTMSGTS))
-			setDword(pOwn->hContact, DB_KEY_LASTMSGTS, timestamp);
+	if (!tmp.hContact)
+		return;
 
-		pOwn->timestamp = timestamp;
-		ProtoBroadcastAck(pOwn->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pOwn->iMessageId, 0);
+	if (hdr.failed()) {
+		CMStringW wszMessage(FORMAT, TranslateT("Message sending has failed with error %d"), hdr.eresult);
+		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tmp.iMessageId, (LPARAM)wszMessage.c_str());
+	}
+	else {
+		uint32_t timestamp = (reply.has_server_timestamp) ? reply.server_timestamp : 0;
+		if (timestamp > getDword(tmp.hContact, DB_KEY_LASTMSGTS))
+			setDword(tmp.hContact, DB_KEY_LASTMSGTS, timestamp);
+
+		tmp.timestamp = timestamp;
+		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.iMessageId, 0);
 	}
 }
 

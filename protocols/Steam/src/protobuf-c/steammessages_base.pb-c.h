@@ -177,6 +177,10 @@ struct CMsgProtoBufHeader : public ProtobufCppMessage
      ProtobufCppMessage(cmsg_proto_buf_header__descriptor)
   {}
 
+  bool failed() const {
+     return has_eresult && eresult != 1;
+  }
+
   protobuf_c_boolean has_steamid;
   uint64_t steamid;
   protobuf_c_boolean has_client_sessionid;
