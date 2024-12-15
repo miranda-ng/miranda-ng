@@ -30,6 +30,9 @@
     <ClCompile Include="src\protobuf-c\enums.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\protobuf-c-text.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\protobuf-c\protobuf-c.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

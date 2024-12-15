@@ -90,6 +90,9 @@
     <ClCompile Include="src\protobuf-c\steammessages_friendmessages.steamclient.pb-c.cpp">
       <Filter>Source Files\protobuf</Filter>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\protobuf-c-text.c">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">

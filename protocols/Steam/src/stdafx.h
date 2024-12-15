@@ -44,6 +44,11 @@
 #include "protobuf-c/steammessages_friendmessages.steamclient.pb-c.h"
 #include "proto.h"
 
+extern "C"
+{
+	#include "protobuf-c/protobuf-c-text.h"
+}
+
 #define MODULE "Steam"
 #define DB_KEY_LASTMSGTS "LastMessageTS"
 

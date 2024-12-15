@@ -139,7 +139,7 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 	else if (bIsProto) {
 		uint32_t hdrLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
 		proto::MsgProtoBufHeader tmpHeader(buf, hdrLen);
-		if (tmpHeader == nullptr) {
+		if (tmpHeader == nullptr) { 
 			debugLogA("Unable to decode message header, exiting");
 			return;
 		}
