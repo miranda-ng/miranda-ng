@@ -170,6 +170,9 @@
     <ClInclude Include="src\protobuf-c\steammessages_friendmessages.steamclient.pb-c.h">
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
+    <ClInclude Include="src\protobuf-c\protobuf-c-text.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">

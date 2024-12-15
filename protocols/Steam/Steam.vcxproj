@@ -88,6 +88,7 @@
     <ClInclude Include="src\api\session.h" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\protobuf-c\enums.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\protobuf-c-text.h" />
     <ClInclude Include="src\protobuf-c\protobuf-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_auth.steamclient.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_base.pb-c.h" />

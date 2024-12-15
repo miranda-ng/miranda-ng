@@ -149,7 +149,7 @@ typedef struct _ProtobufCTextError {
  *         \endcode
  *         Though technically \c free(retval); is probably sufficient.
  */
-extern char *protobuf_c_text_to_string(ProtobufCMessage *m,
+extern char *protobuf_c_text_to_string(const ProtobufCMessage *m,
     ProtobufCAllocator *allocator);
 
 /** Import a text format protobuf from a string into a \c ProtobufCMessage.

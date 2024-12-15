@@ -490,7 +490,7 @@ protobuf_c_text_to_string_internal(ReturnString *rs,
 /* See .h file for API docs. */
 
 char *
-protobuf_c_text_to_string(ProtobufCMessage *m,
+protobuf_c_text_to_string(const ProtobufCMessage *m,
     ProtobufCAllocator *allocator)
 {
   ReturnString rs = { 0, 0, 0, NULL };

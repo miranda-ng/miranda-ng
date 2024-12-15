@@ -207,6 +207,10 @@ void CSteamProto::WSSend(EMsg msgType, const ProtobufCppMessage &msg)
 
 void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg)
 {
+	auto *pszText = protobuf_c_text_to_string(&msg, 0);
+	debugLogA("Message sent: %s\r\n%s", msg.descriptor->c_name, pszText);
+	free(pszText);
+
 	uint32_t hdrLen = (uint32_t)protobuf_c_message_get_packed_size(&hdr);
 	MBinBuffer hdrbuf(hdrLen);
 	protobuf_c_message_pack(&hdr, (uint8_t *)hdrbuf.data());
@@ -220,7 +224,6 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 	protobuf_c_message_pack(&msg, body.data());
 
 	hdrbuf.append(body);
-	Netlib_Dump(HNETLIBCONN(m_ws->getConn()), hdrbuf.data(), hdrbuf.length(), true, 0);
 	m_ws->sendBinary(hdrbuf.data(), hdrbuf.length());
 }
 
