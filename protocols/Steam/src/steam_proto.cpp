@@ -86,7 +86,7 @@ CSteamProto::~CSteamProto()
 
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
-	MCONTACT hContact = AddContact(T2Utf(psr->id.w), psr->nick.w, true);
+	MCONTACT hContact = AddContact(_wtoi64(psr->id.w), psr->nick.w, true);
 
 	if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT)) {
 		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT *)psr;

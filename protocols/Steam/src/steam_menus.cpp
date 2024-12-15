@@ -51,7 +51,7 @@ int CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
 
 INT_PTR CSteamProto::OpenBlockListCommand(WPARAM, LPARAM)
 {
-	SendRequest(new GetFriendListRequest(m_szAccessToken, m_iSteamId, "ignoredfriend"), &CSteamProto::OnGotBlockList);
+	// SendRequest(new GetFriendListRequest(m_szAccessToken, m_iSteamId, "ignoredfriend"), &CSteamProto::OnGotBlockList);
 	return 0;
 }
 

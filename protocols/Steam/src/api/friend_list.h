@@ -1,15 +1,6 @@
 #ifndef _STEAM_REQUEST_FRIEND_LIST_H_
 #define _STEAM_REQUEST_FRIEND_LIST_H_
 
-struct GetFriendListRequest : public HttpRequest
-{
-	GetFriendListRequest(const char *token, int64_t steamId, const char *relationship) :
-		HttpRequest(REQUEST_GET, "/ISteamUserOAuth/GetFriendList/v0001")
-	{
-		this << CHAR_PARAM("access_token", token) << INT64_PARAM("steamid", steamId) << CHAR_PARAM("relationship", relationship);
-	}
-};
-
 struct AddFriendRequest : public HttpRequest
 {
 	AddFriendRequest(const char *token, const char *sessionId, int64_t steamId, const char *who) :

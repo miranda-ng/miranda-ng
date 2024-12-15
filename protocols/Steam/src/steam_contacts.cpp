@@ -72,6 +72,15 @@ MCONTACT CSteamProto::GetContact(const char *steamId)
 	return NULL;
 }
 
+MCONTACT CSteamProto::GetContact(int64_t steamId)
+{
+	for (auto &hContact : AccContacts())
+		if (GetId(hContact, DBKEY_STEAM_ID) == steamId)
+			return hContact;
+
+	return NULL;
+}
+
 void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 {
 	// set common data
@@ -351,19 +360,57 @@ MCONTACT CSteamProto::AddContact(const char *steamId, const wchar_t *nick, bool 
 	return hContact;
 }
 
-void CSteamProto::UpdateContactRelationship(MCONTACT hContact, const JSONNode &data)
+MCONTACT CSteamProto::AddContact(int64_t steamId, const wchar_t *nick, bool isTemporary)
 {
-	const JSONNode &node = data["friend_since"];
-	if (node)
-		db_set_dw(hContact, "UserInfo", "ContactAddTime", node.as_int());
+	mir_cslock lock(m_addContactLock);
 
-	json_string relationship = data["relationship"].as_string();
-	if (relationship == "friend")
+	if (!steamId) {
+		debugLogA(__FUNCTION__ ": empty steam id");
+		return NULL;
+	}
+
+	MCONTACT hContact = GetContact(steamId);
+	if (hContact)
+		return hContact;
+
+	// create contact
+	hContact = db_add_contact();
+	Proto_AddToContact(hContact, m_szModuleName);
+
+	SetId(hContact, DBKEY_STEAM_ID, steamId);
+	if (mir_wstrlen(nick)) {
+		setWString(hContact, "Nick", nick);
+		db_set_ws(hContact, "CList", "MyHandle", nick);
+	}
+
+	if (isTemporary) {
+		debugLogA("Contact %d added as a temporary one");
+		Contact::RemoveFromList(hContact);
+	}
+
+	setByte(hContact, "Auth", 1);
+
+	// move to default group
+	if (!Clist_GroupExists(m_wszGroupName))
+		Clist_GroupCreate(0, m_wszGroupName);
+	Clist_SetGroup(hContact, m_wszGroupName);
+
+	return hContact;
+}
+
+void CSteamProto::UpdateContactRelationship(MCONTACT hContact, FriendRelationship iRelationType)
+{
+	switch (iRelationType) {
+	case FriendRelationship::Friend:
 		ContactIsFriend(hContact);
-	else if (relationship == "ignoredfriend")
+		break;
+	case FriendRelationship::IgnoredFriend:
 		ContactIsBlocked(hContact);
-	else if (relationship == "requestrecipient")
+		break;
+	case FriendRelationship::RequestRecipient:
 		ContactIsAskingAuth(hContact);
+		break;
+	}
 }
 
 void CSteamProto::OnGotAppInfo(const JSONNode &root, void *arg)
@@ -380,48 +427,45 @@ void CSteamProto::OnGotAppInfo(const JSONNode &root, void *arg)
 	}
 }
 
-void CSteamProto::OnGotFriendList(const JSONNode &root, void *)
+void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsgProtoBufHeader &hdr)
 {
-	if (root.isnull())
+	if (hdr.failed())
 		return;
 
-	// Comma-separated list of steam ids to update summaries
-	std::string steamIds = (char *)ptrA(getStringA(DBKEY_STEAM_ID));
-
-	// Remember contacts on server
-	std::map<json_string, const JSONNode*> friendsMap;
-	for (auto &_friend : root["friends"]) {
-		json_string steamId = _friend["steamid"].as_string();
-		friendsMap.insert(std::make_pair(steamId, &_friend));
-	}
-	
-	if (friendsMap.empty()) {
+	if (reply.n_friends == 0) {
 		debugLogA("Empty friends list, exiting");
 		return;
 	}
 
+	std::map<uint64_t, FriendRelationship> friendsMap;
+	for (int i = 0; i < reply.n_friends; i++) {
+		auto *F = reply.friends[i];
+		friendsMap[F->ulfriendid | 0x110000100000000ll] = FriendRelationship(F->efriendrelationship);
+	}
+
+	// Comma-separated list of steam ids to update summaries
+	CMStringA steamIds = getMStringA(DBKEY_STEAM_ID);
+
 	// Check and update contacts in database
 	for (auto &hContact : AccContacts()) {
-		ptrA steamId(getStringA(hContact, DBKEY_STEAM_ID));
-		if (steamId == nullptr)
+		int64_t steamId(GetId(hContact, DBKEY_STEAM_ID));
+		if (!steamId)
 			continue;
 
-		auto it = friendsMap.find((char *)steamId);
+		// Contact was removed from server-list, notify it
+		auto it = friendsMap.find(steamId);
 		if (it == friendsMap.end()) {
-			// Contact was removed from server-list, notify it
-			ContactIsRemoved(hContact);
+			if (!reply.bincremental)
+				ContactIsRemoved(hContact);
 			continue;
 		}
 
-		const JSONNode &_friend = *it->second;
-
 		// Contact is on server-list, update (and eventually notify) it
-		UpdateContactRelationship(hContact, _friend);
+		UpdateContactRelationship(hContact, it->second);
 
 		// Do not update summary for non friends
-		json_string relationship = _friend["relationship"].as_string();
-		if (relationship == "friend")
-			steamIds.append(",").append(it->first);
+		if (it->second == FriendRelationship::Friend)
+			steamIds.AppendFormat(",%lld", it->first);
 
 		friendsMap.erase(it);
 	}
@@ -429,19 +473,15 @@ void CSteamProto::OnGotFriendList(const JSONNode &root, void *)
 	// Check remaining contacts in map and add them to contact list
 	for (auto it : friendsMap) {
 		// Contact is on server-list, but not in database, add (but not notify) it
-		const JSONNode &_friend = *it.second;
+		MCONTACT hContact = AddContact(it.first, nullptr, it.second != FriendRelationship::Friend);
+		UpdateContactRelationship(hContact, it.second);
 
-		json_string relationship = _friend["relationship"].as_string();
-
-		MCONTACT hContact = AddContact(it.first.c_str(), nullptr, relationship != "friend");
-		UpdateContactRelationship(hContact, _friend);
-
-		if (relationship == "friend")
-			steamIds.append(",").append(it.first);
+		if (it.second == FriendRelationship::Friend)
+			steamIds.AppendFormat(",%lld", it.first);
 	}
 	friendsMap.clear();
 
-	if (!steamIds.empty())
+	if (!steamIds.IsEmpty())
 		SendRequest(new GetUserSummariesRequest(m_szAccessToken, steamIds.c_str()), &CSteamProto::OnGotUserSummaries);
 
 	// Load last conversations
@@ -572,7 +612,7 @@ void CSteamProto::OnFriendBlocked(const MHttpResponse &response, void *arg)
 		return;
 	}
 
-	MCONTACT hContact = GetContact(steamId);
+	MCONTACT hContact = GetContact(steamId.get());
 	if (hContact)
 		ContactIsBlocked(hContact);
 }
@@ -586,7 +626,7 @@ void CSteamProto::OnFriendUnblocked(const MHttpResponse &response, void *arg)
 		return;
 	}
 
-	MCONTACT hContact = GetContact(steamId);
+	MCONTACT hContact = GetContact(steamId.get());
 	if (hContact)
 		ContactIsUnblocked(hContact);
 }
@@ -600,7 +640,7 @@ void CSteamProto::OnFriendRemoved(const MHttpResponse &response, void *arg)
 		return;
 	}
 
-	MCONTACT hContact = GetContact(steamId);
+	MCONTACT hContact = GetContact(steamId.get());
 	if (hContact)
 		ContactIsRemoved(hContact);
 }

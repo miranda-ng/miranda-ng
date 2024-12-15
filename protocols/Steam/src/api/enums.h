@@ -1,16 +1,18 @@
 #ifndef _STEAM_ENUMS_H_
 #define _STEAM_ENUMS_H_
 
-enum VisibilityState
+enum class FriendRelationship : int
 {
-	Private = 1,
-	FriendsOnly = 2,
-	FriendsOfFriends = 3,
-	UsersOnly = 4,
-	Public = 5,
+	None = 0,
+	Blocked = 1,
+	RequestRecipient = 2,
+	Friend = 3,
+	RequestInitiator = 4,
+	Ignored = 5,
+	IgnoredFriend = 6,
 };
 
-enum PersonaState
+enum class PersonaState : int
 {
 	Offline = 0,
 	Online = 1,
@@ -63,20 +65,6 @@ inline PersonaStatusFlag operator &(PersonaStatusFlag lhs, PersonaStatusFlag rhs
 		static_cast<std::underlying_type<PersonaStatusFlag>::type>(lhs) &
 		static_cast<std::underlying_type<PersonaStatusFlag>::type>(rhs));
 }
-
-enum class PersonaRelationshipAction : int
-{
-	// friend removed from contact list
-	Remove = 0,
-	// friend added you to ignore list
-	Ignore = 1,
-	// friend requested auth
-	AuthRequest = 2,
-	// friend added you to contact list
-	AddToList = 3,
-	// friend got (or approved?) your auth request
-	AuthRequested = 4,
-};
 
 template<typename T>
 bool contains_flag(T x, T y) {

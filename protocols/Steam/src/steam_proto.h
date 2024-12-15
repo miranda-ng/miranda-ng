@@ -180,7 +180,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
 	void UpdateContactDetails(MCONTACT hContact, const JSONNode &data);
-	void UpdateContactRelationship(MCONTACT hContact, const JSONNode &data);
+	void UpdateContactRelationship(MCONTACT hContact, FriendRelationship);
 	void OnGotAppInfo(const JSONNode &root, void *arg);
 
 	void ContactIsRemoved(MCONTACT hContact);
@@ -189,10 +189,14 @@ class CSteamProto : public PROTO<CSteamProto>
 	void ContactIsUnblocked(MCONTACT hContact);
 	void ContactIsAskingAuth(MCONTACT hContact);
 
+	void OnGotFriendList(const CMsgClientFriendsList &reply, const CMsgProtoBufHeader &hdr);
+
 	MCONTACT GetContact(const char *steamId);
 	MCONTACT AddContact(const char *steamId, const wchar_t *nick = nullptr, bool isTemporary = false);
 
-	void OnGotFriendList(const JSONNode &root, void *);
+	MCONTACT GetContact(int64_t steamId);
+	MCONTACT AddContact(int64_t steamId, const wchar_t *nick = nullptr, bool isTemporary = false);
+
 	void OnGotBlockList(const JSONNode &root, void *);
 	void OnGotUserSummaries(const JSONNode &root, void *);
 	void OnGotAvatar(const MHttpResponse &response, void *arg);
