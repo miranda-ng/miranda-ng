@@ -253,22 +253,25 @@ void CSteamProto::OnPollSession(const CAuthenticationPollAuthSessionStatusRespon
 	WSSend(EMsg::ClientLogon, request);
 }
 
-void CSteamProto::OnClientLogon(const uint8_t *buf, size_t cbLen)
+void CSteamProto::OnClientLogon(const CMsgClientLogonResponse &reply, const CMsgProtoBufHeader &hdr)
 {
-	proto::MsgClientLogonResponse reply(buf, cbLen);
-	if (reply == nullptr || !reply->has_eresult || reply->eresult != (int)EResult::OK) {
+	if (hdr.failed()) {
 		Logout();
 		return;
 	}
 
-	debugLogA("client logged in\n%s", protobuf_c_text_to_string(*reply).c_str());
-
-	if (reply->has_heartbeat_seconds)
-		m_impl.m_heartBeat.Start(reply->heartbeat_seconds * 1000);
+	if (reply.has_heartbeat_seconds)
+		m_impl.m_heartBeat.Start(reply.heartbeat_seconds * 1000);
 
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 
 	// load contact list
 	SendRequest(new GetFriendListRequest(m_szAccessToken, m_iSteamId, "friend,ignoredfriend,requestrecipient"), &CSteamProto::OnGotFriendList);
+}
+
+void CSteamProto::OnClientLogoff(const CMsgClientLoggedOff &reply, const CMsgProtoBufHeader&)
+{
+	debugLogA("received logout request with error code %d", reply.has_eresult ? reply.eresult : 0);
+	Logout();
 }

@@ -137,7 +137,7 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 	}
 	
 	if (!bIsProto) {
-		debugLogA("Got unknown packet, exiting");
+		debugLogA("Got unknown packet of type %d, exiting", msgType);
 		Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
 		return;
 	}
@@ -156,22 +156,26 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 
 	// persistent callbacks
 	switch (msgType) {
-	case EMsg::ClientLogOnResponse:
-		OnClientLogon(buf, cbLen);
-		break;
-
 	case EMsg::ServiceMethodResponse:
 		ProcessServiceResponse(buf, cbLen, *hdr);
 		break;
 
-	case EMsg::ClientLoggedOff:
-		debugLogA("received logout request");
-		Logout();
-		break;
-
 	default:
-		debugLogA("Received message of type %d", msgType);
-		Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
+		// find message descriptor first, if succeeded, try to find a message handler then
+		auto md = g_plugin.messages.find(msgType);
+		if (md == g_plugin.messages.end()) {
+			debugLogA("Received message of type %d", msgType);
+			Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
+		}
+		else if (auto *pMessage = protobuf_c_message_unpack(md->second, 0, cbLen, buf)) {
+			debugLogA("Received known message:\n%s", protobuf_c_text_to_string(*pMessage).c_str());
+
+			auto mh = g_plugin.messageHandlers.find(msgType);
+			if (mh != g_plugin.messageHandlers.end())
+				(this->*(mh->second))(*pMessage, *hdr);
+
+			protobuf_c_message_free_unpacked(pMessage, 0);
+		}
 	}
 }
 

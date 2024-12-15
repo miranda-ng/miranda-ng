@@ -162,7 +162,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	static INT_PTR CALLBACK EnterEmailCode(void *param);
 
 	void OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse &pResponse, const CMsgProtoBufHeader &hdr);
-	void OnClientLogon(const uint8_t *buf, size_t cbLen);
+	void OnClientLogon(const CMsgClientLogonResponse &pResponse, const CMsgProtoBufHeader &hdr);
+	void OnClientLogoff(const CMsgClientLoggedOff &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnPollSession(const CAuthenticationPollAuthSessionStatusResponse &pResponse, const CMsgProtoBufHeader &hdr);

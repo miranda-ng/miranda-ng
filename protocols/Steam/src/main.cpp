@@ -34,7 +34,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 void CMPlugin::InitSteamServices()
 {
-	// message handlers
+	// message descriptors map
 	messages[EMsg::Multi] = &cmsg_multi__descriptor;
 	messages[EMsg::ClientHeartBeat] = &cmsg_client_heart_beat__descriptor;
 	messages[EMsg::ClientHello] = &cmsg_client_hello__descriptor;
@@ -136,6 +136,10 @@ void CMPlugin::InitSteamServices()
 	// messages[EMsg::ClientDeauthorizeDeviceRequest] = &cmsg_Client_DeauthorizeDeviceRequest;
 	// messages[EMsg::ClientDeauthorizeDevice] = &cmsg_Client_DeauthorizeDevice;
 	// messages[EMsg::ClientUseLocalDeviceAuthorizations] = &cmsg_Client_UseLocalDeviceAuthorizations;
+
+	// message handlers
+	messageHandlers[EMsg::ClientLoggedOff] = ServiceResponseHandler(&CSteamProto::OnClientLogoff);
+	messageHandlers[EMsg::ClientLogOnResponse] = ServiceResponseHandler(&CSteamProto::OnClientLogon);
 
 	// services from steammessages_auth.steamclient.proto
 	services["Authentication"] = &authentication__descriptor;

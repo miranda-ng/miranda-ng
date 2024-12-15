@@ -2142,5 +2142,4 @@ namespace proto
 
 	PROTOBUF_PTR(MsgMulti, cmsg_multi__descriptor);
 	PROTOBUF_PTR(MsgProtoBufHeader, cmsg_proto_buf_header__descriptor);
-	PROTOBUF_PTR(MsgClientLogonResponse, cmsg_client_logon_response__descriptor);
 };
