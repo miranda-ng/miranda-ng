@@ -9,6 +9,45 @@ int64_t getRandomInt()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MBinBuffer createMachineID(const char *accName)
+{
+	uint8_t hashOut[MIR_SHA1_HASH_SIZE];
+	char hashHex[MIR_SHA1_HASH_SIZE * 2 + 1];
+
+	CMStringA _bb3 = CMStringA("SteamUser Hash BB3 ") + accName;
+	CMStringA _ff2 = CMStringA("SteamUser Hash FF2 ") + accName;
+	CMStringA _3b3 = CMStringA("SteamUser Hash 3B3 ") + accName;
+
+	MBinBuffer ret;
+	uint8_t c = 0;
+	ret.append(&c, 1);
+	ret.append("MessageObject", 14);
+
+	c = 1;
+	ret.append(&c, 1);
+	ret.append("BB3", 4);
+	mir_sha1_hash((uint8_t *)_bb3.c_str(), _bb3.GetLength(), hashOut);
+	bin2hex(hashOut, sizeof(hashOut), hashHex);
+	ret.append(hashHex, 41);
+
+	ret.append(&c, 1);
+	ret.append("FF2", 4);
+	mir_sha1_hash((uint8_t *)_ff2.c_str(), _ff2.GetLength(), hashOut);
+	bin2hex(hashOut, sizeof(hashOut), hashHex);
+	ret.append(hashHex, 41);
+
+	ret.append(&c, 1);
+	ret.append("3B3", 4);
+	mir_sha1_hash((uint8_t *)_3b3.c_str(), _3b3.GetLength(), hashOut);
+	bin2hex(hashOut, sizeof(hashOut), hashHex);
+	ret.append(hashHex, 41);
+
+	ret.append("\x08\x08", 2);
+	return ret;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int64_t CSteamProto::GetId(MCONTACT hContact, const char *pszSetting)
 {
 	return _atoi64(getMStringA(hContact, pszSetting));

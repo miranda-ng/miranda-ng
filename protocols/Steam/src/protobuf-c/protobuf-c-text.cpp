@@ -330,18 +330,22 @@ static void protobuf_c_text_to_string_internal(
 			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					auto *member = STRUCT_MEMBER(ProtobufCBinaryData *, m, f[i].offset);
-					char *p = (char *)malloc(member->len * 2 + 1);
-					bin2hex(member->data, member->len, p);
-					str.AppendFormat("%*s%s: \"%s\"\n", level, "", f[i].name, p);
-					free(p);
+					if (member->len && member->data) {
+						char *p = (char *)malloc(member->len * 2 + 1);
+						bin2hex(member->data, member->len, p);
+						str.AppendFormat("%*s%s: \"%s\"\n", level, "", f[i].name, p);
+						free(p);
+					}
 				}
 			}
 			else {
 				auto member = STRUCT_MEMBER(ProtobufCBinaryData, m, f[i].offset);
-				char *p = (char *)malloc(member.len * 2 + 1);
-				bin2hex(member.data, member.len, p);
-				str.AppendFormat("%*s%s: \"%s\"\n", level, "", f[i].name, p);
-				free(p);
+				if (member.len && member.data) {
+					char *p = (char *)malloc(member.len * 2 + 1);
+					bin2hex(member.data, member.len, p);
+					str.AppendFormat("%*s%s: \"%s\"\n", level, "", f[i].name, p);
+					free(p);
+				}
 			}
 			break;
 

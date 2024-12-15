@@ -224,6 +224,21 @@ HANDLE CSteamProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, 
 	return (HANDLE)STEAM_SEARCH_BYNAME;
 }
 
+int CSteamProto::SendMsg(MCONTACT hContact, MEVENT, const char *message)
+{
+	if (!IsOnline())
+		return -1;
+
+	UINT hMessage = InterlockedIncrement(&hMessageProcess);
+	{
+		mir_cslock lck(m_csOwnMessages);
+		m_arOwnMessages.insert(new COwnMessage(hContact, hMessage));
+	}
+
+	SendFriendMessage(hMessage, GetId(hContact, DBKEY_STEAM_ID), message);
+	return hMessage;
+}
+
 int CSteamProto::SetStatus(int new_status)
 {
 	// Routing statuses not supported by Steam
@@ -277,6 +292,8 @@ int CSteamProto::SetStatus(int new_status)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSteamProto::GetAwayMsgThread(void *arg)
 {
 	// Maybe not needed, but better to be sure that this won't happen faster than core handling return value of GetAwayMsg()
@@ -305,6 +322,8 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	// remove only authorized contacts
@@ -314,4 +333,18 @@ bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 		SendRequest(new RemoveFriendRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
 	}
 	return true;
+}
+
+int CSteamProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
+{
+	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
+	if (!mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName)) {
+		mir_cslock lck(m_csOwnMessages);
+		if (auto *pOwn = m_arOwnMessages.find((COwnMessage *)&evt->seq)) {
+			evt->dbei->timestamp = pOwn->timestamp;
+			m_arOwnMessages.remove(pOwn);
+		}
+	}
+
+	return 0;
 }

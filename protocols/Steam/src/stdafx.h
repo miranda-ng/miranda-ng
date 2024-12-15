@@ -40,6 +40,7 @@
 #include "version.h"
 
 #include "protobuf-c/steammessages_auth.steamclient.pb-c.h"
+#include "protobuf-c/steammessages_chat.steamclient.pb-c.h"
 #include "protobuf-c/steammessages_clientserver_login.pb-c.h"
 #include "protobuf-c/steammessages_friendmessages.steamclient.pb-c.h"
 #include "proto.h"

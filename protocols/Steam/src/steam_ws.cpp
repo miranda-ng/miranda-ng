@@ -123,42 +123,41 @@ void CSteamProto::ProcessMulti(const uint8_t *buf, size_t cbLen)
 
 void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 {
-	Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
-
 	uint32_t dwSign = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
 	EMsg msgType = (EMsg)(dwSign & ~STEAM_PROTOCOL_MASK);
 	bool bIsProto = (dwSign & STEAM_PROTOCOL_MASK) != 0;
 
-	CMsgProtoBufHeader hdr;
-
 	if (msgType == EMsg::ChannelEncryptRequest || msgType == EMsg::ChannelEncryptResult) {
+		CMsgProtoBufHeader hdr;
 		hdr.has_jobid_source = hdr.has_jobid_target = true;
 		hdr.jobid_source = *(int64_t *)buf; buf += sizeof(int64_t);
 		hdr.jobid_target = *(int64_t *)buf; buf += sizeof(int64_t);
-	}
-	else if (bIsProto) {
-		uint32_t hdrLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
-		proto::MsgProtoBufHeader tmpHeader(buf, hdrLen);
-		if (tmpHeader == nullptr) { 
-			debugLogA("Unable to decode message header, exiting");
-			return;
-		}
-
-		memcpy(&hdr, tmpHeader, sizeof(hdr));
-		buf += hdrLen; cbLen -= hdrLen;
-
-		if (hdr.has_client_sessionid)
-			m_iSessionId = hdr.client_sessionid;
-	}
-	else {
-		debugLogA("Got unknown header, exiting");
+		debugLogA("encrypted results cannot be processed, ignoring");
 		return;
 	}
+	
+	if (!bIsProto) {
+		debugLogA("Got unknown packet, exiting");
+		Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
+		return;
+	}
+
+	uint32_t hdrLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
+	proto::MsgProtoBufHeader hdr(buf, hdrLen);
+	if (hdr == nullptr) {
+		debugLogA("Unable to decode message header, exiting");
+		return;
+	}
+
+	buf += hdrLen; cbLen -= hdrLen;
+
+	if (hdr->has_client_sessionid)
+		m_iSessionId = hdr->client_sessionid;
 
 	MsgCallback pCallback = 0;
 	{
 		mir_cslock lck(m_csRequests);
-		if (auto *pReq = m_arRequests.find((ProtoRequest *)&hdr.jobid_target)) {
+		if (auto *pReq = m_arRequests.find((ProtoRequest *)&hdr->jobid_target)) {
 			pCallback = pReq->pCallback;
 			m_arRequests.remove(pReq);
 		}
@@ -175,10 +174,57 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 		OnClientLogon(buf, cbLen);
 		break;
 
+	case EMsg::ServiceMethodResponse:
+		ProcessServiceResponce(buf, cbLen, hdr->target_job_name);
+		break;
+
 	case EMsg::ClientLoggedOff:
+		debugLogA("received logout request");
 		Logout();
 		break;
+
+	default:
+		Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
 	}
+}
+
+void CSteamProto::ProcessServiceResponce(const uint8_t *buf, size_t cbLen, const char *pszServiceName)
+{
+	char *tmpName = NEWSTR_ALLOCA(pszServiceName);
+	char *p = strchr(tmpName, '.');
+	if (!p) {
+		debugLogA("Invalid service function: %s", pszServiceName);
+		return;
+	}
+
+	*p = 0;
+	auto it = g_plugin.services.find(tmpName);
+	if (it == g_plugin.services.end()) {
+		debugLogA("Unregistered service module: %s", tmpName);
+		return;
+	}
+	*p = '.';
+
+	auto pHandler = g_plugin.serviceHandlers.find(tmpName);
+	if (pHandler == g_plugin.serviceHandlers.end()) {
+		debugLogA("Unsupported service function: %s", pszServiceName);
+		return;
+	}
+
+	if (char *p1 = strchr(++p, '#'))
+		*p1 = 0;
+
+	if (auto *pMethod = protobuf_c_service_descriptor_get_method_by_name(it->second, p)) {
+		auto *pDescr = pMethod->output;
+		
+		if (auto *pMessage = protobuf_c_message_unpack(pDescr, 0, cbLen, buf)) {
+			debugLogA("Processing service message: %s\n%s", pszServiceName, protobuf_c_text_to_string(*pMessage).c_str());
+
+			(this->*(pHandler->second))(pMessage);
+			protobuf_c_message_free_unpacked(pMessage, 0);
+		}
+	}
+	else debugLogA("Unregistered service method: %s", pszServiceName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -225,37 +271,14 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 	m_ws->sendBinary(hdrbuf.data(), hdrbuf.length());
 }
 
-void CSteamProto::WSSendClient(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback)
+void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon)
 {
 	CMsgProtoBufHeader hdr;
 	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
-	hdr.client_sessionid = m_iSessionId;
+	hdr.client_sessionid = bAnon ? 0 : m_iSessionId;
 	hdr.jobid_source = getRandomInt();
 	hdr.jobid_target = -1;
 	hdr.target_job_name = (char *)pszServiceName;
 	hdr.realm = 1; hdr.has_realm = true;
-
-	if (pCallback) {
-		mir_cslock lck(m_csRequests);
-		m_arRequests.insert(new ProtoRequest(hdr.jobid_source, pCallback));
-	}
-
-	WSSendHeader(EMsg::ServiceMethodCallFromClient, hdr, msg);
-}
-
-void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback)
-{
-	CMsgProtoBufHeader hdr;
-	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
-	hdr.jobid_source = getRandomInt();
-	hdr.jobid_target = -1;
-	hdr.target_job_name = (char *)pszServiceName;
-	hdr.realm = 1; hdr.has_realm = true;
-
-	if (pCallback) {
-		mir_cslock lck(m_csRequests);
-		m_arRequests.insert(new ProtoRequest(hdr.jobid_source, pCallback));
-	}
-
-	WSSendHeader(EMsg::ServiceMethodCallFromClientNonAuthed, hdr, msg);
+	WSSendHeader(bAnon ? EMsg::ServiceMethodCallFromClientNonAuthed : EMsg::ServiceMethodCallFromClient, hdr, msg);
 }

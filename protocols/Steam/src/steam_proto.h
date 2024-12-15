@@ -16,6 +16,14 @@
 #define DBKEY_STEAM_ID      "SteamID"
 #define DBKEY_ACCOUNT_NAME  "Username"
 
+// Steam services
+#define PollAuthSessionStatus               "Authentication.PollAuthSessionStatus#1"
+#define GetPasswordRSAPublicKey             "Authentication.GetPasswordRSAPublicKey#1"
+#define BeginAuthSessionViaCredentials      "Authentication.BeginAuthSessionViaCredentials#1"
+#define UpdateAuthSessionWithSteamGuardCode "Authentication.UpdateAuthSessionWithSteamGuardCode#1"
+
+#define FriendSendMessage                   "FriendMessages.SendMessage#1"
+
 struct SendAuthParam
 {
 	MCONTACT hContact;
@@ -71,6 +79,7 @@ struct COwnMessage
 
 class CSteamProto : public PROTO<CSteamProto>
 {
+	friend struct CMPlugin;
 	friend class CSteamGuardDialog;
 	friend class CSteamPasswordEditor;
 	friend class CSteamOptionsMain;
@@ -83,11 +92,7 @@ class CSteamProto : public PROTO<CSteamProto>
 		friend class CSteamProto;
 		CSteamProto &m_proto;
 
-		CTimer m_poll, m_heartBeat;
-		void OnPoll(CTimer *)
-		{
-			m_proto.SendPollRequest();
-		}
+		CTimer m_heartBeat;
 
 		void OnHeartBeat(CTimer *)
 		{
@@ -96,17 +101,15 @@ class CSteamProto : public PROTO<CSteamProto>
 
 		CProtoImpl(CSteamProto &pro) :
 			m_proto(pro),
-			m_poll(Miranda_GetSystemWindow(), UINT_PTR(this)),
 			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this)+1)
 		{
-			m_poll.OnEvent = Callback(this, &CProtoImpl::OnPoll);
 			m_heartBeat.OnEvent = Callback(this, &CProtoImpl::OnHeartBeat);
 		}
 	}
 		m_impl;
 
 	ptrW m_password;
-	bool m_bTerminated, m_bPollCanceled;
+	bool m_bTerminated;
 	time_t m_idleTS;
 	int64_t m_iSteamId, m_iClientId, m_iSessionId;
 	MBinBuffer m_requestId;
@@ -121,8 +124,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	CMStringA m_szRefreshToken, m_szAccessToken;
 	ULONG hAuthProcess = 1;
 	ULONG hMessageProcess = 1;
-	int m_iPollingInterval;
-	time_t m_iPollingStartTime;
 	mir_cs m_addContactLock;
 	mir_cs m_setStatusLock;
 
@@ -137,11 +138,11 @@ class CSteamProto : public PROTO<CSteamProto>
 
    void ProcessMulti(const uint8_t *buf, size_t cbLen);
    void ProcessMessage(const uint8_t *buf, size_t cbLen);
+	void ProcessServiceResponce(const uint8_t *buf, size_t cbLen, const char *pszServiceName);
 
 	void WSSend(EMsg msgType, const ProtobufCppMessage &msg);
 	void WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg);
-	void WSSendClient(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback = 0);
-	void WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, MsgCallback pCallback = 0);
+	void WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon = false);
 
 	// requests
 	bool SendRequest(HttpRequest *request);
@@ -150,6 +151,7 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void SendHeartBeat();
 	void SendLogout();
+	void SendPollRequest();
 
 	// login
 	bool IsOnline();
@@ -161,18 +163,16 @@ class CSteamProto : public PROTO<CSteamProto>
 	static INT_PTR CALLBACK EnterTotpCode(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);
 
-	void OnBeginSession(const uint8_t *buf, size_t cbLen);
+	void OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse *pResponse);
 	void OnClientLogon(const uint8_t *buf, size_t cbLen);
-	void OnGotRsaKey(const uint8_t *buf, size_t cbLen);
-	void OnGotConfirmationCode(const uint8_t *buf, size_t cbLen);
-	void OnPollSession(const uint8_t *buf, size_t cbLen);
+	void OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse *pResponse);
+	void OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse *pResponse);
+	void OnPollSession(const CAuthenticationPollAuthSessionStatusResponse *pResponse);
 
 	void OnGotHosts(const JSONNode &root, void *);
 
-	void CancelLoginAttempt();
 	void DeleteAuthSettings();
 	void SendConfirmationCode(bool, const char *pszCode);
-	void SendPollRequest();
 
 	// contacts
 	void SetAllContactStatuses(int status);
@@ -215,7 +215,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	mir_cs m_csOwnMessages;
 	OBJLIST<COwnMessage> m_arOwnMessages;
 
-	void OnMessageSent(const uint8_t *buf, size_t cbLen);
+	void SendFriendMessage(uint32_t msgId, int64_t steamId, const char *pszMessage);
+	void OnMessageSent(const CFriendMessagesSendMessageResponse *pResponse);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
 	// history
@@ -344,6 +345,13 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>
 {
 	CMPlugin();
 
+	void InitSteamServices();
+
+	std::map<std::string, const ProtobufCServiceDescriptor*> services;
+
+	typedef void (CSteamProto:: *ServiceResponseHandler)(const ProtobufCMessage *);
+	std::map<std::string, ServiceResponseHandler> serviceHandlers;
+
 	int Load() override;
 };
 
@@ -351,5 +359,6 @@ int OnReloadIcons(WPARAM wParam, LPARAM lParam);
 void SetContactExtraIcon(MCONTACT hContact, int status);
 
 MBinBuffer RsaEncrypt(const char *pszModulus, const char *exponent, const char *data);
+MBinBuffer createMachineID(const char *accName);
 
 #endif //_STEAM_PROTO_H_

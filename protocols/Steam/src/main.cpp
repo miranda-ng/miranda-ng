@@ -32,15 +32,42 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CMPlugin::InitSteamServices()
+{
+	// services from steammessages_auth.steamclient.proto
+	services["Authentication"] = &authentication__descriptor;
+	services["AuthenticationSupport"] = &authentication_support__descriptor;
+
+	// services from steammessages_chat.steamclient.proto
+	services["Chat"] = &chat__descriptor;
+	services["ChatRoom"] = &chat_room__descriptor;
+	services["ChatRoomClient"] = &chat_room_client__descriptor;
+
+	// services from steammessages_friendmessages.steamclient.proto
+	services["FriendMessages"] = &friend_messages__descriptor;
+	services["FriendMessagesClient"] = &friend_messages_client__descriptor;
+
+	// static service handlers
+	serviceHandlers[PollAuthSessionStatus] = ServiceResponseHandler(&CSteamProto::OnPollSession);
+	serviceHandlers[GetPasswordRSAPublicKey] = ServiceResponseHandler(&CSteamProto::OnGotRsaKey);
+	serviceHandlers[BeginAuthSessionViaCredentials] = ServiceResponseHandler(&CSteamProto::OnBeginSession);
+	serviceHandlers[UpdateAuthSessionWithSteamGuardCode] = ServiceResponseHandler(&CSteamProto::OnGotConfirmationCode);
+
+	serviceHandlers[FriendSendMessage] = ServiceResponseHandler(&CSteamProto::OnMessageSent);
+}
+
 int CMPlugin::Load()
 {
-	char iconName[100];
-	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
+	InitSteamServices();
 
 	// extra statuses
-	HookEvent(ME_SKIN_ICONSCHANGED, OnReloadIcons);
+	char iconName[100];
+	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
 	hExtraXStatus = ExtraIcon_RegisterIcolib("steam_game", LPGEN("Steam game"), iconName);
 
+	HookEvent(ME_SKIN_ICONSCHANGED, OnReloadIcons);
+
+	// menus
 	CSteamProto::InitMenus();
 	return 0;
 }

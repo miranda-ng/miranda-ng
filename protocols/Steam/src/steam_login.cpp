@@ -62,21 +62,15 @@ void CSteamProto::Login()
 
 	CAuthenticationGetPasswordRSAPublicKeyRequest request;
 	request.account_name = username.get();
-	WSSendService("Authentication.GetPasswordRSAPublicKey#1", request, &CSteamProto::OnGotRsaKey);
+	WSSendService(GetPasswordRSAPublicKey, request, true);
 }
 
-void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
+void CSteamProto::OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse *pResponse)
 {
-	proto::AuthenticationGetPasswordRSAPublicKeyResponse reply(buf, cbLen);
-	if (reply == nullptr || !reply->publickey_exp || !reply->publickey_mod) {
-		Logout();
-		return;
-	}
-
 	// encrypt password
 	ptrA szPassword(getStringA("Password"));
 
-	MBinBuffer encPassword(RsaEncrypt(reply->publickey_mod, reply->publickey_exp, szPassword));
+	MBinBuffer encPassword(RsaEncrypt(pResponse->publickey_mod, pResponse->publickey_exp, szPassword));
 	ptrA base64RsaEncryptedPassword(mir_base64_encode(encPassword.data(), encPassword.length()));
 
 	// run authorization request
@@ -93,7 +87,7 @@ void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
 	request.account_name = userName.get();
 	request.website_id = "Client";
 	request.encrypted_password = base64RsaEncryptedPassword;
-	request.encryption_timestamp = reply->timestamp; request.has_encryption_timestamp = true;
+	request.encryption_timestamp = pResponse->timestamp; request.has_encryption_timestamp = true;
 	request.persistence = ESESSION_PERSISTENCE__k_ESessionPersistence_Persistent; request.has_persistence = true;
 	request.remember_login = request.has_remember_login = true;
 	request.language = 1; request.has_language = true;
@@ -104,7 +98,47 @@ void CSteamProto::OnGotRsaKey(const uint8_t *buf, size_t cbLen)
 	request.platform_type = details.platform_type; request.has_platform_type = true;
 	request.guard_data = machineId;
 
-	WSSendService("Authentication.BeginAuthSessionViaCredentials#1", request, &CSteamProto::OnBeginSession);
+	WSSendService(BeginAuthSessionViaCredentials, request, true);
+}
+
+void CSteamProto::OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse *pResponse)
+{
+	if (pResponse->has_client_id && pResponse->has_steamid) {
+		DeleteAuthSettings();
+		SetId(DBKEY_STEAM_ID, m_iSteamId = pResponse->steamid);
+		SetId(DBKEY_CLIENT_ID, m_iClientId = pResponse->client_id);
+
+		if (pResponse->has_request_id)
+			m_requestId.append(pResponse->request_id.data, pResponse->request_id.len);
+
+		for (int i = 0; i < pResponse->n_allowed_confirmations; i++) {
+			auto &conf = pResponse->allowed_confirmations[i];
+			debugLogA("Confirmation required %d (%s)", conf->confirmation_type, conf->associated_message);
+			switch (conf->confirmation_type) {
+			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_None: // nothing to do
+				SendPollRequest();
+				return;
+
+			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_EmailCode: // email confirmation
+				CallFunctionSync(EnterEmailCode, this);
+				return;
+
+			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_DeviceCode: // totp confirmation
+				CallFunctionSync(EnterTotpCode, this);
+				return;
+			}
+
+			debugLogA("Unsupported confirmation code: %i", conf->confirmation_type);
+			Logout();
+		}
+
+		// no confirmation needed - we've done
+		SendPollRequest();
+	}
+	else {
+		debugLogA("Something went wrong: %s", pResponse->extended_error_message);
+		Logout();
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -139,14 +173,7 @@ INT_PTR CALLBACK CSteamProto::EnterTotpCode(void *param)
 	return 0;
 }
 
-void CSteamProto::OnGotConfirmationCode(const uint8_t *buf, size_t cbLen)
-{
-	proto::AuthenticationUpdateAuthSessionWithSteamGuardCodeResponse reply(buf, cbLen);
-	if (reply == nullptr)
-		Logout();
-	else
-		SendPollRequest();
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CSteamProto::SendConfirmationCode(bool isEmail, const char *pszCode)
 {
@@ -159,152 +186,34 @@ void CSteamProto::SendConfirmationCode(bool isEmail, const char *pszCode)
 		request.code_type = EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_DeviceCode;
 	request.has_code_type = true;
 	request.code = (char*)pszCode;
-	WSSendService("Authentication.UpdateAuthSessionWithSteamGuardCode#1", request, &CSteamProto::OnGotConfirmationCode);
+	WSSendService(UpdateAuthSessionWithSteamGuardCode, request, true);
+}
+
+void CSteamProto::OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse*)
+{
+	SendPollRequest();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void CSteamProto::OnBeginSession(const uint8_t *buf, size_t cbLen)
-{
-	proto::AuthenticationBeginAuthSessionViaCredentialsResponse reply(buf, cbLen);
-	if (reply == nullptr) {
-		Logout();
-		return;
-	}
-
-	// Success
-	m_bPollCanceled = false;
-	m_iPollingInterval = (reply->has_interval) ? reply->interval : 5;
-
-	if (reply->has_client_id && reply->has_steamid) {
-		DeleteAuthSettings();
-		SetId(DBKEY_STEAM_ID, m_iSteamId = reply->steamid);
-		SetId(DBKEY_CLIENT_ID, m_iClientId = reply->client_id);
-
-		if (reply->has_request_id)
-			m_requestId.append(reply->request_id.data, reply->request_id.len);
-
-		for (int i = 0; i < reply->n_allowed_confirmations; i++) {
-			auto &conf = reply->allowed_confirmations[i];
-			debugLogA("Confirmation required %d (%s)", conf->confirmation_type, conf->associated_message);
-			switch (conf->confirmation_type) {
-			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_None: // nothing to do
-				SendPollRequest();
-				return;
-
-			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_EmailCode: // email confirmation
-				CallFunctionSync(EnterEmailCode, this);
-				return;
-
-			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_DeviceCode: // totp confirmation
-				CallFunctionSync(EnterTotpCode, this);
-				return;
-			}
-
-			debugLogA("Unsupported confirmation code: %i", conf->confirmation_type);
-			Logout();
-		}
-
-		// no confirmation needed - we've done
-		SendPollRequest();
-	}
-	else {
-		debugLogA("Something went wrong: %s", reply->extended_error_message);
-		Logout();
-	}
-}
-
-void CSteamProto::CancelLoginAttempt()
-{
-	m_bPollCanceled = true;
-	m_impl.m_poll.Stop();
-}
 
 void CSteamProto::SendPollRequest()
 {
-	if (m_bPollCanceled)
-		return;
-
-	m_impl.m_poll.Stop();
-
-	if (!m_iPollingStartTime)
-		m_iPollingStartTime = time(0);
-
-	if (time(0) - m_iPollingStartTime >= 30) {
-		CancelLoginAttempt();
-		return;
-	}
-
 	CAuthenticationPollAuthSessionStatusRequest request;
 	request.client_id = GetId(DBKEY_CLIENT_ID); request.has_client_id = true;
 	request.request_id.data = m_requestId.data(); request.request_id.len = m_requestId.length(); request.has_request_id = true;
-	WSSendService("Authentication.PollAuthSessionStatus#1", request, &CSteamProto::OnPollSession);
+	WSSendService(PollAuthSessionStatus, request, true);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static MBinBuffer createMachineID(const char *accName)
+void CSteamProto::OnPollSession(const CAuthenticationPollAuthSessionStatusResponse *pResponse)
 {
-	uint8_t hashOut[MIR_SHA1_HASH_SIZE];
-	char hashHex[MIR_SHA1_HASH_SIZE*2 + 1];
+	if (pResponse->has_new_client_id)
+		m_iClientId = pResponse->new_client_id;
 
-	CMStringA _bb3 = CMStringA("SteamUser Hash BB3 ") + accName;
-	CMStringA _ff2 = CMStringA("SteamUser Hash FF2 ") + accName;
-	CMStringA _3b3 = CMStringA("SteamUser Hash 3B3 ") + accName;
+	if (pResponse->new_guard_data)
+		setString("MachineId", pResponse->new_guard_data);
 
-	MBinBuffer ret;
-	uint8_t c = 0;
-	ret.append(&c, 1);
-	ret.append("MessageObject", 14);
-
-	c = 1;
-	ret.append(&c, 1);
-	ret.append("BB3", 4);
-	mir_sha1_hash((uint8_t *)_bb3.c_str(), _bb3.GetLength(), hashOut);
-	bin2hex(hashOut, sizeof(hashOut), hashHex);
-	ret.append(hashHex, 41);
-
-	ret.append(&c, 1);
-	ret.append("FF2", 4);
-	mir_sha1_hash((uint8_t *)_ff2.c_str(), _ff2.GetLength(), hashOut);
-	bin2hex(hashOut, sizeof(hashOut), hashHex);
-	ret.append(hashHex, 41);
-
-	ret.append(&c, 1);
-	ret.append("3B3", 4);
-	mir_sha1_hash((uint8_t *)_3b3.c_str(), _3b3.GetLength(), hashOut);
-	bin2hex(hashOut, sizeof(hashOut), hashHex);
-	ret.append(hashHex, 41);
-
-	ret.append("\x08\x08", 2);
-	return ret;
-}
-
-void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)
-{
-	proto::AuthenticationPollAuthSessionStatusResponse reply(buf, cbLen);
-	if (reply == nullptr) {
-		Logout();
-		return;
-	}
-
-	if (reply->has_new_client_id)
-		m_iClientId = reply->new_client_id;
-
-	if (!reply->refresh_token) {
-		if (!m_bPollCanceled)
-			m_impl.m_poll.Start(m_iPollingInterval * 1000);
-		return;
-	}
-
-	// stop polling
-	CancelLoginAttempt();
-
-	if (reply->new_guard_data)
-		setString("MachineId", reply->new_guard_data);
-
-	m_szAccessToken = reply->access_token;
-	m_szRefreshToken = reply->refresh_token;
+	m_szAccessToken = pResponse->access_token;
+	m_szRefreshToken = pResponse->refresh_token;
 
 	// sending logon packet
 	ptrA szAccountName(getUStringA(DBKEY_ACCOUNT_NAME)), szPassword(getUStringA("Password"));
@@ -316,7 +225,7 @@ void CSteamProto::OnPollSession(const uint8_t *buf, size_t cbLen)
 	privateIp.v4 = 0;
 
 	CMsgClientLogon request;
-	request.access_token = reply->refresh_token;
+	request.access_token = pResponse->refresh_token;
 	request.machine_name = szMachineName;
 	request.client_language = "english";
 	request.client_os_type = 16; request.has_client_os_type = true;
@@ -338,6 +247,8 @@ void CSteamProto::OnClientLogon(const uint8_t *buf, size_t cbLen)
 		Logout();
 		return;
 	}
+
+	debugLogA("client logged in\n%s", protobuf_c_text_to_string(*reply).c_str());
 
 	if (reply->has_heartbeat_seconds)
 		m_impl.m_heartBeat.Start(reply->heartbeat_seconds * 1000);
