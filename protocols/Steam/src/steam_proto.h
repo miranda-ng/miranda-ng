@@ -134,9 +134,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	void __cdecl ServerThread(void *);
 	bool ServerThreadStub(const char *szHost);
 
-   mir_cs m_csRequests;
-   OBJLIST<ProtoRequest> m_arRequests;
-
    void ProcessMulti(const uint8_t *buf, size_t cbLen);
    void ProcessMessage(const uint8_t *buf, size_t cbLen);
 	void ProcessServiceResponse(const uint8_t *buf, size_t cbLen, const CMsgProtoBufHeader &hdr);
@@ -348,9 +345,11 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>
 
 	void InitSteamServices();
 
-	std::map<std::string, const ProtobufCServiceDescriptor*> services;
+	std::map<EMsg, const ProtobufCMessageDescriptor *> messages;
+	std::map<std::string, const ProtobufCServiceDescriptor *> services;
 
 	typedef void (CSteamProto:: *ServiceResponseHandler)(const ProtobufCMessage &msg, const CMsgProtoBufHeader &hdr);
+	std::map<EMsg, ServiceResponseHandler> messageHandlers;
 	std::map<std::string, ServiceResponseHandler> serviceHandlers;
 
 	int Load() override;

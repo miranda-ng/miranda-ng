@@ -154,20 +154,6 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 	if (hdr->has_client_sessionid)
 		m_iSessionId = hdr->client_sessionid;
 
-	MsgCallback pCallback = 0;
-	{
-		mir_cslock lck(m_csRequests);
-		if (auto *pReq = m_arRequests.find((ProtoRequest *)&hdr->jobid_target)) {
-			pCallback = pReq->pCallback;
-			m_arRequests.remove(pReq);
-		}
-	}
-
-	if (pCallback) {
-		(this->*pCallback)(buf, cbLen);
-		return;
-	}
-
 	// persistent callbacks
 	switch (msgType) {
 	case EMsg::ClientLogOnResponse:
@@ -184,6 +170,7 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 		break;
 
 	default:
+		debugLogA("Received message of type %d", msgType);
 		Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
 	}
 }

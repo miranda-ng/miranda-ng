@@ -1,16 +1,8 @@
 #include "stdafx.h"
 
-static int CompareRequests(const ProtoRequest *p1, const ProtoRequest *p2)
-{
-	if (p1->id == p2->id)
-		return 0;
-	return (p1->id < p2->id) ? -1 : 1;
-}
-
 CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CSteamProto>(protoName, userName),
 	m_impl(*this),
-	m_arRequests(10, CompareRequests),
 	m_arOwnMessages(1, NumericKeySortT),
 	m_wszGroupName(this, "DefaultGroup", L"Steam"),
 	m_wszDeviceName(this, "DeviceName", L"Miranda NG")
