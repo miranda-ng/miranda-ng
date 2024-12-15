@@ -654,6 +654,8 @@ int CTelegramProto::SetStatus(int iNewStatus)
 	// Routing statuses not supported by Telegram
 	switch (iNewStatus) {
 	case ID_STATUS_OFFLINE:
+	case ID_STATUS_AWAY:
+	case ID_STATUS_NA:
 		m_iDesiredStatus = iNewStatus;
 		break;
 
