@@ -156,6 +156,7 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 
 	// persistent callbacks
 	switch (msgType) {
+	case EMsg::ServiceMethod:
 	case EMsg::ServiceMethodResponse:
 		ProcessServiceResponse(buf, cbLen, *hdr);
 		break;

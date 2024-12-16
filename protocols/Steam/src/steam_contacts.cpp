@@ -445,7 +445,7 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 
 	// Comma-separated list of steam ids to update summaries
 	std::vector<uint64_t> ids;
-	ids.push_back(GetId(DBKEY_STEAM_ID));
+	ids.push_back(GetId(DBKEY_STEAM_ID) & 0xFFFFFFFFll);
 
 	// Check and update contacts in database
 	for (auto &hContact : AccContacts()) {
@@ -466,7 +466,7 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 
 		// Do not update summary for non friends
 		if (it->second == FriendRelationship::Friend)
-			ids.push_back(it->first);
+			ids.push_back(it->first & 0xFFFFFFFFll);
 
 		friendsMap.erase(it);
 	}
@@ -478,7 +478,7 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 		UpdateContactRelationship(hContact, it.second);
 
 		if (it.second == FriendRelationship::Friend)
-			ids.push_back(it.first);
+			ids.push_back(it.first & 0xFFFFFFFFll);
 	}
 	friendsMap.clear();
 
