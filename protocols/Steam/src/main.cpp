@@ -152,6 +152,9 @@ void CMPlugin::InitSteamServices()
 	services["FriendMessages"] = &friend_messages__descriptor;
 	services["FriendMessagesClient"] = &friend_messages_client__descriptor;
 
+	// services from steammessages_notifications.steamclient.proto
+	services["SteamNotificationClient"] = &steam_notification_client__descriptor;
+
 	// static service handlers
 	serviceHandlers[PollAuthSessionStatus] = ServiceResponseHandler(&CSteamProto::OnPollSession);
 	serviceHandlers[GetPasswordRSAPublicKey] = ServiceResponseHandler(&CSteamProto::OnGotRsaKey);
@@ -160,6 +163,8 @@ void CMPlugin::InitSteamServices()
 
 	serviceHandlers[FriendSendMessage] = ServiceResponseHandler(&CSteamProto::OnMessageSent);
 	serviceHandlers[FriendGetActiveSessions] = ServiceResponseHandler(&CSteamProto::OnGotConversations);
+
+	serviceHandlers[NotificationReceived] = ServiceResponseHandler(&CSteamProto::OnGotNotification);
 }
 
 int CMPlugin::Load()

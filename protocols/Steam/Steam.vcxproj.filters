@@ -99,6 +99,9 @@
     <ClCompile Include="src\protobuf-c\encrypted_app_ticket.pb-c.cpp">
       <Filter>Source Files\protobuf</Filter>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_notifications.steamclient.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -180,6 +183,9 @@
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="src\protobuf-c\encrypted_app_ticket.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_notifications.steamclient.pb-c.h">
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
   </ItemGroup>

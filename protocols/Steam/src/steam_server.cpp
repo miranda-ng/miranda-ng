@@ -66,6 +66,21 @@ void CSteamProto::OnMessageSent(const CFriendMessagesSendMessageResponse &reply,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CSteamProto::OnGotNotification(const CSteamNotificationNotificationsReceivedNotification &reply, const CMsgProtoBufHeader &hdr)
+{
+	if (hdr.eresult != 1)
+		return;
+
+	debugLogA("got %d notifications", reply.n_notifications);
+
+	for (int i = 0; i < reply.n_notifications; i++) {
+		auto *N = reply.notifications[i];
+		debugLogA("notification type %d: %s", N->notification_type, N->body_data);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSteamProto::SendFriendActiveSessions()
 {
 	CFriendsMessagesGetActiveMessageSessionsRequest request;

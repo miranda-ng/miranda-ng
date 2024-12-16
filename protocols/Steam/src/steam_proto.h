@@ -25,6 +25,8 @@
 #define FriendSendMessage                   "FriendMessages.SendMessage#1"
 #define FriendGetActiveSessions             "FriendMessages.GetActiveMessageSessions#1"
 
+#define NotificationReceived                "SteamNotificationClient.NotificationsReceived#1"
+
 struct SendAuthParam
 {
 	MCONTACT hContact;
@@ -175,6 +177,15 @@ class CSteamProto : public PROTO<CSteamProto>
 	void DeleteAuthSettings();
 	void SendConfirmationCode(bool, const char *pszCode);
 
+	// avatars
+	wchar_t *GetAvatarFilePath(MCONTACT hContact);
+	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai);
+	void CheckAvatarChange(MCONTACT hContact, std::string avatarUrl);
+
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+
 	// contacts
 	void SetAllContactStatuses(int status);
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
@@ -216,16 +227,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnSearchResults(const MHttpResponse &response, void *arg);
 	void OnSearchByNameStarted(const MHttpResponse &response, void *arg);
 
-	// messages
-	mir_cs m_csOwnMessages;
-	OBJLIST<COwnMessage> m_arOwnMessages;
-
-	void SendFriendMessage(uint32_t msgId, int64_t steamId, const char *pszMessage);
-	void OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr);
-	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
-
-	void SendFriendActiveSessions();
-
 	// history
 	void OnGotConversations(const CFriendsMessagesGetActiveMessageSessionsResponse &reply, const CMsgProtoBufHeader &hdr);
 	void OnGotHistoryMessages(const JSONNode &root, void *);
@@ -248,14 +249,18 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void OnInitStatusMenu();
 
-	// avatars
-	wchar_t *GetAvatarFilePath(MCONTACT hContact);
-	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai);
-	void CheckAvatarChange(MCONTACT hContact, std::string avatarUrl);
+	// notifications
+	void OnGotNotification(const CSteamNotificationNotificationsReceivedNotification &reply, const CMsgProtoBufHeader &hdr);
 
-	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
-	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
-	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+	// messages
+	mir_cs m_csOwnMessages;
+	OBJLIST<COwnMessage> m_arOwnMessages;
+
+	void SendFriendMessage(uint32_t msgId, int64_t steamId, const char *pszMessage);
+	void OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr);
+	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
+
+	void SendFriendActiveSessions();
 
 	// xstatuses
 	INT_PTR  __cdecl OnGetXStatusEx(WPARAM wParam, LPARAM lParam);
