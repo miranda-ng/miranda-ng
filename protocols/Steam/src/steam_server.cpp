@@ -66,6 +66,15 @@ void CSteamProto::OnMessageSent(const CFriendMessagesSendMessageResponse &reply,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CSteamProto::SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRetrieveState)
+{
+	CMsgClientRequestFriendData request;
+	request.persona_state_requested = bRetrieveState; request.has_persona_state_requested = true;
+	request.n_friends = ids.size();
+	request.friends = (uint64_t*)&*ids.begin();
+	WSSend(EMsg::ClientRequestFriendData, request);
+}
+
 void CSteamProto::SendHeartBeat()
 {
 	CMsgClientHeartBeat packet;

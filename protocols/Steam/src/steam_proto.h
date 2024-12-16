@@ -150,6 +150,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	void SendHeartBeat();
 	void SendLogout();
 	void SendPollRequest();
+	void SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRetrieveState);
 
 	// login
 	bool IsOnline();
