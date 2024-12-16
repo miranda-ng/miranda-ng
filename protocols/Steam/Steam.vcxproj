@@ -27,6 +27,9 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\protobuf-c\encrypted_app_ticket.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\protobuf-c\enums.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -43,6 +46,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\protobuf-c\steammessages_chat.steamclient.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_clientserver.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.cpp">
@@ -87,11 +93,13 @@
     <ClInclude Include="src\api\search.h" />
     <ClInclude Include="src\api\session.h" />
     <ClInclude Include="src\proto.h" />
+    <ClInclude Include="src\protobuf-c\encrypted_app_ticket.pb-c.h" />
     <ClInclude Include="src\protobuf-c\enums.pb-c.h" />
     <ClInclude Include="src\protobuf-c\protobuf-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_auth.steamclient.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_base.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_chat.steamclient.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_clientserver.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_login.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_friendmessages.steamclient.pb-c.h" />

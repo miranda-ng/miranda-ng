@@ -23,6 +23,7 @@
 #define UpdateAuthSessionWithSteamGuardCode "Authentication.UpdateAuthSessionWithSteamGuardCode#1"
 
 #define FriendSendMessage                   "FriendMessages.SendMessage#1"
+#define FriendGetActiveSessions             "FriendMessages.GetActiveMessageSessions#1"
 
 struct SendAuthParam
 {
@@ -223,8 +224,10 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
+	void SendFriendActiveSessions();
+
 	// history
-	void OnGotConversations(const JSONNode &root, void *arg);
+	void OnGotConversations(const CFriendsMessagesGetActiveMessageSessionsResponse &reply, const CMsgProtoBufHeader &hdr);
 	void OnGotHistoryMessages(const JSONNode &root, void *);
 
 	// menus

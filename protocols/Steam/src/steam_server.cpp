@@ -66,6 +66,15 @@ void CSteamProto::OnMessageSent(const CFriendMessagesSendMessageResponse &reply,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CSteamProto::SendFriendActiveSessions()
+{
+	CFriendsMessagesGetActiveMessageSessionsRequest request;
+	request.has_only_sessions_with_messages = request.only_sessions_with_messages = true;
+	WSSendService(FriendGetActiveSessions, request);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSteamProto::SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRetrieveState)
 {
 	CMsgClientRequestFriendData request;

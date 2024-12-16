@@ -1,15 +1,14 @@
 #include "stdafx.h"
 
-void CSteamProto::OnGotConversations(const JSONNode &root, void *)
+void CSteamProto::OnGotConversations(const CFriendsMessagesGetActiveMessageSessionsResponse &reply, const CMsgProtoBufHeader &hdr)
 {
-	if (root.isnull())
+	if (hdr.failed())
 		return;
 
-	const JSONNode &response = root["response"];
-	for (auto &session : response["message_sessions"]) {
-		long long accountId = _wtoi64(session["accountid_friend"].as_mstring());
+	for (int i=0; i < reply.n_message_sessions; i++) {
+		auto *session = reply.message_sessions[i];
 
-		const char *who = AccountIdToSteamId(accountId);
+		const char *who = AccountIdToSteamId(session->accountid_friend);
 		MCONTACT hContact = GetContact(who);
 		if (!hContact)
 			continue;
@@ -19,7 +18,7 @@ void CSteamProto::OnGotConversations(const JSONNode &root, void *)
 		if (storedMessageTS == 0)
 			continue;
 
-		time_t lastMessageTS = _wtoi64(session["last_message"].as_mstring());
+		time_t lastMessageTS = session->last_message;
 		if (lastMessageTS > storedMessageTS)
 			SendRequest(new GetHistoryMessagesRequest(m_szAccessToken, m_iSteamId, who, storedMessageTS), &CSteamProto::OnGotHistoryMessages, (void*)hContact);
 	}

@@ -4,7 +4,7 @@
 #ifndef PROTOBUF_C_steammessages_5fclientserver_2eproto__INCLUDED
 #define PROTOBUF_C_steammessages_5fclientserver_2eproto__INCLUDED
 
-#include <protobuf-c/protobuf-c.h>
+#include "protobuf-c.h"
 
 PROTOBUF_C__BEGIN_DECLS
 
@@ -132,14 +132,6 @@ extern const ProtobufCMessageDescriptor cmsg_client_clan_state__event__descripto
 /* --- messages --- */
 
 extern "C" void message_init_generic(const ProtobufCMessageDescriptor * desc, ProtobufCMessage * message);
-
-struct ProtobufCppMessage : public ProtobufCMessage
-{
-	ProtobufCppMessage(const ProtobufCMessageDescriptor &descr)
-	{
-		message_init_generic(&descr, this);
-	}
-};
 
 struct CMsgClientRegisterAuthTicketWithCM : public ProtobufCppMessage
 {

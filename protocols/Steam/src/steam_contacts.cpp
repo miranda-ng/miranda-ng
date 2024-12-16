@@ -486,7 +486,7 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 		SendUserInfoRequest(ids, true);
 
 	// Load last conversations
-	SendRequest(new GetConversationsRequest(m_szAccessToken), &CSteamProto::OnGotConversations);
+	SendFriendActiveSessions();
 }
 
 void CSteamProto::OnGotBlockList(const JSONNode &root, void *)

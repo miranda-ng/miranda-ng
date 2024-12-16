@@ -4,7 +4,7 @@
 #ifndef PROTOBUF_C_encrypted_5fapp_5fticket_2eproto__INCLUDED
 #define PROTOBUF_C_encrypted_5fapp_5fticket_2eproto__INCLUDED
 
-#include <protobuf-c/protobuf-c.h>
+#include "protobuf-c.h"
 
 PROTOBUF_C__BEGIN_DECLS
 
@@ -28,14 +28,6 @@ extern const ProtobufCMessageDescriptor encrypted_app_ticket__descriptor;
 /* --- messages --- */
 
 extern "C" void message_init_generic(const ProtobufCMessageDescriptor * desc, ProtobufCMessage * message);
-
-struct ProtobufCppMessage : public ProtobufCMessage
-{
-	ProtobufCppMessage(const ProtobufCMessageDescriptor &descr)
-	{
-		message_init_generic(&descr, this);
-	}
-};
 
 struct EncryptedAppTicket : public ProtobufCppMessage
 {
