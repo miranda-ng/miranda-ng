@@ -48,7 +48,7 @@ void CSteamProto::OnGotHosts(const JSONNode &root, void*)
 
 void CSteamProto::Login()
 {
-	m_iSessionId = 0;
+	m_iSteamId = m_iSessionId = 0;
 
 	CMsgClientHello hello;
 	hello.protocol_version = STEAM_PROTOCOL_VERSION; hello.has_protocol_version = true;
