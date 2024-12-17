@@ -123,42 +123,56 @@ void CSteamProto::ProcessMulti(const uint8_t *buf, size_t cbLen)
 
 void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 {
+	ptrA szTargetJobName;
+	CMsgProtoBufHeader hdr;
 	uint32_t dwSign = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
 	EMsg msgType = (EMsg)(dwSign & ~STEAM_PROTOCOL_MASK);
-	bool bIsProto = (dwSign & STEAM_PROTOCOL_MASK) != 0;
+	bool bIsProtobuf = (dwSign & STEAM_PROTOCOL_MASK) != 0;
 
 	if (msgType == EMsg::ChannelEncryptRequest || msgType == EMsg::ChannelEncryptResult) {
-		CMsgProtoBufHeader hdr;
 		hdr.has_jobid_source = hdr.has_jobid_target = true;
 		hdr.jobid_source = *(int64_t *)buf; buf += sizeof(int64_t);
 		hdr.jobid_target = *(int64_t *)buf; buf += sizeof(int64_t);
-		debugLogA("encrypted results cannot be processed, ignoring");
+		debugLogA("Encrypted results cannot be processed, ignoring");
 		return;
 	}
 	
-	if (!bIsProto) {
-		debugLogA("Got unknown packet of type %d, exiting", msgType);
-		Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
-		return;
+	if (bIsProtobuf) {
+		uint32_t hdrLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
+		auto *p = cmsg_proto_buf_header__unpack(0, hdrLen, buf);
+		if (p == nullptr) {
+			debugLogA("Unable to decode message header, exiting");
+			return;
+		}
+
+		buf += hdrLen; cbLen -= hdrLen;
+		memcpy(&hdr, p, sizeof(hdr));
+		if (hdr.target_job_name) {
+			szTargetJobName = mir_strdup(hdr.target_job_name);
+			hdr.target_job_name = szTargetJobName;
+		}
+
+		cmsg_proto_buf_header__free_unpacked(p, 0);
+
+		if (hdr.has_client_sessionid)
+			m_iSessionId = hdr.client_sessionid;
 	}
-
-	uint32_t hdrLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
-	proto::MsgProtoBufHeader hdr(buf, hdrLen);
-	if (hdr == nullptr) {
-		debugLogA("Unable to decode message header, exiting");
-		return;
+	else { // non protobuf message
+		buf += 3; // 1 byte for header size (fixed at 36), 2 bytes for header version (fixed at 2)
+		hdr.jobid_target = *(uint64_t *)buf; buf += sizeof(uint64_t);
+		hdr.jobid_source = *(uint64_t *)buf; buf += sizeof(uint64_t);
+		buf++; // 1 byte for header canary (fixed at 239)
+		hdr.steamid = *(uint64_t *)buf; buf += sizeof(uint64_t);
+		hdr.client_sessionid = *(uint32_t *)buf; buf += sizeof(uint32_t);
+		hdr.has_jobid_target = hdr.has_jobid_source = hdr.has_steamid = hdr.has_client_sessionid = true;
+		cbLen -= 30;
 	}
-
-	buf += hdrLen; cbLen -= hdrLen;
-
-	if (hdr->has_client_sessionid)
-		m_iSessionId = hdr->client_sessionid;
 
 	// persistent callbacks
 	switch (msgType) {
 	case EMsg::ServiceMethod:
 	case EMsg::ServiceMethodResponse:
-		ProcessServiceResponse(buf, cbLen, *hdr);
+		ProcessServiceResponse(buf, cbLen, hdr);
 		break;
 
 	default:
@@ -173,7 +187,7 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 
 			auto mh = g_plugin.messageHandlers.find(msgType);
 			if (mh != g_plugin.messageHandlers.end())
-				(this->*(mh->second))(*pMessage, *hdr);
+				(this->*(mh->second))(*pMessage, hdr);
 
 			protobuf_c_message_free_unpacked(pMessage, 0);
 		}

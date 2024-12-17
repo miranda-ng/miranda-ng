@@ -61,7 +61,7 @@ void CMPlugin::InitSteamServices()
 	// messages[EMsg::ClientEmailAddrInfo] = &cmsg_Client__EmailAddrInfo;
 	messages[EMsg::ClientIsLimitedAccount] = &cmsg_client_is_limited_account__descriptor;
 	messages[EMsg::ClientWalletInfoUpdate] = &cmsg_client_wallet_info_update__descriptor;
-	// messages[EMsg::ClientLicenseList] = &cmsg_Client__LicenseList;
+	messages[EMsg::ClientLicenseList] = &cmsg_client_license_list__descriptor;
 	// messages[EMsg::ClientGMSServerQuery] = &cmsg_Client_GMSServerQuery;
 	// messages[EMsg::GMSClientServerQueryResponse] = &cmsg_GMSClientServerQueryResponse;
 	// messages[EMsg::ClientPICSChangesSinceResponse] = &cmsg_Client_PICSChangesSinceResponse;
