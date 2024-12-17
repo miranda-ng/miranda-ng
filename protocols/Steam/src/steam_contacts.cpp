@@ -81,166 +81,134 @@ MCONTACT CSteamProto::GetContact(int64_t steamId)
 	return NULL;
 }
 
-void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
+void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMsgProtoBufHeader &)
 {
-	// set common data
-	CMStringW nick = data["personaname"].as_mstring();
-	setWString(hContact, "Nick", nick);
+	for (int i = 0; i < reply.n_friends; i++) {
+		auto *F = reply.friends[i];
 
-	json_string homepage = data["profileurl"].as_string();
-	setString(hContact, "Homepage", homepage.c_str());
+		auto hContact = GetContact(F->friendid);
+		if (!hContact && F->friendid != m_iSteamId)
+			hContact = AddContact(F->friendid);		
 
-	json_string primaryClanId = data["primaryclanid"].as_string();
-	setString(hContact, "PrimaryClanID", primaryClanId.c_str());
-
-	// set name
-	const JSONNode &node = data["realname"];
-	if (node) {
-		CMStringW realName = node.as_mstring();
-		if (!realName.IsEmpty()) {
-			int pos = realName.Find(L' ', 1);
-			if (pos != -1) {
-				setWString(hContact, "FirstName", realName.Mid(0, pos));
-				setWString(hContact, "LastName", realName.Mid(pos + 1));
-			}
-			else {
-				setWString(hContact, "FirstName", realName);
-				delSetting(hContact, "LastName");
+		// set name
+		if (F->player_name) {
+			CMStringW realName(Utf2T(F->player_name));
+			if (!realName.IsEmpty()) {
+				int pos = realName.Find(L' ', 1);
+				if (pos != -1) {
+					setWString(hContact, "FirstName", realName.Mid(0, pos));
+					setWString(hContact, "LastName", realName.Mid(pos + 1));
+				}
+				else {
+					setWString(hContact, "FirstName", realName);
+					delSetting(hContact, "LastName");
+				}
 			}
 		}
-	}
-	else {
-		delSetting(hContact, "FirstName");
-		delSetting(hContact, "LastName");
-	}
-
-	// avatar
-	bool biggerAvatars = getBool("UseBigAvatars", false);
-	json_string avatarUrl = data[biggerAvatars ? "avatarfull" : "avatarmedium"].as_string();
-	CheckAvatarChange(hContact, avatarUrl);
-
-	// set country
-	json_string countryCode = data["loccountrycode"].as_string();
-	if (!countryCode.empty()) {
-		char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)countryCode.c_str(), 0);
-		setString(hContact, "Country", country);
-	}
-	else delSetting(hContact, "Country");
-
-	// state code
-	// note: it seems that steam sends "incorrect" state code
-	//node = data["locstatecode"];
-	//if (!node.isnull())
-	//{
-	//	json_string stateCode = node.as_string();
-	//	setString(hContact, "State", stateCode.c_str());
-	//}
-	//else
-	//{
-	//	delSetting(hContact, "State");
-	delSetting(hContact, "StateCode");
-	//}
-
-	// city id
-	// note: steam no longer sends state city id
-	//node = data["loccityid"];
-	//if (!node.isnull())
-	//	setDword(hContact, "CityID", node.as_int());
-	//else
-	delSetting(hContact, "CityID");
-
-	// account created
-	setDword(hContact, "MemberTS", data["timecreated"].as_int());
-
-	// last logout time
-	setDword(hContact, "LogoffTS", data["lastlogoff"].as_int());
-
-	if (!IsOnline())
-		return;
-
-	// status
-	// note: this here is often wrong info, probably depending on publicity of steam profile
-	// but sometimes polling does not get status at all
-	uint16_t oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-	// so, set status only if contact is offline
-	if (oldStatus == ID_STATUS_OFFLINE) {
-		uint16_t status = SteamToMirandaStatus((PersonaState)data["personastate"].as_int());
-		SetContactStatus(hContact, status);
-	}
-
-	// client
-	const JSONNode &nFlags = data["personastateflags"];
-	PersonaStateFlag stateflags = (nFlags) ? (PersonaStateFlag)nFlags.as_int() : (PersonaStateFlag)(-1);
-
-	if (stateflags == PersonaStateFlag::None) {
-		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
-		uint16_t status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-		if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT)
-			setWString(hContact, "MirVer", L"Steam");
-	}
-	else if (contains_flag(stateflags, PersonaStateFlag::InJoinableGame)) {
-		// game
-		setWString(hContact, "MirVer", L"Steam (in game)");
-	}
-	else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeWeb)) {
-		// on website
-		setWString(hContact, "MirVer", L"Steam (website)");
-	}
-	else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeMobile)) {
-		// on mobile
-		setWString(hContact, "MirVer", L"Steam (mobile)");
-	}
-	else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeBigPicture)) {
-		// on big picture
-		setWString(hContact, "MirVer", L"Steam (Big Picture)");
-	}
-	else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeVR)) {
-		// on VR
-		setWString(hContact, "MirVer", L"Steam (VR)");
-	}
-	else {
-		// none/unknown (e.g. when contact is offline)
-		delSetting(hContact, "MirVer");
-	}
-
-	// playing game
-	json_string appId = data["gameid"].as_string();
-	CMStringW gameInfo = data["gameextrainfo"].as_mstring();
-	if (!appId.empty() || !gameInfo.IsEmpty()) {
-		uint32_t gameId = atol(appId.c_str());
-		json_string serverIP = data["gameserverip"].as_string();
-		json_string serverID = data["gameserversteamid"].as_string();
-
-		setDword(hContact, "GameID", gameId);
-		setString(hContact, "ServerIP", serverIP.c_str());
-		setString(hContact, "ServerID", serverID.c_str());
-
-		CMStringW message(gameInfo);
-		if (gameId && message.IsEmpty())
-			SendRequest(new GetAppInfoRequest(m_szAccessToken, appId.c_str()), &CSteamProto::OnGotAppInfo, (void*)hContact);
 		else {
-			if (!gameId)
-				message.Append(TranslateT(" (Non-Steam)"));
-			if (!serverIP.empty())
-				message.AppendFormat(TranslateT(" on server %S"), serverIP.c_str());
+			delSetting(hContact, "FirstName");
+			delSetting(hContact, "LastName");
 		}
 
-		setDword(hContact, "XStatusId", gameId);
-		setWString(hContact, "XStatusName", TranslateT("Playing"));
-		setWString(hContact, "XStatusMsg", message);
+		// avatar
+		if (F->avatar_hash.len != 0) {
+			CMStringA szHash;
+			szHash.Truncate(int(F->avatar_hash.len) * 2 + 1);
+			bin2hex(F->avatar_hash.data, F->avatar_hash.len, szHash.GetBuffer());
+			CheckAvatarChange(hContact, szHash);
+		}
+		else CheckAvatarChange(hContact, 0);
 
-		SetContactExtraIcon(hContact, gameId);
-	}
-	else {
-		delSetting(hContact, "GameID");
-		delSetting(hContact, "ServerIP");
-		delSetting(hContact, "ServerID");
+		// last logout time
+		if (F->has_last_logoff)
+			setDword(hContact, "LogoffTS", F->last_logoff);
+		if (F->has_last_logon)
+			setDword(hContact, "LogonTS", F->last_logon);
 
-		delSetting(hContact, "XStatusId");
-		delSetting(hContact, "XStatusName");
-		delSetting(hContact, "XStatusMsg");
+		// status
+		// note: this here is often wrong info, probably depending on publicity of steam profile
+		// but sometimes polling does not get status at all
+		int oldStatus = Contact::GetStatus(hContact);
+		// so, set status only if contact is offline
+		if (oldStatus == ID_STATUS_OFFLINE) {
+			uint16_t status = SteamToMirandaStatus(PersonaState(F->persona_state));
+			SetContactStatus(hContact, status);
+		}
 
-		SetContactExtraIcon(hContact, NULL);
+		// client
+		PersonaStateFlag stateflags = (F->has_persona_state_flags) ? (PersonaStateFlag)(F->persona_state_flags) : (PersonaStateFlag)(-1);
+
+		if (stateflags == PersonaStateFlag::None) {
+			// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
+			uint16_t status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+			if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT)
+				setWString(hContact, "MirVer", L"Steam");
+		}
+		else if (contains_flag(stateflags, PersonaStateFlag::InJoinableGame)) {
+			// game
+			setWString(hContact, "MirVer", L"Steam (in game)");
+		}
+		else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeWeb)) {
+			// on website
+			setWString(hContact, "MirVer", L"Steam (website)");
+		}
+		else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeMobile)) {
+			// on mobile
+			setWString(hContact, "MirVer", L"Steam (mobile)");
+		}
+		else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeBigPicture)) {
+			// on big picture
+			setWString(hContact, "MirVer", L"Steam (Big Picture)");
+		}
+		else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeVR)) {
+			// on VR
+			setWString(hContact, "MirVer", L"Steam (VR)");
+		}
+		else {
+			// none/unknown (e.g. when contact is offline)
+			delSetting(hContact, "MirVer");
+		}
+
+		// playing game
+		/*
+		json_string appId = data["gameid"].as_string();
+		CMStringW gameInfo = data["gameextrainfo"].as_mstring();
+		if (!appId.empty() || !gameInfo.IsEmpty()) {
+			uint32_t gameId = atol(appId.c_str());
+			json_string serverIP = data["gameserverip"].as_string();
+			json_string serverID = data["gameserversteamid"].as_string();
+
+			setDword(hContact, "GameID", gameId);
+			setString(hContact, "ServerIP", serverIP.c_str());
+			setString(hContact, "ServerID", serverID.c_str());
+
+			CMStringW message(gameInfo);
+			if (gameId && message.IsEmpty())
+				SendRequest(new GetAppInfoRequest(m_szAccessToken, appId.c_str()), &CSteamProto::OnGotAppInfo, (void *)hContact);
+			else {
+				if (!gameId)
+					message.Append(TranslateT(" (Non-Steam)"));
+				if (!serverIP.empty())
+					message.AppendFormat(TranslateT(" on server %S"), serverIP.c_str());
+			}
+
+			setDword(hContact, "XStatusId", gameId);
+			setWString(hContact, "XStatusName", TranslateT("Playing"));
+			setWString(hContact, "XStatusMsg", message);
+
+			SetContactExtraIcon(hContact, gameId);
+		}
+		else {*/
+			delSetting(hContact, "GameID");
+			delSetting(hContact, "ServerIP");
+			delSetting(hContact, "ServerID");
+
+			delSetting(hContact, "XStatusId");
+			delSetting(hContact, "XStatusName");
+			delSetting(hContact, "XStatusMsg");
+
+			SetContactExtraIcon(hContact, NULL);
+		//	}
 	}
 }
 
@@ -300,8 +268,11 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 		return;
 
 	// create auth request event
-	ptrA steamId(getUStringA(hContact, DBKEY_STEAM_ID));
-	SendRequest(new GetUserSummariesRequest(m_szAccessToken, steamId), &CSteamProto::OnGotUserSummaries);
+	uint64_t id(GetId(hContact, DBKEY_STEAM_ID));
+	SendUserInfoRequest(id, true);
+
+	char steamId[100];
+	_i64toa(id, steamId, 10);
 
 	ptrA nickName(getUStringA(hContact, "Nick"));
 	if (nickName == nullptr)
@@ -505,16 +476,6 @@ void CSteamProto::OnGotBlockList(const JSONNode &root, void *)
 	}
 }
 
-void CSteamProto::OnGotUserSummaries(const JSONNode &root, void *)
-{
-	for (auto &player : root["players"]) {
-		json_string steamId = player["steamid"].as_string();
-		CMStringW nick = player["personaname"].as_mstring();
-		MCONTACT hContact = !IsMe(steamId.c_str()) ? AddContact(steamId.c_str(), nick) : 0;
-		UpdateContactDetails(hContact, player);
-	}
-}
-
 void CSteamProto::OnGotAvatar(const MHttpResponse &response, void *arg)
 {
 	PROTO_AVATAR_INFORMATION ai = { 0 };
@@ -644,20 +605,6 @@ void CSteamProto::OnFriendRemoved(const MHttpResponse &response, void *arg)
 	MCONTACT hContact = GetContact(steamId.get());
 	if (hContact)
 		ContactIsRemoved(hContact);
-}
-
-void CSteamProto::OnAuthRequested(const JSONNode &root, void *)
-{
-	if (root.isnull())
-		return;
-
-	for (auto &player : root["players"]) {
-		json_string steamId = player["steamid"].as_string();
-		CMStringW nick = player["personaname"].as_mstring();
-		MCONTACT hContact = AddContact(steamId.c_str(), nick);
-		UpdateContactDetails(hContact, player);
-		ContactIsAskingAuth(hContact);
-	}
 }
 
 void CSteamProto::OnPendingApproved(const JSONNode &root, void *arg)

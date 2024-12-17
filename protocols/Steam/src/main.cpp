@@ -138,6 +138,7 @@ void CMPlugin::InitSteamServices()
 	messageHandlers[EMsg::ClientLoggedOff] = ServiceResponseHandler(&CSteamProto::OnClientLogoff);
 	messageHandlers[EMsg::ClientLogOnResponse] = ServiceResponseHandler(&CSteamProto::OnClientLogon);
 	messageHandlers[EMsg::ClientFriendsList] = ServiceResponseHandler(&CSteamProto::OnGotFriendList);
+	messageHandlers[EMsg::ClientPersonaState] = ServiceResponseHandler(&CSteamProto::OnGotFriendInfo);
 
 	// services from steammessages_auth.steamclient.proto
 	services["Authentication"] = &authentication__descriptor;
@@ -163,6 +164,7 @@ void CMPlugin::InitSteamServices()
 
 	serviceHandlers[FriendSendMessage] = ServiceResponseHandler(&CSteamProto::OnMessageSent);
 	serviceHandlers[FriendGetActiveSessions] = ServiceResponseHandler(&CSteamProto::OnGotConversations);
+	serviceHandlers[FriendGetIncomingMessage] = ServiceResponseHandler(&CSteamProto::OnGotIncomingMessage);
 
 	serviceHandlers[NotificationReceived] = ServiceResponseHandler(&CSteamProto::OnGotNotification);
 }

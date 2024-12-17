@@ -86,12 +86,10 @@ CSteamProto::~CSteamProto()
 
 MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
-	MCONTACT hContact = AddContact(_wtoi64(psr->id.w), psr->nick.w, true);
+	uint64_t id = _wtoi64(psr->id.w);
+	MCONTACT hContact = AddContact(id, psr->nick.w, true);
 
-	if (psr->cbSize == sizeof(STEAM_SEARCH_RESULT)) {
-		STEAM_SEARCH_RESULT *ssr = (STEAM_SEARCH_RESULT *)psr;
-		UpdateContactDetails(hContact, *ssr->data);
-	}
+	SendUserInfoRequest(id, true);
 
 	return hContact;
 }
@@ -280,6 +278,8 @@ int CSteamProto::SetStatus(int new_status)
 	else if (IsOnline()) {
 		m_iStatus = new_status;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		SendPersonaStatus(m_iStatus);
 	}
 	return 0;
 }

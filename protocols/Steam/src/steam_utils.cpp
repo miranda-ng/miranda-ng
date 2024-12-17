@@ -75,8 +75,9 @@ void CSteamProto::SetId(const char *pszSetting, int64_t id)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Statuses
 
-uint16_t CSteamProto::SteamToMirandaStatus(PersonaState state)
+int SteamToMirandaStatus(PersonaState state)
 {
 	switch (state) {
 	case PersonaState::Offline:
@@ -99,7 +100,7 @@ uint16_t CSteamProto::SteamToMirandaStatus(PersonaState state)
 	}
 }
 
-PersonaState CSteamProto::MirandaToSteamState(int status)
+PersonaState MirandaToSteamState(int status)
 {
 	switch (status) {
 	case ID_STATUS_OFFLINE:
@@ -121,7 +122,10 @@ PersonaState CSteamProto::MirandaToSteamState(int status)
 	}
 }
 
-void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popups
+
+void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, MCONTACT hContact)
 {
 	if (Miranda_IsTerminated())
 		return;
@@ -140,10 +144,12 @@ void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *messag
 	MessageBox(nullptr, message, caption, MB_OK | flags);
 }
 
-void CSteamProto::ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
+void ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 {
 	ShowNotification(_A2W(MODULE), message, flags, hContact);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CSteamProto::OnGetEventTextChatStates(WPARAM pEvent, LPARAM datatype)
 {

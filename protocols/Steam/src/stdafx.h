@@ -68,15 +68,11 @@ extern HANDLE hExtraXStatus;
 #define STEAM_DB_GETEVENTTEXT_CHATSTATES    "/GetEventText2000"
 #define STEAM_DB_EVENT_CHATSTATES_GONE      1
 
-#define now() time(0)
-
-int64_t getRandomInt();
-CMStringA protobuf_c_text_to_string(const ProtobufCMessage &msg);
-
 #include "steam_dialogs.h"
 
 #include "api/enums.h"
 #include "steam_proto.h"
+#include "steam_utils.h"
 
 #include "api/app_info.h"
 #include "api/avatar.h"

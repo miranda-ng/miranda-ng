@@ -24,6 +24,7 @@
 
 #define FriendSendMessage                   "FriendMessages.SendMessage#1"
 #define FriendGetActiveSessions             "FriendMessages.GetActiveMessageSessions#1"
+#define FriendGetIncomingMessage            "FriendMessagesClient.IncomingMessage#1"
 
 #define NotificationReceived                "SteamNotificationClient.NotificationsReceived#1"
 
@@ -115,7 +116,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	ptrW m_password;
 	bool m_bTerminated;
 	time_t m_idleTS;
-	int64_t m_iSteamId, m_iClientId, m_iSessionId;
+	uint64_t m_iSteamId, m_iClientId, m_iSessionId;
 	MBinBuffer m_requestId;
 
 	int64_t  GetId(const char *pszSetting);
@@ -152,7 +153,9 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void SendHeartBeat();
 	void SendLogout();
+	void SendPersonaStatus(int iStatus);
 	void SendPollRequest();
+	void SendUserInfoRequest(uint64_t id, bool bRetrieveState);
 	void SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRetrieveState);
 
 	// login
@@ -180,7 +183,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	// avatars
 	wchar_t *GetAvatarFilePath(MCONTACT hContact);
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai);
-	void CheckAvatarChange(MCONTACT hContact, std::string avatarUrl);
+	void CheckAvatarChange(MCONTACT hContact, const char *avatarHash);
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
@@ -192,7 +195,6 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
-	void UpdateContactDetails(MCONTACT hContact, const JSONNode &data);
 	void UpdateContactRelationship(MCONTACT hContact, FriendRelationship);
 	void OnGotAppInfo(const JSONNode &root, void *arg);
 
@@ -203,6 +205,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	void ContactIsAskingAuth(MCONTACT hContact);
 
 	void OnGotFriendList(const CMsgClientFriendsList &reply, const CMsgProtoBufHeader &hdr);
+	void OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMsgProtoBufHeader &hdr);
 
 	MCONTACT GetContact(const char *steamId);
 	MCONTACT AddContact(const char *steamId, const wchar_t *nick = nullptr, bool isTemporary = false);
@@ -211,15 +214,12 @@ class CSteamProto : public PROTO<CSteamProto>
 	MCONTACT AddContact(int64_t steamId, const wchar_t *nick = nullptr, bool isTemporary = false);
 
 	void OnGotBlockList(const JSONNode &root, void *);
-	void OnGotUserSummaries(const JSONNode &root, void *);
 	void OnGotAvatar(const MHttpResponse &response, void *arg);
 
 	void OnFriendAdded(const MHttpResponse &response, void *arg);
 	void OnFriendBlocked(const MHttpResponse &response, void *arg);
 	void OnFriendUnblocked(const MHttpResponse &response, void *arg);
 	void OnFriendRemoved(const MHttpResponse &response, void *arg);
-
-	void OnAuthRequested(const JSONNode &root, void *arg);
 
 	void OnPendingApproved(const JSONNode &root, void *arg);
 	void OnPendingIgnoreded(const JSONNode &root, void *arg);
@@ -257,6 +257,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	OBJLIST<COwnMessage> m_arOwnMessages;
 
 	void SendFriendMessage(uint32_t msgId, int64_t steamId, const char *pszMessage);
+	void OnGotIncomingMessage(const CFriendMessagesIncomingMessageNotification &reply, const CMsgProtoBufHeader &hdr);
 	void OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
@@ -274,13 +275,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	// events
 	int __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
-
-	// utils
-	static uint16_t SteamToMirandaStatus(PersonaState state);
-	static PersonaState MirandaToSteamState(int status);
-		
-	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
-	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 
 	INT_PTR __cdecl OnGetEventTextChatStates(WPARAM wParam, LPARAM lParam);
 
@@ -371,8 +365,5 @@ struct CMPlugin : public ACCPROTOPLUGIN<CSteamProto>
 
 int OnReloadIcons(WPARAM wParam, LPARAM lParam);
 void SetContactExtraIcon(MCONTACT hContact, int status);
-
-MBinBuffer RsaEncrypt(const char *pszModulus, const char *exponent, const char *data);
-MBinBuffer createMachineID(const char *accName);
 
 #endif //_STEAM_PROTO_H_

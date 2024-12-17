@@ -60,7 +60,7 @@ esc_str(const char *src, size_t len)
 		}
 	}
 
-	char *dst = (char *)malloc((escapes * 4) + ((len - escapes) * 2) + 1);
+	char *dst = (char *)malloc((escapes * 2) + ((len - escapes) * 2) + 1);
 	if (!dst) {
 		return NULL;
 	}
@@ -95,12 +95,7 @@ esc_str(const char *src, size_t len)
 
 			/* Escape with octal if !isprint. */
 		default:
-			if (!isprint(src[i])) {
-				dst_len += sprintf(dst + dst_len, "\\%03o", src[i]);
-			}
-			else {
-				dst[dst_len++] = src[i];
-			}
+			dst[dst_len++] = src[i];
 			break;
 		}
 	}

@@ -221,7 +221,7 @@ void CSteamProto::ProcessServiceResponse(const uint8_t *buf, size_t cbLen, const
 		*p1 = 0;
 
 	if (auto *pMethod = protobuf_c_service_descriptor_get_method_by_name(it->second, p)) {
-		auto *pDescr = pMethod->output;
+		auto *pDescr = (hdr.jobid_target == -1) ? pMethod->input : pMethod->output;
 		
 		if (auto *pMessage = protobuf_c_message_unpack(pDescr, 0, cbLen, buf)) {
 			debugLogA("Processing service message: %s\n%s", hdr.target_job_name, protobuf_c_text_to_string(*pMessage).c_str());

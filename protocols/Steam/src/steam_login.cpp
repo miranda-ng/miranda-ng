@@ -17,7 +17,7 @@ bool CSteamProto::IsOnline()
 
 bool CSteamProto::IsMe(const char *steamId)
 {
-	return m_iSteamId == _atoi64(steamId);
+	return m_iSteamId == (uint64_t)_atoi64(steamId);
 }
 
 void CSteamProto::Logout()
@@ -265,6 +265,8 @@ void CSteamProto::OnClientLogon(const CMsgClientLogonResponse &reply, const CMsg
 
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
+
+	SendPersonaStatus(m_iStatus);
 }
 
 void CSteamProto::OnClientLogoff(const CMsgClientLoggedOff &reply, const CMsgProtoBufHeader&)

@@ -23,17 +23,18 @@ bool CSteamProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &pai)
 	return true;
 }
 
-void CSteamProto::CheckAvatarChange(MCONTACT hContact, std::string avatarUrl)
+void CSteamProto::CheckAvatarChange(MCONTACT hContact, const char *avatarHash)
 {
-	if (avatarUrl.empty())
-		return;
-
 	// Check for avatar change
-	ptrA oldAvatarUrl(getStringA(hContact, "AvatarUrl"));
-	bool update_required = (!oldAvatarUrl || avatarUrl.compare(oldAvatarUrl));
+	ptrA oldAvatarHash(getStringA(hContact, "AvatarHash"));
+	bool update_required = mir_strcmp(oldAvatarHash, avatarHash) != 0;
 
-	if (update_required)
-		setString(hContact, "AvatarUrl", avatarUrl.c_str());
+	if (update_required) {
+		if (avatarHash)
+			setString(hContact, "AvatarHash", avatarHash);
+		else
+			delSetting(hContact, "AvatarHash");
+	}
 
 	if (!hContact) {
 		PROTO_AVATAR_INFORMATION ai = { 0 };
