@@ -193,17 +193,15 @@ BEGIN
     CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,21,139,129,10
     CONTROL         "advanced (+[url], [size], [color], [code])",IDC_ATTBBC_ADV,
                     "Button",BS_AUTORADIOBUTTON,134,128,149,10
-    GROUPBOX        "Other",IDC_STATIC,4,156,294,69
+    GROUPBOX        "Other",IDC_STATIC,4,156,294,58
     CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,165,278,10
     CONTROL         "Shorten links for audio attachments",IDC_SHOTEN_LINKS_FOR_AUDIO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,176,278,10
     CONTROL         "Use non-standard popups for news and event notifications",IDC_USENOSTDPOPUPS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,187,278,10
-    CONTROL         "Add message link to messages with attachments",IDC_ADD_MES_LINK_MES_ATT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,198,278,10
     CONTROL         "Add original message version in edited message",IDC_ADD_ORIG_VER_IN_EDITED_MES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,209,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,198,278,10
 END
 
 IDD_OPT_FEEDS DIALOGEX 0, 0, 304, 232

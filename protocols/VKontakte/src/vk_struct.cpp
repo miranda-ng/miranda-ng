@@ -200,7 +200,6 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bLoadSentAttachments(proto, "LoadSentAttachments", bSendVKLinksAsAttachments),
 	bUseNonStandardNotifications(proto, "UseNonStandardNotifications", false),
 	bShortenLinksForAudio(proto, "ShortenLinksForAudio", true),
-	bAddMessageLinkToMesWAtt(proto, "AddMessageLinkToMesWAtt", true),
 	bShowReplyInMessage(proto, "ShowReplyInMessage", false),
 	bSplitFormatFwdMsg(proto, "SplitFormatFwdMsg", false),
 	bSyncReadMessageStatusFromServer(proto, "SyncReadMessageStatusFromServer", false),

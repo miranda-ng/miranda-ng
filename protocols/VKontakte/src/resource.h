@@ -130,7 +130,6 @@
 #define IDC_MESSAGE                     1117
 #define IDC_STATIC_MARKCONTAKTS         1118
 #define IDC_STATIC_MESSAGE              1120
-#define IDC_ADD_MES_LINK_MES_ATT        1121
 #define IDC_ADD_ORIG_VER_IN_EDITED_MES  1122
 #define IDC_IMG_300                     1123
 

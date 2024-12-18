@@ -442,11 +442,6 @@ void CVkProto::AppendChatConversationMessage(VKUserID_t iChatId, const JSONNode&
 		}
 	}
 
-	if (m_vkOptions.bAddMessageLinkToMesWAtt && ((jnAttachments && !jnAttachments.empty()) || (jnFwdMessages && !jnFwdMessages.empty()) || (jnReplyMessages && !jnReplyMessages.empty() && m_vkOptions.bShowReplyInMessage)))
-		wszBody += SetBBCString(TranslateT("Message link"), m_vkOptions.bBBCNewStorySupport ? bbcAdvanced : bbcNo, vkbbcUrl,
-			CMStringW(FORMAT, L"https://vk.com/im?sel=c%d&msgid=%d", vkChatInfo->m_iChatId, iMessageId));
-	
-
 	if (jnMsg["action"] && jnMsg["action"]["type"]) {
 		bIsAction = true;
 		CMStringW wszAction = jnMsg["action"]["type"].as_mstring();

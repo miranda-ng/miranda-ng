@@ -301,7 +301,6 @@ struct CVKOptions {
 	CMOption<uint8_t> bNotificationFilterAcceptedFriends;
 	CMOption<uint8_t> bUseNonStandardNotifications;
 	CMOption<uint8_t> bShortenLinksForAudio;
-	CMOption<uint8_t> bAddMessageLinkToMesWAtt;
 	CMOption<uint8_t> bShowReplyInMessage;
 	CMOption<uint8_t> bSplitFormatFwdMsg;
 	CMOption<uint8_t> bSyncReadMessageStatusFromServer;

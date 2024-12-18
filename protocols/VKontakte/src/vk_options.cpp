@@ -446,7 +446,6 @@ CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto) :
 	m_cbBBCForAttachmentsAdvanced(this, IDC_ATTBBC_ADV),
 	m_cbStikersAsSmyles(this, IDC_STICKERS_AS_SMYLES),
 	m_cbShortenLinksForAudio(this, IDC_SHOTEN_LINKS_FOR_AUDIO),
-	m_cbAddMessageLinkToMesWAtt(this, IDC_ADD_MES_LINK_MES_ATT),
 	m_cbUseNonStandardNotifications(this, IDC_USENOSTDPOPUPS),
 	m_cbShowBeforeEditedPostVersion(this, IDC_ADD_ORIG_VER_IN_EDITED_MES)
 {
@@ -454,7 +453,6 @@ CVkOptionViewForm::CVkOptionViewForm(CVkProto *proto) :
 	CreateLink(m_cbUseBBCOnAttacmentsAsNews, m_proto->m_vkOptions.bUseBBCOnAttacmentsAsNews);
 	CreateLink(m_cbStikersAsSmyles, m_proto->m_vkOptions.bStikersAsSmileys);
 	CreateLink(m_cbShortenLinksForAudio, m_proto->m_vkOptions.bShortenLinksForAudio);
-	CreateLink(m_cbAddMessageLinkToMesWAtt, m_proto->m_vkOptions.bAddMessageLinkToMesWAtt);
 	CreateLink(m_cbUseNonStandardNotifications, m_proto->m_vkOptions.bUseNonStandardNotifications);
 	CreateLink(m_cbShowBeforeEditedPostVersion, m_proto->m_vkOptions.bShowBeforeEditedPostVersion);
 
