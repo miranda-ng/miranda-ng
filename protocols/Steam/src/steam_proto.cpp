@@ -105,7 +105,7 @@ MCONTACT CSteamProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 		return 0;
 
 	DB::AUTH_BLOB blob(dbei.pBlob);
-	return AddContact(blob.get_email(), Utf2T(blob.get_nick()));
+	return AddContact(_atoi64(blob.get_email()), Utf2T(blob.get_nick()));
 }
 
 int CSteamProto::Authorize(MEVENT hDbEvent)

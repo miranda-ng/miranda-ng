@@ -159,7 +159,6 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	// login
 	bool IsOnline();
-	bool IsMe(const char *steamId);
 
 	void Login();
 	void Logout();
@@ -212,9 +211,6 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void OnGotFriendList(const CMsgClientFriendsList &reply, const CMsgProtoBufHeader &hdr);
 	void OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMsgProtoBufHeader &hdr);
-
-	MCONTACT GetContact(const char *steamId);
-	MCONTACT AddContact(const char *steamId, const wchar_t *nick = nullptr, bool isTemporary = false);
 
 	MCONTACT GetContact(int64_t steamId);
 	MCONTACT AddContact(int64_t steamId, const wchar_t *nick = nullptr, bool isTemporary = false);

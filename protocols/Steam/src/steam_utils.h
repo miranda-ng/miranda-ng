@@ -15,11 +15,9 @@ MBinBuffer createMachineID(const char *accName);
 uint64_t getRandomInt();
 CMStringA protobuf_c_text_to_string(const ProtobufCMessage &msg);
 
-inline const char *AccountIdToSteamId(long long accountId)
+inline uint64_t AccountIdToSteamId(uint64_t accountId)
 {
-	static char steamId[20];
-	mir_snprintf(steamId, "%llu", accountId + 76561197960265728ll);
-	return steamId;
+	return accountId | 0x110000100000000ll;
 }
 
 inline uint64_t SteamIdToAccountId(uint64_t steamId)

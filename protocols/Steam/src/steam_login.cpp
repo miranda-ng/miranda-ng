@@ -15,11 +15,6 @@ bool CSteamProto::IsOnline()
 	return m_iStatus > ID_STATUS_OFFLINE && m_ws != nullptr;
 }
 
-bool CSteamProto::IsMe(const char *steamId)
-{
-	return m_iSteamId == (uint64_t)_atoi64(steamId);
-}
-
 void CSteamProto::Logout()
 {
 	m_bTerminated = true;

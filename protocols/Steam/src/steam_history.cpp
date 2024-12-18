@@ -8,8 +8,8 @@ void CSteamProto::OnGotConversations(const CFriendsMessagesGetActiveMessageSessi
 	for (int i=0; i < reply.n_message_sessions; i++) {
 		auto *session = reply.message_sessions[i];
 
-		const char *who = AccountIdToSteamId(session->accountid_friend);
-		MCONTACT hContact = GetContact(who);
+		uint64_t steamId = AccountIdToSteamId(session->accountid_friend);
+		MCONTACT hContact = GetContact(steamId);
 		if (!hContact)
 			continue;
 
@@ -20,7 +20,7 @@ void CSteamProto::OnGotConversations(const CFriendsMessagesGetActiveMessageSessi
 
 		time_t lastMessageTS = session->last_message;
 		if (lastMessageTS > storedMessageTS)
-			SendRequest(new GetHistoryMessagesRequest(m_szAccessToken, m_iSteamId, who, storedMessageTS), &CSteamProto::OnGotHistoryMessages, (void*)hContact);
+			SendRequest(new GetHistoryMessagesRequest(m_szAccessToken, m_iSteamId, steamId, storedMessageTS), &CSteamProto::OnGotHistoryMessages, (void*)hContact);
 	}
 }
 
@@ -39,7 +39,7 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		const JSONNode &message = messages[i - 1];
 
 		long long accountId = _wtoi64(message["accountid"].as_mstring());
-		const char *steamId = AccountIdToSteamId(accountId);
+		uint64_t steamId = AccountIdToSteamId(accountId);
 
 		json_string text = message["message"].as_string();
 
@@ -53,7 +53,7 @@ void CSteamProto::OnGotHistoryMessages(const JSONNode &root, void *arg)
 		dbei.timestamp = timestamp;
 		dbei.pBlob = (char *)text.c_str();
 
-		if (IsMe(steamId))
+		if (steamId == m_iSteamId)
 			dbei.flags = DBEF_SENT;
 
 		RecvMsg(hContact, dbei);

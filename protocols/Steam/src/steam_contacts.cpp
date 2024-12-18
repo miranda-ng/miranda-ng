@@ -62,16 +62,6 @@ MCONTACT CSteamProto::GetContactFromAuthEvent(MEVENT hEvent)
 	return DbGetAuthEventContact(&dbei);
 }
 
-MCONTACT CSteamProto::GetContact(const char *steamId)
-{
-	for (auto &hContact : AccContacts()) {
-		ptrA cSteamId(getStringA(hContact, DBKEY_STEAM_ID));
-		if (!mir_strcmp(cSteamId, steamId))
-			return hContact;
-	}
-	return NULL;
-}
-
 MCONTACT CSteamProto::GetContact(int64_t steamId)
 {
 	for (auto &hContact : AccContacts())
@@ -291,44 +281,6 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 	dbei.pBlob = blob;
 	dbei.cbBlob = blob.size();
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
-}
-
-MCONTACT CSteamProto::AddContact(const char *steamId, const wchar_t *nick, bool isTemporary)
-{
-	mir_cslock lock(m_addContactLock);
-
-	if (!steamId || !mir_strlen(steamId)) {
-		debugLogA(__FUNCTION__ ": empty steam id");
-		return NULL;
-	}
-
-	MCONTACT hContact = GetContact(steamId);
-	if (hContact)
-		return hContact;
-
-	// create contact
-	hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
-
-	setString(hContact, DBKEY_STEAM_ID, steamId);
-	if (mir_wstrlen(nick)) {
-		setWString(hContact, "Nick", nick);
-		db_set_ws(hContact, "CList", "MyHandle", nick);
-	}
-
-	if (isTemporary) {
-		debugLogA("Contact %d added as a temporary one");
-		Contact::RemoveFromList(hContact);
-	}
-
-	setByte(hContact, "Auth", 1);
-
-	// move to default group
-	if (!Clist_GroupExists(m_wszGroupName))
-		Clist_GroupCreate(0, m_wszGroupName);
-	Clist_SetGroup(hContact, m_wszGroupName);
-
-	return hContact;
 }
 
 MCONTACT CSteamProto::AddContact(int64_t steamId, const wchar_t *nick, bool isTemporary)
