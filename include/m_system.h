@@ -508,6 +508,11 @@ public:
 	// adds a buffer to the end
 	void append(const void *pBuf, size_t bufLen);
 	
+	MBinBuffer& operator <<(uint8_t);
+	MBinBuffer& operator <<(uint16_t);
+	MBinBuffer& operator <<(uint32_t);
+	MBinBuffer& operator <<(uint64_t);
+
 	__forceinline void append(const MBinBuffer &buf)
 	{	append(buf.data(), buf.length());
 	}

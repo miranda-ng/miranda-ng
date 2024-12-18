@@ -168,3 +168,29 @@ void MBinBuffer::remove(size_t sz)
 		p->size -= (unsigned)sz;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MBinBuffer& MBinBuffer::operator<<(uint8_t val)
+{
+	append(&val, sizeof(val));
+	return *this;
+}
+
+MBinBuffer& MBinBuffer::operator<<(uint16_t val)
+{
+	append(&val, sizeof(val));
+	return *this;
+}
+
+MBinBuffer& MBinBuffer::operator<<(uint32_t val)
+{
+	append(&val, sizeof(val));
+	return *this;
+}
+
+MBinBuffer& MBinBuffer::operator<<(uint64_t val)
+{
+	append(&val, sizeof(val));
+	return *this;
+}
