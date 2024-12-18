@@ -166,6 +166,9 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 		cbLen -= 30;
 	}
 
+	if (hdr.has_eresult && hdr.eresult != (int)EResult::OK)
+		debugLogA("HDR: error code %d", hdr.eresult);
+
 	// persistent callbacks
 	switch (msgType) {
 	case EMsg::ServiceMethod:

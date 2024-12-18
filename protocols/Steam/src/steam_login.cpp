@@ -196,11 +196,10 @@ void CSteamProto::SendConfirmationCode(bool isEmail, const char *pszCode)
 
 void CSteamProto::OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse &, const CMsgProtoBufHeader &hdr)
 {
-	if (hdr.failed()) {
-		debugLogA("2fa code failed with error code %d", hdr.eresult);
+	if (hdr.failed())
 		Logout();
-	}
-	else SendPollRequest();
+	else
+		SendPollRequest();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
