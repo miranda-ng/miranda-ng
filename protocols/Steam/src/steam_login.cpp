@@ -196,7 +196,7 @@ void CSteamProto::SendConfirmationCode(bool isEmail, const char *pszCode)
 
 void CSteamProto::OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse &, const CMsgProtoBufHeader &hdr)
 {
-	if (hdr.failed())
+	if (hdr.failed() && hdr.eresult != (int)EResult::DuplicateRequest)
 		Logout();
 	else
 		SendPollRequest();
