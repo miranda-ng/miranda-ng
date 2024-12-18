@@ -77,15 +77,7 @@ bool CSteamProto::ServerThreadStub(const char *szHost)
 
 void WebSocket<CSteamProto>::process(const uint8_t *buf, size_t cbLen)
 {
-	uint32_t dwSign = *(uint32_t *)buf;
-	EMsg msgType = (EMsg)(dwSign & ~STEAM_PROTOCOL_MASK);
-
-	// now process the body
-	if (msgType == EMsg::Multi) {
-		buf += 8; cbLen -= 8;
-		p->ProcessMulti(buf, cbLen);
-	}
-	else p->ProcessMessage(buf, cbLen);
+	p->ProcessMessage(buf, cbLen);
 }
 
 void CSteamProto::ProcessMulti(const uint8_t *buf, size_t cbLen)
@@ -137,6 +129,12 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 		return;
 	}
 	
+	if (msgType == EMsg::Multi) {
+		buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
+		ProcessMulti(buf, cbLen);
+		return;
+	}
+
 	if (bIsProtobuf) {
 		uint32_t hdrLen = *(uint32_t *)buf; buf += sizeof(uint32_t); cbLen -= sizeof(uint32_t);
 		auto *p = cmsg_proto_buf_header__unpack(0, hdrLen, buf);
