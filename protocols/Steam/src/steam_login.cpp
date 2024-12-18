@@ -194,12 +194,13 @@ void CSteamProto::SendConfirmationCode(bool isEmail, const char *pszCode)
 	WSSendService(UpdateAuthSessionWithSteamGuardCode, request, true);
 }
 
-void CSteamProto::OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse&, const CMsgProtoBufHeader &hdr)
+void CSteamProto::OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse &, const CMsgProtoBufHeader &hdr)
 {
-	if (hdr.failed())
+	if (hdr.failed()) {
+		debugLogA("2fa code failed with error code %d", hdr.eresult);
 		Logout();
-	else
-		SendPollRequest();
+	}
+	else SendPollRequest();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -59,6 +59,8 @@ void CSteamProto::OnGotIncomingMessage(const CFriendMessagesIncomingMessageNotif
 
 	DB::EventInfo dbei;
 	dbei.flags = DBEF_UTF;
+	if (reply.has_local_echo && reply.local_echo)
+		dbei.flags |= DBEF_SENT;
 	dbei.cbBlob = (int)mir_strlen(reply.message);
 	dbei.pBlob = reply.message;
 	dbei.timestamp = reply.has_rtime32_server_timestamp ? reply.rtime32_server_timestamp : time(0);
