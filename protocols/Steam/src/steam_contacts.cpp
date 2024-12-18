@@ -503,6 +503,7 @@ void CSteamProto::OnGotAvatar(const MHttpResponse &response, void *arg)
 	}
 }
 
+/*
 void CSteamProto::OnFriendAdded(const MHttpResponse &response, void *arg)
 {
 	SendAuthParam *param = (SendAuthParam *)arg;
@@ -564,48 +565,7 @@ void CSteamProto::OnFriendAdded(const MHttpResponse &response, void *arg)
 	ContactIsFriend(param->hContact);
 	ProtoBroadcastAck(param->hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, param->hAuth, 0);
 }
-
-void CSteamProto::OnFriendBlocked(const MHttpResponse &response, void *arg)
-{
-	ptrA steamId((char *)arg);
-
-	if (response.resultCode != 200 || mir_strcmp(response.body, "true")) {
-		debugLogA(__FUNCTION__ ": failed to ignore friend %s", (char *)steamId);
-		return;
-	}
-
-	MCONTACT hContact = GetContact(steamId.get());
-	if (hContact)
-		ContactIsBlocked(hContact);
-}
-
-void CSteamProto::OnFriendUnblocked(const MHttpResponse &response, void *arg)
-{
-	ptrA steamId((char *)arg);
-
-	if (response.resultCode != 200 || mir_strcmp(response.body, "true")) {
-		debugLogA(__FUNCTION__ ": failed to unignore friend %s", (char *)steamId);
-		return;
-	}
-
-	MCONTACT hContact = GetContact(steamId.get());
-	if (hContact)
-		ContactIsUnblocked(hContact);
-}
-
-void CSteamProto::OnFriendRemoved(const MHttpResponse &response, void *arg)
-{
-	ptrA steamId((char *)arg);
-
-	if (response.resultCode != 200 || mir_strcmp(response.body, "true")) {
-		debugLogA(__FUNCTION__ ": failed to remove friend %s", (char *)steamId);
-		return;
-	}
-
-	MCONTACT hContact = GetContact(steamId.get());
-	if (hContact)
-		ContactIsRemoved(hContact);
-}
+*/
 
 void CSteamProto::OnPendingApproved(const JSONNode &root, void *arg)
 {

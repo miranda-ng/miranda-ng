@@ -18,25 +18,19 @@ INT_PTR CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
 
 INT_PTR CSteamProto::AuthRevokeCommand(WPARAM hContact, LPARAM)
 {
-	ptrA sessionId(getStringA("SessionID"));
-	char *who = getStringA(hContact, DBKEY_STEAM_ID);
-	SendRequest(new RemoveFriendRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnFriendRemoved, who);
+	SendUserRemoveRequest(hContact);
 	return 0;
 }
 
 int CSteamProto::BlockCommand(WPARAM hContact, LPARAM)
 {
-	ptrA sessionId(getStringA("SessionID"));
-	char *who = getStringA(hContact, DBKEY_STEAM_ID);
-	SendRequest(new BlockFriendRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnFriendBlocked, who);
+	SendUserIgnoreRequest(hContact, true);
 	return 0;
 }
 
 int CSteamProto::UnblockCommand(WPARAM hContact, LPARAM)
 {
-	ptrA sessionId(getStringA("SessionID"));
-	char *who = getStringA(hContact, DBKEY_STEAM_ID);
-	SendRequest(new UnblockFriendRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnFriendUnblocked, who);
+	SendUserIgnoreRequest(hContact, false);
 	return 0;
 }
 

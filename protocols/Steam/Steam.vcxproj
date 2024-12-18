@@ -90,7 +90,6 @@
     <ClInclude Include="src\api\captcha.h" />
     <ClInclude Include="src\api\enums.h" />
     <ClInclude Include="src\api\friend.h" />
-    <ClInclude Include="src\api\friend_list.h" />
     <ClInclude Include="src\api\history.h" />
     <ClInclude Include="src\api\pending.h" />
     <ClInclude Include="src\api\search.h" />
@@ -112,6 +111,7 @@
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\steam_dialogs.h" />
     <ClInclude Include="src\steam_proto.h" />
+    <ClInclude Include="src\steam_utils.h" />
     <ClInclude Include="src\version.h" />
     <None Include="res\gaming.ico" />
     <None Include="res\steam.ico" />

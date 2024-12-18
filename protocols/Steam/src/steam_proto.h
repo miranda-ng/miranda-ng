@@ -143,6 +143,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	void ProcessServiceResponse(const uint8_t *buf, size_t cbLen, const CMsgProtoBufHeader &hdr);
 
 	void WSSend(EMsg msgType, const ProtobufCppMessage &msg);
+	void WSSendRaw(EMsg msgType, const MBinBuffer &buf);
 	void WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg);
 	int64_t WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon = false);
 
@@ -155,8 +156,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	void SendLogout();
 	void SendPersonaStatus(int iStatus);
 	void SendPollRequest();
-	void SendUserInfoRequest(uint64_t id, bool bRetrieveState);
-	void SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRetrieveState);
 
 	// login
 	bool IsOnline();
@@ -193,6 +192,13 @@ class CSteamProto : public PROTO<CSteamProto>
 	void SetAllContactStatuses(int status);
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
+	void SendUserInfoRequest(uint64_t id, bool bRetrieveState);
+	void SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRetrieveState);
+	
+	void SendUserAddRequest(uint64_t id);
+	void SendUserRemoveRequest(MCONTACT hContact);
+	void SendUserIgnoreRequest(MCONTACT hContact, bool bIgnore);
+
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
 	void UpdateContactRelationship(MCONTACT hContact, FriendRelationship);
@@ -215,11 +221,6 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void OnGotBlockList(const JSONNode &root, void *);
 	void OnGotAvatar(const MHttpResponse &response, void *arg);
-
-	void OnFriendAdded(const MHttpResponse &response, void *arg);
-	void OnFriendBlocked(const MHttpResponse &response, void *arg);
-	void OnFriendUnblocked(const MHttpResponse &response, void *arg);
-	void OnFriendRemoved(const MHttpResponse &response, void *arg);
 
 	void OnPendingApproved(const JSONNode &root, void *arg);
 	void OnPendingIgnoreded(const JSONNode &root, void *arg);
@@ -293,20 +294,6 @@ class CSteamProto : public PROTO<CSteamProto>
 
 		// ... or we can report real idle info
 		// return m_idleTS ? time(0) - m_idleTS : 0;
-	}
-
-	inline const char *AccountIdToSteamId(long long accountId)
-	{
-		static char steamId[20];
-		mir_snprintf(steamId, "%llu", accountId + 76561197960265728ll);
-		return steamId;
-	}
-
-	inline const char *SteamIdToAccountId(long long steamId)
-	{
-		static char accountId[10];
-		mir_snprintf(accountId, "%llu", steamId - 76561197960265728ll);
-		return accountId;
 	}
 
 public:

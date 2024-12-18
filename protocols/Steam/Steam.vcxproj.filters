@@ -134,9 +134,6 @@
     <ClInclude Include="src\api\friend.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\friend_list.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\history.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
@@ -187,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="src\protobuf-c\steammessages_notifications.steamclient.pb-c.h">
       <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\steam_utils.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

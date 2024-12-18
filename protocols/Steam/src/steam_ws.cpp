@@ -257,6 +257,16 @@ void CSteamProto::WSSend(EMsg msgType, const ProtobufCppMessage &msg)
 	WSSendHeader(msgType, hdr, msg);
 }
 
+void CSteamProto::WSSendRaw(EMsg msgType, const MBinBuffer &body)
+{
+	MBinBuffer payload;
+	payload << (uint32_t)(int)msgType << uint8_t(36) << uint16_t(2) << uint64_t(-1) << getRandomInt()
+		<< uint8_t(239) << m_iSteamId << m_iSessionId;
+	payload.append(body);
+
+	m_ws->sendBinary(payload.data(), payload.length());
+}
+
 void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg)
 {
 	debugLogA("Message sent:\n%s", protobuf_c_text_to_string(msg).c_str());

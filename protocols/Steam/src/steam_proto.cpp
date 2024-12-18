@@ -152,14 +152,7 @@ int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 {
 	if (IsOnline() && hContact) {
 		UINT hAuth = InterlockedIncrement(&hAuthProcess);
-
-		SendAuthParam *param = (SendAuthParam*)mir_calloc(sizeof(SendAuthParam));
-		param->hContact = hContact;
-		param->hAuth = (HANDLE)hAuth;
-
-		ptrA sessionId(getStringA("SessionID"));
-		ptrA who(getStringA(hContact, DBKEY_STEAM_ID));
-		SendRequest(new AddFriendRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnFriendAdded, param);
+		SendUserAddRequest(GetId(hContact, DBKEY_STEAM_ID));
 		return hAuth;
 	}
 
@@ -319,11 +312,9 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	// remove only authorized contacts
-	if (!getByte(hContact, "Auth", 0)) {
-		ptrA sessionId(getStringA("SessionID"));
-		char *who = getStringA(hContact, DBKEY_STEAM_ID);
-		SendRequest(new RemoveFriendRequest(m_szAccessToken, sessionId, m_iSteamId, who), &CSteamProto::OnFriendRemoved, (void*)who);
-	}
+	if (!getByte(hContact, "Auth"))
+		SendUserRemoveRequest(hContact);
+
 	return true;
 }
 

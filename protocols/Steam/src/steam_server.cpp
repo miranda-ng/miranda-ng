@@ -67,6 +67,27 @@ void CSteamProto::SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRe
 	WSSend(EMsg::ClientRequestFriendData, request);
 }
 
+void CSteamProto::SendUserAddRequest(uint64_t id)
+{
+	CMsgClientAddFriend request;
+	request.has_steamid_to_add = true; request.steamid_to_add = id;
+	WSSend(EMsg::ClientAddFriend, request);
+}
+
+void CSteamProto::SendUserRemoveRequest(MCONTACT hContact)
+{
+	CMsgClientRemoveFriend request;
+	request.has_friendid = true; request.friendid = SteamIdToAccountId(GetId(hContact, DBKEY_STEAM_ID));
+	WSSend(EMsg::ClientRemoveFriend, request);
+}
+
+void CSteamProto::SendUserIgnoreRequest(MCONTACT hContact, bool bIgnore)
+{
+	MBinBuffer payload;
+	payload << m_iSteamId << SteamIdToAccountId(GetId(hContact, DBKEY_STEAM_ID)) << uint8_t(bIgnore);
+	WSSendRaw(EMsg::ClientSetIgnoreFriend, payload);
+}
+
 void CSteamProto::SendHeartBeat()
 {
 	CMsgClientHeartBeat packet;

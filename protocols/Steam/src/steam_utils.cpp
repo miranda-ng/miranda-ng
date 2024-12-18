@@ -1,10 +1,10 @@
 #include "stdafx.h"
 
-int64_t getRandomInt()
+uint64_t getRandomInt()
 {
-	int64_t ret;
+	uint64_t ret;
 	Utils_GetRandom(&ret, sizeof(ret));
-	return (ret >= 0) ? ret : -ret;
+	return ret & INT64_MAX;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
