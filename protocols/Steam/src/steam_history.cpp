@@ -8,7 +8,7 @@ void CSteamProto::OnGotConversations(const CFriendsMessagesGetActiveMessageSessi
 	for (int i=0; i < reply.n_message_sessions; i++) {
 		auto *session = reply.message_sessions[i];
 
-		uint64_t steamId = AccountIdToSteamId(session->accountid_friend);
+		uint64_t steamId = session->accountid_friend;
 		MCONTACT hContact = GetContact(steamId);
 		if (!hContact)
 			continue;

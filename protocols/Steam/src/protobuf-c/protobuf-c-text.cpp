@@ -202,14 +202,14 @@ static void protobuf_c_text_to_string_internal(
 			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
-						"%*s%s: %lu\n",
+						"%*s%s: %lld\n",
 						level, "", f[i].name,
 						STRUCT_MEMBER(uint64_t *, m, f[i].offset)[j]);
 				}
 			}
 			else {
 				str.AppendFormat(
-					"%*s%s: %lu\n",
+					"%*s%s: %lld\n",
 					level, "", f[i].name,
 					STRUCT_MEMBER(uint64_t, m, f[i].offset));
 			}
@@ -219,14 +219,14 @@ static void protobuf_c_text_to_string_internal(
 			if (f[i].label == PROTOBUF_C_LABEL_REPEATED) {
 				for (j = 0; j < quantifier_offset; j++) {
 					str.AppendFormat(
-						"%*s%s: %ld\n",
+						"%*s%s: %lld\n",
 						level, "", f[i].name,
 						STRUCT_MEMBER(int64_t *, m, f[i].offset)[j]);
 				}
 			}
 			else {
 				str.AppendFormat(
-					"%*s%s: %ld\n",
+					"%*s%s: %lld\n",
 					level, "", f[i].name,
 					STRUCT_MEMBER(int64_t, m, f[i].offset));
 			}

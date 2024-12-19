@@ -191,8 +191,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	void SetAllContactStatuses(int status);
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
-	void SendUserInfoRequest(uint64_t id, bool bRetrieveState);
-	void SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRetrieveState);
+	void SendUserInfoRequest(uint64_t id);
+	void SendUserInfoRequest(const std::vector<uint64_t> &ids);
 	
 	void SendUserAddRequest(uint64_t id);
 	void SendUserRemoveRequest(MCONTACT hContact);

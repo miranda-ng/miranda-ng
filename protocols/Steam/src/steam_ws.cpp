@@ -274,7 +274,7 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 
 	uint32_t hdrLen = (uint32_t)protobuf_c_message_get_packed_size(&hdr);
 	MBinBuffer hdrbuf(hdrLen);
-	protobuf_c_message_pack(&hdr, (uint8_t *)hdrbuf.data());
+	protobuf_c_message_pack(&hdr, hdrbuf.data());
 	hdrbuf.appendBefore(&hdrLen, sizeof(hdrLen));
 
 	uint32_t type = (uint32_t)msgType;
@@ -292,11 +292,11 @@ int64_t CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCpp
 {
 	CMsgProtoBufHeader hdr;
 	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
-	hdr.client_sessionid = bAnon ? 0 : m_iSessionId;
+	if (!bAnon)
+		hdr.steamid = m_iSteamId, hdr.client_sessionid = m_iSessionId;
 	hdr.jobid_source = getRandomInt();
 	hdr.jobid_target = -1;
 	hdr.target_job_name = (char *)pszServiceName;
-	hdr.realm = 1; hdr.has_realm = true;
 	WSSendHeader(bAnon ? EMsg::ServiceMethodCallFromClientNonAuthed : EMsg::ServiceMethodCallFromClient, hdr, msg);
 
 	return hdr.jobid_source;

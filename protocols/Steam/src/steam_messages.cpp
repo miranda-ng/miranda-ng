@@ -2,11 +2,8 @@
 
 void CSteamProto::SendFriendMessage(uint32_t msgId, int64_t steamId, const char *pszMessage)
 {
-	CMStringA szId(FORMAT, "%d", msgId);
-
 	CFriendMessagesSendMessageRequest request;
 	request.chat_entry_type = (int)EChatEntryType::ChatMsg; request.has_chat_entry_type = true;
-	request.client_message_id = szId.GetBuffer();
 	request.contains_bbcode = request.has_contains_bbcode = true;
 	request.steamid = steamId; request.has_steamid = true;
 	request.message = (char *)pszMessage;

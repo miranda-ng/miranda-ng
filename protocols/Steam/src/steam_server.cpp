@@ -51,17 +51,17 @@ void CSteamProto::SendFriendActiveSessions()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CSteamProto::SendUserInfoRequest(uint64_t id, bool bRetrieveState)
+void CSteamProto::SendUserInfoRequest(uint64_t id)
 {
 	std::vector<uint64_t> ids;
 	ids.push_back(id & 0xFFFFFFFFll);
-	SendUserInfoRequest(ids, bRetrieveState);
+	SendUserInfoRequest(ids);
 }
 
-void CSteamProto::SendUserInfoRequest(const std::vector<uint64_t> &ids, bool bRetrieveState)
+void CSteamProto::SendUserInfoRequest(const std::vector<uint64_t> &ids)
 {
 	CMsgClientRequestFriendData request;
-	request.persona_state_requested = bRetrieveState; request.has_persona_state_requested = true;
+	request.persona_state_requested = -1; request.has_persona_state_requested = true;
 	request.n_friends = ids.size();
 	request.friends = (uint64_t*)&*ids.begin();
 	WSSend(EMsg::ClientRequestFriendData, request);

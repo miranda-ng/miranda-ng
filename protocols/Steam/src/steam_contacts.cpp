@@ -259,7 +259,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 
 	// create auth request event
 	uint64_t id(GetId(hContact, DBKEY_STEAM_ID));
-	SendUserInfoRequest(id, true);
+	SendUserInfoRequest(id);
 
 	char steamId[100];
 	_i64toa(id, steamId, 10);
@@ -363,12 +363,12 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 	std::map<uint64_t, FriendRelationship> friendsMap;
 	for (int i = 0; i < reply.n_friends; i++) {
 		auto *F = reply.friends[i];
-		friendsMap[F->ulfriendid | 0x110000100000000ll] = FriendRelationship(F->efriendrelationship);
+		friendsMap[F->ulfriendid] = FriendRelationship(F->efriendrelationship);
 	}
 
 	// Comma-separated list of steam ids to update summaries
 	std::vector<uint64_t> ids;
-	ids.push_back(GetId(DBKEY_STEAM_ID) & 0xFFFFFFFFll);
+	ids.push_back(GetId(DBKEY_STEAM_ID));
 
 	// Check and update contacts in database
 	for (auto &hContact : AccContacts()) {
@@ -389,7 +389,7 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 
 		// Do not update summary for non friends
 		if (it->second == FriendRelationship::Friend)
-			ids.push_back(it->first & 0xFFFFFFFFll);
+			ids.push_back(it->first);
 
 		friendsMap.erase(it);
 	}
@@ -401,12 +401,12 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 		UpdateContactRelationship(hContact, it.second);
 
 		if (it.second == FriendRelationship::Friend)
-			ids.push_back(it.first & 0xFFFFFFFFll);
+			ids.push_back(it.first);
 	}
 	friendsMap.clear();
 
 	if (!ids.empty())
-		SendUserInfoRequest(ids, true);
+		SendUserInfoRequest(ids);
 
 	// Load last conversations
 	SendFriendActiveSessions();

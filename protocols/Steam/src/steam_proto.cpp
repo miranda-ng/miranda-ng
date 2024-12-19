@@ -89,7 +89,7 @@ MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	uint64_t id = _wtoi64(psr->id.w);
 	MCONTACT hContact = AddContact(id, psr->nick.w, true);
 
-	SendUserInfoRequest(id, true);
+	SendUserInfoRequest(id);
 
 	return hContact;
 }
