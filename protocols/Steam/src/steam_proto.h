@@ -253,7 +253,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	mir_cs m_csOwnMessages;
 	OBJLIST<COwnMessage> m_arOwnMessages;
 
-	void SendFriendMessage(uint32_t msgId, int64_t steamId, const char *pszMessage);
+	int64_t SendFriendMessage(EChatEntryType, int64_t steamId, const char *pszMessage);
 	void OnGotIncomingMessage(const CFriendMessagesIncomingMessageNotification &reply, const CMsgProtoBufHeader &hdr);
 	void OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);

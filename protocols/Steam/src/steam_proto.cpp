@@ -213,12 +213,13 @@ int CSteamProto::SendMsg(MCONTACT hContact, MEVENT, const char *message)
 		return -1;
 
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
+	auto *pOwn = new COwnMessage(hContact, hMessage);
 	{
 		mir_cslock lck(m_csOwnMessages);
-		m_arOwnMessages.insert(new COwnMessage(hContact, hMessage));
+		m_arOwnMessages.insert(pOwn);
 	}
 
-	SendFriendMessage(hMessage, GetId(hContact, DBKEY_STEAM_ID), message);
+	pOwn->iSourceId = SendFriendMessage(EChatEntryType::ChatMsg, GetId(hContact, DBKEY_STEAM_ID), message);
 	return hMessage;
 }
 
