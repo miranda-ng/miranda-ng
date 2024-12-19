@@ -63,11 +63,7 @@ void CSkypeProto::OnOAuthStart(MHttpResponse *response, AsyncHttpRequest*)
 
 	ptrA login(getStringA(SKYPE_SETTINGS_ID));
 	ptrA password(getStringA(SKYPE_SETTINGS_PASSWORD));
-	CMStringA mscookies(FORMAT, "MSPRequ=%s;MSPOK=%s;CkTst=G%lld;", scookies["MSPRequ"].c_str(), scookies["MSPOK"].c_str(), time(NULL));
-
-	cookies["MSPRequ"] = scookies["MSPRequ"];
-
-	PushRequest(new OAuthRequest(login, password, mscookies.c_str(), PPFT.c_str()));
+	PushRequest(new OAuthRequest(login, password, response->GetCookies().c_str(), PPFT.c_str()));
 }
 
 bool CSkypeProto::CheckOauth(const char *szResponse)
@@ -103,20 +99,7 @@ void CSkypeProto::OnOAuthConfirm(MHttpResponse *response, AsyncHttpRequest *)
 		return;
 	}
 
-	std::regex regex("^(.+?=.*?;)");
-	std::smatch match;
-	CMStringA mscookies;
-
-	for (auto &it : *response) {
-		if (mir_strcmpi(it->szName, "Set-Cookie"))
-			continue;
-
-		content = it->szValue;
-		if (std::regex_search(content, match, regex))
-			mscookies.Append(match[1].str().c_str());
-	}
-
-	PushRequest(new OAuthRequest(mscookies.c_str(), PPFT.c_str(), opid.c_str()));
+	PushRequest(new OAuthRequest(response->GetCookies(), PPFT.c_str(), opid.c_str()));
 }
 
 void CSkypeProto::OnOAuthAuthorize(MHttpResponse *response, AsyncHttpRequest*)

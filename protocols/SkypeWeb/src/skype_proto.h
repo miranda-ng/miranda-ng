@@ -177,7 +177,6 @@ public:
 private:
 	bool m_bHistorySynced;
 
-	std::map<std::string, std::string> cookies;
 	static std::map<std::wstring, std::wstring> languages;
 
 	LIST<void> m_PopupClasses;
