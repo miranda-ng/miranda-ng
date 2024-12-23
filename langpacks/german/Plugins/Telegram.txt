@@ -24,8 +24,8 @@ Abmelden
 Dateien beim Senden komprimieren
 [Include URL preview into message text]
 URL-Vorschau in Nachrichtentext einfügen
-[Store channel messages in memory only]
-Channel-Nachrichten nur temporär speichern
+[Do not store channel history in the database]
+Channel-Nachrichten nicht in Datenbank speichern
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]

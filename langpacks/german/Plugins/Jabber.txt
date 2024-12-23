@@ -1432,6 +1432,8 @@ Servereinstellungen
 Stream Management verwenden (XEP-0198)
 [Disable SASL authentication (for old servers)]
 SASL-Authentifizierung deaktivieren (für ältere Server)
+[Enable SASL2 authentication, if present]
+SASL2-Authentifizierung aktivieren, falls vorhanden
 [Enable stream compression]
 Datenstromkompression aktivieren
 [Other]

@@ -2868,18 +2868,18 @@ Formatierung Kursiv umschalten
 Formatierung Unterstrichen umschalten
 [Toggle text color]
 Textfarbe umschalten
-[Toggle back color]
+[Toggle background color]
 Hintergrundfarbe umschalten
 [Clear formatting]
 Formatierung aufheben
 [Open history window]
 Verlaufsfenster öffnen
-[Channel manager]
-Channelmanager
 [Toggle filter]
 Filter umschalten
 [Toggle nick list]
 Benutzerliste umschalten
+[Channel manager]
+Channelmanager
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Trennlinie>
