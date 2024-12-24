@@ -80,7 +80,18 @@ public:
 		JSONNode root;
 		root << CHAR_PARAM("ticket", m_szTicket) << WCHAR_PARAM("code", wszCode);
 
-		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, (m_mode == 1) ? "/auth/mfa/sms" : "/auth/mfa/totp", &CDiscordProto::OnSendTotp, &root);
+		const char *pszUrl;
+		switch (m_mode) {
+		case 0: pszUrl = "/auth/mfa/totp"; break;
+		case 1: pszUrl = "/auth/mfa/sms"; break;
+		case 2: pszUrl = "/auth/mfa/backup"; break;
+		default:
+			return false;
+		}
+
+		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, pszUrl, &CDiscordProto::OnSendTotp, &root);
+		pReq->AddHeader("Origin", "https://discord.com");
+		pReq->AddHeader("Referer", "https://discord.com/login");
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
 		return false;
