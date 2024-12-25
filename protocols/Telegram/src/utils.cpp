@@ -155,11 +155,12 @@ TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
 	if (idx == -1 || path.Find('\\', idx) != -1)
 		return TG_FILE_REQUEST::FILE;
 
-	auto wszExt = path.Right(path.GetLength() - idx);
+	auto wszExt = path.Right(path.GetLength() - idx - 1);
 	wszExt.MakeLower();
 	if (wszExt == L"mp4" || wszExt == L"webm")
 		return TG_FILE_REQUEST::VIDEO;
-	else if (wszExt == L"mp3" || wszExt == "ogg" || wszExt == "oga" || wszExt == "wav")
+	
+	if (wszExt == L"mp3" || wszExt == "ogg" || wszExt == "oga" || wszExt == "wav")
 		return TG_FILE_REQUEST::VOICE;
 
 	return TG_FILE_REQUEST::FILE;
