@@ -16,7 +16,7 @@ struct TemplateVars
 		return vars[id].val;
 	}
 
-	void SetNick(wchar_t *v);
+	void SetNick(wchar_t *v, ItemData *item);
 	void SetVar(uint8_t id, wchar_t *v, bool d);
 };
 

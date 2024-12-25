@@ -512,11 +512,11 @@ void vfGlobal(TemplateVars *vars, MCONTACT hContact, ItemData *)
 	vars->SetVar('S', nick, true);
 }
 
-void vfContact(TemplateVars *vars, MCONTACT hContact, ItemData *)
+void vfContact(TemplateVars *vars, MCONTACT hContact, ItemData *pItem)
 {
 	// %N: buddy's nick (not for messages)
 	wchar_t *nick = (hContact == 0) ? TranslateT("System history") : Clist_GetContactDisplayName(hContact, 0);
-	vars->SetNick(nick);
+	vars->SetNick(nick, pItem);
 
 	wchar_t buf[20];
 	// %c: event count
@@ -524,10 +524,10 @@ void vfContact(TemplateVars *vars, MCONTACT hContact, ItemData *)
 	vars->SetVar('c', buf, true);
 }
 
-void vfSystem(TemplateVars *vars, MCONTACT hContact, ItemData *)
+void vfSystem(TemplateVars *vars, MCONTACT hContact, ItemData *pItem)
 {
 	// %N: buddy's nick (not for messages)
-	vars->SetNick(TranslateT("System event"));
+	vars->SetNick(TranslateT("System event"), pItem);
 
 	// %c: event count
 	wchar_t  buf[20];
@@ -535,33 +535,33 @@ void vfSystem(TemplateVars *vars, MCONTACT hContact, ItemData *)
 	vars->SetVar('c', buf, true);
 }
 
-void vfEvent(TemplateVars *vars, MCONTACT, ItemData *item)
+void vfEvent(TemplateVars *vars, MCONTACT, ItemData *pItem)
 {
 	wchar_t buf[100];
 
 	//  %N: Nickname
-	if (!item->m_bIsResult && (item->dbe.flags & DBEF_SENT)) {
-		if (!item->wszNick) {
-			char *proto = Proto_GetBaseAccountName(item->dbe.hContact);
+	if (!pItem->m_bIsResult && (pItem->dbe.flags & DBEF_SENT)) {
+		if (!pItem->wszNick) {
+			char *proto = Proto_GetBaseAccountName(pItem->dbe.hContact);
 			ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
-			vars->SetNick(nick);
+			vars->SetNick(nick, pItem);
 		}
-		else vars->SetNick(item->wszNick);
+		else vars->SetNick(pItem->wszNick, pItem);
 	}
 	else {
-		wchar_t *nick = (item->wszNick) ? item->wszNick : Clist_GetContactDisplayName(item->dbe.hContact, 0);
-		vars->SetNick(nick);
+		wchar_t *nick = (pItem->wszNick) ? pItem->wszNick : Clist_GetContactDisplayName(pItem->dbe.hContact, 0);
+		vars->SetNick(nick, pItem);
 	}
 
 	// %D: direction symbol
-	if (item->dbe.flags & DBEF_SENT)
+	if (pItem->dbe.flags & DBEF_SENT)
 		vars->SetVar('D', L"<<", false);
 	else
 		vars->SetVar('D', L">>", false);
 
 	//  %t: timestamp
 	SYSTEMTIME st;
-	if (!TimeZone_GetSystemTime(nullptr, item->dbe.timestamp, &st, 0)) {
+	if (!TimeZone_GetSystemTime(nullptr, pItem->dbe.timestamp, &st, 0)) {
 		int iLocale = Langpack_GetDefaultLocale();
 
 		GetDateFormatW(iLocale, 0, &st, L"dd.MM.yyyy, ", buf, _countof(buf));
@@ -653,9 +653,13 @@ void vfOther(TemplateVars *vars, MCONTACT, ItemData *item)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void TemplateVars::SetNick(wchar_t *v)
+void TemplateVars::SetNick(wchar_t *v, ItemData *pItem)
 {
-	CMStringW wszNick(FORMAT, L"[c1]%s[c0]", v);
+	CMStringW wszNick;
+	if (pItem)
+		wszNick.Format(L"[c1]%s[c0]", v);
+	else
+		wszNick = v;
 
 	auto &V = vars['N'];
 	if (V.del)
