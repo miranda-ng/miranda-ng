@@ -28,7 +28,7 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 		// if contact is offline, remove played game info
 		delSetting(hContact, "GameID");
 		delSetting(hContact, "ServerIP");
-		delSetting(hContact, "ServerID");
+
 		// clear also xstatus
 		delSetting(hContact, "XStatusId");
 		delSetting(hContact, "XStatusName");
@@ -160,26 +160,23 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 		}
 
 		// playing game
-		/*
-		json_string appId = data["gameid"].as_string();
-		CMStringW gameInfo = data["gameextrainfo"].as_mstring();
-		if (!appId.empty() || !gameInfo.IsEmpty()) {
-			uint32_t gameId = atol(appId.c_str());
-			json_string serverIP = data["gameserverip"].as_string();
-			json_string serverID = data["gameserversteamid"].as_string();
+		auto gameId = F->has_game_played_app_id ? F->game_played_app_id : 0;
+		char *gameInfo = F->game_name;
+		if (gameId && gameInfo) {
+			in_addr in; in.S_un.S_addr = F->game_server_ip;
+			auto *serverIP = inet_ntoa(in);
 
 			setDword(hContact, "GameID", gameId);
-			setString(hContact, "ServerIP", serverIP.c_str());
-			setString(hContact, "ServerID", serverID.c_str());
+			setString(hContact, "ServerIP", serverIP);
 
 			CMStringW message(gameInfo);
 			if (gameId && message.IsEmpty())
-				SendRequest(new GetAppInfoRequest(m_szAccessToken, appId.c_str()), &CSteamProto::OnGotAppInfo, (void *)hContact);
+				SendRequest(new GetAppInfoRequest(m_szAccessToken, gameId), &CSteamProto::OnGotAppInfo, (void *)hContact);
 			else {
 				if (!gameId)
 					message.Append(TranslateT(" (Non-Steam)"));
-				if (!serverIP.empty())
-					message.AppendFormat(TranslateT(" on server %S"), serverIP.c_str());
+				if (serverIP)
+					message.AppendFormat(TranslateT(" on server %S"), serverIP);
 			}
 
 			setDword(hContact, "XStatusId", gameId);
@@ -188,17 +185,16 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 
 			SetContactExtraIcon(hContact, gameId);
 		}
-		else {*/
+		else {
 			delSetting(hContact, "GameID");
 			delSetting(hContact, "ServerIP");
-			delSetting(hContact, "ServerID");
 
 			delSetting(hContact, "XStatusId");
 			delSetting(hContact, "XStatusName");
 			delSetting(hContact, "XStatusMsg");
 
 			SetContactExtraIcon(hContact, NULL);
-		//	}
+		}
 	}
 }
 

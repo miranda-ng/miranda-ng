@@ -7,30 +7,6 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	m_wszGroupName(this, "DefaultGroup", L"Steam"),
 	m_wszDeviceName(this, "DeviceName", L"Miranda NG")
 {
-	// icons
-	wchar_t filePath[MAX_PATH];
-	GetModuleFileName(g_plugin.getInst(), filePath, MAX_PATH);
-
-	wchar_t sectionName[100];
-	mir_snwprintf(sectionName, L"%s/%s", LPGENW("Protocols"), _A2W(MODULE));
-
-	char settingName[100];
-	mir_snprintf(settingName, "%s_%s", MODULE, "main");
-
-	SKINICONDESC sid = {};
-	sid.flags = SIDF_ALL_UNICODE;
-	sid.defaultFile.w = filePath;
-	sid.pszName = settingName;
-	sid.section.w = sectionName;
-	sid.description.w = LPGENW("Protocol icon");
-	sid.iDefaultIndex = -IDI_STEAM;
-	g_plugin.addIcon(&sid);
-
-	mir_snprintf(settingName, "%s_%s", MODULE, "gaming");
-	sid.description.w = LPGENW("Gaming icon");
-	sid.iDefaultIndex = -IDI_GAMING;
-	g_plugin.addIcon(&sid);
-
 	// temporary DB settings
 	db_set_resident(m_szModuleName, "XStatusId");
 	db_set_resident(m_szModuleName, "XStatusName");
@@ -38,7 +14,6 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, "GameID");
 	db_set_resident(m_szModuleName, "ServerIP");
-	db_set_resident(m_szModuleName, "ServerID");
 
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 

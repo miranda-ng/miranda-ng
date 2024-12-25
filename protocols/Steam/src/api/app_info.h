@@ -3,10 +3,10 @@
 
 struct GetAppInfoRequest : public HttpRequest
 {
-	GetAppInfoRequest(const char *token, const char *appIds) :
+	GetAppInfoRequest(const char *token, uint32_t appId) :
 		HttpRequest(REQUEST_GET, "/ISteamGameOAuth/GetAppInfo/v0001")
 	{
-		this << CHAR_PARAM("access_token", token) << CHAR_PARAM("appIds", appIds);
+		this << CHAR_PARAM("access_token", token) << INT_PARAM("appIds", appId);
 	}
 
 	//{

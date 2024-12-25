@@ -19,10 +19,7 @@ int CSteamProto::GetContactXStatus(MCONTACT hContact)
 
 void SetContactExtraIcon(MCONTACT hContact, int status)
 {
-	char iconName[100];
-	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
-
-	ExtraIcon_SetIcon(hExtraXStatus, hContact, (status > 0) ? IcoLib_GetIconHandle(iconName) : nullptr);
+	ExtraIcon_SetIcon(hExtraXStatus, hContact, (status > 0) ? g_plugin.getIconHandle(IDI_GAMING) : nullptr);
 }
 
 INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)

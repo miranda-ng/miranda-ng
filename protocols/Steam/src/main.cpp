@@ -169,14 +169,22 @@ void CMPlugin::InitSteamServices()
 	serviceHandlers[NotificationReceived] = ServiceResponseHandler(&CSteamProto::OnGotNotification);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] = {
+	{ LPGEN("Protocol icon"), "main", IDI_STEAM },
+	{ LPGEN("Gaming icon"), "gaming", IDI_GAMING },
+};
+
 int CMPlugin::Load()
 {
 	InitSteamServices();
 
+	// icons
+	g_plugin.registerIcon("Protocols/" MODULE, iconList, MODULE);
+
 	// extra statuses
-	char iconName[100];
-	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
-	hExtraXStatus = ExtraIcon_RegisterIcolib("steam_game", LPGEN("Steam game"), iconName);
+	hExtraXStatus = ExtraIcon_RegisterIcolib("steam_game", LPGEN("Steam game"), g_plugin.getIconHandle(IDI_GAMING));
 
 	HookEvent(ME_SKIN_ICONSCHANGED, OnReloadIcons);
 
