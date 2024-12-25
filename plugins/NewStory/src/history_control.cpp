@@ -186,10 +186,7 @@ bool NewstoryListData::AtTop(void) const
 	if (scrollTopItem < 0)
 		return true;
 
-	if (scrollTopItem == 0 && scrollTopPixel == 0)
-		return true;
-
-	return false;
+	return (scrollTopItem == 0 && scrollTopPixel == 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1470,45 +1467,50 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			if (msg == WM_KEYUP)
 				break;
 
+			int oldCaret = data->caret;
 			switch (wParam) {
 			case VK_UP:
-				if (g_plugin.bHppCompat)
+				if (g_plugin.bHppCompat) {
 					data->EventUp();
-				else
-					data->LineUp();
-				if (isShift)
-					data->SetSelection(data->scrollTopItem, data->caret);
+					if (isShift)
+						data->SetSelection(data->caret, oldCaret);
+				}
+				else data->LineUp();
 				break;
 
 			case VK_DOWN:
-				if (g_plugin.bHppCompat)
+				if (g_plugin.bHppCompat) {
 					data->EventDown();
-				else
-					data->LineDown();
-				if (isShift)
-					data->SetSelection(data->scrollTopItem, data->caret);
+					if (isShift)
+						data->SetSelection(oldCaret, data->caret);
+				}
+				else data->LineDown();
 				break;
 
 			case VK_PRIOR:
 				if (isCtrl)
 					data->ScrollTop();
-				else if (g_plugin.bHppCompat)
-					data->EventPageUp();
-				else
-					data->PageUp();
-				if (isShift)
-					data->SetSelection(data->scrollTopItem, data->caret);
+				else {
+					if (g_plugin.bHppCompat) {
+						data->EventPageUp();
+						if (isShift)
+							data->SetSelection(data->caret, oldCaret);
+					}
+					else data->PageUp();
+				}
 				break;
 
 			case VK_NEXT:
 				if (isCtrl)
 					data->ScrollBottom();
-				else if (g_plugin.bHppCompat)
-					data->EventPageDown();
-				else
-					data->PageDown();
-				if (isShift)
-					data->SetSelection(data->scrollTopItem, data->caret);
+				else {
+					if (g_plugin.bHppCompat) {
+						data->EventPageDown();
+						if (isShift)
+							data->SetSelection(oldCaret, data->caret);
+					}
+					else data->PageDown();
+				}
 				break;
 
 			case VK_HOME:
