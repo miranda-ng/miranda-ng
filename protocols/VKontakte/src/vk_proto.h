@@ -29,6 +29,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_GETALLSERVERHISTORYFORCONTACT "/GetAllServerHystoryForContact"
 #define PS_GETALLSERVERHISTORY "/GetAllServerHystory"
 #define PS_VISITPROFILE "/VisitProfile"
+#define PS_GOTOSITEIM "/GoToSiteIM"
 #define PS_ADDASFRIEND "/AddAsFriend"
 #define PS_DELETEFRIEND "/DeleteFriend"
 #define PS_BANUSER "/BanUser"
@@ -94,6 +95,7 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Menus ==========================================================================
 
 	INT_PTR __cdecl SvcVisitProfile(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcGoToSiteIM(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcAddAsFriend(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcWipeNonFriendContacts(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcDeleteFriend(WPARAM hContact, LPARAM);
@@ -159,6 +161,7 @@ private:
 		CMI_CHATCHANGETOPIC,
 		CMI_CHATINVITEUSER,
 		CMI_VISITPROFILE,
+		CMI_GOTOSITEIM,
 		CMI_MARKMESSAGESASREAD,
 		CMI_WALLPOST,
 		CMI_ADDASFRIEND,
@@ -190,6 +193,7 @@ private:
 		PMI_GETALLSERVERHISTORY,
 		PMI_WIPENONFRIENDS,
 		PMI_VISITPROFILE,
+		PMI_GOTOSITEIM,
 		PMI_COUNT
 	};
 

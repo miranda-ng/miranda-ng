@@ -1143,3 +1143,16 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	Utils_OpenUrlW(wszUrl);
 	return 0;
 }
+
+INT_PTR __cdecl CVkProto::SvcGoToSiteIM(WPARAM hContact, LPARAM)
+{
+	debugLogA("CVkProto::SvcGoToSiteIM");
+
+	VKUserID_t iUserId = ReadVKUserID(hContact);
+	if (isChatRoom(hContact))
+		iUserId += VK_CHAT_MIN;
+	CMStringW wszUrl(FORMAT, L"https://vk.com/im/convo/%d?entrypoint=list_all", iUserId);
+
+	Utils_OpenUrlW(wszUrl);
+	return 0;
+}

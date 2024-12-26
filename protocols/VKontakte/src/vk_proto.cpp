@@ -239,6 +239,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_GETALLSERVERHISTORYFORCONTACT, &CVkProto::SvcGetAllServerHistoryForContact);
 	CreateProtoService(PS_GETALLSERVERHISTORY, &CVkProto::SvcGetAllServerHistory);
 	CreateProtoService(PS_VISITPROFILE, &CVkProto::SvcVisitProfile);
+	CreateProtoService(PS_GOTOSITEIM, &CVkProto::SvcGoToSiteIM);
 	CreateProtoService(PS_CREATECHAT, &CVkProto::SvcCreateChat);
 	CreateProtoService(PS_ADDASFRIEND, &CVkProto::SvcAddAsFriend);
 	CreateProtoService(PS_DELETEFRIEND, &CVkProto::SvcDeleteFriend);
@@ -264,6 +265,13 @@ void CVkProto::InitMenus()
 	mi.name.w = LPGENW("Visit profile");
 	SET_UID(mi, 0x828cc50e, 0x398d, 0x43a2, 0xbf, 0xd3, 0xa9, 0x96, 0x47, 0x9d, 0x52, 0xff);
 	m_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi, m_szModuleName);
+
+	mi.pszService = PS_GOTOSITEIM;
+	mi.position = -200001000 + CMI_GOTOSITEIM;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
+	mi.name.w = LPGENW("Go to site IM");
+	SET_UID(mi, 0x681c7e6f, 0x34fa, 0x4184, 0x81, 0x6f, 0x43, 0x00, 0x51, 0xe7, 0xad, 0x42);
+	m_hContactMenuItems[CMI_GOTOSITEIM] = Menu_AddContactMenuItem(&mi, m_szModuleName);
 
 	mi.pszService = PS_MARKMESSAGESASREAD;
 	mi.position = -200001000 + CMI_MARKMESSAGESASREAD;
@@ -402,6 +410,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	bool bisBroadcast = !(IsEmpty(ptrW(db_get_wsa(hContact, m_szModuleName, "AudioUrl"))));
 	bool bIsGroup = IsGroupUser(hContact);
 	Menu_ShowItem(m_hContactMenuItems[CMI_VISITPROFILE], iUserId != VK_FEED_USER);
+	Menu_ShowItem(m_hContactMenuItems[CMI_GOTOSITEIM], iUserId != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_MARKMESSAGESASREAD], iUserId != VK_FEED_USER);
 	Menu_ShowItem(m_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
 	Menu_ShowItem(m_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && iUserId != VK_FEED_USER && !bIsGroup);
