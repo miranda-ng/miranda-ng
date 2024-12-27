@@ -1,0 +1,758 @@
+import "steammessages_base.proto";
+
+option optimize_for = SPEED;
+option cc_generic_services = false;
+
+message CMsgClientUpdateUserGameInfo {
+	optional fixed64 steamid_idgs = 1;
+	optional fixed64 gameid = 2;
+	optional uint32 game_ip = 3;
+	optional uint32 game_port = 4;
+	optional bytes token = 5;
+}
+
+message CMsgClientRichPresenceUpload {
+	optional bytes rich_presence_kv = 1;
+	repeated fixed64 steamid_broadcast = 2;
+}
+
+message CMsgClientRichPresenceRequest {
+	repeated fixed64 steamid_request = 1;
+}
+
+message CMsgClientRichPresenceInfo {
+	message RichPresence {
+		optional fixed64 steamid_user = 1;
+		optional bytes rich_presence_kv = 2;
+	}
+
+	repeated .CMsgClientRichPresenceInfo.RichPresence rich_presence = 1;
+}
+
+message CMsgClientCheckFileSignature {
+	optional uint32 app_id = 1;
+}
+
+message CMsgClientCheckFileSignatureResponse {
+	optional uint32 app_id = 1;
+	optional uint32 pid = 2;
+	optional uint32 eresult = 3;
+	optional string filename = 4;
+	optional uint32 esignatureresult = 5;
+	optional bytes sha_file = 6;
+	optional bytes signatureheader = 7;
+	optional uint32 filesize = 8;
+	optional uint32 getlasterror = 9;
+	optional uint32 evalvesignaturecheckdetail = 10;
+}
+
+message CMsgClientReadMachineAuth {
+	optional string filename = 1;
+	optional uint32 offset = 2;
+	optional uint32 cubtoread = 3;
+}
+
+message CMsgClientReadMachineAuthResponse {
+	optional string filename = 1;
+	optional uint32 eresult = 2;
+	optional uint32 filesize = 3;
+	optional bytes sha_file = 4;
+	optional uint32 getlasterror = 5;
+	optional uint32 offset = 6;
+	optional uint32 cubread = 7;
+	optional bytes bytes_read = 8;
+	optional string filename_sentry = 9;
+}
+
+message CMsgClientUpdateMachineAuth {
+	optional string filename = 1;
+	optional uint32 offset = 2;
+	optional uint32 cubtowrite = 3;
+	optional bytes bytes = 4;
+	optional uint32 otp_type = 5;
+	optional string otp_identifier = 6;
+	optional bytes otp_sharedsecret = 7;
+	optional uint32 otp_timedrift = 8;
+}
+
+message CMsgClientUpdateMachineAuthResponse {
+	optional string filename = 1;
+	optional uint32 eresult = 2;
+	optional uint32 filesize = 3;
+	optional bytes sha_file = 4;
+	optional uint32 getlasterror = 5;
+	optional uint32 offset = 6;
+	optional uint32 cubwrote = 7;
+	optional int32 otp_type = 8;
+	optional uint32 otp_value = 9;
+	optional string otp_identifier = 10;
+}
+
+message CMsgClientRequestMachineAuth {
+	optional string filename = 1;
+	optional uint32 eresult_sentryfile = 2;
+	optional uint32 filesize = 3;
+	optional bytes sha_sentryfile = 4;
+	optional int32 lock_account_action = 6;
+	optional uint32 otp_type = 7;
+	optional string otp_identifier = 8;
+	optional bytes otp_sharedsecret = 9;
+	optional uint32 otp_value = 10;
+	optional string machine_name = 11;
+	optional string machine_name_userchosen = 12;
+}
+
+message CMsgClientRequestMachineAuthResponse {
+	optional uint32 eresult = 1;
+}
+
+message CMsgClientRegisterKey {
+	optional string key = 1;
+}
+
+message CMsgClientPurchaseResponse {
+	optional int32 eresult = 1 [default = 2];
+	optional int32 purchase_result_details = 2;
+	optional bytes purchase_receipt_info = 3;
+}
+
+message CMsgClientActivateOEMLicense {
+	optional string bios_manufacturer = 1;
+	optional string bios_serialnumber = 2;
+	optional bytes license_file = 3;
+	optional string mainboard_manufacturer = 4;
+	optional string mainboard_product = 5;
+	optional string mainboard_serialnumber = 6;
+}
+
+message CMsgClientRegisterOEMMachine {
+	optional bytes oem_register_file = 1;
+}
+
+message CMsgClientRegisterOEMMachineResponse {
+	optional uint32 eresult = 1;
+}
+
+message CMsgClientPurchaseWithMachineID {
+	optional uint32 package_id = 1;
+	optional bytes machine_info = 2;
+}
+
+message CMsgTrading_InitiateTradeRequest {
+	optional uint32 trade_request_id = 1;
+	optional uint64 other_steamid = 2;
+	optional string other_name = 3;
+}
+
+message CMsgTrading_InitiateTradeResponse {
+	optional uint32 response = 1;
+	optional uint32 trade_request_id = 2;
+	optional uint64 other_steamid = 3;
+	optional uint32 steamguard_required_days = 4;
+	optional uint32 new_device_cooldown_days = 5;
+	optional uint32 default_password_reset_probation_days = 6;
+	optional uint32 password_reset_probation_days = 7;
+	optional uint32 default_email_change_probation_days = 8;
+	optional uint32 email_change_probation_days = 9;
+}
+
+message CMsgTrading_CancelTradeRequest {
+	optional uint64 other_steamid = 1;
+}
+
+message CMsgTrading_StartSession {
+	optional uint64 other_steamid = 1;
+}
+
+message CMsgClientGetCDNAuthToken {
+	optional uint32 depot_id = 1;
+	optional string host_name = 2;
+	optional uint32 app_id = 3;
+}
+
+message CMsgClientGetDepotDecryptionKey {
+	optional uint32 depot_id = 1;
+	optional uint32 app_id = 2;
+}
+
+message CMsgClientGetDepotDecryptionKeyResponse {
+	optional int32 eresult = 1 [default = 2];
+	optional uint32 depot_id = 2;
+	optional bytes depot_encryption_key = 3;
+}
+
+message CMsgClientCheckAppBetaPassword {
+	optional uint32 app_id = 1;
+	optional string betapassword = 2;
+	optional int32 language = 3;
+}
+
+message CMsgClientCheckAppBetaPasswordResponse {
+	message BetaPassword {
+		optional string betaname = 1;
+		optional string betapassword = 2;
+		optional string betadescription = 3;
+	}
+
+	optional int32 eresult = 1 [default = 2];
+	repeated .CMsgClientCheckAppBetaPasswordResponse.BetaPassword betapasswords = 4;
+}
+
+message CMsgClientGetCDNAuthTokenResponse {
+	optional uint32 eresult = 1 [default = 2];
+	optional string token = 2;
+	optional uint32 expiration_time = 3;
+}
+
+message CMsgDownloadRateStatistics {
+	message StatsInfo {
+		optional uint32 source_type = 1;
+		optional uint32 source_id = 2;
+		optional uint32 seconds = 3;
+		optional uint64 bytes = 4;
+		optional string host_name = 5;
+		optional uint64 microseconds = 6;
+		optional bool used_ipv6 = 7;
+		optional bool proxied = 8;
+	}
+
+	optional uint32 cell_id = 1;
+	repeated .CMsgDownloadRateStatistics.StatsInfo stats = 2;
+	optional uint32 throttling_kbps = 3;
+	optional uint32 steam_realm = 4;
+}
+
+message CMsgClientRequestAccountData {
+	optional string account_or_email = 1;
+	optional uint32 action = 2;
+}
+
+message CMsgClientRequestAccountDataResponse {
+	optional uint32 action = 1;
+	optional uint32 eresult = 2;
+	optional string account_name = 3;
+	optional uint32 ct_matches = 4;
+	optional string account_name_suggestion1 = 5;
+	optional string account_name_suggestion2 = 6;
+	optional string account_name_suggestion3 = 7;
+}
+
+message CMsgClientUGSGetGlobalStats {
+	optional uint64 gameid = 1;
+	optional uint32 history_days_requested = 2;
+	optional fixed32 time_last_requested = 3;
+	optional uint32 first_day_cached = 4;
+	optional uint32 days_cached = 5;
+}
+
+message CMsgClientUGSGetGlobalStatsResponse {
+	message Day {
+		message Stat {
+			optional int32 stat_id = 1;
+			optional int64 data = 2;
+		}
+
+		optional uint32 day_id = 1;
+		repeated .CMsgClientUGSGetGlobalStatsResponse.Day.Stat stats = 2;
+	}
+
+	optional int32 eresult = 1 [default = 2];
+	optional fixed32 timestamp = 2;
+	optional int32 day_current = 3;
+	repeated .CMsgClientUGSGetGlobalStatsResponse.Day days = 4;
+}
+
+message CMsgClientRedeemGuestPass {
+	optional fixed64 guest_pass_id = 1;
+}
+
+message CMsgClientRedeemGuestPassResponse {
+	optional uint32 eresult = 1 [default = 2];
+	optional uint32 package_id = 2;
+	optional uint32 must_own_appid = 3;
+}
+
+message CMsgClientGetClanActivityCounts {
+	repeated uint64 steamid_clans = 1;
+}
+
+message CMsgClientGetClanActivityCountsResponse {
+	optional uint32 eresult = 1 [default = 2];
+}
+
+message CMsgClientOGSReportString {
+	optional bool accumulated = 1;
+	optional uint64 sessionid = 2;
+	optional int32 severity = 3;
+	optional string formatter = 4;
+	optional bytes varargs = 5;
+}
+
+message CMsgClientOGSReportBug {
+	optional uint64 sessionid = 1;
+	optional string bugtext = 2;
+	optional bytes screenshot = 3;
+}
+
+message CMsgClientSentLogs {
+}
+
+message CMsgGCClient {
+	optional uint32 appid = 1;
+	optional uint32 msgtype = 2;
+	optional bytes payload = 3;
+	optional fixed64 steamid = 4;
+	optional string gcname = 5;
+	optional uint32 ip = 6;
+}
+
+message CMsgClientRequestFreeLicense {
+	repeated uint32 appids = 2;
+}
+
+message CMsgClientRequestFreeLicenseResponse {
+	optional uint32 eresult = 1 [default = 2];
+	repeated uint32 granted_packageids = 2;
+	repeated uint32 granted_appids = 3;
+}
+
+message CMsgDRMDownloadRequestWithCrashData {
+	optional uint32 download_flags = 1;
+	optional uint32 download_types_known = 2;
+	optional bytes guid_drm = 3;
+	optional bytes guid_split = 4;
+	optional bytes guid_merge = 5;
+	optional string module_name = 6;
+	optional string module_path = 7;
+	optional bytes crash_data = 8;
+}
+
+message CMsgDRMDownloadResponse {
+	optional uint32 eresult = 1 [default = 2];
+	optional uint32 app_id = 2;
+	optional uint32 blob_download_type = 3;
+	optional bytes merge_guid = 4;
+	optional uint32 download_file_dfs_ip = 5;
+	optional uint32 download_file_dfs_port = 6;
+	optional string download_file_url = 7;
+	optional string module_path = 8;
+}
+
+message CMsgDRMFinalResult {
+	optional uint32 eResult = 1 [default = 2];
+	optional uint32 app_id = 2;
+	optional uint32 blob_download_type = 3;
+	optional uint32 error_detail = 4;
+	optional bytes merge_guid = 5;
+	optional uint32 download_file_dfs_ip = 6;
+	optional uint32 download_file_dfs_port = 7;
+	optional string download_file_url = 8;
+}
+
+message CMsgClientDPCheckSpecialSurvey {
+	optional uint32 survey_id = 1;
+}
+
+message CMsgClientDPCheckSpecialSurveyResponse {
+	optional uint32 eResult = 1 [default = 2];
+	optional uint32 state = 2;
+	optional string name = 3;
+	optional string custom_url = 4;
+	optional bool include_software = 5;
+	optional bytes token = 6;
+}
+
+message CMsgClientDPSendSpecialSurveyResponse {
+	optional uint32 survey_id = 1;
+	optional bytes data = 2;
+}
+
+message CMsgClientDPSendSpecialSurveyResponseReply {
+	optional uint32 eResult = 1 [default = 2];
+	optional bytes token = 2;
+}
+
+message CMsgClientRequestForgottenPasswordEmail {
+	optional string account_name = 1;
+	optional string password_tried = 2;
+}
+
+message CMsgClientRequestForgottenPasswordEmailResponse {
+	optional uint32 eResult = 1;
+	optional bool use_secret_question = 2;
+}
+
+message CMsgClientItemAnnouncements {
+	message UnseenItem {
+		optional uint32 appid = 1;
+		optional uint64 context_id = 2;
+		optional uint64 asset_id = 3;
+		optional uint64 amount = 4;
+		optional fixed32 rtime32_gained = 5;
+		optional uint32 source_appid = 6;
+	}
+
+	optional uint32 count_new_items = 1;
+	repeated .CMsgClientItemAnnouncements.UnseenItem unseen_items = 2;
+}
+
+message CMsgClientRequestItemAnnouncements {
+}
+
+message CMsgClientUserNotifications {
+	message Notification {
+		optional uint32 user_notification_type = 1;
+		optional uint32 count = 2;
+	}
+
+	repeated .CMsgClientUserNotifications.Notification notifications = 1;
+}
+
+message CMsgClientCommentNotifications {
+	optional uint32 count_new_comments = 1;
+	optional uint32 count_new_comments_owner = 2;
+	optional uint32 count_new_comments_subscriptions = 3;
+}
+
+message CMsgClientRequestCommentNotifications {
+}
+
+message CMsgClientOfflineMessageNotification {
+	optional uint32 offline_messages = 1;
+	repeated uint32 friends_with_offline_messages = 2;
+}
+
+message CMsgClientRequestOfflineMessageCount {
+}
+
+message CMsgClientChatGetFriendMessageHistory {
+	optional fixed64 steamid = 1;
+}
+
+message CMsgClientChatGetFriendMessageHistoryResponse {
+	message FriendMessage {
+		optional uint32 accountid = 1;
+		optional uint32 timestamp = 2;
+		optional string message = 3;
+		optional bool unread = 4;
+	}
+
+	optional fixed64 steamid = 1;
+	optional uint32 success = 2;
+	repeated .CMsgClientChatGetFriendMessageHistoryResponse.FriendMessage messages = 3;
+}
+
+message CMsgClientChatGetFriendMessageHistoryForOfflineMessages {
+}
+
+message CMsgClientFSGetFriendsSteamLevels {
+	repeated uint32 accountids = 1;
+}
+
+message CMsgClientFSGetFriendsSteamLevelsResponse {
+	message Friend {
+		optional uint32 accountid = 1;
+		optional uint32 level = 2;
+	}
+
+	repeated .CMsgClientFSGetFriendsSteamLevelsResponse.Friend friends = 1;
+}
+
+message CMsgClientEmailAddrInfo {
+	optional string email_address = 1;
+	optional bool email_is_validated = 2;
+	optional bool email_validation_changed = 3;
+	optional bool credential_change_requires_code = 4;
+	optional bool password_or_secretqa_change_requires_code = 5;
+}
+
+message CMsgCREItemVoteSummary {
+	message PublishedFileId {
+		optional fixed64 published_file_id = 1;
+	}
+
+	repeated .CMsgCREItemVoteSummary.PublishedFileId published_file_ids = 1;
+}
+
+message CMsgCREItemVoteSummaryResponse {
+	message ItemVoteSummary {
+		optional fixed64 published_file_id = 1;
+		optional int32 votes_for = 2;
+		optional int32 votes_against = 3;
+		optional int32 reports = 4;
+		optional float score = 5;
+	}
+
+	optional int32 eresult = 1 [default = 2];
+	repeated .CMsgCREItemVoteSummaryResponse.ItemVoteSummary item_vote_summaries = 2;
+}
+
+message CMsgCREUpdateUserPublishedItemVote {
+	optional fixed64 published_file_id = 1;
+	optional bool vote_up = 2;
+}
+
+message CMsgCREUpdateUserPublishedItemVoteResponse {
+	optional int32 eresult = 1 [default = 2];
+}
+
+message CMsgCREGetUserPublishedItemVoteDetails {
+	message PublishedFileId {
+		optional fixed64 published_file_id = 1;
+	}
+
+	repeated .CMsgCREGetUserPublishedItemVoteDetails.PublishedFileId published_file_ids = 1;
+}
+
+message CMsgCREGetUserPublishedItemVoteDetailsResponse {
+	message UserItemVoteDetail {
+		optional fixed64 published_file_id = 1;
+		optional int32 vote = 2 [default = 0];
+	}
+
+	optional int32 eresult = 1 [default = 2];
+	repeated .CMsgCREGetUserPublishedItemVoteDetailsResponse.UserItemVoteDetail user_item_vote_details = 2;
+}
+
+message CMsgFSGetFollowerCount {
+	optional fixed64 steam_id = 1;
+}
+
+message CMsgFSGetFollowerCountResponse {
+	optional int32 eresult = 1 [default = 2];
+	optional int32 count = 2 [default = 0];
+}
+
+message CMsgFSGetIsFollowing {
+	optional fixed64 steam_id = 1;
+}
+
+message CMsgFSGetIsFollowingResponse {
+	optional int32 eresult = 1 [default = 2];
+	optional bool is_following = 2 [default = false];
+}
+
+message CMsgFSEnumerateFollowingList {
+	optional uint32 start_index = 1;
+}
+
+message CMsgFSEnumerateFollowingListResponse {
+	optional int32 eresult = 1 [default = 2];
+	optional int32 total_results = 2;
+	repeated fixed64 steam_ids = 3;
+}
+
+message CMsgDPGetNumberOfCurrentPlayers {
+	optional uint32 appid = 1;
+}
+
+message CMsgDPGetNumberOfCurrentPlayersResponse {
+	optional int32 eresult = 1 [default = 2];
+	optional int32 player_count = 2;
+}
+
+message CMsgClientFriendUserStatusPublished {
+	optional fixed64 friend_steamid = 1;
+	optional uint32 appid = 2;
+	optional string status_text = 3;
+}
+
+message CMsgClientServiceMethodLegacy {
+	optional string method_name = 1;
+	optional bytes serialized_method = 2;
+	optional bool is_notification = 3;
+}
+
+message CMsgClientServiceMethodLegacyResponse {
+	optional string method_name = 1;
+	optional bytes serialized_method_response = 2;
+}
+
+message CMsgClientUIMode {
+	optional uint32 uimode = 1;
+	optional uint32 chat_mode = 2;
+}
+
+message CMsgClientVanityURLChangedNotification {
+	optional string vanity_url = 1;
+}
+
+message CMsgClientAuthorizeLocalDeviceRequest {
+	optional string device_description = 1;
+	optional uint32 owner_account_id = 2;
+	optional uint64 local_device_token = 3;
+}
+
+message CMsgClientAuthorizeLocalDevice {
+	optional int32 eresult = 1 [default = 2];
+	optional uint32 owner_account_id = 2;
+	optional uint64 authed_device_token = 3;
+}
+
+message CMsgClientAuthorizeLocalDeviceNotification {
+	optional int32 eresult = 1 [default = 2];
+	optional uint32 owner_account_id = 2;
+	optional uint64 local_device_token = 3;
+}
+
+message CMsgClientDeauthorizeDeviceRequest {
+	optional uint32 deauthorization_account_id = 1;
+	optional uint64 deauthorization_device_token = 2;
+}
+
+message CMsgClientDeauthorizeDevice {
+	optional int32 eresult = 1 [default = 2];
+	optional uint32 deauthorization_account_id = 2;
+}
+
+message CMsgClientUseLocalDeviceAuthorizations {
+	message DeviceToken {
+		optional uint32 owner_account_id = 1;
+		optional uint64 token_id = 2;
+	}
+
+	repeated uint32 authorization_account_id = 1;
+	repeated .CMsgClientUseLocalDeviceAuthorizations.DeviceToken device_tokens = 2;
+}
+
+message CMsgClientGetAuthorizedDevices {
+}
+
+message CMsgClientGetAuthorizedDevicesResponse {
+	message AuthorizedDevice {
+		optional uint64 auth_device_token = 1;
+		optional string device_name = 2;
+		optional uint32 last_access_time = 3;
+		optional uint32 borrower_id = 4;
+		optional bool is_pending = 5;
+		optional uint32 app_played = 6;
+	}
+
+	optional int32 eresult = 1 [default = 2];
+	repeated .CMsgClientGetAuthorizedDevicesResponse.AuthorizedDevice authorized_device = 2;
+}
+
+message CMsgClientSharedLibraryLockStatus {
+	message LockedLibrary {
+		optional uint32 owner_id = 1;
+		optional uint32 locked_by = 2;
+	}
+
+	repeated .CMsgClientSharedLibraryLockStatus.LockedLibrary locked_library = 1;
+	optional uint32 own_library_locked_by = 2;
+}
+
+message CMsgClientSharedLibraryStopPlaying {
+	message StopApp {
+		optional uint32 app_id = 1;
+		optional uint32 owner_id = 2;
+	}
+
+	optional int32 seconds_left = 1;
+	repeated .CMsgClientSharedLibraryStopPlaying.StopApp stop_apps = 2;
+}
+
+message CMsgClientServiceCall {
+	optional bytes sysid_routing = 1;
+	optional uint32 call_handle = 2;
+	optional uint32 module_crc = 3;
+	optional bytes module_hash = 4;
+	optional uint32 function_id = 5;
+	optional uint32 cub_output_max = 6;
+	optional uint32 flags = 7;
+	optional bytes callparameter = 8;
+	optional bool ping_only = 9;
+	optional uint32 max_outstanding_calls = 10;
+	optional uint32 app_id = 11;
+}
+
+message CMsgClientServiceModule {
+	optional uint32 module_crc = 1;
+	optional bytes module_hash = 2;
+	optional bytes module_content = 3;
+}
+
+message CMsgClientServiceCallResponse {
+	optional bytes sysid_routing = 1;
+	optional uint32 call_handle = 2;
+	optional uint32 module_crc = 3;
+	optional bytes module_hash = 4;
+	optional uint32 ecallresult = 5;
+	optional bytes result_content = 6;
+	optional bytes os_version_info = 7;
+	optional bytes system_info = 8;
+	optional fixed64 load_address = 9;
+	optional bytes exception_record = 10;
+	optional bytes portable_os_version_info = 11;
+	optional bytes portable_system_info = 12;
+	optional bool was_converted = 13;
+	optional uint32 internal_result = 14;
+	optional uint32 current_count = 15;
+	optional uint32 last_call_handle = 16;
+	optional uint32 last_call_module_crc = 17;
+	optional bytes last_call_sysid_routing = 18;
+	optional uint32 last_ecallresult = 19;
+	optional uint32 last_callissue_delta = 20;
+	optional uint32 last_callcomplete_delta = 21;
+}
+
+message CMsgAMUnlockH264 {
+	optional uint32 appid = 1;
+	optional int32 platform = 2;
+	optional int32 reason = 3;
+}
+
+message CMsgAMUnlockH264Response {
+	optional int32 eresult = 1 [default = 2];
+	optional bytes encryption_key = 2;
+}
+
+message CMsgClientPlayingSessionState {
+	optional bool playing_blocked = 2;
+	optional uint32 playing_app = 3;
+}
+
+message CMsgClientKickPlayingSession {
+	optional bool only_stop_game = 1;
+}
+
+message CMsgClientVoiceCallPreAuthorize {
+	optional fixed64 caller_steamid = 1;
+	optional fixed64 receiver_steamid = 2;
+	optional int32 caller_id = 3;
+	optional bool hangup = 4;
+}
+
+message CMsgClientVoiceCallPreAuthorizeResponse {
+	optional fixed64 caller_steamid = 1;
+	optional fixed64 receiver_steamid = 2;
+	optional int32 eresult = 3 [default = 2];
+	optional int32 caller_id = 4;
+}
+
+message CMsgBadgeCraftedNotification {
+	optional uint32 appid = 1;
+	optional uint32 badge_level = 2;
+}
+
+message CMsgClientStartPeerContentServer {
+	optional fixed64 steamid = 1;
+	optional fixed64 client_remote_id = 2;
+	optional uint32 app_id = 3;
+	optional uint32 current_build_id = 4;
+}
+
+message CMsgClientStartPeerContentServerResponse {
+	optional uint32 result = 1;
+	optional uint32 server_port = 2;
+}
+
+message CMsgClientGetPeerContentInfo {
+	optional fixed64 steamid = 1;
+	optional fixed64 client_remote_id = 2;
+}
+
+message CMsgClientGetPeerContentInfoResponse {
+	optional uint32 result = 1;
+	repeated uint32 apps = 2;
+}
