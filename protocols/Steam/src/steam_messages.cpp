@@ -32,8 +32,8 @@ void CSteamProto::OnMessageSent(const CFriendMessagesSendMessageResponse &reply,
 	}
 	else {
 		uint32_t timestamp = (reply.has_server_timestamp) ? reply.server_timestamp : 0;
-		if (timestamp > getDword(tmp.hContact, DB_KEY_LASTMSGTS))
-			setDword(tmp.hContact, DB_KEY_LASTMSGTS, timestamp);
+		if (timestamp > getDword(tmp.hContact, DBKEY_LASTMSG))
+			setDword(tmp.hContact, DBKEY_LASTMSG, timestamp);
 
 		tmp.timestamp = timestamp;
 		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.iMessageId, 0);

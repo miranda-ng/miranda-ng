@@ -51,6 +51,12 @@
     <ClCompile Include="src\protobuf-c\steammessages_clientserver.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_clientserver_2.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_clientserver_appinfo.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -85,12 +91,10 @@
     <ClCompile Include="src\steam_utils.cpp" />
     <ClCompile Include="src\steam_ws.cpp" />
     <ClCompile Include="src\steam_xstatus.cpp" />
-    <ClInclude Include="src\api\app_info.h" />
     <ClInclude Include="src\api\avatar.h" />
     <ClInclude Include="src\api\captcha.h" />
     <ClInclude Include="src\api\enums.h" />
     <ClInclude Include="src\api\friend.h" />
-    <ClInclude Include="src\api\history.h" />
     <ClInclude Include="src\api\pending.h" />
     <ClInclude Include="src\api\search.h" />
     <ClInclude Include="src\api\session.h" />
@@ -102,6 +106,8 @@
     <ClInclude Include="src\protobuf-c\steammessages_base.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_chat.steamclient.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_clientserver.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_clientserver_2.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_clientserver_appinfo.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_login.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_friendmessages.steamclient.pb-c.h" />

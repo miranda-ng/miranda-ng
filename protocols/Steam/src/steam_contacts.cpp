@@ -171,7 +171,7 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 
 			CMStringW message(gameInfo);
 			if (gameId && message.IsEmpty())
-				SendRequest(new GetAppInfoRequest(m_szAccessToken, gameId), &CSteamProto::OnGotAppInfo, (void *)hContact);
+				SendAppInfoRequest(gameId);
 			else {
 				if (!gameId)
 					message.Append(TranslateT(" (Non-Steam)"));

@@ -32,6 +32,20 @@ void CSteamProto::OnGotNotification(const CSteamNotificationNotificationsReceive
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CSteamProto::SendAppInfoRequest(uint32_t appId)
+{
+	CMsgClientPICSProductInfoRequest__AppInfo appInfo;
+	appInfo.appid = appId; appInfo.has_appid = true;
+	auto *pInfo = &appInfo;
+
+	CMsgClientPICSProductInfoRequest request;
+	request.n_apps = 1;
+	request.apps = &pInfo;
+	WSSend(EMsg::ClientPICSProductInfoRequest, request);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSteamProto::SendPersonaStatus(int status)
 {
 	CMsgClientChangeStatus request;

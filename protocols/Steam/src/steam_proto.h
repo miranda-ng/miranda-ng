@@ -11,6 +11,7 @@
 #define STEAM_MODULE       "Steam"
 #define DBKEY_HOSTS_COUNT  "HostsCount"
 #define DBKEY_HOSTS_DATE   "HostsDate"
+#define DBKEY_LASTMSG      "LastMessageTS"
 
 #define DBKEY_CLIENT_ID     "ClientID"
 #define DBKEY_STEAM_ID      "SteamID"
@@ -24,6 +25,7 @@
 
 #define FriendSendMessage                   "FriendMessages.SendMessage#1"
 #define FriendGetActiveSessions             "FriendMessages.GetActiveMessageSessions#1"
+#define FriendGetRecentMessages             "FriendMessages.GetRecentMessages#1"
 #define FriendGetIncomingMessage            "FriendMessagesClient.IncomingMessage#1"
 
 #define NotificationReceived                "SteamNotificationClient.NotificationsReceived#1"
@@ -152,6 +154,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	bool SendRequest(HttpRequest *request, HttpCallback callback, void *param = nullptr);
 	bool SendRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
 
+	void SendAppInfoRequest(uint32_t appId);
 	void SendHeartBeat();
 	void SendLogout();
 	void SendPersonaStatus(int iStatus);
@@ -225,8 +228,11 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnSearchByNameStarted(const MHttpResponse &response, void *arg);
 
 	// history
+	void SendHistoryRequest(uint64_t accountId, uint32_t startTime);
+	void OnGotRecentMessages(const CFriendMessagesGetRecentMessagesResponse &reply, const CMsgProtoBufHeader &hdr);
+
 	void OnGotConversations(const CFriendsMessagesGetActiveMessageSessionsResponse &reply, const CMsgProtoBufHeader &hdr);
-	void OnGotHistoryMessages(const JSONNode &root, void *);
+	void OnGotHistoryMessages(const CMsgClientChatGetFriendMessageHistoryResponse &reply, const CMsgProtoBufHeader &hdr);
 
 	// menus
 	static int hChooserMenu;
