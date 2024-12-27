@@ -12,6 +12,8 @@ MBinBuffer createMachineID(const char *accName);
 
 #define now() time(0)
 
+bool IsNull(const ProtobufCBinaryData &buf);
+
 uint64_t getRandomInt();
 CMStringA protobuf_c_text_to_string(const ProtobufCMessage &msg);
 

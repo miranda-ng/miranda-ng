@@ -91,7 +91,6 @@
     <ClCompile Include="src\steam_utils.cpp" />
     <ClCompile Include="src\steam_ws.cpp" />
     <ClCompile Include="src\steam_xstatus.cpp" />
-    <ClInclude Include="src\api\avatar.h" />
     <ClInclude Include="src\api\captcha.h" />
     <ClInclude Include="src\api\enums.h" />
     <ClInclude Include="src\api\friend.h" />

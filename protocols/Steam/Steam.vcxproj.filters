@@ -128,9 +128,6 @@
     <ClInclude Include="src\api\enums.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\avatar.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\captcha.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>

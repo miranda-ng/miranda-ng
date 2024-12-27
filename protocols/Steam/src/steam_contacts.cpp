@@ -102,10 +102,13 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 
 		// avatar
 		if (F->avatar_hash.len != 0) {
-			CMStringA szHash;
-			szHash.Truncate(int(F->avatar_hash.len) * 2 + 1);
-			bin2hex(F->avatar_hash.data, F->avatar_hash.len, szHash.GetBuffer());
-			CheckAvatarChange(hContact, szHash);
+			if (!IsNull(F->avatar_hash)) {
+				CMStringA szHash;
+				szHash.Truncate(int(F->avatar_hash.len) * 2 + 1);
+				bin2hex(F->avatar_hash.data, F->avatar_hash.len, szHash.GetBuffer());
+				CheckAvatarChange(hContact, szHash);
+			}
+			else CheckAvatarChange(hContact, 0);
 		}
 		else CheckAvatarChange(hContact, 0);
 

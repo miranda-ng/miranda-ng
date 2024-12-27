@@ -54,8 +54,8 @@ INT_PTR CSteamProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
-	ptrA avatarUrl(getStringA(pai->hContact, "AvatarUrl"));
-	if (!avatarUrl)
+	ptrA avatarHash(getStringA(pai->hContact, "AvatarHash"));
+	if (!avatarHash)
 		return GAIR_NOAVATAR;
 
 	if (GetDbAvatarInfo(*pai)) {
@@ -68,7 +68,8 @@ INT_PTR CSteamProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			needLoad = (wParam & GAIF_FORCE) || !fileExist;
 
 		if (needLoad) {
-			SendRequest(new GetAvatarRequest(avatarUrl), &CSteamProto::OnGotAvatar, (void *)pai->hContact);
+			CMStringA szUrl(FORMAT, "https://avatars.steamstatic.com/%s_full.jpg", avatarHash.get());
+			SendRequest(new HttpRequest(REQUEST_GET, szUrl), &CSteamProto::OnGotAvatar, (void *)pai->hContact);
 			return GAIR_WAITFOR;
 		}
 		if (fileExist)

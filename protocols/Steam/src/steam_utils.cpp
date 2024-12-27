@@ -9,6 +9,17 @@ uint64_t getRandomInt()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool IsNull(const ProtobufCBinaryData &buf)
+{
+	for (auto i = 0; i < buf.len; i++)
+		if (buf.data[i] != 0)
+			return false;
+
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MBinBuffer createMachineID(const char *accName)
 {
 	uint8_t hashOut[MIR_SHA1_HASH_SIZE];

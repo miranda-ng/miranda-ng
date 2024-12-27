@@ -75,7 +75,6 @@ extern HANDLE hExtraXStatus;
 #include "steam_proto.h"
 #include "steam_utils.h"
 
-#include "api/avatar.h"
 #include "api/captcha.h"
 #include "api/friend.h"
 #include "api/pending.h"
