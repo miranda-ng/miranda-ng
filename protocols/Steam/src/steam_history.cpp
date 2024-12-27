@@ -22,24 +22,37 @@ void CSteamProto::OnGotRecentMessages(const CFriendMessagesGetRecentMessagesResp
 		if (!hContact)
 			continue;
 
+		MEVENT hEvent;
 		char szMsgId[100];
-		itoa(pMsg->timestamp, szMsgId, 10);
+		if (pMsg->has_timestamp) {
+			itoa(pMsg->timestamp, szMsgId, 10);
+			hEvent = db_event_getById(m_szModuleName, szMsgId);
+		}
+		else hEvent = 0;
 
-		DB::EventInfo dbei(pMsg->has_timestamp ? db_event_getById(m_szModuleName, szMsgId) : 0);
+		DB::EventInfo dbei(hEvent);
 		dbei.flags = DBEF_UTF;
 		if (steamId == m_iSteamId)
 			dbei.flags |= DBEF_SENT;
 		dbei.cbBlob = (int)mir_strlen(pMsg->message);
 		dbei.pBlob = mir_strdup(pMsg->message);
-		dbei.timestamp = pMsg->has_timestamp ? pMsg->timestamp : time(0);
-		dbei.szId = szMsgId;
+		if (pMsg->has_timestamp) {
+			if (getDword(hContact, DBKEY_LASTMSG) < pMsg->timestamp)
+				setDword(hContact, DBKEY_LASTMSG, pMsg->timestamp);
+
+			dbei.szId = szMsgId;
+			dbei.timestamp = pMsg->timestamp;
+		}
+		else dbei.timestamp = time(0);
 
 		if (dbei.getEvent())
-			db_event_edit(dbei.getEvent(), &dbei, true);
+			db_event_edit(hEvent, &dbei, true);
 		else
 			ProtoChainRecvMsg(hContact, dbei);
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CSteamProto::OnGotConversations(const CFriendsMessagesGetActiveMessageSessionsResponse &reply, const CMsgProtoBufHeader &hdr)
 {
@@ -69,13 +82,23 @@ void CSteamProto::OnGotHistoryMessages(const CMsgClientChatGetFriendMessageHisto
 	if (!hContact)
 		return;
 
+	uint32_t iLastMessage = getDword(hContact, DBKEY_LASTMSG);
+
 	for (int i = 0; i < reply.n_messages; i++) {
 		auto *pMsg = reply.messages[i];
 		
+		MEVENT hEvent;
 		char szMsgId[100];
-		itoa(pMsg->timestamp, szMsgId, 10);
 
-		DB::EventInfo dbei(pMsg->has_timestamp ? db_event_getById(m_szModuleName, szMsgId) : 0);
+		if (pMsg->has_timestamp) {
+			if (iLastMessage < pMsg->timestamp)
+				iLastMessage = pMsg->timestamp;
+			itoa(pMsg->timestamp, szMsgId, 10);
+			hEvent = db_event_getById(m_szModuleName, szMsgId);
+		}
+		else hEvent = 0;
+
+		DB::EventInfo dbei(hEvent);
 		dbei.flags = DBEF_UTF;
 		if (pMsg->has_unread && !pMsg->unread)
 			dbei.flags |= DBEF_READ;
@@ -83,12 +106,17 @@ void CSteamProto::OnGotHistoryMessages(const CMsgClientChatGetFriendMessageHisto
 			dbei.flags |= DBEF_SENT;
 		dbei.cbBlob = (int)mir_strlen(pMsg->message);
 		dbei.pBlob = mir_strdup(pMsg->message);
-		dbei.timestamp = pMsg->has_timestamp ? pMsg->timestamp : time(0);
-		dbei.szId = szMsgId;
+		if (pMsg->has_timestamp) {
+			dbei.timestamp = pMsg->timestamp;
+			dbei.szId = szMsgId;
+		}
+		else dbei.timestamp = time(0);
 
 		if (dbei.getEvent())
-			db_event_edit(dbei.getEvent(), &dbei, true);
+			db_event_edit(hEvent, &dbei, true);
 		else
 			ProtoChainRecvMsg(hContact, dbei);
 	}
+
+	setDword(hContact, DBKEY_LASTMSG, iLastMessage);
 }

@@ -41,6 +41,7 @@ void CSteamProto::SendAppInfoRequest(uint32_t appId)
 	CMsgClientPICSProductInfoRequest request;
 	request.n_apps = 1;
 	request.apps = &pInfo;
+	request.has_meta_data_only = request.meta_data_only = true;
 	WSSend(EMsg::ClientPICSProductInfoRequest, request);
 }
 
