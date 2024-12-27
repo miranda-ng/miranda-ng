@@ -7,30 +7,24 @@
 #endif
 
 #include "steammessages_clientserver_2.pb-c.h"
-void   cmsg_client_update_user_game_info__init
-                     (CMsgClientUpdateUserGameInfo         *message)
-{
-  static const CMsgClientUpdateUserGameInfo init_value = CMSG_CLIENT_UPDATE_USER_GAME_INFO__INIT;
-  *message = init_value;
-}
 size_t cmsg_client_update_user_game_info__get_packed_size
                      (const CMsgClientUpdateUserGameInfo *message)
 {
-  assert(message->base.descriptor == &cmsg_client_update_user_game_info__descriptor);
+  assert(message->descriptor == &cmsg_client_update_user_game_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_update_user_game_info__pack
                      (const CMsgClientUpdateUserGameInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_update_user_game_info__descriptor);
+  assert(message->descriptor == &cmsg_client_update_user_game_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_update_user_game_info__pack_to_buffer
                      (const CMsgClientUpdateUserGameInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_update_user_game_info__descriptor);
+  assert(message->descriptor == &cmsg_client_update_user_game_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientUpdateUserGameInfo *
@@ -49,33 +43,28 @@ void   cmsg_client_update_user_game_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_update_user_game_info__descriptor);
+  assert(message->descriptor == &cmsg_client_update_user_game_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_rich_presence_upload__init
-                     (CMsgClientRichPresenceUpload         *message)
-{
-  static const CMsgClientRichPresenceUpload init_value = CMSG_CLIENT_RICH_PRESENCE_UPLOAD__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_rich_presence_upload__get_packed_size
                      (const CMsgClientRichPresenceUpload *message)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_upload__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_upload__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_rich_presence_upload__pack
                      (const CMsgClientRichPresenceUpload *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_upload__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_upload__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_rich_presence_upload__pack_to_buffer
                      (const CMsgClientRichPresenceUpload *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_upload__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_upload__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRichPresenceUpload *
@@ -94,33 +83,28 @@ void   cmsg_client_rich_presence_upload__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_rich_presence_upload__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_upload__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_rich_presence_request__init
-                     (CMsgClientRichPresenceRequest         *message)
-{
-  static const CMsgClientRichPresenceRequest init_value = CMSG_CLIENT_RICH_PRESENCE_REQUEST__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_rich_presence_request__get_packed_size
                      (const CMsgClientRichPresenceRequest *message)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_request__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_request__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_rich_presence_request__pack
                      (const CMsgClientRichPresenceRequest *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_request__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_request__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_rich_presence_request__pack_to_buffer
                      (const CMsgClientRichPresenceRequest *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_request__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_request__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRichPresenceRequest *
@@ -139,39 +123,28 @@ void   cmsg_client_rich_presence_request__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_rich_presence_request__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_request__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_rich_presence_info__rich_presence__init
-                     (CMsgClientRichPresenceInfo__RichPresence         *message)
-{
-  static const CMsgClientRichPresenceInfo__RichPresence init_value = CMSG_CLIENT_RICH_PRESENCE_INFO__RICH_PRESENCE__INIT;
-  *message = init_value;
-}
-void   cmsg_client_rich_presence_info__init
-                     (CMsgClientRichPresenceInfo         *message)
-{
-  static const CMsgClientRichPresenceInfo init_value = CMSG_CLIENT_RICH_PRESENCE_INFO__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_rich_presence_info__get_packed_size
                      (const CMsgClientRichPresenceInfo *message)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_info__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_rich_presence_info__pack
                      (const CMsgClientRichPresenceInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_info__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_rich_presence_info__pack_to_buffer
                      (const CMsgClientRichPresenceInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_rich_presence_info__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRichPresenceInfo *
@@ -190,33 +163,28 @@ void   cmsg_client_rich_presence_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_rich_presence_info__descriptor);
+  assert(message->descriptor == &cmsg_client_rich_presence_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_check_file_signature__init
-                     (CMsgClientCheckFileSignature         *message)
-{
-  static const CMsgClientCheckFileSignature init_value = CMSG_CLIENT_CHECK_FILE_SIGNATURE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_check_file_signature__get_packed_size
                      (const CMsgClientCheckFileSignature *message)
 {
-  assert(message->base.descriptor == &cmsg_client_check_file_signature__descriptor);
+  assert(message->descriptor == &cmsg_client_check_file_signature__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_check_file_signature__pack
                      (const CMsgClientCheckFileSignature *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_check_file_signature__descriptor);
+  assert(message->descriptor == &cmsg_client_check_file_signature__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_check_file_signature__pack_to_buffer
                      (const CMsgClientCheckFileSignature *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_check_file_signature__descriptor);
+  assert(message->descriptor == &cmsg_client_check_file_signature__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientCheckFileSignature *
@@ -235,33 +203,28 @@ void   cmsg_client_check_file_signature__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_check_file_signature__descriptor);
+  assert(message->descriptor == &cmsg_client_check_file_signature__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_check_file_signature_response__init
-                     (CMsgClientCheckFileSignatureResponse         *message)
-{
-  static const CMsgClientCheckFileSignatureResponse init_value = CMSG_CLIENT_CHECK_FILE_SIGNATURE_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_check_file_signature_response__get_packed_size
                      (const CMsgClientCheckFileSignatureResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_check_file_signature_response__descriptor);
+  assert(message->descriptor == &cmsg_client_check_file_signature_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_check_file_signature_response__pack
                      (const CMsgClientCheckFileSignatureResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_check_file_signature_response__descriptor);
+  assert(message->descriptor == &cmsg_client_check_file_signature_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_check_file_signature_response__pack_to_buffer
                      (const CMsgClientCheckFileSignatureResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_check_file_signature_response__descriptor);
+  assert(message->descriptor == &cmsg_client_check_file_signature_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientCheckFileSignatureResponse *
@@ -280,33 +243,28 @@ void   cmsg_client_check_file_signature_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_check_file_signature_response__descriptor);
+  assert(message->descriptor == &cmsg_client_check_file_signature_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_read_machine_auth__init
-                     (CMsgClientReadMachineAuth         *message)
-{
-  static const CMsgClientReadMachineAuth init_value = CMSG_CLIENT_READ_MACHINE_AUTH__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_read_machine_auth__get_packed_size
                      (const CMsgClientReadMachineAuth *message)
 {
-  assert(message->base.descriptor == &cmsg_client_read_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_read_machine_auth__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_read_machine_auth__pack
                      (const CMsgClientReadMachineAuth *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_read_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_read_machine_auth__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_read_machine_auth__pack_to_buffer
                      (const CMsgClientReadMachineAuth *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_read_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_read_machine_auth__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientReadMachineAuth *
@@ -325,33 +283,28 @@ void   cmsg_client_read_machine_auth__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_read_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_read_machine_auth__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_read_machine_auth_response__init
-                     (CMsgClientReadMachineAuthResponse         *message)
-{
-  static const CMsgClientReadMachineAuthResponse init_value = CMSG_CLIENT_READ_MACHINE_AUTH_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_read_machine_auth_response__get_packed_size
                      (const CMsgClientReadMachineAuthResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_read_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_read_machine_auth_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_read_machine_auth_response__pack
                      (const CMsgClientReadMachineAuthResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_read_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_read_machine_auth_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_read_machine_auth_response__pack_to_buffer
                      (const CMsgClientReadMachineAuthResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_read_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_read_machine_auth_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientReadMachineAuthResponse *
@@ -370,33 +323,28 @@ void   cmsg_client_read_machine_auth_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_read_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_read_machine_auth_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_update_machine_auth__init
-                     (CMsgClientUpdateMachineAuth         *message)
-{
-  static const CMsgClientUpdateMachineAuth init_value = CMSG_CLIENT_UPDATE_MACHINE_AUTH__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_update_machine_auth__get_packed_size
                      (const CMsgClientUpdateMachineAuth *message)
 {
-  assert(message->base.descriptor == &cmsg_client_update_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_update_machine_auth__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_update_machine_auth__pack
                      (const CMsgClientUpdateMachineAuth *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_update_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_update_machine_auth__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_update_machine_auth__pack_to_buffer
                      (const CMsgClientUpdateMachineAuth *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_update_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_update_machine_auth__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientUpdateMachineAuth *
@@ -415,33 +363,28 @@ void   cmsg_client_update_machine_auth__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_update_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_update_machine_auth__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_update_machine_auth_response__init
-                     (CMsgClientUpdateMachineAuthResponse         *message)
-{
-  static const CMsgClientUpdateMachineAuthResponse init_value = CMSG_CLIENT_UPDATE_MACHINE_AUTH_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_update_machine_auth_response__get_packed_size
                      (const CMsgClientUpdateMachineAuthResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_update_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_update_machine_auth_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_update_machine_auth_response__pack
                      (const CMsgClientUpdateMachineAuthResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_update_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_update_machine_auth_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_update_machine_auth_response__pack_to_buffer
                      (const CMsgClientUpdateMachineAuthResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_update_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_update_machine_auth_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientUpdateMachineAuthResponse *
@@ -460,33 +403,28 @@ void   cmsg_client_update_machine_auth_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_update_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_update_machine_auth_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_machine_auth__init
-                     (CMsgClientRequestMachineAuth         *message)
-{
-  static const CMsgClientRequestMachineAuth init_value = CMSG_CLIENT_REQUEST_MACHINE_AUTH__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_machine_auth__get_packed_size
                      (const CMsgClientRequestMachineAuth *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_request_machine_auth__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_machine_auth__pack
                      (const CMsgClientRequestMachineAuth *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_request_machine_auth__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_machine_auth__pack_to_buffer
                      (const CMsgClientRequestMachineAuth *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_request_machine_auth__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestMachineAuth *
@@ -505,33 +443,28 @@ void   cmsg_client_request_machine_auth__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_machine_auth__descriptor);
+  assert(message->descriptor == &cmsg_client_request_machine_auth__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_machine_auth_response__init
-                     (CMsgClientRequestMachineAuthResponse         *message)
-{
-  static const CMsgClientRequestMachineAuthResponse init_value = CMSG_CLIENT_REQUEST_MACHINE_AUTH_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_machine_auth_response__get_packed_size
                      (const CMsgClientRequestMachineAuthResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_machine_auth_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_machine_auth_response__pack
                      (const CMsgClientRequestMachineAuthResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_machine_auth_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_machine_auth_response__pack_to_buffer
                      (const CMsgClientRequestMachineAuthResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_machine_auth_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestMachineAuthResponse *
@@ -550,33 +483,28 @@ void   cmsg_client_request_machine_auth_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_machine_auth_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_machine_auth_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_register_key__init
-                     (CMsgClientRegisterKey         *message)
-{
-  static const CMsgClientRegisterKey init_value = CMSG_CLIENT_REGISTER_KEY__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_register_key__get_packed_size
                      (const CMsgClientRegisterKey *message)
 {
-  assert(message->base.descriptor == &cmsg_client_register_key__descriptor);
+  assert(message->descriptor == &cmsg_client_register_key__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_register_key__pack
                      (const CMsgClientRegisterKey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_register_key__descriptor);
+  assert(message->descriptor == &cmsg_client_register_key__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_register_key__pack_to_buffer
                      (const CMsgClientRegisterKey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_register_key__descriptor);
+  assert(message->descriptor == &cmsg_client_register_key__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRegisterKey *
@@ -595,33 +523,28 @@ void   cmsg_client_register_key__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_register_key__descriptor);
+  assert(message->descriptor == &cmsg_client_register_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_purchase_response__init
-                     (CMsgClientPurchaseResponse         *message)
-{
-  static const CMsgClientPurchaseResponse init_value = CMSG_CLIENT_PURCHASE_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_purchase_response__get_packed_size
                      (const CMsgClientPurchaseResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_purchase_response__descriptor);
+  assert(message->descriptor == &cmsg_client_purchase_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_purchase_response__pack
                      (const CMsgClientPurchaseResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_purchase_response__descriptor);
+  assert(message->descriptor == &cmsg_client_purchase_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_purchase_response__pack_to_buffer
                      (const CMsgClientPurchaseResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_purchase_response__descriptor);
+  assert(message->descriptor == &cmsg_client_purchase_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientPurchaseResponse *
@@ -640,33 +563,28 @@ void   cmsg_client_purchase_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_purchase_response__descriptor);
+  assert(message->descriptor == &cmsg_client_purchase_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_activate_oemlicense__init
-                     (CMsgClientActivateOEMLicense         *message)
-{
-  static const CMsgClientActivateOEMLicense init_value = CMSG_CLIENT_ACTIVATE_OEMLICENSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_activate_oemlicense__get_packed_size
                      (const CMsgClientActivateOEMLicense *message)
 {
-  assert(message->base.descriptor == &cmsg_client_activate_oemlicense__descriptor);
+  assert(message->descriptor == &cmsg_client_activate_oemlicense__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_activate_oemlicense__pack
                      (const CMsgClientActivateOEMLicense *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_activate_oemlicense__descriptor);
+  assert(message->descriptor == &cmsg_client_activate_oemlicense__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_activate_oemlicense__pack_to_buffer
                      (const CMsgClientActivateOEMLicense *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_activate_oemlicense__descriptor);
+  assert(message->descriptor == &cmsg_client_activate_oemlicense__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientActivateOEMLicense *
@@ -685,33 +603,28 @@ void   cmsg_client_activate_oemlicense__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_activate_oemlicense__descriptor);
+  assert(message->descriptor == &cmsg_client_activate_oemlicense__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_register_oemmachine__init
-                     (CMsgClientRegisterOEMMachine         *message)
-{
-  static const CMsgClientRegisterOEMMachine init_value = CMSG_CLIENT_REGISTER_OEMMACHINE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_register_oemmachine__get_packed_size
                      (const CMsgClientRegisterOEMMachine *message)
 {
-  assert(message->base.descriptor == &cmsg_client_register_oemmachine__descriptor);
+  assert(message->descriptor == &cmsg_client_register_oemmachine__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_register_oemmachine__pack
                      (const CMsgClientRegisterOEMMachine *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_register_oemmachine__descriptor);
+  assert(message->descriptor == &cmsg_client_register_oemmachine__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_register_oemmachine__pack_to_buffer
                      (const CMsgClientRegisterOEMMachine *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_register_oemmachine__descriptor);
+  assert(message->descriptor == &cmsg_client_register_oemmachine__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRegisterOEMMachine *
@@ -730,33 +643,28 @@ void   cmsg_client_register_oemmachine__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_register_oemmachine__descriptor);
+  assert(message->descriptor == &cmsg_client_register_oemmachine__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_register_oemmachine_response__init
-                     (CMsgClientRegisterOEMMachineResponse         *message)
-{
-  static const CMsgClientRegisterOEMMachineResponse init_value = CMSG_CLIENT_REGISTER_OEMMACHINE_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_register_oemmachine_response__get_packed_size
                      (const CMsgClientRegisterOEMMachineResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_register_oemmachine_response__descriptor);
+  assert(message->descriptor == &cmsg_client_register_oemmachine_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_register_oemmachine_response__pack
                      (const CMsgClientRegisterOEMMachineResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_register_oemmachine_response__descriptor);
+  assert(message->descriptor == &cmsg_client_register_oemmachine_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_register_oemmachine_response__pack_to_buffer
                      (const CMsgClientRegisterOEMMachineResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_register_oemmachine_response__descriptor);
+  assert(message->descriptor == &cmsg_client_register_oemmachine_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRegisterOEMMachineResponse *
@@ -775,33 +683,28 @@ void   cmsg_client_register_oemmachine_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_register_oemmachine_response__descriptor);
+  assert(message->descriptor == &cmsg_client_register_oemmachine_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_purchase_with_machine_id__init
-                     (CMsgClientPurchaseWithMachineID         *message)
-{
-  static const CMsgClientPurchaseWithMachineID init_value = CMSG_CLIENT_PURCHASE_WITH_MACHINE_ID__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_purchase_with_machine_id__get_packed_size
                      (const CMsgClientPurchaseWithMachineID *message)
 {
-  assert(message->base.descriptor == &cmsg_client_purchase_with_machine_id__descriptor);
+  assert(message->descriptor == &cmsg_client_purchase_with_machine_id__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_purchase_with_machine_id__pack
                      (const CMsgClientPurchaseWithMachineID *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_purchase_with_machine_id__descriptor);
+  assert(message->descriptor == &cmsg_client_purchase_with_machine_id__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_purchase_with_machine_id__pack_to_buffer
                      (const CMsgClientPurchaseWithMachineID *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_purchase_with_machine_id__descriptor);
+  assert(message->descriptor == &cmsg_client_purchase_with_machine_id__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientPurchaseWithMachineID *
@@ -820,33 +723,28 @@ void   cmsg_client_purchase_with_machine_id__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_purchase_with_machine_id__descriptor);
+  assert(message->descriptor == &cmsg_client_purchase_with_machine_id__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_trading__initiate_trade_request__init
-                     (CMsgTradingInitiateTradeRequest         *message)
-{
-  static const CMsgTradingInitiateTradeRequest init_value = CMSG_TRADING__INITIATE_TRADE_REQUEST__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_trading__initiate_trade_request__get_packed_size
                      (const CMsgTradingInitiateTradeRequest *message)
 {
-  assert(message->base.descriptor == &cmsg_trading__initiate_trade_request__descriptor);
+  assert(message->descriptor == &cmsg_trading__initiate_trade_request__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_trading__initiate_trade_request__pack
                      (const CMsgTradingInitiateTradeRequest *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_trading__initiate_trade_request__descriptor);
+  assert(message->descriptor == &cmsg_trading__initiate_trade_request__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_trading__initiate_trade_request__pack_to_buffer
                      (const CMsgTradingInitiateTradeRequest *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_trading__initiate_trade_request__descriptor);
+  assert(message->descriptor == &cmsg_trading__initiate_trade_request__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgTradingInitiateTradeRequest *
@@ -865,33 +763,28 @@ void   cmsg_trading__initiate_trade_request__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_trading__initiate_trade_request__descriptor);
+  assert(message->descriptor == &cmsg_trading__initiate_trade_request__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_trading__initiate_trade_response__init
-                     (CMsgTradingInitiateTradeResponse         *message)
-{
-  static const CMsgTradingInitiateTradeResponse init_value = CMSG_TRADING__INITIATE_TRADE_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_trading__initiate_trade_response__get_packed_size
                      (const CMsgTradingInitiateTradeResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_trading__initiate_trade_response__descriptor);
+  assert(message->descriptor == &cmsg_trading__initiate_trade_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_trading__initiate_trade_response__pack
                      (const CMsgTradingInitiateTradeResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_trading__initiate_trade_response__descriptor);
+  assert(message->descriptor == &cmsg_trading__initiate_trade_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_trading__initiate_trade_response__pack_to_buffer
                      (const CMsgTradingInitiateTradeResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_trading__initiate_trade_response__descriptor);
+  assert(message->descriptor == &cmsg_trading__initiate_trade_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgTradingInitiateTradeResponse *
@@ -910,33 +803,28 @@ void   cmsg_trading__initiate_trade_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_trading__initiate_trade_response__descriptor);
+  assert(message->descriptor == &cmsg_trading__initiate_trade_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_trading__cancel_trade_request__init
-                     (CMsgTradingCancelTradeRequest         *message)
-{
-  static const CMsgTradingCancelTradeRequest init_value = CMSG_TRADING__CANCEL_TRADE_REQUEST__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_trading__cancel_trade_request__get_packed_size
                      (const CMsgTradingCancelTradeRequest *message)
 {
-  assert(message->base.descriptor == &cmsg_trading__cancel_trade_request__descriptor);
+  assert(message->descriptor == &cmsg_trading__cancel_trade_request__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_trading__cancel_trade_request__pack
                      (const CMsgTradingCancelTradeRequest *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_trading__cancel_trade_request__descriptor);
+  assert(message->descriptor == &cmsg_trading__cancel_trade_request__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_trading__cancel_trade_request__pack_to_buffer
                      (const CMsgTradingCancelTradeRequest *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_trading__cancel_trade_request__descriptor);
+  assert(message->descriptor == &cmsg_trading__cancel_trade_request__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgTradingCancelTradeRequest *
@@ -955,33 +843,28 @@ void   cmsg_trading__cancel_trade_request__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_trading__cancel_trade_request__descriptor);
+  assert(message->descriptor == &cmsg_trading__cancel_trade_request__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_trading__start_session__init
-                     (CMsgTradingStartSession         *message)
-{
-  static const CMsgTradingStartSession init_value = CMSG_TRADING__START_SESSION__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_trading__start_session__get_packed_size
                      (const CMsgTradingStartSession *message)
 {
-  assert(message->base.descriptor == &cmsg_trading__start_session__descriptor);
+  assert(message->descriptor == &cmsg_trading__start_session__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_trading__start_session__pack
                      (const CMsgTradingStartSession *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_trading__start_session__descriptor);
+  assert(message->descriptor == &cmsg_trading__start_session__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_trading__start_session__pack_to_buffer
                      (const CMsgTradingStartSession *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_trading__start_session__descriptor);
+  assert(message->descriptor == &cmsg_trading__start_session__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgTradingStartSession *
@@ -1000,33 +883,28 @@ void   cmsg_trading__start_session__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_trading__start_session__descriptor);
+  assert(message->descriptor == &cmsg_trading__start_session__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_cdnauth_token__init
-                     (CMsgClientGetCDNAuthToken         *message)
-{
-  static const CMsgClientGetCDNAuthToken init_value = CMSG_CLIENT_GET_CDNAUTH_TOKEN__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_cdnauth_token__get_packed_size
                      (const CMsgClientGetCDNAuthToken *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_cdnauth_token__descriptor);
+  assert(message->descriptor == &cmsg_client_get_cdnauth_token__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_cdnauth_token__pack
                      (const CMsgClientGetCDNAuthToken *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_cdnauth_token__descriptor);
+  assert(message->descriptor == &cmsg_client_get_cdnauth_token__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_cdnauth_token__pack_to_buffer
                      (const CMsgClientGetCDNAuthToken *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_cdnauth_token__descriptor);
+  assert(message->descriptor == &cmsg_client_get_cdnauth_token__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetCDNAuthToken *
@@ -1045,33 +923,28 @@ void   cmsg_client_get_cdnauth_token__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_cdnauth_token__descriptor);
+  assert(message->descriptor == &cmsg_client_get_cdnauth_token__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_depot_decryption_key__init
-                     (CMsgClientGetDepotDecryptionKey         *message)
-{
-  static const CMsgClientGetDepotDecryptionKey init_value = CMSG_CLIENT_GET_DEPOT_DECRYPTION_KEY__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_depot_decryption_key__get_packed_size
                      (const CMsgClientGetDepotDecryptionKey *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_depot_decryption_key__descriptor);
+  assert(message->descriptor == &cmsg_client_get_depot_decryption_key__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_depot_decryption_key__pack
                      (const CMsgClientGetDepotDecryptionKey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_depot_decryption_key__descriptor);
+  assert(message->descriptor == &cmsg_client_get_depot_decryption_key__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_depot_decryption_key__pack_to_buffer
                      (const CMsgClientGetDepotDecryptionKey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_depot_decryption_key__descriptor);
+  assert(message->descriptor == &cmsg_client_get_depot_decryption_key__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetDepotDecryptionKey *
@@ -1090,33 +963,28 @@ void   cmsg_client_get_depot_decryption_key__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_depot_decryption_key__descriptor);
+  assert(message->descriptor == &cmsg_client_get_depot_decryption_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_depot_decryption_key_response__init
-                     (CMsgClientGetDepotDecryptionKeyResponse         *message)
-{
-  static const CMsgClientGetDepotDecryptionKeyResponse init_value = CMSG_CLIENT_GET_DEPOT_DECRYPTION_KEY_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_depot_decryption_key_response__get_packed_size
                      (const CMsgClientGetDepotDecryptionKeyResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_depot_decryption_key_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_depot_decryption_key_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_depot_decryption_key_response__pack
                      (const CMsgClientGetDepotDecryptionKeyResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_depot_decryption_key_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_depot_decryption_key_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_depot_decryption_key_response__pack_to_buffer
                      (const CMsgClientGetDepotDecryptionKeyResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_depot_decryption_key_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_depot_decryption_key_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetDepotDecryptionKeyResponse *
@@ -1135,33 +1003,28 @@ void   cmsg_client_get_depot_decryption_key_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_depot_decryption_key_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_depot_decryption_key_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_check_app_beta_password__init
-                     (CMsgClientCheckAppBetaPassword         *message)
-{
-  static const CMsgClientCheckAppBetaPassword init_value = CMSG_CLIENT_CHECK_APP_BETA_PASSWORD__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_check_app_beta_password__get_packed_size
                      (const CMsgClientCheckAppBetaPassword *message)
 {
-  assert(message->base.descriptor == &cmsg_client_check_app_beta_password__descriptor);
+  assert(message->descriptor == &cmsg_client_check_app_beta_password__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_check_app_beta_password__pack
                      (const CMsgClientCheckAppBetaPassword *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_check_app_beta_password__descriptor);
+  assert(message->descriptor == &cmsg_client_check_app_beta_password__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_check_app_beta_password__pack_to_buffer
                      (const CMsgClientCheckAppBetaPassword *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_check_app_beta_password__descriptor);
+  assert(message->descriptor == &cmsg_client_check_app_beta_password__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientCheckAppBetaPassword *
@@ -1180,39 +1043,28 @@ void   cmsg_client_check_app_beta_password__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_check_app_beta_password__descriptor);
+  assert(message->descriptor == &cmsg_client_check_app_beta_password__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_check_app_beta_password_response__beta_password__init
-                     (CMsgClientCheckAppBetaPasswordResponse__BetaPassword         *message)
-{
-  static const CMsgClientCheckAppBetaPasswordResponse__BetaPassword init_value = CMSG_CLIENT_CHECK_APP_BETA_PASSWORD_RESPONSE__BETA_PASSWORD__INIT;
-  *message = init_value;
-}
-void   cmsg_client_check_app_beta_password_response__init
-                     (CMsgClientCheckAppBetaPasswordResponse         *message)
-{
-  static const CMsgClientCheckAppBetaPasswordResponse init_value = CMSG_CLIENT_CHECK_APP_BETA_PASSWORD_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_check_app_beta_password_response__get_packed_size
                      (const CMsgClientCheckAppBetaPasswordResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_check_app_beta_password_response__descriptor);
+  assert(message->descriptor == &cmsg_client_check_app_beta_password_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_check_app_beta_password_response__pack
                      (const CMsgClientCheckAppBetaPasswordResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_check_app_beta_password_response__descriptor);
+  assert(message->descriptor == &cmsg_client_check_app_beta_password_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_check_app_beta_password_response__pack_to_buffer
                      (const CMsgClientCheckAppBetaPasswordResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_check_app_beta_password_response__descriptor);
+  assert(message->descriptor == &cmsg_client_check_app_beta_password_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientCheckAppBetaPasswordResponse *
@@ -1231,33 +1083,28 @@ void   cmsg_client_check_app_beta_password_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_check_app_beta_password_response__descriptor);
+  assert(message->descriptor == &cmsg_client_check_app_beta_password_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_cdnauth_token_response__init
-                     (CMsgClientGetCDNAuthTokenResponse         *message)
-{
-  static const CMsgClientGetCDNAuthTokenResponse init_value = CMSG_CLIENT_GET_CDNAUTH_TOKEN_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_cdnauth_token_response__get_packed_size
                      (const CMsgClientGetCDNAuthTokenResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_cdnauth_token_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_cdnauth_token_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_cdnauth_token_response__pack
                      (const CMsgClientGetCDNAuthTokenResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_cdnauth_token_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_cdnauth_token_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_cdnauth_token_response__pack_to_buffer
                      (const CMsgClientGetCDNAuthTokenResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_cdnauth_token_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_cdnauth_token_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetCDNAuthTokenResponse *
@@ -1276,39 +1123,28 @@ void   cmsg_client_get_cdnauth_token_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_cdnauth_token_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_cdnauth_token_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_download_rate_statistics__stats_info__init
-                     (CMsgDownloadRateStatistics__StatsInfo         *message)
-{
-  static const CMsgDownloadRateStatistics__StatsInfo init_value = CMSG_DOWNLOAD_RATE_STATISTICS__STATS_INFO__INIT;
-  *message = init_value;
-}
-void   cmsg_download_rate_statistics__init
-                     (CMsgDownloadRateStatistics         *message)
-{
-  static const CMsgDownloadRateStatistics init_value = CMSG_DOWNLOAD_RATE_STATISTICS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_download_rate_statistics__get_packed_size
                      (const CMsgDownloadRateStatistics *message)
 {
-  assert(message->base.descriptor == &cmsg_download_rate_statistics__descriptor);
+  assert(message->descriptor == &cmsg_download_rate_statistics__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_download_rate_statistics__pack
                      (const CMsgDownloadRateStatistics *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_download_rate_statistics__descriptor);
+  assert(message->descriptor == &cmsg_download_rate_statistics__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_download_rate_statistics__pack_to_buffer
                      (const CMsgDownloadRateStatistics *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_download_rate_statistics__descriptor);
+  assert(message->descriptor == &cmsg_download_rate_statistics__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgDownloadRateStatistics *
@@ -1327,33 +1163,28 @@ void   cmsg_download_rate_statistics__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_download_rate_statistics__descriptor);
+  assert(message->descriptor == &cmsg_download_rate_statistics__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_account_data__init
-                     (CMsgClientRequestAccountData         *message)
-{
-  static const CMsgClientRequestAccountData init_value = CMSG_CLIENT_REQUEST_ACCOUNT_DATA__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_account_data__get_packed_size
                      (const CMsgClientRequestAccountData *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_account_data__descriptor);
+  assert(message->descriptor == &cmsg_client_request_account_data__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_account_data__pack
                      (const CMsgClientRequestAccountData *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_account_data__descriptor);
+  assert(message->descriptor == &cmsg_client_request_account_data__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_account_data__pack_to_buffer
                      (const CMsgClientRequestAccountData *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_account_data__descriptor);
+  assert(message->descriptor == &cmsg_client_request_account_data__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestAccountData *
@@ -1372,33 +1203,28 @@ void   cmsg_client_request_account_data__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_account_data__descriptor);
+  assert(message->descriptor == &cmsg_client_request_account_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_account_data_response__init
-                     (CMsgClientRequestAccountDataResponse         *message)
-{
-  static const CMsgClientRequestAccountDataResponse init_value = CMSG_CLIENT_REQUEST_ACCOUNT_DATA_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_account_data_response__get_packed_size
                      (const CMsgClientRequestAccountDataResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_account_data_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_account_data_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_account_data_response__pack
                      (const CMsgClientRequestAccountDataResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_account_data_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_account_data_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_account_data_response__pack_to_buffer
                      (const CMsgClientRequestAccountDataResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_account_data_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_account_data_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestAccountDataResponse *
@@ -1417,33 +1243,28 @@ void   cmsg_client_request_account_data_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_account_data_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_account_data_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_ugsget_global_stats__init
-                     (CMsgClientUGSGetGlobalStats         *message)
-{
-  static const CMsgClientUGSGetGlobalStats init_value = CMSG_CLIENT_UGSGET_GLOBAL_STATS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_ugsget_global_stats__get_packed_size
                      (const CMsgClientUGSGetGlobalStats *message)
 {
-  assert(message->base.descriptor == &cmsg_client_ugsget_global_stats__descriptor);
+  assert(message->descriptor == &cmsg_client_ugsget_global_stats__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_ugsget_global_stats__pack
                      (const CMsgClientUGSGetGlobalStats *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_ugsget_global_stats__descriptor);
+  assert(message->descriptor == &cmsg_client_ugsget_global_stats__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_ugsget_global_stats__pack_to_buffer
                      (const CMsgClientUGSGetGlobalStats *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_ugsget_global_stats__descriptor);
+  assert(message->descriptor == &cmsg_client_ugsget_global_stats__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientUGSGetGlobalStats *
@@ -1462,45 +1283,28 @@ void   cmsg_client_ugsget_global_stats__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_ugsget_global_stats__descriptor);
+  assert(message->descriptor == &cmsg_client_ugsget_global_stats__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_ugsget_global_stats_response__day__stat__init
-                     (CMsgClientUGSGetGlobalStatsResponse__Day__Stat         *message)
-{
-  static const CMsgClientUGSGetGlobalStatsResponse__Day__Stat init_value = CMSG_CLIENT_UGSGET_GLOBAL_STATS_RESPONSE__DAY__STAT__INIT;
-  *message = init_value;
-}
-void   cmsg_client_ugsget_global_stats_response__day__init
-                     (CMsgClientUGSGetGlobalStatsResponse__Day         *message)
-{
-  static const CMsgClientUGSGetGlobalStatsResponse__Day init_value = CMSG_CLIENT_UGSGET_GLOBAL_STATS_RESPONSE__DAY__INIT;
-  *message = init_value;
-}
-void   cmsg_client_ugsget_global_stats_response__init
-                     (CMsgClientUGSGetGlobalStatsResponse         *message)
-{
-  static const CMsgClientUGSGetGlobalStatsResponse init_value = CMSG_CLIENT_UGSGET_GLOBAL_STATS_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_ugsget_global_stats_response__get_packed_size
                      (const CMsgClientUGSGetGlobalStatsResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_ugsget_global_stats_response__descriptor);
+  assert(message->descriptor == &cmsg_client_ugsget_global_stats_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_ugsget_global_stats_response__pack
                      (const CMsgClientUGSGetGlobalStatsResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_ugsget_global_stats_response__descriptor);
+  assert(message->descriptor == &cmsg_client_ugsget_global_stats_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_ugsget_global_stats_response__pack_to_buffer
                      (const CMsgClientUGSGetGlobalStatsResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_ugsget_global_stats_response__descriptor);
+  assert(message->descriptor == &cmsg_client_ugsget_global_stats_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientUGSGetGlobalStatsResponse *
@@ -1519,33 +1323,28 @@ void   cmsg_client_ugsget_global_stats_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_ugsget_global_stats_response__descriptor);
+  assert(message->descriptor == &cmsg_client_ugsget_global_stats_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_redeem_guest_pass__init
-                     (CMsgClientRedeemGuestPass         *message)
-{
-  static const CMsgClientRedeemGuestPass init_value = CMSG_CLIENT_REDEEM_GUEST_PASS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_redeem_guest_pass__get_packed_size
                      (const CMsgClientRedeemGuestPass *message)
 {
-  assert(message->base.descriptor == &cmsg_client_redeem_guest_pass__descriptor);
+  assert(message->descriptor == &cmsg_client_redeem_guest_pass__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_redeem_guest_pass__pack
                      (const CMsgClientRedeemGuestPass *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_redeem_guest_pass__descriptor);
+  assert(message->descriptor == &cmsg_client_redeem_guest_pass__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_redeem_guest_pass__pack_to_buffer
                      (const CMsgClientRedeemGuestPass *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_redeem_guest_pass__descriptor);
+  assert(message->descriptor == &cmsg_client_redeem_guest_pass__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRedeemGuestPass *
@@ -1564,33 +1363,28 @@ void   cmsg_client_redeem_guest_pass__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_redeem_guest_pass__descriptor);
+  assert(message->descriptor == &cmsg_client_redeem_guest_pass__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_redeem_guest_pass_response__init
-                     (CMsgClientRedeemGuestPassResponse         *message)
-{
-  static const CMsgClientRedeemGuestPassResponse init_value = CMSG_CLIENT_REDEEM_GUEST_PASS_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_redeem_guest_pass_response__get_packed_size
                      (const CMsgClientRedeemGuestPassResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_redeem_guest_pass_response__descriptor);
+  assert(message->descriptor == &cmsg_client_redeem_guest_pass_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_redeem_guest_pass_response__pack
                      (const CMsgClientRedeemGuestPassResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_redeem_guest_pass_response__descriptor);
+  assert(message->descriptor == &cmsg_client_redeem_guest_pass_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_redeem_guest_pass_response__pack_to_buffer
                      (const CMsgClientRedeemGuestPassResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_redeem_guest_pass_response__descriptor);
+  assert(message->descriptor == &cmsg_client_redeem_guest_pass_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRedeemGuestPassResponse *
@@ -1609,33 +1403,28 @@ void   cmsg_client_redeem_guest_pass_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_redeem_guest_pass_response__descriptor);
+  assert(message->descriptor == &cmsg_client_redeem_guest_pass_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_clan_activity_counts__init
-                     (CMsgClientGetClanActivityCounts         *message)
-{
-  static const CMsgClientGetClanActivityCounts init_value = CMSG_CLIENT_GET_CLAN_ACTIVITY_COUNTS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_clan_activity_counts__get_packed_size
                      (const CMsgClientGetClanActivityCounts *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_clan_activity_counts__descriptor);
+  assert(message->descriptor == &cmsg_client_get_clan_activity_counts__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_clan_activity_counts__pack
                      (const CMsgClientGetClanActivityCounts *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_clan_activity_counts__descriptor);
+  assert(message->descriptor == &cmsg_client_get_clan_activity_counts__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_clan_activity_counts__pack_to_buffer
                      (const CMsgClientGetClanActivityCounts *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_clan_activity_counts__descriptor);
+  assert(message->descriptor == &cmsg_client_get_clan_activity_counts__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetClanActivityCounts *
@@ -1654,33 +1443,28 @@ void   cmsg_client_get_clan_activity_counts__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_clan_activity_counts__descriptor);
+  assert(message->descriptor == &cmsg_client_get_clan_activity_counts__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_clan_activity_counts_response__init
-                     (CMsgClientGetClanActivityCountsResponse         *message)
-{
-  static const CMsgClientGetClanActivityCountsResponse init_value = CMSG_CLIENT_GET_CLAN_ACTIVITY_COUNTS_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_clan_activity_counts_response__get_packed_size
                      (const CMsgClientGetClanActivityCountsResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_clan_activity_counts_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_clan_activity_counts_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_clan_activity_counts_response__pack
                      (const CMsgClientGetClanActivityCountsResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_clan_activity_counts_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_clan_activity_counts_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_clan_activity_counts_response__pack_to_buffer
                      (const CMsgClientGetClanActivityCountsResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_clan_activity_counts_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_clan_activity_counts_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetClanActivityCountsResponse *
@@ -1699,33 +1483,28 @@ void   cmsg_client_get_clan_activity_counts_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_clan_activity_counts_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_clan_activity_counts_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_ogsreport_string__init
-                     (CMsgClientOGSReportString         *message)
-{
-  static const CMsgClientOGSReportString init_value = CMSG_CLIENT_OGSREPORT_STRING__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_ogsreport_string__get_packed_size
                      (const CMsgClientOGSReportString *message)
 {
-  assert(message->base.descriptor == &cmsg_client_ogsreport_string__descriptor);
+  assert(message->descriptor == &cmsg_client_ogsreport_string__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_ogsreport_string__pack
                      (const CMsgClientOGSReportString *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_ogsreport_string__descriptor);
+  assert(message->descriptor == &cmsg_client_ogsreport_string__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_ogsreport_string__pack_to_buffer
                      (const CMsgClientOGSReportString *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_ogsreport_string__descriptor);
+  assert(message->descriptor == &cmsg_client_ogsreport_string__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientOGSReportString *
@@ -1744,33 +1523,28 @@ void   cmsg_client_ogsreport_string__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_ogsreport_string__descriptor);
+  assert(message->descriptor == &cmsg_client_ogsreport_string__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_ogsreport_bug__init
-                     (CMsgClientOGSReportBug         *message)
-{
-  static const CMsgClientOGSReportBug init_value = CMSG_CLIENT_OGSREPORT_BUG__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_ogsreport_bug__get_packed_size
                      (const CMsgClientOGSReportBug *message)
 {
-  assert(message->base.descriptor == &cmsg_client_ogsreport_bug__descriptor);
+  assert(message->descriptor == &cmsg_client_ogsreport_bug__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_ogsreport_bug__pack
                      (const CMsgClientOGSReportBug *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_ogsreport_bug__descriptor);
+  assert(message->descriptor == &cmsg_client_ogsreport_bug__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_ogsreport_bug__pack_to_buffer
                      (const CMsgClientOGSReportBug *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_ogsreport_bug__descriptor);
+  assert(message->descriptor == &cmsg_client_ogsreport_bug__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientOGSReportBug *
@@ -1789,33 +1563,28 @@ void   cmsg_client_ogsreport_bug__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_ogsreport_bug__descriptor);
+  assert(message->descriptor == &cmsg_client_ogsreport_bug__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_sent_logs__init
-                     (CMsgClientSentLogs         *message)
-{
-  static const CMsgClientSentLogs init_value = CMSG_CLIENT_SENT_LOGS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_sent_logs__get_packed_size
                      (const CMsgClientSentLogs *message)
 {
-  assert(message->base.descriptor == &cmsg_client_sent_logs__descriptor);
+  assert(message->descriptor == &cmsg_client_sent_logs__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_sent_logs__pack
                      (const CMsgClientSentLogs *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_sent_logs__descriptor);
+  assert(message->descriptor == &cmsg_client_sent_logs__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_sent_logs__pack_to_buffer
                      (const CMsgClientSentLogs *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_sent_logs__descriptor);
+  assert(message->descriptor == &cmsg_client_sent_logs__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientSentLogs *
@@ -1834,33 +1603,28 @@ void   cmsg_client_sent_logs__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_sent_logs__descriptor);
+  assert(message->descriptor == &cmsg_client_sent_logs__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_gcclient__init
-                     (CMsgGCClient         *message)
-{
-  static const CMsgGCClient init_value = CMSG_GCCLIENT__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_gcclient__get_packed_size
                      (const CMsgGCClient *message)
 {
-  assert(message->base.descriptor == &cmsg_gcclient__descriptor);
+  assert(message->descriptor == &cmsg_gcclient__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_gcclient__pack
                      (const CMsgGCClient *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_gcclient__descriptor);
+  assert(message->descriptor == &cmsg_gcclient__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_gcclient__pack_to_buffer
                      (const CMsgGCClient *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_gcclient__descriptor);
+  assert(message->descriptor == &cmsg_gcclient__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgGCClient *
@@ -1879,33 +1643,28 @@ void   cmsg_gcclient__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_gcclient__descriptor);
+  assert(message->descriptor == &cmsg_gcclient__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_free_license__init
-                     (CMsgClientRequestFreeLicense         *message)
-{
-  static const CMsgClientRequestFreeLicense init_value = CMSG_CLIENT_REQUEST_FREE_LICENSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_free_license__get_packed_size
                      (const CMsgClientRequestFreeLicense *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_free_license__descriptor);
+  assert(message->descriptor == &cmsg_client_request_free_license__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_free_license__pack
                      (const CMsgClientRequestFreeLicense *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_free_license__descriptor);
+  assert(message->descriptor == &cmsg_client_request_free_license__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_free_license__pack_to_buffer
                      (const CMsgClientRequestFreeLicense *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_free_license__descriptor);
+  assert(message->descriptor == &cmsg_client_request_free_license__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestFreeLicense *
@@ -1924,33 +1683,28 @@ void   cmsg_client_request_free_license__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_free_license__descriptor);
+  assert(message->descriptor == &cmsg_client_request_free_license__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_free_license_response__init
-                     (CMsgClientRequestFreeLicenseResponse         *message)
-{
-  static const CMsgClientRequestFreeLicenseResponse init_value = CMSG_CLIENT_REQUEST_FREE_LICENSE_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_free_license_response__get_packed_size
                      (const CMsgClientRequestFreeLicenseResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_free_license_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_free_license_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_free_license_response__pack
                      (const CMsgClientRequestFreeLicenseResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_free_license_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_free_license_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_free_license_response__pack_to_buffer
                      (const CMsgClientRequestFreeLicenseResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_free_license_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_free_license_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestFreeLicenseResponse *
@@ -1969,33 +1723,28 @@ void   cmsg_client_request_free_license_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_free_license_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_free_license_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_drmdownload_request_with_crash_data__init
-                     (CMsgDRMDownloadRequestWithCrashData         *message)
-{
-  static const CMsgDRMDownloadRequestWithCrashData init_value = CMSG_DRMDOWNLOAD_REQUEST_WITH_CRASH_DATA__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_drmdownload_request_with_crash_data__get_packed_size
                      (const CMsgDRMDownloadRequestWithCrashData *message)
 {
-  assert(message->base.descriptor == &cmsg_drmdownload_request_with_crash_data__descriptor);
+  assert(message->descriptor == &cmsg_drmdownload_request_with_crash_data__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_drmdownload_request_with_crash_data__pack
                      (const CMsgDRMDownloadRequestWithCrashData *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_drmdownload_request_with_crash_data__descriptor);
+  assert(message->descriptor == &cmsg_drmdownload_request_with_crash_data__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_drmdownload_request_with_crash_data__pack_to_buffer
                      (const CMsgDRMDownloadRequestWithCrashData *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_drmdownload_request_with_crash_data__descriptor);
+  assert(message->descriptor == &cmsg_drmdownload_request_with_crash_data__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgDRMDownloadRequestWithCrashData *
@@ -2014,33 +1763,28 @@ void   cmsg_drmdownload_request_with_crash_data__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_drmdownload_request_with_crash_data__descriptor);
+  assert(message->descriptor == &cmsg_drmdownload_request_with_crash_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_drmdownload_response__init
-                     (CMsgDRMDownloadResponse         *message)
-{
-  static const CMsgDRMDownloadResponse init_value = CMSG_DRMDOWNLOAD_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_drmdownload_response__get_packed_size
                      (const CMsgDRMDownloadResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_drmdownload_response__descriptor);
+  assert(message->descriptor == &cmsg_drmdownload_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_drmdownload_response__pack
                      (const CMsgDRMDownloadResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_drmdownload_response__descriptor);
+  assert(message->descriptor == &cmsg_drmdownload_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_drmdownload_response__pack_to_buffer
                      (const CMsgDRMDownloadResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_drmdownload_response__descriptor);
+  assert(message->descriptor == &cmsg_drmdownload_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgDRMDownloadResponse *
@@ -2059,33 +1803,28 @@ void   cmsg_drmdownload_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_drmdownload_response__descriptor);
+  assert(message->descriptor == &cmsg_drmdownload_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_drmfinal_result__init
-                     (CMsgDRMFinalResult         *message)
-{
-  static const CMsgDRMFinalResult init_value = CMSG_DRMFINAL_RESULT__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_drmfinal_result__get_packed_size
                      (const CMsgDRMFinalResult *message)
 {
-  assert(message->base.descriptor == &cmsg_drmfinal_result__descriptor);
+  assert(message->descriptor == &cmsg_drmfinal_result__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_drmfinal_result__pack
                      (const CMsgDRMFinalResult *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_drmfinal_result__descriptor);
+  assert(message->descriptor == &cmsg_drmfinal_result__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_drmfinal_result__pack_to_buffer
                      (const CMsgDRMFinalResult *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_drmfinal_result__descriptor);
+  assert(message->descriptor == &cmsg_drmfinal_result__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgDRMFinalResult *
@@ -2104,33 +1843,28 @@ void   cmsg_drmfinal_result__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_drmfinal_result__descriptor);
+  assert(message->descriptor == &cmsg_drmfinal_result__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_dpcheck_special_survey__init
-                     (CMsgClientDPCheckSpecialSurvey         *message)
-{
-  static const CMsgClientDPCheckSpecialSurvey init_value = CMSG_CLIENT_DPCHECK_SPECIAL_SURVEY__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_dpcheck_special_survey__get_packed_size
                      (const CMsgClientDPCheckSpecialSurvey *message)
 {
-  assert(message->base.descriptor == &cmsg_client_dpcheck_special_survey__descriptor);
+  assert(message->descriptor == &cmsg_client_dpcheck_special_survey__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_dpcheck_special_survey__pack
                      (const CMsgClientDPCheckSpecialSurvey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_dpcheck_special_survey__descriptor);
+  assert(message->descriptor == &cmsg_client_dpcheck_special_survey__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_dpcheck_special_survey__pack_to_buffer
                      (const CMsgClientDPCheckSpecialSurvey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_dpcheck_special_survey__descriptor);
+  assert(message->descriptor == &cmsg_client_dpcheck_special_survey__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientDPCheckSpecialSurvey *
@@ -2149,33 +1883,28 @@ void   cmsg_client_dpcheck_special_survey__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_dpcheck_special_survey__descriptor);
+  assert(message->descriptor == &cmsg_client_dpcheck_special_survey__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_dpcheck_special_survey_response__init
-                     (CMsgClientDPCheckSpecialSurveyResponse         *message)
-{
-  static const CMsgClientDPCheckSpecialSurveyResponse init_value = CMSG_CLIENT_DPCHECK_SPECIAL_SURVEY_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_dpcheck_special_survey_response__get_packed_size
                      (const CMsgClientDPCheckSpecialSurveyResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_dpcheck_special_survey_response__descriptor);
+  assert(message->descriptor == &cmsg_client_dpcheck_special_survey_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_dpcheck_special_survey_response__pack
                      (const CMsgClientDPCheckSpecialSurveyResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_dpcheck_special_survey_response__descriptor);
+  assert(message->descriptor == &cmsg_client_dpcheck_special_survey_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_dpcheck_special_survey_response__pack_to_buffer
                      (const CMsgClientDPCheckSpecialSurveyResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_dpcheck_special_survey_response__descriptor);
+  assert(message->descriptor == &cmsg_client_dpcheck_special_survey_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientDPCheckSpecialSurveyResponse *
@@ -2194,33 +1923,28 @@ void   cmsg_client_dpcheck_special_survey_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_dpcheck_special_survey_response__descriptor);
+  assert(message->descriptor == &cmsg_client_dpcheck_special_survey_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_dpsend_special_survey_response__init
-                     (CMsgClientDPSendSpecialSurveyResponse         *message)
-{
-  static const CMsgClientDPSendSpecialSurveyResponse init_value = CMSG_CLIENT_DPSEND_SPECIAL_SURVEY_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_dpsend_special_survey_response__get_packed_size
                      (const CMsgClientDPSendSpecialSurveyResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_dpsend_special_survey_response__descriptor);
+  assert(message->descriptor == &cmsg_client_dpsend_special_survey_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_dpsend_special_survey_response__pack
                      (const CMsgClientDPSendSpecialSurveyResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_dpsend_special_survey_response__descriptor);
+  assert(message->descriptor == &cmsg_client_dpsend_special_survey_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_dpsend_special_survey_response__pack_to_buffer
                      (const CMsgClientDPSendSpecialSurveyResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_dpsend_special_survey_response__descriptor);
+  assert(message->descriptor == &cmsg_client_dpsend_special_survey_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientDPSendSpecialSurveyResponse *
@@ -2239,33 +1963,28 @@ void   cmsg_client_dpsend_special_survey_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_dpsend_special_survey_response__descriptor);
+  assert(message->descriptor == &cmsg_client_dpsend_special_survey_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_dpsend_special_survey_response_reply__init
-                     (CMsgClientDPSendSpecialSurveyResponseReply         *message)
-{
-  static const CMsgClientDPSendSpecialSurveyResponseReply init_value = CMSG_CLIENT_DPSEND_SPECIAL_SURVEY_RESPONSE_REPLY__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_dpsend_special_survey_response_reply__get_packed_size
                      (const CMsgClientDPSendSpecialSurveyResponseReply *message)
 {
-  assert(message->base.descriptor == &cmsg_client_dpsend_special_survey_response_reply__descriptor);
+  assert(message->descriptor == &cmsg_client_dpsend_special_survey_response_reply__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_dpsend_special_survey_response_reply__pack
                      (const CMsgClientDPSendSpecialSurveyResponseReply *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_dpsend_special_survey_response_reply__descriptor);
+  assert(message->descriptor == &cmsg_client_dpsend_special_survey_response_reply__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_dpsend_special_survey_response_reply__pack_to_buffer
                      (const CMsgClientDPSendSpecialSurveyResponseReply *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_dpsend_special_survey_response_reply__descriptor);
+  assert(message->descriptor == &cmsg_client_dpsend_special_survey_response_reply__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientDPSendSpecialSurveyResponseReply *
@@ -2284,33 +2003,28 @@ void   cmsg_client_dpsend_special_survey_response_reply__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_dpsend_special_survey_response_reply__descriptor);
+  assert(message->descriptor == &cmsg_client_dpsend_special_survey_response_reply__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_forgotten_password_email__init
-                     (CMsgClientRequestForgottenPasswordEmail         *message)
-{
-  static const CMsgClientRequestForgottenPasswordEmail init_value = CMSG_CLIENT_REQUEST_FORGOTTEN_PASSWORD_EMAIL__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_forgotten_password_email__get_packed_size
                      (const CMsgClientRequestForgottenPasswordEmail *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_forgotten_password_email__descriptor);
+  assert(message->descriptor == &cmsg_client_request_forgotten_password_email__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_forgotten_password_email__pack
                      (const CMsgClientRequestForgottenPasswordEmail *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_forgotten_password_email__descriptor);
+  assert(message->descriptor == &cmsg_client_request_forgotten_password_email__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_forgotten_password_email__pack_to_buffer
                      (const CMsgClientRequestForgottenPasswordEmail *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_forgotten_password_email__descriptor);
+  assert(message->descriptor == &cmsg_client_request_forgotten_password_email__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestForgottenPasswordEmail *
@@ -2329,33 +2043,28 @@ void   cmsg_client_request_forgotten_password_email__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_forgotten_password_email__descriptor);
+  assert(message->descriptor == &cmsg_client_request_forgotten_password_email__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_forgotten_password_email_response__init
-                     (CMsgClientRequestForgottenPasswordEmailResponse         *message)
-{
-  static const CMsgClientRequestForgottenPasswordEmailResponse init_value = CMSG_CLIENT_REQUEST_FORGOTTEN_PASSWORD_EMAIL_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_forgotten_password_email_response__get_packed_size
                      (const CMsgClientRequestForgottenPasswordEmailResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_forgotten_password_email_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_forgotten_password_email_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_forgotten_password_email_response__pack
                      (const CMsgClientRequestForgottenPasswordEmailResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_forgotten_password_email_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_forgotten_password_email_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_forgotten_password_email_response__pack_to_buffer
                      (const CMsgClientRequestForgottenPasswordEmailResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_forgotten_password_email_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_forgotten_password_email_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestForgottenPasswordEmailResponse *
@@ -2374,39 +2083,28 @@ void   cmsg_client_request_forgotten_password_email_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_forgotten_password_email_response__descriptor);
+  assert(message->descriptor == &cmsg_client_request_forgotten_password_email_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_item_announcements__unseen_item__init
-                     (CMsgClientItemAnnouncements__UnseenItem         *message)
-{
-  static const CMsgClientItemAnnouncements__UnseenItem init_value = CMSG_CLIENT_ITEM_ANNOUNCEMENTS__UNSEEN_ITEM__INIT;
-  *message = init_value;
-}
-void   cmsg_client_item_announcements__init
-                     (CMsgClientItemAnnouncements         *message)
-{
-  static const CMsgClientItemAnnouncements init_value = CMSG_CLIENT_ITEM_ANNOUNCEMENTS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_item_announcements__get_packed_size
                      (const CMsgClientItemAnnouncements *message)
 {
-  assert(message->base.descriptor == &cmsg_client_item_announcements__descriptor);
+  assert(message->descriptor == &cmsg_client_item_announcements__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_item_announcements__pack
                      (const CMsgClientItemAnnouncements *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_item_announcements__descriptor);
+  assert(message->descriptor == &cmsg_client_item_announcements__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_item_announcements__pack_to_buffer
                      (const CMsgClientItemAnnouncements *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_item_announcements__descriptor);
+  assert(message->descriptor == &cmsg_client_item_announcements__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientItemAnnouncements *
@@ -2425,33 +2123,28 @@ void   cmsg_client_item_announcements__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_item_announcements__descriptor);
+  assert(message->descriptor == &cmsg_client_item_announcements__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_item_announcements__init
-                     (CMsgClientRequestItemAnnouncements         *message)
-{
-  static const CMsgClientRequestItemAnnouncements init_value = CMSG_CLIENT_REQUEST_ITEM_ANNOUNCEMENTS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_item_announcements__get_packed_size
                      (const CMsgClientRequestItemAnnouncements *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_item_announcements__descriptor);
+  assert(message->descriptor == &cmsg_client_request_item_announcements__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_item_announcements__pack
                      (const CMsgClientRequestItemAnnouncements *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_item_announcements__descriptor);
+  assert(message->descriptor == &cmsg_client_request_item_announcements__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_item_announcements__pack_to_buffer
                      (const CMsgClientRequestItemAnnouncements *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_item_announcements__descriptor);
+  assert(message->descriptor == &cmsg_client_request_item_announcements__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestItemAnnouncements *
@@ -2470,39 +2163,28 @@ void   cmsg_client_request_item_announcements__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_item_announcements__descriptor);
+  assert(message->descriptor == &cmsg_client_request_item_announcements__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_user_notifications__notification__init
-                     (CMsgClientUserNotifications__Notification         *message)
-{
-  static const CMsgClientUserNotifications__Notification init_value = CMSG_CLIENT_USER_NOTIFICATIONS__NOTIFICATION__INIT;
-  *message = init_value;
-}
-void   cmsg_client_user_notifications__init
-                     (CMsgClientUserNotifications         *message)
-{
-  static const CMsgClientUserNotifications init_value = CMSG_CLIENT_USER_NOTIFICATIONS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_user_notifications__get_packed_size
                      (const CMsgClientUserNotifications *message)
 {
-  assert(message->base.descriptor == &cmsg_client_user_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_user_notifications__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_user_notifications__pack
                      (const CMsgClientUserNotifications *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_user_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_user_notifications__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_user_notifications__pack_to_buffer
                      (const CMsgClientUserNotifications *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_user_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_user_notifications__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientUserNotifications *
@@ -2521,33 +2203,28 @@ void   cmsg_client_user_notifications__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_user_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_user_notifications__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_comment_notifications__init
-                     (CMsgClientCommentNotifications         *message)
-{
-  static const CMsgClientCommentNotifications init_value = CMSG_CLIENT_COMMENT_NOTIFICATIONS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_comment_notifications__get_packed_size
                      (const CMsgClientCommentNotifications *message)
 {
-  assert(message->base.descriptor == &cmsg_client_comment_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_comment_notifications__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_comment_notifications__pack
                      (const CMsgClientCommentNotifications *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_comment_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_comment_notifications__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_comment_notifications__pack_to_buffer
                      (const CMsgClientCommentNotifications *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_comment_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_comment_notifications__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientCommentNotifications *
@@ -2566,33 +2243,28 @@ void   cmsg_client_comment_notifications__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_comment_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_comment_notifications__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_comment_notifications__init
-                     (CMsgClientRequestCommentNotifications         *message)
-{
-  static const CMsgClientRequestCommentNotifications init_value = CMSG_CLIENT_REQUEST_COMMENT_NOTIFICATIONS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_comment_notifications__get_packed_size
                      (const CMsgClientRequestCommentNotifications *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_comment_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_request_comment_notifications__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_comment_notifications__pack
                      (const CMsgClientRequestCommentNotifications *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_comment_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_request_comment_notifications__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_comment_notifications__pack_to_buffer
                      (const CMsgClientRequestCommentNotifications *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_comment_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_request_comment_notifications__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestCommentNotifications *
@@ -2611,33 +2283,28 @@ void   cmsg_client_request_comment_notifications__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_comment_notifications__descriptor);
+  assert(message->descriptor == &cmsg_client_request_comment_notifications__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_offline_message_notification__init
-                     (CMsgClientOfflineMessageNotification         *message)
-{
-  static const CMsgClientOfflineMessageNotification init_value = CMSG_CLIENT_OFFLINE_MESSAGE_NOTIFICATION__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_offline_message_notification__get_packed_size
                      (const CMsgClientOfflineMessageNotification *message)
 {
-  assert(message->base.descriptor == &cmsg_client_offline_message_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_offline_message_notification__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_offline_message_notification__pack
                      (const CMsgClientOfflineMessageNotification *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_offline_message_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_offline_message_notification__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_offline_message_notification__pack_to_buffer
                      (const CMsgClientOfflineMessageNotification *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_offline_message_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_offline_message_notification__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientOfflineMessageNotification *
@@ -2656,33 +2323,28 @@ void   cmsg_client_offline_message_notification__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_offline_message_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_offline_message_notification__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_request_offline_message_count__init
-                     (CMsgClientRequestOfflineMessageCount         *message)
-{
-  static const CMsgClientRequestOfflineMessageCount init_value = CMSG_CLIENT_REQUEST_OFFLINE_MESSAGE_COUNT__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_request_offline_message_count__get_packed_size
                      (const CMsgClientRequestOfflineMessageCount *message)
 {
-  assert(message->base.descriptor == &cmsg_client_request_offline_message_count__descriptor);
+  assert(message->descriptor == &cmsg_client_request_offline_message_count__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_request_offline_message_count__pack
                      (const CMsgClientRequestOfflineMessageCount *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_request_offline_message_count__descriptor);
+  assert(message->descriptor == &cmsg_client_request_offline_message_count__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_request_offline_message_count__pack_to_buffer
                      (const CMsgClientRequestOfflineMessageCount *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_request_offline_message_count__descriptor);
+  assert(message->descriptor == &cmsg_client_request_offline_message_count__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientRequestOfflineMessageCount *
@@ -2701,33 +2363,28 @@ void   cmsg_client_request_offline_message_count__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_request_offline_message_count__descriptor);
+  assert(message->descriptor == &cmsg_client_request_offline_message_count__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_chat_get_friend_message_history__init
-                     (CMsgClientChatGetFriendMessageHistory         *message)
-{
-  static const CMsgClientChatGetFriendMessageHistory init_value = CMSG_CLIENT_CHAT_GET_FRIEND_MESSAGE_HISTORY__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_chat_get_friend_message_history__get_packed_size
                      (const CMsgClientChatGetFriendMessageHistory *message)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_chat_get_friend_message_history__pack
                      (const CMsgClientChatGetFriendMessageHistory *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_chat_get_friend_message_history__pack_to_buffer
                      (const CMsgClientChatGetFriendMessageHistory *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientChatGetFriendMessageHistory *
@@ -2746,39 +2403,28 @@ void   cmsg_client_chat_get_friend_message_history__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_chat_get_friend_message_history_response__friend_message__init
-                     (CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage         *message)
-{
-  static const CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage init_value = CMSG_CLIENT_CHAT_GET_FRIEND_MESSAGE_HISTORY_RESPONSE__FRIEND_MESSAGE__INIT;
-  *message = init_value;
-}
-void   cmsg_client_chat_get_friend_message_history_response__init
-                     (CMsgClientChatGetFriendMessageHistoryResponse         *message)
-{
-  static const CMsgClientChatGetFriendMessageHistoryResponse init_value = CMSG_CLIENT_CHAT_GET_FRIEND_MESSAGE_HISTORY_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_chat_get_friend_message_history_response__get_packed_size
                      (const CMsgClientChatGetFriendMessageHistoryResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history_response__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_chat_get_friend_message_history_response__pack
                      (const CMsgClientChatGetFriendMessageHistoryResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history_response__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_chat_get_friend_message_history_response__pack_to_buffer
                      (const CMsgClientChatGetFriendMessageHistoryResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history_response__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientChatGetFriendMessageHistoryResponse *
@@ -2797,33 +2443,28 @@ void   cmsg_client_chat_get_friend_message_history_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history_response__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_chat_get_friend_message_history_for_offline_messages__init
-                     (CMsgClientChatGetFriendMessageHistoryForOfflineMessages         *message)
-{
-  static const CMsgClientChatGetFriendMessageHistoryForOfflineMessages init_value = CMSG_CLIENT_CHAT_GET_FRIEND_MESSAGE_HISTORY_FOR_OFFLINE_MESSAGES__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_chat_get_friend_message_history_for_offline_messages__get_packed_size
                      (const CMsgClientChatGetFriendMessageHistoryForOfflineMessages *message)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_chat_get_friend_message_history_for_offline_messages__pack
                      (const CMsgClientChatGetFriendMessageHistoryForOfflineMessages *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_chat_get_friend_message_history_for_offline_messages__pack_to_buffer
                      (const CMsgClientChatGetFriendMessageHistoryForOfflineMessages *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientChatGetFriendMessageHistoryForOfflineMessages *
@@ -2842,33 +2483,28 @@ void   cmsg_client_chat_get_friend_message_history_for_offline_messages__free_un
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor);
+  assert(message->descriptor == &cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_fsget_friends_steam_levels__init
-                     (CMsgClientFSGetFriendsSteamLevels         *message)
-{
-  static const CMsgClientFSGetFriendsSteamLevels init_value = CMSG_CLIENT_FSGET_FRIENDS_STEAM_LEVELS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_fsget_friends_steam_levels__get_packed_size
                      (const CMsgClientFSGetFriendsSteamLevels *message)
 {
-  assert(message->base.descriptor == &cmsg_client_fsget_friends_steam_levels__descriptor);
+  assert(message->descriptor == &cmsg_client_fsget_friends_steam_levels__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_fsget_friends_steam_levels__pack
                      (const CMsgClientFSGetFriendsSteamLevels *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_fsget_friends_steam_levels__descriptor);
+  assert(message->descriptor == &cmsg_client_fsget_friends_steam_levels__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_fsget_friends_steam_levels__pack_to_buffer
                      (const CMsgClientFSGetFriendsSteamLevels *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_fsget_friends_steam_levels__descriptor);
+  assert(message->descriptor == &cmsg_client_fsget_friends_steam_levels__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientFSGetFriendsSteamLevels *
@@ -2887,39 +2523,28 @@ void   cmsg_client_fsget_friends_steam_levels__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_fsget_friends_steam_levels__descriptor);
+  assert(message->descriptor == &cmsg_client_fsget_friends_steam_levels__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_fsget_friends_steam_levels_response__friend__init
-                     (CMsgClientFSGetFriendsSteamLevelsResponse__Friend         *message)
-{
-  static const CMsgClientFSGetFriendsSteamLevelsResponse__Friend init_value = CMSG_CLIENT_FSGET_FRIENDS_STEAM_LEVELS_RESPONSE__FRIEND__INIT;
-  *message = init_value;
-}
-void   cmsg_client_fsget_friends_steam_levels_response__init
-                     (CMsgClientFSGetFriendsSteamLevelsResponse         *message)
-{
-  static const CMsgClientFSGetFriendsSteamLevelsResponse init_value = CMSG_CLIENT_FSGET_FRIENDS_STEAM_LEVELS_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_fsget_friends_steam_levels_response__get_packed_size
                      (const CMsgClientFSGetFriendsSteamLevelsResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_fsget_friends_steam_levels_response__descriptor);
+  assert(message->descriptor == &cmsg_client_fsget_friends_steam_levels_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_fsget_friends_steam_levels_response__pack
                      (const CMsgClientFSGetFriendsSteamLevelsResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_fsget_friends_steam_levels_response__descriptor);
+  assert(message->descriptor == &cmsg_client_fsget_friends_steam_levels_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_fsget_friends_steam_levels_response__pack_to_buffer
                      (const CMsgClientFSGetFriendsSteamLevelsResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_fsget_friends_steam_levels_response__descriptor);
+  assert(message->descriptor == &cmsg_client_fsget_friends_steam_levels_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientFSGetFriendsSteamLevelsResponse *
@@ -2938,33 +2563,28 @@ void   cmsg_client_fsget_friends_steam_levels_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_fsget_friends_steam_levels_response__descriptor);
+  assert(message->descriptor == &cmsg_client_fsget_friends_steam_levels_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_email_addr_info__init
-                     (CMsgClientEmailAddrInfo         *message)
-{
-  static const CMsgClientEmailAddrInfo init_value = CMSG_CLIENT_EMAIL_ADDR_INFO__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_email_addr_info__get_packed_size
                      (const CMsgClientEmailAddrInfo *message)
 {
-  assert(message->base.descriptor == &cmsg_client_email_addr_info__descriptor);
+  assert(message->descriptor == &cmsg_client_email_addr_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_email_addr_info__pack
                      (const CMsgClientEmailAddrInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_email_addr_info__descriptor);
+  assert(message->descriptor == &cmsg_client_email_addr_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_email_addr_info__pack_to_buffer
                      (const CMsgClientEmailAddrInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_email_addr_info__descriptor);
+  assert(message->descriptor == &cmsg_client_email_addr_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientEmailAddrInfo *
@@ -2983,39 +2603,28 @@ void   cmsg_client_email_addr_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_email_addr_info__descriptor);
+  assert(message->descriptor == &cmsg_client_email_addr_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_creitem_vote_summary__published_file_id__init
-                     (CMsgCREItemVoteSummary__PublishedFileId         *message)
-{
-  static const CMsgCREItemVoteSummary__PublishedFileId init_value = CMSG_CREITEM_VOTE_SUMMARY__PUBLISHED_FILE_ID__INIT;
-  *message = init_value;
-}
-void   cmsg_creitem_vote_summary__init
-                     (CMsgCREItemVoteSummary         *message)
-{
-  static const CMsgCREItemVoteSummary init_value = CMSG_CREITEM_VOTE_SUMMARY__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_creitem_vote_summary__get_packed_size
                      (const CMsgCREItemVoteSummary *message)
 {
-  assert(message->base.descriptor == &cmsg_creitem_vote_summary__descriptor);
+  assert(message->descriptor == &cmsg_creitem_vote_summary__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_creitem_vote_summary__pack
                      (const CMsgCREItemVoteSummary *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_creitem_vote_summary__descriptor);
+  assert(message->descriptor == &cmsg_creitem_vote_summary__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_creitem_vote_summary__pack_to_buffer
                      (const CMsgCREItemVoteSummary *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_creitem_vote_summary__descriptor);
+  assert(message->descriptor == &cmsg_creitem_vote_summary__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgCREItemVoteSummary *
@@ -3034,39 +2643,28 @@ void   cmsg_creitem_vote_summary__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_creitem_vote_summary__descriptor);
+  assert(message->descriptor == &cmsg_creitem_vote_summary__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_creitem_vote_summary_response__item_vote_summary__init
-                     (CMsgCREItemVoteSummaryResponse__ItemVoteSummary         *message)
-{
-  static const CMsgCREItemVoteSummaryResponse__ItemVoteSummary init_value = CMSG_CREITEM_VOTE_SUMMARY_RESPONSE__ITEM_VOTE_SUMMARY__INIT;
-  *message = init_value;
-}
-void   cmsg_creitem_vote_summary_response__init
-                     (CMsgCREItemVoteSummaryResponse         *message)
-{
-  static const CMsgCREItemVoteSummaryResponse init_value = CMSG_CREITEM_VOTE_SUMMARY_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_creitem_vote_summary_response__get_packed_size
                      (const CMsgCREItemVoteSummaryResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_creitem_vote_summary_response__descriptor);
+  assert(message->descriptor == &cmsg_creitem_vote_summary_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_creitem_vote_summary_response__pack
                      (const CMsgCREItemVoteSummaryResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_creitem_vote_summary_response__descriptor);
+  assert(message->descriptor == &cmsg_creitem_vote_summary_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_creitem_vote_summary_response__pack_to_buffer
                      (const CMsgCREItemVoteSummaryResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_creitem_vote_summary_response__descriptor);
+  assert(message->descriptor == &cmsg_creitem_vote_summary_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgCREItemVoteSummaryResponse *
@@ -3085,33 +2683,28 @@ void   cmsg_creitem_vote_summary_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_creitem_vote_summary_response__descriptor);
+  assert(message->descriptor == &cmsg_creitem_vote_summary_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_creupdate_user_published_item_vote__init
-                     (CMsgCREUpdateUserPublishedItemVote         *message)
-{
-  static const CMsgCREUpdateUserPublishedItemVote init_value = CMSG_CREUPDATE_USER_PUBLISHED_ITEM_VOTE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_creupdate_user_published_item_vote__get_packed_size
                      (const CMsgCREUpdateUserPublishedItemVote *message)
 {
-  assert(message->base.descriptor == &cmsg_creupdate_user_published_item_vote__descriptor);
+  assert(message->descriptor == &cmsg_creupdate_user_published_item_vote__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_creupdate_user_published_item_vote__pack
                      (const CMsgCREUpdateUserPublishedItemVote *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_creupdate_user_published_item_vote__descriptor);
+  assert(message->descriptor == &cmsg_creupdate_user_published_item_vote__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_creupdate_user_published_item_vote__pack_to_buffer
                      (const CMsgCREUpdateUserPublishedItemVote *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_creupdate_user_published_item_vote__descriptor);
+  assert(message->descriptor == &cmsg_creupdate_user_published_item_vote__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgCREUpdateUserPublishedItemVote *
@@ -3130,33 +2723,28 @@ void   cmsg_creupdate_user_published_item_vote__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_creupdate_user_published_item_vote__descriptor);
+  assert(message->descriptor == &cmsg_creupdate_user_published_item_vote__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_creupdate_user_published_item_vote_response__init
-                     (CMsgCREUpdateUserPublishedItemVoteResponse         *message)
-{
-  static const CMsgCREUpdateUserPublishedItemVoteResponse init_value = CMSG_CREUPDATE_USER_PUBLISHED_ITEM_VOTE_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_creupdate_user_published_item_vote_response__get_packed_size
                      (const CMsgCREUpdateUserPublishedItemVoteResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_creupdate_user_published_item_vote_response__descriptor);
+  assert(message->descriptor == &cmsg_creupdate_user_published_item_vote_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_creupdate_user_published_item_vote_response__pack
                      (const CMsgCREUpdateUserPublishedItemVoteResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_creupdate_user_published_item_vote_response__descriptor);
+  assert(message->descriptor == &cmsg_creupdate_user_published_item_vote_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_creupdate_user_published_item_vote_response__pack_to_buffer
                      (const CMsgCREUpdateUserPublishedItemVoteResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_creupdate_user_published_item_vote_response__descriptor);
+  assert(message->descriptor == &cmsg_creupdate_user_published_item_vote_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgCREUpdateUserPublishedItemVoteResponse *
@@ -3175,39 +2763,28 @@ void   cmsg_creupdate_user_published_item_vote_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_creupdate_user_published_item_vote_response__descriptor);
+  assert(message->descriptor == &cmsg_creupdate_user_published_item_vote_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_creget_user_published_item_vote_details__published_file_id__init
-                     (CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId         *message)
-{
-  static const CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId init_value = CMSG_CREGET_USER_PUBLISHED_ITEM_VOTE_DETAILS__PUBLISHED_FILE_ID__INIT;
-  *message = init_value;
-}
-void   cmsg_creget_user_published_item_vote_details__init
-                     (CMsgCREGetUserPublishedItemVoteDetails         *message)
-{
-  static const CMsgCREGetUserPublishedItemVoteDetails init_value = CMSG_CREGET_USER_PUBLISHED_ITEM_VOTE_DETAILS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_creget_user_published_item_vote_details__get_packed_size
                      (const CMsgCREGetUserPublishedItemVoteDetails *message)
 {
-  assert(message->base.descriptor == &cmsg_creget_user_published_item_vote_details__descriptor);
+  assert(message->descriptor == &cmsg_creget_user_published_item_vote_details__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_creget_user_published_item_vote_details__pack
                      (const CMsgCREGetUserPublishedItemVoteDetails *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_creget_user_published_item_vote_details__descriptor);
+  assert(message->descriptor == &cmsg_creget_user_published_item_vote_details__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_creget_user_published_item_vote_details__pack_to_buffer
                      (const CMsgCREGetUserPublishedItemVoteDetails *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_creget_user_published_item_vote_details__descriptor);
+  assert(message->descriptor == &cmsg_creget_user_published_item_vote_details__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgCREGetUserPublishedItemVoteDetails *
@@ -3226,39 +2803,28 @@ void   cmsg_creget_user_published_item_vote_details__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_creget_user_published_item_vote_details__descriptor);
+  assert(message->descriptor == &cmsg_creget_user_published_item_vote_details__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__init
-                     (CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail         *message)
-{
-  static const CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail init_value = CMSG_CREGET_USER_PUBLISHED_ITEM_VOTE_DETAILS_RESPONSE__USER_ITEM_VOTE_DETAIL__INIT;
-  *message = init_value;
-}
-void   cmsg_creget_user_published_item_vote_details_response__init
-                     (CMsgCREGetUserPublishedItemVoteDetailsResponse         *message)
-{
-  static const CMsgCREGetUserPublishedItemVoteDetailsResponse init_value = CMSG_CREGET_USER_PUBLISHED_ITEM_VOTE_DETAILS_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_creget_user_published_item_vote_details_response__get_packed_size
                      (const CMsgCREGetUserPublishedItemVoteDetailsResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_creget_user_published_item_vote_details_response__descriptor);
+  assert(message->descriptor == &cmsg_creget_user_published_item_vote_details_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_creget_user_published_item_vote_details_response__pack
                      (const CMsgCREGetUserPublishedItemVoteDetailsResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_creget_user_published_item_vote_details_response__descriptor);
+  assert(message->descriptor == &cmsg_creget_user_published_item_vote_details_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_creget_user_published_item_vote_details_response__pack_to_buffer
                      (const CMsgCREGetUserPublishedItemVoteDetailsResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_creget_user_published_item_vote_details_response__descriptor);
+  assert(message->descriptor == &cmsg_creget_user_published_item_vote_details_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgCREGetUserPublishedItemVoteDetailsResponse *
@@ -3277,33 +2843,28 @@ void   cmsg_creget_user_published_item_vote_details_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_creget_user_published_item_vote_details_response__descriptor);
+  assert(message->descriptor == &cmsg_creget_user_published_item_vote_details_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_fsget_follower_count__init
-                     (CMsgFSGetFollowerCount         *message)
-{
-  static const CMsgFSGetFollowerCount init_value = CMSG_FSGET_FOLLOWER_COUNT__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_fsget_follower_count__get_packed_size
                      (const CMsgFSGetFollowerCount *message)
 {
-  assert(message->base.descriptor == &cmsg_fsget_follower_count__descriptor);
+  assert(message->descriptor == &cmsg_fsget_follower_count__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_fsget_follower_count__pack
                      (const CMsgFSGetFollowerCount *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_fsget_follower_count__descriptor);
+  assert(message->descriptor == &cmsg_fsget_follower_count__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_fsget_follower_count__pack_to_buffer
                      (const CMsgFSGetFollowerCount *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_fsget_follower_count__descriptor);
+  assert(message->descriptor == &cmsg_fsget_follower_count__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgFSGetFollowerCount *
@@ -3322,33 +2883,28 @@ void   cmsg_fsget_follower_count__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_fsget_follower_count__descriptor);
+  assert(message->descriptor == &cmsg_fsget_follower_count__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_fsget_follower_count_response__init
-                     (CMsgFSGetFollowerCountResponse         *message)
-{
-  static const CMsgFSGetFollowerCountResponse init_value = CMSG_FSGET_FOLLOWER_COUNT_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_fsget_follower_count_response__get_packed_size
                      (const CMsgFSGetFollowerCountResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_fsget_follower_count_response__descriptor);
+  assert(message->descriptor == &cmsg_fsget_follower_count_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_fsget_follower_count_response__pack
                      (const CMsgFSGetFollowerCountResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_fsget_follower_count_response__descriptor);
+  assert(message->descriptor == &cmsg_fsget_follower_count_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_fsget_follower_count_response__pack_to_buffer
                      (const CMsgFSGetFollowerCountResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_fsget_follower_count_response__descriptor);
+  assert(message->descriptor == &cmsg_fsget_follower_count_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgFSGetFollowerCountResponse *
@@ -3367,33 +2923,28 @@ void   cmsg_fsget_follower_count_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_fsget_follower_count_response__descriptor);
+  assert(message->descriptor == &cmsg_fsget_follower_count_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_fsget_is_following__init
-                     (CMsgFSGetIsFollowing         *message)
-{
-  static const CMsgFSGetIsFollowing init_value = CMSG_FSGET_IS_FOLLOWING__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_fsget_is_following__get_packed_size
                      (const CMsgFSGetIsFollowing *message)
 {
-  assert(message->base.descriptor == &cmsg_fsget_is_following__descriptor);
+  assert(message->descriptor == &cmsg_fsget_is_following__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_fsget_is_following__pack
                      (const CMsgFSGetIsFollowing *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_fsget_is_following__descriptor);
+  assert(message->descriptor == &cmsg_fsget_is_following__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_fsget_is_following__pack_to_buffer
                      (const CMsgFSGetIsFollowing *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_fsget_is_following__descriptor);
+  assert(message->descriptor == &cmsg_fsget_is_following__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgFSGetIsFollowing *
@@ -3412,33 +2963,28 @@ void   cmsg_fsget_is_following__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_fsget_is_following__descriptor);
+  assert(message->descriptor == &cmsg_fsget_is_following__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_fsget_is_following_response__init
-                     (CMsgFSGetIsFollowingResponse         *message)
-{
-  static const CMsgFSGetIsFollowingResponse init_value = CMSG_FSGET_IS_FOLLOWING_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_fsget_is_following_response__get_packed_size
                      (const CMsgFSGetIsFollowingResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_fsget_is_following_response__descriptor);
+  assert(message->descriptor == &cmsg_fsget_is_following_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_fsget_is_following_response__pack
                      (const CMsgFSGetIsFollowingResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_fsget_is_following_response__descriptor);
+  assert(message->descriptor == &cmsg_fsget_is_following_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_fsget_is_following_response__pack_to_buffer
                      (const CMsgFSGetIsFollowingResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_fsget_is_following_response__descriptor);
+  assert(message->descriptor == &cmsg_fsget_is_following_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgFSGetIsFollowingResponse *
@@ -3457,33 +3003,28 @@ void   cmsg_fsget_is_following_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_fsget_is_following_response__descriptor);
+  assert(message->descriptor == &cmsg_fsget_is_following_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_fsenumerate_following_list__init
-                     (CMsgFSEnumerateFollowingList         *message)
-{
-  static const CMsgFSEnumerateFollowingList init_value = CMSG_FSENUMERATE_FOLLOWING_LIST__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_fsenumerate_following_list__get_packed_size
                      (const CMsgFSEnumerateFollowingList *message)
 {
-  assert(message->base.descriptor == &cmsg_fsenumerate_following_list__descriptor);
+  assert(message->descriptor == &cmsg_fsenumerate_following_list__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_fsenumerate_following_list__pack
                      (const CMsgFSEnumerateFollowingList *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_fsenumerate_following_list__descriptor);
+  assert(message->descriptor == &cmsg_fsenumerate_following_list__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_fsenumerate_following_list__pack_to_buffer
                      (const CMsgFSEnumerateFollowingList *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_fsenumerate_following_list__descriptor);
+  assert(message->descriptor == &cmsg_fsenumerate_following_list__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgFSEnumerateFollowingList *
@@ -3502,33 +3043,28 @@ void   cmsg_fsenumerate_following_list__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_fsenumerate_following_list__descriptor);
+  assert(message->descriptor == &cmsg_fsenumerate_following_list__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_fsenumerate_following_list_response__init
-                     (CMsgFSEnumerateFollowingListResponse         *message)
-{
-  static const CMsgFSEnumerateFollowingListResponse init_value = CMSG_FSENUMERATE_FOLLOWING_LIST_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_fsenumerate_following_list_response__get_packed_size
                      (const CMsgFSEnumerateFollowingListResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_fsenumerate_following_list_response__descriptor);
+  assert(message->descriptor == &cmsg_fsenumerate_following_list_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_fsenumerate_following_list_response__pack
                      (const CMsgFSEnumerateFollowingListResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_fsenumerate_following_list_response__descriptor);
+  assert(message->descriptor == &cmsg_fsenumerate_following_list_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_fsenumerate_following_list_response__pack_to_buffer
                      (const CMsgFSEnumerateFollowingListResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_fsenumerate_following_list_response__descriptor);
+  assert(message->descriptor == &cmsg_fsenumerate_following_list_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgFSEnumerateFollowingListResponse *
@@ -3547,33 +3083,28 @@ void   cmsg_fsenumerate_following_list_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_fsenumerate_following_list_response__descriptor);
+  assert(message->descriptor == &cmsg_fsenumerate_following_list_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_dpget_number_of_current_players__init
-                     (CMsgDPGetNumberOfCurrentPlayers         *message)
-{
-  static const CMsgDPGetNumberOfCurrentPlayers init_value = CMSG_DPGET_NUMBER_OF_CURRENT_PLAYERS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_dpget_number_of_current_players__get_packed_size
                      (const CMsgDPGetNumberOfCurrentPlayers *message)
 {
-  assert(message->base.descriptor == &cmsg_dpget_number_of_current_players__descriptor);
+  assert(message->descriptor == &cmsg_dpget_number_of_current_players__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_dpget_number_of_current_players__pack
                      (const CMsgDPGetNumberOfCurrentPlayers *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_dpget_number_of_current_players__descriptor);
+  assert(message->descriptor == &cmsg_dpget_number_of_current_players__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_dpget_number_of_current_players__pack_to_buffer
                      (const CMsgDPGetNumberOfCurrentPlayers *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_dpget_number_of_current_players__descriptor);
+  assert(message->descriptor == &cmsg_dpget_number_of_current_players__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgDPGetNumberOfCurrentPlayers *
@@ -3592,33 +3123,28 @@ void   cmsg_dpget_number_of_current_players__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_dpget_number_of_current_players__descriptor);
+  assert(message->descriptor == &cmsg_dpget_number_of_current_players__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_dpget_number_of_current_players_response__init
-                     (CMsgDPGetNumberOfCurrentPlayersResponse         *message)
-{
-  static const CMsgDPGetNumberOfCurrentPlayersResponse init_value = CMSG_DPGET_NUMBER_OF_CURRENT_PLAYERS_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_dpget_number_of_current_players_response__get_packed_size
                      (const CMsgDPGetNumberOfCurrentPlayersResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_dpget_number_of_current_players_response__descriptor);
+  assert(message->descriptor == &cmsg_dpget_number_of_current_players_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_dpget_number_of_current_players_response__pack
                      (const CMsgDPGetNumberOfCurrentPlayersResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_dpget_number_of_current_players_response__descriptor);
+  assert(message->descriptor == &cmsg_dpget_number_of_current_players_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_dpget_number_of_current_players_response__pack_to_buffer
                      (const CMsgDPGetNumberOfCurrentPlayersResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_dpget_number_of_current_players_response__descriptor);
+  assert(message->descriptor == &cmsg_dpget_number_of_current_players_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgDPGetNumberOfCurrentPlayersResponse *
@@ -3637,33 +3163,28 @@ void   cmsg_dpget_number_of_current_players_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_dpget_number_of_current_players_response__descriptor);
+  assert(message->descriptor == &cmsg_dpget_number_of_current_players_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_friend_user_status_published__init
-                     (CMsgClientFriendUserStatusPublished         *message)
-{
-  static const CMsgClientFriendUserStatusPublished init_value = CMSG_CLIENT_FRIEND_USER_STATUS_PUBLISHED__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_friend_user_status_published__get_packed_size
                      (const CMsgClientFriendUserStatusPublished *message)
 {
-  assert(message->base.descriptor == &cmsg_client_friend_user_status_published__descriptor);
+  assert(message->descriptor == &cmsg_client_friend_user_status_published__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_friend_user_status_published__pack
                      (const CMsgClientFriendUserStatusPublished *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_friend_user_status_published__descriptor);
+  assert(message->descriptor == &cmsg_client_friend_user_status_published__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_friend_user_status_published__pack_to_buffer
                      (const CMsgClientFriendUserStatusPublished *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_friend_user_status_published__descriptor);
+  assert(message->descriptor == &cmsg_client_friend_user_status_published__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientFriendUserStatusPublished *
@@ -3682,33 +3203,28 @@ void   cmsg_client_friend_user_status_published__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_friend_user_status_published__descriptor);
+  assert(message->descriptor == &cmsg_client_friend_user_status_published__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_service_method_legacy__init
-                     (CMsgClientServiceMethodLegacy         *message)
-{
-  static const CMsgClientServiceMethodLegacy init_value = CMSG_CLIENT_SERVICE_METHOD_LEGACY__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_service_method_legacy__get_packed_size
                      (const CMsgClientServiceMethodLegacy *message)
 {
-  assert(message->base.descriptor == &cmsg_client_service_method_legacy__descriptor);
+  assert(message->descriptor == &cmsg_client_service_method_legacy__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_service_method_legacy__pack
                      (const CMsgClientServiceMethodLegacy *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_service_method_legacy__descriptor);
+  assert(message->descriptor == &cmsg_client_service_method_legacy__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_service_method_legacy__pack_to_buffer
                      (const CMsgClientServiceMethodLegacy *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_service_method_legacy__descriptor);
+  assert(message->descriptor == &cmsg_client_service_method_legacy__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientServiceMethodLegacy *
@@ -3727,33 +3243,28 @@ void   cmsg_client_service_method_legacy__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_service_method_legacy__descriptor);
+  assert(message->descriptor == &cmsg_client_service_method_legacy__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_service_method_legacy_response__init
-                     (CMsgClientServiceMethodLegacyResponse         *message)
-{
-  static const CMsgClientServiceMethodLegacyResponse init_value = CMSG_CLIENT_SERVICE_METHOD_LEGACY_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_service_method_legacy_response__get_packed_size
                      (const CMsgClientServiceMethodLegacyResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_service_method_legacy_response__descriptor);
+  assert(message->descriptor == &cmsg_client_service_method_legacy_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_service_method_legacy_response__pack
                      (const CMsgClientServiceMethodLegacyResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_service_method_legacy_response__descriptor);
+  assert(message->descriptor == &cmsg_client_service_method_legacy_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_service_method_legacy_response__pack_to_buffer
                      (const CMsgClientServiceMethodLegacyResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_service_method_legacy_response__descriptor);
+  assert(message->descriptor == &cmsg_client_service_method_legacy_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientServiceMethodLegacyResponse *
@@ -3772,33 +3283,28 @@ void   cmsg_client_service_method_legacy_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_service_method_legacy_response__descriptor);
+  assert(message->descriptor == &cmsg_client_service_method_legacy_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_uimode__init
-                     (CMsgClientUIMode         *message)
-{
-  static const CMsgClientUIMode init_value = CMSG_CLIENT_UIMODE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_uimode__get_packed_size
                      (const CMsgClientUIMode *message)
 {
-  assert(message->base.descriptor == &cmsg_client_uimode__descriptor);
+  assert(message->descriptor == &cmsg_client_uimode__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_uimode__pack
                      (const CMsgClientUIMode *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_uimode__descriptor);
+  assert(message->descriptor == &cmsg_client_uimode__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_uimode__pack_to_buffer
                      (const CMsgClientUIMode *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_uimode__descriptor);
+  assert(message->descriptor == &cmsg_client_uimode__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientUIMode *
@@ -3817,33 +3323,28 @@ void   cmsg_client_uimode__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_uimode__descriptor);
+  assert(message->descriptor == &cmsg_client_uimode__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_vanity_urlchanged_notification__init
-                     (CMsgClientVanityURLChangedNotification         *message)
-{
-  static const CMsgClientVanityURLChangedNotification init_value = CMSG_CLIENT_VANITY_URLCHANGED_NOTIFICATION__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_vanity_urlchanged_notification__get_packed_size
                      (const CMsgClientVanityURLChangedNotification *message)
 {
-  assert(message->base.descriptor == &cmsg_client_vanity_urlchanged_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_vanity_urlchanged_notification__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_vanity_urlchanged_notification__pack
                      (const CMsgClientVanityURLChangedNotification *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_vanity_urlchanged_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_vanity_urlchanged_notification__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_vanity_urlchanged_notification__pack_to_buffer
                      (const CMsgClientVanityURLChangedNotification *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_vanity_urlchanged_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_vanity_urlchanged_notification__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientVanityURLChangedNotification *
@@ -3862,33 +3363,28 @@ void   cmsg_client_vanity_urlchanged_notification__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_vanity_urlchanged_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_vanity_urlchanged_notification__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_authorize_local_device_request__init
-                     (CMsgClientAuthorizeLocalDeviceRequest         *message)
-{
-  static const CMsgClientAuthorizeLocalDeviceRequest init_value = CMSG_CLIENT_AUTHORIZE_LOCAL_DEVICE_REQUEST__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_authorize_local_device_request__get_packed_size
                      (const CMsgClientAuthorizeLocalDeviceRequest *message)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device_request__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device_request__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_authorize_local_device_request__pack
                      (const CMsgClientAuthorizeLocalDeviceRequest *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device_request__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device_request__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_authorize_local_device_request__pack_to_buffer
                      (const CMsgClientAuthorizeLocalDeviceRequest *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device_request__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device_request__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientAuthorizeLocalDeviceRequest *
@@ -3907,33 +3403,28 @@ void   cmsg_client_authorize_local_device_request__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device_request__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device_request__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_authorize_local_device__init
-                     (CMsgClientAuthorizeLocalDevice         *message)
-{
-  static const CMsgClientAuthorizeLocalDevice init_value = CMSG_CLIENT_AUTHORIZE_LOCAL_DEVICE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_authorize_local_device__get_packed_size
                      (const CMsgClientAuthorizeLocalDevice *message)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_authorize_local_device__pack
                      (const CMsgClientAuthorizeLocalDevice *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_authorize_local_device__pack_to_buffer
                      (const CMsgClientAuthorizeLocalDevice *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientAuthorizeLocalDevice *
@@ -3952,33 +3443,28 @@ void   cmsg_client_authorize_local_device__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_authorize_local_device_notification__init
-                     (CMsgClientAuthorizeLocalDeviceNotification         *message)
-{
-  static const CMsgClientAuthorizeLocalDeviceNotification init_value = CMSG_CLIENT_AUTHORIZE_LOCAL_DEVICE_NOTIFICATION__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_authorize_local_device_notification__get_packed_size
                      (const CMsgClientAuthorizeLocalDeviceNotification *message)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device_notification__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_authorize_local_device_notification__pack
                      (const CMsgClientAuthorizeLocalDeviceNotification *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device_notification__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_authorize_local_device_notification__pack_to_buffer
                      (const CMsgClientAuthorizeLocalDeviceNotification *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device_notification__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientAuthorizeLocalDeviceNotification *
@@ -3997,33 +3483,28 @@ void   cmsg_client_authorize_local_device_notification__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_authorize_local_device_notification__descriptor);
+  assert(message->descriptor == &cmsg_client_authorize_local_device_notification__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_deauthorize_device_request__init
-                     (CMsgClientDeauthorizeDeviceRequest         *message)
-{
-  static const CMsgClientDeauthorizeDeviceRequest init_value = CMSG_CLIENT_DEAUTHORIZE_DEVICE_REQUEST__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_deauthorize_device_request__get_packed_size
                      (const CMsgClientDeauthorizeDeviceRequest *message)
 {
-  assert(message->base.descriptor == &cmsg_client_deauthorize_device_request__descriptor);
+  assert(message->descriptor == &cmsg_client_deauthorize_device_request__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_deauthorize_device_request__pack
                      (const CMsgClientDeauthorizeDeviceRequest *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_deauthorize_device_request__descriptor);
+  assert(message->descriptor == &cmsg_client_deauthorize_device_request__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_deauthorize_device_request__pack_to_buffer
                      (const CMsgClientDeauthorizeDeviceRequest *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_deauthorize_device_request__descriptor);
+  assert(message->descriptor == &cmsg_client_deauthorize_device_request__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientDeauthorizeDeviceRequest *
@@ -4042,33 +3523,28 @@ void   cmsg_client_deauthorize_device_request__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_deauthorize_device_request__descriptor);
+  assert(message->descriptor == &cmsg_client_deauthorize_device_request__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_deauthorize_device__init
-                     (CMsgClientDeauthorizeDevice         *message)
-{
-  static const CMsgClientDeauthorizeDevice init_value = CMSG_CLIENT_DEAUTHORIZE_DEVICE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_deauthorize_device__get_packed_size
                      (const CMsgClientDeauthorizeDevice *message)
 {
-  assert(message->base.descriptor == &cmsg_client_deauthorize_device__descriptor);
+  assert(message->descriptor == &cmsg_client_deauthorize_device__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_deauthorize_device__pack
                      (const CMsgClientDeauthorizeDevice *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_deauthorize_device__descriptor);
+  assert(message->descriptor == &cmsg_client_deauthorize_device__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_deauthorize_device__pack_to_buffer
                      (const CMsgClientDeauthorizeDevice *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_deauthorize_device__descriptor);
+  assert(message->descriptor == &cmsg_client_deauthorize_device__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientDeauthorizeDevice *
@@ -4087,39 +3563,28 @@ void   cmsg_client_deauthorize_device__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_deauthorize_device__descriptor);
+  assert(message->descriptor == &cmsg_client_deauthorize_device__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_use_local_device_authorizations__device_token__init
-                     (CMsgClientUseLocalDeviceAuthorizations__DeviceToken         *message)
-{
-  static const CMsgClientUseLocalDeviceAuthorizations__DeviceToken init_value = CMSG_CLIENT_USE_LOCAL_DEVICE_AUTHORIZATIONS__DEVICE_TOKEN__INIT;
-  *message = init_value;
-}
-void   cmsg_client_use_local_device_authorizations__init
-                     (CMsgClientUseLocalDeviceAuthorizations         *message)
-{
-  static const CMsgClientUseLocalDeviceAuthorizations init_value = CMSG_CLIENT_USE_LOCAL_DEVICE_AUTHORIZATIONS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_use_local_device_authorizations__get_packed_size
                      (const CMsgClientUseLocalDeviceAuthorizations *message)
 {
-  assert(message->base.descriptor == &cmsg_client_use_local_device_authorizations__descriptor);
+  assert(message->descriptor == &cmsg_client_use_local_device_authorizations__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_use_local_device_authorizations__pack
                      (const CMsgClientUseLocalDeviceAuthorizations *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_use_local_device_authorizations__descriptor);
+  assert(message->descriptor == &cmsg_client_use_local_device_authorizations__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_use_local_device_authorizations__pack_to_buffer
                      (const CMsgClientUseLocalDeviceAuthorizations *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_use_local_device_authorizations__descriptor);
+  assert(message->descriptor == &cmsg_client_use_local_device_authorizations__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientUseLocalDeviceAuthorizations *
@@ -4138,33 +3603,28 @@ void   cmsg_client_use_local_device_authorizations__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_use_local_device_authorizations__descriptor);
+  assert(message->descriptor == &cmsg_client_use_local_device_authorizations__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_authorized_devices__init
-                     (CMsgClientGetAuthorizedDevices         *message)
-{
-  static const CMsgClientGetAuthorizedDevices init_value = CMSG_CLIENT_GET_AUTHORIZED_DEVICES__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_authorized_devices__get_packed_size
                      (const CMsgClientGetAuthorizedDevices *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_authorized_devices__descriptor);
+  assert(message->descriptor == &cmsg_client_get_authorized_devices__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_authorized_devices__pack
                      (const CMsgClientGetAuthorizedDevices *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_authorized_devices__descriptor);
+  assert(message->descriptor == &cmsg_client_get_authorized_devices__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_authorized_devices__pack_to_buffer
                      (const CMsgClientGetAuthorizedDevices *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_authorized_devices__descriptor);
+  assert(message->descriptor == &cmsg_client_get_authorized_devices__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetAuthorizedDevices *
@@ -4183,39 +3643,28 @@ void   cmsg_client_get_authorized_devices__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_authorized_devices__descriptor);
+  assert(message->descriptor == &cmsg_client_get_authorized_devices__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_authorized_devices_response__authorized_device__init
-                     (CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice         *message)
-{
-  static const CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice init_value = CMSG_CLIENT_GET_AUTHORIZED_DEVICES_RESPONSE__AUTHORIZED_DEVICE__INIT;
-  *message = init_value;
-}
-void   cmsg_client_get_authorized_devices_response__init
-                     (CMsgClientGetAuthorizedDevicesResponse         *message)
-{
-  static const CMsgClientGetAuthorizedDevicesResponse init_value = CMSG_CLIENT_GET_AUTHORIZED_DEVICES_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_authorized_devices_response__get_packed_size
                      (const CMsgClientGetAuthorizedDevicesResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_authorized_devices_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_authorized_devices_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_authorized_devices_response__pack
                      (const CMsgClientGetAuthorizedDevicesResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_authorized_devices_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_authorized_devices_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_authorized_devices_response__pack_to_buffer
                      (const CMsgClientGetAuthorizedDevicesResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_authorized_devices_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_authorized_devices_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetAuthorizedDevicesResponse *
@@ -4234,39 +3683,28 @@ void   cmsg_client_get_authorized_devices_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_authorized_devices_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_authorized_devices_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_shared_library_lock_status__locked_library__init
-                     (CMsgClientSharedLibraryLockStatus__LockedLibrary         *message)
-{
-  static const CMsgClientSharedLibraryLockStatus__LockedLibrary init_value = CMSG_CLIENT_SHARED_LIBRARY_LOCK_STATUS__LOCKED_LIBRARY__INIT;
-  *message = init_value;
-}
-void   cmsg_client_shared_library_lock_status__init
-                     (CMsgClientSharedLibraryLockStatus         *message)
-{
-  static const CMsgClientSharedLibraryLockStatus init_value = CMSG_CLIENT_SHARED_LIBRARY_LOCK_STATUS__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_shared_library_lock_status__get_packed_size
                      (const CMsgClientSharedLibraryLockStatus *message)
 {
-  assert(message->base.descriptor == &cmsg_client_shared_library_lock_status__descriptor);
+  assert(message->descriptor == &cmsg_client_shared_library_lock_status__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_shared_library_lock_status__pack
                      (const CMsgClientSharedLibraryLockStatus *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_shared_library_lock_status__descriptor);
+  assert(message->descriptor == &cmsg_client_shared_library_lock_status__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_shared_library_lock_status__pack_to_buffer
                      (const CMsgClientSharedLibraryLockStatus *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_shared_library_lock_status__descriptor);
+  assert(message->descriptor == &cmsg_client_shared_library_lock_status__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientSharedLibraryLockStatus *
@@ -4285,39 +3723,28 @@ void   cmsg_client_shared_library_lock_status__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_shared_library_lock_status__descriptor);
+  assert(message->descriptor == &cmsg_client_shared_library_lock_status__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_shared_library_stop_playing__stop_app__init
-                     (CMsgClientSharedLibraryStopPlaying__StopApp         *message)
-{
-  static const CMsgClientSharedLibraryStopPlaying__StopApp init_value = CMSG_CLIENT_SHARED_LIBRARY_STOP_PLAYING__STOP_APP__INIT;
-  *message = init_value;
-}
-void   cmsg_client_shared_library_stop_playing__init
-                     (CMsgClientSharedLibraryStopPlaying         *message)
-{
-  static const CMsgClientSharedLibraryStopPlaying init_value = CMSG_CLIENT_SHARED_LIBRARY_STOP_PLAYING__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_shared_library_stop_playing__get_packed_size
                      (const CMsgClientSharedLibraryStopPlaying *message)
 {
-  assert(message->base.descriptor == &cmsg_client_shared_library_stop_playing__descriptor);
+  assert(message->descriptor == &cmsg_client_shared_library_stop_playing__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_shared_library_stop_playing__pack
                      (const CMsgClientSharedLibraryStopPlaying *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_shared_library_stop_playing__descriptor);
+  assert(message->descriptor == &cmsg_client_shared_library_stop_playing__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_shared_library_stop_playing__pack_to_buffer
                      (const CMsgClientSharedLibraryStopPlaying *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_shared_library_stop_playing__descriptor);
+  assert(message->descriptor == &cmsg_client_shared_library_stop_playing__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientSharedLibraryStopPlaying *
@@ -4336,33 +3763,28 @@ void   cmsg_client_shared_library_stop_playing__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_shared_library_stop_playing__descriptor);
+  assert(message->descriptor == &cmsg_client_shared_library_stop_playing__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_service_call__init
-                     (CMsgClientServiceCall         *message)
-{
-  static const CMsgClientServiceCall init_value = CMSG_CLIENT_SERVICE_CALL__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_service_call__get_packed_size
                      (const CMsgClientServiceCall *message)
 {
-  assert(message->base.descriptor == &cmsg_client_service_call__descriptor);
+  assert(message->descriptor == &cmsg_client_service_call__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_service_call__pack
                      (const CMsgClientServiceCall *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_service_call__descriptor);
+  assert(message->descriptor == &cmsg_client_service_call__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_service_call__pack_to_buffer
                      (const CMsgClientServiceCall *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_service_call__descriptor);
+  assert(message->descriptor == &cmsg_client_service_call__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientServiceCall *
@@ -4381,33 +3803,28 @@ void   cmsg_client_service_call__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_service_call__descriptor);
+  assert(message->descriptor == &cmsg_client_service_call__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_service_module__init
-                     (CMsgClientServiceModule         *message)
-{
-  static const CMsgClientServiceModule init_value = CMSG_CLIENT_SERVICE_MODULE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_service_module__get_packed_size
                      (const CMsgClientServiceModule *message)
 {
-  assert(message->base.descriptor == &cmsg_client_service_module__descriptor);
+  assert(message->descriptor == &cmsg_client_service_module__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_service_module__pack
                      (const CMsgClientServiceModule *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_service_module__descriptor);
+  assert(message->descriptor == &cmsg_client_service_module__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_service_module__pack_to_buffer
                      (const CMsgClientServiceModule *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_service_module__descriptor);
+  assert(message->descriptor == &cmsg_client_service_module__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientServiceModule *
@@ -4426,33 +3843,28 @@ void   cmsg_client_service_module__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_service_module__descriptor);
+  assert(message->descriptor == &cmsg_client_service_module__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_service_call_response__init
-                     (CMsgClientServiceCallResponse         *message)
-{
-  static const CMsgClientServiceCallResponse init_value = CMSG_CLIENT_SERVICE_CALL_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_service_call_response__get_packed_size
                      (const CMsgClientServiceCallResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_service_call_response__descriptor);
+  assert(message->descriptor == &cmsg_client_service_call_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_service_call_response__pack
                      (const CMsgClientServiceCallResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_service_call_response__descriptor);
+  assert(message->descriptor == &cmsg_client_service_call_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_service_call_response__pack_to_buffer
                      (const CMsgClientServiceCallResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_service_call_response__descriptor);
+  assert(message->descriptor == &cmsg_client_service_call_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientServiceCallResponse *
@@ -4471,33 +3883,28 @@ void   cmsg_client_service_call_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_service_call_response__descriptor);
+  assert(message->descriptor == &cmsg_client_service_call_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_amunlock_h264__init
-                     (CMsgAMUnlockH264         *message)
-{
-  static const CMsgAMUnlockH264 init_value = CMSG_AMUNLOCK_H264__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_amunlock_h264__get_packed_size
                      (const CMsgAMUnlockH264 *message)
 {
-  assert(message->base.descriptor == &cmsg_amunlock_h264__descriptor);
+  assert(message->descriptor == &cmsg_amunlock_h264__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_amunlock_h264__pack
                      (const CMsgAMUnlockH264 *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_amunlock_h264__descriptor);
+  assert(message->descriptor == &cmsg_amunlock_h264__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_amunlock_h264__pack_to_buffer
                      (const CMsgAMUnlockH264 *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_amunlock_h264__descriptor);
+  assert(message->descriptor == &cmsg_amunlock_h264__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgAMUnlockH264 *
@@ -4516,33 +3923,28 @@ void   cmsg_amunlock_h264__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_amunlock_h264__descriptor);
+  assert(message->descriptor == &cmsg_amunlock_h264__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_amunlock_h264_response__init
-                     (CMsgAMUnlockH264Response         *message)
-{
-  static const CMsgAMUnlockH264Response init_value = CMSG_AMUNLOCK_H264_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_amunlock_h264_response__get_packed_size
                      (const CMsgAMUnlockH264Response *message)
 {
-  assert(message->base.descriptor == &cmsg_amunlock_h264_response__descriptor);
+  assert(message->descriptor == &cmsg_amunlock_h264_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_amunlock_h264_response__pack
                      (const CMsgAMUnlockH264Response *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_amunlock_h264_response__descriptor);
+  assert(message->descriptor == &cmsg_amunlock_h264_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_amunlock_h264_response__pack_to_buffer
                      (const CMsgAMUnlockH264Response *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_amunlock_h264_response__descriptor);
+  assert(message->descriptor == &cmsg_amunlock_h264_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgAMUnlockH264Response *
@@ -4561,33 +3963,28 @@ void   cmsg_amunlock_h264_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_amunlock_h264_response__descriptor);
+  assert(message->descriptor == &cmsg_amunlock_h264_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_playing_session_state__init
-                     (CMsgClientPlayingSessionState         *message)
-{
-  static const CMsgClientPlayingSessionState init_value = CMSG_CLIENT_PLAYING_SESSION_STATE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_playing_session_state__get_packed_size
                      (const CMsgClientPlayingSessionState *message)
 {
-  assert(message->base.descriptor == &cmsg_client_playing_session_state__descriptor);
+  assert(message->descriptor == &cmsg_client_playing_session_state__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_playing_session_state__pack
                      (const CMsgClientPlayingSessionState *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_playing_session_state__descriptor);
+  assert(message->descriptor == &cmsg_client_playing_session_state__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_playing_session_state__pack_to_buffer
                      (const CMsgClientPlayingSessionState *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_playing_session_state__descriptor);
+  assert(message->descriptor == &cmsg_client_playing_session_state__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientPlayingSessionState *
@@ -4606,33 +4003,28 @@ void   cmsg_client_playing_session_state__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_playing_session_state__descriptor);
+  assert(message->descriptor == &cmsg_client_playing_session_state__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_kick_playing_session__init
-                     (CMsgClientKickPlayingSession         *message)
-{
-  static const CMsgClientKickPlayingSession init_value = CMSG_CLIENT_KICK_PLAYING_SESSION__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_kick_playing_session__get_packed_size
                      (const CMsgClientKickPlayingSession *message)
 {
-  assert(message->base.descriptor == &cmsg_client_kick_playing_session__descriptor);
+  assert(message->descriptor == &cmsg_client_kick_playing_session__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_kick_playing_session__pack
                      (const CMsgClientKickPlayingSession *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_kick_playing_session__descriptor);
+  assert(message->descriptor == &cmsg_client_kick_playing_session__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_kick_playing_session__pack_to_buffer
                      (const CMsgClientKickPlayingSession *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_kick_playing_session__descriptor);
+  assert(message->descriptor == &cmsg_client_kick_playing_session__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientKickPlayingSession *
@@ -4651,33 +4043,28 @@ void   cmsg_client_kick_playing_session__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_kick_playing_session__descriptor);
+  assert(message->descriptor == &cmsg_client_kick_playing_session__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_voice_call_pre_authorize__init
-                     (CMsgClientVoiceCallPreAuthorize         *message)
-{
-  static const CMsgClientVoiceCallPreAuthorize init_value = CMSG_CLIENT_VOICE_CALL_PRE_AUTHORIZE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_voice_call_pre_authorize__get_packed_size
                      (const CMsgClientVoiceCallPreAuthorize *message)
 {
-  assert(message->base.descriptor == &cmsg_client_voice_call_pre_authorize__descriptor);
+  assert(message->descriptor == &cmsg_client_voice_call_pre_authorize__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_voice_call_pre_authorize__pack
                      (const CMsgClientVoiceCallPreAuthorize *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_voice_call_pre_authorize__descriptor);
+  assert(message->descriptor == &cmsg_client_voice_call_pre_authorize__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_voice_call_pre_authorize__pack_to_buffer
                      (const CMsgClientVoiceCallPreAuthorize *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_voice_call_pre_authorize__descriptor);
+  assert(message->descriptor == &cmsg_client_voice_call_pre_authorize__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientVoiceCallPreAuthorize *
@@ -4696,33 +4083,28 @@ void   cmsg_client_voice_call_pre_authorize__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_voice_call_pre_authorize__descriptor);
+  assert(message->descriptor == &cmsg_client_voice_call_pre_authorize__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_voice_call_pre_authorize_response__init
-                     (CMsgClientVoiceCallPreAuthorizeResponse         *message)
-{
-  static const CMsgClientVoiceCallPreAuthorizeResponse init_value = CMSG_CLIENT_VOICE_CALL_PRE_AUTHORIZE_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_voice_call_pre_authorize_response__get_packed_size
                      (const CMsgClientVoiceCallPreAuthorizeResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_voice_call_pre_authorize_response__descriptor);
+  assert(message->descriptor == &cmsg_client_voice_call_pre_authorize_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_voice_call_pre_authorize_response__pack
                      (const CMsgClientVoiceCallPreAuthorizeResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_voice_call_pre_authorize_response__descriptor);
+  assert(message->descriptor == &cmsg_client_voice_call_pre_authorize_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_voice_call_pre_authorize_response__pack_to_buffer
                      (const CMsgClientVoiceCallPreAuthorizeResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_voice_call_pre_authorize_response__descriptor);
+  assert(message->descriptor == &cmsg_client_voice_call_pre_authorize_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientVoiceCallPreAuthorizeResponse *
@@ -4741,33 +4123,28 @@ void   cmsg_client_voice_call_pre_authorize_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_voice_call_pre_authorize_response__descriptor);
+  assert(message->descriptor == &cmsg_client_voice_call_pre_authorize_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_badge_crafted_notification__init
-                     (CMsgBadgeCraftedNotification         *message)
-{
-  static const CMsgBadgeCraftedNotification init_value = CMSG_BADGE_CRAFTED_NOTIFICATION__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_badge_crafted_notification__get_packed_size
                      (const CMsgBadgeCraftedNotification *message)
 {
-  assert(message->base.descriptor == &cmsg_badge_crafted_notification__descriptor);
+  assert(message->descriptor == &cmsg_badge_crafted_notification__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_badge_crafted_notification__pack
                      (const CMsgBadgeCraftedNotification *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_badge_crafted_notification__descriptor);
+  assert(message->descriptor == &cmsg_badge_crafted_notification__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_badge_crafted_notification__pack_to_buffer
                      (const CMsgBadgeCraftedNotification *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_badge_crafted_notification__descriptor);
+  assert(message->descriptor == &cmsg_badge_crafted_notification__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgBadgeCraftedNotification *
@@ -4786,33 +4163,28 @@ void   cmsg_badge_crafted_notification__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_badge_crafted_notification__descriptor);
+  assert(message->descriptor == &cmsg_badge_crafted_notification__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_start_peer_content_server__init
-                     (CMsgClientStartPeerContentServer         *message)
-{
-  static const CMsgClientStartPeerContentServer init_value = CMSG_CLIENT_START_PEER_CONTENT_SERVER__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_start_peer_content_server__get_packed_size
                      (const CMsgClientStartPeerContentServer *message)
 {
-  assert(message->base.descriptor == &cmsg_client_start_peer_content_server__descriptor);
+  assert(message->descriptor == &cmsg_client_start_peer_content_server__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_start_peer_content_server__pack
                      (const CMsgClientStartPeerContentServer *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_start_peer_content_server__descriptor);
+  assert(message->descriptor == &cmsg_client_start_peer_content_server__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_start_peer_content_server__pack_to_buffer
                      (const CMsgClientStartPeerContentServer *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_start_peer_content_server__descriptor);
+  assert(message->descriptor == &cmsg_client_start_peer_content_server__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientStartPeerContentServer *
@@ -4831,33 +4203,28 @@ void   cmsg_client_start_peer_content_server__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_start_peer_content_server__descriptor);
+  assert(message->descriptor == &cmsg_client_start_peer_content_server__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_start_peer_content_server_response__init
-                     (CMsgClientStartPeerContentServerResponse         *message)
-{
-  static const CMsgClientStartPeerContentServerResponse init_value = CMSG_CLIENT_START_PEER_CONTENT_SERVER_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_start_peer_content_server_response__get_packed_size
                      (const CMsgClientStartPeerContentServerResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_start_peer_content_server_response__descriptor);
+  assert(message->descriptor == &cmsg_client_start_peer_content_server_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_start_peer_content_server_response__pack
                      (const CMsgClientStartPeerContentServerResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_start_peer_content_server_response__descriptor);
+  assert(message->descriptor == &cmsg_client_start_peer_content_server_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_start_peer_content_server_response__pack_to_buffer
                      (const CMsgClientStartPeerContentServerResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_start_peer_content_server_response__descriptor);
+  assert(message->descriptor == &cmsg_client_start_peer_content_server_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientStartPeerContentServerResponse *
@@ -4876,33 +4243,28 @@ void   cmsg_client_start_peer_content_server_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_start_peer_content_server_response__descriptor);
+  assert(message->descriptor == &cmsg_client_start_peer_content_server_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_peer_content_info__init
-                     (CMsgClientGetPeerContentInfo         *message)
-{
-  static const CMsgClientGetPeerContentInfo init_value = CMSG_CLIENT_GET_PEER_CONTENT_INFO__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_peer_content_info__get_packed_size
                      (const CMsgClientGetPeerContentInfo *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_peer_content_info__descriptor);
+  assert(message->descriptor == &cmsg_client_get_peer_content_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_peer_content_info__pack
                      (const CMsgClientGetPeerContentInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_peer_content_info__descriptor);
+  assert(message->descriptor == &cmsg_client_get_peer_content_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_peer_content_info__pack_to_buffer
                      (const CMsgClientGetPeerContentInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_peer_content_info__descriptor);
+  assert(message->descriptor == &cmsg_client_get_peer_content_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetPeerContentInfo *
@@ -4921,33 +4283,28 @@ void   cmsg_client_get_peer_content_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_peer_content_info__descriptor);
+  assert(message->descriptor == &cmsg_client_get_peer_content_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
-void   cmsg_client_get_peer_content_info_response__init
-                     (CMsgClientGetPeerContentInfoResponse         *message)
-{
-  static const CMsgClientGetPeerContentInfoResponse init_value = CMSG_CLIENT_GET_PEER_CONTENT_INFO_RESPONSE__INIT;
-  *message = init_value;
-}
+
 size_t cmsg_client_get_peer_content_info_response__get_packed_size
                      (const CMsgClientGetPeerContentInfoResponse *message)
 {
-  assert(message->base.descriptor == &cmsg_client_get_peer_content_info_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_peer_content_info_response__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t cmsg_client_get_peer_content_info_response__pack
                      (const CMsgClientGetPeerContentInfoResponse *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &cmsg_client_get_peer_content_info_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_peer_content_info_response__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t cmsg_client_get_peer_content_info_response__pack_to_buffer
                      (const CMsgClientGetPeerContentInfoResponse *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &cmsg_client_get_peer_content_info_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_peer_content_info_response__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 CMsgClientGetPeerContentInfoResponse *
@@ -4966,9 +4323,10 @@ void   cmsg_client_get_peer_content_info_response__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &cmsg_client_get_peer_content_info_response__descriptor);
+  assert(message->descriptor == &cmsg_client_get_peer_content_info_response__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+
 static const ProtobufCFieldDescriptor cmsg_client_update_user_game_info__field_descriptors[5] =
 {
   {
@@ -5056,8 +4414,7 @@ const ProtobufCMessageDescriptor cmsg_client_update_user_game_info__descriptor =
   cmsg_client_update_user_game_info__field_descriptors,
   cmsg_client_update_user_game_info__field_indices_by_name,
   1,  cmsg_client_update_user_game_info__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_update_user_game_info__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_rich_presence_upload__field_descriptors[2] =
 {
@@ -5107,8 +4464,7 @@ const ProtobufCMessageDescriptor cmsg_client_rich_presence_upload__descriptor =
   cmsg_client_rich_presence_upload__field_descriptors,
   cmsg_client_rich_presence_upload__field_indices_by_name,
   1,  cmsg_client_rich_presence_upload__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_rich_presence_upload__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_rich_presence_request__field_descriptors[1] =
 {
@@ -5145,8 +4501,7 @@ const ProtobufCMessageDescriptor cmsg_client_rich_presence_request__descriptor =
   cmsg_client_rich_presence_request__field_descriptors,
   cmsg_client_rich_presence_request__field_indices_by_name,
   1,  cmsg_client_rich_presence_request__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_rich_presence_request__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_rich_presence_info__rich_presence__field_descriptors[2] =
 {
@@ -5196,8 +4551,7 @@ const ProtobufCMessageDescriptor cmsg_client_rich_presence_info__rich_presence__
   cmsg_client_rich_presence_info__rich_presence__field_descriptors,
   cmsg_client_rich_presence_info__rich_presence__field_indices_by_name,
   1,  cmsg_client_rich_presence_info__rich_presence__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_rich_presence_info__rich_presence__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_rich_presence_info__field_descriptors[1] =
 {
@@ -5234,8 +4588,7 @@ const ProtobufCMessageDescriptor cmsg_client_rich_presence_info__descriptor =
   cmsg_client_rich_presence_info__field_descriptors,
   cmsg_client_rich_presence_info__field_indices_by_name,
   1,  cmsg_client_rich_presence_info__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_rich_presence_info__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_check_file_signature__field_descriptors[1] =
 {
@@ -5272,8 +4625,7 @@ const ProtobufCMessageDescriptor cmsg_client_check_file_signature__descriptor =
   cmsg_client_check_file_signature__field_descriptors,
   cmsg_client_check_file_signature__field_indices_by_name,
   1,  cmsg_client_check_file_signature__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_check_file_signature__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_check_file_signature_response__field_descriptors[10] =
 {
@@ -5427,8 +4779,7 @@ const ProtobufCMessageDescriptor cmsg_client_check_file_signature_response__desc
   cmsg_client_check_file_signature_response__field_descriptors,
   cmsg_client_check_file_signature_response__field_indices_by_name,
   1,  cmsg_client_check_file_signature_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_check_file_signature_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_read_machine_auth__field_descriptors[3] =
 {
@@ -5491,8 +4842,7 @@ const ProtobufCMessageDescriptor cmsg_client_read_machine_auth__descriptor =
   cmsg_client_read_machine_auth__field_descriptors,
   cmsg_client_read_machine_auth__field_indices_by_name,
   1,  cmsg_client_read_machine_auth__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_read_machine_auth__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_read_machine_auth_response__field_descriptors[9] =
 {
@@ -5633,8 +4983,7 @@ const ProtobufCMessageDescriptor cmsg_client_read_machine_auth_response__descrip
   cmsg_client_read_machine_auth_response__field_descriptors,
   cmsg_client_read_machine_auth_response__field_indices_by_name,
   1,  cmsg_client_read_machine_auth_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_read_machine_auth_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_update_machine_auth__field_descriptors[8] =
 {
@@ -5762,8 +5111,7 @@ const ProtobufCMessageDescriptor cmsg_client_update_machine_auth__descriptor =
   cmsg_client_update_machine_auth__field_descriptors,
   cmsg_client_update_machine_auth__field_indices_by_name,
   1,  cmsg_client_update_machine_auth__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_update_machine_auth__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_update_machine_auth_response__field_descriptors[10] =
 {
@@ -5917,8 +5265,7 @@ const ProtobufCMessageDescriptor cmsg_client_update_machine_auth_response__descr
   cmsg_client_update_machine_auth_response__field_descriptors,
   cmsg_client_update_machine_auth_response__field_indices_by_name,
   1,  cmsg_client_update_machine_auth_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_update_machine_auth_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_request_machine_auth__field_descriptors[11] =
 {
@@ -6086,8 +5433,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_machine_auth__descriptor =
   cmsg_client_request_machine_auth__field_descriptors,
   cmsg_client_request_machine_auth__field_indices_by_name,
   2,  cmsg_client_request_machine_auth__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_machine_auth__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_request_machine_auth_response__field_descriptors[1] =
 {
@@ -6124,8 +5470,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_machine_auth_response__desc
   cmsg_client_request_machine_auth_response__field_descriptors,
   cmsg_client_request_machine_auth_response__field_indices_by_name,
   1,  cmsg_client_request_machine_auth_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_machine_auth_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_register_key__field_descriptors[1] =
 {
@@ -6162,8 +5507,7 @@ const ProtobufCMessageDescriptor cmsg_client_register_key__descriptor =
   cmsg_client_register_key__field_descriptors,
   cmsg_client_register_key__field_indices_by_name,
   1,  cmsg_client_register_key__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_register_key__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_purchase_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_purchase_response__field_descriptors[3] =
@@ -6227,8 +5571,7 @@ const ProtobufCMessageDescriptor cmsg_client_purchase_response__descriptor =
   cmsg_client_purchase_response__field_descriptors,
   cmsg_client_purchase_response__field_indices_by_name,
   1,  cmsg_client_purchase_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_purchase_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_activate_oemlicense__field_descriptors[6] =
 {
@@ -6330,8 +5673,7 @@ const ProtobufCMessageDescriptor cmsg_client_activate_oemlicense__descriptor =
   cmsg_client_activate_oemlicense__field_descriptors,
   cmsg_client_activate_oemlicense__field_indices_by_name,
   1,  cmsg_client_activate_oemlicense__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_activate_oemlicense__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_register_oemmachine__field_descriptors[1] =
 {
@@ -6368,8 +5710,7 @@ const ProtobufCMessageDescriptor cmsg_client_register_oemmachine__descriptor =
   cmsg_client_register_oemmachine__field_descriptors,
   cmsg_client_register_oemmachine__field_indices_by_name,
   1,  cmsg_client_register_oemmachine__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_register_oemmachine__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_register_oemmachine_response__field_descriptors[1] =
 {
@@ -6406,8 +5747,7 @@ const ProtobufCMessageDescriptor cmsg_client_register_oemmachine_response__descr
   cmsg_client_register_oemmachine_response__field_descriptors,
   cmsg_client_register_oemmachine_response__field_indices_by_name,
   1,  cmsg_client_register_oemmachine_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_register_oemmachine_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_purchase_with_machine_id__field_descriptors[2] =
 {
@@ -6457,8 +5797,7 @@ const ProtobufCMessageDescriptor cmsg_client_purchase_with_machine_id__descripto
   cmsg_client_purchase_with_machine_id__field_descriptors,
   cmsg_client_purchase_with_machine_id__field_indices_by_name,
   1,  cmsg_client_purchase_with_machine_id__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_purchase_with_machine_id__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_trading__initiate_trade_request__field_descriptors[3] =
 {
@@ -6521,8 +5860,7 @@ const ProtobufCMessageDescriptor cmsg_trading__initiate_trade_request__descripto
   cmsg_trading__initiate_trade_request__field_descriptors,
   cmsg_trading__initiate_trade_request__field_indices_by_name,
   1,  cmsg_trading__initiate_trade_request__number_ranges,
-  (ProtobufCMessageInit) cmsg_trading__initiate_trade_request__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_trading__initiate_trade_response__field_descriptors[9] =
 {
@@ -6663,8 +6001,7 @@ const ProtobufCMessageDescriptor cmsg_trading__initiate_trade_response__descript
   cmsg_trading__initiate_trade_response__field_descriptors,
   cmsg_trading__initiate_trade_response__field_indices_by_name,
   1,  cmsg_trading__initiate_trade_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_trading__initiate_trade_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_trading__cancel_trade_request__field_descriptors[1] =
 {
@@ -6701,8 +6038,7 @@ const ProtobufCMessageDescriptor cmsg_trading__cancel_trade_request__descriptor 
   cmsg_trading__cancel_trade_request__field_descriptors,
   cmsg_trading__cancel_trade_request__field_indices_by_name,
   1,  cmsg_trading__cancel_trade_request__number_ranges,
-  (ProtobufCMessageInit) cmsg_trading__cancel_trade_request__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_trading__start_session__field_descriptors[1] =
 {
@@ -6739,8 +6075,7 @@ const ProtobufCMessageDescriptor cmsg_trading__start_session__descriptor =
   cmsg_trading__start_session__field_descriptors,
   cmsg_trading__start_session__field_indices_by_name,
   1,  cmsg_trading__start_session__number_ranges,
-  (ProtobufCMessageInit) cmsg_trading__start_session__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_get_cdnauth_token__field_descriptors[3] =
 {
@@ -6803,8 +6138,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_cdnauth_token__descriptor =
   cmsg_client_get_cdnauth_token__field_descriptors,
   cmsg_client_get_cdnauth_token__field_indices_by_name,
   1,  cmsg_client_get_cdnauth_token__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_cdnauth_token__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_get_depot_decryption_key__field_descriptors[2] =
 {
@@ -6854,8 +6188,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_depot_decryption_key__descripto
   cmsg_client_get_depot_decryption_key__field_descriptors,
   cmsg_client_get_depot_decryption_key__field_indices_by_name,
   1,  cmsg_client_get_depot_decryption_key__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_depot_decryption_key__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_get_depot_decryption_key_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_get_depot_decryption_key_response__field_descriptors[3] =
@@ -6919,8 +6252,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_depot_decryption_key_response__
   cmsg_client_get_depot_decryption_key_response__field_descriptors,
   cmsg_client_get_depot_decryption_key_response__field_indices_by_name,
   1,  cmsg_client_get_depot_decryption_key_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_depot_decryption_key_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_check_app_beta_password__field_descriptors[3] =
 {
@@ -6983,8 +6315,7 @@ const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password__descriptor
   cmsg_client_check_app_beta_password__field_descriptors,
   cmsg_client_check_app_beta_password__field_indices_by_name,
   1,  cmsg_client_check_app_beta_password__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_check_app_beta_password__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_check_app_beta_password_response__beta_password__field_descriptors[3] =
 {
@@ -7047,8 +6378,7 @@ const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password_response__b
   cmsg_client_check_app_beta_password_response__beta_password__field_descriptors,
   cmsg_client_check_app_beta_password_response__beta_password__field_indices_by_name,
   1,  cmsg_client_check_app_beta_password_response__beta_password__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_check_app_beta_password_response__beta_password__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_check_app_beta_password_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_check_app_beta_password_response__field_descriptors[2] =
@@ -7100,8 +6430,7 @@ const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password_response__d
   cmsg_client_check_app_beta_password_response__field_descriptors,
   cmsg_client_check_app_beta_password_response__field_indices_by_name,
   2,  cmsg_client_check_app_beta_password_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_check_app_beta_password_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const uint32_t cmsg_client_get_cdnauth_token_response__eresult__default_value = 2u;
 static const ProtobufCFieldDescriptor cmsg_client_get_cdnauth_token_response__field_descriptors[3] =
@@ -7165,8 +6494,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_cdnauth_token_response__descrip
   cmsg_client_get_cdnauth_token_response__field_descriptors,
   cmsg_client_get_cdnauth_token_response__field_indices_by_name,
   1,  cmsg_client_get_cdnauth_token_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_cdnauth_token_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_download_rate_statistics__stats_info__field_descriptors[8] =
 {
@@ -7294,8 +6622,7 @@ const ProtobufCMessageDescriptor cmsg_download_rate_statistics__stats_info__desc
   cmsg_download_rate_statistics__stats_info__field_descriptors,
   cmsg_download_rate_statistics__stats_info__field_indices_by_name,
   1,  cmsg_download_rate_statistics__stats_info__number_ranges,
-  (ProtobufCMessageInit) cmsg_download_rate_statistics__stats_info__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_download_rate_statistics__field_descriptors[4] =
 {
@@ -7371,8 +6698,7 @@ const ProtobufCMessageDescriptor cmsg_download_rate_statistics__descriptor =
   cmsg_download_rate_statistics__field_descriptors,
   cmsg_download_rate_statistics__field_indices_by_name,
   1,  cmsg_download_rate_statistics__number_ranges,
-  (ProtobufCMessageInit) cmsg_download_rate_statistics__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_request_account_data__field_descriptors[2] =
 {
@@ -7422,8 +6748,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_account_data__descriptor =
   cmsg_client_request_account_data__field_descriptors,
   cmsg_client_request_account_data__field_indices_by_name,
   1,  cmsg_client_request_account_data__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_account_data__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_request_account_data_response__field_descriptors[7] =
 {
@@ -7538,8 +6863,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_account_data_response__desc
   cmsg_client_request_account_data_response__field_descriptors,
   cmsg_client_request_account_data_response__field_indices_by_name,
   1,  cmsg_client_request_account_data_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_account_data_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_ugsget_global_stats__field_descriptors[5] =
 {
@@ -7628,8 +6952,7 @@ const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats__descriptor =
   cmsg_client_ugsget_global_stats__field_descriptors,
   cmsg_client_ugsget_global_stats__field_indices_by_name,
   1,  cmsg_client_ugsget_global_stats__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_ugsget_global_stats__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_ugsget_global_stats_response__day__stat__field_descriptors[2] =
 {
@@ -7679,8 +7002,7 @@ const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__day__
   cmsg_client_ugsget_global_stats_response__day__stat__field_descriptors,
   cmsg_client_ugsget_global_stats_response__day__stat__field_indices_by_name,
   1,  cmsg_client_ugsget_global_stats_response__day__stat__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_ugsget_global_stats_response__day__stat__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_ugsget_global_stats_response__day__field_descriptors[2] =
 {
@@ -7730,8 +7052,7 @@ const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__day__
   cmsg_client_ugsget_global_stats_response__day__field_descriptors,
   cmsg_client_ugsget_global_stats_response__day__field_indices_by_name,
   1,  cmsg_client_ugsget_global_stats_response__day__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_ugsget_global_stats_response__day__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_ugsget_global_stats_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_ugsget_global_stats_response__field_descriptors[4] =
@@ -7808,8 +7129,7 @@ const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__descr
   cmsg_client_ugsget_global_stats_response__field_descriptors,
   cmsg_client_ugsget_global_stats_response__field_indices_by_name,
   1,  cmsg_client_ugsget_global_stats_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_ugsget_global_stats_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_redeem_guest_pass__field_descriptors[1] =
 {
@@ -7846,8 +7166,7 @@ const ProtobufCMessageDescriptor cmsg_client_redeem_guest_pass__descriptor =
   cmsg_client_redeem_guest_pass__field_descriptors,
   cmsg_client_redeem_guest_pass__field_indices_by_name,
   1,  cmsg_client_redeem_guest_pass__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_redeem_guest_pass__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const uint32_t cmsg_client_redeem_guest_pass_response__eresult__default_value = 2u;
 static const ProtobufCFieldDescriptor cmsg_client_redeem_guest_pass_response__field_descriptors[3] =
@@ -7911,8 +7230,7 @@ const ProtobufCMessageDescriptor cmsg_client_redeem_guest_pass_response__descrip
   cmsg_client_redeem_guest_pass_response__field_descriptors,
   cmsg_client_redeem_guest_pass_response__field_indices_by_name,
   1,  cmsg_client_redeem_guest_pass_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_redeem_guest_pass_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_get_clan_activity_counts__field_descriptors[1] =
 {
@@ -7949,8 +7267,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_clan_activity_counts__descripto
   cmsg_client_get_clan_activity_counts__field_descriptors,
   cmsg_client_get_clan_activity_counts__field_indices_by_name,
   1,  cmsg_client_get_clan_activity_counts__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_clan_activity_counts__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const uint32_t cmsg_client_get_clan_activity_counts_response__eresult__default_value = 2u;
 static const ProtobufCFieldDescriptor cmsg_client_get_clan_activity_counts_response__field_descriptors[1] =
@@ -7988,8 +7305,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_clan_activity_counts_response__
   cmsg_client_get_clan_activity_counts_response__field_descriptors,
   cmsg_client_get_clan_activity_counts_response__field_indices_by_name,
   1,  cmsg_client_get_clan_activity_counts_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_clan_activity_counts_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_ogsreport_string__field_descriptors[5] =
 {
@@ -8078,8 +7394,7 @@ const ProtobufCMessageDescriptor cmsg_client_ogsreport_string__descriptor =
   cmsg_client_ogsreport_string__field_descriptors,
   cmsg_client_ogsreport_string__field_indices_by_name,
   1,  cmsg_client_ogsreport_string__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_ogsreport_string__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_ogsreport_bug__field_descriptors[3] =
 {
@@ -8142,8 +7457,7 @@ const ProtobufCMessageDescriptor cmsg_client_ogsreport_bug__descriptor =
   cmsg_client_ogsreport_bug__field_descriptors,
   cmsg_client_ogsreport_bug__field_indices_by_name,
   1,  cmsg_client_ogsreport_bug__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_ogsreport_bug__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 #define cmsg_client_sent_logs__field_descriptors NULL
 #define cmsg_client_sent_logs__field_indices_by_name NULL
@@ -8160,8 +7474,7 @@ const ProtobufCMessageDescriptor cmsg_client_sent_logs__descriptor =
   cmsg_client_sent_logs__field_descriptors,
   cmsg_client_sent_logs__field_indices_by_name,
   0,  cmsg_client_sent_logs__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_sent_logs__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_gcclient__field_descriptors[6] =
 {
@@ -8263,8 +7576,7 @@ const ProtobufCMessageDescriptor cmsg_gcclient__descriptor =
   cmsg_gcclient__field_descriptors,
   cmsg_gcclient__field_indices_by_name,
   1,  cmsg_gcclient__number_ranges,
-  (ProtobufCMessageInit) cmsg_gcclient__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_request_free_license__field_descriptors[1] =
 {
@@ -8301,8 +7613,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_free_license__descriptor =
   cmsg_client_request_free_license__field_descriptors,
   cmsg_client_request_free_license__field_indices_by_name,
   1,  cmsg_client_request_free_license__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_free_license__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const uint32_t cmsg_client_request_free_license_response__eresult__default_value = 2u;
 static const ProtobufCFieldDescriptor cmsg_client_request_free_license_response__field_descriptors[3] =
@@ -8366,8 +7677,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_free_license_response__desc
   cmsg_client_request_free_license_response__field_descriptors,
   cmsg_client_request_free_license_response__field_indices_by_name,
   1,  cmsg_client_request_free_license_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_free_license_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_drmdownload_request_with_crash_data__field_descriptors[8] =
 {
@@ -8495,8 +7805,7 @@ const ProtobufCMessageDescriptor cmsg_drmdownload_request_with_crash_data__descr
   cmsg_drmdownload_request_with_crash_data__field_descriptors,
   cmsg_drmdownload_request_with_crash_data__field_indices_by_name,
   1,  cmsg_drmdownload_request_with_crash_data__number_ranges,
-  (ProtobufCMessageInit) cmsg_drmdownload_request_with_crash_data__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const uint32_t cmsg_drmdownload_response__eresult__default_value = 2u;
 static const ProtobufCFieldDescriptor cmsg_drmdownload_response__field_descriptors[8] =
@@ -8625,8 +7934,7 @@ const ProtobufCMessageDescriptor cmsg_drmdownload_response__descriptor =
   cmsg_drmdownload_response__field_descriptors,
   cmsg_drmdownload_response__field_indices_by_name,
   1,  cmsg_drmdownload_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_drmdownload_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const uint32_t cmsg_drmfinal_result__e_result__default_value = 2u;
 static const ProtobufCFieldDescriptor cmsg_drmfinal_result__field_descriptors[8] =
@@ -8755,8 +8063,7 @@ const ProtobufCMessageDescriptor cmsg_drmfinal_result__descriptor =
   cmsg_drmfinal_result__field_descriptors,
   cmsg_drmfinal_result__field_indices_by_name,
   1,  cmsg_drmfinal_result__number_ranges,
-  (ProtobufCMessageInit) cmsg_drmfinal_result__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_dpcheck_special_survey__field_descriptors[1] =
 {
@@ -8793,8 +8100,7 @@ const ProtobufCMessageDescriptor cmsg_client_dpcheck_special_survey__descriptor 
   cmsg_client_dpcheck_special_survey__field_descriptors,
   cmsg_client_dpcheck_special_survey__field_indices_by_name,
   1,  cmsg_client_dpcheck_special_survey__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_dpcheck_special_survey__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const uint32_t cmsg_client_dpcheck_special_survey_response__e_result__default_value = 2u;
 static const ProtobufCFieldDescriptor cmsg_client_dpcheck_special_survey_response__field_descriptors[6] =
@@ -8897,8 +8203,7 @@ const ProtobufCMessageDescriptor cmsg_client_dpcheck_special_survey_response__de
   cmsg_client_dpcheck_special_survey_response__field_descriptors,
   cmsg_client_dpcheck_special_survey_response__field_indices_by_name,
   1,  cmsg_client_dpcheck_special_survey_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_dpcheck_special_survey_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_dpsend_special_survey_response__field_descriptors[2] =
 {
@@ -8948,8 +8253,7 @@ const ProtobufCMessageDescriptor cmsg_client_dpsend_special_survey_response__des
   cmsg_client_dpsend_special_survey_response__field_descriptors,
   cmsg_client_dpsend_special_survey_response__field_indices_by_name,
   1,  cmsg_client_dpsend_special_survey_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_dpsend_special_survey_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const uint32_t cmsg_client_dpsend_special_survey_response_reply__e_result__default_value = 2u;
 static const ProtobufCFieldDescriptor cmsg_client_dpsend_special_survey_response_reply__field_descriptors[2] =
@@ -9000,8 +8304,7 @@ const ProtobufCMessageDescriptor cmsg_client_dpsend_special_survey_response_repl
   cmsg_client_dpsend_special_survey_response_reply__field_descriptors,
   cmsg_client_dpsend_special_survey_response_reply__field_indices_by_name,
   1,  cmsg_client_dpsend_special_survey_response_reply__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_dpsend_special_survey_response_reply__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_request_forgotten_password_email__field_descriptors[2] =
 {
@@ -9051,8 +8354,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_forgotten_password_email__d
   cmsg_client_request_forgotten_password_email__field_descriptors,
   cmsg_client_request_forgotten_password_email__field_indices_by_name,
   1,  cmsg_client_request_forgotten_password_email__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_forgotten_password_email__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_request_forgotten_password_email_response__field_descriptors[2] =
 {
@@ -9102,8 +8404,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_forgotten_password_email_re
   cmsg_client_request_forgotten_password_email_response__field_descriptors,
   cmsg_client_request_forgotten_password_email_response__field_indices_by_name,
   1,  cmsg_client_request_forgotten_password_email_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_forgotten_password_email_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_item_announcements__unseen_item__field_descriptors[6] =
 {
@@ -9205,8 +8506,7 @@ const ProtobufCMessageDescriptor cmsg_client_item_announcements__unseen_item__de
   cmsg_client_item_announcements__unseen_item__field_descriptors,
   cmsg_client_item_announcements__unseen_item__field_indices_by_name,
   1,  cmsg_client_item_announcements__unseen_item__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_item_announcements__unseen_item__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_item_announcements__field_descriptors[2] =
 {
@@ -9256,8 +8556,7 @@ const ProtobufCMessageDescriptor cmsg_client_item_announcements__descriptor =
   cmsg_client_item_announcements__field_descriptors,
   cmsg_client_item_announcements__field_indices_by_name,
   1,  cmsg_client_item_announcements__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_item_announcements__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 #define cmsg_client_request_item_announcements__field_descriptors NULL
 #define cmsg_client_request_item_announcements__field_indices_by_name NULL
@@ -9274,8 +8573,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_item_announcements__descrip
   cmsg_client_request_item_announcements__field_descriptors,
   cmsg_client_request_item_announcements__field_indices_by_name,
   0,  cmsg_client_request_item_announcements__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_item_announcements__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_user_notifications__notification__field_descriptors[2] =
 {
@@ -9325,8 +8623,7 @@ const ProtobufCMessageDescriptor cmsg_client_user_notifications__notification__d
   cmsg_client_user_notifications__notification__field_descriptors,
   cmsg_client_user_notifications__notification__field_indices_by_name,
   1,  cmsg_client_user_notifications__notification__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_user_notifications__notification__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_user_notifications__field_descriptors[1] =
 {
@@ -9363,8 +8660,7 @@ const ProtobufCMessageDescriptor cmsg_client_user_notifications__descriptor =
   cmsg_client_user_notifications__field_descriptors,
   cmsg_client_user_notifications__field_indices_by_name,
   1,  cmsg_client_user_notifications__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_user_notifications__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_comment_notifications__field_descriptors[3] =
 {
@@ -9427,8 +8723,7 @@ const ProtobufCMessageDescriptor cmsg_client_comment_notifications__descriptor =
   cmsg_client_comment_notifications__field_descriptors,
   cmsg_client_comment_notifications__field_indices_by_name,
   1,  cmsg_client_comment_notifications__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_comment_notifications__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 #define cmsg_client_request_comment_notifications__field_descriptors NULL
 #define cmsg_client_request_comment_notifications__field_indices_by_name NULL
@@ -9445,8 +8740,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_comment_notifications__desc
   cmsg_client_request_comment_notifications__field_descriptors,
   cmsg_client_request_comment_notifications__field_indices_by_name,
   0,  cmsg_client_request_comment_notifications__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_comment_notifications__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_offline_message_notification__field_descriptors[2] =
 {
@@ -9496,8 +8790,7 @@ const ProtobufCMessageDescriptor cmsg_client_offline_message_notification__descr
   cmsg_client_offline_message_notification__field_descriptors,
   cmsg_client_offline_message_notification__field_indices_by_name,
   1,  cmsg_client_offline_message_notification__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_offline_message_notification__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 #define cmsg_client_request_offline_message_count__field_descriptors NULL
 #define cmsg_client_request_offline_message_count__field_indices_by_name NULL
@@ -9514,8 +8807,7 @@ const ProtobufCMessageDescriptor cmsg_client_request_offline_message_count__desc
   cmsg_client_request_offline_message_count__field_descriptors,
   cmsg_client_request_offline_message_count__field_indices_by_name,
   0,  cmsg_client_request_offline_message_count__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_request_offline_message_count__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_chat_get_friend_message_history__field_descriptors[1] =
 {
@@ -9552,8 +8844,7 @@ const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history__de
   cmsg_client_chat_get_friend_message_history__field_descriptors,
   cmsg_client_chat_get_friend_message_history__field_indices_by_name,
   1,  cmsg_client_chat_get_friend_message_history__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_chat_get_friend_message_history__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_chat_get_friend_message_history_response__friend_message__field_descriptors[4] =
 {
@@ -9629,8 +8920,7 @@ const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_res
   cmsg_client_chat_get_friend_message_history_response__friend_message__field_descriptors,
   cmsg_client_chat_get_friend_message_history_response__friend_message__field_indices_by_name,
   1,  cmsg_client_chat_get_friend_message_history_response__friend_message__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_chat_get_friend_message_history_response__friend_message__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_chat_get_friend_message_history_response__field_descriptors[3] =
 {
@@ -9693,8 +8983,7 @@ const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_res
   cmsg_client_chat_get_friend_message_history_response__field_descriptors,
   cmsg_client_chat_get_friend_message_history_response__field_indices_by_name,
   1,  cmsg_client_chat_get_friend_message_history_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_chat_get_friend_message_history_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 #define cmsg_client_chat_get_friend_message_history_for_offline_messages__field_descriptors NULL
 #define cmsg_client_chat_get_friend_message_history_for_offline_messages__field_indices_by_name NULL
@@ -9711,8 +9000,7 @@ const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_for
   cmsg_client_chat_get_friend_message_history_for_offline_messages__field_descriptors,
   cmsg_client_chat_get_friend_message_history_for_offline_messages__field_indices_by_name,
   0,  cmsg_client_chat_get_friend_message_history_for_offline_messages__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_chat_get_friend_message_history_for_offline_messages__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_fsget_friends_steam_levels__field_descriptors[1] =
 {
@@ -9749,8 +9037,7 @@ const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels__descrip
   cmsg_client_fsget_friends_steam_levels__field_descriptors,
   cmsg_client_fsget_friends_steam_levels__field_indices_by_name,
   1,  cmsg_client_fsget_friends_steam_levels__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_fsget_friends_steam_levels__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_fsget_friends_steam_levels_response__friend__field_descriptors[2] =
 {
@@ -9800,8 +9087,7 @@ const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels_response
   cmsg_client_fsget_friends_steam_levels_response__friend__field_descriptors,
   cmsg_client_fsget_friends_steam_levels_response__friend__field_indices_by_name,
   1,  cmsg_client_fsget_friends_steam_levels_response__friend__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_fsget_friends_steam_levels_response__friend__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_fsget_friends_steam_levels_response__field_descriptors[1] =
 {
@@ -9838,8 +9124,7 @@ const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels_response
   cmsg_client_fsget_friends_steam_levels_response__field_descriptors,
   cmsg_client_fsget_friends_steam_levels_response__field_indices_by_name,
   1,  cmsg_client_fsget_friends_steam_levels_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_fsget_friends_steam_levels_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_email_addr_info__field_descriptors[5] =
 {
@@ -9928,8 +9213,7 @@ const ProtobufCMessageDescriptor cmsg_client_email_addr_info__descriptor =
   cmsg_client_email_addr_info__field_descriptors,
   cmsg_client_email_addr_info__field_indices_by_name,
   1,  cmsg_client_email_addr_info__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_email_addr_info__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_creitem_vote_summary__published_file_id__field_descriptors[1] =
 {
@@ -9966,8 +9250,7 @@ const ProtobufCMessageDescriptor cmsg_creitem_vote_summary__published_file_id__d
   cmsg_creitem_vote_summary__published_file_id__field_descriptors,
   cmsg_creitem_vote_summary__published_file_id__field_indices_by_name,
   1,  cmsg_creitem_vote_summary__published_file_id__number_ranges,
-  (ProtobufCMessageInit) cmsg_creitem_vote_summary__published_file_id__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_creitem_vote_summary__field_descriptors[1] =
 {
@@ -10004,8 +9287,7 @@ const ProtobufCMessageDescriptor cmsg_creitem_vote_summary__descriptor =
   cmsg_creitem_vote_summary__field_descriptors,
   cmsg_creitem_vote_summary__field_indices_by_name,
   1,  cmsg_creitem_vote_summary__number_ranges,
-  (ProtobufCMessageInit) cmsg_creitem_vote_summary__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_creitem_vote_summary_response__item_vote_summary__field_descriptors[5] =
 {
@@ -10094,8 +9376,7 @@ const ProtobufCMessageDescriptor cmsg_creitem_vote_summary_response__item_vote_s
   cmsg_creitem_vote_summary_response__item_vote_summary__field_descriptors,
   cmsg_creitem_vote_summary_response__item_vote_summary__field_indices_by_name,
   1,  cmsg_creitem_vote_summary_response__item_vote_summary__number_ranges,
-  (ProtobufCMessageInit) cmsg_creitem_vote_summary_response__item_vote_summary__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_creitem_vote_summary_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_creitem_vote_summary_response__field_descriptors[2] =
@@ -10146,8 +9427,7 @@ const ProtobufCMessageDescriptor cmsg_creitem_vote_summary_response__descriptor 
   cmsg_creitem_vote_summary_response__field_descriptors,
   cmsg_creitem_vote_summary_response__field_indices_by_name,
   1,  cmsg_creitem_vote_summary_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_creitem_vote_summary_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_creupdate_user_published_item_vote__field_descriptors[2] =
 {
@@ -10197,8 +9477,7 @@ const ProtobufCMessageDescriptor cmsg_creupdate_user_published_item_vote__descri
   cmsg_creupdate_user_published_item_vote__field_descriptors,
   cmsg_creupdate_user_published_item_vote__field_indices_by_name,
   1,  cmsg_creupdate_user_published_item_vote__number_ranges,
-  (ProtobufCMessageInit) cmsg_creupdate_user_published_item_vote__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_creupdate_user_published_item_vote_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_creupdate_user_published_item_vote_response__field_descriptors[1] =
@@ -10236,8 +9515,7 @@ const ProtobufCMessageDescriptor cmsg_creupdate_user_published_item_vote_respons
   cmsg_creupdate_user_published_item_vote_response__field_descriptors,
   cmsg_creupdate_user_published_item_vote_response__field_indices_by_name,
   1,  cmsg_creupdate_user_published_item_vote_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_creupdate_user_published_item_vote_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_creget_user_published_item_vote_details__published_file_id__field_descriptors[1] =
 {
@@ -10274,8 +9552,7 @@ const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details__p
   cmsg_creget_user_published_item_vote_details__published_file_id__field_descriptors,
   cmsg_creget_user_published_item_vote_details__published_file_id__field_indices_by_name,
   1,  cmsg_creget_user_published_item_vote_details__published_file_id__number_ranges,
-  (ProtobufCMessageInit) cmsg_creget_user_published_item_vote_details__published_file_id__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_creget_user_published_item_vote_details__field_descriptors[1] =
 {
@@ -10312,8 +9589,7 @@ const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details__d
   cmsg_creget_user_published_item_vote_details__field_descriptors,
   cmsg_creget_user_published_item_vote_details__field_indices_by_name,
   1,  cmsg_creget_user_published_item_vote_details__number_ranges,
-  (ProtobufCMessageInit) cmsg_creget_user_published_item_vote_details__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__vote__default_value = 0;
 static const ProtobufCFieldDescriptor cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__field_descriptors[2] =
@@ -10364,8 +9640,7 @@ const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details_re
   cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__field_descriptors,
   cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__field_indices_by_name,
   1,  cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__number_ranges,
-  (ProtobufCMessageInit) cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_creget_user_published_item_vote_details_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_creget_user_published_item_vote_details_response__field_descriptors[2] =
@@ -10416,8 +9691,7 @@ const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details_re
   cmsg_creget_user_published_item_vote_details_response__field_descriptors,
   cmsg_creget_user_published_item_vote_details_response__field_indices_by_name,
   1,  cmsg_creget_user_published_item_vote_details_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_creget_user_published_item_vote_details_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_fsget_follower_count__field_descriptors[1] =
 {
@@ -10454,8 +9728,7 @@ const ProtobufCMessageDescriptor cmsg_fsget_follower_count__descriptor =
   cmsg_fsget_follower_count__field_descriptors,
   cmsg_fsget_follower_count__field_indices_by_name,
   1,  cmsg_fsget_follower_count__number_ranges,
-  (ProtobufCMessageInit) cmsg_fsget_follower_count__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_fsget_follower_count_response__eresult__default_value = 2;
 static const int32_t cmsg_fsget_follower_count_response__count__default_value = 0;
@@ -10507,8 +9780,7 @@ const ProtobufCMessageDescriptor cmsg_fsget_follower_count_response__descriptor 
   cmsg_fsget_follower_count_response__field_descriptors,
   cmsg_fsget_follower_count_response__field_indices_by_name,
   1,  cmsg_fsget_follower_count_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_fsget_follower_count_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_fsget_is_following__field_descriptors[1] =
 {
@@ -10545,8 +9817,7 @@ const ProtobufCMessageDescriptor cmsg_fsget_is_following__descriptor =
   cmsg_fsget_is_following__field_descriptors,
   cmsg_fsget_is_following__field_indices_by_name,
   1,  cmsg_fsget_is_following__number_ranges,
-  (ProtobufCMessageInit) cmsg_fsget_is_following__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_fsget_is_following_response__eresult__default_value = 2;
 static const protobuf_c_boolean cmsg_fsget_is_following_response__is_following__default_value = 0;
@@ -10598,8 +9869,7 @@ const ProtobufCMessageDescriptor cmsg_fsget_is_following_response__descriptor =
   cmsg_fsget_is_following_response__field_descriptors,
   cmsg_fsget_is_following_response__field_indices_by_name,
   1,  cmsg_fsget_is_following_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_fsget_is_following_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_fsenumerate_following_list__field_descriptors[1] =
 {
@@ -10636,8 +9906,7 @@ const ProtobufCMessageDescriptor cmsg_fsenumerate_following_list__descriptor =
   cmsg_fsenumerate_following_list__field_descriptors,
   cmsg_fsenumerate_following_list__field_indices_by_name,
   1,  cmsg_fsenumerate_following_list__number_ranges,
-  (ProtobufCMessageInit) cmsg_fsenumerate_following_list__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_fsenumerate_following_list_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_fsenumerate_following_list_response__field_descriptors[3] =
@@ -10701,8 +9970,7 @@ const ProtobufCMessageDescriptor cmsg_fsenumerate_following_list_response__descr
   cmsg_fsenumerate_following_list_response__field_descriptors,
   cmsg_fsenumerate_following_list_response__field_indices_by_name,
   1,  cmsg_fsenumerate_following_list_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_fsenumerate_following_list_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_dpget_number_of_current_players__field_descriptors[1] =
 {
@@ -10739,8 +10007,7 @@ const ProtobufCMessageDescriptor cmsg_dpget_number_of_current_players__descripto
   cmsg_dpget_number_of_current_players__field_descriptors,
   cmsg_dpget_number_of_current_players__field_indices_by_name,
   1,  cmsg_dpget_number_of_current_players__number_ranges,
-  (ProtobufCMessageInit) cmsg_dpget_number_of_current_players__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_dpget_number_of_current_players_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_dpget_number_of_current_players_response__field_descriptors[2] =
@@ -10791,8 +10058,7 @@ const ProtobufCMessageDescriptor cmsg_dpget_number_of_current_players_response__
   cmsg_dpget_number_of_current_players_response__field_descriptors,
   cmsg_dpget_number_of_current_players_response__field_indices_by_name,
   1,  cmsg_dpget_number_of_current_players_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_dpget_number_of_current_players_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_friend_user_status_published__field_descriptors[3] =
 {
@@ -10855,8 +10121,7 @@ const ProtobufCMessageDescriptor cmsg_client_friend_user_status_published__descr
   cmsg_client_friend_user_status_published__field_descriptors,
   cmsg_client_friend_user_status_published__field_indices_by_name,
   1,  cmsg_client_friend_user_status_published__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_friend_user_status_published__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_service_method_legacy__field_descriptors[3] =
 {
@@ -10919,8 +10184,7 @@ const ProtobufCMessageDescriptor cmsg_client_service_method_legacy__descriptor =
   cmsg_client_service_method_legacy__field_descriptors,
   cmsg_client_service_method_legacy__field_indices_by_name,
   1,  cmsg_client_service_method_legacy__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_service_method_legacy__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_service_method_legacy_response__field_descriptors[2] =
 {
@@ -10970,8 +10234,7 @@ const ProtobufCMessageDescriptor cmsg_client_service_method_legacy_response__des
   cmsg_client_service_method_legacy_response__field_descriptors,
   cmsg_client_service_method_legacy_response__field_indices_by_name,
   1,  cmsg_client_service_method_legacy_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_service_method_legacy_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_uimode__field_descriptors[2] =
 {
@@ -11021,8 +10284,7 @@ const ProtobufCMessageDescriptor cmsg_client_uimode__descriptor =
   cmsg_client_uimode__field_descriptors,
   cmsg_client_uimode__field_indices_by_name,
   1,  cmsg_client_uimode__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_uimode__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_vanity_urlchanged_notification__field_descriptors[1] =
 {
@@ -11059,8 +10321,7 @@ const ProtobufCMessageDescriptor cmsg_client_vanity_urlchanged_notification__des
   cmsg_client_vanity_urlchanged_notification__field_descriptors,
   cmsg_client_vanity_urlchanged_notification__field_indices_by_name,
   1,  cmsg_client_vanity_urlchanged_notification__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_vanity_urlchanged_notification__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_authorize_local_device_request__field_descriptors[3] =
 {
@@ -11123,8 +10384,7 @@ const ProtobufCMessageDescriptor cmsg_client_authorize_local_device_request__des
   cmsg_client_authorize_local_device_request__field_descriptors,
   cmsg_client_authorize_local_device_request__field_indices_by_name,
   1,  cmsg_client_authorize_local_device_request__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_authorize_local_device_request__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_authorize_local_device__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_authorize_local_device__field_descriptors[3] =
@@ -11188,8 +10448,7 @@ const ProtobufCMessageDescriptor cmsg_client_authorize_local_device__descriptor 
   cmsg_client_authorize_local_device__field_descriptors,
   cmsg_client_authorize_local_device__field_indices_by_name,
   1,  cmsg_client_authorize_local_device__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_authorize_local_device__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_authorize_local_device_notification__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_authorize_local_device_notification__field_descriptors[3] =
@@ -11253,8 +10512,7 @@ const ProtobufCMessageDescriptor cmsg_client_authorize_local_device_notification
   cmsg_client_authorize_local_device_notification__field_descriptors,
   cmsg_client_authorize_local_device_notification__field_indices_by_name,
   1,  cmsg_client_authorize_local_device_notification__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_authorize_local_device_notification__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_deauthorize_device_request__field_descriptors[2] =
 {
@@ -11304,8 +10562,7 @@ const ProtobufCMessageDescriptor cmsg_client_deauthorize_device_request__descrip
   cmsg_client_deauthorize_device_request__field_descriptors,
   cmsg_client_deauthorize_device_request__field_indices_by_name,
   1,  cmsg_client_deauthorize_device_request__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_deauthorize_device_request__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_deauthorize_device__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_deauthorize_device__field_descriptors[2] =
@@ -11356,8 +10613,7 @@ const ProtobufCMessageDescriptor cmsg_client_deauthorize_device__descriptor =
   cmsg_client_deauthorize_device__field_descriptors,
   cmsg_client_deauthorize_device__field_indices_by_name,
   1,  cmsg_client_deauthorize_device__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_deauthorize_device__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_use_local_device_authorizations__device_token__field_descriptors[2] =
 {
@@ -11407,8 +10663,7 @@ const ProtobufCMessageDescriptor cmsg_client_use_local_device_authorizations__de
   cmsg_client_use_local_device_authorizations__device_token__field_descriptors,
   cmsg_client_use_local_device_authorizations__device_token__field_indices_by_name,
   1,  cmsg_client_use_local_device_authorizations__device_token__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_use_local_device_authorizations__device_token__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_use_local_device_authorizations__field_descriptors[2] =
 {
@@ -11458,8 +10713,7 @@ const ProtobufCMessageDescriptor cmsg_client_use_local_device_authorizations__de
   cmsg_client_use_local_device_authorizations__field_descriptors,
   cmsg_client_use_local_device_authorizations__field_indices_by_name,
   1,  cmsg_client_use_local_device_authorizations__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_use_local_device_authorizations__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 #define cmsg_client_get_authorized_devices__field_descriptors NULL
 #define cmsg_client_get_authorized_devices__field_indices_by_name NULL
@@ -11476,8 +10730,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices__descriptor 
   cmsg_client_get_authorized_devices__field_descriptors,
   cmsg_client_get_authorized_devices__field_indices_by_name,
   0,  cmsg_client_get_authorized_devices__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_authorized_devices__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_get_authorized_devices_response__authorized_device__field_descriptors[6] =
 {
@@ -11579,8 +10832,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices_response__au
   cmsg_client_get_authorized_devices_response__authorized_device__field_descriptors,
   cmsg_client_get_authorized_devices_response__authorized_device__field_indices_by_name,
   1,  cmsg_client_get_authorized_devices_response__authorized_device__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_authorized_devices_response__authorized_device__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_get_authorized_devices_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_get_authorized_devices_response__field_descriptors[2] =
@@ -11631,8 +10883,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices_response__de
   cmsg_client_get_authorized_devices_response__field_descriptors,
   cmsg_client_get_authorized_devices_response__field_indices_by_name,
   1,  cmsg_client_get_authorized_devices_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_authorized_devices_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_shared_library_lock_status__locked_library__field_descriptors[2] =
 {
@@ -11682,8 +10933,7 @@ const ProtobufCMessageDescriptor cmsg_client_shared_library_lock_status__locked_
   cmsg_client_shared_library_lock_status__locked_library__field_descriptors,
   cmsg_client_shared_library_lock_status__locked_library__field_indices_by_name,
   1,  cmsg_client_shared_library_lock_status__locked_library__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_shared_library_lock_status__locked_library__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_shared_library_lock_status__field_descriptors[2] =
 {
@@ -11733,8 +10983,7 @@ const ProtobufCMessageDescriptor cmsg_client_shared_library_lock_status__descrip
   cmsg_client_shared_library_lock_status__field_descriptors,
   cmsg_client_shared_library_lock_status__field_indices_by_name,
   1,  cmsg_client_shared_library_lock_status__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_shared_library_lock_status__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_shared_library_stop_playing__stop_app__field_descriptors[2] =
 {
@@ -11784,8 +11033,7 @@ const ProtobufCMessageDescriptor cmsg_client_shared_library_stop_playing__stop_a
   cmsg_client_shared_library_stop_playing__stop_app__field_descriptors,
   cmsg_client_shared_library_stop_playing__stop_app__field_indices_by_name,
   1,  cmsg_client_shared_library_stop_playing__stop_app__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_shared_library_stop_playing__stop_app__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_shared_library_stop_playing__field_descriptors[2] =
 {
@@ -11835,8 +11083,7 @@ const ProtobufCMessageDescriptor cmsg_client_shared_library_stop_playing__descri
   cmsg_client_shared_library_stop_playing__field_descriptors,
   cmsg_client_shared_library_stop_playing__field_indices_by_name,
   1,  cmsg_client_shared_library_stop_playing__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_shared_library_stop_playing__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_service_call__field_descriptors[11] =
 {
@@ -12003,8 +11250,7 @@ const ProtobufCMessageDescriptor cmsg_client_service_call__descriptor =
   cmsg_client_service_call__field_descriptors,
   cmsg_client_service_call__field_indices_by_name,
   1,  cmsg_client_service_call__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_service_call__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_service_module__field_descriptors[3] =
 {
@@ -12067,8 +11313,7 @@ const ProtobufCMessageDescriptor cmsg_client_service_module__descriptor =
   cmsg_client_service_module__field_descriptors,
   cmsg_client_service_module__field_indices_by_name,
   1,  cmsg_client_service_module__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_service_module__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_service_call_response__field_descriptors[21] =
 {
@@ -12365,8 +11610,7 @@ const ProtobufCMessageDescriptor cmsg_client_service_call_response__descriptor =
   cmsg_client_service_call_response__field_descriptors,
   cmsg_client_service_call_response__field_indices_by_name,
   1,  cmsg_client_service_call_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_service_call_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_amunlock_h264__field_descriptors[3] =
 {
@@ -12429,8 +11673,7 @@ const ProtobufCMessageDescriptor cmsg_amunlock_h264__descriptor =
   cmsg_amunlock_h264__field_descriptors,
   cmsg_amunlock_h264__field_indices_by_name,
   1,  cmsg_amunlock_h264__number_ranges,
-  (ProtobufCMessageInit) cmsg_amunlock_h264__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_amunlock_h264_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_amunlock_h264_response__field_descriptors[2] =
@@ -12481,8 +11724,7 @@ const ProtobufCMessageDescriptor cmsg_amunlock_h264_response__descriptor =
   cmsg_amunlock_h264_response__field_descriptors,
   cmsg_amunlock_h264_response__field_indices_by_name,
   1,  cmsg_amunlock_h264_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_amunlock_h264_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_playing_session_state__field_descriptors[2] =
 {
@@ -12532,8 +11774,7 @@ const ProtobufCMessageDescriptor cmsg_client_playing_session_state__descriptor =
   cmsg_client_playing_session_state__field_descriptors,
   cmsg_client_playing_session_state__field_indices_by_name,
   1,  cmsg_client_playing_session_state__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_playing_session_state__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_kick_playing_session__field_descriptors[1] =
 {
@@ -12570,8 +11811,7 @@ const ProtobufCMessageDescriptor cmsg_client_kick_playing_session__descriptor =
   cmsg_client_kick_playing_session__field_descriptors,
   cmsg_client_kick_playing_session__field_indices_by_name,
   1,  cmsg_client_kick_playing_session__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_kick_playing_session__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_voice_call_pre_authorize__field_descriptors[4] =
 {
@@ -12647,8 +11887,7 @@ const ProtobufCMessageDescriptor cmsg_client_voice_call_pre_authorize__descripto
   cmsg_client_voice_call_pre_authorize__field_descriptors,
   cmsg_client_voice_call_pre_authorize__field_indices_by_name,
   1,  cmsg_client_voice_call_pre_authorize__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_voice_call_pre_authorize__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const int32_t cmsg_client_voice_call_pre_authorize_response__eresult__default_value = 2;
 static const ProtobufCFieldDescriptor cmsg_client_voice_call_pre_authorize_response__field_descriptors[4] =
@@ -12725,8 +11964,7 @@ const ProtobufCMessageDescriptor cmsg_client_voice_call_pre_authorize_response__
   cmsg_client_voice_call_pre_authorize_response__field_descriptors,
   cmsg_client_voice_call_pre_authorize_response__field_indices_by_name,
   1,  cmsg_client_voice_call_pre_authorize_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_voice_call_pre_authorize_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_badge_crafted_notification__field_descriptors[2] =
 {
@@ -12776,8 +12014,7 @@ const ProtobufCMessageDescriptor cmsg_badge_crafted_notification__descriptor =
   cmsg_badge_crafted_notification__field_descriptors,
   cmsg_badge_crafted_notification__field_indices_by_name,
   1,  cmsg_badge_crafted_notification__number_ranges,
-  (ProtobufCMessageInit) cmsg_badge_crafted_notification__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_start_peer_content_server__field_descriptors[4] =
 {
@@ -12853,8 +12090,7 @@ const ProtobufCMessageDescriptor cmsg_client_start_peer_content_server__descript
   cmsg_client_start_peer_content_server__field_descriptors,
   cmsg_client_start_peer_content_server__field_indices_by_name,
   1,  cmsg_client_start_peer_content_server__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_start_peer_content_server__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_start_peer_content_server_response__field_descriptors[2] =
 {
@@ -12904,8 +12140,7 @@ const ProtobufCMessageDescriptor cmsg_client_start_peer_content_server_response_
   cmsg_client_start_peer_content_server_response__field_descriptors,
   cmsg_client_start_peer_content_server_response__field_indices_by_name,
   1,  cmsg_client_start_peer_content_server_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_start_peer_content_server_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_get_peer_content_info__field_descriptors[2] =
 {
@@ -12955,8 +12190,7 @@ const ProtobufCMessageDescriptor cmsg_client_get_peer_content_info__descriptor =
   cmsg_client_get_peer_content_info__field_descriptors,
   cmsg_client_get_peer_content_info__field_indices_by_name,
   1,  cmsg_client_get_peer_content_info__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_peer_content_info__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor cmsg_client_get_peer_content_info_response__field_descriptors[2] =
 {
@@ -13006,6 +12240,5 @@ const ProtobufCMessageDescriptor cmsg_client_get_peer_content_info_response__des
   cmsg_client_get_peer_content_info_response__field_descriptors,
   cmsg_client_get_peer_content_info_response__field_indices_by_name,
   1,  cmsg_client_get_peer_content_info_response__number_ranges,
-  (ProtobufCMessageInit) cmsg_client_get_peer_content_info_response__init,
-  NULL,NULL,NULL    /* reserved[123] */
+  NULL,NULL,NULL,NULL    /* reserved[123] */
 };

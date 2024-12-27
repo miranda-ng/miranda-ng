@@ -16,141 +16,282 @@ PROTOBUF_C__BEGIN_DECLS
 
 #include "steammessages_base.pb-c.h"
 
-typedef struct CMsgClientUpdateUserGameInfo CMsgClientUpdateUserGameInfo;
-typedef struct CMsgClientRichPresenceUpload CMsgClientRichPresenceUpload;
-typedef struct CMsgClientRichPresenceRequest CMsgClientRichPresenceRequest;
-typedef struct CMsgClientRichPresenceInfo CMsgClientRichPresenceInfo;
-typedef struct CMsgClientRichPresenceInfo__RichPresence CMsgClientRichPresenceInfo__RichPresence;
-typedef struct CMsgClientCheckFileSignature CMsgClientCheckFileSignature;
-typedef struct CMsgClientCheckFileSignatureResponse CMsgClientCheckFileSignatureResponse;
-typedef struct CMsgClientReadMachineAuth CMsgClientReadMachineAuth;
-typedef struct CMsgClientReadMachineAuthResponse CMsgClientReadMachineAuthResponse;
-typedef struct CMsgClientUpdateMachineAuth CMsgClientUpdateMachineAuth;
-typedef struct CMsgClientUpdateMachineAuthResponse CMsgClientUpdateMachineAuthResponse;
-typedef struct CMsgClientRequestMachineAuth CMsgClientRequestMachineAuth;
-typedef struct CMsgClientRequestMachineAuthResponse CMsgClientRequestMachineAuthResponse;
-typedef struct CMsgClientRegisterKey CMsgClientRegisterKey;
-typedef struct CMsgClientPurchaseResponse CMsgClientPurchaseResponse;
-typedef struct CMsgClientActivateOEMLicense CMsgClientActivateOEMLicense;
-typedef struct CMsgClientRegisterOEMMachine CMsgClientRegisterOEMMachine;
-typedef struct CMsgClientRegisterOEMMachineResponse CMsgClientRegisterOEMMachineResponse;
-typedef struct CMsgClientPurchaseWithMachineID CMsgClientPurchaseWithMachineID;
-typedef struct CMsgTradingInitiateTradeRequest CMsgTradingInitiateTradeRequest;
-typedef struct CMsgTradingInitiateTradeResponse CMsgTradingInitiateTradeResponse;
-typedef struct CMsgTradingCancelTradeRequest CMsgTradingCancelTradeRequest;
-typedef struct CMsgTradingStartSession CMsgTradingStartSession;
-typedef struct CMsgClientGetCDNAuthToken CMsgClientGetCDNAuthToken;
-typedef struct CMsgClientGetDepotDecryptionKey CMsgClientGetDepotDecryptionKey;
-typedef struct CMsgClientGetDepotDecryptionKeyResponse CMsgClientGetDepotDecryptionKeyResponse;
-typedef struct CMsgClientCheckAppBetaPassword CMsgClientCheckAppBetaPassword;
-typedef struct CMsgClientCheckAppBetaPasswordResponse CMsgClientCheckAppBetaPasswordResponse;
-typedef struct CMsgClientCheckAppBetaPasswordResponse__BetaPassword CMsgClientCheckAppBetaPasswordResponse__BetaPassword;
-typedef struct CMsgClientGetCDNAuthTokenResponse CMsgClientGetCDNAuthTokenResponse;
-typedef struct CMsgDownloadRateStatistics CMsgDownloadRateStatistics;
-typedef struct CMsgDownloadRateStatistics__StatsInfo CMsgDownloadRateStatistics__StatsInfo;
-typedef struct CMsgClientRequestAccountData CMsgClientRequestAccountData;
-typedef struct CMsgClientRequestAccountDataResponse CMsgClientRequestAccountDataResponse;
-typedef struct CMsgClientUGSGetGlobalStats CMsgClientUGSGetGlobalStats;
-typedef struct CMsgClientUGSGetGlobalStatsResponse CMsgClientUGSGetGlobalStatsResponse;
-typedef struct CMsgClientUGSGetGlobalStatsResponse__Day CMsgClientUGSGetGlobalStatsResponse__Day;
-typedef struct CMsgClientUGSGetGlobalStatsResponse__Day__Stat CMsgClientUGSGetGlobalStatsResponse__Day__Stat;
-typedef struct CMsgClientRedeemGuestPass CMsgClientRedeemGuestPass;
-typedef struct CMsgClientRedeemGuestPassResponse CMsgClientRedeemGuestPassResponse;
-typedef struct CMsgClientGetClanActivityCounts CMsgClientGetClanActivityCounts;
-typedef struct CMsgClientGetClanActivityCountsResponse CMsgClientGetClanActivityCountsResponse;
-typedef struct CMsgClientOGSReportString CMsgClientOGSReportString;
-typedef struct CMsgClientOGSReportBug CMsgClientOGSReportBug;
-typedef struct CMsgClientSentLogs CMsgClientSentLogs;
-typedef struct CMsgGCClient CMsgGCClient;
-typedef struct CMsgClientRequestFreeLicense CMsgClientRequestFreeLicense;
-typedef struct CMsgClientRequestFreeLicenseResponse CMsgClientRequestFreeLicenseResponse;
-typedef struct CMsgDRMDownloadRequestWithCrashData CMsgDRMDownloadRequestWithCrashData;
-typedef struct CMsgDRMDownloadResponse CMsgDRMDownloadResponse;
-typedef struct CMsgDRMFinalResult CMsgDRMFinalResult;
-typedef struct CMsgClientDPCheckSpecialSurvey CMsgClientDPCheckSpecialSurvey;
-typedef struct CMsgClientDPCheckSpecialSurveyResponse CMsgClientDPCheckSpecialSurveyResponse;
-typedef struct CMsgClientDPSendSpecialSurveyResponse CMsgClientDPSendSpecialSurveyResponse;
-typedef struct CMsgClientDPSendSpecialSurveyResponseReply CMsgClientDPSendSpecialSurveyResponseReply;
-typedef struct CMsgClientRequestForgottenPasswordEmail CMsgClientRequestForgottenPasswordEmail;
-typedef struct CMsgClientRequestForgottenPasswordEmailResponse CMsgClientRequestForgottenPasswordEmailResponse;
-typedef struct CMsgClientItemAnnouncements CMsgClientItemAnnouncements;
-typedef struct CMsgClientItemAnnouncements__UnseenItem CMsgClientItemAnnouncements__UnseenItem;
-typedef struct CMsgClientRequestItemAnnouncements CMsgClientRequestItemAnnouncements;
-typedef struct CMsgClientUserNotifications CMsgClientUserNotifications;
-typedef struct CMsgClientUserNotifications__Notification CMsgClientUserNotifications__Notification;
-typedef struct CMsgClientCommentNotifications CMsgClientCommentNotifications;
-typedef struct CMsgClientRequestCommentNotifications CMsgClientRequestCommentNotifications;
-typedef struct CMsgClientOfflineMessageNotification CMsgClientOfflineMessageNotification;
-typedef struct CMsgClientRequestOfflineMessageCount CMsgClientRequestOfflineMessageCount;
-typedef struct CMsgClientChatGetFriendMessageHistory CMsgClientChatGetFriendMessageHistory;
-typedef struct CMsgClientChatGetFriendMessageHistoryResponse CMsgClientChatGetFriendMessageHistoryResponse;
-typedef struct CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage;
-typedef struct CMsgClientChatGetFriendMessageHistoryForOfflineMessages CMsgClientChatGetFriendMessageHistoryForOfflineMessages;
-typedef struct CMsgClientFSGetFriendsSteamLevels CMsgClientFSGetFriendsSteamLevels;
-typedef struct CMsgClientFSGetFriendsSteamLevelsResponse CMsgClientFSGetFriendsSteamLevelsResponse;
-typedef struct CMsgClientFSGetFriendsSteamLevelsResponse__Friend CMsgClientFSGetFriendsSteamLevelsResponse__Friend;
-typedef struct CMsgClientEmailAddrInfo CMsgClientEmailAddrInfo;
-typedef struct CMsgCREItemVoteSummary CMsgCREItemVoteSummary;
-typedef struct CMsgCREItemVoteSummary__PublishedFileId CMsgCREItemVoteSummary__PublishedFileId;
-typedef struct CMsgCREItemVoteSummaryResponse CMsgCREItemVoteSummaryResponse;
-typedef struct CMsgCREItemVoteSummaryResponse__ItemVoteSummary CMsgCREItemVoteSummaryResponse__ItemVoteSummary;
-typedef struct CMsgCREUpdateUserPublishedItemVote CMsgCREUpdateUserPublishedItemVote;
-typedef struct CMsgCREUpdateUserPublishedItemVoteResponse CMsgCREUpdateUserPublishedItemVoteResponse;
-typedef struct CMsgCREGetUserPublishedItemVoteDetails CMsgCREGetUserPublishedItemVoteDetails;
-typedef struct CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId;
-typedef struct CMsgCREGetUserPublishedItemVoteDetailsResponse CMsgCREGetUserPublishedItemVoteDetailsResponse;
-typedef struct CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail;
-typedef struct CMsgFSGetFollowerCount CMsgFSGetFollowerCount;
-typedef struct CMsgFSGetFollowerCountResponse CMsgFSGetFollowerCountResponse;
-typedef struct CMsgFSGetIsFollowing CMsgFSGetIsFollowing;
-typedef struct CMsgFSGetIsFollowingResponse CMsgFSGetIsFollowingResponse;
-typedef struct CMsgFSEnumerateFollowingList CMsgFSEnumerateFollowingList;
-typedef struct CMsgFSEnumerateFollowingListResponse CMsgFSEnumerateFollowingListResponse;
-typedef struct CMsgDPGetNumberOfCurrentPlayers CMsgDPGetNumberOfCurrentPlayers;
-typedef struct CMsgDPGetNumberOfCurrentPlayersResponse CMsgDPGetNumberOfCurrentPlayersResponse;
-typedef struct CMsgClientFriendUserStatusPublished CMsgClientFriendUserStatusPublished;
-typedef struct CMsgClientServiceMethodLegacy CMsgClientServiceMethodLegacy;
-typedef struct CMsgClientServiceMethodLegacyResponse CMsgClientServiceMethodLegacyResponse;
-typedef struct CMsgClientUIMode CMsgClientUIMode;
-typedef struct CMsgClientVanityURLChangedNotification CMsgClientVanityURLChangedNotification;
-typedef struct CMsgClientAuthorizeLocalDeviceRequest CMsgClientAuthorizeLocalDeviceRequest;
-typedef struct CMsgClientAuthorizeLocalDevice CMsgClientAuthorizeLocalDevice;
-typedef struct CMsgClientAuthorizeLocalDeviceNotification CMsgClientAuthorizeLocalDeviceNotification;
-typedef struct CMsgClientDeauthorizeDeviceRequest CMsgClientDeauthorizeDeviceRequest;
-typedef struct CMsgClientDeauthorizeDevice CMsgClientDeauthorizeDevice;
-typedef struct CMsgClientUseLocalDeviceAuthorizations CMsgClientUseLocalDeviceAuthorizations;
-typedef struct CMsgClientUseLocalDeviceAuthorizations__DeviceToken CMsgClientUseLocalDeviceAuthorizations__DeviceToken;
-typedef struct CMsgClientGetAuthorizedDevices CMsgClientGetAuthorizedDevices;
-typedef struct CMsgClientGetAuthorizedDevicesResponse CMsgClientGetAuthorizedDevicesResponse;
-typedef struct CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice;
-typedef struct CMsgClientSharedLibraryLockStatus CMsgClientSharedLibraryLockStatus;
-typedef struct CMsgClientSharedLibraryLockStatus__LockedLibrary CMsgClientSharedLibraryLockStatus__LockedLibrary;
-typedef struct CMsgClientSharedLibraryStopPlaying CMsgClientSharedLibraryStopPlaying;
-typedef struct CMsgClientSharedLibraryStopPlaying__StopApp CMsgClientSharedLibraryStopPlaying__StopApp;
-typedef struct CMsgClientServiceCall CMsgClientServiceCall;
-typedef struct CMsgClientServiceModule CMsgClientServiceModule;
-typedef struct CMsgClientServiceCallResponse CMsgClientServiceCallResponse;
-typedef struct CMsgAMUnlockH264 CMsgAMUnlockH264;
-typedef struct CMsgAMUnlockH264Response CMsgAMUnlockH264Response;
-typedef struct CMsgClientPlayingSessionState CMsgClientPlayingSessionState;
-typedef struct CMsgClientKickPlayingSession CMsgClientKickPlayingSession;
-typedef struct CMsgClientVoiceCallPreAuthorize CMsgClientVoiceCallPreAuthorize;
-typedef struct CMsgClientVoiceCallPreAuthorizeResponse CMsgClientVoiceCallPreAuthorizeResponse;
-typedef struct CMsgBadgeCraftedNotification CMsgBadgeCraftedNotification;
-typedef struct CMsgClientStartPeerContentServer CMsgClientStartPeerContentServer;
-typedef struct CMsgClientStartPeerContentServerResponse CMsgClientStartPeerContentServerResponse;
-typedef struct CMsgClientGetPeerContentInfo CMsgClientGetPeerContentInfo;
-typedef struct CMsgClientGetPeerContentInfoResponse CMsgClientGetPeerContentInfoResponse;
+struct CMsgClientUpdateUserGameInfo;
+struct CMsgClientRichPresenceUpload;
+struct CMsgClientRichPresenceRequest;
+struct CMsgClientRichPresenceInfo;
+struct CMsgClientRichPresenceInfo__RichPresence;
+struct CMsgClientCheckFileSignature;
+struct CMsgClientCheckFileSignatureResponse;
+struct CMsgClientReadMachineAuth;
+struct CMsgClientReadMachineAuthResponse;
+struct CMsgClientUpdateMachineAuth;
+struct CMsgClientUpdateMachineAuthResponse;
+struct CMsgClientRequestMachineAuth;
+struct CMsgClientRequestMachineAuthResponse;
+struct CMsgClientRegisterKey;
+struct CMsgClientPurchaseResponse;
+struct CMsgClientActivateOEMLicense;
+struct CMsgClientRegisterOEMMachine;
+struct CMsgClientRegisterOEMMachineResponse;
+struct CMsgClientPurchaseWithMachineID;
+struct CMsgTradingInitiateTradeRequest;
+struct CMsgTradingInitiateTradeResponse;
+struct CMsgTradingCancelTradeRequest;
+struct CMsgTradingStartSession;
+struct CMsgClientGetCDNAuthToken;
+struct CMsgClientGetDepotDecryptionKey;
+struct CMsgClientGetDepotDecryptionKeyResponse;
+struct CMsgClientCheckAppBetaPassword;
+struct CMsgClientCheckAppBetaPasswordResponse;
+struct CMsgClientCheckAppBetaPasswordResponse__BetaPassword;
+struct CMsgClientGetCDNAuthTokenResponse;
+struct CMsgDownloadRateStatistics;
+struct CMsgDownloadRateStatistics__StatsInfo;
+struct CMsgClientRequestAccountData;
+struct CMsgClientRequestAccountDataResponse;
+struct CMsgClientUGSGetGlobalStats;
+struct CMsgClientUGSGetGlobalStatsResponse;
+struct CMsgClientUGSGetGlobalStatsResponse__Day;
+struct CMsgClientUGSGetGlobalStatsResponse__Day__Stat;
+struct CMsgClientRedeemGuestPass;
+struct CMsgClientRedeemGuestPassResponse;
+struct CMsgClientGetClanActivityCounts;
+struct CMsgClientGetClanActivityCountsResponse;
+struct CMsgClientOGSReportString;
+struct CMsgClientOGSReportBug;
+struct CMsgClientSentLogs;
+struct CMsgGCClient;
+struct CMsgClientRequestFreeLicense;
+struct CMsgClientRequestFreeLicenseResponse;
+struct CMsgDRMDownloadRequestWithCrashData;
+struct CMsgDRMDownloadResponse;
+struct CMsgDRMFinalResult;
+struct CMsgClientDPCheckSpecialSurvey;
+struct CMsgClientDPCheckSpecialSurveyResponse;
+struct CMsgClientDPSendSpecialSurveyResponse;
+struct CMsgClientDPSendSpecialSurveyResponseReply;
+struct CMsgClientRequestForgottenPasswordEmail;
+struct CMsgClientRequestForgottenPasswordEmailResponse;
+struct CMsgClientItemAnnouncements;
+struct CMsgClientItemAnnouncements__UnseenItem;
+struct CMsgClientRequestItemAnnouncements;
+struct CMsgClientUserNotifications;
+struct CMsgClientUserNotifications__Notification;
+struct CMsgClientCommentNotifications;
+struct CMsgClientRequestCommentNotifications;
+struct CMsgClientOfflineMessageNotification;
+struct CMsgClientRequestOfflineMessageCount;
+struct CMsgClientChatGetFriendMessageHistory;
+struct CMsgClientChatGetFriendMessageHistoryResponse;
+struct CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage;
+struct CMsgClientChatGetFriendMessageHistoryForOfflineMessages;
+struct CMsgClientFSGetFriendsSteamLevels;
+struct CMsgClientFSGetFriendsSteamLevelsResponse;
+struct CMsgClientFSGetFriendsSteamLevelsResponse__Friend;
+struct CMsgClientEmailAddrInfo;
+struct CMsgCREItemVoteSummary;
+struct CMsgCREItemVoteSummary__PublishedFileId;
+struct CMsgCREItemVoteSummaryResponse;
+struct CMsgCREItemVoteSummaryResponse__ItemVoteSummary;
+struct CMsgCREUpdateUserPublishedItemVote;
+struct CMsgCREUpdateUserPublishedItemVoteResponse;
+struct CMsgCREGetUserPublishedItemVoteDetails;
+struct CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId;
+struct CMsgCREGetUserPublishedItemVoteDetailsResponse;
+struct CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail;
+struct CMsgFSGetFollowerCount;
+struct CMsgFSGetFollowerCountResponse;
+struct CMsgFSGetIsFollowing;
+struct CMsgFSGetIsFollowingResponse;
+struct CMsgFSEnumerateFollowingList;
+struct CMsgFSEnumerateFollowingListResponse;
+struct CMsgDPGetNumberOfCurrentPlayers;
+struct CMsgDPGetNumberOfCurrentPlayersResponse;
+struct CMsgClientFriendUserStatusPublished;
+struct CMsgClientServiceMethodLegacy;
+struct CMsgClientServiceMethodLegacyResponse;
+struct CMsgClientUIMode;
+struct CMsgClientVanityURLChangedNotification;
+struct CMsgClientAuthorizeLocalDeviceRequest;
+struct CMsgClientAuthorizeLocalDevice;
+struct CMsgClientAuthorizeLocalDeviceNotification;
+struct CMsgClientDeauthorizeDeviceRequest;
+struct CMsgClientDeauthorizeDevice;
+struct CMsgClientUseLocalDeviceAuthorizations;
+struct CMsgClientUseLocalDeviceAuthorizations__DeviceToken;
+struct CMsgClientGetAuthorizedDevices;
+struct CMsgClientGetAuthorizedDevicesResponse;
+struct CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice;
+struct CMsgClientSharedLibraryLockStatus;
+struct CMsgClientSharedLibraryLockStatus__LockedLibrary;
+struct CMsgClientSharedLibraryStopPlaying;
+struct CMsgClientSharedLibraryStopPlaying__StopApp;
+struct CMsgClientServiceCall;
+struct CMsgClientServiceModule;
+struct CMsgClientServiceCallResponse;
+struct CMsgAMUnlockH264;
+struct CMsgAMUnlockH264Response;
+struct CMsgClientPlayingSessionState;
+struct CMsgClientKickPlayingSession;
+struct CMsgClientVoiceCallPreAuthorize;
+struct CMsgClientVoiceCallPreAuthorizeResponse;
+struct CMsgBadgeCraftedNotification;
+struct CMsgClientStartPeerContentServer;
+struct CMsgClientStartPeerContentServerResponse;
+struct CMsgClientGetPeerContentInfo;
+struct CMsgClientGetPeerContentInfoResponse;
 
 
 /* --- enums --- */
 
 
+/* --- descriptors --- */
+
+extern const ProtobufCMessageDescriptor cmsg_client_update_user_game_info__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_rich_presence_upload__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_rich_presence_request__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_rich_presence_info__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_rich_presence_info__rich_presence__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_check_file_signature__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_check_file_signature_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_read_machine_auth__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_read_machine_auth_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_update_machine_auth__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_update_machine_auth_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_machine_auth__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_machine_auth_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_register_key__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_purchase_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_activate_oemlicense__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_register_oemmachine__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_register_oemmachine_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_purchase_with_machine_id__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_trading__initiate_trade_request__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_trading__initiate_trade_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_trading__cancel_trade_request__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_trading__start_session__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_cdnauth_token__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_depot_decryption_key__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_depot_decryption_key_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password_response__beta_password__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_cdnauth_token_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_download_rate_statistics__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_download_rate_statistics__stats_info__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_account_data__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_account_data_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__day__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__day__stat__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_redeem_guest_pass__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_redeem_guest_pass_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_clan_activity_counts__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_clan_activity_counts_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_ogsreport_string__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_ogsreport_bug__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_sent_logs__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_gcclient__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_free_license__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_free_license_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_drmdownload_request_with_crash_data__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_drmdownload_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_drmfinal_result__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_dpcheck_special_survey__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_dpcheck_special_survey_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_dpsend_special_survey_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_dpsend_special_survey_response_reply__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_forgotten_password_email__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_forgotten_password_email_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_item_announcements__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_item_announcements__unseen_item__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_item_announcements__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_user_notifications__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_user_notifications__notification__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_comment_notifications__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_comment_notifications__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_offline_message_notification__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_request_offline_message_count__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_response__friend_message__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels_response__friend__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_email_addr_info__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creitem_vote_summary__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creitem_vote_summary__published_file_id__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creitem_vote_summary_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creitem_vote_summary_response__item_vote_summary__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creupdate_user_published_item_vote__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creupdate_user_published_item_vote_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details__published_file_id__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_fsget_follower_count__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_fsget_follower_count_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_fsget_is_following__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_fsget_is_following_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_fsenumerate_following_list__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_fsenumerate_following_list_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_dpget_number_of_current_players__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_dpget_number_of_current_players_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_friend_user_status_published__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_service_method_legacy__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_service_method_legacy_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_uimode__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_vanity_urlchanged_notification__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_authorize_local_device_request__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_authorize_local_device__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_authorize_local_device_notification__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_deauthorize_device_request__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_deauthorize_device__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_use_local_device_authorizations__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_use_local_device_authorizations__device_token__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices_response__authorized_device__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_shared_library_lock_status__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_shared_library_lock_status__locked_library__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_shared_library_stop_playing__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_shared_library_stop_playing__stop_app__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_service_call__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_service_module__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_service_call_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_amunlock_h264__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_amunlock_h264_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_playing_session_state__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_kick_playing_session__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_voice_call_pre_authorize__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_voice_call_pre_authorize_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_badge_crafted_notification__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_start_peer_content_server__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_start_peer_content_server_response__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_peer_content_info__descriptor;
+extern const ProtobufCMessageDescriptor cmsg_client_get_peer_content_info_response__descriptor;
+
 /* --- messages --- */
 
-struct  CMsgClientUpdateUserGameInfo
+extern "C" void message_init_generic(const ProtobufCMessageDescriptor * desc, ProtobufCMessage * message);
+
+struct ProtobufCppMessage : public ProtobufCMessage
 {
-  ProtobufCMessage base;
+	ProtobufCppMessage(const ProtobufCMessageDescriptor &descr)
+	{
+		message_init_generic(&descr, this);
+	}
+};
+
+struct CMsgClientUpdateUserGameInfo : public ProtobufCppMessage
+{
+  CMsgClientUpdateUserGameInfo() :
+     ProtobufCppMessage(cmsg_client_update_user_game_info__descriptor)
+  {}
+
   protobuf_c_boolean has_steamid_idgs;
   uint64_t steamid_idgs;
   protobuf_c_boolean has_gameid;
@@ -162,73 +303,67 @@ struct  CMsgClientUpdateUserGameInfo
   protobuf_c_boolean has_token;
   ProtobufCBinaryData token;
 };
-#define CMSG_CLIENT_UPDATE_USER_GAME_INFO__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_update_user_game_info__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0, {0,NULL} }
 
-
-struct  CMsgClientRichPresenceUpload
+struct CMsgClientRichPresenceUpload : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRichPresenceUpload() :
+     ProtobufCppMessage(cmsg_client_rich_presence_upload__descriptor)
+  {}
+
   protobuf_c_boolean has_rich_presence_kv;
   ProtobufCBinaryData rich_presence_kv;
   size_t n_steamid_broadcast;
   uint64_t *steamid_broadcast;
 };
-#define CMSG_CLIENT_RICH_PRESENCE_UPLOAD__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_rich_presence_upload__descriptor) \
-    , 0, {0,NULL}, 0,NULL }
 
-
-struct  CMsgClientRichPresenceRequest
+struct CMsgClientRichPresenceRequest : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRichPresenceRequest() :
+     ProtobufCppMessage(cmsg_client_rich_presence_request__descriptor)
+  {}
+
   size_t n_steamid_request;
   uint64_t *steamid_request;
 };
-#define CMSG_CLIENT_RICH_PRESENCE_REQUEST__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_rich_presence_request__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgClientRichPresenceInfo__RichPresence
+struct CMsgClientRichPresenceInfo__RichPresence : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRichPresenceInfo__RichPresence() :
+     ProtobufCppMessage(cmsg_client_rich_presence_info__rich_presence__descriptor)
+  {}
+
   protobuf_c_boolean has_steamid_user;
   uint64_t steamid_user;
   protobuf_c_boolean has_rich_presence_kv;
   ProtobufCBinaryData rich_presence_kv;
 };
-#define CMSG_CLIENT_RICH_PRESENCE_INFO__RICH_PRESENCE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_rich_presence_info__rich_presence__descriptor) \
-    , 0, 0, 0, {0,NULL} }
 
-
-struct  CMsgClientRichPresenceInfo
+struct CMsgClientRichPresenceInfo : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRichPresenceInfo() :
+     ProtobufCppMessage(cmsg_client_rich_presence_info__descriptor)
+  {}
+
   size_t n_rich_presence;
   CMsgClientRichPresenceInfo__RichPresence **rich_presence;
 };
-#define CMSG_CLIENT_RICH_PRESENCE_INFO__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_rich_presence_info__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgClientCheckFileSignature
+struct CMsgClientCheckFileSignature : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientCheckFileSignature() :
+     ProtobufCppMessage(cmsg_client_check_file_signature__descriptor)
+  {}
+
   protobuf_c_boolean has_app_id;
   uint32_t app_id;
 };
-#define CMSG_CLIENT_CHECK_FILE_SIGNATURE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_check_file_signature__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgClientCheckFileSignatureResponse
+struct CMsgClientCheckFileSignatureResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientCheckFileSignatureResponse() :
+     ProtobufCppMessage(cmsg_client_check_file_signature_response__descriptor)
+  {}
+
   protobuf_c_boolean has_app_id;
   uint32_t app_id;
   protobuf_c_boolean has_pid;
@@ -249,28 +384,26 @@ struct  CMsgClientCheckFileSignatureResponse
   protobuf_c_boolean has_evalvesignaturecheckdetail;
   uint32_t evalvesignaturecheckdetail;
 };
-#define CMSG_CLIENT_CHECK_FILE_SIGNATURE_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_check_file_signature_response__descriptor) \
-    , 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, {0,NULL}, 0, {0,NULL}, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgClientReadMachineAuth
+struct CMsgClientReadMachineAuth : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientReadMachineAuth() :
+     ProtobufCppMessage(cmsg_client_read_machine_auth__descriptor)
+  {}
+
   char *filename;
   protobuf_c_boolean has_offset;
   uint32_t offset;
   protobuf_c_boolean has_cubtoread;
   uint32_t cubtoread;
 };
-#define CMSG_CLIENT_READ_MACHINE_AUTH__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_read_machine_auth__descriptor) \
-    , NULL, 0, 0, 0, 0 }
 
-
-struct  CMsgClientReadMachineAuthResponse
+struct CMsgClientReadMachineAuthResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientReadMachineAuthResponse() :
+     ProtobufCppMessage(cmsg_client_read_machine_auth_response__descriptor)
+  {}
+
   char *filename;
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
@@ -288,14 +421,13 @@ struct  CMsgClientReadMachineAuthResponse
   ProtobufCBinaryData bytes_read;
   char *filename_sentry;
 };
-#define CMSG_CLIENT_READ_MACHINE_AUTH_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_read_machine_auth_response__descriptor) \
-    , NULL, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, 0, 0, 0, 0, {0,NULL}, NULL }
 
-
-struct  CMsgClientUpdateMachineAuth
+struct CMsgClientUpdateMachineAuth : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUpdateMachineAuth() :
+     ProtobufCppMessage(cmsg_client_update_machine_auth__descriptor)
+  {}
+
   char *filename;
   protobuf_c_boolean has_offset;
   uint32_t offset;
@@ -311,14 +443,13 @@ struct  CMsgClientUpdateMachineAuth
   protobuf_c_boolean has_otp_timedrift;
   uint32_t otp_timedrift;
 };
-#define CMSG_CLIENT_UPDATE_MACHINE_AUTH__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_update_machine_auth__descriptor) \
-    , NULL, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, NULL, 0, {0,NULL}, 0, 0 }
 
-
-struct  CMsgClientUpdateMachineAuthResponse
+struct CMsgClientUpdateMachineAuthResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUpdateMachineAuthResponse() :
+     ProtobufCppMessage(cmsg_client_update_machine_auth_response__descriptor)
+  {}
+
   char *filename;
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
@@ -338,14 +469,13 @@ struct  CMsgClientUpdateMachineAuthResponse
   uint32_t otp_value;
   char *otp_identifier;
 };
-#define CMSG_CLIENT_UPDATE_MACHINE_AUTH_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_update_machine_auth_response__descriptor) \
-    , NULL, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL }
 
-
-struct  CMsgClientRequestMachineAuth
+struct CMsgClientRequestMachineAuth : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestMachineAuth() :
+     ProtobufCppMessage(cmsg_client_request_machine_auth__descriptor)
+  {}
+
   char *filename;
   protobuf_c_boolean has_eresult_sentryfile;
   uint32_t eresult_sentryfile;
@@ -365,35 +495,32 @@ struct  CMsgClientRequestMachineAuth
   char *machine_name;
   char *machine_name_userchosen;
 };
-#define CMSG_CLIENT_REQUEST_MACHINE_AUTH__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_machine_auth__descriptor) \
-    , NULL, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, 0, NULL, 0, {0,NULL}, 0, 0, NULL, NULL }
 
-
-struct  CMsgClientRequestMachineAuthResponse
+struct CMsgClientRequestMachineAuthResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestMachineAuthResponse() :
+     ProtobufCppMessage(cmsg_client_request_machine_auth_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
 };
-#define CMSG_CLIENT_REQUEST_MACHINE_AUTH_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_machine_auth_response__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgClientRegisterKey
+struct CMsgClientRegisterKey : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRegisterKey() :
+     ProtobufCppMessage(cmsg_client_register_key__descriptor)
+  {}
+
   char *key;
 };
-#define CMSG_CLIENT_REGISTER_KEY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_register_key__descriptor) \
-    , NULL }
 
-
-struct  CMsgClientPurchaseResponse
+struct CMsgClientPurchaseResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientPurchaseResponse() :
+     ProtobufCppMessage(cmsg_client_purchase_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_purchase_result_details;
@@ -401,14 +528,13 @@ struct  CMsgClientPurchaseResponse
   protobuf_c_boolean has_purchase_receipt_info;
   ProtobufCBinaryData purchase_receipt_info;
 };
-#define CMSG_CLIENT_PURCHASE_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_purchase_response__descriptor) \
-    , 0, 2, 0, 0, 0, {0,NULL} }
 
-
-struct  CMsgClientActivateOEMLicense
+struct CMsgClientActivateOEMLicense : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientActivateOEMLicense() :
+     ProtobufCppMessage(cmsg_client_activate_oemlicense__descriptor)
+  {}
+
   char *bios_manufacturer;
   char *bios_serialnumber;
   protobuf_c_boolean has_license_file;
@@ -417,63 +543,58 @@ struct  CMsgClientActivateOEMLicense
   char *mainboard_product;
   char *mainboard_serialnumber;
 };
-#define CMSG_CLIENT_ACTIVATE_OEMLICENSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_activate_oemlicense__descriptor) \
-    , NULL, NULL, 0, {0,NULL}, NULL, NULL, NULL }
 
-
-struct  CMsgClientRegisterOEMMachine
+struct CMsgClientRegisterOEMMachine : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRegisterOEMMachine() :
+     ProtobufCppMessage(cmsg_client_register_oemmachine__descriptor)
+  {}
+
   protobuf_c_boolean has_oem_register_file;
   ProtobufCBinaryData oem_register_file;
 };
-#define CMSG_CLIENT_REGISTER_OEMMACHINE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_register_oemmachine__descriptor) \
-    , 0, {0,NULL} }
 
-
-struct  CMsgClientRegisterOEMMachineResponse
+struct CMsgClientRegisterOEMMachineResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRegisterOEMMachineResponse() :
+     ProtobufCppMessage(cmsg_client_register_oemmachine_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
 };
-#define CMSG_CLIENT_REGISTER_OEMMACHINE_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_register_oemmachine_response__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgClientPurchaseWithMachineID
+struct CMsgClientPurchaseWithMachineID : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientPurchaseWithMachineID() :
+     ProtobufCppMessage(cmsg_client_purchase_with_machine_id__descriptor)
+  {}
+
   protobuf_c_boolean has_package_id;
   uint32_t package_id;
   protobuf_c_boolean has_machine_info;
   ProtobufCBinaryData machine_info;
 };
-#define CMSG_CLIENT_PURCHASE_WITH_MACHINE_ID__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_purchase_with_machine_id__descriptor) \
-    , 0, 0, 0, {0,NULL} }
 
-
-struct  CMsgTradingInitiateTradeRequest
+struct CMsgTradingInitiateTradeRequest : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgTradingInitiateTradeRequest() :
+     ProtobufCppMessage(cmsg_trading__initiate_trade_request__descriptor)
+  {}
+
   protobuf_c_boolean has_trade_request_id;
   uint32_t trade_request_id;
   protobuf_c_boolean has_other_steamid;
   uint64_t other_steamid;
   char *other_name;
 };
-#define CMSG_TRADING__INITIATE_TRADE_REQUEST__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_trading__initiate_trade_request__descriptor) \
-    , 0, 0, 0, 0, NULL }
 
-
-struct  CMsgTradingInitiateTradeResponse
+struct CMsgTradingInitiateTradeResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgTradingInitiateTradeResponse() :
+     ProtobufCppMessage(cmsg_trading__initiate_trade_response__descriptor)
+  {}
+
   protobuf_c_boolean has_response;
   uint32_t response;
   protobuf_c_boolean has_trade_request_id;
@@ -493,63 +614,58 @@ struct  CMsgTradingInitiateTradeResponse
   protobuf_c_boolean has_email_change_probation_days;
   uint32_t email_change_probation_days;
 };
-#define CMSG_TRADING__INITIATE_TRADE_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_trading__initiate_trade_response__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgTradingCancelTradeRequest
+struct CMsgTradingCancelTradeRequest : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgTradingCancelTradeRequest() :
+     ProtobufCppMessage(cmsg_trading__cancel_trade_request__descriptor)
+  {}
+
   protobuf_c_boolean has_other_steamid;
   uint64_t other_steamid;
 };
-#define CMSG_TRADING__CANCEL_TRADE_REQUEST__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_trading__cancel_trade_request__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgTradingStartSession
+struct CMsgTradingStartSession : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgTradingStartSession() :
+     ProtobufCppMessage(cmsg_trading__start_session__descriptor)
+  {}
+
   protobuf_c_boolean has_other_steamid;
   uint64_t other_steamid;
 };
-#define CMSG_TRADING__START_SESSION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_trading__start_session__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgClientGetCDNAuthToken
+struct CMsgClientGetCDNAuthToken : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetCDNAuthToken() :
+     ProtobufCppMessage(cmsg_client_get_cdnauth_token__descriptor)
+  {}
+
   protobuf_c_boolean has_depot_id;
   uint32_t depot_id;
   char *host_name;
   protobuf_c_boolean has_app_id;
   uint32_t app_id;
 };
-#define CMSG_CLIENT_GET_CDNAUTH_TOKEN__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_cdnauth_token__descriptor) \
-    , 0, 0, NULL, 0, 0 }
 
-
-struct  CMsgClientGetDepotDecryptionKey
+struct CMsgClientGetDepotDecryptionKey : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetDepotDecryptionKey() :
+     ProtobufCppMessage(cmsg_client_get_depot_decryption_key__descriptor)
+  {}
+
   protobuf_c_boolean has_depot_id;
   uint32_t depot_id;
   protobuf_c_boolean has_app_id;
   uint32_t app_id;
 };
-#define CMSG_CLIENT_GET_DEPOT_DECRYPTION_KEY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_depot_decryption_key__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientGetDepotDecryptionKeyResponse
+struct CMsgClientGetDepotDecryptionKeyResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetDepotDecryptionKeyResponse() :
+     ProtobufCppMessage(cmsg_client_get_depot_decryption_key_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_depot_id;
@@ -557,67 +673,62 @@ struct  CMsgClientGetDepotDecryptionKeyResponse
   protobuf_c_boolean has_depot_encryption_key;
   ProtobufCBinaryData depot_encryption_key;
 };
-#define CMSG_CLIENT_GET_DEPOT_DECRYPTION_KEY_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_depot_decryption_key_response__descriptor) \
-    , 0, 2, 0, 0, 0, {0,NULL} }
 
-
-struct  CMsgClientCheckAppBetaPassword
+struct CMsgClientCheckAppBetaPassword : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientCheckAppBetaPassword() :
+     ProtobufCppMessage(cmsg_client_check_app_beta_password__descriptor)
+  {}
+
   protobuf_c_boolean has_app_id;
   uint32_t app_id;
   char *betapassword;
   protobuf_c_boolean has_language;
   int32_t language;
 };
-#define CMSG_CLIENT_CHECK_APP_BETA_PASSWORD__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_check_app_beta_password__descriptor) \
-    , 0, 0, NULL, 0, 0 }
 
-
-struct  CMsgClientCheckAppBetaPasswordResponse__BetaPassword
+struct CMsgClientCheckAppBetaPasswordResponse__BetaPassword : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientCheckAppBetaPasswordResponse__BetaPassword() :
+     ProtobufCppMessage(cmsg_client_check_app_beta_password_response__beta_password__descriptor)
+  {}
+
   char *betaname;
   char *betapassword;
   char *betadescription;
 };
-#define CMSG_CLIENT_CHECK_APP_BETA_PASSWORD_RESPONSE__BETA_PASSWORD__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_check_app_beta_password_response__beta_password__descriptor) \
-    , NULL, NULL, NULL }
 
-
-struct  CMsgClientCheckAppBetaPasswordResponse
+struct CMsgClientCheckAppBetaPasswordResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientCheckAppBetaPasswordResponse() :
+     ProtobufCppMessage(cmsg_client_check_app_beta_password_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   size_t n_betapasswords;
   CMsgClientCheckAppBetaPasswordResponse__BetaPassword **betapasswords;
 };
-#define CMSG_CLIENT_CHECK_APP_BETA_PASSWORD_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_check_app_beta_password_response__descriptor) \
-    , 0, 2, 0,NULL }
 
-
-struct  CMsgClientGetCDNAuthTokenResponse
+struct CMsgClientGetCDNAuthTokenResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetCDNAuthTokenResponse() :
+     ProtobufCppMessage(cmsg_client_get_cdnauth_token_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
   char *token;
   protobuf_c_boolean has_expiration_time;
   uint32_t expiration_time;
 };
-#define CMSG_CLIENT_GET_CDNAUTH_TOKEN_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_cdnauth_token_response__descriptor) \
-    , 0, 2u, NULL, 0, 0 }
 
-
-struct  CMsgDownloadRateStatistics__StatsInfo
+struct CMsgDownloadRateStatistics__StatsInfo : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgDownloadRateStatistics__StatsInfo() :
+     ProtobufCppMessage(cmsg_download_rate_statistics__stats_info__descriptor)
+  {}
+
   protobuf_c_boolean has_source_type;
   uint32_t source_type;
   protobuf_c_boolean has_source_id;
@@ -634,14 +745,13 @@ struct  CMsgDownloadRateStatistics__StatsInfo
   protobuf_c_boolean has_proxied;
   protobuf_c_boolean proxied;
 };
-#define CMSG_DOWNLOAD_RATE_STATISTICS__STATS_INFO__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_download_rate_statistics__stats_info__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, NULL, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgDownloadRateStatistics
+struct CMsgDownloadRateStatistics : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgDownloadRateStatistics() :
+     ProtobufCppMessage(cmsg_download_rate_statistics__descriptor)
+  {}
+
   protobuf_c_boolean has_cell_id;
   uint32_t cell_id;
   size_t n_stats;
@@ -651,26 +761,24 @@ struct  CMsgDownloadRateStatistics
   protobuf_c_boolean has_steam_realm;
   uint32_t steam_realm;
 };
-#define CMSG_DOWNLOAD_RATE_STATISTICS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_download_rate_statistics__descriptor) \
-    , 0, 0, 0,NULL, 0, 0, 0, 0 }
 
-
-struct  CMsgClientRequestAccountData
+struct CMsgClientRequestAccountData : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestAccountData() :
+     ProtobufCppMessage(cmsg_client_request_account_data__descriptor)
+  {}
+
   char *account_or_email;
   protobuf_c_boolean has_action;
   uint32_t action;
 };
-#define CMSG_CLIENT_REQUEST_ACCOUNT_DATA__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_account_data__descriptor) \
-    , NULL, 0, 0 }
 
-
-struct  CMsgClientRequestAccountDataResponse
+struct CMsgClientRequestAccountDataResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestAccountDataResponse() :
+     ProtobufCppMessage(cmsg_client_request_account_data_response__descriptor)
+  {}
+
   protobuf_c_boolean has_action;
   uint32_t action;
   protobuf_c_boolean has_eresult;
@@ -682,14 +790,13 @@ struct  CMsgClientRequestAccountDataResponse
   char *account_name_suggestion2;
   char *account_name_suggestion3;
 };
-#define CMSG_CLIENT_REQUEST_ACCOUNT_DATA_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_account_data_response__descriptor) \
-    , 0, 0, 0, 0, NULL, 0, 0, NULL, NULL, NULL }
 
-
-struct  CMsgClientUGSGetGlobalStats
+struct CMsgClientUGSGetGlobalStats : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUGSGetGlobalStats() :
+     ProtobufCppMessage(cmsg_client_ugsget_global_stats__descriptor)
+  {}
+
   protobuf_c_boolean has_gameid;
   uint64_t gameid;
   protobuf_c_boolean has_history_days_requested;
@@ -701,40 +808,37 @@ struct  CMsgClientUGSGetGlobalStats
   protobuf_c_boolean has_days_cached;
   uint32_t days_cached;
 };
-#define CMSG_CLIENT_UGSGET_GLOBAL_STATS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_ugsget_global_stats__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgClientUGSGetGlobalStatsResponse__Day__Stat
+struct CMsgClientUGSGetGlobalStatsResponse__Day__Stat : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUGSGetGlobalStatsResponse__Day__Stat() :
+     ProtobufCppMessage(cmsg_client_ugsget_global_stats_response__day__stat__descriptor)
+  {}
+
   protobuf_c_boolean has_stat_id;
   int32_t stat_id;
   protobuf_c_boolean has_data;
   int64_t data;
 };
-#define CMSG_CLIENT_UGSGET_GLOBAL_STATS_RESPONSE__DAY__STAT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_ugsget_global_stats_response__day__stat__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientUGSGetGlobalStatsResponse__Day
+struct CMsgClientUGSGetGlobalStatsResponse__Day : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUGSGetGlobalStatsResponse__Day() :
+     ProtobufCppMessage(cmsg_client_ugsget_global_stats_response__day__descriptor)
+  {}
+
   protobuf_c_boolean has_day_id;
   uint32_t day_id;
   size_t n_stats;
   CMsgClientUGSGetGlobalStatsResponse__Day__Stat **stats;
 };
-#define CMSG_CLIENT_UGSGET_GLOBAL_STATS_RESPONSE__DAY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_ugsget_global_stats_response__day__descriptor) \
-    , 0, 0, 0,NULL }
 
-
-struct  CMsgClientUGSGetGlobalStatsResponse
+struct CMsgClientUGSGetGlobalStatsResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUGSGetGlobalStatsResponse() :
+     ProtobufCppMessage(cmsg_client_ugsget_global_stats_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_timestamp;
@@ -744,25 +848,23 @@ struct  CMsgClientUGSGetGlobalStatsResponse
   size_t n_days;
   CMsgClientUGSGetGlobalStatsResponse__Day **days;
 };
-#define CMSG_CLIENT_UGSGET_GLOBAL_STATS_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_ugsget_global_stats_response__descriptor) \
-    , 0, 2, 0, 0, 0, 0, 0,NULL }
 
-
-struct  CMsgClientRedeemGuestPass
+struct CMsgClientRedeemGuestPass : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRedeemGuestPass() :
+     ProtobufCppMessage(cmsg_client_redeem_guest_pass__descriptor)
+  {}
+
   protobuf_c_boolean has_guest_pass_id;
   uint64_t guest_pass_id;
 };
-#define CMSG_CLIENT_REDEEM_GUEST_PASS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_redeem_guest_pass__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgClientRedeemGuestPassResponse
+struct CMsgClientRedeemGuestPassResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRedeemGuestPassResponse() :
+     ProtobufCppMessage(cmsg_client_redeem_guest_pass_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
   protobuf_c_boolean has_package_id;
@@ -770,36 +872,33 @@ struct  CMsgClientRedeemGuestPassResponse
   protobuf_c_boolean has_must_own_appid;
   uint32_t must_own_appid;
 };
-#define CMSG_CLIENT_REDEEM_GUEST_PASS_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_redeem_guest_pass_response__descriptor) \
-    , 0, 2u, 0, 0, 0, 0 }
 
-
-struct  CMsgClientGetClanActivityCounts
+struct CMsgClientGetClanActivityCounts : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetClanActivityCounts() :
+     ProtobufCppMessage(cmsg_client_get_clan_activity_counts__descriptor)
+  {}
+
   size_t n_steamid_clans;
   uint64_t *steamid_clans;
 };
-#define CMSG_CLIENT_GET_CLAN_ACTIVITY_COUNTS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_clan_activity_counts__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgClientGetClanActivityCountsResponse
+struct CMsgClientGetClanActivityCountsResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetClanActivityCountsResponse() :
+     ProtobufCppMessage(cmsg_client_get_clan_activity_counts_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
 };
-#define CMSG_CLIENT_GET_CLAN_ACTIVITY_COUNTS_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_clan_activity_counts_response__descriptor) \
-    , 0, 2u }
 
-
-struct  CMsgClientOGSReportString
+struct CMsgClientOGSReportString : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientOGSReportString() :
+     ProtobufCppMessage(cmsg_client_ogsreport_string__descriptor)
+  {}
+
   protobuf_c_boolean has_accumulated;
   protobuf_c_boolean accumulated;
   protobuf_c_boolean has_sessionid;
@@ -810,37 +909,34 @@ struct  CMsgClientOGSReportString
   protobuf_c_boolean has_varargs;
   ProtobufCBinaryData varargs;
 };
-#define CMSG_CLIENT_OGSREPORT_STRING__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_ogsreport_string__descriptor) \
-    , 0, 0, 0, 0, 0, 0, NULL, 0, {0,NULL} }
 
-
-struct  CMsgClientOGSReportBug
+struct CMsgClientOGSReportBug : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientOGSReportBug() :
+     ProtobufCppMessage(cmsg_client_ogsreport_bug__descriptor)
+  {}
+
   protobuf_c_boolean has_sessionid;
   uint64_t sessionid;
   char *bugtext;
   protobuf_c_boolean has_screenshot;
   ProtobufCBinaryData screenshot;
 };
-#define CMSG_CLIENT_OGSREPORT_BUG__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_ogsreport_bug__descriptor) \
-    , 0, 0, NULL, 0, {0,NULL} }
 
-
-struct  CMsgClientSentLogs
+struct CMsgClientSentLogs : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientSentLogs() :
+     ProtobufCppMessage(cmsg_client_sent_logs__descriptor)
+  {}
+
 };
-#define CMSG_CLIENT_SENT_LOGS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_sent_logs__descriptor) \
-     }
 
-
-struct  CMsgGCClient
+struct CMsgGCClient : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgGCClient() :
+     ProtobufCppMessage(cmsg_gcclient__descriptor)
+  {}
+
   protobuf_c_boolean has_appid;
   uint32_t appid;
   protobuf_c_boolean has_msgtype;
@@ -853,25 +949,23 @@ struct  CMsgGCClient
   protobuf_c_boolean has_ip;
   uint32_t ip;
 };
-#define CMSG_GCCLIENT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_gcclient__descriptor) \
-    , 0, 0, 0, 0, 0, {0,NULL}, 0, 0, NULL, 0, 0 }
 
-
-struct  CMsgClientRequestFreeLicense
+struct CMsgClientRequestFreeLicense : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestFreeLicense() :
+     ProtobufCppMessage(cmsg_client_request_free_license__descriptor)
+  {}
+
   size_t n_appids;
   uint32_t *appids;
 };
-#define CMSG_CLIENT_REQUEST_FREE_LICENSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_free_license__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgClientRequestFreeLicenseResponse
+struct CMsgClientRequestFreeLicenseResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestFreeLicenseResponse() :
+     ProtobufCppMessage(cmsg_client_request_free_license_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
   size_t n_granted_packageids;
@@ -879,14 +973,13 @@ struct  CMsgClientRequestFreeLicenseResponse
   size_t n_granted_appids;
   uint32_t *granted_appids;
 };
-#define CMSG_CLIENT_REQUEST_FREE_LICENSE_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_free_license_response__descriptor) \
-    , 0, 2u, 0,NULL, 0,NULL }
 
-
-struct  CMsgDRMDownloadRequestWithCrashData
+struct CMsgDRMDownloadRequestWithCrashData : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgDRMDownloadRequestWithCrashData() :
+     ProtobufCppMessage(cmsg_drmdownload_request_with_crash_data__descriptor)
+  {}
+
   protobuf_c_boolean has_download_flags;
   uint32_t download_flags;
   protobuf_c_boolean has_download_types_known;
@@ -902,14 +995,13 @@ struct  CMsgDRMDownloadRequestWithCrashData
   protobuf_c_boolean has_crash_data;
   ProtobufCBinaryData crash_data;
 };
-#define CMSG_DRMDOWNLOAD_REQUEST_WITH_CRASH_DATA__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_drmdownload_request_with_crash_data__descriptor) \
-    , 0, 0, 0, 0, 0, {0,NULL}, 0, {0,NULL}, 0, {0,NULL}, NULL, NULL, 0, {0,NULL} }
 
-
-struct  CMsgDRMDownloadResponse
+struct CMsgDRMDownloadResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgDRMDownloadResponse() :
+     ProtobufCppMessage(cmsg_drmdownload_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
   protobuf_c_boolean has_app_id;
@@ -925,14 +1017,13 @@ struct  CMsgDRMDownloadResponse
   char *download_file_url;
   char *module_path;
 };
-#define CMSG_DRMDOWNLOAD_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_drmdownload_response__descriptor) \
-    , 0, 2u, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, 0, NULL, NULL }
 
-
-struct  CMsgDRMFinalResult
+struct CMsgDRMFinalResult : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgDRMFinalResult() :
+     ProtobufCppMessage(cmsg_drmfinal_result__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
   protobuf_c_boolean has_app_id;
@@ -949,25 +1040,23 @@ struct  CMsgDRMFinalResult
   uint32_t download_file_dfs_port;
   char *download_file_url;
 };
-#define CMSG_DRMFINAL_RESULT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_drmfinal_result__descriptor) \
-    , 0, 2u, 0, 0, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, 0, NULL }
 
-
-struct  CMsgClientDPCheckSpecialSurvey
+struct CMsgClientDPCheckSpecialSurvey : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientDPCheckSpecialSurvey() :
+     ProtobufCppMessage(cmsg_client_dpcheck_special_survey__descriptor)
+  {}
+
   protobuf_c_boolean has_survey_id;
   uint32_t survey_id;
 };
-#define CMSG_CLIENT_DPCHECK_SPECIAL_SURVEY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_dpcheck_special_survey__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgClientDPCheckSpecialSurveyResponse
+struct CMsgClientDPCheckSpecialSurveyResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientDPCheckSpecialSurveyResponse() :
+     ProtobufCppMessage(cmsg_client_dpcheck_special_survey_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
   protobuf_c_boolean has_state;
@@ -979,64 +1068,59 @@ struct  CMsgClientDPCheckSpecialSurveyResponse
   protobuf_c_boolean has_token;
   ProtobufCBinaryData token;
 };
-#define CMSG_CLIENT_DPCHECK_SPECIAL_SURVEY_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_dpcheck_special_survey_response__descriptor) \
-    , 0, 2u, 0, 0, NULL, NULL, 0, 0, 0, {0,NULL} }
 
-
-struct  CMsgClientDPSendSpecialSurveyResponse
+struct CMsgClientDPSendSpecialSurveyResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientDPSendSpecialSurveyResponse() :
+     ProtobufCppMessage(cmsg_client_dpsend_special_survey_response__descriptor)
+  {}
+
   protobuf_c_boolean has_survey_id;
   uint32_t survey_id;
   protobuf_c_boolean has_data;
   ProtobufCBinaryData data;
 };
-#define CMSG_CLIENT_DPSEND_SPECIAL_SURVEY_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_dpsend_special_survey_response__descriptor) \
-    , 0, 0, 0, {0,NULL} }
 
-
-struct  CMsgClientDPSendSpecialSurveyResponseReply
+struct CMsgClientDPSendSpecialSurveyResponseReply : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientDPSendSpecialSurveyResponseReply() :
+     ProtobufCppMessage(cmsg_client_dpsend_special_survey_response_reply__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
   protobuf_c_boolean has_token;
   ProtobufCBinaryData token;
 };
-#define CMSG_CLIENT_DPSEND_SPECIAL_SURVEY_RESPONSE_REPLY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_dpsend_special_survey_response_reply__descriptor) \
-    , 0, 2u, 0, {0,NULL} }
 
-
-struct  CMsgClientRequestForgottenPasswordEmail
+struct CMsgClientRequestForgottenPasswordEmail : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestForgottenPasswordEmail() :
+     ProtobufCppMessage(cmsg_client_request_forgotten_password_email__descriptor)
+  {}
+
   char *account_name;
   char *password_tried;
 };
-#define CMSG_CLIENT_REQUEST_FORGOTTEN_PASSWORD_EMAIL__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_forgotten_password_email__descriptor) \
-    , NULL, NULL }
 
-
-struct  CMsgClientRequestForgottenPasswordEmailResponse
+struct CMsgClientRequestForgottenPasswordEmailResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestForgottenPasswordEmailResponse() :
+     ProtobufCppMessage(cmsg_client_request_forgotten_password_email_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   uint32_t eresult;
   protobuf_c_boolean has_use_secret_question;
   protobuf_c_boolean use_secret_question;
 };
-#define CMSG_CLIENT_REQUEST_FORGOTTEN_PASSWORD_EMAIL_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_forgotten_password_email_response__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientItemAnnouncements__UnseenItem
+struct CMsgClientItemAnnouncements__UnseenItem : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientItemAnnouncements__UnseenItem() :
+     ProtobufCppMessage(cmsg_client_item_announcements__unseen_item__descriptor)
+  {}
+
   protobuf_c_boolean has_appid;
   uint32_t appid;
   protobuf_c_boolean has_context_id;
@@ -1050,60 +1134,55 @@ struct  CMsgClientItemAnnouncements__UnseenItem
   protobuf_c_boolean has_source_appid;
   uint32_t source_appid;
 };
-#define CMSG_CLIENT_ITEM_ANNOUNCEMENTS__UNSEEN_ITEM__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_item_announcements__unseen_item__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgClientItemAnnouncements
+struct CMsgClientItemAnnouncements : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientItemAnnouncements() :
+     ProtobufCppMessage(cmsg_client_item_announcements__descriptor)
+  {}
+
   protobuf_c_boolean has_count_new_items;
   uint32_t count_new_items;
   size_t n_unseen_items;
   CMsgClientItemAnnouncements__UnseenItem **unseen_items;
 };
-#define CMSG_CLIENT_ITEM_ANNOUNCEMENTS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_item_announcements__descriptor) \
-    , 0, 0, 0,NULL }
 
-
-struct  CMsgClientRequestItemAnnouncements
+struct CMsgClientRequestItemAnnouncements : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestItemAnnouncements() :
+     ProtobufCppMessage(cmsg_client_request_item_announcements__descriptor)
+  {}
+
 };
-#define CMSG_CLIENT_REQUEST_ITEM_ANNOUNCEMENTS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_item_announcements__descriptor) \
-     }
 
-
-struct  CMsgClientUserNotifications__Notification
+struct CMsgClientUserNotifications__Notification : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUserNotifications__Notification() :
+     ProtobufCppMessage(cmsg_client_user_notifications__notification__descriptor)
+  {}
+
   protobuf_c_boolean has_user_notification_type;
   uint32_t user_notification_type;
   protobuf_c_boolean has_count;
   uint32_t count;
 };
-#define CMSG_CLIENT_USER_NOTIFICATIONS__NOTIFICATION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_user_notifications__notification__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientUserNotifications
+struct CMsgClientUserNotifications : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUserNotifications() :
+     ProtobufCppMessage(cmsg_client_user_notifications__descriptor)
+  {}
+
   size_t n_notifications;
   CMsgClientUserNotifications__Notification **notifications;
 };
-#define CMSG_CLIENT_USER_NOTIFICATIONS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_user_notifications__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgClientCommentNotifications
+struct CMsgClientCommentNotifications : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientCommentNotifications() :
+     ProtobufCppMessage(cmsg_client_comment_notifications__descriptor)
+  {}
+
   protobuf_c_boolean has_count_new_comments;
   uint32_t count_new_comments;
   protobuf_c_boolean has_count_new_comments_owner;
@@ -1111,56 +1190,51 @@ struct  CMsgClientCommentNotifications
   protobuf_c_boolean has_count_new_comments_subscriptions;
   uint32_t count_new_comments_subscriptions;
 };
-#define CMSG_CLIENT_COMMENT_NOTIFICATIONS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_comment_notifications__descriptor) \
-    , 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgClientRequestCommentNotifications
+struct CMsgClientRequestCommentNotifications : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestCommentNotifications() :
+     ProtobufCppMessage(cmsg_client_request_comment_notifications__descriptor)
+  {}
+
 };
-#define CMSG_CLIENT_REQUEST_COMMENT_NOTIFICATIONS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_comment_notifications__descriptor) \
-     }
 
-
-struct  CMsgClientOfflineMessageNotification
+struct CMsgClientOfflineMessageNotification : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientOfflineMessageNotification() :
+     ProtobufCppMessage(cmsg_client_offline_message_notification__descriptor)
+  {}
+
   protobuf_c_boolean has_offline_messages;
   uint32_t offline_messages;
   size_t n_friends_with_offline_messages;
   uint32_t *friends_with_offline_messages;
 };
-#define CMSG_CLIENT_OFFLINE_MESSAGE_NOTIFICATION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_offline_message_notification__descriptor) \
-    , 0, 0, 0,NULL }
 
-
-struct  CMsgClientRequestOfflineMessageCount
+struct CMsgClientRequestOfflineMessageCount : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientRequestOfflineMessageCount() :
+     ProtobufCppMessage(cmsg_client_request_offline_message_count__descriptor)
+  {}
+
 };
-#define CMSG_CLIENT_REQUEST_OFFLINE_MESSAGE_COUNT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_request_offline_message_count__descriptor) \
-     }
 
-
-struct  CMsgClientChatGetFriendMessageHistory
+struct CMsgClientChatGetFriendMessageHistory : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientChatGetFriendMessageHistory() :
+     ProtobufCppMessage(cmsg_client_chat_get_friend_message_history__descriptor)
+  {}
+
   protobuf_c_boolean has_steamid;
   uint64_t steamid;
 };
-#define CMSG_CLIENT_CHAT_GET_FRIEND_MESSAGE_HISTORY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_chat_get_friend_message_history__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage
+struct CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage() :
+     ProtobufCppMessage(cmsg_client_chat_get_friend_message_history_response__friend_message__descriptor)
+  {}
+
   protobuf_c_boolean has_accountid;
   uint32_t accountid;
   protobuf_c_boolean has_timestamp;
@@ -1169,14 +1243,13 @@ struct  CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage
   protobuf_c_boolean has_unread;
   protobuf_c_boolean unread;
 };
-#define CMSG_CLIENT_CHAT_GET_FRIEND_MESSAGE_HISTORY_RESPONSE__FRIEND_MESSAGE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_chat_get_friend_message_history_response__friend_message__descriptor) \
-    , 0, 0, 0, 0, NULL, 0, 0 }
 
-
-struct  CMsgClientChatGetFriendMessageHistoryResponse
+struct CMsgClientChatGetFriendMessageHistoryResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientChatGetFriendMessageHistoryResponse() :
+     ProtobufCppMessage(cmsg_client_chat_get_friend_message_history_response__descriptor)
+  {}
+
   protobuf_c_boolean has_steamid;
   uint64_t steamid;
   protobuf_c_boolean has_success;
@@ -1184,58 +1257,53 @@ struct  CMsgClientChatGetFriendMessageHistoryResponse
   size_t n_messages;
   CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage **messages;
 };
-#define CMSG_CLIENT_CHAT_GET_FRIEND_MESSAGE_HISTORY_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_chat_get_friend_message_history_response__descriptor) \
-    , 0, 0, 0, 0, 0,NULL }
 
-
-struct  CMsgClientChatGetFriendMessageHistoryForOfflineMessages
+struct CMsgClientChatGetFriendMessageHistoryForOfflineMessages : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientChatGetFriendMessageHistoryForOfflineMessages() :
+     ProtobufCppMessage(cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor)
+  {}
+
 };
-#define CMSG_CLIENT_CHAT_GET_FRIEND_MESSAGE_HISTORY_FOR_OFFLINE_MESSAGES__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor) \
-     }
 
-
-struct  CMsgClientFSGetFriendsSteamLevels
+struct CMsgClientFSGetFriendsSteamLevels : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientFSGetFriendsSteamLevels() :
+     ProtobufCppMessage(cmsg_client_fsget_friends_steam_levels__descriptor)
+  {}
+
   size_t n_accountids;
   uint32_t *accountids;
 };
-#define CMSG_CLIENT_FSGET_FRIENDS_STEAM_LEVELS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_fsget_friends_steam_levels__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgClientFSGetFriendsSteamLevelsResponse__Friend
+struct CMsgClientFSGetFriendsSteamLevelsResponse__Friend : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientFSGetFriendsSteamLevelsResponse__Friend() :
+     ProtobufCppMessage(cmsg_client_fsget_friends_steam_levels_response__friend__descriptor)
+  {}
+
   protobuf_c_boolean has_accountid;
   uint32_t accountid;
   protobuf_c_boolean has_level;
   uint32_t level;
 };
-#define CMSG_CLIENT_FSGET_FRIENDS_STEAM_LEVELS_RESPONSE__FRIEND__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_fsget_friends_steam_levels_response__friend__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientFSGetFriendsSteamLevelsResponse
+struct CMsgClientFSGetFriendsSteamLevelsResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientFSGetFriendsSteamLevelsResponse() :
+     ProtobufCppMessage(cmsg_client_fsget_friends_steam_levels_response__descriptor)
+  {}
+
   size_t n_friends;
   CMsgClientFSGetFriendsSteamLevelsResponse__Friend **friends;
 };
-#define CMSG_CLIENT_FSGET_FRIENDS_STEAM_LEVELS_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_fsget_friends_steam_levels_response__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgClientEmailAddrInfo
+struct CMsgClientEmailAddrInfo : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientEmailAddrInfo() :
+     ProtobufCppMessage(cmsg_client_email_addr_info__descriptor)
+  {}
+
   char *email_address;
   protobuf_c_boolean has_email_is_validated;
   protobuf_c_boolean email_is_validated;
@@ -1246,36 +1314,33 @@ struct  CMsgClientEmailAddrInfo
   protobuf_c_boolean has_password_or_secretqa_change_requires_code;
   protobuf_c_boolean password_or_secretqa_change_requires_code;
 };
-#define CMSG_CLIENT_EMAIL_ADDR_INFO__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_email_addr_info__descriptor) \
-    , NULL, 0, 0, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgCREItemVoteSummary__PublishedFileId
+struct CMsgCREItemVoteSummary__PublishedFileId : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREItemVoteSummary__PublishedFileId() :
+     ProtobufCppMessage(cmsg_creitem_vote_summary__published_file_id__descriptor)
+  {}
+
   protobuf_c_boolean has_published_file_id;
   uint64_t published_file_id;
 };
-#define CMSG_CREITEM_VOTE_SUMMARY__PUBLISHED_FILE_ID__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creitem_vote_summary__published_file_id__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgCREItemVoteSummary
+struct CMsgCREItemVoteSummary : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREItemVoteSummary() :
+     ProtobufCppMessage(cmsg_creitem_vote_summary__descriptor)
+  {}
+
   size_t n_published_file_ids;
   CMsgCREItemVoteSummary__PublishedFileId **published_file_ids;
 };
-#define CMSG_CREITEM_VOTE_SUMMARY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creitem_vote_summary__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgCREItemVoteSummaryResponse__ItemVoteSummary
+struct CMsgCREItemVoteSummaryResponse__ItemVoteSummary : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREItemVoteSummaryResponse__ItemVoteSummary() :
+     ProtobufCppMessage(cmsg_creitem_vote_summary_response__item_vote_summary__descriptor)
+  {}
+
   protobuf_c_boolean has_published_file_id;
   uint64_t published_file_id;
   protobuf_c_boolean has_votes_for;
@@ -1287,158 +1352,145 @@ struct  CMsgCREItemVoteSummaryResponse__ItemVoteSummary
   protobuf_c_boolean has_score;
   float score;
 };
-#define CMSG_CREITEM_VOTE_SUMMARY_RESPONSE__ITEM_VOTE_SUMMARY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creitem_vote_summary_response__item_vote_summary__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgCREItemVoteSummaryResponse
+struct CMsgCREItemVoteSummaryResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREItemVoteSummaryResponse() :
+     ProtobufCppMessage(cmsg_creitem_vote_summary_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   size_t n_item_vote_summaries;
   CMsgCREItemVoteSummaryResponse__ItemVoteSummary **item_vote_summaries;
 };
-#define CMSG_CREITEM_VOTE_SUMMARY_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creitem_vote_summary_response__descriptor) \
-    , 0, 2, 0,NULL }
 
-
-struct  CMsgCREUpdateUserPublishedItemVote
+struct CMsgCREUpdateUserPublishedItemVote : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREUpdateUserPublishedItemVote() :
+     ProtobufCppMessage(cmsg_creupdate_user_published_item_vote__descriptor)
+  {}
+
   protobuf_c_boolean has_published_file_id;
   uint64_t published_file_id;
   protobuf_c_boolean has_vote_up;
   protobuf_c_boolean vote_up;
 };
-#define CMSG_CREUPDATE_USER_PUBLISHED_ITEM_VOTE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creupdate_user_published_item_vote__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgCREUpdateUserPublishedItemVoteResponse
+struct CMsgCREUpdateUserPublishedItemVoteResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREUpdateUserPublishedItemVoteResponse() :
+     ProtobufCppMessage(cmsg_creupdate_user_published_item_vote_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
 };
-#define CMSG_CREUPDATE_USER_PUBLISHED_ITEM_VOTE_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creupdate_user_published_item_vote_response__descriptor) \
-    , 0, 2 }
 
-
-struct  CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId
+struct CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId() :
+     ProtobufCppMessage(cmsg_creget_user_published_item_vote_details__published_file_id__descriptor)
+  {}
+
   protobuf_c_boolean has_published_file_id;
   uint64_t published_file_id;
 };
-#define CMSG_CREGET_USER_PUBLISHED_ITEM_VOTE_DETAILS__PUBLISHED_FILE_ID__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creget_user_published_item_vote_details__published_file_id__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgCREGetUserPublishedItemVoteDetails
+struct CMsgCREGetUserPublishedItemVoteDetails : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREGetUserPublishedItemVoteDetails() :
+     ProtobufCppMessage(cmsg_creget_user_published_item_vote_details__descriptor)
+  {}
+
   size_t n_published_file_ids;
   CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId **published_file_ids;
 };
-#define CMSG_CREGET_USER_PUBLISHED_ITEM_VOTE_DETAILS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creget_user_published_item_vote_details__descriptor) \
-    , 0,NULL }
 
-
-struct  CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail
+struct CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail() :
+     ProtobufCppMessage(cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__descriptor)
+  {}
+
   protobuf_c_boolean has_published_file_id;
   uint64_t published_file_id;
   protobuf_c_boolean has_vote;
   int32_t vote;
 };
-#define CMSG_CREGET_USER_PUBLISHED_ITEM_VOTE_DETAILS_RESPONSE__USER_ITEM_VOTE_DETAIL__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgCREGetUserPublishedItemVoteDetailsResponse
+struct CMsgCREGetUserPublishedItemVoteDetailsResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgCREGetUserPublishedItemVoteDetailsResponse() :
+     ProtobufCppMessage(cmsg_creget_user_published_item_vote_details_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   size_t n_user_item_vote_details;
   CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail **user_item_vote_details;
 };
-#define CMSG_CREGET_USER_PUBLISHED_ITEM_VOTE_DETAILS_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_creget_user_published_item_vote_details_response__descriptor) \
-    , 0, 2, 0,NULL }
 
-
-struct  CMsgFSGetFollowerCount
+struct CMsgFSGetFollowerCount : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgFSGetFollowerCount() :
+     ProtobufCppMessage(cmsg_fsget_follower_count__descriptor)
+  {}
+
   protobuf_c_boolean has_steam_id;
   uint64_t steam_id;
 };
-#define CMSG_FSGET_FOLLOWER_COUNT__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_fsget_follower_count__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgFSGetFollowerCountResponse
+struct CMsgFSGetFollowerCountResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgFSGetFollowerCountResponse() :
+     ProtobufCppMessage(cmsg_fsget_follower_count_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_count;
   int32_t count;
 };
-#define CMSG_FSGET_FOLLOWER_COUNT_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_fsget_follower_count_response__descriptor) \
-    , 0, 2, 0, 0 }
 
-
-struct  CMsgFSGetIsFollowing
+struct CMsgFSGetIsFollowing : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgFSGetIsFollowing() :
+     ProtobufCppMessage(cmsg_fsget_is_following__descriptor)
+  {}
+
   protobuf_c_boolean has_steam_id;
   uint64_t steam_id;
 };
-#define CMSG_FSGET_IS_FOLLOWING__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_fsget_is_following__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgFSGetIsFollowingResponse
+struct CMsgFSGetIsFollowingResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgFSGetIsFollowingResponse() :
+     ProtobufCppMessage(cmsg_fsget_is_following_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_is_following;
   protobuf_c_boolean is_following;
 };
-#define CMSG_FSGET_IS_FOLLOWING_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_fsget_is_following_response__descriptor) \
-    , 0, 2, 0, 0 }
 
-
-struct  CMsgFSEnumerateFollowingList
+struct CMsgFSEnumerateFollowingList : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgFSEnumerateFollowingList() :
+     ProtobufCppMessage(cmsg_fsenumerate_following_list__descriptor)
+  {}
+
   protobuf_c_boolean has_start_index;
   uint32_t start_index;
 };
-#define CMSG_FSENUMERATE_FOLLOWING_LIST__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_fsenumerate_following_list__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgFSEnumerateFollowingListResponse
+struct CMsgFSEnumerateFollowingListResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgFSEnumerateFollowingListResponse() :
+     ProtobufCppMessage(cmsg_fsenumerate_following_list_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_total_results;
@@ -1446,115 +1498,106 @@ struct  CMsgFSEnumerateFollowingListResponse
   size_t n_steam_ids;
   uint64_t *steam_ids;
 };
-#define CMSG_FSENUMERATE_FOLLOWING_LIST_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_fsenumerate_following_list_response__descriptor) \
-    , 0, 2, 0, 0, 0,NULL }
 
-
-struct  CMsgDPGetNumberOfCurrentPlayers
+struct CMsgDPGetNumberOfCurrentPlayers : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgDPGetNumberOfCurrentPlayers() :
+     ProtobufCppMessage(cmsg_dpget_number_of_current_players__descriptor)
+  {}
+
   protobuf_c_boolean has_appid;
   uint32_t appid;
 };
-#define CMSG_DPGET_NUMBER_OF_CURRENT_PLAYERS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_dpget_number_of_current_players__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgDPGetNumberOfCurrentPlayersResponse
+struct CMsgDPGetNumberOfCurrentPlayersResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgDPGetNumberOfCurrentPlayersResponse() :
+     ProtobufCppMessage(cmsg_dpget_number_of_current_players_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_player_count;
   int32_t player_count;
 };
-#define CMSG_DPGET_NUMBER_OF_CURRENT_PLAYERS_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_dpget_number_of_current_players_response__descriptor) \
-    , 0, 2, 0, 0 }
 
-
-struct  CMsgClientFriendUserStatusPublished
+struct CMsgClientFriendUserStatusPublished : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientFriendUserStatusPublished() :
+     ProtobufCppMessage(cmsg_client_friend_user_status_published__descriptor)
+  {}
+
   protobuf_c_boolean has_friend_steamid;
   uint64_t friend_steamid;
   protobuf_c_boolean has_appid;
   uint32_t appid;
   char *status_text;
 };
-#define CMSG_CLIENT_FRIEND_USER_STATUS_PUBLISHED__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_friend_user_status_published__descriptor) \
-    , 0, 0, 0, 0, NULL }
 
-
-struct  CMsgClientServiceMethodLegacy
+struct CMsgClientServiceMethodLegacy : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientServiceMethodLegacy() :
+     ProtobufCppMessage(cmsg_client_service_method_legacy__descriptor)
+  {}
+
   char *method_name;
   protobuf_c_boolean has_serialized_method;
   ProtobufCBinaryData serialized_method;
   protobuf_c_boolean has_is_notification;
   protobuf_c_boolean is_notification;
 };
-#define CMSG_CLIENT_SERVICE_METHOD_LEGACY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_service_method_legacy__descriptor) \
-    , NULL, 0, {0,NULL}, 0, 0 }
 
-
-struct  CMsgClientServiceMethodLegacyResponse
+struct CMsgClientServiceMethodLegacyResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientServiceMethodLegacyResponse() :
+     ProtobufCppMessage(cmsg_client_service_method_legacy_response__descriptor)
+  {}
+
   char *method_name;
   protobuf_c_boolean has_serialized_method_response;
   ProtobufCBinaryData serialized_method_response;
 };
-#define CMSG_CLIENT_SERVICE_METHOD_LEGACY_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_service_method_legacy_response__descriptor) \
-    , NULL, 0, {0,NULL} }
 
-
-struct  CMsgClientUIMode
+struct CMsgClientUIMode : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUIMode() :
+     ProtobufCppMessage(cmsg_client_uimode__descriptor)
+  {}
+
   protobuf_c_boolean has_uimode;
   uint32_t uimode;
   protobuf_c_boolean has_chat_mode;
   uint32_t chat_mode;
 };
-#define CMSG_CLIENT_UIMODE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_uimode__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientVanityURLChangedNotification
+struct CMsgClientVanityURLChangedNotification : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientVanityURLChangedNotification() :
+     ProtobufCppMessage(cmsg_client_vanity_urlchanged_notification__descriptor)
+  {}
+
   char *vanity_url;
 };
-#define CMSG_CLIENT_VANITY_URLCHANGED_NOTIFICATION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_vanity_urlchanged_notification__descriptor) \
-    , NULL }
 
-
-struct  CMsgClientAuthorizeLocalDeviceRequest
+struct CMsgClientAuthorizeLocalDeviceRequest : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientAuthorizeLocalDeviceRequest() :
+     ProtobufCppMessage(cmsg_client_authorize_local_device_request__descriptor)
+  {}
+
   char *device_description;
   protobuf_c_boolean has_owner_account_id;
   uint32_t owner_account_id;
   protobuf_c_boolean has_local_device_token;
   uint64_t local_device_token;
 };
-#define CMSG_CLIENT_AUTHORIZE_LOCAL_DEVICE_REQUEST__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_authorize_local_device_request__descriptor) \
-    , NULL, 0, 0, 0, 0 }
 
-
-struct  CMsgClientAuthorizeLocalDevice
+struct CMsgClientAuthorizeLocalDevice : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientAuthorizeLocalDevice() :
+     ProtobufCppMessage(cmsg_client_authorize_local_device__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_owner_account_id;
@@ -1562,14 +1605,13 @@ struct  CMsgClientAuthorizeLocalDevice
   protobuf_c_boolean has_authed_device_token;
   uint64_t authed_device_token;
 };
-#define CMSG_CLIENT_AUTHORIZE_LOCAL_DEVICE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_authorize_local_device__descriptor) \
-    , 0, 2, 0, 0, 0, 0 }
 
-
-struct  CMsgClientAuthorizeLocalDeviceNotification
+struct CMsgClientAuthorizeLocalDeviceNotification : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientAuthorizeLocalDeviceNotification() :
+     ProtobufCppMessage(cmsg_client_authorize_local_device_notification__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_owner_account_id;
@@ -1577,75 +1619,69 @@ struct  CMsgClientAuthorizeLocalDeviceNotification
   protobuf_c_boolean has_local_device_token;
   uint64_t local_device_token;
 };
-#define CMSG_CLIENT_AUTHORIZE_LOCAL_DEVICE_NOTIFICATION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_authorize_local_device_notification__descriptor) \
-    , 0, 2, 0, 0, 0, 0 }
 
-
-struct  CMsgClientDeauthorizeDeviceRequest
+struct CMsgClientDeauthorizeDeviceRequest : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientDeauthorizeDeviceRequest() :
+     ProtobufCppMessage(cmsg_client_deauthorize_device_request__descriptor)
+  {}
+
   protobuf_c_boolean has_deauthorization_account_id;
   uint32_t deauthorization_account_id;
   protobuf_c_boolean has_deauthorization_device_token;
   uint64_t deauthorization_device_token;
 };
-#define CMSG_CLIENT_DEAUTHORIZE_DEVICE_REQUEST__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_deauthorize_device_request__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientDeauthorizeDevice
+struct CMsgClientDeauthorizeDevice : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientDeauthorizeDevice() :
+     ProtobufCppMessage(cmsg_client_deauthorize_device__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_deauthorization_account_id;
   uint32_t deauthorization_account_id;
 };
-#define CMSG_CLIENT_DEAUTHORIZE_DEVICE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_deauthorize_device__descriptor) \
-    , 0, 2, 0, 0 }
 
-
-struct  CMsgClientUseLocalDeviceAuthorizations__DeviceToken
+struct CMsgClientUseLocalDeviceAuthorizations__DeviceToken : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUseLocalDeviceAuthorizations__DeviceToken() :
+     ProtobufCppMessage(cmsg_client_use_local_device_authorizations__device_token__descriptor)
+  {}
+
   protobuf_c_boolean has_owner_account_id;
   uint32_t owner_account_id;
   protobuf_c_boolean has_token_id;
   uint64_t token_id;
 };
-#define CMSG_CLIENT_USE_LOCAL_DEVICE_AUTHORIZATIONS__DEVICE_TOKEN__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_use_local_device_authorizations__device_token__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientUseLocalDeviceAuthorizations
+struct CMsgClientUseLocalDeviceAuthorizations : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientUseLocalDeviceAuthorizations() :
+     ProtobufCppMessage(cmsg_client_use_local_device_authorizations__descriptor)
+  {}
+
   size_t n_authorization_account_id;
   uint32_t *authorization_account_id;
   size_t n_device_tokens;
   CMsgClientUseLocalDeviceAuthorizations__DeviceToken **device_tokens;
 };
-#define CMSG_CLIENT_USE_LOCAL_DEVICE_AUTHORIZATIONS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_use_local_device_authorizations__descriptor) \
-    , 0,NULL, 0,NULL }
 
-
-struct  CMsgClientGetAuthorizedDevices
+struct CMsgClientGetAuthorizedDevices : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetAuthorizedDevices() :
+     ProtobufCppMessage(cmsg_client_get_authorized_devices__descriptor)
+  {}
+
 };
-#define CMSG_CLIENT_GET_AUTHORIZED_DEVICES__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_authorized_devices__descriptor) \
-     }
 
-
-struct  CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice
+struct CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice() :
+     ProtobufCppMessage(cmsg_client_get_authorized_devices_response__authorized_device__descriptor)
+  {}
+
   protobuf_c_boolean has_auth_device_token;
   uint64_t auth_device_token;
   char *device_name;
@@ -1658,79 +1694,73 @@ struct  CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice
   protobuf_c_boolean has_app_played;
   uint32_t app_played;
 };
-#define CMSG_CLIENT_GET_AUTHORIZED_DEVICES_RESPONSE__AUTHORIZED_DEVICE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_authorized_devices_response__authorized_device__descriptor) \
-    , 0, 0, NULL, 0, 0, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgClientGetAuthorizedDevicesResponse
+struct CMsgClientGetAuthorizedDevicesResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetAuthorizedDevicesResponse() :
+     ProtobufCppMessage(cmsg_client_get_authorized_devices_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   size_t n_authorized_device;
   CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice **authorized_device;
 };
-#define CMSG_CLIENT_GET_AUTHORIZED_DEVICES_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_authorized_devices_response__descriptor) \
-    , 0, 2, 0,NULL }
 
-
-struct  CMsgClientSharedLibraryLockStatus__LockedLibrary
+struct CMsgClientSharedLibraryLockStatus__LockedLibrary : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientSharedLibraryLockStatus__LockedLibrary() :
+     ProtobufCppMessage(cmsg_client_shared_library_lock_status__locked_library__descriptor)
+  {}
+
   protobuf_c_boolean has_owner_id;
   uint32_t owner_id;
   protobuf_c_boolean has_locked_by;
   uint32_t locked_by;
 };
-#define CMSG_CLIENT_SHARED_LIBRARY_LOCK_STATUS__LOCKED_LIBRARY__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_shared_library_lock_status__locked_library__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientSharedLibraryLockStatus
+struct CMsgClientSharedLibraryLockStatus : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientSharedLibraryLockStatus() :
+     ProtobufCppMessage(cmsg_client_shared_library_lock_status__descriptor)
+  {}
+
   size_t n_locked_library;
   CMsgClientSharedLibraryLockStatus__LockedLibrary **locked_library;
   protobuf_c_boolean has_own_library_locked_by;
   uint32_t own_library_locked_by;
 };
-#define CMSG_CLIENT_SHARED_LIBRARY_LOCK_STATUS__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_shared_library_lock_status__descriptor) \
-    , 0,NULL, 0, 0 }
 
-
-struct  CMsgClientSharedLibraryStopPlaying__StopApp
+struct CMsgClientSharedLibraryStopPlaying__StopApp : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientSharedLibraryStopPlaying__StopApp() :
+     ProtobufCppMessage(cmsg_client_shared_library_stop_playing__stop_app__descriptor)
+  {}
+
   protobuf_c_boolean has_app_id;
   uint32_t app_id;
   protobuf_c_boolean has_owner_id;
   uint32_t owner_id;
 };
-#define CMSG_CLIENT_SHARED_LIBRARY_STOP_PLAYING__STOP_APP__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_shared_library_stop_playing__stop_app__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientSharedLibraryStopPlaying
+struct CMsgClientSharedLibraryStopPlaying : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientSharedLibraryStopPlaying() :
+     ProtobufCppMessage(cmsg_client_shared_library_stop_playing__descriptor)
+  {}
+
   protobuf_c_boolean has_seconds_left;
   int32_t seconds_left;
   size_t n_stop_apps;
   CMsgClientSharedLibraryStopPlaying__StopApp **stop_apps;
 };
-#define CMSG_CLIENT_SHARED_LIBRARY_STOP_PLAYING__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_shared_library_stop_playing__descriptor) \
-    , 0, 0, 0,NULL }
 
-
-struct  CMsgClientServiceCall
+struct CMsgClientServiceCall : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientServiceCall() :
+     ProtobufCppMessage(cmsg_client_service_call__descriptor)
+  {}
+
   protobuf_c_boolean has_sysid_routing;
   ProtobufCBinaryData sysid_routing;
   protobuf_c_boolean has_call_handle;
@@ -1754,14 +1784,13 @@ struct  CMsgClientServiceCall
   protobuf_c_boolean has_app_id;
   uint32_t app_id;
 };
-#define CMSG_CLIENT_SERVICE_CALL__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_service_call__descriptor) \
-    , 0, {0,NULL}, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgClientServiceModule
+struct CMsgClientServiceModule : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientServiceModule() :
+     ProtobufCppMessage(cmsg_client_service_module__descriptor)
+  {}
+
   protobuf_c_boolean has_module_crc;
   uint32_t module_crc;
   protobuf_c_boolean has_module_hash;
@@ -1769,14 +1798,13 @@ struct  CMsgClientServiceModule
   protobuf_c_boolean has_module_content;
   ProtobufCBinaryData module_content;
 };
-#define CMSG_CLIENT_SERVICE_MODULE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_service_module__descriptor) \
-    , 0, 0, 0, {0,NULL}, 0, {0,NULL} }
 
-
-struct  CMsgClientServiceCallResponse
+struct CMsgClientServiceCallResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientServiceCallResponse() :
+     ProtobufCppMessage(cmsg_client_service_call_response__descriptor)
+  {}
+
   protobuf_c_boolean has_sysid_routing;
   ProtobufCBinaryData sysid_routing;
   protobuf_c_boolean has_call_handle;
@@ -1820,14 +1848,13 @@ struct  CMsgClientServiceCallResponse
   protobuf_c_boolean has_last_callcomplete_delta;
   uint32_t last_callcomplete_delta;
 };
-#define CMSG_CLIENT_SERVICE_CALL_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_service_call_response__descriptor) \
-    , 0, {0,NULL}, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, {0,NULL}, 0, {0,NULL}, 0, {0,NULL}, 0, 0, 0, {0,NULL}, 0, {0,NULL}, 0, {0,NULL}, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, {0,NULL}, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgAMUnlockH264
+struct CMsgAMUnlockH264 : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgAMUnlockH264() :
+     ProtobufCppMessage(cmsg_amunlock_h264__descriptor)
+  {}
+
   protobuf_c_boolean has_appid;
   uint32_t appid;
   protobuf_c_boolean has_platform;
@@ -1835,51 +1862,47 @@ struct  CMsgAMUnlockH264
   protobuf_c_boolean has_reason;
   int32_t reason;
 };
-#define CMSG_AMUNLOCK_H264__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_amunlock_h264__descriptor) \
-    , 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgAMUnlockH264Response
+struct CMsgAMUnlockH264Response : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgAMUnlockH264Response() :
+     ProtobufCppMessage(cmsg_amunlock_h264_response__descriptor)
+  {}
+
   protobuf_c_boolean has_eresult;
   int32_t eresult;
   protobuf_c_boolean has_encryption_key;
   ProtobufCBinaryData encryption_key;
 };
-#define CMSG_AMUNLOCK_H264_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_amunlock_h264_response__descriptor) \
-    , 0, 2, 0, {0,NULL} }
 
-
-struct  CMsgClientPlayingSessionState
+struct CMsgClientPlayingSessionState : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientPlayingSessionState() :
+     ProtobufCppMessage(cmsg_client_playing_session_state__descriptor)
+  {}
+
   protobuf_c_boolean has_playing_blocked;
   protobuf_c_boolean playing_blocked;
   protobuf_c_boolean has_playing_app;
   uint32_t playing_app;
 };
-#define CMSG_CLIENT_PLAYING_SESSION_STATE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_playing_session_state__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientKickPlayingSession
+struct CMsgClientKickPlayingSession : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientKickPlayingSession() :
+     ProtobufCppMessage(cmsg_client_kick_playing_session__descriptor)
+  {}
+
   protobuf_c_boolean has_only_stop_game;
   protobuf_c_boolean only_stop_game;
 };
-#define CMSG_CLIENT_KICK_PLAYING_SESSION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_kick_playing_session__descriptor) \
-    , 0, 0 }
 
-
-struct  CMsgClientVoiceCallPreAuthorize
+struct CMsgClientVoiceCallPreAuthorize : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientVoiceCallPreAuthorize() :
+     ProtobufCppMessage(cmsg_client_voice_call_pre_authorize__descriptor)
+  {}
+
   protobuf_c_boolean has_caller_steamid;
   uint64_t caller_steamid;
   protobuf_c_boolean has_receiver_steamid;
@@ -1889,14 +1912,13 @@ struct  CMsgClientVoiceCallPreAuthorize
   protobuf_c_boolean has_hangup;
   protobuf_c_boolean hangup;
 };
-#define CMSG_CLIENT_VOICE_CALL_PRE_AUTHORIZE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_voice_call_pre_authorize__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgClientVoiceCallPreAuthorizeResponse
+struct CMsgClientVoiceCallPreAuthorizeResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientVoiceCallPreAuthorizeResponse() :
+     ProtobufCppMessage(cmsg_client_voice_call_pre_authorize_response__descriptor)
+  {}
+
   protobuf_c_boolean has_caller_steamid;
   uint64_t caller_steamid;
   protobuf_c_boolean has_receiver_steamid;
@@ -1906,27 +1928,25 @@ struct  CMsgClientVoiceCallPreAuthorizeResponse
   protobuf_c_boolean has_caller_id;
   int32_t caller_id;
 };
-#define CMSG_CLIENT_VOICE_CALL_PRE_AUTHORIZE_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_voice_call_pre_authorize_response__descriptor) \
-    , 0, 0, 0, 0, 0, 2, 0, 0 }
 
-
-struct  CMsgBadgeCraftedNotification
+struct CMsgBadgeCraftedNotification : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgBadgeCraftedNotification() :
+     ProtobufCppMessage(cmsg_badge_crafted_notification__descriptor)
+  {}
+
   protobuf_c_boolean has_appid;
   uint32_t appid;
   protobuf_c_boolean has_badge_level;
   uint32_t badge_level;
 };
-#define CMSG_BADGE_CRAFTED_NOTIFICATION__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_badge_crafted_notification__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientStartPeerContentServer
+struct CMsgClientStartPeerContentServer : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientStartPeerContentServer() :
+     ProtobufCppMessage(cmsg_client_start_peer_content_server__descriptor)
+  {}
+
   protobuf_c_boolean has_steamid;
   uint64_t steamid;
   protobuf_c_boolean has_client_remote_id;
@@ -1936,53 +1956,43 @@ struct  CMsgClientStartPeerContentServer
   protobuf_c_boolean has_current_build_id;
   uint32_t current_build_id;
 };
-#define CMSG_CLIENT_START_PEER_CONTENT_SERVER__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_start_peer_content_server__descriptor) \
-    , 0, 0, 0, 0, 0, 0, 0, 0 }
 
-
-struct  CMsgClientStartPeerContentServerResponse
+struct CMsgClientStartPeerContentServerResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientStartPeerContentServerResponse() :
+     ProtobufCppMessage(cmsg_client_start_peer_content_server_response__descriptor)
+  {}
+
   protobuf_c_boolean has_result;
   uint32_t result;
   protobuf_c_boolean has_server_port;
   uint32_t server_port;
 };
-#define CMSG_CLIENT_START_PEER_CONTENT_SERVER_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_start_peer_content_server_response__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientGetPeerContentInfo
+struct CMsgClientGetPeerContentInfo : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetPeerContentInfo() :
+     ProtobufCppMessage(cmsg_client_get_peer_content_info__descriptor)
+  {}
+
   protobuf_c_boolean has_steamid;
   uint64_t steamid;
   protobuf_c_boolean has_client_remote_id;
   uint64_t client_remote_id;
 };
-#define CMSG_CLIENT_GET_PEER_CONTENT_INFO__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_peer_content_info__descriptor) \
-    , 0, 0, 0, 0 }
 
-
-struct  CMsgClientGetPeerContentInfoResponse
+struct CMsgClientGetPeerContentInfoResponse : public ProtobufCppMessage
 {
-  ProtobufCMessage base;
+  CMsgClientGetPeerContentInfoResponse() :
+     ProtobufCppMessage(cmsg_client_get_peer_content_info_response__descriptor)
+  {}
+
   protobuf_c_boolean has_result;
   uint32_t result;
   size_t n_apps;
   uint32_t *apps;
 };
-#define CMSG_CLIENT_GET_PEER_CONTENT_INFO_RESPONSE__INIT \
- { PROTOBUF_C_MESSAGE_INIT (&cmsg_client_get_peer_content_info_response__descriptor) \
-    , 0, 0, 0,NULL }
 
-
-/* CMsgClientUpdateUserGameInfo methods */
-void   cmsg_client_update_user_game_info__init
-                     (CMsgClientUpdateUserGameInfo         *message);
 size_t cmsg_client_update_user_game_info__get_packed_size
                      (const CMsgClientUpdateUserGameInfo   *message);
 size_t cmsg_client_update_user_game_info__pack
@@ -1999,9 +2009,6 @@ CMsgClientUpdateUserGameInfo *
 void   cmsg_client_update_user_game_info__free_unpacked
                      (CMsgClientUpdateUserGameInfo *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRichPresenceUpload methods */
-void   cmsg_client_rich_presence_upload__init
-                     (CMsgClientRichPresenceUpload         *message);
 size_t cmsg_client_rich_presence_upload__get_packed_size
                      (const CMsgClientRichPresenceUpload   *message);
 size_t cmsg_client_rich_presence_upload__pack
@@ -2018,9 +2025,6 @@ CMsgClientRichPresenceUpload *
 void   cmsg_client_rich_presence_upload__free_unpacked
                      (CMsgClientRichPresenceUpload *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRichPresenceRequest methods */
-void   cmsg_client_rich_presence_request__init
-                     (CMsgClientRichPresenceRequest         *message);
 size_t cmsg_client_rich_presence_request__get_packed_size
                      (const CMsgClientRichPresenceRequest   *message);
 size_t cmsg_client_rich_presence_request__pack
@@ -2037,12 +2041,6 @@ CMsgClientRichPresenceRequest *
 void   cmsg_client_rich_presence_request__free_unpacked
                      (CMsgClientRichPresenceRequest *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRichPresenceInfo__RichPresence methods */
-void   cmsg_client_rich_presence_info__rich_presence__init
-                     (CMsgClientRichPresenceInfo__RichPresence         *message);
-/* CMsgClientRichPresenceInfo methods */
-void   cmsg_client_rich_presence_info__init
-                     (CMsgClientRichPresenceInfo         *message);
 size_t cmsg_client_rich_presence_info__get_packed_size
                      (const CMsgClientRichPresenceInfo   *message);
 size_t cmsg_client_rich_presence_info__pack
@@ -2059,9 +2057,6 @@ CMsgClientRichPresenceInfo *
 void   cmsg_client_rich_presence_info__free_unpacked
                      (CMsgClientRichPresenceInfo *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientCheckFileSignature methods */
-void   cmsg_client_check_file_signature__init
-                     (CMsgClientCheckFileSignature         *message);
 size_t cmsg_client_check_file_signature__get_packed_size
                      (const CMsgClientCheckFileSignature   *message);
 size_t cmsg_client_check_file_signature__pack
@@ -2078,9 +2073,6 @@ CMsgClientCheckFileSignature *
 void   cmsg_client_check_file_signature__free_unpacked
                      (CMsgClientCheckFileSignature *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientCheckFileSignatureResponse methods */
-void   cmsg_client_check_file_signature_response__init
-                     (CMsgClientCheckFileSignatureResponse         *message);
 size_t cmsg_client_check_file_signature_response__get_packed_size
                      (const CMsgClientCheckFileSignatureResponse   *message);
 size_t cmsg_client_check_file_signature_response__pack
@@ -2097,9 +2089,6 @@ CMsgClientCheckFileSignatureResponse *
 void   cmsg_client_check_file_signature_response__free_unpacked
                      (CMsgClientCheckFileSignatureResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientReadMachineAuth methods */
-void   cmsg_client_read_machine_auth__init
-                     (CMsgClientReadMachineAuth         *message);
 size_t cmsg_client_read_machine_auth__get_packed_size
                      (const CMsgClientReadMachineAuth   *message);
 size_t cmsg_client_read_machine_auth__pack
@@ -2116,9 +2105,6 @@ CMsgClientReadMachineAuth *
 void   cmsg_client_read_machine_auth__free_unpacked
                      (CMsgClientReadMachineAuth *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientReadMachineAuthResponse methods */
-void   cmsg_client_read_machine_auth_response__init
-                     (CMsgClientReadMachineAuthResponse         *message);
 size_t cmsg_client_read_machine_auth_response__get_packed_size
                      (const CMsgClientReadMachineAuthResponse   *message);
 size_t cmsg_client_read_machine_auth_response__pack
@@ -2135,9 +2121,6 @@ CMsgClientReadMachineAuthResponse *
 void   cmsg_client_read_machine_auth_response__free_unpacked
                      (CMsgClientReadMachineAuthResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientUpdateMachineAuth methods */
-void   cmsg_client_update_machine_auth__init
-                     (CMsgClientUpdateMachineAuth         *message);
 size_t cmsg_client_update_machine_auth__get_packed_size
                      (const CMsgClientUpdateMachineAuth   *message);
 size_t cmsg_client_update_machine_auth__pack
@@ -2154,9 +2137,6 @@ CMsgClientUpdateMachineAuth *
 void   cmsg_client_update_machine_auth__free_unpacked
                      (CMsgClientUpdateMachineAuth *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientUpdateMachineAuthResponse methods */
-void   cmsg_client_update_machine_auth_response__init
-                     (CMsgClientUpdateMachineAuthResponse         *message);
 size_t cmsg_client_update_machine_auth_response__get_packed_size
                      (const CMsgClientUpdateMachineAuthResponse   *message);
 size_t cmsg_client_update_machine_auth_response__pack
@@ -2173,9 +2153,6 @@ CMsgClientUpdateMachineAuthResponse *
 void   cmsg_client_update_machine_auth_response__free_unpacked
                      (CMsgClientUpdateMachineAuthResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestMachineAuth methods */
-void   cmsg_client_request_machine_auth__init
-                     (CMsgClientRequestMachineAuth         *message);
 size_t cmsg_client_request_machine_auth__get_packed_size
                      (const CMsgClientRequestMachineAuth   *message);
 size_t cmsg_client_request_machine_auth__pack
@@ -2192,9 +2169,6 @@ CMsgClientRequestMachineAuth *
 void   cmsg_client_request_machine_auth__free_unpacked
                      (CMsgClientRequestMachineAuth *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestMachineAuthResponse methods */
-void   cmsg_client_request_machine_auth_response__init
-                     (CMsgClientRequestMachineAuthResponse         *message);
 size_t cmsg_client_request_machine_auth_response__get_packed_size
                      (const CMsgClientRequestMachineAuthResponse   *message);
 size_t cmsg_client_request_machine_auth_response__pack
@@ -2211,9 +2185,6 @@ CMsgClientRequestMachineAuthResponse *
 void   cmsg_client_request_machine_auth_response__free_unpacked
                      (CMsgClientRequestMachineAuthResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRegisterKey methods */
-void   cmsg_client_register_key__init
-                     (CMsgClientRegisterKey         *message);
 size_t cmsg_client_register_key__get_packed_size
                      (const CMsgClientRegisterKey   *message);
 size_t cmsg_client_register_key__pack
@@ -2230,9 +2201,6 @@ CMsgClientRegisterKey *
 void   cmsg_client_register_key__free_unpacked
                      (CMsgClientRegisterKey *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientPurchaseResponse methods */
-void   cmsg_client_purchase_response__init
-                     (CMsgClientPurchaseResponse         *message);
 size_t cmsg_client_purchase_response__get_packed_size
                      (const CMsgClientPurchaseResponse   *message);
 size_t cmsg_client_purchase_response__pack
@@ -2249,9 +2217,6 @@ CMsgClientPurchaseResponse *
 void   cmsg_client_purchase_response__free_unpacked
                      (CMsgClientPurchaseResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientActivateOEMLicense methods */
-void   cmsg_client_activate_oemlicense__init
-                     (CMsgClientActivateOEMLicense         *message);
 size_t cmsg_client_activate_oemlicense__get_packed_size
                      (const CMsgClientActivateOEMLicense   *message);
 size_t cmsg_client_activate_oemlicense__pack
@@ -2268,9 +2233,6 @@ CMsgClientActivateOEMLicense *
 void   cmsg_client_activate_oemlicense__free_unpacked
                      (CMsgClientActivateOEMLicense *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRegisterOEMMachine methods */
-void   cmsg_client_register_oemmachine__init
-                     (CMsgClientRegisterOEMMachine         *message);
 size_t cmsg_client_register_oemmachine__get_packed_size
                      (const CMsgClientRegisterOEMMachine   *message);
 size_t cmsg_client_register_oemmachine__pack
@@ -2287,9 +2249,6 @@ CMsgClientRegisterOEMMachine *
 void   cmsg_client_register_oemmachine__free_unpacked
                      (CMsgClientRegisterOEMMachine *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRegisterOEMMachineResponse methods */
-void   cmsg_client_register_oemmachine_response__init
-                     (CMsgClientRegisterOEMMachineResponse         *message);
 size_t cmsg_client_register_oemmachine_response__get_packed_size
                      (const CMsgClientRegisterOEMMachineResponse   *message);
 size_t cmsg_client_register_oemmachine_response__pack
@@ -2306,9 +2265,6 @@ CMsgClientRegisterOEMMachineResponse *
 void   cmsg_client_register_oemmachine_response__free_unpacked
                      (CMsgClientRegisterOEMMachineResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientPurchaseWithMachineID methods */
-void   cmsg_client_purchase_with_machine_id__init
-                     (CMsgClientPurchaseWithMachineID         *message);
 size_t cmsg_client_purchase_with_machine_id__get_packed_size
                      (const CMsgClientPurchaseWithMachineID   *message);
 size_t cmsg_client_purchase_with_machine_id__pack
@@ -2325,9 +2281,6 @@ CMsgClientPurchaseWithMachineID *
 void   cmsg_client_purchase_with_machine_id__free_unpacked
                      (CMsgClientPurchaseWithMachineID *message,
                       ProtobufCAllocator *allocator);
-/* CMsgTradingInitiateTradeRequest methods */
-void   cmsg_trading__initiate_trade_request__init
-                     (CMsgTradingInitiateTradeRequest         *message);
 size_t cmsg_trading__initiate_trade_request__get_packed_size
                      (const CMsgTradingInitiateTradeRequest   *message);
 size_t cmsg_trading__initiate_trade_request__pack
@@ -2344,9 +2297,6 @@ CMsgTradingInitiateTradeRequest *
 void   cmsg_trading__initiate_trade_request__free_unpacked
                      (CMsgTradingInitiateTradeRequest *message,
                       ProtobufCAllocator *allocator);
-/* CMsgTradingInitiateTradeResponse methods */
-void   cmsg_trading__initiate_trade_response__init
-                     (CMsgTradingInitiateTradeResponse         *message);
 size_t cmsg_trading__initiate_trade_response__get_packed_size
                      (const CMsgTradingInitiateTradeResponse   *message);
 size_t cmsg_trading__initiate_trade_response__pack
@@ -2363,9 +2313,6 @@ CMsgTradingInitiateTradeResponse *
 void   cmsg_trading__initiate_trade_response__free_unpacked
                      (CMsgTradingInitiateTradeResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgTradingCancelTradeRequest methods */
-void   cmsg_trading__cancel_trade_request__init
-                     (CMsgTradingCancelTradeRequest         *message);
 size_t cmsg_trading__cancel_trade_request__get_packed_size
                      (const CMsgTradingCancelTradeRequest   *message);
 size_t cmsg_trading__cancel_trade_request__pack
@@ -2382,9 +2329,6 @@ CMsgTradingCancelTradeRequest *
 void   cmsg_trading__cancel_trade_request__free_unpacked
                      (CMsgTradingCancelTradeRequest *message,
                       ProtobufCAllocator *allocator);
-/* CMsgTradingStartSession methods */
-void   cmsg_trading__start_session__init
-                     (CMsgTradingStartSession         *message);
 size_t cmsg_trading__start_session__get_packed_size
                      (const CMsgTradingStartSession   *message);
 size_t cmsg_trading__start_session__pack
@@ -2401,9 +2345,6 @@ CMsgTradingStartSession *
 void   cmsg_trading__start_session__free_unpacked
                      (CMsgTradingStartSession *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetCDNAuthToken methods */
-void   cmsg_client_get_cdnauth_token__init
-                     (CMsgClientGetCDNAuthToken         *message);
 size_t cmsg_client_get_cdnauth_token__get_packed_size
                      (const CMsgClientGetCDNAuthToken   *message);
 size_t cmsg_client_get_cdnauth_token__pack
@@ -2420,9 +2361,6 @@ CMsgClientGetCDNAuthToken *
 void   cmsg_client_get_cdnauth_token__free_unpacked
                      (CMsgClientGetCDNAuthToken *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetDepotDecryptionKey methods */
-void   cmsg_client_get_depot_decryption_key__init
-                     (CMsgClientGetDepotDecryptionKey         *message);
 size_t cmsg_client_get_depot_decryption_key__get_packed_size
                      (const CMsgClientGetDepotDecryptionKey   *message);
 size_t cmsg_client_get_depot_decryption_key__pack
@@ -2439,9 +2377,6 @@ CMsgClientGetDepotDecryptionKey *
 void   cmsg_client_get_depot_decryption_key__free_unpacked
                      (CMsgClientGetDepotDecryptionKey *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetDepotDecryptionKeyResponse methods */
-void   cmsg_client_get_depot_decryption_key_response__init
-                     (CMsgClientGetDepotDecryptionKeyResponse         *message);
 size_t cmsg_client_get_depot_decryption_key_response__get_packed_size
                      (const CMsgClientGetDepotDecryptionKeyResponse   *message);
 size_t cmsg_client_get_depot_decryption_key_response__pack
@@ -2458,9 +2393,6 @@ CMsgClientGetDepotDecryptionKeyResponse *
 void   cmsg_client_get_depot_decryption_key_response__free_unpacked
                      (CMsgClientGetDepotDecryptionKeyResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientCheckAppBetaPassword methods */
-void   cmsg_client_check_app_beta_password__init
-                     (CMsgClientCheckAppBetaPassword         *message);
 size_t cmsg_client_check_app_beta_password__get_packed_size
                      (const CMsgClientCheckAppBetaPassword   *message);
 size_t cmsg_client_check_app_beta_password__pack
@@ -2477,12 +2409,6 @@ CMsgClientCheckAppBetaPassword *
 void   cmsg_client_check_app_beta_password__free_unpacked
                      (CMsgClientCheckAppBetaPassword *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientCheckAppBetaPasswordResponse__BetaPassword methods */
-void   cmsg_client_check_app_beta_password_response__beta_password__init
-                     (CMsgClientCheckAppBetaPasswordResponse__BetaPassword         *message);
-/* CMsgClientCheckAppBetaPasswordResponse methods */
-void   cmsg_client_check_app_beta_password_response__init
-                     (CMsgClientCheckAppBetaPasswordResponse         *message);
 size_t cmsg_client_check_app_beta_password_response__get_packed_size
                      (const CMsgClientCheckAppBetaPasswordResponse   *message);
 size_t cmsg_client_check_app_beta_password_response__pack
@@ -2499,9 +2425,6 @@ CMsgClientCheckAppBetaPasswordResponse *
 void   cmsg_client_check_app_beta_password_response__free_unpacked
                      (CMsgClientCheckAppBetaPasswordResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetCDNAuthTokenResponse methods */
-void   cmsg_client_get_cdnauth_token_response__init
-                     (CMsgClientGetCDNAuthTokenResponse         *message);
 size_t cmsg_client_get_cdnauth_token_response__get_packed_size
                      (const CMsgClientGetCDNAuthTokenResponse   *message);
 size_t cmsg_client_get_cdnauth_token_response__pack
@@ -2518,12 +2441,6 @@ CMsgClientGetCDNAuthTokenResponse *
 void   cmsg_client_get_cdnauth_token_response__free_unpacked
                      (CMsgClientGetCDNAuthTokenResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgDownloadRateStatistics__StatsInfo methods */
-void   cmsg_download_rate_statistics__stats_info__init
-                     (CMsgDownloadRateStatistics__StatsInfo         *message);
-/* CMsgDownloadRateStatistics methods */
-void   cmsg_download_rate_statistics__init
-                     (CMsgDownloadRateStatistics         *message);
 size_t cmsg_download_rate_statistics__get_packed_size
                      (const CMsgDownloadRateStatistics   *message);
 size_t cmsg_download_rate_statistics__pack
@@ -2540,9 +2457,6 @@ CMsgDownloadRateStatistics *
 void   cmsg_download_rate_statistics__free_unpacked
                      (CMsgDownloadRateStatistics *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestAccountData methods */
-void   cmsg_client_request_account_data__init
-                     (CMsgClientRequestAccountData         *message);
 size_t cmsg_client_request_account_data__get_packed_size
                      (const CMsgClientRequestAccountData   *message);
 size_t cmsg_client_request_account_data__pack
@@ -2559,9 +2473,6 @@ CMsgClientRequestAccountData *
 void   cmsg_client_request_account_data__free_unpacked
                      (CMsgClientRequestAccountData *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestAccountDataResponse methods */
-void   cmsg_client_request_account_data_response__init
-                     (CMsgClientRequestAccountDataResponse         *message);
 size_t cmsg_client_request_account_data_response__get_packed_size
                      (const CMsgClientRequestAccountDataResponse   *message);
 size_t cmsg_client_request_account_data_response__pack
@@ -2578,9 +2489,6 @@ CMsgClientRequestAccountDataResponse *
 void   cmsg_client_request_account_data_response__free_unpacked
                      (CMsgClientRequestAccountDataResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientUGSGetGlobalStats methods */
-void   cmsg_client_ugsget_global_stats__init
-                     (CMsgClientUGSGetGlobalStats         *message);
 size_t cmsg_client_ugsget_global_stats__get_packed_size
                      (const CMsgClientUGSGetGlobalStats   *message);
 size_t cmsg_client_ugsget_global_stats__pack
@@ -2597,15 +2505,6 @@ CMsgClientUGSGetGlobalStats *
 void   cmsg_client_ugsget_global_stats__free_unpacked
                      (CMsgClientUGSGetGlobalStats *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientUGSGetGlobalStatsResponse__Day__Stat methods */
-void   cmsg_client_ugsget_global_stats_response__day__stat__init
-                     (CMsgClientUGSGetGlobalStatsResponse__Day__Stat         *message);
-/* CMsgClientUGSGetGlobalStatsResponse__Day methods */
-void   cmsg_client_ugsget_global_stats_response__day__init
-                     (CMsgClientUGSGetGlobalStatsResponse__Day         *message);
-/* CMsgClientUGSGetGlobalStatsResponse methods */
-void   cmsg_client_ugsget_global_stats_response__init
-                     (CMsgClientUGSGetGlobalStatsResponse         *message);
 size_t cmsg_client_ugsget_global_stats_response__get_packed_size
                      (const CMsgClientUGSGetGlobalStatsResponse   *message);
 size_t cmsg_client_ugsget_global_stats_response__pack
@@ -2622,9 +2521,6 @@ CMsgClientUGSGetGlobalStatsResponse *
 void   cmsg_client_ugsget_global_stats_response__free_unpacked
                      (CMsgClientUGSGetGlobalStatsResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRedeemGuestPass methods */
-void   cmsg_client_redeem_guest_pass__init
-                     (CMsgClientRedeemGuestPass         *message);
 size_t cmsg_client_redeem_guest_pass__get_packed_size
                      (const CMsgClientRedeemGuestPass   *message);
 size_t cmsg_client_redeem_guest_pass__pack
@@ -2641,9 +2537,6 @@ CMsgClientRedeemGuestPass *
 void   cmsg_client_redeem_guest_pass__free_unpacked
                      (CMsgClientRedeemGuestPass *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRedeemGuestPassResponse methods */
-void   cmsg_client_redeem_guest_pass_response__init
-                     (CMsgClientRedeemGuestPassResponse         *message);
 size_t cmsg_client_redeem_guest_pass_response__get_packed_size
                      (const CMsgClientRedeemGuestPassResponse   *message);
 size_t cmsg_client_redeem_guest_pass_response__pack
@@ -2660,9 +2553,6 @@ CMsgClientRedeemGuestPassResponse *
 void   cmsg_client_redeem_guest_pass_response__free_unpacked
                      (CMsgClientRedeemGuestPassResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetClanActivityCounts methods */
-void   cmsg_client_get_clan_activity_counts__init
-                     (CMsgClientGetClanActivityCounts         *message);
 size_t cmsg_client_get_clan_activity_counts__get_packed_size
                      (const CMsgClientGetClanActivityCounts   *message);
 size_t cmsg_client_get_clan_activity_counts__pack
@@ -2679,9 +2569,6 @@ CMsgClientGetClanActivityCounts *
 void   cmsg_client_get_clan_activity_counts__free_unpacked
                      (CMsgClientGetClanActivityCounts *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetClanActivityCountsResponse methods */
-void   cmsg_client_get_clan_activity_counts_response__init
-                     (CMsgClientGetClanActivityCountsResponse         *message);
 size_t cmsg_client_get_clan_activity_counts_response__get_packed_size
                      (const CMsgClientGetClanActivityCountsResponse   *message);
 size_t cmsg_client_get_clan_activity_counts_response__pack
@@ -2698,9 +2585,6 @@ CMsgClientGetClanActivityCountsResponse *
 void   cmsg_client_get_clan_activity_counts_response__free_unpacked
                      (CMsgClientGetClanActivityCountsResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientOGSReportString methods */
-void   cmsg_client_ogsreport_string__init
-                     (CMsgClientOGSReportString         *message);
 size_t cmsg_client_ogsreport_string__get_packed_size
                      (const CMsgClientOGSReportString   *message);
 size_t cmsg_client_ogsreport_string__pack
@@ -2717,9 +2601,6 @@ CMsgClientOGSReportString *
 void   cmsg_client_ogsreport_string__free_unpacked
                      (CMsgClientOGSReportString *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientOGSReportBug methods */
-void   cmsg_client_ogsreport_bug__init
-                     (CMsgClientOGSReportBug         *message);
 size_t cmsg_client_ogsreport_bug__get_packed_size
                      (const CMsgClientOGSReportBug   *message);
 size_t cmsg_client_ogsreport_bug__pack
@@ -2736,9 +2617,6 @@ CMsgClientOGSReportBug *
 void   cmsg_client_ogsreport_bug__free_unpacked
                      (CMsgClientOGSReportBug *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientSentLogs methods */
-void   cmsg_client_sent_logs__init
-                     (CMsgClientSentLogs         *message);
 size_t cmsg_client_sent_logs__get_packed_size
                      (const CMsgClientSentLogs   *message);
 size_t cmsg_client_sent_logs__pack
@@ -2755,9 +2633,6 @@ CMsgClientSentLogs *
 void   cmsg_client_sent_logs__free_unpacked
                      (CMsgClientSentLogs *message,
                       ProtobufCAllocator *allocator);
-/* CMsgGCClient methods */
-void   cmsg_gcclient__init
-                     (CMsgGCClient         *message);
 size_t cmsg_gcclient__get_packed_size
                      (const CMsgGCClient   *message);
 size_t cmsg_gcclient__pack
@@ -2774,9 +2649,6 @@ CMsgGCClient *
 void   cmsg_gcclient__free_unpacked
                      (CMsgGCClient *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestFreeLicense methods */
-void   cmsg_client_request_free_license__init
-                     (CMsgClientRequestFreeLicense         *message);
 size_t cmsg_client_request_free_license__get_packed_size
                      (const CMsgClientRequestFreeLicense   *message);
 size_t cmsg_client_request_free_license__pack
@@ -2793,9 +2665,6 @@ CMsgClientRequestFreeLicense *
 void   cmsg_client_request_free_license__free_unpacked
                      (CMsgClientRequestFreeLicense *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestFreeLicenseResponse methods */
-void   cmsg_client_request_free_license_response__init
-                     (CMsgClientRequestFreeLicenseResponse         *message);
 size_t cmsg_client_request_free_license_response__get_packed_size
                      (const CMsgClientRequestFreeLicenseResponse   *message);
 size_t cmsg_client_request_free_license_response__pack
@@ -2812,9 +2681,6 @@ CMsgClientRequestFreeLicenseResponse *
 void   cmsg_client_request_free_license_response__free_unpacked
                      (CMsgClientRequestFreeLicenseResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgDRMDownloadRequestWithCrashData methods */
-void   cmsg_drmdownload_request_with_crash_data__init
-                     (CMsgDRMDownloadRequestWithCrashData         *message);
 size_t cmsg_drmdownload_request_with_crash_data__get_packed_size
                      (const CMsgDRMDownloadRequestWithCrashData   *message);
 size_t cmsg_drmdownload_request_with_crash_data__pack
@@ -2831,9 +2697,6 @@ CMsgDRMDownloadRequestWithCrashData *
 void   cmsg_drmdownload_request_with_crash_data__free_unpacked
                      (CMsgDRMDownloadRequestWithCrashData *message,
                       ProtobufCAllocator *allocator);
-/* CMsgDRMDownloadResponse methods */
-void   cmsg_drmdownload_response__init
-                     (CMsgDRMDownloadResponse         *message);
 size_t cmsg_drmdownload_response__get_packed_size
                      (const CMsgDRMDownloadResponse   *message);
 size_t cmsg_drmdownload_response__pack
@@ -2850,9 +2713,6 @@ CMsgDRMDownloadResponse *
 void   cmsg_drmdownload_response__free_unpacked
                      (CMsgDRMDownloadResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgDRMFinalResult methods */
-void   cmsg_drmfinal_result__init
-                     (CMsgDRMFinalResult         *message);
 size_t cmsg_drmfinal_result__get_packed_size
                      (const CMsgDRMFinalResult   *message);
 size_t cmsg_drmfinal_result__pack
@@ -2869,9 +2729,6 @@ CMsgDRMFinalResult *
 void   cmsg_drmfinal_result__free_unpacked
                      (CMsgDRMFinalResult *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientDPCheckSpecialSurvey methods */
-void   cmsg_client_dpcheck_special_survey__init
-                     (CMsgClientDPCheckSpecialSurvey         *message);
 size_t cmsg_client_dpcheck_special_survey__get_packed_size
                      (const CMsgClientDPCheckSpecialSurvey   *message);
 size_t cmsg_client_dpcheck_special_survey__pack
@@ -2888,9 +2745,6 @@ CMsgClientDPCheckSpecialSurvey *
 void   cmsg_client_dpcheck_special_survey__free_unpacked
                      (CMsgClientDPCheckSpecialSurvey *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientDPCheckSpecialSurveyResponse methods */
-void   cmsg_client_dpcheck_special_survey_response__init
-                     (CMsgClientDPCheckSpecialSurveyResponse         *message);
 size_t cmsg_client_dpcheck_special_survey_response__get_packed_size
                      (const CMsgClientDPCheckSpecialSurveyResponse   *message);
 size_t cmsg_client_dpcheck_special_survey_response__pack
@@ -2907,9 +2761,6 @@ CMsgClientDPCheckSpecialSurveyResponse *
 void   cmsg_client_dpcheck_special_survey_response__free_unpacked
                      (CMsgClientDPCheckSpecialSurveyResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientDPSendSpecialSurveyResponse methods */
-void   cmsg_client_dpsend_special_survey_response__init
-                     (CMsgClientDPSendSpecialSurveyResponse         *message);
 size_t cmsg_client_dpsend_special_survey_response__get_packed_size
                      (const CMsgClientDPSendSpecialSurveyResponse   *message);
 size_t cmsg_client_dpsend_special_survey_response__pack
@@ -2926,9 +2777,6 @@ CMsgClientDPSendSpecialSurveyResponse *
 void   cmsg_client_dpsend_special_survey_response__free_unpacked
                      (CMsgClientDPSendSpecialSurveyResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientDPSendSpecialSurveyResponseReply methods */
-void   cmsg_client_dpsend_special_survey_response_reply__init
-                     (CMsgClientDPSendSpecialSurveyResponseReply         *message);
 size_t cmsg_client_dpsend_special_survey_response_reply__get_packed_size
                      (const CMsgClientDPSendSpecialSurveyResponseReply   *message);
 size_t cmsg_client_dpsend_special_survey_response_reply__pack
@@ -2945,9 +2793,6 @@ CMsgClientDPSendSpecialSurveyResponseReply *
 void   cmsg_client_dpsend_special_survey_response_reply__free_unpacked
                      (CMsgClientDPSendSpecialSurveyResponseReply *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestForgottenPasswordEmail methods */
-void   cmsg_client_request_forgotten_password_email__init
-                     (CMsgClientRequestForgottenPasswordEmail         *message);
 size_t cmsg_client_request_forgotten_password_email__get_packed_size
                      (const CMsgClientRequestForgottenPasswordEmail   *message);
 size_t cmsg_client_request_forgotten_password_email__pack
@@ -2964,9 +2809,6 @@ CMsgClientRequestForgottenPasswordEmail *
 void   cmsg_client_request_forgotten_password_email__free_unpacked
                      (CMsgClientRequestForgottenPasswordEmail *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestForgottenPasswordEmailResponse methods */
-void   cmsg_client_request_forgotten_password_email_response__init
-                     (CMsgClientRequestForgottenPasswordEmailResponse         *message);
 size_t cmsg_client_request_forgotten_password_email_response__get_packed_size
                      (const CMsgClientRequestForgottenPasswordEmailResponse   *message);
 size_t cmsg_client_request_forgotten_password_email_response__pack
@@ -2983,12 +2825,6 @@ CMsgClientRequestForgottenPasswordEmailResponse *
 void   cmsg_client_request_forgotten_password_email_response__free_unpacked
                      (CMsgClientRequestForgottenPasswordEmailResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientItemAnnouncements__UnseenItem methods */
-void   cmsg_client_item_announcements__unseen_item__init
-                     (CMsgClientItemAnnouncements__UnseenItem         *message);
-/* CMsgClientItemAnnouncements methods */
-void   cmsg_client_item_announcements__init
-                     (CMsgClientItemAnnouncements         *message);
 size_t cmsg_client_item_announcements__get_packed_size
                      (const CMsgClientItemAnnouncements   *message);
 size_t cmsg_client_item_announcements__pack
@@ -3005,9 +2841,6 @@ CMsgClientItemAnnouncements *
 void   cmsg_client_item_announcements__free_unpacked
                      (CMsgClientItemAnnouncements *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestItemAnnouncements methods */
-void   cmsg_client_request_item_announcements__init
-                     (CMsgClientRequestItemAnnouncements         *message);
 size_t cmsg_client_request_item_announcements__get_packed_size
                      (const CMsgClientRequestItemAnnouncements   *message);
 size_t cmsg_client_request_item_announcements__pack
@@ -3024,12 +2857,6 @@ CMsgClientRequestItemAnnouncements *
 void   cmsg_client_request_item_announcements__free_unpacked
                      (CMsgClientRequestItemAnnouncements *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientUserNotifications__Notification methods */
-void   cmsg_client_user_notifications__notification__init
-                     (CMsgClientUserNotifications__Notification         *message);
-/* CMsgClientUserNotifications methods */
-void   cmsg_client_user_notifications__init
-                     (CMsgClientUserNotifications         *message);
 size_t cmsg_client_user_notifications__get_packed_size
                      (const CMsgClientUserNotifications   *message);
 size_t cmsg_client_user_notifications__pack
@@ -3046,9 +2873,6 @@ CMsgClientUserNotifications *
 void   cmsg_client_user_notifications__free_unpacked
                      (CMsgClientUserNotifications *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientCommentNotifications methods */
-void   cmsg_client_comment_notifications__init
-                     (CMsgClientCommentNotifications         *message);
 size_t cmsg_client_comment_notifications__get_packed_size
                      (const CMsgClientCommentNotifications   *message);
 size_t cmsg_client_comment_notifications__pack
@@ -3065,9 +2889,6 @@ CMsgClientCommentNotifications *
 void   cmsg_client_comment_notifications__free_unpacked
                      (CMsgClientCommentNotifications *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestCommentNotifications methods */
-void   cmsg_client_request_comment_notifications__init
-                     (CMsgClientRequestCommentNotifications         *message);
 size_t cmsg_client_request_comment_notifications__get_packed_size
                      (const CMsgClientRequestCommentNotifications   *message);
 size_t cmsg_client_request_comment_notifications__pack
@@ -3084,9 +2905,6 @@ CMsgClientRequestCommentNotifications *
 void   cmsg_client_request_comment_notifications__free_unpacked
                      (CMsgClientRequestCommentNotifications *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientOfflineMessageNotification methods */
-void   cmsg_client_offline_message_notification__init
-                     (CMsgClientOfflineMessageNotification         *message);
 size_t cmsg_client_offline_message_notification__get_packed_size
                      (const CMsgClientOfflineMessageNotification   *message);
 size_t cmsg_client_offline_message_notification__pack
@@ -3103,9 +2921,6 @@ CMsgClientOfflineMessageNotification *
 void   cmsg_client_offline_message_notification__free_unpacked
                      (CMsgClientOfflineMessageNotification *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientRequestOfflineMessageCount methods */
-void   cmsg_client_request_offline_message_count__init
-                     (CMsgClientRequestOfflineMessageCount         *message);
 size_t cmsg_client_request_offline_message_count__get_packed_size
                      (const CMsgClientRequestOfflineMessageCount   *message);
 size_t cmsg_client_request_offline_message_count__pack
@@ -3122,9 +2937,6 @@ CMsgClientRequestOfflineMessageCount *
 void   cmsg_client_request_offline_message_count__free_unpacked
                      (CMsgClientRequestOfflineMessageCount *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientChatGetFriendMessageHistory methods */
-void   cmsg_client_chat_get_friend_message_history__init
-                     (CMsgClientChatGetFriendMessageHistory         *message);
 size_t cmsg_client_chat_get_friend_message_history__get_packed_size
                      (const CMsgClientChatGetFriendMessageHistory   *message);
 size_t cmsg_client_chat_get_friend_message_history__pack
@@ -3141,12 +2953,6 @@ CMsgClientChatGetFriendMessageHistory *
 void   cmsg_client_chat_get_friend_message_history__free_unpacked
                      (CMsgClientChatGetFriendMessageHistory *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage methods */
-void   cmsg_client_chat_get_friend_message_history_response__friend_message__init
-                     (CMsgClientChatGetFriendMessageHistoryResponse__FriendMessage         *message);
-/* CMsgClientChatGetFriendMessageHistoryResponse methods */
-void   cmsg_client_chat_get_friend_message_history_response__init
-                     (CMsgClientChatGetFriendMessageHistoryResponse         *message);
 size_t cmsg_client_chat_get_friend_message_history_response__get_packed_size
                      (const CMsgClientChatGetFriendMessageHistoryResponse   *message);
 size_t cmsg_client_chat_get_friend_message_history_response__pack
@@ -3163,9 +2969,6 @@ CMsgClientChatGetFriendMessageHistoryResponse *
 void   cmsg_client_chat_get_friend_message_history_response__free_unpacked
                      (CMsgClientChatGetFriendMessageHistoryResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientChatGetFriendMessageHistoryForOfflineMessages methods */
-void   cmsg_client_chat_get_friend_message_history_for_offline_messages__init
-                     (CMsgClientChatGetFriendMessageHistoryForOfflineMessages         *message);
 size_t cmsg_client_chat_get_friend_message_history_for_offline_messages__get_packed_size
                      (const CMsgClientChatGetFriendMessageHistoryForOfflineMessages   *message);
 size_t cmsg_client_chat_get_friend_message_history_for_offline_messages__pack
@@ -3182,9 +2985,6 @@ CMsgClientChatGetFriendMessageHistoryForOfflineMessages *
 void   cmsg_client_chat_get_friend_message_history_for_offline_messages__free_unpacked
                      (CMsgClientChatGetFriendMessageHistoryForOfflineMessages *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientFSGetFriendsSteamLevels methods */
-void   cmsg_client_fsget_friends_steam_levels__init
-                     (CMsgClientFSGetFriendsSteamLevels         *message);
 size_t cmsg_client_fsget_friends_steam_levels__get_packed_size
                      (const CMsgClientFSGetFriendsSteamLevels   *message);
 size_t cmsg_client_fsget_friends_steam_levels__pack
@@ -3201,12 +3001,6 @@ CMsgClientFSGetFriendsSteamLevels *
 void   cmsg_client_fsget_friends_steam_levels__free_unpacked
                      (CMsgClientFSGetFriendsSteamLevels *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientFSGetFriendsSteamLevelsResponse__Friend methods */
-void   cmsg_client_fsget_friends_steam_levels_response__friend__init
-                     (CMsgClientFSGetFriendsSteamLevelsResponse__Friend         *message);
-/* CMsgClientFSGetFriendsSteamLevelsResponse methods */
-void   cmsg_client_fsget_friends_steam_levels_response__init
-                     (CMsgClientFSGetFriendsSteamLevelsResponse         *message);
 size_t cmsg_client_fsget_friends_steam_levels_response__get_packed_size
                      (const CMsgClientFSGetFriendsSteamLevelsResponse   *message);
 size_t cmsg_client_fsget_friends_steam_levels_response__pack
@@ -3223,9 +3017,6 @@ CMsgClientFSGetFriendsSteamLevelsResponse *
 void   cmsg_client_fsget_friends_steam_levels_response__free_unpacked
                      (CMsgClientFSGetFriendsSteamLevelsResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientEmailAddrInfo methods */
-void   cmsg_client_email_addr_info__init
-                     (CMsgClientEmailAddrInfo         *message);
 size_t cmsg_client_email_addr_info__get_packed_size
                      (const CMsgClientEmailAddrInfo   *message);
 size_t cmsg_client_email_addr_info__pack
@@ -3242,12 +3033,6 @@ CMsgClientEmailAddrInfo *
 void   cmsg_client_email_addr_info__free_unpacked
                      (CMsgClientEmailAddrInfo *message,
                       ProtobufCAllocator *allocator);
-/* CMsgCREItemVoteSummary__PublishedFileId methods */
-void   cmsg_creitem_vote_summary__published_file_id__init
-                     (CMsgCREItemVoteSummary__PublishedFileId         *message);
-/* CMsgCREItemVoteSummary methods */
-void   cmsg_creitem_vote_summary__init
-                     (CMsgCREItemVoteSummary         *message);
 size_t cmsg_creitem_vote_summary__get_packed_size
                      (const CMsgCREItemVoteSummary   *message);
 size_t cmsg_creitem_vote_summary__pack
@@ -3264,12 +3049,6 @@ CMsgCREItemVoteSummary *
 void   cmsg_creitem_vote_summary__free_unpacked
                      (CMsgCREItemVoteSummary *message,
                       ProtobufCAllocator *allocator);
-/* CMsgCREItemVoteSummaryResponse__ItemVoteSummary methods */
-void   cmsg_creitem_vote_summary_response__item_vote_summary__init
-                     (CMsgCREItemVoteSummaryResponse__ItemVoteSummary         *message);
-/* CMsgCREItemVoteSummaryResponse methods */
-void   cmsg_creitem_vote_summary_response__init
-                     (CMsgCREItemVoteSummaryResponse         *message);
 size_t cmsg_creitem_vote_summary_response__get_packed_size
                      (const CMsgCREItemVoteSummaryResponse   *message);
 size_t cmsg_creitem_vote_summary_response__pack
@@ -3286,9 +3065,6 @@ CMsgCREItemVoteSummaryResponse *
 void   cmsg_creitem_vote_summary_response__free_unpacked
                      (CMsgCREItemVoteSummaryResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgCREUpdateUserPublishedItemVote methods */
-void   cmsg_creupdate_user_published_item_vote__init
-                     (CMsgCREUpdateUserPublishedItemVote         *message);
 size_t cmsg_creupdate_user_published_item_vote__get_packed_size
                      (const CMsgCREUpdateUserPublishedItemVote   *message);
 size_t cmsg_creupdate_user_published_item_vote__pack
@@ -3305,9 +3081,6 @@ CMsgCREUpdateUserPublishedItemVote *
 void   cmsg_creupdate_user_published_item_vote__free_unpacked
                      (CMsgCREUpdateUserPublishedItemVote *message,
                       ProtobufCAllocator *allocator);
-/* CMsgCREUpdateUserPublishedItemVoteResponse methods */
-void   cmsg_creupdate_user_published_item_vote_response__init
-                     (CMsgCREUpdateUserPublishedItemVoteResponse         *message);
 size_t cmsg_creupdate_user_published_item_vote_response__get_packed_size
                      (const CMsgCREUpdateUserPublishedItemVoteResponse   *message);
 size_t cmsg_creupdate_user_published_item_vote_response__pack
@@ -3324,12 +3097,6 @@ CMsgCREUpdateUserPublishedItemVoteResponse *
 void   cmsg_creupdate_user_published_item_vote_response__free_unpacked
                      (CMsgCREUpdateUserPublishedItemVoteResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId methods */
-void   cmsg_creget_user_published_item_vote_details__published_file_id__init
-                     (CMsgCREGetUserPublishedItemVoteDetails__PublishedFileId         *message);
-/* CMsgCREGetUserPublishedItemVoteDetails methods */
-void   cmsg_creget_user_published_item_vote_details__init
-                     (CMsgCREGetUserPublishedItemVoteDetails         *message);
 size_t cmsg_creget_user_published_item_vote_details__get_packed_size
                      (const CMsgCREGetUserPublishedItemVoteDetails   *message);
 size_t cmsg_creget_user_published_item_vote_details__pack
@@ -3346,12 +3113,6 @@ CMsgCREGetUserPublishedItemVoteDetails *
 void   cmsg_creget_user_published_item_vote_details__free_unpacked
                      (CMsgCREGetUserPublishedItemVoteDetails *message,
                       ProtobufCAllocator *allocator);
-/* CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail methods */
-void   cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__init
-                     (CMsgCREGetUserPublishedItemVoteDetailsResponse__UserItemVoteDetail         *message);
-/* CMsgCREGetUserPublishedItemVoteDetailsResponse methods */
-void   cmsg_creget_user_published_item_vote_details_response__init
-                     (CMsgCREGetUserPublishedItemVoteDetailsResponse         *message);
 size_t cmsg_creget_user_published_item_vote_details_response__get_packed_size
                      (const CMsgCREGetUserPublishedItemVoteDetailsResponse   *message);
 size_t cmsg_creget_user_published_item_vote_details_response__pack
@@ -3368,9 +3129,6 @@ CMsgCREGetUserPublishedItemVoteDetailsResponse *
 void   cmsg_creget_user_published_item_vote_details_response__free_unpacked
                      (CMsgCREGetUserPublishedItemVoteDetailsResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgFSGetFollowerCount methods */
-void   cmsg_fsget_follower_count__init
-                     (CMsgFSGetFollowerCount         *message);
 size_t cmsg_fsget_follower_count__get_packed_size
                      (const CMsgFSGetFollowerCount   *message);
 size_t cmsg_fsget_follower_count__pack
@@ -3387,9 +3145,6 @@ CMsgFSGetFollowerCount *
 void   cmsg_fsget_follower_count__free_unpacked
                      (CMsgFSGetFollowerCount *message,
                       ProtobufCAllocator *allocator);
-/* CMsgFSGetFollowerCountResponse methods */
-void   cmsg_fsget_follower_count_response__init
-                     (CMsgFSGetFollowerCountResponse         *message);
 size_t cmsg_fsget_follower_count_response__get_packed_size
                      (const CMsgFSGetFollowerCountResponse   *message);
 size_t cmsg_fsget_follower_count_response__pack
@@ -3406,9 +3161,6 @@ CMsgFSGetFollowerCountResponse *
 void   cmsg_fsget_follower_count_response__free_unpacked
                      (CMsgFSGetFollowerCountResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgFSGetIsFollowing methods */
-void   cmsg_fsget_is_following__init
-                     (CMsgFSGetIsFollowing         *message);
 size_t cmsg_fsget_is_following__get_packed_size
                      (const CMsgFSGetIsFollowing   *message);
 size_t cmsg_fsget_is_following__pack
@@ -3425,9 +3177,6 @@ CMsgFSGetIsFollowing *
 void   cmsg_fsget_is_following__free_unpacked
                      (CMsgFSGetIsFollowing *message,
                       ProtobufCAllocator *allocator);
-/* CMsgFSGetIsFollowingResponse methods */
-void   cmsg_fsget_is_following_response__init
-                     (CMsgFSGetIsFollowingResponse         *message);
 size_t cmsg_fsget_is_following_response__get_packed_size
                      (const CMsgFSGetIsFollowingResponse   *message);
 size_t cmsg_fsget_is_following_response__pack
@@ -3444,9 +3193,6 @@ CMsgFSGetIsFollowingResponse *
 void   cmsg_fsget_is_following_response__free_unpacked
                      (CMsgFSGetIsFollowingResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgFSEnumerateFollowingList methods */
-void   cmsg_fsenumerate_following_list__init
-                     (CMsgFSEnumerateFollowingList         *message);
 size_t cmsg_fsenumerate_following_list__get_packed_size
                      (const CMsgFSEnumerateFollowingList   *message);
 size_t cmsg_fsenumerate_following_list__pack
@@ -3463,9 +3209,6 @@ CMsgFSEnumerateFollowingList *
 void   cmsg_fsenumerate_following_list__free_unpacked
                      (CMsgFSEnumerateFollowingList *message,
                       ProtobufCAllocator *allocator);
-/* CMsgFSEnumerateFollowingListResponse methods */
-void   cmsg_fsenumerate_following_list_response__init
-                     (CMsgFSEnumerateFollowingListResponse         *message);
 size_t cmsg_fsenumerate_following_list_response__get_packed_size
                      (const CMsgFSEnumerateFollowingListResponse   *message);
 size_t cmsg_fsenumerate_following_list_response__pack
@@ -3482,9 +3225,6 @@ CMsgFSEnumerateFollowingListResponse *
 void   cmsg_fsenumerate_following_list_response__free_unpacked
                      (CMsgFSEnumerateFollowingListResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgDPGetNumberOfCurrentPlayers methods */
-void   cmsg_dpget_number_of_current_players__init
-                     (CMsgDPGetNumberOfCurrentPlayers         *message);
 size_t cmsg_dpget_number_of_current_players__get_packed_size
                      (const CMsgDPGetNumberOfCurrentPlayers   *message);
 size_t cmsg_dpget_number_of_current_players__pack
@@ -3501,9 +3241,6 @@ CMsgDPGetNumberOfCurrentPlayers *
 void   cmsg_dpget_number_of_current_players__free_unpacked
                      (CMsgDPGetNumberOfCurrentPlayers *message,
                       ProtobufCAllocator *allocator);
-/* CMsgDPGetNumberOfCurrentPlayersResponse methods */
-void   cmsg_dpget_number_of_current_players_response__init
-                     (CMsgDPGetNumberOfCurrentPlayersResponse         *message);
 size_t cmsg_dpget_number_of_current_players_response__get_packed_size
                      (const CMsgDPGetNumberOfCurrentPlayersResponse   *message);
 size_t cmsg_dpget_number_of_current_players_response__pack
@@ -3520,9 +3257,6 @@ CMsgDPGetNumberOfCurrentPlayersResponse *
 void   cmsg_dpget_number_of_current_players_response__free_unpacked
                      (CMsgDPGetNumberOfCurrentPlayersResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientFriendUserStatusPublished methods */
-void   cmsg_client_friend_user_status_published__init
-                     (CMsgClientFriendUserStatusPublished         *message);
 size_t cmsg_client_friend_user_status_published__get_packed_size
                      (const CMsgClientFriendUserStatusPublished   *message);
 size_t cmsg_client_friend_user_status_published__pack
@@ -3539,9 +3273,6 @@ CMsgClientFriendUserStatusPublished *
 void   cmsg_client_friend_user_status_published__free_unpacked
                      (CMsgClientFriendUserStatusPublished *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientServiceMethodLegacy methods */
-void   cmsg_client_service_method_legacy__init
-                     (CMsgClientServiceMethodLegacy         *message);
 size_t cmsg_client_service_method_legacy__get_packed_size
                      (const CMsgClientServiceMethodLegacy   *message);
 size_t cmsg_client_service_method_legacy__pack
@@ -3558,9 +3289,6 @@ CMsgClientServiceMethodLegacy *
 void   cmsg_client_service_method_legacy__free_unpacked
                      (CMsgClientServiceMethodLegacy *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientServiceMethodLegacyResponse methods */
-void   cmsg_client_service_method_legacy_response__init
-                     (CMsgClientServiceMethodLegacyResponse         *message);
 size_t cmsg_client_service_method_legacy_response__get_packed_size
                      (const CMsgClientServiceMethodLegacyResponse   *message);
 size_t cmsg_client_service_method_legacy_response__pack
@@ -3577,9 +3305,6 @@ CMsgClientServiceMethodLegacyResponse *
 void   cmsg_client_service_method_legacy_response__free_unpacked
                      (CMsgClientServiceMethodLegacyResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientUIMode methods */
-void   cmsg_client_uimode__init
-                     (CMsgClientUIMode         *message);
 size_t cmsg_client_uimode__get_packed_size
                      (const CMsgClientUIMode   *message);
 size_t cmsg_client_uimode__pack
@@ -3596,9 +3321,6 @@ CMsgClientUIMode *
 void   cmsg_client_uimode__free_unpacked
                      (CMsgClientUIMode *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientVanityURLChangedNotification methods */
-void   cmsg_client_vanity_urlchanged_notification__init
-                     (CMsgClientVanityURLChangedNotification         *message);
 size_t cmsg_client_vanity_urlchanged_notification__get_packed_size
                      (const CMsgClientVanityURLChangedNotification   *message);
 size_t cmsg_client_vanity_urlchanged_notification__pack
@@ -3615,9 +3337,6 @@ CMsgClientVanityURLChangedNotification *
 void   cmsg_client_vanity_urlchanged_notification__free_unpacked
                      (CMsgClientVanityURLChangedNotification *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientAuthorizeLocalDeviceRequest methods */
-void   cmsg_client_authorize_local_device_request__init
-                     (CMsgClientAuthorizeLocalDeviceRequest         *message);
 size_t cmsg_client_authorize_local_device_request__get_packed_size
                      (const CMsgClientAuthorizeLocalDeviceRequest   *message);
 size_t cmsg_client_authorize_local_device_request__pack
@@ -3634,9 +3353,6 @@ CMsgClientAuthorizeLocalDeviceRequest *
 void   cmsg_client_authorize_local_device_request__free_unpacked
                      (CMsgClientAuthorizeLocalDeviceRequest *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientAuthorizeLocalDevice methods */
-void   cmsg_client_authorize_local_device__init
-                     (CMsgClientAuthorizeLocalDevice         *message);
 size_t cmsg_client_authorize_local_device__get_packed_size
                      (const CMsgClientAuthorizeLocalDevice   *message);
 size_t cmsg_client_authorize_local_device__pack
@@ -3653,9 +3369,6 @@ CMsgClientAuthorizeLocalDevice *
 void   cmsg_client_authorize_local_device__free_unpacked
                      (CMsgClientAuthorizeLocalDevice *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientAuthorizeLocalDeviceNotification methods */
-void   cmsg_client_authorize_local_device_notification__init
-                     (CMsgClientAuthorizeLocalDeviceNotification         *message);
 size_t cmsg_client_authorize_local_device_notification__get_packed_size
                      (const CMsgClientAuthorizeLocalDeviceNotification   *message);
 size_t cmsg_client_authorize_local_device_notification__pack
@@ -3672,9 +3385,6 @@ CMsgClientAuthorizeLocalDeviceNotification *
 void   cmsg_client_authorize_local_device_notification__free_unpacked
                      (CMsgClientAuthorizeLocalDeviceNotification *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientDeauthorizeDeviceRequest methods */
-void   cmsg_client_deauthorize_device_request__init
-                     (CMsgClientDeauthorizeDeviceRequest         *message);
 size_t cmsg_client_deauthorize_device_request__get_packed_size
                      (const CMsgClientDeauthorizeDeviceRequest   *message);
 size_t cmsg_client_deauthorize_device_request__pack
@@ -3691,9 +3401,6 @@ CMsgClientDeauthorizeDeviceRequest *
 void   cmsg_client_deauthorize_device_request__free_unpacked
                      (CMsgClientDeauthorizeDeviceRequest *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientDeauthorizeDevice methods */
-void   cmsg_client_deauthorize_device__init
-                     (CMsgClientDeauthorizeDevice         *message);
 size_t cmsg_client_deauthorize_device__get_packed_size
                      (const CMsgClientDeauthorizeDevice   *message);
 size_t cmsg_client_deauthorize_device__pack
@@ -3710,12 +3417,6 @@ CMsgClientDeauthorizeDevice *
 void   cmsg_client_deauthorize_device__free_unpacked
                      (CMsgClientDeauthorizeDevice *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientUseLocalDeviceAuthorizations__DeviceToken methods */
-void   cmsg_client_use_local_device_authorizations__device_token__init
-                     (CMsgClientUseLocalDeviceAuthorizations__DeviceToken         *message);
-/* CMsgClientUseLocalDeviceAuthorizations methods */
-void   cmsg_client_use_local_device_authorizations__init
-                     (CMsgClientUseLocalDeviceAuthorizations         *message);
 size_t cmsg_client_use_local_device_authorizations__get_packed_size
                      (const CMsgClientUseLocalDeviceAuthorizations   *message);
 size_t cmsg_client_use_local_device_authorizations__pack
@@ -3732,9 +3433,6 @@ CMsgClientUseLocalDeviceAuthorizations *
 void   cmsg_client_use_local_device_authorizations__free_unpacked
                      (CMsgClientUseLocalDeviceAuthorizations *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetAuthorizedDevices methods */
-void   cmsg_client_get_authorized_devices__init
-                     (CMsgClientGetAuthorizedDevices         *message);
 size_t cmsg_client_get_authorized_devices__get_packed_size
                      (const CMsgClientGetAuthorizedDevices   *message);
 size_t cmsg_client_get_authorized_devices__pack
@@ -3751,12 +3449,6 @@ CMsgClientGetAuthorizedDevices *
 void   cmsg_client_get_authorized_devices__free_unpacked
                      (CMsgClientGetAuthorizedDevices *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice methods */
-void   cmsg_client_get_authorized_devices_response__authorized_device__init
-                     (CMsgClientGetAuthorizedDevicesResponse__AuthorizedDevice         *message);
-/* CMsgClientGetAuthorizedDevicesResponse methods */
-void   cmsg_client_get_authorized_devices_response__init
-                     (CMsgClientGetAuthorizedDevicesResponse         *message);
 size_t cmsg_client_get_authorized_devices_response__get_packed_size
                      (const CMsgClientGetAuthorizedDevicesResponse   *message);
 size_t cmsg_client_get_authorized_devices_response__pack
@@ -3773,12 +3465,6 @@ CMsgClientGetAuthorizedDevicesResponse *
 void   cmsg_client_get_authorized_devices_response__free_unpacked
                      (CMsgClientGetAuthorizedDevicesResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientSharedLibraryLockStatus__LockedLibrary methods */
-void   cmsg_client_shared_library_lock_status__locked_library__init
-                     (CMsgClientSharedLibraryLockStatus__LockedLibrary         *message);
-/* CMsgClientSharedLibraryLockStatus methods */
-void   cmsg_client_shared_library_lock_status__init
-                     (CMsgClientSharedLibraryLockStatus         *message);
 size_t cmsg_client_shared_library_lock_status__get_packed_size
                      (const CMsgClientSharedLibraryLockStatus   *message);
 size_t cmsg_client_shared_library_lock_status__pack
@@ -3795,12 +3481,6 @@ CMsgClientSharedLibraryLockStatus *
 void   cmsg_client_shared_library_lock_status__free_unpacked
                      (CMsgClientSharedLibraryLockStatus *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientSharedLibraryStopPlaying__StopApp methods */
-void   cmsg_client_shared_library_stop_playing__stop_app__init
-                     (CMsgClientSharedLibraryStopPlaying__StopApp         *message);
-/* CMsgClientSharedLibraryStopPlaying methods */
-void   cmsg_client_shared_library_stop_playing__init
-                     (CMsgClientSharedLibraryStopPlaying         *message);
 size_t cmsg_client_shared_library_stop_playing__get_packed_size
                      (const CMsgClientSharedLibraryStopPlaying   *message);
 size_t cmsg_client_shared_library_stop_playing__pack
@@ -3817,9 +3497,6 @@ CMsgClientSharedLibraryStopPlaying *
 void   cmsg_client_shared_library_stop_playing__free_unpacked
                      (CMsgClientSharedLibraryStopPlaying *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientServiceCall methods */
-void   cmsg_client_service_call__init
-                     (CMsgClientServiceCall         *message);
 size_t cmsg_client_service_call__get_packed_size
                      (const CMsgClientServiceCall   *message);
 size_t cmsg_client_service_call__pack
@@ -3836,9 +3513,6 @@ CMsgClientServiceCall *
 void   cmsg_client_service_call__free_unpacked
                      (CMsgClientServiceCall *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientServiceModule methods */
-void   cmsg_client_service_module__init
-                     (CMsgClientServiceModule         *message);
 size_t cmsg_client_service_module__get_packed_size
                      (const CMsgClientServiceModule   *message);
 size_t cmsg_client_service_module__pack
@@ -3855,9 +3529,6 @@ CMsgClientServiceModule *
 void   cmsg_client_service_module__free_unpacked
                      (CMsgClientServiceModule *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientServiceCallResponse methods */
-void   cmsg_client_service_call_response__init
-                     (CMsgClientServiceCallResponse         *message);
 size_t cmsg_client_service_call_response__get_packed_size
                      (const CMsgClientServiceCallResponse   *message);
 size_t cmsg_client_service_call_response__pack
@@ -3874,9 +3545,6 @@ CMsgClientServiceCallResponse *
 void   cmsg_client_service_call_response__free_unpacked
                      (CMsgClientServiceCallResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgAMUnlockH264 methods */
-void   cmsg_amunlock_h264__init
-                     (CMsgAMUnlockH264         *message);
 size_t cmsg_amunlock_h264__get_packed_size
                      (const CMsgAMUnlockH264   *message);
 size_t cmsg_amunlock_h264__pack
@@ -3893,9 +3561,6 @@ CMsgAMUnlockH264 *
 void   cmsg_amunlock_h264__free_unpacked
                      (CMsgAMUnlockH264 *message,
                       ProtobufCAllocator *allocator);
-/* CMsgAMUnlockH264Response methods */
-void   cmsg_amunlock_h264_response__init
-                     (CMsgAMUnlockH264Response         *message);
 size_t cmsg_amunlock_h264_response__get_packed_size
                      (const CMsgAMUnlockH264Response   *message);
 size_t cmsg_amunlock_h264_response__pack
@@ -3912,9 +3577,6 @@ CMsgAMUnlockH264Response *
 void   cmsg_amunlock_h264_response__free_unpacked
                      (CMsgAMUnlockH264Response *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientPlayingSessionState methods */
-void   cmsg_client_playing_session_state__init
-                     (CMsgClientPlayingSessionState         *message);
 size_t cmsg_client_playing_session_state__get_packed_size
                      (const CMsgClientPlayingSessionState   *message);
 size_t cmsg_client_playing_session_state__pack
@@ -3931,9 +3593,6 @@ CMsgClientPlayingSessionState *
 void   cmsg_client_playing_session_state__free_unpacked
                      (CMsgClientPlayingSessionState *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientKickPlayingSession methods */
-void   cmsg_client_kick_playing_session__init
-                     (CMsgClientKickPlayingSession         *message);
 size_t cmsg_client_kick_playing_session__get_packed_size
                      (const CMsgClientKickPlayingSession   *message);
 size_t cmsg_client_kick_playing_session__pack
@@ -3950,9 +3609,6 @@ CMsgClientKickPlayingSession *
 void   cmsg_client_kick_playing_session__free_unpacked
                      (CMsgClientKickPlayingSession *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientVoiceCallPreAuthorize methods */
-void   cmsg_client_voice_call_pre_authorize__init
-                     (CMsgClientVoiceCallPreAuthorize         *message);
 size_t cmsg_client_voice_call_pre_authorize__get_packed_size
                      (const CMsgClientVoiceCallPreAuthorize   *message);
 size_t cmsg_client_voice_call_pre_authorize__pack
@@ -3969,9 +3625,6 @@ CMsgClientVoiceCallPreAuthorize *
 void   cmsg_client_voice_call_pre_authorize__free_unpacked
                      (CMsgClientVoiceCallPreAuthorize *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientVoiceCallPreAuthorizeResponse methods */
-void   cmsg_client_voice_call_pre_authorize_response__init
-                     (CMsgClientVoiceCallPreAuthorizeResponse         *message);
 size_t cmsg_client_voice_call_pre_authorize_response__get_packed_size
                      (const CMsgClientVoiceCallPreAuthorizeResponse   *message);
 size_t cmsg_client_voice_call_pre_authorize_response__pack
@@ -3988,9 +3641,6 @@ CMsgClientVoiceCallPreAuthorizeResponse *
 void   cmsg_client_voice_call_pre_authorize_response__free_unpacked
                      (CMsgClientVoiceCallPreAuthorizeResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgBadgeCraftedNotification methods */
-void   cmsg_badge_crafted_notification__init
-                     (CMsgBadgeCraftedNotification         *message);
 size_t cmsg_badge_crafted_notification__get_packed_size
                      (const CMsgBadgeCraftedNotification   *message);
 size_t cmsg_badge_crafted_notification__pack
@@ -4007,9 +3657,6 @@ CMsgBadgeCraftedNotification *
 void   cmsg_badge_crafted_notification__free_unpacked
                      (CMsgBadgeCraftedNotification *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientStartPeerContentServer methods */
-void   cmsg_client_start_peer_content_server__init
-                     (CMsgClientStartPeerContentServer         *message);
 size_t cmsg_client_start_peer_content_server__get_packed_size
                      (const CMsgClientStartPeerContentServer   *message);
 size_t cmsg_client_start_peer_content_server__pack
@@ -4026,9 +3673,6 @@ CMsgClientStartPeerContentServer *
 void   cmsg_client_start_peer_content_server__free_unpacked
                      (CMsgClientStartPeerContentServer *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientStartPeerContentServerResponse methods */
-void   cmsg_client_start_peer_content_server_response__init
-                     (CMsgClientStartPeerContentServerResponse         *message);
 size_t cmsg_client_start_peer_content_server_response__get_packed_size
                      (const CMsgClientStartPeerContentServerResponse   *message);
 size_t cmsg_client_start_peer_content_server_response__pack
@@ -4045,9 +3689,6 @@ CMsgClientStartPeerContentServerResponse *
 void   cmsg_client_start_peer_content_server_response__free_unpacked
                      (CMsgClientStartPeerContentServerResponse *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetPeerContentInfo methods */
-void   cmsg_client_get_peer_content_info__init
-                     (CMsgClientGetPeerContentInfo         *message);
 size_t cmsg_client_get_peer_content_info__get_packed_size
                      (const CMsgClientGetPeerContentInfo   *message);
 size_t cmsg_client_get_peer_content_info__pack
@@ -4064,9 +3705,6 @@ CMsgClientGetPeerContentInfo *
 void   cmsg_client_get_peer_content_info__free_unpacked
                      (CMsgClientGetPeerContentInfo *message,
                       ProtobufCAllocator *allocator);
-/* CMsgClientGetPeerContentInfoResponse methods */
-void   cmsg_client_get_peer_content_info_response__init
-                     (CMsgClientGetPeerContentInfoResponse         *message);
 size_t cmsg_client_get_peer_content_info_response__get_packed_size
                      (const CMsgClientGetPeerContentInfoResponse   *message);
 size_t cmsg_client_get_peer_content_info_response__pack
@@ -4463,134 +4101,6 @@ typedef void (*CMsgClientGetPeerContentInfoResponse_Closure)
 
 /* --- services --- */
 
-
-/* --- descriptors --- */
-
-extern const ProtobufCMessageDescriptor cmsg_client_update_user_game_info__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_rich_presence_upload__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_rich_presence_request__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_rich_presence_info__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_rich_presence_info__rich_presence__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_check_file_signature__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_check_file_signature_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_read_machine_auth__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_read_machine_auth_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_update_machine_auth__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_update_machine_auth_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_machine_auth__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_machine_auth_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_register_key__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_purchase_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_activate_oemlicense__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_register_oemmachine__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_register_oemmachine_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_purchase_with_machine_id__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_trading__initiate_trade_request__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_trading__initiate_trade_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_trading__cancel_trade_request__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_trading__start_session__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_cdnauth_token__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_depot_decryption_key__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_depot_decryption_key_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_check_app_beta_password_response__beta_password__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_cdnauth_token_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_download_rate_statistics__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_download_rate_statistics__stats_info__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_account_data__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_account_data_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__day__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_ugsget_global_stats_response__day__stat__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_redeem_guest_pass__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_redeem_guest_pass_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_clan_activity_counts__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_clan_activity_counts_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_ogsreport_string__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_ogsreport_bug__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_sent_logs__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_gcclient__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_free_license__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_free_license_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_drmdownload_request_with_crash_data__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_drmdownload_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_drmfinal_result__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_dpcheck_special_survey__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_dpcheck_special_survey_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_dpsend_special_survey_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_dpsend_special_survey_response_reply__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_forgotten_password_email__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_forgotten_password_email_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_item_announcements__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_item_announcements__unseen_item__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_item_announcements__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_user_notifications__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_user_notifications__notification__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_comment_notifications__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_comment_notifications__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_offline_message_notification__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_request_offline_message_count__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_response__friend_message__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_chat_get_friend_message_history_for_offline_messages__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_fsget_friends_steam_levels_response__friend__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_email_addr_info__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creitem_vote_summary__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creitem_vote_summary__published_file_id__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creitem_vote_summary_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creitem_vote_summary_response__item_vote_summary__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creupdate_user_published_item_vote__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creupdate_user_published_item_vote_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details__published_file_id__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_creget_user_published_item_vote_details_response__user_item_vote_detail__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_fsget_follower_count__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_fsget_follower_count_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_fsget_is_following__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_fsget_is_following_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_fsenumerate_following_list__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_fsenumerate_following_list_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_dpget_number_of_current_players__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_dpget_number_of_current_players_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_friend_user_status_published__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_service_method_legacy__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_service_method_legacy_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_uimode__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_vanity_urlchanged_notification__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_authorize_local_device_request__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_authorize_local_device__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_authorize_local_device_notification__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_deauthorize_device_request__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_deauthorize_device__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_use_local_device_authorizations__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_use_local_device_authorizations__device_token__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_authorized_devices_response__authorized_device__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_shared_library_lock_status__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_shared_library_lock_status__locked_library__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_shared_library_stop_playing__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_shared_library_stop_playing__stop_app__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_service_call__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_service_module__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_service_call_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_amunlock_h264__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_amunlock_h264_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_playing_session_state__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_kick_playing_session__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_voice_call_pre_authorize__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_voice_call_pre_authorize_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_badge_crafted_notification__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_start_peer_content_server__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_start_peer_content_server_response__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_peer_content_info__descriptor;
-extern const ProtobufCMessageDescriptor cmsg_client_get_peer_content_info_response__descriptor;
 
 PROTOBUF_C__END_DECLS
 
