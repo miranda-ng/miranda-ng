@@ -7,6 +7,7 @@
 #include <time.h>
 
 #include <map>
+#include <regex>
 #include <vector>
 #include <string>
 #include <algorithm>

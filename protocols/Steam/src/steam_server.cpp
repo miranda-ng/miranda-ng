@@ -41,9 +41,28 @@ void CSteamProto::SendAppInfoRequest(uint32_t appId)
 	CMsgClientPICSProductInfoRequest request;
 	request.n_apps = 1;
 	request.apps = &pInfo;
-	request.has_meta_data_only = request.meta_data_only = true;
 	WSSend(EMsg::ClientPICSProductInfoRequest, request);
 }
+
+void CSteamProto::OnGotAppInfo(const CMsgClientPICSProductInfoResponse &reply, const CMsgProtoBufHeader &)
+{
+	for (int i = 0; i < reply.n_apps; i++) {
+		auto *pApp = reply.apps[i];
+
+		if (pApp->buffer.len) {
+			std::regex regex("\"name\"[\\s*]\"(.+?)\"");
+			std::smatch match;
+			std::string content((char *)pApp->buffer.data, pApp->buffer.len);
+			if (std::regex_search(content, match, regex)) {
+				std::string szName = match[1];
+				CMStringA szSetting(FORMAT, "AppInfo_%d", pApp->appid);
+				setString(szSetting, szName.c_str());
+
+				for (auto &cc : AccContacts()) {
+					if (getDword(cc, "XStatusId") == pApp->appid) {
+						setWString(cc, "XStatusName", TranslateT("Playing"));
+						setUString(cc, "XStatusMsg", szName.c_str());
+}	}	}	}	}	}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

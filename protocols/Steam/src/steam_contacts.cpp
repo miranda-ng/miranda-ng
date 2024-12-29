@@ -173,8 +173,14 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 			setString(hContact, "ServerIP", serverIP);
 
 			CMStringW message(gameInfo);
-			if (gameId && message.IsEmpty())
-				SendAppInfoRequest(gameId);
+			if (gameId && message.IsEmpty()) {
+				CMStringA szSetting(FORMAT, "AppInfo_%d", gameId);
+				ptrW szName(getWStringA(szSetting));
+				if (szName)
+					message = szName;
+				else
+					SendAppInfoRequest(gameId);
+			}
 			else {
 				if (!gameId)
 					message.Append(TranslateT(" (Non-Steam)"));
@@ -332,20 +338,6 @@ void CSteamProto::UpdateContactRelationship(MCONTACT hContact, FriendRelationshi
 	case FriendRelationship::RequestRecipient:
 		ContactIsAskingAuth(hContact);
 		break;
-	}
-}
-
-void CSteamProto::OnGotAppInfo(const JSONNode &root, void *arg)
-{
-	MCONTACT hContact = (UINT_PTR)arg;
-
-	for (auto &app : root["apps"]) {
-		uint32_t gameId = app["appid"].as_int();
-		CMStringW message = app["name"].as_mstring();
-
-		setDword(hContact, "XStatusId", gameId);
-		setWString(hContact, "XStatusName", TranslateT("Playing"));
-		setWString(hContact, "XStatusMsg", message);
 	}
 }
 

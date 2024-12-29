@@ -139,6 +139,7 @@ void CMPlugin::InitSteamServices()
 	messageHandlers[EMsg::ClientLogOnResponse] = ServiceResponseHandler(&CSteamProto::OnClientLogon);
 	messageHandlers[EMsg::ClientFriendsList] = ServiceResponseHandler(&CSteamProto::OnGotFriendList);
 	messageHandlers[EMsg::ClientPersonaState] = ServiceResponseHandler(&CSteamProto::OnGotFriendInfo);
+	messageHandlers[EMsg::ClientPICSProductInfoResponse] = ServiceResponseHandler(&CSteamProto::OnGotAppInfo);
 
 	// services from steammessages_auth.steamclient.proto
 	services["Authentication"] = &authentication__descriptor;
