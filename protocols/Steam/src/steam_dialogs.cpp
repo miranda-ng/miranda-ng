@@ -10,7 +10,7 @@ CSteamPasswordEditor::CSteamPasswordEditor(CSteamProto *proto) :
 bool CSteamPasswordEditor::OnInitDialog()
 {
 	char iconName[100];
-	mir_snprintf(iconName, "%s_%s", MODULE, "main");
+	mir_snprintf(iconName, "%s_%s", MODULENAME, "main");
 	Window_SetIcon_IcoLib(m_hwnd, IcoLib_GetIconHandle(iconName));
 
 	SendMessage(m_password.GetHwnd(), EM_LIMITTEXT, 64, 0);

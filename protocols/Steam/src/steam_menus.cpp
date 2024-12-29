@@ -106,7 +106,7 @@ void CSteamProto::InitMenus()
 
 	// "Block"
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
-	mi.pszService = MODULE "/Block";
+	mi.pszService = MODULENAME "/Block";
 	mi.name.w = LPGENW("Block");
 	mi.position = -201001001 + CMI_BLOCK;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_OFF);
@@ -115,7 +115,7 @@ void CSteamProto::InitMenus()
 
 	// "Unblock"
 	SET_UID(mi, 0xc6169b8f, 0x53ab, 0x4242, 0xbe, 0x90, 0xe2, 0x4a, 0xa5, 0x73, 0x88, 0x32);
-	mi.pszService = MODULE "/Unblock";
+	mi.pszService = MODULENAME "/Unblock";
 	mi.name.w = LPGENW("Unblock");
 	mi.position = -201001001 + CMI_UNBLOCK;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ON);
@@ -126,7 +126,7 @@ void CSteamProto::InitMenus()
 
 	// "Join to game"
 	SET_UID(mi, 0x1a6aaab7, 0xba31, 0x4b47, 0x8e, 0xce, 0xf8, 0x8e, 0xf4, 0x62, 0x4f, 0xd7);
-	mi.pszService = MODULE "/JoinToGame";
+	mi.pszService = MODULENAME "/JoinToGame";
 	mi.name.w = LPGENW("Join to game");
 	mi.position = -200001000 + CMI_JOIN_GAME;
 	mi.hIcolibItem = nullptr;

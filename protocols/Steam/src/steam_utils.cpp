@@ -146,7 +146,7 @@ void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags,
 		ppd.lchContact = hContact;
 		wcsncpy(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
 		wcsncpy(ppd.lpwzText, message, MAX_SECONDLINE);
-		ppd.lchIcon = IcoLib_GetIcon(MODULE"_main");
+		ppd.lchIcon = g_plugin.getIcon(IDI_STEAM);
 
 		if (!PUAddPopupW(&ppd))
 			return;
@@ -157,7 +157,7 @@ void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags,
 
 void ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 {
-	ShowNotification(_A2W(MODULE), message, flags, hContact);
+	ShowNotification(_A2W(MODULENAME), message, flags, hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,6 @@
 #define STEAM_PROTOCOL_MASK 0x80000000
 
 // Global settings for all accounts: hosts' list
-#define STEAM_MODULE       "Steam"
 #define DBKEY_HOSTS_COUNT  "HostsCount"
 #define DBKEY_HOSTS_DATE   "HostsDate"
 #define DBKEY_LASTMSG      "LastMessageTS"

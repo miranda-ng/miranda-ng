@@ -183,7 +183,7 @@ int CMPlugin::Load()
 	InitSteamServices();
 
 	// icons
-	g_plugin.registerIcon("Protocols/" MODULE, iconList, MODULE);
+	g_plugin.registerIcon("Protocols/" MODULENAME, iconList, MODULENAME);
 
 	// extra statuses
 	hExtraXStatus = ExtraIcon_RegisterIcolib("steam_game", LPGEN("Steam game"), g_plugin.getIconHandle(IDI_GAMING));

@@ -50,13 +50,13 @@ void CSteamProto::OnGotAppInfo(const CMsgClientPICSProductInfoResponse &reply, c
 		auto *pApp = reply.apps[i];
 
 		if (pApp->buffer.len) {
-			std::regex regex("\"name\"[\\s*]\"(.+?)\"");
+			std::regex regex("\"name\"\\s*\"(.+?)\"");
 			std::smatch match;
 			std::string content((char *)pApp->buffer.data, pApp->buffer.len);
 			if (std::regex_search(content, match, regex)) {
 				std::string szName = match[1];
 				CMStringA szSetting(FORMAT, "AppInfo_%d", pApp->appid);
-				setString(szSetting, szName.c_str());
+				g_plugin.setUString(szSetting, szName.c_str());
 
 				for (auto &cc : AccContacts()) {
 					if (getDword(cc, "XStatusId") == pApp->appid) {

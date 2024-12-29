@@ -175,7 +175,7 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 			CMStringW message(gameInfo);
 			if (gameId && message.IsEmpty()) {
 				CMStringA szSetting(FORMAT, "AppInfo_%d", gameId);
-				ptrW szName(getWStringA(szSetting));
+				ptrW szName(g_plugin.getWStringA(szSetting));
 				if (szName)
 					message = szName;
 				else

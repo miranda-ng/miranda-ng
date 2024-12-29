@@ -50,7 +50,7 @@
 #include "protobuf-c/steammessages_notifications.steamclient.pb-c.h"
 #include "proto.h"
 
-#define MODULE "Steam"
+#define MODULENAME "Steam"
 
 #define STEAM_API_TIMEOUT 20
 #define STEAM_API_IDLEOUT_AWAY 600

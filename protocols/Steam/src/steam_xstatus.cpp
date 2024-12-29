@@ -93,10 +93,7 @@ HICON CSteamProto::GetXStatusIcon(int status, UINT flags)
 	if (status < 1)
 		return nullptr;
 
-	char iconName[100];
-	mir_snprintf(iconName, "%s_%s", MODULE, "gaming");
-
-	HICON icon = IcoLib_GetIcon(iconName, (flags & LR_BIGICON) != 0);
+	HICON icon = g_plugin.getIcon(IDI_GAMING, (flags & LR_BIGICON) != 0);
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
 

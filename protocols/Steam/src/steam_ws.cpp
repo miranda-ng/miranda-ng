@@ -20,14 +20,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void __cdecl CSteamProto::ServerThread(void *)
 {
 	// load web socket servers first if needed
-	int iTimeDiff = db_get_dw(0, STEAM_MODULE, DBKEY_HOSTS_DATE);
-	int iHostCount = db_get_dw(0, STEAM_MODULE, DBKEY_HOSTS_COUNT);
+	int iTimeDiff = db_get_dw(0, MODULENAME, DBKEY_HOSTS_DATE);
+	int iHostCount = db_get_dw(0, MODULENAME, DBKEY_HOSTS_COUNT);
 	if (!iHostCount || time(0) - iTimeDiff > 3600 * 24 * 7) { // once a week
 		if (!SendRequest(new GetHostsRequest(), &CSteamProto::OnGotHosts)) {
 			Logout();
 			return;
 		}
-		iHostCount = db_get_dw(0, STEAM_MODULE, DBKEY_HOSTS_COUNT);
+		iHostCount = db_get_dw(0, MODULENAME, DBKEY_HOSTS_COUNT);
 	}
 
 	srand(time(0));
@@ -36,7 +36,7 @@ void __cdecl CSteamProto::ServerThread(void *)
 	CMStringA szHost;
 	do {
 		szHost.Format("Host%d", rand() % iHostCount);
-		szHost = db_get_sm(0, STEAM_MODULE, szHost);
+		szHost = db_get_sm(0, MODULENAME, szHost);
 		szHost.Insert(0, "wss://");
 		szHost += "/cmsocket/";
 	}
