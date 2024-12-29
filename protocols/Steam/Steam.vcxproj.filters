@@ -108,6 +108,9 @@
     <ClCompile Include="src\protobuf-c\steammessages_clientserver_appinfo.pb-c.cpp">
       <Filter>Source Files\protobuf</Filter>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_deviceauth.steamclient.pb-c.cpp">
+      <Filter>Source Files\protobuf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -189,6 +192,9 @@
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_appinfo.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\protobuf-c\steammessages_deviceauth.steamclient.pb-c.h">
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
   </ItemGroup>

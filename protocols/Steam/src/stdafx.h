@@ -46,6 +46,7 @@
 #include "protobuf-c/steammessages_clientserver_2.pb-c.h"
 #include "protobuf-c/steammessages_clientserver_appinfo.pb-c.h"
 #include "protobuf-c/steammessages_clientserver_login.pb-c.h"
+#include "protobuf-c/steammessages_deviceauth.steamclient.pb-c.h"
 #include "protobuf-c/steammessages_friendmessages.steamclient.pb-c.h"
 #include "protobuf-c/steammessages_notifications.steamclient.pb-c.h"
 #include "proto.h"

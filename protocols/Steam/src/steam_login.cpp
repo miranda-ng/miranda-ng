@@ -262,6 +262,7 @@ void CSteamProto::OnClientLogon(const CMsgClientLogonResponse &reply, const CMsg
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 
 	SendPersonaStatus(m_iStatus);
+	SendDeviceListRequest();
 
 	WSSend(EMsg::ClientChatGetFriendMessageHistoryForOfflineMessages, NoResponse());
 }

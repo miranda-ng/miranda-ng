@@ -63,6 +63,9 @@
     <ClCompile Include="src\protobuf-c\steammessages_clientserver_login.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\protobuf-c\steammessages_deviceauth.steamclient.pb-c.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\protobuf-c\steammessages_friendmessages.steamclient.pb-c.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -109,6 +112,7 @@
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_appinfo.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_friends.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_clientserver_login.pb-c.h" />
+    <ClInclude Include="src\protobuf-c\steammessages_deviceauth.steamclient.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_friendmessages.steamclient.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_notifications.steamclient.pb-c.h" />
     <ClInclude Include="src\protobuf-c\steammessages_unified_base.steamclient.pb-c.h" />

@@ -150,6 +150,9 @@ void CMPlugin::InitSteamServices()
 	services["ChatRoom"] = &chat_room__descriptor;
 	services["ChatRoomClient"] = &chat_room_client__descriptor;
 
+	// services from steammessages_deviceauth.steamclient.proto
+	services["DeviceAuth"] = &device_auth__descriptor;
+
 	// services from steammessages_friendmessages.steamclient.proto
 	services["FriendMessages"] = &friend_messages__descriptor;
 	services["FriendMessagesClient"] = &friend_messages_client__descriptor;
@@ -167,6 +170,8 @@ void CMPlugin::InitSteamServices()
 	serviceHandlers[FriendGetActiveSessions] = ServiceResponseHandler(&CSteamProto::OnGotConversations);
 	serviceHandlers[FriendGetRecentMessages] = ServiceResponseHandler(&CSteamProto::OnGotRecentMessages);
 	serviceHandlers[FriendGetIncomingMessage] = ServiceResponseHandler(&CSteamProto::OnGotIncomingMessage);
+
+	serviceHandlers[GetOwnAuthorizedDevices] = ServiceResponseHandler(&CSteamProto::OnGotDeviceList);
 
 	serviceHandlers[NotificationReceived] = ServiceResponseHandler(&CSteamProto::OnGotNotification);
 }

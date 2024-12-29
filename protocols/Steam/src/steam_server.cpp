@@ -66,11 +66,16 @@ void CSteamProto::OnGotAppInfo(const CMsgClientPICSProductInfoResponse &reply, c
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CSteamProto::SendPersonaStatus(int status)
+void CSteamProto::SendDeviceListRequest()
 {
-	CMsgClientChangeStatus request;
-	request.persona_state = (int)MirandaToSteamState(status); request.has_persona_state = true;
-	WSSend(EMsg::ClientChangeStatus, request);
+	CDeviceAuthGetOwnAuthorizedDevicesRequest request;
+	request.steamid = m_iSteamId; request.has_steamid = true;
+	WSSendService(GetOwnAuthorizedDevices, request);
+}
+
+void CSteamProto::OnGotDeviceList(const CDeviceAuthGetOwnAuthorizedDevicesResponse &pResponse, const CMsgProtoBufHeader &hdr)
+{
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +86,15 @@ void CSteamProto::SendFriendActiveSessions()
 	request.has_lastmessage_since = true;
 	request.has_only_sessions_with_messages = false; request.only_sessions_with_messages = true;
 	WSSendService(FriendGetActiveSessions, request);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSteamProto::SendPersonaStatus(int status)
+{
+	CMsgClientChangeStatus request;
+	request.persona_state = (int)MirandaToSteamState(status); request.has_persona_state = true;
+	WSSend(EMsg::ClientChangeStatus, request);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -100,6 +114,8 @@ void CSteamProto::SendUserInfoRequest(const std::vector<uint64_t> &ids)
 	request.friends = (uint64_t*)&*ids.begin();
 	WSSend(EMsg::ClientRequestFriendData, request);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CSteamProto::SendUserAddRequest(uint64_t id)
 {
@@ -121,6 +137,8 @@ void CSteamProto::SendUserIgnoreRequest(MCONTACT hContact, bool bIgnore)
 	payload << m_iSteamId << SteamIdToAccountId(GetId(hContact, DBKEY_STEAM_ID)) << uint8_t(bIgnore);
 	WSSendRaw(EMsg::ClientSetIgnoreFriend, payload);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CSteamProto::SendHeartBeat()
 {

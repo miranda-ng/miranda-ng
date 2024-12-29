@@ -22,6 +22,8 @@
 #define BeginAuthSessionViaCredentials      "Authentication.BeginAuthSessionViaCredentials#1"
 #define UpdateAuthSessionWithSteamGuardCode "Authentication.UpdateAuthSessionWithSteamGuardCode#1"
 
+#define GetOwnAuthorizedDevices             "DeviceAuth.GetOwnAuthorizedDevices#1"
+
 #define FriendSendMessage                   "FriendMessages.SendMessage#1"
 #define FriendGetActiveSessions             "FriendMessages.GetActiveMessageSessions#1"
 #define FriendGetRecentMessages             "FriendMessages.GetRecentMessages#1"
@@ -154,6 +156,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	bool SendRequest(HttpRequest *request, JsonCallback callback, void *param = nullptr);
 
 	void SendAppInfoRequest(uint32_t appId);
+	void SendDeviceListRequest();
 	void SendHeartBeat();
 	void SendLogout();
 	void SendPersonaStatus(int iStatus);
@@ -172,6 +175,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnClientLogon(const CMsgClientLogonResponse &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnClientLogoff(const CMsgClientLoggedOff &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnGotAppInfo(const CMsgClientPICSProductInfoResponse &pResponse, const CMsgProtoBufHeader &hdr);
+	void OnGotDeviceList(const CDeviceAuthGetOwnAuthorizedDevicesResponse &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse &pResponse, const CMsgProtoBufHeader &hdr);
 	void OnPollSession(const CAuthenticationPollAuthSessionStatusResponse &pResponse, const CMsgProtoBufHeader &hdr);
