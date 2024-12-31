@@ -1378,10 +1378,14 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				continue;
 
 			CMStringW wszUrl(jnGraffiti["url"].as_mstring());
+			CMStringW wszImgUrl(wszUrl);
+
+			if (m_vkOptions.bBBCNewStorySupport)
+				wszUrl = GetVkFileItem(wszImgUrl, hContact, iMessageId);
 
 			res.AppendFormat(L"%s\n\t%s",
 				SetBBCString(TranslateT("Graffiti"), iBBC, vkbbcUrl, wszUrl).c_str(),
-				SetBBCString(wszUrl, bbcBasic, vkbbcImg).c_str()
+				SetBBCString(wszImgUrl, iBBC, vkbbcImg).c_str()
 			);
 		}
 		else if (wszType == L"video") {
@@ -1575,8 +1579,11 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			wszUrl = wszLink.IsEmpty() ? (wszLink128.IsEmpty() ? wszLinkLast : wszLink128) : wszLink;
 		
 
-			if (!m_vkOptions.bStikersAsSmileys)
+			if (!m_vkOptions.bStikersAsSmileys) {
+				if(m_vkOptions.bBBCNewStorySupport)
+					wszUrl = GetVkFileItem(wszUrl, hContact, iMessageId);
 				res += SetBBCString(wszUrl, iBBC, vkbbcImg);
+			}
 			else if (m_vkOptions.bUseStikersAsStaticSmileys)
 				res.AppendFormat(L"[sticker:%d]", iStickerId);
 			else {
@@ -1649,10 +1656,13 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				SetBBCString(TranslateT("Product"), iBBC, vkbbcB).c_str(),
 				SetBBCString(wszTitle.IsEmpty() ? TranslateT("Link") : wszTitle, iBBC, vkbbcUrl, wszUrl).c_str());
 
-			if (!wszPhoto.IsEmpty())
+			if (!wszPhoto.IsEmpty()) {
+				if (m_vkOptions.bBBCNewStorySupport)
+					wszPhoto = GetVkFileItem(wszPhoto, hContact, iMessageId);
 				res.AppendFormat(L"\n\t%s: %s",
 					SetBBCString(TranslateT("Photo"), iBBC, vkbbcB).c_str(),
 					SetBBCString(wszPhoto, iBBC, vkbbcImg).c_str());
+			}
 
 			if (jnMarket["price"] && jnMarket["price"]["text"])
 				res.AppendFormat(L"\n\t%s: %s",
@@ -1679,8 +1689,11 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				continue;
 			res += SetBBCString(TranslateT("Gift"), iBBC, vkbbcUrl, wszLink);
 
-			if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo)
+			if (m_vkOptions.iIMGBBCSupport && iBBC != bbcNo) {
+				if (m_vkOptions.bBBCNewStorySupport)
+					wszLink = GetVkFileItem(wszLink, hContact, iMessageId);
 				res.AppendFormat(L"\n\t%s", SetBBCString(wszLink, iBBC, vkbbcImg).c_str());
+			}
 		}
 		else {
 			res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(wszType, iBBC, vkbbcB).c_str());
