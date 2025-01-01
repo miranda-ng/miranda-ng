@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-17 Robert Pösel, 2017-24 Miranda NG team
+Copyright © 2009-11 Michal Zelinka, 2011-17 Robert Pösel, 2017-25 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2005 Victor Pavlychko (nullbyte@sotline.net.ua)
-Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-25 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

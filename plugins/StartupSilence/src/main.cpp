@@ -1,6 +1,6 @@
 /*
 Copyright (c) 2012-13 Vladimir Lyubimov
-Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-25 Miranda NG team (https://miranda-ng.org)
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.

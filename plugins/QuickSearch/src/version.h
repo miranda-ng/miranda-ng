@@ -10,4 +10,4 @@
 #define __DESCRIPTION             "This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list."
 #define __AUTHOR                  "Bethoven, Awkward"
 #define __AUTHORWEB               "https://miranda-ng.org/p/QuickSearch"
-#define __COPYRIGHT               "© 2004-05 Bethoven; 2006-13 Awkward; 2014-24 Miranda NG team"
+#define __COPYRIGHT               "© 2004-05 Bethoven; 2006-13 Awkward; 2014-25 Miranda NG team"

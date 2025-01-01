@@ -3,7 +3,7 @@
 'File Association Manager'-Plugin for
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-25 Miranda NG team (https://miranda-ng.org),
 Copyright (C) 2005-2007 H. Herkenrath
 
 This program is free software; you can redistribute it and/or

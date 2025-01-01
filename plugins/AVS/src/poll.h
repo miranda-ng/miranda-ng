@@ -1,5 +1,5 @@
 /* 
-Copyright (C) 2012-24 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-25 Miranda NG team (https://miranda-ng.org)
 Copyright (C) 2006 Ricardo Pescuma Domenecci, Nightwish
 
 This is free software; you can redistribute it and/or

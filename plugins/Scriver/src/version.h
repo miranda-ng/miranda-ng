@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "Scriver - send and receive instant messages."
 #define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/Scriver"
-#define __COPYRIGHT              "© 2000-2012 Miranda IM project, 2012-24 Miranda NG team"
+#define __COPYRIGHT              "© 2000-2012 Miranda IM project, 2012-25 Miranda NG team"

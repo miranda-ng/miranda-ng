@@ -8,4 +8,4 @@
 #define __DESCRIPTION            "Core module for e-mail urls handling."
 #define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdEmail"
-#define __COPYRIGHT              "© 2012-24 Miranda NG team"
+#define __COPYRIGHT              "© 2012-25 Miranda NG team"

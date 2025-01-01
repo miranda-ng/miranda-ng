@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Provides popup services based on Windows toast notification for different plugins."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Toaster"
-#define __COPYRIGHT                "© 2015-24 Miranda NG team"
+#define __COPYRIGHT                "© 2015-25 Miranda NG team"

@@ -8,4 +8,4 @@
 #define __DESCRIPTION            "Core module for built-in history viewer."
 #define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdUIHist"
-#define __COPYRIGHT              "© 2012-24 Miranda NG team"
+#define __COPYRIGHT              "© 2012-25 Miranda NG team"
