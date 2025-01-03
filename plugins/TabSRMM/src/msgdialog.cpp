@@ -1807,7 +1807,8 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		if (isCtrl && !isAlt && !isShift) {
-			if (wParam == VK_UP || wParam == VK_DOWN) {          // input history scrolling (ctrl-up / down)
+			// input history scrolling (ctrl-up / down)
+			if (g_plugin.bScrollHistory && (wParam == VK_UP || wParam == VK_DOWN)) {
 				m_cache->inputHistoryEvent(wParam);
 				return 0;
 			}

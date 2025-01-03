@@ -1016,7 +1016,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	HANDLE hLogger;
 
 	// window settings
-	CMOption<bool> bAutoMin, bAutoClose, bFlashOnClist, bDeleteTemp;
+	CMOption<bool> bAutoMin, bAutoClose, bFlashOnClist, bDeleteTemp, bScrollHistory;
 	CMOption<bool> bPasteAndSend, bAutoSplit, bUseSameSplitSize, bAutoCopy;
 	CMOption<bool> bStatusOnTabs, bUseXStatus, bDetailedTooltips, bAllowOfflineMultisend;
 	CMOption<bool> bAutoPopup, bAutoTabs, bAutoSwitchTabs, bAutoContainer, bPopupContainer, bHideOnClose, bAllowTab;

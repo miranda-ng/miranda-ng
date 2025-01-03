@@ -397,6 +397,7 @@ public:
 		auto *pwszSection = LPGENW("Message window behavior");
 		treeOpts.AddOption(pwszSection, LPGENW("Always flash contact list and tray icon for new messages"), g_plugin.bFlashOnClist);
 		treeOpts.AddOption(pwszSection, LPGENW("Delete temporary contacts on close"), g_plugin.bDeleteTemp);
+		treeOpts.AddOption(pwszSection, LPGENW("Use Ctrl+arrows to scroll history in the input window"), g_plugin.bScrollHistory);
 
 		pwszSection = LPGENW("Sending messages");
 		treeOpts.AddOption(pwszSection, LPGENW("Minimize the message window on send"), g_plugin.bAutoMin);

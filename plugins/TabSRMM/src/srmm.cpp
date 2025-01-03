@@ -68,6 +68,7 @@ CMPlugin::CMPlugin() :
 	bStatusOnTabs(SRMSGMOD_T, "tabstatus", true),
 	bFlashOnClist(SRMSGMOD_T, "flashcl", false),
 	bPasteAndSend(SRMSGMOD_T, "pasteandsend", true),
+	bScrollHistory(SRMSGMOD_T, "scrollhistory", true),
 	bAutoContainer(SRMSGMOD_T, "autocontainer", true),
 	bAutoSwitchTabs(SRMSGMOD_T, "autoswitchtabs", true),
 	bPopupContainer(SRMSGMOD_T, "cpopup", true),
