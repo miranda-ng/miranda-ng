@@ -98,6 +98,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 			if (g_plugin.bAnswNotCaseSens ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
 				// unhide contact
 				Contact::Hide(hContact, false);
+				g_times.erase(hContact);
 
 				// add contact permanently and delete our temporary variables
 				if (g_plugin.bAddPermanent) {
@@ -161,6 +162,7 @@ void CMPlugin::Impl::OnTimer(CTimer *)
 
 			Netlib_Logf(0, "StopSpam: removing temporary contact %d", it.first);
 			db_delete_contact(it.first);
+			g_times.erase(it.first);
 		}
 	}
 }
