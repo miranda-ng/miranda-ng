@@ -751,6 +751,14 @@ protected:
 		mir_subclassWindow(m_date.GetHwnd(), DatePickerWndProc);
 	}
 
+	void PopulateRepeatCombo(CCtrlCombo &ctrl)
+	{
+		ctrl.AddString(TranslateT("Don't repeat"), REPEAT::NONE);
+		ctrl.AddString(TranslateT("Repeat daily"), REPEAT::DAILY);
+		ctrl.AddString(TranslateT("Repeat weekly"), REPEAT::WEEKLY);
+		ctrl.AddString(TranslateT("Repeat monthly"), REPEAT::MONTHLY);
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////
 	// NOTE: may seem like a bit excessive time converstion and handling, but this is 
 	// done in order to gracefully handle crossing daylight saving boundaries
@@ -1115,16 +1123,20 @@ public:
 
 		BringWindowToTop(m_hwnd);
 
-		PopulateTimeOffsetCombo();
-
-		cmbRemindAgainIn.SetCurSel(0);
-		chkAfter.SetState(true);
-		chkOnDate.SetState(false);
-
 		if (m_pReminder->RepeatMode) {
 			chkOnDate.Hide();
 			chkAfter.Disable();
 			cmbRemindAgainIn.Disable();
+
+			PopulateRepeatCombo(cmbRemindAgainIn);
+			cmbRemindAgainIn.SetCurSel(m_pReminder->RepeatMode);
+		}
+		else {
+			PopulateTimeOffsetCombo();
+
+			cmbRemindAgainIn.SetCurSel(0);
+			chkAfter.SetState(true);
+			chkOnDate.SetState(false);
 		}
 
 		edtText.SendMsg(EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
@@ -1341,10 +1353,7 @@ public:
 	bool OnInitDialog() override
 	{
 		// populate repeat mode combo
-		cmbMode.AddString(TranslateT("Don't repeat"), REPEAT::NONE);
-		cmbMode.AddString(TranslateT("Repeat daily"), REPEAT::DAILY);
-		cmbMode.AddString(TranslateT("Repeat weekly"), REPEAT::WEEKLY);
-		cmbMode.AddString(TranslateT("Repeat monthly"), REPEAT::MONTHLY);
+		PopulateRepeatCombo(cmbMode);
 
 		SYSTEMTIME tm;
 		// opening the edit reminder dialog (uses same dialog resource as add reminder)
