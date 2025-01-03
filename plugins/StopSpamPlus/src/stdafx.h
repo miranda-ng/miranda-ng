@@ -4,6 +4,8 @@
 // disable security warnings about "*_s" functions
 #define _CRT_SECURE_NO_DEPRECATE
 
+#include <time.h>
+
 #include <windows.h>
 #include <commctrl.h>
 #include <sstream>

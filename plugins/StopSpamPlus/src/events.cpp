@@ -152,7 +152,7 @@ void CMPlugin::Impl::OnTimer(CTimer *)
 	time_t now = time(0);
 
 	for (auto &it : g_times) {
-		if (now - it.second < iTimeout)
+		if (now - it.second < iTimeout * 60)
 			continue;
 
 		if (MEVENT hDbEvent = g_plugin.getDword(it.first, DB_KEY_HASAUTH)) {
