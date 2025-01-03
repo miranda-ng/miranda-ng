@@ -8,17 +8,19 @@
 #include <commctrl.h>
 #include <sstream>
 #include <list>
+#include <map>
 
 #include <newpluginapi.h>
+#include <m_clistint.h>
 #include <m_contacts.h>
 #include <m_database.h>
-#include <m_protosvc.h>
-#include <m_options.h>
-#include <m_langpack.h>
-#include <m_icolib.h>
-#include <m_skin.h>
-#include <m_clistint.h>
 #include <m_gui.h>
+#include <m_icolib.h>
+#include <m_langpack.h>
+#include <m_netlib.h>
+#include <m_options.h>
+#include <m_protosvc.h>
+#include <m_skin.h>
 
 #include <m_variables.h>
 
@@ -39,10 +41,22 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-	CMOption<bool> InfTalkProtection, AddPermanent, HandleAuthReq, AnswNotCaseSens, HistLog;
+	struct Impl
+	{
+		Impl() :
+			timerAnswer(Miranda_GetSystemWindow(), UINT_PTR(this))
+		{
+			timerAnswer.OnEvent = Callback(this, &Impl::OnTimer);
+		}
+
+		CTimer timerAnswer;
+		void OnTimer(CTimer *);
+	} m_impl;
+
+	CMOption<bool> bInfTalkProtection, bAddPermanent, bHandleAuthReq, bAnswNotCaseSens, bHistLog;
 	CMOption<wchar_t *> Question, AuthRepl, Answer, Congratulation, AnswSplitString;
 	CMOption<char *> DisabledProtoList;
-	CMOption<uint32_t> MaxQuestCount;
+	CMOption<uint32_t> iMaxQuestCount, iAnswerTimeout;
 
 	const wchar_t* getQuestion();
 	const wchar_t* getReply();
@@ -55,6 +69,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	}
 
 	int Load() override;
+	int Unload() override;
 };
 
 // utils

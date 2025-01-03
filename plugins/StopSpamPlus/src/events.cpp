@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+static std::map<MCONTACT, time_t> g_times;
+
 int OnDbEventAdded(WPARAM, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
@@ -19,16 +21,16 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
 		if (!Contact::OnList(hContact) && !g_plugin.getByte(hContact, DB_KEY_ANSWERED) && !g_plugin.getByte(hContact, DB_KEY_HASSENT)) {
-			if (!g_plugin.HandleAuthReq) {
-				char *buf = mir_utf8encodeW(variables_parse(g_plugin.getReply(), hContact).c_str());
-				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
-				mir_free(buf);
-			}
+			if (!g_plugin.bHandleAuthReq)
+				ProtoChainSend(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeW(variables_parse(g_plugin.getReply(), hContact).c_str())));
+
+			if (g_plugin.iAnswerTimeout)
+				g_times[hContact] = time(0);
 
 			g_plugin.setDword(hContact, DB_KEY_HASAUTH, hDbEvent);
 			Contact::RemoveFromList(hContact);
 			Contact::Hide(hContact);
-			if (!g_plugin.HistLog)
+			if (!g_plugin.bHistLog)
 				db_event_delete(hDbEvent);
 			return 1;
 		}
@@ -93,12 +95,12 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		// if answer not empty
 		if (answer.length() > 0) {
 			// if message equal right answer...
-			if (g_plugin.AnswNotCaseSens ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
+			if (g_plugin.bAnswNotCaseSens ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
 				// unhide contact
 				Contact::Hide(hContact, false);
 
 				// add contact permanently and delete our temporary variables
-				if (g_plugin.AddPermanent) {
+				if (g_plugin.bAddPermanent) {
 					Contact::PutOnList(hContact);
 					db_delete_module(hContact, MODULENAME);
 				}
@@ -119,7 +121,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	const wchar_t *pwszPrefix = TranslateT("StopSpam automatic message:\r\n");
-	if ((!g_plugin.InfTalkProtection || tstring::npos == message.find(pwszPrefix)) && (!g_plugin.MaxQuestCount || g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT) < g_plugin.MaxQuestCount)) {
+	if ((!g_plugin.bInfTalkProtection || tstring::npos == message.find(pwszPrefix)) && (!g_plugin.iMaxQuestCount || g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT) < g_plugin.iMaxQuestCount)) {
 		// send question
 		tstring q = pwszPrefix + variables_parse(g_plugin.getQuestion(), hContact);
 
@@ -141,13 +143,35 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	return 0;
 }
 
+void CMPlugin::Impl::OnTimer(CTimer *)
+{
+	int iTimeout = g_plugin.iAnswerTimeout;
+	if (!iTimeout)
+		return;
+
+	time_t now = time(0);
+
+	for (auto &it : g_times) {
+		if (now - it.second < iTimeout)
+			continue;
+
+		if (MEVENT hDbEvent = g_plugin.getDword(it.first, DB_KEY_HASAUTH)) {
+			char *szProto = Proto_GetBaseAccountName(it.first);
+			CallProtoService(szProto, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_plugin.getReply(), it.first).c_str()));
+
+			Netlib_Logf(0, "StopSpam: removing temporary contact %d", it.first);
+			db_delete_contact(it.first);
+		}
+	}
+}
+
 int OnShutdown(WPARAM, LPARAM)
 {
 	for (auto &cc : Contacts()) {
 		if (Contact::OnList(cc))
 			continue;
 
-		if (MEVENT hDbEvent = g_plugin.getByte(cc, DB_KEY_HASAUTH)) {
+		if (MEVENT hDbEvent = g_plugin.getDword(cc, DB_KEY_HASAUTH)) {
 			char *szProto = Proto_GetBaseAccountName(cc);
 			CallProtoService(szProto, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_plugin.getReply(), cc).c_str()));
 		}

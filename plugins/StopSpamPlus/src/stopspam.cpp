@@ -25,22 +25,31 @@ CMPlugin::CMPlugin() :
 	Answer(MODULENAME, "Answer", L"nospam"),
 	Congratulation(MODULENAME, "Congratulation"),
 	DisabledProtoList(MODULENAME, "DisabledProtoList", "MetaContacts RSSNews"),
-	InfTalkProtection(MODULENAME, "InfTalkProtection", 1),
-	AddPermanent(MODULENAME, "AddPermanent", 0),
-	HandleAuthReq(MODULENAME, "HandleAuthReq", 0),
-	MaxQuestCount(MODULENAME, "MaxQuestCount", 2),
-	AnswNotCaseSens(MODULENAME, "AnswNotCaseSens", 1),
+	bInfTalkProtection(MODULENAME, "InfTalkProtection", 1),
+	bAddPermanent(MODULENAME, "AddPermanent", 0),
+	bHandleAuthReq(MODULENAME, "HandleAuthReq", 0),
+	iMaxQuestCount(MODULENAME, "MaxQuestCount", 2),
+	iAnswerTimeout(MODULENAME, "AnswerTimeout", 5),
+	bAnswNotCaseSens(MODULENAME, "AnswNotCaseSens", 1),
 	AnswSplitString(MODULENAME, "AnswSplitString", L"|"),
-	HistLog(MODULENAME, "HistLog", 0)
+	bHistLog(MODULENAME, "HistLog", 0)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CMPlugin::Load()
 {
+	m_impl.timerAnswer.Start(60000);
+
 	HookEvent(ME_DB_EVENT_ADDED, OnDbEventAdded);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, OnDbEventFilterAdd);
 	HookEvent(ME_OPT_INITIALISE, OnOptInit);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+	return 0;
+}
+
+int CMPlugin::Unload()
+{
+	m_impl.timerAnswer.Stop();
 	return 0;
 }
