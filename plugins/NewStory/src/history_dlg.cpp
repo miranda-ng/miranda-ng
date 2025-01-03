@@ -568,8 +568,6 @@ public:
 		// Ask for layout
 		PostMessage(m_hwnd, WM_SIZE, 0, 0);
 
-		WindowList_Add(g_hNewstoryWindows, m_hwnd, m_hContact);
-
 		ShowHideControls();
 		UpdateTitle();
 
@@ -584,6 +582,11 @@ public:
 		if (m_hContact != INVALID_CONTACT_ID) {
 			Utils_RestoreWindowPosition(m_hwnd, m_hContact, MODULENAME, "wnd_");
 
+			WindowList_Add(g_hNewstoryWindows, m_hwnd, m_hContact);
+
+			m_histCtrl->m_hContact = m_hContact;
+			WindowList_Add(g_hNewstoryHistLogs, m_histCtrl->m_hwnd, m_hContact);
+
 			m_histCtrl->AddEvent(m_hContact, 0, -1);
 
 			BuildTimeTree();
@@ -594,7 +597,6 @@ public:
 		OnResize();
 		BuildBookmarksList();
 
-		m_histCtrl->SetContact(m_hContact);
 		m_histCtrl->ScrollBottom();
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NEWSTORY));
@@ -798,6 +800,7 @@ public:
 
 		Window_FreeIcon_IcoLib(m_hwnd);
 		WindowList_Remove(g_hNewstoryWindows, m_hwnd);
+		WindowList_Remove(g_hNewstoryHistLogs, m_histCtrl->m_hwnd);
 
 		if (m_hwndStatus != nullptr) {
 			DestroyWindow(m_hwndStatus);

@@ -37,12 +37,14 @@ public:
 			0, 0, rc.left - rc.right, rc.bottom - rc.top, m_pDlg.GetHwnd(), 0, m_pDlg.GetInst(), 0);
 
 		m_histCtrl = (NewstoryListData *)GetWindowLongPtr(m_hwnd, 0);
-		m_histCtrl->SetDialog(&m_pDlg);
+		m_histCtrl->pMsgDlg = &m_pDlg;
+		m_histCtrl->m_hContact = m_pDlg.m_hContact;
+		WindowList_Add(g_hNewstoryLogs, m_hwnd, m_histCtrl->m_hContact);
 	}
 
 	void Detach() override
 	{
-		WindowList_Remove(g_hNewstoryLogs, m_pDlg.GetHwnd());
+		WindowList_Remove(g_hNewstoryLogs, m_hwnd);
 		::DestroyWindow(m_hwnd);
 	}
 

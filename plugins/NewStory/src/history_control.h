@@ -174,8 +174,6 @@ struct NewstoryListData : public MZeroedObject
 	void      ScrollTop();
 	void      ScrollUp(int deltaY);
 	void      SetCaret(int idx, bool bEnsureVisible = true);
-	void      SetContact(MCONTACT hContact);
-	void      SetDialog(CSrmmBaseDialog *pDialog);
 	void      SetPos(int pos);
 	void      SetSelection(int iFirst, int iLast);
 	void      ToggleBookmark();

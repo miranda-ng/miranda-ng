@@ -14,4 +14,4 @@ void RemoveBbcodes(CMStringW &pwszText);
 
 Bitmap* LoadImageFromResource(HINSTANCE, int, const wchar_t *);
 
-int SmartSendEvent(int iEvent, MCONTACT hContact, LPARAM lParam);
+int SmartSendEvent(int iEvent, MCONTACT hContact, MEVENT lParam);

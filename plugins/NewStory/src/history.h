@@ -32,7 +32,7 @@ enum
 	UM_LOCATETIME = WM_USER + 0x662,
 };
 
-extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs;
+extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs, g_hNewstoryHistLogs;
 
 void InitMenus();
 void InitHotkeys();

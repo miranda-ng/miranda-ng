@@ -38,7 +38,7 @@ CMOption<uint32_t> g_clCustom4(MODULENAME, "CustomColor4", -1);
 
 CMOption<int> g_iPreviewHeight(MODULENAME, "PreviewHeight", 300);
 
-MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0;
+MWindowList g_hNewstoryWindows = 0, g_hNewstoryLogs = 0, g_hNewstoryHistLogs = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -188,6 +188,7 @@ int CMPlugin::Load()
 
 	g_hNewstoryLogs = WindowList_Create();
 	g_hNewstoryWindows = WindowList_Create();
+	g_hNewstoryHistLogs = WindowList_Create();
 
 	HookEvent(ME_DB_EVENT_ADDED, evtEventAdded);
 	HookEvent(ME_DB_EVENT_DELETED, evtEventDeleted);
@@ -208,6 +209,7 @@ int CMPlugin::Unload()
 {
 	WindowList_Destroy(g_hNewstoryLogs);
 	WindowList_Destroy(g_hNewstoryWindows);
+	WindowList_Destroy(g_hNewstoryHistLogs);
 
 	GdiplusShutdown(m_gdiplusToken);
 

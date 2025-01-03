@@ -49,19 +49,29 @@ Bitmap* LoadImageFromResource(HINSTANCE hInst, int resourceId, const wchar_t *pw
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int SmartSendEvent(int iEventType, MCONTACT hContact, LPARAM hEvent)
+static void SmartSendEventWorker(MWindowList wndList, int iEventType, MCONTACT cc1, MCONTACT cc2, MEVENT hEvent)
 {
-	if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, hContact))
-		SendMessage(hwnd, iEventType, hContact, hEvent);
+	if (HWND hwnd = WindowList_Find(wndList, cc1))
+		PostMessage(hwnd, iEventType, cc1, hEvent);
 
-	if (db_mc_isMeta(hContact)) {
-		// Send a message to a real contact too
+	if (cc2 != INVALID_CONTACT_ID)
+		if (HWND hwnd = WindowList_Find(wndList, cc2))
+			PostMessage(hwnd, iEventType, cc2, hEvent);
+}
+
+int SmartSendEvent(int iEventType, MCONTACT cc1, MEVENT hEvent)
+{
+	MCONTACT cc2 = INVALID_CONTACT_ID;
+
+	// Send a message to a real contact too
+	if (db_mc_isMeta(cc1)) {
 		MCONTACT cc = db_event_getContact(hEvent);
-		if (cc != hContact)
-			if (HWND hwnd = WindowList_Find(g_hNewstoryLogs, cc))
-				SendMessage(hwnd, iEventType, cc, hEvent);
+		if (cc != cc1)
+			cc2 = cc;
 	}
 
+	SmartSendEventWorker(g_hNewstoryLogs, iEventType, cc1, cc2, hEvent);
+	SmartSendEventWorker(g_hNewstoryHistLogs, iEventType, cc1, cc2, hEvent);
 	return 0;
 }
 

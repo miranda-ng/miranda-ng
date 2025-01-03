@@ -33,6 +33,7 @@ protected:
 	void OnFinish(void *)
 	{
 		WindowList_BroadcastAsync(g_hNewstoryLogs, NSM_SET_OPTIONS, 0, 0);
+		WindowList_BroadcastAsync(g_hNewstoryHistLogs, NSM_SET_OPTIONS, 0, 0);
 	}
 };
 

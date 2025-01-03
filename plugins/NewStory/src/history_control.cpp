@@ -1007,19 +1007,6 @@ void NewstoryListData::SetCaret(int idx, bool bEnsureVisible)
 	}
 }
 
-void NewstoryListData::SetContact(MCONTACT hContact)
-{
-	m_hContact = hContact;
-
-	WindowList_Add(g_hNewstoryLogs, m_hwnd, hContact);
-}
-
-void NewstoryListData::SetDialog(CSrmmBaseDialog *pDlg)
-{
-	if (pMsgDlg = pDlg)
-		SetContact(pDlg->m_hContact);
-}
-
 void NewstoryListData::SetPos(int pos)
 {
 	SetSelection((selStart == -1) ? pos : selStart, pos);
@@ -1717,7 +1704,6 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_DESTROY:
-		WindowList_Remove(g_hNewstoryLogs, hwnd);
 		delete data;
 		SetWindowLongPtr(hwnd, 0, 0);
 		break;

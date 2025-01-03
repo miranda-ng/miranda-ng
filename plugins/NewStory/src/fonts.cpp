@@ -77,6 +77,7 @@ int evtFontsChanged(WPARAM, LPARAM)
 	}
 
 	WindowList_Broadcast(g_hNewstoryLogs, UM_REDRAW_LIST, 0, 0);
+	WindowList_Broadcast(g_hNewstoryHistLogs, UM_REDRAW_LIST, 0, 0);
 	return 0;
 }
 
