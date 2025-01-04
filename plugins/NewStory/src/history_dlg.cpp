@@ -433,7 +433,7 @@ public:
 		m_toolbar.push_back(Button(btnTimeTree));
 		m_toolbar.push_back(Button(btnBookmarks));
 		m_toolbar.push_back(Button(btnSearch));
-		m_toolbar.push_back(Button(btnFilter));
+		// m_toolbar.push_back(Button(btnFilter));
 		m_toolbar.push_back(Button(btnCalendar, Button::SPACED));
 		m_toolbar.push_back(Button(btnCopy));
 		m_toolbar.push_back(Button(btnDelete));
@@ -489,6 +489,7 @@ public:
 
 		// filterbar
 		btnFilter.MakePush();
+		btnFilter.Hide();
 		
 		btnTimeTree.MakePush();
 		if (m_dwOptions & WND_OPT_TIMETREE)
