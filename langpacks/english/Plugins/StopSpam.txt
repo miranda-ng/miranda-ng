@@ -15,11 +15,10 @@
 [Divider:]
 [Vars]
 [Enable protection for following accounts:]
-[Do not send more than]
-[questions to one contact (0 - for no limit)]
+[Maximum number of questions to one contact (0 - for no limit):]
+[Timeout in minutes to remove temporary contacts (0 - never)]
 [Enable StopSpam-StopSpam infinite talk protection]
 [Add contact permanently]
-[Enable auth. requests blocking]
 [Answer is not case sensitive]
 [Log Spammers to system history]
 ;file \plugins\StopSpamPlus\src\events.cpp

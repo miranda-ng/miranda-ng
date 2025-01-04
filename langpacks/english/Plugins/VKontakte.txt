@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.17.1
+;  Version: 0.1.17.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31,7 +31,6 @@
 [Process stickers as smileys]
 [Shorten links for audio attachments]
 [Use non-standard popups for news and event notifications]
-[Add message link to messages with attachments]
 [Add original message version in edited message]
 [News and event notifications]
 [WARNING: Causes excessive network traffic!!!]
@@ -91,7 +90,6 @@
 [Load last messages when message window open and local history is empty]
 [Use local time for received messages]
 [Load only friends to local contact list]
-[Server-side delivery confirmation]
 [Bots challenge test]
 [Instruction:]
 [Submit]
@@ -190,7 +188,6 @@
 [%x at %X]
 [Edited message (updated %s):\n]
 [\nOriginal message:\n]
-[Message link]
 [create chat]
 [kick user]
 [left chat]
@@ -292,6 +289,7 @@
 [Newsfeed & notification event]
 [Forward]
 [Reload messages]
+[Go to site IM]
 [Mark messages as read]
 [Send message to user's wall]
 [Add as friend]

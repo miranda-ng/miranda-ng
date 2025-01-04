@@ -709,6 +709,7 @@
 [Message window behavior]
 [Always flash contact list and tray icon for new messages]
 [Delete temporary contacts on close]
+[Use Ctrl+arrows to scroll history in the input window]
 [Sending messages]
 [Minimize the message window on send]
 [Close the message window on send]

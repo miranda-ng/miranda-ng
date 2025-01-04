@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -21,17 +21,14 @@
 [Show chat state events (i.e., user closed chat session)]
 [Connection]
 [Error limit before logout:]
-[Captcha]
-[Cancel]
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-[Go to email domain]
 [Block]
 [Enter password]
 [Save password]
+[Cancel]
 [Enter the password to continue.]
-[Security code]
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
 ;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+[Gaming icon]
 [Steam game]
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
@@ -41,19 +38,19 @@
 [%s is back in your contact list]
 [%s has been removed from your contact list]
 [%s has added you to contact list]
+;file \protocols\Steam\src\steam_login.cpp
+[Enter email confimation code]
+[Enter the code from your authentication device]
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 [Unblock]
 [Join to game]
 ;file \protocols\Steam\src\steam_messages.cpp
-[Unknown error]
+[Message sending has failed with error %d]
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 [Network]
-;file \protocols\Steam\src\steam_proto.cpp
-[Protocols]
-[Protocol icon]
-[Gaming icon]
+;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 ;file \protocols\Steam\src\steam_xstatus.cpp
