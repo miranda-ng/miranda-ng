@@ -1159,6 +1159,11 @@ public:
 				if (auto *pItem = m_histCtrl->GetItem(wParam))
 					LocateDateTime(pItem->dbe.timestamp);
 			break;
+
+		case UM_UPDATE_WINDOW:
+			UpdateTitle();
+			BuildTimeTree();
+			break;
 		}
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);

@@ -30,6 +30,7 @@ enum
 
 	UM_BOOKMARKS = WM_USER + 0x661,
 	UM_LOCATETIME = WM_USER + 0x662,
+	UM_UPDATE_WINDOW = WM_USER + 0x663,
 };
 
 extern MWindowList g_hNewstoryWindows, g_hNewstoryLogs, g_hNewstoryHistLogs;

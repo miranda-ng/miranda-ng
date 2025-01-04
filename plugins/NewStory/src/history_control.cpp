@@ -416,6 +416,7 @@ void NewstoryListData::DeleteItems(void)
 
 	CDeleteEventsDlg dlg(m_hContact, nSelected, bIncoming);
 	if (IDOK == dlg.DoModal()) {
+		int iSaveCount = totalCount;
 		g_plugin.bDisableDelete = true;
 
 		int firstSel = -1, flags = 0;
@@ -437,6 +438,8 @@ void NewstoryListData::DeleteItems(void)
 		}
 
 		g_plugin.bDisableDelete = false;
+		if (iSaveCount != totalCount)
+			PostMessage(GetParent(m_hwnd), UM_UPDATE_WINDOW, 0, 0);
 
 		if (firstSel != -1) {
 			SetCaret(firstSel, false);
