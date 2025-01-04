@@ -24,25 +24,25 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.dwButtonID = IDC_SRMM_BOLD;
 	bbd.dwDefPos = 40;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_FONTBOLD);
-	bbd.pwszTooltip = LPGENW("Bold text");
+	bbd.pwszTooltip = LPGENW("Bold");
 	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_ITALICS;
 	bbd.dwDefPos = 50;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_FONTITALIC);
-	bbd.pwszTooltip = LPGENW("Italic text");
+	bbd.pwszTooltip = LPGENW("Italics");
 	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_UNDERLINE;
 	bbd.dwDefPos = 60;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_FONTUNDERLINE);
-	bbd.pwszTooltip = LPGENW("Underlined text");
+	bbd.pwszTooltip = LPGENW("Underlined");
 	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_STRIKEOUT;
 	bbd.dwDefPos = 70;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_STRIKEOUT);
-	bbd.pwszTooltip = LPGENW("Strikethrough text");
+	bbd.pwszTooltip = LPGENW("Strikethrough");
 	g_plugin.addButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID | BBBF_NOREADONLY;
@@ -101,32 +101,32 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 	bbd.pszModuleName = "Tabsrmm";
 	bbd.dwDefPos = 80;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_FONTCOLOR);
-	bbd.pwszTooltip = LPGENW("Select a foreground color for the text (Ctrl+K)");
+	bbd.pwszTooltip = LPGENW("Select text color");
 	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 81;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_BKGCOLOR);
-	bbd.pwszTooltip = LPGENW("Select a background color for the text (Ctrl+L)");
+	bbd.pwszTooltip = LPGENW("Select background color");
 	g_plugin.addButton(&bbd);
 
 	bbd.bbbFlags = BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
 	bbd.dwButtonID = IDC_SRMM_SHOWNICKLIST;
 	bbd.dwDefPos = 22;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_SHOWNICKLIST);
-	bbd.pwszTooltip = LPGENW("Show/hide the nick list (Ctrl+N)");
+	bbd.pwszTooltip = LPGENW("Show/hide the nick list");
 	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_FILTER;
 	bbd.dwDefPos = 24;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_FILTER2);
-	bbd.pwszTooltip = LPGENW("Enable/disable the event filter (Ctrl+F)");
+	bbd.pwszTooltip = LPGENW("Enable/disable the event filter");
 	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_CHANMGR;
 	bbd.dwDefPos = 33;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_TOPICBUT);
-	bbd.pwszTooltip = LPGENW("Control this room (Ctrl+O)");
+	bbd.pwszTooltip = LPGENW("Control this room");
 	g_plugin.addButton(&bbd);
 	return 0;
 }

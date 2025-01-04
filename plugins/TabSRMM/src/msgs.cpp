@@ -451,12 +451,12 @@ static TIconDesc _toolbaricons[] =
 static TIconDesc _exttoolbaricons[] =
 {
 	{ "tabSRMM_emoticon", LPGEN("Smiley button"), 0, -IDI_SMILEYICON, 1 }, // 9
-	{ "tabSRMM_bold", LPGEN("Format bold"), 0, -IDI_FONTBOLD, 1 },
-	{ "tabSRMM_italic", LPGEN("Format italic"), 0, -IDI_FONTITALIC, 1 },
-	{ "tabSRMM_underline", LPGEN("Format underline"), 0, -IDI_FONTUNDERLINE, 1 },
+	{ "tabSRMM_bold", LPGEN("Make the text bold"), 0, -IDI_FONTBOLD, 1 },
+	{ "tabSRMM_italic", LPGEN("Make the text italicized"), 0, -IDI_FONTITALIC, 1 },
+	{ "tabSRMM_underline", LPGEN("Make the text underlined"), 0, -IDI_FONTUNDERLINE, 1 },
 	{ "tabSRMM_face", LPGEN("Font face"), 0, -IDI_FONTFACE, 1 },
 	{ "tabSRMM_color", LPGEN("Font color"), 0, -IDI_FONTCOLOR, 1 },
-	{ "tabSRMM_strikeout", LPGEN("Format strikethrough"), 0, -IDI_STRIKEOUT, 1 }
+	{ "tabSRMM_strikeout", LPGEN("Make the text strikethrough"), 0, -IDI_STRIKEOUT, 1 }
 };
 
 static TIconDesc _chattoolbaricons[] =

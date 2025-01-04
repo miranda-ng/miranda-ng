@@ -428,14 +428,14 @@ int RegisterToolbarIcons(WPARAM, LPARAM)
 	bbd.dwDefPos = 30;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_COLOR);
 	bbd.pwszText = LPGENW("&Color");
-	bbd.pwszTooltip = LPGENW("Select a foreground color for the text");
+	bbd.pwszTooltip = LPGENW("Select text color");
 	g_plugin.addButton(&bbd);
 
 	bbd.dwButtonID = IDC_SRMM_BKGCOLOR;
 	bbd.dwDefPos = 35;
 	bbd.hIcon = g_plugin.getIconHandle(IDI_BKGCOLOR);
 	bbd.pwszText = LPGENW("&Background color");
-	bbd.pwszTooltip = LPGENW("Select a background color for the text");
+	bbd.pwszTooltip = LPGENW("Select background color");
 	g_plugin.addButton(&bbd);
 
 	// chat buttons
