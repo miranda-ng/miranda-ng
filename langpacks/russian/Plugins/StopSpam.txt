@@ -24,16 +24,14 @@
 пер.
 [Enable protection for following accounts:]
 Включить защиту для следующих учётных записей:
-[Do not send more than]
-Не отправлять больше
-[questions to one contact (0 - for no limit)]
-вопросов контакту (0 - неограниченно)
+[Maximum number of questions to one contact (0 - for no limit):]
+Максимально допустимое количество вопросов для одного контакта (0 - неограниченно)
+[Timeout in minutes to remove temporary contacts (0 - never)]
+Удалять временные контакты через указанное количество минут (0 - никогда)
 [Enable StopSpam-StopSpam infinite talk protection]
 Выключение антиспама при попытке ответа другому антиспаму
 [Add contact permanently]
 Добавлять в постоянный список
-[Enable auth. requests blocking]
-Блокировать запросы авторизации
 [Answer is not case sensitive]
 Не учитывать регистр ответа
 [Log Spammers to system history]

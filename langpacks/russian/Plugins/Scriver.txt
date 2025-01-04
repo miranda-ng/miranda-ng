@@ -26,8 +26,6 @@
 Помнить неотправленные сообщения
 [Delete temporary contacts on closing]
 При включении удалять временные контакты
-[Allow BBCode formatting in outgoing messages]
-Разрешить BBCode для исходящих сообщений
 [Show warning when message has not been received after]
 Сообщать, если сообщение не удалось отправить за
 [seconds]
@@ -369,8 +367,6 @@ ID текущего контакта (если определён). Наприм
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Добавить контакт
-[User's details]
-Инфо контакта
 [User's history]
 История контакта
 [Send message]
@@ -410,7 +406,9 @@ ID текущего контакта (если определён). Наприм
 [Italics]
 Курсив
 [Underlined]
-Подчёркивание
+Подчёркнутый
+[Strikethrough]
+Перечёркнутый
 [Room history]
 История
 [Room settings]
@@ -610,40 +608,44 @@ ID текущего контакта (если определён). Наприм
 Информация о пользователе
 [&History]
 &История
-[View user's history (Ctrl+H)]
-История сообщений (Ctrl+H)
+[View user's history]
+История сообщений
 [&Bold]
 &Жирный
-[Make the text bold (Ctrl+B)]
-Сделать текст жирным (Ctrl+B)
+[Make the text bold]
+Выделить текст жирным
 [&Italic]
 &Курсив
-[Make the text italicized (Ctrl+I)]
-Сделать текст курсивом (Ctrl+I)
+[Make the text italicized]
+Выделить текст курсивом
 [&Underline]
 &Подчёркнутый
-[Make the text underlined (Ctrl+U)]
-Подчеркнуть текст (Ctrl+U)
+[Make the text underlined]
+Подчеркнуть текст
+[&Strikethrough]
+Пере&чёркнутый
+[Make the text strikethrough]
+Перечеркнуть текст
 [&Color]
 &Цвет
-[Select a foreground color for the text (Ctrl+K)]
-Выбрать цвет текста (Ctrl+K)
+[Select text color]
+Выбрать цвет текста
 [&Background color]
 Цвет &фона
-[Select a background color for the text (Ctrl+L)]
-Выбрать фон текста (Ctrl+L)
+[Select background color]
+Выбрать цвет фона
 [&Room settings]
 &Настройки
-[Control this room (Ctrl+O)]
-Управление комнатой чата (Ctrl+O)
+[Control this room]
+Управление комнатой чата
 [&Show/hide nick list]
-&Показать/Скрыть список ников
-[Show/hide the nick list (Ctrl+N)]
-Показать/скрыть список пользователей (Ctrl+N)
+&Показать/скрыть список пользователей
+[Show/hide the nick list]
+Показать/скрыть список пользователей
 [&Filter]
 &Фильтр
-[Enable/disable the event filter (Ctrl+F)]
-Включить/выключить фильтр событий (Ctrl+F)
+[Enable/disable the event filter]
+Включить/выключить фильтр событий
 [&Message]
 &Сообщение
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]

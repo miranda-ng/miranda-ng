@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.17.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -56,8 +56,6 @@
 Сокращённые ссылки для вложений с аудио
 [Use non-standard popups for news and event notifications]
 Использовать нестандартные всплывающие окна для новостей и событий
-[Add message link to messages with attachments]
-Добавлять ссылку на сообщение к сообщениям с вложениями
 [Add original message version in edited message]
 Добавлять к изменённому сообщению его предыдущую версию
 [News and event notifications]
@@ -176,8 +174,6 @@ E-mail или номер телефона:
 Местное время для принятых сообщений
 [Load only friends to local contact list]
 Добавлять в список контактов только друзей
-[Server-side delivery confirmation]
-Подтверждение доставки со стороны сервера
 [Bots challenge test]
 Защита от ботов
 [Instruction:]
@@ -372,8 +368,6 @@ URL:
 Изменённое сообщение (обновлено %s):\n 
 [\nOriginal message:\n]
 \nИсходное сообщение:\n
-[Message link]
-Ссылка на сообщение
 [create chat]
 создал чат
 [kick user]
@@ -568,6 +562,8 @@ ID получателя ошибочен или неизвестен
 Переслать
 [Reload messages]
 Перезагрузить сообщения
+[Go to site IM]
+
 [Mark messages as read]
 Пометить сообщения прочитанными
 [Send message to user's wall]

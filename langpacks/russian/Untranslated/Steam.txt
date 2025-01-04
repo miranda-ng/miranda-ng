@@ -1,0 +1,3 @@
+[Enter email confimation code]
+[Enter the code from your authentication device]
+[Message sending has failed with error %d]

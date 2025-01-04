@@ -193,3 +193,6 @@
 Отмена входящего звонка
 [Skypename]
 Логин Skype
+;file \protocols\SkypeWeb\src\skype_utils.cpp
+[wrote]
+писал(а)

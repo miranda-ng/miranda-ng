@@ -7,7 +7,7 @@
 [Items request error]
 [<no nick>]
 [has set the subject to:]
-[Trust on first use]
+[Trust on first use for\n%d devices]
 [Set New Password for %s@%s]
 [Extended away (Not available)]
 [Error %s %s\r\nTry to specify more detailed]

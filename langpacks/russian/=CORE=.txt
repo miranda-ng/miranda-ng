@@ -261,8 +261,6 @@
 Показывать счётчик символов
 [Show toolbar buttons on top row]
 Показывать кнопки в верхней строке
-[Allow BBCode formatting in outgoing messages]
-Разрешить BBCode для исходящих сообщений
 [Show warning when message has not been received after]
 Сообщать, если сообщение не удалось отправить за
 [Send error]
@@ -864,7 +862,7 @@
 [Show accounts in the following order,\ndrag to choose another order:]
 Порядок отображения учётных записей.\nПеретаскивайте для изменения:
 [Account order and visibility]
-Порядок учётных записей
+Порядок и видимость учётных записей
 [Key bindings]
 Горячие клавиши
 [Shortcut:]
@@ -1239,8 +1237,8 @@ UIN, E-mail и т.д.
 &Сообщение
 [Clear lo&g]
 Очистить ча&т
-[Word lookup]
-Найти слово
+[No word to look up]
+Нет слов для просмотра
 [Yandex]
 Яндекс
 [Wikipedia (en)]
@@ -1386,7 +1384,9 @@ Google Карты
 [Italics]
 Курсив
 [Underlined]
-Подчёркивание
+Подчёркнутый
+[Strikethrough]
+Перечёркнутый
 [Smiley button]
 Смайлы
 [Room history]
@@ -1574,40 +1574,44 @@ Google Карты
 Меню пользователя
 [View user's details]
 Информация о пользователе
-[View user's history (Ctrl+H)]
-История сообщений (Ctrl+H)
+[View user's history]
+История сообщений
 [&Bold]
 &Жирный
-[Make the text bold (Ctrl+B)]
-Сделать текст жирным (Ctrl+B)
+[Make the text bold]
+Выделить текст жирным
 [&Italic]
 &Курсив
-[Make the text italicized (Ctrl+I)]
-Сделать текст курсивом (Ctrl+I)
+[Make the text italicized]
+Выделить текст курсивом
 [&Underline]
 &Подчёркнутый
-[Make the text underlined (Ctrl+U)]
-Подчеркнуть текст (Ctrl+U)
+[Make the text underlined]
+Подчеркнуть текст
+[&Strikethrough]
+Пере&чёркнутый
+[Make the text strikethrough]
+Перечеркнуть текст
 [&Color]
 &Цвет
-[Select a foreground color for the text (Ctrl+K)]
-Выбрать цвет текста (Ctrl+K)
+[Select text color]
+Выбрать цвет текста
 [&Background color]
 Цвет &фона
-[Select a background color for the text (Ctrl+L)]
-Выбрать фон текста (Ctrl+L)
+[Select background color]
+Выбрать цвет фона
 [&Room settings]
 &Настройки
-[Control this room (Ctrl+O)]
-Управление комнатой чата (Ctrl+O)
+[Control this room]
+Управление комнатой чата
 [&Show/hide nick list]
-&Показать/Скрыть список пользователей
-[Show/hide the nick list (Ctrl+N)]
-Показать/скрыть список пользователей (Ctrl+N)
+&Показать/скрыть список пользователей
+[Show/hide the nick list]
+Показать/скрыть список пользователей
 [&Filter]
 &Фильтр
-[Enable/disable the event filter (Ctrl+F)]
-Включить/выключить фильтр событий (Ctrl+F)
+[Enable/disable the event filter]
+Включить/выключить фильтр событий
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 Miranda не смогла загрузить встроенную систему сообщений из-за отсутствия msftedit.dll. Нажмите "Да" для продолжения загрузки программы.
 [Instant messages]
@@ -2123,11 +2127,11 @@ Miranda не может распознать этот профиль
 Заглушать чат
 [Attach]
 Прикрепить
+[Code]
+Код
 ;file \src\mir_app\src\file.cpp
 [&File]
 &Файл
-[Send file]
-Отправить файл
 [File from %s]
 Файл от %s
 [File &transfers...]
@@ -2157,8 +2161,6 @@ Miranda не может распознать этот профиль
 ;file \src\mir_app\src\filerecvdlg.cpp
 [My received files]
 Принятые файлы
-[View user's history]
-История сообщений
 [This file transfer has been canceled by the other side]
 Передача файла отменена другой стороной
 [Canceled]
@@ -2826,10 +2828,10 @@ ANSI плагин
 &Сообщение %s
 [Nickname]
 Ник
-[Disable the event filter (Ctrl+F)]
-Вылючить фильтр событий (Ctrl+F)
-[Enable the event filter (Ctrl+F)]
-Включить фильтр событий (Ctrl+F)
+[Disable the event filter]
+Выключить фильтр событий
+[Enable the event filter]
+Включить фильтр событий
 [In reply to]
 В ответ на
 ;file \src\mir_app\src\srmm_log.cpp
@@ -2853,18 +2855,40 @@ ANSI плагин
 Копировать всё
 [Look up '%s':]
 Искать '%s':
-[No word to look up]
-Нет слов для просмотра
 ;file \src\mir_app\src\srmm_main.cpp
 [Are you sure to wipe the system history?]
 Уверены, что хотите очистить системную историю?
 [Empty system history]
 Очистить системную историю
+[Toggle bold formatting]
+Включить/выключить выделение полужирным
+[Toggle italic formatting]
+Включить/выключить выделение курсивом
+[Toggle underline formatting]
+Включить/выключить подчёркивание
+[Toggle text color]
+Включить/выключить цветной текст
+[Toggle background color]
+Включить/выключить цветной фон
+[Clear formatting]
+Сбросить форматирование
+[Open history window]
+Открыть окно истории
+[Toggle filter]
+Переключить фильтр
+[Toggle nick list]
+Вкл/выкл список участников
+[Channel manager]
+Управление каналом
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделитель>
 [Toolbar]
 Панель кнопок
+[Custom BBCodes]
+Прочие BBCode
+[Send file]
+Отправить файл
 ;file \src\mir_app\src\srmm_util.cpp
 [Message from %s]
 Сообщение от %s

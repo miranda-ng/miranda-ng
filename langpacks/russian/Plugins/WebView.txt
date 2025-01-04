@@ -37,7 +37,7 @@
 [Italic]
 Курсив
 [Underline]
-Подчёркивание
+Подчёркнутый
 [Save individual window positions]
 Сохран. положение для каждого окна
 [Error messages]

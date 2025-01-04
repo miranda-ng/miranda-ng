@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -36,27 +36,21 @@
 Подключение
 [Error limit before logout:]
 Максимум ошибок перед выходом:
-[Captcha]
-Проверочный код
-[Cancel]
-Отмена
-[As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
-На этой учётной записи включён Steam Guard, поэтому необходимо ввести специальный код, который был выслан на ваш адрес электронной почты.
-[Go to email domain]
-Перейти в почтовый ящик
 [Block]
 Заблокировать
 [Enter password]
 Введите пароль
 [Save password]
 Сохранить пароль
+[Cancel]
+Отмена
 [Enter the password to continue.]
 Введите пароль, чтобы продолжить.
-[Security code]
-Проверочный код
-[As an added account security measure, you'll need to grant access by entering the SMS code we've just sent to your mobile phone.]
-Учётная запись защищена двухэтапной авторизацией. Необходимо дать к ней доступ, введя код, высланный на ваш мобильный телефон.
 ;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+Значок протокола
+[Gaming icon]
+Игровой значок
 [Steam game]
 Игра Steam
 ;file \protocols\Steam\src\steam_contacts.cpp
@@ -74,6 +68,11 @@
 %s удалён из вашего списка контактов
 [%s has added you to contact list]
 %s добавил(а) вас в список контактов
+;file \protocols\Steam\src\steam_login.cpp
+[Enter email confimation code]
+
+[Enter the code from your authentication device]
+
 ;file \protocols\Steam\src\steam_menus.cpp
 [Steam menu chooser]
 Выбор меню Steam
@@ -82,20 +81,14 @@
 [Join to game]
 Присоединиться к игре
 ;file \protocols\Steam\src\steam_messages.cpp
-[Unknown error]
-Неизвестная ошибка
+[Message sending has failed with error %d]
+
 ;file \protocols\Steam\src\steam_options.cpp
 [Name]
 Имя
 [Network]
 Сеть
-;file \protocols\Steam\src\steam_proto.cpp
-[Protocols]
-Протоколы
-[Protocol icon]
-Значок протокола
-[Gaming icon]
-Игровой значок
+;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 закрыл(а) окно беседы

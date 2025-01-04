@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Telegram.dll
 ;  Plugin: Telegram protocol
-;  Version: 0.11.0.1
+;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
@@ -22,8 +22,10 @@
 Выйти
 [Compress files on send]
 Сжимать файлы при отправке
-[Generate URL previews]
-
+[Include URL preview into message text]
+Показывать в сообщениях предварительный просмотр ссылок
+[Do not store channel history in the database]
+Не сохранять историю каналов в базе данных
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -115,26 +117,44 @@
 [Sessions]
 Сессии
 ;file \protocols\Telegram\src\proto.cpp
+[%s error notifications]
+Уведомления об ошибках %s
 ;file \protocols\Telegram\src\server.cpp
 [Error %d: %s]
 Ошибка %d: %s
 [General]
 Общее
+[Recording video...]
+
+[Recording video note...]
+
+[Recording voice note...]
+
+[Uploading file...]
+
+[Uploading photo...]
+
+[Uploading video...]
+
+[Uploading video note...]
+
+[Uploading voice note...]
+
 [Archive]
 Архив
 [Saved messages]
 Избранное
+[Service notification]
+
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 нет
-[%s error notifications]
-Уведомления об ошибках %s
 [Errors]
 Ошибки
 [wrote]
 писал(а)
-[Chat name was changed to]
-Название чата изменилось на
+[Chat name was changed to %s]
+Название чата изменилось на %s
 [Picture]
 Изображение
 [Audio]
@@ -143,11 +163,11 @@
 секунд
 [Video]
 Видео
+[Video note]
+Видеосообщение
 [Voice message]
 Голосовое сообщение
 [SmileyAdd plugin required to support stickers]
 Для поддержки стикеров требуется плагин SmileyAdd
 [You received an invoice]
 Вы получили счёт
-[Title]
-Заголовок

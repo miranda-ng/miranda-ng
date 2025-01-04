@@ -608,18 +608,6 @@ RTL по умолчанию
 Глобальное
 [Private]
 Индивидуальное
-[Send text formatting]
-Отправка форматирования текста
-[BBCode]
-BBCode ([b][i][u])
-[Off]
-Выключить
-[This contact]
-Этот контакт
-[Global setting]
-Глобальные настройки
-[Force off]
-Принудительно выключить
 [Set position for this session]
 Установить положение для этой сессии
 [Set and save for all sessions]
@@ -697,13 +685,13 @@ BBCode ([b][i][u])
 Меню контакта
 [Info button]
 Информация о контакте
-[Bold text]
+[Bold]
 Жирный
-[Italic text]
+[Italics]
 Курсив
-[Underlined text]
+[Underlined]
 Подчёркнутый
-[Strike-through text]
+[Strikethrough]
 Перечёркнутый
 [Send message\nClick dropdown arrow for sending options]
 Отправить сообщение\nНажмите на стрелку, чтобы увидеть дополнительные варианты отправки
@@ -715,16 +703,16 @@ BBCode ([b][i][u])
 Настройки бесед
 [View user's history]
 История сообщений
-[Select a foreground color for the text (Ctrl+K)]
-Выбрать цвет текста (Ctrl+K)
-[Select a background color for the text (Ctrl+L)]
-Выбрать фон текста (Ctrl+L)
-[Show/hide the nick list (Ctrl+N)]
-Показать/скрыть список пользователей (Ctrl+N)
-[Enable/disable the event filter (Ctrl+F)]
-Включить/выключить фильтр событий (Ctrl+F)
-[Control this room (Ctrl+O)]
-Управление комнатой чата (Ctrl+O)
+[Select text color]
+Выбрать цвет текста
+[Select background color]
+Выбрат цвет фона
+[Show/hide the nick list]
+Показать/скрыть список пользователей
+[Enable/disable the event filter]
+Включить/выключить фильтр событий
+[Control this room]
+Управление комнатой чата
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Беседы
@@ -740,15 +728,15 @@ BBCode ([b][i][u])
 [Single Messaging]
 Сообщения
 [Outgoing background]
-Исходящий фон
+Фон исходящих сообщений
 [Incoming background]
-Входящий фон
+Фон входящих сообщений
 [Status background]
 Фон статуса
 [Incoming background(old)]
-Фон входящих (старое)
+Фон входящих сообщений (старых)
 [Outgoing background(old)]
-Фон исходящих (старое)
+Фон исходящих сообщений (старых)
 [Horizontal Grid Lines]
 Горизонтальные линии сетки журнала
 [Info Panel]
@@ -915,6 +903,8 @@ BBCode ([b][i][u])
 Мигать окном, если есть подсвеченные сообщения
 [Create tabs or windows for highlight events]
 Создавать вкладку или окно при подсвеченном событии
+[Apply tab creation rules to group chats too]
+Применить к групповым чатами настройки создания вкладок бесед
 [Show list of users in the chat room]
 Показывать список пользователей в комнате чата
 [Colorize nicknames in member list (you need to adjust colors)]
@@ -1167,14 +1157,6 @@ TabSRMM: набор текста
 Очистить журнал сообщений
 [Collapse side bar]
 Свернуть боковую панель
-[Channel manager]
-Управление каналом
-[Toggle filter]
-Переключить фильтр
-[Toggle nick list]
-Вкл/выкл список участников
-[Show server window]
-Показать окно сервера
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Ожидание: %dч,%02dм
@@ -1245,9 +1227,6 @@ TabSRMM: набор текста
 Папка журнала чатов
 [Typing notification]
 Уведомление о наборе текста
-;file \plugins\TabSRMM\src\modplus.cpp
-[Insert [img] tag / surround selected text with [img][/img]]
-Вставить тэг [img] / обозначить выделенный текст [img][/img]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Добавить этот контакт в список контактов
@@ -1416,6 +1395,8 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Мигать значком в трее и списке контактов при новом сообщении
 [Delete temporary contacts on close]
 Удалять временные контакты при закрытии
+[Use Ctrl+arrows to scroll history in the input window]
+Разрешить навигацию по истории в поле ввода с помощью Ctrl+стрелок
 [Sending messages]
 Отправка сообщений
 [Minimize the message window on send]
@@ -1424,8 +1405,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Закрывать окно после отправки
 [Enable "Paste and send" feature]
 Включить функцию "вставить и отправить"
-[Allow BBCode formatting in outgoing messages]
-Разрешить BBCode для исходящих сообщений
 [Automatically split long messages (experimental, use with care)]
 Автоматически разделять длинные сообщения (экспериментально)
 [Use the same splitter height for all sessions]
@@ -1569,26 +1548,24 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 ;file \plugins\TabSRMM\src\msgs.cpp
 [Message Log options]
 Настройки бесед
-[Image tag]
-Изображение
 [Quote text]
 Цитата
 [Save and close]
 Сохранить и закрыть
 [Smiley button]
 Смайлы
-[Format bold]
-Жирный
-[Format italic]
-Курсив
-[Format underline]
-Подчёркнутый
+[Make the text bold]
+Выделить текст жирным
+[Make the text italicized]
+Выделить текст курсивом
+[Make the text underlined]
+Подчеркнуть текст
 [Font face]
 Тип шрифта
 [Font color]
 Цвет шрифта
-[Format strike-through]
-Перечёркнутый
+[Make the text strikethrough]
+Перечеркнуть текст
 [Background color]
 Цвет фона
 [Room settings]
@@ -1642,8 +1619,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Окна сообщений - IM
 [Message windows - all]
 Окна сообщений - все
-[Message windows - group chats]
-Окна сообщений - чаты
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Выберите контейнер для %s
@@ -1767,6 +1742,10 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 [Contact stopped typing]
 Контакт закончил набор текста
 ;file \plugins\TabSRMM\src\userprefs.cpp
+[BBCode]
+BBCode
+[Force off]
+Принудительно выключить
 [Set messaging options for %s]
 Настройки бесед для %s
 ;file \plugins\TabSRMM\src\utils.cpp

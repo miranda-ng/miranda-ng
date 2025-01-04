@@ -995,12 +995,14 @@ Jabber ошибка
 [Incoming note]
 Входящая заметка
 ;file \protocols\JabberG\src\jabber_omemo.cpp
-[Unknown device added]
-Добавлено неизвестное устройство
+[Unknown OMEMO device added!]
+Добавлено неизвестное устройство OMEMO
+[(My devices)]
+(Мои устройства)
+[Trust on first use for\n%d devices]
+
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 OMEMO не поддерживает шифрование приватных сообщений в публичных чатах. Продолжить без шифрования? 
-[Trust on first use]
-
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Афар
@@ -1430,6 +1432,8 @@ OMEMO не поддерживает шифрование приватных со
 Включить Stream Management (XEP-0198)
 [Disable SASL authentication (for old servers)]
 Отключить аутентификацию SASL (старые серверы)
+[Enable SASL2 authentication, if present]
+Включить аутентификацию SASL2 (если доступна)
 [Enable stream compression]
 Сжимать поток
 [Other]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewStory.dll
 ;  Plugin: NewStory
-;  Version: 0.2.0.2
+;  Version: 0.2.0.3
 ;  Authors: nullbie
 ;============================================================
 [History viewer for Miranda NG.]
@@ -42,6 +42,8 @@
 Показывать направление события
 [Show picture preview]
 Включить предпросмотр изображений
+[Maximum preview height (in pixels)]
+Предельная высота предпросмотра (в пикселях)
 [Template list:]
 Список шаблонов:
 [Edit template:]
@@ -264,6 +266,10 @@
 Отменить текущие изменения
 [Downloaded]
 Загружено
+[Delivered]
+Доставлено
+[Remote read]
+Прочтено собеседником
 [Help]
 Помощь
 ;file \plugins\NewStory\src\options.cpp
