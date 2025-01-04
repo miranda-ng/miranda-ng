@@ -464,7 +464,7 @@ static wchar_t* sortby[] =
 	LPGENW("Name (use locale settings)"), 
 	LPGENW("Status"), 
 	LPGENW("Last message time"), 
-	LPGENW("Account name"), 
+	LPGENW("Account order"), 
 	LPGENW("Rate"), 
 	LPGENW("Last online"), 
 	LPGENW("-Nothing-")
