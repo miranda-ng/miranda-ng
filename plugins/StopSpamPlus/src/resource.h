@@ -16,7 +16,6 @@
 #define ID_MAXQUESTCOUNT2               1009
 #define ID_INFTALKPROT                  1010
 #define ID_ADDPERMANENT                 1011
-#define ID_HANDLEAUTHREQ                1012
 #define ID_NOTCASESENS                  1013
 #define ID_DIVIDER                      1014
 #define IDC_VARS                        1015

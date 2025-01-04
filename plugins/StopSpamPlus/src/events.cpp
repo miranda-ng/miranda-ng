@@ -21,8 +21,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
 		if (!Contact::OnList(hContact) && !g_plugin.getByte(hContact, DB_KEY_ANSWERED) && !g_plugin.getByte(hContact, DB_KEY_HASSENT)) {
-			if (!g_plugin.bHandleAuthReq)
-				ProtoChainSend(hContact, PSS_MESSAGE, 0, ptrA(mir_utf8encodeW(variables_parse(g_plugin.getReply(), hContact).c_str())));
+			ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(variables_parse(g_plugin.getReply(), hContact).c_str()));
 
 			if (g_plugin.iAnswerTimeout)
 				g_times[hContact] = time(0);
@@ -108,9 +107,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 				else g_plugin.setByte(hContact, DB_KEY_ANSWERED, 1);
 
 				// send congratulation
-				char *buf = mir_utf8encodeW(variables_parse(g_plugin.getCongrats(), hContact).c_str());
-				ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
-				mir_free(buf);
+				ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(variables_parse(g_plugin.getCongrats(), hContact).c_str()));
 
 				// process the event
 				return 1;

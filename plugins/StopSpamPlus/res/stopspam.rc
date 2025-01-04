@@ -67,9 +67,8 @@ BEGIN
     CONTROL         "Enable StopSpam-StopSpam infinite talk protection",ID_INFTALKPROT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,124,282,10
     CONTROL         "Add contact permanently",ID_ADDPERMANENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,136,282,8
-    CONTROL         "Enable auth. requests blocking",ID_HANDLEAUTHREQ,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,148,282,8
-    CONTROL         "Answer is not case sensitive",ID_NOTCASESENS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,160,282,8
-    CONTROL         "Log Spammers to system history",ID_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,172,282,8
+    CONTROL         "Answer is not case sensitive",ID_NOTCASESENS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,148,282,8
+    CONTROL         "Log Spammers to system history",ID_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,160,282,8
 END
 
 

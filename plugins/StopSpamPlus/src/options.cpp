@@ -6,7 +6,7 @@ class COptMainDlg : public CDlgBase
 {
 	CCtrlEdit edtDescr;
 	CCtrlSpin spinCount, spinTimeout;
-	CCtrlCheck chk1, chk2, chk3, chk4, chk6;
+	CCtrlCheck chk1, chk2, chk4, chk6;
 
 public:
 	COptMainDlg() :
@@ -16,7 +16,6 @@ public:
 		spinTimeout(this, IDC_SPIN2, 60),
 		chk1(this, ID_INFTALKPROT),
 		chk2(this, ID_ADDPERMANENT),
-		chk3(this, ID_HANDLEAUTHREQ),
 		chk4(this, ID_NOTCASESENS),
 		chk6(this, ID_HISTORY_LOG)
 	{
@@ -25,7 +24,6 @@ public:
 
 		CreateLink(chk1, g_plugin.bInfTalkProtection);
 		CreateLink(chk2, g_plugin.bAddPermanent);
-		CreateLink(chk3, g_plugin.bHandleAuthReq);
 		CreateLink(chk4, g_plugin.bAnswNotCaseSens);
 		CreateLink(chk6, g_plugin.bHistLog);
 	}

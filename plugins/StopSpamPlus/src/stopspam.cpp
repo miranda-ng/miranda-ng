@@ -27,7 +27,6 @@ CMPlugin::CMPlugin() :
 	DisabledProtoList(MODULENAME, "DisabledProtoList", "MetaContacts RSSNews"),
 	bInfTalkProtection(MODULENAME, "InfTalkProtection", 1),
 	bAddPermanent(MODULENAME, "AddPermanent", 0),
-	bHandleAuthReq(MODULENAME, "HandleAuthReq", 0),
 	iMaxQuestCount(MODULENAME, "MaxQuestCount", 2),
 	iAnswerTimeout(MODULENAME, "AnswerTimeout", 5),
 	bAnswNotCaseSens(MODULENAME, "AnswNotCaseSens", 1),
