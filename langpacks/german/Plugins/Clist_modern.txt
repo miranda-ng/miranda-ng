@@ -643,8 +643,8 @@ Name
 Name (lokale Spracheinstellungen)
 [Last message time]
 Zeitpunkt der letzten Nachricht
-[Account name]
-Kontoname
+[Account order]
+Konten-Reihenfolge
 [Rate]
 Priorität
 [Last online]

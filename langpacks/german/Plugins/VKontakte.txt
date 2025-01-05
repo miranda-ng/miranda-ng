@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.16.12
+;  Version: 0.1.17.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 VKontakte-Protokoll für Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
-[Show in protocol menu ]
+[Show in protocol menu]
 Im Protokollmenü anzeigen
 [Create new chat]
 Neuen Chat erstellen
@@ -56,8 +56,6 @@ Sticker als Smileys darstellen
 Links für Audioanhänge abkürzen
 [Use non-standard popups for news and event notifications]
 Nicht-Standard-Popups für Neuigkeiten und Ereignisbenachrichtigungen verwenden
-[Add message link to messages with attachments]
-Nachrichtenlink zu Nachrichten mit Anhängen hinzufügen
 [Add original message version in edited message]
 Originalversion der Nachricht in bearbeiteten Nachrichten hinzufügen
 [News and event notifications]
@@ -176,8 +174,6 @@ Letzte Nachrichten laden wenn Nachrichtenfenster offen und lokaler Verlauf leer 
 Lokale Zeit für empfangene Nachrichten verwenden
 [Load only friends to local contact list]
 Nur Freunde in lokale Kontaktliste laden
-[Server-side delivery confirmation]
-Serverseitige Empfangsbestätigungen
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -372,8 +368,6 @@ Warnung
 Nachricht bearbeitet (aktualisiert %s):\n
 [\nOriginal message:\n]
 \nOriginalnachricht:\n
-[Message link]
-Nachrichtenlink
 [create chat]
 Chat erstellt
 [kick user]
@@ -568,6 +562,8 @@ Newsfeed- und Benachrichtigungsereignis
 Weiterleiten
 [Reload messages]
 Nachrichten neu laden
+[Go to site IM]
+Gehe zu IM auf Seite
 [Mark messages as read]
 Nachrichten als gelesen markieren
 [Send message to user's wall]

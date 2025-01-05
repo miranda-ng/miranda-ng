@@ -685,14 +685,14 @@ Aktuelle Fensterposition als Standard
 Protokoll-Schaltfläche
 [Info button]
 Info-Schaltfläche
-[Bold text]
-Fetter Text
-[Italic text]
-Kursiver Text
-[Underlined text]
-Unterstrichener Text
-[Strikethrough text]
-Durchgestrichener Text
+[Bold]
+Fett
+[Italics]
+Kursiv
+[Underlined]
+Unterstrichen
+[Strikethrough]
+Durchgestrichen
 [Send message\nClick dropdown arrow for sending options]
 Nachricht senden\nDropdown für Sendeoptionen
 [Close session]
@@ -703,16 +703,16 @@ Letzte Nachricht oder Textmarkierung zitieren
 Verlaufseinstellungen
 [View user's history]
 Verlauf anzeigen
-[Select a foreground color for the text (Ctrl+K)]
-Schriftfarbe wählen (Strg+K)
-[Select a background color for the text (Ctrl+L)]
-Schrifthintergrundfarbe wählen (Strg+L)
-[Show/hide the nick list (Ctrl+N)]
-Benutzerliste anzeigen/verstecken (Strg+N)
-[Enable/disable the event filter (Ctrl+F)]
-Ereignisfilter aktivieren/deaktivieren (Strg+F)
-[Control this room (Ctrl+O)]
-Diesen Raum kontrollieren (Strg+O)
+[Select text color]
+Textfarbe auswählen
+[Select background color]
+Hintergrundfarbe auswählen
+[Show/hide the nick list]
+Benutzerliste anzeigen/verstecken
+[Enable/disable the event filter]
+Ereignisfilter aktivieren/deaktivieren
+[Control this room]
+Diesen Raum kontrollieren
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Nachrichtensitzungen
@@ -1395,6 +1395,8 @@ Verhalten des Nachrichtenfensters
 Neue Nachrichten immer auf der Kontaktliste und im Tray blinken lassen
 [Delete temporary contacts on close]
 Temporäre Kontakte beim Schließen löschen
+[Use Ctrl+arrows to scroll history in the input window]
+Mit Strg+Pfeiltasten den Verlauf im Eingabebereich scrollen
 [Sending messages]
 Nachrichten senden
 [Minimize the message window on send]
@@ -1552,18 +1554,18 @@ Text zitieren
 Speichern und schließen
 [Smiley button]
 Smileyschaltfläche
-[Format bold]
-Fett formatieren
-[Format italic]
-Kursiv formatieren
-[Format underline]
-Unterstrichen formatieren
+[Make the text bold]
+Text fett formatieren
+[Make the text italicized]
+Text kursiv formatieren
+[Make the text underlined]
+Text unterstrichen formatieren
 [Font face]
 Schriftart
 [Font color]
 Schriftfarbe
-[Format strikethrough]
-Durchgestrichen formatieren
+[Make the text strikethrough]
+Text durchgestrichen formatieren
 [Background color]
 Hintergrundfarbe
 [Room settings]

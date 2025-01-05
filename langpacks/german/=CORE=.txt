@@ -1594,12 +1594,12 @@ Text unterstreichen
 Text durchstreichen
 [&Color]
 &Farbe
-[Select a foreground color for the text]
-Vordergrundfarbe des Textes wählen
+[Select text color]
+Textfarbe auswählen
 [&Background color]
 &Hintergrundfarbe
-[Select a background color for the text]
-Hintergrundfarbe des Textes wählen
+[Select background color]
+Hintergrundfarbe auswählen
 [&Room settings]
 &Raumeinstellungen
 [Control this room]

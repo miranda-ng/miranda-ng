@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.96.1.2
+;  Version: 0.96.1.3
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -47,19 +47,27 @@ Abbrechen
 [Enter the password to continue.]
 Passwort eingeben um fortzufahren.
 ;file \protocols\Steam\src\main.cpp
+[Protocol icon]
+Protokollicon
+[Gaming icon]
+Spiel-Icon
 [Steam game]
 Steam-Spiel
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
 Auf der Suche nach einem Spiel
+[ (Non-Steam)]
+ (nicht Steam)
+[ on server %S]
+ auf Server %S
+[Playing]
+Spielen
 [%s is back in your contact list]
 %s ist wieder in Ihrer Kontaktliste
 [%s has been removed from your contact list]
 %s wurde aus Ihrer Kontaktliste entfernt
 [%s has added you to contact list]
 %s hat Sie zu seiner Kontaktliste hinzugefügt.
-[Playing]
-Spielen
 ;file \protocols\Steam\src\steam_login.cpp
 [Enter email confimation code]
 Geben Sie den E-Mail-Bestätigungscode ein
@@ -80,13 +88,7 @@ Senden der Nachricht fehlgeschlagen mit Fehler %d
 Name
 [Network]
 Netzwerk
-;file \protocols\Steam\src\steam_proto.cpp
-[Protocols]
-Protokolle
-[Protocol icon]
-Protokollicon
-[Gaming icon]
-Spiel-Icon
+;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
 [closed chat session]
 hat das Nachrichtenfenster geschlossen

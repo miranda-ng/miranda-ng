@@ -24,16 +24,14 @@ Trennung:
 Vars
 [Enable protection for following accounts:]
 Schutz für folgende Konten aktivieren:
-[Do not send more than]
-Sende nicht mehr als
-[questions to one contact (0 - for no limit)]
-Fragen an den Kontakt (0 = Kein Limit)
+[Maximum number of questions to one contact (0 - for no limit):]
+Maximale Anzahl Fragen an einen Kontakt (0 - unbegrenzt)
+[Timeout in minutes to remove temporary contacts (0 - never)]
+Zeit in Minuten, um temporäre Kontakte zu entfernen (0 - niemals)
 [Enable StopSpam-StopSpam infinite talk protection]
 Stop Spam 'infinite talk'-Schutz aktivieren
 [Add contact permanently]
 Kontakt dauerhaft hinzufügen
-[Enable auth. requests blocking]
-Autorisierungsanfragen blockieren
 [Answer is not case sensitive]
 Groß-/Kleinschreibung der Antwort nicht beachten
 [Log Spammers to system history]
