@@ -157,7 +157,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Show in protocol menu ",IDC_STATIC,7,8,295,93
+    GROUPBOX        "Show in protocol menu",IDC_STATIC,7,8,295,93
     CONTROL         "Create new chat",IDC_SHOW_MENU0,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,19,280,10
     CONTROL         "Status message",IDC_SHOW_MENU1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,30,280,10
     CONTROL         "Send message to my wall",IDC_SHOW_MENU2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,41,280,10
