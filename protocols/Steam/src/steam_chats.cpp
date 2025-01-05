@@ -191,7 +191,7 @@ void CSteamProto::OnLeftChat(const CChatRoomLeaveChatRoomGroupResponse&, const C
 			if (!Contact::IsGroupChat(cc) || GetId(cc, DBKEY_STEAM_ID) != *pGroupId)
 				continue;
 
-			CMStringW wszId(FORMAT, L"%lld_%lld", *pGroupId, getDword(cc, "ChatId"));
+			CMStringW wszId(FORMAT, L"%lld_%lld", *pGroupId, GetId(cc, "ChatId"));
 			if (auto *si = Chat_Find(wszId, m_szModuleName))
 				Chat_Terminate(si);
 
