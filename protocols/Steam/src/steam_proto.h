@@ -29,6 +29,13 @@
 #define FriendGetRecentMessages             "FriendMessages.GetRecentMessages#1"
 #define FriendGetIncomingMessage            "FriendMessagesClient.IncomingMessage#1"
 
+#define GetMyChatRoomGroups                 "ChatRoom.GetMyChatRoomGroups#1"
+#define GetChatHistory                      "ChatRoom.GetMessageHistory#1"
+#define SendChatMessage                     "ChatRoom.SendChatMessage#1"
+#define LeaveChatGroup                      "ChatRoom.LeaveChatRoomGroup#1"
+
+#define NotifyIncomingChatMessage           "ChatRoomClient.NotifyIncomingChatMessage#1"
+
 #define NotificationReceived                "SteamNotificationClient.NotificationsReceived#1"
 
 struct SendAuthParam
@@ -82,7 +89,6 @@ struct COwnMessage
 
 	int iMessageId, timestamp = 0;
 	MCONTACT hContact;
-	uint64_t iSourceId = -1;
 };
 
 class CSteamProto : public PROTO<CSteamProto>
@@ -137,6 +143,12 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	// connection
 	WebSocket<CSteamProto> *m_ws;
+	
+	mir_cs m_csRequestLock;
+	std::map<uint64_t, void *> m_requestInfo;
+
+	void SetRequestInfo(uint64_t, void *);
+	void* GetRequestInfo(uint64_t);
 
 	void __cdecl ServerThread(void *);
 	bool ServerThreadStub(const char *szHost);
@@ -147,8 +159,9 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void WSSend(EMsg msgType, const ProtobufCppMessage &msg);
 	void WSSendRaw(EMsg msgType, const MBinBuffer &buf);
+	void WSSendAnon(const char *pszServiceName, const ProtobufCppMessage &msg);
 	void WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg);
-	int64_t WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon = false);
+	void WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, void *pInfo = nullptr);
 
 	// requests
 	bool SendRequest(HttpRequest *request);
@@ -193,6 +206,24 @@ class CSteamProto : public PROTO<CSteamProto>
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+
+	// chats
+	void SendGetChatsRequest();
+	void OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &pResponse, const CMsgProtoBufHeader &hdr);
+
+	void SendGetChatHistory(MCONTACT hContact, uint32_t iLastMsgId);
+	void OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &reply, const CMsgProtoBufHeader &hdr);
+
+	void OnGetChatMessage(const CChatRoomIncomingChatMessageNotification &reply, const CMsgProtoBufHeader &hdr);
+	void OnLeftChat(const CChatRoomLeaveChatRoomGroupResponse &reply, const CMsgProtoBufHeader &hdr);
+
+	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
+
+	int __cdecl GcMenuHook(WPARAM, LPARAM);
+	int __cdecl GcEventHook(WPARAM, LPARAM);
+
+	void Chat_LogMenu(GCHOOK *gch);
+	void Chat_SendPrivateMessage(GCHOOK *gch);
 
 	// contacts
 	void SetAllContactStatuses(int status);
@@ -262,7 +293,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	mir_cs m_csOwnMessages;
 	OBJLIST<COwnMessage> m_arOwnMessages;
 
-	int64_t SendFriendMessage(EChatEntryType, int64_t steamId, const char *pszMessage);
+	void SendFriendMessage(EChatEntryType, int64_t steamId, const char *pszMessage, void *pInfo = nullptr);
 	void OnGotIncomingMessage(const CFriendMessagesIncomingMessageNotification &reply, const CMsgProtoBufHeader &hdr);
 	void OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);

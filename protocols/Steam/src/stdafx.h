@@ -13,6 +13,7 @@
 #include <algorithm>
 
 #include <newpluginapi.h>
+#include <m_chat_int.h>
 #include <m_contacts.h>
 #include <m_database.h>
 #include <m_langpack.h>

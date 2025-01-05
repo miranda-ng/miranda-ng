@@ -79,6 +79,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\steam_avatars.cpp" />
+    <ClCompile Include="src\steam_chats.cpp" />
     <ClCompile Include="src\steam_contacts.cpp" />
     <ClCompile Include="src\steam_crypt.cpp" />
     <ClCompile Include="src\steam_dialogs.cpp" />

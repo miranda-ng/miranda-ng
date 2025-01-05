@@ -46,13 +46,17 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
-	debugLogA(__FUNCTION__":Setting protocol / module name to '%s'", m_szModuleName);
+	// groupchat initialization
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF | GC_DATABASE;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
 
-	if (uint32_t iGlobalValue = getDword(DBKEY_LASTMSG)) {
-		for (auto &cc : AccContacts())
-			setDword(cc, DBKEY_LASTMSG, iGlobalValue);
-		delSetting(DBKEY_LASTMSG);
-	}
+	CreateProtoService(PS_LEAVECHAT, &CSteamProto::SvcLeaveChat);
+
+	HookProtoEvent(ME_GC_EVENT, &CSteamProto::GcEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CSteamProto::GcMenuHook);
 }
 
 CSteamProto::~CSteamProto()
@@ -194,7 +198,7 @@ int CSteamProto::SendMsg(MCONTACT hContact, MEVENT, const char *message)
 		m_arOwnMessages.insert(pOwn);
 	}
 
-	pOwn->iSourceId = SendFriendMessage(EChatEntryType::ChatMsg, GetId(hContact, DBKEY_STEAM_ID), message);
+	SendFriendMessage(EChatEntryType::ChatMsg, GetId(hContact, DBKEY_STEAM_ID), message, pOwn);
 	return hMessage;
 }
 

@@ -73,9 +73,8 @@ void CSteamProto::SendDeviceListRequest()
 	WSSendService(GetOwnAuthorizedDevices, request);
 }
 
-void CSteamProto::OnGotDeviceList(const CDeviceAuthGetOwnAuthorizedDevicesResponse &pResponse, const CMsgProtoBufHeader &hdr)
+void CSteamProto::OnGotDeviceList(const CDeviceAuthGetOwnAuthorizedDevicesResponse &, const CMsgProtoBufHeader &)
 {
-
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -288,16 +288,47 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 	m_ws->sendBinary(hdrbuf.data(), hdrbuf.length());
 }
 
-int64_t CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, bool bAnon)
+void CSteamProto::WSSendAnon(const char *pszServiceName, const ProtobufCppMessage &msg)
 {
 	CMsgProtoBufHeader hdr;
 	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
-	if (!bAnon)
-		hdr.steamid = m_iSteamId, hdr.client_sessionid = m_iSessionId;
 	hdr.jobid_source = getRandomInt();
 	hdr.jobid_target = -1;
 	hdr.target_job_name = (char *)pszServiceName;
-	WSSendHeader(bAnon ? EMsg::ServiceMethodCallFromClientNonAuthed : EMsg::ServiceMethodCallFromClient, hdr, msg);
+	WSSendHeader(EMsg::ServiceMethodCallFromClientNonAuthed, hdr, msg);
+}
 
-	return hdr.jobid_source;
+void CSteamProto::WSSendService(const char *pszServiceName, const ProtobufCppMessage &msg, void *pInfo)
+{
+	CMsgProtoBufHeader hdr;
+	hdr.has_client_sessionid = hdr.has_steamid = hdr.has_jobid_source = hdr.has_jobid_target = true;
+	hdr.steamid = m_iSteamId, hdr.client_sessionid = m_iSessionId;
+	hdr.jobid_source = getRandomInt();
+	hdr.jobid_target = -1;
+	hdr.target_job_name = (char *)pszServiceName;
+
+	if (pInfo)
+		SetRequestInfo(hdr.jobid_source, pInfo);
+
+	WSSendHeader(EMsg::ServiceMethodCallFromClient, hdr, msg);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSteamProto::SetRequestInfo(uint64_t requestId, void *pInfo)
+{
+	mir_cslock lck(m_csRequestLock);
+	m_requestInfo[requestId] = pInfo;
+}
+
+void* CSteamProto::GetRequestInfo(uint64_t requestId)
+{
+	mir_cslock lck(m_csRequestLock);
+	auto it = m_requestInfo.find(requestId);
+	if (it == m_requestInfo.end())
+		return nullptr;
+
+	void *pRet = it->second;
+	m_requestInfo.erase(it);
+	return pRet;
 }

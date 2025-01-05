@@ -111,6 +111,9 @@
     <ClCompile Include="src\protobuf-c\steammessages_deviceauth.steamclient.pb-c.cpp">
       <Filter>Source Files\protobuf</Filter>
     </ClCompile>
+    <ClCompile Include="src\steam_chats.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">

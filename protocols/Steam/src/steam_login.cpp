@@ -57,7 +57,7 @@ void CSteamProto::Login()
 
 	CAuthenticationGetPasswordRSAPublicKeyRequest request;
 	request.account_name = username.get();
-	WSSendService(GetPasswordRSAPublicKey, request, true);
+	WSSendAnon(GetPasswordRSAPublicKey, request);
 }
 
 void CSteamProto::OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyResponse &reply, const CMsgProtoBufHeader &hdr)
@@ -98,7 +98,7 @@ void CSteamProto::OnGotRsaKey(const CAuthenticationGetPasswordRSAPublicKeyRespon
 	request.platform_type = details.platform_type; request.has_platform_type = true;
 	request.guard_data = machineId;
 
-	WSSendService(BeginAuthSessionViaCredentials, request, true);
+	WSSendAnon(BeginAuthSessionViaCredentials, request);
 }
 
 void CSteamProto::OnBeginSession(const CAuthenticationBeginAuthSessionViaCredentialsResponse &reply, const CMsgProtoBufHeader &hdr)
@@ -191,7 +191,7 @@ void CSteamProto::SendConfirmationCode(bool isEmail, const char *pszCode)
 		request.code_type = EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_DeviceCode;
 	request.has_code_type = true;
 	request.code = (char*)pszCode;
-	WSSendService(UpdateAuthSessionWithSteamGuardCode, request, true);
+	WSSendAnon(UpdateAuthSessionWithSteamGuardCode, request);
 }
 
 void CSteamProto::OnGotConfirmationCode(const CAuthenticationUpdateAuthSessionWithSteamGuardCodeResponse &, const CMsgProtoBufHeader &hdr)
@@ -209,7 +209,7 @@ void CSteamProto::SendPollRequest()
 	CAuthenticationPollAuthSessionStatusRequest request;
 	request.client_id = GetId(DBKEY_CLIENT_ID); request.has_client_id = true;
 	request.request_id.data = m_requestId.data(); request.request_id.len = m_requestId.length(); request.has_request_id = true;
-	WSSendService(PollAuthSessionStatus, request, true);
+	WSSendAnon(PollAuthSessionStatus, request);
 }
 
 void CSteamProto::OnPollSession(const CAuthenticationPollAuthSessionStatusResponse &reply, const CMsgProtoBufHeader &)
@@ -262,7 +262,7 @@ void CSteamProto::OnClientLogon(const CMsgClientLogonResponse &reply, const CMsg
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 
 	SendPersonaStatus(m_iStatus);
-	SendDeviceListRequest();
+	SendGetChatsRequest();
 
 	WSSend(EMsg::ClientChatGetFriendMessageHistoryForOfflineMessages, NoResponse());
 }

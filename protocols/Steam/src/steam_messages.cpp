@@ -1,42 +1,32 @@
 #include "stdafx.h"
 
-int64_t CSteamProto::SendFriendMessage(EChatEntryType entry_type, int64_t steamId, const char *pszMessage)
+void CSteamProto::SendFriendMessage(EChatEntryType entry_type, int64_t steamId, const char *pszMessage, void *pInfo)
 {
 	CFriendMessagesSendMessageRequest request;
 	request.chat_entry_type = (int)entry_type; request.has_chat_entry_type = true;
 	request.contains_bbcode = request.has_contains_bbcode = true;
 	request.steamid = steamId; request.has_steamid = true;
 	request.message = (char *)pszMessage;
-	return WSSendService(FriendSendMessage, request);
+	WSSendService(FriendSendMessage, request, pInfo);
 }
 
 void CSteamProto::OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr)
 {
-	COwnMessage tmp(0, 0);
-	{
-		mir_cslock lck(m_csOwnMessages);
-		for (auto &it : m_arOwnMessages)
-			if (it->iSourceId == hdr.jobid_target) {
-				tmp = *it;
-				m_arOwnMessages.remove(m_arOwnMessages.indexOf(&it));
-				break;
-			}
-	}
-
-	if (!tmp.hContact)
+	auto *pOwn = (COwnMessage*)GetRequestInfo(hdr.jobid_target);
+	if (pOwn == nullptr)
 		return;
 
 	if (hdr.failed()) {
 		CMStringW wszMessage(FORMAT, TranslateT("Message sending has failed with error %d"), hdr.eresult);
-		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tmp.iMessageId, (LPARAM)wszMessage.c_str());
+		ProtoBroadcastAck(pOwn->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)pOwn->iMessageId, (LPARAM)wszMessage.c_str());
 	}
 	else {
 		uint32_t timestamp = (reply.has_server_timestamp) ? reply.server_timestamp : 0;
-		if (timestamp > getDword(tmp.hContact, DBKEY_LASTMSG))
-			setDword(tmp.hContact, DBKEY_LASTMSG, timestamp);
+		if (timestamp > getDword(pOwn->hContact, DBKEY_LASTMSG))
+			setDword(pOwn->hContact, DBKEY_LASTMSG, timestamp);
 
-		tmp.timestamp = timestamp;
-		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.iMessageId, 0);
+		pOwn->timestamp = timestamp;
+		ProtoBroadcastAck(pOwn->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pOwn->iMessageId, 0);
 	}
 }
 
