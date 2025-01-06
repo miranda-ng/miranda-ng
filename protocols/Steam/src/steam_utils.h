@@ -1,8 +1,8 @@
 #ifndef _STEAM_UTILS_H_
 #define _STEAM_UTILS_H_
 
-int SteamToMirandaStatus(PersonaState state);
-PersonaState MirandaToSteamState(int status);
+int SteamToMirandaStatus(uint32_t state);
+uint32_t MirandaToSteamState(int status);
 
 void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);

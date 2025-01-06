@@ -131,9 +131,6 @@
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\api\enums.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
     <ClInclude Include="src\api\captcha.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
@@ -198,6 +195,9 @@
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
     <ClInclude Include="src\protobuf-c\steammessages_deviceauth.steamclient.pb-c.h">
+      <Filter>Source Files\protobuf</Filter>
+    </ClInclude>
+    <ClInclude Include="src\api\enums.h">
       <Filter>Source Files\protobuf</Filter>
     </ClInclude>
   </ItemGroup>

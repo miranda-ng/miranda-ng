@@ -124,36 +124,35 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 		int oldStatus = Contact::GetStatus(hContact);
 		// so, set status only if contact is offline
 		if (oldStatus == ID_STATUS_OFFLINE) {
-			uint16_t status = SteamToMirandaStatus(PersonaState(F->persona_state));
+			uint16_t status = SteamToMirandaStatus(F->persona_state);
 			SetContactStatus(hContact, status);
 		}
 
 		// client
-		PersonaStateFlag stateflags = (F->has_persona_state_flags) ? (PersonaStateFlag)(F->persona_state_flags) : (PersonaStateFlag)(-1);
-
+		uint32_t stateflags = (F->has_persona_state_flags) ? F->persona_state_flags : -1;
 		if (stateflags == PersonaStateFlag::None) {
 			// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
 			uint16_t status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 			if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT)
 				setWString(hContact, "MirVer", L"Steam");
 		}
-		else if (contains_flag(stateflags, PersonaStateFlag::InJoinableGame)) {
+		else if (stateflags & PersonaStateFlag::InJoinableGame) {
 			// game
 			setWString(hContact, "MirVer", L"Steam (in game)");
 		}
-		else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeWeb)) {
+		else if (stateflags & PersonaStateFlag::ClientTypeWeb) {
 			// on website
 			setWString(hContact, "MirVer", L"Steam (website)");
 		}
-		else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeMobile)) {
+		else if (stateflags & PersonaStateFlag::ClientTypeMobile) {
 			// on mobile
 			setWString(hContact, "MirVer", L"Steam (mobile)");
 		}
-		else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeBigPicture)) {
+		else if (stateflags & PersonaStateFlag::ClientTypeBigPicture) {
 			// on big picture
 			setWString(hContact, "MirVer", L"Steam (Big Picture)");
 		}
-		else if (contains_flag(stateflags, PersonaStateFlag::ClientTypeVR)) {
+		else if (stateflags & PersonaStateFlag::ClientTypeVR) {
 			// on VR
 			setWString(hContact, "MirVer", L"Steam (VR)");
 		}
@@ -326,7 +325,7 @@ MCONTACT CSteamProto::AddContact(int64_t steamId, const wchar_t *nick, bool isTe
 	return hContact;
 }
 
-void CSteamProto::UpdateContactRelationship(MCONTACT hContact, FriendRelationship iRelationType)
+void CSteamProto::UpdateContactRelationship(MCONTACT hContact, uint32_t iRelationType)
 {
 	switch (iRelationType) {
 	case FriendRelationship::Friend:
@@ -351,10 +350,10 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 		return;
 	}
 
-	std::map<uint64_t, FriendRelationship> friendsMap;
+	std::map<uint64_t, uint32_t> friendsMap;
 	for (int i = 0; i < reply.n_friends; i++) {
 		auto *F = reply.friends[i];
-		friendsMap[F->ulfriendid] = FriendRelationship(F->efriendrelationship);
+		friendsMap[F->ulfriendid] = F->efriendrelationship;
 	}
 
 	// Comma-separated list of steam ids to update summaries

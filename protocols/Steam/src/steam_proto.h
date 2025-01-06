@@ -238,7 +238,7 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
-	void UpdateContactRelationship(MCONTACT hContact, FriendRelationship);
+	void UpdateContactRelationship(MCONTACT hContact, uint32_t);
 
 	void ContactIsRemoved(MCONTACT hContact);
 	void ContactIsFriend(MCONTACT hContact);

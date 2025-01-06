@@ -88,7 +88,7 @@ void CSteamProto::SetId(const char *pszSetting, int64_t id)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Statuses
 
-int SteamToMirandaStatus(PersonaState state)
+int SteamToMirandaStatus(uint32_t state)
 {
 	switch (state) {
 	case PersonaState::Offline:
@@ -111,7 +111,7 @@ int SteamToMirandaStatus(PersonaState state)
 	}
 }
 
-PersonaState MirandaToSteamState(int status)
+uint32_t MirandaToSteamState(int status)
 {
 	switch (status) {
 	case ID_STATUS_OFFLINE:
