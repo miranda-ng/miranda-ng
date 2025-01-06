@@ -197,6 +197,8 @@ void CSteamProto::OnLeftChat(const CChatRoomLeaveChatRoomGroupResponse&, const C
 
 			db_delete_contact(cc);
 		}
+
+		delete pGroupId;
 	}
 }
 

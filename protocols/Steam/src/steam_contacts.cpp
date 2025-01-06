@@ -363,6 +363,9 @@ void CSteamProto::OnGotFriendList(const CMsgClientFriendsList &reply, const CMsg
 
 	// Check and update contacts in database
 	for (auto &hContact : AccContacts()) {
+		if (Contact::IsGroupChat(hContact))
+			continue;
+
 		int64_t steamId(GetId(hContact, DBKEY_STEAM_ID));
 		if (!steamId)
 			continue;
