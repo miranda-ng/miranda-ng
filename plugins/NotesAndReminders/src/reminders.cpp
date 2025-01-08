@@ -1135,9 +1135,9 @@ public:
 			PopulateTimeOffsetCombo();
 
 			cmbRemindAgainIn.SetCurSel(0);
-			chkAfter.SetState(true);
 			chkOnDate.SetState(false);
 		}
+		chkAfter.SetState(true);
 
 		edtText.SendMsg(EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
 
