@@ -91,8 +91,10 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 
 	int64_t msgId = (evt->dbei->szId) ? _atoi64(evt->dbei->szId) : -1;
 	for (auto &it : m_OutMessages)
-		if (it->hClientMessageId == msgId)
+		if (it->hClientMessageId == msgId) {
+			evt->dbei->bMsec = true;
 			evt->dbei->iTimestamp = it->iTimestamp;
+		}
 
 	char *message = (char*)evt->dbei->pBlob;
 	if (strncmp(message, "/me ", 4) == 0) {
