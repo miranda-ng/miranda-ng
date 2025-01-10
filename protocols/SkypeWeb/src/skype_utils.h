@@ -35,6 +35,9 @@ CMStringW UrlToSkypeId(const wchar_t *url, int *pUserType = nullptr);
 
 int getMoodIndex(const char *pszMood);
 
+int64_t getRandomId();
+CMStringA getMessageId(const JSONNode &node);
+
 class EventHandle
 {
 	HANDLE _hEvent;

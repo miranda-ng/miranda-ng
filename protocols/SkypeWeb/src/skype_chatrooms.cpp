@@ -340,8 +340,8 @@ void CSkypeProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CSkypeProto::OnMessageSent);
 
 	JSONNode node;
-	node << CHAR_PARAM("clientmessageid", CMStringA(::FORMAT, "%llu000", (ULONGLONG)time(0)))
-		<< CHAR_PARAM("messagetype", bRich ? "RichText" : "Text") << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", szMessage);
+	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text")
+		<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", szMessage);
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		node << INT_PARAM("skypeemoteoffset", 4);
 	pReq->m_szParam = node.write().c_str();

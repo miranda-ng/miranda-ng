@@ -18,6 +18,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #ifndef _SKYPE_PROTO_H_
 #define _SKYPE_PROTO_H_
 
+struct COwnMessage
+{
+	COwnMessage(int _1, int64_t _2) :
+		hMessage(_1),
+		hClientMessageId(_2)
+	{}
+
+	int hMessage;
+	int64_t hClientMessageId;
+};
+
 struct CSkypeTransfer
 {
 	CMStringA docId, fileName, fileType, url;
@@ -75,6 +86,7 @@ public:
 	void     OnBuildProtoMenu(void) override;
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
+	// void  OnEventEdited(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO &dbei) override;
 	void     OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
@@ -118,7 +130,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// other data
 
-	int m_iPollingId;
+	int m_iPollingId, m_iMessageId = 1;
 	ptrA m_szApiToken, m_szToken, m_szId, m_szOwnSkypeId;
 	CMStringA m_szSkypename, m_szMyname;
 	MCONTACT m_hMyContact;
@@ -177,7 +189,7 @@ private:
 	static std::map<std::wstring, std::wstring> languages;
 
 	LIST<void> m_PopupClasses;
-	LIST<void> m_OutMessages;
+	OBJLIST<COwnMessage> m_OutMessages;
 
 	// locks
 	mir_cs m_lckOutMessagesList;

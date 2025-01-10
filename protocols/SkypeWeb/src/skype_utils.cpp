@@ -661,6 +661,23 @@ bool CSkypeProto::IsFileExists(std::wstring path)
 	return _waccess(path.c_str(), 0) == 0;
 }
 
+int64_t getRandomId()
+{
+	int64_t ret;
+	Utils_GetRandom(&ret, sizeof(ret));
+	if (ret < 0)
+		ret = -ret;
+	return ret;
+}
+
+CMStringA getMessageId(const JSONNode &node)
+{
+	CMStringA ret(node["skypeeditedid"].as_mstring());
+	if (ret.IsEmpty())
+		ret = node["clientmessageid"].as_mstring();
+	return ret;
+}
+
 const char* GetSkypeNick(const char *szSkypeId)
 {
 	if (auto *p = strchr(szSkypeId, ':'))

@@ -26,7 +26,7 @@ struct SendTypingRequest : public AsyncHttpRequest
 		const char *state = (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping";
 
 		JSONNode node;
-		node << INT_PARAM("clientmessageid", (long)time(NULL)) << CHAR_PARAM("messagetype", state)
+		node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("messagetype", state)
 			<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", "");
 		m_szParam = node.write().c_str();
 	}

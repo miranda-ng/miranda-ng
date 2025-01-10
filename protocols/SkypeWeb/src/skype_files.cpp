@@ -256,15 +256,10 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	tinyxml2::XMLPrinter printer(0, true);
 	doc.Print(&printer);
 
-	uint32_t hMessage;
-	Utils_GetRandom(&hMessage, sizeof(hMessage));
-	hMessage &= ~0x80000000;
-
 	// create a new file transfer event using previously filled slot
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent);
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT);
 	pReq->m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(getId(fup->hContact)).c_str());
 	pReq->hContact = fup->hContact;
-	pReq->pUserInfo = (HANDLE)hMessage;
 
 	JSONNode ref(JSON_ARRAY); ref.set_name("amsreferences"); ref << CHAR_PARAM("", fup->uid);
 
@@ -274,7 +269,7 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	else
 		node << CHAR_PARAM("messagetype", "RichText/Media_GenericFile");
 
-	node << INT64_PARAM("clientmessageid", time(0)) << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", printer.CStr()) << ref;
+	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", printer.CStr()) << ref;
 	pReq->m_szParam = node.write().c_str();
 
 	PushRequest(pReq);

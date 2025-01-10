@@ -43,25 +43,24 @@ void CSkypeProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 }
 
 // outcoming message flow
+
 int CSkypeProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMessage)
 {
 	if (!IsOnline())
 		return -1;
 
-	uint32_t hMessage;
-	Utils_GetRandom(&hMessage, sizeof(hMessage));
-	hMessage &= ~0x80000000;
-
 	CMStringA str(szMessage);
 	bool bRich = AddBbcodes(str);
+	int64_t iRandomId = getRandomId();
+	m_iMessageId++;
 
 	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages";
 	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CSkypeProto::OnMessageSent);
 	pReq->hContact = hContact;
-	pReq->pUserInfo = (HANDLE)hMessage;
+	pReq->pUserInfo = (HANDLE)m_iMessageId;
 
 	JSONNode node;
-	node << INT64_PARAM("clientmessageid", hMessage) << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text") << CHAR_PARAM("contenttype", "text");
+	node << INT64_PARAM("clientmessageid", iRandomId) << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text") << CHAR_PARAM("contenttype", "text");
 	if (strncmp(str, "/me ", 4) == 0)
 		node << CHAR_PARAM("content", m_szSkypename + " " + str);
 	else
@@ -71,8 +70,8 @@ int CSkypeProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMessage)
 	PushRequest(pReq);
 
 	mir_cslock lck(m_lckOutMessagesList);
-	m_OutMessages.insert((void*)hMessage);
-	return hMessage;
+	m_OutMessages.insert(new COwnMessage(m_iMessageId, iRandomId));
+	return m_iMessageId;
 }
 
 // preparing message/action to be written into db
@@ -120,15 +119,15 @@ LBL_Deleted:
 	}
 
 	if (strMessageType == "Text" || strMessageType == "RichText") {
-		std::string szOwnMessageId = node["clientmessageid"].as_string();
-		if ((dbei.flags & DBEF_SENT) && !szOwnMessageId.empty()) {
-			HANDLE hMessage = (HANDLE)atoi(szOwnMessageId.c_str());
-			if (m_OutMessages.getIndex(hMessage) != -1) {
-				ProtoBroadcastAck(dbei.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, hMessage, (LPARAM)dbei.szId);
+		if ((dbei.flags & DBEF_SENT) && dbei.szId) {
+			for (auto &it: m_OutMessages) {
+				if (it->hClientMessageId == _atoi64(dbei.szId)) {
+					ProtoBroadcastAck(dbei.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->hMessage, (LPARAM)dbei.szId);
 
-				mir_cslock lck(m_lckOutMessagesList);
-				m_OutMessages.remove(hMessage);
-				return false;
+					mir_cslock lck(m_lckOutMessagesList);
+					m_OutMessages.removeItem(&it);
+					return false;
+				}
 			}
 		}
 
@@ -163,7 +162,8 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	int iUserType;
 	UrlToSkypeId(node["conversationLink"].as_string().c_str(), &iUserType);
 
-	CMStringA szMessageId = node["id"].as_mstring();
+	CMStringA szId = node["id"].as_mstring();
+	CMStringA szMessageId(getMessageId(node));
 	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
 	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_mstring()));
 
@@ -174,7 +174,7 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	MCONTACT hContact = AddContact(szConversationName, nullptr, true);
 
 	if (m_bHistorySynced) {
-		int64_t lastMsgId = _atoi64(szMessageId);
+		int64_t lastMsgId = _atoi64(szId);
 		if (lastMsgId > getLastTime(hContact))
 			setLastTime(hContact, lastMsgId);
 	}

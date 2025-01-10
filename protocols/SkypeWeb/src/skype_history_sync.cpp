@@ -42,14 +42,15 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 	auto &conv = root["messages"];
 	for (auto it = conv.rbegin(); it != conv.rend(); ++it) {
 		auto &message = *it;
-		CMStringA szMessageId = message["id"].as_mstring();
-		int64_t id = _atoi64(szMessageId);
+		CMStringA szId = message["id"].as_mstring();
+		int64_t id = _atoi64(szId);
 		if (id > lastMsgTime) {
 			bSetLastTime = true;
 			lastMsgTime = id;
 		}
 
 		int iUserType;
+		CMStringA szMessageId(getMessageId(message));
 		CMStringA szChatId = UrlToSkypeId(message["conversationLink"].as_mstring(), &iUserType);
 		CMStringA szFrom = UrlToSkypeId(message["from"].as_mstring());
 
