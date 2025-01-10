@@ -298,13 +298,13 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 
 	bool bAlertable = dbei.isAlertable();
 	bool bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
-	bool bDisableNotify = (bAlertable && (dbei.flags & DBEF_READ));
+	bool bDisableNotify = (bAlertable && dbei.bRead);
 
 	if (!DbEventIsShown(dbei))
 		return;
 
-	if (bAlertable && !(dbei.flags & DBEF_SENT)) {
-		m_lastMessage = dbei.timestamp;
+	if (bAlertable && !dbei.bSent) {
+		m_lastMessage = dbei.getUnixtime();
 		m_wszStatusBar[0] = 0;
 		if (m_bShowTyping) {
 			m_nTypeSecs = 0;
@@ -318,7 +318,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 
 	// set the message log divider to mark new (maybe unseen) messages, if the container has
 	// been minimized or in the background.
-	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
+	if (!dbei.bSent && !bIsStatusChangeEvent) {
 		if (g_plugin.bDividersUsePopupConfig && g_plugin.bUseDividers) {
 			if (!MessageWindowOpened(m_hContact, nullptr))
 				DM_AddDivider();
@@ -342,7 +342,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 
 	// handle tab flashing
 	if (!bDisableNotify && !bIsStatusChangeEvent)
-		if ((TabCtrl_GetCurSel(m_hwndParent) != m_iTabID) && !(dbei.flags & DBEF_SENT)) {
+		if ((TabCtrl_GetCurSel(m_hwndParent) != m_iTabID) && !dbei.bSent) {
 			switch (dbei.eventType) {
 			case EVENTTYPE_MESSAGE:
 				m_iFlashIcon = PluginConfig.g_IconMsgEvent;
@@ -364,7 +364,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 
 	// autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
 	// never switch for status changes...
-	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
+	if (!dbei.bSent && !bIsStatusChangeEvent) {
 		if (g_plugin.bAutoSwitchTabs && m_pContainer->m_hwndActive != m_hwnd) {
 			if ((IsIconic(m_pContainer->m_hwnd) && !IsZoomed(m_pContainer->m_hwnd)) || (g_plugin.bHideOnClose && !IsWindowVisible(m_pContainer->m_hwnd))) {
 				int iItem = GetTabIndexFromHWND(GetParent(m_hwnd), m_hwnd);
@@ -381,7 +381,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 
 	// flash window if it is not focused
 	if (!bDisableNotify && !bIsStatusChangeEvent)
-		if (!IsActive() && !(dbei.flags & DBEF_SENT)) {
+		if (!IsActive() && !dbei.bSent) {
 			if (!m_pContainer->cfg.flags.m_bNoFlash && !m_pContainer->IsActive())
 				m_pContainer->FlashContainer(1, 0);
 			m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
@@ -389,7 +389,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 		}
 
 	// play a sound
-	if (!bDisableNotify && bAlertable && !(dbei.flags & DBEF_SENT))
+	if (!bDisableNotify && bAlertable && !dbei.bSent)
 		PlayIncomingSound();
 
 	if (m_pWnd)
@@ -435,16 +435,16 @@ bool CMsgDialog::GetFirstEvent()
 
 	case LOADHISTORY_TIME:
 		if (m_hDbEventFirst == 0)
-			dbei.timestamp = time(0);
+			dbei.iTimestamp = time(0);
 		else
 			db_event_get(m_hDbEventFirst, &dbei);
 
-		uint32_t firstTime = dbei.timestamp - 60 * g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+		uint32_t firstTime = dbei.getUnixtime() - 60 * g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 
 		while (MEVENT hPrevEvent = pCursor.FetchNext()) {
 			dbei.cbBlob = 0;
 			db_event_get(hPrevEvent, &dbei);
-			if (dbei.timestamp < firstTime)
+			if (dbei.getUnixtime() < firstTime)
 				break;
 			m_hDbEventFirst = hPrevEvent;
 		}
@@ -493,7 +493,7 @@ int CMsgDialog::FindRTLLocale()
 void CMsgDialog::FlashOnClist(MEVENT hEvent, const DB::EventInfo &dbei)
 {
 	m_dwTickLastEvent = GetTickCount();
-	bool bSent = dbei.flags & DBEF_SENT;
+	bool bSent = dbei.bSent;
 
 	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !bSent) {
 		m_dwUnread++;

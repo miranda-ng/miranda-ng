@@ -596,7 +596,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						dbei.szModule = Proto_GetBaseAccountName(dat->hContact);
 						dbei.eventType = EVENTTYPE_FILE;
 						dbei.flags = DBEF_SENT | DBEF_UTF;
-						dbei.timestamp = time(0);
+						dbei.iTimestamp = time(0);
 
 						DB::FILE_BLOB blob(dat->szFilenames, dat->szMsg);
 						if (auto *pa = Proto_GetAccount(ack->szModule))

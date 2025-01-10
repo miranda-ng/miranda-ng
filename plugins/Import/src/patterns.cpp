@@ -564,8 +564,8 @@ public:
 		dbei->flags = DBEF_READ | DBEF_UTF;
 		if (pMsg[0x1A] != 0)
 			dbei->flags |= DBEF_SENT;
-		dbei->timestamp = RLInteger(&pMsg[0x12]);
-		dbei->timestamp -= TimeZone_ToLocal(dbei->timestamp) - dbei->timestamp; // deduct time zone offset from timestamp
+		dbei->iTimestamp = RLInteger(&pMsg[0x12]);
+		dbei->iTimestamp -= TimeZone_ToLocal(dbei->getUnixtime()) - dbei->getUnixtime(); // deduct time zone offset from timestamp
 		dbei->cbBlob = RLWord(&pMsg[m_iMsgHeaderSize - 2]);
 		dbei->pBlob = (char *)mir_alloc(dbei->cbBlob + 1);
 		memcpy(dbei->pBlob, pMsg + m_iMsgHeaderSize, dbei->cbBlob);
@@ -631,7 +631,7 @@ public:
 			st.tm_hour = str2int(substrings[pPattern->iHours]);
 			st.tm_min = str2int(substrings[pPattern->iMinutes]);
 			st.tm_sec = (pPattern->iSeconds) ? str2int(substrings[pPattern->iSeconds]) : 0;
-			dbei->timestamp = mktime(&st);
+			dbei->iTimestamp = mktime(&st);
 
 			if (pPattern->iDirection)
 				if (pPattern->wszOutgoing == substrings[pPattern->iDirection])

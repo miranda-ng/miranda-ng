@@ -37,7 +37,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 		strncpy_s(description, filename, _TRUNCATE);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	ProtoChainRecvFile(hContact, DB::FILE_BLOB(ft, filename, description), dbei);
 }
 

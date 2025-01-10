@@ -212,7 +212,7 @@ public:
 			dbei->eventType = hdr.eventType;
 			cbLen = hdr.cbBlob;
 			dbei->flags = hdr.flags;
-			dbei->timestamp = hdr.timestamp;
+			dbei->iTimestamp = hdr.timestamp;
 		}
 		else if (dwSize == sizeof(MC_MsgHeader64)) {
 			MC_MsgHeader64 hdr;
@@ -223,7 +223,7 @@ public:
 			dbei->eventType = hdr.eventType;
 			cbLen = hdr.cbBlob;
 			dbei->flags = hdr.flags;
-			dbei->timestamp = hdr.timestamp;
+			dbei->iTimestamp = hdr.timestamp;
 		}
 		else return 1;
 

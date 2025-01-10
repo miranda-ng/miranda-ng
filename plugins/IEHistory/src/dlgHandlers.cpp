@@ -131,7 +131,7 @@ void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, uint8_t *blob
 	fillData->szNick.a = "<nick here>";
 	fillData->bIsMe = (dbInfo.flags & DBEF_SENT);
 	fillData->dwFlags = (dbInfo.flags & DBEF_SENT) ? IEEDF_SENT : 0;
-	fillData->time = dbInfo.timestamp;
+	fillData->time = dbInfo.getUnixtime();
 	int len = (int)mir_strlen((char *)blob) + 1;
 	uint8_t *pos;
 

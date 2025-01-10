@@ -37,7 +37,7 @@ int CDbxMDBX::GetEventCount(MCONTACT contactID)
 MEVENT CDbxMDBX::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 0;
-	if (dbei->timestamp == 0) return 0;
+	if (dbei->iTimestamp == 0) return 0;
 
 	MEVENT dwEventId = InterlockedIncrement(&m_dwMaxEventId);
 	if (!EditEvent(contactID, dwEventId, dbei, true))
@@ -140,7 +140,7 @@ BOOL CDbxMDBX::DeleteEvent(MEVENT hDbEvent)
 BOOL CDbxMDBX::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 1;
-	if (dbei->timestamp == 0) return 1;
+	if (dbei->iTimestamp == 0) return 1;
 
 	DBEVENTINFO tmp = *dbei;
 
@@ -149,7 +149,7 @@ BOOL CDbxMDBX::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 		return 1;
 
 	DBEvent *dbe = (DBEvent*)data.iov_base;
-	tmp.timestamp = dbe->timestamp;
+	tmp.iTimestamp = dbe->timestamp;
 	return !EditEvent(dbe->dwContactID, hDbEvent, &tmp, false);
 }
 
@@ -184,7 +184,7 @@ bool CDbxMDBX::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *
 		if (NotifyEventHooks(g_hevEventFiltered, contactNotifyID, (LPARAM)dbei))
 			return false;
 
-	dbe.timestamp = dbei->timestamp;
+	dbe.timestamp = dbei->getUnixtime();
 	dbe.flags = dbei->flags;
 	dbe.wEventType = dbei->eventType;
 	dbe.cbBlob = dbei->cbBlob;
@@ -306,7 +306,7 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 
 	dbei->szModule = GetModuleName(dbe->iModuleId);
-	dbei->timestamp = dbe->timestamp;
+	dbei->iTimestamp = dbe->timestamp;
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
 

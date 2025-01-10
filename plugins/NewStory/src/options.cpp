@@ -148,7 +148,7 @@ public:
 		m_tempItem->dbe.flags = DBEF_TEMPORARY | DBEF_BOOKMARK;
 		m_tempItem->dbe.szModule = MODULENAME;
 		m_tempItem->dbe.eventType = EVENTTYPE_MESSAGE;
-		m_tempItem->dbe.timestamp = time(0);
+		m_tempItem->dbe.iTimestamp = time(0);
 		m_histCtrl->totalCount++;
 
 		HTREEITEM hGroup = 0, hFirst = 0;

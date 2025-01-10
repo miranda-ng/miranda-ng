@@ -72,17 +72,17 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 	if (hContact && lParam) {
 		DBEVENTINFO dbei = {};
 		db_event_get(lParam, &dbei);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.bSent) {
 			uint32_t firstTime = g_plugin.getDword(hContact, "mf_firstEvent");
 			uint32_t count = g_plugin.getDword(hContact, "mf_count");
 			count++;
-			new_freq = count ? (dbei.timestamp - firstTime) / count : 0x7fffffff;
+			new_freq = count ? (dbei.getUnixtime() - firstTime) / count : 0x7fffffff;
 			g_plugin.setDword(hContact, "mf_freq", new_freq);
 			g_plugin.setDword(hContact, "mf_count", count);
 
 			TExtraCache *p = cfg::getCache(hContact, nullptr);
 			if (p) {
-				p->dwLastMsgTime = dbei.timestamp;
+				p->dwLastMsgTime = dbei.getUnixtime();
 				if (new_freq)
 					p->msgFrequency = new_freq;
 				Clist_Broadcast(INTM_FORCESORT, 0, 1);

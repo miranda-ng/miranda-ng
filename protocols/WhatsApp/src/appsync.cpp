@@ -275,7 +275,7 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 					auto *key = pMessage->message->key;
 
 					DB::EventInfo dbei;
-					dbei.timestamp = pMessage->message->messagetimestamp;
+					dbei.iTimestamp = pMessage->message->messagetimestamp;
 					dbei.pBlob = szMessageText.GetBuffer();
 					dbei.szId = key->id;
 					dbei.flags = DBEF_READ;

@@ -384,7 +384,7 @@ public:
 
 		if ((gdat->flags.bGroupMessages) && dbei.flags == LOWORD(m_lastEventType) &&
 			dbei.eventType == EVENTTYPE_MESSAGE && HIWORD(m_lastEventType) == EVENTTYPE_MESSAGE &&
-			(isSameDate(dbei.timestamp, m_lastEventTime)) && ((((int)dbei.timestamp < m_startTime) == (m_lastEventTime < m_startTime)) || !(dbei.flags & DBEF_READ))) {
+			(isSameDate(dbei.getUnixtime(), m_lastEventTime)) && ((((int)dbei.getUnixtime() < m_startTime) == (m_lastEventTime < m_startTime)) || !dbei.bRead)) {
 			isGroupBreak = FALSE;
 		}
 
@@ -393,7 +393,7 @@ public:
 		
 		// test contact
 		if (streamData->dbei == 0) {
-			if (dbei.flags & DBEF_SENT)
+			if (dbei.bSent)
 				wszNick = Contact::GetInfo(CNF_DISPLAY, 0, m_pDlg.m_szProto);
 			else
 				wszNick = mir_wstrdup(Clist_GetContactDisplayName(m_pDlg.m_hContact));
@@ -401,7 +401,7 @@ public:
 			if (!m_pDlg.m_bUseRtl && Utils_IsRtl(wszText))
 				bIsRtl = true;
 		}
-		else wszNick = mir_wstrdup((dbei.flags & DBEF_SENT) ? TranslateT("Me") : TranslateT("My contact"));
+		else wszNick = mir_wstrdup(dbei.bSent ? TranslateT("Me") : TranslateT("My contact"));
 
 		if (!streamData->isFirst && !m_isMixed) {
 			if (isGroupBreak || gdat->flags.bMarkFollowups)
@@ -419,7 +419,7 @@ public:
 		buf.Append(bIsRtl ? "\\rtlpar" : "\\ltrpar");
 
 		if (dbei.eventType == EVENTTYPE_MESSAGE)
-			highlight = fontOptionsListSize + 2 + ((dbei.flags & DBEF_SENT) ? 1 : 0);
+			highlight = fontOptionsListSize + 2 + (dbei.bSent ? 1 : 0);
 		else
 			highlight = fontOptionsListSize + 1;
 
@@ -444,7 +444,7 @@ public:
 			case EVENTTYPE_MESSAGE:
 				if (dbei.flags & (DBEF_SECURE | DBEF_STRONG))
 					i = (dbei.flags & DBEF_SECURE) ? LOGICON_MSG_SECURE : LOGICON_MSG_STRONG;
-				else if (dbei.flags & DBEF_SENT)
+				else if (dbei.bSent)
 					i = LOGICON_MSG_OUT;
 				else
 					i = LOGICON_MSG_IN;
@@ -466,29 +466,29 @@ public:
 			if (gdat->flags.bGroupMessages && dbei.eventType == EVENTTYPE_MESSAGE) {
 				if (isGroupBreak) {
 					if (!gdat->flags.bMarkFollowups)
-						timestampString = TimestampToString(gdat->flags, dbei.timestamp, 0);
+						timestampString = TimestampToString(gdat->flags, dbei.getUnixtime(), 0);
 					else if (gdat->flags.bShowDate)
-						timestampString = TimestampToString(gdat->flags, dbei.timestamp, 1);
+						timestampString = TimestampToString(gdat->flags, dbei.getUnixtime(), 1);
 				}
 				else if (gdat->flags.bMarkFollowups)
-					timestampString = TimestampToString(gdat->flags, dbei.timestamp, 2);
+					timestampString = TimestampToString(gdat->flags, dbei.getUnixtime(), 2);
 			}
-			else timestampString = TimestampToString(gdat->flags, dbei.timestamp, 0);
+			else timestampString = TimestampToString(gdat->flags, dbei.getUnixtime(), 0);
 
 			if (timestampString != nullptr) {
-				buf.AppendFormat("%s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+				buf.AppendFormat("%s ", SetToStyle(dbei.bSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
 				AppendUnicodeToBuffer(buf, timestampString);
 			}
 			if (dbei.eventType != EVENTTYPE_MESSAGE)
-				buf.AppendFormat("%s: ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+				buf.AppendFormat("%s: ", SetToStyle(dbei.bSent ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 			showColon = 1;
 		}
 		if ((!(gdat->flags.bHideNames) && dbei.eventType == EVENTTYPE_MESSAGE && isGroupBreak) || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 			if (dbei.eventType == EVENTTYPE_MESSAGE) {
 				if (showColon)
-					buf.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+					buf.AppendFormat(" %s ", SetToStyle(dbei.bSent ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
 				else
-					buf.AppendFormat("%s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+					buf.AppendFormat("%s ", SetToStyle(dbei.bSent ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
 			}
 			else buf.AppendFormat("%s ", SetToStyle(MSGFONTID_NOTICE));
 
@@ -505,15 +505,15 @@ public:
 		}
 
 		if (gdat->flags.bShowTime && gdat->flags.bGroupMessages && gdat->flags.bMarkFollowups && dbei.eventType == EVENTTYPE_MESSAGE && isGroupBreak) {
-			buf.AppendFormat(" %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
-			AppendUnicodeToBuffer(buf, TimestampToString(gdat->flags, dbei.timestamp, 2));
+			buf.AppendFormat(" %s ", SetToStyle(dbei.bSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+			AppendUnicodeToBuffer(buf, TimestampToString(gdat->flags, dbei.getUnixtime(), 2));
 			showColon = 1;
 		}
 		if (showColon && dbei.eventType == EVENTTYPE_MESSAGE) {
 			if (bIsRtl)
-				buf.AppendFormat("\\~%s: ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+				buf.AppendFormat("\\~%s: ", SetToStyle(dbei.bSent ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 			else
-				buf.AppendFormat("%s: ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+				buf.AppendFormat("%s: ", SetToStyle(dbei.bSent ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 		}
 		switch (dbei.eventType) {
 		case EVENTTYPE_JABBER_CHATSTATES:
@@ -528,7 +528,7 @@ public:
 					break;
 				}
 
-				if (dbei.flags & DBEF_SENT)
+				if (dbei.bSent)
 					AppendUnicodeToBuffer(buf, TranslateT("File sent"));
 				else
 					AppendUnicodeToBuffer(buf, TranslateT("File received"));
@@ -544,7 +544,7 @@ public:
 			if (gdat->flags.bMsgOnNewline && showColon)
 				buf.Append("\\line");
 
-			style = dbei.flags & DBEF_SENT ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG;
+			style = dbei.bSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG;
 			AppendWithCustomLinks(dbei, style, buf);
 			break;
 		}
@@ -552,7 +552,7 @@ public:
 		if (m_isMixed)
 			buf.Append("\\par");
 
-		m_lastEventTime = dbei.timestamp;
+		m_lastEventTime = dbei.getUnixtime();
 		m_lastEventType = MAKELONG(dbei.flags, dbei.eventType);
 		return true;
 	}
@@ -810,7 +810,7 @@ void StreamInTestEvents(CDlgBase *pDlg, GlobalMessageData *gdat)
 	DB::EventInfo dbei;
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.szModule = SRMM_MODULE;
 
 	auto *pLog = new CLogWindow(*(CMsgDialog*)pDlg);

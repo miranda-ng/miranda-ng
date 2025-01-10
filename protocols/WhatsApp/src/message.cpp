@@ -212,7 +212,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			// for chats & group chats store message in profile
 			if (type.bPrivateChat || type.bGroupChat) {
 				DB::EventInfo dbei;
-				dbei.timestamp = timestamp;
+				dbei.iTimestamp = timestamp;
 				dbei.pBlob = szMessageText.GetBuffer();
 				dbei.szId = msgId;
 				if (type.bOffline)

@@ -1278,7 +1278,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		DBEVENTINFO dbei = {};
 		dbei.szModule = MODULENAME;
 		dbei.flags = DBEF_UTF | DBEF_READ;
-		dbei.timestamp = time(0);
+		dbei.iTimestamp = time(0);
 		// For now I do not convert event data from string to blob, and event type must be message to handle it properly
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		int len = (int)error.length() + 1;

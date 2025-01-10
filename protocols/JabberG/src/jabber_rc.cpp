@@ -450,7 +450,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DB::EventInfo dbei(hDbEvent);
-			if (dbei && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
+			if (dbei && dbei.eventType == EVENTTYPE_MESSAGE && !dbei.bRead && !dbei.bSent) {
 				ptrW szEventText(dbei.getText());
 				if (szEventText)
 					nEventsSent++;
@@ -549,7 +549,7 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 				addressesNode << XCHILD("address") << XATTR("type", "ofrom") << XATTR("jid", szOFrom);
 				addressesNode << XCHILD("address") << XATTR("type", "oto") << XATTR("jid", m_ThreadInfo->fullJID);
 
-				time_t ltime = (time_t)dbei.timestamp;
+				time_t ltime = dbei.getUnixtime();
 				struct tm *gmt = gmtime(&ltime);
 				char stime[512];
 				mir_snprintf(stime, "%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ", gmt->tm_year + 1900, gmt->tm_mon + 1, gmt->tm_mday,

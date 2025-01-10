@@ -334,7 +334,7 @@ BOOL checkMsgTimestamp(MCONTACT hContact, MEVENT hEventCurrent, uint32_t timesta
 	for (MEVENT hEvent = db_event_prev(hContact, hEventCurrent); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
 		DBEVENTINFO einfo = {};
 		if (!db_event_get(hEvent, &einfo)) {
-			if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
+			if ((einfo.getUnixtime() + wSecondsOlder) <= timestampCurrent)
 				return TRUE;
 			if (einfo.eventType == EVENTTYPE_MESSAGE)
 				return FALSE;
@@ -396,7 +396,7 @@ static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 	//get DBEVENTINFO without pBlob
 	DBEVENTINFO einfo = {};
 	if (!db_event_get(hEvent, &einfo) && !(einfo.flags & DBEF_SENT))
-		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hContact, hEvent, einfo.timestamp)) ||
+		if ((einfo.eventType == EVENTTYPE_MESSAGE && bFlashOnMsg && checkOpenWindow(hContact) && checkMsgTimestamp(hContact, hEvent, einfo.getUnixtime())) ||
 			(einfo.eventType == EVENTTYPE_FILE    && bFlashOnFile) ||
 			(einfo.eventType != EVENTTYPE_MESSAGE && einfo.eventType != EVENTTYPE_FILE && bFlashOnOther)) {
 

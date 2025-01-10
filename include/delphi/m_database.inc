@@ -40,7 +40,7 @@ type
   PDBEVENTINFO = ^TDBEVENTINFO;
   TDBEVENTINFO = record
     szModule : PAnsiChar; // module that 'owns' this event and controls the data format
-    timestamp: dword;     // timestamp in UNIX time
+    timestamp: Int64;     // timestamp in UNIX time
     flags    : dword;     // the DBEF_* flags above
     eventType: dword;     // event type, such as message, can be module defined
     hContact : TMCONTACT; // contact to which this event belongs

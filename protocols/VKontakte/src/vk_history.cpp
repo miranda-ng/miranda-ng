@@ -116,7 +116,7 @@ void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int iNDay)
 		while (MEVENT hDbEvent = pCursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
-			if (dbei.timestamp > tTime && dbei.eventType != VK_USER_DEACTIVATE_ACTION)
+			if (dbei.getUnixtime() > tTime && dbei.eventType != VK_USER_DEACTIVATE_ACTION)
 				pCursor.DeleteEvent();
 		}
 
@@ -322,7 +322,7 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 
 		T2Utf pszBody(wszBody);
 
-		dbei.timestamp = tDateTime;
+		dbei.iTimestamp = tDateTime;
 		dbei.pBlob = pszBody;
 		dbei.szId = szMid;
 

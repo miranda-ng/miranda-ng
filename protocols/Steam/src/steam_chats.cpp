@@ -130,7 +130,7 @@ void CSteamProto::OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &rep
 			dbei.szModule = m_szModuleName;
 			replaceStr(dbei.pBlob, mir_strdup(pMsg->message));
 			dbei.cbBlob = (int)mir_strlen(dbei.pBlob);
-			dbei.timestamp = pMsg->server_timestamp;
+			dbei.iTimestamp = pMsg->server_timestamp;
 			dbei.szId = szMsgId;
 			dbei.szUserId = szUserId;
 
@@ -163,7 +163,7 @@ void CSteamProto::OnGetChatMessage(const CChatRoomIncomingChatMessageNotificatio
 		dbei.szModule = m_szModuleName;
 		replaceStr(dbei.pBlob, mir_strdup(reply.message));
 		dbei.cbBlob = (int)mir_strlen(dbei.pBlob);
-		dbei.timestamp = reply.timestamp;
+		dbei.iTimestamp = reply.timestamp;
 		dbei.szId = szMsgId;
 		dbei.szUserId = szUserId;
 

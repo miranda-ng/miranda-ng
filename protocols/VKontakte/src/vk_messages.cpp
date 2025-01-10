@@ -60,10 +60,10 @@ int CVkProto::ForwardMsg(MCONTACT hContact, std::vector<MEVENT>& vForvardEvents,
 			continue;
 
 		if (!Proto_IsProtoOnContact(dbei.hContact, m_szModuleName)) {
-			CMStringW wszContactName = (dbei.flags & DBEF_SENT) ? getWStringA(0, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(dbei.hContact);
+			CMStringW wszContactName = (dbei.bSent) ? getWStringA(0, "Nick", TranslateT("Me")) : Clist_GetContactDisplayName(dbei.hContact);
 
 			wchar_t ttime[64];
-			time_t  tTimestamp(dbei.timestamp);
+			time_t  tTimestamp(dbei.getUnixtime());
 			_locale_t locale = _create_locale(LC_ALL, "");
 			_wcsftime_l(ttime, _countof(ttime), TranslateT("%x at %X"), localtime(&tTimestamp), locale);
 			_free_locale(locale);
@@ -489,7 +489,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			SetInvisible(hContact);
 
 		T2Utf pszBody(wszBody);
-		dbei.timestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
+		dbei.iTimestamp = bEdited ? tDateTime : (m_vkOptions.bUseLocalTime ? time(0) : tDateTime);
 		dbei.pBlob = pszBody;
 		
 		if (!m_vkOptions.bShowReplyInMessage && szReplyId) {
@@ -518,7 +518,7 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			debugLogA("CVkProto::OnReceiveMessages add attachments");
 
 			T2Utf pszAttach(wszAttachmentDescr);
-			dbei.timestamp = isOut ? time(0) : tDateTime;
+			dbei.iTimestamp = isOut ? time(0) : tDateTime;
 			dbei.pBlob = pszAttach;
 			dbei.szId = strcat(szMid, "_");
 			ProtoChainRecvMsg(hContact, dbei);

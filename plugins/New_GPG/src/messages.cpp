@@ -497,7 +497,7 @@ INT_PTR RecvMsgSvc(WPARAM w, LPARAM l)
 	if (!strstr(msg, "-----BEGIN PGP MESSAGE-----"))
 		return Proto_ChainRecv(w, ccs);
 
-	mir_forkThread<RecvParams>(RecvMsgSvc_func, new RecvParams(ccs->hContact, str, msg, dbei->timestamp));
+	mir_forkThread<RecvParams>(RecvMsgSvc_func, new RecvParams(ccs->hContact, str, msg, dbei->getUnixtime()));
 	return 0;
 }
 

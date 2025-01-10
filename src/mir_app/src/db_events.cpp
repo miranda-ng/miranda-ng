@@ -537,10 +537,10 @@ MIR_APP_DLL(bool) DB::IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei)
 
 	DBEVENTINFO dbeiExisting = {};
 	db_event_get(hExistingDbEvent, &dbeiExisting);
-	uint32_t dwEventTimeStamp = dbeiExisting.timestamp;
+	uint32_t dwEventTimeStamp = dbeiExisting.getUnixtime();
 
 	// compare with last timestamp
-	if (dbei.timestamp > dwEventTimeStamp) {
+	if (dbei.getUnixtime() > dwEventTimeStamp) {
 		// remember event
 		hPreviousDbEvent = hExistingDbEvent;
 		dwPreviousTimeStamp = dwEventTimeStamp;
@@ -559,21 +559,21 @@ MIR_APP_DLL(bool) DB::IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei)
 
 		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 		db_event_get(hExistingDbEvent, &dbeiExisting);
-		dwEventTimeStamp = dbeiExisting.timestamp;
+		dwEventTimeStamp = dbeiExisting.getUnixtime();
 
 		// compare with first timestamp
-		if (dbei.timestamp <= dwEventTimeStamp) {
+		if (dbei.getUnixtime() <= dwEventTimeStamp) {
 			// remember event
 			dwPreviousTimeStamp = dwEventTimeStamp;
 			hPreviousDbEvent = hExistingDbEvent;
 
-			if (dbei.timestamp != dwEventTimeStamp)
+			if (dbei.getUnixtime() != dwEventTimeStamp)
 				return false;
 		}
 	}
 
 	// check for equal timestamps
-	if (dbei.timestamp == dwPreviousTimeStamp) {
+	if (dbei.iTimestamp == dwPreviousTimeStamp) {
 		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 		db_event_get(hPreviousDbEvent, &dbeiExisting);
 
@@ -586,10 +586,10 @@ MIR_APP_DLL(bool) DB::IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei)
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
-			if (dbeiExisting.timestamp != dwPreviousTimeStamp) {
+			if (dbeiExisting.getUnixtime() != dwPreviousTimeStamp) {
 				// use found event
 				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
+				dwPreviousTimeStamp = dbeiExisting.getUnixtime();
 				break;
 			}
 
@@ -600,16 +600,16 @@ MIR_APP_DLL(bool) DB::IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei)
 
 	hExistingDbEvent = hPreviousDbEvent;
 
-	if (dbei.timestamp <= dwPreviousTimeStamp) {
+	if (dbei.getUnixtime() <= dwPreviousTimeStamp) {
 		// look back
 		while (hExistingDbEvent != 0) {
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
-			if (dbei.timestamp > dbeiExisting.timestamp) {
+			if (dbei.getUnixtime() > dbeiExisting.getUnixtime()) {
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
+				dwPreviousTimeStamp = dbeiExisting.getUnixtime();
 				return false;
 			}
 
@@ -617,7 +617,7 @@ MIR_APP_DLL(bool) DB::IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei)
 			if (dbei == dbeiExisting) {
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
+				dwPreviousTimeStamp = dbeiExisting.getUnixtime();
 				return true;
 			}
 
@@ -631,10 +631,10 @@ MIR_APP_DLL(bool) DB::IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei)
 			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
 			db_event_get(hExistingDbEvent, &dbeiExisting);
 
-			if (dbei.timestamp < dbeiExisting.timestamp) {
+			if (dbei.getUnixtime() < dbeiExisting.getUnixtime()) {
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
+				dwPreviousTimeStamp = dbeiExisting.getUnixtime();
 				return false;
 			}
 
@@ -642,7 +642,7 @@ MIR_APP_DLL(bool) DB::IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei)
 			if (dbei == dbeiExisting) {
 				// remember event
 				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
+				dwPreviousTimeStamp = dbeiExisting.getUnixtime();
 				return true;
 			}
 

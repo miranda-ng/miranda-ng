@@ -792,7 +792,7 @@ HANDLE SendLater::processAck(const ACKDATA *ack)
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.szModule = Proto_GetBaseAccountName((p->hContact));
-				dbei.timestamp = time(0);
+				dbei.iTimestamp = time(0);
 				dbei.cbBlob = (int)mir_strlen(p->sendBuffer) + 1;
 				dbei.pBlob = p->sendBuffer;
 				db_event_add(p->hContact, &dbei);

@@ -174,7 +174,7 @@ static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 				GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
 
 				// we don't remove sent files, located outside Miranda's folder for sent offline files
-				if ((dbei.flags & DBEF_SENT) == 0 || !wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
+				if (!dbei.bSent || !wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
 					DeleteFileW(pwszName);
 			}
 		}
@@ -209,9 +209,9 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 
 MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
-	bool bSilent = (dbei.flags & DBEF_TEMPORARY) != 0;
-	bool bSent = (dbei.flags & DBEF_SENT) != 0;
-	bool bRead = (dbei.flags & DBEF_READ) != 0;
+	bool bSilent = dbei.bTemporary;
+	bool bSent = dbei.bSent;
+	bool bRead = dbei.bRead;
 
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.eventType = EVENTTYPE_FILE;

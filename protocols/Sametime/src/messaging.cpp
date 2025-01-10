@@ -82,7 +82,7 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 		return;
 
 	DB::EventInfo dbei;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.pBlob = (char*)msg;
 	ProtoChainRecvMsg(hContact, dbei);
 }

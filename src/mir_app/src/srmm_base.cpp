@@ -838,7 +838,7 @@ void CSrmmBaseDialog::UpdateChatLog()
 	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
 		DB::EventInfo dbei(hDbEvent);
 		if (dbei && !mir_strcmp(szProto, dbei.szModule) && g_chatApi.DbEventIsShown(dbei) && dbei.szUserId) {
-			if (iHistoryMode == LOADHISTORY_UNREAD && (dbei.flags & DBEF_READ) != 0)
+			if (iHistoryMode == LOADHISTORY_UNREAD && dbei.bRead)
 				continue;
 
 			Utf2T wszUserId(dbei.szUserId);
@@ -848,7 +848,7 @@ void CSrmmBaseDialog::UpdateChatLog()
 			gce.dwFlags = GCEF_ADDTOLOG;
 			gce.pszUserInfo.w = wszUserId;
 			gce.pszText.w = wszText;
-			gce.time = dbei.timestamp;
+			gce.time = dbei.getUnixtime();
 			gce.hEvent = hDbEvent;
 
 			if (USERINFO *ui = g_chatApi.UM_FindUser(m_si, wszUserId))

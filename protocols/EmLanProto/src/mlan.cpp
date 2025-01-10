@@ -267,7 +267,7 @@ void CMLan::OnRecvPacket(u_char *mes, int len, in_addr from)
 					RequestStatus(true, from.S_un.S_addr);
 				else {
 					DB::EventInfo dbei;
-					dbei.timestamp = get_time();
+					dbei.iTimestamp = get_time();
 					dbei.pBlob = pak.strMessage;
 					ProtoChainRecvMsg(FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status), dbei);
 
@@ -286,7 +286,7 @@ void CMLan::OnRecvPacket(u_char *mes, int len, in_addr from)
 
 			if (pak.strAwayMessage && cont) {
 				DB::EventInfo dbei;
-				dbei.timestamp = get_time();
+				dbei.iTimestamp = get_time();
 				dbei.pBlob = pak.strAwayMessage;
 				dbei.cbBlob = pak.idAckAwayMessage;
 				ProtoChainRecv(FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status), PSR_AWAYMSG, 0, (LPARAM)&dbei);
@@ -966,7 +966,7 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 	*pf_to++ = *pf_fr++;
 
 	conn->m_hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status);
-	dbei.timestamp = get_time();
+	dbei.iTimestamp = get_time();
 	ProtoChainRecv(conn->m_hContact, PSR_FILE, 0, (LPARAM)&dbei);
 
 	while (!conn->m_state)

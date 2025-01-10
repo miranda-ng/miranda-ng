@@ -27,7 +27,7 @@ MEVENT AddEventToDb(MCONTACT hContact, uint16_t type, uint32_t flags, uint32_t c
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.eventType = type;
 	dbei.cbBlob = cbBlob;
 	dbei.pBlob = pBlob;

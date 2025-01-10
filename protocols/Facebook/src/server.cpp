@@ -845,7 +845,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	auto szActorFbId(metadata["actorFbId"].as_string());
 
 	DB::EventInfo dbei;
-	dbei.timestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
+	dbei.iTimestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
 	dbei.pBlob = (char *)szBody.c_str();
 	dbei.szId = (char *)szId.c_str();
 	if (m_uid == _atoi64(szActorFbId.c_str()))
@@ -952,10 +952,10 @@ void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 		if (!dbei)
 			continue;
 
-		if (dbei.timestamp > timestamp)
+		if (dbei.getUnixtime() > timestamp)
 			break;
 
-		if (dbei.flags & DBEF_SENT)
+		if (dbei.bSent)
 			dbei.wipeNotify();
 	}
 }

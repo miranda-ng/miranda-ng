@@ -577,7 +577,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo* vkChatInfo, VKMessageID_t iMessage
 		
 		DB::EventInfo dbei;
 		dbei.szId = szMid;
-		dbei.timestamp = tMsgTime;
+		dbei.iTimestamp = tMsgTime;
 		dbei.pBlob = pszBody;
 		if (iUserId == m_iMyUserId)
 			dbei.flags |= DBEF_SENT;

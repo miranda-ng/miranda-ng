@@ -446,7 +446,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 nowindowcreate:
 	// for tray support, we add the event to the tray menu. otherwise we send it back to
 	// the contact list for flashing
-	if (!(dbei.flags & DBEF_READ)) {
+	if (!dbei.bRead) {
 		AddUnreadContact(hContact);
 		Srmm_AddEvent(hContact, hDbEvent);
 	}

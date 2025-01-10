@@ -300,7 +300,7 @@ public:
 		}
 
 		if (g_plugin.bShowIcons) {
-			int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN) : LOGICON_MSG_NOTICE);
+			int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? (dbei.bSent ? LOGICON_MSG_OUT : LOGICON_MSG_IN) : LOGICON_MSG_NOTICE);
 
 			buf.Append("\\f0\\fs14");
 			buf.Append(pLogIconBmpBits[i]);
@@ -321,9 +321,9 @@ public:
 			else
 				szFormat = g_plugin.bShowDate ? L"d t" : L"t";
 
-			TimeZone_PrintTimeStamp(nullptr, dbei.timestamp, szFormat, str, _countof(str), 0);
+			TimeZone_PrintTimeStamp(nullptr, dbei.getUnixtime(), szFormat, str, _countof(str), 0);
 
-			SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME, buf);
+			SetToStyle(dbei.bSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME, buf);
 			AppendToBufferWithRTF(buf, str);
 			showColon = 1;
 		}
@@ -331,7 +331,7 @@ public:
 		if (g_plugin.bShowNames && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
 			wchar_t *szName;
 
-			if (dbei.flags & DBEF_SENT) {
+			if (dbei.bSent) {
 				if (wchar_t *p = Contact::GetInfo(CNF_DISPLAY, 0, dbei.szModule))
 					szName = NEWWSTR_ALLOCA(p);
 				else
@@ -339,19 +339,19 @@ public:
 			}
 			else szName = Clist_GetContactDisplayName(dat->hContact);
 
-			SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME, buf);
+			SetToStyle(dbei.bSent ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME, buf);
 			AppendToBufferWithRTF(buf, szName);
 			showColon = 1;
 		}
 
 		if (showColon)
-			SetToStyle((dbei.flags & DBEF_SENT) ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON, buf);
+			SetToStyle(dbei.bSent ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON, buf);
 
 		wchar_t *msg, *szName;
 		switch (dbei.eventType) {
 		case EVENTTYPE_JABBER_CHATSTATES:
 		case EVENTTYPE_JABBER_PRESENCE:
-			if (dbei.flags & DBEF_SENT) {
+			if (dbei.bSent) {
 				if (wchar_t *p = Contact::GetInfo(CNF_DISPLAY, 0, dbei.szModule)) {
 					szName = NEWWSTR_ALLOCA(p);
 					mir_free(p);
@@ -379,7 +379,7 @@ public:
 					InsertFileLink(buf, dat->hDbEvent, blob);
 				}
 				else {
-					AppendToBufferWithRTF(buf, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
+					AppendToBufferWithRTF(buf, dbei.bSent ? TranslateT("File sent") : TranslateT("File received"));
 					buf.Append(": ");
 					AppendToBufferWithRTF(buf, blob.getName());
 
@@ -395,7 +395,7 @@ public:
 		case EVENTTYPE_MESSAGE:
 		default:
 			msg = dbei.getText();
-			SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE, buf);
+			SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? (dbei.bSent ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE, buf);
 			AppendToBufferWithRTF(buf, msg);
 			mir_free(msg);
 		}

@@ -708,7 +708,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 							dbei.pBlob = szMessage.get();
 							dbei.cbBlob = (uint32_t)mir_strlen(szMessage) + 1;
 							dbei.szModule = ack->szModule;
-							dbei.timestamp = (uint32_t)time(0);
+							dbei.iTimestamp = (uint32_t)time(0);
 							db_event_add(ack->hContact, &dbei);
 						}
 						else szReply.AppendFormat(TranslateT("Message to '%s' was marked as sent but the account seems to be offline"), contact);
@@ -1220,7 +1220,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 void AddHistoryEvent(DBEVENTINFO *dbEvent, wchar_t *contact, PReply reply)
 {
 	char timestamp[256];
-	TimeZone_ToString(dbEvent->timestamp, "D, s", timestamp, _countof(timestamp));
+	TimeZone_ToString(dbEvent->getUnixtime(), "D, s", timestamp, _countof(timestamp));
 
 	wchar_t *sender = (dbEvent->flags & DBEF_SENT) ? TranslateT("[me]") : contact;
 	wchar_t *message = DbEvent_GetText(dbEvent);

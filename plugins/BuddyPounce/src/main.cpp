@@ -49,7 +49,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.flags = DBEF_UTF | DBEF_SENT;
 					dbei.szModule = (char*)ack->szModule;
-					dbei.timestamp = time(0);
+					dbei.iTimestamp = time(0);
 					dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
 					dbei.pBlob = pszUtf;
 					db_event_add(ack->hContact, &dbei);

@@ -407,7 +407,7 @@ bool Statistic::stepReadDB()
 			// filter logged status messages from tabSRMM
 			if (dbei.eventType == etMessage) {
 				// convert to local time (everything in this plugin is done in local time)
-				uint32_t localTimestamp = TimeZone_ToLocal(dbei.timestamp);
+				uint32_t localTimestamp = TimeZone_ToLocal(dbei.getUnixtime());
 
 				if (localTimestamp >= m_TimeMin && localTimestamp <= m_TimeMax) {
 					if (dbei.flags & DBEF_UTF) {

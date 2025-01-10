@@ -159,11 +159,11 @@ static int clcHookDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (hContact && hDbEvent) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
-		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) && !(dbei.flags & DBEF_SENT)) {
-			g_plugin.setDword(hContact, "mf_lastmsg", dbei.timestamp);
+		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) && !dbei.bSent) {
+			g_plugin.setDword(hContact, "mf_lastmsg", dbei.getUnixtime());
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			if (pdnce) {
-				pdnce->dwLastMsgTime = dbei.timestamp;
+				pdnce->dwLastMsgTime = dbei.getUnixtime();
 				if (g_CluiData.hasSort(SORTBY_LASTMSG))
 					Clist_Broadcast(CLM_AUTOREBUILD, hContact, 0);
 			}

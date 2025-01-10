@@ -160,7 +160,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 
 		// should we stop processing?
 		// lPolicy == 1 - for time criterion, lPolicy == 2 - keep N last events, lPolicy == 3 - delete all events
-		if ((lPolicy == 1 && (unsigned)Criteria.time < dbei.timestamp) || (lPolicy == 2 && Criteria.keep > --eventsCnt)) break;
+		if ((lPolicy == 1 && (unsigned)Criteria.time < dbei.getUnixtime()) || (lPolicy == 2 && Criteria.keep > --eventsCnt)) break;
 
 		bool doDelete = true;
 		if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && keepUnread)
@@ -169,7 +169,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 		if (bookcnt != 0) { // keep bookmarks
 			ev.hDBEvent = hDBEvent;
 			item = (BEventData*)bsearch(&ev, books, bookcnt, sizeof(BEventData), CompareBookmarks);
-			if (item != nullptr && item->Timestamp == dbei.timestamp) {
+			if (item != nullptr && item->Timestamp == dbei.getUnixtime()) {
 				doDelete = FALSE;
 				btshift = (--bookcnt - (item - books)) * sizeof(BEventData);
 				if (btshift)

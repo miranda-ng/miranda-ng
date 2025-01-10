@@ -103,7 +103,7 @@ void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pR
 		dbei.szModule = m_szModuleName;
 		dbei.flags = DBEF_UTF;
 		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.timestamp = dwTimeStamp;
+		dbei.iTimestamp = dwTimeStamp;
 
 		if (authorid == m_ownId)
 			dbei.flags |= DBEF_SENT;

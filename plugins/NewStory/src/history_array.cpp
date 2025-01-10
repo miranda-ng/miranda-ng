@@ -25,7 +25,7 @@ bool Filter::check(ItemData *item) const
 {
 	if (!item) return false;
 	if (!(flags & EVENTONLY)) {
-		if (item->dbe.flags & DBEF_SENT) {
+		if (item->dbe.bSent) {
 			if (!(flags & OUTGOING))
 				return false;
 		}
@@ -92,9 +92,9 @@ static bool isEqual(const ItemData *p1, const ItemData *p2)
 		return false;
 	if (p1->dbe.eventType != p2->dbe.eventType)
 		return false;
-	if ((p1->dbe.flags & DBEF_SENT) != (p2->dbe.flags & DBEF_SENT))
+	if (p1->dbe.bSent != p2->dbe.bSent)
 		return false;
-	if (p1->dbe.timestamp / 86400 != p2->dbe.timestamp / 86400)
+	if (p1->dbe.getUnixtime() / 86400 != p2->dbe.getUnixtime() / 86400)
 		return false;
 	return true;
 }
@@ -165,7 +165,7 @@ static bool isEqualGC(const ItemData *p1, const ItemData *p2)
 	if (wcscmp(p1->wszNick, p2->wszNick))
 		return false;
 
-	if (p1->dbe.timestamp / 86400 != p2->dbe.timestamp / 86400)
+	if (p1->dbe.getUnixtime() / 86400 != p2->dbe.getUnixtime() / 86400)
 		return false;
 	return true;
 }
@@ -316,13 +316,13 @@ void ItemData::getFontColor(int &fontId, int &colorId) const
 {
 	switch (dbe.eventType) {
 	case EVENTTYPE_MESSAGE:
-		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INMSG : FONT_OUTMSG;
-		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INMSG : COLOR_OUTMSG;
+		fontId = !dbe.bSent ? FONT_INMSG : FONT_OUTMSG;
+		colorId = !dbe.bSent ? COLOR_INMSG : COLOR_OUTMSG;
 		break;
 
 	case EVENTTYPE_FILE:
-		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INFILE : FONT_OUTFILE;
-		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INFILE : COLOR_OUTFILE;
+		fontId = !dbe.bSent ? FONT_INFILE : FONT_OUTFILE;
+		colorId = !dbe.bSent ? COLOR_INFILE : COLOR_OUTFILE;
 		break;
 
 	case EVENTTYPE_STATUSCHANGE:
@@ -341,13 +341,13 @@ void ItemData::getFontColor(int &fontId, int &colorId) const
 		break;
 
 	case EVENTTYPE_JABBER_PRESENCE:
-		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+		fontId = !dbe.bSent ? FONT_INOTHER : FONT_OUTOTHER;
+		colorId = !dbe.bSent ? COLOR_INOTHER : COLOR_OUTOTHER;
 		break;
 
 	default:
-		fontId = !(dbe.flags & DBEF_SENT) ? FONT_INOTHER : FONT_OUTOTHER;
-		colorId = !(dbe.flags & DBEF_SENT) ? COLOR_INOTHER : COLOR_OUTOTHER;
+		fontId = !dbe.bSent ? FONT_INOTHER : FONT_OUTOTHER;
+		colorId = !dbe.bSent ? COLOR_INOTHER : COLOR_OUTOTHER;
 		break;
 	}
 }
@@ -444,11 +444,11 @@ void ItemData::load(bool bLoadAlways)
 				CMStringW str, wszNick;
 
 				wchar_t wszTime[100];
-				TimeZone_PrintTimeStamp(0, dbei.timestamp, L"D t", wszTime, _countof(wszTime), 0);
+				TimeZone_PrintTimeStamp(0, dbei.getUnixtime(), L"D t", wszTime, _countof(wszTime), 0);
 
 				if (Contact::IsGroupChat(dbe.hContact) && dbei.szUserId)
 					wszNick = Utf2T(dbei.szUserId);
-				else if (dbei.flags & DBEF_SENT) {
+				else if (dbei.bSent) {
 					if (char *szProto = Proto_GetBaseAccountName(dbe.hContact))
 						wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
 					else
@@ -523,7 +523,7 @@ void HistoryArray::addChatEvent(NewstoryListData *pOwner, SESSION_INFO *si, cons
 		p.wtext = wszText.Detach();
 		p.m_bLoaded = true;
 		p.m_bHighlighted = lin->bIsHighlighted;
-		p.dbe.timestamp = lin->time;
+		p.dbe.iTimestamp = lin->time;
 		if (lin->bIsMe)
 			p.dbe.flags |= DBEF_SENT;
 

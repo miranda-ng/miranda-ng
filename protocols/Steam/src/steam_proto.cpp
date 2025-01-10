@@ -304,7 +304,7 @@ int CSteamProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	if (!mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName)) {
 		mir_cslock lck(m_csOwnMessages);
 		if (auto *pOwn = m_arOwnMessages.find((COwnMessage *)&evt->seq)) {
-			evt->dbei->timestamp = pOwn->timestamp;
+			evt->dbei->iTimestamp = pOwn->timestamp;
 			m_arOwnMessages.remove(pOwn);
 		}
 	}

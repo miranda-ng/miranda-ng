@@ -49,7 +49,7 @@ void CSteamProto::OnGotIncomingMessage(const CFriendMessagesIncomingMessageNotif
 				dbei.flags |= DBEF_SENT;
 			dbei.cbBlob = (int)mir_strlen(reply.message);
 			dbei.pBlob = reply.message;
-			dbei.timestamp = reply.has_rtime32_server_timestamp ? reply.rtime32_server_timestamp : time(0);
+			dbei.iTimestamp = reply.has_rtime32_server_timestamp ? reply.rtime32_server_timestamp : time(0);
 			ProtoChainRecvMsg(hContact, dbei);
 		}
 		break;

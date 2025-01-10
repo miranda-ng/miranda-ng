@@ -294,7 +294,7 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Timestamp");
-	dbei.timestamp = lua_tonumber(L, -1);
+	dbei.iTimestamp = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "Flags");
@@ -692,7 +692,7 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 
 	MT<DBEVENTINFO>(L, MT_DBEVENTINFO)
 		.Field(&DBEVENTINFO::szModule, "Module", LUA_TSTRINGA)
-		.Field(&DBEVENTINFO::timestamp, "Timestamp", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::iTimestamp, "Timestamp", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::eventType, "Type", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER);
 

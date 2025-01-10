@@ -719,7 +719,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = (uint32_t)time(0);
+	dbei.iTimestamp = (uint32_t)time(0);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = added ? EVENTTYPE_ADDED : EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = blob.size();
@@ -1962,7 +1962,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
 	ptrA pszDescription(mir_utf8encode(vkDeactivateEvent[iDEIdx].szDescription));
 	dbei.cbBlob = (uint32_t)mir_strlen(pszDescription) + 1;
@@ -1995,7 +1995,7 @@ MEVENT CVkProto::GetMessageFromDb(const char *szMessageId, time_t& tTimeStamp, C
 
 	DB::EventInfo dbei(hDbEvent);
 	wszMsg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));
-	tTimeStamp = dbei.timestamp;
+	tTimeStamp = dbei.getUnixtime();
 
 	return hDbEvent;
 }
@@ -2023,7 +2023,7 @@ bool CVkProto::IsMessageExist(VKMessageID_t iMessageId, VKMesType vkType)
 	if(db_event_get(hDbEvent, &dbei))
 		return false;
 
-	return ((vkType == vkOUT) == (bool)(dbei.flags & DBEF_SENT));
+	return ((vkType == vkOUT) == dbei.bSent);
 }
 
 CMStringW CVkProto::UserProfileUrl(VKUserID_t iUserId)

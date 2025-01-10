@@ -171,7 +171,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 		db_event_get(hDbEvent, &olddbei);
 
 		// there's no need to look for the elder events
-		if (stamp > 0 && olddbei.timestamp < (uint32_t)stamp)
+		if (stamp > 0 && olddbei.getUnixtime() < (uint32_t)stamp)
 			break;
 
 		if ((int)mir_strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
@@ -188,7 +188,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 		T2Utf pszMessage(message);
 
 		DB::EventInfo dbei;
-		dbei.timestamp = (uint32_t)stamp;
+		dbei.iTimestamp = (uint32_t)stamp;
 		dbei.pBlob = pszMessage;
 		ProtoChainRecvMsg(hContact, dbei);
 	}

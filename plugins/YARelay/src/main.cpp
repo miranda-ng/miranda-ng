@@ -65,7 +65,7 @@ int ProtoAck(WPARAM,LPARAM lparam)
 
 		DBEVENTINFO dbei = {};
 		dbei.szModule = MODULENAME;
-		dbei.timestamp = ltime;
+		dbei.iTimestamp = ltime;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.cbBlob = (uint32_t)mir_strlen(p->msgText) + 1;
@@ -118,7 +118,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		return 0;
 
 	// get time and date
-	time_t tTime = dbei.timestamp;
+	time_t tTime = dbei.getUnixtime();
 	tm *tm_time = gmtime(&tTime);
 
 	// build a message

@@ -112,7 +112,7 @@ public:
 		auto &node = *pNode;
 		dbei->eventType = node["type"].as_int();
 
-		dbei->timestamp = 0;
+		dbei->iTimestamp = 0;
 		std::string szTime = node["time"].as_string();
 		if (!szTime.empty()) {
 			char c;
@@ -123,7 +123,7 @@ public:
 				st.tm_year -= 1900;
 				time_t tm = mktime(&st);
 				if (tm != -1)
-					dbei->timestamp = tm;
+					dbei->iTimestamp = tm;
 			}
 		}
 		else {
@@ -136,13 +136,13 @@ public:
 					st.tm_year -= 1900;
 					time_t tm = _mkgmtime(&st);
 					if (tm != -1)
-						dbei->timestamp = tm;
+						dbei->iTimestamp = tm;
 				}
 			}
 		}
 
-		if (dbei->timestamp == 0)
-			dbei->timestamp = node["timeStamp"].as_int();
+		if (dbei->iTimestamp == 0)
+			dbei->iTimestamp = node["timeStamp"].as_int();
 
 		dbei->flags = 0;
 		std::string szFlags = node["flags"].as_string();
@@ -343,16 +343,16 @@ public:
 		if (mir_strcmp(dbei.szModule, szProto))
 			pRoot.push_back(JSONNode("module", dbei.szModule));
 
-		pRoot.push_back(JSONNode("timestamp", dbei.timestamp));
+		pRoot.push_back(JSONNode("timestamp", dbei.getUnixtime()));
 
 		wchar_t szTemp[500];
-		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.timestamp, L"I", szTemp, _countof(szTemp), 0);
+		TimeZone_PrintTimeStamp(UTC_TIME_HANDLE, dbei.getUnixtime(), L"I", szTemp, _countof(szTemp), 0);
 		pRoot.push_back(JSONNode("isotime", T2Utf(szTemp).get()));
 
 		std::string flags;
-		if (dbei.flags & DBEF_SENT)
+		if (dbei.bSent)
 			flags += "m";
-		if (dbei.flags & DBEF_READ)
+		if (dbei.bRead)
 			flags += "r";
 		pRoot.push_back(JSONNode("flags", flags));
 

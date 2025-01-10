@@ -308,10 +308,10 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 	// Get time stamp
 	CMStringW output;
-	output.AppendFormat(L"%-*s", (int)nFirstColumnWidth, dbei.flags & DBEF_SENT ? sLocalUser.c_str() : sRemoteUser.c_str());
+	output.AppendFormat(L"%-*s", (int)nFirstColumnWidth, dbei.bSent ? sLocalUser.c_str() : sRemoteUser.c_str());
 	{
 		wchar_t buf[100];
-		TimeZone_ToStringW(dbei.timestamp, g_sTimeFormat.c_str(), buf, _countof(buf));
+		TimeZone_ToStringW(dbei.getUnixtime(), g_sTimeFormat.c_str(), buf, _countof(buf));
 		output.Append(buf);
 	}
 

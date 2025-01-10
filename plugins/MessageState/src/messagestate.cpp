@@ -86,7 +86,7 @@ static int OnEventDelivered(WPARAM hContact, LPARAM)
 static int OnEventFilterAdd(WPARAM hContact, LPARAM lParam)
 {
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
-	if ((dbei->flags & DBEF_SENT) && CheckProtoSupport(dbei->szModule)) {
+	if (dbei->bSent && CheckProtoSupport(dbei->szModule)) {
 		time_t dwTime = time(0);
 		FindContact(hContact)->setSent(dwTime);
 		if (db_mc_isSub(hContact))

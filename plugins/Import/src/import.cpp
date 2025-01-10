@@ -867,9 +867,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 
 			// custom filtering
 			if (!bSkipThis) {
-				bool bIsSent = (dbei.flags & DBEF_SENT) != 0;
-
-				if (dbei.timestamp < (uint32_t)m_dwSinceDate)
+				if (dbei.getUnixtime() < (uint32_t)m_dwSinceDate)
 					bSkipThis = true;
 
 				if (!bSkipThis) {
@@ -877,15 +875,15 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 						bSkipThis = 1;
 						switch (dbei.eventType) {
 						case EVENTTYPE_MESSAGE:
-							if ((bIsSent ? IOPT_MSGSENT : IOPT_MSGRECV) & m_iOptions)
+							if ((dbei.bSent ? IOPT_MSGSENT : IOPT_MSGRECV) & m_iOptions)
 								bSkipThis = false;
 							break;
 						case EVENTTYPE_FILE:
-							if ((bIsSent ? IOPT_FILESENT : IOPT_FILERECV) & m_iOptions)
+							if ((dbei.bSent ? IOPT_FILESENT : IOPT_FILERECV) & m_iOptions)
 								bSkipThis = false;
 							break;
 						default:
-							if ((bIsSent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & m_iOptions)
+							if ((dbei.bSent ? IOPT_OTHERSENT : IOPT_OTHERRECV) & m_iOptions)
 								bSkipThis = false;
 							break;
 						}

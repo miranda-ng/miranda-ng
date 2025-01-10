@@ -187,8 +187,8 @@ bool CMsgDialog::OnInitDialog()
 		while (MEVENT hdbEvent = pCursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
 			db_event_get(hdbEvent, &dbei);
-			if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-				m_lastMessage = dbei.timestamp;
+			if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.bSent) {
+				m_lastMessage = dbei.getUnixtime();
 				break;
 			}
 		}
@@ -783,7 +783,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				m_hDbUnreadEventFirst = 0;
 				while (hDbEvent != 0) {
 					DB::EventInfo dbei(hDbEvent, false);
-					if (!(dbei.flags & DBEF_SENT) && dbei.isSrmm())
+					if (!dbei.bSent && dbei.isSrmm())
 						Clist_RemoveEvent(-1, hDbEvent);
 					hDbEvent = db_event_next(m_hContact, hDbEvent);
 				}

@@ -44,7 +44,7 @@ uint32_t	WhenAdded(uint32_t dwUIN, LPCSTR)
 				memcpy(&dwEvtUIN, dbei.pBlob, sizeof(uint32_t));
 				MIR_FREE(dbei.pBlob);
 				if (dwEvtUIN == dwUIN)
-					return dbei.timestamp;
+					return dbei.getUnixtime();
 			}
 		}
 	}
@@ -522,7 +522,7 @@ uint32_t	TimeOf(MEVENT hEvent)
 {
 	DBEVENTINFO dbei;
 	if (!GetInfo(hEvent, &dbei))
-		return dbei.timestamp;
+		return dbei.getUnixtime();
 
 	return 0;
 }
@@ -541,7 +541,7 @@ uint32_t	TimeOf(MEVENT hEvent)
 bool __forceinline IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bool Data)
 {
 	bool res = d1 && d2 && 
-				(d1->timestamp == d2->timestamp) && 
+				(d1->getUnixtime() == d2->getUnixtime()) &&
 				(d1->eventType == d2->eventType) &&
 				(d1->cbBlob == d2->cbBlob) && 
 				(!d1->szModule || !d2->szModule || !_stricmp(d1->szModule, d2->szModule));
@@ -574,7 +574,7 @@ bool Exists(MCONTACT hContact, MEVENT& hDbExistingEvent, DBEVENTINFO *dbei)
 		hDbExistingEvent = db_event_first(hContact);
 		if (hDbExistingEvent) {
 			if (!GetInfo(hDbExistingEvent, &edbei)) {
-				if ((dbei->timestamp < edbei.timestamp))
+				if ((dbei->getUnixtime() < edbei.getUnixtime()))
 					return false;
 
 				if (IsEqual(dbei, &edbei, false)) {
@@ -596,7 +596,7 @@ bool Exists(MCONTACT hContact, MEVENT& hDbExistingEvent, DBEVENTINFO *dbei)
 	}
 	if (hDbExistingEvent) {
 		MEVENT sdbe = hDbExistingEvent;
-		for (MEVENT edbe = sdbe; edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp <= edbei.timestamp); edbe = db_event_prev(hContact, edbe)) {
+		for (MEVENT edbe = sdbe; edbe && !GetInfo(edbe, &edbei) && (dbei->getUnixtime() <= edbei.getUnixtime()); edbe = db_event_prev(hContact, edbe)) {
 			hDbExistingEvent = edbe;
 			//compare without data (faster)
 			if ( result = IsEqual(dbei, &edbei, false)) {
@@ -612,7 +612,7 @@ bool Exists(MCONTACT hContact, MEVENT& hDbExistingEvent, DBEVENTINFO *dbei)
 		} /*end for*/
 
 		if (!result) {
-			for (MEVENT edbe = db_event_next(hContact, sdbe); edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp >= edbei.timestamp); edbe = db_event_next(hContact, edbe)) {
+			for (MEVENT edbe = db_event_next(hContact, sdbe); edbe && !GetInfo(edbe, &edbei) && (dbei->getUnixtime() >= edbei.getUnixtime()); edbe = db_event_next(hContact, edbe)) {
 				hDbExistingEvent = edbe;
 				//compare without data (faster)
 				if (result = IsEqual(dbei, &edbei, false)) {

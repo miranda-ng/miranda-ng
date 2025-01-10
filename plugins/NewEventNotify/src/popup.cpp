@@ -444,7 +444,7 @@ int PopupUpdate(PLUGIN_DATA &pdata, MEVENT hEvent)
 			wszFormat.Append(L"%H:%M");
 		if (!wszFormat.IsEmpty()) {
 			wchar_t timestamp[MAX_DATASIZE];
-			time_t localTime = dbe.timestamp;
+			time_t localTime = dbe.getUnixtime();
 			wcsftime(timestamp, _countof(timestamp), wszFormat, localtime(&localTime));
 			wszText.AppendFormat(L"[b][i]%s[/i][/b]\n", timestamp);
 		}

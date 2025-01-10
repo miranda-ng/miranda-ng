@@ -132,14 +132,14 @@ void BinaryExport::WriteGroup(bool, const std::wstring&, const std::wstring&, co
 
 void BinaryExport::WriteMessage(bool, const std::wstring&, const std::wstring&, const std::wstring&, const std::wstring &message, const DBEVENTINFO& dbei)
 {
-	if (dbei.timestamp >= lTime) {
+	if (dbei.getUnixtime() >= lTime) {
 		BinaryFileMessageHeader header;
 		header.eventType = dbei.eventType;
 		header.flags = dbei.flags & (~(0x800));
-		header.timestamp = dbei.timestamp;
+		header.timestamp = dbei.getUnixtime();
 		EXP_FILE.write((char*)&header, sizeof(BinaryFileMessageHeader));
 		WriteString(message);
-		lTime = dbei.timestamp;
+		lTime = dbei.getUnixtime();
 	}
 }
 

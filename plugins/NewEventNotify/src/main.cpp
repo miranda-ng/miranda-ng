@@ -80,11 +80,11 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 		return 0;
 
 	// if event was allready read don't show it
-	if (g_plugin.bReadCheck && (dbei.flags & DBEF_READ))
+	if (g_plugin.bReadCheck && dbei.bRead)
 		return 0;
 
 	// is it an event sent by the user? -> don't show
-	if (dbei.flags & DBEF_SENT) {
+	if (dbei.bSent) {
 		// JK, only message event, do not influence others
 		auto *pdata = PU_GetByContact(hContact, dbei.eventType);
 		if (g_plugin.bHideSend && pdata)

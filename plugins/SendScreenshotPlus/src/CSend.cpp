@@ -323,7 +323,7 @@ void CSend::DB_EventAdd(uint16_t EventType)
 	dbei.szModule = m_pszProto;
 	dbei.eventType = EventType;
 	dbei.flags = DBEF_SENT;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob = m_cbEventMsg;
 	dbei.pBlob = m_szEventMsg.GetBuffer();

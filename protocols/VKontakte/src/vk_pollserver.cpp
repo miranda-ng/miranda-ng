@@ -143,7 +143,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 				_itoa(iMessageId, szMid, 10);
 
 				T2Utf pszMsg(wszMsg);
-				dbei.timestamp = tDateTime;
+				dbei.iTimestamp = tDateTime;
 				dbei.pBlob = pszMsg;
 				dbei.szId = szMid;
 				ProtoChainRecvMsg(hContact, dbei);

@@ -375,7 +375,7 @@ void log_to_history(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, 
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
-	dbei.timestamp = static_cast<uint32_t>(nTime);
+	dbei.iTimestamp = static_cast<uint32_t>(nTime);
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)::mir_strlen(psz) + 1;

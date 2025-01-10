@@ -97,7 +97,7 @@ void DatExport::WriteMessage(bool, const std::wstring&, const std::wstring&, con
 	header.cbSize = sizeof(DBEVENTINFO86);
 	header.eventType = dbei.eventType;
 	header.flags = dbei.flags & (~(0x800));
-	header.timestamp = dbei.timestamp;
+	header.timestamp = dbei.getUnixtime();
 	header.szModule = 0;
 	header.pBlob = 0;
 	if (dbei.flags & 0x800) {
@@ -179,7 +179,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 
 		info.eventType = messageHeader.eventType;
 		info.flags = messageHeader.flags;
-		info.timestamp = messageHeader.timestamp;
+		info.iTimestamp = messageHeader.timestamp;
 		info.cbBlob = messageHeader.cbBlob;
 		info.pBlob = (char *)memBuf.c_str();
 		HistoryEventList::GetObjectDescription(&info, _str, MAXSELECTSTR);

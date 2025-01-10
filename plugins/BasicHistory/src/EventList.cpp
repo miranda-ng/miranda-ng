@@ -63,11 +63,11 @@ bool HistoryEventList::CanShowHistory(DBEVENTINFO* dbei)
 {
 	if (m_deltaTime != 0) {
 		if (m_deltaTime > 0) {
-			if (m_now - m_deltaTime < dbei->timestamp)
+			if (m_now - m_deltaTime < dbei->getUnixtime())
 				return false;
 		}
 		else {
-			if (m_now + m_deltaTime > dbei->timestamp)
+			if (m_now + m_deltaTime > dbei->getUnixtime())
 				return false;
 		}
 	}
@@ -501,7 +501,7 @@ void HistoryEventList::MargeMessages(const std::vector<IImport::ExternalMessage>
 		if (it->isExternal) {
 			IImport::ExternalMessage& msg = m_importedMessages[it->exIdx];
 			dbei.flags |= DBEF_READ;
-			dbei.timestamp = msg.timestamp;
+			dbei.iTimestamp = msg.timestamp;
 			// For now I do not convert event data from string to blob, and event type must be message to handle it properly
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			UINT cp = dbei.flags & DBEF_UTF ? CP_UTF8 : CP_ACP;
@@ -532,7 +532,7 @@ bool HistoryEventList::GetEventData(const EventIndex& ev, EventData& data)
 		if (db_event_get(ev.hEvent, &m_dbei) == 0) {
 			data.isMe = (m_dbei.flags & DBEF_SENT) != 0;
 			data.eventType = m_dbei.eventType;
-			data.timestamp = m_dbei.timestamp;
+			data.timestamp = m_dbei.getUnixtime();
 			return true;
 		}
 	}
@@ -552,7 +552,7 @@ void HistoryEventList::GetExtEventDBei(const EventIndex& ev)
 	IImport::ExternalMessage& em = m_importedMessages[ev.exIdx];
 	m_dbei.flags = em.flags | 0x800;
 	m_dbei.eventType = em.eventType;
-	m_dbei.timestamp = em.timestamp;
+	m_dbei.iTimestamp = em.timestamp;
 }
 
 HICON HistoryEventList::GetEventCoreIcon(const EventIndex& ev)

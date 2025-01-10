@@ -59,7 +59,7 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
 		dbei.hContact = hContact;
 		dbei.szModule = m_szModuleName;
-		dbei.timestamp = (bUseLocalTime) ? iLocalTime : IsoToUnixTime(message["composetime"].as_string());
+		dbei.iTimestamp = (bUseLocalTime) ? iLocalTime : IsoToUnixTime(message["composetime"].as_string());
 		dbei.szId = szMessageId;
 		if (iUserType == 19) {
 			dbei.szUserId = szFrom;

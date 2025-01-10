@@ -145,7 +145,7 @@ void NotifyUser(Account *curAcc)
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.flags = DBEF_READ;
 			dbei.szModule = MODULENAME;
-			dbei.timestamp = time(0);
+			dbei.iTimestamp = time(0);
 
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < newMails; i++) {

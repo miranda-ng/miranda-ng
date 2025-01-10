@@ -1275,7 +1275,7 @@ void CDccSession::DoChatReceive()
 			if (*pStart) {
 				// send it off to some messaging module
 				DB::EventInfo dbei;
-				dbei.timestamp = (uint32_t)time(0);
+				dbei.iTimestamp = (uint32_t)time(0);
 				dbei.pBlob = pStart;
 				ProtoChainRecvMsg(di->hContact, dbei);
 			}

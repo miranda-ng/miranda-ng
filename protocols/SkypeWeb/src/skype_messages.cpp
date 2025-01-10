@@ -119,7 +119,7 @@ LBL_Deleted:
 	}
 
 	if (strMessageType == "Text" || strMessageType == "RichText") {
-		if ((dbei.flags & DBEF_SENT) && dbei.szId) {
+		if (dbei.bSent && dbei.szId) {
 			for (auto &it: m_OutMessages) {
 				if (it->hClientMessageId == _atoi64(dbei.szId)) {
 					ProtoBroadcastAck(dbei.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->hMessage, (LPARAM)dbei.szId);
@@ -191,7 +191,7 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 
 	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
 	dbei.hContact = hContact;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.szId = szMessageId;
 	dbei.flags = DBEF_UTF;
 	if (IsMe(szFromSkypename))

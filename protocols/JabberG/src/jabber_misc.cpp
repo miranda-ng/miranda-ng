@@ -53,7 +53,7 @@ void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
 	DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = (uint32_t)time(0);
+	dbei.iTimestamp = (uint32_t)time(0);
 	dbei.cbBlob = blob.size();
 	dbei.pBlob = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
@@ -126,7 +126,7 @@ bool CJabberProto::AddDbPresenceEvent(MCONTACT hContact, uint8_t btEventType)
 	dbei.cbBlob = sizeof(btEventType);
 	dbei.eventType = EVENTTYPE_JABBER_PRESENCE;
 	dbei.flags = DBEF_READ;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.szModule = m_szModuleName;
 	db_event_add(hContact, &dbei);
 	return true;
@@ -500,7 +500,7 @@ void CJabberProto::OnGetBob(const TiXmlElement *node, CJabberIqInfo *pReq)
 				wszFileName.Insert(0, L"[img]"); wszFileName.Append(L"[/img]");
 				T2Utf szMsg(wszFileName);
 				DB::EventInfo dbei;
-				dbei.timestamp = time(0);
+				dbei.iTimestamp = time(0);
 				dbei.pBlob = szMsg;
 				ProtoChainRecvMsg(pReq->GetHContact(), dbei);
 			}

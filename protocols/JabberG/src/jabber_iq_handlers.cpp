@@ -324,7 +324,7 @@ bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 			str2 = ft->httpPath;
 
 		DB::EventInfo dbei;
-		dbei.timestamp = time(0);
+		dbei.iTimestamp = time(0);
 		ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, str2, desc), dbei);
 	}
 	else { // reject

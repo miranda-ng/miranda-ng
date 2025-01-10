@@ -70,7 +70,7 @@ void __cdecl AutoreplyDelayThread(CAutoreplyData *ad)
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.szModule = szProto;
-		dbei.timestamp = time(0);
+		dbei.iTimestamp = time(0);
 		dbei.cbBlob = ReplyLen;
 		dbei.pBlob = pszReply;
 		db_event_add(ad->hContact, &dbei);
@@ -112,7 +112,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (dbei->flags & DBEF_SENT || (dbei->eventType != EVENTTYPE_MESSAGE && dbei->eventType != EVENTTYPE_FILE))
 		return 0;
 
-	if (time(0) - dbei->timestamp > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
+	if (time(0) - dbei->getUnixtime() > MAX_REPLY_TIMEDIFF) // don't reply to offline messages
 		return 0;
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
@@ -139,7 +139,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 
 		// we compare only event timestamps, and do not look at the message itself. it's unlikely that there'll be two events from a contact at the same second, so it's a trade-off between speed and reliability
 		for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--) {
-			if (MetacontactEvents[i].timestamp == dbei->timestamp && MetacontactEvents[i].hMetaContact == hMetaContact) {
+			if (MetacontactEvents[i].timestamp == dbei->getUnixtime() && MetacontactEvents[i].hMetaContact == hMetaContact) {
 				bMsgWindowIsOpen = MetacontactEvents[i].bMsgWindowIsOpen;
 				break;
 			}
@@ -159,7 +159,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 				MetacontactEvents.RemoveElem(i);
 
 		// add the new event and wait for a subcontact's event
-		MetacontactEvents.AddElem(CMetacontactEvent(hContact, dbei->timestamp, IsSRMsgWindowOpen(hContact)));
+		MetacontactEvents.AddElem(CMetacontactEvent(hContact, dbei->getUnixtime(), IsSRMsgWindowOpen(hContact)));
 		return 0;
 	}
 

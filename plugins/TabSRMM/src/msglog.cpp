@@ -568,8 +568,8 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.markedRead())
 		dat->m_cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
-	BOOL isSent = (dbei.flags & DBEF_SENT);
-	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
+	bool isSent = dbei.bSent;
+	bool bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 	if (!isSent && bIsStatusChangeEvent)
 		dbei.wipeNotify();
 
@@ -596,7 +596,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 
 	uint32_t dwEffectiveFlags = dat->m_dwFlags;
 
-	dat->m_bIsHistory = (dbei.timestamp < dat->m_cache->getSessionStart() && dbei.markedRead());
+	dat->m_bIsHistory = (dbei.getUnixtime() < dat->m_cache->getSessionStart() && dbei.markedRead());
 	int iFontIDOffset = dat->m_bIsHistory ? 8 : 0;     // offset into the font table for either history (old) or new events... (# of fonts per configuration set)
 
 	g_groupBreak = TRUE;
@@ -610,9 +610,9 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 		dat->m_bDividerWanted = false;
 	}
 
-	if (dwEffectiveFlags & MWF_LOG_GROUPMODE && ((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)) == LOWORD(dat->m_iLastEventType)) && dbei.eventType == EVENTTYPE_MESSAGE && HIWORD(dat->m_iLastEventType) == EVENTTYPE_MESSAGE && (dbei.timestamp - dat->m_lastEventTime) < 86400) {
+	if (dwEffectiveFlags & MWF_LOG_GROUPMODE && ((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)) == LOWORD(dat->m_iLastEventType)) && dbei.eventType == EVENTTYPE_MESSAGE && HIWORD(dat->m_iLastEventType) == EVENTTYPE_MESSAGE && (dbei.getUnixtime() - dat->m_lastEventTime) < 86400) {
 		g_groupBreak = FALSE;
-		if ((time_t)dbei.timestamp > today && dat->m_lastEventTime < today)
+		if ((time_t)dbei.getUnixtime() > today && dat->m_lastEventTime < today)
 			g_groupBreak = TRUE;
 	}
 
@@ -642,7 +642,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 	// templated code starts here
 	if (dwEffectiveFlags & MWF_LOG_SHOWTIME) {
 		hTimeZone = ((dat->m_dwFlags & MWF_LOG_LOCALTIME) && !isSent) ? dat->m_hTimeZone : nullptr;
-		time_t local_time = TimeZone_UtcToLocal(hTimeZone, dbei.timestamp);
+		time_t local_time = TimeZone_UtcToLocal(hTimeZone, dbei.getUnixtime());
 		event_time = *gmtime(&local_time);
 	}
 
@@ -765,14 +765,14 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 				break;
 			case 'D': // long date
 				if (showTime && showDate) {
-					wchar_t *szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'D');
+					wchar_t *szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.getUnixtime(), 'D');
 					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = true;
 				break;
 			case 'E': // short date...
 				if (showTime && showDate) {
-					wchar_t *szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'E');
+					wchar_t *szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.getUnixtime(), 'E');
 					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = true;
@@ -871,7 +871,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 			case 'R':
 			case 'r': // long date
 				if (showTime && showDate) {
-					wchar_t *szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, cc);
+					wchar_t *szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.getUnixtime(), cc);
 					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = true;
@@ -879,7 +879,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 			case 't':
 			case 'T':
 				if (showTime) {
-					wchar_t *szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, (wchar_t)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (wchar_t)'t'));
+					wchar_t *szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.getUnixtime(), (wchar_t)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (wchar_t)'t'));
 					AppendTimeStamp(szFinalTimestamp, isSent, str, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = true;
@@ -1116,7 +1116,7 @@ skip:
 	str.Append("\\par");
 
 	dat->m_iLastEventType = MAKELONG((dbei.flags & (DBEF_SENT | DBEF_READ | DBEF_RTL)), dbei.eventType);
-	dat->m_lastEventTime = dbei.timestamp;
+	dat->m_lastEventTime = dbei.getUnixtime();
 	return true;
 }
 
@@ -1205,12 +1205,12 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DB::Ev
 		m_pDlg.m_bLastParaDeleted = true;
 	}
 
-	BOOL isSent;
+	bool isSent;
 	if (streamData.dbei != nullptr)
-		isSent = (streamData.dbei->flags & DBEF_SENT) != 0;
+		isSent = streamData.dbei->bSent;
 	else {
 		DB::EventInfo dbei(hDbEventFirst, false);
-		isSent = (dbei.flags & DBEF_SENT) != 0;
+		isSent = dbei.bSent;
 	}
 
 	ReplaceIcons(startAt, fAppend, isSent);

@@ -41,9 +41,9 @@ void CSteamProto::OnGotRecentMessages(const CFriendMessagesGetRecentMessagesResp
 				setDword(hContact, DBKEY_LASTMSG, pMsg->timestamp);
 
 			dbei.szId = szMsgId;
-			dbei.timestamp = pMsg->timestamp;
+			dbei.iTimestamp = pMsg->timestamp;
 		}
-		else dbei.timestamp = time(0);
+		else dbei.iTimestamp = time(0);
 
 		if (dbei.getEvent())
 			db_event_edit(hEvent, &dbei, true);
@@ -107,10 +107,10 @@ void CSteamProto::OnGotHistoryMessages(const CMsgClientChatGetFriendMessageHisto
 		dbei.cbBlob = (int)mir_strlen(pMsg->message);
 		dbei.pBlob = mir_strdup(pMsg->message);
 		if (pMsg->has_timestamp) {
-			dbei.timestamp = pMsg->timestamp;
+			dbei.iTimestamp = pMsg->timestamp;
 			dbei.szId = szMsgId;
 		}
-		else dbei.timestamp = time(0);
+		else dbei.iTimestamp = time(0);
 
 		if (dbei.getEvent())
 			db_event_edit(hEvent, &dbei, true);

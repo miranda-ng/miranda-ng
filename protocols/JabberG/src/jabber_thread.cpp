@@ -1021,7 +1021,7 @@ uint32_t JabberGetLastContactMessageTime(MCONTACT hContact)
 		return 0;
 
 	DB::EventInfo dbei(hDbEvent, false);
-	return (dbei) ? dbei.timestamp : 0;
+	return (dbei) ? dbei.getUnixtime() : 0;
 }
 
 MCONTACT CJabberProto::CreateTemporaryContact(const char *szJid, JABBER_LIST_ITEM *chatItem)
@@ -1175,7 +1175,7 @@ void CJabberProto::XmppMsg::handle_chatstates()
 		_dbei.cbBlob = 1;
 		_dbei.eventType = EVENTTYPE_JABBER_CHATSTATES;
 		_dbei.flags = DBEF_READ;
-		_dbei.timestamp = time(0);
+		_dbei.iTimestamp = time(0);
 		_dbei.szModule = m_proto->m_szModuleName;
 		db_event_add(hContact, &_dbei);
 	}
@@ -1463,7 +1463,7 @@ void CJabberProto::XmppMsg::add_to_db()
 	if (bWasSent)
 		dbei.flags |= DBEF_SENT;
 
-	dbei.timestamp = (uint32_t)msgTime;
+	dbei.iTimestamp = (uint32_t)msgTime;
 	dbei.pBlob = szMessage.GetBuffer();
 	dbei.szId = szMamMsgId;
 

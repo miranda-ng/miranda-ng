@@ -85,7 +85,7 @@ time_t getLastInputMsg(MCONTACT hContact)
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
-			return dbei.timestamp;
+			return dbei.getUnixtime();
 	}
 	return -1;
 }

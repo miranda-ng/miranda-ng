@@ -285,7 +285,7 @@ void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
-	dbei.timestamp = (uint32_t)time(0);
+	dbei.iTimestamp = (uint32_t)time(0);
 	dbei.eventType = 1;
 	dbei.cbBlob = (uint32_t)mir_strlen(buff) + 1;
 	dbei.pBlob = buff;
@@ -300,7 +300,7 @@ void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, uint32_t timestamp)
 	dbei.szModule = MODULENAME;
 	dbei.eventType = 1;
 	dbei.flags = DBEF_UTF;
-	dbei.timestamp = timestamp;
+	dbei.iTimestamp = timestamp;
 	dbei.cbBlob = (uint32_t)mir_strlen(buff) + 1;
 	dbei.pBlob = buff;
 	db_event_add(hContact, &dbei);

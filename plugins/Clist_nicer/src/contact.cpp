@@ -73,10 +73,10 @@ static void MF_CalcFrequency(MCONTACT hContact, uint32_t dwCutoffDays, int doSle
 		db_event_get(hEvent, &dbei);
 
 		// record time of last event
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.bSent)
 			eventCount++;
 
-		if (eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
+		if (eventCount >= 100 || dbei.getUnixtime() < curTime - (dwCutoffDays * 86400))
 			break;
 
 		if (doSleep && mf_updatethread_running == FALSE)
@@ -90,8 +90,8 @@ static void MF_CalcFrequency(MCONTACT hContact, uint32_t dwCutoffDays, int doSle
 		g_plugin.setDword(hContact, "mf_firstEvent", curTime - (dwCutoffDays * 86400));
 	}
 	else {
-		frequency = (curTime - dbei.timestamp) / eventCount;
-		g_plugin.setDword(hContact, "mf_firstEvent", dbei.timestamp);
+		frequency = (curTime - dbei.getUnixtime()) / eventCount;
+		g_plugin.setDword(hContact, "mf_firstEvent", dbei.getUnixtime());
 	}
 
 	g_plugin.setDword(hContact, "mf_freq", frequency);
@@ -139,8 +139,8 @@ uint32_t INTSORT_GetLastMsgTime(MCONTACT hContact)
 	while (MEVENT hDbEvent = cursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
-			return dbei.timestamp;
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.bSent)
+			return dbei.getUnixtime();
 	}
 	return 0;
 }

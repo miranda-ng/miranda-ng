@@ -51,7 +51,7 @@ void CToxProto::OnFriendFile(Tox *tox, uint32_t friendNumber, uint32_t fileNumbe
 			proto->transfers.Add(transfer);
 
 			DB::EventInfo dbei;
-			dbei.timestamp = now();
+			dbei.iTimestamp = now();
 			ProtoChainRecvFile(hContact, DB::FILE_BLOB(transfer, rawName), dbei);
 		}
 		break;

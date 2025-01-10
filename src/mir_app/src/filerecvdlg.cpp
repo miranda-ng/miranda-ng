@@ -253,7 +253,7 @@ public:
 			SetDlgItemText(m_hwnd, IDC_MSG, blob.getDescr());
 
 		wchar_t datetimestr[64];
-		TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"t d", datetimestr, _countof(datetimestr), 0);
+		TimeZone_PrintTimeStamp(NULL, dbei.getUnixtime(), L"t d", datetimestr, _countof(datetimestr), 0);
 		SetDlgItemText(m_hwnd, IDC_DATE, datetimestr);
 
 		ptrW info(Contact::GetInfo(CNF_UNIQUEID, dat->hContact));

@@ -66,8 +66,8 @@ uint32_t CompareContacts2_getLMTime(MCONTACT hContact)
 	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
-		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) && !(dbei.flags & DBEF_SENT))
-			return dbei.timestamp;
+		if ((dbei.eventType == EVENTTYPE_MESSAGE || dbei.eventType == EVENTTYPE_FILE) && !dbei.bSent)
+			return dbei.getUnixtime();
 	}
 	return 0;
 }

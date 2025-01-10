@@ -224,7 +224,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (!AutoCreateWindow(0, wParam) && lParam) {
 			// no window created, simply add an unread event to contact list
 			DB::EventInfo dbei(lParam, false);
-			if (dbei && !(dbei.flags & DBEF_READ)) {
+			if (dbei && !dbei.bRead) {
 				AddUnreadContact(wParam);
 				Srmm_AddEvent(wParam, lParam);
 			}

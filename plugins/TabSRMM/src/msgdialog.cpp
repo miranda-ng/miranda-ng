@@ -576,8 +576,8 @@ bool CMsgDialog::OnInitDialog()
 		while (MEVENT hdbEvent = pCursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
 			db_event_get(hdbEvent, &dbei);
-			if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-				m_lastMessage = dbei.timestamp;
+			if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.bSent) {
+				m_lastMessage = dbei.getUnixtime();
 				DM_UpdateLastMessage();
 				break;
 			}

@@ -236,7 +236,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	wchar_t szFont[100];
 	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
-	str.AppendFormat(L".nick {color: #%06X }\n", color2html(g_colorTable[(dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK].cl));
+	str.AppendFormat(L".nick {color: #%06X }\n", color2html(g_colorTable[dbe.bSent ? COLOR_OUTNICK : COLOR_INNICK].cl));
 	str.AppendFormat(L".link {color: #%06X }\n", color2html(g_colorTable[COLOR_LINK].cl));
 	str.AppendFormat(L".quote {border-left: 4px solid #%06X; padding-left: 8px; }\n", color2html(g_colorTable[COLOR_QUOTE].cl));
 
@@ -409,7 +409,7 @@ CMStringA NewstoryListData::GatherSelectedRtf()
 		buf.AppendFormat("{\\uc1\\pard \\cb%d\\cf%d\\f%d\\b0\\i0\\fs%d ", COLOR_BACK + 7, colorID+COLOR_COUNT+7, fontID, GetFontHeight(g_fontTable[fontID].lf));
 		CMStringW wszText(p->formatString());
 		wszText.Replace(L"[c0]", CMStringW(FORMAT, L"[c%d]", colorID + COLOR_COUNT + 7));
-		wszText.Replace(L"[c1]", CMStringW(FORMAT, L"[c%d]", 7 + ((p->dbe.flags & DBEF_SENT) ? COLOR_OUTNICK : COLOR_INNICK)));
+		wszText.Replace(L"[c1]", CMStringW(FORMAT, L"[c%d]", 7 + (p->dbe.bSent ? COLOR_OUTNICK : COLOR_INNICK)));
 		AppendUnicodeToBuffer(buf, wszText);
 		buf.Append("\\par }");
 	}
@@ -540,7 +540,7 @@ void vfEvent(TemplateVars *vars, MCONTACT, ItemData *pItem)
 	wchar_t buf[100];
 
 	//  %N: Nickname
-	if (!pItem->m_bIsResult && (pItem->dbe.flags & DBEF_SENT)) {
+	if (!pItem->m_bIsResult && pItem->dbe.bSent) {
 		if (!pItem->wszNick) {
 			char *proto = Proto_GetBaseAccountName(pItem->dbe.hContact);
 			ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
@@ -554,14 +554,14 @@ void vfEvent(TemplateVars *vars, MCONTACT, ItemData *pItem)
 	}
 
 	// %D: direction symbol
-	if (pItem->dbe.flags & DBEF_SENT)
+	if (pItem->dbe.bSent)
 		vars->SetVar('D', L"<<", false);
 	else
 		vars->SetVar('D', L">>", false);
 
 	//  %t: timestamp
 	SYSTEMTIME st;
-	if (!TimeZone_GetSystemTime(nullptr, pItem->dbe.timestamp, &st, 0)) {
+	if (!TimeZone_GetSystemTime(nullptr, pItem->dbe.getUnixtime(), &st, 0)) {
 		int iLocale = Langpack_GetDefaultLocale();
 
 		GetDateFormatW(iLocale, 0, &st, L"dd.MM.yyyy, ", buf, _countof(buf));

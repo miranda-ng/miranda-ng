@@ -226,7 +226,7 @@ int CIrcProto::AddOutgoingMessageToDB(MCONTACT hContact, const wchar_t *msg)
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.timestamp = (uint32_t)time(0);
+	dbei.iTimestamp = (uint32_t)time(0);
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.pBlob = mir_utf8encodeW(S);
 	dbei.cbBlob = (uint32_t)mir_strlen((char*)dbei.pBlob) + 1;
@@ -700,7 +700,7 @@ bool CIrcProto::OnIrc_PRIVMSG(const CIrcMessage *pmsg)
 			T2Utf utf(mess);
 
 			DB::EventInfo dbei;
-			dbei.timestamp = (uint32_t)time(0);
+			dbei.iTimestamp = (uint32_t)time(0);
 			dbei.pBlob = utf;
 			setWString(hContact, "User", pmsg->prefix.sUser);
 			setWString(hContact, "Host", pmsg->prefix.sHost);
@@ -1147,7 +1147,7 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 						setWString(hContact, "Host", pmsg->prefix.sHost);
 
 						DB::EventInfo dbei;
-						dbei.timestamp = (uint32_t)time(0);
+						dbei.iTimestamp = (uint32_t)time(0);
 						ProtoChainRecvFile(hContact, DB::FILE_BLOB(di, T2Utf(sFile)), dbei);
 					}
 				}

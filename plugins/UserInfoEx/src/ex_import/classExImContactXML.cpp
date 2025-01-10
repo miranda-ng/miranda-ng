@@ -401,7 +401,7 @@ uint8_t CExImContactXML::ExportEvents()
 			TiXmlElement *xmlEvent = _xmlDoc.NewElement("evt");
 			if (xmlEvent) {
 				xmlEvent->SetAttribute("type", dbei.eventType);
-				xmlEvent->SetAttribute("time", (int)dbei.timestamp);
+				xmlEvent->SetAttribute("time", (int)dbei.getUnixtime());
 				xmlEvent->SetAttribute("flag", (int)dbei.flags);
 
 				TiXmlText *xmlText = _xmlDoc.NewText(pBase64Data);
@@ -914,8 +914,8 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, const TiXmlElement *xmlEvent)
 
 	// timestamp must be valid
 	DBEVENTINFO	dbei = {};
-	dbei.timestamp = xmlEvent->IntAttribute("time");
-	if (dbei.timestamp == 0)
+	dbei.iTimestamp = xmlEvent->IntAttribute("time");
+	if (dbei.iTimestamp == 0)
 		return ERROR_INVALID_TIMESTAMP;
 
 	LPCSTR tmp = xmlEvent->GetText();

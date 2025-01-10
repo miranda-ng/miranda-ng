@@ -165,7 +165,7 @@ class CHistoryDlg : public CDlgBase
 
 			CharLowerW(pwszText);
 			if (wcsstr(pwszText, pwszPattern))
-				m_arResults.insert(new SearchResult(hContact, hDbEvent, dbei.timestamp));
+				m_arResults.insert(new SearchResult(hContact, hDbEvent, dbei.getUnixtime()));
 		}
 	}
 
@@ -302,11 +302,11 @@ class CHistoryDlg : public CDlgBase
 			if (!pItem->fetch())
 				continue;
 
-			if (pItem->dbe.timestamp == 0)
+			if (pItem->dbe.iTimestamp == 0)
 				continue;
 
 			struct tm ts = { 0 };
-			time_t timestamp = pItem->dbe.timestamp;
+			time_t timestamp = pItem->dbe.getUnixtime();
 			errno_t err = localtime_s(&ts, &timestamp);  /* statically alloced, local time correction */
 			if (err != 0)
 				return;
@@ -1157,7 +1157,7 @@ public:
 		case UM_LOCATETIME:
 			if (m_dwOptions & WND_OPT_TIMETREE)
 				if (auto *pItem = m_histCtrl->GetItem(wParam))
-					LocateDateTime(pItem->dbe.timestamp);
+					LocateDateTime(pItem->dbe.getUnixtime());
 			break;
 
 		case UM_UPDATE_WINDOW:

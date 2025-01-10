@@ -191,10 +191,26 @@ struct DBVARIANT
 struct DBEVENTINFO
 {
 	const char *szModule;       // pointer to name of the module that 'owns' this event
-	uint32_t    timestamp;      // seconds since 00:00, 01/01/1970. Gives us times until 2106
-									    // unless you use the standard C library which is
-									    // signed and can only do until 2038. In GMT.
-	uint32_t    flags;          // combination of DBEF_* flags
+	uint64_t    iTimestamp;     // seconds or milliseconds since 00:00, 01/01/1970. In GMT.
+	
+	union {
+		uint32_t flags;          // combination of DBEF_* flags
+		struct {
+			bool bTemporary: 1;   // disable notifications about temporary database events
+			bool bSent : 1;       // this event was sent by the user. If not set this event was received.
+			bool bRead : 1;       // event has been read by the user. It does not need to be processed any more except for history.
+			bool bRtl : 1;        // event contains the right-to-left aligned text
+			bool bUtf : 1;        // event contains a text in utf-8
+			bool isEncrypted : 1; // event is encrypted (never reported outside a driver)
+			bool hasId : 1;       // event has unique server id
+			bool bSecure : 1;     // event is encrypted
+			bool bStrong : 1;     // event is encrypted by the verified sender
+			bool isBookmark : 1;  // event is bookmarked
+			bool isJson : 1;      // event's body is a JSON structure
+			bool bMsec : 1;       // event's timestamp is in milliseconds
+		};
+	};
+
 	uint32_t    eventType;      // module-defined event type field
 	MCONTACT    hContact;       // contact to which this event belongs
 	int         cbBlob;         // size of pBlob in bytes
@@ -203,12 +219,16 @@ struct DBEVENTINFO
 	const char *szUserId;       // user id (for group chats only)
 	const char *szReplyId;      // this message is a reply to a message with that server id
 
+	uint32_t __forceinline getUnixtime() const {
+		return bMsec ? (iTimestamp / 1000) : iTimestamp;
+	}
+
 	bool __forceinline markedRead() const {
-		return (flags & (DBEF_SENT | DBEF_READ)) != 0;
+		return (bSent || bRead);
 	}
 
 	bool __forceinline operator==(const DBEVENTINFO &e) {
-		return (timestamp == e.timestamp && eventType == e.eventType && cbBlob == e.cbBlob && (flags & DBEF_SENT) == (e.flags & DBEF_SENT));
+		return (iTimestamp == e.iTimestamp && eventType == e.eventType && cbBlob == e.cbBlob && bSent == e.bSent);
 	}
 };
 

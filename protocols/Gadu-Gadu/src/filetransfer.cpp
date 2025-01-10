@@ -368,7 +368,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 						const char *pszFileName = (const char *)m_dcc->file_info.filename;
 
 						DB::EventInfo dbei;
-						dbei.timestamp = time(0);
+						dbei.iTimestamp = time(0);
 
 						gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);
 						ProtoChainRecvFile((UINT_PTR)local_dcc->contact, DB::FILE_BLOB(local_dcc, pszFileName, pszFileName), dbei);

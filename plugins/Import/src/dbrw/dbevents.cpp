@@ -80,7 +80,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	if (sql_step(stmt) == SQLITE_ROW) {
 		const void *blob = sqlite3_column_blob(stmt, 4);
 
-		dbei->timestamp = (uint32_t)sqlite3_column_int(stmt, 1);
+		dbei->iTimestamp = sqlite3_column_int64(stmt, 1);
 		dbei->flags = (uint32_t)sqlite3_column_int(stmt, 2);
 		dbei->eventType = (uint16_t)sqlite3_column_int(stmt, 3);
 		dbei->szModule = mir_strdup((char*)sqlite3_column_text(stmt, 7));

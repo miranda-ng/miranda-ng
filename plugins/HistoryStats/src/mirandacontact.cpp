@@ -162,14 +162,14 @@ void MirandaContactTolerantMerge::fillQueue()
 	// assume that items with +/- 30 seconds may be equal
 	static const int timestampTol = 30;
 
-	while (!m_CIs.empty() && (m_EIs.size() < 2 || (m_EIs.back().dbe.timestamp - m_EIs.front().dbe.timestamp) <= timestampTol)) {
+	while (!m_CIs.empty() && (m_EIs.size() < 2 || (m_EIs.back().dbe.getUnixtime() - m_EIs.front().dbe.getUnixtime()) <= timestampTol)) {
 		// find oldest next event in chains
 		int nNext = 0;
-		uint32_t timestampFirst = m_CIs.front().ei.dbe.timestamp;
+		uint32_t timestampFirst = m_CIs.front().ei.dbe.getUnixtime();
 
 		for (int i = 1; i < m_CIs.size(); ++i) {
-			if (m_CIs[i].ei.dbe.timestamp < timestampFirst) {
-				timestampFirst = m_CIs[i].ei.dbe.timestamp;
+			if (m_CIs[i].ei.dbe.getUnixtime() < timestampFirst) {
+				timestampFirst = m_CIs[i].ei.dbe.getUnixtime();
 				nNext = i;
 			}
 		}
@@ -183,7 +183,7 @@ void MirandaContactTolerantMerge::fillQueue()
 		iter_each_(std::list<EventInfo>, j, m_EIs)
 		{
 			EventInfo& j_ei = *j;
-			int timestampDelta = j_ei.dbe.timestamp - ci.ei.dbe.timestamp;
+			int timestampDelta = j_ei.dbe.getUnixtime() - ci.ei.dbe.getUnixtime();
 
 			if (timestampDelta > 0) {
 				insPos = j;
@@ -227,14 +227,14 @@ void MirandaContactStrictMerge::fillQueue()
 	// assume that items with +/- 30 seconds may be equal
 	static const int timestampTol = 0;
 
-	while (!m_CIs.empty() && (m_EIs.size() < 2 || (m_EIs.back().dbe.timestamp - m_EIs.front().dbe.timestamp) <= timestampTol)) {
+	while (!m_CIs.empty() && (m_EIs.size() < 2 || (m_EIs.back().dbe.getUnixtime() - m_EIs.front().dbe.getUnixtime()) <= timestampTol)) {
 		// find oldest next event in chains
 		int nNext = 0;
-		uint32_t timestampFirst = m_CIs.front().ei.dbe.timestamp;
+		uint32_t timestampFirst = m_CIs.front().ei.dbe.getUnixtime();
 
 		for (int i = 1; i < m_CIs.size(); ++i) {
-			if (m_CIs[i].ei.dbe.timestamp < timestampFirst) {
-				timestampFirst = m_CIs[i].ei.dbe.timestamp;
+			if (m_CIs[i].ei.dbe.getUnixtime() < timestampFirst) {
+				timestampFirst = m_CIs[i].ei.dbe.getUnixtime();
 				nNext = i;
 			}
 		}
@@ -248,7 +248,7 @@ void MirandaContactStrictMerge::fillQueue()
 		iter_each_(std::list<EventInfo>, j, m_EIs)
 		{
 			EventInfo& j_ei = *j;
-			int timestampDelta = j_ei.dbe.timestamp - ci.ei.dbe.timestamp;
+			int timestampDelta = j_ei.dbe.getUnixtime() - ci.ei.dbe.getUnixtime();
 
 			if (timestampDelta > 0)
 				insPos = j;
@@ -291,11 +291,11 @@ void MirandaContactNoMerge::fillQueue()
 	while (!m_CIs.empty() && m_EIs.size() < 1) {
 		// find oldest next event in chains
 		int nNext = 0;
-		uint32_t timestampFirst = m_CIs.front().ei.dbe.timestamp;
+		uint32_t timestampFirst = m_CIs.front().ei.dbe.getUnixtime();
 
 		for (int i = 1; i < m_CIs.size(); ++i) {
-			if (m_CIs[i].ei.dbe.timestamp < timestampFirst) {
-				timestampFirst = m_CIs[i].ei.dbe.timestamp;
+			if (m_CIs[i].ei.dbe.getUnixtime() < timestampFirst) {
+				timestampFirst = m_CIs[i].ei.dbe.getUnixtime();
 				nNext = i;
 			}
 		}

@@ -177,7 +177,7 @@ void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, c
 
 	DB::EventInfo dbei;
 	dbei.flags = DBEF_TEMPORARY;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, szName, pszDescr), dbei);
 }
 

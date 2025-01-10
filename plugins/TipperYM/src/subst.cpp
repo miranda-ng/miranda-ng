@@ -124,8 +124,8 @@ uint32_t LastMessageTimestamp(MCONTACT hContact, bool received)
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received)
-			return dbei.timestamp;
+		if (dbei.eventType == EVENTTYPE_MESSAGE && dbei.bSent != received)
+			return dbei.getUnixtime();
 	}
 
 	return 0;
@@ -166,7 +166,7 @@ wchar_t* GetLastMessageText(MCONTACT hContact, bool received)
 {
 	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DB::EventInfo dbei(hDbEvent);
-		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received) {
+		if (dbei.eventType == EVENTTYPE_MESSAGE && dbei.bSent != received) {
 			wchar_t *swzMsg = dbei.getText();
 			StripBBCodesInPlace(swzMsg);
 			return swzMsg;
@@ -367,9 +367,9 @@ bool GetSysSubstText(MCONTACT hContact, wchar_t *swzRawSpec, wchar_t *buff, int 
 				DBEVENTINFO dbei = {};
 				if (!db_event_get(dbe, &dbei)) {
 					if (dbei.eventType == EVENTTYPE_MESSAGE) {
-						dwNewTs = max(dwNewTs, dbei.timestamp);
-						if (dbei.timestamp > dwLastTs) {
-							if (dbei.flags & DBEF_SENT) dwCountOut++;
+						dwNewTs = max(dwNewTs, dbei.getUnixtime());
+						if (dbei.getUnixtime() > dwLastTs) {
+							if (dbei.bSent) dwCountOut++;
 							else dwCountIn++;
 						}
 						else break;

@@ -52,7 +52,7 @@ void CToxProto::OnFriendMessage(Tox *tox, uint32_t friendNumber, TOX_MESSAGE_TYP
 	rawMessage[length] = 0;
 
 	DB::EventInfo dbei;
-	dbei.timestamp = now();
+	dbei.iTimestamp = now();
 	dbei.pBlob = rawMessage;
 	switch (type) {
 	case TOX_MESSAGE_TYPE_NORMAL:

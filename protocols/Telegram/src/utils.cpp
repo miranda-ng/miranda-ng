@@ -217,8 +217,7 @@ void CTelegramProto::MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool 
 		if (dbei.szId > szMaxId)
 			break;
 
-		bool isSent = (dbei.flags & DBEF_SENT) != 0;
-		if (isSent != bSent)
+		if (dbei.bSent != bSent)
 			continue;
 
 		if (!dbei.markedRead())
@@ -462,7 +461,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 
 	DB::EventInfo dbei(db_event_getById(m_szModuleName, F.pszId));
 	dbei.flags = DBEF_TEMPORARY;
-	dbei.timestamp = F.pMsg->date_;
+	dbei.iTimestamp = F.pMsg->date_;
 	dbei.szId = F.pszId;
 	dbei.szUserId = F.pszUser;
 	if (F.pMsg->is_outgoing_)

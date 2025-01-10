@@ -152,7 +152,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 				{
 					SYSTEMTIME time;
 					TimeSearchData *data = (TimeSearchData *)searchData;
-					UnixTimeToSystemTime((time_t)dbEvent.timestamp, &time);
+					UnixTimeToSystemTime(dbEvent.getUnixtime(), &time);
 					found = ((data->flags & TSDF_DATE_SET) || (data->flags & TSDF_TIME_SET)) ? true : false;
 					if (data->flags & TSDF_DATE_SET)
 						found = ((time.wYear == data->time.wYear) && (time.wMonth == data->time.wMonth) && (time.wDay == data->time.wDay));

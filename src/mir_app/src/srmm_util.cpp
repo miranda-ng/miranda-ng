@@ -179,7 +179,7 @@ void GetContactSentFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir)
 static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MCONTACT hContact)
 {
 	wchar_t wszReceiveFolder[MAX_PATH];
-	if (dbei.flags & DBEF_SENT) // don't mix sent & received files
+	if (dbei.bSent) // don't mix sent & received files
 		GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
 	else
 		File::GetReceivedFolder(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
@@ -227,7 +227,7 @@ void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei
 
 		OFDTHREAD *ofd = new OFDTHREAD(hContact, hDbEvent, blob.getLocalName(), iCommand);
 		ofd->bLocked = true;
-		ofd->dwTimestamp = dbei.timestamp;
+		ofd->dwTimestamp = dbei.getUnixtime();
 		ofd->pCallback = callback.release();
 		CallProtoService(dbei.szModule, PS_OFFLINEFILE, (WPARAM)ofd);
 	}

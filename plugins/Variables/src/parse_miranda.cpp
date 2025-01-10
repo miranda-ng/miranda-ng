@@ -442,9 +442,9 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
 					if (!db_event_get(hSearchEvent, &dbe)) {
-						if ((dbe.timestamp < matchTimestamp) || (matchTimestamp == 0)) {
+						if ((dbe.getUnixtime() < matchTimestamp) || (matchTimestamp == 0)) {
 							hMatchEvent = hSearchEvent;
-							matchTimestamp = dbe.timestamp;
+							matchTimestamp = dbe.getUnixtime();
 						}
 					}
 				}
@@ -455,9 +455,9 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);
 					dbe.cbBlob = 0;
 					if (!db_event_get(hSearchEvent, &dbe)) {
-						if ((dbe.timestamp > matchTimestamp) || (matchTimestamp == 0)) {
+						if ((dbe.getUnixtime() > matchTimestamp) || (matchTimestamp == 0)) {
 							hMatchEvent = hSearchEvent;
-							matchTimestamp = dbe.timestamp;
+							matchTimestamp = dbe.getUnixtime();
 						}
 					}
 				}
@@ -466,14 +466,14 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 			else if (flags & DBE_NEXT) {
 				dbe.cbBlob = 0;
 				if (!db_event_get(hDbEvent, &dbe)) {
-					priorTimestamp = dbe.timestamp;
+					priorTimestamp = dbe.getUnixtime();
 					for (auto &hSearchContact : Contacts()) {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!db_event_get(hSearchEvent, &dbe)) {
-							if (((dbe.timestamp < matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp > priorTimestamp)) {
+							if (((dbe.getUnixtime() < matchTimestamp) || (matchTimestamp == 0)) && (dbe.getUnixtime() > priorTimestamp)) {
 								hMatchEvent = hSearchEvent;
-								matchTimestamp = dbe.timestamp;
+								matchTimestamp = dbe.getUnixtime();
 							}
 						}
 					}
@@ -482,14 +482,14 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 			}
 			else if (flags & DBE_PREV) {
 				if (!db_event_get(hDbEvent, &dbe)) {
-					priorTimestamp = dbe.timestamp;
+					priorTimestamp = dbe.getUnixtime();
 					for (auto &hSearchContact : Contacts()) {
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!db_event_get(hSearchEvent, &dbe)) {
-							if (((dbe.timestamp > matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp < priorTimestamp)) {
+							if (((dbe.getUnixtime() > matchTimestamp) || (matchTimestamp == 0)) && (dbe.getUnixtime() < priorTimestamp)) {
 								hMatchEvent = hSearchEvent;
-								matchTimestamp = dbe.timestamp;
+								matchTimestamp = dbe.getUnixtime();
 							}
 						}
 					}

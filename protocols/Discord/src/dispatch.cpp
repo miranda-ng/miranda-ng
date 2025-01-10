@@ -529,7 +529,7 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 
 		debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
 
-		dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
+		dbei.iTimestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
 		dbei.szId = szMsgId;
 		replaceStr(dbei.pBlob, mir_utf8encodeW(wszText));
 		dbei.cbBlob = (int)mir_strlen(dbei.pBlob);

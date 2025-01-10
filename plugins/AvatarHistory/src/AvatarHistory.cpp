@@ -205,7 +205,7 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			DBEVENTINFO dbei = {};
 			dbei.szModule = Proto_GetBaseAccountName(hContact);
 			dbei.flags = DBEF_READ | DBEF_UTF;
-			dbei.timestamp = (uint32_t)time(0);
+			dbei.iTimestamp = time(0);
 			dbei.eventType = EVENTTYPE_AVATAR_CHANGE;
 			dbei.cbBlob = (uint32_t)mir_strlen(blob) + 1;
 			dbei.pBlob = blob;

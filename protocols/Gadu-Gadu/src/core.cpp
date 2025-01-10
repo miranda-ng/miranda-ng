@@ -824,7 +824,7 @@ retry:
 				else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && mir_strcmp(e->event.msg.message, "\xA0\0")) {
 					DB::EventInfo dbei;
 					time_t t = time(0);
-					dbei.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
+					dbei.iTimestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 					dbei.pBlob = e->event.msg.message;
 					ProtoChainRecvMsg(getcontact(e->event.msg.sender, 1, 0, nullptr), dbei);
 				}
@@ -893,7 +893,7 @@ retry:
 			{
 				DBEVENTINFO dbei = {};
 				dbei.szModule = m_szModuleName;
-				dbei.timestamp = (uint32_t)e->event.multilogon_msg.time;
+				dbei.iTimestamp = (uint32_t)e->event.multilogon_msg.time;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.cbBlob = (uint32_t)mir_strlen(e->event.multilogon_msg.message) + 1;
@@ -1027,7 +1027,7 @@ retry:
 			const char *fileName = (const char*)dcc7->filename;
 
 			DB::EventInfo dbei;
-			dbei.timestamp = time(0);
+			dbei.iTimestamp = time(0);
 			ProtoChainRecvFile((UINT_PTR)dcc7->contact, DB::FILE_BLOB(dcc7, fileName, fileName), dbei);
 
 			e->event.dcc7_new = nullptr;

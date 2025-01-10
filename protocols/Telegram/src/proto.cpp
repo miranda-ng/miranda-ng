@@ -462,7 +462,7 @@ void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *
 			dbei.szModule = Proto_GetBaseAccountName(ft->m_hContact);
 			dbei.eventType = EVENTTYPE_FILE;
 			dbei.flags = DBEF_SENT | DBEF_UTF;
-			dbei.timestamp = time(0);
+			dbei.iTimestamp = time(0);
 
 			TG_FILE_REQUEST localft(TG_FILE_REQUEST::FILE, 0, 0);
 			localft.m_fileName = Utf2T(pFile->local_->path_.c_str());

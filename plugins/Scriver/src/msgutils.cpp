@@ -84,7 +84,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 			/* store the event when the container is hidden so that clist notifications can be removed */
 			if (!IsWindowVisible(m_hwndParent) && m_hDbUnreadEventFirst == 0)
 				m_hDbUnreadEventFirst = hDbEvent;
-			m_lastMessage = dbei.timestamp;
+			m_lastMessage = dbei.getUnixtime();
 			UpdateStatusBar();
 			if (bIsActive)
 				Skin_PlaySound("RecvMsgActive");
@@ -101,7 +101,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 		else
 			RemakeLog();
 
-		if (!(dbei.flags & DBEF_SENT) && !dbei.isCustom(DETF_MSGWINDOW)) {
+		if (!dbei.bSent && !dbei.isCustom(DETF_MSGWINDOW)) {
 			if (!bIsActive) {
 				m_iShowUnread = 1;
 				UpdateIcon();
@@ -122,7 +122,7 @@ bool CMsgDialog::GetFirstEvent()
 		m_hDbEventFirst = db_event_firstUnread(m_hContact);
 		if (m_hDbEventFirst != 0) {
 			DB::EventInfo dbei(m_hDbEventFirst, false);
-			if (dbei.isSrmm() && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
+			if (dbei.isSrmm() && !dbei.bRead && !dbei.bSent)
 				notifyUnread = true;
 		}
 
@@ -147,11 +147,11 @@ bool CMsgDialog::GetFirstEvent()
 
 		case LOADHISTORY_TIME:
 			if (m_hDbEventFirst == 0)
-				dbei.timestamp = time(0);
+				dbei.iTimestamp = time(0);
 			else
 				db_event_get(m_hDbEventFirst, &dbei);
 
-			uint32_t firstTime = dbei.timestamp - 60 * g_plugin.iLoadTime;
+			uint32_t firstTime = dbei.getUnixtime() - 60 * g_plugin.iLoadTime;
 			for (;;) {
 				hPrevEvent = pCursor.FetchNext();
 				if (hPrevEvent == 0)
@@ -159,7 +159,7 @@ bool CMsgDialog::GetFirstEvent()
 
 				dbei.cbBlob = 0;
 				db_event_get(hPrevEvent, &dbei);
-				if (dbei.timestamp < firstTime)
+				if (dbei.getUnixtime() < firstTime)
 					break;
 				if (DbEventIsShown(dbei))
 					m_hDbEventFirst = hPrevEvent;

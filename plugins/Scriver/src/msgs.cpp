@@ -121,10 +121,10 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (!dbei)
 		return 0;
 
-	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
+	if (dbei.eventType == EVENTTYPE_MESSAGE && dbei.bRead)
 		return 0;
 
-	if (dbei.flags & DBEF_SENT || !dbei.isSrmm())
+	if (dbei.bSent || !dbei.isSrmm())
 		return 0;
 
 	Utils_InvokeAsync(new CAutoPpopup(hContact, hDbEvent));

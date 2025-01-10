@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 bool operator==(const DBEVENTINFO &ev1, const DBEVENTINFO &ev2)
 {
-	return ev1.timestamp == ev2.timestamp && ev1.eventType == ev2.eventType && ev1.cbBlob == ev2.cbBlob && (ev1.flags & DBEF_SENT) == (ev2.flags & DBEF_SENT);
+	return ev1.iTimestamp == ev2.iTimestamp && ev1.eventType == ev2.eventType && ev1.cbBlob == ev2.cbBlob && ev1.bSent == ev2.bSent;
 }
 
 void CJabberProto::EnableArchive(bool bEnable)
@@ -117,9 +117,9 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 		msg.process();
 
 
-		tmStart = msg.dbei.timestamp;
-		if (msg.dbei.timestamp > tmLast)
-			tmLast = msg.dbei.timestamp;
+		tmStart = msg.dbei.getUnixtime();
+		if (msg.dbei.getUnixtime() > tmLast)
+			tmLast = msg.dbei.getUnixtime();
 	}
 
 	if (tmLast != 0)

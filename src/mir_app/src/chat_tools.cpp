@@ -704,7 +704,7 @@ void Chat_EventToGC(SESSION_INFO *si, MEVENT hDbEvent)
 	else gce.pszNick.w = wszUserId;
 
 	gce.pszText.w = wszText;
-	gce.time = dbei.timestamp;
+	gce.time = dbei.getUnixtime();
 	gce.hEvent = hDbEvent;
 	Chat_Event(&gce);
 }

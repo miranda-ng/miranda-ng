@@ -130,7 +130,7 @@ MEVENT CToxProto::AddEventToDb(MCONTACT hContact, uint16_t type, uint32_t timest
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = timestamp;
+	dbei.iTimestamp = timestamp;
 	dbei.eventType = type;
 	dbei.cbBlob = (uint32_t)cbBlob;
 	dbei.pBlob = pBlob;

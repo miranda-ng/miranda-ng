@@ -61,7 +61,7 @@ HMENU NSMenu_Build(NewstoryListData *data, ItemData *item)
 		else if (mir_strlen(item->getUrl()))
 			Menu_ShowItem(hmiCopyUrl, true);
 
-		bEditable = (item->dbe.flags & DBEF_SENT) != 0;
+		bEditable = item->dbe.bSent;
 		bShowEventActions = item->dbe.getEvent() != 0;
 
 		DB::EventInfo dbei(item->dbe.getEvent());

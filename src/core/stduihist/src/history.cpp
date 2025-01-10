@@ -73,13 +73,11 @@ static void GetObjectSummary(DBEVENTINFO *dbei, wchar_t *str, int cbStr)
 
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing message");
-		else                         pszSrc = TranslateT("Incoming message");
+		pszSrc = (dbei->bSent) ? TranslateT("Outgoing message") : TranslateT("Incoming message");
 		break;
 
 	case EVENTTYPE_FILE:
-		if (dbei->flags & DBEF_SENT) pszSrc = TranslateT("Outgoing file");
-		else                         pszSrc = TranslateT("Incoming file");
+		pszSrc = (dbei->bSent) ? TranslateT("Outgoing file") : TranslateT("Incoming file");
 		break;
 
 	case EVENTTYPE_AUTHREQUEST:
@@ -133,7 +131,7 @@ static void FillHistoryThread(THistoryThread *hInfo)
 		wchar_t str[200], eventText[256], strdatetime[64];
 		GetObjectSummary(&dbei, str, _countof(str));
 		if (str[0]) {
-			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"d t", strdatetime, _countof(strdatetime), 0);
+			TimeZone_PrintTimeStamp(NULL, dbei.getUnixtime(), L"d t", strdatetime, _countof(strdatetime), 0);
 			mir_snwprintf(eventText, L"%s: %s", strdatetime, str);
 			i = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)eventText);
 			SendMessage(hwndList, LB_SETITEMDATA, i, (LPARAM)hDbEvent);

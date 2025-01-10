@@ -30,7 +30,7 @@ int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
 	if (dbei.eventType != EVENTTYPE_MESSAGE)
 		return 0;
 
-	float weight = GetEventWeight(time(0) - dbei.timestamp);
+	float weight = GetEventWeight(time(0) - dbei.getUnixtime());
 	float q = GetTimeWeight(time(0) - m_lastUpdate);
 	m_lastUpdate = time(0);
 	if (!weight)
@@ -88,7 +88,7 @@ void CContactCache::Rebuild()
 		while (MEVENT hEvent = cursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
 			if (!db_event_get(hEvent, &dbei)) {
-				if (float weight = GetEventWeight(timestamp - dbei.timestamp)) {
+				if (float weight = GetEventWeight(timestamp - dbei.getUnixtime())) {
 					if (dbei.eventType == EVENTTYPE_MESSAGE)
 						info->rate += weight;
 				}

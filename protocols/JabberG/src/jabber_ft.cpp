@@ -467,7 +467,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
 				DB::EventInfo dbei;
-				dbei.timestamp = time(0);
+				dbei.iTimestamp = time(0);
 				ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, filename, XmlGetChildText(fileNode, "desc")), dbei);
 				return;
 			}
@@ -874,7 +874,7 @@ bool CJabberProto::FtTryInlineFile(filetransfer *ft)
 	DB::EventInfo dbei;
 	dbei.flags = DBEF_READ | DBEF_SENT;
 	dbei.pBlob = szMsg.GetBuffer();
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	ProtoChainRecvMsg(ft->std.hContact, dbei);
 	return true;
 }

@@ -1985,7 +1985,7 @@ void ICQ::addMessage(ICQUser *u, char *m, time_t t)
 	Netlib_Logf(hNetlibUser, "message: %s\n", m);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = t;
+	dbei.iTimestamp = t;
 	dbei.pBlob = m;
 	ProtoChainRecvMsg(u->hContact, dbei);
 }
@@ -1997,7 +1997,7 @@ void ICQ::addAwayMsg(ICQUser *u, char *m, unsigned long theSequence, time_t t)
 	Netlib_Logf(hNetlibUser, "away msg: %s\n", m);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = t;
+	dbei.iTimestamp = t;
 	dbei.pBlob = m;
 	dbei.cbBlob = theSequence;
 
@@ -2019,7 +2019,7 @@ void ICQ::addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, un
 	DB::FILE_BLOB blob(transfer, filename, m);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = t;
+	dbei.iTimestamp = t;
 	blob.write(dbei);
 
 	CCSDATA ccs = { u->hContact, PSR_FILE, 0, (LPARAM)&dbei };

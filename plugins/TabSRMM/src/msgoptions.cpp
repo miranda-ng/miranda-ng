@@ -625,7 +625,7 @@ public:
 
 		DB::EventInfo dbei;
 		dbei.szModule = m_szProto;
-		dbei.timestamp = time(0);
+		dbei.iTimestamp = time(0);
 		dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
 		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 		if (dbei.eventType == EVENTTYPE_ERRMSG)

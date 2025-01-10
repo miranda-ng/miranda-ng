@@ -33,7 +33,7 @@ int CDb3Mmap::GetEventCount(MCONTACT contactID)
 MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 {
 	if (dbei == nullptr) return 0;
-	if (dbei->timestamp == 0) return 0;
+	if (dbei->getUnixtime() == 0) return 0;
 
 	DBEvent dbe;
 	dbe.signature = DBEVENT_SIGNATURE;
@@ -60,7 +60,7 @@ MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 	if (NotifyEventHooks(g_hevEventFiltered, contactNotifyID, (LPARAM)dbei))
 		return 0;
 
-	dbe.timestamp = dbei->timestamp;
+	dbe.timestamp = dbei->getUnixtime();
 	dbe.flags = dbei->flags;
 	dbe.wEventType = dbei->eventType;
 	dbe.cbBlob = dbei->cbBlob;
@@ -289,7 +289,7 @@ BOOL CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		return 1;
 
 	dbei->szModule = GetModuleNameByOfs(dbe->ofsModuleName);
-	dbei->timestamp = dbe->timestamp;
+	dbei->iTimestamp = dbe->timestamp;
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
 

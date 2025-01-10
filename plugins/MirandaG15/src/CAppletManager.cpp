@@ -649,7 +649,7 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.szModule = szProto;
-				dbei.timestamp = time(0);
+				dbei.iTimestamp = time(0);
 				// Check if protocoll is valid
 				if (dbei.szModule == nullptr)
 					return;
@@ -795,7 +795,7 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 	pEvent->hContact = hContact;
 	pEvent->hValue = hdbevent;
 
-	time_t timestamp = (time_t)dbei.timestamp;
+	time_t timestamp = (time_t)dbei.getUnixtime();
 	localtime_s(&pEvent->Time, &timestamp);
 	pEvent->bTime = true;
 

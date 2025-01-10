@@ -267,7 +267,7 @@ void NewstoryListData::BeginEditItem()
 	mir_subclassWindow(hwndEditBox, HistoryEditWndProc);
 	SendMessage(hwndEditBox, WM_SETFONT, (WPARAM)g_fontTable[fontid].hfnt, 0);
 	SendMessage(hwndEditBox, EM_SETMARGINS, EC_RIGHTMARGIN, 100);
-	if (item->dbe.eventType != EVENTTYPE_MESSAGE || !(item->dbe.flags & DBEF_SENT))
+	if (item->dbe.eventType != EVENTTYPE_MESSAGE || !item->dbe.bSent)
 		SendMessage(hwndEditBox, EM_SETREADONLY, TRUE, 0);
 
 	ShowWindow(hwndEditBox, SW_SHOW);
@@ -408,7 +408,7 @@ void NewstoryListData::DeleteItems(void)
 	for (int i = totalCount - 1; i >= 0; i--) {
 		auto *pItem = GetItem(i);
 		if (pItem->m_bSelected) {
-			if ((pItem->dbe.flags & DBEF_SENT) == 0)
+			if (!pItem->dbe.bSent)
 				bIncoming = true;
 			nSelected++;
 		}
@@ -459,7 +459,7 @@ void NewstoryListData::DeliverEvent(MCONTACT hContact, MEVENT hEvent)
 
 	for (int i = totalCount - 1; i >= 0; i--) {
 		auto *pItem = GetItem(i);
-		if (pItem->dbe.hContact != hContact || !(pItem->dbe.flags & DBEF_SENT))
+		if (pItem->dbe.hContact != hContact || !pItem->dbe.bSent)
 			continue;
 
 		if (pItem->dbe.getEvent() == hEvent)
@@ -822,7 +822,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 
 			// Direction icon
 			if (g_plugin.bShowDirection) {
-				if (pItem->dbe.flags & DBEF_SENT)
+				if (pItem->dbe.bSent)
 					hIcon = g_plugin.getIcon(IDI_MSGOUT);
 				else
 					hIcon = g_plugin.getIcon(IDI_MSGIN);
@@ -964,7 +964,7 @@ void NewstoryListData::RemoteRead(MCONTACT hContact, MEVENT hEvent)
 		if (!pItem->m_bLoaded)
 			pItem->fetch();
 
-		if (pItem->dbe.hContact != hContact || !(pItem->dbe.flags & DBEF_SENT))
+		if (pItem->dbe.hContact != hContact || !pItem->dbe.bSent)
 			continue;
 
 		if (pItem->dbe.getEvent() == hEvent)
@@ -1115,7 +1115,7 @@ void NewstoryListData::TryUp(int iCount)
 	for (int j = 0; j < i + 1; j++)
 		if (auto *pItem = GetItem(j)) {
 			pItem->fetch();
-			if (pItem->dbe.flags & DBEF_SENT)
+			if (pItem->dbe.bSent)
 				pItem->m_bRemoteRead = hasRead;
 			pPrev = pItem->checkNext(pPrev);
 		}
@@ -1310,7 +1310,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int eventCount = data->totalCount;
 			for (int i = 0; i < eventCount; i++) {
 				auto *p = data->GetItem(i);
-				if (p->dbe.timestamp >= wParam) {
+				if (p->dbe.getUnixtime() >= wParam) {
 					data->SetSelection(i, i);
 					data->SetCaret(i);
 					break;

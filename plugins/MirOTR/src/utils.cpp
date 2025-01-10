@@ -216,7 +216,7 @@ void ShowMessageInline(const MCONTACT hContact, const wchar_t *msg)
 	T2Utf utf(buff);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.pBlob = utf;
 	dbei.flags = PREF_BYPASS_OTR;
 	ProtoChainRecvMsg(hContact, dbei);
@@ -228,7 +228,7 @@ void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg)
 	mir_snprintf(buff, "%s%s", LANG_INLINE_PREFIX, msg);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.pBlob = buff;
 	dbei.flags = PREF_BYPASS_OTR;
 	ProtoChainRecvMsg(hContact, dbei);

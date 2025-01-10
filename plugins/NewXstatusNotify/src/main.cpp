@@ -275,7 +275,7 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt)
 	dbei.pBlob = blob;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.flags = DBEF_READ | DBEF_UTF;
-	dbei.timestamp = (uint32_t)time(0);
+	dbei.iTimestamp = (uint32_t)time(0);
 	dbei.szModule = MODULENAME;
 
 	MEVENT hDBEvent = db_event_add(smi->hContact, &dbei);
@@ -358,7 +358,7 @@ int ContactStatusChanged(MCONTACT hContact, uint16_t oldStatus, uint16_t newStat
 		dbei.pBlob = blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
-		dbei.timestamp = (uint32_t)time(0);
+		dbei.iTimestamp = (uint32_t)time(0);
 		dbei.szModule = MODULENAME;
 
 		MEVENT hDBEvent = db_event_add(hContact, &dbei);

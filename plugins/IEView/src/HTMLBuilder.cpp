@@ -214,13 +214,13 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	
 		IEVIEWEVENTDATA *eventData = new IEVIEWEVENTDATA;
 		eventData->dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK |
-			(dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
+			(dbei.bRead ? IEEDF_READ : 0) | (dbei.bSent ? IEEDF_SENT : 0) | (dbei.bRtl ? IEEDF_RTL : 0);
 		if (event->dwFlags & IEEF_RTL)
 			eventData->dwFlags |= IEEDF_RTL;
 
-		eventData->time = dbei.timestamp;
+		eventData->time = dbei.getUnixtime();
 		eventData->szNick.a = eventData->szText.a = nullptr;
-		if (dbei.flags & DBEF_SENT) {
+		if (dbei.bSent) {
 			eventData->szNick.w = getContactName(NULL, szProto);
 			eventData->bIsMe = TRUE;
 		}

@@ -386,8 +386,8 @@ INT_PTR OnMenuCommandShowList(WPARAM, LPARAM)
 					break;
 			}
 			if (curEvent != NULL)
-				if (curTime == -1 || (__time64_t)dbe.timestamp > curTime)
-					curTime = (__time64_t)dbe.timestamp;
+				if (curTime == -1 || (__time64_t)dbe.getUnixtime() > curTime)
+					curTime = (__time64_t)dbe.getUnixtime();
 		}
 
 		if (curTime != -1)

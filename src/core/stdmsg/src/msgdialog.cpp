@@ -141,8 +141,8 @@ bool CMsgDialog::OnInitDialog()
 		while (MEVENT hdbEvent = pCursor.FetchNext()) {
 			DBEVENTINFO dbei = {};
 			db_event_get(hdbEvent, &dbei);
-			if ((dbei.eventType == EVENTTYPE_MESSAGE) && !(dbei.flags & DBEF_SENT)) {
-				m_lastMessage = dbei.timestamp;
+			if ((dbei.eventType == EVENTTYPE_MESSAGE) && !dbei.bSent) {
+				m_lastMessage = dbei.getUnixtime();
 				bUpdate = true;
 				break;
 			}
@@ -1208,18 +1208,18 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 	if (m_hDbEventFirst == 0)
 		m_hDbEventFirst = hDbEvent;
 
-	bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE), isSent = ((dbei.flags & DBEF_SENT) != 0);
+	bool isMessage = (dbei.eventType == EVENTTYPE_MESSAGE);
 	bool isActive = IsActive();
 	if (DbEventIsShown(dbei)) {
 		// Sounds *only* for sent messages, not for custom events
-		if (isMessage && !isSent) {
+		if (isMessage && !dbei.bSent) {
 			if (isActive)
 				Skin_PlaySound("RecvMsgActive");
 			else
 				Skin_PlaySound("RecvMsgInactive");
 		}
-		if (isMessage && !isSent) {
-			m_lastMessage = dbei.timestamp;
+		if (isMessage && !dbei.bSent) {
+			m_lastMessage = dbei.getUnixtime();
 			UpdateLastMessage();
 		}
 
@@ -1229,7 +1229,7 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 			RemakeLog();
 
 		// Flash window *only* for messages, not for custom events
-		if (isMessage && !isSent)
+		if (isMessage && !dbei.bSent)
 			if (!isActive || !m_pLog->AtBottom())
 				StartFlash();
 	}
@@ -1260,15 +1260,15 @@ bool CMsgDialog::GetFirstEvent()
 	case LOADHISTORY_TIME:
 		DBEVENTINFO dbei = {};
 		if (m_hDbEventFirst == 0)
-			dbei.timestamp = (uint32_t)time(0);
+			dbei.iTimestamp = (uint32_t)time(0);
 		else
 			db_event_get(m_hDbEventFirst, &dbei);
 
-		uint32_t firstTime = dbei.timestamp - 60 * g_plugin.nLoadTime;
+		uint32_t firstTime = dbei.getUnixtime() - 60 * g_plugin.nLoadTime;
 		while (MEVENT hPrevEvent = pCursor.FetchNext()) {
 			dbei.cbBlob = 0;
 			db_event_get(hPrevEvent, &dbei);
-			if (dbei.timestamp < firstTime)
+			if (dbei.getUnixtime() < firstTime)
 				break;
 			m_hDbEventFirst = hPrevEvent;
 		}

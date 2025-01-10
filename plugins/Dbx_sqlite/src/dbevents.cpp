@@ -85,7 +85,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	if (dbei == nullptr)
 		return 0;
 
-	if (dbei->timestamp == 0)
+	if (dbei->iTimestamp == 0)
 		return 0;
 
 	MCONTACT hNotifyContact = hContact;
@@ -100,7 +100,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 				return 0;
 
 			// set default sub to the event's source
-			if (!(dbei->flags & DBEF_SENT))
+			if (!dbei->bSent)
 				db_mc_setDefault(cc->contactID, hContact, false);
 			if (db_mc_isEnabled())
 				hNotifyContact = cc->contactID; // and add an event to a metahistory
@@ -140,7 +140,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 		"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", qEvAdd);
 	sqlite3_bind_int64(stmt, 1, hContact);
 	sqlite3_bind_text(stmt, 2, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
-	sqlite3_bind_int64(stmt, 3, tmp.timestamp);
+	sqlite3_bind_int64(stmt, 3, tmp.iTimestamp);
 	sqlite3_bind_int(stmt, 4, tmp.eventType);
 	sqlite3_bind_int64(stmt, 5, tmp.flags);
 	sqlite3_bind_blob(stmt, 6, tmp.pBlob, tmp.cbBlob, nullptr);
@@ -154,7 +154,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 
 	MEVENT hDbEvent = sqlite3_last_insert_rowid(m_db);
 
-	int64_t tsSort = (int64_t)tmp.timestamp * 1000;
+	int64_t tsSort = tmp.bMsec ? tmp.iTimestamp : tmp.iTimestamp * 1000;
 	AddEventSrt(hDbEvent, cc->contactID, tsSort);
 
 	cc->m_count++;
@@ -261,7 +261,7 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	if (dbei == nullptr)
 		return 1;
 
-	if (dbei->timestamp == 0)
+	if (dbei->iTimestamp == 0)
 		return 1;
 
 	DBEVENTINFO tmp = *dbei;
@@ -288,7 +288,7 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 
 	int i = 1;
 	sqlite3_bind_text(stmt, i++, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
-	sqlite3_bind_int64(stmt, i++, tmp.timestamp);
+	sqlite3_bind_int64(stmt, i++, tmp.iTimestamp);
 	sqlite3_bind_int(stmt, i++, tmp.eventType);
 	sqlite3_bind_int64(stmt, i++, tmp.flags);
 	if (tmp.pBlob)
@@ -436,7 +436,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	if (dbei->szModule == nullptr)
 		return 1;
 
-	dbei->timestamp = sqlite3_column_int64(stmt, 1);
+	dbei->iTimestamp = sqlite3_column_int64(stmt, 1);
 	dbei->eventType = sqlite3_column_int(stmt, 2);
 	dbei->flags = sqlite3_column_int64(stmt, 3);
 	dbei->hContact = sqlite3_column_int(stmt, 9);

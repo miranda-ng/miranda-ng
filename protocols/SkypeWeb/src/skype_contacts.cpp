@@ -131,7 +131,7 @@ void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 		DB::AUTH_BLOB blob(hContact, displayName.c_str(), nullptr, nullptr, skypeId.c_str(), reason.c_str());
 
 		DB::EventInfo dbei;
-		dbei.timestamp = time(0);
+		dbei.iTimestamp = time(0);
 		dbei.cbBlob = blob.size();
 		dbei.pBlob = blob;
 		ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);

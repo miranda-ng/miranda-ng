@@ -334,7 +334,7 @@ static bool CreateRtfFromDbEvent(RtfLogStreamData *dat)
 	if (!dat->pLog->CreateRtfEvent(dat, dbei))
 		return false;
 
-	if (!(dbei.flags & DBEF_SENT)) {
+	if (!dbei.bSent) {
 		if (dbei.isSrmm())
 			dat->pLog->GetDialog().MarkEventRead(dbei);
 

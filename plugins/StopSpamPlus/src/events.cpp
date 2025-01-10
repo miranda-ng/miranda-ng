@@ -15,7 +15,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 		return 0;
 
 	// event is an auth request
-	if (!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST) {
+	if (!dbei.bSent && !dbei.bRead && dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 		MCONTACT hContact = DbGetAuthEventContact(&dbei);
 
 		// if request is from unknown or not marked Answered contact
@@ -49,10 +49,10 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		return 0; // ...let the event go its way
 
 	// if event is not a message, or if the message has been read or sent...
-	if (dbei->eventType != EVENTTYPE_MESSAGE || (dbei->flags & DBEF_READ) != 0)
+	if (dbei->eventType != EVENTTYPE_MESSAGE || dbei->bRead)
 		return 0;
 
-	if (dbei->flags & DBEF_SENT) {
+	if (dbei->bSent) {
 		g_plugin.setByte(hContact, DB_KEY_HASSENT, 1);
 		return 0;
 	}

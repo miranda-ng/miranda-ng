@@ -56,7 +56,7 @@ void CVkProto::AddFeedEvent(CVKNewsItem& vkNewsItem)
 	T2Utf pszBody(vkNewsItem.wszText);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = vkNewsItem.tDate;
+	dbei.iTimestamp = vkNewsItem.tDate;
 	dbei.pBlob = pszBody;
 
 	if (m_vkOptions.bUseNonStandardNotifications) {
@@ -868,7 +868,7 @@ void CVkProto::NewsClearHistory()
 	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
-		if (dbei.timestamp < tTime)
+		if (dbei.getUnixtime() < tTime)
 			pCursor.DeleteEvent();
 	}
 }

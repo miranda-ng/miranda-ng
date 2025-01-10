@@ -380,7 +380,7 @@ CMStringW CDiscordProto::PrepareMessageText(const JSONNode &pRoot, CDiscordUser 
 	
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szId));
 		dbei.flags = DBEF_TEMPORARY;
-		dbei.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
+		dbei.iTimestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
 		dbei.szId = szId;
 		dbei.szUserId = szUserId;
 		if (_atoi64(szUserId) == m_ownId)
@@ -479,7 +479,7 @@ void CDiscordProto::ProcessType(CDiscordUser *pUser, const JSONNode &pRoot)
 			DB::AUTH_BLOB blob(pUser->hContact, T2Utf(pUser->wszUsername), nullptr, nullptr, szId, nullptr);
 
 			DB::EventInfo dbei;
-			dbei.timestamp = (uint32_t)time(0);
+			dbei.iTimestamp = (uint32_t)time(0);
 			dbei.cbBlob = blob.size();
 			dbei.pBlob = blob;
 			ProtoChainRecv(pUser->hContact, PSR_AUTH, 0, (LPARAM)&dbei);

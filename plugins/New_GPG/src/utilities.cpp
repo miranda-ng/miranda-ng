@@ -474,7 +474,7 @@ void HistoryLog(MCONTACT hContact, const char *msg, uint32_t _time, uint32_t fla
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
 	dbei.flags = DBEF_UTF | flags;
-	dbei.timestamp = (_time) ? _time : (uint32_t)time(0);
+	dbei.iTimestamp = (_time) ? _time : (uint32_t)time(0);
 	dbei.cbBlob = (uint32_t)mir_strlen(msg) + 1;
 	dbei.pBlob = (char *)msg;
 	db_event_add(hContact, &dbei);

@@ -156,7 +156,7 @@ void CRowItem::Val::LoadOneItem(MCONTACT hContact, const ColumnItem &pCol, QSMai
 			if (MEVENT hDbEvent = db_event_last(hContact)) {
 				DBEVENTINFO dbei = {};
 				db_event_get(hDbEvent, &dbei);
-				data = dbei.timestamp;
+				data = dbei.getUnixtime();
 				text = TimeToStrW(data);
 			}
 			else text = 0;			 

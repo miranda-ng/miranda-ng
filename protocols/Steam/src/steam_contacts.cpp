@@ -281,7 +281,7 @@ void CSteamProto::ContactIsAskingAuth(MCONTACT hContact)
 	DB::AUTH_BLOB blob(hContact, nickName, firstName, lastName, steamId, reason);
 
 	DB::EventInfo dbei;
-	dbei.timestamp = now();
+	dbei.iTimestamp = now();
 	dbei.pBlob = blob;
 	dbei.cbBlob = blob.size();
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);

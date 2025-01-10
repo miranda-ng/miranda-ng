@@ -1405,7 +1405,7 @@ bool CJabberProto::OmemoHandleMessage(XmppMsg *msg, const TiXmlElement *node, co
 
 		DBEVENTINFO dbei = {};
 		dbei.szModule = Proto_GetBaseAccountName(hContact);
-		dbei.timestamp = msgTime;
+		dbei.iTimestamp = msgTime;
 		dbei.eventType = EVENTTYPE_FILE;
 		if (trusted)
 			dbei.flags = DBEF_SECURE;

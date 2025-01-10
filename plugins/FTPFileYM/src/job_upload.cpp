@@ -88,7 +88,7 @@ void UploadJob::autoSend()
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = szProto;
-	dbei.timestamp = (uint32_t)time(0);
+	dbei.iTimestamp = (uint32_t)time(0);
 	dbei.cbBlob = (uint32_t)mir_strlen(m_szFileLink) + 1;
 	dbei.pBlob = m_szFileLink;
 	db_event_add(m_hContact, &dbei);

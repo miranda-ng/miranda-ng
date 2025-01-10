@@ -207,7 +207,7 @@ INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 						dbei.eventType = EVENTTYPE_MESSAGE;
 						dbei.flags = DBEF_UTF | DBEF_SENT;
 						dbei.szModule = pszProto;
-						dbei.timestamp = time(0);
+						dbei.iTimestamp = time(0);
 						dbei.cbBlob = (int)mir_strlen(pszUtf) + 1;
 						dbei.pBlob = pszUtf;
 						db_event_add(hContact, &dbei);

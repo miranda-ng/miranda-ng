@@ -357,7 +357,7 @@ void SendQueue::logError(CMsgDialog *dat, int iSendJobIndex, const wchar_t *szEr
 
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.cbBlob = (int)iMsgLen;
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.szModule = (char *)szErrMsg;
 	dat->LogEvent(dbei);
 
@@ -461,7 +461,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = Proto_GetBaseAccountName(job.hContact);
-	dbei.timestamp = time(0);
+	dbei.iTimestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(job.szSendBuffer) + 1;
 
 	if (dat)
@@ -548,7 +548,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.szModule = Proto_GetBaseAccountName(dat->m_hContact);
-		dbei.timestamp = time(0);
+		dbei.iTimestamp = time(0);
 		dbei.pBlob = szUtf;
 		dbei.cbBlob = (int)mir_strlen(szUtf);
 		dat->LogEvent(dbei);
