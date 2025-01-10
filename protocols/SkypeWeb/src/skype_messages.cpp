@@ -44,33 +44,41 @@ void CSkypeProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 
 // outcoming message flow
 
-int CSkypeProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMessage)
+int CSkypeProto::SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t existingMsgId)
 {
 	if (!IsOnline())
 		return -1;
 
 	CMStringA str(szMessage);
 	bool bRich = AddBbcodes(str);
-	int64_t iRandomId = getRandomId();
 	m_iMessageId++;
 
 	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages";
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CSkypeProto::OnMessageSent);
+	if (existingMsgId)
+		szUrl.AppendFormat("/%lld", existingMsgId);
+
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(existingMsgId ? REQUEST_PUT : REQUEST_POST, HOST_DEFAULT, szUrl, &CSkypeProto::OnMessageSent);
 	pReq->hContact = hContact;
 	pReq->pUserInfo = (HANDLE)m_iMessageId;
 
 	JSONNode node;
-	node << INT64_PARAM("clientmessageid", iRandomId) << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text") << CHAR_PARAM("contenttype", "text");
+	node << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text") << CHAR_PARAM("contenttype", "text");
 	if (strncmp(str, "/me ", 4) == 0)
 		node << CHAR_PARAM("content", m_szSkypename + " " + str);
 	else
 		node << CHAR_PARAM("content", str);
+	
+	if (!existingMsgId) {
+		int64_t iRandomId = getRandomId();
+		node << INT64_PARAM("clientmessageid", iRandomId);
+			
+		mir_cslock lck(m_lckOutMessagesList);
+		m_OutMessages.insert(new COwnMessage(m_iMessageId, iRandomId));
+	}
 	pReq->m_szParam = node.write().c_str();
 
 	PushRequest(pReq);
 
-	mir_cslock lck(m_lckOutMessagesList);
-	m_OutMessages.insert(new COwnMessage(m_iMessageId, iRandomId));
 	return m_iMessageId;
 }
 
@@ -80,6 +88,11 @@ int CSkypeProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	MessageWindowEvent *evt = (MessageWindowEvent*)lParam;
 	if (mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName))
 		return 0;
+
+	int64_t msgId = (evt->dbei->szId) ? _atoi64(evt->dbei->szId) : -1;
+	for (auto &it : m_OutMessages)
+		if (it->hClientMessageId == msgId)
+			evt->dbei->iTimestamp = it->iTimestamp;
 
 	char *message = (char*)evt->dbei->pBlob;
 	if (strncmp(message, "/me ", 4) == 0) {
@@ -122,6 +135,8 @@ LBL_Deleted:
 		if (dbei.bSent && dbei.szId) {
 			for (auto &it: m_OutMessages) {
 				if (it->hClientMessageId == _atoi64(dbei.szId)) {
+					it->iTimestamp = dbei.iTimestamp;
+
 					ProtoBroadcastAck(dbei.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->hMessage, (LPARAM)dbei.szId);
 
 					mir_cslock lck(m_lckOutMessagesList);
@@ -162,7 +177,7 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 	int iUserType;
 	UrlToSkypeId(node["conversationLink"].as_string().c_str(), &iUserType);
 
-	CMStringA szId = node["id"].as_mstring();
+	int64_t timestamp = _wtoi64(node["id"].as_mstring());
 	CMStringA szMessageId(getMessageId(node));
 	CMStringA szConversationName(UrlToSkypeId(node["conversationLink"].as_string().c_str()));
 	CMStringA szFromSkypename(UrlToSkypeId(node["from"].as_mstring()));
@@ -173,11 +188,8 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 
 	MCONTACT hContact = AddContact(szConversationName, nullptr, true);
 
-	if (m_bHistorySynced) {
-		int64_t lastMsgId = _atoi64(szId);
-		if (lastMsgId > getLastTime(hContact))
-			setLastTime(hContact, lastMsgId);
-	}
+	if (m_bHistorySynced && timestamp > getLastTime(hContact))
+		setLastTime(hContact, timestamp);
 
 	std::string strMessageType = node["messagetype"].as_string();
 	if (strMessageType == "Control/Typing") {
@@ -191,11 +203,10 @@ void CSkypeProto::ProcessNewMessage(const JSONNode &node)
 
 	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
 	dbei.hContact = hContact;
-	dbei.iTimestamp = time(0);
+	dbei.iTimestamp = timestamp;
 	dbei.szId = szMessageId;
-	dbei.flags = DBEF_UTF;
-	if (IsMe(szFromSkypename))
-		dbei.flags |= DBEF_SENT;
+	dbei.bUtf = dbei.bMsec = true;
+	dbei.bSent = IsMe(szFromSkypename);
 	if (iUserType == 19)
 		dbei.szUserId = szFromSkypename;
 

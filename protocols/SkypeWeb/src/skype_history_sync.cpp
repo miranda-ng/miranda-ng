@@ -33,11 +33,9 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 	std::string syncState = metadata["syncState"].as_string();
 
 	bool bOperative = pRequest->pUserInfo != 0;
-	bool bUseLocalTime = !m_bUseServerTime && bOperative;
 	bool bSetLastTime = false;
 
 	int64_t lastMsgTime = 0; // max timestamp on this page
-	time_t iLocalTime = time(0);
 
 	auto &conv = root["messages"];
 	for (auto it = conv.rbegin(); it != conv.rend(); ++it) {
@@ -59,8 +57,11 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
 		dbei.hContact = hContact;
 		dbei.szModule = m_szModuleName;
-		dbei.iTimestamp = (bUseLocalTime) ? iLocalTime : IsoToUnixTime(message["composetime"].as_string());
 		dbei.szId = szMessageId;
+		dbei.bSent = IsMe(szFrom);
+		dbei.bMsec = dbei.bUtf = true;
+		dbei.iTimestamp = _wtoi64(message["id"].as_mstring());
+
 		if (iUserType == 19) {
 			dbei.szUserId = szFrom;
 
@@ -69,11 +70,8 @@ void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 				continue;
 		}
 
-		dbei.flags = DBEF_UTF;
 		if (!bOperative && !dbei.getEvent())
-			dbei.flags |= DBEF_READ;
-		if (IsMe(szFrom))
-			dbei.flags |= DBEF_SENT;
+			dbei.bRead = true;
 
 		if (ParseMessage(message, dbei)) {
 			if (dbei)

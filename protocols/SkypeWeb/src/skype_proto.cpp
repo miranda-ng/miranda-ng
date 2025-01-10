@@ -26,7 +26,6 @@ CSkypeProto::CSkypeProto(const char *protoName, const wchar_t *userName) :
 	m_bAutoHistorySync(this, "AutoSync", true),
 	m_bUseHostnameAsPlace(this, "UseHostName", true),
 	m_bUseBBCodes(this, "UseBBCodes", true),
-	m_bUseServerTime(this, "UseServerTime", false),
 	m_wstrCListGroup(this, SKYPE_SETTINGS_GROUP, L"Skype"),
 	m_wstrPlace(this, "Place", L""),
 	m_iMood(this, "Mood", 0),
@@ -77,6 +76,11 @@ void CSkypeProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 	DB::EventInfo dbei(hDbEvent, false);
 	if (dbei.szId)
 		PushRequest(new DeleteMessageRequest(this, getId(hContact), dbei.szId));
+}
+
+void CSkypeProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)
+{
+	SendServerMsg(hContact, dbei.pBlob, dbei.iTimestamp);
 }
 
 void CSkypeProto::OnModulesLoaded()
@@ -186,6 +190,11 @@ int CSkypeProto::GetInfo(MCONTACT hContact, int)
 
 	PushRequest(new GetProfileRequest(this, hContact));
 	return 0;
+}
+
+int CSkypeProto::SendMsg(MCONTACT hContact, MEVENT, const char *szMessage)
+{
+	return SendServerMsg(hContact, szMessage);
 }
 
 int CSkypeProto::SetStatus(int iNewStatus)

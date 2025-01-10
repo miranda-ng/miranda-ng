@@ -26,7 +26,7 @@ struct COwnMessage
 	{}
 
 	int hMessage;
-	int64_t hClientMessageId;
+	int64_t hClientMessageId, iTimestamp = -1;
 };
 
 struct CSkypeTransfer
@@ -86,7 +86,7 @@ public:
 	void     OnBuildProtoMenu(void) override;
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
-	// void  OnEventEdited(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO &dbei) override;
+	void     OnEventEdited(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO &dbei) override;
 	void     OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
 	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
@@ -117,7 +117,6 @@ public:
 
 	CMOption<bool> m_bAutoHistorySync;
 	CMOption<bool> m_bUseBBCodes;
-	CMOption<bool> m_bUseServerTime; // hidden setting!
 
 	CMOption<bool> m_bUseHostnameAsPlace;
 	CMOption<wchar_t*> m_wstrPlace;
@@ -268,6 +267,8 @@ private:
 
 	// messages
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
+
+	int SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t iMessageId = 0);
 
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
