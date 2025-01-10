@@ -94,9 +94,6 @@ public:
 	// search
 	void __cdecl SearchBasicThread(void *param);
 
-	// threads
-	void __cdecl CSkypeProto::SendFileThread(void *p);
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// services
 
@@ -251,6 +248,8 @@ private:
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
 	// files
+	void SendFile(CFileUploadParam *fup);
+
 	void __cdecl ReceiveFileThread(void *param);
 
 	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);

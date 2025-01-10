@@ -90,9 +90,6 @@
     <ClInclude Include="src\requests\endpoint.h">
       <Filter>Header Files\Requests</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\files.h">
-      <Filter>Header Files\Requests</Filter>
-    </ClInclude>
     <ClInclude Include="src\requests\history.h">
       <Filter>Header Files\Requests</Filter>
     </ClInclude>

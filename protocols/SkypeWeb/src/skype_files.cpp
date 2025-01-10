@@ -101,37 +101,48 @@ INT_PTR CSkypeProto::SvcOfflineFile(WPARAM param, LPARAM)
 
 #define FILETRANSFER_FAILED(fup) { ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)fup); delete fup; fup = nullptr;} 
 
-HANDLE CSkypeProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
+void CSkypeProto::SendFile(CFileUploadParam *fup)
 {
-	if (IsOnline()) {
-		CFileUploadParam *fup = new CFileUploadParam(hContact, szDescription, ppszFiles);
-		ForkThread(&CSkypeProto::SendFileThread, (void*)fup);
-		return (HANDLE)fup;
-	}
-	return INVALID_HANDLE_VALUE;
-}
-
-void CSkypeProto::SendFileThread(void *p)
-{
-	CFileUploadParam *fup = (CFileUploadParam *)p;
-	if (!IsOnline()) {
-		FILETRANSFER_FAILED(fup);
-		return;
-	}
-	if (!fup->IsAccess()) {
+	auto *pwszFileName = &fup->arFileName[0];
+	if (!IsOnline() || _waccess(pwszFileName, 0)) {
 		FILETRANSFER_FAILED(fup);
 		return;
 	}
 
-	if (auto *pBitmap = FreeImage_LoadU(FreeImage_GetFIFFromFilenameU(fup->tszFileName), fup->tszFileName)) {
+	if (auto *pBitmap = FreeImage_LoadU(FreeImage_GetFIFFromFilenameU(pwszFileName), pwszFileName)) {
 		fup->isPicture = true;
 		fup->width = FreeImage_GetWidth(pBitmap);
 		fup->height = FreeImage_GetHeight(pBitmap);
 		FreeImage_Unload(pBitmap);
 	}
+	else fup->isPicture = false;
 
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, (HANDLE)fup);
-	PushRequest(new ASMObjectCreateRequest(this, fup));
+
+	// create upload slot
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://api.asm.skype.com/v1/objects", &CSkypeProto::OnASMObjectCreated);
+	pReq->flags &= (~NLHRF_DUMPASTEXT);
+	pReq->pUserInfo = fup;
+
+	pReq->AddHeader("Authorization", CMStringA(FORMAT, "skype_token %s", m_szApiToken.get()));
+	pReq->AddHeader("Content-Type", "application/json");
+	pReq->AddHeader("X-Client-Version", "0/0.0.0.0");
+
+	CMStringA szContact(getId(fup->hContact));
+	T2Utf uszFileName(&fup->arFileName[0]);
+	const char *szFileName = strrchr(uszFileName.get() + 1, '\\');
+
+	JSONNode node;
+	if (fup->isPicture)
+		node << CHAR_PARAM("type", "pish/image");
+	else
+		node << CHAR_PARAM("type", "sharing/file");
+
+	JSONNode jPermission(JSON_ARRAY); jPermission.set_name(szContact.c_str()); jPermission << CHAR_PARAM("", "read");
+	JSONNode jPermissions; jPermissions.set_name("permissions"); jPermissions << jPermission;
+	node << CHAR_PARAM("filename", szFileName) << jPermissions;
+	pReq->m_szParam = node.write().c_str();
+	PushRequest(pReq);
 }
 
 void CSkypeProto::OnASMObjectCreated(MHttpResponse *response, AsyncHttpRequest *pRequest)
@@ -156,8 +167,9 @@ LBL_Error:
 	}
 	
 	fup->uid = mir_strdup(strObjectId.c_str());
-	FILE *pFile = _wfopen(fup->tszFileName, L"rb");
-	if (pFile == nullptr) return;
+	FILE *pFile = _wfopen(&fup->arFileName[0], L"rb");
+	if (pFile == nullptr)
+		goto LBL_Error;
 
 	fseek(pFile, 0, SEEK_END);
 	long lFileLen = ftell(pFile);
@@ -170,25 +182,37 @@ LBL_Error:
 
 	mir_ptr<uint8_t> pData((uint8_t*)mir_alloc(lFileLen));
 	long lBytes = (long)fread(pData, sizeof(uint8_t), lFileLen, pFile);
-	if (lBytes != lFileLen) {
-		fclose(pFile);
+	fclose(pFile);
+
+	if (lBytes != lFileLen)
 		goto LBL_Error;
-	}
+
 	fup->size = lBytes;
 	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)fup);
-	PushRequest(new ASMObjectUploadRequest(this, strObjectId.c_str(), pData, lBytes, fup));
-	fclose(pFile);
+
+	// upload file to the previously created slot
+	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_OTHER, 0, &CSkypeProto::OnASMObjectUploaded);
+	pReq->m_szUrl.Format("https://api.asm.skype.com/v1/objects/%s/content/%s",
+		strObjectId.c_str(), fup->isPicture ? "imgpsh" : "original");
+	pReq->pUserInfo = fup;
+
+	pReq->AddHeader("Authorization", CMStringA(FORMAT, "skype_token %s", m_szApiToken.get()));
+	pReq->AddHeader("Content-Type", fup->isPicture ? "application" : "application/octet-stream");
+
+	pReq->m_szParam.Truncate(lBytes);
+	memcpy(pReq->m_szParam.GetBuffer(), pData, lBytes);
+	PushRequest(pReq);
 }
 
 void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
-	auto *fup = (CFileUploadParam*)pRequest->pUserInfo;
+	auto *fup = (CFileUploadParam *)pRequest->pUserInfo;
 	if (response == nullptr) {
 		FILETRANSFER_FAILED(fup);
 		return;
 	}
 
-	wchar_t *tszFile = wcsrchr(fup->tszFileName, L'\\') + 1;
+	wchar_t *tszFile = wcsrchr(&fup->arFileName[0], L'\\') + 1;
 
 	TiXmlDocument doc;
 	auto *pRoot = doc.NewElement("URIObject");
@@ -224,7 +248,7 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	auto *xmlSize = doc.NewElement("FileSize"); xmlSize->SetAttribute("v", (int)fup->size); pRoot->InsertEndChild(xmlSize);
 
 	if (fup->isPicture) {
-		auto xmlMeta = doc.NewElement("meta"); 
+		auto xmlMeta = doc.NewElement("meta");
 		xmlMeta->SetAttribute("type", "photo"); xmlMeta->SetAttribute("originalName", tszFile);
 		pRoot->InsertEndChild(xmlMeta);
 	}
@@ -236,11 +260,43 @@ void CSkypeProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	Utils_GetRandom(&hMessage, sizeof(hMessage));
 	hMessage &= ~0x80000000;
 
-	auto *pReq = new SendFileRequest(fup, getId(fup->hContact), printer.CStr());
+	// create a new file transfer event using previously filled slot
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, 0, &CSkypeProto::OnMessageSent);
+	pReq->m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(getId(fup->hContact)).c_str());
 	pReq->hContact = fup->hContact;
 	pReq->pUserInfo = (HANDLE)hMessage;
+
+	JSONNode ref(JSON_ARRAY); ref.set_name("amsreferences"); ref << CHAR_PARAM("", fup->uid);
+
+	JSONNode node;
+	if (fup->isPicture)
+		node << CHAR_PARAM("messagetype", "RichText/UriObject");
+	else
+		node << CHAR_PARAM("messagetype", "RichText/Media_GenericFile");
+
+	node << INT64_PARAM("clientmessageid", time(0)) << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", printer.CStr()) << ref;
+	pReq->m_szParam = node.write().c_str();
+
 	PushRequest(pReq);
 
-	ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
-	delete fup;
+	// if that's last file in the queue, finish file transfer, or proceed with the next file
+	if (fup->arFileName.getCount() == 1) {
+		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)fup);
+		delete fup;
+	}
+	else {
+		fup->arFileName.remove(int(0));
+		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)fup);
+		SendFile(fup);
+	}
+}
+
+HANDLE CSkypeProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)
+{
+	if (!IsOnline())
+		return INVALID_HANDLE_VALUE;
+
+	CFileUploadParam *fup = new CFileUploadParam(hContact, ppszFiles, szDescription);
+	SendFile(fup);
+	return fup;
 }

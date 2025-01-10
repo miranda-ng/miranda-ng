@@ -117,7 +117,6 @@ struct AsyncHttpRequest : public MTHttpRequest<CSkypeProto>
 #include "requests/chatrooms.h"
 #include "requests/contacts.h"
 #include "requests/endpoint.h"
-#include "requests/files.h"
 #include "requests/history.h"
 #include "requests/login.h"
 #include "requests/messages.h"

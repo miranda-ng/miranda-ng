@@ -49,7 +49,7 @@ public:
 
 struct CFileUploadParam : public MZeroedObject
 {
-	ptrW tszFileName;
+	OBJLIST<wchar_t> arFileName;
 	ptrW tszDesc;
 	ptrA atr;
 	ptrA fname;
@@ -59,13 +59,14 @@ struct CFileUploadParam : public MZeroedObject
 	MCONTACT hContact;
 	bool isPicture;
 
-	__forceinline CFileUploadParam(MCONTACT _hContact, const wchar_t* _desc, wchar_t** _files) :
+	CFileUploadParam(MCONTACT _hContact, wchar_t **_files, const wchar_t* _desc) :
+		arFileName(1),
 		hContact(_hContact),
-		tszDesc(mir_wstrdup(_desc)),
-		tszFileName(mir_wstrdup(_files[0]))
-	{};
-	
-	__forceinline bool IsAccess() { return ::_waccess(tszFileName, 0) == 0; }
+		tszDesc(mir_wstrdup(_desc))
+	{
+		for (auto p = _files; *p != 0; p++)
+			arFileName.insert(newStrW(*p));
+	}
 };
 
 class JsonReply

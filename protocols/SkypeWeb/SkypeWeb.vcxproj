@@ -55,7 +55,6 @@
     <ClInclude Include="src\requests\chatrooms.h" />
     <ClInclude Include="src\requests\contacts.h" />
     <ClInclude Include="src\requests\endpoint.h" />
-    <ClInclude Include="src\requests\files.h" />
     <ClInclude Include="src\requests\history.h" />
     <ClInclude Include="src\requests\login.h" />
     <ClInclude Include="src\requests\messages.h" />
