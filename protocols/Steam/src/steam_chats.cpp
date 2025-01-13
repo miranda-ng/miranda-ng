@@ -112,7 +112,7 @@ void CSteamProto::SendGetChatHistory(MCONTACT hContact, uint32_t iLastMsgId)
 	CChatRoomGetMessageHistoryRequest request;
 	request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
 	request.chat_id = getDword(hContact, "ChatId"); request.has_chat_id = true;
-	request.last_time = iLastMsgId;  request.has_last_time = true;
+	request.start_time = iLastMsgId;  request.has_start_time = true;
 	WSSendService(GetChatHistory, request, (void*)hContact);
 }
 
