@@ -208,6 +208,9 @@ class CSteamProto : public PROTO<CSteamProto>
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 
 	// chats
+	mir_cs m_csChats;
+	std::map<uint64_t, SESSION_INFO*> m_chatContactInfo;
+
 	void SendGetChatsRequest();
 	void OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &pResponse, const CMsgProtoBufHeader &hdr);
 

@@ -34,40 +34,51 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 		SESSION_INFO *pOwner = 0;
 
 		for (int k = 0; k < pGroup->n_chat_rooms; k++) {
+			std::vector<uint64_t> ids;
+
 			auto *pChat = pGroup->chat_rooms[k];
-			CMStringW wszId(FORMAT, L"%lld_%d", pGroup->chat_group_id, pChat->chat_id);
+			CMStringW wszId(FORMAT, L"%lld_%lld", pGroup->chat_group_id, pChat->chat_id);
 
 			CMStringW wszTitle(Utf2T(pChat->chat_name));
 			if (wszTitle.IsEmpty())
 				wszTitle = Utf2T(pGroup->chat_group_name);
 			
 			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszTitle);
-			Chat_AddGroup(si, TranslateT("Owner"));
-			Chat_AddGroup(si, TranslateT("Participant"));
+			if (!si->pStatuses) {
 
-			if (pOwner == 0) {
-				for (int j = 0; j < pGroup->n_top_members; j++) {
-					uint64_t iSteamId = AccountIdToSteamId(pGroup->top_members[j]);
-					CMStringW wszUserId(FORMAT, L"%lld", iSteamId), wszNick;
+				Chat_AddGroup(si, TranslateT("Owner"));
+				Chat_AddGroup(si, TranslateT("Participant"));
 
-					GCEVENT gce = { si, GC_EVENT_JOIN };
-					gce.pszUID.w = wszUserId;
+				if (pOwner == 0) {
+					for (int j = 0; j < pGroup->n_top_members; j++) {
+						uint64_t iSteamId = AccountIdToSteamId(pGroup->top_members[j]);
+						CMStringW wszUserId(FORMAT, L"%lld", iSteamId), wszNick;
 
-					if (iSteamId == m_iSteamId) {
-						gce.bIsMe = true;
-						wszNick = getMStringW("Nick");
+						GCEVENT gce = { si, GC_EVENT_JOIN };
+						gce.pszUID.w = wszUserId;
+
+						if (iSteamId == m_iSteamId) {
+							gce.bIsMe = true;
+							wszNick = getMStringW("Nick");
+						}
+						else if (MCONTACT hContact = GetContact(iSteamId))
+							wszNick = Clist_GetContactDisplayName(hContact);
+						else {
+							ids.push_back(iSteamId);
+							{
+								mir_cslock lck(m_csChats);
+								m_chatContactInfo[iSteamId] = si;
+							}
+							wszNick = L"@" + wszUserId;
+						}
+
+						gce.pszNick.w = wszNick;
+						gce.pszStatus.w = (pGroup->top_members[j] == pGroup->accountid_owner) ? TranslateT("Owner") : TranslateT("Participant");
+						Chat_Event(&gce);
 					}
-					else if (MCONTACT hContact = GetContact(iSteamId))
-						wszNick = Clist_GetContactDisplayName(hContact);
-					else
-						wszNick = L"@" + wszUserId;
-					
-					gce.pszNick.w = wszNick;
-					gce.pszStatus.w = (pGroup->top_members[j] == pGroup->accountid_owner) ? TranslateT("Owner") : TranslateT("Participant");
-					Chat_Event(&gce);
 				}
+				else si->pParent = pOwner;
 			}
-			else si->pParent = pOwner;
 
 			setDword(si->hContact, "ChatId", pChat->chat_id);
 
@@ -83,6 +94,9 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 
 			Chat_Control(si, WINDOW_HIDDEN);
 			Chat_Control(si, SESSION_ONLINE);
+
+			if (!ids.empty())
+				SendUserInfoRequest(ids);
 
 			uint32_t dwLastMsgId = getDword(si->hContact, DBKEY_LASTMSG);
 			if (pChat->time_last_message > dwLastMsgId)

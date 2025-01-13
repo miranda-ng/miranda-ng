@@ -75,15 +75,34 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 {
 	for (int i = 0; i < reply.n_friends; i++) {
 		auto *F = reply.friends[i];
+		SESSION_INFO *si = nullptr;
+		{
+			mir_cslock lck(m_csChats);
+			auto it = m_chatContactInfo.find(F->friendid);
+			if (it != m_chatContactInfo.end()) {
+				si = it->second;
+				m_chatContactInfo.erase(it);
+			}
+		}
 
 		auto hContact = GetContact(F->friendid);
-		if (!hContact && F->friendid != m_iSteamId)
+		if (!si && !hContact && F->friendid != m_iSteamId)
 			hContact = AddContact(F->friendid);		
 
 		// set name
 		if (F->player_name) {
 			CMStringW realName(Utf2T(F->player_name));
 			if (!realName.IsEmpty()) {
+				// set a nickname for group chat user?
+				if (si) {
+					CMStringW wszUserId(FORMAT, L"%lld", F->friendid);
+					GCEVENT gce = { si, GC_EVENT_NICK };
+					gce.pszUID.w = wszUserId;
+					gce.pszText.w = realName;
+					Chat_Event(&gce);
+					continue;
+				}
+
 				int pos = realName.Find(L' ', 1);
 				if (pos != -1) {
 					setWString(hContact, "FirstName", realName.Mid(0, pos));
