@@ -59,9 +59,11 @@ int CSteamProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 	bool ctrlPressed = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 
-	bool authNeeded = getBool(hContact, "Auth", 0);
-	Menu_ShowItem(GetMenuItem(PROTO_MENU_REQ_AUTH), authNeeded || ctrlPressed);
-	Menu_ShowItem(GetMenuItem(PROTO_MENU_REVOKE_AUTH), !authNeeded || ctrlPressed);
+	if (!Contact::IsGroupChat(hContact)) {
+		bool authNeeded = getBool(hContact, "Auth", 0);
+		Menu_ShowItem(GetMenuItem(PROTO_MENU_REQ_AUTH), authNeeded || ctrlPressed);
+		Menu_ShowItem(GetMenuItem(PROTO_MENU_REVOKE_AUTH), !authNeeded || ctrlPressed);
+	}
 
 	bool isBlocked = getBool(hContact, "Block", 0);
 	Menu_ShowItem(contactMenuItems[CMI_BLOCK], !isBlocked || ctrlPressed);
