@@ -39,30 +39,29 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 		return 0;
 
 	// search for existing contact
-	for (auto &hContact : Contacts()) {
-		// check if it is a weather contact
-		if (IsMyContact(hContact)) {
-			DBVARIANT dbv;
-			// check ID to see if the contact already exist in the database
-			if (!g_plugin.getWString(hContact, "ID", &dbv)) {
-				if (!mir_wstrcmpi(psr->email.w, dbv.pwszVal)) {
-					// remove the flag for not on list and hidden, thus make the contact visible
-					// and add them on the list
-					if (!Contact::OnList(hContact)) {
-						Contact::PutOnList(hContact);
-						Contact::Hide(hContact, false);
-					}
-					db_free(&dbv);
-					// contact is added, function quitting
-					return (INT_PTR)hContact;
+	for (auto &hContact : Contacts(MODULENAME)) {
+		DBVARIANT dbv;
+		// check ID to see if the contact already exist in the database
+		if (!g_plugin.getWString(hContact, "ID", &dbv)) {
+			if (!mir_wstrcmpi(psr->email.w, dbv.pwszVal)) {
+				// remove the flag for not on list and hidden, thus make the contact visible
+				// and add them on the list
+				if (!Contact::OnList(hContact)) {
+					Contact::PutOnList(hContact);
+					Contact::Hide(hContact, false);
 				}
 				db_free(&dbv);
+				// contact is added, function quitting
+				return (INT_PTR)hContact;
 			}
+			db_free(&dbv);
 		}
 	}
 
 	// if contact with the same ID was not found, add it
-	if (psr->cbSize < sizeof(PROTOSEARCHRESULT)) return 0;
+	if (psr->cbSize < sizeof(PROTOSEARCHRESULT))
+		return 0;
+	
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, MODULENAME);
 	// suppress online notification for the new contact

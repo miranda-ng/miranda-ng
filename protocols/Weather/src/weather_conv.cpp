@@ -569,40 +569,63 @@ void GetID(wchar_t *pszID)
 }
 
 //============  WEATHER ERROR CODE  ============
-//
 // Get the text when an error code is specified
 // code = the error code obtained when updating weather
 // str = the string for the error
-//
+
 wchar_t *GetError(int code)
 {
 	wchar_t *str, str2[100];
 	switch (code) {
-	case 10:	str = E10; break;
-	case 11:	str = E11; break;
-	case 12:	str = E12; break;
-	case 20:	str = E20; break;
-	case 30:	str = E30; break;
-	case 40:	str = E40; break;
-	case 42:	str = E42; break;
-	case 43:	str = E43; break;
-	case 99:	str = E99; break;
-	case 204:	str = E204; break;
-	case 301:	str = E301; break;
-	case 305:	str = E305; break;
-	case 307:	str = E307; break;
-	case 400:	str = E400; break;
-	case 401:	str = E401; break;
-	case 402:	str = E402; break;
-	case 403:	str = E403; break;
-	case 404:	str = E404; break;
-	case 405:	str = E405; break;
-	case 407:	str = E407; break;
-	case 410:	str = E410; break;
-	case 500:	str = E500; break;
-	case 502:	str = E502; break;
-	case 503:	str = E503; break;
-	case 504:	str = E504; break;
+	case 10:	str = TranslateT("Invalid ID format, missing \"/\" (10)"); break;
+	case 11:	str = TranslateT("Invalid service (11)"); break;
+	case 12:	str = TranslateT("Invalid station (12)"); break;
+	case 20:	str = TranslateT("Weather service ini for this station is not found (20)"); break;
+	case 30:	str = TranslateT("Netlib error - check your internet connection (30)"); break;
+	case 40:	str = TranslateT("Empty data is retrieved (40)"); break;
+	case 42:	str = TranslateT("Document not found (42)"); break;
+	case 43:	str = TranslateT("Document too short to contain any weather data (43)"); break;
+	case 99:	str = TranslateT("Unknown error (99)"); break;
+	// 100 Continue
+	// 101 Switching Protocols
+	// 200 OK
+	// 201 Created
+	// 202 Accepted
+	// 203 Non-Authoritative Information
+	case 204: str = TranslateT("HTTP Error: No content (204)"); break;
+	// 205 Reset Content
+	// 206 Partial Content
+	// 300 Multiple Choices
+	case 301: str = TranslateT("HTTP Error: Data moved (301)"); break;
+	// 302 Found
+	// 303 See Other
+	// 304 Not Modified
+	case 305: str = TranslateT("HTTP Error: Use proxy (305)"); break;
+	case 307: str = TranslateT("HTTP Error: Temporary redirect (307)"); break;
+	case 400: str = TranslateT("HTTP Error: Bad request (400)"); break;
+	case 401: str = TranslateT("HTTP Error: Unauthorized (401)"); break;
+	case 402: str = TranslateT("HTTP Error: Payment required (402)"); break;
+	case 403: str = TranslateT("HTTP Error: Forbidden (403)"); break;
+	case 404: str = TranslateT("HTTP Error: Not found (404)"); break;
+	case 405: str = TranslateT("HTTP Error: Method not allowed (405)"); break;
+	// 406 Not Acceptable
+	case 407: str = TranslateT("HTTP Error: Proxy authentication required (407)"); break;
+	// 408 Request Timeout
+	// 409 Conflict
+	case 410: str = TranslateT("HTTP Error: Gone (410)"); break;
+	// 411 Length Required
+	// 412 Precondition Failed
+	// 413 Request Entity Too Large
+	// 414 Request-URI Too Long
+	// 415 Unsupported Media Type
+	// 416 Requested Range Not Satisfiable
+	// 417 Expectation Failed
+	case 500: str = TranslateT("HTTP Error: Internal server error (500)"); break;
+	// 501 Not Implemented
+	case 502: str = TranslateT("HTTP Error: Bad gateway (502)"); break;
+	case 503: str = TranslateT("HTTP Error: Service unavailable (503)"); break;
+	case 504: str = TranslateT("HTTP Error: Gateway timeout (504)"); break;
+	// 505 HTTP Version Not Supported
 	default:
 		mir_snwprintf(str2, TranslateT("HTTP Error %i"), code);
 		str = str2;

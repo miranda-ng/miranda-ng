@@ -115,60 +115,6 @@ enum EWeatherCondition
 #define	DOC_TOO_SHORT		43
 #define	UNKNOWN_ERROR		99
 
-// weather update error text
-#define E10		TranslateT("Invalid ID format, missing \"/\" (10)")
-#define E11		TranslateT("Invalid service (11)")
-#define E12		TranslateT("Invalid station (12)")
-#define E20		TranslateT("Weather service ini for this station is not found (20)")
-#define E30		TranslateT("Netlib error - check your internet connection (30)")
-#define E40		TranslateT("Empty data is retrieved (40)")
-#define E42		TranslateT("Document not found (42)")
-#define E43		TranslateT("Document too short to contain any weather data (43)")
-#define E99		TranslateT("Unknown error (99)")
-
-// HTTP error... not all translated
-// 100 Continue
-// 101 Switching Protocols
-// 200 OK
-// 201 Created
-// 202 Accepted
-// 203 Non-Authoritative Information
-#define E204	TranslateT("HTTP Error: No content (204)")
-// 205 Reset Content
-// 206 Partial Content
-// 300 Multiple Choices
-#define E301	TranslateT("HTTP Error: Data moved (301)")
-// 302 Found
-// 303 See Other
-// 304 Not Modified
-#define E305	TranslateT("HTTP Error: Use proxy (305)")
-// 306 (Unused)
-#define E307	TranslateT("HTTP Error: Temporary redirect (307)")
-#define E400	TranslateT("HTTP Error: Bad request (400)")
-#define E401	TranslateT("HTTP Error: Unauthorized (401)")
-#define E402	TranslateT("HTTP Error: Payment required (402)")
-#define E403	TranslateT("HTTP Error: Forbidden (403)")
-#define E404	TranslateT("HTTP Error: Not found (404)")
-#define E405	TranslateT("HTTP Error: Method not allowed (405)")
-// 406 Not Acceptable
-#define E407	TranslateT("HTTP Error: Proxy authentication required (407)")
-// 408 Request Timeout
-// 409 Conflict
-#define E410	TranslateT("HTTP Error: Gone (410)")
-// 411 Length Required
-// 412 Precondition Failed
-// 413 Request Entity Too Large
-// 414 Request-URI Too Long
-// 415 Unsupported Media Type
-// 416 Requested Range Not Satisfiable
-// 417 Expectation Failed
-#define E500	TranslateT("HTTP Error: Internal server error (500)")
-// 501 Not Implemented
-#define E502	TranslateT("HTTP Error: Bad gateway (502)")
-#define E503	TranslateT("HTTP Error: Service unavailable (503)")
-#define E504	TranslateT("HTTP Error: Gateway timeout (504)")
-// 505 HTTP Version Not Supported
-
 // defaults constants
 #define VAR_LIST_OPT TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
 

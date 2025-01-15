@@ -28,7 +28,6 @@ from the web using netlib
 HNETLIBUSER hNetlibUser;
 
 //============  DOWNLOAD NEW WEATHER  ============
-//
 // function to download webpage from the internet
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
