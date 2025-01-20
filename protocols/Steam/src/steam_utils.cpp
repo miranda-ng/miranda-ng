@@ -20,6 +20,61 @@ bool IsNull(const ProtobufCBinaryData &buf)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void EncodeBbcodes(SESSION_INFO *si, CMStringW &wszText)
+{
+	int idx = wszText.Find(':');
+	if (idx != -1) {
+		CMStringW wszNick(wszText.Left(idx));
+		for (auto &it : si->getUserList()) {
+			if (wszNick == it->pszNick) {
+				wszText.Delete(0, idx+1);
+
+				CMStringW wszReplace(FORMAT, L"[mention=%lld]@%s[/mention]", SteamIdToAccountId(_wtoi64(it->pszUID)), it->pszNick);
+				wszText = wszReplace + wszText;
+				break;
+			}
+		}
+	}
+}
+
+void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
+{
+	for (int idx = 0; idx != -1; idx = szText.Find('[', idx+1)) {
+		bool isClosing = false;
+		idx++;
+		if (szText[idx] == '/') {
+			isClosing = true;
+			idx++;
+		}
+
+		int iEnd = szText.Find(']', idx + 1);
+		if (iEnd == -1)
+			return;
+
+		if (!isClosing) {
+			auto *p = szText.c_str() + idx;
+			if (!strncmp(p, "mention=", 8)) {
+				CMStringW wszId(FORMAT, L"%lld", AccountIdToSteamId(_atoi64(p + 8)));
+				if (auto *pUser = g_chatApi.UM_FindUser(si, wszId)) {
+					int iEnd2 = szText.Find("[/mention]", iEnd);
+					if (iEnd2 == -1)
+						return;
+
+					szText.Delete(idx - 1, iEnd2 - idx + 11);
+					szText.Insert(0, ":");
+					szText.Insert(0, T2Utf(pUser->pszNick));
+					continue;
+				}
+			}
+		}
+
+		szText.Delete(idx - 1, iEnd - idx + 1);
+		idx = iEnd;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MBinBuffer createMachineID(const char *accName)
 {
 	uint8_t hashOut[MIR_SHA1_HASH_SIZE];

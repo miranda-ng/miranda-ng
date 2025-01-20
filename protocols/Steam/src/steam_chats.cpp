@@ -138,12 +138,15 @@ void CSteamProto::OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &rep
 			mir_snprintf(szMsgId, "%d_%d", iChatId, pMsg->server_timestamp);
 			_i64toa(AccountIdToSteamId(pMsg->sender), szUserId, 10);
 
+			CMStringA szText(pMsg->message);
+			DecodeBbcodes(si, szText);
+
 			DB::EventInfo dbei(db_event_getById(m_szModuleName, szMsgId));
 			dbei.flags |= DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.szModule = m_szModuleName;
-			replaceStr(dbei.pBlob, mir_strdup(pMsg->message));
-			dbei.cbBlob = (int)mir_strlen(dbei.pBlob);
+			dbei.cbBlob = szText.GetLength();
+			replaceStr(dbei.pBlob, szText.Detach());
 			dbei.iTimestamp = pMsg->server_timestamp;
 			dbei.szId = szMsgId;
 			dbei.szUserId = szUserId;
@@ -171,12 +174,15 @@ void CSteamProto::OnGetChatMessage(const CChatRoomIncomingChatMessageNotificatio
 		mir_snprintf(szMsgId, "%lld_%d", reply.chat_id, reply.timestamp);
 		_i64toa(reply.steamid_sender, szUserId, 10);
 
+		CMStringA szText(reply.message);
+		DecodeBbcodes(si, szText);
+
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMsgId));
 		dbei.flags |= DBEF_UTF;
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.szModule = m_szModuleName;
-		replaceStr(dbei.pBlob, mir_strdup(reply.message));
-		dbei.cbBlob = (int)mir_strlen(dbei.pBlob);
+		dbei.cbBlob = szText.GetLength();
+		replaceStr(dbei.pBlob, szText.Detach());
 		dbei.iTimestamp = reply.timestamp;
 		dbei.szId = szMsgId;
 		dbei.szUserId = szUserId;
@@ -229,20 +235,23 @@ int CSteamProto::GcEventHook(WPARAM, LPARAM lParam)
 	if (gch == nullptr)
 		return 0;
 
-	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
+	auto *si = gch->si;
+	if (mir_strcmpi(si->pszModule, m_szModuleName))
 		return 0;
 
 	switch (gch->iType) {
 	case GC_USER_MESSAGE:
 		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
-			rtrimw(gch->ptszText);
-			T2Utf szMessage(gch->ptszText);
+			CMStringW wszText(gch->ptszText);
+			wszText.TrimRight();
+			EncodeBbcodes(si, wszText);
+			T2Utf szText(wszText);
 
 			CChatRoomSendChatMessageRequest request;
-			request.chat_group_id = _wtoi64(gch->si->ptszID); request.has_chat_group_id = true;
-			request.chat_id = getDword(gch->si->hContact, "ChatId"); request.has_chat_id = true;
+			request.chat_group_id = _wtoi64(si->ptszID); request.has_chat_group_id = true;
+			request.chat_id = getDword(si->hContact, "ChatId"); request.has_chat_id = true;
 			request.echo_to_sender = request.has_echo_to_sender = true;
-			request.message = szMessage;
+			request.message = szText;
 			WSSendService(SendChatMessage, request);
 		}
 		break;

@@ -10,6 +10,9 @@ void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags 
 MBinBuffer RsaEncrypt(const char *pszModulus, const char *exponent, const char *data);
 MBinBuffer createMachineID(const char *accName);
 
+void EncodeBbcodes(SESSION_INFO *si, CMStringW &szText);
+void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText);
+
 #define now() time(0)
 
 bool IsNull(const ProtobufCBinaryData &buf);
