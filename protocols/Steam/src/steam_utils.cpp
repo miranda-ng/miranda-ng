@@ -68,7 +68,9 @@ void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
 			else if (!strncmp(p, "lobbyinvite ", 12)) {
 				szReplace = TranslateU("You were invited to play a game");
 			}
+			else iEnd++;
 		}
+		else iEnd++, idx--;
 
 		szText.Delete(idx - 1, iEnd - idx + 1);
 		if (!szReplace.IsEmpty())
