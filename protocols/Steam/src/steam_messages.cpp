@@ -60,6 +60,25 @@ void CSteamProto::OnGotIncomingMessage(const CFriendMessagesIncomingMessageNotif
 	}
 }
 
+void CSteamProto::OnGotMarkRead(const CFriendMessagesAckMessageNotification &reply, const CMsgProtoBufHeader &)
+{
+	MCONTACT hContact = GetContact(reply.steamid_partner);
+	if (!hContact) {
+		debugLogA("notification from unknown account %lld ignored", reply.steamid_partner);
+		return;
+	}
+
+	DB::ECPTR pCursor(DB::Events(hContact, db_event_firstUnread(hContact)));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
+		DB::EventInfo dbei(hDbEvent, false);
+		if (reply.timestamp > dbei.iTimestamp)
+			break;
+
+		if (!dbei.markedRead())
+			db_event_markRead(hContact, hDbEvent, true);
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int CSteamProto::UserIsTyping(MCONTACT hContact, int type)

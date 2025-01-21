@@ -298,6 +298,27 @@ bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 	return true;
 }
 
+void CSteamProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
+{
+	if (IsOnline()) {
+		DB::EventInfo dbei(hDbEvent, false);
+
+		if (Contact::IsGroupChat(hContact)) {
+			CChatRoomAckChatMessageNotification request;
+			request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
+			request.chat_id = getDword(hContact, "ChatId"); request.has_chat_id = true;
+			request.timestamp = dbei.iTimestamp; request.has_timestamp = true;
+			WSSendService(AckChatMessage, request);
+		}
+		else {
+			CFriendMessagesAckMessageNotification request;
+			request.steamid_partner = GetId(hContact, DBKEY_STEAM_ID); request.has_steamid_partner = true;
+			request.timestamp = dbei.iTimestamp; request.has_timestamp = true;
+			WSSendService(FriendAckMessage, request);
+		}
+	}
+}
+
 int CSteamProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;

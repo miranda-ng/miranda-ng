@@ -24,15 +24,18 @@
 
 #define GetOwnAuthorizedDevices             "DeviceAuth.GetOwnAuthorizedDevices#1"
 
+#define FriendAckMessage                    "FriendMessages.AckMessage#1"
 #define FriendSendMessage                   "FriendMessages.SendMessage#1"
 #define FriendGetActiveSessions             "FriendMessages.GetActiveMessageSessions#1"
 #define FriendGetRecentMessages             "FriendMessages.GetRecentMessages#1"
 #define FriendGetIncomingMessage            "FriendMessagesClient.IncomingMessage#1"
+#define FriendNotifyAckMessage              "FriendMessagesClient.NotifyAckMessageEcho#1"
 
 #define GetMyChatRoomGroups                 "ChatRoom.GetMyChatRoomGroups#1"
 #define GetChatHistory                      "ChatRoom.GetMessageHistory#1"
 #define SendChatMessage                     "ChatRoom.SendChatMessage#1"
 #define LeaveChatGroup                      "ChatRoom.LeaveChatRoomGroup#1"
+#define AckChatMessage                      "ChatRoom.AckChatMessage#1"
 
 #define NotifyIncomingChatMessage           "ChatRoomClient.NotifyIncomingChatMessage#1"
 
@@ -298,6 +301,7 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	void SendFriendMessage(EChatEntryType, int64_t steamId, const char *pszMessage, void *pInfo = nullptr);
 	void OnGotIncomingMessage(const CFriendMessagesIncomingMessageNotification &reply, const CMsgProtoBufHeader &hdr);
+	void OnGotMarkRead(const CFriendMessagesAckMessageNotification &reply, const CMsgProtoBufHeader &hdr);
 	void OnMessageSent(const CFriendMessagesSendMessageResponse &reply, const CMsgProtoBufHeader &hdr);
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
 
@@ -367,6 +371,7 @@ public:
 
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
+	void     OnMarkRead(MCONTACT hContact, MEVENT hDbEvent) override;
 	void     OnModulesLoaded() override;
 
 	// menus
