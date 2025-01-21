@@ -31,6 +31,13 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 	for (int i = 0; i < reply.n_chat_room_groups; i++) {
 		auto *pGroup = reply.chat_room_groups[i]->group_summary;
 
+		CMStringW wszGrpName;
+		if (pGroup->n_chat_rooms > 1 && pGroup->chat_group_name) {
+			wszGrpName = CMStringW(m_wszGroupName) + L"\\" + Utf2T(pGroup->chat_group_name);
+			if (!Clist_GroupExists(wszGrpName))
+				Clist_GroupCreate(0, wszGrpName);
+		}
+
 		SESSION_INFO *pOwner = 0;
 
 		for (int k = 0; k < pGroup->n_chat_rooms; k++) {
@@ -81,6 +88,8 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 			}
 
 			setDword(si->hContact, "ChatId", pChat->chat_id);
+			if (!wszGrpName.IsEmpty())
+				Clist_SetGroup(si->hContact, wszGrpName);
 
 			if (mir_strlen(pGroup->chat_group_tagline)) {
 				Utf2T wszTopic(pGroup->chat_group_tagline);
