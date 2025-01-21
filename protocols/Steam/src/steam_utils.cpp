@@ -51,9 +51,14 @@ void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
 		if (iEnd == -1)
 			return;
 
+		bool bPlaceFirst = false;
 		CMStringA szReplace;
+
+		auto *p = szText.c_str() + idx;
+		if (!strncmp(p, "emoticon", 8))
+			szReplace = ":";
+
 		if (!isClosing) {
-			auto *p = szText.c_str() + idx;
 			if (!strncmp(p, "mention=", 8)) {
 				CMStringW wszId(FORMAT, L"%lld", AccountIdToSteamId(_atoi64(p + 8)));
 				if (auto *pUser = g_chatApi.UM_FindUser(si, wszId)) {
@@ -63,6 +68,7 @@ void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
 
 					iEnd = iEnd2 + 10;
 					szReplace.Format("%s:", T2Utf(pUser->pszNick).get());
+					bPlaceFirst = true;
 				}
 			}
 			else if (!strncmp(p, "lobbyinvite ", 12)) {
@@ -72,9 +78,14 @@ void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
 		}
 		else iEnd++, idx--;
 
-		szText.Delete(idx - 1, iEnd - idx + 1);
-		if (!szReplace.IsEmpty())
-			szText = szReplace + szText;
+		idx--;
+		szText.Delete(idx, iEnd - idx);
+		if (!szReplace.IsEmpty()) {
+			if (bPlaceFirst)
+				szText = szReplace + szText;
+			else
+				szText.Insert(idx, szReplace);
+		}
 		idx = iEnd;
 	}
 }
