@@ -24,6 +24,10 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CSteamProto::GetMyAvatar);
 
+	// history
+	CreateProtoService(PS_CAN_EMPTY_HISTORY, &CSteamProto::SvcCanEmptyHistory);
+	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CSteamProto::SvcEmptyHistory);
+
 	// custom status API
 	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CSteamProto::OnGetXStatusEx);
 	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::OnGetXStatusIcon);
@@ -138,7 +142,7 @@ int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 	return 1;
 }
 
-INT_PTR CSteamProto::GetCaps(int type, MCONTACT)
+INT_PTR CSteamProto::GetCaps(int type, MCONTACT hContact)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -146,7 +150,7 @@ INT_PTR CSteamProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_FREECHAT | PF2_INVISIBLE;
 	case PFLAGNUM_4:
-		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_SUPPORTTYPING;// | PF4_IMSENDOFFLINE;
+		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_SUPPORTTYPING | PF4_SERVERMSGID;
 	case PFLAGNUM_5:
 		return PF2_HEAVYDND | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
@@ -296,6 +300,22 @@ bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 		SendUserRemoveRequest(hContact);
 
 	return true;
+}
+
+void CSteamProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
+{
+	if (!hContact || !Contact::IsGroupChat(hContact) || !(flags & CDF_DEL_HISTORY))
+		return;
+
+	DB::EventInfo dbei(hDbEvent, false);
+
+	mir_cslock lck(m_csChats);
+	if (hContact != m_deletedContact && m_deletedContact != INVALID_CONTACT_ID)
+		SendDeleteMessageRequest();
+
+	m_deletedContact = hContact;
+	m_deletedMessages.push_back(dbei.iTimestamp);
+	m_impl.m_deleteMsg.Start(500);
 }
 
 void CSteamProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)

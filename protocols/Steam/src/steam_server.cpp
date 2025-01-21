@@ -64,6 +64,36 @@ void CSteamProto::OnGotAppInfo(const CMsgClientPICSProductInfoResponse &reply, c
 						setUString(cc, "XStatusMsg", szName.c_str());
 }	}	}	}	}	}
 
+void CSteamProto::SendDeleteMessageRequest()
+{
+	if (m_deletedContact == INVALID_CONTACT_ID)
+		return;
+
+	m_impl.m_deleteMsg.Stop();
+
+	MCONTACT hContact;
+	OBJLIST<CChatRoomDeleteChatMessagesRequest__Message> msgs((int)m_deletedMessages.size());
+	{
+		mir_cslock lck(m_csChats);
+		for (auto &it : m_deletedMessages) {
+			CChatRoomDeleteChatMessagesRequest__Message msg;
+			msg.has_server_timestamp = true; msg.server_timestamp = it;
+			msgs.insert(new CChatRoomDeleteChatMessagesRequest__Message(msg));
+		}
+
+		hContact = m_deletedContact;
+		m_deletedContact = INVALID_CONTACT_ID;
+		m_deletedMessages.clear();
+	}
+
+	CChatRoomDeleteChatMessagesRequest request;
+	request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
+	request.chat_id = getDword(hContact, "ChatId"); request.has_chat_id = true;
+	request.messages = msgs.getArray();
+	request.n_messages = msgs.getCount();
+	WSSendService(DeleteChatMessage, request);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSteamProto::SendDeviceListRequest()

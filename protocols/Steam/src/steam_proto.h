@@ -36,8 +36,11 @@
 #define SendChatMessage                     "ChatRoom.SendChatMessage#1"
 #define LeaveChatGroup                      "ChatRoom.LeaveChatRoomGroup#1"
 #define AckChatMessage                      "ChatRoom.AckChatMessage#1"
+#define DeleteChatMessage                   "ChatRoom.DeleteChatMessages#1"
+
 
 #define NotifyIncomingChatMessage           "ChatRoomClient.NotifyIncomingChatMessage#1"
+#define NotifyModifiedChatMessage           "ChatRoomClient.NotifyChatMessageModified#1"
 
 #define NotificationReceived                "SteamNotificationClient.NotificationsReceived#1"
 
@@ -109,18 +112,25 @@ class CSteamProto : public PROTO<CSteamProto>
 		friend class CSteamProto;
 		CSteamProto &m_proto;
 
-		CTimer m_heartBeat;
+		CTimer m_heartBeat, m_deleteMsg;
 
 		void OnHeartBeat(CTimer *)
 		{
 			m_proto.SendHeartBeat();
 		}
 
+		void OnDeleteMsg(CTimer *)
+		{
+			m_proto.SendDeleteMessageRequest();
+		}
+
 		CProtoImpl(CSteamProto &pro) :
 			m_proto(pro),
-			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this)+1)
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1),
+			m_deleteMsg(Miranda_GetSystemWindow(), UINT_PTR(this) + 2)
 		{
 			m_heartBeat.OnEvent = Callback(this, &CProtoImpl::OnHeartBeat);
+			m_deleteMsg.OnEvent = Callback(this, &CProtoImpl::OnDeleteMsg);
 		}
 	}
 		m_impl;
@@ -213,6 +223,11 @@ class CSteamProto : public PROTO<CSteamProto>
 	// chats
 	mir_cs m_csChats;
 	std::map<uint64_t, SESSION_INFO*> m_chatContactInfo;
+	
+	MCONTACT m_deletedContact = INVALID_CONTACT_ID;
+	std::vector<uint64_t> m_deletedMessages;
+
+	void SendDeleteMessageRequest();
 
 	void SendGetChatsRequest();
 	void OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &pResponse, const CMsgProtoBufHeader &hdr);
@@ -268,6 +283,9 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnSearchByNameStarted(const MHttpResponse &response, void *arg);
 
 	// history
+	INT_PTR __cdecl SvcCanEmptyHistory(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcEmptyHistory(WPARAM, LPARAM);
+
 	void SendHistoryRequest(uint64_t accountId, uint32_t startTime);
 	void OnGotRecentMessages(const CFriendMessagesGetRecentMessagesResponse &reply, const CMsgProtoBufHeader &hdr);
 
@@ -323,6 +341,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	INT_PTR __cdecl OnGetEventTextChatStates(WPARAM wParam, LPARAM lParam);
 
 	// helpers
+	void OnDoNothing(const CMsgProtoBufHeader &, const CMsgProtoBufHeader &) {}
+
 	inline int IdleSeconds()
 	{
 		// Based on idle time we report Steam server will mark us as online/away/snooze
@@ -371,6 +391,7 @@ public:
 
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
+	void     OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
 	void     OnMarkRead(MCONTACT hContact, MEVENT hDbEvent) override;
 	void     OnModulesLoaded() override;
 

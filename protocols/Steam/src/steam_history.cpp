@@ -1,5 +1,17 @@
 #include "stdafx.h"
 
+INT_PTR CSteamProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM)
+{
+	return (hContact && Contact::IsGroupChat(hContact));
+}
+
+INT_PTR CSteamProto::SvcEmptyHistory(WPARAM, LPARAM)
+{
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSteamProto::SendHistoryRequest(uint64_t accountId, uint32_t startTime)
 {
 	CFriendMessagesGetRecentMessagesRequest request;
