@@ -29,10 +29,10 @@ menu items).
 UPDATELIST *UpdateListHead = nullptr, *UpdateListTail = nullptr;
 
 //============  RETRIEVE NEW WEATHER  ============
-//
 // retrieve weather info and display / log them
 // hContact = current contact
-int UpdateWeather(MCONTACT hContact)
+
+int CWeatherProto::UpdateWeather(MCONTACT hContact)
 {
 	wchar_t str2[MAX_TEXT_SIZE];
 	DBVARIANT dbv;
@@ -44,10 +44,10 @@ int UpdateWeather(MCONTACT hContact)
 	dbv.pszVal = "";
 
 	// log to netlib log for debug purpose
-	Netlib_LogfW(hNetlibUser, L"************************************************************************");
+	Netlib_LogfW(m_hNetlibUser, L"************************************************************************");
 	int dbres = g_plugin.getWString(hContact, "Nick", &dbv);
 
-	Netlib_LogfW(hNetlibUser, L"<-- Start update for station -->");
+	Netlib_LogfW(m_hNetlibUser, L"<-- Start update for station -->");
 
 	// download the info and parse it
 	// result are stored in database
@@ -62,12 +62,15 @@ int UpdateWeather(MCONTACT hContact)
 			WPShowMessage(str, SM_WARNING);
 		}
 		// log to netlib
-		Netlib_LogfW(hNetlibUser, L"Error! Update cannot continue... Start to free memory");
-		Netlib_LogfW(hNetlibUser, L"<-- Error occurs while updating station: %s -->", dbv.pwszVal);
-		if (!dbres) db_free(&dbv);
+		Netlib_LogfW(m_hNetlibUser, L"Error! Update cannot continue... Start to free memory");
+		Netlib_LogfW(m_hNetlibUser, L"<-- Error occurs while updating station: %s -->", dbv.pwszVal);
+		if (!dbres)
+			db_free(&dbv);
 		return 1;
 	}
-	if (!dbres) db_free(&dbv);
+	
+	if (!dbres)
+		db_free(&dbv);
 
 	// initialize, load new weather Data
 	WEATHERINFO winfo = LoadWeatherInfo(hContact);
@@ -136,7 +139,7 @@ int UpdateWeather(MCONTACT hContact)
 	else
 		db_unset(hContact, "CList", "StatusMsg");
 
-	ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2[0] ? str2 : nullptr));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2[0] ? str2 : nullptr));
 
 	// save descriptions in MyNotes
 	GetDisplay(&winfo, GetTextValue('N'), str2);
@@ -147,15 +150,14 @@ int UpdateWeather(MCONTACT hContact)
 	// set the update tag
 	g_plugin.setByte(hContact, "IsUpdated", TRUE);
 
-	// save info for default weather condition
-	if (!mir_wstrcmp(winfo.id, opt.Default) && !opt.NoProtoCondition) {
-		// save current condition for default station to be displayed after the update
-		old_status = status;
-		status = iStatus;
-		// a workaround for a default station that currently have an n/a icon assigned
-		if (status == ID_STATUS_OFFLINE)	status = NOSTATUSDATA;
-		ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
-	}
+	// save current condition for default station to be displayed after the update
+	int old_status = m_iStatus;
+	m_iStatus = iStatus;
+
+	// a workaround for a default station that currently have an n/a icon assigned
+	if (m_iStatus == ID_STATUS_OFFLINE)
+		m_iStatus = ID_STATUS_CONNECTING;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 	// logging
 	if (Ch) {
@@ -198,11 +200,11 @@ int UpdateWeather(MCONTACT hContact)
 		}
 
 		// show the popup
-		NotifyEventHooks(hHookWeatherUpdated, hContact, (LPARAM)Ch);
+		WeatherPopup(hContact, Ch);
 	}
 
-	Netlib_LogfW(hNetlibUser, L"Update Completed - Start to free memory");
-	Netlib_LogfW(hNetlibUser, L"<-- Update successful for station -->");
+	Netlib_LogfW(m_hNetlibUser, L"Update Completed - Start to free memory");
+	Netlib_LogfW(m_hNetlibUser, L"<-- Update successful for station -->");
 
 	// Update frame data
 	UpdateMwinData(hContact);
@@ -214,12 +216,12 @@ int UpdateWeather(MCONTACT hContact)
 	return 0;
 }
 
-//============  UPDATE LIST  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // a linked list queue for updating weather station
 // this function add a weather contact to the end of queue for update
 // hContact = current contact
-void UpdateListAdd(MCONTACT hContact)
+
+void CWeatherProto::UpdateListAdd(MCONTACT hContact)
 {
 	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
 	newItem->hContact = hContact;
@@ -236,7 +238,7 @@ void UpdateListAdd(MCONTACT hContact)
 
 // get the first item from the update queue and remove it from the queue
 // return value = the contact for next update
-MCONTACT UpdateGetFirst()
+MCONTACT CWeatherProto::UpdateGetFirst()
 {
 	MCONTACT hContact = NULL;
 
@@ -258,7 +260,7 @@ MCONTACT UpdateGetFirst()
 	return hContact;
 }
 
-void DestroyUpdateList(void)
+void CWeatherProto::DestroyUpdateList(void)
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
@@ -275,9 +277,11 @@ void DestroyUpdateList(void)
 	ReleaseMutex(hUpdateMutex);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // update all weather thread
 // this thread update each weather station from the queue
-static void UpdateThreadProc(void *)
+
+void CWeatherProto::UpdateThread(void *)
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 	if (ThreadRunning) {
@@ -295,15 +299,15 @@ static void UpdateThreadProc(void *)
 	ThreadRunning = FALSE;
 }
 
-//============  UPDATE WEATHER  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // update all weather station
 // AutoUpdate = true if it is from automatic update using timer
 //				false if it is from update by clicking the main menu
-void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
+
+void CWeatherProto::UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 {
 	// add all weather contact to the update queue list
-	for (auto &hContact : Contacts(MODULENAME))
+	for (auto &hContact : AccContacts())
 		if (!g_plugin.getByte(hContact, "AutoUpdate") || !AutoUpdate) {
 			if (RemoveData)
 				DBDataManage(hContact, WDBM_REMOVE, 0, 0);
@@ -313,12 +317,14 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 	// if it is not updating, then start the update thread process
 	// if it is updating, the stations just added to the queue will get updated by the already-running process
 	if (!ThreadRunning)
-		mir_forkthread(UpdateThreadProc);
+		ForkThread(&CWeatherProto::UpdateThread);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // update a single station
 // wParam = handle for the weather station that is going to be updated
-INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM)
+
+INT_PTR CWeatherProto::UpdateSingleStation(WPARAM wParam, LPARAM)
 {
 	if (IsMyContact(wParam)) {
 		// add the station to the end of the update queue	
@@ -328,15 +334,17 @@ INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM)
 		// if it is updating, the stations just added to the queue will get 
 		// updated by the already-running process
 		if (!ThreadRunning)
-			mir_forkthread(UpdateThreadProc);
+			ForkThread(&CWeatherProto::UpdateThread);
 	}
 
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // update a single station with removing the old data
 // wParam = handle for the weather station that is going to be updated
-INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM)
+
+INT_PTR CWeatherProto::UpdateSingleRemove(WPARAM wParam, LPARAM)
 {
 	if (IsMyContact(wParam)) {
 		// add the station to the end of the update queue, and also remove old data
@@ -346,33 +354,37 @@ INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM)
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get updated by the already-running process
 		if (!ThreadRunning)
-			mir_forkthread(UpdateThreadProc);
+			ForkThread(&CWeatherProto::UpdateThread);
 	}
 
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // the "Update All" menu item in main menu
-INT_PTR UpdateAllInfo(WPARAM, LPARAM)
+
+INT_PTR CWeatherProto::UpdateAllInfo(WPARAM, LPARAM)
 {
 	if (!ThreadRunning)
 		UpdateAll(FALSE, FALSE);
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // the "Update All" menu item in main menu and remove the old data
-INT_PTR UpdateAllRemove(WPARAM, LPARAM)
+
+INT_PTR CWeatherProto::UpdateAllRemove(WPARAM, LPARAM)
 {
 	if (!ThreadRunning)
 		UpdateAll(FALSE, TRUE);
 	return 0;
 }
 
-//============  GETTING WEATHER DATA  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // getting weather data and save them into the database
 // hContact = the contact to get the data
-int GetWeatherData(MCONTACT hContact)
+
+int CWeatherProto::GetWeatherData(MCONTACT hContact)
 {
 	// get each part of the id's
 	wchar_t id[256];
@@ -577,28 +589,29 @@ int GetWeatherData(MCONTACT hContact)
 	return 0;
 }
 
-//============  UPDATE TIMERS  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // main auto-update timer
-void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
+
+void CWeatherProto::DoUpdate()
 {
 	// only run if it is not current updating and the auto update option is enabled
-	if (!ThreadRunning && opt.CAutoUpdate && !Miranda_IsTerminated() && (opt.NoProtoCondition || status == ID_STATUS_ONLINE))
+	if (!ThreadRunning && opt.CAutoUpdate && !Miranda_IsTerminated() && m_iStatus == ID_STATUS_ONLINE)
 		UpdateAll(TRUE, FALSE);
 }
 
-
 // temporary timer for first run
 // when this is run, it kill the old startup timer and create the permenant one above
-void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
+
+void CWeatherProto::StartUpdate()
 {
-	KillTimer(nullptr, timerId);
-	ThreadRunning = FALSE;
+	ThreadRunning = false;
 
-	if (Miranda_IsTerminated())
-		return;
+	if (!Miranda_IsTerminated())
+		m_impl.m_update.Start(opt.UpdateTime * 60000);
+}
 
-	if (opt.StartupUpdate && opt.NoProtoCondition)
-		UpdateAll(FALSE, FALSE);
-	timerId = SetTimer(nullptr, 0, ((int)opt.UpdateTime) * 60000, timerProc);
+void CWeatherProto::RestartTimer()
+{
+	m_impl.m_update.Stop();
+	m_impl.m_update.Start(opt.UpdateTime * 60000);
 }

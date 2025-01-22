@@ -33,17 +33,7 @@ WIDATALIST *WITail;
 
 HWND hPopupWindow;
 
-HANDLE hHookWeatherUpdated;
-HANDLE hHookWeatherError;
-
 MWindowList hDataWindowList, hWindowList;
-
-HANDLE hUpdateMutex;
-
-unsigned status;
-unsigned old_status;
-
-UINT_PTR timerId = 0;
 
 CMPlugin	g_plugin;
 
@@ -77,11 +67,9 @@ static const PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	ACCPROTOPLUGIN<CWeatherProto>(MODULENAME, pluginInfoEx),
 	bPopups(MODULENAME, "UsePopup", true)
 {
-	opt.NoProtoCondition = g_plugin.getByte("NoStatus", true);
-	RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
 	SetUniqueId("ID");
 }
 
@@ -91,21 +79,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int WeatherShutdown(WPARAM, LPARAM)
-{
-	KillTimer(nullptr, timerId);		// kill update timer
-
-	SaveOptions();					// save options once more
-	status = ID_STATUS_OFFLINE;		// set status to offline
-
-	WindowList_Broadcast(hWindowList, WM_CLOSE, 0, 0);
-	WindowList_Broadcast(hDataWindowList, WM_CLOSE, 0, 0);
-	SendMessage(hWndSetup, WM_CLOSE, 0, 0);
-
-	return 0;
-}
-
-int OnToolbarLoaded(WPARAM, LPARAM)
+static int OnToolbarLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
 	ttb.name = LPGEN("Enable/disable auto update");
@@ -119,23 +93,8 @@ int OnToolbarLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-// weather protocol initialization function
-// run after the event ME_SYSTEM_MODULESLOADED occurs
-int WeatherInit(WPARAM, LPARAM)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	// initialize netlib
-	NetlibInit();
-
-	InitMwin();
-
-	// load weather menu items
-	AddMenuItems();
-
-	// timer for the first update
-	timerId = SetTimer(nullptr, 0, 5000, timerProc2);  // first update is 5 sec after load
-
-	// weather user detail
-	HookEvent(ME_USERINFO_INITIALISE, UserInfoInit);
 	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
 	return 0;
 }
@@ -162,36 +121,14 @@ int CMPlugin::Load()
 	// load dll with icons
 	hIconsDll = LoadLibraryW(g_pwszIconsName);
 
-	// load options and set defaults
-	LoadOptions();
-
-	// reset the weather data at startup for individual contacts
-	EraseAllInfo();
-
 	// load weather update data
 	LoadWIData(true);
 
-	// set status to online if "Do not display weather condition as protocol status" is enabled
-	old_status = status = ID_STATUS_OFFLINE;
-
-	// add an event on weather update and error
-	hHookWeatherUpdated = CreateHookableEvent(ME_WEATHER_UPDATED);
-	hHookWeatherError = CreateHookableEvent(ME_WEATHER_ERROR);
-
 	// initialize options and network
-	HookEvent(ME_OPT_INITIALISE, OptInit);
-	HookEvent(ME_SYSTEM_MODULESLOADED, WeatherInit);
-	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
-	HookEvent(ME_CLIST_DOUBLECLICKED, BriefInfo);
-	HookEvent(ME_WEATHER_UPDATED, WeatherPopup);
-	HookEvent(ME_WEATHER_ERROR, WeatherError);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, WeatherShutdown);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, BuildContactMenu);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	hDataWindowList = WindowList_Create();
 	hWindowList = WindowList_Create();
-
-	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
 
 	// initialize weather protocol services
 	InitServices();
@@ -208,7 +145,7 @@ int CMPlugin::Load()
 	mir_snwprintf(SvcFunc, L"%s__PopupWindow", _A2W(MODULENAME));
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
-	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
+	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)&CWeatherProto::PopupWndProc);
 	return 0;
 }
 
@@ -220,20 +157,11 @@ int CMPlugin::Unload()
 	if (hIconsDll)
 		FreeModule(hIconsDll);
 
-	DestroyMwin();
 	DestroyWindow(hPopupWindow);
 
-	DestroyHookableEvent(hHookWeatherUpdated);
-	DestroyHookableEvent(hHookWeatherError);
-
-	Netlib_CloseHandle(hNetlibUser);
-
-	DestroyUpdateList();
 	DestroyWIList();				// unload all ini data from memory
 
 	WindowList_Destroy(hDataWindowList);
 	WindowList_Destroy(hWindowList);
-
-	CloseHandle(hUpdateMutex);
 	return 0;
 }

@@ -27,6 +27,7 @@ HGENMENU hMwinMenu;
 
 struct MWinDataType
 {
+	CWeatherProto *ppro;
 	MCONTACT hContact;
 	HWND hAvt;
 	BOOL haveAvatar;
@@ -44,7 +45,8 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
 		data->hContact = (DWORD_PTR)((LPCREATESTRUCT)lParam)->lpCreateParams;
-		data->hAvt = CreateWindow(AVATAR_CONTROL_CLASS, TEXT(""), WS_CHILD, 0, 0, opt.AvatarSize, opt.AvatarSize, hwnd, 0, g_plugin.getInst(), 0);
+		data->ppro = (CWeatherProto *)Proto_GetContactInstance(data->hContact);
+		data->hAvt = CreateWindow(AVATAR_CONTROL_CLASS, TEXT(""), WS_CHILD, 0, 0, data->ppro->opt.AvatarSize, data->ppro->opt.AvatarSize, hwnd, 0, g_plugin.getInst(), 0);
 		if (data->hAvt)
 			SendMessage(data->hAvt, AVATAR_SETCONTACT, 0, (LPARAM)data->hContact);
 		break;
@@ -97,7 +99,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_LBUTTONDBLCLK:
-		BriefInfo(data->hContact, 0);
+		data->ppro->BriefInfo(data->hContact, 0);
 		break;
 
 	case WM_COMMAND:	 //Needed by the contact's context menu
@@ -124,7 +126,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_REDRAWWIN:
-		if (data->hAvt != nullptr) MoveWindow(data->hAvt, 0, 0, opt.AvatarSize, opt.AvatarSize, TRUE);
+		if (data->hAvt != nullptr) MoveWindow(data->hAvt, 0, 0, data->ppro->opt.AvatarSize, data->ppro->opt.AvatarSize, TRUE);
 		RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
 
@@ -133,7 +135,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			RECT r, rc;
 
 			if (GetUpdateRect(hwnd, &r, FALSE)) {
-				int picSize = opt.AvatarSize;
+				int picSize = data->ppro->opt.AvatarSize;
 				HICON hIcon = nullptr;
 
 				if (!data->haveAvatar) {
@@ -274,9 +276,9 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int BuildContactMenu(WPARAM wparam, LPARAM)
+int CWeatherProto::BuildContactMenu(WPARAM wparam, LPARAM)
 {
-	int flags = g_plugin.getDword(wparam, "mwin") ? CMIF_CHECKED : 0;
+	int flags = getDword(wparam, "mwin") ? CMIF_CHECKED : 0;
 	Menu_ModifyItem(hMwinMenu, nullptr, INVALID_HANDLE_VALUE, flags);
 	return 0;
 }
@@ -287,7 +289,7 @@ int RedrawFrame(WPARAM, LPARAM)
 	return 0;
 }
 
-void InitMwin(void)
+void CWeatherProto::InitMwin(void)
 {
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 		return;
@@ -337,16 +339,16 @@ void InitMwin(void)
 	mir_strcpy(fontid.setting, "fnt1");
 	g_plugin.addFont(&fontid);
 
-	for (auto &hContact : Contacts(MODULENAME))
+	for (auto &hContact : AccContacts())
 		if (g_plugin.getDword(hContact, "mwin"))
 			addWindow(hContact);
 
 	hFontHook = HookEvent(ME_FONT_RELOAD, RedrawFrame);
 }
 
-void DestroyMwin(void)
+void CWeatherProto::DestroyMwin(void)
 {
-	for (auto &hContact : Contacts(MODULENAME)) {
+	for (auto &hContact : AccContacts()) {
 		uint32_t frameId = g_plugin.getDword(hContact, "mwin");
 		if (frameId)
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);

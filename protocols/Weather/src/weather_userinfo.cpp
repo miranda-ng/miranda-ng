@@ -27,73 +27,47 @@ information
 
 #include "stdafx.h"
 
-//============  BRIEF INFORMATION  ============
-//
-static int BriefDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
-{
-	switch (urc->wId) {
-	case IDC_HEADERBAR:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH;
-
-	case IDC_MTEXT:
-	case IDC_DATALIST:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-
-	case IDC_MUPDATE:
-		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
-
-	case IDC_MTOGGLE:
-	case IDC_MWEBPAGE:
-	case IDCANCEL:
-		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
-	}
-	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
-}
-
-// set the title of the dialog and on the which rectangle
-// also load brief info into message box
-static void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
-{
-	wchar_t str[4096];
-
-	// load weather information from the contact into the WEATHERINFO struct
-	WEATHERINFO winfo = LoadWeatherInfo(hContact);
-	// check if data exist.  If not, display error message box
-	if (!g_plugin.getByte(hContact, "IsUpdated"))
-		SetDlgItemTextW(hwndDlg, IDC_MTEXT, TranslateT("No information available.\r\nPlease update weather condition first."));
-	else {
-		// set the display text and show the message box
-		GetDisplay(&winfo, GetTextValue('B'), str);
-		SetDlgItemTextW(hwndDlg, IDC_MTEXT, str);
-	}
-
-	GetDisplay(&winfo, L"%c, %t", str);
-	SetWindowTextW(hwndDlg, winfo.city);
-	SetDlgItemTextW(hwndDlg, IDC_HEADERBAR, str);
-}
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // dialog process for more data in the user info window
 // lParam = contact handle
-static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+
+class CBriefInfoDlg : public CWeatherDlgBase
 {
 	static const unsigned tabstops = 48;
-	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	MCONTACT hContact;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		// save the contact handle for later use
-		hContact = lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
+	UI_MESSAGE_MAP(CBriefInfoDlg, CWeatherDlgBase);
+	UI_MESSAGE(WM_UPDATEDATA, OnUpdate);
+	UI_MESSAGE_MAP_END();
 
-		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_AUTOURLDETECT, (WPARAM)TRUE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
-		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_SETMARGINS, EC_LEFTMARGIN, 5);
-		SendDlgItemMessage(hwndDlg, IDC_MTEXT, EM_SETTABSTOPS, 1, (LPARAM)&tabstops);
+	CCtrlButton btnUpdate, btnWebpage, btnToggle;
+
+public:
+	CBriefInfoDlg(CWeatherProto *ppro, MCONTACT _1) :
+		CWeatherDlgBase(ppro, IDD_BRIEF),
+		hContact(_1),
+		btnToggle(this, IDC_MTOGGLE),
+		btnUpdate(this, IDC_MUPDATE),
+		btnWebpage(this, IDC_MWEBPAGE)
+	{
+		SetMinSize(350, 300);
+
+		btnToggle.OnClick = Callback(this, &CBriefInfoDlg::onClick_Toggle);
+		btnUpdate.OnClick = Callback(this, &CBriefInfoDlg::onClick_Update);
+		btnWebpage.OnClick = Callback(this, &CBriefInfoDlg::onClick_Webpage);
+	}
+
+	bool OnInitDialog() override
+	{
+		SendDlgItemMessage(m_hwnd, IDC_MTEXT, EM_AUTOURLDETECT, (WPARAM)TRUE, 0);
+		SendDlgItemMessage(m_hwnd, IDC_MTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
+		SendDlgItemMessage(m_hwnd, IDC_MTEXT, EM_SETMARGINS, EC_LEFTMARGIN, 5);
+		SendDlgItemMessage(m_hwnd, IDC_MTEXT, EM_SETTABSTOPS, 1, (LPARAM)&tabstops);
 
 		// get the list to display
 		{
 			LV_COLUMN lvc = {};
-			HWND hList = GetDlgItem(hwndDlg, IDC_DATALIST);
+			HWND hList = GetDlgItem(m_hwnd, IDC_DATALIST);
 			RECT aRect = {};
 			GetClientRect(hList, &aRect);
 
@@ -113,151 +87,150 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			ListView_InsertColumn(hList, 1, &lvc);
 
 			// inserting data
-			SendMessage(hwndDlg, WM_UPDATEDATA, 0, 0);
+			SendMessage(m_hwnd, WM_UPDATEDATA, 0, 0);
 		}
-		TranslateDialogDefault(hwndDlg);
+		TranslateDialogDefault(m_hwnd);
 
 		// prevent dups of the window
-		WindowList_Add(hDataWindowList, hwndDlg, hContact);
+		WindowList_Add(hDataWindowList, m_hwnd, hContact);
 
 		// restore window position
-		Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, MODULENAME, "BriefInfo_");
-		return TRUE;
-
-	case WM_UPDATEDATA:
-		ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_DATALIST));
-		LoadBriefInfoText(hwndDlg, hContact);
-		DBDataManage(hContact, WDBM_DETAILDISPLAY, (WPARAM)hwndDlg, 0);
-
-		// set icons
-		{
-			HICON hIcon = GetStatusIconBig(hContact);
-			DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, LPARAM(hIcon)));
-			DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, LPARAM(hIcon)));
-		}
-
-		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
-		break;
-
-	case WM_SIZE:
-		{
-			RECT rc;
-			HWND hList = GetDlgItem(hwndDlg, IDC_DATALIST);
-			GetWindowRect(hList, &rc);
-			ListView_SetColumnWidth(hList, 1, ListView_GetColumnWidth(hList, 1) + (int)LOWORD(lParam) - (rc.right - rc.left));
-
-			Utils_ResizeDialog(hwndDlg, g_plugin.getInst(), MAKEINTRESOURCEA(IDD_BRIEF), BriefDlgResizer);
-		}
-		break;
-
-	case WM_GETMINMAXINFO:
-		{
-			LPMINMAXINFO mmi = (LPMINMAXINFO)lParam;
-
-			// The minimum width in points
-			mmi->ptMinTrackSize.x = 350;
-			// The minimum height in points
-			mmi->ptMinTrackSize.y = 300;
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			// close the info window
-			DestroyWindow(hwndDlg);
-			break;
-
-		case IDC_MUPDATE:
-			{
-				HWND hList = GetDlgItem(hwndDlg, IDC_DATALIST);
-
-				// update current data
-				// set the text to "updating"
-				SetDlgItemText(hwndDlg, IDC_MTEXT, TranslateT("Retrieving new data, please wait..."));
-				ListView_DeleteAllItems(hList);
-
-				LV_ITEM lvi = {};
-				lvi.mask = LVIF_TEXT | LVIF_PARAM;
-				lvi.lParam = 1;
-				lvi.pszText = L"";
-				lvi.iItem = ListView_InsertItem(hList, &lvi);
-				lvi.pszText = TranslateT("Retrieving new data, please wait...");
-				ListView_SetItemText(hList, lvi.iItem, 1, lvi.pszText);
-				UpdateSingleStation(hContact, 0);
-				break;
-			}
-
-		case IDC_MWEBPAGE:
-			LoadForecast(hContact, 0);	// read complete forecast
-			break;
-
-		case IDC_MTOGGLE:
-			if (IsWindowVisible(GetDlgItem(hwndDlg, IDC_DATALIST)))
-				SetDlgItemText(hwndDlg, IDC_MTOGGLE, TranslateT("More Info"));
-			else
-				SetDlgItemText(hwndDlg, IDC_MTOGGLE, TranslateT("Brief Info"));
-			ShowWindow(GetDlgItem(hwndDlg, IDC_DATALIST), (int)!IsWindowVisible(
-				GetDlgItem(hwndDlg, IDC_DATALIST)));
-			ShowWindow(GetDlgItem(hwndDlg, IDC_MTEXT), (int)!IsWindowVisible(GetDlgItem(hwndDlg, IDC_MTEXT)));
-			break;
-		}
-		break;
-
-	case WM_NOTIFY:
-		{
-			LPNMHDR pNmhdr = (LPNMHDR)lParam;
-			if (pNmhdr->idFrom == IDC_MTEXT && pNmhdr->code == EN_LINK) {
-				ENLINK *enlink = (ENLINK *)lParam;
-				switch (enlink->msg) {
-				case WM_LBUTTONUP:
-					TEXTRANGE tr;
-					tr.chrg = enlink->chrg;
-					tr.lpstrText = (wchar_t*)mir_alloc(sizeof(wchar_t)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
-					SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-					Utils_OpenUrlW(tr.lpstrText);
-					mir_free(tr.lpstrText);
-					break;
-				}
-			}
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
-
-		Utils_SaveWindowPosition(hwndDlg, NULL, MODULENAME, "BriefInfo_");
-		WindowList_Remove(hDataWindowList, hwndDlg);
-		break;
+		Utils_RestoreWindowPositionNoMove(m_hwnd, NULL, MODULENAME, "BriefInfo_");
+		return true;
 	}
 
-	return FALSE;
-}
+	void OnDestroy() override
+	{
+		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
+		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
 
-// show brief information dialog
-// wParam = current contact
-int BriefInfo(WPARAM wParam, LPARAM)
+		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "BriefInfo_");
+		WindowList_Remove(hDataWindowList, m_hwnd);
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_HEADERBAR:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH;
+
+		case IDC_MTEXT:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+		case IDC_DATALIST:
+			{
+				HWND hList = GetDlgItem(m_hwnd, IDC_DATALIST);
+				RECT rc;
+				GetWindowRect(hList, &rc);
+				ListView_SetColumnWidth(hList, 1, ListView_GetColumnWidth(hList, 1) + urc->dlgNewSize.cx - (rc.right - rc.left));
+			}
+			return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+
+		case IDC_MUPDATE:
+			return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
+
+		case IDC_MTOGGLE:
+		case IDC_MWEBPAGE:
+		case IDCANCEL:
+			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
+		}
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+	}
+
+	INT_PTR OnUpdate(UINT, WPARAM, LPARAM)
+	{
+		ListView_DeleteAllItems(GetDlgItem(m_hwnd, IDC_DATALIST));
+		
+		wchar_t str[4096];
+
+		// load weather information from the contact into the WEATHERINFO struct
+		WEATHERINFO winfo = LoadWeatherInfo(hContact);
+		// check if data exist.  If not, display error message box
+		if (!g_plugin.getByte(hContact, "IsUpdated"))
+			SetDlgItemTextW(m_hwnd, IDC_MTEXT, TranslateT("No information available.\r\nPlease update weather condition first."));
+		else {
+			// set the display text and show the message box
+			GetDisplay(&winfo, m_proto->GetTextValue('B'), str);
+			SetDlgItemTextW(m_hwnd, IDC_MTEXT, str);
+		}
+
+		GetDisplay(&winfo, L"%c, %t", str);
+		SetWindowTextW(m_hwnd, winfo.city);
+		SetDlgItemTextW(m_hwnd, IDC_HEADERBAR, str);
+
+		DBDataManage(hContact, WDBM_DETAILDISPLAY, (WPARAM)m_hwnd, 0);
+
+		// set icons
+		HICON hIcon = GetStatusIconBig(hContact);
+		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, LPARAM(hIcon)));
+		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, LPARAM(hIcon)));
+
+		RedrawWindow(GetDlgItem(m_hwnd, IDC_HEADERBAR), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+		return 0;
+	}
+
+	void onClick_Update(CCtrlButton *)
+	{
+		HWND hList = GetDlgItem(m_hwnd, IDC_DATALIST);
+
+		// update current data
+		// set the text to "updating"
+		SetDlgItemText(m_hwnd, IDC_MTEXT, TranslateT("Retrieving new data, please wait..."));
+		ListView_DeleteAllItems(hList);
+
+		LV_ITEM lvi = {};
+		lvi.mask = LVIF_TEXT | LVIF_PARAM;
+		lvi.lParam = 1;
+		lvi.pszText = L"";
+		lvi.iItem = ListView_InsertItem(hList, &lvi);
+		lvi.pszText = TranslateT("Retrieving new data, please wait...");
+		ListView_SetItemText(hList, lvi.iItem, 1, lvi.pszText);
+		m_proto->UpdateSingleStation(hContact, 0);
+	}
+
+	void onClick_Webpage(CCtrlButton *)
+	{
+		m_proto->LoadForecast(hContact, 0);	// read complete forecast
+	}
+
+	void onClick_Toggle(CCtrlButton *)
+	{
+		if (IsWindowVisible(GetDlgItem(m_hwnd, IDC_DATALIST)))
+			SetDlgItemText(m_hwnd, IDC_MTOGGLE, TranslateT("More Info"));
+		else
+			SetDlgItemText(m_hwnd, IDC_MTOGGLE, TranslateT("Brief Info"));
+		ShowWindow(GetDlgItem(m_hwnd, IDC_DATALIST), (int)!IsWindowVisible(
+			GetDlgItem(m_hwnd, IDC_DATALIST)));
+		ShowWindow(GetDlgItem(m_hwnd, IDC_MTEXT), (int)!IsWindowVisible(GetDlgItem(m_hwnd, IDC_MTEXT)));
+	}
+};
+
+INT_PTR CWeatherProto::BriefInfo(WPARAM hContact, LPARAM)
 {
 	// make sure that the contact is actually a weather one
-	if (!IsMyContact(wParam))
+	if (!IsMyContact(hContact))
 		return 0;
 
-	HWND hMoreDataDlg = WindowList_Find(hDataWindowList, wParam);
+	HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
 	if (hMoreDataDlg != nullptr) {
 		SetForegroundWindow(hMoreDataDlg);
 		SetFocus(hMoreDataDlg);
 	}
-	else hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, (LPARAM)wParam);
+	else {
+		auto *pDlg = new CBriefInfoDlg(this, hContact);
+		pDlg->Create();
+		hMoreDataDlg = pDlg->GetHwnd();
+	}
 
 	ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 0);
 	ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 1);
 	SetDlgItemText(hMoreDataDlg, IDC_MTOGGLE, TranslateT("More Info"));
 	return 1;
+}
+
+int CWeatherProto::BriefInfoEvt(WPARAM wParam, LPARAM)
+{
+	return BriefInfo(wParam, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -323,8 +296,12 @@ public:
 	void onClick_Detail(CCtrlButton *)
 	{
 		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, m_hContact);
-		if (hMoreDataDlg == nullptr)
-			hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, m_hContact);
+		if (hMoreDataDlg == nullptr) {
+			auto *ppro = (CWeatherProto*)Proto_GetContactInstance(m_hContact);
+			auto *pDlg = new CBriefInfoDlg(ppro, m_hContact);
+			pDlg->Create();
+			hMoreDataDlg = pDlg->GetHwnd();
+		}
 		else {
 			SetForegroundWindow(hMoreDataDlg);
 			SetFocus(hMoreDataDlg);
@@ -334,7 +311,7 @@ public:
 	}
 };
 
-int UserInfoInit(WPARAM wParam, LPARAM hContact)
+int CWeatherProto::UserInfoInit(WPARAM wParam, LPARAM hContact)
 {
 	USERINFOPAGE uip = {};
 	uip.szTitle.a = MODULENAME;

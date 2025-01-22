@@ -198,7 +198,8 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 
 		case IDC_STEP4:
-			WeatherAdd(0, 0);
+			db_set_s(0, "FindAdd", "LastSearched", "Weather");
+			CallService(MS_FINDADD_FINDADD, 0, 0);
 			__fallthrough;
 
 		case IDCANCEL:

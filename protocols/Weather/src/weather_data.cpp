@@ -25,11 +25,11 @@ saving individual weather data for a weather contact.
 
 #include "stdafx.h"
 
-//============  LOAD WEATHER INFO FROM A CONTACT  ============
+/////////////////////////////////////////////////////////////////////////////////////////
 // get station ID from DB
 // hContact = the current contact handle
 // return value = the string for station ID
-//
+
 void GetStationID(MCONTACT hContact, wchar_t *id, int idlen)
 {
 	// accessing the database
@@ -37,9 +37,11 @@ void GetStationID(MCONTACT hContact, wchar_t *id, int idlen)
 		id[0] = 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // initialize weather info by loading values from database
 // hContact = current contact handle
 // return value = the current weather information in WEATHERINFO struct
+
 WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 {
 	// obtaining values from the DB
@@ -82,8 +84,10 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 	return winfo;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // getting weather setting from database
 // return 0 on success
+
 int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv)
 {
 	if (db_get_ws(hContact, WEATHERCONDITION, setting, dbv)) {
@@ -99,47 +103,47 @@ int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv)
 }
 
 
-//============  ERASE OLD SETTINGS  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // erase all current weather information from database
 // lastver = the last used version number in dword (using PLUGIN_MAKE_VERSION)
-void EraseAllInfo()
+
+void CWeatherProto::EraseAllInfo()
 {
 	wchar_t str[255];
 	int ContactCount = 0;
 	MCONTACT LastContact = NULL;
 	DBVARIANT dbv;
 	// loop through all contacts
-	for (auto &hContact : Contacts(MODULENAME)) {
-		g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
-		g_plugin.setWord(hContact, "StatusIcon", -1);
+	for (auto &hContact : AccContacts()) {
+		setWord(hContact, "Status", ID_STATUS_OFFLINE);
+		setWord(hContact, "StatusIcon", -1);
 		db_unset(hContact, "CList", "MyHandle");
 		// clear all data
-		if (g_plugin.getWString(hContact, "Nick", &dbv)) {
-			g_plugin.setWString(hContact, "Nick", TranslateT("<Enter city name here>"));
-			g_plugin.setString(hContact, "LastLog", "never");
-			g_plugin.setString(hContact, "LastCondition", "None");
-			g_plugin.setString(hContact, "LastTemperature", "None");
+		if (getWString(hContact, "Nick", &dbv)) {
+			setWString(hContact, "Nick", TranslateT("<Enter city name here>"));
+			setString(hContact, "LastLog", "never");
+			setString(hContact, "LastCondition", "None");
+			setString(hContact, "LastTemperature", "None");
 		}
 		else db_free(&dbv);
 
 		DBDataManage(hContact, WDBM_REMOVE, 0, 0);
 		db_set_s(hContact, "UserInfo", "MyNotes", "");
 		// reset update tag
-		g_plugin.setByte(hContact, "IsUpdated", FALSE);
+		setByte(hContact, "IsUpdated", FALSE);
 		// reset logging settings
-		if (!g_plugin.getWString(hContact, "Log", &dbv)) {
-			g_plugin.setByte(hContact, "File", (uint8_t)(dbv.pwszVal[0] != 0));
+		if (!getWString(hContact, "Log", &dbv)) {
+			setByte(hContact, "File", (uint8_t)(dbv.pwszVal[0] != 0));
 			db_free(&dbv);
 		}
-		else g_plugin.setByte(hContact, "File", FALSE);
+		else setByte(hContact, "File", FALSE);
 
 		// if no default station find, assign a new one
 		if (opt.Default[0] == 0) {
 			GetStationID(hContact, opt.Default, _countof(opt.Default));
 
 			opt.DefStn = hContact;
-			if (!g_plugin.getWString(hContact, "Nick", &dbv)) {
+			if (!getWString(hContact, "Nick", &dbv)) {
 				mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.pwszVal);
 				db_free(&dbv);
 				MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
@@ -147,7 +151,7 @@ void EraseAllInfo()
 		}
 		// get the handle of the default station
 		if (opt.DefStn == NULL) {
-			if (!g_plugin.getWString(hContact, "ID", &dbv)) {
+			if (!getWString(hContact, "ID", &dbv)) {
 				if (!mir_wstrcmp(dbv.pwszVal, opt.Default))
 					opt.DefStn = hContact;
 				db_free(&dbv);
@@ -161,22 +165,24 @@ void EraseAllInfo()
 	// if (ContactCount != 0) status = ONLINE;
 	// in case where the default station is missing
 	if (opt.DefStn == NULL && ContactCount != 0) {
-		if (!g_plugin.getWString(LastContact, "ID", &dbv)) {
+		if (!getWString(LastContact, "ID", &dbv)) {
 			wcsncpy(opt.Default, dbv.pwszVal, _countof(opt.Default) - 1);
 			db_free(&dbv);
 		}
 		opt.DefStn = LastContact;
-		if (!g_plugin.getWString(LastContact, "Nick", &dbv)) {
+		if (!getWString(LastContact, "Nick", &dbv)) {
 			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.pwszVal);
 			db_free(&dbv);
 			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
 	}
 	// save option in case of default station changed
-	g_plugin.setWString("Default", opt.Default);
+	setWString("Default", opt.Default);
 }
 
-void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CWeatherProto::ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
 {
 	wchar_t str[MAX_DATA_LEN];
 
@@ -236,14 +242,13 @@ void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
 	}
 }
 
-//============  GET THE VALUE OF A DATAITEM  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // get the value of the data using the start, end strings
 // UpdateData = the WIDATAITEM struct containing start, end, unit
 // Data = the string containing weather data obtained from UpdateData
 // global var. used: szInfo = the downloaded string
-//
-void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData)
+
+void CWeatherProto::GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData)
 {
 	wchar_t last = 0, current, *start, *end;
 	unsigned startloc = 0, endloc = 0, respos = 0;
@@ -340,8 +345,7 @@ void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData)
 	*szData = szInfo;
 }
 
-//============ ALLOCATE SPACE AND COPY STRING ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // copy a string into a new memory location
 // Data = the field the data is copied to
 // Value = the original string, the string where data is copied from
@@ -388,10 +392,11 @@ void wfree(wchar_t *&Data)
 	Data = nullptr;
 }
 
-//============ MANAGE THE ITEMS STORED IN DB ============
+/////////////////////////////////////////////////////////////////////////////////////////
 // get single setting that is found
 // szSetting = the setting name
 // lparam = the counter
+
 int GetWeatherDataFromDB(const char *szSetting, void *lparam)
 {
 	LIST<char> *pList = (LIST<char>*)lparam;
@@ -399,9 +404,10 @@ int GetWeatherDataFromDB(const char *szSetting, void *lparam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // remove or display the weather information for a contact
 // hContact - the contact in which the info is going to be removed
-//
+
 void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM)
 {
 	// get all the settings and store them in a temporary list

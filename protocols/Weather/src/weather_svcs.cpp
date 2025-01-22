@@ -32,62 +32,6 @@ extern VARSW g_pwszIconsName;
 
 //============  MIRANDA PROTOCOL SERVICES  ============
 
-// protocol service function for setting weather protocol status
-INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM)
-{
-	// if we don't want to show status for default station
-	if (status != new_status) {
-		old_status = status;
-		status = new_status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-
-		if (!opt.NoProtoCondition) {
-			ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
-
-			UpdateMenu(new_status != ID_STATUS_OFFLINE);
-			if (new_status != ID_STATUS_OFFLINE)
-				UpdateAll(FALSE, FALSE);
-		}
-	}
-
-	return 0;
-}
-
-// get capabilities protocol service function
-INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM)
-{
-	INT_PTR ret = 0;
-
-	switch (wParam) {
-	case PFLAGNUM_1:
-		// support search and visible list
-		ret = PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_EXTSEARCH | PF1_MODEMSGRECV;
-		break;
-
-	case PFLAGNUM_2:
-		ret = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
-		break;
-
-	case PFLAGNUM_4:
-		ret = PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH;
-		break;
-
-	case PFLAGNUM_5: /* this is PFLAGNUM_5 change when alpha SDK is released */
-		ret = PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
-		break;
-
-	case PFLAG_UNIQUEIDTEXT:
-		ret = (INT_PTR)TranslateT("Station ID");
-		break;
-	}
-	return ret;
-}
-
-// protocol service function to get the current status of the protocol
-INT_PTR WeatherGetStatus(WPARAM, LPARAM)
-{
-	return status;
-}
-
 // protocol service function to get the icon of the protocol
 INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM)
 {
@@ -256,18 +200,10 @@ static INT_PTR WeatherAdvancedStatusIcon(WPARAM hContact, LPARAM)
 // protocol services
 void InitServices(void)
 {
-	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, WeatherGetCaps);
 	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, WeatherLoadIcon);
-	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, WeatherSetStatus);
-	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, WeatherGetStatus);
-	CreateProtoServiceFunction(MODULENAME, PS_BASICSEARCH, WeatherBasicSearch);
-	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYEMAIL, WeatherBasicSearch);
-	CreateProtoServiceFunction(MODULENAME, PS_ADDTOLIST, WeatherAddToList);
 	CreateProtoServiceFunction(MODULENAME, PS_GETINFO, WeatherGetInfo);
 	CreateProtoServiceFunction(MODULENAME, PS_GETAVATARINFO, WeatherGetAvatarInfo);
 	CreateProtoServiceFunction(MODULENAME, PS_GETAWAYMSG, WeatherGetAwayMsg);
-	CreateProtoServiceFunction(MODULENAME, PS_CREATEADVSEARCHUI, WeatherCreateAdvancedSearchUI);
-	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYADVANCED, WeatherAdvancedSearch);
 	CreateProtoServiceFunction(MODULENAME, PS_GETADVANCEDSTATUSICON, WeatherAdvancedStatusIcon);
 
 	CreateProtoServiceFunction(MODULENAME, MS_WEATHER_GETDISPLAY, GetDisplaySvcFunc);
@@ -275,11 +211,11 @@ void InitServices(void)
 
 //============  MENU INITIALIZATION  ============
 
-void UpdateMenu(BOOL State)
+void CWeatherProto::UpdateMenu(BOOL State)
 {
 	// update option setting
 	opt.CAutoUpdate = State;
-	g_plugin.setByte("AutoUpdate", (uint8_t)State);
+	setByte("AutoUpdate", (uint8_t)State);
 
 	if (State) { // to enable auto-update
 		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ICON));
@@ -294,87 +230,81 @@ void UpdateMenu(BOOL State)
 }
 
 // update the weather auto-update menu item when click on it
-static INT_PTR EnableDisableCmd(WPARAM wParam, LPARAM lParam)
+INT_PTR CWeatherProto::EnableDisableCmd(WPARAM wParam, LPARAM lParam)
 {
 	UpdateMenu(wParam == TRUE ? (BOOL)lParam : !opt.CAutoUpdate);
 	return 0;
 }
 
-// displays contact info dialog
-static INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam)
-{
-	return BriefInfo(wParam, lParam);
-}
-
 // adding weather contact menus
 // copied and modified form "modified MSN Protocol"
-void AddMenuItems(void)
+void CWeatherProto::InitMenuItems()
 {
 	CMenuItem mi(&g_plugin);
 
 	// contact menu
 	SET_UID(mi, 0x266ef52b, 0x869a, 0x4cac, 0xa9, 0xf8, 0xea, 0x5b, 0xb8, 0xab, 0xe0, 0x24);
-	CreateServiceFunction(MS_WEATHER_UPDATE, UpdateSingleStation);
 	mi.position = -0x7FFFFFFA;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE);
 	mi.name.a = LPGEN("Update Weather");
-	mi.pszService = MS_WEATHER_UPDATE;
-	Menu_AddContactMenuItem(&mi, MODULENAME);
+	mi.pszService = "/Update";
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CWeatherProto::UpdateSingleStation);
 
 	SET_UID(mi, 0x45361b4, 0x8de, 0x44b4, 0x8f, 0x11, 0x9b, 0xe9, 0x6e, 0xa8, 0x83, 0x54);
-	CreateServiceFunction(MS_WEATHER_REFRESH, UpdateSingleRemove);
 	mi.position = -0x7FFFFFF9;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE2);
 	mi.name.a = LPGEN("Remove Old Data then Update");
-	mi.pszService = MS_WEATHER_REFRESH;
-	Menu_AddContactMenuItem(&mi, MODULENAME);
+	mi.pszService = "/Refresh";
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CWeatherProto::UpdateSingleRemove);
 
 	SET_UID(mi, 0x4232975e, 0xb181, 0x46a5, 0xb7, 0x6e, 0xd2, 0x5f, 0xef, 0xb8, 0xc4, 0x4d);
-	CreateServiceFunction(MS_WEATHER_BRIEF, BriefInfoSvc);
 	mi.position = -0x7FFFFFF8;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_S);
 	mi.name.a = LPGEN("Brief Information");
-	mi.pszService = MS_WEATHER_BRIEF;
-	Menu_AddContactMenuItem(&mi, MODULENAME);
+	mi.pszService = "/Brief";
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CWeatherProto::BriefInfo);
 
 	SET_UID(mi, 0x3d6ed729, 0xd49a, 0x4ae9, 0x8e, 0x2, 0x9f, 0xe0, 0xf0, 0x2c, 0xcc, 0xb1);
-	CreateServiceFunction(MS_WEATHER_COMPLETE, LoadForecast);
 	mi.position = -0x7FFFFFF7;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_READ);
 	mi.name.a = LPGEN("Read Complete Forecast");
-	mi.pszService = MS_WEATHER_COMPLETE;
-	Menu_AddContactMenuItem(&mi, MODULENAME);
+	mi.pszService = "/CompleteForecast";
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CWeatherProto::LoadForecast);
 
 	SET_UID(mi, 0xc4b6c5e0, 0x13c3, 0x4e02, 0x8a, 0xeb, 0xeb, 0x8a, 0xe2, 0x66, 0x40, 0xd4);
-	CreateServiceFunction(MS_WEATHER_MAP, WeatherMap);
 	mi.position = -0x7FFFFFF6;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAP);
 	mi.name.a = LPGEN("Weather Map");
-	mi.pszService = MS_WEATHER_MAP;
-	Menu_AddContactMenuItem(&mi, MODULENAME);
+	mi.pszService = "/Map";
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CWeatherProto::WeatherMap);
 
 	SET_UID(mi, 0xee3ad7f4, 0x3377, 0x4e4c, 0x8f, 0x3c, 0x3b, 0xf5, 0xd4, 0x86, 0x28, 0x25);
-	CreateServiceFunction(MS_WEATHER_LOG, ViewLog);
 	mi.position = -0x7FFFFFF5;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LOG);
 	mi.name.a = LPGEN("View Log");
-	mi.pszService = MS_WEATHER_LOG;
-	Menu_AddContactMenuItem(&mi, MODULENAME);
+	mi.pszService = "/Log";
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CWeatherProto::ViewLog);
 
 	SET_UID(mi, 0x1b01cd6a, 0xe5ee, 0x42b4, 0xa1, 0x6d, 0x43, 0xb9, 0x4, 0x58, 0x43, 0x2e);
-	CreateServiceFunction(MS_WEATHER_EDIT, EditSettings);
 	mi.position = -0x7FFFFFF4;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EDIT);
 	mi.name.a = LPGEN("Edit Settings");
-	mi.pszService = MS_WEATHER_EDIT;
-	Menu_AddContactMenuItem(&mi, MODULENAME);
+	mi.pszService = "/Edit";
+	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CWeatherProto::EditSettings);
 
 	// adding main menu items
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Weather"), 500099000);
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "82809D2F-2CF0-4E15-9350-D257A7748552");
 
 	SET_UID(mi, 0x5ad16188, 0xe0a0, 0x4c31, 0x85, 0xc3, 0xe4, 0x85, 0x79, 0x7e, 0x4b, 0x9c);
-	CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);
+	CreateProtoService(MS_WEATHER_ENABLED, &CWeatherProto::EnableDisableCmd);
 	mi.name.a = LPGEN("Enable/Disable Weather Update");
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON);
 	mi.position = 10100001;
@@ -383,7 +313,7 @@ void AddMenuItems(void)
 	UpdateMenu(opt.AutoUpdate);
 
 	SET_UID(mi, 0x2b1c2054, 0x2991, 0x4025, 0x87, 0x73, 0xb6, 0xf7, 0x85, 0xac, 0xc7, 0x37);
-	CreateServiceFunction(MS_WEATHER_UPDATEALL, UpdateAllInfo);
+	CreateProtoService(MS_WEATHER_UPDATEALL, &CWeatherProto::UpdateAllInfo);
 	mi.position = 20100001;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE);
 	mi.name.a = LPGEN("Update All Weather");
@@ -391,7 +321,7 @@ void AddMenuItems(void)
 	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0x8234c00e, 0x788e, 0x424f, 0xbc, 0xc4, 0x2, 0xfd, 0x67, 0x58, 0x2d, 0x19);
-	CreateServiceFunction(MS_WEATHER_REFRESHALL, UpdateAllRemove);
+	CreateProtoService(MS_WEATHER_REFRESHALL, &CWeatherProto::UpdateAllRemove);
 	mi.position = 20100002;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE2);
 	mi.name.a = LPGEN("Remove Old Data then Update All");
@@ -406,6 +336,6 @@ void AddMenuItems(void)
 		mi.hIcolibItem = nullptr;
 		mi.root = nullptr;
 		mi.name.a = LPGEN("Display in a frame");
-		hMwinMenu = Menu_AddContactMenuItem(&mi, MODULENAME);
+		hMwinMenu = Menu_AddContactMenuItem(&mi, m_szModuleName);
 	}
 }

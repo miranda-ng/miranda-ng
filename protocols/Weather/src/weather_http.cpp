@@ -25,15 +25,13 @@ from the web using netlib
 
 #include "stdafx.h"
 
-HNETLIBUSER hNetlibUser;
-
-//============  DOWNLOAD NEW WEATHER  ============
+/////////////////////////////////////////////////////////////////////////////////////////
 // function to download webpage from the internet
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
-//
-int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **szData)
+
+int CWeatherProto::InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **szData)
 {
 	if (userAgent == nullptr || userAgent[0] == 0)
 		userAgent = NETLIB_USER_AGENT;
@@ -50,7 +48,7 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 		nlhr.AddHeader("Cookie", cookie);
 
 	// download the page
-	NLHR_PTR nlhrReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
+	NLHR_PTR nlhrReply(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 	if (nlhrReply == nullptr) {
 		// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
 		*szData = (wchar_t*)mir_alloc(512);
@@ -116,16 +114,4 @@ int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **s
 
 	// make a copy of the retrieved data, then free the memory of the http reply
 	return result;
-}
-
-//============  NETLIB INITIALIZATION  ============
-//
-// initialize netlib support for weather protocol
-void NetlibInit(void)
-{
-	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION;
-	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.a = MODULENAME;
-	hNetlibUser = Netlib_RegisterUser(&nlu);
 }

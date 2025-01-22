@@ -40,9 +40,11 @@
     <ClCompile Include="src\weather_mwin.cpp" />
     <ClCompile Include="src\weather_opt.cpp" />
     <ClCompile Include="src\weather_popup.cpp" />
+    <ClCompile Include="src\weather_proto.cpp" />
     <ClCompile Include="src\weather_svcs.cpp" />
     <ClCompile Include="src\weather_update.cpp" />
     <ClCompile Include="src\weather_userinfo.cpp" />
+    <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\version.h" />

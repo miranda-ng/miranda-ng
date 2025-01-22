@@ -54,10 +54,8 @@ BEGIN
     CONTROL         "Remove old data when updating",IDC_REMOVEOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,45,286,8
     CONTROL         "Make the contact italic when weather alert is issued",IDC_MAKEI,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,56,286,8
-    GROUPBOX        "Modes",IDC_STATIC,3,70,300,37
-    CONTROL         "Use weather condition as protocol status",IDC_PROTOCOND,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,81,278,8
-    CONTROL         "Avatar only mode",IDC_DISCONDICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,91,278,8
+    GROUPBOX        "Modes",IDC_STATIC,3,70,300,27
+    CONTROL         "Avatar only mode",IDC_DISCONDICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,81,278,8
     GROUPBOX        "Units",IDC_STATIC,3,107,299,80,WS_GROUP
     LTEXT           "Temperature",IDC_STATIC,8,116,53,8
     CONTROL         "Celsius",IDC_T1,"Button",BS_AUTORADIOBUTTON,65,116,40,8

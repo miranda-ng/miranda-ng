@@ -59,74 +59,9 @@ struct WEATHERINFO
 // WPARAM = LPARAM = NULL
 #define MS_WEATHER_REFRESHALL	"Weather/RefreshAll"
 
-// Below are the service functions for weather contacts
-// The plugin does NOT verify that they are used in weather contact,
-// so bad call on these function may cause crashes.
-
-// Update a single station
-// WPARAM = (HANDLE)hContact
-// LPARAM = NULL
-#define MS_WEATHER_UPDATE		"Weather/Update"
-
-// Update a single station + delete old settings
-// WPARAM = (HANDLE)hContact
-// LPARAM = NULL
-#define MS_WEATHER_REFRESH		"Weather/Refresh"
-
-// View the brief info of a contact
-// WPARAM = (HANDLE)hContact
-// LPARAM = NULL
-#define MS_WEATHER_BRIEF		"Weather/Brief"
-
-// Use default browser to open the complete forecast on web
-// WPARAM = (HANDLE)hContact
-// LPARAM = NULL
-#define MS_WEATHER_COMPLETE		"Weather/CompleteForecast"
-
-// Use default browser to open the weather map defined for the contact
-// WPARAM = (HANDLE)hContact
-// LPARAM = NULL
-#define MS_WEATHER_MAP			"Weather/Map"
-
-// Open the external log of the weather contact
-// WPARAM = (HANDLE)hContact
-// LPARAM = NULL
-#define MS_WEATHER_LOG			"Weather/Log"
-
-// Edit weather contact setting
-// WPARAM = (HANDLE)hContact
-// LPARAM = NULL
-#define MS_WEATHER_EDIT			"Weather/Edit"
-
 // parse the string to turn it to weather display
 // WPARAM = (WEATHERINFO*)hContact
 // LPARAM = (char*)display_str
 #define MS_WEATHER_GETDISPLAY	"Weather/GetDisplay"
-
-// ===============  WEATHER EVENTS  ================
-
-/*
-HANDLE hContact = (HANDLE)wParam;
-BOOL Condition_Changed = (BOOL)lParam;
-
-hContact is the handle of updated contact
-If the weather condition is differ from the last update (either temperature/condition,
-or the last update time, depend what the user choose in the options), then
-Condition_Changed is true; otherwise is false.
-*/
-#define ME_WEATHER_UPDATED	"Miranda/Weather/Updated"
-
-/*
-Shows a warning message for Weather Popup.
-wParam = (char*) lpzMessage
-lParam = Type
-Type can either be SM_WARNING, SM_NOTIFY, or SM_WEATHERALERT
-
-This event is used to avoid the error popup to occurs within a thread, so the "Use
-multiply thread" fuction don't have to be enabled for weather popups to work.
-*/
-#define SM_WEATHERALERT		16
-#define ME_WEATHER_ERROR	"Miranda/Weather/Error"
-
 
 #endif //M_WEATHER_H__

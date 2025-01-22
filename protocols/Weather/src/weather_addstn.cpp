@@ -28,18 +28,16 @@ to the contact list.  Contain code for both name and ID search.
 static int sttSearchId = -1;
 static wchar_t name1[256];
 
-// ============ ADDING NEW STATION  ============
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // protocol service function for adding a new contact onto contact list
-// lParam = PROTOSEARCHRESULT
-INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
+
+MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
-	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
 	if (!psr || !psr->email.w)
 		return 0;
 
 	// search for existing contact
-	for (auto &hContact : Contacts(MODULENAME)) {
+	for (auto &hContact : AccContacts()) {
 		DBVARIANT dbv;
 		// check ID to see if the contact already exist in the database
 		if (!g_plugin.getWString(hContact, "ID", &dbv)) {
@@ -74,54 +72,55 @@ INT_PTR WeatherAddToList(WPARAM, LPARAM lParam)
 	// set settings by obtaining the default for the service 
 	if (psr->lastName.w[0] != 0) {
 		WIDATA *sData = GetWIData(svc);
-		g_plugin.setWString(hContact, "MapURL", sData->DefaultMap);
-		g_plugin.setString(hContact, "InfoURL", sData->DefaultURL);
+		setWString(hContact, "MapURL", sData->DefaultMap);
+		setString(hContact, "InfoURL", sData->DefaultURL);
 	}
 	else { // if no valid service is found, create empty strings for MapURL and InfoURL
-		g_plugin.setString(hContact, "MapURL", "");
-		g_plugin.setString(hContact, "InfoURL", "");
+		setString(hContact, "MapURL", "");
+		setString(hContact, "InfoURL", "");
 	}
 	// write the other info and settings to the database
-	g_plugin.setWString(hContact, "ID", psr->email.w);
-	g_plugin.setWString(hContact, "Nick", psr->nick.w);
-	g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
+	setWString(hContact, "ID", psr->email.w);
+	setWString(hContact, "Nick", psr->nick.w);
+	setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 	AvatarDownloaded(hContact);
 
 	wchar_t str[256];
 	mir_snwprintf(str, TranslateT("Current weather information for %s."), psr->nick.w);
-	g_plugin.setWString(hContact, "About", str);
+	setWString(hContact, "About", str);
 
 	// make the last update tags to something invalid
-	g_plugin.setString(hContact, "LastLog", "never");
-	g_plugin.setString(hContact, "LastCondition", "None");
-	g_plugin.setString(hContact, "LastTemperature", "None");
+	setString(hContact, "LastLog", "never");
+	setString(hContact, "LastCondition", "None");
+	setString(hContact, "LastTemperature", "None");
 
 	// ignore status change
 	db_set_dw(hContact, "Ignore", "Mask", 8);
 
 	// if no default station is found, set the new contact as default station
 	if (opt.Default[0] == 0) {
-		DBVARIANT dbv;
 		GetStationID(hContact, opt.Default, _countof(opt.Default));
 
 		opt.DefStn = hContact;
-		if (!g_plugin.getWString(hContact, "Nick", &dbv)) {
+		ptrW wszNick(g_plugin.getWStringA(hContact, "Nick"));
+		if (mir_wstrlen(wszNick)) {
 			// notification message box
-			mir_snwprintf(str, TranslateT("%s is now the default weather station"), dbv.pwszVal);
-			db_free(&dbv);
+			mir_snwprintf(str, TranslateT("%s is now the default weather station"), wszNick);
 			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
+		
 		g_plugin.setWString("Default", opt.Default);
 	}
+	
 	// display the Edit Settings dialog box
 	EditSettings(hContact, 0);
-	return (INT_PTR)hContact;
+	return hContact;
 }
 
-// ============ WARNING DIALOG  ============
+/////////////////////////////////////////////////////////////////////////////////////////
+// shows a message box and cancel search if update is in process
 
-// show a message box and cancel search if update is in process
 BOOL CheckSearch()
 {
 	if (UpdateListHead != nullptr) {
@@ -131,53 +130,36 @@ BOOL CheckSearch()
 	return TRUE;
 }
 
-// ============ BASIC ID SEARCH  ============
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // A timer process for the ID search (threaded)
-static void __cdecl BasicSearchTimerProc(void *pParam)
+
+void __cdecl CWeatherProto::BasicSearchThread(void *pParam)
 {
 	ptrW sID((wchar_t *)pParam);
 
-	int result;
 	// search only when it's not current updating weather.
 	if (CheckSearch())
-		result = IDSearch(sID, sttSearchId);
+		IDSearch(sID, sttSearchId);
 
 	// broadcast the search result
-	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
 
 	// exit the search
 	sttSearchId = -1;
 }
 
-// the service function for ID search
-// lParam = ID search string
-INT_PTR WeatherBasicSearch(WPARAM, LPARAM lParam)
+HANDLE CWeatherProto::SearchBasic(const wchar_t *id)
 {
 	if (sttSearchId != -1)
 		return 0;   // only one search at a time
 	
 	sttSearchId = 1;
-	mir_forkthread(BasicSearchTimerProc, mir_a2u((char *)lParam));  // create a thread for the ID search
-	return sttSearchId;
+	ForkThread(&CWeatherProto::BasicSearchThread, mir_wstrdup(id));
+	return (HANDLE)sttSearchId;
 }
 
-// ============ NAME SEARCH  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // name search timer process (threaded)
-static void __cdecl NameSearchTimerProc(LPVOID)
-{
-	// search only when it's not current updating weather.
-	if (CheckSearch())
-		if (name1[0] != 0)
-			NameSearch(name1, sttSearchId);	// search nickname field
-
-	// broadcast the result
-	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
-
-	// exit the search
-	sttSearchId = -1;
-}
 
 static INT_PTR CALLBACK WeatherSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
@@ -194,36 +176,52 @@ static INT_PTR CALLBACK WeatherSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPA
 	return FALSE;
 }
 
-INT_PTR WeatherCreateAdvancedSearchUI(WPARAM, LPARAM lParam)
+MWindow CWeatherProto::CreateExtendedSearchUI(MWindow hwndOwner)
 {
-	HWND parent = (HWND)lParam;
-	if (parent)
-		return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCHCITY), parent, WeatherSearchAdvancedDlgProc, 0);
+	if (hwndOwner)
+		return CreateDialogParamW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCHCITY), hwndOwner, WeatherSearchAdvancedDlgProc, 0);
 
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // service function for name search
-INT_PTR WeatherAdvancedSearch(WPARAM, LPARAM lParam)
+
+void __cdecl CWeatherProto::NameSearchThread(void *)
 {
-	if (sttSearchId != -1) return 0;   //only one search at a time
+	// search only when it's not current updating weather.
+	if (CheckSearch())
+		if (name1[0] != 0)
+			NameSearch(name1, sttSearchId);	// search nickname field
 
-	sttSearchId = 1;
-	GetDlgItemText((HWND)lParam, IDC_SEARCHCITY, name1, _countof(name1));
+	// broadcast the result
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)sttSearchId);
 
-	// search for the weather station using a thread
-	mir_forkthread(NameSearchTimerProc);
-	return sttSearchId;
+	// exit the search
+	sttSearchId = -1;
 }
 
-// ============ SEARCH FOR A WEATHER STATION USING ID  ============
+HANDLE CWeatherProto::SearchAdvanced(MWindow hwndOwner)
+{
+	if (sttSearchId != -1)
+		return 0;   //only one search at a time
 
-// Seaching station ID from a single weather service (Threaded)
+	sttSearchId = 1;
+	GetDlgItemText(hwndOwner, IDC_SEARCHCITY, name1, _countof(name1));
+
+	// search for the weather station using a thread
+	ForkThread(&CWeatherProto::NameSearchThread);
+	return (HANDLE)sttSearchId;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Seaching station ID from a single weather service
 // sID = search string for the station ID
 // searchId = -1
 // sData = the ID search data for that particular weather service
 // svcname = the name of the weather service that is currently searching (ie. Yahoo Weather)
-int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *svc, wchar_t *svcname)
+
+int CWeatherProto::IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *svc, wchar_t *svcname)
 {
 	wchar_t str[MAX_DATA_LEN], newID[MAX_DATA_LEN];
 
@@ -259,16 +257,12 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 	psr.firstName.w = L" ";
 	psr.lastName.w = svcname;
 	psr.email.w = newID;
-	ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 
 	return 0;
 }
 
-// ID search	 (Threaded)
-//  sID:		the ID to search for
-//  searchId:	don't change
-// return 0 if no error
-int IDSearch(wchar_t *sID, const int searchId)
+int CWeatherProto::IDSearch(wchar_t *sID, const int searchId)
 {
 	// for a normal ID search (ID != #)
 	if (mir_wstrcmp(sID, L"#")) {
@@ -289,20 +283,20 @@ int IDSearch(wchar_t *sID, const int searchId)
 		psr.firstName.w = L" ";
 		psr.lastName.w = L"";
 		psr.email.w = TranslateT("<Enter station ID here>");		// to be entered
-		ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 	}
 
 	return 0;
 }
 
-// ============ SEARCH FOR A WEATHER STATION BY NAME  ============
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // Seaching station name from a single weather service (Threaded)
 // name = the name of the weather station to be searched
 // searchId = -1
 // sData = the name search data for that particular weather service
 // svcname = the name of the weather service that is currently searching (ie. Yahoo Weather)
-int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar_t *svc, wchar_t *svcname)
+
+int CWeatherProto::NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar_t *svc, wchar_t *svcname)
 {
 	wchar_t Name[MAX_DATA_LEN], str[MAX_DATA_LEN], sID[MAX_DATA_LEN], *szData = nullptr, *search;
 
@@ -352,7 +346,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 				psr.lastName.w = svcname;
 				psr.email.w = sID;
 				psr.id.w = sID;
-				ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 				mir_free(szData);
 				return 0;
 			}
@@ -390,7 +384,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 					psr.lastName.w = svcname;
 					psr.email.w = sID;
 					psr.id.w = sID;
-					ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
 				}
 			}
 		}
@@ -403,11 +397,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 	return 1;
 }
 
-// name search	(Threaded)
-//  name:		the station name to search for
-//  searchId:	don't change
-// return 0 if no error
-int NameSearch(wchar_t *name, const int searchId)
+int CWeatherProto::NameSearch(wchar_t *name, const int searchId)
 {
 	// search every weather service using the search station name
 	WIDATALIST *Item = WIHead;
@@ -417,15 +407,5 @@ int NameSearch(wchar_t *name, const int searchId)
 		Item = Item->next;
 	}
 
-	return 0;
-}
-
-// ======================MENU ITEM FUNCTION ============
-
-// add a new weather station via find/add dialog
-int WeatherAdd(WPARAM, LPARAM)
-{
-	db_set_s(0, "FindAdd", "LastSearched", "Weather");
-	CallService(MS_FINDADD_FINDADD, 0, 0);
 	return 0;
 }

@@ -25,11 +25,11 @@ string conversions, display text parsing, etc
 
 #include "stdafx.h"
 
-//============  SOME HELPER FUNCTIONS  ============
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // see if a string is a number
 // s = the string to be determined
 // return value = true if the string is a number, false if it isn't
+
 BOOL is_number(wchar_t *s)
 {
 	BOOL tag = FALSE;
@@ -47,7 +47,7 @@ BOOL is_number(wchar_t *s)
 	return FALSE;
 }
 
-static void numToStr(double num, wchar_t *str, size_t strSize)
+void CWeatherProto::numToStr(double num, wchar_t *str, size_t strSize)
 {
 	int i = (int)(num * (opt.NoFrac ? 10 : 100));
 	int u = abs(i);
@@ -69,13 +69,13 @@ static void numToStr(double num, wchar_t *str, size_t strSize)
 		mir_snwprintf(str, strSize, L"%i", w);
 }
 
-//============  UNIT CONVERSIONS  ============
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // temperature conversion
 // tempchar = the string containing the temperature value
 // unit = the unit for temperature
 // return value = the converted temperature with degree sign and unit; if fails, return N/A
-void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+
+void CWeatherProto::GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be C, F
 	double temp;
@@ -123,11 +123,13 @@ void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // temperature conversion
 // tempchar = the string containing the pressure value
 // unit = the unit for pressure
 // return value = the converted pressure with unit; if fail, return the original string
-void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+
+void CWeatherProto::GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be kPa, hPa, mb, in, mm, torr
 	double tempunit = 0, output;
@@ -180,11 +182,13 @@ void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // speed conversion
 // tempchar = the string containing the speed value
 // unit = the unit for speed
 // return value = the converted speed with unit; if fail, return _T(""
-void GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+
+void CWeatherProto::GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be km/h, mph, m/s, knots
 	double tempunit;
@@ -229,11 +233,13 @@ void GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // distance conversion
 // tempchar = the string containing the distance value
 // unit = the unit for distance
 // return value = the converted distance with unit; if fail, return original string
-void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+
+void CWeatherProto::GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be km, miles
 	double tempunit = 0, output;
@@ -269,11 +275,13 @@ void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // elevation conversion
 // tempchar = the string containing the elevation value
 // unit = the unit for elevation
 // return value = the converted elevation with unit; if fail, return original string
-void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+
+void CWeatherProto::GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 {
 	// unit can be ft, m
 	double tempunit = 0, output;
@@ -309,8 +317,7 @@ void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 	}
 }
 
-//============  CONDITION ICON ASSIGNMENT  ============
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // assign the contact icon (status) from the condition string
 // the description may be different between different sources
 // cond = the string for weather condition
@@ -373,9 +380,9 @@ uint16_t GetIcon(const wchar_t *cond, WIDATA *Data)
 	return NA;
 }
 
-//============  STRING CONVERSIONS  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // this function convert the string to the format with 1 upper case followed by lower case char
+
 void CaseConv(wchar_t *str)
 {
 	bool nextUp = true;
@@ -391,9 +398,10 @@ void CaseConv(wchar_t *str)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // the next 2 functions are copied from miranda source
 // str = the string to modify
-//
+
 void TrimString(char *str)
 {
 	size_t len, start;
@@ -414,7 +422,9 @@ void TrimString(wchar_t *str)
 	memmove(str, str + start, (len - start + 1) * sizeof(wchar_t));
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // convert \t to tab and \n to linefeed
+
 void ConvertBackslashes(char *str)
 {
 	for (char *pstr = str; *pstr; pstr = CharNextA(pstr)) {
@@ -429,9 +439,11 @@ void ConvertBackslashes(char *str)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // replace spaces with _T("%20"
 // dis = original string
 // return value = the modified string with space -> _T("%20"
+
 char *GetSearchStr(char *dis)
 {
 	char *pstr = dis;
@@ -448,12 +460,12 @@ char *GetSearchStr(char *dis)
 	return dis;
 }
 
-//============  ICON ASSIGNMENT  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // make display and history strings
 // w = WEATHERINFO data to be parsed
 // dis = the string to parse
 // return value = the parsed string
+
 wchar_t *GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 {
 	wchar_t lpzDate[32], chr;
@@ -542,11 +554,11 @@ INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)GetDisplay(&winfo, (wchar_t*)lParam, svcReturnText);
 }
 
-//============  ID MANAGEMENT  ============
-//
+/////////////////////////////////////////////////////////////////////////////////////////
 // get service data module internal name
 //   mod/id  <- the mod part
 // pszID = original 2-part id, return the service internal name
+
 void GetSvc(wchar_t *pszID)
 {
 	wchar_t *chop = wcschr(pszID, '/');
@@ -556,9 +568,11 @@ void GetSvc(wchar_t *pszID)
 		pszID[0] = 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // get the id use for update without the service internal name
 //   mod/id  <- the id part
 // pszID = original 2-part id, return the single part id
+
 void GetID(wchar_t *pszID)
 {
 	wchar_t *chop = wcschr(pszID, '/');
@@ -568,7 +582,7 @@ void GetID(wchar_t *pszID)
 		pszID[0] = 0;
 }
 
-//============  WEATHER ERROR CODE  ============
+/////////////////////////////////////////////////////////////////////////////////////////
 // Get the text when an error code is specified
 // code = the error code obtained when updating weather
 // str = the string for the error

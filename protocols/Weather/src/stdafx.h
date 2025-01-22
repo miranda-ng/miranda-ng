@@ -62,6 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "resource.h"
 #include "version.h"
+#include "proto.h"
 
 //============  CONSTANTS  ============
 
@@ -86,9 +87,6 @@ enum EWeatherCondition
 	MAX_COND
 };
 
-// status
-#define NOSTATUSDATA	1
-
 // limits
 #define MAX_TEXT_SIZE   4096
 #define MAX_DATA_LEN    1024
@@ -105,72 +103,21 @@ enum EWeatherCondition
 #define UM_SETCONTACT	40000
 
 // weather update error codes
-#define INVALID_ID_FORMAT	10
-#define INVALID_SVC			11
-#define	INVALID_ID			12
-#define SVC_NOT_FOUND		20
-#define	NETLIB_ERROR		30
-#define	DATA_EMPTY			40
-#define	DOC_NOT_FOUND		42
-#define	DOC_TOO_SHORT		43
-#define	UNKNOWN_ERROR		99
+#define INVALID_ID_FORMAT  10
+#define INVALID_SVC        11
+#define INVALID_ID         12
+#define SVC_NOT_FOUND      20
+#define NETLIB_ERROR       30
+#define DATA_EMPTY         40
+#define DOC_NOT_FOUND      42
+#define DOC_TOO_SHORT      43
+#define UNKNOWN_ERROR      99
+
+#define SM_WEATHERALERT		16
+#define WM_UPDATEDATA      (WM_USER + 2687)
 
 // defaults constants
 #define VAR_LIST_OPT TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
-
-//============  OPTION STRUCT  ============
-
-// option struct
-struct MYOPTIONS
-{
-	// main options
-	uint8_t AutoUpdate;
-	uint8_t CAutoUpdate;
-	uint8_t StartupUpdate;
-	uint8_t NoProtoCondition;
-	uint8_t UpdateOnlyConditionChanged;
-	uint8_t RemoveOldData;
-	uint8_t MakeItalic;
-
-	uint16_t UpdateTime;
-	uint16_t AvatarSize;
-
-	// units
-	uint16_t tUnit;
-	uint16_t wUnit;
-	uint16_t vUnit;
-	uint16_t pUnit;
-	uint16_t dUnit;
-	uint16_t eUnit;
-	wchar_t DegreeSign[4];
-	uint8_t DoNotAppendUnit;
-	uint8_t NoFrac;
-
-	// advanced
-	uint8_t DisCondIcon;
-
-	// popup options
-	uint8_t UpdatePopup;
-	uint8_t AlertPopup;
-	uint8_t PopupOnChange;
-	uint8_t ShowWarnings;
-
-	// popup colors
-	uint8_t UseWinColors;
-	COLORREF BGColour;
-	COLORREF TextColour;
-
-	// popup actions
-	uint32_t LeftClickAction;
-	uint32_t RightClickAction;
-
-	// popup delay
-	uint32_t pDelay;
-
-	// other misc stuff
-	wchar_t Default[64];
-	MCONTACT DefStn;
-};
 
 //============  STRUCT USED TO MAKE AN UPDATE LIST  ============
 struct WCONTACTLIST {
@@ -181,8 +128,6 @@ struct WCONTACTLIST {
 typedef struct WCONTACTLIST UPDATELIST;
 
 extern UPDATELIST *UpdateListHead, *UpdateListTail;
-
-void DestroyUpdateList(void);
 
 //============  DATA FORMAT STRUCT  ============
 
@@ -298,15 +243,9 @@ extern WIDATALIST *WIHead, *WITail;
 
 extern HWND hPopupWindow, hWndSetup;
 
-extern MYOPTIONS opt;
-
-extern unsigned status, old_status;
-
 extern MWindowList hDataWindowList, hWindowList;
 
-extern HNETLIBUSER hNetlibUser;
-extern HANDLE hHookWeatherUpdated, hHookWeatherError, hTBButton, hUpdateMutex;
-extern UINT_PTR timerId;
+extern HANDLE hTBButton;
 
 extern HGENMENU hMwinMenu;
 
@@ -317,35 +256,9 @@ extern bool g_bIsUtf;
 //============  FUNCTION PRIMITIVES  ============
 
 // functions in weather_addstn.c
-INT_PTR WeatherAddToList(WPARAM wParam,LPARAM lParam);
 BOOL CheckSearch();
 
-int IDSearch(wchar_t *id, const int searchId);
-int NameSearch(wchar_t *name, const int searchId);
-
-INT_PTR WeatherBasicSearch(WPARAM wParam,LPARAM lParam);
-INT_PTR WeatherCreateAdvancedSearchUI(WPARAM wParam, LPARAM lParam);
-INT_PTR WeatherAdvancedSearch(WPARAM wParam, LPARAM lParam);
-
-int WeatherAdd(WPARAM wParam, LPARAM lParam);
-
-// functions used in weather_contacts.c
-INT_PTR ViewLog(WPARAM wParam,LPARAM lParam);
-INT_PTR LoadForecast(WPARAM wParam,LPARAM lParam);
-INT_PTR WeatherMap(WPARAM wParam,LPARAM lParam);
-INT_PTR EditSettings(WPARAM wParam,LPARAM lParam);
-
-int ContactDeleted(WPARAM wParam,LPARAM lParam);
-
-BOOL IsMyContact(MCONTACT hContact);
-
 // functions in weather_conv.c
-void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-void GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-
 void ClearStatusIcons();
 int MapCondToStatus(MCONTACT hContact);
 HICON GetStatusIcon(MCONTACT hContact);
@@ -371,10 +284,6 @@ void GetStationID(MCONTACT hContact, wchar_t* id, int idlen);
 WEATHERINFO LoadWeatherInfo(MCONTACT Change);
 int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv);
 
-void EraseAllInfo(void);
-
-void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szInfo);
-void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data);
 void wSetData(char *&Data, const char *Value);
 void wSetData(wchar_t *&Data, const char *Value);
 void wSetData(wchar_t *&Data, const wchar_t *Value);
@@ -382,10 +291,6 @@ void wfree(char *&Data);
 void wfree(wchar_t *&Data);
 
 void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM lParam);
-
-// functions in weather_http.c
-int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, wchar_t** szData);
-void NetlibInit();
 
 // functions in weather_ini.c
 WIDATA* GetWIData(wchar_t *pszServ);
@@ -395,74 +300,26 @@ bool IsContainedInCondList(const wchar_t *pszStr, WICONDLIST *List);
 void DestroyWIList();
 bool LoadWIData(bool dial);
 
-INT_PTR CALLBACK DlgPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 // functions in weather_info.c
 void GetINIInfo(wchar_t *pszSvc);
 wchar_t* GetINIVersionNum(int iVersion);
+const wchar_t *GetDefaultText(int c);
 
 void MoreVarList();
-
-// functions in weather_opt.c
-void LoadOptions();
-void SaveOptions();
-
-int OptInit(WPARAM wParam,LPARAM lParam);
-
-CMStringW GetTextValue(int c);
-const wchar_t* GetDefaultText(int c);
-
-// functions in weather_popup.c
-int WeatherPopup(WPARAM wParam, LPARAM lParam);
-int WeatherError(WPARAM wParam, LPARAM lParam);
-int WPShowMessage(const wchar_t* lpzText, uint16_t kind);
-
-LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_svcs.c
 void InitServices(void);
 
-INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM lParam);
-INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM lParam);
-INT_PTR WeatherGetName(WPARAM wParam, LPARAM lParam);
-INT_PTR WeatherGetStatus(WPARAM wParam, LPARAM lParam);
 INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM lParam);
 
-void UpdateMenu(BOOL State);
-void UpdatePopupMenu(BOOL State);
-void AddMenuItems();
 void AvatarDownloaded(MCONTACT hContact);
 
-// functions in weather_update.c
-int UpdateWeather(MCONTACT hContact);
-
-void UpdateAll(BOOL AutoUpdate, BOOL RemoveOld);
-INT_PTR UpdateSingleStation(WPARAM wParam,LPARAM lParam);
-INT_PTR UpdateAllInfo(WPARAM wParam,LPARAM lParam);
-INT_PTR UpdateSingleRemove(WPARAM wParam,LPARAM lParam);
-INT_PTR UpdateAllRemove(WPARAM wParam,LPARAM lParam);
-
-int GetWeatherData(MCONTACT hContact);
-
-void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
-void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
-
 // function from multiwin module
-void InitMwin(void);
-void DestroyMwin(void);
 INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM lParam);
-int BuildContactMenu(WPARAM wparam, LPARAM lparam);
 void UpdateMwinData(MCONTACT hContact);
 void removeWindow(MCONTACT hContact);
 
-// functions in weather_userinfo.c
-int UserInfoInit(WPARAM wParam, LPARAM lParam);
-
-#define WM_UPDATEDATA WM_USER + 2687
-
-int BriefInfo(WPARAM wParam, LPARAM lParam);
-
-///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // UI Classes
 
 class WeatherMyDetailsDlg : public CUserInfoPageDlg
@@ -476,17 +333,3 @@ public:
 
 	void onClick_Reload(CCtrlButton *);
 };
-
-//============  Plugin Class ============
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-
-	HINSTANCE hIconsDll = nullptr;
-	CMOption<bool> bPopups;
-
-	int Load() override;
-	int Unload() override;
-};
-

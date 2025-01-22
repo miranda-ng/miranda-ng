@@ -58,7 +58,6 @@
 #define IDC_DAutoUpdate                 2030
 #define IDC_IURL                        2032
 #define IDC_MURL                        2033
-#define IDC_PROTOCOND                   2034
 #define IDC_Overwrite                   2035
 #define IDC_UPDCONDCHG                  2036
 #define IDC_REMOVEOLD                   2037
