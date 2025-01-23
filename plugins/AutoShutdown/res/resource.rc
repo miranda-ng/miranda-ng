@@ -69,8 +69,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,12,88,273,19
     GROUPBOX        "Critical shutdown events",IDC_STATIC,3,116,289,62
     LTEXT           "Automatically shutdown the computer and turn the power off when one of the following occurs:",IDC_STATIC,12,128,273,18,SS_NOPREFIX
-    CONTROL         "&Thunderstorm warning is issued (Weather)",IDC_CHECK_WEATHER,
-                    "Button",BS_AUTOCHECKBOX | BS_TOP | WS_DISABLED | WS_TABSTOP,12,150,273,11
 END
 
 IDD_SETTINGS DIALOGEX 0, 0, 239, 286

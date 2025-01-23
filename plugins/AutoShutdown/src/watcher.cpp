@@ -200,17 +200,6 @@ static BOOL CALLBACK CpuUsageWatcherProc(uint8_t nCpuUsage, LPARAM lParam)
 	return TRUE;
 }
 
-/************************* Weather Shutdown ***************************/
-
-static int WeatherUpdated(WPARAM wParam, LPARAM lParam)
-{
-	char *pszProto = Proto_GetBaseAccountName(wParam);
-	if ((BOOL)lParam && pszProto != nullptr && Proto_GetStatus(pszProto) == ID_STATUS_INVISIBLE)
-		if (g_plugin.getByte("WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT))
-			ServiceShutdown(SDSDT_SHUTDOWN, TRUE);
-	return 0;
-}
-
 /************************* Services ***********************************/
 
 INT_PTR ServiceStartWatcher(WPARAM, LPARAM lParam)
@@ -282,10 +271,6 @@ INT_PTR ServiceIsWatcherEnabled(WPARAM, LPARAM)
 
 void WatcherModulesLoaded(void)
 {
-	/* Weather Shutdown */
-	if (ServiceExists(MS_WEATHER_UPDATE))
-		hHookWeatherUpdated = HookEvent(ME_WEATHER_UPDATED, WeatherUpdated);
-
 	/* restore watcher if it was running on last exit */
 	if (g_plugin.getByte("RememberOnRestart", 0) == SDROR_RUNNING) {
 		g_plugin.setByte("RememberOnRestart", 1);

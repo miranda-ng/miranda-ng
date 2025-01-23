@@ -42,15 +42,7 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		CheckDlgButton(hwndDlg, IDC_CHECK_SMARTOFFLINECHECK, g_plugin.getByte("SmartOfflineCheck", SETTING_SMARTOFFLINECHECK_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHECK_REMEMBERONRESTART, g_plugin.getByte("RememberOnRestart", SETTING_REMEMBERONRESTART_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHECK_SHOWCONFIRMDLG, g_plugin.getByte("ShowConfirmDlg", SETTING_SHOWCONFIRMDLG_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
-		{
-			BOOL enabled = ServiceIsTypeEnabled(SDSDT_SHUTDOWN, 0);
-			if (enabled) {
-				if (ServiceExists(MS_WEATHER_UPDATE)) {
-					EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_WEATHER), TRUE);
-					CheckDlgButton(hwndDlg, IDC_CHECK_WEATHER, g_plugin.getByte("WeatherShutdown", SETTING_WEATHERSHUTDOWN_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
-				}
-			}
-		}
+
 		SendMessage(hwndDlg, M_ENABLE_SUBCTLS, 0, 0);
 		return TRUE; /* default focus */
 
@@ -89,8 +81,6 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			g_plugin.setWord("ConfirmDlgCountdown", (uint16_t)GetDlgItemInt(hwndDlg, IDC_EDIT_CONFIRMDLGCOUNTDOWN, nullptr, FALSE));
 			g_plugin.setByte("RememberOnRestart", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_REMEMBERONRESTART) != 0));
 			g_plugin.setByte("SmartOfflineCheck", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_SMARTOFFLINECHECK) != 0));
-			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHECK_WEATHER)))
-				g_plugin.setByte("WeatherShutdown", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CHECK_WEATHER) != 0));
 			return TRUE;
 		}
 		break;
