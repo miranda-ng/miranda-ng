@@ -451,9 +451,8 @@ bool CWeatherProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 
 	// exit this function if it is not default station
 	ptrW tszID(getWStringA(hContact, "ID"));
-	if (tszID != NULL)
-		if (mir_wstrcmp(tszID, opt.Default))
-			return false;
+	if (mir_wstrcmp(tszID, opt.Default))
+		return true;
 
 	// now the default station is deleted, try to get a new one
 
