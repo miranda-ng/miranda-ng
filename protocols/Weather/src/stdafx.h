@@ -24,8 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-//============  THE INCLUDES  ===========
-
 #include <share.h>
 #include <time.h>
 #include <windows.h>
@@ -57,14 +55,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_xstatus.h>
 
 #include <m_tipper.h>
-#include <m_weather.h>
 #include <m_toptoolbar.h>
 
 #include "resource.h"
 #include "version.h"
 #include "proto.h"
 
-//============  CONSTANTS  ============
+/////////////////////////////////////////////////////////////////////////////////////////
+// CONSTANTS
 
 // name
 #define MODULENAME         "Weather"
@@ -119,17 +117,8 @@ enum EWeatherCondition
 // defaults constants
 #define VAR_LIST_OPT TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
 
-//============  STRUCT USED TO MAKE AN UPDATE LIST  ============
-struct WCONTACTLIST {
-	MCONTACT hContact;
-	struct WCONTACTLIST *next;
-};
-
-typedef struct WCONTACTLIST UPDATELIST;
-
-extern UPDATELIST *UpdateListHead, *UpdateListTail;
-
-//============  DATA FORMAT STRUCT  ============
+/////////////////////////////////////////////////////////////////////////////////////////
+// DATA FORMAT STRUCT
 
 #define WID_NORMAL	0
 #define WID_SET		1
@@ -227,7 +216,8 @@ struct WIDATA
 	WICONDLIST CondList[MAX_COND];
 };
 
-//============  DATA LIST (LINKED LIST)  ============
+/////////////////////////////////////////////////////////////////////////////////////////
+// DATA LIST (LINKED LIST)
 
 struct DATALIST
 {
@@ -237,7 +227,8 @@ struct DATALIST
 
 typedef struct DATALIST WIDATALIST;
 
-//============  GLOBAL VARIABLES  ============
+/////////////////////////////////////////////////////////////////////////////////////////
+// GLOBAL VARIABLES
 
 extern WIDATALIST *WIHead, *WITail;
 
@@ -249,20 +240,12 @@ extern HANDLE hTBButton;
 
 extern HGENMENU hMwinMenu;
 
-// check if weather is currently updating
-extern BOOL ThreadRunning;
 extern bool g_bIsUtf;
 
-//============  FUNCTION PRIMITIVES  ============
-
-// functions in weather_addstn.c
-BOOL CheckSearch();
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // functions in weather_conv.c
+
 void ClearStatusIcons();
-int MapCondToStatus(MCONTACT hContact);
-HICON GetStatusIcon(MCONTACT hContact);
-HICON GetStatusIconBig(MCONTACT hContact);
 
 uint16_t GetIcon(const wchar_t* cond, WIDATA *Data);
 void CaseConv(wchar_t *str);
@@ -272,16 +255,15 @@ void ConvertBackslashes(char *str);
 char *GetSearchStr(char *dis);
 
 wchar_t *GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str);
-INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam);
 
 void GetSvc(wchar_t *pszID);
 void GetID(wchar_t *pszID);
 
 wchar_t *GetError(int code);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // functions in weather_data.c
-void GetStationID(MCONTACT hContact, wchar_t* id, int idlen);
-WEATHERINFO LoadWeatherInfo(MCONTACT Change);
+
 int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv);
 
 void wSetData(char *&Data, const char *Value);
@@ -292,7 +274,9 @@ void wfree(wchar_t *&Data);
 
 void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM lParam);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // functions in weather_ini.c
+
 WIDATA* GetWIData(wchar_t *pszServ);
 
 bool IsContainedInCondList(const wchar_t *pszStr, WICONDLIST *List);
@@ -300,24 +284,19 @@ bool IsContainedInCondList(const wchar_t *pszStr, WICONDLIST *List);
 void DestroyWIList();
 bool LoadWIData(bool dial);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // functions in weather_info.c
+
 void GetINIInfo(wchar_t *pszSvc);
 wchar_t* GetINIVersionNum(int iVersion);
 const wchar_t *GetDefaultText(int c);
 
 void MoreVarList();
 
-// functions in weather_svcs.c
-void InitServices(void);
-
-INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM lParam);
-
-void AvatarDownloaded(MCONTACT hContact);
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // function from multiwin module
-INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM lParam);
+
 void UpdateMwinData(MCONTACT hContact);
-void removeWindow(MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // UI Classes

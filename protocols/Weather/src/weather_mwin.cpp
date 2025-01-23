@@ -140,11 +140,11 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 				if (!data->haveAvatar) {
 					picSize = GetSystemMetrics(SM_CXICON);
-					hIcon = GetStatusIconBig(data->hContact);
+					hIcon = data->ppro->GetStatusIconBig(data->hContact);
 				}
 
 				LOGFONT lfnt, lfnt1;
-				COLORREF clr = g_plugin.getDword("ColorMwinFrame", GetSysColor(COLOR_3DFACE));
+				COLORREF clr = data->ppro->getDword("ColorMwinFrame", GetSysColor(COLOR_3DFACE));
 				COLORREF fntc = Font_GetW(_A2W(MODULENAME), LPGENW("Frame Font"), &lfnt);
 				COLORREF fntc1 = Font_GetW(_A2W(MODULENAME), LPGENW("Frame Title Font"), &lfnt1);
 
@@ -220,10 +220,17 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	return(TRUE);
 }
 
-static void addWindow(MCONTACT hContact)
+void UpdateMwinData(MCONTACT hContact)
+{
+	HWND hwnd = WindowList_Find(hMwinWindowList, hContact);
+	if (hwnd != nullptr)
+		RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
+}
+
+void CWeatherProto::AddFrameWindow(MCONTACT hContact)
 {
 	DBVARIANT dbv;
-	if (g_plugin.getWString(hContact, "Nick", &dbv))
+	if (getWString(hContact, "Nick", &dbv))
 		return;
 
 	wchar_t winname[512];
@@ -231,7 +238,7 @@ static void addWindow(MCONTACT hContact)
 	db_free(&dbv);
 
 	HWND hWnd = CreateWindow(L"WeatherFrame", L"", WS_CHILD | WS_VISIBLE,
-		0, 0, 10, 10, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), (void*)hContact);
+		0, 0, 10, 10, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), (void *)hContact);
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
 	CLISTFrame Frame = {};
@@ -244,35 +251,28 @@ static void addWindow(MCONTACT hContact)
 	Frame.height = 32;
 	int frameID = g_plugin.addFrame(&Frame);
 
-	g_plugin.setDword(hContact, "mwin", frameID);
+	setDword(hContact, "mwin", frameID);
 	Contact::Hide(hContact);
 }
 
-void removeWindow(MCONTACT hContact)
+void CWeatherProto::RemoveFrameWindow(MCONTACT hContact)
 {
-	uint32_t frameId = g_plugin.getDword(hContact, "mwin");
+	uint32_t frameId = getDword(hContact, "mwin");
 
 	WindowList_Remove(hMwinWindowList, WindowList_Find(hMwinWindowList, hContact));
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 
-	g_plugin.setDword(hContact, "mwin", 0);
+	setDword(hContact, "mwin", 0);
 	Contact::Hide(hContact, false);
 }
 
-void UpdateMwinData(MCONTACT hContact)
+INT_PTR CWeatherProto::Mwin_MenuClicked(WPARAM hContact, LPARAM)
 {
-	HWND hwnd = WindowList_Find(hMwinWindowList, hContact);
-	if (hwnd != nullptr)
-		RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
-}
-
-INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM)
-{
-	BOOL addwnd = WindowList_Find(hMwinWindowList, wParam) == nullptr;
-	if (addwnd)
-		addWindow(wParam);
+	if (WindowList_Find(hMwinWindowList, hContact))
+		RemoveFrameWindow(hContact);
 	else
-		removeWindow(wParam);
+		AddFrameWindow(hContact);
+
 	return 0;
 }
 
@@ -341,7 +341,7 @@ void CWeatherProto::InitMwin(void)
 
 	for (auto &hContact : AccContacts())
 		if (g_plugin.getDword(hContact, "mwin"))
-			addWindow(hContact);
+			AddFrameWindow(hContact);
 
 	hFontHook = HookEvent(ME_FONT_RELOAD, RedrawFrame);
 }

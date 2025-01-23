@@ -20,22 +20,31 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 CWeatherProto::CWeatherProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CWeatherProto>(protoName, userName),
 	m_impl(*this),
-	hUpdateMutex(CreateMutex(nullptr, FALSE, nullptr))
+	m_bPopups(m_szModuleName, "UsePopup", true)
 {
+	m_hProtoIcon = g_plugin.getIconHandle(IDI_ICON);
+
+	CreateProtoService(PS_GETAVATARINFO, &CWeatherProto::GetAvatarInfoSvc);
+	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CWeatherProto::AdvancedStatusIconSvc);
+
 	HookProtoEvent(ME_OPT_INITIALISE, &CWeatherProto::OptInit);
 	HookProtoEvent(ME_CLIST_DOUBLECLICKED, &CWeatherProto::BriefInfoEvt);
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CWeatherProto::BuildContactMenu);
 
 	InitMwin();
 
-	// reset the weather data at startup for individual contacts
-	EraseAllInfo();
-
 	// load options and set defaults
 	LoadOptions();
 
+	// reset the weather data at startup for individual contacts
+	EraseAllInfo();
+
 	// menu items
 	InitMenuItems();
+
+	// popup initialization
+	CMStringW wszTitle(FORMAT, L"%s %s", m_tszUserName, TranslateT("notifications"));
+	g_plugin.addPopupOption(wszTitle, m_bPopups);
 
 	// netlib
 	NETLIBUSER nlu = {};
@@ -49,8 +58,6 @@ CWeatherProto::~CWeatherProto()
 {
 	DestroyMwin();
 	DestroyUpdateList();
-
-	CloseHandle(hUpdateMutex);
 }
 
 void CWeatherProto::OnModulesLoaded()
@@ -60,6 +67,23 @@ void CWeatherProto::OnModulesLoaded()
 
 	// weather user detail
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CWeatherProto::UserInfoInit);
+	HookProtoEvent(ME_TTB_MODULELOADED, &CWeatherProto::OnToolbarLoaded);
+}
+
+int CWeatherProto::OnToolbarLoaded(WPARAM, LPARAM)
+{
+	CMStringA szName(FORMAT, "%s/Enabled", m_szModuleName);
+
+	TTBButton ttb = {};
+	ttb.name = LPGEN("Enable/disable auto update");
+	ttb.pszService = szName.GetBuffer();
+	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");
+	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_ICON);
+	ttb.hIconHandleDn = g_plugin.getIconHandle(IDI_DISABLED);
+	ttb.dwFlags = (getByte("AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+	hTBButton = g_plugin.addTTB(&ttb);
+	return 0;
 }
 
 void CWeatherProto::OnShutdown()
@@ -67,10 +91,6 @@ void CWeatherProto::OnShutdown()
 	m_impl.m_update.Stop();
 
 	SaveOptions(); // save options once more
-	
-	WindowList_Broadcast(hWindowList, WM_CLOSE, 0, 0);
-	WindowList_Broadcast(hDataWindowList, WM_CLOSE, 0, 0);
-	SendMessage(hWndSetup, WM_CLOSE, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -113,4 +133,38 @@ INT_PTR CWeatherProto::GetCaps(int type, MCONTACT)
 		return (INT_PTR)TranslateT("Station ID");
 	}
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// nothing to do here because weather proto do not need to retrieve contact info form network
+// so just return a 0
+
+void CWeatherProto::AckThreadProc(void *param)
+{
+	Sleep(100);
+
+	ProtoBroadcastAck((DWORD_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
+}
+
+int CWeatherProto::GetInfo(MCONTACT hContact, int)
+{
+	ForkThread(&CWeatherProto::AckThreadProc, (void *)hContact);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void __cdecl CWeatherProto::GetAwayMsgThread(void *arg)
+{
+	Sleep(100);
+
+	MCONTACT hContact = (DWORD_PTR)arg;
+	ptrW wszStatus(db_get_wsa(hContact, "CList", "StatusMsg"));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, this, wszStatus);
+}
+
+HANDLE CWeatherProto::GetAwayMsg(MCONTACT hContact)
+{
+	ForkThread(&CWeatherProto::GetAwayMsgThread, (void*)hContact);
+	return this;
 }

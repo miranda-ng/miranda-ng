@@ -39,7 +39,6 @@
 #define IDC_CH                          2013
 #define IDC_NTEXT                       2015
 #define IDC_DEGREE                      2016
-#define IDC_E                           2017
 #define IDC_W                           2018
 #define IDC_POP1                        2019
 #define IDC_XTEXT                       2020
@@ -157,7 +156,6 @@
 #define ID_T2                           40011
 #define ID_MPREVIEW                     40020
 #define ID_MRESET                       40021
-#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

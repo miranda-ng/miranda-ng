@@ -46,7 +46,7 @@ INT_PTR CWeatherProto::ViewLog(WPARAM wParam, LPARAM lParam)
 {
 	// see if the log path is set
 	DBVARIANT dbv;
-	if (!g_plugin.getWString(wParam, "Log", &dbv)) {
+	if (!getWString(wParam, "Log", &dbv)) {
 		if (dbv.pszVal[0] != 0)
 			ShellExecute((HWND)lParam, L"open", dbv.pwszVal, L"", L"", SW_SHOW);
 		db_free(&dbv);
@@ -67,7 +67,7 @@ INT_PTR CWeatherProto::LoadForecast(WPARAM wParam, LPARAM)
 	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
 		// check if the complte forecast URL is set. If it is not, display warning and quit
-		if (db_get_wstatic(wParam, MODULENAME, "InfoURL", loc2, _countof(loc2)) || loc2[0] == 0) {
+		if (db_get_wstatic(wParam, m_szModuleName, "InfoURL", loc2, _countof(loc2)) || loc2[0] == 0) {
 			MessageBox(nullptr, TranslateT("The URL for complete forecast has not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
@@ -87,7 +87,7 @@ INT_PTR CWeatherProto::WeatherMap(WPARAM wParam, LPARAM)
 	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
 		// check if the weather map URL is set. If it is not, display warning and quit
-		if (db_get_wstatic(wParam, MODULENAME, "MapURL", loc2, _countof(loc2)) || loc2[0] == 0) {
+		if (db_get_wstatic(wParam, m_szModuleName, "MapURL", loc2, _countof(loc2)) || loc2[0] == 0) {
 			MessageBox(nullptr, TranslateT("The URL for weather map has not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
 			return 1;
 		}
@@ -264,7 +264,7 @@ public:
 	{
 		// the button for getting station name from the internet
 		// this function uses the ID search for add/find weather station
-		if (!CheckSearch())
+		if (!m_proto->CheckSearch())
 			return;	// don't download if update is in progress
 
 		// get the weather update data using the string in the ID field
@@ -387,14 +387,14 @@ public:
 		// temporary disable the protocol while applying the change
 		// start writing the new settings to database
 		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		g_plugin.setWString(hContact, "ID", str);
+		m_proto->setWString(hContact, "ID", str);
 		if ((uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DEFA)) {	// if default station is set
 			mir_wstrcpy(m_proto->opt.Default, str);
 			m_proto->opt.DefStn = hContact;
-			g_plugin.setWString("Default", m_proto->opt.Default);
+			m_proto->setWString("Default", m_proto->opt.Default);
 		}
 		GetDlgItemText(m_hwnd, IDC_NAME, city, _countof(city));
-		g_plugin.setWString(hContact, "Nick", city);
+		m_proto->setWString(hContact, "Nick", city);
 		mir_snwprintf(str2, TranslateT("Current weather information for %s."), city);
 		if ((uint8_t)IsDlgButtonChecked(m_hwnd, IDC_External)) {
 			GetDlgItemText(m_hwnd, IDC_LOG, str, _countof(str));
@@ -409,7 +409,7 @@ public:
 		m_proto->setWString(hContact, "MapURL", str);
 		m_proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		m_proto->setWord(hContact, "StatusIcon", -1);
-		AvatarDownloaded(hContact);
+		m_proto->AvatarDownloaded(hContact);
 		m_proto->setWString(hContact, "About", str2);
 		m_proto->setByte(hContact, "History", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_Internal));
 		m_proto->setByte(hContact, "Overwrite", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_Overwrite));
@@ -418,7 +418,7 @@ public:
 		m_proto->setByte(hContact, "DAutoUpdate", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DAutoUpdate));
 
 		// re-enable the protocol and update the data for the station
-		g_plugin.setString(hContact, "LastCondition", "None");
+		m_proto->setString(hContact, "LastCondition", "None");
 		m_proto->UpdateSingleStation(hContact, 0);
 	}
 };
@@ -447,7 +447,7 @@ INT_PTR CWeatherProto::EditSettings(WPARAM wParam, LPARAM)
 
 bool CWeatherProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
-	removeWindow(hContact);
+	RemoveFrameWindow(hContact);
 
 	// exit this function if it is not default station
 	ptrW tszID(getWStringA(hContact, "ID"));
@@ -468,13 +468,13 @@ bool CWeatherProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 		if (mir_wstrcmp(opt.Default, tszID)) {
 			wcsncpy_s(opt.Default, tszID, _TRUNCATE);
 			opt.DefStn = cc;
-			ptrW tszNick(g_plugin.getWStringA(cc, "Nick"));
+			ptrW tszNick(getWStringA(cc, "Nick"));
 			if (tszNick != NULL) {
 				wchar_t str[255];
 				mir_snwprintf(str, TranslateT("%s is now the default weather station"), (wchar_t*)tszNick);
 				MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 			}
-			g_plugin.setWString("Default", opt.Default);
+			setWString("Default", opt.Default);
 			return true;
 		}
 	}
@@ -482,6 +482,6 @@ bool CWeatherProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 	// got here if no more weather station left
 	opt.Default[0] = 0;	// no default station
 	opt.DefStn = NULL;
-	g_plugin.setWString("Default", opt.Default);
+	setWString("Default", opt.Default);
 	return true;
 }

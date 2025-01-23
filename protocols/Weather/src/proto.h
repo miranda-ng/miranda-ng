@@ -1,5 +1,32 @@
 #pragma once
 
+struct UPDATELIST
+{
+	MCONTACT hContact;
+	UPDATELIST *next;
+};
+
+struct WEATHERINFO
+{
+	MCONTACT hContact;
+	TCHAR id[128];
+	TCHAR city[128];
+	TCHAR update[64];
+	TCHAR cond[128];
+	TCHAR temp[16];
+	TCHAR low[16];
+	TCHAR high[16];
+	TCHAR feel[16];
+	TCHAR wind[16];
+	TCHAR winddir[64];
+	TCHAR dewpoint[16];
+	TCHAR pressure[16];
+	TCHAR humid[16];
+	TCHAR vis[16];
+	TCHAR sunrise[32];
+	TCHAR sunset[32];
+};
+
 struct MYOPTIONS
 {
 	// main options
@@ -60,6 +87,7 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	friend class CPopupOptsDlg;
 	friend class CBriefInfoDlg;
 	friend class COptionsTextDlg;
+	friend class WeatherUserInfoDlg;
 
 	class CProtoImpl
 	{
@@ -90,16 +118,19 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	}
 		m_impl;
 
-	void DoUpdate();
-	void StartUpdate();
+	// avatars
+	void AvatarDownloaded(MCONTACT hContact);
+
+	INT_PTR __cdecl AdvancedStatusIconSvc(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarInfoSvc(WPARAM, LPARAM);
 
 	// contacts
-	INT_PTR __cdecl ViewLog(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl LoadForecast(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl WeatherMap(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl EditSettings(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl ViewLog(WPARAM, LPARAM);
+	INT_PTR __cdecl LoadForecast(WPARAM, LPARAM);
+	INT_PTR __cdecl WeatherMap(WPARAM, LPARAM);
+	INT_PTR __cdecl EditSettings(WPARAM, LPARAM);
 
-	int __cdecl BriefInfoEvt(WPARAM wParam, LPARAM lParam);
+	int __cdecl BriefInfoEvt(WPARAM, LPARAM);
 
 	bool IsMyContact(MCONTACT hContact);
 
@@ -116,6 +147,8 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	void ConvertDataValue(struct WIDATAITEM *UpdateData, wchar_t *Data);
 	void EraseAllInfo(void);
 	void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData);
+	void GetStationID(MCONTACT hContact, wchar_t *id, int idlen);
+	WEATHERINFO LoadWeatherInfo(MCONTACT hContact);
 
 	// http
 	int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **szData);
@@ -124,13 +157,18 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	void InitMenuItems();
 	void UpdateMenu(BOOL State);
 
-	INT_PTR __cdecl EnableDisableCmd(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl EnableDisableCmd(WPARAM, LPARAM);
 
 	// mwin
+	void AddFrameWindow(MCONTACT hContact);
+	void RemoveFrameWindow(MCONTACT hContact);
+
 	void InitMwin(void);
 	void DestroyMwin(void);
 
-	int __cdecl BuildContactMenu(WPARAM wparam, LPARAM lparam);
+	int __cdecl BuildContactMenu(WPARAM, LPARAM);
+
+	INT_PTR __cdecl Mwin_MenuClicked(WPARAM, LPARAM);
 
 	// options
 	void LoadOptions();
@@ -138,7 +176,7 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	void RestartTimer();
 	void InitPopupOptions(WPARAM);
 
-	int __cdecl OptInit(WPARAM wParam, LPARAM lParam);
+	int __cdecl OptInit(WPARAM, LPARAM);
 
 	CMStringW GetTextValue(int c);
 
@@ -147,6 +185,8 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	int WeatherPopup(MCONTACT hContact, bool bNew);
 
 	// search
+	bool CheckSearch();
+
 	int IDSearch(wchar_t *id, const int searchId);
 	int IDSearchProc(wchar_t *sID, const int searchId, struct WIIDSEARCH *sData, wchar_t *svc, wchar_t *svcname);
 
@@ -157,7 +197,14 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	void __cdecl BasicSearchThread(void *);
 
 	// update weather
-	HANDLE hUpdateMutex;
+	UPDATELIST *UpdateListHead = nullptr, *UpdateListTail = nullptr;
+
+	// check if weather is currently updating
+	bool m_bThreadRunning;
+	mir_cs m_csUpdate;
+
+	void DoUpdate();
+	void StartUpdate();
 
 	int  GetWeatherData(MCONTACT hContact);
 	int  UpdateWeather(MCONTACT hContact);
@@ -171,8 +218,8 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	INT_PTR __cdecl UpdateSingleStation(WPARAM, LPARAM);
 	INT_PTR __cdecl UpdateSingleRemove(WPARAM, LPARAM);
 
-	INT_PTR __cdecl UpdateAllInfo(WPARAM wParam, LPARAM lParam);
-	INT_PTR __cdecl UpdateAllRemove(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl UpdateAllInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl UpdateAllRemove(WPARAM, LPARAM);
 
 	// user info
 	int __cdecl UserInfoInit(WPARAM, LPARAM);
@@ -182,10 +229,15 @@ public:
 	~CWeatherProto();
 
 	MYOPTIONS opt;
+	CMOption<bool> m_bPopups;
 
 	INT_PTR __cdecl BriefInfo(WPARAM, LPARAM);
 
-	static LRESULT CALLBACK CWeatherProto::PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	int MapCondToStatus(MCONTACT hContact);
+	HICON GetStatusIcon(MCONTACT hContact);
+	HICON GetStatusIconBig(MCONTACT hContact);
+
+	static LRESULT CALLBACK CWeatherProto::PopupWndProc(HWND hWnd, UINT uMsg, WPARAM, LPARAM);
 
 	// PROTO_INTERFACE
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
@@ -196,9 +248,17 @@ public:
 	INT_PTR  GetCaps(int type, MCONTACT hContact) override;
 	int      SetStatus(int iNewStatus) override;
 
+	void __cdecl GetAwayMsgThread(void *arg);
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
+
+	void __cdecl AckThreadProc(void *arg);
+	int      GetInfo(MCONTACT hContact, int) override;
+
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
+
+	int __cdecl OnToolbarLoaded(WPARAM, LPARAM);
 };
 
 typedef CProtoDlgBase<CWeatherProto> CWeatherDlgBase;
@@ -211,7 +271,6 @@ struct CMPlugin : public ACCPROTOPLUGIN<CWeatherProto>
 	CMPlugin();
 
 	HINSTANCE hIconsDll = nullptr;
-	CMOption<bool> bPopups;
 
 	int Load() override;
 	int Unload() override;

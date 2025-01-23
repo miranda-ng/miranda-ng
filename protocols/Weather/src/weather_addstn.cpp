@@ -40,7 +40,7 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	for (auto &hContact : AccContacts()) {
 		DBVARIANT dbv;
 		// check ID to see if the contact already exist in the database
-		if (!g_plugin.getWString(hContact, "ID", &dbv)) {
+		if (!getWString(hContact, "ID", &dbv)) {
 			if (!mir_wstrcmpi(psr->email.w, dbv.pwszVal)) {
 				// remove the flag for not on list and hidden, thus make the contact visible
 				// and add them on the list
@@ -61,7 +61,7 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 		return 0;
 	
 	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, MODULENAME);
+	Proto_AddToContact(hContact, m_szModuleName);
 	// suppress online notification for the new contact
 	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 
@@ -103,14 +103,14 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 		GetStationID(hContact, opt.Default, _countof(opt.Default));
 
 		opt.DefStn = hContact;
-		ptrW wszNick(g_plugin.getWStringA(hContact, "Nick"));
+		ptrW wszNick(getWStringA(hContact, "Nick"));
 		if (mir_wstrlen(wszNick)) {
 			// notification message box
 			mir_snwprintf(str, TranslateT("%s is now the default weather station"), wszNick);
 			MessageBox(nullptr, str, TranslateT("Weather Protocol"), MB_OK | MB_ICONINFORMATION);
 		}
 		
-		g_plugin.setWString("Default", opt.Default);
+		setWString("Default", opt.Default);
 	}
 	
 	// display the Edit Settings dialog box
@@ -121,13 +121,13 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 /////////////////////////////////////////////////////////////////////////////////////////
 // shows a message box and cancel search if update is in process
 
-BOOL CheckSearch()
+bool CWeatherProto::CheckSearch()
 {
 	if (UpdateListHead != nullptr) {
 		MessageBox(nullptr, TranslateT("Please try again after weather update is completed."), TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
-		return FALSE;
+		return false;
 	}
-	return TRUE;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -444,7 +444,7 @@ void ConvertBackslashes(char *str)
 // dis = original string
 // return value = the modified string with space -> _T("%20"
 
-char *GetSearchStr(char *dis)
+char* GetSearchStr(char *dis)
 {
 	char *pstr = dis;
 	size_t len = mir_strlen(dis);
@@ -466,7 +466,7 @@ char *GetSearchStr(char *dis)
 // dis = the string to parse
 // return value = the parsed string
 
-wchar_t *GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
+wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 {
 	wchar_t lpzDate[32], chr;
 	char name[256], temp[2];
@@ -545,13 +545,6 @@ wchar_t *GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 	}
 
 	return str;
-}
-
-wchar_t svcReturnText[MAX_TEXT_SIZE];
-INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam)
-{
-	WEATHERINFO winfo = LoadWeatherInfo(wParam);
-	return (INT_PTR)GetDisplay(&winfo, (wchar_t*)lParam, svcReturnText);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

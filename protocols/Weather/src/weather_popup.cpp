@@ -34,7 +34,7 @@ static MCONTACT hPopupContact;
 
 int CWeatherProto::WPShowMessage(const wchar_t *lpzText, int kind)
 {
-	if (!g_plugin.bPopups)
+	if (!m_bPopups)
 		return 0;
 
 	if (kind == SM_WARNING)
@@ -113,7 +113,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 int CWeatherProto::WeatherPopup(MCONTACT hContact, bool bAlways)
 {
 	// determine if the popup should display or not
-	if (g_plugin.bPopups && opt.UpdatePopup && (!opt.PopupOnChange || bAlways) && !g_plugin.getByte(hContact, "DPopUp")) {
+	if (m_bPopups && opt.UpdatePopup && (!opt.PopupOnChange || bAlways) && !getByte(hContact, "DPopUp")) {
 		WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 		// setup the popup
@@ -281,7 +281,6 @@ public:
 		DestroyMenu(hMenu);
 
 		// other options
-		CheckDlgButton(m_hwnd, IDC_E, g_plugin.bPopups ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_POP2, opt.AlertPopup ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_POP1, opt.UpdatePopup ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_CH, opt.PopupOnChange ? BST_CHECKED : BST_UNCHECKED);
@@ -326,9 +325,9 @@ public:
 		for (auto &it : controls) {
 			GetDlgItemText(m_hwnd, it.id, textstr, _countof(textstr));
 			if (!mir_wstrcmpi(textstr, GetDefaultText(it.c)))
-				g_plugin.delSetting(it.setting);
+				m_proto->delSetting(it.setting);
 			else
-				g_plugin.setWString(it.setting, textstr);
+				m_proto->setWString(it.setting, textstr);
 		}
 
 		// save the options, and update main menu

@@ -30,10 +30,10 @@ saving individual weather data for a weather contact.
 // hContact = the current contact handle
 // return value = the string for station ID
 
-void GetStationID(MCONTACT hContact, wchar_t *id, int idlen)
+void CWeatherProto::GetStationID(MCONTACT hContact, wchar_t *id, int idlen)
 {
 	// accessing the database
-	if (db_get_wstatic(hContact, MODULENAME, "ID", id, idlen))
+	if (db_get_wstatic(hContact, m_szModuleName, "ID", id, idlen))
 		id[0] = 0;
 }
 
@@ -42,7 +42,7 @@ void GetStationID(MCONTACT hContact, wchar_t *id, int idlen)
 // hContact = current contact handle
 // return value = the current weather information in WEATHERINFO struct
 
-WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
+WEATHERINFO CWeatherProto::LoadWeatherInfo(MCONTACT hContact)
 {
 	// obtaining values from the DB
 	// assuming station ID must exist at all time, but others does not have to
@@ -51,7 +51,7 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 	winfo.hContact = hContact;
 	GetStationID(hContact, winfo.id, _countof(winfo.id));
 
-	if (db_get_wstatic(hContact, MODULENAME, "Nick", winfo.city, _countof(winfo.city)))
+	if (db_get_wstatic(hContact, m_szModuleName, "Nick", winfo.city, _countof(winfo.city)))
 		wcsncpy(winfo.city, NODATA, _countof(winfo.city) - 1);
 	if (db_get_wstatic(hContact, WEATHERCONDITION, "Update", winfo.update, _countof(winfo.update)))
 		wcsncpy(winfo.update, NODATA, _countof(winfo.update) - 1);

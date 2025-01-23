@@ -30,29 +30,6 @@ static HGENMENU hEnableDisableMenu;
 
 extern VARSW g_pwszIconsName;
 
-//============  MIRANDA PROTOCOL SERVICES  ============
-
-// protocol service function to get the icon of the protocol
-INT_PTR WeatherLoadIcon(WPARAM wParam, LPARAM)
-{
-	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(g_plugin.getIcon(IDI_ICON)) : 0;
-}
-
-static void __cdecl AckThreadProc(HANDLE param)
-{
-	Sleep(100);
-	ProtoBroadcastAck(MODULENAME, (DWORD_PTR)param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
-}
-
-// nothing to do here because weather proto do not need to retrieve contact info form network
-// so just return a 0
-INT_PTR WeatherGetInfo(WPARAM, LPARAM lParam)
-{
-	CCSDATA *ccs = (CCSDATA *)lParam;
-	mir_forkthread(AckThreadProc, (void*)ccs->hContact);
-	return 0;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // avatars
 
@@ -76,7 +53,7 @@ static statusIcons[MAX_COND] =
 	{ L"Light",   130,  ID_STATUS_INVISIBLE },
 };
 
-INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
+INT_PTR CWeatherProto::GetAvatarInfoSvc(WPARAM, LPARAM lParam)
 {
 	wchar_t szSearchPath[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(nullptr), szSearchPath, _countof(szSearchPath));
@@ -88,7 +65,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 		szSearchPath[0] = 0;
 
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
-	int iCond = g_plugin.getWord(pai->hContact, "StatusIcon", -1);
+	int iCond = getWord(pai->hContact, "StatusIcon", -1);
 	if (iCond < 0 || iCond >= MAX_COND)
 		return GAIR_NOAVATAR;
 
@@ -107,34 +84,15 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-void AvatarDownloaded(MCONTACT hContact)
+void CWeatherProto::AvatarDownloaded(MCONTACT hContact)
 {
 	PROTO_AVATAR_INFORMATION ai = {};
 	ai.hContact = hContact;
 
-	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&ai) == GAIR_SUCCESS)
-		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
+	if (GetAvatarInfoSvc(GAIF_FORCE, (LPARAM)&ai) == GAIR_SUCCESS)
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 	else
-		ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
-}
-
-static void __cdecl WeatherGetAwayMsgThread(void *arg)
-{
-	Sleep(100);
-
-	MCONTACT hContact = (DWORD_PTR)arg;
-	ptrW wszStatus(db_get_wsa(hContact, "CList", "StatusMsg"));
-	ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, wszStatus);
-}
-
-static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)
-{
-	CCSDATA* ccs = (CCSDATA*)lParam;
-	if (ccs == nullptr)
-		return 0;
-
-	mir_forkthread(WeatherGetAwayMsgThread, (void*)ccs->hContact);
-	return 1;
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -146,18 +104,18 @@ void ClearStatusIcons()
 		it.clistIconId = 0;
 }
 
-int MapCondToStatus(MCONTACT hContact)
+int CWeatherProto::MapCondToStatus(MCONTACT hContact)
 {
-	int iCond = g_plugin.getWord(hContact, "StatusIcon", -1);
+	int iCond = getWord(hContact, "StatusIcon", -1);
 	if (iCond < 0 || iCond >= MAX_COND)
 		return ID_STATUS_OFFLINE;
 
 	return statusIcons[iCond].status;
 }
 
-HICON GetStatusIcon(MCONTACT hContact)
+HICON CWeatherProto::GetStatusIcon(MCONTACT hContact)
 {
-	int iCond = g_plugin.getWord(hContact, "StatusIcon", -1);
+	int iCond = getWord(hContact, "StatusIcon", -1);
 	if (iCond < 0 || iCond >= MAX_COND)
 		return nullptr;
 
@@ -168,9 +126,9 @@ HICON GetStatusIcon(MCONTACT hContact)
 	return ImageList_GetIcon(Clist_GetImageList(), pIcon.clistIconId, ILD_NORMAL);
 }
 
-HICON GetStatusIconBig(MCONTACT hContact)
+HICON CWeatherProto::GetStatusIconBig(MCONTACT hContact)
 {
-	int iCond = g_plugin.getWord(hContact, "StatusIcon", -1);
+	int iCond = getWord(hContact, "StatusIcon", -1);
 	if (iCond < 0 || iCond >= MAX_COND)
 		return nullptr;
 
@@ -180,12 +138,12 @@ HICON GetStatusIconBig(MCONTACT hContact)
 	return hIcon;
 }
 
-static INT_PTR WeatherAdvancedStatusIcon(WPARAM hContact, LPARAM)
+INT_PTR CWeatherProto::AdvancedStatusIconSvc(WPARAM hContact, LPARAM)
 {
 	if (!hContact || !g_plugin.hIconsDll)
 		return -1;
 
-	int iCond = g_plugin.getWord(hContact, "StatusIcon", -1);
+	int iCond = getWord(hContact, "StatusIcon", -1);
 	if (iCond < 0 || iCond >= MAX_COND)
 		return -1;
 
@@ -196,20 +154,8 @@ static INT_PTR WeatherAdvancedStatusIcon(WPARAM hContact, LPARAM)
 	return MAKELONG(0, pIcon.clistIconId);
 }
 
-//============  PROTOCOL INITIALIZATION  ============
-// protocol services
-void InitServices(void)
-{
-	CreateProtoServiceFunction(MODULENAME, PS_LOADICON, WeatherLoadIcon);
-	CreateProtoServiceFunction(MODULENAME, PS_GETINFO, WeatherGetInfo);
-	CreateProtoServiceFunction(MODULENAME, PS_GETAVATARINFO, WeatherGetAvatarInfo);
-	CreateProtoServiceFunction(MODULENAME, PS_GETAWAYMSG, WeatherGetAwayMsg);
-	CreateProtoServiceFunction(MODULENAME, PS_GETADVANCEDSTATUSICON, WeatherAdvancedStatusIcon);
-
-	CreateProtoServiceFunction(MODULENAME, MS_WEATHER_GETDISPLAY, GetDisplaySvcFunc);
-}
-
-//============  MENU INITIALIZATION  ============
+/////////////////////////////////////////////////////////////////////////////////////////
+// menus
 
 void CWeatherProto::UpdateMenu(BOOL State)
 {
@@ -229,15 +175,18 @@ void CWeatherProto::UpdateMenu(BOOL State)
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : 0);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // update the weather auto-update menu item when click on it
+
 INT_PTR CWeatherProto::EnableDisableCmd(WPARAM wParam, LPARAM lParam)
 {
 	UpdateMenu(wParam == TRUE ? (BOOL)lParam : !opt.CAutoUpdate);
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // adding weather contact menus
-// copied and modified form "modified MSN Protocol"
+
 void CWeatherProto::InitMenuItems()
 {
 	CMenuItem mi(&g_plugin);
@@ -304,34 +253,34 @@ void CWeatherProto::InitMenuItems()
 	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "82809D2F-2CF0-4E15-9350-D257A7748552");
 
 	SET_UID(mi, 0x5ad16188, 0xe0a0, 0x4c31, 0x85, 0xc3, 0xe4, 0x85, 0x79, 0x7e, 0x4b, 0x9c);
-	CreateProtoService(MS_WEATHER_ENABLED, &CWeatherProto::EnableDisableCmd);
 	mi.name.a = LPGEN("Enable/Disable Weather Update");
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON);
 	mi.position = 10100001;
-	mi.pszService = MS_WEATHER_ENABLED;
+	mi.pszService = "/EnableDisable";
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 	UpdateMenu(opt.AutoUpdate);
+	CreateProtoService(mi.pszService, &CWeatherProto::EnableDisableCmd);
 
 	SET_UID(mi, 0x2b1c2054, 0x2991, 0x4025, 0x87, 0x73, 0xb6, 0xf7, 0x85, 0xac, 0xc7, 0x37);
-	CreateProtoService(MS_WEATHER_UPDATEALL, &CWeatherProto::UpdateAllInfo);
 	mi.position = 20100001;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE);
 	mi.name.a = LPGEN("Update All Weather");
-	mi.pszService = MS_WEATHER_UPDATEALL;
+	mi.pszService = "/UpdateAll";
 	Menu_AddMainMenuItem(&mi);
+	CreateProtoService(mi.pszService, &CWeatherProto::UpdateAllInfo);
 
 	SET_UID(mi, 0x8234c00e, 0x788e, 0x424f, 0xbc, 0xc4, 0x2, 0xfd, 0x67, 0x58, 0x2d, 0x19);
-	CreateProtoService(MS_WEATHER_REFRESHALL, &CWeatherProto::UpdateAllRemove);
 	mi.position = 20100002;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE2);
 	mi.name.a = LPGEN("Remove Old Data then Update All");
-	mi.pszService = MS_WEATHER_REFRESHALL;
+	mi.pszService = "/RefreshAll";
 	Menu_AddMainMenuItem(&mi);
+	CreateProtoService(mi.pszService, &CWeatherProto::UpdateAllRemove);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		SET_UID(mi, 0xe193fe9b, 0xf6ad, 0x41ac, 0x95, 0x29, 0x45, 0x4, 0x44, 0xb1, 0xeb, 0x5d);
-		mi.pszService = "Weather/mwin_menu";
-		CreateServiceFunction(mi.pszService, Mwin_MenuClicked);
+		mi.pszService = "/mwin_menu";
+		CreateProtoService(mi.pszService, &CWeatherProto::Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
 		mi.hIcolibItem = nullptr;
 		mi.root = nullptr;

@@ -376,9 +376,9 @@ public:
 		for (auto &it : controls) {
 			GetDlgItemText(m_hwnd, it.id, textstr, _countof(textstr));
 			if (!mir_wstrcmpi(textstr, GetDefaultText(it.c)))
-				g_plugin.delSetting(it.setting);
+				m_proto->delSetting(it.setting);
 			else
-				g_plugin.setWString(it.setting, textstr);
+				m_proto->setWString(it.setting, textstr);
 		}
 
 		m_proto->SaveOptions();
@@ -406,7 +406,7 @@ public:
 			case ID_MPREVIEW:
 				{
 					// show the preview in a message box, using the weather data from the default station
-					WEATHERINFO winfo = LoadWeatherInfo(m_proto->opt.DefStn);
+					WEATHERINFO winfo = m_proto->LoadWeatherInfo(m_proto->opt.DefStn);
 					wchar_t buf[2] = { var.c, 0 }, str[4096];
 					GetDisplay(&winfo, buf, str);
 					MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
@@ -459,14 +459,15 @@ int CWeatherProto::OptInit(WPARAM wParam, LPARAM)
 
 	// plugin options
 	odp.pDialog = new COptionsDlg(this);
-	odp.szTab.a = LPGEN("General");
+	odp.szTab.w = LPGENW("General");
 	g_plugin.addOptions(wParam, &odp);
 
 	// text options
 	odp.pDialog = new COptionsTextDlg(this);
-	odp.szTab.a = LPGEN("Display");
+	odp.szTab.w = LPGENW("Display");
 	g_plugin.addOptions(wParam, &odp);
 
-	InitPopupOptions(wParam);
+	if (m_bPopups)
+		InitPopupOptions(wParam);
 	return 0;
 }

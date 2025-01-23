@@ -134,7 +134,6 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Popup Options",IDC_STATIC,4,5,158,54
-    CONTROL         "Enable popups",IDC_E,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,15,143,9
     CONTROL         "Popup only when condition changes",IDC_CH,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,44,140,10
     GROUPBOX        "Colors",IDC_STATIC,168,5,139,54
     CONTROL         "",IDC_BGCOLOUR,"ColourPicker",WS_TABSTOP,177,16,39,11
@@ -161,9 +160,9 @@ BEGIN
     CONTROL         "Variables",IDC_VAR3,"MButtonClass",WS_TABSTOP,7,153,62,12,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Default",IDC_PDEF,"MButtonClass",WS_TABSTOP,7,175,62,12,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "Preview",IDC_PREVIEW,"MButtonClass",WS_TABSTOP,7,197,61,12,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "Updates",IDC_POP1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,29,24,64,9
-    CONTROL         "Alerts",IDC_POP2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,29,34,64,9
-    CONTROL         "Errors",IDC_W,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,97,24,54,9
+    CONTROL         "Updates",IDC_POP1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,14,18,64,9
+    CONTROL         "Alerts",IDC_POP2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,14,31,64,9
+    CONTROL         "Errors",IDC_W,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,82,18,54,9
 END
 
 IDD_TEXTOPT DIALOGEX 0, 0, 309, 233
@@ -372,14 +371,23 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICON                ICON                    "icon.ico"
+
 IDI_UPDATE              ICON                    "update.ico"
+
 IDI_READ                ICON                    "more.ico"
+
 IDI_S                   ICON                    "brief.ico"
+
 IDI_LOG                 ICON                    "log.ico"
+
 IDI_EDIT                ICON                    "edit.ico"
+
 IDI_MAP                 ICON                    "map.ico"
+
 IDI_UPDATE2             ICON                    "update2.ico"
+
 IDI_DISABLED            ICON                    "disabled.ico"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

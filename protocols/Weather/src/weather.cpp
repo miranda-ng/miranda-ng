@@ -37,14 +37,6 @@ MWindowList hDataWindowList, hWindowList;
 
 CMPlugin	g_plugin;
 
-MYOPTIONS opt;
-
-// check if weather is currently updating
-BOOL ThreadRunning;
-
-// variable to determine if module loaded
-BOOL ModuleLoaded = FALSE;
-
 VARSW g_pwszIconsName(L"%miranda_path%\\Icons\\proto_Weather.dll");
 
 HANDLE hTBButton = nullptr;
@@ -67,8 +59,7 @@ static const PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	ACCPROTOPLUGIN<CWeatherProto>(MODULENAME, pluginInfoEx),
-	bPopups(MODULENAME, "UsePopup", true)
+	ACCPROTOPLUGIN<CWeatherProto>(MODULENAME, pluginInfoEx)
 {
 	SetUniqueId("ID");
 }
@@ -79,23 +70,11 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnToolbarLoaded(WPARAM, LPARAM)
+static int OnPreShutdown(WPARAM, LPARAM)
 {
-	TTBButton ttb = {};
-	ttb.name = LPGEN("Enable/disable auto update");
-	ttb.pszService = MS_WEATHER_ENABLED;
-	ttb.pszTooltipUp = LPGEN("Auto Update Enabled");
-	ttb.pszTooltipDn = LPGEN("Auto Update Disabled");
-	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_ICON);
-	ttb.hIconHandleDn = g_plugin.getIconHandle(IDI_DISABLED);
-	ttb.dwFlags = (g_plugin.getByte("AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
-	hTBButton = g_plugin.addTTB(&ttb);
-	return 0;
-}
-
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
+	WindowList_Broadcast(hWindowList, WM_CLOSE, 0, 0);
+	WindowList_Broadcast(hDataWindowList, WM_CLOSE, 0, 0);
+	SendMessage(hWndSetup, WM_CLOSE, 0, 0);
 	return 0;
 }
 
@@ -118,32 +97,24 @@ int CMPlugin::Load()
 {
 	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
 
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+
 	// load dll with icons
 	hIconsDll = LoadLibraryW(g_pwszIconsName);
 
 	// load weather update data
 	LoadWIData(true);
 
-	// initialize options and network
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
+	// window lists
 	hDataWindowList = WindowList_Create();
 	hWindowList = WindowList_Create();
-
-	// initialize weather protocol services
-	InitServices();
 
 	// add sound event
 	addSound("weatherupdated", _A2W(MODULENAME), LPGENW("Condition Changed"));
 	addSound("weatheralert", _A2W(MODULENAME), LPGENW("Alert Issued"));
 
-	// popup initialization
-	addPopupOption(LPGEN("Weather notifications"), bPopups);
-
 	// window needed for popup commands
-	wchar_t SvcFunc[100];
-	mir_snwprintf(SvcFunc, L"%s__PopupWindow", _A2W(MODULENAME));
-	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", SvcFunc, 0, CW_USEDEFAULT, CW_USEDEFAULT,
+	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", _A2W(MODULENAME) L"__PopupWindow", 0, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)&CWeatherProto::PopupWndProc);
 	return 0;

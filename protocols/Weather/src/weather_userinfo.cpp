@@ -144,9 +144,9 @@ public:
 		wchar_t str[4096];
 
 		// load weather information from the contact into the WEATHERINFO struct
-		WEATHERINFO winfo = LoadWeatherInfo(hContact);
+		WEATHERINFO winfo = m_proto->LoadWeatherInfo(hContact);
 		// check if data exist.  If not, display error message box
-		if (!g_plugin.getByte(hContact, "IsUpdated"))
+		if (!m_proto->getByte(hContact, "IsUpdated"))
 			SetDlgItemTextW(m_hwnd, IDC_MTEXT, TranslateT("No information available.\r\nPlease update weather condition first."));
 		else {
 			// set the display text and show the message box
@@ -161,7 +161,7 @@ public:
 		DBDataManage(hContact, WDBM_DETAILDISPLAY, (WPARAM)m_hwnd, 0);
 
 		// set icons
-		HICON hIcon = GetStatusIconBig(hContact);
+		HICON hIcon = m_proto->GetStatusIconBig(hContact);
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, LPARAM(hIcon)));
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, LPARAM(hIcon)));
 
@@ -239,6 +239,7 @@ int CWeatherProto::BriefInfoEvt(WPARAM wParam, LPARAM)
 class WeatherUserInfoDlg : public CUserInfoPageDlg
 {
 	CCtrlButton btnDetail;
+	CWeatherProto *ppro;
 
 public:
 	WeatherUserInfoDlg() :
@@ -251,13 +252,14 @@ public:
 	bool OnInitDialog() override
 	{
 		SendDlgItemMessage(m_hwnd, IDC_MOREDETAIL, BUTTONSETASFLATBTN, TRUE, 0);
+		ppro = (CWeatherProto *)Proto_GetContactInstance(m_hContact);
 
 		// load weather info for the contact
 		wchar_t str[MAX_TEXT_SIZE];
-		WEATHERINFO w = LoadWeatherInfo(m_hContact);
+		WEATHERINFO w = ppro->LoadWeatherInfo(m_hContact);
 		SetDlgItemText(m_hwnd, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
-		SendDlgItemMessage(m_hwnd, IDC_INFOICON, STM_SETICON, (WPARAM)GetStatusIconBig(m_hContact), 0);
+		SendDlgItemMessage(m_hwnd, IDC_INFOICON, STM_SETICON, (WPARAM)ppro->GetStatusIconBig(m_hContact), 0);
 
 		// bold and enlarge the current condition
 		LOGFONT lf;
@@ -297,7 +299,6 @@ public:
 	{
 		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, m_hContact);
 		if (hMoreDataDlg == nullptr) {
-			auto *ppro = (CWeatherProto*)Proto_GetContactInstance(m_hContact);
 			auto *pDlg = new CBriefInfoDlg(ppro, m_hContact);
 			pDlg->Create();
 			hMoreDataDlg = pDlg->GetHwnd();
@@ -314,7 +315,7 @@ public:
 int CWeatherProto::UserInfoInit(WPARAM wParam, LPARAM hContact)
 {
 	USERINFOPAGE uip = {};
-	uip.szTitle.a = MODULENAME;
+	uip.szTitle.a = m_szModuleName;
 	uip.position = 100000000;
 	uip.flags = ODPF_ICON;
 	uip.dwInitParam = LPARAM(g_plugin.getIconHandle(IDI_ICON));

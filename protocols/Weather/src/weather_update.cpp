@@ -26,8 +26,6 @@ menu items).
 
 #include "stdafx.h"
 
-UPDATELIST *UpdateListHead = nullptr, *UpdateListTail = nullptr;
-
 //============  RETRIEVE NEW WEATHER  ============
 // retrieve weather info and display / log them
 // hContact = current contact
@@ -45,7 +43,7 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 
 	// log to netlib log for debug purpose
 	Netlib_LogfW(m_hNetlibUser, L"************************************************************************");
-	int dbres = g_plugin.getWString(hContact, "Nick", &dbv);
+	int dbres = getWString(hContact, "Nick", &dbv);
 
 	Netlib_LogfW(m_hNetlibUser, L"<-- Start update for station -->");
 
@@ -80,19 +78,19 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
-		if (!g_plugin.getWString(hContact, "LastCondition", &dbv)) {
+		if (!getWString(hContact, "LastCondition", &dbv)) {
 			if (mir_wstrcmpi(winfo.cond, dbv.pwszVal))  Ch = TRUE;		// the weather condition is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
-		if (!g_plugin.getWString(hContact, "LastTemperature", &dbv)) {
+		if (!getWString(hContact, "LastTemperature", &dbv)) {
 			if (mir_wstrcmpi(winfo.temp, dbv.pwszVal))  Ch = TRUE;		// the temperature is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 	else {	// consider update time change
-		if (!g_plugin.getWString(hContact, "LastUpdate", &dbv)) {
+		if (!getWString(hContact, "LastUpdate", &dbv)) {
 			if (mir_wstrcmpi(winfo.update, dbv.pwszVal))  Ch = TRUE;		// the update time is changed
 			db_free(&dbv);
 		}
@@ -102,32 +100,32 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 	// have weather alert issued?
 	dbres = db_get_ws(hContact, WEATHERCONDITION, "Alert", &dbv);
 	if (!dbres && dbv.pwszVal[0] != 0) {
-		if (opt.AlertPopup && !g_plugin.getByte(hContact, "DPopUp") && Ch) {
+		if (opt.AlertPopup && !getByte(hContact, "DPopUp") && Ch) {
 			// display alert popup
 			CMStringW str(FORMAT, L"Alert for %s%c%s", winfo.city, 255, dbv.pwszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
 		if (opt.MakeItalic)
-			g_plugin.setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
+			setWord(hContact, "ApparentMode", ID_STATUS_OFFLINE);
 		Skin_PlaySound("weatheralert");
 	}
 	// alert dropped, set the display back to normal
-	else g_plugin.delSetting(hContact, "ApparentMode");
+	else delSetting(hContact, "ApparentMode");
 	if (!dbres) db_free(&dbv);
 
 	// backup current condition for checking if the weather is changed or not
-	g_plugin.setWString(hContact, "LastLog", winfo.update);
-	g_plugin.setWString(hContact, "LastCondition", winfo.cond);
-	g_plugin.setWString(hContact, "LastTemperature", winfo.temp);
-	g_plugin.setWString(hContact, "LastUpdate", winfo.update);
+	setWString(hContact, "LastLog", winfo.update);
+	setWString(hContact, "LastCondition", winfo.cond);
+	setWString(hContact, "LastTemperature", winfo.temp);
+	setWString(hContact, "LastUpdate", winfo.update);
 
 	// display condition on contact list
 	int iStatus = MapCondToStatus(winfo.hContact);
 	if (opt.DisCondIcon && iStatus != ID_STATUS_OFFLINE)
-		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
+		setWord(hContact, "Status", ID_STATUS_ONLINE);
 	else
-		g_plugin.setWord(hContact, "Status", iStatus);
+		setWord(hContact, "Status", iStatus);
 	AvatarDownloaded(hContact);
 
 	GetDisplay(&winfo, GetTextValue('C'), str2);
@@ -148,7 +146,7 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 	db_set_ws(hContact, WEATHERCONDITION, "WeatherInfo", str2);
 
 	// set the update tag
-	g_plugin.setByte(hContact, "IsUpdated", TRUE);
+	setByte(hContact, "IsUpdated", TRUE);
 
 	// save current condition for default station to be displayed after the update
 	int old_status = m_iStatus;
@@ -164,11 +162,11 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 		// play the sound event
 		Skin_PlaySound("weatherupdated");
 
-		if (g_plugin.getByte(hContact, "File")) {
+		if (getByte(hContact, "File")) {
 			// external log
-			if (!g_plugin.getWString(hContact, "Log", &dbv)) {
+			if (!getWString(hContact, "Log", &dbv)) {
 				// for the option for overwriting the file, delete old file first
-				if (g_plugin.getByte(hContact, "Overwrite"))
+				if (getByte(hContact, "Overwrite"))
 					DeleteFile(dbv.pwszVal);
 
 				// open the file and set point to the end of file
@@ -183,14 +181,14 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 			}
 		}
 
-		if (g_plugin.getByte(hContact, "History")) {
+		if (getByte(hContact, "History")) {
 			// internal log using history
 			GetDisplay(&winfo, GetTextValue('H'), str2);
 
 			T2Utf szMessage(str2);
 
 			DBEVENTINFO dbei = {};
-			dbei.szModule = MODULENAME;
+			dbei.szModule = m_szModuleName;
 			dbei.iTimestamp = (uint32_t)time(0);
 			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.eventType = EVENTTYPE_MESSAGE;
@@ -227,42 +225,37 @@ void CWeatherProto::UpdateListAdd(MCONTACT hContact)
 	newItem->hContact = hContact;
 	newItem->next = nullptr;
 
-	WaitForSingleObject(hUpdateMutex, INFINITE);
-
-	if (UpdateListTail == nullptr) UpdateListHead = newItem;
-	else UpdateListTail->next = newItem;
+	mir_cslock lck(m_csUpdate);
+	if (UpdateListTail == nullptr)
+		UpdateListHead = newItem;
+	else
+		UpdateListTail->next = newItem;
 	UpdateListTail = newItem;
-
-	ReleaseMutex(hUpdateMutex);
 }
 
 // get the first item from the update queue and remove it from the queue
 // return value = the contact for next update
 MCONTACT CWeatherProto::UpdateGetFirst()
 {
-	MCONTACT hContact = NULL;
+	mir_cslock lck(m_csUpdate);
+	if (UpdateListHead == nullptr)
+		return 0;
 
-	WaitForSingleObject(hUpdateMutex, INFINITE);
+	UPDATELIST *Item = UpdateListHead;
 
-	if (UpdateListHead != nullptr) {
-		UPDATELIST *Item = UpdateListHead;
+	MCONTACT hContact = Item->hContact;
+	UpdateListHead = Item->next;
+	mir_free(Item);
 
-		hContact = Item->hContact;
-		UpdateListHead = Item->next;
-		mir_free(Item);
-
-		if (UpdateListHead == nullptr)
-			UpdateListTail = nullptr;
-	}
-
-	ReleaseMutex(hUpdateMutex);
+	if (UpdateListHead == nullptr)
+		UpdateListTail = nullptr;
 
 	return hContact;
 }
 
 void CWeatherProto::DestroyUpdateList(void)
 {
-	WaitForSingleObject(hUpdateMutex, INFINITE);
+	mir_cslock lck(m_csUpdate);
 
 	// free the list one by one
 	UPDATELIST *temp = UpdateListHead;
@@ -271,10 +264,9 @@ void CWeatherProto::DestroyUpdateList(void)
 		mir_free(temp);
 		temp = UpdateListHead;
 	}
+
 	// make sure the entire list is clear
 	UpdateListTail = nullptr;
-
-	ReleaseMutex(hUpdateMutex);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -283,20 +275,19 @@ void CWeatherProto::DestroyUpdateList(void)
 
 void CWeatherProto::UpdateThread(void *)
 {
-	WaitForSingleObject(hUpdateMutex, INFINITE);
-	if (ThreadRunning) {
-		ReleaseMutex(hUpdateMutex);
-		return;
+	{	mir_cslock lck(m_csUpdate);
+		if (m_bThreadRunning)
+			return;
+
+		m_bThreadRunning = true;	// prevent 2 instance of this thread running
 	}
-	ThreadRunning = TRUE;	// prevent 2 instance of this thread running
-	ReleaseMutex(hUpdateMutex);
 
 	// update weather by getting the first station from the queue until the queue is empty
 	while (UpdateListHead != nullptr && !Miranda_IsTerminated())
 		UpdateWeather(UpdateGetFirst());
 
 	// exit the update thread
-	ThreadRunning = FALSE;
+	m_bThreadRunning = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -308,7 +299,7 @@ void CWeatherProto::UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 {
 	// add all weather contact to the update queue list
 	for (auto &hContact : AccContacts())
-		if (!g_plugin.getByte(hContact, "AutoUpdate") || !AutoUpdate) {
+		if (!getByte(hContact, "AutoUpdate") || !AutoUpdate) {
 			if (RemoveData)
 				DBDataManage(hContact, WDBM_REMOVE, 0, 0);
 			UpdateListAdd(hContact);
@@ -316,7 +307,7 @@ void CWeatherProto::UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 
 	// if it is not updating, then start the update thread process
 	// if it is updating, the stations just added to the queue will get updated by the already-running process
-	if (!ThreadRunning)
+	if (!m_bThreadRunning)
 		ForkThread(&CWeatherProto::UpdateThread);
 }
 
@@ -333,7 +324,7 @@ INT_PTR CWeatherProto::UpdateSingleStation(WPARAM wParam, LPARAM)
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get 
 		// updated by the already-running process
-		if (!ThreadRunning)
+		if (!m_bThreadRunning)
 			ForkThread(&CWeatherProto::UpdateThread);
 	}
 
@@ -353,7 +344,7 @@ INT_PTR CWeatherProto::UpdateSingleRemove(WPARAM wParam, LPARAM)
 
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get updated by the already-running process
-		if (!ThreadRunning)
+		if (!m_bThreadRunning)
 			ForkThread(&CWeatherProto::UpdateThread);
 	}
 
@@ -365,7 +356,7 @@ INT_PTR CWeatherProto::UpdateSingleRemove(WPARAM wParam, LPARAM)
 
 INT_PTR CWeatherProto::UpdateAllInfo(WPARAM, LPARAM)
 {
-	if (!ThreadRunning)
+	if (!m_bThreadRunning)
 		UpdateAll(FALSE, FALSE);
 	return 0;
 }
@@ -375,7 +366,7 @@ INT_PTR CWeatherProto::UpdateAllInfo(WPARAM, LPARAM)
 
 INT_PTR CWeatherProto::UpdateAllRemove(WPARAM, LPARAM)
 {
-	if (!ThreadRunning)
+	if (!m_bThreadRunning)
 		UpdateAll(FALSE, TRUE);
 	return 0;
 }
@@ -585,7 +576,7 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	}
 
 	// assign condition icon
-	g_plugin.setWord(hContact, "StatusIcon", cond);
+	setWord(hContact, "StatusIcon", cond);
 	return 0;
 }
 
@@ -595,7 +586,7 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 void CWeatherProto::DoUpdate()
 {
 	// only run if it is not current updating and the auto update option is enabled
-	if (!ThreadRunning && opt.CAutoUpdate && !Miranda_IsTerminated() && m_iStatus == ID_STATUS_ONLINE)
+	if (!m_bThreadRunning && opt.CAutoUpdate && !Miranda_IsTerminated() && m_iStatus == ID_STATUS_ONLINE)
 		UpdateAll(TRUE, FALSE);
 }
 
@@ -604,7 +595,7 @@ void CWeatherProto::DoUpdate()
 
 void CWeatherProto::StartUpdate()
 {
-	ThreadRunning = false;
+	m_bThreadRunning = false;
 
 	if (!Miranda_IsTerminated())
 		m_impl.m_update.Start(opt.UpdateTime * 60000);
