@@ -625,8 +625,8 @@ class MIR_CORE_EXPORT CCtrlMButton : public CCtrlButton
 	typedef CCtrlButton CSuper;
 
 public:
-	CCtrlMButton(CDlgBase *dlg, int ctrlId, HICON hIcon, const char* tooltip);
-	CCtrlMButton(CDlgBase *dlg, int ctrlId, int iCoreIcon, const char* tooltip);
+	CCtrlMButton(CDlgBase *dlg, int ctrlId, HICON hIcon, const char* tooltip = nullptr);
+	CCtrlMButton(CDlgBase *dlg, int ctrlId, int iCoreIcon = -1, const char* tooltip = nullptr);
 	~CCtrlMButton();
 
 	void MakeFlat();

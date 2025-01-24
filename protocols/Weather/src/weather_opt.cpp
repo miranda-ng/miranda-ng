@@ -326,14 +326,14 @@ public:
 		CWeatherDlgBase(ppro, IDD_TEXTOPT),
 		btnMore(this, IDC_MORE, 0, 0),
 		btnReset(this, IDC_RESET, 0, 0),
-		tm1(this, IDC_TM1, 0, 0),
-		tm2(this, IDC_TM2, 0, 0),
-		tm3(this, IDC_TM3, 0, 0),
-		tm4(this, IDC_TM4, 0, 0),
-		tm5(this, IDC_TM5, 0, 0),
-		tm6(this, IDC_TM6, 0, 0),
-		tm7(this, IDC_TM7, 0, 0),
-		tm8(this, IDC_TM8, 0, 0)
+		tm1(this, IDC_TM1),
+		tm2(this, IDC_TM2),
+		tm3(this, IDC_TM3),
+		tm4(this, IDC_TM4),
+		tm5(this, IDC_TM5),
+		tm6(this, IDC_TM6),
+		tm7(this, IDC_TM7),
+		tm8(this, IDC_TM8)
 	{
 		btnMore.OnClick = Callback(this, &COptionsTextDlg::onClick_More);
 		btnReset.OnClick = Callback(this, &COptionsTextDlg::onClick_Reset);
@@ -407,7 +407,7 @@ public:
 				{
 					// show the preview in a message box, using the weather data from the default station
 					WEATHERINFO winfo = m_proto->LoadWeatherInfo(m_proto->opt.DefStn);
-					wchar_t buf[2] = { var.c, 0 }, str[4096];
+					wchar_t buf[3] = { '%', var.c, 0}, str[4096];
 					GetDisplay(&winfo, buf, str);
 					MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
 				}
