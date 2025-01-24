@@ -90,7 +90,7 @@ BEGIN
     LTEXT           "Avatar size",IDC_STATIC,60,200,95,9
 END
 
-IDD_EDIT DIALOGEX 0, 0, 241, 226
+IDD_EDIT DIALOGEX 0, 0, 241, 175
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Edit Weather Station"
@@ -108,22 +108,13 @@ BEGIN
     LTEXT           "Path:",IDC_STATIC,25,93,37,8,SS_CENTERIMAGE
     EDITTEXT        IDC_LOG,69,91,146,12,ES_AUTOHSCROLL | ES_READONLY
     CONTROL         "6",IDC_BROWSE,"MButtonClass",WS_TABSTOP,217,91,13,12,WS_EX_NOACTIVATE | 0x10000000L
-    GROUPBOX        "Link Settings",IDC_STATIC,5,110,231,44
-    LTEXT           "More Info URL",IDC_STATIC,12,123,57,8
-    EDITTEXT        IDC_IURL,69,121,131,12,ES_AUTOHSCROLL
-    CONTROL         "6",IDC_VIEW1,"MButtonClass",WS_TABSTOP,202,121,13,12,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "6",IDC_RESET1,"MButtonClass",WS_TABSTOP,217,121,13,12,WS_EX_NOACTIVATE | 0x10000000L
-    LTEXT           "Weather Map",IDC_STATIC,12,138,57,8
-    EDITTEXT        IDC_MURL,69,137,131,12,ES_AUTOHSCROLL
-    CONTROL         "6",IDC_VIEW2,"MButtonClass",WS_TABSTOP,202,137,13,12,WS_EX_NOACTIVATE | 0x10000000L
-    CONTROL         "6",IDC_RESET2,"MButtonClass",WS_TABSTOP,217,137,13,12,WS_EX_NOACTIVATE | 0x10000000L
-    GROUPBOX        "Other Options",IDC_STATIC,5,157,231,46
-    CONTROL         "Set as default station",IDC_DEFA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,168,218,8
+    GROUPBOX        "Other Options",IDC_STATIC,5,108,231,46
+    CONTROL         "Set as default station",IDC_DEFA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,119,218,8
     CONTROL         "Disable automatic update for this station",IDC_DAutoUpdate,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,179,218,8
-    CONTROL         "Disable Popup for this station",IDC_DPop,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,190,218,8
-    PUSHBUTTON      "Change",IDC_CHANGE,57,207,46,14
-    DEFPUSHBUTTON   "Cancel",IDCANCEL,136,207,46,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,130,218,8
+    CONTROL         "Disable Popup for this station",IDC_DPop,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,141,218,8
+    PUSHBUTTON      "Change",IDC_CHANGE,57,158,46,14
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,136,158,46,14
     CONTROL         "",IDC_GETNAME,"MButtonClass",WS_TABSTOP,217,19,13,12,WS_EX_NOACTIVATE | 0x10000000L
 END
 
@@ -225,27 +216,6 @@ BEGIN
     CONTROL         "More...",IDC_MOREDETAIL,"MButtonClass",WS_TABSTOP,129,104,61,12,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
 END
 
-IDD_SETUP DIALOGEX 0, 0, 259, 142
-STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Weather Protocol INI Setup"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "Install and load your weather ini file here",IDC_HEADERBAR,
-                    "MHeaderbarCtrl",0x0,0,0,259,28
-    CTEXT           "Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:",IDC_STATIC,11,32,222,26
-    CONTROL         "Click here to download a weather ini file from Miranda file listing",IDC_STEP1,
-                    "MButtonClass",WS_TABSTOP,5,62,249,12,WS_EX_WINDOWEDGE | 0x800000L
-    CONTROL         "Extract the weather ini file from archive to this directory",IDC_STEP2,
-                    "MButtonClass",WS_TABSTOP,5,74,249,12,WS_EX_WINDOWEDGE | 0x800000L
-    CONTROL         "Click here to load the data from the new ini file into memory",IDC_STEP3,
-                    "MButtonClass",WS_TABSTOP,5,86,249,13,WS_EX_WINDOWEDGE | 0x800000L
-    CONTROL         "Add new weather station and close this dialog",IDC_STEP4,
-                    "MButtonClass",WS_TABSTOP,5,99,249,12,WS_EX_WINDOWEDGE | 0x800000L
-    PUSHBUTTON      "Close",IDCANCEL,107,122,48,13
-    CONTROL         "",IDC_MFRAME,"Static",SS_ETCHEDHORZ,0,117,259,1
-END
-
 IDD_SEARCHCITY DIALOGEX 0, 0, 114, 55
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
 EXSTYLE WS_EX_TRANSPARENT | WS_EX_CONTROLPARENT
@@ -277,6 +247,10 @@ BEGIN
         BOTTOMMARGIN, 209
     END
 
+    IDD_EDIT, DIALOG
+    BEGIN
+    END
+
     IDD_POPUP, DIALOG
     BEGIN
         RIGHTMARGIN, 306
@@ -286,19 +260,6 @@ BEGIN
     IDD_TEXTOPT, DIALOG
     BEGIN
         BOTTOMMARGIN, 232
-    END
-
-    IDD_SETUP, DIALOG
-    BEGIN
-        BOTTOMMARGIN, 136
-    END
-
-    IDD_INFO, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 217
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 148
     END
 
     IDD_SEARCHCITY, DIALOG

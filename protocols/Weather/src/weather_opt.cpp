@@ -299,6 +299,8 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // text option dialog
 
+#define VAR_LIST_OPT TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
+
 struct
 {
 	wchar_t c;
@@ -319,12 +321,11 @@ static controls[] =
 
 class COptionsTextDlg : public CWeatherDlgBase
 {
-	CCtrlMButton btnMore, btnReset, tm1, tm2, tm3, tm4, tm5, tm6, tm7, tm8;
+	CCtrlMButton btnReset, tm1, tm2, tm3, tm4, tm5, tm6, tm7, tm8;
 
 public:
 	COptionsTextDlg(CWeatherProto *ppro) :
 		CWeatherDlgBase(ppro, IDD_TEXTOPT),
-		btnMore(this, IDC_MORE),
 		btnReset(this, IDC_RESET),
 		tm1(this, IDC_TM1),
 		tm2(this, IDC_TM2),
@@ -335,7 +336,6 @@ public:
 		tm7(this, IDC_TM7),
 		tm8(this, IDC_TM8)
 	{
-		btnMore.OnClick = Callback(this, &COptionsTextDlg::onClick_More);
 		btnReset.OnClick = Callback(this, &COptionsTextDlg::onClick_Reset);
 
 		tm1.OnClick = tm2.OnClick = tm3.OnClick = tm4.OnClick = tm5.OnClick = tm6.OnClick = tm7.OnClick = tm8.OnClick =
@@ -364,7 +364,6 @@ public:
 		tm6.MakeFlat();
 		tm7.MakeFlat();
 		tm8.MakeFlat();
-		btnMore.MakeFlat();
 		btnReset.MakeFlat();
 		return true;
 	}
@@ -384,39 +383,6 @@ public:
 		m_proto->SaveOptions();
 		m_proto->UpdateAllInfo(0, 0);
 		return true;
-	}
-
-	void onClick_More(CCtrlButton *)
-	{
-		// heading
-		CMStringW str(TranslateT("Here is a list of custom variables that are currently available"));
-		str += L"\n\n";
-
-		// loop through all weather services to find custom variables
-		bool bFirst = true;
-		for (WIDATALIST *Item = WIHead; Item != nullptr; Item = Item->next) {
-			// loop through all update items in a service
-			for (WIDATAITEMLIST *WItem = Item->Data.UpdateData; WItem != nullptr; WItem = WItem->Next) {
-				// the custom variable is defined as "%[<variable name>]"
-				// ignore the "hi" item and hidden items
-				if (mir_wstrcmp(WItem->Item.Name, L"Ignore") && WItem->Item.Name[0] != '#') {
-					wchar_t tempstr[1024];
-					mir_snwprintf(tempstr, L"%c[%s]", '%', WItem->Item.Name);
-					auto *find = wcsstr(str, tempstr);
-					// if the custom variable does not exist in the list, add it to the list
-					if (find == nullptr) {
-						if (bFirst)
-							bFirst = false;
-						else
-							str += L", ";
-						str += tempstr;
-					}
-				}
-			}
-		}
-
-		// display the list in a message box
-		MessageBox(nullptr, str, TranslateT("More Variables"), MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
 	}
 
 	void onClick_TM(CCtrlButton *pButton)

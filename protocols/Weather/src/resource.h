@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by W:\miranda-ng\protocols\Weather\res\resource.rc
 //
 #define IDI_ICON                        101
 #define IDD_USERINFO                    201
@@ -17,7 +17,6 @@
 #define IDR_PMENU                       213
 #define IDD_TEXTOPT                     216
 #define IDD_BRIEF                       217
-#define IDD_SETUP                       218
 #define IDR_TMENU                       219
 #define IDR_TMMENU                      220
 #define IDI_EDIT                        222
@@ -54,8 +53,6 @@
 #define IDC_HTEXT                       2028
 #define IDC_DPop                        2029
 #define IDC_DAutoUpdate                 2030
-#define IDC_IURL                        2032
-#define IDC_MURL                        2033
 #define IDC_Overwrite                   2035
 #define IDC_UPDCONDCHG                  2036
 #define IDC_REMOVEOLD                   2037
@@ -75,12 +72,8 @@
 #define IDC_W3                          2052
 #define IDC_W4                          2053
 #define IDC_BROWSE                      2054
-#define IDC_VIEW1                       2055
-#define IDC_RESET1                      2056
-#define IDC_VIEW2                       2057
 #define IDC_V1                          2058
 #define IDC_V2                          2059
-#define IDC_RESET2                      2060
 #define IDC_GETNAME                     2062
 #define IDC_P1                          2063
 #define IDC_P2                          2064
@@ -121,14 +114,9 @@
 #define IDC_MOREDETAIL                  2095
 #define IDC_DATALIST                    2096
 #define IDC_MUPDATE                     2097
-#define IDC_MFRAME                      2099
 #define IDC_MTOGGLE                     2101
 #define IDC_MWEBPAGE                    2102
 #define IDC_MTEXT                       2103
-#define IDC_STEP1                       2107
-#define IDC_STEP2                       2108
-#define IDC_STEP3                       2109
-#define IDC_STEP4                       2110
 #define IDC_AVATARSPIN                  2124
 #define IDC_SEARCHCITY                  2125
 #define IDC_HEADERBAR                   2126

@@ -318,69 +318,6 @@ void CWeatherProto::GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// assign the contact icon (status) from the condition string
-// the description may be different between different sources
-// cond = the string for weather condition
-// return value = status for the icon (ONLINE, OFFLINE, etc)
-
-static const wchar_t *statusStr[MAX_COND] = { L"Lightning", L"Fog", L"Snow", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A", L"Rain Shower", L"Snow Shower"};
-static const uint16_t statusValue[MAX_COND] = { LIGHT, FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA, RSHOWER, SSHOWER };
-
-uint16_t GetIcon(const wchar_t *cond, WIDATA *Data)
-{
-	// set the icon using ini
-	for (int i = 0; i < _countof(statusValue); i++)
-		if (IsContainedInCondList(cond, &Data->CondList[i]))
-			return statusValue[i];
-
-	// internal detection
-	if (wcsstr(cond, L"mainy sunny") || wcsstr(cond, L"mainy clear") || wcsstr(cond, L"partly sunny") || wcsstr(cond, L"partly cloudy") || wcsstr(cond, L"mostly") || wcsstr(cond, L"clouds"))
-		return PCLOUDY;
-
-	if (wcsstr(cond, L"sunny") || wcsstr(cond, L"clear") || wcsstr(cond, L"fair"))
-		return SUNNY;
-
-	if (wcsstr(cond, L"thunder") || wcsstr(cond, L"t-storm"))
-		return LIGHT;
-
-	if (wcsstr(cond, L"cloud") || wcsstr(cond, L"overcast"))
-		return CLOUDY;
-
-	if (wcsstr(cond, L"fog") || wcsstr(cond, L"mist") || wcsstr(cond, L"smoke") || wcsstr(cond, L"sand") || wcsstr(cond, L"dust") || wcsstr(cond, L"haze"))
-		return FOG;
-
-	if (wcsstr(cond, L"snow shower"))
-		return SSHOWER;
-
-	if (wcsstr(cond, L"snow") || wcsstr(cond, L"ice") || wcsstr(cond, L"freezing") || wcsstr(cond, L"wintry"))
-		return SNOW;
-
-	if (wcsstr(cond, L"rain shower"))
-		return RSHOWER;
-
-	if (wcsstr(cond, L"drizzle") || wcsstr(cond, L"rain"))
-		return RAIN;
-
-	// set the icon using langpack
-	for (int i = 0; i < _countof(statusStr)-1; i++) {
-		wchar_t LangPackStr[64], LangPackStr1[128];
-		int j = 0;
-		do {
-			j++;
-			// using the format _T("# Weather <condition name> <counter> #"
-			mir_snwprintf(LangPackStr, L"# Weather %s %i #", statusStr[i], j);
-			wcsncpy_s(LangPackStr1, TranslateW(LangPackStr), _TRUNCATE);
-			CharLowerBuff(LangPackStr1, (uint32_t)mir_wstrlen(LangPackStr1));
-			if (wcsstr(cond, LangPackStr1) != nullptr)
-				return statusValue[i];
-			// loop until the translation string exists (ie, the translated string is differ from original)
-		} while (mir_wstrcmp(TranslateW(LangPackStr), LangPackStr));
-	}
-
-	return NA;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // this function convert the string to the format with 1 upper case followed by lower case char
 
 void CaseConv(wchar_t *str)
@@ -545,34 +482,6 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 	}
 
 	return str;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// get service data module internal name
-//   mod/id  <- the mod part
-// pszID = original 2-part id, return the service internal name
-
-void GetSvc(wchar_t *pszID)
-{
-	wchar_t *chop = wcschr(pszID, '/');
-	if (chop != nullptr)
-		*chop = '\0';
-	else
-		pszID[0] = 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// get the id use for update without the service internal name
-//   mod/id  <- the id part
-// pszID = original 2-part id, return the single part id
-
-void GetID(wchar_t *pszID)
-{
-	wchar_t *chop = wcschr(pszID, '/');
-	if (chop != nullptr)
-		mir_wstrcpy(pszID, chop + 1);
-	else
-		pszID[0] = 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

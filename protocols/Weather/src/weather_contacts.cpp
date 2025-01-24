@@ -28,7 +28,6 @@ the contact.
 static void OpenUrl(wchar_t *format, wchar_t *id)
 {
 	wchar_t loc[512];
-	GetID(id);
 	mir_snwprintf(loc, format, id);
 	Utils_OpenUrlW(loc);
 }
@@ -109,7 +108,7 @@ class CEditDlg : public CWeatherDlgBase
 
 	CCtrlEdit edtID, edtName;
 	CCtrlButton btnExternal, btnChange;
-	CCtrlMButton btnGetName, btnBrowse, btnView1, btnView2, btnReset1, btnReset2;
+	CCtrlMButton btnGetName, btnBrowse;
 
 	wchar_t str[MAX_DATA_LEN], str2[256];
 
@@ -119,10 +118,6 @@ public:
 		hContact(_1),
 		edtID(this, IDC_ID),
 		edtName(this, IDC_NAME),
-		btnView1(this, IDC_VIEW1, SKINICON_OTHER_SEARCHALL, LPGEN("View webpage")),
-		btnView2(this, IDC_VIEW2, SKINICON_OTHER_SEARCHALL, LPGEN("View webpage")),
-		btnReset1(this, IDC_RESET1, SKINICON_OTHER_RENAME, LPGEN("Reset to default")),
-		btnReset2(this, IDC_RESET2, SKINICON_OTHER_RENAME, LPGEN("Reset to default")),
 		btnBrowse(this, IDC_BROWSE, SKINICON_EVENT_FILE, LPGEN("Browse")),
 		btnGetName(this, IDC_GETNAME, SKINICON_OTHER_RENAME, LPGEN("Get city name from ID")),
 		btnChange(this, IDC_CHANGE),
@@ -131,10 +126,6 @@ public:
 		edtID.OnChange = Callback(this, &CEditDlg::onChanged_ID);
 		edtName.OnChange = Callback(this, &CEditDlg::onChanged_Name);
 
-		btnView1.OnClick = Callback(this, &CEditDlg::onClick_View1);
-		btnView2.OnClick = Callback(this, &CEditDlg::onClick_View2);
-		btnReset1.OnClick = Callback(this, &CEditDlg::onClick_Reset1);
-		btnReset2.OnClick = Callback(this, &CEditDlg::onClick_Reset2);
 		btnBrowse.OnClick = Callback(this, &CEditDlg::onClick_Browse);
 		btnChange.OnClick = Callback(this, &CEditDlg::onClick_Change);
 		btnGetName.OnClick = Callback(this, &CEditDlg::onClick_GetName);
@@ -144,10 +135,6 @@ public:
 	bool OnInitDialog() override
 	{
 		// make all buttons flat
-		btnView1.MakeFlat();
-		btnView2.MakeFlat();
-		btnReset1.MakeFlat();
-		btnReset2.MakeFlat();
 		btnBrowse.MakeFlat();
 		btnGetName.MakeFlat();
 
@@ -180,15 +167,6 @@ public:
 		CheckDlgButton(m_hwnd, IDC_DPop, m_proto->getByte(hContact, "DPopUp", FALSE) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DAutoUpdate, m_proto->getByte(hContact, "DAutoUpdate", FALSE) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_Internal, m_proto->getByte(hContact, "History", 0) ? BST_CHECKED : BST_UNCHECKED);
-
-		if (!m_proto->getWString(hContact, "InfoURL", &dbv)) {
-			SetDlgItemText(m_hwnd, IDC_IURL, dbv.pwszVal);
-			db_free(&dbv);
-		}
-		if (!m_proto->getWString(hContact, "MapURL", &dbv)) {
-			SetDlgItemText(m_hwnd, IDC_MURL, dbv.pwszVal);
-			db_free(&dbv);
-		}
 
 		// display the dialog box and free memory
 		Utils_RestoreWindowPositionNoMove(m_hwnd, NULL, MODULENAME, "EditSetting_");
@@ -229,30 +207,7 @@ public:
 
 		// get the weather update data using the string in the ID field
 		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		GetSvc(str);
-		WIDATA *sData = GetWIData(str);
-		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		GetID(str);
-
-		// if ID search is available, do it
-		if (sData->IDSearch.Available) {
-			// load the page
-			char loc[512];
-			mir_snprintf(loc, sData->IDSearch.SearchURL, str);
-			str[0] = 0;
-			wchar_t *pData = nullptr;
-			if (m_proto->InternetDownloadFile(loc, nullptr, sData->UserAgent, &pData) == 0) {
-				wchar_t *szInfo = pData;
-				wchar_t *search = wcsstr(szInfo, sData->IDSearch.NotFoundStr);
-
-				// if the page is found (ie. valid ID), get the name of the city
-				if (search == nullptr)
-					m_proto->GetDataValue(&sData->IDSearch.Name, str, &szInfo);
-			}
-			// free memory
-			mir_free(pData);
-		}
-
+		
 		// give no station name but only ID if the search is unavailable
 		if (str[0] != 0)
 			SetDlgItemText(m_hwnd, IDC_NAME, str);
@@ -298,44 +253,6 @@ public:
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHANGE), ofn.lpstrFile[0] != 0);
 	}
 
-	void onClick_View1(CCtrlButton *)
-	{
-		// view the page for more info
-		GetDlgItemText(m_hwnd, IDC_IURL, str, _countof(str));
-		if (str[0]) {
-			GetDlgItemText(m_hwnd, IDC_ID, str2, _countof(str2));
-			OpenUrl(str, str2);
-		}
-	}
-
-	void onClick_View2(CCtrlButton *)
-	{
-		// view the page for weather map
-		GetDlgItemText(m_hwnd, IDC_MURL, str, _countof(str));
-		if (str[0]) {
-			GetDlgItemText(m_hwnd, IDC_ID, str2, _countof(str2));
-			OpenUrl(str, str2);
-		}
-	}
-
-	void onClick_Reset1(CCtrlButton *)
-	{
-		// reset the more info url to service default
-		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		GetSvc(str);
-		WIDATA *sData = GetWIData(str);
-		SetDlgItemTextA(m_hwnd, IDC_IURL, sData->DefaultURL);
-	}
-
-	void onClick_Reset2(CCtrlButton *)
-	{
-		// reset the weathe map url to service default
-		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		GetSvc(str);
-		WIDATA *sData = GetWIData(str);
-		SetDlgItemText(m_hwnd, IDC_MURL, sData->DefaultMap);
-	}
-
 	void onClick_Change(CCtrlButton *)
 	{
 		// temporary disable the protocol while applying the change
@@ -358,11 +275,6 @@ public:
 		}
 		else m_proto->delSetting(hContact, "Log");
 
-		GetDlgItemText(m_hwnd, IDC_IURL, str, _countof(str));
-		m_proto->setWString(hContact, "InfoURL", str);
-
-		GetDlgItemText(m_hwnd, IDC_MURL, str, _countof(str));
-		m_proto->setWString(hContact, "MapURL", str);
 		m_proto->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 		m_proto->setWord(hContact, "StatusIcon", -1);
 		m_proto->AvatarDownloaded(hContact);

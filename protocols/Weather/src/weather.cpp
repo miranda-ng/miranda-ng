@@ -28,9 +28,6 @@ belong to any other file.
 
 //============  GLOBAL VARIABLES  ============
 
-WIDATALIST *WIHead;
-WIDATALIST *WITail;
-
 HWND hPopupWindow;
 
 MWindowList hDataWindowList, hWindowList;
@@ -74,7 +71,6 @@ static int OnPreShutdown(WPARAM, LPARAM)
 {
 	WindowList_Broadcast(hWindowList, WM_CLOSE, 0, 0);
 	WindowList_Broadcast(hDataWindowList, WM_CLOSE, 0, 0);
-	SendMessage(hWndSetup, WM_CLOSE, 0, 0);
 	return 0;
 }
 
@@ -102,9 +98,6 @@ int CMPlugin::Load()
 	// load dll with icons
 	hIconsDll = LoadLibraryW(g_pwszIconsName);
 
-	// load weather update data
-	LoadWIData(true);
-
 	// window lists
 	hDataWindowList = WindowList_Create();
 	hWindowList = WindowList_Create();
@@ -129,8 +122,6 @@ int CMPlugin::Unload()
 		FreeModule(hIconsDll);
 
 	DestroyWindow(hPopupWindow);
-
-	DestroyWIList();				// unload all ini data from memory
 
 	WindowList_Destroy(hDataWindowList);
 	WindowList_Destroy(hWindowList);

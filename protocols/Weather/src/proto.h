@@ -150,9 +150,6 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	void GetStationID(MCONTACT hContact, wchar_t *id, int idlen);
 	WEATHERINFO LoadWeatherInfo(MCONTACT hContact);
 
-	// http
-	int InternetDownloadFile(char *szUrl, char *cookie, char *userAgent, wchar_t **szData);
-
 	// menu items
 	void InitMenuItems();
 	void UpdateMenu(BOOL State);
@@ -188,10 +185,7 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	bool CheckSearch();
 
 	int IDSearch(wchar_t *id, const int searchId);
-	int IDSearchProc(wchar_t *sID, const int searchId, struct WIIDSEARCH *sData, wchar_t *svc, wchar_t *svcname);
-
 	int NameSearch(wchar_t *name, const int searchId);
-	int NameSearchProc(wchar_t *name, const int searchId, struct WINAMESEARCH *sData, wchar_t *svc, wchar_t *svcname);
 
 	void __cdecl NameSearchThread(void *);
 	void __cdecl BasicSearchThread(void *);

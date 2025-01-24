@@ -114,9 +114,6 @@ enum EWeatherCondition
 #define SM_WEATHERALERT		16
 #define WM_UPDATEDATA      (WM_USER + 2687)
 
-// defaults constants
-#define VAR_LIST_OPT TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // DATA FORMAT STRUCT
 
@@ -135,104 +132,10 @@ struct WIDATAITEM
 	int      Type;
 };
 
-struct WITEMLIST
-{
-	WIDATAITEM Item;
-	struct WITEMLIST *Next;
-};
-
-typedef struct WITEMLIST WIDATAITEMLIST;
-
-struct WIIDSEARCH
-{
-	BOOL Available;
-	char *SearchURL;
-	wchar_t *NotFoundStr;
-	WIDATAITEM Name;
-};
-
-struct WINAMESEARCHTYPE
-{
-	BOOL Available;
-	wchar_t *First;
-	WIDATAITEM Name;
-	WIDATAITEM ID;
-};
-
-struct WINAMESEARCH
-{
-	char *SearchURL;
-	wchar_t *NotFoundStr;
-	wchar_t *SingleStr;
-	WINAMESEARCHTYPE Single;
-	WINAMESEARCHTYPE Multiple;
-};
-
-struct STRLIST
-{
-	wchar_t *Item;
-	struct STRLIST *Next;
-};
-
-typedef struct STRLIST WICONDITEM;
-
-struct WICONDLIST
-{
-	WICONDITEM *Head;
-	WICONDITEM *Tail;
-};
-
-struct WIDATA
-{
-	wchar_t *FileName;
-	wchar_t *ShortFileName;
-	BOOL Enabled;
-
-	// header
-	wchar_t *DisplayName;
-	wchar_t *InternalName;
-	wchar_t *Description;
-	wchar_t *Author;
-	wchar_t *Version;
-	int InternalVer;
-	size_t MemUsed;
-
-	// default
-	char  *DefaultURL;
-	wchar_t *DefaultMap;
-	char  *UpdateURL;
-	char  *UpdateURL2;
-	char  *UpdateURL3;
-	char  *UpdateURL4;
-	char  *Cookie;
-	char  *UserAgent;
-
-	// items
-	int UpdateDataCount;
-	WIDATAITEMLIST *UpdateData;
-	WIDATAITEMLIST *UpdateDataTail;
-	WIIDSEARCH IDSearch;
-	WINAMESEARCH NameSearch;
-	WICONDLIST CondList[MAX_COND];
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// DATA LIST (LINKED LIST)
-
-struct DATALIST
-{
-	WIDATA Data;
-	struct DATALIST *next;
-};
-
-typedef struct DATALIST WIDATALIST;
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
 
-extern WIDATALIST *WIHead, *WITail;
-
-extern HWND hPopupWindow, hWndSetup;
+extern HWND hPopupWindow;
 
 extern MWindowList hDataWindowList, hWindowList;
 
@@ -247,7 +150,6 @@ extern bool g_bIsUtf;
 
 void ClearStatusIcons();
 
-uint16_t GetIcon(const wchar_t* cond, WIDATA *Data);
 void CaseConv(wchar_t *str);
 void TrimString(char *str);
 void TrimString(wchar_t *str);
@@ -255,9 +157,6 @@ void ConvertBackslashes(char *str);
 char *GetSearchStr(char *dis);
 
 wchar_t *GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str);
-
-void GetSvc(wchar_t *pszID);
-void GetID(wchar_t *pszID);
 
 wchar_t *GetError(int code);
 
@@ -273,16 +172,6 @@ void wfree(char *&Data);
 void wfree(wchar_t *&Data);
 
 void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM lParam);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// functions in weather_ini.c
-
-WIDATA* GetWIData(wchar_t *pszServ);
-
-bool IsContainedInCondList(const wchar_t *pszStr, WICONDLIST *List);
-
-void DestroyWIList();
-bool LoadWIData(bool dial);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions in weather_info.c
