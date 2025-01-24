@@ -194,8 +194,8 @@ public:
 		auto &opt = m_proto->opt;
 
 		_ltow(opt.UpdateTime, str, 10);
-		SetDlgItemText(m_hwnd, IDC_UPDATETIME, str);
-		SetDlgItemText(m_hwnd, IDC_DEGREE, opt.DegreeSign);
+		SetDlgItemTextW(m_hwnd, IDC_UPDATETIME, str);
+		SetDlgItemTextW(m_hwnd, IDC_DEGREE, opt.DegreeSign);
 
 		SendDlgItemMessage(m_hwnd, IDC_AVATARSPIN, UDM_SETRANGE32, 0, 999);
 		SendDlgItemMessage(m_hwnd, IDC_AVATARSPIN, UDM_SETPOS, 0, opt.AvatarSize);
@@ -324,8 +324,8 @@ class COptionsTextDlg : public CWeatherDlgBase
 public:
 	COptionsTextDlg(CWeatherProto *ppro) :
 		CWeatherDlgBase(ppro, IDD_TEXTOPT),
-		btnMore(this, IDC_MORE, 0, 0),
-		btnReset(this, IDC_RESET, 0, 0),
+		btnMore(this, IDC_MORE),
+		btnReset(this, IDC_RESET),
 		tm1(this, IDC_TM1),
 		tm2(this, IDC_TM2),
 		tm3(this, IDC_TM3),
@@ -350,10 +350,10 @@ public:
 		SetWindowPos(m_hwnd, HWND_TOPMOST, rc.left, rc.top, 0, 0, SWP_NOSIZE);
 
 		// generate the display text for variable list
-		SetDlgItemText(m_hwnd, IDC_VARLIST, VAR_LIST_OPT);
+		SetDlgItemTextW(m_hwnd, IDC_VARLIST, VAR_LIST_OPT);
 
 		for (auto &it : controls)
-			SetDlgItemText(m_hwnd, it.id, m_proto->GetTextValue(it.c));
+			SetDlgItemTextW(m_hwnd, it.id, m_proto->GetTextValue(it.c));
 
 		// make the more variable and other buttons flat
 		tm1.MakeFlat();
@@ -407,14 +407,15 @@ public:
 				{
 					// show the preview in a message box, using the weather data from the default station
 					WEATHERINFO winfo = m_proto->LoadWeatherInfo(m_proto->opt.DefStn);
-					wchar_t buf[3] = { '%', var.c, 0}, str[4096];
+					wchar_t buf[MAX_TEXT_SIZE], str[4096];
+					GetDlgItemTextW(m_hwnd, var.id, buf, _countof(buf));
 					GetDisplay(&winfo, buf, str);
 					MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
 				}
 				break;
 
 			case ID_MRESET:
-				SetDlgItemText(m_hwnd, var.id, GetDefaultText(var.c));
+				SetDlgItemTextW(m_hwnd, var.id, GetDefaultText(var.c));
 				break;
 			}
 			DestroyMenu(hMenu);
@@ -433,13 +434,13 @@ public:
 		case ID_T1:
 			// reset to the strings in memory, discard all changes
 			for (auto &it : controls)
-				SetDlgItemText(m_hwnd, it.id, m_proto->GetTextValue(it.c));
+				SetDlgItemTextW(m_hwnd, it.id, m_proto->GetTextValue(it.c));
 			break;
 
 		case ID_T2:
 			// reset to the default setting
 			for (auto &it : controls)
-				SetDlgItemText(m_hwnd, it.id, GetDefaultText(it.c));
+				SetDlgItemTextW(m_hwnd, it.id, GetDefaultText(it.c));
 			break;
 		}
 		DestroyMenu(hMenu);
