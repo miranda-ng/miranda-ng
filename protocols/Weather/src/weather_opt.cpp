@@ -388,7 +388,35 @@ public:
 
 	void onClick_More(CCtrlButton *)
 	{
-		MoreVarList();
+		// heading
+		CMStringW str(TranslateT("Here is a list of custom variables that are currently available"));
+		str += L"\n\n";
+
+		// loop through all weather services to find custom variables
+		bool bFirst = true;
+		for (WIDATALIST *Item = WIHead; Item != nullptr; Item = Item->next) {
+			// loop through all update items in a service
+			for (WIDATAITEMLIST *WItem = Item->Data.UpdateData; WItem != nullptr; WItem = WItem->Next) {
+				// the custom variable is defined as "%[<variable name>]"
+				// ignore the "hi" item and hidden items
+				if (mir_wstrcmp(WItem->Item.Name, L"Ignore") && WItem->Item.Name[0] != '#') {
+					wchar_t tempstr[1024];
+					mir_snwprintf(tempstr, L"%c[%s]", '%', WItem->Item.Name);
+					auto *find = wcsstr(str, tempstr);
+					// if the custom variable does not exist in the list, add it to the list
+					if (find == nullptr) {
+						if (bFirst)
+							bFirst = false;
+						else
+							str += L", ";
+						str += tempstr;
+					}
+				}
+			}
+		}
+
+		// display the list in a message box
+		MessageBox(nullptr, str, TranslateT("More Variables"), MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
 	}
 
 	void onClick_TM(CCtrlButton *pButton)

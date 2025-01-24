@@ -35,7 +35,7 @@ static void OpenUrl(wchar_t *format, wchar_t *id)
 
 bool CWeatherProto::IsMyContact(MCONTACT hContact)
 {
-	return !mir_strcmp(m_szModuleName, Proto_GetBaseAccountName(hContact));
+	return hContact && !mir_strcmp(m_szModuleName, Proto_GetBaseAccountName(hContact));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -106,18 +106,12 @@ INT_PTR CWeatherProto::WeatherMap(WPARAM wParam, LPARAM)
 class CEditDlg : public CWeatherDlgBase
 {
 	MCONTACT hContact;
-	HICON  hRename;
-	HICON  hUserDetail;
-	HICON  hFile;
-	HICON  hSrchAll;
 
 	CCtrlEdit edtID, edtName;
-	CCtrlButton btnGetName, btnExternal, btnBrowse, btnView1, btnView2, btnReset1, btnReset2, btnSvcInfo, btnChange;
+	CCtrlButton btnExternal, btnChange;
+	CCtrlMButton btnGetName, btnBrowse, btnView1, btnView2, btnReset1, btnReset2;
 
-	wchar_t str[MAX_DATA_LEN], str2[256], city[256], filter[256], *chop;
-	char loc[512];
-	OPENFILENAME ofn;       // common dialog box structure
-	WIDATA *sData;
+	wchar_t str[MAX_DATA_LEN], str2[256];
 
 public:
 	CEditDlg(CWeatherProto *ppro, MCONTACT _1) :
@@ -125,14 +119,13 @@ public:
 		hContact(_1),
 		edtID(this, IDC_ID),
 		edtName(this, IDC_NAME),
-		btnView1(this, IDC_VIEW1),
-		btnView2(this, IDC_VIEW2),
-		btnReset1(this, IDC_RESET1),
-		btnReset2(this, IDC_RESET2),
-		btnBrowse(this, IDC_BROWSE),
+		btnView1(this, IDC_VIEW1, SKINICON_OTHER_SEARCHALL, LPGEN("View webpage")),
+		btnView2(this, IDC_VIEW2, SKINICON_OTHER_SEARCHALL, LPGEN("View webpage")),
+		btnReset1(this, IDC_RESET1, SKINICON_OTHER_RENAME, LPGEN("Reset to default")),
+		btnReset2(this, IDC_RESET2, SKINICON_OTHER_RENAME, LPGEN("Reset to default")),
+		btnBrowse(this, IDC_BROWSE, SKINICON_EVENT_FILE, LPGEN("Browse")),
+		btnGetName(this, IDC_GETNAME, SKINICON_OTHER_RENAME, LPGEN("Get city name from ID")),
 		btnChange(this, IDC_CHANGE),
-		btnGetName(this, IDC_GETNAME),
-		btnSvcInfo(this, IDC_SVCINFO),
 		btnExternal(this, IDC_External)
 	{
 		edtID.OnChange = Callback(this, &CEditDlg::onChanged_ID);
@@ -145,43 +138,18 @@ public:
 		btnBrowse.OnClick = Callback(this, &CEditDlg::onClick_Browse);
 		btnChange.OnClick = Callback(this, &CEditDlg::onClick_Change);
 		btnGetName.OnClick = Callback(this, &CEditDlg::onClick_GetName);
-		btnSvcInfo.OnClick = Callback(this, &CEditDlg::onClick_SvcInfo);
 		btnExternal.OnClick = Callback(this, &CEditDlg::onClick_External);
 	}
 
 	bool OnInitDialog() override
 	{
-		hRename = Skin_LoadIcon(SKINICON_OTHER_RENAME);
-		hUserDetail = Skin_LoadIcon(SKINICON_OTHER_USERDETAILS);
-		hFile = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		hSrchAll = Skin_LoadIcon(SKINICON_OTHER_SEARCHALL);
-
-		// set button images
-		SendDlgItemMessage(m_hwnd, IDC_GETNAME, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hRename);
-		SendDlgItemMessage(m_hwnd, IDC_SVCINFO, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hUserDetail);
-		SendDlgItemMessage(m_hwnd, IDC_BROWSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hFile);
-		SendDlgItemMessage(m_hwnd, IDC_VIEW1, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hSrchAll);
-		SendDlgItemMessage(m_hwnd, IDC_RESET1, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hRename);
-		SendDlgItemMessage(m_hwnd, IDC_VIEW2, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hSrchAll);
-		SendDlgItemMessage(m_hwnd, IDC_RESET2, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hRename);
-
 		// make all buttons flat
-		SendDlgItemMessage(m_hwnd, IDC_GETNAME, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, IDC_SVCINFO, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, IDC_BROWSE, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, IDC_VIEW1, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, IDC_RESET1, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, IDC_VIEW2, BUTTONSETASFLATBTN, TRUE, 0);
-		SendDlgItemMessage(m_hwnd, IDC_RESET2, BUTTONSETASFLATBTN, TRUE, 0);
-
-		// set tooltip for the buttons
-		SendDlgItemMessage(m_hwnd, IDC_GETNAME, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Get city name from ID"), BATF_UNICODE);
-		SendDlgItemMessage(m_hwnd, IDC_SVCINFO, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Weather INI information"), BATF_UNICODE);
-		SendDlgItemMessage(m_hwnd, IDC_BROWSE, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Browse"), BATF_UNICODE);
-		SendDlgItemMessage(m_hwnd, IDC_VIEW1, BUTTONADDTOOLTIP, (WPARAM)LPGENW("View webpage"), BATF_UNICODE);
-		SendDlgItemMessage(m_hwnd, IDC_RESET1, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset to default"), BATF_UNICODE);
-		SendDlgItemMessage(m_hwnd, IDC_VIEW2, BUTTONADDTOOLTIP, (WPARAM)LPGENW("View webpage"), BATF_UNICODE);
-		SendDlgItemMessage(m_hwnd, IDC_RESET2, BUTTONADDTOOLTIP, (WPARAM)LPGENW("Reset to default"), BATF_UNICODE);
+		btnView1.MakeFlat();
+		btnView2.MakeFlat();
+		btnReset1.MakeFlat();
+		btnReset2.MakeFlat();
+		btnBrowse.MakeFlat();
+		btnGetName.MakeFlat();
 
 		// save the handle for the contact
 		WindowList_Add(hWindowList, m_hwnd, hContact);
@@ -230,10 +198,6 @@ public:
 
 	void OnDestroy() override
 	{
-		IcoLib_ReleaseIcon(hFile);
-		IcoLib_ReleaseIcon(hRename);
-		IcoLib_ReleaseIcon(hSrchAll);
-		IcoLib_ReleaseIcon(hUserDetail);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 
 		WindowList_Remove(hWindowList, m_hwnd);
@@ -245,11 +209,7 @@ public:
 		// check if there are 2 parts in the ID (svc/id) seperated by "/"
 		// if not, don't let user change the setting
 		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		chop = wcschr(str, '/');
-		if (chop == nullptr)
-			EnableWindow(GetDlgItem(m_hwnd, IDC_CHANGE), FALSE);
-		else
-			EnableWindow(GetDlgItem(m_hwnd, IDC_CHANGE), TRUE);
+		btnChange.Enable(wcschr(str, '/') != nullptr);
 	}
 
 	void onChanged_Name(CCtrlEdit *)
@@ -270,13 +230,14 @@ public:
 		// get the weather update data using the string in the ID field
 		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
 		GetSvc(str);
-		sData = GetWIData(str);
+		WIDATA *sData = GetWIData(str);
 		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
 		GetID(str);
 
 		// if ID search is available, do it
 		if (sData->IDSearch.Available) {
 			// load the page
+			char loc[512];
 			mir_snprintf(loc, sData->IDSearch.SearchURL, str);
 			str[0] = 0;
 			wchar_t *pData = nullptr;
@@ -313,13 +274,14 @@ public:
 		GetDlgItemText(m_hwnd, IDC_LOG, str, _countof(str));
 
 		// Initialize OPENFILENAME
-		memset(&ofn, 0, sizeof(OPENFILENAME));
+		OPENFILENAME ofn = {};
 		ofn.lStructSize = sizeof(OPENFILENAME);
 		ofn.hwndOwner = m_hwnd;
 		ofn.lpstrFile = str;
 		ofn.nMaxFile = _countof(str);
 
 		// set filters
+		wchar_t filter[256];
 		mir_snwprintf(filter, L"%s (*.txt)%c*.txt%c%s (*.*)%c*.*%c%c", TranslateT("Text Files"), 0, 0, TranslateT("All Files"), 0, 0, 0);
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
@@ -361,7 +323,7 @@ public:
 		// reset the more info url to service default
 		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
 		GetSvc(str);
-		sData = GetWIData(str);
+		WIDATA *sData = GetWIData(str);
 		SetDlgItemTextA(m_hwnd, IDC_IURL, sData->DefaultURL);
 	}
 
@@ -370,16 +332,8 @@ public:
 		// reset the weathe map url to service default
 		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
 		GetSvc(str);
-		sData = GetWIData(str);
+		WIDATA *sData = GetWIData(str);
 		SetDlgItemText(m_hwnd, IDC_MURL, sData->DefaultMap);
-	}
-
-	void onClick_SvcInfo(CCtrlButton *)
-	{
-		// display the information of the ini file used by the weather station
-		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		GetSvc(str);
-		GetINIInfo(str);
 	}
 
 	void onClick_Change(CCtrlButton *)
@@ -393,6 +347,8 @@ public:
 			m_proto->opt.DefStn = hContact;
 			m_proto->setWString("Default", m_proto->opt.Default);
 		}
+		
+		wchar_t city[256];
 		GetDlgItemText(m_hwnd, IDC_NAME, city, _countof(city));
 		m_proto->setWString(hContact, "Nick", city);
 		mir_snwprintf(str2, TranslateT("Current weather information for %s."), city);

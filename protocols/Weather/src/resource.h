@@ -21,7 +21,6 @@
 #define IDR_TMENU                       219
 #define IDR_TMMENU                      220
 #define IDI_EDIT                        222
-#define IDD_INFO                        224
 #define IDD_SEARCHCITY                  225
 #define IDC_NAME                        2000
 #define IDC_ID                          2001
@@ -82,7 +81,6 @@
 #define IDC_V1                          2058
 #define IDC_V2                          2059
 #define IDC_RESET2                      2060
-#define IDC_SVCINFO                     2061
 #define IDC_GETNAME                     2062
 #define IDC_P1                          2063
 #define IDC_P2                          2064
@@ -131,10 +129,6 @@
 #define IDC_STEP2                       2108
 #define IDC_STEP3                       2109
 #define IDC_STEP4                       2110
-#define IDC_INFOLIST                    2117
-#define IDC_RELOADINI                   2118
-#define IDC_MEMUSED                     2119
-#define IDC_INICOUNT                    2120
 #define IDC_AVATARSPIN                  2124
 #define IDC_SEARCHCITY                  2125
 #define IDC_HEADERBAR                   2126

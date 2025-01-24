@@ -314,19 +314,14 @@ public:
 
 int CWeatherProto::UserInfoInit(WPARAM wParam, LPARAM hContact)
 {
-	USERINFOPAGE uip = {};
-	uip.szTitle.a = m_szModuleName;
-	uip.position = 100000000;
-	uip.flags = ODPF_ICON;
-	uip.dwInitParam = LPARAM(g_plugin.getIconHandle(IDI_ICON));
-
-	if (hContact == 0) {
-		uip.pDialog = new WeatherMyDetailsDlg();
-		g_plugin.addUserInfo(wParam, &uip);
-	}
-	else if (IsMyContact(hContact)) { // check if it is a weather contact
+	// check if it is a weather contact
+	if (IsMyContact(hContact)) {
+		USERINFOPAGE uip = {};
+		uip.szTitle.a = m_szModuleName;
+		uip.position = 100000000;
+		uip.flags = ODPF_ICON | ODPF_BOLDGROUPS;
+		uip.dwInitParam = LPARAM(g_plugin.getIconHandle(IDI_ICON));
 		uip.pDialog = new WeatherUserInfoDlg();
-		uip.flags |= ODPF_BOLDGROUPS;
 		g_plugin.addUserInfo(wParam, &uip);
 	}
 	return 0;

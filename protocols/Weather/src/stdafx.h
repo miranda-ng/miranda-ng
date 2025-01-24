@@ -287,28 +287,9 @@ bool LoadWIData(bool dial);
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions in weather_info.c
 
-void GetINIInfo(wchar_t *pszSvc);
-wchar_t* GetINIVersionNum(int iVersion);
 const wchar_t *GetDefaultText(int c);
-
-void MoreVarList();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // function from multiwin module
 
 void UpdateMwinData(MCONTACT hContact);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// UI Classes
-
-class WeatherMyDetailsDlg : public CUserInfoPageDlg
-{
-	CCtrlButton btnReload;
-
-public:
-	WeatherMyDetailsDlg();
-
-	bool OnInitDialog() override;
-
-	void onClick_Reload(CCtrlButton *);
-};
