@@ -165,12 +165,6 @@ wchar_t *GetError(int code);
 
 int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv);
 
-void wSetData(char *&Data, const char *Value);
-void wSetData(wchar_t *&Data, const char *Value);
-void wSetData(wchar_t *&Data, const wchar_t *Value);
-void wfree(char *&Data);
-void wfree(wchar_t *&Data);
-
 void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -346,53 +346,6 @@ void CWeatherProto::GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// copy a string into a new memory location
-// Data = the field the data is copied to
-// Value = the original string, the string where data is copied from
-
-bool g_bIsUtf = false;
-
-void wSetData(char *&Data, const char *Value)
-{
-	if (Value[0] != 0)
-		Data = mir_strdup(Value);
-	else
-		Data = "";
-}
-
-void wSetData(wchar_t *&Data, const char *Value)
-{
-	if (Value[0] != 0)
-		Data = (g_bIsUtf) ? mir_utf8decodeW(Value) : mir_a2u(Value);
-	else
-		Data = L"";
-}
-
-void wSetData(wchar_t *&Data, const wchar_t *Value)
-{
-	if (Value[0] != 0)
-		Data = mir_wstrdup(Value);
-	else
-		Data = L"";
-}
-
-// A safer free function that free memory for a string
-// Data = the string occuping the data to be freed
-void wfree(char *&Data)
-{
-	if (Data && mir_strlen(Data) > 0)
-		mir_free(Data);
-	Data = nullptr;
-}
-
-void wfree(wchar_t *&Data)
-{
-	if (Data && mir_wstrlen(Data) > 0)
-		mir_free(Data);
-	Data = nullptr;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // get single setting that is found
 // szSetting = the setting name
 // lparam = the counter
