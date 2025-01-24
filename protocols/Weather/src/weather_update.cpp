@@ -221,16 +221,8 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 
 void CWeatherProto::UpdateListAdd(MCONTACT hContact)
 {
-	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
-	newItem->hContact = hContact;
-	newItem->next = nullptr;
-
 	mir_cslock lck(m_csUpdate);
-	if (UpdateListTail == nullptr)
-		UpdateListHead = newItem;
-	else
-		UpdateListTail->next = newItem;
-	UpdateListTail = newItem;
+	m_updateList.push_back(hContact);
 }
 
 // get the first item from the update queue and remove it from the queue
@@ -238,35 +230,19 @@ void CWeatherProto::UpdateListAdd(MCONTACT hContact)
 MCONTACT CWeatherProto::UpdateGetFirst()
 {
 	mir_cslock lck(m_csUpdate);
-	if (UpdateListHead == nullptr)
+	if (m_updateList.empty())
 		return 0;
 
-	UPDATELIST *Item = UpdateListHead;
-
-	MCONTACT hContact = Item->hContact;
-	UpdateListHead = Item->next;
-	mir_free(Item);
-
-	if (UpdateListHead == nullptr)
-		UpdateListTail = nullptr;
-
+	auto it = m_updateList.begin();
+	MCONTACT hContact = *it;
+	m_updateList.erase(it);
 	return hContact;
 }
 
 void CWeatherProto::DestroyUpdateList(void)
 {
 	mir_cslock lck(m_csUpdate);
-
-	// free the list one by one
-	UPDATELIST *temp = UpdateListHead;
-	while (temp != nullptr) {
-		UpdateListHead = temp->next;
-		mir_free(temp);
-		temp = UpdateListHead;
-	}
-
-	// make sure the entire list is clear
-	UpdateListTail = nullptr;
+	m_updateList.clear();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -283,7 +259,7 @@ void CWeatherProto::UpdateThread(void *)
 	}
 
 	// update weather by getting the first station from the queue until the queue is empty
-	while (UpdateListHead != nullptr && !Miranda_IsTerminated())
+	while (!m_updateList.empty() && !Miranda_IsTerminated())
 		UpdateWeather(UpdateGetFirst());
 
 	// exit the update thread
@@ -389,7 +365,6 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	if (Svc[0] == 0) return INVALID_SVC;
 
 	uint16_t cond = NA;
-	char loc[256];
 
 	// download the html file from the internet
 	wchar_t *szData = nullptr;

@@ -113,7 +113,7 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 
 bool CWeatherProto::CheckSearch()
 {
-	if (UpdateListHead != nullptr) {
+	if (!m_updateList.empty()) {
 		MessageBox(nullptr, TranslateT("Please try again after weather update is completed."), TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
 		return false;
 	}

@@ -64,33 +64,4 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\icon.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\update.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\more.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\brief.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\log.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\edit.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\map.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\update2.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\disabled.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <richedit.h>
 #include <malloc.h>
 
+#include <vector>
+
 #include <newpluginapi.h>
 #include <m_acc.h>
 #include <m_avatars.h>

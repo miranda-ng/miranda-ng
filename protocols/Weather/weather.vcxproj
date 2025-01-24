@@ -50,15 +50,4 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\brief.ico" />
-    <Image Include="res\disabled.ico" />
-    <Image Include="res\edit.ico" />
-    <Image Include="res\icon.ico" />
-    <Image Include="res\log.ico" />
-    <Image Include="res\map.ico" />
-    <Image Include="res\more.ico" />
-    <Image Include="res\update.ico" />
-    <Image Include="res\update2.ico" />
-  </ItemGroup>
 </Project>

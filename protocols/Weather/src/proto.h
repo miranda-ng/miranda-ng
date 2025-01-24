@@ -1,11 +1,5 @@
 #pragma once
 
-struct UPDATELIST
-{
-	MCONTACT hContact;
-	UPDATELIST *next;
-};
-
 struct WEATHERINFO
 {
 	MCONTACT hContact;
@@ -191,7 +185,7 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	void __cdecl BasicSearchThread(void *);
 
 	// update weather
-	UPDATELIST *UpdateListHead = nullptr, *UpdateListTail = nullptr;
+	std::vector<MCONTACT> m_updateList;
 
 	// check if weather is currently updating
 	bool m_bThreadRunning;
