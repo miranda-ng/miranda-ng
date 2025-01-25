@@ -9,6 +9,7 @@
 #define IDD_POPUP                       204
 #define IDD_OPTIONS                     205
 #define IDI_LOG                         206
+#define IDD_ACCOUNT_OPT                 207
 #define IDI_UPDATE2                     208
 #define IDI_READ                        209
 #define IDI_UPDATE                      210
@@ -121,7 +122,10 @@
 #define IDC_SEARCHCITY                  2125
 #define IDC_HEADERBAR                   2126
 #define IDC_E1                          2128
+#define IDC_EDIT1                       2128
+#define IDC_KEY                         2128
 #define IDC_E2                          2129
+#define IDC_OBTAIN                      2129
 #define OIC_HAND                        32513
 #define OIC_QUES                        32514
 #define OIC_BANG                        32515
@@ -146,7 +150,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        226
 #define _APS_NEXT_COMMAND_VALUE         40030
-#define _APS_NEXT_CONTROL_VALUE         2128
+#define _APS_NEXT_CONTROL_VALUE         2130
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -41,6 +41,7 @@
     <ClCompile Include="src\weather_svcs.cpp" />
     <ClCompile Include="src\weather_update.cpp" />
     <ClCompile Include="src\weather_userinfo.cpp" />
+    <ClCompile Include="src\weather_utils.cpp" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />

@@ -33,7 +33,7 @@ static wchar_t name1[256];
 
 MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 {
-	if (!psr || !psr->email.w)
+	if (!psr || !psr->id.w)
 		return 0;
 
 	// search for existing contact
@@ -41,7 +41,7 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 		DBVARIANT dbv;
 		// check ID to see if the contact already exist in the database
 		if (!getWString(hContact, "ID", &dbv)) {
-			if (!mir_wstrcmpi(psr->email.w, dbv.pwszVal)) {
+			if (!mir_wstrcmpi(psr->id.w, dbv.pwszVal)) {
 				// remove the flag for not on list and hidden, thus make the contact visible
 				// and add them on the list
 				if (!Contact::OnList(hContact)) {
@@ -65,13 +65,11 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 	// suppress online notification for the new contact
 	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 
-	// set contact info and settings
-	wchar_t svc[256];
-	wcsncpy(svc, psr->email.w, _countof(svc)); svc[_countof(svc) - 1] = 0;
-
 	// write the other info and settings to the database
-	setWString(hContact, "ID", psr->email.w);
+	setWString(hContact, "ID", psr->id.w);
 	setWString(hContact, "Nick", psr->nick.w);
+	if (psr->firstName.w)
+		setWString(hContact, "FirstName", psr->firstName.w);
 	setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 	AvatarDownloaded(hContact);
@@ -204,21 +202,35 @@ HANDLE CWeatherProto::SearchAdvanced(MWindow hwndOwner)
 	return (HANDLE)sttSearchId;
 }
 
-int CWeatherProto::IDSearch(wchar_t *sID, const int searchId)
+int CWeatherProto::IDSearch(wchar_t *sID, int searchId)
 {
-	// return an empty contact on "#"
 	PROTOSEARCHRESULT psr = { sizeof(psr) };
 	psr.flags = PSR_UNICODE;
-	psr.nick.w = TranslateT("<Enter station name here>");	// to be entered
-	psr.firstName.w = L" ";
+	psr.email.w = L" ";
 	psr.lastName.w = L"";
-	psr.email.w = TranslateT("<Enter station ID here>");		// to be entered
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+
+	JsonReply reply(RunQuery(sID, 0));
+	if (!reply) {
+		psr.nick.w = TranslateT("<Enter station name here>");	// to be entered
+		psr.firstName.w = TranslateT("<Enter station ID here>");		// to be entered
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+	}
+	else {
+		auto &data = reply.data();
+		CMStringW id(FORMAT, L"%lf, %lf", data["latitude"].as_float(), data["longitude"].as_float());
+		CMStringW address1 = data["address"].as_mstring();
+		CMStringW address2 = data["resolvedAddress"].as_mstring();
+		
+		psr.id.w = id.GetBuffer();
+		psr.nick.w = address1.GetBuffer();
+		psr.firstName.w = address2.GetBuffer();
+		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
+	}
 
 	return 0;
 }
 
-int CWeatherProto::NameSearch(wchar_t *name, const int searchId)
+int CWeatherProto::NameSearch(wchar_t *name, int searchId)
 {
-	return 0;
+	return IDSearch(name, searchId);
 }

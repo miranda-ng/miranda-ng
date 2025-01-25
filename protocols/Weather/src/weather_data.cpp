@@ -346,20 +346,15 @@ void CWeatherProto::GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// get single setting that is found
-// szSetting = the setting name
-// lparam = the counter
+// remove or display the weather information for a contact
+// hContact - the contact in which the info is going to be removed
 
-int GetWeatherDataFromDB(const char *szSetting, void *lparam)
+static int GetWeatherDataFromDB(const char *szSetting, void *lparam)
 {
 	LIST<char> *pList = (LIST<char>*)lparam;
 	pList->insert(mir_strdup(szSetting));
 	return 0;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// remove or display the weather information for a contact
-// hContact - the contact in which the info is going to be removed
 
 void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM)
 {
@@ -397,4 +392,34 @@ void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM)
 		}
 		mir_free(str);
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// data query
+
+MHttpResponse* CWeatherProto::RunQuery(const wchar_t *id, int days)
+{
+	wchar_t *pKey = m_szApiKey;
+	if (!mir_wstrlen(pKey))
+		return nullptr;
+
+	auto *pReq = new MHttpRequest(REQUEST_GET);
+	pReq->flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT;
+	pReq->m_szUrl = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/" + mir_urlEncode(T2Utf(id).get());
+
+	if (days) {
+		time_t today = time(0);
+		struct tm *p = localtime(&today);
+		pReq->m_szUrl.AppendFormat("%04d-%02d-%02d/", p->tm_year, p->tm_mon, p->tm_mday);
+
+		today += 86400 * 7; // add one week
+		p = localtime(&today);
+		pReq->m_szUrl.AppendFormat("%04d-%02d-%02d/", p->tm_year, p->tm_mon, p->tm_mday);
+	}
+
+	pReq << CHAR_PARAM("unitGroup", "metric") << WCHAR_PARAM("key", pKey) << CHAR_PARAM("contentType", "json");
+
+	auto *ret = Netlib_HttpTransaction(m_hNetlibUser, pReq);
+	delete pReq;
+	return ret;
 }

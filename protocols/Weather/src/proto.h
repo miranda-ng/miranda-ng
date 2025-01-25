@@ -77,10 +77,10 @@ struct MYOPTIONS
 class CWeatherProto : public PROTO<CWeatherProto>
 {
 	friend class CEditDlg;
-	friend class COptionsDlg;
 	friend class CPopupOptsDlg;
 	friend class CBriefInfoDlg;
 	friend class COptionsTextDlg;
+	friend class CGeneralOptionsDlg;
 	friend class WeatherUserInfoDlg;
 
 	class CProtoImpl
@@ -144,6 +144,8 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	void GetStationID(MCONTACT hContact, wchar_t *id, int idlen);
 	WEATHERINFO LoadWeatherInfo(MCONTACT hContact);
 
+	MHttpResponse* RunQuery(const wchar_t *id, int days);
+
 	// menu items
 	void InitMenuItems();
 	void UpdateMenu(BOOL State);
@@ -178,8 +180,8 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	// search
 	bool CheckSearch();
 
-	int IDSearch(wchar_t *id, const int searchId);
-	int NameSearch(wchar_t *name, const int searchId);
+	int IDSearch(wchar_t *id, int searchId);
+	int NameSearch(wchar_t *name, int searchId);
 
 	void __cdecl NameSearchThread(void *);
 	void __cdecl BasicSearchThread(void *);
@@ -217,8 +219,9 @@ public:
 	~CWeatherProto();
 
 	MYOPTIONS opt;
-	CMOption<bool> m_bPopups;
 
+	CMOption<bool> m_bPopups;
+	CMOption<wchar_t *> m_szApiKey;
 	INT_PTR __cdecl BriefInfo(WPARAM, LPARAM);
 
 	int MapCondToStatus(MCONTACT hContact);

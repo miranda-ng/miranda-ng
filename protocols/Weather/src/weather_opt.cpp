@@ -181,10 +181,10 @@ void CWeatherProto::SaveOptions(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // weather options
 
-class COptionsDlg : public CWeatherDlgBase
+class CGeneralOptionsDlg : public CWeatherDlgBase
 {
 public:
-	COptionsDlg(CWeatherProto *ppro) :
+	CGeneralOptionsDlg(CWeatherProto *ppro) :
 		CWeatherDlgBase(ppro, IDD_OPTIONS)
 	{}
 
@@ -442,6 +442,31 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// account options dialog
+
+class CAccountOptionsDlg : public CWeatherDlgBase
+{
+	CCtrlEdit edtKey;
+	CCtrlButton btnObtain;
+
+public:
+	CAccountOptionsDlg(CWeatherProto *ppro) :
+		CWeatherDlgBase(ppro, IDD_ACCOUNT_OPT),
+		edtKey(this, IDC_KEY),
+		btnObtain(this, IDC_OBTAIN)
+	{
+		CreateLink(edtKey, m_proto->m_szApiKey);
+
+		btnObtain.OnClick = Callback(this, &CAccountOptionsDlg::onClick_Obtain);
+	}
+
+	void onClick_Obtain(CCtrlButton *)
+	{
+		Utils_OpenUrl("https://www.visualcrossing.com/account");
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // register the weather option pages
 
 int CWeatherProto::OptInit(WPARAM wParam, LPARAM)
@@ -452,8 +477,13 @@ int CWeatherProto::OptInit(WPARAM wParam, LPARAM)
 	odp.position = 95600;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
 
+	// account options
+	odp.pDialog = new CAccountOptionsDlg(this);
+	odp.szTab.w = LPGENW("Account");
+	g_plugin.addOptions(wParam, &odp);
+
 	// plugin options
-	odp.pDialog = new COptionsDlg(this);
+	odp.pDialog = new CGeneralOptionsDlg(this);
 	odp.szTab.w = LPGENW("General");
 	g_plugin.addOptions(wParam, &odp);
 

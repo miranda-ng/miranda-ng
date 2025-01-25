@@ -26,7 +26,7 @@ menu items).
 
 #include "stdafx.h"
 
-//============  RETRIEVE NEW WEATHER  ============
+/////////////////////////////////////////////////////////////////////////////////////////
 // retrieve weather info and display / log them
 // hContact = current contact
 

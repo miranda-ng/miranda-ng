@@ -20,7 +20,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 CWeatherProto::CWeatherProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CWeatherProto>(protoName, userName),
 	m_impl(*this),
-	m_bPopups(m_szModuleName, "UsePopup", true)
+	m_bPopups(m_szModuleName, "UsePopup", true),
+	m_szApiKey(m_szModuleName, "ApiKey", L"")
 {
 	m_hProtoIcon = g_plugin.getIconHandle(IDI_ICON);
 
@@ -128,7 +129,7 @@ INT_PTR CWeatherProto::GetCaps(int type, MCONTACT)
 		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH;
 
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)TranslateT("Station ID");
+		return (INT_PTR)TranslateT("Coordinates");
 	}
 	return 0;
 }

@@ -46,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_history.h>
 #include <m_icolib.h>
 #include <m_ignore.h>
+#include <m_json.h>
 #include <m_langpack.h>
 #include <m_netlib.h>
 #include <m_options.h>
@@ -178,3 +179,20 @@ const wchar_t *GetDefaultText(int c);
 // function from multiwin module
 
 void UpdateMwinData(MCONTACT hContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// utils
+
+class JsonReply
+{
+	JSONNode *m_root = nullptr;
+	int m_errorCode = 0;
+
+public:
+	JsonReply(MHttpResponse *);
+	~JsonReply();
+
+	__forceinline int error() const { return m_errorCode; }
+	__forceinline JSONNode &data() const { return *m_root; }
+	__forceinline operator bool() const { return m_errorCode == 200; }
+};
