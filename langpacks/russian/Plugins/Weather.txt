@@ -119,7 +119,7 @@ URL доп. информации
 [Other Options]
 Другие настройки
 [Set as default station]
-По умолчанию
+Установить станцией по умолчанию
 [Disable automatic update for this station]
 Отключить автообновление с этой станции
 [Disable Popup for this station]
