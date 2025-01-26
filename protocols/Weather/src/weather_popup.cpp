@@ -213,7 +213,7 @@ class CPopupOptsDlg : public CWeatherDlgBase
 {
 	CCtrlEdit edtDelay;
 	CCtrlCheck chkUseWin;
-	CCtrlButton btnLeft, btnRight, btnPD1, btnPD2, btnPdef, btnVars, btnPreview;
+	CCtrlButton btnLeft, btnRight, btnPD1, btnPD2, btnPD3, btnPdef, btnVars, btnPreview;
 
 	// temporary read the current option to memory
 	// but does not write to the database
@@ -244,6 +244,7 @@ public:
 		CWeatherDlgBase(ppro, IDD_POPUP),
 		btnPD1(this, IDC_PD1),
 		btnPD2(this, IDC_PD2),
+		btnPD3(this, IDC_PD3),
 		btnPdef(this, IDC_PDEF),
 		btnVars(this, IDC_VAR3),
 		btnLeft(this, IDC_LeftClick),
@@ -257,6 +258,7 @@ public:
 
 		btnPD1.OnClick = Callback(this, &CPopupOptsDlg::onClick_PD1);
 		btnPD2.OnClick = Callback(this, &CPopupOptsDlg::onClick_PD2);
+		btnPD3.OnClick = Callback(this, &CPopupOptsDlg::onChanged_Delay);
 		btnPdef.OnClick = Callback(this, &CPopupOptsDlg::onClick_Pdef);
 		btnVars.OnClick = Callback(this, &CPopupOptsDlg::onClick_Vars);
 		btnLeft.OnClick = Callback(this, &CPopupOptsDlg::onClick_Left);
