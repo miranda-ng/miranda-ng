@@ -423,16 +423,9 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	else if (szIcon == "cloudy")
 		cond = CLOUDY;
 
-	for (auto &it : arValues) {
-		ConvertDataValue(it);
-		db_set_ws(hContact, WEATHERCONDITION, _T2A(it->Name), it->Value);
-	}
-
 	// writing forecast
 	int iFore = 0;
 	for (auto &fore : root["days"]) {
-		arValues.destroy();
-		arValues.insert(new WIDATAITEM(L"Update", L"", fore["datetime"].as_mstring()));
 		getData(arValues, fore);
 
 		CMStringW result;
@@ -441,6 +434,9 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 			if (it->Value.IsEmpty())
 				continue;
 
+			if (iFore == 0)
+				db_set_ws(hContact, WEATHERCONDITION, _T2A(it->Name), it->Value);
+
 			if (!result.IsEmpty())
 				result += L"; ";
 			result.AppendFormat(L"%s - %s", TranslateW(it->Name), it->Value.c_str());
@@ -448,6 +444,7 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 
 		CMStringA szSetting(FORMAT, "Forecast Day %d", iFore++);
 		db_set_ws(hContact, WEATHERCONDITION, szSetting, result);
+		arValues.destroy();
 	}
 
 	// assign condition icon
