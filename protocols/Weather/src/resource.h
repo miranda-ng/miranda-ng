@@ -111,7 +111,6 @@
 #define IDC_INFO10                      2091
 #define IDC_INFO12                      2092
 #define IDC_INFO13                      2093
-#define IDC_MORE                        2094
 #define IDC_MOREDETAIL                  2095
 #define IDC_DATALIST                    2096
 #define IDC_MUPDATE                     2097
