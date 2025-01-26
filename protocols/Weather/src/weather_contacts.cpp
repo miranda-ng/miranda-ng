@@ -25,13 +25,6 @@ the contact.
 
 #include "stdafx.h"
 
-static void OpenUrl(wchar_t *format, wchar_t *id)
-{
-	wchar_t loc[512];
-	mir_snwprintf(loc, format, id);
-	Utils_OpenUrlW(loc);
-}
-
 bool CWeatherProto::IsMyContact(MCONTACT hContact)
 {
 	return hContact && !mir_strcmp(m_szModuleName, Proto_GetBaseAccountName(hContact));
@@ -62,16 +55,12 @@ INT_PTR CWeatherProto::ViewLog(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CWeatherProto::LoadForecast(WPARAM wParam, LPARAM)
 {
-	wchar_t id[256], loc2[256];
+	wchar_t id[256];
 	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
-		// check if the complte forecast URL is set. If it is not, display warning and quit
-		if (db_get_wstatic(wParam, m_szModuleName, "InfoURL", loc2, _countof(loc2)) || loc2[0] == 0) {
-			MessageBox(nullptr, TranslateT("The URL for complete forecast has not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
-			return 1;
-		}
 		// set the url and open the webpage
-		OpenUrl(loc2, id);
+		CMStringA szUrl("https://www.visualcrossing.com/weather-forecast/" + mir_urlEncode(T2Utf(id)) + "/metric");
+		Utils_OpenUrl(szUrl);
 	}
 	return 0;
 }
@@ -82,17 +71,12 @@ INT_PTR CWeatherProto::LoadForecast(WPARAM wParam, LPARAM)
 
 INT_PTR CWeatherProto::WeatherMap(WPARAM wParam, LPARAM)
 {
-	wchar_t id[256], loc2[256];
+	wchar_t id[256];
 	GetStationID(wParam, id, _countof(id));
 	if (id[0] != 0) {
-		// check if the weather map URL is set. If it is not, display warning and quit
-		if (db_get_wstatic(wParam, m_szModuleName, "MapURL", loc2, _countof(loc2)) || loc2[0] == 0) {
-			MessageBox(nullptr, TranslateT("The URL for weather map has not been set. You can set it from the Edit Settings dialog."), TranslateT("Weather Protocol"), MB_ICONINFORMATION);
-			return 1;
-		}
-
 		// set the url and open the webpage
-		OpenUrl(loc2, id);
+		CMStringA szUrl("https://www.visualcrossing.com/weather-history/" + mir_urlEncode(T2Utf(id)) + "/metric");
+		Utils_OpenUrl(szUrl);
 	}
 
 	return 0;
