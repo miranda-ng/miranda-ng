@@ -78,7 +78,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="UInfoEx.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\UInfoEx_icons.dll")
 	if /I "%%a"=="VKontakte.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_VKontakte.dll")
 	if /I "%%a"=="Watrack.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Watrack_buttons.dll" "Icons\Watrack_icons.dll" "Plugins\player.ini")
-	if /I "%%a"=="Weather.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Weather.dll" "Plugins\Weather\*.ini")
+	if /I "%%a"=="Weather.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Weather.dll")
 	if /I "%%a"=="WhatsApp.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libsignal.mir" "libs\libqrencode.mir")
 	if /I "%%a"=="YAMN.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_YAMN.dll")
 

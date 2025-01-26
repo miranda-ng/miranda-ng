@@ -73,7 +73,6 @@ md "Release%tp%\Plugins\Listeningto"
 md "Release%tp%\Plugins\BASS"
 md "Release%tp%\Plugins\CurrencyRates"
 md "Release%tp%\Plugins\Import"
-md "Release%tp%\Plugins\Weather"
 
 copy /V /Y ..\plugins\Actman\services.ini "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\Boltun\src\Engine\boltun.mindw "Release%tp%\Plugins\"
@@ -86,7 +85,6 @@ copy /V /Y ..\plugins\Watrack\player.ini "Release%tp%\Plugins\"
 
 copy /V /Y ..\protocols\CurrencyRates\docs\Utility\*.xml "Release%tp%\Plugins\CurrencyRates\"
 copy /V /Y ..\protocols\CurrencyRates\CurrencyRatesChart\bin\x%tp%\CurrencyRatesChart.exe "Release%tp%\Plugins\CurrencyRates\"
-copy /V /Y ..\protocols\Weather\docs\weather\*.ini "Release%tp%\Plugins\Weather\"
 
 rem xcopy /S /V /Y "..\delphi\%tp%" "Release%tp%"
 xcopy /S /V /Y "..\pre-symbols\%comp%\%tp%" "Symbols%tp%"
