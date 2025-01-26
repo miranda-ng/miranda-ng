@@ -29,11 +29,11 @@
 [Remove old data when updating]
 Перезаписать данные после обновления
 [Make the contact italic when weather alert is issued]
-Делать контакт наклонным при получении обновления
+Показывать имя контакта наклонным при получении обновления
 [Modes]
 Режимы
 [Use weather condition as protocol status]
-Состояние погоды как статус протокола
+Использовать состояние погоды как статус протокола
 [Avatar only mode]
 Только аватар
 [Units]
