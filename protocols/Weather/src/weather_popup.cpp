@@ -232,7 +232,7 @@ class CPopupOptsDlg : public CWeatherDlgBase
 		opt.pDelay = num;
 
 		// other options
-		opt.UseWinColors = (uint8_t)IsDlgButtonChecked(hdlg, IDC_USEWINCOLORS);
+		opt.UseWinColors = chkUseWin.IsChecked();
 		opt.UpdatePopup = (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP1);
 		opt.AlertPopup = (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP2);
 		opt.PopupOnChange = (uint8_t)IsDlgButtonChecked(hdlg, IDC_CH);
@@ -304,9 +304,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_TEXTCOLOUR, CPM_SETCOLOUR, 0, opt.TextColour);
 
 		// Second step is disabling them if we want to use default Windows ones.
-		CheckDlgButton(m_hwnd, IDC_USEWINCOLORS, opt.UseWinColors ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BGCOLOUR), !opt.UseWinColors);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TEXTCOLOUR), !opt.UseWinColors);
+		chkUseWin.SetState(opt.UseWinColors);
 
 		// buttons
 		SendDlgItemMessage(m_hwnd, IDC_PREVIEW, BUTTONSETASFLATBTN, TRUE, 0);
@@ -335,11 +333,12 @@ public:
 		return true;
 	}
 
-	void onChanged_UseWin(CCtrlCheck *)
+	void onChanged_UseWin(CCtrlCheck *pCheck)
 	{
 		// use window color - enable/disable color selection controls
-		EnableWindow(GetDlgItem(m_hwnd, IDC_BGCOLOUR), !(m_proto->opt.UseWinColors));
-		EnableWindow(GetDlgItem(m_hwnd, IDC_TEXTCOLOUR), !(m_proto->opt.UseWinColors));
+		bool bEnable = !pCheck->IsChecked();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BGCOLOUR), bEnable);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_TEXTCOLOUR), bEnable);
 	}
 
 	void onClick_Right(CCtrlButton *)
