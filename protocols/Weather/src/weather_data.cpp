@@ -85,25 +85,6 @@ WEATHERINFO CWeatherProto::LoadWeatherInfo(MCONTACT hContact)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// getting weather setting from database
-// return 0 on success
-
-int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv)
-{
-	if (db_get_ws(hContact, WEATHERCONDITION, setting, dbv)) {
-		size_t len = mir_strlen(setting) + 1;
-		char *set = (char*)alloca(len + 1);
-		*set = '#';
-		memcpy(set + 1, setting, len);
-
-		if (db_get_ws(hContact, WEATHERCONDITION, set, dbv))
-			return 1;
-	}
-	return 0;
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // erase all current weather information from database
 // lastver = the last used version number in dword (using PLUGIN_MAKE_VERSION)
 
@@ -182,167 +163,78 @@ void CWeatherProto::EraseAllInfo()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CWeatherProto::ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
+static wchar_t rumbs[][16] = { L"N", L"NNE", L"NE", L"ENE", L"E", L"ESE", L"ES", L"SSE", L"S", L"SSW", L"SW", L"WSW", L"W", L"WNW", L"WN", L"NNW" };
+
+static wchar_t *degree2str(double angle)
+{
+	double a = 11.25;
+
+	for (int i = 0; i < _countof(rumbs); i++, a += 22.5)
+		if (angle < a)
+			return rumbs[i];
+
+	// area between 348.75 & 360 degrees
+	return L"N";
+}
+
+void CWeatherProto::ConvertDataValue(WIDATAITEM *p)
 {
 	wchar_t str[MAX_DATA_LEN];
 
-	// convert the unit
-	if (mir_wstrcmp(Data, TranslateT("<Error>")) && mir_wstrcmp(Data, NODATA) && mir_wstrcmp(Data, TranslateW(NODATA))) {
-		// temperature
-		if (!mir_wstrcmp(UpdateData->Name, L"Temperature") || !mir_wstrcmp(UpdateData->Name, L"High") ||
-			!mir_wstrcmp(UpdateData->Name, L"Low") || !mir_wstrcmp(UpdateData->Name, L"Feel") ||
-			!mir_wstrcmp(UpdateData->Name, L"Dew point") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"C") || !mir_wstrcmpi(UpdateData->Unit, L"F") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"K")) {
-			GetTemp(Data, UpdateData->Unit, str);
-			mir_wstrcpy(Data, str);
-		}
-		// pressure
-		else if (!mir_wstrcmp(UpdateData->Name, L"Pressure") || !mir_wstrcmpi(UpdateData->Unit, L"HPA") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"KPA") || !mir_wstrcmpi(UpdateData->Unit, L"MB") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"TORR") || !mir_wstrcmpi(UpdateData->Unit, L"IN") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"MM")) {
-			GetPressure(Data, UpdateData->Unit, str);
-			mir_wstrcpy(Data, str);
-		}
-		// speed
-		else if (!mir_wstrcmp(UpdateData->Name, L"Wind Speed") || !mir_wstrcmpi(UpdateData->Unit, L"KM/H") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"M/S") || !mir_wstrcmpi(UpdateData->Unit, L"MPH") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"KNOTS")) {
-			GetSpeed(Data, UpdateData->Unit, str);
-			mir_wstrcpy(Data, str);
-		}
-		// visibility
-		else if (!mir_wstrcmp(UpdateData->Name, L"Visibility") || !mir_wstrcmpi(UpdateData->Unit, L"KM") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"MILES")) {
-			GetDist(Data, UpdateData->Unit, str);
-			mir_wstrcpy(Data, str);
-		}
-		// elevation
-		else if (!mir_wstrcmp(UpdateData->Name, L"Elevation") || !mir_wstrcmpi(UpdateData->Unit, L"FT") ||
-			!mir_wstrcmpi(UpdateData->Unit, L"M")) {
-			GetElev(Data, UpdateData->Unit, str);
-			mir_wstrcpy(Data, str);
-		}
-		// converting case for condition to the upper+lower format
-		else if (!mir_wstrcmpi(UpdateData->Unit, L"COND"))
-			CaseConv(Data);
-		// degree sign
-		else if (!mir_wstrcmpi(UpdateData->Unit, L"DEG")) {
-			if (!opt.DoNotAppendUnit) mir_wstrcat(Data, opt.DegreeSign);
-		}
-		// percent sign
-		else if (!mir_wstrcmpi(UpdateData->Unit, L"%")) {
-			if (!opt.DoNotAppendUnit) mir_wstrcat(Data, L"%");
-		}
-		// truncating strings for day/month to 2 or 3 characters
-		else if (!mir_wstrcmpi(UpdateData->Unit, L"DAY") || !mir_wstrcmpi(UpdateData->Unit, L"MONTH"))
-			if (opt.dUnit > 1 && mir_wstrlen(Data) > opt.dUnit)
-				Data[opt.dUnit] = '\0';
+	// temperature
+	if (!mir_wstrcmp(p->Name, L"Temperature") || !mir_wstrcmp(p->Name, L"High") ||
+		!mir_wstrcmp(p->Name, L"Low") || !mir_wstrcmp(p->Name, L"Feel") ||
+		!mir_wstrcmp(p->Name, L"Dew point") ||
+		!mir_wstrcmpi(p->Unit, L"C") || !mir_wstrcmpi(p->Unit, L"F") ||
+		!mir_wstrcmpi(p->Unit, L"K")) {
+		GetTemp(p->Value, p->Unit, str);
+		p->Value = str;
 	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// get the value of the data using the start, end strings
-// UpdateData = the WIDATAITEM struct containing start, end, unit
-// Data = the string containing weather data obtained from UpdateData
-// global var. used: szInfo = the downloaded string
-
-void CWeatherProto::GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData)
-{
-	wchar_t last = 0, current, *start, *end;
-	unsigned startloc = 0, endloc = 0, respos = 0;
-	BOOL tag = FALSE, symb = FALSE;
-	wchar_t *szInfo = *szData;
-
-	Data[0] = 0;
-	// parse the data if available
-	if (UpdateData->Start[0] == 0 && UpdateData->End[0] == 0) return;
-	start = szInfo;
-	// the start string must be found
-	if (UpdateData->Start[0] != 0) {
-		start = wcsstr(szInfo, UpdateData->Start);
-		if (start != nullptr) {
-			// set the starting location for getting data
-			start += mir_wstrlen(UpdateData->Start);
-			szInfo = start;
-		}
+	// pressure
+	else if (!mir_wstrcmp(p->Name, L"Pressure") || !mir_wstrcmpi(p->Unit, L"HPA") ||
+		!mir_wstrcmpi(p->Unit, L"KPA") || !mir_wstrcmpi(p->Unit, L"MB") ||
+		!mir_wstrcmpi(p->Unit, L"TORR") || !mir_wstrcmpi(p->Unit, L"IN") ||
+		!mir_wstrcmpi(p->Unit, L"MM")) {
+		GetPressure(p->Value, p->Unit, str);
+		p->Value = str;
 	}
-
-	// the end string must be found too
-	if (UpdateData->End[0] != 0)
-		end = wcsstr(szInfo, UpdateData->End);
-	else
-		end = wcschr(szInfo, ' ');
-
-	if (end != nullptr) {
-		// set the ending location
-		startloc = 0;
-		endloc = end - szInfo;
-		end += mir_wstrlen(UpdateData->End);
-		last = '\n';
+	// speed
+	else if (!mir_wstrcmp(p->Name, L"Wind Speed") || !mir_wstrcmpi(p->Unit, L"KM/H") ||
+		!mir_wstrcmpi(p->Unit, L"M/S") || !mir_wstrcmpi(p->Unit, L"MPH") ||
+		!mir_wstrcmpi(p->Unit, L"KNOTS")) {
+		GetSpeed(p->Value, p->Unit, str);
+		p->Value = str;
 	}
-
-	// ignore if not both of the string found - this prevent crashes
-	if (start != nullptr && end != nullptr) {
-		// begin reading the data from start location to end location
-		// remove all HTML tag in between, as well as leading space, ending space,
-		// multiple spaces, tabs, and return key
-		while (startloc < endloc) {
-			if (szInfo[startloc] == '<')	tag = TRUE;
-			else if (szInfo[startloc] == '&' &&
-				(szInfo[startloc + 1] == ';' || szInfo[startloc + 2] == ';' || szInfo[startloc + 3] == ';' ||
-					szInfo[startloc + 4] == ';' || szInfo[startloc + 5] == ';' || szInfo[startloc + 6] == ';')) {
-				// ...but do NOT strip &minus;
-				if ((endloc - startloc) > 7 && wcsncmp(szInfo + startloc, L"&minus;", 7) == 0) {
-					Data[respos++] = '-';
-					startloc += 7;
-					continue;
-				}
-				symb = TRUE;
-			}
-			else if (szInfo[startloc] == '>')	tag = FALSE;
-			else if (szInfo[startloc] == ';')	symb = FALSE;
-			else {
-				if (!tag && !symb) {
-					current = szInfo[startloc];
-					if (current == '\n' || current == '\t' || current == '	' || current == '\r')
-						current = ' ';
-					if (current != ' ' || last != ' ') {
-						if (last != '\n' && (respos != 0 || (respos == 0 && last != ' ')))
-							Data[respos++] = last;
-						last = current;
-					}
-				}
-			}
-			++startloc;
-			// prevent crashes if the string go over maximun length -> generate an error
-			if (respos >= MAX_DATA_LEN) {
-				if (opt.ShowWarnings && UpdateData->Name[0] != 0 && mir_wstrcmp(UpdateData->Name, L"Ignore")) {
-					mir_snwprintf(Data, MAX_DATA_LEN, TranslateT("Error when obtaining data: %s"), UpdateData->Name);
-					WPShowMessage(Data, SM_WARNING);
-				}
-				wcsncpy(Data, TranslateT("<Error>"), MAX_DATA_LEN);
-				last = ' ';
-				respos = MAX_DATA_LEN - 1;
-				break;
-			}
-		}
-
-		// get the last character
-		if (last != ' ')
-			Data[respos++] = last;
-
-		// null terminate the string
-		Data[respos] = 0;
-
-		// convert the unit
-		ConvertDataValue(UpdateData, Data);
-
-		// remove the string before the data from szInfo
-		szInfo = end;
+	// visibility
+	else if (!mir_wstrcmp(p->Name, L"Visibility") || !mir_wstrcmpi(p->Unit, L"KM") ||
+		!mir_wstrcmpi(p->Unit, L"MILES")) {
+		GetDist(p->Value, p->Unit, str);
+		p->Value = str;
 	}
-	*szData = szInfo;
+	// elevation
+	else if (!mir_wstrcmp(p->Name, L"Elevation") || !mir_wstrcmpi(p->Unit, L"FT") ||
+		!mir_wstrcmpi(p->Unit, L"M")) {
+		GetElev(p->Value, p->Unit, str);
+		p->Value = str;
+	}
+	// convert degrees to compass
+	else if (!mir_wstrcmpi(p->Unit, L"GRAD")) {
+		p->Value = degree2str(_wtof(p->Value));
+	}
+	// degree sign
+	else if (!mir_wstrcmpi(p->Unit, L"DEG")) {
+		if (!opt.DoNotAppendUnit)
+			p->Value.Append(opt.DegreeSign);
+	}
+	// percent sign
+	else if (!mir_wstrcmpi(p->Unit, L"%")) {
+		if (!opt.DoNotAppendUnit)
+			p->Value.Append(L"%");
+	}
+	// truncating strings for day/month to 2 or 3 characters
+	else if (!mir_wstrcmpi(p->Unit, L"DAY") || !mir_wstrcmpi(p->Unit, L"MONTH"))
+		if (opt.dUnit > 1 && mir_wstrlen(p->Value) > opt.dUnit)
+			p->Value.SetAt(opt.dUnit, '\0');
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -410,11 +302,11 @@ MHttpResponse* CWeatherProto::RunQuery(const wchar_t *id, int days)
 	if (days) {
 		time_t today = time(0);
 		struct tm *p = localtime(&today);
-		pReq->m_szUrl.AppendFormat("%04d-%02d-%02d/", p->tm_year, p->tm_mon, p->tm_mday);
+		pReq->m_szUrl.AppendFormat("/%04d-%02d-%02d", p->tm_year + 1900, p->tm_mon + 1, p->tm_mday);
 
 		today += 86400 * 7; // add one week
 		p = localtime(&today);
-		pReq->m_szUrl.AppendFormat("%04d-%02d-%02d/", p->tm_year, p->tm_mon, p->tm_mday);
+		pReq->m_szUrl.AppendFormat("/%04d-%02d-%02d", p->tm_year + 1900, p->tm_mon + 1, p->tm_mday);
 	}
 
 	pReq << CHAR_PARAM("unitGroup", "metric") << WCHAR_PARAM("key", pKey) << CHAR_PARAM("contentType", "json");

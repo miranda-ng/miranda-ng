@@ -1,5 +1,17 @@
 #pragma once
 
+struct WIDATAITEM
+{
+	WIDATAITEM(const wchar_t *_1, const wchar_t *_2, const CMStringW &_3) :
+		Name(_1),
+		Unit(_2),
+		Value(_3)
+	{}
+
+	const wchar_t *Name, *Unit;
+	CMStringW Value;
+};
+
 struct WEATHERINFO
 {
 	MCONTACT hContact;
@@ -131,16 +143,15 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	// conversions
 	void numToStr(double num, wchar_t *str, size_t strSize);
 
-	void GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-	void GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-	void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-	void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
-	void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
+	void GetTemp(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str);
+	void GetSpeed(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str);
+	void GetPressure(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str);
+	void GetDist(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str);
+	void GetElev(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str);
 
 	// data
-	void ConvertDataValue(struct WIDATAITEM *UpdateData, wchar_t *Data);
+	void ConvertDataValue(WIDATAITEM *UpdateData);
 	void EraseAllInfo(void);
-	void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData);
 	void GetStationID(MCONTACT hContact, wchar_t *id, int idlen);
 	WEATHERINFO LoadWeatherInfo(MCONTACT hContact);
 

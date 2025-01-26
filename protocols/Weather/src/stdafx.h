@@ -118,24 +118,6 @@ enum EWeatherCondition
 #define WM_UPDATEDATA      (WM_USER + 2687)
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// DATA FORMAT STRUCT
-
-#define WID_NORMAL	0
-#define WID_SET		1
-#define WID_BREAK	2
-
-struct WIDATAITEM
-{
-	wchar_t *Name;
-	wchar_t *Start;
-	wchar_t *End;
-	wchar_t *Unit;
-	char    *Url;
-	wchar_t *Break;
-	int      Type;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
 
 extern HWND hPopupWindow;
@@ -165,8 +147,6 @@ wchar_t *GetError(int code);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions in weather_data.c
-
-int DBGetData(MCONTACT hContact, char *setting, DBVARIANT *dbv);
 
 void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM lParam);
 

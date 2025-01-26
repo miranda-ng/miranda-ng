@@ -30,7 +30,7 @@ string conversions, display text parsing, etc
 // s = the string to be determined
 // return value = true if the string is a number, false if it isn't
 
-BOOL is_number(wchar_t *s)
+BOOL is_number(const wchar_t *s)
 {
 	BOOL tag = FALSE;
 	// looking character by character
@@ -75,15 +75,11 @@ void CWeatherProto::numToStr(double num, wchar_t *str, size_t strSize)
 // unit = the unit for temperature
 // return value = the converted temperature with degree sign and unit; if fails, return N/A
 
-void CWeatherProto::GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+void CWeatherProto::GetTemp(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str)
 {
 	// unit can be C, F
 	double temp;
 	wchar_t tstr[20];
-
-	TrimString(tempchar);
-	if (tempchar[0] == '-' && tempchar[1] == ' ')
-		memmove(&tempchar[1], &tempchar[2], sizeof(wchar_t) * (mir_wstrlen(&tempchar[2]) + 1));
 
 	// quit if the value obtained is N/A or not a number
 	if (!mir_wstrcmp(tempchar, NODATA) || !mir_wstrcmp(tempchar, L"N/A")) {
@@ -129,7 +125,7 @@ void CWeatherProto::GetTemp(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 // unit = the unit for pressure
 // return value = the converted pressure with unit; if fail, return the original string
 
-void CWeatherProto::GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+void CWeatherProto::GetPressure(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str)
 {
 	// unit can be kPa, hPa, mb, in, mm, torr
 	double tempunit = 0, output;
@@ -188,7 +184,7 @@ void CWeatherProto::GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 // unit = the unit for speed
 // return value = the converted speed with unit; if fail, return _T(""
 
-void CWeatherProto::GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+void CWeatherProto::GetSpeed(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str)
 {
 	// unit can be km/h, mph, m/s, knots
 	double tempunit;
@@ -239,7 +235,7 @@ void CWeatherProto::GetSpeed(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 // unit = the unit for distance
 // return value = the converted distance with unit; if fail, return original string
 
-void CWeatherProto::GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+void CWeatherProto::GetDist(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str)
 {
 	// unit can be km, miles
 	double tempunit = 0, output;
@@ -281,7 +277,7 @@ void CWeatherProto::GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 // unit = the unit for elevation
 // return value = the converted elevation with unit; if fail, return original string
 
-void CWeatherProto::GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
+void CWeatherProto::GetElev(const wchar_t *tempchar, const wchar_t *unit, wchar_t *str)
 {
 	// unit can be ft, m
 	double tempunit = 0, output;

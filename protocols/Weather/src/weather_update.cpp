@@ -351,34 +351,104 @@ INT_PTR CWeatherProto::UpdateAllRemove(WPARAM, LPARAM)
 // getting weather data and save them into the database
 // hContact = the contact to get the data
 
+static wchar_t *moon2str(double phase)
+{
+	if (phase < 0.05) return TranslateT("New moon");
+	if (phase < 0.26) return TranslateT("Waxing crescent");
+	if (phase < 0.51) return TranslateT("Waxing gibbous");
+	if (phase < 0.76) return TranslateT("Waning gibbous");
+	return TranslateT("Waning crescent");
+}
+
+static void getData(OBJLIST<WIDATAITEM> &arValues, const JSONNode &node)
+{
+	arValues.insert(new WIDATAITEM(LPGENW("Condition"), L"", node["conditions"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Temperature"), L"C", node["temp"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("High"), L"C", node["tempmax"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Low"), L"C", node["tempmin"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Sunset"), L"", node["sunset"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Sunrise"), L"", node["sunrise"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Moon phase"), L"", moon2str(node["moonphase"].as_float())));
+	arValues.insert(new WIDATAITEM(LPGENW("Wind speed"), L"km/h", node["windspeed"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Wind direction"), L"grad", node["winddir"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Dew point"), L"C", node["dew"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Pressure"), L"mb", node["pressure"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Visibility"), L"km", node["visibility"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Humidity"), L"", node["humidity"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Feel"), L"C", node["feelslike"].as_mstring()));
+}
+
 int CWeatherProto::GetWeatherData(MCONTACT hContact)
 {
 	// get each part of the id's
 	wchar_t id[256];
 	GetStationID(hContact, id, _countof(id));
-
-	wchar_t Svc[256];
-	GetStationID(hContact, Svc, _countof(Svc));
-
-	// check for invalid station
-	if (id[0] == 0)  return INVALID_ID;
-	if (Svc[0] == 0) return INVALID_SVC;
+	if (id[0] == 0)
+		return INVALID_ID;
 
 	uint16_t cond = NA;
 
 	// download the html file from the internet
-	wchar_t *szData = nullptr;
-	int retval = 1; // InternetDownloadFile(loc, 0, 0, &szData);
-	if (retval != 0) {
-		mir_free(szData);
-		return retval;
-	}
-	if (wcsstr(szData, L"Document Not Found") != nullptr) {
-		mir_free(szData);
-		return DOC_NOT_FOUND;
+	JsonReply reply(RunQuery(id, 7));
+	if (!reply)
+		return reply.error();
+
+	auto &root = reply.data();
+
+	// writing current conditions
+	auto &curr = root["currentConditions"];
+	OBJLIST<WIDATAITEM> arValues(20);
+	arValues.insert(new WIDATAITEM(L"Update", L"", curr["datetime"].as_mstring()));
+	getData(arValues, curr);
+
+	auto szIcon = curr["icon"].as_string();
+	if (szIcon == "snow")
+		cond = SNOW;
+	else if (szIcon == "snow-showers-day" || szIcon == "snow-showers-night")
+		cond = SSHOWER;
+	else if (szIcon == "thunder" || szIcon == "thunder-showers-day" || szIcon == "thunder-showers-night")
+		cond = LIGHT;
+	else if (szIcon == "partly-cloudy-day" || szIcon == "partly-cloudy-night" || szIcon == "wind")
+		cond = PCLOUDY;
+	else if (szIcon == "fog")
+		cond = FOG;
+	else if (szIcon == "rain")
+		cond = RAIN;
+	else if (szIcon == "showers-day" || szIcon == "showers-night")
+		cond = RSHOWER;
+	else if (szIcon == "clear-day" || szIcon == "clear-night")
+		cond = SUNNY;
+	else if (szIcon == "rain")
+		cond = RAIN;
+	else if (szIcon == "cloudy")
+		cond = CLOUDY;
+
+	for (auto &it : arValues) {
+		ConvertDataValue(it);
+		db_set_ws(hContact, WEATHERCONDITION, _T2A(it->Name), it->Value);
 	}
 
-	mir_free(szData);
+	// writing forecast
+	int iFore = 0;
+	for (auto &fore : root["days"]) {
+		arValues.destroy();
+		arValues.insert(new WIDATAITEM(L"Update", L"", fore["datetime"].as_mstring()));
+		getData(arValues, fore);
+
+		CMStringW result;
+		for (auto &it : arValues) {
+			ConvertDataValue(it);
+			if (it->Value.IsEmpty())
+				continue;
+
+			if (!result.IsEmpty())
+				result += L"; ";
+			result.AppendFormat(L"%s - %s", TranslateW(it->Name), it->Value.c_str());
+		}
+
+		CMStringA szSetting(FORMAT, "Forecast Day %d", iFore++);
+		db_set_ws(hContact, WEATHERCONDITION, szSetting, result);
+	}
 
 	// assign condition icon
 	setWord(hContact, "StatusIcon", cond);
