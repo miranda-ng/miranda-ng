@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.8
+;  Version: 1.1.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -18,8 +18,6 @@
 Закрыть
 [Options]
 Настройки
-[Update weather information on startup]
-Обновлять погоду при запуске Miranda NG
 [Update weather information every]
 Обновлять каждые
 [minutes]
@@ -32,8 +30,6 @@
 Показывать имя контакта наклонным при получении обновления
 [Modes]
 Режимы
-[Use weather condition as protocol status]
-Использовать состояние погоды как статус протокола
 [Avatar only mode]
 Только аватар
 [Units]
@@ -110,12 +106,6 @@
 Перезапись при обновлении
 [Path:]
 Путь:
-[Link Settings]
-Настройка ссылок
-[More Info URL]
-URL доп. информации
-[Weather Map]
-Карта погоды
 [Other Options]
 Другие настройки
 [Set as default station]
@@ -129,8 +119,6 @@ URL доп. информации
 [Cancel]
 Отмена
 [Popup Options]
-Всплывающие окна
-[Enable popups]
 Всплывающие окна
 [Popup only when condition changes]
 Только при изменении погоды
@@ -172,6 +160,10 @@ URL доп. информации
 Уведомления
 [Errors]
 Ошибки
+[Enter your personel API key from Visual Crossing Weather site]
+Введите свой личный ключ API с сайта Visual Crossing Weather
+[Obtain key]
+Получить ключ
 [Contact List]
 Список контактов
 [Brief Info Title]
@@ -186,8 +178,6 @@ URL доп. информации
 Просмотр истории
 [Variable List]
 Переменные
-[More Variables]
-Ещё переменные
 [Reset]
 Сброс
 [Status Message]
@@ -208,26 +198,6 @@ URL доп. информации
 Влажность
 [More...]
 Ещё...
-[Weather Protocol INI Setup]
-Настройка INI файла плагина Weather
-[Install and load your weather ini file here]
-Установка и загрузка вашего INI погоды здесь
-[Weather Protocol cannot find any weather INI file stored in your computer. To setup weather INI and add weather stations, please follow the steps:]
-Протокол погоды не может найти ни одного INI файла погоды на вашем компьютере. Для установки INI погоды и добавления города следуйте этим указаниям:
-[Click here to download a weather ini file from Miranda file listing]
-Нажмите здесь для загрузки INI погоды из списка файлов Miranda NG
-[Extract the weather ini file from archive to this directory]
-Извлеките INI погоды из архива в эту директорию
-[Click here to load the data from the new ini file into memory]
-Нажмите для загрузки данных из INI файла в память
-[Add new weather station and close this dialog]
-Добавьте новый город и закройте это окно
-[Total INI files]
-Всего ini файлов
-[Total memory used]
-Использовано памяти
-[Reload INI]
-Перезагрузить
 [City:]
 Город:
 [Menu]
@@ -255,6 +225,58 @@ URL доп. информации
 ;file \protocols\Weather\src\stdafx.h
 [N/A]
 Недоступен
+;file \protocols\Weather\src\weather.cpp
+[Protocol icon]
+Значок протокола
+[Update Disabled]
+Обновления выкл
+[View Log]
+Журнал
+[Update with Clear]
+Удалить и обновить
+[View Brief]
+Краткий прогноз
+[View Complete]
+Полный прогноз
+[Weather Update]
+Обновление прогноза
+[Weather Map]
+Карта погоды
+[Edit Settings]
+Изменить настройки
+[Condition Changed]
+Погода изменилась
+[Alert Issued]
+Погодное предупреждение
+;file \protocols\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+Текущая информация о погоде для %s.
+[%s is now the default weather station]
+%s теперь является станцией погоды по умолчанию
+[Weather Protocol]
+Протокол погоды
+[Please try again after weather update is completed.]
+Попробуйте после завершения обновления сведений о погоде.
+;file \protocols\Weather\src\weather_contacts.cpp
+[Weather condition was not logged.]
+Журнал погоды не ведётся.
+[Browse]
+Обзор
+[Text Files]
+Текстовые файлы
+[All Files]
+Все файлы
+;file \protocols\Weather\src\weather_conv.cpp
+[mb]
+мбар
+[in]
+дюйм
+[mm]
+мм
+[<unknown time>]
+<время не определено>
+[<Error>]
+<Ошибка>
 [Invalid ID format, missing "/" (10)]
 Неправильный формат ID, нет "/" (10)
 [Invalid service (11)]
@@ -305,137 +327,43 @@ INI файл погоды для этой станции не найден (20)
 Ошибка HTTP: Сервис недоступен (503)
 [HTTP Error: Gateway timeout (504)]
 Ошибка HTTP: Таймаут шлюза (504)
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат\n----------\n\\n   новая строка
-;file \protocols\Weather\src\weather.cpp
-[Enable/disable auto update]
-Вкл/Выкл автообновление
-[Auto Update Enabled]
-Автообновление включено
-[Auto Update Disabled]
-Автообновление выключено
-[Protocol icon]
-Значок протокола
-[Update Disabled]
-Обновления выкл
-[View Log]
-Журнал
-[Update with Clear]
-Удалить и обновить
-[View Brief]
-Краткий прогноз
-[View Complete]
-Полный прогноз
-[Weather Update]
-Обновление прогноза
-[Edit Settings]
-Изменить настройки
-[Condition Changed]
-Погода изменилась
-[Alert Issued]
-Погодное предупреждение
-[Weather notifications]
-Погодные уведомления
-;file \protocols\Weather\src\weather_addstn.cpp
-[Current weather information for %s.]
-Текущая информация о погоде для %s.
-[%s is now the default weather station]
-%s станция погоды по умолчанию
-[Weather Protocol]
-Протокол погоды
-[Please try again after weather update is completed.]
-Попробуйте после завершения обновления сведений о погоде.
-[<Enter station name here>]
-<Введите название города>
-[<Enter station ID here>]
-<Введите ID города>
-;file \protocols\Weather\src\weather_contacts.cpp
-[Weather condition was not logged.]
-Журнал погоды не ведётся.
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для полного прогноза погоды. Укажите его в настройках.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
-[Get city name from ID]
-Получить название города по ID
-[Weather INI information]
-Информация о INI файле погоды
-[Browse]
-Обзор
-[View webpage]
-На сайт
-[Reset to default]
-По умолчанию
-[Text Files]
-Текстовые файлы
-[All Files]
-Все файлы
-;file \protocols\Weather\src\weather_conv.cpp
-[mb]
-мбар
-[in]
-дюйм
-[mm]
-мм
-[<unknown time>]
-<время не определено>
-[<Error>]
-<Ошибка>
 [HTTP Error %i]
 Ошибка HTTP %i
 ;file \protocols\Weather\src\weather_data.cpp
 [<Enter city name here>]
 <Введите название города>
-[Error when obtaining data: %s]
-Ошибка при получении данных: %s
-;file \protocols\Weather\src\weather_info.cpp
-[Name]
-Имя
-[Author]
-Автор
-[File Version]
-Версия файла
-[INI Version]
-Версия ini
-[Items]
-Элементы
-[Display Name]
-Имя
-[File Name]
-Имя файла
-[The corresponding INI file for "%s" is not found.]
-Соответствующий INI файл для "%s" не найден.
-[Weather INI information for "%s":]
-Информация о INI файле погоды для "%s":
-[Name:]
-Имя:
-[Internal Name:]
-Внутреннее имя:
-[Author:]
-Автор:
-[Version:]
-Версия:
-[INI Version:]
-Версия INI:
-[File Name:]
-Имя файла:
-[Item Count:]
-Пунктов:
-[Memory Used:]
-Размер:
-[bytes]
-байт
-[Description:]
-Описание:
-[Here is a list of custom variables that are currently available]
-Список дополнительных переменных, доступных на данный момент
-;file \protocols\Weather\src\weather_ini.cpp
-[All update data has been reloaded.]
-Все обновлённые данные перезагружены.
-[Invalid ini format for: %s]
-Собственный формат ini для: %s
-[No update data file is found. Please check your Plugins\\Weather directory.]
-Не найдено ни одного файла INI. Пожалуйста, проверьте папку Plugins\\Weather.
+[N]
+С
+[NNE]
+ССВ
+[NE]
+СВ
+[ENE]
+ВСВ
+[E]
+В
+[ESE]
+ВЮВ
+[ES]
+ВЮ
+[SSE]
+ЮЮВ
+[S]
+Ю
+[SSW]
+ЮЮЗ
+[SW]
+ЮЗ
+[WSW]
+ЗЮЗ
+[W]
+З
+[WNW]
+ЗСЗ
+[WN]
+ЗС
+[NNW]
+ССЗ
 ;file \protocols\Weather\src\weather_mwin.cpp
 [Frame Font]
 Шрифт фрейма
@@ -460,24 +388,37 @@ INI файл погоды для этой станции не найден (20)
 %n   (%u)
 [%c, %t\\nToday:  High %h, Low %l]
 %c, %t\\nСегодня:  макс. %h, мин. %l
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
+%c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат\n----------\n\\n   новая строка
 [Weather Protocol Text Preview]
 Просмотр протокола погоды
 [Network]
 Сеть
+[Account]
+Учётная запись
 [General]
 Общее
 [Display]
 Показывать
-[Popups]
-Всплывающие окна
 ;file \protocols\Weather\src\weather_popup.cpp
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\tпрогноз на сегодня\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление ветра\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID города\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость ветра\n%y\tзакат
 [%[..]\tcustom variables]
 %[..]\tсвои переменные
+[Popups]
+Всплывающие окна
+;file \protocols\Weather\src\weather_proto.cpp
+[notifications]
+Уведомления
+[Enable/disable auto update]
+Вкл/Выкл автообновление
+[Auto Update Enabled]
+Автообновление включено
+[Auto Update Disabled]
+Автообновление выключено
+[Coordinates]
+Координаты
 ;file \protocols\Weather\src\weather_svcs.cpp
-[Station ID]
-ID города
 [Update Weather]
 Обновить погоду
 [Remove Old Data then Update]
@@ -499,13 +440,37 @@ ID города
 ;file \protocols\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Невозможно найти информацию о погоде для %s
+[New moon]
+Новолуние
+[Waxing crescent]
+Растущая Луна
+[Waxing gibbous]
+Растущая Луна
+[Waning gibbous]
+Убывающая Луна
+[Waning crescent]
+Убывающая Луна
+[Condition]
+Условия
+[High]
+Высокий
+[Low]
+Низкий
+[Moon phase]
+Фаза луны
+[Wind speed]
+Ветер: скорость
+[Wind direction]
+Ветер: направление
+[Feel]
+Ощущение
 ;file \protocols\Weather\src\weather_userinfo.cpp
-[No information available.\r\nPlease update weather condition first.]
-Информация недоступна.\r\nПредварительно обновите данные о погоде.
 [Variable]
 Переменная
 [Information]
 Информация
+[No information available.\r\nPlease update weather condition first.]
+Информация недоступна.\r\nПредварительно обновите данные о погоде.
 [Retrieving new data, please wait...]
 Получаю новые данные. Подождите, пожалуйста...
 [More Info]

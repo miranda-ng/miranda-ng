@@ -8,8 +8,8 @@
 [VKontakte protocol support for Miranda NG.]
 Поддержка протокола ВКонтакте в Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
-[Show in protocol menu ]
-Показывать в меню протокола\s
+[Show in protocol menu]
+Показывать в меню протокола
 [Create new chat]
 Создать новый чат
 [Status message]
