@@ -96,7 +96,7 @@ void CWeatherProto::LoadOptions(void)
 	opt.eUnit = getWord("eUnit", 2);
 
 	ptrW szValue(getWStringA("DegreeSign"));
-	wcsncpy_s(opt.DegreeSign, (szValue == NULL) ? L"" : szValue, _TRUNCATE);
+	wcsncpy_s(opt.DegreeSign, !mir_wstrlen(szValue) ? L"\xB0" : szValue, _TRUNCATE);
 
 	opt.DoNotAppendUnit = getByte("DoNotAppendUnit", 0);
 	opt.NoFrac = getByte("NoFractions", 0);
