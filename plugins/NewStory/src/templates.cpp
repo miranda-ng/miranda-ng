@@ -427,18 +427,15 @@ CMStringW TplFormatString(int tpl, MCONTACT hContact, ItemData *item)
 		return CMStringW();
 
 	auto &T = templates[tpl];
-	if (T.value == nullptr)
-		T.value = mir_wstrdup(T.defvalue);
+	wchar_t *pValue = TranslateW((T.value) ? T.value : T.defvalue);
 
 	TemplateVars vars;
-
 	for (auto &it : T.vf)
 		if (it)
 			it(&vars, hContact, item);
 
 	CMStringW buf;
-
-	for (wchar_t *p = T.value; *p; p++) {
+	for (wchar_t *p = pValue; *p; p++) {
 		if (*p == '%') {
 			wchar_t *var = vars.GetVar((p[1] & 0xff));
 			if (var)
