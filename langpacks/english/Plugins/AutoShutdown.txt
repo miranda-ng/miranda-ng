@@ -16,7 +16,6 @@
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 [Critical shutdown events]
 [Automatically shutdown the computer and turn the power off when one of the following occurs:]
-[&Thunderstorm warning is issued (Weather)]
 [Automatic shutdown]
 [Select the automatic shutdown event]
 [Shutdown at &specific time]

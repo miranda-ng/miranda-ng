@@ -7,7 +7,7 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 ;file \protocols\VKontakte\res\resource.rc
-[Show in protocol menu ]
+[Show in protocol menu]
 [Create new chat]
 [Status message]
 [Send message to my wall]
