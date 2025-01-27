@@ -398,7 +398,6 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	// writing current conditions
 	auto &curr = root["currentConditions"];
 	OBJLIST<WIDATAITEM> arValues(20);
-	arValues.insert(new WIDATAITEM(L"Update", L"", curr["datetime"].as_mstring()));
 	getData(arValues, curr);
 
 	auto szIcon = curr["icon"].as_string();
@@ -425,6 +424,8 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 
 	// writing forecast
 	int iFore = 0;
+	db_set_ws(hContact, WEATHERCONDITION, "Update", curr["datetime"].as_mstring());
+
 	for (auto &fore : root["days"]) {
 		getData(arValues, fore);
 
