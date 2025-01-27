@@ -163,7 +163,12 @@ void CWeatherProto::EraseAllInfo()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static wchar_t rumbs[][16] = { L"N", L"NNE", L"NE", L"ENE", L"E", L"ESE", L"ES", L"SSE", L"S", L"SSW", L"SW", L"WSW", L"W", L"WNW", L"WN", L"NNW" };
+static wchar_t rumbs[][16] = { 
+	LPGENW("N"), LPGENW("NNE"), LPGENW("NE"), LPGENW("ENE"),
+	LPGENW("E"), LPGENW("ESE"), LPGENW("ES"), LPGENW("SSE"),
+	LPGENW("S"), LPGENW("SSW"), LPGENW("SW"), LPGENW("WSW"),
+	LPGENW("W"), LPGENW("WNW"), LPGENW("WN"), LPGENW("NNW")
+};
 
 static wchar_t *degree2str(double angle)
 {
@@ -171,10 +176,10 @@ static wchar_t *degree2str(double angle)
 
 	for (int i = 0; i < _countof(rumbs); i++, a += 22.5)
 		if (angle < a)
-			return rumbs[i];
+			return TranslateW(rumbs[i]);
 
 	// area between 348.75 & 360 degrees
-	return L"N";
+	return TranslateT("N");
 }
 
 void CWeatherProto::ConvertDataValue(WIDATAITEM *p)
