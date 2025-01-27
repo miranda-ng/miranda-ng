@@ -379,6 +379,7 @@
 [Wind direction]
 [Wind speed]
 [Wintry Mix / Wind]
+[Forecast Day 0]
 [Forecast Day 1]
 [Forecast Day 2]
 [Forecast Day 3]
