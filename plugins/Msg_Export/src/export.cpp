@@ -323,7 +323,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
-			output += ptrW(dbei.getText());
+			bWriteIndentedToFile(output, nIndent, ptrW(dbei.getText()));
 			break;
 
 		case EVENTTYPE_FILE:
