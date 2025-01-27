@@ -180,7 +180,7 @@ begin
     begin
       ZeroMemory(@Event, SizeOf(Event));
       Event.cbBlob := 0;
-      db_event_get(hDBEvent, @Event);
+      my_event_get(hDBEvent, @Event);
       CurTime := Event.Timestamp;
       if PrevTime = 0 then
       begin

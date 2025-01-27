@@ -293,6 +293,8 @@ procedure OpenUrl(const URLText: String; NewWindow: Boolean);
 
 function HppMessageBox(Handle: THandle; const Text: String; const Caption: String; Flags: Integer): Integer;
 
+function my_event_get(hDbEvent:TMEVENT; dbei:PDBEVENTINFO):int;
+
 function MakeTextXMLedA(const Text: AnsiString): AnsiString;
 function MakeTextXMLedW(const Text: WideString): WideString;
 function FormatCString(const Text: WideString): WideString;
@@ -706,6 +708,15 @@ const
 begin
   Result := (Pos(RTF_BEGIN_1, Value) = 1)
          or (Pos(RTF_BEGIN_2, Value) = 1);
+end;
+
+function my_event_get(hDbEvent:TMEVENT; dbei:PDBEVENTINFO):int;
+begin
+  Result := db_event_get(hDbEvent, dbei);
+  if Result = 0 then begin
+    if (dbei.flags and DBEF_MSEC) <> 0 then
+        dbei.Timestamp := Trunc(dbei.Timestamp / 1000);
+  end;
 end;
 
 function _WideCharType(WC: WideChar; dwInfoType: Cardinal): Word;

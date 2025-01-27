@@ -28,6 +28,12 @@ const
   DBEF_RTL       =  8; // event contains the right-to-left aligned text
   DBEF_UTF       = 16; // event contains a text in utf-8
   DBEF_ENCRYPTED = 32; // event is encrypted (never reported outside a driver)
+  DBEF_HAS_ID    = 64;
+  DBEF_SECURE    = 128;    
+  DBEF_STRONG    = 256;
+  DBEF_BOOKMARK  = 512;
+  DBEF_JSON      = 1024;
+  DBEF_MSEC      = 2048;
 
 const
   EVENTTYPE_MESSAGE     = 0;

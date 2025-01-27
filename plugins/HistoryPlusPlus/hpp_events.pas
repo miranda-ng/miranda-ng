@@ -209,7 +209,7 @@ begin
   begin
     ZeroMemory(@RecentEventInfo, SizeOf(RecentEventInfo));
     RecentEventInfo.cbBlob := 0;
-    db_event_get(hDBEvent, @RecentEventInfo);
+    my_event_get(hDBEvent, @RecentEventInfo);
     RecentEvent := hDBEvent;
   end;
   Result := RecentEventInfo.timestamp;
@@ -223,7 +223,7 @@ begin
   begin
     ZeroMemory(@RecentEventInfo, SizeOf(RecentEventInfo));
     RecentEventInfo.cbBlob := 0;
-    db_event_get(hDBEvent, @RecentEventInfo);
+    my_event_get(hDBEvent, @RecentEventInfo);
     RecentEvent := hDBEvent;
   end;
   Result := GetMessageType(RecentEventInfo,EventIndex);
@@ -393,7 +393,7 @@ begin
     BlobSize := 0;
 
   Result.cbBlob := BlobSize;
-  if db_event_get(hDBEvent, @Result) = 0 then
+  if my_event_get(hDBEvent, @Result) = 0 then
   begin
     Result.cbBlob := BlobSize;
     if BlobSize > 0 then
@@ -423,7 +423,7 @@ begin
 
   dbei.cbBlob := BlobSize;
   dbei.pBlob := Result.pBlob;
-  if db_event_get(hDBEvent, @dbei) = 0 then
+  if my_event_get(hDBEvent, @dbei) = 0 then
   begin
     Result.cbBlob := BlobSize;
     if BlobSize > 0 then
