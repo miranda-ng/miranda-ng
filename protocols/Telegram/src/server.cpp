@@ -675,11 +675,14 @@ void CTelegramProto::ProcessChatAction(TD::updateChatAction *pObj)
 		Srmm_SetStatusText(hContact, TranslateT("Uploading voice note..."));
 		break;
 	case TD::chatActionTyping::ID:
-		CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, 30);
+		if (!pChat->isGroupChat)
+			CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, 30);
 		break;
 	case TD::chatActionCancel::ID:
-		Srmm_SetStatusText(hContact, 0);
-		CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, PROTOTYPE_CONTACTTYPING_OFF);
+		if (!pChat->isGroupChat) {
+			Srmm_SetStatusText(hContact, 0);
+			CallService(MS_PROTO_CONTACTISTYPING, pChat->hContact, PROTOTYPE_CONTACTTYPING_OFF);
+		}
 		break;
 	}
 }
