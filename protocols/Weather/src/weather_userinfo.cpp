@@ -316,9 +316,9 @@ int CWeatherProto::UserInfoInit(WPARAM wParam, LPARAM hContact)
 	// check if it is a weather contact
 	if (IsMyContact(hContact)) {
 		USERINFOPAGE uip = {};
-		uip.szTitle.a = m_szModuleName;
+		uip.szTitle.w = m_tszUserName;
 		uip.position = 100000000;
-		uip.flags = ODPF_ICON | ODPF_BOLDGROUPS;
+		uip.flags = ODPF_ICON | ODPF_BOLDGROUPS | ODPF_UNICODE;
 		uip.dwInitParam = LPARAM(g_plugin.getIconHandle(IDI_ICON));
 		uip.pDialog = new WeatherUserInfoDlg();
 		g_plugin.addUserInfo(wParam, &uip);
