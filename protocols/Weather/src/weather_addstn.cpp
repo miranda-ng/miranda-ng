@@ -204,23 +204,17 @@ HANDLE CWeatherProto::SearchAdvanced(MWindow hwndOwner)
 
 int CWeatherProto::IDSearch(wchar_t *sID, int searchId)
 {
-	PROTOSEARCHRESULT psr = { sizeof(psr) };
-	psr.flags = PSR_UNICODE;
-	psr.email.w = L" ";
-	psr.lastName.w = L"";
-
 	JsonReply reply(RunQuery(sID, 0));
-	if (!reply) {
-		psr.nick.w = TranslateT("<Enter station name here>");	// to be entered
-		psr.firstName.w = TranslateT("<Enter station ID here>");		// to be entered
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)searchId, (LPARAM)&psr);
-	}
-	else {
+	if (reply) {
 		auto &data = reply.data();
 		CMStringW id(FORMAT, L"%lf, %lf", data["latitude"].as_float(), data["longitude"].as_float());
 		CMStringW address1 = data["address"].as_mstring();
 		CMStringW address2 = data["resolvedAddress"].as_mstring();
 		
+		PROTOSEARCHRESULT psr = { sizeof(psr) };
+		psr.flags = PSR_UNICODE;
+		psr.email.w = L" ";
+		psr.lastName.w = L"";
 		psr.id.w = id.GetBuffer();
 		psr.nick.w = address1.GetBuffer();
 		psr.firstName.w = address2.GetBuffer();
