@@ -54,6 +54,7 @@ Boston, MA 02111-1307, USA.
 #include <m_variables.h>
 #include <m_smileyadd.h>
 #include <m_imgsrvc.h>
+#include <m_tipper.h>
 
 #include "resource.h"
 #include "version.h"

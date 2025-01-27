@@ -92,10 +92,6 @@ enum EWeatherCondition
 #define MAX_TEXT_SIZE   4096
 #define MAX_DATA_LEN    1024
 
-// db info mangement mode
-#define WDBM_REMOVE			1
-#define WDBM_DETAILDISPLAY	2
-
 // more info list column width
 #define LIST_COLUMN		 150
 
@@ -144,11 +140,6 @@ char *GetSearchStr(char *dis);
 wchar_t *GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t* str);
 
 wchar_t *GetError(int code);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// functions in weather_data.c
-
-void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions in weather_info.c

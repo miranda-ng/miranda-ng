@@ -277,7 +277,7 @@ void CWeatherProto::UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 	for (auto &hContact : AccContacts())
 		if (!getByte(hContact, "AutoUpdate") || !AutoUpdate) {
 			if (RemoveData)
-				DBDataManage(hContact, WDBM_REMOVE, 0, 0);
+				db_delete_module(hContact, WEATHERCONDITION);
 			UpdateListAdd(hContact);
 		}
 
@@ -311,12 +311,12 @@ INT_PTR CWeatherProto::UpdateSingleStation(WPARAM wParam, LPARAM)
 // update a single station with removing the old data
 // wParam = handle for the weather station that is going to be updated
 
-INT_PTR CWeatherProto::UpdateSingleRemove(WPARAM wParam, LPARAM)
+INT_PTR CWeatherProto::UpdateSingleRemove(WPARAM hContact, LPARAM)
 {
-	if (IsMyContact(wParam)) {
+	if (IsMyContact(hContact)) {
 		// add the station to the end of the update queue, and also remove old data
-		DBDataManage(wParam, WDBM_REMOVE, 0, 0);
-		UpdateListAdd(wParam);
+		db_delete_module(hContact, WEATHERCONDITION);
+		UpdateListAdd(hContact);
 
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get updated by the already-running process

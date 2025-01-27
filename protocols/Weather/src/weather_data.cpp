@@ -108,7 +108,7 @@ void CWeatherProto::EraseAllInfo()
 		}
 		else db_free(&dbv);
 
-		DBDataManage(hContact, WDBM_REMOVE, 0, 0);
+		db_delete_module(hContact, WEATHERCONDITION);
 		db_set_s(hContact, "UserInfo", "MyNotes", "");
 		// reset update tag
 		setByte(hContact, "IsUpdated", FALSE);
@@ -240,55 +240,6 @@ void CWeatherProto::ConvertDataValue(WIDATAITEM *p)
 	else if (!mir_wstrcmpi(p->Unit, L"DAY") || !mir_wstrcmpi(p->Unit, L"MONTH"))
 		if (opt.dUnit > 1 && mir_wstrlen(p->Value) > opt.dUnit)
 			p->Value.SetAt(opt.dUnit, '\0');
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// remove or display the weather information for a contact
-// hContact - the contact in which the info is going to be removed
-
-static int GetWeatherDataFromDB(const char *szSetting, void *lparam)
-{
-	LIST<char> *pList = (LIST<char>*)lparam;
-	pList->insert(mir_strdup(szSetting));
-	return 0;
-}
-
-void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM)
-{
-	// get all the settings and store them in a temporary list
-	LIST<char> arSettings(10);
-	db_enum_settings(hContact, GetWeatherDataFromDB, WEATHERCONDITION, &arSettings);
-
-	// begin deleting settings
-	auto T = arSettings.rev_iter();
-	for (auto &str : T) {
-		ptrW wszText(db_get_wsa(hContact, WEATHERCONDITION, str));
-		if (wszText == nullptr)
-			continue;
-
-		switch (Mode) {
-		case WDBM_REMOVE:
-			db_unset(hContact, WEATHERCONDITION, str);
-			break;
-
-		case WDBM_DETAILDISPLAY:
-			// skip the "WeatherInfo" variable
-			if (!mir_strcmp(str, "WeatherInfo") || !mir_strcmp(str, "Ignore") || str[0] == '#')
-				continue;
-
-			_A2T strW(str);
-			HWND hList = GetDlgItem((HWND)wParam, IDC_DATALIST);
-			LV_ITEM lvi = {};
-			lvi.mask = LVIF_TEXT | LVIF_PARAM;
-			lvi.lParam = T.indexOf(&str);
-			lvi.pszText = TranslateW(strW);
-			lvi.iItem = ListView_InsertItem(hList, &lvi);
-			lvi.pszText = wszText;
-			ListView_SetItemText(hList, lvi.iItem, 1, wszText);
-			break;
-		}
-		mir_free(str);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
