@@ -360,9 +360,26 @@ static wchar_t *moon2str(double phase)
 	return TranslateT("Waning crescent");
 }
 
+static CMStringW parseConditions(const CMStringW &str)
+{
+	CMStringW ret;
+	int iStart = 0;
+	while (true) {
+		auto substr = str.Tokenize(L",", iStart);
+		if (substr.IsEmpty())
+			break;
+
+		substr.Trim();
+		if (!ret.IsEmpty())
+			ret += ", ";
+		ret += TranslateW(substr);
+	}
+	return ret;
+}
+
 static void getData(OBJLIST<WIDATAITEM> &arValues, const JSONNode &node)
 {
-	arValues.insert(new WIDATAITEM(LPGENW("Condition"), L"", node["conditions"].as_mstring()));
+	arValues.insert(new WIDATAITEM(LPGENW("Condition"), L"", parseConditions(node["conditions"].as_mstring())));
 	arValues.insert(new WIDATAITEM(LPGENW("Temperature"), L"C", node["temp"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("High"), L"C", node["tempmax"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Low"), L"C", node["tempmin"].as_mstring()));
