@@ -457,7 +457,7 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 
 			if (!result.IsEmpty())
 				result += L"; ";
-			result.AppendFormat(L"%s - %s", TranslateW(it->Name), it->Value.c_str());
+			result.AppendFormat(L"%s: %s", TranslateW(it->Name), it->Value.c_str());
 		}
 
 		CMStringA szSetting(FORMAT, "Forecast Day %d", iFore++);
