@@ -43,36 +43,36 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Options",IDC_STATIC,3,0,299,70,WS_GROUP
-    CONTROL         "Update weather information every",IDC_UPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,23,206,8
-    EDITTEXT        IDC_UPDATETIME,223,21,33,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
-    LTEXT           "minutes",IDC_STATIC,260,23,39,8
+    GROUPBOX        "Options",IDC_STATIC,3,0,299,69,WS_GROUP
+    CONTROL         "Update weather information every",IDC_UPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,13,206,8
+    EDITTEXT        IDC_UPDATETIME,223,11,33,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    LTEXT           "minutes",IDC_STATIC,260,13,39,8
     CONTROL         "Consider weather info updated only when condition and temperature are changed",IDC_UPDCONDCHG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,286,8
-    CONTROL         "Remove old data when updating",IDC_REMOVEOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,45,286,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,27,286,8
+    CONTROL         "Remove old data when updating",IDC_REMOVEOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,41,286,8
     CONTROL         "Make the contact italic when weather alert is issued",IDC_MAKEI,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,56,286,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,55,286,8
     GROUPBOX        "Modes",IDC_STATIC,3,70,300,27
     CONTROL         "Avatar only mode",IDC_DISCONDICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,81,278,8
-    GROUPBOX        "Units",IDC_STATIC,3,107,299,80,WS_GROUP
-    LTEXT           "Temperature",IDC_STATIC,8,116,53,8
-    CONTROL         "Celsius",IDC_T1,"Button",BS_AUTORADIOBUTTON,65,116,40,8
-    CONTROL         "Fahrenheit",IDC_T2,"Button",BS_AUTORADIOBUTTON,120,116,47,8
-    RTEXT           "Degree sign:",IDC_STATIC,194,116,85,8
-    EDITTEXT        IDC_DEGREE,283,116,13,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
-    LTEXT           "Wind",IDC_STATIC,8,125,53,8
-    CONTROL         "km/h",IDC_W1,"Button",BS_AUTORADIOBUTTON,65,125,34,8
-    CONTROL         "m/s",IDC_W2,"Button",BS_AUTORADIOBUTTON,120,125,34,8
-    CONTROL         "mph",IDC_W3,"Button",BS_AUTORADIOBUTTON,176,125,34,8
-    CONTROL         "knots",IDC_W4,"Button",BS_AUTORADIOBUTTON,232,125,49,8
-    LTEXT           "Visibility",IDC_STATIC,8,134,53,8
-    CONTROL         "km",IDC_V1,"Button",BS_AUTORADIOBUTTON,65,134,34,8
-    CONTROL         "miles",IDC_V2,"Button",BS_AUTORADIOBUTTON,120,134,34,8
-    LTEXT           "Pressure",IDC_STATIC,8,143,53,8
-    CONTROL         "kPa",IDC_P1,"Button",BS_AUTORADIOBUTTON,65,143,38,8
-    CONTROL         "mb (hPa)",IDC_P2,"Button",BS_AUTORADIOBUTTON,120,143,56,8
-    CONTROL         "inches",IDC_P3,"Button",BS_AUTORADIOBUTTON,176,143,38,8
-    CONTROL         "mm Hg (torr)",IDC_P4,"Button",BS_AUTORADIOBUTTON,232,143,62,8
+    GROUPBOX        "Units",IDC_STATIC,3,99,299,87,WS_GROUP
+    LTEXT           "Temperature",IDC_STATIC,8,111,53,8
+    CONTROL         "Celsius",IDC_T1,"Button",BS_AUTORADIOBUTTON,65,111,40,8
+    CONTROL         "Fahrenheit",IDC_T2,"Button",BS_AUTORADIOBUTTON,120,111,47,8
+    RTEXT           "Degree sign:",IDC_STATIC,194,111,85,8
+    EDITTEXT        IDC_DEGREE,283,111,13,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    LTEXT           "Wind",IDC_STATIC,8,121,53,8
+    CONTROL         "km/h",IDC_W1,"Button",BS_AUTORADIOBUTTON,65,121,34,8
+    CONTROL         "m/s",IDC_W2,"Button",BS_AUTORADIOBUTTON,120,121,34,8
+    CONTROL         "mph",IDC_W3,"Button",BS_AUTORADIOBUTTON,176,121,34,8
+    CONTROL         "knots",IDC_W4,"Button",BS_AUTORADIOBUTTON,232,121,49,8
+    LTEXT           "Visibility",IDC_STATIC,8,131,53,8
+    CONTROL         "km",IDC_V1,"Button",BS_AUTORADIOBUTTON,65,131,34,8
+    CONTROL         "miles",IDC_V2,"Button",BS_AUTORADIOBUTTON,120,131,34,8
+    LTEXT           "Pressure",IDC_STATIC,8,142,53,8
+    CONTROL         "kPa",IDC_P1,"Button",BS_AUTORADIOBUTTON,65,142,38,8
+    CONTROL         "mb (hPa)",IDC_P2,"Button",BS_AUTORADIOBUTTON,120,142,56,8
+    CONTROL         "inches",IDC_P3,"Button",BS_AUTORADIOBUTTON,176,142,38,8
+    CONTROL         "mm Hg (torr)",IDC_P4,"Button",BS_AUTORADIOBUTTON,232,142,62,8
     LTEXT           "Day/Month",IDC_STATIC,8,153,53,8
     CONTROL         "No change",IDC_D1,"Button",BS_AUTORADIOBUTTON,65,153,52,8
     CONTROL         "2 chars",IDC_D2,"Button",BS_AUTORADIOBUTTON,120,153,56,8
@@ -96,9 +96,9 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Weather Station",IDC_STATIC,5,7,231,46
     LTEXT           "City name",IDC_STATIC,12,21,57,8,SS_CENTERIMAGE
-    EDITTEXT        IDC_NAME,69,19,146,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_NAME,69,19,162,12,ES_AUTOHSCROLL
     LTEXT           "ID",IDC_STATIC,12,37,57,8,SS_CENTERIMAGE
-    EDITTEXT        IDC_ID,69,35,146,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ID,69,35,162,12,ES_AUTOHSCROLL | WS_DISABLED
     GROUPBOX        "Log Information",IDC_STATIC,5,55,231,53
     CONTROL         "Use internal history",IDC_Internal,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,68,218,8
     CONTROL         "Use external file",IDC_External,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,80,98,8
@@ -113,7 +113,6 @@ BEGIN
     CONTROL         "Disable Popup for this station",IDC_DPop,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,141,218,8
     PUSHBUTTON      "Change",IDC_CHANGE,57,158,46,14
     DEFPUSHBUTTON   "Cancel",IDCANCEL,136,158,46,14
-    CONTROL         "",IDC_GETNAME,"MButtonClass",WS_TABSTOP,217,19,13,12,WS_EX_NOACTIVATE | 0x10000000L
 END
 
 IDD_POPUP DIALOGEX 0, 0, 312, 236
@@ -249,8 +248,6 @@ BEGIN
 
     IDD_OPTIONS, DIALOG
     BEGIN
-        VERTGUIDE, 8
-        VERTGUIDE, 294
         BOTTOMMARGIN, 209
     END
 

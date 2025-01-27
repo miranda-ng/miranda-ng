@@ -74,7 +74,6 @@
 #define IDC_BROWSE                      2054
 #define IDC_V1                          2058
 #define IDC_V2                          2059
-#define IDC_GETNAME                     2062
 #define IDC_P1                          2063
 #define IDC_P2                          2064
 #define IDC_P3                          2065

@@ -90,9 +90,9 @@ class CEditDlg : public CWeatherDlgBase
 {
 	MCONTACT hContact;
 
-	CCtrlEdit edtID, edtName;
+	CCtrlEdit edtName;
 	CCtrlButton btnExternal, btnChange;
-	CCtrlMButton btnGetName, btnBrowse;
+	CCtrlMButton btnBrowse;
 
 	wchar_t str[MAX_DATA_LEN], str2[256];
 
@@ -100,19 +100,15 @@ public:
 	CEditDlg(CWeatherProto *ppro, MCONTACT _1) :
 		CWeatherDlgBase(ppro, IDD_EDIT),
 		hContact(_1),
-		edtID(this, IDC_ID),
 		edtName(this, IDC_NAME),
 		btnBrowse(this, IDC_BROWSE, SKINICON_EVENT_FILE, LPGEN("Browse")),
-		btnGetName(this, IDC_GETNAME, SKINICON_OTHER_RENAME, LPGEN("Get city name from ID")),
 		btnChange(this, IDC_CHANGE),
 		btnExternal(this, IDC_External)
 	{
-		edtID.OnChange = Callback(this, &CEditDlg::onChanged_ID);
 		edtName.OnChange = Callback(this, &CEditDlg::onChanged_Name);
 
 		btnBrowse.OnClick = Callback(this, &CEditDlg::onClick_Browse);
 		btnChange.OnClick = Callback(this, &CEditDlg::onClick_Change);
-		btnGetName.OnClick = Callback(this, &CEditDlg::onClick_GetName);
 		btnExternal.OnClick = Callback(this, &CEditDlg::onClick_External);
 	}
 
@@ -120,7 +116,6 @@ public:
 	{
 		// make all buttons flat
 		btnBrowse.MakeFlat();
-		btnGetName.MakeFlat();
 
 		// save the handle for the contact
 		WindowList_Add(hWindowList, m_hwnd, hContact);
@@ -153,7 +148,7 @@ public:
 		CheckDlgButton(m_hwnd, IDC_Internal, m_proto->getByte(hContact, "History", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		// display the dialog box and free memory
-		Utils_RestoreWindowPositionNoMove(m_hwnd, NULL, MODULENAME, "EditSetting_");
+		Utils_RestoreWindowPositionNoSize(m_hwnd, NULL, MODULENAME, "EditSetting_");
 		ShowWindow(m_hwnd, SW_SHOW);
 		return true;
 	}
@@ -166,35 +161,12 @@ public:
 		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "EditSetting_");
 	}
 
-	void onChanged_ID(CCtrlEdit *)
-	{
-		// check if there are 2 parts in the ID (svc/id) seperated by "/"
-		// if not, don't let user change the setting
-		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		btnChange.Enable(wcschr(str, '/') != nullptr);
-	}
-
 	void onChanged_Name(CCtrlEdit *)
 	{
 		// check if station name is entered
 		// if not, don't let user change the setting
 		GetDlgItemText(m_hwnd, IDC_NAME, str, _countof(str));
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHANGE), str[0] != 0);
-	}
-
-	void onClick_GetName(CCtrlButton *)
-	{
-		// the button for getting station name from the internet
-		// this function uses the ID search for add/find weather station
-		if (!m_proto->CheckSearch())
-			return;	// don't download if update is in progress
-
-		// get the weather update data using the string in the ID field
-		GetDlgItemText(m_hwnd, IDC_ID, str, _countof(str));
-		
-		// give no station name but only ID if the search is unavailable
-		if (str[0] != 0)
-			SetDlgItemText(m_hwnd, IDC_NAME, str);
 	}
 
 	void onClick_External(CCtrlButton *)
