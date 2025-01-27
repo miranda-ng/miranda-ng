@@ -28,8 +28,7 @@ information
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// dialog process for more data in the user info window
-// lParam = contact handle
+// dialog for more data in the user info window
 
 class CBriefInfoDlg : public CWeatherDlgBase
 {
@@ -66,18 +65,18 @@ public:
 
 		// get the list to display
 		{
-			LV_COLUMN lvc = {};
 			HWND hList = GetDlgItem(m_hwnd, IDC_DATALIST);
 			RECT aRect = {};
 			GetClientRect(hList, &aRect);
 
 			// managing styles
-			lvc.mask = LVCF_WIDTH | LVCF_TEXT;
-			ListView_SetExtendedListViewStyleEx(hList,
-				LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP,
-				LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
+			DWORD dwStyle = LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP;
+			ListView_SetExtendedListViewStyleEx(hList, dwStyle, dwStyle);
 
 			// inserting columns
+			LV_COLUMN lvc = {};
+			lvc.mask = LVCF_WIDTH | LVCF_TEXT;
+
 			lvc.cx = LIST_COLUMN;
 			lvc.pszText = TranslateT("Variable");
 			ListView_InsertColumn(hList, 0, &lvc);
