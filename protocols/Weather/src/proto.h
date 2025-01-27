@@ -38,7 +38,6 @@ struct MYOPTIONS
 	// main options
 	uint8_t AutoUpdate;
 	uint8_t CAutoUpdate;
-	uint8_t StartupUpdate;
 	uint8_t UpdateOnlyConditionChanged;
 	uint8_t RemoveOldData;
 	uint8_t MakeItalic;

@@ -30,7 +30,6 @@
 #define IDC_AVATARSIZE                  2006
 #define IDC_UPDATE                      2007
 #define IDC_BTITLE                      2008
-#define IDC_STARTUPUPD                  2008
 #define IDC_CHANGE                      2009
 #define IDC_BTITLE2                     2009
 #define IDC_USEWINCOLORS                2010

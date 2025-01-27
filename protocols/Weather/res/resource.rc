@@ -44,8 +44,6 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Options",IDC_STATIC,3,0,299,70,WS_GROUP
-    CONTROL         "Update weather information on startup",IDC_STARTUPUPD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,12,286,8
     CONTROL         "Update weather information every",IDC_UPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,23,206,8
     EDITTEXT        IDC_UPDATETIME,223,21,33,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
     LTEXT           "minutes",IDC_STATIC,260,23,39,8

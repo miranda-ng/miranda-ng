@@ -80,7 +80,6 @@ void CWeatherProto::LoadOptions(void)
 	memset(&opt, 0, sizeof(opt));
 
 	// main options
-	opt.StartupUpdate = getByte("StartupUpdate", true);
 	opt.AutoUpdate = getByte("AutoUpdate", true);
 	opt.UpdateTime = getWord("UpdateTime", 30);
 	opt.UpdateOnlyConditionChanged = getByte("CondChangeAsUpdate", true);
@@ -134,7 +133,6 @@ void CWeatherProto::LoadOptions(void)
 void CWeatherProto::SaveOptions(void)
 {
 	// main options
-	setByte("StartupUpdate", (uint8_t)opt.StartupUpdate);
 	setByte("AutoUpdate", (uint8_t)opt.AutoUpdate);
 	setWord("UpdateTime", opt.UpdateTime);
 	setByte("CondChangeAsUpdate", (uint8_t)opt.UpdateOnlyConditionChanged);
@@ -201,7 +199,6 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_AVATARSPIN, UDM_SETPOS, 0, opt.AvatarSize);
 		SendDlgItemMessage(m_hwnd, IDC_AVATARSIZE, EM_LIMITTEXT, 3, 0);
 
-		CheckDlgButton(m_hwnd, IDC_STARTUPUPD, opt.StartupUpdate ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_UPDATE, opt.AutoUpdate ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_UPDCONDCHG, opt.UpdateOnlyConditionChanged ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_REMOVEOLD, opt.RemoveOldData ? BST_CHECKED : BST_UNCHECKED);
@@ -258,7 +255,6 @@ public:
 
 		// other general options
 		GetDlgItemText(m_hwnd, IDC_DEGREE, opt.DegreeSign, _countof(opt.DegreeSign));
-		opt.StartupUpdate = IsDlgButtonChecked(m_hwnd, IDC_STARTUPUPD);
 		opt.AutoUpdate = IsDlgButtonChecked(m_hwnd, IDC_UPDATE);
 		opt.DisCondIcon = IsDlgButtonChecked(m_hwnd, IDC_DISCONDICON);
 		opt.UpdateOnlyConditionChanged = (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_UPDCONDCHG);
