@@ -377,19 +377,24 @@ static CMStringW parseConditions(const CMStringW &str)
 	return ret;
 }
 
+static double g_elevation = 0;
+
 static void getData(OBJLIST<WIDATAITEM> &arValues, const JSONNode &node)
 {
 	arValues.insert(new WIDATAITEM(LPGENW("Condition"), L"", parseConditions(node["conditions"].as_mstring())));
 	arValues.insert(new WIDATAITEM(LPGENW("Temperature"), L"C", node["temp"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("High"), L"C", node["tempmax"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Low"), L"C", node["tempmin"].as_mstring()));
+
+	CMStringW wszPressure(FORMAT, L"%lf", node["pressure"].as_float() - g_elevation);
+	arValues.insert(new WIDATAITEM(LPGENW("Pressure"), L"mb", wszPressure));
+
 	arValues.insert(new WIDATAITEM(LPGENW("Sunset"), L"", node["sunset"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Sunrise"), L"", node["sunrise"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Moon phase"), L"", moon2str(node["moonphase"].as_float())));
 	arValues.insert(new WIDATAITEM(LPGENW("Wind speed"), L"km/h", node["windspeed"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Wind direction"), L"grad", node["winddir"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Dew point"), L"C", node["dew"].as_mstring()));
-	arValues.insert(new WIDATAITEM(LPGENW("Pressure"), L"mb", node["pressure"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Visibility"), L"km", node["visibility"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Humidity"), L"", node["humidity"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Feel"), L"C", node["feelslike"].as_mstring()));
@@ -414,6 +419,8 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 
 	// writing current conditions
 	auto &curr = root["currentConditions"];
+	g_elevation = root["elevation"].as_float() / 7.877;
+
 	OBJLIST<WIDATAITEM> arValues(20);
 	getData(arValues, curr);
 

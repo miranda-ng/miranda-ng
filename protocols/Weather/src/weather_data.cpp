@@ -266,6 +266,8 @@ MHttpResponse* CWeatherProto::RunQuery(const wchar_t *id, int days)
 	}
 
 	pReq << CHAR_PARAM("unitGroup", "metric") << WCHAR_PARAM("key", pKey) << CHAR_PARAM("contentType", "json");
+	if (days)
+		pReq << CHAR_PARAM("elements", "+elevation");
 
 	auto *ret = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	delete pReq;
