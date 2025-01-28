@@ -55,7 +55,7 @@ void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
 		CMStringA szReplace;
 
 		auto *p = szText.c_str() + idx;
-		if (!strncmp(p, "emoticon", 8))
+		if (!strncmp(p, "emoticon", 8) || !strncmp(p, "sticker", 7))
 			szReplace = ":";
 
 		if (!isClosing) {
@@ -74,18 +74,31 @@ void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
 			else if (!strncmp(p, "lobbyinvite ", 12)) {
 				szReplace = TranslateU("You were invited to play a game");
 			}
+			else if (!strncmp(p, "sticker ", 8)) {
+				std::regex regex("type=\"(.+?)\"");
+				std::smatch match;
+				std::string content(p + 8);
+				if (std::regex_search(content, match, regex)) {
+					std::string szType = match[1];
+					szReplace += szType.c_str();
+					szReplace.Replace(" ", "_");
+				}
+				iEnd++;
+			}
 			else iEnd++;
 		}
 		else iEnd++, idx--;
 
 		idx--;
 		szText.Delete(idx, iEnd - idx);
+
 		if (!szReplace.IsEmpty()) {
 			if (bPlaceFirst)
 				szText = szReplace + szText;
 			else
 				szText.Insert(idx, szReplace);
 		}
+		iEnd -= iEnd - idx;
 		idx = iEnd;
 	}
 }
