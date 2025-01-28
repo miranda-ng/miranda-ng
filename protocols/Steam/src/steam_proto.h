@@ -283,6 +283,7 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnSearchByNameStarted(const MHttpResponse &response, void *arg);
 
 	// history
+	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcCanEmptyHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcEmptyHistory(WPARAM, LPARAM);
 

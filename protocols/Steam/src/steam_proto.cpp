@@ -25,6 +25,7 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	CreateProtoService(PS_GETMYAVATAR, &CSteamProto::GetMyAvatar);
 
 	// history
+	CreateProtoService(PS_MENU_LOADHISTORY, &CSteamProto::SvcLoadServerHistory);
 	CreateProtoService(PS_CAN_EMPTY_HISTORY, &CSteamProto::SvcCanEmptyHistory);
 	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CSteamProto::SvcEmptyHistory);
 

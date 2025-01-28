@@ -10,6 +10,26 @@ INT_PTR CSteamProto::SvcEmptyHistory(WPARAM, LPARAM)
 	return 1;
 }
 
+INT_PTR CSteamProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
+{
+	if (Contact::IsGroupChat(hContact)) {
+		CChatRoomGetMessageHistoryRequest request;
+		request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
+		request.chat_id = getDword(hContact, "ChatId"); request.has_chat_id = true;
+		request.max_count = 100; request.has_max_count = true;
+		WSSendService(GetChatHistory, request, (void *)hContact);
+	}
+	else {
+		CFriendMessagesGetRecentMessagesRequest request;
+		request.steamid1 = m_iSteamId; request.has_steamid1 = true;
+		request.steamid2 = GetId(hContact, DBKEY_STEAM_ID); request.has_steamid2 = true;
+		request.count = 100; request.has_count = true;
+		request.most_recent_conversation = request.has_most_recent_conversation = true;
+		WSSendService(FriendGetRecentMessages, request);
+	}
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSteamProto::SendHistoryRequest(uint64_t accountId, uint32_t startTime)
