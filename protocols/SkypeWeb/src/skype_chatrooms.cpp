@@ -155,7 +155,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			PushRequest(new InviteUserToChatRequest(chat_id, user_id, "User"));
 			break;
 		case 50:
-			ptrW tnick_old(GetChatContactNick(si->hContact, gch->ptszUID, gch->ptszText));
+			ptrW tnick_old(GetChatContactNick(si, gch->ptszUID, gch->ptszText));
 
 			ENTER_STRING pForm = {};
 			pForm.type = ESF_COMBO;
@@ -172,7 +172,7 @@ int CSkypeProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				if (reset) {
 					// User fill blank name, which means we reset the custom nick
 					db_unset(si->hContact, "UsersNicks", user_id);
-					tnick_new = GetChatContactNick(si->hContact, gch->ptszUID, gch->ptszText);
+					tnick_new = GetChatContactNick(si, gch->ptszUID, gch->ptszText);
 				}
 
 				if (!mir_wstrcmp(tnick_old, tnick_new))
@@ -247,11 +247,11 @@ bool CSkypeProto::OnChatEvent(const JSONNode &node)
 		// <addmember><eventtime>1429186229164</eventtime><initiator>8:initiator</initiator><target>8:user</target></addmember>
 		TiXmlDocument doc;
 		if (!doc.Parse(T2Utf(wszContent))) {
-			if (auto *pRoot = doc.FirstChildElement("addMember")) {
-				CMStringW target = Utf2T(XmlGetChildText(pRoot, "target"));
-				if (!AddChatContact(si, target, L"User")) {
+			if (auto *pRoot = doc.FirstChildElement("addmember")) {
+				auto *pszTarget = XmlGetChildText(pRoot, "target");
+				if (!AddChatContact(si, Utf2T(pszTarget), L"User")) {
 					OBJLIST<char> arIds(1);
-					arIds.insert(mir_u2a(target));
+					arIds.insert(newStr(pszTarget));
 					PushRequest(new GetChatMembersRequest(arIds, si));
 				}
 			}
@@ -264,9 +264,9 @@ bool CSkypeProto::OnChatEvent(const JSONNode &node)
 		TiXmlDocument doc;
 		if (!doc.Parse(T2Utf(wszContent))) {
 			if (auto *pRoot = doc.FirstChildElement("deletemember")) {
-				CMStringW target = Utf2T(UrlToSkypeId(XmlGetChildText(pRoot, "target")));
+				CMStringW target = Utf2T(XmlGetChildText(pRoot, "target"));
 				CMStringW initiator = Utf2T(XmlGetChildText(pRoot, "initiator"));
-				RemoveChatContact(si, target, true, initiator);
+				RemoveChatContact(si, target, initiator);
 			}
 		}
 		return true;
@@ -404,15 +404,18 @@ void CSkypeProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 	PushRequest(new GetHistoryRequest(si->hContact, T2Utf(si->ptszID), 100, 0, true));
 }
 
-wchar_t* CSkypeProto::GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name, bool *isQualified)
+wchar_t* CSkypeProto::GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name, bool *isQualified)
 {
 	if (isQualified)
 		*isQualified = true;
 
+	// Check if there's a user with this id in a chat
+	if (auto *pUser = g_chatApi.UM_FindUser(si, id))
+		return mir_wstrdup(pUser->pszNick);
+
 	// Check if there is custom nick for this chat contact
-	if (hContact)
-		if (auto *tname = db_get_wsa(hContact, "UsersNicks", T2Utf(id)))
-			return tname;
+	if (auto *tname = db_get_wsa(si->hContact, "UsersNicks", T2Utf(id)))
+		return tname;
 
 	// Check if we have this contact in database
 	if (IsMe(id)) {
@@ -421,7 +424,7 @@ wchar_t* CSkypeProto::GetChatContactNick(MCONTACT hContact, const wchar_t *id, c
 			return tname;
 	}
 	else {
-		hContact = FindContact(id);
+		MCONTACT hContact = FindContact(id);
 		if (hContact != NULL) {
 			// Primarily return custom name
 			if (auto *tname = db_get_wsa(hContact, "CList", "MyHandle"))
@@ -445,7 +448,7 @@ wchar_t* CSkypeProto::GetChatContactNick(MCONTACT hContact, const wchar_t *id, c
 bool CSkypeProto::AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange)
 {
 	bool isQualified;
-	ptrW szNick(GetChatContactNick(si->hContact, id, 0, &isQualified));
+	ptrW szNick(GetChatContactNick(si, id, 0, &isQualified));
 
 	GCEVENT gce = { si, GC_EVENT_JOIN };
 	gce.dwFlags = GCEF_ADDTOLOG;
@@ -459,25 +462,21 @@ bool CSkypeProto::AddChatContact(SESSION_INFO *si, const wchar_t *id, const wcha
 	return isQualified;
 }
 
-void CSkypeProto::RemoveChatContact(SESSION_INFO *si, const wchar_t *id, bool isKick, const wchar_t *initiator)
+void CSkypeProto::RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator)
 {
 	if (IsMe(id))
 		return;
 
-	ptrW szNick(GetChatContactNick(si->hContact, id));
-	ptrW szInitiator(GetChatContactNick(si->hContact, initiator));
+	ptrW szNick(GetChatContactNick(si, id));
+	ptrW szInitiator(GetChatContactNick(si, initiator));
 	
-	GCEVENT gce = { si, isKick ? GC_EVENT_KICK : GC_EVENT_PART };
+	GCEVENT gce = { si, GC_EVENT_KICK };
+	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pszNick.w = szNick;
 	gce.pszUID.w = id;
 	gce.time = time(0);
-	if (isKick)
-		gce.pszStatus.w = szInitiator;
-	else {
-		gce.dwFlags += GCEF_ADDTOLOG;
-		gce.bIsMe = IsMe(id);
-	}
-
+	gce.bIsMe = IsMe(id);
+	gce.pszStatus.w = szInitiator;
 	Chat_Event(&gce);
 }
 

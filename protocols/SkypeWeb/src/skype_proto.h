@@ -286,10 +286,10 @@ private:
 	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname, const char *pszVersion = nullptr);
 
 	bool OnChatEvent(const JSONNode &node);
-	wchar_t* GetChatContactNick(MCONTACT hContact, const wchar_t *id, const wchar_t *name = nullptr, bool *isQualified = nullptr);
+	wchar_t* GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name = nullptr, bool *isQualified = nullptr);
 
 	bool AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
-	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, bool isKick = false, const wchar_t *initiator = L"");
+	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator = L"");
 	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
 
 	void KickChatUser(const char *chatId, const char *userId);
