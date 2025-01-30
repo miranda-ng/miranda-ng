@@ -87,7 +87,7 @@ static void EnableMultipleControls(HWND hwndDlg, const UINT *controls, int cCont
 
 static void AddProxyTypeItem(HWND hwndDlg, int type, int selectType)
 {
-	int i = SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_ADDSTRING, 0, (LPARAM)(type == 0 ? TranslateW(szProxyTypes[type]) : szProxyTypes[type]));
+	int i = SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_ADDSTRING, 0, (LPARAM)TranslateW(szProxyTypes[type]));
 	SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_SETITEMDATA, i, type);
 	if (type == selectType)
 		SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_SETCURSEL, i, 0);
