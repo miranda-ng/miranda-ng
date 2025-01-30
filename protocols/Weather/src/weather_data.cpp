@@ -248,8 +248,10 @@ void CWeatherProto::ConvertDataValue(WIDATAITEM *p)
 MHttpResponse* CWeatherProto::RunQuery(const wchar_t *id, int days)
 {
 	wchar_t *pKey = m_szApiKey;
-	if (!mir_wstrlen(pKey))
+	if (!mir_wstrlen(pKey)) {
+		WPShowMessage(TranslateT("You need to obtain the personal key and enter it in the account's Options dialog"), SM_WARNING);
 		return nullptr;
+	}
 
 	auto *pReq = new MHttpRequest(REQUEST_GET);
 	pReq->flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT;
