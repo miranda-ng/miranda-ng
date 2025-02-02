@@ -34,43 +34,32 @@ void __cdecl CSteamProto::ServerThread(void *)
 	m_ws = nullptr;
 
 	CMStringA szHost;
-	do {
-		szHost.Format("Host%d", rand() % iHostCount);
-		szHost = db_get_sm(0, MODULENAME, szHost);
-		szHost.Insert(0, "wss://");
-		szHost += "/cmsocket/";
-	}
-	while (ServerThreadStub(szHost));
-}
+	szHost.Format("Host%d", rand() % iHostCount);
+	szHost = db_get_sm(0, MODULENAME, szHost);
+	szHost.Insert(0, "wss://");
+	szHost += "/cmsocket/";
 
-bool CSteamProto::ServerThreadStub(const char *szHost)
-{
 	WebSocket<CSteamProto> ws(this);
 
 	NLHR_PTR pReply(ws.connect(m_hNetlibUser, szHost));
-	if (pReply == nullptr) {
-		debugLogA("websocket connection failed");
-		return false;
+	if (pReply) {
+		if (pReply->resultCode == 101) {
+			m_ws = &ws;
+
+			debugLogA("Websocket connection succeeded");
+
+			// Send init packets
+			Login();
+
+			ws.run();
+		}
+		else debugLogA("websocket connection failed: %d", pReply->resultCode);
 	}
-
-	if (pReply->resultCode != 101) {
-		debugLogA("websocket connection failed: %d", pReply->resultCode);
-		return false;
-	}
-
-	m_ws = &ws;
-
-	debugLogA("Websocket connection succeeded");
-
-	// Send init packets
-	Login();
-
-	ws.run();
+	else debugLogA("websocket connection failed");
 
 	Logout();
 	m_impl.m_heartBeat.Stop();
 	m_ws = nullptr;
-	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

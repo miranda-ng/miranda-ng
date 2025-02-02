@@ -164,7 +164,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	void* GetRequestInfo(uint64_t);
 
 	void __cdecl ServerThread(void *);
-	bool ServerThreadStub(const char *szHost);
 
    void ProcessMulti(const uint8_t *buf, size_t cbLen);
    void ProcessMessage(const uint8_t *buf, size_t cbLen);
