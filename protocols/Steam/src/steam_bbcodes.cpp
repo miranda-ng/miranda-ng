@@ -42,6 +42,17 @@ struct BBCode
 	std::map<CMStringA, CMStringA> attrs;
 };
 
+static bool p2str(CMStringA &str, const char *&text, const char *subStr)
+{
+	if (auto *p = strpbrk(text, subStr)) {
+		str.Append(text, p - text);
+		text = p;
+		return true;
+	}
+
+	return false;
+}
+
 int parseBbcode(const char *p, BBCode &ret)
 {
 	auto *pSave = p;
@@ -51,9 +62,7 @@ int parseBbcode(const char *p, BBCode &ret)
 
 	// [tag=value][/tag]
 	if (*p == '=') {
-		while (*p && *p != ']')
-			ret.szValue.AppendChar(*p++);
-		if (*p != ']')
+		if (!p2str(ret.szValue, p, "]"))
 			return -1;
 	}
 	// [tag attr=value][/tag]
@@ -61,26 +70,23 @@ int parseBbcode(const char *p, BBCode &ret)
 		p++;
 		while (*p != ']') {
 			CMStringA szName, szValue;
-			while (*p && *p != '=')
-				szName.AppendChar(*p++);
-			if (*p++ != '=')
+			if (!p2str(szName, p, "="))
 				return -1;
-			if (*p == '\"') {
+			
+			if (*++p == '\"') {
 				auto *p1 = strchr(++p, '\"');
 				if (p1 == nullptr)
 					return -1;
 
-				p++;
 				szValue.Append(p, p1 - p);
 				p = p1 + 1;
 			}
 			else {
-				while (*p && *p != ' ' && *p != ']')
-					szValue.AppendChar(*p++);
-				if (*p == 0)
+				if (!p2str(szValue, p, " ]"))
 					return -1;
 			}
 
+			ret.attrs[szName] = szValue;
 			if (*p == ' ')
 				p++;
 		}
@@ -102,7 +108,7 @@ int parseBbcode(const char *p, BBCode &ret)
 	return pEnd + szClose.GetLength() - pSave;
 }
 
-void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
+void CSteamProto::DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
 {
 	for (int idx = szText.Find('['); idx != -1; idx = szText.Find('[', idx + 1)) {
 		BBCode code;
@@ -125,6 +131,27 @@ void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText)
 		}
 		else if (code.szTag == "lobbyinvite") {
 			szReplace = TranslateU("You were invited to play a game");
+		}
+		else if (code.szTag == "img") {
+			auto szUrl = code.attrs["src"];
+			if (szUrl.IsEmpty())
+				szUrl = code.attrs["thumbnail_src"];
+
+			if (!szUrl.IsEmpty())
+				szReplace = "[url]" + szUrl + "[/url]";
+
+			szUrl = code.attrs["associated_app"];
+			if (!szUrl.IsEmpty()) {
+				CMStringA szSetting = "AppInfo_" + szUrl;
+				ptrA szName(g_plugin.getUStringA(szSetting));
+				if (szName)
+					szReplace.AppendFormat("\r\n%s: %s", TranslateU("Associated application"), szName.get());
+				else
+					SendAppInfoRequest(atoi(szUrl));
+			}
+		}
+		else if (code.szTag == "spoiler") {
+			szReplace = code.szValue;
 		}
 		else continue;
 

@@ -143,7 +143,7 @@ int CSteamProto::AuthRequest(MCONTACT hContact, const wchar_t*)
 	return 1;
 }
 
-INT_PTR CSteamProto::GetCaps(int type, MCONTACT hContact)
+INT_PTR CSteamProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:

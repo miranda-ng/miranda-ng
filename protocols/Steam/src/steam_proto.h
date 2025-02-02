@@ -343,6 +343,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	// helpers
 	void OnDoNothing(const CMsgProtoBufHeader &, const CMsgProtoBufHeader &) {}
 
+	void DecodeBbcodes(SESSION_INFO *si, CMStringA &szText);
+
 	inline int IdleSeconds()
 	{
 		// Based on idle time we report Steam server will mark us as online/away/snooze
