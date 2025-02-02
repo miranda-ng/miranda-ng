@@ -159,7 +159,10 @@ static Tox_Event_Group_Password *tox_events_add_group_password(Tox_Events *event
     event.type = TOX_EVENT_GROUP_PASSWORD;
     event.data.group_password = group_password;
 
-    tox_events_add(events, &event);
+    if (!tox_events_add(events, &event)) {
+        tox_event_group_password_free(group_password, mem);
+        return nullptr;
+    }
     return group_password;
 }
 
@@ -204,7 +207,7 @@ static Tox_Event_Group_Password *tox_event_group_password_alloc(void *user_data)
  *****************************************************/
 
 void tox_events_handle_group_password(
-    Tox *tox, uint32_t group_number, const uint8_t *password, size_t length,
+    Tox *tox, uint32_t group_number, const uint8_t *password, size_t password_length,
     void *user_data)
 {
     Tox_Event_Group_Password *group_password = tox_event_group_password_alloc(user_data);
@@ -214,5 +217,5 @@ void tox_events_handle_group_password(
     }
 
     tox_event_group_password_set_group_number(group_password, group_number);
-    tox_event_group_password_set_password(group_password, password, length);
+    tox_event_group_password_set_password(group_password, password, password_length);
 }

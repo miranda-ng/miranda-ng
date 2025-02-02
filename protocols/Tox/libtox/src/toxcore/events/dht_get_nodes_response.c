@@ -158,7 +158,10 @@ static Tox_Event_Dht_Get_Nodes_Response *tox_events_add_dht_get_nodes_response(T
     event.type = TOX_EVENT_DHT_GET_NODES_RESPONSE;
     event.data.dht_get_nodes_response = dht_get_nodes_response;
 
-    tox_events_add(events, &event);
+    if (!tox_events_add(events, &event)) {
+        tox_event_dht_get_nodes_response_free(dht_get_nodes_response, mem);
+        return nullptr;
+    }
     return dht_get_nodes_response;
 }
 

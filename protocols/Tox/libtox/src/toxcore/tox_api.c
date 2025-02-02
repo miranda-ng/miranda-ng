@@ -265,14 +265,6 @@ void tox_options_set_experimental_thread_safety(
 {
     options->experimental_thread_safety = experimental_thread_safety;
 }
-const Tox_System *tox_options_get_operating_system(const Tox_Options *options)
-{
-    return options->operating_system;
-}
-void tox_options_set_operating_system(Tox_Options *options, const Tox_System *operating_system)
-{
-    options->operating_system = operating_system;
-}
 bool tox_options_get_experimental_groups_persistence(const Tox_Options *options)
 {
     return options->experimental_groups_persistence;
@@ -895,6 +887,9 @@ const char *tox_err_conference_join_to_string(Tox_Err_Conference_Join value)
 
         case TOX_ERR_CONFERENCE_JOIN_FAIL_SEND:
             return "TOX_ERR_CONFERENCE_JOIN_FAIL_SEND";
+
+        case TOX_ERR_CONFERENCE_JOIN_NULL:
+            return "TOX_ERR_CONFERENCE_JOIN_NULL";
     }
 
     return "<invalid Tox_Err_Conference_Join>";
@@ -1253,17 +1248,17 @@ const char *tox_err_group_peer_query_to_string(Tox_Err_Group_Peer_Query value)
 
     return "<invalid Tox_Err_Group_Peer_Query>";
 }
-const char *tox_err_group_state_queries_to_string(Tox_Err_Group_State_Queries value)
+const char *tox_err_group_state_query_to_string(Tox_Err_Group_State_Query value)
 {
     switch (value) {
-        case TOX_ERR_GROUP_STATE_QUERIES_OK:
-            return "TOX_ERR_GROUP_STATE_QUERIES_OK";
+        case TOX_ERR_GROUP_STATE_QUERY_OK:
+            return "TOX_ERR_GROUP_STATE_QUERY_OK";
 
-        case TOX_ERR_GROUP_STATE_QUERIES_GROUP_NOT_FOUND:
-            return "TOX_ERR_GROUP_STATE_QUERIES_GROUP_NOT_FOUND";
+        case TOX_ERR_GROUP_STATE_QUERY_GROUP_NOT_FOUND:
+            return "TOX_ERR_GROUP_STATE_QUERY_GROUP_NOT_FOUND";
     }
 
-    return "<invalid Tox_Err_Group_State_Queries>";
+    return "<invalid Tox_Err_Group_State_Query>";
 }
 const char *tox_err_group_topic_set_to_string(Tox_Err_Group_Topic_Set value)
 {
@@ -1340,6 +1335,9 @@ const char *tox_err_group_send_private_message_to_string(Tox_Err_Group_Send_Priv
         case TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_EMPTY:
             return "TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_EMPTY";
 
+        case TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_BAD_TYPE:
+            return "TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_BAD_TYPE";
+
         case TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_PERMISSIONS:
             return "TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_PERMISSIONS";
 
@@ -1348,9 +1346,6 @@ const char *tox_err_group_send_private_message_to_string(Tox_Err_Group_Send_Priv
 
         case TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_DISCONNECTED:
             return "TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_DISCONNECTED";
-
-        case TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_BAD_TYPE:
-            return "TOX_ERR_GROUP_SEND_PRIVATE_MESSAGE_BAD_TYPE";
     }
 
     return "<invalid Tox_Err_Group_Send_Private_Message>";
@@ -1369,9 +1364,6 @@ const char *tox_err_group_send_custom_packet_to_string(Tox_Err_Group_Send_Custom
 
         case TOX_ERR_GROUP_SEND_CUSTOM_PACKET_EMPTY:
             return "TOX_ERR_GROUP_SEND_CUSTOM_PACKET_EMPTY";
-
-        case TOX_ERR_GROUP_SEND_CUSTOM_PACKET_PERMISSIONS:
-            return "TOX_ERR_GROUP_SEND_CUSTOM_PACKET_PERMISSIONS";
 
         case TOX_ERR_GROUP_SEND_CUSTOM_PACKET_DISCONNECTED:
             return "TOX_ERR_GROUP_SEND_CUSTOM_PACKET_DISCONNECTED";
@@ -1399,9 +1391,6 @@ const char *tox_err_group_send_custom_private_packet_to_string(Tox_Err_Group_Sen
 
         case TOX_ERR_GROUP_SEND_CUSTOM_PRIVATE_PACKET_PEER_NOT_FOUND:
             return "TOX_ERR_GROUP_SEND_CUSTOM_PRIVATE_PACKET_PEER_NOT_FOUND";
-
-        case TOX_ERR_GROUP_SEND_CUSTOM_PRIVATE_PACKET_PERMISSIONS:
-            return "TOX_ERR_GROUP_SEND_CUSTOM_PRIVATE_PACKET_PERMISSIONS";
 
         case TOX_ERR_GROUP_SEND_CUSTOM_PRIVATE_PACKET_FAIL_SEND:
             return "TOX_ERR_GROUP_SEND_CUSTOM_PRIVATE_PACKET_FAIL_SEND";
@@ -1457,11 +1446,14 @@ const char *tox_err_group_invite_accept_to_string(Tox_Err_Group_Invite_Accept va
         case TOX_ERR_GROUP_INVITE_ACCEPT_PASSWORD:
             return "TOX_ERR_GROUP_INVITE_ACCEPT_PASSWORD";
 
-        case TOX_ERR_GROUP_INVITE_ACCEPT_CORE:
-            return "TOX_ERR_GROUP_INVITE_ACCEPT_CORE";
+        case TOX_ERR_GROUP_INVITE_ACCEPT_FRIEND_NOT_FOUND:
+            return "TOX_ERR_GROUP_INVITE_ACCEPT_FRIEND_NOT_FOUND";
 
         case TOX_ERR_GROUP_INVITE_ACCEPT_FAIL_SEND:
             return "TOX_ERR_GROUP_INVITE_ACCEPT_FAIL_SEND";
+
+        case TOX_ERR_GROUP_INVITE_ACCEPT_NULL:
+            return "TOX_ERR_GROUP_INVITE_ACCEPT_NULL";
     }
 
     return "<invalid Tox_Err_Group_Invite_Accept>";
@@ -1505,131 +1497,131 @@ const char *tox_group_join_fail_to_string(Tox_Group_Join_Fail value)
 
     return "<invalid Tox_Group_Join_Fail>";
 }
-const char *tox_err_group_founder_set_password_to_string(Tox_Err_Group_Founder_Set_Password value)
+const char *tox_err_group_set_password_to_string(Tox_Err_Group_Set_Password value)
 {
     switch (value) {
-        case TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_OK:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_OK";
+        case TOX_ERR_GROUP_SET_PASSWORD_OK:
+            return "TOX_ERR_GROUP_SET_PASSWORD_OK";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_GROUP_NOT_FOUND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_GROUP_NOT_FOUND";
+        case TOX_ERR_GROUP_SET_PASSWORD_GROUP_NOT_FOUND:
+            return "TOX_ERR_GROUP_SET_PASSWORD_GROUP_NOT_FOUND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_PERMISSIONS:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_PERMISSIONS";
+        case TOX_ERR_GROUP_SET_PASSWORD_PERMISSIONS:
+            return "TOX_ERR_GROUP_SET_PASSWORD_PERMISSIONS";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_TOO_LONG:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_TOO_LONG";
+        case TOX_ERR_GROUP_SET_PASSWORD_TOO_LONG:
+            return "TOX_ERR_GROUP_SET_PASSWORD_TOO_LONG";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_FAIL_SEND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_FAIL_SEND";
+        case TOX_ERR_GROUP_SET_PASSWORD_FAIL_SEND:
+            return "TOX_ERR_GROUP_SET_PASSWORD_FAIL_SEND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_MALLOC:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_MALLOC";
+        case TOX_ERR_GROUP_SET_PASSWORD_MALLOC:
+            return "TOX_ERR_GROUP_SET_PASSWORD_MALLOC";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_DISCONNECTED:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PASSWORD_DISCONNECTED";
+        case TOX_ERR_GROUP_SET_PASSWORD_DISCONNECTED:
+            return "TOX_ERR_GROUP_SET_PASSWORD_DISCONNECTED";
     }
 
-    return "<invalid Tox_Err_Group_Founder_Set_Password>";
+    return "<invalid Tox_Err_Group_Set_Password>";
 }
-const char *tox_err_group_founder_set_topic_lock_to_string(Tox_Err_Group_Founder_Set_Topic_Lock value)
+const char *tox_err_group_set_topic_lock_to_string(Tox_Err_Group_Set_Topic_Lock value)
 {
     switch (value) {
-        case TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_OK:
-            return "TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_OK";
+        case TOX_ERR_GROUP_SET_TOPIC_LOCK_OK:
+            return "TOX_ERR_GROUP_SET_TOPIC_LOCK_OK";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_GROUP_NOT_FOUND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_GROUP_NOT_FOUND";
+        case TOX_ERR_GROUP_SET_TOPIC_LOCK_GROUP_NOT_FOUND:
+            return "TOX_ERR_GROUP_SET_TOPIC_LOCK_GROUP_NOT_FOUND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_INVALID:
-            return "TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_INVALID";
+        case TOX_ERR_GROUP_SET_TOPIC_LOCK_INVALID:
+            return "TOX_ERR_GROUP_SET_TOPIC_LOCK_INVALID";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_PERMISSIONS:
-            return "TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_PERMISSIONS";
+        case TOX_ERR_GROUP_SET_TOPIC_LOCK_PERMISSIONS:
+            return "TOX_ERR_GROUP_SET_TOPIC_LOCK_PERMISSIONS";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_FAIL_SET:
-            return "TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_FAIL_SET";
+        case TOX_ERR_GROUP_SET_TOPIC_LOCK_FAIL_SET:
+            return "TOX_ERR_GROUP_SET_TOPIC_LOCK_FAIL_SET";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_FAIL_SEND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_FAIL_SEND";
+        case TOX_ERR_GROUP_SET_TOPIC_LOCK_FAIL_SEND:
+            return "TOX_ERR_GROUP_SET_TOPIC_LOCK_FAIL_SEND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_DISCONNECTED:
-            return "TOX_ERR_GROUP_FOUNDER_SET_TOPIC_LOCK_DISCONNECTED";
+        case TOX_ERR_GROUP_SET_TOPIC_LOCK_DISCONNECTED:
+            return "TOX_ERR_GROUP_SET_TOPIC_LOCK_DISCONNECTED";
     }
 
-    return "<invalid Tox_Err_Group_Founder_Set_Topic_Lock>";
+    return "<invalid Tox_Err_Group_Set_Topic_Lock>";
 }
-const char *tox_err_group_founder_set_voice_state_to_string(Tox_Err_Group_Founder_Set_Voice_State value)
+const char *tox_err_group_set_voice_state_to_string(Tox_Err_Group_Set_Voice_State value)
 {
     switch (value) {
-        case TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_OK:
-            return "TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_OK";
+        case TOX_ERR_GROUP_SET_VOICE_STATE_OK:
+            return "TOX_ERR_GROUP_SET_VOICE_STATE_OK";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_GROUP_NOT_FOUND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_GROUP_NOT_FOUND";
+        case TOX_ERR_GROUP_SET_VOICE_STATE_GROUP_NOT_FOUND:
+            return "TOX_ERR_GROUP_SET_VOICE_STATE_GROUP_NOT_FOUND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_PERMISSIONS:
-            return "TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_PERMISSIONS";
+        case TOX_ERR_GROUP_SET_VOICE_STATE_PERMISSIONS:
+            return "TOX_ERR_GROUP_SET_VOICE_STATE_PERMISSIONS";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_FAIL_SET:
-            return "TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_FAIL_SET";
+        case TOX_ERR_GROUP_SET_VOICE_STATE_FAIL_SET:
+            return "TOX_ERR_GROUP_SET_VOICE_STATE_FAIL_SET";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_FAIL_SEND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_FAIL_SEND";
+        case TOX_ERR_GROUP_SET_VOICE_STATE_FAIL_SEND:
+            return "TOX_ERR_GROUP_SET_VOICE_STATE_FAIL_SEND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_DISCONNECTED:
-            return "TOX_ERR_GROUP_FOUNDER_SET_VOICE_STATE_DISCONNECTED";
+        case TOX_ERR_GROUP_SET_VOICE_STATE_DISCONNECTED:
+            return "TOX_ERR_GROUP_SET_VOICE_STATE_DISCONNECTED";
     }
 
-    return "<invalid Tox_Err_Group_Founder_Set_Voice_State>";
+    return "<invalid Tox_Err_Group_Set_Voice_State>";
 }
-const char *tox_err_group_founder_set_privacy_state_to_string(Tox_Err_Group_Founder_Set_Privacy_State value)
+const char *tox_err_group_set_privacy_state_to_string(Tox_Err_Group_Set_Privacy_State value)
 {
     switch (value) {
-        case TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_OK:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_OK";
+        case TOX_ERR_GROUP_SET_PRIVACY_STATE_OK:
+            return "TOX_ERR_GROUP_SET_PRIVACY_STATE_OK";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_GROUP_NOT_FOUND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_GROUP_NOT_FOUND";
+        case TOX_ERR_GROUP_SET_PRIVACY_STATE_GROUP_NOT_FOUND:
+            return "TOX_ERR_GROUP_SET_PRIVACY_STATE_GROUP_NOT_FOUND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_PERMISSIONS:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_PERMISSIONS";
+        case TOX_ERR_GROUP_SET_PRIVACY_STATE_PERMISSIONS:
+            return "TOX_ERR_GROUP_SET_PRIVACY_STATE_PERMISSIONS";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_FAIL_SET:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_FAIL_SET";
+        case TOX_ERR_GROUP_SET_PRIVACY_STATE_FAIL_SET:
+            return "TOX_ERR_GROUP_SET_PRIVACY_STATE_FAIL_SET";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_FAIL_SEND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_FAIL_SEND";
+        case TOX_ERR_GROUP_SET_PRIVACY_STATE_FAIL_SEND:
+            return "TOX_ERR_GROUP_SET_PRIVACY_STATE_FAIL_SEND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_DISCONNECTED:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PRIVACY_STATE_DISCONNECTED";
+        case TOX_ERR_GROUP_SET_PRIVACY_STATE_DISCONNECTED:
+            return "TOX_ERR_GROUP_SET_PRIVACY_STATE_DISCONNECTED";
     }
 
-    return "<invalid Tox_Err_Group_Founder_Set_Privacy_State>";
+    return "<invalid Tox_Err_Group_Set_Privacy_State>";
 }
-const char *tox_err_group_founder_set_peer_limit_to_string(Tox_Err_Group_Founder_Set_Peer_Limit value)
+const char *tox_err_group_set_peer_limit_to_string(Tox_Err_Group_Set_Peer_Limit value)
 {
     switch (value) {
-        case TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_OK:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_OK";
+        case TOX_ERR_GROUP_SET_PEER_LIMIT_OK:
+            return "TOX_ERR_GROUP_SET_PEER_LIMIT_OK";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_GROUP_NOT_FOUND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_GROUP_NOT_FOUND";
+        case TOX_ERR_GROUP_SET_PEER_LIMIT_GROUP_NOT_FOUND:
+            return "TOX_ERR_GROUP_SET_PEER_LIMIT_GROUP_NOT_FOUND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_PERMISSIONS:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_PERMISSIONS";
+        case TOX_ERR_GROUP_SET_PEER_LIMIT_PERMISSIONS:
+            return "TOX_ERR_GROUP_SET_PEER_LIMIT_PERMISSIONS";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_FAIL_SET:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_FAIL_SET";
+        case TOX_ERR_GROUP_SET_PEER_LIMIT_FAIL_SET:
+            return "TOX_ERR_GROUP_SET_PEER_LIMIT_FAIL_SET";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_FAIL_SEND:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_FAIL_SEND";
+        case TOX_ERR_GROUP_SET_PEER_LIMIT_FAIL_SEND:
+            return "TOX_ERR_GROUP_SET_PEER_LIMIT_FAIL_SEND";
 
-        case TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_DISCONNECTED:
-            return "TOX_ERR_GROUP_FOUNDER_SET_PEER_LIMIT_DISCONNECTED";
+        case TOX_ERR_GROUP_SET_PEER_LIMIT_DISCONNECTED:
+            return "TOX_ERR_GROUP_SET_PEER_LIMIT_DISCONNECTED";
     }
 
-    return "<invalid Tox_Err_Group_Founder_Set_Peer_Limit>";
+    return "<invalid Tox_Err_Group_Set_Peer_Limit>";
 }
 const char *tox_err_group_set_ignore_to_string(Tox_Err_Group_Set_Ignore value)
 {
@@ -1649,59 +1641,59 @@ const char *tox_err_group_set_ignore_to_string(Tox_Err_Group_Set_Ignore value)
 
     return "<invalid Tox_Err_Group_Set_Ignore>";
 }
-const char *tox_err_group_mod_set_role_to_string(Tox_Err_Group_Mod_Set_Role value)
+const char *tox_err_group_set_role_to_string(Tox_Err_Group_Set_Role value)
 {
     switch (value) {
-        case TOX_ERR_GROUP_MOD_SET_ROLE_OK:
-            return "TOX_ERR_GROUP_MOD_SET_ROLE_OK";
+        case TOX_ERR_GROUP_SET_ROLE_OK:
+            return "TOX_ERR_GROUP_SET_ROLE_OK";
 
-        case TOX_ERR_GROUP_MOD_SET_ROLE_GROUP_NOT_FOUND:
-            return "TOX_ERR_GROUP_MOD_SET_ROLE_GROUP_NOT_FOUND";
+        case TOX_ERR_GROUP_SET_ROLE_GROUP_NOT_FOUND:
+            return "TOX_ERR_GROUP_SET_ROLE_GROUP_NOT_FOUND";
 
-        case TOX_ERR_GROUP_MOD_SET_ROLE_PEER_NOT_FOUND:
-            return "TOX_ERR_GROUP_MOD_SET_ROLE_PEER_NOT_FOUND";
+        case TOX_ERR_GROUP_SET_ROLE_PEER_NOT_FOUND:
+            return "TOX_ERR_GROUP_SET_ROLE_PEER_NOT_FOUND";
 
-        case TOX_ERR_GROUP_MOD_SET_ROLE_PERMISSIONS:
-            return "TOX_ERR_GROUP_MOD_SET_ROLE_PERMISSIONS";
+        case TOX_ERR_GROUP_SET_ROLE_PERMISSIONS:
+            return "TOX_ERR_GROUP_SET_ROLE_PERMISSIONS";
 
-        case TOX_ERR_GROUP_MOD_SET_ROLE_ASSIGNMENT:
-            return "TOX_ERR_GROUP_MOD_SET_ROLE_ASSIGNMENT";
+        case TOX_ERR_GROUP_SET_ROLE_ASSIGNMENT:
+            return "TOX_ERR_GROUP_SET_ROLE_ASSIGNMENT";
 
-        case TOX_ERR_GROUP_MOD_SET_ROLE_FAIL_ACTION:
-            return "TOX_ERR_GROUP_MOD_SET_ROLE_FAIL_ACTION";
+        case TOX_ERR_GROUP_SET_ROLE_FAIL_ACTION:
+            return "TOX_ERR_GROUP_SET_ROLE_FAIL_ACTION";
 
-        case TOX_ERR_GROUP_MOD_SET_ROLE_SELF:
-            return "TOX_ERR_GROUP_MOD_SET_ROLE_SELF";
+        case TOX_ERR_GROUP_SET_ROLE_SELF:
+            return "TOX_ERR_GROUP_SET_ROLE_SELF";
     }
 
-    return "<invalid Tox_Err_Group_Mod_Set_Role>";
+    return "<invalid Tox_Err_Group_Set_Role>";
 }
-const char *tox_err_group_mod_kick_peer_to_string(Tox_Err_Group_Mod_Kick_Peer value)
+const char *tox_err_group_kick_peer_to_string(Tox_Err_Group_Kick_Peer value)
 {
     switch (value) {
-        case TOX_ERR_GROUP_MOD_KICK_PEER_OK:
-            return "TOX_ERR_GROUP_MOD_KICK_PEER_OK";
+        case TOX_ERR_GROUP_KICK_PEER_OK:
+            return "TOX_ERR_GROUP_KICK_PEER_OK";
 
-        case TOX_ERR_GROUP_MOD_KICK_PEER_GROUP_NOT_FOUND:
-            return "TOX_ERR_GROUP_MOD_KICK_PEER_GROUP_NOT_FOUND";
+        case TOX_ERR_GROUP_KICK_PEER_GROUP_NOT_FOUND:
+            return "TOX_ERR_GROUP_KICK_PEER_GROUP_NOT_FOUND";
 
-        case TOX_ERR_GROUP_MOD_KICK_PEER_PEER_NOT_FOUND:
-            return "TOX_ERR_GROUP_MOD_KICK_PEER_PEER_NOT_FOUND";
+        case TOX_ERR_GROUP_KICK_PEER_PEER_NOT_FOUND:
+            return "TOX_ERR_GROUP_KICK_PEER_PEER_NOT_FOUND";
 
-        case TOX_ERR_GROUP_MOD_KICK_PEER_PERMISSIONS:
-            return "TOX_ERR_GROUP_MOD_KICK_PEER_PERMISSIONS";
+        case TOX_ERR_GROUP_KICK_PEER_PERMISSIONS:
+            return "TOX_ERR_GROUP_KICK_PEER_PERMISSIONS";
 
-        case TOX_ERR_GROUP_MOD_KICK_PEER_FAIL_ACTION:
-            return "TOX_ERR_GROUP_MOD_KICK_PEER_FAIL_ACTION";
+        case TOX_ERR_GROUP_KICK_PEER_FAIL_ACTION:
+            return "TOX_ERR_GROUP_KICK_PEER_FAIL_ACTION";
 
-        case TOX_ERR_GROUP_MOD_KICK_PEER_FAIL_SEND:
-            return "TOX_ERR_GROUP_MOD_KICK_PEER_FAIL_SEND";
+        case TOX_ERR_GROUP_KICK_PEER_FAIL_SEND:
+            return "TOX_ERR_GROUP_KICK_PEER_FAIL_SEND";
 
-        case TOX_ERR_GROUP_MOD_KICK_PEER_SELF:
-            return "TOX_ERR_GROUP_MOD_KICK_PEER_SELF";
+        case TOX_ERR_GROUP_KICK_PEER_SELF:
+            return "TOX_ERR_GROUP_KICK_PEER_SELF";
     }
 
-    return "<invalid Tox_Err_Group_Mod_Kick_Peer>";
+    return "<invalid Tox_Err_Group_Kick_Peer>";
 }
 const char *tox_group_mod_event_to_string(Tox_Group_Mod_Event value)
 {

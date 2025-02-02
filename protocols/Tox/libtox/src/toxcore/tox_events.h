@@ -2,6 +2,13 @@
  * Copyright © 2022-2024 The TokTok team.
  */
 
+/**
+ * WARNING: This is an experimental API and is subject to change.
+ *
+ * At this point, it probably won't change very much anymore, but we may have
+ * small breaking changes before a stable release.
+ */
+
 #ifndef C_TOXCORE_TOXCORE_TOX_EVENTS_H
 #define C_TOXCORE_TOXCORE_TOX_EVENTS_H
 
@@ -248,7 +255,7 @@ uint32_t tox_event_group_message_get_group_number(
     const Tox_Event_Group_Message *group_message);
 uint32_t tox_event_group_message_get_peer_id(
     const Tox_Event_Group_Message *group_message);
-Tox_Message_Type tox_event_group_message_get_type(
+Tox_Message_Type tox_event_group_message_get_message_type(
     const Tox_Event_Group_Message *group_message);
 const uint8_t *tox_event_group_message_get_message(
     const Tox_Event_Group_Message *group_message);
@@ -262,11 +269,13 @@ uint32_t tox_event_group_private_message_get_group_number(
     const Tox_Event_Group_Private_Message *group_private_message);
 uint32_t tox_event_group_private_message_get_peer_id(
     const Tox_Event_Group_Private_Message *group_private_message);
-Tox_Message_Type tox_event_group_private_message_get_type(
+Tox_Message_Type tox_event_group_private_message_get_message_type(
     const Tox_Event_Group_Private_Message *group_private_message);
 const uint8_t *tox_event_group_private_message_get_message(
     const Tox_Event_Group_Private_Message *group_private_message);
 uint32_t tox_event_group_private_message_get_message_length(
+    const Tox_Event_Group_Private_Message *group_private_message);
+uint32_t tox_event_group_private_message_get_message_id(
     const Tox_Event_Group_Private_Message *group_private_message);
 
 typedef struct Tox_Event_Group_Custom_Packet Tox_Event_Group_Custom_Packet;
@@ -567,6 +576,8 @@ void tox_events_free(Tox_Events *events);
 
 uint32_t tox_events_bytes_size(const Tox_Events *events);
 bool tox_events_get_bytes(const Tox_Events *events, uint8_t *bytes);
+
+typedef struct Tox_System Tox_System;
 
 Tox_Events *tox_events_load(const Tox_System *sys, const uint8_t *bytes, uint32_t bytes_size);
 

@@ -175,7 +175,10 @@ static Tox_Event_Group_Peer_Name *tox_events_add_group_peer_name(Tox_Events *eve
     event.type = TOX_EVENT_GROUP_PEER_NAME;
     event.data.group_peer_name = group_peer_name;
 
-    tox_events_add(events, &event);
+    if (!tox_events_add(events, &event)) {
+        tox_event_group_peer_name_free(group_peer_name, mem);
+        return nullptr;
+    }
     return group_peer_name;
 }
 
@@ -220,7 +223,7 @@ static Tox_Event_Group_Peer_Name *tox_event_group_peer_name_alloc(void *user_dat
  *****************************************************/
 
 void tox_events_handle_group_peer_name(
-    Tox *tox, uint32_t group_number, uint32_t peer_id, const uint8_t *name, size_t length,
+    Tox *tox, uint32_t group_number, uint32_t peer_id, const uint8_t *name, size_t name_length,
     void *user_data)
 {
     Tox_Event_Group_Peer_Name *group_peer_name = tox_event_group_peer_name_alloc(user_data);
@@ -231,5 +234,5 @@ void tox_events_handle_group_peer_name(
 
     tox_event_group_peer_name_set_group_number(group_peer_name, group_number);
     tox_event_group_peer_name_set_peer_id(group_peer_name, peer_id);
-    tox_event_group_peer_name_set_name(group_peer_name, name, length);
+    tox_event_group_peer_name_set_name(group_peer_name, name, name_length);
 }
