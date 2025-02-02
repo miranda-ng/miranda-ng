@@ -232,8 +232,14 @@ int CTelegramProto::GetDefaultMute(const TG_USER *pUser)
 	return m_iDefaultMutePrivate;
 }
 
-MCONTACT CTelegramProto::GetRealContact(const TG_USER *pUser)
+MCONTACT CTelegramProto::GetRealContact(const TG_USER *pUser, int64_t threadId)
 {
+	if (threadId) {
+		wchar_t buf[100];
+		mir_snwprintf(buf, L"%lld_%lld", pUser->chatId, threadId);
+		if (auto *si = Chat_Find(buf, m_szModuleName))
+			return si->hContact;
+	}
 	return (pUser->hContact != 0) ? pUser->hContact : m_iSavedMessages;
 }
 
@@ -452,7 +458,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	pRequest->m_fileName = Utf2T(pszFileName);
 	pRequest->m_fileSize = pFile->size_;
 	pRequest->m_bRecv = !F.pMsg->is_outgoing_;
-	pRequest->m_hContact = GetRealContact(F.pUser);
+	pRequest->m_hContact = GetRealContact(F.pUser, F.pMsg->message_thread_id_);
 
 	if (mir_strlen(pszCaption))
 		F.szBody += pszCaption;

@@ -101,7 +101,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1;
 	MCONTACT  hContact;
-	int       folderId = -1, nHistoryChunks;
+	int       folderId = -1, nHistoryChunks, nTopics;
 	bool      isGroupChat, isChannel, isBot, isForum, bLoadMembers, bStartChat, bInited, bDelOwn = true, bDelAll = true;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;
@@ -340,6 +340,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TD::array<TD::int53> m_searchIds;
 
 	void OnSearchResults(td::ClientManager::Response &response);
+	void OnGetTopics(td::ClientManager::Response &response, void *pUserInfo);
 
 	bool CheckSearchUser(TG_USER *pUser);
 	void ReportSearchUser(TG_USER *pUser);
@@ -362,7 +363,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	int      GetDefaultMute(const TG_USER *pUser);
 
-	MCONTACT GetRealContact(const TG_USER *pUser);
+	MCONTACT GetRealContact(const TG_USER *pUser, int64_t threadId = 0);
 	void     RemoveFromClist(TG_USER *pUser);
 	void     MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool bSent);
 

@@ -406,41 +406,6 @@ void CTelegramProto::ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj)
 	}
 }
 
-void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
-{
-	auto *pUser = FindChat(pForum->chat_id_);
-	if (!pUser) {
-		debugLogA("Uknown chat id %lld, skipping", pForum->chat_id_);
-		return;
-	}
-
-	auto *pInfo = pForum->info_.get();
-	if (pUser->m_si == nullptr) {
-		debugLogA("No parent chat for id %lld, skipping", pForum->chat_id_);
-		return;
-	}
-
-	if (pInfo->is_general_) {
-		SetId(pUser->m_si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
-		return;
-	}
-
-	wchar_t wszId[100];
-	mir_snwprintf(wszId, L"%lld_%lld", pForum->chat_id_, pForum->info_->message_thread_id_);
-
-	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
-	si->pParent = pUser->m_si;
-
-	SetId(si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
-	SetId(si->hContact, pUser->id, DBKEY_OWNER);
-
-	Chat_Mute(si->hContact, Chat_IsMuted(pUser->hContact));
-	Clist_SetGroup(si->hContact, ptrW(Clist_GetGroup(pUser->hContact)));
-
-	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-	Chat_Control(si, SESSION_ONLINE);
-}
-
 void CTelegramProto::ProcessSuperGroupInfo(TD::updateSupergroupFullInfo *pObj)
 {
 	auto *pChat = FindUser(pObj->supergroup_id_);
@@ -505,4 +470,58 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 			Chat_Event(&gce);
 		}
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// forums
+
+void CTelegramProto::OnGetTopics(td::ClientManager::Response &response, void *pUserInfo)
+{
+	if (!response.object)
+		return;
+
+	if (response.object->get_id() != TD::forumTopics::ID)
+		return;
+
+	auto *pUser = (TG_USER *)pUserInfo;
+
+	auto *pInfo = (TD::forumTopics *)response.object.get();
+	if (pInfo->topics_.size() >= 100)
+		SendQuery(new TD::getForumTopics(pUser->chatId, "", pInfo->next_offset_date_, pInfo->next_offset_message_id_, pInfo->next_offset_message_thread_id_, 100),
+			&CTelegramProto::OnGetTopics, pUser);
+}
+
+void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
+{
+	auto *pUser = FindChat(pForum->chat_id_);
+	if (!pUser) {
+		debugLogA("Uknown chat id %lld, skipping", pForum->chat_id_);
+		return;
+	}
+
+	auto *pInfo = pForum->info_.get();
+	if (pUser->m_si == nullptr) {
+		debugLogA("No parent chat for id %lld, skipping", pForum->chat_id_);
+		return;
+	}
+
+	if (pInfo->is_general_) {
+		SetId(pUser->m_si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
+		return;
+	}
+
+	wchar_t wszId[100];
+	mir_snwprintf(wszId, L"%lld_%lld", pForum->chat_id_, pForum->info_->message_thread_id_);
+
+	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
+	si->pParent = pUser->m_si;
+
+	SetId(si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
+	SetId(si->hContact, pUser->id, DBKEY_OWNER);
+
+	Chat_Mute(si->hContact, Chat_IsMuted(pUser->hContact));
+	Clist_SetGroup(si->hContact, ptrW(Clist_GetGroup(pUser->hContact)));
+
+	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(si, SESSION_ONLINE);
 }

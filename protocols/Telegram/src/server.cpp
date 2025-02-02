@@ -607,7 +607,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		if (hContact != INVALID_CONTACT_ID) {
 			if (pUser->isForum) {
 				pUser->wszNick = Utf2T(szTitle.c_str());
-				SendQuery(new TD::getForumTopics(pUser->chatId, "", 0, 0, 0, 100));
+				SendQuery(new TD::getForumTopics(pUser->chatId, "", 0, 0, 0, 100), &CTelegramProto::OnGetTopics, pUser);
 			}
 			else GcChangeTopic(pUser, szTitle);
 		}
@@ -972,13 +972,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		Contact::RemoveFromList(pUser->hContact);
 	}
 
-	MCONTACT hContact = GetRealContact(pUser);
-	if (pMessage->message_thread_id_) {
-		wchar_t buf[100];
-		mir_snwprintf(buf, L"%lld_%lld", pMessage->chat_id_, pMessage->message_thread_id_);
-		if (auto *si = Chat_Find(buf, m_szModuleName))
-			hContact = si->hContact;
-	}
+	MCONTACT hContact = GetRealContact(pUser, pMessage->message_thread_id_);
 
 	if (m_bResidentChannels && pUser->isChannel && pUser->m_si) {
 		GCEVENT gce = { pUser->m_si, GC_EVENT_MESSAGE };
