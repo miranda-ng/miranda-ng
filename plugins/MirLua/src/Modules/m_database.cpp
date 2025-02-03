@@ -694,7 +694,9 @@ LUAMOD_API int luaopen_m_database(lua_State *L)
 		.Field(&DBEVENTINFO::szModule, "Module", LUA_TSTRINGA)
 		.Field(&DBEVENTINFO::iTimestamp, "Timestamp", LUA_TINTEGER)
 		.Field(&DBEVENTINFO::eventType, "Type", LUA_TINTEGER)
-		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER);
+		.Field(&DBEVENTINFO::flags, "Flags", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::cbBlob, "BlobSize", LUA_TINTEGER)
+		.Field(&DBEVENTINFO::pBlob, "Message", LUA_TSTRING);
 
 	return 1;
 }
