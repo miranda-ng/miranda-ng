@@ -29,7 +29,7 @@ CDbxSQLite::~CDbxSQLite()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define CURRVER 8
+#define CURRVER 9
 
 int CDbxSQLite::Create()
 {
@@ -211,6 +211,11 @@ void CDbxSQLite::CheckConversion()
 		logError(rc, __FILE__, __LINE__);
 	}
 
+	if (dbv.bVal < 9) {
+		int rc = sqlite3_exec(m_db, "DELETE FROM events WHERE length(data) > 1000000 AND type=1002;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+	}
+	
 	dbv.bVal = CURRVER;
 	WriteContactSetting(0, "Compatibility", "Sqlite", &dbv);
 
