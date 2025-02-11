@@ -44,7 +44,7 @@ bool DbEventIsShown(const DB::EventInfo &dbei)
 	switch (dbei.eventType) {
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
-		return 0;
+		return false;
 	}
 
 	return dbei.isSrmm();

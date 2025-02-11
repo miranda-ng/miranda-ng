@@ -369,7 +369,8 @@ void CSkypeProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pR
 		}
 	}
 
-	g_chatApi.OnChangeNick(si);
+	if (g_chatApi.OnChangeNick)
+		g_chatApi.OnChangeNick(si);
 }
 
 void CSkypeProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
