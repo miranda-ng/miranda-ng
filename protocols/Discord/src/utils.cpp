@@ -379,7 +379,7 @@ CMStringW CDiscordProto::PrepareMessageText(const JSONNode &pRoot, CDiscordUser 
 		T2Utf szDescr(wszText);
 	
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szId));
-		dbei.flags = DBEF_TEMPORARY;
+		dbei.flags |= DBEF_TEMPORARY;
 		dbei.iTimestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
 		dbei.szId = szId;
 		dbei.szUserId = szUserId;
