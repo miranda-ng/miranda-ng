@@ -234,12 +234,10 @@ int CTelegramProto::GetDefaultMute(const TG_USER *pUser)
 
 MCONTACT CTelegramProto::GetRealContact(const TG_USER *pUser, int64_t threadId)
 {
-	if (threadId) {
-		wchar_t buf[100];
-		mir_snwprintf(buf, L"%lld_%lld", pUser->chatId, threadId);
-		if (auto *si = Chat_Find(buf, m_szModuleName))
-			return si->hContact;
-	}
+	if (threadId)
+		if (auto *pu = FindChat(pUser->chatId, threadId))
+			return pu->hContact;
+
 	return (pUser->hContact != 0) ? pUser->hContact : m_iSavedMessages;
 }
 
@@ -330,6 +328,15 @@ TG_USER* CTelegramProto::FindChat(int64_t id)
 {
 	auto *tmp = (TG_USER *)_alloca(sizeof(TG_USER));
 	tmp->chatId = id;
+	tmp->forumId = -1;
+	return m_arChats.find(tmp);
+}
+
+TG_USER* CTelegramProto::FindChat(int64_t id, int64_t forumId)
+{
+	auto *tmp = (TG_USER *)_alloca(sizeof(TG_USER));
+	tmp->chatId = id;
+	tmp->forumId = forumId;
 	return m_arChats.find(tmp);
 }
 

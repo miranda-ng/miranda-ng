@@ -99,7 +99,7 @@ struct TG_USER : public MZeroedObject
 		delete pReactions;
 	}
 
-	int64_t   id, chatId = -1;
+	int64_t   id, chatId = -1, forumId = -1;
 	MCONTACT  hContact;
 	int       folderId = -1, nHistoryChunks, nTopics;
 	bool      isGroupChat, isChannel, isBot, isForum, bLoadMembers, bStartChat, bInited, bDelOwn = true, bDelAll = true;
@@ -353,6 +353,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	OBJLIST<TG_USER> m_arUsers;
 
 	TG_USER* FindChat(int64_t id);
+	TG_USER* FindChat(int64_t id, int64_t forumId);
 	TG_USER* FindUser(int64_t id);
 	TG_USER* AddUser(int64_t id, bool bIsChat);
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);

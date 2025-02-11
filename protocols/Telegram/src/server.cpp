@@ -594,6 +594,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	}
 
 	pUser->chatId = pChat->id_;
+	pUser->forumId = -1;
 	pUser->isChannel = isChannel;
 	pUser->bDelAll = pChat->can_be_deleted_for_all_users_;
 	pUser->bDelOwn = pChat->can_be_deleted_only_for_self_;

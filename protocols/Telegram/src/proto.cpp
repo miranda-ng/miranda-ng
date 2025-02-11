@@ -17,7 +17,10 @@ static int CompareRequests(const TG_REQUEST_BASE *p1, const TG_REQUEST_BASE *p2)
 }
 
 static int CompareChats(const TG_USER *p1, const TG_USER *p2)
-{	return CompareId(p1->chatId, p2->chatId);
+{
+	if (p1->chatId != p2->chatId)
+		return CompareId(p1->chatId, p2->chatId);
+	return CompareId(p1->forumId, p2->forumId);
 }
 
 static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
@@ -125,6 +128,12 @@ void CTelegramProto::OnCacheInit()
 		if (int64_t id = GetId(cc)) {
 			bool isGroupChat = isChatRoom(cc);
 			auto *pUser = new TG_USER(id, cc, isGroupChat);
+			if (auto iThreadId = GetId(cc, DBKEY_THREAD)) {
+				pUser->isForum = true;
+				pUser->chatId = pUser->id;
+				pUser->forumId = iThreadId;
+				m_arChats.insert(pUser);
+			}
 			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);
 			m_arUsers.insert(pUser);
 			if (isGroupChat && iCompatLevel < 3)
