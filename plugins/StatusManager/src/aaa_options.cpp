@@ -346,7 +346,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 
 				int flags = 0;
 				if (!g_bAAASettingSame)
-					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+					flags = GetStatusFlags(setting->m_szName);
 
 				LVITEM lvItem = { 0 };
 				lvItem.mask = LVIF_TEXT | LVIF_PARAM;
@@ -367,7 +367,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			{
 				int flags = 0;
 				if (!g_bAAASettingSame)
-					flags = CallProtoService(setting->m_szName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(setting->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+					flags = GetStatusFlags(setting->m_szName);
 
 				// clear box and add new status, loop status and check if compatible with proto
 				SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_RESETCONTENT, 0, 0);

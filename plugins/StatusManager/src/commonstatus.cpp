@@ -251,9 +251,8 @@ int SetStatusEx(TProtoSettings &ps)
 
 		// status checks
 		long protoFlag = Proto_Status2Flag(newstatus);
-		int b_Caps2 = CallProtoService(p->m_szName, PS_GETCAPS, PFLAGNUM_2, 0) & protoFlag;
-		int b_Caps5 = CallProtoService(p->m_szName, PS_GETCAPS, PFLAGNUM_5, 0) & protoFlag;
-		if (newstatus != ID_STATUS_OFFLINE && (!b_Caps2 || b_Caps5)) {
+		int b_Caps25 = GetStatusFlags(p->m_szName) & protoFlag;
+		if (newstatus != ID_STATUS_OFFLINE && !b_Caps25) {
 			// status and status message for this status not supported
 			log_debug(0, "CommonStatus: status not supported %s", p->m_szName);
 			continue;
@@ -295,6 +294,15 @@ static INT_PTR GetProtocolCountService(WPARAM, LPARAM)
 			pCount++;
 
 	return pCount;
+}
+
+int GetStatusFlags(const char *szProto)
+{
+	int flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_5, 0);
+	if (flags == 0)
+		flags = PF2_ONLINE;
+	
+	return flags;
 }
 
 bool IsSuitableProto(PROTOACCOUNT *pa)

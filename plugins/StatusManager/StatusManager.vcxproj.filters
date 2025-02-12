@@ -41,9 +41,6 @@
     <ClCompile Include="src\stdafx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\helpers\gen_helpers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\advancedautoaway.h">

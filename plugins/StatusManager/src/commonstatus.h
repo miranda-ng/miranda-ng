@@ -49,6 +49,7 @@ wchar_t *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int status);
 int GetActualStatus(PROTOCOLSETTINGEX *protoSetting);
 int InitCommonStatus();
 bool IsSuitableProto(PROTOACCOUNT *pa);
+int GetStatusFlags(const char *szProto);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // external data

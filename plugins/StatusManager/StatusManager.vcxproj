@@ -52,11 +52,6 @@
     <None Include="res\ttbUp.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\helpers\gen_helpers.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>

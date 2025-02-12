@@ -312,7 +312,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 
 				PROTOCOLSETTINGEX *proto = (PROTOCOLSETTINGEX*)lvItem.lParam;
-				int flags = CallProtoService(proto->m_szName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(proto->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+				int flags = GetStatusFlags(proto->m_szName);
 				// clear box and add new status, loop status and check if compatible with proto
 				SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_RESETCONTENT, 0, 0);
 				int actualStatus = proto->m_status;
@@ -339,7 +339,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				for (auto &it : statusModes) {
 					int pf5 = CallProtoService(proto->m_szName, PS_GETCAPS, PFLAGNUM_5, 0);
-					if (((flags & it.iFlag) || it.iFlag == PF2_OFFLINE) && (!(!(flags) & Proto_Status2Flag(it.iFlag)) || (pf5 & Proto_Status2Flag(it.iFlag)))) {
+					if (((flags & it.iFlag) || it.iFlag == PF2_OFFLINE) && (!(!(flags & Proto_Status2Flag(it.iFlag))) || (pf5 & Proto_Status2Flag(it.iFlag)))) {
 						wchar_t *statusMode = Clist_GetStatusModeDescription(it.iStatus, 0);
 						item = SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_ADDSTRING, 0, (LPARAM)statusMode);
 						SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_SETITEMDATA, item, it.iStatus);

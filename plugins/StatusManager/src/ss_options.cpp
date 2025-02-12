@@ -557,9 +557,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 			// fill status box
 			SMProto* ps = (SMProto*)lstAccount.GetItemData(idx);
 
-			int flags = (CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_2, 0))&~(CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_5, 0));
-			if (flags == 0)
-				flags = PF2_ONLINE;
+			int flags = GetStatusFlags(ps->m_szName);
 
 			lstStatus.ResetContent();
 			for (auto &it : statusModes) {

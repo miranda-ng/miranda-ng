@@ -444,7 +444,7 @@ int LoadAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 	if (g_bAAASettingSame)
 		flags = 0xFFFFFF;
 	else
-		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
+		flags = GetStatusFlags(protoName);
 
 	mir_snprintf(setting, "%s_Lv1Status", protoName);
 	autoAwaySetting.lv1Status = AAAPlugin.getWord(setting, (flags & StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
