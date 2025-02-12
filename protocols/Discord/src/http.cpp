@@ -121,11 +121,11 @@ void CDiscordProto::ServerThread(void*)
 
 		JSONNode root; root << WCHAR_PARAM("password", wszPassword);
 		if (wszEmail.Find('@') == -1) {
+			// ensure that a phone number begins with +
 			if (wszEmail[0] != '+')
 				wszEmail.Insert(0, L"+");
-			root << WCHAR_PARAM("login", wszEmail) ;
 		}
-		else root << WCHAR_PARAM("email", wszEmail);
+		root << WCHAR_PARAM("login", wszEmail);
 
 		Push(new AsyncHttpRequest(this, REQUEST_POST, "/auth/login", &CDiscordProto::OnReceiveToken, &root));
 	}
