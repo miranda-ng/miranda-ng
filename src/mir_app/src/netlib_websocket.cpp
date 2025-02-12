@@ -273,8 +273,9 @@ void MWebSocket::run()
 				break;
 
 			case 9: // ping
-				Netlib_Log(m_nlu, "ping received");
-				Netlib_Send(m_hConn, (char *)buf + hdr.headerSize, bufSize - int(hdr.headerSize), 0);
+				Netlib_Logf(m_nlu, "ping received: %d bytes", int(hdr.payloadSize));
+				if (hdr.payloadSize)
+					Netlib_Send(m_hConn, (char *)buf + hdr.headerSize, hdr.payloadSize, MSG_NODUMP);
 				break;
 			}
 
