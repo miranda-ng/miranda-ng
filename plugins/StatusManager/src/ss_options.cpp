@@ -531,18 +531,19 @@ class CSSAdvancedOptDlg : public CDlgBase
 	void SetProfile()
 	{
 		int sel = cmbProfile.GetCurData();
-		chkCreateTTB.SetState(arProfiles[sel].createTtb);
-		chkShowDialog.SetState(arProfiles[sel].showDialog);
-		chkCreateMMI.SetState(arProfiles[sel].createMmi);
-		chkInSubmenu.SetState(arProfiles[sel].inSubMenu);
-		chkInSubmenu.Enable(arProfiles[sel].createMmi);
-		chkRegHotkey.SetState(arProfiles[sel].regHotkey);
-		edtHotkey.SendMsg(HKM_SETHOTKEY, arProfiles[sel].hotKey, 0);
-		edtHotkey.Enable(arProfiles[sel].regHotkey);
+		auto &P = arProfiles[sel];
+		chkCreateTTB.SetState(P.createTtb);
+		chkShowDialog.SetState(P.showDialog);
+		chkCreateMMI.SetState(P.createMmi);
+		chkInSubmenu.SetState(P.inSubMenu);
+		chkInSubmenu.Enable(P.createMmi);
+		chkRegHotkey.SetState(P.regHotkey);
+		edtHotkey.SendMsg(HKM_SETHOTKEY, P.hotKey, 0);
+		edtHotkey.Enable(P.regHotkey);
 
 		// fill proto list
 		lstAccount.ResetContent();
-		for (auto &it : arProfiles[sel].ps)
+		for (auto &it : P.ps)
 			lstAccount.AddString(it->m_tszAccName, (LPARAM)it);
 		lstAccount.SetCurSel(0);
 
@@ -557,6 +558,9 @@ class CSSAdvancedOptDlg : public CDlgBase
 			SMProto* ps = (SMProto*)lstAccount.GetItemData(idx);
 
 			int flags = (CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_2, 0))&~(CallProtoService(ps->m_szName, PS_GETCAPS, PFLAGNUM_5, 0));
+			if (flags == 0)
+				flags = PF2_ONLINE;
+
 			lstStatus.ResetContent();
 			for (auto &it : statusModes) {
 				if ((flags & it.iFlag) || (it.iStatus == ID_STATUS_OFFLINE)) {

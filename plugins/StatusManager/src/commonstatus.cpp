@@ -299,7 +299,11 @@ static INT_PTR GetProtocolCountService(WPARAM, LPARAM)
 
 bool IsSuitableProto(PROTOACCOUNT *pa)
 {
-	return (pa == nullptr) ? false : pa->IsVisible();
+	if (!pa || !pa->bIsVisible || !pa->IsEnabled() || !pa->ppro)
+		return false;
+
+	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
+	return (pd != nullptr && (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_PROTOWITHACCS));
 }
 
 static int onShutdown(WPARAM, LPARAM)
