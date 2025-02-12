@@ -25,23 +25,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 using namespace SendQueue;
 
-static OBJLIST<Item> arQueue(1, PtrKeySortT);
-static mir_cs queueMutex;
+static OBJLIST<Item> g_arQueue(1, PtrKeySortT);
+static mir_cs g_csQueue;
 
 Item* SendQueue::CreateItem(CMsgDialog *pDlg)
 {
 	Item *item = new Item();
 	item->pDlg = pDlg;
 
-	mir_cslock lck(queueMutex);
-	arQueue.insert(item);
+	mir_cslock lck(g_csQueue);
+	g_arQueue.insert(item);
 	return item;
 }
 
 Item* SendQueue::FindOldestPendingItem(CMsgDialog *pDlg, MCONTACT hContact)
 {
-	mir_cslock lck(queueMutex);
-	for (auto &it : arQueue)
+	mir_cslock lck(g_csQueue);
+	for (auto &it : g_arQueue)
 		if (it->pDlg == pDlg && it->hContact == hContact && it->hwndErrorDlg == nullptr)
 			return it;
 
@@ -50,8 +50,8 @@ Item* SendQueue::FindOldestPendingItem(CMsgDialog *pDlg, MCONTACT hContact)
 
 Item* SendQueue::FindItem(MCONTACT hContact, HANDLE hSendId)
 {
-	mir_cslock lock(queueMutex);
-	for (auto &it : arQueue)
+	mir_cslock lock(g_csQueue);
+	for (auto &it : g_arQueue)
 		if (it->hContact == hContact && HANDLE(it->hSendId) == hSendId)
 			return it;
 
@@ -62,11 +62,11 @@ bool SendQueue::RemoveItem(Item *item)
 {
 	auto *pDlg = item->pDlg;
 	{
-		mir_cslock lock(queueMutex);
-		arQueue.remove(item);
+		mir_cslock lock(g_csQueue);
+		g_arQueue.remove(item);
 	}
 
-	for (auto &it : arQueue)
+	for (auto &it : g_arQueue)
 		if (it->pDlg == pDlg)
 			return false;
 
@@ -77,9 +77,9 @@ void SendQueue::ReportTimeouts(CMsgDialog *pDlg)
 {
 	int timeout = g_plugin.iMsgTimeout * 1000;
 
-	mir_cslock lock(queueMutex);
+	mir_cslock lock(g_csQueue);
 
-	for (auto &it : arQueue.rev_iter()) {
+	for (auto &it : g_arQueue.rev_iter()) {
 		if (it->timeout >= timeout)
 			continue;
 
@@ -91,15 +91,15 @@ void SendQueue::ReportTimeouts(CMsgDialog *pDlg)
 			pDlg->StopMessageSending();
 			pDlg->ShowError(TranslateT("The message send timed out."), it);
 		}
-		else arQueue.removeItem(&it);
+		else g_arQueue.removeItem(&it);
 	}
 }
 
 void SendQueue::ReleaseItems(CMsgDialog *pDlg)
 {
-	mir_cslock lock(queueMutex);
+	mir_cslock lock(g_csQueue);
 
-	for (auto &it : arQueue) {
+	for (auto &it : g_arQueue) {
 		if (it->pDlg != pDlg)
 			continue;
 
@@ -115,9 +115,9 @@ int SendQueue::ReattachItems(CMsgDialog *pDlg, MCONTACT hContact)
 {
 	int count = 0;
 
-	mir_cslock lock(queueMutex);
+	mir_cslock lock(g_csQueue);
 
-	for (auto &it : arQueue) {
+	for (auto &it : g_arQueue) {
 		if (it->hContact == hContact && it->pDlg == nullptr) {
 			it->pDlg = pDlg;
 			it->timeout = 0;
@@ -129,8 +129,8 @@ int SendQueue::ReattachItems(CMsgDialog *pDlg, MCONTACT hContact)
 
 void SendQueue::RemoveAllItems()
 {
-	mir_cslock lock(queueMutex);
-	arQueue.destroy();
+	mir_cslock lock(g_csQueue);
+	g_arQueue.destroy();
 }
 
 void SendQueue::SendItem(Item *item)
