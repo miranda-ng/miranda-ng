@@ -23,9 +23,6 @@
     <ClCompile Include="src\bufref.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\c-hyper.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\cf-h1-proxy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -218,6 +215,9 @@
     <ClCompile Include="src\http_proxy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\httpsrr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\idn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -347,6 +347,9 @@
     <ClCompile Include="src\splay.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\strparse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\timediff.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -443,6 +446,12 @@
     <ClCompile Include="src\vtls\vtls.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vtls\vtls_scache.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vtls\vtls_spack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\vtls\wolfssl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -523,9 +532,6 @@
     <ClInclude Include="src\bufref.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\c-hyper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\cf-h1-proxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -544,12 +550,6 @@
     <ClInclude Include="src\cfilters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\config-amigaos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\config-dos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\config-mac.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -563,9 +563,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\config-win32.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\config-win32ce.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\conncache.h">
@@ -766,6 +763,9 @@
     <ClInclude Include="src\http_proxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\httpsrr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\idn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -895,6 +895,9 @@
     <ClInclude Include="src\strerror.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\strparse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\strtok.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -929,6 +932,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vtls\vtls_scache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vtls\vtls_spack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\vquic\curl_msh3.h">

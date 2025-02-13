@@ -47,9 +47,6 @@
     <ClCompile Include="src\bufref.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\c-hyper.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\cf-https-connect.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -242,6 +239,9 @@
     <ClCompile Include="src\http_proxy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\httpsrr.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\idn.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -371,6 +371,9 @@
     <ClCompile Include="src\splay.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\strparse.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\timediff.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -476,6 +479,12 @@
     <ClCompile Include="src\vtls\vtls.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vtls\vtls_scache.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\vtls\vtls_spack.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vtls\wolfssl.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -494,21 +503,17 @@
     <ClInclude Include="src\asyn.h" />
     <ClInclude Include="src\bufq.h" />
     <ClInclude Include="src\bufref.h" />
-    <ClInclude Include="src\c-hyper.h" />
     <ClInclude Include="src\cf-h1-proxy.h" />
     <ClInclude Include="src\cf-h2-proxy.h" />
     <ClInclude Include="src\cf-haproxy.h" />
     <ClInclude Include="src\cf-https-connect.h" />
     <ClInclude Include="src\cf-socket.h" />
     <ClInclude Include="src\cfilters.h" />
-    <ClInclude Include="src\config-amigaos.h" />
-    <ClInclude Include="src\config-dos.h" />
     <ClInclude Include="src\config-mac.h" />
     <ClInclude Include="src\config-os400.h" />
     <ClInclude Include="src\config-plan9.h" />
     <ClInclude Include="src\config-riscos.h" />
     <ClInclude Include="src\config-win32.h" />
-    <ClInclude Include="src\config-win32ce.h" />
     <ClInclude Include="src\conncache.h" />
     <ClInclude Include="src\connect.h" />
     <ClInclude Include="src\content_encoding.h" />
@@ -575,6 +580,7 @@
     <ClInclude Include="src\http_negotiate.h" />
     <ClInclude Include="src\http_ntlm.h" />
     <ClInclude Include="src\http_proxy.h" />
+    <ClInclude Include="src\httpsrr.h" />
     <ClInclude Include="src\idn.h" />
     <ClInclude Include="src\if2ip.h" />
     <ClInclude Include="src\imap.h" />
@@ -618,6 +624,7 @@
     <ClInclude Include="src\strcase.h" />
     <ClInclude Include="src\strdup.h" />
     <ClInclude Include="src\strerror.h" />
+    <ClInclude Include="src\strparse.h" />
     <ClInclude Include="src\strtok.h" />
     <ClInclude Include="src\strtoofft.h" />
     <ClInclude Include="src\system_win32.h" />
@@ -630,6 +637,8 @@
     <ClInclude Include="src\urlapi-int.h" />
     <ClInclude Include="src\urldata.h" />
     <ClInclude Include="src\version_win32.h" />
+    <ClInclude Include="src\vtls\vtls_scache.h" />
+    <ClInclude Include="src\vtls\vtls_spack.h" />
     <ClInclude Include="src\vquic\curl_msh3.h" />
     <ClInclude Include="src\vquic\curl_ngtcp2.h" />
     <ClInclude Include="src\vquic\curl_quiche.h" />
