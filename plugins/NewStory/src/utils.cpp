@@ -204,6 +204,9 @@ static int DetectUrl(const wchar_t *text)
 
 void UrlAutodetect(CMStringW &str)
 {
+	if (str.IsEmpty())
+		return;
+
 	int level = 0;
 
 	for (auto *p = str.c_str(); *p; p++) {
