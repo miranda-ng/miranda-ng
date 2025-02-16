@@ -22,12 +22,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 bool CDiscordProto::GatewaySend(const JSONNode &pRoot)
 {
-	if (m_ws == nullptr)
+	if (!m_bConnected)
 		return false;
 
 	json_string szText = pRoot.write();
 	debugLogA("Gateway send: %s", szText.c_str());
-	m_ws->sendText(szText.c_str());
+	m_ws.sendText(szText.c_str());
 	return true;
 }
 
@@ -51,8 +51,7 @@ bool CDiscordProto::GatewayThreadWorker()
 		hdrs.AddHeader("Cookie", m_szWSCookie);
 	}
 
-	JsonWebSocket<CDiscordProto> ws(this);
-	NLHR_PTR pReply(ws.connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", &hdrs));
+	NLHR_PTR pReply(m_ws.connect(m_hGatewayNetlibUser, m_szGateway + "/?encoding=json&v=8", &hdrs));
 	if (pReply == nullptr) {
 		debugLogA("Gateway connection failed, exiting");
 		return false;
@@ -74,10 +73,9 @@ bool CDiscordProto::GatewayThreadWorker()
 	// succeeded!
 	debugLogA("Gateway connection succeeded");
 
-	m_ws = &ws;
-	ws.run();
-
-	m_ws = nullptr;
+	m_bConnected = true;
+	m_ws.run();
+	m_bConnected = false;
 	return true;
 }
 

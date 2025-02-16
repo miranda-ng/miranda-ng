@@ -364,9 +364,10 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	HANDLE m_hWorkerThread;       // worker thread handle
 	HNETLIBCONN m_hAPIConnection; // working connection
 
-	bool 
+	bool
 		m_bOnline,         // protocol is online
-		m_bTerminated;     // Miranda's going down
+		m_bTerminated,     // Miranda's going down
+		m_bConnected;      // web socket is connected
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// gateway
@@ -380,7 +381,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 		m_szWSCookie;          // cookie used for establishing websocket connection
 	
 	HNETLIBUSER m_hGatewayNetlibUser; // the separate netlib user handle for gateways
-	JsonWebSocket<CDiscordProto> *m_ws;
+	JsonWebSocket<CDiscordProto> m_ws;
 
 	void __cdecl GatewayThread(void*);
 	bool  GatewayThreadWorker(void);

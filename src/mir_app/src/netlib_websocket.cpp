@@ -93,6 +93,7 @@ MWebSocket::~MWebSocket()
 MHttpResponse* MWebSocket::connect(HANDLE nlu, const char *szHost, const MHttpHeaders *pHeaders)
 {
 	m_nlu = (HNETLIBUSER)nlu;
+	m_bTerminated = false;
 
 	CMStringA tmpHost(szHost);
 
@@ -205,8 +206,10 @@ void MWebSocket::terminate()
 {
 	m_bTerminated = true;
 
-	if (m_hConn)
+	if (m_hConn) {
 		Netlib_Shutdown(m_hConn);
+		m_hConn = nullptr;
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -275,7 +278,7 @@ void MWebSocket::run()
 			case 9: // ping
 				Netlib_Logf(m_nlu, "ping received: %d bytes", int(hdr.payloadSize));
 				if (hdr.payloadSize)
-					Netlib_Send(m_hConn, (char *)buf + hdr.headerSize, hdr.payloadSize, MSG_NODUMP);
+					Netlib_Send(m_hConn, (char *)buf + hdr.headerSize, (int)hdr.payloadSize, MSG_NODUMP);
 				break;
 			}
 

@@ -44,6 +44,7 @@ static int compareCalls(const CDiscordVoiceCall *p1, const CDiscordVoiceCall *p2
 
 CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CDiscordProto>(proto_name, username),
+	m_ws(this),
 	m_impl(*this),
 	m_arHttpQueue(10, compareRequests),
 	m_evRequestsQueue(CreateEvent(nullptr, FALSE, FALSE, nullptr)),
@@ -174,8 +175,8 @@ void CDiscordProto::OnShutdown()
 	for (auto &it : arGuilds)
 		it->SaveToFile();
 
-	if (m_ws)
-		m_ws->terminate();
+	if (m_bConnected)
+		m_ws.terminate();
 
 	if (g_plugin.bVoiceService)
 		CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)m_szModuleName, 0);
