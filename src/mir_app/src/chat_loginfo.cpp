@@ -126,7 +126,10 @@ void LOGINFO::write(RtfChatLogStreamData *streamData, bool simpleMode, CMStringA
 				if (!streamData->bStripFormat)
 					buf.Append(bEnable ? "\\ul" : "\\ul0");
 			}
-			else buf.AppendChar('[');
+			else {
+				buf.AppendChar('[');
+				line--; // it was moved ahead previously, remember?
+			}
 		}
 		else if (*line == '\t' && !streamData->bStripFormat) {
 			buf.Append("\\tab ");
