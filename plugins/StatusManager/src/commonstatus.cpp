@@ -298,8 +298,10 @@ static INT_PTR GetProtocolCountService(WPARAM, LPARAM)
 
 int GetStatusFlags(const char *szProto)
 {
-	int flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_5, 0);
-	if (flags == 0)
+	auto f2 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0);
+	auto f5 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_5, 0);
+	int flags = f2 & ~f5;
+	if (flags == 0 && f5)
 		flags = PF2_ONLINE;
 	
 	return flags;

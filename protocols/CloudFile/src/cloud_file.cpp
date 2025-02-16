@@ -34,15 +34,10 @@ const wchar_t* CCloudService::GetUserName() const
 
 INT_PTR CCloudService::GetCaps(int type, MCONTACT)
 {
-	switch (type) {
-	case PFLAGNUM_1:
+	if (type == PFLAGNUM_1)
 		return PF1_FILESEND;
-	case PFLAGNUM_2:
-	case PFLAGNUM_5:
-		return PF2_NONE;
-	default:
-		return 0;
-	}
+
+	return 0;
 }
 
 int CCloudService::FileCancel(MCONTACT, HANDLE hTransfer)

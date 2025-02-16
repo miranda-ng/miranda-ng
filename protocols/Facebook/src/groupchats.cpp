@@ -42,7 +42,7 @@ class CGroupchatInviteDlg : public CFBDlgBase
 	{
 		m_clc.SetHideEmptyGroups(1);
 		m_clc.SetHideOfflineRoot(1);
-		m_clc.SetOfflineModes(PF2_NONE);
+		m_clc.SetOfflineModes(PF2_FREECHAT);
 	}
 
 public:

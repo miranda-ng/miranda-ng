@@ -94,7 +94,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define PF2_HEAVYDND      0x00000020 // DND on ICQ
 #define PF2_FREECHAT      0x00000040
 #define PF2_IDLE          0x00000200
-#define PF2_NONE          0x10000000 // protocol has no statuses at all
 
 ///////////////////////////////////////////////////////////////////////////////
 // the status modes that the protocol supports
