@@ -24,7 +24,8 @@ ULONG AsyncHttpRequest::m_uReqCount = 0;
 AsyncHttpRequest::AsyncHttpRequest()
 {
 	m_bApiReq = true;
-	AddHeader("Connection", "keep-alive");
+	AddHeader("Connection", "close");
+
 	pUserInfo = nullptr;
 	m_iRetry = MAX_RETRIES;
 	m_iErrorCode = 0;
@@ -39,7 +40,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 {
 	m_bApiReq = true;
 	bIsMainConn = false;
-	AddHeader("Connection", "keep-alive");
+	AddHeader("Connection", "close");
 
 	if (ppro->bIint64IDCompatibility)
 		AddHeader("X-Owner", "long");

@@ -51,12 +51,17 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		{
 			mir_cslock lck(m_csWorkThreadTimer);
 			tLocalWorkThreadTimer = m_tWorkThreadTimer = time(0);
+			if (pReq->m_bApiReq) 
+				ApplyCookies(pReq);
 		}
 
 		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->m_szUrl.c_str());
 		NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 		{
 			mir_cslock lck(m_csWorkThreadTimer);
+			if (pReq->m_bApiReq)
+				GrabCookies(reply, "api.vk.com");
+
 			if (tLocalWorkThreadTimer != m_tWorkThreadTimer) {
 				debugLogA("CVkProto::WorkerThread is living Dead => return");
 				delete pReq;
@@ -141,7 +146,6 @@ void CVkProto::WorkerThread(void*)
 		// Initialize new OAuth session
 		extern char szBlankUrl[];
 		extern char szVKUserAgent[];
-		extern char szVKUserAgentCH[];
 
 		AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize);
 		pReq
@@ -153,11 +157,12 @@ void CVkProto::WorkerThread(void*)
 			<< VER_API;
 
 		// Headers
-		pReq->AddHeader("User-agent", szVKUserAgent);
+		pReq->AddHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
+		pReq->AddHeader("Accept-language", "ru-RU,ru;q=0.9");
+		pReq->AddHeader("User-Agent", szVKUserAgent);
 		pReq->AddHeader("dht", "1");
 		pReq->AddHeader("origin", "https://oauth.vk.com");
 		pReq->AddHeader("referer", "https://oauth.vk.com/");
-		pReq->AddHeader("sec-ch-ua", szVKUserAgentCH);
 		pReq->AddHeader("sec-ch-ua-mobile", "?0");
 		pReq->AddHeader("sec-ch-ua-platform", "Windows");
 		pReq->AddHeader("sec-fetch-dest", "document");

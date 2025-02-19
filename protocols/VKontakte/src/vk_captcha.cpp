@@ -82,7 +82,21 @@ bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode &jnErrorNode)
 	if (!RunCaptchaForm(szUrl, userReply))
 		return false;
 
-	pReq << CHAR_PARAM("captcha_sid", szSid) << CHAR_PARAM("captcha_key", userReply.GetString());
+
+	CMStringA szCapthaStr(FORMAT, "&captcha_sid=%s&captcha_key=%s", mir_urlEncode(szSid).c_str(), mir_urlEncode(userReply.GetString()).c_str());
+
+	int iCaptchaBeg = pReq->m_szUrl.Find("&captcha_sid=", 0);
+	int iCaptchaEnd = pReq->m_szUrl.Find("&v=", 0);
+	
+	if ((iCaptchaBeg > -1) && (iCaptchaEnd > iCaptchaBeg))
+		pReq->m_szUrl.Replace(pReq->m_szUrl.Mid(iCaptchaBeg, iCaptchaEnd - iCaptchaBeg).c_str(), szCapthaStr);
+	else if (iCaptchaEnd > -1)
+		pReq->m_szUrl.Replace("&v=", szCapthaStr + "&v=");
+	else
+		pReq->m_szUrl += szCapthaStr;
+
 	pReq->bNeedsRestart = true;
+	debugLogA("CVkProto::ApplyCaptcha %s", pReq->m_szUrl);
+
 	return true;
 }

@@ -23,7 +23,6 @@ mir_cs CVkProto::m_csTimer;
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
 char szScore[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
 char szVKUserAgent[] = "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko";
-char szVKUserAgentCH[] = "\"Microsoft Edge\";v =\"95\", \"Chromium\";v =\"95\", \";Not A Brand\";v = \"99\"";
 
 static char szVKTokenBeg[] = "access_token=";
 static char szVKLoginDomain[] = "https://m.vk.com";
@@ -223,7 +222,7 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 		pReq->m_bApiReq = false;
 		pReq->bIsMainConn = true;
 		ApplyCookies(pReq);
-		pReq->AddHeader("User-agent", szVKUserAgent);
+		pReq->AddHeader("User-Agent", szVKUserAgent);
 		Push(pReq);
 		return;
 	}
@@ -267,10 +266,8 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 				pRedirectReq->m_bApiReq = false;
 				pRedirectReq->bIsMainConn = true;
 				// Headers
-				pRedirectReq->AddHeader("User-agent", szVKUserAgent);
+				pRedirectReq->AddHeader("User-Agent", szVKUserAgent);
 				pRedirectReq->AddHeader("dht", "1");
-				pRedirectReq->AddHeader("sec-ch-ua", szVKUserAgentCH);
-				pRedirectReq->AddHeader("sec-ch-ua-mobile", "?0");
 				pRedirectReq->AddHeader("sec-ch-ua-platform", "Windows");
 				pRedirectReq->AddHeader("sec-fetch-dest", "document");
 				pRedirectReq->AddHeader("sec-fetch-mode", "navigate");
@@ -351,12 +348,11 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 	pReq->Redirect(reply);
 	ApplyCookies(pReq);
 	// Headers
-	pReq->AddHeader("User-agent", szVKUserAgent);
+	pReq->AddHeader("User-Agent", szVKUserAgent);
 	pReq->AddHeader("dht", "1");
 	pReq->AddHeader("origin", "https://oauth.vk.com");
 	pReq->AddHeader("referer", "https://oauth.vk.com/");
-	pReq->AddHeader("sec-ch-ua", szVKUserAgentCH);
-	pReq->AddHeader("sec-ch-ua-mobile", "?0");
+
 	pReq->AddHeader("sec-ch-ua-platform", "Windows");
 	pReq->AddHeader("sec-fetch-dest", "document");
 	pReq->AddHeader("sec-fetch-mode", "navigate");
