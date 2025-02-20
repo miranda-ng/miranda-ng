@@ -53,6 +53,11 @@
 Игровой значок
 [Steam game]
 Игра Steam
+;file \protocols\Steam\src\steam_bbcodes.cpp
+[You were invited to play a game]
+Вас пригласили сыграть в игру
+[Associated application]
+Связанное приложение
 ;file \protocols\Steam\src\steam_chats.cpp
 [Owner]
 Владелец
@@ -97,8 +102,6 @@
 Сеть
 ;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
-[You were invited to play a game]
-Вас пригласили сыграть в игру
 [closed chat session]
 закрыл(а) окно беседы
 ;file \protocols\Steam\src\steam_xstatus.cpp

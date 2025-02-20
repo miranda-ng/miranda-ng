@@ -757,6 +757,8 @@
 Ветер: скорость
 [Wintry Mix / Wind]
 Снег с дождём / ветер
+[Forecast Day 0]
+Прогноз: День 0
 [Forecast Day 1]
 Прогноз: День 1
 [Forecast Day 2]

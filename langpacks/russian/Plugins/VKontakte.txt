@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.17.5
+;  Version: 0.1.18.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -200,6 +200,8 @@ URL:
 Выберите контакты, которым вы хотите переслать сообщения
 [Enter accompanying message]
 Введите сопроводительное сообщение
+[Token Request]
+Запрос токена
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 Уведомление
@@ -423,6 +425,10 @@ URL:
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
 Введите текст, который видите
+[Logon for ]
+Вход в\s
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
+Чтобы подключиться к ВКонтакте, авторизуйтесь на сайте и скопируйте содержимое адресной строки браузера в расположенное ниже поле.\nНе изменяйте скопированную строку!\nНе обращайте внимание на предупреждение сайта об опасности копирования. К сожалениию, пока это единственный способ подключиться с помощью Miranda NG.
 [Wall message for %s]
 Сообщение на стену для %s
 ;file \protocols\VKontakte\src\vk_feed.cpp

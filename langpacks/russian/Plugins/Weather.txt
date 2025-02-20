@@ -160,7 +160,7 @@
 Уведомления
 [Errors]
 Ошибки
-[Enter your personel API key from Visual Crossing Weather site]
+[Enter your personal API key from Visual Crossing Weather site]
 Введите свой личный ключ API с сайта Visual Crossing Weather
 [Obtain key]
 Получить ключ
@@ -364,6 +364,8 @@ INI файл погоды для этой станции не найден (20)
 ЗС
 [NNW]
 ССЗ
+[You need to obtain the personal key and enter it in the account's Options dialog]
+Необходимо указать в настройках учётной записи ваш персональный ключ
 ;file \protocols\Weather\src\weather_mwin.cpp
 [Frame Font]
 Шрифт фрейма
