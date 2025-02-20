@@ -126,7 +126,7 @@ bool CVkTokenForm::OnInitDialog()
 
 	m_btnOk.Disable();
 	if (!m_TokenReq.IsEmpty()) {
-		m_instruction.SetText(TranslateT("For logon to protocol VK, you need to authorize in the browser and copy the received address from its address bar in the field below.\nDo not change anything when copying!\nYou will have to ignore the anti - copy message that you will see in your browser.Unfortunately, Miranda NG cannot authorize you in any other way right now."));
+		m_instruction.SetText(TranslateT("To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now."));
 		Utils_OpenUrl(m_TokenReq.c_str());
 		return true;
 	}
