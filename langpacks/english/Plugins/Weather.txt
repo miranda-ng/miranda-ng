@@ -83,7 +83,7 @@
 [Updates]
 [Alerts]
 [Errors]
-[Enter your personel API key from Visual Crossing Weather site]
+[Enter your personal API key from Visual Crossing Weather site]
 [Obtain key]
 [Contact List]
 [Brief Info Title]
@@ -188,6 +188,7 @@
 [WNW]
 [WN]
 [NNW]
+[You need to obtain the personal key and enter it in the account's Options dialog]
 ;file \protocols\Weather\src\weather_mwin.cpp
 [Frame Font]
 [Frame Title Font]

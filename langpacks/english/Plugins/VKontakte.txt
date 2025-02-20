@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.17.5
+;  Version: 0.1.18.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -103,6 +103,7 @@
 [Mark contacts for forwarding messages]
 [Mark contacts you want to forward messages]
 [Enter accompanying message]
+[Token Request]
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 [Read message icon]
@@ -216,6 +217,8 @@
 [New chat's title:]
 ;file \protocols\VKontakte\src\vk_dialogs.cpp
 [Enter the text you see]
+[Logon for ]
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
 [Wall message for %s]
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [VKontakte]

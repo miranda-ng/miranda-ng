@@ -30,6 +30,9 @@
 [Protocol icon]
 [Gaming icon]
 [Steam game]
+;file \protocols\Steam\src\steam_bbcodes.cpp
+[You were invited to play a game]
+[Associated application]
 ;file \protocols\Steam\src\steam_chats.cpp
 [Owner]
 [Participant]
@@ -56,6 +59,5 @@
 [Network]
 ;file \protocols\Steam\src\steam_server.cpp
 ;file \protocols\Steam\src\steam_utils.cpp
-[You were invited to play a game]
 [closed chat session]
 ;file \protocols\Steam\src\steam_xstatus.cpp
