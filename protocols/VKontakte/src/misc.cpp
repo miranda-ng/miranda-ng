@@ -594,6 +594,8 @@ CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 void CVkProto::GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain)
 {
 	debugLogA("CVkProto::GrabCookies");
+	if (!nhr)
+		return;
 
 	for (auto &hdr : *nhr) {
 		if (_stricmp(hdr->szName, "Set-cookie"))

@@ -98,7 +98,69 @@ void CVkCaptchaForm::On_btnOpenInBrowser_Click(CCtrlButton*)
 void CVkCaptchaForm::On_edtValue_Change(CCtrlEdit*)
 {
 	m_btnOk.Enable(!IsEmpty(ptrA(m_edtValue.GetTextA())));
+
 }
+
+////////////////////////////////// IDD_TOKENFORM //////////////////////////////////////////
+CVkTokenForm::CVkTokenForm(CVkProto* proto, CMStringA& _szTokenReq) :
+	CVkDlgBase(proto, IDD_TOKENFORM),
+	m_instruction(this, IDC_INSTRUCTION),
+	m_edtValue(this, IDC_TOKENVAL),
+	m_btnTokenReq(this, IDC_TOKENREQ),
+	m_btnOk(this, IDOK),
+	m_TokenReq(_szTokenReq)
+{
+	m_btnTokenReq.OnClick = Callback(this, &CVkTokenForm::On_btnTokenReq_Click);
+	m_edtValue.OnChange = Callback(this, &CVkTokenForm::On_edtValue_Change);
+	m_szAccName = proto->m_szModuleName;
+}
+
+bool CVkTokenForm::OnInitDialog()
+{
+	Window_SetIcon_IcoLib(m_hwnd, Skin_GetIconHandle(SKINICON_OTHER_KEYS));
+
+	CMStringW wszCaption(Translate("Logon for "));
+	wszCaption += m_szAccName;
+		
+	SetCaption(wszCaption.c_str());
+
+	m_btnOk.Disable();
+	if (!m_TokenReq.IsEmpty()) {
+		m_instruction.SetText(TranslateT("For logon to protocol VK, you need to authorize in the browser and copy the received address from its address bar in the field below.\nDo not change anything when copying!\nYou will have to ignore the anti - copy message that you will see in your browser.Unfortunately, Miranda NG cannot authorize you in any other way right now."));
+		Utils_OpenUrl(m_TokenReq.c_str());
+		return true;
+	}
+	 
+	return false;
+}
+
+void CVkTokenForm::OnDestroy()
+{
+	Window_FreeIcon_IcoLib(m_hwnd);
+}
+
+bool CVkTokenForm::OnApply()
+{
+	m_edtValue.GetTextA(Result, _countof(Result));
+	return true;
+}
+
+void CVkTokenForm::On_edtValue_Change(CCtrlEdit*)
+{
+	extern char szVKTokenBeg[];
+	ptrA pszUrlSring(m_edtValue.GetTextA());
+	
+	if (!IsEmpty(pszUrlSring) && strstr(pszUrlSring, szVKTokenBeg))
+		m_btnOk.Enable();
+	else
+		m_btnOk.Disable();
+}
+
+void CVkTokenForm::On_btnTokenReq_Click(CCtrlButton*) 
+{
+	Utils_OpenUrl(m_TokenReq.c_str());
+}
+
 
 ////////////////////////////////// IDD_WALLPOST ///////////////////////////////////////////
 

@@ -51,6 +51,31 @@ public:
 
 };
 
+////////////////////////////////// IDD_TOKENFORM ////////////////////////////////////////
+
+class CVkTokenForm : public CVkDlgBase
+{
+	CCtrlData m_instruction;
+	CCtrlEdit m_edtValue;
+	CCtrlButton m_btnTokenReq;
+	CCtrlButton m_btnOk;
+	CMStringA m_TokenReq;
+	CMStringA m_szAccName;
+	
+public:
+	CVkTokenForm(CVkProto* proto, CMStringA& _szTokenReq);
+
+	bool OnInitDialog() override;
+	bool OnApply() override;
+	void OnDestroy() override;
+
+	void On_btnTokenReq_Click(CCtrlButton*);
+	void On_edtValue_Change(CCtrlEdit*);
+
+	char Result[4096];
+
+};
+
 ////////////////////////////////// IDD_WALLPOST ///////////////////////////////////////////
 
 struct WALLPOST_FORM_PARAMS

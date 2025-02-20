@@ -21,10 +21,11 @@ UINT_PTR CVkProto::m_Timer;
 mir_cs CVkProto::m_csTimer;
 
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
+char szChallengekUrl[] = "/challenge.html";
 char szScore[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
 char szVKUserAgent[] = "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko";
+char szVKTokenBeg[] = "access_token=";
 
-static char szVKTokenBeg[] = "access_token=";
 static char szVKLoginDomain[] = "https://m.vk.com";
 static char szVKCookieDomain[] = ".vk.com";
 static char szFieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
@@ -203,6 +204,27 @@ void CVkProto::OnLoggedOut()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool CVkProto::LoadToken(LPCSTR pszUrlSring)
+{
+	m_szAccessToken = nullptr;
+	LPCSTR p = strstr(pszUrlSring, szVKTokenBeg);
+	if (!p)
+		return false;
+	
+	p += sizeof(szVKTokenBeg) - 1;
+	for (LPCSTR q = p + 1; *q; q++) {
+		if (*q == '&' || *q == '=' || *q == '\"') {
+			m_szAccessToken = mir_strndup(p, q - p);
+			break;
+		}
+	}
+	if (m_szAccessToken == nullptr)
+		m_szAccessToken = mir_strdup(p);
+	setString("AccessToken", m_szAccessToken);
+	
+	return true;
+}
+
 void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 {
 	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
@@ -233,21 +255,29 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 			if (!_strnicmp(pszLocation, szBlankUrl, sizeof(szBlankUrl) - 1)) {
 				m_szAccessToken = nullptr;
 				LPCSTR p = strstr(pszLocation, szVKTokenBeg);
-				if (p) {
-					p += sizeof(szVKTokenBeg) - 1;
-					for (LPCSTR q = p + 1; *q; q++) {
-						if (*q == '&' || *q == '=' || *q == '\"') {
-							m_szAccessToken = mir_strndup(p, q - p);
-							break;
-						}
-					}
-					if (m_szAccessToken == nullptr)
-						m_szAccessToken = mir_strdup(p);
-					setString("AccessToken", m_szAccessToken);
+				if (LoadToken(pszLocation))
 					RetrieveMyInfo();
-				}
 				else
 					ConnectionFailed(LOGINERR_NOSERVER);
+				return;
+
+			}
+			else if (!_strnicmp(pszLocation, szChallengekUrl, sizeof(szChallengekUrl) - 1)) {
+				CMStringA szTokenReq(
+					FORMAT, 
+					"https://oauth.vk.com/authorize?client_id=%d&scope=%s&redirect_uri=%s&display=mobile&response_type=token&v=%s", VK_APP_ID, 
+					mir_urlEncode(szScore).c_str(), 
+					mir_urlEncode(szBlankUrl).c_str(), 
+					VER_API
+				);
+
+				CVkTokenForm dlg(this, szTokenReq);
+				if (dlg.DoModal() && LoadToken(dlg.Result))
+					RetrieveMyInfo();
+				else
+					ConnectionFailed(LOGINERR_NOSERVER);
+
+				return;
 			}
 			else {
 				AsyncHttpRequest *pRedirectReq = new AsyncHttpRequest();
@@ -292,19 +322,8 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 	LPCSTR pBlankUrl = strstr(reply->body, szBlankUrl);
 	if (pBlankUrl) {
 		debugLogA("CVkProto::OnOAuthAuthorize blank ulr found");
-		m_szAccessToken = nullptr;
-		LPCSTR p = strstr(pBlankUrl, szVKTokenBeg);
-		if (p) {
-			p += sizeof(szVKTokenBeg) - 1;
-			for (LPCSTR q = p + 1; *q; q++) {
-				if (*q == '&' || *q == '=' || *q == '\"') {
-					m_szAccessToken = mir_strndup(p, q - p);
-					break;
-				}
-			}
-			setString("AccessToken", m_szAccessToken);
-			RetrieveMyInfo();
-		}
+		if (LoadToken(pBlankUrl))
+			RetrieveMyInfo();	
 		else {
 			debugLogA("CVkProto::OnOAuthAuthorize blank ulr found, access_token not found");
 			ConnectionFailed(LOGINERR_NOSERVER);

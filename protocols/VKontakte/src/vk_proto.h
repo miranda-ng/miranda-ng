@@ -425,6 +425,7 @@ private:
 	void CloseAPIConnection(bool bShutdown = false);
 	void OnLoggedOut();
 	void ShutdownSession();
+	bool LoadToken(LPCSTR pszUrlSring);
 	void SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl);
 	void GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cbLen);
 	void ReloadAvatarInfo(MCONTACT hContact);
