@@ -46,7 +46,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #define MAXHISTORYMIDSPERONE 100
-#define MAX_RETRIES 10
+#define MAX_RETRIES 20
 #define MAX_CONTACTS_PER_REQUEST 530
 
 struct CVkProto : public PROTO<CVkProto>
