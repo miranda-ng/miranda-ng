@@ -146,6 +146,9 @@ void CVkProto::CheckUpdate()
 		bIint64IDCompatibility = true;
 	}
 
+	if (getDword("LastAccessTokenTime", 0) < 1740009600)
+		ClearAccessToken();
+
 }
 
 //////////////////////// bIint64IDCompatibility /////////////////////////////////////////

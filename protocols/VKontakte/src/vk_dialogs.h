@@ -63,7 +63,7 @@ class CVkTokenForm : public CVkDlgBase
 	CMStringA m_szAccName;
 	
 public:
-	CVkTokenForm(CVkProto* proto, CMStringA& _szTokenReq);
+	CVkTokenForm(CVkProto* proto, const char* _szTokenReq);
 
 	bool OnInitDialog() override;
 	bool OnApply() override;

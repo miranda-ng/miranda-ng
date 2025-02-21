@@ -102,7 +102,7 @@ void CVkCaptchaForm::On_edtValue_Change(CCtrlEdit*)
 }
 
 ////////////////////////////////// IDD_TOKENFORM //////////////////////////////////////////
-CVkTokenForm::CVkTokenForm(CVkProto* proto, CMStringA& _szTokenReq) :
+CVkTokenForm::CVkTokenForm(CVkProto* proto, const char* _szTokenReq) :
 	CVkDlgBase(proto, IDD_TOKENFORM),
 	m_instruction(this, IDC_INSTRUCTION),
 	m_edtValue(this, IDC_TOKENVAL),

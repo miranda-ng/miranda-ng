@@ -20,11 +20,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 
 ULONG AsyncHttpRequest::m_uReqCount = 0;
+char szVKUserAgent[] = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36";
 
 AsyncHttpRequest::AsyncHttpRequest()
 {
 	m_bApiReq = true;
-	AddHeader("Connection", "close");
 
 	pUserInfo = nullptr;
 	m_iRetry = MAX_RETRIES;
@@ -40,7 +40,8 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 {
 	m_bApiReq = true;
 	bIsMainConn = false;
-	AddHeader("Connection", "close");
+	AddHeader("User-Agent", szVKUserAgent);
+	AddHeader("Accept-Encoding", "none");
 
 	if (ppro->bIint64IDCompatibility)
 		AddHeader("X-Owner", "long");
@@ -54,7 +55,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	else
 		m_szUrl = _url;
 
-	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
 	if (bSecure) {
 		flags |= NLHRF_SSL;
 		this << CHAR_PARAM("access_token", ppro->m_szAccessToken);

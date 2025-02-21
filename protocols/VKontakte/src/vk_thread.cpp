@@ -23,11 +23,11 @@ mir_cs CVkProto::m_csTimer;
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
 char szChallengekUrl[] = "/challenge.html";
 char szScore[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
-char szVKUserAgent[] = "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko";
 char szVKTokenBeg[] = "access_token=";
+char szVKCookieDomain[] = ".vk.com";
 
 static char szVKLoginDomain[] = "https://m.vk.com";
-static char szVKCookieDomain[] = ".vk.com";
+
 static char szFieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
 	"contacts, last_seen, online, status, country, city, relation, interests, activities, "
 	"music, movies, tv, books, games, quotes, about,  domain, can_write_private_message";
@@ -206,7 +206,6 @@ void CVkProto::OnLoggedOut()
 
 bool CVkProto::LoadToken(LPCSTR pszUrlSring)
 {
-	m_szAccessToken = nullptr;
 	LPCSTR p = strstr(pszUrlSring, szVKTokenBeg);
 	if (!p)
 		return false;
@@ -221,7 +220,7 @@ bool CVkProto::LoadToken(LPCSTR pszUrlSring)
 	if (m_szAccessToken == nullptr)
 		m_szAccessToken = mir_strdup(p);
 	setString("AccessToken", m_szAccessToken);
-	
+	setDword("LastAccessTokenTime", time(0));
 	return true;
 }
 
@@ -244,7 +243,6 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 		pReq->m_bApiReq = false;
 		pReq->bIsMainConn = true;
 		ApplyCookies(pReq);
-		pReq->AddHeader("User-Agent", szVKUserAgent);
 		Push(pReq);
 		return;
 	}
@@ -271,7 +269,7 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 					VER_API
 				);
 
-				CVkTokenForm dlg(this, szTokenReq);
+				CVkTokenForm dlg(this, szTokenReq.c_str());
 				if (dlg.DoModal() && LoadToken(dlg.Result))
 					RetrieveMyInfo();
 				else
@@ -296,7 +294,6 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 				pRedirectReq->m_bApiReq = false;
 				pRedirectReq->bIsMainConn = true;
 				// Headers
-				pRedirectReq->AddHeader("User-Agent", szVKUserAgent);
 				pRedirectReq->AddHeader("dht", "1");
 				pRedirectReq->AddHeader("sec-ch-ua-platform", "Windows");
 				pRedirectReq->AddHeader("sec-fetch-dest", "document");
@@ -311,6 +308,17 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 		}
 		else
 			ConnectionFailed(LOGINERR_NOSERVER);
+		return;
+	}
+
+	if (reply->resultCode == 200 && !IsEmpty(reply->szUrl) && strstr(reply->szUrl, szChallengekUrl)) {
+		debugLogA("CVkProto::OnOAuthAuthorize szChallengekUrl");
+		CVkTokenForm dlg(this, reply->szUrl);
+		if (dlg.DoModal() && LoadToken(dlg.Result))
+			RetrieveMyInfo();
+		else
+			ConnectionFailed(LOGINERR_NOSERVER);
+
 		return;
 	}
 
@@ -367,7 +375,7 @@ void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
 	pReq->Redirect(reply);
 	ApplyCookies(pReq);
 	// Headers
-	pReq->AddHeader("User-Agent", szVKUserAgent);
+	
 	pReq->AddHeader("dht", "1");
 	pReq->AddHeader("origin", "https://oauth.vk.com");
 	pReq->AddHeader("referer", "https://oauth.vk.com/");
