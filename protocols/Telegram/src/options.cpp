@@ -170,7 +170,7 @@ public:
 
 	void onChange_Value1(int val)
 	{
-		bool bEnabled = val != 0;
+		bool bEnabled = val > 0;
 		spin2.Enable(bEnabled);
 		edtDiff2.Enable(bEnabled);
 		cmbStatus1.Enable(bEnabled);
