@@ -273,9 +273,9 @@ void CTelegramProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO 
 		return;
 
 	if (dbei.szId && dbei.cbBlob && dbei.pBlob && dbei.eventType == EVENTTYPE_MESSAGE) {
-		auto text = formatBbcodes((char*)dbei.pBlob);
-		// auto content = TD::make_object<TD::inputMessageText>(std::move(text), 0, false);
-		// SendQuery(new TD::editMessageText(pUser->chatId, dbei2id(dbei), 0, std::move(content)));
+		auto content = TD::make_object<TD::inputMessageText>();
+		content->text_ = formatBbcodes((char *)dbei.pBlob);
+		SendQuery(new TD::editMessageText(pUser->chatId, dbei2id(dbei), 0, std::move(content)));
 	}
 }
 
