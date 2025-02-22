@@ -526,7 +526,7 @@ static void CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 		int newStatus = Proto_GetStatus(it->m_szName);
 		int protoFlags = GetStatusFlags(it->m_szName);
 		// ok, np
-		if (curStatus == ID_STATUS_CURRENT || curStatus == ID_STATUS_DISABLED || curStatus == newStatus || newStatus > MAX_STATUS)
+		if (curStatus == ID_STATUS_CURRENT || curStatus == ID_STATUS_DISABLED || curStatus == newStatus || newStatus > MAX_STATUS || !protoFlags)
 			continue;
 
 		if (IsStatusConnecting(newStatus)) { // connecting
@@ -539,7 +539,7 @@ static void CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 			it->AssignStatus(newStatus);
 
 		// connection lost
-		else if (newStatus == ID_STATUS_OFFLINE && protoFlags) {// start checking connection
+		else if (newStatus == ID_STATUS_OFFLINE) {// start checking connection
 			if (!StartTimer(IDT_CHECKCONN, -1, FALSE)) { /* check if not already checking */
 				needChecking = true;
 				log_info(0, "KeepStatus: connection lost! (%s)", it->m_szName);
