@@ -120,7 +120,7 @@ bool CVkTokenForm::OnInitDialog()
 	Window_SetIcon_IcoLib(m_hwnd, Skin_GetIconHandle(SKINICON_OTHER_KEYS));
 
 	CMStringW wszCaption(Translate("Logon for "));
-	wszCaption += m_szAccName;
+	wszCaption += m_proto->m_tszUserName;
 		
 	SetCaption(wszCaption.c_str());
 
