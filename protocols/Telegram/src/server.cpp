@@ -794,6 +794,9 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 			if (pUser->isForum)
 				wszNewGroup.AppendFormat(L"\\%s", pUser->wszNick.c_str());
 
+			if (wszNewGroup[0] == '\\')
+				wszNewGroup.Delete(0, 1);
+
 			debugLogW(L"Setting group for %d to %s", hContact, wszNewGroup.c_str());
 			Clist_GroupCreate(0, wszNewGroup);
 			Clist_SetGroup(hContact, wszNewGroup);
