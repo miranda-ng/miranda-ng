@@ -201,8 +201,8 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 				}
 				else p--;
 			}
-			else if (!wcsncmp(p, L"/color]", 7)) {
-				p += 6;
+			else if (*pEnd && !wcsncmp(p, L"color]", 6)) {
+				p += 5;
 				buf.AppendFormat(L"</font>");
 			}
 			else if (!wcsncmp(p, L"code]", 5)) {
