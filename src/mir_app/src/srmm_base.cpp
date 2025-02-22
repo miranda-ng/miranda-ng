@@ -758,7 +758,7 @@ bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
 
 void CSrmmBaseDialog::MarkEventRead(const DB::EventInfo &dbei)
 {
-	if (dbei.markedRead())
+	if (dbei.bRead)
 		return;
 
 	if (m_bActive)
@@ -826,11 +826,15 @@ void CSrmmBaseDialog::ScheduleRedrawLog()
 
 void CSrmmBaseDialog::UpdateChatLog()
 {
-	if (!m_si->pMI->bDatabase || m_si->bHistoryInit)
+	if (!m_si->pMI->bDatabase)
 		return;
 
 	m_pLog->Clear();
 	GetFirstEvent();
+
+	for (auto &it : m_si->arEvents.rev_iter())
+		if (it->hEvent)
+			m_si->arEvents.removeItem(&it);
 
 	int iHistoryMode = Srmm::iHistoryMode;
 
@@ -859,7 +863,6 @@ void CSrmmBaseDialog::UpdateChatLog()
 		}
 	}
 
-	m_si->bHistoryInit = true;
 	m_pLog->LogChatEvents(nullptr);
 }
 

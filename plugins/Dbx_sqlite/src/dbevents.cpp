@@ -146,7 +146,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	sqlite3_bind_blob(stmt, 6, tmp.pBlob, tmp.cbBlob, nullptr);
 	sqlite3_bind_text(stmt, 7, tmp.szId, (int)mir_strlen(tmp.szId), nullptr);
 	sqlite3_bind_text(stmt, 8, tmp.szUserId, (int)mir_strlen(tmp.szUserId), nullptr);
-	sqlite3_bind_int(stmt, 9, tmp.markedRead());
+	sqlite3_bind_int(stmt, 9, tmp.bRead);
 	sqlite3_bind_text(stmt, 10, tmp.szReplyId, (int)mir_strlen(tmp.szReplyId), nullptr);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);

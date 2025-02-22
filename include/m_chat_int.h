@@ -153,7 +153,6 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	bool        bInitDone;
 	bool        bHasToolTip;
 	bool        bHasNicklist;
-	bool        bHistoryInit;
 	bool        bIsDirty;
 
 	char*       pszModule;
