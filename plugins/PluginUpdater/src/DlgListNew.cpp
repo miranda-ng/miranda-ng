@@ -294,6 +294,17 @@ public:
 		FillList();
 	}
 
+	bool DownloadUpdate(FILEINFO *p, HNETLIBCONN nlc, TFileName wszBackupFolder)
+	{
+		if (DownloadFile(&p->File, nlc) != ERROR_SUCCESS)
+			return false;
+
+		if (!unzip(p->File.wszDiskPath, g_mirandaPath, wszBackupFolder, false))
+			PU::SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
+		db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->wszOldName));
+		return true;
+	}
+
 	void Unpack()
 	{
 		// create needed folders after escalating priviledges. Folders creates when we actually install updates
@@ -303,21 +314,21 @@ public:
 		HNETLIBCONN nlc = nullptr;
 		int i = 0;
 		for (auto &p : *todo) {
-			if (p->IsFiltered(m_wszFilter))
+			if (p->IsFiltered(m_wszFilter)) {
+				// this update is hidden from screen, so we do not update anything
+				if (p->bEnabled)
+					DownloadUpdate(p, nlc, wszBackupFolder);
 				continue;
+			}
 
 			m_list.EnsureVisible(i, FALSE);
 			if (p->bEnabled) {
 				// download update
 				m_list.SetItemText(i, 1, TranslateT("Downloading..."));
-
-				if (DownloadFile(&p->File, nlc) == ERROR_SUCCESS) {
+				if (DownloadUpdate(p, nlc, wszBackupFolder))
 					m_list.SetItemText(i, 1, TranslateT("Succeeded."));
-					if (!unzip(p->File.wszDiskPath, g_mirandaPath, wszBackupFolder, false))
-						PU::SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
-					db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->wszOldName));
-				}
-				else m_list.SetItemText(i, 1, TranslateT("Failed!"));
+				else
+					m_list.SetItemText(i, 1, TranslateT("Failed!"));
 			}
 			else m_list.SetItemText(i, 1, TranslateT("Skipped."));
 			i++;
