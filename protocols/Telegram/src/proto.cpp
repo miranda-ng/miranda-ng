@@ -473,22 +473,30 @@ void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *
 			dbei.flags = DBEF_SENT | DBEF_UTF;
 			dbei.iTimestamp = time(0);
 
-			TG_FILE_REQUEST localft(TG_FILE_REQUEST::FILE, 0, 0);
-			localft.m_fileName = Utf2T(pFile->local_->path_.c_str());
-			localft.m_fileSize = pFile->size_;
-			localft.m_uniqueId = szMsgId;
-			localft.m_szUserId = szUserId;
+			auto *localft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, 0);
+			localft->m_hContact = ft->m_hContact;
+			localft->m_fileName = Utf2T(pFile->local_->path_.c_str());
+			localft->m_fileSize = pFile->size_;
+			localft->m_uniqueId = szMsgId;
+			localft->m_szUserId = szUserId;
+			localft->m_fileId = pFile->id_;
 
-			DB::FILE_BLOB blob(localft.m_fileName, ft->m_wszDescr);
-			OnSendOfflineFile(dbei, blob, &localft);
+			DB::FILE_BLOB blob(localft->m_fileName, ft->m_wszDescr);
+			OnSendOfflineFile(dbei, blob, localft);
 			blob.write(dbei);
 
 			db_event_add(ft->m_hContact, &dbei);
+
+			mir_cslock lck(m_csFiles);
+			m_arFiles.insert(localft);
 		}
 		else {
 			ft->m_szUserId = szUserId;
 			ft->m_uniqueId = szMsgId;
-			ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
+			ft->m_fileId = pFile->id_;
+
+			mir_cslock lck(m_csFiles);
+			m_arFiles.insert(ft);
 		}
 	}
 }
@@ -499,7 +507,6 @@ void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUs
 
 	if (response.object->get_id() == TD::message::ID) {
 		ProcessFileMessage(ft, (TD::message *)response.object.get(), false);
-		ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
 	}
 	else if (response.object->get_id() == TD::messages::ID) {
 		int i = 0;
@@ -509,8 +516,6 @@ void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUs
 			i++;
 		}
 	}
-
-	delete ft;
 }
 
 HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles)

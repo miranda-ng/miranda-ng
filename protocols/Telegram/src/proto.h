@@ -220,6 +220,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	mir_cs m_csFiles;
 	LIST<TG_FILE_REQUEST> m_arFiles;
 	TG_FILE_REQUEST* FindFile(const char *pszUniqueId);
+	TG_FILE_REQUEST* FindFile(int id);
 
 	static INT_PTR CALLBACK EnterEmail(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);

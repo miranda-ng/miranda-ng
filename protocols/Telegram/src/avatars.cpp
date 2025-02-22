@@ -191,6 +191,17 @@ TG_FILE_REQUEST* CTelegramProto::FindFile(const char *pszUniqueId)
 	return nullptr;
 }
 
+TG_FILE_REQUEST* CTelegramProto::FindFile(int id)
+{
+	mir_cslock lck(m_csFiles);
+
+	for (auto &it : m_arFiles)
+		if (it->m_fileId == id)
+			return it;
+
+	return nullptr;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Extracts a photo/avatar to a file
 
@@ -227,30 +238,39 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		return;
 
 	if (!pLocal->is_downloading_completed_) {
-		if (auto *F = FindFile(pRemote->unique_id_.c_str())) {
-			if (F->m_type != F->AVATAR && F->ofd) {
-				DBVARIANT dbv = { DBVT_DWORD };
-				dbv.dVal = pLocal->downloaded_size_;
-				db_event_setJson(F->ofd->hDbEvent, "ft", &dbv);
-			}
+		auto *ft = FindFile(pRemote->unique_id_.c_str());
+		if (ft && ft->m_type != ft->AVATAR && ft->ofd) {
+			DBVARIANT dbv = { DBVT_DWORD };
+			dbv.dVal = pLocal->downloaded_size_;
+			db_event_setJson(ft->ofd->hDbEvent, "ft", &dbv);
 		}
 		return;
 	}
 
 	// file upload is not completed, skip it
-	if (pRemote->is_uploading_active_)
+	if (pRemote->is_uploading_active_) {
+		auto *ft = FindFile(pFile->id_);
+		if (ft) {
+			PROTOFILETRANSFERSTATUS fts = {};
+			fts.hContact = ft->m_hContact;
+			fts.totalFiles = 1;
+			fts.totalBytes = fts.currentFileSize = pFile->size_;
+			fts.totalProgress = fts.currentFileProgress = pFile->remote_->uploaded_size_;
+			ProtoBroadcastAck((UINT_PTR)ft->m_hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&fts);
+		}
 		return;
+	}
 
 	Utf2T wszExistingFile(pLocal->path_.c_str());
 
-	if (auto *F = FindFile(pRemote->unique_id_.c_str())) {
-		if (F->m_type == F->AVATAR) {
-			CMStringW wszFullName = F->m_destPath;
+	if (auto *ft = FindFile(pRemote->unique_id_.c_str())) {
+		if (ft->m_type == ft->AVATAR) {
+			CMStringW wszFullName = ft->m_destPath;
 			if (!wszFullName.IsEmpty())
 				wszFullName += L"\\";
-			wszFullName += F->m_fileName;
+			wszFullName += ft->m_fileName;
 
-			if (F->m_fileName.Right(5).MakeLower() == L".webp") {
+			if (ft->m_fileName.Right(5).MakeLower() == L".webp") {
 				if (auto *pImage = FreeImage_LoadU(FIF_WEBP, wszExistingFile)) {
 					wszFullName.Truncate(wszFullName.GetLength() - 5);
 					wszFullName += L".png";
@@ -258,7 +278,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 					FreeImage_Unload(pImage);
 				}
 			}
-			else if (F->m_fileName.Right(4).MakeLower() == L".tga") {
+			else if (ft->m_fileName.Right(4).MakeLower() == L".tga") {
 				if (auto *pImage = FreeImage_LoadU(FIF_TARGA, wszExistingFile)) {
 					wszFullName.Truncate(wszFullName.GetLength() - 5);
 					wszFullName += L".png";
@@ -268,54 +288,53 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 			}
 			else MoveFileW(wszExistingFile, wszFullName);
 
-			if (F->m_isSmiley)
+			if (ft->m_isSmiley)
 				SmileyAdd_LoadContactSmileys(SMADD_FILE, m_szModuleName, wszFullName);
 			else
 				NS_NotifyFileReady(wszFullName);
 		}
 		else { // FILE, PICTURE, VIDEO, VOICE
-			if (F->ofd == nullptr)
-				return;
+			if (ft->ofd) {
+				DBVARIANT dbv = { DBVT_DWORD };
+				dbv.dVal = pLocal->downloaded_size_;
+				db_event_setJson(ft->ofd->hDbEvent, "ft", &dbv);
 
-			DBVARIANT dbv = { DBVT_DWORD };
-			dbv.dVal = pLocal->downloaded_size_;
-			db_event_setJson(F->ofd->hDbEvent, "ft", &dbv);
+				CMStringW wszFullName(ft->ofd->wszPath);
+				int idxSlash = wszFullName.ReverseFind('\\') + 1;
+				if (wszFullName.Find('.', idxSlash) == -1) {
+					auto *pSlash = strrchr(pLocal->path_.c_str(), '\\');
+					if (!pSlash)
+						pSlash = pLocal->path_.c_str();
+					else
+						pSlash++;
 
-			CMStringW wszFullName(F->ofd->wszPath);
-			int idxSlash = wszFullName.ReverseFind('\\') + 1;
-			if (wszFullName.Find('.', idxSlash) == -1) {
-				auto *pSlash = strrchr(pLocal->path_.c_str(), '\\');
-				if (!pSlash)
-					pSlash = pLocal->path_.c_str();
-				else
-					pSlash++;
+					if (strchr(pSlash, '.')) {
+						dbv.type = DBVT_UTF8;
+						dbv.pszVal = (char *)pSlash;
+						db_event_setJson(ft->ofd->hDbEvent, "f", &dbv);
 
-				if (strchr(pSlash, '.')) {
-					dbv.type = DBVT_UTF8;
-					dbv.pszVal = (char *)pSlash;
-					db_event_setJson(F->ofd->hDbEvent, "f", &dbv);
-
-					wszFullName.Truncate(idxSlash);
-					wszFullName.Append(Utf2T(pSlash));
-					F->ofd->ResetFileName(wszFullName); // resulting ofd->wszPath may differ from wszFullName
-				}
-				else {
-					int iFormat = ProtoGetAvatarFileFormat(wszExistingFile);
-					if (iFormat != PA_FORMAT_UNKNOWN) {
-						wszFullName.AppendChar('.');
-						wszFullName.Append(ProtoGetAvatarExtension(iFormat));
-						F->ofd->ResetFileName(wszFullName);
+						wszFullName.Truncate(idxSlash);
+						wszFullName.Append(Utf2T(pSlash));
+						ft->ofd->ResetFileName(wszFullName); // resulting ofd->wszPath may differ from wszFullName
+					}
+					else {
+						int iFormat = ProtoGetAvatarFileFormat(wszExistingFile);
+						if (iFormat != PA_FORMAT_UNKNOWN) {
+							wszFullName.AppendChar('.');
+							wszFullName.Append(ProtoGetAvatarExtension(iFormat));
+							ft->ofd->ResetFileName(wszFullName);
+						}
 					}
 				}
-			}
 
-			MoveFileW(wszExistingFile, F->ofd->wszPath);
-			F->ofd->Finish();
+				MoveFileW(wszExistingFile, ft->ofd->wszPath);
+				ft->ofd->Finish();
+			}
 		}
 
 		mir_cslock lck(m_csFiles);
-		m_arFiles.remove(F);
-		delete F;
+		m_arFiles.remove(ft);
+		delete ft;
 		return;
 	}
 
@@ -330,6 +349,15 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 					// file is uploaded to the server
 					db_event_delivered(it->hContact, hDbEvent);
 				}
+			}
+
+			if (auto *ft = FindFile(pFile->id_)) {
+				// file being uploaded is finished
+				ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
+
+				mir_cslock lck(m_csFiles);
+				m_arFiles.remove(ft);
+				delete ft;
 			}
 			return;
 		}
