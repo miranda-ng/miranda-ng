@@ -393,7 +393,20 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		MsgPopup(TranslateT("Access denied! Data will not be sent or received."), TranslateT("Error"), true);
 		break;
 	case VKERR_CAPTCHA_NEEDED:
-		ApplyCaptcha(pReq, jnError);
+		if (!ApplyCaptcha(pReq, jnError) && (pReq->m_iRetry > 0)) {
+			pReq->bNeedsRestart = true;
+			Sleep(1000); 
+			debugLogA("CVkProto::CheckJsonResult Captcha processing error.");
+			debugLogA("CVkProto::CheckJsonResult Retry = %d", pReq->m_iRetry);
+			pReq->m_iRetry--;
+		} else {
+			CMStringW wszMsg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
+			wszMsg += "\n";
+			wszMsg += TranslateT("Captcha processing error.");
+			MsgPopup(wszMsg, TranslateT("Error"), true);
+			debugLogA("CVkProto::CheckJsonResult SendError");
+		}
+
 		break;
 	case VKERR_VALIDATION_REQUIRED:	// Validation Required
 		MsgPopup(TranslateT("You have to validate your account before you can use VK in Miranda NG"), TranslateT("Error"), true);
