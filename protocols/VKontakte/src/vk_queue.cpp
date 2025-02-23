@@ -37,8 +37,7 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	do {
 		pReq->bNeedsRestart = false;
 		pReq->m_iErrorCode = 0;
-		pReq->m_szUrl = pReq->m_szUrl.GetBuffer();
-
+		
 		if (pReq->m_bApiReq) {
 			pReq->flags |= NLHRF_PERSISTENT;
 			pReq->nlc = m_hAPIConnection;

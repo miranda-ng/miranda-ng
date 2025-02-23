@@ -414,7 +414,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 	case VKERR_INTERNAL_SERVER_ERR:
 		if (pReq->m_iRetry > 0) {
 			pReq->bNeedsRestart = true;
-			Sleep(2000); //Pause for fix err
+			Sleep(1000); //Pause for fix err
 			debugLogA("CVkProto::CheckJsonResult Retry = %d", pReq->m_iRetry);
 			pReq->m_iRetry--;
 		}

@@ -69,8 +69,8 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode &jnErrorNode)
 {
 	debugLogA("CVkProto::ApplyCaptcha");
-	if (!IsOnline())
-		return false;
+//	if (!IsOnline())
+//		return false;
 
 	CMStringA szUrl(jnErrorNode["captcha_img"].as_mstring());
 	CMStringA szSid(jnErrorNode["captcha_sid"].as_mstring());
