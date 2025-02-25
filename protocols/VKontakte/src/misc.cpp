@@ -718,8 +718,16 @@ void CVkProto::LoadCookies()
 		int iStart2 = 0;
 
 		szCookieName = szToken.Tokenize("=", iStart2);
+		if (iStart2 == -1)
+			continue;
+
 		szCookieValue = szToken.Tokenize("=", iStart2);
+		if (iStart2 == -1)
+			continue;
+
 		szCookieDomain = szToken.Tokenize("=", iStart2);
+		if (iStart2 == -1)
+			continue;
 
 		m_cookies.insert(new CVkCookie(szCookieName, szCookieValue, szCookieDomain));
 	}
