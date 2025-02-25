@@ -381,6 +381,8 @@ private:
 	CMStringW RunRenameNick(LPCWSTR pwszOldName);
 	void GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain = "");
 	void ApplyCookies(AsyncHttpRequest*);
+	void SaveCookies();
+	void LoadCookies();
 	bool IsAuthContactLater(MCONTACT hContact);
 	bool AddAuthContactLater(MCONTACT hContact);
 	void __cdecl DBAddAuthRequestThread(void *p);

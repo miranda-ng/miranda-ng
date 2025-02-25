@@ -88,6 +88,8 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	CreateProtoService(PS_JOINCHAT, &CVkProto::OnJoinChat);
 	HookProtoEvent(ME_GC_EVENT, &CVkProto::OnChatEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &CVkProto::OnGcMenuHook);
+
+	LoadCookies();
 }
 
 CVkProto::~CVkProto()
