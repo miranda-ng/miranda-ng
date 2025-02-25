@@ -644,14 +644,14 @@ void CVkProto::GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain)
 			for (auto &it : m_cookies)
 				if (it->m_name == szCookieName) {
 					bFound = true;
-					if (szCookieVal == "DELETED")
+					if (CMStringA(szCookieVal).MakeUpper() == "DELETED")
 						m_cookies.remove(it);
 					else
 						it->m_value = szCookieVal;
 					break;
 				}
 
-			if (!bFound && szCookieVal != "DELETED")
+			if (!bFound && CMStringA(szCookieVal).MakeUpper() != "DELETED")
 				m_cookies.insert(new CVkCookie(szCookieName, szCookieVal, szDomain));
 		}
 	}

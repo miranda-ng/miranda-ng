@@ -158,7 +158,6 @@ void CVkProto::WorkerThread(void*)
 		// Headers
 		pReq->AddHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
 		pReq->AddHeader("Accept-language", "ru-RU,ru;q=0.9");
-		pReq->AddHeader("User-Agent", szVKUserAgent);
 		pReq->AddHeader("dht", "1");
 		pReq->AddHeader("origin", "https://oauth.vk.com");
 		pReq->AddHeader("referer", "https://oauth.vk.com/");
