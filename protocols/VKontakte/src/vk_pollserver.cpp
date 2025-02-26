@@ -240,6 +240,8 @@ int CVkProto::PollServer()
 		return 0;
 	}
 
+	extern char szVKUserAgent[];
+
 	debugLogA("CVkProto::PollServer (online)");
 	int iPollConnRetry = MAX_RETRIES;
 
@@ -250,6 +252,7 @@ int CVkProto::PollServer()
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;
 	req.timeout = 30000;
 	req.nlc = m_hPollingConn;
+	req.AddHeader("User-Agent", szVKUserAgent);
 	time_t tLocalPoolThreadTimer;
 	{
 		mir_cslock lck(m_csPoolThreadTimer);
