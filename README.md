@@ -8,7 +8,7 @@ It's very light on system resources and extremely fast.
 
 - Discord
 - Em-LAN
-- Facebook
+- Facebook Messenger
 - Gadu-Gadu
 - IRC (Internet Relay Chat)
 - XMPP (Jabber)

@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME              "Facebook"
 #define __FILENAME                 "Facebook.dll"
-#define __DESCRIPTION              "Facebook protocol support for Miranda NG."
+#define __DESCRIPTION              "Facebook Messenger protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG Team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Facebook"
 #define __COPYRIGHT                "© 2019-25 Miranda NG team"
