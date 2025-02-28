@@ -527,39 +527,47 @@ int LoadDatabaseModule(void)
 	}
 
 	// find a driver to support the given profile
-	bool retry;
+LBL_Restart:
 	int rc;
-	do {
-		retry = false;
+	try {
 		if (!szProfile.isExist() && shouldAutoCreate(szProfile))
 			rc = tryCreateDatabase(szProfile);
 		else
 			rc = tryOpenDatabase(szProfile);
+	}
+	catch (int errorCode) {
+		rc = errorCode;
+	}
 
-		// there were no suitable driver installed
-		if (rc == -1) {
+	switch (rc) {
+	case 0:
+		HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+		g_plugin.registerIcon(LPGEN("Database"), iconList, "database");
+		break;
+		
+	// there were no suitable driver installed
+	case -1:
+		MessageBoxW(nullptr,
+			CMStringW(FORMAT, TranslateW(tszNoSuitableDriver), ptszFileName),
+			TranslateT("Miranda can't open that profile"), MB_OK | MB_ICONERROR);
+		break;
+
+	default:
+		if (rc < 0) // smth strange happened, exit silently
+			break;
+
+		if (fileExist(szProfile)) {
+			// file isn't locked, just no driver could open it.
 			MessageBoxW(nullptr,
-				CMStringW(FORMAT, TranslateW(tszNoSuitableDriver), ptszFileName),
-				TranslateT("Miranda can't open that profile"), MB_OK | MB_ICONERROR);
+				CMStringW(FORMAT, TranslateW(tszUnknownFormat), ptszFileName),
+				TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 		}
-		else if (rc > 0) {
-			if (fileExist(szProfile)) {
-				// file isn't locked, just no driver could open it.
-				MessageBoxW(nullptr,
-					CMStringW(FORMAT, TranslateW(tszUnknownFormat), ptszFileName),
-					TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
-			}
-			else
-				retry = IDRETRY == MessageBoxW(nullptr,
-					CMStringW(FORMAT, TranslateW(tszProfileLocked), ptszFileName),
-					TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR);
+		else {
+			CMStringW wszTitle(FORMAT, TranslateW(tszProfileLocked), ptszFileName);
+			if (IDRETRY == MessageBoxW(nullptr, wszTitle, TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR))
+				goto LBL_Restart;
 		}
 	}
-		while (retry);
 
-	if (rc == 0)
-		HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-
-	g_plugin.registerIcon(LPGEN("Database"), iconList, "database");
 	return rc;
 }

@@ -457,7 +457,7 @@ int MDatabaseCommon::InitCrypt()
 			CEnterPasswordDialog dlg(this);
 			while (true) {
 				if (!dlg.DoModal())
-					return 4;
+					throw -2;
 
 				pass_ptrA szPassword(mir_utf8encodeW(dlg.m_newPass));
 				if (m_crypto->setKey(szPassword, (const uint8_t*)key.data(), key.length())) {

@@ -64,7 +64,9 @@
     <ClCompile Include="src\db_upgrade.cpp" />
     <ClCompile Include="src\db_util.cpp" />
     <ClCompile Include="src\descbutton.cpp" />
-    <ClCompile Include="src\dll_sniffer.cpp" />
+    <ClCompile Include="src\dll_sniffer.cpp">
+      <ExceptionHandling>false</ExceptionHandling>
+    </ClCompile>
     <ClCompile Include="src\Docking.cpp" />
     <ClCompile Include="src\ei_baseIcon.cpp" />
     <ClCompile Include="src\ei_callbackIcon.cpp" />
@@ -196,8 +198,8 @@
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions Condition="'$(Configuration)'=='Debug'">MIR_APP_EXPORTS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)'=='Release'">MIR_APP_EXPORTS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>MIR_APP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile Condition="'$(Platform)'=='Win32'">src/mir_app.def</ModuleDefinitionFile>
