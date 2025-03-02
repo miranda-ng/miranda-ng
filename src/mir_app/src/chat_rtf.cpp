@@ -71,7 +71,7 @@ bool CSrmmBaseDialog::DoRtfToTags(CMStringW &pszText) const
 	}
 	else idx += 5;
 
-	bool bInsideUl = false, bStart = true;
+	bool bBold = false, bItalic = false, bStrike = false , bUnderline = false, bStart = true;
 	CMStringW res;
 
 	// iterate through all characters, if rtf control character found then take action
@@ -137,27 +137,33 @@ bool CSrmmBaseDialog::DoRtfToTags(CMStringW &pszText) const
 			}
 			else if (!wcsncmp(p, L"\\b", 2)) { //bold
 				// only allow bold if the font itself isn't a bold one, otherwise just strip it..
-				if (lf.lfWeight != FW_BOLD && m_bSendFormat)
-					res.Append((p[2] != '0') ? L"[b]" : L"[/b]");
+				if (lf.lfWeight != FW_BOLD && m_bSendFormat) {
+					bBold = (p[2] != '0');
+					res.Append(bBold ? L"[b]" : L"[/b]");
+				}
 			}
 			else if (!wcsncmp(p, L"\\i", 2)) { // italics
-				if (!lf.lfItalic && m_bSendFormat)
-					res.Append((p[2] != '0') ? L"[i]" : L"[/i]");
+				if (!lf.lfItalic && m_bSendFormat) {
+					bItalic = p[2] != '0';
+					res.Append(bItalic ? L"[i]" : L"[/i]");
+				}
 			}
 			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
-				if (!lf.lfStrikeOut && m_bSendFormat)
-					res.Append((p[7] != '0') ? L"[s]" : L"[/s]");
+				if (!lf.lfStrikeOut && m_bSendFormat) {
+					bStrike = p[7] != '0';
+					res.Append(bStrike ? L"[s]" : L"[/s]");
+				}
 			}
 			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
 				if (!lf.lfUnderline && m_bSendFormat) {
 					if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
 						res.Append(L"[u]");
-						bInsideUl = true;
+						bUnderline = true;
 					}
 					else if (!wcsncmp(p + 3, L"none", 4)) {
-						if (bInsideUl)
+						if (bUnderline)
 							res.Append(L"[/u]");
-						bInsideUl = false;
+						bUnderline = false;
 					}
 				}
 			}
@@ -202,7 +208,13 @@ bool CSrmmBaseDialog::DoRtfToTags(CMStringW &pszText) const
 		}
 	}
 
-	if (bInsideUl)
+	if (bBold)
+		res.Append(L"[/b]");
+	if (bItalic)
+		res.Append(L"[/i]");
+	if (bStrike)
+		res.Append(L"[/s]");
+	if (bUnderline)
 		res.Append(L"[/u]");
 
 	pszText = res;
