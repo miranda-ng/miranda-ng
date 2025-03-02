@@ -234,16 +234,19 @@ static int OnOkToExit(WPARAM, LPARAM)
 		if (!Proto_GetAccount(pa->szModuleName))
 			continue;
 
-		char lastName[128], lastMsg[128];
-		mir_snprintf(lastName, "%s%s", PREFIX_LAST, pa->szModuleName);
-		SSPlugin.setWord(lastName, pa->iRealStatus);
-		mir_snprintf(lastMsg, "%s%s", PREFIX_LASTMSG, pa->szModuleName);
-		SSPlugin.delSetting(lastMsg);
+		int iStatus = Proto_GetStatus(pa->szModuleName);
+		Netlib_Logf(0, "StatusManager: storing status %d for %s", iStatus, pa->szModuleName);
+
+		char szSetting[128];
+		mir_snprintf(szSetting, "%s%s", PREFIX_LAST, pa->szModuleName);
+		SSPlugin.setWord(szSetting, iStatus);
+		mir_snprintf(szSetting, "%s%s", PREFIX_LASTMSG, pa->szModuleName);
+		SSPlugin.delSetting(szSetting);
 
 		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG))
 			continue;
 
-		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(pa->iRealStatus)))
+		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iStatus)))
 			continue;
 
 		// NewAwaySys
@@ -257,7 +260,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 				CallService(MS_NAS_GETSTATE, (WPARAM)&npi, 1);
 			}
 			if (npi.szMsg != nullptr) {
-				SSPlugin.setWString(lastMsg, npi.tszMsg);
+				SSPlugin.setWString(szSetting, npi.tszMsg);
 				mir_free(npi.tszMsg);
 			}
 		}
