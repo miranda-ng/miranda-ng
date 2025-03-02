@@ -345,6 +345,10 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 	case TD::updateUser::ID:
 		ProcessUser((TD::updateUser *)response.object.get());
 		break;
+
+	case TD::updateUserFullInfo::ID:
+		ProcessUserInfo((TD::updateUserFullInfo*)response.object.get());
+		break;
 	}
 }
 
@@ -1220,6 +1224,8 @@ void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
@@ -1314,6 +1320,18 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		if (pUser->status_->get_id() == TD::userStatusOffline::ID) {
 			auto *pOffline = (TD::userStatusOffline *)pUser->status_.get();
 			setDword(pu->hContact, "LastSeen", pOffline->was_online_);
+		}
+	}
+}
+
+void CTelegramProto::ProcessUserInfo(TD::updateUserFullInfo *pObj)
+{
+	if (auto *pUser = FindUser(pObj->user_id_)) {
+		auto *pInfo = pObj->user_full_info_.get();
+		if (auto *pBirthday = pInfo->birthdate_.get()) {
+			setWord(pUser->hContact, "BirthDay", pBirthday->day_);
+			setWord(pUser->hContact, "BirthMonth", pBirthday->month_);
+			setWord(pUser->hContact, "BirthYear", pBirthday->year_);
 		}
 	}
 }

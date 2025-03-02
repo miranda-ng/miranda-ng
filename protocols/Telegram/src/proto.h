@@ -285,6 +285,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessSuperGroupInfo(TD::updateSupergroupFullInfo *pObj);
 	void ProcessUser(TD::updateUser *pObj);
+	void ProcessUserInfo(TD::updateUserFullInfo *pObj);
 
 	void UnregisterSession();
 
