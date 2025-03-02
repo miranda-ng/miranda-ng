@@ -119,7 +119,7 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 	if (ack->type == ACKTYPE_STATUS) {
 		if (ack->result == ACKRESULT_SUCCESS) {
 			PROTOACCOUNT *pa = Proto_GetAccount(ack->szModule);
-			if (pa)
+			if (pa && ack->lParam != ID_STATUS_IDLE)
 				pa->iRealStatus = ack->lParam;
 		}
 		

@@ -900,9 +900,9 @@ static int ProcessPopup(int reason, LPARAM lParam)
 	if (hIcon == nullptr)
 		hIcon = Skin_LoadIcon(SKINICON_STATUS_OFFLINE);
 
-	Netlib_Logf(0, "KeepStatus: %s", wszText.c_str());
+	Netlib_LogfW(0, L"KeepStatus: %s", wszText.c_str());
 	return ShowPopup(wszText, hIcon);
-}
+}	
 
 LRESULT CALLBACK KSPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
