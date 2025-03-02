@@ -352,7 +352,7 @@ static IconItem iconList[] =
 
 int CMPlugin::Load()
 {
-	registerIcon(LPGEN("AVS"), iconList);
+	registerIcon(LPGEN("AVS"), iconList, "av");
 
 	LoadACC();
 
