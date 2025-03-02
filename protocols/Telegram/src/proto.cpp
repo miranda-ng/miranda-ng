@@ -183,6 +183,8 @@ void CTelegramProto::OnModulesLoaded()
 {
 	InitPopups();
 
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CTelegramProto::OnUserInfoInit);
+
 	m_bSmileyAdd = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
 	if (m_bSmileyAdd)
 		SmileyAdd_LoadContactSmileys(SMADD_FOLDER, m_szModuleName, GetAvatarPath() + L"\\Stickers\\*.*");

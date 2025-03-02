@@ -38,6 +38,7 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\userinfo.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup>

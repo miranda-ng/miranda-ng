@@ -347,7 +347,8 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateUserFullInfo::ID:
-		ProcessUserInfo((TD::updateUserFullInfo*)response.object.get());
+		if (auto *pObj = (TD::updateUserFullInfo *)response.object.get())
+			ProcessUserInfo(pObj->user_id_, pObj->user_full_info_.get());
 		break;
 	}
 }
@@ -1324,14 +1325,19 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	}
 }
 
-void CTelegramProto::ProcessUserInfo(TD::updateUserFullInfo *pObj)
+void CTelegramProto::ProcessUserInfo(TD::int53 userId, TD::userFullInfo *pObj)
 {
-	if (auto *pUser = FindUser(pObj->user_id_)) {
-		auto *pInfo = pObj->user_full_info_.get();
-		if (auto *pBirthday = pInfo->birthdate_.get()) {
+	if (auto *pUser = FindUser(userId)) {
+		if (auto *pBirthday = pObj->birthdate_.get()) {
 			setWord(pUser->hContact, "BirthDay", pBirthday->day_);
 			setWord(pUser->hContact, "BirthMonth", pBirthday->month_);
 			setWord(pUser->hContact, "BirthYear", pBirthday->year_);
+		}
+
+		if (pObj->bio_) {
+			CMStringA szNotes(GetFormattedText(pObj->bio_));
+			if (!szNotes.IsEmpty())
+				setString(pUser->hContact, "Notes", szNotes);
 		}
 	}
 }

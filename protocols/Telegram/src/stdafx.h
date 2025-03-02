@@ -34,6 +34,7 @@
 #include <m_skin.h>
 #include <m_smileyadd.h>
 #include <m_timezones.h>
+#include <m_userinfo.h>
 
 #include "../../libs/freeimage/src/FreeImage.h"
 

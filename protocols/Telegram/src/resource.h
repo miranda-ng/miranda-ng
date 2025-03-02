@@ -13,6 +13,7 @@
 #define IDI_REACTION                    108
 #define IDD_REACTIONS                   109
 #define IDI_BOT                         110
+#define IDD_MYPROFILE                   111
 #define IDD_OPTIONS_SESSIONS            112
 #define IDC_PHONE                       1001
 #define IDC_DEFGROUP                    1002
@@ -33,6 +34,8 @@
 #define IDC_REACTIONS                   1018
 #define IDC_USE_PREVIEW                 1018
 #define IDC_RESIDENT_CHANNELS           1019
+#define IDC_BIO                         1020
+#define IDC_BIRTHDAY                    1021
 #define IDC_SESSIONS                    1023
 #define IDC_SOFTWARE                    1025
 #define IDC_LOGOUT                      1025
@@ -41,9 +44,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        116
+#define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1027
+#define _APS_NEXT_CONTROL_VALUE         1029
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

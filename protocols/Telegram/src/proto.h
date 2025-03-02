@@ -154,6 +154,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	friend class CReplyDlg;
 	friend class CForwardDlg;
 	friend class CReactionsDlg;
+	friend class CMyProfileDlg;
 	friend class COptionsDlg;
 	friend class COptSessionsDlg;
 	friend class CAddPhoneContactDlg;
@@ -285,7 +286,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessSuperGroupInfo(TD::updateSupergroupFullInfo *pObj);
 	void ProcessUser(TD::updateUser *pObj);
-	void ProcessUserInfo(TD::updateUserFullInfo *pObj);
+	void ProcessUserInfo(TD::int53 userId, TD::userFullInfo *pObj);
 
 	void UnregisterSession();
 
@@ -370,6 +371,9 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void     RemoveFromClist(TG_USER *pUser);
 	void     MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool bSent);
 
+	void     RetrieveProfile(CMyProfileDlg *pDlg);
+	void     OnReceivedProfile(td::ClientManager::Response &response, void *pUserData);
+
 	// Menus
 	HGENMENU hmiForward, hmiReaction;
 
@@ -429,6 +433,8 @@ public:
 	int __cdecl GcMenuHook(WPARAM, LPARAM);
 	int __cdecl GcMuteHook(WPARAM, LPARAM);
 	int __cdecl GcEventHook(WPARAM, LPARAM);
+
+	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
 
 	// Services //////////////////////////////////////////////////////////////////////////
 
