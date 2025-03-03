@@ -178,6 +178,7 @@ void CMPlugin::InitSteamServices()
 	serviceHandlers[DeleteChatMessage] = ServiceResponseHandler(&CSteamProto::OnDoNothing);
 	serviceHandlers[NotifyIncomingChatMessage] = ServiceResponseHandler(&CSteamProto::OnGetChatMessage);
 	serviceHandlers[NotifyModifiedChatMessage] = ServiceResponseHandler(&CSteamProto::OnDoNothing);
+	serviceHandlers[NotifyChatGroupUserStateChanged] = ServiceResponseHandler(&CSteamProto::OnDoNothing);
 
 	serviceHandlers[GetOwnAuthorizedDevices] = ServiceResponseHandler(&CSteamProto::OnGotDeviceList);
 

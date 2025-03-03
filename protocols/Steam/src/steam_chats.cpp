@@ -28,6 +28,7 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 	if (hdr.failed())
 		return;
 
+	std::map<MCONTACT, bool> chatIds;
 	for (int i = 0; i < reply.n_chat_room_groups; i++) {
 		auto *pGroup = reply.chat_room_groups[i]->group_summary;
 
@@ -87,6 +88,8 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 			}
 			else si->pParent = pOwner;
 
+			chatIds[si->hContact] = true;
+
 			setDword(si->hContact, "ChatId", pChat->chat_id);
 			if (!wszGrpName.IsEmpty())
 				Clist_SetGroup(si->hContact, wszGrpName);
@@ -111,6 +114,15 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 			if (pChat->time_last_message > dwLastMsgId)
 				SendGetChatHistory(si->hContact, dwLastMsgId);
 		}
+	}
+
+	// clean garbage
+	for (auto &cc : AccContacts()) {
+		if (!Contact::IsGroupChat(cc))
+			continue;
+
+		if (chatIds.find(cc) == chatIds.end())
+			db_delete_contact(cc, CDF_DEL_CONTACT);
 	}
 }
 

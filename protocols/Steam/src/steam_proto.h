@@ -41,6 +41,7 @@
 
 #define NotifyIncomingChatMessage           "ChatRoomClient.NotifyIncomingChatMessage#1"
 #define NotifyModifiedChatMessage           "ChatRoomClient.NotifyChatMessageModified#1"
+#define NotifyChatGroupUserStateChanged     "ChatRoomClient.NotifyChatGroupUserStateChanged#1"
 
 #define NotificationReceived                "SteamNotificationClient.NotificationsReceived#1"
 
