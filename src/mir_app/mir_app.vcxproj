@@ -66,6 +66,7 @@
     <ClCompile Include="src\descbutton.cpp" />
     <ClCompile Include="src\dll_sniffer.cpp">
       <ExceptionHandling>false</ExceptionHandling>
+      <DisableSpecificWarnings>4652;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ClCompile Include="src\Docking.cpp" />
     <ClCompile Include="src\ei_baseIcon.cpp" />
