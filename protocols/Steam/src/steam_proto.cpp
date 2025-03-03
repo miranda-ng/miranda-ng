@@ -297,7 +297,9 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 {
 	// remove only authorized contacts
-	if (!getByte(hContact, "Auth"))
+	if (Contact::IsGroupChat(hContact))
+		SvcLeaveChat(hContact, 0);
+	else if (!getByte(hContact, "Auth"))
 		SendUserRemoveRequest(hContact);
 
 	return true;
