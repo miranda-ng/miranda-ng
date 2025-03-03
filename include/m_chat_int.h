@@ -184,12 +184,16 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 
 	wchar_t pszLogFileName[MAX_PATH];
 
-	__forceinline USERINFO* getMe() const 
-	{	return (pParent != nullptr) ? pParent->pMe : pMe;
+	__forceinline USERINFO* getMe() const {
+		return (pParent != nullptr) ? pParent->pMe : pMe;
 	}
 
-	__forceinline OBJLIST<USERINFO>& getUserList()
-	{	return (pParent != nullptr) ? pParent->arUsers : arUsers;
+	__forceinline STATUSINFO* getStatuses() const {
+		return (pParent != nullptr) ? pParent->pStatuses : pStatuses;
+	}
+
+	__forceinline OBJLIST<USERINFO>& getUserList() {
+		return (pParent != nullptr) ? pParent->arUsers : arUsers;
 	}
 
 	const char* getSoundName(int iEventType) const;

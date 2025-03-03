@@ -428,7 +428,7 @@ MIR_APP_DLL(int) Chat_Terminate(SESSION_INFO *si)
 
 static void AddUser(SESSION_INFO *si, GCEVENT &gce)
 {
-	uint16_t status = TM_StringToWord(si->pStatuses, gce.pszStatus.w);
+	uint16_t status = TM_StringToWord(si->getStatuses(), gce.pszStatus.w);
 
 	USERINFO *ui = UM_AddUser(si, gce.pszUID.w, gce.pszNick.w, status);
 	if (ui == nullptr)

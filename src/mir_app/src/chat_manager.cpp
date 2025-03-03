@@ -358,7 +358,8 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 	if (!ui || !si)
 		return nullptr;
 
-	STATUSINFO *ti = g_chatApi.TM_FindStatus(si->pStatuses, g_chatApi.TM_WordToString(si->pStatuses, ui->Status));
+	auto *pStatuses = si->getStatuses();
+	STATUSINFO *ti = g_chatApi.TM_FindStatus(pStatuses, g_chatApi.TM_WordToString(pStatuses, ui->Status));
 	if (ti != nullptr)
 		return g_chatApi.hStatusIcons[ti->iIconIndex];
 	
@@ -429,7 +430,7 @@ BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 	if (si == nullptr)
 		return FALSE;
 	
-	USERINFO *ui = UM_GiveStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = UM_GiveStatus(si, pszUID, TM_StringToWord(si->getStatuses(), pszStatus));
 	if (ui && si->pDlg)
 		si->pDlg->UpdateNickList();
 	return TRUE;
@@ -438,7 +439,7 @@ BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 BOOL SM_AssignStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus)
 {
 	if (si != nullptr)
-		if (USERINFO *ui = UM_SetStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus))) {
+		if (USERINFO *ui = UM_SetStatus(si, pszUID, TM_StringToWord(si->getStatuses(), pszStatus))) {
 			if (si->pDlg)
 				si->pDlg->UpdateNickList();
 			return TRUE;
@@ -463,7 +464,7 @@ BOOL SM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 	if (si == nullptr)
 		return FALSE;
 
-	USERINFO *ui = g_chatApi.UM_TakeStatus(si, pszUID, TM_StringToWord(si->pStatuses, pszStatus));
+	USERINFO *ui = g_chatApi.UM_TakeStatus(si, pszUID, TM_StringToWord(si->getStatuses(), pszStatus));
 	if (ui && si->pDlg)
 		si->pDlg->UpdateNickList();
 	return TRUE;
