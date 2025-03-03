@@ -51,12 +51,11 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 				wszTitle = Utf2T(pGroup->chat_group_name);
 			
 			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszTitle);
-			if (!si->pStatuses) {
+			if (pOwner == 0) {
+				if (!si->pStatuses) {
+					Chat_AddGroup(si, TranslateT("Owner"));
+					Chat_AddGroup(si, TranslateT("Participant"));
 
-				Chat_AddGroup(si, TranslateT("Owner"));
-				Chat_AddGroup(si, TranslateT("Participant"));
-
-				if (pOwner == 0) {
 					for (int j = 0; j < pGroup->n_top_members; j++) {
 						uint64_t iSteamId = AccountIdToSteamId(pGroup->top_members[j]);
 						CMStringW wszUserId(FORMAT, L"%lld", iSteamId), wszNick;
@@ -84,8 +83,9 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 						Chat_Event(&gce);
 					}
 				}
-				else si->pParent = pOwner;
+				pOwner = si;
 			}
+			else si->pParent = pOwner;
 
 			setDword(si->hContact, "ChatId", pChat->chat_id);
 			if (!wszGrpName.IsEmpty())
