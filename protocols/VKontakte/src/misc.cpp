@@ -393,20 +393,16 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		MsgPopup(TranslateT("Access denied! Data will not be sent or received."), TranslateT("Error"), true);
 		break;
 	case VKERR_CAPTCHA_NEEDED:
+		if (!pReq)
+			return false;
+
 		if (!ApplyCaptcha(pReq, jnError))
-			if(pReq->m_iRetry > 0) {
-				pReq->bNeedsRestart = true;
-				Sleep(1000);
-				debugLogA("CVkProto::CheckJsonResult Captcha processing error.");
-				debugLogA("CVkProto::CheckJsonResult Retry = %d", pReq->m_iRetry);
-				pReq->m_iRetry--;
-			}
-			else {
+			if(!pReq->m_iRetry) {
 				CMStringW wszMsg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
 				wszMsg += "\n";
 				wszMsg += TranslateT("Captcha processing error.");
 				MsgPopup(wszMsg, TranslateT("Error"), true);
-				debugLogA("CVkProto::CheckJsonResult SendError");
+				debugLogA("CVkProto::CheckJsonResult Captcha processing error");
 			}
 
 		break;
@@ -426,12 +422,13 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 
 	case VKERR_UNKNOWN:
 	case VKERR_TOO_MANY_REQ_PER_SEC:
+		if (pReq->m_priority == AsyncHttpRequest::rpCaptcha)
+			break;
+		__fallthrough;
 	case VKERR_INTERNAL_SERVER_ERR:
 		if (pReq->m_iRetry > 0) {
 			pReq->bNeedsRestart = true;
-			Sleep(1000); //Pause for fix err
-			debugLogA("CVkProto::CheckJsonResult Retry = %d", pReq->m_iRetry);
-			pReq->m_iRetry--;
+			debugLogA("CVkProto::CheckJsonResult Retry = %d", (MAX_RETRIES - pReq->m_iRetry + 1));
 		}
 		else {
 			CMStringW wszMsg(FORMAT, TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
@@ -659,7 +656,7 @@ void CVkProto::GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain)
 	SaveCookies();
 }
 
-void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
+void CVkProto::ApplyCookies(MHttpRequest *pReq)
 {
 	debugLogA("CVkProto::ApplyCookies");
 	CMStringA szCookie;

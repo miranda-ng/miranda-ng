@@ -69,31 +69,33 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode &jnErrorNode)
 {
 	debugLogA("CVkProto::ApplyCaptcha");
+	if (m_bCaptchaReqInProgress)
+		return true;
+
+	m_bCaptchaReqInProgress = true;
 
 	CMStringA szUrl(jnErrorNode["captcha_img"].as_mstring());
 	CMStringA szSid(jnErrorNode["captcha_sid"].as_mstring());
 
-	if (szUrl.IsEmpty() || szSid.IsEmpty())
+	if (szUrl.IsEmpty() || szSid.IsEmpty()) {
+		m_bCaptchaReqInProgress = false;
 		return false;
+	}
 
 	CMStringA userReply;
-	if (!RunCaptchaForm(szUrl, userReply))
+	if (!RunCaptchaForm(szUrl, userReply)) {
+		m_bCaptchaReqInProgress = false;
 		return false;
+	}
 
-	CMStringA szCapthaStr(FORMAT, "&captcha_sid=%s&captcha_key=%s", mir_urlEncode(szSid).c_str(), mir_urlEncode(userReply.GetString()).c_str());
-
-	int iCaptchaBeg = pReq->m_szUrl.Find("&captcha_sid=", 0);
-	int iCaptchaEnd = pReq->m_szUrl.Find("&v=", 0);
-	
-	if ((iCaptchaBeg > -1) && (iCaptchaEnd > iCaptchaBeg))
-		pReq->m_szUrl.Replace(pReq->m_szUrl.Mid(iCaptchaBeg, iCaptchaEnd - iCaptchaBeg).c_str(), szCapthaStr);
-	else if (iCaptchaEnd > -1)
-		pReq->m_szUrl.Replace("&v=", szCapthaStr + "&v=");
-	else
-		pReq->m_szUrl += szCapthaStr;
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpCaptcha)
+		<< CHAR_PARAM("captcha_sid", szSid)
+		<< CHAR_PARAM("captcha_key", userReply.GetString())
+	);
 
 	pReq->bNeedsRestart = true;
-	debugLogA("CVkProto::ApplyCaptcha %s", pReq->m_szUrl);
-
+	debugLogA("CVkProto::ApplyCaptcha for %s", pReq->m_szUrl.c_str());
+	m_bCaptchaReqInProgress = false;
+	
 	return true;
 }

@@ -34,69 +34,85 @@ void CVkProto::UninitQueue()
 
 bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 {
-	do {
-		pReq->bNeedsRestart = false;
-		pReq->m_iErrorCode = 0;
-		
-		if (pReq->m_bApiReq) {
-			pReq->flags |= NLHRF_PERSISTENT;
-			pReq->nlc = m_hAPIConnection;
+	pReq->bNeedsRestart = false;
+	pReq->m_iErrorCode = 0;
+
+	if (pReq->m_bApiReq) {
+		pReq->flags |= NLHRF_PERSISTENT;
+		pReq->nlc = m_hAPIConnection;
+	}
+
+	if (m_bTerminated) {
+		delete pReq;
+		return false;
+	}
+
+	time_t tLocalWorkThreadTimer = 0;
+	{
+		mir_cslock lck(m_csWorkThreadTimer);
+		tLocalWorkThreadTimer = m_tWorkThreadTimer = time(0);
+		if (pReq->m_bApiReq)
+			ApplyCookies(pReq);
+	}
+
+	debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->m_szUrl.c_str());
+	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
+	{
+		mir_cslock lck(m_csWorkThreadTimer);
+		if (pReq->m_bApiReq)
+			GrabCookies(reply, "api.vk.com");
+
+		if (tLocalWorkThreadTimer != m_tWorkThreadTimer) {
+			debugLogA("CVkProto::WorkerThread is living Dead => return");
+			delete pReq;
+			return false;
 		}
+	}
 
-		if (m_bTerminated)
-			break;
+	if (reply != nullptr) {
+		if (pReq->m_pFunc != nullptr)
+			(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart
 
-		time_t tLocalWorkThreadTimer = 0;
-		{
-			mir_cslock lck(m_csWorkThreadTimer);
-			tLocalWorkThreadTimer = m_tWorkThreadTimer = time(0);
-			if (pReq->m_bApiReq) 
-				ApplyCookies(pReq);
+		if (pReq->m_bApiReq)
+			m_hAPIConnection = reply->nlc;
+	}
+	else if (pReq->bIsMainConn) {
+		if (IsStatusConnecting(m_iStatus))
+			ConnectionFailed(LOGINERR_NONETWORK);
+		else if (pReq->m_iRetry && !m_bTerminated)
+			pReq->bNeedsRestart = true;
+		else {
+			debugLogA("CVkProto::ExecuteRequest ShutdownSession");
+			ShutdownSession();
+			return false;
 		}
-
-		debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->m_szUrl.c_str());
-		NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
-		{
-			mir_cslock lck(m_csWorkThreadTimer);
-			if (pReq->m_bApiReq)
-				GrabCookies(reply, "api.vk.com");
-
-			if (tLocalWorkThreadTimer != m_tWorkThreadTimer) {
-				debugLogA("CVkProto::WorkerThread is living Dead => return");
-				delete pReq;
-				return false;
-			}
-		}
-
-		if (reply != nullptr) {
-			if (pReq->m_pFunc != nullptr)
-				(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart
-
-			if (pReq->m_bApiReq)
-				m_hAPIConnection = reply->nlc;
-		}
-		else if (pReq->bIsMainConn) {
-			if (IsStatusConnecting(m_iStatus))
-				ConnectionFailed(LOGINERR_NONETWORK);
-			else if (pReq->m_iRetry && !m_bTerminated) {
-				pReq->bNeedsRestart = true;
-				Sleep(1000); //Pause for fix err
-				pReq->m_iRetry--;
-				debugLogA("CVkProto::ExecuteRequest restarting (retry = %d)", MAX_RETRIES - pReq->m_iRetry);
-			}
-			else {
-				debugLogA("CVkProto::ExecuteRequest ShutdownSession");
-				ShutdownSession();
-			}
-		}
-		debugLogA("CVkProto::ExecuteRequest pReq->bNeedsRestart = %d", (int)pReq->bNeedsRestart);
-
-		if (!reply && pReq->m_bApiReq)
-			CloseAPIConnection();
-
-	} while (pReq->bNeedsRestart && !m_bTerminated);
-	delete pReq;
+	}
+	
+	if (pReq->bNeedsRestart)
+		RestartRequest(pReq);
+	else
+		delete pReq;
+	
 	return true;
+}
+
+bool CVkProto::RestartRequest(AsyncHttpRequest* pReq)
+{
+	debugLogA("CVkProto::RestartRequest %d %s", (MAX_RETRIES - pReq->m_iRetry + 1), pReq->m_szUrl.c_str());
+	
+	if (m_bTerminated || !pReq->m_iRetry) {
+		ShutdownSession();
+		delete pReq;
+		pReq = nullptr;
+		return false;
+	}
+
+	pReq->bNeedsRestart = false;
+	pReq->m_priority = AsyncHttpRequest::RequestPriority::rpRestart;
+	pReq->m_iRetry--;
+
+	Push(pReq);
+	
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +123,8 @@ AsyncHttpRequest* CVkProto::Push(MHttpRequest *p, int iTimeout)
 
 	debugLogA("CVkProto::Push");
 	pReq->timeout = iTimeout;
-	if (pReq->m_bApiReq) {
+	
+	if (pReq->m_bApiReq && (pReq->m_iRetry == MAX_RETRIES)) {
 		pReq << VER_API;
 		if (!IsEmpty(m_vkOptions.pwszVKLang))
 			pReq << WCHAR_PARAM("lang", m_vkOptions.pwszVKLang);

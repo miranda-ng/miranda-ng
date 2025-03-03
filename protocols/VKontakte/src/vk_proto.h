@@ -46,7 +46,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 #define MAXHISTORYMIDSPERONE 100
-#define MAX_RETRIES 20
+#define MAX_RETRIES 10
 #define MAX_CONTACTS_PER_REQUEST 530
 
 struct CVkProto : public PROTO<CVkProto>
@@ -213,7 +213,8 @@ private:
 		m_bNotifyForEndLoadingHistory,
 		m_bNotifyForEndLoadingHistoryAllContact,
 		m_bTerminated,
-		m_bErr404Return;
+		m_bErr404Return,
+		m_bCaptchaReqInProgress;
 
 	VKUserID_t m_iMyUserId;
 
@@ -380,7 +381,7 @@ private:
 	CMStringW RunConfirmationCode(LPCWSTR pwszTitle);
 	CMStringW RunRenameNick(LPCWSTR pwszOldName);
 	void GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain = "");
-	void ApplyCookies(AsyncHttpRequest*);
+	void ApplyCookies(MHttpRequest*);
 	void SaveCookies();
 	void LoadCookies();
 	bool IsAuthContactLater(MCONTACT hContact);
@@ -417,6 +418,7 @@ private:
 	void InitQueue();
 	void UninitQueue();
 	bool ExecuteRequest(AsyncHttpRequest*);
+	bool RestartRequest(AsyncHttpRequest*);
 	void __cdecl WorkerThread(void*);
 	AsyncHttpRequest* Push(MHttpRequest *pReq, int iTimeout = 10000);
 	bool RunCaptchaForm(LPCSTR szUrl, CMStringA&);
