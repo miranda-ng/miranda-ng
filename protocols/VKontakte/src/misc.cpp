@@ -149,6 +149,9 @@ void CVkProto::CheckUpdate()
 	if (getDword("LastAccessTokenTime", 0) < 1740009600)
 		ClearAccessToken();
 
+	delSetting("Login");
+	delSetting("Password");
+
 }
 
 //////////////////////// bIint64IDCompatibility /////////////////////////////////////////
@@ -232,13 +235,6 @@ void CVkProto::ClearAccessToken()
 	m_szAccessToken = nullptr;
 	delSetting("AccessToken");
 	ShutdownSession();
-}
-
-wchar_t* CVkProto::GetUserStoredPassword()
-{
-	debugLogA("CVkProto::GetUserStoredPassword");
-	ptrA szRawPass(getStringA("Password"));
-	return (szRawPass != nullptr) ? mir_utf8decodeW(szRawPass) : nullptr;
 }
 
 void CVkProto::SetAllContactStatuses(int iStatus)
@@ -410,10 +406,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &jnNode)
 		MsgPopup(TranslateT("You have to validate your account before you can use VK in Miranda NG"), TranslateT("Error"), true);
 		if (jnRedirectUri) {
 			T2Utf szRedirectUri(jnRedirectUri.as_mstring());
-			AsyncHttpRequest *pRedirectReq = new AsyncHttpRequest(this, REQUEST_GET, szRedirectUri, false, &CVkProto::OnOAuthAuthorize);
-			pRedirectReq->m_bApiReq = false;
-			pRedirectReq->bIsMainConn = true;
-			Push(pRedirectReq);
+			LogIn(szRedirectUri);
 		}
 		break;
 	case VKERR_FLOOD_CONTROL:
@@ -483,115 +476,6 @@ void CVkProto::OnReceiveSmth(MHttpResponse *reply, AsyncHttpRequest *pReq)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Quick & dirty form parser
 
-static CMStringA getAttr(char *szSrc, LPCSTR szAttrName)
-{
-	char *pEnd = strchr(szSrc, '>');
-	if (pEnd == nullptr)
-		return "";
-
-	*pEnd = 0;
-
-	char *p1 = strstr(szSrc, szAttrName);
-	if (p1 == nullptr) {
-		*pEnd = '>';
-		return "";
-	}
-
-	p1 += mir_strlen(szAttrName);
-	if (p1[0] != '=' || p1[1] != '\"') {
-		*pEnd = '>';
-		return "";
-	}
-
-	p1 += 2;
-	char *p2 = strchr(p1, '\"');
-	*pEnd = '>';
-	if (p2 == nullptr)
-		return "";
-
-	return CMStringA(p1, (int)(p2 - p1));
-}
-
-bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResult)
-{
-	debugLogA("CVkProto::AutoFillForm");
-	szResult.Empty();
-
-	char *pFormBeg = strstr(pBody, "<form ");
-	if (pFormBeg == nullptr)
-		return false;
-
-	char *pFormEnd = strstr(pFormBeg, "</form>");
-	if (pFormEnd == nullptr)
-		return false;
-
-	*pFormEnd = 0;
-
-	szAction = getAttr(pFormBeg, "action");
-
-	CMStringA result;
-	char *pFieldBeg = pFormBeg;
-	while (true) {
-		if ((pFieldBeg = strstr(pFieldBeg + 1, "<input ")) == nullptr)
-			break;
-
-		CMStringA type = getAttr(pFieldBeg, "type");
-		if (type != "submit") {
-			CMStringA name = getAttr(pFieldBeg, "name");
-			CMStringA value = getAttr(pFieldBeg, "value");
-			if (name == "email")
-				value = (char*)T2Utf(ptrW(getWStringA("Login")));
-			else if (name == "pass")
-				value = (char*)T2Utf(ptrW(GetUserStoredPassword()));
-			else if (name == "captcha_key") {
-				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
-				if (!pCaptchaBeg)
-					pCaptchaBeg = strstr(pFormBeg, "<img src=\"/captcha.php");
-
-				if (pCaptchaBeg)
-					if (!RunCaptchaForm(getAttr(pCaptchaBeg, "src"), value))
-						return false;
-			}
-			else if (name == "code") {
-				char szPrefixTel[10], szSufixTel[10];
-				CMStringW wszTitle;
-				char *pPhonePref = strstr(pFormBeg, "<span class=\"field_prefix\">");
-				if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">%[^<]", szPrefixTel) == 1) {
-					pPhonePref = strstr(pPhonePref + 1, "<span class=\"field_prefix\">&nbsp;");
-					if (pPhonePref && sscanf(pPhonePref, "<span class=\"field_prefix\">&nbsp;%[^<]", szSufixTel) == 1) {
-						wszTitle.Format(TranslateT("Enter the missing digits between %s and %s of the phone number linked to your account"),
-							ptrW(mir_a2u(szPrefixTel)).get(), ptrW(mir_a2u(szSufixTel)).get());
-						MessageBoxW(nullptr, wszTitle, TranslateT("Attention!"), MB_ICONWARNING | MB_OK);
-					}
-				}
-
-				value = RunConfirmationCode(wszTitle);
-				if (value.IsEmpty())
-					return false;
-			}
-
-			if (!result.IsEmpty())
-				result.AppendChar('&');
-			result += name + "=";
-			result += mir_urlEncode(value);
-		}
-	}
-
-	szResult = result;
-	debugLogA("CVkProto::AutoFillForm result = \"%s\"", szResult.c_str());
-	return true;
-}
-
-CMStringW CVkProto::RunConfirmationCode(LPCWSTR pwszTitle)
-{
-	ENTER_STRING pForm = {};
-	pForm.type = 0;
-	CMStringW wszTitle(FORMAT, L"%s: %s", m_tszUserName, IsEmpty(pwszTitle) ? TranslateT("Enter confirmation code") : pwszTitle);
-	pForm.caption = wszTitle;
-	pForm.szModuleName = m_szModuleName;
-	pForm.szDataPrefix = "confirmcode_";
-	return (!EnterString(&pForm)) ? CMStringW() : CMStringW(ptrW(pForm.ptszResult));
-}
 
 CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 {

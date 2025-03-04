@@ -58,6 +58,8 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 		m_szUrl = _url;
 
 	flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	flags |= VK_NODUMPHEADERS;
+	
 	if (bSecure) {
 		flags |= NLHRF_SSL;
 		this << CHAR_PARAM("access_token", ppro->m_szAccessToken);

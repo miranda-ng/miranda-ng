@@ -55,7 +55,9 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 			ApplyCookies(pReq);
 	}
 
-	debugLogA("CVkProto::ExecuteRequest \n====\n%s\n====\n", pReq->m_szUrl.c_str());
+	CMStringA szParam(pReq->m_szParam);
+	szParam.Replace(m_szAccessToken, "*secret*");
+	debugLogA("CVkProto::ExecuteRequest \n====\n%s\n%s\n====\n", pReq->m_szUrl.c_str(), szParam.c_str());
 	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 	{
 		mir_cslock lck(m_csWorkThreadTimer);
@@ -112,7 +114,7 @@ bool CVkProto::RestartRequest(AsyncHttpRequest* pReq)
 	pReq->m_iRetry--;
 
 	Push(pReq);
-	
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -158,39 +160,8 @@ void CVkProto::WorkerThread(void*)
 	if (m_szAccessToken != nullptr)
 		// try to receive a response from server
 		RetrieveMyInfo();
-	else {
-		// Initialize new OAuth session
-		extern char szBlankUrl[];
-		extern char szVKUserAgent[];
-
-		AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize);
-		pReq
-			<< INT_PARAM("client_id", VK_APP_ID)
-			<< CHAR_PARAM("scope", szScore)
-			<< CHAR_PARAM("redirect_uri", szBlankUrl)
-			<< CHAR_PARAM("display", "mobile")
-			<< CHAR_PARAM("response_type", "token")
-			<< VER_API;
-
-		// Headers
-		pReq->AddHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
-		pReq->AddHeader("Accept-language", "ru-RU,ru;q=0.9");
-		pReq->AddHeader("dht", "1");
-		pReq->AddHeader("origin", "https://oauth.vk.com");
-		pReq->AddHeader("referer", "https://oauth.vk.com/");
-		pReq->AddHeader("sec-ch-ua-mobile", "?0");
-		pReq->AddHeader("sec-ch-ua-platform", "Windows");
-		pReq->AddHeader("sec-fetch-dest", "document");
-		pReq->AddHeader("sec-fetch-mode", "navigate");
-		pReq->AddHeader("sec-fetch-site", "same-site");
-		pReq->AddHeader("sec-fetch-user", "?1");
-		pReq->AddHeader("upgrade-insecure-requests", "1");
-		//Headers
-
-		pReq->m_bApiReq = false;
-		pReq->bIsMainConn = true;
-		Push(pReq);
-	}
+	else 
+		LogIn();
 
 	CloseAPIConnection();
 

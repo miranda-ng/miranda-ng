@@ -82,7 +82,6 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Events ========================================================================
 
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	void OnOAuthAuthorize(MHttpResponse*, AsyncHttpRequest*);
 	void OnReceiveAvatar(MHttpResponse*, AsyncHttpRequest*);
 
 	//==== Services ======================================================================
@@ -133,7 +132,6 @@ struct CVkProto : public PROTO<CVkProto>
 	bool CheckHealthThreads();
 	void OnTimerTic();
 	void ClearAccessToken();
-	wchar_t* GetUserStoredPassword(void);
 	void ShowCaptchaInBrowser(HBITMAP hBitmap);
 
 	static mir_cs m_csTimer;
@@ -146,6 +144,8 @@ struct CVkProto : public PROTO<CVkProto>
 
 	int ForwardMsg(MCONTACT hContact, std::vector<MEVENT> &vForvardEvents, const char* szMsg);
 	uint8_t GetContactType(MCONTACT hContact);
+
+	void LogIn(LPCSTR pszUrl = nullptr);
 
 private:
 
@@ -377,8 +377,6 @@ private:
 	JSONNode& CheckJsonResponse(AsyncHttpRequest *pReq, MHttpResponse *reply, JSONNode &root);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, const JSONNode &Node);
 	void OnReceiveSmth(MHttpResponse*, AsyncHttpRequest*);
-	bool AutoFillForm(char*, CMStringA&, CMStringA&);
-	CMStringW RunConfirmationCode(LPCWSTR pwszTitle);
 	CMStringW RunRenameNick(LPCWSTR pwszOldName);
 	void GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain = "");
 	void ApplyCookies(MHttpRequest*);

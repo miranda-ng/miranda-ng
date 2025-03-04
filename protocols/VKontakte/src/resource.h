@@ -28,8 +28,6 @@
 #define IDI_FORWARD                     126
 #define IDI_RELOADMESSAGE               130
 #define IDD_TOKENFORM                   131
-#define IDC_LOGIN                       1001
-#define IDC_PASSWORD                    1002
 #define IDC_URL                         1003
 #define IDC_VALUE                       1004
 #define IDC_WHITERECT                   1005

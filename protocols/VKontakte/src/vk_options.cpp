@@ -22,55 +22,33 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class CVkAccMgrForm : public CVkDlgBase
 {
 	typedef CVkDlgBase CSuper;
-
-	CCtrlEdit m_edtLogin;
-	CCtrlEdit m_edtPassword;
 	CCtrlHyperlink m_hlLink;
-
-	pass_ptrW m_pwszOldPass;
-	ptrW m_pwszOldLogin;
+	CCtrlButton m_btnTokenReq;
 
 public:
 	CVkAccMgrForm(CVkProto *proto, HWND hwndParent) :
 		CVkDlgBase(proto, IDD_ACCMGRUI),
-		m_edtLogin(this, IDC_LOGIN),
-		m_edtPassword(this, IDC_PASSWORD),
+		m_btnTokenReq(this, IDC_TOKENREQ),
 		m_hlLink(this, IDC_URL, "https://vk.com/")
 	{
 		SetParent(hwndParent);
-
-		CreateLink(m_edtLogin, "Login", L"");
+		m_btnTokenReq.OnClick = Callback(this, &CVkAccMgrForm::On_btnTokenReq_Click);
 	}
 
 	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
-
-		m_pwszOldLogin = m_edtLogin.GetText();
-		m_edtLogin.SendMsg(EM_LIMITTEXT, 1024, 0);
-
-		m_pwszOldPass = m_proto->GetUserStoredPassword();
-		m_edtPassword.SetText(m_pwszOldPass);
-		m_edtPassword.SendMsg(EM_LIMITTEXT, 1024, 0);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		pass_ptrW pwszNewPass(m_edtPassword.GetText());
-		bool bPassChanged = mir_wstrcmp(m_pwszOldPass, pwszNewPass) != 0;
-		if (bPassChanged) {
-			T2Utf szRawPasswd(pwszNewPass);
-			m_proto->setString("Password", szRawPasswd);
-			pass_ptrA pszPass(szRawPasswd.detach());
-			m_pwszOldPass = pwszNewPass.detach();
-		}
-
-		ptrW pwszNewLogin(m_edtLogin.GetText());
-		if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
-			m_proto->ClearAccessToken();
-		m_pwszOldLogin = pwszNewLogin.detach();
 		return true;
+	}
+
+	void On_btnTokenReq_Click(CCtrlButton*)
+	{
+		m_proto->LogIn();
 	}
 };
 
@@ -160,9 +138,6 @@ static vkMarkMsgAsReadMethods[] =
 
 CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
 	CVkDlgBase(proto, IDD_OPT_MAIN),
-	m_edtLogin(this, IDC_LOGIN),
-	m_edtPassword(this, IDC_PASSWORD),
-	m_hlLink(this, IDC_URL, "https://vk.com/"),
 	m_edtGroupName(this, IDC_GROUPNAME),
 	m_cbxVKLang(this, IDC_COMBO_LANGUAGE),
 	m_cbLoadLastMessageOnMsgWindowsOpen(this, IDC_LASTHISTORYLOAD),
@@ -171,7 +146,6 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
 	m_cbxMarkAsRead(this, IDC_COMBO_MARKASREAD),
 	m_cbxSyncHistory(this, IDC_COMBO_SYNCHISTORY)
 {
-	CreateLink(m_edtLogin, "Login", L"");
 	CreateLink(m_edtGroupName, m_proto->m_vkOptions.pwszDefaultGroup);
 	CreateLink(m_cbLoadLastMessageOnMsgWindowsOpen, m_proto->m_vkOptions.bLoadLastMessageOnMsgWindowsOpen);
 	CreateLink(m_cbUseLocalTime, m_proto->m_vkOptions.bUseLocalTime);
@@ -180,13 +154,6 @@ CVkOptionAccountForm::CVkOptionAccountForm(CVkProto *proto) :
 
 bool CVkOptionAccountForm::OnInitDialog()
 {
-	m_pwszOldLogin = m_edtLogin.GetText();
-	m_edtLogin.SendMsg(EM_LIMITTEXT, 1024, 0);
-
-	m_pwszOldPass = m_proto->GetUserStoredPassword();
-	m_edtPassword.SetText(m_pwszOldPass);
-	m_edtPassword.SendMsg(EM_LIMITTEXT, 1024, 0);
-
 	m_pwszOldGroup = m_edtGroupName.GetText();
 
 	int iListIndex = MarkMsgReadOn::markOnRead;
@@ -227,19 +194,6 @@ bool CVkOptionAccountForm::OnApply()
 		m_pwszOldGroup = pwszGroupName;
 	}
 
-	pass_ptrW pwszNewPass(m_edtPassword.GetText());
-	bool bPassChanged = mir_wstrcmp(m_pwszOldPass, pwszNewPass) != 0;
-	if (bPassChanged) {
-		T2Utf szRawPasswd(pwszNewPass);
-		m_proto->setString("Password", szRawPasswd);
-		pass_ptrA pszPass(szRawPasswd.detach());
-		m_pwszOldPass = pwszNewPass;
-	}
-
-	ptrW pwszNewLogin(m_edtLogin.GetText());
-	if (bPassChanged || mir_wstrcmpi(m_pwszOldLogin, pwszNewLogin))
-		m_proto->ClearAccessToken();
-	m_pwszOldLogin = pwszNewLogin;
 	return true;
 }
 

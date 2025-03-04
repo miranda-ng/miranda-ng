@@ -24,9 +24,6 @@ typedef CProtoDlgBase<CVkProto> CVkDlgBase;
 
 class CVkOptionAccountForm : public CVkDlgBase
 {
-	CCtrlEdit m_edtLogin;
-	CCtrlEdit m_edtPassword;
-	CCtrlHyperlink m_hlLink;
 	CCtrlEdit m_edtGroupName;
 	CCtrlCombo m_cbxVKLang;
 	CCtrlCheck m_cbLoadLastMessageOnMsgWindowsOpen;
@@ -35,8 +32,6 @@ class CVkOptionAccountForm : public CVkDlgBase
 	CCtrlCombo m_cbxSyncHistory;
 	CCtrlCombo m_cbxMarkAsRead;
 
-	pass_ptrW m_pwszOldPass;
-	ptrW m_pwszOldLogin;
 	ptrW m_pwszOldGroup;
 
 public:

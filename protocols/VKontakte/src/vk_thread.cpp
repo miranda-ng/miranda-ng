@@ -21,12 +21,11 @@ UINT_PTR CVkProto::m_Timer;
 mir_cs CVkProto::m_csTimer;
 
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
-char szChallengekUrl[] = "/challenge.html";
 char szScore[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
 char szVKTokenBeg[] = "access_token=";
 char szVKCookieDomain[] = ".vk.com";
 
-static char szVKLoginDomain[] = "https://m.vk.com";
+
 
 static char szFieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
 	"contacts, last_seen, online, status, country, city, relation, interests, activities, "
@@ -207,8 +206,10 @@ void CVkProto::OnLoggedOut()
 bool CVkProto::LoadToken(LPCSTR pszUrlSring)
 {
 	LPCSTR p = strstr(pszUrlSring, szVKTokenBeg);
-	if (!p)
+	if (!p) {
+		debugLogA("CVkProto::LoadToken error");
 		return false;
+	}
 	
 	p += sizeof(szVKTokenBeg) - 1;
 	for (LPCSTR q = p + 1; *q; q++) {
@@ -221,175 +222,27 @@ bool CVkProto::LoadToken(LPCSTR pszUrlSring)
 		m_szAccessToken = mir_strdup(p);
 	setString("AccessToken", m_szAccessToken);
 	setDword("LastAccessTokenTime", time(0));
+	debugLogA("CVkProto::LoadToken OK");
 	return true;
 }
 
-void CVkProto::OnOAuthAuthorize(MHttpResponse *reply, AsyncHttpRequest*)
+void CVkProto::LogIn(LPCSTR pszUrl)
 {
-	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
-	GrabCookies(reply, szVKCookieDomain);
+	debugLogA("CVkProto::LogIn %s", pszUrl ? pszUrl : " ");
+	CMStringA szTokenReq(
+		FORMAT,
+		"https://oauth.vk.com/authorize?client_id=%d&scope=%s&redirect_uri=%s&display=mobile&response_type=token&v=%s", 
+		VK_APP_ID,
+		mir_urlEncode(szScore).c_str(),
+		mir_urlEncode(szBlankUrl).c_str(),
+		VER_API
+	);
 
-	if (reply->resultCode == 404 && !m_bErr404Return) {
-		m_bErr404Return = true;
-		setString("AccessScore", szScore);
-		AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize);
-		pReq
-			<< INT_PARAM("client_id", VK_APP_ID)
-			<< CHAR_PARAM("scope", szScore)
-			<< CHAR_PARAM("redirect_uri", szBlankUrl)
-			<< CHAR_PARAM("display", "mobile")
-			<< CHAR_PARAM("response_type", "token")
-			<< VER_API;
-		pReq->m_bApiReq = false;
-		pReq->bIsMainConn = true;
-		ApplyCookies(pReq);
-		Push(pReq);
-		return;
-	}
-
-	if (reply->resultCode == 302) { // manual redirect
-		LPCSTR pszLocation = reply->FindHeader("Location");
-		if (pszLocation) {
-			if (!_strnicmp(pszLocation, szBlankUrl, sizeof(szBlankUrl) - 1)) {
-				m_szAccessToken = nullptr;
-				LPCSTR p = strstr(pszLocation, szVKTokenBeg);
-				if (LoadToken(pszLocation))
-					RetrieveMyInfo();
-				else
-					ConnectionFailed(LOGINERR_NOSERVER);
-				return;
-
-			}
-			else if (!_strnicmp(pszLocation, szChallengekUrl, sizeof(szChallengekUrl) - 1)) {
-				CMStringA szTokenReq(
-					FORMAT, 
-					"https://oauth.vk.com/authorize?client_id=%d&scope=%s&redirect_uri=%s&display=mobile&response_type=token&v=%s", VK_APP_ID, 
-					mir_urlEncode(szScore).c_str(), 
-					mir_urlEncode(szBlankUrl).c_str(), 
-					VER_API
-				);
-
-				CVkTokenForm dlg(this, szTokenReq.c_str());
-				if (dlg.DoModal() && LoadToken(dlg.Result))
-					RetrieveMyInfo();
-				else
-					ConnectionFailed(LOGINERR_NOSERVER);
-
-				return;
-			}
-			else {
-				AsyncHttpRequest *pRedirectReq = new AsyncHttpRequest();
-				pRedirectReq->requestType = REQUEST_GET;
-				pRedirectReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-				pRedirectReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
-				pRedirectReq->AddHeader("Referer", m_szPrevUrl);
-				pRedirectReq->Redirect(reply);
-				if (!pRedirectReq->m_szUrl.IsEmpty()) {
-					if (pRedirectReq->m_szUrl[0] == '/')
-						pRedirectReq->m_szUrl = szVKLoginDomain + pRedirectReq->m_szUrl;
-					ApplyCookies(pRedirectReq);
-					m_szPrevUrl = pRedirectReq->m_szUrl;
-				}
-
-				pRedirectReq->m_bApiReq = false;
-				pRedirectReq->bIsMainConn = true;
-				// Headers
-				pRedirectReq->AddHeader("dht", "1");
-				pRedirectReq->AddHeader("sec-ch-ua-platform", "Windows");
-				pRedirectReq->AddHeader("sec-fetch-dest", "document");
-				pRedirectReq->AddHeader("sec-fetch-mode", "navigate");
-				pRedirectReq->AddHeader("sec-fetch-site", "same-site");
-				pRedirectReq->AddHeader("sec-fetch-user", "?1");
-				pRedirectReq->AddHeader("upgrade-insecure-requests", "1");
-				//Headers
-
-				Push(pRedirectReq);
-			}
-		}
-		else
-			ConnectionFailed(LOGINERR_NOSERVER);
-		return;
-	}
-
-	if (reply->resultCode == 200 && !IsEmpty(reply->szUrl) && strstr(reply->szUrl, szChallengekUrl)) {
-		debugLogA("CVkProto::OnOAuthAuthorize szChallengekUrl");
-		CVkTokenForm dlg(this, reply->szUrl);
-		if (dlg.DoModal() && LoadToken(dlg.Result))
-			RetrieveMyInfo();
-		else
-			ConnectionFailed(LOGINERR_NOSERVER);
-
-		return;
-	}
-
-	if (reply->resultCode != 200 || reply->body.IsEmpty() || (!(strstr(reply->body, "method=\"post\"") || strstr(reply->body, "method=\"POST\"")) && !strstr(reply->body, "meta http-equiv=\"refresh\""))) { // something went wrong
+	CVkTokenForm dlg(this, pszUrl ? pszUrl : szTokenReq.c_str());
+	if (dlg.DoModal() && LoadToken(dlg.Result))
+		RetrieveMyInfo();
+	else
 		ConnectionFailed(LOGINERR_NOSERVER);
-		return;
-	}
-
-	LPCSTR pBlankUrl = strstr(reply->body, szBlankUrl);
-	if (pBlankUrl) {
-		debugLogA("CVkProto::OnOAuthAuthorize blank ulr found");
-		if (LoadToken(pBlankUrl))
-			RetrieveMyInfo();	
-		else {
-			debugLogA("CVkProto::OnOAuthAuthorize blank ulr found, access_token not found");
-			ConnectionFailed(LOGINERR_NOSERVER);
-		}
-		return;
-	}
-
-	auto *pMsgWarning = strstr(reply->body, "service_msg_warning");
-	if (pMsgWarning) {
-		auto *p1 = strchr(pMsgWarning, '>');
-		auto *p2 = strchr(pMsgWarning, '<');
-		if (p1 && p2 && (p1 + 1 < p2)) {
-			CMStringA szMsg(p1 + 1, (int)(p2 - p1 - 1));
-			MsgPopup(ptrW(mir_utf8decodeW(szMsg)), TranslateT("Service message"), true);
-			debugLogA("CVkProto::OnOAuthAuthorize %s", szMsg.c_str());
-		}
-		ConnectionFailed(LOGINERR_WRONGPASSWORD);
-		return;
-	}
-
-	CMStringA szAction, szBody;
-	bool bSuccess = AutoFillForm(reply->body.GetBuffer(), szAction, szBody);
-	if (!bSuccess || szAction.IsEmpty() || szBody.IsEmpty()) {
-		if (m_bPrevError) {
-			ConnectionFailed(LOGINERR_NOSERVER);
-			return;
-		}
-		m_bPrevError = true;
-	}
-
-	AsyncHttpRequest *pReq = new AsyncHttpRequest();
-	pReq->requestType = REQUEST_POST;
-	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
-	pReq->m_szParam = szBody;
-	pReq->m_szUrl = szAction;
-	if (!pReq->m_szUrl.IsEmpty() && pReq->m_szUrl[0] == '/')
-		pReq->m_szUrl = szVKLoginDomain + pReq->m_szUrl;
-	m_szPrevUrl = pReq->m_szUrl;
-	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
-	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	pReq->Redirect(reply);
-	ApplyCookies(pReq);
-	// Headers
-	
-	pReq->AddHeader("dht", "1");
-	pReq->AddHeader("origin", "https://oauth.vk.com");
-	pReq->AddHeader("referer", "https://oauth.vk.com/");
-
-	pReq->AddHeader("sec-ch-ua-platform", "Windows");
-	pReq->AddHeader("sec-fetch-dest", "document");
-	pReq->AddHeader("sec-fetch-mode", "navigate");
-	pReq->AddHeader("sec-fetch-site", "same-site");
-	pReq->AddHeader("sec-fetch-user", "?1");
-	pReq->AddHeader("upgrade-insecure-requests", "1");
-	//Headers
-	pReq->m_bApiReq = false;
-	pReq->bIsMainConn = true;
-	Push(pReq);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
