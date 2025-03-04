@@ -54,9 +54,9 @@ END
 IDI_ICON1               ICON                    "Offline.ico"
 IDI_ICON2               ICON                    "Online.ico"
 IDI_ICON3               ICON                    "Away.ico"
+IDI_ICON4               ICON                    "Invisible.ico"
 IDI_ICON5               ICON                    "NA.ico"
 IDI_ICON6               ICON                    "DND.ico"
-IDI_ICON8               ICON                     "FFC.ico"
 
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
