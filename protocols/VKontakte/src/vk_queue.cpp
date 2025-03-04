@@ -56,8 +56,10 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	}
 
 	CMStringA szParam(pReq->m_szParam);
-	szParam.Replace(m_szAccessToken, "*secret*");
+	if (!IsEmpty(m_szAccessToken))
+		szParam.Replace(m_szAccessToken, "*secret*");
 	debugLogA("CVkProto::ExecuteRequest \n====\n%s\n%s\n====\n", pReq->m_szUrl.c_str(), szParam.c_str());
+
 	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
 	{
 		mir_cslock lck(m_csWorkThreadTimer);

@@ -492,7 +492,6 @@ CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 
 void CVkProto::GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain)
 {
-	debugLogA("CVkProto::GrabCookies");
 	if (!nhr)
 		return;
 
@@ -501,6 +500,12 @@ void CVkProto::GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain)
 			continue;
 
 		CMStringA szValue = hdr->szValue, szCookieName, szCookieVal, szDomain;
+
+		CMStringA szLogValue(szValue);
+		if (!IsEmpty(m_szAccessToken))
+			szLogValue.Replace(m_szAccessToken, "*secret*");
+		debugLogA("CVkProto::GrabCookies: %s", szLogValue.c_str());
+		
 		int iStart = 0;
 		while (true) {
 			bool bFirstToken = (iStart == 0);
@@ -534,6 +539,7 @@ void CVkProto::GrabCookies(MHttpResponse *nhr, CMStringA szDefDomain)
 
 			if (!bFound && CMStringA(szCookieVal).MakeUpper() != "DELETED")
 				m_cookies.insert(new CVkCookie(szCookieName, szCookieVal, szDomain));
+
 		}
 	}
 
@@ -563,7 +569,6 @@ void CVkProto::ApplyCookies(MHttpRequest *pReq)
 
 void CVkProto::SaveCookies()
 {
-	debugLogA("CVkProto::SaveCookies");
 	CMStringA szCookie;
 
 	for (auto& it : m_cookies) {
@@ -578,6 +583,11 @@ void CVkProto::SaveCookies()
 
 	if (!szCookie.IsEmpty())
 		setString("Cookie", szCookie);
+	
+	if (!IsEmpty(m_szAccessToken))
+		szCookie.Replace(m_szAccessToken, "*secret*");
+
+	debugLogA("CVkProto::SaveCookies: %s", szCookie.c_str());
 }
 
 void CVkProto::LoadCookies() 

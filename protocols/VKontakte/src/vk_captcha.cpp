@@ -88,9 +88,15 @@ bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, const JSONNode &jnErrorNode)
 		return false;
 	}
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpCaptcha)
-		<< CHAR_PARAM("captcha_sid", szSid)
-		<< CHAR_PARAM("captcha_key", userReply.GetString())
+	Push(new AsyncHttpRequest(this, 
+			REQUEST_GET, 
+			(m_iStatus == ID_STATUS_INVISIBLE) ? "/method/account.setOffline" : "/method/account.setOnline", 
+			true, 
+			&CVkProto::OnReceiveSmth, 
+			AsyncHttpRequest::rpCaptcha
+		)
+			<< CHAR_PARAM("captcha_sid", szSid)
+			<< CHAR_PARAM("captcha_key", userReply.GetString())
 	);
 
 	pReq->bNeedsRestart = true;
