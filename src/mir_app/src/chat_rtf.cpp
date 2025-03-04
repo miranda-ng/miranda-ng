@@ -71,8 +71,9 @@ bool CSrmmBaseDialog::DoRtfToTags(CMStringW &pszText) const
 	}
 	else idx += 5;
 
-	bool bBold = false, bItalic = false, bStrike = false , bUnderline = false, bStart = true;
+	bool bBold = false, bItalic = false, bStrike = false, bUnderline = false, bStart = true;
 	CMStringW res;
+	CMStringA buis;
 
 	// iterate through all characters, if rtf control character found then take action
 	for (const wchar_t *p = pszText.GetString() + idx; *p;) {
@@ -140,18 +141,30 @@ bool CSrmmBaseDialog::DoRtfToTags(CMStringW &pszText) const
 				if (lf.lfWeight != FW_BOLD && m_bSendFormat) {
 					bBold = (p[2] != '0');
 					res.Append(bBold ? L"[b]" : L"[/b]");
+					if (bBold)
+						buis.AppendChar('b');
+					else
+						buis.Replace("b", "");
 				}
 			}
 			else if (!wcsncmp(p, L"\\i", 2)) { // italics
 				if (!lf.lfItalic && m_bSendFormat) {
 					bItalic = p[2] != '0';
 					res.Append(bItalic ? L"[i]" : L"[/i]");
+					if (bItalic)
+						buis.AppendChar('i');
+					else
+						buis.Replace("i", "");
 				}
 			}
 			else if (!wcsncmp(p, L"\\strike", 7)) { // strike-out
 				if (!lf.lfStrikeOut && m_bSendFormat) {
 					bStrike = p[7] != '0';
 					res.Append(bStrike ? L"[s]" : L"[/s]");
+					if (bStrike)
+						buis.AppendChar('s');
+					else
+						buis.Replace("s", "");
 				}
 			}
 			else if (!wcsncmp(p, L"\\ul", 3)) { // underlined
@@ -159,11 +172,13 @@ bool CSrmmBaseDialog::DoRtfToTags(CMStringW &pszText) const
 					if (p[3] == 0 || wcschr(tszRtfBreaks, p[3])) {
 						res.Append(L"[u]");
 						bUnderline = true;
+						buis.AppendChar('u');
 					}
 					else if (!wcsncmp(p + 3, L"none", 4)) {
 						if (bUnderline)
 							res.Append(L"[/u]");
 						bUnderline = false;
+						buis.Replace("u", "");
 					}
 				}
 			}
@@ -208,14 +223,14 @@ bool CSrmmBaseDialog::DoRtfToTags(CMStringW &pszText) const
 		}
 	}
 
-	if (bBold)
-		res.Append(L"[/b]");
-	if (bItalic)
-		res.Append(L"[/i]");
-	if (bStrike)
-		res.Append(L"[/s]");
-	if (bUnderline)
-		res.Append(L"[/u]");
+	for (int i = buis.GetLength() - 1; i >= 0; i--) {
+		switch (buis[i]) {
+		case 'b': res.Append(L"[/b]"); break;
+		case 'i': res.Append(L"[/i]"); break;
+		case 's': res.Append(L"[/s]"); break;
+		case 'u': res.Append(L"[/u]"); break;
+		}
+	}
 
 	pszText = res;
 	return TRUE;
