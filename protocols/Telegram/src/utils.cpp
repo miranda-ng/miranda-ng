@@ -22,7 +22,7 @@ enum class BBCODE
 	BOLD, ITALIC, STRIKE, UNDERLINE, URL, CODE, QUOTE
 };
 
-struct
+struct Bbcode
 {
 	BBCODE type;
 	const wchar_t *begin, *end;
@@ -91,7 +91,13 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pText)
 {
 	CMStringW ret(Utf2T(pText->text_.c_str()));
-	unsigned offset = 0;
+
+	struct HistItem {
+		HistItem(int _1, int _2, const Bbcode &_3) : start(_1), length(_2), bbcode(_3) {}
+		int start, length;
+		const Bbcode &bbcode;
+	};
+	std::vector<HistItem> history;
 
 	for (auto &it : pText->entities_) {
 		int iCode;
@@ -107,10 +113,19 @@ CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pT
 			continue;
 		}
 
+		int off1 = 0, off2 = 0;
+		for (auto &h : history) {
+			if (it->offset_ >= h.start)
+				off1 += h.bbcode.len1, off2 += h.bbcode.len1;
+
+			if (it->offset_ + it->length_ > h.start + h.length)
+				off2 += h.bbcode.len2;
+		}
+
 		auto &bb = bbCodes[iCode];
-		ret.Insert(offset + it->offset_ + it->length_, bb.end);
-		ret.Insert(offset + it->offset_, bb.begin);
-		offset += bb.len1 + bb.len2;
+		ret.Insert(off1 + it->offset_ + it->length_, bb.end);
+		ret.Insert(off2 + it->offset_, bb.begin);
+		history.push_back(HistItem(it->offset_, it->length_, bb));
 	}
 	return T2Utf(ret).get();
 }
