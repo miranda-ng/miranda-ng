@@ -662,7 +662,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 static LRESULT clcOnActivate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TRACE("clcOnActivate\n");
+	// TRACE("clcOnActivate\n");
 	if (dat->bCompactMode) {
 		cliRecalcScrollBar(hwnd, dat);
 		if (dat->hwndRenameEdit == nullptr)
