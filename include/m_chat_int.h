@@ -137,10 +137,8 @@ struct MIR_APP_EXPORT LOGINFO : public MZeroedObject, public MNonCopyable
 
 struct STATUSINFO
 {
-	wchar_t    *pszGroup;
-	int         iIconIndex;
-	int         iStatus;
-	STATUSINFO *next;
+	ptrW pszGroup;
+	int iIconIndex, iStatus;
 };
 
 struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
@@ -175,12 +173,12 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 
 	CMsgDialog *pDlg;
 	USERINFO   *pMe;
-	STATUSINFO *pStatuses;
 	MODULEINFO *pMI;
 	SESSION_INFO *pParent;
 
-	OBJLIST<USERINFO> arUsers;
 	OBJLIST<LOGINFO> arEvents;
+	OBJLIST<USERINFO> arUsers;
+	OBJLIST<STATUSINFO> arStatuses;
 
 	wchar_t pszLogFileName[MAX_PATH];
 
@@ -188,8 +186,8 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 		return (pParent != nullptr) ? pParent->pMe : pMe;
 	}
 
-	__forceinline STATUSINFO* getStatuses() const {
-		return (pParent != nullptr) ? pParent->pStatuses : pStatuses;
+	__forceinline OBJLIST<STATUSINFO>& getStatuses() const {
+		return (pParent != nullptr) ? pParent->arStatuses : arStatuses;
 	}
 
 	__forceinline OBJLIST<USERINFO>& getUserList() {
@@ -279,8 +277,6 @@ struct CHAT_MANAGER
 	void          (*MM_IconsChanged)(void);
 	BOOL          (*MM_RemoveAll)(void);
 
-	BOOL          (*TM_RemoveAll)(STATUSINFO** pStatusList);
-
 	int           (*UM_CompareItem)(const USERINFO *u1, const USERINFO *u2);
 	USERINFO*     (*UM_AddUser)(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus);
 	USERINFO*     (*UM_FindUser)(SESSION_INFO *si, const wchar_t *pszUID);
@@ -364,7 +360,7 @@ MIR_APP_DLL(void) Chat_EmptyHistory(SESSION_INFO *si);
 MIR_APP_DLL(void) Chat_CreateMenu(HMENU hMenu, SESSION_INFO *si, const wchar_t *pszUID);
 
 // retrieves user's role/status
-MIR_APP_DLL(STATUSINFO*) Chat_GetStatus(STATUSINFO *pStatuses, const USERINFO *pUser);
+MIR_APP_DLL(STATUSINFO*) Chat_GetStatus(SESSION_INFO *si, const USERINFO *pUser);
 
 // creates a default description of a group chat event
 // returns true if lin->ptszText is already utilized, you need to add it manually then otherwise

@@ -440,7 +440,7 @@ void CDiscordProto::OnCommandRoleDeleted(const JSONNode &pRoot)
 
 		SESSION_INFO *si = Chat_Find(it->wszUsername, m_szModuleName);
 		if (si != nullptr) {
-			g_chatApi.TM_RemoveAll(&si->pStatuses);
+			si->arStatuses.destroy();
 			BuildStatusList(pGuild, si);
 		}
 	}

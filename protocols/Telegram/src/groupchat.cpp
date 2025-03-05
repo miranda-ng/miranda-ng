@@ -46,7 +46,7 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const wchar_t *pwszTitle)
 
 	if (pUser->bLoadMembers) {
 		pUser->m_si = si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, pwszTitle, pUser);
-		if (!si->pStatuses) {
+		if (!si->arStatuses.getCount()) {
 			Chat_AddGroup(si, TranslateT("Creator"));
 			Chat_AddGroup(si, TranslateT("Admin"));
 			Chat_AddGroup(si, TranslateT("Participant"));
@@ -61,7 +61,7 @@ void CTelegramProto::InitGroupChat(TG_USER *pUser, const wchar_t *pwszTitle)
 	}
 	else {
 		pUser->m_si = si = Chat_NewSession(GCW_CHANNEL, m_szModuleName, wszId, pwszTitle, pUser);
-		if (!si->pStatuses) {
+		if (!si->arStatuses.getCount()) {
 			Chat_AddGroup(si, TranslateT("SuperAdmin"));
 			Chat_AddGroup(si, TranslateT("Visitor"));
 

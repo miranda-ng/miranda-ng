@@ -29,7 +29,7 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 		return;
 
 	std::map<MCONTACT, bool> chatIds;
-	for (int i = 0; i < reply.n_chat_room_groups; i++) {
+	for (unsigned i = 0; i < reply.n_chat_room_groups; i++) {
 		auto *pGroup = reply.chat_room_groups[i]->group_summary;
 
 		CMStringW wszGrpName;
@@ -41,7 +41,7 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 
 		SESSION_INFO *pOwner = 0;
 
-		for (int k = 0; k < pGroup->n_chat_rooms; k++) {
+		for (unsigned k = 0; k < pGroup->n_chat_rooms; k++) {
 			std::vector<uint64_t> ids;
 
 			auto *pChat = pGroup->chat_rooms[k];
@@ -53,11 +53,11 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 			
 			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszTitle);
 			if (pOwner == 0) {
-				if (!si->pStatuses) {
+				if (si->arStatuses.getCount()) {
 					Chat_AddGroup(si, TranslateT("Owner"));
 					Chat_AddGroup(si, TranslateT("Participant"));
 
-					for (int j = 0; j < pGroup->n_top_members; j++) {
+					for (unsigned j = 0; j < pGroup->n_top_members; j++) {
 						uint64_t iSteamId = AccountIdToSteamId(pGroup->top_members[j]);
 						CMStringW wszUserId(FORMAT, L"%lld", iSteamId), wszNick;
 

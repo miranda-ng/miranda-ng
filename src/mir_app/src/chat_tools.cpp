@@ -867,9 +867,9 @@ void Chat_Serialize(SESSION_INFO *si)
 		return;
 
 	JSONNode pRoleList(JSON_ARRAY); pRoleList.set_name("roles");
-	for (auto *p = si->pStatuses; p; p = p->next) {
+	for (auto &it: si->arStatuses) {
 		JSONNode role;
-		role << JSONNode("id", p->iStatus) << JSONNode("name", p->pszGroup);
+		role << JSONNode("id", it->iStatus) << JSONNode("name", it->pszGroup.get());
 		pRoleList << role;
 	}
 
@@ -922,8 +922,7 @@ bool Chat_Unserialize(SESSION_INFO *si)
 
 	auto &pRoles = root["roles"];
 	for (auto it = pRoles.rbegin(); it != pRoles.rend(); ++it)
-		if (auto *pStatus = TM_AddStatus(&si->pStatuses, (*it)["name"].as_mstring(), &si->iStatusCount))
-			si->iStatusCount++;
+		TM_AddStatus(si, (*it)["name"].as_mstring());
 
 	for (auto &it : root["users"]) {
 		int iStatus = it["role"].as_int();
@@ -937,7 +936,6 @@ bool Chat_Unserialize(SESSION_INFO *si)
 		if (it["isMe"].as_bool())
 			si->pMe = ui;
 		ui->Status = iStatus;
-		ui->Status |= si->pStatuses->iStatus;
 
 		if (g_chatApi.OnNewUser)
 			g_chatApi.OnNewUser(si, ui);

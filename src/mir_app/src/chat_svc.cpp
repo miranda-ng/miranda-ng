@@ -209,7 +209,7 @@ MIR_APP_DLL(SESSION_INFO*) Chat_NewSession(
 	SESSION_INFO *si = Chat_Find(ptszID, pszModule);
 	if (si != nullptr) {
 		UM_RemoveAll(si);
-		g_chatApi.TM_RemoveAll(&si->pStatuses);
+		si->arStatuses.destroy();
 		lck.unlock();
 
 		si->iStatusCount = 0;
@@ -292,9 +292,9 @@ static void SetInitDone(SESSION_INFO *si)
 		return;
 
 	si->bInitDone = true;
-	for (STATUSINFO *p = si->pStatuses; p; p = p->next)
-		if (p->iIconIndex < STATUSICONCOUNT)
-			p->iIconIndex = si->iStatusCount - p->iIconIndex - 1;
+	for (auto &it : si->arStatuses)
+		if (it->iIconIndex < STATUSICONCOUNT)
+			it->iIconIndex = si->iStatusCount - it->iIconIndex - 1;
 }
 
 static int RoomControlHandler(int iCommand, SESSION_INFO *si)
@@ -428,7 +428,7 @@ MIR_APP_DLL(int) Chat_Terminate(SESSION_INFO *si)
 
 static void AddUser(SESSION_INFO *si, GCEVENT &gce)
 {
-	uint16_t status = TM_StringToWord(si->getStatuses(), gce.pszStatus.w);
+	uint16_t status = TM_StringToWord(si, gce.pszStatus.w);
 
 	USERINFO *ui = UM_AddUser(si, gce.pszUID.w, gce.pszNick.w, status);
 	if (ui == nullptr)
@@ -621,14 +621,10 @@ MIR_APP_DLL(int) Chat_AddGroup(SESSION_INFO *si, const wchar_t *wszText)
 		return 0;
 
 	mir_cslock lck(csChat);
-	STATUSINFO *ti = TM_AddStatus(&si->pStatuses, wszText, &si->iStatusCount);
-	if (ti) {
-		si->iStatusCount++;
-		si->bIsDirty = true;
-	}
-
-	if (g_chatApi.OnAddStatus)
+	STATUSINFO *ti = TM_AddStatus(si, wszText);
+	if (ti && g_chatApi.OnAddStatus)
 		g_chatApi.OnAddStatus(si, ti);
+
 	return 0;
 }
 
@@ -680,9 +676,9 @@ MIR_APP_DLL(int) Chat_ChangeUserId(SESSION_INFO *si, const wchar_t *wszOldId, co
 	return 0;
 }
 
-MIR_APP_DLL(STATUSINFO *) Chat_GetStatus(STATUSINFO *pStatuses, const USERINFO *ui)
+MIR_APP_DLL(STATUSINFO *) Chat_GetStatus(SESSION_INFO *si, const USERINFO *ui)
 {
-	return TM_FindStatus(pStatuses, TM_WordToString(pStatuses, ui->Status));
+	return TM_FindStatus(si, TM_WordToString(si, ui->Status));
 }
 
 MIR_APP_DLL(void*) Chat_GetUserInfo(SESSION_INFO *si)

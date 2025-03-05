@@ -61,7 +61,8 @@ static int CompareEvents(const LOGINFO *p1, const LOGINFO *p2)
 
 SESSION_INFO::SESSION_INFO() :
 	arUsers(10, CompareUser),
-	arEvents(10, CompareEvents)
+	arEvents(10, CompareEvents),
+	arStatuses(1)
 {
 	iLastEvent = MAXINT/2;
 }
@@ -136,8 +137,8 @@ void SM_FreeSession(SESSION_INFO *si)
 	}
 
 	UM_RemoveAll(si);
-	g_chatApi.TM_RemoveAll(&si->pStatuses);
 
+	si->arStatuses.destroy();
 	si->arEvents.destroy();
 	si->iStatusCount = 0;
 
@@ -358,8 +359,7 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 	if (!ui || !si)
 		return nullptr;
 
-	auto *pStatuses = si->getStatuses();
-	STATUSINFO *ti = TM_FindStatus(pStatuses, TM_WordToString(pStatuses, ui->Status));
+	STATUSINFO *ti = TM_FindStatus(si, TM_WordToString(si, ui->Status));
 	if (ti != nullptr)
 		return g_chatApi.hStatusIcons[ti->iIconIndex];
 	
@@ -430,7 +430,7 @@ BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 	if (si == nullptr)
 		return FALSE;
 	
-	USERINFO *ui = UM_GiveStatus(si, pszUID, TM_StringToWord(si->getStatuses(), pszStatus));
+	USERINFO *ui = UM_GiveStatus(si, pszUID, TM_StringToWord(si, pszStatus));
 	if (ui && si->pDlg)
 		si->pDlg->UpdateNickList();
 	return TRUE;
@@ -439,7 +439,7 @@ BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 BOOL SM_AssignStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus)
 {
 	if (si != nullptr)
-		if (USERINFO *ui = UM_SetStatus(si, pszUID, TM_StringToWord(si->getStatuses(), pszStatus))) {
+		if (USERINFO *ui = UM_SetStatus(si, pszUID, TM_StringToWord(si, pszStatus))) {
 			if (si->pDlg)
 				si->pDlg->UpdateNickList();
 			return TRUE;
@@ -464,7 +464,7 @@ BOOL SM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszSt
 	if (si == nullptr)
 		return FALSE;
 
-	USERINFO *ui = g_chatApi.UM_TakeStatus(si, pszUID, TM_StringToWord(si->getStatuses(), pszStatus));
+	USERINFO *ui = g_chatApi.UM_TakeStatus(si, pszUID, TM_StringToWord(si, pszStatus));
 	if (ui && si->pDlg)
 		si->pDlg->UpdateNickList();
 	return TRUE;
@@ -644,89 +644,73 @@ static BOOL MM_RemoveAll(void)
 // Status manager functions
 // Necessary to keep track of what user statuses per window nicklist that is available
 
-STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount)
+STATUSINFO* TM_AddStatus(SESSION_INFO *si, const wchar_t *pszStatus)
 {
-	if (!ppStatusList || !pszStatus)
+	if (!si || !pszStatus)
 		return nullptr;
 
-	if (!TM_FindStatus(*ppStatusList, pszStatus)) {
-		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
-		replaceStrW(node->pszGroup, pszStatus);
-		node->iIconIndex = *iCount;
-		while (node->iIconIndex > STATUSICONCOUNT - 1)
-			node->iIconIndex--;
+	if (TM_FindStatus(si, pszStatus))
+		return nullptr;
 
-		if (*ppStatusList == nullptr) { // list is empty
-			node->iStatus = 1;
-			*ppStatusList = node;
-			node->next = nullptr;
-		}
-		else {
-			node->iStatus = ppStatusList[0]->iStatus * 2;
-			node->next = *ppStatusList;
-			*ppStatusList = node;
-		}
-		return node;
+	auto *node = new STATUSINFO();
+	node->pszGroup = mir_wstrdup(pszStatus);
+	node->iIconIndex = si->iStatusCount;
+	while (node->iIconIndex > STATUSICONCOUNT - 1)
+		node->iIconIndex--;
 
-	}
+	auto &pList = si->getStatuses();
+	if (pList.getCount() == 0) // list is empty
+		node->iStatus = 1;
+	else
+		node->iStatus = pList[pList.getCount()-1].iStatus * 2;
+	
+	pList.insert(node);
+	si->bIsDirty = true;
+	si->iStatusCount++;
+	return node;
+}
+
+STATUSINFO* TM_FindStatus(SESSION_INFO *si, const wchar_t *pszStatus)
+{
+	if (!si || !pszStatus)
+		return nullptr;
+
+	for (auto &it: si->getStatuses())
+		if (mir_wstrcmpi(it->pszGroup, pszStatus) == 0)
+			return it;
+
 	return nullptr;
 }
 
-STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const wchar_t *pszStatus)
+uint16_t TM_StringToWord(SESSION_INFO *si, const wchar_t *pszStatus)
 {
-	if (!pStatusList || !pszStatus)
-		return nullptr;
-
-	for (auto *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next)
-		if (mir_wstrcmpi(pTemp->pszGroup, pszStatus) == 0)
-			return pTemp;
-
-	return nullptr;
-}
-
-uint16_t TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus)
-{
-	if (!pStatusList || !pszStatus)
+	if (!si || !pszStatus)
 		return 0;
 
-	for (STATUSINFO *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next) {
-		if (mir_wstrcmpi(pTemp->pszGroup, pszStatus) == 0)
-			return pTemp->iStatus;
+	auto &pList = si->getStatuses();
+	for (auto &it : pList)
+		if (mir_wstrcmpi(it->pszGroup, pszStatus) == 0)
+			return it->iStatus;
 
-		if (pTemp->next == nullptr)
-			return pStatusList->iStatus;
-	}
+	if (pList.getCount())
+		return pList[pList.getCount()-1].iStatus;
+
 	return 0;
 }
 
-wchar_t* TM_WordToString(STATUSINFO *pStatusList, uint16_t Status)
+wchar_t* TM_WordToString(SESSION_INFO *si, uint16_t Status)
 {
-	if (!pStatusList)
+	if (!si)
 		return nullptr;
 
-	for (auto *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next) {
-		if (pTemp->iStatus & Status) {
-			Status -= pTemp->iStatus;
+	for (auto &it : si->getStatuses())
+		if (it->iStatus & Status) {
+			Status -= it->iStatus;
 			if (Status == 0)
-				return pTemp->pszGroup;
+				return it->pszGroup;
 		}
-	}
+
 	return nullptr;
-}
-
-static BOOL TM_RemoveAll(STATUSINFO **ppStatusList)
-{
-	if (!ppStatusList)
-		return FALSE;
-
-	while (*ppStatusList != nullptr) {
-		STATUSINFO *pLast = ppStatusList[0]->next;
-		mir_free(ppStatusList[0]->pszGroup);
-		mir_free(*ppStatusList);
-		*ppStatusList = pLast;
-	}
-	*ppStatusList = nullptr;
-	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -769,8 +753,6 @@ static void ResetApi()
 	g_chatApi.MM_CreateModule = ::MM_CreateModule;
 	g_chatApi.MM_IconsChanged = ::MM_IconsChanged;
 	g_chatApi.MM_RemoveAll = ::MM_RemoveAll;
-
-	g_chatApi.TM_RemoveAll = ::TM_RemoveAll;
 
 	g_chatApi.UM_AddUser = ::UM_AddUser;
 	g_chatApi.UM_CompareItem = ::UM_CompareItem;
