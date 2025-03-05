@@ -41,14 +41,11 @@ uint8_t nameOrder[_countof(nameOrderDescr)];
 
 static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto, const char *szSetting)
 {
-	wchar_t *ret = db_get_wsa(hContact, szProto, szSetting);
-	if (ret)
-		return ret;
-
 	DBVARIANT dbv;
 	if (db_get(hContact, szProto, szSetting, &dbv))
 		return nullptr;
 
+	wchar_t *ret;
 	wchar_t buf[40];
 	switch (dbv.type) {
 	case DBVT_BYTE:
@@ -66,6 +63,16 @@ static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szPro
 		else
 			ret = bin2hexW(dbv.pbVal, min(int(dbv.cpbVal), 19), buf);
 		break;
+	case DBVT_ASCIIZ:
+		ret = mir_a2u(dbv.pszVal);
+		break;
+	case DBVT_UTF8:
+		ret = mir_utf8decodeW(dbv.pszVal);
+		break;
+	case DBVT_WCHAR:
+		return dbv.pwszVal; // no need to free dbv
+	default:
+		ret = nullptr;
 	}
 
 	db_free(&dbv);
@@ -154,7 +161,7 @@ MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *
 				db_free(&dbv2);
 				return buf;
 			}
-			db_free(&dbv);
+			return dbv.pwszVal;
 		}
 		break;
 
