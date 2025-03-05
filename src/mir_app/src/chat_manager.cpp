@@ -359,7 +359,7 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 		return nullptr;
 
 	auto *pStatuses = si->getStatuses();
-	STATUSINFO *ti = g_chatApi.TM_FindStatus(pStatuses, TM_WordToString(pStatuses, ui->Status));
+	STATUSINFO *ti = TM_FindStatus(pStatuses, TM_WordToString(pStatuses, ui->Status));
 	if (ti != nullptr)
 		return g_chatApi.hStatusIcons[ti->iIconIndex];
 	
@@ -649,7 +649,7 @@ STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, in
 	if (!ppStatusList || !pszStatus)
 		return nullptr;
 
-	if (!g_chatApi.TM_FindStatus(*ppStatusList, pszStatus)) {
+	if (!TM_FindStatus(*ppStatusList, pszStatus)) {
 		STATUSINFO *node = (STATUSINFO*)mir_calloc(sizeof(STATUSINFO));
 		replaceStrW(node->pszGroup, pszStatus);
 		node->iIconIndex = *iCount;
@@ -770,7 +770,6 @@ static void ResetApi()
 	g_chatApi.MM_IconsChanged = ::MM_IconsChanged;
 	g_chatApi.MM_RemoveAll = ::MM_RemoveAll;
 
-	g_chatApi.TM_FindStatus = ::TM_FindStatus;
 	g_chatApi.TM_RemoveAll = ::TM_RemoveAll;
 
 	g_chatApi.UM_AddUser = ::UM_AddUser;

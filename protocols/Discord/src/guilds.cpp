@@ -357,12 +357,10 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 		break;
 	}
 
-	auto *pStatus = g_chatApi.TM_FindStatus(pGuild->pParentSi->pStatuses, pUser.wszRole);
-
 	wchar_t wszUserId[100];
 	_i64tow_s(pUser.userId, wszUserId, _countof(wszUserId), 10);
 	
-	auto *pu = g_chatApi.UM_AddUser(pGuild->pParentSi, wszUserId, pUser.wszNick, (pStatus) ? pStatus->iStatus : 0);
+	auto *pu = g_chatApi.UM_AddUser(pGuild->pParentSi, wszUserId, pUser.wszNick, 0);
 	pu->iStatusEx = flags;
 	if (pUser.userId == m_ownId)
 		pGuild->pParentSi->pMe = pu;

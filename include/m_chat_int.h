@@ -279,7 +279,6 @@ struct CHAT_MANAGER
 	void          (*MM_IconsChanged)(void);
 	BOOL          (*MM_RemoveAll)(void);
 
-	STATUSINFO*   (*TM_FindStatus)(STATUSINFO *pStatusList, const wchar_t *pszStatus);
 	BOOL          (*TM_RemoveAll)(STATUSINFO** pStatusList);
 
 	int           (*UM_CompareItem)(const USERINFO *u1, const USERINFO *u2);
