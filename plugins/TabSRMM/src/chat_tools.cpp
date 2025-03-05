@@ -367,8 +367,7 @@ char GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex)
 
 	for (auto &ui : si->getUserList()) {
 		if (!mir_wstrcmp(ui->pszNick, ptszNick)) {
-			STATUSINFO *ti = g_chatApi.TM_FindStatus(pStatuses, g_chatApi.TM_WordToString(pStatuses, ui->Status));
-			if (ti) {
+			if (auto *ti = Chat_GetStatus(pStatuses, ui)) {
 				if (iNickIndex)
 					*iNickIndex = ti->iIconIndex; // color table's index is not zero-based
 				return szIndicators[ti->iIconIndex];

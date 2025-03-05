@@ -50,8 +50,7 @@ char SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui)
 	if (!ui || !si)
 		return '\0';
 
-	STATUSINFO *ti = g_chatApi.TM_FindStatus(si->pStatuses, g_chatApi.TM_WordToString(si->pStatuses, ui->Status));
-	if (ti) {
+	if (auto *ti = Chat_GetStatus(si->getStatuses(), ui)) {
 		switch (si->iStatusCount - ti->iIconIndex - 1) {
 		case 0: return '\0';
 		case 1: return '+';

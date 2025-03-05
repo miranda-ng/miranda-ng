@@ -313,7 +313,7 @@ static void ProcessNickListHovering(const CCtrlListBox &listBox, int hoveredItem
 			wszBuf.Format(L"%s: %s\r\n%s: %s\r\n%s: %s",
 				TranslateT("Nickname"), ui->pszNick,
 				TranslateT("Unique ID"), ui->pszUID,
-				TranslateT("Status"), g_chatApi.TM_WordToString(si->getStatuses(), ui->Status));
+				TranslateT("Status"), TM_WordToString(si->getStatuses(), ui->Status));
 		ti.lpszText = wszBuf.GetBuffer();
 	}
 
@@ -339,7 +339,7 @@ void CSrmmBaseDialog::OnNickListTimer(CTimer *pTimer)
 			wszBuf.Format(L"<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s",
 				TranslateT("Nick"), ui->pszNick,
 				TranslateT("Unique ID"), ui->pszUID,
-				TranslateT("Status"), g_chatApi.TM_WordToString(m_si->getStatuses(), ui->Status));
+				TranslateT("Status"), TM_WordToString(m_si->getStatuses(), ui->Status));
 
 		CLCINFOTIP ti = { sizeof(ti) };
 		Tipper_ShowTip(wszBuf, &ti);

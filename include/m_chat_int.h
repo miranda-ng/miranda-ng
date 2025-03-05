@@ -280,7 +280,6 @@ struct CHAT_MANAGER
 	BOOL          (*MM_RemoveAll)(void);
 
 	STATUSINFO*   (*TM_FindStatus)(STATUSINFO *pStatusList, const wchar_t *pszStatus);
-	wchar_t*      (*TM_WordToString)(STATUSINFO *pStatusList, uint16_t Status);
 	BOOL          (*TM_RemoveAll)(STATUSINFO** pStatusList);
 
 	int           (*UM_CompareItem)(const USERINFO *u1, const USERINFO *u2);
@@ -365,12 +364,15 @@ MIR_APP_DLL(void) Chat_EmptyHistory(SESSION_INFO *si);
 // creates custom popup menu for a group chat
 MIR_APP_DLL(void) Chat_CreateMenu(HMENU hMenu, SESSION_INFO *si, const wchar_t *pszUID);
 
-// calculates width or height of a string
-MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth);
+// retrieves user's role/status
+MIR_APP_DLL(STATUSINFO*) Chat_GetStatus(STATUSINFO *pStatuses, const USERINFO *pUser);
 
 // creates a default description of a group chat event
 // returns true if lin->ptszText is already utilized, you need to add it manually then otherwise
 MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &res);
+
+// calculates width or height of a string
+MIR_APP_DLL(int) Chat_GetTextPixelSize(const wchar_t *pszText, HFONT hFont, bool bWidth);
 
 // sets mute mode for a group chat
 MIR_APP_DLL(int) Chat_IsMuted(MCONTACT hContact);

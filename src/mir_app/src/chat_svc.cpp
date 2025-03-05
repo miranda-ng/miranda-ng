@@ -680,6 +680,11 @@ MIR_APP_DLL(int) Chat_ChangeUserId(SESSION_INFO *si, const wchar_t *wszOldId, co
 	return 0;
 }
 
+MIR_APP_DLL(STATUSINFO *) Chat_GetStatus(STATUSINFO *pStatuses, const USERINFO *ui)
+{
+	return TM_FindStatus(pStatuses, TM_WordToString(pStatuses, ui->Status));
+}
+
 MIR_APP_DLL(void*) Chat_GetUserInfo(SESSION_INFO *si)
 {
 	return (si) ? si->pItemData : nullptr;

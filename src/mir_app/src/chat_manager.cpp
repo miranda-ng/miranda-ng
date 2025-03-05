@@ -359,7 +359,7 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 		return nullptr;
 
 	auto *pStatuses = si->getStatuses();
-	STATUSINFO *ti = g_chatApi.TM_FindStatus(pStatuses, g_chatApi.TM_WordToString(pStatuses, ui->Status));
+	STATUSINFO *ti = g_chatApi.TM_FindStatus(pStatuses, TM_WordToString(pStatuses, ui->Status));
 	if (ti != nullptr)
 		return g_chatApi.hStatusIcons[ti->iIconIndex];
 	
@@ -672,12 +672,12 @@ STATUSINFO* TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, in
 	return nullptr;
 }
 
-static STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const wchar_t *pszStatus)
+STATUSINFO* TM_FindStatus(STATUSINFO *pStatusList, const wchar_t *pszStatus)
 {
 	if (!pStatusList || !pszStatus)
 		return nullptr;
 
-	for (STATUSINFO *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next)
+	for (auto *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next)
 		if (mir_wstrcmpi(pTemp->pszGroup, pszStatus) == 0)
 			return pTemp;
 
@@ -699,12 +699,12 @@ uint16_t TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus)
 	return 0;
 }
 
-static wchar_t* TM_WordToString(STATUSINFO *pStatusList, uint16_t Status)
+wchar_t* TM_WordToString(STATUSINFO *pStatusList, uint16_t Status)
 {
 	if (!pStatusList)
 		return nullptr;
 
-	for (STATUSINFO *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next) {
+	for (auto *pTemp = pStatusList; pTemp != nullptr; pTemp = pTemp->next) {
 		if (pTemp->iStatus & Status) {
 			Status -= pTemp->iStatus;
 			if (Status == 0)
@@ -771,7 +771,6 @@ static void ResetApi()
 	g_chatApi.MM_RemoveAll = ::MM_RemoveAll;
 
 	g_chatApi.TM_FindStatus = ::TM_FindStatus;
-	g_chatApi.TM_WordToString = ::TM_WordToString;
 	g_chatApi.TM_RemoveAll = ::TM_RemoveAll;
 
 	g_chatApi.UM_AddUser = ::UM_AddUser;

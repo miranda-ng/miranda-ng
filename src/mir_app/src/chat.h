@@ -101,7 +101,9 @@ SESSION_INFO* SM_FindSessionByContact(MCONTACT hContact);
 SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem);
 
 STATUSINFO*   TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount);
+STATUSINFO*   TM_FindStatus(STATUSINFO *pStatusList, const wchar_t *pszStatus);
 uint16_t      TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus);
+wchar_t*      TM_WordToString(STATUSINFO *pStatusList, uint16_t Status);
 
 USERINFO*     UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus);
 BOOL          UM_RemoveAll(SESSION_INFO *si);
