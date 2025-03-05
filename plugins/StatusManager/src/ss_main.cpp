@@ -23,12 +23,11 @@ CFakePlugin SSPlugin(SSMODULENAME);
 
 static HANDLE hServices[3], hEvents[3];
 static UINT_PTR setStatusTimerId = 0;
+static LRESULT CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static HANDLE hProtoAckHook, hCSStatusChangeHook, hStatusChangeHook;
-
-static HWND hMessageWindow;
 
 static uint8_t showDialogOnStartup = 0;
 
@@ -308,8 +307,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	if (SSPlugin.getByte(SETTING_SETWINSTATE, 0))
 		db_set_b(0, MODULE_CLIST, SETTING_WINSTATE, (uint8_t)state);
 
-	if (hMessageWindow)
-		DestroyWindow(hMessageWindow);
+	mir_unsubclassWindow(Miranda_GetSystemWindow()->GetHwnd(), MessageWndProc);
 
 	ShutdownConfirmDialog();
 	protoList.destroy();
@@ -317,11 +315,11 @@ static int OnShutdown(WPARAM, LPARAM)
 }
 
 /* Window proc for poweroff event */
-static uint32_t CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
+static LRESULT CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_ENDSESSION:
-		log_debug(0, "WM_ENDSESSION");
+		log_debug(0, "WM_ENDSESSION: %d", (int)wParam);
 		if (wParam) {
 			log_debug(0, "WM_ENDSESSION: calling exit");
 			OnShutdown(0, 0);
@@ -330,7 +328,7 @@ static uint32_t CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 		break;
 	}
 
-	return TRUE;
+	return mir_callNextSubclass(hwnd, MessageWndProc, msg, wParam, lParam);
 }
 
 int SSModuleLoaded(WPARAM, LPARAM)
@@ -342,9 +340,8 @@ int SSModuleLoaded(WPARAM, LPARAM)
 	/* shutdown hook for normal shutdown */
 	hEvents[1] = HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
 	hEvents[2] = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
-	/* message window for poweroff */
-	hMessageWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
-	SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
+
+	mir_subclassWindow(Miranda_GetSystemWindow()->GetHwnd(), MessageWndProc);
 
 	GetProfile(-1, protoList);
 

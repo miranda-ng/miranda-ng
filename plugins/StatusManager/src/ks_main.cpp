@@ -31,8 +31,6 @@ static HANDLE hStatusChangeHook = nullptr;
 static HANDLE hCSStatusChangeHook = nullptr;
 static HANDLE hCSStatusChangeExHook = nullptr;
 
-static HWND hMessageWindow = nullptr;
-
 static UINT_PTR checkConnectionTimerId = 0;
 static UINT_PTR afterCheckTimerId = 0;
 static UINT_PTR processAckTimerId = 0;
@@ -65,7 +63,7 @@ INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 
 static int ProcessPopup(int reason, LPARAM lParam);
 LRESULT CALLBACK KSPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-static uint32_t CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+static LRESULT CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // options.c
 extern int KeepStatusOptionsInit(WPARAM wparam, LPARAM);
@@ -80,8 +78,7 @@ void KSUnloadOptions()
 	UnhookEvent(hCSStatusChangeExHook);
 	hProtoAckHook = hStatusChangeHook = hCSStatusChangeHook = hCSStatusChangeExHook = nullptr;
 
-	if (IsWindow(hMessageWindow))
-		DestroyWindow(hMessageWindow);
+	mir_unsubclassWindow(Miranda_GetSystemWindow()->GetHwnd(), MessageWndProc);
 
 	if (StartTimer(IDT_CHECKCONTIN, -1, FALSE))
 		WSACleanup();
@@ -112,12 +109,8 @@ int KSLoadOptions()
 		if (ServiceExists(ME_CS_STATUSCHANGE))
 			hCSStatusChangeHook = HookEvent(ME_CS_STATUSCHANGE, CSStatusChange);
 		hCSStatusChangeExHook = HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChangeEx);
-		if (KSPlugin.getByte(SETTING_CHECKAPMRESUME, 0)) {
-			if (!IsWindow(hMessageWindow)) {
-				hMessageWindow = CreateWindowEx(0, L"STATIC", nullptr, 0, 0, 0, 0, 0, nullptr, nullptr, nullptr, nullptr);
-				SetWindowLongPtr(hMessageWindow, GWLP_WNDPROC, (LONG_PTR)MessageWndProc);
-			}
-		}
+		if (KSPlugin.getByte(SETTING_CHECKAPMRESUME, 0))
+			mir_subclassWindow(Miranda_GetSystemWindow()->GetHwnd(), MessageWndProc);
 		retryCount = 0;
 	}
 
@@ -996,7 +989,7 @@ INT_PTR AnnounceStatusChangeService(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // window for suspend
 
-static uint32_t CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static TProtoSettings *ps = nullptr;
 
@@ -1004,7 +997,7 @@ static uint32_t CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_POWERBROADCAST:
 		switch (wParam) {
 		case PBT_APMSUSPEND:
-			log_info(0, "KeepStatus: suspend state detected: %08X %08X", wParam, lParam);
+			log_info(0, "KeepStatus: suspend state detected");
 			if (ps == nullptr) {
 				ps = new TProtoSettings(protoList);
 				for (auto &it : *ps)
@@ -1041,7 +1034,7 @@ static uint32_t CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 	}
 
-	return TRUE;
+	return mir_callNextSubclass(hwnd, MessageWndProc, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1057,7 +1050,6 @@ static int onShutdown(WPARAM, LPARAM)
 
 int KSModuleLoaded(WPARAM, LPARAM)
 {
-	hMessageWindow = nullptr;
 	KSLoadOptions();
 
 	hEvents[0] = HookEvent(ME_OPT_INITIALISE, KeepStatusOptionsInit);
