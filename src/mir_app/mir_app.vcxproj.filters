@@ -11,9 +11,6 @@
     <ClCompile Include="src\button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\contacts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\descbutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -433,6 +430,9 @@
     </ClCompile>
     <ClCompile Include="src\searchresults.cpp">
       <Filter>Source Files\FindAdd</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clistcontacts.cpp">
+      <Filter>Source Files\Contact list</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
