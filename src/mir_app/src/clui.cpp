@@ -32,7 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hEventExtraClick;
 
-static HMODULE hUserDll;
 static HANDLE hContactDraggingEvent, hContactDroppedEvent, hContactDragStopEvent;
 static int transparentFocus = 1;
 UINT uMsgProcessProfile;
@@ -1042,7 +1041,6 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		ShowWindow(hwnd, SW_HIDE);
 		DestroyWindow(g_clistApi.hwndContactTree);
-		FreeLibrary(hUserDll);
 		PostQuitMessage(0);
 
 	default:
