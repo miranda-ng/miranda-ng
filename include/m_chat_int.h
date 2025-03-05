@@ -186,10 +186,6 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 		return (pParent != nullptr) ? pParent->pMe : pMe;
 	}
 
-	__forceinline OBJLIST<STATUSINFO>& getStatuses() const {
-		return (pParent != nullptr) ? pParent->arStatuses : arStatuses;
-	}
-
 	__forceinline OBJLIST<USERINFO>& getUserList() {
 		return (pParent != nullptr) ? pParent->arUsers : arUsers;
 	}

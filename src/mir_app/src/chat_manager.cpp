@@ -644,6 +644,11 @@ static BOOL MM_RemoveAll(void)
 // Status manager functions
 // Necessary to keep track of what user statuses per window nicklist that is available
 
+__inline OBJLIST<STATUSINFO>& getStatuses(SESSION_INFO *si)
+{
+	return (si->pParent) ? si->pParent->arStatuses : si->arStatuses;
+}
+
 STATUSINFO* TM_AddStatus(SESSION_INFO *si, const wchar_t *pszStatus)
 {
 	if (!si || !pszStatus)
@@ -658,7 +663,7 @@ STATUSINFO* TM_AddStatus(SESSION_INFO *si, const wchar_t *pszStatus)
 	while (node->iIconIndex > STATUSICONCOUNT - 1)
 		node->iIconIndex--;
 
-	auto &pList = si->getStatuses();
+	auto &pList = getStatuses(si);
 	if (pList.getCount() == 0) // list is empty
 		node->iStatus = 1;
 	else
@@ -675,7 +680,7 @@ STATUSINFO* TM_FindStatus(SESSION_INFO *si, const wchar_t *pszStatus)
 	if (!si || !pszStatus)
 		return nullptr;
 
-	for (auto &it: si->getStatuses())
+	for (auto &it: getStatuses(si))
 		if (mir_wstrcmpi(it->pszGroup, pszStatus) == 0)
 			return it;
 
@@ -687,7 +692,7 @@ uint16_t TM_StringToWord(SESSION_INFO *si, const wchar_t *pszStatus)
 	if (!si || !pszStatus)
 		return 0;
 
-	auto &pList = si->getStatuses();
+	auto &pList = getStatuses(si);
 	for (auto &it : pList)
 		if (mir_wstrcmpi(it->pszGroup, pszStatus) == 0)
 			return it->iStatus;
@@ -703,7 +708,7 @@ wchar_t* TM_WordToString(SESSION_INFO *si, uint16_t Status)
 	if (!si)
 		return nullptr;
 
-	for (auto &it : si->getStatuses())
+	for (auto &it : getStatuses(si))
 		if (it->iStatus & Status) {
 			Status -= it->iStatus;
 			if (Status == 0)
