@@ -22,9 +22,6 @@ HGENMENU g_hMenuChart = nullptr;
 #endif
 HGENMENU g_hMenuRefresh = nullptr, g_hMenuRoot = nullptr;
 
-typedef std::vector<HANDLE> THandles;
-static THandles g_ahThreads;
-
 static HGENMENU g_hEnableDisableMenu;
 static HANDLE g_hTBButton;
 
@@ -172,7 +169,7 @@ int CurrencyRates_OnToolbarLoaded(WPARAM, LPARAM)
 
 static void WorkingThread(void *pParam)
 {
-	ICurrencyRatesProvider *pProvider = reinterpret_cast<ICurrencyRatesProvider*>(pParam);
+	auto *pProvider = (ICurrencyRatesProvider *)pParam;
 	assert(pProvider);
 
 	if (pProvider)
@@ -196,7 +193,7 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 
 	::ResetEvent(g_hEventWorkThreadStop);
 
-	g_ahThreads.push_back(mir_forkthread(WorkingThread, g_pCurrentProvider));
+	mir_forkthread(WorkingThread, g_pCurrentProvider);
 	return 0;
 }
 
@@ -213,15 +210,6 @@ INT_PTR CurrencyRateProtoFunc_GetCaps(WPARAM wParam, LPARAM)
 INT_PTR CurrencyRateProtoFunc_GetStatus(WPARAM, LPARAM)
 {
 	return g_bAutoUpdate ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-}
-
-void WaitForWorkingThreads()
-{
-	size_t cThreads = g_ahThreads.size();
-	if (cThreads > 0) {
-		HANDLE* paHandles = &*(g_ahThreads.begin());
-		::WaitForMultipleObjects((uint32_t)cThreads, paHandles, TRUE, INFINITE);
-	}
 }
 
 int CurrencyRatesEventFunc_PreShutdown(WPARAM, LPARAM)
@@ -333,8 +321,6 @@ int CMPlugin::Load(void)
 
 int CMPlugin::Unload(void)
 {
-	WaitForWorkingThreads();
-
 	ClearProviders();
 	::CloseHandle(g_hEventWorkThreadStop);
 	return 0;
