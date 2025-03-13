@@ -124,7 +124,7 @@ void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 	else {
 		CDiscordGuild *pGuild = FindGuild(guildId);
 		if (pGuild != nullptr) {
-			db_delete_contact(pUser->si->hContact);
+			db_delete_contact(pUser->hContact);
 			pUser->si = nullptr;
 		}
 	}
