@@ -151,7 +151,7 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 				if (!dbei)
 					continue;
 
-				if (opts->bMarkRead && !dbei.markedRead()) {
+				if (opts->bMarkRead && !dbei.bRead) {
 					db_event_markRead(cc, hEvent);
 					nCount++;
 				}
