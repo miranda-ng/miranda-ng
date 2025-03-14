@@ -144,5 +144,5 @@ void CSkypeProto::OnOAuthEnd(MHttpResponse *response, AsyncHttpRequest*)
 		setDword("TokenExpiresIn", time(NULL) + seconds);
 	}
 
-	OnLoginSuccess();
+	TryCreateEndpoint();
 }

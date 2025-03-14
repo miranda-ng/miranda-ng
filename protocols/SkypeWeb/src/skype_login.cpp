@@ -70,7 +70,7 @@ void CSkypeProto::Login()
 
 	m_bHistorySynced = false;
 	if ((tokenExpires - 1800) > time(0))
-		OnLoginSuccess();
+		TryCreateEndpoint();
 	else
 		PushRequest(new OAuthRequest());
 }
@@ -135,19 +135,13 @@ void CSkypeProto::OnLoginOAuth(MHttpResponse *response, AsyncHttpRequest*)
 	setString("TokenSecret", json["skypetoken"].as_string().c_str());
 	setDword("TokenExpiresIn", time(NULL) + json["expiresIn"].as_int());
 
-	OnLoginSuccess();
+	TryCreateEndpoint();
 }
 
-void CSkypeProto::OnLoginSuccess()
+void CSkypeProto::TryCreateEndpoint()
 {
 	if (!IsStatusConnecting(m_iStatus))
 		return;
-
-	ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_SUCCESS, NULL, 0);
-
-	int oldStatus = m_iStatus;
-	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	m_szApiToken = getStringA("TokenSecret");
 
@@ -199,6 +193,10 @@ void CSkypeProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 	}
 
 	// Succeeded, decode the answer
+	int oldStatus = m_iStatus;
+	m_iStatus = m_iDesiredStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+
 	if (auto *hdr = response->FindHeader("Set-RegistrationToken")) {
 		CMStringA szValue = hdr;
 		int iStart = 0;
