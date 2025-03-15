@@ -53,7 +53,7 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 			
 			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszTitle);
 			if (pOwner == 0) {
-				if (si->arStatuses.getCount()) {
+				if (!si->arStatuses.getCount()) {
 					Chat_AddGroup(si, TranslateT("Owner"));
 					Chat_AddGroup(si, TranslateT("Participant"));
 
@@ -142,6 +142,8 @@ void CSteamProto::OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &rep
 	if (hdr.failed())
 		return;
 
+	std::vector<uint64_t> ids;
+
 	if (auto *si = Chat_Find(UINT_PTR(GetRequestInfo(hdr.jobid_target)), m_szModuleName)) {
 		uint32_t iLastMsg = getDword(si->hContact, DBKEY_LASTMSG);
 		uint32_t iChatId = getDword(si->hContact, "ChatId");
@@ -155,9 +157,20 @@ void CSteamProto::OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &rep
 			if (pMsg->server_message)
 				continue;
 
+			auto iSteamId = AccountIdToSteamId(pMsg->sender);
 			char szMsgId[100], szUserId[100];
 			mir_snprintf(szMsgId, "%d_%d", iChatId, pMsg->server_timestamp);
-			_i64toa(AccountIdToSteamId(pMsg->sender), szUserId, 10);
+			_i64toa(iSteamId, szUserId, 10);
+
+			_A2T wszUserId(szUserId);
+			USERINFO ui = {};
+			ui.pszUID = wszUserId;
+			if (!si->getUserList().find(&ui)) {
+				ids.push_back(iSteamId);
+
+				mir_cslock lck(m_csChats);
+				m_chatContactInfo[iSteamId] = si;
+			}
 
 			CMStringA szText(pMsg->message);
 			DecodeBbcodes(si, szText);
@@ -180,6 +193,9 @@ void CSteamProto::OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &rep
 
 		setDword(si->hContact, DBKEY_LASTMSG, iLastMsg);
 	}
+
+	if (!ids.empty())
+		SendUserInfoRequest(ids);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -189,6 +205,8 @@ void CSteamProto::OnGetChatMessage(const CChatRoomIncomingChatMessageNotificatio
 	if (hdr.failed())
 		return;
 
+	std::vector<uint64_t> ids;
+
 	CMStringW wszId(FORMAT, L"%lld_%lld", reply.chat_group_id, reply.chat_id);
 	if (auto *si = Chat_Find(wszId, m_szModuleName)) {
 		char szMsgId[100], szUserId[100];
@@ -197,6 +215,16 @@ void CSteamProto::OnGetChatMessage(const CChatRoomIncomingChatMessageNotificatio
 
 		CMStringA szText(reply.message);
 		DecodeBbcodes(si, szText);
+
+		_A2T wszUserId(szUserId);
+		USERINFO ui = {};
+		ui.pszUID = wszUserId;
+		if (!si->getUserList().find(&ui)) {
+			ids.push_back(reply.steamid_sender);
+
+			mir_cslock lck(m_csChats);
+			m_chatContactInfo[reply.steamid_sender] = si;
+		}
 
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMsgId));
 		dbei.flags |= DBEF_UTF;
@@ -213,6 +241,9 @@ void CSteamProto::OnGetChatMessage(const CChatRoomIncomingChatMessageNotificatio
 		else
 			db_event_add(si->hContact, &dbei);
 	}
+
+	if (!ids.empty())
+		SendUserInfoRequest(ids);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
