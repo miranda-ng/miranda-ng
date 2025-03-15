@@ -74,8 +74,13 @@ void CSkypeProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 		return;
 
 	DB::EventInfo dbei(hDbEvent, false);
-	if (dbei.szId)
-		PushRequest(new DeleteMessageRequest(this, getId(hContact), dbei.szId));
+	if (dbei.szId) {
+		auto *pReq = new AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages/" + dbei.szId);
+		pReq->AddAuthentication(this);
+		pReq->AddHeader("Origin", "https://web.skype.com");
+		pReq->AddHeader("Referer", "https://web.skype.com/");
+		PushRequest(pReq);
+	}
 }
 
 void CSkypeProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)
@@ -240,9 +245,16 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
-int CSkypeProto::UserIsTyping(MCONTACT hContact, int type)
+int CSkypeProto::UserIsTyping(MCONTACT hContact, int iState)
 {
-	PushRequest(new SendTypingRequest(getId(hContact), type));
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
+	
+	JSONNode node;
+	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", "")
+		<< CHAR_PARAM("messagetype", (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping");
+	pReq->m_szParam = node.write().c_str();
+
+	PushRequest(pReq);
 	return 0;
 }
 

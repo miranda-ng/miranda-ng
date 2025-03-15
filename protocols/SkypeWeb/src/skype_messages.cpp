@@ -224,8 +224,16 @@ void CSkypeProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	if (IsOnline()) {
 		DB::EventInfo dbei(hDbEvent, false);
-		if (dbei && dbei.szId)
-			PushRequest(new MarkMessageReadRequest(getId(hContact), _atoi64(dbei.szId)));
+		if (dbei && dbei.szId) {
+			auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/properties?name=consumptionhorizon");
+			auto msgTimestamp = _atoi64(dbei.szId);
+
+			JSONNode node(JSON_NODE);
+			node << CHAR_PARAM("consumptionhorizon", CMStringA(::FORMAT, "%lld;%lld;%lld", msgTimestamp, msgTimestamp, msgTimestamp));
+			pReq->m_szParam = node.write().c_str();
+			
+			PushRequest(pReq);
+		}
 	}
 }
 
