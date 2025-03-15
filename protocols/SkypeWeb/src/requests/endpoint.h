@@ -23,8 +23,10 @@ struct CreateEndpointRequest : public AsyncHttpRequest
 	CreateEndpointRequest(CSkypeProto *ppro) :
 		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints", &CSkypeProto::OnEndpointCreated)
 	{
-		m_szParam = "{}";
+		m_szParam = "{\"endpointFeatures\":\"Agent,Presence2015,MessageProperties,CustomUserProperties,Casts,ModernBots,AutoIdleForWebApi,secureThreads,notificationStream,InviteFree,SupportsReadReceipts,ued\"}";
 
+		AddHeader("Origin", "https://web.skype.com");
+		AddHeader("Referer", "https://web.skype.com/");
 		AddAuthentication(ppro);
 	}
 };

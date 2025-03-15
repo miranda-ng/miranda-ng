@@ -32,6 +32,7 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	}
 
 	AddHeader("User-Agent", NETLIB_USER_AGENT);
+	AddHeader("MS-IC3-Product", "Sfl");
 
 	if (url)
 		m_szUrl.Append(url);
