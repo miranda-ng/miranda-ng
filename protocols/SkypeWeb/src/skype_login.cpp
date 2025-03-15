@@ -147,7 +147,18 @@ void CSkypeProto::TryCreateEndpoint()
 
 	m_impl.m_heartBeat.StartSafe(600 * 1000);
 
-	PushRequest(new CreateEndpointRequest(this));
+	SendCreateEndpoint();
+}
+
+void CSkypeProto::SendCreateEndpoint()
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints", &CSkypeProto::OnEndpointCreated);
+	pReq->m_szParam = "{\"endpointFeatures\":\"Agent,Presence2015,MessageProperties,CustomUserProperties,Casts,ModernBots,AutoIdleForWebApi,secureThreads,notificationStream,InviteFree,SupportsReadReceipts,ued\"}";
+	pReq->AddHeader("Origin", "https://web.skype.com");
+	pReq->AddHeader("Referer", "https://web.skype.com/");
+	pReq->AddAuthentication(this);
+	
+	PushRequest(pReq);
 }
 
 void CSkypeProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
@@ -174,7 +185,7 @@ void CSkypeProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 			int iEnd = szUrl.Find('/');
 			g_plugin.szDefaultServer = (iEnd != -1) ? szUrl.Left(iEnd) : szUrl;
 		}
-		PushRequest(new CreateEndpointRequest(this));
+		SendCreateEndpoint();
 		return;
 
 	case 401: // unauthorized

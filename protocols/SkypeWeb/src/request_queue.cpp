@@ -27,12 +27,12 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_GRAPH:     m_szUrl = "skypegraph.skype.com"; break;
 	case HOST_LOGIN:     m_szUrl = "login.skype.com"; break;
 	case HOST_DEFAULT:
+		AddHeader("MS-IC3-Product", "Sfl");
 		m_szUrl.Format("%s/v1", g_plugin.szDefaultServer.c_str());
 		break;
 	}
 
 	AddHeader("User-Agent", NETLIB_USER_AGENT);
-	AddHeader("MS-IC3-Product", "Sfl");
 
 	if (url)
 		m_szUrl.Append(url);

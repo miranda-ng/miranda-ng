@@ -215,7 +215,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		if (m_iStatus > ID_STATUS_CONNECTING + 1 && m_szId)
-			PushRequest(new DeleteEndpointRequest(this));
+			PushRequest(new AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(m_szId), &CSkypeProto::OnEndpointDeleted));
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		// logout

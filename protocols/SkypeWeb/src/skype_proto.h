@@ -237,6 +237,7 @@ private:
 	// login
 	void Login();
 	void TryCreateEndpoint();
+	void SendCreateEndpoint();
 	void SendPresence();
 	
 	// profile
