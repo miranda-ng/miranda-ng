@@ -998,7 +998,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		dbei.cbBlob = szText.GetLength();
 		dbei.iTimestamp = pMessage->date_;
 		if (pMessage->is_outgoing_)
-			dbei.flags |= DBEF_SENT;
+			dbei.flags |= DBEF_SENT | DBEF_READ;
 		if (!pUser->bInited)
 			dbei.flags |= DBEF_READ;
 		if (GetGcUserId(pUser, pMessage, szUserId))

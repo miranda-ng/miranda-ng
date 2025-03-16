@@ -239,7 +239,7 @@ void CTelegramProto::MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool 
 		if (dbei.bSent != bSent)
 			continue;
 
-		if (!dbei.markedRead())
+		if (!dbei.bRead)
 			db_event_markRead(hContact, hEvent, true);
 	}
 }
@@ -497,7 +497,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	dbei.szId = F.pszId;
 	dbei.szUserId = F.pszUser;
 	if (F.pMsg->is_outgoing_)
-		dbei.flags |= DBEF_SENT;
+		dbei.flags |= DBEF_SENT | DBEF_READ;
 	if (!F.pUser->bInited || F.bRead)
 		dbei.flags |= DBEF_READ;
 	if (auto iReplyId = getReplyId(F.pMsg->reply_to_.get())) {
