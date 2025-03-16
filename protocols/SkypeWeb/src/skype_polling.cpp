@@ -42,6 +42,7 @@ void CSkypeProto::PollingThread(void *)
 			break;
 		}
 
+		nErrors = 0;
 		m_hPollingConn = response->nlc;
 		if (!response->body.IsEmpty())
 			ParsePollData(response->body);
