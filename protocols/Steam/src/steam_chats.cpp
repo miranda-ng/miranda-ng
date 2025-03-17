@@ -110,6 +110,9 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 			if (!ids.empty())
 				SendUserInfoRequest(ids);
 
+			if (pChat->voice_allowed)
+				ExtraIcon_SetIcon(hExtraXStatus, si->hContact, Skin_GetIconHandle(SKINICON_OTHER_SOUND));
+
 			uint32_t dwLastMsgId = getDword(si->hContact, DBKEY_LASTMSG);
 			if (pChat->time_last_message > dwLastMsgId)
 				SendGetChatHistory(si->hContact, dwLastMsgId);
