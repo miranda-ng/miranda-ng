@@ -21,7 +21,6 @@ void CSkypeProto::PollingThread(void *)
 {
 	debugLogA(__FUNCTION__ ": entering");
 
-	int nErrors = 0;
 	m_iPollingId = -1;
 
 	while (true) {
@@ -35,14 +34,10 @@ void CSkypeProto::PollingThread(void *)
 			break;
 
 		if (response == nullptr || response->resultCode != 200) {
-			if (nErrors < POLLING_ERRORS_LIMIT) {
-				nErrors++;
-				continue;
-			}
-			break;
+			m_hPollingConn = nullptr;
+			continue;
 		}
 
-		nErrors = 0;
 		m_hPollingConn = response->nlc;
 		if (!response->body.IsEmpty())
 			ParsePollData(response->body);
