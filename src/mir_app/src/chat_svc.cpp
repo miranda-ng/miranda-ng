@@ -797,12 +797,18 @@ static HGENMENU hJoinMenuItem, hLeaveMenuItem, hMuteRootMenuItem, hMute0MenuItem
 static INT_PTR JoinChat(WPARAM hContact, LPARAM lParam)
 {
 	if (hContact) {
-		char *szProto = Proto_GetBaseAccountName(hContact);
-		if (szProto) {
-			if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
-				CallProtoService(szProto, PS_JOINCHAT, hContact, lParam);
-			else
-				RoomDoubleclicked(hContact, 0);
+		if (char *szProto = Proto_GetBaseAccountName(hContact)) {
+			if (Proto_GetStatus(szProto) != ID_STATUS_OFFLINE) {
+				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
+					CallProtoService(szProto, PS_JOINCHAT, hContact, lParam);
+				else
+					RoomDoubleclicked(hContact, 0);
+			}
+			else {
+				auto *pMM = MM_FindModule(szProto);
+				if (pMM->bDatabase)
+					CallService(MS_HISTORY_SHOWCONTACTHISTORY, hContact, 0);
+			}
 		}
 	}
 
@@ -904,6 +910,12 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 					Menu_ModifyItem(hJoinMenuItem, LPGENW("&Open/close chat window"));
 				}
 			}
+			else if (auto *pMM = MM_FindModule(szProto))
+				if (pMM->bDatabase) {
+					bEnabledJoin = true;
+					Menu_ModifyItem(hJoinMenuItem, LPGENW("&History"));
+				}
+
 			bEnabledLeave = ProtoServiceExists(szProto, PS_LEAVECHAT) != 0;
 		}
 	}
