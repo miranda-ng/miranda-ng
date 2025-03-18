@@ -1904,16 +1904,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	}
 
-	auto ret = CSuper::WndProc_Message(msg, wParam, lParam);
-
-	switch (msg) {
-	case EM_PASTESPECIAL:
-	case WM_PASTE:
-		if (m_bIsAutosizingInput)
-			SendMessage(m_message.GetHwnd(), EM_SETSEL, 0, 0);
-	}
-
-	return ret;
+	return CSuper::WndProc_Message(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
