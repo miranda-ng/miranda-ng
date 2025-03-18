@@ -71,6 +71,7 @@ class CContactCache : public MZeroedObject
 
 	LIST<char> m_history;
 	int m_iHistoryCurrent;
+	ptrA m_savedEditContent;
 
 	void initPhaseTwo();
 	void releaseAlloced();

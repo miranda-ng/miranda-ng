@@ -225,7 +225,7 @@ void CContactCache::saveHistory()
 	if (m_dat == nullptr)
 		return;
 
-	CCtrlRichEdit &pEntry = m_dat->GetEntry();
+	auto &pEntry = m_dat->GetEntry();
 	ptrA szFromStream(pEntry.GetRichTextRtf());
 	if (szFromStream != nullptr) {
 		m_iHistoryCurrent = -1;
@@ -242,17 +242,20 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 	if (m_dat == nullptr)
 		return;
 
-	CCtrlRichEdit &pEntry = m_dat->GetEntry();
+	auto &pEntry = m_dat->GetEntry();
+
 	if (m_history.getCount() > 0) {
 		char *pszText;
 		if (wParam == VK_UP) {
 			if (m_iHistoryCurrent == 0)
 				return;
 
-			if (m_iHistoryCurrent < 0)
-				m_iHistoryCurrent = m_history.getCount()-1;
-			else
-				m_iHistoryCurrent--;
+			if (m_iHistoryCurrent < 0) {
+				m_savedEditContent = pEntry.GetRichTextRtf();				
+				m_iHistoryCurrent = m_history.getCount() - 1;
+			}
+			else m_iHistoryCurrent--;
+
 			pszText = m_history[m_iHistoryCurrent];
 		}
 		else {
@@ -261,7 +264,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 
 			if (m_iHistoryCurrent == m_history.getCount() - 1) {
 				m_iHistoryCurrent = -1;
-				pszText = "";
+				pszText = m_savedEditContent;
 			}
 			else {
 				m_iHistoryCurrent++;
