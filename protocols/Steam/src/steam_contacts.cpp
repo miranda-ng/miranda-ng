@@ -148,7 +148,7 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 		}
 
 		// client
-		uint32_t stateflags = (F->has_persona_state_flags) ? F->persona_state_flags : -1;
+		auto stateflags = F->persona_state_flags;
 		if (stateflags == PersonaStateFlag::None) {
 			// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
 			uint16_t status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
