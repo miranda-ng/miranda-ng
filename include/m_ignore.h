@@ -36,9 +36,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IGNOREEVENT_ALL        (int)(-1)
 #define IGNOREEVENT_MESSAGE       1
 #define IGNOREEVENT_FILE          2
-#define IGNOREEVENT_USERONLINE    3
-#define IGNOREEVENT_AUTHORIZATION 4
-#define IGNOREEVENT_TYPINGNOTIFY  5
+#define IGNOREEVENT_OFFLINEFILE   3
+#define IGNOREEVENT_USERONLINE    4
+#define IGNOREEVENT_AUTHORIZATION 5
+#define IGNOREEVENT_TYPINGNOTIFY  6
 
 // determines if a message type to a contact should be ignored
 // mask is one of IGNOREEVENT_* constants

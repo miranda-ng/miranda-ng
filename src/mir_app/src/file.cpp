@@ -238,7 +238,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbe
 		else {
 			// load cloud files always (if OfflineSize = 0) 
 			// or if they are less than a limit (if a transfer has specified file size)
-			if (bSilent && File::bOfflineAuto)
+			if (bSilent && File::bOfflineAuto && !Ignore_IsIgnored(hContact, IGNOREEVENT_OFFLINEFILE))
 				if (File::iOfflineSize == 0 || (blob.getSize() > 0 && blob.getSize() < File::iOfflineSize * 1024))
 					DownloadOfflineFile(hContact, hdbe, dbei, false, new OFD_Download());
 

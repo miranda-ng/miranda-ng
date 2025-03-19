@@ -298,6 +298,8 @@ BEGIN
     LTEXT           "Messages",IDC_STATIC,28,178,70,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_FILE,IDC_FILEICON,8,187,20,20,SS_CENTERIMAGE
     LTEXT           "Files",IDC_STATIC,28,193,70,8,SS_NOPREFIX | SS_CENTERIMAGE
+    ICON            IDI_DATABASE,IDC_OFFLINEICON,8,202,20,20,SS_CENTERIMAGE
+    LTEXT           "Offline files",IDC_STATIC,28,208,70,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_USERONLINE,IDC_ONLINEICON,96,172,20,20,SS_CENTERIMAGE
     LTEXT           "Online notification",IDC_STATIC,116,178,107,8,SS_NOPREFIX | SS_CENTERIMAGE
     ICON            IDI_MIRANDA,IDC_AUTHICON,96,187,20,20,SS_CENTERIMAGE
@@ -1615,6 +1617,8 @@ IDI_OFF                 ICON                    "Off.ico"
 IDI_CHAT                ICON                    "chat_channel.ico"
 
 IDI_CODE                ICON                    "code.ico"
+
+IDI_CLOUD               ICON                    "cloud.ico"
 
 IDI_MALE                ICON                    "male.ico"
 

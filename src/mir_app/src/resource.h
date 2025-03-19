@@ -47,6 +47,7 @@
 #define IDI_URL                         138
 #define IDI_ATTACH                      139
 #define IDI_CODE                        140
+#define IDI_CLOUD                       141
 #define IDI_MCMENUOFF                   144
 #define IDI_MCMENU                      145
 #define IDI_MCCONVERT                   146
@@ -361,6 +362,7 @@
 #define IDC_ALLICON                     1208
 #define IDC_NONEICON                    1209
 #define IDC_TYPINGICON                  1210
+#define IDC_OFFLINEICON                 1211
 #define IDC_FILEDIR                     1213
 #define IDC_TRANSFERCOMPLETED           1214
 #define IDC_LANG                        1215
