@@ -75,9 +75,12 @@ TD::object_ptr<TD::formattedText> formatBbcodes(const char *pszText)
 				case BBCODE::UNDERLINE: pNew = TD::make_object<TD::textEntityTypeUnderline>(); break;
 				}
 
-				for (auto &jt : res->entities_)
+				for (auto &jt : res->entities_) {
 					if (i1 >= jt->offset_ && i1 < jt->offset_ + jt->length_)
 						jt->length_ -= it.len1;
+					if (i2 >= jt->offset_ && i2 < jt->offset_ + jt->length_)
+						jt->length_ -= it.len2;
+				}
 
 				res->entities_.push_back(TD::make_object<TD::textEntity>(TD::int32(i1), TD::int32(i2 - i1), std::move(pNew)));
 			}
