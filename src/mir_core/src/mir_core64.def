@@ -606,7 +606,7 @@ mir_wstrcmpi                  @280
 ?GetExpand@CCtrlClc@@QEBAIPEAX@Z @790 NONAME
 ?GetExtendedListViewStyle@CCtrlListView@@QEBAIXZ @791 NONAME
 ?GetExtraColumns@CCtrlClc@@QEBAHXZ @792 NONAME
-?GetExtraImage@CCtrlClc@@QEBAEPEAXH@Z @793 NONAME
+?GetExtraImage@CCtrlClc@@QEBAGPEAXH@Z @793 NONAME
 ?GetExtraImageList@CCtrlClc@@QEBAPEAU_IMAGELIST@@XZ @794 NONAME
 ?GetFirstVisible@CCtrlTreeView@@QEBAPEAU_TREEITEM@@XZ @795 NONAME
 ?GetFont@CCtrlClc@@QEBAPEAUHFONT__@@H@Z @796 NONAME

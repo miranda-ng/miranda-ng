@@ -728,7 +728,7 @@ public:
 	uint32_t   GetExStyle() const;
 	uint32_t   GetExpand(HANDLE hItem) const;
 	int        GetExtraColumns() const;
-	uint8_t    GetExtraImage(HANDLE hItem, int iColumn) const;
+	uint16_t   GetExtraImage(HANDLE hItem, int iColumn) const;
 	HIMAGELIST GetExtraImageList() const;
 	HFONT      GetFont(int iFontId) const;
 	bool       GetHideOfflineRoot() const;
