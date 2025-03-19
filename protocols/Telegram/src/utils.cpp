@@ -116,15 +116,18 @@ CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pT
 		int off1 = 0, off2 = 0;
 		for (auto &h : history) {
 			if (it->offset_ >= h.start)
-				off1 += h.bbcode.len1, off2 += h.bbcode.len1;
-
+				off1 += h.bbcode.len1;
+			if (it->offset_ + it->length_ > h.start)
+				off2 += h.bbcode.len1;
+			if (it->offset_ >= h.start + h.length)
+				off1 += h.bbcode.len2;
 			if (it->offset_ + it->length_ > h.start + h.length)
 				off2 += h.bbcode.len2;
 		}
 
 		auto &bb = bbCodes[iCode];
-		ret.Insert(off1 + it->offset_ + it->length_, bb.end);
-		ret.Insert(off2 + it->offset_, bb.begin);
+		ret.Insert(off2 + it->offset_ + it->length_, bb.end);
+		ret.Insert(off1 + it->offset_, bb.begin);
 		history.push_back(HistItem(it->offset_, it->length_, bb));
 	}
 	return T2Utf(ret).get();
