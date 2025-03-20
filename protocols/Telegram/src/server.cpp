@@ -1328,11 +1328,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 void CTelegramProto::ProcessUserInfo(TD::int53 userId, TD::userFullInfo *pObj)
 {
 	if (auto *pUser = FindUser(userId)) {
-		if (auto *pBirthday = pObj->birthdate_.get()) {
-			setWord(pUser->hContact, "BirthDay", pBirthday->day_);
-			setWord(pUser->hContact, "BirthMonth", pBirthday->month_);
-			setWord(pUser->hContact, "BirthYear", pBirthday->year_);
-		}
+		if (auto *pBirthday = pObj->birthdate_.get())
+			Contact::SetBirthday(pUser->hContact, pBirthday->day_, pBirthday->month_, pBirthday->year_);
 
 		if (pObj->bio_) {
 			CMStringA szNotes(GetFormattedText(pObj->bio_));

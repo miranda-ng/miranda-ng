@@ -368,12 +368,8 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactT
 	if (!wszValue.IsEmpty()) {
 		int d, m, y, iReadCount;
 		iReadCount = swscanf(wszValue, L"%d.%d.%d", &d, &m, &y);
-		if (iReadCount > 1) {
-			if (iReadCount == 3)
-				setWord(hContact, "BirthYear", y);
-			setByte(hContact, "BirthDay", d);
-			setByte(hContact, "BirthMonth", m);
-		}
+		if (iReadCount > 1)
+			Contact::SetBirthday(hContact, d, m, (iReadCount == 3) ? y : 0);
 	}
 
 	wszValue = jnItem["photo_100"].as_mstring();

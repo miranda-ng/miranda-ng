@@ -102,6 +102,11 @@ namespace Contact
 	MIR_APP_DLL(void) Readonly(MCONTACT hContact, bool bReadOnly = true);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
+	// sets a birthday
+
+	MIR_APP_DLL(void) SetBirthday(MCONTACT hContact, int dd, int mm, int yy);
+
+	/////////////////////////////////////////////////////////////////////////////////////////
 	// checks / adds / removes a contact from list of contacts
 	// removed contacts would be physically deleted after restart
 

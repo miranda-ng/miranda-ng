@@ -189,11 +189,8 @@ void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 		auto wstr = profile["birthday"].as_mstring();
 		if (!wstr.IsEmpty() ) {
 			int nYear, nMonth, nDay;
-			if (swscanf(wstr, L"%d-%d-%d", &nYear, &nMonth, &nDay) == 3) {
-				setWord(hContact, "BirthYear", nYear);
-				setByte(hContact, "BirthMonth", nMonth);
-				setByte(hContact, "BirthDay", nDay);
-			}
+			if (swscanf(wstr, L"%d-%d-%d", &nYear, &nMonth, &nDay) == 3)
+				Contact::SetBirthday(hContact, nDay, nMonth, nYear);
 		}
 
 		wstr = profile["gender"].as_mstring();

@@ -50,9 +50,8 @@ void CSkypeProto::UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact)
 	if (!birthday.IsEmpty() && birthday != "null") {
 		int d, m, y;
 		if (3 == swscanf(birthday.GetBuffer(), L"%d-%d-%d", &y, &m, &d)) {
-			setWord(hContact, "BirthYear", y);
-			setByte(hContact, "BirthDay", d);
-			setByte(hContact, "BirthMonth", m);
+			Contact::SetBirthday(hContact, d, m, y);
+			return;
 		}
 	}
 

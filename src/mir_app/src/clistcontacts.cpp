@@ -296,6 +296,26 @@ MIR_APP_DLL(bool) Contact::IsGroupChat(MCONTACT hContact, const char *szProto)
 	return db_get_b(hContact, szProto, "ChatRoom") != 0;
 }
 
+MIR_APP_DLL(void) Contact::SetBirthday(MCONTACT hContact, int dd, int mm, int yy)
+{
+	if (auto *szProto = Proto_GetBaseAccountName(hContact)) {
+		db_set_w(hContact, szProto, "BirthMonth", mm);
+		db_set_w(hContact, szProto, "BirthDay", dd);
+
+		if (yy) {
+			db_set_w(hContact, szProto, "BirthYear", yy);
+
+			SYSTEMTIME sToday = {};
+			GetLocalTime(&sToday);
+			int nAge = sToday.wYear - yy;
+			if (sToday.wMonth < mm || (sToday.wMonth == mm && sToday.wDay < dd))
+				nAge--;
+			if (nAge)
+				db_set_w(hContact, szProto, "Age", nAge);
+		}
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(bool) Contact::IsHidden(MCONTACT hContact)
