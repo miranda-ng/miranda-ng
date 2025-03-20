@@ -635,11 +635,6 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTelegramProto::OnChatCreated(td::ClientManager::Response &response, void *pUserInfo)
-{
-	SetEvent(pUserInfo);
-}
-
 int CTelegramProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *pszMessage)
 {
 	ptrA szId(getStringA(hContact, DBKEY_ID));
@@ -656,13 +651,6 @@ int CTelegramProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *p
 		DB::EventInfo dbei(hReplyEvent, false);
 		if (dbei)
 			iReplyId = dbei2id(dbei);
-	}
-
-	if (pUser->chatId == -1) {
-		HANDLE hEvent = ::CreateEvent(0, TRUE, FALSE, 0);
-		SendQuery(new TD::createNewPrivateChat(pUser->id, false), &CTelegramProto::OnChatCreated, hEvent);
-		WaitForSingleObject(hEvent, INFINITE);
-		CloseHandle(hEvent);
 	}
 
 	int msgid = SendTextMessage(pUser->chatId, 0, iReplyId, pszMessage);
