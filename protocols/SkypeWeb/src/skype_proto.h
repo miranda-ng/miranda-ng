@@ -202,7 +202,7 @@ private:
 	bool m_isTerminated = true;
 	mir_cs m_requestQueueLock;
 	LIST<AsyncHttpRequest> m_requests;
-	EventHandle m_hRequestQueueEvent;
+	MEventHandle m_hRequestQueueEvent;
 	HANDLE m_hRequestQueueThread;
 
 	void __cdecl WorkerThread(void *);

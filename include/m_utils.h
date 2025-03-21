@@ -517,6 +517,20 @@ struct MIR_APP_EXPORT MAsyncObject : public MNonCopyable
 MIR_APP_DLL(void) Utils_InvokeAsync(MAsyncObject *pObj);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+class MEventHandle
+{
+	HANDLE _hEvent;
+public:
+	__inline explicit MEventHandle() { _hEvent = CreateEvent(NULL, 0, 0, NULL); }
+	__inline explicit MEventHandle(HANDLE hEvent) : _hEvent(hEvent) {}
+	__inline ~MEventHandle() { CloseHandle(_hEvent); }
+	__inline void Set() { SetEvent(_hEvent); }
+	__inline void Wait(uint32_t dwMilliseconds = INFINITE) { WaitForSingleObject(_hEvent, dwMilliseconds); }
+	__inline operator HANDLE() { return _hEvent; }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // compatibility functions
 
 #ifndef _WINDOWS
