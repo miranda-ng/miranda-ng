@@ -23,7 +23,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CSkypeProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	MCONTACT hContact = pRequest->hContact;
-	HANDLE hMessage = (HANDLE)pRequest->pUserInfo;
+	if (Contact::IsGroupChat(hContact))
+		return;
 
 	if (response != nullptr) {
 		if (response->resultCode != 201) {
@@ -36,10 +37,10 @@ void CSkypeProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 					strError = jErr.as_string();
 			}
 
-			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, _A2T(strError.c_str()));
+			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, pRequest->pUserInfo, _A2T(strError.c_str()));
 		}
 	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, hMessage, (LPARAM)TranslateT("Network error!"));
+	else ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, pRequest->pUserInfo, (LPARAM)TranslateT("Network error!"));
 }
 
 // outcoming message flow
