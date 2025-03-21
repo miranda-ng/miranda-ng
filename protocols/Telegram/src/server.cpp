@@ -194,11 +194,14 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	if (response.request_id) {
 		TG_REQUEST tmp(response.request_id, 0);
-		mir_cslock lck(m_csRequests);
+		mir_cslockfull lck(m_csRequests);
 		auto *p = m_arRequests.find(&tmp);
 		if (p) {
-			p->Execute(this, response);
 			m_arRequests.remove(p);
+			lck.unlock();
+
+			p->Execute(this, response);
+			delete p;
 		}
 		return;
 	}

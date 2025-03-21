@@ -216,7 +216,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	OBJLIST<TG_OWN_MESSAGE> m_arOwnMsg;
 
 	mir_cs m_csRequests;
-	OBJLIST<TG_REQUEST_BASE> m_arRequests;
+	LIST<TG_REQUEST_BASE> m_arRequests;
 
 	mir_cs m_csFiles;
 	LIST<TG_FILE_REQUEST> m_arFiles;
