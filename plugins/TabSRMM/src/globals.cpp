@@ -442,7 +442,7 @@ struct MSavedEvent
 
 void CGlobals::RestoreUnreadMessageAlerts(void)
 {
-	OBJLIST<MSavedEvent> arEvents(10, NumericKeySortT);
+	OBJLIST<MSavedEvent> events(10, NumericKeySortT);
 
 	for (auto &hContact : Contacts()) {
 		if (Proto_GetBaseAccountName(hContact) == nullptr)
@@ -459,12 +459,12 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 				if (!dbei.markedRead() && dbei.isAlertable())
 					if (!Srmm_FindWindow(hContact))
-						arEvents.insert(new MSavedEvent(hContact, hDbEvent));
+						events.insert(new MSavedEvent(hContact, hDbEvent));
 			}
 		}
 	}
 
-	for (auto &e : arEvents)
+	for (auto &e : events)
 		Srmm_AddEvent(e->hContact, e->hEvent);
 }
 

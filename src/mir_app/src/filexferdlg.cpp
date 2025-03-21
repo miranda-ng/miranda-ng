@@ -595,7 +595,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						DB::EventInfo dbei;
 						dbei.szModule = Proto_GetBaseAccountName(dat->hContact);
 						dbei.eventType = EVENTTYPE_FILE;
-						dbei.flags = DBEF_SENT | DBEF_UTF;
+						dbei.flags = DBEF_SENT | DBEF_READ | DBEF_UTF;
 						dbei.iTimestamp = time(0);
 
 						DB::FILE_BLOB blob(dat->szFilenames, dat->szMsg);

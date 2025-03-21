@@ -249,7 +249,7 @@ struct MSavedEvent
 
 static void RestoreUnreadMessageAlerts(void)
 {
-	OBJLIST<MSavedEvent> arEvents(10, NumericKeySortT);
+	OBJLIST<MSavedEvent> events(10, NumericKeySortT);
 
 	for (auto &hContact : Contacts()) {
 		if (Contact::IsGroupChat(hContact) || !Proto_GetBaseAccountName(hContact))
@@ -269,11 +269,11 @@ static void RestoreUnreadMessageAlerts(void)
 			if (IsAutoPopup(hContact) && !windowAlreadyExists)
 				(new CMsgDialog(hContact, true))->Show();
 			else
-				arEvents.insert(new MSavedEvent(hContact, hDbEvent));
+				events.insert(new MSavedEvent(hContact, hDbEvent));
 		}
 	}
 
-	for (auto &e : arEvents)
+	for (auto &e : events)
 		Srmm_AddEvent(e->hContact, e->hEvent);
 }
 
