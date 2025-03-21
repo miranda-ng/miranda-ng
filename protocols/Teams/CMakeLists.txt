@@ -1,0 +1,6 @@
+file(GLOB SOURCES "src/*.h" "src/api/*.h" "src/*.cpp" "res/*.rc")
+set(TARGET Teams)
+include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
+target_link_libraries(${TARGET})
+set_target_properties(${TARGET} PROPERTIES COMPILE_FLAGS "/std:c++17")
+add_subdirectory(proto_teams)
