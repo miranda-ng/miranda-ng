@@ -780,7 +780,8 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		SetBkMode(dib, TRANSPARENT);
 
 		// left offset of icons & text
-		int xPos = 2, yPos = top + 2, xRight = 0, yOffset = 0;
+		bool bDrawProgress = false;
+		int xPos = 2, yPos = top + 2, xRight = 0;
 
 		if (!bReadOnly) {
 			HICON hIcon;
@@ -840,13 +841,8 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			if (pItem->m_bOfflineDownloaded != 0) {
 				if (pItem->completed())
 					DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
-				else {
-					HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
-					MoveToEx(dib, rc.left, rc.bottom - 4, 0);
-					LineTo(dib, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
-					DeleteObject(SelectObject(dib, hpn));
-					yOffset = 4;
-				}
+				else
+					bDrawProgress = true;
 			}
 
 			// Delivered & remote read icons
@@ -857,7 +853,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		}
 
 		// draw html itself
-		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos - xRight, iItemHeigth - yOffset);
+		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos - xRight, iItemHeigth);
 		if (auto &pDoc = pItem->m_doc) {
 			if (auto pBody = pDoc->root()->select_one("body")) {
 				litehtml::background back = pBody->css().get_bg();
@@ -868,6 +864,14 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			}
 
 			pDoc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);
+		}
+
+		// draw progress
+		if (bDrawProgress) {
+			HPEN hpn = (HPEN)SelectObject(dib, CreatePen(PS_SOLID, 4, g_colorTable[COLOR_PROGRESS].cl));
+			MoveToEx(dib, rc.left, rc.bottom - 4, 0);
+			LineTo(dib, rc.left + (rc.right - rc.left) * int(pItem->m_bOfflineDownloaded) / 100, rc.bottom - 4);
+			DeleteObject(SelectObject(dib, hpn));
 		}
 
 		// draw border
