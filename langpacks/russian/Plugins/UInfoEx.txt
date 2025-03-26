@@ -918,12 +918,14 @@ Web Дизайн
 %s отмечает сегодня %s.
 [an anniversary]
 праздник
-[He/she has the following anniversaries:]
-Он/она отмечает следующие годовщины:
-[He has the following anniversaries:]
-Он отмечает следующие годовщины:
-[She has the following anniversaries:]
-Она отмечает следующие годовщины:
+[He]
+Он
+[She]
+Она
+[He/she]
+Он/она
+[%s has the following anniversaries:]
+%s отмечает следующие годовщины:
 [%d. %s today]
 %d лет. %s сегодня
 [%d. %s tomorrow]
@@ -936,12 +938,8 @@ Web Дизайн
 %s завтра отмечает день рождения.
 [%s has birthday in %d days.]
 %s отмечает день рождения через %d дней.
-[\nHe/she becomes %d years old.]
-\nЕму/ей исполняется %d.
-[\nHe becomes %d years old.]
-\nЕму исполняется %d.
-[\nShe becomes %d years old.]
-\nЕй исполняется %d.
+[%s becomes %d years old.]
+%s отмечает %d день рождения.
 [No anniversaries to remind of]
 Нет праздников, о которых надо уведомлять
 [Reminders]

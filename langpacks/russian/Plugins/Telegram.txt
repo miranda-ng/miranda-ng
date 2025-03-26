@@ -48,6 +48,10 @@
 Переслать
 [Add reaction]
 Добавить реакцию
+[Birthday]
+День рождения
+[Biography]
+О себе
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
@@ -146,6 +150,9 @@
 Избранное
 [Service notification]
 
+;file \protocols\Telegram\src\userinfo.cpp
+[Unspecified]
+Не указано
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 нет

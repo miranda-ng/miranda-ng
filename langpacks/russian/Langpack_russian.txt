@@ -729,6 +729,8 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 Следующие события будут проигнорированы:
 [Files]
 Файлы
+[Cloud files]
+Облачные файлы
 [Online notification]
 Уведомление "В сети"
 [Auth requests]
@@ -1195,8 +1197,6 @@ UIN, E-mail и т.д.
 Запрос всегда будет показан, если человек не в списке контактов
 [If incoming files already exist]
 Если принимаемый файл уже есть
-[Cloud files]
-Облачные файлы
 [Download cloud files automatically]
 Автоматически скачивать облачные файлы
 [Only if their size is less than]
@@ -1947,6 +1947,28 @@ Miranda не смогла загрузить встроенную систему
 Чаты
 [Events and filters]
 События и фильтры
+[My custom name (not movable)]
+Заданное имя (всегда первое)
+[Nick]
+Ник
+[FirstName]
+Имя
+[E-mail]
+Почта
+[LastName]
+Фамилия
+[Username]
+Имя пользователя
+[FirstName LastName]
+Имя Фамилия
+[LastName FirstName]
+Фамилия Имя
+['(Unknown contact)' (not movable)]
+'(Неизвестный)' (всегда последнее)
+['(Unknown contact)']
+'(Неизвестный контакт)'
+[Contact names]
+Контакты
 [New group]
 Новая группа
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1979,28 +2001,6 @@ Miranda не смогла загрузить встроенную систему
 &Переименовать
 [&Add permanently to list]
 &Добавить в постоянный список
-[My custom name (not movable)]
-Заданное имя (всегда первое)
-[Nick]
-Ник
-[FirstName]
-Имя
-[E-mail]
-Почта
-[LastName]
-Фамилия
-[Username]
-Имя пользователя
-[FirstName LastName]
-Имя Фамилия
-[LastName FirstName]
-Фамилия Имя
-['(Unknown contact)' (not movable)]
-'(Неизвестный)' (всегда последнее)
-['(Unknown contact)']
-'(Неизвестный контакт)'
-[Contact names]
-Контакты
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Миранда пытается обновить структуру вашего профиля.\nНе удалось переместить профиль %s в новое расположение %s\nПрофиль с таким именем уже существует. Пожалуйста, решите этот вопрос вручную.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -9898,8 +9898,6 @@ ID записи
 ;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
-[Facebook protocol support for Miranda NG.]
-Поддержка протокола Facebook в Miranda NG.
 [E-mail:]
 Почта:
 [Password:]
@@ -21433,7 +21431,7 @@ TCP соединение
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.7
+;  Version: 0.2.1.8
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -26013,6 +26011,8 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 Игра Steam
 [You were invited to play a game]
 Вас пригласили сыграть в игру
+[Associated application]
+Связанное приложение
 [Owner]
 Владелец
 [Participant]
@@ -27983,6 +27983,8 @@ TabSRMM: %s
 Переслать
 [Add reaction]
 Добавить реакцию
+[Birthday]
+День рождения
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
 [Enter verification code received by email]
@@ -28055,6 +28057,8 @@ TabSRMM: %s
 Архив
 [Saved messages]
 Избранное
+[Unspecified]
+Не указано
 [none]
 нет
 [Errors]
@@ -30206,12 +30210,12 @@ Web Дизайн
 %s отмечает сегодня %s.
 [an anniversary]
 праздник
-[He/she has the following anniversaries:]
-Он/она отмечает следующие годовщины:
-[He has the following anniversaries:]
-Он отмечает следующие годовщины:
-[She has the following anniversaries:]
-Она отмечает следующие годовщины:
+[He]
+Ему
+[She]
+Ей
+[He/she]
+Ему/ей
 [%d. %s today]
 %d лет. %s сегодня
 [%d. %s tomorrow]
@@ -30224,12 +30228,6 @@ Web Дизайн
 %s завтра отмечает день рождения.
 [%s has birthday in %d days.]
 %s отмечает день рождения через %d дней.
-[\nHe/she becomes %d years old.]
-\nЕму/ей исполняется %d.
-[\nHe becomes %d years old.]
-\nЕму исполняется %d.
-[\nShe becomes %d years old.]
-\nЕй исполняется %d.
 [No anniversaries to remind of]
 Нет праздников, о которых надо уведомлять
 [Reminders]
@@ -30690,7 +30688,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.18.0
+;  Version: 0.1.18.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -30801,12 +30799,10 @@ x, и сохраняет y, как переменную с именем x
 Упоминания в комментариях
 [Accepted friend requests]
 Принятые запросы дружбы
-[E-mail or phone number:]
-E-mail или номер телефона:
-[Password:]
-Пароль:
 [Open VKontakte site]
 Открыть страницу ВКонтакте
+[Token Request]
+Запрос токена
 [Advanced]
 Дополнительно
 [Do not open chat windows on creation]
@@ -30843,8 +30839,6 @@ E-mail или номер телефона:
 только как аудио статус
 [as regular status only]
 только как обычный статус
-[Login settings]
-Настройки входа
 [Local settings]
 Локальные настройки
 [Contact list group:]
@@ -30919,10 +30913,10 @@ URL:
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
 Ошибка
-[You have to validate your account before you can use VK in Miranda NG]
-Вы должны подтвердить свою учётную запись перед использованием протокола ВКонтакте в Miranda NG
 [Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
+[You have to validate your account before you can use VK in Miranda NG]
+Вы должны подтвердить свою учётную запись перед использованием протокола ВКонтакте в Miranda NG
 [One of the parameters specified was missing or invalid]
 Один из заданных параметров отсутствует или неверен
 [Access to adding post denied]
@@ -30935,12 +30929,6 @@ URL:
 Нельзя отправлять сообщения этому пользователю в связи с настройками приватности
 [Message is too long]
 Слишком длинное сообщение
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-Введите недостающие цифры между %s и %s в телефонном номере, привязанном к вашей учётной записи
-[Attention!]
-Внимание!
-[Enter confirmation code]
-Введите код подтверждения
 [Enter new nickname]
 Введите новое имя
 [Message read: %s]
@@ -31107,6 +31095,10 @@ URL:
 Название новой комнаты
 [Enter the text you see]
 Введите текст, который видите
+[Logon for ]
+Вход в\s
+[To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
+Чтобы подключиться к ВКонтакте, авторизуйтесь на сайте и скопируйте содержимое адресной строки браузера в расположенное ниже поле.\nНе изменяйте скопированную строку!\nНе обращайте внимание на предупреждение сайта об опасности копирования. К сожалениию, пока это единственный способ подключиться с помощью Miranda NG.
 [Wall message for %s]
 Сообщение на стену для %s
 [VKontakte]
@@ -31171,6 +31163,8 @@ ID получателя ошибочен или неизвестен
 Неизвестная ошибка
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
+[Attention!]
+Внимание!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 Вы уверены, что хотите заново загрузить с vk.com все сообщения для всех контактов?\nЛокальная история контактов будет удалена и загружена с сервера.\nЭто может занять продолжительное время и/или повредить базу.\nПродолжить?
 [Error loading message history from server.]
@@ -31287,8 +31281,6 @@ ID получателя ошибочен или неизвестен
 Ожидание...
 [Enter new status message]
 Введите новое сообщение статуса
-[Service message]
-Сервисное сообщение
 [%s is listening to]
 %s слушает
 [Interests]
@@ -32425,6 +32417,8 @@ Miranda NG прекрасна, а это - пример длинного соо�
 Уведомления
 [Errors]
 Ошибки
+[Enter your personal API key from Visual Crossing Weather site]
+Введите свой личный ключ API с сайта Visual Crossing Weather
 [Obtain key]
 Получить ключ
 [Contact List]
@@ -32621,6 +32615,8 @@ INI файл погоды для этой станции не найден (20)
 ЗС
 [NNW]
 ССЗ
+[You need to obtain the personal key and enter it in the account's Options dialog]
+Необходимо указать в настройках учётной записи ваш персональный ключ
 [Frame Font]
 Шрифт фрейма
 [Frame Title Font]
@@ -33488,6 +33484,8 @@ INI файл погоды для этой станции не найден (20)
 Ветер: скорость
 [Wintry Mix / Wind]
 Снег с дождём / ветер
+[Forecast Day 0]
+Прогноз: День 0
 [Forecast Day 1]
 Прогноз: День 1
 [Forecast Day 2]

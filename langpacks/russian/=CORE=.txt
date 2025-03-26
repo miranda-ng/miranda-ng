@@ -723,6 +723,8 @@
 Следующие события будут проигнорированы:
 [Files]
 Файлы
+[Cloud files]
+Облачные файлы
 [Online notification]
 Уведомление "В сети"
 [Auth requests]
@@ -1189,8 +1191,6 @@ UIN, E-mail и т.д.
 Запрос всегда будет показан, если человек не в списке контактов
 [If incoming files already exist]
 Если принимаемый файл уже есть
-[Cloud files]
-Облачные файлы
 [Download cloud files automatically]
 Автоматически скачивать облачные файлы
 [Only if their size is less than]
@@ -1979,6 +1979,29 @@ Miranda не смогла загрузить встроенную систему
 [Events and filters]
 События и фильтры
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistcontacts.cpp
+[My custom name (not movable)]
+Заданное имя (всегда первое)
+[Nick]
+Ник
+[FirstName]
+Имя
+[E-mail]
+Почта
+[LastName]
+Фамилия
+[Username]
+Имя пользователя
+[FirstName LastName]
+Имя Фамилия
+[LastName FirstName]
+Фамилия Имя
+['(Unknown contact)' (not movable)]
+'(Неизвестный)' (всегда последнее)
+['(Unknown contact)']
+'(Неизвестный контакт)'
+[Contact names]
+Контакты
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
 Новая группа
@@ -2017,29 +2040,6 @@ Miranda не смогла загрузить встроенную систему
 [&Add permanently to list]
 &Добавить в постоянный список
 ;file \src\mir_app\src\colorchooser.cpp
-;file \src\mir_app\src\contacts.cpp
-[My custom name (not movable)]
-Заданное имя (всегда первое)
-[Nick]
-Ник
-[FirstName]
-Имя
-[E-mail]
-Почта
-[LastName]
-Фамилия
-[Username]
-Имя пользователя
-[FirstName LastName]
-Имя Фамилия
-[LastName FirstName]
-Фамилия Имя
-['(Unknown contact)' (not movable)]
-'(Неизвестный)' (всегда последнее)
-['(Unknown contact)']
-'(Неизвестный контакт)'
-[Contact names]
-Контакты
 ;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Миранда пытается обновить структуру вашего профиля.\nНе удалось переместить профиль %s в новое расположение %s\nПрофиль с таким именем уже существует. Пожалуйста, решите этот вопрос вручную.
@@ -2129,6 +2129,8 @@ Miranda не может распознать этот профиль
 Прикрепить
 [Code]
 Код
+[Cloud file]
+Облачный файл
 ;file \src\mir_app\src\file.cpp
 [&File]
 &Файл

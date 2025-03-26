@@ -5,8 +5,8 @@
 ;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
-[Facebook protocol support for Miranda NG.]
-Поддержка протокола Facebook в Miranda NG.
+[Facebook Messenger protocol support for Miranda NG.]
+Поддержка протокола Facebook Messenger в Miranda NG.
 ;file \protocols\Facebook\res\facebook.rc
 [E-mail:]
 Почта:

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.18.0
+;  Version: 0.1.18.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -114,12 +114,10 @@
 Упоминания в комментариях
 [Accepted friend requests]
 Принятые запросы дружбы
-[E-mail or phone number:]
-E-mail или номер телефона:
-[Password:]
-Пароль:
 [Open VKontakte site]
 Открыть страницу ВКонтакте
+[Token Request]
+Запрос токена
 [Advanced]
 Дополнительно
 [Do not open chat windows on creation]
@@ -156,8 +154,6 @@ E-mail или номер телефона:
 только как аудио статус
 [as regular status only]
 только как обычный статус
-[Login settings]
-Настройки входа
 [Local settings]
 Локальные настройки
 [Contact list group:]
@@ -200,8 +196,6 @@ URL:
 Выберите контакты, которым вы хотите переслать сообщения
 [Enter accompanying message]
 Введите сопроводительное сообщение
-[Token Request]
-Запрос токена
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 Уведомление
@@ -235,10 +229,12 @@ URL:
 Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
 Ошибка
-[You have to validate your account before you can use VK in Miranda NG]
-Вы должны подтвердить свою учётную запись перед использованием протокола ВКонтакте в Miranda NG
 [Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
+[Captcha processing error.]
+Ошибка при обработке капчи.
+[You have to validate your account before you can use VK in Miranda NG]
+Вы должны подтвердить свою учётную запись перед использованием протокола ВКонтакте в Miranda NG
 [One of the parameters specified was missing or invalid]
 Один из заданных параметров отсутствует или неверен
 [Access to adding post denied]
@@ -251,12 +247,6 @@ URL:
 Нельзя отправлять сообщения этому пользователю в связи с настройками приватности
 [Message is too long]
 Слишком длинное сообщение
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-Введите недостающие цифры между %s и %s в телефонном номере, привязанном к вашей учётной записи
-[Attention!]
-Внимание!
-[Enter confirmation code]
-Введите код подтверждения
 [Enter new nickname]
 Введите новое имя
 [Message read: %s]
@@ -496,6 +486,8 @@ ID получателя ошибочен или неизвестен
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
 Вы уверены, что хотите загрузить все сообщения с сайта vk.com?\nЛокальная история контакта будет удалена и загружена с сервера.\nЭто может занять много времени.\nВы уверены, что хотите продолжить?
+[Attention!]
+Внимание!
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 Вы уверены, что хотите заново загрузить с vk.com все сообщения для всех контактов?\nЛокальная история контактов будет удалена и загружена с сервера.\nЭто может занять продолжительное время и/или повредить базу.\nПродолжить?
 [Error loading message history from server.]
@@ -620,8 +612,6 @@ ID получателя ошибочен или неизвестен
 [Enter new status message]
 Введите новое сообщение статуса
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Service message]
-Сервисное сообщение
 [%s is listening to]
 %s слушает
 [Interests]
