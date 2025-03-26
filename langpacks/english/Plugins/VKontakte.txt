@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.18.0
+;  Version: 0.1.18.6
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -60,9 +60,8 @@
 [Reposts]
 [Mentions in comments]
 [Accepted friend requests]
-[E-mail or phone number:]
-[Password:]
 [Open VKontakte site]
+[Token Request]
 [Advanced]
 [Do not open chat windows on creation]
 [Sync read message status from server]
@@ -81,7 +80,6 @@
 [as regular status for unknown music and audio status otherwise]
 [as audio status only]
 [as regular status only]
-[Login settings]
 [Local settings]
 [Contact list group:]
 [Language for names and titles:]
@@ -103,7 +101,6 @@
 [Mark contacts for forwarding messages]
 [Mark contacts you want to forward messages]
 [Enter accompanying message]
-[Token Request]
 ;file \protocols\VKontakte\src\misc.cpp
 [Notification icon]
 [Read message icon]
@@ -121,17 +118,15 @@
 [Reload messages icon]
 [Access denied! Data will not be sent or received.]
 [Error]
-[You have to validate your account before you can use VK in Miranda NG]
 [Error %d. Data will not be sent or received.]
+[Captcha processing error.]
+[You have to validate your account before you can use VK in Miranda NG]
 [One of the parameters specified was missing or invalid]
 [Access to adding post denied]
 [Can't send messages for users from blacklist]
 [Can't send messages for users without dialogs]
 [Can't send messages to this user due to their privacy settings]
 [Message is too long]
-[Enter the missing digits between %s and %s of the phone number linked to your account]
-[Attention!]
-[Enter confirmation code]
 [Enter new nickname]
 [Message read: %s]
 [has invited you to a group]
@@ -254,6 +249,7 @@
 [Unknown error occurred]
 ;file \protocols\VKontakte\src\vk_history.cpp
 [Are you sure to reload all messages from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a long time.\nDo you want to continue?]
+[Attention!]
 [Are you sure you want to reload all messages for all contacts from vk.com?\nLocal contact history will be deleted and reloaded from the server.\nIt may take a very long time and/or corrupt Miranda database.\nDo you want to continue?]
 [Error loading message history from server.]
 [Loading messages for all contacts is completed.]
@@ -319,7 +315,6 @@
 [Waiting...]
 [Enter new status message]
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Service message]
 [%s is listening to]
 [Interests]
 [Activities]

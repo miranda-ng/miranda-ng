@@ -367,6 +367,7 @@
 [Enable sound events]
 [The following events are being ignored:]
 [Files]
+[Cloud files]
 [Online notification]
 [Auth requests]
 [All events]
@@ -600,7 +601,6 @@
 [Sort file transfers in the reverse order]
 [You will always be asked about files from people not on your contact list]
 [If incoming files already exist]
-[Cloud files]
 [Download cloud files automatically]
 [Only if their size is less than]
 [KBytes (0 - always)]
@@ -1014,6 +1014,18 @@
 ;file \src\mir_app\src\chat_ui.cpp
 [Events and filters]
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistcontacts.cpp
+[My custom name (not movable)]
+[Nick]
+[FirstName]
+[E-mail]
+[LastName]
+[Username]
+[FirstName LastName]
+[LastName FirstName]
+['(Unknown contact)' (not movable)]
+['(Unknown contact)']
+[Contact names]
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -1036,18 +1048,6 @@
 [&Rename]
 [&Add permanently to list]
 ;file \src\mir_app\src\colorchooser.cpp
-;file \src\mir_app\src\contacts.cpp
-[My custom name (not movable)]
-[Nick]
-[FirstName]
-[E-mail]
-[LastName]
-[Username]
-[FirstName LastName]
-[LastName FirstName]
-['(Unknown contact)' (not movable)]
-['(Unknown contact)']
-[Contact names]
 ;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually.]
@@ -1096,6 +1096,7 @@
 [Mute chat]
 [Attach]
 [Code]
+[Cloud file]
 ;file \src\mir_app\src\file.cpp
 [&File]
 [File from %s]

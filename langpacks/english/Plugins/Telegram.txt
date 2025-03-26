@@ -27,6 +27,8 @@
 [Forward message]
 [Forward]
 [Add reaction]
+[Birthday]
+[Biography]
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 [Enter verification code received by email]
@@ -80,6 +82,8 @@
 [Archive]
 [Saved messages]
 [Service notification]
+;file \protocols\Telegram\src\userinfo.cpp
+[Unspecified]
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 [Errors]
