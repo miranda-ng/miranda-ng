@@ -355,12 +355,24 @@ static uint8_t NotifyWithSound(const CEvent &evt)
  * "check for anniversary" functions
  ***********************************************************************************************************/
 
+static wchar_t* GetSex(MCONTACT hContact)
+{
+	switch (GenderOf(hContact)) {
+	case 'M':
+		return TranslateT("He");
+	case 'F':
+		return TranslateT("She");
+	default:
+		return TranslateT("He/she");
+	}
+}
+
 static uint8_t CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, uint8_t bNotify)
 {
 	int numAnniversaries = 0;
 	int Diff = 0;
 	MAnnivDate mta;
-	CMStringW tszMsg;
+	CMStringW wszMsg;
 
 	if (gRemindOpts.RemindState == REMIND_ANNIV || gRemindOpts.RemindState == REMIND_ALL) {
 		for (int i = 0; i < ANID_LAST && !mta.DBGetAnniversaryDate(hContact, i); i++) {
@@ -383,28 +395,18 @@ static uint8_t CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, ui
 					if (bNotify) {
 						// first anniversary found
 						if (numAnniversaries == 1)
-							switch (GenderOf(hContact)){
-							case 0:
-								tszMsg += TranslateT("He/she has the following anniversaries:");
-								break;
-							case 'M':
-								tszMsg += TranslateT("He has the following anniversaries:");
-								break;
-							case 'F':
-								tszMsg += TranslateT("She has the following anniversaries:");
-								break;
-							}						
-						tszMsg.Append(L"\n- ");
+							wszMsg.AppendFormat(TranslateT("%s has the following anniversaries:"), GetSex(hContact));
+						wszMsg.Append(L"\n- ");
 
 						switch (Diff) {
 						case 0:
-							tszMsg.AppendFormat(TranslateT("%d. %s today"), mta.Age(), mta.Description());
+							wszMsg.AppendFormat(TranslateT("%d. %s today"), mta.Age(), mta.Description());
 							break;
 						case 1:
-							tszMsg.AppendFormat(TranslateT("%d. %s tomorrow"), mta.Age() + 1, mta.Description());
+							wszMsg.AppendFormat(TranslateT("%d. %s tomorrow"), mta.Age() + 1, mta.Description());
 							break;
 						default:
-							tszMsg.AppendFormat(TranslateT("%d. %s in %d days"), mta.Age() + 1, mta.Description(), Diff);
+							wszMsg.AppendFormat(TranslateT("%d. %s in %d days"), mta.Age() + 1, mta.Description(), Diff);
 						}
 					}
 				}
@@ -414,12 +416,12 @@ static uint8_t CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, ui
 
 	// show one popup for all anniversaries
 	if (numAnniversaries != 0 && bNotify) {
-		if (tszMsg.GetLength() >= MAX_SECONDLINE) {
-			tszMsg.Truncate(MAX_SECONDLINE - 5);
-			tszMsg.Append(L"\n...");
+		if (wszMsg.GetLength() >= MAX_SECONDLINE) {
+			wszMsg.Truncate(MAX_SECONDLINE - 5);
+			wszMsg.Append(L"\n...");
 		}
 
-		NotifyWithPopup(hContact, CEvent::ANNIVERSARY, Diff, LPGENW("Anniversaries"), tszMsg);
+		NotifyWithPopup(hContact, CEvent::ANNIVERSARY, Diff, LPGENW("Anniversaries"), wszMsg);
 	}
 
 	return numAnniversaries != 0;
@@ -459,39 +461,25 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, uint8_t bN
 					}
 
 					if (bNotify) {
-						wchar_t szMsg[MAXDATASIZE];
-						uint16_t cchMsg = 0;
+						CMStringW wszMsg;
 
 						switch (Diff) {
 						case 0:
-							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday today."), Clist_GetContactDisplayName(hContact));
+							wszMsg.Format(TranslateT("%s has birthday today."), Clist_GetContactDisplayName(hContact));
 							break;
 						case 1:
-							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday tomorrow."), Clist_GetContactDisplayName(hContact));
+							wszMsg.Format(TranslateT("%s has birthday tomorrow."), Clist_GetContactDisplayName(hContact));
 							break;
 						default:
-							cchMsg = mir_snwprintf(szMsg, TranslateT("%s has birthday in %d days."), Clist_GetContactDisplayName(hContact), Diff);
+							wszMsg.Format(TranslateT("%s has birthday in %d days."), Clist_GetContactDisplayName(hContact), Diff);
 						}
+						
 						int age = mtb.Age(&Now);
-						if (age > 0)
-							switch (GenderOf(hContact)){
-							case 0:
-								mir_snwprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
-									TranslateT("\nHe/she becomes %d years old."),
-									age + (Diff > 0));
-								break;
-							case 'M':
-								mir_snwprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
-									TranslateT("\nHe becomes %d years old."),
-									age + (Diff > 0));
-								break;
-							case 'F':
-								mir_snwprintf(szMsg + cchMsg, _countof(szMsg) - cchMsg,
-									TranslateT("\nShe becomes %d years old."),
-									age + (Diff > 0));
-								break;
-							}
-						NotifyWithPopup(hContact, CEvent::BIRTHDAY, Diff, mtb.Description(), szMsg);
+						if (age > 0) {
+							wszMsg.AppendChar('\n');
+							wszMsg.AppendFormat(TranslateT("%s becomes %d years old."), GetSex(hContact), age + (Diff > 0));
+						}
+						NotifyWithPopup(hContact, CEvent::BIRTHDAY, Diff, mtb.Description(), wszMsg);
 					}
 					return true;
 				}
