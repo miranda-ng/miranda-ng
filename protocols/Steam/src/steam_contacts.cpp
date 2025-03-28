@@ -92,29 +92,31 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 		// set name
 		if (F->player_name) {
 			CMStringW realName(Utf2T(F->player_name));
-			if (!realName.IsEmpty()) {
-				// set a nickname for group chat user?
-				if (si) {
-					CMStringW wszUserId(FORMAT, L"%lld", F->friendid);
-					GCEVENT gce = { si, GC_EVENT_NICK };
-					gce.pszUID.w = wszUserId;
-					gce.pszText.w = realName;
-					Chat_Event(&gce);
-					continue;
-				}
 
-				int pos = realName.Find(L' ', 1);
-				if (pos != -1) {
-					setWString(hContact, "FirstName", realName.Mid(0, pos));
-					setWString(hContact, "LastName", realName.Mid(pos + 1));
-				}
-				else {
-					setWString(hContact, "FirstName", realName);
-					delSetting(hContact, "LastName");
-				}
+			// set a nickname for group chat user?
+			if (si) {
+				CMStringW wszUserId(FORMAT, L"%lld", F->friendid);
+				GCEVENT gce = { si, GC_EVENT_NICK };
+				gce.pszUID.w = wszUserId;
+				gce.pszText.w = realName;
+				Chat_Event(&gce);
+				continue;
+			}
+
+			setWString(hContact, "Nick", realName);
+
+			int pos = realName.Find(L' ', 1);
+			if (pos != -1) {
+				setWString(hContact, "FirstName", realName.Mid(0, pos));
+				setWString(hContact, "LastName", realName.Mid(pos + 1));
+			}
+			else {
+				setWString(hContact, "FirstName", realName);
+				delSetting(hContact, "LastName");
 			}
 		}
 		else {
+			delSetting(hContact, "Nick");
 			delSetting(hContact, "FirstName");
 			delSetting(hContact, "LastName");
 		}
