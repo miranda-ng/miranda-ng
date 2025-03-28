@@ -135,54 +135,31 @@ static void SetFtStatus(HWND hwndDlg, wchar_t *text, int mode)
 
 static void HideProgressControls(HWND hwndDlg)
 {
-	RECT rc;
 	char buf[64];
-
-	GetWindowRect(GetDlgItem(hwndDlg, IDC_ALLPRECENTS), &rc);
-	MapWindowPoints(nullptr, hwndDlg, (LPPOINT)&rc, 2);
-	SetWindowPos(hwndDlg, nullptr, 0, 0, 100, rc.bottom + 3, SWP_NOMOVE | SWP_NOZORDER);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_ALLTRANSFERRED), SW_HIDE);
-	ShowWindow(GetDlgItem(hwndDlg, IDC_ALLSPEED), SW_HIDE);
-
 	_strtime(buf);
-	SetDlgItemTextA(hwndDlg, IDC_ALLPRECENTS, buf);
+	SetDlgItemTextA(hwndDlg, IDC_ALLSPEED, buf);
 
 	PostMessage(GetParent(hwndDlg), WM_FT_RESIZE, 0, (LPARAM)hwndDlg);
 }
 
-static int FileTransferDlgResizer(HWND, LPARAM param, UTILRESIZECONTROL *urc)
+static int FileTransferDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
-	auto *dat = (FileDlgData *)param;
-
 	switch (urc->wId) {
 	case IDC_CONTACTNAME:
 	case IDC_STATUS:
+	case IDC_ALLTRANSFERRED:
 	case IDC_ALLFILESPROGRESS:
 	case IDC_TRANSFERCOMPLETED:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
 	case IDC_FRAME:
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
-	case IDC_ALLPRECENTS:
+
 	case IDCANCEL:
+	case IDC_ALLSPEED:
 	case IDC_OPENFILE:
 	case IDC_OPENFOLDER:
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
-
-	case IDC_ALLTRANSFERRED:
-		if (dat->waitingForAcceptance)
-			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
-
-		urc->rcItem.right = urc->rcItem.left + (urc->rcItem.right - urc->rcItem.left - urc->dlgOriginalSize.cx + urc->dlgNewSize.cx) / 3;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_TOP;
-
-	case IDC_ALLSPEED:
-		if (dat->waitingForAcceptance)
-			return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
-
-		urc->rcItem.right = urc->rcItem.right - urc->dlgOriginalSize.cx + urc->dlgNewSize.cx;
-		urc->rcItem.left = urc->rcItem.left + (urc->rcItem.right - urc->rcItem.left) / 3;
-		return RD_ANCHORX_CUSTOM | RD_ANCHORY_TOP;
 	}
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
@@ -550,7 +527,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (lastPos != nextPos || firstTime) {
 						SendDlgItemMessage(hwndDlg, IDC_ALLFILESPROGRESS, PBM_SETPOS, nextPos, 0);
 						mir_snwprintf(str, L"%u%%", nextPos);
-						SetDlgItemText(hwndDlg, IDC_ALLPRECENTS, str);
+						SetDlgItemText(hwndDlg, IDC_ALLSPEED, str);
 					}
 
 					int units;
