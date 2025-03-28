@@ -30,6 +30,8 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\teams_http.cpp" />
+    <ClCompile Include="src\teams_login.cpp" />
     <ClCompile Include="src\teams_options.cpp" />
     <ClCompile Include="src\teams_proto.cpp" />
     <ClInclude Include="src\proto.h" />
