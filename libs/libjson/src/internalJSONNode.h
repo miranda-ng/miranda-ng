@@ -302,6 +302,8 @@ inline long internalJSONNode::as_int(void) const {
 	switch(type()) {
 		case JSON_NULL:
 			return 0;
+		case JSON_STRING:
+			return atoi(_string.c_str());
 		case JSON_BOOL:
 			return _value._bool ? 1 : 0;
 	}
@@ -317,6 +319,8 @@ inline json_number internalJSONNode::as_float(void) const {
 	switch(type()) {
 		case JSON_NULL:
 			return (json_number)0.0;
+		case JSON_STRING:
+			return atof(_string.c_str());
 		case JSON_BOOL:
 			return (json_number)(_value._bool ? 1.0 : 0.0);
 	}
