@@ -39,11 +39,15 @@ void CTeamsProto::LoggedIn()
 	int oldStatus = m_iStatus;
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+
+	m_impl.m_heartBeat.StartSafe(600 * 1000);
+
+	SendCreateEndpoint();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTeamsProto::OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest*)
+void CTeamsProto::OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest *)
 {
 	JsonReply reply(response);
 	if (!reply) {
@@ -81,9 +85,9 @@ void CTeamsProto::LoginPoll()
 /////////////////////////////////////////////////////////////////////////////////////////
 
 const wchar_t wszLoginMessage[] =
-	LPGENW("To login into Teams you need to open '%S' in a browser and select your Teams account there.") L"\r\n\r\n"
-	LPGENW("Enter the following code then: %s.") L"\r\n\r\n"
-	LPGENW("Click Proceed to copy that code to clipboard and launch a browser");
+LPGENW("To login into Teams you need to open '%S' in a browser and select your Teams account there.") L"\r\n\r\n"
+LPGENW("Enter the following code then: %s.") L"\r\n\r\n"
+LPGENW("Click Proceed to copy that code to clipboard and launch a browser");
 
 class CDeviceCodeDlg : public CTeamsDlgBase
 {
@@ -120,7 +124,7 @@ static void CALLBACK LaunchDialog(void *param)
 	(new CDeviceCodeDlg((CTeamsProto *)param))->Show();
 }
 
-void CTeamsProto::OnReceiveDeviceToken(MHttpResponse *response, AsyncHttpRequest*)
+void CTeamsProto::OnReceiveDeviceToken(MHttpResponse *response, AsyncHttpRequest *)
 {
 	JsonReply reply(response);
 	if (!reply) {
@@ -142,7 +146,7 @@ void CTeamsProto::OnReceiveDeviceToken(MHttpResponse *response, AsyncHttpRequest
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTeamsProto::OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest*)
+void CTeamsProto::OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest *)
 {
 	JsonReply reply(response);
 	if (!reply) {
@@ -156,7 +160,7 @@ void CTeamsProto::OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest*
 	LoggedIn();
 }
 
-void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest*)
+void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *)
 {
 	JsonReply reply(response);
 	if (!reply) {
@@ -167,8 +171,6 @@ void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest
 	auto &root = reply.data();
 	m_szAccessToken = root["access_token"].as_mstring();
 	setWString("RefreshToken", root["refresh_token"].as_mstring());
-
-	LoggedIn();
 }
 
 void CTeamsProto::OnRefreshSkypeToken(MHttpResponse *response, AsyncHttpRequest *)
@@ -187,7 +189,7 @@ void CTeamsProto::OnRefreshSkypeToken(MHttpResponse *response, AsyncHttpRequest 
 	PushRequest(pReq);
 }
 
-void CTeamsProto::OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest*)
+void CTeamsProto::OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest *)
 {
 	JsonReply reply(response);
 	if (!reply) {

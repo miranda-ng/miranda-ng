@@ -1,0 +1,89 @@
+/*
+Copyright (c) 2015-25 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef _SKYPE_REQUEST_CONTACTS_H_
+#define _SKYPE_REQUEST_CONTACTS_H_
+
+struct GetContactListRequest : public AsyncHttpRequest
+{
+	GetContactListRequest() :
+	  AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/contacts", &CTeamsProto::LoadContactList)
+	{
+	}
+};
+
+struct GetContactsAuthRequest : public AsyncHttpRequest
+{
+	GetContactsAuthRequest() :
+		AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/invites", &CTeamsProto::LoadContactsAuth)
+	{
+	}
+};
+
+struct AddContactRequest : public AsyncHttpRequest
+{
+	AddContactRequest(const char *who, const char *greeting = "") :
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, "/users/SELF/contacts")
+	{
+		JSONNode node;
+		node << CHAR_PARAM("mri", who) << CHAR_PARAM("greeting", greeting);
+		m_szParam = node.write().c_str();
+	}
+};
+
+struct AuthAcceptRequest : public AsyncHttpRequest
+{
+	AuthAcceptRequest(const char *who) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS)
+	{
+		m_szUrl.AppendFormat("/users/SELF/invites/%s/accept", mir_urlEncode(who).c_str());
+	}
+};
+
+struct AuthDeclineRequest : public AsyncHttpRequest
+{
+	AuthDeclineRequest(const char *who) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS)
+	{
+		m_szUrl.AppendFormat("/users/SELF/invites/%s/decline", mir_urlEncode(who).c_str());
+	}
+};
+
+struct BlockContactRequest : public AsyncHttpRequest
+{
+	BlockContactRequest(CTeamsProto *ppro, MCONTACT hContact) :
+		AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, "/users/SELF/contacts/blocklist/" + ppro->getId(hContact), &CTeamsProto::OnBlockContact)
+	{
+		m_szParam = "{\"report_abuse\":\"false\",\"ui_version\":\"skype.com\"}";
+		pUserInfo = (void *)hContact;
+	}
+};
+
+struct UnblockContactRequest : public AsyncHttpRequest
+{
+	UnblockContactRequest(CTeamsProto *ppro, MCONTACT hContact) :
+		AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, 0, &CTeamsProto::OnUnblockContact)
+	{
+		m_szUrl.AppendFormat("/users/SELF/contacts/blocklist/%s", ppro->getId(hContact).c_str());
+		pUserInfo = (void *)hContact;
+
+		// TODO: user ip address
+		this << CHAR_PARAM("reporterIp", "123.123.123.123") << CHAR_PARAM("uiVersion", g_szMirVer);
+	}
+};
+
+#endif //_SKYPE_REQUEST_CONTACTS_H_

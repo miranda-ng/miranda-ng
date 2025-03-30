@@ -30,13 +30,29 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\teams_avatars.cpp" />
+    <ClCompile Include="src\teams_chatrooms.cpp" />
+    <ClCompile Include="src\teams_contacts.cpp" />
+    <ClCompile Include="src\teams_endpoint.cpp" />
+    <ClCompile Include="src\teams_files.cpp" />
+    <ClCompile Include="src\teams_history.cpp" />
     <ClCompile Include="src\teams_http.cpp" />
     <ClCompile Include="src\teams_login.cpp" />
+    <ClCompile Include="src\teams_menus.cpp" />
+    <ClCompile Include="src\teams_messages.cpp" />
+    <ClCompile Include="src\teams_mood.cpp" />
     <ClCompile Include="src\teams_options.cpp" />
+    <ClCompile Include="src\teams_polling.cpp" />
+    <ClCompile Include="src\teams_popups.cpp" />
+    <ClCompile Include="src\teams_profile.cpp" />
     <ClCompile Include="src\teams_proto.cpp" />
-    <ClInclude Include="src\proto.h" />
+    <ClCompile Include="src\teams_search.cpp" />
+    <ClCompile Include="src\teams_utils.cpp" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\teams_menus.h" />
+    <ClInclude Include="src\teams_proto.h" />
+    <ClInclude Include="src\teams_utils.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>

@@ -17,12 +17,21 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-AsyncHttpRequest::AsyncHttpRequest(int type, HostType host, LPCSTR url, MTHttpRequestHandler pFunc) :
+AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpRequestHandler pFunc) :
 	m_host(host)
 {
 	switch (host) {
+	case HOST_API:       m_szUrl = "api.skype.com"; break;
+	case HOST_PEOPLE:    m_szUrl = "people.skype.com/v2"; break;
+	case HOST_CONTACTS:  m_szUrl = "edge.skype.com/pcs/contacts/v2"; break;
+	case HOST_GRAPH:     m_szUrl = "skypegraph.skype.com"; break;
 	case HOST_LOGIN:     m_szUrl = "login.microsoftonline.com"; break;
 	case HOST_TEAMS:     m_szUrl = "teams.live.com"; break;
+
+	case HOST_DEFAULT:
+		AddHeader("MS-IC3-Product", "Sfl");
+		m_szUrl = "msgapi.teams.live.com/v1";
+		break;
 	}
 
 	AddHeader("User-Agent", NETLIB_USER_AGENT);
@@ -33,17 +42,16 @@ AsyncHttpRequest::AsyncHttpRequest(int type, HostType host, LPCSTR url, MTHttpRe
 	flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_DUMPASTEXT;
 	requestType = type;
 }
-/*
+
 void AsyncHttpRequest::AddAuthentication(CTeamsProto *ppro)
 {
-	AddHeader("Authentication", CMStringA("skypetoken=") + ppro->m_szApiToken);
+	AddHeader("Authentication", CMStringA("skypetoken=") + ppro->m_szSkypeToken);
 }
 
 void AsyncHttpRequest::AddRegister(CTeamsProto *ppro)
 {
 	AddHeader("RegistrationToken", CMStringA("registrationToken=") + ppro->m_szToken);
 }
-*/
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -101,6 +109,31 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 					pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			}
 		}
+	}
+
+	switch (pReq->m_host) {
+	case HOST_API:
+	case HOST_PEOPLE:
+	case HOST_CONTACTS:
+		if (m_szSkypeToken)
+			pReq->AddHeader("X-Skypetoken", m_szSkypeToken);
+
+		pReq->AddHeader("Accept", "application/json");
+		pReq->AddHeader("Origin", "https://web.skype.com");
+		pReq->AddHeader("Referer", "https://web.skype.com/");
+		break;
+
+	case HOST_GRAPH:
+		if (m_szSkypeToken)
+			pReq->AddHeader("X-Skypetoken", m_szSkypeToken);
+		pReq->AddHeader("Accept", "application/json");
+		break;
+
+	case HOST_DEFAULT:
+		if (m_szToken)
+			pReq->AddRegister(this);
+		pReq->AddHeader("Accept", "application/json, text/javascript");
+		break;
 	}
 
 	debugLogA("Send request to %s", pReq->m_szUrl.c_str());
