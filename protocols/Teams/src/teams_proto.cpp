@@ -2,6 +2,7 @@
 
 CTeamsProto::CTeamsProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CTeamsProto>(protoName, userName),
+	m_impl(*this),
 	m_requests(10),
 	m_wstrCListGroup(this, "DefaultGroup", L"Teams")
 {

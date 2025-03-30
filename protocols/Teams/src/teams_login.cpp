@@ -17,17 +17,137 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+#define TEAMS_OAUTH_RESOURCE "https://api.spaces.skype.com"
+
 CMStringA CTeamsProto::GetTenant()
 {
 	CMStringA ret(getMStringA("Tenant"));
 	return (ret.IsEmpty()) ? "consumers" : ret;
 }
 
+void CTeamsProto::LoginError()
+{
+	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
+	SetStatus(ID_STATUS_OFFLINE);
+
+	if (m_iLoginExpires) {
+		m_impl.m_loginPoll.StopSafe();
+		m_iLoginExpires = 0;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTeamsProto::OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest*)
+{
+	JsonReply reply(response);
+	if (!reply) {
+		if (!strstr(response->body, "\"error\":\"authorization_pending\""))
+			LoginError();
+		return;
+	}
+}
+
+void CTeamsProto::LoginPoll()
+{
+	if (time(0) >= m_iLoginExpires) {
+		LoginError();
+		return;
+	}
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/common/oauth2/token", &CTeamsProto::OnReceiveDevicePoll);
+	pReq->AddHeader("Cookie", m_szDeviceCookie);
+	pReq << CHAR_PARAM("client_id", TEAMS_CLIENT_ID) << CHAR_PARAM("grant_type", "urn:ietf:params:oauth:grant-type:device_code")
+		<< CHAR_PARAM("code", m_szDeviceCode);
+	PushRequest(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+const wchar_t wszLoginMessage[] =
+	LPGENW("To login into Teams you need to open '%S' in a browser and select your Teams account there.") L"\r\n\r\n"
+	LPGENW("Enter the following code then: %s.") L"\r\n\r\n"
+	LPGENW("Click Proceed to copy that code to clipboard and launch a browser");
+
+class CDeviceCodeDlg : public CTeamsDlgBase
+{
+	bool bSucceeded = false;
+
+public:
+	CDeviceCodeDlg(CTeamsProto *ppro) :
+		CTeamsDlgBase(ppro, IDD_DEVICECODE)
+	{}
+
+	bool OnInitDialog() override
+	{
+		CMStringW wszText(FORMAT, TranslateW(wszLoginMessage), m_proto->m_szVerificationUrl.c_str(), m_proto->m_wszUserCode.c_str());
+		SetDlgItemTextW(m_hwnd, IDC_TEXT, wszText);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		bSucceeded = true;
+		Utils_OpenUrl(m_proto->m_szVerificationUrl);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		if (!bSucceeded)
+			m_proto->LoginError();
+	}
+};
+
+static void CALLBACK LaunchDialog(void *param)
+{
+	(new CDeviceCodeDlg((CTeamsProto *)param))->Show();
+}
+
+void CTeamsProto::OnReceiveDeviceToken(MHttpResponse *response, AsyncHttpRequest*)
+{
+	JsonReply reply(response);
+	if (!reply) {
+		LoginError();
+		return;
+	}
+
+	auto &root = reply.data();
+	m_wszUserCode = root["user_code"].as_mstring();
+	m_szDeviceCode = root["device_code"].as_mstring();
+	m_szVerificationUrl = root["verification_url"].as_mstring();
+	m_iLoginExpires = time(0) + root["expires_in"].as_int();
+	m_impl.m_loginPoll.StartSafe(root["interval"].as_int() * 1000);
+	m_szDeviceCookie = response->GetCookies();
+
+	Utils_ClipboardCopy(MClipUnicode(m_wszUserCode));
+	CallFunctionAsync(LaunchDialog, this);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTeamsProto::RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/" + GetTenant() + "/oauth2/v2.0/token", pFunc);
+	pReq << CHAR_PARAM("scope", pszScope) << CHAR_PARAM("client_id", TEAMS_CLIENT_ID)
+		<< CHAR_PARAM("grant_type", "refresh_token") << CHAR_PARAM("refresh_token", m_szAccessToken);
+	PushRequest(pReq);
+}
+
+void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *pRequest)
+{}
+
+void CTeamsProto::OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest *pRequest)
+{}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module entry point
+
 void CTeamsProto::Login()
 {
 	CMStringA szLogin(getMStringA("Login")), szPassword(getMStringA("Password"));
 	if (szLogin.IsEmpty() || szPassword.IsEmpty()) {
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
+		LoginError();
 		return;
 	}
 
@@ -38,21 +158,15 @@ void CTeamsProto::Login()
 
 	StartQueue();
 
-	RefreshToken("service::api.fl.teams.microsoft.com::MBI_SSL openid profile offline_access", &CTeamsProto::OnRefreshAccessToken);
-	// RefreshToken("service::api.fl.spaces.skype.com::MBI_SSL openid profile offline_access", &CTeamsProto::OnRefreshAccessToken);
-	// RefreshToken("https://substrate.office.com/M365.Access openid profile offline_access", &CTeamsProto::OnRefreshSubstrate);
+	m_szAccessToken = getMStringA("AccessToken");
+	if (m_szAccessToken.IsEmpty()) {
+		auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/common/oauth2/devicecode", &CTeamsProto::OnReceiveDeviceToken);
+		pReq << CHAR_PARAM("client_id", TEAMS_CLIENT_ID) << CHAR_PARAM("resource", TEAMS_CLIENT_ID);
+		PushRequest(pReq);
+	}
+	else {
+		RefreshToken("service::api.fl.teams.microsoft.com::MBI_SSL openid profile offline_access", &CTeamsProto::OnRefreshAccessToken);
+		// RefreshToken("service::api.fl.spaces.skype.com::MBI_SSL openid profile offline_access", &CTeamsProto::OnRefreshAccessToken);
+		// RefreshToken("https://substrate.office.com/M365.Access openid profile offline_access", &CTeamsProto::OnRefreshSubstrate);
+	}
 }
-
-void CTeamsProto::RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc)
-{
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/" + GetTenant() + "/oauth2/v2.0/token", pFunc);
-	pReq << CHAR_PARAM("scope", pszScope) << CHAR_PARAM("client_id", "8ec6bc83-69c8-4392-8f08-b3c986009232")
-		<< CHAR_PARAM("grant_type", "refresh_token") << CHAR_PARAM("refresh_token", getMStringA("Password"));
-	PushRequest(pReq);
-}
-
-void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *pRequest)
-{}
-
-void CTeamsProto::OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest *pRequest)
-{}
