@@ -60,4 +60,14 @@ struct CFileUploadParam : public MZeroedObject
 	}
 };
 
+struct SkypeReply : public JsonReply
+{
+	SkypeReply(MHttpResponse *response) :
+		JsonReply(response)
+	{
+		if (m_root)
+			m_errorCode = (*m_root)["status"]["code"].as_int();
+	}
+};
+
 #endif //_UTILS_H_

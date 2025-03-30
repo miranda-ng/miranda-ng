@@ -411,7 +411,7 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	uint16_t cond = NA;
 
 	// download the html file from the internet
-	JsonReply reply(RunQuery(id, 7));
+	WeatherReply reply(RunQuery(id, 7));
 	if (!reply)
 		return reply.error();
 

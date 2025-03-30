@@ -204,7 +204,7 @@ HANDLE CWeatherProto::SearchAdvanced(MWindow hwndOwner)
 
 int CWeatherProto::IDSearch(wchar_t *sID, int searchId)
 {
-	JsonReply reply(RunQuery(sID, 0));
+	WeatherReply reply(RunQuery(sID, 0));
 	if (reply) {
 		auto &data = reply.data();
 		CMStringW id(FORMAT, L"%lf, %lf", data["latitude"].as_float(), data["longitude"].as_float());

@@ -353,7 +353,7 @@ void CSkypeProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 
 void CSkypeProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
-	JsonReply reply(response);
+	SkypeReply reply(response);
 	if (reply.error())
 		return;
 
@@ -375,7 +375,7 @@ void CSkypeProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pR
 
 void CSkypeProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 {
-	JsonReply reply(response);
+	SkypeReply reply(response);
 	if (reply.error())
 		return;
 

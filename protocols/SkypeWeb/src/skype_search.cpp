@@ -34,7 +34,7 @@ void CSkypeProto::OnSearch(MHttpResponse *response, AsyncHttpRequest*)
 {
 	debugLogA(__FUNCTION__);
 
-	JsonReply reply(response);
+	SkypeReply reply(response);
 	if (reply.error()) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;

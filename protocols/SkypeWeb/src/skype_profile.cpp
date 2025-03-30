@@ -105,7 +105,7 @@ void CSkypeProto::LoadProfile(MHttpResponse *response, AsyncHttpRequest *pReques
 {
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 
-	JsonReply reply(response);
+	SkypeReply reply(response);
 	if (reply.error()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, 0);
 		return;

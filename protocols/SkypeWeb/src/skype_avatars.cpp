@@ -191,7 +191,7 @@ struct SetAvatarRequest : public AsyncHttpRequest
 
 void CSkypeProto::OnSentAvatar(MHttpResponse *response, AsyncHttpRequest*)
 {
-	JsonReply root(response);
+	SkypeReply root(response);
 	if (root.error())
 		return;
 }

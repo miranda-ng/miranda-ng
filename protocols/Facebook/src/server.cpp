@@ -157,7 +157,7 @@ int FacebookProto::RefreshContacts()
 		pReq->flags |= NLHRF_NODUMPSEND;
 		pReq->CalcSig();
 
-		JsonReply reply(ExecuteRequest(pReq));
+		FbReply reply(ExecuteRequest(pReq));
 		if (int iErrorCode = reply.error())
 			return iErrorCode;  // unknown error
 
@@ -238,7 +238,7 @@ bool FacebookProto::RefreshSid()
 	pReq << CHAR_PARAM("query_params", root.write().c_str());
 	pReq->CalcSig();
 
-	JsonReply reply(ExecuteRequest(pReq));
+	FbReply reply(ExecuteRequest(pReq));
 	if (reply.error())
 		return false;
 
@@ -320,7 +320,7 @@ FacebookUser* FacebookProto::RefreshThread(CMStringW &wszId)
 	pReq << WCHAR_PARAM("query_params", CMStringW(FORMAT, L"{\"0\":[\"%s\"], \"12\":0, \"13\":\"false\"}", wszId.c_str()));
 	pReq->CalcSig();
 
-	JsonReply reply(ExecuteRequest(pReq));
+	FbReply reply(ExecuteRequest(pReq));
 	if (!reply.error()) {
 		auto &root = reply.data();
 		for (auto &n : root)
@@ -339,7 +339,7 @@ void FacebookProto::RefreshThreads()
 	pReq << CHAR_PARAM("query_params", json.write().c_str());
 	pReq->CalcSig();
 
-	JsonReply reply(ExecuteRequest(pReq));
+	FbReply reply(ExecuteRequest(pReq));
 	if (!reply.error()) {
 		auto &root = reply.data()["viewer"]["message_threads"];
 
@@ -361,7 +361,7 @@ int FacebookProto::RefreshToken()
 	pReq << CHAR_PARAM("password", getMStringA(DBKEY_PASS));
 	pReq->CalcSig();
 
-	JsonReply reply(ExecuteRequest(pReq));
+	FbReply reply(ExecuteRequest(pReq));
 	if (reply.error())
 		return reply.error();
 
@@ -659,7 +659,7 @@ void FacebookProto::FetchAttach(const CMStringA &mid, __int64 fbid, CMStringA &s
 		pReq << CHAR_PARAM("mid", mid) << INT64_PARAM("aid", fbid);
 		pReq->CalcSig();
 
-		JsonReply reply(ExecuteRequest(pReq));
+		FbReply reply(ExecuteRequest(pReq));
 		switch (reply.error()) {
 		case 0:
 			{
@@ -751,7 +751,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 				pReq << CHAR_PARAM("query_params", CMStringA(FORMAT, "{\"0\":[\"%s\"]}", stickerId.c_str()));
 				pReq->CalcSig();
 
-				JsonReply reply(ExecuteRequest(pReq));
+				FbReply reply(ExecuteRequest(pReq));
 				if (!reply.error()) {
 					for (auto &sticker : reply.data()) {
 						std::string szUrl = sticker["thread_image"]["uri"].as_string();

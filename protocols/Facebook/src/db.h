@@ -42,3 +42,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Hidden account DB keys (can't be changed through GUI)
 #define DBKEY_LOCALE "Locale" // [HIDDEN] - (string) en_US, cs_CZ, etc. (requires restart to apply)
+
+struct FbReply : public JsonReply
+{
+	FbReply(MHttpResponse *response) :
+		JsonReply(response)
+	{
+		if (m_root)
+			m_errorCode = (*m_root)["error_code"].as_int();
+	}
+};

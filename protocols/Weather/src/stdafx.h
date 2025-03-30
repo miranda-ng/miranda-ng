@@ -113,6 +113,15 @@ enum EWeatherCondition
 #define SM_WEATHERALERT		16
 #define WM_UPDATEDATA      (WM_USER + 2687)
 
+struct WeatherReply : public JsonReply
+{
+	WeatherReply(MHttpResponse *response) :
+		JsonReply(response)
+	{
+		delete response;
+	}
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // GLOBAL VARIABLES
 

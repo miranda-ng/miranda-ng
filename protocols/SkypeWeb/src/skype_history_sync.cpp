@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CSkypeProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
-	JsonReply reply(response);
+	SkypeReply reply(response);
 	if (reply.error())
 		return;
 
@@ -96,7 +96,7 @@ INT_PTR CSkypeProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 
 void CSkypeProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*)
 {
-	JsonReply reply(response);
+	SkypeReply reply(response);
 	if (reply.error())
 		return;
 

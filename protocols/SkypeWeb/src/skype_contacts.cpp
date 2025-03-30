@@ -102,7 +102,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypeId, const char *nick, bool isT
 
 void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 {
-	JsonReply reply(response);
+	SkypeReply reply(response);
 	if (reply.error())
 		return;
 
@@ -140,7 +140,7 @@ void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 
 void CSkypeProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 {
-	JsonReply reply(response);
+	SkypeReply reply(response);
 	if (reply.error())
 		return;
 

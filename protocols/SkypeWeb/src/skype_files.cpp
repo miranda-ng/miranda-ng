@@ -48,7 +48,7 @@ void CSkypeProto::ReceiveFileThread(void *param)
 				nlhr.AddHeader("Cookie", szCookie);
 				NLHR_PTR response(Netlib_HttpTransaction(m_hNetlibUser, &nlhr));
 				if (response) {
-					JsonReply reply(response);
+					SkypeReply reply(response);
 					if (!reply.error()) {
 						auto &root = reply.data();
 						if (root["content_state"].as_string() == "ready")

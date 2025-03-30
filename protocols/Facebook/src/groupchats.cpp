@@ -87,7 +87,7 @@ public:
 		pReq << CHAR_PARAM("to", list.write().c_str()) << WCHAR_PARAM("id", CMStringW(FORMAT, L"t_%s", m_si->ptszID));
 		pReq->CalcSig();
 
-		JsonReply reply(m_proto->ExecuteRequest(pReq));
+		FbReply reply(m_proto->ExecuteRequest(pReq));
 		return true;
 	}
 };
@@ -233,7 +233,7 @@ int FacebookProto::Chat_KickUser(SESSION_INFO *si, const wchar_t *pwszUid)
 	}
 	pReq->CalcSig();
 
-	JsonReply reply(ExecuteRequest(pReq));
+	FbReply reply(ExecuteRequest(pReq));
 	return reply.error();
 }
 

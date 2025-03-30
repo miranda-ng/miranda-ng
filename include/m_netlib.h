@@ -505,6 +505,7 @@ public:
 
 class MIR_APP_EXPORT JsonReply : public MNonCopyable
 {
+protected:
 	class JSONNode *m_root = nullptr;
 	int m_errorCode = 0;
 

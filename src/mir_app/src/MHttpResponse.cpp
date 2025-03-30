@@ -51,8 +51,6 @@ JsonReply::JsonReply(MHttpResponse *pReply)
 		m_errorCode = 500;
 		return;
 	}
-
-	m_errorCode = (*m_root)["status"]["code"].as_int();
 }
 
 JsonReply::~JsonReply()
