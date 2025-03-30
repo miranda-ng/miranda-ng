@@ -36,15 +36,13 @@ class CTeamsProto : public PROTO<CTeamsProto>
 		}
 	} m_impl;
 
-	CMStringA GetTenant();
-
 	// http queue
 	bool m_isTerminated = true;
 	mir_cs m_requestQueueLock;
 	LIST<AsyncHttpRequest> m_requests;
 	MEventHandle m_hRequestQueueEvent;
 	HANDLE m_hRequestQueueThread;
-	CMStringA m_szAccessToken;
+	CMStringA m_szAccessToken, m_szSubstrateToken;
 
 	void __cdecl WorkerThread(void *);
 
@@ -62,8 +60,11 @@ class CTeamsProto : public PROTO<CTeamsProto>
 	time_t m_iLoginExpires;
 
 	void Login();
+	void LoggedIn();
 	void LoginPoll();
 	void LoginError();
+	
+	void OauthRefreshServices();
 	void RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc);
 
 	void OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest *pRequest);
