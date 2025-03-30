@@ -151,7 +151,7 @@ void CSkypeProto::ProcessUserPresence(const JSONNode &node)
 	debugLogA(__FUNCTION__);
 
 	std::string selfLink = node["selfLink"].as_string();
-	std::string status = node["status"].as_string();
+	std::string status = node["availability"].as_string();
 	CMStringA skypename = UrlToSkypeId(selfLink.c_str());
 
 	if (!skypename.IsEmpty()) {
