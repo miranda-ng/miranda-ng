@@ -18,7 +18,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 #define TEAMS_OAUTH_RESOURCE "https://api.spaces.skype.com"
+#define TEAMS_OAUTH_SCOPE "service::api.fl.teams.microsoft.com::MBI_SSL"
+#define TEAMS_SKYPETOKEN_SCOPE "service::api.fl.spaces.skype.com::MBI_SSL"
 #define TEAMS_PERSONAL_TENANT_ID "9188040d-6c67-4c5b-b112-36a304b66dad"
+#define SCOPE_SUFFIX " openid profile offline_access"
 
 void CTeamsProto::LoginError()
 {
@@ -56,7 +59,6 @@ void CTeamsProto::OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest*
 	m_szDeviceCode.Empty();
 
 	auto &root = reply.data();
-	m_szAccessToken = root["access_token"].as_mstring();
 	setWString("RefreshToken", root["refresh_token"].as_mstring());
 
 	OauthRefreshServices();
@@ -140,15 +142,21 @@ void CTeamsProto::OnReceiveDeviceToken(MHttpResponse *response, AsyncHttpRequest
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTeamsProto::RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc)
+void CTeamsProto::OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest*)
 {
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/" TEAMS_PERSONAL_TENANT_ID "/oauth2/v2.0/token", pFunc);
-	pReq << CHAR_PARAM("scope", pszScope) << CHAR_PARAM("client_id", TEAMS_CLIENT_ID)
-		<< CHAR_PARAM("grant_type", "refresh_token") << CHAR_PARAM("refresh_token", getMStringA("RefreshToken"));
-	PushRequest(pReq);
+	JsonReply reply(response);
+	if (!reply) {
+		LoginError();
+		return;
+	}
+
+	auto &root = reply.data();
+	m_szSkypeToken = root["skypeToken"]["skypetoken"].as_mstring();
+
+	LoggedIn();
 }
 
-void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *pRequest)
+void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (!reply) {
@@ -163,7 +171,23 @@ void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest
 	LoggedIn();
 }
 
-void CTeamsProto::OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest *pRequest)
+void CTeamsProto::OnRefreshSkypeToken(MHttpResponse *response, AsyncHttpRequest *)
+{
+	JsonReply reply(response);
+	if (!reply) {
+		LoginError();
+		return;
+	}
+
+	auto &root = reply.data();
+	CMStringA szAccessToken(root["access_token"].as_mstring());
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_TEAMS, "/api/auth/v1.0/authz/consumer", &CTeamsProto::OnReceiveSkypeToken);
+	pReq->AddHeader("Authorization", "Bearer " + szAccessToken);
+	PushRequest(pReq);
+}
+
+void CTeamsProto::OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest*)
 {
 	JsonReply reply(response);
 	if (!reply) {
@@ -175,10 +199,18 @@ void CTeamsProto::OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest *
 	m_szSubstrateToken = root["access_token"].as_mstring();
 }
 
+void CTeamsProto::RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/" TEAMS_PERSONAL_TENANT_ID "/oauth2/v2.0/token", pFunc);
+	pReq << CHAR_PARAM("scope", pszScope) << CHAR_PARAM("client_id", TEAMS_CLIENT_ID)
+		<< CHAR_PARAM("grant_type", "refresh_token") << CHAR_PARAM("refresh_token", getMStringA("RefreshToken"));
+	PushRequest(pReq);
+}
+
 void CTeamsProto::OauthRefreshServices()
 {
-	RefreshToken("service::api.fl.teams.microsoft.com::MBI_SSL openid profile offline_access", &CTeamsProto::OnRefreshAccessToken);
-	RefreshToken("https://substrate.office.com/M365.Access openid profile offline_access", &CTeamsProto::OnRefreshSubstrate);
+	RefreshToken(TEAMS_SKYPETOKEN_SCOPE SCOPE_SUFFIX, &CTeamsProto::OnRefreshSkypeToken);
+	RefreshToken("https://substrate.office.com/M365.Access" SCOPE_SUFFIX, &CTeamsProto::OnRefreshSubstrate);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -205,5 +237,8 @@ void CTeamsProto::Login()
 		pReq << CHAR_PARAM("client_id", TEAMS_CLIENT_ID) << CHAR_PARAM("resource", TEAMS_OAUTH_RESOURCE);
 		PushRequest(pReq);
 	}
-	else OauthRefreshServices();
+	else {
+		RefreshToken(TEAMS_OAUTH_SCOPE SCOPE_SUFFIX, &CTeamsProto::OnRefreshAccessToken);
+		OauthRefreshServices();
+	}
 }

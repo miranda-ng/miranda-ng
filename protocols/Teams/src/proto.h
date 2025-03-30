@@ -3,6 +3,7 @@
 enum HostType {
 	HOST_OTHER = 0,
 	HOST_LOGIN = 1,
+	HOST_TEAMS = 2,
 };
 
 struct AsyncHttpRequest : public MTHttpRequest<CTeamsProto>
@@ -42,7 +43,7 @@ class CTeamsProto : public PROTO<CTeamsProto>
 	LIST<AsyncHttpRequest> m_requests;
 	MEventHandle m_hRequestQueueEvent;
 	HANDLE m_hRequestQueueThread;
-	CMStringA m_szAccessToken, m_szSubstrateToken;
+	CMStringA m_szAccessToken, m_szSubstrateToken, m_szSkypeToken;
 
 	void __cdecl WorkerThread(void *);
 
@@ -67,9 +68,11 @@ class CTeamsProto : public PROTO<CTeamsProto>
 	void OauthRefreshServices();
 	void RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc);
 
+	void OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnReceiveDeviceToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnRefreshSkypeToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	// options

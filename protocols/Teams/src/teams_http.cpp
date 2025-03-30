@@ -22,6 +22,7 @@ AsyncHttpRequest::AsyncHttpRequest(int type, HostType host, LPCSTR url, MTHttpRe
 {
 	switch (host) {
 	case HOST_LOGIN:     m_szUrl = "login.microsoftonline.com"; break;
+	case HOST_TEAMS:     m_szUrl = "teams.live.com"; break;
 	}
 
 	AddHeader("User-Agent", NETLIB_USER_AGENT);
@@ -68,6 +69,13 @@ void CTeamsProto::PushRequest(AsyncHttpRequest *request)
 {
 	if (m_isTerminated)
 		return;
+
+	if (request->m_host == HOST_TEAMS) {
+		if (!request->FindHeader("Authorization"))
+			request->AddHeader("Authorization", "Bearer " + m_szAccessToken);
+		request->AddHeader("Accept", "application/json");
+	}
+
 	{
 		mir_cslock lock(m_requestQueueLock);
 		m_requests.insert(request);
