@@ -71,20 +71,6 @@ struct AsyncHttpRequest : public MTHttpRequest<CDiscordProto>
 	MCONTACT hContact;
 };
 
-class JsonReply
-{
-	JSONNode *m_root = nullptr;
-	int m_errorCode = 0;
-
-public:
-	JsonReply(MHttpResponse *);
-	~JsonReply();
-
-	__forceinline int error() const { return m_errorCode; }
-	__forceinline JSONNode& data() const { return *m_root; }
-	__forceinline operator bool() const { return m_errorCode == 200; }
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct CDiscordRole : public MZeroedObject

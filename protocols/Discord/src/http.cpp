@@ -74,25 +74,6 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	m_iReqNum = ::InterlockedIncrement(&g_reqNum);
 }
 
-JsonReply::JsonReply(MHttpResponse *pReply)
-{
-	if (pReply == nullptr) {
-		m_errorCode = 500;
-		return;
-	}
-
-	m_errorCode = pReply->resultCode;
-
-	m_root = json_parse(pReply->body);
-	if (m_root == nullptr)
-		m_errorCode = 500;
-}
-
-JsonReply::~JsonReply()
-{
-	json_delete(m_root);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::ServerThread(void*)

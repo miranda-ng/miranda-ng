@@ -326,19 +326,6 @@ struct AsyncHttpRequest : public MTHttpRequest<FacebookProto>
 AsyncHttpRequest *operator<<(AsyncHttpRequest *, const CHAR_PARAM &);
 AsyncHttpRequest *operator<<(AsyncHttpRequest *, const INT_PARAM &);
 
-class JsonReply
-{
-	JSONNode *m_root = nullptr;
-	int m_errorCode = 0;
-
-public:
-	JsonReply(MHttpResponse *);
-	~JsonReply();
-
-	__forceinline JSONNode &data() const { return *m_root; }
-	__forceinline int error() const { return m_errorCode; }
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct FacebookUser

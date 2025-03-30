@@ -69,33 +69,6 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const INT_PARAM &param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-JsonReply::JsonReply(MHttpResponse *pReply)
-{
-	if (pReply == nullptr) {
-		m_errorCode = 500;
-		return;
-	}
-
-	m_errorCode = pReply->resultCode;
-	if (m_errorCode != 200)
-		return;
-
-	m_root = json_parse(pReply->body);
-	if (m_root == nullptr) {
-		m_errorCode = 500;
-		return;
-	}
-
-	m_errorCode = (*m_root)["error_code"].as_int();
-}
-
-JsonReply::~JsonReply()
-{
-	json_delete(m_root);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 AsyncHttpRequest* FacebookProto::CreateRequest(const char *url, const char *szName, const char *szMethod)
 {
 	AsyncHttpRequest *pReq = new AsyncHttpRequest();

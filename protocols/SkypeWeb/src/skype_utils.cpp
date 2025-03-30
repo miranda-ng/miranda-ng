@@ -883,30 +883,3 @@ INT_PTR CSkypeProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
 
 	return 1;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-JsonReply::JsonReply(MHttpResponse *pReply)
-{
-	if (pReply == nullptr) {
-		m_errorCode = 500;
-		return;
-	}
-
-	m_errorCode = pReply->resultCode;
-	if (m_errorCode != 200)
-		return;
-
-	m_root = json_parse(pReply->body);
-	if (m_root == nullptr) {
-		m_errorCode = 500;
-		return;
-	}
-
-	m_errorCode = (*m_root)["status"]["code"].as_int();
-}
-
-JsonReply::~JsonReply()
-{
-	json_delete(m_root);
-}

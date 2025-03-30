@@ -503,6 +503,20 @@ public:
 	}
 };
 
+class MIR_APP_EXPORT JsonReply : public MNonCopyable
+{
+	class JSONNode *m_root = nullptr;
+	int m_errorCode = 0;
+
+public:
+	explicit JsonReply(MHttpResponse *response);
+	~JsonReply();
+
+	__forceinline JSONNode &data() const { return *m_root; }
+	__forceinline int error() const { return m_errorCode; }
+	__forceinline operator bool() const { return m_errorCode == 200; }
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Free the memory used by a MHttpRequest structure
 //

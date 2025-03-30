@@ -60,17 +60,4 @@ struct CFileUploadParam : public MZeroedObject
 	}
 };
 
-class JsonReply
-{
-	JSONNode *m_root = nullptr;
-	int m_errorCode = 0;
-
-public:
-	JsonReply(MHttpResponse *response);
-	~JsonReply();
-
-	__forceinline JSONNode &data() const { return *m_root; }
-	__forceinline int error() const { return m_errorCode; }
-};
-
 #endif //_UTILS_H_
