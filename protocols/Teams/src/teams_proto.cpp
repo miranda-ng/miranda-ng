@@ -9,7 +9,7 @@ CTeamsProto::CTeamsProto(const char *protoName, const wchar_t *userName) :
 	m_bAutoHistorySync(this, "AutoSync", true),
 	m_bUseHostnameAsPlace(this, "UseHostName", true),
 	m_bUseBBCodes(this, "UseBBCodes", true),
-	m_wstrCListGroup(this, DBKEY_GROUP, L"Skype"),
+	m_wstrCListGroup(this, DBKEY_GROUP, L"Teams"),
 	m_wstrPlace(this, "Place", L""),
 	m_iMood(this, "Mood", 0),
 	m_wstrMoodEmoji(this, "MoodEmoji", L""),
