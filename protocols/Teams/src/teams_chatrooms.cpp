@@ -200,7 +200,7 @@ int CTeamsProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 INT_PTR CTeamsProto::OnJoinChatRoom(WPARAM hContact, LPARAM)
 {
 	if (hContact) {
-		ptrW idT(getWStringA(hContact, SKYPE_SETTINGS_ID));
+		ptrW idT(getWStringA(hContact, DBKEY_ID));
 		ptrW nameT(getWStringA(hContact, "Nick"));
 		StartChatRoom(idT, nameT != NULL ? nameT : idT);
 	}
@@ -213,7 +213,7 @@ INT_PTR CTeamsProto::OnLeaveChatRoom(WPARAM hContact, LPARAM)
 		return 1;
 
 	if (hContact && IDYES == MessageBox(nullptr, TranslateT("This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION)) {
-		ptrW idT(getWStringA(hContact, SKYPE_SETTINGS_ID));
+		ptrW idT(getWStringA(hContact, DBKEY_ID));
 		auto *si = Chat_Find(idT, m_szModuleName);
 		Chat_Control(si, SESSION_OFFLINE);
 		Chat_Terminate(si);

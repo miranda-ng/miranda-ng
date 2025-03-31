@@ -34,7 +34,7 @@ void CTeamsProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 
 void CTeamsProto::SetChatStatus(MCONTACT hContact, int iStatus)
 {
-	ptrW tszChatID(getWStringA(hContact, SKYPE_SETTINGS_ID));
+	ptrW tszChatID(getWStringA(hContact, DBKEY_ID));
 	if (tszChatID != NULL)
 		Chat_Control(Chat_Find(tszChatID, m_szModuleName), (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE);
 }
@@ -60,7 +60,7 @@ MCONTACT CTeamsProto::GetContactFromAuthEvent(MEVENT hEvent)
 MCONTACT CTeamsProto::FindContact(const char *skypeId)
 {
 	for (auto &hContact : AccContacts())
-		if (!mir_strcmpi(skypeId, ptrA(getUStringA(hContact, SKYPE_SETTINGS_ID))))
+		if (!mir_strcmpi(skypeId, ptrA(getUStringA(hContact, DBKEY_ID))))
 			return hContact;
 
 	return 0;
@@ -69,7 +69,7 @@ MCONTACT CTeamsProto::FindContact(const char *skypeId)
 MCONTACT CTeamsProto::FindContact(const wchar_t *skypeId)
 {
 	for (auto &hContact : AccContacts())
-		if (!mir_wstrcmpi(skypeId, getMStringW(hContact, SKYPE_SETTINGS_ID)))
+		if (!mir_wstrcmpi(skypeId, getMStringW(hContact, DBKEY_ID)))
 			return hContact;
 
 	return 0;
@@ -84,7 +84,7 @@ MCONTACT CTeamsProto::AddContact(const char *skypeId, const char *nick, bool isT
 	hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
 
-	setString(hContact, SKYPE_SETTINGS_ID, skypeId);
+	setString(hContact, DBKEY_ID, skypeId);
 	setUString(hContact, "Nick", (nick) ? nick : GetSkypeNick(skypeId));
 
 	if (m_wstrCListGroup) {

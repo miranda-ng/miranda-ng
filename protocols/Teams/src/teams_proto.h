@@ -1,10 +1,7 @@
 #define TEAMS_CLIENT_ID  "8ec6bc83-69c8-4392-8f08-b3c986009232"
 
-#define SKYPE_SETTINGS_ID       "SkypeId"
-#define SKYPE_SETTINGS_LOGIN    "Skypename"
-#define SKYPE_SETTINGS_USERTYPE "UserType"
-#define SKYPE_SETTINGS_PASSWORD "Password"
-#define SKYPE_SETTINGS_GROUP    "DefaultGroup"
+#define DBKEY_ID       "id"
+#define DBKEY_GROUP    "DefaultGroup"
 
 struct COwnMessage
 {
@@ -172,7 +169,7 @@ public:
 	MCONTACT m_hMyContact;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {
-		return getMStringA(hContact, SKYPE_SETTINGS_ID);
+		return getMStringA(hContact, DBKEY_ID);
 	}
 
 	void OnSearch(MHttpResponse *response, AsyncHttpRequest *pRequest);
@@ -211,9 +208,6 @@ public:
 	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void CheckConvert(void);
-	bool CheckOauth(const char *szResponse);
-	
 	void LoadProfile(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);

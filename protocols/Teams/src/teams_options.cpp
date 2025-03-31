@@ -45,7 +45,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		m_login.SetTextA(ptrA(m_proto->getStringA(SKYPE_SETTINGS_ID)));
+		m_login.SetTextA(ptrA(m_proto->getStringA(DBKEY_ID)));
 		m_password.SetTextA(pass_ptrA(m_proto->getStringA("Password")));
 		m_place.Enable(!m_proto->m_bUseHostnameAsPlace);
 		m_login.SendMsg(EM_LIMITTEXT, 128, 0);
@@ -57,12 +57,12 @@ public:
 	bool OnApply() override
 	{
 		ptrA szNewSkypename(m_login.GetTextA()),
-			szOldSkypename(m_proto->getStringA(SKYPE_SETTINGS_ID));
+			szOldSkypename(m_proto->getStringA(DBKEY_ID));
 		pass_ptrA szNewPassword(m_password.GetTextA()),
 			szOldPassword(m_proto->getStringA("Password"));
 		if (mir_strcmpi(szNewSkypename, szOldSkypename) || mir_strcmp(szNewPassword, szOldPassword))
 			m_proto->delSetting("TokenExpiresIn");
-		m_proto->setString(SKYPE_SETTINGS_ID, szNewSkypename);
+		m_proto->setString(DBKEY_ID, szNewSkypename);
 		m_proto->setString("Password", szNewPassword);
 		ptrW group(m_group.GetText());
 		if (mir_wstrlen(group) > 0 && !Clist_GroupExists(group))

@@ -60,6 +60,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Discord", "..\protoco
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins\TabSRMM\TabSRMM_icons\ICONS_NOVA_17.vcxproj", "{F553F140-B7D3-4984-90B1-00D4831B8A6E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Teams", "..\protocols\Teams\proto_teams\Proto_Teams.vcxproj", "{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -148,14 +150,6 @@ Global
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Release|Win32.Build.0 = Release|Win32
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Release|x64.ActiveCfg = Release|x64
 		{B2E0D5C5-D418-4962-812A-FBC5C7FFC4B6}.Release|x64.Build.0 = Release|x64
-		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Debug|Win32.Build.0 = Debug|Win32
-		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Debug|x64.ActiveCfg = Debug|x64
-		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Debug|x64.Build.0 = Debug|x64
-		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|Win32.ActiveCfg = Release|Win32
-		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|Win32.Build.0 = Release|Win32
-		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|x64.ActiveCfg = Release|x64
-		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|x64.Build.0 = Release|x64
 		{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}.Debug|Win32.Build.0 = Debug|Win32
 		{2BCC460C-E7C0-4AA8-B680-B9DE561A8408}.Debug|x64.ActiveCfg = Debug|x64
@@ -300,6 +294,22 @@ Global
 		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Release|Win32.Build.0 = Release|Win32
 		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Release|x64.ActiveCfg = Release|x64
 		{6B8BA5EE-3815-44A6-A13B-2A22E8B3A311}.Release|x64.Build.0 = Release|x64
+		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Debug|Win32.Build.0 = Debug|Win32
+		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Debug|x64.ActiveCfg = Debug|x64
+		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Debug|x64.Build.0 = Debug|x64
+		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|Win32.ActiveCfg = Release|Win32
+		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|Win32.Build.0 = Release|Win32
+		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|x64.ActiveCfg = Release|x64
+		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|x64.Build.0 = Release|x64
+		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Debug|Win32.Build.0 = Debug|Win32
+		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Debug|x64.ActiveCfg = Debug|x64
+		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Debug|x64.Build.0 = Debug|x64
+		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Release|Win32.ActiveCfg = Release|Win32
+		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Release|Win32.Build.0 = Release|Win32
+		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Release|x64.ActiveCfg = Release|x64
+		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

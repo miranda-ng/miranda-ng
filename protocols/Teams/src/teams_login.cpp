@@ -220,25 +220,22 @@ void CTeamsProto::OauthRefreshServices()
 
 void CTeamsProto::Login()
 {
-	CMStringA szLogin(getMStringA("Login")), szPassword(getMStringA("Password"));
-	if (szLogin.IsEmpty() || szPassword.IsEmpty()) {
-		LoginError();
-		return;
-	}
-
-	// login
+	// set plugin status to connect
 	int oldStatus = m_iStatus;
 	m_iStatus = ID_STATUS_CONNECTING;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
+	// launch http queue
 	StartQueue();
 
+	// if refresh token doesn't exist, perform a device code authentication
 	m_szAccessToken = getMStringA("RefreshToken");
 	if (m_szAccessToken.IsEmpty()) {
 		auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/common/oauth2/devicecode", &CTeamsProto::OnReceiveDeviceToken);
 		pReq << CHAR_PARAM("client_id", TEAMS_CLIENT_ID) << CHAR_PARAM("resource", TEAMS_OAUTH_RESOURCE);
 		PushRequest(pReq);
 	}
+	// or use a refresh token otherwise
 	else {
 		RefreshToken(TEAMS_OAUTH_SCOPE SCOPE_SUFFIX, &CTeamsProto::OnRefreshAccessToken);
 		OauthRefreshServices();
