@@ -129,6 +129,12 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		pReq->AddHeader("Accept", "application/json");
 		break;
 
+	case HOST_LOGIN:
+		#ifndef _DEBUG
+			pReq->flags |= NLHRF_NODUMP;
+		#endif
+		break;
+
 	case HOST_DEFAULT:
 		if (m_szToken)
 			pReq->AddRegister(this);

@@ -29,6 +29,7 @@ void CTeamsProto::ProcessTimer()
 void CTeamsProto::SendCreateEndpoint()
 {
 	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints", &CTeamsProto::OnEndpointCreated);
+	pReq->flags |= NLHRF_REDIRECT;
 	pReq->m_szParam = "{\"endpointFeatures\":\"Agent,Presence2015,MessageProperties,CustomUserProperties,Casts,ModernBots,AutoIdleForWebApi,secureThreads,notificationStream,InviteFree,SupportsReadReceipts,ued\"}";
 	pReq->AddHeader("Origin", "https://web.skype.com");
 	pReq->AddHeader("Referer", "https://web.skype.com/");
@@ -53,16 +54,6 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 	case 200:
 	case 201: // okay, endpoint created
 		break;
-
-	case 301:
-	case 302: // redirect to the closest data center
-		if (auto *hdr = response->FindHeader("Location")) {
-			CMStringA szUrl(hdr+8);
-			int iEnd = szUrl.Find('/');
-			// g_plugin.szDefaultServer = (iEnd != -1) ? szUrl.Left(iEnd) : szUrl;
-		}
-		SendCreateEndpoint();
-		return;
 
 	case 401: // unauthorized
 	default:

@@ -1,10 +1,9 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by W:\miranda-ng\protocols\SkypeWeb\res\resource.rc
+// Used by W:\miranda-ng\protocols\Teams\res\resource.rc
 //
 #define IDI_TEAMS                       100
 #define IDC_LOGIN                       101
-#define IDC_PASSWORD                    102
 #define IDD_ACCOUNT_MANAGER             103
 #define IDD_OPTIONS_MAIN                104
 #define IDD_MOOD                        105
@@ -25,7 +24,6 @@
 #define IDC_CLIST                       1030
 #define IDC_TITLE                       1031
 #define IDC_CONTACT                     1032
-#define IDC_PLACE                       1034
 #define IDC_USEHOST                     1035
 #define IDC_BBCODES                     1036
 #define IDC_MOOD_COMBO                  1037
