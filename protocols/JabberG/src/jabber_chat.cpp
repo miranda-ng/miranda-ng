@@ -1166,30 +1166,31 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 {
 	CMStringW szBuffer, szTitle;
 	T2Utf roomJid(gch->si->ptszID);
+	auto *pDlg = gch->si->pDlg;
 
 	switch (gch->dwData) {
 	case IDM_LST_PARTICIPANT:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "role", "participant", &CJabberProto::OnIqResultMucGetVoiceList, gch->si->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "role", "participant", &CJabberProto::OnIqResultMucGetVoiceList, pDlg);
 		break;
 
 	case IDM_LST_MEMBER:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "member", &CJabberProto::OnIqResultMucGetMemberList, gch->si->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "member", &CJabberProto::OnIqResultMucGetMemberList, pDlg);
 		break;
 
 	case IDM_LST_MODERATOR:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "role", "moderator", &CJabberProto::OnIqResultMucGetModeratorList, gch->si->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "role", "moderator", &CJabberProto::OnIqResultMucGetModeratorList, pDlg);
 		break;
 
 	case IDM_LST_BAN:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "outcast", &CJabberProto::OnIqResultMucGetBanList, gch->si->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "outcast", &CJabberProto::OnIqResultMucGetBanList, pDlg);
 		break;
 
 	case IDM_LST_ADMIN:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "admin", &CJabberProto::OnIqResultMucGetAdminList, gch->si->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "admin", &CJabberProto::OnIqResultMucGetAdminList, pDlg);
 		break;
 
 	case IDM_LST_OWNER:
-		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "owner", &CJabberProto::OnIqResultMucGetOwnerList, gch->si->pDlg);
+		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "owner", &CJabberProto::OnIqResultMucGetOwnerList, pDlg);
 		break;
 
 	case IDM_AVATAR:
@@ -1226,11 +1227,10 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 		break;
 
 	case IDM_INVITE:
-		{
-			auto *pDlg = new CGroupchatInviteDlg(ppro, roomJid);
-			if (gch->si->pDlg)
-				pDlg->SetParent(gch->si->pDlg->GetHwnd());
-			pDlg->Show();
+		if (auto *pInviteDlg = new CGroupchatInviteDlg(ppro, roomJid)) {
+			if (pDlg)
+				pInviteDlg->SetParent(pDlg->GetHwnd());
+			pInviteDlg->Show();
 		}
 		break;
 
@@ -1246,9 +1246,14 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 			item = ppro->ListGetItemPtr(LIST_CHATROOM, roomJid);
 			if (item != nullptr) {
 				replaceStr(item->type, "conference");
-				MCONTACT hContact = ppro->HContactFromJID(item->jid);
-				item->name = Clist_GetContactDisplayName(hContact);
-				ppro->AddEditBookmark(item);
+				if (MCONTACT hContact = ppro->HContactFromJID(item->jid))
+					replaceStrW(item->name, Clist_GetContactDisplayName(hContact));
+				else {
+					ptrA szNick(JabberNickFromJID(roomJid));
+					if (szNick)
+						replaceStrW(item->name, Utf2T(szNick));
+				}
+				ppro->AddEditBookmark(item, pDlg ? pDlg->GetHwnd() : 0);
 			}
 		}
 		break;

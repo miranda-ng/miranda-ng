@@ -496,7 +496,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	INT_PTR     __cdecl OnMenuHandleBookmarks(WPARAM wParam, LPARAM lParam);
 			     
-	int        AddEditBookmark(JABBER_LIST_ITEM *item);
+	int        AddEditBookmark(JABBER_LIST_ITEM *item, MWindow hwndParent = 0);
 
 	//---- jabber_notes.c -----------------------------------------------------------------
 

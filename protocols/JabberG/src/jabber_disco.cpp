@@ -1143,7 +1143,7 @@ public:
 							}
 
 							replaceStr(item->type, "conference");
-							m_proto->AddEditBookmark(item);
+							m_proto->AddEditBookmark(item, m_hwnd);
 						}
 					}
 					break;

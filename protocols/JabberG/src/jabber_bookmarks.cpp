@@ -422,13 +422,13 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleBookmarks(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Launches the Bookmark details window, lParam is JABBER_BOOKMARK_ITEM*
 
-int CJabberProto::AddEditBookmark(JABBER_LIST_ITEM *item)
+int CJabberProto::AddEditBookmark(JABBER_LIST_ITEM *item, MWindow hwndParent)
 {
 	if (m_bJabberOnline) {
 		JabberAddBookmarkDlgParam param;
 		param.ppro = this;
 		param.m_item = item;//(JABBER_LIST_ITEM*)lParam;
-		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BOOKMARK_ADD), nullptr, JabberAddBookmarkDlgProc, (LPARAM)&param);
+		DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BOOKMARK_ADD), hwndParent, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 	return 0;
 }
