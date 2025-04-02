@@ -785,7 +785,7 @@ public:
 	MWebSocket();
 	~MWebSocket();
 
-	__forceinline HANDLE getConn() const { return m_hConn; }
+	__forceinline HNETLIBCONN getConn() const { return m_hConn; }
 
 	// packet processor
 	virtual void process(const uint8_t *buf, size_t cbLen) = 0;

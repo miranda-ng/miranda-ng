@@ -48,15 +48,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifdef MIR_APP_EXPORTS
 	#define MIR_APP_EXPORT MIR_EXPORT
-	typedef struct NetlibUser* HNETLIBUSER;
-	typedef struct NetlibConnection* HNETLIBCONN;
-	typedef struct NetlibBoundPort* HNETLIBBIND;
 #else
 	#define MIR_APP_EXPORT MIR_IMPORT
-	DECLARE_HANDLE(HNETLIBUSER);
-	DECLARE_HANDLE(HNETLIBCONN);
-	DECLARE_HANDLE(HNETLIBBIND);
 #endif
+
+typedef struct NetlibUser* HNETLIBUSER;
+typedef struct NetlibBoundPort* HNETLIBBIND;
+typedef struct NetlibConnection* HNETLIBCONN;
 
 typedef struct TMO_IntMenuItem* HGENMENU;
 

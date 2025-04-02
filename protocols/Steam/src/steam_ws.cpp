@@ -170,7 +170,7 @@ void CSteamProto::ProcessMessage(const uint8_t *buf, size_t cbLen)
 		auto md = g_plugin.messages.find(msgType);
 		if (md == g_plugin.messages.end()) {
 			debugLogA("Received message of type %d", msgType);
-			Netlib_Dump(HNETLIBCONN(m_ws->getConn()), buf, cbLen, false, 0);
+			Netlib_Dump(m_ws->getConn(), buf, cbLen, false, 0);
 		}
 		else if (auto *pMessage = protobuf_c_message_unpack(md->second, 0, cbLen, buf)) {
 			debugLogA("Received known message:\n%s", protobuf_c_text_to_string(*pMessage).c_str());

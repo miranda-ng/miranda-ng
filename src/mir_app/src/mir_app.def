@@ -995,7 +995,7 @@ Proto_CanDeleteHistory @1118 NONAME
 ?RemakeLog@CSrmmBaseDialog@@UAEXXZ @1126 NONAME
 ?ProcessToolbarHotkey@CSrmmBaseDialog@@AAEXH@Z @1127 NONAME
 ?iHistoryMode@Srmm@@3V?$CMOption@E@@A @1128 NONAME
-?getConn@MWebSocket@@QBEPAXXZ @1129 NONAME
+?getConn@MWebSocket@@QBEPAUNetlibConnection@@XZ @1129 NONAME
 ?Chat_GetStatus@@YGPAUSTATUSINFO@@PAUSESSION_INFO@@PBUUSERINFO@@@Z @1130 NONAME
 ?SetBirthday@Contact@@YGXIHHH@Z @1131 NONAME
 ??0JsonReply@@QAE@PAUMHttpResponse@@@Z @1132 NONAME
