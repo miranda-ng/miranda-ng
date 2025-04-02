@@ -254,7 +254,8 @@ void CSteamProto::WSSendRaw(EMsg msgType, const MBinBuffer &body)
 		<< uint8_t(239) << m_iSteamId << m_iSessionId;
 	payload.append(body);
 
-	m_ws->sendBinary(payload.data(), payload.length());
+	if (m_ws)
+		m_ws->sendBinary(payload.data(), payload.length());
 }
 
 void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, const ProtobufCppMessage &msg)
@@ -274,7 +275,8 @@ void CSteamProto::WSSendHeader(EMsg msgType, const CMsgProtoBufHeader &hdr, cons
 	protobuf_c_message_pack(&msg, body.data());
 
 	hdrbuf.append(body);
-	m_ws->sendBinary(hdrbuf.data(), hdrbuf.length());
+	if (m_ws)
+		m_ws->sendBinary(hdrbuf.data(), hdrbuf.length());
 }
 
 void CSteamProto::WSSendAnon(const char *pszServiceName, const ProtobufCppMessage &msg)
