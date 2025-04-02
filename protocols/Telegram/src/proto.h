@@ -101,7 +101,7 @@ struct TG_USER : public MZeroedObject
 
 	int64_t   id, chatId = -1, forumId = -1;
 	MCONTACT  hContact;
-	int       folderId = -1, nHistoryChunks, nTopics;
+	int       folderId = -1, nTopics;
 	bool      isGroupChat, isChannel, isBot, isForum, bLoadMembers, bStartChat, bInited, bDelOwn = true, bDelAll = true;
 	CMStringA szAvatarHash;
 	CMStringW wszNick, wszFirstName, wszLastName;

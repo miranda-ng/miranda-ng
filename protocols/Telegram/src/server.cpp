@@ -456,6 +456,12 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 	auto *pUser = (TG_USER *)pUserInfo;
 	TD::int53 lastMsgId = INT64_MAX;
 	auto *pMessages = (TD::messages *)response.object.get();
+	if (pMessages->messages_.size() == 0) {
+		if (pUser->isForum)
+			delete pUser;
+		return;
+	}
+	
 	for (auto &it : pMessages->messages_) {
 		auto *pMsg = it.get();
 		if (pMsg->id_ < lastMsgId)
@@ -489,27 +495,15 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		db_event_add(GetRealContact(pUser), &dbei);
 	}
 
-	pUser->nHistoryChunks--;
-
-	if (pUser->isForum) {
-		if (lastMsgId != INT64_MAX && pUser->nHistoryChunks > 0)
-			SendQuery(new TD::getMessageThreadHistory(pUser->chatId, lastMsgId, lastMsgId, 0, 100), &CTelegramProto::OnGetHistory, pUser);
-		else
-			delete pUser;
-	}
-	else if (lastMsgId != INT64_MAX && pUser->nHistoryChunks > 0)
+	// fetch next portion
+	if (pUser->isForum)
+		SendQuery(new TD::getMessageThreadHistory(pUser->chatId, lastMsgId, lastMsgId, 0, 100), &CTelegramProto::OnGetHistory, pUser);
+	else
 		SendQuery(new TD::getChatHistory(pUser->chatId, lastMsgId, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
 }
 
 INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 {
-	TD::int53 lastMsgId = 0;
-
-	if (MEVENT hEvent = db_event_first(hContact)) {
-		DB::EventInfo dbei(hEvent, false);
-		lastMsgId = dbei2id(dbei);
-	}
-
 	auto userId = GetId(hContact);
 
 	if (TD::int53 threadId = GetId(hContact, DBKEY_THREAD)) {
@@ -517,16 +511,13 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 			auto *pUser = new TG_USER(-1, hContact, true);
 			pUser->chatId = userId;
 			pUser->isForum = pUser->isGroupChat = true;
-			pUser->nHistoryChunks = 5;
-			SendQuery(new TD::getMessageThreadHistory(pUser->chatId, lastMsgId, lastMsgId, 0, 100), &CTelegramProto::OnGetHistory, pUser);
+			SendQuery(new TD::getMessageThreadHistory(pUser->chatId, 0, 0, 0, 100), &CTelegramProto::OnGetHistory, pUser);
 			return 0;
 		}
 	}
 	
-	if (auto *pUser = FindUser(userId)) {
-		pUser->nHistoryChunks = 5;
-		SendQuery(new TD::getChatHistory(pUser->chatId, lastMsgId, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
-	}
+	if (auto *pUser = FindUser(userId))
+		SendQuery(new TD::getChatHistory(pUser->chatId, 0, 0, 100, false), &CTelegramProto::OnGetHistory, pUser);
 
 	return 0;
 }
