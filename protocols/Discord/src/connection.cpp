@@ -87,6 +87,7 @@ void CDiscordProto::ShutdownSession()
 		return;
 
 	debugLogA("CDiscordProto::ShutdownSession");
+	m_bTerminated = true;
 
 	// shutdown all resources
 	if (pMfaDialog)

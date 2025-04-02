@@ -76,7 +76,7 @@ bool CDiscordProto::GatewayThreadWorker()
 	m_bConnected = true;
 	m_ws.run();
 	m_bConnected = false;
-	return true;
+	return !m_bTerminated;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////
