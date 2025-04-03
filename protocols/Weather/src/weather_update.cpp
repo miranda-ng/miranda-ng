@@ -32,7 +32,6 @@ menu items).
 
 int CWeatherProto::UpdateWeather(MCONTACT hContact)
 {
-	wchar_t str2[MAX_TEXT_SIZE];
 	DBVARIANT dbv;
 	BOOL Ch = FALSE;
 
@@ -128,22 +127,18 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 		setWord(hContact, "Status", iStatus);
 	AvatarDownloaded(hContact);
 
-	GetDisplay(&winfo, GetTextValue('C'), str2);
-	db_set_ws(hContact, "CList", "MyHandle", str2);
+	db_set_ws(hContact, "CList", "MyHandle", GetDisplay(&winfo, GetTextValue('C')));
 
-	GetDisplay(&winfo, GetTextValue('S'), str2);
-	if (str2[0])
+	CMStringW str2(GetDisplay(&winfo, GetTextValue('S')));
+	if (!str2.IsEmpty())
 		db_set_ws(hContact, "CList", "StatusMsg", str2);
 	else
 		db_unset(hContact, "CList", "StatusMsg");
-
-	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2[0] ? str2 : nullptr));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2.IsEmpty() ? nullptr : str2.c_str()));
 
 	// save descriptions in MyNotes
-	GetDisplay(&winfo, GetTextValue('N'), str2);
-	db_set_ws(hContact, "UserInfo", "MyNotes", str2);
-	GetDisplay(&winfo, GetTextValue('X'), str2);
-	db_set_ws(hContact, WEATHERCONDITION, "WeatherInfo", str2);
+	db_set_ws(hContact, "UserInfo", "MyNotes", GetDisplay(&winfo, GetTextValue('N')));
+	db_set_ws(hContact, WEATHERCONDITION, "WeatherInfo", GetDisplay(&winfo, GetTextValue('X')));
 
 	// set the update tag
 	setByte(hContact, "IsUpdated", TRUE);
@@ -174,8 +169,7 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 				db_free(&dbv);
 				if (file != nullptr) {
 					// write data to the file and close
-					GetDisplay(&winfo, GetTextValue('E'), str2);
-					fputws(str2, file);
+					fputws(GetDisplay(&winfo, GetTextValue('E')), file);
 					fclose(file);
 				}
 			}
@@ -183,9 +177,7 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 
 		if (getByte(hContact, "History")) {
 			// internal log using history
-			GetDisplay(&winfo, GetTextValue('H'), str2);
-
-			T2Utf szMessage(str2);
+			T2Utf szMessage(GetDisplay(&winfo, GetTextValue('H')));
 
 			DBEVENTINFO dbei = {};
 			dbei.szModule = m_szModuleName;

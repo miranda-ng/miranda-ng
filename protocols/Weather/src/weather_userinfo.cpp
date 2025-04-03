@@ -151,8 +151,6 @@ public:
 	{
 		m_list.DeleteAllItems();
 		
-		wchar_t str[4096];
-
 		// load weather information from the contact into the WEATHERINFO struct
 		WEATHERINFO winfo = m_proto->LoadWeatherInfo(hContact);
 		// check if data exist.  If not, display error message box
@@ -160,13 +158,11 @@ public:
 			SetDlgItemTextW(m_hwnd, IDC_MTEXT, TranslateT("No information available.\r\nPlease update weather condition first."));
 		else {
 			// set the display text and show the message box
-			GetDisplay(&winfo, m_proto->GetTextValue('B'), str);
-			SetDlgItemTextW(m_hwnd, IDC_MTEXT, str);
+			SetDlgItemTextW(m_hwnd, IDC_MTEXT, GetDisplay(&winfo, m_proto->GetTextValue('B')));
 		}
 
-		GetDisplay(&winfo, L"%c, %t", str);
 		SetWindowTextW(m_hwnd, winfo.city);
-		SetDlgItemTextW(m_hwnd, IDC_HEADERBAR, str);
+		SetDlgItemTextW(m_hwnd, IDC_HEADERBAR, GetDisplay(&winfo, L"%c, %t"));
 
 		// get all the settings and store them in a temporary list
 		LIST<char> arSettings(10);
@@ -311,9 +307,8 @@ public:
 		ppro = (CWeatherProto *)Proto_GetContactInstance(m_hContact);
 
 		// load weather info for the contact
-		wchar_t str[MAX_TEXT_SIZE];
 		WEATHERINFO w = ppro->LoadWeatherInfo(m_hContact);
-		SetDlgItemText(m_hwnd, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
+		SetDlgItemText(m_hwnd, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n")));
 
 		SendDlgItemMessage(m_hwnd, IDC_INFOICON, STM_SETICON, (WPARAM)ppro->GetStatusIconBig(m_hContact), 0);
 
@@ -327,19 +322,16 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_INFO2, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
 
 		// set the text for displaying other current weather conditions data
-		GetDisplay(&w, L"%c     %t", str);
-		SetDlgItemText(m_hwnd, IDC_INFO2, str);
+		SetDlgItemText(m_hwnd, IDC_INFO2, GetDisplay(&w, L"%c     %t"));
 		SetDlgItemText(m_hwnd, IDC_INFO3, w.feel);
 		SetDlgItemText(m_hwnd, IDC_INFO4, w.pressure);
-		GetDisplay(&w, L"%i  %w", str);
-		SetDlgItemText(m_hwnd, IDC_INFO5, str);
+		SetDlgItemText(m_hwnd, IDC_INFO5, GetDisplay(&w, L"%i  %w"));
 		SetDlgItemText(m_hwnd, IDC_INFO6, w.dewpoint);
 		SetDlgItemText(m_hwnd, IDC_INFO7, w.sunrise);
 		SetDlgItemText(m_hwnd, IDC_INFO8, w.sunset);
 		SetDlgItemText(m_hwnd, IDC_INFO9, w.high);
 		SetDlgItemText(m_hwnd, IDC_INFO10, w.low);
-		GetDisplay(&w, TranslateT("Last update on:   %u"), str);
-		SetDlgItemText(m_hwnd, IDC_INFO11, str);
+		SetDlgItemText(m_hwnd, IDC_INFO11, GetDisplay(&w, TranslateT("Last update on:   %u")));
 		SetDlgItemText(m_hwnd, IDC_INFO12, w.humid);
 		SetDlgItemText(m_hwnd, IDC_INFO13, w.vis);
 		return true;

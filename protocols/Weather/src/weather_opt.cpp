@@ -367,8 +367,8 @@ public:
 	bool OnApply() override
 	{
 		// save the option
-		wchar_t textstr[MAX_TEXT_SIZE];
 		for (auto &it : controls) {
+			wchar_t textstr[MAX_TEXT_SIZE];
 			GetDlgItemText(m_hwnd, it.id, textstr, _countof(textstr));
 			if (!mir_wstrcmpi(textstr, GetDefaultText(it.c)))
 				m_proto->delSetting(it.setting);
@@ -384,42 +384,41 @@ public:
 	void onClick_TM(CCtrlButton *pButton)
 	{
 		// display the menu
-		RECT pos;
-		GetWindowRect(pButton->GetHwnd(), &pos);
 		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_TMMENU));
 		HMENU hMenu1 = GetSubMenu(hMenu, 0);
 		TranslateMenu(hMenu1);
-		{
-			auto &var = controls[pButton->GetCtrlId() - IDC_TM1];
 
-			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, m_hwnd, nullptr)) {
-			case ID_MPREVIEW:
-				{
-					// show the preview in a message box, using the weather data from the default station
-					WEATHERINFO winfo = m_proto->LoadWeatherInfo(m_proto->opt.DefStn);
-					wchar_t buf[MAX_TEXT_SIZE], str[4096];
-					GetDlgItemTextW(m_hwnd, var.id, buf, _countof(buf));
-					GetDisplay(&winfo, buf, str);
-					MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
-				}
-				break;
+		auto &var = controls[pButton->GetCtrlId() - IDC_TM1];
 
-			case ID_MRESET:
-				SetDlgItemTextW(m_hwnd, var.id, GetDefaultText(var.c));
-				break;
+		RECT pos;
+		GetWindowRect(pButton->GetHwnd(), &pos);
+		switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, m_hwnd, nullptr)) {
+		case ID_MPREVIEW:
+			{
+				// show the preview in a message box, using the weather data from the default station
+				WEATHERINFO winfo = m_proto->LoadWeatherInfo(m_proto->opt.DefStn);
+				wchar_t buf[MAX_TEXT_SIZE];
+				GetDlgItemTextW(m_hwnd, var.id, buf, _countof(buf));
+				MessageBox(nullptr, GetDisplay(&winfo, buf), TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
 			}
-			DestroyMenu(hMenu);
+			break;
+
+		case ID_MRESET:
+			SetDlgItemTextW(m_hwnd, var.id, GetDefaultText(var.c));
+			break;
 		}
+		DestroyMenu(hMenu);
 	}
 
 	void onClick_Reset(CCtrlButton *)
 	{
 		// left click action selection menu
-		RECT pos;
-		GetWindowRect(btnReset.GetHwnd(), &pos);
 		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_TMENU));
 		HMENU hMenu1 = GetSubMenu(hMenu, 0);
 		TranslateMenu(hMenu1);
+
+		RECT pos;
+		GetWindowRect(btnReset.GetHwnd(), &pos);
 		switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, m_hwnd, nullptr)) {
 		case ID_T1:
 			// reset to the strings in memory, discard all changes
