@@ -151,7 +151,6 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	// data
 	void ConvertDataValue(WIDATAITEM *UpdateData);
 	void EraseAllInfo(void);
-	void GetStationID(MCONTACT hContact, wchar_t *id, int idlen);
 	WEATHERINFO LoadWeatherInfo(MCONTACT hContact);
 
 	MHttpResponse* RunQuery(const wchar_t *id, int days);

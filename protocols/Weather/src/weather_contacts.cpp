@@ -53,13 +53,12 @@ INT_PTR CWeatherProto::ViewLog(WPARAM wParam, LPARAM lParam)
 // read complete forecast
 // wParam = current contact
 
-INT_PTR CWeatherProto::LoadForecast(WPARAM wParam, LPARAM)
+INT_PTR CWeatherProto::LoadForecast(WPARAM hContact, LPARAM)
 {
-	wchar_t id[256];
-	GetStationID(wParam, id, _countof(id));
-	if (id[0] != 0) {
+	CMStringW wszID(getMStringW(hContact, "ID"));
+	if (!wszID.IsEmpty()) {
 		// set the url and open the webpage
-		CMStringA szUrl("https://www.visualcrossing.com/weather-forecast/" + mir_urlEncode(T2Utf(id)) + "/metric");
+		CMStringA szUrl("https://www.visualcrossing.com/weather-forecast/" + mir_urlEncode(T2Utf(wszID)) + "/metric");
 		Utils_OpenUrl(szUrl);
 	}
 	return 0;
@@ -69,13 +68,12 @@ INT_PTR CWeatherProto::LoadForecast(WPARAM wParam, LPARAM)
 // load weather map
 // wParam = current contact
 
-INT_PTR CWeatherProto::WeatherMap(WPARAM wParam, LPARAM)
+INT_PTR CWeatherProto::WeatherMap(WPARAM hContact, LPARAM)
 {
-	wchar_t id[256];
-	GetStationID(wParam, id, _countof(id));
-	if (id[0] != 0) {
+	CMStringW wszID(getMStringW(hContact, "ID"));
+	if (!wszID.IsEmpty()) {
 		// set the url and open the webpage
-		CMStringA szUrl("https://www.visualcrossing.com/weather-history/" + mir_urlEncode(T2Utf(id)) + "/metric");
+		CMStringA szUrl("https://www.visualcrossing.com/weather-history/" + mir_urlEncode(T2Utf(wszID)) + "/metric");
 		Utils_OpenUrl(szUrl);
 	}
 

@@ -403,15 +403,14 @@ static void getData(OBJLIST<WIDATAITEM> &arValues, const JSONNode &node)
 int CWeatherProto::GetWeatherData(MCONTACT hContact)
 {
 	// get each part of the id's
-	wchar_t id[256];
-	GetStationID(hContact, id, _countof(id));
-	if (id[0] == 0)
+	CMStringW wszID(getMStringW(hContact, "ID"));
+	if (wszID.IsEmpty())
 		return INVALID_ID;
 
 	uint16_t cond = NA;
 
 	// download the html file from the internet
-	WeatherReply reply(RunQuery(id, 7));
+	WeatherReply reply(RunQuery(wszID, 7));
 	if (!reply)
 		return reply.error();
 
