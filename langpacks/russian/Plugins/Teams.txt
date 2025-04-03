@@ -1,0 +1,141 @@
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Teams protocol support for Miranda NG.]
+Поддержка протокола Teams в Miranda NG.
+;file \protocols\Teams\res\Resource.rc
+[Login:]
+Логин:
+[Default group:]
+Группа:
+[Account]
+Учётная запись
+[Teams]
+Teams
+[Proceed]
+Продолжить
+[Cancel]
+Отмена
+[Static]
+Статический
+;file \protocols\Teams\src\main.cpp
+[Protocol icon]
+Значок протокола
+[Create new chat icon]
+Создать новый чат
+[Block user icon]
+Заблокировать контакт
+[Unblock user icon]
+Разблокировать контакт
+[Incoming call icon]
+Значок входящего звонка
+[Notification icon]
+Значок уведомления
+[Error icon]
+Значок ошибки
+[Action icon]
+Значок действия
+;file \protocols\Teams\src\teams_chatrooms.cpp
+[Admin]
+Админ
+[User]
+Пользователь
+[Enter new nickname]
+Введите новое имя
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
+[Warning]
+Предупреждение
+[&Invite user...]
+&Пригласить пользователя...
+[&Leave chat session]
+&Покинуть чат
+[&Change topic...]
+&Изменить тему...
+[Kick &user]
+&Выкинуть пользователя
+[Set &role]
+Установить &роль
+[&Admin]
+&Админ
+[&User]
+&Пользователь
+[Change nick...]
+Изменить имя...
+[Enter new chatroom topic]
+Введите новую тему комнаты чата
+;file \protocols\Teams\src\teams_contacts.cpp
+[(You)]
+(Вы)
+[Are you sure?]
+Вы уверены?
+;file \protocols\Teams\src\teams_login.cpp
+[To login into Teams you need to open '%S' in a browser and select your Teams account there.]
+
+[Enter the following code then: %s.]
+
+[Click Proceed to copy that code to clipboard and launch a browser]
+
+;file \protocols\Teams\src\teams_menus.cpp
+[Block contact]
+Заблокировать контакт
+[Unblock contact]
+Разблокировать контакт
+[Create new chat]
+Создать новый чат
+[Set own mood]
+
+;file \protocols\Teams\src\teams_messages.cpp
+[Unknown error!]
+Неизвестная ошибка!
+[Network error!]
+Ошибка сети!
+;file \protocols\Teams\src\teams_mood.cpp
+[None]
+Нет
+[Custom emoji]
+
+[Be right back]
+
+[Out for lunch]
+
+[In meetings]
+
+[At school]
+
+[At the movies]
+
+[Traveling]
+В дороге
+[Celebrating]
+
+[Driving]
+за рулём
+[At the gym]
+
+[Working from home]
+
+;file \protocols\Teams\src\teams_options.cpp
+[Network]
+Сеть
+;file \protocols\Teams\src\teams_popups.cpp
+[Notifications]
+Уведомления
+[Errors]
+Ошибки
+[Calls]
+Звонки
+;file \protocols\Teams\src\teams_proto.cpp
+[Incoming call]
+Входящий звонок
+[Incoming call canceled]
+Отмена входящего звонка
+[Teams ID]
+Teams ID
+;file \protocols\Teams\src\teams_utils.cpp
+[wrote]
+писал(а)

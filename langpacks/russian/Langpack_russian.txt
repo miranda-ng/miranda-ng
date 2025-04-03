@@ -2083,6 +2083,8 @@ Miranda не может распознать этот профиль
 Прикрепить
 [Code]
 Код
+[Cloud file]
+Облачный файл
 [&File]
 &Файл
 [File from %s]
@@ -9898,6 +9900,8 @@ ID записи
 ;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
+[Facebook Messenger protocol support for Miranda NG.]
+Поддержка протокола Facebook Messenger в Miranda NG.
 [E-mail:]
 Почта:
 [Password:]
@@ -27934,6 +27938,109 @@ TabSRMM: %s
 Загрузка схемы|Загрузка цветов и шрифтов может изменить настройки, установленные вашим скином.\n\nВы хотите продолжить?
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 В очереди есть неотправленные сообщения, ждущие подтверждения.\nЕсли вы закроете окно, Miranda попытается отправить их, но не сможет предупредить о возможных ошибках.\nВы действительно хотите закрыть окно(а)?
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Teams protocol support for Miranda NG.]
+Поддержка протокола Teams в Miranda NG.
+[Login:]
+Логин:
+[Default group:]
+Группа:
+[Account]
+Учётная запись
+[Teams]
+Teams
+[Proceed]
+Продолжить
+[Cancel]
+Отмена
+[Static]
+Статический
+[Protocol icon]
+Значок протокола
+[Create new chat icon]
+Создать новый чат
+[Block user icon]
+Заблокировать контакт
+[Unblock user icon]
+Разблокировать контакт
+[Incoming call icon]
+Значок входящего звонка
+[Notification icon]
+Значок уведомления
+[Error icon]
+Значок ошибки
+[Action icon]
+Значок действия
+[Admin]
+Админ
+[User]
+Пользователь
+[Enter new nickname]
+Введите новое имя
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
+[Warning]
+Предупреждение
+[&Invite user...]
+&Пригласить пользователя...
+[&Leave chat session]
+&Покинуть чат
+[&Change topic...]
+&Изменить тему...
+[Kick &user]
+&Выкинуть пользователя
+[Set &role]
+Установить &роль
+[&Admin]
+&Админ
+[&User]
+&Пользователь
+[Change nick...]
+Изменить имя...
+[Enter new chatroom topic]
+Введите новую тему комнаты чата
+[(You)]
+(Вы)
+[Are you sure?]
+Вы уверены?
+[Block contact]
+Заблокировать контакт
+[Unblock contact]
+Разблокировать контакт
+[Create new chat]
+Создать новый чат
+[Unknown error!]
+Неизвестная ошибка!
+[Network error!]
+Ошибка сети!
+[None]
+Нет
+[Traveling]
+В дороге
+[Driving]
+за рулём
+[Network]
+Сеть
+[Notifications]
+Уведомления
+[Errors]
+Ошибки
+[Calls]
+Звонки
+[Incoming call]
+Входящий звонок
+[Incoming call canceled]
+Отмена входящего звонка
+[Teams ID]
+Teams ID
+[wrote]
+писал(а)
 #muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
 ;============================================================
 ;  File: Telegram.dll
@@ -27985,6 +28092,8 @@ TabSRMM: %s
 Добавить реакцию
 [Birthday]
 День рождения
+[Biography]
+О себе
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
 [Enter verification code received by email]
@@ -30211,11 +30320,13 @@ Web Дизайн
 [an anniversary]
 праздник
 [He]
-Ему
+Он
 [She]
-Ей
+Она
 [He/she]
-Ему/ей
+Он/она
+[%s has the following anniversaries:]
+%s отмечает следующие годовщины:
 [%d. %s today]
 %d лет. %s сегодня
 [%d. %s tomorrow]
@@ -30228,6 +30339,8 @@ Web Дизайн
 %s завтра отмечает день рождения.
 [%s has birthday in %d days.]
 %s отмечает день рождения через %d дней.
+[%s becomes %d years old.]
+%s отмечает %d день рождения.
 [No anniversaries to remind of]
 Нет праздников, о которых надо уведомлять
 [Reminders]
@@ -30915,6 +31028,8 @@ URL:
 Ошибка
 [Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
+[Captcha processing error.]
+Ошибка при обработке капчи.
 [You have to validate your account before you can use VK in Miranda NG]
 Вы должны подтвердить свою учётную запись перед использованием протокола ВКонтакте в Miranda NG
 [One of the parameters specified was missing or invalid]
@@ -32435,6 +32550,8 @@ Miranda NG прекрасна, а это - пример длинного соо�
 Просмотр истории
 [Variable List]
 Переменные
+[More Variables]
+Ещё переменные
 [Reset]
 Сброс
 [Status Message]
@@ -32625,10 +32742,10 @@ INI файл погоды для этой станции не найден (20)
 Фон фрейма
 [Weather Condition for %n as of %u]
 Состояние погоды для %n на %u
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Ощущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nТемпература: %t\\nОщущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]]
+Ощущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]]
+%c\\nТемпература: %t\\nОщущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n\\n%[Forecast Day 1]\\n\\n%[Forecast Day 2]\\n\\n%[Forecast Day 3]\\n\\n%[Forecast Day 4]\\n\\n%[Forecast Day 5]
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
 %n в %u:	%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
@@ -32639,8 +32756,32 @@ INI файл погоды для этой станции не найден (20)
 %n   (%u)
 [%c, %t\\nToday:  High %h, Low %l]
 %c, %t\\nСегодня:  макс. %h, мин. %l
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
-%c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат\n----------\n\\n   новая строка
+[Current condition]
+Текущее состояние
+[Current date]
+Текущая дата
+[Dewpoint]
+Роса
+[Feel-like temp]
+Ощущение
+[Today's high]
+Максимум
+[Wind direction]
+Ветер: направление
+[Today's low]
+Минимум
+[Station name]
+Название станции
+[Station ID]
+ID города
+[Update time]
+Обновление
+[Wind speed]
+Ветер: скорость
+[new line]
+новая строка
+[Here is a list of custom variables that are currently available]
+Список дополнительных переменных, доступных на данный момент
 [Weather Protocol Text Preview]
 Просмотр протокола погоды
 [Network]
@@ -32705,10 +32846,6 @@ INI файл погоды для этой станции не найден (20)
 Низкий
 [Moon phase]
 Фаза луны
-[Wind speed]
-Ветер: скорость
-[Wind direction]
-Ветер: направление
 [Feel]
 Ощущение
 [Variable]
