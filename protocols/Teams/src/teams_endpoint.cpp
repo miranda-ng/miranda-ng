@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-25 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -16,15 +16,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-
-void CTeamsProto::ProcessTimer()
-{
-	if (!IsOnline())
-		return;
-
-	PushRequest(new GetContactListRequest());
-	SendPresence();
-}
 
 void CTeamsProto::SendCreateEndpoint()
 {
@@ -83,19 +74,17 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 			if (name == "registrationToken")
 				m_szToken = val.Detach();
 			else if (name == "endpointId")
-				m_szId = val.Detach();
+				m_szEndpoint = val.Detach();
 		}
 	}
 
-	if (m_szId && m_hPollingThread == nullptr)
-		ForkThread(&CTeamsProto::PollingThread);
-
+	StartTrouter();
 	PushRequest(new CreateSubscriptionsRequest());
 }
 
 void CTeamsProto::OnEndpointDeleted(MHttpResponse *, AsyncHttpRequest *)
 {
-	m_szId = nullptr;
+	m_szEndpoint = nullptr;
 	m_szToken = nullptr;
 }
 

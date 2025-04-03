@@ -60,9 +60,9 @@ struct CFileUploadParam : public MZeroedObject
 	}
 };
 
-struct SkypeReply : public JsonReply
+struct TeamsReply : public JsonReply
 {
-	SkypeReply(MHttpResponse *response) :
+	TeamsReply(MHttpResponse *response) :
 		JsonReply(response)
 	{
 		if (m_root)

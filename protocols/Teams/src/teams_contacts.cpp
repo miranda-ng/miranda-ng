@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-25 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -102,7 +102,7 @@ MCONTACT CTeamsProto::AddContact(const char *skypeId, const char *nick, bool isT
 
 void CTeamsProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 {
-	SkypeReply reply(response);
+	TeamsReply reply(response);
 	if (reply.error())
 		return;
 
@@ -140,7 +140,7 @@ void CTeamsProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 
 void CTeamsProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 {
-	SkypeReply reply(response);
+	TeamsReply reply(response);
 	if (reply.error())
 		return;
 

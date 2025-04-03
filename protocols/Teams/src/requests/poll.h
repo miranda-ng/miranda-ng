@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct PollRequest : public AsyncHttpRequest
 {
 	PollRequest(CTeamsProto *ppro) :
-		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(ppro->m_szId) + "/subscriptions/0/poll")
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(ppro->m_szEndpoint) + "/subscriptions/0/poll")
 	{
 		flags |= NLHRF_PERSISTENT;
 		timeout = 120000;

@@ -1,3 +1,20 @@
+/*
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "stdafx.h"
 
 CTeamsProto::CTeamsProto(const char *protoName, const wchar_t *userName) :
@@ -83,6 +100,7 @@ void CTeamsProto::OnModulesLoaded()
 void CTeamsProto::OnShutdown()
 {
 	StopQueue();
+	StopTrouter();
 }
 
 INT_PTR CTeamsProto::GetCaps(int type, MCONTACT)
@@ -203,6 +221,7 @@ int CTeamsProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		StopQueue();
+		StopTrouter();
 
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
 

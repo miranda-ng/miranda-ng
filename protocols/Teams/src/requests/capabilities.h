@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct SendCapabilitiesRequest : public AsyncHttpRequest
 {
 	SendCapabilitiesRequest(const char *hostname, CTeamsProto *ppro) :
-		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(ppro->m_szId) + "/presenceDocs/messagingService", &CTeamsProto::OnCapabilitiesSended)
+		AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(ppro->m_szEndpoint) + "/presenceDocs/messagingService", &CTeamsProto::OnCapabilitiesSended)
 	{
 		JSONNode privateInfo; privateInfo.set_name("privateInfo");
 		privateInfo << CHAR_PARAM("epname", hostname);

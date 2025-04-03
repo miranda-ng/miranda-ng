@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-25 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -191,7 +191,7 @@ struct SetAvatarRequest : public AsyncHttpRequest
 
 void CTeamsProto::OnSentAvatar(MHttpResponse *response, AsyncHttpRequest*)
 {
-	SkypeReply root(response);
+	TeamsReply root(response);
 	if (root.error())
 		return;
 }
