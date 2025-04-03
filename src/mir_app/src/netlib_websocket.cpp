@@ -187,6 +187,8 @@ static void WebSocket_Send(HNETLIBCONN nlc, const void *pData, int64_t dataLen, 
 void MWebSocket::sendText(const char *pData)
 {
 	if (m_hConn && pData) {
+		Netlib_Dump(m_hConn, pData, strlen(pData), true, 0);
+
 		mir_cslock lck(m_cs);
 		WebSocket_Send(m_hConn, pData, strlen(pData), 1);
 	}
