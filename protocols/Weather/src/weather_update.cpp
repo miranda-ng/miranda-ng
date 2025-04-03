@@ -470,8 +470,11 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 
 void GetVarsDescr(CMStringW &str)
 {
-	for (int i=1; i <= 7; i++)
-		str.AppendFormat(L"a%d\t%s %d\r\n", i, TranslateT("Forecast Day"), i);
+	for (int i = 1; i <= 7; i++) {
+		if (i != 1)
+			str.Append(L", ");
+		str.AppendFormat(L"%%[Forecast Day %d]", i);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
