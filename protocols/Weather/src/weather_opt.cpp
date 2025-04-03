@@ -295,8 +295,6 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // text option dialog
 
-#define VAR_LIST_OPT TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
-
 struct
 {
 	wchar_t c;
@@ -313,6 +311,32 @@ static controls[] =
 	{ 'E', IDC_ETEXT,   "HistoryText"    },
 	{ 'H', IDC_HTEXT,   "ExtraText"      },
 	{ 'S', IDC_BTITLE2, "StatusText"     },
+};
+
+struct
+{
+	wchar_t symbol;
+	const wchar_t *pwszText;
+}
+static variables[] =
+{
+	{ 'c', LPGENW("Current condition") },
+	{ 'd', LPGENW("Current date") },
+	{ 'e', LPGENW("Dewpoint") },
+	{ 'f', LPGENW("Feel-like temp") },
+	{ 'h', LPGENW("Today's high") },
+	{ 'i', LPGENW("Wind direction") },
+	{ 'l', LPGENW("Today's low") },
+	{ 'm', LPGENW("Humidity") },
+	{ 'n', LPGENW("Station name") },
+	{ 'p', LPGENW("Pressure") },
+	{ 'r', LPGENW("Sunrise") },
+	{ 's', LPGENW("Station ID") },
+	{ 't', LPGENW("Temperature") },
+	{ 'u', LPGENW("Update time") },
+	{ 'v', LPGENW("Visibility") },
+	{ 'w', LPGENW("Wind speed") },
+	{ 'y', LPGENW("Sunset") },
 };
 
 class COptionsTextDlg : public CWeatherDlgBase
@@ -346,7 +370,12 @@ public:
 		SetWindowPos(m_hwnd, HWND_TOPMOST, rc.left, rc.top, 0, 0, SWP_NOSIZE);
 
 		// generate the display text for variable list
-		SetDlgItemTextW(m_hwnd, IDC_VARLIST, VAR_LIST_OPT);
+		CMStringW str;
+		for (auto &it : variables)
+			str.AppendFormat(L"%c\t%s\r\n", it.symbol, TranslateW(it.pwszText));
+		str.Append(L"----------\r\n");
+		str.AppendFormat(L"\\n\t%s\r\n", TranslateT("new line"));
+		SetDlgItemTextW(m_hwnd, IDC_VARLIST, str);
 
 		for (auto &it : controls)
 			SetDlgItemTextW(m_hwnd, it.id, m_proto->GetTextValue(it.c));

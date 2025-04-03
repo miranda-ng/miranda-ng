@@ -147,6 +147,7 @@ void ConvertBackslashes(char *str);
 char *GetSearchStr(char *dis);
 
 CMStringW GetDisplay(WEATHERINFO *w, const wchar_t *dis);
+void GetVarsDescr(CMStringW &str);
 
 wchar_t *GetError(int code);
 

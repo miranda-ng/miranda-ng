@@ -468,6 +468,12 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	return 0;
 }
 
+void GetVarsDescr(CMStringW &str)
+{
+	for (int i=1; i <= 7; i++)
+		str.AppendFormat(L"a%d\t%s %d\r\n", i, TranslateT("Forecast Day"), i);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // main auto-update timer
 
