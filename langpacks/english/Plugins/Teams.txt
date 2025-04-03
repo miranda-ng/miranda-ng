@@ -1,0 +1,80 @@
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Teams protocol support for Miranda NG.]
+;file \protocols\Teams\res\Resource.rc
+[Login:]
+[Default group:]
+[Account]
+[Teams]
+[Proceed]
+[Cancel]
+[Static]
+;file \protocols\Teams\src\main.cpp
+[Protocol icon]
+[Create new chat icon]
+[Block user icon]
+[Unblock user icon]
+[Incoming call icon]
+[Notification icon]
+[Error icon]
+[Action icon]
+;file \protocols\Teams\src\teams_chatrooms.cpp
+[Admin]
+[User]
+[Enter new nickname]
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+[Warning]
+[&Invite user...]
+[&Leave chat session]
+[&Change topic...]
+[Kick &user]
+[Set &role]
+[&Admin]
+[&User]
+[Change nick...]
+[Enter new chatroom topic]
+;file \protocols\Teams\src\teams_contacts.cpp
+[(You)]
+[Are you sure?]
+;file \protocols\Teams\src\teams_login.cpp
+[To login into Teams you need to open '%S' in a browser and select your Teams account there.]
+[Enter the following code then: %s.]
+[Click Proceed to copy that code to clipboard and launch a browser]
+;file \protocols\Teams\src\teams_menus.cpp
+[Block contact]
+[Unblock contact]
+[Create new chat]
+[Set own mood]
+;file \protocols\Teams\src\teams_messages.cpp
+[Unknown error!]
+[Network error!]
+;file \protocols\Teams\src\teams_mood.cpp
+[None]
+[Custom emoji]
+[Be right back]
+[Out for lunch]
+[In meetings]
+[At school]
+[At the movies]
+[Traveling]
+[Celebrating]
+[Driving]
+[At the gym]
+[Working from home]
+;file \protocols\Teams\src\teams_options.cpp
+[Network]
+;file \protocols\Teams\src\teams_popups.cpp
+[Notifications]
+[Errors]
+[Calls]
+;file \protocols\Teams\src\teams_proto.cpp
+[Incoming call]
+[Incoming call canceled]
+[Teams ID]
+;file \protocols\Teams\src\teams_utils.cpp
+[wrote]
