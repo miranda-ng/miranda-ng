@@ -39,6 +39,13 @@ CTeamsProto::CTeamsProto(const char *protoName, const wchar_t *userName) :
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
+	CMStringA module(FORMAT, "%s.TRouter", m_szModuleName);
+	CMStringW descr(FORMAT, TranslateT("%s websocket connection"), m_tszUserName);
+	nlu.szSettingsModule = module.GetBuffer();
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_UNICODE;
+	nlu.szDescriptiveName.w = descr.GetBuffer();
+	m_hTrouterNetlibUser = Netlib_RegisterUser(&nlu);
+
 	CreateProtoService(PS_GETAVATARINFO, &CTeamsProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CTeamsProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CTeamsProto::SvcGetMyAvatar);

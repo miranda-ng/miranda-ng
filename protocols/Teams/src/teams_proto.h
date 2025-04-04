@@ -359,6 +359,7 @@ public:
 	void TRouterProcess(const char *str);
 
 private:
+	HNETLIBUSER m_hTrouterNetlibUser;
 	CMStringA m_szTrouterUrl, m_szTrouterSurl;
 	WebSocket<CTeamsProto> *m_ws;
 	MHttpHeaders m_connectParams;

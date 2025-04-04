@@ -94,7 +94,7 @@ void CTeamsProto::GatewayThread(void *)
 	headers.AddHeader("User-Agent", TEAMS_USER_AGENT);
 
 	WebSocket<CTeamsProto> ws(this);
-	NLHR_PTR pReply(ws.connect(m_hNetlibUser, m_szTrouterUrl, &headers));
+	NLHR_PTR pReply(ws.connect(m_hTrouterNetlibUser, m_szTrouterUrl, &headers));
 	if (pReply) {
 		if (pReply->resultCode == 101) {
 			m_ws = &ws;
@@ -186,8 +186,8 @@ void CTeamsProto::TRouterRegister(const char *pszAppId, const char *pszKey, cons
 		<< CHAR_PARAM("productContext", "TFL");
 
 	obj << CHAR_PARAM("context", "") << CHAR_PARAM("path", pszPath) << INT_PARAM("ttl", TEAMS_TROUTER_TTL);
-	trouter.set_name("TROUTER");  trouter << obj;
-	transports.set_name("transports");
+	trouter.set_name("TROUTER"); trouter << obj;
+	transports.set_name("transports"); transports << trouter;
 
 	reg.set_name("registration");
 	reg << descr << CHAR_PARAM("registrationId", m_szEndpoint) << CHAR_PARAM("nodeId", "") << transports;
@@ -197,7 +197,7 @@ void CTeamsProto::TRouterRegister(const char *pszAppId, const char *pszKey, cons
 	pReq->AddHeader("Content-Type", "application/json");
 	pReq->AddHeader("X-Skypetoken", m_szSkypeToken);
 	pReq->AddHeader("Authorization", "Bearer " + m_szAccessToken);
-	pReq->m_szParam = mir_urlEncode(reg.write().c_str());
+	pReq->m_szParam = reg.write().c_str();
 	PushRequest(pReq);
 }
 
