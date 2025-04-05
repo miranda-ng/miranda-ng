@@ -12,6 +12,7 @@ It's very light on system resources and extremely fast.
 - Gadu-Gadu
 - IRC (Internet Relay Chat)
 - XMPP (Jabber)
+- Microsoft Teams
 - MinecraftDynmap
 - Sametime
 - Skype
