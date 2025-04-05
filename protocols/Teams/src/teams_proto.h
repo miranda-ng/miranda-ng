@@ -180,12 +180,6 @@ public:
 	void OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnEndpointDeleted(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	// oauth
-	void OnOAuthStart(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnOAuthConfirm(MHttpResponse* response, AsyncHttpRequest* pRequest);
-	void OnOAuthAuthorize(MHttpResponse* response, AsyncHttpRequest* pRequest);
-	void OnOAuthEnd(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
 	void OnASMObjectCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
@@ -300,7 +294,7 @@ private:
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
 	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
-	void ParsePollData(const char*);
+
 	// utils
 	template <typename T>
 	__inline static void FreeList(const LIST<T> &lst)
@@ -364,6 +358,13 @@ private:
 	WebSocket<CTeamsProto> *m_ws;
 	MHttpHeaders m_connectParams;
 	int iCommandId;
+
+	void ProcessNewMessage(const JSONNode &node);
+	void ProcessUserPresence(const JSONNode &node);
+	void ProcessThreadUpdate(const JSONNode &node);
+	void ProcessServerMessage(const std::string &szName, const JSONNode &args);
+	void ProcessEndpointPresence(const JSONNode &node);
+	void ProcessConversationUpdate(const JSONNode &node);
 
 	void __cdecl GatewayThread(void *);
 

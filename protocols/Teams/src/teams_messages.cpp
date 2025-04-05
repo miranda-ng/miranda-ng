@@ -154,7 +154,6 @@ LBL_Deleted:
 	return true;
 }
 
-/*
 void CTeamsProto::ProcessNewMessage(const JSONNode &node)
 {
 	int iUserType;
@@ -200,7 +199,6 @@ void CTeamsProto::ProcessNewMessage(const JSONNode &node)
 			ProtoChainRecvMsg(hContact, dbei);
 	}
 }
-*/
 
 void CTeamsProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
