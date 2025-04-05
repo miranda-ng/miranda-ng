@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME              "Teams protocol"
 #define __FILENAME                 "Teams.dll"
-#define __DESCRIPTION              "Teams protocol support for Miranda NG."
+#define __DESCRIPTION              "Microsoft Teams protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Teams"
 #define __COPYRIGHT                "© 2025 Miranda NG team"
