@@ -100,23 +100,9 @@ void CTeamsProto::OnSubscriptionsCreated(MHttpResponse *response, AsyncHttpReque
 	SendPresence();
 }
 
-void CTeamsProto::SendPresence()
-{
-	ptrA epname;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	if (!m_bUseHostnameAsPlace && m_wstrPlace && *m_wstrPlace)
-		epname = mir_utf8encodeW(m_wstrPlace);
-	else {
-		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
-		DWORD size = _countof(compName);
-		GetComputerName(compName, &size);
-		epname = mir_utf8encodeW(compName);
-	}
-
-	PushRequest(new SendCapabilitiesRequest(epname, this));
-}
-
-void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest*)
+void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *)
 {
 	if (response == nullptr || response->body.IsEmpty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
@@ -145,6 +131,38 @@ void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 
 	PushRequest(new GetProfileRequest(this, 0));
 }
+
+void CTeamsProto::SendPresence()
+{
+	ptrA epname;
+
+	if (!m_bUseHostnameAsPlace && m_wstrPlace && *m_wstrPlace)
+		epname = mir_utf8encodeW(m_wstrPlace);
+	else {
+		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
+		DWORD size = _countof(compName);
+		GetComputerName(compName, &size);
+		epname = mir_utf8encodeW(compName);
+	}
+
+	JSONNode privateInfo; privateInfo.set_name("privateInfo");
+	privateInfo << CHAR_PARAM("epname", epname);
+
+	JSONNode publicInfo; publicInfo.set_name("publicInfo");
+	publicInfo << CHAR_PARAM("capabilities", "Audio|Video") << INT_PARAM("typ", 125)
+		<< CHAR_PARAM("skypeNameVersion", "Miranda NG Skype") << CHAR_PARAM("nodeInfo", "xx") << CHAR_PARAM("version", g_szMirVer);
+
+	JSONNode node;
+	node << CHAR_PARAM("id", "messagingService") << CHAR_PARAM("type", "EndpointPresenceDoc")
+		<< CHAR_PARAM("selfLink", "uri") << privateInfo << publicInfo;
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(m_szEndpoint) + "/presenceDocs/messagingService",
+		&CTeamsProto::OnCapabilitiesSended);
+	pReq->m_szParam = node.write().c_str();
+	PushRequest(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTeamsProto::OnStatusChanged(MHttpResponse *response, AsyncHttpRequest*)
 {
