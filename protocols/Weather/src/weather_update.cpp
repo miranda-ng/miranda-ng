@@ -373,6 +373,7 @@ static double g_elevation = 0;
 
 static void getData(OBJLIST<WIDATAITEM> &arValues, const JSONNode &node)
 {
+	arValues.insert(new WIDATAITEM(LPGENW("Date"), L"", parseConditions(node["datetime"].as_mstring())));
 	arValues.insert(new WIDATAITEM(LPGENW("Condition"), L"", parseConditions(node["conditions"].as_mstring())));
 	arValues.insert(new WIDATAITEM(LPGENW("Temperature"), L"C", node["temp"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("High"), L"C", node["tempmax"].as_mstring()));
