@@ -32,8 +32,6 @@ CWeatherProto::CWeatherProto(const char *protoName, const wchar_t *userName) :
 	HookProtoEvent(ME_CLIST_DOUBLECLICKED, &CWeatherProto::BriefInfoEvt);
 	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CWeatherProto::BuildContactMenu);
 
-	InitMwin();
-
 	// load options and set defaults
 	LoadOptions();
 
@@ -63,6 +61,8 @@ CWeatherProto::~CWeatherProto()
 
 void CWeatherProto::OnModulesLoaded()
 {
+	InitMwin();
+
 	// timer for the first update
 	m_impl.m_start.Start(5000);  // first update is 5 sec after load
 
