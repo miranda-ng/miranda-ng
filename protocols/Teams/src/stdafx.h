@@ -90,14 +90,11 @@ struct AsyncHttpRequest : public MTHttpRequest<CTeamsProto>
 
 #include "requests/capabilities.h"
 #include "requests/chatrooms.h"
-#include "requests/contacts.h"
 #include "requests/history.h"
 #include "requests/poll.h"
 #include "requests/profile.h"
 #include "requests/search.h"
 #include "requests/status.h"
 #include "requests/subscriptions.h"
-
-#define POLLING_ERRORS_LIMIT 3
 
 #endif //_COMMON_H_

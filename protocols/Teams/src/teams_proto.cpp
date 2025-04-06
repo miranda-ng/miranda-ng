@@ -167,7 +167,7 @@ int CTeamsProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(getId(hContact)));
+	PushRequest(new AsyncHttpRequest(REQUEST_POST, HOST_CONTACTS, "/users/SELF/invites/" + mir_urlEncode(getId(hContact)) + "/accept"));
 	return 0;
 }
 
@@ -177,7 +177,7 @@ int CTeamsProto::AuthDeny(MEVENT hDbEvent, const wchar_t *)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthDeclineRequest(getId(hContact)));
+	PushRequest(new AsyncHttpRequest(REQUEST_POST, HOST_CONTACTS, "/users/SELF/invites/" + mir_urlEncode(getId(hContact)) + "/decline"));
 	return 0;
 }
 
@@ -191,7 +191,15 @@ int CTeamsProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AddContactRequest(getId(hContact), T2Utf(szMessage)));
+	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, "/users/SELF/contacts");
+
+	JSONNode node;
+	node << CHAR_PARAM("mri", getId(hContact));
+	if (mir_wstrlen(szMessage))
+		node << WCHAR_PARAM("greeting", szMessage);
+	pReq->m_szParam = node.write().c_str();
+
+	PushRequest(pReq);
 	return 0;
 }
 

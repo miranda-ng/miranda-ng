@@ -136,7 +136,7 @@ void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 	skypenames.destroy();
 
 	ReceiveAvatar(0);
-	PushRequest(new GetContactListRequest());
+	PushRequest(new AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/contacts", &CTeamsProto::LoadContactList));
 	PushRequest(new SyncConversations());
 
 	JSONNode root = JSONNode::parse(response->body);
