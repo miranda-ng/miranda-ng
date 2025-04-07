@@ -159,7 +159,7 @@ INT_PTR CALLBACK CSteamProto::EnterEmailCode(void *param)
 		ppro->SendConfirmationCode(true, T2Utf(es.ptszResult));
 		mir_free(es.ptszResult);
 	}
-	else ppro->Logout();
+	else ppro->m_ws->terminate();
 	return 0;
 }
 
@@ -174,7 +174,7 @@ INT_PTR CALLBACK CSteamProto::EnterTotpCode(void *param)
 		ppro->SendConfirmationCode(false, T2Utf(es.ptszResult));
 		mir_free(es.ptszResult);
 	}
-	else ppro->Logout();
+	else ppro->m_ws->terminate();
 	return 0;
 }
 
