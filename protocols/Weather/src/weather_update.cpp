@@ -469,13 +469,32 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	return 0;
 }
 
-void GetVarsDescr(CMStringW &str)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int enumSettings(const char *pszSetting, void *param)
 {
-	for (int i = 1; i <= 7; i++) {
-		if (i != 1)
+	auto *pList = (OBJLIST<char>*)param;
+	if (!pList->find((char*)pszSetting))
+		pList->insert(newStr(pszSetting));
+	return 0;
+}
+
+void CWeatherProto::GetVarsDescr(CMStringW &wszDescr)
+{
+	OBJLIST<char> vars(10, mir_strcmp);
+	for (int i = 1; i <= 7; i++)
+		vars.insert(newStr(CMStringA(FORMAT, "Forecast Day %d", i)));
+
+	for (auto &cc : AccContacts())
+		db_enum_settings(cc, &enumSettings, WEATHERCONDITION, &vars);
+
+	CMStringW str;
+	for (auto &it : vars) {
+		if (!str.IsEmpty())
 			str.Append(L", ");
-		str.AppendFormat(L"%%[Forecast Day %d]", i);
+		str.AppendFormat(L"%%[%S]", it);
 	}
+	wszDescr += str;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -418,7 +418,7 @@ public:
 		// heading
 		CMStringW str(TranslateT("Here is a list of custom variables that are currently available"));
 		str += L"\n\n";
-		GetVarsDescr(str);
+		m_proto->GetVarsDescr(str);
 
 		// display the list in a message box
 		MessageBox(nullptr, str, TranslateT("More Variables"), MB_OK | MB_ICONINFORMATION | MB_TOPMOST);

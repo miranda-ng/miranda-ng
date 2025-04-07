@@ -181,6 +181,7 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	int __cdecl OptInit(WPARAM, LPARAM);
 
 	CMStringW GetTextValue(int c);
+	void GetVarsDescr(CMStringW &str);
 
 	// popups
 	int WPShowMessage(const wchar_t *lpzText, int kind);
