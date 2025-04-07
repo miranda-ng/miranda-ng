@@ -27,14 +27,34 @@ void CSkypeProto::PollingThread(void *)
 		if (m_isTerminated || m_szId == nullptr)
 			break;
 
-		std::unique_ptr<PollRequest> request(new PollRequest(this));
-		request->nlc = m_hPollingConn;
-		NLHR_PTR response(DoSend(request.get()));
+		AsyncHttpRequest req(REQUEST_POST, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(m_szId) + "/subscriptions/0/poll");
+		req.flags |= NLHRF_PERSISTENT;
+		req.timeout = 120000;
+		req.nlc = m_hPollingConn;
+
+		if (m_iPollingId != -1)
+			req.m_szUrl.AppendFormat("?ackId=%d", m_iPollingId);
+
+		req.AddHeader("Referer", "https://web.skype.com/main");
+		req.AddHeader("ClientInfo", "os=Windows; osVer=8.1; proc=Win32; lcid=en-us; deviceType=1; country=n/a; clientName=swx-skype.com; clientVer=908/1.85.0.29");
+		req.AddHeader("Accept", "application/json");
+		req.AddHeader("Accept-Language", "en, C");
+
+		NLHR_PTR response(DoSend(&req));
 		if (m_isTerminated || m_szId == nullptr)
 			break;
 
-		if (response == nullptr || response->resultCode != 200) {
-			m_hPollingConn = nullptr;
+		// no network?..
+		if (response == nullptr)
+			break;
+
+		if (response->resultCode != 200) {
+			auto reply = JSONNode::parse(response->body);
+			if (reply && reply["message"]["errorCode"] == 729) // endpoint broken, log off
+				break;
+
+			Sleep(200);
+			m_hPollingConn = response->nlc;
 			continue;
 		}
 

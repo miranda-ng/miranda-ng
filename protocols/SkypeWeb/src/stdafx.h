@@ -119,7 +119,6 @@ struct AsyncHttpRequest : public MTHttpRequest<CSkypeProto>
 #include "requests/history.h"
 #include "requests/login.h"
 #include "requests/oauth.h"
-#include "requests/poll.h"
 #include "requests/profile.h"
 #include "requests/search.h"
 #include "requests/status.h"
