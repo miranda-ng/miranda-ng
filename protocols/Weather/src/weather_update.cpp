@@ -481,7 +481,7 @@ static int enumSettings(const char *pszSetting, void *param)
 
 void CWeatherProto::GetVarsDescr(CMStringW &wszDescr)
 {
-	OBJLIST<char> vars(10, mir_strcmp);
+	OBJLIST<char> vars(10, strcmp);
 	for (int i = 1; i <= 7; i++)
 		vars.insert(newStr(CMStringA(FORMAT, "Forecast Day %d", i)));
 
