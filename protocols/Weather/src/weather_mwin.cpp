@@ -340,7 +340,7 @@ void CWeatherProto::InitMwin(void)
 	g_plugin.addFont(&fontid);
 
 	for (auto &hContact : AccContacts())
-		if (g_plugin.getDword(hContact, "mwin"))
+		if (getDword(hContact, "mwin"))
 			AddFrameWindow(hContact);
 
 	hFontHook = HookEvent(ME_FONT_RELOAD, RedrawFrame);
@@ -349,7 +349,7 @@ void CWeatherProto::InitMwin(void)
 void CWeatherProto::DestroyMwin(void)
 {
 	for (auto &hContact : AccContacts()) {
-		uint32_t frameId = g_plugin.getDword(hContact, "mwin");
+		uint32_t frameId = getDword(hContact, "mwin");
 		if (frameId)
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 	}
