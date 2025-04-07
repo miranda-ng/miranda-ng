@@ -62,6 +62,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Teams", "..\protocols\Teams\proto_teams\Proto_Teams.vcxproj", "{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\ICQCorp\Proto_icq\Proto_ICQ.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -310,6 +312,14 @@ Global
 		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Release|Win32.Build.0 = Release|Win32
 		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Release|x64.ActiveCfg = Release|x64
 		{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}.Release|x64.Build.0 = Release|x64
+		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Debug|Win32.Build.0 = Debug|Win32
+		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Debug|x64.ActiveCfg = Debug|x64
+		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Debug|x64.Build.0 = Debug|x64
+		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|Win32.ActiveCfg = Release|Win32
+		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|Win32.Build.0 = Release|Win32
+		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|x64.ActiveCfg = Release|x64
+		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
