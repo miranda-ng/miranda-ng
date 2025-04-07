@@ -248,6 +248,7 @@
 [Waxing gibbous]
 [Waning gibbous]
 [Waning crescent]
+[Date]
 [Condition]
 [High]
 [Low]
