@@ -15,7 +15,7 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 [Become idle if the following is left unattended:]
 Перейти в режим ожидания, если неактивны:
@@ -27945,8 +27945,6 @@ TabSRMM: %s
 ;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
-[Teams protocol support for Miranda NG.]
-Поддержка протокола Teams в Miranda NG.
 [Login:]
 Логин:
 [Default group:]
@@ -32838,6 +32836,8 @@ ID города
 Убывающая Луна
 [Waning crescent]
 Убывающая Луна
+[Date]
+Дата
 [Condition]
 Условия
 [High]
@@ -32956,7 +32956,7 @@ ID города
 [Clear / Wind]
 Ясно / ветер
 [Clear]
-Очистить
+Ясно
 [Clouds Early / Clearing Late]
 С утра облачно / ясно во второй половине дня
 [Cloudy / Wind]

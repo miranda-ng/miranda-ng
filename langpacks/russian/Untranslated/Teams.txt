@@ -11,3 +11,4 @@
 [Celebrating]
 [At the gym]
 [Working from home]
+[%s websocket connection]

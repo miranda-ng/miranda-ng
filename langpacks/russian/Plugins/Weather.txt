@@ -478,6 +478,8 @@ ID города
 Убывающая Луна
 [Waning crescent]
 Убывающая Луна
+[Date]
+Дата
 [Condition]
 Условия
 [High]

@@ -5,8 +5,8 @@
 ;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
-[Teams protocol support for Miranda NG.]
-Поддержка протокола Teams в Miranda NG.
+[Microsoft Teams protocol support for Miranda NG.]
+Поддержка протокола Microsoft Teams в Miranda NG.
 ;file \protocols\Teams\res\Resource.rc
 [Login:]
 Логин:
@@ -130,6 +130,8 @@ Teams
 [Calls]
 Звонки
 ;file \protocols\Teams\src\teams_proto.cpp
+[%s websocket connection]
+
 [Incoming call]
 Входящий звонок
 [Incoming call canceled]
