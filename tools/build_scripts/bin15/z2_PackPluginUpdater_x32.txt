@@ -133,7 +133,6 @@ Plugins\statusmanager.dll
 Plugins\stopspam.dll
 Plugins\stopspammod.dll
 Plugins\tabsrmm.dll
-Plugins\teams.dll
 Plugins\telegram.dll
 Plugins\tipper.dll
 Plugins\toaster.dll
@@ -215,7 +214,6 @@ Icons\proto_newsaggregator.dll
 Icons\proto_sametime.dll
 Icons\proto_skype.dll
 Icons\proto_steam.dll
-Icons\proto_teams.dll
 Icons\proto_tox.dll
 Icons\proto_twitter.dll
 Icons\proto_vkontakte.dll

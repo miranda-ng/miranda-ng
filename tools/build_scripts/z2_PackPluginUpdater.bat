@@ -73,7 +73,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="SpellChecker.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Flags_icons.dll" "Libs\hunspell.mir")
 	if /I "%%a"=="Steam.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Steam.dll")
 	if /I "%%a"=="TabSRMM.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\NewEventNotify.dll" "Icons\TabSRMM_icons.dll")
-	if /I "%%a"=="Teams.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Teams.dll")
 	if /I "%%a"=="Telegram.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Telegram.dll")
 	if /I "%%a"=="Tox.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Tox.dll" "Libs\libtox.mir" "Libs\libsodium.mir" "Libs\pthreads.mir")
 	if /I "%%a"=="Twitter.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Twitter.dll")
