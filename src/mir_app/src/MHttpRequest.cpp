@@ -63,6 +63,15 @@ MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest *pReq, const INT64_PARAM &par
 	return pReq;
 }
 
+MIR_APP_DLL(MHttpRequest *) operator<<(MHttpRequest *pReq, const BOOL_PARAM &param)
+{
+	CMStringA &s = pReq->m_szParam;
+	if (!s.IsEmpty())
+		s.AppendChar('&');
+	s.AppendFormat("%s=%s", param.szName, param.bValue ? "true" : "false");
+	return pReq;
+}
+
 MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest *pReq, const CHAR_PARAM &param)
 {
 	CMStringA &s = pReq->m_szParam;

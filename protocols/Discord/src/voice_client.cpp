@@ -61,9 +61,7 @@ void CDiscordVoiceCall::write(int op, JSONNode &d)
 
 	JSONNode payload;
 	payload << INT_PARAM("op", op) << d;
-
 	auto json = payload.write();
-	ppro->debugLogA("Voice JSON sent: %s", json.c_str());
 
 	mir_cslock lck(m_cs);
 	m_ws->sendText(json.c_str());

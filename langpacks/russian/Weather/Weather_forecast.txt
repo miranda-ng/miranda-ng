@@ -92,7 +92,7 @@
 [Clear / Wind]
 Ясно / ветер
 [Clear]
-Очистить
+Ясно
 [Clouds Early / Clearing Late]
 С утра облачно / ясно во второй половине дня
 [Cloudy / Wind]

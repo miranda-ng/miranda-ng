@@ -1077,8 +1077,8 @@ bool CSrmmBaseDialog::ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 
 bool CSrmmBaseDialog::PasteFilesAsURL(HDROP hDrop)
 {
-	bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-	if (db_get_b(0, CHAT_MODULE, "ShiftDropFilePasteURL", 1) == 0 || !isShift) // hidden setting: Chat/ShiftDropFilePasteURL
+	bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0, isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
+	if (db_get_b(0, CHAT_MODULE, "ShiftDropFilePasteURL", 1) == 0 || !(isShift && !isCtrl)) // hidden setting: Chat/ShiftDropFilePasteURL
 		return false;
 
 	int fileCount = DragQueryFileW(hDrop, -1, nullptr, 0);

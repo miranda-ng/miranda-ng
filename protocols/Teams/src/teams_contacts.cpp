@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-25 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -100,9 +100,11 @@ MCONTACT CTeamsProto::AddContact(const char *skypeId, const char *nick, bool isT
 	return hContact;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CTeamsProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 {
-	SkypeReply reply(response);
+	TeamsReply reply(response);
 	if (reply.error())
 		return;
 
@@ -140,7 +142,7 @@ void CTeamsProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 
 void CTeamsProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 {
-	SkypeReply reply(response);
+	TeamsReply reply(response);
 	if (reply.error())
 		return;
 
@@ -220,16 +222,14 @@ void CTeamsProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 		}
 	}
 
-	PushRequest(new GetContactsAuthRequest());
+	PushRequest(new AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/invites", &CTeamsProto::LoadContactsAuth));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CTeamsProto::OnRequestAuth(WPARAM hContact, LPARAM)
 {
-	if (hContact == INVALID_CONTACT_ID)
-		return 1;
-
-	PushRequest(new AddContactRequest(getId(hContact)));
-	return 0;
+	return AuthRequest(hContact, 0);
 }
 
 INT_PTR CTeamsProto::OnGrantAuth(WPARAM hContact, LPARAM)
@@ -237,7 +237,7 @@ INT_PTR CTeamsProto::OnGrantAuth(WPARAM hContact, LPARAM)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(getId(hContact)));
+	PushRequest(new AsyncHttpRequest(REQUEST_POST, HOST_CONTACTS, "/users/SELF/invites/" + mir_urlEncode(getId(hContact)) + "/accept"));
 	return 0;
 }
 
@@ -257,15 +257,6 @@ bool CTeamsProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CTeamsProto::BlockContact(WPARAM hContact, LPARAM)
-{
-	if (!IsOnline()) return 1;
-
-	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION))
-		PushRequest(new BlockContactRequest(this, hContact));
-	return 0;
-}
-
 void CTeamsProto::OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
@@ -273,11 +264,20 @@ void CTeamsProto::OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pReq
 		Contact::Hide(hContact);
 }
 
-INT_PTR CTeamsProto::UnblockContact(WPARAM hContact, LPARAM)
+INT_PTR CTeamsProto::BlockContact(WPARAM hContact, LPARAM)
 {
-	PushRequest(new UnblockContactRequest(this, hContact));
+	if (!IsOnline()) return 1;
+
+	if (IDYES == MessageBox(NULL, TranslateT("Are you sure?"), TranslateT("Warning"), MB_YESNO | MB_ICONQUESTION)) {
+		auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, "/users/SELF/contacts/blocklist/" + mir_urlEncode(getId(hContact)), &CTeamsProto::OnBlockContact);
+		pReq->m_szParam = "{\"report_abuse\":\"false\",\"ui_version\":\"skype.com\"}";
+		pReq->pUserInfo = (void *)hContact;
+		PushRequest(pReq);
+	}		
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTeamsProto::OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
@@ -287,4 +287,15 @@ void CTeamsProto::OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pR
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 	Contact::Hide(hContact, false);
 	delSetting(hContact, "IsBlocked");
+}
+
+INT_PTR CTeamsProto::UnblockContact(WPARAM hContact, LPARAM)
+{
+	if (!IsOnline()) return 1;
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/users/SELF/contacts/blocklist/" + mir_urlEncode(getId(hContact)), &CTeamsProto::OnUnblockContact);
+	pReq->pUserInfo = (void *)hContact;
+	pReq << CHAR_PARAM("reporterIp", "123.123.123.123") << CHAR_PARAM("uiVersion", g_szMirVer); // TODO: user ip address
+	PushRequest(pReq);
+	return 0;
 }

@@ -11,7 +11,7 @@
 [Custom folders]
 Папки
 [Preview]
-Тест
+Предпросмотр
 [Edit]
 Изменить
 [Refresh preview]

@@ -88,7 +88,7 @@ MCONTACT CWeatherProto::AddToList(int, PROTOSEARCHRESULT *psr)
 
 	// if no default station is found, set the new contact as default station
 	if (opt.Default[0] == 0) {
-		GetStationID(hContact, opt.Default, _countof(opt.Default));
+		wcsncpy_s(opt.Default, getMStringW(hContact, "ID"), _countof(opt.Default));
 
 		opt.DefStn = hContact;
 		ptrW wszNick(getWStringA(hContact, "Nick"));

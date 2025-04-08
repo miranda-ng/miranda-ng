@@ -17,42 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CTeamsProto::PollingThread(void *)
-{
-	debugLogA(__FUNCTION__ ": entering");
-
-	m_iPollingId = -1;
-
-	while (true) {
-		if (m_isTerminated || m_szId == nullptr)
-			break;
-
-		std::unique_ptr<PollRequest> request(new PollRequest(this));
-		request->nlc = m_hPollingConn;
-		NLHR_PTR response(DoSend(request.get()));
-		if (m_isTerminated || m_szId == nullptr)
-			break;
-
-		if (response == nullptr || response->resultCode != 200) {
-			m_hPollingConn = nullptr;
-			continue;
-		}
-
-		m_hPollingConn = response->nlc;
-		if (!response->body.IsEmpty())
-			ParsePollData(response->body);
-	}
-
-	if (!m_isTerminated) {
-		debugLogA(__FUNCTION__ ": unexpected termination; switching protocol to offline");
-		SetStatus(ID_STATUS_OFFLINE);
-	}
-
-	m_hPollingConn = nullptr;
-	m_hPollingThread = nullptr;
-	debugLogA(__FUNCTION__ ": leaving");
-}
-
 void CTeamsProto::ParsePollData(const char *szData)
 {
 	debugLogA(__FUNCTION__);
@@ -171,6 +135,3 @@ void CTeamsProto::ProcessUserPresence(const JSONNode &node)
 		}
 	}
 }
-
-void CTeamsProto::ProcessConversationUpdate(const JSONNode &) {}
-void CTeamsProto::ProcessThreadUpdate(const JSONNode &) {}

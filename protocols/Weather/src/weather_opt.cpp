@@ -295,8 +295,6 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // text option dialog
 
-#define VAR_LIST_OPT TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line")
-
 struct
 {
 	wchar_t c;
@@ -315,13 +313,40 @@ static controls[] =
 	{ 'S', IDC_BTITLE2, "StatusText"     },
 };
 
+struct
+{
+	wchar_t symbol;
+	const wchar_t *pwszText;
+}
+static variables[] =
+{
+	{ 'c', LPGENW("Current condition") },
+	{ 'd', LPGENW("Current date") },
+	{ 'e', LPGENW("Dewpoint") },
+	{ 'f', LPGENW("Feel-like temp") },
+	{ 'h', LPGENW("Today's high") },
+	{ 'i', LPGENW("Wind direction") },
+	{ 'l', LPGENW("Today's low") },
+	{ 'm', LPGENW("Humidity") },
+	{ 'n', LPGENW("Station name") },
+	{ 'p', LPGENW("Pressure") },
+	{ 'r', LPGENW("Sunrise") },
+	{ 's', LPGENW("Station ID") },
+	{ 't', LPGENW("Temperature") },
+	{ 'u', LPGENW("Update time") },
+	{ 'v', LPGENW("Visibility") },
+	{ 'w', LPGENW("Wind speed") },
+	{ 'y', LPGENW("Sunset") },
+};
+
 class COptionsTextDlg : public CWeatherDlgBase
 {
-	CCtrlMButton btnReset, tm1, tm2, tm3, tm4, tm5, tm6, tm7, tm8;
+	CCtrlMButton btnMore, btnReset, tm1, tm2, tm3, tm4, tm5, tm6, tm7, tm8;
 
 public:
 	COptionsTextDlg(CWeatherProto *ppro) :
 		CWeatherDlgBase(ppro, IDD_TEXTOPT),
+		btnMore(this, IDC_MORE),
 		btnReset(this, IDC_RESET),
 		tm1(this, IDC_TM1),
 		tm2(this, IDC_TM2),
@@ -332,6 +357,7 @@ public:
 		tm7(this, IDC_TM7),
 		tm8(this, IDC_TM8)
 	{
+		btnMore.OnClick = Callback(this, &COptionsTextDlg::onClick_More);
 		btnReset.OnClick = Callback(this, &COptionsTextDlg::onClick_Reset);
 
 		tm1.OnClick = tm2.OnClick = tm3.OnClick = tm4.OnClick = tm5.OnClick = tm6.OnClick = tm7.OnClick = tm8.OnClick =
@@ -346,7 +372,12 @@ public:
 		SetWindowPos(m_hwnd, HWND_TOPMOST, rc.left, rc.top, 0, 0, SWP_NOSIZE);
 
 		// generate the display text for variable list
-		SetDlgItemTextW(m_hwnd, IDC_VARLIST, VAR_LIST_OPT);
+		CMStringW str;
+		for (auto &it : variables)
+			str.AppendFormat(L"%%%c\t%s\r\n", it.symbol, TranslateW(it.pwszText));
+		str.Append(L"----------\r\n");
+		str.AppendFormat(L"\\n\t%s\r\n", TranslateT("new line"));
+		SetDlgItemTextW(m_hwnd, IDC_VARLIST, str);
 
 		for (auto &it : controls)
 			SetDlgItemTextW(m_hwnd, it.id, m_proto->GetTextValue(it.c));
@@ -360,6 +391,7 @@ public:
 		tm6.MakeFlat();
 		tm7.MakeFlat();
 		tm8.MakeFlat();
+		btnMore.MakeFlat();
 		btnReset.MakeFlat();
 		return true;
 	}
@@ -367,8 +399,8 @@ public:
 	bool OnApply() override
 	{
 		// save the option
-		wchar_t textstr[MAX_TEXT_SIZE];
 		for (auto &it : controls) {
+			wchar_t textstr[MAX_TEXT_SIZE];
 			GetDlgItemText(m_hwnd, it.id, textstr, _countof(textstr));
 			if (!mir_wstrcmpi(textstr, GetDefaultText(it.c)))
 				m_proto->delSetting(it.setting);
@@ -381,45 +413,55 @@ public:
 		return true;
 	}
 
+	void onClick_More(CCtrlButton *)
+	{
+		// heading
+		CMStringW str(TranslateT("Here is a list of custom variables that are currently available"));
+		str += L"\n\n";
+		m_proto->GetVarsDescr(str);
+
+		// display the list in a message box
+		MessageBox(nullptr, str, TranslateT("More Variables"), MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
+	}
+	
 	void onClick_TM(CCtrlButton *pButton)
 	{
 		// display the menu
-		RECT pos;
-		GetWindowRect(pButton->GetHwnd(), &pos);
 		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_TMMENU));
 		HMENU hMenu1 = GetSubMenu(hMenu, 0);
 		TranslateMenu(hMenu1);
-		{
-			auto &var = controls[pButton->GetCtrlId() - IDC_TM1];
 
-			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, m_hwnd, nullptr)) {
-			case ID_MPREVIEW:
-				{
-					// show the preview in a message box, using the weather data from the default station
-					WEATHERINFO winfo = m_proto->LoadWeatherInfo(m_proto->opt.DefStn);
-					wchar_t buf[MAX_TEXT_SIZE], str[4096];
-					GetDlgItemTextW(m_hwnd, var.id, buf, _countof(buf));
-					GetDisplay(&winfo, buf, str);
-					MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
-				}
-				break;
+		auto &var = controls[pButton->GetCtrlId() - IDC_TM1];
 
-			case ID_MRESET:
-				SetDlgItemTextW(m_hwnd, var.id, GetDefaultText(var.c));
-				break;
+		RECT pos;
+		GetWindowRect(pButton->GetHwnd(), &pos);
+		switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, m_hwnd, nullptr)) {
+		case ID_MPREVIEW:
+			{
+				// show the preview in a message box, using the weather data from the default station
+				WEATHERINFO winfo = m_proto->LoadWeatherInfo(m_proto->opt.DefStn);
+				wchar_t buf[MAX_TEXT_SIZE];
+				GetDlgItemTextW(m_hwnd, var.id, buf, _countof(buf));
+				MessageBox(nullptr, GetDisplay(&winfo, buf), TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
 			}
-			DestroyMenu(hMenu);
+			break;
+
+		case ID_MRESET:
+			SetDlgItemTextW(m_hwnd, var.id, GetDefaultText(var.c));
+			break;
 		}
+		DestroyMenu(hMenu);
 	}
 
 	void onClick_Reset(CCtrlButton *)
 	{
 		// left click action selection menu
-		RECT pos;
-		GetWindowRect(btnReset.GetHwnd(), &pos);
 		HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_TMENU));
 		HMENU hMenu1 = GetSubMenu(hMenu, 0);
 		TranslateMenu(hMenu1);
+
+		RECT pos;
+		GetWindowRect(btnReset.GetHwnd(), &pos);
 		switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, m_hwnd, nullptr)) {
 		case ID_T1:
 			// reset to the strings in memory, discard all changes

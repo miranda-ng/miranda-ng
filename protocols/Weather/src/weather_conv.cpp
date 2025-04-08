@@ -399,7 +399,7 @@ char* GetSearchStr(char *dis)
 // dis = the string to parse
 // return value = the parsed string
 
-wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
+CMStringW GetDisplay(WEATHERINFO *w, const wchar_t *dis)
 {
 	wchar_t lpzDate[32], chr;
 	char name[256], temp[2];
@@ -407,7 +407,7 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 	size_t i;
 
 	// Clear the string
-	str[0] = 0;
+	CMStringW str;
 
 	// looking character by character
 	for (i = 0; i < mir_wstrlen(dis); i++) {
@@ -416,10 +416,10 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 			i++;
 			chr = dis[i];
 			switch (chr) {
-			case '%': mir_wstrcat(str, L"%"); break;
-			case 't': mir_wstrcat(str, L"\t"); break;
-			case 'n': mir_wstrcat(str, L"\r\n"); break;
-			case '\\': mir_wstrcat(str, L"\\"); break;
+			case '%': str.Append(L"%"); break;
+			case 't': str.Append(L"\t"); break;
+			case 'n': str.Append(L"\r\n"); break;
+			case '\\': str.Append(L"\\"); break;
 			}
 		}
 
@@ -430,29 +430,31 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 			// turn capitalized characters to small case
 			if (chr < 'a' && chr != '[' && chr != '%') chr = (char)((int)chr + 32);
 			switch (chr) {
-			case 'c': mir_wstrcat(str, w->cond); break;
+			case 'c': str.Append(w->cond); break;
 			case 'd':	// get the current date
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, nullptr, nullptr, lpzDate, _countof(lpzDate));
-				mir_wstrcat(str, lpzDate); break;
-			case 'e': mir_wstrcat(str, w->dewpoint); break;
-			case 'f': mir_wstrcat(str, w->feel); break;
-			case 'h': mir_wstrcat(str, w->high); break;
-			case 'i': mir_wstrcat(str, w->winddir); break;
-			case 'l': mir_wstrcat(str, w->low); break;
-			case 'm': mir_wstrcat(str, w->humid); break;
-			case 'n': mir_wstrcat(str, w->city); break;
-			case 'p': mir_wstrcat(str, w->pressure); break;
-			case 'r': mir_wstrcat(str, w->sunrise); break;
-			case 's': mir_wstrcat(str, w->id); break;
-			case 't': mir_wstrcat(str, w->temp); break;
+				str.Append(lpzDate); break;
+			case 'e': str.Append(w->dewpoint); break;
+			case 'f': str.Append(w->feel); break;
+			case 'h': str.Append(w->high); break;
+			case 'i': str.Append(w->winddir); break;
+			case 'l': str.Append(w->low); break;
+			case 'm': str.Append(w->humid); break;
+			case 'n': str.Append(w->city); break;
+			case 'p': str.Append(w->pressure); break;
+			case 'r': str.Append(w->sunrise); break;
+			case 's': str.Append(w->id); break;
+			case 't': str.Append(w->temp); break;
 			case 'u':
-				if (mir_wstrcmp(w->update, NODATA))	mir_wstrcat(str, w->update);
-				else	mir_wstrcat(str, TranslateT("<unknown time>"));
+				if (mir_wstrcmp(w->update, NODATA))
+					str.Append(w->update);
+				else
+					str.Append(TranslateT("<unknown time>"));
 				break;
-			case 'v': mir_wstrcat(str, w->vis); break;
-			case 'w': mir_wstrcat(str, w->wind); break;
-			case 'y': mir_wstrcat(str, w->sunset); break;
-			case '%': mir_wstrcat(str, L"%"); break;
+			case 'v': str.Append(w->vis); break;
+			case 'w': str.Append(w->wind); break;
+			case 'y': str.Append(w->sunset); break;
+			case '%': str.Append(L"%"); break;
 			case '[':	// custom variables 
 				i++;
 				name[0] = 0;
@@ -464,17 +466,14 @@ wchar_t* GetDisplay(WEATHERINFO *w, const wchar_t *dis, wchar_t *str)
 				// access the database to get its value
 				if (!db_get_ws(w->hContact, WEATHERCONDITION, name, &dbv)) {
 					if (dbv.pwszVal != TranslateW(NODATA) && dbv.pwszVal != TranslateT("<Error>"))
-						mir_wstrcat(str, dbv.pwszVal);
+						str.Append(dbv.pwszVal);
 					db_free(&dbv);
 				}
 				break;
 			}
 		}
 		// if the character is not a variable, write the original character to the new string
-		else {
-			mir_snwprintf(lpzDate, L"%c", dis[i]);
-			mir_wstrcat(str, lpzDate);
-		}
+		else str.AppendChar(dis[i]);
 	}
 
 	return str;

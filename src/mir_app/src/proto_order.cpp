@@ -25,12 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
-struct ProtocolData
-{
-	char *RealName;
-	int enabled;
-};
-
 bool CheckProtocolOrder(void)
 {
 	bool changed = false;
@@ -127,15 +121,13 @@ class CProtocolOrderOpts : public CDlgBase
 			if (!ProtoToInclude(pa))
 				continue;
 
-			ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
-			PD->RealName = pa->szModuleName;
-			PD->enabled = pa->IsEnabled() && isProtoSuitable(pa->ppro);
-
-			tvis.item.lParam = (LPARAM)PD;
-			tvis.item.pszText = pa->tszAccountName;
-			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-			tvis.item.state = INDEXTOSTATEIMAGEMASK((PD->enabled) ? (pa->bIsVisible ? 2 : 1) : 3);
-			m_order.InsertItem(&tvis);
+			if (pa->IsEnabled() && isProtoSuitable(pa->ppro)) {
+				tvis.item.lParam = (LPARAM)pa->szModuleName;
+				tvis.item.pszText = pa->tszAccountName;
+				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+				tvis.item.state = INDEXTOSTATEIMAGEMASK(pa->bIsVisible ? 2 : 1);
+				m_order.InsertItem(&tvis);
+			}
 		}
 	}
 
@@ -151,7 +143,6 @@ public:
 		m_btnReset.OnClick = Callback(this, &CProtocolOrderOpts::onReset_Click);
 
 		m_order.SetFlags(MTREE_CHECKBOX | MTREE_DND);
-		m_order.OnDeleteItem = Callback(this, &CProtocolOrderOpts::onOrder_DeleteItem);
 	}
 
 	bool OnInitDialog() override
@@ -176,12 +167,10 @@ public:
 			m_order.GetItem(&tvi);
 
 			if (tvi.lParam != 0) {
-				ProtocolData *ppd = (ProtocolData*)tvi.lParam;
-				PROTOACCOUNT *pa = Proto_GetAccount(ppd->RealName);
+				PROTOACCOUNT *pa = Proto_GetAccount((char *)tvi.lParam);
 				if (pa != nullptr) {
 					pa->iOrder = idx++;
-					if (ppd->enabled)
-						pa->bIsVisible = m_order.GetCheckState(tvi.hItem) != 0;
+					pa->bIsVisible = m_order.GetCheckState(tvi.hItem) != 0;
 				}
 			}
 
@@ -208,13 +197,6 @@ public:
 
 		FillTree();
 		NotifyChange();
-	}
-
-	void onOrder_DeleteItem(CCtrlTreeView::TEventInfo *env)
-	{
-		NMTREEVIEW *pnmtv = env->nmtv;
-		if (pnmtv)
-			mir_free((ProtocolData*)pnmtv->itemOld.lParam);
 	}
 };
 

@@ -96,9 +96,6 @@
     <ClInclude Include="src\requests\oauth.h">
       <Filter>Header Files\Requests</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\poll.h">
-      <Filter>Header Files\Requests</Filter>
-    </ClInclude>
     <ClInclude Include="src\requests\profile.h">
       <Filter>Header Files\Requests</Filter>
     </ClInclude>

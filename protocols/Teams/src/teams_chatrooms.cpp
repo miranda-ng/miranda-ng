@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-25 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -353,7 +353,7 @@ void CTeamsProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 
 void CTeamsProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
-	SkypeReply reply(response);
+	TeamsReply reply(response);
 	if (reply.error())
 		return;
 
@@ -375,7 +375,7 @@ void CTeamsProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pR
 
 void CTeamsProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 {
-	SkypeReply reply(response);
+	TeamsReply reply(response);
 	if (reply.error())
 		return;
 

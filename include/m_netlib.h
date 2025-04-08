@@ -540,11 +540,13 @@ public:
 };
 
 MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const INT_PARAM&);
+MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const BOOL_PARAM&);
 MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const CHAR_PARAM&);
 MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const INT64_PARAM&);
 MIR_APP_DLL(MHttpRequest*) operator<<(MHttpRequest*, const WCHAR_PARAM&);
 
 __forceinline MHttpRequest* operator<<(MHttpRequest &req, const INT_PARAM &param) { return &req << param; }
+__forceinline MHttpRequest* operator<<(MHttpRequest &req, const BOOL_PARAM &param) { return &req << param; }
 __forceinline MHttpRequest* operator<<(MHttpRequest &req, const CHAR_PARAM &param) { return &req << param; }
 __forceinline MHttpRequest* operator<<(MHttpRequest &req, const INT64_PARAM &param) { return &req << param; }
 __forceinline MHttpRequest* operator<<(MHttpRequest &req, const WCHAR_PARAM &param) { return &req << param; }

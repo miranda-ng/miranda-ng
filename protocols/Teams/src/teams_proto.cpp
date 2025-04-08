@@ -1,3 +1,20 @@
+/*
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "stdafx.h"
 
 CTeamsProto::CTeamsProto(const char *protoName, const wchar_t *userName) :
@@ -21,6 +38,13 @@ CTeamsProto::CTeamsProto(const char *protoName, const wchar_t *userName) :
 	nlu.szDescriptiveName.w = m_tszUserName;
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
+
+	CMStringA module(FORMAT, "%s.TRouter", m_szModuleName);
+	CMStringW descr(FORMAT, TranslateT("%s websocket connection"), m_tszUserName);
+	nlu.szSettingsModule = module.GetBuffer();
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_UNICODE;
+	nlu.szDescriptiveName.w = descr.GetBuffer();
+	m_hTrouterNetlibUser = Netlib_RegisterUser(&nlu);
 
 	CreateProtoService(PS_GETAVATARINFO, &CTeamsProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CTeamsProto::SvcGetAvatarCaps);
@@ -83,6 +107,7 @@ void CTeamsProto::OnModulesLoaded()
 void CTeamsProto::OnShutdown()
 {
 	StopQueue();
+	StopTrouter();
 }
 
 INT_PTR CTeamsProto::GetCaps(int type, MCONTACT)
@@ -142,7 +167,7 @@ int CTeamsProto::Authorize(MEVENT hDbEvent)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthAcceptRequest(getId(hContact)));
+	PushRequest(new AsyncHttpRequest(REQUEST_POST, HOST_CONTACTS, "/users/SELF/invites/" + mir_urlEncode(getId(hContact)) + "/accept"));
 	return 0;
 }
 
@@ -152,7 +177,7 @@ int CTeamsProto::AuthDeny(MEVENT hDbEvent, const wchar_t *)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AuthDeclineRequest(getId(hContact)));
+	PushRequest(new AsyncHttpRequest(REQUEST_POST, HOST_CONTACTS, "/users/SELF/invites/" + mir_urlEncode(getId(hContact)) + "/decline"));
 	return 0;
 }
 
@@ -166,7 +191,15 @@ int CTeamsProto::AuthRequest(MCONTACT hContact, const wchar_t *szMessage)
 	if (hContact == INVALID_CONTACT_ID)
 		return 1;
 
-	PushRequest(new AddContactRequest(getId(hContact), T2Utf(szMessage)));
+	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_CONTACTS, "/users/SELF/contacts");
+
+	JSONNode node;
+	node << CHAR_PARAM("mri", getId(hContact));
+	if (mir_wstrlen(szMessage))
+		node << WCHAR_PARAM("greeting", szMessage);
+	pReq->m_szParam = node.write().c_str();
+
+	PushRequest(pReq);
 	return 0;
 }
 
@@ -203,6 +236,7 @@ int CTeamsProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		StopQueue();
+		StopTrouter();
 
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, ID_STATUS_OFFLINE);
 

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2012-25 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	switch (host) {
 	case HOST_API:       m_szUrl = "api.skype.com"; break;
 	case HOST_PEOPLE:    m_szUrl = "people.skype.com/v2"; break;
-	case HOST_CONTACTS:  m_szUrl = "edge.skype.com/pcs/contacts/v2"; break;
+	case HOST_CONTACTS:  m_szUrl = "contacts.skype.com/contacts/v2"; break;
 	case HOST_GRAPH:     m_szUrl = "skypegraph.skype.com"; break;
 	case HOST_LOGIN:     m_szUrl = "login.microsoftonline.com"; break;
 	case HOST_TEAMS:     m_szUrl = "teams.live.com"; break;

@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2012-25 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -39,8 +39,6 @@ void CTeamsProto::LoggedIn()
 	int oldStatus = m_iStatus;
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-
-	m_impl.m_heartBeat.StartSafe(600 * 1000);
 
 	SendCreateEndpoint();
 }

@@ -992,7 +992,7 @@ void CMsgDialog::HandlePasteAndSend()
 
 	m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 	if (GetWindowTextLength(m_message.GetHwnd()) > 0)
-		SendMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+		m_btnOk.Click();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

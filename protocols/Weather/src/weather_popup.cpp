@@ -120,8 +120,8 @@ int CWeatherProto::WeatherPopup(MCONTACT hContact, bool bAlways)
 		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
 		ppd.PluginData = ppd.lchIcon = GetStatusIcon(winfo.hContact);
-		GetDisplay(&winfo, GetTextValue('P'), ppd.lpwzContactName);
-		GetDisplay(&winfo, GetTextValue('p'), ppd.lpwzText);
+		wcsncpy_s(ppd.lpwzContactName, GetDisplay(&winfo, GetTextValue('P')), _TRUNCATE);
+		wcsncpy_s(ppd.lpwzText, GetDisplay(&winfo, GetTextValue('p')), _TRUNCATE);
 		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
 		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;

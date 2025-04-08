@@ -25,9 +25,7 @@ bool CDiscordProto::GatewaySend(const JSONNode &pRoot)
 	if (!m_bConnected)
 		return false;
 
-	json_string szText = pRoot.write();
-	debugLogA("Gateway send: %s", szText.c_str());
-	m_ws.sendText(szText.c_str());
+	m_ws.sendText(pRoot.write().c_str());
 	return true;
 }
 

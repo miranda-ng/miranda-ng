@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015-25 Miranda NG team (https://miranda-ng.org)
+Copyright (c) 2025 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -16,15 +16,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "stdafx.h"
-
-void CTeamsProto::ProcessTimer()
-{
-	if (!IsOnline())
-		return;
-
-	PushRequest(new GetContactListRequest());
-	SendPresence();
-}
 
 void CTeamsProto::SendCreateEndpoint()
 {
@@ -83,19 +74,17 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 			if (name == "registrationToken")
 				m_szToken = val.Detach();
 			else if (name == "endpointId")
-				m_szId = val.Detach();
+				m_szEndpoint = val.Detach();
 		}
 	}
 
-	if (m_szId && m_hPollingThread == nullptr)
-		ForkThread(&CTeamsProto::PollingThread);
-
+	StartTrouter();
 	PushRequest(new CreateSubscriptionsRequest());
 }
 
 void CTeamsProto::OnEndpointDeleted(MHttpResponse *, AsyncHttpRequest *)
 {
-	m_szId = nullptr;
+	m_szEndpoint = nullptr;
 	m_szToken = nullptr;
 }
 
@@ -111,23 +100,9 @@ void CTeamsProto::OnSubscriptionsCreated(MHttpResponse *response, AsyncHttpReque
 	SendPresence();
 }
 
-void CTeamsProto::SendPresence()
-{
-	ptrA epname;
+/////////////////////////////////////////////////////////////////////////////////////////
 
-	if (!m_bUseHostnameAsPlace && m_wstrPlace && *m_wstrPlace)
-		epname = mir_utf8encodeW(m_wstrPlace);
-	else {
-		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
-		DWORD size = _countof(compName);
-		GetComputerName(compName, &size);
-		epname = mir_utf8encodeW(compName);
-	}
-
-	PushRequest(new SendCapabilitiesRequest(epname, this));
-}
-
-void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest*)
+void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *)
 {
 	if (response == nullptr || response->body.IsEmpty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
@@ -147,7 +122,7 @@ void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 	skypenames.destroy();
 
 	ReceiveAvatar(0);
-	PushRequest(new GetContactListRequest());
+	PushRequest(new AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/contacts", &CTeamsProto::LoadContactList));
 	PushRequest(new SyncConversations());
 
 	JSONNode root = JSONNode::parse(response->body);
@@ -156,6 +131,38 @@ void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 
 	PushRequest(new GetProfileRequest(this, 0));
 }
+
+void CTeamsProto::SendPresence()
+{
+	ptrA epname;
+
+	if (!m_bUseHostnameAsPlace && m_wstrPlace && *m_wstrPlace)
+		epname = mir_utf8encodeW(m_wstrPlace);
+	else {
+		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
+		DWORD size = _countof(compName);
+		GetComputerName(compName, &size);
+		epname = mir_utf8encodeW(compName);
+	}
+
+	JSONNode privateInfo; privateInfo.set_name("privateInfo");
+	privateInfo << CHAR_PARAM("epname", epname);
+
+	JSONNode publicInfo; publicInfo.set_name("publicInfo");
+	publicInfo << CHAR_PARAM("capabilities", "Audio|Video") << INT_PARAM("typ", 125)
+		<< CHAR_PARAM("skypeNameVersion", "Miranda NG Skype") << CHAR_PARAM("nodeInfo", "xx") << CHAR_PARAM("version", g_szMirVer);
+
+	JSONNode node;
+	node << CHAR_PARAM("id", "messagingService") << CHAR_PARAM("type", "EndpointPresenceDoc")
+		<< CHAR_PARAM("selfLink", "uri") << privateInfo << publicInfo;
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(m_szEndpoint) + "/presenceDocs/messagingService",
+		&CTeamsProto::OnCapabilitiesSended);
+	pReq->m_szParam = node.write().c_str();
+	PushRequest(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTeamsProto::OnStatusChanged(MHttpResponse *response, AsyncHttpRequest*)
 {

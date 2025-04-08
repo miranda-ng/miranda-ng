@@ -26,18 +26,6 @@ saving individual weather data for a weather contact.
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// get station ID from DB
-// hContact = the current contact handle
-// return value = the string for station ID
-
-void CWeatherProto::GetStationID(MCONTACT hContact, wchar_t *id, int idlen)
-{
-	// accessing the database
-	if (db_get_wstatic(hContact, m_szModuleName, "ID", id, idlen))
-		id[0] = 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // initialize weather info by loading values from database
 // hContact = current contact handle
 // return value = the current weather information in WEATHERINFO struct
@@ -49,7 +37,7 @@ WEATHERINFO CWeatherProto::LoadWeatherInfo(MCONTACT hContact)
 	// if the string is not found in database, a value of "N/A" is stored in the field
 	WEATHERINFO winfo;
 	winfo.hContact = hContact;
-	GetStationID(hContact, winfo.id, _countof(winfo.id));
+	wcsncpy_s(winfo.id, getMStringW(hContact, "ID"), _countof(winfo.id));
 
 	if (db_get_wstatic(hContact, m_szModuleName, "Nick", winfo.city, _countof(winfo.city)))
 		wcsncpy(winfo.city, NODATA, _countof(winfo.city) - 1);
@@ -121,7 +109,7 @@ void CWeatherProto::EraseAllInfo()
 
 		// if no default station find, assign a new one
 		if (opt.Default[0] == 0) {
-			GetStationID(hContact, opt.Default, _countof(opt.Default));
+			wcsncpy_s(opt.Default, getMStringW(hContact, "ID"), _countof(opt.Default));
 
 			opt.DefStn = hContact;
 			if (!getWString(hContact, "Nick", &dbv)) {

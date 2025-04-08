@@ -43,9 +43,6 @@
     <ClCompile Include="src\teams_mood.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\teams_polling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\teams_popups.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,6 +56,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\teams_search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\teams_trouter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

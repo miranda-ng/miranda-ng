@@ -13,3 +13,4 @@ file(GLOB SOURCES "src/*.h" "res/*.rc"
 )
 set(TARGET ICQCorp)
 include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
+add_subdirectory(proto_icq)

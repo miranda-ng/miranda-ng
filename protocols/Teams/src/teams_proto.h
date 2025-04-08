@@ -1,4 +1,8 @@
 #define TEAMS_CLIENT_ID  "8ec6bc83-69c8-4392-8f08-b3c986009232"
+#define TEAMS_CLIENTINFO_NAME "skypeteams"
+#define TEAMS_CLIENTINFO_VERSION "49/24062722442"
+
+#define TEAMS_USER_AGENT "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0 Teams/24165.1410.2974.6689/49"
 
 #define DBKEY_ID       "id"
 #define DBKEY_GROUP    "DefaultGroup"
@@ -39,7 +43,7 @@ class CTeamsProto : public PROTO<CTeamsProto>
 		CTimer m_heartBeat, m_loginPoll;
 		void OnHeartBeat(CTimer *)
 		{
-			m_proto.ProcessTimer();
+			m_proto.TRouterSendJson("ping");
 		}
 		void OnLoginPoll(CTimer *)
 		{
@@ -141,12 +145,6 @@ public:
 	void __cdecl SearchBasicThread(void *param);
 
 	//////////////////////////////////////////////////////////////////////////////////////
-	// services
-
-	static INT_PTR __cdecl SvcEventGetIcon(WPARAM, LPARAM);
-	static INT_PTR __cdecl SvcGetEventText(WPARAM, LPARAM);
-
-	//////////////////////////////////////////////////////////////////////////////////////
 	// settings
 
 	CMOption<bool> m_bAutoHistorySync;
@@ -164,7 +162,7 @@ public:
 	// other data
 
 	int m_iPollingId, m_iMessageId = 1;
-	ptrA m_szToken, m_szId, m_szOwnSkypeId;
+	ptrA m_szToken, m_szEndpoint, m_szOwnSkypeId;
 	CMStringA m_szSkypename, m_szMyname, m_szSkypeToken;
 	MCONTACT m_hMyContact;
 
@@ -181,12 +179,6 @@ public:
 
 	void OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnEndpointDeleted(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	// oauth
-	void OnOAuthStart(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnOAuthConfirm(MHttpResponse* response, AsyncHttpRequest* pRequest);
-	void OnOAuthAuthorize(MHttpResponse* response, AsyncHttpRequest* pRequest);
-	void OnOAuthEnd(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnASMObjectCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest);
@@ -211,6 +203,7 @@ public:
 	void LoadProfile(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);
+
 private:
 	bool m_bHistorySynced;
 
@@ -223,9 +216,6 @@ private:
 	mir_cs m_lckOutMessagesList;
 	mir_cs messageSyncLock;
 	mir_cs m_StatusLock;
-
-	HANDLE m_hPollingThread;
-	HNETLIBCONN m_hPollingConn;
 
 	// avatars
 	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
@@ -303,17 +293,7 @@ private:
 
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
-	// polling
-	void __cdecl PollingThread(void*);
-
 	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
-	void ParsePollData(const char*);
-
-	void ProcessNewMessage(const JSONNode &node);
-	void ProcessUserPresence(const JSONNode &node);
-	void ProcessThreadUpdate(const JSONNode &node);
-	void ProcessEndpointPresence(const JSONNode &node);
-	void ProcessConversationUpdate(const JSONNode &node);
 
 	// utils
 	template <typename T>
@@ -346,8 +326,6 @@ private:
 
 	static LRESULT CALLBACK PopupDlgProcCall(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	void ProcessTimer();
-
 	void SetString(MCONTACT hContact, const char *pszSetting, const JSONNode &node);
 
 	CMStringW ChangeTopicForm();
@@ -369,6 +347,40 @@ private:
 		auto *proto = CMPlugin::getInstance((MCONTACT)wParam);
 		return proto ? (proto->*Service)(wParam, lParam) : 0;
 	}
+
+	// trouter
+public:
+	void TRouterProcess(const char *str);
+
+private:
+	HNETLIBUSER m_hTrouterNetlibUser;
+	CMStringA m_szTrouterUrl, m_szTrouterSurl;
+	WebSocket<CTeamsProto> *m_ws;
+	MHttpHeaders m_connectParams;
+	int iCommandId;
+
+	void ProcessNewMessage(const JSONNode &node);
+	void ProcessUserPresence(const JSONNode &node);
+	void ProcessThreadUpdate(const JSONNode &node);
+	void ProcessServerMessage(const std::string &szName, const JSONNode &args);
+	void ProcessEndpointPresence(const JSONNode &node);
+	void ProcessConversationUpdate(const JSONNode &node);
+
+	void __cdecl GatewayThread(void *);
+
+	void TRouterSendJson(const char *szName, const JSONNode *node = 0);
+	void TRouterSendJson(const JSONNode &node);
+
+	void TRouterSendAuthentication();
+	void TRouterSendActive(bool);
+	void TRouterRegister();
+	void TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath);
+
+	void StartTrouter();
+	void StopTrouter();
+
+	void OnTrouterInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnTrouterSession(MHttpResponse *response, AsyncHttpRequest *pRequest);
 };
 
 typedef CProtoDlgBase<CTeamsProto> CTeamsDlgBase;
