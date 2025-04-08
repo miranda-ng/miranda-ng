@@ -101,7 +101,7 @@ void JsonWebSocket<CDiscordProto>::process(const JSONNode &json)
 
 	case OPCODE_RECONNECT:  // we need to reconnect asap
 		p->debugLogA("we need to reconnect, leaving worker thread");
-		p->m_bTerminated = true;
+		p->m_ws.terminate();
 		return;
 
 	case OPCODE_INVALID_SESSION:  // session invalidated
