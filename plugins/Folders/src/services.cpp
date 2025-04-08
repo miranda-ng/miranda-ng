@@ -33,14 +33,11 @@ INT_PTR RegisterPathService(WPARAM, LPARAM lParam)
 	if (data == nullptr)
 		return NULL;
 
-	if (data->cbSize != sizeof(FOLDERSDATA))
-		return NULL;
-
 	CFolderItem *pNew;
 	if (data->flags & FF_UNICODE)
-		pNew = new CFolderItem(data->szSection, data->szName, data->szFormat.w, data->szUserName.w);
+		pNew = new CFolderItem(data->plugin, data->szSection, data->szName, data->szFormat.w);
 	else
-		pNew = new CFolderItem(data->szSection, data->szName, _A2T(data->szFormat.a), _A2T(data->szUserName.a));
+		pNew = new CFolderItem(data->plugin, data->szSection, data->szName, _A2T(data->szFormat.a));
 
 	lstRegisteredFolders.insert(pNew);
 	return (INT_PTR)pNew;
@@ -64,8 +61,6 @@ INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	FOLDERSGETDATA* data = (FOLDERSGETDATA*)lParam;
-	if (data->cbSize != sizeof(FOLDERSGETDATA))
-		return 1;
 
 	CMStringW buf(p->Expand());
 	if (data->flags & FF_UNICODE)

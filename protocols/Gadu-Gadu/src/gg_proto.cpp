@@ -79,7 +79,7 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 
 	wchar_t szPath[MAX_PATH];
 	mir_snwprintf(szPath, L"%s\\%s\\ImageCache", (wchar_t*)VARSW(L"%miranda_userdata%"), m_tszUserName);
-	hImagesFolder = FoldersRegisterCustomPathW(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
+	hImagesFolder = FoldersRegisterCustomPathW(LPGEN("Images"), m_szModuleName, szPath);
 
 	uint32_t pluginVersion = getDword(GG_PLUGINVERSION, 0);
 	if (pluginVersion < pluginInfoEx.version)

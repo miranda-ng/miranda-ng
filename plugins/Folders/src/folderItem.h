@@ -31,33 +31,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CFolderItem
 {
+	HPLUGIN m_hPlugin;
 	char  *m_szSection, *m_szName;
-	wchar_t *m_tszFormat, *m_tszOldFormat, *m_tszUserName;
+	wchar_t *m_tszFormat, *m_tszOldFormat;
 
 	void GetDataFromDatabase(const wchar_t *szNotFound);
 	void WriteDataToDatabase();
 
 	int FolderCreateDirectory(int showFolder = 0);
 	int FolderDeleteOldDirectory(int showFolder = 0);
+
 public:
-	CFolderItem(const char *sectionName, const char *name, const wchar_t *format, const wchar_t *userName);
+	CFolderItem(HPLUGIN, const char *sectionName, const char *name, const wchar_t *format);
 	virtual ~CFolderItem();
 
 	CMStringW Expand();
 	void Save();
 
-	int IsEqual(const CFolderItem *other);
-	int IsEqual(const char *section, const wchar_t *name);
-	int IsEqualTranslated(const char *trSection, const wchar_t *trName);
+	bool IsEqual(const CFolderItem *other);
+	bool IsEqual(const char *section, const char *name);
 	int operator ==(const CFolderItem *other);
 
-	__inline const char*  GetSection() const { return m_szSection; }
-	__inline const char*  GetName() const { return m_szName; }
-	__inline const wchar_t* GetUserName() const { return m_tszUserName; }
+	__inline HPLUGIN GetPlugin() const { return m_hPlugin; }
+	__inline const char* GetSection() const { return m_szSection; }
+	__inline const char* GetName() const { return m_szName; }
 	__inline const wchar_t* GetFormat() const { return m_tszFormat; }
 	void SetFormat(const wchar_t *newFormat);
 };
-
-typedef CFolderItem *PFolderItem;
 
 #endif //M_FOLDERS_FOLDER_ITEM_H

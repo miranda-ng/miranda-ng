@@ -20,14 +20,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-CFolderItem::CFolderItem(const char *sectionName, const char *name, const wchar_t *format, const wchar_t *userName)
+CFolderItem::CFolderItem(HPLUGIN hPlugin, const char *sectionName, const char *name, const wchar_t *format) :
+	m_hPlugin(hPlugin)
 {
 	m_szSection = mir_strdup(sectionName);
 	m_szName = mir_strdup(name);
-	if (userName)
-		m_tszUserName = mir_wstrdup(userName);
-	else
-		m_tszUserName = mir_a2u(name);
 	m_tszFormat = nullptr;
 	m_tszOldFormat = nullptr;
 	GetDataFromDatabase(format);
@@ -40,7 +37,6 @@ CFolderItem::~CFolderItem()
 	mir_free(m_szName);
 	mir_free(m_tszFormat);
 	mir_free(m_tszOldFormat);
-	mir_free(m_tszUserName);
 }
 
 void CFolderItem::SetFormat(const wchar_t *newFormat)
@@ -50,19 +46,14 @@ void CFolderItem::SetFormat(const wchar_t *newFormat)
 	m_tszFormat = mir_wstrdup(*newFormat ? newFormat : MIRANDA_PATHW);
 }
 
-int CFolderItem::IsEqual(const CFolderItem *other)
+bool CFolderItem::IsEqual(const CFolderItem *other)
 {
-	return (IsEqual(other->GetSection(), other->GetUserName()));
+	return IsEqual(other->GetSection(), other->GetName());
 }
 
-int CFolderItem::IsEqual(const char *section, const wchar_t *name)
+bool CFolderItem::IsEqual(const char *section, const char *name)
 {
-	return !mir_wstrcmp(m_tszUserName, name) && !mir_strcmp(m_szSection, section);
-}
-
-int CFolderItem::IsEqualTranslated(const char *trSection, const wchar_t *trName)
-{
-	return !mir_wstrcmp(TranslateW(m_tszUserName), trName) && !mir_strcmp(Translate(m_szSection), trSection);
+	return !mir_strcmp(m_szName, name) && !mir_strcmp(m_szSection, section);
 }
 
 int CFolderItem::operator ==(const CFolderItem *other)
