@@ -226,11 +226,11 @@ void MWebSocket::run()
 		int bufSize = Netlib_Recv(m_hConn, (char *)buf + offset, _countof(buf) - offset, MSG_NODUMP);
 		if (bufSize == 0) {
 			Netlib_Log(m_nlu, "Websocket connection gracefully closed");
-			break;
+			return;
 		}
 		if (bufSize < 0) {
 			Netlib_Log(m_nlu, "Websocket connection error, exiting");
-			break;
+			return;
 		}
 
 		WSHeader hdr;
@@ -248,11 +248,11 @@ void MWebSocket::run()
 				int result = Netlib_Recv(m_hConn, (char *)buf, _countof(buf), MSG_NODUMP);
 				if (result == 0) {
 					Netlib_Log(m_nlu, "Websocket connection gracefully closed");
-					break;
+					return;
 				}
 				if (result < 0) {
 					Netlib_Log(m_nlu, "Websocket connection error, exiting");
-					break;
+					return;
 				}
 				currPacketSize += result;
 				netbuf.append(buf, result);
