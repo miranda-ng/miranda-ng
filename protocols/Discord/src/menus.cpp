@@ -153,6 +153,16 @@ void CDiscordProto::OnBuildProtoMenu()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact menu items
 
+static std::vector<HGENMENU> g_menuItems;
+
+static int OnPrebuildMenu(WPARAM hContact, LPARAM)
+{
+	auto *ppro = CMPlugin::getInstance(hContact);
+	for (auto &it : g_menuItems)
+		Menu_ShowItem(it, ppro != 0);
+	return 0;
+}
+
 void CDiscordProto::InitMenus()
 {
 	CMenuItem mi(&g_plugin);
@@ -162,7 +172,7 @@ void CDiscordProto::InitMenus()
 	mi.name.a = LPGEN("Leave guild");
 	mi.position = -200001000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
-	g_hMenuLeaveGuild = Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(g_hMenuLeaveGuild = Menu_AddContactMenuItem(&mi));
 
 	mi.pszService = MODULENAME "/CreateChannel";
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuCreateChannel>);
@@ -170,7 +180,7 @@ void CDiscordProto::InitMenus()
 	mi.name.a = LPGEN("Create new channel");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
-	g_hMenuCreateChannel = Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(g_hMenuCreateChannel = Menu_AddContactMenuItem(&mi));
 
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuCopyId>);
@@ -178,7 +188,7 @@ void CDiscordProto::InitMenus()
 	mi.name.a = LPGEN("Copy ID");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
-	Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 
 	mi.pszService = MODULENAME "/ToggleSync";
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuToggleSync>);
@@ -186,7 +196,7 @@ void CDiscordProto::InitMenus()
 	mi.name.a = LPGEN("Enable guild sync");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
-	g_hMenuToggleSync = Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(g_hMenuToggleSync = Menu_AddContactMenuItem(&mi));
 
 	mi.pszService = MODULENAME "/DatabaseHistory";
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuDatabaseHistory>);
@@ -194,5 +204,7 @@ void CDiscordProto::InitMenus()
 	mi.name.a = LPGEN("Enable database history for a guild");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	g_hMenuDatabaseHistory = Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(g_hMenuDatabaseHistory = Menu_AddContactMenuItem(&mi));
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &OnPrebuildMenu);
 }

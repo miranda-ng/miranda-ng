@@ -296,7 +296,7 @@ void CJabberProto::OnModulesLoaded()
 	m_pepServices.InitGui();
 
 	InitPopups();
-	GlobalMenuInit();
+	MenuInit();
 	UpdateFeatHash();
 
 	StatusIconData sid = {};

@@ -149,7 +149,6 @@ void CDiscordProto::OnModulesLoaded()
 	HookProtoEvent(ME_GC_EVENT, &CDiscordProto::GroupchatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
 
-	InitMenus();
 	InitVoip(true);
 
 	// Voice support
