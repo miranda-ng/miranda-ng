@@ -276,9 +276,9 @@ INT_PTR CWeatherProto::Mwin_MenuClicked(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int CWeatherProto::BuildContactMenu(WPARAM wparam, LPARAM)
+int CWeatherProto::BuildContactMenu(MCONTACT hContact)
 {
-	int flags = getDword(wparam, "mwin") ? CMIF_CHECKED : 0;
+	int flags = getDword(hContact, "mwin") ? CMIF_CHECKED : 0;
 	Menu_ModifyItem(hMwinMenu, nullptr, INVALID_HANDLE_VALUE, flags);
 	return 0;
 }

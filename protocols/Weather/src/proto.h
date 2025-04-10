@@ -170,8 +170,6 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	void InitMwin(void);
 	void DestroyMwin(void);
 
-	int __cdecl BuildContactMenu(WPARAM, LPARAM);
-
 	INT_PTR __cdecl Mwin_MenuClicked(WPARAM, LPARAM);
 
 	// options
@@ -262,6 +260,7 @@ public:
 	void     OnShutdown() override;
 
 	static void GlobalMenuInit();
+	int __cdecl BuildContactMenu(MCONTACT);
 
 	int __cdecl OnToolbarLoaded(WPARAM, LPARAM);
 };

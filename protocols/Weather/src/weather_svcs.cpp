@@ -185,6 +185,19 @@ INT_PTR CWeatherProto::EnableDisableCmd(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // adding weather contact menus
 
+static std::vector<HGENMENU> g_menuItems;
+
+static int OnPrebuildMenu(WPARAM hContact, LPARAM)
+{
+	auto *ppro = CMPlugin::getInstance(hContact);
+	for (auto &it : g_menuItems)
+		Menu_ShowItem(it, ppro != 0);
+
+	if (ppro)
+		ppro->BuildContactMenu(hContact);
+	return 0;
+}
+
 void CWeatherProto::GlobalMenuInit()
 {
 	CMenuItem mi(&g_plugin);
@@ -195,7 +208,7 @@ void CWeatherProto::GlobalMenuInit()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE);
 	mi.name.a = LPGEN("Update Weather");
 	mi.pszService = MODULENAME "/Update";
-	Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 	CreateServiceFunction(mi.pszService, GlobalService<&CWeatherProto::UpdateSingleStation>);
 
 	SET_UID(mi, 0x45361b4, 0x8de, 0x44b4, 0x8f, 0x11, 0x9b, 0xe9, 0x6e, 0xa8, 0x83, 0x54);
@@ -203,7 +216,7 @@ void CWeatherProto::GlobalMenuInit()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE2);
 	mi.name.a = LPGEN("Remove Old Data then Update");
 	mi.pszService = MODULENAME "/Refresh";
-	Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 	CreateServiceFunction(mi.pszService, GlobalService<&CWeatherProto::UpdateSingleRemove>);
 
 	SET_UID(mi, 0x4232975e, 0xb181, 0x46a5, 0xb7, 0x6e, 0xd2, 0x5f, 0xef, 0xb8, 0xc4, 0x4d);
@@ -211,7 +224,7 @@ void CWeatherProto::GlobalMenuInit()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_S);
 	mi.name.a = LPGEN("Brief Information");
 	mi.pszService = MODULENAME "/Brief";
-	Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 	CreateServiceFunction(mi.pszService, GlobalService<&CWeatherProto::BriefInfo>);
 
 	SET_UID(mi, 0x3d6ed729, 0xd49a, 0x4ae9, 0x8e, 0x2, 0x9f, 0xe0, 0xf0, 0x2c, 0xcc, 0xb1);
@@ -219,7 +232,7 @@ void CWeatherProto::GlobalMenuInit()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_READ);
 	mi.name.a = LPGEN("Read Complete Forecast");
 	mi.pszService = MODULENAME "/CompleteForecast";
-	Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 	CreateServiceFunction(mi.pszService, GlobalService<&CWeatherProto::LoadForecast>);
 
 	SET_UID(mi, 0xc4b6c5e0, 0x13c3, 0x4e02, 0x8a, 0xeb, 0xeb, 0x8a, 0xe2, 0x66, 0x40, 0xd4);
@@ -227,7 +240,7 @@ void CWeatherProto::GlobalMenuInit()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MAP);
 	mi.name.a = LPGEN("Weather Map");
 	mi.pszService = MODULENAME "/Map";
-	Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 	CreateServiceFunction(mi.pszService, GlobalService<&CWeatherProto::WeatherMap>);
 
 	SET_UID(mi, 0xee3ad7f4, 0x3377, 0x4e4c, 0x8f, 0x3c, 0x3b, 0xf5, 0xd4, 0x86, 0x28, 0x25);
@@ -235,7 +248,7 @@ void CWeatherProto::GlobalMenuInit()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LOG);
 	mi.name.a = LPGEN("View Log");
 	mi.pszService = MODULENAME "/Log";
-	Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 	CreateServiceFunction(mi.pszService, GlobalService<&CWeatherProto::ViewLog>);
 
 	SET_UID(mi, 0x1b01cd6a, 0xe5ee, 0x42b4, 0xa1, 0x6d, 0x43, 0xb9, 0x4, 0x58, 0x43, 0x2e);
@@ -243,7 +256,7 @@ void CWeatherProto::GlobalMenuInit()
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_EDIT);
 	mi.name.a = LPGEN("Edit Settings");
 	mi.pszService = MODULENAME "/Edit";
-	Menu_AddContactMenuItem(&mi);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 	CreateServiceFunction(mi.pszService, GlobalService<&CWeatherProto::EditSettings>);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
@@ -251,11 +264,13 @@ void CWeatherProto::GlobalMenuInit()
 		mi.pszService = MODULENAME "/mwin_menu";
 		CreateServiceFunction(mi.pszService, GlobalService<&CWeatherProto::Mwin_MenuClicked>);
 		mi.position = -0x7FFFFFF0;
-		mi.hIcolibItem = nullptr;
+		mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FRAME);
 		mi.root = nullptr;
 		mi.name.a = LPGEN("Display in a frame");
-		hMwinMenu = Menu_AddContactMenuItem(&mi);
+		g_menuItems.push_back(hMwinMenu = Menu_AddContactMenuItem(&mi));
 	}
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &OnPrebuildMenu);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
