@@ -111,6 +111,8 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	HookProtoEvent(ME_GC_MUTE, &CTelegramProto::GcMuteHook);
 	HookProtoEvent(ME_GC_EVENT, &CTelegramProto::GcEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CTelegramProto::GcMenuHook);
+
+	CheckCompatibility();
 }
 
 CTelegramProto::~CTelegramProto()

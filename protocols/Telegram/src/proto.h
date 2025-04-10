@@ -367,6 +367,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	int      GetDefaultMute(const TG_USER *pUser);
 
+	void     CheckCompatibility(void);
 	MCONTACT GetRealContact(const TG_USER *pUser, int64_t threadId = 0);
 	void     RemoveFromClist(TG_USER *pUser);
 	void     MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool bSent);

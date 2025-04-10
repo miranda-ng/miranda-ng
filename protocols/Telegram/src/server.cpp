@@ -1328,7 +1328,7 @@ void CTelegramProto::ProcessUserInfo(TD::int53 userId, TD::userFullInfo *pObj)
 		if (pObj->bio_) {
 			CMStringA szNotes(GetFormattedText(pObj->bio_));
 			if (!szNotes.IsEmpty())
-				setString(pUser->hContact, "Notes", szNotes);
+				setString(pUser->hContact, "About", szNotes);
 		}
 	}
 }
