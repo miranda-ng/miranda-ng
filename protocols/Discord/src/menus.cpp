@@ -156,7 +156,7 @@ void CDiscordProto::OnBuildProtoMenu()
 void CDiscordProto::InitMenus()
 {
 	CMenuItem mi(&g_plugin);
-	mi.pszService = "/Discord/LeaveGuild";
+	mi.pszService = MODULENAME "/LeaveGuild";
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuLeaveGuild>);
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8C);
 	mi.name.a = LPGEN("Leave guild");
@@ -164,7 +164,7 @@ void CDiscordProto::InitMenus()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
 	g_hMenuLeaveGuild = Menu_AddContactMenuItem(&mi);
 
-	mi.pszService = "/Discord/CreateChannel";
+	mi.pszService = MODULENAME "/CreateChannel";
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuCreateChannel>);
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8D);
 	mi.name.a = LPGEN("Create new channel");
@@ -174,13 +174,13 @@ void CDiscordProto::InitMenus()
 
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuCopyId>);
-	mi.pszService = "/Discord/CopyId";
+	mi.pszService = MODULENAME "/CopyId";
 	mi.name.a = LPGEN("Copy ID");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
 	Menu_AddContactMenuItem(&mi);
 
-	mi.pszService = "/Discord/ToggleSync";
+	mi.pszService = MODULENAME "/ToggleSync";
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuToggleSync>);
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8F);
 	mi.name.a = LPGEN("Enable guild sync");
@@ -188,7 +188,7 @@ void CDiscordProto::InitMenus()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
 	g_hMenuToggleSync = Menu_AddContactMenuItem(&mi);
 
-	mi.pszService = "/Discord/DatabaseHistory";
+	mi.pszService = MODULENAME "/DatabaseHistory";
 	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuDatabaseHistory>);
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x90);
 	mi.name.a = LPGEN("Enable database history for a guild");

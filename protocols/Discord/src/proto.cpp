@@ -55,7 +55,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	arVoiceCalls(1, compareCalls),
 
 	m_wszEmail(this, "Email", L""),
-	m_wszDefaultGroup(this, "GroupName", DB_KEYVAL_GROUP),
+	m_wszDefaultGroup(this, "GroupName", L"Discord"),
 	m_bSyncMarkRead(this, "SendMarkRead", true),
 	m_bUseGroupchats(this, "UseGroupChats", true),
 	m_bHideGroupchats(this, "HideChats", true),
