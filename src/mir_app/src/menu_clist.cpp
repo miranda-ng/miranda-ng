@@ -112,13 +112,19 @@ MIR_APP_DLL(HMENU) Menu_GetMainMenu(void)
 	return hMainMenu;
 }
 
-MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi)
+MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, const char *pszProto)
 {
 	MainMenuExecParam *mmep = (MainMenuExecParam*)mir_alloc(sizeof(MainMenuExecParam));
 	if (mmep == nullptr)
 		return nullptr;
 
-	//we need just one parametr.
+	CMStringA szService;
+	if (pszProto) {
+		szService.Format("/%s/%s", pszProto, pmi->pszService);
+		pmi->pszService = szService;
+	}
+	
+	// we need just one parametr.
 	mmep->szServiceName = mir_strdup(pmi->pszService);
 	mmep->szMenuName = pmi->name.w;
 
