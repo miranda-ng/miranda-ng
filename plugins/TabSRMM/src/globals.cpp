@@ -457,7 +457,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 				if (!dbei)
 					continue;
 
-				if (!dbei.markedRead() && dbei.isAlertable())
+				if (!dbei.bRead && dbei.isAlertable())
 					if (!Srmm_FindWindow(hContact))
 						events.insert(new MSavedEvent(hContact, hDbEvent));
 			}

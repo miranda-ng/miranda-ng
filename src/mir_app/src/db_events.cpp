@@ -194,7 +194,7 @@ void DB::EventInfo::wipeNotify()
 	if (!m_bValid)
 		return;
 
-	if (!markedRead())
+	if (!bRead)
 		db_event_markRead(hContact, m_hEvent);
 	Clist_RemoveEvent(-1, m_hEvent);
 }

@@ -134,7 +134,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (!dbei)
 		return 0;
 
-	if (dbei.markedRead() || !DbEventIsShown(dbei))
+	if (dbei.bRead || !DbEventIsShown(dbei))
 		return 0;
 
 	Utils_InvokeAsync(new CAutoPopup(hContact, hDbEvent));
@@ -290,7 +290,7 @@ static void RestoreUnreadMessageAlerts(void)
 			if (!dbei)
 				continue;
 
-			if (!dbei.markedRead() && DbEventIsShown(dbei)) {
+			if (!dbei.bRead && DbEventIsShown(dbei)) {
 				int windowAlreadyExists = Srmm_FindWindow(hContact) != nullptr;
 				if (windowAlreadyExists)
 					continue;
