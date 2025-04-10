@@ -91,7 +91,8 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
 	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CDiscordProto::OnAccountChanged);
-	
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDiscordProto::OnMenuPrebuild);
+
 	HookProtoEvent(PE_VOICE_CALL_STATE, &CDiscordProto::OnVoiceState);
 
 	// avatars

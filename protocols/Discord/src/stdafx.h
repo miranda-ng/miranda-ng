@@ -56,6 +56,7 @@
 #include "opus/opus.h"
 
 extern IconItem g_iconList[];
+extern HGENMENU g_hMenuLeaveGuild, g_hMenuCreateChannel, g_hMenuToggleSync, g_hMenuDatabaseHistory;
 
 #define DB_KEY_ID          "id"
 #define DB_KEY_TOKEN       "AccessToken"

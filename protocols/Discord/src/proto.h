@@ -420,8 +420,10 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	//////////////////////////////////////////////////////////////////////////////////////
 	// menu items
 
-	void InitMenus(void);
+public:
+	static void InitMenus(void);
 
+private:
 	int __cdecl OnMenuPrebuild(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OnMenuCopyId(WPARAM, LPARAM);
@@ -431,8 +433,6 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	INT_PTR __cdecl OnMenuLeaveGuild(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuLoadHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuToggleSync(WPARAM, LPARAM);
-
-	HGENMENU m_hMenuLeaveGuild, m_hMenuCreateChannel, m_hMenuToggleSync, m_hMenuDatabaseHistory;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// guilds
