@@ -119,13 +119,13 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, const char *pszPro
 		return nullptr;
 
 	CMStringA szService;
-	if (pszProto) {
-		szService.Format("/%s/%s", pszProto, pmi->pszService);
-		pmi->pszService = szService;
-	}
+	if (pszProto)
+		szService.Format("%s%s", pszProto, pmi->pszService);
+	else
+		szService = pmi->pszService;
 	
 	// we need just one parametr.
-	mmep->szServiceName = mir_strdup(pmi->pszService);
+	mmep->szServiceName = mir_strdup(szService);
 	mmep->szMenuName = pmi->name.w;
 
 	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, pmi, mmep);
@@ -138,7 +138,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, const char *pszPro
 	bool needFree = false;
 
 	if (pmi->pszService)
-		name = pmi->pszService;
+		name = mmep->szServiceName;
 	else if (pmi->flags & CMIF_UNICODE) {
 		name = mir_u2a(pmi->name.w);
 		needFree = true;

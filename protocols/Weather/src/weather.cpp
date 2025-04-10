@@ -102,6 +102,9 @@ int CMPlugin::Load()
 	hDataWindowList = WindowList_Create();
 	hWindowList = WindowList_Create();
 
+	// add global menus
+	CWeatherProto::GlobalMenuInit();
+
 	// add sound event
 	addSound("weatherupdated", _A2W(MODULENAME), LPGENW("Condition Changed"));
 	addSound("weatheralert", _A2W(MODULENAME), LPGENW("Alert Issued"));

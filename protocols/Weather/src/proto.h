@@ -156,6 +156,8 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	MHttpResponse* RunQuery(const wchar_t *id, int days);
 
 	// menu items
+	HGENMENU hEnableDisableMenu;
+
 	void InitMenuItems();
 	void UpdateMenu(BOOL State);
 
@@ -258,6 +260,8 @@ public:
 	bool     OnContactDeleted(MCONTACT, uint32_t flags) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
+
+	static void GlobalMenuInit();
 
 	int __cdecl OnToolbarLoaded(WPARAM, LPARAM);
 };
