@@ -182,4 +182,5 @@ protected:
 	int CheckPhase2(void);
 	int CheckPhase3(void);
 	int CheckPhase4(void);
+	int CheckPhase5(void);
 };

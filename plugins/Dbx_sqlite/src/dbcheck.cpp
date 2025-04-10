@@ -93,6 +93,23 @@ int CDbxSQLite::CheckPhase4()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// update unsynced flags & is_read field
+
+int CDbxSQLite::CheckPhase5()
+{
+	sqlite3_stmt *pQuery;
+	int rc = sqlite3_prepare_v2(m_db, "UPDATE events SET flags = flags | 4 WHERE is_read = 1", -1, &pQuery, nullptr);
+	logError(rc, __FILE__, __LINE__);
+	if (rc)
+		return rc;
+
+	rc = sqlite3_step(pQuery);
+	logError(rc, __FILE__, __LINE__);
+	sqlite3_finalize(pQuery);
+	return 0;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // MIDatabaseChecker
 
@@ -103,6 +120,7 @@ int CDbxSQLite::CheckDb(int phase)
 	case 1: return CheckPhase2();
 	case 2: return CheckPhase3();
 	case 3: return CheckPhase4();
+	case 4: return CheckPhase5();
 	}
 
 	DBFlush(true);
