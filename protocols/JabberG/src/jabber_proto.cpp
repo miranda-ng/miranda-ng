@@ -257,7 +257,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 CJabberProto::~CJabberProto()
 {
 	ConsoleUninit();
-	GlobalMenuUninit();
+	MenuUninit();
 
 	if (m_hPopupClass)
 		Popup_UnregisterClass(m_hPopupClass);
