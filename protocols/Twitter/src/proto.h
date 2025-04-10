@@ -189,6 +189,7 @@ public:
 	void     OnModulesLoaded() override;
 
 	void UpdateSettings();
+	static void InitContactMenus(void);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Services

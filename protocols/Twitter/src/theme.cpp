@@ -55,13 +55,6 @@ static HGENMENU g_hMenuItems[2];
 
 // Helper functions
 
-template<INT_PTR(__cdecl CTwitterProto::*Fcn)(WPARAM, LPARAM)>
-INT_PTR GlobalService(WPARAM hContact, LPARAM lParam)
-{
-	CTwitterProto *proto = CMPlugin::getInstance(MCONTACT(hContact));
-	return proto ? (proto->*Fcn)(hContact, lParam) : 0;
-}
-
 static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	ShowContactMenus(false);
@@ -70,7 +63,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return proto ? proto->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
-void InitContactMenus()
+void CTwitterProto::InitContactMenus()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 

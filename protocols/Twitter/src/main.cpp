@@ -54,7 +54,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 int CMPlugin::Load()
 {
 	InitIcons();
-	InitContactMenus();
+	CTwitterProto::InitContactMenus();
 	TwitterInitSounds();
 	return 0;
 }

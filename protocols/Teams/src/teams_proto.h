@@ -341,13 +341,6 @@ private:
 	INT_PTR __cdecl SvcSetMood(WPARAM, LPARAM);
 	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
 
-	template<INT_PTR(__cdecl CTeamsProto::*Service)(WPARAM, LPARAM)>
-	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
-	{
-		auto *proto = CMPlugin::getInstance((MCONTACT)wParam);
-		return proto ? (proto->*Service)(wParam, lParam) : 0;
-	}
-
 	// trouter
 public:
 	void TRouterProcess(const char *str);

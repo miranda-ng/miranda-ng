@@ -3,13 +3,6 @@
 int CSteamProto::hChooserMenu;
 HGENMENU CSteamProto::contactMenuItems[CMI_MAX];
 
-template<int(__cdecl CSteamProto::*Service)(WPARAM, LPARAM)>
-INT_PTR GlobalService(WPARAM hContact, LPARAM lParam)
-{
-	CSteamProto *ppro = CMPlugin::getInstance((MCONTACT)hContact);
-	return ppro ? (ppro->*Service)(hContact, lParam) : 0;
-}
-
 INT_PTR CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
 {
 	ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
@@ -22,19 +15,19 @@ INT_PTR CSteamProto::AuthRevokeCommand(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-int CSteamProto::BlockCommand(WPARAM hContact, LPARAM)
+INT_PTR CSteamProto::BlockCommand(WPARAM hContact, LPARAM)
 {
 	SendUserIgnoreRequest(hContact, true);
 	return 0;
 }
 
-int CSteamProto::UnblockCommand(WPARAM hContact, LPARAM)
+INT_PTR CSteamProto::UnblockCommand(WPARAM hContact, LPARAM)
 {
 	SendUserIgnoreRequest(hContact, false);
 	return 0;
 }
 
-int CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
+INT_PTR CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
 {
 	char url[MAX_PATH];
 	uint32_t gameId = getDword(hContact, "GameID", 0);
