@@ -62,7 +62,7 @@ function Options_Open(group,page,tab:PWideChar):int_ptr;
 function _Srmm_AddButton(bbdi:pBBButton; pPlugin:Pointer) : integer; stdcall; 
              external AppDll name 'Srmm_AddButton';
 
-function _AddMainMenuItem(mi:PMO_MenuItem) : HGENMENU; stdcall;
+function _AddMainMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
              external AppDll name 'Menu_AddMainMenuItem';
 
 function _AddContactMenuItem(mi:PMO_MenuItem; pszProto:PAnsiChar) : HGENMENU; stdcall;
@@ -260,7 +260,7 @@ end;
 function Menu_AddMainMenuItem(mi:PMO_MenuItem):HGENMENU;
 begin
   mi^.pPlugin:=@g_plugin;
-  result:=_AddMainMenuItem(mi);
+  result:=_AddMainMenuItem(mi, nil);
 end;
 
 function Menu_AddContactMenuItem(mi:PMO_MenuItem):HGENMENU;
