@@ -600,6 +600,7 @@ const char* MirandaToSkypeStatus(int status)
 	case ID_STATUS_AWAY:       return "Away";
 	case ID_STATUS_NA:         return "BeRightBack";
 	case ID_STATUS_DND:        return "DoNotDisturb";
+	case ID_STATUS_OCCUPIED:   return "Busy";
 	case ID_STATUS_IDLE:       return "AvailableIdle";
 	}
 	return "Available";
