@@ -48,11 +48,6 @@ void InitializeMenus()
 	}
 }
 
-void CCloudService::OnModulesLoaded()
-{
-	InitializeMenus();
-}
-
 int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	Menu_ShowItem(hContactMenu, CanSendToContact(hContact));

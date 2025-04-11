@@ -24,6 +24,11 @@ CCloudService::~CCloudService()
 	m_hNetlibUser = nullptr;
 }
 
+void CCloudService::OnModulesLoaded()
+{
+	InitializeMenus();
+}
+
 HPLUGIN CCloudService::GetId() const
 {
 	return m_pPlugin;
