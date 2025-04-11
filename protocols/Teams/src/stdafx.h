@@ -72,6 +72,7 @@ enum SkypeHost
 	HOST_LOGIN,
 	HOST_PEOPLE,
 	HOST_TEAMS,
+	HOST_PRESENCE,
 	HOST_OTHER
 };
 
@@ -92,7 +93,6 @@ struct AsyncHttpRequest : public MTHttpRequest<CTeamsProto>
 #include "requests/history.h"
 #include "requests/profile.h"
 #include "requests/search.h"
-#include "requests/status.h"
 #include "requests/subscriptions.h"
 
 #endif //_COMMON_H_

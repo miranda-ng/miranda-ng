@@ -116,9 +116,9 @@ INT_PTR CTeamsProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_BASICSEARCH | PF1_MODEMSG | PF1_FILE | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
+		return PF2_ONLINE;
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_HEAVYDND;
+		return PF2_ONLINE;
 	case PFLAGNUM_4:
 		return PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES | PF4_SERVERMSGID | PF4_SERVERFORMATTING;
 	case PFLAG_UNIQUEIDTEXT:
@@ -248,7 +248,8 @@ int CTeamsProto::SetStatus(int iNewStatus)
 	if (m_iStatus == ID_STATUS_OFFLINE)
 		Login();
 	else
-		PushRequest(new SetStatusRequest(MirandaToSkypeStatus(m_iDesiredStatus)));
+		SetServerStatus(m_iDesiredStatus);
+
 	return 0;
 }
 

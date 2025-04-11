@@ -26,11 +26,12 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_CONTACTS:  m_szUrl = "contacts.skype.com/contacts/v2"; break;
 	case HOST_GRAPH:     m_szUrl = "skypegraph.skype.com"; break;
 	case HOST_LOGIN:     m_szUrl = "login.microsoftonline.com"; break;
-	case HOST_TEAMS:     m_szUrl = "teams.live.com"; break;
+	case HOST_TEAMS:     m_szUrl = TEAMS_BASE_HOST; break;
+	case HOST_PRESENCE:  m_szUrl = "presence." TEAMS_BASE_HOST "/v1"; break;
 
 	case HOST_DEFAULT:
 		AddHeader("MS-IC3-Product", "Sfl");
-		m_szUrl = "msgapi.teams.live.com/v1";
+		m_szUrl = "msgapi." TEAMS_BASE_HOST  "/v1";
 		break;
 	}
 
@@ -111,6 +112,8 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		}
 	}
 
+	pReq->AddHeader("X-MS-Client-Consumer-Type", "teams4life");
+
 	switch (pReq->m_host) {
 	case HOST_API:
 	case HOST_PEOPLE:
@@ -127,6 +130,17 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		if (m_szSkypeToken)
 			pReq->AddHeader("X-Skypetoken", m_szSkypeToken);
 		pReq->AddHeader("Accept", "application/json");
+		break;
+
+	case HOST_PRESENCE:
+		if (m_szSkypeToken)
+			pReq->AddHeader("X-Skypetoken", m_szSkypeToken);
+
+		pReq->AddHeader("Accept", "application/json");
+		pReq->AddHeader("x-ms-client-user-agent", "Teams-V2-Desktop");
+		pReq->AddHeader("x-ms-correlation-id", "1");
+		pReq->AddHeader("x-ms-client-version", TEAMS_CLIENTINFO_VERSION);
+		pReq->AddHeader("x-ms-endpoint-id", m_szEndpoint);
 		break;
 
 	case HOST_LOGIN:

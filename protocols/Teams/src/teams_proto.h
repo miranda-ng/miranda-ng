@@ -2,6 +2,8 @@
 #define TEAMS_CLIENTINFO_NAME "skypeteams"
 #define TEAMS_CLIENTINFO_VERSION "49/24062722442"
 
+#define TEAMS_BASE_HOST "teams.live.com"
+
 #define TEAMS_USER_AGENT "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0 Teams/24165.1410.2974.6689/49"
 
 #define DBKEY_ID       "id"
@@ -317,8 +319,7 @@ private:
 
 	static time_t IsoToUnixTime(const std::string &stamp);
 
-	static int SkypeToMirandaStatus(const char *status);
-	static const char *MirandaToSkypeStatus(int status);
+	void SetServerStatus(int iStatus);
 
 	void ShowNotification(const wchar_t *message, MCONTACT hContact = NULL);
 	void ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact = NULL, int type = 0);
