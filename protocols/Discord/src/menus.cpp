@@ -57,7 +57,7 @@ INT_PTR CDiscordProto::OnMenuJoinGuild(WPARAM, LPARAM)
 {
 	ENTER_STRING es = { m_szModuleName, "guild_name", TranslateT("Enter invitation code you received"), nullptr, ESF_COMBO, 5 };
 	if (EnterString(&es)) {
-		CMStringA szUrl(FORMAT, "/invite/%S", es.ptszResult);
+		CMStringA szUrl(FORMAT, "/invites/%S", es.ptszResult);
 		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr));
 		mir_free(es.ptszResult);
 	}
