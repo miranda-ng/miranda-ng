@@ -615,6 +615,7 @@ public:
 	void OnReceiveCreateChannel(MHttpResponse*, AsyncHttpRequest*);
 	void OnReceiveFile(MHttpResponse*, AsyncHttpRequest*);
 	void OnReceiveGateway(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveJoin(MHttpResponse*, AsyncHttpRequest*);
 	void OnReceiveLogout(MHttpResponse*, AsyncHttpRequest*);
 	void OnReceiveMarkRead(MHttpResponse*, AsyncHttpRequest *);
 	void OnReceiveMessageAck(MHttpResponse*, AsyncHttpRequest*);

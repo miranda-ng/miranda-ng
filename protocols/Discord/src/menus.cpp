@@ -53,12 +53,26 @@ INT_PTR CDiscordProto::OnMenuDatabaseHistory(WPARAM hContact, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CDiscordProto::OnReceiveJoin(MHttpResponse *pResponse, AsyncHttpRequest *)
+{
+	if (pResponse->resultCode == 400) {
+		auto reply = JSONNode::parse(pResponse->body);
+		if (reply && reply["captcha_key"]) {
+			POPUPDATAW popup;
+			popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR), true);
+			wcscpy_s(popup.lpwzContactName, m_tszUserName);
+			mir_snwprintf(popup.lpwzText, TranslateT("You need to enter a captcha to join this server. Open this link in a browser."));
+			PUAddPopupW(&popup);
+		}
+	}
+}
+
 INT_PTR CDiscordProto::OnMenuJoinGuild(WPARAM, LPARAM)
 {
 	ENTER_STRING es = { m_szModuleName, "guild_name", TranslateT("Enter invitation code you received"), nullptr, ESF_COMBO, 5 };
 	if (EnterString(&es)) {
 		CMStringA szUrl(FORMAT, "/invites/%S", es.ptszResult);
-		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr));
+		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveJoin));
 		mir_free(es.ptszResult);
 	}
 	return 0;
