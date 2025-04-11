@@ -89,7 +89,7 @@ public:
 	HGENMENU    m_hmiMainMenu = 0; // if protocol menus are displayed in the main menu, this is the root
 
 	PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName);
-	~PROTO_INTERFACE();
+	virtual ~PROTO_INTERFACE();
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
