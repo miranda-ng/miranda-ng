@@ -23,16 +23,7 @@ CYandexService::CYandexService(const char *protoName, const wchar_t *userName) :
 
 PROTO_INTERFACE* CYandexService::Init(const char *moduleName, const wchar_t *userName)
 {
-	CYandexService *proto = new CYandexService(moduleName, userName);
-	Services.insert(proto);
-	return proto;
-}
-
-int CYandexService::UnInit(PROTO_INTERFACE *proto)
-{
-	Services.remove((CYandexService*)proto);
-	delete proto;
-	return 0;
+	return new CYandexService(moduleName, userName);
 }
 
 const char* CYandexService::GetModuleName() const
@@ -61,7 +52,7 @@ void CYandexService::Login(HWND owner)
 	ptrA refreshToken(getStringA("RefreshToken"));
 	if (token && refreshToken && refreshToken[0]) {
 		YandexAPI::RefreshTokenRequest request(refreshToken);
-		NLHR_PTR response(request.Send(m_hConnection));
+		NLHR_PTR response(request.Send(m_hNetlibUser));
 
 		JSONNode root = GetJsonResponse(response);
 
@@ -99,12 +90,12 @@ void CYandexService::RequestAccessTokenThread(void *param)
 	GetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, requestToken, _countof(requestToken));
 
 	YandexAPI::GetAccessTokenRequest request(requestToken);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
 		if (response) {
 			const char *error = response->body.GetLength() ? response->body : HttpStatusToError(response->resultCode);
-			Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), error);
+			Netlib_Logf(m_hNetlibUser, "%s: %s", m_szModuleName, error);
 		}
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
@@ -113,7 +104,7 @@ void CYandexService::RequestAccessTokenThread(void *param)
 
 	JSONNode root = JSONNode::parse(response->body);
 	if (root.empty()) {
-		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
+		Netlib_Logf(m_hNetlibUser, "%s: %s", m_szModuleName, HttpStatusToError(response->resultCode));
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
 		return;
@@ -122,7 +113,7 @@ void CYandexService::RequestAccessTokenThread(void *param)
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		CMStringW error_description = node.as_mstring();
-		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
+		Netlib_Logf(m_hNetlibUser, "%s: %s", m_szModuleName, HttpStatusToError(response->resultCode));
 		ShowNotification(error_description, MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
 		return;
@@ -145,9 +136,9 @@ void CYandexService::RequestAccessTokenThread(void *param)
 
 void CYandexService::RevokeAccessTokenThread(void*)
 {
-	ptrA token(db_get_sa(0, GetAccountName(), "TokenSecret"));
+	ptrA token(db_get_sa(0, m_szModuleName, "TokenSecret"));
 	YandexAPI::RevokeAccessTokenRequest request(token);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	delSetting("ExpiresIn");
 	delSetting("TokenSecret");
@@ -168,7 +159,7 @@ auto CYandexService::CreateUploadSession(const std::string &path)
 	ptrA token(getStringA("TokenSecret"));
 	uint8_t strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
 	YandexAPI::GetUploadUrlRequest request(token, path.c_str(), (OnConflict)strategy);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	JSONNode root = GetJsonResponse(response);
 	return root["href"].as_string();
@@ -177,7 +168,7 @@ auto CYandexService::CreateUploadSession(const std::string &path)
 void CYandexService::UploadFile(const std::string &uploadUri, const char *data, size_t size)
 {
 	YandexAPI::UploadFileRequest request(uploadUri.c_str(), data, size);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	HandleHttpError(response);
 
@@ -190,7 +181,7 @@ void CYandexService::UploadFile(const std::string &uploadUri, const char *data, 
 void CYandexService::UploadFileChunk(const std::string &uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize)
 {
 	YandexAPI::UploadFileChunkRequest request(uploadUri.c_str(), chunk, chunkSize, offset, fileSize);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	HandleHttpError(response);
 
@@ -205,7 +196,7 @@ void CYandexService::CreateFolder(const std::string &path)
 {
 	ptrA token(getStringA("TokenSecret"));
 	YandexAPI::CreateFolderRequest request(token, path.c_str());
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	if (HTTP_CODE_SUCCESS(response->resultCode)) {
 		GetJsonResponse(response);
@@ -224,12 +215,12 @@ auto CYandexService::CreateSharedLink(const std::string &path)
 {
 	ptrA token(getStringA("TokenSecret"));
 	YandexAPI::PublishRequest publishRequest(token, path.c_str());
-	NLHR_PTR response(publishRequest.Send(m_hConnection));
+	NLHR_PTR response(publishRequest.Send(m_hNetlibUser));
 
 	GetJsonResponse(response);
 
 	YandexAPI::GetResourcesRequest resourcesRequest(token, path.c_str());
-	response = resourcesRequest.Send(m_hConnection);
+	response = resourcesRequest.Send(m_hNetlibUser);
 
 	JSONNode root = GetJsonResponse(response);
 	return root["public_url"].as_string();

@@ -25,9 +25,9 @@ bool COptionsMainDlg::OnInitDialog()
 	int iItem = m_defaultService.AddString(TranslateT("None"));
 	m_defaultService.SetCurSel(iItem);
 
-	for (auto &service : Services) {
-		iItem = m_defaultService.AddString(mir_wstrdup(service->GetUserName()), (LPARAM)service);
-		if (!mir_strcmpi(service->GetAccountName(), defaultService))
+	for (auto &service : g_arServices) {
+		iItem = m_defaultService.AddString(mir_wstrdup(service->m_tszUserName), (LPARAM)service);
+		if (!mir_strcmpi(service->m_szModuleName, defaultService))
 			m_defaultService.SetCurSel(iItem);
 	}
 
@@ -57,7 +57,7 @@ bool COptionsMainDlg::OnApply()
 {
 	CCloudService *service = (CCloudService*)m_defaultService.GetCurData();
 	if (service)
-		g_plugin.setString("DefaultService", service->GetAccountName());
+		g_plugin.setString("DefaultService", service->m_szModuleName);
 	else
 		g_plugin.delSetting("DefaultService");
 
@@ -77,7 +77,7 @@ int OnOptionsInitialized(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = _A2W(MODULENAME);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.szGroup.w = LPGENW("Services");
+	odp.szGroup.w = LPGENW("g_arServices");
 
 	//odp.szTab.w = LPGENW("General");
 	odp.pDialog = new COptionsMainDlg();

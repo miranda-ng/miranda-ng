@@ -24,16 +24,7 @@ CGDriveService::CGDriveService(const char *protoName, const wchar_t *userName) :
 
 PROTO_INTERFACE* CGDriveService::Init(const char *moduleName, const wchar_t *userName)
 {
-	CGDriveService *proto = new CGDriveService(moduleName, userName);
-	Services.insert(proto);
-	return proto;
-}
-
-int CGDriveService::UnInit(PROTO_INTERFACE *proto)
-{
-	Services.remove((CGDriveService*)proto);
-	delete proto;
-	return 0;
+	return new CGDriveService(moduleName, userName);
 }
 
 const char* CGDriveService::GetModuleName() const
@@ -62,7 +53,7 @@ void CGDriveService::Login(HWND owner)
 	ptrA refreshToken(getStringA("RefreshToken"));
 	if (token && refreshToken && refreshToken[0]) {
 		GDriveAPI::RefreshTokenRequest request(refreshToken);
-		NLHR_PTR response(request.Send(m_hConnection));
+		NLHR_PTR response(request.Send(m_hNetlibUser));
 
 		JSONNode root = GetJsonResponse(response);
 
@@ -97,14 +88,14 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 	GetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, requestToken, _countof(requestToken));
 
 	GDriveAPI::GetAccessTokenRequest request(requestToken);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	if (response == nullptr || response->resultCode != HTTP_CODE_OK) {
 		const char *error = response && response->body.GetLength()
 			? response->body
 			: HttpStatusToError(response ? response->resultCode : 0);
 
-		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), error);
+		Netlib_Logf(m_hNetlibUser, "%s: %s", m_szModuleName, error);
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
 		return;
@@ -112,7 +103,7 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 
 	JSONNode root = JSONNode::parse(response->body);
 	if (root.empty()) {
-		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
+		Netlib_Logf(m_hNetlibUser, "%s: %s", m_szModuleName, HttpStatusToError(response->resultCode));
 		ShowNotification(TranslateT("Server does not respond"), MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
 		return;
@@ -121,21 +112,21 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 	JSONNode node = root.at("error_description");
 	if (!node.isnull()) {
 		CMStringW error_description = node.as_mstring();
-		Netlib_Logf(m_hConnection, "%s: %s", GetAccountName(), HttpStatusToError(response->resultCode));
+		Netlib_Logf(m_hNetlibUser, "%s: %s", m_szModuleName, HttpStatusToError(response->resultCode));
 		ShowNotification(error_description, MB_ICONERROR);
 		EndDialog(hwndDlg, 0);
 		return;
 	}
 
 	node = root.at("access_token");
-	db_set_s(0, GetAccountName(), "TokenSecret", node.as_string().c_str());
+	db_set_s(0, m_szModuleName, "TokenSecret", node.as_string().c_str());
 
 	node = root.at("expires_in");
 	time_t expiresIn = time(0) + node.as_int();
-	db_set_dw(0, GetAccountName(), "ExpiresIn", expiresIn);
+	db_set_dw(0, m_szModuleName, "ExpiresIn", expiresIn);
 
 	node = root.at("refresh_token");
-	db_set_s(0, GetAccountName(), "RefreshToken", node.as_string().c_str());
+	db_set_s(0, m_szModuleName, "RefreshToken", node.as_string().c_str());
 
 	SetDlgItemTextA(hwndDlg, IDC_OAUTH_CODE, "");
 
@@ -144,9 +135,9 @@ void CGDriveService::RequestAccessTokenThread(void *param)
 
 void CGDriveService::RevokeAccessTokenThread(void*)
 {
-	ptrA token(db_get_sa(0, GetAccountName(), "TokenSecret"));
+	ptrA token(db_get_sa(0, m_szModuleName, "TokenSecret"));
 	GDriveAPI::RevokeAccessTokenRequest request(token);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	delSetting("ExpiresIn");
 	delSetting("TokenSecret");
@@ -166,7 +157,7 @@ auto CGDriveService::UploadFile(const std::string &parentId, const std::string &
 {
 	ptrA token(getStringA("TokenSecret"));
 	GDriveAPI::UploadFileRequest request(token, parentId.c_str(), fileName.c_str(), data, size);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 	JSONNode root = GetJsonResponse(response);
 	return root["id"].as_string();
 }
@@ -175,7 +166,7 @@ auto CGDriveService::CreateUploadSession(const std::string &parentId, const std:
 {
 	ptrA token(getStringA("TokenSecret"));
 	GDriveAPI::CreateUploadSessionRequest request(token, parentId.c_str(), fileName.c_str());
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	HandleHttpError(response);
 
@@ -190,7 +181,7 @@ auto CGDriveService::CreateUploadSession(const std::string &parentId, const std:
 auto CGDriveService::UploadFileChunk(const std::string &uploadUri, const char *chunk, size_t chunkSize, uint64_t offset, uint64_t fileSize)
 {
 	GDriveAPI::UploadFileChunkRequest request(uploadUri.c_str(), chunk, chunkSize, offset, fileSize);
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	if (response->resultCode == HTTP_CODE_PERMANENT_REDIRECT)
 		return std::string();
@@ -211,7 +202,7 @@ auto CGDriveService::CreateFolder(const std::string &parentId, const std::string
 {
 	ptrA token(getStringA("TokenSecret"));
 	GDriveAPI::GetFolderRequest getFolderRequest(token, parentId.c_str(), name.c_str());
-	NLHR_PTR response(getFolderRequest.Send(m_hConnection));
+	NLHR_PTR response(getFolderRequest.Send(m_hNetlibUser));
 
 	JSONNode root = GetJsonResponse(response);
 	JSONNode files = root["files"].as_array();
@@ -219,7 +210,7 @@ auto CGDriveService::CreateFolder(const std::string &parentId, const std::string
 		return files[(size_t)0]["id"].as_string();
 
 	GDriveAPI::CreateFolderRequest createFolderRequest(token, parentId.c_str(), name.c_str());
-	response = createFolderRequest.Send(m_hConnection);
+	response = createFolderRequest.Send(m_hNetlibUser);
 
 	root = GetJsonResponse(response);
 	return root["id"].as_string();
@@ -229,7 +220,7 @@ auto CGDriveService::CreateSharedLink(const std::string &itemId)
 {
 	ptrA token(getStringA("TokenSecret"));
 	GDriveAPI::GrantPermissionsRequest request(token, itemId.c_str());
-	NLHR_PTR response(request.Send(m_hConnection));
+	NLHR_PTR response(request.Send(m_hNetlibUser));
 
 	HandleHttpError(response);
 

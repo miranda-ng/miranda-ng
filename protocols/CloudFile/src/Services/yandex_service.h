@@ -21,7 +21,6 @@ public:
 	CYandexService(const char *protoName, const wchar_t *userName);
 
 	static PROTO_INTERFACE* Init(const char *szModuleName, const wchar_t *szUserName);
-	static int UnInit(PROTO_INTERFACE *);
 
 	const char* GetModuleName() const override;
 

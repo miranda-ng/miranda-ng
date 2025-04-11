@@ -8,28 +8,25 @@ CCloudService::CCloudService(const char *protoName, const wchar_t *userName, HPL
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = (char*)protoName;
 	nlu.szDescriptiveName.w = (wchar_t*)userName;
-	m_hConnection = Netlib_RegisterUser(&nlu);
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
+
+	CreateProtoService(PS_UPLOAD, &CCloudService::UploadMenuCommand);
+
+	g_arServices.insert(this);
 }
 
 CCloudService::~CCloudService()
 {
-	Netlib_CloseHandle(m_hConnection);
-	m_hConnection = nullptr;
+	if (!Miranda_IsTerminated())
+		InitializeMenus();
+
+	Netlib_CloseHandle(m_hNetlibUser);
+	m_hNetlibUser = nullptr;
 }
 
 HPLUGIN CCloudService::GetId() const
 {
 	return m_pPlugin;
-}
-
-const char* CCloudService::GetAccountName() const
-{
-	return m_szModuleName;
-}
-
-const wchar_t* CCloudService::GetUserName() const
-{
-	return m_tszUserName;
 }
 
 INT_PTR CCloudService::GetCaps(int type, MCONTACT)
@@ -181,4 +178,17 @@ UINT CCloudService::Upload(CCloudService *service, FileTransferParam *ftp)
 
 	ftp->SetStatus(ACKRESULT_SUCCESS);
 	return ACKRESULT_SUCCESS;
+}
+
+int CCloudService::UnInit(PROTO_INTERFACE *proto)
+{
+	g_arServices.remove((CCloudService *)proto);
+	delete proto;
+	return 0;
+}
+
+INT_PTR CCloudService::UploadMenuCommand(WPARAM hContact, LPARAM)
+{
+	OpenUploadDialog(hContact);
+	return 0;
 }

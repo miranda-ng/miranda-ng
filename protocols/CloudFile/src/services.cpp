@@ -2,15 +2,15 @@
 
 static int CompareServices(const CCloudService *p1, const CCloudService *p2)
 {
-	return mir_strcmp(p1->GetAccountName(), p2->GetAccountName());
+	return mir_strcmp(p1->m_szModuleName, p2->m_szModuleName);
 }
 
-LIST<CCloudService> Services(10, CompareServices);
+LIST<CCloudService> g_arServices(10, CompareServices);
 
 CCloudService* FindService(const char *szProto)
 {
-	for (auto &it : Services)
-		if (!mir_strcmp(it->GetAccountName(), szProto))
+	for (auto &it : g_arServices)
+		if (!mir_strcmp(it->m_szModuleName, szProto))
 			return it;
 	
 	return nullptr;
@@ -32,9 +32,8 @@ static INT_PTR GetService(WPARAM wParam, LPARAM lParam)
 	if (service == nullptr)
 		return 3;
 
-	info->accountName = service->GetAccountName();
-	info->userName = service->GetUserName();
-
+	info->accountName = service->m_szModuleName;
+	info->userName = service->m_tszUserName;
 	return 0;
 }
 
@@ -44,9 +43,9 @@ static INT_PTR EnumServices(WPARAM wParam, LPARAM lParam)
 	enumCFServiceFunc enumFunc = (enumCFServiceFunc)wParam;
 	void *param = (void*)lParam;
 
-	for (auto &service : Services) {
-		info.accountName = service->GetAccountName();
-		info.userName = service->GetUserName();
+	for (auto &service : g_arServices) {
+		info.accountName = service->m_szModuleName;
+		info.userName = service->m_tszUserName;
 		int res = enumFunc(&info, param);
 		if (res != 0)
 			return res;
