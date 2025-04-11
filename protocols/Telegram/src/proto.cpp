@@ -60,6 +60,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	m_bUsePopups(this, "UsePopups", true),
 	m_bCompressFiles(this, "CompressFiles", true),
 	m_bHideGroupchats(this, "HideChats", true),
+	m_bDeleteContacts(this, "DeleteContacts", false),
 	m_bIncludePreviews(this, "IncludePreview", true),
 	m_bResidentChannels(this, "ResidentChannels", false)
 {
@@ -196,9 +197,10 @@ void CTelegramProto::OnShutdown()
 {
 	m_bTerminated = true;
 
-	for (auto &cc : m_arUsers)
-		if (cc->isBot && !cc->chatId && cc->hContact != INVALID_CONTACT_ID)
-			Contact::RemoveFromList(cc->hContact);
+	if (m_bDeleteContacts)
+		for (auto &cc : m_arUsers)
+			if (cc->isBot && !cc->chatId && cc->hContact != INVALID_CONTACT_ID)
+				Contact::RemoveFromList(cc->hContact);
 }
 
 int CTelegramProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)

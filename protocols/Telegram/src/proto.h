@@ -457,6 +457,7 @@ public:
 	CMOption<bool>     m_bIncludePreviews;  // include URL previews into message text
 	CMOption<bool>     m_bResidentChannels; // don't store channel messages in a database
 	CMOption<bool>     m_bCompressFiles;    // embed pictures & videos into a message on send
+	CMOption<bool>     m_bDeleteContacts;   // delete contacts from Miranda when they are deleted from server
 	CMOption<uint32_t> m_iTimeDiff1;		    // set this status to m_iStatus1 after this interval of secs
 	CMOption<uint32_t> m_iStatus1;
 	CMOption<uint32_t> m_iTimeDiff2;        // set this status to m_iStatus2 after this interval of secs
