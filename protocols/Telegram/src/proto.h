@@ -99,7 +99,7 @@ struct TG_USER : public MZeroedObject
 		delete pReactions;
 	}
 
-	int64_t   id, chatId = -1, forumId = -1;
+	int64_t   id, chatId = -1, forumId = -1, lastReadId;
 	MCONTACT  hContact;
 	int       folderId = -1, nTopics;
 	bool      isGroupChat, isChannel, isBot, isForum, bLoadMembers, bStartChat, bInited, bDelOwn = true, bDelAll = true;

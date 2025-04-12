@@ -922,8 +922,10 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 		return;
 	}
 
-	if (pObj->last_read_inbox_message_id_)
+	if (pObj->last_read_inbox_message_id_) {
 		pUser->bInited = true;
+		pUser->lastReadId = pObj->last_read_inbox_message_id_;
+	}
 
 	CMStringA szMaxId(msg2id(pObj->chat_id_, pObj->last_read_inbox_message_id_));
 	if (db_event_getById(m_szModuleName, szMaxId) == 0) {
@@ -992,9 +994,11 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		dbei.cbBlob = szText.GetLength();
 		dbei.iTimestamp = pMessage->date_;
 		if (pMessage->is_outgoing_)
-			dbei.flags |= DBEF_SENT | DBEF_READ;
+			dbei.bSent = dbei.bRead = true;
+		else if (pMessage->id_ <= pUser->lastReadId)
+			dbei.bRead = true;
 		if (!pUser->bInited)
-			dbei.flags |= DBEF_READ;
+			dbei.bRead = true;
 		if (GetGcUserId(pUser, pMessage, szUserId))
 			dbei.szUserId = szUserId;
 		if (auto iReplyId = getReplyId(pMessage->reply_to_.get())) {
