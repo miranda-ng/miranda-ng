@@ -8,6 +8,7 @@
 
 #define DBKEY_ID       "id"
 #define DBKEY_GROUP    "DefaultGroup"
+#define DBKEY_RTOKEN   "RefreshToken"
 
 struct COwnMessage
 {
