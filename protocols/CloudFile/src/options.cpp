@@ -77,7 +77,7 @@ int OnOptionsInitialized(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = _A2W(MODULENAME);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.szGroup.w = LPGENW("g_arServices");
+	odp.szGroup.w = LPGENW("Services");
 
 	//odp.szTab.w = LPGENW("General");
 	odp.pDialog = new COptionsMainDlg();
