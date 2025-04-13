@@ -488,7 +488,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 	return FALSE;
 }
 
-int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
+INT_PTR __cdecl CJabberProto::ContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
 {
 	int res = -1;
 

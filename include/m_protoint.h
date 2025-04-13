@@ -89,7 +89,7 @@ public:
 	HGENMENU    m_hmiMainMenu = 0; // if protocol menus are displayed in the main menu, this is the root
 
 	PROTO_INTERFACE(const char *pszModuleName, const wchar_t *ptszUserName);
-	~PROTO_INTERFACE();
+	virtual ~PROTO_INTERFACE();
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
@@ -330,6 +330,13 @@ template<class T> struct PROTO : public PROTO_INTERFACE
 	typedef INT_PTR(MIR_CDECL T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 	__forceinline void CreateProtoServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param) {
 		::ProtoCreateServiceParam(this, name, (ProtoServiceFuncParam)pFunc, param); }
+
+	template<INT_PTR(__cdecl T::*MyGlobalService)(WPARAM, LPARAM)>
+	static INT_PTR MIR_CDECL GlobalService(WPARAM hContact, LPARAM lParam)
+	{
+		T *proto = CMPlugin::getInstance((MCONTACT)hContact);
+		return proto ? (proto->*MyGlobalService)(hContact, lParam) : 0;
+	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

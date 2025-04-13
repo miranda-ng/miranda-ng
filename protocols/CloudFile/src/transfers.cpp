@@ -5,7 +5,7 @@ LIST<FileTransferParam> Transfers(1, HandleKeySortT);
 INT_PTR SendFileInterceptor(WPARAM, LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA*)lParam;
-	for (auto &service : Services) {
+	for (auto &service : g_arServices) {
 		auto it = service->InterceptedContacts.find(pccsd->hContact);
 		if (it == service->InterceptedContacts.end())
 			continue;

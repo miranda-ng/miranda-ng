@@ -14,7 +14,7 @@ bool COAuthDlg::OnInitDialog()
 	CCtrlLabel &ctrl = *(CCtrlLabel*)FindControl(IDC_AUTH_TEXT);
 	ptrW format(ctrl.GetText());
 	wchar_t text[MAX_PATH];
-	mir_snwprintf(text, (const wchar_t*)format, m_service->GetUserName());
+	mir_snwprintf(text, (const wchar_t*)format, m_service->m_tszUserName);
 	ctrl.SetText(text);
 	return true;
 }

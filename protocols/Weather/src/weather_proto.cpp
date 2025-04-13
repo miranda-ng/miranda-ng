@@ -30,16 +30,12 @@ CWeatherProto::CWeatherProto(const char *protoName, const wchar_t *userName) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CWeatherProto::OptInit);
 	HookProtoEvent(ME_CLIST_DOUBLECLICKED, &CWeatherProto::BriefInfoEvt);
-	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CWeatherProto::BuildContactMenu);
 
 	// load options and set defaults
 	LoadOptions();
 
 	// reset the weather data at startup for individual contacts
 	EraseAllInfo();
-
-	// menu items
-	InitMenuItems();
 
 	// popup initialization
 	CMStringW wszTitle(FORMAT, L"%s %s", m_tszUserName, TranslateT("notifications"));

@@ -53,12 +53,26 @@ INT_PTR CDiscordProto::OnMenuDatabaseHistory(WPARAM hContact, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CDiscordProto::OnReceiveJoin(MHttpResponse *pResponse, AsyncHttpRequest *)
+{
+	if (pResponse->resultCode == 400) {
+		auto reply = JSONNode::parse(pResponse->body);
+		if (reply && reply["captcha_key"]) {
+			POPUPDATAW popup;
+			popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR), true);
+			wcscpy_s(popup.lpwzContactName, m_tszUserName);
+			mir_snwprintf(popup.lpwzText, TranslateT("You need to enter a captcha to join this server. Open this link in a browser."));
+			PUAddPopupW(&popup);
+		}
+	}
+}
+
 INT_PTR CDiscordProto::OnMenuJoinGuild(WPARAM, LPARAM)
 {
 	ENTER_STRING es = { m_szModuleName, "guild_name", TranslateT("Enter invitation code you received"), nullptr, ESF_COMBO, 5 };
 	if (EnterString(&es)) {
-		CMStringA szUrl(FORMAT, "/invite/%S", es.ptszResult);
-		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, nullptr));
+		CMStringA szUrl(FORMAT, "/invites/%S", es.ptszResult);
+		Push(new AsyncHttpRequest(this, REQUEST_POST, szUrl, &CDiscordProto::OnReceiveJoin));
 		mir_free(es.ptszResult);
 	}
 	return 0;
@@ -106,23 +120,23 @@ int CDiscordProto::OnMenuPrebuild(WPARAM hContact, LPARAM)
 {
 	// "Leave guild" menu item should be visible only for the guild contacts
 	bool bIsGuild = getByte(hContact, "ChatRoom") == 2;
-	Menu_ShowItem(m_hMenuLeaveGuild, bIsGuild);
-	Menu_ShowItem(m_hMenuCreateChannel, bIsGuild);
-	Menu_ShowItem(m_hMenuToggleSync, bIsGuild);
-	Menu_ShowItem(m_hMenuDatabaseHistory, bIsGuild);
+	Menu_ShowItem(g_hMenuLeaveGuild, bIsGuild);
+	Menu_ShowItem(g_hMenuCreateChannel, bIsGuild);
+	Menu_ShowItem(g_hMenuToggleSync, bIsGuild);
+	Menu_ShowItem(g_hMenuDatabaseHistory, bIsGuild);
 
 	if (!bIsGuild && getWord(hContact, "ApparentMode") != 0)
 		Menu_ShowItem(GetMenuItem(PROTO_MENU_REQ_AUTH), true);
 	
 	if (getByte(hContact, DB_KEY_ENABLE_SYNC))
-		Menu_ModifyItem(m_hMenuToggleSync, LPGENW("Disable sync"), Skin_GetIconHandle(SKINICON_CHAT_LEAVE));
+		Menu_ModifyItem(g_hMenuToggleSync, LPGENW("Disable sync"), Skin_GetIconHandle(SKINICON_CHAT_LEAVE));
 	else
-		Menu_ModifyItem(m_hMenuToggleSync, LPGENW("Enable sync"), Skin_GetIconHandle(SKINICON_CHAT_JOIN));
+		Menu_ModifyItem(g_hMenuToggleSync, LPGENW("Enable sync"), Skin_GetIconHandle(SKINICON_CHAT_JOIN));
 
 	if (getByte(hContact, DB_KEY_ENABLE_HIST))
-		Menu_ModifyItem(m_hMenuDatabaseHistory, LPGENW("Disable database history for a guild"), Skin_GetIconHandle(SKINICON_CHAT_LEAVE));
+		Menu_ModifyItem(g_hMenuDatabaseHistory, LPGENW("Disable database history for a guild"), Skin_GetIconHandle(SKINICON_CHAT_LEAVE));
 	else
-		Menu_ModifyItem(m_hMenuDatabaseHistory, LPGENW("Enable database history for a guild"), Skin_GetIconHandle(SKINICON_CHAT_JOIN));
+		Menu_ModifyItem(g_hMenuDatabaseHistory, LPGENW("Enable database history for a guild"), Skin_GetIconHandle(SKINICON_CHAT_JOIN));
 	return 0;
 }
 
@@ -153,47 +167,58 @@ void CDiscordProto::OnBuildProtoMenu()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact menu items
 
+static std::vector<HGENMENU> g_menuItems;
+
+static int OnPrebuildMenu(WPARAM hContact, LPARAM)
+{
+	auto *ppro = CMPlugin::getInstance(hContact);
+	for (auto &it : g_menuItems)
+		Menu_ShowItem(it, ppro != 0);
+	return 0;
+}
+
 void CDiscordProto::InitMenus()
 {
 	CMenuItem mi(&g_plugin);
-	mi.pszService = "/LeaveGuild";
-	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuLeaveGuild);
+	mi.pszService = MODULENAME "/LeaveGuild";
+	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuLeaveGuild>);
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8C);
 	mi.name.a = LPGEN("Leave guild");
 	mi.position = -200001000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_LEAVE);
-	m_hMenuLeaveGuild = Menu_AddContactMenuItem(&mi, m_szModuleName);
+	g_menuItems.push_back(g_hMenuLeaveGuild = Menu_AddContactMenuItem(&mi));
 
-	mi.pszService = "/CreateChannel";
-	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuCreateChannel);
+	mi.pszService = MODULENAME "/CreateChannel";
+	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuCreateChannel>);
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8D);
 	mi.name.a = LPGEN("Create new channel");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
-	m_hMenuCreateChannel = Menu_AddContactMenuItem(&mi, m_szModuleName);
+	g_menuItems.push_back(g_hMenuCreateChannel = Menu_AddContactMenuItem(&mi));
 
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
-	mi.pszService = "/CopyId";
+	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuCopyId>);
+	mi.pszService = MODULENAME "/CopyId";
 	mi.name.a = LPGEN("Copy ID");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
-	Menu_AddContactMenuItem(&mi, m_szModuleName);
+	g_menuItems.push_back(Menu_AddContactMenuItem(&mi));
 
-	mi.pszService = "/ToggleSync";
-	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuToggleSync);
+	mi.pszService = MODULENAME "/ToggleSync";
+	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuToggleSync>);
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8F);
 	mi.name.a = LPGEN("Enable guild sync");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
-	m_hMenuToggleSync = Menu_AddContactMenuItem(&mi, m_szModuleName);
+	g_menuItems.push_back(g_hMenuToggleSync = Menu_AddContactMenuItem(&mi));
 
-	mi.pszService = "/DatabaseHistory";
-	CreateProtoService(mi.pszService, &CDiscordProto::OnMenuDatabaseHistory);
+	mi.pszService = MODULENAME "/DatabaseHistory";
+	CreateServiceFunction(mi.pszService, GlobalService<&CDiscordProto::OnMenuDatabaseHistory>);
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x90);
 	mi.name.a = LPGEN("Enable database history for a guild");
 	mi.position++;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_HISTORY);
-	m_hMenuDatabaseHistory = Menu_AddContactMenuItem(&mi, m_szModuleName);
+	g_menuItems.push_back(g_hMenuDatabaseHistory = Menu_AddContactMenuItem(&mi));
 
-	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDiscordProto::OnMenuPrebuild);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &OnPrebuildMenu);
 }

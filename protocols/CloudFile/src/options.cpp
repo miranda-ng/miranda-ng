@@ -25,9 +25,9 @@ bool COptionsMainDlg::OnInitDialog()
 	int iItem = m_defaultService.AddString(TranslateT("None"));
 	m_defaultService.SetCurSel(iItem);
 
-	for (auto &service : Services) {
-		iItem = m_defaultService.AddString(mir_wstrdup(service->GetUserName()), (LPARAM)service);
-		if (!mir_strcmpi(service->GetAccountName(), defaultService))
+	for (auto &service : g_arServices) {
+		iItem = m_defaultService.AddString(mir_wstrdup(service->m_tszUserName), (LPARAM)service);
+		if (!mir_strcmpi(service->m_szModuleName, defaultService))
 			m_defaultService.SetCurSel(iItem);
 	}
 
@@ -57,7 +57,7 @@ bool COptionsMainDlg::OnApply()
 {
 	CCloudService *service = (CCloudService*)m_defaultService.GetCurData();
 	if (service)
-		g_plugin.setString("DefaultService", service->GetAccountName());
+		g_plugin.setString("DefaultService", service->m_szModuleName);
 	else
 		g_plugin.delSetting("DefaultService");
 

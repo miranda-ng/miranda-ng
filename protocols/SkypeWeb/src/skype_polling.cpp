@@ -50,7 +50,7 @@ void CSkypeProto::PollingThread(void *)
 
 		if (response->resultCode != 200) {
 			auto reply = JSONNode::parse(response->body);
-			if (reply && reply["message"]["errorCode"] == 729) // endpoint broken, log off
+			if (reply && reply["message"]["errorCode"].as_int() == 729) // endpoint broken, log off
 				break;
 
 			Sleep(200);

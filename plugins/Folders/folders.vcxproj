@@ -35,6 +35,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\utils.cpp" />
+    <ClInclude Include="..\ExternalAPI\m_folders.h" />
     <ClInclude Include="src\events.h" />
     <ClInclude Include="src\folderItem.h" />
     <ClInclude Include="src\resource.h" />

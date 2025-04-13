@@ -51,14 +51,14 @@ int OnSrmmButtonPressed(WPARAM, LPARAM lParam)
 	}
 
 	HMENU hMenu = CreatePopupMenu();
-	for (auto &it : Services)
-		AppendMenu(hMenu, MF_STRING, Services.indexOf(&it) + 1, TranslateW(it->GetUserName()));
+	for (auto &it : g_arServices)
+		AppendMenu(hMenu, MF_STRING, g_arServices.indexOf(&it) + 1, TranslateW(it->m_tszUserName));
 
 	int pos = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbc->pt.x, cbc->pt.y, 0, cbc->hwndFrom, nullptr);
 	DestroyMenu(hMenu);
 
 	if (pos > 0) {
-		CCloudService *service = Services[pos - 1];
+		CCloudService *service = g_arServices[pos - 1];
 		service->OpenUploadDialog(cbc->hContact);
 	}
 

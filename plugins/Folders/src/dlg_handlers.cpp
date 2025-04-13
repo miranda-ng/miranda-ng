@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-PFolderItem lastItem = nullptr;
+CFolderItem *lastItem = nullptr;
 
 CDlgBase *pHelpDialog = nullptr;
 
@@ -70,13 +70,13 @@ class COptDialog : public CDlgBase
 	CCtrlEdit m_edtPreview, m_edtEdit;
 	CCtrlButton m_btnRefresh, m_btnHelp;
 
-	PFolderItem GetSelectedItem()
+	CFolderItem* GetSelectedItem()
 	{
 		int index = m_lbItems.GetCurSel();
 		if (index == LB_ERR)
 			return nullptr;
 
-		return (PFolderItem)m_lbItems.GetItemData(index);
+		return (CFolderItem *)m_lbItems.GetItemData(index);
 	}
 
 	int ContainsSection(const wchar_t *section)
@@ -88,12 +88,12 @@ class COptDialog : public CDlgBase
 	void LoadRegisteredFolderSections()
 	{
 		for (auto &it : lstRegisteredFolders) {
-			wchar_t *translated = mir_a2u(it->GetSection());
-			if (!ContainsSection(TranslateW(translated))) {
-				int idx = m_lbSections.AddString(TranslateW(translated), 0);
+			_A2T pszSection(it->GetSection());
+			auto *pwszSection = TranslateW_LP(pszSection, it->GetPlugin());
+			if (!ContainsSection(pwszSection)) {
+				int idx = m_lbSections.AddString(pwszSection, 0);
 				m_lbSections.SetItemData(idx, (LPARAM)it->GetSection());
 			}
-			mir_free(translated);
 		}
 	}
 
@@ -108,7 +108,8 @@ class COptDialog : public CDlgBase
 		m_lbItems.ResetContent();
 		for (auto &it : lstRegisteredFolders) {
 			if (!mir_strcmp(szSection, it->GetSection())) {
-				idx = m_lbItems.AddString(TranslateW(it->GetUserName()), 0);
+				_A2T pszName(it->GetName());
+				idx = m_lbItems.AddString(TranslateW_LP(pszName, it->GetPlugin()), 0);
 				m_lbItems.SetItemData(idx, (LPARAM)it);
 			}
 		}
@@ -123,7 +124,7 @@ class COptDialog : public CDlgBase
 		m_edtPreview.SetText(ExpandPath(tmp));
 	}
 
-	void LoadItem(PFolderItem item)
+	void LoadItem(CFolderItem *item)
 	{
 		if (!item)
 			return;
@@ -132,7 +133,7 @@ class COptDialog : public CDlgBase
 		RefreshPreview();
 	}
 
-	void SaveItem(PFolderItem item, int bEnableApply)
+	void SaveItem(CFolderItem *item, int bEnableApply)
 	{
 		if (!item)
 			return;
@@ -145,7 +146,7 @@ class COptDialog : public CDlgBase
 			NotifyChange();
 	}
 
-	int ChangesNotSaved(PFolderItem item)
+	int ChangesNotSaved(CFolderItem *item)
 	{
 		if (!item)
 			return 0;
@@ -216,7 +217,7 @@ public:
 
 	void OnItemsSelChange(CCtrlBase*)
 	{
-		PFolderItem item = GetSelectedItem();
+		CFolderItem *item = GetSelectedItem();
 		if (item != nullptr) {
 			CheckForChanges();
 			LoadItem(item);
@@ -226,7 +227,7 @@ public:
 
 	bool OnApply() override
 	{
-		PFolderItem item = GetSelectedItem();
+		CFolderItem *item = GetSelectedItem();
 		if (item) {
 			SaveItem(item, FALSE);
 			LoadItem(item);

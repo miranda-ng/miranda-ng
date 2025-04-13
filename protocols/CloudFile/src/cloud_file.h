@@ -8,11 +8,12 @@ enum OnConflict
 	REPLACE,
 };
 
+#define PS_UPLOAD "/Upload"
+
 class CCloudService : public PROTO<CCloudService>
 {
 protected:
 	HPLUGIN m_pPlugin;
-	HNETLIBUSER m_hConnection;
 
 	// utils
 	std::string PreparePath(const std::string &path) const;
@@ -27,6 +28,8 @@ protected:
 	MWindow OnCreateAccMgrUI(MWindow) override;
 
 	JSONNode GetJsonResponse(MHttpResponse *response);
+
+	INT_PTR __cdecl UploadMenuCommand(WPARAM, LPARAM);
 
 	virtual void Upload(FileTransferParam *ftp) = 0;
 
@@ -43,8 +46,6 @@ public:
 		
 	HPLUGIN GetId() const;
 	virtual const char* GetModuleName() const = 0;
-	const char* GetAccountName() const;
-	const wchar_t* GetUserName() const;
 
 	virtual int GetIconId() const = 0;
 
@@ -54,6 +55,7 @@ public:
 
 	void OpenUploadDialog(MCONTACT hContact);
 
+	static int UnInit(PROTO_INTERFACE *);
 	static UINT Upload(CCloudService *service, FileTransferParam *ftp);
 };
 

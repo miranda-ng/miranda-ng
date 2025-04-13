@@ -106,8 +106,8 @@ int CMPlugin::OnOptionsInit(WPARAM wParam, LPARAM)
 
 int CMPlugin::OnModulesLoaded(WPARAM, LPARAM)
 {
-	g_hCLibsFolder = FoldersRegisterCustomPathW(MODULENAME, "CLibsFolder", MIRLUA_PATHT, TranslateT("C libs folder"));
-	g_hScriptsFolder = FoldersRegisterCustomPathW(MODULENAME, "ScriptsFolder", MIRLUA_PATHT, TranslateT("Scripts folder"));
+	g_hCLibsFolder = FoldersRegisterCustomPathW(MODULENAME, LPGEN("C Libs Folder"), MIRLUA_PATHT);
+	g_hScriptsFolder = FoldersRegisterCustomPathW(MODULENAME, LPGEN("Scripts folder"), MIRLUA_PATHT);
 
 	LoadLuaScripts();
 

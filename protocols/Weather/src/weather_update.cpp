@@ -143,15 +143,6 @@ int CWeatherProto::UpdateWeather(MCONTACT hContact)
 	// set the update tag
 	setByte(hContact, "IsUpdated", TRUE);
 
-	// save current condition for default station to be displayed after the update
-	int old_status = m_iStatus;
-	m_iStatus = iStatus;
-
-	// a workaround for a default station that currently have an n/a icon assigned
-	if (m_iStatus == ID_STATUS_OFFLINE)
-		m_iStatus = ID_STATUS_CONNECTING;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
 	// logging
 	if (Ch) {
 		// play the sound event

@@ -593,38 +593,30 @@ uint32_t Utf16toUtf32(const wchar_t *str)
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-const char* CTeamsProto::MirandaToSkypeStatus(int status)
+const char* MirandaToSkypeStatus(int status)
 {
 	switch (status) {
-	case ID_STATUS_AWAY:
-		return "Away";
-
-	case ID_STATUS_DND:
-		return "Busy";
-
-	case ID_STATUS_IDLE:
-		return "Idle";
-
-	case ID_STATUS_INVISIBLE:
-		return "Hidden";
+	case ID_STATUS_OFFLINE:    return "Offline";
+	case ID_STATUS_AWAY:       return "Away";
+	case ID_STATUS_NA:         return "BeRightBack";
+	case ID_STATUS_DND:        return "DoNotDisturb";
+	case ID_STATUS_OCCUPIED:   return "Busy";
+	case ID_STATUS_IDLE:       return "AvailableIdle";
 	}
-	return "Online";
+	return "Available";
 }
 
-int CTeamsProto::SkypeToMirandaStatus(const char *status)
+int SkypeToMirandaStatus(const char *status)
 {
-	if (!mir_strcmpi(status, "Online"))
+	if (!mir_strcmpi(status, "Available"))
 		return ID_STATUS_ONLINE;
-	else if (!mir_strcmpi(status, "Hidden"))
-		return ID_STATUS_INVISIBLE;
-	else if (!mir_strcmpi(status, "Away"))
-		return ID_STATUS_AWAY;
-	else if (!mir_strcmpi(status, "Idle"))
-		return ID_STATUS_AWAY;
-	else if (!mir_strcmpi(status, "Busy"))
+	if (!mir_strcmpi(status, "BeRightBack"))
+		return ID_STATUS_NA;
+	if (!mir_strcmpi(status, "AvailableIdle"))
+		return ID_STATUS_IDLE;
+	if (!mir_strcmpi(status, "DoNotDisturb"))
 		return ID_STATUS_DND;
-	else
-		return ID_STATUS_OFFLINE;
+	return ID_STATUS_OFFLINE;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

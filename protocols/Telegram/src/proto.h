@@ -99,7 +99,7 @@ struct TG_USER : public MZeroedObject
 		delete pReactions;
 	}
 
-	int64_t   id, chatId = -1, forumId = -1;
+	int64_t   id, chatId = -1, forumId = -1, lastReadId;
 	MCONTACT  hContact;
 	int       folderId = -1, nTopics;
 	bool      isGroupChat, isChannel, isBot, isForum, bLoadMembers, bStartChat, bInited, bDelOwn = true, bDelAll = true;
@@ -367,6 +367,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	int      GetDefaultMute(const TG_USER *pUser);
 
+	void     CheckCompatibility(void);
 	MCONTACT GetRealContact(const TG_USER *pUser, int64_t threadId = 0);
 	void     RemoveFromClist(TG_USER *pUser);
 	void     MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool bSent);
@@ -456,6 +457,7 @@ public:
 	CMOption<bool>     m_bIncludePreviews;  // include URL previews into message text
 	CMOption<bool>     m_bResidentChannels; // don't store channel messages in a database
 	CMOption<bool>     m_bCompressFiles;    // embed pictures & videos into a message on send
+	CMOption<bool>     m_bDeleteContacts;   // delete contacts from Miranda when they are deleted from server
 	CMOption<uint32_t> m_iTimeDiff1;		    // set this status to m_iStatus1 after this interval of secs
 	CMOption<uint32_t> m_iStatus1;
 	CMOption<uint32_t> m_iTimeDiff2;        // set this status to m_iStatus2 after this interval of secs

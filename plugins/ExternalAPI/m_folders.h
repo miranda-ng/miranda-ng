@@ -57,15 +57,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct FOLDERSDATA
 {
-	int cbSize;                    // size of struct
 	DWORD flags;                   // FF_* flags
+	HPLUGIN plugin;                // plugin which owns a folder
 	LPCSTR szSection;              // section name, if it doesn't exist it will be created otherwise it will just add this entry to it
 	LPCSTR szName;                 // entry name - will be shown in options
 	MAllCStrings szFormat;         // default string format. Fallback string in case there's no entry in the database for this folder. 
 	                               // This should be the initial value for the path, users will be able to change it later.
 											 // String is dup()'d so you can free it later. If you set the unicode string don't forget to set the flag accordingly.
-	MAllCStrings szUserName;       // for display purposes. if NULL, plugins gets it as the translated szName
-		                            // String is dup()'d so you can free it later. If you set the unicode string don't forget to set the flag accordingly.
 };
 
 /*Folders/Register/Path service
@@ -88,7 +86,6 @@ struct FOLDERSDATA
 
 struct FOLDERSGETDATA
 {
-	int cbSize;
 	int nMaxPathSize;      // maximum size of buffer. This represents the number of characters that can be copied to it (so for unicode strings you don't send the number of bytes but the length of the string).
 	MAllStrings szPath;    // pointer to the buffer that receives the path without the last "\\"
 	DWORD flags;           // FF_* flags
@@ -114,6 +111,7 @@ __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char
 		return nullptr;
 
 	FOLDERSDATA fd = { sizeof(fd) };
+	fd.plugin = (HPLUGIN)&g_plugin;
 	fd.szSection = section;
 	fd.szName = name;
 	fd.szFormat.a = defaultPath;
@@ -121,16 +119,16 @@ __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char
 }
 
 #ifdef _UNICODE
-__inline static HANDLE FoldersRegisterCustomPathW(const char *section, const char *name, const wchar_t *defaultPathW, const wchar_t *userNameW = nullptr)
+__inline static HANDLE FoldersRegisterCustomPathW(const char *section, const char *name, const wchar_t *defaultPathW)
 {
 	if (!ServiceExists(MS_FOLDERS_REGISTER_PATH))
 		return nullptr;
 
 	FOLDERSDATA fd = { sizeof(fd) };
+	fd.plugin = (HPLUGIN)&g_plugin;
 	fd.szSection = section;
 	fd.szName = name;
 	fd.szFormat.w = defaultPathW;
-	fd.szUserName.w = userNameW;
 	fd.flags = FF_UNICODE;
 	return (HANDLE)CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM)&fd);
 }

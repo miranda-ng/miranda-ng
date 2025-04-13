@@ -300,9 +300,9 @@ class CSteamProto : public PROTO<CSteamProto>
 	INT_PTR __cdecl AuthRequestCommand(WPARAM, LPARAM);
 	INT_PTR __cdecl AuthRevokeCommand(WPARAM, LPARAM);
 
-	int __cdecl BlockCommand(WPARAM, LPARAM);
-	int __cdecl UnblockCommand(WPARAM, LPARAM);
-	int __cdecl JoinToGameCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl BlockCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl UnblockCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl JoinToGameCommand(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OpenBlockListCommand(WPARAM, LPARAM);
 

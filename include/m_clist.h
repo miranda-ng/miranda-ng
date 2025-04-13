@@ -78,7 +78,7 @@ EXTERN_C MIR_APP_DLL(bool) Clist_GetProtocolVisibility(const char *szModuleName)
 
 // adds a new element into main menu
 
-EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi);
+EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, const char *pszProto = nullptr);
 
 // gets a handle to the main Miranda menu
 // returns a HMENU. This need not to be freed since it's owned by clist

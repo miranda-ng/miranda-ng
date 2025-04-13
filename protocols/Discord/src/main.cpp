@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 
+HGENMENU g_hMenuLeaveGuild, g_hMenuCreateChannel, g_hMenuToggleSync, g_hMenuDatabaseHistory;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -78,6 +80,8 @@ int CMPlugin::Load()
 	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, &OnModulesLoaded);
+
+	CDiscordProto::InitMenus();
 
 	g_plugin.registerIcon("Protocols/Discord", g_iconList);
 	return 0;

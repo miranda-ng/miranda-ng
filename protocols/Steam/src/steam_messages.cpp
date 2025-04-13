@@ -74,7 +74,7 @@ void CSteamProto::OnGotMarkRead(const CFriendMessagesAckMessageNotification &rep
 		if (reply.timestamp > dbei.iTimestamp)
 			break;
 
-		if (!dbei.markedRead())
+		if (!dbei.bRead)
 			db_event_markRead(hContact, hDbEvent, true);
 	}
 }

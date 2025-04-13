@@ -61,7 +61,7 @@ void CTeamsProto::OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest 
 	m_szDeviceCode.Empty();
 
 	auto &root = reply.data();
-	setWString("RefreshToken", root["refresh_token"].as_mstring());
+	setWString(DBKEY_RTOKEN, root["refresh_token"].as_mstring());
 
 	OauthRefreshServices();
 }
@@ -169,7 +169,7 @@ void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest
 
 	auto &root = reply.data();
 	m_szAccessToken = root["access_token"].as_mstring();
-	setWString("RefreshToken", root["refresh_token"].as_mstring());
+	setWString(DBKEY_RTOKEN, root["refresh_token"].as_mstring());
 }
 
 void CTeamsProto::OnRefreshSkypeToken(MHttpResponse *response, AsyncHttpRequest *)
@@ -204,7 +204,7 @@ void CTeamsProto::RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpReq
 {
 	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/" TEAMS_PERSONAL_TENANT_ID "/oauth2/v2.0/token", pFunc);
 	pReq << CHAR_PARAM("scope", pszScope) << CHAR_PARAM("client_id", TEAMS_CLIENT_ID)
-		<< CHAR_PARAM("grant_type", "refresh_token") << CHAR_PARAM("refresh_token", getMStringA("RefreshToken"));
+		<< CHAR_PARAM("grant_type", "refresh_token") << CHAR_PARAM("refresh_token", getMStringA(DBKEY_RTOKEN));
 	PushRequest(pReq);
 }
 
@@ -228,7 +228,7 @@ void CTeamsProto::Login()
 	StartQueue();
 
 	// if refresh token doesn't exist, perform a device code authentication
-	m_szAccessToken = getMStringA("RefreshToken");
+	m_szAccessToken = getMStringA(DBKEY_RTOKEN);
 	if (m_szAccessToken.IsEmpty()) {
 		auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_LOGIN, "/common/oauth2/devicecode", &CTeamsProto::OnReceiveDeviceToken);
 		pReq << CHAR_PARAM("client_id", TEAMS_CLIENT_ID) << CHAR_PARAM("resource", TEAMS_OAUTH_RESOURCE);

@@ -2,10 +2,13 @@
 #define TEAMS_CLIENTINFO_NAME "skypeteams"
 #define TEAMS_CLIENTINFO_VERSION "49/24062722442"
 
+#define TEAMS_BASE_HOST "teams.live.com"
+
 #define TEAMS_USER_AGENT "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0 Teams/24165.1410.2974.6689/49"
 
 #define DBKEY_ID       "id"
 #define DBKEY_GROUP    "DefaultGroup"
+#define DBKEY_RTOKEN   "RefreshToken"
 
 struct COwnMessage
 {
@@ -317,8 +320,7 @@ private:
 
 	static time_t IsoToUnixTime(const std::string &stamp);
 
-	static int SkypeToMirandaStatus(const char *status);
-	static const char *MirandaToSkypeStatus(int status);
+	void SetServerStatus(int iStatus);
 
 	void ShowNotification(const wchar_t *message, MCONTACT hContact = NULL);
 	void ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact = NULL, int type = 0);
@@ -340,13 +342,6 @@ private:
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetMood(WPARAM, LPARAM);
 	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
-
-	template<INT_PTR(__cdecl CTeamsProto::*Service)(WPARAM, LPARAM)>
-	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
-	{
-		auto *proto = CMPlugin::getInstance((MCONTACT)wParam);
-		return proto ? (proto->*Service)(wParam, lParam) : 0;
-	}
 
 	// trouter
 public:

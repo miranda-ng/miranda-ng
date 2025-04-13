@@ -56,6 +56,7 @@
 #include "opus/opus.h"
 
 extern IconItem g_iconList[];
+extern HGENMENU g_hMenuLeaveGuild, g_hMenuCreateChannel, g_hMenuToggleSync, g_hMenuDatabaseHistory;
 
 #define DB_KEY_ID          "id"
 #define DB_KEY_TOKEN       "AccessToken"
@@ -73,7 +74,7 @@ extern IconItem g_iconList[];
 #define DB_KEY_ENABLE_SYNC "EnableSync"
 #define DB_KEY_ENABLE_HIST "EnableDbHistory"
 
-#define DB_KEYVAL_GROUP L"Discord"
+#define MODULENAME         "Discord"
 
 #include "version.h"
 #include "proto.h"

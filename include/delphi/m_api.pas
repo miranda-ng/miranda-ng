@@ -19,11 +19,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 }
-{$A+,H+}
-{$IFNDEF VER130} // skip for delphi 5
-  {$IFDEF WIN32}{$A4}{$ENDIF}
-  {$IFDEF WIN64}{$A8}{$ENDIF}
-{$ENDIF}
+{$A+,H+,A8}
 {$UNDEF AllowInline}
 
 unit m_api;

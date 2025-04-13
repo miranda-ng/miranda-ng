@@ -26,7 +26,7 @@ static int OnProtoAck(WPARAM, LPARAM lParam)
 
 static int OnFileDialogCanceled(WPARAM hContact, LPARAM)
 {
-	for (auto &service : Services) {
+	for (auto &service : g_arServices) {
 		auto it = service->InterceptedContacts.find(hContact);
 		if (it != service->InterceptedContacts.end())
 			service->InterceptedContacts.erase(it);
@@ -37,8 +37,6 @@ static int OnFileDialogCanceled(WPARAM hContact, LPARAM)
 int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_PROTO_ACK, OnProtoAck);
-
-	// srfile
 	HookEvent(ME_FILEDLG_CANCELED, OnFileDialogCanceled);
 
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, OnSrmmToolbarLoaded);

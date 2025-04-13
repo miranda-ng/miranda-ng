@@ -259,7 +259,7 @@ static void RestoreUnreadMessageAlerts(void)
 			DB::EventInfo dbei(hDbEvent, false);
 			if (!dbei)
 				continue;
-			if (dbei.markedRead() || !dbei.isSrmm() || !Proto_GetBaseAccountName(hContact))
+			if (dbei.bRead || !dbei.isSrmm() || !Proto_GetBaseAccountName(hContact))
 				continue;
 
 			int windowAlreadyExists = Srmm_FindWindow(hContact) != nullptr;

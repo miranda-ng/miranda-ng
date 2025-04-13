@@ -101,6 +101,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,109,294,10
     CONTROL         "Do not store channel history in the database",IDC_RESIDENT_CHANNELS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,122,294,10
+    CONTROL         "Delete contacts in Miranda when they are deleted from server",IDC_DELETE_CONTACTS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,135,294,10
 END
 
 IDD_OPTIONS_ADV DIALOGEX 0, 0, 310, 86

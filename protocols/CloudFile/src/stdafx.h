@@ -69,11 +69,13 @@ public:
 // services
 #include "cloud_file.h"
 #include "oauth.h"
+
 #include "Services\dropbox_service.h"
 #include "Services\google_service.h"
 #include "Services\microsoft_service.h"
 #include "Services\yandex_service.h"
-extern LIST<CCloudService> Services;
+
+extern LIST<CCloudService> g_arServices;
 void InitializeServices();
 
 // events
@@ -83,7 +85,6 @@ int OnModulesLoaded(WPARAM, LPARAM);
 void InitializeIcons();
 
 // menus
-extern HGENMENU hContactMenu;
 void InitializeMenus();
 int OnPrebuildContactMenu(WPARAM, LPARAM);
 

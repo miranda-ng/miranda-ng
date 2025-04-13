@@ -18,6 +18,7 @@
 #define IDC_PHONE                       1001
 #define IDC_DEFGROUP                    1002
 #define IDC_HIDECHATS                   1003
+#define IDC_DELETE_CONTACTS             1004
 #define IDC_DEVICE_NAME                 1005
 #define IDC_DIFF1                       1006
 #define IDC_DIFF2                       1007

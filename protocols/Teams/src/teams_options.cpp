@@ -21,6 +21,7 @@ class COptionsMainDlg : public CTeamsDlgBase
 {
 	CCtrlEdit m_login, m_group;
 	CCtrlCheck m_autosync, m_usehostname, m_usebb;
+	CCtrlButton btnLogout;
 
 public:
 	COptionsMainDlg(CTeamsProto *proto, int idDialog) :
@@ -29,17 +30,27 @@ public:
 		m_group(this, IDC_GROUP),
 		m_autosync(this, IDC_AUTOSYNC),
 		m_usehostname(this, IDC_USEHOST),
-		m_usebb(this, IDC_BBCODES)
+		m_usebb(this, IDC_BBCODES),
+		btnLogout(this, IDC_LOGOUT)
 	{
 		CreateLink(m_group, proto->m_wstrCListGroup);
 		CreateLink(m_autosync, proto->m_bAutoHistorySync);
 		CreateLink(m_usehostname, proto->m_bUseHostnameAsPlace);
 		CreateLink(m_usebb, proto->m_bUseBBCodes);
+
+		btnLogout.OnClick = Callback(this, &COptionsMainDlg::onClick_Logout);
 	}
 
 	bool OnInitDialog() override
 	{
-		m_login.SetTextA(ptrA(m_proto->getStringA(DBKEY_ID)));
+		if (m_proto->getMStringA(DBKEY_RTOKEN).IsEmpty())
+			btnLogout.Disable();
+
+		CMStringA szLogin(m_proto->getMStringA(DBKEY_ID));
+		if (szLogin.IsEmpty())
+			m_login.SetText(TranslateT("<will appear after first login>"));
+		else
+			m_login.SetTextA(szLogin);
 		m_group.SendMsg(EM_LIMITTEXT, 64, 0);
 		return true;
 	}
@@ -50,6 +61,16 @@ public:
 		if (mir_wstrlen(group) > 0 && !Clist_GroupExists(group))
 			Clist_GroupCreate(0, group);
 		return true;
+	}
+
+	void onClick_Logout(CCtrlButton *)
+	{
+		m_proto->delSetting(DBKEY_RTOKEN);
+
+		if (m_proto->IsOnline())
+			m_proto->SetStatus(ID_STATUS_OFFLINE);
+
+		btnLogout.Disable();
 	}
 };
 

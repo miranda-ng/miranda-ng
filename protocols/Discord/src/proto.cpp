@@ -55,7 +55,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	arVoiceCalls(1, compareCalls),
 
 	m_wszEmail(this, "Email", L""),
-	m_wszDefaultGroup(this, "GroupName", DB_KEYVAL_GROUP),
+	m_wszDefaultGroup(this, "GroupName", L"Discord"),
 	m_bSyncMarkRead(this, "SendMarkRead", true),
 	m_bUseGroupchats(this, "UseGroupChats", true),
 	m_bHideGroupchats(this, "HideChats", true),
@@ -91,7 +91,8 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
 	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CDiscordProto::OnAccountChanged);
-	
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDiscordProto::OnMenuPrebuild);
+
 	HookProtoEvent(PE_VOICE_CALL_STATE, &CDiscordProto::OnVoiceState);
 
 	// avatars
@@ -148,7 +149,6 @@ void CDiscordProto::OnModulesLoaded()
 	HookProtoEvent(ME_GC_EVENT, &CDiscordProto::GroupchatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CDiscordProto::GroupchatMenuHook);
 
-	InitMenus();
 	InitVoip(true);
 
 	// Voice support

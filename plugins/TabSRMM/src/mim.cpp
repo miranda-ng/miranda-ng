@@ -376,7 +376,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	DB::EventInfo dbei(hDbEvent);
 	BOOL isCustomEvent = IsCustomEvent(dbei.eventType);
 	bool isShownCustomEvent = dbei.isSrmm();
-	if (dbei.markedRead() || (isCustomEvent && !isShownCustomEvent))
+	if (dbei.bRead || (isCustomEvent && !isShownCustomEvent))
 		return 0;
 
 	bool bAutoPopup = g_plugin.bAutoPopup;

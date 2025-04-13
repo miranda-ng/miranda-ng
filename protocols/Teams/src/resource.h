@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by W:\miranda-ng\protocols\Teams\res\resource.rc
+// Used by W:\miranda-ng\protocols\Teams\res\Resource.rc
 //
 #define IDI_TEAMS                       100
 #define IDC_LOGIN                       101
@@ -30,6 +30,7 @@
 #define IDC_CHANGEPASS                  1038
 #define IDC_MOOD_EMOJI                  1039
 #define IDC_MOOD_TEXT                   1041
+#define IDC_LOGOUT                      1042
 
 // Next default values for new objects
 // 
@@ -37,7 +38,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        126
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1042
+#define _APS_NEXT_CONTROL_VALUE         1044
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

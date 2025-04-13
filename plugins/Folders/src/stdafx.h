@@ -42,11 +42,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_langpack.h>
 
 #include "version.h"
+#include "folderItem.h"
 #include "utils.h"
 #include "resource.h"
 #include "services.h"
 #include "events.h"
-#include "folderItem.h"
 
 #ifndef MS_DB_GETPROFILEPATH_BASIC //db3xSA
 #define MS_DB_GETPROFILEPATH_BASIC	"DB/GetProfilePathBasic"

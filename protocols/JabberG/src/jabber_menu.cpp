@@ -70,36 +70,6 @@ static INT_PTR JabberMenuChooseService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR JabberMenuBookmarkAdd(WPARAM hContact, LPARAM lParam)
-{
-	CJabberProto *ppro = CMPlugin::getInstance(hContact);
-	return(ppro) ? ppro->OnMenuBookmarkAdd(hContact, lParam) : 0;
-}
-
-static INT_PTR JabberMenuTransportLogin(WPARAM hContact, LPARAM lParam)
-{
-	CJabberProto *ppro = CMPlugin::getInstance(hContact);
-	return(ppro) ? ppro->OnMenuTransportLogin(hContact, lParam) : 0;
-}
-
-static INT_PTR JabberMenuTransportResolve(WPARAM hContact, LPARAM lParam)
-{
-	CJabberProto *ppro = CMPlugin::getInstance(hContact);
-	return(ppro) ? ppro->OnMenuTransportResolve(hContact, lParam) : 0;
-}
-
-static INT_PTR JabberContactMenuRunCommands(WPARAM hContact, LPARAM lParam)
-{
-	CJabberProto *ppro = CMPlugin::getInstance(hContact);
-	return(ppro) ? ppro->ContactMenuRunCommands(hContact, lParam) : 0;
-}
-
-static INT_PTR JabberMenuSendNote(WPARAM hContact, LPARAM lParam)
-{
-	CJabberProto *ppro = CMPlugin::getInstance(hContact);
-	return(ppro) ? ppro->OnMenuSendNote(hContact, lParam) : 0;
-}
-
 static INT_PTR JabberMenuHandleResource(WPARAM hContact, LPARAM lParam, LPARAM lRes)
 {
 	CJabberProto *ppro = CMPlugin::getInstance(hContact);
@@ -126,7 +96,7 @@ static int JabberPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return(ppro) ? ppro->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
-void g_MenuInit(void)
+void CJabberProto::GlobalMenuInit()
 {
 	hStatusMenuInit = CreateHookableEvent(ME_JABBER_MENUINIT);
 
@@ -155,7 +125,7 @@ void g_MenuInit(void)
 	mi.position = -1999901006;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_BOOKMARKS);
 	g_hMenuAddBookmark = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuBookmarkAdd);
+	CreateServiceFunction(mi.pszService, GlobalService<&CJabberProto::OnMenuBookmarkAdd>);
 
 	// Login/logout
 	SET_UID(mi, 0x7674d540, 0x2638, 0x4958, 0x99, 0xda, 0x8, 0x3f, 0xad, 0x66, 0x8f, 0xed);
@@ -164,7 +134,7 @@ void g_MenuInit(void)
 	mi.position = -1999901007;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LOGIN);
 	g_hMenuLogin = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuTransportLogin);
+	CreateServiceFunction(mi.pszService, GlobalService<&CJabberProto::OnMenuTransportLogin>);
 
 	// Retrieve nicks
 	SET_UID(mi, 0x6adf70d9, 0x6e92, 0x4a4f, 0x90, 0x71, 0x67, 0xa7, 0xaa, 0x1a, 0x19, 0x7a);
@@ -173,7 +143,7 @@ void g_MenuInit(void)
 	mi.position = -1999901008;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_REFRESH);
 	g_hMenuRefresh = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuTransportResolve);
+	CreateServiceFunction(mi.pszService, GlobalService<&CJabberProto::OnMenuTransportResolve>);
 
 	// Run Commands
 	SET_UID(mi, 0x25546e26, 0xc82, 0x4715, 0xb8, 0xca, 0xe5, 0xf7, 0x2a, 0x58, 0x9, 0x2);
@@ -182,7 +152,7 @@ void g_MenuInit(void)
 	mi.position = -1999901009;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_COMMAND);
 	g_hMenuCommands = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberContactMenuRunCommands);
+	CreateServiceFunction(mi.pszService, GlobalService<&CJabberProto::ContactMenuRunCommands>);
 
 	// Send Note
 	SET_UID(mi, 0xf4b0cc51, 0xab9, 0x4cf0, 0x96, 0xaa, 0x22, 0xa0, 0x33, 0x9b, 0x56, 0xc5);
@@ -191,7 +161,7 @@ void g_MenuInit(void)
 	mi.position = -1999901010;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SEND_NOTE);
 	g_hMenuSendNote = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberMenuSendNote);
+	CreateServiceFunction(mi.pszService, GlobalService<&CJabberProto::OnMenuSendNote>);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Direct Presence
@@ -640,7 +610,7 @@ void CJabberProto::UpdatePriorityMenu(int priority)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CJabberProto::GlobalMenuInit()
+void CJabberProto::MenuInit()
 {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Account chooser menu
@@ -730,7 +700,7 @@ int g_OnToolbarInit(WPARAM, LPARAM)
 	return 0;
 }
 
-void CJabberProto::GlobalMenuUninit()
+void CJabberProto::MenuUninit()
 {
 	if (m_phMenuResourceItems) {
 		for (int i = 0; i < m_nMenuResourceItems; i++)

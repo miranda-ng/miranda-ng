@@ -71,7 +71,8 @@ int CDbxSQLite::AddEventSrt(MEVENT hDbEvent, MCONTACT hContact, int64_t ts)
 		sqlite3_bind_int64(stmt, 2, hContact);
 		sqlite3_bind_int64(stmt, 3, ts);
 		rc = sqlite3_step(stmt);
-		logError(rc, __FILE__, __LINE__);
+		if (rc != SQLITE_CONSTRAINT)
+			logError(rc, __FILE__, __LINE__);
 		sqlite3_reset(stmt);
 
 		ts++;
@@ -133,6 +134,9 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 			tmp.flags |= DBEF_ENCRYPTED;
 		}
 	}
+
+	if (tmp.bSent)
+		tmp.bRead = true;
 
 	mir_cslockfull lock(m_csDbAccess);
 	sqlite3_stmt *stmt = InitQuery(
@@ -279,6 +283,9 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 		else tmp.flags |= DBEF_ENCRYPTED;
 	}
 
+	if (tmp.bSent)
+		tmp.bRead = true;
+
 	mir_cslockfull lock(m_csDbAccess);
 	sqlite3_stmt *stmt;
 	if (tmp.pBlob)
@@ -293,7 +300,7 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 	sqlite3_bind_int64(stmt, i++, tmp.flags);
 	if (tmp.pBlob)
 		sqlite3_bind_blob(stmt, i++, tmp.pBlob, tmp.cbBlob, nullptr);
-	sqlite3_bind_int(stmt, i++, tmp.markedRead());
+	sqlite3_bind_int(stmt, i++, tmp.bRead);
 	sqlite3_bind_text(stmt, i++, tmp.szId, (int)mir_strlen(tmp.szId), nullptr);
 	sqlite3_bind_text(stmt, i++, tmp.szUserId, (int)mir_strlen(tmp.szUserId), nullptr);
 	sqlite3_bind_text(stmt, i++, tmp.szReplyId, (int)mir_strlen(tmp.szReplyId), nullptr);

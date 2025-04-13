@@ -451,7 +451,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_adhoc.cpp --------------------------------------------------------------
 
-	int        __cdecl ContactMenuRunCommands(WPARAM wParam, LPARAM lParam);
+	INT_PTR     __cdecl ContactMenuRunCommands(WPARAM wParam, LPARAM lParam);
 			     
 	HWND       GetWindowFromIq(CJabberIqInfo *pInfo);
 	bool       HandleAdhocCommandRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
@@ -792,8 +792,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR    __cdecl OnMenuTransportLogin(WPARAM wParam, LPARAM lParam);
 	INT_PTR    __cdecl OnMenuTransportResolve(WPARAM wParam, LPARAM lParam);
 
-	void       GlobalMenuInit(void);
-	void       GlobalMenuUninit(void);
+	static void GlobalMenuInit();
+	void       MenuInit(void);
+	void       MenuUninit(void);
 			     
 	void       MenuUpdateSrmmIcon(JABBER_LIST_ITEM *item);
 			     

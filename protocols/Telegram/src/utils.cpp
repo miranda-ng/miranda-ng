@@ -281,6 +281,21 @@ TG_USER* CTelegramProto::GetSender(const TD::MessageSender *pSender)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTelegramProto::CheckCompatibility()
+{
+	int iLevel = db_get_b(0, "Compatibility", m_szModuleName);
+
+	if (iLevel < 1) {
+		for (auto &cc : AccContacts())
+			delSetting(cc, "Notes");
+		delSetting("Notes");
+	}
+
+	db_set_b(0, "Compatibility", m_szModuleName, 1);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool CTelegramProto::CheckSearchUser(TG_USER *pUser)
 {
 	auto pSearchId = std::find(m_searchIds.begin(), m_searchIds.end(), pUser->chatId);

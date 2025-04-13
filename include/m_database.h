@@ -223,10 +223,6 @@ struct DBEVENTINFO
 		return bMsec ? (iTimestamp / 1000) : iTimestamp;
 	}
 
-	bool __forceinline markedRead() const {
-		return (bSent || bRead);
-	}
-
 	bool __forceinline operator==(const DBEVENTINFO &e) {
 		return (iTimestamp == e.iTimestamp && eventType == e.eventType && cbBlob == e.cbBlob && bSent == e.bSent);
 	}

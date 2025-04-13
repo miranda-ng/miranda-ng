@@ -35,7 +35,7 @@ struct CSkypeTransfer
 	int iFileSize = 0, iWidth = -1, iHeight = -1;
 };
 
-struct CSkypeProto : public PROTO <CSkypeProto>
+struct CSkypeProto : public PROTO<CSkypeProto>
 {
 	friend class CSkypeOptionsMain;
 	friend class CSkypeGCCreateDlg;
@@ -359,13 +359,6 @@ private:
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetMood(WPARAM, LPARAM);
 	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
-
-	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
-	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
-	{
-		CSkypeProto *proto = CMPlugin::getInstance((MCONTACT)wParam);
-		return proto ? (proto->*Service)(wParam, lParam) : 0;
-	}
 };
 
 typedef CProtoDlgBase<CSkypeProto> CSkypeDlgBase;
