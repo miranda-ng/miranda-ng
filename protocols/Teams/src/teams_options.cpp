@@ -46,7 +46,11 @@ public:
 		if (m_proto->getMStringA(DBKEY_RTOKEN).IsEmpty())
 			btnLogout.Disable();
 
-		m_login.SetTextA(ptrA(m_proto->getStringA(DBKEY_ID)));
+		CMStringA szLogin(m_proto->getMStringA(DBKEY_ID));
+		if (szLogin.IsEmpty())
+			m_login.SetText(TranslateT("<will appear after first login>"));
+		else
+			m_login.SetTextA(szLogin);
 		m_group.SendMsg(EM_LIMITTEXT, 64, 0);
 		return true;
 	}
