@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
+#define GROUPS_MODULE "ClistGroups"
+
 #define MAX_GROUPNAME_LEN 256
 
 HANDLE hGroupChangeEvent;
@@ -59,14 +61,14 @@ struct CGroupImpl
 	{
 		g_pTimer->Stop();
 
-		JSONNode root(JSON_ARRAY);
 		for (auto &it : arByIds) {
 			JSONNode grp;
 			grp << INT_PARAM("id", it->groupId) << WCHAR_PARAM("name", it->groupName) << INT_PARAM("flags", it->flags);
-			root << grp;
-		}
 
-		json2file(root, VARSW(L"%miranda_userdata%\\groups.json"));
+			char szSetting[40];
+			itoa(it->groupId, szSetting, 10);
+			db_set_s(0, GROUPS_MODULE, szSetting, grp.write().c_str());
+		}
 	}
 }
 g_impl;
@@ -560,6 +562,21 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module entry point
 
+static int enumGroups(const char *szSetting, void *)
+{
+	ptrA szText(db_get_sa(0, GROUPS_MODULE, szSetting));
+	if (szText) {
+		JSONNode node(JSONNode::parse(szText));
+		if (node) {
+			CGroupInternal *p = new CGroupInternal(node["id"].as_int(), node["name"].as_mstring(), node["flags"].as_int());
+			arByIds.insert(p);
+			arByName.insert(p);
+		}
+	}
+	
+	return 0;
+}
+
 int InitGroupServices(void)
 {
 	g_pTimer = new CTimer(Miranda_GetSystemWindow(), UINT_PTR(&g_pTimer));
@@ -582,13 +599,17 @@ int InitGroupServices(void)
 	}
 	else {
 		JSONNode cache;
-		if (file2json(VARSW(L"%miranda_userdata%\\groups.json"), cache)) {
+		VARSW wszJson(L"%miranda_userdata%\\groups.json");
+		if (file2json(wszJson, cache)) {
 			for (auto &it : cache) {
 				CGroupInternal *p = new CGroupInternal(it["id"].as_int(), it["name"].as_mstring(), it["flags"].as_int());
 				arByIds.insert(p);
 				arByName.insert(p);
 			}
+			g_pTimer->Start(100);
+			DeleteFileW(wszJson);
 		}
+		else db_enum_settings(0, &enumGroups, GROUPS_MODULE);
 	}
 
 	hGroupChangeEvent = CreateHookableEvent(ME_CLIST_GROUPCHANGE);
