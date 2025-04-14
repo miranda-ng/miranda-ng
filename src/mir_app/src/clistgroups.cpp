@@ -600,6 +600,7 @@ int InitGroupServices(void)
 				CGroupInternal *p = new CGroupInternal(it["id"].as_int(), it["name"].as_mstring(), it["flags"].as_int());
 				arByIds.insert(p);
 				arByName.insert(p);
+				p->save();
 			}
 			DeleteFileW(wszJson);
 		}
