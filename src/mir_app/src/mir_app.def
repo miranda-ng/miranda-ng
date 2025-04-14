@@ -177,7 +177,6 @@ Clist_GroupSetFlags @256
 Clist_GroupGetName @257
 Clist_GroupRename @258
 Clist_EndRebuild @259
-Clist_GroupAdded @260
 ?GetInfo@Contact@@YGPA_WHIPBD@Z @261 NONAME
 Clist_ContactToHItem @262 NONAME
 Clist_ContactToItemHandle @263

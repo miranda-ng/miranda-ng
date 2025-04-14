@@ -386,9 +386,6 @@
     <ClCompile Include="src\clccontact.cpp">
       <Filter>Source Files\Contact list</Filter>
     </ClCompile>
-    <ClCompile Include="src\clc.cpp">
-      <Filter>Source Files\MetaContacts</Filter>
-    </ClCompile>
     <ClCompile Include="src\chat_loginfo.cpp">
       <Filter>Source Files\Chats</Filter>
     </ClCompile>
@@ -432,6 +429,9 @@
       <Filter>Source Files\FindAdd</Filter>
     </ClCompile>
     <ClCompile Include="src\clistcontacts.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clc.cpp">
       <Filter>Source Files\Contact list</Filter>
     </ClCompile>
   </ItemGroup>

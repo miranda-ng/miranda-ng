@@ -59,19 +59,6 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 			cliInvalidateRect(hwnd, nullptr, FALSE);
 		return 0;
 
-	case CLM_SETHIDEEMPTYGROUPS:
-		{
-			BOOL old = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
-			if (wParam)
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
-			else
-				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) &~CLS_HIDEEMPTYGROUPS);
-			BOOL newval = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
-			if (newval != old)
-				Clist_InitAutoRebuild(hwnd);
-		}
-		return 0;
-
 	case CLM_SETTEXTCOLOR:
 		if (wParam > FONTID_MODERN_MAX) break;
 

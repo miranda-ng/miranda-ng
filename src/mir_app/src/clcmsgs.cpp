@@ -382,11 +382,17 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		break;
 
 	case CLM_SETHIDEEMPTYGROUPS:
-		if (wParam)
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
-		else
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-		Clist_InitAutoRebuild(hwnd);
+		{
+			BOOL oldVal = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
+			BOOL newVal = (wParam != 0);
+			if (newVal)
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
+			else
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
+
+			if (newVal != oldVal)
+				Clist_InitAutoRebuild(hwnd);
+		}
 		break;
 
 	case CLM_SETHIDEOFFLINEROOT:

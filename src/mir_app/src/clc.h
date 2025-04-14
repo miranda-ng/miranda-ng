@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 #define MODULENAME "CList"
+#define GROUPS_MODULE "ClistGroups"
 
 struct ClcContact : public ClcContactBase
 {
@@ -176,9 +177,12 @@ struct CGroupInternal
 	CGroupInternal(int _id, const wchar_t *_name, int _flags);
 	~CGroupInternal();
 
-	int groupId, oldId = -1, flags;
+	int groupId, flags;
 	bool bSaveExpanded;
 	wchar_t *groupName;
 
+	void remove();
 	void save();
 };
+
+void Clist_RebuildGroups(HWND hwnd, ClcData *dat);

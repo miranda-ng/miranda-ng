@@ -25,20 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
-EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup)
-{
-	// CLC does this automatically unless it's a new group
-	HWND hwndFocus = GetFocus();
-
-	wchar_t szFocusClass[64];
-	GetClassName(hwndFocus, szFocusClass, _countof(szFocusClass));
-	if (!mir_wstrcmp(szFocusClass, CLISTCONTROL_CLASSW)) {
-		HANDLE hItem = (HANDLE)SendMessage(hwndFocus, CLM_FINDGROUP, hGroup, 0);
-		if (hItem)
-			SendMessage(hwndFocus, CLM_EDITLABEL, (WPARAM)hItem, 0);
-	}
-}
-
 EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 {
 	if (g_clistApi.hwndContactTree == nullptr)

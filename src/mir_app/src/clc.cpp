@@ -70,6 +70,12 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
+	if (!strcmp(cws->szModule, GROUPS_MODULE)) {
+		if (!g_bGroupsLocked)
+			Clist_Broadcast(INTM_GROUPSCHANGED, hContact, lParam);
+		return 0;
+	}
+	
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
 			g_clistApi.pfnInvalidateDisplayNameCacheEntry(hContact);
@@ -375,12 +381,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				bool eq = !mir_wstrcmp(szFullName, pGroup->groupName);
 				if (eq && contact->group->bHideOffline == ((pGroup->flags & GROUPF_HIDEOFFLINE) != 0))
 					break;  // only expanded has changed: no action reqd
-
-				Clist_SaveStateAndRebuildList(hwnd, dat);
-				break;
 			}
+			Clist_SaveStateAndRebuildList(hwnd, dat);
 		}
-		Clist_InitAutoRebuild(hwnd);
+		else Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case INTM_NAMEORDERCHANGED:

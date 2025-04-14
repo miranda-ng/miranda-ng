@@ -357,13 +357,6 @@ EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName);
 EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, const wchar_t *ptszGroupName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// a new group was created. Add it to the list
-// this is also called when the contact list is being rebuilt
-// new groups are always created with the name "New Group"
-
-EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // deletes a group and calls CLUI to display the change
 // returns 0 on success, nonzero on failure
 
