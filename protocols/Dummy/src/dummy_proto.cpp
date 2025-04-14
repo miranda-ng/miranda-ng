@@ -104,9 +104,12 @@ int CDummyProto::getTemplateId()
 	if (id >= 0 && id < _countof(templates))
 		return id;
 	
-	CMStringA szProto(getMStringA("AM_BaseProto"));
+	CMStringA szProto(getMStringA("AM_PrevProto"));
+	if (szProto.IsEmpty())
+		szProto = getMStringA("AM_BaseProto");
+
 	for (auto &it : templates)
-		if (!stricmp(it.name, szProto))
+		if (szProto == it.name)
 			return int(&it - templates);
 
 	return 0;
