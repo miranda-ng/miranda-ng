@@ -184,9 +184,30 @@ void CTeamsProto::SetServerStatus(int iStatus)
 {
 	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_PRESENCE, "/me/endpoints", &CTeamsProto::OnStatusChanged);
 
+	const char *pszAvailability, *pszActivity;
+	switch (iStatus) {
+	case ID_STATUS_OFFLINE:
+		pszAvailability = pszActivity = "Offline";
+		break;
+	case ID_STATUS_NA:
+	case ID_STATUS_AWAY:
+		pszAvailability = pszActivity = "Away";
+		break;
+	case ID_STATUS_DND:
+		pszAvailability = "DoNotDisturb";
+		pszActivity = "Presenting";
+		break;
+	case ID_STATUS_OCCUPIED:
+		pszAvailability = "Busy";
+		pszActivity = "InACall";
+		break;
+	default:
+		pszAvailability = pszActivity = "Available";
+	}
+
 	JSONNode node(JSON_NODE);
-	node << CHAR_PARAM("id", m_szEndpoint) << CHAR_PARAM("availability", MirandaToSkypeStatus(iStatus))
-		<< CHAR_PARAM("activity", "Available") << CHAR_PARAM("activityReporting", "Transport") << CHAR_PARAM("deviceType", "Desktop");
+	node << CHAR_PARAM("id", m_szEndpoint) << CHAR_PARAM("availability", pszAvailability)
+		<< CHAR_PARAM("activity", pszActivity) << CHAR_PARAM("activityReporting", "Transport") << CHAR_PARAM("deviceType", "Desktop");
 	pReq->m_szParam = node.write().c_str();
 
 	PushRequest(pReq);

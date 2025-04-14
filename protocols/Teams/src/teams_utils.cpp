@@ -593,19 +593,6 @@ uint32_t Utf16toUtf32(const wchar_t *str)
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-const char* MirandaToSkypeStatus(int status)
-{
-	switch (status) {
-	case ID_STATUS_OFFLINE:    return "Offline";
-	case ID_STATUS_AWAY:       return "Away";
-	case ID_STATUS_NA:         return "BeRightBack";
-	case ID_STATUS_DND:        return "DoNotDisturb";
-	case ID_STATUS_OCCUPIED:   return "Busy";
-	case ID_STATUS_IDLE:       return "AvailableIdle";
-	}
-	return "Available";
-}
-
 int SkypeToMirandaStatus(const char *status)
 {
 	if (!mir_strcmpi(status, "Available"))
