@@ -613,8 +613,10 @@ int InitGroupServices(void)
 
 void UninitGroupServices(void)
 {
-	for (auto &p : arByIds)
+	for (auto &p : arByIds) {
+		p->save();
 		delete p;
+	}
 
 	arByIds.destroy();
 	arByName.destroy();
