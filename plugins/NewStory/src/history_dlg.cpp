@@ -295,7 +295,7 @@ class CHistoryDlg : public CDlgBase
 		auto &pArray = m_histCtrl->items;
 		int numItems = pArray.getCount();
 
-		int CurYear = 0, CurMonth = 0, CurDay = 0, PrevYear = -1, PrevMonth = -1, PrevDay = -1;
+		int PrevYear = -1, PrevMonth = -1, PrevDay = -1;
 		HTREEITEM hCurYear = 0, hCurMonth = 0, hCurDay = 0;
 		for (int i = 0; i < numItems; i++) {
 			auto *pItem = pArray.get(i, false);
@@ -311,9 +311,9 @@ class CHistoryDlg : public CDlgBase
 			if (err != 0)
 				return;
 
-			CurYear = ts.tm_year + 1900;
-			CurMonth = ts.tm_mon + 1;
-			CurDay = ts.tm_mday;
+			int CurYear = ts.tm_year + 1900;
+			int CurMonth = ts.tm_mon + 1;
+			int CurDay = ts.tm_mday;
 			wchar_t buf[50];
 			TVINSERTSTRUCT tvi;
 			tvi.hParent = nullptr;
@@ -321,14 +321,14 @@ class CHistoryDlg : public CDlgBase
 			if (CurYear != PrevYear) {
 				_itow(CurYear, buf, 10);
 				tvi.item.pszText = buf;
-				tvi.item.lParam = CurYear;
+				tvi.item.lParam = CurYear * 100 * 100;
 				hCurYear = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 				PrevYear = CurYear;
 			}
 			if (CurMonth != PrevMonth) {
 				tvi.hParent = hCurYear;
 				tvi.item.pszText = TranslateW(months[CurMonth - 1]);
-				tvi.item.lParam = CurMonth;
+				tvi.item.lParam = (CurYear * 100 + CurMonth) * 100;
 				hCurMonth = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 				PrevMonth = CurMonth;
 			}
@@ -336,11 +336,12 @@ class CHistoryDlg : public CDlgBase
 				_itow(CurDay, buf, 10);
 				tvi.hParent = hCurMonth;
 				tvi.item.pszText = buf;
-				tvi.item.lParam = CurDay;
+				tvi.item.lParam = (CurYear * 100 + CurMonth) * 100 + CurDay;
 				hCurDay = TreeView_InsertItem(m_timeTree.GetHwnd(), &tvi);
 				PrevDay = CurDay;
 			}
 		}
+		
 		disableTimeTreeChange = true;
 		HTREEITEM root = m_timeTree.GetRoot();
 		m_timeTree.SelectItem(root);
@@ -1189,62 +1190,25 @@ public:
 
 	void onSelChanged_TimeTree(CCtrlTreeView::TEventInfo *)
 	{
-		wchar_t *val1, *val2, *val3;
-		int yearsel = 0, monthsel = 0, daysel = 1;
-		bool monthfound = false;
-		if (disableTimeTreeChange)
+		if (disableTimeTreeChange) {
 			disableTimeTreeChange = false;
-		else {
-			HTREEITEM hti1 = m_timeTree.GetSelection();
-			TVITEMEX tvi = { 0 };
-			tvi.hItem = hti1;
-			tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_PARAM;
-			tvi.cchTextMax = MAX_PATH;
-			tvi.lParam = 0;
-			tvi.pszText = (wchar_t *)_alloca(MAX_PATH * sizeof(wchar_t));
-
-			m_timeTree.GetItem(&tvi);
-			val1 = tvi.pszText;
-			if (tvi.lParam) {
-				monthsel = tvi.lParam;
-				monthfound = true;
-			}
-			HTREEITEM hti2 = m_timeTree.GetParent(hti1);
-			if ((!monthfound) && (!hti2))
-				yearsel = _wtoi(val1);
-			if ((!monthfound) && (hti2))
-				daysel = _wtoi(val1);
-			if (hti2) {
-				tvi.hItem = hti2;
-				tvi.lParam = 0;
-				m_timeTree.GetItem(&tvi);
-				val2 = tvi.pszText;
-				if (tvi.lParam) {
-					monthsel = tvi.lParam;
-					monthfound = true;
-				}
-				else
-					yearsel = _wtoi(val2);
-				HTREEITEM hti3 = m_timeTree.GetParent(hti2);
-				if (hti3) {
-					tvi.hItem = hti3;
-					tvi.lParam = 0;
-					m_timeTree.GetItem(&tvi);
-					val3 = tvi.pszText;
-					yearsel = _wtoi(val3);
-				}
-			}
-			struct tm tm_sel;
-			tm_sel.tm_hour = tm_sel.tm_min = tm_sel.tm_sec = 0;
-			tm_sel.tm_isdst = 1;
-			tm_sel.tm_mday = daysel;
-			if (monthsel)
-				tm_sel.tm_mon = monthsel - 1;
-			else
-				tm_sel.tm_mon = 0;
-			tm_sel.tm_year = yearsel - 1900;
-			PostMessage(m_hwnd, WM_USER + 0x600, mktime(&tm_sel), 0);
+			return;
 		}
+
+		HTREEITEM hti1 = m_timeTree.GetSelection();
+		TVITEMEX tvi = {};
+		tvi.hItem = hti1;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+		m_timeTree.GetItem(&tvi);
+
+		struct tm tm_sel = {};
+		tm_sel.tm_isdst = 1;
+		tm_sel.tm_mday = tvi.lParam % 100; tvi.lParam /= 100;
+		tm_sel.tm_mon = tvi.lParam % 100;
+		if (tm_sel.tm_mon)
+			tm_sel.tm_mon--;
+		tm_sel.tm_year = tvi.lParam / 100 - 1900;
+		PostMessage(m_hwnd, WM_USER + 0x600, mktime(&tm_sel), 0);
 	}
 };
 
