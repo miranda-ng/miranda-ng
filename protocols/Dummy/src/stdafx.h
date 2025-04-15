@@ -62,3 +62,4 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "dummy_proto.h"
 
 void FillTemplateCombo(HWND hwndDlg, int iCtrlId);
+void InitIcons();

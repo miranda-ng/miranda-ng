@@ -19,33 +19,33 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 const ttemplate templates[] =
 {
-	{ LPGEN("Custom"),    "",         ""                        },
-	{ "AIM",              "SN",       LPGEN("Screen name")      },
-	{ "Discord",          "id",       LPGEN("Discord ID")       },
-	{ "EmLAN",            "Nick",     LPGEN("User name")        },
-	{ "Facebook",         "ID",       LPGEN("Facebook ID")      },
-	{ "GG",               "UIN",      LPGEN("Gadu-Gadu number") },
-	{ "ICQ",              "aimId",    LPGEN("User ID")          },
-	{ "ICQCorp",          "UIN",      LPGEN("ICQ number")       },
-	{ "IRC",              "Nick",     LPGEN("Nickname")         },
-	{ "Jabber",           "jid",      LPGEN("JID")              },
-	{ "MinecraftDynmap",  "Nick",     LPGEN("Visible name")     },
-	{ "MRA",              "e-mail",   LPGEN("E-mail address")   },
-	{ "MSN",              "wlid",     LPGEN("Live ID")          },
-	{ "Omegle",           "nick",     LPGEN("Visible name")     },
-	{ "Sametime",         "stid",     LPGEN("ID")               },
-	{ "Skype (SkypeKit)", "sid",      LPGEN("Skype name")       },
-	{ "Skype (Classic)",  "Username", LPGEN("Skype name")       },
-	{ "Skype (Web)",      "Username", LPGEN("Skype name")       },
-	{ "Steam",            "SteamID",  LPGEN("Steam ID")         },
-	{ "Telegram",         "id",       LPGEN("Telegram ID")      },
-	{ "Tlen",             "jid",      LPGEN("Tlen login")       },
-	{ "Tox",              "ToxID",    LPGEN("Tox ID")           },
-	{ "Twitter",          "Username", LPGEN("Username")         },
-	{ "VK",               "ID",       LPGEN("VKontakte ID")     },
-	{ "WhatsApp",         "ID",       LPGEN("WhatsApp ID")      },
-	{ "XFire",            "Username", LPGEN("Username")         },
-	{ "Yahoo",            "yahoo_id", LPGEN("ID")               },
+	{ LPGEN("Custom"),    "",         "",                        IDI_DUMMY     },
+	{ "AIM",              "SN",       LPGEN("Screen name"),      IDI_AIM       },
+	{ "Discord",          "id",       LPGEN("Discord ID"),       IDI_DISCORD   },
+	{ "EmLAN",            "Nick",     LPGEN("User name"),        IDI_EMLAN     },
+	{ "Facebook",         "ID",       LPGEN("Facebook ID"),      IDI_FACEBOOK  },
+	{ "GG",               "UIN",      LPGEN("Gadu-Gadu number"), IDI_GG        },
+	{ "ICQ",              "aimId",    LPGEN("User ID"),          IDI_ICQ       },
+	{ "ICQCorp",          "UIN",      LPGEN("ICQ number"),       IDI_ICQ       },
+	{ "IRC",              "Nick",     LPGEN("Nickname"),         IDI_IRC       },
+	{ "Jabber",           "jid",      LPGEN("JID"),              IDI_JABBER    },
+	{ "MinecraftDynmap",  "Nick",     LPGEN("Visible name"),     IDI_MINECRAFT },
+	{ "MRA",              "e-mail",   LPGEN("E-mail address"),   IDI_MRA       },
+	{ "MSN",              "wlid",     LPGEN("Live ID"),          IDI_MSN       },
+	{ "Omegle",           "nick",     LPGEN("Visible name"),     IDI_OMEGLE    },
+	{ "Sametime",         "stid",     LPGEN("ID"),               IDI_SAMETIME  },
+	{ "Skype (SkypeKit)", "sid",      LPGEN("Skype name"),       IDI_SKYPE     },
+	{ "Skype (Classic)",  "Username", LPGEN("Skype name"),       IDI_SKYPE     },
+	{ "Skype (Web)",      "Username", LPGEN("Skype name"),       IDI_SKYPE     },
+	{ "Steam",            "SteamID",  LPGEN("Steam ID"),         IDI_STEAM     },
+	{ "Telegram",         "id",       LPGEN("Telegram ID"),      IDI_TELEGRAM  },
+	{ "Tlen",             "jid",      LPGEN("Tlen login"),       IDI_TLEN      },
+	{ "Tox",              "ToxID",    LPGEN("Tox ID"),           IDI_TOX       },
+	{ "Twitter",          "Username", LPGEN("Username"),         IDI_TWITTER   },
+	{ "VK",               "ID",       LPGEN("VKontakte ID"),     IDI_VK        },
+	{ "WhatsApp",         "ID",       LPGEN("WhatsApp ID"),      IDI_WHATSAPP  },
+	{ "XFire",            "Username", LPGEN("Username"),         IDI_XFIRE     },
+	{ "Yahoo",            "yahoo_id", LPGEN("ID"),               IDI_YAHOO     },
 };
 
 void FillTemplateCombo(HWND hwndDlg, int iCtrlId)
@@ -56,17 +56,21 @@ void FillTemplateCombo(HWND hwndDlg, int iCtrlId)
 	}
 }
 
-void CDummyProto::SearchIdAckThread(void *targ)
+void InitIcons()
 {
-	PROTOSEARCHRESULT psr = { 0 };
-	psr.cbSize = sizeof(psr);
-	psr.flags = PSR_UNICODE;
-	psr.id.w = (wchar_t*)targ;
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
-	
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
+	wchar_t wszDllName[MAX_PATH];
+	GetModuleFileNameW(g_plugin.getInst(), wszDllName, _countof(wszDllName));
 
-	mir_free(targ);
+	SKINICONDESC sid = {};
+	sid.flags = SIDF_PATH_UNICODE;
+	sid.defaultFile.w = wszDllName;
+	sid.section.a = "Protocols/Dummy";
+	for (auto &it : templates) {
+		sid.iDefaultIndex = -it.iconId;
+		sid.pszName = (char *)it.name;
+		sid.description.a = (char *)it.name;
+		g_plugin.addIcon(&sid);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -90,6 +94,7 @@ CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) 
 	else uniqueIdText[0] = '\0';
 
 	uniqueIdSetting[0] = '\0';
+	m_hProtoIcon = g_plugin.getIconHandle(templates[id].iconId);
 }
 
 CDummyProto::~CDummyProto()
@@ -154,6 +159,31 @@ INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDummyProto::SearchIdAckThread(void *targ)
+{
+	PROTOSEARCHRESULT psr = { 0 };
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_UNICODE;
+	psr.id.w = (wchar_t *)targ;
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&psr);
+
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
+
+	mir_free(targ);
+}
+
+HANDLE CDummyProto::SearchBasic(const wchar_t *id)
+{
+	if (uniqueIdSetting[0] == '\0')
+		return nullptr;
+
+	wchar_t *tid = mir_wstrdup(id);
+	ForkThread(&CDummyProto::SearchIdAckThread, tid);
+	return tid;
+}
+
 //////////////////////////////////////////////////////////////////////////////
 
 int CDummyProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
@@ -173,15 +203,7 @@ int CDummyProto::SetStatus(int)
 	return 0;
 }
 
-HANDLE CDummyProto::SearchBasic(const wchar_t* id)
-{
-	if (uniqueIdSetting[0] == '\0')
-		return nullptr;
-
-	wchar_t *tid = mir_wstrdup(id);
-	ForkThread(&CDummyProto::SearchIdAckThread, tid);
-	return tid;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {

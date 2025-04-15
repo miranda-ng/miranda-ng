@@ -64,6 +64,8 @@ static int OnDummyDoubleClicked(WPARAM hContact, LPARAM)
 
 int CMPlugin::Load()
 {
+	InitIcons();
+
 	HookEvent(ME_CLIST_DOUBLECLICKED, OnDummyDoubleClicked);
 	return 0;
 }

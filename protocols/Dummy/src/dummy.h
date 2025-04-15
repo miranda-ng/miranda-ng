@@ -29,6 +29,7 @@ struct ttemplate
 	const char *name;
 	const char *setting;
 	const char *text;
+	int iconId;
 };
 
 extern const ttemplate templates[];

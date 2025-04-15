@@ -67,6 +67,35 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+IDI_AIM                 ICON                    "aim.ico"
+IDI_ICQ                 ICON                    "icq.ico"
+IDI_MRA                 ICON                    "mra.ico"
+IDI_MSN                 ICON                    "msn.ico"
+IDI_OMEGLE              ICON                    "omegle.ico"
+IDI_TLEN                ICON                    "tlen.ico"
+IDI_XFIRE               ICON                    "xfire.ico"
+IDI_YAHOO               ICON                    "yahoo.ico"
+IDI_DUMMY               ICON                    "..\\proto_dummy\\res\\Offline.ico"
+IDI_DISCORD             ICON                    "..\\..\\Discord\\res\\discord.ico"
+IDI_EMLAN               ICON                    "..\\..\\EmLanProto\\res\\icon_onl.ico"
+IDI_FACEBOOK            ICON                    "..\\..\\Facebook\\res\\facebook.ico"
+IDI_GG                  ICON                    "..\\..\\Gadu-Gadu\\res\\gg.ico"
+IDI_IRC                 ICON                    "..\\..\\IRCG\\res\\irc.ico"
+IDI_JABBER              ICON                    "..\\..\\JabberG\\res\\jabber.ico"
+IDI_MINECRAFT           ICON                    "..\\..\\MinecraftDynmap\\res\\proto.ico"
+IDI_SAMETIME            ICON                    "..\\..\\Sametime\\res\\online.ico"
+IDI_SKYPE               ICON                    "..\\..\\SkypeWeb\\res\\Icons\\skype.ico"
+IDI_STEAM               ICON                    "..\\..\\Steam\\res\\steam.ico"
+IDI_TELEGRAM            ICON                    "..\\..\\Telegram\\res\\telegram.ico"
+IDI_TOX                 ICON                    "..\\..\\Tox\\res\\tox.ico"
+IDI_TWITTER             ICON                    "..\\..\\Twitter\\res\\twitter.ico"
+IDI_VK                  ICON                    "..\\..\\VKontakte\\proto_vkontakte\\res\\Online.ico"
+IDI_WHATSAPP            ICON                    "..\\..\\WhatsApp\\res\\whatsapp.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
