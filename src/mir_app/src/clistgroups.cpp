@@ -257,10 +257,12 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup, bool bSilent)
 	for (auto &it : arByIds)
 		it->oldId = it->groupId;
 
+	int iGap = 0;
 	for (auto &it : arByIds.rev_iter()) {
 		if (!isParentOf(wszOldName, it->groupName))
 			continue;
 
+		iGap++;
 		arByName.remove(it);
 		arByIds.removeItem(&it);
 	}
@@ -269,6 +271,12 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup, bool bSilent)
 		it->groupId = arByIds.indexOf(&it);
 		if (it->groupId != it->oldId)
 			it->save();
+	}
+
+	for (int i = 0; i < iGap; i++) {
+		char idstr[33];
+		_itoa(arByIds.getCount() + i, idstr, 10);
+		db_unset(0, GROUPS_MODULE, idstr);
 	}
 
 	SetCursor(LoadCursor(nullptr, IDC_ARROW));
