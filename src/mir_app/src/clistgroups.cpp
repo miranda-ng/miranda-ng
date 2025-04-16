@@ -77,11 +77,11 @@ void CGroupInternal::save()
 	Clist_BroadcastAsync(INTM_GROUPSCHANGED, 0, LPARAM(this));
 
 	JSONNode grp;
-	grp << INT_PARAM("id", groupId) << WCHAR_PARAM("name", groupName) << INT_PARAM("flags", flags);
+	grp << WCHAR_PARAM("name", groupName) << INT_PARAM("flags", flags);
 
 	char szSetting[40];
 	itoa(groupId, szSetting, 10);
-	db_set_s(0, GROUPS_MODULE, szSetting, grp.write().c_str());
+	db_set_utf(0, GROUPS_MODULE, szSetting, grp.write().c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -562,13 +562,15 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 
 static int enumGroups(const char *szSetting, void *)
 {
-	ptrA szText(db_get_sa(0, GROUPS_MODULE, szSetting));
-	if (szText) {
-		JSONNode node(JSONNode::parse(szText));
-		if (node) {
-			CGroupInternal *p = new CGroupInternal(node["id"].as_int(), node["name"].as_mstring(), node["flags"].as_int());
-			arByIds.insert(p);
-			arByName.insert(p);
+	DBVARIANT dbv = {};
+	if (!db_get_s(0, GROUPS_MODULE, szSetting, &dbv, 0)) {
+		if (dbv.pszVal && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8)) {
+			JSONNode node(JSONNode::parse(dbv.pszVal));
+			if (node) {
+				CGroupInternal *p = new CGroupInternal(atoi(szSetting), node["name"].as_mstring(), node["flags"].as_int());
+				arByIds.insert(p);
+				arByName.insert(p);
+			}
 		}
 	}
 	
