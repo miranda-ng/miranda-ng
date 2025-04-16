@@ -152,7 +152,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 			mir_snwprintf(newName, L"%s (%d)", newBaseName, idCopy);
 	}
 
-	int newId = arByIds.getCount() ? arByIds[arByIds.getCount() - 1]->groupId + 1 : 0;
+	int newId = arByIds.getCount();
 	CGroupInternal *pNew = new CGroupInternal(newId, newName, GROUPF_EXPANDED);
 	arByIds.insert(pNew);
 	arByName.insert(pNew);
@@ -253,15 +253,23 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup, bool bSilent)
 		NotifyEventHooks(hGroupChangeEvent, hContact, (LPARAM)&grpChg);
 	}
 	
-	// remove all child groups
-	for (auto &it : arByIds.rev_iter())
-		if (isParentOf(wszOldName, it->groupName)) {
-			auto *p = it;
-			arByName.remove(it);
-			arByIds.removeItem(&it);
-			p->remove();
-			delete p;
-		}
+	// shuffle list of groups up to fill gap
+	for (auto &it : arByIds)
+		it->oldId = it->groupId;
+
+	for (auto &it : arByIds.rev_iter()) {
+		if (!isParentOf(wszOldName, it->groupName))
+			continue;
+
+		arByName.remove(it);
+		arByIds.removeItem(&it);
+	}
+
+	for (auto &it : arByIds) {
+		it->groupId = arByIds.indexOf(&it);
+		if (it->groupId != it->oldId)
+			it->save();
+	}
 
 	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	Clist_LoadContactTree();

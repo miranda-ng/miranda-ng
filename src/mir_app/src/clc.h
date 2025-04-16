@@ -177,7 +177,7 @@ struct CGroupInternal
 	CGroupInternal(int _id, const wchar_t *_name, int _flags);
 	~CGroupInternal();
 
-	int groupId, flags;
+	int groupId, flags, oldId;
 	bool bSaveExpanded;
 	wchar_t *groupName;
 
