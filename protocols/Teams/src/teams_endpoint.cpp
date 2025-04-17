@@ -168,7 +168,7 @@ void CTeamsProto::SendPresence()
 
 void CTeamsProto::OnStatusChanged(MHttpResponse *response, AsyncHttpRequest*)
 {
-	if (response == nullptr || response->resultCode != 201) {
+	if (response == nullptr || response->resultCode != 200) {
 		debugLogA(__FUNCTION__ ": failed to change status");
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
 		SetStatus(ID_STATUS_OFFLINE);
@@ -182,33 +182,29 @@ void CTeamsProto::OnStatusChanged(MHttpResponse *response, AsyncHttpRequest*)
 
 void CTeamsProto::SetServerStatus(int iStatus)
 {
-	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_PRESENCE, "/me/endpoints", &CTeamsProto::OnStatusChanged);
-
-	const char *pszAvailability, *pszActivity;
+	const char *pszAvailability;
 	switch (iStatus) {
 	case ID_STATUS_OFFLINE:
-		pszAvailability = pszActivity = "Offline";
+		pszAvailability = "Offline";
 		break;
 	case ID_STATUS_NA:
 	case ID_STATUS_AWAY:
-		pszAvailability = pszActivity = "Away";
+		pszAvailability = "Away";
 		break;
 	case ID_STATUS_DND:
 		pszAvailability = "DoNotDisturb";
-		pszActivity = "Presenting";
 		break;
 	case ID_STATUS_OCCUPIED:
 		pszAvailability = "Busy";
-		pszActivity = "InACall";
 		break;
 	default:
-		pszAvailability = pszActivity = "Available";
+		pszAvailability = "Available";
 	}
 
 	JSONNode node(JSON_NODE);
-	node << CHAR_PARAM("id", m_szEndpoint) << CHAR_PARAM("availability", pszAvailability)
-		<< CHAR_PARAM("activity", pszActivity) << CHAR_PARAM("activityReporting", "Transport") << CHAR_PARAM("deviceType", "Desktop");
-	pReq->m_szParam = node.write().c_str();
+	node << CHAR_PARAM("availability", pszAvailability);
 
+	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_PRESENCE, "/me/forceavailability", &CTeamsProto::OnStatusChanged);
+	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 }

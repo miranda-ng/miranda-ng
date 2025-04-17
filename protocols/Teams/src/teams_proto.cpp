@@ -117,8 +117,7 @@ INT_PTR CTeamsProto::GetCaps(int type, MCONTACT)
 		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_BASICSEARCH | PF1_MODEMSG | PF1_FILE | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
 	case PFLAGNUM_3:
-		// return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
-		return PF2_ONLINE;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
 	case PFLAGNUM_4:
 		return PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES | PF4_SERVERMSGID | PF4_SERVERFORMATTING;
 	case PFLAG_UNIQUEIDTEXT:
@@ -221,9 +220,6 @@ int CTeamsProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
 		return 0;
-
-	if (iNewStatus != ID_STATUS_OFFLINE)
-		iNewStatus = ID_STATUS_ONLINE;
 
 	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
 

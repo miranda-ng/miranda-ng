@@ -362,6 +362,7 @@ private:
 	void ProcessConversationUpdate(const JSONNode &node);
 
 	void __cdecl GatewayThread(void *);
+	void GatewayThreadWorker();
 
 	void TRouterSendJson(const char *szName, const JSONNode *node = 0);
 	void TRouterSendJson(const JSONNode &node);

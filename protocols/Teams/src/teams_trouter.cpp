@@ -87,6 +87,12 @@ void CTeamsProto::StopTrouter()
 
 void CTeamsProto::GatewayThread(void *)
 {
+	while (!m_isTerminated)
+		GatewayThreadWorker();
+}
+
+void CTeamsProto::GatewayThreadWorker()
+{
 	m_ws = nullptr;
 
 	MHttpHeaders headers;
@@ -108,7 +114,7 @@ void CTeamsProto::GatewayThread(void *)
 		else debugLogA("websocket connection failed: %d", pReply->resultCode);
 	}
 	else debugLogA("websocket connection failed");
-	
+
 	StopTrouter();
 }
 
