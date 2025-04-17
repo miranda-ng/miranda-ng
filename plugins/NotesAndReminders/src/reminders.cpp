@@ -713,7 +713,7 @@ protected:
 
 		int h, m;
 		if (!ParseTime(buf, &h, &m, FALSE, m_bRelativeCombo)) {
-			MessageBox(cmbTime.GetParent()->GetHwnd(), TranslateT("The specified time is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
+			MessageBoxW(m_hwnd, TranslateT("The specified time is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
 			return false;
 		}
 
@@ -991,7 +991,7 @@ protected:
 				// due to ending up at an undesired time (this way the user immediately notices something was wrong)
 				cmbTime.SetCurSel(0);
 invalid_dst:
-				MessageBox(cmbTime.GetParent()->GetHwnd(),
+				MessageBoxW(m_hwnd,
 					TranslateT("The specified time is invalid due to begin of daylight saving (summer time)."),
 					_A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
 				return 1;
@@ -1799,7 +1799,7 @@ public:
 				break;
 
 			case ID_CONTEXTMENUREMINDER_DELETEALL:
-				if (arReminders.getCount() && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+				if (arReminders.getCount() && IDOK == MessageBoxW(m_hwnd, TranslateT("Are you sure you want to delete all reminders?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
 					SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
 					DeleteReminders();
 					RefreshList();
@@ -1808,7 +1808,7 @@ public:
 
 			case ID_CONTEXTMENUREMINDER_DELETE:
 				idx = m_list.GetSelectionMark();
-				if (idx != -1 && IDOK == MessageBox(m_hwnd, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
+				if (idx != -1 && IDOK == MessageBoxW(m_hwnd, TranslateT("Are you sure you want to delete this reminder?"), _A2W(SECTIONNAME), MB_OKCANCEL)) {
 					SetDlgItemTextA(m_hwnd, IDC_REMINDERDATA, "");
 					DeleteReminder(getData(idx));
 					JustSaveReminders();
@@ -1926,7 +1926,7 @@ INT_PTR PluginMenuCommandViewReminders(WPARAM, LPARAM)
 INT_PTR PluginMenuCommandDeleteReminders(WPARAM, LPARAM)
 {
 	if (arReminders.getCount())
-		if (IDOK == MessageBox(nullptr, TranslateT("Are you sure you want to delete all reminders?"), TranslateT(SECTIONNAME), MB_OKCANCEL))
+		if (IDOK == MessageBoxW(nullptr, TranslateT("Are you sure you want to delete all reminders?"), TranslateT(SECTIONNAME), MB_OKCANCEL))
 			DeleteReminders();
 	return 0;
 }
