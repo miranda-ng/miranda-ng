@@ -704,31 +704,35 @@ protected:
 
 				FileTimeToSystemTime((FILETIME*)&savedLi, &pDate);
 			}
-			return true;
 		}
+		else {
+			// user entered a custom value
+			wchar_t buf[32];
+			cmbTime.GetText(buf, _countof(buf));
 
-		// user entered a custom value
-		wchar_t buf[32];
-		cmbTime.GetText(buf, _countof(buf));
+			int h, m;
+			if (!ParseTime(buf, &h, &m, FALSE, m_bRelativeCombo)) {
+				MessageBoxW(m_hwnd, TranslateT("The specified time is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
+				return false;
+			}
 
-		int h, m;
-		if (!ParseTime(buf, &h, &m, FALSE, m_bRelativeCombo)) {
-			MessageBoxW(m_hwnd, TranslateT("The specified time is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
-			return false;
+			// absolute time (on pDate)
+			if (ReformatTimeInput(savedLi, h, m, &pDate, nullptr))
+				return false;
+
+			bool bTomorrow = (h * 60 + m) < (pDate.wHour * 60 + pDate.wMinute);
+
+			pDate.wHour = h;
+			pDate.wMinute = m;
+			pDate.wSecond = 0;
+			pDate.wMilliseconds = 0;
+
+			ULONGLONG li;
+			TzLocalSTToFileTime(&pDate, (FILETIME *)&li);
+			if (bTomorrow)
+				li += (ULONGLONG)(24 * 3600) * FILETIME_TICKS_PER_SEC;
+			FileTimeToSystemTime((FILETIME *)&li, &pDate);
 		}
-
-		// absolute time (on pDate)
-		if (ReformatTimeInput(savedLi, h, m, &pDate, nullptr))
-			return false;
-
-		pDate.wHour = h;
-		pDate.wMinute = m;
-		pDate.wSecond = 0;
-		pDate.wMilliseconds = 0;
-
-		ULONGLONG li;
-		TzLocalSTToFileTime(&pDate, (FILETIME*)&li);
-		FileTimeToSystemTime((FILETIME*)&li, &pDate);
 		return true;
 	}
 
