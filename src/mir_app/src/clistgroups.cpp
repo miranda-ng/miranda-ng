@@ -77,7 +77,7 @@ void CGroupInternal::save()
 	Clist_BroadcastAsync(INTM_GROUPSCHANGED, 0, LPARAM(this));
 
 	JSONNode grp;
-	grp << WCHAR_PARAM("name", groupName) << INT_PARAM("flags", flags);
+	grp << WCHAR_PARAM("name", groupName) << INT_PARAM("flags", flags) << INT_PARAM("ignore", ignore);
 
 	char szSetting[40];
 	itoa(groupId, szSetting, 10);
@@ -86,21 +86,26 @@ void CGroupInternal::save()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int GroupNameExists(const wchar_t *ptszGroupName, int skipGroup)
+CGroupInternal* FindGroup(const wchar_t *ptszGroupName)
 {
 	if (ptszGroupName == nullptr)
 		return 0;
 
-	CGroupInternal *tmp = (CGroupInternal*)_alloca(sizeof(CGroupInternal));
-	tmp->groupName = (wchar_t*)ptszGroupName;
-	if (tmp = arByName.find(tmp))
-		return (skipGroup == tmp->groupId) ? 0 : tmp->groupId + 1;
+	CGroupInternal *tmp = (CGroupInternal *)_alloca(sizeof(CGroupInternal));
+	tmp->groupName = (wchar_t *)ptszGroupName;
+	return arByName.find(tmp);
+}
+
+static int GroupNameExists(const wchar_t *ptszGroupName)
+{
+	if (auto *tmp = FindGroup(ptszGroupName))
+		return tmp->groupId + 1;
 	return 0;
 }
 
 MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName)
 {
-	return GroupNameExists(ptszGroupName, -1);
+	return GroupNameExists(ptszGroupName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -143,12 +148,12 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 
 	mir_wstrncpy(newName, newBaseName, _countof(newName) - 1);
 	if (ptszName) {
-		int id = GroupNameExists(newBaseName, -1);
+		int id = GroupNameExists(newBaseName);
 		if (id)
 			return id;
 	}
 	else {
-		for (int idCopy = 1; GroupNameExists(newName, -1); idCopy++)
+		for (int idCopy = 1; GroupNameExists(newName); idCopy++)
 			mir_snwprintf(newName, L"%s (%d)", newBaseName, idCopy);
 	}
 
@@ -348,7 +353,8 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 
 static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 {
-	if (GroupNameExists(szName, groupId)) {
+	auto existingId = GroupNameExists(szName);
+	if (existingId && existingId != groupId) {
 		MessageBoxW(nullptr, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename group"), MB_ICONERROR | MB_OK);
 		return 1;
 	}
@@ -437,8 +443,6 @@ MIR_APP_DLL(void) Clist_GroupRestoreExpanded()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState)
 {
 	CGroupInternal *pGroup = FindGroup(hGroup-1);
@@ -455,9 +459,19 @@ MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask)
+{
+	if (auto *pGroup = FindGroup(hGroup - 1)) {
+		pGroup->ignore = mask;
+		pGroup->save();
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(int) Clist_GroupSetFlags(MGROUP hGroup, LPARAM iNewFlags)
 {
-	CGroupInternal *pGroup = FindGroup(hGroup-1);
+	auto *pGroup = FindGroup(hGroup-1);
 	if (pGroup == nullptr)
 		return 1;
 
@@ -584,6 +598,7 @@ static int enumGroups(const char *szSetting, void *)
 			JSONNode node(JSONNode::parse(dbv.pszVal));
 			if (node) {
 				CGroupInternal *p = new CGroupInternal(atoi(szSetting), node["name"].as_mstring(), node["flags"].as_int());
+				p->ignore = node["ignore"].as_int();
 				arByIds.insert(p);
 				arByName.insert(p);
 			}
