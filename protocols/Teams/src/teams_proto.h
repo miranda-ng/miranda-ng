@@ -165,8 +165,8 @@ public:
 	// other data
 
 	int m_iPollingId, m_iMessageId = 1;
-	ptrA m_szToken, m_szEndpoint, m_szOwnSkypeId;
-	CMStringA m_szSkypename, m_szMyname, m_szSkypeToken;
+	ptrA m_szToken, m_szOwnSkypeId;
+	CMStringA m_szSkypename, m_szMyname, m_szSkypeToken, m_szEndpoint;
 	MCONTACT m_hMyContact;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {
@@ -298,14 +298,16 @@ private:
 
 	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
 
-	// utils
-	template <typename T>
-	__inline static void FreeList(const LIST<T> &lst)
-	{
-		for (auto &it : lst)
-			mir_free(it);
-	}
+	// server requests
+	void GetProfileInfo(MCONTACT hContact);
 
+	void SetServerStatus(int iStatus);
+
+	void CreateSubscription();
+	void CreateContactSubscription();
+
+
+	// utils
 	__forceinline bool IsOnline() const
 	{	return (m_iStatus > ID_STATUS_OFFLINE);
 	}
@@ -319,8 +321,6 @@ private:
 	CMStringW RemoveHtml(const CMStringW &src, bool bCheckSS = false);
 
 	static time_t IsoToUnixTime(const std::string &stamp);
-
-	void SetServerStatus(int iStatus);
 
 	void ShowNotification(const wchar_t *message, MCONTACT hContact = NULL);
 	void ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact = NULL, int type = 0);
@@ -340,7 +340,6 @@ private:
 	INT_PTR __cdecl SvcLoadHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcEmptyHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcSetMood(WPARAM, LPARAM);
 	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
 
 	// trouter

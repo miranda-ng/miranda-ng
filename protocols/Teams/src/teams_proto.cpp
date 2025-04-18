@@ -207,7 +207,7 @@ int CTeamsProto::GetInfo(MCONTACT hContact, int)
 	if (isChatRoom(hContact))
 		return 1;
 
-	PushRequest(new GetProfileRequest(this, hContact));
+	GetProfileInfo(hContact);
 	return 0;
 }
 

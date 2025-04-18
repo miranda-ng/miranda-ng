@@ -40,7 +40,7 @@ struct CreateChatroomRequest : public AsyncHttpRequest
 struct GetChatMembersRequest : public AsyncHttpRequest
 {
 	GetChatMembersRequest(const LIST<char> &ids, SESSION_INFO *si) :
-		AsyncHttpRequest(REQUEST_POST, HOST_PEOPLE, "/profiles", &CTeamsProto::OnGetChatMembers)
+		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/profiles", &CTeamsProto::OnGetChatMembers)
 	{
 		JSONNode node, mris(JSON_ARRAY); mris.set_name("mris");
 		for (auto &it : ids)

@@ -89,11 +89,4 @@ void CTeamsProto::OnBuildProtoMenu()
 	mi.position = 200000;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CONFERENCE);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
-
-	mi.pszService = "/SetMood";
-	CreateProtoService(mi.pszService, &CTeamsProto::SvcSetMood);
-	mi.name.a = LPGEN("Set own mood");
-	mi.position++;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
-	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 }

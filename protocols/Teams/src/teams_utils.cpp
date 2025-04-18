@@ -483,23 +483,6 @@ CMStringW CTeamsProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 			}
 		}
 
-		if (c == '(' && inSS) {
-			int iEnd = data.Find(')', i);
-			if (iEnd != -1) {
-				CMStringW ss(data.Mid(i + 1, iEnd - i - 1));
-				uint32_t code = getMoodIndex(T2Utf(ss));
-				if (code != -1)
-					m_iMood = code;
-				else if (1 == swscanf(ss, L"%x_", &code)) {
-					Utf32toUtf16(code, new_string);
-					m_wstrMoodEmoji = new_string;
-				}
-
-				i = iEnd;
-				continue;
-			}
-		}
-
 		new_string.AppendChar(c);
 	}
 

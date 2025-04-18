@@ -494,7 +494,7 @@ class CSkypeGCCreateDlg : public CTeamsDlgBase
 	CCtrlClc m_clc;
 
 public:
-	LIST<char> m_ContactsList;
+	OBJLIST<char> m_ContactsList;
 
 	CSkypeGCCreateDlg(CTeamsProto *proto) :
 		CTeamsDlgBase(proto, IDD_GC_CREATE),
@@ -506,8 +506,6 @@ public:
 
 	~CSkypeGCCreateDlg()
 	{
-		CTeamsProto::FreeList(m_ContactsList);
-		m_ContactsList.destroy();
 	}
 
 	bool OnInitDialog() override
@@ -522,14 +520,13 @@ public:
 
 	bool OnApply() override
 	{
-		for (auto &hContact : m_proto->AccContacts()) {
+		for (auto &hContact : m_proto->AccContacts())
 			if (!m_proto->isChatRoom(hContact))
 				if (HANDLE hItem = m_clc.FindContact(hContact))
 					if (m_clc.GetCheck(hItem))
-						m_ContactsList.insert(m_proto->getId(hContact).Detach());
-		}
+						m_ContactsList.insert(newStr(m_proto->getId(hContact)));
 
-		m_ContactsList.insert(m_proto->m_szSkypename.GetBuffer());
+		m_ContactsList.insert(newStr(m_proto->m_szSkypename));
 		return true;
 	}
 
