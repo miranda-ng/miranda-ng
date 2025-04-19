@@ -96,9 +96,8 @@ CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pT
 	CMStringW ret(Utf2T(pText->text_.c_str()));
 
 	struct HistItem {
-		HistItem(int _1, int _2, const Bbcode &_3) : start(_1), length(_2), bbcode(_3) {}
-		int start, length;
-		const Bbcode &bbcode;
+		HistItem(int _1, int _2, const Bbcode &_3) : start(_1), length(_2), l1(_3.len1), l2(_3.len2) {}
+		int start, length, l1, l2;
 	};
 	std::vector<HistItem> history;
 
@@ -119,19 +118,27 @@ CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pT
 		int off1 = 0, off2 = 0;
 		for (auto &h : history) {
 			if (it->offset_ >= h.start)
-				off1 += h.bbcode.len1;
+				off1 += h.l1;
 			if (it->offset_ + it->length_ > h.start)
-				off2 += h.bbcode.len1;
+				off2 += h.l1;
 			if (it->offset_ >= h.start + h.length)
-				off1 += h.bbcode.len2;
+				off1 += h.l2;
 			if (it->offset_ + it->length_ > h.start + h.length)
-				off2 += h.bbcode.len2;
+				off2 += h.l2;
 		}
 
 		auto &bb = bbCodes[iCode];
+		HistItem histItem(it->offset_, it->length_, bb);
 		ret.Insert(off2 + it->offset_ + it->length_, bb.end);
 		ret.Insert(off1 + it->offset_, bb.begin);
-		history.push_back(HistItem(it->offset_, it->length_, bb));
+		if (iCode == 4) {
+			auto *pUrl = (TD::textEntityTypeTextUrl *)it->type_.get();
+			Utf2T wszUrl(pUrl->url_.c_str());
+			ret.Insert(off1 + it->offset_ + 4, wszUrl);
+			ret.Insert(off1 + it->offset_ + 4, L"=");
+			histItem.l1 += 1 + (int)mir_wstrlen(wszUrl);
+		}
+		history.push_back(histItem);
 	}
 	return T2Utf(ret).get();
 }

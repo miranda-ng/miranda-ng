@@ -175,7 +175,9 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 
 					if (auto *p2 = wcsstr(p1, L"[/url]")) {
 						CMStringW wszDescr(p1, int(p2 - p1));
-						buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszDescr.c_str());
+						buf.AppendFormat(L"<a class=\"link\" href=\"%s\">", wszUrl.c_str());
+						AppendString(buf, wszDescr, pItem);
+						buf.Append(L"</a>");
 						p = p2 + 5;
 					}
 				}
