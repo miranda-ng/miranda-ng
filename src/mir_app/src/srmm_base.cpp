@@ -61,6 +61,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT h
 	m_btnBkColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BkColor);
 	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = m_btnStrikeout.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BIU);
 
+	m_btnFilter.OnClick = Callback(this, &CSrmmBaseDialog::onClick_Filter);
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
 
@@ -982,6 +983,24 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_STRIKEOUT))
 		cf.dwEffects |= CFM_STRIKEOUT;
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+}
+
+void CSrmmBaseDialog::onClick_Filter(CCtrlButton *pButton)
+{
+	if (!pButton->Enabled())
+		return;
+
+	m_bFilterEnabled = !m_bFilterEnabled;
+	UpdateFilterButton();
+
+	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
+		ShowFilterMenu();
+	else {
+		if (m_hwndFilter)
+			SendMessage(m_hwndFilter, WM_CLOSE, 0, 0);
+
+		RedrawLog();
+	}
 }
 
 void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)

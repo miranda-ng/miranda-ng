@@ -308,6 +308,15 @@ class MIR_APP_EXPORT CSrmmBaseDialog : public CDlgBase
 
 	std::vector<MEVENT> m_arDisplayedEvents;
 
+	void onClick_BIU(CCtrlButton *);
+	void onClick_Color(CCtrlButton *);
+	void onClick_BkColor(CCtrlButton *);
+
+	void onClick_Filter(CCtrlButton *);
+	void onClick_ChanMgr(CCtrlButton *);
+	void onClick_History(CCtrlButton *);
+	void onClick_CloseQuote(CCtrlButton *);
+
 protected:
 	CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT hContact);
 
@@ -352,14 +361,6 @@ protected:
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline, m_btnStrikeout;
 	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;
 
-	void onClick_BIU(CCtrlButton *);
-	void onClick_Color(CCtrlButton *);
-	void onClick_BkColor(CCtrlButton *);
-
-	void onClick_ChanMgr(CCtrlButton *);
-	void onClick_History(CCtrlButton *);
-	void onClick_CloseQuote(CCtrlButton *);
-
 	void onContextMenu(CContextMenuPos *);
 	void onDblClick_List(CCtrlListBox *);
 
@@ -373,6 +374,7 @@ public:
 
 	COLORREF m_iFG, m_iBG;
 	CTimer timerFlash, timerType, timerNickList, timerRedraw;
+	MWindow m_hwndFilter;
 
 	void ClearLog();
 	bool IsSuitableEvent(const LOGINFO &lin) const;

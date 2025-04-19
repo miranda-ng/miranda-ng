@@ -332,9 +332,7 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
 
 	if (m_si) {
-		m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
 		m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowNickList);
-
 		m_nickList.OnDblClick = Callback(this, &CMsgDialog::onDblClick_List);
 	}
 	else {
@@ -910,25 +908,6 @@ void CMsgDialog::onClick_CancelAdd(CCtrlButton*)
 	if (!m_bScrollingDisabled)
 		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_HIDE);
 	Resize();
-}
-
-void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
-{
-	if (!pButton->Enabled())
-		return;
-
-	m_bFilterEnabled = !m_bFilterEnabled;
-	UpdateFilterButton();
-
-	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
-		ShowFilterMenu();
-	else {
-		if (m_hwndFilter)
-			SendMessage(m_hwndFilter, WM_CLOSE, 0, 0);
-
-		RedrawLog();
-		UpdateTitle();
-	}
 }
 
 void CMsgDialog::onClick_ShowNickList(CCtrlButton *pButton)

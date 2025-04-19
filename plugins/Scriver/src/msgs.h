@@ -111,7 +111,6 @@ public:
 
 	void onClick_Ok(CCtrlButton *);
 	void onClick_Add(CCtrlButton *);
-	void onClick_Filter(CCtrlButton *);
 	void onClick_Details(CCtrlButton *);
 	void onClick_Quote(CCtrlButton *);
 	void onClick_UserMenu(CCtrlButton *);
@@ -166,7 +165,6 @@ public:
 	}
 
 	wchar_t *m_wszInitialText;
-	MWindow m_hwndFilter;
 
 	void Reattach(HWND hwndContainer);
 };
