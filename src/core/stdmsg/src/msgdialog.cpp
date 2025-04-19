@@ -766,11 +766,11 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (!m_message.SendMsg(EM_CANREDO, 0, 0))
 				EnableMenuItem(mwpd.hMenu, IDM_REDO, MF_BYCOMMAND | MF_GRAYED);
 
-			if (!m_message.SendMsg(EM_CANPASTE, 0, 0)) {
-				if (!IsClipboardFormatAvailable(CF_HDROP) && !IsClipboardFormatAvailable(CF_BITMAP))
+			if (!m_message.SendMsg(EM_CANPASTE, 0, 0))
+				if (!IsClipboardFormatAvailable(CF_HDROP) && !IsClipboardFormatAvailable(CF_BITMAP)) {
 					EnableMenuItem(mwpd.hMenu, IDM_PASTE, MF_BYCOMMAND | MF_GRAYED);
-				EnableMenuItem(mwpd.hMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
-			}
+					EnableMenuItem(mwpd.hMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
+				}
 
 			if (lParam == 0xFFFFFFFF) {
 				m_message.SendMsg(EM_POSFROMCHAR, (WPARAM)&mwpd.pt, sel.cpMax);

@@ -47,11 +47,12 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 	if (!SendMessage(hwnd, EM_CANREDO, 0, 0))
 		EnableMenuItem(hSubMenu, IDM_REDO, MF_BYCOMMAND | MF_GRAYED);
 
-	if (!SendMessage(hwnd, EM_CANPASTE, 0, 0)) {
-		EnableMenuItem(hSubMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
-		if (!IsClipboardFormatAvailable(CF_HDROP) && !IsClipboardFormatAvailable(CF_BITMAP))
+	if (!SendMessage(hwnd, EM_CANPASTE, 0, 0))
+		if (!IsClipboardFormatAvailable(CF_HDROP) && !IsClipboardFormatAvailable(CF_BITMAP)) {
 			EnableMenuItem(hSubMenu, IDM_PASTE, MF_BYCOMMAND | MF_GRAYED);
-	}
+			EnableMenuItem(hSubMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
+		}
+	
 	if (lParam == 0xFFFFFFFF) {
 		SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
 		ClientToScreen(hwnd, &pt);
