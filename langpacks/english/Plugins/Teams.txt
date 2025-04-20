@@ -9,6 +9,7 @@
 ;file \protocols\Teams\res\Resource.rc
 [Login:]
 [Default group:]
+[Logout]
 [Account]
 [Teams]
 [Proceed]
@@ -67,6 +68,7 @@
 [At the gym]
 [Working from home]
 ;file \protocols\Teams\src\teams_options.cpp
+[<will appear after first login>]
 [Network]
 ;file \protocols\Teams\src\teams_popups.cpp
 [Notifications]
