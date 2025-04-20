@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.6
+;  Version: 0.96.7
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -723,6 +723,8 @@ Klänge aktivieren
 Die folgenden Ereignisse werden ignoriert:
 [Files]
 Dateien
+[Cloud files]
+Cloud-Dateien
 [Online notification]
 Statusbenachrichtigungen
 [Auth requests]
@@ -1189,8 +1191,6 @@ Dateiübertragungen in umgekehrter Reihenfolge sortieren
 Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
 [If incoming files already exist]
 Wenn eingehende Dateien bereits existieren
-[Cloud files]
-Cloud-Dateien
 [Download cloud files automatically]
 Cloud-Dateien automatisch herunterladen
 [Only if their size is less than]
@@ -1979,6 +1979,29 @@ Chaträume
 [Events and filters]
 Ereignisse und Filter
 ;file \src\mir_app\src\clcitems.cpp
+;file \src\mir_app\src\clistcontacts.cpp
+[My custom name (not movable)]
+Selbst gewählter Name (nicht verschiebbar)
+[Nick]
+Nick
+[FirstName]
+Vorname
+[E-mail]
+E-Mail
+[LastName]
+Nachname
+[Username]
+Benutzername
+[FirstName LastName]
+Vorname Nachname
+[LastName FirstName]
+Nachname Vorname
+['(Unknown contact)' (not movable)]
+'(Unbekannter Kontakt)' (nicht verschiebbar)
+['(Unknown contact)']
+'(Unbekannter Kontakt)'
+[Contact names]
+Kontaktnamen
 ;file \src\mir_app\src\clistgroups.cpp
 [New group]
 Neue Gruppe
@@ -2017,29 +2040,6 @@ Dieser Kontakt befindet sich in einem Instant-Messaging-System, welches seine Ko
 [&Add permanently to list]
 D&auerhaft zur Kontaktliste hinzufügen
 ;file \src\mir_app\src\colorchooser.cpp
-;file \src\mir_app\src\contacts.cpp
-[My custom name (not movable)]
-Selbst gewählter Name (nicht verschiebbar)
-[Nick]
-Nick
-[FirstName]
-Vorname
-[E-mail]
-E-Mail
-[LastName]
-Nachname
-[Username]
-Benutzername
-[FirstName LastName]
-Vorname Nachname
-[LastName FirstName]
-Nachname Vorname
-['(Unknown contact)' (not movable)]
-'Unbekannter Kontakt' (nicht verschiebbar)
-['(Unknown contact)']
-(Unbekannter Kontakt)
-[Contact names]
-Kontaktnamen
 ;file \src\mir_app\src\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann Profil %s nicht an den neuen Ort %s verschieben\nweil ein anderen Profil mit diesem Namen schon existiert. Bitte lösen Sie den Konflikt manuell.
@@ -2129,6 +2129,8 @@ Chat stummschalten
 Anhängen
 [Code]
 Code
+[Cloud file]
+Cloud-Datei
 ;file \src\mir_app\src\file.cpp
 [&File]
 &Datei

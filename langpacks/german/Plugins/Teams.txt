@@ -1,0 +1,147 @@
+#muuid {DCD56CEC-C61B-4275-a010-8c65c5848815}
+;============================================================
+;  File: Teams.dll
+;  Plugin: Teams protocol
+;  Version: 0.96.6.1
+;  Authors: Miranda NG team
+;============================================================
+[Microsoft Teams protocol support for Miranda NG.]
+Unterstützung für das Microsoft Teams Protokoll in Miranda NG.
+;file \protocols\Teams\res\Resource.rc
+[Login:]
+Anmeldung:
+[Default group:]
+Standardgruppe:
+[Logout]
+Abmelden
+[Account]
+Konto
+[Teams]
+Teams
+[Proceed]
+Fortsetzen
+[Cancel]
+Abbrechen
+[Static]
+Statisch
+;file \protocols\Teams\src\main.cpp
+[Protocol icon]
+Protokollicon
+[Create new chat icon]
+"Neuen Chat erstellen"-Icon
+[Block user icon]
+"Benutzer blockieren"-Icon
+[Unblock user icon]
+"Blockierung aufheben"-Icon
+[Incoming call icon]
+"Eingehender Anruf"-Icon
+[Notification icon]
+Benachrichtigungsicon
+[Error icon]
+Fehlericon
+[Action icon]
+Aktionsicon
+;file \protocols\Teams\src\teams_chatrooms.cpp
+[Admin]
+Administrator
+[User]
+Benutzer
+[Enter new nickname]
+Neuen Nicknamen eingeben
+[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
+Dieser Chat wird für immer mit seinem ganzen Inhalt zerstört. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sich sicher?
+[Warning]
+Warnung
+[&Invite user...]
+Kontakt e&inladen
+[&Leave chat session]
+Chat ver&lassen
+[&Change topic...]
+Thema &ändern...
+[Kick &user]
+Ben&utzer kicken
+[Set &role]
+Setze &Rolle
+[&Admin]
+&Administrator
+[&User]
+Ben&utzer
+[Change nick...]
+Nick ändern...
+[Enter new chatroom topic]
+Neues Thema für diesen Chatraum eingeben
+;file \protocols\Teams\src\teams_contacts.cpp
+[(You)]
+(Sie)
+[Are you sure?]
+Sind Sie sich sicher?
+;file \protocols\Teams\src\teams_login.cpp
+[To login into Teams you need to open '%S' in a browser and select your Teams account there.]
+Um sich bei Teams anzumelden, öffnen Sie '%S' in einem Browser und wählen Sie dort Ihr Teams-Konto aus.
+[Enter the following code then: %s.]
+Geben Sie anschließend den folgenden Code ein: %s.
+[Click Proceed to copy that code to clipboard and launch a browser]
+Klicken Sie auf Fortsetzen, um den Code in die Zwischenablage zu kopieren und einen Browser zu starten.
+;file \protocols\Teams\src\teams_menus.cpp
+[Block contact]
+Kontakt blockieren
+[Unblock contact]
+Blockierung aufheben
+[Create new chat]
+Neuen Chat erstellen
+[Set own mood]
+Eigene Stimmung setzen
+;file \protocols\Teams\src\teams_messages.cpp
+[Unknown error!]
+Unbekannter Fehler!
+[Network error!]
+Netzwerkfehler!
+;file \protocols\Teams\src\teams_mood.cpp
+[None]
+Keine
+[Custom emoji]
+Eigenes Emoji
+[Be right back]
+Bin gleich zurück
+[Out for lunch]
+Am Essen
+[In meetings]
+In Besprechungen
+[At school]
+In der Schule
+[At the movies]
+Im Kino
+[Traveling]
+Reisen
+[Celebrating]
+Feiern
+[Driving]
+Fahren
+[At the gym]
+Im Fitnessstudio
+[Working from home]
+Zu Hause arbeiten
+;file \protocols\Teams\src\teams_options.cpp
+[<will appear after first login>]
+<erscheint nach der ersten Anmeldung>
+[Network]
+Netzwerk
+;file \protocols\Teams\src\teams_popups.cpp
+[Notifications]
+Benachrichtigungen
+[Errors]
+Fehler
+[Calls]
+Aufrufe
+;file \protocols\Teams\src\teams_proto.cpp
+[%s websocket connection]
+%s Websocket-Verbindung
+[Incoming call]
+Eingehender Anruf
+[Incoming call canceled]
+Eingehender Anruf abgebrochen
+[Teams ID]
+Teams-ID
+;file \protocols\Teams\src\teams_utils.cpp
+[wrote]
+geschrieben

@@ -26,6 +26,8 @@ Dateien beim Senden komprimieren
 URL-Vorschau in Nachrichtentext einfügen
 [Do not store channel history in the database]
 Channel-Nachrichten nicht in Datenbank speichern
+[Delete contacts in Miranda when they are deleted from server]
+Kontakte in Miranda löschen wenn sie vom Server gelöcht werden
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Wenn ein Kontakt Offline geht, stattdessen folgenden Status für folgende Anzahl Sekunden setzen (0 - deaktivieren)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -48,6 +50,10 @@ Nachricht weiterleiten
 Weiterleiten
 [Add reaction]
 Reaktion hinzufügen
+[Birthday]
+Geburtstag
+[Biography]
+Biografie
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 E-Mail-Adresse zur Kontenüberprüfung eingeben
@@ -146,6 +152,9 @@ Archiv
 Gespeicherte Nachrichten
 [Service notification]
 Dienstbenachrichtigung
+;file \protocols\Telegram\src\userinfo.cpp
+[Unspecified]
+Unspezifiziert
 ;file \protocols\Telegram\src\utils.cpp
 [none]
 Keine
