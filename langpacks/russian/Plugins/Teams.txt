@@ -12,6 +12,8 @@
 Логин:
 [Default group:]
 Группа:
+[Logout]
+Выход
 [Account]
 Учётная запись
 [Teams]
@@ -120,6 +122,8 @@ Teams
 [Working from home]
 
 ;file \protocols\Teams\src\teams_options.cpp
+[<will appear after first login>]
+
 [Network]
 Сеть
 ;file \protocols\Teams\src\teams_popups.cpp

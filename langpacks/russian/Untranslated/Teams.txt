@@ -11,4 +11,5 @@
 [Celebrating]
 [At the gym]
 [Working from home]
+[<will appear after first login>]
 [%s websocket connection]

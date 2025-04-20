@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
-;  Version: 0.11.0.6
+;  Version: 0.12.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Allows you to transfer files via cloud services.]
@@ -54,10 +54,10 @@ OneDrive
 [Yandex.Disk]
 Яндекс.Диск
 ;file \protocols\CloudFile\src\menus.cpp
+[Upload to]
+Загрузить на
 [Upload to...]
 Загрузить на...
-[Upload]
-Загрузить
 ;file \protocols\CloudFile\src\options.cpp
 [None]
 Нет

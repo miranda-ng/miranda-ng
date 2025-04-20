@@ -8085,7 +8085,7 @@ Angeli-Ka (графика), FYR (шаблон)
 ;============================================================
 ;  File: CloudFile.dll
 ;  Plugin: CloudFile
-;  Version: 0.11.0.6
+;  Version: 0.12.0.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Allows you to transfer files via cloud services.]
@@ -8136,8 +8136,6 @@ OneDrive
 Яндекс.Диск
 [Upload to...]
 Загрузить на...
-[Upload]
-Загрузить
 [None]
 Нет
 [Services]
@@ -9817,7 +9815,7 @@ WhatsApp ID
 [User name, IP address or '*']
 Имя пользователя, IP-адрес или '*'
 [E-mage LAN protocol]
-Протокол E-mage LAN
+E-mage LAN
 [Network]
 Сеть
 #muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
@@ -10457,7 +10455,7 @@ MirOTR оверлей
 ;============================================================
 ;  File: Folders.dll
 ;  Plugin: Custom profile folders
-;  Version: 0.2.0.2
+;  Version: 0.3.0.1
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Allows plugins to save their data to user selected folders; supports variables.]
@@ -10465,7 +10463,7 @@ MirOTR оверлей
 [Custom folders]
 Папки
 [Preview]
-Тест
+Предпросмотр
 [Edit]
 Изменить
 [Refresh preview]
@@ -17686,7 +17684,7 @@ MirFox (Miranda) - Ошибка
 Общие скрипты
 [Services]
 Службы
-[C libs folder]
+[C Libs Folder]
 Папка с библиотеками C
 [Scripts folder]
 Папка со скриптами
@@ -27945,6 +27943,8 @@ TabSRMM: %s
 ;  Version: 0.96.6.1
 ;  Authors: Miranda NG team
 ;============================================================
+[Microsoft Teams protocol support for Miranda NG.]
+Поддержка протокола Microsoft Teams в Miranda NG.
 [Login:]
 Логин:
 [Default group:]
@@ -28066,6 +28066,8 @@ Teams ID
 Показывать в сообщениях предварительный просмотр ссылок
 [Do not store channel history in the database]
 Не сохранять историю каналов в базе данных
+[Delete contacts in Miranda when they are deleted from server]
+Удалять контакты из списка контактов Миранды, если они удалены с сервера
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
@@ -32814,16 +32816,14 @@ ID города
 Краткая информация
 [Read Complete Forecast]
 Читать полный прогноз
-[Weather]
-Погода
+[Display in a frame]
+Показывать во фрейме
 [Enable/Disable Weather Update]
 Вкл/Выкл обновления погоды
 [Update All Weather]
 Обновить погоду
 [Remove Old Data then Update All]
 Удалить данные и обновить всё
-[Display in a frame]
-Показывать во фрейме
 [Unable to retrieve weather information for %s]
 Невозможно найти информацию о погоде для %s
 [New moon]

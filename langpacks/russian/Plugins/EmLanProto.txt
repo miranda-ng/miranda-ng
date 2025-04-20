@@ -22,6 +22,6 @@
 [User name, IP address or '*']
 Имя пользователя, IP-адрес или '*'
 [E-mage LAN protocol]
-Протокол E-mage LAN
+E-mage LAN
 [Network]
 Сеть

@@ -127,7 +127,7 @@
 [..s Popup duration]
 сек (длительность)
 [Preview]
-Тест
+Предпросмотр
 [Background color]
 Цвет фона
 [Text color]

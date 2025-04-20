@@ -86,6 +86,8 @@
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 Укажите имя комнаты чаты
+[You need to enter a captcha to join this server. Open this link in a browser.]
+Для присоединения к серверу требуется ввести капчу. Откройте эту ссылку в браузере.
 [Enter invitation code you received]
 Введите полученный код приглашения
 [Do you really want to leave the guild?]
