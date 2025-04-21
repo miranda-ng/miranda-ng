@@ -77,6 +77,9 @@
     <ClCompile Include="src\cookie.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\cshutdn.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\curl_addrinfo.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -129,6 +132,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\cw-out.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\cw-pause.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\dict.c">
@@ -186,6 +192,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hash.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\hash_offt.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\headers.c">
@@ -288,6 +297,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\multi.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\multi_ev.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\netrc.c">
@@ -518,6 +530,7 @@
     <ClInclude Include="src\connect.h" />
     <ClInclude Include="src\content_encoding.h" />
     <ClInclude Include="src\cookie.h" />
+    <ClInclude Include="src\cshutdn.h" />
     <ClInclude Include="src\curlx.h" />
     <ClInclude Include="src\curl_addrinfo.h" />
     <ClInclude Include="src\curl_base64.h" />
@@ -549,6 +562,7 @@
     <ClInclude Include="src\curl_threads.h" />
     <ClInclude Include="src\curl_trc.h" />
     <ClInclude Include="src\cw-out.h" />
+    <ClInclude Include="src\cw-pause.h" />
     <ClInclude Include="src\dict.h" />
     <ClInclude Include="src\doh.h" />
     <ClInclude Include="src\dotdot.h" />
@@ -568,6 +582,7 @@
     <ClInclude Include="src\getinfo.h" />
     <ClInclude Include="src\gopher.h" />
     <ClInclude Include="src\hash.h" />
+    <ClInclude Include="src\hash_offt.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\hostip.h" />
     <ClInclude Include="src\hsts.h" />
@@ -591,6 +606,7 @@
     <ClInclude Include="src\memdebug.h" />
     <ClInclude Include="src\mime.h" />
     <ClInclude Include="src\mqtt.h" />
+    <ClInclude Include="src\multi_ev.h" />
     <ClInclude Include="src\multihandle.h" />
     <ClInclude Include="src\multiif.h" />
     <ClInclude Include="src\netrc.h" />
@@ -625,8 +641,6 @@
     <ClInclude Include="src\strdup.h" />
     <ClInclude Include="src\strerror.h" />
     <ClInclude Include="src\strparse.h" />
-    <ClInclude Include="src\strtok.h" />
-    <ClInclude Include="src\strtoofft.h" />
     <ClInclude Include="src\system_win32.h" />
     <ClInclude Include="src\telnet.h" />
     <ClInclude Include="src\tftp.h" />
@@ -658,10 +672,7 @@
     <ClCompile Include="src\strerror.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\strtok.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\strtoofft.c">
+    <ClCompile Include="src\strequal.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\system_win32.c">

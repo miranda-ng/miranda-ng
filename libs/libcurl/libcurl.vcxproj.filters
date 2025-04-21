@@ -53,6 +53,9 @@
     <ClCompile Include="src\cookie.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cshutdn.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\curl_addrinfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,6 +108,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\cw-out.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cw-pause.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dict.c">
@@ -162,6 +168,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hash_offt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\headers.c">
@@ -266,6 +275,9 @@
     <ClCompile Include="src\multi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\multi_ev.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\netrc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -345,6 +357,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\splay.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\strequal.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\strparse.c">
@@ -470,12 +485,6 @@
     <ClCompile Include="src\strerror.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\strtok.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\strtoofft.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\system_win32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -577,6 +586,9 @@
     <ClInclude Include="src\cookie.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\cshutdn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\curlx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -670,6 +682,9 @@
     <ClInclude Include="src\cw-out.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\cw-pause.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\dict.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -725,6 +740,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\hash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hash_offt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\headers.h">
@@ -794,6 +812,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mqtt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\multi_ev.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\multihandle.h">
@@ -896,12 +917,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\strparse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\strtok.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\strtoofft.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\system_win32.h">
