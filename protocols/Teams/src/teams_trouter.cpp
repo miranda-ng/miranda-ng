@@ -82,6 +82,7 @@ void CTeamsProto::StopTrouter()
 	m_impl.m_heartBeat.StopSafe();
 
 	if (m_ws) {
+		TRouterSendActive(false);
 		m_ws->terminate();
 		m_ws = nullptr;
 	}
@@ -162,22 +163,6 @@ void CTeamsProto::TRouterSendJson(const char *szName, const JSONNode *node, int 
 		m_ws->sendText(szJson.c_str());
 }
 
-void CTeamsProto::TRouterSendAuthentication()
-{
-	JSONNode headers, params, payload;
-
-	headers.set_name("headers");
-	headers << CHAR_PARAM("X-Ms-Test-User", "False") << CHAR_PARAM("Authorization", "Bearer " + m_szAccessToken)
-		<< CHAR_PARAM("X-MS-Migration", "True");
-
-	params.set_name("connectparams");
-	for (auto &it : m_connectParams)
-		params << CHAR_PARAM(it->szName, it->szValue);
-
-	payload << headers << params;
-	TRouterSendJson(payload);
-}
-
 static char szSuffix[4] = { 'A', 'g', 'Q', 'w' };
 
 void CTeamsProto::TRouterSendActive(bool bActive, int iReplyTo)
@@ -255,7 +240,6 @@ void CTeamsProto::TRouterProcess(const char *str)
 {
 	switch (*str) {
 	case '1':
-		// TRouterSendAuthentication();
 		TRouterRegister();
 		break;
 

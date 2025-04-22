@@ -366,8 +366,7 @@ private:
 	void TRouterSendJson(const char *szName, const JSONNode *node = nullptr, int iReplyTo = -1);
 	void TRouterSendJson(const JSONNode &node, int iReplyTo = -1);
 
-	void TRouterSendAuthentication();
-	void TRouterSendActive(bool bActive, int iReplyTo);
+	void TRouterSendActive(bool bActive, int iReplyTo = -1);
 	void TRouterRegister();
 	void TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath);
 
