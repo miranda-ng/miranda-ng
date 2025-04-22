@@ -356,18 +356,18 @@ private:
 	void ProcessNewMessage(const JSONNode &node);
 	void ProcessUserPresence(const JSONNode &node);
 	void ProcessThreadUpdate(const JSONNode &node);
-	void ProcessServerMessage(const std::string &szName, const JSONNode &args);
+	void ProcessServerMessage(const std::string &szName, int packetId, const JSONNode &args);
 	void ProcessEndpointPresence(const JSONNode &node);
 	void ProcessConversationUpdate(const JSONNode &node);
 
 	void __cdecl GatewayThread(void *);
 	void GatewayThreadWorker();
 
-	void TRouterSendJson(const char *szName, const JSONNode *node = 0);
-	void TRouterSendJson(const JSONNode &node);
+	void TRouterSendJson(const char *szName, const JSONNode *node = nullptr, int iReplyTo = -1);
+	void TRouterSendJson(const JSONNode &node, int iReplyTo = -1);
 
 	void TRouterSendAuthentication();
-	void TRouterSendActive(bool);
+	void TRouterSendActive(bool bActive, int iReplyTo);
 	void TRouterRegister();
 	void TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath);
 

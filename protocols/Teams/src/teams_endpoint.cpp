@@ -55,10 +55,6 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 	}
 
 	// Succeeded, decode the answer
-	int oldStatus = m_iStatus;
-	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-
 	if (auto *hdr = response->FindHeader("Set-RegistrationToken")) {
 		CMStringA szValue = hdr;
 		int iStart = 0;
@@ -81,8 +77,7 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 		}
 	}
 
-	SetServerStatus(m_iDesiredStatus);
-	StartTrouter();
+	LoggedIn();
 }
 
 void CTeamsProto::OnEndpointDeleted(MHttpResponse *, AsyncHttpRequest *)

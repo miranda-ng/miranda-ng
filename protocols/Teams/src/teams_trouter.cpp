@@ -123,25 +123,41 @@ void CTeamsProto::GatewayThreadWorker()
 /////////////////////////////////////////////////////////////////////////////////////////
 // TRouter send
 
-void CTeamsProto::TRouterSendJson(const JSONNode &node)
+void CTeamsProto::TRouterSendJson(const JSONNode &node, int iReplyTo)
 {
-	std::string szJson = "5:::" + node.write();
-	if (m_ws) {
-		m_ws->sendText(szJson.c_str());
+	CMStringA szJson;
+	if (iReplyTo == -1) {
+		iCommandId++;
+		szJson.Format("5:%d+::", iCommandId);
 	}
+	else szJson.Format("5:%d+::", iReplyTo);
+	szJson += node.write().c_str();
+
+	if (m_ws)
+		m_ws->sendText(szJson.c_str());
 }
 
-void CTeamsProto::TRouterSendJson(const char *szName, const JSONNode *node)
+void CTeamsProto::TRouterSendJson(const char *szName, const JSONNode *node, int iReplyTo)
 {
 	JSONNode payload, args(JSON_ARRAY);
 	payload << CHAR_PARAM("name", szName);
 	if (node) {
-		args.set_name("args");
-		args << *node;
-		payload << args;
+		if (mir_strcmp(node->name(), "args")) {
+			args.set_name("args");
+			args << *node;
+			payload << args;
+		}
+		else payload << *node;
 	}
 
-	std::string szJson = payload.write();
+	CMStringA szJson;
+	if (iReplyTo == -1) {
+		iCommandId++;
+		szJson.Format("5:%d+::", iCommandId);
+	}
+	else szJson.Format("5:%d+::", iReplyTo);
+	szJson += payload.write().c_str();
+
 	if (m_ws)
 		m_ws->sendText(szJson.c_str());
 }
@@ -164,7 +180,7 @@ void CTeamsProto::TRouterSendAuthentication()
 
 static char szSuffix[4] = { 'A', 'g', 'Q', 'w' };
 
-void CTeamsProto::TRouterSendActive(bool bActive)
+void CTeamsProto::TRouterSendActive(bool bActive, int iReplyTo)
 {
 	CMStringA cv;
 	srand(time(0));
@@ -175,7 +191,7 @@ void CTeamsProto::TRouterSendActive(bool bActive)
 
 	JSONNode payload;
 	payload << CHAR_PARAM("state", bActive ? "active" : "inactive") << CHAR_PARAM("cv", cv);
-	TRouterSendJson("user.activity", &payload);
+	TRouterSendJson("user.activity", &payload, iReplyTo);
 }
 
 void CTeamsProto::TRouterRegister()
@@ -220,11 +236,14 @@ void WebSocket<CTeamsProto>::process(const uint8_t *buf, size_t cbLen)
 	p->TRouterProcess(payload);
 }
 
-static const char* skip3colons(const char *str)
+static const char* skip3colons(const char *str, int *packet_id = nullptr)
 {
 	int nColons = 3;
 	for (const char *p = str; *p; p++) {
 		if (*p == ':') {
+			if (packet_id && nColons == 3)
+				*packet_id = atoi(p+1);
+
 			if (--nColons == 0)
 				return p + 1;
 		}
@@ -236,8 +255,7 @@ void CTeamsProto::TRouterProcess(const char *str)
 {
 	switch (*str) {
 	case '1':
-		TRouterSendAuthentication();
-		TRouterSendActive(true);
+		// TRouterSendAuthentication();
 		TRouterRegister();
 		break;
 
@@ -266,9 +284,9 @@ void CTeamsProto::TRouterProcess(const char *str)
 		break;
 	
 	case '5':
-		if (auto root = JSONNode::parse(skip3colons(str))) {
+		if (auto root = JSONNode::parse(skip3colons(str, &iCommandId))) {
 			std::string szName(root["name"].as_string());
-			ProcessServerMessage(szName, root["args"]);
+			ProcessServerMessage(szName, iCommandId, root["args"]);
 		}
 		break;
 	}
@@ -364,11 +382,13 @@ void CTeamsProto::ProcessUserPresence(const JSONNode &node)
 	}
 }
 
-void CTeamsProto::ProcessServerMessage(const std::string &szName, const JSONNode&)
+void CTeamsProto::ProcessServerMessage(const std::string &szName, int packetId, const JSONNode &args)
 {
-	if (szName == "trouter.message_loss") {
-		TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_1.9", m_szTrouterSurl);
-	}
+	if (szName == "trouter.message_loss")
+		TRouterSendJson("trouter.processed_message_loss", &args, packetId);
+
+	else if (szName == "trouter.connected")
+		TRouterSendActive(true, packetId);
 }
 
 void CTeamsProto::ProcessConversationUpdate(const JSONNode &) {}
