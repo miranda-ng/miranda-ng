@@ -203,7 +203,7 @@ public:
 	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void LoadProfile(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnGetProfileInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);
 

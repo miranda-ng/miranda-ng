@@ -174,13 +174,3 @@ void CTeamsProto::CreateContactSubscription()
 	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CTeamsProto::GetProfileInfo(MCONTACT hContact)
-{
-	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_API, 0, &CTeamsProto::LoadProfile);
-	pReq->m_szUrl.AppendFormat("/users/%s/profile", (hContact == 0) ? "self" : mir_urlEncode(getId(hContact)));
-	pReq->pUserInfo = (void *)hContact;
-	PushRequest(pReq);
-}
