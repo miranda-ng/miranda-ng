@@ -26,7 +26,10 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_GRAPH:     m_szUrl = "skypegraph.skype.com"; break;
 	case HOST_LOGIN:     m_szUrl = "login.microsoftonline.com"; break;
 	case HOST_TEAMS:     m_szUrl = TEAMS_BASE_HOST; break;
-	case HOST_PRESENCE:  m_szUrl = "presence." TEAMS_BASE_HOST "/v1"; break;
+	case HOST_PRESENCE:
+		flags |= NLHRF_REDIRECT;
+		m_szUrl = "presence." TEAMS_BASE_HOST "/v1";
+		break;
 
 	case HOST_DEFAULT_V2:
 		AddHeader("MS-IC3-Product", "Sfl");
