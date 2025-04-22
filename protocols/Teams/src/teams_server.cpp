@@ -155,22 +155,26 @@ void CTeamsProto::CreateSubscription()
 
 void CTeamsProto::CreateContactSubscription()
 {
-	OBJLIST<char> skypenames(1);
-	for (auto &hContact : AccContacts())
-		if (!isChatRoom(hContact))
-			skypenames.insert(newStr(getId(hContact)));
+	CMStringA szUrl = m_szTrouterSurl;
+	if (szUrl[szUrl.GetLength() - 1] != '/')
+		szUrl += "/"; 
+	szUrl += "TeamsUnifiedPresenceService";
 
-	JSONNode contacts(JSON_ARRAY); contacts.set_name("contacts");
-	for (auto &it : skypenames) {
-		JSONNode contact;
-		contact << CHAR_PARAM("id", it);
-		contacts << contact;
-	}
+	JSONNode listAdd(JSON_ARRAY); listAdd.set_name("subscriptionsToAdd");
+	for (auto &hContact : AccContacts())
+		if (!isChatRoom(hContact)) {
+			JSONNode contact;
+			contact << CHAR_PARAM("mri", getId(hContact));
+			listAdd << contact;
+		}
+
+	JSONNode listRemove(JSON_ARRAY); listRemove.set_name("subscriptionsToRemove");
 
 	JSONNode node;
-	node << contacts;
+	node << CHAR_PARAM("trouterUri", szUrl) << BOOL_PARAM("shouldPurgePreviousSubscriptions", true)
+		<< listAdd << listRemove;
 
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/contacts");
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_PRESENCE, "/pubsub/subscriptions/" + m_szEndpoint);
 	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 }

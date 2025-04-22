@@ -17,14 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-uint16_t CTeamsProto::GetContactStatus(MCONTACT hContact)
-{
-	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
-}
-
 void CTeamsProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 {
-	uint16_t oldStatus = GetContactStatus(hContact);
+	uint16_t oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (oldStatus != status) {
 		setWord(hContact, "Status", status);
 		if (status == ID_STATUS_OFFLINE)

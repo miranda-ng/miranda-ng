@@ -248,7 +248,6 @@ private:
 	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 
 	// contacts
-	uint16_t GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
 	MCONTACT FindContact(const char *skypeId);
