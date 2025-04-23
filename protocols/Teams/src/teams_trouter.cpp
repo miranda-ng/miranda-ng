@@ -250,9 +250,11 @@ void CTeamsProto::TRouterProcess(const char *str)
 			if (message) {
 				Netlib_Logf(m_hTrouterNetlibUser, "Got event:\n%s", message.write_formatted().c_str());
 
-				if (!mir_strcmp(message.name(), "presence")) {
-					for (auto &it : message)
-						ProcessUserPresence(it);
+				for (auto &pkt : message) {
+					if (!mir_strcmp(pkt.name(), "presence")) {
+						for (auto &it : pkt)
+							ProcessUserPresence(it);
+					}
 				}
 			}
 
