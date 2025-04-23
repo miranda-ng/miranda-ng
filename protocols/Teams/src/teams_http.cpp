@@ -26,6 +26,7 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_GRAPH:     m_szUrl = "skypegraph.skype.com"; break;
 	case HOST_LOGIN:     m_szUrl = "login.microsoftonline.com"; break;
 	case HOST_TEAMS:     m_szUrl = TEAMS_BASE_HOST; break;
+	case HOST_CHATS:     m_szUrl = TEAMS_BASE_HOST "/api/chatsvc/consumer/v1"; break;
 	case HOST_PRESENCE:  m_szUrl = "presence." TEAMS_BASE_HOST "/v1"; break;
 
 	case HOST_DEFAULT_V2:
@@ -52,6 +53,11 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 void AsyncHttpRequest::AddAuthentication(CTeamsProto *ppro)
 {
 	AddHeader("Authentication", CMStringA("skypetoken=") + ppro->m_szSkypeToken);
+}
+
+void AsyncHttpRequest::AddRegistration(CTeamsProto *ppro)
+{
+	AddHeader("RegistrationToken", "registrationToken=" + ppro->m_szRegToken);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -125,6 +131,12 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		pReq->AddHeader("X-Stratus-Request", "abcd1234");
 		pReq->AddHeader("Origin", "https://teams.live.com");
 		pReq->AddHeader("Referer", "https://teams.live.com/");
+		break;
+
+	case HOST_CHATS:
+		pReq->AddAuthentication(this);
+		pReq->AddRegistration(this);
+		pReq->AddHeader("Accept", "application/json");
 		break;
 
 	case HOST_API:

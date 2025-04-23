@@ -68,7 +68,7 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 			CMStringA val = szToken.Mid(iStart2);
 
 			if (name == "registrationToken")
-				m_szToken = val.Detach();
+				m_szRegToken = val;
 			else if (name == "endpointId") {
 				val.Replace("{", "");
 				val.Replace("}", "");
@@ -83,5 +83,5 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 void CTeamsProto::OnEndpointDeleted(MHttpResponse *, AsyncHttpRequest *)
 {
 	m_szEndpoint.Empty();
-	m_szToken = nullptr;
+	m_szRegToken.Empty();
 }

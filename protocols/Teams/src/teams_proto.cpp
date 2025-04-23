@@ -248,13 +248,12 @@ int CTeamsProto::SetStatus(int iNewStatus)
 
 int CTeamsProto::UserIsTyping(MCONTACT hContact, int iState)
 {
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
-
 	JSONNode node;
-	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", "")
+	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("contenttype", "Application/Message") << CHAR_PARAM("content", "")
 		<< CHAR_PARAM("messagetype", (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping");
-	pReq->m_szParam = node.write().c_str();
 
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
+	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 	return 0;
 }

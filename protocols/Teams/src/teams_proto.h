@@ -165,8 +165,8 @@ public:
 	// other data
 
 	int m_iPollingId, m_iMessageId = 1;
-	ptrA m_szToken, m_szOwnSkypeId;
-	CMStringA m_szSkypename, m_szMyname, m_szSkypeToken, m_szEndpoint;
+	ptrA m_szOwnSkypeId;
+	CMStringA m_szSkypename, m_szMyname, m_szRegToken, m_szSkypeToken, m_szEndpoint;
 	MCONTACT m_hMyContact;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {

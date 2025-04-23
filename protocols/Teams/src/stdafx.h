@@ -72,6 +72,7 @@ enum SkypeHost
 	HOST_GRAPH,
 	HOST_LOGIN,
 	HOST_TEAMS,
+	HOST_CHATS,
 	HOST_PRESENCE,
 	HOST_OTHER
 };
@@ -84,6 +85,7 @@ struct AsyncHttpRequest : public MTHttpRequest<CTeamsProto>
 	AsyncHttpRequest(int type, SkypeHost host, LPCSTR url = nullptr, MTHttpRequestHandler pFunc = nullptr);
 
 	void AddAuthentication(CTeamsProto *ppro);
+	void AddRegistration(CTeamsProto *ppro);
 };
 
 #include "teams_proto.h"

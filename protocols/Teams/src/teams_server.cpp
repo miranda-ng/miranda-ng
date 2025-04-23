@@ -66,7 +66,7 @@ void CTeamsProto::SendPresence()
 	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(m_szEndpoint) + "/presenceDocs/messagingService",
 		&CTeamsProto::OnCapabilitiesSended);
 	pReq->m_szParam = node.write().c_str();
-	pReq->AddHeader("RegistrationToken", CMStringA("registrationToken=") + m_szToken);
+	pReq->AddRegistration(this);
 	PushRequest(pReq);
 }
 
