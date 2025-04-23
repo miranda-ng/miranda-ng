@@ -113,7 +113,7 @@ void CSkypeProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 
 		time_t eventTime = 0;
 		for (auto &it : item["invites"])
-			eventTime = IsoToUnixTime(it["time"].as_string());
+			eventTime = Utils_IsoToUnixTime(it["time"].as_string().c_str());
 
 		std::string displayName = item["displayname"].as_string();
 		const char *szNick = (displayName.empty()) ? nullptr : displayName.c_str();

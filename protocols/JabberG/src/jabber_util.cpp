@@ -390,57 +390,6 @@ void CJabberProto::SendVisibleInvisiblePresence(bool invisible)
 	}
 }
 
-time_t JabberIsoToUnixTime(const char *stamp)
-{
-	wchar_t date[9];
-	int i, y;
-
-	if (stamp == nullptr)
-		return 0;
-
-	auto *p = stamp;
-
-	// Get the date part
-	for (i = 0; *p != '\0' && i < 8 && isdigit(*p); p++, i++)
-		date[i] = *p;
-
-	// Parse year
-	if (i == 6) {
-		// 2-digit year (1970-2069)
-		y = (date[0] - '0') * 10 + (date[1] - '0');
-		if (y < 70) y += 100;
-	}
-	else if (i == 8) {
-		// 4-digit year
-		y = (date[0] - '0') * 1000 + (date[1] - '0') * 100 + (date[2] - '0') * 10 + date[3] - '0';
-		y -= 1900;
-	}
-	else return 0;
-
-	struct tm timestamp;
-	timestamp.tm_year = y;
-
-	// Parse month
-	timestamp.tm_mon = (date[i - 4] - '0') * 10 + date[i - 3] - '0' - 1;
-
-	// Parse date
-	timestamp.tm_mday = (date[i - 2] - '0') * 10 + date[i - 1] - '0';
-
-	// Skip any date/time delimiter
-	for (; *p != '\0' && !isdigit(*p); p++);
-
-	// Parse time
-	if (sscanf(p, "%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
-		return (time_t)0;
-
-	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
-	time_t t = mktime(&timestamp);
-
-	_tzset();
-	t -= _timezone;
-	return (t >= 0) ? t : 0;
-}
-
 void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement *extra, const char *msg)
 {
 	if (!m_bJabberOnline) return;
@@ -826,13 +775,13 @@ const TiXmlElement* JabberProcessDelay(const TiXmlElement *node, time_t &msgTime
 				else if (!(szStamp[sj++] = szStamp[si++]))
 					break;
 			};
-			msgTime = JabberIsoToUnixTime(szStamp);
+			msgTime = Utils_IsoToUnixTime(szStamp);
 			return (msgTime != 0) ? n : nullptr;
 		}
 
 	if (auto *n = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DELAY))
 		if (auto *pszTimeStamp = XmlGetAttr(n, "stamp")) {
-			msgTime = JabberIsoToUnixTime(pszTimeStamp);
+			msgTime = Utils_IsoToUnixTime(pszTimeStamp);
 			return (msgTime != 0) ? n : nullptr;
 		}
 

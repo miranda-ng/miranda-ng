@@ -435,6 +435,17 @@ EXTERN_C MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen);
 EXTERN_C MIR_CORE_DLL(bool) Utils_IsRtl(const wchar_t *pszwText);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Converts a timestamp in the ISO format to time_t
+
+EXTERN_C MIR_CORE_DLL(time_t) Utils_IsoToUnixTime(const char *pszIsoTimestamp);
+
+#ifdef _XSTRING_
+__forceinline time_t Utils_IsoToUnixTime(const std::string &str) {
+	return Utils_IsoToUnixTime(str.c_str());
+}
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // UUID generator
 
 MIR_CORE_DLL(CMStringA) Utils_GenerateUUID();

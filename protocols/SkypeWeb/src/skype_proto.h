@@ -329,8 +329,6 @@ private:
 
 	CMStringW RemoveHtml(const CMStringW &src, bool bCheckSS = false);
 
-	static time_t IsoToUnixTime(const std::string &stamp);
-
 	static int SkypeToMirandaStatus(const char *status);
 	static const char *MirandaToSkypeStatus(int status);
 
