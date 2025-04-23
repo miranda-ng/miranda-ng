@@ -55,6 +55,11 @@ static builtinColors[] = {
 	{ L"silver", RGB(192, 192, 192) },
 };
 
+static uint32_t color2html(COLORREF clr)
+{
+	return (((clr & 0xFF) << 16) | (clr & 0xFF00) | ((clr & 0xFF0000) >> 16));
+}
+
 static int str2color(const CMStringW &str)
 {
 	for (auto &it : builtinColors)
@@ -69,16 +74,11 @@ static int str2color(const CMStringW &str)
 		if (!is_hex_digit(str[i]))
 			return -1;
 
-	return wcstoul(str, 0, 16);
+	return color2html(wcstoul(str, 0, 16));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // HTML generator
-
-static uint32_t color2html(COLORREF clr)
-{
-	return (((clr & 0xFF) << 16) | (clr & 0xFF00) | ((clr & 0xFF0000) >> 16));
-}
 
 static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 {
