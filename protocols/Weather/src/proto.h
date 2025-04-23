@@ -12,6 +12,21 @@ struct WIDATAITEM
 	CMStringW Value;
 };
 
+struct WIDATAITEMLIST : public OBJLIST<WIDATAITEM>
+{
+	WIDATAITEMLIST() :
+		OBJLIST<WIDATAITEM>(20)
+	{}
+
+	WIDATAITEM* Find(const wchar_t *pwszName)
+	{
+		for (auto &it : *this)
+			if (!mir_wstrcmp(it->Name, pwszName))
+				return it;
+		return 0;
+	}
+};
+
 struct WEATHERINFO
 {
 	MCONTACT hContact;

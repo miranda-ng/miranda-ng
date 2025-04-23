@@ -404,7 +404,7 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	auto &curr = root["currentConditions"];
 	g_elevation = root["elevation"].as_float() / 7.877;
 
-	OBJLIST<WIDATAITEM> arValues(20);
+	WIDATAITEMLIST arValues;
 	getData(arValues, curr);
 
 	auto szIcon = curr["icon"].as_string();
@@ -430,7 +430,6 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 		cond = CLOUDY;
 
 	// writing forecast
-	int iFore = 0;
 	db_set_ws(hContact, WEATHERCONDITION, "Update", curr["datetime"].as_mstring());
 
 	for (auto &it : arValues) {
@@ -439,8 +438,9 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 			db_set_ws(hContact, WEATHERCONDITION, _T2A(it->Name), it->Value);
 	}
 
+	int iFore = 0;
 	for (auto &fore : root["days"]) {
-		OBJLIST<WIDATAITEM> arDaily(20);
+		WIDATAITEMLIST arDaily;
 		getData(arDaily, fore);
 
 		CMStringW result;
@@ -448,6 +448,12 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 			ConvertDataValue(it);
 			if (it->Value.IsEmpty())
 				continue;
+
+			// insert missing values from day 0 into current
+			if (iFore == 0)
+				if (auto *pOld = arValues.Find(it->Name))
+					if (pOld->Value.IsEmpty() || pOld->Value == NODATA)
+						db_set_ws(hContact, WEATHERCONDITION, _T2A(it->Name), it->Value);
 
 			if (!result.IsEmpty())
 				result += L"; ";
