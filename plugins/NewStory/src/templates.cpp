@@ -29,15 +29,38 @@ wchar_t *months[12] =
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// HTML generator
+// color table
 
-static uint32_t color2html(COLORREF clr)
+struct
 {
-	return (((clr & 0xFF) << 16) | (clr & 0xFF00) | ((clr & 0xFF0000) >> 16));
+	const wchar_t *pwszName;
+	uint32_t iValue;
 }
+static builtinColors[] = {
+	{ L"black",  RGB(0, 0, 0) },
+	{ L"navy",   RGB(0, 0, 128) },
+	{ L"blue",   RGB(0, 0, 255) },
+	{ L"green",  RGB(0, 128, 0) },
+	{ L"lime",   RGB(0, 255, 0) },
+	{ L"red",    RGB(255, 0, 0) },
+	{ L"maroon", RGB(128, 0, 0) },
+	{ L"purple", RGB(128, 0, 128) },
+	{ L"pink",   RGB(255, 0, 255) },
+	{ L"olive",  RGB(128, 128, 0) },
+	{ L"yellow", RGB(255, 255, 0) },
+	{ L"cyan",   RGB(0, 128, 128) },
+	{ L"aqua",   RGB(0, 255, 255) },
+	{ L"gray",   RGB(128, 128, 128) },
+	{ L"white",  RGB(255, 255, 255) },
+	{ L"silver", RGB(192, 192, 192) },
+};
 
 static int str2color(const CMStringW &str)
 {
+	for (auto &it : builtinColors)
+		if (str == it.pwszName)
+			return it.iValue;
+
 	// 6 hex digits in the RGB format
 	if (str.GetLength() != 6)
 		return -1;
@@ -47,6 +70,14 @@ static int str2color(const CMStringW &str)
 			return -1;
 
 	return wcstoul(str, 0, 16);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// HTML generator
+
+static uint32_t color2html(COLORREF clr)
+{
+	return (((clr & 0xFF) << 16) | (clr & 0xFF00) | ((clr & 0xFF0000) >> 16));
 }
 
 static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
