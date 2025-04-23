@@ -36,6 +36,19 @@ static uint32_t color2html(COLORREF clr)
 	return (((clr & 0xFF) << 16) | (clr & 0xFF00) | ((clr & 0xFF0000) >> 16));
 }
 
+static int str2color(const CMStringW &str)
+{
+	// 6 hex digits in the RGB format
+	if (str.GetLength() != 6)
+		return -1;
+
+	for (int i = 0; i < 6; i++)
+		if (!is_hex_digit(str[i]))
+			return -1;
+
+	return wcstoul(str, 0, 16);
+}
+
 static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 {
 	mir_snwprintf(dest, 100, L"font-family: %S; font-size: %dpt; font-weight: %s %s", 
@@ -197,8 +210,11 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 				p += 6;
 
 				if (auto *p1 = wcschr(p, ']')) {
-					CMStringW wszColor(p, int(p1 - p));
-					buf.AppendFormat(L"<font color=#%06X>", color2html(wcstoul(wszColor, 0, 16)));
+					int iColor = str2color(CMStringW(p, int(p1 - p)));
+					if (iColor != -1)
+						buf.AppendFormat(L"<font color=#%06X>", color2html(iColor));
+					else
+						buf.Append(L"<font>");
 					p = p1;
 				}
 				else p--;
