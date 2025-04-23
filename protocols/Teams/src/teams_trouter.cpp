@@ -250,20 +250,17 @@ void CTeamsProto::TRouterProcess(const char *str)
 			if (message) {
 				Netlib_Logf(m_hTrouterNetlibUser, "Got event:\n%s", message.write_formatted().c_str());
 
-				const JSONNode &resource = message["resource"];
-
-				std::string resourceType = message["resourceType"].as_string();
-				if (resourceType == "NewMessage")
-					ProcessNewMessage(resource);
-				else if (resourceType == "UserPresence")
-					ProcessUserPresence(resource);
-				else if (resourceType == "EndpointPresence")
-					ProcessEndpointPresence(resource);
-				else if (resourceType == "ConversationUpdate")
-					ProcessConversationUpdate(resource);
-				else if (resourceType == "ThreadUpdate")
-					ProcessThreadUpdate(resource);
+				if (!mir_strcmp(message.name(), "presence")) {
+					for (auto &it : message)
+						ProcessUserPresence(it);
+				}
 			}
+
+			JSONNode reply, &old = packet["headers"], headers; headers.set_name("headers");
+			headers << WCHAR_PARAM("MS-CV", old["MS-CV"].as_mstring()) << old["trouter-request"] << old["trouter-client"];
+			reply << WCHAR_PARAM("id", packet["id"].as_mstring()) << INT_PARAM("status", 200) << headers << CHAR_PARAM("body", "");
+			if (m_ws)
+				m_ws->sendText(("3:::" + reply.write()).c_str());
 		}
 		break;
 	
@@ -344,24 +341,28 @@ void CTeamsProto::ProcessUserPresence(const JSONNode &node)
 {
 	debugLogA(__FUNCTION__);
 
-	std::string selfLink = node["selfLink"].as_string();
-	std::string status = node["availability"].as_string();
-	CMStringA skypename = UrlToSkypeId(selfLink.c_str());
+	CMStringA skypename = node["mri"].as_mstring();
+	auto &presence = node["presence"];
+	std::string status = presence["availability"].as_string();
 
 	if (!skypename.IsEmpty()) {
 		if (IsMe(skypename)) {
-			int iNewStatus = SkypeToMirandaStatus(status.c_str());
-			if (iNewStatus == ID_STATUS_OFFLINE) return;
+			int iNewStatus = TeamsToMirandaStatus(status.c_str());
+			if (iNewStatus == ID_STATUS_OFFLINE)
+				return;
+			
 			int old_status = m_iStatus;
 			m_iDesiredStatus = iNewStatus;
 			m_iStatus = iNewStatus;
 			if (old_status != iNewStatus)
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, iNewStatus);
 		}
-		else {
-			MCONTACT hContact = FindContact(skypename);
-			if (hContact != NULL)
-				SetContactStatus(hContact, SkypeToMirandaStatus(status.c_str()));
+		else if (MCONTACT hContact = FindContact(skypename)) {
+			SetContactStatus(hContact, TeamsToMirandaStatus(status.c_str()));
+			if (auto &p = presence["lastActiveTime"])
+				setDword(hContact, "LastSeen", Utils_IsoToUnixTime(p.as_string().c_str()));
+			if (auto &p = presence["deviceType"])
+				setWString(hContact, "MirVer", L"Teams (" + p.as_mstring() + L")");
 		}
 	}
 }

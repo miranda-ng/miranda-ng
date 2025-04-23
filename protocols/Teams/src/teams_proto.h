@@ -319,8 +319,6 @@ private:
 
 	CMStringW RemoveHtml(const CMStringW &src, bool bCheckSS = false);
 
-	static time_t IsoToUnixTime(const std::string &stamp);
-
 	void ShowNotification(const wchar_t *message, MCONTACT hContact = NULL);
 	void ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact = NULL, int type = 0);
 	static bool IsFileExists(std::wstring path);
