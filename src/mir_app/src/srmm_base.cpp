@@ -44,8 +44,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT h
 
 	m_btnColor(this, IDC_SRMM_COLOR),
 	m_btnBkColor(this, IDC_SRMM_BKGCOLOR),
-	m_btnBold(this, IDC_SRMM_BOLD),
 
+	m_btnBold(this, IDC_SRMM_BOLD),
 	m_btnItalic(this, IDC_SRMM_ITALICS),
 	m_btnUnderline(this, IDC_SRMM_UNDERLINE),
 	m_btnStrikeout(this, IDC_SRMM_STRIKEOUT),
@@ -547,7 +547,10 @@ bool CSrmmBaseDialog::OnInitDialog()
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
 	Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 
-	m_bSendFormat = ((CallContactService(m_hContact, PS_GETCAPS, PFLAGNUM_4) & PF4_SERVERFORMATTING) != 0);
+	if (Chat::bShowFormatting)
+		m_bSendFormat = true;
+	else
+		m_bSendFormat = ((CallContactService(m_hContact, PS_GETCAPS, PFLAGNUM_4) & PF4_SERVERFORMATTING) != 0);
 	if (!m_bSendFormat) {
 		m_btnBold.Disable();
 		m_btnItalic.Disable();

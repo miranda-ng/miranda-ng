@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 CMOption<bool> Chat::bShowNicklist(CHAT_MODULE, "ShowNicklist", true);
+CMOption<bool> Chat::bShowFormatting(CHAT_MODULE, "ShowFormatting", false);  // Hidden option
 CMOption<bool> Chat::bFilterEnabled(CHAT_MODULE, "FilterEnabled", false);
 CMOption<bool> Chat::bTopicOnClist(CHAT_MODULE, "TopicOnClist", false);
 CMOption<bool> Chat::bPopupOnJoin(CHAT_MODULE, "PopupOnJoin", false);

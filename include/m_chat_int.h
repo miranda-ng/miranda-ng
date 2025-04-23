@@ -382,6 +382,7 @@ namespace Chat
 {
 	extern MIR_APP_EXPORT CMOption<bool>
 		bShowNicklist,
+		bShowFormatting,
 		bFilterEnabled,
 		bTopicOnClist,
 		bPopupOnJoin,
