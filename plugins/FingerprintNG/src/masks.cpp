@@ -514,6 +514,8 @@ static KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_XMPP", L"|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*", LPGENW("XMPP client"), IDI_XMPP, JABBER_CASE },
 
+	{ "client_Discord", L"*Discord*", L"Discord", IDI_DISCORD, OTHER_PROTOS_CASE },
+
 	{ "client_Hangouts", L"messaging-*", L"Google+ Hangouts", IDI_HANGOUTS, OTHER_PROTOS_CASE, TRUE },
 
 	{ "client_Twitter", L"*Twitter*", L"Twitter", IDI_TWITTER, OTHER_PROTOS_CASE, TRUE },
@@ -522,7 +524,7 @@ static KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_Steam", L"*Steam*", L"Steam", IDI_STEAM, OTHER_PROTOS_CASE },
 
-	{ "client_Discord", L"*Discord*", L"Discord", IDI_DISCORD, OTHER_PROTOS_CASE },
+	{ "client_Teams", L"*Teams**", L"Teams", IDI_TEAMS, OTHER_PROTOS_CASE },
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// UNDEFINED CLIENTS
