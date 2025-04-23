@@ -468,19 +468,7 @@ static KN_FP_MASK def_kn_fp_mask[] =
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// WEATHER
 
-	{ "client_accu", L"*accuweather*", L"AccuWeather", IDI_ACCU, WEATHER_CASE, TRUE },
-	{ "client_gismeteo", L"*gismeteo*", L"GisMeteo", IDI_GISMETEO, WEATHER_CASE, TRUE },
-	{ "client_intelli", L"*intellicast*", L"Intellicast", IDI_INTELLI, WEATHER_CASE, TRUE },
-	{ "client_meteogid", L"|*meteo-gid*|*meteogid*", L"Meteo-Gid", IDI_METEOGID, WEATHER_CASE, TRUE },
-	{ "client_meteonovosti", L"*meteonovosti*", L"Meteonovosti", IDI_METEONOVOSTI, WEATHER_CASE, TRUE },
-	{ "client_noaa", L"*noaa*", L"NOAA Weather", IDI_NOAA, WEATHER_CASE, TRUE },
-	{ "client_real", L"*realmeteo*", L"RealMeteo", IDI_REALMETEO, WEATHER_CASE, TRUE },
-	{ "client_under", L"Weather Underground*", L"Weather Underground", IDI_UNDERGROUND, WEATHER_CASE, TRUE },
-	{ "client_weatherxml", L"*WeatherXML*", L"WeatherXML", IDI_WEATHERXML, WEATHER_CASE, TRUE },
-	{ "client_wetter", L"*wetter*", L"Wetter", IDI_WETTER, WEATHER_CASE, TRUE },
-	{ "client_yweather", L"*Yahoo Weather*", L"Yahoo Weather", IDI_YWEATHER, WEATHER_CASE, TRUE },
-	{ "client_weather_cn", L"*weather.com.cn*", L"Weather CN", IDI_WEATHER_CN, WEATHER_CASE, TRUE },
-	{ "client_weather", L"*weather*", L"Weather", IDI_WEATHER, WEATHER_CASE, TRUE },
+	// { "client_gismeteo", L"*gismeteo*", L"GisMeteo", IDI_GISMETEO, WEATHER_CASE, TRUE },
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// RSS
