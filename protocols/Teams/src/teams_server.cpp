@@ -29,7 +29,7 @@ void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 
 	CreateContactSubscription();
 	ReceiveAvatar(0);
-	PushRequest(new AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/contacts", &CTeamsProto::LoadContactList));
+	RefreshContactsInfo();
 	PushRequest(new SyncConversations());
 
 	JSONNode root = JSONNode::parse(response->body);

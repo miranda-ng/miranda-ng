@@ -187,7 +187,7 @@ public:
 	void OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void LoadContactList(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnGotContactsInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
@@ -215,11 +215,6 @@ private:
 	LIST<void> m_PopupClasses;
 	OBJLIST<COwnMessage> m_OutMessages;
 
-	// locks
-	mir_cs m_lckOutMessagesList;
-	mir_cs messageSyncLock;
-	mir_cs m_StatusLock;
-
 	// avatars
 	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
 	bool ReceiveAvatar(MCONTACT hContact);
@@ -231,23 +226,31 @@ private:
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
-	// menus
-	static HGENMENU ContactMenuItems[CMI_MAX];
-	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
-	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
+	// chats
+	void InitGroupChatModule();
 
-	// options
-	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
+	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
+	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
+	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
-	// profile
-	void UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileGender(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileCountry(const JSONNode &node, MCONTACT hContact = NULL);
-	void UpdateProfileEmails(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
+	SESSION_INFO *StartChatRoom(const wchar_t *tid, const wchar_t *tname, const char *pszVersion = nullptr);
+
+	bool OnChatEvent(const JSONNode &node);
+	wchar_t *GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name = nullptr, bool *isQualified = nullptr);
+
+	bool AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
+	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator = L"");
+	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
+
+	void KickChatUser(const char *chatId, const char *userId);
+
+	void SetChatStatus(MCONTACT hContact, int iStatus);
+
+	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
 
 	// contacts
+	void RefreshContactsInfo();
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
 	MCONTACT FindContact(const char *skypeId);
@@ -264,8 +267,14 @@ private:
 
 	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
 
+	// menus
+	static HGENMENU ContactMenuItems[CMI_MAX];
+	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
+	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
+
 	// messages
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
+	mir_cs m_lckOutMessagesList;
 
 	int SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t iMessageId = 0);
 
@@ -274,28 +283,16 @@ private:
 	void ProcessContactRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei);
 	void ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei);
 
-	// chats
-	void InitGroupChatModule();
+	// options
+	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
-	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
-	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
-	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
-
-	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname, const char *pszVersion = nullptr);
-
-	bool OnChatEvent(const JSONNode &node);
-	wchar_t* GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name = nullptr, bool *isQualified = nullptr);
-
-	bool AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
-	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator = L"");
-	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
-
-	void KickChatUser(const char *chatId, const char *userId);
-
-	void SetChatStatus(MCONTACT hContact, int iStatus);
-
-	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
+	// profile
+	void UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileGender(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileCountry(const JSONNode &node, MCONTACT hContact = NULL);
+	void UpdateProfileEmails(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 
 	// server requests
 	void GetProfileInfo(MCONTACT hContact);

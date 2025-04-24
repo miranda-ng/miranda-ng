@@ -26,6 +26,7 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_GRAPH:     m_szUrl = "skypegraph.skype.com"; break;
 	case HOST_LOGIN:     m_szUrl = "login.microsoftonline.com"; break;
 	case HOST_TEAMS:     m_szUrl = TEAMS_BASE_HOST; break;
+	case HOST_TEAMS_API: m_szUrl = TEAMS_BASE_HOST "/api/mt/beta"; break;
 	case HOST_CHATS:     m_szUrl = TEAMS_BASE_HOST "/api/chatsvc/consumer/v1"; break;
 	case HOST_PRESENCE:  m_szUrl = "presence." TEAMS_BASE_HOST "/v1"; break;
 
@@ -84,13 +85,6 @@ void CTeamsProto::PushRequest(AsyncHttpRequest *request)
 {
 	if (m_isTerminated)
 		return;
-
-	if (request->m_host == HOST_TEAMS) {
-		if (!request->FindHeader("Authorization"))
-			request->AddHeader("Authorization", "Bearer " + m_szAccessToken);
-		request->AddHeader("Accept", "application/json");
-	}
-
 	{
 		mir_cslock lock(m_requestQueueLock);
 		m_requests.insert(request);
@@ -123,14 +117,23 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 	switch (pReq->m_host) {
 	case HOST_CONTACTS:
 	case HOST_DEFAULT:
-		if (m_szSkypeToken)
-			pReq->AddHeader("X-Skypetoken", m_szSkypeToken);
-
+		pReq->AddAuthentication(this);
 		pReq->AddHeader("Accept", "application/json");
 		pReq->AddHeader("X-Stratus-Caller", TEAMS_CLIENTINFO_NAME);
 		pReq->AddHeader("X-Stratus-Request", "abcd1234");
 		pReq->AddHeader("Origin", "https://teams.live.com");
 		pReq->AddHeader("Referer", "https://teams.live.com/");
+		pReq->AddHeader("ms-ic3-product", "tfl");
+		pReq->AddHeader("ms-ic3-additional-product", "Sfl");
+		break;
+
+	case HOST_TEAMS:
+	case HOST_TEAMS_API:
+		if (!pReq->FindHeader("Authorization"))
+			pReq->AddHeader("Authorization", "Bearer " + m_szAccessToken);
+		pReq->AddHeader("Accept", "application/json");
+		pReq->AddHeader("ms-ic3-product", "tfl");
+		pReq->AddHeader("ms-ic3-additional-product", "Sfl");
 		break;
 
 	case HOST_CHATS:

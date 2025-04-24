@@ -181,7 +181,7 @@ void CTeamsProto::TRouterRegister()
 {
 	TRouterRegister("NextGenCalling", "DesktopNgc_2.3:SkypeNgc", m_szTrouterSurl + "NGCallManagerWin");
 	TRouterRegister("SkypeSpacesWeb", "SkypeSpacesWeb_2.3", m_szTrouterSurl + "SkypeSpacesWeb");
-	TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_1.9", m_szTrouterSurl);
+	TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_2.3", m_szTrouterSurl);
 }
 
 void CTeamsProto::TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath)

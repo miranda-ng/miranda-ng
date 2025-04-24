@@ -135,7 +135,14 @@ void CTeamsProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 	}
 }
 
-void CTeamsProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTeamsProto::RefreshContactsInfo()
+{
+	PushRequest(new AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/contacts", &CTeamsProto::OnGotContactsInfo));
+}
+
+void CTeamsProto::OnGotContactsInfo(MHttpResponse *response, AsyncHttpRequest*)
 {
 	TeamsReply reply(response);
 	if (reply.error())
