@@ -41,6 +41,7 @@ void CTeamsProto::LoggedIn()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	SetServerStatus(m_iStatus);
+	SendPresence();
 	StartTrouter();
 }
 

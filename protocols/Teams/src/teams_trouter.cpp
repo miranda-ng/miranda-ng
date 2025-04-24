@@ -62,8 +62,6 @@ void CTeamsProto::OnTrouterInfo(MHttpResponse *response, AsyncHttpRequest *)
 	if (!ccid.IsEmpty())
 		pReq << CHAR_PARAM("ccid", ccid);
 	PushRequest(pReq);
-
-	CreateSubscription();
 }
 
 void CTeamsProto::StartTrouter()

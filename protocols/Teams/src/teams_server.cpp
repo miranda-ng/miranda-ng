@@ -48,7 +48,7 @@ void CTeamsProto::SendPresence()
 	else {
 		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD size = _countof(compName);
-		GetComputerName(compName, &size);
+		GetComputerNameW(compName, &size);
 		epname = mir_utf8encodeW(compName);
 	}
 
@@ -111,42 +111,6 @@ void CTeamsProto::SetServerStatus(int iStatus)
 	node << CHAR_PARAM("availability", pszAvailability);
 
 	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_PRESENCE, "/me/forceavailability", &CTeamsProto::OnStatusChanged);
-	pReq->m_szParam = node.write().c_str();
-	PushRequest(pReq);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CTeamsProto::OnSubscriptionsCreated(MHttpResponse *response, AsyncHttpRequest *)
-{
-	if (response == nullptr) {
-		debugLogA(__FUNCTION__ ": failed to create subscription");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
-		SetStatus(ID_STATUS_OFFLINE);
-	}
-	else SendPresence();
-}
-
-void CTeamsProto::CreateSubscription()
-{
-	JSONNode interestedResources(JSON_ARRAY); interestedResources.set_name("interestedResources");
-	interestedResources << CHAR_PARAM("", "/v1/users/ME/conversations/ALL/properties")
-		<< CHAR_PARAM("", "/v1/users/ME/conversations/ALL/messages")
-		<< CHAR_PARAM("", "/v1/users/ME/contacts/ALL")
-		<< CHAR_PARAM("", "/v1/threads/ALL");
-
-	JSONNode subscription, trouter;
-	subscription << CHAR_PARAM("channelType", "HttpLongPoll") << interestedResources;
-	trouter << CHAR_PARAM("channelType", "TrouterPush") << CHAR_PARAM("longPollUrl", m_szTrouterSurl) << interestedResources;
-
-	JSONNode subscriptions(JSON_ARRAY); subscriptions.set_name("subscriptions");
-	subscriptions << subscription << trouter;
-
-	JSONNode node;
-	node << INT_PARAM("startingTimeSpan", 0) << CHAR_PARAM("endpointFeatures", "Agent,Presence2015,MessageProperties,CustomUserProperties,NotificationStream,SupportsSkipRosterFromThreads")
-		<< subscriptions;
-
-	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT_V2, "/users/ME/endpoints/" + m_szEndpoint, &CTeamsProto::OnSubscriptionsCreated);
 	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 }

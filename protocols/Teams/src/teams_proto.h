@@ -176,7 +176,7 @@ public:
 	void OnSearch(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	// login
-	void OnSubscriptionsCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
 	void OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnStatusChanged(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
@@ -302,9 +302,7 @@ private:
 
 	void SetServerStatus(int iStatus);
 
-	void CreateSubscription();
 	void CreateContactSubscription();
-
 
 	// utils
 	__forceinline bool IsOnline() const
