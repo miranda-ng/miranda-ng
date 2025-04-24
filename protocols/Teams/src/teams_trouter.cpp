@@ -48,6 +48,8 @@ void CTeamsProto::OnTrouterInfo(MHttpResponse *response, AsyncHttpRequest *)
 	CMStringA szUrl = root["socketio"].as_mstring();
 	szUrl += "socket.io/1/";
 
+	CreateContactSubscription();
+
 	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_OTHER, szUrl, &CTeamsProto::OnTrouterSession);
 	pReq << CHAR_PARAM("v", "v4");
 

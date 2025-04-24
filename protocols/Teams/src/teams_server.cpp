@@ -27,7 +27,6 @@ void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 		return;
 	}
 
-	CreateContactSubscription();
 	ReceiveAvatar(0);
 	RefreshContactsInfo();
 	RefreshConversations();
