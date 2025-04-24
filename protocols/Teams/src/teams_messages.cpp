@@ -26,9 +26,6 @@ void CTeamsProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 	std::unique_ptr<COwnMessage> pMessage((COwnMessage *)pRequest->pUserInfo);
 
 	MCONTACT hContact = pRequest->hContact;
-	if (Contact::IsGroupChat(hContact))
-		return;
-
 	if (response == nullptr) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, pRequest->pUserInfo, (LPARAM)TranslateT("Network error!"));
 		return;
@@ -40,8 +37,19 @@ void CTeamsProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 		CMStringA msgId(pRoot["OriginalArrivalTime"].as_mstring());
 
 		if (pMessage) {
-			pMessage->iTimestamp = _atoi64(msgId);
-			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pMessage->hMessage, (LPARAM)msgId.c_str());
+			if (auto *si = Chat_Find(hContact)) {
+				GCEVENT gce = { si, GC_EVENT_MESSAGE };
+				gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+				gce.pszUID.a = m_szOwnSkypeId;
+				gce.pszText.a = pMessage->szMessage;
+				gce.time = time(0);
+				gce.bIsMe = true;
+				Chat_Event(&gce);
+			}
+			else {
+				pMessage->iTimestamp = _atoi64(msgId);
+				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pMessage->hMessage, (LPARAM)msgId.c_str());
+			}
 
 			mir_cslock lck(m_lckOutMessagesList);
 			m_OutMessages.remove(pMessage.get());

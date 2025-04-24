@@ -17,8 +17,15 @@ struct COwnMessage
 		hClientMessageId(_2)
 	{}
 
+	COwnMessage(const char *pszText) :
+		hMessage(0),
+		hClientMessageId(0),
+		szMessage(mir_strdup(pszText))
+	{}
+
 	int hMessage;
 	int64_t hClientMessageId, iTimestamp = -1;
+	ptrA szMessage;
 };
 
 struct CSkypeTransfer

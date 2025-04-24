@@ -336,16 +336,17 @@ void CTeamsProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 	szMessage.TrimRight();
 	bool bRich = AddBbcodes(szMessage);
 
-	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(T2Utf(si->ptszID)) + "/messages";
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
-
 	JSONNode node;
 	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text")
 		<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", szMessage);
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		node << INT_PARAM("skypeemoteoffset", 4);
+
+	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(T2Utf(si->ptszID)) + "/messages";
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
 	pReq->m_szParam = node.write().c_str();
-	
+	pReq->pUserInfo = new COwnMessage(szMessage);
+	pReq->hContact = si->hContact;
 	PushRequest(pReq);
 }
 
