@@ -30,7 +30,7 @@ void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 	CreateContactSubscription();
 	ReceiveAvatar(0);
 	RefreshContactsInfo();
-	PushRequest(new SyncConversations());
+	RefreshConversations();
 
 	JSONNode root = JSONNode::parse(response->body);
 	if (root)

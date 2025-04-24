@@ -19,13 +19,82 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* HISTORY SYNC */
 
+void CTeamsProto::RefreshConversations()
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CTeamsProto::OnSyncConversations);
+	pReq << INT_PARAM("startTime", getLastTime(0)) << INT_PARAM("pageSize", 100)
+		<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread");
+
+	PushRequest(pReq);
+}
+
+void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *)
+{
+	TeamsReply reply(response);
+	if (reply.error())
+		return;
+
+	auto &root = reply.data();
+	const JSONNode &metadata = root["_metadata"];
+	const JSONNode &conversations = root["conversations"].as_array();
+
+	// int totalCount = metadata["totalCount"].as_int();
+	std::string syncState = metadata["syncState"].as_string();
+
+	for (auto &it : conversations) {
+		const JSONNode &lastMessage = it["lastMessage"];
+		if (!lastMessage)
+			continue;
+
+		int iUserType;
+		std::string strConversationLink = lastMessage["conversationLink"].as_string();
+		CMStringA szSkypename = UrlToSkypeId(strConversationLink.c_str(), &iUserType);
+		switch (iUserType) {
+		case 19:
+			{
+				auto &props = it["threadProperties"];
+				if (!props["lastleaveat"])
+					StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring(), props["version"].as_string().c_str());
+			}
+			__fallthrough;
+
+		case 8:
+		case 2:
+			int64_t id = _atoi64(lastMessage["id"].as_string().c_str());
+
+			MCONTACT hContact = FindContact(szSkypename);
+			if (hContact != NULL) {
+				auto lastMsgTime = getLastTime(hContact);
+				if (lastMsgTime && lastMsgTime < id && m_bAutoHistorySync)
+					GetServerHistory(hContact, 100, lastMsgTime, true);
+			}
+		}
+	}
+
+	m_bHistorySynced = true;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+void CTeamsProto::GetServerHistory(MCONTACT hContact, int pageSize, int64_t timestamp, bool bOperative)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages", &CTeamsProto::OnGetServerHistory);
+	pReq->hContact = hContact;
+	if (bOperative)
+		pReq->pUserInfo = this;
+
+	pReq << INT64_PARAM("startTime", timestamp) << INT_PARAM("pageSize", pageSize)
+		<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread");
+
+	PushRequest(pReq);
+}
+
 void CTeamsProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	TeamsReply reply(response);
 	if (reply.error())
 		return;
 
-	auto *pOrig = (GetHistoryRequest *)pRequest;
 	auto &root = reply.data();
 	const JSONNode &metadata = root["_metadata"];
 
@@ -81,71 +150,25 @@ void CTeamsProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		}
 	}
 
-	if (bSetLastTime && lastMsgTime > getLastTime(pOrig->hContact))
-		setLastTime(pOrig->hContact, lastMsgTime);
+	if (bSetLastTime && lastMsgTime > getLastTime(pRequest->hContact))
+		setLastTime(pRequest->hContact, lastMsgTime);
 
 	if (totalCount >= 99 || conv.size() >= 99)
-		PushRequest(new GetHistoryRequest(pOrig->hContact, pOrig->m_who, 100, lastMsgTime, pRequest->pUserInfo != 0));
+		GetServerHistory(pRequest->hContact, 100, lastMsgTime, pRequest->pUserInfo != 0);
 }
 
 INT_PTR CTeamsProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 {
-	PushRequest(new GetHistoryRequest(hContact, getId(hContact), 100, 0, false));
+	GetServerHistory(hContact, 100, 0, false);
 	return 0;
-}
-
-void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest*)
-{
-	TeamsReply reply(response);
-	if (reply.error())
-		return;
-
-	auto &root = reply.data();
-	const JSONNode &metadata = root["_metadata"];
-	const JSONNode &conversations = root["conversations"].as_array();
-
-	// int totalCount = metadata["totalCount"].as_int();
-	std::string syncState = metadata["syncState"].as_string();
-
-	for (auto &it: conversations) {
-		const JSONNode &lastMessage = it["lastMessage"];
-		if (!lastMessage)
-			continue;
-
-		int iUserType;
-		std::string strConversationLink = lastMessage["conversationLink"].as_string();
-		CMStringA szSkypename = UrlToSkypeId(strConversationLink.c_str(), &iUserType);
-		switch (iUserType) {
-		case 19:
-			{
-				auto &props = it["threadProperties"];
-				if (!props["lastleaveat"])
-					StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring(), props["version"].as_string().c_str());
-			}
-			__fallthrough;
-
-		case 8:
-		case 2:
-			int64_t id = _atoi64(lastMessage["id"].as_string().c_str());
-
-			MCONTACT hContact = FindContact(szSkypename);
-			if (hContact != NULL) {
-				auto lastMsgTime = getLastTime(hContact);
-				if (lastMsgTime && lastMsgTime < id && m_bAutoHistorySync)
-					PushRequest(new GetHistoryRequest(hContact, szSkypename, 100, lastMsgTime, true));
-			}
-		}
-	}
-
-	m_bHistorySynced = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CTeamsProto::SvcEmptyHistory(WPARAM hContact, LPARAM flags)
 {
-	if (flags & CDF_DEL_HISTORY) {
-		PushRequest(new EmptyHistoryRequest(getId(hContact)));
-	}
+	if (flags & CDF_DEL_HISTORY)
+		PushRequest(new AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages"));
+
 	return 0;
 }

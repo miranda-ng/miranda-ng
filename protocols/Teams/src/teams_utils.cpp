@@ -556,6 +556,9 @@ void CTeamsProto::setLastTime(MCONTACT hContact, int64_t iValue)
 	char buf[100];
 	_i64toa(iValue, buf, 10);
 	setString(hContact, "LastMsgTime", buf);
+
+	if (iValue > getLastTime(0))
+		setString("LastMsgTime", buf);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

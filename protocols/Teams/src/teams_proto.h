@@ -197,9 +197,6 @@ public:
 
 	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
 	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
@@ -213,7 +210,6 @@ private:
 	static std::map<std::wstring, std::wstring> languages;
 
 	LIST<void> m_PopupClasses;
-	OBJLIST<COwnMessage> m_OutMessages;
 
 	// avatars
 	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
@@ -267,14 +263,21 @@ private:
 
 	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
 
+	// history
+	void GetServerHistory(MCONTACT hContact, int pageSize, int64_t timestamp, bool bOperative);
+	void RefreshConversations();
+
+	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
 	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
 	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
 
 	// messages
-	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
 	mir_cs m_lckOutMessagesList;
+	LIST<COwnMessage> m_OutMessages;
 
 	int SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t iMessageId = 0);
 

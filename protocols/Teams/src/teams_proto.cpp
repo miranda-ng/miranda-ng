@@ -252,7 +252,7 @@ int CTeamsProto::UserIsTyping(MCONTACT hContact, int iState)
 	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("contenttype", "Application/Message") << CHAR_PARAM("content", "")
 		<< CHAR_PARAM("messagetype", (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping");
 
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
 	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 	return 0;

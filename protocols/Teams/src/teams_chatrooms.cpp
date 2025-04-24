@@ -402,7 +402,7 @@ void CTeamsProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 	if (arIds.getCount())
 		PushRequest(new GetChatMembersRequest(arIds, si));
 
-	PushRequest(new GetHistoryRequest(si->hContact, T2Utf(si->ptszID), 100, 0, true));
+	GetServerHistory(si->hContact, 100, 0, true);
 }
 
 wchar_t* CTeamsProto::GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name, bool *isQualified)
