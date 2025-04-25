@@ -105,7 +105,7 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		case REQUEST_POST:
 			if (!pReq->FindHeader("Content-Type")) {
 				if (pReq->m_szParam[0] == '[' || pReq->m_szParam[0] == '{')
-					pReq->AddHeader("Content-Type", "application/json; charset=UTF-8");
+					pReq->AddHeader("Content-Type", "application/json");
 				else
 					pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			}
@@ -131,6 +131,8 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 	case HOST_TEAMS_API:
 		if (!pReq->FindHeader("Authorization"))
 			pReq->AddHeader("Authorization", "Bearer " + m_szAccessToken);
+		if (m_szSkypeToken)
+			pReq->AddHeader("X-Skypetoken", m_szSkypeToken);
 		pReq->AddHeader("Accept", "application/json");
 		pReq->AddHeader("ms-ic3-product", "tfl");
 		pReq->AddHeader("ms-ic3-additional-product", "Sfl");

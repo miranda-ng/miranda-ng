@@ -253,6 +253,7 @@ private:
 	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
 
 	// contacts
+	void GetShortInfo(const OBJLIST<char> &ids);
 	void RefreshContactsInfo();
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
@@ -271,6 +272,7 @@ private:
 	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
 
 	// history
+	void FetchMissingHistory(const JSONNode &node, MCONTACT);
 	void GetServerHistory(MCONTACT hContact, int pageSize, int64_t timestamp, bool bOperative);
 	void RefreshConversations();
 

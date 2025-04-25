@@ -28,6 +28,17 @@ void CTeamsProto::RefreshConversations()
 	PushRequest(pReq);
 }
 
+void CTeamsProto::FetchMissingHistory(const JSONNode &node, MCONTACT hContact)
+{
+	const JSONNode &lastMessage = node["lastMessage"];
+	if (lastMessage && hContact) {
+		int64_t id = _atoi64(lastMessage["id"].as_string().c_str());
+		auto lastMsgTime = getLastTime(hContact);
+		if (lastMsgTime && lastMsgTime < id && m_bAutoHistorySync)
+			GetServerHistory(hContact, 100, lastMsgTime, true);
+	}
+}
+
 void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *)
 {
 	TeamsReply reply(response);
@@ -38,17 +49,11 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 	const JSONNode &metadata = root["_metadata"];
 	const JSONNode &conversations = root["conversations"].as_array();
 
-	// int totalCount = metadata["totalCount"].as_int();
-	std::string syncState = metadata["syncState"].as_string();
-
 	for (auto &it : conversations) {
-		const JSONNode &lastMessage = it["lastMessage"];
-		if (!lastMessage)
-			continue;
+		CMStringA szSkypename = it["id"].as_mstring();
+		int iUserType = atoi(szSkypename);
+		MCONTACT hContact = FindContact(szSkypename);
 
-		int iUserType;
-		std::string strConversationLink = lastMessage["conversationLink"].as_string();
-		CMStringA szSkypename = UrlToSkypeId(strConversationLink.c_str(), &iUserType);
 		switch (iUserType) {
 		case 19:
 			{
@@ -56,20 +61,20 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 				if (!props["lastleaveat"])
 					StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring(), props["version"].as_string().c_str());
 			}
-			__fallthrough;
+			FetchMissingHistory(it, hContact);
+			break;
 
 		case 8:
 		case 2:
-			int64_t id = _atoi64(lastMessage["id"].as_string().c_str());
+			CMStringA szChatId(it["properties"]["onetoonethreadid"].as_mstring());
+			if (!szChatId.IsEmpty() && hContact)
+				setString(hContact, "ChatId", szChatId);
 
-			MCONTACT hContact = FindContact(szSkypename);
-			if (hContact != NULL) {
-				auto lastMsgTime = getLastTime(hContact);
-				if (lastMsgTime && lastMsgTime < id && m_bAutoHistorySync)
-					GetServerHistory(hContact, 100, lastMsgTime, true);
-			}
+			FetchMissingHistory(it, hContact);
 		}
 	}
+
+	std::string syncState = metadata["syncState"].as_string();
 
 	m_bHistorySynced = true;
 }

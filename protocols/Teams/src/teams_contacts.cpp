@@ -229,6 +229,24 @@ void CTeamsProto::OnGotContactsInfo(MHttpResponse *response, AsyncHttpRequest*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTeamsProto::GetShortInfo(const OBJLIST<char> &ids)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_TEAMS_API, "/users/fetchShortProfile?isMailAddress=false&canBeSmtpAddress=false&enableGuest=true&includeIBBarredUsers=true&skypeTeamsInfo=true&includeBots=true");
+
+	for (auto &it : ids) {
+		if (pReq->m_szParam.IsEmpty())
+			pReq->m_szParam = "[";
+		else
+			pReq->m_szParam += ",";
+		pReq->m_szParam.AppendFormat("\"%s\"", it);
+	}
+	pReq->m_szParam += "]";
+
+	PushRequest(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CTeamsProto::OnRequestAuth(WPARAM hContact, LPARAM)
 {
 	return AuthRequest(hContact, 0);
