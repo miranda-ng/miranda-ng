@@ -67,8 +67,11 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 		case 8:
 		case 2:
 			CMStringA szChatId(it["properties"]["onetoonethreadid"].as_mstring());
-			if (!szChatId.IsEmpty() && hContact)
+			if (!szChatId.IsEmpty() && hContact) {
+				if (szChatId.Left(3) != "19:")
+					szChatId.Insert(0, "19:");
 				setString(hContact, "ChatId", szChatId);
+			}
 
 			FetchMissingHistory(it, hContact);
 		}
@@ -83,7 +86,11 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 
 void CTeamsProto::GetServerHistory(MCONTACT hContact, int pageSize, int64_t timestamp, bool bOperative)
 {
-	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages", &CTeamsProto::OnGetServerHistory);
+	CMStringA szChatId(getMStringA(hContact, "ChatId"));
+	if (szChatId.IsEmpty())
+		szChatId = getId(hContact);
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(szChatId) + "/messages", &CTeamsProto::OnGetServerHistory);
 	pReq->hContact = hContact;
 	if (bOperative)
 		pReq->pUserInfo = this;
