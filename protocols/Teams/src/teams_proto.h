@@ -324,7 +324,7 @@ private:
 	int64_t getLastTime(MCONTACT);
 	void setLastTime(MCONTACT, int64_t);
 
-	CMStringW RemoveHtml(const CMStringW &src, bool bCheckSS = false);
+	CMStringW RemoveHtml(const CMStringW &src);
 
 	void ShowNotification(const wchar_t *message, MCONTACT hContact = NULL);
 	void ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact = NULL, int type = 0);

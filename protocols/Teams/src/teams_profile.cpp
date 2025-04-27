@@ -134,9 +134,6 @@ void CTeamsProto::OnGetProfileInfo(MHttpResponse *response, AsyncHttpRequest *pR
 	SetString(hContact, "FirstName", root["firstname"]);
 	SetString(hContact, "CompanyPhone", root["phoneOffice"]);
 
-	if (auto &pMood = root["richMood"])
-		RemoveHtml(pMood.as_mstring(), true); // this call extracts only emoji / mood id
-
 	UpdateProfileDisplayName(root, hContact);
 	UpdateProfileGender(root, hContact);
 	UpdateProfileBirthday(root, hContact);

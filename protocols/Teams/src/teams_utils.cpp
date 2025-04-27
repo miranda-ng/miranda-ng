@@ -295,23 +295,14 @@ static CMStringW getAttrText(const wchar_t *pwszText, const wchar_t *pwszAttrNam
 	return L"";
 }
 
-CMStringW CTeamsProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
+CMStringW CTeamsProto::RemoveHtml(const CMStringW &data)
 {
-	bool inSS = false;
 	CMStringW new_string;
 
 	for (int i = 0; i < data.GetLength(); i++) {
 		wchar_t c = data[i];
 		if (c == '<') {
-			if (bCheckSS && !wcsncmp(data.c_str() + i + 1, L"ss ", 3))
-				inSS = true;
-			else if (!wcsncmp(data.c_str() + i + 1, L"/ss>", 4)) {
-				CMStringW wszStatusMsg = data.Mid(i + 5);
-				wszStatusMsg.Trim();
-				m_wstrMoodMessage = wszStatusMsg;
-				inSS = false;
-			}
-			else if (m_bUseBBCodes) {
+			if (m_bUseBBCodes) {
 				bool bEnable = true;
 				auto *p = data.c_str() + i + 1;
 				if (*p == '/') {
