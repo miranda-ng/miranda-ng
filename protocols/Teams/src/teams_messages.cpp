@@ -152,10 +152,11 @@ LBL_Deleted:
 		return false;
 	}
 
-	if (strMessageType == "Text" || strMessageType == "RichText") {
-		if (strMessageType == "RichText")
-			wszContent = RemoveHtml(wszContent);
-
+	if (strMessageType == "Text") {
+		dbei.eventType = EVENTTYPE_MESSAGE;
+	}
+	else if (strMessageType == "RichText/Html" || strMessageType == "RichText") {
+		wszContent = RemoveHtml(wszContent);
 		dbei.eventType = EVENTTYPE_MESSAGE;
 	}
 	else if (strMessageType == "RichText/Media_Album")
