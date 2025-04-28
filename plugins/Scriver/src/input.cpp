@@ -168,10 +168,8 @@ int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		PostMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);
 		return FALSE;
 	case KB_PASTESEND:
-		if (SendMessage(hwnd, EM_CANPASTE, 0, 0)) {
-			SendMessage(hwnd, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
-			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-		}
+		SendMessage(hwnd, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
+		PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
 		return FALSE;
 	}
 
