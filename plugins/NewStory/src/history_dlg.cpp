@@ -350,9 +350,6 @@ class CHistoryDlg : public CDlgBase
 	HTREEITEM FindSibling(HTREEITEM root, int value)
 	{
 		if (root) {
-			if (value < 1000)
-				root = m_timeTree.GetChild(root);
-
 			for (HTREEITEM hti = root; hti; hti = m_timeTree.GetNextSibling(hti)) {
 				TVITEMEX tvi;
 				tvi.mask = TVIF_PARAM;
@@ -373,9 +370,13 @@ class CHistoryDlg : public CDlgBase
 		if (err != 0)
 			return;
 
-		HTREEITEM hti = FindSibling(m_timeTree.GetRoot(), ts.tm_year + 1900);
-		hti = FindSibling(hti, ts.tm_mon + 1);
-		hti = FindSibling(hti, ts.tm_mday);
+		int iValue = (ts.tm_year + 1900) * 100 * 100;
+		HTREEITEM hti = FindSibling(m_timeTree.GetRoot(), iValue);
+
+		iValue += (ts.tm_mon + 1) * 100;
+		hti = FindSibling(m_timeTree.GetChild(hti), iValue);
+
+		hti = FindSibling(m_timeTree.GetChild(hti), iValue + ts.tm_mday);
 		if (hti) {
 			disableTimeTreeChange = true;
 			m_timeTree.SelectItem(hti);
