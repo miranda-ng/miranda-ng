@@ -1004,3 +1004,5 @@ Proto_CanDeleteHistory @1118 NONAME
 ?error@JsonReply@@QBEHXZ @1135 NONAME
 ??BJsonReply@@QBE_NXZ @1136 NONAME
 ??6@YGPAUMHttpRequest@@PAU0@ABUBOOL_PARAM@@@Z @1137 NONAME
+?bShowFormatting@Chat@@3V?$CMOption@_N@@A @1138 NONAME
+?setDescr@FILE_BLOB@DB@@QAEXPB_W@Z @1139 NONAME
