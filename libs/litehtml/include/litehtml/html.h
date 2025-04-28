@@ -6,19 +6,8 @@
 #include <cctype>
 #include <cstring>
 #include <algorithm>
-#include <functional>
-#include "os_types.h"
 #include "types.h"
-#include "string_id.h"
-#include "utf8_strings.h"
-#include "background.h"
-#include "borders.h"
-#include "web_color.h"
 #include "media_query.h"
-#include "html_microsyntaxes.h"
-#include "html_tag.h"
-#include "document_container.h"
-#include "document.h"
 
 namespace litehtml
 {
@@ -36,15 +25,10 @@ namespace litehtml
 	double t_strtod(const char* string, char** endPtr = nullptr);
 	string get_escaped_string(const string& in_str);
 
-	template<typename X, typename A>
-	bool is_one_of(X x, A a)
+	template<typename T, typename... Opts>
+	bool is_one_of(T val, Opts ...opts)
 	{
-		return x == a;
-	}
-	template<typename X, typename A, typename... AA>
-	bool is_one_of(X x, A a, AA... aa)
-	{
-		return x == a || is_one_of(x, aa...);
+		return (... || (val == opts));
 	}
 	template<class T>
 	const T& at(const vector<T>& vec, int index /*may be negative*/)
@@ -155,7 +139,7 @@ namespace litehtml
 		return (c >= '0' && c <= '9');
 	}
 	const auto is_digit = t_isdigit;
-	
+
 	inline bool is_hex_digit(int ch) {
 		return is_digit(ch) || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F');
 	}

@@ -21,7 +21,7 @@ class NSWebPage : public document_container
 	std::string resolve_color(const string &color) const;
 	uint_ptr	get_image(LPCWSTR url_or_path, bool redraw_on_ready);
 
-	void get_client_rect(position &client) const override;
+	void get_viewport(litehtml::position &) const override;
 	void import_css(string &text, const string &url, string &baseurl) override;
 	void on_anchor_click(const char *url, const element::ptr &el) override;
 	void set_base_url(const char *base_url) override;
@@ -32,7 +32,7 @@ class NSWebPage : public document_container
 	void get_img_size(uint_ptr img, size &sz);
 
 	// document_container members
-	uint_ptr create_font(const char *faceName, int size, int weight, font_style italic, unsigned int decoration, font_metrics *fm) override;
+	uint_ptr create_font(const font_description &descr, const document *doc, font_metrics *fm) override;
 	void delete_font(uint_ptr hFont) override;
 	const char* get_default_font_name() const override;
 	int  get_default_font_size() const override;

@@ -1,6 +1,8 @@
 #ifndef LH_STRING_ID_H
 #define LH_STRING_ID_H
 
+#include <string>
+
 namespace litehtml
 {
 
@@ -252,6 +254,14 @@ STRING_ID(
 	_font_size_,
 	_line_height_,
 	_text_decoration_,
+	_text_decoration_style_,
+	_text_decoration_line_,
+	_text_decoration_color_,
+	_text_decoration_thickness_,
+	_text_emphasis_,
+	_text_emphasis_style_,
+	_text_emphasis_color_,
+	_text_emphasis_position_,
 
 	_white_space_,
 	_text_align_,
@@ -267,6 +277,7 @@ STRING_ID(
 	_overflow_,
 	_display_,
 	_visibility_,
+	_appearance_,
 	_box_sizing_,
 	_z_index_,
 	_float_,
@@ -346,8 +357,8 @@ STRING_ID(
 extern const string_id empty_id; // _id("")
 extern const string_id star_id; // _id("*")
 
-string_id _id(const string& str);
-const string& _s(string_id id);
+string_id			   _id(const std::string& str);
+const std::string&	   _s(string_id id);
 
 } // namespace litehtml
 

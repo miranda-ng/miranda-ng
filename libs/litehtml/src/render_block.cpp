@@ -1,8 +1,9 @@
-#include "html.h"
 #include "render_block.h"
 #include "render_inline_context.h"
 #include "render_block_context.h"
 #include "document.h"
+#include "document_container.h"
+#include "html_tag.h"
 
 int litehtml::render_item_block::place_float(const std::shared_ptr<render_item> &el, int top, const containing_block_context &self_size, formatting_context* fmt_ctx)
 {
@@ -199,7 +200,7 @@ int litehtml::render_item_block::_render(int x, int y, const containing_block_co
 	{
 		if(m_pos.height == 0)
 		{
-			m_pos.height = css().get_line_height();
+			m_pos.height = css().line_height().computed_value;
 		}
 	}
 

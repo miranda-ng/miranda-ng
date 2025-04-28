@@ -1,3 +1,4 @@
+#include "encodings.h"
 #include "html.h"
 #include "css_parser.h"
 
@@ -38,7 +39,48 @@ void filter_code_points(string& input)
 	input = result;
 }
 
-void remove_whitespace(css_token_vector& tokens, keep_whitespace_fn keep_whitespace)
+static const size_t kLargeSize = 50;
+static void remove_whitespace_large(css_token_vector& tokens, keep_whitespace_fn keep_whitespace);
+static void remove_whitespace_small(css_token_vector& tokens, keep_whitespace_fn keep_whitespace);
+
+void remove_whitespace_large(css_token_vector& tokens, keep_whitespace_fn keep_whitespace)
+{
+	std::vector<int> keep_idx;
+	keep_idx.reserve(tokens.size());
+	for (int i = 0; i < static_cast<int>(tokens.size()); ++i)
+	{
+		auto &tok = tokens[i];
+		bool keep = true;
+		if (tok.type == ' ')
+		{
+			const auto &left = i > 0 ? tokens[i - 1] : css_token();
+			const auto &right = at(tokens, i + 1);
+			keep = keep_whitespace && keep_whitespace(left, right);
+		}
+		else if (tok.is_component_value())
+		{
+			if (tok.value.size() > kLargeSize)
+				remove_whitespace_large(tok.value, keep_whitespace);
+			else
+				remove_whitespace_small(tok.value, keep_whitespace);
+		}
+		if (keep)
+			keep_idx.push_back(i);
+	}
+
+	if (keep_idx.size() == tokens.size())
+		return;
+	else
+	{
+		css_token_vector tmp;
+		tmp.reserve(keep_idx.size());
+		for (auto idx : keep_idx)
+			tmp.push_back(tokens[idx]);
+		tokens.swap(tmp);
+	}
+}
+
+void remove_whitespace_small(css_token_vector& tokens, keep_whitespace_fn keep_whitespace)
 {
 	for (int i = 0; i < (int)tokens.size(); i++)
 	{
@@ -48,11 +90,25 @@ void remove_whitespace(css_token_vector& tokens, keep_whitespace_fn keep_whitesp
 			const auto& left = i > 0 ? tokens[i - 1] : css_token();
 			const auto& right = at(tokens, i + 1);
 			bool keep = keep_whitespace && keep_whitespace(left, right);
-			if (!keep) remove(tokens, i), i--;
+			if (!keep)
+				remove(tokens, i), i--;
 		}
 		else if (tok.is_component_value())
-			remove_whitespace(tok.value, keep_whitespace);
+		{
+			if (tok.value.size() > kLargeSize)
+				remove_whitespace_large(tok.value, keep_whitespace);
+			else
+				remove_whitespace_small(tok.value, keep_whitespace);
+		}
 	}
+}
+
+void remove_whitespace(css_token_vector& tokens, keep_whitespace_fn keep_whitespace)
+{
+	if (tokens.size() > kLargeSize)
+		remove_whitespace_large(tokens, keep_whitespace);
+	else
+		remove_whitespace_small(tokens, keep_whitespace);
 }
 
 void componentize(css_token_vector& tokens)
@@ -85,17 +141,17 @@ css_token_vector normalize(string input, int options, keep_whitespace_fn keep_wh
 }
 
 // https://www.w3.org/TR/css-syntax-3/#parse-stylesheet
-// I don't create a stylesheet because its only perpose is to pass a list of rules to 
+// I don't create a stylesheet because its only perpose is to pass a list of rules to
 // parse_css_stylesheet. I just return the list of rules directly instead.
 raw_rule::vector css_parser::parse_stylesheet(const string& input, bool top_level)
 {
 	// 1. If input is a byte stream for stylesheet, decode bytes from input, and set input to the result.
 	// not implemented, utf-8 is always assumed
 	string str = decode(input, encoding::utf_8); // decoding potentially broken UTF-8 into valid UTF-8
-	
+
 	// 2. Normalize input, and set input to the result.
 	auto tokens = normalize(str);
-	
+
 	return parse_stylesheet(tokens, top_level);
 }
 raw_rule::vector css_parser::parse_stylesheet(const css_token_vector& input, bool top_level)
@@ -147,7 +203,7 @@ raw_rule::vector css_parser::consume_list_of_rules(bool top_level)
 			// If the top-level flag is set, do nothing.
 			if (top_level) break;
 
-			// Otherwise, reconsume the current input token. Consume a qualified rule. 
+			// Otherwise, reconsume the current input token. Consume a qualified rule.
 			// If anything is returned, append it to the list of rules.
 			m_index--;
 			rule = consume_qualified_rule();
@@ -208,7 +264,7 @@ raw_rule::ptr css_parser::consume_qualified_rule()
 // https://www.w3.org/TR/css-syntax-3/#consume-at-rule
 raw_rule::ptr css_parser::consume_at_rule()
 {
-	// Consume the next input token. Create a new at-rule with its name set to the value of the current input token, 
+	// Consume the next input token. Create a new at-rule with its name set to the value of the current input token,
 	// its prelude initially set to an empty list, and its value initially set to nothing.
 	css_token token = next_token();
 	raw_rule::ptr rule = make_shared<raw_rule>(raw_rule::at, token.str);
@@ -251,7 +307,7 @@ css_token css_parser::consume_simple_block(char opening_bracket)
 	// Create a simple block with its associated token set to the current input token and with its value initially set to an empty list.
 	auto block_type = css_token_type(-100 - opening_bracket); // see css_token_type
 	css_token block(block_type);
-	
+
 	char closing_bracket = mirror(opening_bracket);
 
 	while (true)
@@ -289,11 +345,11 @@ css_token css_parser::consume_component_value()
 		// If the current input token is a <{-token>, <[-token>, or <(-token>, consume a simple block and return it.
 	case '{': case '[': case '(':
 		return consume_simple_block((char)token.ch);
-		
+
 		// Otherwise, if the current input token is a <function-token>, consume a function and return it.
 	case FUNCTION:
 		return consume_function(token.name);
-		
+
 		// Otherwise, return the current input token.
 	default:
 		return token;
@@ -343,7 +399,7 @@ void trim_whitespace(css_token_vector& tokens)
 // next token is guaranteed to be IDENT
 raw_declaration css_parser::consume_declaration()
 {
-	// Consume the next input token. Create a new declaration with its name set to the value of 
+	// Consume the next input token. Create a new declaration with its name set to the value of
 	// the current input token and its value initially set to an empty list.
 	css_token token = next_token();
 	raw_declaration decl = {token.name};
@@ -364,13 +420,13 @@ raw_declaration css_parser::consume_declaration()
 	// 3. While the next input token is a <whitespace-token>, consume the next input token.
 	while (peek_token().type == ' ') next_token();
 
-	// 4. As long as the next input token is anything other than an <EOF-token>, 
+	// 4. As long as the next input token is anything other than an <EOF-token>,
 	//    consume a component value and append it to the declaration’s value.
 	while (peek_token().type != EOF)
 		value.push_back(consume_component_value());
 
-	// 5. If the last two non-<whitespace-token>s in the declaration’s value are a <delim-token> with the value "!" 
-	//    followed by an <ident-token> with a value that is an ASCII case-insensitive match for "important", 
+	// 5. If the last two non-<whitespace-token>s in the declaration’s value are a <delim-token> with the value "!"
+	//    followed by an <ident-token> with a value that is an ASCII case-insensitive match for "important",
 	//    remove them from the declaration’s value and set the declaration’s important flag to true.
 
 	trim_whitespace(value); // deviation from standard: removing leading whitespace as well
@@ -417,7 +473,7 @@ void css_parser::consume_style_block_contents(/*out*/ raw_declaration::vector& d
 		case IDENT: {
 			// Initialize a temporary list initially filled with the current input token.
 			css_token_vector temp = { token };
-			// As long as the next input token is anything other than a <semicolon-token> or <EOF-token>, 
+			// As long as the next input token is anything other than a <semicolon-token> or <EOF-token>,
 			// consume a component value and append it to the temporary list.
 			while (!is_one_of(peek_token().type, ';', EOF))
 				temp.push_back(consume_component_value());
@@ -437,7 +493,7 @@ void css_parser::consume_style_block_contents(/*out*/ raw_declaration::vector& d
 			break;
 		}
 		default:
-			// This is a parse error. Reconsume the current input token. As long as the next input token is 
+			// This is a parse error. Reconsume the current input token. As long as the next input token is
 			// anything other than a <;> or <EOF>, consume a component value and throw away the returned value.
 			css_parse_error("unexpected token in a style block");
 			m_index--;

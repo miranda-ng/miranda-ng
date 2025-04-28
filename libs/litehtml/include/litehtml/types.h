@@ -7,7 +7,6 @@
 #include <vector>
 #include <map>
 #include <list>
-#include <set>
 #include <variant>
 #include <optional>
 #include <algorithm>
@@ -50,10 +49,46 @@ namespace litehtml
 		limited_quirks_mode
 	};
 
-	const unsigned int font_decoration_none			= 0x00;
-	const unsigned int font_decoration_underline	= 0x01;
-	const unsigned int font_decoration_linethrough	= 0x02;
-	const unsigned int font_decoration_overline		= 0x04;
+	#define  style_text_decoration_line_strings		"none;underline;overline;line-through"
+
+	enum text_decoration_line
+	{
+		text_decoration_line_none			= 0x00,
+		text_decoration_line_underline		= 0x01,
+		text_decoration_line_overline		= 0x02,
+		text_decoration_line_line_through	= 0x04,
+	};
+
+	#define  style_text_decoration_style_strings	"solid;double;dotted;dashed;wavy"
+
+	enum text_decoration_style
+	{
+		text_decoration_style_solid,
+		text_decoration_style_double,
+		text_decoration_style_dotted,
+		text_decoration_style_dashed,
+		text_decoration_style_wavy,
+		text_decoration_style_max,
+	};
+
+	#define  style_text_decoration_thickness_strings	"auto;from-font"
+
+	enum text_decoration_thickness
+	{
+		text_decoration_thickness_auto,
+		text_decoration_thickness_from_font,
+	};
+
+	#define  style_text_emphasis_position_strings	"over;under;left;right"
+
+	enum text_emphasis_position
+	{
+		text_emphasis_position_over		= 0x00,
+		text_emphasis_position_under	= 0x01,
+		text_emphasis_position_left		= 0x02,
+		text_emphasis_position_right	= 0x04,
+	};
+
 
 	using byte = unsigned char;
 	using ucode_t = unsigned int;
@@ -103,23 +138,19 @@ namespace litehtml
 	{
 		using vector = std::vector<position>;
 
-		int	x;
-		int	y;
-		int	width;
-		int	height;
+		int	x = 0;
+		int	y = 0;
+		int	width = 0;
+		int	height = 0;
 
-		position()
-		{
-			x = y = width = height = 0;
-		}
+		position() = default;
 
-		position(int x, int y, int width, int height)
-		{
-			this->x			= x;
-			this->y			= y;
-			this->width		= width;
-			this->height	= height;
-		}
+		position(int _x, int _y, int _width, int _height) :
+			x(_x),
+			y(_y),
+			width(_width),
+			height(_height)
+		{}
 
 		int right()		const		{ return x + width;		}
 		int bottom()	const		{ return y + height;	}
@@ -152,12 +183,18 @@ namespace litehtml
 			height	= sz.height;
 		}
 
+		bool operator==(const position& val)
+		{
+			return x == val.x && y == val.y && width == val.width && height == val.height;
+		}
+
 		void move_to(int _x, int _y)
 		{
 			x = _x;
 			y = _y;
 		}
 
+		[[nodiscard]]
 		bool does_intersect(const position* val) const
 		{
 			if(!val) return true;
@@ -174,45 +211,56 @@ namespace litehtml
 				val->top()		<= bottom()			);
 		}
 
-		bool empty() const
+		[[nodiscard]]
+		position intersect(const position& src) const
 		{
-			if(!width && !height)
+			position dest;
+			int dest_x = std::max(src.x, x);
+			int dest_y = std::max(src.y, y);
+			int dest_x2 = std::min(src.right(), right());
+			int dest_y2 = std::min(src.bottom(), bottom());
+
+			if (dest_x2 > dest_x && dest_y2 > dest_y)
 			{
-				return true;
+				dest.x = dest_x;
+				dest.y = dest_y;
+				dest.width = dest_x2 - dest_x;
+				dest.height = dest_y2 - dest_y;
 			}
-			return false;
+			else
+			{
+				dest.width = 0;
+				dest.height = 0;
+			}
+
+			return dest;
 		}
 
+		[[nodiscard]]
+		bool empty() const
+		{
+			return !width && !height;
+		}
+
+		[[nodiscard]]
 		bool is_point_inside(int _x, int _y) const
 		{
-			if(_x >= left() && _x < right() && _y >= top() && _y < bottom())
-			{
-				return true;
-			}
-			return false;
+			return (_x >= left() && _x < right() && _y >= top() && _y < bottom());
 		}
 	};
 
 	struct font_metrics
 	{
-		int 	font_size;
-		int		height;
-		int		ascent;
-		int		descent;
-		int		x_height;
-		int 	ch_width;
-		bool	draw_spaces;
+		int 	font_size = 0;		// Font size in pixels. The same as size argument of the create_font function
+		int		height = 0;			// Font height in pixels.
+		int		ascent = 0;			// The distance from the baseline to the top of a line of text.
+		int		descent = 0;		// The distance from the baseline to the bottom of a line of text.
+		int		x_height = 0;		// Height of the symbol x
+		int 	ch_width = 0;		// Height of the symbol 0
+		bool	draw_spaces = true;	// True to call draw text function for spaces. If False, just use space width without draw.
+		int		sub_shift = 0;		// The baseline shift for subscripts.
+		int		super_shift = 0;	// The baseline shift for superscripts.
 
-		font_metrics()
-		{
-			font_size		= 0;
-			height			= 0;
-			ascent			= 0;
-			descent			= 0;
-			x_height		= 0;
-			ch_width		= 0;
-			draw_spaces		= true;
-		}
 		int base_line() const	{ return descent; }
 	};
 
@@ -830,6 +878,27 @@ namespace litehtml
 		_baseline_type m_type;
 	};
 
+#define appearance_strings      "none;auto;menulist-button;textfield;button;checkbox;listbox;menulist;meter;progress-bar;push-button;radio;searchfield;slider-horizontal;square-button;textarea"
+
+	enum appearance
+	{
+		appearance_none,
+		appearance_auto,
+		appearance_menulist_button,
+		appearance_textfield,
+		appearance_button,
+		appearance_checkbox,
+		appearance_listbox,
+		appearance_menulist,
+		appearance_meter,
+		appearance_progress_bar,
+		appearance_push_button,
+		appearance_radio,
+		appearance_searchfield,
+		appearance_slider_horizontal,
+		appearance_square_button,
+		appearance_textarea,
+	};
 
 #define box_sizing_strings		"content-box;border-box"
 
