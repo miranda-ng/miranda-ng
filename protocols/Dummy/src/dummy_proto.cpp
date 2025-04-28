@@ -42,7 +42,7 @@ const ttemplate templates[] =
 	{ "Tlen",             "jid",      LPGEN("Tlen login"),       IDI_TLEN      },
 	{ "Tox",              "ToxID",    LPGEN("Tox ID"),           IDI_TOX       },
 	{ "Twitter",          "Username", LPGEN("Username"),         IDI_TWITTER   },
-	{ "VK",               "ID",       LPGEN("VKontakte ID"),     IDI_VK        },
+	{ "VKontakte",        "ID",       LPGEN("VKontakte ID"),     IDI_VK        },
 	{ "WhatsApp",         "ID",       LPGEN("WhatsApp ID"),      IDI_WHATSAPP  },
 	{ "XFire",            "Username", LPGEN("Username"),         IDI_XFIRE     },
 	{ "Yahoo",            "yahoo_id", LPGEN("ID"),               IDI_YAHOO     },
