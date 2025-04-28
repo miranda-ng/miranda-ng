@@ -962,12 +962,6 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 	auto szMsgId(msg2id(pMessage));
 	MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
 
-	CMStringA szText(GetMessageText(pUser, pMessage)), szReplyId;
-	if (szText.IsEmpty()) {
-		debugLogA("this message was not processed, ignored");
-		return;
-	}
-
 	// make a temporary contact if needed
 	if (pUser->hContact == INVALID_CONTACT_ID) {
 		if (pUser->isGroupChat) {
@@ -977,6 +971,12 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 
 		AddUser(pUser->id, false);
 		Contact::RemoveFromList(pUser->hContact);
+	}
+
+	CMStringA szText(GetMessageText(pUser, pMessage)), szReplyId;
+	if (szText.IsEmpty()) {
+		debugLogA("this message was not processed, ignored");
+		return;
 	}
 
 	MCONTACT hContact = GetRealContact(pUser, pMessage->message_thread_id_);

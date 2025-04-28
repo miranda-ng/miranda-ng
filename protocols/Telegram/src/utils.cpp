@@ -152,7 +152,11 @@ CMStringA msg2id(TD::int53 chatId, TD::int53 msgId)
 
 CMStringA msg2id(const TD::message *pMsg)
 {
-	return CMStringA(FORMAT, "%lld_%lld", pMsg->chat_id_, pMsg->id_);
+	auto iChatId = pMsg->chat_id_;
+	if (!iChatId && pMsg->sender_id_->get_id() == TD::messageSenderChat::ID)
+		iChatId = ((TD::messageSenderChat *)pMsg->sender_id_.get())->chat_id_;
+
+	return CMStringA(FORMAT, "%lld_%lld", iChatId, pMsg->id_);
 }
 
 TD::int53 dbei2id(const DBEVENTINFO &dbei)
@@ -520,14 +524,15 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	char szReplyId[100];
 
 	DB::EventInfo dbei(db_event_getById(m_szModuleName, F.pszId));
-	dbei.flags = DBEF_TEMPORARY;
-	dbei.iTimestamp = F.pMsg->date_;
+	dbei.bTemporary = true;
 	dbei.szId = F.pszId;
 	dbei.szUserId = F.pszUser;
+	if (F.pMsg->date_)
+		dbei.iTimestamp = F.pMsg->date_;
 	if (F.pMsg->is_outgoing_)
-		dbei.flags |= DBEF_SENT | DBEF_READ;
+		dbei.bSent = dbei.bRead = true;
 	if (!F.pUser->bInited || F.bRead)
-		dbei.flags |= DBEF_READ;
+		dbei.bRead = true;
 	if (auto iReplyId = getReplyId(F.pMsg->reply_to_.get())) {
 		_i64toa(iReplyId, szReplyId, 10);
 		dbei.szReplyId = szReplyId;
@@ -536,6 +541,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	if (dbei) {
 		if (!Ignore_IsIgnored(pRequest->m_hContact, IGNOREEVENT_FILE)) {
 			DB::FILE_BLOB blob(dbei);
+			blob.setDescr(Utf2T(pszCaption));
 			OnReceiveOfflineFile(dbei, blob);
 			blob.write(dbei);
 			db_event_edit(dbei.getEvent(), &dbei, true);
