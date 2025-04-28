@@ -805,7 +805,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			if (g_plugin.bShowType) {
 				switch (pItem->dbe.eventType) {
 				case EVENTTYPE_MESSAGE:
-					hIcon = g_plugin.getIcon(IDI_SENDMSG);
+					hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 					break;
 				case EVENTTYPE_FILE:
 					hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
@@ -819,6 +819,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 				}
 				DrawIconEx(dib, xPos, yPos, hIcon, 16, 16, 0, 0, DI_NORMAL);
 				xPos += 18;
+				IcoLib_ReleaseIcon(hIcon);
 			}
 
 			// Direction icon
@@ -829,10 +830,11 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 					hIcon = g_plugin.getIcon(IDI_MSGIN);
 				DrawIconEx(dib, xPos, yPos, hIcon, 16, 16, 0, 0, DI_NORMAL);
 				xPos += 18;
+				IcoLib_ReleaseIcon(hIcon);
 			}
 
 			// Bookmark icon
-			if (pItem->dbe.flags & DBEF_BOOKMARK) {
+			if (pItem->dbe.isBookmark) {
 				DrawIconEx(dib, xPos, yPos, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
 				xPos += 18;
 			}
@@ -850,6 +852,12 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 				DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_REMOTEREAD), 16, 16, 0, 0, DI_NORMAL);
 			else if (pItem->m_bDelivered)
 				DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_DELIVERED), 16, 16, 0, 0, DI_NORMAL);
+
+			// Edited icon
+			if (pItem->dbe.bEdited) {
+				xRight += 20;
+				DrawIconEx(dib, cachedWindowWidth - xRight, yPos, g_plugin.getIcon(IDI_SENDMSG), 16, 16, 0, 0, DI_NORMAL);
+			}
 		}
 
 		// draw html itself

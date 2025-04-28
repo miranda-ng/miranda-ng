@@ -208,6 +208,7 @@ struct DBEVENTINFO
 			bool isBookmark : 1;  // event is bookmarked
 			bool isJson : 1;      // event's body is a JSON structure
 			bool bMsec : 1;       // event's timestamp is in milliseconds
+			bool bEdited : 1;     // event was edited
 		};
 	};
 

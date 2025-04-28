@@ -483,7 +483,9 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		dbei.cbBlob = szBody.GetLength();
 		dbei.pBlob = szBody.GetBuffer();
 		dbei.szId = szMsgId;
-		dbei.flags = DBEF_READ | DBEF_UTF;
+		dbei.bRead = dbei.bUtf = true;
+		if (pMsg->edit_date_)
+			dbei.bEdited = true;
 		if (pMsg->is_outgoing_)
 			dbei.flags |= DBEF_SENT;
 		if (this->GetGcUserId(pUser, pMsg, szUserId))
@@ -997,6 +999,8 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 			dbei.bSent = dbei.bRead = true;
 		else if (pMessage->id_ <= pUser->lastReadId)
 			dbei.bRead = true;
+		if (pMessage->edit_date_)
+			dbei.bEdited = true;
 		if (!pUser->bInited)
 			dbei.bRead = true;
 		if (GetGcUserId(pUser, pMessage, szUserId))
