@@ -81,7 +81,8 @@ static int sttCompareProtocols(const CDummyProto *p1, const CDummyProto *p2)
 }
 
 CDummyProto::CDummyProto(const char *szModuleName, const wchar_t *ptszUserName) :
-	PROTO<CDummyProto>(szModuleName, ptszUserName)
+	PROTO<CDummyProto>(szModuleName, ptszUserName),
+	bAllowSending(szModuleName, "AllowSending", false)
 {
 	msgid = 0;
 
@@ -139,7 +140,7 @@ INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
 {
 	switch(type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_BASICSEARCH | PF1_ADDSEARCHRES;
+		return PF1_BASICSEARCH | PF1_ADDSEARCHRES | (bAllowSending ? PF1_IM : 0);
 
 	case PFLAGNUM_4:
 		return PF4_AVATARS | PF4_NOAUTHDENYREASON | PF4_NOCUSTOMAUTH;
@@ -191,7 +192,7 @@ int CDummyProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 	std::string message = msg;
 	unsigned int id = InterlockedIncrement(&msgid);
 
-	if (getByte(DUMMY_KEY_ALLOW_SENDING, 0))
+	if (bAllowSending)
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id);
 	else
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)TranslateT("This Dummy account has disabled sending messages. Enable it in account options."));
