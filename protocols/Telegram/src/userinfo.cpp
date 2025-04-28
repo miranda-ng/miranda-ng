@@ -70,10 +70,7 @@ public:
 			DateTime_SetSystemtime(_hwndDate, GDT_VALID, &st);
 			DateTime_SetFormat(_hwndDate, NULL);
 		}
-		else {
-			DateTime_SetSystemtime(_hwndDate, GDT_NONE, NULL);
-			SetWindowTextW(_hwndDate, TranslateT("Unspecified"));
-		}
+		else DateTime_SetFormat(_hwndDate, TranslateT("Unspecified"));
 
 		edtNotes.SetText(m_proto->getMStringW(m_hContact, "About"));
 	}
