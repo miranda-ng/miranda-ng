@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CTeamsProto::OnTrouterSession(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
-	if (response->resultCode != 200) {
+	if (!response || response->resultCode != 200) {
 		LoginError();
 		return;
 	}
