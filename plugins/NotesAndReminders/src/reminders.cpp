@@ -237,7 +237,7 @@ static bool LoadReminder(char *Value)
 			break;
 
 		case DATATAG_REPEAT:
-			TempRem->RepeatMode = strtol(TVal, nullptr, 10) != 0;
+			TempRem->RepeatMode = strtol(TVal, nullptr, 10);
 			break;
 		}
 	}
