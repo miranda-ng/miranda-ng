@@ -319,7 +319,11 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	CMStringW szBody(wszOrigText);
 	UrlAutodetect(szBody);
+
+	str.Append(L"<div id=\"bbody\">");
 	AppendString(str, szBody, this);
+	str.Append(L"</div>");
+
 	if (spRes) {
 		int iOffset = 0;
 		for (int i = 0; i < (int)sp.numSmileys; i++) {

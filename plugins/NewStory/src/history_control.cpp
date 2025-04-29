@@ -864,11 +864,20 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos - xRight, iItemHeigth);
 		if (auto &pDoc = pItem->m_doc) {
 			if (auto pBody = pDoc->root()->select_one("body")) {
-				litehtml::background back = pBody->css().get_bg();
-				back.m_color = litehtml::web_color(GetRValue(clBack), GetGValue(clBack), GetBValue(clBack));
-				pBody->css_w().set_bg(back);
+				if (auto pBbody = pBody->select_one("[id=bbody]")) {
+					litehtml::background back = pBbody->css().get_bg();
+					back.m_color = litehtml::web_color(GetRValue(clBack), GetGValue(clBack), GetBValue(clBack));
 
-				pBody->css_w().set_color(litehtml::web_color(GetRValue(clText), GetGValue(clText), GetBValue(clText)));
+					litehtml::web_color fore(GetRValue(clText), GetGValue(clText), GetBValue(clText));
+
+					pBbody->css_w().set_bg(back);
+					pBbody->css_w().set_color(fore);
+
+					for (auto &it : pBbody->children()) {
+						it->css_w().set_bg(back);
+						it->css_w().set_color(fore);
+					}
+				}
 			}
 
 			pDoc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);
