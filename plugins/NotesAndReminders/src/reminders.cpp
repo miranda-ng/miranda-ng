@@ -15,6 +15,15 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static bool EqualOrLess(const SYSTEMTIME &t1, const SYSTEMTIME &t2)
+{
+	if (t2.wYear > t1.wYear)
+		return false;
+	if (t2.wMonth > t1.wMonth)
+		return false;
+	return t1.wDay <= t2.wDay;
+}
+
 static void RemoveReminderSystemEvent(struct REMINDERDATA *p);
 
 enum REPEAT
@@ -122,7 +131,7 @@ static void RemoveReminderSystemEvent(REMINDERDATA *p)
 			if (!pev)
 				break;
 
-			if ((ULONG)pev->lParam == p->uid && !pev->hContact && pev->pszService && !mir_strcmp(pev->pszService, MODULENAME"/OpenTriggeredReminder")) {
+			if ((ULONG)pev->lParam == p->uid && !pev->hContact && !mir_strcmp(pev->pszService, MODULENAME"/OpenTriggeredReminder")) {
 				if (!Clist_RemoveEvent(pev->hContact, pev->hDbEvent)) {
 					p->bSystemEventQueued = false;
 					if (QueuedReminderCount)
@@ -720,7 +729,9 @@ protected:
 			if (ReformatTimeInput(savedLi, h, m, &pDate, nullptr))
 				return false;
 
-			bool bTomorrow = (h * 60 + m) < (pDate.wHour * 60 + pDate.wMinute);
+			SYSTEMTIME tm;
+			GetSystemTime(&tm);
+			bool bTomorrow = EqualOrLess(pDate, tm) && (h * 60 + m) < (pDate.wHour * 60 + pDate.wMinute);
 
 			pDate.wHour = h;
 			pDate.wMinute = m;
@@ -852,8 +863,6 @@ protected:
 
 			// add from +1 to +23.5 (in half hour steps) if crossing daylight saving boundary it may be 22.5 or 24.5 hours
 			for (int i = 0; i < 50; i++) {
-				UINT dt;
-
 				FileTimeToTzLocalST((FILETIME *)&li, &tm2);
 
 				if (i > 40) {
@@ -870,11 +879,8 @@ protected:
 				// icq-style display 1.0, 1.5 etc. hours even though that isn't accurate due to rounding
 				//mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
 				// display delta time more accurately to match reformatting (that icq doesn't do)
-				dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
-				if (dt < 60)
-					mir_snwprintf(s, L"%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, TranslateT("Minutes"));
-				else
-					mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
+				unsigned dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
+				mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
 				cmbTime.AddString(s, dt * 60);
 
 				li += 30ll * MinutesToFileTime;
@@ -890,6 +896,8 @@ protected:
 
 	int ReformatTimeInput(ULONGLONG savedLi, int h, int m, const SYSTEMTIME *pDateLocal, ULONGLONG *triggerRelUtcOut = nullptr)
 	{
+		wchar_t buf[64];
+
 		if (h < 0) {
 			// time value is an offset ('m' holds the offset in minutes)
 			if (m_bRelativeCombo) {
@@ -910,14 +918,8 @@ protected:
 				if (triggerRelUtcOut)
 					*triggerRelUtcOut = li;
 
-				wchar_t buf[64];
-				UINT dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
-				if (dt < 60)
-					mir_snwprintf(buf, L"%02d:%02d (%d %s)", h, m, dt, TranslateT("Minutes"));
-				else
-					mir_snwprintf(buf, L"%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
-
 				// search for preset
+				mir_snwprintf(buf, L"%02d:%02d", h, m);
 				int n = cmbTime.FindString(buf);
 				if (n != -1) {
 					cmbTime.SetCurSel(n);
@@ -933,7 +935,6 @@ protected:
 		}
 
 		// search for preset first
-		wchar_t buf[64];
 		mir_snwprintf(buf, L"%02d:%02d", h, m);
 		int n = cmbTime.FindString(buf);
 		if (n != -1) {
@@ -1005,11 +1006,7 @@ output_result:
 			if (triggerRelUtcOut)
 				*triggerRelUtcOut = li;
 
-			UINT dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
-			if (dt < 60)
-				mir_snwprintf(buf, L"%02d:%02d (%d %s)", h, m, dt, TranslateT("Minutes"));
-			else
-				mir_snwprintf(buf, L"%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
+			mir_snwprintf(buf, L"%02d:%02d", h, m);
 		}
 		else {
 			// absolute time (00:00 to 23:59), clean up time to make sure it's not inside "missing" hour (will be rounded downward)
@@ -1333,13 +1330,12 @@ class CReminderFormDlg : public CReminderBaseDlg
 
 	CCtrlEdit edtText;
 	CCtrlCombo cmbMode, cmbSound, cmbRepeatSnd;
-	CCtrlButton btnAdd, btnView, btnPlaySound;
+	CCtrlButton btnView, btnPlaySound;
 
 public:
 	CReminderFormDlg(REMINDERDATA *pReminder = nullptr) :
 		CSuper(IDD_ADDREMINDER),
 		m_pReminder(pReminder),
-		btnAdd(this, IDC_ADDREMINDER),
 		btnView(this, IDC_VIEWREMINDERS),
 		btnPlaySound(this, IDC_BTN_PLAYSOUND),
 		edtText(this, IDC_REMINDER),
@@ -1347,7 +1343,6 @@ public:
 		cmbSound(this, IDC_COMBO_SOUND),
 		cmbRepeatSnd(this, IDC_COMBO_REPEATSND)
 	{
-		btnAdd.OnClick = Callback(this, &CReminderFormDlg::onClick_Add);
 		btnView.OnClick = Callback(this, &CReminderFormDlg::onClick_View);
 		btnPlaySound.OnClick = Callback(this, &CReminderFormDlg::onClick_PlaySound);
 
@@ -1363,7 +1358,7 @@ public:
 		// opening the edit reminder dialog (uses same dialog resource as add reminder)
 		if (m_pReminder) {
 			SetWindowText(m_hwnd, TranslateT("Reminder"));
-			SetDlgItemText(m_hwnd, IDC_ADDREMINDER, TranslateT("&Update Reminder"));
+			SetDlgItemText(m_hwnd, IDOK, TranslateT("&Update Reminder"));
 			btnView.Hide();
 
 			cmbMode.SetCurSel(m_pReminder->RepeatMode);
@@ -1453,25 +1448,18 @@ public:
 		}
 
 		if (m_pReminder)
-			SetFocus(GetDlgItem(m_hwnd, IDC_ADDREMINDER));
+			SetFocus(GetDlgItem(m_hwnd, IDOK));
 		else
 			SetFocus(edtText.GetHwnd());
 		return true;
 	}
 
-	void OnDestroy() override
-	{
-		bNewReminderVisible = false;
-		if (m_pReminder)
-			m_pReminder->bVisible = false;
-	}
-
-	void onClick_Add(CCtrlButton*)
+	bool OnApply() override
 	{
 		SYSTEMTIME Date;
 		m_date.GetTime(&Date);
 		if (!GetTriggerTime(m_savedLi, Date))
-			return;
+			return false;
 
 		int RepeatSound = cmbRepeatSnd.GetCurData();
 		if (RepeatSound == -1)
@@ -1509,8 +1497,14 @@ public:
 		edtText.SetTextA("");
 		JustSaveReminders();
 		NotifyList();
-		if (bClose)
-			Close();
+		return bClose;
+	}
+
+	void OnDestroy() override
+	{
+		bNewReminderVisible = false;
+		if (m_pReminder)
+			m_pReminder->bVisible = false;
 	}
 
 	void onClick_View(CCtrlButton*)
