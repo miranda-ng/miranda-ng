@@ -729,6 +729,16 @@ void NewstoryListData::OpenFolder()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Painting
 
+static void recursive_set_color(element::ptr el, const web_color &fore, const background &back)
+{
+	el->css_w().set_bg(back);
+	el->css_w().set_color(fore);
+
+	for (auto &it : el->children())
+		if (it->tag() != _a_)
+			recursive_set_color(it, fore, back);
+}
+
 void NewstoryListData::Paint(simpledib::dib &dib)
 {
 	int top = 0;
@@ -869,14 +879,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 					back.m_color = litehtml::web_color(GetRValue(clBack), GetGValue(clBack), GetBValue(clBack));
 
 					litehtml::web_color fore(GetRValue(clText), GetGValue(clText), GetBValue(clText));
-
-					pBbody->css_w().set_bg(back);
-					pBbody->css_w().set_color(fore);
-
-					for (auto &it : pBbody->children()) {
-						it->css_w().set_bg(back);
-						it->css_w().set_color(fore);
-					}
+					recursive_set_color(pBbody, fore, back);
 				}
 			}
 
