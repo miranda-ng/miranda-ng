@@ -735,7 +735,7 @@ static void recursive_set_color(element::ptr el, const web_color &fore, const ba
 	el->css_w().set_color(fore);
 
 	for (auto &it : el->children())
-		if (it->tag() != _a_)
+		if (it->tag() != _a_ && it->tag() != _font_)
 			recursive_set_color(it, fore, back);
 }
 
