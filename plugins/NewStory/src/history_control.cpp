@@ -1487,7 +1487,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				if (g_plugin.bHppCompat) {
 					data->EventUp();
 					if (isShift)
-						data->SetSelection(data->caret, oldCaret);
+						data->AddSelection(data->caret, oldCaret);
 				}
 				else data->LineUp();
 				break;
@@ -1496,7 +1496,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				if (g_plugin.bHppCompat) {
 					data->EventDown();
 					if (isShift)
-						data->SetSelection(oldCaret, data->caret);
+						data->AddSelection(oldCaret, data->caret);
 				}
 				else data->LineDown();
 				break;
@@ -1508,7 +1508,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					if (g_plugin.bHppCompat) {
 						data->EventPageUp();
 						if (isShift)
-							data->SetSelection(data->caret, oldCaret);
+							data->AddSelection(data->caret, oldCaret);
 					}
 					else data->PageUp();
 				}
@@ -1521,7 +1521,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					if (g_plugin.bHppCompat) {
 						data->EventPageDown();
 						if (isShift)
-							data->SetSelection(oldCaret, data->caret);
+							data->AddSelection(oldCaret, data->caret);
 					}
 					else data->PageDown();
 				}
@@ -1530,13 +1530,13 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case VK_HOME:
 				data->ScrollTop();
 				if (isShift)
-					data->SetSelection(0, data->caret);
+					data->AddSelection(0, data->caret);
 				break;
 
 			case VK_END:
 				data->ScrollBottom();
 				if (isShift)
-					data->SetSelection(data->caret, data->totalCount);
+					data->AddSelection(data->caret, data->totalCount);
 				break;
 
 			case VK_F2:
