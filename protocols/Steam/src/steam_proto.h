@@ -113,11 +113,16 @@ class CSteamProto : public PROTO<CSteamProto>
 		friend class CSteamProto;
 		CSteamProto &m_proto;
 
-		CTimer m_heartBeat, m_deleteMsg;
+		CTimer m_heartBeat, m_deleteMsg, m_loginPoll;
 
 		void OnHeartBeat(CTimer *)
 		{
 			m_proto.SendHeartBeat();
+		}
+
+		void OnLoginPoll(CTimer *)
+		{
+			m_proto.SendPollRequest();
 		}
 
 		void OnDeleteMsg(CTimer *)
@@ -127,11 +132,13 @@ class CSteamProto : public PROTO<CSteamProto>
 
 		CProtoImpl(CSteamProto &pro) :
 			m_proto(pro),
-			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1),
-			m_deleteMsg(Miranda_GetSystemWindow(), UINT_PTR(this) + 2)
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(&m_heartBeat)),
+			m_deleteMsg(Miranda_GetSystemWindow(), UINT_PTR(&m_deleteMsg)),
+			m_loginPoll(Miranda_GetSystemWindow(), UINT_PTR(&m_loginPoll))
 		{
 			m_heartBeat.OnEvent = Callback(this, &CProtoImpl::OnHeartBeat);
 			m_deleteMsg.OnEvent = Callback(this, &CProtoImpl::OnDeleteMsg);
+			m_loginPoll.OnEvent = Callback(this, &CProtoImpl::OnLoginPoll);
 		}
 	}
 		m_impl;
@@ -189,6 +196,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	void SendPollRequest();
 
 	// login
+	time_t m_iPollStartTime;
+
 	bool IsOnline();
 
 	void Login();

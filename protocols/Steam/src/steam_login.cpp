@@ -18,6 +18,7 @@ bool CSteamProto::IsOnline()
 void CSteamProto::Logout()
 {
 	m_bTerminated = true;
+	m_impl.m_loginPoll.StopSafe();
 
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iStatus);
@@ -116,29 +117,41 @@ void CSteamProto::OnBeginSession(const CAuthenticationBeginAuthSessionViaCredent
 		if (reply.has_request_id)
 			m_requestId.append(reply.request_id.data, reply.request_id.len);
 
+		bool bHasEmail = false, bHasTotp = false;
 		for (int i = 0; i < reply.n_allowed_confirmations; i++) {
 			auto &conf = reply.allowed_confirmations[i];
 			debugLogA("Confirmation required %d (%s)", conf->confirmation_type, conf->associated_message);
 			switch (conf->confirmation_type) {
+			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_DeviceConfirmation:
+				m_impl.m_loginPoll.StartSafe((reply.has_interval ? reply.interval : 5) * 1000);
+				m_iPollStartTime = time(0);
+				__fallthrough;
+
 			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_None: // nothing to do
 				SendPollRequest();
 				return;
 
 			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_EmailCode: // email confirmation
-				CallFunctionSync(EnterEmailCode, this);
-				return;
+				bHasEmail = true;
+				break;
 
 			case EAUTH_SESSION_GUARD_TYPE__k_EAuthSessionGuardType_DeviceCode: // totp confirmation
-				CallFunctionSync(EnterTotpCode, this);
+				bHasTotp = true;
+				break;
+
+			default:
+				debugLogA("Unsupported confirmation code: %i", conf->confirmation_type);
+				Logout();
 				return;
 			}
-
-			debugLogA("Unsupported confirmation code: %i", conf->confirmation_type);
-			Logout();
 		}
 
-		// no confirmation needed - we've done
-		SendPollRequest();
+		if (bHasEmail)
+			CallFunctionSync(EnterEmailCode, this);
+		else if (bHasTotp)
+			CallFunctionSync(EnterTotpCode, this);
+		else // no confirmation needed - we've done
+			SendPollRequest();
 	}
 	else {
 		debugLogA("Something went wrong: %s", reply.extended_error_message);
@@ -214,6 +227,15 @@ void CSteamProto::SendPollRequest()
 
 void CSteamProto::OnPollSession(const CAuthenticationPollAuthSessionStatusResponse &reply, const CMsgProtoBufHeader &)
 {
+	if (!reply.refresh_token) {
+		if (m_iPollStartTime && time(0) - m_iPollStartTime > 60)
+			Logout();
+		return;
+	}
+
+	// hurrah, server accepted guard request
+	m_impl.m_loginPoll.StopSafe();
+
 	if (reply.has_new_client_id)
 		m_iClientId = reply.new_client_id;
 
