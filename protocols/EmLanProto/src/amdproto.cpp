@@ -81,7 +81,7 @@ static INT_PTR __cdecl EMPLoadIcon(WPARAM wParam, LPARAM)
 	if ((wParam & 0xFFFF) != PLI_PROTOCOL)
 		return 0;
 	
-	return (INT_PTR)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON_ONLINE));
+	return (INT_PTR)LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_ICON_MAIN));
 }
 
 static INT_PTR __cdecl EMPGetStatus(WPARAM, LPARAM)

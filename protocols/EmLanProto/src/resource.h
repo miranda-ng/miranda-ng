@@ -3,7 +3,8 @@
 // Used by amdproto.rc
 //
 #define IDI_ICON_ONLINE                 101
-#define IDI_ICON_OFFLINE                103
+#define IDI_ICON_OFFLINE                102
+#define IDI_ICON_MAIN                   103
 #define IDD_EMP_FORM_OPT                104
 #define IDC_LIST_IP                     1001
 #define IDC_RADIO_USECOMPNAME           1004
