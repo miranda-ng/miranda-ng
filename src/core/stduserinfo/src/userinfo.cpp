@@ -234,7 +234,7 @@ class CUserInfoDlg : public CDlgBase
 			if (Proto_GetStatus(szProto) < ID_STATUS_ONLINE)
 				btnUpdate.Disable();
 			else
-				btnUpdate.Enable(!IsWindowVisible(GetDlgItem(m_hwnd, IDC_UPDATING)));
+				btnUpdate.Enable(!IsWindowVisible(m_updating.GetHwnd()));
 		}
 	}
 
@@ -263,7 +263,7 @@ class CUserInfoDlg : public CDlgBase
 		}
 	}
 
-	CCtrlBase m_place;
+	CCtrlBase m_place, m_updating;
 	CCtrlButton btnUpdate;
 	CCtrlTreeView m_tree;
 	CTimer updateTimer;
@@ -277,6 +277,7 @@ public:
 		m_tree(this, IDC_PAGETREE),
 		m_place(this, IDC_TABS),
 		btnUpdate(this, IDC_UPDATE),
+		m_updating(this, IDC_UPDATING),
 		updateTimer(this, 1)
 	{
 		SetMinSize(480, 382);
@@ -313,13 +314,13 @@ public:
 
 		//////////////////////////////////////////////////////////////////////
 		m_updateAnimFrame = 0;
-		GetDlgItemText(m_hwnd, IDC_UPDATING, m_szUpdating, _countof(m_szUpdating));
+		m_updating.GetText(m_szUpdating, _countof(m_szUpdating));
 		CheckOnline();
 		if (!CallContactService(m_hContact, PS_GETINFO, SGIF_ONOPEN)) {
 			btnUpdate.Disable();
 			updateTimer.Start(100);
 		}
-		else ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_HIDE);
+		else m_updating.Hide();
 
 		return true;
 	}
@@ -450,7 +451,7 @@ public:
 
 				/* if they're not gonna send any more ACK's don't let that mean we should crash */
 				if (!ack->hProcess && !ack->lParam) {
-					ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_HIDE);
+					m_updating.Hide();
 					updateTimer.Stop();
 					CheckOnline();
 					break;
@@ -468,7 +469,7 @@ public:
 						break;
 
 				if (i == (INT_PTR)ack->hProcess) {
-					ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_HIDE);
+					m_updating.Hide();
 					updateTimer.Stop();
 					CheckOnline();
 				}
@@ -552,7 +553,7 @@ public:
 		if (hContact)
 			if (!CallContactService(hContact, PS_GETINFO)) {
 				btnUpdate.Disable();
-				ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_SHOW);
+				m_updating.Show();
 				updateTimer.Start(100);
 			}
 	}
@@ -561,7 +562,7 @@ public:
 	{
 		wchar_t str[128];
 		mir_snwprintf(str, L"%.*s%s%.*s", m_updateAnimFrame % 10, L".........", m_szUpdating, m_updateAnimFrame % 10, L".........");
-		SetDlgItemText(m_hwnd, IDC_UPDATING, str);
+		m_updating.SetText(str);
 		if (++m_updateAnimFrame == UPDATEANIMFRAMES)
 			m_updateAnimFrame = 0;
 	}
