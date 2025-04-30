@@ -133,10 +133,8 @@ void CTeamsProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 		CMStringA szChatId = UrlToSkypeId(message["conversationLink"].as_mstring(), &iUserType);
 		CMStringA szFrom = UrlToSkypeId(message["from"].as_mstring());
 
-		MCONTACT hContact = FindContact(szChatId);
-
 		DB::EventInfo dbei(db_event_getById(m_szModuleName, szMessageId));
-		dbei.hContact = hContact;
+		dbei.hContact = pRequest->hContact;
 		dbei.szModule = m_szModuleName;
 		dbei.szId = szMessageId;
 		dbei.bSent = IsMe(szFrom);
@@ -158,7 +156,7 @@ void CTeamsProto::OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *
 			if (dbei)
 				db_event_edit(dbei.getEvent(), &dbei, true);
 			else
-				db_event_add(hContact, &dbei);
+				db_event_add(pRequest->hContact, &dbei);
 		}
 	}
 
