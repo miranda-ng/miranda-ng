@@ -215,8 +215,8 @@ uint_ptr NSWebPage::create_font(const font_description &descr, const document *,
 	lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
 	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	lf.lfQuality = DEFAULT_QUALITY;
-	lf.lfStrikeOut = (descr.decoration_style & text_decoration_line_line_through) ? TRUE : FALSE;
-	lf.lfUnderline = (descr.decoration_style & text_decoration_line_underline) ? TRUE : FALSE;
+	lf.lfStrikeOut = (descr.decoration_line & text_decoration_line_line_through) ? TRUE : FALSE;
+	lf.lfUnderline = (descr.decoration_line & text_decoration_line_underline) ? TRUE : FALSE;
 	HFONT hFont = CreateFontIndirect(&lf);
 
 	if (fm) {
