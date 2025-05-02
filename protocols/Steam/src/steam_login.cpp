@@ -252,7 +252,7 @@ void CSteamProto::OnPollSession(const CAuthenticationPollAuthSessionStatusRespon
 
 	CMsgIPAddress privateIp;
 	privateIp.ip_case = CMSG_IPADDRESS__IP_V4;
-	privateIp.v4 = 0;
+	privateIp.v4 = crc32(0xBABABEDA, (const Bytef *)szMachineName, (unsigned)mir_strlen(szMachineName));
 
 	CMsgClientLogon request;
 	request.access_token = reply.refresh_token;
