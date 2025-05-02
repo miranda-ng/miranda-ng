@@ -785,8 +785,9 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 		debugLogW(L"Existing contact group <%s>, calculated <%s>", pwszExistingGroup.get(), wszGroup.c_str());
 
 		wchar_t *pwszDefaultGroup = m_wszDefaultGroup;
+		size_t defLen = mir_wstrlen(pwszDefaultGroup);
 		if (!pwszExistingGroup || pUser->isForum
-			|| !mir_wstrncmp(pwszExistingGroup, pwszDefaultGroup, mir_wstrlen(pwszDefaultGroup))
+			|| (defLen && !mir_wstrncmp(pwszExistingGroup, pwszDefaultGroup, defLen))
 			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, Chat_GetGroup())))
 		{
 			CMStringW wszNewGroup(pwszDefaultGroup);
