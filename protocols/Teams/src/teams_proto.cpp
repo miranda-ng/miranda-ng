@@ -92,7 +92,8 @@ void CTeamsProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 
 void CTeamsProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)
 {
-	SendServerMsg(hContact, dbei.pBlob, dbei.iTimestamp);
+	if (dbei.szId)
+		SendServerMsg(hContact, dbei.pBlob, _atoi64(dbei.szId));
 }
 
 void CTeamsProto::OnModulesLoaded()

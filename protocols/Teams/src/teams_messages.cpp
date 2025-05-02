@@ -34,7 +34,6 @@ void CTeamsProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 	if (response->resultCode == 201) {
 		JsonReply reply(response);
 		auto &pRoot = reply.data();
-		CMStringA msgId(pRoot["OriginalArrivalTime"].as_mstring());
 
 		if (pMessage) {
 			if (auto *si = Chat_Find(hContact)) {
@@ -47,8 +46,10 @@ void CTeamsProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 				Chat_Event(&gce);
 			}
 			else {
-				pMessage->iTimestamp = _atoi64(msgId);
-				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pMessage->hMessage, (LPARAM)msgId.c_str());
+				pMessage->iTimestamp = _wtoi64(pRoot["OriginalArrivalTime"].as_mstring());
+
+				CMStringA szMsgId(FORMAT, "%lld", pMessage->hClientMessageId);
+				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pMessage->hMessage, (LPARAM)szMsgId.c_str());
 			}
 
 			mir_cslock lck(m_lckOutMessagesList);
@@ -116,12 +117,14 @@ int CTeamsProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	if (mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName))
 		return 0;
 
-	int64_t msgId = (evt->dbei->szId) ? _atoi64(evt->dbei->szId) : -1;
-	for (auto &it : m_OutMessages)
-		if (it->hClientMessageId == msgId) {
-			evt->dbei->bMsec = true;
-			evt->dbei->iTimestamp = it->iTimestamp;
-		}
+	auto &dbei = evt->dbei;
+	if (dbei->szId) {
+		int64_t msgId = _atoi64(dbei->szId);
+		for (auto &it : m_OutMessages) {
+			if (it->hClientMessageId == msgId) {
+				dbei->bMsec = true;
+				dbei->iTimestamp = it->iTimestamp;
+	}	}	}
 
 	return 0;
 }
