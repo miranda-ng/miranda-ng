@@ -1158,16 +1158,17 @@ LBL_MoveSelection:
 		break;
 
 	case WM_CONTEXTMENU:
-		Clist_EndRename(dat, 1);
-		Clist_HideInfoTip(dat);
-		KillTimer(hwnd, TIMERID_RENAME);
-		KillTimer(hwnd, TIMERID_INFOTIP);
-		if (GetFocus() != hwnd)
-			SetFocus(hwnd);
-		dat->iHotTrack = -1;
-		if (!dat->bFilterSearch)
-			dat->szQuickSearch[0] = 0;
-		{
+		if (hwnd == g_clistApi.hwndContactTree) {
+			Clist_EndRename(dat, 1);
+			Clist_HideInfoTip(dat);
+			KillTimer(hwnd, TIMERID_RENAME);
+			KillTimer(hwnd, TIMERID_INFOTIP);
+			if (GetFocus() != hwnd)
+				SetFocus(hwnd);
+			dat->iHotTrack = -1;
+			if (!dat->bFilterSearch)
+				dat->szQuickSearch[0] = 0;
+		
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);
