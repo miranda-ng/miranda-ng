@@ -14,6 +14,7 @@
 
 #define DBKEY_CLIENT_ID     "ClientID"
 #define DBKEY_STEAM_ID      "SteamID"
+#define DBKEY_CHAT_ID       "ChatId"
 #define DBKEY_ACCOUNT_NAME  "Username"
 
 // Steam services
@@ -38,8 +39,8 @@
 #define AckChatMessage                      "ChatRoom.AckChatMessage#1"
 #define DeleteChatMessage                   "ChatRoom.DeleteChatMessages#1"
 
-
 #define NotifyIncomingChatMessage           "ChatRoomClient.NotifyIncomingChatMessage#1"
+#define NotifyAckChatMessageEcho            "ChatRoomClient.NotifyAckChatMessageEcho#1"
 #define NotifyModifiedChatMessage           "ChatRoomClient.NotifyChatMessageModified#1"
 #define NotifyChatGroupUserStateChanged     "ChatRoomClient.NotifyChatGroupUserStateChanged#1"
 
@@ -241,11 +242,16 @@ class CSteamProto : public PROTO<CSteamProto>
 	void SendGetChatsRequest();
 	void OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &pResponse, const CMsgProtoBufHeader &hdr);
 
+	void OnGotClanInfo(const CMsgClientClanState &reply, const CMsgProtoBufHeader &hdr);
+
 	void SendGetChatHistory(MCONTACT hContact, uint32_t iLastMsgId);
 	void OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &reply, const CMsgProtoBufHeader &hdr);
 
+	void OnChatChanged(const ChatRoomClientNotifyChatGroupUserStateChangedNotification &reply, const CMsgProtoBufHeader &hdr);
+	void ProcessGroupChat(const CChatRoomGetChatRoomGroupSummaryResponse *pGroup);
+	void LeaveGroupChat(int64_t chatGroupId);
+
 	void OnGetChatMessage(const CChatRoomIncomingChatMessageNotification &reply, const CMsgProtoBufHeader &hdr);
-	void OnLeftChat(const CChatRoomLeaveChatRoomGroupResponse &reply, const CMsgProtoBufHeader &hdr);
 
 	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
 
@@ -303,7 +309,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnGotHistoryMessages(const CMsgClientChatGetFriendMessageHistoryResponse &reply, const CMsgProtoBufHeader &hdr);
 
 	// menus
-	static int hChooserMenu;
 	static HGENMENU contactMenuItems[CMI_MAX];
 
 	INT_PTR __cdecl AuthRequestCommand(WPARAM, LPARAM);

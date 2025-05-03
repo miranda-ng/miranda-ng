@@ -31,91 +31,14 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 	std::map<MCONTACT, bool> chatIds;
 	for (unsigned i = 0; i < reply.n_chat_room_groups; i++) {
 		auto *pGroup = reply.chat_room_groups[i]->group_summary;
-
-		CMStringW wszGrpName;
-		if (pGroup->n_chat_rooms > 1 && pGroup->chat_group_name) {
-			wszGrpName = CMStringW(m_wszGroupName) + L"\\" + Utf2T(pGroup->chat_group_name);
-			if (!Clist_GroupExists(wszGrpName))
-				Clist_GroupCreate(0, wszGrpName);
-		}
-
-		SESSION_INFO *pOwner = 0;
+		ProcessGroupChat(pGroup);
 
 		for (unsigned k = 0; k < pGroup->n_chat_rooms; k++) {
-			std::vector<uint64_t> ids;
-
 			auto *pChat = pGroup->chat_rooms[k];
 			CMStringW wszId(FORMAT, L"%lld_%lld", pGroup->chat_group_id, pChat->chat_id);
 
-			CMStringW wszTitle(Utf2T(pChat->chat_name));
-			if (wszTitle.IsEmpty())
-				wszTitle = Utf2T(pGroup->chat_group_name);
-			
-			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszTitle);
-			if (pOwner == 0) {
-				if (!si->arStatuses.getCount()) {
-					Chat_AddGroup(si, TranslateT("Owner"));
-					Chat_AddGroup(si, TranslateT("Participant"));
-
-					for (unsigned j = 0; j < pGroup->n_top_members; j++) {
-						uint64_t iSteamId = AccountIdToSteamId(pGroup->top_members[j]);
-						CMStringW wszUserId(FORMAT, L"%lld", iSteamId), wszNick;
-
-						GCEVENT gce = { si, GC_EVENT_JOIN };
-						gce.pszUID.w = wszUserId;
-
-						if (iSteamId == m_iSteamId) {
-							gce.bIsMe = true;
-							wszNick = getMStringW("Nick");
-						}
-						else if (MCONTACT hContact = GetContact(iSteamId))
-							wszNick = Clist_GetContactDisplayName(hContact);
-						else {
-							ids.push_back(iSteamId);
-							{
-								mir_cslock lck(m_csChats);
-								m_chatContactInfo[iSteamId] = si;
-							}
-							wszNick = L"@" + wszUserId;
-						}
-
-						gce.pszNick.w = wszNick;
-						gce.pszStatus.w = (pGroup->top_members[j] == pGroup->accountid_owner) ? TranslateT("Owner") : TranslateT("Participant");
-						Chat_Event(&gce);
-					}
-				}
-				pOwner = si;
-			}
-			else si->pParent = pOwner;
-
-			chatIds[si->hContact] = true;
-
-			setDword(si->hContact, "ChatId", pChat->chat_id);
-			if (!wszGrpName.IsEmpty())
-				Clist_SetGroup(si->hContact, wszGrpName);
-
-			if (mir_strlen(pGroup->chat_group_tagline)) {
-				Utf2T wszTopic(pGroup->chat_group_tagline);
-				Chat_SetStatusbarText(si, wszTopic);
-
-				GCEVENT gce = { si, GC_EVENT_TOPIC };
-				gce.pszText.w = wszTopic;
-				gce.time = time(0);
-				Chat_Event(&gce);
-			}
-
-			Chat_Control(si, WINDOW_HIDDEN);
-			Chat_Control(si, SESSION_ONLINE);
-
-			if (!ids.empty())
-				SendUserInfoRequest(ids);
-
-			if (pChat->voice_allowed)
-				ExtraIcon_SetIcon(hExtraXStatus, si->hContact, Skin_GetIconHandle(SKINICON_OTHER_SOUND));
-
-			uint32_t dwLastMsgId = getDword(si->hContact, DBKEY_LASTMSG);
-			if (pChat->time_last_message > dwLastMsgId)
-				SendGetChatHistory(si->hContact, dwLastMsgId);
+			if (auto *si = Chat_Find(wszId, m_szModuleName))
+				chatIds[si->hContact] = true;
 		}
 	}
 
@@ -131,11 +54,177 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CSteamProto::OnChatChanged(const ChatRoomClientNotifyChatGroupUserStateChangedNotification &reply, const CMsgProtoBufHeader &hdr)
+{
+	if (hdr.failed())
+		return;
+
+	switch (reply.user_action) {
+	case ECHAT_ROOM_MEMBER_STATE_CHANGE__k_EChatRoomMemberStateChange_Joined:
+		ProcessGroupChat(reply.group_summary);
+		break;
+
+	case ECHAT_ROOM_MEMBER_STATE_CHANGE__k_EChatRoomMemberStateChange_Parted:
+		LeaveGroupChat(reply.chat_group_id);
+		break;
+	}
+}
+
+void CSteamProto::ProcessGroupChat(const CChatRoomGetChatRoomGroupSummaryResponse *pGroup)
+{
+	CMStringW wszGrpName;
+	if (pGroup->n_chat_rooms > 1 && pGroup->chat_group_name) {
+		wszGrpName = CMStringW(m_wszGroupName) + L"\\" + Utf2T(pGroup->chat_group_name);
+		if (!Clist_GroupExists(wszGrpName))
+			Clist_GroupCreate(0, wszGrpName);
+	}
+
+	SESSION_INFO *pOwner = 0;
+
+	for (unsigned k = 0; k < pGroup->n_chat_rooms; k++) {
+		std::vector<uint64_t> ids;
+
+		auto *pChat = pGroup->chat_rooms[k];
+		CMStringW wszId(FORMAT, L"%lld_%lld", pGroup->chat_group_id, pChat->chat_id);
+
+		CMStringW wszTitle(Utf2T(pChat->chat_name));
+		if (wszTitle.IsEmpty())
+			wszTitle = Utf2T(pGroup->chat_group_name);
+
+		auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszTitle);
+		if (pOwner == 0) {
+			if (!si->arStatuses.getCount()) {
+				Chat_AddGroup(si, TranslateT("Owner"));
+				Chat_AddGroup(si, TranslateT("Participant"));
+
+				for (unsigned j = 0; j < pGroup->n_top_members; j++) {
+					uint64_t iSteamId = AccountIdToSteamId(pGroup->top_members[j]);
+					CMStringW wszUserId(FORMAT, L"%lld", iSteamId), wszNick;
+
+					GCEVENT gce = { si, GC_EVENT_JOIN };
+					gce.pszUID.w = wszUserId;
+
+					if (iSteamId == m_iSteamId) {
+						gce.bIsMe = true;
+						wszNick = getMStringW("Nick");
+					}
+					else if (MCONTACT hContact = GetContact(iSteamId))
+						wszNick = Clist_GetContactDisplayName(hContact);
+					else {
+						CMStringA szSetting(FORMAT, "UserInfo_%lld", iSteamId);
+						ptrW szName(g_plugin.getWStringA(szSetting));
+						if (szName)
+							wszNick = szName;
+						else {
+							ids.push_back(iSteamId);
+							{
+								mir_cslock lck(m_csChats);
+								m_chatContactInfo[iSteamId] = si;
+							}
+							wszNick = L"@" + wszUserId;
+						}
+					}
+
+					gce.pszNick.w = wszNick;
+					gce.pszStatus.w = (pGroup->top_members[j] == pGroup->accountid_owner) ? TranslateT("Owner") : TranslateT("Participant");
+					Chat_Event(&gce);
+				}
+			}
+			pOwner = si;
+		}
+		else si->pParent = pOwner;
+
+		setDword(si->hContact, DBKEY_CHAT_ID, pChat->chat_id);
+		if (!wszGrpName.IsEmpty())
+			Clist_SetGroup(si->hContact, wszGrpName);
+
+		if (mir_strlen(pGroup->chat_group_tagline)) {
+			Utf2T wszTopic(pGroup->chat_group_tagline);
+			Chat_SetStatusbarText(si, wszTopic);
+
+			GCEVENT gce = { si, GC_EVENT_TOPIC };
+			gce.pszText.w = wszTopic;
+			gce.time = time(0);
+			Chat_Event(&gce);
+		}
+
+		Chat_Control(si, WINDOW_HIDDEN);
+		Chat_Control(si, SESSION_ONLINE);
+
+		if (!ids.empty())
+			SendUserInfoRequest(ids);
+
+		if (pChat->voice_allowed)
+			ExtraIcon_SetIcon(hExtraXStatus, si->hContact, Skin_GetIconHandle(SKINICON_OTHER_SOUND));
+
+		uint32_t dwLastMsgId = getDword(si->hContact, DBKEY_LASTMSG);
+		if (pChat->time_last_message > dwLastMsgId)
+			SendGetChatHistory(si->hContact, dwLastMsgId);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CSteamProto::OnGotClanInfo(const CMsgClientClanState &reply, const CMsgProtoBufHeader &hdr)
+{
+	if (hdr.failed())
+		return;
+
+	CMStringW wszId(FORMAT, L"%lld", reply.steamid_clan);
+	auto *si = Chat_Find(wszId, m_szModuleName);
+	if (si == nullptr) {
+		si = Chat_NewSession(GCW_SERVER, m_szModuleName, wszId, Utf2T(reply.name_info->clan_name));
+		Chat_Control(si, WINDOW_HIDDEN);
+		Chat_Control(si, SESSION_ONLINE);
+	}
+
+	GCEVENT gce = { si, GC_EVENT_INFORMATION };
+	gce.time = time(0);
+
+	if (reply.name_info) {
+		if (reply.name_info->has_sha_avatar) {
+			CMStringA szHash; szHash.Preallocate((int)reply.name_info->sha_avatar.len * 2);
+			bin2hex(reply.name_info->sha_avatar.data, reply.name_info->sha_avatar.len, szHash.GetBuffer());
+			CheckAvatarChange(si->hContact, szHash);
+		}
+
+		if (reply.user_counts) {
+			CMStringW wszText;
+			auto &C = *reply.user_counts;
+
+			if (C.has_members)
+				wszText.AppendFormat(L"%d %s\r\n", C.members, TranslateT("total members"));
+			if (C.has_online)
+				wszText.AppendFormat(L"%d %s\r\n", C.online, TranslateT("online members"));
+			if (C.has_chatting)
+				wszText.AppendFormat(L"%d %s\r\n", C.chatting, TranslateT("chatting"));
+			if (C.has_in_game)
+				wszText.AppendFormat(L"%d %s\r\n", C.in_game, TranslateT("in game"));
+
+			if (!wszText.IsEmpty()) {
+				gce.pszText.w = wszText;
+				Chat_Event(&gce);
+			}
+		}
+	}
+
+	for (unsigned n = 0; n < reply.n_announcements; n++) {
+		auto *E = reply.announcements[n];
+		Utf2T wszText(E->headline);
+
+		gce.time = E->event_time;
+		gce.pszText.w = wszText;
+		Chat_Event(&gce);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CSteamProto::SendGetChatHistory(MCONTACT hContact, uint32_t iLastMsgId)
 {
 	CChatRoomGetMessageHistoryRequest request;
 	request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
-	request.chat_id = getDword(hContact, "ChatId"); request.has_chat_id = true;
+	request.chat_id = getDword(hContact, DBKEY_CHAT_ID); request.has_chat_id = true;
 	request.start_time = iLastMsgId;  request.has_start_time = true;
 	WSSendService(GetChatHistory, request, (void*)hContact);
 }
@@ -149,7 +238,7 @@ void CSteamProto::OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &rep
 
 	if (auto *si = Chat_Find(UINT_PTR(GetRequestInfo(hdr.jobid_target)), m_szModuleName)) {
 		uint32_t iLastMsg = getDword(si->hContact, DBKEY_LASTMSG);
-		uint32_t iChatId = getDword(si->hContact, "ChatId");
+		uint32_t iChatId = getDword(si->hContact, DBKEY_CHAT_ID);
 
 		for (int i = (int)reply.n_messages - 1; i >= 0; i--) {
 			auto *pMsg = reply.messages[i];
@@ -255,25 +344,21 @@ INT_PTR CSteamProto::SvcLeaveChat(WPARAM hContact, LPARAM)
 {
 	CChatRoomLeaveChatRoomGroupRequest request;
 	request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
-	WSSendService(LeaveChatGroup, request, new uint64_t(request.chat_group_id));
+	WSSendService(LeaveChatGroup, request);
 	return 0;
 }
 
-void CSteamProto::OnLeftChat(const CChatRoomLeaveChatRoomGroupResponse&, const CMsgProtoBufHeader &hdr)
+void CSteamProto::LeaveGroupChat(int64_t chatGroupId)
 {
-	if (auto *pGroupId = (int64_t *)GetRequestInfo(hdr.jobid_target)) {
-		for (auto &cc : AccContacts()) {
-			if (!Contact::IsGroupChat(cc) || GetId(cc, DBKEY_STEAM_ID) != *pGroupId)
-				continue;
+	for (auto &cc : AccContacts()) {
+		if (!Contact::IsGroupChat(cc) || GetId(cc, DBKEY_STEAM_ID) != chatGroupId)
+			continue;
 
-			CMStringW wszId(FORMAT, L"%lld_%lld", *pGroupId, GetId(cc, "ChatId"));
-			if (auto *si = Chat_Find(wszId, m_szModuleName))
-				Chat_Terminate(si);
+		CMStringW wszId(FORMAT, L"%lld_%d", chatGroupId, getDword(cc, DBKEY_CHAT_ID));
+		if (auto *si = Chat_Find(wszId, m_szModuleName))
+			Chat_Terminate(si);
 
-			db_delete_contact(cc);
-		}
-
-		delete pGroupId;
+		db_delete_contact(cc, CDF_FROM_SERVER);
 	}
 }
 
@@ -304,7 +389,7 @@ int CSteamProto::GcEventHook(WPARAM, LPARAM lParam)
 
 			CChatRoomSendChatMessageRequest request;
 			request.chat_group_id = _wtoi64(si->ptszID); request.has_chat_group_id = true;
-			request.chat_id = getDword(si->hContact, "ChatId"); request.has_chat_id = true;
+			request.chat_id = getDword(si->hContact, DBKEY_CHAT_ID); request.has_chat_id = true;
 			request.echo_to_sender = request.has_echo_to_sender = true;
 			request.message = szText;
 			WSSendService(SendChatMessage, request);

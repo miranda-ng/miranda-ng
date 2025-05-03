@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-int CSteamProto::hChooserMenu;
 HGENMENU CSteamProto::contactMenuItems[CMI_MAX];
 
 INT_PTR CSteamProto::AuthRequestCommand(WPARAM hContact, LPARAM)
@@ -92,10 +91,6 @@ void CSteamProto::OnInitStatusMenu()
 
 void CSteamProto::InitMenus()
 {
-	hChooserMenu = Menu_AddObject("SteamAccountChooser", LPGEN("Steam menu chooser"), nullptr, "Steam/MenuChoose");
-
-	//////////////////////////////////////////////////////////////////////////////////////
-	// Contact menu initialization
 	CMenuItem mi(&g_plugin);
 	mi.flags = CMIF_UNICODE;
 

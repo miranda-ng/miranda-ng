@@ -15,7 +15,7 @@ INT_PTR CSteamProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 	if (Contact::IsGroupChat(hContact)) {
 		CChatRoomGetMessageHistoryRequest request;
 		request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
-		request.chat_id = getDword(hContact, "ChatId"); request.has_chat_id = true;
+		request.chat_id = getDword(hContact, DBKEY_CHAT_ID); request.has_chat_id = true;
 		request.max_count = 100; request.has_max_count = true;
 		WSSendService(GetChatHistory, request, (void *)hContact);
 	}

@@ -85,9 +85,17 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 			}
 		}
 
-		auto hContact = GetContact(F->friendid);
-		if (!si && !hContact && F->friendid != m_iSteamId)
-			hContact = AddContact(F->friendid);		
+		MCONTACT hContact = GetContact(F->friendid);
+		if (!hContact) {
+			CMStringA szId(FORMAT, "%lld", F->friendid);
+			if (F->player_name && F->player_name != szId) {
+				szId.Format("UserInfo_%lld", F->friendid);
+				g_plugin.setUString(0, szId, F->player_name);
+			}
+
+			if (!si) // don't create contacts for all that slack
+				continue;
+		}
 
 		// set name
 		if (F->player_name) {

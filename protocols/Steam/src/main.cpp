@@ -139,6 +139,7 @@ void CMPlugin::InitSteamServices()
 	messageHandlers[EMsg::ClientLogOnResponse] = ServiceResponseHandler(&CSteamProto::OnClientLogon);
 	messageHandlers[EMsg::ClientFriendsList] = ServiceResponseHandler(&CSteamProto::OnGotFriendList);
 	messageHandlers[EMsg::ClientPersonaState] = ServiceResponseHandler(&CSteamProto::OnGotFriendInfo);
+	messageHandlers[EMsg::ClientClanState] = ServiceResponseHandler(&CSteamProto::OnGotClanInfo);
 	messageHandlers[EMsg::ClientPICSProductInfoResponse] = ServiceResponseHandler(&CSteamProto::OnGotAppInfo);
 
 	// services from steammessages_auth.steamclient.proto
@@ -174,11 +175,11 @@ void CMPlugin::InitSteamServices()
 
 	serviceHandlers[GetMyChatRoomGroups] = ServiceResponseHandler(&CSteamProto::OnGetMyChats);
 	serviceHandlers[GetChatHistory] = ServiceResponseHandler(&CSteamProto::OnGetChatHistory);
-	serviceHandlers[LeaveChatGroup] = ServiceResponseHandler(&CSteamProto::OnLeftChat);
 	serviceHandlers[DeleteChatMessage] = ServiceResponseHandler(&CSteamProto::OnDoNothing);
 	serviceHandlers[NotifyIncomingChatMessage] = ServiceResponseHandler(&CSteamProto::OnGetChatMessage);
+	serviceHandlers[NotifyAckChatMessageEcho] = ServiceResponseHandler(&CSteamProto::OnDoNothing);
 	serviceHandlers[NotifyModifiedChatMessage] = ServiceResponseHandler(&CSteamProto::OnDoNothing);
-	serviceHandlers[NotifyChatGroupUserStateChanged] = ServiceResponseHandler(&CSteamProto::OnDoNothing);
+	serviceHandlers[NotifyChatGroupUserStateChanged] = ServiceResponseHandler(&CSteamProto::OnChatChanged);
 
 	serviceHandlers[GetOwnAuthorizedDevices] = ServiceResponseHandler(&CSteamProto::OnGotDeviceList);
 
