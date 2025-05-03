@@ -64,6 +64,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Teams", "..\protocols
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\ICQCorp\Proto_icq\Proto_ICQ.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "proto_EmLanProto", "..\protocols\EmLanProto\proto_EmLanProto\proto_EmLanProto.vcxproj", "{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -320,6 +322,14 @@ Global
 		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|Win32.Build.0 = Release|Win32
 		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|x64.ActiveCfg = Release|x64
 		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|x64.Build.0 = Release|x64
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Debug|Win32.Build.0 = Debug|Win32
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Debug|x64.ActiveCfg = Debug|x64
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Debug|x64.Build.0 = Debug|x64
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Release|Win32.ActiveCfg = Release|Win32
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Release|Win32.Build.0 = Release|Win32
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Release|x64.ActiveCfg = Release|x64
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

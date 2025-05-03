@@ -48,6 +48,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="CurrencyRates.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_CurrencyRates.dll" "Plugins\CurrencyRates\*.xml" "Plugins\CurrencyRates\CurrencyRatesChart.exe")
 	if /I "%%a"=="Dbx_mdbx.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "mdbx_chk.exe" "mdbx_dump.exe" "mdbx_load.exe" "Libs\libmdbx.mir")
 	if /I "%%a"=="Dummy.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Dummy.dll")
+        if /I "%%a"=="EmLanProto.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Em_Lan_Proto.dll")
 	if /I "%%a"=="Facebook.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Facebook.dll")
 	if /I "%%a"=="FavContacts.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Gadgets\favcontacts.gadget")
 	if /I "%%a"=="Fingerprint.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Fp_icons.dll")
