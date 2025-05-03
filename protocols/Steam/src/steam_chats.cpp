@@ -43,13 +43,9 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 	}
 
 	// clean garbage
-	for (auto &cc : AccContacts()) {
-		if (!Contact::IsGroupChat(cc))
-			continue;
-
-		if (chatIds.find(cc) == chatIds.end())
+	for (auto &cc : AccContacts())
+		if (getByte(cc, "ChatRoom") == GCW_CHATROOM && chatIds.find(cc) == chatIds.end())
 			db_delete_contact(cc, CDF_DEL_CONTACT);
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -181,30 +177,22 @@ void CSteamProto::OnGotClanInfo(const CMsgClientClanState &reply, const CMsgProt
 	GCEVENT gce = { si, GC_EVENT_INFORMATION };
 	gce.time = time(0);
 
-	if (reply.name_info) {
-		if (reply.name_info->has_sha_avatar) {
-			CMStringA szHash; szHash.Preallocate((int)reply.name_info->sha_avatar.len * 2);
-			bin2hex(reply.name_info->sha_avatar.data, reply.name_info->sha_avatar.len, szHash.GetBuffer());
-			CheckAvatarChange(si->hContact, szHash);
-		}
+	if (reply.user_counts) {
+		CMStringW wszText;
+		auto &C = *reply.user_counts;
 
-		if (reply.user_counts) {
-			CMStringW wszText;
-			auto &C = *reply.user_counts;
+		if (C.has_members)
+			wszText.AppendFormat(L"%d %s\r\n", C.members, TranslateT("total members"));
+		if (C.has_online)
+			wszText.AppendFormat(L"%d %s\r\n", C.online, TranslateT("online members"));
+		if (C.has_chatting)
+			wszText.AppendFormat(L"%d %s\r\n", C.chatting, TranslateT("chatting"));
+		if (C.has_in_game)
+			wszText.AppendFormat(L"%d %s\r\n", C.in_game, TranslateT("in game"));
 
-			if (C.has_members)
-				wszText.AppendFormat(L"%d %s\r\n", C.members, TranslateT("total members"));
-			if (C.has_online)
-				wszText.AppendFormat(L"%d %s\r\n", C.online, TranslateT("online members"));
-			if (C.has_chatting)
-				wszText.AppendFormat(L"%d %s\r\n", C.chatting, TranslateT("chatting"));
-			if (C.has_in_game)
-				wszText.AppendFormat(L"%d %s\r\n", C.in_game, TranslateT("in game"));
-
-			if (!wszText.IsEmpty()) {
-				gce.pszText.w = wszText;
-				Chat_Event(&gce);
-			}
+		if (!wszText.IsEmpty()) {
+			gce.pszText.w = wszText;
+			Chat_Event(&gce);
 		}
 	}
 

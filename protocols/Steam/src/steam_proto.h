@@ -35,6 +35,7 @@
 #define GetMyChatRoomGroups                 "ChatRoom.GetMyChatRoomGroups#1"
 #define GetChatHistory                      "ChatRoom.GetMessageHistory#1"
 #define SendChatMessage                     "ChatRoom.SendChatMessage#1"
+#define JoinChatRoomGroup                   "ChatRoom.JoinChatRoomGroup#1"
 #define LeaveChatGroup                      "ChatRoom.LeaveChatRoomGroup#1"
 #define AckChatMessage                      "ChatRoom.AckChatMessage#1"
 #define DeleteChatMessage                   "ChatRoom.DeleteChatMessages#1"
@@ -63,6 +64,7 @@ enum
 	CMI_BLOCK,
 	CMI_UNBLOCK,
 	CMI_JOIN_GAME,
+	CMI_JOIN_CHAT,
 	CMI_MAX   // this item shall be the last one
 };
 
@@ -316,7 +318,8 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	INT_PTR __cdecl BlockCommand(WPARAM, LPARAM);
 	INT_PTR __cdecl UnblockCommand(WPARAM, LPARAM);
-	INT_PTR __cdecl JoinToGameCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl JoinGameCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl JoinChatCommand(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OpenBlockListCommand(WPARAM, LPARAM);
 
