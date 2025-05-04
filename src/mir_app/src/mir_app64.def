@@ -761,7 +761,7 @@ Srmm_CreateHotkey @886 NONAME
 ??_7CUserInfoPageDlg@@6B@ @891 NONAME
 ?OnRefresh@CUserInfoPageDlg@@UEAA_NXZ @892 NONAME
 ?SetContact@CUserInfoPageDlg@@QEAAXI@Z @893 NONAME
-?IsGroupChat@Contact@@YA_NIPEBD@Z @894 NONAME
+?IsGroupChat@Contact@@YAHIPEBD@Z @894 NONAME
 ?IsEmpty@CUserInfoPageDlg@@UEBA_NXZ @895 NONAME
 ?bContactStatusFirst@Chat@@3V?$CMOption@_N@@A @896 NONAME
 ?bDoubleClick4Privat@Chat@@3V?$CMOption@_N@@A @897 NONAME

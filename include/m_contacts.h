@@ -86,8 +86,9 @@ namespace Contact
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// if contact is a group chat
+	// returns GCW_* constant or 0 if it's not a group chat
 
-	MIR_APP_DLL(bool) IsGroupChat(MCONTACT hContact, const char *szProto = nullptr);
+	MIR_APP_DLL(int) IsGroupChat(MCONTACT hContact, const char *szProto = nullptr);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// gets / sets hidden status for a contact
