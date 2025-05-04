@@ -227,7 +227,7 @@ uint_ptr NSWebPage::create_font(const font_description &descr, const document *,
 		fm->descent = tm.tmDescent;
 		fm->height = tm.tmHeight;
 		fm->x_height = tm.tmHeight / 2;   // this is an estimate; call GetGlyphOutline to get the real value
-		fm->draw_spaces = lf.lfItalic || descr.decoration_style;
+		fm->draw_spaces = lf.lfItalic || descr.decoration_line;
 	}
 
 	return (uint_ptr)hFont;
