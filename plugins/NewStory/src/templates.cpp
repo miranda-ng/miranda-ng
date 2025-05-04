@@ -245,7 +245,7 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 					if (iColor != -1)
 						buf.AppendFormat(L"<font color=#%06X>", color2html(iColor));
 					else
-						buf.Append(L"<font>");
+						buf.Append(L"<font class=\"body\">");
 					p = p1;
 				}
 				else p--;
@@ -284,7 +284,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 	auto &F = g_fontTable[fontID];
 
 	wchar_t szFont[100];
-	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
+	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; overflow: auto;}\n", font2html(F.lf, szFont));
 	str.AppendFormat(L".nick {color: #%06X }\n", color2html(g_colorTable[dbe.bSent ? COLOR_OUTNICK : COLOR_INNICK].cl));
 	str.AppendFormat(L".link {color: #%06X }\n", color2html(g_colorTable[COLOR_LINK].cl));
 	str.AppendFormat(L".quote {border-left: 4px solid #%06X; padding-left: 8px; }\n", color2html(g_colorTable[COLOR_QUOTE].cl));
