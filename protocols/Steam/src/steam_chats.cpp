@@ -44,7 +44,7 @@ void CSteamProto::OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &reply
 
 	// clean garbage
 	for (auto &cc : AccContacts())
-		if (getByte(cc, "ChatRoom") == GCW_CHATROOM && chatIds.find(cc) == chatIds.end())
+		if (Contact::IsGroupChat(cc, m_szModuleName) == GCW_CHATROOM && chatIds.find(cc) == chatIds.end())
 			db_delete_contact(cc, CDF_DEL_CONTACT);
 }
 
@@ -169,7 +169,7 @@ void CSteamProto::OnGotClanInfo(const CMsgClientClanState &reply, const CMsgProt
 	CMStringW wszId(FORMAT, L"%lld", reply.steamid_clan);
 	auto *si = Chat_Find(wszId, m_szModuleName);
 	if (si == nullptr) {
-		si = Chat_NewSession(GCW_SERVER, m_szModuleName, wszId, Utf2T(reply.name_info->clan_name));
+		si = Chat_NewSession(GCW_SERVER, m_szModuleName, wszId, reply.name_info ? Utf2T(reply.name_info->clan_name) : wszId.c_str());
 		Chat_Control(si, WINDOW_HIDDEN);
 		Chat_Control(si, SESSION_ONLINE);
 	}
@@ -331,13 +331,19 @@ void CSteamProto::OnGetChatMessage(const CChatRoomIncomingChatMessageNotificatio
 INT_PTR CSteamProto::SvcLeaveChat(WPARAM hContact, LPARAM)
 {
 	CChatRoomLeaveChatRoomGroupRequest request;
-	request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
+	if (Contact::IsGroupChat(hContact) == GCW_SERVER)
+		request.chat_group_id = GetId(hContact, DBKEY_GROUP_ID);
+	else
+		request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID);
+	request.has_chat_group_id = true;
 	WSSendService(LeaveChatGroup, request);
 	return 0;
 }
 
 void CSteamProto::LeaveGroupChat(int64_t chatGroupId)
 {
+	std::vector<MCONTACT> ids;
+
 	for (auto &cc : AccContacts()) {
 		if (!Contact::IsGroupChat(cc) || GetId(cc, DBKEY_STEAM_ID) != chatGroupId)
 			continue;
@@ -346,8 +352,11 @@ void CSteamProto::LeaveGroupChat(int64_t chatGroupId)
 		if (auto *si = Chat_Find(wszId, m_szModuleName))
 			Chat_Terminate(si);
 
-		db_delete_contact(cc, CDF_FROM_SERVER);
+		ids.push_back(cc);
 	}
+
+	for (auto &cc: ids)
+		db_delete_contact(cc, CDF_FROM_SERVER);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

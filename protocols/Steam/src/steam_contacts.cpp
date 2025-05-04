@@ -98,7 +98,17 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 		}
 
 		// set name
-		if (!F->clan_data) {
+		if (auto *cd = F->clan_data) {
+			if (F->player_name)
+				setUString(hContact, "Nick", "Server: " + CMStringA(F->player_name));
+
+			setByte(hContact, "ChatRoom", GCW_SERVER);
+			if (cd->has_chat_group_id)
+				SetId(hContact, DBKEY_GROUP_ID, cd->chat_group_id);
+			else
+				delSetting(hContact, DBKEY_GROUP_ID);
+		}
+		else {
 			if (F->player_name) {
 				CMStringW realName(Utf2T(F->player_name));
 
@@ -224,18 +234,6 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 			delSetting(hContact, "XStatusMsg");
 
 			SetContactExtraIcon(hContact, NULL);
-		}
-
-		// clan information
-		if (auto *cd = F->clan_data) {
-			if (F->player_name)
-				setUString(hContact, "Nick", F->player_name);
-
-			setByte(hContact, "ChatRoom", GCW_SERVER);
-			if (cd->has_chat_group_id)
-				SetId(hContact, DBKEY_CHAT_ID, cd->chat_group_id);
-			else
-				delSetting(hContact, DBKEY_CHAT_ID);
 		}
 	}
 }

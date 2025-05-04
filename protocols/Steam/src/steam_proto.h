@@ -15,6 +15,7 @@
 #define DBKEY_CLIENT_ID     "ClientID"
 #define DBKEY_STEAM_ID      "SteamID"
 #define DBKEY_CHAT_ID       "ChatId"
+#define DBKEY_GROUP_ID      "GroupId"
 #define DBKEY_ACCOUNT_NAME  "Username"
 
 // Steam services

@@ -300,7 +300,7 @@ bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 	if (flags & CDF_FROM_SERVER)
 		return true;
 	
-	if (Contact::IsGroupChat(hContact))
+	if (Contact::IsGroupChat(hContact) == GCW_CHATROOM)
 		SvcLeaveChat(hContact, 0);
 	else if (!getByte(hContact, "Auth")) // remove only authorized contacts
 		SendUserRemoveRequest(hContact);

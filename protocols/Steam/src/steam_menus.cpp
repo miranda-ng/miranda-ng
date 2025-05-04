@@ -38,8 +38,8 @@ INT_PTR CSteamProto::JoinGameCommand(WPARAM hContact, LPARAM)
 INT_PTR CSteamProto::JoinChatCommand(WPARAM hContact, LPARAM)
 {
 	CChatRoomJoinChatRoomGroupRequest request;
-	request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
-	request.chat_id = getDword(hContact, DBKEY_CHAT_ID); request.has_chat_id = true;
+	request.chat_group_id = GetId(hContact, DBKEY_GROUP_ID); request.has_chat_group_id = true;
+	// request.chat_id = getDword(hContact, DBKEY_CHAT_ID); request.has_chat_id = true;
 	WSSendService(JoinChatRoomGroup, request);
 	return 0;
 }
