@@ -70,7 +70,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="RemovePersonalSettings.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "RemovePersonalSettings.ini")
 	if /I "%%a"=="Sametime.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Sametime.dll")
 	if /I "%%a"=="SecureIM.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\CryptoPP.dll" "Icons\SecureIM_icons.dll")
-	if /I "%%a"=="SkypeWeb.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Skype.dll")
 	if /I "%%a"=="SpellChecker.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Flags_icons.dll" "Libs\hunspell.mir")
 	if /I "%%a"=="Steam.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Steam.dll")
 	if /I "%%a"=="TabSRMM.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\NewEventNotify.dll" "Icons\TabSRMM_icons.dll")

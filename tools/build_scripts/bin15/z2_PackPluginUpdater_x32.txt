@@ -121,8 +121,6 @@ Plugins\sessions.dll
 Plugins\shlext.dll
 Plugins\simplear.dll
 Plugins\simplestatusmsg.dll
-Plugins\skypestatuschange.dll
-Plugins\skypeweb.dll
 Plugins\smileyadd.dll
 Plugins\spellchecker.dll
 Plugins\splashscreen.dll

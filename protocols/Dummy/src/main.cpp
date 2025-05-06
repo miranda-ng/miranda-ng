@@ -157,3 +157,12 @@ struct CMPluginMra : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 static g_pluginMra;
+
+struct CMPluginSkype : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginSkype() : ACCPROTOPLUGIN<CDummyProto>("SKYPE", pluginInfoEx)
+	{
+		SetUniqueId("SkypeId");
+	}
+}
+static g_pluginSkype;
