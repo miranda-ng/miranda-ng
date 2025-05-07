@@ -39,20 +39,15 @@ HIMAGELIST hAdvancedStatusIcon = nullptr;
 
 struct
 {
-	char *mask;
-	char*  proto;
+	char *mask, *proto;
 }
 static TransportProtoTable[] =
 {
-	{ "|*icq*|jit*", "ICQ" },
-	{ "mrim*",       "MRA" },
-
-	//request #3094
+	// request #3094
 	{ "|gg*|gadu*",  "GaduGadu" },
 	{ "tv*",         "TV" },
 	{ "dict*",       "Dictionary" },
 	{ "weather*",    "Weather" },
-	{ "skype*",      "Skype" },
 	{ "sms*",        "SMS" },
 	{ "smtp*",       "SMTP" },
 
@@ -64,7 +59,6 @@ static TransportProtoTable[] =
 	{ "disk*",       "Jabber Disk" },
 	{ "irc*",        "IRC" },
 	{ "rss*",        "RSS" },
-	{ "tlen*",       "Tlen" },
 
 	// German social networks
 	{ "studivz*",    "StudiVZ" },
