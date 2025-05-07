@@ -589,7 +589,6 @@ static KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_JGTalk_overlay", L"*JGTalk*", LPGENW("JGTalk overlay"), IDI_JGTALK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Jabber_overlay", L"|^jabber*|Miranda*Jabber*|py*jabb*", LPGENW("Jabber overlay"), IDI_JABBER_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_VK_overlay", L"|Miranda*VKontakte*", LPGENW("VK overlay"), IDI_VK_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_Skype_overlay", L"|Miranda*Skype*", LPGENW("Skype overlay"), IDI_SKYPE_OVERLAY, OVERLAYS_PROTO_CASE },
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// CLIENT VERSION OVERLAYS

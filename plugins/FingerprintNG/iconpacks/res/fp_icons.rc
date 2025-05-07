@@ -466,7 +466,6 @@ IDI_IRC_OVERLAY         ICON                    "overlays\\overlay_proto_IRC.ico
 IDI_JABBER_OVERLAY      ICON                    "overlays\\overlay_proto_Jabber.ico"
 IDI_JGTALK_OVERLAY      ICON                    "overlays\\overlay_proto_JGTalk.ico"
 IDI_VK_OVERLAY          ICON                    "overlays\\overlay_proto_VK.ico"
-IDI_SKYPE_OVERLAY       ICON                    "overlays\\overlay_proto_skype.ico"
 IDI_DEBUG_OVERLAY       ICON                    "overlays\\overlay_resource_debug.ico"
 IDI_HOME_OVERLAY        ICON                    "overlays\\overlay_resource_home.ico"
 IDI_MOBILE_OVERLAY      ICON                    "overlays\\overlay_resource_mobile.ico"

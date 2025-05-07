@@ -59,7 +59,6 @@
 #define IDI_JABBER_OVERLAY              83
 #define IDI_JGTALK_OVERLAY              84
 #define IDI_VK_OVERLAY                  90
-#define IDI_SKYPE_OVERLAY               91
 #define IDI_SECUREIM_OVERLAY            95
 #define IDI_NEWGPG_OVERLAY              96
 #define IDI_MIROTR_OVERLAY              97
@@ -478,7 +477,6 @@
 
 #define IDC_STATUSBAR                   7001
 
-#define IDI_SKYPE                       9002
 #define IDI_TWITTER                     9003
 #define IDI_TEAMS                       9004
 #define IDI_HANGOUTS                    9005
