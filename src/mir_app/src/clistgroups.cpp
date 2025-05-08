@@ -110,7 +110,7 @@ MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName)
 void Clist_RebuildGroups(HWND hwnd, ClcData *dat)
 {
 	for (auto &it: arByIds)
-		if (!it->bHidden)
+		if (hwnd != g_clistApi.hwndContactTree || !it->bHidden)
 			g_clistApi.pfnAddGroup(hwnd, dat, it->groupName, it->flags, it->groupId+1, 0);
 }
 

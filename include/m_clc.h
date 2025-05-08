@@ -28,18 +28,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLISTCONTROL_CLASS   "CListControl"
 #define CLISTCONTROL_CLASSW L"CListControl"
 
-//styles
-#define CLS_MANUALUPDATE    0x0001	 //todo
-#define CLS_SHOWHIDDEN      0x0002
-#define CLS_HIDEOFFLINE     0x0004	 //hides all offline users
-#define CLS_CHECKBOXES      0x0008
-#define CLS_MULTICOLUMN	    0x0010   //not true multi-column, just for ignore/vis options
-#define CLS_HIDEEMPTYGROUPS 0x0020   //note: this flag will be spontaneously removed if the 'new subgroup' menu item is clicked, for obvious reasons
-#define CLS_USEGROUPS       0x0040
-#define CLS_NOHIDEOFFLINE   0x0080	 //overrides CLS_HIDEOFFLINE and the per-group hideoffline setting
-#define CLS_GREYALTERNATE   0x0100   //make every other line slightly grey
-#define CLS_GROUPCHECKBOXES 0x0200   //put checkboxes on groups too (managed by CLC)
-#define CLS_CONTACTLIST		0x0400   //this control will be the main contact list (v. 0.3.4.3+ 2004/11/02)
+// styles
+#define CLS_MANUALUPDATE           0x0001 // todo
+#define CLS_SHOWHIDDEN             0x0002
+#define CLS_HIDEOFFLINE            0x0004 // hides all offline users
+#define CLS_CHECKBOXES             0x0008
+#define CLS_MULTICOLUMN	           0x0010 // not true multi-column, just for ignore/vis options
+#define CLS_HIDEEMPTYGROUPS        0x0020 // note: this flag will be spontaneously removed if the 'new subgroup' menu item is clicked, for obvious reasons
+#define CLS_USEGROUPS              0x0040
+#define CLS_NOHIDEOFFLINE          0x0080	// overrides CLS_HIDEOFFLINE and the per-group hideoffline setting
+#define CLS_GREYALTERNATE          0x0100 // make every other line slightly grey
+#define CLS_GROUPCHECKBOXES        0x0200 // put checkboxes on groups too (managed by CLC)
+#define CLS_CONTACTLIST            0x0400 // this control will be the main contact list (v. 0.3.4.3+ 2004/11/02)
 
 #define CLS_EX_DISABLEDRAGDROP     0x00000001
 #define CLS_EX_EDITLABELS          0x00000002
