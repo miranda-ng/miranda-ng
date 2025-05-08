@@ -93,11 +93,6 @@ void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay = -1);
 #define DROPTARGET_ONMETACONTACT  6
 #define DROPTARGET_ONSUBCONTACT  7
 
-#define CONTACTF_ONLINE    1
-#define CONTACTF_NOTONLIST 8
-#define CONTACTF_CHECKED   16
-#define CONTACTF_IDLE      32
-
 #define AVATAR_POS_DONT_HAVE -1
 #define AVATAR_POS_ANIMATED -2
 

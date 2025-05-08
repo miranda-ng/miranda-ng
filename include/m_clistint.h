@@ -204,12 +204,13 @@ struct MenuProto
 #define DRAGSTAGEF_MAYBERENAME   0x8000
 #define DRAGSTAGEF_OUTSIDE       0x4000
 
-#define CONTACTF_ONLINE          1
-#define CONTACTF_INVISTO         2
-#define CONTACTF_VISTO           4
-#define CONTACTF_NOTONLIST       8
-#define CONTACTF_CHECKED         16
-#define CONTACTF_IDLE            32
+#define CONTACTF_ONLINE          0x01
+#define CONTACTF_INVISTO         0x02
+#define CONTACTF_VISTO           0x04
+#define CONTACTF_NOTONLIST       0x08
+#define CONTACTF_CHECKED         0x10
+#define CONTACTF_IDLE            0x20
+#define CONTACTF_HASMEMBERS      0x40
 
 #define DROPTARGET_OUTSIDE       0
 #define DROPTARGET_ONSELF        1

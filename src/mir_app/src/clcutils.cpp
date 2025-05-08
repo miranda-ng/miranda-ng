@@ -796,12 +796,16 @@ static int GroupHasCheck(ClcGroup *group)
 				bAllChecked = false;
 			}
 
-			if (res & 1)
+			if (res & 1) {
+				cc->flags |= CONTACTF_HASMEMBERS;
 				bHasMembers = true;
+			}
+			else cc->flags &= ~CONTACTF_HASMEMBERS;
 		}
 		else if (cc->type == CLCIT_CONTACT) {
-			bHasMembers = true;
-			if (!(cc->flags & CONTACTF_CHECKED))
+			if (cc->flags & CONTACTF_CHECKED)
+				bHasMembers = true;
+			else
 				bAllChecked = false;
 		}
 	}

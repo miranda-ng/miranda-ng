@@ -141,7 +141,11 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 	case CLM_GETCHECKMARK:
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 			return 0;
-		return (contact->flags & CONTACTF_CHECKED) != 0;
+		
+		if (contact->flags & CONTACTF_CHECKED)
+			return 1;
+
+		return (contact->flags & CONTACTF_HASMEMBERS) ? 2 : 0;
 
 	case CLM_GETCOUNT:
 		return g_clistApi.pfnGetGroupContentsCount(&dat->list, 0);
