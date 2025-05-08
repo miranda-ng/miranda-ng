@@ -200,6 +200,8 @@ struct CGroupInternal
 };
 
 void Clist_RebuildGroups(HWND hwnd, ClcData *dat);
+
+uint32_t Clist_GroupGetIgnore(MGROUP hGroup, bool *bHidden);
 void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask, bool bHidden);
 
 CGroupInternal* FindGroup(const wchar_t *ptszGroupName);

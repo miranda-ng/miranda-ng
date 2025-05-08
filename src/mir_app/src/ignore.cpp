@@ -93,42 +93,23 @@ class IgnoreOptsDlg : public CDlgBase
 		}
 	}
 
-	void SetListGroupIcons(HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount)
+	void SetListGroupIcons(HANDLE hFirstItem, HANDLE hParentItem)
 	{
-		int iconOn[IGNOREEVENT_MAX] = { 1, 1, 1, 1, 1, 1 };
-		int childCount[IGNOREEVENT_MAX] = { 0, 0, 0, 0, 0, 0 };
 		int typeOfFirst = m_clist.GetItemType(hFirstItem);
 
 		// check groups
 		HANDLE hItem = (typeOfFirst == CLCIT_GROUP) ? hFirstItem : m_clist.GetNextItem(hFirstItem, CLGN_NEXTGROUP);
 		while (hItem) {
 			if (HANDLE hChildItem = m_clist.GetNextItem(hItem, CLGN_CHILD))
-				SetListGroupIcons(hChildItem, hItem, childCount);
+				SetListGroupIcons(hChildItem, hItem);
 
-			for (int i = 0; i < _countof(iconOn); i++)
-				if (iconOn[i] && m_clist.GetExtraImage(hItem, i) == 0)
-					iconOn[i] = 0;
+			bool isChecked;
+			MGROUP hGroup = UINT_PTR(hItem) & ~HCONTACT_ISGROUP;
+			InitialiseItem(Clist_GroupGetIgnore(hGroup, &isChecked), hItem, 0xFFFFFFFF, 0xFFFFFFFF);
+
+			m_clist.SetCheck(hItem, isChecked);
+
 			hItem = m_clist.GetNextItem(hItem, CLGN_NEXTGROUP);
-		}
-
-		// check contacts
-		hItem = (typeOfFirst == CLCIT_CONTACT) ? hFirstItem : m_clist.GetNextItem(hFirstItem, CLGN_NEXTCONTACT);
-		while (hItem) {
-			for (int i = 0; i < _countof(iconOn); i++) {
-				int iImage = m_clist.GetExtraImage(hItem, i);
-				if (iconOn[i] && iImage == 0)
-					iconOn[i] = 0;
-				if (iImage != EMPTY_EXTRA_ICON)
-					childCount[i]++;
-			}
-			hItem = m_clist.GetNextItem(hItem, CLGN_NEXTCONTACT);
-		}
-
-		// set icons
-		for (int i = 0; i < _countof(iconOn); i++) {
-			m_clist.SetExtraImage(hParentItem, i, childCount[i] ? (iconOn[i] ? i + 3 : 0) : EMPTY_EXTRA_ICON);
-			if (groupChildCount)
-				groupChildCount[i] += childCount[i];
 		}
 		m_clist.SetExtraImage(hParentItem, IGNOREEVENT_MAX, 1);
 		m_clist.SetExtraImage(hParentItem, IGNOREEVENT_MAX + 1, 2);
@@ -143,6 +124,11 @@ class IgnoreOptsDlg : public CDlgBase
 		while (hItem) {
 			if (HANDLE hChildItem = m_clist.GetNextItem(hItem, CLGN_CHILD))
 				SetAllChildIcons(hChildItem, iColumn, iImage);
+
+			int iOldIcon = m_clist.GetExtraImage(hItem, iColumn);
+			if (iOldIcon != EMPTY_EXTRA_ICON && iOldIcon != iImage)
+				m_clist.SetExtraImage(hItem, iColumn, iImage);
+
 			hItem = m_clist.GetNextItem(hItem, CLGN_NEXTGROUP);
 		}
 
@@ -167,15 +153,13 @@ class IgnoreOptsDlg : public CDlgBase
 		case CLCIT_INFO:
 			if (hItem == hItemAll)
 				SetAllChildIcons(hItem, iColumn, iImage);
-			else
-				m_clist.SetExtraImage(hItem, iColumn, iImage); // hItemUnknown
+			m_clist.SetExtraImage(hItem, iColumn, iImage); // hItemUnknown
 			break;
 
 		case CLCIT_GROUP:
-			hItem = m_clist.GetNextItem(hItem, CLGN_CHILD);
-			if (hItem)
-				SetAllChildIcons(hItem, iColumn, iImage);
-			break;
+			if (HANDLE hChild = m_clist.GetNextItem(hItem, CLGN_CHILD))
+				SetAllChildIcons(hChild, iColumn, iImage);
+			__fallthrough;
 
 		case CLCIT_CONTACT:
 			int oldiImage = m_clist.GetExtraImage(hItem, iColumn);
@@ -185,9 +169,8 @@ class IgnoreOptsDlg : public CDlgBase
 		}
 	}
 
-	void InitialiseItem(MCONTACT hContact, HANDLE hItem, uint32_t proto1Caps, uint32_t proto4Caps)
+	void InitialiseItem(uint32_t mask, HANDLE hItem, uint32_t proto1Caps, uint32_t proto4Caps)
 	{
-		uint32_t mask = GetMask(hContact);
 		for (int i = 0; i < IGNOREEVENT_MAX; i++)
 			if ((ignoreIdToPf1[i] == 0xFFFFFFFF && ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps & ignoreIdToPf1[i] || proto4Caps & ignoreIdToPf4[i]))
 				m_clist.SetExtraImage(hItem, i, (mask & masks[i]) ? i + 3 : 0);
@@ -219,7 +202,7 @@ class IgnoreOptsDlg : public CDlgBase
 					proto4Caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4);
 				}
 				else proto1Caps = proto4Caps = 0;
-				InitialiseItem(hContact, hItem, proto1Caps, proto4Caps);
+				InitialiseItem(GetMask(hContact), hItem, proto1Caps, proto4Caps);
 				if (!Contact::IsHidden(hContact))
 					m_clist.SetCheck(hItem, 1);
 			}
@@ -269,14 +252,15 @@ public:
 		cii.flags = CLCIIF_GROUPFONT;
 		cii.pszText = TranslateT("** All contacts **");
 		hItemAll = m_clist.AddInfoItem(&cii);
+		InitialiseItem(0, hItemAll, 0xFFFFFFFF, 0xFFFFFFFF);
 
 		cii.pszText = TranslateT("** Unknown contacts **");
 		hItemUnknown = m_clist.AddInfoItem(&cii);
-		InitialiseItem(0, hItemUnknown, 0xFFFFFFFF, 0xFFFFFFFF);
+		InitialiseItem(GetMask(0), hItemUnknown, 0xFFFFFFFF, 0xFFFFFFFF);
 
 		SetFocus(m_clist.GetHwnd());
 		SetAllContactIcons();
-		SetListGroupIcons(m_clist.GetNextItem(0, CLGN_ROOT), hItemAll, nullptr);
+		SetListGroupIcons(m_clist.GetNextItem(0, CLGN_ROOT), hItemAll);
 		return true;
 	}
 
@@ -307,7 +291,7 @@ public:
 	void onClistRebuilt(CCtrlClc *)
 	{
 		SetAllContactIcons();
-		SetListGroupIcons(m_clist.GetNextItem(0, CLGN_ROOT), hItemAll, nullptr);
+		SetListGroupIcons(m_clist.GetNextItem(0, CLGN_ROOT), hItemAll);
 	}
 
 	void onClistOptionsChanged(CCtrlClc *)
@@ -340,7 +324,7 @@ public:
 				iImage = 0;
 			SetIconsForColumn(hItem, nm->iColumn, iImage);
 		}
-		SetListGroupIcons(m_clist.GetNextItem(0, CLGN_ROOT), hItemAll, nullptr);
+
 		NotifyChange();
 	}
 };

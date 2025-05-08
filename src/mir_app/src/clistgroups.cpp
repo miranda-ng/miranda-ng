@@ -451,6 +451,15 @@ MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+uint32_t Clist_GroupGetIgnore(MGROUP hGroup, bool *bHidden)
+{
+	if (auto *pGroup = FindGroup(hGroup - 1)) {
+		*bHidden = pGroup->bHidden;
+		return pGroup->ignore;
+	}
+	return 0;
+}
+
 void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask, bool bHidden)
 {
 	if (auto *pGroup = FindGroup(hGroup - 1)) {
