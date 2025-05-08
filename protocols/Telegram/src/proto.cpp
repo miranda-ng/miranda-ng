@@ -462,6 +462,15 @@ void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *
 			return;
 		}
 
+		// if that file was sent once, it might be cached at the server & reused
+		if (auto *pRemote = pFile->remote_.get()) {
+			if (pRemote->is_uploading_completed_) {
+				ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
+				delete ft;
+				return;
+			}
+		}
+
 		char szUserId[100];
 		auto szMsgId(msg2id(pMsg));
 
