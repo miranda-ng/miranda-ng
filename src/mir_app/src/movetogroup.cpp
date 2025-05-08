@@ -74,8 +74,6 @@ static HGENMENU AddGroupItem(HGENMENU hRoot, wchar_t* name, int pos, WPARAM para
 // wparam - hcontact
 // lparam .popupposition from TMO_MenuItem
 
-extern LIST<CGroupInternal> arByIds;
-
 static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 {
 	for (auto &p : lphGroupsItems)
@@ -91,8 +89,12 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	pos += 100000; // Separator
 
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);
-	for (auto &it : arByIds)
-		groups.insert(new GroupItemSort(it->groupName, it->groupId+1));
+	for (MGROUP hGroup = 1;; hGroup++) {
+		if (auto *pwszGroupName = Clist_GroupGetName(hGroup))
+			groups.insert(new GroupItemSort(pwszGroupName, hGroup));
+		else
+			break;
+	}
 
 	for (auto &p : groups) {
 		bool checked = szContactGroup && !mir_wstrcmp(szContactGroup, p->name);

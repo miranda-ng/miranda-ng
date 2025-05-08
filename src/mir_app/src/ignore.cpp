@@ -87,7 +87,7 @@ class IgnoreOptsDlg : public CDlgBase
 				SaveGroupValue(hChildItem);
 
 			MGROUP hGroup = UINT_PTR(hItem) & ~HCONTACT_ISGROUP;
-			Clist_GroupSetIgnore(hGroup, GetItemMask(hItem));
+			Clist_GroupSetIgnore(hGroup, GetItemMask(hItem), !m_clist.GetCheck(hItem));
 
 			hItem = m_clist.GetNextItem(hItem, CLGN_NEXTGROUP);
 		}

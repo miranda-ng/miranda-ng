@@ -39,10 +39,7 @@ static int CompareGrpByName(const CGroupInternal *p1, const CGroupInternal *p2)
 }
 
 static LIST<CGroupInternal> arByName(20, CompareGrpByName);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-LIST<CGroupInternal> arByIds(20, NumericKeySortT);
+static LIST<CGroupInternal> arByIds(20, NumericKeySortT);
 
 static CGroupInternal* FindGroup(int key)
 {
@@ -57,7 +54,7 @@ CGroupInternal::CGroupInternal(int _id, const wchar_t *_name, int _flags) :
 	groupId(_id),
 	groupName(mir_wstrdup(_name))
 {
-	bSaveExpanded = (_flags & GROUPF_EXPANDED) != 0;
+	bSaveExpanded = bExpanded;
 }
 
 CGroupInternal::~CGroupInternal()
@@ -113,7 +110,8 @@ MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName)
 void Clist_RebuildGroups(HWND hwnd, ClcData *dat)
 {
 	for (auto &it: arByIds)
-		g_clistApi.pfnAddGroup(hwnd, dat, it->groupName, it->flags, it->groupId+1, 0);
+		if (!it->bHidden)
+			g_clistApi.pfnAddGroup(hwnd, dat, it->groupName, it->flags, it->groupId+1, 0);
 }
 
 void Clist_GroupAdded(MGROUP hGroup)
@@ -429,40 +427,35 @@ MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNewName)
 MIR_APP_DLL(void) Clist_GroupSaveExpanded()
 {
 	for (auto &it : arByIds)
-		it->bSaveExpanded = (it->flags & GROUPF_EXPANDED) != 0;
+		it->bSaveExpanded = it->bExpanded;
 }
 
 MIR_APP_DLL(void) Clist_GroupRestoreExpanded()
 {
 	for (auto &it : arByIds) {
-		if (it->bSaveExpanded)
-			it->flags |= GROUPF_EXPANDED;
-		else
-			it->flags &= ~GROUPF_EXPANDED;
+		it->bExpanded = it->bSaveExpanded;
 		it->save();
 	}
 }
 
 MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState)
 {
-	CGroupInternal *pGroup = FindGroup(hGroup-1);
-	if (pGroup == nullptr)
-		return 1;
-
-	if (iNewState)
-		pGroup->flags |= GROUPF_EXPANDED;
-	else
-		pGroup->flags &= ~GROUPF_EXPANDED;
-	pGroup->save();
-	return 0;
+	if (auto *pGroup = FindGroup(hGroup - 1)) {
+		pGroup->bExpanded = iNewState != 0;
+		pGroup->save();
+		return 0;
+	}
+	
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask)
+void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask, bool bHidden)
 {
 	if (auto *pGroup = FindGroup(hGroup - 1)) {
 		pGroup->ignore = mask;
+		pGroup->bHidden = bHidden;
 		pGroup->save();
 	}
 }

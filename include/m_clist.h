@@ -373,6 +373,7 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNe
 // returns a wchar_t* on success, NULL on failure
 // if pdwFlags is not NULL, also stores group flags into it (one of GROUPF_* constants
 
+#define GROUPF_HIDDEN      0x02
 #define GROUPF_EXPANDED    0x04
 #define GROUPF_HIDEOFFLINE 0x08
 #define GROUPF_SHOWOFFLINE 0x40

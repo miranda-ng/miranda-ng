@@ -177,7 +177,20 @@ struct CGroupInternal
 	CGroupInternal(int _id, const wchar_t *_name, int _flags);
 	~CGroupInternal();
 
-	int groupId, flags, oldId = -1;
+	int groupId, oldId = -1;
+	union {
+		int flags; // combination of GROUPF_* constants
+		struct {
+			bool bUnused1 : 1;
+			bool bHidden : 1;
+			bool bExpanded : 1;
+			bool bHideOffline : 1;
+			bool bUnused2 : 1;
+			bool bUnused3 : 1;
+			bool bShowOffline : 1;
+		};
+	};
+
 	uint32_t ignore = 0;
 	bool bSaveExpanded;
 	wchar_t *groupName;
@@ -187,6 +200,6 @@ struct CGroupInternal
 };
 
 void Clist_RebuildGroups(HWND hwnd, ClcData *dat);
-void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask);
+void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask, bool bHidden);
 
 CGroupInternal* FindGroup(const wchar_t *ptszGroupName);
