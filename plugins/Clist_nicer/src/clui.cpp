@@ -160,7 +160,7 @@ static int FS_FontsChanged(WPARAM, LPARAM)
 static HWND PreCreateCLC(HWND parent)
 {
 	g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
-		WS_CHILD | CLS_CONTACTLIST | (Clist::UseGroups ? CLS_USEGROUPS : 0) | (Clist::HideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::HideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0) | CLS_MULTICOLUMN,
+		WS_CHILD | CLS_CONTACTLIST | (Clist::bUseGroups ? CLS_USEGROUPS : 0) | (Clist::bHideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::bHideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0) | CLS_MULTICOLUMN,
 		0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), (LPVOID)0xff00ff00);
 
 	cfg::clcdat = (struct ClcData *)GetWindowLongPtr(g_clistApi.hwndContactTree, 0);
@@ -446,10 +446,10 @@ void SetButtonStates()
 					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEOFFLINE:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::HideOffline, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::bHideOffline, 0);
 					break;
 				case IDC_STBHIDEGROUPS:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::UseGroups, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::bUseGroups, 0);
 					break;
 				}
 			}
@@ -726,7 +726,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 static void ShowCLUI(HWND hwnd)
 {
 	int state = old_cliststate;
-	int onTop = g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT);
+	int onTop = Clist::bOnTop;
 
 	SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 
@@ -1148,7 +1148,7 @@ skipbg:
 				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 				transparentFocus = 1;
 			}
-			SetWindowPos(g_clistApi.hwndContactList, g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
+			SetWindowPos(g_clistApi.hwndContactList, Clist::bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
 		}
 		PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -1558,7 +1558,7 @@ buttons_done:
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
 					
-					if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+					if (Clist::bClientAreaDrag) {
 						POINT pt;
 						pt = nm->pt;
 						ClientToScreen(g_clistApi.hwndContactTree, &pt);
@@ -1771,7 +1771,7 @@ void LoadCLUIModule(void)
 	wndclass.lpszClassName = L"EventAreaClass";
 	RegisterClass(&wndclass);
 
-	oldhideoffline = Clist::HideOffline;
+	oldhideoffline = Clist::bHideOffline;
 	cluiPos.left = g_plugin.getDword("x", 600);
 	cluiPos.top = g_plugin.getDword("y", 200);
 	cluiPos.right = g_plugin.getDword("Width", 150);

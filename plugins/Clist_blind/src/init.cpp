@@ -56,7 +56,9 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("CList", pluginInfoEx)
+	PLUGIN<CMPlugin>("CList", pluginInfoEx),
+	bSortByProto(m_szModuleName, "SortByProto", false),
+	bSortByStatus(m_szModuleName, "SortByStatus", false)
 {
 }
 
@@ -107,8 +109,8 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_bSortByStatus = g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
-	g_bSortByProto = g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT);
+	g_bSortByStatus = bSortByStatus;
+	g_bSortByProto = bSortByProto;
 
 	InitClc();
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);

@@ -777,7 +777,7 @@ public:
 
 	void onResetClist(CCtrlClc *)
 	{
-		m_list.SetUseGroups(Clist::UseGroups);
+		m_list.SetUseGroups(Clist::bUseGroups);
 		m_list.SetHideEmptyGroups(true);
 	}
 };

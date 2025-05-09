@@ -2620,8 +2620,8 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 
 			//ScreenToClient(Frames[framepos].ContainerWnd,&Frames[framepos].TitleBar.oldpos);
 
-			if ((!(wParam&MK_CONTROL)) && g_pfwFrames[framepos].Locked && (!(g_pfwFrames[framepos].floating))) {
-				if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+			if ((!(wParam & MK_CONTROL)) && g_pfwFrames[framepos].Locked && (!(g_pfwFrames[framepos].floating))) {
+				if (Clist::bClientAreaDrag) {
 					POINT pt;
 					int res;
 					//pt = nm->pt;
@@ -2939,12 +2939,11 @@ static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wP
 	switch (msg) {
 	case WM_ACTIVATE:
 		if (g_bTransparentFlag) {
-			uint8_t alpha;
 			if ((wParam != WA_INACTIVE || ((HWND)lParam == hwnd) || GetParent((HWND)lParam) == hwnd)) {
 				HWND hw = lParam ? GetParent((HWND)lParam) : nullptr;
-				alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);
-				if (hw) SetWindowPos(hw, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
-				CLUI_SmoothAlphaTransition(hwnd, alpha, 1);
+				if (hw)
+					SetWindowPos(hw, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
+				CLUI_SmoothAlphaTransition(hwnd, Clist::iAlpha, 1);
 			}
 		}
 
@@ -3121,7 +3120,7 @@ static LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wP
 		return 0;
 
 	case WM_LBUTTONDOWN:
-		if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+		if (Clist::bClientAreaDrag) {
 			POINT pt;
 			GetCursorPos(&pt);
 			return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));

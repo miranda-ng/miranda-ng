@@ -56,8 +56,11 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("CList", pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>("CList", pluginInfoEx),
+	bSortByProto(m_szModuleName, "SortByProto", false),
+	bSortByStatus(m_szModuleName, "SortByStatus", false)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // returns plugin's interfaces information
@@ -112,8 +115,8 @@ int CMPlugin::Load()
 		g_plugin.delSetting("NoOfflineBottom");
 	}
 
-	g_bSortByStatus = g_plugin.getBool("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
-	g_bSortByProto = g_plugin.getBool("SortByProto", SETTING_SORTBYPROTO_DEFAULT);
+	g_bSortByStatus = bSortByStatus;
+	g_bSortByProto = bSortByProto;
 	g_bOfflineToBottom = g_plugin.getBool("OfflineBottom", true);
 
 	Clist_GetInterface();

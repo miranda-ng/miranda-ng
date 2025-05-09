@@ -2362,7 +2362,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			}
 
 			if ((!(wParam&MK_CONTROL)) && Frames[framepos].Locked && (!(Frames[framepos].floating))) {
-				if (db_get_b(0, "CLUI", "ClientAreaDrag", 0)) {
+				if (Clist::bClientAreaDrag) {
 					POINT pt;
 					GetCursorPos(&pt);
 					return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));

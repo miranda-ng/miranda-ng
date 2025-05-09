@@ -499,6 +499,15 @@
     <ClInclude Include="src\findadd.h">
       <Filter>Source Files\FindAdd</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\m_clc.h">
+      <Filter>Source Files\Contact list</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_clist.h">
+      <Filter>Source Files\Contact list</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_clistint.h">
+      <Filter>Source Files\Contact list</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">

@@ -98,7 +98,7 @@ int ClcOptInit(WPARAM, LPARAM);
 
 namespace Clist
 {
-	extern CMOption<bool> RemoveTempContacts, EnableIconBlink, EnableTrayFlash;
+	extern CMOption<bool> bRemoveTempContacts, bEnableIconBlink, bEnableTrayFlash;
 };
 
 /* clistmenus.c */

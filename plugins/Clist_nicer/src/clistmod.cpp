@@ -168,7 +168,7 @@ int ShowHide()
 		switch (iVisibleState) {
 		case GWVS_PARTIALLY_COVERED:
 			//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-			if (!g_plugin.getByte("BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+			if (!Clist::bBringToFront)
 				break;
 		case GWVS_COVERED:     //Fall through (and we're already falling)
 		case GWVS_HIDDEN:
@@ -186,7 +186,7 @@ int ShowHide()
 		RECT rcWindow;
 
 		SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
-		if (!g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT))
+		if (!Clist::bOnTop)
 			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
 		SetForegroundWindow(g_clistApi.hwndContactList);
 		//SetActiveWindow(g_clistApi.hwndContactList);

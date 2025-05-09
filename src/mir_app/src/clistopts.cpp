@@ -25,20 +25,42 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
-CMOption<bool> Clist::UseGroups(MODULENAME, "UseGroups", true);
-CMOption<bool> Clist::HideOffline(MODULENAME, "HideOffline", false);
-CMOption<bool> Clist::ConfirmDelete(MODULENAME, "ConfirmDelete", true);
-CMOption<bool> Clist::EnableIconBlink(MODULENAME, "EnableIconBlink", true);
-CMOption<bool> Clist::EnableTrayFlash(MODULENAME, "EnableTrayFlash", true);
-CMOption<bool> Clist::HideEmptyGroups(MODULENAME, "HideEmptyGroups", false);
-CMOption<bool> Clist::RemoveTempContacts(MODULENAME, "RemoveTempContacts", true);
+// Clist
+CMOption<bool> Clist::bOnTop(MODULENAME, "OnTop", true);
+CMOption<bool> Clist::bAutoHide(MODULENAME, "AutoHide", false);
+CMOption<bool> Clist::bUseGroups(MODULENAME, "UseGroups", true);
+CMOption<bool> Clist::bToolWindow(MODULENAME, "ToolWindow", true);
+CMOption<bool> Clist::bTransparent(MODULENAME, "Transparent", false);
+CMOption<bool> Clist::bAlwaysMulti(MODULENAME, "AlwaysMulti", false);
+CMOption<bool> Clist::bHideOffline(MODULENAME, "HideOffline", false);
+CMOption<bool> Clist::bBringToFront(MODULENAME, "BringToFront", false);
+CMOption<bool> Clist::bConfirmDelete(MODULENAME, "ConfirmDelete", true);
+CMOption<bool> Clist::bMinimizeToTray(MODULENAME, "Min2Tray", true);
+CMOption<bool> Clist::bEnableIconBlink(MODULENAME, "EnableIconBlink", true);
+CMOption<bool> Clist::bEnableTrayFlash(MODULENAME, "EnableTrayFlash", true);
+CMOption<bool> Clist::bHideEmptyGroups(MODULENAME, "HideEmptyGroups", false);
+CMOption<bool> Clist::bRemoveTempContacts(MODULENAME, "RemoveTempContacts", true);
 
-CMOption<bool> Clist::Tray1Click(MODULENAME, "Tray1Click", IsWinVer7Plus());
-CMOption<bool> Clist::TrayAlwaysStatus(MODULENAME, "AlwaysStatus", false);
+CMOption<bool> Clist::bTray1Click(MODULENAME, "Tray1Click", IsWinVer7Plus());
+CMOption<bool> Clist::bTrayAlwaysStatus(MODULENAME, "AlwaysStatus", false);
+
+CMOption<uint8_t> Clist::iTrayIcon(MODULENAME, "TrayIcon", SETTING_TRAYICON_SINGLE);
+CMOption<uint8_t> Clist::iAlpha(MODULENAME, "Alpha", 200);
+CMOption<uint8_t> Clist::iAutoAlpha(MODULENAME, "AutoAlpha", 150);
+
+CMOption<uint16_t> Clist::iHideTime(MODULENAME, "HideTime", 30);
+CMOption<uint16_t> Clist::iCycleTime(MODULENAME, "CycleTime", 4);
+
 CMOption<uint32_t> Clist::IconFlashTime(MODULENAME, "IconFlashTime", 550);
 
-CMOption<bool>  Clist::FilterSearch("CLC", "FilterSearch", false);
+// CLC
+CMOption<bool>  Clist::bFilterSearch("CLC", "FilterSearch", false);
 CMOption<uint32_t> Clist::OfflineModes("CLC", "OfflineModes", MODEF_OFFLINE);
+
+// CLUI
+CMOption<bool> Clist::bShowCaption("CLUI", "ShowCaption", true);
+CMOption<bool> Clist::bShowMainMenu("CLUI", "ShowMainMenu", true);
+CMOption<bool> Clist::bClientAreaDrag("CLUI", "ClientAreaDrag", true);
 
 struct
 {
@@ -85,16 +107,16 @@ public:
 		chkEnableTrayBlink.OnChange = Callback(this, &ClistCommonOptsDlg::onChange_TrayBlink);
 
 		CreateLink(spinBlink, Clist::IconFlashTime);
-		CreateLink(chkOneClick, Clist::Tray1Click);
-		CreateLink(chkUseGroups, Clist::UseGroups);
-		CreateLink(chkHideOffline, Clist::HideOffline);
-		CreateLink(chkFilterSearch, Clist::FilterSearch);
-		CreateLink(chkAlwaysStatus, Clist::TrayAlwaysStatus);
-		CreateLink(chkConfirmDelete, Clist::ConfirmDelete);
-		CreateLink(chkHideEmptyGroups, Clist::HideEmptyGroups);
-		CreateLink(chkEnableIconBlink, Clist::EnableIconBlink);
-		CreateLink(chkEnableTrayBlink, Clist::EnableTrayFlash);
-		CreateLink(chkRemoveTempContacts, Clist::RemoveTempContacts);
+		CreateLink(chkOneClick, Clist::bTray1Click);
+		CreateLink(chkUseGroups, Clist::bUseGroups);
+		CreateLink(chkHideOffline, Clist::bHideOffline);
+		CreateLink(chkFilterSearch, Clist::bFilterSearch);
+		CreateLink(chkAlwaysStatus, Clist::bTrayAlwaysStatus);
+		CreateLink(chkConfirmDelete, Clist::bConfirmDelete);
+		CreateLink(chkHideEmptyGroups, Clist::bHideEmptyGroups);
+		CreateLink(chkEnableIconBlink, Clist::bEnableIconBlink);
+		CreateLink(chkEnableTrayBlink, Clist::bEnableTrayFlash);
+		CreateLink(chkRemoveTempContacts, Clist::bRemoveTempContacts);
 	}
 
 	bool OnInitDialog() override

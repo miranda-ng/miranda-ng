@@ -175,6 +175,9 @@
     <ClCompile Include="src\usedIcons.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\userInfo.cpp" />
+    <ClInclude Include="..\..\include\m_clc.h" />
+    <ClInclude Include="..\..\include\m_clist.h" />
+    <ClInclude Include="..\..\include\m_clistint.h" />
     <ClInclude Include="src\chat.h" />
     <ClInclude Include="src\clc.h" />
     <ClInclude Include="src\database.h" />

@@ -133,7 +133,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 				if (!__strcmp(cws->szSetting, "Status")) {
 					if (!Contact::IsHidden(hContact))
 						if (cws->value.wVal == ID_STATUS_OFFLINE)
-							if (Clist::HideOffline)
+							if (Clist::bHideOffline)
 								return 0;
 
 					SendMessage(g_clistApi.hwndContactTree, INTM_STATUSCHANGED, hContact, lParam);

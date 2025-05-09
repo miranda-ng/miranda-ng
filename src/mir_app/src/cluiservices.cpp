@@ -34,24 +34,24 @@ EXTERN_C MIR_APP_DLL(void) Clist_EndRebuild(void)
 	LONG_PTR dwStyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
 
 	// CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
-	if ((Clist::HideOffline == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
-		if (Clist::HideOffline)
+	if ((Clist::bHideOffline == 0) != ((dwStyle & CLS_HIDEOFFLINE) == 0)) {
+		if (Clist::bHideOffline)
 			dwStyle |= CLS_HIDEOFFLINE;
 		else
 			dwStyle &= ~CLS_HIDEOFFLINE;
 		bRebuild = true;
 	}
 
-	if ((Clist::HideEmptyGroups == 0) != ((dwStyle & CLS_HIDEEMPTYGROUPS) == 0)) {
-		if (Clist::HideEmptyGroups)
+	if ((Clist::bHideEmptyGroups == 0) != ((dwStyle & CLS_HIDEEMPTYGROUPS) == 0)) {
+		if (Clist::bHideEmptyGroups)
 			dwStyle |= CLS_HIDEEMPTYGROUPS;
 		else
 			dwStyle &= ~CLS_HIDEEMPTYGROUPS;
 		bRebuild = true;
 	}
 
-	if ((Clist::UseGroups == 0) != ((dwStyle & CLS_USEGROUPS) == 0)) {
-		if (Clist::UseGroups)
+	if ((Clist::bUseGroups == 0) != ((dwStyle & CLS_USEGROUPS) == 0)) {
+		if (Clist::bUseGroups)
 			dwStyle |= CLS_USEGROUPS;
 		else
 			dwStyle &= ~CLS_USEGROUPS;

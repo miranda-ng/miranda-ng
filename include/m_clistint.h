@@ -34,6 +34,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_clc.h>
 #include <m_gui.h>
 
+#define SETTING_TRAYICON_SINGLE       0
+#define SETTING_TRAYICON_CYCLE        1
+#define SETTING_TRAYICON_MULTI        2
+
+#define SETTING_STATE_HIDDEN          0
+#define SETTING_STATE_MINIMIZED       1
+#define SETTING_STATE_NORMAL          2
+
 #define HCONTACT_ISGROUP    0x80000000
 #define HCONTACT_ISINFO     0xFFFF0000
 #define IsHContactGroup(h)  (((UINT_PTR)(h)^HCONTACT_ISGROUP)<(HCONTACT_ISGROUP^HCONTACT_ISINFO))
@@ -70,8 +78,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TIMERID_DELAYEDRESORTCLC 15
 #define TIMERID_TRAYHOVER        16
 #define TIMERID_TRAYHOVER_2      17
-
-#define GROUP_ALLOCATE_STEP  8
 
 struct ClcContact;
 struct ClcData;
@@ -447,14 +453,37 @@ extern MIR_APP_EXPORT CLIST_INTERFACE g_clistApi;
 
 namespace Clist
 {
+	// CLUI
 	extern MIR_APP_EXPORT CMOption<bool>
-		HideOffline,
-		UseGroups,
-		FilterSearch,
-		HideEmptyGroups,
-		ConfirmDelete,
-		Tray1Click,
-		TrayAlwaysStatus;
+		bShowCaption,
+		bShowMainMenu,
+		bClientAreaDrag;
+
+	// CList
+	extern MIR_APP_EXPORT CMOption<bool>
+		bOnTop,
+		bAutoHide,
+		bToolWindow,
+		bHideOffline,
+		bBringToFront,
+		bUseGroups,
+		bFilterSearch,
+		bHideEmptyGroups,
+		bMinimizeToTray,
+		bAlwaysMulti,
+		bConfirmDelete,
+		bTransparent,
+		bTray1Click,
+		bTrayAlwaysStatus;
+
+	extern MIR_APP_EXPORT CMOption<uint8_t>
+		iTrayIcon,
+		iAlpha,
+		iAutoAlpha;
+
+	extern MIR_APP_EXPORT CMOption<uint16_t>
+		iHideTime,
+		iCycleTime;
 
 	extern MIR_APP_EXPORT CMOption<uint32_t>
 		IconFlashTime,

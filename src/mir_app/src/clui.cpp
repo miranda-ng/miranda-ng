@@ -53,8 +53,8 @@ void fnLoadCluiGlobalOpts()
 {
 	cluiopt.showsbar = db_get_b(0, "CLUI", "ShowSBar", 1);
 	cluiopt.showgrip = db_get_b(0, "CLUI", "ShowGrip", 1);
-	cluiopt.transparent = db_get_b(0, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT);
-	cluiopt.alpha = db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
+	cluiopt.transparent = Clist::bTransparent;
+	cluiopt.alpha = Clist::iAlpha;
 }
 
 // Disconnect all protocols.
@@ -205,7 +205,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	int action;
-	if (Clist::ConfirmDelete && !(GetKeyState(VK_SHIFT) & 0x8000)) {
+	if (Clist::bConfirmDelete && !(GetKeyState(VK_SHIFT) & 0x8000)) {
 		// Ask user for confirmation, and if the contact should be archived (hidden, not deleted)
 		dlg.SetParent((HWND)lParam);
 		action = dlg.DoModal();
@@ -324,12 +324,11 @@ int LoadCLUIModule(void)
 	Utils_AssertInsideScreen(&pos);
 
 	g_clistApi.hwndContactList = CreateWindowEx(
-		(db_get_b(0, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? WS_EX_TOOLWINDOW : WS_EX_APPWINDOW),
+		(Clist::bToolWindow ? WS_EX_TOOLWINDOW : WS_EX_APPWINDOW),
 		_A2W(MIRANDACLASS),
 		titleText,
 		WS_POPUPWINDOW | WS_THICKFRAME | WS_CLIPCHILDREN |
-		(db_get_b(0, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) ? WS_CAPTION | WS_SYSMENU |
-		(db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? 0 : WS_MINIMIZEBOX) : 0),
+		(Clist::bShowCaption ? WS_CAPTION | WS_SYSMENU | (Clist::bMinimizeToTray ? 0 : WS_MINIMIZEBOX) : 0),
 		pos.left, pos.top, pos.right - pos.left, pos.bottom - pos.top,
 		nullptr, nullptr, g_clistApi.hInst, nullptr);
 
@@ -350,7 +349,7 @@ int LoadCLUIModule(void)
 
 	int state = db_get_b(0, "CList", "State", SETTING_STATE_NORMAL);
 	
-	if (!db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+	if (!Clist::bShowMainMenu)
 		SetMenu(g_clistApi.hwndContactList, nullptr);
 
 	if (state == SETTING_STATE_NORMAL)
@@ -358,9 +357,7 @@ int LoadCLUIModule(void)
 	else if (state == SETTING_STATE_MINIMIZED)
 		ShowWindow(g_clistApi.hwndContactList, SW_SHOWMINIMIZED);
 	
-	SetWindowPos(g_clistApi.hwndContactList,
-					 db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST,
-					 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+	SetWindowPos(g_clistApi.hwndContactList, Clist::bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
 	CMenuItem mi(&g_plugin);
 	
@@ -487,7 +484,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case M_CREATECLC:
 		g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
-			WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | CLS_CONTACTLIST | (Clist::UseGroups ? CLS_USEGROUPS : 0) | (Clist::HideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::HideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0),
+			WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | CLS_CONTACTLIST | (Clist::bUseGroups ? CLS_USEGROUPS : 0) | (Clist::bHideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::bHideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0),
 			0, 0, 0, 0, hwnd, nullptr, g_clistApi.hInst, nullptr);
 		SendMessage(hwnd, WM_SIZE, 0, 0);
 		break;
@@ -541,7 +538,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			SetWindowPos(g_clistApi.hwndContactTree, nullptr, 0, 0, rect.right, rect.bottom - (rcStatus.bottom - rcStatus.top), SWP_NOZORDER);
 		}
 		if (wParam == SIZE_MINIMIZED) {
-			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) || db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) || Clist::bMinimizeToTray) {
 				ShowWindow(hwnd, SW_HIDE);
 				db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
 			}
@@ -628,7 +625,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (transparentFocus)
 					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)cluiopt.alpha, LWA_ALPHA);
 				else
-					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), Clist::iAutoAlpha, LWA_ALPHA);
 			}
 			if (!transparentFocus)
 				KillTimer(hwnd, TM_AUTOALPHA);
@@ -691,8 +688,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		case SC_MINIMIZE:
 		case SC_CLOSE:
-			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) ||
-				db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) || Clist::bMinimizeToTray) {
 				ShowWindow(hwnd, SW_HIDE);
 				db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
 
@@ -840,7 +836,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
 
-					if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+					if (Clist::bClientAreaDrag) {
 						POINT pt = nmc->pt;
 						ClientToScreen(g_clistApi.hwndContactTree, &pt);
 						return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));

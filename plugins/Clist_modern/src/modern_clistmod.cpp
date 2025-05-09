@@ -180,7 +180,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
 
-	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT) || !g_plugin.getByte("BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT) || !Clist::bBringToFront)
 		return GWVS_VISIBLE;
 
 	HWND hwndFocused = GetFocus();
@@ -340,7 +340,7 @@ int cliShowHide(bool bAlwaysShow)
 			Sync(CLUIFrames_OnShowHide, 1);	//TO BE PROXIED
 			SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			g_bCalledFromShowHide = 1;
-			if (!g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT))
+			if (!Clist::bOnTop)
 				SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			g_bCalledFromShowHide = 0;
 		}
@@ -362,7 +362,7 @@ int cliShowHide(bool bAlwaysShow)
 			CListMod_HideWindow();
 			g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 		}
-		else if (g_plugin.getByte("Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+		else if (Clist::bMinimizeToTray) {
 			CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_HIDE);
 			g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 		}

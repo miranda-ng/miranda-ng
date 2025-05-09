@@ -49,19 +49,18 @@ public:
 
 	bool OnInitDialog() override
 	{
-		sortByName.SetState(!g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT) && !g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT));
-		sortByProto.SetState(g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT));
-		sortByStatus.SetState(g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT));
+		sortByName.SetState(!g_plugin.bSortByStatus && !g_plugin.bSortByProto);
+		sortByProto.SetState(g_plugin.bSortByProto);
+		sortByStatus.SetState(g_plugin.bSortByStatus);
 		chkOfflineBottom.SetState(g_plugin.getByte("NoOfflineBottom"));
 
-		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !g_plugin.getByte("AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT));
+		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !Clist::bAlwaysMulti);
 
-		int iTrayIcon = g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT);
-		chkCycle.SetState(iTrayIcon == SETTING_TRAYICON_CYCLE);
-		chkMulti.SetState(iTrayIcon == SETTING_TRAYICON_MULTI);
-		chkDontCycle.SetState(iTrayIcon == SETTING_TRAYICON_SINGLE);
+		chkCycle.SetState(Clist::iTrayIcon == SETTING_TRAYICON_CYCLE);
+		chkMulti.SetState(Clist::iTrayIcon == SETTING_TRAYICON_MULTI);
+		chkDontCycle.SetState(Clist::iTrayIcon == SETTING_TRAYICON_SINGLE);
 		
-		cycleTime.SetPosition(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT));
+		cycleTime.SetPosition(Clist::iCycleTime);
 
 		ptrA szPrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
 
@@ -81,12 +80,12 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.setByte("SortByStatus", g_bSortByStatus = sortByStatus.IsChecked());
-		g_plugin.setByte("SortByProto", g_bSortByProto = sortByProto.IsChecked());
+		g_plugin.bSortByStatus = g_bSortByStatus = sortByStatus.IsChecked();
+		g_plugin.bSortByProto = g_bSortByProto = sortByProto.IsChecked();
 		g_plugin.setByte("OfflineBottom", g_bOfflineToBottom = chkOfflineBottom.IsChecked());
-		g_plugin.setByte("AlwaysMulti", !IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
-		g_plugin.setByte("TrayIcon", (chkDontCycle.IsChecked() ? SETTING_TRAYICON_SINGLE : (chkCycle.IsChecked() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI)));
-		g_plugin.setWord("CycleTime", cycleTime.GetPosition());
+		Clist::bAlwaysMulti = !IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI);
+		Clist::iTrayIcon = chkDontCycle.IsChecked() ? SETTING_TRAYICON_SINGLE : (chkCycle.IsChecked() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI);
+		Clist::iCycleTime = cycleTime.GetPosition();
 
 		PROTOACCOUNT *pa = (PROTOACCOUNT *)status.GetCurData();
 		if (pa == nullptr)

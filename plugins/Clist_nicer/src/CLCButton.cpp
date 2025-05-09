@@ -65,8 +65,8 @@ static void InitDefaultButtons()
 	}
 	g_pButton = nullptr;
 
-	ClcSetButtonState(IDC_TBHIDEOFFLINE, Clist::HideOffline);
-	ClcSetButtonState(IDC_TBHIDEGROUPS, Clist::UseGroups);
+	ClcSetButtonState(IDC_TBHIDEOFFLINE, Clist::bHideOffline);
+	ClcSetButtonState(IDC_TBHIDEGROUPS, Clist::bUseGroups);
 	ClcSetButtonState(IDC_TBSOUND, db_get_b(0, "Skin", "UseSound", 1) ? BST_UNCHECKED : BST_CHECKED);
 }
 

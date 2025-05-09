@@ -21,6 +21,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
 #include "stdafx.h"
 
 class CGenOptsDlg : public CDlgBase
@@ -39,18 +40,17 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CheckDlgButton(m_hwnd, IDC_SORTBYNAME, !g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT) && !g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SORTBYSTATUS, g_plugin.getByte("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SORTBYPROTO, g_plugin.getByte("SortByProto", SETTING_SORTBYPROTO_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SORTBYNAME, !g_plugin.bSortByStatus && !g_plugin.bSortByProto ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SORTBYSTATUS, g_plugin.bSortByStatus ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SORTBYPROTO, g_plugin.bSortByProto ? BST_CHECKED : BST_UNCHECKED);
 
-		int iTrayIcon = g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT);
-		chkCycle.SetState(iTrayIcon == SETTING_TRAYICON_CYCLE);
-		chkDontCycle.SetState(iTrayIcon == SETTING_TRAYICON_SINGLE);
+		chkCycle.SetState(Clist::iTrayIcon == SETTING_TRAYICON_CYCLE);
+		chkDontCycle.SetState(Clist::iTrayIcon == SETTING_TRAYICON_SINGLE);
 
-		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !g_plugin.getByte("AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !Clist::bAlwaysMulti ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
-		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
+		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(Clist::iCycleTime, 0));
 
 		ptrA szPrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
 
@@ -76,11 +76,11 @@ public:
 	{
 		int iTrayIcon = chkDontCycle.IsChecked() ? SETTING_TRAYICON_SINGLE : (chkCycle.IsChecked() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI);
 
-		g_plugin.setByte("SortByStatus", (uint8_t)(g_bSortByStatus = IsDlgButtonChecked(m_hwnd, IDC_SORTBYSTATUS)));
-		g_plugin.setByte("SortByProto", (uint8_t)(g_bSortByProto = IsDlgButtonChecked(m_hwnd, IDC_SORTBYPROTO)));
-		g_plugin.setByte("AlwaysMulti", (uint8_t)!IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
-		g_plugin.setByte("TrayIcon", iTrayIcon);
-		g_plugin.setWord("CycleTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
+		g_plugin.bSortByStatus = g_bSortByStatus = IsDlgButtonChecked(m_hwnd, IDC_SORTBYSTATUS);
+		g_plugin.bSortByProto = g_bSortByProto = IsDlgButtonChecked(m_hwnd, IDC_SORTBYPROTO);
+		Clist::bAlwaysMulti = !IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI);
+		Clist::iTrayIcon = iTrayIcon;
+		Clist::iCycleTime = SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0);
 
 		int cur = SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);
 		PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETITEMDATA, cur, 0);

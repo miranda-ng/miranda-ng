@@ -512,33 +512,4 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, in
 EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle, const char *szInfo, uint32_t dwInfoFlags, UINT uTimeout);
 EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, uint32_t dwInfoFlags, UINT uTimeout);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-#define SETTING_TOOLWINDOW_DEFAULT    1
-#define SETTING_SHOWMAINMENU_DEFAULT  1
-#define SETTING_SHOWCAPTION_DEFAULT   1
-#define SETTING_CLIENTDRAG_DEFAULT    1
-#define SETTING_ONTOP_DEFAULT         1
-#define SETTING_MIN2TRAY_DEFAULT      1
-#define SETTING_SORTBYSTATUS_DEFAULT  0
-#define SETTING_SORTBYPROTO_DEFAULT   0
-#define SETTING_TRANSPARENT_DEFAULT   0
-#define SETTING_ALPHA_DEFAULT         200
-#define SETTING_AUTOALPHA_DEFAULT     150
-#define SETTING_AUTOHIDE_DEFAULT      0
-#define SETTING_HIDETIME_DEFAULT      30
-#define SETTING_CYCLETIME_DEFAULT     4
-#define SETTING_TRAYICON_DEFAULT      SETTING_TRAYICON_SINGLE
-#define SETTING_ALWAYSMULTI_DEFAULT   0
-
-#define SETTING_TRAYICON_SINGLE       0
-#define SETTING_TRAYICON_CYCLE        1
-#define SETTING_TRAYICON_MULTI        2
-
-#define SETTING_STATE_HIDDEN          0
-#define SETTING_STATE_MINIMIZED       1
-#define SETTING_STATE_NORMAL          2
-
-#define SETTING_BRINGTOFRONT_DEFAULT 0
-
 #endif // M_CLIST_H__

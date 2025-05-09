@@ -40,7 +40,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 	cont->subcontacts = (ClcContact *)mir_calloc(sizeof(ClcContact) * subcount);
 	cont->iSubAllocated = subcount;
 	int i = 0;
-	int bHideOffline = Clist::HideOffline;
+	int bHideOffline = Clist::bHideOffline;
 	for (int j = 0; j < subcount; j++) {
 		MCONTACT hsub = db_mc_getSub(cont->hContact, j);
 		if (!hsub)

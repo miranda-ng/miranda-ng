@@ -336,7 +336,7 @@ int fnShowHide()
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
 		//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-		if (!db_get_b(0, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+		if (!Clist::bBringToFront)
 			break;
 	case GWVS_COVERED:     //Fall through (and we're already falling)
 	case GWVS_HIDDEN:
@@ -351,7 +351,7 @@ int fnShowHide()
 
 	if (bShow == TRUE) {
 		ShowWindow(g_clistApi.hwndContactList, SW_RESTORE);
-		if (!db_get_b(0, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if (!Clist::bOnTop)
 			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 		else
 			SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -366,8 +366,7 @@ int fnShowHide()
 			MoveWindow(g_clistApi.hwndContactList, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 	}
 	else { // It needs to be hidden
-		if (db_get_b(0, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ||
-			db_get_b(0, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+		if (Clist::bToolWindow || Clist::bMinimizeToTray) {
 			ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
 			db_set_b(0, "CList", "State", SETTING_STATE_HIDDEN);
 		}
@@ -433,7 +432,7 @@ void UnloadContactListModule()
 		return;
 
 	// remove transitory contacts
-	if (Clist::RemoveTempContacts) {
+	if (Clist::bRemoveTempContacts) {
 		for (MCONTACT hContact = db_find_first(); hContact != 0; ) {
 			MCONTACT hNext = db_find_next(hContact);
 			if (!Contact::OnList(hContact))

@@ -1340,7 +1340,7 @@ void ApplyViewMode(const char *szName)
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
 			if (g_CluiData.bOldHideOffline == -1)
-				g_CluiData.bOldHideOffline = Clist::HideOffline;
+				g_CluiData.bOldHideOffline = Clist::bHideOffline;
 
 			g_clistApi.pfnSetHideOffline(false);
 		}
@@ -1352,7 +1352,7 @@ void ApplyViewMode(const char *szName)
 		int iValue = (g_CluiData.filterFlags & CLVM_USEGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_DONOTUSEGROUPS) ? 0 : -1);
 		if (iValue != -1) {
 			if (g_CluiData.bOldUseGroups == -1)
-				g_CluiData.bOldUseGroups = Clist::UseGroups;
+				g_CluiData.bOldUseGroups = Clist::bUseGroups;
 
 			CallService(MS_CLIST_SETUSEGROUPS, iValue, 0);
 		}
@@ -1364,7 +1364,7 @@ void ApplyViewMode(const char *szName)
 		iValue = (g_CluiData.filterFlags & CLVM_HIDEEMPTYGROUPS) ? 1 : ((g_CluiData.filterFlags & CLVM_SHOWEMPTYGROUPS) ? 0 : -1);
 		if (iValue != -1) {
 			if (g_CluiData.bOldHideEmptyGroups == -1)
-				g_CluiData.bOldHideEmptyGroups = Clist::HideEmptyGroups;
+				g_CluiData.bOldHideEmptyGroups = Clist::bHideEmptyGroups;
 
 			SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, iValue, 0);
 		}

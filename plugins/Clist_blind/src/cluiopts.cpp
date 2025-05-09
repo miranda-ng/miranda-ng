@@ -31,6 +31,7 @@ class CCluiOptsDlg : public CDlgBase
 {
 	CCtrlSpin spinMaxSize, spinHideTime;
 	CCtrlCheck chkAutoHide, chkAutoSize, chkCaption, chkToolWnd, chkTransparent;
+	CCtrlCheck chkShowMainMenu, chkClientDrag, chkOnTop, chkMin2tray, chkBringToFront;
 	CCtrlSlider m_active, m_inactive;
 
 public:
@@ -38,14 +39,29 @@ public:
 		CDlgBase(g_plugin, IDD_OPT_CLUI),
 		m_active(this, IDC_TRANSACTIVE, 255, 1),
 		m_inactive(this, IDC_TRANSINACTIVE, 255, 1),
+		chkOnTop(this, IDC_ONTOP),
 		chkCaption(this, IDC_SHOWCAPTION),
 		chkToolWnd(this, IDC_TOOLWND),
 		chkAutoHide(this, IDC_AUTOHIDE),
 		chkAutoSize(this, IDC_AUTOSIZE),
+		chkMin2tray(this, IDC_MIN2TRAY),
+		chkClientDrag(this, IDC_CLIENTDRAG),
 		chkTransparent(this, IDC_TRANSPARENT),
+		chkBringToFront(this, IDC_BRINGTOFRONT),
+		chkShowMainMenu(this, IDC_SHOWMAINMENU),
 		spinMaxSize(this, IDC_MAXSIZESPIN, 100),
 		spinHideTime(this, IDC_HIDETIMESPIN, 900, 1)
 	{
+		CreateLink(chkOnTop, Clist::bOnTop);
+		CreateLink(chkCaption, Clist::bShowCaption);
+		CreateLink(chkToolWnd, Clist::bToolWindow);
+		CreateLink(chkAutoHide, Clist::bAutoHide);
+		CreateLink(chkMin2tray, Clist::bMinimizeToTray);
+		CreateLink(chkClientDrag, Clist::bClientAreaDrag);
+		CreateLink(chkTransparent, Clist::bTransparent);
+		CreateLink(chkBringToFront, Clist::bBringToFront);
+		CreateLink(chkShowMainMenu, Clist::bShowMainMenu);
+
 		m_active.OnChange = m_inactive.OnChange = Callback(this, &CCluiOptsDlg::onChange_Slider);
 
 		chkCaption.OnChange = Callback(this, &CCluiOptsDlg::onChange_Caption);
@@ -57,24 +73,15 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CheckDlgButton(m_hwnd, IDC_BRINGTOFRONT, g_plugin.getByte("BringToFront", SETTING_BRINGTOFRONT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_ONTOP, g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_TOOLWND, g_plugin.getByte("ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_MIN2TRAY, g_plugin.getByte("Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SHOWMAINMENU, db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_CLIENTDRAG, db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_FADEINOUT, db_get_b(0, "CLUI", "FadeInOut", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DROPSHADOW, g_plugin.getByte("WindowShadow", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_ONDESKTOP, g_plugin.getByte("OnDesktop", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_AUTOSIZEUPWARD, db_get_b(0, "CLUI", "AutoSizeUpward", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		spinMaxSize.SetPosition(db_get_b(0, "CLUI", "MaxSizeHeight", 75));
-		spinHideTime.SetPosition(g_plugin.getWord("HideTime", SETTING_HIDETIME_DEFAULT));
+		spinHideTime.SetPosition(Clist::iHideTime);
 
-		chkCaption.SetState(db_get_b(0, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT));
 		chkAutoSize.SetState(db_get_b(0, "CLUI", "AutoSize", 0));
-		chkAutoHide.SetState(g_plugin.getByte("AutoHide", SETTING_AUTOHIDE_DEFAULT));
-		chkTransparent.SetState(g_plugin.getByte("Transparent", SETTING_TRANSPARENT_DEFAULT));
 
 		ptrW wszTitle(g_plugin.getWStringA("TitleText"));
 		if (wszTitle)
@@ -82,34 +89,25 @@ public:
 		else
 			SetDlgItemTextA(m_hwnd, IDC_TITLETEXT, MIRANDANAME);
 
-		m_active.SetPosition(g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT));
-		m_inactive.SetPosition(g_plugin.getByte("AutoAlpha", SETTING_AUTOALPHA_DEFAULT));
+		m_active.SetPosition(Clist::iAlpha);
+		m_inactive.SetPosition(Clist::iAutoAlpha);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		g_plugin.setByte("OnTop", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ONTOP));
-		g_plugin.setByte("ToolWindow", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_TOOLWND));
-		g_plugin.setByte("BringToFront", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_BRINGTOFRONT));
 		db_set_b(0, "CLUI", "FadeInOut", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_FADEINOUT));
 		db_set_b(0, "CLUI", "AutoSizeUpward", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZEUPWARD));
 		g_plugin.setByte("WindowShadow", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DROPSHADOW));
 		g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ONDESKTOP));
-		db_set_b(0, "CLUI", "ShowCaption", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SHOWCAPTION));
-		db_set_b(0, "CLUI", "ShowMainMenu", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SHOWMAINMENU));
-		db_set_b(0, "CLUI", "ClientAreaDrag", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_CLIENTDRAG));
-		g_plugin.setByte("Min2Tray", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_MIN2TRAY));
 
-		g_plugin.setWord("HideTime", spinHideTime.GetPosition());
+		Clist::iHideTime = spinHideTime.GetPosition();
 		db_set_b(0, "CLUI", "MaxSizeHeight", spinMaxSize.GetPosition());
 
 		db_set_b(0, "CLUI", "AutoSize", chkAutoSize.GetState());
-		g_plugin.setByte("AutoHide", chkAutoHide.GetState());
-		g_plugin.setByte("Transparent", chkTransparent.GetState());
 
-		g_plugin.setByte("Alpha", m_active.GetPosition());
-		g_plugin.setByte("AutoAlpha", m_inactive.GetPosition());
+		Clist::iAlpha = m_active.GetPosition();
+		Clist::iAutoAlpha = m_inactive.GetPosition();
 
 		wchar_t title[256];
 		GetDlgItemText(m_hwnd, IDC_TITLETEXT, title, _countof(title));
@@ -157,7 +155,7 @@ public:
 			ShowWindow(g_clistApi.hwndContactList, IsDlgButtonChecked(m_hwnd, IDC_MIN2TRAY) ? SW_HIDE : SW_SHOW);
 		if (IsDlgButtonChecked(m_hwnd, IDC_TRANSPARENT)) {
 			SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
-			SetLayeredWindowAttributes(g_clistApi.hwndContactList, RGB(0, 0, 0), (uint8_t)g_plugin.getByte("AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+			SetLayeredWindowAttributes(g_clistApi.hwndContactList, RGB(0, 0, 0), Clist::iAutoAlpha, LWA_ALPHA);
 		}
 		else SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 

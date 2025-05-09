@@ -162,7 +162,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		return 0;
 
 	case WM_LBUTTONDOWN:
-		if (db_get_b(0, "CLUI", "ClientAreaDrag", 0)) {
+		if (Clist::bClientAreaDrag) {
 			POINT pt;
 			GetCursorPos(&pt);
 			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));

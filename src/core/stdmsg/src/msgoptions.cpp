@@ -429,7 +429,7 @@ public:
 
 	void ResetCList(CCtrlClc::TEventInfo* = nullptr)
 	{
-		clist.SetUseGroups(Clist::UseGroups);
+		clist.SetUseGroups(Clist::bUseGroups);
 		clist.SetHideEmptyGroups(1);
 	}
 
