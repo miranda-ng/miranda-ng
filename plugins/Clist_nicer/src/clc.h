@@ -423,8 +423,7 @@ void CluiProtocolStatusChanged(int, const char*);
 void LoadSkinItemToCache(struct TExtraCache *cEntry);
 
 // Docking.c
-
-int Docking_IsDocked(WPARAM wParam, LPARAM lParam);
+extern int g_iDocked;
 
 // Buttons
 
@@ -441,16 +440,6 @@ int CoolSB_SetupScrollBar();
 #define NIIF_INTERN_UNICODE			0x00000100
 
 #define SETTING_WINDOWSTYLE_DEFAULT	0
-
-#define SETTING_TRAYICON_SINGLE		0
-#define SETTING_TRAYICON_CYCLE		1
-#define SETTING_TRAYICON_MULTI		2
-
-#define SETTING_STATE_HIDDEN		0
-#define SETTING_STATE_MINIMIZED		1
-#define SETTING_STATE_NORMAL		2
-
-#define SETTING_BRINGTOFRONT_DEFAULT	0
 
 #define SETTING_WINDOWSTYLE_TOOLWINDOW	1
 #define SETTING_WINDOWSTYLE_THINBORDER	2

@@ -576,7 +576,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (!db_get_b(0, "CLUI", "AutoSize", 0))
 		return;
 
-	if (Docking_IsDocked(0, 0))
+	if (g_iDocked)
 		return;
 	if (hFrameContactTree == 0)
 		return;
@@ -1034,7 +1034,7 @@ skipbg:
 		break;
 
 	case WM_WINDOWPOSCHANGED:
-		if (Docking_IsDocked(0, 0))
+		if (g_iDocked)
 			break;
 
 	case WM_WINDOWPOSCHANGING:
@@ -1077,7 +1077,7 @@ skipbg:
 		return 0;
 
 	case WM_SIZE:
-		if ((wParam == 0 && lParam == 0) || Docking_IsDocked(0, 0)) {
+		if ((wParam == 0 && lParam == 0) || g_iDocked) {
 
 			if (IsZoomed(hwnd))
 				ShowWindow(hwnd, SW_SHOWNORMAL);
@@ -1100,7 +1100,7 @@ skipbg:
 		if (!IsIconic(hwnd)) {
 			GetWindowRect(hwnd, &rc);
 
-			if (!Docking_IsDocked(0, 0)) {
+			if (!g_iDocked) {
 				cluiPos.bottom = (uint32_t)(rc.bottom - rc.top);
 				cluiPos.left = rc.left;
 				cluiPos.top = rc.top;

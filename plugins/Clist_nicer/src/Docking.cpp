@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DOCKED_NONE    0
 #define DOCKED_LEFT    1
 #define DOCKED_RIGHT   2
-static int docked;
+int g_iDocked;
 
 extern RECT cluiPos;
 
@@ -69,11 +69,11 @@ static void Docking_AdjustPosition(HWND hwnd, RECT *rcDisplay, RECT *rc)
 	memset(&abd, 0, sizeof(abd));
 	abd.cbSize = sizeof(abd);
 	abd.hWnd = hwnd;
-	abd.uEdge = docked == DOCKED_LEFT ? ABE_LEFT : ABE_RIGHT;
+	abd.uEdge = g_iDocked == DOCKED_LEFT ? ABE_LEFT : ABE_RIGHT;
 	abd.rc = *rc;
 	abd.rc.top = rcDisplay->top;
 	abd.rc.bottom = rcDisplay->bottom;
-	if (docked == DOCKED_LEFT) {
+	if (g_iDocked == DOCKED_LEFT) {
 		abd.rc.right = rcDisplay->left + (abd.rc.right - abd.rc.left) - cfg::dat.bClipBorder;
 		abd.rc.left = rcDisplay->left - cfg::dat.bClipBorder;
 	}
@@ -85,11 +85,6 @@ static void Docking_AdjustPosition(HWND hwnd, RECT *rcDisplay, RECT *rc)
 	*rc = abd.rc;
 }
 
-int Docking_IsDocked(WPARAM, LPARAM)
-{
-	return docked;
-}
-
 int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 {
 	APPBARDATA abd;
@@ -97,8 +92,8 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	MSG *msg = (MSG *)wParam;
 
 	if (msg->message == WM_DESTROY)
-		g_plugin.setByte("Docked", (uint8_t)docked);
-	if (!docked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE)
+		g_plugin.setByte("Docked", (uint8_t)g_iDocked);
+	if (!g_iDocked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE)
 		return 0;
 
 	switch (msg->message) {
@@ -111,7 +106,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 	case WM_CREATEDOCKED:
 		//we need to post a message just after creation to let main message function do some work
-		docked = (int)(char)g_plugin.getByte("Docked", 0);
+		g_iDocked = (int)(char)g_plugin.getByte("Docked", 0);
 		if (IsWindowVisible(msg->hwnd) && !IsIconic(msg->hwnd)) {
 			RECT rc, rcMonitor;
 			memset(&abd, 0, sizeof(abd));
@@ -168,9 +163,9 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				abd.uCallbackMessage = WM_DOCKCALLBACK;
 				SHAppBarMessage(ABM_NEW, &abd);
 				if (ptCursor.x < rcMonitor.left + EDGESENSITIVITY)
-					docked = DOCKED_LEFT;
+					g_iDocked = DOCKED_LEFT;
 				else
-					docked = DOCKED_RIGHT;
+					g_iDocked = DOCKED_RIGHT;
 				SendMessage(msg->hwnd, WM_LBUTTONUP, 0, MAKELPARAM(ptCursor.x, ptCursor.y));
 				GetWindowRect(msg->hwnd, (LPRECT)msg->lParam);
 				Docking_AdjustPosition(msg->hwnd, (LPRECT)&rcMonitor, (LPRECT)msg->lParam);
@@ -181,7 +176,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_MOVE:
-		if (docked) {
+		if (g_iDocked) {
 			RECT rc, rcMonitor;
 			Docking_GetMonitorRectFromWindow(msg->hwnd, &rcMonitor);
 			GetWindowRect(msg->hwnd, &rc);
@@ -203,8 +198,8 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	case WM_SHOWWINDOW:
 		if (msg->lParam)
 			return 0;
-		if ((msg->wParam && docked < 0) || (!msg->wParam && docked > 0))
-			docked = -docked;
+		if ((msg->wParam && g_iDocked < 0) || (!msg->wParam && g_iDocked > 0))
+			g_iDocked = -g_iDocked;
 		memset(&abd, 0, sizeof(abd));
 		abd.cbSize = sizeof(abd);
 		abd.hWnd = msg->hwnd;
@@ -227,10 +222,10 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT || result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT) {
 				*((LRESULT *)lParam) = HTCLIENT; return TRUE;
 			}
-			if (docked == DOCKED_LEFT && result == HTLEFT) {
+			if (g_iDocked == DOCKED_LEFT && result == HTLEFT) {
 				*((LRESULT *)lParam) = HTCLIENT; return TRUE;
 			}
-			if (docked == DOCKED_RIGHT && result == HTRIGHT) {
+			if (g_iDocked == DOCKED_RIGHT && result == HTRIGHT) {
 				*((LRESULT *)lParam) = HTCLIENT; return TRUE;
 			}
 		}
@@ -251,14 +246,14 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			RECT rc;
 			POINT pt;
 			GetClientRect(msg->hwnd, &rc);
-			if (((docked == DOCKED_LEFT || docked == -DOCKED_LEFT) && (short)LOWORD(msg->lParam) > rc.right) || ((docked == DOCKED_RIGHT || docked == -DOCKED_RIGHT) && (short)LOWORD(msg->lParam) < 0)) {
+			if (((g_iDocked == DOCKED_LEFT || g_iDocked == -DOCKED_LEFT) && (short)LOWORD(msg->lParam) > rc.right) || ((g_iDocked == DOCKED_RIGHT || g_iDocked == -DOCKED_RIGHT) && (short)LOWORD(msg->lParam) < 0)) {
 				ReleaseCapture();
 				draggingTitle = 0;
 				memset(&abd, 0, sizeof(abd));
 				abd.cbSize = sizeof(abd);
 				abd.hWnd = msg->hwnd;
 				SHAppBarMessage(ABM_REMOVE, &abd);
-				docked = 0;
+				g_iDocked = 0;
 				GetCursorPos(&pt);
 				PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
 				SetWindowPos(msg->hwnd, nullptr, pt.x - rc.right / 2, pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2, cluiPos.right, cluiPos.bottom, SWP_NOZORDER);
@@ -282,7 +277,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case WM_DESTROY:
-		if (docked > 0) {
+		if (g_iDocked > 0) {
 			memset(&abd, 0, sizeof(abd));
 			abd.cbSize = sizeof(abd);
 			abd.hWnd = msg->hwnd;
