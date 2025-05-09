@@ -691,7 +691,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 void CTooltipNotify::ResetCList(HWND hwndDlg)
 {
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, Clist::UseGroups, 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, Clist::bUseGroups, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 }
 

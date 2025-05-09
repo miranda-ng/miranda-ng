@@ -626,7 +626,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 		return 1;
 
 	case WM_LBUTTONDOWN:
-		if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+		if (Clist::bClientAreaDrag) {
 			POINT p;
 			ClientToScreen(GetParent(hwnd), &p);
 			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(p.x, p.y));

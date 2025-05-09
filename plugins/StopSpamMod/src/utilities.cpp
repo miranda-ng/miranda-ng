@@ -67,7 +67,7 @@ bool ProtoInList(const char *szProto)
 
 void DeleteCListGroupsByName(wchar_t *szGroupName)
 {
-	uint8_t ConfirmDelete = Clist::ConfirmDelete;
+	uint8_t ConfirmDelete = Clist::bConfirmDelete;
 	if (ConfirmDelete)
 		db_set_b(0, "CList", "ConfirmDelete", 0);
 
