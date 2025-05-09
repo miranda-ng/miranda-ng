@@ -68,7 +68,7 @@ void CTeamsProto::OnTrouterInfo(MHttpResponse *response, AsyncHttpRequest *)
 
 void CTeamsProto::StartTrouter()
 {
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://go.trouter.teams.microsoft.com/v4/a", &CTeamsProto::OnTrouterInfo);
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://go.trouter.skype.com/v4/a", &CTeamsProto::OnTrouterInfo);
 	pReq->m_szUrl.AppendFormat("?epid=%s", m_szEndpoint.c_str());
 	pReq->AddHeader("x-skypetoken", m_szSkypeToken);
 	pReq->flags |= NLHRF_NODUMPHEADERS;
