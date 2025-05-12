@@ -68,9 +68,6 @@
     <ClCompile Include="src\coolscroll.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Docking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\extBackg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

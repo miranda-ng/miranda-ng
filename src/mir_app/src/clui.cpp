@@ -264,8 +264,6 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	m.message = msg;
 	m.wParam = wParam;
 	m.lParam = lParam;
-	if (g_clistApi.pfnDocking_ProcessWindowMessage((WPARAM)&m, (LPARAM)&result))
-		return result;
 	if (g_clistApi.pfnTrayIconProcessMessage((WPARAM)&m, (LPARAM)&result))
 		return result;
 
@@ -331,12 +329,6 @@ int LoadCLUIModule(void)
 		(Clist::bShowCaption ? WS_CAPTION | WS_SYSMENU | (Clist::bMinimizeToTray ? 0 : WS_MINIMIZEBOX) : 0),
 		pos.left, pos.top, pos.right - pos.left, pos.bottom - pos.top,
 		nullptr, nullptr, g_clistApi.hInst, nullptr);
-
-	if (db_get_b(0, "CList", "OnDesktop", 0)) {
-		HWND hProgMan = FindWindow(L"Progman", nullptr);
-		if (IsWindow(hProgMan))
-			SetParent(g_clistApi.hwndContactList, hProgMan);
-	}
 
 	HookEvent(ME_LANGPACK_CHANGED, CluiLangpackChanged);
 	CluiLangpackChanged(0, 0);
@@ -547,18 +539,15 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (db_get_b(0, "CList", "DisableWorkingSet", 1))
 				SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 		}
-		// drop thru
+		__fallthrough;
+
 	case WM_MOVE:
 		if (!IsIconic(hwnd)) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
-
-			//if docked, dont remember pos (except for width)
-			if (!Clist_IsDocked()) {
-				db_set_dw(0, "CList", "Height", (uint32_t)(rc.bottom - rc.top));
-				db_set_dw(0, "CList", "x", (uint32_t)rc.left);
-				db_set_dw(0, "CList", "y", (uint32_t)rc.top);
-			}
+			db_set_dw(0, "CList", "Height", (uint32_t)(rc.bottom - rc.top));
+			db_set_dw(0, "CList", "x", (uint32_t)rc.left);
+			db_set_dw(0, "CList", "y", (uint32_t)rc.top);
 			db_set_dw(0, "CList", "Width", (uint32_t)(rc.right - rc.left));
 		}
 		return FALSE;
@@ -725,7 +714,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return 0;
 
 	case WM_SETTINGCHANGE:
-		if (wParam == SPI_SETWORKAREA && (GetWindowLongPtr(hwnd, GWL_STYLE) & (WS_VISIBLE | WS_MINIMIZE)) == WS_VISIBLE && !Clist_IsDocked()) {
+		if (wParam == SPI_SETWORKAREA && (GetWindowLongPtr(hwnd, GWL_STYLE) & (WS_VISIBLE | WS_MINIMIZE)) == WS_VISIBLE) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 			if (Utils_AssertInsideScreen(&rc) == 1)
@@ -783,15 +772,10 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				return Clist_MenuProcessHotkey(((NMKEY*)lParam)->nVKey);
 
 			case CLN_LISTSIZECHANGE:
-				{
-					RECT rcWindow, rcTree, rcWorkArea;
-					int maxHeight, newHeight;
+				if (db_get_b(0, "CLUI", "AutoSize", 0)) {
+					int maxHeight = db_get_b(0, "CLUI", "MaxSizeHeight", 75);
 
-					if (!db_get_b(0, "CLUI", "AutoSize", 0))
-						break;
-					if (Clist_IsDocked())
-						break;
-					maxHeight = db_get_b(0, "CLUI", "MaxSizeHeight", 75);
+					RECT rcWindow, rcTree, rcWorkArea;
 					GetWindowRect(hwnd, &rcWindow);
 					GetWindowRect(g_clistApi.hwndContactTree, &rcTree);
 
@@ -802,7 +786,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					if (GetMonitorInfo(hMon, &mi))
 						rcWorkArea = mi.rcWork;
 
-					newHeight = max(nmc->pt.y, LONG(9)) + 1 + (rcWindow.bottom - rcWindow.top) - (rcTree.bottom - rcTree.top);
+					int newHeight = max(nmc->pt.y, LONG(9)) + 1 + (rcWindow.bottom - rcWindow.top) - (rcTree.bottom - rcTree.top);
 					if (newHeight > (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100)
 						newHeight = (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100;
 					if (db_get_b(0, "CLUI", "AutoSizeUpward", 0)) {
@@ -1012,13 +996,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		if (!IsIconic(hwnd)) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
-
-			//if docked, dont remember pos (except for width)
-			if (!Clist_IsDocked()) {
-				db_set_dw(0, "CList", "Height", (uint32_t)(rc.bottom - rc.top));
-				db_set_dw(0, "CList", "x", (uint32_t)rc.left);
-				db_set_dw(0, "CList", "y", (uint32_t)rc.top);
-			}
+			db_set_dw(0, "CList", "Height", (uint32_t)(rc.bottom - rc.top));
+			db_set_dw(0, "CList", "x", (uint32_t)rc.left);
+			db_set_dw(0, "CList", "y", (uint32_t)rc.top);
 			db_set_dw(0, "CList", "Width", (uint32_t)(rc.right - rc.left));
 		}
 

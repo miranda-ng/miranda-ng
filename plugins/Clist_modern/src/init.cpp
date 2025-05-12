@@ -207,7 +207,6 @@ static HRESULT SubclassClistInterface()
 	g_clistApi.pfnProcessExternalMessages = cli_ProcessExternalMessages;
 	g_clistApi.pfnAddEvent = cli_AddEvent;
 	g_clistApi.pfnFreeEvent = cli_RemoveEvent;
-	g_clistApi.pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
 	return S_OK;
 }
 

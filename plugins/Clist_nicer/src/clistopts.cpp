@@ -305,7 +305,6 @@ public:
 		CheckDlgButton(m_hwnd, IDC_ALWAYSHIDEONTASKBAR, g_plugin.getByte("AlwaysHideOnTB", 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_FADEINOUT, cfg::dat.fadeinout ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DROPSHADOW, g_plugin.getByte("WindowShadow", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_ONDESKTOP, g_plugin.getByte("OnDesktop", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		chkAutoSize.SetState(cfg::dat.autosize);
 
@@ -446,7 +445,7 @@ public:
 		Clist::iAlpha = cfg::dat.alpha = SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0);
 		Clist::iAutoAlpha = cfg::dat.autoalpha = SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0);
 		g_plugin.setByte("WindowShadow", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DROPSHADOW));
-		g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ONDESKTOP));
+
 		db_set_dw(0, "CLUI", "Frameflags", cfg::dat.dwFlags);
 		cfg::dat.bFullTransparent = IsDlgButtonChecked(m_hwnd, IDC_FULLTRANSPARENT) ? 1 : 0;
 		db_set_b(0, "CLUI", "fulltransparent", (uint8_t)cfg::dat.bFullTransparent);

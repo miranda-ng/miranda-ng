@@ -62,7 +62,7 @@ int CListMod_HideWindow(HWND hwndContactList, int mode);
 int CLUIServices_LoadModule(void);
 INT_PTR CLUIServices_SortList(WPARAM wParam, LPARAM lParam);
 
-void Docking_GetMonitorRectFromWindow(HWND hWnd, RECT *rc);
+void GetMonitorRectFromWindow(HWND hWnd, RECT *rc);
 
 int EventArea_Create(HWND hCluiWnd);
 

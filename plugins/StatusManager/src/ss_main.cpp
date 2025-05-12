@@ -388,7 +388,7 @@ int SSModuleLoaded(WPARAM, LPARAM)
 
 		WINDOWPLACEMENT wndpl = { sizeof(wndpl) };
 		if (GetWindowPlacement(hClist, &wndpl)) {
-			if (wndpl.showCmd == SW_SHOWNORMAL && !Clist_IsDocked()) {
+			if (wndpl.showCmd == SW_SHOWNORMAL) {
 				RECT rc;
 				if (GetWindowRect(hClist, &rc)) {
 					int x = rc.left;

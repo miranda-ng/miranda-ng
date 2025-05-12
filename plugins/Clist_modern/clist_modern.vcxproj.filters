@@ -68,9 +68,6 @@
     <ClCompile Include="src\modern_contact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\modern_docking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\modern_gdiplus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

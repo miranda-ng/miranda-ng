@@ -284,9 +284,6 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
 
-	if (Clist_IsDocked())
-		return GWVS_VISIBLE;
-
 	GetWindowRect(hWnd, &rcWin);
 
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);

@@ -209,7 +209,6 @@ BEGIN
     COMBOBOX        IDC_BORDERSTYLE,62,60,64,56,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Title bar text:",IDC_STATIC,11,80,51,8
     EDITTEXT        IDC_TITLETEXT,62,79,64,12,ES_AUTOHSCROLL
-    CONTROL         "Pin to desktop",IDC_ONDESKTOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,96,128,10
     CONTROL         "Show drop shadow (restart required)",IDC_DROPSHADOW,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,108,138,10
     CONTROL         "Hide contact list after it has been idle for",IDC_AUTOHIDE,

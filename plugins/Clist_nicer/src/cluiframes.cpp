@@ -1206,13 +1206,10 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam, LPARAM)
 
 	// do not collapse/uncollapse client/locked/invisible frames
 	if (Frames[FrameId].align == alClient && !(Frames[FrameId].Locked || (!Frames[FrameId].visible) || Frames[FrameId].floating)) {
-		RECT rc;
-		if (Clist_IsDocked())
-			return 0;
-
 		if (db_get_b(0, "CLUI", "AutoSize", 0))
 			return 0;
 
+		RECT rc;
 		GetWindowRect(g_clistApi.hwndContactList, &rc);
 
 		if (Frames[FrameId].collapsed == TRUE) {

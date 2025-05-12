@@ -127,7 +127,6 @@ int CListMod_ContactListShutdownProc(WPARAM, LPARAM)
 HRESULT PreLoadContactListModule()
 {
 	/* Global data initialization */
-	g_CluiData.fOnDesktop = false;
 	g_CluiData.dwKeyColor = RGB(255, 0, 255);
 	g_CluiData.bCurrentAlpha = 255;
 
@@ -180,7 +179,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
 
-	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT) || !Clist::bBringToFront)
+	if (!Clist::bBringToFront)
 		return GWVS_VISIBLE;
 
 	HWND hwndFocused = GetFocus();
@@ -220,7 +219,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	GetWindowRect(hWnd, &rc);
 
 	RECT rcMonitor = { 0 };
-	Docking_GetMonitorRectFromWindow(hWnd, &rcMonitor);
+	GetMonitorRectFromWindow(hWnd, &rcMonitor);
 
 	rc.top = rc.top < rcMonitor.top ? rcMonitor.top : rc.top;
 	rc.left = rc.left < rcMonitor.left ? rcMonitor.left : rc.left;
@@ -336,19 +335,13 @@ int cliShowHide(bool bAlwaysShow)
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 		CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_RESTORE);
 
-		if (!g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
-			Sync(CLUIFrames_OnShowHide, 1);	//TO BE PROXIED
-			SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-			g_bCalledFromShowHide = 1;
-			if (!Clist::bOnTop)
-				SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-			g_bCalledFromShowHide = 0;
-		}
-		else {
+		Sync(CLUIFrames_OnShowHide, 1);	//TO BE PROXIED
+		SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+		g_bCalledFromShowHide = 1;
+		if (!Clist::bOnTop)
 			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-			Sync(CLUIFrames_OnShowHide, 1);
-			SetForegroundWindow(g_clistApi.hwndContactList);
-		}
+		g_bCalledFromShowHide = 0;
+
 		g_plugin.setByte("State", SETTING_STATE_NORMAL);
 
 		RECT rcWindow;

@@ -44,7 +44,6 @@ struct CLUIDATA
 	bool     bEventAreaEnabled;
 	bool     bNotifyActive;
 	bool     fDisableSkinEngine;
-	bool     fOnDesktop;
 	bool     fSmoothAnimation;
 	bool     fLayered;
 	bool     fSortOfflineBottom;

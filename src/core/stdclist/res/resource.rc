@@ -79,7 +79,7 @@ BEGIN
     EDITTEXT        IDC_TITLETEXT,63,100,72,12,ES_AUTOHSCROLL
     CONTROL         "Show drop shadow (restart required)",IDC_DROPSHADOW,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,117,138,10
-    CONTROL         "Pin to desktop",IDC_ONDESKTOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,131,128,10
+
     CONTROL         "Hide contact list after it has been idle for",IDC_AUTOHIDE,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,141,18,162,10
     EDITTEXT        IDC_HIDETIME,151,32,30,12,ES_RIGHT | ES_NUMBER

@@ -34,7 +34,6 @@ CLIST_INTERFACE coreCli;
 
 extern HICON overlayicons[10];
 
-int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 int SetHideOffline(int iValue);
 
 ClcContact *CreateClcContact(void);
@@ -176,7 +175,6 @@ int CMPlugin::Load()
 	g_clistApi.pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
 	g_clistApi.pfnCompareContacts = CompareContacts;
 	g_clistApi.pfnCreateClcContact = CreateClcContact;
-	g_clistApi.pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
 	g_clistApi.pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
 	g_clistApi.pfnGetDefaultFontSetting = GetDefaultFontSetting;
 	g_clistApi.pfnGetRowBottomY = RowHeight::getItemBottomY;

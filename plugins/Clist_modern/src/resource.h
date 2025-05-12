@@ -250,7 +250,6 @@
 #define IDC_HILIGHTMODE2                1659
 #define IDC_HILIGHTMODE1                1660
 #define IDC_HILIGHTMODE3                1661
-#define IDC_ONDESKTOP                   1662
 #define IDC_HILIGHTMODE4                1663
 #define IDC_USECONNECTINGICON           1761
 #define IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK 1761

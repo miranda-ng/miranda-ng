@@ -138,17 +138,10 @@ int SetAlpha(uint8_t Alpha)
 			HWND hwnd = F.OwnerWindow;
 			long l = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 			if (!(l & WS_EX_LAYERED)) {
-				HWND parent = nullptr;
-				if (g_CluiData.fOnDesktop) {
-					HWND hProgMan = FindWindow(L"Progman", nullptr);
-					if (IsWindow(hProgMan))
-						parent = hProgMan;
-				}
-
 				CLUI_ShowWindowMod(hwnd, SW_HIDE);
 				SetParent(hwnd, nullptr);
 				SetWindowLongPtr(hwnd, GWL_EXSTYLE, l | WS_EX_LAYERED);
-				SetParent(hwnd, parent);
+				SetParent(hwnd, nullptr);
 				if (l&WS_VISIBLE)  CLUI_ShowWindowMod(hwnd, SW_SHOW);
 			}
 			SetLayeredWindowAttributes(hwnd, g_CluiData.dwKeyColor, Alpha, LWA_ALPHA | LWA_COLORKEY);
@@ -174,21 +167,14 @@ int CLUIFrames_ActivateSubContainers(BOOL active)
 {
 	for (int i = 0; i < g_nFramesCount; i++) {
 		FRAMEWND &F = g_pfwFrames[i];
-		if (active && !F.floating && F.OwnerWindow != (HWND)nullptr && F.OwnerWindow != (HWND)-2 && F.visible && !F.needhide) {
-			if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
-				SetWindowPos(F.OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-				SetWindowPos(F.OwnerWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-			}
-			else SetWindowPos(F.OwnerWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
-		}
+		if (active && !F.floating && F.OwnerWindow != (HWND)nullptr && F.OwnerWindow != (HWND)-2 && F.visible && !F.needhide)
+			SetWindowPos(F.OwnerWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
 	}
 	return 0;
 }
 
 int CLUIFrames_SetParentForContainers(HWND parent)
 {
-	g_CluiData.fOnDesktop = (parent && parent != g_clistApi.hwndContactList);
-
 	for (int i = 0; i < g_nFramesCount; i++) {
 		FRAMEWND &F = g_pfwFrames[i];
 		if (!F.floating && F.OwnerWindow != (HWND)nullptr && F.OwnerWindow != (HWND)-2 && F.visible && !F.needhide) {
@@ -218,11 +204,7 @@ int CLUIFrames_OnShowHide(int mode)
 
 		if (mode != SW_HIDE) {
 			SetWindowPos(F.OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-			if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
-				SetWindowPos(F.OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-				SetWindowPos(F.OwnerWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-			}
-			else SetWindowPos(F.OwnerWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
+			SetWindowPos(F.OwnerWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
 		}
 	}
 
@@ -1348,9 +1330,6 @@ static int _us_DoCollapseFrame(WPARAM wParam, LPARAM lParam)
 	if (FrameId >= 0 && FrameId < g_nFramesCount) {
 		// do not collapse/uncollapse client/locked/invisible frames
 		if (g_pfwFrames[FrameId].align == alClient && !(g_pfwFrames[FrameId].Locked || (!g_pfwFrames[FrameId].visible) || g_pfwFrames[FrameId].floating)) {
-			if (Clist_IsDocked())
-				return 0;
-
 			if (g_CluiData.fDocked || !g_CluiData.fAutoSize) {
 				RECT rc;
 				GetWindowRect(g_clistApi.hwndContactList, &rc);
@@ -2988,12 +2967,6 @@ static HWND CreateSubContainerWindow(HWND parent, int x, int y, int width, int h
 {
 	HWND hwnd = CreateWindowEx(WS_EX_LAYERED, CLUIFrameSubContainerClassName, L"SubContainerWindow", WS_POPUP | (!g_CluiData.fLayered ? WS_BORDER : 0), x, y, width, height, parent, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~(WS_CAPTION | WS_BORDER));
-	if (g_CluiData.fOnDesktop) {
-		HWND hProgMan = FindWindow(L"Progman", nullptr);
-		if (IsWindow(hProgMan))
-			SetParent(hwnd, hProgMan);
-	}
-
 	return hwnd;
 }
 

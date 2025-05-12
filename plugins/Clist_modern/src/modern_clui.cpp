@@ -683,15 +683,6 @@ void CLUI_ChangeWindowMode()
 	}
 	SetWindowText(g_clistApi.hwndContactList, titleText);
 
-	// < ->
-	// 1 - If visible store it and hide
-	if (g_CluiData.fLayered && (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT))) {
-		SetParent(g_clistApi.hwndContactList, nullptr);
-		Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
-		UpdateWindow(g_clistApi.hwndContactList);
-		g_CluiData.fOnDesktop = false;
-	}
-
 	// 5 - TODO Apply Style
 	oldStyleEx = curStyleEx = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE);
 	oldStyle = curStyle = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_STYLE);
@@ -716,23 +707,9 @@ void CLUI_ChangeWindowMode()
 	else
 		SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 
-	if (g_CluiData.fLayered && (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)))
-		ske_UpdateWindowImage();
-
 	// 6 - Pin to desktop mode
-	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
-		HWND hProgMan = FindWindow(L"Progman", nullptr);
-		if (IsWindow(hProgMan)) {
-			SetParent(g_clistApi.hwndContactList, hProgMan);
-			Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
-			g_CluiData.fOnDesktop = true;
-		}
-	}
-	else {
-		SetParent(g_clistApi.hwndContactList, nullptr);
-		Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
-		g_CluiData.fOnDesktop = false;
-	}
+	SetParent(g_clistApi.hwndContactList, nullptr);
+	Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
 
 	// 7 - if it was visible - show
 	if (storedVisMode) {
@@ -751,7 +728,7 @@ void CLUI_ChangeWindowMode()
 		int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 		h = (h < v) ? h : v;
 		HRGN hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
-		if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT) && !Clist_IsDocked())
+		if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT))
 			SetWindowRgn(g_clistApi.hwndContactList, hRgn1, 1);
 		else {
 			DeleteObject(hRgn1);
@@ -808,7 +785,7 @@ int CLUI_HideBehindEdge()
 		//Need to be moved out of screen
 		bShowEventStarted = 0;
 		//1. get work area rectangle
-		Docking_GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
+		GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
 		//SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen,FALSE);
 		//2. move out
 		int bordersize = wBehindEdgeBorderSize;
@@ -848,7 +825,7 @@ int CLUI_ShowFromBehindEdge()
 		// Need to be moved out of screen
 		// 1. get work area rectangle
 		RECT rcScreen;
-		Docking_GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
+		GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
 
 		// 2. move out
 		RECT rcWindow;
@@ -1693,12 +1670,10 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckFramesPos(&rc);
 			Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
 			if (!IsIconic(m_hWnd)) {
-				if (!Clist_IsDocked()) { // if g_CluiData.fDocked, dont remember pos (except for width)
-					g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
-					g_plugin.setDword("x", (uint32_t)rc.left);
-					g_plugin.setDword("y", (uint32_t)rc.top);
-				}
+				g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
 				g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
+				g_plugin.setDword("x", (uint32_t)rc.left);
+				g_plugin.setDword("y", (uint32_t)rc.top);
 			}
 		}
 		return TRUE;
@@ -1730,14 +1705,11 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			// if g_CluiData.fDocked, dont remember pos (except for width)
-			if (!Clist_IsDocked()) {
-				g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
-				g_plugin.setDword("x", (uint32_t)rc.left);
-				g_plugin.setDword("y", (uint32_t)rc.top);
-			}
-			else SetWindowRgn(m_hWnd, nullptr, 0);
+			g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
 			g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
-
+			g_plugin.setDword("x", (uint32_t)rc.left);
+			g_plugin.setDword("y", (uint32_t)rc.top);
+	
 			if (!g_CluiData.fLayered) {
 				HRGN hRgn1;
 				RECT r;
@@ -1747,7 +1719,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 				int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 				h = (h < v) ? h : v;
 				hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
-				if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT) && !Clist_IsDocked())
+				if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT))
 					SetWindowRgn(m_hWnd, hRgn1, FALSE);
 				else {
 					DeleteObject(hRgn1);
@@ -2239,8 +2211,6 @@ LRESULT CLUI::OnSysCommand(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	DefWindowProc(m_hWnd, msg, wParam, lParam);
-	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT))
-		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 	return FALSE;
 }
 
@@ -2282,7 +2252,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL *pnmc)
 		rcWindow = rcSizingRect;
 	else
 		GetWindowRect(m_hWnd, &rcWindow);
-	if (!g_CluiData.fAutoSize || g_clistApi.hwndContactTree == nullptr || Clist_IsDocked())
+	if (!g_CluiData.fAutoSize || g_clistApi.hwndContactTree == nullptr)
 		return FALSE;
 
 	maxHeight = db_get_b(0, "CLUI", "MaxSizeHeight", SETTING_MAXSIZEHEIGHT_DEFAULT);

@@ -936,7 +936,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		}   //====== End of Non-Layered Mode =====
 
 		CheckDlgButton(hwndDlg, IDC_FADEINOUT, db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT));
-		CheckDlgButton(hwndDlg, IDC_ONDESKTOP, g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT));
+
 		SendDlgItemMessage(hwndDlg, IDC_FRAMESSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
 		SendDlgItemMessage(hwndDlg, IDC_CAPTIONSSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
 		SendDlgItemMessage(hwndDlg, IDC_FRAMESSPIN, UDM_SETPOS, 0, db_get_dw(0, "CLUIFrames", "GapBetweenFrames", SETTING_GAPFRAMES_DEFAULT));
@@ -1013,12 +1013,6 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 					CheckDlgButton(hwndDlg, IDC_LAYERENGINE, BST_CHECKED);
 			}
 		}
-		else if (LOWORD(wParam) == IDC_ONDESKTOP && IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
-			CheckDlgButton(hwndDlg, IDC_ONTOP, BST_UNCHECKED);
-		}
-		else if (LOWORD(wParam) == IDC_ONTOP && IsDlgButtonChecked(hwndDlg, IDC_ONTOP)) {
-			CheckDlgButton(hwndDlg, IDC_ONDESKTOP, BST_UNCHECKED);
-		}
 		else if (LOWORD(wParam) == IDC_TOOLWND) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIN2TRAY), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_TOOLWND));
 		}
@@ -1072,7 +1066,6 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 					db_unset(0, "ModernData", "EnableLayering");
 			}
 			g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (uint32_t)SETTING_KEYCOLOR_DEFAULT);
-			g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
 			Clist::bOnTop = IsDlgButtonChecked(hwndDlg, IDC_ONTOP);
 			SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			db_set_b(0, "CLUI", "DragToScroll", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
@@ -1095,21 +1088,11 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 			g_bChangingMode = true;
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
-				HWND hProgMan = FindWindow(L"Progman", nullptr);
-				if (IsWindow(hProgMan)) {
-					SetParent(g_clistApi.hwndContactList, hProgMan);
-					Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
-					g_CluiData.fOnDesktop = true;
-				}
+			if (GetParent(g_clistApi.hwndContactList)) {
+				SetParent(g_clistApi.hwndContactList, nullptr);
+				Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
 			}
-			else {
-				if (GetParent(g_clistApi.hwndContactList)) {
-					SetParent(g_clistApi.hwndContactList, nullptr);
-					Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
-				}
-				g_CluiData.fOnDesktop = false;
-			}
+
 			AniAva_UpdateParent();
 			db_set_b(0, "CLUI", "FadeInOut", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT));
 			g_CluiData.fSmoothAnimation = IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT) != 0;
@@ -1124,7 +1107,6 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			Clist::bTransparent = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT);
 			Clist::iAlpha = SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0);
 			Clist::iAutoAlpha = SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0);
-			g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
 
 			ske_LoadSkinFromDB();
 			CLUI_UpdateLayeredMode();

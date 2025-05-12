@@ -185,7 +185,6 @@ Window_SetIcon_IcoLib @265
 Clist_Broadcast @266 NONAME
 Clist_BroadcastAsync @267 NONAME
 Clist_MenuProcessCommand @268
-Clist_IsDocked @269
 Clist_MenuProcessHotkey @270
 Clist_ContactChangeGroup @271
 Clist_ContactCompare @272

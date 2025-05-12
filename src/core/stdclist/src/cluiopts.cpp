@@ -48,7 +48,6 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_FADEINOUT, db_get_b(0, "CLUI", "FadeInOut", 0));
 		CheckDlgButton(hwndDlg, IDC_AUTOSIZE, db_get_b(0, "CLUI", "AutoSize", 0));
 		CheckDlgButton(hwndDlg, IDC_DROPSHADOW, g_plugin.getByte("WindowShadow", 0));
-		CheckDlgButton(hwndDlg, IDC_ONDESKTOP, g_plugin.getByte("OnDesktop", 0));
 		CheckDlgButton(hwndDlg, IDC_DISABLEDOCKING, db_get_b(0, "CLUI", "DockToSides", 1));
 		SendDlgItemMessage(hwndDlg, IDC_MAXSIZESPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
 		SendDlgItemMessage(hwndDlg, IDC_MAXSIZESPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "MaxSizeHeight", 75));
@@ -157,7 +156,6 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			Clist::iAlpha = SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0);
 			Clist::iAutoAlpha = SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0);
 			g_plugin.setByte("WindowShadow", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DROPSHADOW));
-			g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
 			db_set_b(0, "CLUI", "DockToSides", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DISABLEDOCKING));
 			Clist::bShowCaption = IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION);
 			Clist::bShowMainMenu = IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU);
@@ -186,15 +184,10 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetWindowPlacement(g_clistApi.hwndContactList, &p);
 			}
 			else
-				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) & ~WS_EX_TOOLWINDOW | WS_EX_APPWINDOW);
+				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE,
+					GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) & ~WS_EX_TOOLWINDOW | WS_EX_APPWINDOW);
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
-				HWND hProgMan = FindWindow(L"Progman", nullptr);
-				if (hProgMan)
-					SetParent(g_clistApi.hwndContactList, hProgMan);
-			}
-			else
-				SetParent(g_clistApi.hwndContactList, nullptr);
+			SetParent(g_clistApi.hwndContactList, nullptr);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION)) {
 				int style = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX;

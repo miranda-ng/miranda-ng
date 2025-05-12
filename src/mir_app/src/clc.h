@@ -167,9 +167,6 @@ int LoadCLUIModule(void);
 /* contact.c */
 int fnSetHideOffline(int iValue);
 
-/* docking.c */
-int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
-
 // clistgroups.cpp
 
 struct CGroupInternal

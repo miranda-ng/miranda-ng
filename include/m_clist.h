@@ -275,13 +275,6 @@ EXTERN_C MIR_APP_DLL(BOOL) Clist_MenuProcessCommand(int menu_id, int flags, MCON
 EXTERN_C MIR_APP_DLL(BOOL) Clist_MenuProcessHotkey(unsigned hotkey);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// determines whether the contact list is docked
-// wParam = lParam = 0
-// returns nonzero if the contact list is docked, of 0 if it is not
-
-EXTERN_C MIR_APP_DLL(BOOL) Clist_IsDocked(void);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Clist-related buttons management
 /////////////////////////////////////////////////////////////////////////////////////////
 // toggles the use groups mode of the contact list

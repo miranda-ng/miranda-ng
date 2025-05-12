@@ -576,8 +576,6 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (!db_get_b(0, "CLUI", "AutoSize", 0))
 		return;
 
-	if (g_iDocked)
-		return;
 	if (hFrameContactTree == 0)
 		return;
 
@@ -948,15 +946,14 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			}
 
 			if (cfg::dat.bClipBorder != 0 || cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME) {
-				int docked = Clist_IsDocked();
 				int clip = cfg::dat.bClipBorder;
 
 				if (!g_CLUISkinnedBkColor)
 					FillRect(hdc, &rcClient, cfg::dat.hBrushColorKey);
 				if (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME)
-					rgn = CreateRoundRectRgn(clip, docked ? 0 : clip, rcClient.right - clip + 1, rcClient.bottom - (docked ? 0 : clip - 1), 8 + clip, 8 + clip);
+					rgn = CreateRoundRectRgn(clip, clip, rcClient.right - clip + 1, rcClient.bottom - (clip - 1), 8 + clip, 8 + clip);
 				else
-					rgn = CreateRectRgn(clip, docked ? 0 : clip, rcClient.right - clip, rcClient.bottom - (docked ? 0 : clip));
+					rgn = CreateRectRgn(clip, clip, rcClient.right - clip, rcClient.bottom - clip);
 				SelectClipRgn(hdc, rgn);
 			}
 
@@ -1034,9 +1031,6 @@ skipbg:
 		break;
 
 	case WM_WINDOWPOSCHANGED:
-		if (g_iDocked)
-			break;
-
 	case WM_WINDOWPOSCHANGING:
 		if (g_clistApi.hwndContactList != nullptr) {
 			WINDOWPOS *wp = (WINDOWPOS *)lParam;
@@ -1077,8 +1071,7 @@ skipbg:
 		return 0;
 
 	case WM_SIZE:
-		if ((wParam == 0 && lParam == 0) || g_iDocked) {
-
+		if (wParam == 0 && lParam == 0) {
 			if (IsZoomed(hwnd))
 				ShowWindow(hwnd, SW_SHOWNORMAL);
 
@@ -1099,22 +1092,18 @@ skipbg:
 	case WM_MOVE:
 		if (!IsIconic(hwnd)) {
 			GetWindowRect(hwnd, &rc);
-
-			if (!g_iDocked) {
-				cluiPos.bottom = (uint32_t)(rc.bottom - rc.top);
-				cluiPos.left = rc.left;
-				cluiPos.top = rc.top;
-			}
+			cluiPos.bottom = (uint32_t)(rc.bottom - rc.top);
+			cluiPos.left = rc.left;
+			cluiPos.top = rc.top;
 			cluiPos.right = rc.right - rc.left;
+
 			if (cfg::dat.realTimeSaving) {
 				GetWindowRect(hwnd, &rc);
 
 				// if docked, dont remember pos (except for width)
-				if (!Clist_IsDocked()) {
-					g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
-					g_plugin.setDword("x", (uint32_t)rc.left);
-					g_plugin.setDword("y", (uint32_t)rc.top);
-				}
+				g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
+				g_plugin.setDword("x", (uint32_t)rc.left);
+				g_plugin.setDword("y", (uint32_t)rc.top);
 				g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
 			}
 		}

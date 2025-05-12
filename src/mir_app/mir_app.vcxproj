@@ -68,7 +68,6 @@
       <ExceptionHandling>false</ExceptionHandling>
       <DisableSpecificWarnings>4652;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
-    <ClCompile Include="src\Docking.cpp" />
     <ClCompile Include="src\ei_baseIcon.cpp" />
     <ClCompile Include="src\ei_callbackIcon.cpp" />
     <ClCompile Include="src\ei_defaulticons.cpp" />

@@ -399,9 +399,6 @@ struct CLIST_INTERFACE
 	int            (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
 	int            (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
 
-	/* docking.c */
-	int            (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
-
 	/*************************************************************************************
 	 * version 2 - events processing
 	 *************************************************************************************/

@@ -422,9 +422,6 @@ void CluiProtocolStatusChanged(int, const char*);
 
 void LoadSkinItemToCache(struct TExtraCache *cEntry);
 
-// Docking.c
-extern int g_iDocked;
-
 // Buttons
 
 #define BUTTONSETIMLICON		(WM_USER+20)

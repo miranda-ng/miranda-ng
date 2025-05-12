@@ -365,9 +365,6 @@
     <ClCompile Include="src\movetogroup.cpp">
       <Filter>Source Files\Contact list</Filter>
     </ClCompile>
-    <ClCompile Include="src\Docking.cpp">
-      <Filter>Source Files\Contact list</Filter>
-    </ClCompile>
     <ClCompile Include="src\CMPluginBase.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>

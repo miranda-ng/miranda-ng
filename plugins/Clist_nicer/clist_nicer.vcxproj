@@ -97,7 +97,6 @@
     <ClCompile Include="src\contact.cpp" />
     <ClCompile Include="src\coolsblib.cpp" />
     <ClCompile Include="src\coolscroll.cpp" />
-    <ClCompile Include="src\Docking.cpp" />
     <ClCompile Include="src\extBackg.cpp" />
     <ClCompile Include="src\groupmenu.cpp" />
     <ClCompile Include="src\init.cpp" />
