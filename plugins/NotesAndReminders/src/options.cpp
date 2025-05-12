@@ -299,13 +299,14 @@ public:
 
 	void onClick_Browse(CCtrlButton*)
 	{
-		wchar_t s[MAX_PATH];
+		wchar_t s[MAX_PATH], wszFilter[MAX_PATH];
 		GetDlgItemText(m_hwnd, IDC_EDIT_ALTBROWSER, s, _countof(s));
+		mir_snwprintf(wszFilter, L"%s%c*.exe%c%s%c*.*%c", TranslateT("Executable Files"), 0, 0, TranslateT("All Files"), 0, 0);
 
 		OPENFILENAME ofn = {0};
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 		ofn.hwndOwner = m_hwnd;
-		ofn.lpstrFilter = TranslateT("Executable Files\0*.exe\0All Files\0*.*\0\0");
+		ofn.lpstrFilter = wszFilter;
 		ofn.lpstrFile = s;
 		ofn.nMaxFile = _countof(s);
 		ofn.lpstrTitle = TranslateT("Select Executable");
