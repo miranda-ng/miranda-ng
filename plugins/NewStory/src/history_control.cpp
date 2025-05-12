@@ -499,11 +499,11 @@ void NewstoryListData::EndEditItem(bool bAccept)
 			pItem->wtext[iTextLen] = 0;
 
 			if (pItem->dbe.hContact && pItem->dbe.getEvent()) {
-				DBEVENTINFO dbei = pItem->dbe;
+				DB::EventInfo dbei(pItem->dbe.getEvent());
 
 				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
 				dbei.cbBlob = (int)mir_strlen(szUtf) + 1;
-				dbei.pBlob = szUtf.get();
+				dbei.pBlob = szUtf.detach();
 				db_event_edit(pItem->dbe.getEvent(), &dbei);
 			}
 
