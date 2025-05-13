@@ -32,7 +32,6 @@ CMOption<bool> Chat::bUseGroup(CHAT_MODULE, "UseGroup", true);
 CMOption<bool> Chat::bDoubleClick4Privat(CHAT_MODULE, "DoubleClick4Privat", false);
 CMOption<bool> Chat::bShowContactStatus(CHAT_MODULE, "ShowContactStatus", true);
 CMOption<bool> Chat::bContactStatusFirst(CHAT_MODULE, "ContactStatusFirst", false);
-CMOption<bool> Chat::bEnableCustomLogs(SRMM_MODULE, "EnableCustomLogs", false);
 
 CMOption<bool> Chat::bFlashWindow(CHAT_MODULE, "FlashWindow", false);
 CMOption<bool> Chat::bFlashWindowHighlight(CHAT_MODULE, "FlashWindowHighlight", false);

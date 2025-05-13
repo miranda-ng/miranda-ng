@@ -585,7 +585,6 @@
 #define IDC_RADIO1                      1740
 #define IDC_RADIO2                      1741
 #define IDC_ADDCHECK                    1742
-#define IDC_ENABLE_CUSTOM               1743
 #define IDC_GETMOREPLUGINS              1744
 #define IDC_DISABLEMENUICONS            1745
 #define IDC_SM_ENABLED                  1746
@@ -604,6 +603,8 @@
 #define IDC_OFFLINE_AUTOSIZE_SPIN       1758
 #define IDC_OFFLINE_DELETE              1759
 #define IDC_SHOWPASSWORD                1760
+#define IDC_LOGGER                      1761
+#define IDC_LOGGER_GC                   1762
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889
@@ -696,9 +697,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        340
+#define _APS_NEXT_RESOURCE_VALUE        341
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1761
+#define _APS_NEXT_CONTROL_VALUE         1762
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

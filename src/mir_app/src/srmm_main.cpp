@@ -198,6 +198,7 @@ int LoadSrmmModule()
 
 	g_hCurHyperlinkHand = LoadCursor(nullptr, IDC_HAND);
 
+	CheckLogOptions();
 	LoadSrmmToolbarModule();
 
 	CreateServiceFunction(MS_HISTORY_EMPTY, svcEmptyHistory);

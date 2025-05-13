@@ -30,18 +30,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static OBJLIST<SrmmLogWindowClass> g_arLogClasses(1, PtrKeySortT);
 
 static CMOption<char *> g_logger(SRMM_MODULE, "Logger", "built-in");
+static CMOption<char *> g_loggerGC(SRMM_MODULE, "LoggerGC", "built-in");
+
+void CheckLogOptions()
+{
+	if (db_get_b(0, SRMM_MODULE, "EnableCustomLogs")) {
+		g_loggerGC = (char*)g_logger;
+		db_unset(0, SRMM_MODULE, "EnableCustomLogs");
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static bool sttEnableCustomLogs(CMsgDialog *pDlg)
 {
 	// always enable custom log viewers for private chats
-	if (!pDlg || !pDlg->isChat())
+	if (!pDlg)
 		return true;
-
-	// if custom log viewers are disable, use build-in one
-	if (!Chat::bEnableCustomLogs)
-		return false;
 
 	// check if custom viewers are forbidden for this particular account
 	auto *szProto = Proto_GetBaseAccountName(pDlg->m_hContact);
@@ -69,9 +74,9 @@ MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(CMsgDialog *pDlg)
 	if (sttEnableCustomLogs(pDlg)) {
 		CMStringA szViewerName;
 		if (pDlg != nullptr)
-			szViewerName = db_get_sm(pDlg->m_hContact, SRMSGMOD, "Logger");
+			szViewerName = db_get_sm(pDlg->m_hContact, SRMSGMOD, pDlg->isChat() ? "LoggerGC" : "Logger");
 		if (szViewerName.IsEmpty())
-			szViewerName = g_logger;
+			szViewerName = pDlg->isChat() ? g_loggerGC : g_logger;
 
 		for (auto &it : g_arLogClasses)
 			if (szViewerName == it->szShortName)
@@ -87,8 +92,8 @@ MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(CMsgDialog *pDlg)
 
 MIR_APP_DLL(bool) Srmm_IsCustomLogUsed(bool forGroupChats)
 {
-	if (forGroupChats && !Chat::bEnableCustomLogs)
-		return false;
+	if (forGroupChats)
+		return mir_strcmp(g_loggerGC, "built-in") != 0;
 
 	return mir_strcmp(g_logger, "built-in") != 0;
 }
@@ -113,42 +118,46 @@ static class CSrmmLogOptionsDlg *pDialog = nullptr;
 
 class CSrmmLogOptionsDlg : public CDlgBase
 {
-	CCtrlListBox m_list;
-	CCtrlCheck chkCustomLogs;
+	CCtrlCombo cmbLogger, cmbLoggerGC;
+
+	void PopulateCombo(const char *pszClass, CCtrlCombo &ctrl)
+	{
+		ctrl.ResetContent();
+
+		for (auto &it : g_arLogClasses) {
+			int idx = ctrl.AddString(TranslateW_LP(it->wszScreenName, it->pPlugin), LPARAM(it));
+			if (!mir_strcmp(it->szShortName, pszClass))
+				ctrl.SetCurSel(idx);
+		}
+	}
 
 public:
 	CSrmmLogOptionsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_SRMMLOG),
-		m_list(this, IDC_LIST),
-		chkCustomLogs(this, IDC_ENABLE_CUSTOM)
+		cmbLogger(this, IDC_LOGGER),
+		cmbLoggerGC(this, IDC_LOGGER_GC)
 	{
-		CreateLink(chkCustomLogs, Chat::bEnableCustomLogs);
-
-		m_list.OnSelChange = Callback(this, &CSrmmLogOptionsDlg::onChange_List);
 	}
 
 	bool OnInitDialog() override
 	{
 		pDialog = this;
-
-		auto *pClass = Srmm_GetWindowClass(0);
-		for (auto &it : g_arLogClasses) {
-			int idx = m_list.AddString(TranslateW_LP(it->wszScreenName, it->pPlugin), LPARAM(it));
-			if (it == pClass)
-				m_list.SetCurSel(idx);
-		}
-
+		PopulateCombo(g_logger, cmbLogger);
+		PopulateCombo(g_loggerGC, cmbLoggerGC);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		int idx = m_list.GetCurSel();
-		if (idx == -1)
+		if (auto *pLogger = (SrmmLogWindowClass *)cmbLogger.GetCurData())
+			g_logger = pLogger->szShortName;
+		else
 			return false;
 
-		if (auto *pLogger = (SrmmLogWindowClass *)m_list.GetItemData(idx))
-			g_logger = pLogger->szShortName;
+		if (auto *pLogger = (SrmmLogWindowClass *)cmbLoggerGC.GetCurData())
+			g_loggerGC = pLogger->szShortName;
+		else
+			return false;
 
 		if (!m_bExiting) {
 			PostMessage(m_hwndParent, WM_CLOSE, 1, 0);
@@ -164,7 +173,6 @@ public:
 
 	void Rebuild()
 	{
-		m_list.ResetContent();
 		OnInitDialog();
 	}
 
