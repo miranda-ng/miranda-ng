@@ -22,25 +22,52 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CTeamsProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
+	// to delete it in any case
+	std::unique_ptr<COwnMessage> pMessage((COwnMessage *)pRequest->pUserInfo);
+
 	MCONTACT hContact = pRequest->hContact;
-	if (Contact::IsGroupChat(hContact))
+	if (response == nullptr) {
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, pRequest->pUserInfo, (LPARAM)TranslateT("Network error!"));
 		return;
+	}
 
-	if (response != nullptr) {
-		if (response->resultCode != 201) {
-			std::string strError = Translate("Unknown error!");
+	if (response->resultCode == 201) {
+		JsonReply reply(response);
+		auto &pRoot = reply.data();
 
-			if (!response->body.IsEmpty()) {
-				JSONNode jRoot = JSONNode::parse(response->body);
-				const JSONNode &jErr = jRoot["errorCode"];
-				if (jErr)
-					strError = jErr.as_string();
+		if (pMessage) {
+			if (auto *si = Chat_Find(hContact)) {
+				GCEVENT gce = { si, GC_EVENT_MESSAGE };
+				gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+				gce.pszUID.a = m_szOwnSkypeId;
+				gce.pszText.a = pMessage->szMessage;
+				gce.time = time(0);
+				gce.bIsMe = true;
+				Chat_Event(&gce);
+			}
+			else {
+				pMessage->iTimestamp = _wtoi64(pRoot["OriginalArrivalTime"].as_mstring());
+
+				CMStringA szMsgId(FORMAT, "%lld", pMessage->hClientMessageId);
+				ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)pMessage->hMessage, (LPARAM)szMsgId.c_str());
 			}
 
-			ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, pRequest->pUserInfo, _A2T(strError.c_str()));
+			mir_cslock lck(m_lckOutMessagesList);
+			m_OutMessages.remove(pMessage.get());
 		}
 	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, pRequest->pUserInfo, (LPARAM)TranslateT("Network error!"));
+	else {
+		std::string strError = Translate("Unknown error!");
+
+		if (!response->body.IsEmpty()) {
+			JSONNode jRoot = JSONNode::parse(response->body);
+			const JSONNode &jErr = jRoot["errorCode"];
+			if (jErr)
+				strError = jErr.as_string();
+		}
+
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, pRequest->pUserInfo, _A2T(strError.c_str()));
+	}
 }
 
 // outcoming message flow
@@ -58,10 +85,6 @@ int CTeamsProto::SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t
 	if (existingMsgId)
 		szUrl.AppendFormat("/%lld", existingMsgId);
 
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(existingMsgId ? REQUEST_PUT : REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
-	pReq->hContact = hContact;
-	pReq->pUserInfo = (HANDLE)m_iMessageId;
-
 	JSONNode node;
 	node << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text") << CHAR_PARAM("contenttype", "text");
 	if (strncmp(str, "/me ", 4) == 0)
@@ -69,15 +92,19 @@ int CTeamsProto::SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t
 	else
 		node << CHAR_PARAM("content", str);
 	
+	COwnMessage *pOwnMessage = nullptr;
 	if (!existingMsgId) {
 		int64_t iRandomId = getRandomId();
 		node << INT64_PARAM("clientmessageid", iRandomId);
 			
 		mir_cslock lck(m_lckOutMessagesList);
-		m_OutMessages.insert(new COwnMessage(m_iMessageId, iRandomId));
+		m_OutMessages.insert(pOwnMessage = new COwnMessage(m_iMessageId, iRandomId));
 	}
-	pReq->m_szParam = node.write().c_str();
 
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(existingMsgId ? REQUEST_PUT : REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
+	pReq->hContact = hContact;
+	pReq->pUserInfo = pOwnMessage;
+	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 
 	return m_iMessageId;
@@ -90,12 +117,14 @@ int CTeamsProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 	if (mir_strcmp(Proto_GetBaseAccountName(evt->hContact), m_szModuleName))
 		return 0;
 
-	int64_t msgId = (evt->dbei->szId) ? _atoi64(evt->dbei->szId) : -1;
-	for (auto &it : m_OutMessages)
-		if (it->hClientMessageId == msgId) {
-			evt->dbei->bMsec = true;
-			evt->dbei->iTimestamp = it->iTimestamp;
-		}
+	auto &dbei = evt->dbei;
+	if (dbei->szId) {
+		int64_t msgId = _atoi64(dbei->szId);
+		for (auto &it : m_OutMessages) {
+			if (it->hClientMessageId == msgId) {
+				dbei->bMsec = true;
+				dbei->iTimestamp = it->iTimestamp;
+	}	}	}
 
 	return 0;
 }
@@ -126,24 +155,11 @@ LBL_Deleted:
 		return false;
 	}
 
-	if (strMessageType == "Text" || strMessageType == "RichText") {
-		if (dbei.bSent && dbei.szId) {
-			for (auto &it: m_OutMessages) {
-				if (it->hClientMessageId == _atoi64(dbei.szId)) {
-					it->iTimestamp = dbei.iTimestamp;
-
-					ProtoBroadcastAck(dbei.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)it->hMessage, (LPARAM)dbei.szId);
-
-					mir_cslock lck(m_lckOutMessagesList);
-					m_OutMessages.removeItem(&it);
-					return false;
-				}
-			}
-		}
-
-		if (strMessageType == "RichText")
-			wszContent = RemoveHtml(wszContent);
-
+	if (strMessageType == "Text") {
+		dbei.eventType = EVENTTYPE_MESSAGE;
+	}
+	else if (strMessageType == "RichText/Html" || strMessageType == "RichText") {
+		wszContent = RemoveHtml(wszContent);
 		dbei.eventType = EVENTTYPE_MESSAGE;
 	}
 	else if (strMessageType == "RichText/Media_Album")

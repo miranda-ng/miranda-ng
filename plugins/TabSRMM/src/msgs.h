@@ -542,7 +542,6 @@ public:
 
 	bool TabAutoComplete();
 
-	HWND m_hwndFilter;
 	BOOL m_iSavedSpaces;
 	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
 	SESSION_INFO *m_pLastSession;
@@ -557,7 +556,6 @@ public:
 	void onClick_Ok(CCtrlButton *);
 	void onClick_Add(CCtrlButton *);
 	void onClick_Quote(CCtrlButton *);
-	void onClick_Filter(CCtrlButton *);
 	void onClick_CancelAdd(CCtrlButton *);
 	void onClick_ShowNickList(CCtrlButton *);
 

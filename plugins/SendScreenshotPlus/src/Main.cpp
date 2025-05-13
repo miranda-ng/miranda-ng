@@ -67,7 +67,7 @@ IconItem ICONS_BTN[ICO_BTN_END_] =
 };
 
 static HANDLE m_hFolderScreenshot = nullptr;
-wchar_t* GetCustomPath()
+wchar_t *GetCustomPath()
 {
 	wchar_t *pszPath = Utils_ReplaceVarsW(L"%miranda_userdata%\\Screenshots");
 	if (m_hFolderScreenshot) {
@@ -280,7 +280,7 @@ int CMPlugin::Load()
 	g_plugin.registerIcon(MODULENAME "/" LPGEN("Buttons"), ICONS_BTN, MODULENAME);
 
 	// services
-#define srv_reg(name) CreateServiceFunction(MODULENAME "/" #name, service_##name);
+	#define srv_reg(name) CreateServiceFunction(MODULENAME "/" #name, service_##name);
 	srv_reg(OpenCaptureDialog);
 	srv_reg(SendDesktop);
 	srv_reg(Send2ImageShack);

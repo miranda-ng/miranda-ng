@@ -77,12 +77,11 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT, UINT_PTR idEvent, DW
 
 int cliTrayIconPauseAutoHide(WPARAM, LPARAM)
 {
-	if (g_plugin.getByte("AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+	if (Clist::bAutoHide)
 		if (GetActiveWindow() != g_clistApi.hwndContactList && GetWindow(GetParent(GetActiveWindow()), GW_OWNER) != g_clistApi.hwndContactList) {
 			KillTimer(nullptr, autoHideTimerId);
-			autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * g_plugin.getWord("HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
+			autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * Clist::iHideTime, TrayIconAutoHideTimer);
 		}
-	}
 
 	return 0;
 }
@@ -100,7 +99,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case TIM_CALLBACK:
-		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !Clist::Tray1Click) {
+		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !Clist::bTray1Click) {
 			POINT pt;
 			HMENU hMenu = Menu_GetStatusMenu();
 			g_bOnTrayRightClick= true;
@@ -126,9 +125,9 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		{
 			HWND h1 = (HWND)msg->lParam;
 			HWND h2 = h1 ? GetParent(h1) : nullptr;
-			if (g_plugin.getByte("AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+			if (Clist::bAutoHide) {
 				if (LOWORD(msg->wParam) == WA_INACTIVE && h2 != g_clistApi.hwndContactList)
-					autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * g_plugin.getWord("HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
+					autoHideTimerId = CLUI_SafeSetTimer(nullptr, 0, 1000 * Clist::iHideTime, TrayIconAutoHideTimer);
 				else {
 					KillTimer(nullptr, autoHideTimerId);
 					autoHideTimerId = 0;
@@ -173,9 +172,8 @@ VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 void SettingsMigrate(void)
 {
-	uint8_t TrayIcon = g_plugin.getByte("TrayIcon");
 	uint8_t AlwaysPrimary = g_plugin.getByte("AlwaysPrimary");
-	uint8_t AlwaysMulti = g_plugin.getByte("AlwaysMulti");
+	uint8_t AlwaysMulti = Clist::bAlwaysMulti;
 	ptrA PrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
 
 	// these strings must always be set
@@ -188,8 +186,8 @@ void SettingsMigrate(void)
 		g_plugin.setString("tiAccV", "");
 	}
 
-	switch (TrayIcon) {
-	case 0: // global or single acc
+	switch (Clist::iTrayIcon) {
+	case SETTING_TRAYICON_SINGLE:
 		if (AlwaysPrimary) {
 			if (!PrimaryStatus) { // global always
 				g_plugin.setByte("tiModeS", TRAY_ICON_MODE_GLOBAL);
@@ -206,12 +204,12 @@ void SettingsMigrate(void)
 		}
 		break;
 
-	case 1: // cycle
+	case SETTING_TRAYICON_CYCLE:
 		g_plugin.setByte("tiModeS", TRAY_ICON_MODE_CYCLE);
 		g_plugin.setByte("tiModeV", TRAY_ICON_MODE_CYCLE);
 		break;
 
-	case 2: // multiple
+	case SETTING_TRAYICON_MULTI:
 		g_plugin.setByte("tiModeS", (AlwaysMulti) ? TRAY_ICON_MODE_ALL : TRAY_ICON_MODE_GLOBAL);
 		g_plugin.setByte("tiModeV", TRAY_ICON_MODE_ALL);
 		break;
@@ -313,7 +311,7 @@ int cliTrayIconInit(HWND hwnd)
 		cliTrayCycleTimerProc(nullptr, 0, 0, 0); // force icon update
 		
 		// Не сохраняем ID таймера в pcli, чтобы fnTrayIconUpdateBase не убивала его.
-		TimerID = CLUI_SafeSetTimer(nullptr, 0, g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cliTrayCycleTimerProc);
+		TimerID = CLUI_SafeSetTimer(nullptr, 0, Clist::iCycleTime * 1000, cliTrayCycleTimerProc);
 		break;
 
 	case TRAY_ICON_MODE_ALL:

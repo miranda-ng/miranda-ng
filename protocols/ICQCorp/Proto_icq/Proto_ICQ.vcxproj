@@ -25,4 +25,10 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />
   </ImportGroup>
+  <ItemGroup>
+    <ClInclude Include="src\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Proto_ICQ.rc" />
+  </ItemGroup>
 </Project>

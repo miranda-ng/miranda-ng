@@ -28,6 +28,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+IDI_ICON_MAIN           ICON                    "icon_main.ico"
 IDI_ICON_ONLINE         ICON                    "icon_onl.ico"
 IDI_ICON_OFFLINE        ICON                    "icon_off.ico"
 

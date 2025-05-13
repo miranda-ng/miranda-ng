@@ -186,11 +186,11 @@ static void trim_quotes(std::string &str)
 		str.erase(str.length() - 1, 1);
 }
 
-uint_ptr NSWebPage::create_font(const char *font_list, int size, int weight, font_style italic, unsigned int decoration, font_metrics *fm)
+uint_ptr NSWebPage::create_font(const font_description &descr, const document *, font_metrics *fm)
 {
 	std::wstring font_name;
 	string_vector fonts;
-	split_string(font_list, fonts, ",");
+	split_string(descr.family, fonts, ",");
 	bool found = false;
 	for (auto &name : fonts) {
 		trim(name);
@@ -208,15 +208,15 @@ uint_ptr NSWebPage::create_font(const char *font_list, int size, int weight, fon
 	LOGFONT lf = {};
 	wcscpy_s(lf.lfFaceName, LF_FACESIZE, font_name.c_str());
 
-	lf.lfHeight = -size;
-	lf.lfWeight = weight;
-	lf.lfItalic = (italic == font_style_italic) ? TRUE : FALSE;
+	lf.lfHeight = -descr.size;
+	lf.lfWeight = descr.weight;
+	lf.lfItalic = (descr.style == font_style_italic) ? TRUE : FALSE;
 	lf.lfCharSet = DEFAULT_CHARSET;
 	lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
 	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 	lf.lfQuality = DEFAULT_QUALITY;
-	lf.lfStrikeOut = (decoration & font_decoration_linethrough) ? TRUE : FALSE;
-	lf.lfUnderline = (decoration & font_decoration_underline) ? TRUE : FALSE;
+	lf.lfStrikeOut = (descr.decoration_line & text_decoration_line_line_through) ? TRUE : FALSE;
+	lf.lfUnderline = (descr.decoration_line & text_decoration_line_underline) ? TRUE : FALSE;
 	HFONT hFont = CreateFontIndirect(&lf);
 
 	if (fm) {
@@ -227,7 +227,7 @@ uint_ptr NSWebPage::create_font(const char *font_list, int size, int weight, fon
 		fm->descent = tm.tmDescent;
 		fm->height = tm.tmHeight;
 		fm->x_height = tm.tmHeight / 2;   // this is an estimate; call GetGlyphOutline to get the real value
-		fm->draw_spaces = italic || decoration;
+		fm->draw_spaces = lf.lfItalic || descr.decoration_line;
 	}
 
 	return (uint_ptr)hFont;
@@ -449,7 +449,7 @@ element::ptr NSWebPage::create_element(const char *, const string_map &, const d
 void NSWebPage::get_media_features(media_features &media)  const
 {
 	position client;
-	get_client_rect(client);
+	get_viewport(client);
 
 	media.type = media_type_screen;
 	media.width = client.width;
@@ -718,7 +718,7 @@ uint_ptr NSWebPage::get_image(LPCWSTR url_or_path, bool)
 	return (uint_ptr)pImage;
 }
 
-void NSWebPage::get_client_rect(position &pos) const
+void NSWebPage::get_viewport(position &pos) const
 {
 	pos = size(ctrl.cachedWindowWidth, ctrl.cachedWindowHeight);
 }

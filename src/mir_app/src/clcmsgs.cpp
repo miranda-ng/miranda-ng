@@ -141,7 +141,11 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 	case CLM_GETCHECKMARK:
 		if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 			return 0;
-		return (contact->flags & CONTACTF_CHECKED) != 0;
+		
+		if (contact->flags & CONTACTF_CHECKED)
+			return 1;
+
+		return (contact->flags & CONTACTF_HASMEMBERS) ? 2 : 0;
 
 	case CLM_GETCOUNT:
 		return g_clistApi.pfnGetGroupContentsCount(&dat->list, 0);
@@ -382,11 +386,17 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		break;
 
 	case CLM_SETHIDEEMPTYGROUPS:
-		if (wParam)
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
-		else
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-		Clist_InitAutoRebuild(hwnd);
+		{
+			BOOL oldVal = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
+			BOOL newVal = (wParam != 0);
+			if (newVal)
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
+			else
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
+
+			if (newVal != oldVal)
+				Clist_InitAutoRebuild(hwnd);
+		}
 		break;
 
 	case CLM_SETHIDEOFFLINEROOT:

@@ -86,6 +86,8 @@ Anruf beendet
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
 Channelnamen eingeben
+[You need to enter a captcha to join this server. Open this link in a browser.]
+Um diesem Server beizutreten, müssen Sie ein Captcha eingeben. Öffnen Sie diesen Link in einem Browser.
 [Enter invitation code you received]
 Geben Sie den empfangenen Einladungscode ein
 [Do you really want to leave the guild?]

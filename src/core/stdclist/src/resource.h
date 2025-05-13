@@ -114,8 +114,6 @@
 #define IDC_DROPSHADOW                  1612
 #define IDC_SHOWGRIP                    1612
 #define IDC_NOSCROLLBAR                 1613
-#define IDC_ONDESKTOP                   1657
-#define IDC_DISABLEDOCKING              1658
 #define IDC_WINCOLOUR                   1659
 #define IDC_MOVE_OFFLINE_BOTTOM         1662
 

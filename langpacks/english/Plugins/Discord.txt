@@ -48,6 +48,7 @@
 [Call ended]
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
+[You need to enter a captcha to join this server. Open this link in a browser.]
 [Enter invitation code you received]
 [Do you really want to leave the guild?]
 [Disable sync]

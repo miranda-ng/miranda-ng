@@ -294,12 +294,15 @@ HANDLE CSteamProto::GetAwayMsg(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t)
+bool CSteamProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
-	// remove only authorized contacts
-	if (Contact::IsGroupChat(hContact))
+	// react only to the contact deletions from Miranda
+	if (flags & CDF_FROM_SERVER)
+		return true;
+	
+	if (Contact::IsGroupChat(hContact) == GCW_CHATROOM)
 		SvcLeaveChat(hContact, 0);
-	else if (!getByte(hContact, "Auth"))
+	else if (!getByte(hContact, "Auth")) // remove only authorized contacts
 		SendUserRemoveRequest(hContact);
 
 	return true;
@@ -329,7 +332,7 @@ void CSteamProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 		if (Contact::IsGroupChat(hContact)) {
 			CChatRoomAckChatMessageNotification request;
 			request.chat_group_id = GetId(hContact, DBKEY_STEAM_ID); request.has_chat_group_id = true;
-			request.chat_id = getDword(hContact, "ChatId"); request.has_chat_id = true;
+			request.chat_id = getDword(hContact, DBKEY_CHAT_ID); request.has_chat_id = true;
 			request.timestamp = dbei.iTimestamp; request.has_timestamp = true;
 			WSSendService(AckChatMessage, request);
 		}

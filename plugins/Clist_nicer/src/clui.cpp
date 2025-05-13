@@ -160,7 +160,7 @@ static int FS_FontsChanged(WPARAM, LPARAM)
 static HWND PreCreateCLC(HWND parent)
 {
 	g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
-		WS_CHILD | CLS_CONTACTLIST | (Clist::UseGroups ? CLS_USEGROUPS : 0) | (Clist::HideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::HideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0) | CLS_MULTICOLUMN,
+		WS_CHILD | CLS_CONTACTLIST | (Clist::bUseGroups ? CLS_USEGROUPS : 0) | (Clist::bHideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::bHideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0) | CLS_MULTICOLUMN,
 		0, 0, 0, 0, parent, nullptr, g_plugin.getInst(), (LPVOID)0xff00ff00);
 
 	cfg::clcdat = (struct ClcData *)GetWindowLongPtr(g_clistApi.hwndContactTree, 0);
@@ -446,10 +446,10 @@ void SetButtonStates()
 					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
 					break;
 				case IDC_STBHIDEOFFLINE:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::HideOffline, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::bHideOffline, 0);
 					break;
 				case IDC_STBHIDEGROUPS:
-					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::UseGroups, 0);
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, Clist::bUseGroups, 0);
 					break;
 				}
 			}
@@ -576,8 +576,6 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (!db_get_b(0, "CLUI", "AutoSize", 0))
 		return;
 
-	if (Docking_IsDocked(0, 0))
-		return;
 	if (hFrameContactTree == 0)
 		return;
 
@@ -726,7 +724,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 static void ShowCLUI(HWND hwnd)
 {
 	int state = old_cliststate;
-	int onTop = g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT);
+	int onTop = Clist::bOnTop;
 
 	SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 
@@ -948,15 +946,14 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			}
 
 			if (cfg::dat.bClipBorder != 0 || cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME) {
-				int docked = Clist_IsDocked();
 				int clip = cfg::dat.bClipBorder;
 
 				if (!g_CLUISkinnedBkColor)
 					FillRect(hdc, &rcClient, cfg::dat.hBrushColorKey);
 				if (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME)
-					rgn = CreateRoundRectRgn(clip, docked ? 0 : clip, rcClient.right - clip + 1, rcClient.bottom - (docked ? 0 : clip - 1), 8 + clip, 8 + clip);
+					rgn = CreateRoundRectRgn(clip, clip, rcClient.right - clip + 1, rcClient.bottom - (clip - 1), 8 + clip, 8 + clip);
 				else
-					rgn = CreateRectRgn(clip, docked ? 0 : clip, rcClient.right - clip, rcClient.bottom - (docked ? 0 : clip));
+					rgn = CreateRectRgn(clip, clip, rcClient.right - clip, rcClient.bottom - clip);
 				SelectClipRgn(hdc, rgn);
 			}
 
@@ -1034,9 +1031,6 @@ skipbg:
 		break;
 
 	case WM_WINDOWPOSCHANGED:
-		if (Docking_IsDocked(0, 0))
-			break;
-
 	case WM_WINDOWPOSCHANGING:
 		if (g_clistApi.hwndContactList != nullptr) {
 			WINDOWPOS *wp = (WINDOWPOS *)lParam;
@@ -1077,8 +1071,7 @@ skipbg:
 		return 0;
 
 	case WM_SIZE:
-		if ((wParam == 0 && lParam == 0) || Docking_IsDocked(0, 0)) {
-
+		if (wParam == 0 && lParam == 0) {
 			if (IsZoomed(hwnd))
 				ShowWindow(hwnd, SW_SHOWNORMAL);
 
@@ -1099,22 +1092,18 @@ skipbg:
 	case WM_MOVE:
 		if (!IsIconic(hwnd)) {
 			GetWindowRect(hwnd, &rc);
-
-			if (!Docking_IsDocked(0, 0)) {
-				cluiPos.bottom = (uint32_t)(rc.bottom - rc.top);
-				cluiPos.left = rc.left;
-				cluiPos.top = rc.top;
-			}
+			cluiPos.bottom = (uint32_t)(rc.bottom - rc.top);
+			cluiPos.left = rc.left;
+			cluiPos.top = rc.top;
 			cluiPos.right = rc.right - rc.left;
+
 			if (cfg::dat.realTimeSaving) {
 				GetWindowRect(hwnd, &rc);
 
 				// if docked, dont remember pos (except for width)
-				if (!Clist_IsDocked()) {
-					g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
-					g_plugin.setDword("x", (uint32_t)rc.left);
-					g_plugin.setDword("y", (uint32_t)rc.top);
-				}
+				g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
+				g_plugin.setDword("x", (uint32_t)rc.left);
+				g_plugin.setDword("y", (uint32_t)rc.top);
 				g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
 			}
 		}
@@ -1148,7 +1137,7 @@ skipbg:
 				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 				transparentFocus = 1;
 			}
-			SetWindowPos(g_clistApi.hwndContactList, g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
+			SetWindowPos(g_clistApi.hwndContactList, Clist::bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
 		}
 		PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -1558,7 +1547,7 @@ buttons_done:
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
 					
-					if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+					if (Clist::bClientAreaDrag) {
 						POINT pt;
 						pt = nm->pt;
 						ClientToScreen(g_clistApi.hwndContactTree, &pt);
@@ -1771,7 +1760,7 @@ void LoadCLUIModule(void)
 	wndclass.lpszClassName = L"EventAreaClass";
 	RegisterClass(&wndclass);
 
-	oldhideoffline = Clist::HideOffline;
+	oldhideoffline = Clist::bHideOffline;
 	cluiPos.left = g_plugin.getDword("x", 600);
 	cluiPos.top = g_plugin.getDword("y", 200);
 	cluiPos.right = g_plugin.getDword("Width", 150);

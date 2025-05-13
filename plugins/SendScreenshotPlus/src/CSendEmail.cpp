@@ -30,8 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSendEmail::CSendEmail(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
-	: CSend(Owner, hContact, true)
+CSendEmail::CSendEmail(HWND Owner, MCONTACT hContact, bool /*bAsync*/) :
+	CSend(Owner, hContact, true)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION | SS_DLG_DELETEAFTERSSEND; // SS_DLG_AUTOSEND | ;
 	m_pszSendTyp = LPGENW("Email transfer");
@@ -135,7 +135,7 @@ void CSendEmail::SendThread()
 		int res = lpMAPISendMail(NULL, NULL, &Msg, MAPI_LOGON_UI | MAPI_DIALOG, 0);
 		::FreeLibrary(hMAPILib);
 
-		wchar_t* err;
+		wchar_t *err;
 		switch (res) {
 		case SUCCESS_SUCCESS:
 			// The call succeeded and the message was sent.
@@ -195,7 +195,7 @@ void CSendEmail::SendThread()
 	}
 }
 
-void	CSendEmail::SendThreadWrapper(void * Obj)
+void	CSendEmail::SendThreadWrapper(void *Obj)
 {
-	reinterpret_cast<CSendEmail*>(Obj)->SendThread();
+	reinterpret_cast<CSendEmail *>(Obj)->SendThread();
 }

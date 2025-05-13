@@ -918,12 +918,14 @@ Möchten Sie die derzeitige Aktualisierung abbrechen?
 %s hat heute %s.
 [an anniversary]
 ein Jahrestag
-[He/she has the following anniversaries:]
-Er/Sie hat folgende Jahrestage:
-[He has the following anniversaries:]
-Er hat folgende Jahrestage:
-[She has the following anniversaries:]
-Sie hat folgende Jahrestage:
+[He]
+Er
+[She]
+Sie
+[He/she]
+Er/Sie
+[%s has the following anniversaries:]
+%s hat die folgenden Jahrestage
 [%d. %s today]
 %d. %s heute
 [%d. %s tomorrow]
@@ -936,12 +938,8 @@ Sie hat folgende Jahrestage:
 %s hat morgen Geburtstag.
 [%s has birthday in %d days.]
 %s hat in %d Tagen Geburtstag.
-[\nHe/she becomes %d years old.]
-\nEr/Sie wird %d Jahre alt.
-[\nHe becomes %d years old.]
-\nEr wird %d Jahre alt.
-[\nShe becomes %d years old.]
-\nSie wird %d Jahre alt.
+[%s becomes %d years old.]
+%s wird %d Jahre alt.
 [No anniversaries to remind of]
 Es gibt keine Jahrestage in absehbarer Zeit.
 [Reminders]

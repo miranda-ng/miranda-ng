@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 HICON Skin_GetIcon_SendSS(unsigned short id)
 {
-	if(id==0xFFFF)
+	if (id == 0xFFFF)
 		return GetIcon(ICO_MAIN);
 	return GetIconBtn(id);
 }
@@ -260,7 +260,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						}
 					}
 					// increase width if info text requires more
-					if ((pMsgBox->uType&MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText) {
+					if ((pMsgBox->uType & MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText) {
 						int multiline = 0;
 						RECT rcico; GetClientRect(GetDlgItem(hDlg, ICO_DLGLOGO), &rcico);
 						rcico.right = rcico.right * 100 / 66; // padding

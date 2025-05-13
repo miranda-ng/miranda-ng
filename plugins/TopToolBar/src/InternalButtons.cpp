@@ -158,8 +158,8 @@ void InitInternalButtons()
 	ttb.hIconHandleUp = Skin_GetIconHandle(SKINICON_OTHER_EXIT);
 	hExit = g_plugin.addTTB(&ttb);
 
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hShowHideOffline, Clist::HideOffline ? 0 : TTBST_PUSHED);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hGroups, Clist::UseGroups ? TTBST_PUSHED : 0);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hShowHideOffline, Clist::bHideOffline ? 0 : TTBST_PUSHED);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hGroups, Clist::bUseGroups ? TTBST_PUSHED : 0);
 
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hSounds,
 		db_get_b(0, "Skin", "UseSound", 1) ? TTBST_PUSHED : 0);

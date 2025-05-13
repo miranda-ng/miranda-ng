@@ -1,12 +1,12 @@
 #ifndef LH_ELEMENT_H
 #define LH_ELEMENT_H
 
+#include <functional>
 #include <memory>
 #include <tuple>
 #include <list>
+#include "types.h"
 #include "stylesheet.h"
-#include "css_offsets.h"
-#include "css_margins.h"
 #include "css_properties.h"
 
 namespace litehtml
@@ -94,7 +94,7 @@ namespace litehtml
 		virtual bool				on_mouse_over();
 		virtual bool				on_mouse_leave();
 		virtual bool				on_lbutton_down();
-		virtual bool				on_lbutton_up();
+		virtual bool				on_lbutton_up(bool is_click = true);
 		virtual void				on_click();
 		virtual bool				set_pseudo_class(string_id cls, bool add);
 		virtual bool				set_class(const char* pclass, bool add);
@@ -155,7 +155,9 @@ namespace litehtml
 
 	inline bool litehtml::element::in_normal_flow() const
 	{
-		if(css().get_position() != element_position_absolute && css().get_display() != display_none)
+		if(css().get_position() != element_position_absolute &&
+		   css().get_display() != display_none &&
+		   css().get_position() != element_position_fixed)
 		{
 			return true;
 		}
@@ -207,8 +209,7 @@ namespace litehtml
 		if (css().get_display() == display_block ||
 			css().get_display() == display_flex ||
 			css().get_display() == display_table ||
-			css().get_display() == display_list_item ||
-			css().get_display() == display_flex)
+			css().get_display() == display_list_item)
 		{
 			return true;
 		}

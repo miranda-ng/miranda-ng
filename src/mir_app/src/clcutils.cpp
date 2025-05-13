@@ -728,7 +728,7 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	dat->gammaCorrection = db_get_b(0, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);
 	dat->bShowIdle = db_get_b(0, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) != 0;
 	dat->bNoVScrollbar = db_get_b(0, "CLC", "NoVScrollBar", false) != 0;
-	dat->bFilterSearch = Clist::FilterSearch;
+	dat->bFilterSearch = Clist::bFilterSearch;
 	SendMessage(hwnd, INTM_SCROLLBARCHANGED, 0, 0);
 
 	dat->greyoutFlags = db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);
@@ -779,40 +779,43 @@ void fnLoadClcOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 	SendMessage(hwnd, WM_SIZE, 0, 0);
 }
 
-#define GSIF_HASMEMBERS   0x80000000
-#define GSIF_ALLCHECKED   0x40000000
-#define GSIF_INDEXMASK    0x3FFFFFFF
+///////////////////////////////////////////////////////////////////////////////
+// contact checkboxes processing
+
+static int GroupHasCheck(ClcGroup *group)
+{
+	bool bAllChecked = true, bHasMembers = false;
+
+	for (auto &cc: group->cl) {
+		if (cc->type == CLCIT_GROUP) {
+			int res = GroupHasCheck(cc->group);
+			if (res == 3)
+				cc->flags |= CONTACTF_CHECKED;
+			else {
+				cc->flags &= ~CONTACTF_CHECKED;
+				bAllChecked = false;
+			}
+
+			if (res & 1) {
+				cc->flags |= CONTACTF_HASMEMBERS;
+				bHasMembers = true;
+			}
+			else cc->flags &= ~CONTACTF_HASMEMBERS;
+		}
+		else if (cc->type == CLCIT_CONTACT) {
+			if (cc->flags & CONTACTF_CHECKED)
+				bHasMembers = true;
+			else
+				bAllChecked = false;
+		}
+	}
+
+	return (bAllChecked ? 2 : 0) + (bHasMembers ? 1 : 0);
+}
 
 MIR_APP_DLL(void) Clist_RecalculateGroupCheckboxes(ClcData *dat)
 {
-	ClcGroup *group = &dat->list;
-	group->scanIndex = GSIF_ALLCHECKED;
-	for (;;) {
-		if ((group->scanIndex & GSIF_INDEXMASK) == group->cl.getCount()) {
-			int check = (group->scanIndex & (GSIF_HASMEMBERS | GSIF_ALLCHECKED)) == (GSIF_HASMEMBERS | GSIF_ALLCHECKED);
-			if (group->parent == nullptr)
-				break;
-			group->parent->scanIndex |= group->scanIndex & GSIF_HASMEMBERS;
-			group = group->parent;
-			if (check)
-				group->cl[(group->scanIndex & GSIF_INDEXMASK)]->flags |= CONTACTF_CHECKED;
-			else {
-				group->cl[(group->scanIndex & GSIF_INDEXMASK)]->flags &= ~CONTACTF_CHECKED;
-				group->scanIndex &= ~GSIF_ALLCHECKED;
-			}
-		}
-		else if (group->cl[(group->scanIndex & GSIF_INDEXMASK)]->type == CLCIT_GROUP) {
-			group = group->cl[(group->scanIndex & GSIF_INDEXMASK)]->group;
-			group->scanIndex = GSIF_ALLCHECKED;
-			continue;
-		}
-		else if (group->cl[(group->scanIndex & GSIF_INDEXMASK)]->type == CLCIT_CONTACT) {
-			group->scanIndex |= GSIF_HASMEMBERS;
-			if (!(group->cl[(group->scanIndex & GSIF_INDEXMASK)]->flags & CONTACTF_CHECKED))
-				group->scanIndex &= ~GSIF_ALLCHECKED;
-		}
-		group->scanIndex++;
-	}
+	GroupHasCheck(&dat->list);
 }
 
 void fnSetContactCheckboxes(ClcContact *cc, int checked)

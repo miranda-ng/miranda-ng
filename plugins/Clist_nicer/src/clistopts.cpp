@@ -53,14 +53,14 @@ public:
 		CheckDlgButton(m_hwnd, IDC_CLISTSUNKEN, cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_EVENTAREAAUTOHIDE, cfg::dat.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_EVENTAREASUNKEN, (cfg::dat.dwFlags & CLUI_FRAME_EVENTAREASUNKEN) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !g_plugin.getByte("AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_ALWAYSMULTI, !Clist::bAlwaysMulti ? BST_CHECKED : BST_UNCHECKED);
 
-		chkCycle.SetState(g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_CYCLE);
-		chkMulti.SetState(g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI);
-		chkDontCycle.SetState(g_plugin.getByte("TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE);
+		chkCycle.SetState(Clist::iTrayIcon == SETTING_TRAYICON_CYCLE);
+		chkMulti.SetState(Clist::iTrayIcon == SETTING_TRAYICON_MULTI);
+		chkDontCycle.SetState(Clist::iTrayIcon == SETTING_TRAYICON_SINGLE);
 
 		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
-		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
+		SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(Clist::iCycleTime, 0));
 		{
 			ptrA szPrimaryStatus(g_plugin.getStringA("PrimaryStatus"));
 
@@ -87,9 +87,9 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.setByte("AlwaysMulti", (uint8_t)BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
-		g_plugin.setByte("TrayIcon", (uint8_t)(chkDontCycle.GetState() ? SETTING_TRAYICON_SINGLE : (chkCycle.GetState() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI)));
-		g_plugin.setWord("CycleTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
+		Clist::bAlwaysMulti = !IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI);
+		Clist::iTrayIcon = chkDontCycle.GetState() ? SETTING_TRAYICON_SINGLE : (chkCycle.GetState() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI);
+		Clist::iCycleTime = SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0);
 		g_plugin.setByte("AutoApplyLastViewMode", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_APPLYLASTVIEWMODE));
 
 		cfgSetFlag(m_hwnd, CLUI_FRAME_EVENTAREASUNKEN, IDC_EVENTAREASUNKEN);
@@ -276,15 +276,25 @@ public:
 
 class COptWindowDlg : public CRowItemsBaseDlg
 {
-	CCtrlCheck chkAutoHide, chkAutoSize, chkTransparent;
+	CCtrlCheck chkAutoHide, chkAutoSize, chkTransparent, chkAreaDrag, chkShowMainMenu, chkOnTop, chkBringToFront;
 
 public:
 	COptWindowDlg() :
 		CRowItemsBaseDlg(IDD_OPT_CLUI),
+		chkOnTop(this, IDC_ONTOP),
 		chkAutoHide(this, IDC_AUTOHIDE),
 		chkAutoSize(this, IDC_AUTOSIZE),
-		chkTransparent(this, IDC_TRANSPARENT)
+		chkAreaDrag(this, IDC_CLIENTDRAG),
+		chkTransparent(this, IDC_TRANSPARENT),
+		chkBringToFront(this, IDC_BRINGTOFRONT),
+		chkShowMainMenu(this, IDC_SHOWMAINMENU)
 	{
+		CreateLink(chkOnTop, Clist::bOnTop);
+		CreateLink(chkAreaDrag, Clist::bClientAreaDrag);
+		CreateLink(chkAutoHide, Clist::bAutoHide);
+		CreateLink(chkBringToFront, Clist::bBringToFront);
+		CreateLink(chkShowMainMenu, Clist::bShowMainMenu);
+
 		chkAutoHide.OnChange = Callback(this, &COptWindowDlg::onChange_AutoHide);
 		chkAutoSize.OnChange = Callback(this, &COptWindowDlg::onChange_AutoSize);
 		chkTransparent.OnChange = Callback(this, &COptWindowDlg::onChange_Transparent);
@@ -292,14 +302,9 @@ public:
 
 	bool OnInitDialog() override
 	{
-		CheckDlgButton(m_hwnd, IDC_BRINGTOFRONT, g_plugin.getByte("BringToFront", SETTING_BRINGTOFRONT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_ALWAYSHIDEONTASKBAR, g_plugin.getByte("AlwaysHideOnTB", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_ONTOP, g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SHOWMAINMENU, db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_CLIENTDRAG, db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_FADEINOUT, cfg::dat.fadeinout ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_DROPSHADOW, g_plugin.getByte("WindowShadow", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_ONDESKTOP, g_plugin.getByte("OnDesktop", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		chkAutoSize.SetState(cfg::dat.autosize);
 
@@ -328,9 +333,7 @@ public:
 		CheckDlgButton(m_hwnd, IDC_AUTOSIZEUPWARD, db_get_b(0, "CLUI", "AutoSizeUpward", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_SETRANGE, 0, MAKELONG(900, 1));
-		SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("HideTime", SETTING_HIDETIME_DEFAULT), 0));
-
-		chkAutoHide.SetState(g_plugin.getByte("AutoHide", SETTING_AUTOHIDE_DEFAULT));
+		SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_SETPOS, 0, MAKELONG(Clist::iHideTime, 0));
 
 		ptrW tszTitle(g_plugin.getWStringA("TitleText"));
 		if (tszTitle != NULL)
@@ -368,8 +371,7 @@ public:
 		cfg::dat.gapBetweenFrames = GetDlgItemInt(m_hwnd, IDC_FRAMEGAP, &translated, FALSE);
 
 		db_set_dw(0, "CLUIFrames", "GapBetweenFrames", cfg::dat.gapBetweenFrames);
-		g_plugin.setByte("OnTop", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ONTOP));
-		SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(m_hwnd, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+		SetWindowPos(g_clistApi.hwndContactList, Clist::bOnTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		cfg::dat.bCLeft = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_CLEFTSPIN, UDM_GETPOS, 0, 0);
 		cfg::dat.bCRight = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_CRIGHTSPIN, UDM_GETPOS, 0, 0);
@@ -379,7 +381,6 @@ public:
 		db_set_dw(0, "CLUI", "clmargins", MAKELONG(MAKEWORD(cfg::dat.bCLeft, cfg::dat.bCRight), MAKEWORD(cfg::dat.bCTop, cfg::dat.bCBottom)));
 		SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 
-		g_plugin.setByte("BringToFront", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_BRINGTOFRONT));
 		g_plugin.setByte("AlwaysHideOnTB", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ALWAYSHIDEONTASKBAR));
 
 		if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT) {
@@ -416,9 +417,6 @@ public:
 		db_set_dw(0, "CLUI", "Frameflags", cfg::dat.dwFlags);
 		db_set_b(0, "CLUI", "clipborder", cfg::dat.bClipBorder);
 
-		db_set_b(0, "CLUI", "ShowMainMenu", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SHOWMAINMENU));
-		db_set_b(0, "CLUI", "ClientAreaDrag", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_CLIENTDRAG));
-
 		ApplyCLUIBorderStyle();
 
 		if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_SHOWMAINMENU))
@@ -441,14 +439,13 @@ public:
 
 		db_set_b(0, "CLUI", "MaxSizeHeight", (uint8_t)GetDlgItemInt(m_hwnd, IDC_MAXSIZEHEIGHT, nullptr, FALSE));
 		db_set_b(0, "CLUI", "AutoSizeUpward", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZEUPWARD));
-		g_plugin.setByte("AutoHide", chkAutoHide.GetState());
-		g_plugin.setWord("HideTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
+		Clist::iHideTime = SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0);
 
-		g_plugin.setByte("Transparent", cfg::dat.isTransparent = chkTransparent.GetState());
-		g_plugin.setByte("Alpha", cfg::dat.alpha = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
-		g_plugin.setByte("AutoAlpha", cfg::dat.autoalpha = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0));
+		Clist::bTransparent = cfg::dat.isTransparent = chkTransparent.GetState();
+		Clist::iAlpha = cfg::dat.alpha = SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0);
+		Clist::iAutoAlpha = cfg::dat.autoalpha = SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0);
 		g_plugin.setByte("WindowShadow", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DROPSHADOW));
-		g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ONDESKTOP));
+
 		db_set_dw(0, "CLUI", "Frameflags", cfg::dat.dwFlags);
 		cfg::dat.bFullTransparent = IsDlgButtonChecked(m_hwnd, IDC_FULLTRANSPARENT) ? 1 : 0;
 		db_set_b(0, "CLUI", "fulltransparent", (uint8_t)cfg::dat.bFullTransparent);

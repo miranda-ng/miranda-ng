@@ -40,7 +40,9 @@ void CTeamsProto::LoggedIn()
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
-	SendCreateEndpoint();
+	SetServerStatus(m_iStatus);
+	SendPresence();
+	StartTrouter();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +158,7 @@ void CTeamsProto::OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest 
 	m_szSkypeToken = token["skypetoken"].as_mstring();
 	setWString(DBKEY_ID, token["skypeid"].as_mstring());
 
-	LoggedIn();
+	SendCreateEndpoint();
 }
 
 void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *)

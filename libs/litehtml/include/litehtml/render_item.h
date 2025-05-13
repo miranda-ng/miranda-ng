@@ -2,13 +2,14 @@
 #define LH_RENDER_ITEM_H
 
 #include <memory>
-#include <utility>
 #include <list>
 #include <tuple>
+#include "html.h"
 #include "types.h"
 #include "line_box.h"
 #include "table.h"
 #include "formatting_context.h"
+#include "element.h"
 
 namespace litehtml
 {
@@ -348,7 +349,8 @@ namespace litehtml
                    m_element->css().get_float() == float_none &&
                    m_margins.top >= 0 &&
 				   !is_flex_item() &&
-                   !is_root();
+                   !is_root() &&
+                   !is_one_of(css().get_overflow(), overflow_hidden, overflow_scroll, overflow_auto);
         }
 
         bool collapse_bottom_margin() const
@@ -358,7 +360,8 @@ namespace litehtml
                    m_element->in_normal_flow() &&
                    m_element->css().get_float() == float_none &&
                    m_margins.bottom >= 0 &&
-                   !is_root();
+                   !is_root() &&
+                   !is_one_of(css().get_overflow(), overflow_hidden, overflow_scroll, overflow_auto);
         }
 
         bool is_visible() const

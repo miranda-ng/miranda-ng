@@ -38,7 +38,7 @@ struct CDummyProto : public PROTO<CDummyProto>
 
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT* psr) override;
 
-	//==== Events ==========================================================================
+	//======================================================================================
 
 	MWindow OnCreateAccMgrUI(MWindow) override;
 	
@@ -50,5 +50,6 @@ struct CDummyProto : public PROTO<CDummyProto>
 	int getTemplateId();
 	void selectTemplate(HWND, int templateId);
 
+	CMOption<bool> bAllowSending;
 	volatile unsigned int msgid;
 };

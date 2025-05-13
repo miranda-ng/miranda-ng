@@ -682,7 +682,6 @@ char*  JabberPrepareJid(const char *jid);
 char*  JabberSha1(const char *str, JabberShaStrBuf buf);
 void   JabberHttpUrlDecode(wchar_t *str);
 int    JabberCombineStatus(int status1, int status2);
-time_t JabberIsoToUnixTime(const char *stamp);
 char*  JabberStripJid(const char *jid, char *dest, size_t destLen);
 int    JabberGetPacketID(const char*);
 char*  JabberId2string(int id);

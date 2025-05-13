@@ -200,7 +200,7 @@ static void SetAllContactChecks(HWND hwndList, MCONTACT hReceiver) // doubtful n
 	if (szProto == nullptr)
 		return;
 
-	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, Clist::HideEmptyGroups, 0);
+	SendMessage(hwndList, CLM_SETHIDEEMPTYGROUPS, Clist::bHideEmptyGroups, 0);
 
 	MCONTACT hItem, hContact = FindFirstClistContact(hwndList, &hItem);
 	while (hContact) {

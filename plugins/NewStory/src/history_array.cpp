@@ -216,6 +216,8 @@ int ItemData::calcHeight(int width)
 		cx -= xPos;
 		if (m_bOfflineDownloaded != 0 || m_bDelivered || m_bRemoteRead) // Download completed icon
 			cx -= 18;
+		if (dbe.bEdited)
+			cx -= 18;
 	}
 
 	leftOffset = xPos;

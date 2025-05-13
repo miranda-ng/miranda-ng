@@ -303,13 +303,13 @@ static INT_PTR CALLBACK DlgProcClistAdditionalOpts(HWND hwndDlg, UINT msg, WPARA
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_META, db_get_b(0, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
-		CheckDlgButton(hwndDlg, IDC_METADBLCLK, db_get_b(0, "CLC", "MetaDoubleClick", SETTING_METAAVOIDDBLCLICK_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
-		CheckDlgButton(hwndDlg, IDC_METASUBEXTRA, db_get_b(0, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
-		CheckDlgButton(hwndDlg, IDC_METASUBEXTRA_IGN, db_get_b(0, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAAVOIDDBLCLICK_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
-		CheckDlgButton(hwndDlg, IDC_METAEXPAND, db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
-		CheckDlgButton(hwndDlg, IDC_DISCOVER_AWAYMSG, db_get_b(0, "ModernData", "InternalAwayMsgDiscovery", SETTING_INTERNALAWAYMSGREQUEST_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
-		CheckDlgButton(hwndDlg, IDC_REMOVE_OFFLINE_AWAYMSG, db_get_b(0, "ModernData", "RemoveAwayMessageForOffline", SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED); /// by FYR
+		CheckDlgButton(hwndDlg, IDC_META, db_get_b(0, "CLC", "Meta", SETTING_USEMETAICON_DEFAULT)); /// by FYR
+		CheckDlgButton(hwndDlg, IDC_METADBLCLK, db_get_b(0, "CLC", "MetaDoubleClick", SETTING_METAAVOIDDBLCLICK_DEFAULT)); /// by FYR
+		CheckDlgButton(hwndDlg, IDC_METASUBEXTRA, db_get_b(0, "CLC", "MetaHideExtra", SETTING_METAHIDEEXTRA_DEFAULT)); /// by FYR
+		CheckDlgButton(hwndDlg, IDC_METASUBEXTRA_IGN, db_get_b(0, "CLC", "MetaIgnoreEmptyExtra", SETTING_METAAVOIDDBLCLICK_DEFAULT)); /// by FYR
+		CheckDlgButton(hwndDlg, IDC_METAEXPAND, db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT)); /// by FYR
+		CheckDlgButton(hwndDlg, IDC_DISCOVER_AWAYMSG, db_get_b(0, "ModernData", "InternalAwayMsgDiscovery", SETTING_INTERNALAWAYMSGREQUEST_DEFAULT)); /// by FYR
+		CheckDlgButton(hwndDlg, IDC_REMOVE_OFFLINE_AWAYMSG, db_get_b(0, "ModernData", "RemoveAwayMessageForOffline", SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT)); /// by FYR
 
 		SendDlgItemMessage(hwndDlg, IDC_SUBINDENTSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SUBINDENT), 0);
 		SendDlgItemMessage(hwndDlg, IDC_SUBINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
@@ -362,23 +362,23 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			uint32_t exStyle = db_get_dw(0, "CLC", "ExStyle", GetDefaultExStyle());
 			for (auto &it : checkBoxToStyleEx)
-				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.neg) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.neg));
 
 			UDACCEL accel[2] = { { 0, 10 }, { 2, 50 } };
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)&accel);
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0, MAKELONG(db_get_w(0, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
 		}
-		CheckDlgButton(hwndDlg, IDC_IDLE, db_get_b(0, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLE, db_get_b(0, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE));
 
 		SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
 		SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETPOS, 0, MAKELONG(db_get_b(0, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT), 0));
-		CheckDlgButton(hwndDlg, IDC_GREYOUT, db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_GREYOUT, db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SMOOTHTIME), IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
 		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), greyoutValues, _countof(greyoutValues), db_get_dw(0, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS));
-		CheckDlgButton(hwndDlg, IDC_NOSCROLLBAR, db_get_b(0, "CLC", "NoVScrollBar", CLCDEFAULT_NOVSCROLL) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOSCROLLBAR, db_get_b(0, "CLC", "NoVScrollBar", CLCDEFAULT_NOVSCROLL));
 		return TRUE;
 
 	case WM_VSCROLL:
@@ -478,11 +478,11 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_GAMMACORRECT, db_get_b(0, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE4, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE1, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE2, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 2 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE3, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 3 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_GAMMACORRECT, db_get_b(0, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT));
+		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE4, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 0);
+		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE1, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE2, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 2);
+		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE3, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 3);
 		{
 			for (auto &it : sortby) {
 				int item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
@@ -506,8 +506,8 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					SendDlgItemMessage(hwndDlg, IDC_CLSORT3, CB_SETCURSEL, i, 0);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_OFFLINEMOVE, g_plugin.getByte("OfflineBottom", SETTING_OFFLINEBOTTOM_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_OFFLINETOROOT, g_plugin.getByte("PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OFFLINEMOVE, g_plugin.getByte("OfflineBottom", SETTING_OFFLINEBOTTOM_DEFAULT));
+			CheckDlgButton(hwndDlg, IDC_OFFLINETOROOT, g_plugin.getByte("PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT));
 		}
 		return TRUE;
 
@@ -562,12 +562,12 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_OFFLINETOROOT, g_plugin.getByte("PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_OFFLINETOROOT, g_plugin.getByte("PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT));
 		{
 			uint8_t trayOption = db_get_b(0, "CLUI", "XStatusTray", SETTING_TRAYOPTION_DEFAULT);
-			CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, (trayOption & 3) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWNORMAL, (trayOption & 2) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TRANSPARENTOVERLAY, (trayOption & 4) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, (trayOption & 3));
+			CheckDlgButton(hwndDlg, IDC_SHOWNORMAL, (trayOption & 2));
+			CheckDlgButton(hwndDlg, IDC_TRANSPARENTOVERLAY, (trayOption & 4));
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL));
@@ -602,7 +602,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		// setting icon cycling period
 		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETRANGE, 0, MAKELONG(120, 1));
-		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("CycleTime", SETTING_CYCLETIME_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_SETPOS, 0, MAKELONG(Clist::iCycleTime, 0));
 
 		// setting icon mode
 		switch (g_plugin.getByte("tiModeS", TRAY_ICON_MODE_GLOBAL)) {
@@ -691,7 +691,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				}
 
 				// icon cycling timeout.
-				g_plugin.setWord("CycleTime", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
+				Clist::iCycleTime = SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0);
 
 				// icon modes
 				g_plugin.setByte("tiModeS",
@@ -734,27 +734,26 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_CLIENTDRAG, db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DRAGTOSCROLL, (db_get_b(0, "CLUI", "DragToScroll", SETTING_DRAGTOSCROLL_DEFAULT) && !db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AUTOSIZE, g_CluiData.fAutoSize ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOCKSIZING, db_get_b(0, "CLUI", "LockSize", SETTING_LOCKSIZE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_BRINGTOFRONT, g_plugin.getByte("BringToFront", SETTING_BRINGTOFRONT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CLIENTDRAG, Clist::bClientAreaDrag);
+		CheckDlgButton(hwndDlg, IDC_DRAGTOSCROLL, (db_get_b(0, "CLUI", "DragToScroll", SETTING_DRAGTOSCROLL_DEFAULT) && !Clist::bClientAreaDrag));
+		CheckDlgButton(hwndDlg, IDC_AUTOSIZE, g_CluiData.fAutoSize);
+		CheckDlgButton(hwndDlg, IDC_LOCKSIZING, db_get_b(0, "CLUI", "LockSize", SETTING_LOCKSIZE_DEFAULT));
+		CheckDlgButton(hwndDlg, IDC_BRINGTOFRONT, Clist::bBringToFront);
 
 		SendDlgItemMessage(hwndDlg, IDC_MAXSIZESPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
 		SendDlgItemMessage(hwndDlg, IDC_MAXSIZESPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "MaxSizeHeight", SETTING_MAXSIZEHEIGHT_DEFAULT));
 		SendDlgItemMessage(hwndDlg, IDC_MINSIZESPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
 		SendDlgItemMessage(hwndDlg, IDC_MINSIZESPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "MinSizeHeight", SETTING_MINSIZEHEIGHT_DEFAULT));
-		CheckDlgButton(hwndDlg, IDC_AUTOSIZEUPWARD, db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SNAPTOEDGES, db_get_b(0, "CLUI", "SnapToEdges", SETTING_SNAPTOEDGES_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DOCKTOSIDES, db_get_b(0, "CLUI", "DockToSides", SETTING_DOCKTOSIDES_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOSIZEUPWARD, db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT));
+		CheckDlgButton(hwndDlg, IDC_SNAPTOEDGES, db_get_b(0, "CLUI", "SnapToEdges", SETTING_SNAPTOEDGES_DEFAULT));
 
-		CheckDlgButton(hwndDlg, IDC_EVENTAREA_NONE, db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 0 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_EVENTAREA, db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_EVENTAREA_ALWAYS, db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 2 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_EVENTAREA_NONE, db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 0);
+		CheckDlgButton(hwndDlg, IDC_EVENTAREA, db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_EVENTAREA_ALWAYS, db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 2);
 
-		CheckDlgButton(hwndDlg, IDC_AUTOHIDE, g_plugin.getByte("AutoHide", SETTING_AUTOHIDE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOHIDE, Clist::bAutoHide);
 		SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_SETRANGE, 0, MAKELONG(900, 1));
-		SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("HideTime", SETTING_HIDETIME_DEFAULT), 0));
+		SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_SETPOS, 0, MAKELONG(Clist::iHideTime, 0));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HIDETIME), IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HIDETIMESPIN), IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC01), IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
@@ -855,9 +854,9 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			db_set_w(0, "ModernData", "HideBehindBorderSize", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN4, UDM_GETPOS, 0, 0));
 
 			db_set_b(0, "CLUI", "DragToScroll", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
-			g_plugin.setByte("BringToFront", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_BRINGTOFRONT));
+			Clist::bBringToFront = IsDlgButtonChecked(hwndDlg, IDC_BRINGTOFRONT);
 			g_bChangingMode = true;
-			db_set_b(0, "CLUI", "ClientAreaDrag", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG));
+			Clist::bClientAreaDrag = IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG);
 			db_set_b(0, "CLUI", "AutoSize", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
 			db_set_b(0, "CLUI", "LockSize", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_LOCKSIZING));
 			db_set_b(0, "CLUI", "MaxSizeHeight", (uint8_t)GetDlgItemInt(hwndDlg, IDC_MAXSIZEHEIGHT, nullptr, FALSE));
@@ -865,13 +864,11 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			db_set_b(0, "CLUI", "AutoSizeUpward", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZEUPWARD));
 			db_set_b(0, "CLUI", "SnapToEdges", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SNAPTOEDGES));
 
-			db_set_b(0, "CLUI", "DockToSides", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DOCKTOSIDES));
-
 			db_set_b(0, "CLUI", "EventArea",
 				(uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_EVENTAREA_ALWAYS) ? 2 : (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_EVENTAREA) ? 1 : 0));
 
-			g_plugin.setByte("AutoHide", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
-			g_plugin.setWord("HideTime", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
+			Clist::bAutoHide = IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE);
+			Clist::iHideTime = SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0);
 			CLUI_ChangeWindowMode();
 			SendMessage(g_clistApi.hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 			CLUI_ReloadCLUIOptions();
@@ -894,7 +891,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		g_hCLUIOptionsWnd = hwndDlg;
-		CheckDlgButton(hwndDlg, IDC_ONTOP, g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONTOP, Clist::bOnTop);
 		{
 			//====== Activate/Deactivate Non-Layered items =======
 			fEnabled = !g_CluiData.fLayered || g_CluiData.fDisableSkinEngine;
@@ -912,14 +909,14 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		}
 		{
 			//====== Non-Layered Mode =====
-			CheckDlgButton(hwndDlg, IDC_TOOLWND, g_plugin.getByte("ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_MIN2TRAY, g_plugin.getByte("Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_BORDER, g_plugin.getByte("ThinBorder", SETTING_THINBORDER_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOBORDERWND, g_plugin.getByte("NoBorder", SETTING_NOBORDER_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TOOLWND, Clist::bToolWindow);
+			CheckDlgButton(hwndDlg, IDC_MIN2TRAY, Clist::bMinimizeToTray);
+			CheckDlgButton(hwndDlg, IDC_BORDER, g_plugin.getByte("ThinBorder", SETTING_THINBORDER_DEFAULT));
+			CheckDlgButton(hwndDlg, IDC_NOBORDERWND, g_plugin.getByte("NoBorder", SETTING_NOBORDER_DEFAULT));
 			if (IsDlgButtonChecked(hwndDlg, IDC_TOOLWND))
 				EnableWindow(GetDlgItem(hwndDlg, IDC_MIN2TRAY), FALSE);
-			CheckDlgButton(hwndDlg, IDC_SHOWCAPTION, db_get_b(0, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWMAINMENU, db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWCAPTION, Clist::bShowCaption);
+			CheckDlgButton(hwndDlg, IDC_SHOWMAINMENU, Clist::bShowMainMenu);
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_MIN2TRAY), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_TOOLWND), FALSE);
@@ -931,12 +928,12 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_TITLETEXT), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWCAPTION), FALSE);
 			}
-			CheckDlgButton(hwndDlg, IDC_DROPSHADOW, g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ROUNDCORNERS, db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DROPSHADOW, g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT));
+			CheckDlgButton(hwndDlg, IDC_ROUNDCORNERS, db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT));
 		}   //====== End of Non-Layered Mode =====
 
-		CheckDlgButton(hwndDlg, IDC_FADEINOUT, db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ONDESKTOP, g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_FADEINOUT, db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT));
+
 		SendDlgItemMessage(hwndDlg, IDC_FRAMESSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
 		SendDlgItemMessage(hwndDlg, IDC_CAPTIONSSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
 		SendDlgItemMessage(hwndDlg, IDC_FRAMESSPIN, UDM_SETPOS, 0, db_get_dw(0, "CLUIFrames", "GapBetweenFrames", SETTING_GAPFRAMES_DEFAULT));
@@ -950,8 +947,8 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		SendDlgItemMessage(hwndDlg, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT));
 		SendDlgItemMessage(hwndDlg, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT));
 
-		CheckDlgButton(hwndDlg, IDC_DISABLEENGINE, db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_AEROGLASS, db_get_b(0, "ModernData", "AeroGlass", SETTING_AEROGLASS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEENGINE, db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT));
+		CheckDlgButton(hwndDlg, IDC_AEROGLASS, db_get_b(0, "ModernData", "AeroGlass", SETTING_AEROGLASS_DEFAULT));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LAYERENGINE), !db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT) ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_LAYERENGINE, (db_get_b(0, "ModernData", "EnableLayering", SETTING_ENABLELAYERING_DEFAULT) && !db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT)) ? BST_UNCHECKED : BST_CHECKED);
@@ -968,7 +965,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 
 			SendDlgItemMessage(hwndDlg, IDC_TITLETEXT, CB_ADDSTRING, 0, (LPARAM)MIRANDANAME);
 		}
-		CheckDlgButton(hwndDlg, IDC_TRANSPARENT, g_plugin.getByte("Transparent", SETTING_TRANSPARENT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TRANSPARENT, Clist::bTransparent);
 		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC11), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC12), FALSE);
@@ -979,8 +976,8 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		}
 		SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 		SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
-		SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_SETPOS, TRUE, g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT));
-		SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_SETPOS, TRUE, g_plugin.getByte("AutoAlpha", SETTING_AUTOALPHA_DEFAULT));
+		SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_SETPOS, TRUE, Clist::iAlpha);
+		SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_SETPOS, TRUE, Clist::iAutoAlpha);
 		SendMessage(hwndDlg, WM_HSCROLL, 0x12345678, 0);
 		return TRUE;
 
@@ -1012,12 +1009,6 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 				if (IsDlgButtonChecked(hwndDlg, IDC_DISABLEENGINE))
 					CheckDlgButton(hwndDlg, IDC_LAYERENGINE, BST_CHECKED);
 			}
-		}
-		else if (LOWORD(wParam) == IDC_ONDESKTOP && IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
-			CheckDlgButton(hwndDlg, IDC_ONTOP, BST_UNCHECKED);
-		}
-		else if (LOWORD(wParam) == IDC_ONTOP && IsDlgButtonChecked(hwndDlg, IDC_ONTOP)) {
-			CheckDlgButton(hwndDlg, IDC_ONDESKTOP, BST_UNCHECKED);
 		}
 		else if (LOWORD(wParam) == IDC_TOOLWND) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIN2TRAY), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_TOOLWND));
@@ -1072,15 +1063,14 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 					db_unset(0, "ModernData", "EnableLayering");
 			}
 			g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (uint32_t)SETTING_KEYCOLOR_DEFAULT);
-			g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
-			g_plugin.setByte("OnTop", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONTOP));
+			Clist::bOnTop = IsDlgButtonChecked(hwndDlg, IDC_ONTOP);
 			SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			db_set_b(0, "CLUI", "DragToScroll", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
 
 			//======  Non-Layered Mode ======
-			g_plugin.setByte("ToolWindow", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_TOOLWND));
-			db_set_b(0, "CLUI", "ShowCaption", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION));
-			db_set_b(0, "CLUI", "ShowMainMenu", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU));
+			Clist::bToolWindow = IsDlgButtonChecked(hwndDlg, IDC_TOOLWND);
+			Clist::bShowCaption = IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION);
+			Clist::bShowMainMenu = IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU);
 			g_plugin.setByte("ThinBorder", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_BORDER));
 			g_plugin.setByte("NoBorder", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_NOBORDERWND));
 			{
@@ -1088,28 +1078,18 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 				GetDlgItemText(hwndDlg, IDC_TITLETEXT, title, _countof(title));
 				g_plugin.setWString("TitleText", title);
 			}
-			g_plugin.setByte("Min2Tray", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_MIN2TRAY));
+			Clist::bMinimizeToTray = IsDlgButtonChecked(hwndDlg, IDC_MIN2TRAY);
 			g_plugin.setByte("WindowShadow", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DROPSHADOW));
 			db_set_b(0, "CLC", "RoundCorners", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ROUNDCORNERS));
 			//======  End of Non-Layered Mode ======
 
 			g_bChangingMode = true;
 
-			if (IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP)) {
-				HWND hProgMan = FindWindow(L"Progman", nullptr);
-				if (IsWindow(hProgMan)) {
-					SetParent(g_clistApi.hwndContactList, hProgMan);
-					Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
-					g_CluiData.fOnDesktop = true;
-				}
+			if (GetParent(g_clistApi.hwndContactList)) {
+				SetParent(g_clistApi.hwndContactList, nullptr);
+				Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
 			}
-			else {
-				if (GetParent(g_clistApi.hwndContactList)) {
-					SetParent(g_clistApi.hwndContactList, nullptr);
-					Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
-				}
-				g_CluiData.fOnDesktop = false;
-			}
+
 			AniAva_UpdateParent();
 			db_set_b(0, "CLUI", "FadeInOut", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT));
 			g_CluiData.fSmoothAnimation = IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT) != 0;
@@ -1121,10 +1101,9 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 				db_set_dw(0, "CLUIFrames", "GapBetweenTitleBar", (uint32_t)i2);
 				Sync(CLUIFramesOnClistResize, (WPARAM)g_clistApi.hwndContactList, 0);
 			}
-			g_plugin.setByte("Transparent", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT));
-			g_plugin.setByte("Alpha", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
-			g_plugin.setByte("AutoAlpha", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0));
-			g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
+			Clist::bTransparent = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT);
+			Clist::iAlpha = SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0);
+			Clist::iAutoAlpha = SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0);
 
 			ske_LoadSkinFromDB();
 			CLUI_UpdateLayeredMode();
@@ -1276,8 +1255,8 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			int flags = dat->item[indx].flags;
 			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
-			CheckDlgButton(hwndDlg, IDC_BITMAP, dat->item[indx].useBitmap ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_USEWINCOL, dat->item[indx].useWinColours ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_BITMAP, dat->item[indx].useBitmap);
+			CheckDlgButton(hwndDlg, IDC_USEWINCOL, dat->item[indx].useWinColours);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), !dat->item[indx].useWinColours);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SELCOLOUR), !dat->item[indx].useWinColours);
@@ -1288,13 +1267,13 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].selColor);
 			SetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename);
 
-			CheckDlgButton(hwndDlg, IDC_STRETCHH, flags&CLB_STRETCHH ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_STRETCHV, flags&CLB_STRETCHV ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEH, flags&CLBF_TILEH ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEV, flags&CLBF_TILEV ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SCROLL, flags&CLBF_SCROLL ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, flags&CLBF_PROPORTIONAL ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEVROWH, flags&CLBF_TILEVTOROWHEIGHT ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_STRETCHH, flags&CLB_STRETCHH);
+			CheckDlgButton(hwndDlg, IDC_STRETCHV, flags&CLB_STRETCHV);
+			CheckDlgButton(hwndDlg, IDC_TILEH, flags&CLBF_TILEH);
+			CheckDlgButton(hwndDlg, IDC_TILEV, flags&CLBF_TILEV);
+			CheckDlgButton(hwndDlg, IDC_SCROLL, flags&CLBF_SCROLL);
+			CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, flags&CLBF_PROPORTIONAL);
+			CheckDlgButton(hwndDlg, IDC_TILEVROWH, flags&CLBF_TILEVTOROWHEIGHT);
 
 			SendMessage(hwndDlg, M_BKGR_UPDATE, 0, 0);
 		}

@@ -38,6 +38,11 @@
 #include <m_http.h>
 #include <m_system.h>
 
+extern "C"
+{
+	#include "../../libs/zlib/src/unzip.h"
+}
+
 #include "resource.h"
 #include "version.h"
 

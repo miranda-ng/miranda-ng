@@ -2365,8 +2365,7 @@ void CMsgDialog::UpdateTitle()
 		switch (m_si->iType) {
 		case GCW_CHATROOM:
 			hIcon = Skin_LoadProtoIcon(m_si->pszModule, (m_wStatus <= ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : m_wStatus);
-			wszTitle.Format((nUsers == 1) ? TranslateT("%s: chat room (%u user%s)") : TranslateT("%s: chat room (%u users%s)"),
-				szNick, nUsers, m_bFilterEnabled ? TranslateT(", event filter active") : L"");
+			wszTitle.Format((nUsers == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"), szNick, nUsers);
 			break;
 
 		case GCW_PRIVMESS:

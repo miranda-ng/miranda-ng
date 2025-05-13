@@ -30,8 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
-	: CSend(Owner, hContact, true)
+CSendFTPFile::CSendFTPFile(HWND Owner, MCONTACT hContact, bool /*bAsync*/) :
+	CSend(Owner, hContact, true)
 {
 	m_EnableItem = 0; //SS_DLG_DESCRIPTION | SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp = LPGENW("FTPFile transfer");
@@ -60,8 +60,8 @@ int CSendFTPFile::Send()
 	 ********************************************************************************************/
 	mir_free(m_pszFileName);
 	m_pszFileName = GetFileNameA(m_pszFile);
-	size_t size = sizeof(char)*(mir_strlen(m_pszFileName) + 2);
-	m_pszFileName = (char*)mir_realloc(m_pszFileName, size);
+	size_t size = sizeof(char) * (mir_strlen(m_pszFileName) + 2);
+	m_pszFileName = (char *)mir_realloc(m_pszFileName, size);
 	m_pszFileName[size - 1] = NULL;
 
 	// start Send thread
@@ -87,7 +87,7 @@ void CSendFTPFile::SendThread()
 	Exit(ACKRESULT_FAILED);
 }
 
-void	CSendFTPFile::SendThreadWrapper(void * Obj)
+void	CSendFTPFile::SendThreadWrapper(void *Obj)
 {
-	reinterpret_cast<CSendFTPFile*>(Obj)->SendThread();
+	reinterpret_cast<CSendFTPFile *>(Obj)->SendThread();
 }

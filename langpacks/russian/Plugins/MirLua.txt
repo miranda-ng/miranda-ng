@@ -41,7 +41,7 @@
 ;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Службы
-[C libs folder]
+[C Libs Folder]
 Папка с библиотеками C
 [Scripts folder]
 Папка со скриптами

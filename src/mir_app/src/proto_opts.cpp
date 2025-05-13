@@ -906,32 +906,43 @@ bool CAccountFormDlg::OnApply()
 		}
 	}
 
-	if (m_action == PRAC_UPGRADED) {
-		BOOL oldProto = m_pa->bOldProto;
-		wchar_t szPlugin[MAX_PATH];
-		mir_snwprintf(szPlugin, L"%S.dll", m_pa->szProtoName);
-		int idx = g_arAccounts.getIndex(m_pa);
-		UnloadAccount(m_pa, 0);
-		g_arAccounts.remove(idx);
-		if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
-			wchar_t szNewName[MAX_PATH];
-			mir_snwprintf(szNewName, L"%s~", szPlugin);
-			MoveFileW(szPlugin, szNewName);
-		}
-		m_action = PRAC_ADDED;
-	}
+	switch (m_action) {
+	case PRAC_UPGRADED:
+		{
+			// save values from m_pa before it got destroyed
+			bool oldProto = m_pa->bOldProto;
+			wchar_t szPlugin[MAX_PATH];
+			mir_snwprintf(szPlugin, L"%S.dll", m_pa->szProtoName);
+			db_set_s(0, m_pa->szModuleName, "AM_PrevProto", m_pa->szProtoName);
+			
+			// remove old account
+			int idx = g_arAccounts.getIndex(m_pa);
+			UnloadAccount(m_pa, 0);
+			g_arAccounts.remove(idx);
 
-	if (m_action == PRAC_ADDED) {
+			// also rename the protocol dll for old accounts
+			if (oldProto && UnloadPlugin(szPlugin, _countof(szPlugin))) {
+				wchar_t szNewName[MAX_PATH];
+				mir_snwprintf(szNewName, L"%s~", szPlugin);
+				MoveFileW(szPlugin, szNewName);
+			}
+		}
+		__fallthrough;
+
+	case PRAC_ADDED:
 		char buf[200];
 		GetDlgItemTextA(m_hwnd, IDC_PROTOTYPECOMBO, buf, _countof(buf));
-		char *szBaseProto = NEWSTR_ALLOCA(buf);
+		{
+			char *szBaseProto = NEWSTR_ALLOCA(buf);
+			m_internalName.GetTextA(buf, _countof(buf));
 
-		m_internalName.GetTextA(buf, _countof(buf));
-		rtrim(buf);
-
-		m_pa = Proto_CreateAccount(buf, szBaseProto, wszAccName);
-	}
-	else {
+			rtrim(buf);
+			m_pa = Proto_CreateAccount(buf, szBaseProto, wszAccName);
+		}
+		break;
+	
+	default:
+		// just change the account name and write it down
 		replaceStrW(m_pa->tszAccountName, wszAccName);
 
 		WriteDbAccounts();

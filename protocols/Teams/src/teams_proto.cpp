@@ -92,7 +92,8 @@ void CTeamsProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 
 void CTeamsProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)
 {
-	SendServerMsg(hContact, dbei.pBlob, dbei.iTimestamp);
+	if (dbei.szId)
+		SendServerMsg(hContact, dbei.pBlob, _atoi64(dbei.szId));
 }
 
 void CTeamsProto::OnModulesLoaded()
@@ -117,8 +118,7 @@ INT_PTR CTeamsProto::GetCaps(int type, MCONTACT)
 		return PF1_IM | PF1_AUTHREQ | PF1_CHAT | PF1_BASICSEARCH | PF1_MODEMSG | PF1_FILE | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
 	case PFLAGNUM_3:
-		// return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
-		return PF2_ONLINE;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND;
 	case PFLAGNUM_4:
 		return PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES | PF4_SERVERMSGID | PF4_SERVERFORMATTING;
 	case PFLAG_UNIQUEIDTEXT:
@@ -208,7 +208,7 @@ int CTeamsProto::GetInfo(MCONTACT hContact, int)
 	if (isChatRoom(hContact))
 		return 1;
 
-	PushRequest(new GetProfileRequest(this, hContact));
+	GetProfileInfo(hContact);
 	return 0;
 }
 
@@ -221,9 +221,6 @@ int CTeamsProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
 		return 0;
-
-	if (iNewStatus != ID_STATUS_OFFLINE)
-		iNewStatus = ID_STATUS_ONLINE;
 
 	debugLogA(__FUNCTION__ ": changing status from %i to %i", m_iStatus, iNewStatus);
 
@@ -252,13 +249,12 @@ int CTeamsProto::SetStatus(int iNewStatus)
 
 int CTeamsProto::UserIsTyping(MCONTACT hContact, int iState)
 {
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
-
 	JSONNode node;
-	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", "")
+	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("contenttype", "Application/Message") << CHAR_PARAM("content", "")
 		<< CHAR_PARAM("messagetype", (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping");
-	pReq->m_szParam = node.write().c_str();
 
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
+	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 	return 0;
 }

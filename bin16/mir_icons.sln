@@ -44,8 +44,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Dummy", "..\protocols
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Steam", "..\protocols\Steam\proto_steam\Proto_Steam.vcxproj", "{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Skype", "..\protocols\SkypeWeb\proto_skype\Proto_Skype.vcxproj", "{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Tox", "..\protocols\Tox\proto_tox\Proto_Tox.vcxproj", "{129A4E61-E476-45E8-BD50-5E03BA80E9AD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MinecraftDynmap", "..\protocols\MinecraftDynmap\proto_minecraftdynmap\minecraftdynmap_icons.vcxproj", "{178045D7-C0F4-4931-9F40-AB1B2A175092}"
@@ -63,6 +61,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Teams", "..\protocols\Teams\proto_teams\Proto_Teams.vcxproj", "{9C0BBF52-FE1D-4F07-9422-2B3321CFBE88}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\ICQCorp\Proto_icq\Proto_ICQ.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Em_Lan_Proto", "..\protocols\EmLanProto\proto_EmLanProto\proto_EmLanProto.vcxproj", "{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -240,14 +240,6 @@ Global
 		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Release|Win32.Build.0 = Release|Win32
 		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Release|x64.ActiveCfg = Release|x64
 		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Release|x64.Build.0 = Release|x64
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|Win32.ActiveCfg = Debug|Win32
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|Win32.Build.0 = Debug|Win32
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|x64.ActiveCfg = Debug|x64
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Debug|x64.Build.0 = Debug|x64
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.ActiveCfg = Release|Win32
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|Win32.Build.0 = Release|Win32
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.ActiveCfg = Release|x64
-		{DA3CD2B3-5DAC-4F6A-BC9F-05DE39EFF4C3}.Release|x64.Build.0 = Release|x64
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Debug|Win32.ActiveCfg = Debug|Win32
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Debug|Win32.Build.0 = Debug|Win32
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Debug|x64.ActiveCfg = Debug|x64
@@ -320,6 +312,14 @@ Global
 		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|Win32.Build.0 = Release|Win32
 		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|x64.ActiveCfg = Release|x64
 		{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}.Release|x64.Build.0 = Release|x64
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Debug|Win32.Build.0 = Debug|Win32
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Debug|x64.ActiveCfg = Debug|x64
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Debug|x64.Build.0 = Debug|x64
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Release|Win32.ActiveCfg = Release|Win32
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Release|Win32.Build.0 = Release|Win32
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Release|x64.ActiveCfg = Release|x64
+		{2D0BE9D7-7FD3-4E3C-A272-F157E3F44D41}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -30,20 +30,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-#define SETTING_TOOLWINDOW_DEFAULT                1 
-#define SETTING_ONTOP_DEFAULT                     1 
 #define SETTING_MIN2TRAY_DEFAULT                  1 
 #define SETTING_PLACEOFFLINETOROOT_DEFAULT        0 
 #define SETTING_THINBORDER_DEFAULT                0 
 #define SETTING_NOBORDER_DEFAULT                  0 
 #define SETTING_WINDOWSHADOW_DEFAULT              0 
-#define SETTING_ONDESKTOP_DEFAULT                 0 
 #define SETTING_DISABLEWORKINGSET_DEFAULT         1 
 #define SETTING_ALWAYSVISICON_DEFAULT             0 
 														    
-#define SETTING_SHOWMAINMENU_DEFAULT              1 
-#define SETTING_SHOWCAPTION_DEFAULT               1 
-#define SETTING_CLIENTDRAG_DEFAULT                1 
 #define SETTING_SHOWSBAR_DEFAULT                  1 
 #define SETTING_SBARPERPROTO_DEFAULT              0 
 #define SETTING_USECONNECTINGICON_DEFAULT         1 
@@ -187,13 +181,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT 0 
 #define SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT  0 
 #define SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT 0
-
-#define SETTING_TRANSPARENT_DEFAULT               0 
-#define SETTING_AUTOALPHA_DEFAULT               150 
-#define SETTING_AUTOHIDE_DEFAULT                  0 
-#define SETTING_HIDETIME_DEFAULT                 30 
-#define SETTING_CYCLETIME_DEFAULT                 4 
-#define SETTING_TRAYICON_DEFAULT                  SETTING_TRAYICON_SINGLE 
 
 #define SETTING_BLENDINACTIVESTATE_DEFAULT        0
 

@@ -38,9 +38,10 @@ int CSendHost_UploadPie::Send()
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
 	}
-	
+
 	m_pRequest.reset(new MHttpRequest(REQUEST_POST));
-	char* tmp; tmp = mir_u2a(m_pszFile);
+	T2Utf tmp(m_pszFile);
+
 	HTTPFormData frm[] = {
 		{ "MAX_FILE_SIZE", HTTPFORM_INT(3145728) },
 		{ "upload", HTTPFORM_INT(1) },
@@ -49,10 +50,9 @@ int CSendHost_UploadPie::Send()
 	};
 
 	int error = HTTPFormCreate(m_pRequest.get(), kHostURL, frm, _countof(frm));
-	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
-	
+
 	// start upload thread
 	if (m_bAsync) {
 		mir_forkthread(&CSendHost_UploadPie::SendThread, this);
@@ -62,35 +62,37 @@ int CSendHost_UploadPie::Send()
 	return 1;
 }
 
-void CSendHost_UploadPie::SendThread(void* obj)
+void CSendHost_UploadPie::SendThread(void *obj)
 {
-	CSendHost_UploadPie* self = (CSendHost_UploadPie*)obj;
+	CSendHost_UploadPie *self = (CSendHost_UploadPie *)obj;
 	// send DATA and wait for m_nlreply
 	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, self->m_pRequest.get()));
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->body.GetLength()) {
-			char* url = reply->body.GetBuffer();
+			char *url = reply->body.GetBuffer();
 			do {
-				char* pos;
+				char *pos;
 				if ((url = strstr(url, kHostURL))) {
-					for (pos = url + _countof(kHostURL)-1; (*pos >= '0'&&*pos <= '9') || (*pos >= 'a'&&*pos <= 'z') || (*pos >= 'A'&&*pos <= 'Z') || *pos == '_' || *pos == '-' || *pos == '"' || *pos == '\''; ++pos) {
-						if (*pos == '"' || *pos == '\'') break;
+					for (pos = url + _countof(kHostURL) - 1; (*pos >= '0' && *pos <= '9') || (*pos >= 'a' && *pos <= 'z') || (*pos >= 'A' && *pos <= 'Z') || *pos == '_' || *pos == '-' || *pos == '"' || *pos == '\''; ++pos) {
+						if (*pos == '"' || *pos == '\'')
+							break;
 					}
-					if (url + _countof(kHostURL)-1 != pos && (*pos == '"' || *pos == '\'')) {
+					if (url + _countof(kHostURL) - 1 != pos && (*pos == '"' || *pos == '\'')) {
 						*pos = '\0';
 						break;
 					}
 					++url;
 				}
 			} while (url);
-			
+
 			if (url) {
 				self->m_URL = url;
-				self->svcSendMsgExit(url); return;
+				self->svcSendMsgExit(url);
+				return;
 			}
 			else { // check error mess from server
-				const char* err = GetHTMLContent(reply->body.GetBuffer(), "<p id=\"error\"", "</p>");
-				wchar_t* werr;
+				const char *err = GetHTMLContent(reply->body.GetBuffer(), "<p id=\"error\"", "</p>");
+				wchar_t *werr;
 				if (err) werr = mir_a2u(err);
 				else werr = mir_a2u(reply->body);
 				self->Error(L"%s", werr);

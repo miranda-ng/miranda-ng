@@ -101,7 +101,6 @@ public:
 	void onChange_Text(CCtrlEdit *);
 
 	void onClick_Ok(CCtrlButton *);
-	void onClick_Filter(CCtrlButton *);
 	void onClick_NickList(CCtrlButton *);
 
 	void UpdateReadChars(void);
@@ -123,7 +122,6 @@ public:
 	bool m_bIsAutoRTL = false;
 	HBITMAP m_avatarPic = 0;
 	wchar_t *m_wszInitialText = 0;
-	MWindow m_hwndFilter;
 
 	int GetImageId() const;
 

@@ -91,7 +91,7 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 // dialog box for the %subject% selection
 void ResetCList(HWND hwndDlg)
 {
-	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, Clist::UseGroups, 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, Clist::bUseGroups, 0);
 	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
 }
 

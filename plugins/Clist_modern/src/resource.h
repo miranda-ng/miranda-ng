@@ -250,7 +250,6 @@
 #define IDC_HILIGHTMODE2                1659
 #define IDC_HILIGHTMODE1                1660
 #define IDC_HILIGHTMODE3                1661
-#define IDC_ONDESKTOP                   1662
 #define IDC_HILIGHTMODE4                1663
 #define IDC_USECONNECTINGICON           1761
 #define IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK 1761
@@ -302,7 +301,6 @@
 #define IDC_AVATAR_SIZE_PIXELS3         1806
 #define IDC_LAYERENGINE                 1807
 #define IDC_SNAPTOEDGES                 1808
-#define IDC_DOCKTOSIDES                 1809
 #define IDC_AVATAR_OVERLAY_ICON_NORMAL  1811
 #define IDC_EVENTAREA_NONE              1811
 #define IDC_AVATAR_OVERLAY_ICON_PROTOCOL 1812

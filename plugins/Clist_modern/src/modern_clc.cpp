@@ -1645,11 +1645,11 @@ HRESULT ClcLoadModule()
 int ClcUnloadModule()
 {
 	if (g_CluiData.bOldUseGroups != -1)
-		Clist::UseGroups = g_CluiData.bOldUseGroups;
+		Clist::bUseGroups = g_CluiData.bOldUseGroups;
 	if (g_CluiData.bOldHideOffline != -1)
-		Clist::HideOffline = g_CluiData.bOldHideOffline;
+		Clist::bHideOffline = g_CluiData.bOldHideOffline;
 	if (g_CluiData.bOldHideEmptyGroups != -1)
-		Clist::HideEmptyGroups = g_CluiData.bOldHideEmptyGroups;
+		Clist::bHideEmptyGroups = g_CluiData.bOldHideEmptyGroups;
 
 	return 0;
 }

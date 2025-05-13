@@ -59,7 +59,6 @@
 #define IDI_JABBER_OVERLAY              83
 #define IDI_JGTALK_OVERLAY              84
 #define IDI_VK_OVERLAY                  90
-#define IDI_SKYPE_OVERLAY               91
 #define IDI_SECUREIM_OVERLAY            95
 #define IDI_NEWGPG_OVERLAY              96
 #define IDI_MIROTR_OVERLAY              97
@@ -380,19 +379,6 @@
 #define IDI_RSS09                       763
 #define IDI_RSS1                        764
 #define IDI_RSS2                        765
-#define IDI_ACCU                        801
-#define IDI_GISMETEO                    802
-#define IDI_INTELLI                     803
-#define IDI_REALMETEO                   804
-#define IDI_WETTER                      805
-#define IDI_UNDERGROUND                 806
-#define IDI_WEATHER                     807
-#define IDI_WEATHER_CN                  808
-#define IDI_WEATHERXML                  809
-#define IDI_METEOGID                    810
-#define IDI_YWEATHER                    811
-#define IDI_METEONOVOSTI                812
-#define IDI_NOAA                        813
 #define IDI_ADIUM                       1000
 #define IDI_AGILE                       1001
 #define IDI_APPOLO                      1002
@@ -488,9 +474,11 @@
 #define IDI_FACEBOOK_APP                2002
 #define IDI_FACEBOOK_MESSENGER          2003
 #define IDI_FACEBOOK_OTHER              2004
+
 #define IDC_STATUSBAR                   7001
-#define IDI_SKYPE                       9002
+
 #define IDI_TWITTER                     9003
+#define IDI_TEAMS                       9004
 #define IDI_HANGOUTS                    9005
 #define IDI_VK                          9006
 #define IDI_DISCORD                     9007

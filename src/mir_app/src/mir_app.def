@@ -177,7 +177,6 @@ Clist_GroupSetFlags @256
 Clist_GroupGetName @257
 Clist_GroupRename @258
 Clist_EndRebuild @259
-Clist_GroupAdded @260
 ?GetInfo@Contact@@YGPA_WHIPBD@Z @261 NONAME
 Clist_ContactToHItem @262 NONAME
 Clist_ContactToItemHandle @263
@@ -186,7 +185,6 @@ Window_SetIcon_IcoLib @265
 Clist_Broadcast @266 NONAME
 Clist_BroadcastAsync @267 NONAME
 Clist_MenuProcessCommand @268
-Clist_IsDocked @269
 Clist_MenuProcessHotkey @270
 Clist_ContactChangeGroup @271
 Clist_ContactCompare @272
@@ -316,13 +314,15 @@ Chat_UpdateOptions @418 NONAME
 ?OnInitDialog@CSrmmBaseDialog@@MAE_NXZ @423 NONAME
 ?AddLog@CSrmmBaseDialog@@UAEXABULOGINFO@@@Z @425 NONAME
 ?UpdateNickList@CSrmmBaseDialog@@QAEXXZ @426 NONAME
-?onClick_BIU@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @430 NONAME
-?onClick_BkColor@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @431 NONAME
-?onClick_Color@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @432 NONAME
-?RefreshButtonStatus@CSrmmBaseDialog@@IAEXXZ @433 NONAME
-?ProcessHotkeys@CSrmmBaseDialog@@IAE_NH_N00@Z @434 NONAME
-?onClick_History@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @435 NONAME
-?onClick_ChanMgr@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @436 NONAME
+?onClick_BIU@CSrmmBaseDialog@@AAEXPAVCCtrlButton@@@Z @427 NONAME
+?onClick_BkColor@CSrmmBaseDialog@@AAEXPAVCCtrlButton@@@Z @428 NONAME
+?onClick_Color@CSrmmBaseDialog@@AAEXPAVCCtrlButton@@@Z @429 NONAME
+?onClick_ChanMgr@CSrmmBaseDialog@@AAEXPAVCCtrlButton@@@Z @430 NONAME
+?onClick_CloseQuote@CSrmmBaseDialog@@AAEXPAVCCtrlButton@@@Z @431 NONAME
+?onClick_Filter@CSrmmBaseDialog@@AAEXPAVCCtrlButton@@@Z @432 NONAME
+?onClick_History@CSrmmBaseDialog@@AAEXPAVCCtrlButton@@@Z @433 NONAME
+?RefreshButtonStatus@CSrmmBaseDialog@@IAEXXZ @436 NONAME
+?ProcessHotkeys@CSrmmBaseDialog@@IAE_NH_N00@Z @437 NONAME
 ?WndProc_Message@CSrmmBaseDialog@@UAEJIIJ@Z @438 NONAME
 ?WndProc_Nicklist@CSrmmBaseDialog@@UAEJIIJ@Z @439 NONAME
 ?onDblClick_List@CSrmmBaseDialog@@IAEXPAVCCtrlListBox@@@Z @440 NONAME
@@ -682,10 +682,10 @@ Netlib_Dump @812 NONAME
 ?ProtoBroadcastAsync@PROTO_INTERFACE@@QAEXIHHPAXJ@Z @813 NONAME
 ProtoBroadcastAsync @814 NONAME
 ?ProcessFileDrop@CSrmmBaseDialog@@IAE_NPAUHDROP__@@I@Z @815 NONAME
-?ConfirmDelete@Clist@@3V?$CMOption@_N@@A @816 NONAME
-?HideEmptyGroups@Clist@@3V?$CMOption@_N@@A @817 NONAME
-?HideOffline@Clist@@3V?$CMOption@_N@@A @818 NONAME
-?UseGroups@Clist@@3V?$CMOption@_N@@A @819 NONAME
+?bConfirmDelete@Clist@@3V?$CMOption@_N@@A @816 NONAME
+?bHideEmptyGroups@Clist@@3V?$CMOption@_N@@A @817 NONAME
+?bHideOffline@Clist@@3V?$CMOption@_N@@A @818 NONAME
+?bUseGroups@Clist@@3V?$CMOption@_N@@A @819 NONAME
 ?OfflineModes@Clist@@3V?$CMOption@I@@A @820 NONAME
 ?getChat@CSrmmBaseDialog@@QBEPAUSESSION_INFO@@XZ @821 NONAME
 ?EventCursor@MDatabaseCommon@@UAGPAV0DB@@II@Z @822 NONAME
@@ -707,7 +707,7 @@ _Netlib_GetTlsUnique@12 @831 NONAME
 ?SafeDeleteDirectory@PU@@YGHPB_W@Z @838 NONAME
 ?SafeDeleteFile@PU@@YGHPB_W@Z @839 NONAME
 ?SafeMoveFile@PU@@YGHPB_W0@Z @840 NONAME
-?FilterSearch@Clist@@3V?$CMOption@_N@@A @841 NONAME
+?bFilterSearch@Clist@@3V?$CMOption@_N@@A @841 NONAME
 ?FillContactSettings@MDatabaseCommon@@IAEXXZ @842 NONAME
 ?GetContactSettingWorker@MDatabaseCommon@@MAGHIPBD0PAUDBVARIANT@@H@Z @843 NONAME
 ?WriteContactSetting@MDatabaseCommon@@UAGHIPBD0PAUDBVARIANT@@@Z @844 NONAME
@@ -726,8 +726,8 @@ _Netlib_GetTlsUnique@12 @831 NONAME
 ?usesPassword@MDatabaseCommon@@QBE_NXZ @857 NONAME
 ?SetPassword@MDatabaseCommon@@QAEXPB_W@Z @858 NONAME
 ?EnableEncryption@MDatabaseReadonly@@UAGHH@Z @859 NONAME
-?Tray1Click@Clist@@3V?$CMOption@_N@@A @860 NONAME
-?TrayAlwaysStatus@Clist@@3V?$CMOption@_N@@A @861 NONAME
+?bTray1Click@Clist@@3V?$CMOption@_N@@A @860 NONAME
+?bTrayAlwaysStatus@Clist@@3V?$CMOption@_N@@A @861 NONAME
 ?Flush@MDatabaseCommon@@UAGHXZ @862 NONAME
 ?getIcon@CHAT_MANAGER@@QBGPAUHICON__@@H@Z @863 NONAME
 ?getSoundName@SESSION_INFO@@QBEPBDH@Z @864 NONAME
@@ -760,7 +760,7 @@ Srmm_CreateHotkey @886 NONAME
 ??_7CUserInfoPageDlg@@6B@ @891 NONAME
 ?OnRefresh@CUserInfoPageDlg@@UAE_NXZ @892 NONAME
 ?SetContact@CUserInfoPageDlg@@QAEXI@Z @893 NONAME
-?IsGroupChat@Contact@@YG_NIPBD@Z @894 NONAME
+?IsGroupChat@Contact@@YGHIPBD@Z @894 NONAME
 ?IsEmpty@CUserInfoPageDlg@@UBE_NXZ @895 NONAME
 ?bContactStatusFirst@Chat@@3V?$CMOption@_N@@A @896 NONAME
 ?bDoubleClick4Privat@Chat@@3V?$CMOption@_N@@A @897 NONAME
@@ -885,7 +885,6 @@ Clist_GroupSaveExpanded @1003 NONAME
 ??0MAsyncObject@@QAE@XZ @1016 NONAME
 ??1MAsyncObject@@UAE@XZ @1017 NONAME
 ??_7MAsyncObject@@6B@ @1018 NONAME
-?bEnableCustomLogs@Chat@@3V?$CMOption@_N@@A @1019 NONAME
 ?Srmm_IsCustomLogUsed@@YG_N_N@Z @1020 NONAME
 ?IconFlashTime@Clist@@3V?$CMOption@I@@A @1021 NONAME
 ?Srmm_Quote@@YG?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@PB_WH@Z @1022 NONAME
@@ -900,7 +899,6 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?Readonly@Contact@@YGXI_N@Z @1031 NONAME
 ?addButton@CMPluginBase@@QAEPAXPBUBBButton@@@Z @1032 NONAME
 ?SetQuoteEvent@CSrmmBaseDialog@@QAEXI@Z @1033 NONAME
-?onClick_CloseQuote@CSrmmBaseDialog@@IAEXPAVCCtrlButton@@@Z @1034 NONAME
 ?fetch@EventInfo@DB@@QAE_N_N@Z @1035 NONAME
 ?unload@EventInfo@DB@@QAEXXZ @1036 NONAME
 ?isAlertable@EventInfo@DB@@QBE_NXZ @1037 NONAME
@@ -1004,3 +1002,20 @@ Proto_CanDeleteHistory @1118 NONAME
 ?error@JsonReply@@QBEHXZ @1135 NONAME
 ??BJsonReply@@QBE_NXZ @1136 NONAME
 ??6@YGPAUMHttpRequest@@PAU0@ABUBOOL_PARAM@@@Z @1137 NONAME
+?bShowFormatting@Chat@@3V?$CMOption@_N@@A @1138 NONAME
+?setDescr@FILE_BLOB@DB@@QAEXPB_W@Z @1139 NONAME
+?bShowMainMenu@Clist@@3V?$CMOption@_N@@A @1140 NONAME
+?bShowCaption@Clist@@3V?$CMOption@_N@@A @1141 NONAME
+?bToolWindow@Clist@@3V?$CMOption@_N@@A @1142 NONAME
+?bClientAreaDrag@Clist@@3V?$CMOption@_N@@A @1143 NONAME
+?bOnTop@Clist@@3V?$CMOption@_N@@A @1144 NONAME
+?bAlwaysMulti@Clist@@3V?$CMOption@_N@@A @1145 NONAME
+?bAutoHide@Clist@@3V?$CMOption@_N@@A @1146 NONAME
+?bMinimizeToTray@Clist@@3V?$CMOption@_N@@A @1147 NONAME
+?bTransparent@Clist@@3V?$CMOption@_N@@A @1148 NONAME
+?iTrayIcon@Clist@@3V?$CMOption@E@@A @1149 NONAME
+?bBringToFront@Clist@@3V?$CMOption@_N@@A @1150 NONAME
+?iCycleTime@Clist@@3V?$CMOption@G@@A @1151 NONAME
+?iHideTime@Clist@@3V?$CMOption@G@@A @1152 NONAME
+?iAlpha@Clist@@3V?$CMOption@E@@A @1153 NONAME
+?iAutoAlpha@Clist@@3V?$CMOption@E@@A @1154 NONAME

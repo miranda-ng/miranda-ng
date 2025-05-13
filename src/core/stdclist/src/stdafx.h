@@ -59,6 +59,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	CMOption<bool> bSortByStatus, bSortByProto;
+
 	int Load() override;
 };
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 #define MODULENAME "CList"
+#define GROUPS_MODULE "ClistGroups"
 
 struct ClcContact : public ClcContactBase
 {
@@ -97,7 +98,7 @@ int ClcOptInit(WPARAM, LPARAM);
 
 namespace Clist
 {
-	extern CMOption<bool> RemoveTempContacts, EnableIconBlink, EnableTrayFlash;
+	extern CMOption<bool> bRemoveTempContacts, bEnableIconBlink, bEnableTrayFlash;
 };
 
 /* clistmenus.c */
@@ -166,9 +167,6 @@ int LoadCLUIModule(void);
 /* contact.c */
 int fnSetHideOffline(int iValue);
 
-/* docking.c */
-int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
-
 // clistgroups.cpp
 
 struct CGroupInternal
@@ -176,9 +174,31 @@ struct CGroupInternal
 	CGroupInternal(int _id, const wchar_t *_name, int _flags);
 	~CGroupInternal();
 
-	int groupId, oldId = -1, flags;
+	int groupId, oldId = -1;
+	union {
+		int flags; // combination of GROUPF_* constants
+		struct {
+			bool bUnused1 : 1;
+			bool bHidden : 1;
+			bool bExpanded : 1;
+			bool bHideOffline : 1;
+			bool bUnused2 : 1;
+			bool bUnused3 : 1;
+			bool bShowOffline : 1;
+		};
+	};
+
+	uint32_t ignore = 0;
 	bool bSaveExpanded;
 	wchar_t *groupName;
 
+	void remove();
 	void save();
 };
+
+void Clist_RebuildGroups(HWND hwnd, ClcData *dat);
+
+uint32_t Clist_GroupGetIgnore(MGROUP hGroup, bool *bHidden);
+void Clist_GroupSetIgnore(MGROUP hGroup, uint32_t mask, bool bHidden);
+
+CGroupInternal* FindGroup(const wchar_t *ptszGroupName);

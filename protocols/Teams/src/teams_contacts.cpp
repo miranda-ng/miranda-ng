@@ -17,14 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-uint16_t CTeamsProto::GetContactStatus(MCONTACT hContact)
-{
-	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
-}
-
 void CTeamsProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 {
-	uint16_t oldStatus = GetContactStatus(hContact);
+	uint16_t oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (oldStatus != status) {
 		setWord(hContact, "Status", status);
 		if (status == ID_STATUS_OFFLINE)
@@ -115,7 +110,7 @@ void CTeamsProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 
 		time_t eventTime = 0;
 		for (auto &it : item["invites"])
-			eventTime = IsoToUnixTime(it["time"].as_string());
+			eventTime = Utils_IsoToUnixTime(it["time"].as_string());
 
 		std::string displayName = item["displayname"].as_string();
 		const char *szNick = (displayName.empty()) ? nullptr : displayName.c_str();
@@ -140,7 +135,14 @@ void CTeamsProto::LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest*)
 	}
 }
 
-void CTeamsProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTeamsProto::RefreshContactsInfo()
+{
+	PushRequest(new AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/contacts", &CTeamsProto::OnGotContactsInfo));
+}
+
+void CTeamsProto::OnGotContactsInfo(MHttpResponse *response, AsyncHttpRequest*)
 {
 	TeamsReply reply(response);
 	if (reply.error())
@@ -223,6 +225,24 @@ void CTeamsProto::LoadContactList(MHttpResponse *response, AsyncHttpRequest*)
 	}
 
 	PushRequest(new AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/invites", &CTeamsProto::LoadContactsAuth));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTeamsProto::GetShortInfo(const OBJLIST<char> &ids)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_TEAMS_API, "/users/fetchShortProfile?isMailAddress=false&canBeSmtpAddress=false&enableGuest=true&includeIBBarredUsers=true&skypeTeamsInfo=true&includeBots=true");
+
+	for (auto &it : ids) {
+		if (pReq->m_szParam.IsEmpty())
+			pReq->m_szParam = "[";
+		else
+			pReq->m_szParam += ",";
+		pReq->m_szParam.AppendFormat("\"%s\"", it);
+	}
+	pReq->m_szParam += "]";
+
+	PushRequest(pReq);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

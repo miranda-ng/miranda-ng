@@ -275,13 +275,6 @@ EXTERN_C MIR_APP_DLL(BOOL) Clist_MenuProcessCommand(int menu_id, int flags, MCON
 EXTERN_C MIR_APP_DLL(BOOL) Clist_MenuProcessHotkey(unsigned hotkey);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// determines whether the contact list is docked
-// wParam = lParam = 0
-// returns nonzero if the contact list is docked, of 0 if it is not
-
-EXTERN_C MIR_APP_DLL(BOOL) Clist_IsDocked(void);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Clist-related buttons management
 /////////////////////////////////////////////////////////////////////////////////////////
 // toggles the use groups mode of the contact list
@@ -357,13 +350,6 @@ EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName);
 EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, const wchar_t *ptszGroupName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// a new group was created. Add it to the list
-// this is also called when the contact list is being rebuilt
-// new groups are always created with the name "New Group"
-
-EXTERN_C MIR_APP_DLL(void) Clist_GroupAdded(MGROUP hGroup);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // deletes a group and calls CLUI to display the change
 // returns 0 on success, nonzero on failure
 
@@ -380,6 +366,7 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNe
 // returns a wchar_t* on success, NULL on failure
 // if pdwFlags is not NULL, also stores group flags into it (one of GROUPF_* constants
 
+#define GROUPF_HIDDEN      0x02
 #define GROUPF_EXPANDED    0x04
 #define GROUPF_HIDEOFFLINE 0x08
 #define GROUPF_SHOWOFFLINE 0x40
@@ -517,34 +504,5 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, in
 
 EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle, const char *szInfo, uint32_t dwInfoFlags, UINT uTimeout);
 EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, uint32_t dwInfoFlags, UINT uTimeout);
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-#define SETTING_TOOLWINDOW_DEFAULT    1
-#define SETTING_SHOWMAINMENU_DEFAULT  1
-#define SETTING_SHOWCAPTION_DEFAULT   1
-#define SETTING_CLIENTDRAG_DEFAULT    1
-#define SETTING_ONTOP_DEFAULT         1
-#define SETTING_MIN2TRAY_DEFAULT      1
-#define SETTING_SORTBYSTATUS_DEFAULT  0
-#define SETTING_SORTBYPROTO_DEFAULT   0
-#define SETTING_TRANSPARENT_DEFAULT   0
-#define SETTING_ALPHA_DEFAULT         200
-#define SETTING_AUTOALPHA_DEFAULT     150
-#define SETTING_AUTOHIDE_DEFAULT      0
-#define SETTING_HIDETIME_DEFAULT      30
-#define SETTING_CYCLETIME_DEFAULT     4
-#define SETTING_TRAYICON_DEFAULT      SETTING_TRAYICON_SINGLE
-#define SETTING_ALWAYSMULTI_DEFAULT   0
-
-#define SETTING_TRAYICON_SINGLE       0
-#define SETTING_TRAYICON_CYCLE        1
-#define SETTING_TRAYICON_MULTI        2
-
-#define SETTING_STATE_HIDDEN          0
-#define SETTING_STATE_MINIMIZED       1
-#define SETTING_STATE_NORMAL          2
-
-#define SETTING_BRINGTOFRONT_DEFAULT 0
 
 #endif // M_CLIST_H__

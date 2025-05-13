@@ -562,6 +562,8 @@ static renameTable[] =
 	{ L"omegle.dll",                     nullptr },
 	{ L"openssl.dll",                    nullptr },
 	{ L"rate.dll",                       nullptr },
+	{ L"skypestatuschange.dll",          nullptr },
+	{ L"skypeweb.dll",                   nullptr },
 	{ L"spamotron.dll",                  nullptr },
 	{ L"sms.dll",                        nullptr },
 	{ L"tlen.dll",                       nullptr },

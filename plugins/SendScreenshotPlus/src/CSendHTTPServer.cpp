@@ -32,8 +32,8 @@ INT_PTR(*g_MirCallService)(const char *, WPARAM, LPARAM) = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/)
-	: CSend(Owner, hContact, true)
+CSendHTTPServer::CSendHTTPServer(HWND Owner, MCONTACT hContact, bool /*bAsync*/) :
+	CSend(Owner, hContact, true)
 {
 	m_EnableItem = SS_DLG_DESCRIPTION; //| SS_DLG_AUTOSEND | SS_DLG_DELETEAFTERSSEND;
 	m_pszSendTyp = LPGENW("HTTPServer transfer");
@@ -86,7 +86,7 @@ void CSendHTTPServer::SendThread()
 		// patched plugin version
 		ret = CallService(MS_HTTP_ADD_CHANGE_REMOVE, (WPARAM)m_hContact, (LPARAM)&m_fsi);
 		if (!ret) {
-			m_URL = ptrA((char*)CallService(MS_HTTP_GET_LINK, (WPARAM)m_fsi.pszSrvPath, 0));
+			m_URL = ptrA((char *)CallService(MS_HTTP_GET_LINK, (WPARAM)m_fsi.pszSrvPath, 0));
 		}
 	}
 	else {
@@ -111,7 +111,7 @@ void CSendHTTPServer::SendThread()
 	Exit(ACKRESULT_FAILED);
 }
 
-void CSendHTTPServer::SendThreadWrapper(void * Obj)
+void CSendHTTPServer::SendThreadWrapper(void *Obj)
 {
-	reinterpret_cast<CSendHTTPServer*>(Obj)->SendThread();
+	reinterpret_cast<CSendHTTPServer *>(Obj)->SendThread();
 }

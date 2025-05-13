@@ -10,7 +10,7 @@ Einfacher, schneller und funktionsreicher Verlaufsbetrachter.
 [Voice calls]
 Sprachanrufe
 [Voice call]
-Sprachnachricht
+Sprachanruf
 [Sh&ow in history]
 Im Verlauf anzeigen
 [Log default]
@@ -687,3 +687,5 @@ Löschen
 Auf
 [Down]
 Ab
+[Select]
+Auswählen

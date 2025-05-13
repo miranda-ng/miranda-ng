@@ -29,12 +29,56 @@ wchar_t *months[12] =
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-// HTML generator
+// color table
+
+struct
+{
+	const wchar_t *pwszName;
+	uint32_t iValue;
+}
+static builtinColors[] = {
+	{ L"black",  RGB(0, 0, 0) },
+	{ L"navy",   RGB(0, 0, 128) },
+	{ L"blue",   RGB(0, 0, 255) },
+	{ L"green",  RGB(0, 128, 0) },
+	{ L"lime",   RGB(0, 255, 0) },
+	{ L"red",    RGB(255, 0, 0) },
+	{ L"maroon", RGB(128, 0, 0) },
+	{ L"purple", RGB(128, 0, 128) },
+	{ L"pink",   RGB(255, 0, 255) },
+	{ L"olive",  RGB(128, 128, 0) },
+	{ L"yellow", RGB(255, 255, 0) },
+	{ L"cyan",   RGB(0, 128, 128) },
+	{ L"aqua",   RGB(0, 255, 255) },
+	{ L"gray",   RGB(128, 128, 128) },
+	{ L"white",  RGB(255, 255, 255) },
+	{ L"silver", RGB(192, 192, 192) },
+};
 
 static uint32_t color2html(COLORREF clr)
 {
 	return (((clr & 0xFF) << 16) | (clr & 0xFF00) | ((clr & 0xFF0000) >> 16));
 }
+
+static int str2color(const CMStringW &str)
+{
+	for (auto &it : builtinColors)
+		if (str == it.pwszName)
+			return it.iValue;
+
+	// 6 hex digits in the RGB format
+	if (str.GetLength() != 6)
+		return -1;
+
+	for (int i = 0; i < 6; i++)
+		if (!is_hex_digit(str[i]))
+			return -1;
+
+	return color2html(wcstoul(str, 0, 16));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// HTML generator
 
 static wchar_t* font2html(LOGFONTA &lf, wchar_t *dest)
 {
@@ -175,7 +219,9 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 
 					if (auto *p2 = wcsstr(p1, L"[/url]")) {
 						CMStringW wszDescr(p1, int(p2 - p1));
-						buf.AppendFormat(L"<a class=\"link\" href=\"%s\">%s</a>", wszUrl.c_str(), wszDescr.c_str());
+						buf.AppendFormat(L"<a class=\"link\" href=\"%s\">", wszUrl.c_str());
+						AppendString(buf, wszDescr, pItem);
+						buf.Append(L"</a>");
 						p = p2 + 5;
 					}
 				}
@@ -195,8 +241,11 @@ static void AppendString(CMStringW &buf, const wchar_t *p, ItemData *pItem)
 				p += 6;
 
 				if (auto *p1 = wcschr(p, ']')) {
-					CMStringW wszColor(p, int(p1 - p));
-					buf.AppendFormat(L"<font color=#%06X>", color2html(wcstoul(wszColor, 0, 16)));
+					int iColor = str2color(CMStringW(p, int(p1 - p)));
+					if (iColor != -1)
+						buf.AppendFormat(L"<font color=#%06X>", color2html(iColor));
+					else
+						buf.Append(L"<font class=\"body\">");
 					p = p1;
 				}
 				else p--;
@@ -235,7 +284,7 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 	auto &F = g_fontTable[fontID];
 
 	wchar_t szFont[100];
-	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; color: NSText; overflow: auto;}\n", font2html(F.lf, szFont));
+	str.AppendFormat(L"body {margin: 0px; text-align: left; %s; overflow: auto;}\n", font2html(F.lf, szFont));
 	str.AppendFormat(L".nick {color: #%06X }\n", color2html(g_colorTable[dbe.bSent ? COLOR_OUTNICK : COLOR_INNICK].cl));
 	str.AppendFormat(L".link {color: #%06X }\n", color2html(g_colorTable[COLOR_LINK].cl));
 	str.AppendFormat(L".quote {border-left: 4px solid #%06X; padding-left: 8px; }\n", color2html(g_colorTable[COLOR_QUOTE].cl));
@@ -270,7 +319,11 @@ CMStringW ItemData::formatHtml(const wchar_t *pwszStr)
 
 	CMStringW szBody(wszOrigText);
 	UrlAutodetect(szBody);
+
+	str.Append(L"<div id=\"bbody\">");
 	AppendString(str, szBody, this);
+	str.Append(L"</div>");
+
 	if (spRes) {
 		int iOffset = 0;
 		for (int i = 0; i < (int)sp.numSmileys; i++) {

@@ -22,13 +22,13 @@ struct CDummyProto;
 #define DUMMY_ID_TEMPLATE "Template"
 #define DUMMY_ID_TEXT "UniqueIdText"
 #define DUMMY_ID_SETTING "UniqueIdSetting"
-#define DUMMY_KEY_ALLOW_SENDING "AllowSending"
 
 struct ttemplate
 {
 	const char *name;
 	const char *setting;
 	const char *text;
+	int iconId;
 };
 
 extern const ttemplate templates[];

@@ -153,6 +153,8 @@ CMStringW     Chat_GetFolderName(SESSION_INFO *si = nullptr);
 void          Chat_Serialize(SESSION_INFO *si);
 bool          Chat_Unserialize(SESSION_INFO *si);
 
+void          CheckLogOptions(void);
+
 EXTERN_C MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang);
 
 #pragma comment(lib,"comctl32.lib")

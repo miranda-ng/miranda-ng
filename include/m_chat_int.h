@@ -382,6 +382,7 @@ namespace Chat
 {
 	extern MIR_APP_EXPORT CMOption<bool>
 		bShowNicklist,
+		bShowFormatting,
 		bFilterEnabled,
 		bTopicOnClist,
 		bPopupOnJoin,
@@ -397,8 +398,7 @@ namespace Chat
 		bDoubleClick4Privat,
 		bLogIndentEnabled,
 		bLogLimitNames,
-		bStripFormat,
-		bEnableCustomLogs;
+		bStripFormat;
 
 	extern MIR_APP_EXPORT CMOption<uint32_t>
 		iPopupFlags,

@@ -25,9 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
 {
 	for (auto &hContact : Contacts(pszModule)) {
-		if (!Contact::IsGroupChat(hContact, pszModule))
-			continue;
-
 		ptrW roomid(Contact::GetInfo(CNF_UNIQUEID, hContact, pszModule));
 		if (roomid != nullptr && !mir_wstrcmpi(roomid, pszRoom))
 			return hContact;
@@ -49,36 +46,33 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 			if (!mir_wstrlen(pwszOldGroup))
 				Clist_SetGroup(hContact, wszGroup);
 		}
-
-		db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
-		db_set_ws(hContact, pszModule, "Nick", pszDisplayName);
-		return hContact;
 	}
+	else {
+		// here we create a new one since no one is to be found
+		if ((hContact = db_add_contact()) == 0)
+			return 0;
 
-	// here we create a new one since no one is to be found
-	if ((hContact = db_add_contact()) == 0)
-		return 0;
+		Proto_AddToContact(hContact, pszModule);
 
-	Proto_AddToContact(hContact, pszModule);
+		// create the 'Chat rooms' group only if needed
+		if (bNeedGroup) {
+			MGROUP hGroup = Clist_GroupExists(wszGroup);
+			if (hGroup == 0) {
+				hGroup = Clist_GroupCreate(0, wszGroup);
+				if (hGroup)
+					Clist_GroupSetExpanded(hGroup, 1);
+			}
 
-	// create the 'Chat rooms' group only if needed
-	if (bNeedGroup) {
-		MGROUP hGroup = Clist_GroupExists(wszGroup);
-		if (hGroup == 0) {
-			hGroup = Clist_GroupCreate(0, wszGroup);
-			if (hGroup)
-				Clist_GroupSetExpanded(hGroup, 1);
+			Clist_SetGroup(hContact, wszGroup);
 		}
 
-		Clist_SetGroup(hContact, wszGroup);
-	}
-
-	if (auto *pa = Proto_GetAccount(pszModule)) {
-		if (MBaseProto *pd = g_arProtos.find((MBaseProto *)&pa->szProtoName)) {
-			if (pd->iUniqueIdType == DBVT_DWORD)
-				db_set_dw(hContact, pszModule, pd->szUniqueId, _wtoi(pszRoom));
-			else
-				db_set_ws(hContact, pszModule, pd->szUniqueId, pszRoom);
+		if (auto *pa = Proto_GetAccount(pszModule)) {
+			if (MBaseProto *pd = g_arProtos.find((MBaseProto *)&pa->szProtoName)) {
+				if (pd->iUniqueIdType == DBVT_DWORD)
+					db_set_dw(hContact, pszModule, pd->szUniqueId, _wtoi(pszRoom));
+				else
+					db_set_ws(hContact, pszModule, pd->szUniqueId, pszRoom);
+			}
 		}
 	}
 

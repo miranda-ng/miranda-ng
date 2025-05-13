@@ -193,7 +193,6 @@
 #define IDC_RELOAD                      1635
 #define IDC_IGN_ADDPERMANENTLY          1635
 #define IDC_DSP_LOADDEFAULT             1636
-#define IDC_ONDESKTOP                   1657
 #define IDC_WINCOLOUR                   1659
 #define IDC_APPLYLASTVIEWMODE           1661
 #define IDC_IGNORESELFORGROUPS          1722

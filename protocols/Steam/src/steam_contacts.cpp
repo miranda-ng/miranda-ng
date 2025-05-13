@@ -85,40 +85,60 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 			}
 		}
 
-		auto hContact = GetContact(F->friendid);
-		if (!si && !hContact && F->friendid != m_iSteamId)
-			hContact = AddContact(F->friendid);		
+		MCONTACT hContact = GetContact(F->friendid);
+		if (!hContact) {
+			CMStringA szId(FORMAT, "%lld", F->friendid);
+			if (F->player_name && F->player_name != szId) {
+				szId.Format("UserInfo_%lld", F->friendid);
+				g_plugin.setUString(0, szId, F->player_name);
+			}
+
+			if (!si) // don't create contacts for all that slack
+				continue;
+		}
 
 		// set name
-		if (F->player_name) {
-			CMStringW realName(Utf2T(F->player_name));
+		if (auto *cd = F->clan_data) {
+			if (F->player_name)
+				setUString(hContact, "Nick", "Server: " + CMStringA(F->player_name));
 
-			// set a nickname for group chat user?
-			if (si) {
-				CMStringW wszUserId(FORMAT, L"%lld", F->friendid);
-				GCEVENT gce = { si, GC_EVENT_NICK };
-				gce.pszUID.w = wszUserId;
-				gce.pszText.w = realName;
-				Chat_Event(&gce);
-				continue;
-			}
-
-			setWString(hContact, "Nick", realName);
-
-			int pos = realName.Find(L' ', 1);
-			if (pos != -1) {
-				setWString(hContact, "FirstName", realName.Mid(0, pos));
-				setWString(hContact, "LastName", realName.Mid(pos + 1));
-			}
-			else {
-				setWString(hContact, "FirstName", realName);
-				delSetting(hContact, "LastName");
-			}
+			setByte(hContact, "ChatRoom", GCW_SERVER);
+			if (cd->has_chat_group_id)
+				SetId(hContact, DBKEY_GROUP_ID, cd->chat_group_id);
+			else
+				delSetting(hContact, DBKEY_GROUP_ID);
 		}
 		else {
-			delSetting(hContact, "Nick");
-			delSetting(hContact, "FirstName");
-			delSetting(hContact, "LastName");
+			if (F->player_name) {
+				CMStringW realName(Utf2T(F->player_name));
+
+				// set a nickname for group chat user?
+				if (si) {
+					CMStringW wszUserId(FORMAT, L"%lld", F->friendid);
+					GCEVENT gce = { si, GC_EVENT_NICK };
+					gce.pszUID.w = wszUserId;
+					gce.pszText.w = realName;
+					Chat_Event(&gce);
+					continue;
+				}
+
+				setWString(hContact, "Nick", realName);
+
+				int pos = realName.Find(L' ', 1);
+				if (pos != -1) {
+					setWString(hContact, "FirstName", realName.Mid(0, pos));
+					setWString(hContact, "LastName", realName.Mid(pos + 1));
+				}
+				else {
+					setWString(hContact, "FirstName", realName);
+					delSetting(hContact, "LastName");
+				}
+			}
+			else {
+				delSetting(hContact, "Nick");
+				delSetting(hContact, "FirstName");
+				delSetting(hContact, "LastName");
+			}
 		}
 
 		// avatar
@@ -150,37 +170,28 @@ void CSteamProto::OnGotFriendInfo(const CMsgClientPersonaState &reply, const CMs
 		}
 
 		// client
-		auto stateflags = F->persona_state_flags;
-		if (stateflags == PersonaStateFlag::None) {
-			// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
-			uint16_t status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-			if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT)
-				setWString(hContact, "MirVer", L"Steam");
+		if (F->has_persona_state_flags) {
+			auto stateflags = F->persona_state_flags;
+			if (stateflags == PersonaStateFlag::None) {
+				// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
+				uint16_t status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+				if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT)
+					setWString(hContact, "MirVer", L"Steam");
+			}
+			else if (stateflags & PersonaStateFlag::InJoinableGame) // game
+				setWString(hContact, "MirVer", L"Steam (in game)");
+			else if (stateflags & PersonaStateFlag::ClientTypeWeb) // on website
+				setWString(hContact, "MirVer", L"Steam (website)");
+			else if (stateflags & PersonaStateFlag::ClientTypeMobile) // on mobile
+				setWString(hContact, "MirVer", L"Steam (mobile)");
+			else if (stateflags & PersonaStateFlag::ClientTypeBigPicture) // on big picture
+				setWString(hContact, "MirVer", L"Steam (Big Picture)");
+			else if (stateflags & PersonaStateFlag::ClientTypeVR) // on VR
+				setWString(hContact, "MirVer", L"Steam (VR)");
+			else  // none/unknown (e.g. when contact is offline)
+				delSetting(hContact, "MirVer");
 		}
-		else if (stateflags & PersonaStateFlag::InJoinableGame) {
-			// game
-			setWString(hContact, "MirVer", L"Steam (in game)");
-		}
-		else if (stateflags & PersonaStateFlag::ClientTypeWeb) {
-			// on website
-			setWString(hContact, "MirVer", L"Steam (website)");
-		}
-		else if (stateflags & PersonaStateFlag::ClientTypeMobile) {
-			// on mobile
-			setWString(hContact, "MirVer", L"Steam (mobile)");
-		}
-		else if (stateflags & PersonaStateFlag::ClientTypeBigPicture) {
-			// on big picture
-			setWString(hContact, "MirVer", L"Steam (Big Picture)");
-		}
-		else if (stateflags & PersonaStateFlag::ClientTypeVR) {
-			// on VR
-			setWString(hContact, "MirVer", L"Steam (VR)");
-		}
-		else {
-			// none/unknown (e.g. when contact is offline)
-			delSetting(hContact, "MirVer");
-		}
+		else delSetting(hContact, "MirVer");
 
 		// playing game
 		auto gameId = F->has_game_played_app_id ? F->game_played_app_id : 0;

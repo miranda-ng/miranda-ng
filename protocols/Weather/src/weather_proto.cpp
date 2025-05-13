@@ -58,6 +58,7 @@ CWeatherProto::~CWeatherProto()
 void CWeatherProto::OnModulesLoaded()
 {
 	InitMwin();
+	InitMenuItems();
 
 	// timer for the first update
 	m_impl.m_start.Start(5000);  // first update is 5 sec after load

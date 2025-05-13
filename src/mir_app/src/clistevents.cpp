@@ -404,17 +404,17 @@ static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 int InitCListEvents(void)
 {
 	if (db_get_b(0, MODULENAME, "DisableTrayFlash")) {
-		Clist::EnableTrayFlash = false;
+		Clist::bEnableTrayFlash = false;
 		db_unset(0, MODULENAME, "DisableTrayFlash");
 	}
 
 	if (db_get_b(0, MODULENAME, "DisableIconBlink")) {
-		Clist::EnableIconBlink = false;
+		Clist::bEnableIconBlink = false;
 		db_unset(0, MODULENAME, "DisableIconBlink");
 	}
 
-	g_bEnableTrayFlash = Clist::EnableTrayFlash;
-	g_bEnableIconFlash = Clist::EnableIconBlink;
+	g_bEnableTrayFlash = Clist::bEnableTrayFlash;
+	g_bEnableIconFlash = Clist::bEnableIconBlink;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, CListEventSettingsChanged);
 	HookEvent(ME_DB_EVENT_MARKED_READ, CListEventMarkedRead);

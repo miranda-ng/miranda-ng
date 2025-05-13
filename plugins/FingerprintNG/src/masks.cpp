@@ -468,19 +468,7 @@ static KN_FP_MASK def_kn_fp_mask[] =
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// WEATHER
 
-	{ "client_accu", L"*accuweather*", L"AccuWeather", IDI_ACCU, WEATHER_CASE, TRUE },
-	{ "client_gismeteo", L"*gismeteo*", L"GisMeteo", IDI_GISMETEO, WEATHER_CASE, TRUE },
-	{ "client_intelli", L"*intellicast*", L"Intellicast", IDI_INTELLI, WEATHER_CASE, TRUE },
-	{ "client_meteogid", L"|*meteo-gid*|*meteogid*", L"Meteo-Gid", IDI_METEOGID, WEATHER_CASE, TRUE },
-	{ "client_meteonovosti", L"*meteonovosti*", L"Meteonovosti", IDI_METEONOVOSTI, WEATHER_CASE, TRUE },
-	{ "client_noaa", L"*noaa*", L"NOAA Weather", IDI_NOAA, WEATHER_CASE, TRUE },
-	{ "client_real", L"*realmeteo*", L"RealMeteo", IDI_REALMETEO, WEATHER_CASE, TRUE },
-	{ "client_under", L"Weather Underground*", L"Weather Underground", IDI_UNDERGROUND, WEATHER_CASE, TRUE },
-	{ "client_weatherxml", L"*WeatherXML*", L"WeatherXML", IDI_WEATHERXML, WEATHER_CASE, TRUE },
-	{ "client_wetter", L"*wetter*", L"Wetter", IDI_WETTER, WEATHER_CASE, TRUE },
-	{ "client_yweather", L"*Yahoo Weather*", L"Yahoo Weather", IDI_YWEATHER, WEATHER_CASE, TRUE },
-	{ "client_weather_cn", L"*weather.com.cn*", L"Weather CN", IDI_WEATHER_CN, WEATHER_CASE, TRUE },
-	{ "client_weather", L"*weather*", L"Weather", IDI_WEATHER, WEATHER_CASE, TRUE },
+	// { "client_gismeteo", L"*gismeteo*", L"GisMeteo", IDI_GISMETEO, WEATHER_CASE, TRUE },
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// RSS
@@ -526,15 +514,15 @@ static KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_XMPP", L"|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*", LPGENW("XMPP client"), IDI_XMPP, JABBER_CASE },
 
+	{ "client_Discord", L"*Discord*", L"Discord", IDI_DISCORD, OTHER_PROTOS_CASE },
+
 	{ "client_Hangouts", L"messaging-*", L"Google+ Hangouts", IDI_HANGOUTS, OTHER_PROTOS_CASE, TRUE },
 
 	{ "client_Twitter", L"*Twitter*", L"Twitter", IDI_TWITTER, OTHER_PROTOS_CASE, TRUE },
 
-	{ "client_Skype", L"*Skype**", L"Skype", IDI_SKYPE, OTHER_PROTOS_CASE },
-
 	{ "client_Steam", L"*Steam*", L"Steam", IDI_STEAM, OTHER_PROTOS_CASE },
 
-	{ "client_Discord", L"*Discord*", L"Discord", IDI_DISCORD, OTHER_PROTOS_CASE },
+	{ "client_Teams", L"*Teams**", L"Teams", IDI_TEAMS, OTHER_PROTOS_CASE },
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// UNDEFINED CLIENTS
@@ -601,7 +589,6 @@ static KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_JGTalk_overlay", L"*JGTalk*", LPGENW("JGTalk overlay"), IDI_JGTALK_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_Jabber_overlay", L"|^jabber*|Miranda*Jabber*|py*jabb*", LPGENW("Jabber overlay"), IDI_JABBER_OVERLAY, OVERLAYS_PROTO_CASE },
 	{ "client_VK_overlay", L"|Miranda*VKontakte*", LPGENW("VK overlay"), IDI_VK_OVERLAY, OVERLAYS_PROTO_CASE },
-	{ "client_Skype_overlay", L"|Miranda*Skype*", LPGENW("Skype overlay"), IDI_SKYPE_OVERLAY, OVERLAYS_PROTO_CASE },
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// CLIENT VERSION OVERLAYS

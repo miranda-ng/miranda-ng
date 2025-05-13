@@ -285,7 +285,7 @@ MIR_APP_DLL(int) Contact::GetStatus(MCONTACT hContact)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(bool) Contact::IsGroupChat(MCONTACT hContact, const char *szProto)
+MIR_APP_DLL(int) Contact::IsGroupChat(MCONTACT hContact, const char *szProto)
 {
 	if (szProto == nullptr) {
 		szProto = Proto_GetBaseAccountName(hContact);
@@ -293,7 +293,7 @@ MIR_APP_DLL(bool) Contact::IsGroupChat(MCONTACT hContact, const char *szProto)
 			return false;
 	}
 
-	return db_get_b(hContact, szProto, "ChatRoom") != 0;
+	return db_get_b(hContact, szProto, "ChatRoom");
 }
 
 MIR_APP_DLL(void) Contact::SetBirthday(MCONTACT hContact, int dd, int mm, int yy)

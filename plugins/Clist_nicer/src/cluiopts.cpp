@@ -66,5 +66,5 @@ void ApplyCLUIBorderStyle()
 	p.showCmd = SW_HIDE;
 	SetWindowPlacement(g_clistApi.hwndContactList, &p);
 
-	g_plugin.setByte("Min2Tray", minToTray);
+	Clist::bMinimizeToTray = minToTray;
 }

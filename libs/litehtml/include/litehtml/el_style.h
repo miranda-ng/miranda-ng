@@ -1,7 +1,7 @@
 #ifndef LH_EL_STYLE_H
 #define LH_EL_STYLE_H
 
-#include "html_tag.h"
+#include "element.h"
 
 namespace litehtml
 {
@@ -13,6 +13,7 @@ namespace litehtml
 
 		void			parse_attributes() override;
 		bool			appendChild(const ptr &el) override;
+		void			compute_styles(bool recursive) override;
 		string_id		tag() const override;
 		const char*		get_tagName() const override;
 	};

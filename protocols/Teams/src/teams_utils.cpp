@@ -19,68 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #pragma warning(disable:4566)
 
-time_t CTeamsProto::IsoToUnixTime(const std::string &stamp)
-{
-	char date[9];
-	int i, y;
-
-	if (stamp.empty())
-		return 0;
-
-	char *p = NEWSTR_ALLOCA(stamp.c_str());
-
-	// skip '-' chars
-	int si = 0, sj = 0;
-	while (true) {
-		if (p[si] == '-')
-			si++;
-		else if (!(p[sj++] = p[si++]))
-			break;
-	}
-
-	// Get the date part
-	for (i = 0; *p != '\0' && i < 8 && isdigit(*p); p++, i++)
-		date[i] = *p;
-
-	// Parse year
-	if (i == 6) {
-		// 2-digit year (1970-2069)
-		y = (date[0] - '0') * 10 + (date[1] - '0');
-		if (y < 70) y += 100;
-	}
-	else if (i == 8) {
-		// 4-digit year
-		y = (date[0] - '0') * 1000 + (date[1] - '0') * 100 + (date[2] - '0') * 10 + date[3] - '0';
-		y -= 1900;
-	}
-	else return 0;
-
-	struct tm timestamp;
-	timestamp.tm_year = y;
-
-	// Parse month
-	timestamp.tm_mon = (date[i - 4] - '0') * 10 + date[i - 3] - '0' - 1;
-
-	// Parse date
-	timestamp.tm_mday = (date[i - 2] - '0') * 10 + date[i - 1] - '0';
-
-	// Skip any date/time delimiter
-	for (; *p != '\0' && !isdigit(*p); p++);
-
-	// Parse time
-	if (sscanf(p, "%d:%d:%d", &timestamp.tm_hour, &timestamp.tm_min, &timestamp.tm_sec) != 3)
-		return (time_t)0;
-
-	timestamp.tm_isdst = 0;	// DST is already present in _timezone below
-	time_t t = mktime(&timestamp);
-
-	_tzset();
-	t -= _timezone;
-	return (t >= 0) ? t : 0;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////
-
 struct HtmlEntity
 {
 	const char *entity;
@@ -357,23 +295,14 @@ static CMStringW getAttrText(const wchar_t *pwszText, const wchar_t *pwszAttrNam
 	return L"";
 }
 
-CMStringW CTeamsProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
+CMStringW CTeamsProto::RemoveHtml(const CMStringW &data)
 {
-	bool inSS = false;
 	CMStringW new_string;
 
 	for (int i = 0; i < data.GetLength(); i++) {
 		wchar_t c = data[i];
 		if (c == '<') {
-			if (bCheckSS && !wcsncmp(data.c_str() + i + 1, L"ss ", 3))
-				inSS = true;
-			else if (!wcsncmp(data.c_str() + i + 1, L"/ss>", 4)) {
-				CMStringW wszStatusMsg = data.Mid(i + 5);
-				wszStatusMsg.Trim();
-				m_wstrMoodMessage = wszStatusMsg;
-				inSS = false;
-			}
-			else if (m_bUseBBCodes) {
+			if (m_bUseBBCodes) {
 				bool bEnable = true;
 				auto *p = data.c_str() + i + 1;
 				if (*p == '/') {
@@ -483,23 +412,6 @@ CMStringW CTeamsProto::RemoveHtml(const CMStringW &data, bool bCheckSS)
 			}
 		}
 
-		if (c == '(' && inSS) {
-			int iEnd = data.Find(')', i);
-			if (iEnd != -1) {
-				CMStringW ss(data.Mid(i + 1, iEnd - i - 1));
-				uint32_t code = getMoodIndex(T2Utf(ss));
-				if (code != -1)
-					m_iMood = code;
-				else if (1 == swscanf(ss, L"%x_", &code)) {
-					Utf32toUtf16(code, new_string);
-					m_wstrMoodEmoji = new_string;
-				}
-
-				i = iEnd;
-				continue;
-			}
-		}
-
 		new_string.AppendChar(c);
 	}
 
@@ -593,27 +505,18 @@ uint32_t Utf16toUtf32(const wchar_t *str)
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-const char* MirandaToSkypeStatus(int status)
-{
-	switch (status) {
-	case ID_STATUS_OFFLINE:    return "Offline";
-	case ID_STATUS_AWAY:       return "Away";
-	case ID_STATUS_NA:         return "BeRightBack";
-	case ID_STATUS_DND:        return "DoNotDisturb";
-	case ID_STATUS_OCCUPIED:   return "Busy";
-	case ID_STATUS_IDLE:       return "AvailableIdle";
-	}
-	return "Available";
-}
-
-int SkypeToMirandaStatus(const char *status)
+int TeamsToMirandaStatus(const char *status)
 {
 	if (!mir_strcmpi(status, "Available"))
 		return ID_STATUS_ONLINE;
+	if (!mir_strcmpi(status, "Away"))
+		return ID_STATUS_AWAY;
 	if (!mir_strcmpi(status, "BeRightBack"))
 		return ID_STATUS_NA;
 	if (!mir_strcmpi(status, "AvailableIdle"))
 		return ID_STATUS_IDLE;
+	if (!mir_strcmpi(status, "Busy"))
+		return ID_STATUS_OCCUPIED;
 	if (!mir_strcmpi(status, "DoNotDisturb"))
 		return ID_STATUS_DND;
 	return ID_STATUS_OFFLINE;
@@ -644,6 +547,9 @@ void CTeamsProto::setLastTime(MCONTACT hContact, int64_t iValue)
 	char buf[100];
 	_i64toa(iValue, buf, 10);
 	setString(hContact, "LastMsgTime", buf);
+
+	if (iValue > getLastTime(0))
+		setString("LastMsgTime", buf);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

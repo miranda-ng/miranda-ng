@@ -55,10 +55,6 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 	}
 
 	// Succeeded, decode the answer
-	int oldStatus = m_iStatus;
-	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-
 	if (auto *hdr = response->FindHeader("Set-RegistrationToken")) {
 		CMStringA szValue = hdr;
 		int iStart = 0;
@@ -72,122 +68,20 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 			CMStringA val = szToken.Mid(iStart2);
 
 			if (name == "registrationToken")
-				m_szToken = val.Detach();
+				m_szRegToken = val;
 			else if (name == "endpointId") {
 				val.Replace("{", "");
 				val.Replace("}", "");
-				m_szEndpoint = val.Detach();
+				m_szEndpoint = val;
 			}
 		}
 	}
 
-	SetServerStatus(m_iDesiredStatus);
-	StartTrouter();
-	PushRequest(new CreateSubscriptionsRequest());
+	LoggedIn();
 }
 
 void CTeamsProto::OnEndpointDeleted(MHttpResponse *, AsyncHttpRequest *)
 {
-	m_szEndpoint = nullptr;
-	m_szToken = nullptr;
-}
-
-void CTeamsProto::OnSubscriptionsCreated(MHttpResponse *response, AsyncHttpRequest*)
-{
-	if (response == nullptr) {
-		debugLogA(__FUNCTION__ ": failed to create subscription");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	SendPresence();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *)
-{
-	if (response == nullptr || response->body.IsEmpty()) {
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	LIST<char> skypenames(1);
-	for (auto &hContact : AccContacts())
-		if (!isChatRoom(hContact))
-			skypenames.insert(getId(hContact).Detach());
-
-	PushRequest(new CreateContactsSubscriptionRequest(skypenames));
-	FreeList(skypenames);
-	skypenames.destroy();
-
-	ReceiveAvatar(0);
-	PushRequest(new AsyncHttpRequest(REQUEST_GET, HOST_CONTACTS, "/users/SELF/contacts", &CTeamsProto::LoadContactList));
-	PushRequest(new SyncConversations());
-
-	JSONNode root = JSONNode::parse(response->body);
-	if (root)
-		m_szOwnSkypeId = UrlToSkypeId(root["selfLink"].as_string().c_str()).Detach();
-
-	PushRequest(new GetProfileRequest(this, 0));
-}
-
-void CTeamsProto::SendPresence()
-{
-	ptrA epname;
-
-	if (!m_bUseHostnameAsPlace && m_wstrPlace && *m_wstrPlace)
-		epname = mir_utf8encodeW(m_wstrPlace);
-	else {
-		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
-		DWORD size = _countof(compName);
-		GetComputerName(compName, &size);
-		epname = mir_utf8encodeW(compName);
-	}
-
-	JSONNode privateInfo; privateInfo.set_name("privateInfo");
-	privateInfo << CHAR_PARAM("epname", epname);
-
-	JSONNode publicInfo; publicInfo.set_name("publicInfo");
-	publicInfo << CHAR_PARAM("capabilities", "Audio|Video") << INT_PARAM("typ", 125)
-		<< CHAR_PARAM("skypeNameVersion", "Miranda NG Skype") << CHAR_PARAM("nodeInfo", "xx") << CHAR_PARAM("version", g_szMirVer);
-
-	JSONNode node;
-	node << CHAR_PARAM("id", "messagingService") << CHAR_PARAM("type", "EndpointPresenceDoc")
-		<< CHAR_PARAM("selfLink", "uri") << privateInfo << publicInfo;
-
-	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(m_szEndpoint) + "/presenceDocs/messagingService",
-		&CTeamsProto::OnCapabilitiesSended);
-	pReq->m_szParam = node.write().c_str();
-	PushRequest(pReq);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void CTeamsProto::OnStatusChanged(MHttpResponse *response, AsyncHttpRequest*)
-{
-	if (response == nullptr || response->resultCode != 201) {
-		debugLogA(__FUNCTION__ ": failed to change status");
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	int oldStatus = m_iStatus;
-	m_iStatus = m_iDesiredStatus;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-}
-
-void CTeamsProto::SetServerStatus(int iStatus)
-{
-	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_PRESENCE, "/me/endpoints", &CTeamsProto::OnStatusChanged);
-
-	JSONNode node(JSON_NODE);
-	node << CHAR_PARAM("id", m_szEndpoint) << CHAR_PARAM("availability", MirandaToSkypeStatus(iStatus))
-		<< CHAR_PARAM("activity", "Available") << CHAR_PARAM("activityReporting", "Transport") << CHAR_PARAM("deviceType", "Desktop");
-	pReq->m_szParam = node.write().c_str();
-
-	PushRequest(pReq);
+	m_szEndpoint.Empty();
+	m_szRegToken.Empty();
 }

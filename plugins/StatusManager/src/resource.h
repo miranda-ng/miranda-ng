@@ -39,8 +39,6 @@
 #define IDC_MAXRETRIES                  1018
 #define IDC_INITDELAY                   1019
 #define IDC_SETPROFILEDELAY             1020
-#define IDC_DOCKED                      1021
-#define IDC_SETDOCKED                   1022
 #define IDC_MAXDELAY                    1023
 #define IDC_INCREASEEXPONENTIAL         1024
 #define IDC_LNOTHING                    1025

@@ -365,9 +365,6 @@
     <ClCompile Include="src\movetogroup.cpp">
       <Filter>Source Files\Contact list</Filter>
     </ClCompile>
-    <ClCompile Include="src\Docking.cpp">
-      <Filter>Source Files\Contact list</Filter>
-    </ClCompile>
     <ClCompile Include="src\CMPluginBase.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
@@ -385,9 +382,6 @@
     </ClCompile>
     <ClCompile Include="src\clccontact.cpp">
       <Filter>Source Files\Contact list</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clc.cpp">
-      <Filter>Source Files\MetaContacts</Filter>
     </ClCompile>
     <ClCompile Include="src\chat_loginfo.cpp">
       <Filter>Source Files\Chats</Filter>
@@ -432,6 +426,9 @@
       <Filter>Source Files\FindAdd</Filter>
     </ClCompile>
     <ClCompile Include="src\clistcontacts.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clc.cpp">
       <Filter>Source Files\Contact list</Filter>
     </ClCompile>
   </ItemGroup>
@@ -498,6 +495,15 @@
     </ClInclude>
     <ClInclude Include="src\findadd.h">
       <Filter>Source Files\FindAdd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_clc.h">
+      <Filter>Source Files\Contact list</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_clist.h">
+      <Filter>Source Files\Contact list</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_clistint.h">
+      <Filter>Source Files\Contact list</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

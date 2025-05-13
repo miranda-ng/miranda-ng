@@ -34,7 +34,6 @@ CLIST_INTERFACE coreCli;
 
 extern HICON overlayicons[10];
 
-int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 int SetHideOffline(int iValue);
 
 ClcContact *CreateClcContact(void);
@@ -131,9 +130,9 @@ int CMPlugin::Load()
 	cfg::dat.avatarSize = g_plugin.getWord("AvatarSize", 24);
 	cfg::dat.dualRowMode = db_get_b(0, "CLC", "DualRowMode", 0);
 	cfg::dat.avatarPadding = g_plugin.getByte("AvatarPadding", 0);
-	cfg::dat.isTransparent = g_plugin.getByte("Transparent", 0);
-	cfg::dat.alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);
-	cfg::dat.autoalpha = g_plugin.getByte("AutoAlpha", SETTING_ALPHA_DEFAULT);
+	cfg::dat.isTransparent = Clist::bTransparent;
+	cfg::dat.alpha = Clist::iAlpha;
+	cfg::dat.autoalpha = Clist::iAutoAlpha;
 	cfg::dat.fadeinout = db_get_b(0, "CLUI", "FadeInOut", 0);
 	cfg::dat.autosize = db_get_b(0, "CLUI", "AutoSize", 0);
 	cfg::dat.bNoOfflineAvatars = g_plugin.getByte("NoOfflineAV", 1);
@@ -176,7 +175,6 @@ int CMPlugin::Load()
 	g_clistApi.pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
 	g_clistApi.pfnCompareContacts = CompareContacts;
 	g_clistApi.pfnCreateClcContact = CreateClcContact;
-	g_clistApi.pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
 	g_clistApi.pfnGetContactHiddenStatus = CLVM_GetContactHiddenStatus;
 	g_clistApi.pfnGetDefaultFontSetting = GetDefaultFontSetting;
 	g_clistApi.pfnGetRowBottomY = RowHeight::getItemBottomY;

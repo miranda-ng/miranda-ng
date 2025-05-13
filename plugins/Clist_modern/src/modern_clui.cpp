@@ -303,13 +303,13 @@ CLUI::CLUI() :
 	LoadCLUIFramesModule();
 
 	g_CluiData.bOldHideEmptyGroups = -1;
-	bOldHideEmptyGroups = Clist::HideEmptyGroups;
+	bOldHideEmptyGroups = Clist::bHideEmptyGroups;
 
 	g_CluiData.bOldHideOffline = -1;
-	bOldHideOffline = Clist::HideOffline;
+	bOldHideOffline = Clist::bHideOffline;
 
 	g_CluiData.bOldUseGroups = -1;
-	bOldUseGroups = Clist::UseGroups;
+	bOldUseGroups = Clist::bUseGroups;
 
 	g_CluiData.bOldFoldGroups = -1;
 }
@@ -375,7 +375,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 HRESULT CLUI::CreateCLCWindow(const HWND hwndClui)
 {
 	g_clistApi.hwndContactTree = CreateWindow(CLISTCONTROL_CLASSW, L"",
-		WS_CHILD | WS_CLIPCHILDREN | CLS_CONTACTLIST | (Clist::UseGroups ? CLS_USEGROUPS : 0) | (Clist::HideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::HideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0 | CLS_MULTICOLUMN),
+		WS_CHILD | WS_CLIPCHILDREN | CLS_CONTACTLIST | (Clist::bUseGroups ? CLS_USEGROUPS : 0) | (Clist::bHideOffline ? CLS_HIDEOFFLINE : 0) | (Clist::bHideEmptyGroups ? CLS_HIDEEMPTYGROUPS : 0 | CLS_MULTICOLUMN),
 		0, 0, 0, 0, hwndClui, nullptr, g_plugin.getInst(), nullptr);
 
 	return S_OK;
@@ -635,7 +635,7 @@ void CLUI_ChangeWindowMode()
 	if (!g_clistApi.hwndContactList) return;
 
 	g_bChangingMode = true;
-	g_bTransparentFlag = g_plugin.getByte("Transparent", SETTING_TRANSPARENT_DEFAULT);
+	g_bTransparentFlag = Clist::bTransparent;
 	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) != 0;
 	if (g_bTransparentFlag == 0 && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
@@ -649,12 +649,12 @@ void CLUI_ChangeWindowMode()
 			styleEx = WS_EX_TOOLWINDOW;
 			styleMaskEx |= WS_EX_APPWINDOW;
 		}
-		else if (db_get_b(0, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) && g_plugin.getByte("ToolWindow", SETTING_TOOLWINDOW_DEFAULT)) {
+		else if (Clist::bShowCaption && Clist::bToolWindow) {
 			styleEx = WS_EX_TOOLWINDOW/*|WS_EX_WINDOWEDGE*/;
 			style = WS_CAPTION | WS_POPUPWINDOW | WS_CLIPCHILDREN | WS_THICKFRAME;
 			styleMaskEx |= WS_EX_APPWINDOW;
 		}
-		else if (db_get_b(0, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT))
+		else if (Clist::bShowCaption)
 			style = WS_CAPTION | WS_SYSMENU | WS_POPUPWINDOW | WS_CLIPCHILDREN | WS_THICKFRAME | WS_MINIMIZEBOX;
 		else {
 			style = WS_POPUPWINDOW | WS_CLIPCHILDREN | WS_THICKFRAME;
@@ -683,15 +683,6 @@ void CLUI_ChangeWindowMode()
 	}
 	SetWindowText(g_clistApi.hwndContactList, titleText);
 
-	// < ->
-	// 1 - If visible store it and hide
-	if (g_CluiData.fLayered && (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT))) {
-		SetParent(g_clistApi.hwndContactList, nullptr);
-		Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
-		UpdateWindow(g_clistApi.hwndContactList);
-		g_CluiData.fOnDesktop = false;
-	}
-
 	// 5 - TODO Apply Style
 	oldStyleEx = curStyleEx = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE);
 	oldStyle = curStyle = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_STYLE);
@@ -711,28 +702,14 @@ void CLUI_ChangeWindowMode()
 
 	CLUI_UpdateAeroGlass();
 
-	if (g_CluiData.fLayered || !db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+	if (g_CluiData.fLayered || !Clist::bShowMainMenu)
 		SetMenu(g_clistApi.hwndContactList, nullptr);
 	else
 		SetMenu(g_clistApi.hwndContactList, g_clistApi.hMenuMain);
 
-	if (g_CluiData.fLayered && (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)))
-		ske_UpdateWindowImage();
-
 	// 6 - Pin to desktop mode
-	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
-		HWND hProgMan = FindWindow(L"Progman", nullptr);
-		if (IsWindow(hProgMan)) {
-			SetParent(g_clistApi.hwndContactList, hProgMan);
-			Sync(CLUIFrames_SetParentForContainers, (HWND)hProgMan);
-			g_CluiData.fOnDesktop = true;
-		}
-	}
-	else {
-		SetParent(g_clistApi.hwndContactList, nullptr);
-		Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
-		g_CluiData.fOnDesktop = false;
-	}
+	SetParent(g_clistApi.hwndContactList, nullptr);
+	Sync(CLUIFrames_SetParentForContainers, (HWND)nullptr);
 
 	// 7 - if it was visible - show
 	if (storedVisMode) {
@@ -751,7 +728,7 @@ void CLUI_ChangeWindowMode()
 		int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 		h = (h < v) ? h : v;
 		HRGN hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
-		if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT) && !Clist_IsDocked())
+		if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT))
 			SetWindowRgn(g_clistApi.hwndContactList, hRgn1, 1);
 		else {
 			DeleteObject(hRgn1);
@@ -808,7 +785,7 @@ int CLUI_HideBehindEdge()
 		//Need to be moved out of screen
 		bShowEventStarted = 0;
 		//1. get work area rectangle
-		Docking_GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
+		GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
 		//SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen,FALSE);
 		//2. move out
 		int bordersize = wBehindEdgeBorderSize;
@@ -848,7 +825,7 @@ int CLUI_ShowFromBehindEdge()
 		// Need to be moved out of screen
 		// 1. get work area rectangle
 		RECT rcScreen;
-		Docking_GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
+		GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
 
 		// 2. move out
 		RECT rcWindow;
@@ -1270,7 +1247,7 @@ int CLUI_TestCursorOnBorders()
 	if (CLUI_CheckOwnedByClui(hAux)) {
 		if (g_bTransparentFlag) {
 			if (!bTransparentFocus && gf != hwnd) {
-				CLUI_SmoothAlphaTransition(hwnd, g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT), 1);
+				CLUI_SmoothAlphaTransition(hwnd, Clist::iAlpha, 1);
 				bTransparentFocus = 1;
 				CLUI_SafeSetTimer(hwnd, TM_AUTOALPHA, 250, nullptr);
 			}
@@ -1693,12 +1670,10 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckFramesPos(&rc);
 			Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
 			if (!IsIconic(m_hWnd)) {
-				if (!Clist_IsDocked()) { // if g_CluiData.fDocked, dont remember pos (except for width)
-					g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
-					g_plugin.setDword("x", (uint32_t)rc.left);
-					g_plugin.setDword("y", (uint32_t)rc.top);
-				}
+				g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
 				g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
+				g_plugin.setDword("x", (uint32_t)rc.left);
+				g_plugin.setDword("y", (uint32_t)rc.top);
 			}
 		}
 		return TRUE;
@@ -1730,14 +1705,11 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			// if g_CluiData.fDocked, dont remember pos (except for width)
-			if (!Clist_IsDocked()) {
-				g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
-				g_plugin.setDword("x", (uint32_t)rc.left);
-				g_plugin.setDword("y", (uint32_t)rc.top);
-			}
-			else SetWindowRgn(m_hWnd, nullptr, 0);
+			g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
 			g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
-
+			g_plugin.setDword("x", (uint32_t)rc.left);
+			g_plugin.setDword("y", (uint32_t)rc.top);
+	
 			if (!g_CluiData.fLayered) {
 				HRGN hRgn1;
 				RECT r;
@@ -1747,7 +1719,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 				int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 				h = (h < v) ? h : v;
 				hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
-				if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT) && !Clist_IsDocked())
+				if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT))
 					SetWindowRgn(m_hWnd, hRgn1, FALSE);
 				else {
 					DeleteObject(hRgn1);
@@ -1757,7 +1729,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 		else {
-			if (g_plugin.getByte("Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+			if (Clist::bMinimizeToTray) {
 				CLUI_ShowWindowMod(m_hWnd, SW_HIDE);
 				g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 			}
@@ -1801,7 +1773,7 @@ LRESULT CLUI::OnInitMenu(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
 LRESULT CLUI::OnNcPaint(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int lRes = DefWindowProc(m_hWnd, msg, wParam, lParam);
-	if (!g_CluiData.fLayered && db_get_b(0, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT)) {
+	if (!g_CluiData.fLayered && Clist::bShowMainMenu) {
 		HDC hdc = nullptr;
 		if (msg == WM_PRINT) hdc = (HDC)wParam;
 		if (!hdc) hdc = GetWindowDC(m_hWnd);
@@ -2008,9 +1980,9 @@ LRESULT CLUI::OnAutoAlphaTimer(UINT, WPARAM, LPARAM)
 		// change
 		bTransparentFocus = inwnd;
 		if (bTransparentFocus)
-			CLUI_SmoothAlphaTransition(m_hWnd, (uint8_t)g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT), 1);
+			CLUI_SmoothAlphaTransition(m_hWnd, Clist::iAlpha, 1);
 		else
-			CLUI_SmoothAlphaTransition(m_hWnd, (uint8_t)(g_bTransparentFlag ? g_plugin.getByte("AutoAlpha", SETTING_AUTOALPHA_DEFAULT) : 255), 1);
+			CLUI_SmoothAlphaTransition(m_hWnd, (uint8_t)(g_bTransparentFlag ? Clist::iAutoAlpha : 255), 1);
 	}
 	if (!bTransparentFocus)
 		KillTimer(m_hWnd, TM_AUTOALPHA);
@@ -2119,11 +2091,11 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 			CLUI_SafeSetTimer(m_hWnd, TM_AUTOALPHA, 250, nullptr);
 	}
 	else {
-		if (!g_plugin.getByte("OnTop", SETTING_ONTOP_DEFAULT))
+		if (!Clist::bOnTop)
 			Sync(CLUIFrames_ActivateSubContainers, TRUE);
 		if (g_bTransparentFlag) {
 			KillTimer(m_hWnd, TM_AUTOALPHA);
-			CLUI_SmoothAlphaTransition(m_hWnd, g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT), 1);
+			CLUI_SmoothAlphaTransition(m_hWnd, Clist::iAlpha, 1);
 			bTransparentFocus = 1;
 		}
 	}
@@ -2131,9 +2103,9 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 	if (g_bTransparentFlag) {
 		uint8_t alpha;
 		if (wParam != WA_INACTIVE || CLUI_CheckOwnedByClui((HWND)lParam) || ((HWND)lParam == m_hWnd) || GetParent((HWND)lParam) == m_hWnd)
-			alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);
+			alpha = Clist::iAlpha;
 		else
-			alpha = g_bTransparentFlag ? g_plugin.getByte("AutoAlpha", SETTING_AUTOALPHA_DEFAULT) : 255;
+			alpha = g_bTransparentFlag ? Clist::iAutoAlpha : 255;
 		CLUI_SmoothAlphaTransition(m_hWnd, alpha, 1);
 		return 1;
 	}
@@ -2146,7 +2118,7 @@ LRESULT CLUI::OnSetCursor(UINT, WPARAM, LPARAM)
 	if (g_CluiData.nBehindEdgeState >= 0)  CLUI_UpdateTimer();
 	if (g_bTransparentFlag) {
 		if (!bTransparentFocus && gf != m_hWnd) {
-			CLUI_SmoothAlphaTransition(m_hWnd, g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT), 1);
+			CLUI_SmoothAlphaTransition(m_hWnd, Clist::iAlpha, 1);
 			bTransparentFocus = 1;
 			CLUI_SafeSetTimer(m_hWnd, TM_AUTOALPHA, 250, nullptr);
 		}
@@ -2198,14 +2170,14 @@ LRESULT CLUI::OnNcHitTest(UINT, WPARAM wParam, LPARAM lParam)
 	if (result == HTMENU) {
 		POINT pt = UNPACK_POINT(lParam);
 		int t = MenuItemFromPoint(m_hWnd, g_clistApi.hMenuMain, pt);
-		if (t == -1 && (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)))
+		if (t == -1 && Clist::bClientAreaDrag)
 			return HTCAPTION;
 	}
 
 	if (result == HTCLIENT) {
 		POINT pt = UNPACK_POINT(lParam);
 		int k = CLUI_SizingOnBorder(pt, 0);
-		if (!k && (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)))
+		if (!k && Clist::bClientAreaDrag)
 			return HTCAPTION;
 		else return k + 9;
 	}
@@ -2217,7 +2189,7 @@ LRESULT CLUI::OnShowWindow(UINT, WPARAM wParam, LPARAM lParam)
 	if (lParam) return 0;
 	if (mutex_bShowHideCalledFromAnimation) return 1;
 
-	uint8_t gAlpha = (!wParam) ? 0 : (g_plugin.getByte("Transparent", SETTING_TRANSPARENT_DEFAULT) ? g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT) : 255);
+	uint8_t gAlpha = (!wParam) ? 0 : Clist::bTransparent ? Clist::iAlpha : 255;
 	if (wParam) {
 		g_CluiData.bCurrentAlpha = 0;
 		Sync(CLUIFrames_OnShowHide, 1);
@@ -2239,8 +2211,6 @@ LRESULT CLUI::OnSysCommand(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	DefWindowProc(m_hWnd, msg, wParam, lParam);
-	if (g_plugin.getByte("OnDesktop", SETTING_ONDESKTOP_DEFAULT))
-		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 	return FALSE;
 }
 
@@ -2282,7 +2252,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL *pnmc)
 		rcWindow = rcSizingRect;
 	else
 		GetWindowRect(m_hWnd, &rcWindow);
-	if (!g_CluiData.fAutoSize || g_clistApi.hwndContactTree == nullptr || Clist_IsDocked())
+	if (!g_CluiData.fAutoSize || g_clistApi.hwndContactTree == nullptr)
 		return FALSE;
 
 	maxHeight = db_get_b(0, "CLUI", "MaxSizeHeight", SETTING_MAXSIZEHEIGHT_DEFAULT);
@@ -2364,7 +2334,7 @@ LRESULT CLUI::OnClickNotify(NMCLISTCONTROL *pnmc)
 	if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 		return DefCluiWndProc(WM_NOTIFY, 0, (LPARAM)pnmc);
 
-	if (db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+	if (Clist::bClientAreaDrag) {
 		POINT pt;
 		int res;
 		pt = pnmc->pt;
@@ -2373,7 +2343,7 @@ LRESULT CLUI::OnClickNotify(NMCLISTCONTROL *pnmc)
 		return res;
 	}
 
-	if (db_get_b(0, "CLUI", "DragToScroll", SETTING_DRAGTOSCROLL_DEFAULT) && !db_get_b(0, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT))
+	if (db_get_b(0, "CLUI", "DragToScroll", SETTING_DRAGTOSCROLL_DEFAULT) && !Clist::bClientAreaDrag)
 		return ClcEnterDragToScroll(g_clistApi.hwndContactTree, pnmc->pt.y);
 
 	return 0;

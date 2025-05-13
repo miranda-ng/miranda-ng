@@ -75,7 +75,6 @@ CMsgDialog::CMsgDialog(MCONTACT hContact, bool bIncoming) :
 	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
 
 	if (isChat()) {
-		m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
 		m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_ShowList);
 
 		m_splitterX.OnChange = Callback(this, &CMsgDialog::onChange_SplitterX);
@@ -422,24 +421,6 @@ void CMsgDialog::onClick_ShowList(CCtrlButton *pButton)
 	UpdateFilterButton();
 	m_pLog->ScrollToBottom();
 	Resize();
-}
-
-void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
-{
-	if (!pButton->Enabled())
-		return;
-
-	m_bFilterEnabled = !m_bFilterEnabled;
-	UpdateFilterButton();
-
-	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
-		ShowFilterMenu();
-	else {
-		if (m_hwndFilter)
-			SendMessage(m_hwndFilter, WM_CLOSE, 0, 0);
-
-		RedrawLog();
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

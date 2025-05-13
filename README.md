@@ -15,7 +15,6 @@ It's very light on system resources and extremely fast.
 - Microsoft Teams
 - MinecraftDynmap
 - Sametime
-- Skype
 - Steam
 - Telegram
 - Tox

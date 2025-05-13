@@ -1720,12 +1720,9 @@ panel_found:
 
 	case WM_EXITSIZEMOVE:
 		GetClientRect(pContainer->m_hwndTabs, &rc);
-		if (!((rc.right - rc.left) == pContainer->m_oldSize.cx && (rc.bottom - rc.top) == pContainer->m_oldSize.cy)) {
-			dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
-			if (dat)
-				dat->DM_ScrollToBottom(0, 0);
+		if ((rc.right - rc.left) != pContainer->m_oldSize.cx || (rc.bottom - rc.top) != pContainer->m_oldSize.cy)
 			SendMessage(pContainer->m_hwndActive, WM_SIZE, 0, 0);
-		}
+
 		pContainer->m_bSizingLoop = FALSE;
 		break;
 

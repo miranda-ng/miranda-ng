@@ -42,14 +42,12 @@ JsonReply::JsonReply(MHttpResponse *pReply)
 		return;
 	}
 
-	m_errorCode = pReply->resultCode;
-	if (m_errorCode != 200)
-		return;
-
-	m_root = json_parse(pReply->body);
-	if (m_root == nullptr) {
-		m_errorCode = 500;
-		return;
+	switch (m_errorCode = pReply->resultCode) {
+	case 200: case 201: case 204:
+		m_root = json_parse(pReply->body);
+		if (m_root == nullptr)
+			m_errorCode = 500;
+		break;
 	}
 }
 

@@ -26,8 +26,7 @@ const wchar_t* GetSkypeNick(const wchar_t *szSkypeId);
 
 CMStringA ParseUrl(const char *url, const char *token);
 
-int SkypeToMirandaStatus(const char *status);
-const char *MirandaToSkypeStatus(int status);
+int TeamsToMirandaStatus(const char *status);
 
 bool AddBbcodes(CMStringA &str);
 

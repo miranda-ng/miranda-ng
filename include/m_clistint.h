@@ -34,6 +34,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_clc.h>
 #include <m_gui.h>
 
+#define SETTING_TRAYICON_SINGLE       0
+#define SETTING_TRAYICON_CYCLE        1
+#define SETTING_TRAYICON_MULTI        2
+
+#define SETTING_STATE_HIDDEN          0
+#define SETTING_STATE_MINIMIZED       1
+#define SETTING_STATE_NORMAL          2
+
 #define HCONTACT_ISGROUP    0x80000000
 #define HCONTACT_ISINFO     0xFFFF0000
 #define IsHContactGroup(h)  (((UINT_PTR)(h)^HCONTACT_ISGROUP)<(HCONTACT_ISGROUP^HCONTACT_ISINFO))
@@ -70,8 +78,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TIMERID_DELAYEDRESORTCLC 15
 #define TIMERID_TRAYHOVER        16
 #define TIMERID_TRAYHOVER_2      17
-
-#define GROUP_ALLOCATE_STEP  8
 
 struct ClcContact;
 struct ClcData;
@@ -204,12 +210,13 @@ struct MenuProto
 #define DRAGSTAGEF_MAYBERENAME   0x8000
 #define DRAGSTAGEF_OUTSIDE       0x4000
 
-#define CONTACTF_ONLINE          1
-#define CONTACTF_INVISTO         2
-#define CONTACTF_VISTO           4
-#define CONTACTF_NOTONLIST       8
-#define CONTACTF_CHECKED         16
-#define CONTACTF_IDLE            32
+#define CONTACTF_ONLINE          0x01
+#define CONTACTF_INVISTO         0x02
+#define CONTACTF_VISTO           0x04
+#define CONTACTF_NOTONLIST       0x08
+#define CONTACTF_CHECKED         0x10
+#define CONTACTF_IDLE            0x20
+#define CONTACTF_HASMEMBERS      0x40
 
 #define DROPTARGET_OUTSIDE       0
 #define DROPTARGET_ONSELF        1
@@ -392,9 +399,6 @@ struct CLIST_INTERFACE
 	int            (*pfnCompareContacts)(const ClcContact *contact1, const ClcContact *contact2);
 	int            (*pfnSetHideOffline)(int newValue); // TRUE, FALSE or -1 to revert the current setting
 
-	/* docking.c */
-	int            (*pfnDocking_ProcessWindowMessage)(WPARAM wParam, LPARAM lParam);
-
 	/*************************************************************************************
 	 * version 2 - events processing
 	 *************************************************************************************/
@@ -446,14 +450,37 @@ extern MIR_APP_EXPORT CLIST_INTERFACE g_clistApi;
 
 namespace Clist
 {
+	// CLUI
 	extern MIR_APP_EXPORT CMOption<bool>
-		HideOffline,
-		UseGroups,
-		FilterSearch,
-		HideEmptyGroups,
-		ConfirmDelete,
-		Tray1Click,
-		TrayAlwaysStatus;
+		bShowCaption,
+		bShowMainMenu,
+		bClientAreaDrag;
+
+	// CList
+	extern MIR_APP_EXPORT CMOption<bool>
+		bOnTop,
+		bAutoHide,
+		bToolWindow,
+		bHideOffline,
+		bBringToFront,
+		bUseGroups,
+		bFilterSearch,
+		bHideEmptyGroups,
+		bMinimizeToTray,
+		bAlwaysMulti,
+		bConfirmDelete,
+		bTransparent,
+		bTray1Click,
+		bTrayAlwaysStatus;
+
+	extern MIR_APP_EXPORT CMOption<uint8_t>
+		iTrayIcon,
+		iAlpha,
+		iAutoAlpha;
+
+	extern MIR_APP_EXPORT CMOption<uint16_t>
+		iHideTime,
+		iCycleTime;
 
 	extern MIR_APP_EXPORT CMOption<uint32_t>
 		IconFlashTime,

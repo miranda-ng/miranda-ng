@@ -26,6 +26,8 @@
 Показывать в сообщениях предварительный просмотр ссылок
 [Do not store channel history in the database]
 Не сохранять историю каналов в базе данных
+[Delete contacts in Miranda when they are deleted from server]
+Удалять контакты из списка контактов Миранды, если они удалены с сервера
 [If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)]
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]

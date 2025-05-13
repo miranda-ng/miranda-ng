@@ -169,7 +169,7 @@ INT_PTR SetUseGroups(WPARAM wParam, LPARAM)
 		if (!newVal == (int)wParam) return 0;
 		newVal = wParam;
 	}
-	Clist::UseGroups = newVal;
+	Clist::bUseGroups = newVal;
 	SendMessage(g_clistApi.hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 	return 0;
 }

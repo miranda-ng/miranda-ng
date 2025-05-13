@@ -62,3 +62,27 @@ BOOL DestroyIcon_protect(HICON icon)
 	if (icon) return DestroyIcon(icon);
 	return FALSE;
 }
+
+void GetMonitorRectFromWindow(HWND hWnd, RECT *rc)
+{
+	POINT pt;
+	GetWindowRect(hWnd, rc);
+	pt.x = rc->left;
+	pt.y = rc->top;
+
+	MONITORINFO monitorInfo;
+	HMONITOR hMonitor = MonitorFromPoint(pt, MONITOR_DEFAULTTONEAREST); // always returns a valid value
+	monitorInfo.cbSize = sizeof(MONITORINFO);
+
+	if (GetMonitorInfoW(hMonitor, &monitorInfo)) {
+		memcpy(rc, &monitorInfo.rcMonitor, sizeof(RECT));
+		return;
+	}
+
+	// "generic" win95/NT support, also serves as failsafe
+	rc->left = 0;
+	rc->top = 0;
+	rc->bottom = GetSystemMetrics(SM_CYSCREEN);
+	rc->right = GetSystemMetrics(SM_CXSCREEN);
+
+}

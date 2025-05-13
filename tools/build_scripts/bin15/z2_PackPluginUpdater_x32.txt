@@ -121,8 +121,6 @@ Plugins\sessions.dll
 Plugins\shlext.dll
 Plugins\simplear.dll
 Plugins\simplestatusmsg.dll
-Plugins\skypestatuschange.dll
-Plugins\skypeweb.dll
 Plugins\smileyadd.dll
 Plugins\spellchecker.dll
 Plugins\splashscreen.dll
@@ -205,6 +203,7 @@ Icons\proto_discord.dll
 Icons\proto_dummy.dll
 Icons\proto_facebook.dll
 Icons\proto_gg.dll
+Icons\proto_icq.dll
 Icons\proto_irc.dll
 Icons\proto_jabber.dll
 Icons\proto_metacontacts.dll
@@ -212,7 +211,6 @@ Icons\proto_minecraftdynmap.dll
 Icons\proto_mradio.dll
 Icons\proto_newsaggregator.dll
 Icons\proto_sametime.dll
-Icons\proto_skype.dll
 Icons\proto_steam.dll
 Icons\proto_tox.dll
 Icons\proto_twitter.dll

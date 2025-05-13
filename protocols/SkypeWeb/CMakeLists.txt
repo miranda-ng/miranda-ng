@@ -1,6 +1,0 @@
-file(GLOB SOURCES "src/*.h" "src/requests/*.h" "src/requests/asm/*.h" "src/*.cpp" "res/*.rc")
-set(TARGET SkypeWeb)
-include(${CMAKE_SOURCE_DIR}/cmake/plugin.cmake)
-target_link_libraries(${TARGET} libjson FreeImage)
-add_subdirectory(proto_conn_skype)
-add_subdirectory(proto_skype)

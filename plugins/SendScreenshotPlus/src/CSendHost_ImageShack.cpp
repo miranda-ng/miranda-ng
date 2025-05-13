@@ -52,7 +52,7 @@ int CSendHost_ImageShack::Send()
 	}
 
 	m_pRequest.reset(new MHttpRequest(REQUEST_POST));
-	char* tmp; tmp = mir_u2a(m_pszFile);
+	T2Utf tmp(m_pszFile);
 	HTTPFormData frm[] = {
 		// { "Referer", HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php") },
 		{ "fileupload", HTTPFORM_FILE(tmp) },
@@ -60,8 +60,8 @@ int CSendHost_ImageShack::Send()
 		{ "public", "no" },
 		{ "key", HTTPFORM_8BIT(DEVKEY_IMAGESHACK) },
 	};
+
 	int error = HTTPFormCreate(m_pRequest.get(), "http://imageshack.us/upload_api.php", frm, sizeof(frm) / sizeof(HTTPFormData));
-	mir_free(tmp);
 	if (error)
 		return !m_bAsync;
 	// start upload thread
@@ -79,7 +79,7 @@ void CSendHost_ImageShack::SendThread()
 	NLHR_PTR reply(Netlib_HttpTransaction(g_hNetlibUser, m_pRequest.get()));
 	if (reply) {
 		if (reply->resultCode >= 200 && reply->resultCode < 300 && reply->body.GetLength()) {
-			const char* url = nullptr;
+			const char *url = nullptr;
 			url = GetHTMLContent(reply->body.GetBuffer(), "<image_link>", "</image_link>");
 			if (url && *url) {
 				m_URLthumb = m_URL = url;
@@ -87,7 +87,7 @@ void CSendHost_ImageShack::SendThread()
 				int idx = m_URLthumb.ReverseFind('.');
 				if (idx != -1 && m_URLthumb.GetLength() - idx > 2)
 					m_URLthumb.Insert(idx + 1, "th");
-				else 
+				else
 					m_URLthumb.Empty();
 
 				svcSendMsgExit(url);
@@ -95,7 +95,7 @@ void CSendHost_ImageShack::SendThread()
 			}
 
 			url = GetHTMLContent(reply->body.GetBuffer(), "<error ", "</error>");
-			wchar_t* err = nullptr;
+			wchar_t *err = nullptr;
 			if (url) err = mir_a2u(url);
 			if (!err || !*err) { // fallback to server response mess
 				mir_free(err);
@@ -111,7 +111,7 @@ void CSendHost_ImageShack::SendThread()
 	Exit(ACKRESULT_FAILED);
 }
 
-void CSendHost_ImageShack::SendThreadWrapper(void * Obj)
+void CSendHost_ImageShack::SendThreadWrapper(void *Obj)
 {
-	reinterpret_cast<CSendHost_ImageShack*>(Obj)->SendThread();
+	reinterpret_cast<CSendHost_ImageShack *>(Obj)->SendThread();
 }

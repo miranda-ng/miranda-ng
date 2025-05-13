@@ -96,9 +96,8 @@ CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pT
 	CMStringW ret(Utf2T(pText->text_.c_str()));
 
 	struct HistItem {
-		HistItem(int _1, int _2, const Bbcode &_3) : start(_1), length(_2), bbcode(_3) {}
-		int start, length;
-		const Bbcode &bbcode;
+		HistItem(int _1, int _2, const Bbcode &_3) : start(_1), length(_2), l1(_3.len1), l2(_3.len2) {}
+		int start, length, l1, l2;
 	};
 	std::vector<HistItem> history;
 
@@ -119,19 +118,27 @@ CMStringA CTelegramProto::GetFormattedText(TD::object_ptr<TD::formattedText> &pT
 		int off1 = 0, off2 = 0;
 		for (auto &h : history) {
 			if (it->offset_ >= h.start)
-				off1 += h.bbcode.len1;
+				off1 += h.l1;
 			if (it->offset_ + it->length_ > h.start)
-				off2 += h.bbcode.len1;
+				off2 += h.l1;
 			if (it->offset_ >= h.start + h.length)
-				off1 += h.bbcode.len2;
+				off1 += h.l2;
 			if (it->offset_ + it->length_ > h.start + h.length)
-				off2 += h.bbcode.len2;
+				off2 += h.l2;
 		}
 
 		auto &bb = bbCodes[iCode];
+		HistItem histItem(it->offset_, it->length_, bb);
 		ret.Insert(off2 + it->offset_ + it->length_, bb.end);
 		ret.Insert(off1 + it->offset_, bb.begin);
-		history.push_back(HistItem(it->offset_, it->length_, bb));
+		if (iCode == 4) {
+			auto *pUrl = (TD::textEntityTypeTextUrl *)it->type_.get();
+			Utf2T wszUrl(pUrl->url_.c_str());
+			ret.Insert(off1 + it->offset_ + 4, wszUrl);
+			ret.Insert(off1 + it->offset_ + 4, L"=");
+			histItem.l1 += 1 + (int)mir_wstrlen(wszUrl);
+		}
+		history.push_back(histItem);
 	}
 	return T2Utf(ret).get();
 }
@@ -145,7 +152,11 @@ CMStringA msg2id(TD::int53 chatId, TD::int53 msgId)
 
 CMStringA msg2id(const TD::message *pMsg)
 {
-	return CMStringA(FORMAT, "%lld_%lld", pMsg->chat_id_, pMsg->id_);
+	auto iChatId = pMsg->chat_id_;
+	if (!iChatId && pMsg->sender_id_->get_id() == TD::messageSenderChat::ID)
+		iChatId = ((TD::messageSenderChat *)pMsg->sender_id_.get())->chat_id_;
+
+	return CMStringA(FORMAT, "%lld_%lld", iChatId, pMsg->id_);
 }
 
 TD::int53 dbei2id(const DBEVENTINFO &dbei)
@@ -513,14 +524,15 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	char szReplyId[100];
 
 	DB::EventInfo dbei(db_event_getById(m_szModuleName, F.pszId));
-	dbei.flags = DBEF_TEMPORARY;
-	dbei.iTimestamp = F.pMsg->date_;
+	dbei.bTemporary = true;
 	dbei.szId = F.pszId;
 	dbei.szUserId = F.pszUser;
+	if (F.pMsg->date_)
+		dbei.iTimestamp = F.pMsg->date_;
 	if (F.pMsg->is_outgoing_)
-		dbei.flags |= DBEF_SENT | DBEF_READ;
+		dbei.bSent = dbei.bRead = true;
 	if (!F.pUser->bInited || F.bRead)
-		dbei.flags |= DBEF_READ;
+		dbei.bRead = true;
 	if (auto iReplyId = getReplyId(F.pMsg->reply_to_.get())) {
 		_i64toa(iReplyId, szReplyId, 10);
 		dbei.szReplyId = szReplyId;
@@ -529,6 +541,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	if (dbei) {
 		if (!Ignore_IsIgnored(pRequest->m_hContact, IGNOREEVENT_FILE)) {
 			DB::FILE_BLOB blob(dbei);
+			blob.setDescr(Utf2T(pszCaption));
 			OnReceiveOfflineFile(dbei, blob);
 			blob.write(dbei);
 			db_event_edit(dbei.getEvent(), &dbei, true);

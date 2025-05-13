@@ -499,11 +499,11 @@ void NewstoryListData::EndEditItem(bool bAccept)
 			pItem->wtext[iTextLen] = 0;
 
 			if (pItem->dbe.hContact && pItem->dbe.getEvent()) {
-				DBEVENTINFO dbei = pItem->dbe;
+				DB::EventInfo dbei(pItem->dbe.getEvent());
 
 				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
 				dbei.cbBlob = (int)mir_strlen(szUtf) + 1;
-				dbei.pBlob = szUtf.get();
+				dbei.pBlob = szUtf.detach();
 				db_event_edit(pItem->dbe.getEvent(), &dbei);
 			}
 
@@ -729,6 +729,18 @@ void NewstoryListData::OpenFolder()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Painting
 
+static void recursive_set_color(element::ptr el, const web_color &fore, const background &back)
+{
+	el->css_w().set_bg(back);
+	el->css_w().set_color(fore);
+
+	for (auto &it : el->children()) {
+		if (it->tag() == _a_ || (it->tag() == _font_ && mir_strcmp(it->get_attr("class"), "body")))
+			continue;
+		recursive_set_color(it, fore, back);
+	}
+}
+
 void NewstoryListData::Paint(simpledib::dib &dib)
 {
 	int top = 0;
@@ -805,7 +817,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			if (g_plugin.bShowType) {
 				switch (pItem->dbe.eventType) {
 				case EVENTTYPE_MESSAGE:
-					hIcon = g_plugin.getIcon(IDI_SENDMSG);
+					hIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
 					break;
 				case EVENTTYPE_FILE:
 					hIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
@@ -819,6 +831,7 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 				}
 				DrawIconEx(dib, xPos, yPos, hIcon, 16, 16, 0, 0, DI_NORMAL);
 				xPos += 18;
+				IcoLib_ReleaseIcon(hIcon);
 			}
 
 			// Direction icon
@@ -829,10 +842,11 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 					hIcon = g_plugin.getIcon(IDI_MSGIN);
 				DrawIconEx(dib, xPos, yPos, hIcon, 16, 16, 0, 0, DI_NORMAL);
 				xPos += 18;
+				IcoLib_ReleaseIcon(hIcon);
 			}
 
 			// Bookmark icon
-			if (pItem->dbe.flags & DBEF_BOOKMARK) {
+			if (pItem->dbe.isBookmark) {
 				DrawIconEx(dib, xPos, yPos, g_plugin.getIcon(IDI_BOOKMARK), 16, 16, 0, 0, DI_NORMAL);
 				xPos += 18;
 			}
@@ -840,27 +854,35 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			// Finished icon
 			if (pItem->m_bOfflineDownloaded != 0) {
 				if (pItem->completed())
-					DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(dib, cachedWindowWidth - (xRight = 18), yPos, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
 				else
 					bDrawProgress = true;
 			}
 
 			// Delivered & remote read icons
 			if (pItem->m_bRemoteRead)
-				DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_REMOTEREAD), 16, 16, 0, 0, DI_NORMAL);
+				DrawIconEx(dib, cachedWindowWidth - (xRight = 18), yPos, g_plugin.getIcon(IDI_REMOTEREAD), 16, 16, 0, 0, DI_NORMAL);
 			else if (pItem->m_bDelivered)
-				DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_DELIVERED), 16, 16, 0, 0, DI_NORMAL);
+				DrawIconEx(dib, cachedWindowWidth - (xRight = 18), yPos, g_plugin.getIcon(IDI_DELIVERED), 16, 16, 0, 0, DI_NORMAL);
+
+			// Edited icon
+			if (pItem->dbe.bEdited) {
+				xRight += 18;
+				DrawIconEx(dib, cachedWindowWidth - xRight, yPos, g_plugin.getIcon(IDI_SENDMSG), 16, 16, 0, 0, DI_NORMAL);
+			}
 		}
 
 		// draw html itself
 		litehtml::position clip(xPos, yPos, cachedWindowWidth - xPos - xRight, iItemHeigth);
 		if (auto &pDoc = pItem->m_doc) {
 			if (auto pBody = pDoc->root()->select_one("body")) {
-				litehtml::background back = pBody->css().get_bg();
-				back.m_color = litehtml::web_color(GetRValue(clBack), GetGValue(clBack), GetBValue(clBack));
-				pBody->css_w().set_bg(back);
+				if (auto pBbody = pBody->select_one("[id=bbody]")) {
+					litehtml::background back = pBbody->css().get_bg();
+					back.m_color = litehtml::web_color(GetRValue(clBack), GetGValue(clBack), GetBValue(clBack));
 
-				pBody->css_w().set_color(litehtml::web_color(GetRValue(clText), GetGValue(clText), GetBValue(clText)));
+					litehtml::web_color fore(GetRValue(clText), GetGValue(clText), GetBValue(clText));
+					recursive_set_color(pBbody, fore, back);
+				}
 			}
 
 			pDoc->draw((UINT_PTR)dib.hdc(), xPos, yPos + iOffsetY, &clip);
@@ -1467,7 +1489,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				if (g_plugin.bHppCompat) {
 					data->EventUp();
 					if (isShift)
-						data->SetSelection(data->caret, oldCaret);
+						data->AddSelection(data->caret, oldCaret);
 				}
 				else data->LineUp();
 				break;
@@ -1476,7 +1498,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				if (g_plugin.bHppCompat) {
 					data->EventDown();
 					if (isShift)
-						data->SetSelection(oldCaret, data->caret);
+						data->AddSelection(oldCaret, data->caret);
 				}
 				else data->LineDown();
 				break;
@@ -1488,7 +1510,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					if (g_plugin.bHppCompat) {
 						data->EventPageUp();
 						if (isShift)
-							data->SetSelection(data->caret, oldCaret);
+							data->AddSelection(data->caret, oldCaret);
 					}
 					else data->PageUp();
 				}
@@ -1501,7 +1523,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					if (g_plugin.bHppCompat) {
 						data->EventPageDown();
 						if (isShift)
-							data->SetSelection(oldCaret, data->caret);
+							data->AddSelection(oldCaret, data->caret);
 					}
 					else data->PageDown();
 				}
@@ -1510,13 +1532,13 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case VK_HOME:
 				data->ScrollTop();
 				if (isShift)
-					data->SetSelection(0, data->caret);
+					data->AddSelection(0, data->caret);
 				break;
 
 			case VK_END:
 				data->ScrollBottom();
 				if (isShift)
-					data->SetSelection(data->caret, data->totalCount);
+					data->AddSelection(data->caret, data->totalCount);
 				break;
 
 			case VK_F2:

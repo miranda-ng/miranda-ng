@@ -62,7 +62,7 @@ void LoadOption_AdvOpts()
 
 	// Transparency
 	PopupOptions.bUseTransparency = g_plugin.getBool("UseTransparency", true);
-	PopupOptions.Alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);
+	PopupOptions.Alpha = Clist::iAlpha;
 	PopupOptions.bOpaqueOnHover = g_plugin.getBool("OpaqueOnHover", true);
 
 	// Effects

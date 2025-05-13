@@ -1,10 +1,12 @@
 #ifndef LH_DOCUMENT_H
 #define LH_DOCUMENT_H
 
-#include "style.h"
+#include "stylesheet.h"
 #include "types.h"
 #include "master_css.h"
 #include "encodings.h"
+#include "font_description.h"
+
 typedef struct GumboInternalOutput GumboOutput;
 
 namespace litehtml
@@ -16,7 +18,7 @@ namespace litehtml
 		string	text;
 		string	baseurl;
 		string	media;
-		
+
 		css_text() = default;
 
 		css_text(const char* txt, const char* url, const char* media_str)
@@ -50,6 +52,7 @@ namespace litehtml
 		std::shared_ptr<element>			m_root;
 		std::shared_ptr<render_item>		m_root_render;
 		document_container*					m_container;
+		fonts_map							m_fonts;
 		css_text::vector					m_css;
 		litehtml::css						m_styles;
 		litehtml::web_color					m_def_color;
@@ -58,7 +61,8 @@ namespace litehtml
 		litehtml::size						m_size;
 		litehtml::size						m_content_size;
 		position::vector					m_fixed_boxes;
-		element::ptr						m_over_element;
+		std::shared_ptr<element>			m_over_element;
+		std::shared_ptr<element>			m_active_element;
 		std::list<shared_ptr<render_item>>	m_tabular_elements;
 		media_query_list_list::vector		m_media_lists;
 		media_features						m_media;
@@ -72,7 +76,7 @@ namespace litehtml
 
 		document_container*				container()	{ return m_container; }
 		document_mode					mode() const { return m_mode; }
-		uint_ptr						get_font(const char* name, int size, const char* weight, const char* style, const char* decoration, font_metrics* fm);
+		uint_ptr						get_font(const font_description& descr, font_metrics* fm);
 		int								render(int max_width, render_type rt = render_all);
 		void							draw(uint_ptr hdc, int x, int y, const position* clip);
 		web_color						get_def_color()	{ return m_def_color; }
@@ -86,9 +90,10 @@ namespace litehtml
 		bool							on_mouse_over(int x, int y, int client_x, int client_y, position::vector& redraw_boxes);
 		bool							on_lbutton_down(int x, int y, int client_x, int client_y, position::vector& redraw_boxes);
 		bool							on_lbutton_up(int x, int y, int client_x, int client_y, position::vector& redraw_boxes);
+		bool							on_button_cancel(position::vector& redraw_boxes);
 		bool							on_mouse_leave(position::vector& redraw_boxes);
-		element::ptr					create_element(const char* tag_name, const string_map& attributes);
-		element::ptr					root();
+		std::shared_ptr<element>		create_element(const char* tag_name, const string_map& attributes);
+		std::shared_ptr<element>		root();
 		std::shared_ptr<render_item>	root_render();
 		void							get_fixed_boxes(position::vector& fixed_boxes);
 		void							add_fixed_box(const position& pos);
@@ -97,7 +102,7 @@ namespace litehtml
 		bool							lang_changed();
 		bool							match_lang(const string& lang);
 		void							add_tabular(const std::shared_ptr<render_item>& el);
-		element::const_ptr				get_over_element() const { return m_over_element; }
+		std::shared_ptr<const element>	get_over_element() const { return m_over_element; }
 
 		void							append_children_from_string(element& parent, const char* str);
 		void							dump(dumper& cout);
@@ -108,9 +113,9 @@ namespace litehtml
 			document_container*  container,
 			const string&        master_styles = litehtml::master_css,
 			const string&        user_styles = "");
-	
+
 	private:
-		uint_ptr	add_font(const char* name, int size, const char* weight, const char* style, const char* decoration, font_metrics* fm);
+		uint_ptr	add_font(const font_description& descr, font_metrics* fm);
 
 		GumboOutput* parse_html(estring str);
 		void create_node(void* gnode, elements_list& elements, bool parseTextNode);
@@ -120,7 +125,7 @@ namespace litehtml
 		void fix_table_parent(const std::shared_ptr<render_item> & el_ptr, style_display disp, const char* disp_str);
 	};
 
-	inline element::ptr document::root()
+	inline std::shared_ptr<element> document::root()
 	{
 		return m_root;
 	}

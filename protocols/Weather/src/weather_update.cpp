@@ -364,7 +364,7 @@ static double g_elevation = 0;
 
 static void getData(OBJLIST<WIDATAITEM> &arValues, const JSONNode &node)
 {
-	arValues.insert(new WIDATAITEM(LPGENW("Date"), L"", parseConditions(node["datetime"].as_mstring())));
+	arValues.insert(new WIDATAITEM(LPGENW("Date"), L"", node["datetime"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("Condition"), L"", parseConditions(node["conditions"].as_mstring())));
 	arValues.insert(new WIDATAITEM(LPGENW("Temperature"), L"C", node["temp"].as_mstring()));
 	arValues.insert(new WIDATAITEM(LPGENW("High"), L"C", node["tempmax"].as_mstring()));
@@ -404,7 +404,7 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 	auto &curr = root["currentConditions"];
 	g_elevation = root["elevation"].as_float() / 7.877;
 
-	OBJLIST<WIDATAITEM> arValues(20);
+	WIDATAITEMLIST arValues;
 	getData(arValues, curr);
 
 	auto szIcon = curr["icon"].as_string();
@@ -430,20 +430,30 @@ int CWeatherProto::GetWeatherData(MCONTACT hContact)
 		cond = CLOUDY;
 
 	// writing forecast
-	int iFore = 0;
 	db_set_ws(hContact, WEATHERCONDITION, "Update", curr["datetime"].as_mstring());
 
+	for (auto &it : arValues) {
+		ConvertDataValue(it);
+		if (!it->Value.IsEmpty())
+			db_set_ws(hContact, WEATHERCONDITION, _T2A(it->Name), it->Value);
+	}
+
+	int iFore = 0;
 	for (auto &fore : root["days"]) {
-		getData(arValues, fore);
+		WIDATAITEMLIST arDaily;
+		getData(arDaily, fore);
 
 		CMStringW result;
-		for (auto &it : arValues) {
+		for (auto &it : arDaily) {
 			ConvertDataValue(it);
 			if (it->Value.IsEmpty())
 				continue;
 
+			// insert missing values from day 0 into current
 			if (iFore == 0)
-				db_set_ws(hContact, WEATHERCONDITION, _T2A(it->Name), it->Value);
+				if (auto *pOld = arValues.Find(it->Name))
+					if (pOld->Value.IsEmpty() || pOld->Value == NODATA)
+						db_set_ws(hContact, WEATHERCONDITION, _T2A(it->Name), it->Value);
 
 			if (!result.IsEmpty())
 				result += L"; ";

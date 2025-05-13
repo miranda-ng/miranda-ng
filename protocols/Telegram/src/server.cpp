@@ -483,7 +483,9 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		dbei.cbBlob = szBody.GetLength();
 		dbei.pBlob = szBody.GetBuffer();
 		dbei.szId = szMsgId;
-		dbei.flags = DBEF_READ | DBEF_UTF;
+		dbei.bRead = dbei.bUtf = true;
+		if (pMsg->edit_date_)
+			dbei.bEdited = true;
 		if (pMsg->is_outgoing_)
 			dbei.flags |= DBEF_SENT;
 		if (this->GetGcUserId(pUser, pMsg, szUserId))
@@ -783,8 +785,9 @@ void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 		debugLogW(L"Existing contact group <%s>, calculated <%s>", pwszExistingGroup.get(), wszGroup.c_str());
 
 		wchar_t *pwszDefaultGroup = m_wszDefaultGroup;
+		size_t defLen = mir_wstrlen(pwszDefaultGroup);
 		if (!pwszExistingGroup || pUser->isForum
-			|| !mir_wstrncmp(pwszExistingGroup, pwszDefaultGroup, mir_wstrlen(pwszDefaultGroup))
+			|| (defLen && !mir_wstrncmp(pwszExistingGroup, pwszDefaultGroup, defLen))
 			|| (pUser->isGroupChat && !mir_wstrcmp(pwszExistingGroup, Chat_GetGroup())))
 		{
 			CMStringW wszNewGroup(pwszDefaultGroup);
@@ -960,12 +963,6 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 	auto szMsgId(msg2id(pMessage));
 	MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
 
-	CMStringA szText(GetMessageText(pUser, pMessage)), szReplyId;
-	if (szText.IsEmpty()) {
-		debugLogA("this message was not processed, ignored");
-		return;
-	}
-
 	// make a temporary contact if needed
 	if (pUser->hContact == INVALID_CONTACT_ID) {
 		if (pUser->isGroupChat) {
@@ -975,6 +972,12 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 
 		AddUser(pUser->id, false);
 		Contact::RemoveFromList(pUser->hContact);
+	}
+
+	CMStringA szText(GetMessageText(pUser, pMessage)), szReplyId;
+	if (szText.IsEmpty()) {
+		debugLogA("this message was not processed, ignored");
+		return;
 	}
 
 	MCONTACT hContact = GetRealContact(pUser, pMessage->message_thread_id_);
@@ -997,6 +1000,8 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 			dbei.bSent = dbei.bRead = true;
 		else if (pMessage->id_ <= pUser->lastReadId)
 			dbei.bRead = true;
+		if (pMessage->edit_date_)
+			dbei.bEdited = true;
 		if (!pUser->bInited)
 			dbei.bRead = true;
 		if (GetGcUserId(pUser, pMessage, szUserId))

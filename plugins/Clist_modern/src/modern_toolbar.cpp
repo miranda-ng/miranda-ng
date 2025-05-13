@@ -85,8 +85,8 @@ void Modern_InitButtons()
 		it.hButton = g_plugin.addTTB(&tbb);
 	}
 
-	SetButtonPressed(3, Clist::HideOffline);
-	SetButtonPressed(6, Clist::UseGroups);
+	SetButtonPressed(3, Clist::bHideOffline);
+	SetButtonPressed(6, Clist::bUseGroups);
 	SetButtonPressed(7, db_get_b(0, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 }
 

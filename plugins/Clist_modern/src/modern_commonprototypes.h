@@ -152,7 +152,6 @@ int     SetAlpha(uint8_t Alpha);
 
 
 /* others TODO: move above */
-int     Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 void    DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColour, uint32_t backgroundBmpUse);
 HRESULT BackgroundsLoadModule();
 int     BackgroundsUnloadModule();
@@ -181,7 +180,7 @@ INT_PTR ToggleHideOffline(WPARAM wParam, LPARAM lParam);                        
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam);                                 //contact.c
 INT_PTR ToggleSounds(WPARAM wParam, LPARAM lParam);                                 //contact.c
 void    ClcOptionsChanged();                                                //clc.c
-void    Docking_GetMonitorRectFromWindow(HWND hWnd, RECT *rc);                        //Docking.c
+void    GetMonitorRectFromWindow(HWND hWnd, RECT *rc);                        //Docking.c
 void    DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, uint32_t width, uint32_t height, HBITMAP hbmp, int x1, int y1, uint32_t width1, uint32_t height1, uint32_t flag, uint8_t alpha);   //gdiplus.cpp
 void    InitGdiPlus();                                                      //gdiplus.cpp
 void    ShutdownGdiPlus();                                                   //gdiplus.cpp

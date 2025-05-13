@@ -100,8 +100,9 @@ void CTeamsProto::UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact)
 	}
 }
 
-//{"firstname":"Echo \/ Sound Test Service", "lastname" : null, "birthday" : null, "gender" : null, "country" : null, "city" : null, "language" : null, "homepage" : null, "about" : null, "province" : null, "jobtitle" : null, "emails" : [], "phoneMobile" : null, "phoneHome" : null, "phoneOffice" : null, "mood" : null, "richMood" : null, "avatarUrl" : null, "username" : "echo123"}
-void CTeamsProto::LoadProfile(MHttpResponse *response, AsyncHttpRequest *pRequest)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CTeamsProto::OnGetProfileInfo(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 
@@ -133,9 +134,6 @@ void CTeamsProto::LoadProfile(MHttpResponse *response, AsyncHttpRequest *pReques
 	SetString(hContact, "FirstName", root["firstname"]);
 	SetString(hContact, "CompanyPhone", root["phoneOffice"]);
 
-	if (auto &pMood = root["richMood"])
-		RemoveHtml(pMood.as_mstring(), true); // this call extracts only emoji / mood id
-
 	UpdateProfileDisplayName(root, hContact);
 	UpdateProfileGender(root, hContact);
 	UpdateProfileBirthday(root, hContact);
@@ -144,4 +142,12 @@ void CTeamsProto::LoadProfile(MHttpResponse *response, AsyncHttpRequest *pReques
 	UpdateProfileAvatar(root, hContact);
 
 	ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, 0);
+}
+
+void CTeamsProto::GetProfileInfo(MCONTACT hContact)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_API, 0, &CTeamsProto::OnGetProfileInfo);
+	pReq->m_szUrl.AppendFormat("/users/%s/profile", (hContact == 0) ? "self" : mir_urlEncode(getId(hContact)));
+	pReq->pUserInfo = (void *)hContact;
+	PushRequest(pReq);
 }

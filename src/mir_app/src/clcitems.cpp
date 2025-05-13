@@ -351,13 +351,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 	dat->list.totalMembers = 0;
 	dat->selection = -1;
 
-	for (int i = 1;; i++) {
-		uint32_t groupFlags;
-		wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
-		if (szGroupName == nullptr)
-			break;
-		g_clistApi.pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
-	}
+	Clist_RebuildGroups(hwnd, dat);
 
 	for (auto &hContact : Contacts()) {
 		int nHiddenStatus = g_clistApi.pfnGetContactHiddenStatus(hContact, nullptr, dat);

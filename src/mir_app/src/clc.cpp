@@ -70,6 +70,12 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
+	if (!strcmp(cws->szModule, GROUPS_MODULE)) {
+		if (!g_bGroupsLocked)
+			Clist_Broadcast(INTM_GROUPSCHANGED, hContact, lParam);
+		return 0;
+	}
+	
 	if (!strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
 			g_clistApi.pfnInvalidateDisplayNameCacheEntry(hContact);
@@ -375,12 +381,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				bool eq = !mir_wstrcmp(szFullName, pGroup->groupName);
 				if (eq && contact->group->bHideOffline == ((pGroup->flags & GROUPF_HIDEOFFLINE) != 0))
 					break;  // only expanded has changed: no action reqd
-
-				Clist_SaveStateAndRebuildList(hwnd, dat);
-				break;
 			}
+			Clist_SaveStateAndRebuildList(hwnd, dat);
 		}
-		Clist_InitAutoRebuild(hwnd);
+		else Clist_InitAutoRebuild(hwnd);
 		break;
 
 	case INTM_NAMEORDERCHANGED:
@@ -1154,16 +1158,17 @@ LBL_MoveSelection:
 		break;
 
 	case WM_CONTEXTMENU:
-		Clist_EndRename(dat, 1);
-		Clist_HideInfoTip(dat);
-		KillTimer(hwnd, TIMERID_RENAME);
-		KillTimer(hwnd, TIMERID_INFOTIP);
-		if (GetFocus() != hwnd)
-			SetFocus(hwnd);
-		dat->iHotTrack = -1;
-		if (!dat->bFilterSearch)
-			dat->szQuickSearch[0] = 0;
-		{
+		if (hwnd == g_clistApi.hwndContactTree) {
+			Clist_EndRename(dat, 1);
+			Clist_HideInfoTip(dat);
+			KillTimer(hwnd, TIMERID_RENAME);
+			KillTimer(hwnd, TIMERID_INFOTIP);
+			if (GetFocus() != hwnd)
+				SetFocus(hwnd);
+			dat->iHotTrack = -1;
+			if (!dat->bFilterSearch)
+				dat->szQuickSearch[0] = 0;
+		
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			if (pt.x == -1 && pt.y == -1) {
 				dat->selection = g_clistApi.pfnGetRowByIndex(dat, dat->selection, &contact, nullptr);

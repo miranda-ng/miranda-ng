@@ -79,7 +79,7 @@ BEGIN
     EDITTEXT        IDC_TITLETEXT,63,100,72,12,ES_AUTOHSCROLL
     CONTROL         "Show drop shadow (restart required)",IDC_DROPSHADOW,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,117,138,10
-    CONTROL         "Pin to desktop",IDC_ONDESKTOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,131,128,10
+
     CONTROL         "Hide contact list after it has been idle for",IDC_AUTOHIDE,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,141,18,162,10
     EDITTEXT        IDC_HIDETIME,151,32,30,12,ES_RIGHT | ES_NUMBER
@@ -94,7 +94,6 @@ BEGIN
     CONTROL         "Size upwards",IDC_AUTOSIZEUPWARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,83,147,10
     CONTROL         "If window is partially covered, bring to front instead of hiding",IDC_BRINGTOFRONT,
                     "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,141,98,162,16
-    CONTROL         "Enable docking",IDC_DISABLEDOCKING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,141,130,136,10
     GROUPBOX        "Translucency options",IDC_STATIC,4,149,305,80
     CONTROL         "Fade contact list in/out",IDC_FADEINOUT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,162,163,10
     CONTROL         "Transparent contact list",IDC_TRANSPARENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,179,151,9

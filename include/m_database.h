@@ -208,6 +208,7 @@ struct DBEVENTINFO
 			bool isBookmark : 1;  // event is bookmarked
 			bool isJson : 1;      // event's body is a JSON structure
 			bool bMsec : 1;       // event's timestamp is in milliseconds
+			bool bEdited : 1;     // event was edited
 		};
 	};
 
@@ -797,9 +798,10 @@ namespace DB
 		__forceinline bool isOffline() const { return m_szProtoString != nullptr; }
 
 		__forceinline void setUrl(const char *pszUrl) { m_szProtoString = mir_strdup(pszUrl); }
-		__forceinline void setName(const wchar_t *pszFileName) { m_wszFileName = mir_wstrdup(pszFileName); }
+		__forceinline void setName(const wchar_t *pwszFileName) { m_wszFileName = mir_wstrdup(pwszFileName); }
 		__forceinline void setSize(int64_t iSize) { m_iFileSize = iSize; }
-		__forceinline void setLocalName(const wchar_t *pszFileName) { m_wszLocalName = mir_wstrdup(pszFileName); }
+		__forceinline void setDescr(const wchar_t *pwszDescription) { m_wszDescription = mir_wstrdup(pwszDescription); }
+		__forceinline void setLocalName(const wchar_t *pwszFileName) { m_wszLocalName = mir_wstrdup(pwszFileName); }
 		__forceinline void setUserInfo(void *pUserInfo) { m_pUserInfo = pUserInfo; }
 	};
 

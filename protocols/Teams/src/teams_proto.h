@@ -17,8 +17,15 @@ struct COwnMessage
 		hClientMessageId(_2)
 	{}
 
+	COwnMessage(const char *pszText) :
+		hMessage(0),
+		hClientMessageId(0),
+		szMessage(mir_strdup(pszText))
+	{}
+
 	int hMessage;
 	int64_t hClientMessageId, iTimestamp = -1;
+	ptrA szMessage;
 };
 
 struct CSkypeTransfer
@@ -165,8 +172,8 @@ public:
 	// other data
 
 	int m_iPollingId, m_iMessageId = 1;
-	ptrA m_szToken, m_szEndpoint, m_szOwnSkypeId;
-	CMStringA m_szSkypename, m_szMyname, m_szSkypeToken;
+	ptrA m_szOwnSkypeId;
+	CMStringA m_szSkypename, m_szMyname, m_szRegToken, m_szSkypeToken, m_szEndpoint;
 	MCONTACT m_hMyContact;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {
@@ -176,7 +183,7 @@ public:
 	void OnSearch(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	// login
-	void OnSubscriptionsCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
 	void OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnStatusChanged(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
@@ -187,7 +194,7 @@ public:
 	void OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void LoadContactList(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnGotContactsInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
@@ -197,13 +204,10 @@ public:
 
 	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
 	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
-	void LoadProfile(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnGetProfileInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);
 
@@ -213,12 +217,6 @@ private:
 	static std::map<std::wstring, std::wstring> languages;
 
 	LIST<void> m_PopupClasses;
-	OBJLIST<COwnMessage> m_OutMessages;
-
-	// locks
-	mir_cs m_lckOutMessagesList;
-	mir_cs messageSyncLock;
-	mir_cs m_StatusLock;
 
 	// avatars
 	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
@@ -231,24 +229,32 @@ private:
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
-	// menus
-	static HGENMENU ContactMenuItems[CMI_MAX];
-	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
-	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
+	// chats
+	void InitGroupChatModule();
 
-	// options
-	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
+	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
+	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
+	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
-	// profile
-	void UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileGender(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileCountry(const JSONNode &node, MCONTACT hContact = NULL);
-	void UpdateProfileEmails(const JSONNode &root, MCONTACT hContact = NULL);
-	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
+	SESSION_INFO *StartChatRoom(const wchar_t *tid, const wchar_t *tname, const char *pszVersion = nullptr);
+
+	bool OnChatEvent(const JSONNode &node);
+	wchar_t *GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name = nullptr, bool *isQualified = nullptr);
+
+	bool AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
+	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator = L"");
+	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
+
+	void KickChatUser(const char *chatId, const char *userId);
+
+	void SetChatStatus(MCONTACT hContact, int iStatus);
+
+	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
 
 	// contacts
-	uint16_t GetContactStatus(MCONTACT hContact);
+	void GetShortInfo(const OBJLIST<char> &ids);
+	void RefreshContactsInfo();
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
 	MCONTACT FindContact(const char *skypeId);
@@ -265,8 +271,22 @@ private:
 
 	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
 
+	// history
+	void FetchMissingHistory(const JSONNode &node, MCONTACT);
+	void GetServerHistory(MCONTACT hContact, int pageSize, int64_t timestamp, bool bOperative);
+	void RefreshConversations();
+
+	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
+	// menus
+	static HGENMENU ContactMenuItems[CMI_MAX];
+	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
+	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
+
 	// messages
-	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
+	mir_cs m_lckOutMessagesList;
+	LIST<COwnMessage> m_OutMessages;
 
 	int SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t iMessageId = 0);
 
@@ -275,37 +295,25 @@ private:
 	void ProcessContactRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei);
 	void ProcessFileRecv(MCONTACT hContact, const char *szContent, DB::EventInfo &dbei);
 
-	// chats
-	void InitGroupChatModule();
+	// options
+	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
-	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
-	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
-	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
+	// profile
+	void UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileGender(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileCountry(const JSONNode &node, MCONTACT hContact = NULL);
+	void UpdateProfileEmails(const JSONNode &root, MCONTACT hContact = NULL);
+	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 
-	SESSION_INFO* StartChatRoom(const wchar_t *tid, const wchar_t *tname, const char *pszVersion = nullptr);
+	// server requests
+	void GetProfileInfo(MCONTACT hContact);
 
-	bool OnChatEvent(const JSONNode &node);
-	wchar_t* GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name = nullptr, bool *isQualified = nullptr);
+	void SetServerStatus(int iStatus);
 
-	bool AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange = false);
-	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator = L"");
-	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
-
-	void KickChatUser(const char *chatId, const char *userId);
-
-	void SetChatStatus(MCONTACT hContact, int iStatus);
-
-	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
+	void CreateContactSubscription();
 
 	// utils
-	template <typename T>
-	__inline static void FreeList(const LIST<T> &lst)
-	{
-		for (auto &it : lst)
-			mir_free(it);
-	}
-
 	__forceinline bool IsOnline() const
 	{	return (m_iStatus > ID_STATUS_OFFLINE);
 	}
@@ -316,11 +324,7 @@ private:
 	int64_t getLastTime(MCONTACT);
 	void setLastTime(MCONTACT, int64_t);
 
-	CMStringW RemoveHtml(const CMStringW &src, bool bCheckSS = false);
-
-	static time_t IsoToUnixTime(const std::string &stamp);
-
-	void SetServerStatus(int iStatus);
+	CMStringW RemoveHtml(const CMStringW &src);
 
 	void ShowNotification(const wchar_t *message, MCONTACT hContact = NULL);
 	void ShowNotification(const wchar_t *caption, const wchar_t *message, MCONTACT hContact = NULL, int type = 0);
@@ -340,7 +344,6 @@ private:
 	INT_PTR __cdecl SvcLoadHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcEmptyHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcSetMood(WPARAM, LPARAM);
 	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
 
 	// trouter
@@ -357,17 +360,17 @@ private:
 	void ProcessNewMessage(const JSONNode &node);
 	void ProcessUserPresence(const JSONNode &node);
 	void ProcessThreadUpdate(const JSONNode &node);
-	void ProcessServerMessage(const std::string &szName, const JSONNode &args);
+	void ProcessServerMessage(const std::string &szName, int packetId, const JSONNode &args);
 	void ProcessEndpointPresence(const JSONNode &node);
 	void ProcessConversationUpdate(const JSONNode &node);
 
 	void __cdecl GatewayThread(void *);
+	void GatewayThreadWorker();
 
-	void TRouterSendJson(const char *szName, const JSONNode *node = 0);
-	void TRouterSendJson(const JSONNode &node);
+	void TRouterSendJson(const char *szName, const JSONNode *node = nullptr, int iReplyTo = -1);
+	void TRouterSendJson(const JSONNode &node, int iReplyTo = -1);
 
-	void TRouterSendAuthentication();
-	void TRouterSendActive(bool);
+	void TRouterSendActive(bool bActive, int iReplyTo = -1);
 	void TRouterRegister();
 	void TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath);
 

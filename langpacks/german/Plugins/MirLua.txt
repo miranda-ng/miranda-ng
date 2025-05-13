@@ -41,7 +41,7 @@ Gemeinsame Skripte
 ;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Dienste
-[C libs folder]
+[C Libs Folder]
 C-Bibliotheken-Verzeichnis
 [Scripts folder]
 Skriptverzeichnis

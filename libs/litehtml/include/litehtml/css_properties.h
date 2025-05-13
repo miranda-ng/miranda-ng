@@ -1,7 +1,7 @@
 #ifndef LITEHTML_CSS_PROPERTIES_H
 #define LITEHTML_CSS_PROPERTIES_H
 
-#include "os_types.h"
+#include "string_id.h"
 #include "types.h"
 #include "css_margins.h"
 #include "borders.h"
@@ -13,6 +13,19 @@ namespace litehtml
 	class html_tag;
 	class document;
 
+	template<class CssT, class CompT>
+	class css_property
+	{
+	public:
+		CssT	css_value;
+		CompT	computed_value;
+
+		css_property(const CssT& css_val, const CompT& computed_val) : css_value(css_val), computed_value(computed_val) {}
+	};
+
+	// CSS Properties types
+	using css_line_height_t = css_property<css_length, int>;
+
 	class css_properties
 	{
 	private:
@@ -22,6 +35,7 @@ namespace litehtml
 		white_space				m_white_space;
 		style_display			m_display;
 		visibility				m_visibility;
+		appearance				m_appearance;
 		box_sizing				m_box_sizing;
 		css_length				m_z_index;
 		vertical_align			m_vertical_align;
@@ -39,7 +53,7 @@ namespace litehtml
 		css_offsets				m_css_offsets;
 		css_length				m_css_text_indent;
 		css_length				m_css_line_height;
-		int						m_line_height;
+		css_line_height_t		m_line_height {{}, 0};
 		list_style_type			m_list_style_type;
 		list_style_position		m_list_style_position;
 		string					m_list_style_image;
@@ -50,7 +64,13 @@ namespace litehtml
 		string					m_font_family;
 		css_length				m_font_weight;
 		font_style				m_font_style;
-		string					m_text_decoration;
+		int						m_text_decoration_line = text_decoration_line_none;
+		text_decoration_style	m_text_decoration_style = text_decoration_style_solid;
+		css_length				m_text_decoration_thickness;
+		web_color				m_text_decoration_color;
+		string					m_text_emphasis_style;
+		web_color				m_text_emphasis_color;
+		int						m_text_emphasis_position;
 		font_metrics			m_font_metrics;
 		text_transform			m_text_transform;
 		web_color				m_color;
@@ -88,6 +108,7 @@ namespace litehtml
 				m_white_space(white_space_normal),
 				m_display(display_inline),
 				m_visibility(visibility_visible),
+				m_appearance(appearance_none),
 				m_box_sizing(box_sizing_content_box),
 				m_z_index(0),
 				m_vertical_align(va_baseline),
@@ -105,7 +126,6 @@ namespace litehtml
 				m_css_offsets(),
 				m_css_text_indent(),
 				m_css_line_height(0),
-				m_line_height(0),
 				m_list_style_type(list_style_type_none),
 				m_list_style_position(list_style_position_outside),
 				m_bg(),
@@ -147,6 +167,9 @@ namespace litehtml
 
 		visibility get_visibility() const;
 		void set_visibility(visibility mVisibility);
+
+		appearance get_appearance() const;
+		void set_appearance(appearance mAppearance);
 
 		box_sizing get_box_sizing() const;
 		void set_box_sizing(box_sizing mBoxSizing);
@@ -196,8 +219,8 @@ namespace litehtml
 		const css_length &get_text_indent() const;
 		void set_text_indent(const css_length &mCssTextIndent);
 
-		int get_line_height() const;
-		void set_line_height(int mLineHeight);
+		const css_line_height_t& line_height() const;
+		css_line_height_t& line_height_w();
 
 		list_style_type get_list_style_type() const;
 		void set_list_style_type(list_style_type mListStyleType);
@@ -205,10 +228,10 @@ namespace litehtml
 		list_style_position get_list_style_position() const;
 		void set_list_style_position(list_style_position mListStylePosition);
 
-		string get_list_style_image() const;
+		const string& get_list_style_image() const;
 		void set_list_style_image(const string& url);
 
-		string get_list_style_image_baseurl() const;
+		const string& get_list_style_image_baseurl() const;
 		void set_list_style_image_baseurl(const string& url);
 
 		const background &get_bg() const;
@@ -229,10 +252,10 @@ namespace litehtml
 		web_color get_color() const;
 		void set_color(web_color color);
 
-		string get_cursor() const;
+		const string& get_cursor() const;
 		void set_cursor(const string& cursor);
 
-		string get_content() const;
+		const string& get_content() const;
 		void set_content(const string& content);
 
 		border_collapse get_border_collapse() const;
@@ -259,6 +282,15 @@ namespace litehtml
 
 		int get_order() const;
 		void set_order(int order);
+
+		int get_text_decoration_line() const;
+		text_decoration_style get_text_decoration_style() const;
+		const css_length& get_text_decoration_thickness() const;
+		const web_color& get_text_decoration_color() const;
+
+		string get_text_emphasis_style() const;
+		web_color get_text_emphasis_color() const;
+		int get_text_emphasis_position() const;
 	};
 
 	inline element_position css_properties::get_position() const
@@ -319,6 +351,16 @@ namespace litehtml
 	inline void css_properties::set_visibility(visibility mVisibility)
 	{
 		m_visibility = mVisibility;
+	}
+
+	inline appearance css_properties::get_appearance() const
+	{
+		return m_appearance;
+	}
+
+	inline void css_properties::set_appearance(appearance mAppearance)
+	{
+		m_appearance = mAppearance;
 	}
 
 	inline box_sizing css_properties::get_box_sizing() const
@@ -481,14 +523,14 @@ namespace litehtml
 		m_css_text_indent = mCssTextIndent;
 	}
 
-	inline int css_properties::get_line_height() const
+	inline const css_line_height_t& css_properties::line_height() const
 	{
 		return m_line_height;
 	}
 
-	inline void css_properties::set_line_height(int mLineHeight)
+	inline css_line_height_t& css_properties::line_height_w()
 	{
-		m_line_height = mLineHeight;
+		return m_line_height;
 	}
 
 	inline list_style_type css_properties::get_list_style_type() const
@@ -511,10 +553,10 @@ namespace litehtml
 		m_list_style_position = mListStylePosition;
 	}
 
-	inline string css_properties::get_list_style_image() const { return m_list_style_image; }
+	inline const string& css_properties::get_list_style_image() const { return m_list_style_image; }
 	inline void css_properties::set_list_style_image(const string& url) { m_list_style_image = url; }
 
-	inline string css_properties::get_list_style_image_baseurl() const { return m_list_style_image_baseurl; }
+	inline const string& css_properties::get_list_style_image_baseurl() const { return m_list_style_image_baseurl; }
 	inline void css_properties::set_list_style_image_baseurl(const string& url) { m_list_style_image_baseurl = url; }
 
 	inline const background &css_properties::get_bg() const
@@ -570,10 +612,10 @@ namespace litehtml
 	inline web_color css_properties::get_color() const { return m_color; }
 	inline void css_properties::set_color(web_color color) { m_color = color; }
 
-	inline string css_properties::get_cursor() const { return m_cursor; }
+	inline const string& css_properties::get_cursor() const { return m_cursor; }
 	inline void css_properties::set_cursor(const string& cursor) { m_cursor = cursor; }
 
-	inline string css_properties::get_content() const { return m_content; }
+	inline const string& css_properties::get_content() const { return m_content; }
 	inline void css_properties::set_content(const string& content) { m_content = content; }
 
 	inline border_collapse css_properties::get_border_collapse() const
@@ -668,6 +710,41 @@ namespace litehtml
 	inline void css_properties::set_order(int order)
 	{
 		m_order = order;
+	}
+
+	inline int css_properties::get_text_decoration_line() const
+	{
+		return m_text_decoration_line;
+	}
+
+	inline text_decoration_style css_properties::get_text_decoration_style() const
+	{
+		return m_text_decoration_style;
+	}
+
+	inline const css_length& css_properties::get_text_decoration_thickness() const
+	{
+		return m_text_decoration_thickness;
+	}
+
+	inline const web_color& css_properties::get_text_decoration_color() const
+	{
+		return m_text_decoration_color;
+	}
+
+	inline string css_properties::get_text_emphasis_style() const
+	{
+		return m_text_emphasis_style;
+	}
+
+	inline web_color css_properties::get_text_emphasis_color() const
+	{
+		return m_text_emphasis_color;
+	}
+
+	inline int css_properties::get_text_emphasis_position() const
+	{
+		return m_text_emphasis_position;
 	}
 }
 

@@ -336,16 +336,17 @@ void CTeamsProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 	szMessage.TrimRight();
 	bool bRich = AddBbcodes(szMessage);
 
-	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(T2Utf(si->ptszID)) + "/messages";
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
-
 	JSONNode node;
 	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("messagetype", bRich ? "RichText" : "Text")
 		<< CHAR_PARAM("contenttype", "text") << CHAR_PARAM("content", szMessage);
 	if (strncmp(szMessage, "/me ", 4) == 0)
 		node << INT_PARAM("skypeemoteoffset", 4);
+
+	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(T2Utf(si->ptszID)) + "/messages";
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
 	pReq->m_szParam = node.write().c_str();
-	
+	pReq->pUserInfo = new COwnMessage(szMessage);
+	pReq->hContact = si->hContact;
 	PushRequest(pReq);
 }
 
@@ -402,7 +403,7 @@ void CTeamsProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 	if (arIds.getCount())
 		PushRequest(new GetChatMembersRequest(arIds, si));
 
-	PushRequest(new GetHistoryRequest(si->hContact, T2Utf(si->ptszID), 100, 0, true));
+	GetServerHistory(si->hContact, 100, 0, true);
 }
 
 wchar_t* CTeamsProto::GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name, bool *isQualified)
@@ -494,7 +495,7 @@ class CSkypeGCCreateDlg : public CTeamsDlgBase
 	CCtrlClc m_clc;
 
 public:
-	LIST<char> m_ContactsList;
+	OBJLIST<char> m_ContactsList;
 
 	CSkypeGCCreateDlg(CTeamsProto *proto) :
 		CTeamsDlgBase(proto, IDD_GC_CREATE),
@@ -506,8 +507,6 @@ public:
 
 	~CSkypeGCCreateDlg()
 	{
-		CTeamsProto::FreeList(m_ContactsList);
-		m_ContactsList.destroy();
 	}
 
 	bool OnInitDialog() override
@@ -522,14 +521,13 @@ public:
 
 	bool OnApply() override
 	{
-		for (auto &hContact : m_proto->AccContacts()) {
+		for (auto &hContact : m_proto->AccContacts())
 			if (!m_proto->isChatRoom(hContact))
 				if (HANDLE hItem = m_clc.FindContact(hContact))
 					if (m_clc.GetCheck(hItem))
-						m_ContactsList.insert(m_proto->getId(hContact).Detach());
-		}
+						m_ContactsList.insert(newStr(m_proto->getId(hContact)));
 
-		m_ContactsList.insert(m_proto->m_szSkypename.GetBuffer());
+		m_ContactsList.insert(newStr(m_proto->m_szSkypename));
 		return true;
 	}
 

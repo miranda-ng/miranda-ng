@@ -48,7 +48,6 @@
     <ClCompile Include="src\modern_clui.cpp" />
     <ClCompile Include="src\modern_cluiservices.cpp" />
     <ClCompile Include="src\modern_contact.cpp" />
-    <ClCompile Include="src\modern_docking.cpp" />
     <ClCompile Include="src\modern_gdiplus.cpp" />
     <ClCompile Include="src\modern_global.cpp" />
     <ClCompile Include="src\modern_image_array.cpp" />

@@ -58,9 +58,6 @@ typedef struct {
 #define SETTING_SETWINSTATE       "SetState"
 #define SETTING_WINSTATE          "State"
 
-#define SETTING_SETDOCKED         "SetDocked"
-#define SETTING_DOCKED            "Docked"
-
 #define SETTING_SHOWDIALOG        "ShowDialog"
 #define SETTING_OFFLINECLOSE      "OfflineOnClose"
 #define SETTING_SETPROFILE        "SetStatusOnStartup"
@@ -97,10 +94,6 @@ typedef struct {
 
 #define SHORTCUT_DESC      L"Miranda NG"
 #define SHORTCUT_FILENAME  L"\\Miranda NG.lnk"
-
-#define DOCKED_NONE  0
-#define DOCKED_LEFT  1
-#define DOCKED_RIGHT 2
 
 #define MS_SS_MENUSETPROFILEPREFIX		"StartupStatus/SetProfile_"
 

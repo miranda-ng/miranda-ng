@@ -14,6 +14,8 @@
 
 #define DBKEY_CLIENT_ID     "ClientID"
 #define DBKEY_STEAM_ID      "SteamID"
+#define DBKEY_CHAT_ID       "ChatId"
+#define DBKEY_GROUP_ID      "GroupId"
 #define DBKEY_ACCOUNT_NAME  "Username"
 
 // Steam services
@@ -34,12 +36,13 @@
 #define GetMyChatRoomGroups                 "ChatRoom.GetMyChatRoomGroups#1"
 #define GetChatHistory                      "ChatRoom.GetMessageHistory#1"
 #define SendChatMessage                     "ChatRoom.SendChatMessage#1"
+#define JoinChatRoomGroup                   "ChatRoom.JoinChatRoomGroup#1"
 #define LeaveChatGroup                      "ChatRoom.LeaveChatRoomGroup#1"
 #define AckChatMessage                      "ChatRoom.AckChatMessage#1"
 #define DeleteChatMessage                   "ChatRoom.DeleteChatMessages#1"
 
-
 #define NotifyIncomingChatMessage           "ChatRoomClient.NotifyIncomingChatMessage#1"
+#define NotifyAckChatMessageEcho            "ChatRoomClient.NotifyAckChatMessageEcho#1"
 #define NotifyModifiedChatMessage           "ChatRoomClient.NotifyChatMessageModified#1"
 #define NotifyChatGroupUserStateChanged     "ChatRoomClient.NotifyChatGroupUserStateChanged#1"
 
@@ -62,6 +65,7 @@ enum
 	CMI_BLOCK,
 	CMI_UNBLOCK,
 	CMI_JOIN_GAME,
+	CMI_JOIN_CHAT,
 	CMI_MAX   // this item shall be the last one
 };
 
@@ -113,11 +117,16 @@ class CSteamProto : public PROTO<CSteamProto>
 		friend class CSteamProto;
 		CSteamProto &m_proto;
 
-		CTimer m_heartBeat, m_deleteMsg;
+		CTimer m_heartBeat, m_deleteMsg, m_loginPoll;
 
 		void OnHeartBeat(CTimer *)
 		{
 			m_proto.SendHeartBeat();
+		}
+
+		void OnLoginPoll(CTimer *)
+		{
+			m_proto.SendPollRequest();
 		}
 
 		void OnDeleteMsg(CTimer *)
@@ -127,11 +136,13 @@ class CSteamProto : public PROTO<CSteamProto>
 
 		CProtoImpl(CSteamProto &pro) :
 			m_proto(pro),
-			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(this) + 1),
-			m_deleteMsg(Miranda_GetSystemWindow(), UINT_PTR(this) + 2)
+			m_heartBeat(Miranda_GetSystemWindow(), UINT_PTR(&m_heartBeat)),
+			m_deleteMsg(Miranda_GetSystemWindow(), UINT_PTR(&m_deleteMsg)),
+			m_loginPoll(Miranda_GetSystemWindow(), UINT_PTR(&m_loginPoll))
 		{
 			m_heartBeat.OnEvent = Callback(this, &CProtoImpl::OnHeartBeat);
 			m_deleteMsg.OnEvent = Callback(this, &CProtoImpl::OnDeleteMsg);
+			m_loginPoll.OnEvent = Callback(this, &CProtoImpl::OnLoginPoll);
 		}
 	}
 		m_impl;
@@ -189,6 +200,8 @@ class CSteamProto : public PROTO<CSteamProto>
 	void SendPollRequest();
 
 	// login
+	time_t m_iPollStartTime;
+
 	bool IsOnline();
 
 	void Login();
@@ -232,11 +245,16 @@ class CSteamProto : public PROTO<CSteamProto>
 	void SendGetChatsRequest();
 	void OnGetMyChats(const CChatRoomGetMyChatRoomGroupsResponse &pResponse, const CMsgProtoBufHeader &hdr);
 
+	void OnGotClanInfo(const CMsgClientClanState &reply, const CMsgProtoBufHeader &hdr);
+
 	void SendGetChatHistory(MCONTACT hContact, uint32_t iLastMsgId);
 	void OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &reply, const CMsgProtoBufHeader &hdr);
 
+	void OnChatChanged(const ChatRoomClientNotifyChatGroupUserStateChangedNotification &reply, const CMsgProtoBufHeader &hdr);
+	void ProcessGroupChat(const CChatRoomGetChatRoomGroupSummaryResponse *pGroup);
+	void LeaveGroupChat(int64_t chatGroupId);
+
 	void OnGetChatMessage(const CChatRoomIncomingChatMessageNotification &reply, const CMsgProtoBufHeader &hdr);
-	void OnLeftChat(const CChatRoomLeaveChatRoomGroupResponse &reply, const CMsgProtoBufHeader &hdr);
 
 	INT_PTR __cdecl SvcLeaveChat(WPARAM, LPARAM);
 
@@ -294,7 +312,6 @@ class CSteamProto : public PROTO<CSteamProto>
 	void OnGotHistoryMessages(const CMsgClientChatGetFriendMessageHistoryResponse &reply, const CMsgProtoBufHeader &hdr);
 
 	// menus
-	static int hChooserMenu;
 	static HGENMENU contactMenuItems[CMI_MAX];
 
 	INT_PTR __cdecl AuthRequestCommand(WPARAM, LPARAM);
@@ -302,7 +319,8 @@ class CSteamProto : public PROTO<CSteamProto>
 
 	INT_PTR __cdecl BlockCommand(WPARAM, LPARAM);
 	INT_PTR __cdecl UnblockCommand(WPARAM, LPARAM);
-	INT_PTR __cdecl JoinToGameCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl JoinGameCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl JoinChatCommand(WPARAM, LPARAM);
 
 	INT_PTR __cdecl OpenBlockListCommand(WPARAM, LPARAM);
 

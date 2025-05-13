@@ -250,10 +250,6 @@ class CSSMainOptDlg : public CSSOptionsBaseDlg
 		else profiles.AddString(TranslateT("default"));
 		profiles.SetCurSel(defProfile);
 
-		chkSetDocked.Enable(db_get_b(0, MODULE_CLIST, SETTING_TOOLWINDOW, 1));
-		if (!chkSetDocked.Enabled())
-			chkSetDocked.SetState(false);
-
 		int val = SSPlugin.getByte(SETTING_WINSTATE, SETTING_STATE_NORMAL);
 		SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_RESETCONTENT, 0, 0);
 
@@ -276,7 +272,7 @@ class CSSMainOptDlg : public CSSOptionsBaseDlg
 	}
 
 	CCtrlButton btnShowCmdl;
-	CCtrlCheck chkSetProfile, chkShowDialog, chkSetWinSize, chkSetWinState, chkSetWinLocation, chkSetDocked;
+	CCtrlCheck chkSetProfile, chkShowDialog, chkSetWinSize, chkSetWinState, chkSetWinLocation;
 	CCtrlCombo profiles;
 	CTimer timer;
 
@@ -286,7 +282,6 @@ public:
 		timer(this, 10),
 		profiles(this, IDC_PROFILE),
 		btnShowCmdl(this, IDC_SHOWCMDL),
-		chkSetDocked(this, IDC_SETDOCKED),
 		chkSetProfile(this, IDC_SETPROFILE),
 		chkShowDialog(this, IDC_SHOWDIALOG),
 		chkSetWinSize(this, IDC_SETWINSIZE),
@@ -297,7 +292,6 @@ public:
 
 		timer.OnEvent = Callback(this, &CSSMainOptDlg::onTimer);
 
-		chkSetDocked.OnChange = Callback(this, &CSSMainOptDlg::onChange_Docked);
 		chkSetProfile.OnChange = Callback(this, &CSSMainOptDlg::onChange_SetProfile);
 		chkShowDialog.OnChange = Callback(this, &CSSMainOptDlg::onChange_ShowDialog);
 		chkSetWinSize.OnChange = Callback(this, &CSSMainOptDlg::onChange_SetWinSize);
@@ -312,7 +306,6 @@ public:
 		CheckDlgButton(m_hwnd, IDC_SHOWDIALOG, SSPlugin.getByte(SETTING_SHOWDIALOG, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SETWINSTATE, SSPlugin.getByte(SETTING_SETWINSTATE, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SETWINLOCATION, SSPlugin.getByte(SETTING_SETWINLOCATION, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SETDOCKED, SSPlugin.getByte(SETTING_SETDOCKED, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SETWINSIZE, SSPlugin.getByte(SETTING_SETWINSIZE, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_OFFLINECLOSE, SSPlugin.getByte(SETTING_OFFLINECLOSE, 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_AUTODIAL, SSPlugin.getByte(SETTING_AUTODIAL, 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -323,22 +316,6 @@ public:
 		SetDlgItemInt(m_hwnd, IDC_YPOS, SSPlugin.getWord(SETTING_YPOS, 0), TRUE);
 		SetDlgItemInt(m_hwnd, IDC_WIDTH, SSPlugin.getWord(SETTING_WIDTH, 0), FALSE);
 		SetDlgItemInt(m_hwnd, IDC_HEIGHT, SSPlugin.getWord(SETTING_HEIGHT, 0), FALSE);
-
-		int val = SSPlugin.getByte(SETTING_DOCKED, DOCKED_NONE);
-		int item = SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_ADDSTRING, 0, (LPARAM)TranslateT("Left"));
-		SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETITEMDATA, (WPARAM)item, (LPARAM)DOCKED_LEFT);
-		if (val == DOCKED_LEFT)
-			SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETCURSEL, (WPARAM)item, 0);
-
-		item = SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_ADDSTRING, 0, (LPARAM)TranslateT("Right"));
-		SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETITEMDATA, (WPARAM)item, (LPARAM)DOCKED_RIGHT);
-		if (val == DOCKED_RIGHT)
-			SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETCURSEL, (WPARAM)item, 0);
-
-		item = SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_ADDSTRING, 0, (LPARAM)TranslateT("None"));
-		SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETITEMDATA, (WPARAM)item, (LPARAM)DOCKED_NONE);
-		if (val == DOCKED_NONE)
-			SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_SETCURSEL, (WPARAM)item, 0);
 
 		ReinitProfiles();
 		timer.Start(100);
@@ -364,12 +341,6 @@ public:
 		if (bChecked) {
 			int val = (int)SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_GETCURSEL, 0, 0), 0);
 			SSPlugin.setByte(SETTING_WINSTATE, (uint8_t)val);
-		}
-		
-		SSPlugin.setByte(SETTING_SETDOCKED, bChecked = chkSetDocked.GetState());
-		if (bChecked) {
-			int val = (int)SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_GETCURSEL, 0, 0), 0);
-			SSPlugin.setByte(SETTING_DOCKED, (uint8_t)val);
 		}
 		
 		SSPlugin.setByte(SETTING_SETWINLOCATION, bChecked = chkSetWinLocation.GetState());
@@ -436,11 +407,6 @@ public:
 		bool bChecked = chkSetWinSize.GetState();
 		EnableWindow(GetDlgItem(m_hwnd, IDC_WIDTH), bChecked);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_HEIGHT), !db_get_b(0, MODULE_CLUI, SETTING_AUTOSIZE, 0) && bChecked);
-	}
-
-	void onChange_Docked(CCtrlCheck*)
-	{
-		EnableWindow(GetDlgItem(m_hwnd, IDC_DOCKED), chkSetDocked.GetState());
 	}
 
 	void onTimer(CTimer*)

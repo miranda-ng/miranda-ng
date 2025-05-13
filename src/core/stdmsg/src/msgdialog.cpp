@@ -47,7 +47,6 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact) :
 		m_iSplitterX = g_Settings.iSplitterX;
 		m_splitterX.OnChange = Callback(this, &CMsgDialog::onSplitterX);
 
-		m_btnFilter.OnClick = Callback(this, &CMsgDialog::onClick_Filter);
 		m_btnNickList.OnClick = Callback(this, &CMsgDialog::onClick_NickList);
 	}
 
@@ -261,24 +260,6 @@ void CMsgDialog::OnActivate()
 	}
 	
 	SetFocus(m_message.GetHwnd());
-}
-
-void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
-{
-	if (!pButton->Enabled())
-		return;
-
-	m_bFilterEnabled = !m_bFilterEnabled;
-	UpdateFilterButton();
-
-	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
-		ShowFilterMenu();
-	else {
-		if (m_hwndFilter)
-			SendMessage(m_hwndFilter, WM_CLOSE, 0, 0);
-
-		RedrawLog();
-	}
 }
 
 void CMsgDialog::onClick_NickList(CCtrlButton *pButton)
@@ -766,11 +747,11 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (!m_message.SendMsg(EM_CANREDO, 0, 0))
 				EnableMenuItem(mwpd.hMenu, IDM_REDO, MF_BYCOMMAND | MF_GRAYED);
 
-			if (!m_message.SendMsg(EM_CANPASTE, 0, 0)) {
-				if (!IsClipboardFormatAvailable(CF_HDROP) && !IsClipboardFormatAvailable(CF_BITMAP))
+			if (!m_message.SendMsg(EM_CANPASTE, 0, 0))
+				if (!IsClipboardFormatAvailable(CF_HDROP) && !IsClipboardFormatAvailable(CF_BITMAP)) {
 					EnableMenuItem(mwpd.hMenu, IDM_PASTE, MF_BYCOMMAND | MF_GRAYED);
-				EnableMenuItem(mwpd.hMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
-			}
+					EnableMenuItem(mwpd.hMenu, IDM_PASTESEND, MF_BYCOMMAND | MF_GRAYED);
+				}
 
 			if (lParam == 0xFFFFFFFF) {
 				m_message.SendMsg(EM_POSFROMCHAR, (WPARAM)&mwpd.pt, sel.cpMax);

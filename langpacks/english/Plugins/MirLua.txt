@@ -25,7 +25,7 @@
 [Common scripts]
 ;file \plugins\MirLua\src\plugin.cpp
 [Services]
-[C libs folder]
+[C Libs Folder]
 [Scripts folder]
 ;file \plugins\MirLua\src\stdafx.h
 [MirLua]

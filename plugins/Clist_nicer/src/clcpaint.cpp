@@ -787,7 +787,7 @@ bgskipped:
 
 	pi_avatar = !dat->bisEmbedded && type == CLCIT_CONTACT && (contact->cFlags & ECF_AVATAR) && contact->ace != nullptr && !(contact->ace->dwFlags & AVS_HIDEONCLIST);
 
-	//checkboxes
+	// checkboxes
 	if (checkboxWidth) {
 		HANDLE hTheme = nullptr;
 		if (IS_THEMED)

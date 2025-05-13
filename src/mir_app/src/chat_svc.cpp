@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 CMOption<bool> Chat::bShowNicklist(CHAT_MODULE, "ShowNicklist", true);
+CMOption<bool> Chat::bShowFormatting(CHAT_MODULE, "ShowFormatting", false);  // Hidden option
 CMOption<bool> Chat::bFilterEnabled(CHAT_MODULE, "FilterEnabled", false);
 CMOption<bool> Chat::bTopicOnClist(CHAT_MODULE, "TopicOnClist", false);
 CMOption<bool> Chat::bPopupOnJoin(CHAT_MODULE, "PopupOnJoin", false);
@@ -31,7 +32,6 @@ CMOption<bool> Chat::bUseGroup(CHAT_MODULE, "UseGroup", true);
 CMOption<bool> Chat::bDoubleClick4Privat(CHAT_MODULE, "DoubleClick4Privat", false);
 CMOption<bool> Chat::bShowContactStatus(CHAT_MODULE, "ShowContactStatus", true);
 CMOption<bool> Chat::bContactStatusFirst(CHAT_MODULE, "ContactStatusFirst", false);
-CMOption<bool> Chat::bEnableCustomLogs(SRMM_MODULE, "EnableCustomLogs", false);
 
 CMOption<bool> Chat::bFlashWindow(CHAT_MODULE, "FlashWindow", false);
 CMOption<bool> Chat::bFlashWindowHighlight(CHAT_MODULE, "FlashWindowHighlight", false);

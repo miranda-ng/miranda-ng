@@ -123,8 +123,6 @@ void InitClistCore()
 
 	g_clistApi.pfnSetHideOffline = fnSetHideOffline;
 
-	g_clistApi.pfnDocking_ProcessWindowMessage = fnDocking_ProcessWindowMessage;
-
 	g_clistApi.pfnGetIconFromStatusMode = fnGetIconFromStatusMode;
 	g_clistApi.pfnGetWindowVisibleState = fnGetWindowVisibleState;
 	g_clistApi.pfnIconFromStatusMode = fnIconFromStatusMode;

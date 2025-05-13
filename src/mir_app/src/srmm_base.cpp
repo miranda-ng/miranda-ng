@@ -44,8 +44,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT h
 
 	m_btnColor(this, IDC_SRMM_COLOR),
 	m_btnBkColor(this, IDC_SRMM_BKGCOLOR),
-	m_btnBold(this, IDC_SRMM_BOLD),
 
+	m_btnBold(this, IDC_SRMM_BOLD),
 	m_btnItalic(this, IDC_SRMM_ITALICS),
 	m_btnUnderline(this, IDC_SRMM_UNDERLINE),
 	m_btnStrikeout(this, IDC_SRMM_STRIKEOUT),
@@ -61,6 +61,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT h
 	m_btnBkColor.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BkColor);
 	m_btnBold.OnClick = m_btnItalic.OnClick = m_btnUnderline.OnClick = m_btnStrikeout.OnClick = Callback(this, &CSrmmBaseDialog::onClick_BIU);
 
+	m_btnFilter.OnClick = Callback(this, &CSrmmBaseDialog::onClick_Filter);
 	m_btnHistory.OnClick = Callback(this, &CSrmmBaseDialog::onClick_History);
 	m_btnChannelMgr.OnClick = Callback(this, &CSrmmBaseDialog::onClick_ChanMgr);
 
@@ -546,7 +547,10 @@ bool CSrmmBaseDialog::OnInitDialog()
 	// three buttons below are initiated inside this call, so button creation must precede subclassing
 	Srmm_CreateToolbarIcons(this, isChat() ? BBBF_ISCHATBUTTON : BBBF_ISIMBUTTON);
 
-	m_bSendFormat = ((CallContactService(m_hContact, PS_GETCAPS, PFLAGNUM_4) & PF4_SERVERFORMATTING) != 0);
+	if (Chat::bShowFormatting)
+		m_bSendFormat = true;
+	else
+		m_bSendFormat = ((CallContactService(m_hContact, PS_GETCAPS, PFLAGNUM_4) & PF4_SERVERFORMATTING) != 0);
 	if (!m_bSendFormat) {
 		m_btnBold.Disable();
 		m_btnItalic.Disable();
@@ -982,6 +986,24 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 	if (IsDlgButtonChecked(m_hwnd, IDC_SRMM_STRIKEOUT))
 		cf.dwEffects |= CFM_STRIKEOUT;
 	m_message.SendMsg(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
+}
+
+void CSrmmBaseDialog::onClick_Filter(CCtrlButton *pButton)
+{
+	if (!pButton->Enabled())
+		return;
+
+	m_bFilterEnabled = !m_bFilterEnabled;
+	UpdateFilterButton();
+
+	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
+		ShowFilterMenu();
+	else {
+		if (m_hwndFilter)
+			SendMessage(m_hwndFilter, WM_CLOSE, 0, 0);
+
+		RedrawLog();
+	}
 }
 
 void CSrmmBaseDialog::onClick_History(CCtrlButton *pButton)

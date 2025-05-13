@@ -226,7 +226,7 @@ struct CONTACTAVATARCHANGEDNOTIFICATION
 #define ME_AV_MYAVATARCHANGED "SV_Avatars/MyAvatarChanged"
 
 // Service to be called by protocols to report an avatar has changed. Some avatar changes
-// can be detected automatically, but some not (by now only Skype ones)
+// can be detected automatically, but some not
 // wParam = (char *)szProto (protocol for which a new avatar was set)
 // lParam = 0
 

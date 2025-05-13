@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 void CTeamsProto::OnTrouterSession(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
-	if (response->resultCode != 200) {
+	if (!response || response->resultCode != 200) {
 		LoginError();
 		return;
 	}
@@ -48,6 +48,8 @@ void CTeamsProto::OnTrouterInfo(MHttpResponse *response, AsyncHttpRequest *)
 	CMStringA szUrl = root["socketio"].as_mstring();
 	szUrl += "socket.io/1/";
 
+	CreateContactSubscription();
+
 	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_OTHER, szUrl, &CTeamsProto::OnTrouterSession);
 	pReq << CHAR_PARAM("v", "v4");
 
@@ -66,8 +68,8 @@ void CTeamsProto::OnTrouterInfo(MHttpResponse *response, AsyncHttpRequest *)
 
 void CTeamsProto::StartTrouter()
 {
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://go.trouter.teams.microsoft.com/v4/a", &CTeamsProto::OnTrouterInfo);
-	pReq->m_szUrl.AppendFormat("?epid=%s", m_szEndpoint.get());
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://go.trouter.skype.com/v4/a", &CTeamsProto::OnTrouterInfo);
+	pReq->m_szUrl.AppendFormat("?epid=%s", m_szEndpoint.c_str());
 	pReq->AddHeader("x-skypetoken", m_szSkypeToken);
 	pReq->flags |= NLHRF_NODUMPHEADERS;
 	PushRequest(pReq);
@@ -80,12 +82,19 @@ void CTeamsProto::StopTrouter()
 	m_impl.m_heartBeat.StopSafe();
 
 	if (m_ws) {
+		TRouterSendActive(false);
 		m_ws->terminate();
 		m_ws = nullptr;
 	}
 }
 
 void CTeamsProto::GatewayThread(void *)
+{
+	while (!m_isTerminated)
+		GatewayThreadWorker();
+}
+
+void CTeamsProto::GatewayThreadWorker()
 {
 	m_ws = nullptr;
 
@@ -108,55 +117,55 @@ void CTeamsProto::GatewayThread(void *)
 		else debugLogA("websocket connection failed: %d", pReply->resultCode);
 	}
 	else debugLogA("websocket connection failed");
-	
+
 	StopTrouter();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // TRouter send
 
-void CTeamsProto::TRouterSendJson(const JSONNode &node)
+void CTeamsProto::TRouterSendJson(const JSONNode &node, int iReplyTo)
 {
-	std::string szJson = "5:::" + node.write();
-	if (m_ws) {
-		m_ws->sendText(szJson.c_str());
+	CMStringA szJson;
+	if (iReplyTo == -1) {
+		iCommandId++;
+		szJson.Format("5:%d+::", iCommandId);
 	}
-}
+	else szJson.Format("5:%d+::", iReplyTo);
+	szJson += node.write().c_str();
 
-void CTeamsProto::TRouterSendJson(const char *szName, const JSONNode *node)
-{
-	JSONNode payload, args(JSON_ARRAY);
-	payload << CHAR_PARAM("name", szName);
-	if (node) {
-		args.set_name("args");
-		args << *node;
-		payload << args;
-	}
-
-	std::string szJson = payload.write();
 	if (m_ws)
 		m_ws->sendText(szJson.c_str());
 }
 
-void CTeamsProto::TRouterSendAuthentication()
+void CTeamsProto::TRouterSendJson(const char *szName, const JSONNode *node, int iReplyTo)
 {
-	JSONNode headers, params, payload;
+	JSONNode payload, args(JSON_ARRAY);
+	payload << CHAR_PARAM("name", szName);
+	if (node) {
+		if (mir_strcmp(node->name(), "args")) {
+			args.set_name("args");
+			args << *node;
+			payload << args;
+		}
+		else payload << *node;
+	}
 
-	headers.set_name("headers");
-	headers << CHAR_PARAM("X-Ms-Test-User", "False") << CHAR_PARAM("Authorization", "Bearer " + m_szAccessToken)
-		<< CHAR_PARAM("X-MS-Migration", "True");
+	CMStringA szJson;
+	if (iReplyTo == -1) {
+		iCommandId++;
+		szJson.Format("5:%d+::", iCommandId);
+	}
+	else szJson.Format("5:%d+::", iReplyTo);
+	szJson += payload.write().c_str();
 
-	params.set_name("connectparams");
-	for (auto &it : m_connectParams)
-		params << CHAR_PARAM(it->szName, it->szValue);
-
-	payload << headers << params;
-	TRouterSendJson(payload);
+	if (m_ws)
+		m_ws->sendText(szJson.c_str());
 }
 
 static char szSuffix[4] = { 'A', 'g', 'Q', 'w' };
 
-void CTeamsProto::TRouterSendActive(bool bActive)
+void CTeamsProto::TRouterSendActive(bool bActive, int iReplyTo)
 {
 	CMStringA cv;
 	srand(time(0));
@@ -167,14 +176,14 @@ void CTeamsProto::TRouterSendActive(bool bActive)
 
 	JSONNode payload;
 	payload << CHAR_PARAM("state", bActive ? "active" : "inactive") << CHAR_PARAM("cv", cv);
-	TRouterSendJson("user.activity", &payload);
+	TRouterSendJson("user.activity", &payload, iReplyTo);
 }
 
 void CTeamsProto::TRouterRegister()
 {
 	TRouterRegister("NextGenCalling", "DesktopNgc_2.3:SkypeNgc", m_szTrouterSurl + "NGCallManagerWin");
 	TRouterRegister("SkypeSpacesWeb", "SkypeSpacesWeb_2.3", m_szTrouterSurl + "SkypeSpacesWeb");
-	TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_1.9", m_szTrouterSurl);
+	TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_2.3", m_szTrouterSurl);
 }
 
 void CTeamsProto::TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath)
@@ -212,11 +221,14 @@ void WebSocket<CTeamsProto>::process(const uint8_t *buf, size_t cbLen)
 	p->TRouterProcess(payload);
 }
 
-static const char* skip3colons(const char *str)
+static const char* skip3colons(const char *str, int *packet_id = nullptr)
 {
 	int nColons = 3;
 	for (const char *p = str; *p; p++) {
 		if (*p == ':') {
+			if (packet_id && nColons == 3)
+				*packet_id = atoi(p+1);
+
 			if (--nColons == 0)
 				return p + 1;
 		}
@@ -228,8 +240,6 @@ void CTeamsProto::TRouterProcess(const char *str)
 {
 	switch (*str) {
 	case '1':
-		TRouterSendAuthentication();
-		TRouterSendActive(true);
 		TRouterRegister();
 		break;
 
@@ -240,27 +250,26 @@ void CTeamsProto::TRouterProcess(const char *str)
 			if (message) {
 				Netlib_Logf(m_hTrouterNetlibUser, "Got event:\n%s", message.write_formatted().c_str());
 
-				const JSONNode &resource = message["resource"];
-
-				std::string resourceType = message["resourceType"].as_string();
-				if (resourceType == "NewMessage")
-					ProcessNewMessage(resource);
-				else if (resourceType == "UserPresence")
-					ProcessUserPresence(resource);
-				else if (resourceType == "EndpointPresence")
-					ProcessEndpointPresence(resource);
-				else if (resourceType == "ConversationUpdate")
-					ProcessConversationUpdate(resource);
-				else if (resourceType == "ThreadUpdate")
-					ProcessThreadUpdate(resource);
+				for (auto &pkt : message) {
+					if (!mir_strcmp(pkt.name(), "presence")) {
+						for (auto &it : pkt)
+							ProcessUserPresence(it);
+					}
+				}
 			}
+
+			JSONNode reply, &old = packet["headers"], headers; headers.set_name("headers");
+			headers << WCHAR_PARAM("MS-CV", old["MS-CV"].as_mstring()) << old["trouter-request"] << old["trouter-client"];
+			reply << WCHAR_PARAM("id", packet["id"].as_mstring()) << INT_PARAM("status", 200) << headers << CHAR_PARAM("body", "");
+			if (m_ws)
+				m_ws->sendText(("3:::" + reply.write()).c_str());
 		}
 		break;
 	
 	case '5':
-		if (auto root = JSONNode::parse(skip3colons(str))) {
+		if (auto root = JSONNode::parse(skip3colons(str, &iCommandId))) {
 			std::string szName(root["name"].as_string());
-			ProcessServerMessage(szName, root["args"]);
+			ProcessServerMessage(szName, iCommandId, root["args"]);
 		}
 		break;
 	}
@@ -334,33 +343,39 @@ void CTeamsProto::ProcessUserPresence(const JSONNode &node)
 {
 	debugLogA(__FUNCTION__);
 
-	std::string selfLink = node["selfLink"].as_string();
-	std::string status = node["availability"].as_string();
-	CMStringA skypename = UrlToSkypeId(selfLink.c_str());
+	CMStringA skypename = node["mri"].as_mstring();
+	auto &presence = node["presence"];
+	std::string status = presence["availability"].as_string();
 
 	if (!skypename.IsEmpty()) {
 		if (IsMe(skypename)) {
-			int iNewStatus = SkypeToMirandaStatus(status.c_str());
-			if (iNewStatus == ID_STATUS_OFFLINE) return;
+			int iNewStatus = TeamsToMirandaStatus(status.c_str());
+			if (iNewStatus == ID_STATUS_OFFLINE)
+				return;
+			
 			int old_status = m_iStatus;
 			m_iDesiredStatus = iNewStatus;
 			m_iStatus = iNewStatus;
 			if (old_status != iNewStatus)
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, iNewStatus);
 		}
-		else {
-			MCONTACT hContact = FindContact(skypename);
-			if (hContact != NULL)
-				SetContactStatus(hContact, SkypeToMirandaStatus(status.c_str()));
+		else if (MCONTACT hContact = FindContact(skypename)) {
+			SetContactStatus(hContact, TeamsToMirandaStatus(status.c_str()));
+			if (auto &p = presence["lastActiveTime"])
+				setDword(hContact, "LastSeen", Utils_IsoToUnixTime(p.as_string().c_str()));
+			if (auto &p = presence["deviceType"])
+				setWString(hContact, "MirVer", L"Teams (" + p.as_mstring() + L")");
 		}
 	}
 }
 
-void CTeamsProto::ProcessServerMessage(const std::string &szName, const JSONNode&)
+void CTeamsProto::ProcessServerMessage(const std::string &szName, int packetId, const JSONNode &args)
 {
-	if (szName == "trouter.message_loss") {
-		TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_1.9", m_szTrouterSurl);
-	}
+	if (szName == "trouter.message_loss")
+		TRouterSendJson("trouter.processed_message_loss", &args, packetId);
+
+	else if (szName == "trouter.connected")
+		TRouterSendActive(true, packetId);
 }
 
 void CTeamsProto::ProcessConversationUpdate(const JSONNode &) {}
