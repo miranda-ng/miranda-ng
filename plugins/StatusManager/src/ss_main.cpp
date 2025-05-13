@@ -428,15 +428,6 @@ void StartupStatusLoad()
 	if (SSPlugin.getByte(SETTING_SETPROFILE, 1) || SSPlugin.getByte(SETTING_OFFLINECLOSE, 0))
 		db_set_w(0, "CList", "Status", (uint16_t)ID_STATUS_OFFLINE);
 
-	// docking
-	if (SSPlugin.getByte(SETTING_SETDOCKED, 0)) {
-		int docked = SSPlugin.getByte(SETTING_DOCKED, DOCKED_NONE);
-		if (docked == DOCKED_LEFT || docked == DOCKED_RIGHT)
-			docked = -docked;
-
-		db_set_b(0, MODULE_CLIST, SETTING_DOCKED, (uint8_t)docked);
-	}
-
 	// Create service functions; the get functions are created here; they don't rely on commonstatus
 	hServices[0] = CreateServiceFunction(MS_SS_GETPROFILE, SrvGetProfile);
 	hServices[1] = CreateServiceFunction(MS_SS_GETPROFILECOUNT, GetProfileCount);
