@@ -854,20 +854,20 @@ void NewstoryListData::Paint(simpledib::dib &dib)
 			// Finished icon
 			if (pItem->m_bOfflineDownloaded != 0) {
 				if (pItem->completed())
-					DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
+					DrawIconEx(dib, cachedWindowWidth - (xRight = 18), yPos, g_plugin.getIcon(IDI_OK), 16, 16, 0, 0, DI_NORMAL);
 				else
 					bDrawProgress = true;
 			}
 
 			// Delivered & remote read icons
 			if (pItem->m_bRemoteRead)
-				DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_REMOTEREAD), 16, 16, 0, 0, DI_NORMAL);
+				DrawIconEx(dib, cachedWindowWidth - (xRight = 18), yPos, g_plugin.getIcon(IDI_REMOTEREAD), 16, 16, 0, 0, DI_NORMAL);
 			else if (pItem->m_bDelivered)
-				DrawIconEx(dib, cachedWindowWidth - (xRight = 20), yPos, g_plugin.getIcon(IDI_DELIVERED), 16, 16, 0, 0, DI_NORMAL);
+				DrawIconEx(dib, cachedWindowWidth - (xRight = 18), yPos, g_plugin.getIcon(IDI_DELIVERED), 16, 16, 0, 0, DI_NORMAL);
 
 			// Edited icon
 			if (pItem->dbe.bEdited) {
-				xRight += 20;
+				xRight += 18;
 				DrawIconEx(dib, cachedWindowWidth - xRight, yPos, g_plugin.getIcon(IDI_SENDMSG), 16, 16, 0, 0, DI_NORMAL);
 			}
 		}
