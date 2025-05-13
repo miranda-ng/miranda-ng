@@ -301,7 +301,6 @@
 #define IDC_AVATAR_SIZE_PIXELS3         1806
 #define IDC_LAYERENGINE                 1807
 #define IDC_SNAPTOEDGES                 1808
-#define IDC_DOCKTOSIDES                 1809
 #define IDC_AVATAR_OVERLAY_ICON_NORMAL  1811
 #define IDC_EVENTAREA_NONE              1811
 #define IDC_AVATAR_OVERLAY_ICON_PROTOCOL 1812

@@ -746,7 +746,6 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 		SendDlgItemMessage(hwndDlg, IDC_MINSIZESPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "MinSizeHeight", SETTING_MINSIZEHEIGHT_DEFAULT));
 		CheckDlgButton(hwndDlg, IDC_AUTOSIZEUPWARD, db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT));
 		CheckDlgButton(hwndDlg, IDC_SNAPTOEDGES, db_get_b(0, "CLUI", "SnapToEdges", SETTING_SNAPTOEDGES_DEFAULT));
-		CheckDlgButton(hwndDlg, IDC_DOCKTOSIDES, db_get_b(0, "CLUI", "DockToSides", SETTING_DOCKTOSIDES_DEFAULT));
 
 		CheckDlgButton(hwndDlg, IDC_EVENTAREA_NONE, db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 0);
 		CheckDlgButton(hwndDlg, IDC_EVENTAREA, db_get_b(0, "CLUI", "EventArea", SETTING_EVENTAREAMODE_DEFAULT) == 1);
@@ -864,8 +863,6 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			db_set_b(0, "CLUI", "MinSizeHeight", (uint8_t)GetDlgItemInt(hwndDlg, IDC_MINSIZEHEIGHT, nullptr, FALSE));
 			db_set_b(0, "CLUI", "AutoSizeUpward", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZEUPWARD));
 			db_set_b(0, "CLUI", "SnapToEdges", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SNAPTOEDGES));
-
-			db_set_b(0, "CLUI", "DockToSides", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DOCKTOSIDES));
 
 			db_set_b(0, "CLUI", "EventArea",
 				(uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_EVENTAREA_ALWAYS) ? 2 : (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_EVENTAREA) ? 1 : 0));
