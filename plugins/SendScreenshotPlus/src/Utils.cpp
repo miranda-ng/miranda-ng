@@ -44,9 +44,9 @@ void ComboBox_SelectItem(HWND hCombo, LPARAM data)
 
 static BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC, LPRECT, LPARAM dwData)
 {
-	MONITORS* monitors = (MONITORS*)dwData;
+	MONITORS *monitors = (MONITORS *)dwData;
 	++monitors->count;
-	monitors->info = (MONITORINFOEX*)mir_realloc(monitors->info, sizeof(MONITORINFOEX)*monitors->count);
+	monitors->info = (MONITORINFOEX *)mir_realloc(monitors->info, sizeof(MONITORINFOEX) * monitors->count);
 	monitors->info[monitors->count - 1].cbSize = sizeof(MONITORINFOEX);
 	if (!GetMonitorInfo(hMonitor, (LPMONITORINFO)(monitors->info + monitors->count - 1)))
 		return FALSE; // stop enumeration if error
@@ -54,7 +54,7 @@ static BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC, LPRECT, LPARAM 
 	return TRUE;
 }
 
-size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen)
+size_t MonitorInfoEnum(MONITORINFOEX *&myMonitors, RECT &virtualScreen)
 {
 	MONITORS tmp = { 0, nullptr };
 	if (EnumDisplayMonitors(nullptr, nullptr, MonitorInfoEnumProc, (LPARAM)&tmp)) {
@@ -65,29 +65,29 @@ size_t MonitorInfoEnum(MONITORINFOEX* &myMonitors, RECT &virtualScreen)
 		}
 		return tmp.count;
 	}
-	
+
 	mir_free(tmp.info);
 	return 0;
 }
 
-FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture = nullptr);
+FIBITMAP *CreateDIBFromDC(HDC hDC, const RECT *rect, HWND hCapture = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // capture window as FIBITMAP - caller must FreeImage_Unload(dib)
 
-FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
+FIBITMAP *CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 {
-	FIBITMAP* dib;
+	FIBITMAP *dib;
 	HWND hForegroundWin;
 	RECT rect; // cropping rect
 
 	if (!hCapture || !IsWindow(hCapture))
 		return nullptr;
-	
+
 	hForegroundWin = GetForegroundWindow(); // old foreground window
 	SetForegroundWindow(hCapture); // force target foreground
 	BringWindowToTop(hCapture); // bring it to top as well
-	
+
 	// redraw window to prevent runtime artifacts in picture
 	UpdateWindow(hCapture);
 
@@ -95,12 +95,12 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 	if (hParent && !IsChild(hParent, hCapture))
 		hParent = nullptr;
 	if (bIndirectCapture) {
-		intptr_t wastopmost = GetWindowLongPtr(hCapture, GWL_EXSTYLE)&WS_EX_TOPMOST;
+		intptr_t wastopmost = GetWindowLongPtr(hCapture, GWL_EXSTYLE) & WS_EX_TOPMOST;
 		if (!wastopmost)
 			SetWindowPos(hCapture, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		if (bClientArea) {
 			GetClientRect(hCapture, &rect);
-			ClientToScreen(hCapture, (POINT*)&rect);
+			ClientToScreen(hCapture, (POINT *)&rect);
 			rect.right += rect.left; rect.bottom += rect.top;
 		}
 		else
@@ -127,18 +127,18 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 		if (bClientArea) {
 			GetWindowRect(hCapture, &rect);
 			RECT rectCA; GetClientRect(hCapture, &rectCA);
-			ClientToScreen(hCapture, (POINT*)&rectCA);
+			ClientToScreen(hCapture, (POINT *)&rectCA);
 			rectCA.left = ABS(rectCA.left - rect.left);
 			rectCA.top = ABS(rectCA.top - rect.top);
 			rectCA.right += rectCA.left; rectCA.bottom += rectCA.top;
-			
+
 			// crop the window to ClientArea
-			FIBITMAP* dibClient = FreeImage_Copy(dib, rectCA.left, rectCA.top, rectCA.right, rectCA.bottom);
+			FIBITMAP *dibClient = FreeImage_Copy(dib, rectCA.left, rectCA.top, rectCA.right, rectCA.bottom);
 			FreeImage_Unload(dib);
 			dib = dibClient;
 		}
 	}
-	
+
 	// restore previous foreground window
 	if (hForegroundWin) {
 		SetForegroundWindow(hForegroundWin);
@@ -147,11 +147,11 @@ FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture)
 	return dib;
 }
 
-FIBITMAP* CaptureMonitor(const wchar_t* szDevice, const RECT* cropRect/*=NULL*/)
+FIBITMAP *CaptureMonitor(const wchar_t *szDevice, const RECT *cropRect/*=NULL*/)
 {
 	HDC hScrDC;
 	RECT rect;
-	
+
 	// get screen resolution
 	if (!szDevice) {
 		hScrDC = CreateDC(L"DISPLAY", nullptr, nullptr, nullptr);
@@ -172,13 +172,13 @@ FIBITMAP* CaptureMonitor(const wchar_t* szDevice, const RECT* cropRect/*=NULL*/)
 		if (cropRect->right < rect.right) rect.right = cropRect->right;
 		if (cropRect->bottom < rect.bottom) rect.bottom = cropRect->bottom;
 	}
-	
+
 	FIBITMAP *dib = CreateDIBFromDC(hScrDC, &rect);
 	ReleaseDC(nullptr, hScrDC);
 	return dib;
 }
 
-FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
+FIBITMAP *CreateDIBFromDC(HDC hDC, const RECT *rect, HWND hCapture/*=NULL*/)
 {
 	long width = rect->right - rect->left;
 	long height = rect->bottom - rect->top;
@@ -212,18 +212,18 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	SelectBitmap(hMaskDC, hMask);
 	HRGN hRgn = CreateRectRgn(0, 0, 0, 0);
 	if (hCapture && GetWindowRgn(hCapture, hRgn) == ERROR) {
-		if ((GetWindowLongPtr(hCapture, GWL_EXSTYLE)&WS_EX_LAYERED)) {
+		if ((GetWindowLongPtr(hCapture, GWL_EXSTYLE) & WS_EX_LAYERED)) {
 			uint8_t bAlpha = 0;
 			COLORREF crKey = 0x00000000;
 			DWORD dwFlags = 0;
 			if (GetLayeredWindowAttributes(hCapture, &crKey, &bAlpha, &dwFlags)) {
 				// per window transparency (like fading in a whole window)
-				if ((dwFlags&LWA_COLORKEY)) {
+				if ((dwFlags & LWA_COLORKEY)) {
 					SetBkColor(hMemDC, crKey);
 					BitBlt(hMaskDC, 0, 0, width, height, hMemDC, rect->left, rect->top, SRCCOPY);
 					bInvert = true;
 				}
-				else if ((dwFlags&LWA_ALPHA)) {
+				else if ((dwFlags & LWA_ALPHA)) {
 					bFixAlpha = false;
 				}
 			}
@@ -242,9 +242,9 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	}
 	DeleteObject(hRgn);
 	if (bFixAlpha) {
-		FIBITMAP* dibMask = FreeImage_CreateDIBFromHBITMAP(hMask);
+		FIBITMAP *dibMask = FreeImage_CreateDIBFromHBITMAP(hMask);
 		if (bInvert) FreeImage_Invert(dibMask);
-		FIBITMAP* dib8 = FreeImage_ConvertTo8Bits(dibMask);
+		FIBITMAP *dib8 = FreeImage_ConvertTo8Bits(dibMask);
 		// copy the dib8 alpha mask to dib32 main bitmap
 		FreeImage_SetChannel(dib, dib8, FICC_ALPHA);
 		FreeImage_Unload(dibMask);
@@ -253,14 +253,14 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	DeleteDC(hMaskDC);
 	DeleteObject(hMask);
 	DeleteObject(hBr);
-	
+
 	// clean up
 	DeleteDC(hMemDC);
 	DeleteObject(hBitmap);
 	if (!hDC)
 		ReleaseDC(nullptr, hScrDC);
 
-#ifdef _DEBUG
+	#ifdef _DEBUG
 	switch (FreeImage_GetImageType(dib)) {
 	case FIT_UNKNOWN:
 		OutputDebugStringA("FIBITMAP Type: FIT_UNKNOWN\r\n");
@@ -307,15 +307,15 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	}
 	BOOL inf = FreeImage_IsTransparent(dib);
 	OutputDebugStringA(inf ? "FIBITMAP Transparent: true\r\n" : "FIBITMAP Transparent: false\r\n");
-#endif
+	#endif
 	return dib;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* GetFileNameA(const wchar_t* pszPath)
+char *GetFileNameA(const wchar_t *pszPath)
 {
-	const wchar_t* slash = wcsrchr(pszPath, '\\');
+	const wchar_t *slash = wcsrchr(pszPath, '\\');
 	if (!slash) slash = wcsrchr(pszPath, '/');
 	if (slash)
 		return mir_u2a(slash + 1);
@@ -332,7 +332,7 @@ BOOL GetEncoderClsid(wchar_t *wchMimeType, CLSID &clsidEncoder)
 	BOOL bOk = FALSE;
 	Gdiplus::GetImageEncodersSize(&uiNum, &uiSize);
 	if (uiSize > 0) {
-		Gdiplus::ImageCodecInfo* pImageCodecInfo = (Gdiplus::ImageCodecInfo*)mir_alloc(uiSize);
+		Gdiplus::ImageCodecInfo *pImageCodecInfo = (Gdiplus::ImageCodecInfo *)mir_alloc(uiSize);
 		if (pImageCodecInfo) {
 			Gdiplus::GetImageEncoders(uiNum, uiSize, pImageCodecInfo);
 			for (UINT i = 0; i < uiNum; ++i) {
@@ -361,7 +361,7 @@ void SaveGIF(HBITMAP hBmp, const wchar_t *szFilename)
 		CLSID clsidEncoder;
 		if (GetEncoderClsid(L"image/gif", clsidEncoder)) {
 			LPWSTR pswFile = mir_wstrdup(szFilename);
-			pBitmap->Save((const wchar_t*)pswFile, &clsidEncoder, nullptr);
+			pBitmap->Save((const wchar_t *)pswFile, &clsidEncoder, nullptr);
 			mir_free(pswFile);
 		}
 		delete pBitmap;
@@ -385,7 +385,7 @@ void SaveTIF(HBITMAP hBmp, const wchar_t *szFilename)
 		CLSID EncCLSID;
 		if (GetEncoderClsid(L"image/tiff", EncCLSID)) {
 			//--- Create a 2-parameter array, for Compression and for Color Bit depth
-			Gdiplus::EncoderParameters* EncParams = (Gdiplus::EncoderParameters*) malloc(sizeof(Gdiplus::EncoderParameters) + 1 * sizeof(Gdiplus::EncoderParameter));
+			Gdiplus::EncoderParameters *EncParams = (Gdiplus::EncoderParameters *)malloc(sizeof(Gdiplus::EncoderParameters) + 1 * sizeof(Gdiplus::EncoderParameter));
 			//	Gdiplus::EncoderParameters pEncoderParameters;
 			//--- Use LZW Compression instead of Group 4, since it works for color and G4 doesn't
 			ULONG ulCompression = Gdiplus::EncoderValueCompressionLZW;
@@ -402,7 +402,7 @@ void SaveTIF(HBITMAP hBmp, const wchar_t *szFilename)
 			EncParams->Parameter[1].Value = &ulColorDepth;
 
 			LPWSTR pswFile = mir_wstrdup(szFilename);
-			stat = pBitmap->Save((const wchar_t*)pswFile, &EncCLSID, EncParams);
+			stat = pBitmap->Save((const wchar_t *)pswFile, &EncCLSID, EncParams);
 			mir_free(pswFile);
 			free(EncParams);
 		}

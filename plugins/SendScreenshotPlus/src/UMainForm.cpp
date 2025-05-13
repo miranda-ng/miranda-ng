@@ -118,7 +118,7 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 
 	CHandleMapping::iterator wnd;
 	if (msg == WM_INITDIALOG) {
-		wnd = _HandleMapping.insert(CHandleMapping::value_type(hWnd, reinterpret_cast<TfrmMain*>(lParam))).first;
+		wnd = _HandleMapping.insert(CHandleMapping::value_type(hWnd, reinterpret_cast<TfrmMain *>(lParam))).first;
 		wnd->second->m_hWnd = hWnd;
 		wnd->second->wmInitdialog(wParam, lParam);
 		return 0;
@@ -177,7 +177,7 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 int EnumCloudFileServices(const CFSERVICEINFO *serviceInfo, void *param)
 {
 	HWND hCtrl = (HWND)param;
-	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, serviceInfo->userName), new UPLOAD_INFO(SS_CLOUDFILE, (void*)serviceInfo->accountName));
+	ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, serviceInfo->userName), new UPLOAD_INFO(SS_CLOUDFILE, (void *)serviceInfo->accountName));
 	return 0;
 }
 
@@ -231,7 +231,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 
 		// get tab boundaries (required after 1st tab)
 		GetClientRect(m_hwndTab, &rcTab);
-		MapWindowPoints(m_hwndTab, m_hWnd, (POINT*)&rcTab, 2);
+		MapWindowPoints(m_hwndTab, m_hWnd, (POINT *)&rcTab, 2);
 		TabCtrl_AdjustRect(m_hwndTab, 0, &rcTab);
 		rcTab.bottom -= rcTab.top; rcTab.right -= rcTab.left;
 
@@ -331,13 +331,13 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 			m_opt_cboxSendBy = SS_IMAGESHACK;
 		}
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"ImageShack"), new UPLOAD_INFO(SS_IMAGESHACK));
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (30m)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)1));
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)4));
-		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), new UPLOAD_INFO(SS_UPLOADPIE, (void*)5));
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (30m)")), new UPLOAD_INFO(SS_UPLOADPIE, (void *)1));
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1d)")), new UPLOAD_INFO(SS_UPLOADPIE, (void *)4));
+		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Upload Pie (1w)")), new UPLOAD_INFO(SS_UPLOADPIE, (void *)5));
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, L"Imgur"), new UPLOAD_INFO(SS_IMGUR));
 
 		for (int i = 0; i < ComboBox_GetCount(hCtrl); i++) {
-			UPLOAD_INFO *p = (UPLOAD_INFO*)ComboBox_GetItemData(hCtrl, i);
+			UPLOAD_INFO *p = (UPLOAD_INFO *)ComboBox_GetItemData(hCtrl, i);
 			if (p && p->sendBy == m_opt_cboxSendBy) {
 				pDefault = p;
 				ComboBox_SetCurSel(hCtrl, i);
@@ -458,7 +458,7 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 			break;
 		case ID_cboxSendBy:
 			{
-				UPLOAD_INFO *upload = (UPLOAD_INFO*)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
+				UPLOAD_INFO *upload = (UPLOAD_INFO *)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 				m_opt_cboxSendBy = upload->sendBy;
 				cboxSendByChange(upload->param);
 			}
@@ -496,7 +496,7 @@ void TfrmMain::wmClose(WPARAM, LPARAM)
 	HWND hCtrl = GetDlgItem(m_hWnd, ID_cboxSendBy);
 	size_t count = ComboBox_GetCount(hCtrl);
 	for (size_t i = 0; i < count; i++) {
-		UPLOAD_INFO *ui = (UPLOAD_INFO*)ComboBox_GetItemData(hCtrl, i);
+		UPLOAD_INFO *ui = (UPLOAD_INFO *)ComboBox_GetItemData(hCtrl, i);
 		delete ui;
 	}
 	DestroyWindow(m_hWnd);
@@ -517,11 +517,11 @@ void TfrmMain::SetTargetWindow(HWND hwnd)
 	int len = GetWindowTextLength(m_hTargetWindow) + 1;
 	wchar_t *lpTitle;
 	if (len > 1) {
-		lpTitle = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
+		lpTitle = (wchar_t *)mir_alloc(len * sizeof(wchar_t));
 		GetWindowText(m_hTargetWindow, lpTitle, len);
 	}
 	else { // no WindowText present, use WindowClass
-		lpTitle = (wchar_t*)mir_alloc(64 * sizeof(wchar_t));
+		lpTitle = (wchar_t *)mir_alloc(64 * sizeof(wchar_t));
 		RealGetWindowClass(m_hTargetWindow, lpTitle, 64);
 	}
 	SetDlgItemText(m_hwndTabPage, ID_edtCaption, lpTitle);
@@ -535,7 +535,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 		static int primarymouse;
 		if (!m_hTargetHighlighter) {
 			primarymouse = GetSystemMetrics(SM_SWAPBUTTON) ? VK_RBUTTON : VK_LBUTTON;
-			m_hTargetHighlighter = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, (wchar_t*)g_clsTargetHighlighter, nullptr, WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
+			m_hTargetHighlighter = CreateWindowEx(WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW, (wchar_t *)g_clsTargetHighlighter, nullptr, WS_POPUP, 0, 0, 0, 0, nullptr, nullptr, g_plugin.getInst(), nullptr);
 			if (!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter, 0, 123, LWA_ALPHA);
 			SetSystemCursor(CopyCursor(GetIcon(ICO_TARGET)), OCR_IBEAM); // text cursor
@@ -565,7 +565,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 			RECT rect;
 			if (m_opt_chkClientArea) {
 				GetClientRect(hwnd, &rect);
-				ClientToScreen(hwnd, (POINT*)&rect);
+				ClientToScreen(hwnd, (POINT *)&rect);
 				rect.right = rect.left + rect.right;
 				rect.bottom = rect.top + rect.bottom;
 			}
@@ -589,9 +589,9 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 		return;
 	}
 	if (wParam == ID_chkTimed) { // Timer for Screenshot
-#ifdef _DEBUG
+		#ifdef _DEBUG
 		OutputDebugStringA("SS Bitmap Timer Start\r\n");
-#endif
+		#endif
 		if (!m_bCapture) { // only start once
 			if (m_Screenshot) {
 				FreeImage_Unload(m_Screenshot);
@@ -607,17 +607,17 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM)
 				break;
 			case 2: // edge case, existing local file
 				break;
-#ifdef _DEBUG
+				#ifdef _DEBUG
 			default:
 				OutputDebugStringA("SS Bitmap Timer Stop (no tabCapture)\r\n");
-#endif
+				#endif
 			}
 			m_bCapture = false;
 			if (m_Screenshot || m_opt_tabCapture == 2) { // @note : test without "if"
 				KillTimer(m_hWnd, ID_chkTimed);
-#ifdef _DEBUG
+				#ifdef _DEBUG
 				OutputDebugStringA("SS Bitmap Timer Stop (CaptureDone)\r\n");
-#endif
+				#endif
 				SendMessage(m_hWnd, UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 			}
 		}
@@ -869,7 +869,7 @@ void TfrmMain::cboxSendByChange(void *param)
 		m_cSend = new CSendFTPFile(m_hWnd, m_hContact, true);
 		break;
 	case SS_CLOUDFILE: // "CloudFile"
-		m_cSend = new CSendCloudFile(m_hWnd, m_hContact, false, (char*)param);
+		m_cSend = new CSendCloudFile(m_hWnd, m_hContact, false, (char *)param);
 		break;
 	case SS_IMAGESHACK: // "ImageShack"
 		m_cSend = new CSendHost_ImageShack(m_hWnd, m_hContact, true);

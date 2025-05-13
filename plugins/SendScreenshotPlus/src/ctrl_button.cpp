@@ -166,8 +166,8 @@ static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 	if ((ctl->dwStyle & MBS_FLAT) && ctl->hThemeToolbar) {
 		int state = IsWindowEnabled(ctl->hwnd)
 			? (ctl->stateId == PBS_NORMAL && ctl->defbutton
-			? PBS_DEFAULTED
-			: ctl->stateId)
+				? PBS_DEFAULTED
+				: ctl->stateId)
 			: PBS_DISABLED;
 		if (IsThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state))) {
 			if (SUCCEEDED(DrawThemeParentBackground(ctl->hwnd, hdcMem, rcClient)))
@@ -180,8 +180,8 @@ static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 		if (ctl->hThemeButton) {
 			int state = IsWindowEnabled(ctl->hwnd)
 				? (ctl->stateId == PBS_NORMAL && ctl->defbutton
-				? PBS_DEFAULTED
-				: ctl->stateId)
+					? PBS_DEFAULTED
+					: ctl->stateId)
 				: PBS_DISABLED;
 			if (IsThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state)) {
 				if (SUCCEEDED(DrawThemeParentBackground(ctl->hwnd, hdcMem, rcClient)))
@@ -291,7 +291,7 @@ static void __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 	}
 	else {
 		UINT uState = DFCS_BUTTONPUSH | ((ctl->stateId == PBS_HOT) ? DFCS_HOT : 0) | ((ctl->stateId == PBS_PRESSED) ? DFCS_PUSHED : 0);
-		if (ctl->defbutton&&ctl->stateId == PBS_NORMAL) uState |= DLGC_DEFPUSHBUTTON;
+		if (ctl->defbutton && ctl->stateId == PBS_NORMAL) uState |= DLGC_DEFPUSHBUTTON;
 		DrawFrameControl(hdcMem, rcClient, DFC_BUTTON, uState);
 		// Draw focus rectangle if button has focus
 		if (ctl->bFocus) {
@@ -568,40 +568,40 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		GetWindowText(bct->hwnd, szButton, _countof(szButton));
 		SetWindowText(bct->hwnd, TranslateW(szButton));
 		break;
-	
+
 	case WM_SETFOCUS: // set keybord bFocus and redraw
 		bct->bFocus = 1;
 		InvalidateRect(bct->hwnd, nullptr, TRUE);
 		break;
-	
+
 	case WM_KILLFOCUS: // kill bFocus and redraw
 		bct->bFocus = 0;
 		InvalidateRect(bct->hwnd, nullptr, TRUE);
 		break;
-	
+
 	case WM_WINDOWPOSCHANGED:
 		InvalidateRect(bct->hwnd, nullptr, TRUE);
 		break;
-	
+
 	case WM_ENABLE: // windows tells us to enable/disable
 		bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
 		InvalidateRect(bct->hwnd, nullptr, TRUE);
 		break;
-	
+
 	case WM_MOUSELEAVE: // faked by the WM_TIMER
 		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
 			bct->stateId = PBS_NORMAL;
 			InvalidateRect(bct->hwnd, nullptr, TRUE);
 		}
 		break;
-	
+
 	case WM_LBUTTONDOWN:
 		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
 			bct->stateId = PBS_PRESSED;
 			InvalidateRect(bct->hwnd, nullptr, TRUE);
 		}
 		break;
-	
+
 	case WM_LBUTTONUP:
 		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
 			uint8_t bPressed = bct->stateId == PBS_PRESSED;
@@ -618,7 +618,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			InvalidateRect(bct->hwnd, nullptr, TRUE);
 		}
 		break;
-	
+
 	case WM_MOUSEMOVE:
 		if (bct->stateId == PBS_NORMAL) {
 			bct->stateId = PBS_HOT;
@@ -627,7 +627,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 		// Call timer, used to start cheesy TrackMouseEvent faker
 		SetTimer(hwndBtn, BUTTON_POLLID, BUTTON_POLLDELAY, nullptr);
 		break;
-	
+
 	case WM_TIMER: // use a timer to check if they have did a mouseout
 		if (wParam == BUTTON_POLLID) {
 			RECT rc;

@@ -79,7 +79,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		TranslateDialogDefault(hwndDlg);
 		Window_SetIcon_IcoLib(hwndDlg, GetIconHandle(ICO_MAIN));
 		{
-			CSend *self = (CSend*)lParam;
+			CSend *self = (CSend *)lParam;
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, CMStringW(TranslateT("Resulting URL from\n")) + self->m_pszSendTyp);
 
 			SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)GetIconBtn(ICO_BTN_ARROWR));
@@ -165,7 +165,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			else len = GetDlgItemText(hwndDlg, edtID, tmp, _countof(tmp));
 
 			Utils_ClipboardCopy(MClipUnicode(CMStringW(tmp, (int)len + 1)));
-			
+
 			if (LOWORD(wParam) == IDOK)
 				DestroyWindow(hwndDlg);
 			return TRUE;
@@ -174,13 +174,13 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 	return FALSE;
 }
 
-void CSend::svcSendMsgExit(const char* szMessage)
+void CSend::svcSendMsgExit(const char *szMessage)
 {
 	if (m_bSilent) {
 		Exit(ACKRESULT_SUCCESS);
 		return;
 	}
-	
+
 	if (!m_hContact) {
 		if (!m_pszFileDesc)
 			m_pszFileDesc = mir_a2u(szMessage);
@@ -213,7 +213,7 @@ void CSend::svcSendMsgExit(const char* szMessage)
 
 	// start PSS_MESSAGE service
 	m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_MESSAGE, NULL, ptrA(mir_utf8encode(m_szEventMsg)));
-		
+
 	// check we actually got an ft handle back from the protocol
 	if (!m_hSend) {
 		Unhook();
@@ -230,19 +230,19 @@ void CSend::svcSendFileExit()
 	if (m_bSilent) {
 		Exit(ACKRESULT_SUCCESS); return;
 	}
-	
+
 	if (!m_hContact) {
 		Error(LPGENW("%s requires a valid contact!"), m_pszSendTyp);
 		Exit(ACKRESULT_FAILED); return;
 	}
-	
+
 	m_szEventMsg = _T2A(m_pszFile);
 
 	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 		m_szEventMsg.AppendChar(0);
 		m_szEventMsg.Append(_T2A(m_pszFileDesc));
 	}
-	
+
 	m_cbEventMsg = m_szEventMsg.GetLength() + 1;
 
 	// Сreate a HookEventObj on ME_PROTO_ACK
@@ -251,8 +251,8 @@ void CSend::svcSendFileExit()
 	}
 
 	// Start miranda PSS_FILE based on mir ver (T)
-	wchar_t* ppFile[2] = { nullptr, nullptr };
-	wchar_t* pDesc = mir_wstrdup(m_pszFileDesc);
+	wchar_t *ppFile[2] = { nullptr, nullptr };
+	wchar_t *pDesc = mir_wstrdup(m_pszFileDesc);
 	ppFile[0] = mir_wstrdup(m_pszFile);
 	ppFile[1] = nullptr;
 	m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_FILE, (WPARAM)pDesc, (LPARAM)ppFile);
@@ -271,8 +271,8 @@ void CSend::svcSendFileExit()
 
 int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 {
-	CSend* self = (CSend*)obj;
-	ACKDATA *ack = (ACKDATA*)lParam;
+	CSend *self = (CSend *)obj;
+	ACKDATA *ack = (ACKDATA *)lParam;
 	if (ack->hProcess != self->m_hSend)
 		return 0;
 
@@ -397,7 +397,7 @@ void CSend::Exit(unsigned int Result)
 			else MsgErr(nullptr, LPGENW("An unknown error has occurred."));
 		}
 	}
-	if (m_pszFile && *m_pszFile && m_bDeleteAfterSend && m_EnableItem&SS_DLG_DELETEAFTERSSEND) {
+	if (m_pszFile && *m_pszFile && m_bDeleteAfterSend && m_EnableItem & SS_DLG_DELETEAFTERSSEND) {
 		DeleteFile(m_pszFile), m_pszFile = nullptr;
 	}
 	if (m_bAsync)
@@ -409,20 +409,20 @@ void CSend::Exit(unsigned int Result)
 
 #define snprintf _snprintf
 
-const char* CSend::GetHTMLContent(char* str, const char* startTag, const char* endTag)
+const char *CSend::GetHTMLContent(char *str, const char *startTag, const char *endTag)
 {
-	char* begin = strstr(str, startTag);
+	char *begin = strstr(str, startTag);
 	if (!begin) return nullptr;
 	begin += mir_strlen(startTag) - 1;
 	for (; *begin != '>' && *begin; ++begin);
 	if (*begin) {
-		char* end = strstr(++begin, endTag);
+		char *end = strstr(++begin, endTag);
 		if (end) *end = 0;
 	}
 	return begin;
 }
 
-int CSend::HTTPFormCreate(MHttpRequest* nlhr, const char* url, HTTPFormData* frm, size_t frmNum)
+int CSend::HTTPFormCreate(MHttpRequest *nlhr, const char *url, HTTPFormData *frm, size_t frmNum)
 {
 	char boundary[16];
 	strcpy(boundary, "--M461C/");
@@ -447,7 +447,7 @@ int CSend::HTTPFormCreate(MHttpRequest* nlhr, const char* url, HTTPFormData* frm
 	nlhr->AddHeader("Content-Type", CMStringA("multipart/form-data; boundary=") + boundary);
 	nlhr->AddHeader("User-Agent", __USER_AGENT_STRING);
 	nlhr->AddHeader("Accept-Language", "en-us,en;q=0.8");
-	for (HTTPFormData* iter = frm, *end = frm + frmNum; iter != end; ++iter) {
+	for (HTTPFormData *iter = frm, *end = frm + frmNum; iter != end; ++iter) {
 		if (!(iter->flags & HTTPFF_HEADER))
 			break;
 		nlhr->AddHeader(iter->name, iter->value_str);
@@ -457,7 +457,7 @@ int CSend::HTTPFormCreate(MHttpRequest* nlhr, const char* url, HTTPFormData* frm
 	for (HTTPFormData *iter = frm, *end = frm + frmNum; iter != end; ++iter) {
 		if (iter->flags & HTTPFF_HEADER)
 			continue;
-		
+
 		str.AppendFormat("--%s", boundary);
 		str.Append("\r\nContent-Disposition: form-data; name=\"");
 
@@ -489,19 +489,24 @@ int CSend::HTTPFormCreate(MHttpRequest* nlhr, const char* url, HTTPFormData* frm
 			}
 			str.Append(mime);
 			str.Append("\r\n\r\n");
-			
+
 			/// add file content
 			long filesize = 0;
-			FILE *fp = fopen(iter->value_str, "rb");
+			Utf2T wszFileName(iter->value_str);
+			FILE *fp = _wfopen(wszFileName, L"rb");
 			if (fp) {
-				fseek(fp, 0, SEEK_END);
-				filesize = ftell(fp); fseek(fp, 0, SEEK_SET);
+				filesize = _filelength(fileno(fp));
 				ptrA buf((char *)mir_alloc(filesize));
 				if (fread(buf, 1, filesize, fp) != filesize) {
 					str.Append(buf, filesize);
 					fclose(fp), fp = nullptr;
 				}
-				else str.Append(buf, filesize);
+				else {
+					int iLen = str.GetLength();
+					str.Preallocate(iLen + filesize + 1000);
+					memcpy(str.GetBuffer() + iLen, buf, filesize);
+					str.ReleaseBufferSetLength(iLen + filesize);
+				}
 			}
 			if (!fp) {
 				Error(L"Error occurred when opening local file.\nAborting file upload...");
