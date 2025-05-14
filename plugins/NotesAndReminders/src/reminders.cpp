@@ -15,13 +15,9 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static bool EqualOrLess(const SYSTEMTIME &t1, const SYSTEMTIME &t2)
+static bool date2int(const SYSTEMTIME &t)
 {
-	if (t2.wYear > t1.wYear)
-		return false;
-	if (t2.wMonth > t1.wMonth)
-		return false;
-	return t1.wDay <= t2.wDay;
+	return (t.wYear * 1000 + t.wMonth) * 100 + t.wDay;
 }
 
 static void RemoveReminderSystemEvent(struct REMINDERDATA *p);
@@ -731,7 +727,7 @@ protected:
 
 			SYSTEMTIME tm;
 			GetSystemTime(&tm);
-			bool bTomorrow = EqualOrLess(pDate, tm) && (h * 60 + m) < (pDate.wHour * 60 + pDate.wMinute);
+			bool bTomorrow = date2int(tm) >= date2int(pDate) && (h * 60 + m) < (pDate.wHour * 60 + pDate.wMinute);
 
 			pDate.wHour = h;
 			pDate.wMinute = m;
