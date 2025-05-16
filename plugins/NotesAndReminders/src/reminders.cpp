@@ -15,7 +15,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static bool date2int(const SYSTEMTIME &t)
+static int date2int(const SYSTEMTIME &t)
 {
 	return (t.wYear * 1000 + t.wMonth) * 100 + t.wDay;
 }
