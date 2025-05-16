@@ -467,7 +467,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 			continue;
 
 		MCONTACT hContact = HContactFromJID(jid);
-		if (hContact == 0) // Received roster has a new JID.
+		if (hContact == 0 && !IsMyOwnJID(jid)) // Received roster has a new JID.
 			hContact = DBCreateContact(jid, nick, false, false); // Add the jid (with empty resource) to a Miranda's contact list.
 
 		JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
