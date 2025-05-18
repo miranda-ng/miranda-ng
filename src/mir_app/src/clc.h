@@ -48,7 +48,7 @@ extern OBJLIST<MenuProto> g_menuProtos;
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcidents.c */
-int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+int fnGetRowsPriorTo(ClcData *dat, ClcGroup *subgroup, int contactIndex);
 int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 
 ClcContact* fnFindItem(uint32_t dwItem, ClcContact *contact);

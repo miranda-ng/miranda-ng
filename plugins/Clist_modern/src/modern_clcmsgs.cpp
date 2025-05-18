@@ -196,7 +196,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 				}
 			}
 
-			dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, index);
+			dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, group, index);
 			Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		}
 		return 0;

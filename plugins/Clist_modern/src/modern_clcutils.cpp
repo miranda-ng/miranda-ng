@@ -649,7 +649,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 				int ccScanIndex = group->scanIndex;
 				for (; group; group = group->parent)
 					Clist_SetGroupExpand(hwnd, dat, group, 1);
-				return g_clistApi.pfnGetRowsPriorTo(&dat->list, ccGroup, ccScanIndex + SubCount);
+				return g_clistApi.pfnGetRowsPriorTo(dat, ccGroup, ccScanIndex + SubCount);
 			}
 			
 			if (cc->type == CLCIT_GROUP) {
@@ -682,7 +682,7 @@ int cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk)
 							Clist_SetGroupExpand(hwnd, dat, group, 1);
 						if (!cc->bSubExpanded)
 							ExpandMetaContact(hwnd, cc, dat);
-						return g_clistApi.pfnGetRowsPriorTo(&dat->list, ccGroup, ccScanIndex + SubCount + i + 1);
+						return g_clistApi.pfnGetRowsPriorTo(dat, ccGroup, ccScanIndex + SubCount + i + 1);
 					}
 				}
 			}

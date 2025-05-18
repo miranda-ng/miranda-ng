@@ -358,7 +358,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (hSelItem) {
 				ClcGroup *selgroup;
 				if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup))
-					dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+					dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 				else
 					dat->selection = -1;
 			}

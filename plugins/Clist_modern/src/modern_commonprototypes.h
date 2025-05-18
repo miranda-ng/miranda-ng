@@ -213,7 +213,7 @@ void     cliRebuildEntireList(HWND hwnd, ClcData *dat);
 void     cliRecalcScrollBar(HWND hwnd, ClcData *dat);
 int      cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
 int      cliFindRowByText(HWND hwnd, ClcData *dat, const wchar_t *text, int prefixOk);
-int      cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+int      cliGetRowsPriorTo(ClcData *dat, ClcGroup *subgroup, int contactIndex);
 int      cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact);
 int      cli_RemoveEvent(CListEvent *cle);
 void     cli_FreeContact(ClcContact*);

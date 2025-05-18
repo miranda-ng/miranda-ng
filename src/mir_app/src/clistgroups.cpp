@@ -432,17 +432,14 @@ MIR_APP_DLL(void) Clist_GroupSaveExpanded()
 
 MIR_APP_DLL(void) Clist_GroupRestoreExpanded()
 {
-	for (auto &it : arByIds) {
+	for (auto &it : arByIds)
 		it->bExpanded = it->bSaveExpanded;
-		it->save();
-	}
 }
 
 MIR_APP_DLL(int) Clist_GroupSetExpanded(MGROUP hGroup, int iNewState)
 {
 	if (auto *pGroup = FindGroup(hGroup - 1)) {
 		pGroup->bExpanded = iNewState != 0;
-		pGroup->save();
 		return 0;
 	}
 	

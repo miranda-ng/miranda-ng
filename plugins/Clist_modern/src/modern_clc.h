@@ -316,7 +316,6 @@ typedef struct tagOVERLAYICONINFO
 void  ClcOptionsChanged(void);
 
 // clcidents.c
-int   cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 int   cliGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 
 // clcitems.c
