@@ -503,7 +503,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (hSelItem) {
 				ClcGroup *selgroup;
 				if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup))
-					dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+					dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 				else
 					dat->selection = -1;
 			}
@@ -703,7 +703,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					case CLCIT_CONTACT:
 						if (group == &dat->list)
 							return 0;
-						dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, -1);
+						dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, group, -1);
 						goto LBL_MoveSelection;
 					}
 				}
@@ -895,9 +895,9 @@ LBL_MoveSelection:
 				Clist_SetGroupExpand(hwnd, dat, contact->group, -1);
 				if (dat->selection != -1) {
 					dat->selection =
-						g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+						g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 					if (dat->selection == -1)
-						dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, contact->group, -1);
+						dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, contact->group, -1);
 				}
 				g_clistApi.pfnInvalidateRect(hwnd, nullptr, FALSE);
 				UpdateWindow(hwnd);

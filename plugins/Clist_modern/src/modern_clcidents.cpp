@@ -24,8 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
+int cliGetRowsPriorTo(ClcData *dat, ClcGroup *subgroup, int contactIndex)
 {
+	auto *group = &dat->list;
 	int count = 0;
 	int subcontactscount = 0;
 	bool bMetaExpanding = db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT) != 0;

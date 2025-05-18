@@ -42,10 +42,11 @@ contains routines to convert between them.
 2->1: GetRowByIndex()
 */
 
-int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
+int fnGetRowsPriorTo(ClcData *dat, ClcGroup *subgroup, int contactIndex)
 {
 	int count = 0;
 
+	auto *group = &dat->list;
 	group->scanIndex = 0;
 	for (;;) {
 		if (group->scanIndex == group->cl.getCount()) {

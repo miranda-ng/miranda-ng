@@ -202,9 +202,9 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 	}
 
 	if (!selcontact->iSubNumber)
-		dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+		dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 	else {
-		dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact->subcontacts));
+		dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact->subcontacts));
 		if (dat->selection != -1)
 			dat->selection += selcontact->iSubNumber;
 	}

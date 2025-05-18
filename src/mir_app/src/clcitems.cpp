@@ -574,7 +574,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 		if (hSelItem) {
 			ClcGroup *selgroup;
 			if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup))
-				dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+				dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 		}
 
 		g_clistApi.pfnRecalcScrollBar(hwnd, dat);

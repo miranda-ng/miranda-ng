@@ -240,7 +240,7 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const wchar_
 				int foundindex;
 				for (; group; group = group->parent)
 					Clist_SetGroupExpand(hwnd, dat, group, 1);
-				foundindex = g_clistApi.pfnGetRowsPriorTo(&dat->list, contactGroup, contactScanIndex);
+				foundindex = g_clistApi.pfnGetRowsPriorTo(dat, contactGroup, contactScanIndex);
 				if (fReturnAsFound)
 					return foundindex;
 				else if (nLastFound != -1 && fSearchUp && foundindex == index)
@@ -508,7 +508,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 			}
 			else if (!contact->iSubNumber && contact->iSubAllocated > 0) {
 				if (changeGroupExpand == 1 && !contact->bSubExpanded) {
-					dat->selection = cliGetRowsPriorTo(&dat->list, group, -1);
+					dat->selection = cliGetRowsPriorTo(dat, group, -1);
 					selMoved = 1;
 				}
 				else if (changeGroupExpand == 1 && contact->bSubExpanded) {
@@ -540,7 +540,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 						ClcContact *contact2;
 						ClcGroup *group2;
 						if (Clist_FindItem(hwnd, dat, contact->hContact, &contact2, &group2)) {
-							int i = cliGetRowsPriorTo(&dat->list, group2, group2->cl.indexOf(contact2));
+							int i = cliGetRowsPriorTo(dat, group2, group2->cl.indexOf(contact2));
 							Clist_EnsureVisible(hwnd, dat, i + contact->iSubAllocated, 0);
 						}
 					}
@@ -551,7 +551,7 @@ static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM
 		else {
 			if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
 				if (group == &dat->list) { SetCapture(hwnd); return 0; }
-				dat->selection = cliGetRowsPriorTo(&dat->list, group, -1);
+				dat->selection = cliGetRowsPriorTo(dat, group, -1);
 				selMoved = 1;
 			}
 			else if (contact->type == CLCIT_GROUP) {
@@ -635,7 +635,7 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				ClcContact *contact;
 				ClcGroup *group;
 				if (Clist_FindItem(hwnd, dat, hitcontact->hContact, &contact, &group)) {
-					int i = cliGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact));
+					int i = cliGetRowsPriorTo(dat, group, group->cl.indexOf(contact));
 					Clist_EnsureVisible(hwnd, dat, i + hitcontact->iSubAllocated, 0);
 				}
 			}
@@ -757,9 +757,9 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 			dat->selection = cliGetRowByIndex(dat, dat->selection, &selcontact, &selgroup);
 			Clist_SetGroupExpand(hwnd, dat, contact->group, -1);
 			if (dat->selection != -1) {
-				dat->selection = cliGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+				dat->selection = cliGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 				if (dat->selection == -1)
-					dat->selection = cliGetRowsPriorTo(&dat->list, contact->group, -1);
+					dat->selection = cliGetRowsPriorTo(dat, contact->group, -1);
 			}
 
 			if (dat->bCompactMode)
@@ -1401,7 +1401,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	if (hSelItem) {
 		ClcGroup *selgroup;
 		if (Clist_FindItem(hwnd, dat, hSelItem, &selcontact, &selgroup))
-			dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, selgroup, selgroup->cl.indexOf(selcontact));
+			dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, selgroup, selgroup->cl.indexOf(selcontact));
 		else
 			dat->selection = -1;
 	}

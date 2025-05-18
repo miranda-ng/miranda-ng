@@ -101,7 +101,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 		for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
 			Clist_SetGroupExpand(hwnd, dat, tgroup, 1);
-		Clist_EnsureVisible(hwnd, dat, g_clistApi.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact)), 0);
+		Clist_EnsureVisible(hwnd, dat, g_clistApi.pfnGetRowsPriorTo(dat, group, group->cl.indexOf(contact)), 0);
 		break;
 
 	case CLM_EXPAND:
@@ -316,7 +316,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 		for (ClcGroup *tgroup = group; tgroup; tgroup = tgroup->parent)
 			Clist_SetGroupExpand(hwnd, dat, tgroup, 1);
-		dat->selection = g_clistApi.pfnGetRowsPriorTo(&dat->list, group, group->cl.indexOf(contact));
+		dat->selection = g_clistApi.pfnGetRowsPriorTo(dat, group, group->cl.indexOf(contact));
 		Clist_EnsureVisible(hwnd, dat, dat->selection, 0);
 		break;
 

@@ -332,7 +332,7 @@ struct CLIST_INTERFACE
 	// clcidents.c
 	ClcContact*    (*pfnFindItem)(uint32_t dwItem, ClcContact *contact);
 				      
-	int            (*pfnGetRowsPriorTo)(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
+	int            (*pfnGetRowsPriorTo)(ClcData *dat, ClcGroup *subgroup, int contactIndex);
 	int            (*pfnGetRowByIndex)(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 	int            (*pfnGetContactHiddenStatus)(MCONTACT hContact, char *szProto, ClcData *dat);
 	int            (*pfnIsVisibleContact)(ClcCacheEntry *pce, ClcGroup *group);
