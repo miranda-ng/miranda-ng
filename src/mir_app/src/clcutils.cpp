@@ -609,6 +609,7 @@ MIR_APP_DLL(int) Clist_ClcStatusToPf2(int status)
 		case ID_STATUS_OCCUPIED: return PF2_LIGHTDND;
 		case ID_STATUS_FREECHAT: return PF2_FREECHAT;
 		case ID_STATUS_INVISIBLE: return PF2_INVISIBLE;
+		case ID_STATUS_IDLE: return PF2_IDLE;
 		case ID_STATUS_OFFLINE: return MODEF_OFFLINE;
 	}
 	return 0;
