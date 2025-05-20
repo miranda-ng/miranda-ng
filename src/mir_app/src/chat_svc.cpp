@@ -799,7 +799,7 @@ static INT_PTR JoinChat(WPARAM hContact, LPARAM lParam)
 	if (hContact) {
 		if (char *szProto = Proto_GetBaseAccountName(hContact)) {
 			if (Proto_GetStatus(szProto) != ID_STATUS_OFFLINE) {
-				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
+				if (Contact::GetStatus(hContact, szProto) == ID_STATUS_OFFLINE)
 					CallProtoService(szProto, PS_JOINCHAT, hContact, lParam);
 				else
 					RoomDoubleclicked(hContact, 0);
@@ -858,7 +858,7 @@ static int OnContactDeleted(WPARAM hContact, LPARAM)
 		if (auto *si = SM_FindSessionByContact(hContact))
 			_wremove(Chat_GetFolderName(si));
 
-		if (Contact::GetStatus(hContact) != ID_STATUS_OFFLINE)
+		if (Contact::GetStatus(hContact, szProto) != ID_STATUS_OFFLINE)
 			CallProtoService(szProto, PS_LEAVECHAT, hContact);
 	}
 	return 0;
@@ -899,7 +899,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 			bIsChat = true;
 			// still hide it for offline protos
 			if (Proto_GetStatus(szProto) != ID_STATUS_OFFLINE) {
-				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE) {
+				if (Contact::GetStatus(hContact, szProto) == ID_STATUS_OFFLINE) {
 					if (ProtoServiceExists(szProto, PS_JOINCHAT)) {
 						bEnabledJoin = true;
 						Menu_ModifyItem(hJoinMenuItem, LPGENW("&Join chat"));
