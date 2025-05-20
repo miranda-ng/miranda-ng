@@ -82,7 +82,7 @@ namespace Contact
 		MCONTACT hContact,           // contact id or NULL for the global data
 		const char *szProto = nullptr); // protocol for global data. if skipped, grabbed from hContact
 
-	MIR_APP_DLL(int) GetStatus(MCONTACT hContact);
+	MIR_APP_DLL(int) GetStatus(MCONTACT hContact, const char *szProto = nullptr);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// if contact is a group chat

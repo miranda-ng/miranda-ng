@@ -271,12 +271,13 @@ MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *
 	return nullptr;
 }
 
-MIR_APP_DLL(int) Contact::GetStatus(MCONTACT hContact)
+MIR_APP_DLL(int) Contact::GetStatus(MCONTACT hContact, const char *szProto)
 {
 	if (hContact == 0)
 		return ID_STATUS_OFFLINE;
 
-	const char *szProto = Proto_GetBaseAccountName(hContact);
+	if (szProto == nullptr)
+		szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto == nullptr)
 		return ID_STATUS_OFFLINE;
 

@@ -39,7 +39,7 @@ CRowItem::CRowItem(MCONTACT _1, QSMainDlg *pDlg) :
 	if (bAccDel || bAccOff)
 		status = ID_STATUS_OFFLINE;
 	else
-		status = Contact::GetStatus(hContact);
+		status = Contact::GetStatus(hContact, szProto);
 
 	if (int nCount = g_plugin.m_columns.getCount()) {
 		pValues = new Val[nCount];

@@ -348,7 +348,7 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 	if (!(pcaps & PF1_FILESEND))
 		return false;
 
-	if (Contact::GetStatus(hContact) == ID_STATUS_OFFLINE) {
+	if (Contact::GetStatus(hContact, szProto) == ID_STATUS_OFFLINE) {
 		pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4);
 		if (!(pcaps & PF4_OFFLINEFILES))
 			return false;
@@ -393,7 +393,7 @@ void SendHBitmapAsFile(HBITMAP hbmp, MCONTACT hContact)
 	if (!(protoCaps & PF1_FILESEND))
 		return;
 
-	if ((ID_STATUS_OFFLINE == wMyStatus) || (ID_STATUS_OFFLINE == Contact::GetStatus(hContact) && !(typeCaps & PF4_OFFLINEFILES)))
+	if ((ID_STATUS_OFFLINE == wMyStatus) || (ID_STATUS_OFFLINE == Contact::GetStatus(hContact, szProto) && !(typeCaps & PF4_OFFLINEFILES)))
 		return;
 
 	IMGSRVC_INFO ii;

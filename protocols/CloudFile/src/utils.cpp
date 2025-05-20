@@ -56,7 +56,7 @@ bool CanSendToContact(MCONTACT hContact)
 	if (!isProtoOnline)
 		return false;
 
-	bool isContactOnline = Contact::GetStatus(hContact) > ID_STATUS_OFFLINE;
+	bool isContactOnline = Contact::GetStatus(hContact, proto) > ID_STATUS_OFFLINE;
 	if (isContactOnline)
 		return true;
 
