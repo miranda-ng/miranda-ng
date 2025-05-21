@@ -85,37 +85,38 @@ class CUpdateDLg : public CDlgBase
 
 			uint32_t dwErrorCode;
 			for (auto &it : todo) {
-				if (it->bEnabled) {
-					if (it->bDeleteOnly) {
-						// we need only to backup the old file
-						TFileName wszBackFile;
-						mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszNewName + wcslen(g_mirandaPath) + 1);
-						if (dwErrorCode = BackupFile(it->wszNewName, wszBackFile)) {
+				if (!it->bEnabled)
+					continue;
+
+				if (it->bDeleteOnly) {
+					// we need only to backup the old file
+					TFileName wszBackFile;
+					mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszNewName + wcslen(g_mirandaPath) + 1);
+					if (dwErrorCode = BackupFile(it->wszNewName, wszBackFile)) {
 LBL_Error:
-							RollbackChanges(wszBackupFolder);
-							Skin_PlaySound("updatefailed");
-							CMStringW wszError(FORMAT, TranslateT("Unpack operation failed with error code=%d, update terminated"), dwErrorCode);
-							MessageBox(pDlg->GetHwnd(), wszError, TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
-							pDlg->Close();
-							return;
-						}
+						RollbackChanges(wszBackupFolder);
+						Skin_PlaySound("updatefailed");
+						CMStringW wszError(FORMAT, TranslateT("Unpack operation failed with error code=%d, update terminated"), dwErrorCode);
+						MessageBox(pDlg->GetHwnd(), wszError, TranslateT("Plugin Updater"), MB_OK | MB_ICONERROR);
+						pDlg->Close();
+						return;
 					}
-					else {
-						// if file name differs, we also need to backup the old file here
-						// otherwise it would be replaced by unzip
-						if (_wcsicmp(it->wszOldName, it->wszNewName)) {
-							TFileName wszSrcPath, wszBackFile;
-							mir_snwprintf(wszSrcPath, L"%s\\%s", g_mirandaPath.get(), it->wszOldName);
-							mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszOldName);
-							if (dwErrorCode = BackupFile(wszSrcPath, wszBackFile))
-								goto LBL_Error;
-						}
-
-						if (dwErrorCode = unzip(it->File.wszDiskPath, g_mirandaPath, wszBackupFolder, true))
+				}
+				else {
+					// if file name differs, we also need to backup the old file here
+					// otherwise it would be replaced by unzip
+					if (_wcsicmp(it->wszOldName, it->wszNewName)) {
+						TFileName wszSrcPath, wszBackFile;
+						mir_snwprintf(wszSrcPath, L"%s\\%s", g_mirandaPath.get(), it->wszOldName);
+						mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszOldName);
+						if (dwErrorCode = BackupFile(wszSrcPath, wszBackFile))
 							goto LBL_Error;
-
-						PU::SafeDeleteFile(it->File.wszDiskPath);  // remove .zip after successful update
 					}
+
+					if (dwErrorCode = unzip(it->File.wszDiskPath, g_mirandaPath, wszBackupFolder, true))
+						goto LBL_Error;
+
+					PU::SafeDeleteFile(it->File.wszDiskPath);  // remove .zip after successful update
 				}
 			}
 

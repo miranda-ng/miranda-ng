@@ -304,7 +304,11 @@ int BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName)
 
 	PU::SafeCreateFilePath(pwszBackFileName);
 
-	return PU::SafeMoveFile(pwszSrcFileName, pwszBackFileName);
+	if (int err = PU::SafeMoveFile(pwszSrcFileName, pwszBackFileName)) {
+		Netlib_LogfW(g_hNetlibUser, L"Error moving file %s to %s: %d", pwszSrcFileName, pwszBackFileName, err);
+		return err;
+	}
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

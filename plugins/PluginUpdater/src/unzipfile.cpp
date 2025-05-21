@@ -70,8 +70,10 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 	mir_ptr<char> buf((char *)mir_alloc(DATA_BUF_SIZE+1));
 
 	int err = unzGetCurrentFileInfo64(uf, &file_info, filename, sizeof(filename), buf, DATA_BUF_SIZE, nullptr, 0);
-	if (err != UNZ_OK)
+	if (err != UNZ_OK) {
+		Netlib_LogfW(g_hNetlibUser, L"Error retrieving file info %S: %d", filename, err);
 		return err;
+	}
 
 	for (char *p = strchr(filename, '/'); p; p = strchr(p + 1, '/'))
 		*p = '\\';
@@ -111,9 +113,12 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 			pwszFile2unzip = wszBackFile;
 		}
 
-		HANDLE hFile = CreateFile(pwszFile2unzip, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, file_info.external_fa, nullptr);
-		if (hFile == INVALID_HANDLE_VALUE)
-			return GetLastError();
+		HANDLE hFile = CreateFileW(pwszFile2unzip, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, file_info.external_fa, nullptr);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			err = GetLastError();
+			Netlib_LogfW(g_hNetlibUser, L"Error creating file %s: %d", pwszFile2unzip, err);
+			return err;
+		}
 
 		while (true) {
 			err = unzReadCurrentFile(uf, buf, DATA_BUF_SIZE);
@@ -123,6 +128,7 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 			DWORD bytes;
 			if (!WriteFile(hFile, buf, err, &bytes, FALSE)) {
 				err = GetLastError();
+				Netlib_LogfW(g_hNetlibUser, L"Error writing file %s: %d", pwszFile2unzip, err);
 				break;
 			}
 		}
