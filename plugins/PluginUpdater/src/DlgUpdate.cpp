@@ -466,114 +466,7 @@ LBL_Error:
 /////////////////////////////////////////////////////////////////////////////////////////
 // building file list in the separate thread
 
-struct
-{
-	wchar_t *oldName, *newName;
-}
-static renameTable[] =
-{
-	{ L"svc_dbepp.dll",                  L"Plugins\\dbeditorpp.dll" },
-	{ L"svc_crshdmp.dll",                L"Plugins\\crashdumper.dll" },
-	{ L"crashdmp.dll",                   L"Plugins\\crashdumper.dll" },
-	{ L"crashrpt.dll",                   L"Plugins\\crashdumper.dll" },
-	{ L"attache.dll",                    L"Plugins\\crashdumper.dll" },
-	{ L"svc_vi.dll",                     L"Plugins\\crashdumper.dll" },
-	{ L"crashrpt.dll",                   L"Plugins\\crashdumper.dll" },
-	{ L"versioninfo.dll",                L"Plugins\\crashdumper.dll" },
-	{ L"advsplashscreen.dll",            L"Plugins\\splashscreen.dll" },
-	{ L"import_sa.dll",                  L"Plugins\\import.dll" },
-	{ L"newnr.dll",                      L"Plugins\\notesreminders.dll" },
-	{ L"dbtool.exe",                     nullptr },
-	{ L"dbtool_sa.exe",                  nullptr },
-	{ L"dbchecker.bat",                  nullptr },
-	{ L"fixme.cmd",                      nullptr },
-	{ L"mdbx_chk.exe",                   nullptr },
-	{ L"mdbx_dump.exe",                  nullptr },
-	{ L"mdbx_load.exe",                  nullptr },
-	{ L"clist_mw.dll",                   L"Plugins\\clist_nicer.dll" },
-	{ L"bclist.dll",                     L"Plugins\\clist_blind.dll" },
-	{ L"otr.dll",                        L"Plugins\\mirotr.dll" },
-	{ L"ttnotify.dll",                   L"Plugins\\tooltipnotify.dll" },
-	{ L"newstatusnotify.dll",            L"Plugins\\newxstatusnotify.dll" },
-	{ L"rss.dll",                        L"Plugins\\newsaggregator.dll" },
-	{ L"dbx_3x.dll",                     L"Plugins\\dbx_mmap.dll" },
-	{ L"actman30.dll",                   L"Plugins\\actman.dll" },
-	{ L"skype.dll",                      L"Plugins\\skypeweb.dll" },
-	{ L"skypeclassic.dll",               L"Plugins\\skypeweb.dll" },
-	{ L"historysweeper.dll",             L"Plugins\\historysweeperlight.dll" },
-	{ L"advancedautoaway.dll",           L"Plugins\\statusmanager.dll" },
-	{ L"keepstatus.dll",                 L"Plugins\\statusmanager.dll" },
-	{ L"startupstatus.dll",              L"Plugins\\statusmanager.dll" },
-	{ L"dropbox.dll",                    L"Plugins\\cloudfile.dll" },
-	{ L"popup.dll",                      L"Plugins\\popupplus.dll" },
-	{ L"libaxolotl.mir",                 L"Libs\\libsignal.mir" },
-
-	{ L"dbx_mmap_sa.dll",                L"Plugins\\dbx_mmap.dll" },
-	{ L"dbx_tree.dll",                   L"Plugins\\dbx_mmap.dll" },
-	{ L"rc4.dll",                        nullptr },
-	{ L"athena.dll",                     nullptr },
-	{ L"skypekit.exe",                   nullptr },
-	{ L"mir_app.dll",                    nullptr },
-	{ L"mir_core.dll",                   nullptr },
-	{ L"zlib.dll",                       nullptr },
-
-	{ L"quotes.dll",                     L"Plugins\\currencyrates.dll" },
-	{ L"proto_quotes.dll",               L"Icons\\proto_currencyrates.dll" },
-
-	{ L"proto_newsaggr.dll",             L"Icons\\proto_newsaggregator.dll" },
-	{ L"clienticons_*.dll",              L"Icons\\fp_icons.dll" },
-	{ L"fp_*.dll",                       L"Icons\\fp_icons.dll" },
-	{ L"xstatus_icq.dll",                nullptr },
-
-	{ L"langpack_*.txt",                 L"Languages\\*" },
-
-	{ L"pcre16.dll",                     nullptr },
-	{ L"clist_classic.dll",              nullptr },
-	{ L"chat.dll",                       nullptr },
-	{ L"srmm.dll",                       nullptr },
-	{ L"stdchat.dll",                    nullptr },
-	{ L"stdurl.dll",                     nullptr },
-	{ L"stdidle.dll",                    nullptr },
-	{ L"stdfile.dll",                    nullptr },
-	{ L"stdhelp.dll",                    nullptr },
-	{ L"stdauth.dll",                    nullptr },
-	{ L"stdssl.dll",                     nullptr },
-
-	{ L"advaimg.dll",                    nullptr },
-	{ L"aim.dll",                        nullptr },
-	{ L"extraicons.dll",                 nullptr },
-	{ L"firstrun.dll",                   nullptr },
-	{ L"flashavatars.dll",               nullptr },
-	{ L"gender.dll",                     nullptr },
-	{ L"gtalkext.dll",                   nullptr },
-	{ L"icq.dll",                        nullptr },
-	{ L"importtxt.dll",                  nullptr },
-	{ L"langman.dll",                    nullptr },
-	{ L"libcrypto-1_1.mir",              nullptr },
-	{ L"libssl-1_1.mir",                 nullptr },
-	{ L"libtox.dll",                     nullptr },
-	{ L"lua53.dll",                      nullptr },
-	{ L"metacontacts.dll",               nullptr },
-	{ L"mra.dll",                        nullptr },
-	{ L"modernopt.dll",                  nullptr },
-	{ L"msn.dll",                        nullptr },
-	{ L"msvcp100.dll",                   nullptr },
-	{ L"msvcr100.dll",                   nullptr },
-	{ L"mtextcontrol.dll",               nullptr },
-	{ L"omegle.dll",                     nullptr },
-	{ L"openssl.dll",                    nullptr },
-	{ L"rate.dll",                       nullptr },
-	{ L"skypestatuschange.dll",          nullptr },
-	{ L"skypeweb.dll",                   nullptr },
-	{ L"spamotron.dll",                  nullptr },
-	{ L"sms.dll",                        nullptr },
-	{ L"tlen.dll",                       nullptr },
-	{ L"xfire.dll",                      nullptr },
-	{ L"yahoo.dll",                      nullptr },
-	{ L"yahoogroups.dll",                nullptr },
-	{ L"yapp.dll",                       nullptr },
-	{ L"WART-*.exe",                     nullptr },
-};
+RENAMETABLE g_arRename(50);
 
 // Checks if file needs to be renamed and copies it in pNewName
 // Returns true if smth. was copied
@@ -582,13 +475,13 @@ static bool CheckFileRename(const wchar_t *pwszFolder, const wchar_t *pwszOldNam
 	MFilePath fullOldPath;
 	fullOldPath.Format(L"%s\\%s", pwszFolder, pwszOldName);
 
-	for (auto &it : renameTable) {
-		if (wildcmpiw(pwszOldName, it.oldName)) {
-			if (it.newName == nullptr)
+	for (auto &it : g_arRename) {
+		if (wildcmpiw(pwszOldName, it->wszSearch)) {
+			if (it->wszReplace == nullptr)
 				*pNewName = 0;
 			else {
-				wcsncpy_s(pNewName, MAX_PATH, it.newName, _TRUNCATE);
-				size_t cbLen = wcslen(it.newName) - 1;
+				wcsncpy_s(pNewName, MAX_PATH, it->wszReplace, _TRUNCATE);
+				size_t cbLen = wcslen(it->wszReplace) - 1;
 				if (pNewName[cbLen] == '*')
 					wcsncpy_s(pNewName + cbLen, MAX_PATH - cbLen, pwszOldName, _TRUNCATE);
 
@@ -789,7 +682,7 @@ static void CheckUpdates(void *)
 
 	ptrW updateUrl(GetDefaultUrl()), baseUrl;
 	SERVLIST hashes(50, CompareHashes);
-	bool success = ParseHashes(updateUrl, baseUrl, hashes);
+	bool success = ParseHashes(updateUrl, baseUrl, hashes, &g_arRename);
 	if (success) {
 		if (hashes.getCount()) {
 			FILELIST *UpdateFiles = new FILELIST(20);

@@ -29,7 +29,7 @@ int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 	return _wcsicmp(p1->m_name, p2->m_name);
 }
 
-bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
+bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes, RENAMETABLE *arRename)
 {
 	REPLACEVARSARRAY vars[2];
 	vars[0].key.w = L"platform";
@@ -41,6 +41,9 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	vars[1].key.w = vars[1].value.w = nullptr;
 
 	baseUrl = Utils_ReplaceVarsW(pwszUrl, 0, vars);
+
+	if (arRename)
+		arRename->destroy();
 
 	// Download version info
 	FILEURL pFileUrl;
@@ -111,6 +114,21 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 		}
 	}
 	fclose(fp);
+	DeleteFileW(wszTmpIni);
+
+	// building table of rules 
+	mir_snwprintf(wszTmpIni, L"%s\\rules.txt", g_wszTempPath);
+	if (arRename) {
+		JSONNode root;
+		if (file2json(wszTmpIni, root))
+			for (auto &it : root["rules"]) {
+				Utf2T wszName(it.name());
+				if (it.isnull())
+					arRename->insert(new RenameTableItem(wszName, nullptr));
+				else
+					arRename->insert(new RenameTableItem(wszName, it.as_mstring()));
+			}
+	}
 	DeleteFileW(wszTmpIni);
 
 	if (bDoNotSwitchToStable) {
