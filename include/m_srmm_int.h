@@ -184,7 +184,7 @@ struct SrmmLogWindowClass
 	pfnSrmmLogCreator pfnBuilder;
 };
 
-MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(CMsgDialog *pDlg);
+MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(bool bGC, MCONTACT hContact = INVALID_CONTACT_ID);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Simple single-event based logger

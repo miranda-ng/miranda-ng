@@ -42,14 +42,14 @@ void CheckLogOptions()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static bool sttEnableCustomLogs(CMsgDialog *pDlg)
+static bool sttEnableCustomLogs(MCONTACT hContact)
 {
 	// always enable custom log viewers for private chats
-	if (!pDlg)
+	if (hContact == INVALID_CONTACT_ID)
 		return true;
 
 	// check if custom viewers are forbidden for this particular account
-	auto *szProto = Proto_GetBaseAccountName(pDlg->m_hContact);
+	auto *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		// hidden setting !!!!!!!!
 		CMStringA szProtoList(db_get_sm(0, SRMM_MODULE, "DisableCustomLogsForProto"));
@@ -69,14 +69,12 @@ static bool sttEnableCustomLogs(CMsgDialog *pDlg)
 	return true;
 }
 
-MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(CMsgDialog *pDlg)
+MIR_APP_DLL(SrmmLogWindowClass *) Srmm_GetWindowClass(bool bGC, MCONTACT hContact)
 {
-	if (sttEnableCustomLogs(pDlg)) {
-		CMStringA szViewerName;
-		if (pDlg != nullptr)
-			szViewerName = db_get_sm(pDlg->m_hContact, SRMSGMOD, pDlg->isChat() ? "LoggerGC" : "Logger");
+	if (sttEnableCustomLogs(hContact)) {
+		CMStringA szViewerName(db_get_sm(hContact, SRMSGMOD, bGC ? "LoggerGC" : "Logger"));
 		if (szViewerName.IsEmpty())
-			szViewerName = pDlg->isChat() ? g_loggerGC : g_logger;
+			szViewerName = bGC ? g_loggerGC : g_logger;
 
 		for (auto &it : g_arLogClasses)
 			if (szViewerName == it->szShortName)

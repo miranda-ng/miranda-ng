@@ -892,7 +892,7 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?GetInput@CSrmmBaseDialog@@QBEPAUHWND__@@XZ @1024 NONAME
 ?Srmm_ApplyOptions@@YGXXZ @1025 NONAME
 ?OnOptionsApplied@CSrmmBaseDialog@@UAEXXZ @1026 NONAME
-?Srmm_GetWindowClass@@YGPAUSrmmLogWindowClass@@PAVCMsgDialog@@@Z @1027 NONAME
+?Srmm_GetWindowClass@@YGPAUSrmmLogWindowClass@@_NI@Z @1027 NONAME
 ?addColor@CMPluginBase@@QAEHPBD0PB_W1K@Z @1028 NONAME
 ?addFont@CMPluginBase@@QAEHPBD0PB_W111HHPAUtagLOGFONTW@@K@Z @1029 NONAME
 ?IsReadonly@Contact@@YG_NI@Z @1030 NONAME
