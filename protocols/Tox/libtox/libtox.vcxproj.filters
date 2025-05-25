@@ -216,6 +216,18 @@
     <ClCompile Include="src\toxcore\crypto_core_pack.c">
       <Filter>Source Files\toxcore</Filter>
     </ClCompile>
+    <ClCompile Include="src\toxcore\net_profile.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\sort.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_log_level.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_options.c">
+      <Filter>Source Files\toxcore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\toxcore\announce.h">
@@ -343,6 +355,18 @@
     </ClInclude>
     <ClInclude Include="src\toxcore\crypto_core_pack.h">
       <Filter>Source Files\toxcore</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\net_profile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\sort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\tox_log_level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\tox_options.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\..\..\build\vc.common\common.filters" />

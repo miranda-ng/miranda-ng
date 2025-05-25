@@ -1,15 +1,15 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2022 The TokTok team.
+ * Copyright © 2022-2025 The TokTok team.
  */
 
 #include "tox_dispatch.h"
 
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "attributes.h"
 #include "ccompat.h"
 #include "events/events_alloc.h" // IWYU pragma: keep
-#include "tox.h"
 #include "tox_event.h"
 #include "tox_events.h"
 
@@ -53,7 +53,7 @@ struct Tox_Dispatch {
     tox_events_group_self_join_cb *group_self_join_callback;
     tox_events_group_join_fail_cb *group_join_fail_callback;
     tox_events_group_moderation_cb *group_moderation_callback;
-    tox_events_dht_get_nodes_response_cb *dht_get_nodes_response_callback;
+    tox_events_dht_nodes_response_cb *dht_nodes_response_callback;
 };
 
 Tox_Dispatch *tox_dispatch_new(Tox_Err_Dispatch_New *error)
@@ -279,10 +279,10 @@ void tox_events_callback_group_moderation(
 {
     dispatch->group_moderation_callback = callback;
 }
-void tox_events_callback_dht_get_nodes_response(
-    Tox_Dispatch *dispatch, tox_events_dht_get_nodes_response_cb *callback)
+void tox_events_callback_dht_nodes_response(
+    Tox_Dispatch *dispatch, tox_events_dht_nodes_response_cb *callback)
 {
-    dispatch->dht_get_nodes_response_callback = callback;
+    dispatch->dht_nodes_response_callback = callback;
 }
 
 non_null(1, 2) nullable(3)
@@ -601,9 +601,9 @@ static void tox_dispatch_invoke_event(const Tox_Dispatch *dispatch, const Tox_Ev
             break;
         }
 
-        case TOX_EVENT_DHT_GET_NODES_RESPONSE: {
-            if (dispatch->dht_get_nodes_response_callback != nullptr) {
-                dispatch->dht_get_nodes_response_callback(event->data.dht_get_nodes_response, user_data);
+        case TOX_EVENT_DHT_NODES_RESPONSE: {
+            if (dispatch->dht_nodes_response_callback != nullptr) {
+                dispatch->dht_nodes_response_callback(event->data.dht_nodes_response, user_data);
             }
 
             break;

@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2014 Tox project.
  */
 
@@ -35,7 +35,8 @@ int send_pending_data_nonpriority(const Logger *logger, TCP_Connection *con)
     }
 
     const uint16_t left = con->last_packet_length - con->last_packet_sent;
-    const int len = net_send(con->ns, logger, con->sock, con->last_packet + con->last_packet_sent, left, &con->ip_port);
+    const int len = net_send(con->ns, logger, con->sock, con->last_packet + con->last_packet_sent, left, &con->ip_port,
+                             con->net_profile);
 
     if (len <= 0) {
         return -1;
@@ -66,7 +67,7 @@ int send_pending_data(const Logger *logger, TCP_Connection *con)
 
     while (p != nullptr) {
         const uint16_t left = p->size - p->sent;
-        const int len = net_send(con->ns, logger, con->sock, p->data + p->sent, left, &con->ip_port);
+        const int len = net_send(con->ns, logger, con->sock, p->data + p->sent, left, &con->ip_port, con->net_profile);
 
         if (len != left) {
             if (len > 0) {
@@ -157,14 +158,15 @@ int write_packet_tcp_secure_connection(const Logger *logger, TCP_Connection *con
 
     uint16_t c_length = net_htons(length + CRYPTO_MAC_SIZE);
     memcpy(packet, &c_length, sizeof(uint16_t));
-    int len = encrypt_data_symmetric(con->shared_key, con->sent_nonce, data, length, packet + sizeof(uint16_t));
+    int len = encrypt_data_symmetric(con->mem, con->shared_key, con->sent_nonce, data, length, packet + sizeof(uint16_t));
 
     if ((unsigned int)len != (packet_size - sizeof(uint16_t))) {
         return -1;
     }
 
     if (priority) {
-        len = sendpriority ? net_send(con->ns, logger, con->sock, packet, packet_size, &con->ip_port) : 0;
+        len = sendpriority ? net_send(con->ns, logger, con->sock, packet, packet_size, &con->ip_port,
+                                      con->net_profile) : 0;
 
         if (len <= 0) {
             len = 0;
@@ -179,7 +181,7 @@ int write_packet_tcp_secure_connection(const Logger *logger, TCP_Connection *con
         return add_priority(con, packet, packet_size, len) ? 1 : 0;
     }
 
-    len = net_send(con->ns, logger, con->sock, packet, packet_size, &con->ip_port);
+    len = net_send(con->ns, logger, con->sock, packet, packet_size, &con->ip_port, con->net_profile);
 
     if (len <= 0) {
         return 0;
@@ -234,7 +236,7 @@ int read_tcp_packet(
  * return -1 on failure.
  */
 non_null()
-static uint16_t read_tcp_length(const Logger *logger, const Memory *mem, const Network *ns, Socket sock, const IP_Port *ip_port)
+static uint16_t read_tcp_length(const Logger *logger, const Network *ns, Socket sock, const IP_Port *ip_port)
 {
     const uint16_t count = net_socket_data_recv_buffer(ns, sock);
 
@@ -273,7 +275,7 @@ int read_packet_tcp_secure_connection(
     uint16_t max_len, const IP_Port *ip_port)
 {
     if (*next_packet_length == 0) {
-        const uint16_t len = read_tcp_length(logger, mem, ns, sock, ip_port);
+        const uint16_t len = read_tcp_length(logger, ns, sock, ip_port);
 
         if (len == (uint16_t) -1) {
             return -1;
@@ -305,7 +307,7 @@ int read_packet_tcp_secure_connection(
 
     *next_packet_length = 0;
 
-    const int len = decrypt_data_symmetric(shared_key, recv_nonce, data_encrypted, len_packet, data);
+    const int len = decrypt_data_symmetric(mem, shared_key, recv_nonce, data_encrypted, len_packet, data);
 
     if (len + CRYPTO_MAC_SIZE != len_packet) {
         LOGGER_ERROR(logger, "decrypted length %d does not match expected length %d", len + CRYPTO_MAC_SIZE, len_packet);

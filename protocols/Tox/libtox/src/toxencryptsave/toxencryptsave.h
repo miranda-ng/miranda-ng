@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2024 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013-2016 Tox Developers.
  */
 
@@ -88,6 +88,8 @@ typedef enum Tox_Err_Key_Derivation {
 
 } Tox_Err_Key_Derivation;
 
+const char *tox_err_key_derivation_to_string(Tox_Err_Key_Derivation error);
+
 typedef enum Tox_Err_Encryption {
 
     /**
@@ -113,6 +115,8 @@ typedef enum Tox_Err_Encryption {
     TOX_ERR_ENCRYPTION_FAILED,
 
 } Tox_Err_Encryption;
+
+const char *tox_err_encryption_to_string(Tox_Err_Encryption error);
 
 typedef enum Tox_Err_Decryption {
 
@@ -151,6 +155,8 @@ typedef enum Tox_Err_Decryption {
     TOX_ERR_DECRYPTION_FAILED,
 
 } Tox_Err_Decryption;
+
+const char *tox_err_decryption_to_string(Tox_Err_Decryption error);
 
 /*******************************************************************************
  *
@@ -312,6 +318,8 @@ typedef enum Tox_Err_Get_Salt {
     TOX_ERR_GET_SALT_BAD_FORMAT,
 
 } Tox_Err_Get_Salt;
+
+const char *tox_err_get_salt_to_string(Tox_Err_Get_Salt error);
 
 /**
  * Retrieves the salt used to encrypt the given data.

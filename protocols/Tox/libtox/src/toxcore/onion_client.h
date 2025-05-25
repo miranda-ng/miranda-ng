@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -183,6 +183,8 @@ non_null()
 unsigned int onion_getfriend_dht_pubkey(const Onion_Client *onion_c, int friend_num, uint8_t *dht_key);
 
 #define ONION_DATA_IN_RESPONSE_MIN_SIZE (CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_MAC_SIZE)
+
+// TODO(Jfreegman): This is not the correct value; data this large will be dropped by the onion client.
 #define ONION_CLIENT_MAX_DATA_SIZE (MAX_DATA_REQUEST_SIZE - ONION_DATA_IN_RESPONSE_MIN_SIZE)
 
 /** @brief Send data of length length to friendnum.

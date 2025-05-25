@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2022 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -11,16 +11,19 @@
 #include <assert.h>
 
 #include "DHT.h"
-#include "attributes.h"
+#include "Messenger.h"
+#include "TCP_server.h"
 #include "ccompat.h"
 #include "crypto_core.h"
 #include "group_chats.h"
 #include "group_common.h"
+#include "logger.h"
 #include "mem.h"
 #include "net_crypto.h"
+#include "net_profile.h"
 #include "network.h"
 #include "tox.h"
-#include "tox_struct.h"
+#include "tox_struct.h"  // IWYU pragma: keep
 
 #define SET_ERROR_PARAMETER(param, x) \
     do {                              \
@@ -91,43 +94,43 @@ void *tox_get_av_object(const Tox *tox)
     return object;
 }
 
-void tox_callback_dht_get_nodes_response(Tox *tox, tox_dht_get_nodes_response_cb *callback)
+void tox_callback_dht_nodes_response(Tox *tox, tox_dht_nodes_response_cb *callback)
 {
     assert(tox != nullptr);
-    tox->dht_get_nodes_response_callback = callback;
+    tox->dht_nodes_response_callback = callback;
 }
 
-bool tox_dht_get_nodes(const Tox *tox, const uint8_t *public_key, const char *ip, uint16_t port,
-                       const uint8_t *target_public_key, Tox_Err_Dht_Get_Nodes *error)
+bool tox_dht_send_nodes_request(const Tox *tox, const uint8_t *public_key, const char *ip, uint16_t port,
+                                const uint8_t *target_public_key, Tox_Err_Dht_Send_Nodes_Request *error)
 {
     assert(tox != nullptr);
 
     tox_lock(tox);
 
     if (tox->m->options.udp_disabled) {
-        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_UDP_DISABLED);
+        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_SEND_NODES_REQUEST_UDP_DISABLED);
         tox_unlock(tox);
         return false;
     }
 
     if (public_key == nullptr || ip == nullptr || target_public_key == nullptr) {
-        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_NULL);
+        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_SEND_NODES_REQUEST_NULL);
         tox_unlock(tox);
         return false;
     }
 
     if (port == 0) {
-        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_BAD_PORT);
+        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_SEND_NODES_REQUEST_BAD_PORT);
         tox_unlock(tox);
         return false;
     }
 
     IP_Port *root;
 
-    const int32_t count = net_getipport(tox->sys.mem, ip, &root, TOX_SOCK_DGRAM);
+    const int32_t count = net_getipport(tox->sys.ns, tox->sys.mem, ip, &root, TOX_SOCK_DGRAM, tox->m->options.dns_enabled);
 
     if (count < 1) {
-        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_BAD_IP);
+        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_SEND_NODES_REQUEST_BAD_IP);
         net_freeipport(tox->sys.mem, root);
         tox_unlock(tox);
         return false;
@@ -138,7 +141,7 @@ bool tox_dht_get_nodes(const Tox *tox, const uint8_t *public_key, const char *ip
     for (int32_t i = 0; i < count; ++i) {
         root[i].port = net_htons(port);
 
-        if (dht_getnodes(tox->m->dht, &root[i], public_key, target_public_key)) {
+        if (dht_send_nodes_request(tox->m->dht, &root[i], public_key, target_public_key)) {
             success = true;
         }
     }
@@ -148,11 +151,11 @@ bool tox_dht_get_nodes(const Tox *tox, const uint8_t *public_key, const char *ip
     net_freeipport(tox->sys.mem, root);
 
     if (!success) {
-        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_FAIL);
+        SET_ERROR_PARAMETER(error, TOX_ERR_DHT_SEND_NODES_REQUEST_FAIL);
         return false;
     }
 
-    SET_ERROR_PARAMETER(error, TOX_ERR_DHT_GET_NODES_OK);
+    SET_ERROR_PARAMETER(error, TOX_ERR_DHT_SEND_NODES_REQUEST_OK);
 
     return true;
 }
@@ -225,4 +228,200 @@ bool tox_group_peer_get_ip_address(const Tox *tox, uint32_t group_number, uint32
 
     SET_ERROR_PARAMETER(error, TOX_ERR_GROUP_PEER_QUERY_OK);
     return true;
+}
+
+uint64_t tox_netprof_get_packet_id_count(const Tox *tox, Tox_Netprof_Packet_Type type, uint8_t id,
+        Tox_Netprof_Direction direction)
+{
+    assert(tox != nullptr);
+
+    tox_lock(tox);
+
+    const Net_Profile *tcp_c_profile = tox->m->tcp_np;
+    const Net_Profile *tcp_s_profile = tcp_server_get_net_profile(tox->m->tcp_server);
+
+    const Packet_Direction dir = (Packet_Direction) direction;
+
+    uint64_t count = 0;
+
+    switch (type) {
+        case TOX_NETPROF_PACKET_TYPE_TCP_CLIENT: {
+            count = netprof_get_packet_count_id(tcp_c_profile, id, dir);
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_TCP_SERVER: {
+            count = netprof_get_packet_count_id(tcp_s_profile, id, dir);
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_TCP: {
+            const uint64_t tcp_c_count = netprof_get_packet_count_id(tcp_c_profile, id, dir);
+            const uint64_t tcp_s_count = netprof_get_packet_count_id(tcp_s_profile, id, dir);
+            count = tcp_c_count + tcp_s_count;
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_UDP: {
+            const Net_Profile *udp_profile = net_get_net_profile(tox->m->net);
+            count = netprof_get_packet_count_id(udp_profile, id, dir);
+            break;
+        }
+
+        default: {
+            LOGGER_ERROR(tox->m->log, "invalid packet type: %d", type);
+            break;
+        }
+    }
+
+    tox_unlock(tox);
+
+    return count;
+}
+
+uint64_t tox_netprof_get_packet_total_count(const Tox *tox, Tox_Netprof_Packet_Type type,
+        Tox_Netprof_Direction direction)
+{
+    assert(tox != nullptr);
+
+    tox_lock(tox);
+
+    const Net_Profile *tcp_c_profile = tox->m->tcp_np;
+    const Net_Profile *tcp_s_profile = tcp_server_get_net_profile(tox->m->tcp_server);
+
+    const Packet_Direction dir = (Packet_Direction) direction;
+
+    uint64_t count = 0;
+
+    switch (type) {
+        case TOX_NETPROF_PACKET_TYPE_TCP_CLIENT: {
+            count = netprof_get_packet_count_total(tcp_c_profile, dir);
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_TCP_SERVER: {
+            count = netprof_get_packet_count_total(tcp_s_profile, dir);
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_TCP: {
+            const uint64_t tcp_c_count = netprof_get_packet_count_total(tcp_c_profile, dir);
+            const uint64_t tcp_s_count = netprof_get_packet_count_total(tcp_s_profile, dir);
+            count = tcp_c_count + tcp_s_count;
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_UDP: {
+            const Net_Profile *udp_profile = net_get_net_profile(tox->m->net);
+            count = netprof_get_packet_count_total(udp_profile, dir);
+            break;
+        }
+
+        default: {
+            LOGGER_ERROR(tox->m->log, "invalid packet type: %d", type);
+            break;
+        }
+    }
+
+    tox_unlock(tox);
+
+    return count;
+}
+
+uint64_t tox_netprof_get_packet_id_bytes(const Tox *tox, Tox_Netprof_Packet_Type type, uint8_t id,
+        Tox_Netprof_Direction direction)
+{
+    assert(tox != nullptr);
+
+    tox_lock(tox);
+
+    const Net_Profile *tcp_c_profile = tox->m->tcp_np;
+    const Net_Profile *tcp_s_profile = tcp_server_get_net_profile(tox->m->tcp_server);
+
+    const Packet_Direction dir = (Packet_Direction) direction;
+
+    uint64_t bytes = 0;
+
+    switch (type) {
+        case TOX_NETPROF_PACKET_TYPE_TCP_CLIENT: {
+            bytes = netprof_get_bytes_id(tcp_c_profile, id, dir);
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_TCP_SERVER: {
+            bytes = netprof_get_bytes_id(tcp_s_profile, id, dir);
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_TCP: {
+            const uint64_t tcp_c_bytes = netprof_get_bytes_id(tcp_c_profile, id, dir);
+            const uint64_t tcp_s_bytes = netprof_get_bytes_id(tcp_s_profile, id, dir);
+            bytes = tcp_c_bytes + tcp_s_bytes;
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_UDP: {
+            const Net_Profile *udp_profile = net_get_net_profile(tox->m->net);
+            bytes = netprof_get_bytes_id(udp_profile, id, dir);
+            break;
+        }
+
+        default: {
+            LOGGER_ERROR(tox->m->log, "invalid packet type: %d", type);
+            break;
+        }
+    }
+
+    tox_unlock(tox);
+
+    return bytes;
+}
+
+uint64_t tox_netprof_get_packet_total_bytes(const Tox *tox, Tox_Netprof_Packet_Type type,
+        Tox_Netprof_Direction direction)
+{
+    assert(tox != nullptr);
+
+    tox_lock(tox);
+
+    const Net_Profile *tcp_c_profile = tox->m->tcp_np;
+    const Net_Profile *tcp_s_profile = tcp_server_get_net_profile(tox->m->tcp_server);
+
+    const Packet_Direction dir = (Packet_Direction) direction;
+
+    uint64_t bytes = 0;
+
+    switch (type) {
+        case TOX_NETPROF_PACKET_TYPE_TCP_CLIENT: {
+            bytes = netprof_get_bytes_total(tcp_c_profile, dir);
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_TCP_SERVER: {
+            bytes = netprof_get_bytes_total(tcp_s_profile, dir);
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_TCP: {
+            const uint64_t tcp_c_bytes = netprof_get_bytes_total(tcp_c_profile, dir);
+            const uint64_t tcp_s_bytes = netprof_get_bytes_total(tcp_s_profile, dir);
+            bytes = tcp_c_bytes + tcp_s_bytes;
+            break;
+        }
+
+        case TOX_NETPROF_PACKET_TYPE_UDP: {
+            const Net_Profile *udp_profile = net_get_net_profile(tox->m->net);
+            bytes = netprof_get_bytes_total(udp_profile, dir);
+            break;
+        }
+
+        default: {
+            LOGGER_ERROR(tox->m->log, "invalid packet type: %d", type);
+            break;
+        }
+    }
+
+    tox_unlock(tox);
+
+    return bytes;
 }

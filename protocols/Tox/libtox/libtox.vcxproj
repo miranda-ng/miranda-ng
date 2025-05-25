@@ -181,6 +181,9 @@
     <ClCompile Include="src\toxcore\net_crypto.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\toxcore\net_profile.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\toxcore\onion.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -197,6 +200,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\shared_key_cache.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\sort.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\state.c">
@@ -227,6 +233,12 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\tox_events.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_log_level.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_options.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\tox_private.c">
@@ -265,11 +277,13 @@
     <ClInclude Include="src\toxcore\mono_time.h" />
     <ClInclude Include="src\toxcore\network.h" />
     <ClInclude Include="src\toxcore\net_crypto.h" />
+    <ClInclude Include="src\toxcore\net_profile.h" />
     <ClInclude Include="src\toxcore\onion.h" />
     <ClInclude Include="src\toxcore\onion_announce.h" />
     <ClInclude Include="src\toxcore\onion_client.h" />
     <ClInclude Include="src\toxcore\ping.h" />
     <ClInclude Include="src\toxcore\ping_array.h" />
+    <ClInclude Include="src\toxcore\sort.h" />
     <ClInclude Include="src\toxcore\state.h" />
     <ClInclude Include="src\toxcore\TCP_client.h" />
     <ClInclude Include="src\toxcore\TCP_common.h" />
@@ -279,6 +293,8 @@
     <ClInclude Include="src\toxcore\tox.h" />
     <ClInclude Include="src\toxcore\tox_dispatch.h" />
     <ClInclude Include="src\toxcore\tox_events.h" />
+    <ClInclude Include="src\toxcore\tox_log_level.h" />
+    <ClInclude Include="src\toxcore\tox_options.h" />
     <ClInclude Include="src\toxcore\tox_private.h" />
     <ClInclude Include="src\toxcore\tox_struct.h" />
     <ClInclude Include="src\toxcore\tox_unpack.h" />

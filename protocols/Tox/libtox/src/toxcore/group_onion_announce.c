@@ -14,17 +14,22 @@
 #include "crypto_core.h"
 #include "group_announce.h"
 #include "logger.h"
+#include "mem.h"
 #include "mono_time.h"
 #include "network.h"
 #include "onion_announce.h"
 #include "timed_auth.h"
 
+static_assert(TIMED_AUTH_SIZE <= ONION_ANNOUNCE_REQUEST_MAX_SIZE,
+              "Timed auth does not fit into the onion packet");
+static_assert(PACKED_NODE_SIZE_IP6 <= GCA_ANNOUNCE_MAX_SIZE,
+              "IP6 does not fit into the GC_Announce");
 static_assert(GCA_ANNOUNCE_MAX_SIZE <= ONION_MAX_EXTRA_DATA_SIZE,
               "GC_Announce does not fit into the onion packet extra data");
 
 static pack_extra_data_cb pack_group_announces;
 non_null()
-static int pack_group_announces(void *object, const Logger *logger, const Mono_Time *mono_time,
+static int pack_group_announces(void *object, const Logger *logger, const Memory *mem, const Mono_Time *mono_time,
                                 uint8_t num_nodes, uint8_t *plain, uint16_t plain_size,
                                 uint8_t *response, uint16_t response_size, uint16_t offset)
 {
@@ -37,7 +42,7 @@ static int pack_group_announces(void *object, const Logger *logger, const Mono_T
         return -1;
     }
 
-    const GC_Peer_Announce *new_announce = gca_add_announce(mono_time, gc_announces_list, &public_announce);
+    const GC_Peer_Announce *new_announce = gca_add_announce(mem, mono_time, gc_announces_list, &public_announce);
 
     if (new_announce == nullptr) {
         LOGGER_ERROR(logger, "Failed to add group announce");
@@ -76,7 +81,7 @@ void gca_onion_init(GC_Announces_List *group_announce, Onion_Announce *onion_a)
 }
 
 int create_gca_announce_request(
-    const Random *rng, uint8_t *packet, uint16_t max_packet_length, const uint8_t *dest_client_id,
+    const Memory *mem, const Random *rng, uint8_t *packet, uint16_t max_packet_length, const uint8_t *dest_client_id,
     const uint8_t *public_key, const uint8_t *secret_key, const uint8_t *ping_id,
     const uint8_t *client_id, const uint8_t *data_public_key, uint64_t sendback_data,
     const uint8_t *gc_data, uint16_t gc_data_length)
@@ -108,7 +113,7 @@ int create_gca_announce_request(
     random_nonce(rng, packet + 1);
     memcpy(packet + 1 + CRYPTO_NONCE_SIZE, public_key, CRYPTO_PUBLIC_KEY_SIZE);
 
-    const int len = encrypt_data(dest_client_id, secret_key, packet + 1, plain,
+    const int len = encrypt_data(mem, dest_client_id, secret_key, packet + 1, plain,
                                  encrypted_size, packet + 1 + CRYPTO_NONCE_SIZE + CRYPTO_PUBLIC_KEY_SIZE);
 
     const uint32_t full_length = (uint32_t)len + 1 + CRYPTO_NONCE_SIZE + CRYPTO_PUBLIC_KEY_SIZE;

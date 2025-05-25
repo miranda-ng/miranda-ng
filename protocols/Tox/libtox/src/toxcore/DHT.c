@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -9,7 +9,6 @@
 #include "DHT.h"
 
 #include <assert.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "LAN_discovery.h"
@@ -24,13 +23,15 @@
 #include "ping.h"
 #include "ping_array.h"
 #include "shared_key_cache.h"
+#include "sort.h"
 #include "state.h"
+#include "util.h"
 
 /** The timeout after which a node is discarded completely. */
 #define KILL_NODE_TIMEOUT (BAD_NODE_TIMEOUT + PING_INTERVAL)
 
-/** Ping interval in seconds for each random sending of a get nodes request. */
-#define GET_NODE_INTERVAL 20
+/** Ping interval in seconds for each random sending of a nodes request. */
+#define NODES_REQUEST_INTERVAL 20
 
 #define MAX_PUNCHING_PORTS 48
 
@@ -45,7 +46,7 @@
 #define NAT_PING_REQUEST    0
 #define NAT_PING_RESPONSE   1
 
-/** Number of get node requests to send to quickly find close nodes. */
+/** Number of node requests to send to quickly find close nodes. */
 #define MAX_BOOTSTRAP_TIMES 5
 
 // TODO(sudden6): find out why we need multiple callbacks and if we really need 32
@@ -65,9 +66,9 @@ struct DHT_Friend {
     uint8_t     public_key[CRYPTO_PUBLIC_KEY_SIZE];
     Client_data client_list[MAX_FRIEND_CLIENTS];
 
-    /* Time at which the last get_nodes request was sent. */
-    uint64_t    lastgetnode;
-    /* number of times get_node packets were sent. */
+    /* Time at which the last nodes request was sent. */
+    uint64_t    last_nodes_request;
+    /* number of times nodes request packets were sent. */
     uint32_t    bootstrap_times;
 
     /* Symmetric NAT hole punching stuff. */
@@ -103,7 +104,7 @@ struct DHT {
     bool lan_discovery_enabled;
 
     Client_data    close_clientlist[LCLIENT_LIST];
-    uint64_t       close_lastgetnodes;
+    uint64_t       close_last_nodes_request;
     uint32_t       close_bootstrap_times;
 
     /* DHT keypair */
@@ -129,7 +130,7 @@ struct DHT {
     Node_format to_bootstrap[MAX_CLOSE_TO_BOOTSTRAP_NODES];
     unsigned int num_to_bootstrap;
 
-    dht_get_nodes_response_cb *get_nodes_response;
+    dht_nodes_response_cb *nodes_response_callback;
 };
 
 const uint8_t *dht_friend_public_key(const DHT_Friend *dht_friend)
@@ -279,7 +280,7 @@ const uint8_t *dht_get_shared_key_sent(DHT *dht, const uint8_t *public_key)
 
 #define CRYPTO_SIZE (1 + CRYPTO_PUBLIC_KEY_SIZE * 2 + CRYPTO_NONCE_SIZE)
 
-int create_request(const Random *rng, const uint8_t *send_public_key, const uint8_t *send_secret_key,
+int create_request(const Memory *mem, const Random *rng, const uint8_t *send_public_key, const uint8_t *send_secret_key,
                    uint8_t *packet, const uint8_t *recv_public_key,
                    const uint8_t *data, uint32_t data_length, uint8_t request_id)
 {
@@ -296,7 +297,7 @@ int create_request(const Random *rng, const uint8_t *send_public_key, const uint
     uint8_t temp[MAX_CRYPTO_REQUEST_SIZE] = {0};
     temp[0] = request_id;
     memcpy(temp + 1, data, data_length);
-    const int len = encrypt_data(recv_public_key, send_secret_key, nonce, temp, data_length + 1,
+    const int len = encrypt_data(mem, recv_public_key, send_secret_key, nonce, temp, data_length + 1,
                                  packet + CRYPTO_SIZE);
 
     if (len == -1) {
@@ -312,7 +313,7 @@ int create_request(const Random *rng, const uint8_t *send_public_key, const uint
     return len + CRYPTO_SIZE;
 }
 
-int handle_request(const uint8_t *self_public_key, const uint8_t *self_secret_key, uint8_t *public_key, uint8_t *data,
+int handle_request(const Memory *mem, const uint8_t *self_public_key, const uint8_t *self_secret_key, uint8_t *public_key, uint8_t *data,
                    uint8_t *request_id, const uint8_t *packet, uint16_t packet_length)
 {
     if (self_public_key == nullptr || public_key == nullptr || data == nullptr || request_id == nullptr
@@ -331,7 +332,7 @@ int handle_request(const uint8_t *self_public_key, const uint8_t *self_secret_ke
     memcpy(public_key, packet + 1 + CRYPTO_PUBLIC_KEY_SIZE, CRYPTO_PUBLIC_KEY_SIZE);
     const uint8_t *const nonce = packet + 1 + CRYPTO_PUBLIC_KEY_SIZE * 2;
     uint8_t temp[MAX_CRYPTO_REQUEST_SIZE];
-    int32_t len1 = decrypt_data(public_key, self_secret_key, nonce,
+    int32_t len1 = decrypt_data(mem, public_key, self_secret_key, nonce,
                                 packet + CRYPTO_SIZE, packet_length - CRYPTO_SIZE, temp);
 
     if (len1 == -1 || len1 == 0) {
@@ -378,7 +379,7 @@ int dht_create_packet(const Memory *mem, const Random *rng,
 
     random_nonce(rng, nonce);
 
-    const int encrypted_length = encrypt_data_symmetric(shared_key, nonce, plain, plain_length, encrypted);
+    const int encrypted_length = encrypt_data_symmetric(mem, shared_key, nonce, plain, plain_length, encrypted);
 
     if (encrypted_length < 0) {
         mem_delete(mem, encrypted);
@@ -430,7 +431,7 @@ int unpack_nodes(Node_format *nodes, uint16_t max_num_nodes, uint16_t *processed
         const int ipp_size = unpack_ip_port(&nodes[num].ip_port, data + len_processed, length - len_processed, tcp_enabled);
 
         if (ipp_size == -1) {
-            return -1;
+            break;
         }
 
         len_processed += ipp_size;
@@ -447,6 +448,10 @@ int unpack_nodes(Node_format *nodes, uint16_t max_num_nodes, uint16_t *processed
         const uint32_t increment = ipp_size + CRYPTO_PUBLIC_KEY_SIZE;
         assert(increment == PACKED_NODE_SIZE_IP4 || increment == PACKED_NODE_SIZE_IP6);
 #endif /* NDEBUG */
+    }
+
+    if (num == 0 && max_num_nodes > 0 && length > 0) {
+        return -1;
     }
 
     if (processed_data_len != nullptr) {
@@ -707,7 +712,7 @@ static void get_close_nodes_inner(
 }
 
 /**
- * Find MAX_SENT_NODES nodes closest to the public_key for the send nodes request:
+ * Find MAX_SENT_NODES nodes closest to the public_key for the nodes request:
  * put them in the nodes_list and return how many were found.
  *
  * want_announce: return only nodes which implement the dht announcements protocol.
@@ -753,49 +758,6 @@ int get_close_nodes(
                sa_family, dht->close_clientlist,
                dht->friends_list, dht->num_friends,
                is_lan, want_announce);
-}
-
-typedef struct DHT_Cmp_Data {
-    uint64_t cur_time;
-    const uint8_t *base_public_key;
-    Client_data entry;
-} DHT_Cmp_Data;
-
-non_null()
-static int dht_cmp_entry(const void *a, const void *b)
-{
-    const DHT_Cmp_Data *cmp1 = (const DHT_Cmp_Data *)a;
-    const DHT_Cmp_Data *cmp2 = (const DHT_Cmp_Data *)b;
-    const Client_data entry1 = cmp1->entry;
-    const Client_data entry2 = cmp2->entry;
-    const uint8_t *cmp_public_key = cmp1->base_public_key;
-
-    const bool t1 = assoc_timeout(cmp1->cur_time, &entry1.assoc4) && assoc_timeout(cmp1->cur_time, &entry1.assoc6);
-    const bool t2 = assoc_timeout(cmp2->cur_time, &entry2.assoc4) && assoc_timeout(cmp2->cur_time, &entry2.assoc6);
-
-    if (t1 && t2) {
-        return 0;
-    }
-
-    if (t1) {
-        return -1;
-    }
-
-    if (t2) {
-        return 1;
-    }
-
-    const int closest = id_closest(cmp_public_key, entry1.public_key, entry2.public_key);
-
-    if (closest == 1) {
-        return 1;
-    }
-
-    if (closest == 2) {
-        return -1;
-    }
-
-    return 0;
 }
 
 #ifdef CHECK_ANNOUNCE_NODE
@@ -870,7 +832,7 @@ static int handle_data_search_response(void *object, const IP_Port *source,
     const uint8_t *public_key = packet + 1;
     const uint8_t *shared_key = dht_get_shared_key_recv(dht, public_key);
 
-    if (decrypt_data_symmetric(shared_key,
+    if (decrypt_data_symmetric(dht->mem, shared_key,
                                packet + 1 + CRYPTO_PUBLIC_KEY_SIZE,
                                packet + 1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE,
                                plain_len + CRYPTO_MAC_SIZE,
@@ -914,31 +876,117 @@ static bool store_node_ok(const Client_data *client, uint64_t cur_time, const ui
            || id_closest(comp_public_key, client->public_key, public_key) == 2;
 }
 
+typedef struct Client_data_Cmp {
+    const Memory *mem;
+    uint64_t cur_time;
+    const uint8_t *comp_public_key;
+} Client_data_Cmp;
+
+non_null()
+static int client_data_cmp(const Client_data_Cmp *cmp, const Client_data *entry1, const Client_data *entry2)
+{
+    const bool t1 = assoc_timeout(cmp->cur_time, &entry1->assoc4) && assoc_timeout(cmp->cur_time, &entry1->assoc6);
+    const bool t2 = assoc_timeout(cmp->cur_time, &entry2->assoc4) && assoc_timeout(cmp->cur_time, &entry2->assoc6);
+
+    if (t1 && t2) {
+        return 0;
+    }
+
+    if (t1) {
+        return -1;
+    }
+
+    if (t2) {
+        return 1;
+    }
+
+    const int closest = id_closest(cmp->comp_public_key, entry1->public_key, entry2->public_key);
+
+    if (closest == 1) {
+        return 1;
+    }
+
+    if (closest == 2) {
+        return -1;
+    }
+
+    return 0;
+}
+
+non_null()
+static bool client_data_less_handler(const void *object, const void *a, const void *b)
+{
+    const Client_data_Cmp *cmp = (const Client_data_Cmp *)object;
+    const Client_data *entry1 = (const Client_data *)a;
+    const Client_data *entry2 = (const Client_data *)b;
+
+    return client_data_cmp(cmp, entry1, entry2) < 0;
+}
+
+non_null()
+static const void *client_data_get_handler(const void *arr, uint32_t index)
+{
+    const Client_data *entries = (const Client_data *)arr;
+    return &entries[index];
+}
+
+non_null()
+static void client_data_set_handler(void *arr, uint32_t index, const void *val)
+{
+    Client_data *entries = (Client_data *)arr;
+    const Client_data *entry = (const Client_data *)val;
+    entries[index] = *entry;
+}
+
+non_null()
+static void *client_data_subarr_handler(void *arr, uint32_t index, uint32_t size)
+{
+    Client_data *entries = (Client_data *)arr;
+    return &entries[index];
+}
+
+non_null()
+static void *client_data_alloc_handler(const void *object, uint32_t size)
+{
+    const Client_data_Cmp *cmp = (const Client_data_Cmp *)object;
+    Client_data *tmp = (Client_data *)mem_valloc(cmp->mem, size, sizeof(Client_data));
+
+    if (tmp == nullptr) {
+        return nullptr;
+    }
+
+    return tmp;
+}
+
+non_null()
+static void client_data_delete_handler(const void *object, void *arr, uint32_t size)
+{
+    const Client_data_Cmp *cmp = (const Client_data_Cmp *)object;
+    mem_delete(cmp->mem, arr);
+}
+
+static const Sort_Funcs client_data_cmp_funcs = {
+    client_data_less_handler,
+    client_data_get_handler,
+    client_data_set_handler,
+    client_data_subarr_handler,
+    client_data_alloc_handler,
+    client_data_delete_handler,
+};
+
 non_null()
 static void sort_client_list(const Memory *mem, Client_data *list, uint64_t cur_time, unsigned int length,
                              const uint8_t *comp_public_key)
 {
-    // Pass comp_public_key to qsort with each Client_data entry, so the
+    // Pass comp_public_key to merge_sort with each Client_data entry, so the
     // comparison function can use it as the base of comparison.
-    DHT_Cmp_Data *cmp_list = (DHT_Cmp_Data *)mem_valloc(mem, length, sizeof(DHT_Cmp_Data));
+    const Client_data_Cmp cmp = {
+        mem,
+        cur_time,
+        comp_public_key,
+    };
 
-    if (cmp_list == nullptr) {
-        return;
-    }
-
-    for (uint32_t i = 0; i < length; ++i) {
-        cmp_list[i].cur_time = cur_time;
-        cmp_list[i].base_public_key = comp_public_key;
-        cmp_list[i].entry = list[i];
-    }
-
-    qsort(cmp_list, length, sizeof(DHT_Cmp_Data), dht_cmp_entry);
-
-    for (uint32_t i = 0; i < length; ++i) {
-        list[i] = cmp_list[i].entry;
-    }
-
-    mem_delete(mem, cmp_list);
+    merge_sort(list, length, &cmp, &client_data_cmp_funcs);
 }
 
 non_null()
@@ -1087,7 +1135,7 @@ static bool is_pk_in_close_list(const DHT *dht, const uint8_t *public_key, const
                                 ip_port);
 }
 
-/** @brief Check if the node obtained with a get_nodes with public_key should be pinged.
+/** @brief Check if the node obtained from a nodes response with public_key should be pinged.
  *
  * NOTE: for best results call it after addto_lists.
  *
@@ -1095,7 +1143,7 @@ static bool is_pk_in_close_list(const DHT *dht, const uint8_t *public_key, const
  * return true if it should.
  */
 non_null()
-static bool ping_node_from_getnodes_ok(DHT *dht, const uint8_t *public_key, const IP_Port *ip_port)
+static bool ping_node_from_nodes_response_ok(DHT *dht, const uint8_t *public_key, const IP_Port *ip_port)
 {
     bool ret = false;
 
@@ -1266,7 +1314,7 @@ static void returnedip_ports(DHT *dht, const IP_Port *ip_port, const uint8_t *pu
     }
 }
 
-bool dht_getnodes(DHT *dht, const IP_Port *ip_port, const uint8_t *public_key, const uint8_t *client_id)
+bool dht_send_nodes_request(DHT *dht, const IP_Port *ip_port, const uint8_t *public_key, const uint8_t *client_id)
 {
     /* Check if packet is going to be sent to ourself. */
     if (pk_equal(public_key, dht->self_public_key)) {
@@ -1301,21 +1349,21 @@ bool dht_getnodes(DHT *dht, const IP_Port *ip_port, const uint8_t *public_key, c
     const uint8_t *shared_key = dht_get_shared_key_sent(dht, public_key);
 
     const int len = dht_create_packet(dht->mem, dht->rng,
-                                      dht->self_public_key, shared_key, NET_PACKET_GET_NODES,
+                                      dht->self_public_key, shared_key, NET_PACKET_NODES_REQUEST,
                                       plain, sizeof(plain), data, sizeof(data));
 
     if (len != sizeof(data)) {
-        LOGGER_ERROR(dht->log, "getnodes packet encryption failed");
+        LOGGER_ERROR(dht->log, "nodes request packet encryption failed");
         return false;
     }
 
     return sendpacket(dht->net, ip_port, data, len) > 0;
 }
 
-/** Send a send nodes response: message for IPv6 nodes */
+/** Send a nodes response */
 non_null()
-static int sendnodes_ipv6(const DHT *dht, const IP_Port *ip_port, const uint8_t *public_key, const uint8_t *client_id,
-                          const uint8_t *sendback_data, uint16_t length, const uint8_t *shared_encryption_key)
+static int send_nodes_response(const DHT *dht, const IP_Port *ip_port, const uint8_t *public_key, const uint8_t *client_id,
+                               const uint8_t *sendback_data, uint16_t length, const uint8_t *shared_encryption_key)
 {
     /* Check if packet is going to be sent to ourself. */
     if (pk_equal(public_key, dht->self_public_key)) {
@@ -1352,7 +1400,7 @@ static int sendnodes_ipv6(const DHT *dht, const IP_Port *ip_port, const uint8_t 
     VLA(uint8_t, data, data_size);
 
     const int len = dht_create_packet(dht->mem, dht->rng,
-                                      dht->self_public_key, shared_encryption_key, NET_PACKET_SEND_NODES_IPV6,
+                                      dht->self_public_key, shared_encryption_key, NET_PACKET_NODES_RESPONSE,
                                       plain, 1 + nodes_length + length, data, data_size);
 
     if (len < 0 || (uint32_t)len != data_size) {
@@ -1365,7 +1413,7 @@ static int sendnodes_ipv6(const DHT *dht, const IP_Port *ip_port, const uint8_t 
 #define CRYPTO_NODE_SIZE (CRYPTO_PUBLIC_KEY_SIZE + sizeof(uint64_t))
 
 non_null()
-static int handle_getnodes(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length, void *userdata)
+static int handle_nodes_request(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length, void *userdata)
 {
     DHT *const dht = (DHT *)object;
 
@@ -1381,6 +1429,7 @@ static int handle_getnodes(void *object, const IP_Port *source, const uint8_t *p
     uint8_t plain[CRYPTO_NODE_SIZE];
     const uint8_t *shared_key = dht_get_shared_key_recv(dht, packet + 1);
     const int len = decrypt_data_symmetric(
+                        dht->mem,
                         shared_key,
                         packet + 1 + CRYPTO_PUBLIC_KEY_SIZE,
                         packet + 1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE,
@@ -1391,16 +1440,16 @@ static int handle_getnodes(void *object, const IP_Port *source, const uint8_t *p
         return 1;
     }
 
-    sendnodes_ipv6(dht, source, packet + 1, plain, plain + CRYPTO_PUBLIC_KEY_SIZE, sizeof(uint64_t), shared_key);
+    send_nodes_response(dht, source, packet + 1, plain, plain + CRYPTO_PUBLIC_KEY_SIZE, sizeof(uint64_t), shared_key);
 
     ping_add(dht->ping, packet + 1, source);
 
     return 0;
 }
 
-/** Return true if we sent a getnode packet to the peer associated with the supplied info. */
+/** Return true if we sent a nodes request packet to the peer associated with the supplied info. */
 non_null()
-static bool sent_getnode_to_node(DHT *dht, const uint8_t *public_key, const IP_Port *node_ip_port, uint64_t ping_id)
+static bool sent_nodes_request_to_node(DHT *dht, const uint8_t *public_key, const IP_Port *node_ip_port, uint64_t ping_id)
 {
     uint8_t data[sizeof(Node_format) * 2];
 
@@ -1418,8 +1467,8 @@ static bool sent_getnode_to_node(DHT *dht, const uint8_t *public_key, const IP_P
 }
 
 non_null()
-static bool handle_sendnodes_core(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length,
-                                  Node_format *plain_nodes, uint16_t size_plain_nodes, uint32_t *num_nodes_out)
+static bool handle_nodes_response_core(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length,
+                                       Node_format *plain_nodes, uint16_t size_plain_nodes, uint32_t *num_nodes_out)
 {
     DHT *const dht = (DHT *)object;
     const uint32_t cid_size = 1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE + 1 + sizeof(uint64_t) + CRYPTO_MAC_SIZE;
@@ -1442,6 +1491,7 @@ static bool handle_sendnodes_core(void *object, const IP_Port *source, const uin
     VLA(uint8_t, plain, plain_size);
     const uint8_t *shared_key = dht_get_shared_key_sent(dht, packet + 1);
     const int len = decrypt_data_symmetric(
+                        dht->mem,
                         shared_key,
                         packet + 1 + CRYPTO_PUBLIC_KEY_SIZE,
                         packet + 1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE,
@@ -1459,7 +1509,7 @@ static bool handle_sendnodes_core(void *object, const IP_Port *source, const uin
     uint64_t ping_id;
     memcpy(&ping_id, plain + 1 + data_size, sizeof(ping_id));
 
-    if (!sent_getnode_to_node(dht, packet + 1, source, ping_id)) {
+    if (!sent_nodes_request_to_node(dht, packet + 1, source, ping_id)) {
         return false;
     }
 
@@ -1487,14 +1537,14 @@ static bool handle_sendnodes_core(void *object, const IP_Port *source, const uin
 }
 
 non_null()
-static int handle_sendnodes_ipv6(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length,
+static int handle_nodes_response(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length,
                                  void *userdata)
 {
     DHT *const dht = (DHT *)object;
     Node_format plain_nodes[MAX_SENT_NODES];
     uint32_t num_nodes;
 
-    if (!handle_sendnodes_core(object, source, packet, length, plain_nodes, MAX_SENT_NODES, &num_nodes)) {
+    if (!handle_nodes_response_core(object, source, packet, length, plain_nodes, MAX_SENT_NODES, &num_nodes)) {
         return 1;
     }
 
@@ -1504,11 +1554,11 @@ static int handle_sendnodes_ipv6(void *object, const IP_Port *source, const uint
 
     for (uint32_t i = 0; i < num_nodes; ++i) {
         if (ipport_isset(&plain_nodes[i].ip_port)) {
-            ping_node_from_getnodes_ok(dht, plain_nodes[i].public_key, &plain_nodes[i].ip_port);
+            ping_node_from_nodes_response_ok(dht, plain_nodes[i].public_key, &plain_nodes[i].ip_port);
             returnedip_ports(dht, &plain_nodes[i].ip_port, plain_nodes[i].public_key, packet + 1);
 
-            if (dht->get_nodes_response != nullptr) {
-                dht->get_nodes_response(dht, &plain_nodes[i], userdata);
+            if (dht->nodes_response_callback != nullptr) {
+                dht->nodes_response_callback(dht, &plain_nodes[i], userdata);
             }
         }
     }
@@ -1721,7 +1771,7 @@ static uint8_t do_ping_and_sendnode_requests(DHT *dht, uint64_t *lastgetnode, co
                 if (mono_time_is_timeout(dht->mono_time, assoc->last_pinged, PING_INTERVAL)) {
                     const IP_Port *target = &assoc->ip_port;
                     const uint8_t *target_key = client->public_key;
-                    dht_getnodes(dht, target, target_key, public_key);
+                    dht_send_nodes_request(dht, target, target_key, public_key);
                     assoc->last_pinged = temp_time;
                 }
 
@@ -1746,7 +1796,7 @@ static uint8_t do_ping_and_sendnode_requests(DHT *dht, uint64_t *lastgetnode, co
         sort_client_list(dht->mem, list, dht->cur_time, list_count, public_key);
     }
 
-    if (num_nodes > 0 && (mono_time_is_timeout(dht->mono_time, *lastgetnode, GET_NODE_INTERVAL)
+    if (num_nodes > 0 && (mono_time_is_timeout(dht->mono_time, *lastgetnode, NODES_REQUEST_INTERVAL)
                           || *bootstrap_times < MAX_BOOTSTRAP_TIMES)) {
         uint32_t rand_node = random_range_u32(dht->rng, num_nodes);
 
@@ -1756,7 +1806,7 @@ static uint8_t do_ping_and_sendnode_requests(DHT *dht, uint64_t *lastgetnode, co
 
         const IP_Port *target = &assoc_list[rand_node]->ip_port;
         const uint8_t *target_key = client_list[rand_node]->public_key;
-        dht_getnodes(dht, target, target_key, public_key);
+        dht_send_nodes_request(dht, target, target_key, public_key);
 
         *lastgetnode = temp_time;
         ++*bootstrap_times;
@@ -1769,7 +1819,7 @@ static uint8_t do_ping_and_sendnode_requests(DHT *dht, uint64_t *lastgetnode, co
 
 /** @brief Ping each client in the "friends" list every PING_INTERVAL seconds.
  *
- * Send a get nodes request  every GET_NODE_INTERVAL seconds to a random good
+ * Send a nodes request  every NODES_REQUEST_INTERVAL seconds to a random good
  * node for each "friend" in our "friends" list.
  */
 non_null()
@@ -1779,31 +1829,31 @@ static void do_dht_friends(DHT *dht)
         DHT_Friend *const dht_friend = &dht->friends_list[i];
 
         for (size_t j = 0; j < dht_friend->num_to_bootstrap; ++j) {
-            dht_getnodes(dht, &dht_friend->to_bootstrap[j].ip_port, dht_friend->to_bootstrap[j].public_key, dht_friend->public_key);
+            dht_send_nodes_request(dht, &dht_friend->to_bootstrap[j].ip_port, dht_friend->to_bootstrap[j].public_key, dht_friend->public_key);
         }
 
         dht_friend->num_to_bootstrap = 0;
 
-        do_ping_and_sendnode_requests(dht, &dht_friend->lastgetnode, dht_friend->public_key, dht_friend->client_list,
+        do_ping_and_sendnode_requests(dht, &dht_friend->last_nodes_request, dht_friend->public_key, dht_friend->client_list,
                                       MAX_FRIEND_CLIENTS, &dht_friend->bootstrap_times, true);
     }
 }
 
 /** @brief Ping each client in the close nodes list every PING_INTERVAL seconds.
  *
- * Send a get nodes request every GET_NODE_INTERVAL seconds to a random good node in the list.
+ * Send a nodes request every NODES_REQUEST_INTERVAL seconds to a random good node in the list.
  */
 non_null()
 static void do_close(DHT *dht)
 {
     for (size_t i = 0; i < dht->num_to_bootstrap; ++i) {
-        dht_getnodes(dht, &dht->to_bootstrap[i].ip_port, dht->to_bootstrap[i].public_key, dht->self_public_key);
+        dht_send_nodes_request(dht, &dht->to_bootstrap[i].ip_port, dht->to_bootstrap[i].public_key, dht->self_public_key);
     }
 
     dht->num_to_bootstrap = 0;
 
     const uint8_t not_killed = do_ping_and_sendnode_requests(
-                                   dht, &dht->close_lastgetnodes, dht->self_public_key, dht->close_clientlist, LCLIENT_LIST, &dht->close_bootstrap_times,
+                                   dht, &dht->close_last_nodes_request, dht->self_public_key, dht->close_clientlist, LCLIENT_LIST, &dht->close_bootstrap_times,
                                    false);
 
     if (not_killed != 0) {
@@ -1837,10 +1887,10 @@ bool dht_bootstrap(DHT *dht, const IP_Port *ip_port, const uint8_t *public_key)
         return true;
     }
 
-    return dht_getnodes(dht, ip_port, public_key, dht->self_public_key);
+    return dht_send_nodes_request(dht, ip_port, public_key, dht->self_public_key);
 }
 
-bool dht_bootstrap_from_address(DHT *dht, const char *address, bool ipv6enabled,
+bool dht_bootstrap_from_address(DHT *dht, const char *address, bool ipv6enabled, bool dns_enabled,
                                 uint16_t port, const uint8_t *public_key)
 {
     IP_Port ip_port_v64;
@@ -1855,7 +1905,7 @@ bool dht_bootstrap_from_address(DHT *dht, const char *address, bool ipv6enabled,
         ip_extra = &ip_port_v4.ip;
     }
 
-    if (addr_resolve_or_parse_ip(dht->ns, address, &ip_port_v64.ip, ip_extra)) {
+    if (addr_resolve_or_parse_ip(dht->ns, dht->mem, address, &ip_port_v64.ip, ip_extra, dns_enabled)) {
         ip_port_v64.port = port;
         dht_bootstrap(dht, &ip_port_v64, public_key);
 
@@ -2123,7 +2173,7 @@ static int send_nat_ping(const DHT *dht, const uint8_t *public_key, uint64_t pin
     memcpy(data + 1, &ping_id, sizeof(uint64_t));
     /* 254 is NAT ping request packet id */
     const int len = create_request(
-                        dht->rng, dht->self_public_key, dht->self_secret_key, packet_data, public_key,
+                        dht->mem, dht->rng, dht->self_public_key, dht->self_secret_key, packet_data, public_key,
                         data, sizeof(uint64_t) + 1, CRYPTO_PACKET_NAT_PING);
 
     if (len == -1) {
@@ -2458,7 +2508,7 @@ static int cryptopacket_handle(void *object, const IP_Port *source, const uint8_
         uint8_t public_key[CRYPTO_PUBLIC_KEY_SIZE];
         uint8_t data[MAX_CRYPTO_REQUEST_SIZE];
         uint8_t number;
-        const int len = handle_request(dht->self_public_key, dht->self_secret_key, public_key,
+        const int len = handle_request(dht->mem, dht->self_public_key, dht->self_secret_key, public_key,
                                        data, &number, packet, length);
 
         if (len == -1 || len == 0) {
@@ -2484,9 +2534,9 @@ static int cryptopacket_handle(void *object, const IP_Port *source, const uint8_
     return 1;
 }
 
-void dht_callback_get_nodes_response(DHT *dht, dht_get_nodes_response_cb *function)
+void dht_callback_nodes_response(DHT *dht, dht_nodes_response_cb *function)
 {
-    dht->get_nodes_response = function;
+    dht->nodes_response_callback = function;
 }
 
 non_null(1, 2, 3) nullable(5)
@@ -2547,8 +2597,8 @@ DHT *new_dht(const Logger *log, const Memory *mem, const Random *rng, const Netw
         return nullptr;
     }
 
-    networking_registerhandler(dht->net, NET_PACKET_GET_NODES, &handle_getnodes, dht);
-    networking_registerhandler(dht->net, NET_PACKET_SEND_NODES_IPV6, &handle_sendnodes_ipv6, dht);
+    networking_registerhandler(dht->net, NET_PACKET_NODES_REQUEST, &handle_nodes_request, dht);
+    networking_registerhandler(dht->net, NET_PACKET_NODES_RESPONSE, &handle_nodes_response, dht);
     networking_registerhandler(dht->net, NET_PACKET_CRYPTO, &cryptopacket_handle, dht);
     networking_registerhandler(dht->net, NET_PACKET_LAN_DISCOVERY, &handle_lan_discovery, dht);
     cryptopacket_registerhandler(dht, CRYPTO_PACKET_NAT_PING, &handle_nat_ping, dht);
@@ -2626,8 +2676,8 @@ void kill_dht(DHT *dht)
         return;
     }
 
-    networking_registerhandler(dht->net, NET_PACKET_GET_NODES, nullptr, nullptr);
-    networking_registerhandler(dht->net, NET_PACKET_SEND_NODES_IPV6, nullptr, nullptr);
+    networking_registerhandler(dht->net, NET_PACKET_NODES_REQUEST, nullptr, nullptr);
+    networking_registerhandler(dht->net, NET_PACKET_NODES_RESPONSE, nullptr, nullptr);
     networking_registerhandler(dht->net, NET_PACKET_CRYPTO, nullptr, nullptr);
     networking_registerhandler(dht->net, NET_PACKET_LAN_DISCOVERY, nullptr, nullptr);
     cryptopacket_registerhandler(dht, CRYPTO_PACKET_NAT_PING, nullptr, nullptr);

@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -25,6 +25,7 @@
 #include "mem.h"
 #include "mono_time.h"
 #include "net_crypto.h"
+#include "net_profile.h"
 #include "network.h"
 #include "onion.h"
 #include "onion_announce.h"
@@ -86,6 +87,8 @@ typedef struct Messenger_Options {
 
     Messenger_State_Plugin *state_plugins;
     uint8_t state_plugins_length;
+
+    bool dns_enabled;
 } Messenger_Options;
 
 struct Receipts {
@@ -246,6 +249,7 @@ struct Messenger {
 
     Networking_Core *net;
     Net_Crypto *net_crypto;
+    Net_Profile *tcp_np;
     DHT *dht;
 
     Forwarding *forwarding;

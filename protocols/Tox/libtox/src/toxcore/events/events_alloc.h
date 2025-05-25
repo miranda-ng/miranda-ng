@@ -1,16 +1,13 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2022 The TokTok team.
+ * Copyright © 2022-2025 The TokTok team.
  */
 
 #ifndef C_TOXCORE_TOXCORE_EVENTS_EVENTS_ALLOC_H
 #define C_TOXCORE_TOXCORE_EVENTS_EVENTS_ALLOC_H
 
 #include "../attributes.h"
-#include "../bin_pack.h"
-#include "../bin_unpack.h"
 #include "../mem.h"
 #include "../tox.h"
-#include "../tox_event.h"
 #include "../tox_events.h"
 #include "../tox_private.h"
 
@@ -38,7 +35,7 @@ tox_conference_message_cb tox_events_handle_conference_message;
 tox_conference_peer_list_changed_cb tox_events_handle_conference_peer_list_changed;
 tox_conference_peer_name_cb tox_events_handle_conference_peer_name;
 tox_conference_title_cb tox_events_handle_conference_title;
-tox_dht_get_nodes_response_cb tox_events_handle_dht_get_nodes_response;
+tox_dht_nodes_response_cb tox_events_handle_dht_nodes_response;
 tox_file_chunk_request_cb tox_events_handle_file_chunk_request;
 tox_file_recv_cb tox_events_handle_file_recv;
 tox_file_recv_chunk_cb tox_events_handle_file_recv_chunk;
