@@ -504,6 +504,7 @@ void NewstoryListData::EndEditItem(bool bAccept)
 				ptrA szUtf(mir_utf8encodeW(pItem->wtext));
 				dbei.cbBlob = (int)mir_strlen(szUtf) + 1;
 				dbei.pBlob = szUtf.detach();
+				dbei.bEdited = true;
 				db_event_edit(pItem->dbe.getEvent(), &dbei);
 			}
 
