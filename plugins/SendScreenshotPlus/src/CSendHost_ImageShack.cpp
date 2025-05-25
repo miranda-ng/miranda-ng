@@ -46,9 +46,24 @@ CSendHost_ImageShack::~CSendHost_ImageShack()
 int CSendHost_ImageShack::Send()
 {
 	if (!g_hNetlibUser) { // check Netlib
+LBL_Error:
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
+	}
+
+	CMStringA szKey(g_plugin.getMStringA("Key"));
+	if (szKey.IsEmpty()) {
+		ENTER_STRING es = {};
+		es.szModuleName = MODULENAME;
+		es.caption = TranslateT("Enter user key for Imageshack");
+		if (!EnterString(&es)) {
+			m_pszSendTyp = LPGENW("User key is missing");
+			goto LBL_Error;
+		}
+
+		szKey = es.ptszResult;
+		g_plugin.setString("Key", szKey);
 	}
 
 	m_pRequest.reset(new MHttpRequest(REQUEST_POST));
@@ -58,12 +73,13 @@ int CSendHost_ImageShack::Send()
 		{ "fileupload", HTTPFORM_FILE(tmp) },
 		// { "rembar", "yes" },// no info bar on thumb
 		{ "public", "no" },
-		{ "key", HTTPFORM_8BIT(DEVKEY_IMAGESHACK) },
+		{ "key", szKey.c_str() },
 	};
 
 	int error = HTTPFormCreate(m_pRequest.get(), "http://imageshack.us/upload_api.php", frm, sizeof(frm) / sizeof(HTTPFormData));
 	if (error)
 		return !m_bAsync;
+	
 	// start upload thread
 	if (m_bAsync) {
 		mir_forkthread(&CSendHost_ImageShack::SendThreadWrapper, this);

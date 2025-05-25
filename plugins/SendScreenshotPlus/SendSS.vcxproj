@@ -53,7 +53,6 @@
     <ClInclude Include="src\CSendHost_uploadpie.h" />
     <ClInclude Include="src\CSendHTTPServer.h" />
     <ClInclude Include="src\ctrl_button.h" />
-    <ClInclude Include="src\DevKey.h" />
     <ClInclude Include="src\dlg_msgbox.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
