@@ -653,8 +653,10 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				wszNick = Utf2T(p->sender_name_.c_str());
 			break;
 		case TD::messageOriginChannel::ID:
-			if (auto *p = FindChat(((TD::messageOriginChannel *)pForward->origin_.get())->chat_id_))
-				wszNick = p->getDisplayName();
+			if (auto *p = FindChat(((TD::messageOriginChannel *)pForward->origin_.get())->chat_id_)) {
+				auto str = p->getDisplayName();
+				wszNick.Format(L"[url=https://t.me/%s]%s[/url]", str.c_str(), str.c_str());
+			}
 			break;
 		default:
 			wszNick = TranslateT("Unknown");
