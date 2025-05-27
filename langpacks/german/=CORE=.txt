@@ -110,8 +110,6 @@ Titelleiste anzeigen
 Titelleistentext:
 [Show drop shadow (restart required)]
 Schatten werfen (erfordert Neustart)
-[Pin to desktop]
-An den Desktop anheften
 [Hide contact list after it has been idle for]
 Kontaktliste verstecken nach Untätigkeit von
 [seconds]
@@ -126,8 +124,6 @@ Maximal
 Größenanpassung nach oben
 [If window is partially covered, bring to front instead of hiding]
 Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
-[Enable docking]
-Andocken aktivieren
 [Translucency options]
 Transparenz-Einstellungen
 [Fade contact list in/out]
@@ -969,10 +965,12 @@ Unterkontakt-Nicknamen anzeigen
 Unterkontakt-Anzeigenamen anzeigen
 [Lock name to first contact]
 Namen auf ersten Kontakt festlegen
-[Choose needed logger from listed below:]
-Gewünschten Verlaufsbetrachter aus Liste auswählen:
-[Enable custom loggers in group chats]
-Angepassten Verlaufsbetrachter in Gruppenchats verwenden
+[Choose a log viewer]
+Verlaufsbetrachter auswählen
+[For the private chats]
+Für private Chats
+[For the group chats]
+Für Gruppenchats
 [Current language:]
 Aktuelle Sprache:
 [Date:]

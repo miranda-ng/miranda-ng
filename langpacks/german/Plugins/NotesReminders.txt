@@ -242,8 +242,10 @@ Sticky Notiz Hintergrundfarbe
 Sticky Notiz Body
 [None]
 Keine
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-Ausführbare Dateien\0*.exe\0Alle Dateien\0*.*\0\0
+[Executable Files]
+Ausführbare Dateien
+[All Files]
+Alle Dateien
 [Select Executable]
 Ausführbare Datei auswählen
 [Plugins]
@@ -251,20 +253,6 @@ Plugins
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [The specified time is invalid.]
 Die angegebene Zeit ist ungültig.
-[Minutes]
-Minuten
-[Hours]
-Stunden
-[The specified time is invalid due to begin of daylight saving (summer time).]
-Die angegebene Zeit ist ungültig wegen dem Anfang der Sommerzeit.
-[Hour]
-Stunde
-[Day]
-Tag
-[Days]
-Tage
-[Week]
-Woche
 [Don't repeat]
 Nicht wiederholen
 [Repeat daily]
@@ -273,6 +261,20 @@ Täglich wiederholen
 Wöchentlich wiederholen
 [Repeat monthly]
 Monatlich wiederholen
+[Minutes]
+Minuten
+[The specified time is invalid due to begin of daylight saving (summer time).]
+Die angegebene Zeit ist ungültig wegen dem Anfang der Sommerzeit.
+[Hour]
+Stunde
+[Hours]
+Stunden
+[Day]
+Tag
+[Days]
+Tage
+[Week]
+Woche
 [&Update Reminder]
 Erinnerung akt&ualisieren
 [Every]
