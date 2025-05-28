@@ -79,9 +79,3 @@ void CTeamsProto::OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest*)
 
 	LoggedIn();
 }
-
-void CTeamsProto::OnEndpointDeleted(MHttpResponse *, AsyncHttpRequest *)
-{
-	m_szEndpoint.Empty();
-	m_szRegToken.Empty();
-}

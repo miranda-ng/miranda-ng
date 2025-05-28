@@ -19,6 +19,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTeamsProto::OnReceiveApiCookie(MHttpResponse *response, AsyncHttpRequest *)
+{
+	if (response == nullptr) {
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
+		SetStatus(ID_STATUS_OFFLINE);
+		return;
+	}
+
+	m_szApiCookie = response->GetCookies();
+}
+
 void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *)
 {
 	if (response == nullptr || response->body.IsEmpty()) {
@@ -36,6 +47,8 @@ void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest
 		m_szOwnSkypeId = UrlToSkypeId(root["selfLink"].as_string().c_str()).Detach();
 
 	GetProfileInfo(0);
+
+	PushRequest(new AsyncHttpRequest(REQUEST_POST, HOST_TEAMS_API, "/imageauth/cookie", &CTeamsProto::OnReceiveApiCookie));
 }
 
 void CTeamsProto::SendPresence()

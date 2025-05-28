@@ -126,8 +126,13 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		pReq->AddHeader("ms-ic3-additional-product", "Sfl");
 		break;
 
-	case HOST_TEAMS:
 	case HOST_TEAMS_API:
+		pReq->AddHeader("X-MS-Client-Type", "maglev");
+		pReq->AddHeader("referer", "https://teams.live.com/v2/");
+		pReq->AddHeader("Cookie", mir_urlEncode(m_szApiCookie));
+		__fallthrough;
+
+	case HOST_TEAMS:
 		if (!pReq->FindHeader("Authorization"))
 		 	pReq->AddHeader("Authorization", "Bearer " + m_szAccessToken);
 		if (m_szSkypeToken)

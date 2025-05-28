@@ -52,7 +52,7 @@ SESSION_INFO* CTeamsProto::StartChatRoom(const wchar_t *tid, const wchar_t *tnam
 		Chat_AddGroup(si, TranslateT("Admin"));
 		Chat_AddGroup(si, TranslateT("User"));
 
-		PushRequest(new GetChatInfoRequest(tid));
+		GetChatInfo(tid);
 	}
 
 	// Finish initialization
@@ -252,7 +252,7 @@ bool CTeamsProto::OnChatEvent(const JSONNode &node)
 				if (!AddChatContact(si, Utf2T(pszTarget), L"User")) {
 					OBJLIST<char> arIds(1);
 					arIds.insert(newStr(pszTarget));
-					PushRequest(new GetChatMembersRequest(arIds, si));
+					GetChatMembers(arIds, si);
 				}
 			}
 		}
@@ -352,6 +352,20 @@ void CTeamsProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CTeamsProto::GetChatMembers(const LIST<char> &ids, SESSION_INFO *si)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/profiles", &CTeamsProto::OnGetChatMembers);
+	
+	JSONNode node, mris(JSON_ARRAY); mris.set_name("mris");
+	for (auto &it : ids)
+		mris.push_back(JSONNode("", it));
+	node << mris << CHAR_PARAM("locale", "en-US");
+	pReq->m_szParam = node.write().c_str();
+
+	pReq->pUserInfo = si;
+	PushRequest(pReq);
+};
+
 void CTeamsProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	TeamsReply reply(response);
@@ -373,6 +387,8 @@ void CTeamsProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pR
 	if (g_chatApi.OnChangeNick)
 		g_chatApi.OnChangeNick(si);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTeamsProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 {
@@ -401,10 +417,19 @@ void CTeamsProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 	}
 	
 	if (arIds.getCount())
-		PushRequest(new GetChatMembersRequest(arIds, si));
+		GetChatMembers(arIds, si);
 
 	GetServerHistory(si->hContact, 100, 0, true);
 }
+
+void CTeamsProto::GetChatInfo(const wchar_t *chatId)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CTeamsProto::OnGetChatInfo);
+	pReq->m_szUrl.AppendFormat("/threads/%S", chatId);
+	pReq << CHAR_PARAM("view", "msnp24Equivalent");
+	PushRequest(pReq);
+}
+
 
 wchar_t* CTeamsProto::GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name, bool *isQualified)
 {

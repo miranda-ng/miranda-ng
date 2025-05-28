@@ -772,12 +772,3 @@ INT_PTR CTeamsProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 
 	return 1;
 }
-
-INT_PTR CTeamsProto::GlobalParseSkypeUriService(WPARAM wParam, LPARAM lParam)
-{
-	for (auto &it : CMPlugin::g_arInstances)
-		if (it->IsOnline())
-			return it->ParseSkypeUriService(wParam, lParam);
-
-	return 1;
-}

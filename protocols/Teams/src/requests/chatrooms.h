@@ -37,32 +37,6 @@ struct CreateChatroomRequest : public AsyncHttpRequest
 	}
 };
 
-struct GetChatMembersRequest : public AsyncHttpRequest
-{
-	GetChatMembersRequest(const LIST<char> &ids, SESSION_INFO *si) :
-		AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/profiles", &CTeamsProto::OnGetChatMembers)
-	{
-		JSONNode node, mris(JSON_ARRAY); mris.set_name("mris");
-		for (auto &it : ids)
-			mris.push_back(JSONNode("", it));
-		node << mris << CHAR_PARAM("locale", "en-US");
-		m_szParam = node.write().c_str();
-
-		pUserInfo = si;
-	}
-};
-
-struct GetChatInfoRequest : public AsyncHttpRequest
-{
-	GetChatInfoRequest(const wchar_t *chatId) :
-		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CTeamsProto::OnGetChatInfo)
-	{
-		m_szUrl.AppendFormat("/threads/%S", chatId);
-
-		this << CHAR_PARAM("view", "msnp24Equivalent");
-	}
-};
-
 struct InviteUserToChatRequest : public AsyncHttpRequest
 {
 	InviteUserToChatRequest(const char *chatId, const char *skypename, const char *role) :
