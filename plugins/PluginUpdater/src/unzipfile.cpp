@@ -90,8 +90,10 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 
 	if (!(file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)) {
 		err = unzOpenCurrentFile(uf);
-		if (err != UNZ_OK)
+		if (err != UNZ_OK) {
+			Netlib_LogfW(g_hNetlibUser, L"Error opening file %s: %d", pwszNewName.get(), err);
 			return err;
+		}
 
 		if (pwszBackPath != nullptr) {
 			PrepareFileName(wszDestFile, _countof(wszDestFile), pwszDestPath, pwszNewName);
@@ -122,8 +124,10 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 
 		while (true) {
 			err = unzReadCurrentFile(uf, buf, DATA_BUF_SIZE);
-			if (err <= 0)
+			if (err <= 0) {
+				Netlib_LogfW(g_hNetlibUser, L"Error reading zipped file %s: %d", pwszFile2unzip, err);
 				break;
+			}
 
 			DWORD bytes;
 			if (!WriteFile(hFile, buf, err, &bytes, FALSE)) {
@@ -158,8 +162,10 @@ int unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackPa
 	unzFile uf = unzOpen2_64(pwszZipFile, &ffunc);
 	if (uf) {
 		do {
-			if (int err = extractCurrentFile(uf, pwszDestPath, pwszBackPath, ch))
+			if (int err = extractCurrentFile(uf, pwszDestPath, pwszBackPath, ch)) {
+				Netlib_LogfW(g_hNetlibUser, L"Error unzipping file %s: %d", pwszZipFile, err);
 				iErrorCode = err;
+			}
 		}
 			while (unzGoToNextFile(uf) == UNZ_OK);
 		unzClose(uf);
