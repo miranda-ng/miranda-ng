@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.3
+;  Version: 0.9.0.4
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -143,6 +143,10 @@ FTPFile-Übertragung
 ;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 Bild hochladen
+[Enter user key for Imageshack]
+Benutzerschlüssel für Imageshack angeben
+[User key is missing]
+Benutzerschlüssel fehlt
 ;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp

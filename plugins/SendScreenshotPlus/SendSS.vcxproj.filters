@@ -79,9 +79,6 @@
     <ClInclude Include="src\ctrl_button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\DevKey.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\dlg_msgbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>

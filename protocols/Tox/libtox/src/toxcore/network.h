@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -17,6 +17,7 @@
 #include "bin_pack.h"
 #include "logger.h"
 #include "mem.h"
+#include "net_profile.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,6 +40,7 @@ typedef int net_close_cb(void *obj, Socket sock);
 typedef Socket net_accept_cb(void *obj, Socket sock);
 typedef int net_bind_cb(void *obj, Socket sock, const Network_Addr *addr);
 typedef int net_listen_cb(void *obj, Socket sock, int backlog);
+typedef int net_connect_cb(void *obj, Socket sock, const Network_Addr *addr);
 typedef int net_recvbuf_cb(void *obj, Socket sock);
 typedef int net_recv_cb(void *obj, Socket sock, uint8_t *buf, size_t len);
 typedef int net_recvfrom_cb(void *obj, Socket sock, uint8_t *buf, size_t len, Network_Addr *addr);
@@ -48,8 +50,8 @@ typedef Socket net_socket_cb(void *obj, int domain, int type, int proto);
 typedef int net_socket_nonblock_cb(void *obj, Socket sock, bool nonblock);
 typedef int net_getsockopt_cb(void *obj, Socket sock, int level, int optname, void *optval, size_t *optlen);
 typedef int net_setsockopt_cb(void *obj, Socket sock, int level, int optname, const void *optval, size_t optlen);
-typedef int net_getaddrinfo_cb(void *obj, int family, Network_Addr **addrs);
-typedef int net_freeaddrinfo_cb(void *obj, Network_Addr *addrs);
+typedef int net_getaddrinfo_cb(void *obj, const Memory *mem, const char *address, int family, int protocol, Network_Addr **addrs);
+typedef int net_freeaddrinfo_cb(void *obj, const Memory *mem, Network_Addr *addrs);
 
 /** @brief Functions wrapping POSIX network functions.
  *
@@ -61,6 +63,7 @@ typedef struct Network_Funcs {
     net_accept_cb *accept;
     net_bind_cb *bind;
     net_listen_cb *listen;
+    net_connect_cb *connect;
     net_recvbuf_cb *recvbuf;
     net_recv_cb *recv;
     net_recvfrom_cb *recvfrom;
@@ -110,8 +113,8 @@ Family net_family_tox_tcp_ipv6(void);
 typedef enum Net_Packet_Type {
     NET_PACKET_PING_REQUEST         = 0x00, /* Ping request packet ID. */
     NET_PACKET_PING_RESPONSE        = 0x01, /* Ping response packet ID. */
-    NET_PACKET_GET_NODES            = 0x02, /* Get nodes request packet ID. */
-    NET_PACKET_SEND_NODES_IPV6      = 0x04, /* Send nodes response packet ID for other addresses. */
+    NET_PACKET_NODES_REQUEST        = 0x02, /* Nodes request packet ID. */
+    NET_PACKET_NODES_RESPONSE       = 0x04, /* Nodes response packet ID. */
     NET_PACKET_COOKIE_REQUEST       = 0x18, /* Cookie request packet */
     NET_PACKET_COOKIE_RESPONSE      = 0x19, /* Cookie response packet */
     NET_PACKET_CRYPTO_HS            = 0x1a, /* Crypto handshake packet */
@@ -233,11 +236,27 @@ Socket net_invalid_socket(void);
 
 /**
  * Calls send(sockfd, buf, len, MSG_NOSIGNAL).
+ *
+ * @param ns System network object.
+ * @param log Logger object.
+ * @param sock Socket to send data with.
+ * @param buf Data to send.
+ * @param len Length of data.
+ * @param ip_port IP and port to send data to.
+ * @param net_profile Network profile to record the packet.
  */
-non_null()
-int net_send(const Network *ns, const Logger *log, Socket sock, const uint8_t *buf, size_t len, const IP_Port *ip_port);
+non_null(1, 2, 4, 6) nullable(7)
+int net_send(const Network *ns, const Logger *log, Socket sock, const uint8_t *buf, size_t len, const IP_Port *ip_port,
+             Net_Profile *net_profile);
 /**
  * Calls recv(sockfd, buf, len, MSG_NOSIGNAL).
+ *
+ * @param ns System network object.
+ * @param log Logger object.
+ * @param sock Socket to receive data with.
+ * @param buf Buffer to store received data.
+ * @param len Length of buffer.
+ * @param ip_port IP and port of the sender.
  */
 non_null()
 int net_recv(const Network *ns, const Logger *log, Socket sock, uint8_t *buf, size_t len, const IP_Port *ip_port);
@@ -396,21 +415,23 @@ non_null()
 void ipport_copy(IP_Port *target, const IP_Port *source);
 
 /**
- * Resolves string into an IP address
+ * @brief Resolves string into an IP address.
  *
- * @param address a hostname (or something parseable to an IP address)
- * @param to to.family MUST be initialized, either set to a specific IP version
+ * @param[in,out] ns Network object.
+ * @param[in] address a hostname (or something parseable to an IP address).
+ * @param[in,out] to to.family MUST be initialized, either set to a specific IP version
  *   (TOX_AF_INET/TOX_AF_INET6) or to the unspecified TOX_AF_UNSPEC (0), if both
- *   IP versions are acceptable
- * @param extra can be NULL and is only set in special circumstances, see returns
+ *   IP versions are acceptable.
+ * @param[out] extra can be NULL and is only set in special circumstances, see returns.
+ * @param[in] dns_enabled if false, DNS resolution is skipped.
  *
- * Returns in `*to` a matching address (IPv6 or IPv4)
- * Returns in `*extra`, if not NULL, an IPv4 address, if `to->family` was TOX_AF_UNSPEC
+ * Returns in `*to` a matching address (IPv6 or IPv4).
+ * Returns in `*extra`, if not NULL, an IPv4 address, if `to->family` was `TOX_AF_UNSPEC`.
  *
  * @return true on success, false on failure
  */
-non_null(1, 2, 3) nullable(4)
-bool addr_resolve_or_parse_ip(const Network *ns, const char *address, IP *to, IP *extra);
+non_null(1, 2, 3, 4) nullable(5)
+bool addr_resolve_or_parse_ip(const Network *ns, const Memory *mem, const char *address, IP *to, IP *extra, bool dns_enabled);
 
 /** @brief Function to receive data, ip and port of sender is put into ip_port.
  * Packet data is put into data.
@@ -495,13 +516,22 @@ void networking_registerhandler(Networking_Core *net, uint8_t byte, packet_handl
 non_null(1) nullable(2)
 void networking_poll(const Networking_Core *net, void *userdata);
 
+typedef enum Net_Err_Connect {
+    NET_ERR_CONNECT_OK,
+    NET_ERR_CONNECT_INVALID_FAMILY,
+    NET_ERR_CONNECT_FAILED,
+} Net_Err_Connect;
+
+const char *net_err_connect_to_string(Net_Err_Connect err);
+
 /** @brief Connect a socket to the address specified by the ip_port.
  *
- * Return true on success.
- * Return false on failure.
+ * @param[out] err Set to NET_ERR_CONNECT_OK on success, otherwise an error code.
+ *
+ * @retval true on success, false on failure.
  */
 non_null()
-bool net_connect(const Memory *mem, const Logger *log, Socket sock, const IP_Port *ip_port);
+bool net_connect(const Network *ns, const Memory *mem, const Logger *log, Socket sock, const IP_Port *ip_port, Net_Err_Connect *err);
 
 /** @brief High-level getaddrinfo implementation.
  *
@@ -510,14 +540,21 @@ bool net_connect(const Memory *mem, const Logger *log, Socket sock, const IP_Por
  * address that can be specified by calling `net_connect()`, the port is ignored.
  *
  * Skip all addresses with socktype != type (use type = -1 to get all addresses)
- * To correctly deallocate array memory use `net_freeipport()`
+ * To correctly deallocate array memory use `net_freeipport()`.
+ *
+ * @param ns Network object.
+ * @param mem Memory allocator.
+ * @param node The node parameter identifies the host or service on which to connect.
+ * @param[out] res An array of IP_Port structures will be allocated into this pointer.
+ * @param tox_type The type of socket to use (stream or datagram), only relevant for DNS lookups.
+ * @param dns_enabled If false, DNS resolution is skipped, when passed a hostname, this function will return an error.
  *
  * @return number of elements in res array.
  * @retval 0 if res array empty.
  * @retval -1 on error.
  */
 non_null()
-int32_t net_getipport(const Memory *mem, const char *node, IP_Port **res, int tox_type);
+int32_t net_getipport(const Network *ns, const Memory *mem, const char *node, IP_Port **res, int tox_type, bool dns_enabled);
 
 /** Deallocates memory allocated by net_getipport */
 non_null(1) nullable(2)
@@ -560,26 +597,32 @@ bool bind_to_port(const Network *ns, Socket sock, Family family, uint16_t port);
  * Note that different platforms may return different codes for the same error,
  * so you likely shouldn't be checking the value returned by this function
  * unless you know what you are doing, you likely just want to use it in
- * combination with `net_new_strerror()` to print the error.
+ * combination with `net_strerror()` to print the error.
  *
  * return platform-dependent network error code, if any.
  */
 int net_error(void);
 
+#define NET_STRERROR_SIZE 256
+
+/** @brief Contains a null terminated formatted error message.
+ *
+ * This struct should not contain more than at most the 2 fields.
+ */
+typedef struct Net_Strerror {
+    char     data[NET_STRERROR_SIZE];
+    uint16_t size;
+} Net_Strerror;
+
 /** @brief Get a text explanation for the error code from `net_error()`.
  *
- * return NULL on failure.
- * return pointer to a NULL-terminated string describing the error code on
- * success. The returned string must be freed using `net_kill_strerror()`.
+ * @param error The error code to get a string for.
+ * @param buf The struct to store the error message in (usually on stack).
+ *
+ * @return pointer to a NULL-terminated string describing the error code.
  */
-char *net_new_strerror(int error);
-
-/** @brief Frees the string returned by `net_new_strerror()`.
- * It's valid to pass NULL as the argument, the function does nothing in this
- * case.
- */
-nullable(1)
-void net_kill_strerror(char *strerror);
+non_null()
+char *net_strerror(int error, Net_Strerror *buf);
 
 /** @brief Initialize networking.
  * Bind to ip and port.
@@ -602,6 +645,13 @@ Networking_Core *new_networking_no_udp(const Logger *log, const Memory *mem, con
 /** Function to cleanup networking stuff (doesn't do much right now). */
 nullable(1)
 void kill_networking(Networking_Core *net);
+
+/** @brief Returns a pointer to the network net_profile object associated with `net`.
+ *
+ * Returns null if `net` is null.
+ */
+non_null()
+const Net_Profile *net_get_net_profile(const Networking_Core *net);
 
 #ifdef __cplusplus
 } /* extern "C" */

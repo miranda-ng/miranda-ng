@@ -120,8 +120,9 @@ if /i '%dp%' == 'DEV_N_STABLE' (
   echo ;StableAllowed > hashes.txt
 )
 
+copy /y /v %SourceDir%\build\rules.txt .
 for /f "tokens=1,2 delims= " %%i in (hash.txt) do call :WriteLine %%i %%j
-%ZipIt% "hashes.zip" hashes.txt
+%ZipIt% "hashes.zip" hashes.txt rules.txt
 del /f /q hash*.txt
 popd
 REM end CRC32

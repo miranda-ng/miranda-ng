@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  * Copyright © 2013 plutooo
  */
@@ -13,7 +13,6 @@
 
 #include "util.h"
 
-#include <stdlib.h>
 #include <string.h>
 
 #include "ccompat.h"
@@ -81,13 +80,13 @@ bool memeq(const uint8_t *a, size_t a_size, const uint8_t *b, size_t b_size)
     return a_size == b_size && memcmp(a, b, a_size) == 0;
 }
 
-uint8_t *memdup(const uint8_t *data, size_t data_size)
+uint8_t *memdup(const Memory *mem, const uint8_t *data, size_t data_size)
 {
     if (data == nullptr || data_size == 0) {
         return nullptr;
     }
 
-    uint8_t *copy = (uint8_t *)malloc(data_size);
+    uint8_t *copy = (uint8_t *)mem_balloc(mem, data_size);
 
     if (copy != nullptr) {
         memcpy(copy, data, data_size);

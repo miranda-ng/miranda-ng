@@ -30,17 +30,17 @@ Boston, MA 02111-1307, USA.
 
 // Miranda header files
 #include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_skin.h>
-#include <m_langpack.h>
-#include <m_options.h>
-#include <m_system.h>
-#include <m_popup.h>
-#include <m_hotkeys.h>
-#include <m_netlib.h>
-#include <m_icolib.h>
 #include <m_assocmgr.h>
+#include <m_clist.h>
+#include <m_icolib.h>
 #include <m_gui.h>
+#include <m_hotkeys.h>
+#include <m_json.h>
+#include <m_langpack.h>
+#include <m_netlib.h>
+#include <m_options.h>
+#include <m_popup.h>
+#include <m_skin.h>
 
 #include <m_folders.h>
 
@@ -233,6 +233,20 @@ typedef OBJLIST<ServListEntry> SERVLIST;
 
 ///////////////////////////////////////////////////////////////////////////////
 
+struct RenameTableItem
+{
+	RenameTableItem(const wchar_t *_1, const wchar_t *_2) :
+		wszSearch(mir_wstrdup(_1)),
+		wszReplace(mir_wstrdup(_2))
+	{}
+
+	ptrW wszSearch, wszReplace;
+};
+
+typedef OBJLIST<RenameTableItem> RENAMETABLE;
+
+///////////////////////////////////////////////////////////////////////////////
+
 void  InitPopupList();
 void  InitEvents();
 
@@ -249,7 +263,7 @@ void  CALLBACK CheckUpdateOnStartup(void);
 
 int   BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName);
 
-bool  ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes);
+bool  ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes, RENAMETABLE *arRename = nullptr);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 wchar_t* GetDefaultUrl();

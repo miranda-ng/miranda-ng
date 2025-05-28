@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2023 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2014 Tox project.
  */
 #ifndef _XOPEN_SOURCE
@@ -218,7 +218,7 @@ void mono_time_set_current_time_callback(Mono_Time *mono_time,
  * The starting point is unspecified and in particular is likely not comparable
  * to the return value of `mono_time_get_ms()`.
  */
-uint64_t current_time_monotonic(Mono_Time *mono_time)
+uint64_t current_time_monotonic(const Mono_Time *mono_time)
 {
     return mono_time->current_time_callback(mono_time->user_data);
 }

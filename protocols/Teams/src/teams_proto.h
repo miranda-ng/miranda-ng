@@ -152,7 +152,6 @@ public:
 	void UninitPopups();
 
 	// search
-	void __cdecl SearchBasicThread(void *param);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// settings
@@ -372,7 +371,7 @@ private:
 
 	void TRouterSendActive(bool bActive, int iReplyTo = -1);
 	void TRouterRegister();
-	void TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath);
+	void TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath, const char *pszContext);
 
 	void StartTrouter();
 	void StopTrouter();

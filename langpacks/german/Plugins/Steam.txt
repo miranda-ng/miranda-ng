@@ -63,6 +63,14 @@ Zugeordnete Anwendung
 Inhaber
 [Participant]
 Teilnehmer
+[total members]
+Mitglieder insgesamt
+[online members]
+Mitglieder online
+[chatting]
+chatten
+[in game]
+im Spiel
 [&Leave chat session]
 Chat ver&lassen
 ;file \protocols\Steam\src\steam_contacts.cpp
@@ -86,12 +94,12 @@ Geben Sie den E-Mail-Bestätigungscode ein
 [Enter the code from your authentication device]
 Geben Sie den Code Ihres Autorisierungsgerätes ein
 ;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
-Steam-Menüauswahl
 [Unblock]
 Bockierung aufheben
-[Join to game]
+[Join the game]
 Dem Spiel beitreten
+[Join group chat]
+Dem Gruppenchat beitreten
 ;file \protocols\Steam\src\steam_messages.cpp
 [Message sending has failed with error %d]
 Senden der Nachricht fehlgeschlagen mit Fehler %d

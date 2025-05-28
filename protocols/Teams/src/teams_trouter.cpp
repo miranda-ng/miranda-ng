@@ -181,18 +181,20 @@ void CTeamsProto::TRouterSendActive(bool bActive, int iReplyTo)
 
 void CTeamsProto::TRouterRegister()
 {
-	TRouterRegister("NextGenCalling", "DesktopNgc_2.3:SkypeNgc", m_szTrouterSurl + "NGCallManagerWin");
-	TRouterRegister("SkypeSpacesWeb", "SkypeSpacesWeb_2.3", m_szTrouterSurl + "SkypeSpacesWeb");
-	TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_2.3", m_szTrouterSurl);
+	TRouterRegister("NextGenCalling", "DesktopNgc_2.3:SkypeNgc", m_szTrouterSurl + "NGCallManagerWin", nullptr);
+	TRouterRegister("SkypeSpacesWeb", "SkypeSpacesWeb_2.3", m_szTrouterSurl + "SkypeSpacesWeb", nullptr);
+	TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_2.3", m_szTrouterSurl, "");
+	TRouterRegister("TeamsCDLWebWorker", "TeamsCDLWebWorker_2.3", m_szTrouterSurl, "TFL");
 }
 
-void CTeamsProto::TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath)
+void CTeamsProto::TRouterRegister(const char *pszAppId, const char *pszKey, const char *pszPath, const char *pszContext)
 {
 	JSONNode descr, reg, obj, trouter(JSON_ARRAY), transports;
 	descr.set_name("clientDescription");
 	descr << CHAR_PARAM("appId", pszAppId) << CHAR_PARAM("aesKey", "") << CHAR_PARAM("languageId", "en-US")
-		<< CHAR_PARAM("platform", "edge") << CHAR_PARAM("templateKey", pszKey) << CHAR_PARAM("platformUIVersion", TEAMS_CLIENTINFO_VERSION)
-		<< CHAR_PARAM("productContext", "TFL");
+		<< CHAR_PARAM("platform", "edge") << CHAR_PARAM("templateKey", pszKey) << CHAR_PARAM("platformUIVersion", TEAMS_CLIENTINFO_VERSION);
+	if (pszContext)
+		descr << CHAR_PARAM("productContext", pszContext);
 
 	obj << CHAR_PARAM("context", "") << CHAR_PARAM("path", pszPath) << INT_PARAM("ttl", TEAMS_TROUTER_TTL);
 	trouter.set_name("TROUTER"); trouter << obj;

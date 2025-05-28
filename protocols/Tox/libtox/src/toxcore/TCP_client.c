@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2014 Tox project.
  */
 
@@ -20,6 +20,7 @@
 #include "logger.h"
 #include "mem.h"
 #include "mono_time.h"
+#include "net_profile.h"
 #include "network.h"
 #include "util.h"
 
@@ -107,13 +108,25 @@ void tcp_con_set_custom_uint(TCP_Client_Connection *con, uint32_t value)
  * @retval false on failure
  */
 non_null()
-static bool connect_sock_to(const Logger *logger, const Memory *mem, Socket sock, const IP_Port *ip_port, const TCP_Proxy_Info *proxy_info)
+static bool connect_sock_to(const Network *ns, const Logger *logger, const Memory *mem, Socket sock, const IP_Port *ip_port, const TCP_Proxy_Info *proxy_info)
 {
+    Net_Err_Connect err;
     if (proxy_info->proxy_type != TCP_PROXY_NONE) {
-        return net_connect(mem, logger, sock, &proxy_info->ip_port);
+        net_connect(ns, mem, logger, sock, &proxy_info->ip_port, &err);
     } else {
-        return net_connect(mem, logger, sock, ip_port);
+        net_connect(ns, mem, logger, sock, ip_port, &err);
     }
+    switch (err) {
+        case NET_ERR_CONNECT_OK:
+        case NET_ERR_CONNECT_FAILED: {
+            /* nonblocking socket, connect will never return success */
+            return true;
+        }
+        case NET_ERR_CONNECT_INVALID_FAMILY:
+            return false;
+    }
+    LOGGER_ERROR(logger, "unexpected error code %s from net_connect", net_err_connect_to_string(err));
+    return false;
 }
 
 /**
@@ -312,7 +325,7 @@ static int generate_handshake(TCP_Client_Connection *tcp_conn)
     memcpy(plain + CRYPTO_PUBLIC_KEY_SIZE, tcp_conn->con.sent_nonce, CRYPTO_NONCE_SIZE);
     memcpy(tcp_conn->con.last_packet, tcp_conn->self_public_key, CRYPTO_PUBLIC_KEY_SIZE);
     random_nonce(tcp_conn->con.rng, tcp_conn->con.last_packet + CRYPTO_PUBLIC_KEY_SIZE);
-    const int len = encrypt_data_symmetric(tcp_conn->con.shared_key, tcp_conn->con.last_packet + CRYPTO_PUBLIC_KEY_SIZE, plain,
+    const int len = encrypt_data_symmetric(tcp_conn->con.mem, tcp_conn->con.shared_key, tcp_conn->con.last_packet + CRYPTO_PUBLIC_KEY_SIZE, plain,
                                            sizeof(plain), tcp_conn->con.last_packet + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE);
 
     if (len != sizeof(plain) + CRYPTO_MAC_SIZE) {
@@ -334,7 +347,7 @@ non_null()
 static int handle_handshake(TCP_Client_Connection *tcp_conn, const uint8_t *data)
 {
     uint8_t plain[CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE];
-    const int len = decrypt_data_symmetric(tcp_conn->con.shared_key, data, data + CRYPTO_NONCE_SIZE,
+    const int len = decrypt_data_symmetric(tcp_conn->con.mem, tcp_conn->con.shared_key, data, data + CRYPTO_NONCE_SIZE,
                                            TCP_SERVER_HANDSHAKE_SIZE - CRYPTO_NONCE_SIZE, plain);
 
     if (len != sizeof(plain)) {
@@ -582,7 +595,7 @@ void forwarding_handler(TCP_Client_Connection *con, forwarded_response_cb *forwa
 TCP_Client_Connection *new_tcp_connection(
     const Logger *logger, const Memory *mem, const Mono_Time *mono_time, const Random *rng, const Network *ns,
     const IP_Port *ip_port, const uint8_t *public_key, const uint8_t *self_public_key, const uint8_t *self_secret_key,
-    const TCP_Proxy_Info *proxy_info)
+    const TCP_Proxy_Info *proxy_info, Net_Profile *net_profile)
 {
     assert(logger != nullptr);
     assert(mem != nullptr);
@@ -591,6 +604,7 @@ TCP_Client_Connection *new_tcp_connection(
     assert(ns != nullptr);
 
     if (!net_family_is_ipv4(ip_port->ip.family) && !net_family_is_ipv6(ip_port->ip.family)) {
+        LOGGER_ERROR(logger, "Invalid IP family: %d", ip_port->ip.family.value);
         return nullptr;
     }
 
@@ -609,15 +623,26 @@ TCP_Client_Connection *new_tcp_connection(
     const Socket sock = net_socket(ns, family, TOX_SOCK_STREAM, TOX_PROTO_TCP);
 
     if (!sock_valid(sock)) {
+        LOGGER_ERROR(logger, "Failed to create TCP socket with family %d", family.value);
         return nullptr;
     }
 
     if (!set_socket_nosigpipe(ns, sock)) {
+        LOGGER_ERROR(logger, "Failed to set TCP socket to ignore SIGPIPE");
         kill_sock(ns, sock);
         return nullptr;
     }
 
-    if (!(set_socket_nonblock(ns, sock) && connect_sock_to(logger, mem, sock, ip_port, proxy_info))) {
+    if (!set_socket_nonblock(ns, sock)) {
+        LOGGER_ERROR(logger, "Failed to set TCP socket to non-blocking");
+        kill_sock(ns, sock);
+        return nullptr;
+    }
+
+    if (!connect_sock_to(ns, logger, mem, sock, ip_port, proxy_info)) {
+        Ip_Ntoa ip_ntoa;
+        LOGGER_WARNING(logger, "Failed to connect TCP socket to %s:%u",
+                       net_ip_ntoa(&ip_port->ip, &ip_ntoa), net_ntohs(ip_port->port));
         kill_sock(ns, sock);
         return nullptr;
     }
@@ -625,6 +650,7 @@ TCP_Client_Connection *new_tcp_connection(
     TCP_Client_Connection *temp = (TCP_Client_Connection *)mem_alloc(mem, sizeof(TCP_Client_Connection));
 
     if (temp == nullptr) {
+        LOGGER_ERROR(logger, "Failed to allocate memory for TCP_Client_Connection");
         kill_sock(ns, sock);
         return nullptr;
     }
@@ -634,6 +660,7 @@ TCP_Client_Connection *new_tcp_connection(
     temp->con.rng = rng;
     temp->con.sock = sock;
     temp->con.ip_port = *ip_port;
+    temp->con.net_profile = net_profile;
     memcpy(temp->public_key, public_key, CRYPTO_PUBLIC_KEY_SIZE);
     memcpy(temp->self_public_key, self_public_key, CRYPTO_PUBLIC_KEY_SIZE);
     encrypt_precompute(temp->public_key, self_secret_key, temp->con.shared_key);
@@ -657,6 +684,7 @@ TCP_Client_Connection *new_tcp_connection(
             temp->status = TCP_CLIENT_CONNECTING;
 
             if (generate_handshake(temp) == -1) {
+                LOGGER_ERROR(logger, "Failed to generate handshake");
                 kill_sock(ns, sock);
                 mem_delete(mem, temp);
                 return nullptr;
@@ -818,6 +846,8 @@ static int handle_tcp_client_packet(const Logger *logger, TCP_Client_Connection 
     if (length <= 1) {
         return -1;
     }
+
+    netprof_record_packet(conn->con.net_profile, data[0], length, PACKET_DIRECTION_RECV);
 
     switch (data[0]) {
         case TCP_PACKET_ROUTING_RESPONSE:

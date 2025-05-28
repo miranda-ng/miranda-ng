@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -10,6 +10,7 @@
 #define C_TOXCORE_TOXCORE_LAN_DISCOVERY_H
 
 #include "attributes.h"
+#include "mem.h"
 #include "network.h"
 
 /**
@@ -32,7 +33,7 @@ bool lan_discovery_send(const Networking_Core *net, const Broadcast_Info *broadc
  * Discovers broadcast devices and IP addresses.
  */
 non_null()
-Broadcast_Info *lan_discovery_init(const Network *ns);
+Broadcast_Info *lan_discovery_init(const Memory *mem, const Network *ns);
 
 /**
  * Free all resources associated with the broadcast info.

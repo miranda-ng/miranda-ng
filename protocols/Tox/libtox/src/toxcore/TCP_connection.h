@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2015 Tox project.
  */
 
@@ -21,6 +21,7 @@
 #include "logger.h"
 #include "mem.h"
 #include "mono_time.h"
+#include "net_profile.h"
 #include "network.h"
 
 #define TCP_CONN_NONE 0
@@ -306,7 +307,7 @@ uint32_t tcp_copy_connected_relays_index(const TCP_Connections *tcp_c, Node_form
  */
 non_null()
 TCP_Connections *new_tcp_connections(const Logger *logger, const Memory *mem, const Random *rng, const Network *ns,
-                                     Mono_Time *mono_time, const uint8_t *secret_key, const TCP_Proxy_Info *proxy_info);
+                                     Mono_Time *mono_time, const uint8_t *secret_key, const TCP_Proxy_Info *proxy_info, Net_Profile *tcp_np);
 
 non_null()
 int kill_tcp_relay_connection(TCP_Connections *tcp_c, int tcp_connections_number);

@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -105,7 +105,7 @@ int onion_path_to_nodes(Node_format *nodes, unsigned int num_nodes, const Onion_
  * return length of created packet on success.
  */
 non_null()
-int create_onion_packet(const Random *rng, uint8_t *packet, uint16_t max_packet_length,
+int create_onion_packet(const Memory *mem, const Random *rng, uint8_t *packet, uint16_t max_packet_length,
                         const Onion_Path *path, const IP_Port *dest,
                         const uint8_t *data, uint16_t length);
 
@@ -119,7 +119,7 @@ int create_onion_packet(const Random *rng, uint8_t *packet, uint16_t max_packet_
  * return length of created packet on success.
  */
 non_null()
-int create_onion_packet_tcp(const Random *rng, uint8_t *packet, uint16_t max_packet_length,
+int create_onion_packet_tcp(const Memory *mem, const Random *rng, uint8_t *packet, uint16_t max_packet_length,
                             const Onion_Path *path, const IP_Port *dest,
                             const uint8_t *data, uint16_t length);
 

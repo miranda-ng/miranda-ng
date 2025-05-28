@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -36,7 +36,7 @@ extern "C" {
 
 #define MAX_CLOSE_TO_BOOTSTRAP_NODES 8
 
-/** The max number of nodes to send with send nodes. */
+/** The max number of nodes to send with nodes response. */
 #define MAX_SENT_NODES 4
 
 /** Ping timeout in seconds */
@@ -99,7 +99,7 @@ extern "C" {
  * @return the length of the created packet on success.
  */
 non_null()
-int create_request(const Random *rng, const uint8_t *send_public_key, const uint8_t *send_secret_key,
+int create_request(const Memory *mem, const Random *rng, const uint8_t *send_public_key, const uint8_t *send_secret_key,
                    uint8_t *packet, const uint8_t *recv_public_key,
                    const uint8_t *data, uint32_t data_length, uint8_t request_id);
 
@@ -127,7 +127,7 @@ int create_request(const Random *rng, const uint8_t *send_public_key, const uint
  */
 non_null()
 int handle_request(
-    const uint8_t *self_public_key, const uint8_t *self_secret_key, uint8_t *public_key, uint8_t *data,
+    const Memory *mem, const uint8_t *self_public_key, const uint8_t *self_secret_key, uint8_t *public_key, uint8_t *data,
     uint8_t *request_id, const uint8_t *packet, uint16_t packet_length);
 
 typedef struct IPPTs {
@@ -259,21 +259,21 @@ non_null()
 const uint8_t *dht_get_shared_key_sent(DHT *dht, const uint8_t *public_key);
 
 /**
- * Sends a getnodes request to `ip_port` with the public key `public_key` for nodes
+ * Sends a nodes request to `ip_port` with the public key `public_key` for nodes
  * that are close to `client_id`.
  *
  * @retval true on success.
  */
 non_null()
-bool dht_getnodes(DHT *dht, const IP_Port *ip_port, const uint8_t *public_key, const uint8_t *client_id);
+bool dht_send_nodes_request(DHT *dht, const IP_Port *ip_port, const uint8_t *public_key, const uint8_t *client_id);
 
 typedef void dht_ip_cb(void *object, int32_t number, const IP_Port *ip_port);
 
-typedef void dht_get_nodes_response_cb(const DHT *dht, const Node_format *node, void *user_data);
+typedef void dht_nodes_response_cb(const DHT *dht, const Node_format *node, void *user_data);
 
-/** Sets the callback to be triggered on a getnodes response. */
+/** Sets the callback to be triggered on a nodes response. */
 non_null(1) nullable(2)
-void dht_callback_get_nodes_response(DHT *dht, dht_get_nodes_response_cb *function);
+void dht_callback_nodes_response(DHT *dht, dht_nodes_response_cb *function);
 
 /** @brief Add a new friend to the friends list.
  * @param public_key must be CRYPTO_PUBLIC_KEY_SIZE bytes long.
@@ -390,7 +390,7 @@ void do_dht(DHT *dht);
  *  Use these two functions to bootstrap the client.
  */
 /**
- * @brief Sends a "get nodes" request to the given node with ip, port and public_key
+ * @brief Sends a "nodes request" to the given node with ip, port and public_key
  *   to setup connections
  */
 non_null()
@@ -398,18 +398,19 @@ bool dht_bootstrap(DHT *dht, const IP_Port *ip_port, const uint8_t *public_key);
 
 /** @brief Resolves address into an IP address.
  *
- * If successful, sends a "get nodes" request to the given node with ip, port
+ * If successful, sends a "nodes request" to the given node with ip, port
  * and public_key to setup connections
  *
  * @param address can be a hostname or an IP address (IPv4 or IPv6).
  * @param ipv6enabled if false, the resolving sticks STRICTLY to IPv4 addresses.
  *   Otherwise, the resolving looks for IPv6 addresses first, then IPv4 addresses.
+ * @param dns_enabled if false, the resolving does not use DNS, only IP addresses are supported.
  *
  * @retval true if the address could be converted into an IP address
  * @retval false otherwise
  */
 non_null()
-bool dht_bootstrap_from_address(DHT *dht, const char *address, bool ipv6enabled,
+bool dht_bootstrap_from_address(DHT *dht, const char *address, bool ipv6enabled, bool dns_enabled,
                                 uint16_t port, const uint8_t *public_key);
 
 /** @brief Start sending packets after DHT loaded_friends_list and loaded_clients_list are set.

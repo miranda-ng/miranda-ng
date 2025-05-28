@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  * Copyright © 2013 plutooo
  */
@@ -31,6 +31,7 @@
 struct Ping {
     const Mono_Time *mono_time;
     const Random *rng;
+    const Memory *mem;
     DHT *dht;
 
     Ping_Array  *ping_array;
@@ -72,7 +73,7 @@ void ping_send_request(Ping *ping, const IP_Port *ipp, const uint8_t *public_key
     pk_copy(pk + 1, dht_get_self_public_key(ping->dht));     // Our pubkey
     random_nonce(ping->rng, pk + 1 + CRYPTO_PUBLIC_KEY_SIZE); // Generate new nonce
 
-    rc = encrypt_data_symmetric(shared_key,
+    rc = encrypt_data_symmetric(ping->mem, shared_key,
                                 pk + 1 + CRYPTO_PUBLIC_KEY_SIZE,
                                 ping_plain, sizeof(ping_plain),
                                 pk + 1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE);
@@ -104,7 +105,7 @@ static int ping_send_response(const Ping *ping, const IP_Port *ipp, const uint8_
     random_nonce(ping->rng, pk + 1 + CRYPTO_PUBLIC_KEY_SIZE); // Generate new nonce
 
     // Encrypt ping_id using recipient privkey
-    const int rc = encrypt_data_symmetric(shared_encryption_key,
+    const int rc = encrypt_data_symmetric(ping->mem, shared_encryption_key,
                                           pk + 1 + CRYPTO_PUBLIC_KEY_SIZE,
                                           ping_plain, sizeof(ping_plain),
                                           pk + 1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE);
@@ -137,7 +138,7 @@ static int handle_ping_request(void *object, const IP_Port *source, const uint8_
     uint8_t ping_plain[PING_PLAIN_SIZE];
 
     // Decrypt ping_id
-    const int rc = decrypt_data_symmetric(shared_key,
+    const int rc = decrypt_data_symmetric(ping->mem, shared_key,
                                           packet + 1 + CRYPTO_PUBLIC_KEY_SIZE,
                                           packet + 1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE,
                                           PING_PLAIN_SIZE + CRYPTO_MAC_SIZE,
@@ -182,7 +183,7 @@ static int handle_ping_response(void *object, const IP_Port *source, const uint8
 
     uint8_t ping_plain[PING_PLAIN_SIZE];
     // Decrypt ping_id
-    rc = decrypt_data_symmetric(shared_key,
+    rc = decrypt_data_symmetric(ping->mem, shared_key,
                                 packet + 1 + CRYPTO_PUBLIC_KEY_SIZE,
                                 packet + 1 + CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE,
                                 PING_PLAIN_SIZE + CRYPTO_MAC_SIZE,
@@ -348,6 +349,7 @@ Ping *ping_new(const Memory *mem, const Mono_Time *mono_time, const Random *rng,
 
     ping->mono_time = mono_time;
     ping->rng = rng;
+    ping->mem = mem;
     ping->dht = dht;
     networking_registerhandler(dht_get_net(ping->dht), NET_PACKET_PING_REQUEST, &handle_ping_request, dht);
     networking_registerhandler(dht_get_net(ping->dht), NET_PACKET_PING_RESPONSE, &handle_ping_response, dht);

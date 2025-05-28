@@ -19,15 +19,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 HANDLE CTeamsProto::SearchBasic(const wchar_t *id)
 {
-	ForkThread(&CTeamsProto::SearchBasicThread, (void *)id);
-	return (HANDLE)1;
-}
-
-void CTeamsProto::SearchBasicThread(void *id)
-{
 	debugLogA("CTeamsProto::OnSearchBasicThread");
-	if (IsOnline())
-		PushRequest(new GetSearchRequest(T2Utf((wchar_t *)id)));
+	if (!IsOnline())
+		return 0;
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_TEAMS_API, "/users/searchV2?includeDLs=true&includeBots=true&enableGuest=true&source=newChat&skypeTeamsInfo=true", &CTeamsProto::OnSearch);
+	pReq->m_szParam = mir_urlEncode(T2Utf(id));
+	PushRequest(pReq);
+
+	return (HANDLE)1;
 }
 
 void CTeamsProto::OnSearch(MHttpResponse *response, AsyncHttpRequest*)

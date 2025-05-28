@@ -85,7 +85,6 @@ using namespace std;
 #include "CSendHost_ImageShack.h"
 #include "CSendHost_uploadpie.h"
 #include "CSendHost_imgur.h"
-#include "DevKey.h"
 #include "UMainForm.h"
 #include "Utils.h"
 

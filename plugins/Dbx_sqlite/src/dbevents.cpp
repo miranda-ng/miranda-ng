@@ -285,7 +285,6 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 
 	if (tmp.bSent)
 		tmp.bRead = true;
-	tmp.bEdited = true;
 
 	mir_cslockfull lock(m_csDbAccess);
 	sqlite3_stmt *stmt;

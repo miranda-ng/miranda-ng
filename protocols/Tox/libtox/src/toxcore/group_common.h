@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2022 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  */
 
 /**
@@ -20,6 +20,7 @@
 #include "logger.h"
 #include "mem.h"
 #include "mono_time.h"
+#include "net_profile.h"
 #include "network.h"
 
 #define MAX_GC_PART_MESSAGE_SIZE 128
@@ -52,7 +53,7 @@
 #define MAX_GC_PACKET_SIZE (MAX_GC_PACKET_CHUNK_SIZE * 100)
 
 /* Max number of messages to store in the send/recv arrays */
-#define GCC_BUFFER_SIZE 8192
+#define GCC_BUFFER_SIZE 2048
 
 /** Self UDP status. Must correspond to return values from `ipport_self_copy()`. */
 typedef enum Self_UDP_Status {
@@ -114,6 +115,7 @@ typedef struct GC_Connection {
     uint64_t    last_sent_tcp_relays_time;  /* the last time we attempted to send this peer our tcp relays */
     uint16_t    tcp_relay_share_index;
     uint64_t    last_received_direct_time;   /* the last time we received a direct UDP packet from this connection */
+    uint64_t    last_sent_direct_try_time;   /* the last time we tried sending a direct UDP packet */
     uint64_t    last_sent_ip_time;  /* the last time we sent our ip info to this peer in a ping packet */
 
     Node_format connected_tcp_relays[MAX_FRIEND_TCP_CONNECTIONS];
@@ -377,6 +379,7 @@ typedef void gc_rejected_cb(const Messenger *m, uint32_t group_number, unsigned 
 typedef struct GC_Session {
     Messenger                 *messenger;
     GC_Chat                   *chats;
+    Net_Profile               *tcp_np;
     struct GC_Announces_List  *announces_list;
 
     uint32_t     chats_index;

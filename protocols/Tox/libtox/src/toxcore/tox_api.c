@@ -1,19 +1,10 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2021 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  */
-#include "tox.h"
+#include "tox.h"  // IWYU pragma: associated
 
-#include <stdlib.h>
-
-#include "ccompat.h"
+#include "tox_options.h"
 #include "tox_private.h"
-
-#define SET_ERROR_PARAMETER(param, x) \
-    do {                              \
-        if (param != nullptr) {       \
-            *param = x;               \
-        }                             \
-    } while (0)
 
 uint32_t tox_version_major(void)
 {
@@ -136,191 +127,6 @@ uint32_t tox_dht_node_public_key_size(void)
     return TOX_DHT_NODE_PUBLIC_KEY_SIZE;
 }
 
-bool tox_options_get_ipv6_enabled(const Tox_Options *options)
-{
-    return options->ipv6_enabled;
-}
-void tox_options_set_ipv6_enabled(Tox_Options *options, bool ipv6_enabled)
-{
-    options->ipv6_enabled = ipv6_enabled;
-}
-bool tox_options_get_udp_enabled(const Tox_Options *options)
-{
-    return options->udp_enabled;
-}
-void tox_options_set_udp_enabled(Tox_Options *options, bool udp_enabled)
-{
-    options->udp_enabled = udp_enabled;
-}
-Tox_Proxy_Type tox_options_get_proxy_type(const Tox_Options *options)
-{
-    return options->proxy_type;
-}
-void tox_options_set_proxy_type(Tox_Options *options, Tox_Proxy_Type proxy_type)
-{
-    options->proxy_type = proxy_type;
-}
-const char *tox_options_get_proxy_host(const Tox_Options *options)
-{
-    return options->proxy_host;
-}
-void tox_options_set_proxy_host(Tox_Options *options, const char *proxy_host)
-{
-    options->proxy_host = proxy_host;
-}
-uint16_t tox_options_get_proxy_port(const Tox_Options *options)
-{
-    return options->proxy_port;
-}
-void tox_options_set_proxy_port(Tox_Options *options, uint16_t proxy_port)
-{
-    options->proxy_port = proxy_port;
-}
-uint16_t tox_options_get_start_port(const Tox_Options *options)
-{
-    return options->start_port;
-}
-void tox_options_set_start_port(Tox_Options *options, uint16_t start_port)
-{
-    options->start_port = start_port;
-}
-uint16_t tox_options_get_end_port(const Tox_Options *options)
-{
-    return options->end_port;
-}
-void tox_options_set_end_port(Tox_Options *options, uint16_t end_port)
-{
-    options->end_port = end_port;
-}
-uint16_t tox_options_get_tcp_port(const Tox_Options *options)
-{
-    return options->tcp_port;
-}
-void tox_options_set_tcp_port(Tox_Options *options, uint16_t tcp_port)
-{
-    options->tcp_port = tcp_port;
-}
-bool tox_options_get_hole_punching_enabled(const Tox_Options *options)
-{
-    return options->hole_punching_enabled;
-}
-void tox_options_set_hole_punching_enabled(Tox_Options *options, bool hole_punching_enabled)
-{
-    options->hole_punching_enabled = hole_punching_enabled;
-}
-Tox_Savedata_Type tox_options_get_savedata_type(const Tox_Options *options)
-{
-    return options->savedata_type;
-}
-void tox_options_set_savedata_type(Tox_Options *options, Tox_Savedata_Type savedata_type)
-{
-    options->savedata_type = savedata_type;
-}
-size_t tox_options_get_savedata_length(const Tox_Options *options)
-{
-    return options->savedata_length;
-}
-void tox_options_set_savedata_length(Tox_Options *options, size_t savedata_length)
-{
-    options->savedata_length = savedata_length;
-}
-tox_log_cb *tox_options_get_log_callback(const Tox_Options *options)
-{
-    return options->log_callback;
-}
-void tox_options_set_log_callback(Tox_Options *options, tox_log_cb *log_callback)
-{
-    options->log_callback = log_callback;
-}
-void *tox_options_get_log_user_data(const Tox_Options *options)
-{
-    return options->log_user_data;
-}
-void tox_options_set_log_user_data(Tox_Options *options, void *log_user_data)
-{
-    options->log_user_data = log_user_data;
-}
-bool tox_options_get_local_discovery_enabled(const Tox_Options *options)
-{
-    return options->local_discovery_enabled;
-}
-void tox_options_set_local_discovery_enabled(Tox_Options *options, bool local_discovery_enabled)
-{
-    options->local_discovery_enabled = local_discovery_enabled;
-}
-bool tox_options_get_dht_announcements_enabled(const Tox_Options *options)
-{
-    return options->dht_announcements_enabled;
-}
-void tox_options_set_dht_announcements_enabled(Tox_Options *options, bool dht_announcements_enabled)
-{
-    options->dht_announcements_enabled = dht_announcements_enabled;
-}
-bool tox_options_get_experimental_thread_safety(const Tox_Options *options)
-{
-    return options->experimental_thread_safety;
-}
-void tox_options_set_experimental_thread_safety(
-    Tox_Options *options, bool experimental_thread_safety)
-{
-    options->experimental_thread_safety = experimental_thread_safety;
-}
-bool tox_options_get_experimental_groups_persistence(const Tox_Options *options)
-{
-    return options->experimental_groups_persistence;
-}
-void tox_options_set_experimental_groups_persistence(
-    Tox_Options *options, bool experimental_groups_persistence)
-{
-    options->experimental_groups_persistence = experimental_groups_persistence;
-}
-
-const uint8_t *tox_options_get_savedata_data(const Tox_Options *options)
-{
-    return options->savedata_data;
-}
-
-void tox_options_set_savedata_data(Tox_Options *options, const uint8_t *savedata_data, size_t length)
-{
-    options->savedata_data = savedata_data;
-    options->savedata_length = length;
-}
-
-void tox_options_default(Tox_Options *options)
-{
-    if (options != nullptr) {
-        const Tox_Options default_options = {false};
-        *options = default_options;
-        tox_options_set_ipv6_enabled(options, true);
-        tox_options_set_udp_enabled(options, true);
-        tox_options_set_proxy_type(options, TOX_PROXY_TYPE_NONE);
-        tox_options_set_hole_punching_enabled(options, true);
-        tox_options_set_local_discovery_enabled(options, true);
-        tox_options_set_dht_announcements_enabled(options, true);
-        tox_options_set_experimental_thread_safety(options, false);
-        tox_options_set_experimental_groups_persistence(options, false);
-    }
-}
-
-Tox_Options *tox_options_new(Tox_Err_Options_New *error)
-{
-    Tox_Options *options = (Tox_Options *)calloc(1, sizeof(Tox_Options));
-
-    if (options != nullptr) {
-        tox_options_default(options);
-        SET_ERROR_PARAMETER(error, TOX_ERR_OPTIONS_NEW_OK);
-        return options;
-    }
-
-    SET_ERROR_PARAMETER(error, TOX_ERR_OPTIONS_NEW_MALLOC);
-    return nullptr;
-}
-
-void tox_options_free(Tox_Options *options)
-{
-    free(options);
-}
-
 const char *tox_user_status_to_string(Tox_User_Status value)
 {
     switch (value) {
@@ -377,27 +183,6 @@ const char *tox_savedata_type_to_string(Tox_Savedata_Type value)
     }
 
     return "<invalid Tox_Savedata_Type>";
-}
-const char *tox_log_level_to_string(Tox_Log_Level value)
-{
-    switch (value) {
-        case TOX_LOG_LEVEL_TRACE:
-            return "TOX_LOG_LEVEL_TRACE";
-
-        case TOX_LOG_LEVEL_DEBUG:
-            return "TOX_LOG_LEVEL_DEBUG";
-
-        case TOX_LOG_LEVEL_INFO:
-            return "TOX_LOG_LEVEL_INFO";
-
-        case TOX_LOG_LEVEL_WARNING:
-            return "TOX_LOG_LEVEL_WARNING";
-
-        case TOX_LOG_LEVEL_ERROR:
-            return "TOX_LOG_LEVEL_ERROR";
-    }
-
-    return "<invalid Tox_Log_Level>";
 }
 const char *tox_err_options_new_to_string(Tox_Err_Options_New value)
 {
@@ -1712,4 +1497,121 @@ const char *tox_group_mod_event_to_string(Tox_Group_Mod_Event value)
     }
 
     return "<invalid Tox_Group_Mod_Event>";
+}
+const char *tox_netprof_packet_id_to_string(Tox_Netprof_Packet_Id value)
+{
+    switch (value) {
+        case TOX_NETPROF_PACKET_ID_ZERO:
+            return "TOX_NETPROF_PACKET_ID_ZERO";
+        case TOX_NETPROF_PACKET_ID_ONE:
+            return "TOX_NETPROF_PACKET_ID_ONE";
+        case TOX_NETPROF_PACKET_ID_TWO:
+            return "TOX_NETPROF_PACKET_ID_TWO";
+        case TOX_NETPROF_PACKET_ID_TCP_DISCONNECT:
+            return "TOX_NETPROF_PACKET_ID_TCP_DISCONNECT";
+        case TOX_NETPROF_PACKET_ID_FOUR:
+            return "TOX_NETPROF_PACKET_ID_FOUR";
+        case TOX_NETPROF_PACKET_ID_TCP_PONG:
+            return "TOX_NETPROF_PACKET_ID_TCP_PONG";
+        case TOX_NETPROF_PACKET_ID_TCP_OOB_SEND:
+            return "TOX_NETPROF_PACKET_ID_TCP_OOB_SEND";
+        case TOX_NETPROF_PACKET_ID_TCP_OOB_RECV:
+            return "TOX_NETPROF_PACKET_ID_TCP_OOB_RECV";
+        case TOX_NETPROF_PACKET_ID_TCP_ONION_REQUEST:
+            return "TOX_NETPROF_PACKET_ID_TCP_ONION_REQUEST";
+        case TOX_NETPROF_PACKET_ID_TCP_ONION_RESPONSE:
+            return "TOX_NETPROF_PACKET_ID_TCP_ONION_RESPONSE";
+        case TOX_NETPROF_PACKET_ID_TCP_DATA:
+            return "TOX_NETPROF_PACKET_ID_TCP_DATA";
+        case TOX_NETPROF_PACKET_ID_COOKIE_REQUEST:
+            return "TOX_NETPROF_PACKET_ID_COOKIE_REQUEST";
+        case TOX_NETPROF_PACKET_ID_COOKIE_RESPONSE:
+            return "TOX_NETPROF_PACKET_ID_COOKIE_RESPONSE";
+        case TOX_NETPROF_PACKET_ID_CRYPTO_HS:
+            return "TOX_NETPROF_PACKET_ID_CRYPTO_HS";
+        case TOX_NETPROF_PACKET_ID_CRYPTO_DATA:
+            return "TOX_NETPROF_PACKET_ID_CRYPTO_DATA";
+        case TOX_NETPROF_PACKET_ID_CRYPTO:
+            return "TOX_NETPROF_PACKET_ID_CRYPTO";
+        case TOX_NETPROF_PACKET_ID_LAN_DISCOVERY:
+            return "TOX_NETPROF_PACKET_ID_LAN_DISCOVERY";
+        case TOX_NETPROF_PACKET_ID_GC_HANDSHAKE:
+            return "TOX_NETPROF_PACKET_ID_GC_HANDSHAKE";
+        case TOX_NETPROF_PACKET_ID_GC_LOSSLESS:
+            return "TOX_NETPROF_PACKET_ID_GC_LOSSLESS";
+        case TOX_NETPROF_PACKET_ID_GC_LOSSY:
+            return "TOX_NETPROF_PACKET_ID_GC_LOSSY";
+        case TOX_NETPROF_PACKET_ID_ONION_SEND_INITIAL:
+            return "TOX_NETPROF_PACKET_ID_ONION_SEND_INITIAL";
+        case TOX_NETPROF_PACKET_ID_ONION_SEND_1:
+            return "TOX_NETPROF_PACKET_ID_ONION_SEND_1";
+        case TOX_NETPROF_PACKET_ID_ONION_SEND_2:
+            return "TOX_NETPROF_PACKET_ID_ONION_SEND_2";
+        case TOX_NETPROF_PACKET_ID_ANNOUNCE_REQUEST_OLD:
+            return "TOX_NETPROF_PACKET_ID_ANNOUNCE_REQUEST_OLD";
+        case TOX_NETPROF_PACKET_ID_ANNOUNCE_RESPONSE_OLD:
+            return "TOX_NETPROF_PACKET_ID_ANNOUNCE_RESPONSE_OLD";
+        case TOX_NETPROF_PACKET_ID_ONION_DATA_REQUEST:
+            return "TOX_NETPROF_PACKET_ID_ONION_DATA_REQUEST";
+        case TOX_NETPROF_PACKET_ID_ONION_DATA_RESPONSE:
+            return "TOX_NETPROF_PACKET_ID_ONION_DATA_RESPONSE";
+        case TOX_NETPROF_PACKET_ID_ANNOUNCE_REQUEST:
+            return "TOX_NETPROF_PACKET_ID_ANNOUNCE_REQUEST";
+        case TOX_NETPROF_PACKET_ID_ANNOUNCE_RESPONSE:
+            return "TOX_NETPROF_PACKET_ID_ANNOUNCE_RESPONSE";
+        case TOX_NETPROF_PACKET_ID_ONION_RECV_3:
+            return "TOX_NETPROF_PACKET_ID_ONION_RECV_3";
+        case TOX_NETPROF_PACKET_ID_ONION_RECV_2:
+            return "TOX_NETPROF_PACKET_ID_ONION_RECV_2";
+        case TOX_NETPROF_PACKET_ID_ONION_RECV_1:
+            return "TOX_NETPROF_PACKET_ID_ONION_RECV_1";
+        case TOX_NETPROF_PACKET_ID_FORWARD_REQUEST:
+            return "TOX_NETPROF_PACKET_ID_FORWARD_REQUEST";
+        case TOX_NETPROF_PACKET_ID_FORWARDING:
+            return "TOX_NETPROF_PACKET_ID_FORWARDING";
+        case TOX_NETPROF_PACKET_ID_FORWARD_REPLY:
+            return "TOX_NETPROF_PACKET_ID_FORWARD_REPLY";
+        case TOX_NETPROF_PACKET_ID_DATA_SEARCH_REQUEST:
+            return "TOX_NETPROF_PACKET_ID_DATA_SEARCH_REQUEST";
+        case TOX_NETPROF_PACKET_ID_DATA_SEARCH_RESPONSE:
+            return "TOX_NETPROF_PACKET_ID_DATA_SEARCH_RESPONSE";
+        case TOX_NETPROF_PACKET_ID_DATA_RETRIEVE_REQUEST:
+            return "TOX_NETPROF_PACKET_ID_DATA_RETRIEVE_REQUEST";
+        case TOX_NETPROF_PACKET_ID_DATA_RETRIEVE_RESPONSE:
+            return "TOX_NETPROF_PACKET_ID_DATA_RETRIEVE_RESPONSE";
+        case TOX_NETPROF_PACKET_ID_STORE_ANNOUNCE_REQUEST:
+            return "TOX_NETPROF_PACKET_ID_STORE_ANNOUNCE_REQUEST";
+        case TOX_NETPROF_PACKET_ID_STORE_ANNOUNCE_RESPONSE:
+            return "TOX_NETPROF_PACKET_ID_STORE_ANNOUNCE_RESPONSE";
+        case TOX_NETPROF_PACKET_ID_BOOTSTRAP_INFO:
+            return "TOX_NETPROF_PACKET_ID_BOOTSTRAP_INFO";
+    }
+
+    return "<invalid Tox_Netprof_Packet_Id>";
+}
+const char *tox_netprof_packet_type_to_string(Tox_Netprof_Packet_Type value)
+{
+    switch (value) {
+        case TOX_NETPROF_PACKET_TYPE_TCP_CLIENT:
+            return "TOX_NETPROF_PACKET_TYPE_TCP_CLIENT";
+        case TOX_NETPROF_PACKET_TYPE_TCP_SERVER:
+            return "TOX_NETPROF_PACKET_TYPE_TCP_SERVER";
+        case TOX_NETPROF_PACKET_TYPE_TCP:
+            return "TOX_NETPROF_PACKET_TYPE_TCP";
+        case TOX_NETPROF_PACKET_TYPE_UDP:
+            return "TOX_NETPROF_PACKET_TYPE_UDP";
+    }
+
+    return "<invalid Tox_Netprof_Packet_Type>";
+}
+const char *tox_netprof_direction_to_string(Tox_Netprof_Direction value)
+{
+    switch (value) {
+        case TOX_NETPROF_DIRECTION_SENT:
+            return "TOX_NETPROF_DIRECTION_SENT";
+        case TOX_NETPROF_DIRECTION_RECV:
+            return "TOX_NETPROF_DIRECTION_RECV";
+    }
+
+    return "<invalid Tox_Netprof_Direction>";
 }

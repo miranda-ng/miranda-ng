@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -32,8 +32,10 @@
 #include "network.h"
 #include "onion_client.h"
 #include "state.h"
+#include "tox_log_level.h"
+#include "tox_options.h"
 #include "tox_private.h"
-#include "tox_struct.h"
+#include "tox_struct.h" // IWYU pragma: keep
 #include "util.h"
 
 #include "../toxencryptsave/defines.h"
@@ -79,7 +81,7 @@ struct Tox_Userdata {
 
 static logger_cb tox_log_handler;
 non_null(1, 3, 5, 6) nullable(7)
-static void tox_log_handler(void *context, Logger_Level level, const char *file, int line, const char *func,
+static void tox_log_handler(void *context, Logger_Level level, const char *file, uint32_t line, const char *func,
                             const char *message, void *userdata)
 {
     Tox *tox = (Tox *)context;
@@ -360,20 +362,22 @@ static void tox_conference_peer_list_changed_handler(Messenger *m, uint32_t conf
     }
 }
 
-static dht_get_nodes_response_cb tox_dht_get_nodes_response_handler;
+static dht_nodes_response_cb tox_dht_nodes_response_handler;
 non_null(1, 2) nullable(3)
-static void tox_dht_get_nodes_response_handler(const DHT *dht, const Node_format *node, void *user_data)
+static void tox_dht_nodes_response_handler(const DHT *dht, const Node_format *node, void *user_data)
 {
     struct Tox_Userdata *tox_data = (struct Tox_Userdata *)user_data;
 
-    if (tox_data->tox->dht_get_nodes_response_callback == nullptr) {
+    if (tox_data->tox->dht_nodes_response_callback == nullptr) {
         return;
     }
 
     Ip_Ntoa ip_str;
+    net_ip_ntoa(&node->ip_port.ip, &ip_str);
+
     tox_unlock(tox_data->tox);
-    tox_data->tox->dht_get_nodes_response_callback(
-        tox_data->tox, node->public_key, net_ip_ntoa(&node->ip_port.ip, &ip_str), net_ntohs(node->ip_port.port),
+    tox_data->tox->dht_nodes_response_callback(
+        tox_data->tox, node->public_key, ip_str.buf, ip_str.length, net_ntohs(node->ip_port.port),
         tox_data->user_data);
     tox_lock(tox_data->tox);
 }
@@ -752,6 +756,8 @@ static Tox *tox_new_system(const struct Tox_Options *options, Tox_Err_New *error
 
     Messenger_Options m_options = {false};
 
+    m_options.dns_enabled = !tox_options_get_experimental_disable_dns(opts);
+
     bool load_savedata_sk = false;
     bool load_savedata_tox = false;
 
@@ -855,9 +861,10 @@ static Tox *tox_new_system(const struct Tox_Options *options, Tox_Err_New *error
         }
 
         const char *const proxy_host = tox_options_get_proxy_host(opts);
+        const bool dns_enabled = !tox_options_get_experimental_disable_dns(opts);
 
         if (proxy_host == nullptr
-                || !addr_resolve_or_parse_ip(tox->sys.ns, proxy_host, &m_options.proxy_info.ip_port.ip, nullptr)) {
+                || !addr_resolve_or_parse_ip(tox->sys.ns, tox->sys.mem, proxy_host, &m_options.proxy_info.ip_port.ip, nullptr, dns_enabled)) {
             SET_ERROR_PARAMETER(error, TOX_ERR_NEW_PROXY_BAD_HOST);
             // TODO(irungentoo): TOX_ERR_NEW_PROXY_NOT_FOUND if domain.
             mem_delete(sys->mem, tox);
@@ -926,7 +933,7 @@ static Tox *tox_new_system(const struct Tox_Options *options, Tox_Err_New *error
         return nullptr;
     }
 
-    tox->m->conferences_object = new_groupchats(tox->mono_time, tox->m);
+    tox->m->conferences_object = new_groupchats(tox->mono_time, sys->mem, tox->m);
 
     if (tox->m->conferences_object == nullptr) {
         kill_messenger(tox->m);
@@ -983,7 +990,7 @@ static Tox *tox_new_system(const struct Tox_Options *options, Tox_Err_New *error
     callback_file_reqchunk(tox->m, tox_file_chunk_request_handler);
     callback_file_sendrequest(tox->m, tox_file_recv_handler);
     callback_file_data(tox->m, tox_file_recv_chunk_handler);
-    dht_callback_get_nodes_response(tox->m->dht, tox_dht_get_nodes_response_handler);
+    dht_callback_nodes_response(tox->m->dht, tox_dht_nodes_response_handler);
     g_callback_group_invite(tox->m->conferences_object, tox_conference_invite_handler);
     g_callback_group_connected(tox->m->conferences_object, tox_conference_connected_handler);
     g_callback_group_message(tox->m->conferences_object, tox_conference_message_handler);
@@ -1139,7 +1146,7 @@ static int32_t resolve_bootstrap_node(Tox *tox, const char *host, uint16_t port,
         return -1;
     }
 
-    const int32_t count = net_getipport(tox->sys.mem, host, root, TOX_SOCK_DGRAM);
+    const int32_t count = net_getipport(tox->sys.ns, tox->sys.mem, host, root, TOX_SOCK_DGRAM, tox->m->options.dns_enabled);
 
     if (count < 1) {
         LOGGER_DEBUG(tox->m->log, "could not resolve bootstrap node '%s'", host);
@@ -3246,7 +3253,7 @@ bool tox_group_reconnect(Tox *tox, uint32_t group_number, Tox_Err_Group_Reconnec
         return false;
     }
 
-    const int ret = gc_rejoin_group(tox->m->group_handler, chat);
+    const int ret = gc_rejoin_group(tox->m->group_handler, chat, nullptr, 0);
     tox_unlock(tox);
 
     switch (ret) {

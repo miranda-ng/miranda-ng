@@ -615,8 +615,8 @@ HANDLE CTelegramProto::SendFile(MCONTACT hContact, const wchar_t *szDescription,
 			pPart = std::move(pContent);
 		}
 		else if (iFileType == TG_FILE_REQUEST::VOICE) {
-			auto pContent = TD::make_object<TD::inputMessageVoiceNote>();
-			pContent->voice_note_ = makeFile(it->pwszName);
+			auto pContent = TD::make_object<TD::inputMessageAudio>();
+			pContent->audio_ = makeFile(it->pwszName);
 			pContent->caption_ = std::move(caption);
 			pContent->duration_ = 0;
 			pPart = std::move(pContent);

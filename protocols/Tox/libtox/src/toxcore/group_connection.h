@@ -16,6 +16,7 @@
 #include "crypto_core.h"
 #include "group_common.h"
 #include "logger.h"
+#include "mem.h"
 #include "mono_time.h"
 #include "network.h"
 
@@ -35,8 +36,8 @@ void gcc_mark_for_deletion(GC_Connection *gconn, TCP_Connections *tcp_conn, Grou
  * Return 0 if message is a duplicate.
  * Return -1 on failure
  */
-non_null(1, 2, 3) nullable(4)
-int gcc_handle_received_message(const Logger *log, const Mono_Time *mono_time, GC_Connection *gconn,
+non_null(1, 2, 3, 4) nullable(5)
+int gcc_handle_received_message(const Logger *log, const Memory *mem, const Mono_Time *mono_time, GC_Connection *gconn,
                                 const uint8_t *data, uint16_t length, uint8_t packet_type, uint64_t message_id,
                                 bool direct_conn);
 
@@ -63,7 +64,7 @@ uint16_t gcc_get_array_index(uint64_t message_id);
  * Return true on success.
  */
 non_null()
-bool gcc_handle_ack(const Logger *log, GC_Connection *gconn, uint64_t message_id);
+bool gcc_handle_ack(const Logger *log, const Memory *mem, GC_Connection *gconn, uint64_t message_id);
 
 /** @brief Sets the send_message_id and send_array_start for `gconn` to `id`.
  *
@@ -134,6 +135,10 @@ void gcc_make_session_shared_key(GC_Connection *gconn, const uint8_t *sender_pk)
 non_null()
 bool gcc_conn_is_direct(const Mono_Time *mono_time, const GC_Connection *gconn);
 
+/** @brief Return true if we can try a direct connection with `gconn` again. */
+non_null()
+bool gcc_conn_should_try_direct(const Mono_Time *mono_time, const GC_Connection *gconn);
+
 /** @brief Return true if a direct UDP connection is possible with `gconn`. */
 non_null()
 bool gcc_direct_conn_is_possible(const GC_Chat *chat, const GC_Connection *gconn);
@@ -145,7 +150,7 @@ bool gcc_direct_conn_is_possible(const GC_Chat *chat, const GC_Connection *gconn
  * Return true on success.
  */
 non_null()
-bool gcc_send_packet(const GC_Chat *chat, const GC_Connection *gconn, const uint8_t *packet, uint16_t length);
+bool gcc_send_packet(const GC_Chat *chat, GC_Connection *gconn, const uint8_t *packet, uint16_t length);
 
 /** @brief Sends a lossless packet to `gconn` comprised of `data` of size `length`.
  *
@@ -183,12 +188,12 @@ bool gcc_send_lossless_packet_fragments(const GC_Chat *chat, GC_Connection *gcon
  * Return -2 if the packet fails to send.
  */
 non_null(1, 2) nullable(3)
-int gcc_encrypt_and_send_lossless_packet(const GC_Chat *chat, const GC_Connection *gconn, const uint8_t *data,
+int gcc_encrypt_and_send_lossless_packet(const GC_Chat *chat, GC_Connection *gconn, const uint8_t *data,
         uint16_t length, uint64_t message_id, uint8_t packet_type);
 
 /** @brief Called when a peer leaves the group. */
 non_null()
-void gcc_peer_cleanup(GC_Connection *gconn);
+void gcc_peer_cleanup(const Memory *mem, GC_Connection *gconn);
 
 /** @brief Called on group exit. */
 non_null()

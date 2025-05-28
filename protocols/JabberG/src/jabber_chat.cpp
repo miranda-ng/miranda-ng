@@ -130,14 +130,11 @@ SESSION_INFO* CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 		}
 	}
 
-	ptrA tszNick(getUStringA(si->hContact, "MyNick"));
-	if (tszNick != nullptr) {
-		if (!mir_strcmp(tszNick, szNick))
-			delSetting(si->hContact, "MyNick");
-		else
-			setUString(si->hContact, "MyNick", item->nick);
-	}
-	else setUString(si->hContact, "MyNick", item->nick);
+	ptrA szMyNick(getUStringA(si->hContact, "MyNick"));
+	if (szMyNick && getMStringU("Nick") == szMyNick)
+		delSetting(si->hContact, "MyNick");
+	else
+		setUString(si->hContact, "MyNick", item->nick);
 
 	ptrA passw(getUStringA(si->hContact, "Password"));
 	if (mir_strcmp(passw, item->password)) {

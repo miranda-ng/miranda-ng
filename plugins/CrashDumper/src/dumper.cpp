@@ -138,10 +138,15 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 {
 	buffer.AppendFormat(L"Service Mode: %s\r\n", g_plugin.bServiceMode ? L"Yes" : L"No");
 
-	if (auto *pLogClass = Srmm_GetWindowClass(0))
-		buffer.AppendFormat(L"SRMM Log Viewer: %s\r\n", _A2T(pLogClass->szShortName).get());
+	if (auto *pLogClass = Srmm_GetWindowClass(false))
+		buffer.AppendFormat(L"SRMM Log Viewer: %S\r\n", pLogClass->szShortName.get());
 	else
-		buffer.AppendFormat(L"SRMM Log Viewer: %s\r\n", L"missing");
+		buffer.AppendFormat(L"SRMM Log Viewer: %S\r\n", "missing");
+
+	if (auto *pLogClass = Srmm_GetWindowClass(true))
+		buffer.AppendFormat(L"SRMM Groupchat Log Viewer: %S\r\n", pLogClass->szShortName.get());
+	else
+		buffer.AppendFormat(L"SRMM Groupchat Log Viewer: %S\r\n", "missing");
 
 	wchar_t path[MAX_PATH];
 	GetModuleFileName(nullptr, path, MAX_PATH);

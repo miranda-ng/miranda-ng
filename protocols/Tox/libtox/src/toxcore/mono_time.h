@@ -87,7 +87,7 @@ bool mono_time_is_timeout(const Mono_Time *mono_time, uint64_t timestamp, uint64
  * to the return value of `mono_time_get_ms()`.
  */
 non_null()
-uint64_t current_time_monotonic(Mono_Time *mono_time);
+uint64_t current_time_monotonic(const Mono_Time *mono_time);
 
 /**
  * Override implementation of `current_time_monotonic()` (for tests).

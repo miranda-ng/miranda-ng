@@ -494,8 +494,6 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		}
 
 		pMsgReq << INT_PARAM("chat_id", cc->m_iChatId);
-		pMsgReq->pUserInfo = pReq->pUserInfo;
-
 	}
 	else {
 		VKUserID_t iUserId = ReadVKUserID(fup->hContact);
@@ -505,15 +503,15 @@ void CVkProto::OnReciveUploadFile(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		}
 
 		pMsgReq << INT_PARAM("peer_id", iUserId);
-		pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
 	}
-
+	
 	ULONG uMsgId = ::InterlockedIncrement(&m_iMsgId);
 	pMsgReq 
 		<< WCHAR_PARAM("message", fup->wszDesc) 
 		<< WCHAR_PARAM("attachment", Attachment)
 		<< INT_PARAM("random_id", ((long)time(0)) * 100 + uMsgId % 100);
-
 	pMsgReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
+	pMsgReq->pUserInfo = new CVkSendMsgParam(fup->hContact, fup);
+
 	Push(pMsgReq);
 }

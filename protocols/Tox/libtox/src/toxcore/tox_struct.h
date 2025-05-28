@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2022 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -8,10 +8,9 @@
 
 #include <pthread.h>
 
-#include "Messenger.h"
-#include "mem.h"
 #include "mono_time.h"
 #include "tox.h"
+#include "tox_options.h" // tox_log_cb
 #include "tox_private.h"
 
 #ifdef __cplusplus
@@ -19,7 +18,7 @@ extern "C" {
 #endif
 
 struct Tox {
-    Messenger *m;
+    struct Messenger *m;
     Mono_Time *mono_time;
     Tox_System sys;
     pthread_mutex_t *mutex;
@@ -44,7 +43,7 @@ struct Tox {
     tox_conference_title_cb *conference_title_callback;
     tox_conference_peer_name_cb *conference_peer_name_callback;
     tox_conference_peer_list_changed_cb *conference_peer_list_changed_callback;
-    tox_dht_get_nodes_response_cb *dht_get_nodes_response_callback;
+    tox_dht_nodes_response_cb *dht_nodes_response_callback;
     tox_friend_lossy_packet_cb *friend_lossy_packet_callback_per_pktid[UINT8_MAX + 1];
     tox_friend_lossless_packet_cb *friend_lossless_packet_callback_per_pktid[UINT8_MAX + 1];
     tox_group_peer_name_cb *group_peer_name_callback;

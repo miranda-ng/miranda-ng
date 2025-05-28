@@ -516,7 +516,7 @@ bool CSrmmBaseDialog::OnInitDialog()
 		m_message.Hide();
 
 	auto *pDlg = (CMsgDialog *)this;
-	if (auto *pLogWindowClass = Srmm_GetWindowClass(pDlg)) {
+	if (auto *pLogWindowClass = Srmm_GetWindowClass(pDlg->isChat(), pDlg->m_hContact)) {
 		m_pLog = pLogWindowClass->pfnBuilder(*pDlg);
 		m_pLog->Attach();
 		if (m_pLog->GetType() != 0) { // custom log type

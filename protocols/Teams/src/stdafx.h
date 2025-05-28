@@ -69,7 +69,6 @@ enum SkypeHost
 	HOST_CONTACTS,
 	HOST_DEFAULT,
 	HOST_DEFAULT_V2,
-	HOST_GRAPH,
 	HOST_LOGIN,
 	HOST_TEAMS,
 	HOST_TEAMS_API,
@@ -92,6 +91,5 @@ struct AsyncHttpRequest : public MTHttpRequest<CTeamsProto>
 #include "teams_proto.h"
 
 #include "requests/chatrooms.h"
-#include "requests/search.h"
 
 #endif //_COMMON_H_

@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2016-2018 The TokTok team.
+ * Copyright © 2016-2025 The TokTok team.
  * Copyright © 2013 Tox project.
  */
 
@@ -65,7 +65,7 @@ void onion_announce_entry_set_time(Onion_Announce *onion_a, uint32_t entry, uint
  * return packet length on success.
  */
 non_null()
-int create_announce_request(const Random *rng, uint8_t *packet, uint16_t max_packet_length, const uint8_t *dest_client_id,
+int create_announce_request(const Memory *mem, const Random *rng, uint8_t *packet, uint16_t max_packet_length, const uint8_t *dest_client_id,
                             const uint8_t *public_key, const uint8_t *secret_key, const uint8_t *ping_id, const uint8_t *client_id,
                             const uint8_t *data_public_key, uint64_t sendback_data);
 
@@ -82,7 +82,7 @@ int create_announce_request(const Random *rng, uint8_t *packet, uint16_t max_pac
  * return 0 on success.
  */
 non_null()
-int create_data_request(const Random *rng, uint8_t *packet, uint16_t max_packet_length, const uint8_t *public_key,
+int create_data_request(const Memory *mem, const Random *rng, uint8_t *packet, uint16_t max_packet_length, const uint8_t *public_key,
                         const uint8_t *encrypt_public_key, const uint8_t *nonce, const uint8_t *data, uint16_t length);
 
 /** @brief Create and send an onion announce request packet.
@@ -101,7 +101,7 @@ int create_data_request(const Random *rng, uint8_t *packet, uint16_t max_packet_
  */
 non_null()
 int send_announce_request(
-    const Logger *log, const Networking_Core *net, const Random *rng,
+    const Logger *log, const Memory *mem, const Networking_Core *net, const Random *rng,
     const Onion_Path *path, const Node_format *dest,
     const uint8_t *public_key, const uint8_t *secret_key,
     const uint8_t *ping_id, const uint8_t *client_id,
@@ -125,11 +125,11 @@ int send_announce_request(
  */
 non_null()
 int send_data_request(
-    const Logger *log, const Networking_Core *net, const Random *rng, const Onion_Path *path, const IP_Port *dest,
+    const Logger *log, const Memory *mem, const Networking_Core *net, const Random *rng, const Onion_Path *path, const IP_Port *dest,
     const uint8_t *public_key, const uint8_t *encrypt_public_key, const uint8_t *nonce,
     const uint8_t *data, uint16_t length);
 
-typedef int pack_extra_data_cb(void *object, const Logger *logger, const Mono_Time *mono_time,
+typedef int pack_extra_data_cb(void *object, const Logger *logger, const Memory *mem, const Mono_Time *mono_time,
                                uint8_t num_nodes, uint8_t *plain, uint16_t plain_size,
                                uint8_t *response, uint16_t response_size, uint16_t offset);
 

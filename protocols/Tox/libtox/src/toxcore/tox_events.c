@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
- * Copyright © 2022-2024 The TokTok team.
+ * Copyright © 2022-2025 The TokTok team.
  */
 
 #include "tox_events.h"
@@ -17,7 +17,7 @@
 #include "tox.h"
 #include "tox_event.h"
 #include "tox_private.h"
-#include "tox_struct.h"
+#include "tox_struct.h" // IWYU pragma: keep
 
 /*****************************************************
  *
@@ -66,7 +66,7 @@ void tox_events_init(Tox *tox)
     tox_callback_group_self_join(tox, tox_events_handle_group_self_join);
     tox_callback_group_join_fail(tox, tox_events_handle_group_join_fail);
     tox_callback_group_moderation(tox, tox_events_handle_group_moderation);
-    tox_callback_dht_get_nodes_response(tox, tox_events_handle_dht_get_nodes_response);
+    tox_callback_dht_nodes_response(tox, tox_events_handle_dht_nodes_response);
 }
 
 uint32_t tox_events_get_size(const Tox_Events *events)
@@ -173,7 +173,7 @@ Tox_Events *tox_events_load(const Tox_System *sys, const uint8_t *bytes, uint32_
     };
     events->mem = sys->mem;
 
-    if (!bin_unpack_obj(tox_events_unpack_handler, events, bytes, bytes_size)) {
+    if (!bin_unpack_obj(sys->mem, tox_events_unpack_handler, events, bytes, bytes_size)) {
         tox_events_free(events);
         return nullptr;
     }
