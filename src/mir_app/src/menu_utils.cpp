@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "plugins.h"
 
 static bool bIsGenMenuInited, bMenuLoaded = false;
-bool bIconsDisabled;
+bool g_bMenuIconsEnabled;
 static mir_cs csMenuHook;
 
 static int NextObjectId = 0x100, NextObjectMenuItemId = CLISTMENUIDMIN;
@@ -151,7 +151,7 @@ TMO_IntMenuItem* MO_RecursiveWalkMenu(const TMO_LinkedList &pList, pfnWalkFunc f
 
 MIR_APP_DLL(BOOL) Menu_MeasureItem(LPARAM lParam)
 {
-	if (!bIsGenMenuInited)
+	if (!bIsGenMenuInited || !g_bMenuIconsEnabled)
 		return FALSE;
 
 	MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;
@@ -174,7 +174,7 @@ MIR_APP_DLL(BOOL) Menu_MeasureItem(LPARAM lParam)
 
 MIR_APP_DLL(BOOL) Menu_DrawItem(LPARAM lParam)
 {
-	if (!bIsGenMenuInited)
+	if (!bIsGenMenuInited || !g_bMenuIconsEnabled)
 		return FALSE;
 
 	DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
@@ -397,7 +397,7 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const wchar_t *ptszName, HA
 		pimi->mi.flags = (iFlags & 0x07) | oldflags;
 	}
 
-	if (hIcolib != INVALID_HANDLE_VALUE && !bIconsDisabled) {
+	if (hIcolib != INVALID_HANDLE_VALUE && g_bMenuIconsEnabled) {
 		HANDLE hIcolibItem = IcoLib_IsManaged((HICON)hIcolib);
 		if (hIcolibItem) {
 			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
@@ -860,7 +860,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	else
 		p->mi.name.w = mir_a2u(pmi->name.a);
 
-	if (pmi->hIcon != nullptr && !bIconsDisabled) {
+	if (pmi->hIcon != nullptr && g_bMenuIconsEnabled) {
 		HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
 		if (hIcolibItem != nullptr) {
 			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
@@ -1127,11 +1127,11 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 
 		int i = WhereToPlace(hMenu, mi);
 
-		MENUITEMINFO mii = { 0 };
+		MENUITEMINFO mii = {};
 		mii.cbSize = sizeof(mii);
 		mii.dwItemData = (LPARAM)pmi;
-		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING;
-		if (pmi->iconId != -1) {
+		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING | MIIM_STATE;
+		if (pmi->iconId != -1 && g_bMenuIconsEnabled) {
 			mii.fMask |= MIIM_BITMAP;
 			if (IsWinVerVistaPlus() && IsThemeActive()) {
 				if (pmi->hBmp == nullptr)
@@ -1141,7 +1141,6 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 			else mii.hbmpItem = HBMMENU_CALLBACK;
 		}
 
-		mii.fMask |= MIIM_STATE;
 		mii.fState = ((pmi->mi.flags & CMIF_GRAYED) ? MFS_GRAYED : MFS_ENABLED);
 		mii.fState |= ((pmi->mi.flags & CMIF_CHECKED) ? MFS_CHECKED : MFS_UNCHECKED);
 		if (pmi->mi.flags & CMIF_DEFAULT)
@@ -1157,7 +1156,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 			#ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				wchar_t str[256];
-				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
+				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.w, mi->position, (int)mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 			#endif
@@ -1171,7 +1170,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 			#ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				wchar_t str[256];
-				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
+				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.w, mi->position, (int)mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 			#endif
@@ -1306,7 +1305,7 @@ static void CALLBACK RegisterAllIconsInIconLib()
 
 int InitGenMenu()
 {
-	bIconsDisabled = db_get_b(0, "CList", "DisableMenuIcons", 0) != 0;
+	g_bMenuIconsEnabled = !db_get_b(0, "CList", "DisableMenuIcons");
 	bIsGenMenuInited = true;
 
 	HookEvent(ME_OPT_INITIALISE, GenMenuOptInit);

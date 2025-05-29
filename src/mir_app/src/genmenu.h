@@ -106,6 +106,7 @@ struct TIntMenuObject : public MZeroedObject
 };
 
 extern LIST<TIntMenuObject> g_menus;
+extern bool g_bMenuIconsEnabled;
 
 #define SEPARATORPOSITIONINTERVAL	100000
 

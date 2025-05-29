@@ -442,7 +442,7 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 						MENUITEMINFO mii = {};
 						mii.cbSize = sizeof(mii);
 						mii.fMask = MIIM_STRING | MIIM_STATE;
-						if (pimi->iconId != -1) {
+						if (pimi->iconId != -1 && g_bMenuIconsEnabled) {
 							mii.fMask |= MIIM_BITMAP;
 							if (IsWinVerVistaPlus() && IsThemeActive()) {
 								if (pimi->hBmp == nullptr)

@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define STR_SEPARATOR L"-----------------------------------"
 
-extern bool bIconsDisabled;
 extern int DefaultImageListColorDepth;
 void RebuildProtoMenus();
 
@@ -331,7 +330,7 @@ public:
 		else
 			m_radio1.SetState(true);
 
-		m_enableIcons.SetState(!bIconsDisabled);
+		m_enableIcons.SetState(g_bMenuIconsEnabled);
 
 		//---- init menu object list --------------------------------------
 		for (auto &p : g_menus)
@@ -345,8 +344,14 @@ public:
 
 	bool OnApply() override
 	{
-		bIconsDisabled = !m_enableIcons.IsChecked();
-		db_set_b(0, "CList", "DisableMenuIcons", bIconsDisabled);
+		if (g_bMenuIconsEnabled != m_enableIcons.IsChecked()) {
+			g_bMenuIconsEnabled = m_enableIcons.IsChecked();
+			db_set_b(0, "CList", "DisableMenuIcons", !g_bMenuIconsEnabled);
+
+			Menu_GetMainMenu();
+			Menu_GetStatusMenu();
+			Menu_ReloadProtoMenus();
+		}
 
 		if (m_customName.IsChanged())
 			btnSet_Clicked(0);
