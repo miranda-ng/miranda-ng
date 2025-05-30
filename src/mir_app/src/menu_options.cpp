@@ -254,12 +254,9 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		m_menuItems.SetDraw(false);
 		m_menuItems.DeleteAllItems();
-
 		BuildTreeInternal(szModule, bReread, pmo->m_items, nullptr);
-
 		m_menuItems.SetDraw(true);
 
-		m_warning.Show(!pmo->m_bUseUserDefinedItems);
 		m_menuItems.Enable(pmo->m_bUseUserDefinedItems);
 		m_btnInsSeparator.Enable(pmo->m_bUseUserDefinedItems);
 		m_btnInsMenu.Enable(pmo->m_bUseUserDefinedItems);
@@ -279,9 +276,8 @@ class CGenMenuOptionsPage : public CDlgBase
 	CCtrlListBox m_menuObjects;
 	CCtrlTreeView m_menuItems;
 	CCtrlCheck m_radio1, m_radio2, m_enableIcons;
-	CCtrlEdit m_customName, m_service, m_module;
+	CCtrlEdit m_customName, m_service, m_module, m_id;
 	CCtrlButton m_btnInsSeparator, m_btnInsMenu, m_btnReset, m_btnSet, m_btnDefault, m_btnDelete;
-	CCtrlBase m_warning;
 
 public:
 	CGenMenuOptionsPage() :
@@ -298,10 +294,10 @@ public:
 		m_btnSet(this, IDC_GENMENU_SET),
 		m_btnDelete(this, IDC_GENMENU_DELETE),
 		m_btnDefault(this, IDC_GENMENU_DEFAULT),
+		m_id(this, IDC_GENMENU_ID),
 		m_customName(this, IDC_GENMENU_CUSTOMNAME),
 		m_service(this, IDC_GENMENU_SERVICE),
-		m_module(this, IDC_GENMENU_MODULE),
-		m_warning(this, IDC_NOTSUPPORTWARNING)
+		m_module(this, IDC_GENMENU_MODULE)
 	{
 		m_btnSet.OnClick = Callback(this, &CGenMenuOptionsPage::btnSet_Clicked);
 		m_btnReset.OnClick = Callback(this, &CGenMenuOptionsPage::btnReset_Clicked);
@@ -537,6 +533,7 @@ public:
 		m_customName.SetTextA("");
 		m_service.SetTextA("");
 		m_module.SetTextA("");
+		m_id.SetTextA("");
 
 		m_btnInsMenu.Disable();
 		m_btnDefault.Disable();
@@ -562,13 +559,18 @@ public:
 		m_customName.SetText(iod->name);
 
 		if (iod->pimi->mi.uid != miid_last) {
+			auto &id = iod->pimi->mi.uid;
 			char szText[100];
-			bin2hex(&iod->pimi->mi.uid, sizeof(iod->pimi->mi.uid), szText);
-			m_service.SetTextA(szText);
+			mir_snprintf(szText, "%08x-%04x-%04x-", id.a, id.b, id.c);
+			bin2hex(&iod->pimi->mi.uid.d, sizeof(iod->pimi->mi.uid.d), szText + strlen(szText));
+			m_id.SetTextA(szText);
 		}
 
-		const CMPluginBase *pPlugin = iod->pimi->mi.pPlugin;
-		m_module.SetTextA(pPlugin == nullptr ? "" : pPlugin->getInfo().shortName);
+		if (iod->pimi->mi.pszService)
+			m_service.SetTextA(iod->pimi->mi.pszService);
+
+		auto *pPlugin = iod->pimi->mi.pPlugin;
+		m_module.SetTextA(pPlugin ? pPlugin->getInfo().shortName : "");
 
 		m_btnInsMenu.Enable(iod->pimi->mi.root == nullptr);
 		m_btnDefault.Enable(mir_wstrcmp(iod->name, iod->defname) != 0);
