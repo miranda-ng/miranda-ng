@@ -101,22 +101,6 @@ INT_PTR FreeOwnerDataMirOTRMenu(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR OnAddMenuItemMirOTRMenu(WPARAM wParam, LPARAM lParam)
-{
-	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
-	if (!mii || mii->cbSize != sizeof(MENUITEMINFO))
-		return 0;
-
-	TMO_MenuItem mi;
-	if (Menu_GetItemInfo((HGENMENU)lParam, mi) == 0) {
-		if (mi.flags & CMIF_DISABLED) {
-			mii->fMask |= MIIM_STATE;
-			mii->fState |= MF_DISABLED;
-		}
-	}
-	return 1;
-}
-
 LRESULT CALLBACK PopupMenuWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
@@ -159,11 +143,9 @@ void InitMirOTRMenu(void)
 
 	// menu object
 	CreateServiceFunction("MIROTRMENUS/FreeOwnerDataMirOTRMenu", FreeOwnerDataMirOTRMenu);
-	CreateServiceFunction("MIROTRMENUS/OnAddMenuItemMirOTRMenu", OnAddMenuItemMirOTRMenu);
 
 	hMirOTRMenuObject = Menu_AddObject("MirOTRMenu", LPGEN("MirOTR menu"), "MirOTRMenuCheckService", "MirOTRMenuExecService");
 	Menu_ConfigureObject(hMirOTRMenuObject, MCO_OPT_FREE_SERVICE, "MIROTRMENUS/FreeOwnerDataMirOTRMenu");
-	Menu_ConfigureObject(hMirOTRMenuObject, MCO_OPT_ONADD_SERVICE, "MIROTRMENUS/OnAddMenuItemMirOTRMenu");
 
 	// menu items
 	CMenuItem mi(&g_plugin);
