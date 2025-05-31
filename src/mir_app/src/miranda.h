@@ -115,7 +115,7 @@ void Clist_RemoveContactEvent(MCONTACT hContact);
 
 extern int hMainMenuObject, hContactMenuObject, hStatusMenuObject;
 extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
-extern HMENU hMainMenu, hStatusMenu;
+extern HMENU g_hMainMenu, g_hStatusMenu;
 
 struct MStatus
 {

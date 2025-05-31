@@ -209,11 +209,8 @@ EXTERN_C MIR_APP_DLL(int) Menu_RemoveObject(int hMenuObject);
 // lParam = mi.ownerdata
 #define MCO_OPT_FREE_SERVICE 2
 
-// Set onAddService for menuobject.
-#define MCO_OPT_ONADD_SERVICE 3
-
 // Set menu check service
-#define MCO_OPT_CHECK_SERVICE 4
+#define MCO_OPT_CHECK_SERVICE 3
 
 EXTERN_C MIR_APP_DLL(int) Menu_ConfigureObject(int hMenuObject, int iSetting, INT_PTR value);
 

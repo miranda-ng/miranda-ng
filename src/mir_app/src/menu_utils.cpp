@@ -563,10 +563,6 @@ MIR_APP_DLL(int) Menu_ConfigureObject(int hMenuObject, int setting, INT_PTR valu
 	TIntMenuObject *pmo = GetMenuObjbyId(hMenuObject);
 	if (pmo != nullptr) {
 		switch (setting) {
-		case MCO_OPT_ONADD_SERVICE:
-			replaceStr(pmo->onAddService, (char*)value);
-			return true;
-
 		case MCO_OPT_FREE_SERVICE:
 			replaceStr(pmo->FreeService, (char*)value);
 			return true;
@@ -1175,9 +1171,15 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 			}
 			#endif
 
-			if (pmo->onAddService != nullptr)
-				if (CallService(pmo->onAddService, (WPARAM)&mii, (LPARAM)pmi) == FALSE)
-					continue;
+			if (!mir_strcmp(pmi->mi.pszService, MS_CLIST_MAIN_MENU)) {
+				mii.fMask |= MIIM_SUBMENU;
+				mii.hSubMenu = Menu_GetMainMenu();
+			}
+
+			if (!mir_strcmp(pmi->mi.pszService, MS_CLIST_STATUS_MENU)) {
+				mii.fMask |= MIIM_SUBMENU;
+				mii.hSubMenu = Menu_GetStatusMenu();
+			}
 
 			InsertMenuItemWithSeparators(hMenu, i, &mii);
 		}
@@ -1335,7 +1337,6 @@ TIntMenuObject::~TIntMenuObject()
 	m_items.destroy();
 
 	mir_free(FreeService);
-	mir_free(onAddService);
 	mir_free(CheckService);
 	mir_free(ExecService);
 	mir_free(ptszDisplayName);

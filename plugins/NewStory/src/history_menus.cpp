@@ -242,7 +242,7 @@ void InitMenus()
 
 	hMenuObject = Menu_AddObject("NSMenu", "NewStory item menu", nullptr, "NSMenu/ExecService");
 	Menu_ConfigureObject(hMenuObject, MCO_OPT_USERDEFINEDITEMS, INT_PTR(FALSE));
-	Menu_ConfigureObject(hMenuObject, MCO_OPT_FREE_SERVICE, INT_PTR("NSMenu/FreeOwnerData"));
+	Menu_ConfigureObject(hMenuObject, MCO_OPT_FREE_SERVICE, "NSMenu/FreeOwnerData");
 
 	CMenuItem mi(&g_plugin);
 	mi.pszService = "NSMenu/Helper";

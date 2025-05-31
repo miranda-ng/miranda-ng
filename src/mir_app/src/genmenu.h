@@ -27,6 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* genmenu structs */
 
+#define MS_CLIST_MAIN_MENU "MainMenu/Command"
+#define MS_CLIST_STATUS_MENU "GlobalStatus/Command"
+
 #define MENUITEM_SIGNATURE 0xDEADBEEF
 
 struct TIntMenuObject;
@@ -93,10 +96,6 @@ struct TIntMenuObject : public MZeroedObject
 	//LPARAM lParam;//ownerdata
 	//WPARAM wParam;//menuitemhandle
 	char *FreeService;//callback service used to free ownerdata for menuitems
-
-	//LPARAM lParam;//MENUITEMINFO filled with all needed data
-	//WPARAM wParam;//menuitemhandle
-	char *onAddService;//called just before add MENUITEMINFO to hMenu
 
 	TMO_LinkedList m_items;
 	HIMAGELIST m_hMenuIcons;

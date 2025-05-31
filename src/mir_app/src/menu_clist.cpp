@@ -54,7 +54,7 @@ bool prochotkey;
 
 HANDLE hPreBuildMainMenuEvent, hStatusModeChangeEvent, hPreBuildContactMenuEvent, hPreBuildStatusMenuEvent;
 
-HMENU hMainMenu, hStatusMenu;
+HMENU g_hMainMenu, g_hStatusMenu;
 
 MStatus g_statuses[MAX_STATUS_COUNT] =
 {
@@ -103,13 +103,13 @@ struct MainMenuExecParam
 
 MIR_APP_DLL(HMENU) Menu_GetMainMenu(void)
 {
-	RecursiveDeleteMenu(hMainMenu);
+	RecursiveDeleteMenu(g_hMainMenu);
 
 	NotifyEventHooks(hPreBuildMainMenuEvent, 0, 0);
 
-	Menu_Build(hMainMenu, hMainMenuObject);
+	Menu_Build(g_hMainMenu, hMainMenuObject);
 	DrawMenuBar(g_clistApi.hwndContactList);
-	return hMainMenu;
+	return g_hMainMenu;
 }
 
 MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, const char *pszProto)
@@ -350,10 +350,10 @@ MIR_APP_DLL(HGENMENU) Menu_AddStatusMenuItem(TMO_MenuItem *pmi, const char *pszP
 
 MIR_APP_DLL(HMENU) Menu_GetStatusMenu()
 {
-	RecursiveDeleteMenu(hStatusMenu);
+	RecursiveDeleteMenu(g_hStatusMenu);
 
-	Menu_Build(hStatusMenu, hStatusMenuObject);
-	return hStatusMenu;
+	Menu_Build(g_hStatusMenu, hStatusMenuObject);
+	return g_hStatusMenu;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -435,9 +435,9 @@ static INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 					timiParent = MO_GetIntMenuItem(pimi->mi.root);
 
 					MenuItemData it = {};
-					if (FindMenuHandleByGlobalID(hStatusMenu, timiParent, &it)) {
+					if (FindMenuHandleByGlobalID(g_hStatusMenu, timiParent, &it)) {
 						wchar_t d[100];
-						GetMenuString(it.OwnerMenu, it.position, d, _countof(d), MF_BYPOSITION);
+						GetMenuStringW(it.OwnerMenu, it.position, d, _countof(d), MF_BYPOSITION);
 
 						MENUITEMINFO mii = {};
 						mii.cbSize = sizeof(mii);
@@ -685,14 +685,14 @@ MIR_APP_DLL(int) Clist_GetAccountIndex(int Pos)
 void RebuildMenuOrder(void)
 {
 	// clear statusmenu
-	RecursiveDeleteMenu(hStatusMenu);
+	RecursiveDeleteMenu(g_hStatusMenu);
 
 	// status menu
 	if (hStatusMenuObject != 0)
 		Menu_RemoveObject(hStatusMenuObject);
 
 	hStatusMenuObject = Menu_AddObject("StatusMenu", LPGEN("Status menu"), "StatusMenuCheckService", "StatusMenuExecService");
-	Menu_ConfigureObject(hStatusMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataStatusMenu");
+	Menu_ConfigureObject(hStatusMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUS/FreeOwnerDataStatusMenu");
 
 	g_menuProtos.destroy();
 
@@ -1025,8 +1025,8 @@ void InitCustomMenus(void)
 
 	HookEvent(ME_PROTO_ACK, MenuProtoAck);
 
-	hMainMenu = CreatePopupMenu();
-	hStatusMenu = CreatePopupMenu();
+	g_hMainMenu = CreatePopupMenu();
+	g_hStatusMenu = CreatePopupMenu();
 
 	// new menu sys
 	InitGenMenu();
@@ -1034,12 +1034,12 @@ void InitCustomMenus(void)
 	// main menu
 	hMainMenuObject = Menu_AddObject("MainMenu", LPGEN("Main menu"), nullptr, "MainMenuExecService");
 	Menu_ConfigureObject(hMainMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
-	Menu_ConfigureObject(hMainMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataMainMenu");
+	Menu_ConfigureObject(hMainMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUS/FreeOwnerDataMainMenu");
 
 	// contact menu
 	hContactMenuObject = Menu_AddObject("ContactMenu", LPGEN("Contact menu"), "ContactMenuCheckService", "ContactMenuExecService");
 	Menu_ConfigureObject(hContactMenuObject, MCO_OPT_USERDEFINEDITEMS, TRUE);
-	Menu_ConfigureObject(hContactMenuObject, MCO_OPT_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataContactMenu");
+	Menu_ConfigureObject(hContactMenuObject, MCO_OPT_FREE_SERVICE, "CLISTMENUS/FreeOwnerDataContactMenu");
 
 	// other menus
 	InitGroupMenus();
@@ -1096,6 +1096,6 @@ void UninitCustomMenus(void)
 
 	g_menuProtos.destroy();
 
-	DestroyMenu(hMainMenu);
-	DestroyMenu(hStatusMenu);
+	DestroyMenu(g_hMainMenu);
+	DestroyMenu(g_hStatusMenu);
 }
