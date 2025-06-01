@@ -400,45 +400,6 @@ public:
 		NotifyChange();
 	}
 
-	void btnInsMenu_Clicked(CCtrlButton*)
-	{
-		HTREEITEM hti = m_menuItems.GetSelection();
-		if (hti == nullptr)
-			return;
-
-		TVITEMEX tvi = { 0 };
-		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
-		tvi.hItem = hti;
-		if (!m_menuItems.GetItem(&tvi))
-			return;
-
-		MenuItemOptData *curData = (MenuItemOptData*)tvi.lParam;
-
-		TMO_MenuItem mi = {};
-		UuidCreate((UUID*)&mi.uid);
-		mi.flags = CMIF_CUSTOM;
-		mi.name.a = LPGEN("New submenu");
-		mi.position = curData->pos - 1;
-		TMO_IntMenuItem *pimi = Menu_AddItem(curData->pimi->parent->id, &mi, nullptr);
-
-		MenuItemOptData *PD = new MenuItemOptData();
-		PD->id = -1;
-		PD->name = mir_wstrdup(TranslateW(pimi->mi.name.w));
-		PD->pos = pimi->mi.position;
-		PD->pimi = pimi;
-
-		TVINSERTSTRUCT tvis = {};
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-		tvis.item.lParam = (LPARAM)PD;
-		tvis.item.pszText = PD->name;
-		tvis.hInsertAfter = hti;
-		tvis.item.state = INDEXTOSTATEIMAGEMASK(2);
-		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-		m_menuItems.InsertItem(&tvis);
-
-		NotifyChange();
-	}
-
 	void btnReset_Clicked(CCtrlButton*)
 	{
 		int MenuObjectID;
