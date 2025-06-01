@@ -247,8 +247,10 @@ MIR_APP_DLL(int) PU::SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 	if (g_hPipe == nullptr) {
 		if (!DeleteFileW(pDst)) {
 			uint32_t dwError = GetLastError();
-			if (dwError != ERROR_ACCESS_DENIED && dwError != ERROR_FILE_NOT_FOUND)
+			if (dwError != ERROR_ACCESS_DENIED && dwError != ERROR_FILE_NOT_FOUND) {
+				Netlib_LogfW(0, L"Unable to delete dest file %s during move, error %d", pDst, dwError);
 				return dwError;
+			}
 		}
 
 		if (!MoveFileW(pSrc, pDst)) { // use copy on error
@@ -262,11 +264,17 @@ MIR_APP_DLL(int) PU::SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 			case ERROR_LOCK_VIOLATION:
 				// use copy routine if a move operation isn't available
 				// for example, when files are on different disks
-				if (!CopyFileW(pSrc, pDst, FALSE))
-					return GetLastError();
+				if (!CopyFileW(pSrc, pDst, FALSE)) {
+					dwError = GetLastError();
+					Netlib_LogfW(0, L"Unable to copy file %s to %s during move, error %d", pSrc, pDst, dwError);
+					return dwError;
+				}
 
-				if (!DeleteFileW(pSrc))
-					return GetLastError();
+				if (!DeleteFileW(pSrc)) {
+					dwError = GetLastError();
+					Netlib_LogfW(0, L"Unable to delete source file %s during move, error %d", pSrc, dwError);
+					return dwError;
+				}
 				break;
 
 			default:

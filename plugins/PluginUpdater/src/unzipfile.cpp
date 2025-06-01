@@ -125,7 +125,8 @@ int extractCurrentFile(unzFile uf, wchar_t *pwszDestPath, wchar_t *pwszBackPath,
 		while (true) {
 			err = unzReadCurrentFile(uf, buf, DATA_BUF_SIZE);
 			if (err <= 0) {
-				Netlib_LogfW(g_hNetlibUser, L"Error reading zipped file %s: %d", pwszFile2unzip, err);
+				if (err)
+					Netlib_LogfW(g_hNetlibUser, L"Error reading zipped file %s: %d", pwszFile2unzip, err);
 				break;
 			}
 
