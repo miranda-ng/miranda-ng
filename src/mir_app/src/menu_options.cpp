@@ -259,7 +259,6 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		m_menuItems.Enable(pmo->m_bUseUserDefinedItems);
 		m_btnInsSeparator.Enable(pmo->m_bUseUserDefinedItems);
-		m_btnInsMenu.Enable(pmo->m_bUseUserDefinedItems);
 		return 1;
 	}
 
@@ -277,7 +276,7 @@ class CGenMenuOptionsPage : public CDlgBase
 	CCtrlTreeView m_menuItems;
 	CCtrlCheck m_radio1, m_radio2, m_enableIcons;
 	CCtrlEdit m_customName, m_service, m_module, m_id;
-	CCtrlButton m_btnInsSeparator, m_btnInsMenu, m_btnReset, m_btnSet, m_btnDefault, m_btnDelete;
+	CCtrlButton m_btnInsSeparator, m_btnReset, m_btnSet, m_btnDefault, m_btnDelete;
 
 public:
 	CGenMenuOptionsPage() :
@@ -289,7 +288,6 @@ public:
 		m_radio2(this, IDC_RADIO2),
 		m_enableIcons(this, IDC_DISABLEMENUICONS),
 		m_btnInsSeparator(this, IDC_INSERTSEPARATOR),
-		m_btnInsMenu(this, IDC_INSERTSUBMENU),
 		m_btnReset(this, IDC_RESETMENU),
 		m_btnSet(this, IDC_GENMENU_SET),
 		m_btnDelete(this, IDC_GENMENU_DELETE),
@@ -302,7 +300,6 @@ public:
 		m_btnSet.OnClick = Callback(this, &CGenMenuOptionsPage::btnSet_Clicked);
 		m_btnReset.OnClick = Callback(this, &CGenMenuOptionsPage::btnReset_Clicked);
 		m_btnInsSeparator.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsSep_Clicked);
-		m_btnInsMenu.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsMenu_Clicked);
 		m_btnDefault.OnClick = Callback(this, &CGenMenuOptionsPage::btnDefault_Clicked);
 		m_btnDelete.OnClick = Callback(this, &CGenMenuOptionsPage::btnDelete_Clicked);
 
@@ -535,7 +532,6 @@ public:
 		m_module.SetTextA("");
 		m_id.SetTextA("");
 
-		m_btnInsMenu.Disable();
 		m_btnDefault.Disable();
 		m_btnSet.Disable();
 		m_btnDelete.Disable();
@@ -572,7 +568,6 @@ public:
 		auto *pPlugin = iod->pimi->mi.pPlugin;
 		m_module.SetTextA(pPlugin ? pPlugin->getInfo().shortName : "");
 
-		m_btnInsMenu.Enable(iod->pimi->mi.root == nullptr);
 		m_btnDefault.Enable(mir_wstrcmp(iod->name, iod->defname) != 0);
 		m_btnDelete.Enable(iod->pimi->mi.flags & CMIF_CUSTOM);
 		m_btnSet.Enable(true);
