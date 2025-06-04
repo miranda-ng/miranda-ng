@@ -23,7 +23,7 @@
  * SPDX-License-Identifier: curl
  *
  ***************************************************************************/
-#include "curl_setup.h"
+#include "../curl_setup.h"
 
 #ifdef _WIN32
 
@@ -81,12 +81,7 @@ typedef union {
 
 #endif /* UNICODE && _WIN32 */
 
-#define curlx_unicodefree(ptr)                          \
-  do {                                                  \
-    if(ptr) {                                           \
-      (free)(CURL_UNCONST(ptr));                        \
-      (ptr) = NULL;                                     \
-    }                                                   \
-  } while(0)
+/* the purpose of this macro is to free() without being traced by memdebug */
+#define curlx_unicodefree(ptr) (free)(CURL_UNCONST(ptr))
 
 #endif /* HEADER_CURL_MULTIBYTE_H */

@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_TIMEDIFF_H
-#define HEADER_CURL_TIMEDIFF_H
+#ifndef HEADER_CURLX_WINAPI_H
+#define HEADER_CURLX_WINAPI_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -24,29 +24,10 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
+#ifdef _WIN32
+#define WINAPI_ERROR_LEN 100
+const char *curlx_get_winapi_error(int err, char *buf, size_t buflen);
+const char *curlx_winapi_strerror(DWORD err, char *buf, size_t buflen);
+#endif
 
-/* Use a larger type even for 32-bit time_t systems so that we can keep
-   microsecond accuracy in it */
-typedef curl_off_t timediff_t;
-#define FMT_TIMEDIFF_T FMT_OFF_T
-
-#define TIMEDIFF_T_MAX CURL_OFF_T_MAX
-#define TIMEDIFF_T_MIN CURL_OFF_T_MIN
-
-/*
- * Converts number of milliseconds into a timeval structure.
- *
- * Return values:
- *    NULL IF tv is NULL or ms < 0 (eg. no timeout -> blocking select)
- *    tv with 0 in both fields IF ms == 0 (eg. 0ms timeout -> polling select)
- *    tv with converted fields IF ms > 0 (eg. >0ms timeout -> waiting select)
- */
-struct timeval *curlx_mstotv(struct timeval *tv, timediff_t ms);
-
-/*
- * Converts a timeval structure into number of milliseconds.
- */
-timediff_t curlx_tvtoms(struct timeval *tv);
-
-#endif /* HEADER_CURL_TIMEDIFF_H */
+#endif /* HEADER_CURLX_WINAPI_H */

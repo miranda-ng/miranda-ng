@@ -24,7 +24,7 @@
 
 /* Base64 encoding/decoding */
 
-#include "curl_setup.h"
+#include "../curl_setup.h"
 
 #if !defined(CURL_DISABLE_HTTP_AUTH) || defined(USE_SSH) || \
   !defined(CURL_DISABLE_LDAP) || \
@@ -33,20 +33,19 @@
   !defined(CURL_DISABLE_IMAP) || \
   !defined(CURL_DISABLE_DIGEST_AUTH) || \
   !defined(CURL_DISABLE_DOH) || defined(USE_SSL) || !defined(BUILDING_LIBCURL)
-#include "curl/curl.h"
+#include <curl/curl.h>
 #include "warnless.h"
-#include "curl_base64.h"
+#include "base64.h"
 
 /* The last 2 #include files should be in this order */
 #ifdef BUILDING_LIBCURL
-#include "curl_memory.h"
+#include "../curl_memory.h"
 #endif
-#include "memdebug.h"
+#include "../memdebug.h"
 
 /* ---- Base64 Encoding/Decoding Table --- */
-/* Padding character string starts at offset 64. */
-static const char base64encdec[]=
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+const char Curl_base64encdec[]=
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 /* The Base 64 encoding with a URL and filename safe alphabet, RFC 4648
    section 5 */
@@ -60,7 +59,7 @@ static const unsigned char decodetable[] =
   29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,
   48, 49, 50, 51 };
 /*
- * Curl_base64_decode()
+ * curlx_base64_decode()
  *
  * Given a base64 NUL-terminated string at src, decode it and return a
  * pointer in *outptr to a newly allocated memory area holding decoded
@@ -73,8 +72,8 @@ static const unsigned char decodetable[] =
  *
  * @unittest: 1302
  */
-CURLcode Curl_base64_decode(const char *src,
-                            unsigned char **outptr, size_t *outlen)
+CURLcode curlx_base64_decode(const char *src,
+                             unsigned char **outptr, size_t *outlen)
 {
   size_t srclen = 0;
   size_t padding = 0;
@@ -119,14 +118,6 @@ CURLcode Curl_base64_decode(const char *src,
 
   memset(lookup, 0xff, sizeof(lookup));
   memcpy(&lookup['+'], decodetable, sizeof(decodetable));
-  /* replaces
-  {
-    unsigned char c;
-    const unsigned char *p = (const unsigned char *)base64encdec;
-    for(c = 0; *p; c++, p++)
-      lookup[*p] = c;
-  }
-  */
 
   /* Decode the complete quantums first */
   for(i = 0; i < fullQuantums; i++) {
@@ -186,13 +177,13 @@ bad:
 }
 
 static CURLcode base64_encode(const char *table64,
+                              unsigned char padbyte,
                               const char *inputbuff, size_t insize,
                               char **outptr, size_t *outlen)
 {
   char *output;
   char *base64data;
   const unsigned char *in = (const unsigned char *)inputbuff;
-  const char *padstr = &table64[64];    /* Point to padding string. */
 
   *outptr = NULL;
   *outlen = 0;
@@ -222,17 +213,17 @@ static CURLcode base64_encode(const char *table64,
     *output++ = table64[ in[0] >> 2 ];
     if(insize == 1) {
       *output++ = table64[ ((in[0] & 0x03) << 4) ];
-      if(*padstr) {
-        *output++ = *padstr;
-        *output++ = *padstr;
+      if(padbyte) {
+        *output++ = padbyte;
+        *output++ = padbyte;
       }
     }
     else {
       /* insize == 2 */
       *output++ = table64[ ((in[0] & 0x03) << 4) | ((in[1] & 0xF0) >> 4) ];
       *output++ = table64[ ((in[1] & 0x0F) << 2) ];
-      if(*padstr)
-        *output++ = *padstr;
+      if(padbyte)
+        *output++ = padbyte;
     }
   }
 
@@ -249,7 +240,7 @@ static CURLcode base64_encode(const char *table64,
 }
 
 /*
- * Curl_base64_encode()
+ * curlx_base64_encode()
  *
  * Given a pointer to an input buffer and an input size, encode it and
  * return a pointer in *outptr to a newly allocated memory area holding
@@ -263,14 +254,15 @@ static CURLcode base64_encode(const char *table64,
  *
  * @unittest: 1302
  */
-CURLcode Curl_base64_encode(const char *inputbuff, size_t insize,
-                            char **outptr, size_t *outlen)
+CURLcode curlx_base64_encode(const char *inputbuff, size_t insize,
+                             char **outptr, size_t *outlen)
 {
-  return base64_encode(base64encdec, inputbuff, insize, outptr, outlen);
+  return base64_encode(Curl_base64encdec, '=',
+                       inputbuff, insize, outptr, outlen);
 }
 
 /*
- * Curl_base64url_encode()
+ * curlx_base64url_encode()
  *
  * Given a pointer to an input buffer and an input size, encode it and
  * return a pointer in *outptr to a newly allocated memory area holding
@@ -284,10 +276,10 @@ CURLcode Curl_base64_encode(const char *inputbuff, size_t insize,
  *
  * @unittest: 1302
  */
-CURLcode Curl_base64url_encode(const char *inputbuff, size_t insize,
-                               char **outptr, size_t *outlen)
+CURLcode curlx_base64url_encode(const char *inputbuff, size_t insize,
+                                char **outptr, size_t *outlen)
 {
-  return base64_encode(base64url, inputbuff, insize, outptr, outlen);
+  return base64_encode(base64url, 0, inputbuff, insize, outptr, outlen);
 }
 
 #endif /* no users so disabled */

@@ -28,9 +28,6 @@
 #define CURL_NO_OLDIES
 #endif
 
-/* Tell "curl/curl.h" not to include "curl/mprintf.h" */
-#define CURL_SKIP_INCLUDE_MPRINTF
-
 /* Set default _WIN32_WINNT */
 #ifdef __MINGW32__
 #include <_mingw.h>
@@ -107,6 +104,16 @@
 #  endif
 #  ifndef NOGDI
 #  define NOGDI
+#  endif
+/* Detect Windows App environment which has a restricted access
+ * to the Win32 APIs. */
+#  if (defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0602)) || \
+     defined(WINAPI_FAMILY)
+#    include <winapifamily.h>
+#    if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) &&  \
+       !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
+#      define CURL_WINDOWS_UWP
+#    endif
 #  endif
 #endif
 
@@ -445,6 +452,11 @@
 #  define __NO_NET_API
 #endif
 
+/* Whether to use eventfd() */
+#if defined(HAVE_EVENTFD) && defined(HAVE_SYS_EVENTFD_H)
+#define USE_EVENTFD
+#endif
+
 #include <stdio.h>
 #include <assert.h>
 
@@ -456,12 +468,6 @@
 
 #ifndef STDC_HEADERS /* no standard C headers! */
 #include <curl/stdcheaders.h>
-#endif
-
-#ifdef _WIN32
-#define curlx_getpid() GetCurrentProcessId()
-#else
-#define curlx_getpid() getpid()
 #endif
 
 /*

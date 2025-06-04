@@ -31,12 +31,6 @@
  * be.
  */
 
-/* map standard printf functions to curl implementations */
-#include "curl_printf.h"
-
-#include "strcase.h"
-/* "strcase.h" provides the strcasecompare protos */
-
 #include "nonblock.h"
 /* "nonblock.h" provides curlx_nonblock() */
 
@@ -48,8 +42,8 @@
   curlx_uztosi()
 */
 
-#include "curl_multibyte.h"
-/* "curl_multibyte.h" provides these functions and macros:
+#include "multibyte.h"
+/* "multibyte.h" provides these functions and macros:
 
   curlx_convert_UTF8_to_wchar()
   curlx_convert_wchar_to_UTF8()
@@ -59,11 +53,22 @@
 */
 
 #include "version_win32.h"
-/* "version_win32.h" provides curlx_verify_windows_version() */
+/* provides curlx_verify_windows_version() */
 
 #include "strparse.h"
 /* The curlx_str_* parsing functions */
 
-#define curlx_safefree(x) Curl_safefree(x)
+#include "dynbuf.h"
+/* The curlx_dyn_* functions */
+
+#include "base64.h"
+#include "timeval.h"
+#include "timediff.h"
+
+#include "winapi.h"
+/* for curlx_winapi_strerror */
+
+#include "inet_pton.h"
+/* for curlx_inet_pton */
 
 #endif /* HEADER_CURL_CURLX_H */

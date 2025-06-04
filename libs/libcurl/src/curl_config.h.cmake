@@ -197,6 +197,9 @@
 /* Define to 1 if you have _Atomic support. */
 #cmakedefine HAVE_ATOMIC 1
 
+/* Define to 1 if you have the `accept4' function. */
+#cmakedefine HAVE_ACCEPT4 1
+
 /* Define to 1 if you have the `fnmatch' function. */
 #cmakedefine HAVE_FNMATCH 1
 
@@ -426,6 +429,9 @@
 
 /* Define to 1 if you have the `pipe' function. */
 #cmakedefine HAVE_PIPE 1
+
+/* Define to 1 if you have the `pipe2' function. */
+#cmakedefine HAVE_PIPE2 1
 
 /* Define to 1 if you have the `eventfd' function. */
 #cmakedefine HAVE_EVENTFD 1
@@ -697,14 +703,20 @@ ${SIZEOF_TIME_T_CODE}
 /* if wolfSSL is enabled */
 #cmakedefine USE_WOLFSSL 1
 
+/* if wolfSSL has the wolfSSL_get_peer_certificate function. */
+#cmakedefine HAVE_WOLFSSL_GET_PEER_CERTIFICATE 1
+
+/* if wolfSSL has the wolfSSL_UseALPN function. */
+#cmakedefine HAVE_WOLFSSL_USEALPN 1
+
 /* if wolfSSL has the wolfSSL_DES_ecb_encrypt function. */
 #cmakedefine HAVE_WOLFSSL_DES_ECB_ENCRYPT 1
 
 /* if wolfSSL has the wolfSSL_BIO_new function. */
-#cmakedefine HAVE_WOLFSSL_BIO 1
+#cmakedefine HAVE_WOLFSSL_BIO_NEW 1
 
 /* if wolfSSL has the wolfSSL_BIO_set_shutdown function. */
-#cmakedefine HAVE_WOLFSSL_FULL_BIO 1
+#cmakedefine HAVE_WOLFSSL_BIO_SET_SHUTDOWN 1
 
 /* if libssh is in use */
 #cmakedefine USE_LIBSSH 1
@@ -757,6 +769,9 @@ ${SIZEOF_TIME_T_CODE}
 
 /* to enable openssl + nghttp3 */
 #cmakedefine USE_OPENSSL_QUIC 1
+
+/* to enable openssl + ngtcp2 + nghttp3 */
+#cmakedefine OPENSSL_QUIC_API2 1
 
 /* Define to 1 if you have the quiche_conn_set_qlog_fd function. */
 #cmakedefine HAVE_QUICHE_CONN_SET_QLOG_FD 1

@@ -35,10 +35,10 @@
     <ClCompile Include="src\asyn-ares.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\asyn-thread.c">
+    <ClCompile Include="src\asyn-base.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\base64.c">
+    <ClCompile Include="src\asyn-thrdd.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\bufq.c">
@@ -104,9 +104,6 @@
     <ClCompile Include="src\curl_memrchr.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\curl_multibyte.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\curl_ntlm_core.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -131,6 +128,36 @@
     <ClCompile Include="src\curl_trc.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\curlx\base64.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\dynbuf.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\inet_pton.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\multibyte.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\nonblock.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\strparse.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\timediff.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\version_win32.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\warnless.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\winapi.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\cw-out.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -146,9 +173,6 @@
     <ClCompile Include="src\doh.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\dynbuf.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\dynhds.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -162,6 +186,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\escape.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\fake_addrinfo.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\file.c">
@@ -194,16 +221,10 @@
     <ClCompile Include="src\hash.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\hash_offt.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\headers.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hmac.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\hostasyn.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hostip.c">
@@ -213,9 +234,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hostip6.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\hostsyn.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hsts.c">
@@ -263,9 +281,6 @@
     <ClCompile Include="src\inet_ntop.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\inet_pton.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\krb5.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -303,9 +318,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\netrc.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\nonblock.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\noproxy.c">
@@ -383,13 +395,16 @@
     <ClCompile Include="src\splay.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\strparse.c">
+    <ClCompile Include="src\uint-bset.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\timediff.c">
+    <ClCompile Include="src\uint-hash.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\version_win32.c">
+    <ClCompile Include="src\uint-spbset.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\uint-table.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vauth\cleartext.c">
@@ -503,9 +518,6 @@
     <ClCompile Include="src\vtls\x509asn1.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\warnless.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\ws.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -533,7 +545,6 @@
     <ClInclude Include="src\cshutdn.h" />
     <ClInclude Include="src\curlx.h" />
     <ClInclude Include="src\curl_addrinfo.h" />
-    <ClInclude Include="src\curl_base64.h" />
     <ClInclude Include="src\curl_ctype.h" />
     <ClInclude Include="src\curl_des.h" />
     <ClInclude Include="src\curl_endian.h" />
@@ -548,7 +559,6 @@
     <ClInclude Include="src\curl_md5.h" />
     <ClInclude Include="src\curl_memory.h" />
     <ClInclude Include="src\curl_memrchr.h" />
-    <ClInclude Include="src\curl_multibyte.h" />
     <ClInclude Include="src\curl_ntlm_core.h" />
     <ClInclude Include="src\curl_printf.h" />
     <ClInclude Include="src\curl_range.h" />
@@ -561,17 +571,29 @@
     <ClInclude Include="src\curl_sspi.h" />
     <ClInclude Include="src\curl_threads.h" />
     <ClInclude Include="src\curl_trc.h" />
+    <ClInclude Include="src\curlx\base64.h" />
+    <ClInclude Include="src\curlx\curlx.h" />
+    <ClInclude Include="src\curlx\dynbuf.h" />
+    <ClInclude Include="src\curlx\inet_pton.h" />
+    <ClInclude Include="src\curlx\multibyte.h" />
+    <ClInclude Include="src\curlx\nonblock.h" />
+    <ClInclude Include="src\curlx\strparse.h" />
+    <ClInclude Include="src\curlx\timediff.h" />
+    <ClInclude Include="src\curlx\timeval.h" />
+    <ClInclude Include="src\curlx\version_win32.h" />
+    <ClInclude Include="src\curlx\warnless.h" />
+    <ClInclude Include="src\curlx\winapi.h" />
     <ClInclude Include="src\cw-out.h" />
     <ClInclude Include="src\cw-pause.h" />
     <ClInclude Include="src\dict.h" />
     <ClInclude Include="src\doh.h" />
     <ClInclude Include="src\dotdot.h" />
-    <ClInclude Include="src\dynbuf.h" />
     <ClInclude Include="src\dynhds.h" />
     <ClInclude Include="src\easyif.h" />
     <ClInclude Include="src\easy_lock.h" />
     <ClInclude Include="src\easyoptions.h" />
     <ClInclude Include="src\escape.h" />
+    <ClInclude Include="src\fake_addrinfo.h" />
     <ClInclude Include="src\file.h" />
     <ClInclude Include="src\fileinfo.h" />
     <ClInclude Include="src\fopen.h" />
@@ -582,7 +604,6 @@
     <ClInclude Include="src\getinfo.h" />
     <ClInclude Include="src\gopher.h" />
     <ClInclude Include="src\hash.h" />
-    <ClInclude Include="src\hash_offt.h" />
     <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\hostip.h" />
     <ClInclude Include="src\hsts.h" />
@@ -600,7 +621,6 @@
     <ClInclude Include="src\if2ip.h" />
     <ClInclude Include="src\imap.h" />
     <ClInclude Include="src\inet_ntop.h" />
-    <ClInclude Include="src\inet_pton.h" />
     <ClInclude Include="src\llist.h" />
     <ClInclude Include="src\macos.h" />
     <ClInclude Include="src\memdebug.h" />
@@ -610,7 +630,6 @@
     <ClInclude Include="src\multihandle.h" />
     <ClInclude Include="src\multiif.h" />
     <ClInclude Include="src\netrc.h" />
-    <ClInclude Include="src\nonblock.h" />
     <ClInclude Include="src\noproxy.h" />
     <ClInclude Include="src\parsedate.h" />
     <ClInclude Include="src\pingpong.h" />
@@ -640,17 +659,17 @@
     <ClInclude Include="src\strcase.h" />
     <ClInclude Include="src\strdup.h" />
     <ClInclude Include="src\strerror.h" />
-    <ClInclude Include="src\strparse.h" />
     <ClInclude Include="src\system_win32.h" />
     <ClInclude Include="src\telnet.h" />
     <ClInclude Include="src\tftp.h" />
-    <ClInclude Include="src\timediff.h" />
-    <ClInclude Include="src\timeval.h" />
     <ClInclude Include="src\transfer.h" />
+    <ClInclude Include="src\uint-bset.h" />
+    <ClInclude Include="src\uint-hash.h" />
+    <ClInclude Include="src\uint-spbset.h" />
+    <ClInclude Include="src\uint-table.h" />
     <ClInclude Include="src\url.h" />
     <ClInclude Include="src\urlapi-int.h" />
     <ClInclude Include="src\urldata.h" />
-    <ClInclude Include="src\version_win32.h" />
     <ClInclude Include="src\vtls\vtls_scache.h" />
     <ClInclude Include="src\vtls\vtls_spack.h" />
     <ClInclude Include="src\vquic\curl_msh3.h" />
@@ -659,10 +678,12 @@
     <ClInclude Include="src\vquic\vquic.h" />
     <ClInclude Include="src\vquic\vquic_int.h" />
     <ClInclude Include="src\vssh\curl_path.h" />
-    <ClInclude Include="src\warnless.h" />
     <ClInclude Include="src\ws.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\curlx\timeval.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\strcase.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -682,9 +703,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\tftp.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\timeval.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\transfer.c">

@@ -11,10 +11,10 @@
     <ClCompile Include="src\asyn-ares.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\asyn-thread.c">
+    <ClCompile Include="src\asyn-base.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\base64.c">
+    <ClCompile Include="src\asyn-thrdd.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\bufq.c">
@@ -80,9 +80,6 @@
     <ClCompile Include="src\curl_memrchr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\curl_multibyte.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\curl_ntlm_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -107,6 +104,39 @@
     <ClCompile Include="src\curl_trc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\curlx\base64.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\dynbuf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="src\curlx\inet_pton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClCompile Include="src\curlx\multibyte.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\nonblock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\strparse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\timediff.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\timeval.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\version_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\warnless.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\winapi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\cw-out.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -122,9 +152,6 @@
     <ClCompile Include="src\doh.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dynbuf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\dynhds.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -138,6 +165,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\escape.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fake_addrinfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\file.c">
@@ -170,16 +200,10 @@
     <ClCompile Include="src\hash.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\hash_offt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\headers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hmac.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hostasyn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hostip.c">
@@ -189,9 +213,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hostip6.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hostsyn.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hsts.c">
@@ -281,9 +302,6 @@
     <ClCompile Include="src\netrc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\nonblock.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\noproxy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -360,15 +378,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\strequal.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\strparse.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\timediff.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\version_win32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vauth\cleartext.c">
@@ -473,9 +482,6 @@
     <ClCompile Include="src\vtls\x509asn1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\warnless.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\strcase.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -494,10 +500,19 @@
     <ClCompile Include="src\tftp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\timeval.c">
+    <ClCompile Include="src\transfer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\transfer.c">
+    <ClCompile Include="src\uint-bset.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\uint-hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\uint-spbset.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\uint-table.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\url.c">
@@ -589,13 +604,7 @@
     <ClInclude Include="src\cshutdn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\curlx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\curl_addrinfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\curl_base64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_ctype.h">
@@ -640,9 +649,6 @@
     <ClInclude Include="src\curl_memrchr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\curl_multibyte.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\curl_ntlm_core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -679,6 +685,42 @@
     <ClInclude Include="src\curl_trc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\curlx\base64.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\curlx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\dynbuf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+	<ClInclude Include="src\curlx\inet_pton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\multibyte.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\nonblock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\strparse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\timediff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\timeval.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\version_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\warnless.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\winapi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\cw-out.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -694,9 +736,6 @@
     <ClInclude Include="src\dotdot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dynbuf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\dynhds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -710,6 +749,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\escape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fake_addrinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\file.h">
@@ -740,9 +782,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\hash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\hash_offt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\headers.h">
@@ -796,9 +835,6 @@
     <ClInclude Include="src\inet_ntop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\inet_pton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\llist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -824,9 +860,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\netrc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\nonblock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\noproxy.h">
@@ -916,9 +949,6 @@
     <ClInclude Include="src\strerror.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\strparse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\system_win32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -928,13 +958,19 @@
     <ClInclude Include="src\tftp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\timediff.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\timeval.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\transfer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\uint-bset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\uint-hash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\uint-spbset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\uint-table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\url.h">
@@ -944,9 +980,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\urldata.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\version_win32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\vtls\vtls_scache.h">
@@ -968,9 +1001,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\vquic\vquic_int.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\warnless.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ws.h">

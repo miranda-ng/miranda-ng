@@ -1,5 +1,7 @@
 /* lib/curl_config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* !checksrc! disable COPYRIGHT all */
+
 /* Location of default ca bundle */
 #undef CURL_CA_BUNDLE
 
@@ -161,6 +163,9 @@
 
 /* Define to the type of arg 2 for gethostname. */
 #undef GETHOSTNAME_TYPE_ARG2
+
+/* Define to 1 if you have the `accept4' function. */
+#undef HAVE_ACCEPT4
 
 /* Define to 1 if symbol `ADDRESS_FAMILY' exists */
 #undef HAVE_ADDRESS_FAMILY
@@ -496,6 +501,9 @@
 /* Define to 1 if you have the `pipe' function. */
 #undef HAVE_PIPE
 
+/* Define to 1 if you have the `pipe2' function. */
+#undef HAVE_PIPE2
+
 /* Define to 1 if you have the `poll' function. */
 #undef HAVE_POLL
 
@@ -582,6 +590,9 @@
 
 /* Define to 1 if you have the `SSL_set1_ech_config_list' function. */
 #undef HAVE_SSL_SET1_ECH_CONFIG_LIST
+
+/* Define to 1 if you have the `SSL_set_quic_tls_cbs' function. */
+#undef HAVE_SSL_SET_QUIC_TLS_CBS
 
 /* Define to 1 if you have the `SSL_set_quic_use_legacy_codepoint' function.
    */
@@ -710,20 +721,24 @@
 /* Define to 1 if you have the <wolfssh/ssh.h> header file. */
 #undef HAVE_WOLFSSH_SSH_H
 
-/* if you have wolfSSL_BIO_new */
-#undef HAVE_WOLFSSL_BIO
+/* Define to 1 if you have the `wolfSSL_BIO_new' function. */
+#undef HAVE_WOLFSSL_BIO_NEW
+
+/* Define to 1 if you have the `wolfSSL_BIO_set_shutdown' function. */
+#undef HAVE_WOLFSSL_BIO_SET_SHUTDOWN
 
 /* Define to 1 if you have the `wolfSSL_CTX_GenerateEchConfig' function. */
 #undef HAVE_WOLFSSL_CTX_GENERATEECHCONFIG
 
-/* if you have wolfSSL_DES_ecb_encrypt */
+/* Define to 1 if you have the `wolfSSL_DES_ecb_encrypt' function. */
 #undef HAVE_WOLFSSL_DES_ECB_ENCRYPT
-
-/* if you have wolfSSL_BIO_set_shutdown */
-#undef HAVE_WOLFSSL_FULL_BIO
 
 /* Define to 1 if you have the `wolfSSL_get_peer_certificate' function. */
 #undef HAVE_WOLFSSL_GET_PEER_CERTIFICATE
+
+/* Define to 1 if you have the `wolfSSL_set_quic_use_legacy_codepoint'
+   function. */
+#undef HAVE_WOLFSSL_SET_QUIC_USE_LEGACY_CODEPOINT
 
 /* Define to 1 if you have the `wolfSSL_UseALPN' function. */
 #undef HAVE_WOLFSSL_USEALPN
@@ -751,6 +766,9 @@
 
 /* Define to 1 if _THREAD_SAFE preprocessor symbol must be defined. */
 #undef NEED_THREAD_SAFE
+
+/* openssl with new QUIC API */
+#undef OPENSSL_QUIC_API2
 
 /* Name of package */
 #undef PACKAGE

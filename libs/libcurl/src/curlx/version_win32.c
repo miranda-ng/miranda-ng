@@ -22,7 +22,7 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
+#include "../curl_setup.h"
 
 #ifdef _WIN32
 
@@ -31,10 +31,8 @@
 #include "warnless.h"
 
 /* The last 2 #include files should be in this order */
-#ifdef BUILDING_LIBCURL
-#include "curl_memory.h"
-#endif
-#include "memdebug.h"
+#include "../curl_memory.h"
+#include "../memdebug.h"
 
 /* This Unicode version struct works for VerifyVersionInfoW (OSVERSIONINFOEXW)
    and RtlVerifyVersionInfo (RTLOSVERSIONINFOEXW) */

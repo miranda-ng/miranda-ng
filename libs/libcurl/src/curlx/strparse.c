@@ -23,15 +23,15 @@
  ***************************************************************************/
 
 #include "strparse.h"
-#include "strcase.h"
+#include "../strcase.h"
 
-void Curl_str_init(struct Curl_str *out)
+void curlx_str_init(struct Curl_str *out)
 {
   out->str = NULL;
   out->len = 0;
 }
 
-void Curl_str_assign(struct Curl_str *out, const char *str, size_t len)
+void curlx_str_assign(struct Curl_str *out, const char *str, size_t len)
 {
   out->str = str;
   out->len = len;
@@ -39,14 +39,14 @@ void Curl_str_assign(struct Curl_str *out, const char *str, size_t len)
 
 /* Get a word until the first DELIM or end of string. At least one byte long.
    return non-zero on error */
-int Curl_str_until(const char **linep, struct Curl_str *out,
+int curlx_str_until(const char **linep, struct Curl_str *out,
                    const size_t max, char delim)
 {
   const char *s = *linep;
   size_t len = 0;
   DEBUGASSERT(linep && *linep && out && max && delim);
 
-  Curl_str_init(out);
+  curlx_str_init(out);
   while(*s && (*s != delim)) {
     s++;
     if(++len > max) {
@@ -63,22 +63,22 @@ int Curl_str_until(const char **linep, struct Curl_str *out,
 
 /* Get a word until the first space or end of string. At least one byte long.
    return non-zero on error */
-int Curl_str_word(const char **linep, struct Curl_str *out,
+int curlx_str_word(const char **linep, struct Curl_str *out,
                   const size_t max)
 {
-  return Curl_str_until(linep, out, max, ' ');
+  return curlx_str_until(linep, out, max, ' ');
 }
 
 /* Get a word until a newline byte or end of string. At least one byte long.
    return non-zero on error */
-int Curl_str_untilnl(const char **linep, struct Curl_str *out,
+int curlx_str_untilnl(const char **linep, struct Curl_str *out,
                      const size_t max)
 {
   const char *s = *linep;
   size_t len = 0;
   DEBUGASSERT(linep && *linep && out && max);
 
-  Curl_str_init(out);
+  curlx_str_init(out);
   while(*s && !ISNEWLINE(*s)) {
     s++;
     if(++len > max)
@@ -95,14 +95,14 @@ int Curl_str_untilnl(const char **linep, struct Curl_str *out,
 
 /* Get a "quoted" word. No escaping possible.
    return non-zero on error */
-int Curl_str_quotedword(const char **linep, struct Curl_str *out,
+int curlx_str_quotedword(const char **linep, struct Curl_str *out,
                         const size_t max)
 {
   const char *s = *linep;
   size_t len = 0;
   DEBUGASSERT(linep && *linep && out && max);
 
-  Curl_str_init(out);
+  curlx_str_init(out);
   if(*s != '\"')
     return STRE_BEGQUOTE;
   s++;
@@ -121,7 +121,7 @@ int Curl_str_quotedword(const char **linep, struct Curl_str *out,
 
 /* Advance over a single character.
    return non-zero on error */
-int Curl_str_single(const char **linep, char byte)
+int curlx_str_single(const char **linep, char byte)
 {
   DEBUGASSERT(linep && *linep);
   if(**linep != byte)
@@ -132,32 +132,30 @@ int Curl_str_single(const char **linep, char byte)
 
 /* Advance over a single space.
    return non-zero on error */
-int Curl_str_singlespace(const char **linep)
+int curlx_str_singlespace(const char **linep)
 {
-  return Curl_str_single(linep, ' ');
+  return curlx_str_single(linep, ' ');
 }
 
 /* given an ASCII character and max ascii, return TRUE if valid */
 #define valid_digit(x,m) \
-  (((x) >= '0') && ((x) <= m) && hexasciitable[(x)-'0'])
+  (((x) >= '0') && ((x) <= m) && Curl_hexasciitable[(x)-'0'])
+
+/* We use 16 for the zero index (and the necessary bitwise AND in the loop)
+   to be able to have a non-zero value there to make valid_digit() able to
+   use the info */
+const unsigned char Curl_hexasciitable[] = {
+  16, 1, 2, 3, 4, 5, 6, 7, 8, 9, /* 0x30: 0 - 9 */
+  0, 0, 0, 0, 0, 0, 0,
+  10, 11, 12, 13, 14, 15,        /* 0x41: A - F */
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  10, 11, 12, 13, 14, 15         /* 0x61: a - f */
+};
 
 /* no support for 0x prefix nor leading spaces */
 static int str_num_base(const char **linep, curl_off_t *nump, curl_off_t max,
                         int base) /* 8, 10 or 16, nothing else */
 {
-  /* We use 16 for the zero index (and the necessary bitwise AND in the loop)
-     to be able to have a non-zero value there to make valid_digit() able to
-     use the info */
-  static const unsigned char hexasciitable[] = {
-    16, 1, 2, 3, 4, 5, 6, 7, 8, 9, /* 0x30: 0 - 9 */
-    0, 0, 0, 0, 0, 0, 0,
-    10, 11, 12, 13, 14, 15,       /* 0x41: A - F */
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0,
-    10, 11, 12, 13, 14, 15        /* 0x61: a - f */
-  };
-
   curl_off_t num = 0;
   const char *p;
   int m = (base == 10) ? '9' :   /* the largest digit possible */
@@ -172,7 +170,7 @@ static int str_num_base(const char **linep, curl_off_t *nump, curl_off_t max,
   if(max < base) {
     /* special-case low max scenario because check needs to be different */
     do {
-      int n = hexasciitable[*p++ - '0'] & 0x0f;
+      int n = Curl_hexval(*p++);
       num = num * base + n;
       if(num > max)
         return STRE_OVERFLOW;
@@ -180,7 +178,7 @@ static int str_num_base(const char **linep, curl_off_t *nump, curl_off_t max,
   }
   else {
     do {
-      int n = hexasciitable[*p++ - '0'] & 0x0f;
+      int n = Curl_hexval(*p++);
       if(num > ((max - n) / base))
         return STRE_OVERFLOW;
       num = num * base + n;
@@ -193,21 +191,21 @@ static int str_num_base(const char **linep, curl_off_t *nump, curl_off_t max,
 
 /* Get an unsigned decimal number with no leading space or minus. Leading
    zeroes are accepted. return non-zero on error */
-int Curl_str_number(const char **linep, curl_off_t *nump, curl_off_t max)
+int curlx_str_number(const char **linep, curl_off_t *nump, curl_off_t max)
 {
   return str_num_base(linep, nump, max, 10);
 }
 
 /* Get an unsigned hexadecimal number with no leading space or minus and no
    "0x" support. Leading zeroes are accepted. return non-zero on error */
-int Curl_str_hex(const char **linep, curl_off_t *nump, curl_off_t max)
+int curlx_str_hex(const char **linep, curl_off_t *nump, curl_off_t max)
 {
   return str_num_base(linep, nump, max, 16);
 }
 
 /* Get an unsigned octal number with no leading space or minus and no "0"
    prefix support. Leading zeroes are accepted. return non-zero on error */
-int Curl_str_octal(const char **linep, curl_off_t *nump, curl_off_t max)
+int curlx_str_octal(const char **linep, curl_off_t *nump, curl_off_t max)
 {
   return str_num_base(linep, nump, max, 8);
 }
@@ -216,15 +214,15 @@ int Curl_str_octal(const char **linep, curl_off_t *nump, curl_off_t max)
  * Parse a positive number up to 63-bit number written in ASCII. Skip leading
  * blanks. No support for prefixes.
  */
-int Curl_str_numblanks(const char **str, curl_off_t *num)
+int curlx_str_numblanks(const char **str, curl_off_t *num)
 {
-  Curl_str_passblanks(str);
-  return Curl_str_number(str, num, CURL_OFF_T_MAX);
+  curlx_str_passblanks(str);
+  return curlx_str_number(str, num, CURL_OFF_T_MAX);
 }
 
 /* CR or LF
    return non-zero on error */
-int Curl_str_newline(const char **linep)
+int curlx_str_newline(const char **linep)
 {
   DEBUGASSERT(linep && *linep);
   if(ISNEWLINE(**linep)) {
@@ -234,16 +232,18 @@ int Curl_str_newline(const char **linep)
   return STRE_NEWLINE;
 }
 
-/* case insensitive compare that the parsed string matches the
-   given string. Returns non-zero on match. */
-int Curl_str_casecompare(struct Curl_str *str, const char *check)
+#ifndef WITHOUT_LIBCURL
+/* case insensitive compare that the parsed string matches the given string.
+   Returns non-zero on match. */
+int curlx_str_casecompare(struct Curl_str *str, const char *check)
 {
   size_t clen = check ? strlen(check) : 0;
   return ((str->len == clen) && strncasecompare(str->str, check, clen));
 }
+#endif
 
 /* case sensitive string compare. Returns non-zero on match. */
-int Curl_str_cmp(struct Curl_str *str, const char *check)
+int curlx_str_cmp(struct Curl_str *str, const char *check)
 {
   if(check) {
     size_t clen = strlen(check);
@@ -254,7 +254,7 @@ int Curl_str_cmp(struct Curl_str *str, const char *check)
 
 /* Trim off 'num' number of bytes from the beginning (left side) of the
    string. If 'num' is larger than the string, return error. */
-int Curl_str_nudge(struct Curl_str *str, size_t num)
+int curlx_str_nudge(struct Curl_str *str, size_t num)
 {
   if(num <= str->len) {
     str->str += num;
@@ -266,7 +266,8 @@ int Curl_str_nudge(struct Curl_str *str, size_t num)
 
 /* Get the following character sequence that consists only of bytes not
    present in the 'reject' string. Like strcspn(). */
-int Curl_str_cspn(const char **linep, struct Curl_str *out, const char *reject)
+int curlx_str_cspn(const char **linep, struct Curl_str *out,
+                   const char *reject)
 {
   const char *s = *linep;
   size_t len;
@@ -279,15 +280,15 @@ int Curl_str_cspn(const char **linep, struct Curl_str *out, const char *reject)
     *linep = &s[len];
     return STRE_OK;
   }
-  Curl_str_init(out);
+  curlx_str_init(out);
   return STRE_SHORT;
 }
 
 /* remove ISBLANK()s from both ends of the string */
-void Curl_str_trimblanks(struct Curl_str *out)
+void curlx_str_trimblanks(struct Curl_str *out)
 {
   while(out->len && ISBLANK(*out->str))
-    Curl_str_nudge(out, 1);
+    curlx_str_nudge(out, 1);
 
   /* trim trailing spaces and tabs */
   while(out->len && ISBLANK(out->str[out->len - 1]))
@@ -295,7 +296,7 @@ void Curl_str_trimblanks(struct Curl_str *out)
 }
 
 /* increase the pointer until it has moved over all blanks */
-void Curl_str_passblanks(const char **linep)
+void curlx_str_passblanks(const char **linep)
 {
   while(ISBLANK(**linep))
     (*linep)++; /* move over it */
