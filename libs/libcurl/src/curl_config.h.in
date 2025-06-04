@@ -336,10 +336,10 @@
 /* Define to 1 if you have the `if_nametoindex' function. */
 #undef HAVE_IF_NAMETOINDEX
 
-/* Define to 1 if you have a IPv6 capable working inet_ntop function. */
+/* Define to 1 if you have an IPv6 capable working inet_ntop function. */
 #undef HAVE_INET_NTOP
 
-/* Define to 1 if you have a IPv6 capable working inet_pton function. */
+/* Define to 1 if you have an IPv6 capable working inet_pton function. */
 #undef HAVE_INET_PTON
 
 /* Define to 1 if you have the <inttypes.h> header file. */

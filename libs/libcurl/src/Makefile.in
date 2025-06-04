@@ -141,24 +141,20 @@ host_triplet = @host@
 
 # Makefile.inc provides the CSOURCES and HHEADERS defines
 @DOING_NATIVE_WINDOWS_TRUE@am__append_3 = dllmain.c
-@DOING_CYGWIN_TRUE@@DOING_NATIVE_WINDOWS_FALSE@am__append_4 = dllmain.c
 # We must compile this source separately to avoid memdebug.h redefinitions
 # applying to it.
-@CURLDEBUG_TRUE@@USE_UNITY_TRUE@am__append_5 = memdebug.c
-# For Cygwin always compile dllmain.c as a separate unit since it
-# includes windows.h, which should not be included in other units.
-@DOING_CYGWIN_TRUE@@USE_UNITY_TRUE@am__append_6 = dllmain.c
-@CURL_LT_SHLIB_USE_VERSION_INFO_TRUE@am__append_7 = $(VERSIONINFO)
-@CURL_LT_SHLIB_USE_NO_UNDEFINED_TRUE@am__append_8 = -no-undefined
-@CURL_LT_SHLIB_USE_MIMPURE_TEXT_TRUE@am__append_9 = -mimpure-text
-@CURL_LT_SHLIB_USE_VERSIONED_SYMBOLS_TRUE@am__append_10 = -Wl,--version-script=libcurl.vers
+@CURLDEBUG_TRUE@@USE_UNITY_TRUE@am__append_4 = memdebug.c
+@CURL_LT_SHLIB_USE_VERSION_INFO_TRUE@am__append_5 = $(VERSIONINFO)
+@CURL_LT_SHLIB_USE_NO_UNDEFINED_TRUE@am__append_6 = -no-undefined
+@CURL_LT_SHLIB_USE_MIMPURE_TEXT_TRUE@am__append_7 = -mimpure-text
+@CURL_LT_SHLIB_USE_VERSIONED_SYMBOLS_TRUE@am__append_8 = -Wl,--version-script=libcurl.vers
 # if symbol-hiding is enabled, hide them!
-@CURL_LT_SHLIB_USE_VERSIONED_SYMBOLS_FALSE@@DOING_CURL_SYMBOL_HIDING_TRUE@am__append_11 = -export-symbols-regex '^curl_.*'
-@USE_CPPFLAG_CURL_STATICLIB_TRUE@am__append_12 = -DCURL_STATICLIB
-@HAVE_WINDRES_TRUE@@USE_CPPFLAG_CURL_STATICLIB_FALSE@am__append_13 = $(LIB_RCFILES)
-@DOING_CURL_SYMBOL_HIDING_TRUE@am__append_14 = -DCURL_HIDDEN_SYMBOLS
-@DOING_CURL_SYMBOL_HIDING_TRUE@am__append_15 = $(CFLAG_CURL_SYMBOL_HIDING)
-@CURL_WERROR_TRUE@am__append_16 = --warnings-as-errors=*
+@CURL_LT_SHLIB_USE_VERSIONED_SYMBOLS_FALSE@@DOING_CURL_SYMBOL_HIDING_TRUE@am__append_9 = -export-symbols-regex '^curl_.*'
+@USE_CPPFLAG_CURL_STATICLIB_TRUE@am__append_10 = -DCURL_STATICLIB
+@HAVE_WINDRES_TRUE@@USE_CPPFLAG_CURL_STATICLIB_FALSE@am__append_11 = $(LIB_RCFILES)
+@DOING_CURL_SYMBOL_HIDING_TRUE@am__append_12 = -DCURL_HIDDEN_SYMBOLS
+@DOING_CURL_SYMBOL_HIDING_TRUE@am__append_13 = $(CFLAG_CURL_SYMBOL_HIDING)
+@CURL_WERROR_TRUE@am__append_14 = --warnings-as-errors=*
 subdir = lib
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/curl-amissl.m4 \
@@ -388,27 +384,23 @@ am__objects_6 = curlx/libcurl_la-base64.lo curlx/libcurl_la-dynbuf.lo \
 	curlx/libcurl_la-version_win32.lo curlx/libcurl_la-warnless.lo \
 	curlx/libcurl_la-winapi.lo
 @DOING_NATIVE_WINDOWS_TRUE@am__objects_7 = libcurl_la-dllmain.lo
-@DOING_CYGWIN_TRUE@@DOING_NATIVE_WINDOWS_FALSE@am__objects_8 = libcurl_la-dllmain.lo
-am__objects_9 = $(am__objects_1) $(am__objects_2) $(am__objects_3) \
+am__objects_8 = $(am__objects_1) $(am__objects_2) $(am__objects_3) \
 	$(am__objects_4) $(am__objects_5) $(am__objects_6) \
-	$(am__objects_7) $(am__objects_8)
-am__objects_10 =
-am__objects_11 = $(am__objects_10) $(am__objects_10) $(am__objects_10) \
-	$(am__objects_10) $(am__objects_10) $(am__objects_10)
-am__objects_12 = libcurl.lo
-@HAVE_WINDRES_TRUE@@USE_CPPFLAG_CURL_STATICLIB_FALSE@am__objects_13 = $(am__objects_12)
-@CURLDEBUG_TRUE@@USE_UNITY_TRUE@am__objects_14 =  \
+	$(am__objects_7)
+am__objects_9 =
+am__objects_10 = $(am__objects_9) $(am__objects_9) $(am__objects_9) \
+	$(am__objects_9) $(am__objects_9) $(am__objects_9)
+am__objects_11 = libcurl.lo
+@HAVE_WINDRES_TRUE@@USE_CPPFLAG_CURL_STATICLIB_FALSE@am__objects_12 = $(am__objects_11)
+@CURLDEBUG_TRUE@@USE_UNITY_TRUE@am__objects_13 =  \
 @CURLDEBUG_TRUE@@USE_UNITY_TRUE@	libcurl_la-memdebug.lo
-@DOING_CYGWIN_TRUE@@USE_UNITY_TRUE@am__objects_15 =  \
-@DOING_CYGWIN_TRUE@@USE_UNITY_TRUE@	libcurl_la-dllmain.lo
-@USE_UNITY_TRUE@am__objects_16 = libcurl_la-curl_threads.lo \
+@USE_UNITY_TRUE@am__objects_14 = libcurl_la-curl_threads.lo \
 @USE_UNITY_TRUE@	curlx/libcurl_la-timediff.lo \
-@USE_UNITY_TRUE@	curlx/libcurl_la-warnless.lo $(am__objects_14) \
-@USE_UNITY_TRUE@	$(am__objects_15)
-@USE_UNITY_FALSE@am_libcurl_la_OBJECTS = $(am__objects_9) \
-@USE_UNITY_FALSE@	$(am__objects_11) $(am__objects_13)
-@USE_UNITY_TRUE@am_libcurl_la_OBJECTS = $(am__objects_16) \
-@USE_UNITY_TRUE@	$(am__objects_13)
+@USE_UNITY_TRUE@	curlx/libcurl_la-warnless.lo $(am__objects_13)
+@USE_UNITY_FALSE@am_libcurl_la_OBJECTS = $(am__objects_8) \
+@USE_UNITY_FALSE@	$(am__objects_10) $(am__objects_12)
+@USE_UNITY_TRUE@am_libcurl_la_OBJECTS = $(am__objects_14) \
+@USE_UNITY_TRUE@	$(am__objects_12)
 @USE_UNITY_TRUE@nodist_libcurl_la_OBJECTS =  \
 @USE_UNITY_TRUE@	libcurl_la-libcurl_unity.lo
 libcurl_la_OBJECTS = $(am_libcurl_la_OBJECTS) \
@@ -500,7 +492,7 @@ am__libcurlu_la_SOURCES_DIST = altsvc.c amigaos.c asyn-ares.c \
 	curlx/multibyte.h curlx/nonblock.h curlx/strparse.h \
 	curlx/timediff.h curlx/timeval.h curlx/version_win32.h \
 	curlx/warnless.h curlx/winapi.h
-am__objects_17 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
+am__objects_15 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-asyn-ares.lo libcurlu_la-asyn-base.lo \
 	libcurlu_la-asyn-thrdd.lo libcurlu_la-bufq.lo \
 	libcurlu_la-bufref.lo libcurlu_la-cf-h1-proxy.lo \
@@ -559,7 +551,7 @@ am__objects_17 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-uint-hash.lo libcurlu_la-uint-spbset.lo \
 	libcurlu_la-uint-table.lo libcurlu_la-url.lo \
 	libcurlu_la-urlapi.lo libcurlu_la-version.lo libcurlu_la-ws.lo
-am__objects_18 = vauth/libcurlu_la-cleartext.lo \
+am__objects_16 = vauth/libcurlu_la-cleartext.lo \
 	vauth/libcurlu_la-cram.lo vauth/libcurlu_la-digest.lo \
 	vauth/libcurlu_la-digest_sspi.lo vauth/libcurlu_la-gsasl.lo \
 	vauth/libcurlu_la-krb5_gssapi.lo \
@@ -567,7 +559,7 @@ am__objects_18 = vauth/libcurlu_la-cleartext.lo \
 	vauth/libcurlu_la-ntlm_sspi.lo vauth/libcurlu_la-oauth2.lo \
 	vauth/libcurlu_la-spnego_gssapi.lo \
 	vauth/libcurlu_la-spnego_sspi.lo vauth/libcurlu_la-vauth.lo
-am__objects_19 = vtls/libcurlu_la-bearssl.lo \
+am__objects_17 = vtls/libcurlu_la-bearssl.lo \
 	vtls/libcurlu_la-cipher_suite.lo vtls/libcurlu_la-gtls.lo \
 	vtls/libcurlu_la-hostcheck.lo vtls/libcurlu_la-keylog.lo \
 	vtls/libcurlu_la-mbedtls.lo \
@@ -578,37 +570,34 @@ am__objects_19 = vtls/libcurlu_la-bearssl.lo \
 	vtls/libcurlu_la-sectransp.lo vtls/libcurlu_la-vtls.lo \
 	vtls/libcurlu_la-vtls_scache.lo vtls/libcurlu_la-vtls_spack.lo \
 	vtls/libcurlu_la-wolfssl.lo vtls/libcurlu_la-x509asn1.lo
-am__objects_20 = vquic/libcurlu_la-curl_msh3.lo \
+am__objects_18 = vquic/libcurlu_la-curl_msh3.lo \
 	vquic/libcurlu_la-curl_ngtcp2.lo \
 	vquic/libcurlu_la-curl_osslq.lo \
 	vquic/libcurlu_la-curl_quiche.lo vquic/libcurlu_la-vquic.lo \
 	vquic/libcurlu_la-vquic-tls.lo
-am__objects_21 = vssh/libcurlu_la-libssh.lo \
+am__objects_19 = vssh/libcurlu_la-libssh.lo \
 	vssh/libcurlu_la-libssh2.lo vssh/libcurlu_la-curl_path.lo \
 	vssh/libcurlu_la-wolfssh.lo
-am__objects_22 = curlx/libcurlu_la-base64.lo \
+am__objects_20 = curlx/libcurlu_la-base64.lo \
 	curlx/libcurlu_la-dynbuf.lo curlx/libcurlu_la-inet_pton.lo \
 	curlx/libcurlu_la-multibyte.lo curlx/libcurlu_la-nonblock.lo \
 	curlx/libcurlu_la-strparse.lo curlx/libcurlu_la-timediff.lo \
 	curlx/libcurlu_la-timeval.lo \
 	curlx/libcurlu_la-version_win32.lo \
 	curlx/libcurlu_la-warnless.lo curlx/libcurlu_la-winapi.lo
-@DOING_NATIVE_WINDOWS_TRUE@am__objects_23 = libcurlu_la-dllmain.lo
-@DOING_CYGWIN_TRUE@@DOING_NATIVE_WINDOWS_FALSE@am__objects_24 = libcurlu_la-dllmain.lo
-am__objects_25 = $(am__objects_17) $(am__objects_18) $(am__objects_19) \
-	$(am__objects_20) $(am__objects_21) $(am__objects_22) \
-	$(am__objects_23) $(am__objects_24)
-@CURLDEBUG_TRUE@@USE_UNITY_TRUE@am__objects_26 =  \
+@DOING_NATIVE_WINDOWS_TRUE@am__objects_21 = libcurlu_la-dllmain.lo
+am__objects_22 = $(am__objects_15) $(am__objects_16) $(am__objects_17) \
+	$(am__objects_18) $(am__objects_19) $(am__objects_20) \
+	$(am__objects_21)
+@CURLDEBUG_TRUE@@USE_UNITY_TRUE@am__objects_23 =  \
 @CURLDEBUG_TRUE@@USE_UNITY_TRUE@	libcurlu_la-memdebug.lo
-@DOING_CYGWIN_TRUE@@USE_UNITY_TRUE@am__objects_27 =  \
-@DOING_CYGWIN_TRUE@@USE_UNITY_TRUE@	libcurlu_la-dllmain.lo
-@USE_UNITY_TRUE@am__objects_28 = libcurlu_la-curl_threads.lo \
+@USE_UNITY_TRUE@am__objects_24 = libcurlu_la-curl_threads.lo \
 @USE_UNITY_TRUE@	curlx/libcurlu_la-timediff.lo \
 @USE_UNITY_TRUE@	curlx/libcurlu_la-warnless.lo \
-@USE_UNITY_TRUE@	$(am__objects_26) $(am__objects_27)
-@USE_UNITY_FALSE@am_libcurlu_la_OBJECTS = $(am__objects_25) \
-@USE_UNITY_FALSE@	$(am__objects_11)
-@USE_UNITY_TRUE@am_libcurlu_la_OBJECTS = $(am__objects_28)
+@USE_UNITY_TRUE@	$(am__objects_23)
+@USE_UNITY_FALSE@am_libcurlu_la_OBJECTS = $(am__objects_22) \
+@USE_UNITY_FALSE@	$(am__objects_10)
+@USE_UNITY_TRUE@am_libcurlu_la_OBJECTS = $(am__objects_24)
 @USE_UNITY_TRUE@nodist_libcurlu_la_OBJECTS =  \
 @USE_UNITY_TRUE@	libcurlu_la-libcurl_unity.lo
 libcurlu_la_OBJECTS = $(am_libcurlu_la_OBJECTS) \
@@ -1642,7 +1631,7 @@ LIB_HFILES = \
 LIB_RCFILES = libcurl.rc
 CSOURCES = $(LIB_CFILES) $(LIB_VAUTH_CFILES) $(LIB_VTLS_CFILES) \
 	$(LIB_VQUIC_CFILES) $(LIB_VSSH_CFILES) $(LIB_CURLX_CFILES) \
-	$(am__append_3) $(am__append_4)
+	$(am__append_3)
 HHEADERS = $(LIB_HFILES) $(LIB_VAUTH_HFILES) $(LIB_VTLS_HFILES) \
   $(LIB_VQUIC_HFILES) $(LIB_VSSH_HFILES) $(LIB_CURLX_HFILES)
 
@@ -1650,20 +1639,19 @@ HHEADERS = $(LIB_HFILES) $(LIB_VAUTH_HFILES) $(LIB_VTLS_HFILES) \
 # Keep these separate to avoid duplicate definitions when linking libtests
 # in static mode.
 @USE_UNITY_TRUE@curl_EXCLUDE = curl_threads.c curlx/timediff.c \
-@USE_UNITY_TRUE@	curlx/warnless.c $(am__append_5) \
-@USE_UNITY_TRUE@	$(am__append_6)
+@USE_UNITY_TRUE@	curlx/warnless.c $(am__append_4)
 @USE_UNITY_TRUE@nodist_libcurl_la_SOURCES = libcurl_unity.c
 @USE_UNITY_FALSE@libcurl_la_SOURCES = $(CSOURCES) $(HHEADERS) \
-@USE_UNITY_FALSE@	$(am__append_13)
-@USE_UNITY_TRUE@libcurl_la_SOURCES = $(curl_EXCLUDE) $(am__append_13)
+@USE_UNITY_FALSE@	$(am__append_11)
+@USE_UNITY_TRUE@libcurl_la_SOURCES = $(curl_EXCLUDE) $(am__append_11)
 @USE_UNITY_TRUE@nodist_libcurlu_la_SOURCES = libcurl_unity.c
 @USE_UNITY_FALSE@libcurlu_la_SOURCES = $(CSOURCES) $(HHEADERS)
 @USE_UNITY_TRUE@libcurlu_la_SOURCES = $(curl_EXCLUDE)
 @USE_UNITY_TRUE@CLEANFILES = libcurl_unity.c
-libcurl_la_CPPFLAGS_EXTRA = $(am__append_12) $(am__append_14)
-libcurl_la_LDFLAGS_EXTRA = $(am__append_7) $(am__append_8) \
-	$(am__append_9) $(am__append_10) $(am__append_11)
-libcurl_la_CFLAGS_EXTRA = $(am__append_15)
+libcurl_la_CPPFLAGS_EXTRA = $(am__append_10) $(am__append_12)
+libcurl_la_LDFLAGS_EXTRA = $(am__append_5) $(am__append_6) \
+	$(am__append_7) $(am__append_8) $(am__append_9)
+libcurl_la_CFLAGS_EXTRA = $(am__append_13)
 libcurl_la_CPPFLAGS = $(AM_CPPFLAGS) $(libcurl_la_CPPFLAGS_EXTRA)
 libcurl_la_LDFLAGS = $(AM_LDFLAGS) $(libcurl_la_LDFLAGS_EXTRA) $(CURL_LDFLAGS_LIB) $(LIBCURL_PC_LIBS_PRIVATE)
 libcurl_la_CFLAGS = $(AM_CFLAGS) $(libcurl_la_CFLAGS_EXTRA)
@@ -1677,7 +1665,7 @@ CS_ = $(CS_0)
 
 # disable the tests that are mostly causing false positives
 TIDYFLAGS := -checks=-clang-analyzer-security.insecureAPI.strcpy,-clang-analyzer-optin.performance.Padding,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling \
-	-quiet $(am__append_16)
+	-quiet $(am__append_14)
 TIDY := clang-tidy
 all: curl_config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am

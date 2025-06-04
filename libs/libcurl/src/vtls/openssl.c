@@ -698,9 +698,11 @@ static long ossl_bio_cf_ctrl(BIO *bio, int cmd, long num, void *ptr)
     ret = 1;
     break;
 #ifdef BIO_CTRL_EOF
-  case BIO_CTRL_EOF:
+  case BIO_CTRL_EOF: {
     /* EOF has been reached on input? */
-    return !cf->next || !cf->next->connected;
+    struct ssl_connect_data *connssl = cf->ctx;
+    return connssl->peer_closed;
+  }
 #endif
   default:
     ret = 0;
@@ -4048,7 +4050,7 @@ CURLcode Curl_ossl_ctx_init(struct ossl_ctx *octx,
      CVE-2010-4180 when using previous OpenSSL versions we no longer enable
      this option regardless of OpenSSL version and SSL_OP_ALL definition.
 
-     OpenSSL added a work-around for a SSL 3.0/TLS 1.0 CBC vulnerability:
+     OpenSSL added a work-around for an SSL 3.0/TLS 1.0 CBC vulnerability:
      https://web.archive.org/web/20240114184648/openssl.org/~bodo/tls-cbc.txt.
      In 0.9.6e they added a bit to SSL_OP_ALL that _disables_ that work-around
      despite the fact that SSL_OP_ALL is documented to do "rather harmless"

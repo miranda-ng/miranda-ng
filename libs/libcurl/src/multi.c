@@ -347,7 +347,8 @@ static CURLMcode multi_xfers_add(struct Curl_multi *multi,
   if(unused <= min_unused) {
      /* make it a 64 multiple, since our bitsets frow by that and
       * small (easy_multi) grows to at least 64 on first resize. */
-    unsigned int newsize = ((capacity + min_unused) + 63) / 64;
+    unsigned int newsize = (((capacity + min_unused) + 63) / 64) * 64;
+    DEBUGASSERT(newsize > capacity);
     /* Grow the bitsets first. Should one fail, we do not need
      * to downsize the already resized ones. The sets continue
      * to work properly when larger than the table, but not
@@ -3181,7 +3182,7 @@ static CURLMcode multi_timeout(struct Curl_multi *multi,
 
     /* splay the lowest to the bottom */
     multi->timetree = Curl_splay(tv_zero, multi->timetree);
-    /* this will not return NULL from a non-emtpy tree, but some compilers
+    /* this will not return NULL from a non-empty tree, but some compilers
      * are not convinced of that. Analyzers are hard. */
     *expire_time = multi->timetree ? multi->timetree->key : tv_zero;
 

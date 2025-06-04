@@ -108,7 +108,7 @@ static struct Curl_ssl_scache *cf_ssl_scache_get(struct Curl_easy *data)
   return scache;
 }
 
-static void cf_ssl_scache_sesssion_ldestroy(void *udata, void *obj)
+static void cf_ssl_scache_session_ldestroy(void *udata, void *obj)
 {
   struct Curl_ssl_session *s = obj;
   (void)udata;
@@ -161,7 +161,7 @@ Curl_ssl_session_create2(void *sdata, size_t sdata_len,
   if(alpn) {
     s->alpn = strdup(alpn);
     if(!s->alpn) {
-      cf_ssl_scache_sesssion_ldestroy(NULL, s);
+      cf_ssl_scache_session_ldestroy(NULL, s);
       return CURLE_OUT_OF_MEMORY;
     }
   }
@@ -176,7 +176,7 @@ void Curl_ssl_session_destroy(struct Curl_ssl_session *s)
     if(Curl_node_llist(&s->list))
       Curl_node_remove(&s->list);
     else {
-      cf_ssl_scache_sesssion_ldestroy(NULL, s);
+      cf_ssl_scache_session_ldestroy(NULL, s);
     }
   }
 }
@@ -341,7 +341,7 @@ CURLcode Curl_ssl_scache_create(size_t max_peers,
   for(i = 0; i < scache->peer_count; ++i) {
     scache->peers[i].max_sessions = max_sessions_per_peer;
     Curl_llist_init(&scache->peers[i].sessions,
-                    cf_ssl_scache_sesssion_ldestroy);
+                    cf_ssl_scache_session_ldestroy);
   }
 
   *pscache = scache;
@@ -598,9 +598,8 @@ CURLcode Curl_ssl_peer_key_make(struct Curl_cfilter *cf,
     goto out;
 
   *ppeer_key = curlx_dyn_take(&buf, &key_len);
-  /* we just added printable char, and dynbuf always 0 terminates,
-   * no need to track length */
-
+  /* we just added printable char, and dynbuf always null-terminates, no need
+   * to track length */
 
 out:
   curlx_dyn_free(&buf);
