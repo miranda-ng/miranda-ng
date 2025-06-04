@@ -303,6 +303,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 		bool bRead;
 	};
 	
+	void ShowFileProgress(const TD::file *pFile, TG_FILE_REQUEST *ft);
+
 	bool GetMessageFile(const EmbeddedFile &embed, TG_FILE_REQUEST::Type, const TD::file *pFile, const char *pszFileName, const char *pszCaption);
 	
 	CMStringA GetFormattedText(TD::object_ptr<TD::formattedText> &pText);
