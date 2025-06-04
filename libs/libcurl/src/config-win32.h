@@ -159,6 +159,10 @@
 /* Define if you have the select function. */
 #define HAVE_SELECT 1
 
+/* Define if libSSH2 is in use */
+#define USE_LIBSSH2 1
+#define HAVE_LIBSSH2_H 1
+
 #ifndef UNDER_CE
 /* Define if you have the setlocale function. */
 #define HAVE_SETLOCALE 1
@@ -452,6 +456,9 @@ Vista
 #define HAVE_LDAP_SSL 1
 #define USE_WIN32_LDAP 1
 #endif
+
+/* if SSL is enabled */
+#define USE_OPENSSL 1
 
 /* Define to use the Windows crypto library. */
 #ifndef CURL_WINDOWS_UWP
