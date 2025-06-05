@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 void CTeamsProto::RefreshConversations()
 {
 	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CTeamsProto::OnSyncConversations);
-	pReq << INT_PARAM("startTime", getLastTime(0)) << INT_PARAM("pageSize", 100)
+	pReq << INT64_PARAM("startTime", getLastTime(0)) << INT_PARAM("pageSize", 100)
 		<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread|PSTN|Agent");
 
 	PushRequest(pReq);
@@ -58,8 +58,21 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 		case 19:
 			{
 				auto &props = it["threadProperties"];
-				if (!props["lastleaveat"])
-					StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring(), props["version"].as_string().c_str());
+				CMStringA szType = props["productThreadType"].as_mstring(), szChatType;
+
+				int idx = szSkypename.ReverseFind('@');
+				if (idx != -1)
+					szChatType = szSkypename.Mid(idx + 1);
+
+				if (szType == "Chat" || szChatType == "thread.skype") {
+					if (!props["lastleaveat"])
+						StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring(), props["version"].as_string().c_str());
+				}
+				else if (szType == "OneToOneChat") {
+					hContact = FindContact(it["properties"]["addedBy"].as_string().c_str());
+					if (hContact)
+						setString(hContact, "ChatId", szSkypename);
+				}
 			}
 			FetchMissingHistory(it, hContact);
 			break;
