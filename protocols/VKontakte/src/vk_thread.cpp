@@ -271,8 +271,10 @@ void CVkProto::OnReceiveMyInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 
 	JSONNode jnRoot;
 	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
-	if (!jnResponse)
+	if (!jnResponse) {
+		ConnectionFailed(LOGINERR_NOSERVER);
 		return;
+	}
 
 	const JSONNode &jnUser = *(jnResponse.begin());
 
