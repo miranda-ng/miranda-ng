@@ -132,7 +132,9 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(MEVENT, FindLastEvent)(MCONTACT contactID) PURE;
 	STDMETHOD_(MEVENT, FindNextEvent)(MCONTACT contactID, MEVENT hDbEvent) PURE;
 	STDMETHOD_(MEVENT, FindPrevEvent)(MCONTACT contactID, MEVENT hDbEvent) PURE;
+	
 	STDMETHOD_(int, SetEventJson)(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv) PURE;
+	STDMETHOD_(int, SetEventJson)(MEVENT hDbEvent, const char *pBlob) PURE;
 
 	STDMETHOD_(BOOL, DeleteModule)(MCONTACT contactID, LPCSTR szModule) PURE;
 	STDMETHOD_(BOOL, EnumModuleNames)(DBMODULEENUMPROC pFunc, void *pParam) PURE;
@@ -226,6 +228,7 @@ public:
 	STDMETHODIMP_(BOOL) WriteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
 
 	STDMETHODIMP_(int)  SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv) override;
+	STDMETHODIMP_(int)  SetEventJson(MEVENT hDbEvent, const char *pBlob) override;
 
 	STDMETHODIMP_(BOOL) EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam) override;
 	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName) override;

@@ -330,6 +330,51 @@ BOOL CDbxSQLite::EditEvent(MEVENT hDbEvent, const DBEVENTINFO *dbei)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CDbxSQLite::SetEventJson(MEVENT hDbEvent, const char *pBlob)
+{
+	size_t cbBlob = mir_strlen(pBlob);
+	int flags = DBEF_JSON;
+
+	mir_ptr<char> pCryptBlob;
+	if (m_bEncrypted) {
+		if (pBlob) {
+			size_t len;
+			char *pResult = (char *)m_crypto->encodeBuffer(pBlob, cbBlob, &len);
+			if (pResult != nullptr) {
+				pBlob = pCryptBlob = pResult;
+				cbBlob = len;
+				flags |= DBEF_ENCRYPTED;
+			}
+		}
+		else flags |= DBEF_ENCRYPTED;
+	}
+
+	{
+		mir_cslock lock(m_csDbAccess);
+		sqlite3_stmt *stmt = InitQuery("UPDATE events SET data=?, flags=flags | ? WHERE id = ?;", qEvSetJson2);
+		sqlite3_bind_text(stmt, 1, pBlob, (int)cbBlob, nullptr);
+		sqlite3_bind_int64(stmt, 2, flags);
+		sqlite3_bind_int64(stmt, 3, hDbEvent);
+		int rc = sqlite3_step(stmt);
+		logError(rc, __FILE__, __LINE__);
+		sqlite3_reset(stmt);
+	}
+
+	DBFlush();
+
+	if (m_safetyMode) {
+		MCONTACT hContact = GetEventContact(hDbEvent);
+		if (auto *cc = m_cache->GetCachedContact(hContact))
+			if (cc->IsSub())
+				hContact = cc->parentID;
+
+		NotifyEventHooks(g_hevEventSetJson, hContact, hDbEvent);
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static void str2json(CMStringA &str)
 {
 	str.Replace("\\", "\\\\");
@@ -337,7 +382,7 @@ static void str2json(CMStringA &str)
 
 int CDbxSQLite::SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv)
 {
-	if (hDbEvent == 0)
+	if (!hDbEvent || !dbv)
 		return 1;
 
 	CMStringA tmp(FORMAT, "$.%s", szSetting);

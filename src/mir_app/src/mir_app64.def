@@ -1019,3 +1019,4 @@ Proto_CanDeleteHistory @1118 NONAME
 ?iHideTime@Clist@@3V?$CMOption@G@@A @1152 NONAME
 ?iAlpha@Clist@@3V?$CMOption@E@@A @1153 NONAME
 ?iAutoAlpha@Clist@@3V?$CMOption@E@@A @1154 NONAME
+?SetEventJson@MDatabaseCommon@@UEAAHIPEBD@Z @1155 NONAME

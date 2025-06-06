@@ -401,6 +401,7 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char 
 // Sets a value to the JSON field in the blob
 
 MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv);
+MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *pBlob);
 
 // Updates the server ID associated with an event
 // Returns 0 on success or a failure otherwise

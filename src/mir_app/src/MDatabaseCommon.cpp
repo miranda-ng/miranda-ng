@@ -553,6 +553,11 @@ STDMETHODIMP_(int) MDatabaseCommon::SetEventJson(MEVENT, const char *, DBVARIANT
 	return 1;
 }
 
+STDMETHODIMP_(int) MDatabaseCommon::SetEventJson(MEVENT, const char *)
+{
+	return 1;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Resident settings
 

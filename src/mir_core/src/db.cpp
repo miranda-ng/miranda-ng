@@ -531,6 +531,14 @@ MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId)
 	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->GetEventById(szModule, szId);
 }
 
+MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *pBlob)
+{
+	if (g_pCurrDb == nullptr)
+		return 1;
+
+	return g_pCurrDb->SetEventJson(hDbEvent, pBlob);
+}
+
 MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv)
 {
 	if (g_pCurrDb == nullptr)
@@ -565,7 +573,7 @@ MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *szSetting, DBVAR
 	}
 	dbei.flushJson();
 
-	return db_event_edit(hDbEvent, &dbei);
+	return g_pCurrDb->SetEventJson(hDbEvent, dbei.pBlob);
 }
 
 MIR_CORE_DLL(int) db_event_updateId(MEVENT hDbEvent, const char *szId)
