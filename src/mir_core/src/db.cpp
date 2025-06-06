@@ -545,6 +545,10 @@ MIR_CORE_DLL(int) db_event_setJson(MEVENT hDbEvent, const char *szSetting, DBVAR
 
 	auto &json = dbei.setJson();
 
+	auto n = json.find(szSetting);
+	if (n != json.end())
+		json.erase(n);
+
 	switch (dbv->type) {
 	case DBVT_BYTE: json << INT_PARAM(szSetting, dbv->bVal); break;
 	case DBVT_WORD: json << INT_PARAM(szSetting, dbv->wVal); break;
