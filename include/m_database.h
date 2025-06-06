@@ -575,7 +575,7 @@ EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 // DB/Event/Added event
 // Called when a new event has been added to the event chain for a contact
 //   wParam = (MCONTACT)hContact
-//   lParam = (LPARAM)(HANDLE)hDbEvent
+//   lParam = (HANDLE)hDbEvent
 // hDbEvent is a valid handle to the event. hContact is a valid handle to the
 // contact to which hDbEvent refers.
 // Since events are sorted chronologically, you cannot guarantee that hDbEvent is
@@ -587,17 +587,34 @@ EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 // DB/Event/Edited event
 // Called when the existing event was changed
 //   wParam = (MCONTACT)hContact
-//   lParam = (LPARAM)(HANDLE)hDbEvent
+//   lParam = (HANDLE)hDbEvent
 // hDbEvent is a valid handle to the event. hContact is a valid handle to the
 // contact to which hDbEvent refers.
 
 #define ME_DB_EVENT_EDITED "DB/Event/Edited"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// DB/Event/Reaction event
+// Called when the JSON part of an existing event was changed
+//   wParam = (DB::EventInfo*)pEvent
+//   lParam = (DBEventReaction*)pReaction
+// hDbEvent is a valid handle to the event. hContact is a valid handle to the
+// contact to which hDbEvent refers.
+
+struct DBEventReaction
+{
+	MCONTACT hContact;
+	BOOL bAdded;
+	const char *pszReaction;
+};
+
+#define ME_DB_EVENT_REACTION "DB/Event/Reaction"
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // DB/Event/SetJson event
 // Called when the JSON part of an existing event was changed
 //   wParam = (MCONTACT)hContact
-//   lParam = (LPARAM)(HANDLE)hDbEvent
+//   lParam = (HANDLE)hDbEvent
 // hDbEvent is a valid handle to the event. hContact is a valid handle to the
 // contact to which hDbEvent refers.
 
@@ -624,7 +641,7 @@ EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 // DB/Event/Marked/Read event
 // Called when an event is marked read
 //   wParam = (MCONTACT)hContact
-//   lParam = (LPARAM)(HANDLE)hDbEvent
+//   lParam = (HANDLE)hDbEvent
 // hDbEvent is a valid handle to the event.
 // hContact is a valid handle to the contact to which hDbEvent refers, and will remain valid.
 
@@ -634,7 +651,7 @@ EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 // DB/Event/Deleted event
 // Called when an event is about to be deleted from the event chain for a contact
 //   wParam = (MCONTACT)hContact
-//   lParam = (LPARAM)(HANDLE)hDbEvent
+//   lParam = (HANDLE)hDbEvent
 // hDbEvent is a valid handle to the event which is about to be deleted, but it
 // won't be once your hook has returned.
 // hContact is a valid handle to the contact to which hDbEvent refers, and will
@@ -648,7 +665,7 @@ EXTERN_C MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags);
 // DB/Event/Delivered event
 // Called when the server confirms that an event was successfully delivered to server
 //   wParam = (MCONTACT)hContact
-//   lParam = (LPARAM)(HANDLE)hDbEvent
+//   lParam = (HANDLE)hDbEvent
 // hDbEvent is a valid handle to the event.
 // hContact is a valid handle to the contact to which hDbEvent refers, and will remain valid.
 
@@ -759,6 +776,7 @@ namespace DB
 
 		void addReaction(const char *emoji);
 		void delReaction(const char *emoji);
+		void setReactions(class JSONNode &pNode);
 
 		void flushJson();
 		JSONNode& setJson();

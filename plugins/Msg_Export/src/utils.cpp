@@ -554,3 +554,50 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int nExportReaction(WPARAM wParam, LPARAM lParam)
+{
+	auto *dbei = (DB::EventInfo *)wParam;
+	auto *p = (DBEventReaction *)lParam;
+	if (!p || !dbei)
+		return 0;
+
+	if (!bIsExportEnabled(p->hContact))
+		return 0;
+
+	// Open/create file for writing
+	wstring sFilePath = GetFilePathFromUser(p->hContact);
+	MDatabaseExport *pJson = nullptr;
+	HANDLE hFile;
+
+	if (g_bUseJson) {
+		pJson = g_pDriver->Export(sFilePath.c_str());
+		if (pJson == nullptr) {
+			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath);
+			return 0;
+		}
+
+		hFile = pJson;
+	}
+	else {
+		hFile = openCreateFile(sFilePath);
+		if (hFile == INVALID_HANDLE_VALUE) {
+			DisplayErrorDialog(LPGENW("Failed to open or create file:\n"), sFilePath);
+			return 0;
+		}
+	}
+
+	// Write the event
+	bExportReaction(*dbei, *p, hFile, sFilePath);
+
+	// Close the file
+	if (pJson) {
+		pJson->EndExport();
+		delete pJson;
+	}
+	else CloseHandle(hFile);
+
+	return 0;
+}

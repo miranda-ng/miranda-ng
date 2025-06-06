@@ -1088,15 +1088,7 @@ void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *p
 			}
 		}
 
-	auto &json = dbei.setJson();
-	auto it = json.find("r");
-	if (it != json.end())
-		json.erase(it);
-
-	json << reactions;
-	dbei.flushJson();
-	
-	db_event_setJson(dbei.getEvent(), dbei.pBlob);
+	dbei.setReactions(reactions);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

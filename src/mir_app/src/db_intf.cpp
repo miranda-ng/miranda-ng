@@ -76,6 +76,8 @@ MIR_APP_EXPORT HANDLE
 	g_hevEventDelivered,   // ME_DB_EVENT_DELIVERED
 	g_hevEventFiltered;
 
+HANDLE g_hevEventReaction; // ME_DB_EVENT_REACTION
+
 int LoadDbintfModule()
 {
 	// create events once, they will be inherited by all database plugins
@@ -89,6 +91,7 @@ int LoadDbintfModule()
 	g_hevEventDeleted = CreateHookableEvent(ME_DB_EVENT_DELETED);
 	g_hevEventSetJson = CreateHookableEvent(ME_DB_EVENT_SETJSON);
 	g_hevEventDelivered = CreateHookableEvent(ME_DB_EVENT_DELIVERED);
+	g_hevEventReaction = CreateHookableEvent(ME_DB_EVENT_REACTION);
 	g_hevEventFiltered = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
 
 	while (!_waccess(L"libmdbx.mir", 0)) {

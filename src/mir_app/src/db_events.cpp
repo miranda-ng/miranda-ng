@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+
+#include "database.h"
 #include "profilemanager.h"
 
 static int CompareEventTypes(const DBEVENTTYPEDESCR *p1, const DBEVENTTYPEDESCR *p2)
@@ -386,6 +388,10 @@ void DB::EventInfo::addReaction(const char *emoji)
 		(*it) = JSONNode(emoji, (*it).as_int() + 1);
 
 	flushJson();
+	db_event_setJson(getEvent(), pBlob);
+
+	DBEventReaction ev = { hContact, TRUE, emoji };
+	NotifyEventHooks(g_hevEventReaction, WPARAM(this), LPARAM(&ev));
 }
 
 void DB::EventInfo::delReaction(const char *emoji)
@@ -404,7 +410,33 @@ void DB::EventInfo::delReaction(const char *emoji)
 			reactions.erase(it);
 
 		flushJson();
+		db_event_setJson(getEvent(), pBlob);
+
+		DBEventReaction ev = { hContact, FALSE, emoji };
+		NotifyEventHooks(g_hevEventReaction, WPARAM(this), LPARAM(&ev));
 	}
+}
+
+void DB::EventInfo::setReactions(class JSONNode &pNode)
+{
+	CMStringA szReactions;
+	for (auto &it : pNode)
+		szReactions.AppendFormat("%s ", it.name());
+	szReactions.Trim();
+
+	auto &json = setJson();
+	auto it = json.find("r");
+	if (it != json.end())
+		json.erase(it);
+
+	pNode.set_name("r");
+	json << pNode;
+	flushJson();
+
+	db_event_setJson(getEvent(), pBlob);
+
+	DBEventReaction ev = { hContact, TRUE, szReactions };
+	NotifyEventHooks(g_hevEventReaction, WPARAM(this), LPARAM(&ev));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

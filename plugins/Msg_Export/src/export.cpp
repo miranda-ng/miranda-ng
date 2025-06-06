@@ -23,13 +23,7 @@ bool bIsUtf8Header(uint8_t *pucByteOrder)
 	return memcmp(pucByteOrder, szUtf8ByteOrderHeader, 3) == 0;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : bWriteToFile
-// Type            : Global
-// Parameters      : hFile  - ?
-//                   pszSrc - in UTF8 or ANSII
-//                   nLen   - ?
-// Returns         : Returns true if all the data was written to the file
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
 {
@@ -40,14 +34,7 @@ static bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
 	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, nullptr) && (dwBytesWritten == (uint32_t)nLen);
 }
 
-
-/////////////////////////////////////////////////////////////////////
-// Member Function : bWriteTextToFile
-// Type            : Global
-// Parameters      : hFile     - ?
-//                   pszSrc    - ?
-//                   bUtf8File - ?
-// Returns         : Returns true if 
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static bool bWriteTextToFile(HANDLE hFile, const wchar_t *pszSrc, bool bUtf8File, int nLen = -1)
 {
@@ -66,12 +53,7 @@ static bool bWriteTextToFile(HANDLE hFile, const wchar_t *pszSrc, bool bUtf8File
 	return bWriteToFile(hFile, T2Utf(pszSrc), -1);
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : bWriteNewLine
-// Type            : Global
-// Parameters      : hFile   - ?
-//                   nIndent - ?
-// Returns         : Returns true if all the data was written to the file
+/////////////////////////////////////////////////////////////////////////////////////////
 
 const wchar_t wszNewLineIndent[] = L"\r\n                                                                                                   ";
 void bWriteNewLine(CMStringW &str, int dwIndent)
@@ -82,12 +64,7 @@ void bWriteNewLine(CMStringW &str, int dwIndent)
 	str.Append(wszNewLineIndent, dwIndent + 2);
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : bWriteHexToFile
-// Type            : Global
-// Parameters      : hFile - ?
-//                         - ?
-//                   nSize - ?
+/////////////////////////////////////////////////////////////////////////////////////////
 
 bool bWriteHexToFile(HANDLE hFile, void *pData, int nSize)
 {
@@ -101,13 +78,7 @@ bool bWriteHexToFile(HANDLE hFile, void *pData, int nSize)
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : bWriteIndentedToFile
-// Type            : Global
-// Parameters      : hFile   - ?
-//                   nIndent - ?
-//                   pszSrc  - 
-// Returns         : Returns true if 
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static bool bWriteIndentedToFile(CMStringW &str, int nIndent, const wchar_t *pszSrc)
 {
@@ -177,14 +148,7 @@ SuperBreak:
 	return bOk;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Member Function : ExportDBEventInfo
-// Type            : Global
-// Parameters      : hContact  - handle to contact
-//                   hFile     - handle to file
-//                   sFilePath - path to file
-//                   dbei      - Event to export
-// Returns         : false on serious error, when file should be closed to not lost/overwrite any data
+/////////////////////////////////////////////////////////////////////////////////////////
 
 const char *pSettings[] =
 {
@@ -201,11 +165,77 @@ const char *pSettings[] =
 	LPGEN("About")
 };
 
-static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sFilePath, DB::EventInfo &dbei, bool bAppendOnly)
+static bool bPrepareHeader(MCONTACT hContact, HANDLE hFile, bool &bWriteUTF8Format, const wstring &sRemoteUser)
 {
-	wstring sLocalUser;
-	wstring sRemoteUser;
-	string::size_type nFirstColumnWidth;
+	const char *szProto = Proto_GetBaseAccountName(hContact);
+
+	DWORD dwHighSize = 0;
+	DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
+	if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
+		DWORD dwDataRead = 0;
+		uint8_t ucByteOrder[3];
+		if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
+			bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
+
+		DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
+		if (dwPtr == INVALID_SET_FILE_POINTER)
+			return false;
+	}
+	else {
+		bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
+		if (bWriteUTF8Format)
+			if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
+				return false;
+
+		CMStringW output = L"------------------------------------------------\r\n";
+		output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
+
+		// This is written this way because I expect this will become a string the user may set 
+		// in the options dialog.
+		output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
+		output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
+
+		ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
+		if (id != NULL)
+			output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
+
+		int c = db_get_b(hContact, szProto, "Gender", 0);
+		if (c)
+			output.AppendFormat(L"%-10s: %c\r\n", TranslateT("Gender"), c);
+
+		int age = db_get_w(hContact, szProto, "Age", 0);
+		if (age != 0)
+			output.AppendFormat(L"%-10s: %d\r\n", TranslateT("Age"), age);
+
+		for (auto &it : pSettings) {
+			wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
+			if (!szValue.empty())
+				output.AppendFormat(L"%-10s: %s\r\n", TranslateW(_A2T(it)), szValue.c_str());
+		}
+
+		output += L"------------------------------------------------\r\n";
+
+		if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
+			return false;
+	}
+
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstring &sFilePath, bool bAppendOnly)
+{
+	DB::EventInfo dbei(hDbEvent);
+	if (!dbei)
+		return true;
+
+	if (db_mc_isMeta(hContact))
+		hContact = dbei.hContact;
+
+	// Write the event
+	wstring sLocalUser, sRemoteUser;
+	size_t nFirstColumnWidth;
 	auto *pJson = (MDatabaseExport *)hFile;
 
 	const char *szProto = Proto_GetBaseAccountName(hContact);
@@ -238,57 +268,8 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			if (!pJson->BeginExport())
 				pJson->ExportContact(hContact);
 		}
-		else {
-			DWORD dwHighSize = 0;
-			DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
-			if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
-				DWORD dwDataRead = 0;
-				uint8_t ucByteOrder[3];
-				if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
-					bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
-
-				DWORD dwPtr = SetFilePointer(hFile, 0, nullptr, FILE_END);
-				if (dwPtr == INVALID_SET_FILE_POINTER)
-					return false;
-			}
-			else {
-				bWriteUTF8Format = g_plugin.bUseUtf8InNewFiles;
-				if (bWriteUTF8Format)
-					if (!bWriteToFile(hFile, szUtf8ByteOrderHeader, sizeof(szUtf8ByteOrderHeader) - 1))
-						return false;
-
-				CMStringW output = L"------------------------------------------------\r\n";
-				output.AppendFormat(L"%s\r\n", TranslateT("      History for"));
-
-				// This is written this way because I expect this will become a string the user may set 
-				// in the options dialog.
-				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
-				output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
-
-				ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
-				if (id != NULL)
-					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
-
-				int c = db_get_b(hContact, szProto, "Gender", 0);
-				if (c)
-					output.AppendFormat(L"%-10s: %c\r\n", TranslateT("Gender"), c);
-
-				int age = db_get_w(hContact, szProto, "Age", 0);
-				if (age != 0)
-					output.AppendFormat(L"%-10s: %d\r\n", TranslateT("Age"), age);
-
-				for (auto &it : pSettings) {
-					wstring szValue = _DBGetStringW(hContact, szProto, it, L"");
-					if (!szValue.empty())
-						output.AppendFormat(L"%-10s: %s\r\n", TranslateW(_A2T(it)), szValue.c_str());
-				}
-
-				output += L"------------------------------------------------\r\n";
-
-				if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
-					return false;
-			}
-		}
+		else if (!bPrepareHeader(hContact, hFile, bWriteUTF8Format, sRemoteUser))
+			return false;
 	}
 
 	if (g_bUseJson) {
@@ -429,20 +410,76 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Module entry point
 
-bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstring &sFilePath, bool bAppendOnly)
+bool bExportReaction(const DB::EventInfo &dbei, const DBEventReaction &p, HANDLE hFile, const wstring &sFilePath)
 {
-	bool result = true;
+	// Write the event
+	wstring sLocalUser, sRemoteUser;
+	size_t nFirstColumnWidth;
+	auto *pJson = (MDatabaseExport *)hFile;
 
-	DB::EventInfo dbei(hDbEvent);
-	if (dbei) {
-		if (db_mc_isMeta(hContact))
-			hContact = dbei.hContact;
-
-		// Write the event
-		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei, bAppendOnly);
+	const char *szProto = Proto_GetBaseAccountName(p.hContact);
+	if (szProto == nullptr) {
+		Netlib_Logf(0, MODULENAME ": cannot write message for a contact %d without protocol", p.hContact);
+		return false;
 	}
 
-	return result;
+	if (g_plugin.bUseAngleBrackets) {
+		sLocalUser = L"<<";
+		sRemoteUser = L">>";
+		nFirstColumnWidth = 4;
+	}
+	else {
+		sLocalUser = ptrW(GetMyOwnNick(p.hContact));
+		sRemoteUser = Clist_GetContactDisplayName(p.hContact);
+
+		nFirstColumnWidth = max(sRemoteUser.size(), clFileTo1ColWidth[sFilePath]);
+		nFirstColumnWidth = max(sLocalUser.size(), nFirstColumnWidth);
+		nFirstColumnWidth += 2;
+	}
+
+	bool bWriteUTF8Format = false;
+
+	if (g_bUseJson) {
+		if (!pJson->BeginExport())
+			pJson->ExportContact(p.hContact);
+
+		pJson->ExportEvent(dbei);
+		return true;
+	}
+
+	if (!bPrepareHeader(p.hContact, hFile, bWriteUTF8Format, sRemoteUser))
+		return false;
+
+	// Get time stamp
+	CMStringW output;
+	output.AppendFormat(L"%-*s", (int)nFirstColumnWidth, dbei.bSent ? sLocalUser.c_str() : sRemoteUser.c_str());
+
+	wchar_t buf[100];
+	TimeZone_ToStringW(time(0), g_sTimeFormat.c_str(), buf, _countof(buf));
+	output.Append(buf);
+
+	output.AppendChar(' ');
+	int nIndent = output.GetLength();
+
+	ptrW wszMessageText(dbei.getText());
+	if (mir_wstrlen(wszMessageText) > 30)
+		mir_wstrcpy(wszMessageText.get() + 27, L"...");
+
+	Utf2T wszReaction(p.pszReaction);
+
+	TimeZone_ToStringW(dbei.getUnixtime(), g_sTimeFormat.c_str(), buf, _countof(buf));
+	CMStringW wszText;
+	if (p.bAdded)
+		wszText.Format(TranslateT("%s reacted with %s to message \"%s\" from %s"), sRemoteUser.c_str(), wszReaction.get(), wszMessageText.get(), buf);
+	else
+		wszText.Format(TranslateT("%s remove reaction %s to message \"%s\" from %s"), sRemoteUser.c_str(), wszReaction.get(), wszMessageText.get(), buf);
+	bWriteIndentedToFile(output, nIndent, wszText);
+
+	output.Append(g_plugin.bAppendNewLine ? L"\r\n\r\n" : L"\r\n");
+	if (!bWriteTextToFile(hFile, output, bWriteUTF8Format, output.GetLength()))
+		return false;
+
+	UpdateFileViews(sFilePath.c_str());
+	return true;
 }
