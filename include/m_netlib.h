@@ -73,26 +73,6 @@ struct NETLIBUSER
 
 EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *pDescr);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Assign a Netlib user handle a set of dynamic HTTP headers to be used with all
-//
-// HTTP connections that enable the HTTP-use-sticky headers flag.
-// The headers persist until cleared with lParam = NULL.
-//
-// All memory should be allocated by the caller using malloc() from MS_SYSTEM_GET_MMI
-// Once it has passed to Netlib, Netlib is the owner of it, the caller should not refer to the memory
-// In any way after this point.
-//
-// NOTE: The szHeaders parameter should be a NULL terminated string following the HTTP header syntax.
-// This string will be injected verbatim, thus the user should be aware of setting strings that are not
-// headers. This service is NOT THREAD SAFE, only a single thread is expected to set the headers and a single
-// thread reading the pointer internally, stopping race conditions and mutual exclusion don't happen.
-//
-// Version 0.3.2a+ (2003/10/27)
-//
-
-EXTERN_C MIR_APP_DLL(int) Netlib_SetStickyHeaders(HNETLIBUSER nlu, const char *szHeaders);
-
 /* Notes on HTTP gateway usage
 When a connection is initiated through an HTTP proxy using
 MS_NETLIB_OPENCONNECTION, netlib will GET nlu.szHttpGatewayHello and read

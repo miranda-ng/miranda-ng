@@ -299,7 +299,6 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 			NetlibFreeUserSettingsStruct(&nlu->settings);
 			mir_free(nlu->user.szSettingsModule);
 			mir_free(nlu->user.szDescriptiveName.a);
-			mir_free(nlu->szStickyHeaders);
 		}
 		break;
 

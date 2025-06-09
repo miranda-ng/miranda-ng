@@ -38,7 +38,6 @@ struct NetlibUser
 	int handleType;
 	NETLIBUSER user;
 	NETLIBUSERSETTINGS settings;
-	char *szStickyHeaders;
 	int toLog;
 	int inportnum;
 	int outportnum;
