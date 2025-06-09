@@ -95,10 +95,64 @@ EXTERN_C MIR_APP_DLL(bool) Netlib_FreeHttpRequest(MHttpResponse *nlhr)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static const char *secureWords[] = { "token", "password" };
+
+static bool isSecureStr(const char *str)
+{
+	for (auto &it : secureWords)
+		if (StrStrIA(str, it))
+			return true;
+
+	return false;
+}
+
+static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, const char *pszInitStr = nullptr)
+{
+	int dumpflags = (flags & NLHRF_DUMPASTEXT) ? MSG_DUMPASTEXT : 0;
+
+	int blockMask = NLHRF_NODUMP | NLHRF_NODUMPHEADERS | (pszInitStr ? NLHRF_NODUMPSEND : 0);
+	if (flags & blockMask)
+		dumpflags |= MSG_NODUMP;
+	else if (flags & NLHRF_DUMPPROXY)
+		dumpflags |= MSG_DUMPPROXY;
+	else if (flags & NLHRF_NOPROXY)
+		dumpflags |= MSG_RAW;
+
+	CMStringA str(pszInitStr ? pszInitStr : "");
+	for (auto &it: *nlhr) {
+		if (it->szValue == nullptr)
+			continue;
+
+		if (!mir_strcmp(it->szName, "Authorization") || isSecureStr(it->szName) || isSecureStr(it->szValue))
+			str.AppendFormat("%s: %s\r\n", it->szName.get(), "<secure>");
+		else
+			str.AppendFormat("%s: %s\r\n", it->szName.get(), it->szValue.get());
+	}
+	str.Append("\r\n");
+
+	Netlib_Dump(nlc, str, str.GetLength(), pszInitStr != 0, dumpflags);
+}
+
+static void DumpHttpBody(HNETLIBCONN nlc, const CMStringA &body, int flags, bool bSend)
+{
+	int dumpflags = MSG_NOTITLE | ((flags & NLHRF_DUMPASTEXT) ? MSG_DUMPASTEXT : 0);
+
+	if (flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND))
+		dumpflags |= MSG_NODUMP;
+	else if (flags & NLHRF_DUMPPROXY)
+		dumpflags |= MSG_DUMPPROXY;
+	else if (flags & NLHRF_NOPROXY)
+		dumpflags |= MSG_RAW;
+
+	Netlib_Dump(nlc, body, body.GetLength(), bSend, dumpflags);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int RecvWithTimeoutTime(NetlibConnection *nlc, uint32_t dwTimeoutTime, char *buf, int len, int flags)
 {
 	if (!nlc->foreBuf.isEmpty() || Netlib_SslPending(nlc->hSsl)) 
-		return Netlib_Recv(nlc, buf, len, flags);
+		return Netlib_Recv(nlc, buf, len, flags | MSG_NODUMP);
 
 	uint32_t dwTimeNow;
 	while ((dwTimeNow = GetTickCount()) < dwTimeoutTime) {
@@ -110,7 +164,7 @@ static int RecvWithTimeoutTime(NetlibConnection *nlc, uint32_t dwTimeoutTime, ch
 			return SOCKET_ERROR;
 
 		case 1:
-			return Netlib_Recv(nlc, buf, len, flags);
+			return Netlib_Recv(nlc, buf, len, flags | MSG_NODUMP);
 		}
 
 		if (nlc->termRequested || Miranda_IsTerminated())
@@ -275,13 +329,13 @@ struct HttpSecurityContext
 	}
 };
 
-static int HttpPeekFirstResponseLine(NetlibConnection *nlc, uint32_t dwTimeoutTime, uint32_t recvFlags, int *resultCode, char **ppszResultDescr, int *length)
+static int HttpPeekFirstResponseLine(NetlibConnection *nlc, uint32_t dwTimeoutTime, int *resultCode, char **ppszResultDescr, int *length)
 {
 	int bytesPeeked;
 	char buffer[2048], *peol;
 
 	while (true) {
-		bytesPeeked = RecvWithTimeoutTime(nlc, dwTimeoutTime, buffer, _countof(buffer) - 1, MSG_PEEK | recvFlags);
+		bytesPeeked = RecvWithTimeoutTime(nlc, dwTimeoutTime, buffer, _countof(buffer) - 1, MSG_PEEK);
 		if (bytesPeeked == 0) {
 			SetLastError(ERROR_HANDLE_EOF);
 			return 0;
@@ -340,35 +394,6 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, uint32_t dwTimeoutTi
 	return 1;
 }
 
-static int SendHttpRequestAndData(NetlibConnection *nlc, CMStringA &httpRequest, MHttpRequest *nlhr, int sendContentLengthHeader)
-{
-	bool sendData = (nlhr->requestType == REQUEST_POST || nlhr->requestType == REQUEST_PUT || nlhr->requestType == REQUEST_PATCH);
-
-	if (sendContentLengthHeader && sendData)
-		httpRequest.AppendFormat("Content-Length: %d\r\n\r\n", nlhr->m_szParam.GetLength());
-	else
-		httpRequest.AppendFormat("\r\n");
-
-	uint32_t hflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
-		(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND | NLHRF_NODUMPHEADERS) ?
-	MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
-					 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
-
-	int bytesSent = Netlib_Send(nlc, httpRequest, httpRequest.GetLength(), hflags);
-	if (bytesSent != SOCKET_ERROR && sendData && nlhr->m_szParam.GetLength()) {
-		uint32_t sflags = MSG_NOTITLE | (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
-			(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND) ?
-		MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
-						 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
-
-		int sendResult = Netlib_Send(nlc, nlhr->m_szParam, nlhr->m_szParam.GetLength(), sflags);
-
-		bytesSent = sendResult != SOCKET_ERROR ? bytesSent + sendResult : SOCKET_ERROR;
-	}
-
-	return bytesSent;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Receives HTTP headers
 //
@@ -398,13 +423,13 @@ static MHttpResponse* Netlib_RecvHttpHeaders(NetlibConnection *nlc, int flags)
 	nlhr->nlc = nlc;  // Needed to id connection in the protocol HTTP gateway wrapper functions
 
 	int firstLineLength = 0;
-	if (!HttpPeekFirstResponseLine(nlc, dwRequestTimeoutTime, flags | MSG_PEEK, &nlhr->resultCode, &nlhr->szResultDescr, &firstLineLength)) {
+	if (!HttpPeekFirstResponseLine(nlc, dwRequestTimeoutTime, &nlhr->resultCode, &nlhr->szResultDescr, &firstLineLength)) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
 		return nullptr;
 	}
 
 	char *buffer = (char *)_alloca(NHRV_BUF_SIZE + 1);
-	int bytesPeeked = Netlib_Recv(nlc, buffer, min(firstLineLength, NHRV_BUF_SIZE), flags | MSG_DUMPASTEXT);
+	int bytesPeeked = Netlib_Recv(nlc, buffer, min(firstLineLength, NHRV_BUF_SIZE), MSG_NODUMP);
 	if (bytesPeeked != firstLineLength) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
 		if (bytesPeeked != SOCKET_ERROR)
@@ -417,7 +442,7 @@ static MHttpResponse* Netlib_RecvHttpHeaders(NetlibConnection *nlc, int flags)
 	int headersCount = 0;
 	bytesPeeked = 0;
 	for (bool headersCompleted = false; !headersCompleted;) {
-		bytesPeeked = RecvWithTimeoutTime(nlc, dwRequestTimeoutTime, buffer, NHRV_BUF_SIZE, flags | MSG_DUMPASTEXT | MSG_NOTITLE);
+		bytesPeeked = RecvWithTimeoutTime(nlc, dwRequestTimeoutTime, buffer, NHRV_BUF_SIZE, 0);
 		if (bytesPeeked == 0)
 			break;
 
@@ -464,6 +489,8 @@ static MHttpResponse* Netlib_RecvHttpHeaders(NetlibConnection *nlc, int flags)
 		nlhr->insert(new MHttpHeader(rtrim(pbuffer), lrtrimp(pColon + 1)));
 		pbuffer = peol + 1;
 	}
+
+	DumpHttpHeaders(nlc, nlhr.get(), flags);
 
 	// remove processed data
 	buf.remove(bytesPeeked);
@@ -594,6 +621,7 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &p
 		CMStringA httpRequest(FORMAT, "%s %s HTTP/1.%d\r\n", pszRequest, pszUrl, (nlhr->flags & NLHRF_HTTP11) != 0);
 
 		// HTTP headers
+		bool bSendData = (nlhr->requestType == REQUEST_POST || nlhr->requestType == REQUEST_PUT || nlhr->requestType == REQUEST_PATCH);
 		bool doneHostHeader = false, doneContentLengthHeader = false, doneProxyAuthHeader = false, doneAuthHeader = false, doneConnection = false;
 		for (auto &it : *nlhr) {
 			if (!mir_strcmpi(it->szName, "Host")) doneHostHeader = true;
@@ -601,25 +629,38 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &p
 			else if (!mir_strcmpi(it->szName, "Proxy-Authorization")) doneProxyAuthHeader = true;
 			else if (!mir_strcmpi(it->szName, "Authorization")) doneAuthHeader = true;
 			else if (!mir_strcmpi(it->szName, "Connection")) doneConnection = true;
-			if (it->szValue == nullptr) continue;
-			httpRequest.AppendFormat("%s: %s\r\n", it->szName.get(), it->szValue.get());
 		}
 		if (szHost && !doneHostHeader)
-			httpRequest.AppendFormat("%s: %s\r\n", "Host", szHost);
+			nlhr->AddHeader("Host", szHost);
 		if (pszProxyAuthHdr && !doneProxyAuthHeader)
-			httpRequest.AppendFormat("%s: %s\r\n", "Proxy-Authorization", pszProxyAuthHdr);
+			nlhr->AddHeader("Proxy-Authorization", pszProxyAuthHdr);
 		if (pszAuthHdr && !doneAuthHeader)
-			httpRequest.AppendFormat("%s: %s\r\n", "Authorization", pszAuthHdr);
+			nlhr->AddHeader("Authorization", pszAuthHdr);
+		if (bSendData && !doneContentLengthHeader) {
+			char buf[100];
+			itoa(nlhr->m_szParam.GetLength(), buf, 10);
+			nlhr->AddHeader("Content-Length", buf);
+		}
 		if (!doneConnection)
-			httpRequest.AppendFormat("%s: %s\r\n", "Connection", "Keep-Alive");
-		httpRequest.AppendFormat("%s: %s\r\n", "Proxy-Connection", "Keep-Alive");
+			nlhr->AddHeader("Connection", "Keep-Alive");
+		nlhr->AddHeader("Proxy-Connection", "Keep-Alive");
 
-		// Add Sticky Headers
-		if (nlu->szStickyHeaders != nullptr)
-			httpRequest.AppendFormat("%s\r\n", nlu->szStickyHeaders);
+		DumpHttpHeaders(nlc, nlhr, nlhr->flags, httpRequest);
+
+		for (auto &it : *nlhr)
+			if (it->szValue)
+				httpRequest.AppendFormat("%s: %s\r\n", it->szName.get(), it->szValue.get());
+
+		httpRequest.Append("\r\n");
 
 		// send it
-		bytesSent = SendHttpRequestAndData(nlc, httpRequest, nlhr, !doneContentLengthHeader);
+		bytesSent = Netlib_Send(nlc, httpRequest, httpRequest.GetLength(), MSG_NODUMP);
+		if (bytesSent != SOCKET_ERROR && bSendData && nlhr->m_szParam.GetLength()) {
+			DumpHttpBody(nlc, nlhr->m_szParam, nlhr->flags, true);
+			int sendResult = Netlib_Send(nlc, nlhr->m_szParam, nlhr->m_szParam.GetLength(), MSG_NODUMP);
+
+			bytesSent = sendResult != SOCKET_ERROR ? bytesSent + sendResult : SOCKET_ERROR;
+		}
 		if (bytesSent == SOCKET_ERROR)
 			break;
 
@@ -628,9 +669,8 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &p
 			break;
 
 		int resultCode;
-		uint32_t fflags = MSG_PEEK | MSG_NODUMP | ((nlhr->flags & NLHRF_NOPROXY) ? MSG_RAW : 0);
 		uint32_t dwTimeOutTime = hdrTimeout < 0 ? -1 : GetTickCount() + hdrTimeout;
-		if (!HttpPeekFirstResponseLine(nlc, dwTimeOutTime, fflags, &resultCode, nullptr, nullptr)) {
+		if (!HttpPeekFirstResponseLine(nlc, dwTimeOutTime, &resultCode, nullptr, nullptr)) {
 			uint32_t err = GetLastError();
 			Netlib_Logf(nlu, "%s %d: %s Failed (%u %u)", __FILE__, __LINE__, "HttpPeekFirstResponseLine", err, count);
 
@@ -651,23 +691,16 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &p
 
 		lastFirstLineFail = false;
 
-		uint32_t hflags = (nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPHEADERS | NLHRF_NODUMPSEND) ?
-		MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
-						 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
-
-		uint32_t dflags = (nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND) ? MSG_NODUMP : MSG_DUMPASTEXT | MSG_DUMPPROXY) |
-			(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0) | MSG_NODUMP;
-
 		if (resultCode == 100)
-			nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
+			nlhrReply = Netlib_RecvHttpHeaders(nlc, nlhr->flags);
 
 		else if (resultCode == 307 || ((resultCode == 301 || resultCode == 302) && (nlhr->flags & NLHRF_REDIRECT))) { // redirect
 			pszUrl = nullptr;
 
 			if (nlhr->requestType == REQUEST_HEAD)
-				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
+				nlhrReply = Netlib_RecvHttpHeaders(nlc, nlhr->flags);
 			else
-				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, pHandler);
+				nlhrReply = NetlibHttpRecv(nlc, pHandler, nlhr->flags);
 
 			if (nlhrReply) {
 				auto *tmpUrl = nlhrReply->FindHeader("Location");
@@ -707,9 +740,9 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &p
 		}
 		else if (resultCode == 401 && !doneAuthHeader) { //auth required
 			if (nlhr->requestType == REQUEST_HEAD)
-				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
+				nlhrReply = Netlib_RecvHttpHeaders(nlc, nlhr->flags);
 			else
-				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, pHandler);
+				nlhrReply = NetlibHttpRecv(nlc, pHandler, nlhr->flags);
 
 			replaceStr(pszAuthHdr, nullptr);
 			if (nlhrReply) {
@@ -741,9 +774,9 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &p
 		}
 		else if (resultCode == 407 && !doneProxyAuthHeader) { //proxy auth required
 			if (nlhr->requestType == REQUEST_HEAD)
-				nlhrReply = Netlib_RecvHttpHeaders(nlc, hflags);
+				nlhrReply = Netlib_RecvHttpHeaders(nlc, nlhr->flags);
 			else
-				nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, pHandler);
+				nlhrReply = NetlibHttpRecv(nlc, pHandler, nlhr->flags);
 
 			mir_free(pszProxyAuthHdr); pszProxyAuthHdr = nullptr;
 			if (nlhrReply) {
@@ -787,7 +820,8 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &p
 		}
 	}
 
-	if (count == 0) bytesSent = SOCKET_ERROR;
+	if (count == 0)
+		bytesSent = SOCKET_ERROR;
 
 	delete nlhrReply;
 
@@ -866,13 +900,13 @@ static char* gzip_decode(char *gzip_data, int &len_ptr, int window)
 	return output_data;
 }
 
-static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, uint32_t flags)
+static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first)
 {
 	MBinBuffer buf;
 
 	while (true) {
 		char data[1000];
-		int recvResult = Netlib_Recv(nlc, data, _countof(data) - 1, MSG_RAW | flags);
+		int recvResult = Netlib_Recv(nlc, data, _countof(data) - 1, MSG_NODUMP);
 		if (recvResult <= 0 || recvResult >= _countof(data))
 			return SOCKET_ERROR;
 
@@ -902,14 +936,14 @@ static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, uint32_t
 	}
 }
 
-MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, MChunkHandler &pHandler, bool isConnect)
+MHttpResponse* NetlibHttpRecv(NetlibConnection *nlc, MChunkHandler &pHandler, int flags, bool isConnect)
 {
 	int dataLen = -1;
 	bool chunked = false;
 	int cenc = 0, cenctype = 0, close = 0;
 
 next:
-	std::unique_ptr<MHttpResponse> nlhrReply(Netlib_RecvHttpHeaders(nlc, hflags));
+	std::unique_ptr<MHttpResponse> nlhrReply(Netlib_RecvHttpHeaders(nlc, flags));
 	if (nlhrReply == nullptr)
 		return nullptr;
 
@@ -942,7 +976,7 @@ next:
 
 	if (nlhrReply->resultCode >= 200 && (dataLen > 0 || (!isConnect && dataLen < 0))) {
 		if (chunked)
-			dataLen = NetlibHttpRecvChunkHeader(nlc, true, dflags | (cenctype ? MSG_NODUMP : 0));
+			dataLen = NetlibHttpRecvChunkHeader(nlc, true);
 		if (dataLen == SOCKET_ERROR)
 			return nullptr;
 
@@ -950,10 +984,9 @@ next:
 		while (dataLen != 0) {
 			// fetching one chunk
 			while (true) {
-				int recvResult = RecvWithTimeoutTime(nlc, GetTickCount() + HTTPRECVDATATIMEOUT,
-					tmpBuf, 65536, dflags | (cenctype ? MSG_NODUMP : 0));
-
-				if (recvResult == 0) break;
+				int recvResult = RecvWithTimeoutTime(nlc, GetTickCount() + HTTPRECVDATATIMEOUT, tmpBuf, 65536, 0);
+				if (recvResult == 0)
+					break;
 				if (recvResult == SOCKET_ERROR)
 					return nullptr;
 
@@ -979,7 +1012,7 @@ next:
 			if (!chunked)
 				break;
 
-			dataLen = NetlibHttpRecvChunkHeader(nlc, false, dflags | MSG_NODUMP);
+			dataLen = NetlibHttpRecvChunkHeader(nlc, false);
 			if (dataLen == SOCKET_ERROR)
 				return nullptr;
 		}
@@ -1009,7 +1042,6 @@ next:
 		}
 
 		if (bufsz > 0) {
-			Netlib_Dump(nlc, (uint8_t*)szData, bufsz, false, dflags | MSG_NOTITLE);
 			nlhrReply->body.Truncate(bufsz + 1);
 			memcpy(nlhrReply->body.GetBuffer(), szData, bufsz);
 			nlhrReply->body.SetAt(bufsz, 0);
@@ -1019,6 +1051,9 @@ next:
 		else if (bufsz == 0)
 			nlhrReply->body.Empty();
 	}
+
+	if (!nlhrReply->body.IsEmpty())
+		DumpHttpBody(nlc, nlhrReply->body, flags, true);
 
 	if (close &&
 		(nlc->proxyType != PROXYTYPE_HTTP || nlc->url.flags & NLOCF_SSL) &&
@@ -1078,19 +1113,11 @@ static MHttpResponse* HttpTransactionWorker(HNETLIBUSER nlu, MHttpRequest *nlhr,
 		return nullptr;
 	}
 
-	uint32_t dflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
-		(nlhr->flags & NLHRF_NODUMP ? MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
-		(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
-
-	uint32_t hflags =
-		(nlhr->flags & NLHRF_NODUMP ? MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
-		(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
-
 	MHttpResponse *nlhrReply;
 	if (nlhr->requestType == REQUEST_HEAD)
-		nlhrReply = Netlib_RecvHttpHeaders(nlc, 0);
+		nlhrReply = Netlib_RecvHttpHeaders(nlc, nlhr->flags);
 	else
-		nlhrReply = NetlibHttpRecv(nlc, hflags, dflags, pHandler);
+		nlhrReply = NetlibHttpRecv(nlc, pHandler, nlhr->flags);
 
 	if (nlhrReply) {
 		nlhrReply->szUrl = nlc->szNewUrl;
