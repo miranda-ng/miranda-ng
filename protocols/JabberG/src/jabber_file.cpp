@@ -148,37 +148,29 @@ void __cdecl CJabberProto::FileReceiveHttpThread(filetransfer *ft)
 	delete ft;
 }
 
-void CJabberProto::FileProcessHttpDownload(MCONTACT hContact, const char *jid, const char *pszUrl, const char *pszDescr)
+void CJabberProto::FileProcessHttpDownload(DB::EventInfo &dbei, const char *pszUrl, const char *pszDescr)
 {
 	// create incoming file transfer instead of a writing message
+	dbei.eventType = EVENTTYPE_FILE;
+
 	CMStringA szName;
 	const char *b = strrchr(pszUrl, '/') + 1;
 	while (*b != 0 && *b != '#' && *b != '?')
 		szName.AppendChar(*b++);
 	mir_urlDecode(szName.GetBuffer());
 
-	MHttpRequest req(REQUEST_HEAD);
-	req.m_szUrl = pszUrl;
-
-	filetransfer *ft = new filetransfer(this, 0);
-	ft->jid = mir_strdup(jid);
-	ft->std.hContact = hContact;
-	ft->type = FT_HTTP;
-	ft->httpPath = mir_strdup(pszUrl);
-	ft->std.totalFiles = 1;
-	ft->std.szCurrentFile.w = mir_utf8decodeW(szName);
-
-	NLHR_PTR pResp(Netlib_HttpTransaction(m_hNetlibUser, &req));
-	if (pResp && pResp->resultCode == 200) {
-		auto *p = (*pResp)["Content-Length"];
-		if (p)
-			ft->dwExpectedRecvFileSize = ft->std.currentFileSize = atoi(p);
+	DB::FILE_BLOB blob(nullptr, szName, pszDescr);
+	blob.setUrl(pszUrl);
+	if (File::bOfflineAuto) {
+		MHttpRequest req(REQUEST_HEAD);
+		req.m_szUrl = pszUrl;
+		NLHR_PTR pResp(Netlib_HttpTransaction(m_hNetlibUser, &req));
+		if (pResp && pResp->resultCode == 200)
+			if (auto *p = pResp->FindHeader("Content-Length"))
+				blob.setSize(_atoi64(p));
 	}
 
-	DB::EventInfo dbei;
-	dbei.flags = DBEF_TEMPORARY;
-	dbei.iTimestamp = time(0);
-	ProtoChainRecvFile(ft->std.hContact, DB::FILE_BLOB(ft, szName, pszDescr), dbei);
+	blob.write(dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

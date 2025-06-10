@@ -1367,12 +1367,10 @@ void CJabberProto::XmppMsg::process()
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
-			if (auto* url = XmlGetChildText(xNode, "url")) {
-				m_proto->FileProcessHttpDownload(hContact, from, url, XmlGetChildText(xNode, "desc"));
-				return;
-			}
-
-			m_proto->debugLogA("No URL in OOB file transfer, ignoring");
+			if (auto* url = XmlGetChildText(xNode, "url"))
+				m_proto->FileProcessHttpDownload(dbei, url, XmlGetChildText(xNode, "desc"));
+			else
+				m_proto->debugLogA("No URL in OOB file transfer, ignoring");
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
 			auto* inviteNode = XmlFirstChild(xNode, "invite");
@@ -1420,7 +1418,7 @@ void CJabberProto::XmppMsg::process()
 	szMessage += m_proto->ExtractImage(node);
 
 	// all service info was already processed
-	if (szMessage.IsEmpty()) {
+	if (dbei.eventType == EVENTTYPE_MESSAGE && szMessage.IsEmpty()) {
 		m_proto->debugLogA("empty message, returning");
 		return;
 	}
@@ -1464,10 +1462,18 @@ void CJabberProto::XmppMsg::add_to_db()
 		dbei.flags |= DBEF_SENT;
 
 	dbei.iTimestamp = (uint32_t)msgTime;
-	dbei.pBlob = szMessage.GetBuffer();
 	dbei.szId = szMamMsgId;
 
-	MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, dbei);
+	MEVENT hDbEVent;
+	if (dbei.eventType == EVENTTYPE_FILE) {
+		dbei.flags |= DBEF_TEMPORARY;
+		hDbEVent = (MEVENT)ProtoChainRecvFile(hContact, DB::FILE_BLOB(dbei), dbei);
+	}
+	else {
+		dbei.pBlob = szMessage.GetBuffer();
+		hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, dbei);
+	}
+
 	if (idStr)
 		m_proto->m_arChatMarks.insert(new CChatMark(hDbEVent, idStr, from));
 

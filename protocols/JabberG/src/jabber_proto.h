@@ -599,7 +599,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_file.cpp ---------------------------------------------------------------
 
-	void       FileProcessHttpDownload(MCONTACT, const char *jid, const char *pszUrl, const char *pszDescr);
+	void       FileProcessHttpDownload(DB::EventInfo &dbei, const char *pszUrl, const char *pszDescr);
 	int        FileReceiveParse(filetransfer *ft, char* buffer, int datalen);
 	int        FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, int datalen);
 
