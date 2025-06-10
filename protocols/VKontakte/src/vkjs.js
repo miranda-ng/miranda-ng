@@ -38,7 +38,7 @@ if (Args.setonline == 1)
     API.account.setOnline();
 var US = [];
 var res = API.users.get({ "user_ids": API.friends.getOnline(), "fields": Args.fields, "name_case": "nom" });
-var t = 10;
+var t = 3;
 while (t > 0) {
     US = API.users.get({ "user_ids": Args.userids, "fields": Args.fields, "name_case": "nom" });
     var index = US.length;
