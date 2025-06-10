@@ -1020,3 +1020,5 @@ Proto_CanDeleteHistory @1118 NONAME
 ?iAutoAlpha@Clist@@3V?$CMOption@E@@A @1154 NONAME
 ?SetEventJson@MDatabaseCommon@@UAGHIPBD@Z @1155 NONAME
 ?setReactions@EventInfo@DB@@QAEXAAVJSONNode@@@Z @1156 NONAME
+?bOfflineAuto@File@@3V?$CMOption@_N@@A @1157 NONAME
+?iOfflineSize@File@@3V?$CMOption@I@@A @1158 NONAME
