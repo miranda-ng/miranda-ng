@@ -366,7 +366,12 @@ void CVkProto::OnReceiveMessages(MHttpResponse *reply, AsyncHttpRequest *pReq)
 			CMStringW wszPeerType(jnPeer["type"].as_mstring());
 			VKUserID_t iUserId = jnPeer["id"].as_int();
 
-			MCONTACT hContact = (wszPeerType == L"chat") ? FindChat(iUserId % VK_CHAT_MIN) : FindUser(iUserId, true);
+			MCONTACT hContact = (wszPeerType == L"chat") ? FindChat(iUserId % VK_CHAT_MIN) : FindUser(iUserId);
+			if (!hContact) {
+				hContact = FindUser(iUserId, true);
+				RetrieveUserInfo(iUserId);
+			}
+
 			WriteQSWord(hContact, "in_read", jnItem["in_read"].as_int());
 			WriteQSWord(hContact, "out_read", jnItem["out_read"].as_int());
 			if (m_vkOptions.iMarkMessageReadOn == MarkMsgReadOn::markOnReceive)
