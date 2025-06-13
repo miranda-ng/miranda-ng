@@ -49,9 +49,6 @@
     <ClCompile Include="src\teams_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\teams_endpoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\teams_search.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

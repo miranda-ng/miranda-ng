@@ -32,6 +32,13 @@ CTeamsProto::CTeamsProto(const char *protoName, const wchar_t *userName) :
 	m_wstrMoodEmoji(this, "MoodEmoji", L""),
 	m_wstrMoodMessage(this, "XStatusMsg", L"")
 {
+	// create endpoint
+	m_szEndpoint = getMStringA("Endpoint");
+	if (m_szEndpoint.IsEmpty()) {
+		m_szEndpoint = Utils_GenerateUUID();
+		setString("Endpoint", m_szEndpoint);
+	}
+
 	// network
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;

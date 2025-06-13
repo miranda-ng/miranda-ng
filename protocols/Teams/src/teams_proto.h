@@ -130,8 +130,7 @@ public:
 	// other data
 
 	int m_iPollingId, m_iMessageId = 1;
-	ptrA m_szOwnSkypeId;
-	CMStringA m_szSkypename, m_szMyname, m_szRegToken, m_szSkypeToken, m_szEndpoint, m_szApiCookie;
+	CMStringA m_szSkypename, m_szMyname, m_szOwnSkypeId, m_szSkypeToken, m_szEndpoint, m_szApiCookie;
 	MCONTACT m_hMyContact;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {
@@ -258,10 +257,6 @@ private:
 
 	void OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnReceiveApiCookie(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void SendCreateEndpoint();
-	void SendPresence();
 
 	void OauthRefreshServices();
 	void RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc);

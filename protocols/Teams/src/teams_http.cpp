@@ -55,11 +55,6 @@ void AsyncHttpRequest::AddAuthentication(CTeamsProto *ppro)
 	AddHeader("Authentication", CMStringA("skypetoken=") + ppro->m_szSkypeToken);
 }
 
-void AsyncHttpRequest::AddRegistration(CTeamsProto *ppro)
-{
-	AddHeader("RegistrationToken", "registrationToken=" + ppro->m_szRegToken);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CTeamsProto::StartQueue()
@@ -144,7 +139,6 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 
 	case HOST_CHATS:
 		pReq->AddAuthentication(this);
-		pReq->AddRegistration(this);
 		pReq->AddHeader("Accept", "application/json");
 		break;
 

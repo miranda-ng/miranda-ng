@@ -33,7 +33,6 @@
     <ClCompile Include="src\teams_avatars.cpp" />
     <ClCompile Include="src\teams_chatrooms.cpp" />
     <ClCompile Include="src\teams_contacts.cpp" />
-    <ClCompile Include="src\teams_endpoint.cpp" />
     <ClCompile Include="src\teams_files.cpp" />
     <ClCompile Include="src\teams_history.cpp" />
     <ClCompile Include="src\teams_http.cpp" />

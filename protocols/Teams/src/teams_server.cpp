@@ -30,58 +30,6 @@ void CTeamsProto::OnReceiveApiCookie(MHttpResponse *response, AsyncHttpRequest *
 	m_szApiCookie = response->GetCookies();
 }
 
-void CTeamsProto::OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *)
-{
-	if (response == nullptr || response->body.IsEmpty()) {
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, 1001);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
-	}
-
-	ReceiveAvatar(0);
-	RefreshContactsInfo();
-	RefreshConversations();
-
-	JSONNode root = JSONNode::parse(response->body);
-	if (root)
-		m_szOwnSkypeId = UrlToSkypeId(root["selfLink"].as_string().c_str()).Detach();
-
-	GetProfileInfo(0);
-
-	PushRequest(new AsyncHttpRequest(REQUEST_POST, HOST_TEAMS_API, "/imageauth/cookie", &CTeamsProto::OnReceiveApiCookie));
-}
-
-void CTeamsProto::SendPresence()
-{
-	ptrA epname;
-
-	if (!m_bUseHostnameAsPlace && m_wstrPlace && *m_wstrPlace)
-		epname = mir_utf8encodeW(m_wstrPlace);
-	else {
-		wchar_t compName[MAX_COMPUTERNAME_LENGTH + 1];
-		DWORD size = _countof(compName);
-		GetComputerNameW(compName, &size);
-		epname = mir_utf8encodeW(compName);
-	}
-
-	JSONNode privateInfo; privateInfo.set_name("privateInfo");
-	privateInfo << CHAR_PARAM("epname", epname);
-
-	JSONNode publicInfo; publicInfo.set_name("publicInfo");
-	publicInfo << CHAR_PARAM("capabilities", "Audio|Video") << INT_PARAM("typ", 125)
-		<< CHAR_PARAM("skypeNameVersion", "Miranda NG Skype") << CHAR_PARAM("nodeInfo", "xx") << CHAR_PARAM("version", g_szMirVer);
-
-	JSONNode node;
-	node << CHAR_PARAM("id", "messagingService") << CHAR_PARAM("type", "EndpointPresenceDoc")
-		<< CHAR_PARAM("selfLink", "uri") << privateInfo << publicInfo;
-
-	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/endpoints/" + mir_urlEncode(m_szEndpoint) + "/presenceDocs/messagingService",
-		&CTeamsProto::OnCapabilitiesSended);
-	pReq->m_szParam = node.write().c_str();
-	pReq->AddRegistration(this);
-	PushRequest(pReq);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CTeamsProto::OnStatusChanged(MHttpResponse *response, AsyncHttpRequest *)

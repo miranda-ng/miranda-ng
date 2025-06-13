@@ -85,7 +85,6 @@ struct AsyncHttpRequest : public MTHttpRequest<CTeamsProto>
 	AsyncHttpRequest(int type, SkypeHost host, LPCSTR url = nullptr, MTHttpRequestHandler pFunc = nullptr);
 
 	void AddAuthentication(CTeamsProto *ppro);
-	void AddRegistration(CTeamsProto *ppro);
 };
 
 #include "teams_proto.h"
