@@ -183,8 +183,9 @@ private:
 	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator = L"");
 	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
 
+	void InviteUserToChat(const char *chatId, const char *skypename, const char *role);
 	void KickChatUser(const char *chatId, const char *userId);
-
+	void SetChatProperty(const char *chatId, const char *propname, const char *value);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
 	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);

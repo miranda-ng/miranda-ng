@@ -78,9 +78,6 @@
     <ClInclude Include="src\teams_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\chatrooms.h">
-      <Filter>Header Files\Requests</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Resource.rc">
@@ -94,11 +91,6 @@
     <Image Include="res\teams.ico">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Header Files\Requests">
-      <UniqueIdentifier>{8564ba51-686a-4e09-bfe0-b1926a5a640d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
 </Project>

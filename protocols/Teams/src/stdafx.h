@@ -89,6 +89,4 @@ struct AsyncHttpRequest : public MTHttpRequest<CTeamsProto>
 
 #include "teams_proto.h"
 
-#include "requests/chatrooms.h"
-
 #endif //_COMMON_H_
