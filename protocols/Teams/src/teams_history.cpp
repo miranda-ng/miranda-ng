@@ -19,15 +19,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /* HISTORY SYNC */
 
-void CTeamsProto::RefreshConversations()
-{
-	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations", &CTeamsProto::OnSyncConversations);
-	pReq << INT64_PARAM("startTime", getLastTime(0)) << INT_PARAM("pageSize", 100)
-		<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread|PSTN|Agent");
-
-	PushRequest(pReq);
-}
-
 void CTeamsProto::FetchMissingHistory(const JSONNode &node, MCONTACT hContact)
 {
 	const JSONNode &lastMessage = node["lastMessage"];
@@ -46,7 +37,6 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 		return;
 
 	auto &root = reply.data();
-	const JSONNode &metadata = root["_metadata"];
 	const JSONNode &conversations = root["conversations"].as_array();
 
 	for (auto &it : conversations) {
@@ -90,9 +80,17 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 		}
 	}
 
-	std::string syncState = metadata["syncState"].as_string();
 
 	m_bHistorySynced = true;
+}
+
+void CTeamsProto::RefreshConversations()
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_CHATS, "/users/ME/conversations", &CTeamsProto::OnSyncConversations);
+	pReq << INT64_PARAM("startTime", 0) << INT_PARAM("pageSize", 100)
+		<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread|PSTN|Agent");
+
+	PushRequest(pReq);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +101,7 @@ void CTeamsProto::GetServerHistory(MCONTACT hContact, int pageSize, int64_t time
 	if (szChatId.IsEmpty())
 		szChatId = getId(hContact);
 
-	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(szChatId) + "/messages", &CTeamsProto::OnGetServerHistory);
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_CHATS, "/users/ME/conversations/" + mir_urlEncode(szChatId) + "/messages", &CTeamsProto::OnGetServerHistory);
 	pReq->hContact = hContact;
 	if (bOperative)
 		pReq->pUserInfo = this;
@@ -191,7 +189,7 @@ INT_PTR CTeamsProto::SvcLoadHistory(WPARAM hContact, LPARAM)
 INT_PTR CTeamsProto::SvcEmptyHistory(WPARAM hContact, LPARAM flags)
 {
 	if (flags & CDF_DEL_HISTORY)
-		PushRequest(new AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages"));
+		PushRequest(new AsyncHttpRequest(REQUEST_DELETE, HOST_CHATS, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages"));
 
 	return 0;
 }

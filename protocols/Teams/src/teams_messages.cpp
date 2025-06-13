@@ -81,7 +81,11 @@ int CTeamsProto::SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t
 	bool bRich = AddBbcodes(str);
 	m_iMessageId++;
 
-	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages";
+	CMStringA szChatId(getMStringA(hContact, "ChatId"));
+	if (szChatId.IsEmpty())
+		szChatId = getId(hContact);
+
+	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(szChatId) + "/messages";
 	if (existingMsgId)
 		szUrl.AppendFormat("/%lld", existingMsgId);
 
