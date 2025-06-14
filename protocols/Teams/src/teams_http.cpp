@@ -28,11 +28,6 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_TEAMS_API: m_szUrl = TEAMS_BASE_HOST "/api/mt/beta"; break;
 	case HOST_CHATS:     m_szUrl = TEAMS_BASE_HOST "/api/chatsvc/consumer/v1"; break;
 	case HOST_PRESENCE:  m_szUrl = "presence." TEAMS_BASE_HOST "/v1"; break;
-
-	case HOST_DEFAULT:
-		AddHeader("MS-IC3-Product", "Sfl");
-		m_szUrl = "msgapi." TEAMS_BASE_HOST "/v1";
-		break;
 	}
 
 	AddHeader("User-Agent", TEAMS_USER_AGENT);
@@ -104,7 +99,6 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 
 	switch (pReq->m_host) {
 	case HOST_CONTACTS:
-	case HOST_DEFAULT:
 		pReq->AddAuthentication(this);
 		pReq->AddHeader("Accept", "application/json");
 		pReq->AddHeader("X-Stratus-Caller", TEAMS_CLIENTINFO_NAME);
@@ -133,6 +127,7 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 
 	case HOST_CHATS:
 		pReq->AddAuthentication(this);
+		pReq->AddHeader("MS-IC3-Product", "Sfl");
 		pReq->AddHeader("Accept", "application/json");
 		break;
 

@@ -105,7 +105,7 @@ int CTeamsProto::SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t
 		m_OutMessages.insert(pOwnMessage = new COwnMessage(m_iMessageId, iRandomId));
 	}
 
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(existingMsgId ? REQUEST_PUT : REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(existingMsgId ? REQUEST_PUT : REQUEST_POST, HOST_CHATS, szUrl, &CTeamsProto::OnMessageSent);
 	pReq->hContact = hContact;
 	pReq->pUserInfo = pOwnMessage;
 	pReq->m_szParam = node.write().c_str();
@@ -225,7 +225,7 @@ void CTeamsProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 	if (IsOnline()) {
 		DB::EventInfo dbei(hDbEvent, false);
 		if (dbei && dbei.szId) {
-			auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/properties?name=consumptionhorizon");
+			auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_CHATS, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/properties?name=consumptionhorizon");
 			auto msgTimestamp = _atoi64(dbei.szId);
 
 			JSONNode node(JSON_NODE);

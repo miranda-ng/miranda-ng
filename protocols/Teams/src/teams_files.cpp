@@ -274,7 +274,7 @@ void CTeamsProto::OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest 
 	doc.Print(&printer);
 
 	// create a new file transfer event using previously filled slot
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT);
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS);
 	pReq->m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(getId(fup->hContact)).c_str());
 	pReq->hContact = fup->hContact;
 

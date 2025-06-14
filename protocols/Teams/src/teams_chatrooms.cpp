@@ -343,7 +343,7 @@ void CTeamsProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 		node << INT_PARAM("skypeemoteoffset", 4);
 
 	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(T2Utf(si->ptszID)) + "/messages";
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS, szUrl, &CTeamsProto::OnMessageSent);
 	pReq->m_szParam = node.write().c_str();
 	pReq->pUserInfo = new COwnMessage(szMessage);
 	pReq->hContact = si->hContact;
@@ -354,7 +354,7 @@ void CTeamsProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 
 void CTeamsProto::GetChatMembers(const LIST<char> &ids, SESSION_INFO *si)
 {
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/profiles", &CTeamsProto::OnGetChatMembers);
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS, "/profiles", &CTeamsProto::OnGetChatMembers);
 	
 	JSONNode node, mris(JSON_ARRAY); mris.set_name("mris");
 	for (auto &it : ids)
