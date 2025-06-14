@@ -351,11 +351,11 @@ private:
 	MHttpHeaders m_connectParams;
 	int iCommandId;
 
+	void ProcessEvent(const JSONNode &node);
 	void ProcessNewMessage(const JSONNode &node);
 	void ProcessUserPresence(const JSONNode &node);
 	void ProcessThreadUpdate(const JSONNode &node);
 	void ProcessServerMessage(const std::string &szName, int packetId, const JSONNode &args);
-	void ProcessEndpointPresence(const JSONNode &node);
 	void ProcessConversationUpdate(const JSONNode &node);
 
 	void __cdecl GatewayThread(void *);

@@ -251,13 +251,7 @@ void CTeamsProto::TRouterProcess(const char *str)
 			auto message = JSONNode::parse(szBody.c_str());
 			if (message) {
 				Netlib_Logf(m_hTrouterNetlibUser, "Got event:\n%s", message.write_formatted().c_str());
-
-				for (auto &pkt : message) {
-					if (!mir_strcmp(pkt.name(), "presence")) {
-						for (auto &it : pkt)
-							ProcessUserPresence(it);
-					}
-				}
+				ProcessEvent(message);
 			}
 
 			JSONNode reply, &old = packet["headers"], headers; headers.set_name("headers");
@@ -277,68 +271,23 @@ void CTeamsProto::TRouterProcess(const char *str)
 	}
 }
 
-void CTeamsProto::ProcessEndpointPresence(const JSONNode &node)
+void CTeamsProto::ProcessEvent(const JSONNode &node)
 {
-	debugLogA(__FUNCTION__);
-	std::string selfLink = node["selfLink"].as_string();
-	CMStringA skypename(UrlToSkypeId(selfLink.c_str()));
-
-	MCONTACT hContact = FindContact(skypename);
-	if (hContact == NULL)
+	if (auto &presence = node["presence"]) {
+		for (auto &it : presence)
+			ProcessUserPresence(it);
 		return;
-
-	const JSONNode &publicInfo = node["publicInfo"];
-	const JSONNode &privateInfo = node["privateInfo"];
-	CMStringA MirVer;
-	if (publicInfo) {
-		std::string skypeNameVersion = publicInfo["skypeNameVersion"].as_string();
-		std::string version = publicInfo["version"].as_string();
-		std::string typ = publicInfo["typ"].as_string();
-		int iTyp = atoi(typ.c_str());
-		switch (iTyp) {
-		case 0:
-		case 1:
-			MirVer.Append("Skype (Web) " + ParseUrl(version.c_str(), "/"));
-			break;
-		case 10:
-			MirVer.Append("Skype (XBOX) " + ParseUrl(skypeNameVersion.c_str(), "/"));
-			break;
-		case 17:
-			MirVer.Append("Skype (Android) " + ParseUrl(skypeNameVersion.c_str(), "/"));
-			break;
-		case 16:
-			MirVer.Append("Skype (iOS) " + ParseUrl(skypeNameVersion.c_str(), "/"));
-			break;
-		case 12:
-			MirVer.Append("Skype (WinRT) " + ParseUrl(skypeNameVersion.c_str(), "/"));
-			break;
-		case 15:
-			MirVer.Append("Skype (WP) " + ParseUrl(skypeNameVersion.c_str(), "/"));
-			break;
-		case 13:
-			MirVer.Append("Skype (OSX) " + ParseUrl(skypeNameVersion.c_str(), "/"));
-			break;
-		case 11:
-			MirVer.Append("Skype (Windows) " + ParseUrl(skypeNameVersion.c_str(), "/"));
-			break;
-		case 14:
-			MirVer.Append("Skype (Linux) " + ParseUrl(skypeNameVersion.c_str(), "/"));
-			break;
-		case 125:
-			MirVer.AppendFormat("Miranda NG Skype %s", version.c_str());
-			break;
-		default:
-			MirVer.Append("Skype (Unknown)");
-		}
 	}
 
-	if (privateInfo != NULL) {
-		std::string epname = privateInfo["epname"].as_string();
-		if (!epname.empty())
-			MirVer.AppendFormat(" [%s]", epname.c_str());
+	auto szType = node["type"].as_string();
+	if (szType == "EventMessage") {
+		auto &resource = node["resource"];
+		auto szResourceType = node["resourceType"];
+		if (szResourceType == "ConversationUpdate")
+			ProcessConversationUpdate(resource);
+		else if (szResourceType == "NewMessage")
+			ProcessNewMessage(resource);
 	}
-
-	setString(hContact, "MirVer", MirVer);
 }
 
 void CTeamsProto::ProcessUserPresence(const JSONNode &node)
@@ -380,5 +329,14 @@ void CTeamsProto::ProcessServerMessage(const std::string &szName, int packetId, 
 		TRouterSendActive(true, packetId);
 }
 
-void CTeamsProto::ProcessConversationUpdate(const JSONNode &) {}
+void CTeamsProto::ProcessConversationUpdate(const JSONNode &node)
+{
+	if (auto &properties = node["threadProperties"]) {
+		CMStringW wszId(node["id"].as_mstring());
+		if (auto *si = Chat_Find(wszId, m_szModuleName))
+			if (getMStringW(si->hContact, "Version") != properties["version"].as_mstring())
+				GetChatInfo(wszId);
+	}
+}
+
 void CTeamsProto::ProcessThreadUpdate(const JSONNode &) {}

@@ -98,6 +98,7 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 	pReq->AddHeader("X-MS-Client-Consumer-Type", "teams4life");
 
 	switch (pReq->m_host) {
+	case HOST_CHATS:
 	case HOST_CONTACTS:
 		pReq->AddAuthentication(this);
 		pReq->AddHeader("Accept", "application/json");
@@ -123,12 +124,6 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		pReq->AddHeader("Accept", "application/json");
 		pReq->AddHeader("ms-ic3-product", "tfl");
 		pReq->AddHeader("ms-ic3-additional-product", "Sfl");
-		break;
-
-	case HOST_CHATS:
-		pReq->AddAuthentication(this);
-		pReq->AddHeader("MS-IC3-Product", "Sfl");
-		pReq->AddHeader("Accept", "application/json");
 		break;
 
 	case HOST_API:

@@ -87,7 +87,7 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 void CTeamsProto::RefreshConversations()
 {
 	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_CHATS, "/users/ME/conversations", &CTeamsProto::OnSyncConversations);
-	pReq << INT64_PARAM("startTime", 0) << INT_PARAM("pageSize", 100)
+	pReq << INT64_PARAM("startTime", getLastTime(0)) << INT_PARAM("pageSize", 100)
 		<< CHAR_PARAM("view", "msnp24Equivalent") << CHAR_PARAM("targetType", "Passport|Skype|Lync|Thread|PSTN|Agent");
 
 	PushRequest(pReq);
