@@ -106,7 +106,7 @@ static bool isSecureStr(const char *str)
 	return false;
 }
 
-static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, const char *pszInitStr = nullptr)
+static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, const char *pszInitStr)
 {
 	int dumpflags = (flags & NLHRF_DUMPASTEXT) ? MSG_DUMPASTEXT : 0;
 
@@ -436,6 +436,8 @@ static MHttpResponse* Netlib_RecvHttpHeaders(NetlibConnection *nlc, int flags)
 			SetLastError(ERROR_HANDLE_EOF);
 		return nullptr;
 	}
+	
+	CMStringA szFirstLine(buffer, firstLineLength);
 
 	// Make sure all headers arrived
 	MBinBuffer buf;
@@ -490,7 +492,7 @@ static MHttpResponse* Netlib_RecvHttpHeaders(NetlibConnection *nlc, int flags)
 		pbuffer = peol + 1;
 	}
 
-	DumpHttpHeaders(nlc, nlhr.get(), flags);
+	DumpHttpHeaders(nlc, nlhr.get(), flags, szFirstLine);
 
 	// remove processed data
 	buf.remove(bytesPeeked);
