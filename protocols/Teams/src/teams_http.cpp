@@ -29,12 +29,6 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_CHATS:     m_szUrl = TEAMS_BASE_HOST "/api/chatsvc/consumer/v1"; break;
 	case HOST_PRESENCE:  m_szUrl = "presence." TEAMS_BASE_HOST "/v1"; break;
 
-	case HOST_DEFAULT_V2:
-		AddHeader("MS-IC3-Product", "Sfl");
-		m_szUrl = "msgapi." TEAMS_BASE_HOST "/v2";
-		m_host = HOST_DEFAULT;
-		break;
-
 	case HOST_DEFAULT:
 		AddHeader("MS-IC3-Product", "Sfl");
 		m_szUrl = "msgapi." TEAMS_BASE_HOST "/v1";
