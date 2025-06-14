@@ -36,16 +36,7 @@ void CTeamsProto::OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequ
 		auto &pRoot = reply.data();
 
 		if (pMessage) {
-			if (auto *si = Chat_Find(hContact)) {
-				GCEVENT gce = { si, GC_EVENT_MESSAGE };
-				gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
-				gce.pszUID.a = m_szOwnSkypeId;
-				gce.pszText.a = pMessage->szMessage;
-				gce.time = time(0);
-				gce.bIsMe = true;
-				Chat_Event(&gce);
-			}
-			else {
+			if (!Contact::IsGroupChat(hContact)) {
 				pMessage->iTimestamp = _wtoi64(pRoot["OriginalArrivalTime"].as_mstring());
 
 				CMStringA szMsgId(FORMAT, "%lld", pMessage->hClientMessageId);
