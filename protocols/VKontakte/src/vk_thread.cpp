@@ -539,11 +539,12 @@ void CVkProto::RetrieveUserInfo(VKUserID_t iUserId)
 		return;
 	}
 
-	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUserInfo", true, &CVkProto::OnReceiveUserInfo)
+	CMStringA szUserId(FORMAT, "%d", iUserId);
+
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUserInfo", true, &CVkProto::OnReceiveUserFrameInfo)
 		<< INT_PARAM("userid", iUserId)
 		<< CHAR_PARAM("fields", szFieldsName)
-	);
-
+	)->pUserInfo = mir_strdup(szUserId.c_str());
 }
 
 void CVkProto::RetrieveGroupInfo(VKUserID_t iGroupId)
@@ -568,77 +569,74 @@ void CVkProto::RetrieveGroupInfo(CMStringA& groupIDs)
 		<< CHAR_PARAM("group_ids", groupIDs));
 }
 
-void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
+void CVkProto::RetrieveUsersFrameInfo(CMStringA& szUserIds, bool bFreeOffline, bool bSendOnline, bool bRepeat)
 {
-	debugLogA("CVkProto::RetrieveUsersInfo");
-	if (!IsOnline())
+	debugLogA("CVkProto::RetrieveUsersFrameInfo %s", szUserIds);
+	if (!IsOnline() || szUserIds.IsEmpty())
 		return;
-
-	CMStringA userIDs;
-	int i = 0;
-	for (auto &hContact : AccContacts()) {
-		VKUserID_t iUserId = ReadVKUserID(hContact);
-		if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER || iUserId < 0 || isChatRoom(hContact))
-			continue;
-
-		bool bIsFriend = !getBool(hContact, "Auth", true);
-		if (bFreeOffline && !m_vkOptions.bLoadFullCList && bIsFriend)
-			continue;
-
-		if (!userIDs.IsEmpty())
-			userIDs.AppendChar(',');
-		userIDs.AppendFormat("%i", iUserId);
-
-		if (i == MAX_CONTACTS_PER_REQUEST)
-			break;
-		i++;
-	}
-
-	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUsersInfo", true, &CVkProto::OnReceiveUserInfo)
-		<< CHAR_PARAM("userids", userIDs)
+	
+	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUsersFrameInfo", true, &CVkProto::OnReceiveUserFrameInfo)
+		<< CHAR_PARAM("userids", szUserIds)
 		<< CHAR_PARAM("fields", (bFreeOffline ? "online,status,can_write_private_message" : szFieldsName))
 		<< INT_PARAM("norepeat", (int)bRepeat)
-		<< INT_PARAM("setonline", (int)m_bNeedSendOnline)
+		<< INT_PARAM("setonline", (int)(m_bNeedSendOnline && bSendOnline))
 		<< INT_PARAM("func_v", (bFreeOffline && !m_vkOptions.bLoadFullCList) ? 1 : 2)
-	);
-
+	)->pUserInfo = mir_strdup(szUserIds.c_str());
 }
 
-void CVkProto::OnReceiveUserInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
+void CVkProto::OnReceiveUserFrameInfo(MHttpResponse* reply, AsyncHttpRequest* pReq)
 {
-	debugLogA("CVkProto::OnReceiveUserInfo %d", reply->resultCode);
+	debugLogA("CVkProto::OnReceiveUserFrameInfo %d", reply->resultCode);
 
 	if (reply->resultCode != 200 || !IsOnline())
 		return;
 
 	JSONNode jnRoot;
-	const JSONNode &jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
+	const JSONNode& jnResponse = CheckJsonResponse(pReq, reply, jnRoot);
 	if (!jnResponse)
 		return;
 
-	const JSONNode &jnUsers = jnResponse["users"];
+	const JSONNode& jnUsers = jnResponse["users"];
 	if (!jnUsers)
 		return;
 
+	CMStringA szUserIds;
+	if (pReq->pUserInfo) {
+		szUserIds = ((const char*)pReq->pUserInfo);
+		mir_free(pReq->pUserInfo);
+	}
+
 	if (!jnResponse["norepeat"].as_bool() && jnResponse["usercount"].as_int() == 0) {
-		RetrieveUsersInfo(true, true);
+		Sleep(5000);
+		RetrieveUsersFrameInfo(szUserIds, true, false, true);
 		return;
 	}
 
 	LIST<void> arContacts(10, PtrKeySortT);
 
-	for (auto &hContact : AccContacts())
-		if (!isChatRoom(hContact) && !IsGroupUser(hContact))
-			arContacts.insert((HANDLE)hContact);
+	for (auto& hContact : AccContacts())
+		if (!isChatRoom(hContact) && !IsGroupUser(hContact)) {
+			if (szUserIds.IsEmpty()) {
+				if (!getBool(hContact, "Auth", true))
+					arContacts.insert((HANDLE)hContact);
+			}
+			else {
+				VKUserID_t iUserId = ReadVKUserID(hContact);
+				char szId[40];
+				ltoa(iUserId, szId, 10);
+				if (szUserIds.Find(szId) >= 0)
+					arContacts.insert((HANDLE)hContact);
+			}
+		}
 
-	for (auto &it : jnUsers) {
+	for (auto& it : jnUsers) {
 		MCONTACT hContact = SetContactInfo(it);
 		if (hContact)
 			arContacts.remove((HANDLE)hContact);
 	}
 
 	if (jnResponse["freeoffline"].as_bool())
-		for (auto &it : arContacts) {
+		for (auto& it : arContacts) {
 			MCONTACT cc = (UINT_PTR)it;
 			VKUserID_t iUserId = ReadVKUserID(cc);
 			if (iUserId == m_iMyUserId || iUserId == VK_FEED_USER)
@@ -655,14 +653,16 @@ void CVkProto::OnReceiveUserInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		}
 
 	arContacts.destroy();
-	AddFeedSpecialUser();
 
-	const JSONNode &jnRequests = jnResponse["requests"];
+	if (m_vkOptions.iTimeoutAfterUserGet) // for 'error 9' fix
+		Sleep(m_vkOptions.iTimeoutAfterUserGet > 5000 ? 5000 : m_vkOptions.iTimeoutAfterUserGet);
+
+	const JSONNode& jnRequests = jnResponse["requests"];
 	if (!jnRequests)
 		return;
 
 	int iCount = jnRequests["count"].as_int();
-	const JSONNode &jnItems = jnRequests["items"];
+	const JSONNode& jnItems = jnRequests["items"];
 	if (!iCount || !jnItems)
 		return;
 
@@ -676,10 +676,45 @@ void CVkProto::OnReceiveUserInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		if (!IsAuthContactLater(hContact)) {
 			RetrieveUserInfo(iUserId);
 			AddAuthContactLater(hContact);
-			CVkDBAddAuthRequestThreadParam *param = new CVkDBAddAuthRequestThreadParam(hContact, false);
-			ForkThread(&CVkProto::DBAddAuthRequestThread, (void *)param);
+			CVkDBAddAuthRequestThreadParam* param = new CVkDBAddAuthRequestThreadParam(hContact, false);
+			ForkThread(&CVkProto::DBAddAuthRequestThread, (void*)param);
 		}
 	}
+}
+
+void CVkProto::RetrieveUsersInfo(bool bFreeOffline)
+{
+	debugLogA("CVkProto::RetrieveUsersInformation");
+	if (!IsOnline())
+		return;
+
+	CMStringA szUserIds;
+	int i = 0;
+	bool bSendOnline = true;
+
+	for (auto& hContact : AccContacts()) {
+		VKUserID_t iUserId = ReadVKUserID(hContact);
+		if (iUserId == VK_INVALID_USER || iUserId == VK_FEED_USER || iUserId < 0 || isChatRoom(hContact))
+			continue;
+	
+		if (!szUserIds.IsEmpty())
+			szUserIds.AppendChar(',');
+		szUserIds.AppendFormat("%i", iUserId);
+
+		if (i < (MAX_CONTACTS_PER_REQUEST - 1))
+			i++;
+		else {
+			RetrieveUsersFrameInfo(szUserIds, bFreeOffline, bSendOnline, false);
+			i = 0;
+			szUserIds.Empty();
+			bSendOnline = false;
+		}
+	}
+
+	if(!szUserIds.IsEmpty())
+		RetrieveUsersFrameInfo(szUserIds, bFreeOffline, bSendOnline, false);
+
+	AddFeedSpecialUser();
 }
 
 void CVkProto::OnReceiveGroupInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)

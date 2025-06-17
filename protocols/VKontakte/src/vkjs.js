@@ -17,6 +17,37 @@
 // 4. Create additional version(s) stored procedure (if required)
 
 
+// Stored procedure name: RetrieveUsersFrameInfo = Begin
+// Arguments:
+// Args.userids 
+// Args.fields
+// Args.norepeat 
+// Args.setonline
+
+// ver 1 
+var Req =[];
+if (Args.setonline == 1) {
+    API.account.setOnline();
+	Req = API.friends.getRequests({ "extended": 0, "need_mutual": 0, "out": 0 });
+};
+var res = [];
+var US = API.users.get({ "user_ids": Args.userids, "fields": Args.fields, "name_case": "nom" });
+var index = US.length;
+while (index > 0) {
+    index = index - 1;
+    if (US[index].online != 0) {
+        res.push(US[index]);
+    };
+};
+return { "freeoffline": 1, "norepeat": parseInt(Args.norepeat), "usercount": res.length, "users": res , "requests":  Req};
+
+// ver 2 
+if (Args.setonline == 1)
+    API.account.setOnline();
+var res = API.users.get({ "user_ids": Args.userids, "fields": Args.fields, "name_case": "nom" });
+return { "freeoffline": 0, "norepeat": parseInt(Args.norepeat), "usercount": res.length, "users": res, "requests":  API.friends.getRequests({ "extended": 0, "need_mutual": 0, "out": 0 })};
+// Stored procedure name: RetrieveUsersFrameInfo = End
+
 // Stored procedure name: RetrieveUserInfo = Begin
 // Arguments:
 // Args.userid 

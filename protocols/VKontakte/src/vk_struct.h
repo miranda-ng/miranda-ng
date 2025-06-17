@@ -327,6 +327,8 @@ struct CVKOptions {
 	CMOption<uint32_t> iMaxFriendsCount;
 	CMOption<uint32_t> iStickerSize;
 
+	CMOption<uint32_t> iTimeoutAfterUserGet;
+
 	CMOption<wchar_t*> pwszDefaultGroup;
 	CMOption<wchar_t*> pwszVKLang;
 

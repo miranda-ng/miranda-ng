@@ -47,7 +47,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define MAXHISTORYMIDSPERONE 100
 #define MAX_RETRIES 10
-#define MAX_CONTACTS_PER_REQUEST 530
+#define MAX_CONTACTS_PER_REQUEST 100
 
 struct CVkProto : public PROTO<CVkProto>
 {
@@ -333,7 +333,8 @@ private:
 	//====================================================================================
 
 	void SetServerStatus(int);
-	void RetrieveUsersInfo(bool bFlag = false, bool bRepeat = false);
+	void RetrieveUsersFrameInfo(CMStringA& userIDs, bool bFreeOffline, bool bSendOnline, bool bRepeat);
+	void RetrieveUsersInfo(bool bFreeOffline = false);
 	void RetrieveStatusMsg(const CMStringW &StatusMsg);
 	void RetrieveStatusMusic(const CMStringW &StatusMsg);
 	void OnReceiveStatus(MHttpResponse*, AsyncHttpRequest*);
@@ -345,7 +346,7 @@ private:
 	void RetrieveUserInfo(VKUserID_t iUserId);
 	void RetrieveGroupInfo(VKUserID_t iGroupID);
 	void RetrieveGroupInfo(CMStringA & groupIDs);
-	void OnReceiveUserInfo(MHttpResponse*, AsyncHttpRequest*);
+	void OnReceiveUserFrameInfo(MHttpResponse* reply, AsyncHttpRequest* pReq);
 	void OnReceiveGroupInfo(MHttpResponse * reply, AsyncHttpRequest * pReq);
 	void RetrieveFriends(bool bCleanNonFriendContacts = false);
 	void OnReceiveFriends(MHttpResponse*, AsyncHttpRequest*);

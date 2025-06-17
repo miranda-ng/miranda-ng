@@ -240,17 +240,10 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	iInvisibleInterval(proto, "InvisibleInterval", 10),
 	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
 	iStickerSize(proto, "StickerSize", 128),
+	iTimeoutAfterUserGet(proto, "TimeoutAfterUserGet", 0),
 
 	pwszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
 	pwszVKLang(proto, "VKLang", nullptr)
 
 {
-	// Note: Delete this code after next stable build
-	int iStikersAsSmyles = db_get_b(0, proto->m_szModuleName, "StikersAsSmyles", -1);
-	if (iStikersAsSmyles != -1) {
-		bStikersAsSmileys = iStikersAsSmyles == 1;
-		db_set_b(0, proto->m_szModuleName, "StikersAsSmileys", (uint8_t)iStikersAsSmyles);
-		db_unset(0, proto->m_szModuleName, "StikersAsSmyles");
-	}
-	// Note
 }
