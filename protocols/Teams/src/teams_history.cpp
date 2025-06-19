@@ -55,8 +55,8 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 					szChatType = szSkypename.Mid(idx + 1);
 
 				if (szType == "Chat" || szChatType == "thread.skype") {
-					if (!props["lastleaveat"])
-						StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring(), props["version"].as_string().c_str());
+					// if (!props["lastleaveat"])
+					StartChatRoom(it["id"].as_mstring(), props["topic"].as_mstring(), props["version"].as_string().c_str());
 				}
 				else if (szType == "OneToOneChat") {
 					hContact = FindContact(it["properties"]["addedBy"].as_string().c_str());
