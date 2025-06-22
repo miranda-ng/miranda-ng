@@ -15,6 +15,7 @@
 #define IDI_BOT                         110
 #define IDD_MYPROFILE                   111
 #define IDD_OPTIONS_SESSIONS            112
+#define IDD_CHANNEL_INFO                113
 #define IDC_PHONE                       1001
 #define IDC_DEFGROUP                    1002
 #define IDC_HIDECHATS                   1003
@@ -38,16 +39,18 @@
 #define IDC_BIO                         1020
 #define IDC_BIRTHDAY                    1021
 #define IDC_SESSIONS                    1023
+#define IDC_LINK                        1024
 #define IDC_SOFTWARE                    1025
-#define IDC_LOGOUT                      1025
+#define IDC_LOGOUT                      1026
+#define IDC_USER_COUNT                  1027
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        119
+#define _APS_NEXT_RESOURCE_VALUE        120
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1029
+#define _APS_NEXT_CONTROL_VALUE         1030
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

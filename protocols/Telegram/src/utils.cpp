@@ -381,6 +381,12 @@ void CTelegramProto::UpdateString(MCONTACT hContact, const char *pszSetting, con
 		setUString(hContact, pszSetting, str.c_str());
 }
 
+TG_SUPER_GROUP* CTelegramProto::FindSuperGroup(int64_t id)
+{
+	TG_SUPER_GROUP tmp(id, 0);
+	return m_arSuperGroups.find(&tmp);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Users
 

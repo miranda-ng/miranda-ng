@@ -398,8 +398,7 @@ int CTelegramProto::GetInfo(MCONTACT hContact, int)
 		if (!pUser->isGroupChat)
 			SendQuery(new TD::getUserFullInfo(pUser->id), &CTelegramProto::OnGetUserInfo, pUser);
 		else {
-			TG_SUPER_GROUP tmp(pUser->id, 0);
-			if (m_arSuperGroups.find(&tmp))
+			if (FindSuperGroup(pUser->id))
 				SendQuery(new TD::getSupergroupFullInfo(pUser->id), &CTelegramProto::OnGetUserInfo, pUser);
 			else
 				SendQuery(new TD::getBasicGroupFullInfo(pUser->id), &CTelegramProto::OnGetUserInfo, pUser);
@@ -423,7 +422,7 @@ void CTelegramProto::OnGetUserInfo(td::ClientManager::Response &response, void *
 	case TD::supergroupFullInfo::ID:
 		ProcessSuperGroupInfo(pUser, (TD::supergroupFullInfo *)response.object.get());
 		break;
-	case TD::updateUserFullInfo::ID:
+	case TD::userFullInfo::ID:
 		ProcessUserInfo(pUser->id, (TD::userFullInfo *)response.object.get());
 		break;
 

@@ -17,6 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Dialog for my own profile in Telegram
+
 class CMyProfileDlg : public CUserInfoPageDlg
 {
 	CTelegramProto *m_proto;
@@ -31,7 +34,19 @@ public:
 
 	bool OnRefresh() override
 	{
-		m_proto->RetrieveProfile(this);
+		HWND _hwndDate = GetDlgItem(m_hwnd, IDC_BIRTHDAY);
+		SYSTEMTIME st = {};
+		st.wDay = m_proto->getWord(m_hContact, "BirthDay");
+		st.wMonth = m_proto->getWord(m_hContact, "BirthMonth");
+		st.wYear = m_proto->getWord(m_hContact, "BirthYear");
+
+		if (st.wDay && st.wMonth && st.wYear) {
+			DateTime_SetSystemtime(_hwndDate, GDT_VALID, &st);
+			DateTime_SetFormat(_hwndDate, NULL);
+		}
+		else DateTime_SetFormat(_hwndDate, TranslateT("Unspecified"));
+
+		edtNotes.SetText(m_proto->getMStringW(m_hContact, "About"));
 		return true;
 	}
 
@@ -39,8 +54,7 @@ public:
 	{
 		m_proto->WindowSubscribe(m_hwnd);
 
-		OnRefresh();
-		Display();
+		m_proto->GetInfo(0, 0);
 		return true;
 	}
 
@@ -57,59 +71,81 @@ public:
 	{
 		m_proto->WindowUnsubscribe(m_hwnd);
 	}
-
-	void Display()
-	{
-		HWND _hwndDate = GetDlgItem(m_hwnd, IDC_BIRTHDAY);
-		SYSTEMTIME st = {};
-		st.wDay = m_proto->getWord(m_hContact, "BirthDay");
-		st.wMonth = m_proto->getWord(m_hContact, "BirthMonth");
-		st.wYear = m_proto->getWord(m_hContact, "BirthYear");
-
-		if (st.wDay && st.wMonth && st.wYear) {
-			DateTime_SetSystemtime(_hwndDate, GDT_VALID, &st);
-			DateTime_SetFormat(_hwndDate, NULL);
-		}
-		else DateTime_SetFormat(_hwndDate, TranslateT("Unspecified"));
-
-		edtNotes.SetText(m_proto->getMStringW(m_hContact, "About"));
-	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Channel info dialog
 
-void CTelegramProto::RetrieveProfile(CMyProfileDlg *pDlg)
+class CChannelInfoDlg : public CUserInfoPageDlg
 {
-	SendQuery(new TD::getUserFullInfo(m_iOwnId), &CTelegramProto::OnReceivedProfile, pDlg);
-}
+	CMStringA m_szLink;
+	CTelegramProto *m_proto;
 
-void CTelegramProto::OnReceivedProfile(td::ClientManager::Response &response, void *pUserData)
-{
-	if (!response.object)
-		return;
+	CCtrlEdit edtUserCount;
+	CCtrlHyperlink m_link;
 
-	if (response.object->get_id() != TD::userFullInfo::ID) {
-		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::updateUserFullInfo::ID);
-		return;
+public:
+	CChannelInfoDlg(CTelegramProto *ppro) :
+		CUserInfoPageDlg(g_plugin, IDD_CHANNEL_INFO),
+		m_proto(ppro),
+		m_link(this, IDC_LINK),
+		edtUserCount(this, IDC_USER_COUNT)
+	{}
+
+	bool OnInitDialog() override
+	{
+		m_proto->WindowSubscribe(m_hwnd);
+		return true;
 	}
 
-	ProcessUserInfo(m_iOwnId, (TD::userFullInfo *)response.object.get());
-	((CMyProfileDlg *)pUserData)->Display();
-}
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_LINK:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+		}
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
+	}
+
+	void OnDestroy() override
+	{
+		m_proto->WindowUnsubscribe(m_hwnd);
+	}
+
+	bool OnRefresh() override
+	{
+		edtUserCount.SetInt(m_proto->getDword(m_hContact, "MemberCount"));
+
+		m_szLink = m_proto->getMStringA(m_hContact, "Link");
+		m_link.SetUrl(m_szLink);
+		m_link.SetTextA(m_szLink);
+		return true;
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // module entry point
 
 int CTelegramProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
-	if (hContact != 0)
-		return 0;
-
 	USERINFOPAGE uip = {};
 	uip.flags = ODPF_UNICODE | ODPF_ICON;
 	uip.szProto = m_szModuleName;
 	uip.szTitle.w = m_tszUserName;
-	uip.pDialog = new CMyProfileDlg(this);
 	uip.dwInitParam = (INT_PTR)Skin_GetProtoIcon(m_szModuleName, ID_STATUS_ONLINE);
+
+	if (hContact != 0) {
+		// we display this tab only for our contacts
+		char *szProto = Proto_GetBaseAccountName(hContact);
+		if (!szProto || mir_strcmp(szProto, m_szModuleName))
+			return 0;
+
+		auto *pUser = FindUser(GetId(hContact));
+		if (pUser && pUser->isChannel)
+			uip.pDialog = new CChannelInfoDlg(this);
+		else
+			return 0;
+	}
+	else uip.pDialog = new CMyProfileDlg(this);
 	return g_plugin.addUserInfo(wParam, &uip);
 }

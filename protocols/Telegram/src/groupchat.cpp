@@ -404,6 +404,19 @@ void CTelegramProto::ProcessBasicGroupInfo(TG_USER *pChat, TD::basicGroupFullInf
 
 void CTelegramProto::ProcessSuperGroupInfo(TG_USER *pUser, TD::supergroupFullInfo *pInfo)
 {
+	setDword(pUser->hContact, "MemberCount", pInfo->member_count_);
+
+	if (auto *pLink = pInfo->invite_link_.get())
+		setUString(pUser->hContact, "Link", pLink->invite_link_.c_str());
+	else if (auto *pGroup = FindSuperGroup(pUser->id)) {
+		if (pGroup->group->usernames_) {
+			CMStringA szLink(FORMAT, "https://t.me/%s", pGroup->group->usernames_->editable_username_.c_str());
+			setString(pUser->hContact, "Link", szLink);
+		}
+		else delSetting(pUser->hContact, "Link");
+	}
+	else delSetting(pUser->hContact, "Link");
+
 	if (!pInfo->description_.empty()) {
 		setUString(pUser->hContact, "About", pInfo->description_.c_str());
 		GcChangeTopic(pUser, pInfo->description_);
@@ -418,16 +431,16 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 		return;
 	}
 
-	TG_SUPER_GROUP tmp(pObj->supergroup_->id_, 0);
-	auto *pGroup = m_arSuperGroups.find(&tmp);
+	auto id = pObj->supergroup_->id_;
+	auto *pGroup = FindSuperGroup(id);
 	if (pGroup == nullptr) {
-		pGroup = new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_));
+		pGroup = new TG_SUPER_GROUP(id, std::move(pObj->supergroup_));
 		m_arSuperGroups.insert(pGroup);
 	}
 	else pGroup->group = std::move(pObj->supergroup_);
 
 	if (iStatusId == TD::chatMemberStatusLeft::ID) {
-		auto *pUser = AddFakeUser(tmp.id, true);
+		auto *pUser = AddFakeUser(id, true);
 		pUser->isForum = pGroup->group->is_forum_;
 		if (pUser->hContact == INVALID_CONTACT_ID) {
 			// cache some information for the search
@@ -438,7 +451,7 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 		else RemoveFromClist(pUser);
 	}
 	else {
-		auto *pChat = AddUser(tmp.id, true);
+		auto *pChat = AddUser(id, true);
 		pChat->isForum = pGroup->group->is_forum_;
 		if (!pGroup->group->is_channel_)
 			pChat->bLoadMembers = true;

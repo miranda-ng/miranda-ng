@@ -365,6 +365,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
 	TG_USER* GetSender(const TD::MessageSender *pSender);
 	
+	TG_SUPER_GROUP* FindSuperGroup(int64_t id);
+
 	int64_t  GetId(MCONTACT, const char *pszSetting = DBKEY_ID);
 	void     SetId(MCONTACT, int64_t id, const char *pszSetting = DBKEY_ID);
 
@@ -374,9 +376,6 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	MCONTACT GetRealContact(const TG_USER *pUser, int64_t threadId = 0);
 	void     RemoveFromClist(TG_USER *pUser);
 	void     MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool bSent);
-
-	void     RetrieveProfile(CMyProfileDlg *pDlg);
-	void     OnReceivedProfile(td::ClientManager::Response &response, void *pUserData);
 
 	// Menus
 	HGENMENU hmiForward, hmiReaction;
