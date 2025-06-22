@@ -216,11 +216,15 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateBasicGroup::ID:
-		ProcessBasicGroup((TD::updateBasicGroup*)response.object.get());
+		ProcessBasicGroup((TD::updateBasicGroup *)response.object.get());
 		break;
 
 	case TD::updateBasicGroupFullInfo::ID:
-		ProcessBasicGroupInfo((TD::updateBasicGroupFullInfo *)response.object.get());
+		{
+			auto *pObj = (TD::updateBasicGroupFullInfo *)response.object.get();
+			if (auto *pChat = FindUser(pObj->basic_group_id_))
+				ProcessBasicGroupInfo(pChat, pObj->basic_group_full_info_.get());
+		}
 		break;
 
 	case TD::updateChatAction::ID:
@@ -244,7 +248,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateChatNotificationSettings::ID:
-		ProcessChatNotification((TD::updateChatNotificationSettings*)response.object.get());
+		ProcessChatNotification((TD::updateChatNotificationSettings *)response.object.get());
 		break;
 
 	case TD::updateChatPosition::ID:
@@ -260,9 +264,9 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateDeleteMessages::ID:
-		ProcessDeleteMessage((TD::updateDeleteMessages*)response.object.get());
+		ProcessDeleteMessage((TD::updateDeleteMessages *)response.object.get());
 		break;
-		
+
 	case TD::updateConnectionState::ID:
 		ProcessConnectionState((TD::updateConnectionState *)response.object.get());
 		break;
@@ -272,7 +276,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateForumTopicInfo::ID:
-		ProcessForum((TD::updateForumTopicInfo*)response.object.get());
+		ProcessForum((TD::updateForumTopicInfo *)response.object.get());
 		break;
 
 	case TD::updateMessageContent::ID:
@@ -312,8 +316,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessChat((TD::updateNewChat *)response.object.get());
 		break;
 
-	case TD::updateNewMessage::ID:
-		{
+	case TD::updateNewMessage::ID: {
 			auto *pMessage = ((TD::updateNewMessage *)response.object.get())->message_.get();
 			TG_OWN_MESSAGE tmp(0, 0, msg2id(pMessage));
 			if (!m_arOwnMsg.find(&tmp))
@@ -338,7 +341,13 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateSupergroupFullInfo::ID:
-		ProcessSuperGroupInfo((TD::updateSupergroupFullInfo *)response.object.get());
+		{
+			auto *pObj = (TD::updateSupergroupFullInfo *)response.object.get();
+			if (auto *pUser = FindUser(pObj->supergroup_id_))
+				ProcessSuperGroupInfo(pUser, pObj->supergroup_full_info_.get());
+			else
+				debugLogA("Uknown super group id %lld, skipping", pObj->supergroup_id_);
+		}
 		break;
 
 	case TD::updateUserStatus::ID:

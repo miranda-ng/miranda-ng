@@ -391,32 +391,23 @@ void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 	pUser->bLoadMembers = true;
 }
 
-void CTelegramProto::ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj)
+void CTelegramProto::ProcessBasicGroupInfo(TG_USER *pChat, TD::basicGroupFullInfo *pInfo)
 {
-	auto *pChat = FindUser(pObj->basic_group_id_);
-	if (pChat == nullptr || pChat->m_si == nullptr)
-		return;
-
-	if (auto *pInfo = pObj->basic_group_full_info_.get()) {
-		if (!pInfo->description_.empty())
-			GcChangeTopic(pChat, pInfo->description_);
-
-		g_chatApi.UM_RemoveAll(pChat->m_si);
-		GcAddMembers(pChat, pInfo->members_, true);
+	if (!pInfo->description_.empty()) {
+		setUString(pChat->hContact, "About", pInfo->description_.c_str());
+		GcChangeTopic(pChat, pInfo->description_);
 	}
+
+	g_chatApi.UM_RemoveAll(pChat->m_si);
+	GcAddMembers(pChat, pInfo->members_, true);
 }
 
-void CTelegramProto::ProcessSuperGroupInfo(TD::updateSupergroupFullInfo *pObj)
+void CTelegramProto::ProcessSuperGroupInfo(TG_USER *pUser, TD::supergroupFullInfo *pInfo)
 {
-	auto *pChat = FindUser(pObj->supergroup_id_);
-	if (pChat == nullptr) {
-		debugLogA("Uknown super group id %lld, skipping", pObj->supergroup_id_);
-		return;
+	if (!pInfo->description_.empty()) {
+		setUString(pUser->hContact, "About", pInfo->description_.c_str());
+		GcChangeTopic(pUser, pInfo->description_);
 	}
-
-	auto *pInfo = pObj->supergroup_full_info_.get();
-	if (!pInfo->description_.empty())
-		GcChangeTopic(pChat, pInfo->description_);
 }
 
 void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
