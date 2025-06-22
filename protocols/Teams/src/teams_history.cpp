@@ -80,7 +80,6 @@ void CTeamsProto::OnSyncConversations(MHttpResponse *response, AsyncHttpRequest 
 		}
 	}
 
-
 	m_bHistorySynced = true;
 }
 

@@ -267,10 +267,10 @@ bool CTeamsProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 {
 	if (IsOnline() && hContact && (flags & CDF_DEL_CONTACT)) {
 		CMStringA szId(getId(hContact));
-		if (isChatRoom(hContact))
-			KickChatUser(szId, m_szOwnSkypeId);
-		else
-			PushRequest(new AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/users/SELF/contacts/" + mir_urlEncode(szId)));
+		AsyncHttpRequest *pReq = (isChatRoom(hContact))
+			? new AsyncHttpRequest(REQUEST_DELETE, HOST_GROUPS, "/threads/" + mir_urlEncode(szId))
+			: new AsyncHttpRequest(REQUEST_DELETE, HOST_CONTACTS, "/users/SELF/contacts/" + mir_urlEncode(szId));
+		PushRequest(pReq);
 	}
 	return true;
 }

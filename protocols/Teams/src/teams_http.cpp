@@ -27,6 +27,7 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_TEAMS:     m_szUrl = TEAMS_BASE_HOST; break;
 	case HOST_TEAMS_API: m_szUrl = TEAMS_BASE_HOST "/api/mt/beta"; break;
 	case HOST_CHATS:     m_szUrl = TEAMS_BASE_HOST "/api/chatsvc/consumer/v1"; break;
+	case HOST_GROUPS:    m_szUrl = TEAMS_BASE_HOST "/api/groups/v1"; break;
 	case HOST_PRESENCE:  m_szUrl = "presence." TEAMS_BASE_HOST "/v1"; break;
 	}
 
@@ -110,9 +111,11 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		pReq->AddHeader("ms-ic3-additional-product", "Sfl");
 		break;
 
+	case HOST_GROUPS:
 	case HOST_TEAMS_API:
 		pReq->AddHeader("X-MS-Client-Type", "maglev");
-		pReq->AddHeader("referer", "https://teams.live.com/v2/");
+		pReq->AddHeader("Origin", "https://teams.live.com");
+		pReq->AddHeader("Referer", "https://teams.live.com/v2/");
 		pReq->AddHeader("Cookie", mir_urlEncode(m_szApiCookie));
 		__fallthrough;
 
