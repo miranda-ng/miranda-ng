@@ -191,7 +191,7 @@ void CVkProto::WorkerThread(void*)
 				if (!(pReq->m_bApiReq))
 					lWaitingTime = 0;
 				else if (pReq->m_priority == AsyncHttpRequest::rpLowCListEvents) // for 'error 9' fix
-					lWaitingTime += m_vkOptions.iTimeoutForUserGet > 60000 ? 5000 : m_vkOptions.iTimeoutForUserGet;
+					lWaitingTime += m_vkOptions.iTimeoutForUsersGet > 60000 ? 5000 : m_vkOptions.iTimeoutForUsersGet;
 			}
 
 			if (m_bTerminated)

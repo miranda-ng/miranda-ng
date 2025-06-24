@@ -241,7 +241,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	iInvisibleInterval(proto, "InvisibleInterval", 10),
 	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
 	iStickerSize(proto, "StickerSize", 128),
-	iTimeoutForUserGet(proto, "TimeoutForUserGet", 0),
+	iTimeoutForUsersGet(proto, "TimeoutForUsersGet", 0),
 	iLoadCListInterval(proto, "LoadCListInterval", 1),
 
 	pwszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
