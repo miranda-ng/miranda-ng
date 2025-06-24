@@ -675,9 +675,6 @@ void CVkProto::OnReceiveUserFrameInfo(MHttpResponse* reply, AsyncHttpRequest* pR
 
 	arContacts.destroy();
 
-	if (m_vkOptions.iTimeoutForUserGet) // for 'error 9' fix
-		Sleep(m_vkOptions.iTimeoutForUserGet > 60000 ? 5000 : m_vkOptions.iTimeoutForUserGet);
-
 	const JSONNode& jnRequests = jnResponse["requests"];
 	if (!jnRequests)
 		return;
