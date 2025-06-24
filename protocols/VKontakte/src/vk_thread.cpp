@@ -118,7 +118,12 @@ static void CALLBACK VKUnsetTimer(void*)
 
 void CVkProto::OnTimerTic()
 {
-	RetrieveUsersInfo(true);
+	
+	if (++m_iLoadCListIntervalCounter >= m_vkOptions.iLoadCListInterval) {
+		RetrieveUsersInfo(true);
+		m_iLoadCListIntervalCounter = 0;
+	}
+
 	RetrieveUnreadEvents();
 	SetServerStatus(m_iDesiredStatus);
 }
@@ -392,6 +397,8 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactT
 
 	int iNewStatus = (jnItem["online"].as_int() == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
 	setWord(hContact, "Status", iNewStatus);
+	
+	db_unset(hContact, m_szModuleName, "EmptyFrameOffline");
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
 		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (uint32_t)time(0));
@@ -575,7 +582,13 @@ void CVkProto::RetrieveUsersFrameInfo(CMStringA& szUserIds, bool bFreeOffline, b
 	if (!IsOnline() || szUserIds.IsEmpty())
 		return;
 	
-	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUsersFrameInfo", true, &CVkProto::OnReceiveUserFrameInfo)
+	Push(new AsyncHttpRequest(this, 
+		REQUEST_POST, 
+		"/method/execute.RetrieveUsersFrameInfo", 
+		true, 
+		&CVkProto::OnReceiveUserFrameInfo, 
+		bFreeOffline ? AsyncHttpRequest::rpLowCListEvents : AsyncHttpRequest::rpMedium
+	)
 		<< CHAR_PARAM("userids", szUserIds)
 		<< CHAR_PARAM("fields", (bFreeOffline ? "online,status,can_write_private_message" : szFieldsName))
 		<< INT_PARAM("norepeat", (int)bRepeat)
@@ -606,13 +619,17 @@ void CVkProto::OnReceiveUserFrameInfo(MHttpResponse* reply, AsyncHttpRequest* pR
 		mir_free(pReq->pUserInfo);
 	}
 
-	if (!jnResponse["norepeat"].as_bool() && jnResponse["usercount"].as_int() == 0) {
+	bool bEmptyFrame = !jnResponse["norepeat"].as_bool() && jnResponse["usercount"].as_int() == 0;
+
+
+	
+	if (bEmptyFrame && m_vkOptions.bRepeatRequestAfterEmptyFrame) {
 		Sleep(5000);
 		RetrieveUsersFrameInfo(szUserIds, true, false, true);
 		return;
 	}
-
-	LIST<void> arContacts(10, PtrKeySortT);
+	
+	LIST<void> arContacts(100, PtrKeySortT);
 
 	for (auto& hContact : AccContacts())
 		if (!isChatRoom(hContact) && !IsGroupUser(hContact)) {
@@ -642,20 +659,24 @@ void CVkProto::OnReceiveUserFrameInfo(MHttpResponse* reply, AsyncHttpRequest* pR
 			if (iUserId == m_iMyUserId || iUserId == VK_FEED_USER)
 				continue;
 
-			int iContactStatus = getWord(cc, "Status", ID_STATUS_OFFLINE);
-
-			if ((iContactStatus == ID_STATUS_ONLINE)
-				|| (iContactStatus == ID_STATUS_INVISIBLE && time(0) - getDword(cc, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
-				setWord(cc, "Status", ID_STATUS_OFFLINE);
-				SetMirVer(cc, -1);
-				db_unset(cc, m_szModuleName, "ListeningTo");
+			if (getBool(cc, "EmptyFrameOffline")) {
+				int iContactStatus = getWord(cc, "Status", ID_STATUS_OFFLINE);
+				if ((iContactStatus == ID_STATUS_ONLINE)
+					|| (iContactStatus == ID_STATUS_INVISIBLE && time(0) - getDword(cc, "InvisibleTS", 0) >= m_vkOptions.iInvisibleInterval * 60LL)) {
+					setWord(cc, "Status", ID_STATUS_OFFLINE);
+					SetMirVer(cc, -1);
+					db_unset(cc, m_szModuleName, "ListeningTo");
+				}
+				db_unset(cc, m_szModuleName, "EmptyFrameOffline");
 			}
+			else
+				setByte(cc, "EmptyFrameOffline", 1);
 		}
 
 	arContacts.destroy();
 
-	if (m_vkOptions.iTimeoutAfterUserGet) // for 'error 9' fix
-		Sleep(m_vkOptions.iTimeoutAfterUserGet > 5000 ? 5000 : m_vkOptions.iTimeoutAfterUserGet);
+	if (m_vkOptions.iTimeoutForUserGet) // for 'error 9' fix
+		Sleep(m_vkOptions.iTimeoutForUserGet > 60000 ? 5000 : m_vkOptions.iTimeoutForUserGet);
 
 	const JSONNode& jnRequests = jnResponse["requests"];
 	if (!jnRequests)

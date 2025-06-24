@@ -252,6 +252,7 @@ private:
 		m_tPoolThreadTimer;
 
 	int m_iLoadHistoryTask;
+	int m_iLoadCListIntervalCounter;
 
 	OBJLIST<CVkChatInfo> m_chats;
 	OBJLIST<CVKChatContactTypingParam> m_ChatsTyping;

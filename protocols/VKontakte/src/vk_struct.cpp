@@ -213,6 +213,7 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	bShowVkDeactivateEvents(proto, "ShowVkDeactivateEvents", true),
 	bStickerBackground(proto, "StickerBackground", false),
 	bFilterAudioMessages(proto, "FilterAudioMessages", false),
+	bRepeatRequestAfterEmptyFrame(proto, "RepeatRequestAfterEmptyFrame", false),
 
 	bShowProtoMenuItem0(proto, "ShowProtoMenuItem0", true),
 	bShowProtoMenuItem1(proto, "ShowProtoMenuItem1", true),
@@ -240,7 +241,8 @@ CVKOptions::CVKOptions(PROTO_INTERFACE* proto) :
 	iInvisibleInterval(proto, "InvisibleInterval", 10),
 	iMaxFriendsCount(proto, "MaxFriendsCount", 1000),
 	iStickerSize(proto, "StickerSize", 128),
-	iTimeoutAfterUserGet(proto, "TimeoutAfterUserGet", 0),
+	iTimeoutForUserGet(proto, "TimeoutForUserGet", 0),
+	iLoadCListInterval(proto, "LoadCListInterval", 1),
 
 	pwszDefaultGroup(proto, "ProtoGroup", L"VKontakte"),
 	pwszVKLang(proto, "VKLang", nullptr)

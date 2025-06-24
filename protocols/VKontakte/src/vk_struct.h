@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct AsyncHttpRequest : public MTHttpRequest<CVkProto>
 {
-	enum RequestPriority { rpLowLow, rpLow, rpMedium, rpHigh, rpRestart, rpCaptcha };
+	enum RequestPriority { rpLowLow, rpLowCListEvents, rpLow, rpMedium, rpHigh, rpRestart, rpCaptcha };
 
 	AsyncHttpRequest();
 	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, MTHttpRequestHandler pFunc, RequestPriority rpPriority = rpMedium);
@@ -310,6 +310,7 @@ struct CVKOptions {
 	CMOption<uint8_t> bShowVkDeactivateEvents;
 	CMOption<uint8_t> bStickerBackground;
 	CMOption<uint8_t> bFilterAudioMessages;
+	CMOption<uint8_t> bRepeatRequestAfterEmptyFrame;
 
 	CMOption<uint8_t> bShowProtoMenuItem0;
 	CMOption<uint8_t> bShowProtoMenuItem1;
@@ -327,7 +328,8 @@ struct CVKOptions {
 	CMOption<uint32_t> iMaxFriendsCount;
 	CMOption<uint32_t> iStickerSize;
 
-	CMOption<uint32_t> iTimeoutAfterUserGet;
+	CMOption<uint32_t> iTimeoutForUserGet;
+	CMOption<uint32_t> iLoadCListInterval;
 
 	CMOption<wchar_t*> pwszDefaultGroup;
 	CMOption<wchar_t*> pwszVKLang;
