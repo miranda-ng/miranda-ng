@@ -7,6 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
+#define WINVER 0x0501
 #include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -296,6 +297,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
+    "#define WINVER 0x0501\r\n"
     "#include ""winres.h""\r\n"
     "\0"
 END
