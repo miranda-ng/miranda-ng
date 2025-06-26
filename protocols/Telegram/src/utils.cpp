@@ -445,6 +445,8 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 	}
 	else {
 		pUser->hContact = hContact;
+		if (pUser->wszNick[0] == '@')
+			pUser->wszNick.Delete(0, 1);
 		setWString(hContact, "Nick", pUser->wszNick);
 		if (!pUser->isGroupChat) {
 			setWString(hContact, "FirstName", pUser->wszFirstName);
