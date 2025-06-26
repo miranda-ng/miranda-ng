@@ -110,8 +110,6 @@
 Заголовок окна:
 [Show drop shadow (restart required)]
 Тень (нужен перезапуск)
-[Pin to desktop]
-Прикрепить к рабочему столу
 [Hide contact list after it has been idle for]
 Скрыть список, если я неактивен более
 [seconds]
@@ -126,8 +124,6 @@
 Растягивать вверх
 [If window is partially covered, bring to front instead of hiding]
 Поместить окно на передний план, если оно прикрыто другими окнами
-[Enable docking]
-Парковать
 [Translucency options]
 Настройки прозрачности
 [Fade contact list in/out]
@@ -845,16 +841,14 @@
 В главном меню
 [Move to the status bar]
 В панели статусов
-[Warning!\r\nThis menu object not support user defined options.]
-Внимание!\r\nЭтот вид меню не поддаётся настройке.
-[Insert submenu]
-Вставить вложенное меню
 [Insert separator]
 Вставить разделитель
 [Module:]
 Модуль:
 [Service:]
 Служба:
+[ID:]
+ID:
 [Default]
 По умолчанию
 [Set]
@@ -969,10 +963,12 @@ UIN, E-mail и т.д.
 Использовать отображаемое имя
 [Lock name to first contact]
 Фиксировать имя
-[Choose needed logger from listed below:]
-Выберите желаемый просмотрщик из перечисленных ниже:
-[Enable custom loggers in group chats]
-Использовать сторонний просмотрщик в групповых чатах
+[Choose a log viewer]
+Выберите просмотрщик журнала сообщений
+[For the private conversations]
+Для приватных бесед
+[For the group chats]
+Для групповых чатов
 [Current language:]
 Язык интерфейса:
 [Date:]
@@ -2422,8 +2418,6 @@ xСтатус
 [Hide offline users in here]
 Скрыть отключённых в группе
 ;file \src\mir_app\src\menu_options.cpp
-[New submenu]
-Новое вложенное меню
 [Do you really want to delete this menu item?]
 Удалить этот пункт меню?
 [Menus]
@@ -2436,6 +2430,8 @@ xСтатус
 [&About]
 О &программе
 ;file \src\mir_app\src\menu_utils.cpp
+[New submenu]
+Новое вложенное меню
 [Menu icons]
 Меню
 ;file \src\mir_app\src\metacontacts.h

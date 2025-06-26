@@ -1291,12 +1291,10 @@ TabSRMM: набор текста
 , %d %s не активен
 [%s on %s%s]
 %s в %s%s
-[%s: chat room (%u user%s)]
-%s: комната чата (%u пользователь%s)
-[%s: chat room (%u users%s)]
-%s: комната чата (%u пользователей%s)
-[, event filter active]
-, фильтр событий включён
+[%s: chat room (%u user)]
+%s: комната чата (%u пользователь)
+[%s: chat room (%u users)]
+%s: комната чата (%u пользователей)
 [%s: message session]
 %s: беседа
 [%s: message session (%u users)]

@@ -63,6 +63,14 @@
 Владелец
 [Participant]
 Участник
+[total members]
+всего пользователей
+[online members]
+пользователей в сети
+[chatting]
+в чате
+[in game]
+в игре
 [&Leave chat session]
 &Покинуть чат
 ;file \protocols\Steam\src\steam_contacts.cpp
@@ -86,12 +94,12 @@
 [Enter the code from your authentication device]
 
 ;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
-Выбор меню Steam
 [Unblock]
 Разблокировать
-[Join to game]
+[Join the game]
 Присоединиться к игре
+[Join group chat]
+Присоединиться к групповому чату
 ;file \protocols\Steam\src\steam_messages.cpp
 [Message sending has failed with error %d]
 

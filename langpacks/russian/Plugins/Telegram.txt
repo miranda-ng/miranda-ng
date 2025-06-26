@@ -54,6 +54,10 @@
 День рождения
 [Biography]
 О себе
+[User count]
+Количество пользователей
+[Channel link]
+Ссылка на канал
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи

@@ -38,9 +38,9 @@
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
 Общие скрипты
-;file \plugins\MirLua\src\plugin.cpp
 [Services]
 Службы
+;file \plugins\MirLua\src\plugin.cpp
 [C Libs Folder]
 Папка с библиотеками C
 [Scripts folder]

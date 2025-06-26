@@ -212,8 +212,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Автоматически
 [Always visible]
 Всегда видимый
-[Dock to sides]
-Парковать
 [and minimum]
 и минимум
 [Items]
@@ -306,8 +304,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Внешний вид
 [Always on top]
 Поверх всех окон
-[Pin to desktop]
-Прикрепить к раб. столу
 [Client area margins]
 Границы списка контактов
 [Thin border main window]

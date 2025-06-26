@@ -89,38 +89,11 @@ Teams
 Разблокировать контакт
 [Create new chat]
 Создать новый чат
-[Set own mood]
-
 ;file \protocols\Teams\src\teams_messages.cpp
-[Unknown error!]
-Неизвестная ошибка!
 [Network error!]
 Ошибка сети!
-;file \protocols\Teams\src\teams_mood.cpp
-[None]
-Нет
-[Custom emoji]
-
-[Be right back]
-
-[Out for lunch]
-
-[In meetings]
-
-[At school]
-
-[At the movies]
-
-[Traveling]
-В дороге
-[Celebrating]
-
-[Driving]
-за рулём
-[At the gym]
-
-[Working from home]
-
+[Unknown error!]
+Неизвестная ошибка!
 ;file \protocols\Teams\src\teams_options.cpp
 [<will appear after first login>]
 

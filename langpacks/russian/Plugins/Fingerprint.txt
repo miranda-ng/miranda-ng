@@ -88,8 +88,6 @@ XMPP клиент
 Оверлей Jabber
 [VK overlay]
 Оверлей VK
-[Skype overlay]
-Оверлей Skype
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клиент
 [Gadu-Gadu v10 client]

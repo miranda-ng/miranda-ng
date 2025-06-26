@@ -242,8 +242,10 @@
 Окно
 [None]
 Нет
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-Исполняемые файлы\0*.exe\0Все файлы\0*.*\0\0
+[Executable Files]
+Исполняемые файлы
+[All Files]
+Все файлы
 [Select Executable]
 Выбрать программу…
 [Plugins]
@@ -261,12 +263,12 @@
 Повторять ежемесячно
 [Minutes]
 Минут
-[Hours]
-Часов
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Указанное время недействительно из-за перехода на «летнее время»
 [Hour]
 Час
+[Hours]
+Часов
 [Day]
 День
 [Days]

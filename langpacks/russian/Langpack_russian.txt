@@ -121,8 +121,6 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 Заголовок окна:
 [Show drop shadow (restart required)]
 Тень (нужен перезапуск)
-[Pin to desktop]
-Прикрепить к рабочему столу
 [Hide contact list after it has been idle for]
 Скрыть список, если я неактивен более
 [seconds]
@@ -137,8 +135,6 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 Растягивать вверх
 [If window is partially covered, bring to front instead of hiding]
 Поместить окно на передний план, если оно прикрыто другими окнами
-[Enable docking]
-Парковать
 [Translucency options]
 Настройки прозрачности
 [Fade contact list in/out]
@@ -851,16 +847,14 @@ Authors: Yevgeny, YurasiK, Yury A. Marcinchick
 В главном меню
 [Move to the status bar]
 В панели статусов
-[Warning!\r\nThis menu object not support user defined options.]
-Внимание!\r\nЭтот вид меню не поддаётся настройке.
-[Insert submenu]
-Вставить вложенное меню
 [Insert separator]
 Вставить разделитель
 [Module:]
 Модуль:
 [Service:]
 Служба:
+[ID:]
+ID:
 [Default]
 По умолчанию
 [Set]
@@ -975,10 +969,12 @@ UIN, E-mail и т.д.
 Использовать отображаемое имя
 [Lock name to first contact]
 Фиксировать имя
-[Choose needed logger from listed below:]
-Выберите желаемый просмотрщик из перечисленных ниже:
-[Enable custom loggers in group chats]
-Использовать сторонний просмотрщик в групповых чатах
+[Choose a log viewer]
+Выберите просмотрщик журнала сообщений
+[For the private conversations]
+Для приватных бесед
+[For the group chats]
+Для групповых чатов
 [Current language:]
 Язык интерфейса:
 [Date:]
@@ -2355,8 +2351,6 @@ xСтатус
 Отключить группы
 [Hide offline users in here]
 Скрыть отключённых в группе
-[New submenu]
-Новое вложенное меню
 [Do you really want to delete this menu item?]
 Удалить этот пункт меню?
 [Menus]
@@ -2367,6 +2361,8 @@ xСтатус
 С&крыть/Показать
 [&About]
 О &программе
+[New submenu]
+Новое вложенное меню
 [Menu icons]
 Меню
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
@@ -6709,8 +6705,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Автоматически
 [Always visible]
 Всегда видимый
-[Dock to sides]
-Парковать
 [and minimum]
 и минимум
 [Items]
@@ -6803,8 +6797,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Внешний вид
 [Always on top]
 Поверх всех окон
-[Pin to desktop]
-Прикрепить к раб. столу
 [Client area margins]
 Границы списка контактов
 [Thin border main window]
@@ -7530,8 +7522,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Рамка
 [Title bar text:]
 Заголовок окна:
-[Pin to desktop]
-Прикрепить к рабочему столу
 [Show drop shadow (restart required)]
 Тень (нужен перезапуск)
 [Hide contact list after it has been idle for]
@@ -7948,10 +7938,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Показывать названия
 [Hide all title bars]
 Скрыть названия
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-Невозможно парковать список контактов при использовании границы и заголовка по умолчанию. Используйте стиль "Без границ" или "Панель"
-[Contact list docking]
-Парковка списка контактов
 [Load and apply]
 Загрузить и применить
 [Skins]
@@ -8134,6 +8120,8 @@ Google Drive
 OneDrive
 [Yandex.Disk]
 Яндекс.Диск
+[Upload to]
+Загрузить на
 [Upload to...]
 Загрузить на...
 [None]
@@ -9658,6 +9646,8 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Звонок завершён
 [Enter channel name]
 Укажите имя комнаты чаты
+[You need to enter a captcha to join this server. Open this link in a browser.]
+Для присоединения к серверу требуется ввести капчу. Откройте эту ссылку в браузере.
 [Enter invitation code you received]
 Введите полученный код приглашения
 [Do you really want to leave the guild?]
@@ -9732,7 +9722,7 @@ ID пользователя
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.1
+;  Version: 0.2.0.2
 ;  Authors: Robert Pösel
 ;============================================================
 [Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
@@ -10217,8 +10207,6 @@ XMPP клиент
 Оверлей Jabber
 [VK overlay]
 Оверлей VK
-[Skype overlay]
-Оверлей Skype
 [Gadu-Gadu v11 client]
 Gadu-Gadu v11 клиент
 [Gadu-Gadu v10 client]
@@ -17700,7 +17688,7 @@ Lua скрипты
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 Поддержка OTR (Off-the-Record) в Miranda NG (использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE)).
 [OTR Generating Private Key]
-OTR Создание личного ключа
+OTR Создание приватного ключа
 [Generating new private key - please wait.]
 Генерация нового приватного ключа, подождите.
 [Default Policy]
@@ -17772,7 +17760,7 @@ OTR Создание личного ключа
 [Generate new private key]
 Генерация нового приватного ключа
 [Forget private key]
-Забыть частный ключ
+Забыть приватный ключ
 [OTR private]
 Частный OTR
 [OTR unverified]
@@ -18218,7 +18206,7 @@ bass.dll не найден! Укажите путь к нему
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.10
+;  Version: 3.1.3.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18335,6 +18323,10 @@ ID пользователя
 Получено некорректное событие базы. Тип %d, размер %d
 [Unknown event type %d, size %d]
 Неизвестный тип события %d, размер %d
+[%s reacted with %s to message "%s" from %s]
+%s поставил реакцию %s на сообщение "%s" от %s
+[%s remove reaction %s to message "%s" from %s]
+%s удалил реакцию %s на сообщение "%s" от %s
 [Miranda database contains %d events]
 Событий в базе: %d
 [Failed to open file]
@@ -20757,8 +20749,10 @@ GPG не удалось расшифровать входящее сообщен
 Окно
 [None]
 Нет
-[Executable Files\0*.exe\0All Files\0*.*\0\0]
-Исполняемые файлы\0*.exe\0Все файлы\0*.*\0\0
+[Executable Files]
+Исполняемые файлы
+[All Files]
+Все файлы
 [Select Executable]
 Выбрать программу…
 [Plugins]
@@ -20775,12 +20769,12 @@ GPG не удалось расшифровать входящее сообщен
 Повторять ежемесячно
 [Minutes]
 Минут
-[Hours]
-Часов
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Указанное время недействительно из-за перехода на «летнее время»
 [Hour]
 Час
+[Hours]
+Часов
 [Day]
 День
 [Days]
@@ -24326,7 +24320,7 @@ SecureIM (RSA/AES)
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.9.0.3
+;  Version: 0.9.0.4
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -24991,188 +24985,6 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 Я прячусь от мафии.
 [idleeeeeeee]
 ожидание...
-#muuid {2925520b-6677-4658-8bad-5661d13e4692}
-;============================================================
-;  File: SkypeStatusChange.dll
-;  Plugin: Skype status change
-;  Version: 0.0.0.18
-;  Authors: Dioksin
-;============================================================
-[Skype status change according to Miranda status.]
-Меняет статус запущенного Skype в соответствии со статусом Миранды.
-[Synchronize status message]
-Синхронизировать сообщение статуса
-[&Check any protocol or any status to exclude it from synchronization:]
-&Отмеченные протоколы и статусы не будут синхронизироваться
-[Synchronize if current status differs from previous one]
-Синхронизировать, если текущий статус отличается от предыдущего
-[Change Skype status]
-Смена статуса Skype
-[Plugins]
-Плагины
-#muuid {57e90ac6-1067-423b-8ca3-70a39d200d4f}
-;============================================================
-;  File: SkypeWeb.dll
-;  Plugin: Skype protocol (Web)
-;  Version: 0.96.6.1
-;  Authors: Miranda NG team
-;============================================================
-[Skype protocol support for Miranda NG. Based on new Skype for Web.]
-Поддержка протокола Skype в Miranda NG. Основано на Skype для Web.
-[Create group chat]
-Создать комнату чата
-[Cancel]
-Отмена
-[Mark users you want to invite to a new chat]
-Отметить пользователей для приглашения в комнату чата
-[Invite user to chat]
-Пригласить пользователя в чат
-[Choose one of your contacts to be invited:]
-Выберите пользователя для приглашения в чат:
-[Skypename:]
-Логин Skype:
-[Password:]
-Пароль:
-[Default group:]
-Группа:
-[Account]
-Учётная запись
-[Others]
-Другое
-[Automatic messages synchronization]
-Автоматическая синхронизация сообщений
-[Use BBCode]
-Использовать BBCode
-[Place:]
-Место:
-[Use hostname]
-Использовать имя хоста
-[Change password]
-Изменить пароль
-[Set mood]
-Настроение
-[Mood]
-Настроение
-[Text]
-Текст
-[Skype Link Protocol]
-Протокол Skype
-[Admin]
-Админ
-[User]
-Пользователь
-[Enter new nickname]
-Введите новое имя
-[This chat is going to be destroyed forever with all its contents. This action cannot be undone. Are you sure?]
-Этот чат будет удалён со всеми входящими в него контактами. Это действие не может быть отменено. Вы уверены, что хотите продолжить?
-[Warning]
-Предупреждение
-[&Invite user...]
-&Пригласить пользователя...
-[&Leave chat session]
-Покин&уть чат
-[&Change topic...]
-&Изменить тему...
-[Kick &user]
-&Выкинуть пользователя
-[Set &role]
-Установить &роль
-[&Admin]
-&Админ
-[&User]
-&Пользователь
-[Change nick...]
-Изменить имя...
-[Enter new chatroom topic]
-Введите новую тему комнаты чата
-[(You)]
-(Вы)
-[Are you sure?]
-Вы уверены?
-[Incoming call]
-Входящий звонок
-[Action]
-Действие
-[Call information]
-Информация о звонке
-[File transfer information]
-Информация о передаче файла
-[Moji]
-Модзи
-[Unknown event]
-Неизвестное событие
-[SkypeWeb error: Invalid data!]
-Ошибка SkypeWeb: Неверные данные!
-[Call]
-Звонок
-[Call missed]
-Звонок пропущен
-[Call ended (%s)]
-Звонок завершён (%s)
-[File transfer:\n\tFile name: %s \n\tSize: %lld bytes \n]
-Передача файла:\n\tИмя файла: %s \n\tРазмер: %lld байт \n
-[Preview]
-Тест
-[Full image]
-Полноформатное изображение
-[Unknown event, please send this text for developer: "%s"]
-Неизвестное событие, пожалуйста, отправьте этот текст разработчику: "%s"
-[Protocol icon]
-Значок протокола
-[Create new chat icon]
-Создать новый чат
-[Block user icon]
-Заблокировать контакт
-[Unblock user icon]
-Разблокировать контакт
-[Incoming call icon]
-Значок входящего звонка
-[Notification icon]
-Значок уведомления
-[Error icon]
-Значок ошибки
-[Action icon]
-Значок действия
-[Protocols]
-Протоколы
-[Authentication failed. Invalid username.]
-Ошибка авторизации. Неверное имя пользователя.
-[Authentication failed. Bad username or password.]
-Не удалось авторизоваться, указано неверное имя пользователя или пароль.
-[Too many failed authentication attempts with given username or IP.]
-Превышено допустимое количество неудачных попыток авторизации с этим именем пользователя или с этого IP-адреса.
-[Authentication failed. Unknown error.]
-Не удалось авторизоваться из-за неизвестной ошибки.
-[Block contact]
-Заблокировать контакт
-[Unblock contact]
-Разблокировать контакт
-[Create new chat]
-Создать новый чат
-[Unknown error!]
-Неизвестная ошибка!
-[Network error!]
-Ошибка сети!
-[None]
-Нет
-[Traveling]
-В дороге
-[Driving]
-за рулём
-[Network]
-Сеть
-[Notifications]
-Уведомления
-[Errors]
-Ошибки
-[Calls]
-Звонки
-[Incoming call canceled]
-Отмена входящего звонка
-[Skypename]
-Логин Skype
-[wrote]
-писал(а)
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
@@ -25732,8 +25544,6 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 Окно при запуске
 [Set window state]
 Состояние окна
-[Set docked]
-Парковать
 [Set window location]
 Положение окна
 [Left]
@@ -25938,10 +25748,6 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 Свёрнуто
 [Normal]
 Нормальный
-[Right]
-Справа
-[None]
-Нет
 [size: %d x %d]
 размер: %d x %d
 [loc: %d x %d]
@@ -26019,6 +25825,14 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 Владелец
 [Participant]
 Участник
+[total members]
+всего пользователей
+[online members]
+пользователей в сети
+[chatting]
+в чате
+[in game]
+в игре
 [&Leave chat session]
 &Покинуть чат
 [Looking to play]
@@ -26035,12 +25849,12 @@ Miranda NG - Контекстное меню оболочки ОС (shellext.dll
 %s удалён из вашего списка контактов
 [%s has added you to contact list]
 %s добавил(а) вас в список контактов
-[Steam menu chooser]
-Выбор меню Steam
 [Unblock]
 Разблокировать
-[Join to game]
+[Join the game]
 Присоединиться к игре
+[Join group chat]
+Присоединиться к групповому чату
 [Name]
 Имя
 [Network]
@@ -27470,12 +27284,10 @@ TabSRMM: набор текста
 , %d %s не активен
 [%s on %s%s]
 %s в %s%s
-[%s: chat room (%u user%s)]
-%s: комната чата (%u пользователь%s)
-[%s: chat room (%u users%s)]
-%s: комната чата (%u пользователей%s)
-[, event filter active]
-, фильтр событий включён
+[%s: chat room (%u user)]
+%s: комната чата (%u пользователь)
+[%s: chat room (%u users)]
+%s: комната чата (%u пользователей)
 [%s: message session]
 %s: беседа
 [%s: message session (%u users)]
@@ -27949,6 +27761,8 @@ TabSRMM: %s
 Логин:
 [Default group:]
 Группа:
+[Logout]
+Выход
 [Account]
 Учётная запись
 [Teams]
@@ -28013,16 +27827,10 @@ Teams
 Разблокировать контакт
 [Create new chat]
 Создать новый чат
-[Unknown error!]
-Неизвестная ошибка!
 [Network error!]
 Ошибка сети!
-[None]
-Нет
-[Traveling]
-В дороге
-[Driving]
-за рулём
+[Unknown error!]
+Неизвестная ошибка!
 [Network]
 Сеть
 [Notifications]
@@ -28094,6 +27902,10 @@ Teams ID
 День рождения
 [Biography]
 О себе
+[User count]
+Количество пользователей
+[Channel link]
+Ссылка на канал
 [Enter email address for account verification]
 Введите адрес электронной почты для подтверждения учётной записи
 [Enter verification code received by email]
@@ -30801,7 +30613,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.18.6
+;  Version: 0.1.19.1
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -34553,7 +34365,7 @@ WUMF: Показать подключения
 [..s Popup duration]
 сек (длительность)
 [Preview]
-Тест
+Предпросмотр
 [Background color]
 Цвет фона
 [Text color]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.10
+;  Version: 3.1.3.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -121,6 +121,10 @@ ID пользователя
 Получено некорректное событие базы. Тип %d, размер %d
 [Unknown event type %d, size %d]
 Неизвестный тип события %d, размер %d
+[%s reacted with %s to message "%s" from %s]
+%s поставил реакцию %s на сообщение "%s" от %s
+[%s remove reaction %s to message "%s" from %s]
+%s удалил реакцию %s на сообщение "%s" от %s
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 Событий в базе: %d
