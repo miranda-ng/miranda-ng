@@ -23,8 +23,8 @@
 [Compile]
 ;file \plugins\MirLua\src\options.cpp
 [Common scripts]
-;file \plugins\MirLua\src\plugin.cpp
 [Services]
+;file \plugins\MirLua\src\plugin.cpp
 [C Libs Folder]
 [Scripts folder]
 ;file \plugins\MirLua\src\stdafx.h

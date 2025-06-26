@@ -86,7 +86,6 @@
 [Rounded border]
 [Border]
 [Title bar text:]
-[Pin to desktop]
 [Show drop shadow (restart required)]
 [Hide contact list after it has been idle for]
 [seconds]
@@ -301,9 +300,6 @@
 [Show all frames]
 [Show all title bars]
 [Hide all title bars]
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-[Contact list docking]
 ;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 [Skins]

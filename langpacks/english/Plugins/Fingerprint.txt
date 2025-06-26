@@ -48,7 +48,6 @@
 [JGTalk overlay]
 [Jabber overlay]
 [VK overlay]
-[Skype overlay]
 [Gadu-Gadu v11 client]
 [Gadu-Gadu v10 client]
 [Gadu-Gadu v9 client]
