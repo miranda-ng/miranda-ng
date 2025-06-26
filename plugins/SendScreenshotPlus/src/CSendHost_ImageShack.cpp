@@ -56,9 +56,9 @@ LBL_Error:
 	if (szKey.IsEmpty()) {
 		ENTER_STRING es = {};
 		es.szModuleName = MODULENAME;
-		es.caption = TranslateT("Enter user key for Imageshack");
+		es.caption = TranslateT("Enter your personal API key from Imageshack");
 		if (!EnterString(&es)) {
-			m_pszSendTyp = LPGENW("User key is missing");
+			m_pszSendTyp = LPGENW("API key is missing");
 			goto LBL_Error;
 		}
 
