@@ -613,6 +613,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	if (!m_arChats.find(pUser))
 		m_arChats.insert(pUser);
 
+	// small or super group
 	if (!szTitle.empty()) {
 		if (hContact != INVALID_CONTACT_ID) {
 			if (pUser->isForum) {
@@ -642,6 +643,15 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 
 		if (pUser->isGroupChat && pUser->m_si == nullptr)
 			InitGroupChat(pUser, (pUser->isForum) ? TranslateT("General") : Utf2T(pChat->title_.c_str()));
+	}
+	else if (!pUser->isGroupChat) {
+		pUser = AddUser(pChat->id_, false);
+		hContact = pUser->hContact;
+		setWString(hContact, "Nick", pUser->wszNick);
+		if (!pUser->wszFirstName.IsEmpty())
+			setWString(hContact, "FirstName", pUser->wszFirstName);
+		if (!pUser->wszLastName.IsEmpty())
+			setWString(hContact, "LastName", pUser->wszLastName);
 	}
 }
 
