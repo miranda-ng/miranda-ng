@@ -288,11 +288,11 @@ void CVkProto::OnReceiveMyInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 	WriteVKUserID(0, m_iMyUserId);
 
 	OnLoggedIn();
-	RetrieveUserInfo(m_iMyUserId);
 	TrackVisitor();
 	RetrieveUnreadMessages();
 	RetrieveFriends(m_vkOptions.bLoadOnlyFriends);
 	RetrievePollingInfo();
+	RetrieveUserInfo(m_iMyUserId);
 }
 
 MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactType vkContactType)
@@ -548,7 +548,15 @@ void CVkProto::RetrieveUserInfo(VKUserID_t iUserId)
 
 	CMStringA szUserId(FORMAT, "%d", iUserId);
 
-	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUserInfo", true, &CVkProto::OnReceiveUserFrameInfo)
+	Push(
+		new AsyncHttpRequest(
+			this, 
+			REQUEST_POST, 
+			"/method/execute.RetrieveUserInfo", 
+			true, 
+			&CVkProto::OnReceiveUserFrameInfo, 
+			AsyncHttpRequest::rpLowCListEvents
+		)
 		<< INT_PARAM("userid", iUserId)
 		<< CHAR_PARAM("fields", szFieldsName)
 	)->pUserInfo = mir_strdup(szUserId.c_str());
@@ -582,13 +590,15 @@ void CVkProto::RetrieveUsersFrameInfo(CMStringA& szUserIds, bool bFreeOffline, b
 	if (!IsOnline() || szUserIds.IsEmpty())
 		return;
 	
-	Push(new AsyncHttpRequest(this, 
-		REQUEST_POST, 
-		"/method/execute.RetrieveUsersFrameInfo", 
-		true, 
-		&CVkProto::OnReceiveUserFrameInfo, 
-		bFreeOffline ? AsyncHttpRequest::rpLowCListEvents : AsyncHttpRequest::rpMedium
-	)
+	Push(
+		new AsyncHttpRequest(
+			this, 
+			REQUEST_POST, 
+			"/method/execute.RetrieveUsersFrameInfo", 
+			true, 
+			&CVkProto::OnReceiveUserFrameInfo, 
+			AsyncHttpRequest::rpLowCListEvents
+		)
 		<< CHAR_PARAM("userids", szUserIds)
 		<< CHAR_PARAM("fields", (bFreeOffline ? "online,status,can_write_private_message" : szFieldsName))
 		<< INT_PARAM("norepeat", (int)bRepeat)
