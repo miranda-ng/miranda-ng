@@ -97,7 +97,7 @@ HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
 		endBufferedPaint = (pfnEndBufferedPaint)GetProcAddress(hThemeAPI, "EndBufferedPaint");
 	}
 
-	BITMAPINFO bmi = { 0 };
+	BITMAPINFO bmi = {};
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biCompression = BI_RGB;
@@ -110,7 +110,7 @@ HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
 	HBITMAP hbmpOld = (HBITMAP)SelectObject(hdc, hbmp);
 
 	BLENDFUNCTION bfAlpha = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-	BP_PAINTPARAMS paintParams = { 0 };
+	BP_PAINTPARAMS paintParams = {};
 	paintParams.cbSize = sizeof(paintParams);
 	paintParams.dwFlags = BPPF_ERASE;
 	paintParams.pBlendFunction = &bfAlpha;
@@ -901,7 +901,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 
 static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
 	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
@@ -921,7 +921,7 @@ static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 
 static uint32_t GetMenuItemType(HMENU hMenu, int uItem)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_TYPE;
 	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
@@ -930,7 +930,7 @@ static uint32_t GetMenuItemType(HMENU hMenu, int uItem)
 
 static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, TMO_IntMenuItem *&p)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_DATA | MIIM_TYPE;
 	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
@@ -940,7 +940,7 @@ static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, TMO_IntMenuItem *&p)
 
 static void InsertSeparator(HMENU hMenu, int uItem)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_TYPE;
 	mii.fType = MFT_SEPARATOR;
@@ -1129,7 +1129,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING | MIIM_STATE;
 		if (pmi->iconId != -1 && g_bMenuIconsEnabled) {
 			mii.fMask |= MIIM_BITMAP;
-			if (IsWinVerVistaPlus() && IsThemeActive()) {
+			if (IsWinVerVistaPlus() && IsThemeActive() && !IsWine()) {
 				if (pmi->hBmp == nullptr)
 					pmi->hBmp = ConvertIconToBitmap(pmi->parent->m_hMenuIcons, pmi->iconId);
 				mii.hbmpItem = pmi->hBmp;
@@ -1232,8 +1232,8 @@ static int MO_ReloadIcon(TMO_IntMenuItem *pmi, const void *)
 
 int OnIconLibChanges(WPARAM, LPARAM)
 {
-	{
-		mir_cslock lck(csMenuHook);
+	{	mir_cslock lck(csMenuHook);
+
 		for (auto &p : g_menus)
 			if (hStatusMenuObject != p->id) //skip status menu
 				MO_RecursiveWalkMenu(p->m_items, MO_ReloadIcon);

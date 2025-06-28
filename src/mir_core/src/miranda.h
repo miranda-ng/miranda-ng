@@ -31,7 +31,7 @@ void DestroyModularEngine(void);
 
 int  InitPathUtils(void);
 
-extern HINSTANCE g_hInst;
+extern HINSTANCE g_hInst, g_hNtdll;
 extern HWND hAPCWindow;
 extern HANDLE hThreadQueueEmpty;
 extern HCURSOR g_hCursorNS, g_hCursorWE;

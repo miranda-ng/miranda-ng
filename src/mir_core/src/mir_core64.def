@@ -1589,3 +1589,4 @@ db_event_delivered @1806 NONAME
 ??6MBinBuffer@@QEAAAEAV0@_K@Z @1814 NONAME
 Utils_IsoToUnixTime @1815 NONAME
 ?db_event_setJson@@YAHIPEBD@Z @1816 NONAME
+IsWine @1817 NONAME

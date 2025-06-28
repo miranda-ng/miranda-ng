@@ -544,6 +544,7 @@ MIR_CORE_DLL(BOOL) IsWinVer7Plus();
 MIR_CORE_DLL(BOOL) IsWinVer8Plus();
 MIR_CORE_DLL(BOOL) IsWinVer81Plus();
 MIR_CORE_DLL(BOOL) IsWinVer10Plus();
+MIR_CORE_DLL(BOOL) IsWine();
 
 MIR_CORE_DLL(BOOL) IsFullScreen();
 MIR_CORE_DLL(BOOL) IsWorkstationLocked();
