@@ -1069,7 +1069,7 @@ static void CALLBACK sttUpdateMenuService()
 			db_set_b(0, szModule, "MenuFormat", true);
 			MO_RecursiveWalkMenu(pmo->m_items, sttDumpItem, szModule);
 		}
-		else	// yes, menu is already converted, simply load its data
+		else // yes, menu is already converted, simply load its data
 			Menu_LoadAllFromDatabase(pmo->m_items, szModule);
 	}
 

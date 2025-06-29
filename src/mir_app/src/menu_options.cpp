@@ -88,7 +88,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 		tvi.pszText = idstr;
 
-		int count = 0, customOrder = 0;
+		int count = 0;
 		int runtimepos = 100;
 
 		char pszParent[33];
@@ -273,7 +273,7 @@ class CGenMenuOptionsPage : public CDlgBase
 	CCtrlTreeView m_menuItems;
 	CCtrlCheck m_radio1, m_radio2, m_enableIcons;
 	CCtrlEdit m_customName, m_service, m_module, m_id;
-	CCtrlButton m_btnInsSeparator, m_btnReset, m_btnSet, m_btnDefault, m_btnDelete;
+	CCtrlButton m_btnInsSeparator, m_btnReset, m_btnSet, m_btnDefault;
 
 public:
 	CGenMenuOptionsPage() :
@@ -287,7 +287,6 @@ public:
 		m_btnInsSeparator(this, IDC_INSERTSEPARATOR),
 		m_btnReset(this, IDC_RESETMENU),
 		m_btnSet(this, IDC_GENMENU_SET),
-		m_btnDelete(this, IDC_GENMENU_DELETE),
 		m_btnDefault(this, IDC_GENMENU_DEFAULT),
 		m_id(this, IDC_GENMENU_ID),
 		m_customName(this, IDC_GENMENU_CUSTOMNAME),
@@ -298,7 +297,6 @@ public:
 		m_btnReset.OnClick = Callback(this, &CGenMenuOptionsPage::btnReset_Clicked);
 		m_btnInsSeparator.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsSep_Clicked);
 		m_btnDefault.OnClick = Callback(this, &CGenMenuOptionsPage::btnDefault_Clicked);
-		m_btnDelete.OnClick = Callback(this, &CGenMenuOptionsPage::btnDelete_Clicked);
 
 		m_menuObjects.OnSelChange = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
 
@@ -453,29 +451,6 @@ public:
 		NotifyChange();
 	}
 
-	void btnDelete_Clicked(CCtrlButton *)
-	{
-		HTREEITEM hti = m_menuItems.GetSelection();
-		if (hti == nullptr)
-			return;
-
-		TVITEMEX tvi;
-		tvi.mask = TVIF_PARAM;
-		tvi.hItem = hti;
-		m_menuItems.GetItem(&tvi);
-
-		MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
-		if (!(iod->pimi->mi.flags & CMIF_CUSTOM))
-			return;
-
-		if (IDYES == MessageBoxW(m_hwnd, TranslateT("Do you really want to delete this menu item?"), TranslateT("Miranda"), MB_YESNO | MB_ICONQUESTION)) {
-			m_arDeleted.insert(iod->pimi);
-			m_menuItems.DeleteItem(hti);
-			delete iod;
-			NotifyChange();
-		}
-	}
-
 	void onMenuObjectChanged(void*)
 	{
 		m_bInitialized = false;
@@ -492,7 +467,6 @@ public:
 
 		m_btnDefault.Disable();
 		m_btnSet.Disable();
-		m_btnDelete.Disable();
 		m_customName.Disable();
 
 		HTREEITEM hti = m_menuItems.GetSelection();
@@ -527,7 +501,6 @@ public:
 		m_module.SetTextA(pPlugin ? pPlugin->getInfo().shortName : "");
 
 		m_btnDefault.Enable(mir_wstrcmp(iod->name, iod->defname) != 0);
-		m_btnDelete.Enable(iod->pimi->mi.flags & CMIF_CUSTOM);
 		m_btnSet.Enable(true);
 		m_customName.Enable(true);
 	}

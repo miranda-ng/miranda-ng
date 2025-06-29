@@ -300,7 +300,6 @@
 #define IDC_GENMENU_ID                  1088
 #define IDC_GENMENU_DEFAULT             1089
 #define IDC_ICON1                       1090
-#define IDC_GENMENU_DELETE              1090
 #define IDC_ICON2                       1091
 #define IDC_ICON3                       1092
 #define IDC_ICON4                       1093
