@@ -134,7 +134,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SMALLICON           ICON     "file.ico"
+IDI_MAIN                ICON     "file.ico"
 IDI_STOP                ICON     "abort.ico"
 IDI_PAUSE               ICON     "pause.ico"
 IDI_PLAY                ICON     "play.ico"

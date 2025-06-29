@@ -8,18 +8,19 @@
 #include <commctrl.h>
 
 #include <newpluginapi.h>
+#include <m_button.h>
+#include <m_clistint.h>
 #include <m_contacts.h>
 #include <m_database.h>
-#include <m_protosvc.h>
-#include <m_langpack.h>
-#include <m_clistint.h>
-#include <m_options.h>
-#include <m_skin.h>
-#include <m_popup.h>
-#include <m_icolib.h>
-#include <m_button.h>
-#include <m_netlib.h>
 #include <m_file.h>
+#include <m_icolib.h>
+#include <m_langpack.h>
+#include <m_message.h>
+#include <m_netlib.h>
+#include <m_options.h>
+#include <m_popup.h>
+#include <m_protosvc.h>
+#include <m_skin.h>
 
 #include "dialog.h"
 #include "resource.h"
@@ -51,9 +52,6 @@ extern const ulong INITCRC;
 
 extern MWindowList hFileList;
 extern HANDLE hEventNewFile;
-
-extern HICON hIcons[5];
-extern IconItem iconList[];
 
 ulong memcrc32(uchar *ptr, int size, ulong crc);
 int OnOptInitialise(WPARAM wParam, LPARAM);

@@ -98,7 +98,7 @@ void MakePopupMsg(HWND hDlg, MCONTACT hContact, wchar_t *msg)
 
 	POPUPDATAW ppd;
 	ppd.lchContact = hContact;
-	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SMALLICON));
+	ppd.lchIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MAIN));
 	mir_wstrcpy(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact));
 	mir_wstrcpy(ppd.lpwzText, msg);
 	ppd.colorBack = GetSysColor(COLOR_INFOBK);
@@ -165,10 +165,10 @@ void FILEECHO::setState(uint32_t state)
 		EnableWindow(GetDlgItem(hDlg, IDC_BROWSE), (iState & (STATE_PRERECV | STATE_FINISHED)));
 
 		if (state & (STATE_IDLE | STATE_FINISHED | STATE_CANCELLED | STATE_PRERECV))
-			kind = ICON_PLAY;
+			kind = IDI_PLAY;
 		else
-			kind = ICON_REFRESH;
-		SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[kind]);
+			kind = IDI_REFRESH;
+		SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(kind));
 		SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[kind]), 0);
 	}
 	else {
@@ -181,12 +181,12 @@ void FILEECHO::setState(uint32_t state)
 		case STATE_IDLE:
 		case STATE_PAUSED:
 			EnableWindow(GetDlgItem(hDlg, IDC_PLAY), TRUE);
-			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[ICON_PLAY]);
-			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[ICON_PLAY]), 0);
+			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_PLAY));
+			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[IDI_PLAY]), 0);
 			break;
 		case STATE_OPERATE:
-			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[ICON_PAUSE]);
-			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[ICON_PAUSE]), 0);
+			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_PAUSE));
+			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[IDI_PAUSE]), 0);
 			break;
 		}
 	}
@@ -404,7 +404,7 @@ void FILEECHO::incomeRequest(char *param)
 	if (!IsWindowVisible(hDlg) && !AutoMin) {
 		CLISTEVENT cle = {};
 		cle.hContact = hContact;
-		cle.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_SMALLICON));
+		cle.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_MAIN));
 		cle.flags = CLEF_URGENT;
 		cle.hDbEvent = 0;
 		cle.pszService = MODULENAME "/FERecvFile";
@@ -851,15 +851,15 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		hwndStatus = CreateStatusWindow(WS_CHILD | WS_VISIBLE, L"", hDlg, IDC_STATUS);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		WindowList_Add(hFileList, hDlg, dat->hContact);
-		Window_SetIcon_IcoLib(hDlg, iconList[ICON_MAIN].hIcolib);
-		SendDlgItemMessage(hDlg, IDC_STOP, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[ICON_STOP]), 0);
+		Window_SetIcon_IcoLib(hDlg, g_plugin.getIconHandle(IDI_MAIN));
+		SendDlgItemMessage(hDlg, IDC_STOP, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[IDI_STOP]), 0);
 
 		mir_subclassWindow(GetDlgItem(hDlg, IDC_PROGRESS), ProgressWndProc);
 
 		SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONSETASFLATBTN, 0, 0);
-		SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[ICON_PLAY]);
+		SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_PLAY));
 		SendDlgItemMessage(hDlg, IDC_STOP, BUTTONSETASFLATBTN, 0, 0);
-		SendDlgItemMessage(hDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[ICON_STOP]);
+		SendDlgItemMessage(hDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_STOP));
 		dat->setState(STATE_IDLE);
 
 		if (dat->inSend)
@@ -872,10 +872,9 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case WM_FE_SKINCHANGE:
-		Window_SetIcon_IcoLib(hDlg, iconList[ICON_MAIN].hIcolib);
+		Window_SetIcon_IcoLib(hDlg, g_plugin.getIconHandle(IDI_MAIN));
 		dat->setState(dat->iState);
-		SendDlgItemMessage(hDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[ICON_STOP]);
-
+		SendDlgItemMessage(hDlg, IDC_STOP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_STOP));
 		break;
 
 	case WM_FE_STATUSCHANGE:
