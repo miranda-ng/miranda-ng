@@ -145,7 +145,7 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, time
 	if (VK_INVALID_USER == iUserId || iUserId == VK_FEED_USER)
 		return;
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.GetServerConversationHistory", true, &CVkProto::OnReceiveHistoryMessages, AsyncHttpRequest::rpLow)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.GetServerConversationHistory", true, &CVkProto::OnReceiveHistoryMessages, AsyncHttpRequest::rpLowCListEvents)
 		<< INT_PARAM("reqcount", iCount)
 		<< INT_PARAM("offset", iOffset)
 		<< INT_PARAM("userid", iUserId)
