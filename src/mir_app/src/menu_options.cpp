@@ -115,9 +115,6 @@ class CGenMenuOptionsPage : public CDlgBase
 
 					CMStringW tszValue(FORMAT, L"%d;%d;%S;%s", bChecked, runtimepos, pszParent, ptszCustomName);
 					db_set_ws(0, szModule, menuItemName, tszValue);
-
-					if (pimi->mi.flags & CMIF_CUSTOM)
-						db_set_s(0, szModule, CMStringA(FORMAT, "Custom%d", customOrder++), menuItemName);						
 				}
 
 				HTREEITEM hChild = m_menuItems.GetChild(tvi.hItem);

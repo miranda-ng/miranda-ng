@@ -1069,24 +1069,8 @@ static void CALLBACK sttUpdateMenuService()
 			db_set_b(0, szModule, "MenuFormat", true);
 			MO_RecursiveWalkMenu(pmo->m_items, sttDumpItem, szModule);
 		}
-		else { // yes, menu is already converted, simply load its data
-			for (int j = 0;; j++) {
-				char szSetting[100];
-				mir_snprintf(szSetting, "Custom%d", j);
-				ptrA szCustomMenu(db_get_sa(0, szModule, szSetting));
-				if (mir_strlen(szCustomMenu) != 32)
-					break;
-
-				TMO_MenuItem mi = {};
-				mi.flags = CMIF_CUSTOM;
-				mi.name.a = LPGEN("New submenu");
-				mi.position = 500050000;
-				hex2bin(szCustomMenu, &mi.uid, sizeof(MUUID));
-				Menu_AddItem(pmo->id, &mi, nullptr);
-			}
-
+		else	// yes, menu is already converted, simply load its data
 			Menu_LoadAllFromDatabase(pmo->m_items, szModule);
-		}
 	}
 
 	bMenuLoaded = true;
