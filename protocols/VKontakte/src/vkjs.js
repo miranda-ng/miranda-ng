@@ -172,7 +172,8 @@ if (index > 0) {
         };
         Idx = Idx + 1;
     };
-    var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+    var FUsers = [];
+	if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
     return { "count": index, "datetime": parseInt(Args.time), "items": ret, "fwd_users": FUsers, "once": parseInt(Args.once), "rcount": parseInt(Args.reqcount) };
 } else {
     return{"count":0,"datetime":parseInt(Args.time),"items":[],"fwd_users":[],"once":parseInt(Args.once),"rcount":parseInt(Args.reqcount)};    
@@ -218,7 +219,8 @@ while (Idx < FMsgs.length) {
     };
     Idx = Idx + 1;
 };
-var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var FUsers = [];
+if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var Conv = API.messages.getConversationsById({"peer_ids": ConvIds});
 return { "Msgs": Msgs, "fwd_users": FUsers, "conv":Conv };
 // Stored procedure name: RetrieveMessagesConversationByIds = End
@@ -360,7 +362,8 @@ while (Idx < FMsgs.length) {
     };
     Idx = Idx + 1;
 };
-var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var FUsers = [];
+if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var MsgUsers = API.users.get({ "user_ids": ChatMsg.items@.user_id, "fields":"id,first_name,last_name"});
 
 return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers, "msgs_users": MsgUsers };
@@ -394,7 +397,8 @@ while (Idx < FMsgs.length) {
     };
     Idx = Idx + 1;
 };
-var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var FUsers = [];
+if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var GUsers = [];
 if(GUids.length>0){
  GUsers = API.groups.getById({ "group_ids": GUids });
@@ -433,7 +437,8 @@ while (Idx < FMsgs.length) {
     };
     Idx = Idx + 1;
 };
-var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var FUsers = [];
+if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var GUsers = [];
 if(GUids.length>0){
  GUsers = API.groups.getById({ "group_ids": GUids });
