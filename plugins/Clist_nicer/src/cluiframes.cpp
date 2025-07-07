@@ -202,9 +202,9 @@ static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 
 	// Docking to the edges of the screen
 	int nNewX = nX < nOffs ? 0 : nX;
-	nNewX = nNewX >(sizeScreen.cx - nWidth - nOffs) ? (sizeScreen.cx - nWidth) : nNewX;
+	nNewX = nNewX > (sizeScreen.cx - nWidth - nOffs) ? (sizeScreen.cx - nWidth) : nNewX;
 	int nNewY = nY < nOffs ? 0 : nY;
-	nNewY = nNewY >(sizeScreen.cy - nHeight - nOffs) ? (sizeScreen.cy - nHeight) : nNewY;
+	nNewY = nNewY > (sizeScreen.cy - nHeight - nOffs) ? (sizeScreen.cy - nHeight) : nNewY;
 
 	bool bLeading = pThumb->dockOpt.hwndRight != nullptr;
 
@@ -766,7 +766,7 @@ INT_PTR CLUIFramesGetFrameOptions(WPARAM wParam, LPARAM)
 		if (Frames[pos].TitleBar.ShowTitleBar) dwFlags |= F_SHOWTB;
 		if (Frames[pos].TitleBar.ShowTitleBarTip) dwFlags |= F_SHOWTBTIP;
 		if (Frames[pos].Skinned) dwFlags |= F_SKINNED;
-		if (!(GetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE)&WS_BORDER)) dwFlags |= F_NOBORDER;
+		if (!(GetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE) & WS_BORDER)) dwFlags |= F_NOBORDER;
 		return dwFlags;
 	}
 
@@ -920,10 +920,10 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 		return wParam;
 
 	case FO_ALIGN:
-		if (!(lParam&alTop || lParam&alBottom || lParam&alClient))
+		if (!(lParam & alTop || lParam & alBottom || lParam & alClient))
 			return -1;
 
-		if ((lParam&alClient) && (CLUIFramesGetalClientFrame() >= 0)) {  //only one alClient frame possible
+		if ((lParam & alClient) && (CLUIFramesGetalClientFrame() >= 0)) {  //only one alClient frame possible
 			alclientFrame = -1;//recalc it
 			return -1;
 		}
@@ -1590,9 +1590,9 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 	// create frame
 	Frames[nFramescount].TitleBar.hwnd =
 		CreateWindow(CLUIFrameTitleBarClassName, Frames[nFramescount].name,
-		(db_get_b(0, CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
-		| WS_CHILD | WS_CLIPCHILDREN | (Frames[nFramescount].TitleBar.ShowTitleBar ? WS_VISIBLE : 0) |
-		WS_CLIPCHILDREN, 0, 0, 0, 0, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
+			(db_get_b(0, CLUIFrameModule, "RemoveAllTitleBarBorders", 1) ? 0 : WS_BORDER)
+			| WS_CHILD | WS_CLIPCHILDREN | (Frames[nFramescount].TitleBar.ShowTitleBar ? WS_VISIBLE : 0) |
+			WS_CLIPCHILDREN, 0, 0, 0, 0, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), nullptr);
 
 	SetWindowLongPtr(Frames[nFramescount].TitleBar.hwnd, GWLP_USERDATA, Frames[nFramescount].id);
 
@@ -1657,7 +1657,7 @@ static INT_PTR CLUIFramesRemoveFrame(WPARAM wParam, LPARAM)
 		if (pos < 0 || pos > nFramescount)
 			return -1;
 
-		FRAMEWND* F = &Frames[pos];
+		FRAMEWND *F = &Frames[pos];
 		if (F->hWnd == g_hwndEventArea)
 			wndFrameEventArea = nullptr;
 		else if (F->hWnd == g_clistApi.hwndContactTree)
@@ -1830,7 +1830,7 @@ int CLUIFramesResize(const RECT newsize)
 	int tbh = 0;
 	int clientfrm = CLUIFramesGetalClientFrame();
 	if (clientfrm != -1)
-		tbh = (TitleBarH)* btoint(Frames[clientfrm].TitleBar.ShowTitleBar);
+		tbh = (TitleBarH)*btoint(Frames[clientfrm].TitleBar.ShowTitleBar);
 
 	for (i = 0; i < nFramescount; i++) {
 		FRAMEWND &F = Frames[i];
@@ -1851,14 +1851,14 @@ int CLUIFramesResize(const RECT newsize)
 
 	}
 	int drawitems = nFramescount;
-	while (sumheight >(newheight - tbh) && drawitems > 0) {
+	while (sumheight > (newheight - tbh) && drawitems > 0) {
 		sumheight = 0;
 		drawitems = 0;
 		for (i = 0; i < nFramescount; i++) {
 			FRAMEWND &F = Frames[i];
 			if (((F.align != alClient)) && (!F.floating) && (F.visible) && (!F.needhide)) {
 				drawitems++;
-				int curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
+				int curfrmtbh = (TitleBarH)*btoint(F.TitleBar.ShowTitleBar);
 				sumheight += (F.height) + curfrmtbh + (i > 0 ? sepw : 0) + (F.UseBorder ? 2 : 0);
 				if (sumheight > newheight - tbh) {
 					sumheight -= (F.height) + curfrmtbh + (i > 0 ? sepw : 0);
@@ -1877,7 +1877,7 @@ int CLUIFramesResize(const RECT newsize)
 		i = g_sd[j].realpos;
 		FRAMEWND &F = Frames[i];
 		if ((!F.needhide) && (!F.floating) && (F.visible) && (F.align == alTop)) {
-			int curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
+			int curfrmtbh = (TitleBarH)*btoint(F.TitleBar.ShowTitleBar);
 			F.wndSize.top = prevframebottomline + (prevframebottomline > 0 ? sepw : 0) + (curfrmtbh);
 			F.wndSize.bottom = F.height + F.wndSize.top + (F.UseBorder ? 2 : 0);
 			F.prevvisframe = prevframe;
@@ -1918,7 +1918,7 @@ int CLUIFramesResize(const RECT newsize)
 		i = g_sd[j].realpos;
 		FRAMEWND &F = Frames[i];
 		if ((F.visible) && (!F.floating) && (!F.needhide) && (F.align == alBottom)) {
-			int curfrmtbh = (TitleBarH)* btoint(F.TitleBar.ShowTitleBar);
+			int curfrmtbh = (TitleBarH)*btoint(F.TitleBar.ShowTitleBar);
 			F.wndSize.bottom = prevframebottomline - ((prevframebottomline < newheight) ? sepw : 0);
 			F.wndSize.top = F.wndSize.bottom - F.height - (F.UseBorder ? 2 : 0);
 			F.prevvisframe = prevframe;
@@ -2059,7 +2059,7 @@ int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam)
 		if (lParam && lParam != 1) {
 			RECT oldRect;
 			POINT pt;
-			RECT * newRect = (RECT *)lParam;
+			RECT *newRect = (RECT *)lParam;
 			int dl, dt, dr, db;
 			GetWindowRect((HWND)wParam, &oldRect);
 			pt.x = nRect.left;
@@ -2358,7 +2358,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				Frames[framepos].TitleBar.oldpos = pt;
 			}
 
-			if ((!(wParam&MK_CONTROL)) && Frames[framepos].Locked && (!(Frames[framepos].floating))) {
+			if ((!(wParam & MK_CONTROL)) && Frames[framepos].Locked && (!(Frames[framepos].floating))) {
 				if (Clist::bClientAreaDrag) {
 					POINT pt;
 					GetCursorPos(&pt);

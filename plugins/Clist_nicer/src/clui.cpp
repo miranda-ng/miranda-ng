@@ -1538,23 +1538,6 @@ buttons_done:
 			case CLN_LISTSIZECHANGE:
 				sttProcessResize(hwnd, (NMCLISTCONTROL *)lParam);
 				return FALSE;
-
-			case NM_CLICK:
-				{
-					NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
-					uint32_t hitFlags;
-					SendMessage(g_clistApi.hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
-						break;
-					
-					if (Clist::bClientAreaDrag) {
-						POINT pt;
-						pt = nm->pt;
-						ClientToScreen(g_clistApi.hwndContactTree, &pt);
-						return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
-					}
-				}
-				return FALSE;
 			}
 		}
 		break;
