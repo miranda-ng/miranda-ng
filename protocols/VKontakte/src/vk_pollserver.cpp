@@ -121,7 +121,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			iUserId = jnChild[3].as_int();
 			hContact = FindUser(iUserId);
 
-			if (hContact != 0 && (iFlags & VKFLAG_MSGDELETED) && IsMessageExist(iMessageId, vkALL) && GetMessageFromDb(iMessageId, tDateTime, wszMsg)) {
+			if (hContact != 0 && ((iFlags & VKFLAG_MSGDELETED) || (iFlags & VKFLAG_MSGSPAM)) && IsMessageExist(iMessageId, vkALL) && GetMessageFromDb(iMessageId, tDateTime, wszMsg)) {
 				wchar_t ttime[64];
 				time_t tDeleteTime = time(0);
 				_locale_t locale = _create_locale(LC_ALL, "");
@@ -129,14 +129,20 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 				_free_locale(locale);
 
 				wszMsg = SetBBCString(
-					CMStringW(FORMAT, TranslateT("This message has been deleted by sender in %s:\n"), ttime),
+					CMStringW(FORMAT, 
+						(
+							(iFlags & VKFLAG_MSGSPAM) ? 
+							TranslateT("This message has been deleted by sender in %s:\n") :
+							TranslateT("This message has been marked as spam in %s:\n")
+						), 
+						ttime),
 						m_vkOptions.BBCForAttachments(), vkbbcB) +
 					wszMsg;
 
 				DB::EventInfo dbei;
 				if (iUserId == m_iMyUserId)
 					dbei.flags |= DBEF_SENT;
-				else if (m_vkOptions.bUserForceInvisibleOnActivity && time(0) - tDateTime < 60 * m_vkOptions.iInvisibleInterval)
+				else if ((m_vkOptions.bUserForceInvisibleOnActivity && time(0) - tDateTime < 60 * m_vkOptions.iInvisibleInterval) && (iFlags & VKFLAG_MSGDELETED))
 					SetInvisible(hContact);
 
 				char szMid[40];
