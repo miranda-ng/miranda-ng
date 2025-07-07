@@ -35,9 +35,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static HANDLE	hShowInfoTipEvent;
 static POINT	HitPoint;
 static BOOL		fMouseUpped;
-static uint8_t		IsDragToScrollMode = 0;
-static int		StartDragPos = 0;
-static int		StartScrollPos = 0;
 static BOOL		g_bSortTimerIsSet = FALSE;
 static ClcContact *hitcontact = nullptr;
 HANDLE hSkinFolder;
@@ -183,26 +180,6 @@ static int clcHookAvatarChanged(WPARAM wParam, LPARAM lParam)
 	if (MirandaExiting()) return 0;
 	Clist_Broadcast(INTM_AVATARCHANGED, wParam, lParam);
 	return 0;
-}
-
-static int clcExitDragToScroll()
-{
-	if (!IsDragToScrollMode) return 0;
-	IsDragToScrollMode = 0;
-	ReleaseCapture();
-	return 1;
-}
-
-static int clcProceedDragToScroll(HWND hwnd, int Y)
-{
-	if (!IsDragToScrollMode) return 0;
-	if (GetCapture() != hwnd) clcExitDragToScroll();
-	int dy = StartDragPos - Y;
-	int pos = StartScrollPos + dy;
-	if (pos < 0)
-		pos = 0;
-	SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_THUMBTRACK, pos), 0);
-	return 1;
 }
 
 static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const wchar_t *text, int prefixOk, BOOL fSearchUp)
@@ -847,9 +824,6 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 		CLUI_TestCursorOnBorders();
 	}
 
-	if (clcProceedDragToScroll(hwnd, (short)HIWORD(lParam)))
-		return 0;
-
 	if (dat->dragStage & DRAGSTAGEF_MAYBERENAME) {
 		POINT pt = UNPACK_POINT(lParam);
 		if (abs(pt.x - dat->ptDragStart.x) > GetSystemMetrics(SM_CXDOUBLECLK) || abs(pt.y - dat->ptDragStart.y) > GetSystemMetrics(SM_CYDOUBLECLK)) {
@@ -1049,9 +1023,6 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 
 static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (clcExitDragToScroll())
-		return 0;
-
 	fMouseUpped = TRUE;
 
 	if (hitcontact != nullptr && dat->bMetaExpanding) {
@@ -1690,26 +1661,10 @@ int ClcDoProtoAck(ACKDATA *ack)
 	return 0;
 }
 
-int ClcEnterDragToScroll(HWND hwnd, int Y)
-{
-	if (IsDragToScrollMode)
-		return 0;
-
-	ClcData *dat = (ClcData*)GetWindowLongPtr(hwnd, 0);
-	if (!dat)
-		return 0;
-
-	StartDragPos = Y;
-	StartScrollPos = dat->yScroll;
-	IsDragToScrollMode = 1;
-	SetCapture(hwnd);
-	return 1;
-}
-
-
 /*
 *	Contact list control window procedure
 */
+
 LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	#define CASE_MSG_RET(msg, handler) case msg: return handler(dat, hwnd, msg, wParam, lParam);

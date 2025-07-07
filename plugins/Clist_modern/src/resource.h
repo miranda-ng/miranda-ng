@@ -259,7 +259,6 @@
 #define IDC_DISCOVER_AWAYMSG            1763
 #define IDC_OFFSETSPIN                  1763
 #define IDC_USE_NAME_AND_MESSAGE        1763
-#define IDC_DRAGTOSCROLL                1764
 #define IDC_SUBINDENT                   1764
 #define IDC_AVATAR_DRAW_BORDER          1764
 #define IDC_OFFSETICON2                 1764

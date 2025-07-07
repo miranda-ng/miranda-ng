@@ -2343,9 +2343,6 @@ LRESULT CLUI::OnClickNotify(NMCLISTCONTROL *pnmc)
 		return res;
 	}
 
-	if (db_get_b(0, "CLUI", "DragToScroll", SETTING_DRAGTOSCROLL_DEFAULT) && !Clist::bClientAreaDrag)
-		return ClcEnterDragToScroll(g_clistApi.hwndContactTree, pnmc->pt.y);
-
 	return 0;
 }
 

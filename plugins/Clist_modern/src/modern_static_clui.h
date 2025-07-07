@@ -54,13 +54,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Declaration of prototypes in other modules */
 
-int ClcEnterDragToScroll(HWND hwnd, int Y);
-
 int CListMod_ContactListShutdownProc(WPARAM wParam, LPARAM lParam);
-int CListMod_HideWindow(HWND hwndContactList, int mode);
 
 int CLUIServices_LoadModule(void);
-INT_PTR CLUIServices_SortList(WPARAM wParam, LPARAM lParam);
 
 void GetMonitorRectFromWindow(HWND hWnd, RECT *rc);
 
@@ -81,8 +77,6 @@ int ske_UpdateWindowImage();
 int ske_ValidateFrameImageProc(RECT *r);
 
 HWND StatusBar_Create(HWND parent);
-
-int UnhookAll();
 
 /* Module function prototypes */
 

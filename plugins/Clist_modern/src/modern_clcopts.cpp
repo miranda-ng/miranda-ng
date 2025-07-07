@@ -735,7 +735,6 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_CLIENTDRAG, Clist::bClientAreaDrag);
-		CheckDlgButton(hwndDlg, IDC_DRAGTOSCROLL, (db_get_b(0, "CLUI", "DragToScroll", SETTING_DRAGTOSCROLL_DEFAULT) && !Clist::bClientAreaDrag));
 		CheckDlgButton(hwndDlg, IDC_AUTOSIZE, g_CluiData.fAutoSize);
 		CheckDlgButton(hwndDlg, IDC_LOCKSIZING, db_get_b(0, "CLUI", "LockSize", SETTING_LOCKSIZE_DEFAULT));
 		CheckDlgButton(hwndDlg, IDC_BRINGTOFRONT, Clist::bBringToFront);
@@ -804,12 +803,6 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HIDETIMESPIN), IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC01), IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 		}
-		else if (LOWORD(wParam) == IDC_DRAGTOSCROLL && IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG)) {
-			CheckDlgButton(hwndDlg, IDC_CLIENTDRAG, BST_UNCHECKED);
-		}
-		else if (LOWORD(wParam) == IDC_CLIENTDRAG && IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL)) {
-			CheckDlgButton(hwndDlg, IDC_DRAGTOSCROLL, BST_UNCHECKED);
-		}
 		else if (LOWORD(wParam) == IDC_AUTOSIZE) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC21), IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC22), IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE));
@@ -853,7 +846,6 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			db_set_w(0, "ModernData", "HideDelay", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN3, UDM_GETPOS, 0, 0));
 			db_set_w(0, "ModernData", "HideBehindBorderSize", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN4, UDM_GETPOS, 0, 0));
 
-			db_set_b(0, "CLUI", "DragToScroll", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
 			Clist::bBringToFront = IsDlgButtonChecked(hwndDlg, IDC_BRINGTOFRONT);
 			g_bChangingMode = true;
 			Clist::bClientAreaDrag = IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG);
@@ -1065,7 +1057,6 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (uint32_t)SETTING_KEYCOLOR_DEFAULT);
 			Clist::bOnTop = IsDlgButtonChecked(hwndDlg, IDC_ONTOP);
 			SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-			db_set_b(0, "CLUI", "DragToScroll", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
 
 			//======  Non-Layered Mode ======
 			Clist::bToolWindow = IsDlgButtonChecked(hwndDlg, IDC_TOOLWND);
