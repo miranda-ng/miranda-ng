@@ -132,8 +132,8 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 					CMStringW(FORMAT, 
 						(
 							(iFlags & VKFLAG_MSGSPAM) ? 
-							TranslateT("This message has been deleted by sender in %s:\n") :
-							TranslateT("This message has been marked as spam in %s:\n")
+							TranslateT("This message has been marked as spam in %s:\n") :
+							TranslateT("This message has been deleted by sender in %s:\n")
 						), 
 						ttime),
 						m_vkOptions.BBCForAttachments(), vkbbcB) +
