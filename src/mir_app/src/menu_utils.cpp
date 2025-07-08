@@ -350,7 +350,7 @@ static void Menu_SetItemFlags(HGENMENU hMenuItem, bool bSet, int mask)
 	else
 		flags &= ~mask;
 
-	if (!pimi->customVisible)
+	if (!pimi->bCustomVisible)
 		flags |= CMIF_HIDDEN;
 
 	// we allow to set only first 3 bits
@@ -392,7 +392,7 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const wchar_t *ptszName, HA
 	if (iFlags != -1) {
 		Menu_SetItemFlags(hMenuItem, true, iFlags);
 		int oldflags = (pimi->mi.flags & 0xFFFFFFF8);
-		if (!pimi->customVisible)
+		if (!pimi->bCustomVisible)
 			oldflags |= CMIF_HIDDEN;
 		pimi->mi.flags = (iFlags & 0x07) | oldflags;
 	}
@@ -545,7 +545,7 @@ MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 		return 0;
 
 	case MCI_OPT_DISABLED:
-		pimi->customVisible = false;
+		pimi->bCustomVisible = false;
 		return 0;
 	}
 
@@ -772,7 +772,7 @@ static int sttLoadFromDatabase(TMO_IntMenuItem *pimi, const void *szModule)
 	}
 
 	pimi->mi.position = pos;
-	pimi->customVisible = bVisible != 0;
+	pimi->bCustomVisible = bVisible != 0;
 	if (bVisible)
 		pimi->mi.flags &= ~CMIF_HIDDEN;
 	else
@@ -846,7 +846,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	p->signature = MENUITEM_SIGNATURE;
 	p->iCommand = GetNextObjectMenuItemId();
 	p->mi = *pmi;
-	p->customVisible = true;
+	p->bCustomVisible = true;
+	p->bMainMenu = !mir_strcmp(pmi->pszService, MS_CLIST_MAIN_MENU);
+	p->bStatusMenu = !mir_strcmp(pmi->pszService, MS_CLIST_STATUS_MENU);
 	p->iconId = -1;
 	p->originalPosition = pmi->position;
 	p->pUserData = pUserData;
@@ -1005,8 +1007,8 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, const void *szModule)
 
 	// check if it visible
 	mir_snprintf(szSetting, "%s_visible", menuItemName);
-	pmi->customVisible = db_get_b(0, (char *)szModule, szSetting, 1) != 0;
-	if (pmi->customVisible)
+	pmi->bCustomVisible = db_get_b(0, (char *)szModule, szSetting, 1) != 0;
+	if (pmi->bCustomVisible)
 		pmi->mi.flags &= ~CMIF_HIDDEN;
 	else
 		pmi->mi.flags |= CMIF_HIDDEN;
@@ -1155,12 +1157,12 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 			}
 			#endif
 
-			if (!mir_strcmp(pmi->mi.pszService, MS_CLIST_MAIN_MENU)) {
+			if (pmi->bMainMenu) {
 				mii.fMask |= MIIM_SUBMENU;
 				mii.hSubMenu = Menu_GetMainMenu();
 			}
 
-			if (!mir_strcmp(pmi->mi.pszService, MS_CLIST_STATUS_MENU)) {
+			if (pmi->bStatusMenu) {
 				mii.fMask |= MIIM_SUBMENU;
 				mii.hSubMenu = Menu_GetStatusMenu();
 			}

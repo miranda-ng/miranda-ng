@@ -60,7 +60,7 @@ struct TMO_IntMenuItem : public MZeroedObject
 	HANDLE       hIcolibItem;      // handle of iconlib item
 	HBITMAP      hBmp;
 	int          originalPosition; // !!!!!!!!!!!!!!!!!!!!!!!!
-	bool         customVisible;
+	bool         bCustomVisible, bMainMenu, bStatusMenu;
 
 	uint32_t     hotKey;
 	WPARAM       execParam;
