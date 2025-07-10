@@ -478,11 +478,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_GAMMACORRECT, db_get_b(0, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT));
-		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE4, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 0);
-		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE1, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE2, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 2);
-		CheckDlgButton(hwndDlg, IDC_HILIGHTMODE3, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT) == 3);
+		CheckDlgButton(hwndDlg, IDC_ONTOP, Clist::bOnTop);
 		{
 			for (auto &it : sortby) {
 				int item = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
@@ -522,12 +518,8 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, "CLC", "GammaCorrect", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_GAMMACORRECT));
-				int hil = 0;
-				if (IsDlgButtonChecked(hwndDlg, IDC_HILIGHTMODE1))  hil = 1;
-				if (IsDlgButtonChecked(hwndDlg, IDC_HILIGHTMODE2))  hil = 2;
-				if (IsDlgButtonChecked(hwndDlg, IDC_HILIGHTMODE3))  hil = 3;
-				db_set_b(0, "CLC", "HiLightMode", (uint8_t)hil);
+				Clist::bOnTop = IsDlgButtonChecked(hwndDlg, IDC_ONTOP);
+				SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 				int s1 = SendDlgItemMessage(hwndDlg, IDC_CLSORT1, CB_GETCURSEL, 0, 0);
 				int s2 = SendDlgItemMessage(hwndDlg, IDC_CLSORT2, CB_GETCURSEL, 0, 0);
@@ -876,17 +868,35 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct
+{
+	const wchar_t *pwszName;
+	int mode;
+}
+static selectionModes[] = {
+	{ LPGENW("Default"), 0 },
+	{ LPGENW("Full selection"), 1 },
+	{ LPGENW("Less selection"), 2 },
+	{ LPGENW("No selection"), 3 },
+};
+
 static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BOOL fEnabled = FALSE;
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		g_hCLUIOptionsWnd = hwndDlg;
-		CheckDlgButton(hwndDlg, IDC_ONTOP, Clist::bOnTop);
+
+		for (auto &it : selectionModes) {
+			int item = SendDlgItemMessage(hwndDlg, IDC_SELECTION_MODE, CB_ADDSTRING, 0, (LPARAM)TranslateW(it.pwszName));
+			SendDlgItemMessage(hwndDlg, IDC_SELECTION_MODE, CB_SETITEMDATA, item, it.mode);
+		}
+		SendDlgItemMessage(hwndDlg, IDC_SELECTION_MODE, CB_SETCURSEL, db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT), 0);
+
+		CheckDlgButton(hwndDlg, IDC_GAMMACORRECT, db_get_b(0, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT));
 		{
 			//====== Activate/Deactivate Non-Layered items =======
-			fEnabled = !g_CluiData.fLayered || g_CluiData.fDisableSkinEngine;
+			bool fEnabled = !g_CluiData.fLayered || g_CluiData.fDisableSkinEngine;
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TOOLWND), fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIN2TRAY), fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BORDER), fEnabled);
@@ -898,6 +908,8 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AEROGLASS), !fEnabled && (g_proc_DWMEnableBlurBehindWindow != nullptr));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TITLEBAR_STATIC), fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ROUNDCORNERS), fEnabled);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SELECTION_MODE), fEnabled);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_GAMMACORRECT), fEnabled);
 		}
 		{
 			//====== Non-Layered Mode =====
@@ -983,7 +995,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INACTIVEPERC), IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT));
 		}
 		else if (LOWORD(wParam) == IDC_LAYERENGINE || LOWORD(wParam) == IDC_DISABLEENGINE) {	//====== Activate/Deactivate Non-Layered items =======
-			fEnabled = !(IsWindowEnabled(GetDlgItem(hwndDlg, IDC_LAYERENGINE)) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_LAYERENGINE) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEENGINE));
+			bool fEnabled = !(IsWindowEnabled(GetDlgItem(hwndDlg, IDC_LAYERENGINE)) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_LAYERENGINE) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEENGINE));
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TOOLWND), fEnabled && (IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION)) && !(IsDlgButtonChecked(hwndDlg, IDC_NOBORDERWND) || IsDlgButtonChecked(hwndDlg, IDC_BORDER)));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIN2TRAY), fEnabled && (IsDlgButtonChecked(hwndDlg, IDC_TOOLWND) && IsDlgButtonChecked(hwndDlg, IDC_SHOWCAPTION)) && !(IsDlgButtonChecked(hwndDlg, IDC_NOBORDERWND) || IsDlgButtonChecked(hwndDlg, IDC_BORDER)));
@@ -996,6 +1008,8 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AEROGLASS), !fEnabled && (g_proc_DWMEnableBlurBehindWindow != nullptr));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_TITLEBAR_STATIC), fEnabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ROUNDCORNERS), fEnabled);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SELECTION_MODE), fEnabled);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_GAMMACORRECT), fEnabled);
 			if (LOWORD(wParam) == IDC_DISABLEENGINE) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_LAYERENGINE), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEENGINE));
 				if (IsDlgButtonChecked(hwndDlg, IDC_DISABLEENGINE))
@@ -1055,8 +1069,10 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 					db_unset(0, "ModernData", "EnableLayering");
 			}
 			g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (uint32_t)SETTING_KEYCOLOR_DEFAULT);
-			Clist::bOnTop = IsDlgButtonChecked(hwndDlg, IDC_ONTOP);
-			SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+
+			db_set_b(0, "CLC", "GammaCorrect", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_GAMMACORRECT));
+			int item = SendDlgItemMessage(hwndDlg, IDC_SELECTION_MODE, CB_GETCURSEL, 0, 0);
+			db_set_b(0, "CLC", "HiLightMode", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SELECTION_MODE, CB_GETITEMDATA, item, 0));
 
 			//======  Non-Layered Mode ======
 			Clist::bToolWindow = IsDlgButtonChecked(hwndDlg, IDC_TOOLWND);
@@ -1429,7 +1445,6 @@ int ClcOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {};
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.szTitle.a = LPGEN("Contact list");
-	odp.pfnDlgProc = DlgProcClistListOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 
 	for (auto &it : clist_opt_items) {

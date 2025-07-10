@@ -204,18 +204,11 @@
 #define IDC_SORTGROUPSALPHA             1361
 #define IDC_NOTNOSMOOTHSCROLLING        1362
 #define IDC_BITMAP                      1363
-#define IDC_STWINDOWGROUP               1364
 #define IDC_STATIC01                    1365
-#define IDC_STWINDOWGROUP3              1365
-#define IDC_STATIC2                     1366
-#define IDC_STATIC3                     1367
-#define IDC_STWINDOWGROUP2              1368
-#define IDC_STATIC4                     1369
 #define IDC_STATIC5                     1370
 #define IDC_STATIC6                     1371
 #define IDC_STATIC7                     1372
 #define IDC_STATIC8                     1373
-#define IDC_STATIC9                     1374
 #define IDC_STATIC10                    1375
 #define IDC_STATIC13                    1376
 #define IDC_GETSKINS                    1377
@@ -247,10 +240,6 @@
 #define IDC_OFFLINEMOVE                 1657
 #define IDC_HILIGHTMODE                 1658
 #define IDC_OFFLINETOROOT               1658
-#define IDC_HILIGHTMODE2                1659
-#define IDC_HILIGHTMODE1                1660
-#define IDC_HILIGHTMODE3                1661
-#define IDC_HILIGHTMODE4                1663
 #define IDC_USECONNECTINGICON           1761
 #define IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK 1761
 #define IDC_XSTATUS_HAS_PRIORITY        1761
@@ -367,6 +356,8 @@
 #define IDC_SKINFOLDERLABEL             2024
 #define IDC_OFFSETICON_LEFT             2025
 #define IDC_OFFSETSPIN_LEFT             2026
+#define IDC_COMBO1                      2026
+#define IDC_SELECTION_MODE              2026
 #define IDC_STATUSBAR_PROTO_LIST        2027
 #define IDC_SBAR_USE_ACCOUNT_SETTINGS   2028
 #define IDC_SBAR_HIDE_ACCOUNT_COMPLETELY 2029
@@ -436,9 +427,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        512
+#define _APS_NEXT_RESOURCE_VALUE        514
 #define _APS_NEXT_COMMAND_VALUE         40022
-#define _APS_NEXT_CONTROL_VALUE         2026
+#define _APS_NEXT_CONTROL_VALUE         2027
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
