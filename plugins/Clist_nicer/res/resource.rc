@@ -270,12 +270,10 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,45,282,10
     CONTROL         "Show selection even when list is not focused",IDC_SHOWSELALWAYS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,56,282,10
-    CONTROL         "Make selection highlight translucent",IDC_NOTNOTRANSLUCENTSEL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,67,282,10
     CONTROL         "Use full row for selection and hottracking",IDC_FULLROWSELECT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,78,282,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,67,282,10
     CONTROL         "Double click on avatar opens user info",IDC_DBLCLKAVATARS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,90,282,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,78,282,10
     GROUPBOX        "Visual",IDC_STATIC,0,107,303,117
     CONTROL         "Scroll list smoothly",IDC_NOTNOSMOOTHSCROLLING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,120,282,10
     LTEXT           "Time:",IDC_STATIC11,18,134,39,8
