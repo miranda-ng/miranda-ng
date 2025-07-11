@@ -92,11 +92,11 @@ public:
 		Clist::iCycleTime = SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0);
 		g_plugin.setByte("AutoApplyLastViewMode", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_APPLYLASTVIEWMODE));
 
-		cfgSetFlag(m_hwnd, CLUI_FRAME_EVENTAREASUNKEN, IDC_EVENTAREASUNKEN);
-		cfgSetFlag(m_hwnd, CLUI_FRAME_AUTOHIDENOTIFY, IDC_EVENTAREAAUTOHIDE);
+		cfgSetFlag(m_hwnd, IDC_EVENTAREASUNKEN, CLUI_FRAME_EVENTAREASUNKEN);
+		cfgSetFlag(m_hwnd, IDC_EVENTAREAAUTOHIDE, CLUI_FRAME_AUTOHIDENOTIFY);
 
-		cfgSetFlag(m_hwnd, CLUI_FRAME_SHOWBOTTOMBUTTONS, IDC_SHOWBOTTOMBUTTONS);
-		cfgSetFlag(m_hwnd, CLUI_FRAME_CLISTSUNKEN, IDC_CLISTSUNKEN);
+		cfgSetFlag(m_hwnd, IDC_SHOWBOTTOMBUTTONS, CLUI_FRAME_SHOWBOTTOMBUTTONS);
+		cfgSetFlag(m_hwnd, IDC_CLISTSUNKEN, CLUI_FRAME_CLISTSUNKEN);
 
 		cfg::dat.bNoTrayTips = IsDlgButtonChecked(m_hwnd, IDC_NOTRAYINFOTIPS) ? 1 : 0;
 		g_plugin.setByte("NoTrayTips", (uint8_t)cfg::dat.bNoTrayTips);
