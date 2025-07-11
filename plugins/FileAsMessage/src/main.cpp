@@ -122,6 +122,15 @@ static IconItem iconList[] =
 	{ LPGEN("Main"),   "FeMain",    IDI_MAIN    },
 };
 
+static int ToolbarButtonPressed(WPARAM, LPARAM lParam)
+{
+	auto *pcbc = (CustomButtonClickData *)lParam;
+	if (!mir_strcmp(pcbc->pszModule, MODULENAME))
+		CallService(MODULENAME "/FESendFile", pcbc->hContact, 0);
+
+	return 0;
+}
+
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	hHookSkinIconsChanged = HookEvent(ME_SKIN_ICONSCHANGED, OnSkinIconsChanged);
@@ -140,10 +149,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	BBButton bbd = {};
 	bbd.pszModuleName = MODULENAME;
 	bbd.dwDefPos = 1500;
-	bbd.pwszTooltip = LPGENW("File As Message...");
+	bbd.pwszText = bbd.pwszTooltip = LPGENW("File As Message...");
 	bbd.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_HIDDEN;
 	bbd.hIcon = mi.hIcolibItem;
 	g_plugin.addButton(&bbd);
+	
+	HookEvent(ME_MSG_BUTTONPRESSED, ToolbarButtonPressed);
 	return 0;
 }
 
