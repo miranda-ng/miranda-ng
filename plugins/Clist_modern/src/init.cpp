@@ -185,6 +185,7 @@ static HRESULT SubclassClistInterface()
 	g_clistApi.pfnHitTest = cliHitTest;
 	g_clistApi.pfnCompareContacts = cliCompareContacts;
 	g_clistApi.pfnGetIconFromStatusMode = cliGetIconFromStatusMode;
+	g_clistApi.pfnGetWindowVisibleState = cliGetWindowVisibleState;
 	g_clistApi.pfnFindItem = cliFindItem;
 	g_clistApi.pfnGetRowByIndex = cliGetRowByIndex;
 	g_clistApi.pfnGetRowsPriorTo = cliGetRowsPriorTo;

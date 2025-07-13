@@ -254,36 +254,25 @@ static int CListIconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-/*
-Begin of Hrk's code for bug
-*/
-#define GWVS_HIDDEN 1
-#define GWVS_VISIBLE 2
-#define GWVS_COVERED 3
-#define GWVS_PARTIALLY_COVERED 4
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 {
-	RECT rc, rcWin, rcWorkArea;
-	POINT pt;
-	int i, j, width, height, iCountedDots = 0, iNotCoveredDots = 0;
-	BOOL bPartiallyCovered = FALSE;
-	HWND hAux = nullptr;
-
 	if (hWnd == nullptr) {
 		SetLastError(0x00000006);       //Wrong handle
 		return -1;
 	}
 
-	//Some defaults now. The routine is designed for thin and tall windows.
+	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
+		return GWVS_HIDDEN;
+
+	// Some defaults now. The routine is designed for thin and tall windows.
 	if (iStepX <= 0)
 		iStepX = 4;
 	if (iStepY <= 0)
 		iStepY = 16;
 
-	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
-		return GWVS_HIDDEN;
-
+	RECT rc, rcWin, rcWorkArea;
 	GetWindowRect(hWnd, &rcWin);
 
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
@@ -295,17 +284,20 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 	IntersectRect(&rc, &rcWin, &rcWorkArea);
 
-	width = rc.right - rc.left;
-	height = rc.bottom - rc.top;
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+	int iCountedDots = 0, iNotCoveredDots = 0;
 
-	for (i = rc.top; i < rc.bottom; i += (height / iStepY)) {
+	POINT pt;
+	BOOL bPartiallyCovered = FALSE;
+	for (int i = rc.top; i < rc.bottom; i += (height / iStepY)) {
 		pt.y = i;
-		for (j = rc.left; j < rc.right; j += (width / iStepX)) {
+		for (int j = rc.left; j < rc.right; j += (width / iStepX)) {
 			pt.x = j;
-			hAux = WindowFromPoint(pt);
+			HWND hAux = WindowFromPoint(pt);
 			while (GetParent(hAux) != nullptr)
 				hAux = GetParent(hAux);
-			if (hAux != hWnd && hAux != nullptr)       //There's another window!
+			if (hAux != hWnd && hAux != nullptr) // There's another window!
 				bPartiallyCovered = TRUE;
 			else
 				iNotCoveredDots++;  //Let's count the not covered dots.

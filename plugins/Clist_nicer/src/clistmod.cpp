@@ -67,14 +67,6 @@ int LoadContactListModule(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-/*
-Begin of Hrk's code for bug
-*/
-#define GWVS_HIDDEN 1
-#define GWVS_VISIBLE 2
-#define GWVS_COVERED 3
-#define GWVS_PARTIALLY_COVERED 4
-
 int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 {
 	RECT rc = { 0 };
@@ -182,9 +174,7 @@ int ShowHide()
 		}
 	}
 
-	if (bShow == TRUE) {
-		RECT rcWindow;
-
+	if (bShow) {
 		SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
 		if (!Clist::bOnTop)
 			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
@@ -193,13 +183,14 @@ int ShowHide()
 		ShowWindow(g_clistApi.hwndContactList, SW_SHOW);
 		g_plugin.setByte("State", SETTING_STATE_NORMAL);
 
+		RECT rcWindow;
 		GetWindowRect(g_clistApi.hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
 			MoveWindow(g_clistApi.hwndContactList, rcWindow.left, rcWindow.top,
 				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 		}
 	}
-	else {                      //It needs to be hidden
+	else {
 		ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
 		g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 		if (g_plugin.getByte("DisableWorkingSet", 1))

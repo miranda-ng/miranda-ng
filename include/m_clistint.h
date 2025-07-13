@@ -246,9 +246,14 @@ struct MenuProto
 #define CLCDEFAULT_SHOWIDLE      1
 #define CLCDEFAULT_USEWINDOWSCOLOURS 0
 
-#define TRAYICON_ID_BASE    100
-#define TIM_CALLBACK   (WM_USER+1857)
-#define TIM_CREATE     (WM_USER+1858)
+#define GWVS_HIDDEN              1
+#define GWVS_VISIBLE             2
+#define GWVS_COVERED             3
+#define GWVS_PARTIALLY_COVERED   4
+
+#define TRAYICON_ID_BASE         100
+#define TIM_CALLBACK             (WM_USER+1857)
+#define TIM_CREATE               (WM_USER+1858)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions

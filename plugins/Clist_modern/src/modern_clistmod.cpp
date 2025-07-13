@@ -155,12 +155,6 @@ HRESULT CluiLoadModule()
 	return S_OK;
 }
 
-#define GWVS_HIDDEN 1
-#define GWVS_VISIBLE 2
-#define GWVS_COVERED 3
-#define GWVS_PARTIALLY_COVERED 4
-
-int GetWindowVisibleState(HWND, int, int);
 __inline uint32_t GetDIBPixelColor(int X, int Y, int Width, int Height, int ByteWidth, uint8_t * ptr)
 {
 	uint32_t res = 0;
@@ -169,7 +163,7 @@ __inline uint32_t GetDIBPixelColor(int X, int Y, int Width, int Height, int Byte
 	return res;
 }
 
-int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
+int cliGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 {
 	if (hWnd == nullptr) {
 		SetLastError(0x00000006); // Wrong handle
@@ -297,7 +291,7 @@ int cliShowHide(bool bAlwaysShow)
 {
 	BOOL bShow = FALSE;
 
-	int iVisibleState = GetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
+	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
 	int method = db_get_b(0, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT); //(0-none, 1-leftedge, 2-rightedge);
 	if (method) {
 		if (db_get_b(0, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && !bAlwaysShow)
