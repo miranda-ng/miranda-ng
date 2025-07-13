@@ -753,7 +753,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 				if (msg == WM_LBUTTONDOWN && bCtrl) {
 					char protoF[_countof(g_CluiData.protoFilter)];
-					mir_snprintf(protoF, "%s|", p->szAccountName);
+					mir_snprintf(protoF, "%s|", p->szAccountName.get());
 
 					if (g_CluiData.bFilterEffective != CLVM_FILTER_PROTOS || !bShift) {
 						ApplyViewMode("");
@@ -764,7 +764,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							g_CluiData.bFilterEffective = 0;
 						}
 						else {
-							mir_snprintf(g_CluiData.protoFilter, "%s|", p->szAccountName);
+							strncpy_s(g_CluiData.protoFilter, protoF, _TRUNCATE);
 							g_CluiData.bFilterEffective = CLVM_FILTER_PROTOS;
 						}
 					}
