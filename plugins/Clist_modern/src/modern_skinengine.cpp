@@ -1887,17 +1887,7 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST *pObjectList)
 
 static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 {
-	if (Skin == nullptr) return 0;
-	ske_UnloadSkin(Skin);
 	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-	// window borders
-	if (g_CluiData.fDisableSkinEngine) {
-		g_CluiData.LeftClientMargin = 0;
-		g_CluiData.RightClientMargin = 0;
-		g_CluiData.TopClientMargin = 0;
-		g_CluiData.BottomClientMargin = 0;
-		return 0;
-	}
 
 	// window borders
 	g_CluiData.LeftClientMargin = (int)db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
@@ -1905,26 +1895,30 @@ static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 	g_CluiData.TopClientMargin = (int)db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
 	g_CluiData.BottomClientMargin = (int)db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
 
-	Skin->pMaskList = (LISTMODERNMASK*)mir_alloc(sizeof(LISTMODERNMASK));
-	memset(Skin->pMaskList, 0, sizeof(LISTMODERNMASK));
-	Skin->szSkinPlace = db_get_wsa(0, SKIN, "SkinFolder");
-	if (!Skin->szSkinPlace || (wcschr(Skin->szSkinPlace, '%') && !db_get_b(0, SKIN, "Modified", 0))) {
-		BOOL bOnlyObjects = FALSE;
-		if (Skin->szSkinPlace && wcschr(Skin->szSkinPlace, '%'))
-			bOnlyObjects = TRUE;
-		mir_free(Skin->szSkinPlace);
-		Skin->szSkinPlace = mir_wstrdup(L"%Default%");
-		ske_LoadSkinFromResource(bOnlyObjects);
+	if (Skin)
+		ske_UnloadSkin(Skin);
+
+	if (!g_CluiData.fDisableSkinEngine && Skin) {
+		Skin->pMaskList = (LISTMODERNMASK *)mir_alloc(sizeof(LISTMODERNMASK));
+		memset(Skin->pMaskList, 0, sizeof(LISTMODERNMASK));
+		Skin->szSkinPlace = db_get_wsa(0, SKIN, "SkinFolder");
+		if (!Skin->szSkinPlace || (wcschr(Skin->szSkinPlace, '%') && !db_get_b(0, SKIN, "Modified", 0))) {
+			BOOL bOnlyObjects = FALSE;
+			if (Skin->szSkinPlace && wcschr(Skin->szSkinPlace, '%'))
+				bOnlyObjects = TRUE;
+			mir_free(Skin->szSkinPlace);
+			Skin->szSkinPlace = mir_wstrdup(L"%Default%");
+			ske_LoadSkinFromResource(bOnlyObjects);
+		}
+
+		// Load objects
+		pCurrentSkin = Skin;
+		db_enum_settings(0, ske_enumdb_SkinObjectsProc, SKIN);
+
+		SortMaskList(pCurrentSkin->pMaskList);
+		ske_LinkSkinObjects(pCurrentSkin);
 	}
 
-	// Load objects
-	pCurrentSkin = Skin;
-	db_enum_settings(0, ske_enumdb_SkinObjectsProc, SKIN);
-
-	SortMaskList(pCurrentSkin->pMaskList);
-	ske_LinkSkinObjects(pCurrentSkin);
-
-	// Load Masks
 	return 0;
 }
 

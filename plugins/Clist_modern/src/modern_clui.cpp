@@ -1032,19 +1032,11 @@ int CLUI_ReloadCLUIOptions()
 	g_CluiData.bRemoveAwayMessageForOffline = db_get_b(0, "ModernData", "RemoveAwayMessageForOffline", SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT);
 
 	// window borders
-	if (g_CluiData.fDisableSkinEngine) {
-		g_CluiData.LeftClientMargin = 0;
-		g_CluiData.RightClientMargin = 0;
-		g_CluiData.TopClientMargin = 0;
-		g_CluiData.BottomClientMargin = 0;
-	}
-	else {
-		// window borders
-		g_CluiData.LeftClientMargin = db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
-		g_CluiData.RightClientMargin = db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT);
-		g_CluiData.TopClientMargin = db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
-		g_CluiData.BottomClientMargin = db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
-	}
+	g_CluiData.LeftClientMargin = db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
+	g_CluiData.RightClientMargin = db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT);
+	g_CluiData.TopClientMargin = db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
+	g_CluiData.BottomClientMargin = db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
+
 	BroadCastMessageToChild(g_clistApi.hwndContactList, WM_THEMECHANGED, 0, 0);
 
 	NotifyEventHooks(g_CluiData.hEventBkgrChanged, 0, 0);
