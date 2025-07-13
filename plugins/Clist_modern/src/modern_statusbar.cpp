@@ -221,8 +221,8 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			p->bConnectingIcon = g_StatusBarData.bConnectingIcon;
 			p->bShowProtoEmails = g_StatusBarData.bShowProtoEmails;
 			p->SBarRightClk = 0;
-			p->PaddingLeft = 0;
-			p->PaddingRight = 0;
+			p->PaddingLeft = db_get_dw(0, "CLUI", "PaddingLeft", SETTING_PADDINGLEFT_DEFAULT);;
+			p->PaddingRight = db_get_dw(0, "CLUI", "PaddingRight", SETTING_PADDINGRIGHT_DEFAULT);;
 		}
 
 		p->iProtoStatus = Proto_GetStatus(szProto);
