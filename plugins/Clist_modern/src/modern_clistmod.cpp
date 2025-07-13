@@ -166,15 +166,12 @@ __inline uint32_t GetDIBPixelColor(int X, int Y, int Width, int Height, int Byte
 int cliGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 {
 	if (hWnd == nullptr) {
-		SetLastError(0x00000006); // Wrong handle
+		SetLastError(ERROR_INVALID_HANDLE);
 		return -1;
 	}
 
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
-
-	if (!Clist::bBringToFront)
-		return GWVS_VISIBLE;
 
 	HWND hwndFocused = GetFocus();
 	if (hwndFocused == g_clistApi.hwndContactList || GetParent(hwndFocused) == g_clistApi.hwndContactList)
@@ -289,12 +286,12 @@ uint8_t g_bCalledFromShowHide = 0;
 
 int cliShowHide(bool bAlwaysShow)
 {
-	BOOL bShow = FALSE;
+	bool bShow = false;
 
 	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
-	int method = db_get_b(0, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT); //(0-none, 1-leftedge, 2-rightedge);
+	int method = db_get_b(0, "ModernData", "HideBehind"); //(0-none, 1-leftedge, 2-rightedge);
 	if (method) {
-		if (db_get_b(0, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && !bAlwaysShow)
+		if (db_get_b(0, "ModernData", "BehindEdge") == 0 && !bAlwaysShow)
 			CLUI_HideBehindEdge(); //hide
 		else
 			CLUI_ShowFromBehindEdge();
@@ -303,8 +300,8 @@ int cliShowHide(bool bAlwaysShow)
 		iVisibleState = GWVS_HIDDEN;
 	}
 
-	if (!method && db_get_b(0, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) > 0) {
-		g_CluiData.bBehindEdgeSettings = db_get_b(0, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT);
+	if (!method && db_get_b(0, "ModernData", "BehindEdge") > 0) {
+		g_CluiData.bBehindEdgeSettings = db_get_b(0, "ModernData", "BehindEdge");
 		CLUI_ShowFromBehindEdge();
 		g_CluiData.bBehindEdgeSettings = 0;
 		g_CluiData.nBehindEdgeState = 0;
@@ -314,14 +311,20 @@ int cliShowHide(bool bAlwaysShow)
 	// bShow is FALSE when we enter the switch if no hide behind edge.
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
-		bShow = TRUE; break;
-	case GWVS_COVERED: //Fall through (and we're already falling)
-		bShow = TRUE; break;
+		if (!Clist::bBringToFront)
+			break;
+		__fallthrough;
+
+	case GWVS_COVERED:
 	case GWVS_HIDDEN:
-		bShow = TRUE; break;
-	case GWVS_VISIBLE: //This is not needed, but goes for readability.
-		bShow = FALSE; break;
-	case -1: //We can't get here, both g_clistApi.hwndContactList and iStepX and iStepY are right.
+		bShow = true;
+		break;
+	
+	case GWVS_VISIBLE:
+		bShow = false;
+		break;
+	
+	case -1: // We can't get here, both g_clistApi.hwndContactList and iStepX and iStepY are right.
 		return 0;
 	}
 

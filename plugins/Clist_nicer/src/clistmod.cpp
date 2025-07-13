@@ -159,9 +159,10 @@ int ShowHide()
 	else {
 		switch (iVisibleState) {
 		case GWVS_PARTIALLY_COVERED:
-			//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
 			if (!Clist::bBringToFront)
 				break;
+			__fallthrough;
+
 		case GWVS_COVERED:     //Fall through (and we're already falling)
 		case GWVS_HIDDEN:
 			bShow = TRUE;

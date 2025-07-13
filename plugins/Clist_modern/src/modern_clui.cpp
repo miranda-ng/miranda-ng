@@ -1022,10 +1022,10 @@ static LRESULT BroadCastMessageToChild(HWND hwnd, int message, WPARAM wParam, LP
 int CLUI_ReloadCLUIOptions()
 {
 	KillTimer(g_clistApi.hwndContactList, TM_UPDATEBRINGTIMER);
-	g_CluiData.bBehindEdgeSettings = db_get_b(0, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT);
+	g_CluiData.bBehindEdgeSettings = db_get_b(0, "ModernData", "HideBehind");
 	wBehindEdgeShowDelay = db_get_w(0, "ModernData", "ShowDelay", SETTING_SHOWDELAY_DEFAULT);
 	wBehindEdgeHideDelay = db_get_w(0, "ModernData", "HideDelay", SETTING_HIDEDELAY_DEFAULT);
-	wBehindEdgeBorderSize = db_get_w(0, "ModernData", "HideBehindBorderSize", SETTING_HIDEBEHINDBORDERSIZE_DEFAULT);
+	wBehindEdgeBorderSize = db_get_w(0, "ModernData", "HideBehindBorderSize");
 
 	g_CluiData.fAutoSize = db_get_b(0, "CLUI", "AutoSize", SETTING_AUTOSIZE_DEFAULT) != 0;
 	g_CluiData.bInternalAwayMsgDiscovery = db_get_b(0, "ModernData", "InternalAwayMsgDiscovery", SETTING_INTERNALAWAYMSGREQUEST_DEFAULT);
@@ -2065,7 +2065,7 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	SendMessage(g_clistApi.hwndContactTree, WM_ACTIVATE, wParam, lParam);
-	if (db_get_b(0, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT)) {
+	if (db_get_b(0, "ModernData", "HideBehind")) {
 		if (wParam == WA_INACTIVE && ((HWND)lParam != m_hWnd) && GetParent((HWND)lParam) != m_hWnd) {
 			if (!g_bCalledFromShowHide) CLUI_UpdateTimer();
 		}
