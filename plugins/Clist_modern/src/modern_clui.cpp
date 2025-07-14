@@ -1875,7 +1875,8 @@ LRESULT CLUI::OnCreateClc(UINT, WPARAM, LPARAM)
 {
 	CreateCLC();
 	if (g_plugin.getByte("ShowOnStart")) // hidden setting !!!!!
-		g_clistApi.pfnShowHide();
+		g_clistApi.pfnShowHide(true);
+	
 	Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 	return FALSE;
 }
@@ -2145,8 +2146,10 @@ LRESULT CLUI::OnNcLButtonDblClk(UINT msg, WPARAM wParam, LPARAM lParam)
 		GetWindowRect(m_hWnd, &rc);
 
 		POINT pt = UNPACK_POINT(lParam);
-		if (pt.x > rc.right - 16 && pt.x < rc.right)
-			return g_clistApi.pfnShowHide();
+		if (pt.x > rc.right - 16 && pt.x < rc.right) {
+			Clist_ShowHide();
+			return 0;
+		}
 	}
 	return DefCluiWndProc(msg, wParam, lParam);
 }

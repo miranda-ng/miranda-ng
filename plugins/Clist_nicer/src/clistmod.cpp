@@ -143,35 +143,8 @@ int GetWindowVisibleState()
 	return GWVS_PARTIALLY_COVERED;
 }
 
-int ShowHide()
+void ShowHide(bool bShow)
 {
-	BOOL bShow = FALSE;
-
-	int iVisibleState = g_clistApi.pfnGetWindowVisibleState();
-
-	if (IsIconic(g_clistApi.hwndContactList)) {
-		SendMessage(g_clistApi.hwndContactList, WM_SYSCOMMAND, SC_RESTORE, 0);
-		bShow = TRUE;
-	}
-	else {
-		switch (iVisibleState) {
-		case GWVS_PARTIALLY_COVERED:
-			if (!Clist::bBringToFront)
-				break;
-			__fallthrough;
-
-		case GWVS_COVERED:     //Fall through (and we're already falling)
-		case GWVS_HIDDEN:
-			bShow = TRUE;
-			break;
-		case GWVS_VISIBLE:     //This is not needed, but goes for readability.
-			bShow = FALSE;
-			break;
-		case -1:               //We can't get here, both cli.hwndContactList and iStepX and iStepY are right.
-			return 0;
-		}
-	}
-
 	if (bShow) {
 		SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
 		if (!Clist::bOnTop)
@@ -194,5 +167,4 @@ int ShowHide()
 		if (g_plugin.getByte("DisableWorkingSet", 1))
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
-	return 0;
 }

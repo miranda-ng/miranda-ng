@@ -293,6 +293,7 @@ MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, Clc
 MIR_APP_DLL(void)      Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 MIR_APP_DLL(void)      Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
 MIR_APP_DLL(void)      Clist_SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
+MIR_APP_DLL(void)      Clist_ShowHide();
 								        
 MIR_APP_DLL(int)       Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
 MIR_APP_DLL(int)       Clist_TrayIconDestroy(HWND hwnd);
@@ -379,7 +380,7 @@ struct CLIST_INTERFACE
 		  
 	/* clistmod.c */
 	int            (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
-	int            (*pfnShowHide)(void);
+	void           (*pfnShowHide)(bool bShow);
 	
 	/* clistsettings.c */
 	ClcCacheEntry* (*pfnCreateCacheItem)(MCONTACT hContact);

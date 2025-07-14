@@ -1022,3 +1022,4 @@ Proto_CanDeleteHistory @1118 NONAME
 ?setReactions@EventInfo@DB@@QAEXAAVJSONNode@@@Z @1156 NONAME
 ?bOfflineAuto@File@@3V?$CMOption@_N@@A @1157 NONAME
 ?iOfflineSize@File@@3V?$CMOption@I@@A @1158 NONAME
+?Clist_ShowHide@@YGXXZ @1159 NONAME

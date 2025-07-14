@@ -313,10 +313,9 @@ int fnGetWindowVisibleState()
 	return GWVS_PARTIALLY_COVERED;
 }
 
-int fnShowHide()
+MIR_APP_DLL(void) Clist_ShowHide()
 {
 	bool bShow = false;
-
 	int iVisibleState = g_clistApi.pfnGetWindowVisibleState();
 
 	//bShow is FALSE when we enter the switch.
@@ -331,15 +330,20 @@ int fnShowHide()
 	case GWVS_HIDDEN:
 		bShow = true;
 		break;
-	
+
 	case GWVS_VISIBLE:     //This is not needed, but goes for readability.
 		bShow = false;
 		break;
-	
+
 	case -1:               //We can't get here, both g_clistApi.hwndContactList and iStepX and iStepY are right.
-		return 0;
+		return;
 	}
 
+	g_clistApi.pfnShowHide(bShow);
+}
+
+void fnShowHide(bool bShow)
+{
 	if (bShow) {
 		ShowWindow(g_clistApi.hwndContactList, SW_RESTORE);
 		if (!Clist::bOnTop)
@@ -369,7 +373,6 @@ int fnShowHide()
 		if (db_get_b(0, "CList", "DisableWorkingSet", 1))
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
-	return 0;
 }
 
 MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon)

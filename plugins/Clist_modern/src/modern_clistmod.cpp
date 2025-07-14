@@ -163,7 +163,7 @@ __inline uint32_t GetDIBPixelColor(int X, int Y, int Width, int Height, int Byte
 	return res;
 }
 
-int cliGetWindowVisibleState()
+static int sttGetWindowVisibleState()
 {
 	if (g_clistApi.hwndContactList == nullptr) {
 		SetLastError(ERROR_INVALID_HANDLE);
@@ -282,13 +282,10 @@ int cliGetWindowVisibleState()
 	return GWVS_PARTIALLY_COVERED;
 }
 
-uint8_t g_bCalledFromShowHide = 0;
-
-int cliShowHide()
+int cliGetWindowVisibleState()
 {
-	bool bShow = false;
+	int ret = sttGetWindowVisibleState();
 
-	int iVisibleState = g_clistApi.pfnGetWindowVisibleState();
 	int method = db_get_b(0, "ModernData", "HideBehind"); //(0-none, 1-leftedge, 2-rightedge);
 	if (method) {
 		if (db_get_b(0, "ModernData", "BehindEdge") == 0)
@@ -296,8 +293,7 @@ int cliShowHide()
 		else
 			CLUI_ShowFromBehindEdge();
 
-		bShow = TRUE;
-		iVisibleState = GWVS_HIDDEN;
+		return GWVS_HIDDEN;
 	}
 
 	if (!method && db_get_b(0, "ModernData", "BehindEdge") > 0) {
@@ -308,26 +304,13 @@ int cliShowHide()
 		db_unset(0, "ModernData", "BehindEdge");
 	}
 
-	// bShow is FALSE when we enter the switch if no hide behind edge.
-	switch (iVisibleState) {
-	case GWVS_PARTIALLY_COVERED:
-		if (!Clist::bBringToFront)
-			break;
-		__fallthrough;
+	return ret;
+}
 
-	case GWVS_COVERED:
-	case GWVS_HIDDEN:
-		bShow = true;
-		break;
-	
-	case GWVS_VISIBLE:
-		bShow = false;
-		break;
-	
-	case -1: // We can't get here, both g_clistApi.hwndContactList and iStepX and iStepY are right.
-		return 0;
-	}
+uint8_t g_bCalledFromShowHide = 0;
 
+void cliShowHide(bool bShow)
+{
 	if (bShow) {
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 		CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_RESTORE);
@@ -363,7 +346,6 @@ int cliShowHide()
 
 		SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
-	return 0;
 }
 
 int CListMod_HideWindow()

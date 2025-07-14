@@ -41,9 +41,9 @@ void ReloadThemedOptions();
 void LoadButtonModule();
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
-int GetWindowVisibleState();
-int ShowHide(void);
-int ClcShutdown(WPARAM wParam, LPARAM lParam);
+int  GetWindowVisibleState();
+void ShowHide(bool bShow);
+int  ClcShutdown(WPARAM wParam, LPARAM lParam);
 
 CListEvent* AddEvent(CLISTEVENT *cle);
 ClcGroup*   AddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);

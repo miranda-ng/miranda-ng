@@ -977,7 +977,7 @@ static INT_PTR HotkeySetStatus(WPARAM, LPARAM lParam)
 
 static INT_PTR ShowHide(WPARAM, LPARAM)
 {
-	g_clistApi.pfnShowHide();
+	Clist_ShowHide();
 	return 0;
 }
 

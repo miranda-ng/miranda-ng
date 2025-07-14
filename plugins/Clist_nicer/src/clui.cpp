@@ -1291,11 +1291,11 @@ skipbg:
 					g_plugin.setByte("State", SETTING_STATE_MINIMIZED);
 					break;
 				}
-				g_clistApi.pfnShowHide();
+				Clist_ShowHide();
 				return 0;
 			}
 			if (wParam == SC_RESTORE) {
-				g_clistApi.pfnShowHide();
+				Clist_ShowHide();
 				return 0;
 			}
 		}
@@ -1465,7 +1465,7 @@ buttons_done:
 			case ID_TRAY_HIDE:
 			case IDC_TBMINIMIZE:
 			case IDC_STBMINIMIZE:
-				g_clistApi.pfnShowHide();
+				Clist_ShowHide();
 				break;
 			case POPUP_NEWGROUP:
 				SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
@@ -1490,7 +1490,7 @@ buttons_done:
 				SetButtonStates();
 				break;
 			case POPUP_HIDEMIRANDA:
-				g_clistApi.pfnShowHide();
+				Clist_ShowHide();
 				break;
 			case POPUP_SHOWMETAICONS:
 				cfg::dat.dwFlags ^= CLUI_USEMETAICONS;
@@ -1647,7 +1647,7 @@ buttons_done:
 			PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 			return 0;
 		}
-		g_clistApi.pfnShowHide();
+		Clist_ShowHide();
 		return 0;
 
 	case CLUIINTM_REDRAW:

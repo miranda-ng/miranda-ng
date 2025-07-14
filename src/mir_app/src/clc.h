@@ -133,7 +133,7 @@ void UninitGroupServices(void);
 
 /* clistmod.c */
 int   fnIconFromStatusMode(const char *szProto, int status, MCONTACT hContact);
-int   fnShowHide(void);
+void  fnShowHide(bool bShow);
 HICON fnGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);
 int   fnGetWindowVisibleState();
 

@@ -220,7 +220,7 @@ int      cli_RemoveEvent(CListEvent *cle);
 void     cli_FreeContact(ClcContact*);
 void     cli_SetContactCheckboxes(ClcContact*, int);
 LRESULT  cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
-int      cliShowHide(void);
+void     cliShowHide(bool bShow);
 BOOL     cliInvalidateRect(HWND hWnd, CONST RECT *lpRect, BOOL bErase);
 int      cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2);
 int      cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam);

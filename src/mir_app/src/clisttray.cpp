@@ -678,7 +678,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		}
 
 		if (msg->lParam == WM_MBUTTONUP)
-			g_clistApi.pfnShowHide();
+			Clist_ShowHide();
 		else if (msg->lParam == (Clist::bTray1Click ? WM_LBUTTONUP : WM_LBUTTONDBLCLK)) {
 			if ((GetAsyncKeyState(VK_CONTROL) & 0x8000)) {
 				POINT pt;
@@ -713,7 +713,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, nullptr);
 			}
 			else if (Clist_EventsProcessTrayDoubleClick(msg->wParam))
-				g_clistApi.pfnShowHide();
+				Clist_ShowHide();
 		}
 		else if (msg->lParam == WM_RBUTTONUP) {
 			HMENU hMenu = Menu_BuildTrayMenu();

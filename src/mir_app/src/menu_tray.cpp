@@ -79,7 +79,8 @@ static INT_PTR FreeOwnerDataTrayMenu(WPARAM, LPARAM lParam)
 
 static INT_PTR ShowHideStub(WPARAM, LPARAM)
 {
-	return g_clistApi.pfnShowHide();
+	Clist_ShowHide();
+	return 0;
 }
 
 void InitTrayMenus(void)
