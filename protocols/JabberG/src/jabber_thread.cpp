@@ -737,8 +737,8 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 			auto *szNode = n->Attribute("node"), *szHash = n->Attribute("ver");
 			auto *pCaps = g_clientCapsManager.GetPartialCaps(szNode, szHash);
 			if (pCaps == nullptr) {
-				CMStringA payLoad(FORMAT, "%s%c%s", szNode, 0, szHash);
-				info->pPendingQuery = AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, info->conn.server, payLoad.Detach(), 1);
+				CMStringA payload(FORMAT, "%s%c%s", szNode, 0, szHash);
+				info->pPendingQuery = payload.Detach();
 			}
 			else info->jabberServerCaps |= pCaps->GetCaps();
 		}

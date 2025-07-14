@@ -268,8 +268,11 @@ void CJabberProto::OnLoggedIn()
 
 	m_bPepSupported = false;
 
-	if (m_ThreadInfo->pPendingQuery) {
-		m_ThreadInfo->send(XmlNodeIq(m_ThreadInfo->pPendingQuery) << XQUERY(JABBER_FEAT_DISCO_INFO));
+	if (auto *pszQuery = m_ThreadInfo->pPendingQuery) {
+		auto *p = pszQuery + mir_strlen(pszQuery)+1;
+		XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultServerDiscoInfo, JABBER_IQ_TYPE_GET, m_ThreadInfo->conn.server, pszQuery, 1));
+		iq << XQUERY(JABBER_FEAT_DISCO_INFO) << XATTR("node", CMStringA(pszQuery) + "#" + p);
+		m_ThreadInfo->send(iq);
 		m_ThreadInfo->pPendingQuery = nullptr;
 	}
 
