@@ -67,44 +67,38 @@ int LoadContactListModule(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
+int GetWindowVisibleState()
 {
 	RECT rc = { 0 };
 	POINT pt = { 0 };
-	int i = 0, j = 0, width = 0, height = 0, iCountedDots = 0, iNotCoveredDots = 0;
-	BOOL bPartiallyCovered = FALSE;
 	HWND hAux = nullptr;
 
-	if (hWnd == nullptr) {
-		SetLastError(0x00000006); //Wrong handle
+	if (g_clistApi.hwndContactList == nullptr) {
+		SetLastError(ERROR_INVALID_HANDLE); //Wrong handle
 		return -1;
 	}
 	//Some defaults now. The routine is designed for thin and tall windows.
 
-	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
+	if (IsIconic(g_clistApi.hwndContactList) || !IsWindowVisible(g_clistApi.hwndContactList))
 		return GWVS_HIDDEN;
 
 	HRGN rgn = nullptr;
 	POINT ptOrig;
-	RECT  rcClient;
+	RECT rcClient;
 	int clip = (int)cfg::dat.bClipBorder;
 
-	GetClientRect(hWnd, &rcClient);
+	GetClientRect(g_clistApi.hwndContactList, &rcClient);
 	ptOrig.x = ptOrig.y = 0;
-	ClientToScreen(hWnd, &ptOrig);
+	ClientToScreen(g_clistApi.hwndContactList, &ptOrig);
 	rc.left = ptOrig.x;
 	rc.top = ptOrig.y;
 	rc.right = rc.left + rcClient.right;
 	rc.bottom = rc.top + rcClient.bottom;
 
-	//GetWindowRect(hWnd, &rc);
-	width = rc.right - rc.left;
-	height = rc.bottom - rc.top;
-
-	if (iStepX <= 0)
-		iStepX = 4;
-	if (iStepY <= 0)
-		iStepY = 16;
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+	int iStepX = 4;
+	int iStepY = 16;
 
 	/*
 	* use a rounded clip region to determine which pixels are covered
@@ -121,15 +115,18 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	else
 		clip = 0;
 
-	for (i = rc.top + clip; i < rc.bottom; i += (height / iStepY)) {
+	bool bPartiallyCovered = false;
+	int iCountedDots = 0, iNotCoveredDots = 0;
+	for (int i = rc.top + clip; i < rc.bottom; i += (height / iStepY)) {
 		pt.y = i;
-		for (j = rc.left + clip; j < rc.right; j += (width / iStepX)) {
+		for (int j = rc.left + clip; j < rc.right; j += (width / iStepX)) {
 			pt.x = j;
-			hAux = WindowFromPoint(pt);
-			while (GetParent(hAux) != nullptr)
-				hAux = GetParent(hAux);
-			if (hAux != hWnd && hAux) //There's another window!
-				bPartiallyCovered = TRUE;
+			if (hAux = WindowFromPoint(pt))
+				while (GetParent(hAux) != nullptr)
+					hAux = GetParent(hAux);
+			
+			if (hAux && hAux != g_clistApi.hwndContactList) //There's another window!
+				bPartiallyCovered = true;
 			else
 				iNotCoveredDots++; //Let's count the not covered dots.
 			iCountedDots++; //Let's keep track of how many dots we checked.
@@ -150,7 +147,7 @@ int ShowHide()
 {
 	BOOL bShow = FALSE;
 
-	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
+	int iVisibleState = g_clistApi.pfnGetWindowVisibleState();
 
 	if (IsIconic(g_clistApi.hwndContactList)) {
 		SendMessage(g_clistApi.hwndContactList, WM_SYSCOMMAND, SC_RESTORE, 0);

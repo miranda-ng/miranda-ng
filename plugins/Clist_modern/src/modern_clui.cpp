@@ -1631,7 +1631,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	else if (msg == WM_WINDOWPOSCHANGING) {
-		// Snaping if it is not in LayeredMode
+		// Snapping if it is not in LayeredMode
 		WINDOWPOS *wp = (WINDOWPOS *)lParam;
 		CLUI::SnappingToEdge(wp);
 		return DefWindowProc(m_hWnd, msg, wParam, lParam);
@@ -1733,27 +1733,27 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-LRESULT CLUI::OnThemeChanged(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT CLUI::OnThemeChanged(UINT, WPARAM, LPARAM)
 {
 	xpt_OnWM_THEMECHANGED();
 	return FALSE;
 }
 
-LRESULT CLUI::OnDwmCompositionChanged(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT CLUI::OnDwmCompositionChanged(UINT, WPARAM, LPARAM)
 {
 	g_CluiData.fAeroGlass = false;
 	CLUI_UpdateAeroGlass();
 	return FALSE;
 }
 
-LRESULT CLUI::OnUpdate(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT CLUI::OnUpdate(UINT, WPARAM, LPARAM)
 {
 	if (g_bPostWasCanceled)
 		return FALSE;
 	return ske_ValidateFrameImageProc(nullptr);
 }
 
-LRESULT CLUI::OnInitMenu(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT CLUI::OnInitMenu(UINT, WPARAM, LPARAM)
 {
 	if (!CLUI::IsMainMenuInited()) {
 		Menu_GetMainMenu();
@@ -1775,7 +1775,7 @@ LRESULT CLUI::OnNcPaint(UINT msg, WPARAM wParam, LPARAM lParam)
 	return lRes;
 }
 
-LRESULT CLUI::OnEraseBkgnd(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT CLUI::OnEraseBkgnd(UINT, WPARAM, LPARAM)
 {
 	return TRUE;
 }
@@ -1866,16 +1866,16 @@ LRESULT CLUI::OnCreate(UINT, WPARAM, LPARAM)
 	return FALSE;
 }
 
-LRESULT CLUI::OnSetAllExtraIcons(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT CLUI::OnSetAllExtraIcons(UINT, WPARAM, LPARAM)
 {
 	return FALSE;
 }
 
-LRESULT CLUI::OnCreateClc(UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/)
+LRESULT CLUI::OnCreateClc(UINT, WPARAM, LPARAM)
 {
 	CreateCLC();
-	if (g_plugin.getByte("ShowOnStart", SETTING_SHOWONSTART_DEFAULT))
-		cliShowHide(true);
+	if (g_plugin.getByte("ShowOnStart")) // hidden setting !!!!!
+		g_clistApi.pfnShowHide();
 	Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 	return FALSE;
 }

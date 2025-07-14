@@ -415,7 +415,7 @@ struct CLIST_INTERFACE
 	 * version 3 additions
 	 *************************************************************************************/
 
-	int      (*pfnGetWindowVisibleState)(HWND hWnd, int iStepX, int iStepY);
+	int      (*pfnGetWindowVisibleState)();
 
 	/*************************************************************************************
 	 * version 4 additions - genmenu

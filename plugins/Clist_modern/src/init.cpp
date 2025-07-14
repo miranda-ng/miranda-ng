@@ -140,8 +140,6 @@ void CMPlugin::ReadSettings()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int cliShowHideStub() { return cliShowHide(false); }
-
 static HRESULT SubclassClistInterface()
 {
 	// OVERLOAD CLIST INTERFACE FUNCTIONS
@@ -181,7 +179,7 @@ static HRESULT SubclassClistInterface()
 	g_clistApi.pfnRecalcScrollBar = cliRecalcScrollBar;
 	g_clistApi.pfnRowHitTest = cliRowHitTest;
 	g_clistApi.pfnScrollTo = cliScrollTo;
-	g_clistApi.pfnShowHide = cliShowHideStub;
+	g_clistApi.pfnShowHide = cliShowHide;
 	g_clistApi.pfnHitTest = cliHitTest;
 	g_clistApi.pfnCompareContacts = cliCompareContacts;
 	g_clistApi.pfnGetIconFromStatusMode = cliGetIconFromStatusMode;

@@ -256,27 +256,25 @@ static int CListIconsChanged(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
+int fnGetWindowVisibleState()
 {
-	if (hWnd == nullptr) {
-		SetLastError(0x00000006);       //Wrong handle
+	if (g_clistApi.hwndContactList == nullptr) {
+		SetLastError(ERROR_INVALID_HANDLE);       //Wrong handle
 		return -1;
 	}
 
-	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
+	if (IsIconic(g_clistApi.hwndContactList) || !IsWindowVisible(g_clistApi.hwndContactList))
 		return GWVS_HIDDEN;
 
 	// Some defaults now. The routine is designed for thin and tall windows.
-	if (iStepX <= 0)
-		iStepX = 4;
-	if (iStepY <= 0)
-		iStepY = 16;
+	int iStepX = 4;
+	int iStepY = 16;
 
 	RECT rc, rcWin, rcWorkArea;
-	GetWindowRect(hWnd, &rcWin);
-
+	GetWindowRect(g_clistApi.hwndContactList, &rcWin);
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
-	HMONITOR hMon = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+
+	HMONITOR hMon = MonitorFromWindow(g_clistApi.hwndContactList, MONITOR_DEFAULTTONEAREST);
 	MONITORINFO mi;
 	mi.cbSize = sizeof(mi);
 	if (GetMonitorInfo(hMon, &mi))
@@ -297,7 +295,7 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 			HWND hAux = WindowFromPoint(pt);
 			while (GetParent(hAux) != nullptr)
 				hAux = GetParent(hAux);
-			if (hAux != hWnd && hAux != nullptr) // There's another window!
+			if (hAux != g_clistApi.hwndContactList && hAux != nullptr) // There's another window!
 				bPartiallyCovered = TRUE;
 			else
 				iNotCoveredDots++;  //Let's count the not covered dots.
@@ -317,28 +315,32 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 int fnShowHide()
 {
-	BOOL bShow = FALSE;
+	bool bShow = false;
 
-	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
+	int iVisibleState = g_clistApi.pfnGetWindowVisibleState();
 
 	//bShow is FALSE when we enter the switch.
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
-		//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
+		// If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
 		if (!Clist::bBringToFront)
 			break;
+		__fallthrough;
+
 	case GWVS_COVERED:     //Fall through (and we're already falling)
 	case GWVS_HIDDEN:
-		bShow = TRUE;
+		bShow = true;
 		break;
+	
 	case GWVS_VISIBLE:     //This is not needed, but goes for readability.
-		bShow = FALSE;
+		bShow = false;
 		break;
+	
 	case -1:               //We can't get here, both g_clistApi.hwndContactList and iStepX and iStepY are right.
 		return 0;
 	}
 
-	if (bShow == TRUE) {
+	if (bShow) {
 		ShowWindow(g_clistApi.hwndContactList, SW_RESTORE);
 		if (!Clist::bOnTop)
 			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);

@@ -41,7 +41,7 @@ void ReloadThemedOptions();
 void LoadButtonModule();
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour);
-int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
+int GetWindowVisibleState();
 int ShowHide(void);
 int ClcShutdown(WPARAM wParam, LPARAM lParam);
 

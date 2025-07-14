@@ -163,14 +163,14 @@ __inline uint32_t GetDIBPixelColor(int X, int Y, int Width, int Height, int Byte
 	return res;
 }
 
-int cliGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
+int cliGetWindowVisibleState()
 {
-	if (hWnd == nullptr) {
+	if (g_clistApi.hwndContactList == nullptr) {
 		SetLastError(ERROR_INVALID_HANDLE);
 		return -1;
 	}
 
-	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
+	if (IsIconic(g_clistApi.hwndContactList) || !IsWindowVisible(g_clistApi.hwndContactList))
 		return GWVS_HIDDEN;
 
 	HWND hwndFocused = GetFocus();
@@ -178,8 +178,8 @@ int cliGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 		return GWVS_VISIBLE;
 
 	// Some defaults now. The routine is designed for thin and tall windows.
-	if (iStepX <= 0) iStepX = 8;
-	if (iStepY <= 0) iStepY = 16;
+	int iStepX = 8;
+	int iStepY = 16;
 
 	int maxx = 0;
 	int maxy = 0;
@@ -198,8 +198,8 @@ int cliGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	else {
 		RECT rc;
 		rgn = CreateRectRgn(0, 0, 1, 1);
-		GetWindowRect(hWnd, &rc);
-		GetWindowRgn(hWnd, rgn);
+		GetWindowRect(g_clistApi.hwndContactList, &rc);
+		GetWindowRgn(g_clistApi.hwndContactList, rgn);
 		OffsetRgn(rgn, rc.left, rc.top);
 		GetRgnBox(rgn, &rc);
 		//maxx = rc.right;
@@ -207,10 +207,10 @@ int cliGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	}
 
 	RECT rc;
-	GetWindowRect(hWnd, &rc);
+	GetWindowRect(g_clistApi.hwndContactList, &rc);
 
 	RECT rcMonitor = { 0 };
-	GetMonitorRectFromWindow(hWnd, &rcMonitor);
+	GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcMonitor);
 
 	rc.top = rc.top < rcMonitor.top ? rcMonitor.top : rc.top;
 	rc.left = rc.left < rcMonitor.left ? rcMonitor.left : rc.left;
@@ -246,7 +246,7 @@ int cliGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 				HWND hAuxOld = nullptr;
 				HWND hAux = WindowFromPoint(pt);
 				do {
-					if (hAux == hWnd) {
+					if (hAux == g_clistApi.hwndContactList) {
 						hWndFound = TRUE;
 						break;
 					}
@@ -284,14 +284,14 @@ int cliGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 uint8_t g_bCalledFromShowHide = 0;
 
-int cliShowHide(bool bAlwaysShow)
+int cliShowHide()
 {
 	bool bShow = false;
 
-	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
+	int iVisibleState = g_clistApi.pfnGetWindowVisibleState();
 	int method = db_get_b(0, "ModernData", "HideBehind"); //(0-none, 1-leftedge, 2-rightedge);
 	if (method) {
-		if (db_get_b(0, "ModernData", "BehindEdge") == 0 && !bAlwaysShow)
+		if (db_get_b(0, "ModernData", "BehindEdge") == 0)
 			CLUI_HideBehindEdge(); //hide
 		else
 			CLUI_ShowFromBehindEdge();
@@ -328,7 +328,7 @@ int cliShowHide(bool bAlwaysShow)
 		return 0;
 	}
 
-	if (bShow || bAlwaysShow) {
+	if (bShow) {
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 		CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_RESTORE);
 
