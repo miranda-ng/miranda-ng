@@ -117,6 +117,14 @@ void CMPlugin::ReadSettings()
 		g_plugin.delSetting("NoOfflineBottom");
 	}
 
+	if (!db_get_b(0, "Compatibility", __PLUGIN_NAME)) {
+		db_unset(0, "CLUI", "LeftClientMargin");
+		db_unset(0, "CLUI", "RightClientMargin");
+		db_unset(0, "CLUI", "TopClientMargin");
+		db_unset(0, "CLUI", "BottomClientMargin");
+		db_set_b(0, "Compatibility", __PLUGIN_NAME, 1);
+	}
+
 	wcsncpy_s(secondLine.text, getMStringW("SecondLineText"), _TRUNCATE);
 	secondLine.iType = getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
 	secondLine.bActive = getBool("SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
