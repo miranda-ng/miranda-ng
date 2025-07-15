@@ -150,40 +150,34 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	{
 		friend struct ThreadData;
 		friend struct CJabberProto;
+
+		XmppMsg(const TiXmlElement *_node, ThreadData *_info) :
+			node(_node),
+			info(_info),
+			from(XmlGetAttr(node, "from")),
+			type(XmlGetAttr(node, "type")),
+			idStr(XmlGetAttr(node, "id"))
+		{
+		}
+
 		~XmppMsg()
 		{
 			delete pFromResource;
 		}
-		XmppMsg(const TiXmlElement* _node, CJabberProto *proto):
-			node(_node), info(proto->m_ThreadInfo), m_proto(proto)
-		{
-			from = XmlGetAttr(node, "from"), type = XmlGetAttr(node, "type"),
-				idStr = XmlGetAttr(node, "id");
-			pFromResource = nullptr;
-			hContact = 0;
-		}
-		time_t extract_timestamp();
-		void process();
-		void handle_mam();
-		void handle_carbon();
-		bool handle_omemo();
-		void handle_chatstates();
-		void add_to_db();
 
 	private:
 		time_t msgTime = 0;
-		bool bEnableDelivery = true, bCreateRead = false, bWasSent = false;
-		const char* from = nullptr, * type = nullptr,
-			* idStr = nullptr, * szMamMsgId = nullptr;
-		ThreadData* info = nullptr;
-		const TiXmlElement *node = nullptr, *carbon = nullptr;
-		pResourceStatus *pFromResource;
+		bool bEnableDelivery = true;
+		const char *from, *type, *idStr, *szMamMsgId = nullptr;
+		const TiXmlElement *node, *carbon = nullptr;
+		pResourceStatus *pFromResource = nullptr;
 		DB::EventInfo dbei;
 		CMStringA szMessage;
-		
-		CJabberProto* m_proto;
-		MCONTACT hContact;
+
+		ThreadData *info;
+		MCONTACT hContact = 0;
 	};
+
 	class CJabberProtoImpl
 	{
 		friend struct CJabberProto;
@@ -371,7 +365,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool   m_bPepSupported;
 	bool   m_bStreamSent;
 	bool   m_bMamPrefsAvailable;
-	bool   m_bMamDisableMessages, m_bMamCreateRead;
+	bool   m_bMamCreateRead;
 	bool   m_bTlsExporter, m_bTlsServerEndpoint;
 
 	HWND   m_hwndJabberChangePassword;
@@ -736,6 +730,14 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       MucShutdown(void);
 	void       OnIqResultMucGetJidList(const TiXmlElement *iqNode, JABBER_MUC_JIDLIST_TYPE listType, CJabberIqInfo*);
 
+	//---- jabber_message.cpp ------------------------------------------------------------
+
+	void       MessageProcess(XmppMsg &msg);
+	void       MessageHandleMam(XmppMsg &msg);
+	void       MessageHandleCarbon(XmppMsg &msg);
+	bool       MessageHandleOmemo(XmppMsg &msg);
+	void       MessageHandleChatstates(XmppMsg &msg);
+
 	//---- jabber_message_handlers.cpp ---------------------------------------------------
 
 	bool       OnMessageError(const TiXmlElement *node, ThreadData *pThreadData, CJabberMessageInfo* pInfo);
@@ -947,8 +949,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnProcessTaskData(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessProceed(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessCompressed(const TiXmlElement *node, ThreadData *info);
-	//message processing helpers
-	void       OnProcessMessage(const TiXmlElement *node, ThreadData *info);
+
+	// message processing helpers
 	void       OnProcessPresence(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessPresenceCapabilites(const TiXmlElement *node, pResourceStatus &resource);
 	void       OnProcessPubsubEvent(const TiXmlElement *node);

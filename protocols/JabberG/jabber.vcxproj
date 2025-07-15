@@ -57,6 +57,7 @@
     <ClCompile Include="src\jabber_list.cpp" />
     <ClCompile Include="src\jabber_mam.cpp" />
     <ClCompile Include="src\jabber_menu.cpp" />
+    <ClCompile Include="src\jabber_message.cpp" />
     <ClCompile Include="src\jabber_message_handlers.cpp" />
     <ClCompile Include="src\jabber_message_manager.cpp" />
     <ClCompile Include="src\jabber_misc.cpp" />

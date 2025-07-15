@@ -167,6 +167,9 @@
     <ClCompile Include="src\jabber_auth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\jabber_message.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\jabber_byte.h">
