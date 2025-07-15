@@ -154,9 +154,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 		XmppMsg(const TiXmlElement *_node, ThreadData *_info) :
 			node(_node),
 			info(_info),
-			from(XmlGetAttr(node, "from")),
-			type(XmlGetAttr(node, "type")),
-			idStr(XmlGetAttr(node, "id"))
+			from(XmlGetAttr(_node, "from")),
+			type(XmlGetAttr(_node, "type")),
+			idStr(XmlGetAttr(_node, "id"))
 		{
 		}
 

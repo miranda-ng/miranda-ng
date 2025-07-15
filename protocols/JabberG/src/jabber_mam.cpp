@@ -77,6 +77,7 @@ void CJabberProto::MamRetrieveMissingMessages()
 	auto *query = iq << XCHILDNS("query", JABBER_FEAT_MAM);
 
 	if (szLastId.IsEmpty()) {
+		query << XATTR("queryid", "skip");
 		m_bMamCreateRead = false;
 
 		char buf[100];

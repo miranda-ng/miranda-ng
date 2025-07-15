@@ -34,12 +34,12 @@ uint32_t JabberGetLastContactMessageTime(MCONTACT hContact)
 
 void CJabberProto::MessageProcess(XmppMsg &M)
 {
+	MessageHandleMam(M);
+
 	if (M.from == nullptr) {
 		debugLogA("no 'M.from' attribute, returning");
 		return;
 	}
-
-	MessageHandleMam(M);
 
 	M.pFromResource = new pResourceStatus(ResourceInfoFromJID(M.from));
 
@@ -137,12 +137,12 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 		if (auto *n = JabberProcessDelay(M.node, M.msgTime)) {
 			if ((m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MSGOFFLINE) && !mir_strcmp(n->GetText(), "Offline Storage"))
 				bOffline = true;
+
+			if (m_bFixIncorrectTimestamps && (M.msgTime > now || (M.hContact && (M.msgTime < (time_t)JabberGetLastContactMessageTime(M.hContact)))))
+				M.msgTime = now;
 		}
 		else M.msgTime = now;
 	}
-
-	if (m_bFixIncorrectTimestamps && (M.msgTime > now || (M.hContact && (M.msgTime < (time_t)JabberGetLastContactMessageTime(M.hContact)))))
-		M.msgTime = now;
 
 	// XEP-0224 support (Attention/Nudge)
 	if (XmlGetChildByTag(M.node, "attention", "xmlns", JABBER_FEAT_ATTENTION)) {
@@ -324,9 +324,13 @@ void CJabberProto::MessageHandleMam(XmppMsg &M)
 {
 	if (auto *mamResult = XmlGetChildByTag(M.node, "result", "xmlns", JABBER_FEAT_MAM)) {
 		M.dbei.bRead = true;
-		M.szMamMsgId = XmlGetAttr(mamResult, "id");
-		if (M.szMamMsgId)
+		if (M.szMamMsgId = XmlGetAttr(mamResult, "id"))
 			setString("LastMamId", M.szMamMsgId);
+
+		// in this query we need to receive message ids only
+		if (auto *queryId = XmlGetAttr(mamResult, "queryid"))
+			if (!mir_strcmp(queryId, "skip"))
+				return;
 
 		auto *xmlForwarded = XmlGetChildByTag(mamResult, "forwarded", "xmlns", JABBER_XMLNS_FORWARD);
 		if (auto *xmlMessage = XmlFirstChild(xmlForwarded, "message")) {
