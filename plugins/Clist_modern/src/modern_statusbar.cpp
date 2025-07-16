@@ -55,35 +55,34 @@ STATUSBARDATA g_StatusBarData = { 0 };
 
 int LoadStatusBarData()
 {
-	g_StatusBarData.perProtoConfig = db_get_b(0, "CLUI", "SBarPerProto");
-	g_StatusBarData.bShowProtoIcon = (db_get_b(0, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT) & 1) != 0;
-	g_StatusBarData.bShowProtoName = (db_get_b(0, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT) & 2) != 0;
-	g_StatusBarData.bShowStatusName = (db_get_b(0, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT) & 4) != 0;
-	g_StatusBarData.xStatusMode = db_get_b(0, "CLUI", "ShowXStatus", SETTING_SHOWXSTATUS_DEFAULT);
-	g_StatusBarData.bConnectingIcon = db_get_b(0, "CLUI", "UseConnectingIcon", SETTING_USECONNECTINGICON_DEFAULT) != 0;
-	g_StatusBarData.bShowProtoEmails = db_get_b(0, "CLUI", "ShowUnreadEmails", SETTING_SHOWUNREADEMAILS_DEFAULT) != 0;
-	g_StatusBarData.SBarRightClk = db_get_b(0, "CLUI", "SBarRightClk");
+	g_StatusBarData.perProtoConfig = Statusbar::bPerProto;
+	g_StatusBarData.bShowProtoIcon = (Statusbar::iShowMode & 1) != 0;
+	g_StatusBarData.bShowProtoName = (Statusbar::iShowMode & 2) != 0;
+	g_StatusBarData.bShowStatusName = (Statusbar::iShowMode & 4) != 0;
+	g_StatusBarData.xStatusMode = Statusbar::iXStatusMode;
+	g_StatusBarData.bConnectingIcon = Statusbar::bUseConnectingIcon;
+	g_StatusBarData.bShowProtoEmails = Statusbar::bShowUnreadEmails;
+	g_StatusBarData.SBarRightClk = Statusbar::iRClickMode;
 
-	g_StatusBarData.nProtosPerLine = db_get_b(0, "CLUI", "StatusBarProtosPerLine");
-	g_StatusBarData.Align = db_get_b(0, "CLUI", "Align");
-	g_StatusBarData.VAlign = db_get_b(0, "CLUI", "VAlign", SETTING_VALIGN_DEFAULT);
-	g_StatusBarData.sameWidth = db_get_b(0, "CLUI", "EqualSections");
-	g_StatusBarData.rectBorders.left = db_get_dw(0, "CLUI", "LeftOffset");
-	g_StatusBarData.rectBorders.right = db_get_dw(0, "CLUI", "RightOffset");
-	g_StatusBarData.rectBorders.top = db_get_dw(0, "CLUI", "TopOffset");
-	g_StatusBarData.rectBorders.bottom = db_get_dw(0, "CLUI", "BottomOffset");
-	g_StatusBarData.extraspace = (uint8_t)db_get_dw(0, "CLUI", "SpaceBetween");
+	g_StatusBarData.nProtosPerLine = Statusbar::iProtosPerLine;
+	g_StatusBarData.align = Statusbar::iAlgn;
+	g_StatusBarData.vAlign = Statusbar::iVAlign;
+	g_StatusBarData.bSameWidth = Statusbar::bEqualSections;
+	g_StatusBarData.rectBorders.left = Statusbar::iLeftOffset;
+	g_StatusBarData.rectBorders.right = Statusbar::iRightOffset;
+	g_StatusBarData.rectBorders.top = Statusbar::iTopOffset;
+	g_StatusBarData.rectBorders.bottom = Statusbar::iBottomOffset;
+	g_StatusBarData.extraspace = Statusbar::iSpaceBetween;
 
 	if (g_StatusBarData.BarFont) {
 		DeleteObject(g_StatusBarData.BarFont);
 		g_StatusBarData.BarFont = nullptr;
 	}
 
-	int vis = db_get_b(0, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT);
 	int frameID = Sync(FindFrameID, hModernStatusBar);
 	int frameopt = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frameID), 0);
 	frameopt = frameopt & (~F_VISIBLE);
-	if (vis) {
+	if (Statusbar::bShow) {
 		ShowWindow(hModernStatusBar, SW_SHOW);
 		frameopt |= F_VISIBLE;
 	}
@@ -151,7 +150,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	}
 	else SkinDrawGlyph(hDC, &rc, &rc, "Main,ID=StatusBar");
 
-	g_StatusBarData.nProtosPerLine = db_get_b(0, "CLUI", "StatusBarProtosPerLine");
+	g_StatusBarData.nProtosPerLine = Statusbar::iProtosPerLine;
 	HFONT hOldFont = g_clcPainter.ChangeToFont(hDC, nullptr, FONTID_STATUSBAR_PROTONAME, nullptr);
 
 	SIZE textSize = { 0 };
@@ -188,20 +187,20 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 			mir_snprintf(buf, "SBarShow_%s", szProto);
 
-			uint8_t showOps = db_get_b(0, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
+			uint8_t showOps = db_get_b(0, "CLUI", buf, 3);
 			p = new ProtoItemData;
 			p->bShowProtoIcon = (showOps & 1) != 0;
 			p->bShowProtoName = (showOps & 2) != 0;
 			p->bShowStatusName = (showOps & 4) != 0;
 
 			mir_snprintf(buf, "ShowXStatus_%s", szProto);
-			p->xStatusMode = db_get_b(0, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
+			p->xStatusMode = db_get_b(0, "CLUI", buf, 3);
 
 			mir_snprintf(buf, "UseConnectingIcon_%s", szProto);
-			p->bConnectingIcon = db_get_b(0, "CLUI", buf, SETTING_USECONNECTINGICON_DEFAULT) != 0;
+			p->bConnectingIcon = db_get_b(0, "CLUI", buf, 1) != 0;
 
 			mir_snprintf(buf, "ShowUnreadEmails_%s", szProto);
-			p->bShowProtoEmails = db_get_b(0, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT) != 0;
+			p->bShowProtoEmails = db_get_b(0, "CLUI", buf, 1) != 0;
 
 			mir_snprintf(buf, "SBarRightClk_%s", szProto);
 			p->SBarRightClk = db_get_b(0, "CLUI", buf) != 0;
@@ -221,8 +220,8 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			p->bConnectingIcon = g_StatusBarData.bConnectingIcon;
 			p->bShowProtoEmails = g_StatusBarData.bShowProtoEmails;
 			p->SBarRightClk = 0;
-			p->PaddingLeft = db_get_dw(0, "CLUI", "PaddingLeft");
-			p->PaddingRight = db_get_dw(0, "CLUI", "PaddingRight");
+			p->PaddingLeft = Statusbar::iPaddingLeft;
+			p->PaddingRight = Statusbar::iPaddingRight;
 		}
 
 		p->iProtoStatus = Proto_GetStatus(szProto);
@@ -296,15 +295,16 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		if (rowheight*(line + 1) + rowsdy > rc.bottom + rowheight)
 			break;
 
-		if (g_StatusBarData.VAlign == 0) { // top
+		switch (g_StatusBarData.vAlign) {
+		case 0: // top
 			rc.bottom = rc.top + rowheight*(line + 1);
 			rc.top = rc.top + rowheight*line + 1;
-		}
-		else if (g_StatusBarData.VAlign == 1) { // center
+			break;
+		case 1: // center
 			rc.bottom = rc.top + rowsdy + rowheight*(line + 1);
 			rc.top = rc.top + rowsdy + rowheight*line + 1;
-		}
-		else if (g_StatusBarData.VAlign == 2) { // bottom
+			break;
+		case 2: // bottom
 			rc.top = rc.bottom - (rowheight*(linecount - line));
 			rc.bottom = rc.bottom - (rowheight*(linecount - line - 1) + 1);
 		}
@@ -375,7 +375,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				w -= spaceWidth;
 
 			p.fullWidth = w;
-			if (g_StatusBarData.sameWidth) {
+			if (g_StatusBarData.bSameWidth) {
 				ProtoWidth[i] = sw;
 				SumWidth += sw;
 			}
@@ -390,7 +390,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			if (ProtoWidth[i] > maxwidth)
 				maxwidth = ProtoWidth[i];
 
-		if (g_StatusBarData.sameWidth) {
+		if (g_StatusBarData.bSameWidth) {
 			for (int i = 0; i < visProtoCount; i++)
 				ProtoWidth[i] = maxwidth;
 			SumWidth = maxwidth * visProtoCount;
@@ -407,9 +407,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			SumWidth += (visProtoCount - 1) * g_StatusBarData.extraspace;
 		}
 
-		if (g_StatusBarData.Align == 1) //center
+		if (g_StatusBarData.align == 1) //center
 			aligndx = (rectwidth - SumWidth) >> 1;
-		else if (g_StatusBarData.Align == 2) //right
+		else if (g_StatusBarData.align == 2) //right
 			aligndx = (rectwidth - SumWidth);
 
 		// Draw in rects
@@ -455,13 +455,13 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 				HRGN rgn = CreateRectRgn(r.left, r.top, r.right, r.bottom);
 
-				if (g_StatusBarData.sameWidth) {
+				if (g_StatusBarData.bSameWidth) {
 					int fw = p.fullWidth;
 					int rw = r.right - r.left;
-					if (g_StatusBarData.Align == 1)
-						x = r.left + ((rw - fw) / 2);
-					else if (g_StatusBarData.Align == 2)
-						x = r.left + ((rw - fw));
+					if (g_StatusBarData.align == 1)
+						x = r.left + (rw - fw) / 2;
+					else if (g_StatusBarData.align == 2)
+						x = r.left + (rw - fw);
 					else
 						x = r.left;
 				}
@@ -653,7 +653,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			if (ID) {
 				int res = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, ID), 0);
 				if (res >= 0)
-					db_set_b(0, "CLUI", "ShowSBar", (uint8_t)(wParam/*(res&F_VISIBLE)*/ ? 1 : 0));
+					Statusbar::bShow = wParam != 0;
 			}
 		}
 		break;
@@ -878,7 +878,7 @@ HWND StatusBar_Create(HWND parent)
 	Frame.align = alBottom;
 	Frame.hIcon = Skin_LoadIcon(SKINICON_OTHER_FRAME);
 	Frame.Flags = F_LOCKED | F_NOBORDER | F_NO_SUBCONTAINER;
-	if (db_get_b(0, "CLUI", "ShowSBar", SETTING_SHOWSBAR_DEFAULT))
+	if (Statusbar::bShow)
 		Frame.Flags |= F_VISIBLE;
 	Frame.height = h;
 	Frame.szName.a = "Status bar";

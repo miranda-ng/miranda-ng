@@ -39,15 +39,16 @@ namespace Modern
 	extern CMOption<uint16_t> iShowDelay, iHideDelay, iHideBehindBorderSize;
 }
 
+namespace Statusbar
+{
+	extern CMOption<bool> bShow, bPerProto, bEqualSections, bUseConnectingIcon, bShowUnreadEmails;
+	extern CMOption<uint8_t> iAlgn, iVAlign, iProtosPerLine, iXStatusMode, iRClickMode, iShowMode;
+	extern CMOption<uint32_t> iLeftOffset, iRightOffset, iTopOffset, iBottomOffset, iSpaceBetween, iPaddingLeft, iPaddingRight;
+};
+
 #define SETTING_MIN2TRAY_DEFAULT                  1 
 #define SETTING_DISABLEWORKINGSET_DEFAULT         1 
 														    
-#define SETTING_SHOWSBAR_DEFAULT                  1 
-#define SETTING_USECONNECTINGICON_DEFAULT         1 
-#define SETTING_SHOWXSTATUS_DEFAULT               6 
-#define SETTING_SHOWUNREADEMAILS_DEFAULT          1 
-#define SETTING_SBARSHOW_DEFAULT                  3 
-#define SETTING_VALIGN_DEFAULT                    1 
 #define SETTING_MINWIDTH_DEFAULT                 18 
 #define SETTING_MAXSIZEHEIGHT_DEFAULT            75 
 #define SETTING_MINSIZEHEIGHT_DEFAULT            10 
