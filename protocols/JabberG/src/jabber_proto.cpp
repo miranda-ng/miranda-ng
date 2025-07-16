@@ -899,7 +899,7 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 		if (!OmemoCheckSession(hContact, true)) {
 			OmemoPutMessageToOutgoingQueue(hContact, pszSrc);
 			int id = SerialNext();
-			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id);
+			FakeMessageSuccess(hContact, id);
 			return id;
 		}
 	}
@@ -970,7 +970,7 @@ int CJabberProto::SendMsgEx(MCONTACT hContact, const char *pszSrc, XmlNode &m)
 
 		m_ThreadInfo->send(m);
 
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id);
+		FakeMessageSuccess(hContact, id);
 	}
 	else {
 		XmlAddAttrID(m, id);

@@ -121,7 +121,7 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 		if (nPacketId == -1)
 			nPacketId = JabberGetPacketID(M.node);
 		if (nPacketId != -1)
-			ProtoBroadcastAck(M.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)nPacketId);
+			ProtoBroadcastAck(M.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)nPacketId, LPARAM(M.idStr));
 
 		db_event_delivered(M.hContact, 0);
 	}
@@ -271,10 +271,9 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 		return;
 	}
 
-	// we ignore messages without a server id either if MAM is enabled
-	if ((m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MAM) && m_bEnableMam && m_iMamMode != 0
-		&& M.szMamMsgId == nullptr) {
-		debugLogA("MAM is enabled, but there's no stanza-id: ignoting a message");
+	// we ignore messages without a server id if MAM is enabled
+	if ((m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MAM) && m_bEnableMam && m_iMamMode != 0 && M.szMamMsgId == nullptr) {
+		debugLogA("MAM is enabled, but there's no stanza-id: ignoring a message");
 		return;
 	}
 
@@ -303,17 +302,23 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 	M.dbei.iTimestamp = (uint32_t)M.msgTime;
 	M.dbei.szId = M.szMamMsgId;
 
-	MEVENT hDbEVent;
+	MEVENT hDbEVent = 0;
 	if (M.dbei.eventType == EVENTTYPE_FILE) {
 		M.dbei.flags |= DBEF_TEMPORARY;
 		hDbEVent = (MEVENT)ProtoChainRecvFile(M.hContact, DB::FILE_BLOB(M.dbei), M.dbei);
 	}
 	else {
-		M.dbei.pBlob = M.szMessage.GetBuffer();
-		hDbEVent = (MEVENT)ProtoChainRecvMsg(M.hContact, M.dbei);
+		if (M.dbei) {
+			replaceStr(M.dbei.pBlob, M.szMessage);
+			db_event_edit(M.dbei.getEvent(), &M.dbei, true);
+		}
+		else {
+			M.dbei.pBlob = M.szMessage.GetBuffer();
+			hDbEVent = (MEVENT)ProtoChainRecvMsg(M.hContact, M.dbei);
+		}
 	}
 
-	if (M.idStr)
+	if (M.idStr && hDbEVent)
 		m_arChatMarks.insert(new CChatMark(hDbEVent, M.idStr, M.from));
 }
 
@@ -339,17 +344,19 @@ void CJabberProto::MessageHandleMam(XmppMsg &M)
 			M.from = XmlGetAttr(M.node, "from");
 			auto *to = XmlGetAttr(M.node, "to");
 
+			if (M.idStr = XmlGetAttr(M.node, "id")) {
+				MEVENT hEvent = db_event_getById(m_szModuleName, M.idStr);
+				if (hEvent) {
+					M.dbei = hEvent;
+					M.dbei.fetch();
+				}
+			}
+
 			char szJid[JABBER_MAX_JID_LEN];
 			JabberStripJid(M.from, szJid, _countof(szJid));
 			if (!mir_strcmpi(szJid, m_szJabberJID)) {
 				M.dbei.bSent = true;
 				std::swap(M.from, to);
-			}
-
-			// we disable message reading with our resource only for the missing messages
-			if (!m_bMamCreateRead && !mir_strcmpi(to, M.info->fullJID)) {
-				debugLogA("MAM: outgoing message M.from this machine (%s), ignored", M.from);
-				return;
 			}
 		}
 
