@@ -32,6 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CHECKRES(sub) if (sub != S_OK) return S_FALSE;
 
+void CheckCompatibility();
+
 CMPlugin g_plugin;
 HINSTANCE g_hMirApp = nullptr;
 
@@ -112,20 +114,7 @@ int CMPlugin::Unload(void)
 
 void CMPlugin::ReadSettings()
 {
-	if (g_plugin.getBool("NoOfflineBottom")) {
-		g_plugin.setByte("OfflineBottom", false);
-		g_plugin.delSetting("NoOfflineBottom");
-	}
-
-	if (!db_get_b(0, "Compatibility", __PLUGIN_NAME)) {
-		if (Modern::bDisableEngine) {
-			db_unset(0, "CLUI", "LeftClientMargin");
-			db_unset(0, "CLUI", "RightClientMargin");
-			db_unset(0, "CLUI", "TopClientMargin");
-			db_unset(0, "CLUI", "BottomClientMargin");
-		}
-		db_set_b(0, "Compatibility", __PLUGIN_NAME, 1);
-	}
+	CheckCompatibility();
 
 	wcsncpy_s(secondLine.text, getMStringW("SecondLineText"), _TRUNCATE);
 	secondLine.iType = getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);

@@ -3,6 +3,23 @@
 #ifndef modern_global_structure_h__
 #define modern_global_structure_h__
 
+struct StatusBarProtocolOptions
+{
+	char *szName;
+	int AccountIsCustomized;
+	int HideAccount;
+	int SBarShow;
+	int SBarRightClk;
+	int UseConnectingIcon;
+	int ShowUnreadEmails;
+	int ShowXStatus;
+	int PaddingLeft;
+	int PaddingRight;
+
+	void fromString(char *str);
+	CMStringA toString() const;
+};
+
 struct CLUIDATA
 {
 	/************************************

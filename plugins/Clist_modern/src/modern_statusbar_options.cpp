@@ -45,20 +45,6 @@ CMOption<uint32_t> Statusbar::iTopOffset("CLUI", "TopOffset", 0);
 CMOption<uint32_t> Statusbar::iBottomOffset("CLUI", "BottomOffset", 0);
 CMOption<uint32_t> Statusbar::iSpaceBetween("CLUI", "SpaceBetween", 0);
 
-struct StatusBarProtocolOptions
-{
-	char *szName;
-	BOOL AccountIsCustomized;
-	BOOL HideAccount;
-	uint8_t SBarShow;
-	uint8_t SBarRightClk;
-	uint8_t UseConnectingIcon;
-	uint8_t ShowUnreadEmails;
-	uint8_t ShowXStatus;
-	int PaddingLeft;
-	int PaddingRight;
-};
-
 static StatusBarProtocolOptions _GlobalOptions = {};
 
 static void UpdateXStatusIconOptions(HWND hwndDlg, StatusBarProtocolOptions &dat)
@@ -171,55 +157,30 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		CheckDlgButton(hwndDlg, IDC_SHOWSBAR, Statusbar::bShow);
 		CheckDlgButton(hwndDlg, IDC_STATUSBAR_PER_PROTO, Statusbar::bPerProto);
-		{
-			// populate per-proto list box.
-			SendMessage(hwndComboBox, CB_RESETCONTENT, 0, 0);
 
-			SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT("<<Global>>"));
-			SendMessage(hwndComboBox, CB_SETITEMDATA, 0, 0);
+		// populate per-proto list box.
+		SendMessage(hwndComboBox, CB_RESETCONTENT, 0, 0);
 
-			for (auto &pa : Accounts()) {
-				if (pa->bIsVirtual)
-					continue;
+		SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT("<<Global>>"));
+		SendMessage(hwndComboBox, CB_SETITEMDATA, 0, 0);
 
-				char *szName = pa->szModuleName;
-				dat = (StatusBarProtocolOptions *)mir_calloc(sizeof(StatusBarProtocolOptions));
-				dat->szName = szName;
+		for (auto &pa : Accounts()) {
+			if (pa->bIsVirtual)
+				continue;
 
-				uint32_t dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
-				SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)dat);
+			char *szName = pa->szModuleName;
+			dat = (StatusBarProtocolOptions *)mir_calloc(sizeof(StatusBarProtocolOptions));
+			dat->szName = szName;
 
-				char buf[256];
-				mir_snprintf(buf, "SBarAccountIsCustom_%s", szName);
-				dat->AccountIsCustomized = db_get_b(0, "CLUI", buf);
+			uint32_t dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
+			SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)dat);
 
-				mir_snprintf(buf, "HideAccount_%s", szName);
-				dat->HideAccount = db_get_b(0, "CLUI", buf);
-
-				mir_snprintf(buf, "SBarShow_%s", szName);
-				dat->SBarShow = db_get_b(0, "CLUI", buf, 3);
-
-				mir_snprintf(buf, "SBarRightClk_%s", szName);
-				dat->SBarRightClk = db_get_b(0, "CLUI", buf);
-
-				mir_snprintf(buf, "ShowUnreadEmails_%s", szName);
-				dat->ShowUnreadEmails = db_get_b(0, "CLUI", buf, 1);
-
-				mir_snprintf(buf, "ShowXStatus_%s", szName);
-				dat->ShowXStatus = db_get_b(0, "CLUI", buf, 6);
-
-				mir_snprintf(buf, "UseConnectingIcon_%s", szName);
-				dat->UseConnectingIcon = db_get_b(0, "CLUI", buf, 1);
-
-				mir_snprintf(buf, "PaddingLeft_%s", szName);
-				dat->PaddingLeft = db_get_dw(0, "CLUI", buf);
-
-				mir_snprintf(buf, "PaddingRight_%s", szName);
-				dat->PaddingRight = db_get_dw(0, "CLUI", buf);
-			}
-
-			SendMessage(hwndComboBox, CB_SETCURSEL, 0, 0);
+			ptrA szSettings(db_get_sa(0, szName, "ModernSbar"));
+			if (szSettings)
+				dat->fromString(szSettings);
 		}
+
+		SendMessage(hwndComboBox, CB_SETCURSEL, 0, 0);
 
 		_GlobalOptions.AccountIsCustomized = TRUE;
 		_GlobalOptions.SBarRightClk = Statusbar::iRClickMode;
@@ -411,28 +372,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			int count = SendMessage(hwndComboBox, CB_GETCOUNT, 0, 0);
 			for (int i = 1; i < count; i++) {
 				StatusBarProtocolOptions *sbpo = (StatusBarProtocolOptions*)SendMessage(hwndComboBox, CB_GETITEMDATA, i, 0);
-
-				char settingBuf[256];
-				mir_snprintf(settingBuf, "SBarAccountIsCustom_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->AccountIsCustomized);
-
-				mir_snprintf(settingBuf, "HideAccount_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->HideAccount);
-
-				mir_snprintf(settingBuf, "SBarShow_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->SBarShow);
-				mir_snprintf(settingBuf, "SBarRightClk_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->SBarRightClk);
-				mir_snprintf(settingBuf, "UseConnectingIcon_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->UseConnectingIcon);
-				mir_snprintf(settingBuf, "ShowUnreadEmails_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->ShowUnreadEmails);
-				mir_snprintf(settingBuf, "ShowXStatus_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, sbpo->ShowXStatus);
-				mir_snprintf(settingBuf, "PaddingLeft_%s", sbpo->szName);
-				db_set_dw(0, "CLUI", settingBuf, sbpo->PaddingLeft);
-				mir_snprintf(settingBuf, "PaddingRight_%s", sbpo->szName);
-				db_set_dw(0, "CLUI", settingBuf, sbpo->PaddingRight);
+				db_set_s(0, sbpo->szName, "ModernSbar", sbpo->toString());
 			}
 
 			Statusbar::bEqualSections = IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS);

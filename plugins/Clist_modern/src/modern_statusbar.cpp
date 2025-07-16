@@ -21,32 +21,32 @@ struct ProtoItemData : public MZeroedObject
 	~ProtoItemData()
 	{}
 
-	HICON  icon;
-	HICON  extraIcon;
-	int    iconIndex;
-	ptrA   szProtoName;
-	ptrA   szAccountName;
-	int    iProtoStatus;
-	ptrW   tszProtoHumanName;
-	ptrW   szProtoEMailCount;
-	ptrW   tszProtoStatusText;
-	ptrW   tszProtoXStatus;
-	int    iProtoPos;
-	int    fullWidth;
-	RECT   protoRect;
+	HICON    icon;
+	HICON    extraIcon;
+	int      iconIndex;
+	ptrA     szProtoName;
+	ptrA     szAccountName;
+	int      iProtoStatus;
+	ptrW     tszProtoHumanName;
+	ptrW     szProtoEMailCount;
+	wchar_t *tszProtoStatusText;
+	ptrW     tszProtoXStatus;
+	int      iProtoPos;
+	int      fullWidth;
+	RECT     protoRect;
 
-	uint8_t   xStatusMode;     // 0-only main, 1-xStatus, 2-main as overlay
-	bool   bDoubleIcons;
-	bool   bShowProtoIcon;
-	bool   bShowProtoName;
-	bool   bShowStatusName;
-	bool   bConnectingIcon;
-	bool   bShowProtoEmails;
-	bool   SBarRightClk;
-	bool   bIsDimmed;
-
-	int    PaddingLeft;
-	int    PaddingRight;
+	uint8_t  xStatusMode;     // 0-only main, 1-xStatus, 2-main as overlay
+	bool     bDoubleIcons;
+	bool     bShowProtoIcon;
+	bool     bShowProtoName;
+	bool     bShowStatusName;
+	bool     bConnectingIcon;
+	bool     bShowProtoEmails;
+	bool     SBarRightClk;
+	bool     bIsDimmed;
+			   
+	int      PaddingLeft;
+	int      PaddingRight;
 };
 
 static OBJLIST<ProtoItemData> ProtosData(5);
@@ -110,6 +110,73 @@ int LoadStatusBarData()
 	return 1;
 }
 
+static int RebuildStatusBarData(WPARAM = 0, LPARAM = 0)
+{
+	ProtosData.destroy();
+
+	auto &accs = Accounts();
+	if (accs.getCount() == 0)
+		return 0;
+
+	int iProtoInStatusMenu = 0;
+	for (int j = 0; j < accs.getCount(); j++) {
+		int i = Clist_GetAccountIndex(j);
+		if (i == -1)
+			continue;
+
+		if (!accs[i]->IsVisible())
+			continue;
+
+		char *szProto = accs[i]->szModuleName;
+		StatusBarProtocolOptions tmp = { szProto };
+		if (g_StatusBarData.perProtoConfig) {
+			ptrA szCustomData(db_get_sa(0, szProto, "ModernSbar"));
+			if (szCustomData)
+				tmp.fromString(szCustomData);
+		}
+
+		ProtoItemData *p = nullptr;
+
+		if (tmp.AccountIsCustomized) {
+			if (tmp.HideAccount) {
+				iProtoInStatusMenu++;
+				continue;
+			}
+
+			p = new ProtoItemData;
+			p->bShowProtoIcon = (tmp.SBarShow & 1) != 0;
+			p->bShowProtoName = (tmp.SBarShow & 2) != 0;
+			p->bShowStatusName = (tmp.SBarShow & 4) != 0;
+
+			p->xStatusMode = tmp.ShowXStatus;
+			p->bConnectingIcon = tmp.UseConnectingIcon != 0;
+			p->bShowProtoEmails = tmp.ShowUnreadEmails != 0;
+			p->SBarRightClk = tmp.SBarRightClk;
+			p->PaddingLeft = tmp.PaddingLeft;
+			p->PaddingRight = tmp.PaddingRight;
+		}
+		else {
+			p = new ProtoItemData;
+			p->bShowProtoIcon = g_StatusBarData.bShowProtoIcon;
+			p->bShowProtoName = g_StatusBarData.bShowProtoName;
+			p->bShowStatusName = g_StatusBarData.bShowStatusName;
+			p->xStatusMode = g_StatusBarData.xStatusMode;
+			p->bConnectingIcon = g_StatusBarData.bConnectingIcon;
+			p->bShowProtoEmails = g_StatusBarData.bShowProtoEmails;
+			p->SBarRightClk = 0;
+			p->PaddingLeft = Statusbar::iPaddingLeft;
+			p->PaddingRight = Statusbar::iPaddingRight;
+		}
+
+		p->tszProtoHumanName = mir_wstrdup(accs[i]->tszAccountName);
+		p->szAccountName = mir_strdup(szProto);
+		p->szProtoName = mir_strdup(szProto);
+		p->iProtoPos = iProtoInStatusMenu++;
+		ProtosData.insert(p);
+	}
+	return 0;
+}
+
 int BgStatusBarChange(WPARAM, LPARAM)
 {
 	if (!MirandaExiting())
@@ -157,107 +224,37 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	GetTextExtentPoint32A(hDC, " ", 1, &textSize);
 	int spaceWidth = textSize.cx;
 
-	ProtosData.destroy();
-
-	auto &accs = Accounts();
-	if (accs.getCount() == 0)
+	if (ProtosData.getCount() == 0)
 		return 0;
 
-	int iProtoInStatusMenu = 0;
-	for (int j = 0; j < accs.getCount(); j++) {
-		int i = Clist_GetAccountIndex(j);
-		if (i == -1)
-			continue;
+	// update protocol data
+	for (auto &it : ProtosData) {
+		it->iProtoStatus = Proto_GetStatus(it->szProtoName);
 
-		if (!accs[i]->IsVisible())
-			continue;
-
-		char *szProto = accs[i]->szModuleName;
-		char buf[256];
-		mir_snprintf(buf, "SBarAccountIsCustom_%s", szProto);
-
-		ProtoItemData *p = nullptr;
-
-		if (g_StatusBarData.perProtoConfig && db_get_b(0, "CLUI", buf)) {
-			mir_snprintf(buf, "HideAccount_%s", szProto);
-			if (db_get_b(0, "CLUI", buf)) {
-				iProtoInStatusMenu++;
-				continue;
-			}
-
-			mir_snprintf(buf, "SBarShow_%s", szProto);
-
-			uint8_t showOps = db_get_b(0, "CLUI", buf, 3);
-			p = new ProtoItemData;
-			p->bShowProtoIcon = (showOps & 1) != 0;
-			p->bShowProtoName = (showOps & 2) != 0;
-			p->bShowStatusName = (showOps & 4) != 0;
-
-			mir_snprintf(buf, "ShowXStatus_%s", szProto);
-			p->xStatusMode = db_get_b(0, "CLUI", buf, 3);
-
-			mir_snprintf(buf, "UseConnectingIcon_%s", szProto);
-			p->bConnectingIcon = db_get_b(0, "CLUI", buf, 1) != 0;
-
-			mir_snprintf(buf, "ShowUnreadEmails_%s", szProto);
-			p->bShowProtoEmails = db_get_b(0, "CLUI", buf, 1) != 0;
-
-			mir_snprintf(buf, "SBarRightClk_%s", szProto);
-			p->SBarRightClk = db_get_b(0, "CLUI", buf) != 0;
-
-			mir_snprintf(buf, "PaddingLeft_%s", szProto);
-			p->PaddingLeft = db_get_dw(0, "CLUI", buf);
-
-			mir_snprintf(buf, "PaddingRight_%s", szProto);
-			p->PaddingRight = db_get_dw(0, "CLUI", buf);
-		}
-		else {
-			p = new ProtoItemData;
-			p->bShowProtoIcon = g_StatusBarData.bShowProtoIcon;
-			p->bShowProtoName = g_StatusBarData.bShowProtoName;
-			p->bShowStatusName = g_StatusBarData.bShowStatusName;
-			p->xStatusMode = g_StatusBarData.xStatusMode;
-			p->bConnectingIcon = g_StatusBarData.bConnectingIcon;
-			p->bShowProtoEmails = g_StatusBarData.bShowProtoEmails;
-			p->SBarRightClk = 0;
-			p->PaddingLeft = Statusbar::iPaddingLeft;
-			p->PaddingRight = Statusbar::iPaddingRight;
-		}
-
-		p->iProtoStatus = Proto_GetStatus(szProto);
-
-		if (p->iProtoStatus > ID_STATUS_OFFLINE)
-			if (p->bShowProtoEmails == 1 && ProtoServiceExists(szProto, PS_GETUNREADEMAILCOUNT)) {
-				int nEmails = (int)CallProtoService(szProto, PS_GETUNREADEMAILCOUNT, 0, 0);
+		if (it->iProtoStatus > ID_STATUS_OFFLINE)
+			if (it->bShowProtoEmails == 1 && ProtoServiceExists(it->szProtoName, PS_GETUNREADEMAILCOUNT)) {
+				int nEmails = (int)CallProtoService(it->szProtoName, PS_GETUNREADEMAILCOUNT, 0, 0);
 				if (nEmails > 0) {
 					wchar_t str[40];
 					mir_snwprintf(str, L"[%d]", nEmails);
-					p->szProtoEMailCount = mir_wstrdup(str);
+					it->szProtoEMailCount = mir_wstrdup(str);
 				}
 			}
 
-		p->tszProtoHumanName = mir_wstrdup(accs[i]->tszAccountName);
-		p->szAccountName = mir_strdup(szProto);
-		p->szProtoName = mir_strdup(accs[i]->szProtoName);
-		p->tszProtoStatusText = mir_wstrdup(Clist_GetStatusModeDescription(p->iProtoStatus, 0));
-		p->iProtoPos = iProtoInStatusMenu++;
+		it->tszProtoStatusText = Clist_GetStatusModeDescription(it->iProtoStatus, 0);
 
-		p->bIsDimmed = 0;
+		it->bIsDimmed = 0;
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_PROTOS) {
 			char szTemp[2048];
-			mir_snprintf(szTemp, "%s|", p->szAccountName.get());
-			p->bIsDimmed = strstr(g_CluiData.protoFilter, szTemp) ? 0 : 1;
+			mir_snprintf(szTemp, "%s|", it->szAccountName.get());
+			it->bIsDimmed = strstr(g_CluiData.protoFilter, szTemp) ? 0 : 1;
 		}
-
-		ProtosData.insert(p);
 	}
-
-	if (ProtosData.getCount() == 0)
-		return 0;
 
 	// START MULTILINE HERE 
 	int orig_visProtoCount = ProtosData.getCount();
 	int protosperline = 0;
+	auto &accs = Accounts();
 
 	if (g_StatusBarData.nProtosPerLine)
 		protosperline = g_StatusBarData.nProtosPerLine;
@@ -888,6 +885,10 @@ HWND StatusBar_Create(HWND parent)
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)NewStatusPaintCallbackProc); //$$$$$ register sub for frame
 
 	LoadStatusBarData();
+	RebuildStatusBarData();
+	HookEvent(ME_SYSTEM_MODULELOAD, &RebuildStatusBarData);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, &RebuildStatusBarData);
+
 	cliCluiProtocolStatusChanged(0, nullptr);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, -1, 0);
 	return hModernStatusBar;
