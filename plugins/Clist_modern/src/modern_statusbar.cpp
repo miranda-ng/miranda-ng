@@ -55,24 +55,24 @@ STATUSBARDATA g_StatusBarData = { 0 };
 
 int LoadStatusBarData()
 {
-	g_StatusBarData.perProtoConfig = db_get_b(0, "CLUI", "SBarPerProto", SETTING_SBARPERPROTO_DEFAULT);
+	g_StatusBarData.perProtoConfig = db_get_b(0, "CLUI", "SBarPerProto");
 	g_StatusBarData.bShowProtoIcon = (db_get_b(0, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT) & 1) != 0;
 	g_StatusBarData.bShowProtoName = (db_get_b(0, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT) & 2) != 0;
 	g_StatusBarData.bShowStatusName = (db_get_b(0, "CLUI", "SBarShow", SETTING_SBARSHOW_DEFAULT) & 4) != 0;
 	g_StatusBarData.xStatusMode = db_get_b(0, "CLUI", "ShowXStatus", SETTING_SHOWXSTATUS_DEFAULT);
 	g_StatusBarData.bConnectingIcon = db_get_b(0, "CLUI", "UseConnectingIcon", SETTING_USECONNECTINGICON_DEFAULT) != 0;
 	g_StatusBarData.bShowProtoEmails = db_get_b(0, "CLUI", "ShowUnreadEmails", SETTING_SHOWUNREADEMAILS_DEFAULT) != 0;
-	g_StatusBarData.SBarRightClk = db_get_b(0, "CLUI", "SBarRightClk", SETTING_SBARRIGHTCLK_DEFAULT);
+	g_StatusBarData.SBarRightClk = db_get_b(0, "CLUI", "SBarRightClk");
 
-	g_StatusBarData.nProtosPerLine = db_get_b(0, "CLUI", "StatusBarProtosPerLine", SETTING_PROTOSPERLINE_DEFAULT);
-	g_StatusBarData.Align = db_get_b(0, "CLUI", "Align", SETTING_ALIGN_DEFAULT);
+	g_StatusBarData.nProtosPerLine = db_get_b(0, "CLUI", "StatusBarProtosPerLine");
+	g_StatusBarData.Align = db_get_b(0, "CLUI", "Align");
 	g_StatusBarData.VAlign = db_get_b(0, "CLUI", "VAlign", SETTING_VALIGN_DEFAULT);
-	g_StatusBarData.sameWidth = db_get_b(0, "CLUI", "EqualSections", SETTING_EQUALSECTIONS_DEFAULT);
-	g_StatusBarData.rectBorders.left = db_get_dw(0, "CLUI", "LeftOffset", SETTING_LEFTOFFSET_DEFAULT);
-	g_StatusBarData.rectBorders.right = db_get_dw(0, "CLUI", "RightOffset", SETTING_RIGHTOFFSET_DEFAULT);
-	g_StatusBarData.rectBorders.top = db_get_dw(0, "CLUI", "TopOffset", SETTING_TOPOFFSET_DEFAULT);
-	g_StatusBarData.rectBorders.bottom = db_get_dw(0, "CLUI", "BottomOffset", SETTING_BOTTOMOFFSET_DEFAULT);
-	g_StatusBarData.extraspace = (uint8_t)db_get_dw(0, "CLUI", "SpaceBetween", SETTING_SPACEBETWEEN_DEFAULT);
+	g_StatusBarData.sameWidth = db_get_b(0, "CLUI", "EqualSections");
+	g_StatusBarData.rectBorders.left = db_get_dw(0, "CLUI", "LeftOffset");
+	g_StatusBarData.rectBorders.right = db_get_dw(0, "CLUI", "RightOffset");
+	g_StatusBarData.rectBorders.top = db_get_dw(0, "CLUI", "TopOffset");
+	g_StatusBarData.rectBorders.bottom = db_get_dw(0, "CLUI", "BottomOffset");
+	g_StatusBarData.extraspace = (uint8_t)db_get_dw(0, "CLUI", "SpaceBetween");
 
 	if (g_StatusBarData.BarFont) {
 		DeleteObject(g_StatusBarData.BarFont);
@@ -91,8 +91,8 @@ int LoadStatusBarData()
 	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frameID), frameopt);
 
 	g_StatusBarData.TextEffectID = db_get_b(0, "StatusBar", "TextEffectID", SETTING_TEXTEFFECTID_DEFAULT);
-	g_StatusBarData.TextEffectColor1 = db_get_dw(0, "StatusBar", "TextEffectColor1", SETTING_TEXTEFFECTCOLOR1_DEFAULT);
-	g_StatusBarData.TextEffectColor2 = db_get_dw(0, "StatusBar", "TextEffectColor2", SETTING_TEXTEFFECTCOLOR2_DEFAULT);
+	g_StatusBarData.TextEffectColor1 = db_get_dw(0, "StatusBar", "TextEffectColor1");
+	g_StatusBarData.TextEffectColor2 = db_get_dw(0, "StatusBar", "TextEffectColor2");
 
 	if (g_StatusBarData.hBmpBackground) { DeleteObject(g_StatusBarData.hBmpBackground); g_StatusBarData.hBmpBackground = nullptr; }
 
@@ -151,7 +151,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 	}
 	else SkinDrawGlyph(hDC, &rc, &rc, "Main,ID=StatusBar");
 
-	g_StatusBarData.nProtosPerLine = db_get_b(0, "CLUI", "StatusBarProtosPerLine", SETTING_PROTOSPERLINE_DEFAULT);
+	g_StatusBarData.nProtosPerLine = db_get_b(0, "CLUI", "StatusBarProtosPerLine");
 	HFONT hOldFont = g_clcPainter.ChangeToFont(hDC, nullptr, FONTID_STATUSBAR_PROTONAME, nullptr);
 
 	SIZE textSize = { 0 };
@@ -179,9 +179,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 		ProtoItemData *p = nullptr;
 
-		if (g_StatusBarData.perProtoConfig && db_get_b(0, "CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT)) {
+		if (g_StatusBarData.perProtoConfig && db_get_b(0, "CLUI", buf)) {
 			mir_snprintf(buf, "HideAccount_%s", szProto);
-			if (db_get_b(0, "CLUI", buf, SETTING_SBARHIDEACCOUNT_DEFAULT)) {
+			if (db_get_b(0, "CLUI", buf)) {
 				iProtoInStatusMenu++;
 				continue;
 			}
@@ -204,13 +204,13 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			p->bShowProtoEmails = db_get_b(0, "CLUI", buf, SETTING_SHOWUNREADEMAILS_DEFAULT) != 0;
 
 			mir_snprintf(buf, "SBarRightClk_%s", szProto);
-			p->SBarRightClk = db_get_b(0, "CLUI", buf, SETTING_SBARRIGHTCLK_DEFAULT) != 0;
+			p->SBarRightClk = db_get_b(0, "CLUI", buf) != 0;
 
 			mir_snprintf(buf, "PaddingLeft_%s", szProto);
-			p->PaddingLeft = db_get_dw(0, "CLUI", buf, SETTING_PADDINGLEFT_DEFAULT);
+			p->PaddingLeft = db_get_dw(0, "CLUI", buf);
 
 			mir_snprintf(buf, "PaddingRight_%s", szProto);
-			p->PaddingRight = db_get_dw(0, "CLUI", buf, SETTING_PADDINGRIGHT_DEFAULT);
+			p->PaddingRight = db_get_dw(0, "CLUI", buf);
 		}
 		else {
 			p = new ProtoItemData;
@@ -221,8 +221,8 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			p->bConnectingIcon = g_StatusBarData.bConnectingIcon;
 			p->bShowProtoEmails = g_StatusBarData.bShowProtoEmails;
 			p->SBarRightClk = 0;
-			p->PaddingLeft = db_get_dw(0, "CLUI", "PaddingLeft", SETTING_PADDINGLEFT_DEFAULT);;
-			p->PaddingRight = db_get_dw(0, "CLUI", "PaddingRight", SETTING_PADDINGRIGHT_DEFAULT);;
+			p->PaddingLeft = db_get_dw(0, "CLUI", "PaddingLeft");
+			p->PaddingRight = db_get_dw(0, "CLUI", "PaddingRight");
 		}
 
 		p->iProtoStatus = Proto_GetStatus(szProto);

@@ -286,9 +286,9 @@ int cliGetWindowVisibleState()
 {
 	int ret = sttGetWindowVisibleState();
 
-	int method = db_get_b(0, "ModernData", "HideBehind"); //(0-none, 1-leftedge, 2-rightedge);
+	int method = Modern::iHideBehind; // (0-none, 1-leftedge, 2-rightedge);
 	if (method) {
-		if (db_get_b(0, "ModernData", "BehindEdge") == 0)
+		if (!Modern::iBehindEdge)
 			CLUI_HideBehindEdge(); //hide
 		else
 			CLUI_ShowFromBehindEdge();
@@ -296,12 +296,12 @@ int cliGetWindowVisibleState()
 		return GWVS_HIDDEN;
 	}
 
-	if (!method && db_get_b(0, "ModernData", "BehindEdge") > 0) {
-		g_CluiData.bBehindEdgeSettings = db_get_b(0, "ModernData", "BehindEdge");
+	if (!method && Modern::iBehindEdge > 0) {
+		g_CluiData.bBehindEdgeSettings = Modern::iBehindEdge;
 		CLUI_ShowFromBehindEdge();
 		g_CluiData.bBehindEdgeSettings = 0;
 		g_CluiData.nBehindEdgeState = 0;
-		db_unset(0, "ModernData", "BehindEdge");
+		Modern::iBehindEdge.Delete();
 	}
 
 	return ret;

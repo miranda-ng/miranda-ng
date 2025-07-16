@@ -118,7 +118,7 @@ void CMPlugin::ReadSettings()
 	}
 
 	if (!db_get_b(0, "Compatibility", __PLUGIN_NAME)) {
-		if (db_get_b(0, "ModernData", "DisableEngine")) {
+		if (Modern::bDisableEngine) {
 			db_unset(0, "CLUI", "LeftClientMargin");
 			db_unset(0, "CLUI", "RightClientMargin");
 			db_unset(0, "CLUI", "TopClientMargin");
@@ -129,23 +129,23 @@ void CMPlugin::ReadSettings()
 
 	wcsncpy_s(secondLine.text, getMStringW("SecondLineText"), _TRUNCATE);
 	secondLine.iType = getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
-	secondLine.bActive = getBool("SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
+	secondLine.bActive = getBool("SecondLineShow");
 	secondLine.iTopSpace = getWord("SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
 	secondLine.bDrawSmilies = getBool("SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
 	secondLine.bXstatusHasPriority = getBool("SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
 	secondLine.bShowStatusIfNoAway = getBool("SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
 	secondLine.bShowListeningIfNoAway = getBool("SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
-	secondLine.bUseNameAndMessageForXstatus = getBool("SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
+	secondLine.bUseNameAndMessageForXstatus = getBool("SecondLineUseNameAndMessageForXStatus");
 
 	wcsncpy_s(thirdLine.text, getMStringW("ThirdLineText"), _TRUNCATE);
 	thirdLine.iType = getWord("ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
-	thirdLine.bActive = getBool("ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
+	thirdLine.bActive = getBool("ThirdLineShow");
 	thirdLine.iTopSpace = getWord("ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
-	thirdLine.bDrawSmilies = getBool("ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
+	thirdLine.bDrawSmilies = getBool("ThirdLineDrawSmileys");
 	thirdLine.bXstatusHasPriority = getBool("ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
-	thirdLine.bShowStatusIfNoAway = getBool("ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
-	thirdLine.bShowListeningIfNoAway = getBool("ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
-	thirdLine.bUseNameAndMessageForXstatus = getBool("ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
+	thirdLine.bShowStatusIfNoAway = getBool("ThirdLineShowStatusIfNoAway");
+	thirdLine.bShowListeningIfNoAway = getBool("ThirdLineShowListeningIfNoAway");
+	thirdLine.bUseNameAndMessageForXstatus = getBool("ThirdLineUseNameAndMessageForXStatus");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

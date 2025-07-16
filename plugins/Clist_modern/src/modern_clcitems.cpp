@@ -235,7 +235,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 	dat->selection = -1;
 	dat->bNeedsResort = true;
 	dat->HiLightMode = db_get_b(0, "CLC", "HiLightMode", SETTING_HILIGHTMODE_DEFAULT);
-	dat->bPlaceOfflineToRoot = g_plugin.getByte("PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT) != 0;
+	dat->bPlaceOfflineToRoot = g_plugin.getByte("PlaceOfflineToRoot") != 0;
 
 	corecli.pfnRebuildEntireList(hwnd, dat);
 

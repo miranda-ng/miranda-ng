@@ -75,10 +75,6 @@ static int bOldHideOffline;
 static int bOldHideEmptyGroups;
 static int bOldUseGroups;
 
-static uint16_t wBehindEdgeShowDelay,
-wBehindEdgeHideDelay,
-wBehindEdgeBorderSize;
-
 static BOOL mutex_bAnimationInProgress = FALSE,
 mutex_bShowHideCalledFromAnimation = FALSE,
 mutex_bIgnoreActivation = FALSE,
@@ -199,7 +195,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM hContact, LPARAM)
 
 	HWND hwndClist = GetClistWindow();
 
-	if (!g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)) {
+	if (!g_plugin.getByte("AvatarsShow")) {
 		Menu_ShowItem(hmiShowAvatar, false);
 		Menu_ShowItem(hmiHideAvatar, false);
 	}
@@ -322,9 +318,8 @@ CLUI::~CLUI()
 
 HRESULT CLUI::LoadDllsRuntime()
 {
-	g_CluiData.fLayered = !db_get_b(0, "ModernData", "DisableEngine");
-	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) != 0;
-	g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(0, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(0, "ModernData", "DisableEngine");
+	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut") != 0;
+	g_CluiData.fLayered = Modern::bEnableLayering && !Modern::bDisableEngine;
 
 	if (IsWinVerVistaPlus() && !IsWinVer8Plus()) {
 		m_hDwmapiDll = LoadLibrary(L"dwmapi.dll");
@@ -531,13 +526,13 @@ int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 		}
 
 		if (!g_bChangingMode && !g_CluiData.fLayered) {
-			if (nCmd == SW_HIDE && g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT)) {
+			if (nCmd == SW_HIDE && g_plugin.getByte("WindowShadow")) {
 				ShowWindow(hWnd, SW_MINIMIZE); // removing of shadow
 				return ShowWindow(hWnd, nCmd);
 			}
 
 			if (nCmd == SW_RESTORE && g_CluiData.fSmoothAnimation && !g_bTransparentFlag) {
-				if (g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT))
+				if (g_plugin.getByte("WindowShadow"))
 					CLUI_SmoothAlphaTransition(hWnd, 255, 1);
 				else {
 					int ret = ShowWindow(hWnd, nCmd);
@@ -572,9 +567,9 @@ static BOOL CLUI_WaitThreadsCompletion()
 
 void CLUI_UpdateLayeredMode()
 {
-	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine") != 0;
+	g_CluiData.fDisableSkinEngine = Modern::bDisableEngine;
 
-	bool tLayeredFlag = db_get_b(0, "ModernData", "EnableLayering", SETTING_ENABLELAYERING_DEFAULT) != 0 && !g_CluiData.fDisableSkinEngine;
+	bool tLayeredFlag = Modern::bEnableLayering && !g_CluiData.fDisableSkinEngine;
 	if (g_CluiData.fLayered != tLayeredFlag) {
 		BOOL fWasVisible = IsWindowVisible(g_clistApi.hwndContactList);
 		if (fWasVisible)
@@ -600,7 +595,7 @@ void CLUI_UpdateLayeredMode()
 
 void CLUI_UpdateAeroGlass()
 {
-	bool tAeroGlass = db_get_b(0, "ModernData", "AeroGlass", SETTING_AEROGLASS_DEFAULT) && g_CluiData.fLayered;
+	bool tAeroGlass = Modern::bAeroGlass && g_CluiData.fLayered;
 	if (g_proc_DWMEnableBlurBehindWindow && (tAeroGlass != g_CluiData.fAeroGlass)) {
 		if (g_CluiData.hAeroGlassRgn) {
 			DeleteObject(g_CluiData.hAeroGlassRgn);
@@ -636,7 +631,7 @@ void CLUI_ChangeWindowMode()
 
 	g_bChangingMode = true;
 	g_bTransparentFlag = Clist::bTransparent;
-	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) != 0;
+	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut") != 0;
 	if (g_bTransparentFlag == 0 && g_CluiData.bCurrentAlpha != 0)
 		g_CluiData.bCurrentAlpha = 255;
 
@@ -644,8 +639,8 @@ void CLUI_ChangeWindowMode()
 	if (!g_CluiData.fLayered) {
 		style = 0;
 		styleEx = 0;
-		if (g_plugin.getByte("ThinBorder", SETTING_THINBORDER_DEFAULT) || (g_plugin.getByte("NoBorder", SETTING_NOBORDER_DEFAULT))) {
-			style = WS_CLIPCHILDREN | (g_plugin.getByte("ThinBorder", SETTING_THINBORDER_DEFAULT) ? WS_BORDER : 0);
+		if (g_plugin.getByte("ThinBorder") || (g_plugin.getByte("NoBorder"))) {
+			style = WS_CLIPCHILDREN | (g_plugin.getByte("ThinBorder") ? WS_BORDER : 0);
 			styleEx = WS_EX_TOOLWINDOW;
 			styleMaskEx |= WS_EX_APPWINDOW;
 		}
@@ -728,7 +723,7 @@ void CLUI_ChangeWindowMode()
 		int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 		h = (h < v) ? h : v;
 		HRGN hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
-		if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT))
+		if (db_get_b(0, "CLC", "RoundCorners"))
 			SetWindowRgn(g_clistApi.hwndContactList, hRgn1, 1);
 		else {
 			DeleteObject(hRgn1);
@@ -766,12 +761,12 @@ int CLUI_UpdateTimer()
 {
 	if (g_CluiData.nBehindEdgeState == 0) {
 		KillTimer(g_clistApi.hwndContactList, TM_BRINGOUTTIMEOUT);
-		CLUI_SafeSetTimer(g_clistApi.hwndContactList, TM_BRINGOUTTIMEOUT, wBehindEdgeHideDelay * 100, nullptr);
+		CLUI_SafeSetTimer(g_clistApi.hwndContactList, TM_BRINGOUTTIMEOUT, Modern::iHideDelay * 100, nullptr);
 	}
 
 	if (bShowEventStarted == 0 && g_CluiData.nBehindEdgeState > 0) {
 		KillTimer(g_clistApi.hwndContactList, TM_BRINGINTIMEOUT);
-		bShowEventStarted = (BOOL)CLUI_SafeSetTimer(g_clistApi.hwndContactList, TM_BRINGINTIMEOUT, wBehindEdgeShowDelay * 100, nullptr);
+		bShowEventStarted = (BOOL)CLUI_SafeSetTimer(g_clistApi.hwndContactList, TM_BRINGINTIMEOUT, Modern::iShowDelay * 100, nullptr);
 	}
 	return 0;
 }
@@ -788,7 +783,7 @@ int CLUI_HideBehindEdge()
 		GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcScreen);
 		//SystemParametersInfo(SPI_GETWORKAREA, 0, &rcScreen,FALSE);
 		//2. move out
-		int bordersize = wBehindEdgeBorderSize;
+		int bordersize = Modern::iHideBehindBorderSize;
 		GetWindowRect(g_clistApi.hwndContactList, &rcWindow);
 		switch (method) {
 		case 1: // left
@@ -804,7 +799,7 @@ int CLUI_HideBehindEdge()
 		g_CluiData.mutexPreventDockMoving = 1;
 
 		//3. store setting
-		db_set_b(0, "ModernData", "BehindEdge", method);
+		Modern::iBehindEdge = method;
 		g_CluiData.nBehindEdgeState = method;
 		return 1;
 	}
@@ -844,7 +839,7 @@ int CLUI_ShowFromBehindEdge()
 		g_CluiData.mutexPreventDockMoving = 1;
 
 		// 3. store setting
-		db_set_b(0, "ModernData", "BehindEdge", 0);
+		Modern::iBehindEdge = 0;
 		g_CluiData.nBehindEdgeState = 0;
 	}
 	return 0;
@@ -1022,20 +1017,17 @@ static LRESULT BroadCastMessageToChild(HWND hwnd, int message, WPARAM wParam, LP
 int CLUI_ReloadCLUIOptions()
 {
 	KillTimer(g_clistApi.hwndContactList, TM_UPDATEBRINGTIMER);
-	g_CluiData.bBehindEdgeSettings = db_get_b(0, "ModernData", "HideBehind");
-	wBehindEdgeShowDelay = db_get_w(0, "ModernData", "ShowDelay", SETTING_SHOWDELAY_DEFAULT);
-	wBehindEdgeHideDelay = db_get_w(0, "ModernData", "HideDelay", SETTING_HIDEDELAY_DEFAULT);
-	wBehindEdgeBorderSize = db_get_w(0, "ModernData", "HideBehindBorderSize");
+	g_CluiData.bBehindEdgeSettings = Modern::iHideBehind;
 
-	g_CluiData.fAutoSize = db_get_b(0, "CLUI", "AutoSize", SETTING_AUTOSIZE_DEFAULT) != 0;
-	g_CluiData.bInternalAwayMsgDiscovery = db_get_b(0, "ModernData", "InternalAwayMsgDiscovery", SETTING_INTERNALAWAYMSGREQUEST_DEFAULT);
-	g_CluiData.bRemoveAwayMessageForOffline = db_get_b(0, "ModernData", "RemoveAwayMessageForOffline", SETTING_REMOVEAWAYMSGFOROFFLINE_DEFAULT);
+	g_CluiData.fAutoSize = db_get_b(0, "CLUI", "AutoSize") != 0;
+	g_CluiData.bInternalAwayMsgDiscovery = Modern::bInternalAwayMsgDiscovery;
+	g_CluiData.bRemoveAwayMessageForOffline = Modern::bRemoveAwayMessageForOffline;
 
 	// window borders
-	g_CluiData.LeftClientMargin = db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
-	g_CluiData.RightClientMargin = db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT);
-	g_CluiData.TopClientMargin = db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
-	g_CluiData.BottomClientMargin = db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
+	g_CluiData.LeftClientMargin = db_get_b(0, "CLUI", "LeftClientMargin");
+	g_CluiData.RightClientMargin = db_get_b(0, "CLUI", "RightClientMargin");
+	g_CluiData.TopClientMargin = db_get_b(0, "CLUI", "TopClientMargin");
+	g_CluiData.BottomClientMargin = db_get_b(0, "CLUI", "BottomClientMargin");
 
 	BroadCastMessageToChild(g_clistApi.hwndContactList, WM_THEMECHANGED, 0, 0);
 
@@ -1067,7 +1059,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 		return 1;
 
 	r1 = mbi.rcBar;
-	r1.bottom += !db_get_b(0, "CLUI", "LineUnderMenu", SETTING_LINEUNDERMENU_DEFAULT);
+	r1.bottom += !db_get_b(0, "CLUI", "LineUnderMenu");
 	if (item < 1) {
 		treg = CreateRectRgn(mbi.rcBar.left, mbi.rcBar.top, mbi.rcBar.right, r1.bottom);
 		if (item == 0) { // should remove item clips
@@ -1081,7 +1073,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 	}
 	else {
 		GetMenuBarInfo(hwnd, OBJID_MENU, item, &mbi);
-		treg = CreateRectRgn(mbi.rcBar.left, mbi.rcBar.top, mbi.rcBar.right, mbi.rcBar.bottom + !db_get_b(0, "CLUI", "LineUnderMenu", SETTING_LINEUNDERMENU_DEFAULT));
+		treg = CreateRectRgn(mbi.rcBar.left, mbi.rcBar.top, mbi.rcBar.right, mbi.rcBar.bottom + !db_get_b(0, "CLUI", "LineUnderMenu"));
 	}
 	OffsetRgn(treg, -ra.left, -ra.top);
 	r1.left -= ra.left;
@@ -1212,19 +1204,16 @@ int CLUI_IconsChanged(WPARAM, LPARAM)
 
 void CLUI_cli_LoadCluiGlobalOpts()
 {
-	BOOL tLayeredFlag = TRUE;
-	tLayeredFlag &= db_get_b(0, "ModernData", "EnableLayering", tLayeredFlag);
-	if (tLayeredFlag) {
-		if (g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT) == 1)
+	if (Modern::bEnableLayering) {
+		if (g_plugin.getByte("WindowShadow") == 1)
 			g_plugin.setByte("WindowShadow", 2);
 	}
 	else {
-		if (g_plugin.getByte("WindowShadow", SETTING_WINDOWSHADOW_DEFAULT) == 2)
+		if (g_plugin.getByte("WindowShadow") == 2)
 			g_plugin.setByte("WindowShadow", 1);
 	}
 	corecli.pfnLoadCluiGlobalOpts();
 }
-
 
 int CLUI_TestCursorOnBorders()
 {
@@ -1252,10 +1241,10 @@ int CLUI_TestCursorOnBorders()
 	GetWindowRect(hwnd, &r);
 
 	// Size borders offset (contract)
-	r.top += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Top", SKIN_OFFSET_TOP_DEFAULT);
-	r.bottom -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Bottom", SKIN_OFFSET_BOTTOM_DEFAULT);
-	r.left += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Left", SKIN_OFFSET_LEFT_DEFAULT);
-	r.right -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Right", SKIN_OFFSET_RIGHT_DEFAULT);
+	r.top += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Top");
+	r.bottom -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Bottom");
+	r.left += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Left");
+	r.right -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Right");
 
 	if (r.right < r.left) r.right = r.left;
 	if (r.bottom < r.top) r.bottom = r.top;
@@ -1276,7 +1265,7 @@ int CLUI_TestCursorOnBorders()
 		if (!(pt.x >= r.left && pt.x <= r.right && pt.y >= r.top && pt.y <= r.bottom)) k = 0;
 		k *= mouse_in_window;
 		hCurs1 = LoadCursor(nullptr, IDC_ARROW);
-		if (g_CluiData.nBehindEdgeState <= 0 && (!(db_get_b(0, "CLUI", "LockSize", SETTING_LOCKSIZE_DEFAULT))))
+		if (g_CluiData.nBehindEdgeState <= 0 && (!(db_get_b(0, "CLUI", "LockSize"))))
 			switch (k) {
 			case 1:
 			case 2:
@@ -1297,17 +1286,17 @@ int CLUI_TestCursorOnBorders()
 
 int CLUI_SizingOnBorder(POINT pt, int PerformSize)
 {
-	if (!(db_get_b(0, "CLUI", "LockSize", SETTING_LOCKSIZE_DEFAULT))) {
+	if (!(db_get_b(0, "CLUI", "LockSize"))) {
 		RECT r;
 		HWND hwnd = g_clistApi.hwndContactList;
 		int sizeOnBorderFlag = 0;
 		GetWindowRect(hwnd, &r);
 
 		// Size borders offset (contract)
-		r.top += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Top", SKIN_OFFSET_TOP_DEFAULT);
-		r.bottom -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Bottom", SKIN_OFFSET_BOTTOM_DEFAULT);
-		r.left += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Left", SKIN_OFFSET_LEFT_DEFAULT);
-		r.right -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Right", SKIN_OFFSET_RIGHT_DEFAULT);
+		r.top += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Top");
+		r.bottom -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Bottom");
+		r.left += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Left");
+		r.right -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Right");
 
 		if (r.right < r.left) r.right = r.left;
 		if (r.bottom < r.top) r.bottom = r.top;
@@ -1711,7 +1700,7 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 				int v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
 				h = (h < v) ? h : v;
 				hRgn1 = CreateRoundRectRgn(0, 0, (r.right - r.left + 1), (r.bottom - r.top + 1), h, h);
-				if (db_get_b(0, "CLC", "RoundCorners", SETTING_ROUNDCORNERS_DEFAULT))
+				if (db_get_b(0, "CLC", "RoundCorners"))
 					SetWindowRgn(m_hWnd, hRgn1, FALSE);
 				else {
 					DeleteObject(hRgn1);
@@ -2066,7 +2055,7 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	SetCursor(LoadCursor(nullptr, IDC_ARROW));
 	SendMessage(g_clistApi.hwndContactTree, WM_ACTIVATE, wParam, lParam);
-	if (db_get_b(0, "ModernData", "HideBehind")) {
+	if (Modern::iHideBehind) {
 		if (wParam == WA_INACTIVE && ((HWND)lParam != m_hWnd) && GetParent((HWND)lParam) != m_hWnd) {
 			if (!g_bCalledFromShowHide) CLUI_UpdateTimer();
 		}
@@ -2219,7 +2208,7 @@ LRESULT CLUI::OnKeyDown(UINT msg, WPARAM wParam, LPARAM lParam)
 LRESULT CLUI::OnGetMinMaxInfo(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DefWindowProc(m_hWnd, msg, wParam, lParam);
-	((LPMINMAXINFO)lParam)->ptMinTrackSize.x = max(db_get_w(0, "CLUI", "MinWidth", SETTING_MINWIDTH_DEFAULT), max(18, db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT) + db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT) + 18));
+	((LPMINMAXINFO)lParam)->ptMinTrackSize.x = max(db_get_w(0, "CLUI", "MinWidth", SETTING_MINWIDTH_DEFAULT), max(18, db_get_b(0, "CLUI", "LeftClientMargin") + db_get_b(0, "CLUI", "RightClientMargin") + 18));
 	if (nRequiredHeight == 0)
 		((LPMINMAXINFO)lParam)->ptMinTrackSize.y = CLUIFramesGetMinHeight();
 
@@ -2283,7 +2272,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL *pnmc)
 	if (newHeight == (rcWindow.bottom - rcWindow.top))
 		return 0;
 
-	if (db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT)) {
+	if (db_get_b(0, "CLUI", "AutoSizeUpward")) {
 		rcWindow.top = rcWindow.bottom - newHeight;
 		if (rcWindow.top < rcWorkArea.top)
 			rcWindow.top = rcWorkArea.top;
@@ -2497,7 +2486,7 @@ LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)
 	if (g_CluiData.fAutoSize && !g_CluiData.fDocked) {
 		RECT r;
 		GetWindowRect(g_clistApi.hwndContactList, &r);
-		if (db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT))
+		if (db_get_b(0, "CLUI", "AutoSizeUpward"))
 			r.top = r.bottom - CLUIFrames_GetTotalHeight();
 		else
 			r.bottom = r.top + CLUIFrames_GetTotalHeight();
