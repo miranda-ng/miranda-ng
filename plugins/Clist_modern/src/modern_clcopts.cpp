@@ -950,11 +950,11 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		SendDlgItemMessage(hwndDlg, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT));
 		SendDlgItemMessage(hwndDlg, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT));
 
-		CheckDlgButton(hwndDlg, IDC_DISABLEENGINE, db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT));
+		CheckDlgButton(hwndDlg, IDC_DISABLEENGINE, db_get_b(0, "ModernData", "DisableEngine"));
 		CheckDlgButton(hwndDlg, IDC_AEROGLASS, db_get_b(0, "ModernData", "AeroGlass", SETTING_AEROGLASS_DEFAULT));
 
-		EnableWindow(GetDlgItem(hwndDlg, IDC_LAYERENGINE), !db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT) ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LAYERENGINE, (db_get_b(0, "ModernData", "EnableLayering", SETTING_ENABLELAYERING_DEFAULT) && !db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT)) ? BST_UNCHECKED : BST_CHECKED);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_LAYERENGINE), !db_get_b(0, "ModernData", "DisableEngine"));
+		CheckDlgButton(hwndDlg, IDC_LAYERENGINE, (db_get_b(0, "ModernData", "EnableLayering", SETTING_ENABLELAYERING_DEFAULT) && !db_get_b(0, "ModernData", "DisableEngine")) ? BST_UNCHECKED : BST_CHECKED);
 
 		{
 			DBVARIANT dbv = { 0 };

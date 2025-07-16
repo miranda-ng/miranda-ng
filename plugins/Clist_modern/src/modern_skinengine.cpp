@@ -1887,7 +1887,7 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST *pObjectList)
 
 static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 {
-	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
+	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine");
 
 	// window borders
 	g_CluiData.LeftClientMargin = (int)db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);

@@ -322,9 +322,9 @@ CLUI::~CLUI()
 
 HRESULT CLUI::LoadDllsRuntime()
 {
-	g_CluiData.fLayered = !db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
+	g_CluiData.fLayered = !db_get_b(0, "ModernData", "DisableEngine");
 	g_CluiData.fSmoothAnimation = db_get_b(0, "CLUI", "FadeInOut", SETTING_FADEIN_DEFAULT) != 0;
-	g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(0, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
+	g_CluiData.fLayered = (g_CluiData.fLayered*db_get_b(0, "ModernData", "EnableLayering", g_CluiData.fLayered)) && !db_get_b(0, "ModernData", "DisableEngine");
 
 	if (IsWinVerVistaPlus() && !IsWinVer8Plus()) {
 		m_hDwmapiDll = LoadLibrary(L"dwmapi.dll");
@@ -572,7 +572,7 @@ static BOOL CLUI_WaitThreadsCompletion()
 
 void CLUI_UpdateLayeredMode()
 {
-	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT) != 0;
+	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine") != 0;
 
 	bool tLayeredFlag = db_get_b(0, "ModernData", "EnableLayering", SETTING_ENABLELAYERING_DEFAULT) != 0 && !g_CluiData.fDisableSkinEngine;
 	if (g_CluiData.fLayered != tLayeredFlag) {

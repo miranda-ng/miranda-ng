@@ -455,7 +455,7 @@ void LoadCLCFonts(HWND hwnd, ClcData *dat)
 
 void cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 {
-	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT) != 0;
+	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine") != 0;
 
 	LoadCLCFonts(hwnd, dat);
 

@@ -118,10 +118,12 @@ void CMPlugin::ReadSettings()
 	}
 
 	if (!db_get_b(0, "Compatibility", __PLUGIN_NAME)) {
-		db_unset(0, "CLUI", "LeftClientMargin");
-		db_unset(0, "CLUI", "RightClientMargin");
-		db_unset(0, "CLUI", "TopClientMargin");
-		db_unset(0, "CLUI", "BottomClientMargin");
+		if (db_get_b(0, "ModernData", "DisableEngine")) {
+			db_unset(0, "CLUI", "LeftClientMargin");
+			db_unset(0, "CLUI", "RightClientMargin");
+			db_unset(0, "CLUI", "TopClientMargin");
+			db_unset(0, "CLUI", "BottomClientMargin");
+		}
 		db_set_b(0, "Compatibility", __PLUGIN_NAME, 1);
 	}
 
