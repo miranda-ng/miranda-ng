@@ -886,8 +886,7 @@ HWND StatusBar_Create(HWND parent)
 
 	LoadStatusBarData();
 	RebuildStatusBarData();
-	HookEvent(ME_SYSTEM_MODULELOAD, &RebuildStatusBarData);
-	HookEvent(ME_SYSTEM_MODULEUNLOAD, &RebuildStatusBarData);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, &RebuildStatusBarData);
 
 	cliCluiProtocolStatusChanged(0, nullptr);
 	CallService(MS_CLIST_FRAMES_UPDATEFRAME, -1, 0);
