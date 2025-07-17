@@ -667,17 +667,11 @@
 /* Define to 1 if you have the <sys/select.h> header file. */
 #undef HAVE_SYS_SELECT_H
 
-/* Define to 1 if you have the <sys/socket.h> header file. */
-#undef HAVE_SYS_SOCKET_H
-
 /* Define to 1 if you have the <sys/sockio.h> header file. */
 #undef HAVE_SYS_SOCKIO_H
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
-
-/* Define to 1 if you have the <sys/time.h> header file. */
-#undef HAVE_SYS_TIME_H
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
@@ -829,9 +823,6 @@
 /* Define to enable c-ares support */
 #undef USE_ARES
 
-/* if BearSSL is enabled */
-#undef USE_BEARSSL
-
 /* if ECH support is available */
 #undef USE_ECH
 
@@ -894,9 +885,6 @@
 
 /* to enable Windows native SSL/TLS support */
 #undef USE_SCHANNEL
-
-/* enable Secure Transport */
-#undef USE_SECTRANSP
 
 /* if SSL session export support is available */
 #undef USE_SSLS_EXPORT

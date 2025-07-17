@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_SECTRANSP_H
-#define HEADER_CURL_SECTRANSP_H
+#ifndef HEADER_CURL_TOOL_BINMODE_H
+#define HEADER_CURL_TOOL_BINMODE_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -7,7 +7,6 @@
  *                            | (__| |_| |  _ <| |___
  *                             \___|\___/|_| \_\_____|
  *
- * Copyright (C) Nick Zitzmann, <nickzman@gmail.com>.
  * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
  *
  * This software is licensed as described in the file COPYING, which
@@ -26,9 +25,15 @@
  ***************************************************************************/
 #include "../curl_setup.h"
 
-#ifdef USE_SECTRANSP
+#if (defined(HAVE_SETMODE) || defined(HAVE__SETMODE)) && defined(O_BINARY)
+/* Requires io.h and/or fcntl.h when available */
+#ifdef HAVE__SETMODE
+#  define CURLX_SET_BINMODE(stream)  (void)_setmode(fileno(stream), O_BINARY)
+#else
+#  define CURLX_SET_BINMODE(stream)  (void)setmode(fileno(stream), O_BINARY)
+#endif
+#else
+#  define CURLX_SET_BINMODE(stream)  (void)stream; Curl_nop_stmt
+#endif
 
-extern const struct Curl_ssl Curl_ssl_sectransp;
-
-#endif /* USE_SECTRANSP */
-#endif /* HEADER_CURL_SECTRANSP_H */
+#endif /* HEADER_CURL_TOOL_BINMODE_H */

@@ -1,5 +1,5 @@
-#ifndef HEADER_CURL_INET_NTOP_H
-#define HEADER_CURL_INET_NTOP_H
+#ifndef HEADER_CURL_WAIT_H
+#define HEADER_CURL_WAIT_H
 /***************************************************************************
  *                                  _   _ ____  _
  *  Project                     ___| | | |  _ \| |
@@ -24,28 +24,8 @@
  *
  ***************************************************************************/
 
-#include "curl_setup.h"
+#include "../curl_setup.h"
 
-char *Curl_inet_ntop(int af, const void *addr, char *buf, size_t size);
+int curlx_wait_ms(timediff_t timeout_ms);
 
-#ifdef HAVE_INET_NTOP
-#ifdef HAVE_NETINET_IN_H
-#include <netinet/in.h>
-#endif
-#ifdef HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
-#endif
-#ifdef HAVE_ARPA_INET_H
-#include <arpa/inet.h>
-#endif
-#ifdef __AMIGA__
-#define Curl_inet_ntop(af,addr,buf,size)                                \
-  (char *)inet_ntop(af, CURL_UNCONST(addr), (unsigned char *)buf,       \
-                    (curl_socklen_t)(size))
-#else
-#define Curl_inet_ntop(af,addr,buf,size)                \
-  inet_ntop(af, addr, buf, (curl_socklen_t)(size))
-#endif
-#endif
-
-#endif /* HEADER_CURL_INET_NTOP_H */
+#endif /* HEADER_CURL_WAIT_H */

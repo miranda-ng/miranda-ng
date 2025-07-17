@@ -134,6 +134,9 @@
     <ClCompile Include="src\curlx\dynbuf.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\curlx\inet_ntop.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\curlx\inet_pton.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -150,6 +153,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curlx\version_win32.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\wait.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curlx\warnless.c">
@@ -276,9 +282,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\imap.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\inet_ntop.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\krb5.c">
@@ -470,9 +473,6 @@
     <ClCompile Include="src\vssh\wolfssh.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\vtls\bearssl.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\vtls\cipher_suite.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -498,9 +498,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\schannel_verify.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\vtls\sectransp.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\vtls.c">
@@ -574,6 +571,7 @@
     <ClInclude Include="src\curlx\base64.h" />
     <ClInclude Include="src\curlx\curlx.h" />
     <ClInclude Include="src\curlx\dynbuf.h" />
+    <ClInclude Include="src\curlx\inet_ntop.h" />
     <ClInclude Include="src\curlx\inet_pton.h" />
     <ClInclude Include="src\curlx\multibyte.h" />
     <ClInclude Include="src\curlx\nonblock.h" />
@@ -620,7 +618,6 @@
     <ClInclude Include="src\idn.h" />
     <ClInclude Include="src\if2ip.h" />
     <ClInclude Include="src\imap.h" />
-    <ClInclude Include="src\inet_ntop.h" />
     <ClInclude Include="src\llist.h" />
     <ClInclude Include="src\macos.h" />
     <ClInclude Include="src\memdebug.h" />

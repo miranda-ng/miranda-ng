@@ -110,6 +110,9 @@
     <ClCompile Include="src\curlx\dynbuf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\curlx\inet_ntop.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClInclude Include="src\curlx\inet_pton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -129,6 +132,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curlx\version_win32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\wait.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curlx\warnless.c">
@@ -255,9 +261,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\imap.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\inet_ntop.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\inet_pton.c">
@@ -437,9 +440,6 @@
     <ClCompile Include="src\vssh\wolfssh.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vtls\bearssl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\vtls\cipher_suite.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -462,9 +462,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\schannel_verify.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vtls\sectransp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\vtls.c">
@@ -694,7 +691,10 @@
     <ClInclude Include="src\curlx\dynbuf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="src\curlx\inet_pton.h">
+    <ClInclude Include="src\curlx\inet_ntop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\inet_pton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curlx\multibyte.h">
@@ -830,9 +830,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\imap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\inet_ntop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\llist.h">
