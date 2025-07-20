@@ -30,17 +30,40 @@ void CDeltaChatProto::SendLogout()
 
 void CDeltaChatProto::ServerThread(void *)
 {
-	if (!dc_context_open(m_context, ptrA(getStringA(DB_KEY_ID)))) {
-		debugLogA("failed to open context, exiting");
-		Logout();
-		return;
-	}
+	if (!dc_context_is_open(m_context))
+		if (!dc_context_open(m_context, ptrA(getStringA(DB_KEY_ID)))) {
+			debugLogA("failed to open context, exiting");
+			Logout();
+			return;
+		}
+
+	dc_set_config(m_context, "addr", T2Utf(m_imapUser));
+	dc_set_config(m_context, "mail_server", T2Utf(m_imapHost));
+	dc_set_config(m_context, "mail_user", T2Utf(m_imapUser));
+	dc_set_config(m_context, "mail_pw", T2Utf(m_imapPass));
+
+	dc_set_config(m_context, "send_server", "");
+	dc_set_config(m_context, "send_user", T2Utf(m_imapUser));
+	dc_set_config(m_context, "send_pw", T2Utf(m_imapPass));
+
+	dc_set_config(m_context, "certificate_checks", "Automatic");
+	dc_set_config(m_context, "oauth2", "false");
+
+	char buf[100];
+	itoa(m_imapPort, buf, 10);
+	dc_set_config(m_context, "mail_port", buf);
+	dc_configure(m_context);
+	HandleEvents();
 
 	if (!dc_is_configured(m_context)) {
 		debugLogA("context is not properly configured, exiting");
 		Logout();
 		return;
 	}
+
+	int oldStatus = m_iStatus;
+	m_iStatus = m_iDesiredStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	dc_start_io(m_context);
 }

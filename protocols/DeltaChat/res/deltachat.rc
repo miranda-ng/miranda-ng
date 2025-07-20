@@ -54,6 +54,7 @@ END
 // remains consistent on all systems.
 IDI_MAIN                ICON                    "deltachat.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
@@ -64,7 +65,18 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "User details",IDC_STATIC,7,7,291,46
+    GROUPBOX        "IMAP server",IDC_STATIC,7,7,291,63
+    LTEXT           "Username:",IDC_STATIC,15,20,49,8
+    EDITTEXT        IDC_IMAPUSER,68,17,225,13,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,15,36,81,8
+    EDITTEXT        IDC_IMAPPASS,68,33,225,13,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Host",IDC_STATIC,15,52,81,8
+    EDITTEXT        IDC_IMAPHOST,68,50,151,13,ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,15,146,81,8
+    EDITTEXT        IDC_GROUP,102,143,189,14,ES_AUTOHSCROLL
+    LTEXT           "Port",IDC_STATIC,227,53,21,8
+    EDITTEXT        IDC_IMAPPORT,253,50,40,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_IMAPPORT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,284,50,11,14
 END
 
 IDD_OPTIONS_ACCMGR DIALOGEX 0, 0, 200, 88
@@ -75,6 +87,7 @@ BEGIN
     GROUPBOX        "User details",IDC_STATIC,7,7,178,46
 END
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
@@ -83,8 +96,22 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_OPTIONS_ACCOUNT, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS_ACCOUNT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

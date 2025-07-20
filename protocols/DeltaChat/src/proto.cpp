@@ -18,11 +18,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUserName) :
-	PROTO<CDeltaChatProto>(szModuleName, wszUserName)
+	PROTO<CDeltaChatProto>(szModuleName, wszUserName),
+	m_imapUser(szModuleName, "ImapUser", L""),
+	m_imapPass(szModuleName, "ImapPassword", L""),
+	m_imapHost(szModuleName, "ImapHost", L""),
+	m_imapPort(szModuleName, "ImapPort", 0)
 {
 	CMStringW wszFilename(FORMAT, L"%s\\%S\\data", VARSW(L"%miranda_userdata%").get(), szModuleName);
 	CreatePathToFileW(wszFilename);
 	m_context = dc_context_new_closed(T2Utf(wszFilename));
+
+	// hooks
+	HookProtoEvent(ME_OPT_INITIALISE, &CDeltaChatProto::OnOptionsInit);
+
+	// netlib support
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = m_tszUserName;
+	nlu.szSettingsModule = m_szModuleName;
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 }
 
 CDeltaChatProto::~CDeltaChatProto()

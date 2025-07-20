@@ -1,8 +1,10 @@
 #pragma once
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class CDeltaChatProto : public PROTO<CDeltaChatProto>
 {
-	friend struct AsyncHttpRequest;
+	friend class CAccountOptionsDlg;
 
 	dc_context_t *m_context = 0;
 
@@ -10,7 +12,11 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	void Logout();
 	void SendLogout();
 
+	void HandleEvents();
 	void __cdecl ServerThread(void *);
+
+	CMOption<wchar_t *> m_imapUser, m_imapPass, m_imapHost;
+	CMOption<uint32_t> m_imapPort;
 
 public:
 	CDeltaChatProto(const char*,const wchar_t*);
@@ -22,6 +28,10 @@ public:
 	INT_PTR  GetCaps(int, MCONTACT) override;
 
 	int      SetStatus(int) override;
+
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	int  OnOptionsInit(WPARAM, LPARAM);
 };
 
 typedef CProtoDlgBase<CDeltaChatProto> CDeltaChatDlgBase;
