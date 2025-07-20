@@ -65,23 +65,6 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "User details",IDC_STATIC,7,7,291,46
-    LTEXT           "E-mail or phone:",IDC_STATIC,17,20,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_USERNAME,84,18,123,13,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,17,36,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_PASSWORD,84,34,123,13,ES_PASSWORD | ES_AUTOHSCROLL
-    GROUPBOX        "Contacts",IDC_STATIC,7,54,291,101
-    LTEXT           "Default group:",IDC_STATIC,17,73,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_GROUP,84,71,123,13,ES_AUTOHSCROLL
-    CONTROL         "Enable guilds (servers)",IDC_USEGUILDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,90,275,10
-    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,102,248,10
-    CONTROL         "Use subgroups for server channels (requires restart)",IDC_USEGROUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,114,248,10
-    CONTROL         "Delete messages in Miranda when they are deleted from server",IDC_DELETE_MSGS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,126,275,10
-    PUSHBUTTON      "Log out",IDC_LOGOUT,211,18,81,13
-    CONTROL         "Delete contacts in Miranda when they are deleted from server",IDC_DELETE_CONTACTS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,139,275,10
 END
 
 IDD_OPTIONS_ACCMGR DIALOGEX 0, 0, 200, 88
@@ -90,47 +73,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "User details",IDC_STATIC,7,7,178,46
-    LTEXT           "E-mail or phone:",IDC_STATIC,17,20,69,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_USERNAME,92,18,86,13,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,17,36,69,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_PASSWORD,92,34,86,13,ES_PASSWORD | ES_AUTOHSCROLL
-    GROUPBOX        "Contacts",IDC_STATIC,7,56,178,28
-    LTEXT           "Default group:",IDC_STATIC,17,67,69,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_GROUP,92,65,86,13,ES_AUTOHSCROLL
 END
-
-IDD_EXTSEARCH DIALOGEX 0, 0, 114, 55
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
-EXSTYLE WS_EX_TRANSPARENT | WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    LTEXT           "Nick:",IDC_STATIC,6,7,99,8
-    EDITTEXT        IDC_NICK,3,18,103,12,0,WS_EX_CLIENTEDGE
-END
-
-IDD_MFA DIALOGEX 0, 0, 316, 52
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_APPWINDOW
-CAPTION "Multi-factor authentication"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,205,31,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,259,31,50,14
-    LTEXT           "",IDC_LABEL,7,8,238,12
-    EDITTEXT        IDC_CODE,250,7,59,16,ES_AUTOHSCROLL
-    COMBOBOX        IDC_ANOTHER,7,32,133,30,CBS_DROPDOWNLIST | WS_TABSTOP
-END
-
-IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 260
-STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-CAPTION "Send group chat invitation"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,4,6,204,232,WS_EX_CLIENTEDGE
-    DEFPUSHBUTTON   "&Invite",IDOK,106,243,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,160,243,50,14
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -140,48 +83,8 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_OPTIONS_ACCOUNT, DIALOG
-    BEGIN
-    END
-
-    IDD_OPTIONS_ACCMGR, DIALOG
-    BEGIN
-    END
-
-    IDD_MFA, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 309
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 45
-    END
-
-    IDD_GROUPCHAT_INVITE, DIALOG
-    BEGIN
-    END
 END
 #endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_OPTIONS_ACCOUNT AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_MFA AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_GROUPCHAT_INVITE AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

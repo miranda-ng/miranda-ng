@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#pragma comment(lib, "deltachat.lib")
+#pragma comment(lib, "ffi/libdeltachat.lib")
 
 CMPlugin g_plugin;
 
@@ -57,6 +57,10 @@ IconItem g_iconList[] =
 
 int CMPlugin::Load()
 {
+	CMStringW wszFilename(FORMAT, L"%s\\%S", VARSW(L"%miranda_userdata%").get(), MODULENAME);
+	CreatePathToFileW(wszFilename);
+	m_context = dc_context_new_closed(T2Utf(wszFilename));
+
 	g_plugin.registerIcon("Protocols/" MODULENAME, g_iconList);
 	return 0;
 }

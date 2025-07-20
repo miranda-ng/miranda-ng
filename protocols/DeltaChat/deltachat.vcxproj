@@ -31,6 +31,7 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>

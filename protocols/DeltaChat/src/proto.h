@@ -20,6 +20,8 @@ typedef CProtoDlgBase<CDeltaChatProto> CDeltaChatDlgBase;
 
 struct CMPlugin : public ACCPROTOPLUGIN<CDeltaChatProto>
 {
+	dc_context_t *m_context;
+
 	CMPlugin();
 
 	int Load() override;
