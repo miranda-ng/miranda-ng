@@ -27,7 +27,8 @@
 
 #define MODULENAME "DeltaChat"
 
-#define DB_KEY_ID  "id"
+#define DB_KEY_ID       "id"
+#define DB_KEY_PASSWORD "Password"
 
 #include "version.h"
 #include "proto.h"

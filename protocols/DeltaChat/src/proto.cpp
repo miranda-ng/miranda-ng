@@ -20,10 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUserName) :
 	PROTO<CDeltaChatProto>(szModuleName, wszUserName)
 {
+	CMStringW wszFilename(FORMAT, L"%s\\%S\\data", VARSW(L"%miranda_userdata%").get(), szModuleName);
+	CreatePathToFileW(wszFilename);
+	m_context = dc_context_new_closed(T2Utf(wszFilename));
 }
 
 CDeltaChatProto::~CDeltaChatProto()
 {
+	dc_context_unref(m_context);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -39,6 +43,39 @@ INT_PTR CDeltaChatProto::GetCaps(int type, MCONTACT)
 		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_SUPPORTTYPING | PF4_SERVERMSGID;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)TranslateT(DB_KEY_ID);
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CDeltaChatProto::SetStatus(int new_status)
+{
+	if (new_status != ID_STATUS_OFFLINE)
+		new_status = ID_STATUS_ONLINE;
+
+	int old_status = m_iStatus;
+	m_iDesiredStatus = new_status;
+
+	if (new_status == ID_STATUS_OFFLINE) {
+		if (!Miranda_IsTerminated())
+			setAllContactStatuses(ID_STATUS_OFFLINE, false);
+
+		if (m_bRunning)
+			SendLogout();
+
+		Logout();
+	}
+	else if (!m_bRunning && !IsStatusConnecting(m_iStatus)) {
+		m_iStatus = ID_STATUS_CONNECTING;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+
+		ForkThread(&CDeltaChatProto::ServerThread);
+	}
+	else if (m_bRunning) {
+		m_iStatus = new_status;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
 
 	return 0;
