@@ -47,12 +47,16 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PROTO_INTERFACE
 
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+
 	INT_PTR  GetCaps(int, MCONTACT) override;
 
 	void __cdecl EmailSearchThread(void *);
 	HANDLE   SearchByEmail(const wchar_t *email) override;
 
 	int      SetStatus(int) override;
+
+	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 

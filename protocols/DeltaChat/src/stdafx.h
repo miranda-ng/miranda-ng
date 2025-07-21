@@ -30,6 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <m_system.h>
 #include <newpluginapi.h>
+#include <m_clist.h>
+#include <m_contacts.h>
 #include <m_langpack.h>
 #include <m_netlib.h>
 #include <m_options.h>
@@ -41,7 +43,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MODULENAME "DeltaChat"
 
+#define DB_KEY_DCID     "DcID"
 #define DB_KEY_EMAIL    "email"
+#define DB_KEY_CHATID   "ChatID"
 #define DB_KEY_PASSWORD "Password"
 
 #include "version.h"

@@ -58,6 +58,55 @@ CDeltaChatProto::~CDeltaChatProto()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool CDeltaChatProto::OnContactDeleted(MCONTACT hContact, uint32_t)
+{
+	if (!IsOnline())
+		return false;
+
+	uint32_t contact_id = getDword(hContact, DB_KEY_DCID);
+	if (contact_id) {
+		uint32_t chat_id = getDword(hContact, DB_KEY_CHATID);
+		if (chat_id)
+			dc_delete_chat(m_context, chat_id);
+
+		dc_delete_contact(m_context, contact_id);
+	}
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MCONTACT CDeltaChatProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+{
+	if (mir_wstrlen(psr->id.w) == 0 || !IsOnline())
+		return 0;
+
+	MCONTACT hContact = db_add_contact();
+	Proto_AddToContact(hContact, m_szModuleName);
+	setWString(hContact, DB_KEY_EMAIL, psr->id.w);
+
+	if (psr->firstName.w)
+		setWString(hContact, "FirstName", psr->firstName.w);
+	if (psr->lastName.w)
+		setWString(hContact, "LastName", psr->lastName.w);
+
+	if (flags & PALF_TEMPORARY)
+		Contact::RemoveFromList(hContact);
+
+	T2Utf email(psr->id.w);
+	uint32_t contact_id = dc_lookup_contact_id_by_addr(m_context, email);
+	if (!contact_id)
+		contact_id = dc_create_contact(m_context, T2Utf(Clist_GetContactDisplayName(hContact)), email);
+	setDword(hContact, DB_KEY_DCID, contact_id);
+
+	uint32_t chatId = dc_create_chat_by_contact_id(m_context, contact_id);
+	setDword(hContact, DB_KEY_CHATID, chatId);
+
+	return hContact;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR CDeltaChatProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
@@ -95,6 +144,9 @@ void __cdecl CDeltaChatProto::EmailSearchThread(void *param)
 
 HANDLE CDeltaChatProto::SearchByEmail(const wchar_t *email)
 {
+	if (!IsOnline())
+		return 0;
+
 	ForkThread(&CDeltaChatProto::EmailSearchThread, mir_wstrdup(email));
 	return this;
 }
