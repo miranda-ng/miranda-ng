@@ -1,5 +1,5 @@
 /*
-Copyright Â© 2025 Miranda NG team
+Copyright © 2025 Miranda NG team
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,18 +15,5 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "stdafx.h"
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void dc_set_config(dc_context_t *context, const char *key, const wchar_t *value)
-{
-	dc_set_config(context, key, T2Utf(value));
-}
-
-void dc_set_config(dc_context_t *context, const char *key, int value)
-{
-	char buf[100];
-	itoa(value, buf, 10);
-	dc_set_config(context, key, buf);
-}
+void dc_set_config(dc_context_t* context, const char* key, int value);
+void dc_set_config(dc_context_t *context, const char *key, const wchar_t *value);

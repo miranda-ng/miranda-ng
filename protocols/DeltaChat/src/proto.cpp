@@ -21,8 +21,12 @@ CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUse
 	PROTO<CDeltaChatProto>(szModuleName, wszUserName),
 	m_imapUser(szModuleName, "ImapUser", L""),
 	m_imapPass(szModuleName, "ImapPassword", L""),
-	m_imapHost(szModuleName, "ImapHost", L""),
-	m_imapPort(szModuleName, "ImapPort", 0)
+	m_imapHost(szModuleName, "ImapHost", L"imap."),
+	m_imapPort(szModuleName, "ImapPort", 0),
+	m_imapSsl(szModuleName, "ImapSsl", 0),
+	m_smtpHost(szModuleName, "SmtpHost", L"smtp."),
+	m_smtpPort(szModuleName, "SmtpPort", 25),
+	m_smtpSsl(szModuleName, "SmtpSsql", 0)
 {
 	CMStringW wszFilename(FORMAT, L"%s\\%S\\data", VARSW(L"%miranda_userdata%").get(), szModuleName);
 	CreatePathToFileW(wszFilename);
@@ -76,18 +80,15 @@ int CDeltaChatProto::SetStatus(int new_status)
 		if (!Miranda_IsTerminated())
 			setAllContactStatuses(ID_STATUS_OFFLINE, false);
 
-		if (m_bRunning)
-			SendLogout();
-
 		Logout();
 	}
-	else if (!m_bRunning && !IsStatusConnecting(m_iStatus)) {
+	else if (!IsOnline() && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		ForkThread(&CDeltaChatProto::ServerThread);
 	}
-	else if (m_bRunning) {
+	else if (IsOnline()) {
 		m_iStatus = new_status;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
