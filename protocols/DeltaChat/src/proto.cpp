@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUserName) :
 	PROTO<CDeltaChatProto>(szModuleName, wszUserName),
-	m_imapUser(szModuleName, "ImapUser", L""),
+	m_imapUser(szModuleName, DB_KEY_EMAIL, L""),
 	m_imapPass(szModuleName, "ImapPassword", L""),
 	m_imapHost(szModuleName, "ImapHost", L"imap."),
 	m_imapPort(szModuleName, "ImapPort", 0),
@@ -45,7 +45,15 @@ CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUse
 
 CDeltaChatProto::~CDeltaChatProto()
 {
-	dc_context_unref(m_context);
+	__try {
+		auto *emitter = dc_get_event_emitter(m_context);
+		dc_context_unref(m_context);
+		while (dc_get_next_event(emitter))
+			;
+		dc_event_emitter_unref(emitter);
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -54,16 +62,41 @@ INT_PTR CDeltaChatProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_BASICSEARCH | PF1_AUTHREQ | PF1_SERVERCLIST | PF1_MODEMSGRECV;
+		return PF1_IM | PF1_SEARCHBYEMAIL | PF1_AUTHREQ | PF1_SERVERCLIST | PF1_MODEMSGRECV;
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
 	case PFLAGNUM_4:
 		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_SUPPORTIDLE | PF4_SUPPORTTYPING | PF4_SERVERMSGID;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)TranslateT(DB_KEY_ID);
+		return (INT_PTR)TranslateT(DB_KEY_EMAIL);
 	}
 
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void __cdecl CDeltaChatProto::EmailSearchThread(void *param)
+{
+	Sleep(100);
+
+	wchar_t *email = (wchar_t *)param;
+
+	PROTOSEARCHRESULT psr = {};
+	psr.flags = PSR_UNICODE;
+	psr.cbSize = sizeof(psr);
+	psr.id.w = email;
+	psr.email.w = email;
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)this, (LPARAM)&psr);
+
+	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)this);
+	mir_free(email);
+}
+
+HANDLE CDeltaChatProto::SearchByEmail(const wchar_t *email)
+{
+	ForkThread(&CDeltaChatProto::EmailSearchThread, mir_wstrdup(email));
+	return this;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

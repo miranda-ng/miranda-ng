@@ -44,7 +44,7 @@ void CDeltaChatProto::ServerThread(void *)
 	debugLogA("entering ServerThread");
 
 	if (!dc_context_is_open(m_context))
-		if (!dc_context_open(m_context, ptrA(getStringA(DB_KEY_ID)))) {
+		if (!dc_context_open(m_context, ptrA(getStringA(DB_KEY_PASSWORD)))) {
 			debugLogA("failed to open context, exiting");
 			Logout();
 			return;

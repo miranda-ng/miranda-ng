@@ -39,7 +39,7 @@ PLUGININFOEX pluginInfoEx = {
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CDeltaChatProto>(MODULENAME, pluginInfoEx)
 {
-	SetUniqueId(DB_KEY_ID);
+	SetUniqueId(DB_KEY_EMAIL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

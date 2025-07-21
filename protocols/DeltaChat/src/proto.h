@@ -49,6 +49,9 @@ public:
 
 	INT_PTR  GetCaps(int, MCONTACT) override;
 
+	void __cdecl EmailSearchThread(void *);
+	HANDLE   SearchByEmail(const wchar_t *email) override;
+
 	int      SetStatus(int) override;
 
 	//////////////////////////////////////////////////////////////////////////////////////

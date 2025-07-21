@@ -41,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MODULENAME "DeltaChat"
 
-#define DB_KEY_ID       "id"
+#define DB_KEY_EMAIL    "email"
 #define DB_KEY_PASSWORD "Password"
 
 #include "version.h"
