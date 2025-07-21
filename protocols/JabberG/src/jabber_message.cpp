@@ -37,7 +37,7 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 	MessageHandleMam(M);
 
 	if (M.from == nullptr) {
-		debugLogA("no 'M.from' attribute, returning");
+		debugLogA("no 'from' attribute, returning");
 		return;
 	}
 
@@ -93,11 +93,11 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 	}
 
 	if (M.szMessage) if (auto *n = XmlGetChildByTag(M.node, "addresses", "xmlns", JABBER_FEAT_EXT_ADDRESSING)) {
-		auto *addressNode = XmlGetChildByTag(n, "address", "type", "oM.from");
+		auto *addressNode = XmlGetChildByTag(n, "address", "type", "ofrom");
 		if (addressNode) {
 			const char *szJid = XmlGetAttr(addressNode, "jid");
 			if (szJid) {
-				M.szMessage.AppendFormat(TranslateU("Message redirected M.from: %s\r\n"), M.from);
+				M.szMessage.AppendFormat(TranslateU("Message redirected from: %s\r\n"), M.from);
 				M.from = szJid;
 				// rewrite hContact
 				M.hContact = HContactFromJID(M.from);
@@ -376,7 +376,7 @@ void CJabberProto::MessageHandleMam(XmppMsg &M)
 
 void CJabberProto::MessageHandleCarbon(XmppMsg &M)
 {
-	// Handle carbons. The message MUST be coming M.from our bare JID.
+	// Handle carbons. The message MUST be coming from our bare JID.
 	if (IsMyOwnJID(M.from)) {
 		M.carbon = XmlGetChildByTag(M.node, "received", "xmlns", JABBER_FEAT_CARBONS);
 		if (!M.carbon) {
@@ -407,12 +407,12 @@ void CJabberProto::MessageHandleCarbon(XmppMsg &M)
 				// Received should just be treated like incoming messages, except maybe not flash the flasher. Simply unwrap.
 				M.from = XmlGetAttr(M.node, "from");
 				if (M.from == nullptr) {
-					debugLogA("no 'M.from' attribute in carbons, returning");
+					debugLogA("no 'from' attribute in carbons, returning");
 					return;
 				}
 			}
 			else {
-				// Sent should set SENT flag and invert M.from/to.
+				// Sent should set SENT flag and invert from/to.
 				M.from = XmlGetAttr(M.node, "to");
 				if (M.from == nullptr) {
 					debugLogA("no 'to' attribute in carbons, returning");
