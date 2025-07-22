@@ -147,5 +147,16 @@ void CDeltaChatProto::ServerThread(void *)
 
 void CDeltaChatProto::SendMarkRead()
 {
+	mir_cslock lck(m_csDeleteMsg);
 	dc_markseen_msgs(m_context, &*m_markIds.begin(), (int)m_markIds.size());
+	m_markIds.clear();
+	m_markChatId = 0;
+}
+
+void CDeltaChatProto::SendDeleteMessages()
+{
+	mir_cslock lck(m_csDeleteMsg);
+	dc_delete_msgs(m_context, &*m_deleteIds.begin(), (int)m_deleteIds.size());
+	m_deleteIds.clear();
+	m_deleteChatId = 0;
 }

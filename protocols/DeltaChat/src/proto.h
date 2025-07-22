@@ -69,6 +69,13 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	CMOption<wchar_t *> m_smtpHost;
 	CMOption<int> m_smtpPort, m_smtpSsl;
 
+	// delete messages
+	void SendDeleteMessages();
+
+	mir_cs m_csDeleteMsg;
+	uint32_t m_deleteChatId = 0;
+	std::vector<uint32_t> m_deleteIds;
+
 	// mark messages read
 	void SendMarkRead();
 
@@ -102,6 +109,7 @@ public:
 	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 
 	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
+	void     OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
 	void     OnMarkRead(MCONTACT hContact, MEVENT hDbEvent) override;
 
 	//////////////////////////////////////////////////////////////////////////////////////

@@ -78,12 +78,37 @@ bool CDeltaChatProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 	return true;
 }
 
+void CDeltaChatProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int)
+{
+	if (!hContact)
+		return;
+
+	uint32_t chat_id = getDword(hContact, DB_KEY_CHATID);
+	if (!chat_id)
+		return;
+
+	DB::EventInfo dbei(hDbEvent, false);
+	if (dbei && dbei.szId) {
+		mir_cslock lck(m_csDeleteMsg);
+		if (m_deleteChatId) {
+			if (m_deleteChatId != chat_id)
+				SendDeleteMessages();
+
+			m_impl.m_deleteMsg.Stop();
+		}
+
+		m_deleteChatId = chat_id;
+		m_deleteIds.push_back(atoi(dbei.szId));
+		m_impl.m_deleteMsg.Start(500);
+	}
+}
+
 void CDeltaChatProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	if (!hContact)
 		return;
 
-	int chat_id = getDword(hContact, DB_KEY_CHATID);
+	uint32_t chat_id = getDword(hContact, DB_KEY_CHATID);
 	if (!chat_id)
 		return;
 
