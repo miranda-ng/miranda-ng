@@ -37,6 +37,8 @@ void CDeltaChatProto::OnConnected()
 	int oldStatus = m_iStatus;
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+
+	setAllContactStatuses(m_iStatus);
 }
 
 void CDeltaChatProto::ServerThread(void *)

@@ -40,6 +40,9 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	CMOption<wchar_t *> m_smtpHost;
 	CMOption<int> m_smtpPort, m_smtpSsl;
 
+	// Services
+	INT_PTR __cdecl OnMenuEnterQR(WPARAM, LPARAM);
+
 public:
 	CDeltaChatProto(const char*,const wchar_t*);
 	~CDeltaChatProto();
@@ -56,6 +59,9 @@ public:
 
 	int      SetStatus(int) override;
 
+	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
+
+	void     OnBuildProtoMenu() override;
 	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 
 	//////////////////////////////////////////////////////////////////////////////////////

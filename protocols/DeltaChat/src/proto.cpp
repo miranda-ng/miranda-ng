@@ -153,6 +153,29 @@ HANDLE CDeltaChatProto::SearchByEmail(const wchar_t *email)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CDeltaChatProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
+{
+	if (!IsOnline())
+		return -1;
+
+	uint32_t msg_id = 0;
+
+	uint32_t chat_id = getDword(hContact, DB_KEY_CHATID);
+	if (chat_id) {
+		msg_id = dc_send_text_msg(m_context, chat_id, msg);
+
+		if (msg_id == 0) {
+			dc_accept_chat(m_context, chat_id);
+			msg_id = dc_send_text_msg(m_context, chat_id, msg);
+		}
+
+	}
+
+	return msg_id;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int CDeltaChatProto::SetStatus(int new_status)
 {
 	if (new_status != ID_STATUS_OFFLINE)
