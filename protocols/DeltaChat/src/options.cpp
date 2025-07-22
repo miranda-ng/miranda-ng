@@ -19,21 +19,49 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CAccountOptionsDlg : public CDeltaChatDlgBase
 {
-	CCtrlEdit edtImapHost, edtImapUser, edtImapPass;
-	CCtrlSpin spinImapPort;
+	CCtrlEdit edtImapHost, edtImapUser, edtImapPass, edtSmtpHost;
+	CCtrlSpin spinImapPort, spinSmtpPort;
+	CCtrlCombo cmbImapSsl, cmbSmtpSsl;
+
+	void InitSslCombo(CCtrlCombo &ctrl)
+	{
+		ctrl.AddString(TranslateT("Automatic"), DC_SOCKET_AUTO);
+		ctrl.AddString(TranslateT("STARTTLS"), DC_SOCKET_STARTTLS);
+		ctrl.AddString(TranslateT("SSL (old)"), DC_SOCKET_SSL);
+		ctrl.AddString(TranslateT("Plain"), DC_SOCKET_PLAIN);
+	}
 
 public:
 	CAccountOptionsDlg(CDeltaChatProto *ppro, int iDlgID) :
 		CDeltaChatDlgBase(ppro, iDlgID),
+		cmbImapSsl(this, IDC_IMAP_SSL),
+		cmbSmtpSsl(this, IDC_SMTP_SSL),
 		edtImapHost(this, IDC_IMAPHOST),
 		edtImapUser(this, IDC_IMAPUSER),
 		edtImapPass(this, IDC_IMAPPASS),
-		spinImapPort(this, IDC_IMAPPORT_SPIN, 10000)
+		edtSmtpHost(this, IDC_SMTP_HOST),
+		spinImapPort(this, IDC_IMAPPORT_SPIN, 10000),
+		spinSmtpPort(this, IDC_SMTPPORT_SPIN, 10000)
 	{
+		CreateLink(cmbImapSsl, ppro->m_imapSsl);
 		CreateLink(edtImapHost, ppro->m_imapHost);
 		CreateLink(edtImapUser, ppro->m_imapUser);
 		CreateLink(edtImapPass, ppro->m_imapPass);
 		CreateLink(spinImapPort, ppro->m_imapPort);
+
+		CreateLink(cmbSmtpSsl, ppro->m_smtpSsl);
+		CreateLink(edtSmtpHost, ppro->m_smtpHost);
+		CreateLink(spinSmtpPort, ppro->m_smtpPort);
+	}
+
+	bool OnInitDialog() override
+	{
+		InitSslCombo(cmbImapSsl);
+		InitSslCombo(cmbSmtpSsl);
+
+		cmbImapSsl.SetCurSel(m_proto->m_imapSsl);
+		cmbSmtpSsl.SetCurSel(m_proto->m_smtpSsl);
+		return true;
 	}
 };
 
