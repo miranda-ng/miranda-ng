@@ -26,6 +26,8 @@ enum
 // NS get SRMM dialog
 // returns a pointer to the parent SRMM dialog, if used as a log window, or nullptr otherwise
 
+class CSrmmBaseDialog;
+
 __forceinline CSrmmBaseDialog* NS_GetSrmm(HANDLE hwnd)
 {
 	return (CSrmmBaseDialog *)CallService("NewStory/GetSrmm", WPARAM(hwnd), 0);

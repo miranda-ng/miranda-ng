@@ -34,6 +34,9 @@ CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUse
 
 	// hooks
 	HookProtoEvent(ME_OPT_INITIALISE, &CDeltaChatProto::OnOptionsInit);
+	HookProtoEvent(ME_CLIST_PREBUILDCONTACTMENU, &CDeltaChatProto::OnPrebuildContactMenu);
+
+	CreateProtoService(PS_MENU_GRANTAUTH, &CDeltaChatProto::OnMenuHandleGrantAuth);
 
 	// netlib support
 	NETLIBUSER nlu = {};

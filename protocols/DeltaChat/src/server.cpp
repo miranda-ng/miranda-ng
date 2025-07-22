@@ -94,6 +94,27 @@ void CDeltaChatProto::ServerThread(void *)
 			bImap = true;
 			OnConnected();
 			break;
+
+		case DC_EVENT_MSGS_CHANGED:
+			if (i1 && i2) {
+				if (auto hContact = FindContact(i1)) {
+					char buf[100];
+					itoa(i2, buf, 10);
+					ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, HANDLE(i2), LPARAM(buf));
+				}
+			}
+			break;
+
+		case DC_EVENT_MSG_DELIVERED:
+			if (i1 && i2) {
+				if (auto hContact = FindContact(i1)) {
+					char buf[100];
+					itoa(i2, buf, 10);
+					if (MEVENT hEvent = db_event_getById(m_szModuleName, buf))
+						NS_NotifyRemoteRead(hContact, hEvent);
+				}
+			}
+			break;
 		}
 	}
 

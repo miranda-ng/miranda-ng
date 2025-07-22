@@ -17,6 +17,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+int CDeltaChatProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
+{
+	Menu_ShowItem(GetMenuItem(PROTO_MENU_GRANT_AUTH), getByte(hContact, "Grant") > 0);
+	return 0;
+}
+
+INT_PTR CDeltaChatProto::OnMenuHandleGrantAuth(WPARAM hContact, LPARAM)
+{
+	uint32_t chat_id = getDword(hContact, DB_KEY_CHATID);
+	if (chat_id)
+		dc_join_securejoin(m_context, getMStringA(hContact, "QR"));
+
+	return 0;
+}
+
 INT_PTR CDeltaChatProto::OnMenuEnterQR(WPARAM, LPARAM)
 {
 	ENTER_STRING es;
@@ -49,6 +64,7 @@ INT_PTR CDeltaChatProto::OnMenuEnterQR(WPARAM, LPARAM)
 				Proto_AddToContact(hContact, m_szModuleName);
 				
 				setDword(hContact, DB_KEY_CHATID, chat_id);
+				setString(hContact, "QR", qr);
 
 				if (auto *pContacts = dc_get_chat_contacts(m_context, chat_id)) {
 					int contact_id = dc_array_get_id(pContacts, 0);

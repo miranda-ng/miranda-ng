@@ -30,3 +30,14 @@ void dc_set_config(dc_context_t *context, const char *key, int value)
 	itoa(value, buf, 10);
 	dc_set_config(context, key, buf);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MCONTACT CDeltaChatProto::FindContact(uint32_t chat_id)
+{
+	for (auto &cc : AccContacts())
+		if (getDword(cc, DB_KEY_CHATID) == chat_id)
+			return cc;
+
+	return 0;
+}

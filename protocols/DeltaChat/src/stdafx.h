@@ -40,6 +40,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_protoint.h>
 #include <m_skin.h>
 
+#include <m_NewStory.h>
+
 #include "../ffi/deltachat.h"
 
 #define MODULENAME "DeltaChat"

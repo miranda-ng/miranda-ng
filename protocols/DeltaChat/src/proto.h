@@ -29,6 +29,8 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	bool IsOnline() const { return m_emitter != nullptr; }
 	void Logout();
 	void OnConnected();
+	
+	MCONTACT FindContact(uint32_t chat_id);
 
 	void __cdecl ServerThread(void *);
 
@@ -40,8 +42,12 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	CMOption<wchar_t *> m_smtpHost;
 	CMOption<int> m_smtpPort, m_smtpSsl;
 
-	// Services
+	// menus
 	INT_PTR __cdecl OnMenuEnterQR(WPARAM, LPARAM);
+	INT_PTR __cdecl OnMenuHandleGrantAuth(WPARAM, LPARAM);
+
+	int  OnPrebuildContactMenu(WPARAM hContact, LPARAM);
+	void OnBuildProtoMenu() override;
 
 public:
 	CDeltaChatProto(const char*,const wchar_t*);
@@ -61,7 +67,6 @@ public:
 
 	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 
-	void     OnBuildProtoMenu() override;
 	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 
 	//////////////////////////////////////////////////////////////////////////////////////
