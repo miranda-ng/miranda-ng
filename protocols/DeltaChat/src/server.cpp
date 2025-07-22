@@ -116,10 +116,23 @@ void CDeltaChatProto::ServerThread(void *)
 			}
 			break;
 
+		case DC_EVENT_MSG_DELETED:
+			if (i1 && i2) {
+				if (auto hContact = FindContact(i1)) {
+					char buf[100];
+					itoa(i2, buf, 10);
+					if (MEVENT hEvent = db_event_getById(m_szModuleName, buf))
+						db_event_delete(hEvent, CDF_FROM_SERVER);
+				}
+			}
+			break;
+
 		case DC_EVENT_INCOMING_MSG:
 			if (i1 && i2) {
 				if (auto hContact = FindContact(i1)) {
 					auto *pMsg = dc_get_msg(m_context, i2);
+					char buf[100];
+					itoa(i2, buf, 10);
 
 					DB::EventInfo dbei;
 					dbei.bSent = false;
@@ -127,6 +140,7 @@ void CDeltaChatProto::ServerThread(void *)
 					dbei.eventType = EVENTTYPE_MESSAGE;
 					dbei.pBlob = mir_strdup(dc_msg_get_text(pMsg));
 					dbei.cbBlob = (int)mir_strlen(dbei.pBlob);
+					dbei.szId = buf;
 					ProtoChainRecvMsg(hContact, dbei);
 
 					dc_msg_unref(pMsg);
@@ -147,6 +161,8 @@ void CDeltaChatProto::ServerThread(void *)
 
 void CDeltaChatProto::SendMarkRead()
 {
+	m_impl.m_markRead.Stop();
+
 	mir_cslock lck(m_csDeleteMsg);
 	dc_markseen_msgs(m_context, &*m_markIds.begin(), (int)m_markIds.size());
 	m_markIds.clear();
@@ -155,6 +171,8 @@ void CDeltaChatProto::SendMarkRead()
 
 void CDeltaChatProto::SendDeleteMessages()
 {
+	m_impl.m_deleteMsg.Stop();
+
 	mir_cslock lck(m_csDeleteMsg);
 	dc_delete_msgs(m_context, &*m_deleteIds.begin(), (int)m_deleteIds.size());
 	m_deleteIds.clear();
