@@ -142,3 +142,10 @@ void CDeltaChatProto::ServerThread(void *)
 	}
 	debugLogA("leaving ServerThread");
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CDeltaChatProto::SendMarkRead()
+{
+	dc_markseen_msgs(m_context, &*m_markIds.begin(), (int)m_markIds.size());
+}

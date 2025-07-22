@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUserName) :
 	PROTO<CDeltaChatProto>(szModuleName, wszUserName),
+	m_impl(*this),
 	m_imapUser(szModuleName, DB_KEY_EMAIL, L""),
 	m_imapPass(szModuleName, "ImapPassword", L""),
 	m_imapHost(szModuleName, "ImapHost", L"imap."),
@@ -75,6 +76,31 @@ bool CDeltaChatProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 		dc_delete_contact(m_context, contact_id);
 	}
 	return true;
+}
+
+void CDeltaChatProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
+{
+	if (!hContact)
+		return;
+
+	int chat_id = getDword(hContact, DB_KEY_CHATID);
+	if (!chat_id)
+		return;
+
+	DB::EventInfo dbei(hDbEvent, false);
+	if (dbei && dbei.szId) {
+		mir_cslock lck(m_csMarkRead);
+		if (m_markChatId) {
+			if (m_markChatId != hContact)
+				SendMarkRead();
+
+			m_impl.m_markRead.Stop();
+		}
+
+		m_markChatId = chat_id;
+		m_markIds.push_back(atoi(dbei.szId));
+		m_impl.m_markRead.Start(500);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

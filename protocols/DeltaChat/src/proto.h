@@ -23,6 +23,33 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 {
 	friend class CAccountOptionsDlg;
 
+	class CProtoImpl
+	{
+		friend class CDeltaChatProto;
+		CDeltaChatProto &m_proto;
+
+		CTimer m_markRead, m_deleteMsg;
+
+		void OnDeleteMsg(CTimer *)
+		{
+			// m_proto.SendDeleteMsg();
+		}
+
+		void OnMarkRead(CTimer *)
+		{
+			m_proto.SendMarkRead();
+		}
+
+		CProtoImpl(CDeltaChatProto &pro) :
+			m_proto(pro),
+			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
+			m_deleteMsg(Miranda_GetSystemWindow(), UINT_PTR(this) + 1)
+		{
+			m_markRead.OnEvent = Callback(this, &CProtoImpl::OnMarkRead);
+			m_deleteMsg.OnEvent = Callback(this, &CProtoImpl::OnDeleteMsg);
+		}
+	} m_impl;
+
 	dc_context_t *m_context = 0;
 	dc_event_emitter_t *m_emitter = 0;
 
@@ -41,6 +68,13 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	// SMTP server
 	CMOption<wchar_t *> m_smtpHost;
 	CMOption<int> m_smtpPort, m_smtpSsl;
+
+	// mark messages read
+	void SendMarkRead();
+
+	mir_cs m_csMarkRead;
+	uint32_t m_markChatId = 0;
+	std::vector<uint32_t> m_markIds;
 
 	// menus
 	INT_PTR __cdecl OnMenuEnterQR(WPARAM, LPARAM);
@@ -68,6 +102,7 @@ public:
 	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 
 	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
+	void     OnMarkRead(MCONTACT hContact, MEVENT hDbEvent) override;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
