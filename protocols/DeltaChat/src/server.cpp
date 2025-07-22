@@ -115,6 +115,24 @@ void CDeltaChatProto::ServerThread(void *)
 				}
 			}
 			break;
+
+		case DC_EVENT_INCOMING_MSG:
+			if (i1 && i2) {
+				if (auto hContact = FindContact(i1)) {
+					auto *pMsg = dc_get_msg(m_context, i2);
+
+					DB::EventInfo dbei;
+					dbei.bSent = false;
+					dbei.iTimestamp = dc_msg_get_timestamp(pMsg);
+					dbei.eventType = EVENTTYPE_MESSAGE;
+					dbei.pBlob = mir_strdup(dc_msg_get_text(pMsg));
+					dbei.cbBlob = (int)mir_strlen(dbei.pBlob);
+					ProtoChainRecvMsg(hContact, dbei);
+
+					dc_msg_unref(pMsg);
+				}
+			}
+			break;
 		}
 	}
 
