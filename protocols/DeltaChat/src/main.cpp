@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#pragma comment(lib, "ffi/libdeltachat.lib")
+#pragma comment(lib, "deltachat.lib")
 
 CMPlugin g_plugin;
 

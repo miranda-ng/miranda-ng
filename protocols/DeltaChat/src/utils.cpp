@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void dc_set_config(dc_context_t *context, const char *key, const wchar_t *value)
 {
-	dc_set_config(context, key, T2Utf(value));
+	dc_set_config(context, key, T2Utf(value).get());
 }
 
 void dc_set_config(dc_context_t *context, const char *key, int value)

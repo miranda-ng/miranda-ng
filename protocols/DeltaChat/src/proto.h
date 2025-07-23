@@ -88,7 +88,7 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	INT_PTR __cdecl OnMenuEnterQR(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuHandleGrantAuth(WPARAM, LPARAM);
 
-	int  OnPrebuildContactMenu(WPARAM hContact, LPARAM);
+	int  __cdecl OnPrebuildContactMenu(WPARAM hContact, LPARAM);
 	void OnBuildProtoMenu() override;
 
 public:
@@ -115,7 +115,7 @@ public:
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	int  OnOptionsInit(WPARAM, LPARAM);
+	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 };
 
 typedef CProtoDlgBase<CDeltaChatProto> CDeltaChatDlgBase;
