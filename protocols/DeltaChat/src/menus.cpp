@@ -32,6 +32,14 @@ INT_PTR CDeltaChatProto::OnMenuHandleGrantAuth(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+INT_PTR CDeltaChatProto::OnMenuCopyQR(WPARAM, LPARAM)
+{
+	char *qr = dc_get_securejoin_qr(m_context, 0);
+	Utils_ClipboardCopy(MClipAnsi(qr));
+	dc_str_unref(qr);
+	return 0;
+}
+
 INT_PTR CDeltaChatProto::OnMenuEnterQR(WPARAM, LPARAM)
 {
 	ENTER_STRING es;
@@ -96,10 +104,17 @@ void CDeltaChatProto::OnBuildProtoMenu()
 	mi.root = Menu_GetProtocolRoot(this);
 	mi.flags = CMIF_UNMOVABLE;
 
-	mi.pszService = "/JoinGuild";
-	CreateProtoService(mi.pszService, &CDeltaChatProto::OnMenuEnterQR);
+	mi.pszService = "/ApplyQR";
 	mi.name.a = LPGEN("Add chat using QR code");
 	mi.position = 200001;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_ADDCONTACT);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CDeltaChatProto::OnMenuEnterQR);
+
+	mi.pszService = "/CopyQR";
+	mi.name.a = LPGEN("Copy QR to chat with me");
+	mi.position++;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_CHAT_JOIN);
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+	CreateProtoService(mi.pszService, &CDeltaChatProto::OnMenuCopyQR);
 }

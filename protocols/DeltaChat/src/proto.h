@@ -84,6 +84,7 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	std::vector<uint32_t> m_markIds;
 
 	// menus
+	INT_PTR __cdecl OnMenuCopyQR(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuEnterQR(WPARAM, LPARAM);
 	INT_PTR __cdecl OnMenuHandleGrantAuth(WPARAM, LPARAM);
 
