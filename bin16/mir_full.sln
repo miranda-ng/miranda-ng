@@ -441,6 +441,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "litehtml", "..\libs\litehtm
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Teams", "..\protocols\Teams\Teams.vcxproj", "{DCD56CEC-C61B-4275-A010-8C65C5B48815}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeltaChat", "..\protocols\DeltaChat\deltachat.vcxproj", "{605424F7-9500-4DC5-82C9-005F9AB9B606}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2007,6 +2009,14 @@ Global
 		{DCD56CEC-C61B-4275-A010-8C65C5B48815}.Release|Win32.Build.0 = Release|Win32
 		{DCD56CEC-C61B-4275-A010-8C65C5B48815}.Release|x64.ActiveCfg = Release|x64
 		{DCD56CEC-C61B-4275-A010-8C65C5B48815}.Release|x64.Build.0 = Release|x64
+		{605424F7-9500-4DC5-82C9-005F9AB9B606}.Debug|Win32.ActiveCfg = Debug|Win32
+		{605424F7-9500-4DC5-82C9-005F9AB9B606}.Debug|Win32.Build.0 = Debug|Win32
+		{605424F7-9500-4DC5-82C9-005F9AB9B606}.Debug|x64.ActiveCfg = Debug|x64
+		{605424F7-9500-4DC5-82C9-005F9AB9B606}.Debug|x64.Build.0 = Debug|x64
+		{605424F7-9500-4DC5-82C9-005F9AB9B606}.Release|Win32.ActiveCfg = Release|Win32
+		{605424F7-9500-4DC5-82C9-005F9AB9B606}.Release|Win32.Build.0 = Release|Win32
+		{605424F7-9500-4DC5-82C9-005F9AB9B606}.Release|x64.ActiveCfg = Release|x64
+		{605424F7-9500-4DC5-82C9-005F9AB9B606}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2137,6 +2147,7 @@ Global
 		{88928401-2CE8-4568-AAA7-226141870CBF} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 		{51DB004A-E160-47C7-B017-BEC90FDC442D} = {37EDFBEA-8446-4BF3-9F2E-655908CDFB62}
 		{DCD56CEC-C61B-4275-A010-8C65C5B48815} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
+		{605424F7-9500-4DC5-82C9-005F9AB9B606} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}
