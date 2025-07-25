@@ -110,7 +110,6 @@
 [Disable drag and drop of items]
 [Disable rename of items by clicking twice]
 [Show selection even when list is not focused]
-[Make selection highlight translucent]
 [Use full row for selection and hottracking]
 [Double click on avatar opens user info]
 [Visual]

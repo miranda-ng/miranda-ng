@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.1
+;  Version: 0.1.19.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -283,6 +283,7 @@
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
 [VKontakte protocol]
 ;file \protocols\VKontakte\src\vk_pollserver.cpp
+[This message has been marked as spam in %s:\n]
 [This message has been deleted by sender in %s:\n]
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [Newsfeed & notification event]

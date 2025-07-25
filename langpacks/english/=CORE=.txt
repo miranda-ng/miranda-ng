@@ -1251,14 +1251,12 @@
 [Disable groups]
 [Hide offline users in here]
 ;file \src\mir_app\src\menu_options.cpp
-[Do you really want to delete this menu item?]
 [Menus]
 ;file \src\mir_app\src\menu_tray.cpp
 [Tray menu]
 [&Hide/show]
 [&About]
 ;file \src\mir_app\src\menu_utils.cpp
-[New submenu]
 [Menu icons]
 ;file \src\mir_app\src\metacontacts.h
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
