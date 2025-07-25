@@ -2351,8 +2351,6 @@ xСтатус
 Отключить группы
 [Hide offline users in here]
 Скрыть отключённых в группе
-[Do you really want to delete this menu item?]
-Удалить этот пункт меню?
 [Menus]
 Меню
 [Tray menu]
@@ -2361,8 +2359,6 @@ xСтатус
 С&крыть/Показать
 [&About]
 О &программе
-[New submenu]
-Новое вложенное меню
 [Menu icons]
 Меню
 [You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
@@ -6649,18 +6645,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 3-й:
 [Place offline users out of groups]
 Отключённых показывать вне групп
-[Selection mode]
-Тип выделения
-[Default]
-По умолчанию
-[Full selection]
-Полное выделение
-[Less selection]
-Только над текстом
-[No selection]
-Не выделять
-[Gamma correction]
-Коррекция гаммы
+[Appearance]
+Внешний вид
+[Always on top]
+Поверх всех окон
 [Bring to front if covered]
 Перемещать на передний план
 [Hide contact list after]
@@ -6679,8 +6667,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Запретить изменение размера
 [Drag to]
 Перетаскивание
-[Easy scroll]
-Простая прокрутка
 [Easy move]
 Простое перемещение
 [x100 ms]
@@ -6793,10 +6779,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Показывать время, только если оно отличается
 [Show contact time as row item]
 Время как элемент строки
-[Appearance]
-Внешний вид
-[Always on top]
-Поверх всех окон
 [Client area margins]
 Границы списка контактов
 [Thin border main window]
@@ -6811,8 +6793,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Заголовок окна:
 [Tool style main window]
 Стиль панели у заголовка
-[Minimize to tray]
-Сворачивать в трей
 [Translucency options]
 Настройки прозрачности списка контактов
 [Fade contact list in/out]
@@ -6841,6 +6821,12 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Выключить скины
 [Enable Aero Glass (Vista, Win 7)]
 Включить Aero Glass (Vista, Win 7)
+[Selection mode]
+Тип выделения
+[Gamma correction]
+Коррекция гаммы
+[Minimize to tray]
+Сворачивать в трей
 [Order of items:]
 Порядок элементов:
 [Minimum row height:]
@@ -7141,6 +7127,14 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 За левый край
 [Behind right edge]
 За правый край
+[Default]
+По умолчанию
+[Full selection]
+Полное выделение
+[Less selection]
+Только над текстом
+[No selection]
+Не выделять
 [General]
 Общее
 [Tray]
@@ -7570,8 +7564,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Отключить переименование по двойному щелчку
 [Show selection even when list is not focused]
 Выделение, даже если окно неактивно
-[Make selection highlight translucent]
-Полупрозрачное выделение
 [Use full row for selection and hottracking]
 Использовать выделение всей строки
 [Double click on avatar opens user info]
@@ -9565,6 +9557,33 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Резервная копия базы Miranda NG [%s]
 #muuid {88928401-2ce8-4568-aaa7-226141870cbf}
 ;============================================================
+;  File: DeltaChat.dll
+;  Plugin: DeltaChat protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[Username]
+Имя пользователя
+[Password]
+Пароль
+[Host]
+Сервер
+[Default group:]
+Группа:
+[Port]
+Порт
+[User details]
+О пользователе
+[Main icon]
+Основной значок
+[Plain]
+Равнина
+[Network]
+Сеть
+[Account]
+Учётная запись
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
 ;  Version: 0.96.5.1
@@ -10021,7 +10040,7 @@ ID записи
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -15285,6 +15304,8 @@ Jabber ошибка
 Высочайший приоритет (по выбору сервера)
 [Status Message]
 Статусное сообщение
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+Не удалось расшифровать копию зашифрованного входящего сообщения
 [To]
 В
 [From]
@@ -16083,8 +16104,6 @@ XML (кодировка UTF-8)
 Запрос регистрационной инструкции...
 [Authentication failed for %s@%s.]
 Аутентификация не пройдена для %s@%s.
-[Unable to decrypt a carbon copy of the encrypted outgoing message]
-Не удалось расшифровать копию зашифрованного входящего сообщения
 [Registration canceled]
 Регистрация отменена
 [Sending registration information...]
@@ -24425,6 +24444,10 @@ SecureIM (RSA/AES)
 Передача файла
 [Image upload]
 Загрузка изображения
+[Enter your personal API key from Imageshack]
+Введите свой личный ключ API с сайта Imageshack
+[API key is missing]
+Отсутствует ключ API
 [HTTPServer transfer]
 Передача HTTPServer
 [Could not start the HTTP Server plugin.]
@@ -30613,7 +30636,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.1
+;  Version: 0.1.19.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]

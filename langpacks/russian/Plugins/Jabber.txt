@@ -969,6 +969,11 @@ Jabber ошибка
 Высочайший приоритет (по выбору сервера)
 [Status Message]
 Статусное сообщение
+;file \protocols\JabberG\src\jabber_message.cpp
+[Message redirected from: %s\r\n]
+
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
+Не удалось расшифровать копию зашифрованного входящего сообщения
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
@@ -1790,10 +1795,6 @@ XML (кодировка UTF-8)
 Запрос регистрационной инструкции...
 [Authentication failed for %s@%s.]
 Аутентификация не пройдена для %s@%s.
-[Message redirected from: %s\r\n]
-
-[Unable to decrypt a carbon copy of the encrypted outgoing message]
-Не удалось расшифровать копию зашифрованного входящего сообщения
 [Registration canceled]
 Регистрация отменена
 [Sending registration information...]

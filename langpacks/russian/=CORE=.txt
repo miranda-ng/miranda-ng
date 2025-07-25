@@ -2418,8 +2418,6 @@ xСтатус
 [Hide offline users in here]
 Скрыть отключённых в группе
 ;file \src\mir_app\src\menu_options.cpp
-[Do you really want to delete this menu item?]
-Удалить этот пункт меню?
 [Menus]
 Меню
 ;file \src\mir_app\src\menu_tray.cpp
@@ -2430,8 +2428,6 @@ xСтатус
 [&About]
 О &программе
 ;file \src\mir_app\src\menu_utils.cpp
-[New submenu]
-Новое вложенное меню
 [Menu icons]
 Меню
 ;file \src\mir_app\src\metacontacts.h

@@ -214,8 +214,6 @@
 Отключить переименование по двойному щелчку
 [Show selection even when list is not focused]
 Выделение, даже если окно неактивно
-[Make selection highlight translucent]
-Полупрозрачное выделение
 [Use full row for selection and hottracking]
 Использовать выделение всей строки
 [Double click on avatar opens user info]
