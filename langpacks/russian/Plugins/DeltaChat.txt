@@ -46,7 +46,7 @@ STARTTLS
 [SSL (old)]
 SSL (старый)
 [Plain]
-Равнина
+Открытый текст
 [Network]
 Сеть
 [Account]
