@@ -169,7 +169,6 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 		return nullptr;
 	}
 
-	thisUser->settings.cbSize = sizeof(NETLIBUSERSETTINGS);
 	thisUser->settings.useProxy = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLUseProxy", 0);
 	thisUser->settings.proxyType = GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyType", PROXYTYPE_SOCKS5);
 	if (thisUser->user.flags&NUF_NOHTTPSOPTION && thisUser->settings.proxyType == PROXYTYPE_HTTPS)
@@ -202,7 +201,7 @@ MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *nlu)
 
 MIR_APP_DLL(int) Netlib_GetUserSettings(HNETLIBUSER nlu, NETLIBUSERSETTINGS *nlus)
 {
-	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == nullptr || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
+	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
@@ -224,7 +223,7 @@ MIR_APP_DLL(int) Netlib_GetUserSettingsByName(char * UserSettingsName, NETLIBUSE
 
 MIR_APP_DLL(int) Netlib_SetUserSettings(HNETLIBUSER nlu, const NETLIBUSERSETTINGS *nlus)
 {
-	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == nullptr || nlus->cbSize != sizeof(NETLIBUSERSETTINGS)) {
+	if (GetNetlibHandleType(nlu) != NLH_USER || nlus == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}

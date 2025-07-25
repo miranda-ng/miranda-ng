@@ -139,9 +139,8 @@ should use the MSG_DUMPPROXY flag so that the logging is neat.
 
 struct NETLIBUSERSETTINGS
 {
-	int cbSize;                 // to be filled in before calling
-	int useProxy;	            // 1 or 0
-	int proxyType;	            // a PROXYTYPE_
+	int useProxy;               // 1 or 0
+	int proxyType;              // a PROXYTYPE_
 	char *szProxyServer;        // can be NULL
 	int wProxyPort;             // host byte order
 	int useProxyAuth;           // 1 or 0. Always 0 for SOCKS4

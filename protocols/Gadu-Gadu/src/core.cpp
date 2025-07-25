@@ -276,7 +276,6 @@ void __cdecl GaduProto::mainthread(void *)
 
 	// Setup proxy
 	NETLIBUSERSETTINGS nlus = { 0 };
-	nlus.cbSize = sizeof(nlus);
 	if (Netlib_GetUserSettings(m_hNetlibUser, &nlus)) {
 		if (nlus.useProxy)
 			debugLogA("mainthread() (%x): Using proxy %s:%d.", this, nlus.szProxyServer, nlus.wProxyPort);

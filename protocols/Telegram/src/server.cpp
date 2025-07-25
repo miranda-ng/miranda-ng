@@ -42,11 +42,17 @@ void __cdecl CTelegramProto::ServerThread(void *)
 		switch (nluSettings.proxyType) {
 		case PROXYTYPE_SOCKS4:
 		case PROXYTYPE_SOCKS5:
-			proxyType = TD::make_object<TD::proxyTypeSocks5>();
+			if (nluSettings.szProxyAuthUser && nluSettings.szProxyAuthPassword)
+				proxyType = TD::make_object<TD::proxyTypeSocks5>(nluSettings.szProxyAuthUser, nluSettings.szProxyAuthPassword);
+			else
+				proxyType = TD::make_object<TD::proxyTypeSocks5>();
 			break;
 		case PROXYTYPE_HTTP:
 		case PROXYTYPE_HTTPS:
-			proxyType = TD::make_object<TD::proxyTypeHttp>();
+			if (nluSettings.szProxyAuthUser && nluSettings.szProxyAuthPassword)
+				proxyType = TD::make_object<TD::proxyTypeHttp>(nluSettings.szProxyAuthUser, nluSettings.szProxyAuthPassword, true);
+			else
+				proxyType = TD::make_object<TD::proxyTypeHttp>();
 			break;
 		}
 

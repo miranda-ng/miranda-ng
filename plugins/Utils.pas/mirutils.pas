@@ -499,7 +499,6 @@ var
   proxy:array [0..127] of AnsiChar;
 begin
   result:=nil;
-  nlus.cbSize:=SizeOf(nlus);
   if Netlib_GetUserSettings(hNetLib,@nlus)<>0 then
   begin
     if nlus.useProxy<>0 then

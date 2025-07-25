@@ -420,7 +420,6 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 
 	if (info.conn.manualHost[0] == 0) {
 		NETLIBUSERSETTINGS us = {};
-		us.cbSize = sizeof(us);
 		Netlib_GetUserSettings(m_hNetlibUser, &us);
 		if (us.useProxy && us.dnsThroughProxy)
 			; // TODO implement dns request thru proxy

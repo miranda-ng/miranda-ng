@@ -619,7 +619,6 @@ INT_PTR nToggelAcceptConnections(WPARAM wparam, LPARAM /*lparam*/)
 {
 	if (!hDirectBoundPort) {
 		NETLIBUSERSETTINGS nus = {};
-		nus.cbSize = sizeof(nus);
 		Netlib_GetUserSettings(hNetlibUser, &nus);
 
 		NETLIBBIND nlb = {};
