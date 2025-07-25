@@ -57,9 +57,12 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	void Logout();
 	void OnConnected();
 	
+	MCONTACT AddContact();
 	MCONTACT FindContact(uint32_t chat_id);
 
 	void __cdecl ServerThread(void *);
+
+	CMOption<wchar_t *> m_defaultGroup;
 
 	// IMAP server
 	CMOption<wchar_t *> m_imapUser, m_imapPass, m_imapHost;
@@ -110,6 +113,7 @@ public:
 	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
 
 	bool     OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
+	MWindow  OnCreateAccMgrUI(MWindow hwndParent);
 	void     OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
 	void     OnMarkRead(MCONTACT hContact, MEVENT hDbEvent) override;
 

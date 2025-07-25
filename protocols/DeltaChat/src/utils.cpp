@@ -33,6 +33,17 @@ void dc_set_config(dc_context_t *context, const char *key, int value)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MCONTACT CDeltaChatProto::AddContact()
+{
+	MCONTACT hContact = db_add_contact();
+	Proto_AddToContact(hContact, m_szModuleName);
+
+	if (mir_wstrlen(m_defaultGroup))
+		Clist_SetGroup(hContact, m_defaultGroup);
+
+	return hContact;
+}
+
 MCONTACT CDeltaChatProto::FindContact(uint32_t chat_id)
 {
 	for (auto &cc : AccContacts())

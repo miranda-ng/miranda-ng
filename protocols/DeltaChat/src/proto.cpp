@@ -27,11 +27,15 @@ CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUse
 	m_imapSsl(szModuleName, "ImapSsl", 0),
 	m_smtpHost(szModuleName, "SmtpHost", L"smtp."),
 	m_smtpPort(szModuleName, "SmtpPort", 25),
-	m_smtpSsl(szModuleName, "SmtpSsql", 0)
+	m_smtpSsl(szModuleName, "SmtpSsql", 0),
+	m_defaultGroup(szModuleName, "DefaultGroup", L"DeltaChat")
 {
 	CMStringW wszFilename(FORMAT, L"%s\\%S\\data", VARSW(L"%miranda_userdata%").get(), szModuleName);
 	CreatePathToFileW(wszFilename);
 	m_context = dc_context_new_closed(T2Utf(wszFilename));
+
+	if (mir_wstrlen(m_defaultGroup))
+		Clist_GroupCreate(0, m_defaultGroup);
 
 	// hooks
 	HookProtoEvent(ME_OPT_INITIALISE, &CDeltaChatProto::OnOptionsInit);
@@ -135,8 +139,7 @@ MCONTACT CDeltaChatProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	if (mir_wstrlen(psr->id.w) == 0 || !IsOnline())
 		return 0;
 
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
+	MCONTACT hContact = AddContact();
 	setWString(hContact, DB_KEY_EMAIL, psr->id.w);
 
 	if (psr->firstName.w)

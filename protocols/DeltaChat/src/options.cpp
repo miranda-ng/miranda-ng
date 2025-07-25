@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CAccountOptionsDlg : public CDeltaChatDlgBase
 {
-	CCtrlEdit edtImapHost, edtImapUser, edtImapPass, edtSmtpHost;
+	CCtrlEdit edtImapHost, edtImapUser, edtImapPass, edtSmtpHost, edtGroup;
 	CCtrlSpin spinImapPort, spinSmtpPort;
 	CCtrlCombo cmbImapSsl, cmbSmtpSsl;
 
@@ -34,6 +34,7 @@ class CAccountOptionsDlg : public CDeltaChatDlgBase
 public:
 	CAccountOptionsDlg(CDeltaChatProto *ppro, int iDlgID) :
 		CDeltaChatDlgBase(ppro, iDlgID),
+		edtGroup(this, IDC_GROUP),
 		cmbImapSsl(this, IDC_IMAP_SSL),
 		cmbSmtpSsl(this, IDC_SMTP_SSL),
 		edtImapHost(this, IDC_IMAPHOST),
@@ -43,15 +44,19 @@ public:
 		spinImapPort(this, IDC_IMAPPORT_SPIN, 10000),
 		spinSmtpPort(this, IDC_SMTPPORT_SPIN, 10000)
 	{
-		CreateLink(cmbImapSsl, ppro->m_imapSsl);
-		CreateLink(edtImapHost, ppro->m_imapHost);
+		CreateLink(edtGroup, ppro->m_defaultGroup);
 		CreateLink(edtImapUser, ppro->m_imapUser);
 		CreateLink(edtImapPass, ppro->m_imapPass);
-		CreateLink(spinImapPort, ppro->m_imapPort);
 
-		CreateLink(cmbSmtpSsl, ppro->m_smtpSsl);
-		CreateLink(edtSmtpHost, ppro->m_smtpHost);
-		CreateLink(spinSmtpPort, ppro->m_smtpPort);
+		if (iDlgID != IDD_OPTIONS_ACCMGR) {
+			CreateLink(cmbImapSsl, ppro->m_imapSsl);
+			CreateLink(edtImapHost, ppro->m_imapHost);
+			CreateLink(spinImapPort, ppro->m_imapPort);
+
+			CreateLink(cmbSmtpSsl, ppro->m_smtpSsl);
+			CreateLink(edtSmtpHost, ppro->m_smtpHost);
+			CreateLink(spinSmtpPort, ppro->m_smtpPort);
+		}
 	}
 
 	bool OnInitDialog() override
@@ -65,7 +70,17 @@ public:
 	}
 };
 
-/////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MWindow CDeltaChatProto::OnCreateAccMgrUI(MWindow hwndParent)
+{
+	auto *page = new CAccountOptionsDlg(this, IDD_OPTIONS_ACCMGR);
+	page->SetParent(hwndParent);
+	page->Show();
+	return page->GetHwnd();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int CDeltaChatProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {

@@ -68,9 +68,7 @@ INT_PTR CDeltaChatProto::OnMenuEnterQR(WPARAM, LPARAM)
 			if (bAddPrivate) {
 				auto *pChat = dc_get_chat(m_context, chat_id);
 
-				MCONTACT hContact = db_add_contact();
-				Proto_AddToContact(hContact, m_szModuleName);
-				
+				MCONTACT hContact = AddContact();				
 				setDword(hContact, DB_KEY_CHATID, chat_id);
 				setString(hContact, "QR", qr);
 
