@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -384,7 +384,7 @@ class RwMutexReadBench final : public td::Benchmark {
     for (int i = 0; i < ThreadN; i++) {
       threads.emplace_back([&] {
         for (int i = 0; i < n / ThreadN; i++) {
-          mutex_.lock_read().ensure();
+          auto lock = mutex_.lock_read();
         }
       });
     }
@@ -405,7 +405,7 @@ class RwMutexWriteBench final : public td::Benchmark {
     for (int i = 0; i < ThreadN; i++) {
       threads.emplace_back([&] {
         for (int i = 0; i < n / ThreadN; i++) {
-          mutex_.lock_write().ensure();
+          auto lock = mutex_.lock_write();
         }
       });
     }

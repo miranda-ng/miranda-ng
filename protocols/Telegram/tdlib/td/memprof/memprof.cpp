@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -285,27 +285,30 @@ void *realloc(void *ptr, std::size_t size) {
   return new_ptr;
 }
 
-void *memalign(std::size_t aligment, std::size_t size) {
+void *memalign(std::size_t alignment, std::size_t size) {
   my_assert(false && "Memalign is unsupported");
   return nullptr;
 }
 }
 
-// c++14 guarantees that it is enough to override these two operators.
+// C++17 guarantees that it is enough to override these 4 operators
 void *operator new(std::size_t count) {
   return malloc_with_frame(count, get_backtrace());
 }
 void operator delete(void *ptr) noexcept(true) {
   free(ptr);
 }
-// because of gcc warning: the program should also define 'void operator delete(void*, std::size_t)'
-void operator delete(void *ptr, std::size_t) noexcept(true) {
+void *operator new(std::size_t count, std::align_val_t al) {
+  return memalign(static_cast<std::size_t>(al), count);
+}
+void operator delete(void *ptr, std::align_val_t al) noexcept {
   free(ptr);
 }
 
-// c++17
-// void *operator new(std::size_t count, std::align_val_t al);
-// void operator delete(void *ptr, std::align_val_t al);
+// because of GCC warning: the program should also define 'void operator delete(void*, std::size_t)'
+void operator delete(void *ptr, std::size_t) noexcept(true) {
+  free(ptr);
+}
 
 #else
 bool is_memprof_on() {

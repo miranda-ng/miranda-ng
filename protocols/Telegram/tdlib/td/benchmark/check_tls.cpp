@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -199,7 +199,7 @@ td::Result<TlsInfo> test_tls(const td::string &url) {
             if (random_id ==
                 "\xcf\x21\xad\x74\xe5\x9a\x61\x11\xbe\x1d\x8c\x02\x1e\x65\xb8\x91\xc2\xa2\x11\x16\x7a\xbb\x8c\x5e\x07"
                 "\x9e\x09\xe2\xc8\xa8\x33\x9c") {
-              return td::Status::Error("TLS 1.3 servers returning HelloRetryRequest are not supprted");
+              return td::Status::Error("TLS 1.3 servers returning HelloRetryRequest are not supported");
             }
             if (result[43] == '\x00') {
               return td::Status::Error("TLS <= 1.2: empty session_id");
@@ -213,7 +213,7 @@ td::Result<TlsInfo> test_tls(const td::string &url) {
             pos += 74;
             size_t extensions_length = read_length();
             if (extensions_length + 76 != server_hello_length) {
-              return td::Status::Error("Receive wrong extensions length");
+              return td::Status::Error("Receive wrong length of extensions");
             }
             while (pos < 5 + server_hello_length - 4) {
               info.extension_list.push_back(read_length());
@@ -224,7 +224,7 @@ td::Result<TlsInfo> test_tls(const td::string &url) {
               pos += extension_length;
             }
             if (pos != 5 + server_hello_length) {
-              return td::Status::Error("Receive wrong extensions list");
+              return td::Status::Error("Receive wrong list of extensions");
             }
           }
           if (pos == 5 + server_hello_length) {
