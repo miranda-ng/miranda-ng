@@ -42,7 +42,7 @@ INT_PTR CDeltaChatProto::OnMenuCopyQR(WPARAM, LPARAM)
 
 INT_PTR CDeltaChatProto::OnMenuEnterQR(WPARAM, LPARAM)
 {
-	ENTER_STRING es;
+	ENTER_STRING es = {};
 	es.type = ESF_MULTILINE;
 	es.caption = TranslateT("Enter QR code, received from another device");
 	if (EnterString(&es)) {
