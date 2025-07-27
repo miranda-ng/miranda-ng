@@ -40,6 +40,7 @@
 #include "td/utils/PathView.h"
 #include "td/utils/Random.h"
 #include "td/utils/Slice.h"
+#include "td/utils/SliceBuilder.h"
 #include "td/utils/StackAllocator.h"
 #include "td/utils/Status.h"
 #include "td/utils/StringBuilder.h"
@@ -71,14 +72,35 @@ tl_object_ptr<td_api::document> DocumentsManager::get_document_object(FileId fil
       td_->file_manager_->get_file_object(file_id));
 }
 
+td_api::object_ptr<td_api::videoStoryboard> DocumentsManager::get_video_storyboard_object(
+    FileId file_id, const vector<FileId> &map_file_ids) const {
+  auto document = get_document(file_id);
+  CHECK(document != nullptr);
+  auto file_view = td_->file_manager_->get_file_view(file_id);
+  const auto *full_remote_location = file_view.get_full_remote_location();
+  CHECK(full_remote_location != nullptr);
+  CHECK(full_remote_location->is_document());
+  int64 document_id = full_remote_location->get_id();
+  auto name = PSTRING() << "mtproto:" << document_id;
+  for (const auto &map_file_id : map_file_ids) {
+    auto map = get_document(map_file_id);
+    if (map->file_name == name && map->dimensions != Dimensions()) {
+      return td_api::make_object<td_api::videoStoryboard>(td_->file_manager_->get_file_object(file_id),
+                                                          map->dimensions.width, map->dimensions.height,
+                                                          td_->file_manager_->get_file_object(map_file_id));
+    }
+  }
+  return nullptr;
+}
+
 Document DocumentsManager::on_get_document(RemoteDocument remote_document, DialogId owner_dialog_id,
-                                           MultiPromiseActor *load_data_multipromise_ptr,
+                                           bool is_self_destructing, MultiPromiseActor *load_data_multipromise_ptr,
                                            Document::Type default_document_type, Subtype document_subtype) {
-  tl_object_ptr<telegram_api::documentAttributeAnimated> animated;
-  tl_object_ptr<telegram_api::documentAttributeVideo> video;
-  tl_object_ptr<telegram_api::documentAttributeAudio> audio;
-  tl_object_ptr<telegram_api::documentAttributeSticker> sticker;
-  tl_object_ptr<telegram_api::documentAttributeCustomEmoji> custom_emoji;
+  telegram_api::object_ptr<telegram_api::documentAttributeAnimated> animated;
+  telegram_api::object_ptr<telegram_api::documentAttributeVideo> video;
+  telegram_api::object_ptr<telegram_api::documentAttributeAudio> audio;
+  telegram_api::object_ptr<telegram_api::documentAttributeSticker> sticker;
+  telegram_api::object_ptr<telegram_api::documentAttributeCustomEmoji> custom_emoji;
   Dimensions dimensions;
   string file_name;
   bool has_stickers = false;
@@ -86,25 +108,25 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
   for (auto &attribute : remote_document.attributes) {
     switch (attribute->get_id()) {
       case telegram_api::documentAttributeImageSize::ID: {
-        auto image_size = move_tl_object_as<telegram_api::documentAttributeImageSize>(attribute);
+        auto image_size = telegram_api::move_object_as<telegram_api::documentAttributeImageSize>(attribute);
         dimensions =
             get_dimensions(image_size->w_, image_size->h_, oneline(to_string(remote_document.document)).c_str());
         break;
       }
       case telegram_api::documentAttributeAnimated::ID:
-        animated = move_tl_object_as<telegram_api::documentAttributeAnimated>(attribute);
+        animated = telegram_api::move_object_as<telegram_api::documentAttributeAnimated>(attribute);
         type_attributes++;
         break;
       case telegram_api::documentAttributeSticker::ID:
-        sticker = move_tl_object_as<telegram_api::documentAttributeSticker>(attribute);
+        sticker = telegram_api::move_object_as<telegram_api::documentAttributeSticker>(attribute);
         type_attributes++;
         break;
       case telegram_api::documentAttributeVideo::ID:
-        video = move_tl_object_as<telegram_api::documentAttributeVideo>(attribute);
+        video = telegram_api::move_object_as<telegram_api::documentAttributeVideo>(attribute);
         type_attributes++;
         break;
       case telegram_api::documentAttributeAudio::ID:
-        audio = move_tl_object_as<telegram_api::documentAttributeAudio>(attribute);
+        audio = telegram_api::move_object_as<telegram_api::documentAttributeAudio>(attribute);
         type_attributes++;
         break;
       case telegram_api::documentAttributeFilename::ID:
@@ -114,7 +136,7 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
         has_stickers = true;
         break;
       case telegram_api::documentAttributeCustomEmoji::ID:
-        custom_emoji = move_tl_object_as<telegram_api::documentAttributeCustomEmoji>(attribute);
+        custom_emoji = telegram_api::move_object_as<telegram_api::documentAttributeCustomEmoji>(attribute);
         type_attributes++;
         break;
       default:
@@ -147,10 +169,14 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
       type_attributes--;
       audio = nullptr;
     }
+    if (animated != nullptr && default_document_type == Document::Type::Video) {
+      type_attributes--;
+      animated = nullptr;
+    }
 
     if (animated != nullptr) {
       type_attributes--;
-      if ((video->flags_ & telegram_api::documentAttributeVideo::ROUND_MESSAGE_MASK) != 0) {
+      if (video->round_message_) {
         // video note without sound
         animated = nullptr;
       } else if (sticker != nullptr || custom_emoji != nullptr) {
@@ -167,6 +193,11 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
       type_attributes--;
       video = nullptr;
     }
+  } else if (animated != nullptr && default_document_type == Document::Type::Video) {
+    LOG(ERROR) << "Receive " << to_string(remote_document.document) << " with " << to_string(animated)
+               << " and without video";
+    type_attributes--;
+    animated = nullptr;
   }
   if (animated != nullptr && audio != nullptr) {
     // animation send as audio
@@ -188,6 +219,7 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
   FileType file_type = FileType::Document;
   Slice default_extension;
   bool supports_streaming = false;
+  string video_codec;
   StickerFormat sticker_format = StickerFormat::Unknown;
   PhotoFormat thumbnail_format = PhotoFormat::Jpeg;
   if (type_attributes == 1 || default_document_type != Document::Type::General) {  // not a general document
@@ -199,11 +231,11 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
                default_document_type == Document::Type::VoiceNote) {
       bool is_voice_note = default_document_type == Document::Type::VoiceNote;
       if (audio != nullptr) {
-        is_voice_note = (audio->flags_ & telegram_api::documentAttributeAudio::VOICE_MASK) != 0;
+        is_voice_note = audio->voice_;
       }
       if (is_voice_note) {
         document_type = Document::Type::VoiceNote;
-        file_type = FileType::VoiceNote;
+        file_type = is_self_destructing ? FileType::SelfDestructingVoiceNote : FileType::VoiceNote;
         default_extension = Slice("oga");
         file_name.clear();
       } else {
@@ -222,18 +254,19 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
                default_document_type == Document::Type::VideoNote) {
       bool is_video_note = default_document_type == Document::Type::VideoNote;
       if (video != nullptr) {
-        is_video_note = (video->flags_ & telegram_api::documentAttributeVideo::ROUND_MESSAGE_MASK) != 0;
+        is_video_note = video->round_message_;
         if (!is_video_note) {
-          supports_streaming = (video->flags_ & telegram_api::documentAttributeVideo::SUPPORTS_STREAMING_MASK) != 0;
+          supports_streaming = video->supports_streaming_;
+          video_codec = std::move(video->video_codec_);
         }
       }
       if (is_video_note) {
         document_type = Document::Type::VideoNote;
-        file_type = FileType::VideoNote;
+        file_type = is_self_destructing ? FileType::SelfDestructingVideoNote : FileType::VideoNote;
         file_name.clear();
       } else {
         document_type = Document::Type::Video;
-        file_type = FileType::Video;
+        file_type = is_self_destructing ? FileType::SelfDestructingVideo : FileType::Video;
       }
       default_extension = Slice("mp4");
     }
@@ -408,10 +441,10 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
     if (remote_document.thumbnail.type == 'v') {
       static_cast<PhotoSize &>(animated_thumbnail) = std::move(remote_document.thumbnail);
     } else {
-      thumbnail = std::move(remote_document.thumbnail);
       if (remote_document.thumbnail.type == 'g') {
         thumbnail_format = PhotoFormat::Gif;
       }
+      thumbnail = std::move(remote_document.thumbnail);
     }
 
     auto web_document_ptr = std::move(remote_document.web_document);
@@ -531,7 +564,7 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
     }
     case Document::Type::General:
       create_document(file_id, std::move(minithumbnail), std::move(thumbnail), std::move(file_name),
-                      std::move(mime_type), !is_web);
+                      std::move(mime_type), dimensions, !is_web);
       break;
     case Document::Type::Sticker:
       if (thumbnail_format == PhotoFormat::Jpeg) {
@@ -542,10 +575,11 @@ Document DocumentsManager::on_get_document(RemoteDocument remote_document, Dialo
                                              std::move(custom_emoji), sticker_format, load_data_multipromise_ptr);
       break;
     case Document::Type::Video:
-      td_->videos_manager_->create_video(
-          file_id, std::move(minithumbnail), std::move(thumbnail), std::move(animated_thumbnail), has_stickers,
-          vector<FileId>(), std::move(file_name), std::move(mime_type), video_duration, video_precise_duration,
-          dimensions, supports_streaming, video_is_animation, video_preload_prefix_size, video_start_ts, !is_web);
+      td_->videos_manager_->create_video(file_id, std::move(minithumbnail), std::move(thumbnail),
+                                         std::move(animated_thumbnail), has_stickers, vector<FileId>(),
+                                         std::move(file_name), std::move(mime_type), video_duration,
+                                         video_precise_duration, dimensions, supports_streaming, video_is_animation,
+                                         video_preload_prefix_size, video_start_ts, std::move(video_codec), !is_web);
       break;
     case Document::Type::VideoNote:
       td_->video_notes_manager_->create_video_note(file_id, std::move(minithumbnail), std::move(thumbnail),
@@ -578,25 +612,14 @@ FileId DocumentsManager::on_get_document(unique_ptr<GeneralDocument> new_documen
     d = std::move(new_document);
   } else if (replace) {
     CHECK(d->file_id == new_document->file_id);
-    if (d->mime_type != new_document->mime_type) {
-      LOG(DEBUG) << "Document " << file_id << " mime_type has changed";
+    if (d->mime_type != new_document->mime_type || d->file_name != new_document->file_name ||
+        d->minithumbnail != new_document->minithumbnail || d->thumbnail != new_document->thumbnail ||
+        d->dimensions != new_document->dimensions) {
       d->mime_type = std::move(new_document->mime_type);
-    }
-    if (d->file_name != new_document->file_name) {
-      LOG(DEBUG) << "Document " << file_id << " file_name has changed";
       d->file_name = std::move(new_document->file_name);
-    }
-    if (d->minithumbnail != new_document->minithumbnail) {
       d->minithumbnail = std::move(new_document->minithumbnail);
-    }
-    if (d->thumbnail != new_document->thumbnail) {
-      if (!d->thumbnail.file_id.is_valid()) {
-        LOG(DEBUG) << "Document " << file_id << " thumbnail has changed";
-      } else {
-        LOG(INFO) << "Document " << file_id << " thumbnail has changed from " << d->thumbnail << " to "
-                  << new_document->thumbnail;
-      }
       d->thumbnail = std::move(new_document->thumbnail);
+      d->dimensions = new_document->dimensions;
     }
   }
 
@@ -604,7 +627,7 @@ FileId DocumentsManager::on_get_document(unique_ptr<GeneralDocument> new_documen
 }
 
 void DocumentsManager::create_document(FileId file_id, string minithumbnail, PhotoSize thumbnail, string file_name,
-                                       string mime_type, bool replace) {
+                                       string mime_type, Dimensions dimensions, bool replace) {
   auto d = make_unique<GeneralDocument>();
   d->file_id = file_id;
   d->file_name = std::move(file_name);
@@ -613,6 +636,7 @@ void DocumentsManager::create_document(FileId file_id, string minithumbnail, Pho
     d->minithumbnail = std::move(minithumbnail);
   }
   d->thumbnail = std::move(thumbnail);
+  d->dimensions = dimensions;
   on_get_document(std::move(d), replace);
 }
 
@@ -620,33 +644,9 @@ const DocumentsManager::GeneralDocument *DocumentsManager::get_document(FileId f
   return documents_.get_pointer(file_id);
 }
 
-bool DocumentsManager::has_input_media(FileId file_id, FileId thumbnail_file_id, bool is_secret) const {
-  auto file_view = td_->file_manager_->get_file_view(file_id);
-  if (is_secret) {
-    if (!file_view.is_encrypted_secret() || file_view.encryption_key().empty() ||
-        !file_view.has_full_remote_location()) {
-      return false;
-    }
-
-    return !thumbnail_file_id.is_valid();
-  } else {
-    if (file_view.is_encrypted()) {
-      return false;
-    }
-    if (td_->auth_manager_->is_bot() && file_view.has_full_remote_location()) {
-      return true;
-    }
-    // having remote location is not enough to have InputMedia, because the file may not have valid file_reference
-    // also file_id needs to be duped, because upload can be called to repair the file_reference and every upload
-    // request must have unique file_id
-    return /* file_view.has_full_remote_location() || */ file_view.has_url();
-  }
-}
-
-SecretInputMedia DocumentsManager::get_secret_input_media(FileId document_file_id,
-                                                          tl_object_ptr<telegram_api::InputEncryptedFile> input_file,
-                                                          const string &caption, BufferSlice thumbnail,
-                                                          int32 layer) const {
+SecretInputMedia DocumentsManager::get_secret_input_media(
+    FileId document_file_id, telegram_api::object_ptr<telegram_api::InputEncryptedFile> input_file,
+    const string &caption, BufferSlice thumbnail, int32 layer) const {
   const GeneralDocument *document = get_document(document_file_id);
   CHECK(document != nullptr);
   auto file_view = td_->file_manager_->get_file_view(document_file_id);
@@ -663,9 +663,13 @@ SecretInputMedia DocumentsManager::get_secret_input_media(FileId document_file_i
   if (document->thumbnail.file_id.is_valid() && thumbnail.empty()) {
     return SecretInputMedia{};
   }
-  vector<tl_object_ptr<secret_api::DocumentAttribute>> attributes;
+  vector<secret_api::object_ptr<secret_api::DocumentAttribute>> attributes;
   if (!document->file_name.empty()) {
-    attributes.push_back(make_tl_object<secret_api::documentAttributeFilename>(document->file_name));
+    attributes.push_back(secret_api::make_object<secret_api::documentAttributeFilename>(document->file_name));
+  }
+  if (document->dimensions != Dimensions()) {
+    attributes.push_back(secret_api::make_object<secret_api::documentAttributeImageSize>(document->dimensions.width,
+                                                                                         document->dimensions.height));
   }
   return {std::move(input_file),
           std::move(thumbnail),
@@ -678,42 +682,38 @@ SecretInputMedia DocumentsManager::get_secret_input_media(FileId document_file_i
 }
 
 tl_object_ptr<telegram_api::InputMedia> DocumentsManager::get_input_media(
-    FileId file_id, tl_object_ptr<telegram_api::InputFile> input_file,
-    tl_object_ptr<telegram_api::InputFile> input_thumbnail) const {
+    FileId file_id, telegram_api::object_ptr<telegram_api::InputFile> input_file,
+    telegram_api::object_ptr<telegram_api::InputFile> input_thumbnail) const {
   auto file_view = td_->file_manager_->get_file_view(file_id);
   if (file_view.is_encrypted()) {
     return nullptr;
   }
   const auto *main_remote_location = file_view.get_main_remote_location();
   if (main_remote_location != nullptr && !main_remote_location->is_web() && input_file == nullptr) {
-    return make_tl_object<telegram_api::inputMediaDocument>(0, false /*ignored*/,
-                                                            main_remote_location->as_input_document(), 0, string());
+    return telegram_api::make_object<telegram_api::inputMediaDocument>(
+        0, false, main_remote_location->as_input_document(), nullptr, 0, 0, string());
   }
   const auto *url = file_view.get_url();
   if (url != nullptr) {
-    return make_tl_object<telegram_api::inputMediaDocumentExternal>(0, false /*ignored*/, *url, 0);
+    return telegram_api::make_object<telegram_api::inputMediaDocumentExternal>(0, false, *url, 0, nullptr, 0);
   }
 
   if (input_file != nullptr) {
     const GeneralDocument *document = get_document(file_id);
     CHECK(document != nullptr);
 
-    vector<tl_object_ptr<telegram_api::DocumentAttribute>> attributes;
+    vector<telegram_api::object_ptr<telegram_api::DocumentAttribute>> attributes;
     if (!document->file_name.empty()) {
-      attributes.push_back(make_tl_object<telegram_api::documentAttributeFilename>(document->file_name));
+      attributes.push_back(telegram_api::make_object<telegram_api::documentAttributeFilename>(document->file_name));
     }
     int32 flags = 0;
     if (input_thumbnail != nullptr) {
       flags |= telegram_api::inputMediaUploadedDocument::THUMB_MASK;
     }
-    auto file_type = file_view.get_type();
-    if (file_type == FileType::DocumentAsFile) {
-      flags |= telegram_api::inputMediaUploadedDocument::FORCE_FILE_MASK;
-    }
-    return make_tl_object<telegram_api::inputMediaUploadedDocument>(
-        flags, false /*ignored*/, false /*ignored*/, false /*ignored*/, std::move(input_file),
+    return telegram_api::make_object<telegram_api::inputMediaUploadedDocument>(
+        flags, false, file_view.get_type() == FileType::DocumentAsFile, false, std::move(input_file),
         std::move(input_thumbnail), document->mime_type, std::move(attributes),
-        vector<tl_object_ptr<telegram_api::InputDocument>>(), 0);
+        vector<telegram_api::object_ptr<telegram_api::InputDocument>>(), nullptr, 0, 0);
   } else {
     CHECK(main_remote_location == nullptr);
   }
@@ -733,6 +733,12 @@ void DocumentsManager::delete_document_thumbnail(FileId file_id) {
   document->thumbnail = PhotoSize();
 }
 
+Slice DocumentsManager::get_document_file_name(FileId file_id) const {
+  auto document = get_document(file_id);
+  CHECK(document != nullptr);
+  return document->file_name;
+}
+
 Slice DocumentsManager::get_document_mime_type(FileId file_id) const {
   auto document = get_document(file_id);
   CHECK(document != nullptr);
@@ -743,10 +749,11 @@ FileId DocumentsManager::dup_document(FileId new_id, FileId old_id) {
   const GeneralDocument *old_document = get_document(old_id);
   CHECK(old_document != nullptr);
   auto &new_document = documents_[new_id];
-  CHECK(new_document == nullptr);
+  if (new_document != nullptr) {
+    return new_id;
+  }
   new_document = make_unique<GeneralDocument>(*old_document);
   new_document->file_id = new_id;
-  new_document->thumbnail.file_id = td_->file_manager_->dup_file_id(new_document->thumbnail.file_id, "dup_document");
   return new_id;
 }
 
@@ -761,10 +768,6 @@ void DocumentsManager::merge_documents(FileId new_id, FileId old_id) {
   const auto *new_ = get_document(new_id);
   if (new_ == nullptr) {
     dup_document(new_id, old_id);
-  } else {
-    if (old_->thumbnail != new_->thumbnail) {
-      // LOG_STATUS(td_->file_manager_->merge(new_->thumbnail.file_id, old_->thumbnail.file_id));
-    }
   }
   LOG_STATUS(td_->file_manager_->merge(new_id, old_id));
 }

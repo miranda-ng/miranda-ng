@@ -9,6 +9,7 @@
 #include "td/telegram/ChatReactions.h"
 #include "td/telegram/files/FileId.h"
 #include "td/telegram/MessageEffectId.h"
+#include "td/telegram/PaidReactionType.h"
 #include "td/telegram/ReactionListType.h"
 #include "td/telegram/ReactionType.h"
 #include "td/telegram/ReactionUnavailabilityReason.h"
@@ -85,6 +86,10 @@ class ReactionManager final : public Actor {
   void reload_message_effects();
 
   void get_message_effect(MessageEffectId effect_id, Promise<td_api::object_ptr<td_api::messageEffect>> &&promise);
+
+  void on_update_default_paid_reaction_type(PaidReactionType type);
+
+  PaidReactionType get_default_paid_reaction_type() const;
 
   void get_current_state(vector<td_api::object_ptr<td_api::Update>> &updates) const;
 
@@ -167,7 +172,6 @@ class ReactionManager final : public Actor {
   };
 
   friend bool operator==(const SavedReactionTag &lhs, const SavedReactionTag &rhs);
-
   friend bool operator!=(const SavedReactionTag &lhs, const SavedReactionTag &rhs);
 
   friend bool operator<(const SavedReactionTag &lhs, const SavedReactionTag &rhs);
@@ -270,8 +274,8 @@ class ReactionManager final : public Actor {
 
   SavedReactionTags *get_saved_reaction_tags(SavedMessagesTopicId saved_messages_topic_id);
 
-  void reget_saved_messages_tags(SavedMessagesTopicId saved_messages_topic_id,
-                                 Promise<td_api::object_ptr<td_api::savedMessagesTags>> &&promise);
+  void reload_saved_messages_tags(SavedMessagesTopicId saved_messages_topic_id,
+                                  Promise<td_api::object_ptr<td_api::savedMessagesTags>> &&promise);
 
   void on_get_saved_messages_tags(SavedMessagesTopicId saved_messages_topic_id,
                                   Result<telegram_api::object_ptr<telegram_api::messages_SavedReactionTags>> &&r_tags);
@@ -306,6 +310,12 @@ class ReactionManager final : public Actor {
 
   void update_active_message_effects();
 
+  void send_update_default_paid_reaction_type() const;
+
+  void load_default_paid_reaction_type();
+
+  void save_default_paid_reaction_type() const;
+
   Td *td_;
   ActorShared<> parent_;
 
@@ -334,6 +344,8 @@ class ReactionManager final : public Actor {
 
   vector<std::pair<MessageEffectId, Promise<td_api::object_ptr<td_api::messageEffect>>>>
       pending_get_message_effect_queries_;
+
+  PaidReactionType default_paid_reaction_type_;
 };
 
 }  // namespace td

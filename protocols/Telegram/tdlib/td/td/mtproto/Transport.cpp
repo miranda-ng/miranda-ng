@@ -261,7 +261,7 @@ Status Transport::read_crypto_impl(int X, MutableSlice message, const AuthKey &a
     std::tie(packet_info->message_ack, real_message_key) = calc_message_key2(auth_key, X, to_decrypt);
   }
 
-  int is_key_bad = false;
+  int is_key_bad = 0;
   for (size_t i = 0; i < sizeof(real_message_key.raw); i++) {
     is_key_bad |= real_message_key.raw[i] ^ header->message_key.raw[i];
   }
@@ -349,7 +349,7 @@ void Transport::write_crypto_impl(int X, const Storer &storer, const AuthKey &au
                     << format::as_hex_dump<4>(Slice(header->data, data_size));
   size_t pad_size = padded_size - (sizeof(HeaderT) + data_size);
   MutableSlice pad(header->data + data_size, pad_size);
-  Random::secure_bytes(pad.ubegin(), pad.size());
+  Random::secure_bytes(pad);
   MutableSlice to_encrypt = MutableSlice(header->encrypt_begin(), pad.uend());
 
   UInt256 aes_key;

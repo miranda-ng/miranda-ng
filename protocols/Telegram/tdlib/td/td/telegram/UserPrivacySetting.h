@@ -28,6 +28,8 @@ class UserPrivacySetting {
     VoiceMessages,
     UserBio,
     UserBirthdate,
+    StarGiftAutosave,
+    NoPaidMessages,
     Size
   };
 

@@ -22,7 +22,6 @@
 #include "td/telegram/net/NetQueryDispatcher.h"
 #include "td/telegram/NotificationManager.h"
 #include "td/telegram/OnlineManager.h"
-#include "td/telegram/PeopleNearbyManager.h"
 #include "td/telegram/ReactionType.h"
 #include "td/telegram/StateManager.h"
 #include "td/telegram/StickersManager.h"
@@ -45,7 +44,6 @@
 #include "td/utils/misc.h"
 #include "td/utils/port/Clocks.h"
 #include "td/utils/SliceBuilder.h"
-#include "td/utils/Status.h"
 
 #include <cmath>
 #include <functional>
@@ -87,6 +85,10 @@ OptionManager::OptionManager(Td *td)
   bool is_test_dc = G()->is_test_dc();
   auto set_default_integer_option = [&](string name, int64 value) {
     if (options.isset(name)) {
+      if (false && options.get(name) != (PSTRING() << 'I' << value)) {
+        LOG(ERROR) << "Option " << name << " has default value " << value << " instead of "
+                   << options.get(name).substr(1);
+      }
       return;
     }
     auto str_value = PSTRING() << 'I' << value;
@@ -102,6 +104,8 @@ OptionManager::OptionManager(Td *td)
   set_default_integer_option("telegram_service_notifications_chat_id",
                              DialogId(UserManager::get_service_notifications_user_id()).get());
   set_default_integer_option("replies_bot_chat_id", DialogId(UserManager::get_replies_bot_user_id()).get());
+  set_default_integer_option("verification_codes_bot_chat_id",
+                             DialogId(UserManager::get_verification_codes_bot_user_id()).get());
   set_default_integer_option("group_anonymous_bot_user_id", UserManager::get_anonymous_bot_user_id().get());
   set_default_integer_option("channel_bot_user_id", UserManager::get_channel_bot_user_id().get());
   set_default_integer_option("anti_spam_bot_user_id", UserManager::get_anti_spam_bot_user_id().get());
@@ -117,15 +121,15 @@ OptionManager::OptionManager(Td *td)
   set_default_integer_option("notification_sound_count_max", is_test_dc ? 5 : 100);
   set_default_integer_option("chat_folder_count_max", is_test_dc ? 3 : 10);
   set_default_integer_option("chat_folder_chosen_chat_count_max", is_test_dc ? 5 : 100);
-  set_default_integer_option("aggressive_anti_spam_supergroup_member_count_min", is_test_dc ? 1 : 100);
+  set_default_integer_option("aggressive_anti_spam_supergroup_member_count_min", is_test_dc ? 1 : 200);
   set_default_integer_option("pinned_forum_topic_count_max", is_test_dc ? 3 : 5);
   set_default_integer_option("story_stealth_mode_past_period", 300);
   set_default_integer_option("story_stealth_mode_future_period", 1500);
-  set_default_integer_option("story_stealth_mode_cooldown_period", 3600);
+  set_default_integer_option("story_stealth_mode_cooldown_period", 3 * 3600);
   set_default_integer_option("giveaway_additional_chat_count_max", is_test_dc ? 3 : 10);
   set_default_integer_option("giveaway_country_count_max", is_test_dc ? 3 : 10);
   set_default_integer_option("giveaway_boost_count_per_premium", 4);
-  set_default_integer_option("giveaway_duration_max", 7 * 86400);
+  set_default_integer_option("giveaway_duration_max", 31 * 86400);
   set_default_integer_option("premium_gift_boost_count", 3);
   set_default_integer_option("chat_boost_level_max", is_test_dc ? 10 : 100);
   set_default_integer_option("chat_available_reaction_count_max", 100);
@@ -148,7 +152,7 @@ OptionManager::OptionManager(Td *td)
   set_default_integer_option("business_start_page_message_length_max", 70);
   set_default_integer_option("premium_download_speedup", 10);
   set_default_integer_option("premium_upload_speedup", 10);
-  set_default_integer_option("upload_premium_speedup_notify_period", 3600);
+  set_default_integer_option("upload_premium_speedup_notify_period", is_test_dc ? 30 : 3600);
   set_default_integer_option("business_chat_link_count_max", is_test_dc ? 5 : 100);
   set_default_integer_option("pinned_story_count_max", 3);
   set_default_integer_option("fact_check_length_max", 1024);
@@ -156,10 +160,28 @@ OptionManager::OptionManager(Td *td)
   set_default_integer_option("story_link_area_count_max", 3);
   set_default_integer_option("paid_media_message_star_count_max", 10000);
   set_default_integer_option("bot_media_preview_count_max", 12);
-  set_default_integer_option("paid_reaction_star_count_max", 2500);
-  set_default_integer_option("subscription_star_count_max", 2500);
+  set_default_integer_option("paid_reaction_star_count_max", 10000);
+  set_default_integer_option("subscription_star_count_max", 10000);
   set_default_integer_option("usd_to_thousand_star_rate", 1410);
   set_default_integer_option("thousand_star_to_usd_rate", 1300);
+  set_default_integer_option("gift_text_length_max", 128);
+  set_default_integer_option("gift_sell_period", is_test_dc ? 300 : 90 * 86400);
+  set_default_integer_option("affiliate_program_commission_per_mille_min", 1);
+  set_default_integer_option("affiliate_program_commission_per_mille_max", 800);
+  set_default_integer_option("bot_verification_custom_description_length_max", 70);
+  set_default_integer_option("paid_message_star_count_max", 10000);
+  set_default_integer_option("paid_message_earnings_per_mille", 850);
+  set_default_integer_option("pinned_gift_count_max", 6);
+  set_default_integer_option("group_call_participant_count_max", is_test_dc ? 5 : 200);
+  set_default_integer_option("channel_autotranslation_level_min", is_test_dc ? 1 : 3);
+  set_default_integer_option("gift_resale_star_count_min", 125);
+  set_default_integer_option("gift_resale_star_count_max", 100000);
+  set_default_integer_option("gift_resale_earnings_per_mille", 800);
+  set_default_integer_option("poll_answer_count_max", 12);
+  set_default_integer_option("direct_channel_message_star_count_default", 10);
+  set_default_integer_option("checklist_task_text_length_max", 100);
+  set_default_integer_option("checklist_title_length_max", 255);
+  set_default_integer_option("checklist_task_count_max", is_test_dc ? 10 : 30);
 
   if (options.isset("my_phone_number") || !options.isset("my_id")) {
     update_premium_options();
@@ -176,6 +198,10 @@ OptionManager::OptionManager(Td *td)
   set_option_empty("themed_premium_statuses_sticker_set_id");
   set_option_empty("usd_to_1000_star_rate");
   set_option_empty("1000_star_to_usd_rate");
+  set_option_empty("is_location_visible");
+  set_option_empty("to_do_list_task_text_length_max");
+  set_option_empty("to_do_list_title_length_max");
+  set_option_empty("to_do_list_task_count_max");
 }
 
 OptionManager::~OptionManager() = default;
@@ -369,6 +395,7 @@ bool OptionManager::is_internal_option(Slice name) {
                                                               "can_edit_fact_check",
                                                               "caption_length_limit_default",
                                                               "caption_length_limit_premium",
+                                                              "channel_autotranslation_level_min",
                                                               "channel_bg_icon_level_min",
                                                               "channel_custom_wallpaper_level_min",
                                                               "channel_emoji_status_level_min",
@@ -444,6 +471,7 @@ bool OptionManager::is_internal_option(Slice name) {
                                                               "saved_gifs_limit_premium",
                                                               "session_count",
                                                               "since_last_open",
+                                                              "starref_start_param_prefixes",
                                                               "stickers_faved_limit_default",
                                                               "stickers_faved_limit_premium",
                                                               "stickers_normal_by_emoji_per_premium_num",
@@ -461,6 +489,7 @@ bool OptionManager::is_internal_option(Slice name) {
                                                               "story_expiring_limit_premium",
                                                               "ton_proxy_address",
                                                               "upload_premium_speedup_notify_period",
+                                                              "video_ignore_alt_documents",
                                                               "video_note_size_max",
                                                               "weather_bot_username",
                                                               "webfile_dc_id"};
@@ -475,7 +504,8 @@ td_api::object_ptr<td_api::Update> OptionManager::get_internal_option_update(Sli
     auto days = narrow_cast<int32>(get_option_integer(name));
     if (days > 0) {
       vector<SuggestedAction> added_actions{SuggestedAction{SuggestedAction::Type::SetPassword, DialogId(), days}};
-      return get_update_suggested_actions_object(added_actions, {}, "get_internal_option_update");
+      return get_update_suggested_actions_object(td_->user_manager_.get(), added_actions, {},
+                                                 "get_internal_option_update");
     }
   }
   return nullptr;
@@ -682,15 +712,6 @@ void OptionManager::get_option(const string &name, Promise<td_api::object_ptr<td
       if (!is_bot && name == "ignore_sensitive_content_restrictions") {
         return send_closure_later(td_->config_manager_, &ConfigManager::get_content_settings, wrap_promise());
       }
-      if (!is_bot && name == "is_location_visible") {
-        if (is_td_inited_) {
-          send_closure_later(td_->people_nearby_manager_actor_, &PeopleNearbyManager::get_is_location_visible,
-                             wrap_promise());
-        } else {
-          pending_get_options_.emplace_back(name, std::move(promise));
-        }
-        return;
-      }
       break;
     case 'o':
       if (name == "online") {
@@ -716,7 +737,7 @@ td_api::object_ptr<td_api::OptionValue> OptionManager::get_option_synchronously(
       break;
     case 'v':
       if (name == "version") {
-        return td_api::make_object<td_api::optionValueString>("1.8.36");
+        return td_api::make_object<td_api::optionValueString>("1.8.51");
       }
       break;
   }
@@ -736,15 +757,14 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
       set_option_empty(option_name);
     } else {
       if (value_constructor_id != td_api::optionValueInteger::ID) {
-        promise.set_error(Status::Error(400, PSLICE() << "Option \"" << name << "\" must have integer value"));
+        promise.set_error(400, PSLICE() << "Option \"" << name << "\" must have integer value");
         return false;
       }
 
       int64 int_value = static_cast<td_api::optionValueInteger *>(value.get())->value_;
       if (int_value < min_value || int_value > max_value) {
-        promise.set_error(Status::Error(400, PSLICE() << "Option's \"" << name << "\" value " << int_value
-                                                      << " is outside of the valid range [" << min_value << ", "
-                                                      << max_value << "]"));
+        promise.set_error(400, PSLICE() << "Option's \"" << name << "\" value " << int_value
+                                        << " is outside of the valid range [" << min_value << ", " << max_value << "]");
         return false;
       }
       set_option_integer(name, int_value);
@@ -761,7 +781,7 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
       set_option_empty(name);
     } else {
       if (value_constructor_id != td_api::optionValueBoolean::ID) {
-        promise.set_error(Status::Error(400, PSLICE() << "Option \"" << name << "\" must have boolean value"));
+        promise.set_error(400, PSLICE() << "Option \"" << name << "\" must have boolean value");
         return false;
       }
 
@@ -780,7 +800,7 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
       set_option_empty(name);
     } else {
       if (value_constructor_id != td_api::optionValueString::ID) {
-        promise.set_error(Status::Error(400, PSLICE() << "Option \"" << name << "\" must have string value"));
+        promise.set_error(400, PSLICE() << "Option \"" << name << "\" must have string value");
         return false;
       }
 
@@ -791,7 +811,7 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
         if (check_value(str_value)) {
           set_option_string(name, str_value);
         } else {
-          promise.set_error(Status::Error(400, PSLICE() << "Option \"" << name << "\" can't have specified value"));
+          promise.set_error(400, PSLICE() << "Option \"" << name << "\" can't have specified value");
           return false;
         }
       }
@@ -874,24 +894,19 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
       }
       if (!is_bot && name == "ignore_sensitive_content_restrictions") {
         if (!get_option_boolean("can_ignore_sensitive_content_restrictions")) {
-          return promise.set_error(
-              Status::Error(400, "Option \"ignore_sensitive_content_restrictions\" can't be changed by the user"));
+          return promise.set_error(400,
+                                   "Option \"ignore_sensitive_content_restrictions\" can't be changed by the user");
         }
 
         if (value_constructor_id != td_api::optionValueBoolean::ID &&
             value_constructor_id != td_api::optionValueEmpty::ID) {
-          return promise.set_error(
-              Status::Error(400, "Option \"ignore_sensitive_content_restrictions\" must have boolean value"));
+          return promise.set_error(400, "Option \"ignore_sensitive_content_restrictions\" must have boolean value");
         }
 
         auto ignore_sensitive_content_restrictions = value_constructor_id == td_api::optionValueBoolean::ID &&
                                                      static_cast<td_api::optionValueBoolean *>(value.get())->value_;
         send_closure_later(td_->config_manager_, &ConfigManager::set_content_settings,
                            ignore_sensitive_content_restrictions, std::move(promise));
-        return;
-      }
-      if (!is_bot && set_boolean_option("is_location_visible")) {
-        PeopleNearbyManager::set_location_visibility(td_);
         return;
       }
       break;
@@ -927,7 +942,7 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
       if (name == "online") {
         if (value_constructor_id != td_api::optionValueBoolean::ID &&
             value_constructor_id != td_api::optionValueEmpty::ID) {
-          return promise.set_error(Status::Error(400, "Option \"online\" must have boolean value"));
+          return promise.set_error(400, "Option \"online\" must have boolean value");
         }
         bool is_online = value_constructor_id == td_api::optionValueEmpty::ID ||
                          static_cast<const td_api::optionValueBoolean *>(value.get())->value_;
@@ -992,7 +1007,7 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
     case 'X':
     case 'x': {
       if (name.size() > 255) {
-        return promise.set_error(Status::Error(400, "Option name is too long"));
+        return promise.set_error(400, "Option name is too long");
       }
       switch (value_constructor_id) {
         case td_api::optionValueBoolean::ID:
@@ -1015,7 +1030,7 @@ void OptionManager::set_option(const string &name, td_api::object_ptr<td_api::Op
   }
 
   if (promise) {
-    promise.set_error(Status::Error(400, "Option can't be set"));
+    promise.set_error(400, "Option can't be set");
   }
 }
 

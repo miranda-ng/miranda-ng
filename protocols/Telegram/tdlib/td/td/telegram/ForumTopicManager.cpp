@@ -95,12 +95,12 @@ class CreateForumTopicQuery final : public Td::ResultHandler {
     auto message = UpdatesManager::get_message_by_random_id(ptr.get(), DialogId(channel_id_), random_id_);
     if (message == nullptr || message->get_id() != telegram_api::messageService::ID) {
       LOG(ERROR) << "Receive invalid result for CreateForumTopicQuery: " << to_string(ptr);
-      return promise_.set_error(Status::Error(400, "Invalid result received"));
+      return promise_.set_error(400, "Invalid result received");
     }
     auto service_message = static_cast<const telegram_api::messageService *>(message);
     if (service_message->action_->get_id() != telegram_api::messageActionTopicCreate::ID) {
       LOG(ERROR) << "Receive invalid result for CreateForumTopicQuery: " << to_string(ptr);
-      return promise_.set_error(Status::Error(400, "Invalid result received"));
+      return promise_.set_error(400, "Invalid result received");
     }
 
     auto action = static_cast<const telegram_api::messageActionTopicCreate *>(service_message->action_.get());
@@ -258,9 +258,8 @@ class ReorderPinnedForumTopicsQuery final : public Td::ResultHandler {
     auto input_channel = td_->chat_manager_->get_input_channel(channel_id);
     CHECK(input_channel != nullptr);
 
-    int32 flags = telegram_api::channels_reorderPinnedForumTopics::FORCE_MASK;
     send_query(G()->net_query_creator().create(
-        telegram_api::channels_reorderPinnedForumTopics(flags, true /*ignored*/, std::move(input_channel),
+        telegram_api::channels_reorderPinnedForumTopics(0, true, std::move(input_channel),
                                                         MessageId::get_server_message_ids(top_thread_message_ids)),
         {{channel_id}}));
   }
@@ -503,12 +502,12 @@ void ForumTopicManager::create_forum_topic(DialogId dialog_id, string &&title,
   auto channel_id = dialog_id.get_channel_id();
 
   if (!td_->chat_manager_->get_channel_permissions(channel_id).can_create_topics()) {
-    return promise.set_error(Status::Error(400, "Not enough rights to create a topic"));
+    return promise.set_error(400, "Not enough rights to create a topic");
   }
 
   auto new_title = clean_name(std::move(title), MAX_FORUM_TOPIC_TITLE_LENGTH);
   if (new_title.empty()) {
-    return promise.set_error(Status::Error(400, "Title must be non-empty"));
+    return promise.set_error(400, "Title must be non-empty");
   }
 
   int32 icon_color = -1;
@@ -516,7 +515,7 @@ void ForumTopicManager::create_forum_topic(DialogId dialog_id, string &&title,
   if (icon != nullptr) {
     icon_color = icon->color_;
     if (icon_color < 0 || icon_color > 0xFFFFFF) {
-      return promise.set_error(Status::Error(400, "Invalid icon color specified"));
+      return promise.set_error(400, "Invalid icon color specified");
     }
     icon_custom_emoji_id = CustomEmojiId(icon->custom_emoji_id_);
   }
@@ -535,13 +534,13 @@ void ForumTopicManager::on_forum_topic_created(DialogId dialog_id, unique_ptr<Fo
   MessageId top_thread_message_id = forum_topic_info->get_top_thread_message_id();
   auto topic = add_topic(dialog_id, top_thread_message_id);
   if (topic == nullptr) {
-    return promise.set_value(forum_topic_info->get_forum_topic_info_object(td_));
+    return promise.set_value(forum_topic_info->get_forum_topic_info_object(td_, dialog_id));
   }
   if (topic->info_ == nullptr) {
     set_topic_info(dialog_id, topic, std::move(forum_topic_info));
   }
   save_topic_to_database(dialog_id, topic);
-  promise.set_value(topic->info_->get_forum_topic_info_object(td_));
+  promise.set_value(topic->info_->get_forum_topic_info_object(td_, dialog_id));
 }
 
 void ForumTopicManager::edit_forum_topic(DialogId dialog_id, MessageId top_thread_message_id, string &&title,
@@ -554,14 +553,14 @@ void ForumTopicManager::edit_forum_topic(DialogId dialog_id, MessageId top_threa
   if (!td_->chat_manager_->get_channel_permissions(channel_id).can_edit_topics()) {
     auto topic_info = get_topic_info(dialog_id, top_thread_message_id);
     if (topic_info != nullptr && !topic_info->is_outgoing()) {
-      return promise.set_error(Status::Error(400, "Not enough rights to edit the topic"));
+      return promise.set_error(400, "Not enough rights to edit the topic");
     }
   }
 
   bool edit_title = !title.empty();
   auto new_title = clean_name(std::move(title), MAX_FORUM_TOPIC_TITLE_LENGTH);
   if (edit_title && new_title.empty()) {
-    return promise.set_error(Status::Error(400, "Title must be non-empty"));
+    return promise.set_error(400, "Title must be non-empty");
   }
   if (!edit_title && !edit_icon_custom_emoji) {
     return promise.set_value(Unit());
@@ -579,12 +578,16 @@ void ForumTopicManager::read_forum_topic_messages(DialogId dialog_id, MessageId 
     return;
   }
 
+  bool need_update = false;
   if (topic->topic_->update_last_read_inbox_message_id(last_read_inbox_message_id, -1)) {
-    // TODO send updates
+    need_update = true;
     auto max_message_id = last_read_inbox_message_id.get_prev_server_message_id();
     LOG(INFO) << "Send read topic history request in topic of " << top_thread_message_id << " in " << dialog_id
               << " up to " << max_message_id;
     td_->create_handler<ReadForumTopicQuery>()->send(dialog_id, top_thread_message_id, max_message_id);
+  }
+  if (need_update) {
+    on_forum_topic_changed(dialog_id, topic);
   }
 }
 
@@ -600,11 +603,15 @@ void ForumTopicManager::on_update_forum_topic_unread(DialogId dialog_id, Message
     return;
   }
 
+  bool need_update = false;
   if (topic->topic_->update_last_read_outbox_message_id(last_read_outbox_message_id)) {
-    // TODO send updates
+    need_update = true;
   }
   if (topic->topic_->update_last_read_inbox_message_id(last_read_inbox_message_id, unread_count)) {
-    // TODO send updates
+    need_update = true;
+  }
+  if (need_update) {
+    on_forum_topic_changed(dialog_id, topic);
   }
 }
 
@@ -670,8 +677,7 @@ void ForumTopicManager::on_update_forum_topic_is_pinned(DialogId dialog_id, Mess
     return;
   }
   if (topic->topic_->set_is_pinned(is_pinned)) {
-    topic->need_save_to_database_ = true;
-    save_topic_to_database(dialog_id, topic);
+    on_forum_topic_changed(dialog_id, topic);
   }
 }
 
@@ -698,8 +704,7 @@ void ForumTopicManager::on_update_pinned_forum_topics(DialogId dialog_id, vector
       return;
     }
     if (topic->topic_->set_is_pinned(contains(top_thread_message_ids, top_thread_message_id))) {
-      topic->need_save_to_database_ = true;
-      save_topic_to_database(dialog_id, topic.get());
+      on_forum_topic_changed(dialog_id, topic.get());
     }
   });
 }
@@ -735,13 +740,11 @@ bool ForumTopicManager::update_forum_topic_notification_settings(DialogId dialog
 
   auto need_update = need_update_dialog_notification_settings(current_settings, new_settings);
   if (need_update.are_changed) {
-    // TODO update unmute timeouts, td_api updates, remove notifications
+    // TODO update unmute timeouts, remove notifications
     *current_settings = std::move(new_settings);
 
     auto topic = get_topic(dialog_id, top_thread_message_id);
-    CHECK(topic != nullptr);
-    topic->need_save_to_database_ = true;
-    save_topic_to_database(dialog_id, topic);
+    on_forum_topic_changed(dialog_id, topic);
   }
   return need_update.need_update_server;
 }
@@ -761,14 +764,15 @@ void ForumTopicManager::on_get_forum_topic(ChannelId channel_id, MessageId expec
                                            Promise<td_api::object_ptr<td_api::forumTopic>> &&promise) {
   DialogId dialog_id(channel_id);
   TRY_STATUS_PROMISE(promise, is_forum(dialog_id));
-  td_->messages_manager_->on_get_messages(std::move(info.messages), true, false, Promise<Unit>(), "on_get_forum_topic");
+  td_->messages_manager_->on_get_messages(dialog_id, std::move(info.messages), true, false, Promise<Unit>(),
+                                          "on_get_forum_topic");
 
   auto top_thread_message_id = on_get_forum_topic_impl(dialog_id, std::move(topic));
   if (!top_thread_message_id.is_valid()) {
     return promise.set_value(nullptr);
   }
   if (top_thread_message_id != expected_top_thread_message_id) {
-    return promise.set_error(Status::Error(500, "Wrong forum topic received"));
+    return promise.set_error(500, "Wrong forum topic received");
   }
   promise.set_value(get_forum_topic_object(dialog_id, top_thread_message_id));
 }
@@ -802,16 +806,16 @@ void ForumTopicManager::get_forum_topics(DialogId dialog_id, string query, int32
   auto channel_id = dialog_id.get_channel_id();
 
   if (offset_date < 0) {
-    return promise.set_error(Status::Error(400, "Invalid offset date specified"));
+    return promise.set_error(400, "Invalid offset date specified");
   }
-  if (offset_message_id != MessageId() && !offset_message_id.is_valid() && !offset_message_id.is_server()) {
-    return promise.set_error(Status::Error(400, "Invalid offset message identifier specified"));
+  if (offset_message_id != MessageId() && !offset_message_id.is_server()) {
+    return promise.set_error(400, "Invalid offset message identifier specified");
   }
   if (offset_top_thread_message_id != MessageId()) {
     TRY_STATUS_PROMISE(promise, can_be_message_thread_id(offset_top_thread_message_id));
   }
   if (limit <= 0) {
-    return promise.set_error(Status::Error(400, "Invalid limit specified"));
+    return promise.set_error(400, "Invalid limit specified");
   }
   td_->create_handler<GetForumTopicsQuery>(std::move(promise))
       ->send(channel_id, query, offset_date, offset_message_id, offset_top_thread_message_id, limit);
@@ -822,7 +826,7 @@ void ForumTopicManager::on_get_forum_topics(ChannelId channel_id, bool order_by_
                                             Promise<td_api::object_ptr<td_api::forumTopics>> &&promise) {
   DialogId dialog_id(channel_id);
   TRY_STATUS_PROMISE(promise, is_forum(dialog_id));
-  td_->messages_manager_->on_get_messages(std::move(info.messages), true, false, Promise<Unit>(),
+  td_->messages_manager_->on_get_messages(dialog_id, std::move(info.messages), true, false, Promise<Unit>(),
                                           "on_get_forum_topics");
   vector<td_api::object_ptr<td_api::forumTopic>> forum_topics;
   int32 next_offset_date = 0;
@@ -860,7 +864,7 @@ void ForumTopicManager::toggle_forum_topic_is_closed(DialogId dialog_id, Message
   if (!td_->chat_manager_->get_channel_permissions(channel_id).can_edit_topics()) {
     auto topic_info = get_topic_info(dialog_id, top_thread_message_id);
     if (topic_info != nullptr && !topic_info->is_outgoing()) {
-      return promise.set_error(Status::Error(400, "Not enough rights to close or open the topic"));
+      return promise.set_error(400, "Not enough rights to close or open the topic");
     }
   }
 
@@ -872,7 +876,7 @@ void ForumTopicManager::toggle_forum_topic_is_hidden(DialogId dialog_id, bool is
   auto channel_id = dialog_id.get_channel_id();
 
   if (!td_->chat_manager_->get_channel_permissions(channel_id).can_edit_topics()) {
-    return promise.set_error(Status::Error(400, "Not enough rights to close or open the topic"));
+    return promise.set_error(400, "Not enough rights to close or open the topic");
   }
 
   td_->create_handler<EditForumTopicQuery>(std::move(promise))->send(channel_id, is_hidden);
@@ -885,7 +889,7 @@ void ForumTopicManager::toggle_forum_topic_is_pinned(DialogId dialog_id, Message
   auto channel_id = dialog_id.get_channel_id();
 
   if (!td_->chat_manager_->get_channel_permissions(channel_id).can_pin_topics()) {
-    return promise.set_error(Status::Error(400, "Not enough rights to pin or unpin the topic"));
+    return promise.set_error(400, "Not enough rights to pin or unpin the topic");
   }
 
   td_->create_handler<UpdatePinnedForumTopicQuery>(std::move(promise))
@@ -901,7 +905,7 @@ void ForumTopicManager::set_pinned_forum_topics(DialogId dialog_id, vector<Messa
   auto channel_id = dialog_id.get_channel_id();
 
   if (!td_->chat_manager_->get_channel_permissions(channel_id).can_pin_topics()) {
-    return promise.set_error(Status::Error(400, "Not enough rights to reorder forum topics"));
+    return promise.set_error(400, "Not enough rights to reorder forum topics");
   }
 
   td_->create_handler<ReorderPinnedForumTopicsQuery>(std::move(promise))->send(channel_id, top_thread_message_ids);
@@ -916,7 +920,7 @@ void ForumTopicManager::delete_forum_topic(DialogId dialog_id, MessageId top_thr
   if (!td_->chat_manager_->get_channel_permissions(channel_id).can_delete_messages()) {
     auto topic_info = get_topic_info(dialog_id, top_thread_message_id);
     if (topic_info != nullptr && !topic_info->is_outgoing()) {
-      return promise.set_error(Status::Error(400, "Not enough rights to delete the topic"));
+      return promise.set_error(400, "Not enough rights to delete the topic");
     }
   }
 
@@ -1039,7 +1043,7 @@ MessageId ForumTopicManager::on_get_forum_topic_impl(DialogId dialog_id,
           topic->topic_ == nullptr ? nullptr : topic->topic_->get_notification_settings();
       auto forum_topic_full = td::make_unique<ForumTopic>(td_, std::move(forum_topic), current_notification_settings);
       if (forum_topic_full->is_short()) {
-        LOG(ERROR) << "Receive short " << to_string(forum_topic);
+        LOG(ERROR) << "Receive short forum topic";
         return MessageId();
       }
       if (topic->topic_ == nullptr || true) {
@@ -1047,6 +1051,7 @@ MessageId ForumTopicManager::on_get_forum_topic_impl(DialogId dialog_id,
         topic->need_save_to_database_ = true;  // temporary
       }
       set_topic_info(dialog_id, topic, std::move(forum_topic_info));
+      send_update_forum_topic(dialog_id, topic);
       save_topic_to_database(dialog_id, topic);
       return top_thread_message_id;
     }
@@ -1083,7 +1088,7 @@ bool ForumTopicManager::can_be_forum(DialogId dialog_id) const {
 }
 
 Status ForumTopicManager::can_be_message_thread_id(MessageId top_thread_message_id) {
-  if (!top_thread_message_id.is_valid() || !top_thread_message_id.is_server()) {
+  if (!top_thread_message_id.is_server()) {
     return Status::Error(400, "Invalid message thread identifier specified");
   }
   return Status::OK();
@@ -1165,18 +1170,36 @@ void ForumTopicManager::set_topic_info(DialogId dialog_id, Topic *topic, unique_
   }
 }
 
-td_api::object_ptr<td_api::updateForumTopicInfo> ForumTopicManager::get_update_forum_topic_info(
+td_api::object_ptr<td_api::updateForumTopicInfo> ForumTopicManager::get_update_forum_topic_info_object(
     DialogId dialog_id, const ForumTopicInfo *topic_info) const {
-  return td_api::make_object<td_api::updateForumTopicInfo>(
-      td_->dialog_manager_->get_chat_id_object(dialog_id, "updateForumTopicInfo"),
-      topic_info->get_forum_topic_info_object(td_));
+  return td_api::make_object<td_api::updateForumTopicInfo>(topic_info->get_forum_topic_info_object(td_, dialog_id));
 }
 
 void ForumTopicManager::send_update_forum_topic_info(DialogId dialog_id, const ForumTopicInfo *topic_info) const {
   if (td_->auth_manager_->is_bot()) {
     return;
   }
-  send_closure(G()->td(), &Td::send_update, get_update_forum_topic_info(dialog_id, topic_info));
+  send_closure(G()->td(), &Td::send_update, get_update_forum_topic_info_object(dialog_id, topic_info));
+}
+
+td_api::object_ptr<td_api::updateForumTopic> ForumTopicManager::get_update_forum_topic_object(
+    DialogId dialog_id, const Topic *topic) const {
+  CHECK(topic != nullptr);
+  return topic->topic_->get_update_forum_topic_object(td_, dialog_id, topic->info_->get_top_thread_message_id());
+}
+
+void ForumTopicManager::send_update_forum_topic(DialogId dialog_id, const Topic *topic) const {
+  if (td_->auth_manager_->is_bot()) {
+    return;
+  }
+  send_closure(G()->td(), &Td::send_update, get_update_forum_topic_object(dialog_id, topic));
+}
+
+void ForumTopicManager::on_forum_topic_changed(DialogId dialog_id, Topic *topic) {
+  CHECK(topic != nullptr);
+  send_update_forum_topic(dialog_id, topic);
+  topic->need_save_to_database_ = true;
+  save_topic_to_database(dialog_id, topic);
 }
 
 void ForumTopicManager::save_topic_to_database(DialogId dialog_id, const Topic *topic) {
@@ -1227,6 +1250,50 @@ void ForumTopicManager::on_topic_message_count_changed(DialogId dialog_id, Messa
     // TODO keep topics in the topic list
     dialog_topics->topics_.erase(top_thread_message_id);
   }
+}
+
+void ForumTopicManager::on_topic_mention_count_changed(DialogId dialog_id, MessageId top_thread_message_id, int32 count,
+                                                       bool is_relative) {
+  LOG(INFO) << "Change " << (is_relative ? "by" : "to") << ' ' << count << " number of mentions in thread of "
+            << top_thread_message_id << " in " << dialog_id;
+  auto dialog_topics = get_dialog_topics(dialog_id);
+  if (dialog_topics == nullptr) {
+    return;
+  }
+  auto topic = get_topic(dialog_topics, top_thread_message_id);
+  if (topic == nullptr || topic->topic_ == nullptr) {
+    return;
+  }
+  if (topic->topic_->update_unread_mention_count(count, is_relative)) {
+    on_forum_topic_changed(dialog_id, topic);
+  }
+}
+
+void ForumTopicManager::on_topic_reaction_count_changed(DialogId dialog_id, MessageId top_thread_message_id,
+                                                        int32 count, bool is_relative) {
+  LOG(INFO) << "Change " << (is_relative ? "by" : "to") << ' ' << count << " number of reactions in thread of "
+            << top_thread_message_id << " in " << dialog_id;
+  auto dialog_topics = get_dialog_topics(dialog_id);
+  if (dialog_topics == nullptr) {
+    return;
+  }
+  auto topic = get_topic(dialog_topics, top_thread_message_id);
+  if (topic == nullptr || topic->topic_ == nullptr) {
+    return;
+  }
+  if (topic->topic_->update_unread_reaction_count(count, is_relative)) {
+    on_forum_topic_changed(dialog_id, topic);
+  }
+}
+
+void ForumTopicManager::repair_topic_unread_mention_count(DialogId dialog_id, MessageId top_thread_message_id) {
+  if (!td_->dialog_manager_->is_forum_channel(dialog_id) ||
+      can_be_message_thread_id(top_thread_message_id).is_error()) {
+    return;
+  }
+
+  td_->create_handler<GetForumTopicQuery>(Promise<td_api::object_ptr<td_api::forumTopic>>())
+      ->send(dialog_id.get_channel_id(), top_thread_message_id);
 }
 
 }  // namespace td

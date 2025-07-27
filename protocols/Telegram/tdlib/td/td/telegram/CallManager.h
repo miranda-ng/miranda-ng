@@ -23,23 +23,24 @@
 
 namespace td {
 
+class Td;
+
 class CallManager final : public Actor {
  public:
-  explicit CallManager(ActorShared<> parent);
+  CallManager(Td *td, ActorShared<> parent);
 
   void update_call(telegram_api::object_ptr<telegram_api::updatePhoneCall> call);
 
   void update_call_signaling_data(int64 call_id, string data);
 
-  void create_call(UserId user_id, tl_object_ptr<telegram_api::InputUser> &&input_user, CallProtocol &&protocol,
-                   bool is_video, Promise<CallId> promise);
+  void create_call(UserId user_id, CallProtocol &&protocol, bool is_video, Promise<CallId> promise);
 
   void accept_call(CallId call_id, CallProtocol &&protocol, Promise<Unit> promise);
 
   void send_call_signaling_data(CallId call_id, string &&data, Promise<Unit> promise);
 
-  void discard_call(CallId call_id, bool is_disconnected, int32 duration, bool is_video, int64 connection_id,
-                    Promise<Unit> promise);
+  void discard_call(CallId call_id, bool is_disconnected, const string &invite_link, int32 duration, bool is_video,
+                    int64 connection_id, Promise<Unit> promise);
 
   void rate_call(CallId call_id, int32 rating, string comment,
                  vector<td_api::object_ptr<td_api::CallProblem>> &&problems, Promise<Unit> promise);
@@ -50,6 +51,8 @@ class CallManager final : public Actor {
 
  private:
   bool close_flag_ = false;
+
+  Td *td_;
   ActorShared<> parent_;
 
   struct CallInfo {
@@ -66,5 +69,6 @@ class CallManager final : public Actor {
 
   void hangup() final;
   void hangup_shared() final;
+  void tear_down() final;
 };
 }  // namespace td

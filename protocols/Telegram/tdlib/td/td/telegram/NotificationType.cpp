@@ -28,7 +28,7 @@ namespace td {
 
 class NotificationTypeMessage final : public NotificationType {
   bool can_be_delayed() const final {
-    return message_id_.is_valid() && message_id_.is_server();
+    return message_id_.is_server();
   }
 
   bool is_temporary() const final {
@@ -219,6 +219,24 @@ class NotificationTypePushMessage final : public NotificationType {
         if (key == "MESSAGE_CHAT_JOIN_BY_REQUEST") {
           return td_api::make_object<td_api::pushMessageContentChatJoinByRequest>();
         }
+        if (key == "MESSAGE_CHAT_LIVESTREAM_END") {
+          return td_api::make_object<td_api::pushMessageContentVideoChatEnded>();
+        }
+        if (key == "MESSAGE_CHAT_LIVESTREAM_START") {
+          return td_api::make_object<td_api::pushMessageContentVideoChatStarted>();
+        }
+        if (key == "MESSAGE_CHAT_VOICECHAT_END") {
+          return td_api::make_object<td_api::pushMessageContentVideoChatEnded>();
+        }
+        if (key == "MESSAGE_CHAT_VOICECHAT_INVITE") {
+          return td_api::make_object<td_api::pushMessageContentInviteVideoChatParticipants>(false);
+        }
+        if (key == "MESSAGE_CHAT_VOICECHAT_INVITE_YOU") {
+          return td_api::make_object<td_api::pushMessageContentInviteVideoChatParticipants>(true);
+        }
+        if (key == "MESSAGE_CHAT_VOICECHAT_START") {
+          return td_api::make_object<td_api::pushMessageContentVideoChatStarted>();
+        }
         if (key == "MESSAGE_CONTACT") {
           return td_api::make_object<td_api::pushMessageContentContact>(arg, is_pinned);
         }
@@ -301,6 +319,13 @@ class NotificationTypePushMessage final : public NotificationType {
         }
         break;
       case 'P':
+        if (key == "MESSAGE_PAID_MEDIA") {
+          int64 star_count = 0;
+          if (!is_pinned) {
+            star_count = to_integer<int64>(arg);
+          }
+          return td_api::make_object<td_api::pushMessageContentPaidMedia>(star_count, is_pinned);
+        }
         if (key == "MESSAGE_PHOTO") {
           return td_api::make_object<td_api::pushMessageContentPhoto>(get_photo_object(td->file_manager_.get(), photo),
                                                                       arg, false, is_pinned);
@@ -312,12 +337,8 @@ class NotificationTypePushMessage final : public NotificationType {
         if (key == "MESSAGE_POLL") {
           return td_api::make_object<td_api::pushMessageContentPoll>(arg, true, is_pinned);
         }
-        if (key == "MESSAGE_PAID_MEDIA") {
-          int64 star_count = 0;
-          if (!is_pinned) {
-            star_count = to_integer<int64>(arg);
-          }
-          return td_api::make_object<td_api::pushMessageContentPaidMedia>(star_count, is_pinned);
+        if (key == "MESSAGE_PROXIMITY") {
+          return td_api::make_object<td_api::pushMessageContentProximityAlertTriggered>(to_integer<int32>(arg));
         }
         break;
       case 'Q':
@@ -343,12 +364,25 @@ class NotificationTypePushMessage final : public NotificationType {
         if (key == "MESSAGE_SECRET_VIDEO") {
           return td_api::make_object<td_api::pushMessageContentVideo>(nullptr, arg, true, false);
         }
+        if (key == "MESSAGE_STARGIFT") {
+          auto star_count = to_integer<int64>(arg);
+          return td_api::make_object<td_api::pushMessageContentGift>(star_count);
+        }
+        if (key == "MESSAGE_STARGIFT_TRANSFER") {
+          return td_api::make_object<td_api::pushMessageContentUpgradedGift>(false);
+        }
+        if (key == "MESSAGE_STARGIFT_UPGRADE") {
+          return td_api::make_object<td_api::pushMessageContentUpgradedGift>(true);
+        }
         if (key == "MESSAGE_STICKER") {
           return td_api::make_object<td_api::pushMessageContentSticker>(
               td->stickers_manager_->get_sticker_object(document.file_id), trim(arg), is_pinned);
         }
         if (key == "MESSAGE_STORY") {
-          return td_api::make_object<td_api::pushMessageContentStory>(is_pinned);
+          return td_api::make_object<td_api::pushMessageContentStory>(false, is_pinned);
+        }
+        if (key == "MESSAGE_STORY_MENTION") {
+          return td_api::make_object<td_api::pushMessageContentStory>(true, is_pinned);
         }
         if (key == "MESSAGE_SUGGEST_PHOTO") {
           return td_api::make_object<td_api::pushMessageContentSuggestProfilePhoto>();
@@ -357,6 +391,15 @@ class NotificationTypePushMessage final : public NotificationType {
       case 'T':
         if (key == "MESSAGE_TEXT") {
           return td_api::make_object<td_api::pushMessageContentText>(arg, is_pinned);
+        }
+        if (key == "MESSAGE_TODO") {
+          return td_api::make_object<td_api::pushMessageContentChecklist>(arg, is_pinned);
+        }
+        if (key == "MESSAGE_TODO_APPEND") {
+          return td_api::make_object<td_api::pushMessageContentChecklistTasksAdded>(to_integer<int32>(arg));
+        }
+        if (key == "MESSAGE_TODO_DONE") {
+          return td_api::make_object<td_api::pushMessageContentChecklistTasksDone>(to_integer<int32>(arg));
         }
         break;
       case 'V':

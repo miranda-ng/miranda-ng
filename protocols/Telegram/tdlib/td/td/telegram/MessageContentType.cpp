@@ -154,6 +154,22 @@ StringBuilder &operator<<(StringBuilder &string_builder, MessageContentType cont
       return string_builder << "GiftStars";
     case MessageContentType::PrizeStars:
       return string_builder << "PrizeStars";
+    case MessageContentType::StarGift:
+      return string_builder << "StarGift";
+    case MessageContentType::StarGiftUnique:
+      return string_builder << "UpgradedStarGift";
+    case MessageContentType::PaidMessagesRefunded:
+      return string_builder << "PaidMessagesRefunded";
+    case MessageContentType::PaidMessagesPrice:
+      return string_builder << "PaidMessagesPrice";
+    case MessageContentType::ConferenceCall:
+      return string_builder << "ConferenceCall";
+    case MessageContentType::ToDoList:
+      return string_builder << "ToDoList";
+    case MessageContentType::TodoCompletions:
+      return string_builder << "ToDoCompleted";
+    case MessageContentType::TodoAppendTasks:
+      return string_builder << "ToDoAppendTasks";
     default:
       return string_builder << "Invalid type " << static_cast<int32>(content_type);
   }
@@ -245,6 +261,14 @@ bool is_allowed_media_group_content(MessageContentType content_type) {
     case MessageContentType::PaymentRefunded:
     case MessageContentType::GiftStars:
     case MessageContentType::PrizeStars:
+    case MessageContentType::StarGift:
+    case MessageContentType::StarGiftUnique:
+    case MessageContentType::PaidMessagesRefunded:
+    case MessageContentType::PaidMessagesPrice:
+    case MessageContentType::ConferenceCall:
+    case MessageContentType::ToDoList:
+    case MessageContentType::TodoCompletions:
+    case MessageContentType::TodoAppendTasks:
       return false;
     default:
       UNREACHABLE();
@@ -330,6 +354,14 @@ bool can_be_secret_message_content(MessageContentType content_type) {
     case MessageContentType::PaymentRefunded:
     case MessageContentType::GiftStars:
     case MessageContentType::PrizeStars:
+    case MessageContentType::StarGift:
+    case MessageContentType::StarGiftUnique:
+    case MessageContentType::PaidMessagesRefunded:
+    case MessageContentType::PaidMessagesPrice:
+    case MessageContentType::ConferenceCall:
+    case MessageContentType::ToDoList:
+    case MessageContentType::TodoCompletions:
+    case MessageContentType::TodoAppendTasks:
       return false;
     default:
       UNREACHABLE();
@@ -411,6 +443,14 @@ bool can_be_local_message_content(MessageContentType content_type) {
     case MessageContentType::PaymentRefunded:
     case MessageContentType::GiftStars:
     case MessageContentType::PrizeStars:
+    case MessageContentType::StarGift:
+    case MessageContentType::StarGiftUnique:
+    case MessageContentType::PaidMessagesRefunded:
+    case MessageContentType::PaidMessagesPrice:
+    case MessageContentType::ConferenceCall:
+    case MessageContentType::ToDoList:
+    case MessageContentType::TodoCompletions:
+    case MessageContentType::TodoAppendTasks:
       return false;
     default:
       UNREACHABLE();
@@ -441,6 +481,7 @@ bool is_service_message_content(MessageContentType content_type) {
     case MessageContentType::Sticker:
     case MessageContentType::Story:
     case MessageContentType::Text:
+    case MessageContentType::ToDoList:
     case MessageContentType::Unsupported:
     case MessageContentType::Venue:
     case MessageContentType::Video:
@@ -492,6 +533,13 @@ bool is_service_message_content(MessageContentType content_type) {
     case MessageContentType::PaymentRefunded:
     case MessageContentType::GiftStars:
     case MessageContentType::PrizeStars:
+    case MessageContentType::StarGift:
+    case MessageContentType::StarGiftUnique:
+    case MessageContentType::PaidMessagesRefunded:
+    case MessageContentType::PaidMessagesPrice:
+    case MessageContentType::ConferenceCall:
+    case MessageContentType::TodoCompletions:
+    case MessageContentType::TodoAppendTasks:
       return true;
     default:
       UNREACHABLE();
@@ -508,6 +556,7 @@ bool is_editable_message_content(MessageContentType content_type) {
     case MessageContentType::PaidMedia:
     case MessageContentType::Photo:
     case MessageContentType::Text:
+    case MessageContentType::ToDoList:
     case MessageContentType::Video:
     case MessageContentType::VoiceNote:
       return true;
@@ -573,6 +622,13 @@ bool is_editable_message_content(MessageContentType content_type) {
     case MessageContentType::PaymentRefunded:
     case MessageContentType::GiftStars:
     case MessageContentType::PrizeStars:
+    case MessageContentType::StarGift:
+    case MessageContentType::StarGiftUnique:
+    case MessageContentType::PaidMessagesRefunded:
+    case MessageContentType::PaidMessagesPrice:
+    case MessageContentType::ConferenceCall:
+    case MessageContentType::TodoCompletions:
+    case MessageContentType::TodoAppendTasks:
       return false;
     default:
       UNREACHABLE();
@@ -598,6 +654,7 @@ bool is_supported_reply_message_content(MessageContentType content_type) {
     case MessageContentType::Sticker:
     case MessageContentType::Story:
     case MessageContentType::Text:
+    case MessageContentType::ToDoList:
     case MessageContentType::Unsupported:
     case MessageContentType::Venue:
     case MessageContentType::Video:
@@ -718,6 +775,14 @@ bool can_have_message_content_caption(MessageContentType content_type) {
     case MessageContentType::PaymentRefunded:
     case MessageContentType::GiftStars:
     case MessageContentType::PrizeStars:
+    case MessageContentType::StarGift:
+    case MessageContentType::StarGiftUnique:
+    case MessageContentType::PaidMessagesRefunded:
+    case MessageContentType::PaidMessagesPrice:
+    case MessageContentType::ConferenceCall:
+    case MessageContentType::ToDoList:
+    case MessageContentType::TodoCompletions:
+    case MessageContentType::TodoAppendTasks:
       return false;
     default:
       UNREACHABLE();
@@ -749,6 +814,7 @@ bool can_send_message_content_to_secret_chat(MessageContentType content_type) {
     case MessageContentType::PaidMedia:
     case MessageContentType::Poll:
     case MessageContentType::Story:
+    case MessageContentType::ToDoList:
       return false;
     case MessageContentType::None:
     case MessageContentType::ChatCreate:
@@ -801,6 +867,13 @@ bool can_send_message_content_to_secret_chat(MessageContentType content_type) {
     case MessageContentType::PaymentRefunded:
     case MessageContentType::GiftStars:
     case MessageContentType::PrizeStars:
+    case MessageContentType::StarGift:
+    case MessageContentType::StarGiftUnique:
+    case MessageContentType::PaidMessagesRefunded:
+    case MessageContentType::PaidMessagesPrice:
+    case MessageContentType::ConferenceCall:
+    case MessageContentType::TodoCompletions:
+    case MessageContentType::TodoAppendTasks:
     default:
       UNREACHABLE();
       return false;
@@ -822,6 +895,95 @@ uint64 get_message_content_chain_id(MessageContentType content_type) {
       return 1;
     default:
       return 2;
+  }
+}
+
+bool get_default_service_message_content_reactions_are_possible(MessageContentType content_type) {
+  switch (content_type) {
+    case MessageContentType::Animation:
+    case MessageContentType::Audio:
+    case MessageContentType::Contact:
+    case MessageContentType::Dice:
+    case MessageContentType::Document:
+    case MessageContentType::ExpiredPhoto:
+    case MessageContentType::ExpiredVideo:
+    case MessageContentType::ExpiredVideoNote:
+    case MessageContentType::ExpiredVoiceNote:
+    case MessageContentType::Game:
+    case MessageContentType::Giveaway:
+    case MessageContentType::GiveawayWinners:
+    case MessageContentType::Invoice:
+    case MessageContentType::LiveLocation:
+    case MessageContentType::Location:
+    case MessageContentType::PaidMedia:
+    case MessageContentType::Photo:
+    case MessageContentType::Poll:
+    case MessageContentType::Sticker:
+    case MessageContentType::Story:
+    case MessageContentType::Text:
+    case MessageContentType::ToDoList:
+    case MessageContentType::Unsupported:
+    case MessageContentType::Venue:
+    case MessageContentType::Video:
+    case MessageContentType::VideoNote:
+    case MessageContentType::VoiceNote:
+    case MessageContentType::ChatCreate:
+    case MessageContentType::ChatDeleteHistory:
+    case MessageContentType::ChatMigrateTo:
+    case MessageContentType::ChannelCreate:
+    case MessageContentType::ChannelMigrateFrom:
+    case MessageContentType::CustomServiceAction:
+    case MessageContentType::PassportDataSent:
+    case MessageContentType::PassportDataReceived:
+    case MessageContentType::WebViewDataSent:
+    case MessageContentType::WebViewDataReceived:
+    case MessageContentType::RequestedDialog:
+    case MessageContentType::GiveawayLaunch:
+    case MessageContentType::DialogShared:
+      return false;
+    case MessageContentType::ChatChangeTitle:
+    case MessageContentType::ChatChangePhoto:
+    case MessageContentType::ChatDeletePhoto:
+    case MessageContentType::ChatAddUsers:
+    case MessageContentType::ChatJoinedByLink:
+    case MessageContentType::ChatDeleteUser:
+    case MessageContentType::PinMessage:
+    case MessageContentType::GameScore:
+    case MessageContentType::ScreenshotTaken:
+    case MessageContentType::ChatSetTtl:
+    case MessageContentType::Call:
+    case MessageContentType::PaymentSuccessful:
+    case MessageContentType::ContactRegistered:
+    case MessageContentType::WebsiteConnected:
+    case MessageContentType::ProximityAlertTriggered:
+    case MessageContentType::GroupCall:
+    case MessageContentType::InviteToGroupCall:
+    case MessageContentType::ChatSetTheme:
+    case MessageContentType::GiftPremium:
+    case MessageContentType::TopicCreate:
+    case MessageContentType::TopicEdit:
+    case MessageContentType::SuggestProfilePhoto:
+    case MessageContentType::WriteAccessAllowed:
+    case MessageContentType::WebViewWriteAccessAllowed:
+    case MessageContentType::SetBackground:
+    case MessageContentType::WriteAccessAllowedByRequest:
+    case MessageContentType::GiftCode:
+    case MessageContentType::GiveawayResults:
+    case MessageContentType::BoostApply:
+    case MessageContentType::PaymentRefunded:
+    case MessageContentType::GiftStars:
+    case MessageContentType::PrizeStars:
+    case MessageContentType::StarGift:
+    case MessageContentType::StarGiftUnique:
+    case MessageContentType::PaidMessagesRefunded:
+    case MessageContentType::PaidMessagesPrice:
+    case MessageContentType::ConferenceCall:
+    case MessageContentType::TodoCompletions:
+    case MessageContentType::TodoAppendTasks:
+      return true;
+    default:
+      UNREACHABLE();
+      return false;
   }
 }
 

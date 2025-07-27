@@ -934,6 +934,108 @@
     <ClCompile Include="td\td\telegram\net\NetQueryVerifier.cpp">
       <Filter>Source Files\net</Filter>
     </ClCompile>
+    <ClCompile Include="td\td\telegram\AffiliateType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BotRecommendationManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BotVerification.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BotVerifierSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\BusinessBotRights.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\DisallowedGiftsSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\files\ResourceState.cpp">
+      <Filter>Source Files\files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\GroupCallJoinParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\InputGroupCall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageQueryManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\MessageTopic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\Outline.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\PaidReactionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReferralProgramInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReferralProgramManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReferralProgramParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ReferralProgramSortOrder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarAmount.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarGift.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarGiftAttribute.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarGiftAttributeId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarGiftId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarGiftManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\StarGiftSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\SuggestedActionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\TargetDialogTypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ToDoCompletion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ToDoItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\ToDoList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\UserStarGift.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\VerificationStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\WebAppManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\telegram\WebAppOpenParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\td\generate\auto\td\telegram\e2e_api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="td\td\mtproto\AuthData.h">
@@ -1968,9 +2070,6 @@
     <ClInclude Include="td\td\telegram\net\AuthKeyState.h">
       <Filter>Source Files\net</Filter>
     </ClInclude>
-    <ClInclude Include="td\td\telegram\RequestedDialogType.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="td\td\telegram\OrderedMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2294,6 +2393,162 @@
     </ClInclude>
     <ClInclude Include="td\td\telegram\net\PublicRsaKeySharedMain.h">
       <Filter>Source Files\net</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\AffiliateType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BotRecommendationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BotVerification.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BotVerification.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BotVerifierSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BotVerifierSettings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessBotRights.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\BusinessBotRights.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\DisallowedGiftsSettings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\DisallowedGiftsSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\GroupCallJoinParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\InputGroupCall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageQueryManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\MessageTopic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\Outline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\PaidReactionType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\PaidReactionType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReferralProgramInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReferralProgramInfo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReferralProgramManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReferralProgramParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReferralProgramParameters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ReferralProgramSortOrder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\RequestedDialogType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\PhotoSizeType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\PhotoSizeType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarAmount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarAmount.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGift.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGift.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGiftAttribute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGiftAttribute.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGiftAttributeId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGiftId.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGiftId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGiftManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGiftSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\StarGiftSettings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\SuggestedActionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\TargetDialogTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ToDoCompletion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ToDoCompletion.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ToDoItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ToDoItem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ToDoList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\ToDoList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\UserStarGift.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\VerificationStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\WebAppManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\telegram\WebAppOpenParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\generate\auto\td\telegram\e2e_api.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\td\generate\auto\td\telegram\e2e_api.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -924,7 +924,7 @@ void CTelegramProto::ProcessGroups(TD::updateChatFolders *pObj)
 
 		CMStringA szSetting(FORMAT, "ChatFilter%d", grp->id_);
 		CMStringW wszOldValue(getMStringW(szSetting));
-		Utf2T wszNewValue(grp->title_.c_str());
+		Utf2T wszNewValue(grp->name_->text_->text_.c_str());
 		if (wszOldValue.IsEmpty()) {
 			Clist_GroupCreate(m_iBaseGroup, wszNewValue);
 			setWString(szSetting, wszNewValue);

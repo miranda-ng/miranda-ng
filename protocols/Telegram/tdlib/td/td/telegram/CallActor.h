@@ -9,7 +9,7 @@
 #include "td/telegram/CallDiscardReason.h"
 #include "td/telegram/CallId.h"
 #include "td/telegram/DhConfig.h"
-#include "td/telegram/files/FileId.h"
+#include "td/telegram/files/FileUploadId.h"
 #include "td/telegram/net/NetQuery.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
@@ -23,10 +23,13 @@
 #include "td/utils/Container.h"
 #include "td/utils/Promise.h"
 #include "td/utils/Status.h"
+#include "td/utils/StringBuilder.h"
 
 #include <memory>
 
 namespace td {
+
+class Td;
 
 struct CallProtocol {
   bool udp_p2p{true};
@@ -41,9 +44,9 @@ struct CallProtocol {
 
   explicit CallProtocol(const telegram_api::phoneCallProtocol &protocol);
 
-  tl_object_ptr<telegram_api::phoneCallProtocol> get_input_phone_call_protocol() const;
+  telegram_api::object_ptr<telegram_api::phoneCallProtocol> get_input_phone_call_protocol() const;
 
-  tl_object_ptr<td_api::callProtocol> get_call_protocol_object() const;
+  td_api::object_ptr<td_api::callProtocol> get_call_protocol_object() const;
 };
 
 struct CallConnection {
@@ -74,7 +77,7 @@ struct CallState {
 
   CallProtocol protocol;
   vector<CallConnection> connections;
-  CallDiscardReason discard_reason{CallDiscardReason::Empty};
+  CallDiscardReason discard_reason;
   bool is_created{false};
   bool is_received{false};
   bool need_debug_information{false};
@@ -87,6 +90,7 @@ struct CallState {
   vector<string> emojis_fingerprint;
   string custom_parameters;
   bool allow_p2p{false};
+  bool conference_supported{false};
 
   Status error;
 
@@ -95,23 +99,30 @@ struct CallState {
 
 class CallActor final : public NetQueryCallback {
  public:
-  CallActor(CallId call_id, ActorShared<> parent, Promise<int64> promise);
+  CallActor(Td *td, CallId call_id, ActorShared<> parent, Promise<int64> promise);
 
-  void create_call(UserId user_id, tl_object_ptr<telegram_api::InputUser> &&input_user, CallProtocol &&protocol,
-                   bool is_video, Promise<CallId> &&promise);
+  void create_call(UserId user_id, CallProtocol &&protocol, bool is_video, Promise<CallId> &&promise);
+
   void accept_call(CallProtocol &&protocol, Promise<Unit> promise);
+
   void update_call_signaling_data(string data);
+
   void send_call_signaling_data(string &&data, Promise<Unit> promise);
-  void discard_call(bool is_disconnected, int32 duration, bool is_video, int64 connection_id, Promise<Unit> promise);
+
+  void discard_call(bool is_disconnected, const string &invite_link, int32 duration, bool is_video, int64 connection_id,
+                    Promise<Unit> promise);
+
   void rate_call(int32 rating, string comment, vector<td_api::object_ptr<td_api::CallProblem>> &&problems,
                  Promise<Unit> promise);
+
   void send_call_debug_information(string data, Promise<Unit> promise);
+
   void send_call_log(td_api::object_ptr<td_api::InputFile> log_file, Promise<Unit> promise);
 
   void update_call(tl_object_ptr<telegram_api::PhoneCall> call);
 
  private:
-  void update_call_inner(tl_object_ptr<telegram_api::phone_phoneCall> call);
+  Td *td_;
   ActorShared<> parent_;
   Promise<int64> call_id_promise_;
 
@@ -131,6 +142,7 @@ class CallActor final : public NetQueryCallback {
     WaitAcceptResult,
     SendConfirmQuery,
     WaitConfirmResult,
+    Ready,
     SendDiscardQuery,
     WaitDiscardResult,
     Discarded
@@ -140,7 +152,6 @@ class CallActor final : public NetQueryCallback {
   bool is_outgoing_{false};
   bool is_video_{false};
   UserId user_id_;
-  tl_object_ptr<telegram_api::InputUser> input_user_;
 
   CallId local_call_id_;
   int64 call_id_{0};
@@ -148,13 +159,14 @@ class CallActor final : public NetQueryCallback {
   bool has_notification_{false};
   int64 call_access_hash_{0};
   UserId call_admin_user_id_;
-  // UserId call_participant_user_id_;
 
   CallState call_state_;
   bool call_state_need_flush_{false};
   bool call_state_has_config_{false};
 
   NetQueryRef request_query_ref_;
+
+  void update_call_inner(tl_object_ptr<telegram_api::phone_phoneCall> call);
 
   tl_object_ptr<telegram_api::inputPhoneCall> get_input_phone_call(const char *source);
   bool load_dh_config();
@@ -165,7 +177,7 @@ class CallActor final : public NetQueryCallback {
   Status do_update_call(const telegram_api::phoneCallWaiting &call);
   Status do_update_call(const telegram_api::phoneCallRequested &call);
   Status do_update_call(const telegram_api::phoneCallAccepted &call);
-  Status do_update_call(const telegram_api::phoneCall &call);
+  Status do_update_call(telegram_api::phoneCall &call);
   Status do_update_call(const telegram_api::phoneCallDiscarded &call);
 
   void on_get_call_id();
@@ -193,21 +205,25 @@ class CallActor final : public NetQueryCallback {
 
   void on_save_debug_query_result(Result<NetQueryPtr> r_net_query);
 
-  void upload_log_file(FileId file_id, Promise<Unit> &&promise);
+  void upload_log_file(FileUploadId file_upload_id, Promise<Unit> &&promise);
 
-  void on_upload_log_file(FileId file_id, Promise<Unit> &&promise, tl_object_ptr<telegram_api::InputFile> input_file);
+  void on_upload_log_file(FileUploadId file_upload_id, Promise<Unit> &&promise,
+                          telegram_api::object_ptr<telegram_api::InputFile> input_file);
 
-  void on_upload_log_file_error(FileId file_id, Promise<Unit> &&promise, Status status);
+  void on_upload_log_file_error(FileUploadId file_upload_id, Promise<Unit> &&promise, Status status);
 
-  void do_upload_log_file(FileId file_id, tl_object_ptr<telegram_api::InputFile> &&input_file, Promise<Unit> &&promise);
+  void do_upload_log_file(FileUploadId file_upload_id, telegram_api::object_ptr<telegram_api::InputFile> &&input_file,
+                          Promise<Unit> &&promise);
 
-  void on_save_log_query_result(FileId file_id, Promise<Unit> promise, Result<NetQueryPtr> r_net_query);
+  void on_save_log_query_result(FileUploadId file_upload_id, Promise<Unit> promise, Result<NetQueryPtr> r_net_query);
 
   void on_get_call_config_result(Result<NetQueryPtr> r_net_query);
 
   void flush_call_state();
 
   static vector<string> get_emojis_fingerprint(const string &key, const string &g_a);
+
+  friend StringBuilder &operator<<(StringBuilder &string_builder, const State &state);
 
   void start_up() final;
   void loop() final;

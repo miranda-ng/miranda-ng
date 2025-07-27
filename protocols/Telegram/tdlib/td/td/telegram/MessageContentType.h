@@ -84,7 +84,15 @@ enum class MessageContentType : int32 {
   PaidMedia,
   PaymentRefunded,
   GiftStars,
-  PrizeStars
+  PrizeStars,
+  StarGift,
+  StarGiftUnique,
+  PaidMessagesRefunded,
+  PaidMessagesPrice,
+  ConferenceCall,
+  ToDoList,
+  TodoCompletions,
+  TodoAppendTasks
 };
 // increase MessageUnsupported::CURRENT_VERSION each time a new message content type is added
 
@@ -115,6 +123,8 @@ bool can_have_message_content_caption(MessageContentType content_type);
 bool can_send_message_content_to_secret_chat(MessageContentType content_type);
 
 uint64 get_message_content_chain_id(MessageContentType content_type);
+
+bool get_default_service_message_content_reactions_are_possible(MessageContentType content_type);
 
 struct MessageContentTypeHash {
   uint32 operator()(MessageContentType content_type) const {

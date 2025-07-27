@@ -6,6 +6,7 @@
 //
 #pragma once
 
+#include "td/telegram/DialogId.h"
 #include "td/telegram/telegram_api.h"
 
 #include "td/actor/actor.h"
@@ -24,6 +25,10 @@ class PromoDataManager final : public Actor {
   void init();
 
   void reload_promo_data();
+
+  void remove_sponsored_dialog();
+
+  void hide_promo_data(DialogId dialog_id);
 
  private:
   void tear_down() final;

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
     }
     if (mime_type_to_extension.emplace_hint(mime_type_to_extension.end(), mime_type, extensions[index])->second !=
         extensions[index]) {
-      std::cerr << "MIME type \"" << mime_type << "\" has more than one extensions list" << std::endl;
+      std::cerr << "MIME type \"" << mime_type << "\" has more than one list of extensions" << std::endl;
     }
 
     for (auto &extension : extensions) {

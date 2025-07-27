@@ -168,8 +168,8 @@ RepliedMessageInfo RepliedMessageInfo::clone(Td *td) const {
   return result;
 }
 
-bool RepliedMessageInfo::need_reget() const {
-  return content_ != nullptr && need_reget_message_content(content_.get());
+bool RepliedMessageInfo::need_reget(const Td *td) const {
+  return content_ != nullptr && need_reget_message_content(td, content_.get());
 }
 
 bool RepliedMessageInfo::need_reply_changed_warning(
@@ -272,7 +272,7 @@ void RepliedMessageInfo::add_dependencies(Dependencies &dependencies, bool is_bo
 }
 
 td_api::object_ptr<td_api::messageReplyToMessage> RepliedMessageInfo::get_message_reply_to_message_object(
-    Td *td, DialogId dialog_id, bool is_server) const {
+    Td *td, DialogId dialog_id, MessageId message_id) const {
   if (dialog_id_.is_valid()) {
     dialog_id = dialog_id_;
   } else {
@@ -291,8 +291,8 @@ td_api::object_ptr<td_api::messageReplyToMessage> RepliedMessageInfo::get_messag
 
   td_api::object_ptr<td_api::MessageContent> content;
   if (content_ != nullptr) {
-    content =
-        get_message_content_object(content_.get(), td, dialog_id, is_server, false, 0, false, true, -1, false, false);
+    content = get_message_content_object(content_.get(), td, DialogId(), message_id, false, true, DialogId(), 0, false,
+                                         true, -1, false, false);
     switch (content->get_id()) {
       case td_api::messageUnsupported::ID:
         content = nullptr;
@@ -315,7 +315,7 @@ td_api::object_ptr<td_api::messageReplyToMessage> RepliedMessageInfo::get_messag
                                                             std::move(origin), origin_date_, std::move(content));
 }
 
-MessageInputReplyTo RepliedMessageInfo::get_input_reply_to() const {
+MessageInputReplyTo RepliedMessageInfo::get_message_input_reply_to() const {
   CHECK(!is_external());
   if (message_id_.is_valid() || message_id_.is_valid_scheduled()) {
     return MessageInputReplyTo(message_id_, dialog_id_, quote_.clone(true));

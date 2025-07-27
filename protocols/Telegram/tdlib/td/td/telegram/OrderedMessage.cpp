@@ -66,7 +66,7 @@ void OrderedMessages::insert(MessageId message_id, bool auto_attach, MessageId o
   *v = std::move(message);
 }
 
-void OrderedMessages::erase(MessageId message_id, bool only_from_memory) {
+void OrderedMessages::erase(MessageId message_id, bool only_from_memory, const char *source) {
   unique_ptr<OrderedMessage> *v = &messages_;
   while (*v != nullptr) {
     if ((*v)->message_id_.get() < message_id.get()) {
@@ -78,21 +78,21 @@ void OrderedMessages::erase(MessageId message_id, bool only_from_memory) {
     }
   }
 
-  CHECK(*v != nullptr);
+  LOG_CHECK(*v != nullptr) << message_id << ' ' << only_from_memory << ' ' << source;
   if ((*v)->have_previous_ && (only_from_memory || !(*v)->have_next_)) {
     auto it = get_iterator(message_id);
-    CHECK(*it == v->get());
+    LOG_CHECK(*it == v->get()) << message_id << ' ' << only_from_memory << ' ' << source;
     --it;
     OrderedMessage *prev_m = *it;
-    CHECK(prev_m != nullptr);
+    LOG_CHECK(prev_m != nullptr) << message_id << ' ' << only_from_memory << ' ' << source;
     prev_m->have_next_ = false;
   }
   if ((*v)->have_next_ && (only_from_memory || !(*v)->have_previous_)) {
     auto it = get_iterator(message_id);
-    CHECK(*it == v->get());
+    LOG_CHECK(*it == v->get()) << message_id << ' ' << only_from_memory << ' ' << source;
     ++it;
     OrderedMessage *next_m = *it;
-    CHECK(next_m != nullptr);
+    LOG_CHECK(next_m != nullptr) << message_id << ' ' << only_from_memory << ' ' << source;
     next_m->have_previous_ = false;
   }
 
@@ -316,6 +316,33 @@ void OrderedMessages::traverse_messages(const std::function<bool(MessageId)> &ne
   do_traverse_messages(messages_.get(), need_scan_older, need_scan_newer);
 }
 
+bool OrderedMessages::has_message(MessageId message_id) const {
+  CHECK(message_id.is_valid());
+  auto it = get_const_iterator(message_id);
+  const OrderedMessage *ordered_message = *it;
+  return ordered_message != nullptr && ordered_message->message_id_ == message_id;
+}
+
+MessageId OrderedMessages::get_last_sent_message_id() const {
+  auto it = get_const_iterator(MessageId::max());
+  while (*it != nullptr) {
+    auto message_id = (*it)->get_message_id();
+    if (!message_id.is_yet_unsent()) {
+      return message_id;
+    }
+    --it;
+  }
+  return MessageId();
+}
+
+MessageId OrderedMessages::get_last_message_id() const {
+  auto it = get_const_iterator(MessageId::max());
+  if (*it != nullptr) {
+    return (*it)->get_message_id();
+  }
+  return MessageId();
+}
+
 vector<MessageId> OrderedMessages::get_history(MessageId last_message_id, MessageId &from_message_id, int32 &offset,
                                                int32 &limit, bool force) const {
   CHECK(limit > 0);
@@ -415,6 +442,91 @@ vector<MessageId> OrderedMessages::get_history(MessageId last_message_id, Messag
     message_ids.pop_back();
   }
   return message_ids;
+}
+
+int32 OrderedMessages::calc_new_unread_count_from_last_unread(
+    MessageId max_message_id, MessageId last_read_inbox_message_id, int32 old_unread_count,
+    std::function<bool(MessageId)> is_counted_as_unread) const {
+  auto it = get_const_iterator(max_message_id);
+  if (*it == nullptr || (*it)->get_message_id() != max_message_id) {
+    return -1;
+  }
+
+  auto unread_count = old_unread_count;
+  while (*it != nullptr && (*it)->get_message_id() > last_read_inbox_message_id) {
+    if (is_counted_as_unread((*it)->get_message_id())) {
+      unread_count--;
+    }
+    --it;
+  }
+  if (*it == nullptr || (*it)->get_message_id() != last_read_inbox_message_id) {
+    return -1;
+  }
+
+  LOG(INFO) << "Found " << unread_count << " unread messages from last unread message";
+  return unread_count;
+}
+
+int32 OrderedMessages::calc_new_unread_count_from_the_end(MessageId max_message_id, MessageId last_message_id,
+                                                          std::function<bool(MessageId)> is_counted_as_unread,
+                                                          int32 hint_unread_count) const {
+  int32 unread_count = 0;
+  auto it = get_const_iterator(MessageId::max());
+  while (*it != nullptr && (*it)->get_message_id() > max_message_id) {
+    if (is_counted_as_unread((*it)->get_message_id())) {
+      unread_count++;
+    }
+    --it;
+  }
+
+  bool is_count_exact = last_message_id.is_valid() && *it != nullptr;
+  if (hint_unread_count >= 0) {
+    if (is_count_exact) {
+      if (hint_unread_count == unread_count) {
+        return hint_unread_count;
+      }
+    } else {
+      if (hint_unread_count >= unread_count) {
+        return hint_unread_count;
+      }
+    }
+
+    // hint_unread_count is definitely wrong, ignore it
+    LOG(ERROR) << "Receive hint_unread_count = " << hint_unread_count << ", but found " << unread_count
+               << " unread messages";
+  }
+
+  if (!is_count_exact) {
+    // unread count is likely to be calculated wrong, so ignore it
+    return -1;
+  }
+
+  LOG(INFO) << "Found " << unread_count << " unread messages from the end";
+  return unread_count;
+}
+
+int32 OrderedMessages::calc_new_unread_count(MessageId max_message_id, MessageId last_read_inbox_message_id,
+                                             int32 old_unread_count, MessageId last_message_id,
+                                             std::function<bool(MessageId)> is_counted_as_unread,
+                                             int32 hint_unread_count) const {
+  if (!last_read_inbox_message_id.is_valid()) {
+    return calc_new_unread_count_from_the_end(max_message_id, last_message_id, is_counted_as_unread, hint_unread_count);
+  }
+
+  if (!last_message_id.is_valid() ||
+      (last_message_id.get() - max_message_id.get() > max_message_id.get() - last_read_inbox_message_id.get())) {
+    int32 unread_count = calc_new_unread_count_from_last_unread(max_message_id, last_read_inbox_message_id,
+                                                                old_unread_count, is_counted_as_unread);
+    return unread_count >= 0 ? unread_count
+                             : calc_new_unread_count_from_the_end(max_message_id, last_message_id, is_counted_as_unread,
+                                                                  hint_unread_count);
+  } else {
+    int32 unread_count =
+        calc_new_unread_count_from_the_end(max_message_id, last_message_id, is_counted_as_unread, hint_unread_count);
+    return unread_count >= 0 ? unread_count
+                             : calc_new_unread_count_from_last_unread(max_message_id, last_read_inbox_message_id,
+                                                                      old_unread_count, is_counted_as_unread);
+  }
 }
 
 }  // namespace td

@@ -368,7 +368,7 @@ class Status {
   }
 
   Status clone_static(int code) const TD_WARN_UNUSED_RESULT {
-    LOG_CHECK(ptr_ != nullptr && get_info().static_flag) << ptr_.get() << ' ' << code;
+    LOG_CHECK(ptr_ != nullptr && get_info().static_flag) << static_cast<const void *>(ptr_.get()) << ' ' << code;
     Status result;
     result.ptr_ = std::unique_ptr<char[], Deleter>(ptr_.get());
     return result;
@@ -602,6 +602,24 @@ inline Result<Unit>::Result(Status &&status) : status_(std::move(status)) {
 
 inline StringBuilder &operator<<(StringBuilder &string_builder, const Status &status) {
   return status.print(string_builder);
+}
+
+template <class T>
+StringBuilder &operator<<(StringBuilder &sb, const Result<T> &result) {
+  if (result.is_ok()) {
+    return sb << "Ok{" << result.ok() << '}';
+  }
+  return sb << result.error();
+}
+
+template <class T, class S>
+bool operator==(const S &a, const Result<T> &b) {
+  return b.is_ok() && a == b.ok();
+}
+
+template <class T, class S>
+bool operator==(const Result<S> &a, const T &b) {
+  return a.is_ok() && a.ok() == b;
 }
 
 }  // namespace td

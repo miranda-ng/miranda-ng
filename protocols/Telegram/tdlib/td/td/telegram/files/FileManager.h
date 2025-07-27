@@ -17,6 +17,7 @@
 #include "td/telegram/files/FileLocation.h"
 #include "td/telegram/files/FileSourceId.h"
 #include "td/telegram/files/FileType.h"
+#include "td/telegram/files/FileUploadId.h"
 #include "td/telegram/files/FileUploadManager.h"
 #include "td/telegram/Location.h"
 #include "td/telegram/PhotoSizeSource.h"
@@ -29,6 +30,7 @@
 #include "td/utils/common.h"
 #include "td/utils/Container.h"
 #include "td/utils/Enumerator.h"
+#include "td/utils/FlatHashMap.h"
 #include "td/utils/FlatHashSet.h"
 #include "td/utils/logging.h"
 #include "td/utils/optional.h"
@@ -39,6 +41,7 @@
 #include "td/utils/WaitFreeHashMap.h"
 #include "td/utils/WaitFreeVector.h"
 
+#include <atomic>
 #include <map>
 #include <memory>
 #include <set>
@@ -102,7 +105,7 @@ class FileNode {
   void set_url(string url);
   void set_owner_dialog_id(DialogId owner_id);
   void set_encryption_key(FileEncryptionKey key);
-  void set_upload_pause(FileId upload_pause);
+  void set_upload_pause(FileUploadId upload_pause);
 
   void set_download_priority(int8 priority);
   void set_upload_priority(int8 priority);
@@ -160,7 +163,7 @@ class FileNode {
 
   double last_successful_force_reupload_time_ = -1e10;
 
-  FileId upload_pause_;
+  FileUploadId upload_pause_;
 
   int8 upload_priority_ = 0;
   int8 download_priority_ = 0;
@@ -392,9 +395,6 @@ class FileView {
 
 class FileManager final : public Actor {
  public:
-  static constexpr int64 KEEP_DOWNLOAD_LIMIT = -1;
-  static constexpr int64 KEEP_DOWNLOAD_OFFSET = -1;
-  static constexpr int64 IGNORE_DOWNLOAD_LIMIT = -2;
   class DownloadCallback {
    public:
     DownloadCallback() = default;
@@ -418,10 +418,20 @@ class FileManager final : public Actor {
     // After on_upload_ok all uploads of this file will be paused till merge, delete_partial_remote_location or
     // explicit upload request with the same file_id.
     // Also, upload may be resumed after some other merge.
-    virtual void on_upload_ok(FileId file_id, tl_object_ptr<telegram_api::InputFile> input_file) = 0;
-    virtual void on_upload_encrypted_ok(FileId file_id, tl_object_ptr<telegram_api::InputEncryptedFile> input_file) = 0;
-    virtual void on_upload_secure_ok(FileId file_id, tl_object_ptr<telegram_api::InputSecureFile> input_file) = 0;
-    virtual void on_upload_error(FileId file_id, Status error) = 0;
+    virtual void on_upload_ok(FileUploadId file_upload_id,
+                              telegram_api::object_ptr<telegram_api::InputFile> input_file) = 0;
+
+    virtual void on_upload_encrypted_ok(FileUploadId file_upload_id,
+                                        telegram_api::object_ptr<telegram_api::InputEncryptedFile> input_file) {
+      UNREACHABLE();
+    }
+
+    virtual void on_upload_secure_ok(FileUploadId file_upload_id,
+                                     telegram_api::object_ptr<telegram_api::InputSecureFile> input_file) {
+      UNREACHABLE();
+    }
+
+    virtual void on_upload_error(FileUploadId file_upload_id, Status error) = 0;
   };
 
   class Context {
@@ -432,9 +442,9 @@ class FileManager final : public Actor {
 
     virtual void on_file_updated(FileId size) = 0;
 
-    virtual bool add_file_source(FileId file_id, FileSourceId file_source_id) = 0;
+    virtual bool add_file_source(FileId file_id, FileSourceId file_source_id, const char *source) = 0;
 
-    virtual bool remove_file_source(FileId file_id, FileSourceId file_source_id) = 0;
+    virtual bool remove_file_source(FileId file_id, FileSourceId file_source_id, const char *source) = 0;
 
     virtual void on_merge_files(FileId to_file_id, FileId from_file_id) = 0;
 
@@ -461,13 +471,13 @@ class FileManager final : public Actor {
   FileManager &operator=(FileManager &&) = delete;
   ~FileManager() final;
 
+  static Status check_priority(int32 priority);
+
   static bool is_remotely_generated_file(Slice conversion);
 
   static vector<int> get_missing_file_parts(const Status &error);
 
   void init_actor();
-
-  FileId dup_file_id(FileId file_id, const char *source);
 
   FileId copy_file_id(FileId file_id, FileType file_type, DialogId owner_dialog_id, const char *source);
 
@@ -488,14 +498,14 @@ class FileManager final : public Actor {
 
   Status merge(FileId x_file_id, FileId y_file_id, bool no_sync = false);
 
-  void try_merge_documents(FileId old_file_id, FileId new_file_id);
+  void try_merge_documents(FileId new_file_id, FileId old_file_id);
 
-  void add_file_source(FileId file_id, FileSourceId file_source_id);
+  void add_file_source(FileId file_id, FileSourceId file_source_id, const char *source);
 
-  void remove_file_source(FileId file_id, FileSourceId file_source_id);
+  void remove_file_source(FileId file_id, FileSourceId file_source_id, const char *source);
 
   void change_files_source(FileSourceId file_source_id, const vector<FileId> &old_file_ids,
-                           const vector<FileId> &new_file_ids);
+                           const vector<FileId> &new_file_ids, const char *source);
 
   void on_file_reference_repaired(FileId file_id, FileSourceId file_source_id, Result<Unit> &&result,
                                   Promise<Unit> &&promise);
@@ -506,15 +516,33 @@ class FileManager final : public Actor {
   void check_local_location(FileId file_id, bool skip_file_size_checks);
   void check_local_location_async(FileId file_id, bool skip_file_size_checks);
 
-  void download(FileId file_id, std::shared_ptr<DownloadCallback> callback, int32 new_priority, int64 offset,
-                int64 limit, Promise<td_api::object_ptr<td_api::file>> promise);
-  void upload(FileId file_id, std::shared_ptr<UploadCallback> callback, int32 new_priority, uint64 upload_order);
-  void resume_upload(FileId file_id, vector<int> bad_parts, std::shared_ptr<UploadCallback> callback,
+  static int64 get_internal_download_id();
+
+  void download_file(FileId file_id, int32 priority, int64 offset, int64 limit, bool synchronous,
+                     Promise<td_api::object_ptr<td_api::file>> &&promise);
+
+  void download(FileId file_id, int64 internal_download_id, std::shared_ptr<DownloadCallback> callback,
+                int32 new_priority, int64 offset, int64 limit,
+                Promise<td_api::object_ptr<td_api::file>> promise = Promise<td_api::object_ptr<td_api::file>>());
+
+  void cancel_download(FileId file_id, int64 internal_download_id, bool only_if_pending);
+
+  static int64 get_internal_upload_id();
+
+  void upload(FileUploadId file_upload_id, std::shared_ptr<UploadCallback> callback, int32 new_priority,
+              uint64 upload_order);
+
+  void resume_upload(FileUploadId file_upload_id, vector<int> bad_parts, std::shared_ptr<UploadCallback> callback,
                      int32 new_priority, uint64 upload_order, bool force = false, bool prefer_small = false);
-  void cancel_upload(FileId file_id);
-  bool delete_partial_remote_location(FileId file_id);
-  void delete_partial_remote_location_if_needed(FileId file_id, const Status &error);
+
+  void cancel_upload(FileUploadId file_upload_id);
+
+  bool delete_partial_remote_location(FileUploadId file_upload_id);
+
+  void delete_partial_remote_location_if_needed(FileUploadId file_upload_id, const Status &error);
+
   void delete_file_reference(FileId file_id, Slice file_reference);
+
   void get_content(FileId file_id, Promise<BufferSlice> promise);
 
   void preliminary_upload_file(const td_api::object_ptr<td_api::InputFile> &input_file, FileType file_type,
@@ -522,8 +550,7 @@ class FileManager final : public Actor {
 
   Result<string> get_suggested_file_name(FileId file_id, const string &directory);
 
-  void read_file_part(FileId file_id, int64 offset, int64 count, int left_tries,
-                      Promise<td_api::object_ptr<td_api::filePart>> promise);
+  void read_file_part(FileId file_id, int64 offset, int64 count, int left_tries, Promise<string> promise);
 
   void delete_file(FileId file_id, Promise<Unit> promise, const char *source);
 
@@ -535,8 +562,8 @@ class FileManager final : public Actor {
   Result<FileId> from_persistent_id(CSlice persistent_id, FileType file_type) TD_WARN_UNUSED_RESULT;
   FileView get_file_view(FileId file_id) const;
   FileView get_sync_file_view(FileId file_id);
-  td_api::object_ptr<td_api::file> get_file_object(FileId file_id, bool with_main_file_id = true);
-  vector<int32> get_file_ids_object(const vector<FileId> &file_ids, bool with_main_file_id = true);
+  td_api::object_ptr<td_api::file> get_file_object(FileId file_id);
+  vector<int32> get_file_ids_object(const vector<FileId> &file_ids);
 
   Result<FileId> get_input_thumbnail_file_id(const tl_object_ptr<td_api::InputFile> &thumbnail_input_file,
                                              DialogId owner_dialog_id, bool is_encrypted) TD_WARN_UNUSED_RESULT;
@@ -562,6 +589,11 @@ class FileManager final : public Actor {
   static string extract_file_reference(const telegram_api::object_ptr<telegram_api::InputMedia> &input_media);
 
   static vector<string> extract_file_references(const telegram_api::object_ptr<telegram_api::InputMedia> &input_media);
+
+  static string extract_cover_file_reference(const telegram_api::object_ptr<telegram_api::InputMedia> &input_media);
+
+  static vector<string> extract_cover_file_references(
+      const telegram_api::object_ptr<telegram_api::InputMedia> &input_media);
 
   static string extract_file_reference(const telegram_api::object_ptr<telegram_api::InputDocument> &input_document);
 
@@ -647,8 +679,6 @@ class FileManager final : public Actor {
 
   Result<FileId> register_file(FileData &&data, FileLocationSource file_location_source, const char *source);
 
-  static constexpr int8 FROM_BYTES_PRIORITY = 10;
-
   using FileNodeId = int32;
 
   struct DownloadQuery {
@@ -676,9 +706,26 @@ class FileManager final : public Actor {
   };
   friend StringBuilder &operator<<(StringBuilder &string_builder, UploadQuery::Type type);
 
-  enum class FileInfoType { Local, Generate, Remote };
+  enum class FileInfoType : int32 { Local, Generate, Remote };
 
   class FileInfo {
+    bool is_info_changed_ = false;
+    bool is_database_changed_ = false;
+
+   protected:
+    void on_info_changed() {
+      is_info_changed_ = true;
+    }
+
+    void on_database_changed() {
+      is_database_changed_ = true;
+    }
+
+    void on_changed() {
+      is_info_changed_ = true;
+      is_database_changed_ = true;
+    }
+
    public:
     FileInfo() = default;
     FileInfo(const FileInfo &) = delete;
@@ -686,6 +733,18 @@ class FileManager final : public Actor {
     FileInfo(FileInfo &&) = delete;
     FileInfo &operator=(FileInfo &&) = delete;
     virtual ~FileInfo() = default;
+
+    bool need_info_flush() {
+      auto result = is_info_changed_;
+      is_info_changed_ = false;
+      return result;
+    }
+
+    bool need_database_flush() {
+      auto result = is_database_changed_;
+      is_database_changed_ = false;
+      return result;
+    }
 
     virtual FileInfoType get_file_info_type() const = 0;
 
@@ -719,7 +778,11 @@ class FileManager final : public Actor {
 
     virtual bool can_be_deleted() const = 0;
 
-    virtual unique_ptr<FileInfo> clone() const = 0;
+    virtual void set_size(int64 size) = 0;
+
+    virtual void set_expected_size(int64 expected_size) = 0;
+
+    virtual void delete_file_reference(Slice file_reference) = 0;
   };
 
   class FileInfoLocal;
@@ -729,19 +792,42 @@ class FileManager final : public Actor {
   struct FileIdInfo {
     FileNodeId node_id_{0};
     unique_ptr<FileInfo> file_info_;
-    bool send_updates_flag_{false};
     bool pin_flag_{false};
-    bool sent_file_id_flag_{false};
-    bool ignore_download_limit{false};
+  };
 
-    int8 download_priority_{0};
-    int8 upload_priority_{0};
+  struct UserFileDownloadInfo {
+    int64 offset_ = -1;
+    int64 limit_ = -1;
+    vector<Promise<td_api::object_ptr<td_api::file>>> promises_;
+  };
+  FlatHashMap<FileId, UserFileDownloadInfo, FileIdHash> pending_user_file_downloads_;
 
-    uint64 upload_order_{0};
+  class UserDownloadFileCallback;
 
+  std::shared_ptr<UserDownloadFileCallback> user_download_file_callback_;
+
+  struct FileDownloadInfo {
+    int8 download_priority_ = 0;
     std::shared_ptr<DownloadCallback> download_callback_;
+  };
+  struct FileDownloadRequests {
+    int8 user_download_priority_ = 0;
+    int64 user_offset_ = 0;
+    int64 user_limit_ = 0;
+    FlatHashMap<int64, FileDownloadInfo> internal_downloads_;
+  };
+  FlatHashMap<FileId, FileDownloadRequests, FileIdHash> file_download_requests_;
+
+  struct FileUploadInfo {
+    int8 upload_priority_{0};
+    uint64 upload_order_{0};
     std::shared_ptr<UploadCallback> upload_callback_;
   };
+  struct FileUploadRequests {
+    int8 user_upload_priority_{0};
+    FlatHashMap<int64, FileUploadInfo> internal_uploads_;
+  };
+  FlatHashMap<FileId, FileUploadRequests, FileIdHash> file_upload_requests_;
 
   class ForceUploadActor;
 
@@ -752,7 +838,7 @@ class FileManager final : public Actor {
   FileIdInfo *get_file_id_info(FileId file_id);
 
   struct RemoteInfo {
-    // mutable is set to to enable changing of access hash
+    // mutable is used to allow changing of access hash
     mutable FullRemoteFileLocation remote_;
     mutable FileLocationSource file_location_source_;
     FileId file_id_;
@@ -783,6 +869,8 @@ class FileManager final : public Actor {
   Container<GenerateQuery> generate_queries_;
   Container<UploadQuery> upload_queries_;
 
+  static std::atomic<int64> internal_load_id_;
+
   bool is_closed_ = false;
 
   std::set<std::string> bad_paths_;
@@ -794,8 +882,19 @@ class FileManager final : public Actor {
   int32 next_pmc_file_id();
   bool try_forget_file_id(FileId file_id);
 
-  void download_impl(FileId file_id, std::shared_ptr<DownloadCallback> callback, int32 new_priority, int64 offset,
-                     int64 limit, Status check_status, Promise<td_api::object_ptr<td_api::file>> promise);
+  void on_user_file_download_finished(FileId file_id);
+
+  void download_impl(FileId file_id, int64 internal_download_id, std::shared_ptr<DownloadCallback> callback,
+                     int32 new_priority, int64 offset, int64 limit, Status check_status,
+                     Promise<td_api::object_ptr<td_api::file>> promise);
+
+  std::shared_ptr<DownloadCallback> extract_download_callback(FileId file_id, int64 internal_download_id);
+
+  void finish_downloads(FileId file_id, const Status &status);
+
+  std::shared_ptr<UploadCallback> extract_upload_callback(FileUploadId file_upload_id);
+
+  void finish_uploads(FileId file_id, const Status &status);
 
   Status check_local_location(FileNodePtr node, bool skip_file_size_checks);
   void on_failed_check_local_location(FileNodePtr node);

@@ -117,7 +117,7 @@ namespace mtproto {
  *         BadMsgNotification;
  *
  *  error codes:
- *   16: msg_id is too low. -- lite resend. It will be automatially packed in a container. I hope.
+ *   16: msg_id is too low. -- lite resend. It will be automatically packed in a container. I hope.
  *   17: msg_id is too high. -- fail connection.
  *   18: msg_id % 4 != 0. -- Error and fail connection.
  *   19: container msg_id is the same as msg_id of a previously received message. MUST NEVER HAPPENS. Error and fail
@@ -809,8 +809,8 @@ void SessionConnection::send_crypto(const Storer &storer, uint64 quick_ack_token
                                                    auth_data_->get_auth_key(), quick_ack_token);
 }
 
-Result<MessageId> SessionConnection::send_query(BufferSlice buffer, bool gzip_flag, MessageId message_id,
-                                                vector<MessageId> invoke_after_message_ids, bool use_quick_ack) {
+MessageId SessionConnection::send_query(BufferSlice buffer, bool gzip_flag, MessageId message_id,
+                                        vector<MessageId> invoke_after_message_ids, bool use_quick_ack) {
   CHECK(mode_ != Mode::HttpLongPoll);  // "LongPoll connection is only for http_wait"
   if (message_id == MessageId()) {
     message_id = auth_data_->next_message_id(Time::now_cached());
@@ -824,7 +824,6 @@ Result<MessageId> SessionConnection::send_query(BufferSlice buffer, bool gzip_fl
   VLOG(mtproto) << "Invoke query with " << message_id << " and seq_no " << seq_no << " of size "
                 << to_send_.back().packet.size() << " after " << invoke_after_message_ids
                 << (use_quick_ack ? " with quick ack" : "");
-
   return message_id;
 }
 
@@ -1123,8 +1122,8 @@ double SessionConnection::flush(SessionConnection::Callback *callback) {
   auto status = do_flush();
   // check error
   if (status.is_error()) {
+    LOG(DEBUG) << "Close session because of " << status;
     do_close(std::move(status));
-    LOG(DEBUG) << "Close session because of an error";
     return 0;
   }
 

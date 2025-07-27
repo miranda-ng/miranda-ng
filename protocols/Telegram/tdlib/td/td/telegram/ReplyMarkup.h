@@ -51,14 +51,9 @@ struct InlineKeyboardButton {
     UrlAuth,
     CallbackWithPassword,
     User,
-    WebView
+    WebView,
+    Copy
   };
-
-  static constexpr int64 USERS_MASK = 1;
-  static constexpr int64 BOTS_MASK = 2;
-  static constexpr int64 CHATS_MASK = 4;
-  static constexpr int64 BROADCASTS_MASK = 8;
-  static constexpr int64 FULL_MASK = USERS_MASK | BOTS_MASK | CHATS_MASK | BROADCASTS_MASK;
 
   Type type;
   int64 id = 0;    // UrlAuth: button_id or (2 * request_write_access - 1) * bot_user_id
@@ -103,12 +98,12 @@ StringBuilder &operator<<(StringBuilder &string_builder, const ReplyMarkup &repl
 unique_ptr<ReplyMarkup> get_reply_markup(tl_object_ptr<telegram_api::ReplyMarkup> &&reply_markup_ptr, bool is_bot,
                                          bool only_inline_keyboard, bool message_contains_mention);
 
-Result<unique_ptr<ReplyMarkup>> get_reply_markup(td_api::object_ptr<td_api::ReplyMarkup> &&reply_markup_ptr,
-                                                 bool is_bot, bool only_inline_keyboard, bool request_buttons_allowed,
-                                                 bool switch_inline_buttons_allowed);
+Result<unique_ptr<ReplyMarkup>> get_inline_reply_markup(td_api::object_ptr<td_api::ReplyMarkup> &&reply_markup_ptr,
+                                                        bool is_bot, bool switch_inline_buttons_allowed);
 
 Result<unique_ptr<ReplyMarkup>> get_reply_markup(td_api::object_ptr<td_api::ReplyMarkup> &&reply_markup_ptr,
-                                                 DialogType dialog_type, bool is_bot, bool is_anonymous);
+                                                 DialogType dialog_type, bool is_admined_monoforum, bool is_bot,
+                                                 bool is_anonymous);
 
 unique_ptr<ReplyMarkup> dup_reply_markup(const unique_ptr<ReplyMarkup> &reply_markup);
 

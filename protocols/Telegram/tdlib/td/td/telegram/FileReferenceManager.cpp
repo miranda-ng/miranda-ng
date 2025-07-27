@@ -24,6 +24,7 @@
 #include "td/telegram/StoryManager.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/UserManager.h"
+#include "td/telegram/WebAppManager.h"
 #include "td/telegram/WebPageId.h"
 #include "td/telegram/WebPagesManager.h"
 
@@ -54,15 +55,26 @@ bool FileReferenceManager::is_file_reference_error(const Status &error) {
   return error.is_error() && error.code() == 400 && begins_with(error.message(), "FILE_REFERENCE_");
 }
 
-size_t FileReferenceManager::get_file_reference_error_pos(const Status &error) {
+FileReferenceManager::FileReferenceErrorSource FileReferenceManager::get_file_reference_error_source(
+    const Status &error) {
   if (!is_file_reference_error(error)) {
-    return 0;
+    return {0, false};
   }
   auto offset = Slice("FILE_REFERENCE_").size();
-  if (error.message().size() <= offset || !is_digit(error.message()[offset])) {
-    return 0;
+  Slice message = error.message();
+  if (message.size() <= offset) {
+    return {0, false};
   }
-  return to_integer<size_t>(error.message().substr(offset)) + 1;
+  message = message.substr(offset);
+  if (!is_digit(message[0])) {
+    if (message[0] == '_') {
+      message = message.substr(1);
+    }
+    return {0, begins_with(message, "COVER_")};
+  }
+  auto underscore_pos = message.find('_');
+  auto is_cover = underscore_pos != Slice::npos && begins_with(message.substr(underscore_pos + 1), "COVER_");
+  return {to_integer<size_t>(message) + 1, is_cover};
 }
 
 /*
@@ -208,21 +220,23 @@ FileReferenceManager::Node &FileReferenceManager::add_node(NodeId node_id) {
   return *node;
 }
 
-bool FileReferenceManager::add_file_source(NodeId node_id, FileSourceId file_source_id) {
+bool FileReferenceManager::add_file_source(NodeId node_id, FileSourceId file_source_id, const char *source) {
   auto &node = add_node(node_id);
   bool is_added = node.file_source_ids.add(file_source_id);
-  VLOG(file_references) << "Add " << (is_added ? "new" : "old") << ' ' << file_source_id << " for file " << node_id;
+  VLOG(file_references) << "Add " << (is_added ? "new" : "old") << ' ' << file_source_id << " for file " << node_id
+                        << " from " << source;
   return is_added;
 }
 
-bool FileReferenceManager::remove_file_source(NodeId node_id, FileSourceId file_source_id) {
+bool FileReferenceManager::remove_file_source(NodeId node_id, FileSourceId file_source_id, const char *source) {
   CHECK(node_id.is_valid());
   auto *node = nodes_.get_pointer(node_id);
   bool is_removed = node != nullptr && node->file_source_ids.remove(file_source_id);
   if (is_removed) {
-    VLOG(file_references) << "Remove " << file_source_id << " from file " << node_id;
+    VLOG(file_references) << "Remove " << file_source_id << " from file " << node_id << " from " << source;
   } else {
-    VLOG(file_references) << "Can't find " << file_source_id << " from file " << node_id << " to remove it";
+    VLOG(file_references) << "Can't find " << file_source_id << " from file " << node_id << " to remove it from "
+                          << source;
   }
   return is_removed;
 }
@@ -300,9 +314,9 @@ void FileReferenceManager::run_node(NodeId node_id) {
     VLOG(file_references) << "Have no more file sources to repair file reference for file " << node_id;
     for (auto &p : node.query->promises) {
       if (node.file_source_ids.empty()) {
-        p.set_error(Status::Error(400, "File source is not found"));
+        p.set_error(400, "File source is not found");
       } else {
-        p.set_error(Status::Error(429, "Too Many Requests: retry after 1"));
+        p.set_error(429, "Too Many Requests: retry after 1");
       }
     }
     node.query = {};
@@ -311,7 +325,7 @@ void FileReferenceManager::run_node(NodeId node_id) {
   if (node.last_successful_repair_time >= Time::now() - 60) {
     VLOG(file_references) << "Recently repaired file reference for file " << node_id << ", do not try again";
     for (auto &p : node.query->promises) {
-      p.set_error(Status::Error(429, "Too Many Requests: retry after 60"));
+      p.set_error(429, "Too Many Requests: retry after 60");
     }
     node.query = {};
     return;
@@ -358,9 +372,9 @@ void FileReferenceManager::send_query(Destination dest, FileSourceId file_source
         send_closure_later(G()->chat_manager(), &ChatManager::reload_channel, source.channel_id, std::move(promise),
                            "FileSourceChannelPhoto");
       },
-      [&](const FileSourceWallpapers &source) { promise.set_error(Status::Error("Can't repair old wallpapers")); },
+      [&](const FileSourceWallpapers &source) { promise.set_error("Can't repair old wallpapers"); },
       [&](const FileSourceWebPage &source) {
-        send_closure_later(G()->web_pages_manager(), &WebPagesManager::reload_web_page_by_url, source.url,
+        send_closure_later(G()->web_pages_manager(), &WebPagesManager::reload_web_page_by_url, source.url, false,
                            PromiseCreator::lambda([promise = std::move(promise)](Result<WebPageId> &&result) mutable {
                              if (result.is_error()) {
                                promise.set_error(result.move_as_error());
@@ -407,8 +421,8 @@ void FileReferenceManager::send_query(Destination dest, FileSourceId file_source
                            std::move(promise));
       },
       [&](const FileSourceWebApp &source) {
-        send_closure_later(G()->attach_menu_manager(), &AttachMenuManager::reload_web_app, source.user_id,
-                           source.short_name, std::move(promise));
+        send_closure_later(G()->web_app_manager(), &WebAppManager::reload_web_app, source.user_id, source.short_name,
+                           std::move(promise));
       },
       [&](const FileSourceStory &source) {
         send_closure_later(G()->story_manager(), &StoryManager::reload_story, source.story_full_id, std::move(promise),
@@ -510,7 +524,7 @@ void FileReferenceManager::reload_photo(PhotoSizeSource source, Promise<Unit> pr
     case PhotoSizeSource::Type::Legacy:
     case PhotoSizeSource::Type::FullLegacy:
     case PhotoSizeSource::Type::Thumbnail:
-      promise.set_error(Status::Error("Unexpected PhotoSizeSource type"));
+      promise.set_error("Unexpected PhotoSizeSource type");
       break;
     default:
       UNREACHABLE();
@@ -526,7 +540,7 @@ void FileReferenceManager::get_file_search_text(FileSourceId file_source_id, str
         send_closure_later(G()->messages_manager(), &MessagesManager::get_message_file_search_text,
                            source.message_full_id, std::move(unique_file_id), std::move(promise));
       },
-      [&](const auto &source) { promise.set_error(Status::Error(500, "Unsupported file source")); }));
+      [&](const auto &source) { promise.set_error(500, "Unsupported file source"); }));
 }
 
 td_api::object_ptr<td_api::message> FileReferenceManager::get_message_object(FileSourceId file_source_id) const {

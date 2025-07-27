@@ -497,15 +497,15 @@ void CTelegramProto::OnGetTopics(td::ClientManager::Response &response, void *pU
 
 void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 {
-	auto *pUser = FindChat(pForum->chat_id_);
+	auto *pInfo = pForum->info_.get();
+	auto *pUser = FindChat(pInfo->chat_id_);
 	if (!pUser) {
-		debugLogA("Uknown chat id %lld, skipping", pForum->chat_id_);
+		debugLogA("Uknown chat id %lld, skipping", pInfo->chat_id_);
 		return;
 	}
 
-	auto *pInfo = pForum->info_.get();
 	if (pUser->m_si == nullptr) {
-		debugLogA("No parent chat for id %lld, skipping", pForum->chat_id_);
+		debugLogA("No parent chat for id %lld, skipping", pInfo->chat_id_);
 		return;
 	}
 
@@ -515,7 +515,7 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 	}
 
 	wchar_t wszId[100];
-	mir_snwprintf(wszId, L"%lld_%lld", pForum->chat_id_, pForum->info_->message_thread_id_);
+	mir_snwprintf(wszId, L"%lld_%lld", pInfo->chat_id_, pForum->info_->message_thread_id_);
 
 	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
 	si->pParent = pUser->m_si;

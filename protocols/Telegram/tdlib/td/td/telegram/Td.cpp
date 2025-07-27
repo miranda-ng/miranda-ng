@@ -17,6 +17,7 @@
 #include "td/telegram/BackgroundManager.h"
 #include "td/telegram/BoostManager.h"
 #include "td/telegram/BotInfoManager.h"
+#include "td/telegram/BotRecommendationManager.h"
 #include "td/telegram/BusinessConnectionManager.h"
 #include "td/telegram/BusinessManager.h"
 #include "td/telegram/CallbackQueriesManager.h"
@@ -37,6 +38,7 @@
 #include "td/telegram/DownloadManager.h"
 #include "td/telegram/DownloadManagerCallback.h"
 #include "td/telegram/FileReferenceManager.h"
+#include "td/telegram/files/FileId.h"
 #include "td/telegram/files/FileManager.h"
 #include "td/telegram/files/FileSourceId.h"
 #include "td/telegram/ForumTopicManager.h"
@@ -49,6 +51,7 @@
 #include "td/telegram/LanguagePackManager.h"
 #include "td/telegram/LinkManager.h"
 #include "td/telegram/MessageImportManager.h"
+#include "td/telegram/MessageQueryManager.h"
 #include "td/telegram/MessagesManager.h"
 #include "td/telegram/misc.h"
 #include "td/telegram/net/ConnectionCreator.h"
@@ -71,18 +74,21 @@
 #include "td/telegram/PromoDataManager.h"
 #include "td/telegram/QuickReplyManager.h"
 #include "td/telegram/ReactionManager.h"
+#include "td/telegram/ReferralProgramManager.h"
 #include "td/telegram/RequestActor.h"
 #include "td/telegram/Requests.h"
 #include "td/telegram/SavedMessagesManager.h"
 #include "td/telegram/SecretChatsManager.h"
 #include "td/telegram/SecureManager.h"
 #include "td/telegram/SponsoredMessageManager.h"
+#include "td/telegram/StarGiftManager.h"
 #include "td/telegram/StarManager.h"
 #include "td/telegram/StateManager.h"
 #include "td/telegram/StatisticsManager.h"
 #include "td/telegram/StickersManager.h"
 #include "td/telegram/StorageManager.h"
 #include "td/telegram/StoryManager.h"
+#include "td/telegram/SuggestedActionManager.h"
 #include "td/telegram/SynchronousRequests.h"
 #include "td/telegram/TdDb.h"
 #include "td/telegram/TermsOfServiceManager.h"
@@ -97,6 +103,7 @@
 #include "td/telegram/VideoNotesManager.h"
 #include "td/telegram/VideosManager.h"
 #include "td/telegram/VoiceNotesManager.h"
+#include "td/telegram/WebAppManager.h"
 #include "td/telegram/WebPagesManager.h"
 
 #include "td/db/binlog/BinlogEvent.h"
@@ -144,6 +151,8 @@ bool Td::is_authentication_request(int32 id) {
     case td_api::setTdlibParameters::ID:
     case td_api::getAuthorizationState::ID:
     case td_api::setAuthenticationPhoneNumber::ID:
+    case td_api::checkAuthenticationPremiumPurchase::ID:
+    case td_api::setAuthenticationPremiumPurchaseTransaction::ID:
     case td_api::sendAuthenticationFirebaseSms::ID:
     case td_api::reportAuthenticationCodeMissing::ID:
     case td_api::setAuthenticationEmailAddress::ID:
@@ -501,8 +510,10 @@ void Td::dec_actor_refcnt() {
       reset_manager(background_manager_, "BackgroundManager");
       reset_manager(boost_manager_, "BoostManager");
       reset_manager(bot_info_manager_, "BotInfoManager");
+      reset_manager(bot_recommendation_manager_, "BotRecommendationManager");
       reset_manager(business_connection_manager_, "BusinessConnectionManager");
       reset_manager(business_manager_, "BusinessManager");
+      reset_manager(call_manager_, "CallManager");
       reset_manager(callback_queries_manager_, "CallbackQueriesManager");
       reset_manager(channel_recommendation_manager_, "ChannelRecommendationManager");
       reset_manager(chat_manager_, "ChatManager");
@@ -525,6 +536,7 @@ void Td::dec_actor_refcnt() {
       reset_manager(inline_queries_manager_, "InlineQueriesManager");
       reset_manager(link_manager_, "LinkManager");
       reset_manager(message_import_manager_, "MessageImportManager");
+      reset_manager(message_query_manager_, "MessageQueryManager");
       reset_manager(messages_manager_, "MessagesManager");
       reset_manager(notification_manager_, "NotificationManager");
       reset_manager(notification_settings_manager_, "NotificationSettingsManager");
@@ -536,12 +548,15 @@ void Td::dec_actor_refcnt() {
       reset_manager(promo_data_manager_, "PromoDataManager");
       reset_manager(quick_reply_manager_, "QuickReplyManager");
       reset_manager(reaction_manager_, "ReactionManager");
+      reset_manager(referral_program_manager_, "ReferralProgramManager");
       reset_manager(saved_messages_manager_, "SavedMessagesManager");
       reset_manager(sponsored_message_manager_, "SponsoredMessageManager");
+      reset_manager(star_gift_manager_, "StarGiftManager");
       reset_manager(star_manager_, "StarManager");
       reset_manager(statistics_manager_, "StatisticsManager");
       reset_manager(stickers_manager_, "StickersManager");
       reset_manager(story_manager_, "StoryManager");
+      reset_manager(suggested_action_manager_, "SuggestedActionManager");
       reset_manager(terms_of_service_manager_, "TermsOfServiceManager");
       reset_manager(theme_manager_, "ThemeManager");
       reset_manager(time_zone_manager_, "TimeZoneManager");
@@ -553,6 +568,7 @@ void Td::dec_actor_refcnt() {
       reset_manager(video_notes_manager_, "VideoNotesManager");
       reset_manager(videos_manager_, "VideosManager");
       reset_manager(voice_notes_manager_, "VoiceNotesManager");
+      reset_manager(web_app_manager_, "WebAppManager");
       reset_manager(web_pages_manager_, "WebPagesManager");
 
       G()->set_option_manager(nullptr);
@@ -646,7 +662,6 @@ void Td::clear() {
 
   // close all pure actors
   reset_actor(ActorOwn<Actor>(std::move(alarm_manager_)));
-  reset_actor(ActorOwn<Actor>(std::move(call_manager_)));
   reset_actor(ActorOwn<Actor>(std::move(cashtag_search_hints_)));
   reset_actor(ActorOwn<Actor>(std::move(config_manager_)));
   reset_actor(ActorOwn<Actor>(std::move(device_token_manager_)));
@@ -673,8 +688,10 @@ void Td::clear() {
   reset_actor(ActorOwn<Actor>(std::move(background_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(boost_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(bot_info_manager_actor_)));
+  reset_actor(ActorOwn<Actor>(std::move(bot_recommendation_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(business_connection_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(business_manager_actor_)));
+  reset_actor(ActorOwn<Actor>(std::move(call_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(channel_recommendation_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(chat_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(common_dialog_manager_actor_)));
@@ -695,6 +712,7 @@ void Td::clear() {
   reset_actor(ActorOwn<Actor>(std::move(inline_queries_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(link_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(message_import_manager_actor_)));
+  reset_actor(ActorOwn<Actor>(std::move(message_query_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(messages_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(notification_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(notification_settings_manager_actor_)));
@@ -706,12 +724,15 @@ void Td::clear() {
   reset_actor(ActorOwn<Actor>(std::move(promo_data_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(quick_reply_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(reaction_manager_actor_)));
+  reset_actor(ActorOwn<Actor>(std::move(referral_program_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(saved_messages_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(sponsored_message_manager_actor_)));
+  reset_actor(ActorOwn<Actor>(std::move(star_gift_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(star_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(statistics_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(stickers_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(story_manager_actor_)));
+  reset_actor(ActorOwn<Actor>(std::move(suggested_action_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(terms_of_service_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(theme_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(time_zone_manager_actor_)));
@@ -722,6 +743,7 @@ void Td::clear() {
   reset_actor(ActorOwn<Actor>(std::move(user_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(video_notes_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(voice_notes_manager_actor_)));
+  reset_actor(ActorOwn<Actor>(std::move(web_app_manager_actor_)));
   reset_actor(ActorOwn<Actor>(std::move(web_pages_manager_actor_)));
   LOG(DEBUG) << "All actors were cleared" << timer;
 }
@@ -821,7 +843,7 @@ void Td::init(Parameters parameters, Result<TdDb::OpenedDatabase> r_opened_datab
 
   // we need to process td_api::getOption along with td_api::setOption for consistency
   // we need to process td_api::setOption before managers and MTProto header are created,
-  // because their initialiation may be affected by the options
+  // because their initialization may be affected by the options
   complete_pending_preauthentication_requests([](int32 id) {
     switch (id) {
       case td_api::getOption::ID:
@@ -973,6 +995,11 @@ void Td::process_binlog_events(TdDb::OpenedDatabase &&events) {
 
   send_closure_later(poll_manager_actor_, &PollManager::on_binlog_events, std::move(events.to_poll_manager));
 
+  send_closure_later(dialog_manager_actor_, &DialogManager::on_binlog_events, std::move(events.to_dialog_manager));
+
+  send_closure_later(message_query_manager_actor_, &MessageQueryManager::on_binlog_events,
+                     std::move(events.to_message_query_manager));
+
   send_closure_later(messages_manager_actor_, &MessagesManager::on_binlog_events,
                      std::move(events.to_messages_manager));
 
@@ -1048,12 +1075,12 @@ void Td::init_file_manager() {
                    make_tl_object<td_api::updateFile>(td_->file_manager_->get_file_object(file_id)));
     }
 
-    bool add_file_source(FileId file_id, FileSourceId file_source_id) final {
-      return td_->file_reference_manager_->add_file_source(file_id, file_source_id);
+    bool add_file_source(FileId file_id, FileSourceId file_source_id, const char *source) final {
+      return td_->file_reference_manager_->add_file_source(file_id, file_source_id, source);
     }
 
-    bool remove_file_source(FileId file_id, FileSourceId file_source_id) final {
-      return td_->file_reference_manager_->remove_file_source(file_id, file_source_id);
+    bool remove_file_source(FileId file_id, FileSourceId file_source_id, const char *source) final {
+      return td_->file_reference_manager_->remove_file_source(file_id, file_source_id, source);
     }
 
     void on_merge_files(FileId to_file_id, FileId from_file_id) final {
@@ -1125,12 +1152,17 @@ void Td::init_managers() {
   bot_info_manager_ = make_unique<BotInfoManager>(this, create_reference());
   bot_info_manager_actor_ = register_actor("BotInfoManager", bot_info_manager_.get());
   G()->set_bot_info_manager(bot_info_manager_actor_.get());
+  bot_recommendation_manager_ = make_unique<BotRecommendationManager>(this, create_reference());
+  bot_recommendation_manager_actor_ = register_actor("BotRecommendationManager", bot_recommendation_manager_.get());
   business_connection_manager_ = make_unique<BusinessConnectionManager>(this, create_reference());
   business_connection_manager_actor_ = register_actor("BusinessConnectionManager", business_connection_manager_.get());
   G()->set_business_connection_manager(business_connection_manager_actor_.get());
   business_manager_ = make_unique<BusinessManager>(this, create_reference());
   business_manager_actor_ = register_actor("BusinessManager", business_manager_.get());
   G()->set_business_manager(business_manager_actor_.get());
+  call_manager_ = make_unique<CallManager>(this, create_reference());
+  call_manager_actor_ = register_actor("CallManager", call_manager_.get());
+  G()->set_call_manager(call_manager_actor_.get());
   channel_recommendation_manager_ = make_unique<ChannelRecommendationManager>(this, create_reference());
   channel_recommendation_manager_actor_ =
       register_actor("ChannelRecommendationManager", channel_recommendation_manager_.get());
@@ -1181,6 +1213,9 @@ void Td::init_managers() {
   message_import_manager_ = make_unique<MessageImportManager>(this, create_reference());
   message_import_manager_actor_ = register_actor("MessageImportManager", message_import_manager_.get());
   G()->set_message_import_manager(message_import_manager_actor_.get());
+  message_query_manager_ = make_unique<MessageQueryManager>(this, create_reference());
+  message_query_manager_actor_ = register_actor("MessageQueryManager", message_query_manager_.get());
+  G()->set_message_query_manager(message_query_manager_actor_.get());
   messages_manager_ = make_unique<MessagesManager>(this, create_reference());
   messages_manager_actor_ = register_actor("MessagesManager", messages_manager_.get());
   G()->set_messages_manager(messages_manager_actor_.get());
@@ -1209,12 +1244,17 @@ void Td::init_managers() {
   reaction_manager_ = make_unique<ReactionManager>(this, create_reference());
   reaction_manager_actor_ = register_actor("ReactionManager", reaction_manager_.get());
   G()->set_reaction_manager(reaction_manager_actor_.get());
+  referral_program_manager_ = make_unique<ReferralProgramManager>(this, create_reference());
+  referral_program_manager_actor_ = register_actor("ReferralProgramManager", referral_program_manager_.get());
+  G()->set_referral_program_manager(referral_program_manager_actor_.get());
   saved_messages_manager_ = make_unique<SavedMessagesManager>(this, create_reference());
   saved_messages_manager_actor_ = register_actor("SavedMessagesManager", saved_messages_manager_.get());
   G()->set_saved_messages_manager(saved_messages_manager_actor_.get());
   sponsored_message_manager_ = make_unique<SponsoredMessageManager>(this, create_reference());
   sponsored_message_manager_actor_ = register_actor("SponsoredMessageManager", sponsored_message_manager_.get());
   G()->set_sponsored_message_manager(sponsored_message_manager_actor_.get());
+  star_gift_manager_ = make_unique<StarGiftManager>(this, create_reference());
+  star_gift_manager_actor_ = register_actor("StarGiftManager", star_gift_manager_.get());
   star_manager_ = make_unique<StarManager>(this, create_reference());
   star_manager_actor_ = register_actor("StarManager", star_manager_.get());
   G()->set_star_manager(star_manager_actor_.get());
@@ -1226,6 +1266,9 @@ void Td::init_managers() {
   story_manager_ = make_unique<StoryManager>(this, create_reference());
   story_manager_actor_ = register_actor("StoryManager", story_manager_.get());
   G()->set_story_manager(story_manager_actor_.get());
+  suggested_action_manager_ = make_unique<SuggestedActionManager>(this, create_reference());
+  suggested_action_manager_actor_ = register_actor("SuggestedActionManager", suggested_action_manager_.get());
+  G()->set_suggested_action_manager(suggested_action_manager_actor_.get());
   terms_of_service_manager_ = make_unique<TermsOfServiceManager>(this, create_reference());
   terms_of_service_manager_actor_ = register_actor("TermsOfServiceManager", terms_of_service_manager_.get());
   theme_manager_ = make_unique<ThemeManager>(this, create_reference());
@@ -1252,14 +1295,15 @@ void Td::init_managers() {
   video_notes_manager_actor_ = register_actor("VideoNotesManager", video_notes_manager_.get());
   voice_notes_manager_ = make_unique<VoiceNotesManager>(this, create_reference());
   voice_notes_manager_actor_ = register_actor("VoiceNotesManager", voice_notes_manager_.get());
+  web_app_manager_ = make_unique<WebAppManager>(this, create_reference());
+  web_app_manager_actor_ = register_actor("WebAppManager", web_app_manager_.get());
+  G()->set_web_app_manager(web_app_manager_actor_.get());
   web_pages_manager_ = make_unique<WebPagesManager>(this, create_reference());
   web_pages_manager_actor_ = register_actor("WebPagesManager", web_pages_manager_.get());
   G()->set_web_pages_manager(web_pages_manager_actor_.get());
 }
 
 void Td::init_pure_actor_managers() {
-  call_manager_ = create_actor<CallManager>("CallManager", create_reference());
-  G()->set_call_manager(call_manager_.get());
   cashtag_search_hints_ = create_actor<HashtagHints>("CashtagSearchHints", "cashtag_search", '$', create_reference());
   device_token_manager_ = create_actor<DeviceTokenManager>("DeviceTokenManager", create_reference());
   hashtag_hints_ = create_actor<HashtagHints>("HashtagHints", "text", '#', create_reference());
@@ -1323,7 +1367,7 @@ void Td::send_result(uint64 id, tl_object_ptr<td_api::Object> object) {
   auto it = request_set_.find(id);
   if (it != request_set_.end()) {
     if (object == nullptr) {
-      object = make_tl_object<td_api::error>(404, "Not Found");
+      object = td_api::make_object<td_api::error>(404, "Not Found");
     }
     VLOG(td_requests) << "Sending result for request " << id << ": " << to_string(object);
     request_set_.erase(it);
@@ -1412,10 +1456,6 @@ Result<std::pair<Td::Parameters, TdDb::Parameters>> Td::get_parameters(
   options_.proxy = Proxy();
 
   return std::move(result);
-}
-
-void Td::on_file_download_finished(FileId file_id) {
-  requests_->on_file_download_finished(file_id);
 }
 
 }  // namespace td

@@ -6,6 +6,7 @@ CMPlugin g_plugin;
 #pragma comment(lib, "tdactor.lib")
 #pragma comment(lib, "tdcore.lib")
 #pragma comment(lib, "tddb.lib")
+#pragma comment(lib, "tde2e.lib")
 #pragma comment(lib, "tdlib.lib")
 #pragma comment(lib, "tdnet.lib")
 #pragma comment(lib, "tdutils.lib")

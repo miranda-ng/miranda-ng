@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -112,8 +112,8 @@ class TL_writer {
   virtual std::string gen_constructor_id_store(std::int32_t id, int storer_type) const = 0;
   virtual std::string gen_field_fetch(int field_num, const arg &a, std::vector<var_description> &vars, bool flat,
                                       int parser_type) const = 0;
-  virtual std::string gen_field_store(const arg &a, std::vector<var_description> &vars, bool flat,
-                                      int storer_type) const = 0;
+  virtual std::string gen_field_store(const arg &a, const std::vector<arg> &args, std::vector<var_description> &vars,
+                                      bool flat, int storer_type) const = 0;
   virtual std::string gen_type_fetch(const std::string &field_name, const tl_tree_type *tree_type,
                                      const std::vector<var_description> &vars, int parser_type) const = 0;
   virtual std::string gen_type_store(const std::string &field_name, const tl_tree_type *tree_type,

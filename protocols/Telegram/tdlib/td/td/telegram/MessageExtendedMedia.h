@@ -36,11 +36,12 @@ class MessageExtendedMedia {
   Dimensions dimensions_;
   string minithumbnail_;
 
-  // for Photo
+  // for Photo and Video cover
   Photo photo_;
 
   // for Video
   FileId video_file_id_;
+  int32 start_timestamp_ = 0;
 
   friend bool operator==(const MessageExtendedMedia &lhs, const MessageExtendedMedia &rhs);
 
@@ -80,6 +81,10 @@ class MessageExtendedMedia {
 
   void delete_thumbnail(Td *td);
 
+  bool is_unsupported() const {
+    return type_ == Type::Unsupported;
+  }
+
   bool need_reget() const {
     return type_ == Type::Unsupported && unsupported_version_ < CURRENT_VERSION;
   }
@@ -98,19 +103,19 @@ class MessageExtendedMedia {
 
   int32 get_duration(const Td *td) const;
 
-  FileId get_upload_file_id() const;
-
   FileId get_any_file_id() const;
 
   FileId get_thumbnail_file_id(const Td *td) const;
 
+  FileId get_cover_any_file_id() const;
+
   void update_file_id_remote(FileId file_id);
 
-  MessageExtendedMedia dup_to_send(Td *td, bool always_dup_files) const;
+  const Photo *get_video_cover() const;
 
   telegram_api::object_ptr<telegram_api::InputMedia> get_input_media(
-      Td *td, tl_object_ptr<telegram_api::InputFile> input_file,
-      tl_object_ptr<telegram_api::InputFile> input_thumbnail) const;
+      Td *td, telegram_api::object_ptr<telegram_api::InputFile> input_file,
+      telegram_api::object_ptr<telegram_api::InputFile> input_thumbnail) const;
 
   void merge_files(Td *td, MessageExtendedMedia &other, DialogId dialog_id, bool need_merge_files,
                    bool &is_content_changed, bool &need_update) const;

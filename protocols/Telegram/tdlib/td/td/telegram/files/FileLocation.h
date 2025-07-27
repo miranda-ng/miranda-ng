@@ -398,13 +398,14 @@ class FullRemoteFileLocation {
             switch (thumbnail.file_type) {
               case FileType::Photo:
               case FileType::PhotoStory:
+              case FileType::SelfDestructingPhoto:
                 return make_tl_object<telegram_api::inputPhotoFileLocation>(
                     id, access_hash, BufferSlice(file_reference_),
-                    std::string(1, static_cast<char>(static_cast<uint8>(thumbnail.thumbnail_type))));
+                    std::string(1, static_cast<char>(static_cast<uint8>(thumbnail.thumbnail_type.type))));
               case FileType::Thumbnail:
                 return make_tl_object<telegram_api::inputDocumentFileLocation>(
                     id, access_hash, BufferSlice(file_reference_),
-                    std::string(1, static_cast<char>(static_cast<uint8>(thumbnail.thumbnail_type))));
+                    std::string(1, static_cast<char>(static_cast<uint8>(thumbnail.thumbnail_type.type))));
               default:
                 UNREACHABLE();
                 break;
@@ -415,9 +416,8 @@ class FullRemoteFileLocation {
           case PhotoSizeSource::Type::DialogPhotoBig: {
             auto &dialog_photo = source.dialog_photo();
             bool is_big = source.get_type("as_input_file_location 2") == PhotoSizeSource::Type::DialogPhotoBig;
-            return make_tl_object<telegram_api::inputPeerPhotoFileLocation>(
-                is_big * telegram_api::inputPeerPhotoFileLocation::BIG_MASK, false /*ignored*/,
-                dialog_photo.get_input_peer(), id);
+            return make_tl_object<telegram_api::inputPeerPhotoFileLocation>(0, is_big, dialog_photo.get_input_peer(),
+                                                                            id);
           }
           case PhotoSizeSource::Type::StickerSetThumbnail:
             UNREACHABLE();
@@ -433,8 +433,7 @@ class FullRemoteFileLocation {
             auto &dialog_photo = source.dialog_photo_legacy();
             bool is_big = source.get_type("as_input_file_location 3") == PhotoSizeSource::Type::DialogPhotoBigLegacy;
             return make_tl_object<telegram_api::inputPeerPhotoFileLocationLegacy>(
-                is_big * telegram_api::inputPeerPhotoFileLocationLegacy::BIG_MASK, false /*ignored*/,
-                dialog_photo.get_input_peer(), dialog_photo.volume_id, dialog_photo.local_id);
+                0, is_big, dialog_photo.get_input_peer(), dialog_photo.volume_id, dialog_photo.local_id);
           }
           case PhotoSizeSource::Type::StickerSetThumbnailLegacy: {
             auto &sticker_set_thumbnail = source.sticker_set_thumbnail_legacy();

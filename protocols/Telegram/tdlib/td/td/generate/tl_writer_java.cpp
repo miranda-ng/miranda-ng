@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -351,7 +351,8 @@ std::string TD_TL_writer_java::gen_field_fetch(int field_num, const tl::arg &a, 
   return "";
 }
 
-std::string TD_TL_writer_java::gen_field_store(const tl::arg &a, std::vector<tl::var_description> &vars, bool flat,
+std::string TD_TL_writer_java::gen_field_store(const tl::arg &a, const std::vector<tl::arg> &args,
+                                               std::vector<tl::var_description> &vars, bool flat,
                                                int storer_type) const {
   return "";
 }

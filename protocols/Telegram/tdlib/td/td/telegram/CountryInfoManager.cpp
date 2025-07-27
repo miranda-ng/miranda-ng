@@ -50,7 +50,7 @@ class GetNearestDcQuery final : public Td::ResultHandler {
 
   void on_error(Status status) final {
     if (!G()->is_expected_error(status) && status.message() != "BOT_METHOD_INVALID") {
-      LOG(ERROR) << "GetNearestDc returned " << status;
+      LOG(ERROR) << "Receive error for GetNearestDcQuery: " << status;
     }
     promise_.set_error(std::move(status));
   }
@@ -80,7 +80,7 @@ class GetCountriesListQuery final : public Td::ResultHandler {
 
   void on_error(Status status) final {
     if (!G()->is_expected_error(status)) {
-      LOG(ERROR) << "GetCountriesList returned " << status;
+      LOG(ERROR) << "Receive error for GetCountriesListQuery: " << status;
     }
     promise_.set_error(std::move(status));
   }
@@ -203,10 +203,10 @@ void CountryInfoManager::do_get_countries(string language_code, bool is_recursiv
   }
 
   if (is_recursive) {
-    return promise.set_error(Status::Error(500, "Requested data is inaccessible"));
+    return promise.set_error(500, "Requested data is inaccessible");
   }
   if (language_code.empty()) {
-    return promise.set_error(Status::Error(400, "Invalid language code specified"));
+    return promise.set_error(400, "Invalid language code specified");
   }
   load_country_list(language_code, 0,
                     PromiseCreator::lambda([actor_id = actor_id(this), language_code,
@@ -246,10 +246,10 @@ void CountryInfoManager::do_get_phone_number_info(string phone_number_prefix, st
   }
 
   if (is_recursive) {
-    return promise.set_error(Status::Error(500, "Requested data is inaccessible"));
+    return promise.set_error(500, "Requested data is inaccessible");
   }
   if (language_code.empty()) {
-    return promise.set_error(Status::Error(400, "Invalid language code specified"));
+    return promise.set_error(400, "Invalid language code specified");
   }
   load_country_list(language_code, 0,
                     PromiseCreator::lambda([actor_id = actor_id(this), phone_number_prefix, language_code,

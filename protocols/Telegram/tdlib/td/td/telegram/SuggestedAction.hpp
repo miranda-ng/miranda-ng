@@ -1,11 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
+#include "td/telegram/MessageEntity.hpp"
 #include "td/telegram/SuggestedAction.h"
 
 #include "td/utils/common.h"
@@ -28,6 +29,12 @@ void SuggestedAction::store(StorerT &storer) const {
   if (has_otherwise_relogin_days) {
     td::store(otherwise_relogin_days_, storer);
   }
+  if (type_ == Type::Custom) {
+    td::store(custom_type_, storer);
+    td::store(title_, storer);
+    td::store(description_, storer);
+    td::store(url_, storer);
+  }
 }
 
 template <class ParserT>
@@ -44,6 +51,12 @@ void SuggestedAction::parse(ParserT &parser) {
   }
   if (has_otherwise_relogin_days) {
     td::parse(otherwise_relogin_days_, parser);
+  }
+  if (type_ == Type::Custom) {
+    td::parse(custom_type_, parser);
+    td::parse(title_, parser);
+    td::parse(description_, parser);
+    td::parse(url_, parser);
   }
 }
 
