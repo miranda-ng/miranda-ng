@@ -272,9 +272,12 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 	}
 
 	// we ignore messages without a server id if MAM is enabled
-	if ((m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MAM) && m_bEnableMam && m_iMamMode != 0 && M.szMamMsgId == nullptr) {
-		debugLogA("MAM is enabled, but there's no stanza-id: ignoring a message");
-		return;
+	if ((m_ThreadInfo->jabberServerCaps & JABBER_CAPS_MAM) && m_bEnableMam && M.szMamMsgId == nullptr) {
+		if (m_iMamMode != 0) {
+			debugLogA("MAM is enabled, but there's no stanza-id: ignoring a message");
+			return;
+		}
+		M.szMamMsgId = M.idStr;
 	}
 
 	M.szMessage.Replace("\n", "\r\n");
