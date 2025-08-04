@@ -470,8 +470,6 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 			continue;
 
 		MCONTACT hContact = HContactFromJID(jid);
-		if (hContact == 0 && !IsMyOwnJID(jid)) // Received roster has a new JID.
-			hContact = DBCreateContact(jid, nick, false, false); // Add the jid (with empty resource) to a Miranda's contact list.
 
 		JABBER_LIST_ITEM *item = ListAdd(LIST_ROSTER, jid, hContact);
 		item->subscription = sub;
@@ -481,18 +479,27 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 		replaceStr(item->group, XmlGetChildText(itemNode, "group"));
 		UpdateItem(item, name);
 
-		if (isChatRoom(hContact)) {
+		if (isChatRoom(hContact) || strstr(jid, "@conference.")) {
 			char *szTitle = NEWSTR_ALLOCA(jid);
 			if (char *p = strchr(szTitle, '@'))
 				*p = 0;
-			Chat_NewSession(GCW_CHATROOM, m_szModuleName, Utf2T(jid), Utf2T(szTitle));
+
+			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, Utf2T(jid), Utf2T(szTitle));
+			hContact = si->hContact;
 
 			Contact::Hide(hContact, false);
 			chatRooms.insert((HANDLE)hContact);
 		}
-		else UpdateSubscriptionInfo(hContact, item);
+		else {
+			if (hContact == 0 && !IsMyOwnJID(jid)) // Received roster has a new JID.
+				hContact = DBCreateContact(jid, nick, false, false); // Add the jid (with empty resource) to a Miranda's contact list.
+
+			UpdateSubscriptionInfo(hContact, item);
+		}
 
 		if (hContact != 0) {
+			item->hContact = hContact;
+
 			if (bIsTransport)
 				setByte(hContact, "IsTransport", true);
 			else
