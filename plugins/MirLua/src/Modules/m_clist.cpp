@@ -117,6 +117,22 @@ static int clist_AddTrayMenuItem(lua_State *L)
 	return 1;
 }
 
+static int clist_AddGroupMenuItem(lua_State *L)
+{
+	luaL_checktype(L, 1, LUA_TTABLE);
+
+	CMenuItem mi(&g_plugin);
+	MakeMenuItem(L, mi);
+
+	HGENMENU res = Menu_AddGroupMenuItem(&mi);
+	if (res != nullptr)
+		lua_pushlightuserdata(L, res);
+	else
+		lua_pushnil(L);
+
+	return 1;
+}
+
 static luaL_Reg clistApi[] =
 {
 	{ "AddMainMenuRoot", clist_AddMainMenuRoot },
@@ -126,6 +142,7 @@ static luaL_Reg clistApi[] =
 	{ "AddContactMenuItem", clist_AddContactMenuItem },
 
 	{ "AddTrayMenuItem", clist_AddTrayMenuItem },
+	{ "AddGroupMenuItem", clist_AddGroupMenuItem },
 
 	{ nullptr, nullptr }
 };

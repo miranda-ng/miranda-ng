@@ -27,18 +27,8 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 	case HOST_TEAMS:     m_szUrl = TEAMS_BASE_HOST; break;
 	case HOST_TEAMS_API: m_szUrl = TEAMS_BASE_HOST "/api/mt/beta"; break;
 	case HOST_CHATS:     m_szUrl = TEAMS_BASE_HOST "/api/chatsvc/consumer/v1"; break;
+	case HOST_GROUPS:    m_szUrl = TEAMS_BASE_HOST "/api/groups/v1"; break;
 	case HOST_PRESENCE:  m_szUrl = "presence." TEAMS_BASE_HOST "/v1"; break;
-
-	case HOST_DEFAULT_V2:
-		AddHeader("MS-IC3-Product", "Sfl");
-		m_szUrl = "msgapi." TEAMS_BASE_HOST "/v2";
-		m_host = HOST_DEFAULT;
-		break;
-
-	case HOST_DEFAULT:
-		AddHeader("MS-IC3-Product", "Sfl");
-		m_szUrl = "msgapi." TEAMS_BASE_HOST "/v1";
-		break;
 	}
 
 	AddHeader("User-Agent", TEAMS_USER_AGENT);
@@ -53,11 +43,6 @@ AsyncHttpRequest::AsyncHttpRequest(int type, SkypeHost host, LPCSTR url, MTHttpR
 void AsyncHttpRequest::AddAuthentication(CTeamsProto *ppro)
 {
 	AddHeader("Authentication", CMStringA("skypetoken=") + ppro->m_szSkypeToken);
-}
-
-void AsyncHttpRequest::AddRegistration(CTeamsProto *ppro)
-{
-	AddHeader("RegistrationToken", "registrationToken=" + ppro->m_szRegToken);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -114,8 +99,8 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 	pReq->AddHeader("X-MS-Client-Consumer-Type", "teams4life");
 
 	switch (pReq->m_host) {
+	case HOST_CHATS:
 	case HOST_CONTACTS:
-	case HOST_DEFAULT:
 		pReq->AddAuthentication(this);
 		pReq->AddHeader("Accept", "application/json");
 		pReq->AddHeader("X-Stratus-Caller", TEAMS_CLIENTINFO_NAME);
@@ -126,8 +111,15 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		pReq->AddHeader("ms-ic3-additional-product", "Sfl");
 		break;
 
-	case HOST_TEAMS:
+	case HOST_GROUPS:
 	case HOST_TEAMS_API:
+		pReq->AddHeader("X-MS-Client-Type", "maglev");
+		pReq->AddHeader("Origin", "https://teams.live.com");
+		pReq->AddHeader("Referer", "https://teams.live.com/v2/");
+		pReq->AddHeader("Cookie", mir_urlEncode(m_szApiCookie));
+		__fallthrough;
+
+	case HOST_TEAMS:
 		if (!pReq->FindHeader("Authorization"))
 		 	pReq->AddHeader("Authorization", "Bearer " + m_szAccessToken);
 		if (m_szSkypeToken)
@@ -135,12 +127,6 @@ MHttpResponse* CTeamsProto::DoSend(AsyncHttpRequest *pReq)
 		pReq->AddHeader("Accept", "application/json");
 		pReq->AddHeader("ms-ic3-product", "tfl");
 		pReq->AddHeader("ms-ic3-additional-product", "Sfl");
-		break;
-
-	case HOST_CHATS:
-		pReq->AddAuthentication(this);
-		pReq->AddRegistration(this);
-		pReq->AddHeader("Accept", "application/json");
 		break;
 
 	case HOST_API:

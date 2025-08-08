@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -39,6 +39,15 @@ DialogNotificationSettings::get_input_peer_notify_settings() const {
   return telegram_api::make_object<telegram_api::inputPeerNotifySettings>(
       flags, show_preview, silent_send_message, mute_until, get_input_notification_sound(sound), mute_stories,
       hide_story_sender, get_input_notification_sound(story_sound));
+}
+
+DialogNotificationSettings DialogNotificationSettings::clone_for_secret_chat() const {
+  auto notification_settings = DialogNotificationSettings(
+      use_default_mute_until, mute_until, dup_notification_sound(sound), true /*use_default_show_preview*/,
+      false /*show_preview*/, use_default_mute_stories, mute_stories, dup_notification_sound(story_sound),
+      use_default_hide_story_sender, hide_story_sender, silent_send_message, true, false, true, false);
+  notification_settings.is_secret_chat_show_preview_fixed = true;
+  return notification_settings;
 }
 
 StringBuilder &operator<<(StringBuilder &string_builder, const DialogNotificationSettings &notification_settings) {
@@ -113,8 +122,8 @@ Result<DialogNotificationSettings> get_dialog_notification_settings(
       notification_settings->use_default_mute_for_, mute_until, std::move(notification_sound),
       notification_settings->use_default_show_preview_, notification_settings->show_preview_,
       notification_settings->use_default_mute_stories_, notification_settings->mute_stories_,
-      std::move(story_notification_sound), notification_settings->use_default_show_story_sender_,
-      !notification_settings->show_story_sender_, old_settings->silent_send_message,
+      std::move(story_notification_sound), notification_settings->use_default_show_story_poster_,
+      !notification_settings->show_story_poster_, old_settings->silent_send_message,
       notification_settings->use_default_disable_pinned_message_notifications_,
       notification_settings->disable_pinned_message_notifications_,
       notification_settings->use_default_disable_mention_notifications_,

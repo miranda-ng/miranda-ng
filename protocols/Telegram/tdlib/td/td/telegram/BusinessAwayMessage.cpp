@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -42,12 +42,8 @@ td_api::object_ptr<td_api::businessAwayMessageSettings> BusinessAwayMessage::get
 
 telegram_api::object_ptr<telegram_api::inputBusinessAwayMessage> BusinessAwayMessage::get_input_business_away_message(
     Td *td) const {
-  int32 flags = 0;
-  if (offline_only_) {
-    flags |= telegram_api::inputBusinessAwayMessage::OFFLINE_ONLY_MASK;
-  }
   return telegram_api::make_object<telegram_api::inputBusinessAwayMessage>(
-      flags, false /*ignored*/, shortcut_id_.get(), schedule_.get_input_business_away_message_schedule(),
+      0, offline_only_, shortcut_id_.get(), schedule_.get_input_business_away_message_schedule(),
       recipients_.get_input_business_recipients(td));
 }
 

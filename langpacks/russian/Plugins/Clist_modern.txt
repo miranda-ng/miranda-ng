@@ -156,18 +156,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 3-й:
 [Place offline users out of groups]
 Отключённых показывать вне групп
-[Selection mode]
-Тип выделения
-[Default]
-По умолчанию
-[Full selection]
-Полное выделение
-[Less selection]
-Только над текстом
-[No selection]
-Не выделять
-[Gamma correction]
-Коррекция гаммы
+[Appearance]
+Внешний вид
+[Always on top]
+Поверх всех окон
 [Bring to front if covered]
 Перемещать на передний план
 [Hide contact list after]
@@ -186,8 +178,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Запретить изменение размера
 [Drag to]
 Перетаскивание
-[Easy scroll]
-Простая прокрутка
 [Easy move]
 Простое перемещение
 [x100 ms]
@@ -212,8 +202,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Автоматически
 [Always visible]
 Всегда видимый
-[Dock to sides]
-Парковать
 [and minimum]
 и минимум
 [Items]
@@ -302,12 +290,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Показывать время, только если оно отличается
 [Show contact time as row item]
 Время как элемент строки
-[Appearance]
-Внешний вид
-[Always on top]
-Поверх всех окон
-[Pin to desktop]
-Прикрепить к раб. столу
 [Client area margins]
 Границы списка контактов
 [Thin border main window]
@@ -322,8 +304,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Заголовок окна:
 [Tool style main window]
 Стиль панели у заголовка
-[Minimize to tray]
-Сворачивать в трей
 [Translucency options]
 Настройки прозрачности списка контактов
 [Fade contact list in/out]
@@ -352,6 +332,12 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Выключить скины
 [Enable Aero Glass (Vista, Win 7)]
 Включить Aero Glass (Vista, Win 7)
+[Selection mode]
+Тип выделения
+[Gamma correction]
+Коррекция гаммы
+[Minimize to tray]
+Сворачивать в трей
 [Order of items:]
 Порядок элементов:
 [Minimum row height:]
@@ -657,6 +643,14 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 За левый край
 [Behind right edge]
 За правый край
+[Default]
+По умолчанию
+[Full selection]
+Полное выделение
+[Less selection]
+Только над текстом
+[No selection]
+Не выделять
 [General]
 Общее
 [Tray]

@@ -27,6 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* genmenu structs */
 
+#define MS_CLIST_MAIN_MENU "MainMenu/Command"
+#define MS_CLIST_STATUS_MENU "GlobalStatus/Command"
+
 #define MENUITEM_SIGNATURE 0xDEADBEEF
 
 struct TIntMenuObject;
@@ -57,7 +60,7 @@ struct TMO_IntMenuItem : public MZeroedObject
 	HANDLE       hIcolibItem;      // handle of iconlib item
 	HBITMAP      hBmp;
 	int          originalPosition; // !!!!!!!!!!!!!!!!!!!!!!!!
-	bool         customVisible;
+	bool         bCustomVisible, bMainMenu, bStatusMenu;
 
 	uint32_t     hotKey;
 	WPARAM       execParam;
@@ -94,10 +97,6 @@ struct TIntMenuObject : public MZeroedObject
 	//WPARAM wParam;//menuitemhandle
 	char *FreeService;//callback service used to free ownerdata for menuitems
 
-	//LPARAM lParam;//MENUITEMINFO filled with all needed data
-	//WPARAM wParam;//menuitemhandle
-	char *onAddService;//called just before add MENUITEMINFO to hMenu
-
 	TMO_LinkedList m_items;
 	HIMAGELIST m_hMenuIcons;
 	bool m_bUseUserDefinedItems;
@@ -106,6 +105,7 @@ struct TIntMenuObject : public MZeroedObject
 };
 
 extern LIST<TIntMenuObject> g_menus;
+extern bool g_bMenuIconsEnabled;
 
 #define SEPARATORPOSITIONINTERVAL	100000
 

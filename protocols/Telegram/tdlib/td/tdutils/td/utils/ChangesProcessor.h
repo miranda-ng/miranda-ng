@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -38,7 +38,7 @@ class ChangesProcessor {
       return;
     }
     data_array_[pos].second = true;
-    while (ready_i_ < data_array_.size() && data_array_[ready_i_].second == true) {
+    while (ready_i_ < data_array_.size() && data_array_[ready_i_].second) {
       func(std::move(data_array_[ready_i_].first));
       ready_i_++;
     }

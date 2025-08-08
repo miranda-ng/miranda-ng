@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,12 +7,14 @@
 #include "td/telegram/SavedMessagesTopicId.h"
 
 #include "td/telegram/AccessRights.h"
+#include "td/telegram/AuthManager.h"
 #include "td/telegram/Dependencies.h"
 #include "td/telegram/DialogManager.h"
 #include "td/telegram/MessageForwardInfo.h"
-#include "td/telegram/MessagesManager.h"
+#include "td/telegram/MessageSender.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/telegram_api.h"
+#include "td/telegram/UserManager.h"
 
 namespace td {
 
@@ -56,44 +58,52 @@ td_api::object_ptr<td_api::SavedMessagesTopicType> SavedMessagesTopicId::get_sav
     return td_api::make_object<td_api::savedMessagesTopicTypeMyNotes>();
   }
   if (is_author_hidden()) {
+    td->user_manager_->get_user_id_object(HIDDEN_AUTHOR_DIALOG_ID.get_user_id(), "savedMessagesTopicTypeAuthorHidden");
     return td_api::make_object<td_api::savedMessagesTopicTypeAuthorHidden>();
   }
   return td_api::make_object<td_api::savedMessagesTopicTypeSavedFromChat>(
-      td->messages_manager_->get_chat_id_object(dialog_id_, "savedMessagesTopicTypeSavedFromChat"));
+      td->dialog_manager_->get_chat_id_object(dialog_id_, "savedMessagesTopicTypeSavedFromChat"));
+}
+
+td_api::object_ptr<td_api::MessageSender> SavedMessagesTopicId::get_monoforum_message_sender_object(Td *td) const {
+  CHECK(dialog_id_ != DialogId());
+  return get_message_sender_object(td, dialog_id_, "get_monoforum_message_sender_object");
 }
 
 bool SavedMessagesTopicId::have_input_peer(Td *td) const {
-  if (dialog_id_.get_type() == DialogType::SecretChat ||
+  if (dialog_id_.get_type() == DialogType::SecretChat) {
+    return false;
+  }
+  if (!td->auth_manager_->is_bot() &&
       !td->dialog_manager_->have_dialog_info_force(dialog_id_, "SavedMessagesTopicId::have_input_peer")) {
     return false;
   }
   return td->dialog_manager_->have_input_peer(dialog_id_, false, AccessRights::Know);
 }
 
-Status SavedMessagesTopicId::is_valid_status(Td *td) const {
+Status SavedMessagesTopicId::is_valid_in(Td *td, DialogId dialog_id) const {
   if (!dialog_id_.is_valid()) {
-    return Status::Error(400, "Invalid Saved Messages topic specified");
+    return Status::Error(400, "Invalid topic specified");
+  }
+  if (dialog_id != td->dialog_manager_->get_my_dialog_id() &&
+      (!td->dialog_manager_->is_admined_monoforum_channel(dialog_id) || is_author_hidden())) {
+    return Status::Error(400, "Can't use topic in the chat");
   }
   if (!have_input_peer(td)) {
-    return Status::Error(400, "Unknown Saved Messages topic specified");
-  }
-  return Status::OK();
-}
-
-Status SavedMessagesTopicId::is_valid_in(Td *td, DialogId dialog_id) const {
-  if (dialog_id_ != DialogId()) {
-    if (dialog_id != td->dialog_manager_->get_my_dialog_id()) {
-      return Status::Error(400, "Can't use Saved Messages topic in the chat");
-    }
-    if (!have_input_peer(td)) {
-      return Status::Error(400, "Unknown Saved Messages topic specified");
-    }
+    return Status::Error(400, "Unknown topic specified");
   }
   return Status::OK();
 }
 
 bool SavedMessagesTopicId::is_author_hidden() const {
   return dialog_id_ == HIDDEN_AUTHOR_DIALOG_ID;
+}
+
+Result<telegram_api::object_ptr<telegram_api::InputUser>> SavedMessagesTopicId::get_input_user(const Td *td) const {
+  if (dialog_id_.get_type() == DialogType::User) {
+    return td->user_manager_->get_input_user(dialog_id_.get_user_id());
+  }
+  return Status::Error(400, "Invalid topic identifier");
 }
 
 telegram_api::object_ptr<telegram_api::InputPeer> SavedMessagesTopicId::get_input_peer(const Td *td) const {
@@ -115,7 +125,7 @@ void SavedMessagesTopicId::add_dependencies(Dependencies &dependencies) const {
 
 StringBuilder &operator<<(StringBuilder &string_builder, SavedMessagesTopicId saved_messages_topic_id) {
   if (!saved_messages_topic_id.dialog_id_.is_valid()) {
-    return string_builder << "[no Saved Messages topic]";
+    return string_builder << "[no topic]";
   }
   if (saved_messages_topic_id.is_author_hidden()) {
     return string_builder << "[Author Hidden topic]";

@@ -297,9 +297,9 @@
 #define IDC_GENMENU_CUSTOMNAME          1086
 #define IDC_GENMENU_SET                 1087
 #define IDC_REVERSE_ORDER               1088
+#define IDC_GENMENU_ID                  1088
 #define IDC_GENMENU_DEFAULT             1089
 #define IDC_ICON1                       1090
-#define IDC_GENMENU_DELETE              1090
 #define IDC_ICON2                       1091
 #define IDC_ICON3                       1092
 #define IDC_ICON4                       1093
@@ -377,7 +377,6 @@
 #define IDC_DOBMONTH                    1227
 #define IDC_WEBPAGE                     1228
 #define IDC_DOBYEAR                     1229
-#define IDC_INSERTSUBMENU               1230
 #define IDC_UPDATING                    1231
 #define IDC_NAMEORDER                   1234
 #define IDC_RECONNECTREQD               1239
@@ -697,7 +696,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        341
+#define _APS_NEXT_RESOURCE_VALUE        342
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1762
 #define _APS_NEXT_SYMED_VALUE           101

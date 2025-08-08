@@ -17,6 +17,37 @@
 // 4. Create additional version(s) stored procedure (if required)
 
 
+// Stored procedure name: RetrieveUsersFrameInfo = Begin
+// Arguments:
+// Args.userids 
+// Args.fields
+// Args.norepeat 
+// Args.setonline
+
+// ver 1 
+var Req =[];
+if (Args.setonline == 1) {
+    API.account.setOnline();
+	Req = API.friends.getRequests({ "extended": 0, "need_mutual": 0, "out": 0 });
+};
+var res = [];
+var US = API.users.get({ "user_ids": Args.userids, "fields": Args.fields, "name_case": "nom" });
+var index = US.length;
+while (index > 0) {
+    index = index - 1;
+    if (US[index].online != 0) {
+        res.push(US[index]);
+    };
+};
+return { "freeoffline": 1, "norepeat": parseInt(Args.norepeat), "usercount": res.length, "users": res , "requests":  Req};
+
+// ver 2 
+if (Args.setonline == 1)
+    API.account.setOnline();
+var res = API.users.get({ "user_ids": Args.userids, "fields": Args.fields, "name_case": "nom" });
+return { "freeoffline": 0, "norepeat": parseInt(Args.norepeat), "usercount": res.length, "users": res, "requests":  API.friends.getRequests({ "extended": 0, "need_mutual": 0, "out": 0 })};
+// Stored procedure name: RetrieveUsersFrameInfo = End
+
 // Stored procedure name: RetrieveUserInfo = Begin
 // Arguments:
 // Args.userid 
@@ -38,7 +69,7 @@ if (Args.setonline == 1)
     API.account.setOnline();
 var US = [];
 var res = API.users.get({ "user_ids": API.friends.getOnline(), "fields": Args.fields, "name_case": "nom" });
-var t = 10;
+var t = 3;
 while (t > 0) {
     US = API.users.get({ "user_ids": Args.userids, "fields": Args.fields, "name_case": "nom" });
     var index = US.length;
@@ -141,7 +172,8 @@ if (index > 0) {
         };
         Idx = Idx + 1;
     };
-    var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+    var FUsers = [];
+	if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
     return { "count": index, "datetime": parseInt(Args.time), "items": ret, "fwd_users": FUsers, "once": parseInt(Args.once), "rcount": parseInt(Args.reqcount) };
 } else {
     return{"count":0,"datetime":parseInt(Args.time),"items":[],"fwd_users":[],"once":parseInt(Args.once),"rcount":parseInt(Args.reqcount)};    
@@ -187,7 +219,8 @@ while (Idx < FMsgs.length) {
     };
     Idx = Idx + 1;
 };
-var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var FUsers = [];
+if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var Conv = API.messages.getConversationsById({"peer_ids": ConvIds});
 return { "Msgs": Msgs, "fwd_users": FUsers, "conv":Conv };
 // Stored procedure name: RetrieveMessagesConversationByIds = End
@@ -329,7 +362,8 @@ while (Idx < FMsgs.length) {
     };
     Idx = Idx + 1;
 };
-var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var FUsers = [];
+if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var MsgUsers = API.users.get({ "user_ids": ChatMsg.items@.user_id, "fields":"id,first_name,last_name"});
 
 return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers, "msgs_users": MsgUsers };
@@ -363,7 +397,8 @@ while (Idx < FMsgs.length) {
     };
     Idx = Idx + 1;
 };
-var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var FUsers = [];
+if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var GUsers = [];
 if(GUids.length>0){
  GUsers = API.groups.getById({ "group_ids": GUids });
@@ -402,7 +437,8 @@ while (Idx < FMsgs.length) {
     };
     Idx = Idx + 1;
 };
-var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
+var FUsers = [];
+if (Uids.length > 0) FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var GUsers = [];
 if(GUids.length>0){
  GUsers = API.groups.getById({ "group_ids": GUids });

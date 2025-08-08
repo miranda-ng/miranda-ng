@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -115,8 +115,16 @@ class ForumTopicManager final : public Actor {
 
   void on_topic_message_count_changed(DialogId dialog_id, MessageId top_thread_message_id, int diff);
 
+  void on_topic_mention_count_changed(DialogId dialog_id, MessageId top_thread_message_id, int32 count,
+                                      bool is_relative);
+
+  void on_topic_reaction_count_changed(DialogId dialog_id, MessageId top_thread_message_id, int32 count,
+                                       bool is_relative);
+
+  void repair_topic_unread_mention_count(DialogId dialog_id, MessageId top_thread_message_id);
+
  private:
-  static constexpr size_t MAX_FORUM_TOPIC_TITLE_LENGTH = 128;  // server side limit for forum topic title
+  static constexpr size_t MAX_FORUM_TOPIC_TITLE_LENGTH = 128;  // server-side limit for forum topic title
 
   struct Topic {
     unique_ptr<ForumTopicInfo> info_;
@@ -177,10 +185,17 @@ class ForumTopicManager final : public Actor {
 
   void on_delete_forum_topic(DialogId dialog_id, MessageId top_thread_message_id, Promise<Unit> &&promise);
 
-  td_api::object_ptr<td_api::updateForumTopicInfo> get_update_forum_topic_info(DialogId dialog_id,
-                                                                               const ForumTopicInfo *topic_info) const;
+  td_api::object_ptr<td_api::updateForumTopicInfo> get_update_forum_topic_info_object(
+      DialogId dialog_id, const ForumTopicInfo *topic_info) const;
 
   void send_update_forum_topic_info(DialogId dialog_id, const ForumTopicInfo *topic_info) const;
+
+  td_api::object_ptr<td_api::updateForumTopic> get_update_forum_topic_object(DialogId dialog_id,
+                                                                             const Topic *topic) const;
+
+  void send_update_forum_topic(DialogId dialog_id, const Topic *topic) const;
+
+  void on_forum_topic_changed(DialogId dialog_id, Topic *topic);
 
   void save_topic_to_database(DialogId dialog_id, const Topic *topic);
 

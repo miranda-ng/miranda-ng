@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,7 +15,6 @@
 #include "td/actor/actor.h"
 
 #include "td/utils/common.h"
-#include "td/utils/format.h"
 #include "td/utils/logging.h"
 #include "td/utils/Time.h"
 
@@ -126,7 +125,7 @@ class TempAuthKeyWatchdog final : public NetQueryCallback {
       auth_key_ids.push_back(id_count.first);
     }
     if (!G()->close_flag()) {
-      LOG(WARNING) << "Start auth_dropTempAuthKeys except keys " << format::as_array(auth_key_ids);
+      LOG(WARNING) << "Start auth_dropTempAuthKeys except keys " << auth_key_ids;
       auto query = G()->net_query_creator().create_unauth(telegram_api::auth_dropTempAuthKeys(std::move(auth_key_ids)));
       G()->net_query_dispatcher().dispatch_with_callback(std::move(query), actor_shared(this));
     }

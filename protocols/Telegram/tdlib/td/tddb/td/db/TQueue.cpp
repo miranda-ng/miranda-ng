@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -486,7 +486,7 @@ struct TQueueLogEvent final : public Storer {
   int64 extra;
 
   template <class StorerT>
-  void store(StorerT &&storer) const {
+  void store(StorerT &storer) const {
     using td::store;
     store(queue_id, storer);
     store(event_id, storer);
@@ -498,7 +498,7 @@ struct TQueueLogEvent final : public Storer {
   }
 
   template <class ParserT>
-  void parse(ParserT &&parser, int32 has_extra) {
+  void parse(ParserT &parser, int32 has_extra) {
     using td::parse;
     parse(queue_id, parser);
     parse(event_id, parser);

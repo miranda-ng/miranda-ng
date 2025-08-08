@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -36,7 +36,7 @@ class NotificationSoundLocal final : public NotificationSound {
 
 class NotificationSoundRingtone final : public NotificationSound {
  public:
-  int64 ringtone_id_;
+  int64 ringtone_id_ = 0;
 
   NotificationSoundRingtone() = default;
   explicit NotificationSoundRingtone(int64 ringtone_id) : ringtone_id_(ringtone_id) {
@@ -234,7 +234,7 @@ unique_ptr<NotificationSound> get_notification_sound(telegram_api::NotificationS
     case telegram_api::notificationSoundNone::ID:
       return make_unique<NotificationSoundNone>();
     case telegram_api::notificationSoundLocal::ID: {
-      const auto *sound = static_cast<telegram_api::notificationSoundLocal *>(notification_sound);
+      auto *sound = static_cast<telegram_api::notificationSoundLocal *>(notification_sound);
       return td::make_unique<NotificationSoundLocal>(std::move(sound->title_), std::move(sound->data_));
     }
     case telegram_api::notificationSoundRingtone::ID: {

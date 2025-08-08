@@ -27,6 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 namespace File
 {
+	extern MIR_APP_EXPORT CMOption<bool> bOfflineAuto;
+	extern MIR_APP_EXPORT CMOption<uint32_t> iOfflineSize;
+
 	MIR_APP_DLL(wchar_t *) GetReceivedFolder(MCONTACT hContact, wchar_t *pwszDest, size_t cbDest, bool substVars = true);
 
 	// List of files should be null-terminated

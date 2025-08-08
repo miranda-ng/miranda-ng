@@ -1,11 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
+#include "td/telegram/BusinessBotRights.h"
 #include "td/telegram/BusinessRecipients.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
@@ -40,8 +41,8 @@ class BusinessConnectedBot {
     return recipients_;
   }
 
-  bool get_can_reply() const {
-    return can_reply_;
+  const BusinessBotRights &get_rights() const {
+    return rights_;
   }
 
   template <class StorerT>
@@ -53,7 +54,7 @@ class BusinessConnectedBot {
  private:
   UserId user_id_;
   BusinessRecipients recipients_;
-  bool can_reply_ = false;
+  BusinessBotRights rights_;
 
   friend bool operator==(const BusinessConnectedBot &lhs, const BusinessConnectedBot &rhs);
 

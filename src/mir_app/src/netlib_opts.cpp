@@ -231,8 +231,7 @@ void NetlibSaveUserSettingsStruct(const char *szSettingsModule, const NETLIBUSER
 	CopySettingsStruct(&thisUser->settings, settings);
 	WriteSettingsStructToDb(thisUser->user.szSettingsModule, &thisUser->settings, thisUser->user.flags);
 
-	NETLIBUSERSETTINGS combinedSettings = { 0 };
-	combinedSettings.cbSize = sizeof(combinedSettings);
+	NETLIBUSERSETTINGS combinedSettings = {};
 
 	uint32_t flags = 0;
 	for (auto &p : netlibUser) {
@@ -284,11 +283,10 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case M_REFRESHALL:
 		iUser = SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_GETCURSEL, 0, 0), 0);
 		{
-			NETLIBUSERSETTINGS settings = { 0 };
+			NETLIBUSERSETTINGS settings = {};
 			uint32_t flags = 0;
 
 			if (iUser == -1) {
-				settings.cbSize = sizeof(settings);
 				for (auto &p : tempSettings)
 					if (!(p->flags & NUF_NOOPTIONS))
 						CombineSettingsStructs(&settings, &flags, &p->settings, p->flags);

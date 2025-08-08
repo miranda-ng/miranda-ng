@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -36,7 +36,7 @@ class SecretChatsManager final : public Actor {
   void create_chat(UserId user_id, int64 user_access_hash, Promise<SecretChatId> promise);
   void cancel_chat(SecretChatId secret_chat_id, bool delete_history, Promise<> promise);
   void send_message(SecretChatId secret_chat_id, tl_object_ptr<secret_api::decryptedMessage> message,
-                    tl_object_ptr<telegram_api::InputEncryptedFile> file, Promise<> promise);
+                    telegram_api::object_ptr<telegram_api::InputEncryptedFile> file, Promise<> promise);
   void send_message_action(SecretChatId secret_chat_id, tl_object_ptr<secret_api::SendMessageAction> action);
   void send_read_history(SecretChatId secret_chat_id, int32 date, Promise<> promise);
   void send_open_message(SecretChatId secret_chat_id, int64 random_id, Promise<> promise);

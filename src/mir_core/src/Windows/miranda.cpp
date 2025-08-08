@@ -39,7 +39,7 @@ void InitHyperlink();
 void InitTimeZones();
 void InitWinver();
 
-HINSTANCE g_hInst = nullptr;
+HINSTANCE g_hInst = nullptr, g_hNtdll = GetModuleHandleA("ntdll.dll");
 
 HCURSOR g_hCursorNS, g_hCursorWE;
 HANDLE hThreadQueueEmpty;

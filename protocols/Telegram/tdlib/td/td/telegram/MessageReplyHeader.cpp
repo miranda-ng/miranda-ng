@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -33,7 +33,7 @@ MessageReplyHeader::MessageReplyHeader(Td *td, tl_object_ptr<telegram_api::Messa
   auto reply_header = telegram_api::move_object_as<telegram_api::messageReplyHeader>(reply_header_ptr);
 
   if (!message_id.is_scheduled() && can_have_thread) {
-    if ((reply_header->flags_ & telegram_api::messageReplyHeader::REPLY_TO_TOP_ID_MASK) != 0) {
+    if (reply_header->reply_to_top_id_ != 0) {
       top_thread_message_id_ = MessageId(ServerMessageId(reply_header->reply_to_top_id_));
       if (!top_thread_message_id_.is_valid()) {
         LOG(ERROR) << "Receive " << to_string(reply_header);

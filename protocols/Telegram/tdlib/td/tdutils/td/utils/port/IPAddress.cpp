@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -656,11 +656,11 @@ bool operator<(const IPAddress &a, const IPAddress &b) {
   return false;
 }
 
-StringBuilder &operator<<(StringBuilder &builder, const IPAddress &address) {
+StringBuilder &operator<<(StringBuilder &string_builder, const IPAddress &address) {
   if (!address.is_valid()) {
-    return builder << "[invalid]";
+    return string_builder << "[invalid]";
   }
-  return builder << "[" << address.get_ip_host() << ":" << address.get_port() << "]";
+  return string_builder << "[" << address.get_ip_host() << ":" << address.get_port() << "]";
 }
 
 }  // namespace td

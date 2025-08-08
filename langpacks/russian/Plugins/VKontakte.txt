@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.18.6
+;  Version: 0.1.19.2
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -551,6 +551,8 @@ ID получателя ошибочен или неизвестен
 [VKontakte protocol]
 Протокол ВКонтакте
 ;file \protocols\VKontakte\src\vk_pollserver.cpp
+[This message has been marked as spam in %s:\n]
+Сообщение отмечено как спам в %s:\n
 [This message has been deleted by sender in %s:\n]
 Отправитель удалил это сообщение в %s:\n
 ;file \protocols\VKontakte\src\vk_proto.cpp

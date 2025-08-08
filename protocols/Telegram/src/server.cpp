@@ -42,11 +42,17 @@ void __cdecl CTelegramProto::ServerThread(void *)
 		switch (nluSettings.proxyType) {
 		case PROXYTYPE_SOCKS4:
 		case PROXYTYPE_SOCKS5:
-			proxyType = TD::make_object<TD::proxyTypeSocks5>();
+			if (nluSettings.szProxyAuthUser && nluSettings.szProxyAuthPassword)
+				proxyType = TD::make_object<TD::proxyTypeSocks5>(nluSettings.szProxyAuthUser, nluSettings.szProxyAuthPassword);
+			else
+				proxyType = TD::make_object<TD::proxyTypeSocks5>();
 			break;
 		case PROXYTYPE_HTTP:
 		case PROXYTYPE_HTTPS:
-			proxyType = TD::make_object<TD::proxyTypeHttp>();
+			if (nluSettings.szProxyAuthUser && nluSettings.szProxyAuthPassword)
+				proxyType = TD::make_object<TD::proxyTypeHttp>(nluSettings.szProxyAuthUser, nluSettings.szProxyAuthPassword, true);
+			else
+				proxyType = TD::make_object<TD::proxyTypeHttp>();
 			break;
 		}
 
@@ -216,11 +222,15 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateBasicGroup::ID:
-		ProcessBasicGroup((TD::updateBasicGroup*)response.object.get());
+		ProcessBasicGroup((TD::updateBasicGroup *)response.object.get());
 		break;
 
 	case TD::updateBasicGroupFullInfo::ID:
-		ProcessBasicGroupInfo((TD::updateBasicGroupFullInfo *)response.object.get());
+		{
+			auto *pObj = (TD::updateBasicGroupFullInfo *)response.object.get();
+			if (auto *pChat = FindUser(pObj->basic_group_id_))
+				ProcessBasicGroupInfo(pChat, pObj->basic_group_full_info_.get());
+		}
 		break;
 
 	case TD::updateChatAction::ID:
@@ -244,7 +254,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateChatNotificationSettings::ID:
-		ProcessChatNotification((TD::updateChatNotificationSettings*)response.object.get());
+		ProcessChatNotification((TD::updateChatNotificationSettings *)response.object.get());
 		break;
 
 	case TD::updateChatPosition::ID:
@@ -260,9 +270,9 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateDeleteMessages::ID:
-		ProcessDeleteMessage((TD::updateDeleteMessages*)response.object.get());
+		ProcessDeleteMessage((TD::updateDeleteMessages *)response.object.get());
 		break;
-		
+
 	case TD::updateConnectionState::ID:
 		ProcessConnectionState((TD::updateConnectionState *)response.object.get());
 		break;
@@ -272,7 +282,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateForumTopicInfo::ID:
-		ProcessForum((TD::updateForumTopicInfo*)response.object.get());
+		ProcessForum((TD::updateForumTopicInfo *)response.object.get());
 		break;
 
 	case TD::updateMessageContent::ID:
@@ -312,8 +322,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessChat((TD::updateNewChat *)response.object.get());
 		break;
 
-	case TD::updateNewMessage::ID:
-		{
+	case TD::updateNewMessage::ID: {
 			auto *pMessage = ((TD::updateNewMessage *)response.object.get())->message_.get();
 			TG_OWN_MESSAGE tmp(0, 0, msg2id(pMessage));
 			if (!m_arOwnMsg.find(&tmp))
@@ -338,7 +347,13 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 
 	case TD::updateSupergroupFullInfo::ID:
-		ProcessSuperGroupInfo((TD::updateSupergroupFullInfo *)response.object.get());
+		{
+			auto *pObj = (TD::updateSupergroupFullInfo *)response.object.get();
+			if (auto *pUser = FindUser(pObj->supergroup_id_))
+				ProcessSuperGroupInfo(pUser, pObj->supergroup_full_info_.get());
+			else
+				debugLogA("Uknown super group id %lld, skipping", pObj->supergroup_id_);
+		}
 		break;
 
 	case TD::updateUserStatus::ID:
@@ -529,8 +544,7 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 INT_PTR CTelegramProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM bIncoming)
 {
 	if (auto *pUser = FindUser(GetId(hContact))) {
-		TG_SUPER_GROUP tmp(pUser->id, 0);
-		if (auto *pGroup = m_arSuperGroups.find(&tmp))
+		if (auto *pGroup = FindSuperGroup(pUser->id))
 			if (pGroup->group->is_channel_)
 				return 0;
 
@@ -605,6 +619,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	if (!m_arChats.find(pUser))
 		m_arChats.insert(pUser);
 
+	// small or super group
 	if (!szTitle.empty()) {
 		if (hContact != INVALID_CONTACT_ID) {
 			if (pUser->isForum) {
@@ -634,6 +649,15 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 
 		if (pUser->isGroupChat && pUser->m_si == nullptr)
 			InitGroupChat(pUser, (pUser->isForum) ? TranslateT("General") : Utf2T(pChat->title_.c_str()));
+	}
+	else if (!pUser->isGroupChat) {
+		pUser = AddUser(pChat->id_, false);
+		hContact = pUser->hContact;
+		setWString(hContact, "Nick", pUser->wszNick);
+		if (!pUser->wszFirstName.IsEmpty())
+			setWString(hContact, "FirstName", pUser->wszFirstName);
+		if (!pUser->wszLastName.IsEmpty())
+			setWString(hContact, "LastName", pUser->wszLastName);
 	}
 }
 
@@ -900,7 +924,7 @@ void CTelegramProto::ProcessGroups(TD::updateChatFolders *pObj)
 
 		CMStringA szSetting(FORMAT, "ChatFilter%d", grp->id_);
 		CMStringW wszOldValue(getMStringW(szSetting));
-		Utf2T wszNewValue(grp->title_.c_str());
+		Utf2T wszNewValue(grp->name_->text_->text_.c_str());
 		if (wszOldValue.IsEmpty()) {
 			Clist_GroupCreate(m_iBaseGroup, wszNewValue);
 			setWString(szSetting, wszNewValue);
@@ -1088,15 +1112,7 @@ void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *p
 			}
 		}
 
-	auto &json = dbei.setJson();
-	auto it = json.find("r");
-	if (it != json.end())
-		json.erase(it);
-
-	json << reactions;
-	dbei.flushJson();
-
-	db_event_edit(dbei.getEvent(), &dbei, true);
+	dbei.setReactions(reactions);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1337,7 +1353,7 @@ void CTelegramProto::ProcessUserInfo(TD::int53 userId, TD::userFullInfo *pObj)
 		if (pObj->bio_) {
 			CMStringA szNotes(GetFormattedText(pObj->bio_));
 			if (!szNotes.IsEmpty())
-				setString(pUser->hContact, "About", szNotes);
+				setUString(pUser->hContact, "About", szNotes);
 		}
 	}
 }

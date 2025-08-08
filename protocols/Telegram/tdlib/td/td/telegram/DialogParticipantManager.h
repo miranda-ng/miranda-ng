@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -60,6 +60,9 @@ class DialogParticipantManager final : public Actor {
   void on_dialog_opened(DialogId dialog_id);
 
   void on_dialog_closed(DialogId dialog_id);
+
+  void fix_pending_join_requests(DialogId dialog_id, int32 &pending_join_request_count,
+                                 vector<UserId> &pending_join_request_user_ids) const;
 
   void get_dialog_join_requests(DialogId dialog_id, const string &invite_link, const string &query,
                                 td_api::object_ptr<td_api::chatJoinRequest> offset_request, int32 limit,
@@ -159,7 +162,7 @@ class DialogParticipantManager final : public Actor {
 
   static constexpr int32 CHANNEL_PARTICIPANT_CACHE_TIME = 1800;  // some reasonable limit
 
-  static constexpr int32 MAX_GET_CHANNEL_PARTICIPANTS = 200;  // server side limit
+  static constexpr int32 MAX_GET_CHANNEL_PARTICIPANTS = 200;  // server-side limit
 
   void tear_down() final;
 

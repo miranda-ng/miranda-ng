@@ -34,8 +34,9 @@ MIR_APP_DLL(int) Netlib_Send(HNETLIBCONN nlc, const char *buf, int len, int flag
 	if (!NetlibEnterNestedCS(nlc, NLNCS_SEND))
 		return SOCKET_ERROR;
 
+	Netlib_Dump(nlc, (uint8_t *)buf, len, true, flags);
+
 	int result;
-	Netlib_Dump(nlc, (uint8_t*)buf, len, true, flags);
 	if (nlc->hSsl)
 		result = Netlib_SslWrite(nlc->hSsl, buf, len);
 	else

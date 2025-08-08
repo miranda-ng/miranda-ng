@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -228,8 +228,8 @@ class Scheduler {
   unique_ptr<ObjectPool<ActorInfo>> actor_info_pool_;
 
   int32 actor_count_ = 0;
-  ListNode pending_actors_list_;
-  ListNode ready_actors_list_;
+  ListNode pending_actors_;
+  ListNode ready_actors_;
   KHeap<double> timeout_queue_;
 
   FlatHashMap<ActorInfo *, std::vector<Event>> pending_events_;

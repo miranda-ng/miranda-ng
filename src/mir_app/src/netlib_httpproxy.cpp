@@ -60,14 +60,3 @@ MIR_APP_DLL(int) Netlib_SetHttpProxyInfo(HNETLIBCONN nlc, const NETLIBHTTPPROXYI
 	nlc->nlhpi.szHttpPostUrl = mir_strdup(nlc->nlhpi.szHttpPostUrl);
 	return 1;
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(int) Netlib_SetStickyHeaders(HNETLIBUSER nlu, const char *szHeaders)
-{
-	if (GetNetlibHandleType(nlu) != NLH_USER)
-		return ERROR_INVALID_PARAMETER;
-	
-	replaceStr(nlu->szStickyHeaders, szHeaders); // pointer is ours
-	return 0;
-}

@@ -391,32 +391,36 @@ void CTelegramProto::ProcessBasicGroup(TD::updateBasicGroup *pObj)
 	pUser->bLoadMembers = true;
 }
 
-void CTelegramProto::ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj)
+void CTelegramProto::ProcessBasicGroupInfo(TG_USER *pChat, TD::basicGroupFullInfo *pInfo)
 {
-	auto *pChat = FindUser(pObj->basic_group_id_);
-	if (pChat == nullptr || pChat->m_si == nullptr)
-		return;
-
-	if (auto *pInfo = pObj->basic_group_full_info_.get()) {
-		if (!pInfo->description_.empty())
-			GcChangeTopic(pChat, pInfo->description_);
-
-		g_chatApi.UM_RemoveAll(pChat->m_si);
-		GcAddMembers(pChat, pInfo->members_, true);
+	if (!pInfo->description_.empty()) {
+		setUString(pChat->hContact, "About", pInfo->description_.c_str());
+		GcChangeTopic(pChat, pInfo->description_);
 	}
+
+	g_chatApi.UM_RemoveAll(pChat->m_si);
+	GcAddMembers(pChat, pInfo->members_, true);
 }
 
-void CTelegramProto::ProcessSuperGroupInfo(TD::updateSupergroupFullInfo *pObj)
+void CTelegramProto::ProcessSuperGroupInfo(TG_USER *pUser, TD::supergroupFullInfo *pInfo)
 {
-	auto *pChat = FindUser(pObj->supergroup_id_);
-	if (pChat == nullptr) {
-		debugLogA("Uknown super group id %lld, skipping", pObj->supergroup_id_);
-		return;
-	}
+	setDword(pUser->hContact, "MemberCount", pInfo->member_count_);
 
-	auto *pInfo = pObj->supergroup_full_info_.get();
-	if (!pInfo->description_.empty())
-		GcChangeTopic(pChat, pInfo->description_);
+	if (auto *pLink = pInfo->invite_link_.get())
+		setUString(pUser->hContact, "Link", pLink->invite_link_.c_str());
+	else if (auto *pGroup = FindSuperGroup(pUser->id)) {
+		if (pGroup->group->usernames_) {
+			CMStringA szLink(FORMAT, "https://t.me/%s", pGroup->group->usernames_->editable_username_.c_str());
+			setString(pUser->hContact, "Link", szLink);
+		}
+		else delSetting(pUser->hContact, "Link");
+	}
+	else delSetting(pUser->hContact, "Link");
+
+	if (!pInfo->description_.empty()) {
+		setUString(pUser->hContact, "About", pInfo->description_.c_str());
+		GcChangeTopic(pUser, pInfo->description_);
+	}
 }
 
 void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
@@ -427,16 +431,16 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 		return;
 	}
 
-	TG_SUPER_GROUP tmp(pObj->supergroup_->id_, 0);
-	auto *pGroup = m_arSuperGroups.find(&tmp);
+	auto id = pObj->supergroup_->id_;
+	auto *pGroup = FindSuperGroup(id);
 	if (pGroup == nullptr) {
-		pGroup = new TG_SUPER_GROUP(tmp.id, std::move(pObj->supergroup_));
+		pGroup = new TG_SUPER_GROUP(id, std::move(pObj->supergroup_));
 		m_arSuperGroups.insert(pGroup);
 	}
 	else pGroup->group = std::move(pObj->supergroup_);
 
 	if (iStatusId == TD::chatMemberStatusLeft::ID) {
-		auto *pUser = AddFakeUser(tmp.id, true);
+		auto *pUser = AddFakeUser(id, true);
 		pUser->isForum = pGroup->group->is_forum_;
 		if (pUser->hContact == INVALID_CONTACT_ID) {
 			// cache some information for the search
@@ -447,7 +451,7 @@ void CTelegramProto::ProcessSuperGroup(TD::updateSupergroup *pObj)
 		else RemoveFromClist(pUser);
 	}
 	else {
-		auto *pChat = AddUser(tmp.id, true);
+		auto *pChat = AddUser(id, true);
 		pChat->isForum = pGroup->group->is_forum_;
 		if (!pGroup->group->is_channel_)
 			pChat->bLoadMembers = true;
@@ -493,15 +497,15 @@ void CTelegramProto::OnGetTopics(td::ClientManager::Response &response, void *pU
 
 void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 {
-	auto *pUser = FindChat(pForum->chat_id_);
+	auto *pInfo = pForum->info_.get();
+	auto *pUser = FindChat(pInfo->chat_id_);
 	if (!pUser) {
-		debugLogA("Uknown chat id %lld, skipping", pForum->chat_id_);
+		debugLogA("Uknown chat id %lld, skipping", pInfo->chat_id_);
 		return;
 	}
 
-	auto *pInfo = pForum->info_.get();
 	if (pUser->m_si == nullptr) {
-		debugLogA("No parent chat for id %lld, skipping", pForum->chat_id_);
+		debugLogA("No parent chat for id %lld, skipping", pInfo->chat_id_);
 		return;
 	}
 
@@ -511,7 +515,7 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 	}
 
 	wchar_t wszId[100];
-	mir_snwprintf(wszId, L"%lld_%lld", pForum->chat_id_, pForum->info_->message_thread_id_);
+	mir_snwprintf(wszId, L"%lld_%lld", pInfo->chat_id_, pForum->info_->message_thread_id_);
 
 	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
 	si->pParent = pUser->m_si;

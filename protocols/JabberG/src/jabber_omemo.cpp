@@ -1392,40 +1392,16 @@ bool CJabberProto::OmemoHandleMessage(XmppMsg *msg, const TiXmlElement *node, co
 	char protocol[7], hexkey[89], suburl[5001];
 	int ret = sscanf(result.GetBuffer(), "%6[^:]://%5000[^#]#%88s", protocol, suburl, hexkey);
 	protocol[6] = hexkey[88] = suburl[5000] = 0;
-	if (ret == 3 && !strcmp(protocol, "aesgcm") && strlen(hexkey) == 88) {
-		CMStringA szName;
-		const char *b = strrchr(suburl, '/') + 1;
-		while (*b != 0 && *b != '#' && *b != '?')
-			szName.AppendChar(*b++);
-
-		ptrW pwszName(mir_utf8decodeW(szName.c_str()));
-
-		JSONNode root;
-		root << WCHAR_PARAM("f", pwszName) << CHAR_PARAM("u", result.GetBuffer());
-
-		DBEVENTINFO dbei = {};
-		dbei.szModule = Proto_GetBaseAccountName(hContact);
-		dbei.iTimestamp = msgTime;
-		dbei.eventType = EVENTTYPE_FILE;
-		if (trusted)
-			dbei.flags = DBEF_SECURE;
-		if (isCarbon)
-			dbei.flags = DBEF_SENT;
-
-		std::string text = root.write();
-		dbei.cbBlob = (int)text.size() + 1;
-		dbei.pBlob = (char *)text.c_str();
-		db_event_add(hContact, &dbei);
-	}
-	else {
-		msg->msgTime = msgTime;
+	
+	if (trusted == FP_TOFU)
+		msg->dbei.flags |= DBEF_SECURE;
+	if (trusted == FP_VERIFIED)
+		msg->dbei.flags |= DBEF_STRONG;
+	
+	if (ret == 3 && !strcmp(protocol, "aesgcm") && strlen(hexkey) == 88)
+		FileProcessHttpDownload(msg->dbei, result, nullptr);
+	else
 		msg->szMessage = result;
-		
-		if (trusted)
-			msg->dbei.flags |= DBEF_STRONG;
-		if (isCarbon)
-			msg->dbei.flags |= DBEF_SENT;
-	}
 
 	return true;
 }

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -101,6 +101,8 @@ inline string to_upper(Slice slice) {
   to_upper_inplace(result);
   return result;
 }
+
+void replace_with_spaces(MutableSlice str, Slice characters);
 
 inline bool is_space(char c) {
   return c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '\0' || c == '\v';

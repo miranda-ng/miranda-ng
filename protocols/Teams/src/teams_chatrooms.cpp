@@ -52,7 +52,7 @@ SESSION_INFO* CTeamsProto::StartChatRoom(const wchar_t *tid, const wchar_t *tnam
 		Chat_AddGroup(si, TranslateT("Admin"));
 		Chat_AddGroup(si, TranslateT("User"));
 
-		PushRequest(new GetChatInfoRequest(tid));
+		GetChatInfo(tid);
 	}
 
 	// Finish initialization
@@ -127,7 +127,7 @@ int CTeamsProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 				CSkypeInviteDlg dlg(this);
 				if (dlg.DoModal())
 					if (dlg.m_hContact != NULL)
-						PushRequest(new InviteUserToChatRequest(chat_id, getId(dlg.m_hContact), "User"));
+						InviteUserToChat(chat_id, getId(dlg.m_hContact), "User");
 			}
 			break;
 
@@ -138,7 +138,7 @@ int CTeamsProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 		case 30:
 			CMStringW newTopic = ChangeTopicForm();
 			if (!newTopic.IsEmpty())
-				PushRequest(new SetChatPropertiesRequest(chat_id, "topic", T2Utf(newTopic.GetBuffer())));
+				SetChatProperty(chat_id, "topic", T2Utf(newTopic.GetBuffer()));
 			break;
 		}
 		break;
@@ -149,10 +149,10 @@ int CTeamsProto::OnGroupChatEventHook(WPARAM, LPARAM lParam)
 			KickChatUser(chat_id, user_id);
 			break;
 		case 30:
-			PushRequest(new InviteUserToChatRequest(chat_id, user_id, "Admin"));
+			InviteUserToChat(chat_id, user_id, "Admin");
 			break;
 		case 40:
-			PushRequest(new InviteUserToChatRequest(chat_id, user_id, "User"));
+			InviteUserToChat(chat_id, user_id, "User");
 			break;
 		case 50:
 			ptrW tnick_old(GetChatContactNick(si, gch->ptszUID, gch->ptszText));
@@ -252,7 +252,7 @@ bool CTeamsProto::OnChatEvent(const JSONNode &node)
 				if (!AddChatContact(si, Utf2T(pszTarget), L"User")) {
 					OBJLIST<char> arIds(1);
 					arIds.insert(newStr(pszTarget));
-					PushRequest(new GetChatMembersRequest(arIds, si));
+					GetChatMembers(arIds, si);
 				}
 			}
 		}
@@ -343,7 +343,7 @@ void CTeamsProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 		node << INT_PARAM("skypeemoteoffset", 4);
 
 	CMStringA szUrl = "/users/ME/conversations/" + mir_urlEncode(T2Utf(si->ptszID)) + "/messages";
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, szUrl, &CTeamsProto::OnMessageSent);
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS, szUrl, &CTeamsProto::OnMessageSent);
 	pReq->m_szParam = node.write().c_str();
 	pReq->pUserInfo = new COwnMessage(szMessage);
 	pReq->hContact = si->hContact;
@@ -351,6 +351,20 @@ void CTeamsProto::SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CTeamsProto::GetChatMembers(const LIST<char> &ids, SESSION_INFO *si)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS, "/profiles", &CTeamsProto::OnGetChatMembers);
+	
+	JSONNode node, mris(JSON_ARRAY); mris.set_name("mris");
+	for (auto &it : ids)
+		mris.push_back(JSONNode("", it));
+	node << mris << CHAR_PARAM("locale", "en-US");
+	pReq->m_szParam = node.write().c_str();
+
+	pReq->pUserInfo = si;
+	PushRequest(pReq);
+};
 
 void CTeamsProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
@@ -373,6 +387,8 @@ void CTeamsProto::OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pR
 	if (g_chatApi.OnChangeNick)
 		g_chatApi.OnChangeNick(si);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CTeamsProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 {
@@ -401,10 +417,20 @@ void CTeamsProto::OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest*)
 	}
 	
 	if (arIds.getCount())
-		PushRequest(new GetChatMembersRequest(arIds, si));
+		GetChatMembers(arIds, si);
 
 	GetServerHistory(si->hContact, 100, 0, true);
 }
+
+void CTeamsProto::GetChatInfo(const wchar_t *chatId)
+{
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_CHATS, 0, &CTeamsProto::OnGetChatInfo);
+	pReq->m_szUrl.AppendFormat("/threads/%S", chatId);
+	pReq << CHAR_PARAM("view", "msnp24Equivalent");
+	PushRequest(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 wchar_t* CTeamsProto::GetChatContactNick(SESSION_INFO *si, const wchar_t *id, const wchar_t *name, bool *isQualified)
 {
@@ -447,6 +473,30 @@ wchar_t* CTeamsProto::GetChatContactNick(SESSION_INFO *si, const wchar_t *id, co
 	return mir_wstrdup(GetSkypeNick(id));
 }
 
+void CTeamsProto::InviteUserToChat(const char *chatId, const char *skypename, const char *role)
+{
+	JSONNode node;
+	node << CHAR_PARAM("role", role);
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_CHATS);
+	pReq->m_szUrl.AppendFormat("/threads/%s/members/%s", chatId, skypename);
+	pReq->m_szParam = node.write().c_str();
+	PushRequest(pReq);
+}
+
+void CTeamsProto::SetChatProperty(const char *chatId, const char *propname, const char *value)
+{
+	JSONNode node;
+	node << CHAR_PARAM(propname, value);
+
+	auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_CHATS);
+	pReq->m_szUrl.AppendFormat("/threads/%s/properties?name=%s", chatId, propname);
+	pReq->m_szParam = node.write().c_str();
+	PushRequest(pReq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool CTeamsProto::AddChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *role, bool isChange)
 {
 	bool isQualified;
@@ -484,7 +534,7 @@ void CTeamsProto::RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const w
 
 void CTeamsProto::KickChatUser(const char *chatId, const char *userId)
 {
-	PushRequest(new AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/threads/" + mir_urlEncode(chatId) + "/members/" + mir_urlEncode(userId)));
+	PushRequest(new AsyncHttpRequest(REQUEST_DELETE, HOST_CHATS, "/threads/" + mir_urlEncode(chatId) + "/members/" + mir_urlEncode(userId)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -553,7 +603,19 @@ INT_PTR CTeamsProto::SvcCreateChat(WPARAM, LPARAM)
 	if (IsOnline()) {
 		CSkypeGCCreateDlg dlg(this);
 		if (dlg.DoModal()) {
-			PushRequest(new CreateChatroomRequest(dlg.m_ContactsList, this));
+			JSONNode node;
+			JSONNode members(JSON_ARRAY); members.set_name("members");
+
+			for (auto &it : dlg.m_ContactsList) {
+				JSONNode member;
+				member << CHAR_PARAM("id", it) << CHAR_PARAM("role", !mir_strcmpi(it, m_szSkypename) ? "Admin" : "User");
+				members << member;
+			}
+			node << members;
+
+			auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS, "/threads");
+			pReq->m_szParam = node.write().c_str();
+			PushRequest(pReq);
 			return 0;
 		}
 	}

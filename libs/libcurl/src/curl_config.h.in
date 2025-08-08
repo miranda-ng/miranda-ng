@@ -1,5 +1,7 @@
 /* lib/curl_config.h.in.  Generated from configure.ac by autoheader.  */
 
+/* !checksrc! disable COPYRIGHT all */
+
 /* Location of default ca bundle */
 #undef CURL_CA_BUNDLE
 
@@ -161,6 +163,9 @@
 
 /* Define to the type of arg 2 for gethostname. */
 #undef GETHOSTNAME_TYPE_ARG2
+
+/* Define to 1 if you have the `accept4' function. */
+#undef HAVE_ACCEPT4
 
 /* Define to 1 if symbol `ADDRESS_FAMILY' exists */
 #undef HAVE_ADDRESS_FAMILY
@@ -331,10 +336,10 @@
 /* Define to 1 if you have the `if_nametoindex' function. */
 #undef HAVE_IF_NAMETOINDEX
 
-/* Define to 1 if you have a IPv6 capable working inet_ntop function. */
+/* Define to 1 if you have an IPv6 capable working inet_ntop function. */
 #undef HAVE_INET_NTOP
 
-/* Define to 1 if you have a IPv6 capable working inet_pton function. */
+/* Define to 1 if you have an IPv6 capable working inet_pton function. */
 #undef HAVE_INET_PTON
 
 /* Define to 1 if you have the <inttypes.h> header file. */
@@ -496,6 +501,9 @@
 /* Define to 1 if you have the `pipe' function. */
 #undef HAVE_PIPE
 
+/* Define to 1 if you have the `pipe2' function. */
+#undef HAVE_PIPE2
+
 /* Define to 1 if you have the `poll' function. */
 #undef HAVE_POLL
 
@@ -583,6 +591,9 @@
 /* Define to 1 if you have the `SSL_set1_ech_config_list' function. */
 #undef HAVE_SSL_SET1_ECH_CONFIG_LIST
 
+/* Define to 1 if you have the `SSL_set_quic_tls_cbs' function. */
+#undef HAVE_SSL_SET_QUIC_TLS_CBS
+
 /* Define to 1 if you have the `SSL_set_quic_use_legacy_codepoint' function.
    */
 #undef HAVE_SSL_SET_QUIC_USE_LEGACY_CODEPOINT
@@ -656,17 +667,11 @@
 /* Define to 1 if you have the <sys/select.h> header file. */
 #undef HAVE_SYS_SELECT_H
 
-/* Define to 1 if you have the <sys/socket.h> header file. */
-#undef HAVE_SYS_SOCKET_H
-
 /* Define to 1 if you have the <sys/sockio.h> header file. */
 #undef HAVE_SYS_SOCKIO_H
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
-
-/* Define to 1 if you have the <sys/time.h> header file. */
-#undef HAVE_SYS_TIME_H
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
@@ -710,20 +715,24 @@
 /* Define to 1 if you have the <wolfssh/ssh.h> header file. */
 #undef HAVE_WOLFSSH_SSH_H
 
-/* if you have wolfSSL_BIO_new */
-#undef HAVE_WOLFSSL_BIO
+/* Define to 1 if you have the `wolfSSL_BIO_new' function. */
+#undef HAVE_WOLFSSL_BIO_NEW
+
+/* Define to 1 if you have the `wolfSSL_BIO_set_shutdown' function. */
+#undef HAVE_WOLFSSL_BIO_SET_SHUTDOWN
 
 /* Define to 1 if you have the `wolfSSL_CTX_GenerateEchConfig' function. */
 #undef HAVE_WOLFSSL_CTX_GENERATEECHCONFIG
 
-/* if you have wolfSSL_DES_ecb_encrypt */
+/* Define to 1 if you have the `wolfSSL_DES_ecb_encrypt' function. */
 #undef HAVE_WOLFSSL_DES_ECB_ENCRYPT
-
-/* if you have wolfSSL_BIO_set_shutdown */
-#undef HAVE_WOLFSSL_FULL_BIO
 
 /* Define to 1 if you have the `wolfSSL_get_peer_certificate' function. */
 #undef HAVE_WOLFSSL_GET_PEER_CERTIFICATE
+
+/* Define to 1 if you have the `wolfSSL_set_quic_use_legacy_codepoint'
+   function. */
+#undef HAVE_WOLFSSL_SET_QUIC_USE_LEGACY_CODEPOINT
 
 /* Define to 1 if you have the `wolfSSL_UseALPN' function. */
 #undef HAVE_WOLFSSL_USEALPN
@@ -751,6 +760,9 @@
 
 /* Define to 1 if _THREAD_SAFE preprocessor symbol must be defined. */
 #undef NEED_THREAD_SAFE
+
+/* openssl with new QUIC API */
+#undef OPENSSL_QUIC_API2
 
 /* Name of package */
 #undef PACKAGE
@@ -810,9 +822,6 @@
 
 /* Define to enable c-ares support */
 #undef USE_ARES
-
-/* if BearSSL is enabled */
-#undef USE_BEARSSL
 
 /* if ECH support is available */
 #undef USE_ECH
@@ -876,9 +885,6 @@
 
 /* to enable Windows native SSL/TLS support */
 #undef USE_SCHANNEL
-
-/* enable Secure Transport */
-#undef USE_SECTRANSP
 
 /* if SSL session export support is available */
 #undef USE_SSLS_EXPORT

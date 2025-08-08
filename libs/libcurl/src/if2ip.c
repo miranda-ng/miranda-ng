@@ -52,8 +52,7 @@
 #  include <inet.h>
 #endif
 
-#include "inet_ntop.h"
-#include "strcase.h"
+#include "curlx/inet_ntop.h"
 #include "if2ip.h"
 /* The last 3 #include files should be in this order */
 #include "curl_printf.h"
@@ -93,7 +92,7 @@ unsigned int Curl_ipv6_scope(const struct sockaddr *sa)
 }
 #endif
 
-#ifndef CURL_DISABLE_BINDLOCAL
+#if !defined(CURL_DISABLE_BINDLOCAL) || !defined(CURL_DISABLE_FTP)
 
 #if defined(HAVE_GETIFADDRS)
 
@@ -117,7 +116,7 @@ if2ip_result_t Curl_if2ip(int af,
     for(iface = head; iface != NULL; iface = iface->ifa_next) {
       if(iface->ifa_addr) {
         if(iface->ifa_addr->sa_family == af) {
-          if(strcasecompare(iface->ifa_name, interf)) {
+          if(curl_strequal(iface->ifa_name, interf)) {
             void *addr;
             const char *ip;
             char scope[12] = "";
@@ -168,7 +167,7 @@ if2ip_result_t Curl_if2ip(int af,
           }
         }
         else if((res == IF2IP_NOT_FOUND) &&
-                strcasecompare(iface->ifa_name, interf)) {
+                curl_strequal(iface->ifa_name, interf)) {
           res = IF2IP_AF_NOT_SUPPORTED;
         }
       }
@@ -266,4 +265,4 @@ if2ip_result_t Curl_if2ip(int af,
 
 #endif
 
-#endif /* CURL_DISABLE_BINDLOCAL */
+#endif /* CURL_DISABLE_BINDLOCAL && CURL_DISABLE_FTP */

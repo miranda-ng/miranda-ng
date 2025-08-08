@@ -238,6 +238,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnGetFileLink(td::ClientManager::Response &response);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetSessions(td::ClientManager::Response &response, void *pUserInfo);
+	void OnGetUserInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnKillSession(td::ClientManager::Response &response, void *pUserInfo);
 	void OnLeaveChat(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
@@ -259,7 +260,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessAvatar(const TD::file *pFile, TG_USER *pUser);
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessBasicGroup(TD::updateBasicGroup *pObj);
-	void ProcessBasicGroupInfo(TD::updateBasicGroupFullInfo *pObj);
+	void ProcessBasicGroupInfo(TG_USER *pUser, TD::basicGroupFullInfo *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessChatAction(TD::updateChatAction *pObj);
 	void ProcessChatHasProtected(TD::updateChatHasProtectedContent *pObj);
@@ -284,7 +285,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessServiceNotification(TD::updateServiceNotification *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessSuperGroup(TD::updateSupergroup *pObj);
-	void ProcessSuperGroupInfo(TD::updateSupergroupFullInfo *pObj);
+	void ProcessSuperGroupInfo(TG_USER *pUser, TD::supergroupFullInfo *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 	void ProcessUserInfo(TD::int53 userId, TD::userFullInfo *pObj);
 
@@ -303,6 +304,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 		bool bRead;
 	};
 	
+	void ShowFileProgress(const TD::file *pFile, TG_FILE_REQUEST *ft);
+
 	bool GetMessageFile(const EmbeddedFile &embed, TG_FILE_REQUEST::Type, const TD::file *pFile, const char *pszFileName, const char *pszCaption);
 	
 	CMStringA GetFormattedText(TD::object_ptr<TD::formattedText> &pText);
@@ -362,6 +365,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	TG_USER* AddFakeUser(int64_t id, bool bIsChat);
 	TG_USER* GetSender(const TD::MessageSender *pSender);
 	
+	TG_SUPER_GROUP* FindSuperGroup(int64_t id);
+
 	int64_t  GetId(MCONTACT, const char *pszSetting = DBKEY_ID);
 	void     SetId(MCONTACT, int64_t id, const char *pszSetting = DBKEY_ID);
 
@@ -371,9 +376,6 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	MCONTACT GetRealContact(const TG_USER *pUser, int64_t threadId = 0);
 	void     RemoveFromClist(TG_USER *pUser);
 	void     MarkRead(MCONTACT hContact, const CMStringA &szMaxId, bool bSent);
-
-	void     RetrieveProfile(CMyProfileDlg *pDlg);
-	void     OnReceivedProfile(td::ClientManager::Response &response, void *pUserData);
 
 	// Menus
 	HGENMENU hmiForward, hmiReaction;
@@ -403,6 +405,7 @@ public:
 	int      AuthRequest(MCONTACT hContact, const wchar_t *) override;
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	int      GetInfo(MCONTACT hContact, int type) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 

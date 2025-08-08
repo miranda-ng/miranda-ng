@@ -558,6 +558,33 @@ char* JabberId2string(int id)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+struct FakeMessageSuccessParam
+{
+	FakeMessageSuccessParam(MCONTACT _1, int _2) :
+		hContact(_1), id(_2)
+	{}
+
+	MCONTACT hContact;
+	int id;
+};
+
+void CJabberProto::FakeMessageSuccessThread(void *param)
+{
+	Sleep(100);
+
+	auto *p = (FakeMessageSuccessParam *)param;
+	ptrA szID(JabberId2string(p->id));
+	ProtoBroadcastAck(p->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)p->id, szID);
+	delete p;
+}
+
+void CJabberProto::FakeMessageSuccess(MCONTACT hContact, int id)
+{
+	ForkThread(&CJabberProto::FakeMessageSuccessThread, new FakeMessageSuccessParam(hContact, id));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // JabberGetClientJID - adds a resource postfix to a JID
 
 char* CJabberProto::GetClientJID(MCONTACT hContact, char *dest, size_t destLen)

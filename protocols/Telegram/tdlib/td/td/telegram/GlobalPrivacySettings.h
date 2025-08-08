@@ -1,11 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
+#include "td/telegram/StarGiftSettings.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
 
@@ -17,13 +18,15 @@ namespace td {
 class Td;
 
 class GlobalPrivacySettings {
-  enum class SetType : int32 { None, Archive, ReadDate, NewChat };
+  enum class SetType : int32 { None, Archive, ReadDate, NewChat, Gift };
   SetType set_type_ = SetType::None;
   bool archive_and_mute_new_noncontact_peers_ = false;
   bool keep_archived_unmuted_ = false;
   bool keep_archived_folders_ = false;
   bool hide_read_marks_ = false;
   bool new_noncontact_peers_require_premium_ = false;
+  int64 noncontact_peers_paid_star_count_ = 0;
+  StarGiftSettings gift_settings_;
 
   void apply_changes(const GlobalPrivacySettings &set_settings);
 
@@ -35,6 +38,8 @@ class GlobalPrivacySettings {
   explicit GlobalPrivacySettings(td_api::object_ptr<td_api::readDatePrivacySettings> &&settings);
 
   explicit GlobalPrivacySettings(td_api::object_ptr<td_api::newChatPrivacySettings> &&settings);
+
+  explicit GlobalPrivacySettings(td_api::object_ptr<td_api::giftSettings> &&settings);
 
   telegram_api::object_ptr<telegram_api::globalPrivacySettings> get_input_global_privacy_settings() const;
 

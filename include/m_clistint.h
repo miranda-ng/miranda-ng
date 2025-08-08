@@ -246,9 +246,14 @@ struct MenuProto
 #define CLCDEFAULT_SHOWIDLE      1
 #define CLCDEFAULT_USEWINDOWSCOLOURS 0
 
-#define TRAYICON_ID_BASE    100
-#define TIM_CALLBACK   (WM_USER+1857)
-#define TIM_CREATE     (WM_USER+1858)
+#define GWVS_HIDDEN              1
+#define GWVS_VISIBLE             2
+#define GWVS_COVERED             3
+#define GWVS_PARTIALLY_COVERED   4
+
+#define TRAYICON_ID_BASE         100
+#define TIM_CALLBACK             (WM_USER+1857)
+#define TIM_CREATE               (WM_USER+1858)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions
@@ -288,6 +293,7 @@ MIR_APP_DLL(ClcGroup*) Clist_RemoveItemFromGroup(HWND hwnd, ClcGroup *group, Clc
 MIR_APP_DLL(void)      Clist_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 MIR_APP_DLL(void)      Clist_SetGroupChildCheckboxes(ClcGroup *group, int checked);
 MIR_APP_DLL(void)      Clist_SetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
+MIR_APP_DLL(void)      Clist_ShowHide();
 								        
 MIR_APP_DLL(int)       Clist_TrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
 MIR_APP_DLL(int)       Clist_TrayIconDestroy(HWND hwnd);
@@ -374,7 +380,7 @@ struct CLIST_INTERFACE
 		  
 	/* clistmod.c */
 	int            (*pfnIconFromStatusMode)(const char *szProto, int status, MCONTACT hContact);
-	int            (*pfnShowHide)(void);
+	void           (*pfnShowHide)(bool bShow);
 	
 	/* clistsettings.c */
 	ClcCacheEntry* (*pfnCreateCacheItem)(MCONTACT hContact);
@@ -410,7 +416,7 @@ struct CLIST_INTERFACE
 	 * version 3 additions
 	 *************************************************************************************/
 
-	int      (*pfnGetWindowVisibleState)(HWND hWnd, int iStepX, int iStepY);
+	int      (*pfnGetWindowVisibleState)();
 
 	/*************************************************************************************
 	 * version 4 additions - genmenu

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,10 +12,10 @@
 #include "td/utils/SharedSlice.h"
 #include "td/utils/Slice.h"
 #include "td/utils/SliceBuilder.h"
-#include "td/utils/StackAllocator.h"
 #include "td/utils/Status.h"
 #include "td/utils/tl_parsers.h"
 #include "td/utils/tl_storers.h"
+#include "td/utils/UInt.h"
 #include "td/utils/unique_value_ptr.h"
 #include "td/utils/Variant.h"
 
@@ -101,6 +101,24 @@ void store(uint64 x, StorerT &storer) {
 template <class ParserT>
 void parse(uint64 &x, ParserT &parser) {
   x = static_cast<uint64>(parser.fetch_long());
+}
+
+template <class StorerT>
+void store(UInt256 x, StorerT &storer) {
+  storer.store_binary(x);
+}
+template <class ParserT>
+void parse(UInt256 &x, ParserT &parser) {
+  x = parser.template fetch_binary<UInt256>();
+}
+
+template <class StorerT>
+void store(UInt512 x, StorerT &storer) {
+  storer.store_binary(x);
+}
+template <class ParserT>
+void parse(UInt512 &x, ParserT &parser) {
+  x = parser.template fetch_binary<UInt512>();
 }
 
 template <class StorerT>
@@ -268,19 +286,10 @@ string serialize(const T &object) {
   size_t length = calc_length.get_length();
 
   string key(length, '\0');
-  if (!is_aligned_pointer<4>(key.data())) {
-    auto ptr = StackAllocator::alloc(length);
-    MutableSlice data = ptr.as_slice();
-    TlStorerUnsafe storer(data.ubegin());
-    store(object, storer);
-    CHECK(storer.get_buf() == data.uend());
-    key.assign(data.begin(), data.size());
-  } else {
-    MutableSlice data = key;
-    TlStorerUnsafe storer(data.ubegin());
-    store(object, storer);
-    CHECK(storer.get_buf() == data.uend());
-  }
+  MutableSlice data = key;
+  TlStorerUnsafe storer(data.ubegin());
+  store(object, storer);
+  CHECK(storer.get_buf() == data.uend());
   return key;
 }
 
@@ -291,7 +300,6 @@ SecureString serialize_secure(const T &object) {
   size_t length = calc_length.get_length();
 
   SecureString key(length, '\0');
-  CHECK(is_aligned_pointer<4>(key.data()));
   MutableSlice data = key.as_mutable_slice();
   TlStorerUnsafe storer(data.ubegin());
   store(object, storer);

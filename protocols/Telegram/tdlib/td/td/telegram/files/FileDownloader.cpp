@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -103,7 +103,7 @@ Result<bool> FileDownloader::should_restart_part(Part part, const NetQueryPtr &n
     case QueryType::ReuploadCDN: {
       TRY_RESULT(file_hashes, fetch_result<telegram_api::upload_reuploadCdnFile>(net_query->ok()));
       add_hash_info(file_hashes);
-      LOG(DEBUG) << "Part " << part.id << " was reuplaoded to CDN";
+      LOG(DEBUG) << "Part " << part.id << " was reuploaded to CDN";
       return true;
     }
     case QueryType::CDN: {
@@ -111,7 +111,7 @@ Result<bool> FileDownloader::should_restart_part(Part part, const NetQueryPtr &n
         TRY_RESULT(file_base, fetch_result<telegram_api::upload_getCdnFile>(net_query->ok()));
         CHECK(file_base->get_id() == telegram_api::upload_cdnFileReuploadNeeded::ID);
         auto file = move_tl_object_as<telegram_api::upload_cdnFileReuploadNeeded>(file_base);
-        LOG(DEBUG) << "Part " << part.id << " must be reuplaoded to " << oneline(to_string(file));
+        LOG(DEBUG) << "Part " << part.id << " must be reuploaded to " << oneline(to_string(file));
         cdn_part_reupload_token_[part.id] = file->request_token_.as_slice().str();
         return true;
       }
@@ -148,27 +148,26 @@ Result<NetQueryPtr> FileDownloader::start_part(Part part, int32 part_count, int6
   auto net_query_type = is_small_ ? NetQuery::Type::DownloadSmall : NetQuery::Type::Download;
   NetQueryPtr net_query;
   if (!use_cdn_) {
-    int32 flags = 0;
+    bool cdn_supported = false;
 #if !TD_EMSCRIPTEN
     // CDN is supported, unless we use domains instead of IPs from a browser
     if (streaming_offset == 0) {
-      flags |= telegram_api::upload_getFile::CDN_SUPPORTED_MASK;
+      cdn_supported = true;
     }
 #endif
     DcId dc_id = remote_.is_web() ? G()->get_webfile_dc_id() : remote_.get_dc_id();
     auto unique_id = UniqueId::next(UniqueId::Type::Default, static_cast<uint8>(QueryType::Default));
-    net_query =
-        remote_.is_web()
-            ? G()->net_query_creator().create(
-                  unique_id, nullptr,
-                  telegram_api::upload_getWebFile(remote_.as_input_web_file_location(), narrow_cast<int32>(part.offset),
-                                                  narrow_cast<int32>(size)),
-                  {}, dc_id, net_query_type, NetQuery::AuthFlag::On)
-            : G()->net_query_creator().create(
-                  unique_id, nullptr,
-                  telegram_api::upload_getFile(flags, false /*ignored*/, false /*ignored*/,
-                                               remote_.as_input_file_location(), part.offset, narrow_cast<int32>(size)),
-                  {}, dc_id, net_query_type, NetQuery::AuthFlag::On);
+    net_query = remote_.is_web()
+                    ? G()->net_query_creator().create(
+                          unique_id, nullptr,
+                          telegram_api::upload_getWebFile(remote_.as_input_web_file_location(),
+                                                          narrow_cast<int32>(part.offset), narrow_cast<int32>(size)),
+                          {}, dc_id, net_query_type, NetQuery::AuthFlag::On)
+                    : G()->net_query_creator().create(
+                          unique_id, nullptr,
+                          telegram_api::upload_getFile(0, false, cdn_supported, remote_.as_input_file_location(),
+                                                       part.offset, narrow_cast<int32>(size)),
+                          {}, dc_id, net_query_type, NetQuery::AuthFlag::On);
   } else {
     if (remote_.is_web()) {
       return Status::Error("Can't download web file from CDN");
@@ -544,7 +543,9 @@ void FileDownloader::start_up() {
   if (!is_small_ &&
       (file_type == FileType::VideoNote || file_type == FileType::Document || file_type == FileType::VoiceNote ||
        file_type == FileType::Audio || file_type == FileType::Video || file_type == FileType::Animation ||
-       file_type == FileType::VideoStory || (file_type == FileType::Encrypted && size_ > (1 << 20)))) {
+       file_type == FileType::VideoStory || file_type == FileType::SelfDestructingVideo ||
+       file_type == FileType::SelfDestructingVideoNote || file_type == FileType::SelfDestructingVoiceNote ||
+       (file_type == FileType::Encrypted && size_ > (1 << 20)))) {
     delay_dispatcher_ = create_actor<DelayDispatcher>("DelayDispatcher", 0.003, actor_shared(this, 1));
     next_delay_ = 0.05;
   }
@@ -595,7 +596,7 @@ Status FileDownloader::do_loop() {
 
     LOG(INFO) << "Bad download order rate: "
               << (debug_total_parts_ == 0 ? 0.0 : 100.0 * debug_bad_part_order_ / debug_total_parts_) << "% "
-              << debug_bad_part_order_ << "/" << debug_total_parts_ << " " << format::as_array(debug_bad_parts_);
+              << debug_bad_part_order_ << '/' << debug_total_parts_ << ' ' << debug_bad_parts_;
     stop_flag_ = true;
     return Status::OK();
   }

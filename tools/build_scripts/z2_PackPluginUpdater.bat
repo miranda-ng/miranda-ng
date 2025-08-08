@@ -99,6 +99,12 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 		ren Libs2 Libs
 	)
 
+	if /I "%%a"=="DeltaChat.dll" (
+		copy /V /Y ..\..\redist\x%tp%\DeltaChat\libDeltaChat.dll Libs
+		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_DeltaChat.dll" "Libs\libDeltaChat.dll"
+		del "Libs\libDeltaChat.dll"
+	)
+
 	rem now adding plugin itself into archive
 	%ZipIt% "%Arch%\Plugins\%%~na.zip" %%a
 )

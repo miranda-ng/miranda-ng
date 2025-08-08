@@ -305,7 +305,7 @@ typedef LONG (WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
 
 static void* GetCurrentThreadEntryPoint()
 {
-	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(L"ntdll.dll"), "NtQueryInformationThread");
+	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(g_hNtdll, "NtQueryInformationThread");
 	if (NtQueryInformationThread == nullptr)
 		return nullptr;
 

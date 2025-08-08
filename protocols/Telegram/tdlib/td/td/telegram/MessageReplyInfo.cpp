@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -83,12 +83,10 @@ MessageReplyInfo::MessageReplyInfo(Td *td, tl_object_ptr<telegram_api::messageRe
       }
     }
   }
-  if ((reply_info->flags_ & telegram_api::messageReplies::MAX_ID_MASK) != 0 &&
-      ServerMessageId(reply_info->max_id_).is_valid()) {
+  if (ServerMessageId(reply_info->max_id_).is_valid()) {
     max_message_id_ = MessageId(ServerMessageId(reply_info->max_id_));
   }
-  if ((reply_info->flags_ & telegram_api::messageReplies::READ_MAX_ID_MASK) != 0 &&
-      ServerMessageId(reply_info->read_max_id_).is_valid()) {
+  if (ServerMessageId(reply_info->read_max_id_).is_valid()) {
     last_read_inbox_message_id_ = MessageId(ServerMessageId(reply_info->read_max_id_));
   }
   if (last_read_inbox_message_id_ > max_message_id_) {  // possible if last thread message was deleted after it was read

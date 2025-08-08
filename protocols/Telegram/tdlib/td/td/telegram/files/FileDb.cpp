@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -251,7 +251,7 @@ class FileDb final : public FileDbInterface {
     while (true) {
       if (attempt_count > 100) {
         LOG(FATAL) << "Cycle in file database? max_file_db_id=" << max_file_db_id << " key=" << key
-                   << " links=" << format::as_array(file_db_ids);
+                   << " links=" << file_db_ids;
       }
       attempt_count++;
 

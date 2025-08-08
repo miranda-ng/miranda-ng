@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -85,6 +85,7 @@ DcAuthManager::DcInfo &DcAuthManager::get_dc(int32 dc_id) {
   CHECK(dc);
   return *dc;
 }
+
 DcAuthManager::DcInfo *DcAuthManager::find_dc(int32 dc_id) {
   auto it = std::find_if(dcs_.begin(), dcs_.end(), [&](auto &x) { return x.dc_id.get_raw_id() == dc_id; });
   if (it == dcs_.end()) {
@@ -112,7 +113,9 @@ void DcAuthManager::on_result(NetQueryPtr net_query) {
     case DcInfo::State::Import: {
       auto r_result_auth_exported = fetch_result<telegram_api::auth_exportAuthorization>(std::move(net_query));
       if (r_result_auth_exported.is_error()) {
-        LOG(WARNING) << "Receive error for auth.exportAuthorization: " << r_result_auth_exported.error();
+        if (!G()->is_expected_error(r_result_auth_exported.error())) {
+          LOG(WARNING) << "Receive error for auth.exportAuthorization: " << r_result_auth_exported.error();
+        }
         dc.state = DcInfo::State::Export;
         break;
       }
@@ -124,7 +127,9 @@ void DcAuthManager::on_result(NetQueryPtr net_query) {
     case DcInfo::State::BeforeOk: {
       auto result_auth = fetch_result<telegram_api::auth_importAuthorization>(std::move(net_query));
       if (result_auth.is_error()) {
-        LOG(WARNING) << "Receive error for auth.importAuthorization: " << result_auth.error();
+        if (!G()->is_expected_error(result_auth.error())) {
+          LOG(WARNING) << "Receive error for auth.importAuthorization: " << result_auth.error();
+        }
         dc.state = DcInfo::State::Export;
         break;
       }

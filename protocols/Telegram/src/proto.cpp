@@ -392,6 +392,50 @@ INT_PTR CTelegramProto::GetCaps(int type, MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int CTelegramProto::GetInfo(MCONTACT hContact, int)
+{
+	if (auto *pUser = FindUser(GetId(hContact))) {
+		if (!pUser->isGroupChat)
+			SendQuery(new TD::getUserFullInfo(pUser->id), &CTelegramProto::OnGetUserInfo, pUser);
+		else {
+			if (FindSuperGroup(pUser->id))
+				SendQuery(new TD::getSupergroupFullInfo(pUser->id), &CTelegramProto::OnGetUserInfo, pUser);
+			else
+				SendQuery(new TD::getBasicGroupFullInfo(pUser->id), &CTelegramProto::OnGetUserInfo, pUser);
+		}
+		return 1;
+	}
+	return 0;
+}
+
+void CTelegramProto::OnGetUserInfo(td::ClientManager::Response &response, void *pUserInfo)
+{
+	if (!response.object)
+		return;
+
+	auto *pUser = (TG_USER *)pUserInfo;
+
+	switch (response.object->get_id()) {
+	case TD::basicGroupFullInfo::ID:
+		ProcessBasicGroupInfo(pUser, (TD::basicGroupFullInfo *)response.object.get());
+		break;
+	case TD::supergroupFullInfo::ID:
+		ProcessSuperGroupInfo(pUser, (TD::supergroupFullInfo *)response.object.get());
+		break;
+	case TD::userFullInfo::ID:
+		ProcessUserInfo(pUser->id, (TD::userFullInfo *)response.object.get());
+		break;
+
+	default:
+		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::chats::ID);
+		return;
+	}
+
+	ProtoBroadcastAck(pUser->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, HANDLE(1));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
 {
 	int iCount = ::InterlockedDecrement(&m_iSearchCount);
@@ -465,6 +509,7 @@ void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *
 		// if that file was sent once, it might be cached at the server & reused
 		if (auto *pRemote = pFile->remote_.get()) {
 			if (pRemote->is_uploading_completed_) {
+				ShowFileProgress(pFile, ft);
 				ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
 				delete ft;
 				return;

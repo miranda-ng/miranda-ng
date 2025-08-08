@@ -266,7 +266,6 @@ Netlib_AddressToString @369
 Netlib_StringToAddress @370
 Netlib_Select @371
 Netlib_SelectEx @372
-Netlib_SetStickyHeaders @374
 Netlib_GetSocket @376
 Netlib_StartSsl @377
 Netlib_GetConnectionInfo @378
@@ -1019,3 +1018,8 @@ Proto_CanDeleteHistory @1118 NONAME
 ?iHideTime@Clist@@3V?$CMOption@G@@A @1152 NONAME
 ?iAlpha@Clist@@3V?$CMOption@E@@A @1153 NONAME
 ?iAutoAlpha@Clist@@3V?$CMOption@E@@A @1154 NONAME
+?SetEventJson@MDatabaseCommon@@UEAAHIPEBD@Z @1155 NONAME
+?setReactions@EventInfo@DB@@QEAAXAEAVJSONNode@@@Z @1156 NONAME
+?bOfflineAuto@File@@3V?$CMOption@_N@@A @1157 NONAME
+?iOfflineSize@File@@3V?$CMOption@I@@A @1158 NONAME
+?Clist_ShowHide@@YAXXZ @1159 NONAME

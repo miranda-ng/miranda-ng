@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0FD26E20-5E51-396B-B4E5-98068F96B37E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{CC4593AA-1CC3-37C8-BDF9-C5986B1808BD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="td\tde2e\td\e2e\bip39.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\BitString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\Blockchain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\Call.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\CheckSharedSecret.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\DecryptedKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\e2e_api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\EncryptedKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\EncryptedStorage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\Keys.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\MessageEncryption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\Mnemonic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\QRHandshake.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="td\tde2e\td\e2e\Trie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="td\tde2e\td\e2e\bip39.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\BitString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\Blockchain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\CheckSharedSecret.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\Call.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\Container.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\DecryptedKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\e2e_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\e2e_errors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\EncryptedKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\EncryptedStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\Keys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\MessageEncryption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\Mnemonic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\QRHandshake.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\Trie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="td\tde2e\td\e2e\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="td\tde2e\td\e2e\Blockchain.md">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="td\tde2e\td\e2e\Encryption.md">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

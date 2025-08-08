@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -87,6 +87,14 @@ class TlFetchInt256 {
   template <class ParserT>
   static UInt256 parse(ParserT &parser) {
     return parser.template fetch_binary<UInt256>();
+  }
+};
+
+class TlFetchInt512 {
+ public:
+  template <class ParserT>
+  static UInt512 parse(ParserT &parser) {
+    return parser.template fetch_binary<UInt512>();
   }
 };
 

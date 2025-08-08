@@ -86,24 +86,6 @@ void CMPlugin::ReloadLuaScripts()
 
 /***********************************************/
 
-int CMPlugin::OnOptionsInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
-	odp.szGroup.w = LPGENW("Services");
-	odp.szTitle.w = L"Lua";
-
-	odp.szTab.w = LPGENW("Scripts");
-	odp.pDialog = new CMLuaOptionsMain();
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.szTab.w = LPGENW("Evaluate");
-	odp.pDialog = new CMLuaEvaluateOptions();
-	g_plugin.addOptions(wParam, &odp);
-
-	return 0;
-}
-
 int CMPlugin::OnModulesLoaded(WPARAM, LPARAM)
 {
 	g_hCLibsFolder = FoldersRegisterCustomPathW(MODULENAME, LPGEN("C Libs Folder"), MIRLUA_PATHT);

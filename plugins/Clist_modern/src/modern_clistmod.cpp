@@ -155,12 +155,6 @@ HRESULT CluiLoadModule()
 	return S_OK;
 }
 
-#define GWVS_HIDDEN 1
-#define GWVS_VISIBLE 2
-#define GWVS_COVERED 3
-#define GWVS_PARTIALLY_COVERED 4
-
-int GetWindowVisibleState(HWND, int, int);
 __inline uint32_t GetDIBPixelColor(int X, int Y, int Width, int Height, int ByteWidth, uint8_t * ptr)
 {
 	uint32_t res = 0;
@@ -169,26 +163,23 @@ __inline uint32_t GetDIBPixelColor(int X, int Y, int Width, int Height, int Byte
 	return res;
 }
 
-int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
+static int sttGetWindowVisibleState()
 {
-	if (hWnd == nullptr) {
-		SetLastError(0x00000006); // Wrong handle
+	if (g_clistApi.hwndContactList == nullptr) {
+		SetLastError(ERROR_INVALID_HANDLE);
 		return -1;
 	}
 
-	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
+	if (IsIconic(g_clistApi.hwndContactList) || !IsWindowVisible(g_clistApi.hwndContactList))
 		return GWVS_HIDDEN;
-
-	if (!Clist::bBringToFront)
-		return GWVS_VISIBLE;
 
 	HWND hwndFocused = GetFocus();
 	if (hwndFocused == g_clistApi.hwndContactList || GetParent(hwndFocused) == g_clistApi.hwndContactList)
 		return GWVS_VISIBLE;
 
 	// Some defaults now. The routine is designed for thin and tall windows.
-	if (iStepX <= 0) iStepX = 8;
-	if (iStepY <= 0) iStepY = 16;
+	int iStepX = 8;
+	int iStepY = 16;
 
 	int maxx = 0;
 	int maxy = 0;
@@ -207,8 +198,8 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	else {
 		RECT rc;
 		rgn = CreateRectRgn(0, 0, 1, 1);
-		GetWindowRect(hWnd, &rc);
-		GetWindowRgn(hWnd, rgn);
+		GetWindowRect(g_clistApi.hwndContactList, &rc);
+		GetWindowRgn(g_clistApi.hwndContactList, rgn);
 		OffsetRgn(rgn, rc.left, rc.top);
 		GetRgnBox(rgn, &rc);
 		//maxx = rc.right;
@@ -216,10 +207,10 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	}
 
 	RECT rc;
-	GetWindowRect(hWnd, &rc);
+	GetWindowRect(g_clistApi.hwndContactList, &rc);
 
 	RECT rcMonitor = { 0 };
-	GetMonitorRectFromWindow(hWnd, &rcMonitor);
+	GetMonitorRectFromWindow(g_clistApi.hwndContactList, &rcMonitor);
 
 	rc.top = rc.top < rcMonitor.top ? rcMonitor.top : rc.top;
 	rc.left = rc.left < rcMonitor.left ? rcMonitor.left : rc.left;
@@ -255,7 +246,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 				HWND hAuxOld = nullptr;
 				HWND hAux = WindowFromPoint(pt);
 				do {
-					if (hAux == hWnd) {
+					if (hAux == g_clistApi.hwndContactList) {
 						hWndFound = TRUE;
 						break;
 					}
@@ -291,47 +282,36 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	return GWVS_PARTIALLY_COVERED;
 }
 
-uint8_t g_bCalledFromShowHide = 0;
-
-int cliShowHide(bool bAlwaysShow)
+int cliGetWindowVisibleState()
 {
-	BOOL bShow = FALSE;
+	int ret = sttGetWindowVisibleState();
 
-	int iVisibleState = GetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
-	int method = db_get_b(0, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT); //(0-none, 1-leftedge, 2-rightedge);
+	int method = Modern::iHideBehind; // (0-none, 1-leftedge, 2-rightedge);
 	if (method) {
-		if (db_get_b(0, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) == 0 && !bAlwaysShow)
+		if (!Modern::iBehindEdge)
 			CLUI_HideBehindEdge(); //hide
 		else
 			CLUI_ShowFromBehindEdge();
 
-		bShow = TRUE;
-		iVisibleState = GWVS_HIDDEN;
+		return GWVS_HIDDEN;
 	}
 
-	if (!method && db_get_b(0, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT) > 0) {
-		g_CluiData.bBehindEdgeSettings = db_get_b(0, "ModernData", "BehindEdge", SETTING_BEHINDEDGE_DEFAULT);
+	if (!method && Modern::iBehindEdge > 0) {
+		g_CluiData.bBehindEdgeSettings = Modern::iBehindEdge;
 		CLUI_ShowFromBehindEdge();
 		g_CluiData.bBehindEdgeSettings = 0;
 		g_CluiData.nBehindEdgeState = 0;
-		db_unset(0, "ModernData", "BehindEdge");
+		Modern::iBehindEdge.Delete();
 	}
 
-	// bShow is FALSE when we enter the switch if no hide behind edge.
-	switch (iVisibleState) {
-	case GWVS_PARTIALLY_COVERED:
-		bShow = TRUE; break;
-	case GWVS_COVERED: //Fall through (and we're already falling)
-		bShow = TRUE; break;
-	case GWVS_HIDDEN:
-		bShow = TRUE; break;
-	case GWVS_VISIBLE: //This is not needed, but goes for readability.
-		bShow = FALSE; break;
-	case -1: //We can't get here, both g_clistApi.hwndContactList and iStepX and iStepY are right.
-		return 0;
-	}
+	return ret;
+}
 
-	if (bShow || bAlwaysShow) {
+uint8_t g_bCalledFromShowHide = 0;
+
+void cliShowHide(bool bShow)
+{
+	if (bShow) {
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
 		CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_RESTORE);
 
@@ -366,7 +346,6 @@ int cliShowHide(bool bAlwaysShow)
 
 		SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
-	return 0;
 }
 
 int CListMod_HideWindow()

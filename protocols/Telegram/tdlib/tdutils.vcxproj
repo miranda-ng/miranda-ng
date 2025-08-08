@@ -46,6 +46,7 @@
     <ClCompile Include="td\tdutils\td\utils\AsyncFileLog.cpp" />
     <ClCompile Include="td\tdutils\td\utils\BufferedUdp.cpp" />
     <ClCompile Include="td\tdutils\td\utils\check.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\Ed25519.cpp" />
     <ClCompile Include="td\tdutils\td\utils\emoji.cpp" />
     <ClCompile Include="td\tdutils\td\utils\ExitGuard.cpp" />
     <ClCompile Include="td\tdutils\td\utils\FlatHashTable.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="td\tdutils\td\utils\Context.h" />
     <ClInclude Include="td\tdutils\td\utils\DecTree.h" />
     <ClInclude Include="td\tdutils\td\utils\Destructor.h" />
+    <ClInclude Include="td\tdutils\td\utils\Ed25519.h" />
     <ClInclude Include="td\tdutils\td\utils\emoji.h" />
     <ClInclude Include="td\tdutils\td\utils\EpochBasedMemoryReclamation.h" />
     <ClInclude Include="td\tdutils\td\utils\ExitGuard.h" />

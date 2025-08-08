@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,6 +9,7 @@
 #include "td/telegram/Dimensions.hpp"
 #include "td/telegram/files/FileId.hpp"
 #include "td/telegram/PhotoSize.h"
+#include "td/telegram/PhotoSizeType.hpp"
 #include "td/telegram/Version.h"
 
 #include "td/utils/tl_helpers.h"
@@ -34,10 +35,6 @@ void parse(PhotoSize &photo_size, ParserT &parser) {
     parse(photo_size.progressive_sizes, parser);
   } else {
     photo_size.progressive_sizes.clear();
-  }
-  if (photo_size.type < 0 || photo_size.type >= 128) {
-    parser.set_error("Wrong PhotoSize type");
-    return;
   }
 }
 

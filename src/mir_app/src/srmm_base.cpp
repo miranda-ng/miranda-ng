@@ -762,13 +762,11 @@ bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
 
 void CSrmmBaseDialog::MarkEventRead(const DB::EventInfo &dbei)
 {
-	if (dbei.bRead)
-		return;
-
-	if (m_bActive)
-		doMarkEventRead(m_hContact, dbei.getEvent());
-	else {
-		m_arDisplayedEvents.push_back(dbei.getEvent());
+	if (!dbei.bRead) {
+		if (m_bActive)
+			doMarkEventRead(m_hContact, dbei.getEvent());
+		else
+			m_arDisplayedEvents.push_back(dbei.getEvent());
 	}
 }
 

@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "plugins.h"
 
 static bool bIsGenMenuInited, bMenuLoaded = false;
-bool bIconsDisabled;
+bool g_bMenuIconsEnabled;
 static mir_cs csMenuHook;
 
 static int NextObjectId = 0x100, NextObjectMenuItemId = CLISTMENUIDMIN;
@@ -97,7 +97,7 @@ HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
 		endBufferedPaint = (pfnEndBufferedPaint)GetProcAddress(hThemeAPI, "EndBufferedPaint");
 	}
 
-	BITMAPINFO bmi = { 0 };
+	BITMAPINFO bmi = {};
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biCompression = BI_RGB;
@@ -110,7 +110,7 @@ HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
 	HBITMAP hbmpOld = (HBITMAP)SelectObject(hdc, hbmp);
 
 	BLENDFUNCTION bfAlpha = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-	BP_PAINTPARAMS paintParams = { 0 };
+	BP_PAINTPARAMS paintParams = {};
 	paintParams.cbSize = sizeof(paintParams);
 	paintParams.dwFlags = BPPF_ERASE;
 	paintParams.pBlendFunction = &bfAlpha;
@@ -151,7 +151,7 @@ TMO_IntMenuItem* MO_RecursiveWalkMenu(const TMO_LinkedList &pList, pfnWalkFunc f
 
 MIR_APP_DLL(BOOL) Menu_MeasureItem(LPARAM lParam)
 {
-	if (!bIsGenMenuInited)
+	if (!bIsGenMenuInited || !g_bMenuIconsEnabled)
 		return FALSE;
 
 	MEASUREITEMSTRUCT *mis = (MEASUREITEMSTRUCT *)lParam;
@@ -174,7 +174,7 @@ MIR_APP_DLL(BOOL) Menu_MeasureItem(LPARAM lParam)
 
 MIR_APP_DLL(BOOL) Menu_DrawItem(LPARAM lParam)
 {
-	if (!bIsGenMenuInited)
+	if (!bIsGenMenuInited || !g_bMenuIconsEnabled)
 		return FALSE;
 
 	DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
@@ -350,7 +350,7 @@ static void Menu_SetItemFlags(HGENMENU hMenuItem, bool bSet, int mask)
 	else
 		flags &= ~mask;
 
-	if (!pimi->customVisible)
+	if (!pimi->bCustomVisible)
 		flags |= CMIF_HIDDEN;
 
 	// we allow to set only first 3 bits
@@ -392,12 +392,12 @@ MIR_APP_DLL(int) Menu_ModifyItem(HGENMENU hMenuItem, const wchar_t *ptszName, HA
 	if (iFlags != -1) {
 		Menu_SetItemFlags(hMenuItem, true, iFlags);
 		int oldflags = (pimi->mi.flags & 0xFFFFFFF8);
-		if (!pimi->customVisible)
+		if (!pimi->bCustomVisible)
 			oldflags |= CMIF_HIDDEN;
 		pimi->mi.flags = (iFlags & 0x07) | oldflags;
 	}
 
-	if (hIcolib != INVALID_HANDLE_VALUE && !bIconsDisabled) {
+	if (hIcolib != INVALID_HANDLE_VALUE && g_bMenuIconsEnabled) {
 		HANDLE hIcolibItem = IcoLib_IsManaged((HICON)hIcolib);
 		if (hIcolibItem) {
 			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
@@ -545,7 +545,7 @@ MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 		return 0;
 
 	case MCI_OPT_DISABLED:
-		pimi->customVisible = false;
+		pimi->bCustomVisible = false;
 		return 0;
 	}
 
@@ -563,10 +563,6 @@ MIR_APP_DLL(int) Menu_ConfigureObject(int hMenuObject, int setting, INT_PTR valu
 	TIntMenuObject *pmo = GetMenuObjbyId(hMenuObject);
 	if (pmo != nullptr) {
 		switch (setting) {
-		case MCO_OPT_ONADD_SERVICE:
-			replaceStr(pmo->onAddService, (char*)value);
-			return true;
-
 		case MCO_OPT_FREE_SERVICE:
 			replaceStr(pmo->FreeService, (char*)value);
 			return true;
@@ -776,7 +772,7 @@ static int sttLoadFromDatabase(TMO_IntMenuItem *pimi, const void *szModule)
 	}
 
 	pimi->mi.position = pos;
-	pimi->customVisible = bVisible != 0;
+	pimi->bCustomVisible = bVisible != 0;
 	if (bVisible)
 		pimi->mi.flags &= ~CMIF_HIDDEN;
 	else
@@ -850,7 +846,9 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	p->signature = MENUITEM_SIGNATURE;
 	p->iCommand = GetNextObjectMenuItemId();
 	p->mi = *pmi;
-	p->customVisible = true;
+	p->bCustomVisible = true;
+	p->bMainMenu = !mir_strcmp(pmi->pszService, MS_CLIST_MAIN_MENU);
+	p->bStatusMenu = !mir_strcmp(pmi->pszService, MS_CLIST_STATUS_MENU);
 	p->iconId = -1;
 	p->originalPosition = pmi->position;
 	p->pUserData = pUserData;
@@ -860,7 +858,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 	else
 		p->mi.name.w = mir_a2u(pmi->name.a);
 
-	if (pmi->hIcon != nullptr && !bIconsDisabled) {
+	if (pmi->hIcon != nullptr && g_bMenuIconsEnabled) {
 		HANDLE hIcolibItem = IcoLib_IsManaged(pmi->hIcon);
 		if (hIcolibItem != nullptr) {
 			HICON hIcon = IcoLib_GetIconByHandle(hIcolibItem, false);
@@ -905,7 +903,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddItem(int hMenuObject, TMO_MenuItem *pmi, void *pUs
 
 static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_SUBMENU | MIIM_DATA;
 	for (int i = GetMenuItemCount(hMenu) - 1; i >= 0; i--) {
@@ -925,7 +923,7 @@ static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 
 static uint32_t GetMenuItemType(HMENU hMenu, int uItem)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_TYPE;
 	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
@@ -934,7 +932,7 @@ static uint32_t GetMenuItemType(HMENU hMenu, int uItem)
 
 static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, TMO_IntMenuItem *&p)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_DATA | MIIM_TYPE;
 	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
@@ -944,7 +942,7 @@ static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, TMO_IntMenuItem *&p)
 
 static void InsertSeparator(HMENU hMenu, int uItem)
 {
-	MENUITEMINFO mii = { 0 };
+	MENUITEMINFO mii = {};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_TYPE;
 	mii.fType = MFT_SEPARATOR;
@@ -1009,8 +1007,8 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, const void *szModule)
 
 	// check if it visible
 	mir_snprintf(szSetting, "%s_visible", menuItemName);
-	pmi->customVisible = db_get_b(0, (char *)szModule, szSetting, 1) != 0;
-	if (pmi->customVisible)
+	pmi->bCustomVisible = db_get_b(0, (char *)szModule, szSetting, 1) != 0;
+	if (pmi->bCustomVisible)
 		pmi->mi.flags &= ~CMIF_HIDDEN;
 	else
 		pmi->mi.flags |= CMIF_HIDDEN;
@@ -1073,24 +1071,8 @@ static void CALLBACK sttUpdateMenuService()
 			db_set_b(0, szModule, "MenuFormat", true);
 			MO_RecursiveWalkMenu(pmo->m_items, sttDumpItem, szModule);
 		}
-		else { // yes, menu is already converted, simply load its data
-			for (int j = 0;; j++) {
-				char szSetting[100];
-				mir_snprintf(szSetting, "Custom%d", j);
-				ptrA szCustomMenu(db_get_sa(0, szModule, szSetting));
-				if (mir_strlen(szCustomMenu) != 32)
-					break;
-
-				TMO_MenuItem mi = {};
-				mi.flags = CMIF_CUSTOM;
-				mi.name.a = LPGEN("New submenu");
-				mi.position = 500050000;
-				hex2bin(szCustomMenu, &mi.uid, sizeof(MUUID));
-				Menu_AddItem(pmo->id, &mi, nullptr);
-			}
-
+		else // yes, menu is already converted, simply load its data
 			Menu_LoadAllFromDatabase(pmo->m_items, szModule);
-		}
 	}
 
 	bMenuLoaded = true;
@@ -1127,13 +1109,13 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 
 		int i = WhereToPlace(hMenu, mi);
 
-		MENUITEMINFO mii = { 0 };
+		MENUITEMINFO mii = {};
 		mii.cbSize = sizeof(mii);
 		mii.dwItemData = (LPARAM)pmi;
-		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING;
-		if (pmi->iconId != -1) {
+		mii.fMask = MIIM_DATA | MIIM_ID | MIIM_STRING | MIIM_STATE;
+		if (pmi->iconId != -1 && g_bMenuIconsEnabled) {
 			mii.fMask |= MIIM_BITMAP;
-			if (IsWinVerVistaPlus() && IsThemeActive()) {
+			if (IsWinVerVistaPlus() && IsThemeActive() && !IsWine()) {
 				if (pmi->hBmp == nullptr)
 					pmi->hBmp = ConvertIconToBitmap(pmi->parent->m_hMenuIcons, pmi->iconId);
 				mii.hbmpItem = pmi->hBmp;
@@ -1141,7 +1123,6 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 			else mii.hbmpItem = HBMMENU_CALLBACK;
 		}
 
-		mii.fMask |= MIIM_STATE;
 		mii.fState = ((pmi->mi.flags & CMIF_GRAYED) ? MFS_GRAYED : MFS_ENABLED);
 		mii.fState |= ((pmi->mi.flags & CMIF_CHECKED) ? MFS_CHECKED : MFS_UNCHECKED);
 		if (pmi->mi.flags & CMIF_DEFAULT)
@@ -1157,7 +1138,7 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 			#ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				wchar_t str[256];
-				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
+				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.w, mi->position, (int)mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 			#endif
@@ -1171,14 +1152,20 @@ static HMENU BuildRecursiveMenu(HMENU hMenu, const TMO_LinkedList &pList, WPARAM
 			#ifdef PUTPOSITIONSONMENU
 			if (GetKeyState(VK_CONTROL) & 0x8000) {
 				wchar_t str[256];
-				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.a, mi->position, mii.dwItemData);
+				mir_snwprintf(str, L"%s (%d, id %x)", mi->name.w, mi->position, (int)mii.dwItemData);
 				mii.dwTypeData = str;
 			}
 			#endif
 
-			if (pmo->onAddService != nullptr)
-				if (CallService(pmo->onAddService, (WPARAM)&mii, (LPARAM)pmi) == FALSE)
-					continue;
+			if (pmi->bMainMenu) {
+				mii.fMask |= MIIM_SUBMENU;
+				mii.hSubMenu = Menu_GetMainMenu();
+			}
+
+			if (pmi->bStatusMenu) {
+				mii.fMask |= MIIM_SUBMENU;
+				mii.hSubMenu = Menu_GetStatusMenu();
+			}
 
 			InsertMenuItemWithSeparators(hMenu, i, &mii);
 		}
@@ -1231,8 +1218,8 @@ static int MO_ReloadIcon(TMO_IntMenuItem *pmi, const void *)
 
 int OnIconLibChanges(WPARAM, LPARAM)
 {
-	{
-		mir_cslock lck(csMenuHook);
+	{	mir_cslock lck(csMenuHook);
+
 		for (auto &p : g_menus)
 			if (hStatusMenuObject != p->id) //skip status menu
 				MO_RecursiveWalkMenu(p->m_items, MO_ReloadIcon);
@@ -1306,7 +1293,7 @@ static void CALLBACK RegisterAllIconsInIconLib()
 
 int InitGenMenu()
 {
-	bIconsDisabled = db_get_b(0, "CList", "DisableMenuIcons", 0) != 0;
+	g_bMenuIconsEnabled = !db_get_b(0, "CList", "DisableMenuIcons");
 	bIsGenMenuInited = true;
 
 	HookEvent(ME_OPT_INITIALISE, GenMenuOptInit);
@@ -1336,7 +1323,6 @@ TIntMenuObject::~TIntMenuObject()
 	m_items.destroy();
 
 	mir_free(FreeService);
-	mir_free(onAddService);
 	mir_free(CheckService);
 	mir_free(ExecService);
 	mir_free(ptszDisplayName);

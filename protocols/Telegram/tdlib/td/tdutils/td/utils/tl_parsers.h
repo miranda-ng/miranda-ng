@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -13,11 +13,8 @@
 #include "td/utils/Status.h"
 #include "td/utils/UInt.h"
 
-#include <array>
 #include <cstring>
 #include <limits>
-#include <memory>
-#include <string>
 
 namespace td {
 
@@ -26,13 +23,9 @@ class TlParser {
   size_t data_len = 0;
   size_t left_len = 0;
   size_t error_pos = std::numeric_limits<size_t>::max();
-  std::string error;
+  string error;
 
-  std::unique_ptr<int32[]> data_buf;
-  static constexpr size_t SMALL_DATA_ARRAY_SIZE = 6;
-  std::array<int32, SMALL_DATA_ARRAY_SIZE> small_data_array;
-
-  alignas(4) static const unsigned char empty_data[sizeof(UInt256)];
+  alignas(4) static const unsigned char empty_data[sizeof(UInt512)];
 
  public:
   explicit TlParser(Slice slice);

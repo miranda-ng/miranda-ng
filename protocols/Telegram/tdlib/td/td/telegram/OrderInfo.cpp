@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -170,7 +170,7 @@ StringBuilder &operator<<(StringBuilder &string_builder, const OrderInfo &order_
   return string_builder << "]";
 }
 
-unique_ptr<OrderInfo> get_order_info(tl_object_ptr<telegram_api::paymentRequestedInfo> order_info) {
+unique_ptr<OrderInfo> get_order_info(telegram_api::object_ptr<telegram_api::paymentRequestedInfo> order_info) {
   if (order_info == nullptr || order_info->flags_ == 0) {
     return nullptr;
   }

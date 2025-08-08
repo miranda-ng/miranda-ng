@@ -32,24 +32,18 @@ enum
 
 extern char cFECmd[CMD_COUNT];
 
-#define STATE_IDLE		0x100 // idle, no operation
-#define STATE_REQSENT	0x02 // request sent, awaiting of  response
-#define STATE_PRERECV	0x04 // incoming request, awaiting of user
-#define STATE_OPERATE	0x08 // operating mode
-#define STATE_ACKREQ	0x10 // ACK-request scheduled
+#define STATE_IDLE      0x100 // idle, no operation
+#define STATE_REQSENT   0x02 // request sent, awaiting of  response
+#define STATE_PRERECV   0x04 // incoming request, awaiting of user
+#define STATE_OPERATE   0x08 // operating mode
+#define STATE_ACKREQ    0x10 // ACK-request scheduled
 #define STATE_CANCELLED 0x20 // operation aborted
-#define STATE_FINISHED	0x40 // ... finished successfully
-#define STATE_PAUSED	0x80 // ... paused
+#define STATE_FINISHED  0x40 // ... finished successfully
+#define STATE_PAUSED    0x80 // ... paused
 
-#define CHUNK_UNSENT	0x00
-#define CHUNK_SENT		0x01
-#define CHUNK_ACK		0x02
-
-#define ICON_PLAY		0
-#define ICON_PAUSE		1
-#define ICON_REFRESH	2
-#define ICON_STOP		3
-#define ICON_MAIN		4
+#define CHUNK_UNSENT    0x00
+#define CHUNK_SENT      0x01
+#define CHUNK_ACK       0x02
 
 struct FILEECHO : public MZeroedObject
 {

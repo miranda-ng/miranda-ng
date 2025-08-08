@@ -67,52 +67,38 @@ int LoadContactListModule(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-/*
-Begin of Hrk's code for bug
-*/
-#define GWVS_HIDDEN 1
-#define GWVS_VISIBLE 2
-#define GWVS_COVERED 3
-#define GWVS_PARTIALLY_COVERED 4
-
-int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
+int GetWindowVisibleState()
 {
 	RECT rc = { 0 };
 	POINT pt = { 0 };
-	int i = 0, j = 0, width = 0, height = 0, iCountedDots = 0, iNotCoveredDots = 0;
-	BOOL bPartiallyCovered = FALSE;
 	HWND hAux = nullptr;
 
-	if (hWnd == nullptr) {
-		SetLastError(0x00000006); //Wrong handle
+	if (g_clistApi.hwndContactList == nullptr) {
+		SetLastError(ERROR_INVALID_HANDLE); //Wrong handle
 		return -1;
 	}
 	//Some defaults now. The routine is designed for thin and tall windows.
 
-	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
+	if (IsIconic(g_clistApi.hwndContactList) || !IsWindowVisible(g_clistApi.hwndContactList))
 		return GWVS_HIDDEN;
 
 	HRGN rgn = nullptr;
 	POINT ptOrig;
-	RECT  rcClient;
+	RECT rcClient;
 	int clip = (int)cfg::dat.bClipBorder;
 
-	GetClientRect(hWnd, &rcClient);
+	GetClientRect(g_clistApi.hwndContactList, &rcClient);
 	ptOrig.x = ptOrig.y = 0;
-	ClientToScreen(hWnd, &ptOrig);
+	ClientToScreen(g_clistApi.hwndContactList, &ptOrig);
 	rc.left = ptOrig.x;
 	rc.top = ptOrig.y;
 	rc.right = rc.left + rcClient.right;
 	rc.bottom = rc.top + rcClient.bottom;
 
-	//GetWindowRect(hWnd, &rc);
-	width = rc.right - rc.left;
-	height = rc.bottom - rc.top;
-
-	if (iStepX <= 0)
-		iStepX = 4;
-	if (iStepY <= 0)
-		iStepY = 16;
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+	int iStepX = 4;
+	int iStepY = 16;
 
 	/*
 	* use a rounded clip region to determine which pixels are covered
@@ -129,15 +115,18 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	else
 		clip = 0;
 
-	for (i = rc.top + clip; i < rc.bottom; i += (height / iStepY)) {
+	bool bPartiallyCovered = false;
+	int iCountedDots = 0, iNotCoveredDots = 0;
+	for (int i = rc.top + clip; i < rc.bottom; i += (height / iStepY)) {
 		pt.y = i;
-		for (j = rc.left + clip; j < rc.right; j += (width / iStepX)) {
+		for (int j = rc.left + clip; j < rc.right; j += (width / iStepX)) {
 			pt.x = j;
-			hAux = WindowFromPoint(pt);
-			while (GetParent(hAux) != nullptr)
-				hAux = GetParent(hAux);
-			if (hAux != hWnd && hAux) //There's another window!
-				bPartiallyCovered = TRUE;
+			if (hAux = WindowFromPoint(pt))
+				while (GetParent(hAux) != nullptr)
+					hAux = GetParent(hAux);
+			
+			if (hAux && hAux != g_clistApi.hwndContactList) //There's another window!
+				bPartiallyCovered = true;
 			else
 				iNotCoveredDots++; //Let's count the not covered dots.
 			iCountedDots++; //Let's keep track of how many dots we checked.
@@ -154,37 +143,9 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	return GWVS_PARTIALLY_COVERED;
 }
 
-int ShowHide()
+void ShowHide(bool bShow)
 {
-	BOOL bShow = FALSE;
-
-	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
-
-	if (IsIconic(g_clistApi.hwndContactList)) {
-		SendMessage(g_clistApi.hwndContactList, WM_SYSCOMMAND, SC_RESTORE, 0);
-		bShow = TRUE;
-	}
-	else {
-		switch (iVisibleState) {
-		case GWVS_PARTIALLY_COVERED:
-			//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-			if (!Clist::bBringToFront)
-				break;
-		case GWVS_COVERED:     //Fall through (and we're already falling)
-		case GWVS_HIDDEN:
-			bShow = TRUE;
-			break;
-		case GWVS_VISIBLE:     //This is not needed, but goes for readability.
-			bShow = FALSE;
-			break;
-		case -1:               //We can't get here, both cli.hwndContactList and iStepX and iStepY are right.
-			return 0;
-		}
-	}
-
-	if (bShow == TRUE) {
-		RECT rcWindow;
-
+	if (bShow) {
 		SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
 		if (!Clist::bOnTop)
 			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
@@ -193,17 +154,17 @@ int ShowHide()
 		ShowWindow(g_clistApi.hwndContactList, SW_SHOW);
 		g_plugin.setByte("State", SETTING_STATE_NORMAL);
 
+		RECT rcWindow;
 		GetWindowRect(g_clistApi.hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1) {
 			MoveWindow(g_clistApi.hwndContactList, rcWindow.left, rcWindow.top,
 				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 		}
 	}
-	else {                      //It needs to be hidden
+	else {
 		ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
 		g_plugin.setByte("State", SETTING_STATE_HIDDEN);
 		if (g_plugin.getByte("DisableWorkingSet", 1))
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
-	return 0;
 }

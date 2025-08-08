@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -85,15 +85,15 @@ class WebPagesManager final : public Actor {
                             td_api::object_ptr<td_api::linkPreviewOptions> &&link_preview_options,
                             Promise<td_api::object_ptr<td_api::linkPreview>> &&promise);
 
-  void get_web_page_instant_view(const string &url, bool force_full, Promise<WebPageId> &&promise);
+  void get_web_page_instant_view(const string &url, bool only_local, Promise<WebPageId> &&promise);
 
   string get_web_page_url(WebPageId web_page_id) const;
 
   WebPageId get_web_page_by_url(const string &url) const;
 
-  void get_web_page_by_url(const string &url, Promise<WebPageId> &&promise);
+  void fetch_web_page_by_url(const string &url, Promise<WebPageId> &&promise);
 
-  void reload_web_page_by_url(const string &url, Promise<WebPageId> &&promise);
+  void reload_web_page_by_url(const string &url, bool only_local, Promise<WebPageId> &&promise);
 
   void on_get_web_page_preview(unique_ptr<GetWebPagePreviewOptions> &&options,
                                tl_object_ptr<telegram_api::MessageMedia> &&message_media_ptr,
@@ -136,7 +136,7 @@ class WebPagesManager final : public Actor {
 
   const WebPageInstantView *get_web_page_instant_view(WebPageId web_page_id) const;
 
-  void get_web_page_instant_view_impl(WebPageId web_page_id, bool force_full, Promise<WebPageId> &&promise);
+  void get_web_page_instant_view_impl(WebPageId web_page_id, bool only_local, Promise<WebPageId> &&promise);
 
   td_api::object_ptr<td_api::LinkPreviewType> get_link_preview_type_album_object(
       const WebPageInstantView &instant_view) const;
@@ -170,23 +170,28 @@ class WebPagesManager final : public Actor {
 
   static string get_web_page_instant_view_database_key(WebPageId web_page_id);
 
-  void load_web_page_instant_view(WebPageId web_page_id, bool force_full, Promise<WebPageId> &&promise);
+  void load_web_page_instant_view(WebPageId web_page_id, bool only_local, Promise<WebPageId> &&promise);
+
+  void update_web_page_instant_view_load_requests(WebPageId web_page_id, WebPageId new_web_page_id,
+                                                  vector<Promise<WebPageId>> &&promises) const;
 
   void on_load_web_page_instant_view_from_database(WebPageId web_page_id, string value);
 
+  void on_load_web_page_instant_view(WebPageId web_page_id, WebPageId new_web_page_id);
+
   void reload_web_page_instant_view(WebPageId web_page_id);
 
-  void update_web_page_instant_view_load_requests(WebPageId web_page_id, bool force_update,
-                                                  Result<WebPageId> r_web_page_id);
+  void on_reload_web_page_instant_view(WebPageId web_page_id, Result<WebPageId> r_web_page_id);
 
   static string get_web_page_url_database_key(const string &url);
 
-  void load_web_page_by_url(string url, Promise<WebPageId> &&promise);
+  void load_web_page_by_url(string url, bool only_local, Promise<WebPageId> &&promise);
 
-  void on_load_web_page_id_by_url_from_database(string url, string value, Promise<WebPageId> &&promise);
+  void on_load_web_page_id_by_url_from_database(string url, bool only_local, string value,
+                                                Promise<WebPageId> &&promise);
 
-  void on_load_web_page_by_url_from_database(WebPageId web_page_id, string url, Promise<WebPageId> &&promise,
-                                             Result<Unit> &&result);
+  void on_load_web_page_by_url_from_database(WebPageId web_page_id, string url, bool only_local,
+                                             Promise<WebPageId> &&promise, Result<Unit> &&result);
 
   void tear_down() final;
 
@@ -195,6 +200,8 @@ class WebPagesManager final : public Actor {
   FileSourceId get_web_page_file_source_id(WebPage *web_page);
 
   vector<FileId> get_web_page_file_ids(const WebPage *web_page) const;
+
+  static int32 get_video_start_timestamp(const string &url);
 
   static bool can_web_page_be_album(const WebPage *web_page);
 
@@ -207,11 +214,8 @@ class WebPagesManager final : public Actor {
   FlatHashMap<WebPageId, vector<Promise<Unit>>, WebPageIdHash> load_web_page_from_database_queries_;
   FlatHashSet<WebPageId, WebPageIdHash> loaded_from_database_web_pages_;
 
-  struct PendingWebPageInstantViewQueries {
-    vector<Promise<WebPageId>> partial;
-    vector<Promise<WebPageId>> full;
-  };
-  FlatHashMap<WebPageId, PendingWebPageInstantViewQueries, WebPageIdHash> load_web_page_instant_view_queries_;
+  FlatHashMap<WebPageId, vector<Promise<WebPageId>>, WebPageIdHash> load_local_web_page_instant_view_queries_;
+  FlatHashMap<WebPageId, vector<Promise<WebPageId>>, WebPageIdHash> load_server_web_page_instant_view_queries_;
 
   FlatHashMap<WebPageId, FlatHashSet<MessageFullId, MessageFullIdHash>, WebPageIdHash> web_page_messages_;
   FlatHashMap<WebPageId, FlatHashSet<QuickReplyMessageFullId, QuickReplyMessageFullIdHash>, WebPageIdHash>

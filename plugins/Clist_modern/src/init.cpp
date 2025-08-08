@@ -32,6 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CHECKRES(sub) if (sub != S_OK) return S_FALSE;
 
+void CheckCompatibility();
+
 CMPlugin g_plugin;
 HINSTANCE g_hMirApp = nullptr;
 
@@ -112,35 +114,30 @@ int CMPlugin::Unload(void)
 
 void CMPlugin::ReadSettings()
 {
-	if (g_plugin.getBool("NoOfflineBottom")) {
-		g_plugin.setByte("OfflineBottom", false);
-		g_plugin.delSetting("NoOfflineBottom");
-	}
+	CheckCompatibility();
 
 	wcsncpy_s(secondLine.text, getMStringW("SecondLineText"), _TRUNCATE);
 	secondLine.iType = getWord("SecondLineType", SETTING_SECONDLINE_TYPE_DEFAULT);
-	secondLine.bActive = getBool("SecondLineShow", SETTING_SECONDLINE_SHOW_DEFAULT);
+	secondLine.bActive = getBool("SecondLineShow");
 	secondLine.iTopSpace = getWord("SecondLineTopSpace", SETTING_SECONDLINE_TOPSPACE_DEFAULT);
 	secondLine.bDrawSmilies = getBool("SecondLineDrawSmileys", SETTING_SECONDLINE_SMILEYS_DEFAULT);
 	secondLine.bXstatusHasPriority = getBool("SecondLineXStatusHasPriority", SETTING_SECONDLINE_XSTATUS_DEFAULT);
 	secondLine.bShowStatusIfNoAway = getBool("SecondLineShowStatusIfNoAway", SETTING_SECONDLINE_STATUSIFNOAWAY_DEFAULT);
 	secondLine.bShowListeningIfNoAway = getBool("SecondLineShowListeningIfNoAway", SETTING_SECONDLINE_LISTENINGIFNOAWAY_DEFAULT);
-	secondLine.bUseNameAndMessageForXstatus = getBool("SecondLineUseNameAndMessageForXStatus", SETTING_SECONDLINE_XSTATUSNAMETEXT_DEFAULT);
+	secondLine.bUseNameAndMessageForXstatus = getBool("SecondLineUseNameAndMessageForXStatus");
 
 	wcsncpy_s(thirdLine.text, getMStringW("ThirdLineText"), _TRUNCATE);
 	thirdLine.iType = getWord("ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
-	thirdLine.bActive = getBool("ThirdLineShow", SETTING_THIRDLINE_SHOW_DEFAULT);
+	thirdLine.bActive = getBool("ThirdLineShow");
 	thirdLine.iTopSpace = getWord("ThirdLineTopSpace", SETTING_THIRDLINE_TOPSPACE_DEFAULT);
-	thirdLine.bDrawSmilies = getBool("ThirdLineDrawSmileys", SETTING_THIRDLINE_SMILEYS_DEFAULT);
+	thirdLine.bDrawSmilies = getBool("ThirdLineDrawSmileys");
 	thirdLine.bXstatusHasPriority = getBool("ThirdLineXStatusHasPriority", SETTING_THIRDLINE_XSTATUS_DEFAULT);
-	thirdLine.bShowStatusIfNoAway = getBool("ThirdLineShowStatusIfNoAway", SETTING_THIRDLINE_STATUSIFNOAWAY_DEFAULT);
-	thirdLine.bShowListeningIfNoAway = getBool("ThirdLineShowListeningIfNoAway", SETTING_THIRDLINE_LISTENINGIFNOAWAY_DEFAULT);
-	thirdLine.bUseNameAndMessageForXstatus = getBool("ThirdLineUseNameAndMessageForXStatus", SETTING_THIRDLINE_XSTATUSNAMETEXT_DEFAULT);
+	thirdLine.bShowStatusIfNoAway = getBool("ThirdLineShowStatusIfNoAway");
+	thirdLine.bShowListeningIfNoAway = getBool("ThirdLineShowListeningIfNoAway");
+	thirdLine.bUseNameAndMessageForXstatus = getBool("ThirdLineUseNameAndMessageForXStatus");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-static int cliShowHideStub() { return cliShowHide(false); }
 
 static HRESULT SubclassClistInterface()
 {
@@ -181,10 +178,11 @@ static HRESULT SubclassClistInterface()
 	g_clistApi.pfnRecalcScrollBar = cliRecalcScrollBar;
 	g_clistApi.pfnRowHitTest = cliRowHitTest;
 	g_clistApi.pfnScrollTo = cliScrollTo;
-	g_clistApi.pfnShowHide = cliShowHideStub;
+	g_clistApi.pfnShowHide = cliShowHide;
 	g_clistApi.pfnHitTest = cliHitTest;
 	g_clistApi.pfnCompareContacts = cliCompareContacts;
 	g_clistApi.pfnGetIconFromStatusMode = cliGetIconFromStatusMode;
+	g_clistApi.pfnGetWindowVisibleState = cliGetWindowVisibleState;
 	g_clistApi.pfnFindItem = cliFindItem;
 	g_clistApi.pfnGetRowByIndex = cliGetRowByIndex;
 	g_clistApi.pfnGetRowsPriorTo = cliGetRowsPriorTo;

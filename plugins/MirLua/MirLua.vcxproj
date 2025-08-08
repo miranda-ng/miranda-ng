@@ -89,7 +89,6 @@
     <ClCompile Include="src\variables_loader.cpp" />
     <ClInclude Include="include\mirlua.h" />
     <ClInclude Include="src\module_loader.h" />
-    <ClInclude Include="src\options.h" />
     <ClInclude Include="src\plugin.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\script.h" />

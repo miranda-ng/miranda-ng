@@ -134,8 +134,6 @@
 Окно при запуске
 [Set window state]
 Состояние окна
-[Set docked]
-Парковать
 [Set window location]
 Положение окна
 [Left]
@@ -346,10 +344,6 @@
 Свёрнуто
 [Normal]
 Нормальный
-[Right]
-Справа
-[None]
-Нет
 [size: %d x %d]
 размер: %d x %d
 [loc: %d x %d]

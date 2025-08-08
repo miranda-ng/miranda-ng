@@ -54,6 +54,10 @@ Reaktion hinzufügen
 Geburtstag
 [Biography]
 Biografie
+[User count]
+Anzahl Nutzer
+[Channel link]
+Link zum Channel
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 E-Mail-Adresse zur Kontenüberprüfung eingeben

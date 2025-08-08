@@ -40,6 +40,13 @@ public:
 		m_histCtrl->pMsgDlg = &m_pDlg;
 		m_histCtrl->m_hContact = m_pDlg.m_hContact;
 		WindowList_Add(g_hNewstoryLogs, m_hwnd, m_histCtrl->m_hContact);
+
+		DB::ECPTR pCursor(DB::Events(m_pDlg.m_hContact, db_event_firstUnread(m_pDlg.m_hContact)));
+		while (MEVENT hDbEvent = pCursor.FetchNext()) {
+			DB::EventInfo dbei(hDbEvent, false);
+			if (dbei && !dbei.bRead)
+				m_pDlg.MarkEventRead(dbei);				
+		}		
 	}
 
 	void Detach() override

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -102,6 +102,17 @@ MediaArea::MediaArea(Td *td, telegram_api::object_ptr<telegram_api::MediaArea> &
         url_ = std::move(area->emoji_);
         temperature_ = area->temperature_c_;
         color_ = area->color_;
+      } else {
+        LOG(ERROR) << "Receive " << to_string(area);
+      }
+      break;
+    }
+    case telegram_api::mediaAreaStarGift::ID: {
+      auto area = telegram_api::move_object_as<telegram_api::mediaAreaStarGift>(media_area_ptr);
+      coordinates_ = MediaAreaCoordinates(area->coordinates_);
+      if (coordinates_.is_valid() && !area->slug_.empty()) {
+        type_ = Type::StarGift;
+        url_ = std::move(area->slug_);
       } else {
         LOG(ERROR) << "Receive " << to_string(area);
       }
@@ -229,6 +240,15 @@ MediaArea::MediaArea(Td *td, td_api::object_ptr<td_api::inputStoryArea> &&input_
       type_ = Type::Weather;
       break;
     }
+    case td_api::inputStoryAreaTypeUpgradedGift::ID: {
+      auto type = td_api::move_object_as<td_api::inputStoryAreaTypeUpgradedGift>(input_story_area->type_);
+      if (!clean_input_string(type->gift_name_) || type->gift_name_.empty()) {
+        break;
+      }
+      url_ = std::move(type->gift_name_);
+      type_ = Type::StarGift;
+      break;
+    }
     default:
       UNREACHABLE();
   }
@@ -275,6 +295,9 @@ td_api::object_ptr<td_api::storyArea> MediaArea::get_story_area_object(
     case Type::Weather:
       type = td_api::make_object<td_api::storyAreaTypeWeather>(temperature_, url_, color_);
       break;
+    case Type::StarGift:
+      type = td_api::make_object<td_api::storyAreaTypeUpgradedGift>(url_);
+      break;
     default:
       UNREACHABLE();
   }
@@ -312,18 +335,10 @@ telegram_api::object_ptr<telegram_api::MediaArea> MediaArea::get_input_media_are
             coordinates_.get_input_media_area_coordinates(), input_query_id_, input_result_id_);
       }
       return venue_.get_input_media_area_venue(coordinates_.get_input_media_area_coordinates());
-    case Type::Reaction: {
-      int32 flags = 0;
-      if (is_dark_) {
-        flags |= telegram_api::mediaAreaSuggestedReaction::DARK_MASK;
-      }
-      if (is_flipped_) {
-        flags |= telegram_api::mediaAreaSuggestedReaction::FLIPPED_MASK;
-      }
+    case Type::Reaction:
       return telegram_api::make_object<telegram_api::mediaAreaSuggestedReaction>(
-          flags, false /*ignored*/, false /*ignored*/, coordinates_.get_input_media_area_coordinates(),
+          0, is_dark_, is_flipped_, coordinates_.get_input_media_area_coordinates(),
           reaction_type_.get_input_reaction());
-    }
     case Type::Message: {
       auto channel_id = message_full_id_.get_dialog_id().get_channel_id();
       auto server_message_id = message_full_id_.get_message_id().get_server_message_id();
@@ -344,6 +359,9 @@ telegram_api::object_ptr<telegram_api::MediaArea> MediaArea::get_input_media_are
     case Type::Weather:
       return telegram_api::make_object<telegram_api::mediaAreaWeather>(coordinates_.get_input_media_area_coordinates(),
                                                                        url_, temperature_, color_);
+    case Type::StarGift:
+      return telegram_api::make_object<telegram_api::mediaAreaStarGift>(coordinates_.get_input_media_area_coordinates(),
+                                                                        url_);
     default:
       UNREACHABLE();
       return nullptr;

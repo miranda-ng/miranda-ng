@@ -95,7 +95,7 @@ LRESULT CALLBACK key_hook(int nCode, WPARAM wParam, LPARAM lParam)  // https://m
 						
 						if (HwHotKeys_CompareCurrentScancode(code_HideShow)) { // хоткей сворачивания/разворачивания главного окна Miranda
 							// Beep(700, 200);
-							g_clistApi.pfnShowHide(); // есть варианты
+							Clist_ShowHide(); // есть варианты
 							return 1;
 						}
 						

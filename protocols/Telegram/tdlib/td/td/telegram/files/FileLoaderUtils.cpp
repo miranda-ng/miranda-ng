@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,7 +20,6 @@
 #include "td/utils/Random.h"
 #include "td/utils/SliceBuilder.h"
 #include "td/utils/StringBuilder.h"
-#include "td/utils/utf8.h"
 
 #include <tuple>
 
@@ -307,6 +306,10 @@ Result<FullLocalLocationInfo> check_full_local_location(FullLocalLocationInfo lo
 
   if (size <= 0) {
     size = stat.size_;
+  } else if (size != stat.size_) {
+    VLOG(file_loader) << "File \"" << location.path_ << "\" was modified: old size = " << size
+                      << ", new size = " << stat.size_;
+    return Status::Error(400, "File size has changed");
   }
   if (location.mtime_nsec_ == 0) {
     VLOG(file_loader) << "Set file \"" << location.path_ << "\" modification time to " << stat.mtime_nsec_;
@@ -314,33 +317,35 @@ Result<FullLocalLocationInfo> check_full_local_location(FullLocalLocationInfo lo
   } else if (!are_modification_times_equal(location.mtime_nsec_, stat.mtime_nsec_)) {
     VLOG(file_loader) << "File \"" << location.path_ << "\" was modified: old mtime = " << location.mtime_nsec_
                       << ", new mtime = " << stat.mtime_nsec_;
-    return Status::Error(400, PSLICE() << "File \"" << utf8_encode(location.path_) << "\" was modified");
+    return Status::Error(400, "File was modified");
   }
   if (skip_file_size_checks) {
     return std::move(local_info);
   }
 
-  auto get_file_size_error = [&](Slice reason) {
-    return Status::Error(400, PSLICE() << "File \"" << utf8_encode(location.path_) << "\" of size " << size
-                                       << " bytes is too big" << reason);
+  auto get_file_size_error = [&](Slice reason, int64 max_size) {
+    return Status::Error(400, PSLICE() << "File of size " << size << " bytes is too big" << reason
+                                       << "; the maximum size is " << max_size << " bytes");
   };
   if ((location.file_type_ == FileType::Thumbnail || location.file_type_ == FileType::EncryptedThumbnail) &&
       size > MAX_THUMBNAIL_SIZE && !begins_with(PathView(location.path_).file_name(), "map") &&
       !begins_with(PathView(location.path_).file_name(), "Album cover for ")) {
-    return get_file_size_error(" for a thumbnail");
+    return get_file_size_error(" for a thumbnail", MAX_THUMBNAIL_SIZE);
   }
   if (size > MAX_FILE_SIZE) {
-    return get_file_size_error("");
+    return get_file_size_error("", MAX_FILE_SIZE);
   }
   if (get_file_type_class(location.file_type_) == FileTypeClass::Photo && size > MAX_PHOTO_SIZE) {
-    return get_file_size_error(" for a photo");
+    return get_file_size_error(" for a photo", MAX_PHOTO_SIZE);
   }
-  if (location.file_type_ == FileType::VideoNote &&
-      size > G()->get_option_integer("video_note_size_max", DEFAULT_VIDEO_NOTE_SIZE_MAX)) {
-    return get_file_size_error(" for a video note");
+  if (location.file_type_ == FileType::VideoNote || location.file_type_ == FileType::SelfDestructingVideoNote) {
+    auto max_size = G()->get_option_integer("video_note_size_max", DEFAULT_VIDEO_NOTE_SIZE_MAX);
+    if (size > max_size) {
+      return get_file_size_error(" for a video note", max_size);
+    }
   }
   if (location.file_type_ == FileType::VideoStory && size > MAX_VIDEO_STORY_SIZE) {
-    return get_file_size_error(" for a video story");
+    return get_file_size_error(" for a video story", MAX_VIDEO_STORY_SIZE);
   }
   return std::move(local_info);
 }
@@ -353,7 +358,7 @@ Status check_partial_local_location(const PartialLocalFileLocation &location) {
     }
     return Status::Error("File must be a regular file");
   }
-  // can't check mtime. Hope nobody will mess with this files in our temporary dir.
+  // can't check mtime. Hope nobody will mess with the file in our temporary directory
   return Status::OK();
 }
 

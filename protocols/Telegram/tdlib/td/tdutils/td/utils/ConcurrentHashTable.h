@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -209,12 +209,15 @@ class ConcurrentHashMap {
   int migrate_generation_{0};
   HashMap *migrate_from_hash_map_{nullptr};
   HashMap *migrate_to_hash_map_{nullptr};
+
   struct Task {
     size_t begin;
     size_t end;
+
     bool empty() const {
       return begin >= end;
     }
+
     size_t size() const {
       if (empty()) {
         return 0;
@@ -224,9 +227,10 @@ class ConcurrentHashMap {
   };
 
   struct TaskCreator {
-    size_t chunk_size;
-    size_t size;
+    size_t chunk_size{0};
+    size_t size{0};
     std::atomic<size_t> pos{0};
+
     Task create() {
       auto i = pos++;
       auto begin = i * chunk_size;

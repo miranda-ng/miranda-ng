@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -61,6 +61,42 @@ MessageId MessageId::get_max_message_id(const vector<telegram_api::object_ptr<te
     }
   }
   return max_message_id;
+}
+
+bool MessageId::is_message_id_order_ascending(const vector<telegram_api::object_ptr<telegram_api::Message>> &messages,
+                                              const char *source) {
+  MessageId cur_message_id;
+  for (const auto &message : messages) {
+    auto message_id = get_message_id(message, false);
+    if (message_id <= cur_message_id || !message_id.is_valid()) {
+      string error;
+      for (const auto &debug_message : messages) {
+        error += to_string(debug_message);
+      }
+      LOG(ERROR) << "Receive " << message_id << " after " << cur_message_id << " from " << source << " in " << error;
+      return false;
+    }
+    cur_message_id = message_id;
+  }
+  return true;
+}
+
+bool MessageId::is_message_id_order_descending(const vector<telegram_api::object_ptr<telegram_api::Message>> &messages,
+                                               const char *source) {
+  MessageId cur_message_id = MessageId::max();
+  for (const auto &message : messages) {
+    auto message_id = get_message_id(message, false);
+    if (message_id >= cur_message_id || !message_id.is_valid()) {
+      string error;
+      for (const auto &debug_message : messages) {
+        error += to_string(debug_message);
+      }
+      LOG(ERROR) << "Receive " << message_id << " after " << cur_message_id << " from " << source << " in " << error;
+      return false;
+    }
+    cur_message_id = message_id;
+  }
+  return true;
 }
 
 vector<MessageId> MessageId::get_message_ids(const vector<int64> &input_message_ids) {

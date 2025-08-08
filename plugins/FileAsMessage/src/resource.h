@@ -4,7 +4,7 @@
 //
 #define IDC_PLAY                        1
 #define IDD_MAIN                        101
-#define IDI_SMALLICON                   102
+#define IDI_MAIN                        102
 #define IDD_OPTIONS                     103
 #define IDI_STOP                        104
 #define IDI_PAUSE                       105

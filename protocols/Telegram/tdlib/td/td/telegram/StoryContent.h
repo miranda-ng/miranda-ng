@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -61,8 +61,6 @@ void merge_story_contents(Td *td, const StoryContent *old_content, StoryContent 
                           bool &is_content_changed, bool &need_update);
 
 unique_ptr<StoryContent> copy_story_content(const StoryContent *content);
-
-unique_ptr<StoryContent> dup_story_content(Td *td, const StoryContent *content);
 
 td_api::object_ptr<td_api::StoryContent> get_story_content_object(Td *td, const StoryContent *content);
 

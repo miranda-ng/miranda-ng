@@ -1,0 +1,32 @@
+#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
+;============================================================
+;  File: DeltaChat.dll
+;  Plugin: DeltaChat protocol
+;  Version: 0.96.5.1
+;  Authors: George Hazan
+;============================================================
+[DeltaChat support for Miranda NG.]
+;file \protocols\DeltaChat\res\deltachat.rc
+[IMAP server]
+[Username]
+[Password]
+[Host]
+[Default group:]
+[Port]
+[SSL mode]
+[SMTP server]
+[User details]
+;file \protocols\DeltaChat\src\main.cpp
+[Main icon]
+;file \protocols\DeltaChat\src\menus.cpp
+[Enter QR code, received from another device]
+[Invalid or broken QR code]
+[Add chat using QR code]
+[Copy QR to chat with me]
+;file \protocols\DeltaChat\src\options.cpp
+[Automatic]
+[STARTTLS]
+[SSL (old)]
+[Plain]
+[Network]
+[Account]

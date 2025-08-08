@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -153,10 +153,6 @@ class NotificationManager final : public Actor {
   static constexpr int32 MAX_UPDATE_DELAY_MS = 60000;
 
   static constexpr int32 ANNOUNCEMENT_ID_CACHE_TIME = 7 * 86400;
-
-  static constexpr int32 USER_FLAG_HAS_ACCESS_HASH = 1 << 0;
-  static constexpr int32 USER_FLAG_HAS_PHONE_NUMBER = 1 << 4;
-  static constexpr int32 USER_FLAG_IS_INACCESSIBLE = 1 << 20;
 
   class AddMessagePushNotificationLogEvent;
   class EditMessagePushNotificationLogEvent;

@@ -1588,7 +1588,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 	mainHeight = mainRect.bottom - mainRect.top;
 	minHeight = CLUIFrames_GetTotalHeight();
 	if (mainHeight < minHeight) {
-		BOOL Upward = !g_CluiData.fDocked && g_CluiData.fAutoSize && db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT);
+		BOOL Upward = !g_CluiData.fDocked && g_CluiData.fAutoSize && db_get_b(0, "CLUI", "AutoSizeUpward");
 		if (Upward)
 			mainRect.top = mainRect.bottom - minHeight;
 		else
@@ -1778,8 +1778,7 @@ int CLUIFrames_GetTotalHeight()
 	//TODO minsize
 	sumheight += g_CluiData.TopClientMargin;
 	sumheight += g_CluiData.BottomClientMargin;
-	return  max(db_get_w(0, "CLUI", "MinHeight", SETTING_MINHEIGTH_DEFAULT),
-		(sumheight + border.top + border.bottom));
+	return max(db_get_w(0, "CLUI", "MinHeight"), (sumheight + border.top + border.bottom));
 }
 
 int CLUIFramesGetMinHeight()
@@ -1816,12 +1815,8 @@ int CLUIFramesGetMinHeight()
 	//TODO minsize
 	sumheight += g_CluiData.TopClientMargin;
 	sumheight += g_CluiData.BottomClientMargin;
-	return  max(db_get_w(0, "CLUI", "MinHeight", SETTING_MINHEIGTH_DEFAULT),
-		(sumheight + border.top + border.bottom + allbord + tbh));
+	return  max(db_get_w(0, "CLUI", "MinHeight"), (sumheight + border.top + border.bottom + allbord + tbh));
 }
-
-
-
 
 static int CLUIFramesResizeFrames(const RECT newsize)
 {
@@ -2186,7 +2181,7 @@ int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam)
 		mainHeight = mainRect.bottom - mainRect.top;
 		minHeight = CLUIFrames_GetTotalHeight();
 		if (mainHeight < minHeight) {
-			bool Upward = !g_CluiData.fDocked && g_CluiData.fAutoSize && db_get_b(0, "CLUI", "AutoSizeUpward", SETTING_AUTOSIZEUPWARD_DEFAULT);
+			bool Upward = !g_CluiData.fDocked && g_CluiData.fAutoSize && db_get_b(0, "CLUI", "AutoSizeUpward");
 			if (Upward)
 				mainRect.top = mainRect.bottom - minHeight;
 			else
@@ -2256,7 +2251,7 @@ int OnFrameTitleBarBackgroundChange(WPARAM, LPARAM)
 {
 	if (MirandaExiting()) return 0;
 
-	AlignCOLLIconToLeft = db_get_b(0, "FrameTitleBar", "AlignCOLLIconToLeft", CLCDEFAULT_COLLICONTOLEFT);
+	AlignCOLLIconToLeft = db_get_b(0, "FrameTitleBar", "AlignCOLLIconToLeft");
 
 	sttBkColour = cliGetColor("FrameTitleBar", "BkColour", CLCDEFAULT_BKCOLOUR);
 	sttBkUseWinColours = db_get_b(0, "FrameTitleBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);

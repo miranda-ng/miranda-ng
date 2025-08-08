@@ -173,7 +173,8 @@ void CRtfLogWindow::InsertFileLink(CMStringA &buf, MEVENT hEvent, const DB::FILE
 	if (blob.getSize() > 0 && blob.getSize() == blob.getTransferred())
 		buf.Append(" \\u10004? ");
 
-	if (uint32_t size = blob.getSize())
+	int64_t size = blob.getSize();
+	if (size > 0)
 		buf.AppendFormat(" %uKB", size < 1024 ? 1 : unsigned(blob.getSize() / 1024));
 
 	CMStringA szHost;

@@ -1,0 +1,152 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAIN                ICON                    "deltachat.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS_ACCOUNT DIALOGEX 0, 0, 305, 164
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "IMAP server",IDC_STATIC,7,7,291,81
+    LTEXT           "Username",IDC_STATIC,15,20,49,8
+    EDITTEXT        IDC_IMAPUSER,68,17,225,13,ES_AUTOHSCROLL
+    LTEXT           "Password",IDC_STATIC,15,36,49,8
+    EDITTEXT        IDC_IMAPPASS,68,33,225,13,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Host",IDC_STATIC,15,52,49,8
+    EDITTEXT        IDC_IMAPHOST,68,50,225,13,ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,7,145,81,8
+    EDITTEXT        IDC_GROUP,108,143,189,14,ES_AUTOHSCROLL
+    LTEXT           "Port",IDC_STATIC,15,70,49,8
+    EDITTEXT        IDC_IMAPPORT,68,67,40,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_IMAPPORT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,105,67,11,14
+    RTEXT           "SSL mode",IDC_STATIC,125,69,68,8
+    COMBOBOX        IDC_IMAP_SSL,202,67,88,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "SMTP server",IDC_STATIC,6,89,291,50
+    LTEXT           "Host",IDC_STATIC,14,103,49,8
+    EDITTEXT        IDC_SMTP_HOST,66,100,225,13,ES_AUTOHSCROLL
+    LTEXT           "Port",IDC_STATIC,14,122,49,8
+    EDITTEXT        IDC_SMTP_PORT,66,119,40,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SMTPPORT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,104,119,11,14
+    COMBOBOX        IDC_SMTP_SSL,200,119,88,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "SSL mode",IDC_STATIC,125,121,68,8
+END
+
+IDD_OPTIONS_ACCMGR DIALOGEX 0, 0, 188, 88
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Username",IDC_STATIC,2,6,49,8
+    EDITTEXT        IDC_IMAPUSER,2,16,181,13,ES_AUTOHSCROLL
+    LTEXT           "Password",IDC_STATIC,2,36,49,8
+    EDITTEXT        IDC_IMAPPASS,2,46,181,13,ES_PASSWORD | ES_AUTOHSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPTIONS_ACCOUNT, DIALOG
+    BEGIN
+    END
+
+    IDD_OPTIONS_ACCMGR, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS_ACCOUNT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPTIONS_ACCMGR AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

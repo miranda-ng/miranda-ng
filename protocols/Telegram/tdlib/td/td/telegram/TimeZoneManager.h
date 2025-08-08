@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -69,7 +69,6 @@ class TimeZoneManager final : public Actor {
   };
 
   friend bool operator==(const TimeZone &lhs, const TimeZone &rhs);
-
   friend bool operator!=(const TimeZone &lhs, const TimeZone &rhs);
 
   void on_get_time_zones(Result<telegram_api::object_ptr<telegram_api::help_TimezonesList>> &&r_time_zones);

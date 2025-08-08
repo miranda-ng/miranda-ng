@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -78,9 +78,9 @@ struct GroupCallParticipant {
 
   bool set_pending_is_muted(bool is_muted, bool can_manage, bool is_admin);
 
-  GroupCallParticipantOrder get_real_order(bool can_self_unmute, bool joined_date_asc) const;
+  GroupCallParticipantOrder get_real_order(bool my_can_self_unmute, bool joined_date_asc) const;
 
-  GroupCallParticipantOrder get_server_order(bool can_self_unmute, bool joined_date_asc) const;
+  GroupCallParticipantOrder get_server_order(bool my_can_self_unmute, bool joined_date_asc) const;
 
   bool is_valid() const {
     return dialog_id.is_valid();

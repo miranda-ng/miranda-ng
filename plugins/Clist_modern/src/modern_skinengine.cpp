@@ -1887,44 +1887,38 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST *pObjectList)
 
 static int ske_GetSkinFromDB(char *, SKINOBJECTSLIST *Skin)
 {
-	if (Skin == nullptr) return 0;
-	ske_UnloadSkin(Skin);
-	g_CluiData.fDisableSkinEngine = db_get_b(0, "ModernData", "DisableEngine", SETTING_DISABLESKIN_DEFAULT);
-	// window borders
-	if (g_CluiData.fDisableSkinEngine) {
-		g_CluiData.LeftClientMargin = 0;
-		g_CluiData.RightClientMargin = 0;
-		g_CluiData.TopClientMargin = 0;
-		g_CluiData.BottomClientMargin = 0;
-		return 0;
-	}
+	g_CluiData.fDisableSkinEngine = Modern::bDisableEngine;
 
 	// window borders
-	g_CluiData.LeftClientMargin = (int)db_get_b(0, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT);
-	g_CluiData.RightClientMargin = (int)db_get_b(0, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT);
-	g_CluiData.TopClientMargin = (int)db_get_b(0, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT);
-	g_CluiData.BottomClientMargin = (int)db_get_b(0, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT);
+	g_CluiData.LeftClientMargin = (int)db_get_b(0, "CLUI", "LeftClientMargin");
+	g_CluiData.RightClientMargin = (int)db_get_b(0, "CLUI", "RightClientMargin");
+	g_CluiData.TopClientMargin = (int)db_get_b(0, "CLUI", "TopClientMargin");
+	g_CluiData.BottomClientMargin = (int)db_get_b(0, "CLUI", "BottomClientMargin");
 
-	Skin->pMaskList = (LISTMODERNMASK*)mir_alloc(sizeof(LISTMODERNMASK));
-	memset(Skin->pMaskList, 0, sizeof(LISTMODERNMASK));
-	Skin->szSkinPlace = db_get_wsa(0, SKIN, "SkinFolder");
-	if (!Skin->szSkinPlace || (wcschr(Skin->szSkinPlace, '%') && !db_get_b(0, SKIN, "Modified", 0))) {
-		BOOL bOnlyObjects = FALSE;
-		if (Skin->szSkinPlace && wcschr(Skin->szSkinPlace, '%'))
-			bOnlyObjects = TRUE;
-		mir_free(Skin->szSkinPlace);
-		Skin->szSkinPlace = mir_wstrdup(L"%Default%");
-		ske_LoadSkinFromResource(bOnlyObjects);
+	if (Skin)
+		ske_UnloadSkin(Skin);
+
+	if (!g_CluiData.fDisableSkinEngine && Skin) {
+		Skin->pMaskList = (LISTMODERNMASK *)mir_alloc(sizeof(LISTMODERNMASK));
+		memset(Skin->pMaskList, 0, sizeof(LISTMODERNMASK));
+		Skin->szSkinPlace = db_get_wsa(0, SKIN, "SkinFolder");
+		if (!Skin->szSkinPlace || (wcschr(Skin->szSkinPlace, '%') && !db_get_b(0, SKIN, "Modified", 0))) {
+			BOOL bOnlyObjects = FALSE;
+			if (Skin->szSkinPlace && wcschr(Skin->szSkinPlace, '%'))
+				bOnlyObjects = TRUE;
+			mir_free(Skin->szSkinPlace);
+			Skin->szSkinPlace = mir_wstrdup(L"%Default%");
+			ske_LoadSkinFromResource(bOnlyObjects);
+		}
+
+		// Load objects
+		pCurrentSkin = Skin;
+		db_enum_settings(0, ske_enumdb_SkinObjectsProc, SKIN);
+
+		SortMaskList(pCurrentSkin->pMaskList);
+		ske_LinkSkinObjects(pCurrentSkin);
 	}
 
-	// Load objects
-	pCurrentSkin = Skin;
-	db_enum_settings(0, ske_enumdb_SkinObjectsProc, SKIN);
-
-	SortMaskList(pCurrentSkin->pMaskList);
-	ske_LinkSkinObjects(pCurrentSkin);
-
-	// Load Masks
 	return 0;
 }
 
@@ -2193,10 +2187,10 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	static uint16_t redMulTbl[256];			// red   coefficient multiplication table
 	if (_tables_empty) {
 		// fill tables
-		double gammaCfPw = 1000 / (double)DBGetContactSettingRangedWord(0, "ModernData", "AlphaTextOutGamma", 700, 1, 5000);
-		uint8_t blueCf = db_get_b(0, "ModernData", "AlphaTextOutBlueCorrection", 28);
-		uint8_t redCf = db_get_b(0, "ModernData", "AlphaTextOutRed Correction", 77);
-		uint8_t greenCf = db_get_b(0, "ModernData", "AlphaTextOutGreen Correction", 151);
+		double gammaCfPw = 1000 / (double)DBGetContactSettingRangedWord(0, "ModernData", "AlphaTextOutGamma", 700, 1, 5000); // hidden setting !!!!!
+		uint8_t blueCf = db_get_b(0, "ModernData", "AlphaTextOutBlueCorrection", 28);     // hidden setting !!!!!
+		uint8_t redCf = db_get_b(0, "ModernData", "AlphaTextOutRedCorrection", 77);       // hidden setting !!!!!
+		uint8_t greenCf = db_get_b(0, "ModernData", "AlphaTextOutGreenCorrection", 151);  // hidden setting !!!!!
 
 		for (int i = 0; i < 256; i++) {
 			gammaTbl[i] = (uint8_t)(255 * pow((double)i / 255, gammaCfPw));

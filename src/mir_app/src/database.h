@@ -52,3 +52,5 @@ protected:
 	STDMETHODIMP_(void)  SetCachedVariant(DBVARIANT *s, DBVARIANT *d);
 	STDMETHODIMP_(DBVARIANT*) GetCachedValuePtr(MCONTACT contactID, char *szSetting, int bAllocate);
 };
+
+extern HANDLE g_hevEventReaction;

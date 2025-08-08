@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -160,7 +160,7 @@ class OrderedMessages {
 
   void insert(MessageId message_id, bool auto_attach, MessageId old_last_message_id, const char *source);
 
-  void erase(MessageId message_id, bool only_from_memory);
+  void erase(MessageId message_id, bool only_from_memory, const char *source);
 
   void attach_message_to_previous(MessageId message_id, const char *source);
 
@@ -178,9 +178,19 @@ class OrderedMessages {
   void traverse_messages(const std::function<bool(MessageId)> &need_scan_older,
                          const std::function<bool(MessageId)> &need_scan_newer) const;
 
+  bool has_message(MessageId message_id) const;
+
+  MessageId get_last_sent_message_id() const;
+
+  MessageId get_last_message_id() const;
+
   // returns identifiers of the requested messages; adjust from_message_id, offset and limit accordingly
   vector<MessageId> get_history(MessageId last_message_id, MessageId &from_message_id, int32 &offset, int32 &limit,
                                 bool force) const;
+
+  int32 calc_new_unread_count(MessageId max_message_id, MessageId last_read_inbox_message_id, int32 old_unread_count,
+                              MessageId last_message_id, std::function<bool(MessageId)> is_counted_as_unread,
+                              int32 hint_unread_count) const;
 
   bool empty() const {
     return messages_ == nullptr;
@@ -221,6 +231,14 @@ class OrderedMessages {
   static void do_traverse_messages(const OrderedMessage *ordered_message,
                                    const std::function<bool(MessageId)> &need_scan_older,
                                    const std::function<bool(MessageId)> &need_scan_newer);
+
+  int32 calc_new_unread_count_from_last_unread(MessageId max_message_id, MessageId last_read_inbox_message_id,
+                                               int32 old_unread_count,
+                                               std::function<bool(MessageId)> is_counted_as_unread) const;
+
+  int32 calc_new_unread_count_from_the_end(MessageId max_message_id, MessageId last_message_id,
+                                           std::function<bool(MessageId)> is_counted_as_unread,
+                                           int32 hint_unread_count) const;
 
   unique_ptr<OrderedMessage> messages_;
 };

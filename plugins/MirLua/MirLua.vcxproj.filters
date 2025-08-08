@@ -95,9 +95,6 @@
     <ClInclude Include="src\module_loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\options.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\plugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>

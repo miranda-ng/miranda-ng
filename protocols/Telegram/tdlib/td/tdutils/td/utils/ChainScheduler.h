@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -138,7 +138,7 @@ class ChainScheduler final : public ChainSchedulerBase {
   struct Task {
     enum class State { Pending, Active, Paused } state{State::Pending};
     vector<TaskChainInfo> chains;
-    ExtraT extra;
+    ExtraT extra{};
   };
   FlatHashMap<ChainId, unique_ptr<ChainInfo>> chains_;
   FlatHashMap<ChainId, TaskId> limited_tasks_;

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -72,7 +72,7 @@ class RepliedMessageInfo {
     return origin_date_ != 0;
   }
 
-  bool need_reget() const;
+  bool need_reget(const Td *td) const;
 
   static bool need_reply_changed_warning(
       const Td *td, const RepliedMessageInfo &old_info, const RepliedMessageInfo &new_info,
@@ -88,9 +88,9 @@ class RepliedMessageInfo {
   void add_dependencies(Dependencies &dependencies, bool is_bot) const;
 
   td_api::object_ptr<td_api::messageReplyToMessage> get_message_reply_to_message_object(Td *td, DialogId dialog_id,
-                                                                                        bool is_server) const;
+                                                                                        MessageId message_id) const;
 
-  MessageInputReplyTo get_input_reply_to() const;
+  MessageInputReplyTo get_message_input_reply_to() const;
 
   void set_message_id(MessageId new_message_id) {
     CHECK(message_id_.is_valid() || message_id_.is_valid_scheduled());

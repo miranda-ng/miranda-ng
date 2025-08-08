@@ -36,6 +36,10 @@
 ;file \protocols\Steam\src\steam_chats.cpp
 [Owner]
 [Participant]
+[total members]
+[online members]
+[chatting]
+[in game]
 [&Leave chat session]
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
@@ -49,9 +53,9 @@
 [Enter email confimation code]
 [Enter the code from your authentication device]
 ;file \protocols\Steam\src\steam_menus.cpp
-[Steam menu chooser]
 [Unblock]
-[Join to game]
+[Join the game]
+[Join group chat]
 ;file \protocols\Steam\src\steam_messages.cpp
 [Message sending has failed with error %d]
 ;file \protocols\Steam\src\steam_options.cpp

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -182,6 +182,7 @@ uint64 Random::Xorshift128plus::operator()() {
 int Random::Xorshift128plus::fast(int min_value, int max_value) {
   return static_cast<int>((*this)() % (max_value - min_value + 1) + min_value);
 }
+
 int64 Random::Xorshift128plus::fast64(int64 min_value, int64 max_value) {
   return static_cast<int64>((*this)() % (max_value - min_value + 1) + min_value);
 }

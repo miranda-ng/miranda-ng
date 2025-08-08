@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>.\td\tdactor;.\td\tdutils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\td\tdactor;.\td\tdutils;.\td\tde2e;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
       <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

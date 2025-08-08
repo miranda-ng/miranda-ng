@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.10
+;  Version: 3.1.3.1
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -64,6 +64,8 @@
 [Reason    :]
 [Invalid Database event received. Type %d, size %d]
 [Unknown event type %d, size %d]
+[%s reacted with %s to message "%s" from %s]
+[%s remove reaction %s to message "%s" from %s]
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Miranda database contains %d events]
 [Failed to open file]

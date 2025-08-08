@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -111,6 +111,7 @@ void FileUploadManager::hangup() {
     node.uploader_.reset();
     node.hash_uploader_.reset();
   });
+  upload_resource_manager_.reset();
   stop_flag_ = true;
   try_stop();
 }

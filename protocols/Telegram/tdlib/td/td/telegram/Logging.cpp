@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -127,6 +127,10 @@ vector<string> Logging::get_tags() {
 }
 
 Status Logging::set_tag_verbosity_level(Slice tag, int new_verbosity_level) {
+  if (tag.empty()) {
+    return Status::Error("Log tag must be non-empty");
+  }
+
   auto it = log_tags.find(tag);
   if (it == log_tags.end()) {
     return Status::Error("Log tag is not found");
@@ -138,6 +142,10 @@ Status Logging::set_tag_verbosity_level(Slice tag, int new_verbosity_level) {
 }
 
 Result<int> Logging::get_tag_verbosity_level(Slice tag) {
+  if (tag.empty()) {
+    return Status::Error("Log tag must be non-empty");
+  }
+
   auto it = log_tags.find(tag);
   if (it == log_tags.end()) {
     return Status::Error("Log tag is not found");

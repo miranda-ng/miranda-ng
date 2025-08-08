@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -281,21 +281,29 @@ void BigNum::mod_mul(BigNum &r, BigNum &a, BigNum &b, const BigNum &m, BigNumCon
   LOG_IF(FATAL, result != 1);
 }
 
-void BigNum::mod_inverse(BigNum &r, BigNum &a, const BigNum &m, BigNumContext &context) {
-  auto result = BN_mod_inverse(r.impl_->big_num, a.impl_->big_num, m.impl_->big_num, context.impl_->big_num_context);
-  LOG_IF(FATAL, result != r.impl_->big_num);
+Result<BigNum> BigNum::mod_inverse(BigNum &a, const BigNum &m, BigNumContext &context) {
+  BigNum r;
+  auto *result = BN_mod_inverse(r.impl_->big_num, a.impl_->big_num, m.impl_->big_num, context.impl_->big_num_context);
+  if (result != r.impl_->big_num) {
+    CHECK(result == nullptr);
+    return Status::Error("Failed to compute modulo inverse");
+  }
+  return std::move(r);
 }
 
-void BigNum::div(BigNum *quotient, BigNum *remainder, const BigNum &dividend, const BigNum &divisor,
-                 BigNumContext &context) {
+Status BigNum::div(BigNum *quotient, BigNum *remainder, const BigNum &dividend, const BigNum &divisor,
+                   BigNumContext &context) {
   auto q = quotient == nullptr ? nullptr : quotient->impl_->big_num;
   auto r = remainder == nullptr ? nullptr : remainder->impl_->big_num;
   if (q == nullptr && r == nullptr) {
-    return;
+    return Status::OK();
   }
 
   auto result = BN_div(q, r, dividend.impl_->big_num, divisor.impl_->big_num, context.impl_->big_num_context);
-  LOG_IF(FATAL, result != 1);
+  if (result != 1) {
+    return Status::Error("Failed to compute quotient");
+  }
+  return Status::OK();
 }
 
 void BigNum::mod_exp(BigNum &r, const BigNum &a, const BigNum &p, const BigNum &m, BigNumContext &context) {

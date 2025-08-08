@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -80,6 +80,12 @@ class MessageId {
 
   static MessageId get_max_message_id(const vector<telegram_api::object_ptr<telegram_api::Message>> &messages);
 
+  static bool is_message_id_order_ascending(const vector<telegram_api::object_ptr<telegram_api::Message>> &messages,
+                                            const char *source);
+
+  static bool is_message_id_order_descending(const vector<telegram_api::object_ptr<telegram_api::Message>> &messages,
+                                             const char *source);
+
   static vector<MessageId> get_message_ids(const vector<int64> &input_message_ids);
 
   static vector<int32> get_server_message_ids(const vector<MessageId> &message_ids);
@@ -113,8 +119,8 @@ class MessageId {
   }
 
   bool is_server() const {
-    CHECK(is_valid());
-    return (id & FULL_TYPE_MASK) == 0;
+    // also checks validness
+    return (id & FULL_TYPE_MASK) == 0 && id > 0 && id <= max().get();
   }
 
   bool is_scheduled_server() const {

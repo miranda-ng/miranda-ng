@@ -30,6 +30,8 @@
 [Add reaction]
 [Birthday]
 [Biography]
+[User count]
+[Channel link]
 ;file \protocols\Telegram\src\auth.cpp
 [Enter email address for account verification]
 [Enter verification code received by email]

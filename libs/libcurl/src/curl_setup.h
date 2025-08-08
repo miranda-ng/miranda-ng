@@ -28,9 +28,6 @@
 #define CURL_NO_OLDIES
 #endif
 
-/* Tell "curl/curl.h" not to include "curl/mprintf.h" */
-#define CURL_SKIP_INCLUDE_MPRINTF
-
 /* Set default _WIN32_WINNT */
 #ifdef __MINGW32__
 #include <_mingw.h>
@@ -217,46 +214,46 @@
 
 #ifdef HTTP_ONLY
 #  ifndef CURL_DISABLE_DICT
-#    define CURL_DISABLE_DICT
+#  define CURL_DISABLE_DICT
 #  endif
 #  ifndef CURL_DISABLE_FILE
-#    define CURL_DISABLE_FILE
+#  define CURL_DISABLE_FILE
 #  endif
 #  ifndef CURL_DISABLE_FTP
-#    define CURL_DISABLE_FTP
+#  define CURL_DISABLE_FTP
 #  endif
 #  ifndef CURL_DISABLE_GOPHER
-#    define CURL_DISABLE_GOPHER
+#  define CURL_DISABLE_GOPHER
 #  endif
 #  ifndef CURL_DISABLE_IMAP
-#    define CURL_DISABLE_IMAP
+#  define CURL_DISABLE_IMAP
 #  endif
 #  ifndef CURL_DISABLE_LDAP
-#    define CURL_DISABLE_LDAP
+#  define CURL_DISABLE_LDAP
 #  endif
 #  ifndef CURL_DISABLE_LDAPS
-#    define CURL_DISABLE_LDAPS
+#  define CURL_DISABLE_LDAPS
 #  endif
 #  ifndef CURL_DISABLE_MQTT
-#    define CURL_DISABLE_MQTT
+#  define CURL_DISABLE_MQTT
 #  endif
 #  ifndef CURL_DISABLE_POP3
-#    define CURL_DISABLE_POP3
+#  define CURL_DISABLE_POP3
 #  endif
 #  ifndef CURL_DISABLE_RTSP
-#    define CURL_DISABLE_RTSP
+#  define CURL_DISABLE_RTSP
 #  endif
 #  ifndef CURL_DISABLE_SMB
-#    define CURL_DISABLE_SMB
+#  define CURL_DISABLE_SMB
 #  endif
 #  ifndef CURL_DISABLE_SMTP
-#    define CURL_DISABLE_SMTP
+#  define CURL_DISABLE_SMTP
 #  endif
 #  ifndef CURL_DISABLE_TELNET
-#    define CURL_DISABLE_TELNET
+#  define CURL_DISABLE_TELNET
 #  endif
 #  ifndef CURL_DISABLE_TFTP
-#    define CURL_DISABLE_TFTP
+#  define CURL_DISABLE_TFTP
 #  endif
 #endif
 
@@ -445,6 +442,11 @@
 #  define __NO_NET_API
 #endif
 
+/* Whether to use eventfd() */
+#if defined(HAVE_EVENTFD) && defined(HAVE_SYS_EVENTFD_H)
+#define USE_EVENTFD
+#endif
+
 #include <stdio.h>
 #include <assert.h>
 
@@ -459,67 +461,45 @@
 #endif
 
 #ifdef _WIN32
-#define curlx_getpid() GetCurrentProcessId()
-#else
-#define curlx_getpid() getpid()
-#endif
-
-/*
- * Large file (>2Gb) support using Win32 functions.
- */
-
-#ifdef USE_WIN32_LARGE_FILES
 #  ifdef HAVE_IO_H
 #  include <io.h>
 #  endif
 #  include <sys/types.h>
 #  include <sys/stat.h>
-#  undef  lseek
-#  define lseek(fdes,offset,whence)  _lseeki64(fdes, offset, whence)
-#  undef  fstat
-#  define fstat(fdes,stp)            _fstati64(fdes, stp)
-#  undef  stat
-#  define stat(fname,stp)            curlx_win32_stat(fname, stp)
-#  define struct_stat                struct _stati64
-#  define LSEEK_ERROR                (__int64)-1
-#  define open                       curlx_win32_open
-#  define fopen(fname,mode)          curlx_win32_fopen(fname, mode)
-   int curlx_win32_open(const char *filename, int oflag, ...);
-   int curlx_win32_stat(const char *path, struct_stat *buffer);
-   FILE *curlx_win32_fopen(const char *filename, const char *mode);
-#endif
-
-#ifdef __DJGPP__
-/* Requires DJGPP 2.04 */
+#  ifdef USE_WIN32_LARGE_FILES
+     /* Large file (>2Gb) support using Win32 functions. */
+#    undef  lseek
+#    define lseek(fdes, offset, whence)  _lseeki64(fdes, offset, whence)
+#    undef  fstat
+#    define fstat(fdes,stp)              _fstati64(fdes, stp)
+#    undef  stat
+#    define struct_stat                  struct _stati64
+#    define LSEEK_ERROR                  (__int64)-1
+#  else
+     /* Small file (<2Gb) support using Win32 functions. */
+#    ifndef UNDER_CE
+#      undef  lseek
+#      define lseek(fdes, offset, whence)  _lseek(fdes, (long)offset, whence)
+#      define fstat(fdes, stp)             _fstat(fdes, stp)
+#      define struct_stat                  struct _stat
+#    endif
+#    define LSEEK_ERROR                  (long)-1
+#  endif
+#  ifndef UNDER_CE
+     int curlx_win32_stat(const char *path, struct_stat *buffer);
+     int curlx_win32_open(const char *filename, int oflag, ...);
+     FILE *curlx_win32_fopen(const char *filename, const char *mode);
+#    define stat(fname, stp)           curlx_win32_stat(fname, stp)
+#    define open                       curlx_win32_open
+#    define CURL_FOPEN(fname, mode)    curlx_win32_fopen(fname, mode)
+#    define fopen(fname, mode)         CURL_FOPEN(fname, mode)
+#  endif
+#elif defined(__DJGPP__)
+   /* Requires DJGPP 2.04 */
 #  include <unistd.h>
 #  undef  lseek
 #  define lseek(fdes,offset,whence)  llseek(fdes, offset, whence)
 #  define LSEEK_ERROR                (offset_t)-1
-#endif
-
-/*
- * Small file (<2Gb) support using Win32 functions.
- */
-
-#if defined(_WIN32) && !defined(USE_WIN32_LARGE_FILES)
-#  ifdef HAVE_IO_H
-#  include <io.h>
-#  endif
-#  include <sys/types.h>
-#  include <sys/stat.h>
-#  ifndef UNDER_CE
-#    undef  lseek
-#    define lseek(fdes,offset,whence)  _lseek(fdes, (long)offset, whence)
-#    define fstat(fdes,stp)            _fstat(fdes, stp)
-#    define stat(fname,stp)            curlx_win32_stat(fname, stp)
-#    define struct_stat                struct _stat
-#    define open                       curlx_win32_open
-#    define fopen(fname,mode)          curlx_win32_fopen(fname, mode)
-     int curlx_win32_stat(const char *path, struct_stat *buffer);
-     int curlx_win32_open(const char *filename, int oflag, ...);
-     FILE *curlx_win32_fopen(const char *filename, const char *mode);
-#  endif
-#  define LSEEK_ERROR                (long)-1
 #endif
 
 #ifndef struct_stat
@@ -576,7 +556,7 @@
 #    endif
 #  endif
 #  ifndef SIZEOF_OFF_T
-#    define SIZEOF_OFF_T 4
+#  define SIZEOF_OFF_T 4
 #  endif
 #endif
 
@@ -584,9 +564,9 @@
 #error "too small curl_off_t"
 #else
    /* assume SIZEOF_CURL_OFF_T == 8 */
-#  define CURL_OFF_T_MAX CURL_OFF_T_C(0x7FFFFFFFFFFFFFFF)
+#  define CURL_OFF_T_MAX 0x7FFFFFFFFFFFFFFF
 #endif
-#define CURL_OFF_T_MIN (-CURL_OFF_T_MAX - CURL_OFF_T_C(1))
+#define CURL_OFF_T_MIN (-CURL_OFF_T_MAX - 1)
 
 #if (SIZEOF_CURL_OFF_T != 8)
 #  error "curl_off_t must be exactly 64 bits"
@@ -671,12 +651,8 @@
 #    define select(n,r,w,x,t) select_s(n,r,w,x,t)
 #    define ioctl(x,y,z) ioctlsocket(x,y,(char *)(z))
 #    include <tcp.h>
-#    ifdef word
-#      undef word
-#    endif
-#    ifdef byte
-#      undef byte
-#    endif
+#    undef word
+#    undef byte
 
 #  endif /* MSDOS */
 
@@ -733,8 +709,8 @@
 #endif
 
 #if defined(USE_GNUTLS) || defined(USE_OPENSSL) || defined(USE_MBEDTLS) || \
-  defined(USE_WOLFSSL) || defined(USE_SCHANNEL) || defined(USE_SECTRANSP) || \
-  defined(USE_BEARSSL) || defined(USE_RUSTLS)
+  defined(USE_WOLFSSL) || defined(USE_SCHANNEL) || \
+  defined(USE_RUSTLS)
 #define USE_SSL    /* SSL support has been enabled */
 #endif
 
@@ -769,7 +745,7 @@
 /* Single point where USE_NTLM definition might be defined */
 #ifndef CURL_DISABLE_NTLM
 #  if defined(USE_OPENSSL) || defined(USE_MBEDTLS) ||                   \
-  defined(USE_GNUTLS) || defined(USE_SECTRANSP) ||                      \
+  defined(USE_GNUTLS) ||                                                \
   defined(USE_OS400CRYPTO) || defined(USE_WIN32_CRYPTO) ||              \
   (defined(USE_WOLFSSL) && defined(HAVE_WOLFSSL_DES_ECB_ENCRYPT))
 #    define USE_CURL_NTLM_CORE

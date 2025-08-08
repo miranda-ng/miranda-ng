@@ -21,7 +21,7 @@ struct CJabberAccount : public MZeroedObject
 	bool VOIPTerminateSession(const char *reason = "cancel");
 	bool VOIPCallIinitiate(MCONTACT hContact);
 
-	const char *m_szModuleName;
+	ptrA m_szModuleName;
 	CMStringA m_voipSession, m_voipPeerJid;
 	CMStringA m_voipICEPwd, m_voipICEUfrag, m_medianame;
 	bool m_isOutgoing = false;

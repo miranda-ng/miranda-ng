@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -24,7 +24,7 @@ class BusinessBotManageBar {
   bool is_business_bot_paused_ = false;
   bool can_business_bot_reply_ = false;
 
-  friend bool operator==(const unique_ptr<BusinessBotManageBar> &lhs, const unique_ptr<BusinessBotManageBar> &rhs);
+  friend bool operator==(const BusinessBotManageBar &lhs, const BusinessBotManageBar &rhs);
 
  public:
   static unique_ptr<BusinessBotManageBar> create(bool is_business_bot_paused, bool can_business_bot_reply,
@@ -79,8 +79,8 @@ class BusinessBotManageBar {
   }
 };
 
-bool operator==(const unique_ptr<BusinessBotManageBar> &lhs, const unique_ptr<BusinessBotManageBar> &rhs);
+bool operator==(const BusinessBotManageBar &lhs, const BusinessBotManageBar &rhs);
 
-bool operator!=(const unique_ptr<BusinessBotManageBar> &lhs, const unique_ptr<BusinessBotManageBar> &rhs);
+bool operator!=(const BusinessBotManageBar &lhs, const BusinessBotManageBar &rhs);
 
 }  // namespace td

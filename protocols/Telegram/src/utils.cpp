@@ -183,8 +183,17 @@ TD::object_ptr<TD::inputFileLocal> makeFile(const wchar_t *pwszFilename)
 
 TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
 {
-	if (ProtoGetAvatarFileFormat(pwszFilename) != PA_FORMAT_UNKNOWN)
-		return TG_FILE_REQUEST::PICTURE;
+	if (int iFormat = ProtoGetAvatarFileFormat(pwszFilename)) {
+		if (iFormat != PA_FORMAT_GIF)
+			return TG_FILE_REQUEST::PICTURE;
+
+		if (auto *pBitmap = FreeImage_OpenMultiBitmapU(FIF_GIF, pwszFilename, FALSE, TRUE)) {
+			int iPages = FreeImage_GetPageCount(pBitmap);
+			FreeImage_CloseMultiBitmap(pBitmap);
+			if (iPages <= 1)
+				return TG_FILE_REQUEST::PICTURE;
+		}
+	}
 
 	CMStringW path(pwszFilename);
 	int idx = path.ReverseFind('.');
@@ -193,7 +202,7 @@ TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
 
 	auto wszExt = path.Right(path.GetLength() - idx - 1);
 	wszExt.MakeLower();
-	if (wszExt == L"mp4" || wszExt == L"webm")
+	if (wszExt == L"mp4" || wszExt == L"webm" || wszExt == L"gif")
 		return TG_FILE_REQUEST::VIDEO;
 	
 	if (wszExt == L"mp3" || wszExt == "ogg" || wszExt == "oga" || wszExt == "wav")
@@ -372,6 +381,12 @@ void CTelegramProto::UpdateString(MCONTACT hContact, const char *pszSetting, con
 		setUString(hContact, pszSetting, str.c_str());
 }
 
+TG_SUPER_GROUP* CTelegramProto::FindSuperGroup(int64_t id)
+{
+	TG_SUPER_GROUP tmp(id, 0);
+	return m_arSuperGroups.find(&tmp);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Users
 
@@ -430,6 +445,8 @@ TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 	}
 	else {
 		pUser->hContact = hContact;
+		if (pUser->wszNick[0] == '@')
+			pUser->wszNick.Delete(0, 1);
 		setWString(hContact, "Nick", pUser->wszNick);
 		if (!pUser->isGroupChat) {
 			setWString(hContact, "FirstName", pUser->wszFirstName);

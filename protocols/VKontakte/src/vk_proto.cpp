@@ -34,6 +34,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	m_chats(1, NumericKeySortT),
 	m_ChatsTyping(1, NumericKeySortT),
 	m_iLoadHistoryTask(0),
+	m_iLoadCListIntervalCounter(0),
 	m_bNotifyForEndLoadingHistory(false),
 	m_bNotifyForEndLoadingHistoryAllContact(false),
 	m_hAPIConnection(nullptr),

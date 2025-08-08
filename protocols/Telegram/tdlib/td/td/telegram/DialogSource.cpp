@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -88,7 +88,7 @@ StringBuilder &operator<<(StringBuilder &string_builder, const DialogSource &sou
     case DialogSource::Type::MtprotoProxy:
       return string_builder << "MTProto proxy sponsor";
     case DialogSource::Type::PublicServiceAnnouncement:
-      return string_builder << "public service announcement of type " << source.psa_type_;
+      return string_builder << "public service announcement of type \"" << source.psa_type_ << '"';
     default:
       UNREACHABLE();
       return string_builder;

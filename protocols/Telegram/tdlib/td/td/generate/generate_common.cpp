@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -34,10 +34,14 @@ static void generate_cpp(const std::string &directory, const std::string &tl_nam
 
 int main() {
   generate_cpp<>("td/telegram", "telegram_api", "std::string", "BufferSlice",
-                 {"\"td/tl/tl_object_parse.h\"", "\"td/tl/tl_object_store.h\""}, {"\"td/utils/buffer.h\""});
+                 {"\"td/tl/tl_object_parse.h\"", "\"td/tl/tl_object_store.h\""},
+                 {"\"td/utils/buffer.h\"", "\"td/utils/UInt.h\""});
 
   generate_cpp<>("td/telegram", "secret_api", "std::string", "BufferSlice",
                  {"\"td/tl/tl_object_parse.h\"", "\"td/tl/tl_object_store.h\""}, {"\"td/utils/buffer.h\""});
+
+  generate_cpp<>("td/telegram", "e2e_api", "std::string", "std::string",
+                 {"\"td/tl/tl_object_parse.h\"", "\"td/tl/tl_object_store.h\""}, {"\"td/utils/UInt.h\""});
 
 #ifdef TD_ENABLE_JNI
   generate_cpp<false, td::TD_TL_writer_jni_cpp, td::TD_TL_writer_jni_h>(

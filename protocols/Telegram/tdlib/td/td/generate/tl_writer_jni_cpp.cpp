@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -349,7 +349,8 @@ std::string TD_TL_writer_jni_cpp::gen_type_store(const std::string &field_name, 
   return res;
 }
 
-std::string TD_TL_writer_jni_cpp::gen_field_store(const tl::arg &a, std::vector<tl::var_description> &vars, bool flat,
+std::string TD_TL_writer_jni_cpp::gen_field_store(const tl::arg &a, const std::vector<tl::arg> &args,
+                                                  std::vector<tl::var_description> &vars, bool flat,
                                                   int storer_type) const {
   std::string field_name = gen_field_name(a.name);
   std::string shift = storer_type == 1 ? "    " : "  ";
@@ -397,7 +398,7 @@ std::string TD_TL_writer_jni_cpp::gen_fetch_function_begin(const std::string &pa
                                                            int field_count, std::vector<tl::var_description> &vars,
                                                            int parser_type) const {
   for (std::size_t i = 0; i < vars.size(); i++) {
-    assert(vars[i].is_stored == false);
+    assert(!vars[i].is_stored);
   }
 
   std::string fetched_type = "object_ptr<" + class_name + "> ";

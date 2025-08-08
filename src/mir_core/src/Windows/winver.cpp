@@ -30,11 +30,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 static int dwWinVer;
+static bool bIsWine = false;
 
 void InitWinver()
 {
 	uint32_t dwVer = LOWORD(GetVersion());
 	dwWinVer = MAKEWORD(HIBYTE(dwVer), LOBYTE(dwVer));
+	bIsWine = GetProcAddress(g_hNtdll, "wine_get_version") != 0;
 }
 
 MIR_CORE_DLL(BOOL) IsWinVerVistaPlus()
@@ -62,17 +64,21 @@ MIR_CORE_DLL(BOOL) IsWinVer10Plus()
 	return dwWinVer >= _WIN32_WINNT_WIN10;
 }
 
+MIR_CORE_DLL(BOOL) IsWine()
+{
+	return bIsWine;
+}
+
 MIR_CORE_DLL(BOOL) IsFullScreen()
 {
-	RECT rcScreen = { 0 };
-
+	RECT rcScreen = {};
 	rcScreen.right = GetSystemMetrics(SM_CXSCREEN);
 	rcScreen.bottom = GetSystemMetrics(SM_CYSCREEN);
 
 	HMONITOR hMon = MonitorFromWindow(GetForegroundWindow(), MONITOR_DEFAULTTONEAREST);
 	MONITORINFO mi;
 	mi.cbSize = sizeof(mi);
-	if (GetMonitorInfo(hMon, &mi))
+	if (GetMonitorInfoW(hMon, &mi))
 		rcScreen = mi.rcMonitor;
 
 	HWND hWndDesktop = GetDesktopWindow();
@@ -362,11 +368,8 @@ MIR_CORE_DLL(BOOL) OS_GetDisplayString(char *buf, size_t bufSize)
 
 	ret.AppendFormat(" (build %d)", osvi.dwBuildNumber);
 
-	HMODULE hNtDll = GetModuleHandleA("ntdll.dll");
-	if (WGV wine_get_version = (WGV)GetProcAddress(hNtDll, "wine_get_version"))
-	{
+	if (WGV wine_get_version = (WGV)GetProcAddress(g_hNtdll, "wine_get_version"))
 		ret.AppendFormat(" (Wine %s)", wine_get_version());
-	}
 
 	mir_strncpy(buf, ret, bufSize);
 	return true;

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -14,7 +14,7 @@ namespace td {
 // checks whether the string is an emoji; variation selectors are ignored
 bool is_emoji(Slice str);
 
-// checks whether emoji ends on a Fitzpatrick modifier and returns it's number or 0
+// checks whether emoji ends on a Fitzpatrick modifier and returns its number or 0
 int get_fitzpatrick_modifier(Slice emoji);
 
 // removes all Fitzpatrick modifier from the end of the string

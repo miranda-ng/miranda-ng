@@ -41,7 +41,15 @@ void CTeamsProto::LoggedIn()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	SetServerStatus(m_iStatus);
-	SendPresence();
+
+	ReceiveAvatar(0);
+	RefreshContactsInfo();
+	RefreshConversations();
+
+	GetProfileInfo(0);
+
+	PushRequest(new AsyncHttpRequest(REQUEST_POST, HOST_TEAMS_API, "/imageauth/cookie", &CTeamsProto::OnReceiveApiCookie));
+
 	StartTrouter();
 }
 
@@ -156,9 +164,11 @@ void CTeamsProto::OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest 
 
 	auto &token = reply.data()["skypeToken"];
 	m_szSkypeToken = token["skypetoken"].as_mstring();
-	setWString(DBKEY_ID, token["skypeid"].as_mstring());
 
-	SendCreateEndpoint();
+	m_szOwnSkypeId = token["skypeid"].as_mstring();
+	setString(DBKEY_ID, m_szOwnSkypeId);
+
+	LoggedIn();
 }
 
 void CTeamsProto::OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *)

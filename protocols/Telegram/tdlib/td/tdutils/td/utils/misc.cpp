@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +17,14 @@
 #include <sstream>
 
 namespace td {
+
+void replace_with_spaces(MutableSlice str, Slice characters) {
+  for (auto &c : str) {
+    if (characters.find(c) != Slice::npos) {
+      c = ' ';
+    }
+  }
+}
 
 char *str_dup(Slice str) {
   auto *res = static_cast<char *>(std::malloc(str.size() + 1));

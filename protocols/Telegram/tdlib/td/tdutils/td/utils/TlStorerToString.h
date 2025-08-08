@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -114,6 +114,12 @@ class TlStorerToString {
   }
 
   void store_field(Slice name, const UInt256 &value) {
+    store_field_begin(name);
+    store_binary(as_slice(value));
+    store_field_end();
+  }
+
+  void store_field(Slice name, const UInt512 &value) {
     store_field_begin(name);
     store_binary(as_slice(value));
     store_field_end();

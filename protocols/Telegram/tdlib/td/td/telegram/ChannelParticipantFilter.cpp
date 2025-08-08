@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -67,7 +67,7 @@ ChannelParticipantFilter::ChannelParticipantFilter(const tl_object_ptr<td_api::S
       type_ = Type::Mention;
       query_ = mention_filter->query_;
       top_thread_message_id_ = MessageId(mention_filter->message_thread_id_);
-      if (!top_thread_message_id_.is_valid() || !top_thread_message_id_.is_server()) {
+      if (!top_thread_message_id_.is_server()) {
         top_thread_message_id_ = MessageId();
       }
       return;

@@ -197,6 +197,9 @@
 /* Define to 1 if you have _Atomic support. */
 #cmakedefine HAVE_ATOMIC 1
 
+/* Define to 1 if you have the `accept4' function. */
+#cmakedefine HAVE_ACCEPT4 1
+
 /* Define to 1 if you have the `fnmatch' function. */
 #cmakedefine HAVE_FNMATCH 1
 
@@ -324,10 +327,10 @@
 /* Define to 1 if you have the <ifaddrs.h> header file. */
 #cmakedefine HAVE_IFADDRS_H 1
 
-/* Define to 1 if you have a IPv6 capable working inet_ntop function. */
+/* Define to 1 if you have an IPv6 capable working inet_ntop function. */
 #cmakedefine HAVE_INET_NTOP 1
 
-/* Define to 1 if you have a IPv6 capable working inet_pton function. */
+/* Define to 1 if you have an IPv6 capable working inet_pton function. */
 #cmakedefine HAVE_INET_PTON 1
 
 /* Define to 1 if symbol `sa_family_t' exists */
@@ -426,6 +429,9 @@
 
 /* Define to 1 if you have the `pipe' function. */
 #cmakedefine HAVE_PIPE 1
+
+/* Define to 1 if you have the `pipe2' function. */
+#cmakedefine HAVE_PIPE2 1
 
 /* Define to 1 if you have the `eventfd' function. */
 #cmakedefine HAVE_EVENTFD 1
@@ -580,17 +586,8 @@
 /* Define to 1 if you have the <sys/select.h> header file. */
 #cmakedefine HAVE_SYS_SELECT_H 1
 
-/* Define to 1 if you have the <sys/socket.h> header file. */
-#cmakedefine HAVE_SYS_SOCKET_H 1
-
 /* Define to 1 if you have the <sys/sockio.h> header file. */
 #cmakedefine HAVE_SYS_SOCKIO_H 1
-
-/* Define to 1 if you have the <sys/stat.h> header file. */
-#cmakedefine HAVE_SYS_STAT_H 1
-
-/* Define to 1 if you have the <sys/time.h> header file. */
-#cmakedefine HAVE_SYS_TIME_H 1
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #cmakedefine HAVE_SYS_TYPES_H 1
@@ -679,17 +676,11 @@ ${SIZEOF_TIME_T_CODE}
 /* if GnuTLS is enabled */
 #cmakedefine USE_GNUTLS 1
 
-/* if Secure Transport is enabled */
-#cmakedefine USE_SECTRANSP 1
-
 /* if SSL session export support is available */
 #cmakedefine USE_SSLS_EXPORT 1
 
 /* if mbedTLS is enabled */
 #cmakedefine USE_MBEDTLS 1
-
-/* if BearSSL is enabled */
-#cmakedefine USE_BEARSSL 1
 
 /* if Rustls is enabled */
 #cmakedefine USE_RUSTLS 1
@@ -697,14 +688,20 @@ ${SIZEOF_TIME_T_CODE}
 /* if wolfSSL is enabled */
 #cmakedefine USE_WOLFSSL 1
 
+/* if wolfSSL has the wolfSSL_get_peer_certificate function. */
+#cmakedefine HAVE_WOLFSSL_GET_PEER_CERTIFICATE 1
+
+/* if wolfSSL has the wolfSSL_UseALPN function. */
+#cmakedefine HAVE_WOLFSSL_USEALPN 1
+
 /* if wolfSSL has the wolfSSL_DES_ecb_encrypt function. */
 #cmakedefine HAVE_WOLFSSL_DES_ECB_ENCRYPT 1
 
 /* if wolfSSL has the wolfSSL_BIO_new function. */
-#cmakedefine HAVE_WOLFSSL_BIO 1
+#cmakedefine HAVE_WOLFSSL_BIO_NEW 1
 
 /* if wolfSSL has the wolfSSL_BIO_set_shutdown function. */
-#cmakedefine HAVE_WOLFSSL_FULL_BIO 1
+#cmakedefine HAVE_WOLFSSL_BIO_SET_SHUTDOWN 1
 
 /* if libssh is in use */
 #cmakedefine USE_LIBSSH 1
@@ -758,6 +755,9 @@ ${SIZEOF_TIME_T_CODE}
 /* to enable openssl + nghttp3 */
 #cmakedefine USE_OPENSSL_QUIC 1
 
+/* to enable openssl + ngtcp2 + nghttp3 */
+#cmakedefine OPENSSL_QUIC_API2 1
+
 /* Define to 1 if you have the quiche_conn_set_qlog_fd function. */
 #cmakedefine HAVE_QUICHE_CONN_SET_QLOG_FD 1
 
@@ -784,18 +784,6 @@ ${SIZEOF_TIME_T_CODE}
 
 /* Number of bits in a file offset, on hosts where this is settable. */
 #cmakedefine _FILE_OFFSET_BITS ${_FILE_OFFSET_BITS}
-
-/* Define for large files, on AIX-style hosts. */
-#cmakedefine _LARGE_FILES ${_LARGE_FILES}
-
-/* define this if you need it to compile thread-safe code */
-#cmakedefine _THREAD_SAFE ${_THREAD_SAFE}
-
-/* Define to empty if `const' does not conform to ANSI C. */
-#cmakedefine const ${const}
-
-/* Define to `unsigned int' if <sys/types.h> does not define. */
-#cmakedefine size_t ${size_t}
 
 /* the signed version of size_t */
 #cmakedefine ssize_t ${ssize_t}

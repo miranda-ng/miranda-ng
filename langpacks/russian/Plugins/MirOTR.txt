@@ -9,7 +9,7 @@
 Поддержка OTR (Off-the-Record) в Miranda NG (использованы код и идеи из SecureIM, Pidgin-OTR и старого плагина Miranda OTR (от SJE)).
 ;file \plugins\MirOTR\res\resource.rc
 [OTR Generating Private Key]
-OTR Создание личного ключа
+OTR Создание приватного ключа
 [Generating new private key - please wait.]
 Генерация нового приватного ключа, подождите.
 [Default Policy]
@@ -81,7 +81,7 @@ OTR Создание личного ключа
 [Generate new private key]
 Генерация нового приватного ключа
 [Forget private key]
-Забыть частный ключ
+Забыть приватный ключ
 ;file \plugins\MirOTR\src\icons.cpp
 [OTR private]
 Частный OTR

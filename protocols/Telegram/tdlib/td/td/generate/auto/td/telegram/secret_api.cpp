@@ -540,7 +540,7 @@ object_ptr<DecryptedMessage> decryptedMessage::fetch(TlParser &p) {
 void decryptedMessage::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
-  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBinary::store((var0 = flags_ | (silent_ << 5)), s);
   TlStoreBinary::store(random_id_, s);
   TlStoreBinary::store(ttl_, s);
   TlStoreString::store(message_, s);
@@ -554,7 +554,7 @@ void decryptedMessage::store(TlStorerCalcLength &s) const {
 void decryptedMessage::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
-  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBinary::store((var0 = flags_ | (silent_ << 5)), s);
   TlStoreBinary::store(random_id_, s);
   TlStoreBinary::store(ttl_, s);
   TlStoreString::store(message_, s);
@@ -569,7 +569,7 @@ void decryptedMessage::store(TlStorerToString &s, const char *field_name) const 
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "decryptedMessage");
   int32 var0;
-    s.store_field("flags", (var0 = flags_));
+    s.store_field("flags", (var0 = flags_ | (silent_ << 5)));
     if (var0 & 32) { s.store_field("silent", true); }
     s.store_field("random_id", random_id_);
     s.store_field("ttl", ttl_);
@@ -2405,7 +2405,7 @@ object_ptr<DocumentAttribute> documentAttributeAudio::fetch(TlParser &p) {
 void documentAttributeAudio::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
-  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBinary::store((var0 = flags_ | (voice_ << 10)), s);
   TlStoreBinary::store(duration_, s);
   if (var0 & 1) { TlStoreString::store(title_, s); }
   if (var0 & 2) { TlStoreString::store(performer_, s); }
@@ -2415,7 +2415,7 @@ void documentAttributeAudio::store(TlStorerCalcLength &s) const {
 void documentAttributeAudio::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
-  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBinary::store((var0 = flags_ | (voice_ << 10)), s);
   TlStoreBinary::store(duration_, s);
   if (var0 & 1) { TlStoreString::store(title_, s); }
   if (var0 & 2) { TlStoreString::store(performer_, s); }
@@ -2426,7 +2426,7 @@ void documentAttributeAudio::store(TlStorerToString &s, const char *field_name) 
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "documentAttributeAudio");
   int32 var0;
-    s.store_field("flags", (var0 = flags_));
+    s.store_field("flags", (var0 = flags_ | (voice_ << 10)));
     if (var0 & 1024) { s.store_field("voice", true); }
     s.store_field("duration", duration_);
     if (var0 & 1) { s.store_field("title", title_); }
@@ -2471,7 +2471,7 @@ object_ptr<DocumentAttribute> documentAttributeVideo::fetch(TlParser &p) {
 void documentAttributeVideo::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
-  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBinary::store((var0 = flags_ | (round_message_ << 0)), s);
   TlStoreBinary::store(duration_, s);
   TlStoreBinary::store(w_, s);
   TlStoreBinary::store(h_, s);
@@ -2480,7 +2480,7 @@ void documentAttributeVideo::store(TlStorerCalcLength &s) const {
 void documentAttributeVideo::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
-  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBinary::store((var0 = flags_ | (round_message_ << 0)), s);
   TlStoreBinary::store(duration_, s);
   TlStoreBinary::store(w_, s);
   TlStoreBinary::store(h_, s);
@@ -2490,7 +2490,7 @@ void documentAttributeVideo::store(TlStorerToString &s, const char *field_name) 
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "documentAttributeVideo");
   int32 var0;
-    s.store_field("flags", (var0 = flags_));
+    s.store_field("flags", (var0 = flags_ | (round_message_ << 0)));
     if (var0 & 1) { s.store_field("round_message", true); }
     s.store_field("duration", duration_);
     s.store_field("w", w_);

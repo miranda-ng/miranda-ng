@@ -167,7 +167,6 @@
 #define IDC_SHOWGROUPCOUNTS             1355
 #define IDC_HIDECOUNTSWHENEMPTY         1356
 #define IDC_DIVIDERONOFF                1357
-#define IDC_NOTNOTRANSLUCENTSEL         1358
 #define IDC_LINEWITHGROUPS              1359
 #define IDC_QUICKSEARCHVISONLY          1360
 #define IDC_SORTGROUPSALPHA             1361

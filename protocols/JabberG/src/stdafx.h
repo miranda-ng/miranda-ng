@@ -385,7 +385,7 @@ struct ThreadData
 	
 	class TUpgradeTask *m_saslUpgrade;
 
-	CJabberIqInfo *pPendingQuery;
+	char *pPendingQuery;
 	JabberCapsBits jabberServerCaps;
 
 	void  close(void);

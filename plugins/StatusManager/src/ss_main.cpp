@@ -282,7 +282,7 @@ static int OnShutdown(WPARAM, LPARAM)
 		case SETTING_STATE_HIDDEN:
 			// try to use services where possible
 			if (!isHidden)
-				g_clistApi.pfnShowHide();
+				Clist_ShowHide();
 			break;
 
 		case SETTING_STATE_MINIMIZED:
@@ -293,7 +293,7 @@ static int OnShutdown(WPARAM, LPARAM)
 		case SETTING_STATE_NORMAL:
 			// try to use services where possible (that's what they're for)
 			if (isHidden)
-				g_clistApi.pfnShowHide();
+				Clist_ShowHide();
 			break;
 		}
 	}

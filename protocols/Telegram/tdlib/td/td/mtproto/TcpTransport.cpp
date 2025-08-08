@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -88,7 +88,7 @@ void ObfuscatedTransport::init(ChainBufferReader *input, ChainBufferWriter *outp
   while (true) {
     try_cnt++;
     CHECK(try_cnt < 10);
-    Random::secure_bytes(header_slice.ubegin(), header.size());
+    Random::secure_bytes(header_slice);
     if (secret_.emulate_tls()) {
       break;
     }

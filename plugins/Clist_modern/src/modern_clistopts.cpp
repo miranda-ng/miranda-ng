@@ -24,6 +24,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+CMOption<bool> Modern::bAeroGlass("ModernData", "AeroGlass", false);
+CMOption<bool> Modern::bDisableEngine("ModernData", "DisableEngine", false);
+CMOption<bool> Modern::bEnableLayering("ModernData", "EnableLayering", true);
+CMOption<bool> Modern::bInternalAwayMsgDiscovery("ModernData", "InternalAwayMsgDiscovery", true);
+CMOption<bool> Modern::bRemoveAwayMessageForOffline("ModernData", "RemoveAwayMessageForOffline", true);
+
+CMOption<uint8_t> Modern::iBehindEdge("ModernData", "BehindEdge", 0);
+CMOption<uint8_t> Modern::iHideBehind("ModernData", "HideBehind", 0);
+
+CMOption<uint16_t> Modern::iShowDelay("ModernData", "ShowDelay", 3);
+CMOption<uint16_t> Modern::iHideDelay("ModernData", "HideDelay", 3);
+CMOption<uint16_t> Modern::iHideBehindBorderSize("ModernData", "HideBehindBorderSize", 0);
+
 static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -41,7 +54,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		CheckDlgButton(hwndDlg, IDC_ALIGN_TO_LEFT, g_plugin.getByte("AlignLeftItemsToLeft", SETTING_ALIGNLEFTTOLEFT_DEFAULT) == 1);
 		CheckDlgButton(hwndDlg, IDC_ALIGN_TO_RIGHT, g_plugin.getByte("AlignRightItemsToRight", SETTING_ALIGNRIGHTORIGHT_DEFAULT) == 1);
 
-		CheckDlgButton(hwndDlg, IDC_MINIMODE, db_get_b(0, "CLC", "CompactMode", SETTING_COMPACTMODE_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_MINIMODE, db_get_b(0, "CLC", "CompactMode") == 1);
 
 		SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_LEFTMARGIN), 0); // set buddy
 		SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
@@ -224,14 +237,14 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, g_plugin.getByte("AvatarsShow") == 1);
 		CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, g_plugin.getByte("AvatarsAnimated", BST_CHECKED));
-		CheckDlgButton(hwndDlg, IDC_AVATAR_FASTDRAW, g_plugin.getByte("AvatarsInSeparateWnd", SETTINGS_AVATARINSEPARATE_DEFAULT));
-		CheckDlgButton(hwndDlg, IDC_AVATAR_DRAW_BORDER, g_plugin.getByte("AvatarsDrawBorders", SETTINGS_AVATARDRAWBORDER_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_ROUND_CORNERS, g_plugin.getByte("AvatarsRoundCorners", SETTINGS_AVATARROUNDCORNERS_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK, g_plugin.getByte("AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_IGNORE_SIZE, g_plugin.getByte("AvatarsIgnoreSizeForRow", SETTINGS_AVATARIGNORESIZEFORROW_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_AVATAR_OVERLAY_ICONS, g_plugin.getByte("AvatarsDrawOverlay", SETTINGS_AVATARDRAWOVERLAY_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_FASTDRAW, g_plugin.getByte("AvatarsInSeparateWnd"));
+		CheckDlgButton(hwndDlg, IDC_AVATAR_DRAW_BORDER, g_plugin.getByte("AvatarsDrawBorders") == 1);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_ROUND_CORNERS, g_plugin.getByte("AvatarsRoundCorners") == 1);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK, g_plugin.getByte("AvatarsUseCustomCornerSize") == 1);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_IGNORE_SIZE, g_plugin.getByte("AvatarsIgnoreSizeForRow") == 1);
+		CheckDlgButton(hwndDlg, IDC_AVATAR_OVERLAY_ICONS, g_plugin.getByte("AvatarsDrawOverlay") == 1);
 
 		switch (g_plugin.getByte("AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT)) {
 		case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
@@ -257,7 +270,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 		SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_SETRANGE, 0, MAKELONG(255, 1));
 		SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_SETPOS, 0, MAKELONG(g_plugin.getWord("AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT), 0));
 
-		SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_SETCOLOUR, 0, (COLORREF)g_plugin.getDword("AvatarsBorderColor", SETTINGS_AVATARBORDERCOLOR_DEFAULT));
+		SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_SETCOLOUR, 0, (COLORREF)g_plugin.getDword("AvatarsBorderColor"));
 
 		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOW_AVATARS)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_DRAW_BORDER), FALSE);
@@ -413,11 +426,11 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, g_plugin.getByte("IconHideOnAvatar", SETTING_HIDEICONONAVATAR_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_DRAW_ON_AVATAR_SPACE, g_plugin.getByte("IconDrawOnAvatarSpace", SETTING_ICONONAVATARPLACE_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_HIDE_GROUPSICON, g_plugin.getByte("HideGroupsIcon", SETTING_HIDEGROUPSICON_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_NOTCHECKICONSIZE, g_plugin.getByte("IconIgnoreSizeForRownHeight", SETTING_ICONIGNORESIZE_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_ALWAYS_VISIBLEICON, g_plugin.getByte("AlwaysShowAlwaysVisIcon", SETTING_ALWAYSVISICON_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_HIDE_ICON_ON_AVATAR, g_plugin.getByte("IconHideOnAvatar") == 1);
+		CheckDlgButton(hwndDlg, IDC_DRAW_ON_AVATAR_SPACE, g_plugin.getByte("IconDrawOnAvatarSpace") == 1);
+		CheckDlgButton(hwndDlg, IDC_HIDE_GROUPSICON, g_plugin.getByte("HideGroupsIcon") == 1);
+		CheckDlgButton(hwndDlg, IDC_NOTCHECKICONSIZE, g_plugin.getByte("IconIgnoreSizeForRownHeight") == 1);
+		CheckDlgButton(hwndDlg, IDC_ALWAYS_VISIBLEICON, g_plugin.getByte("AlwaysShowAlwaysVisIcon") == 1);
 		CheckDlgButton(hwndDlg, IDC_USEXSTATUS, (db_get_b(0, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT) & 1));
 		CheckDlgButton(hwndDlg, IDC_DRAWSTATUSOVERLAY, (db_get_b(0, "CLC", "DrawOverlayedStatus", SETTING_DRAWOVERLAYEDSTATUS_DEFAULT) & 2));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DRAWSTATUSOVERLAY), IsDlgButtonChecked(hwndDlg, IDC_USEXSTATUS));
@@ -470,7 +483,7 @@ static INT_PTR CALLBACK DlgProcItemContactTimeOpts(HWND hwndDlg, UINT msg, WPARA
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SHOW, g_plugin.getByte("ContactTimeShow", SETTING_SHOWTIME_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_SHOW, g_plugin.getByte("ContactTimeShow") == 1);
 		CheckDlgButton(hwndDlg, IDC_SHOW_ONLY_IF_DIFFERENT, g_plugin.getByte("ContactTimeShowOnlyIfDifferent", SETTING_SHOWTIMEIFDIFF_DEFAULT) == 1);
 		break;
 
@@ -502,22 +515,22 @@ static INT_PTR CALLBACK DlgProcItemTextOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_RTL, g_plugin.getByte("TextRTL", SETTING_TEXT_RTL_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_RTL, g_plugin.getByte("TextRTL") == 1);
 		{
 			int item;
 			wchar_t *align[] = { LPGENW("Left align group names"), LPGENW("Center group names"), LPGENW("Right align group names") };
 			for (int i = 0; i < sizeof(align) / sizeof(char*); i++)
 				item = SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_ADDSTRING, 0, (LPARAM)TranslateW(align[i]));
-			SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_SETCURSEL, g_plugin.getByte("AlignGroupCaptions", SETTING_ALIGNGROPCAPTION_DEFAULT), 0);
+			SendDlgItemMessage(hwndDlg, IDC_ALIGNGROUPCOMBO, CB_SETCURSEL, g_plugin.getByte("AlignGroupCaptions"), 0);
 		}
-		CheckDlgButton(hwndDlg, IDC_ALIGN_RIGHT, g_plugin.getByte("TextAlignToRight", SETTING_TEXT_RIGHTALIGN_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_ALIGN_RIGHT, g_plugin.getByte("TextAlignToRight") == 1);
 		CheckDlgButton(hwndDlg, IDC_REPLACE_SMILEYS, g_plugin.getByte("TextReplaceSmileys", SETTING_TEXT_SMILEY_DEFAULT) == 1);
 		CheckDlgButton(hwndDlg, IDC_RESIZE_SMILEYS, g_plugin.getByte("TextResizeSmileys", SETTING_TEXT_RESIZESMILEY_DEFAULT) == 1);
 		CheckDlgButton(hwndDlg, IDC_USE_PROTOCOL_SMILEYS, g_plugin.getByte("TextUseProtocolSmileys", SETTING_TEXT_PROTOSMILEY_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_IGNORE_SIZE, g_plugin.getByte("TextIgnoreSizeForRownHeight", SETTING_TEXT_IGNORESIZE_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_IGNORE_SIZE, g_plugin.getByte("TextIgnoreSizeForRownHeight") == 1);
 
-		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS_ON_FIRST_LINE, g_plugin.getByte("FirstLineDrawSmileys", SETTING_FIRSTLINE_SMILEYS_DEFAULT) == 1);
-		CheckDlgButton(hwndDlg, IDC_APPEND_NICK, g_plugin.getByte("FirstLineAppendNick", SETTING_FIRSTLINE_APPENDNICK_DEFAULT) == 1);
+		CheckDlgButton(hwndDlg, IDC_DRAW_SMILEYS_ON_FIRST_LINE, g_plugin.getByte("FirstLineDrawSmileys") == 1);
+		CheckDlgButton(hwndDlg, IDC_APPEND_NICK, g_plugin.getByte("FirstLineAppendNick") == 1);
 		CheckDlgButton(hwndDlg, IDC_TRIM_TEXT, g_plugin.getByte("TrimText", SETTING_FIRSTLINE_TRIMTEXT_DEFAULT) == 1);
 		{
 			bool smileAddPresent = ServiceExists(MS_SMILEYADD_BATCHPARSE) != 0;

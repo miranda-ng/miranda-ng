@@ -70,47 +70,6 @@ class CTeamsProto : public PROTO<CTeamsProto>
 		}
 	} m_impl;
 
-	// http queue
-	bool m_isTerminated = true;
-	mir_cs m_requestQueueLock;
-	LIST<AsyncHttpRequest> m_requests;
-	MEventHandle m_hRequestQueueEvent;
-	HANDLE m_hRequestQueueThread;
-	CMStringA m_szAccessToken, m_szSubstrateToken;
-
-	void __cdecl WorkerThread(void *);
-
-	void StartQueue();
-	void StopQueue();
-
-	MHttpResponse* DoSend(AsyncHttpRequest *request);
-
-	void Execute(AsyncHttpRequest *request);
-	void PushRequest(AsyncHttpRequest *request);
-
-	// login
-	CMStringW m_wszUserCode;
-	CMStringA m_szDeviceCode, m_szDeviceCookie, m_szVerificationUrl;
-	time_t m_iLoginExpires;
-
-	void Login();
-	void LoggedIn();
-	void LoginPoll();
-	void LoginError();
-
-	void SendCreateEndpoint();
-	void SendPresence();
-	
-	void OauthRefreshServices();
-	void RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc);
-
-	void OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnReceiveDeviceToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnRefreshSkypeToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
 public:
 	// constructor
 	CTeamsProto(const char *protoName, const wchar_t *userName);
@@ -171,44 +130,12 @@ public:
 	// other data
 
 	int m_iPollingId, m_iMessageId = 1;
-	ptrA m_szOwnSkypeId;
-	CMStringA m_szSkypename, m_szMyname, m_szRegToken, m_szSkypeToken, m_szEndpoint;
+	CMStringA m_szSkypename, m_szMyname, m_szOwnSkypeId, m_szSkypeToken, m_szEndpoint, m_szApiCookie;
 	MCONTACT m_hMyContact;
 
 	__forceinline CMStringA getId(MCONTACT hContact) {
 		return getMStringA(hContact, DBKEY_ID);
 	}
-
-	void OnSearch(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	// login
-
-	void OnCapabilitiesSended(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnStatusChanged(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnEndpointDeleted(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void OnASMObjectCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnGotContactsInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnSentAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
-	void OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	void OnGetProfileInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
-
-	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);
 
 private:
 	bool m_bHistorySynced;
@@ -218,14 +145,19 @@ private:
 	LIST<void> m_PopupClasses;
 
 	// avatars
-	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
 	bool ReceiveAvatar(MCONTACT hContact);
+	void OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
+	void SetAvatarUrl(MCONTACT hContact, const CMStringW &tszUrl);
+
 	void ReloadAvatarInfo(MCONTACT hContact);
 	void GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);
 
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
+
+	void OnSentAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
 	// chats
@@ -236,6 +168,12 @@ private:
 	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
 
+	void OnGetChatInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void GetChatInfo(const wchar_t *chatId);
+	
+	void OnGetChatMembers(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void GetChatMembers(const LIST<char> &ids, SESSION_INFO *si);
+
 	SESSION_INFO *StartChatRoom(const wchar_t *tid, const wchar_t *tname, const char *pszVersion = nullptr);
 
 	bool OnChatEvent(const JSONNode &node);
@@ -245,13 +183,17 @@ private:
 	void RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator = L"");
 	void SendChatMessage(SESSION_INFO *si, const wchar_t *tszMessage);
 
+	void InviteUserToChat(const char *chatId, const char *skypename, const char *role);
 	void KickChatUser(const char *chatId, const char *userId);
-
+	void SetChatProperty(const char *chatId, const char *propname, const char *value);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 
 	bool ParseMessage(const JSONNode &node, DB::EventInfo &dbei);
 
 	// contacts
+	void LoadContactsAuth(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnGotContactsInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
 	void GetShortInfo(const OBJLIST<char> &ids);
 	void RefreshContactsInfo();
 	void SetContactStatus(MCONTACT hContact, uint16_t status);
@@ -263,8 +205,16 @@ private:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
+	INT_PTR __cdecl BlockContact(WPARAM hContact, LPARAM);
+	void OnBlockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
+	INT_PTR __cdecl UnblockContact(WPARAM hContact, LPARAM);
+	void OnUnblockContact(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
 	// files
 	void SendFile(CFileUploadParam *fup);
+	void OnASMObjectCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnASMObjectUploaded(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
 	void __cdecl ReceiveFileThread(void *param);
 
@@ -278,6 +228,47 @@ private:
 	void OnGetServerHistory(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void OnSyncConversations(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
+	// http queue
+	bool m_isTerminated = true;
+	mir_cs m_requestQueueLock;
+	LIST<AsyncHttpRequest> m_requests;
+	MEventHandle m_hRequestQueueEvent;
+	HANDLE m_hRequestQueueThread;
+	CMStringA m_szAccessToken, m_szSubstrateToken;
+
+	void __cdecl WorkerThread(void *);
+
+	void StartQueue();
+	void StopQueue();
+
+	MHttpResponse *DoSend(AsyncHttpRequest *request);
+
+	void Execute(AsyncHttpRequest *request);
+	void PushRequest(AsyncHttpRequest *request);
+
+	// login
+	CMStringW m_wszUserCode;
+	CMStringA m_szDeviceCode, m_szDeviceCookie, m_szVerificationUrl;
+	time_t m_iLoginExpires;
+
+	void Login();
+	void LoggedIn();
+	void LoginPoll();
+	void LoginError();
+
+	void OnEndpointCreated(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnReceiveApiCookie(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
+	void OauthRefreshServices();
+	void RefreshToken(const char *pszScope, AsyncHttpRequest::MTHttpRequestHandler pFunc);
+
+	void OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnReceiveDevicePoll(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnReceiveDeviceToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnRefreshAccessToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnRefreshSkypeToken(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void OnRefreshSubstrate(MHttpResponse *response, AsyncHttpRequest *pRequest);
+
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
 	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
@@ -287,6 +278,7 @@ private:
 	mir_cs m_lckOutMessagesList;
 	LIST<COwnMessage> m_OutMessages;
 
+	void OnMessageSent(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	int SendServerMsg(MCONTACT hContact, const char *szMessage, int64_t iMessageId = 0);
 
 	int __cdecl OnPreCreateMessage(WPARAM, LPARAM lParam);
@@ -298,6 +290,9 @@ private:
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	// profile
+	void OnGetProfileInfo(MHttpResponse *response, AsyncHttpRequest *pRequest);
+	void GetProfileInfo(MCONTACT hContact);
+
 	void UpdateProfileDisplayName(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileGender(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact = NULL);
@@ -305,9 +300,11 @@ private:
 	void UpdateProfileEmails(const JSONNode &root, MCONTACT hContact = NULL);
 	void UpdateProfileAvatar(const JSONNode &root, MCONTACT hContact = NULL);
 
-	// server requests
-	void GetProfileInfo(MCONTACT hContact);
+	// search
+	void OnSearch(MHttpResponse *response, AsyncHttpRequest *pRequest);
 
+	// server requests
+	void OnStatusChanged(MHttpResponse *response, AsyncHttpRequest *pRequest);
 	void SetServerStatus(int iStatus);
 
 	void CreateContactSubscription();
@@ -336,8 +333,6 @@ private:
 	CMStringW ChangeTopicForm();
 
 	// services
-	INT_PTR __cdecl BlockContact(WPARAM hContact, LPARAM);
-	INT_PTR __cdecl UnblockContact(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcLoadHistory(WPARAM hContact, LPARAM);
@@ -356,11 +351,11 @@ private:
 	MHttpHeaders m_connectParams;
 	int iCommandId;
 
+	void ProcessEvent(const JSONNode &node);
 	void ProcessNewMessage(const JSONNode &node);
 	void ProcessUserPresence(const JSONNode &node);
 	void ProcessThreadUpdate(const JSONNode &node);
 	void ProcessServerMessage(const std::string &szName, int packetId, const JSONNode &args);
-	void ProcessEndpointPresence(const JSONNode &node);
 	void ProcessConversationUpdate(const JSONNode &node);
 
 	void __cdecl GatewayThread(void *);

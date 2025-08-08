@@ -102,8 +102,7 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 	time_t tmLast = getDword(hContact, "LastCollection", 0);
 
 	for (auto *itemNode : TiXmlEnum(chatNode)) {
-
-		XmppMsg msg(itemNode, this);
+		XmppMsg msg(itemNode, m_ThreadInfo);
 
 		const char *itemName = itemNode->Name();
 		if (!mir_strcmp(itemName, "to"))
@@ -113,9 +112,7 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 
 		const char *tszSecs = XmlGetAttr(itemNode, "secs");
 		msg.msgTime = tmStart + atol(tszSecs);
-
-		msg.process();
-
+		MessageProcess(msg);
 
 		tmStart = msg.dbei.getUnixtime();
 		if (msg.dbei.getUnixtime() > tmLast)

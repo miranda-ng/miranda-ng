@@ -497,6 +497,9 @@
 [No activity yet, use server's choice]
 [Highest priority (server's choice)]
 [Status Message]
+;file \protocols\JabberG\src\jabber_message.cpp
+[Message redirected from: %s\r\n]
+[Unable to decrypt a carbon copy of the encrypted outgoing message]
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [To]
@@ -914,8 +917,6 @@
 [Error: Connection lost]
 [Requesting registration instruction...]
 [Authentication failed for %s@%s.]
-[Message redirected from: %s\r\n]
-[Unable to decrypt a carbon copy of the encrypted outgoing message]
 [Registration canceled]
 [Sending registration information...]
 ;file \protocols\JabberG\src\jabber_userinfo.cpp

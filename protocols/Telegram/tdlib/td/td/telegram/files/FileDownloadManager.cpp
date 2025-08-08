@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -122,6 +122,12 @@ void FileDownloadManager::hangup() {
     node.downloader_.reset();
     node.from_bytes_.reset();
   });
+  for (auto &it : download_resource_manager_map_) {
+    it.second.reset();
+  }
+  for (auto &it : download_small_resource_manager_map_) {
+    it.second.reset();
+  }
   stop_flag_ = true;
   try_stop();
 }

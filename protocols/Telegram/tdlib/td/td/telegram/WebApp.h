@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,7 +30,6 @@ class WebApp {
   int64 hash_ = 0;
 
   friend bool operator==(const WebApp &lhs, const WebApp &rhs);
-  friend bool operator!=(const WebApp &lhs, const WebApp &rhs);
 
   friend StringBuilder &operator<<(StringBuilder &string_builder, const WebApp &web_app);
 

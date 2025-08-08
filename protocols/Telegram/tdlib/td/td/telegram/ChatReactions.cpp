@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -120,11 +120,7 @@ td_api::object_ptr<td_api::ChatAvailableReactions> ChatReactions::get_chat_avail
 
 telegram_api::object_ptr<telegram_api::ChatReactions> ChatReactions::get_input_chat_reactions() const {
   if (allow_all_regular_) {
-    int32 flags = 0;
-    if (allow_all_custom_) {
-      flags |= telegram_api::chatReactionsAll::ALLOW_CUSTOM_MASK;
-    }
-    return telegram_api::make_object<telegram_api::chatReactionsAll>(flags, allow_all_custom_);
+    return telegram_api::make_object<telegram_api::chatReactionsAll>(0, allow_all_custom_);
   }
   if (!reaction_types_.empty()) {
     return telegram_api::make_object<telegram_api::chatReactionsSome>(

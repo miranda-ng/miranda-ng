@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,6 +10,7 @@
 #include "td/telegram/files/FileId.h"
 #include "td/telegram/files/FileManager.h"
 #include "td/telegram/files/FileType.h"
+#include "td/telegram/files/FileUploadId.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/misc.h"
 #include "td/telegram/net/NetQueryDispatcher.h"
@@ -103,14 +104,19 @@ class SetSecureValue final : public NetQueryCallback {
    private:
     ActorId<SetSecureValue> actor_id_;
     uint32 upload_generation_;
-    void on_upload_ok(FileId file_id, tl_object_ptr<telegram_api::InputFile> input_file) final;
-    void on_upload_encrypted_ok(FileId file_id, tl_object_ptr<telegram_api::InputEncryptedFile> input_file) final;
-    void on_upload_secure_ok(FileId file_id, tl_object_ptr<telegram_api::InputSecureFile> input_file) final;
-    void on_upload_error(FileId file_id, Status error) final;
+
+    void on_upload_ok(FileUploadId file_upload_id, telegram_api::object_ptr<telegram_api::InputFile> input_file) final;
+
+    void on_upload_secure_ok(FileUploadId file_upload_id,
+                             telegram_api::object_ptr<telegram_api::InputSecureFile> input_file) final;
+
+    void on_upload_error(FileUploadId file_upload_id, Status error) final;
   };
 
-  void on_upload_ok(FileId file_id, tl_object_ptr<telegram_api::InputSecureFile> input_file, uint32 upload_generation);
-  void on_upload_error(FileId file_id, Status error, uint32 upload_generation);
+  void on_upload_ok(FileUploadId file_upload_id, telegram_api::object_ptr<telegram_api::InputSecureFile> input_file,
+                    uint32 upload_generation);
+
+  void on_upload_error(FileUploadId file_upload_id, Status error, uint32 upload_generation);
 
   void on_error(Status error);
 
@@ -158,7 +164,7 @@ class SetSecureValueErrorsQuery final : public Td::ResultHandler {
     if (status.code() != 0) {
       promise_.set_error(std::move(status));
     } else {
-      promise_.set_error(Status::Error(400, status.message()));
+      promise_.set_error(400, status.message());
     }
   }
 };
@@ -175,7 +181,7 @@ void GetSecureValue::on_error(Status error) {
   if (error.code() > 0) {
     promise_.set_error(std::move(error));
   } else {
-    promise_.set_error(Status::Error(400, error.message()));
+    promise_.set_error(400, error.message());
   }
   stop();
 }
@@ -254,7 +260,7 @@ void GetAllSecureValues::on_error(Status error) {
   if (error.code() > 0) {
     promise_.set_error(std::move(error));
   } else {
-    promise_.set_error(Status::Error(400, error.message()));
+    promise_.set_error(400, error.message());
   }
   stop();
 }
@@ -324,50 +330,49 @@ SetSecureValue::UploadCallback::UploadCallback(ActorId<SetSecureValue> actor_id,
     : actor_id_(actor_id), upload_generation_(upload_generation) {
 }
 
-void SetSecureValue::UploadCallback::on_upload_ok(FileId file_id, tl_object_ptr<telegram_api::InputFile> input_file) {
+void SetSecureValue::UploadCallback::on_upload_ok(FileUploadId file_upload_id,
+                                                  telegram_api::object_ptr<telegram_api::InputFile> input_file) {
   CHECK(input_file == nullptr);
-  send_closure_later(actor_id_, &SetSecureValue::on_upload_ok, file_id, nullptr, upload_generation_);
+  send_closure_later(actor_id_, &SetSecureValue::on_upload_ok, file_upload_id, nullptr, upload_generation_);
 }
 
-void SetSecureValue::UploadCallback::on_upload_encrypted_ok(
-    FileId file_id, tl_object_ptr<telegram_api::InputEncryptedFile> input_file) {
-  UNREACHABLE();
+void SetSecureValue::UploadCallback::on_upload_secure_ok(
+    FileUploadId file_upload_id, telegram_api::object_ptr<telegram_api::InputSecureFile> input_file) {
+  send_closure_later(actor_id_, &SetSecureValue::on_upload_ok, file_upload_id, std::move(input_file),
+                     upload_generation_);
 }
 
-void SetSecureValue::UploadCallback::on_upload_secure_ok(FileId file_id,
-                                                         tl_object_ptr<telegram_api::InputSecureFile> input_file) {
-  send_closure_later(actor_id_, &SetSecureValue::on_upload_ok, file_id, std::move(input_file), upload_generation_);
+void SetSecureValue::UploadCallback::on_upload_error(FileUploadId file_upload_id, Status error) {
+  send_closure_later(actor_id_, &SetSecureValue::on_upload_error, file_upload_id, std::move(error), upload_generation_);
 }
 
-void SetSecureValue::UploadCallback::on_upload_error(FileId file_id, Status error) {
-  send_closure_later(actor_id_, &SetSecureValue::on_upload_error, file_id, std::move(error), upload_generation_);
-}
-
-void SetSecureValue::on_upload_ok(FileId file_id, tl_object_ptr<telegram_api::InputSecureFile> input_file,
+void SetSecureValue::on_upload_ok(FileUploadId file_upload_id,
+                                  telegram_api::object_ptr<telegram_api::InputSecureFile> input_file,
                                   uint32 upload_generation) {
   if (upload_generation_ != upload_generation) {
+    send_closure(G()->file_manager(), &FileManager::cancel_upload, file_upload_id);
     return;
   }
   SecureInputFile *info_ptr = nullptr;
   for (auto &info : files_to_upload_) {
-    if (info.file_id == file_id) {
+    if (info.file_upload_id == file_upload_id) {
       info_ptr = &info;
       break;
     }
   }
   for (auto &info : translations_to_upload_) {
-    if (info.file_id == file_id) {
+    if (info.file_upload_id == file_upload_id) {
       info_ptr = &info;
       break;
     }
   }
-  if (front_side_ && front_side_.value().file_id == file_id) {
+  if (front_side_ && front_side_.value().file_upload_id == file_upload_id) {
     info_ptr = &front_side_.value();
   }
-  if (reverse_side_ && reverse_side_.value().file_id == file_id) {
+  if (reverse_side_ && reverse_side_.value().file_upload_id == file_upload_id) {
     info_ptr = &reverse_side_.value();
   }
-  if (selfie_ && selfie_.value().file_id == file_id) {
+  if (selfie_ && selfie_.value().file_upload_id == file_upload_id) {
     info_ptr = &selfie_.value();
   }
   CHECK(info_ptr);
@@ -379,7 +384,7 @@ void SetSecureValue::on_upload_ok(FileId file_id, tl_object_ptr<telegram_api::In
   loop();
 }
 
-void SetSecureValue::on_upload_error(FileId file_id, Status error, uint32 upload_generation) {
+void SetSecureValue::on_upload_error(FileUploadId file_upload_id, Status error, uint32 upload_generation) {
   if (upload_generation_ != upload_generation) {
     return;
   }
@@ -390,7 +395,7 @@ void SetSecureValue::on_error(Status error) {
   if (error.code() > 0) {
     promise_.set_error(std::move(error));
   } else {
-    promise_.set_error(Status::Error(400, error.message()));
+    promise_.set_error(400, error.message());
   }
   stop();
 }
@@ -498,19 +503,19 @@ void SetSecureValue::cancel_upload() {
     return;
   }
   for (auto &file_info : files_to_upload_) {
-    file_manager->cancel_upload(file_info.file_id);
+    file_manager->cancel_upload(file_info.file_upload_id);
   }
   for (auto &file_info : translations_to_upload_) {
-    file_manager->cancel_upload(file_info.file_id);
+    file_manager->cancel_upload(file_info.file_upload_id);
   }
   if (front_side_) {
-    file_manager->cancel_upload(front_side_.value().file_id);
+    file_manager->cancel_upload(front_side_.value().file_upload_id);
   }
   if (reverse_side_) {
-    file_manager->cancel_upload(reverse_side_.value().file_id);
+    file_manager->cancel_upload(reverse_side_.value().file_upload_id);
   }
   if (selfie_) {
-    file_manager->cancel_upload(selfie_.value().file_id);
+    file_manager->cancel_upload(selfie_.value().file_upload_id);
   }
   files_left_to_upload_ = 0;
 }
@@ -545,16 +550,16 @@ void SetSecureValue::start_upload_all() {
 void SetSecureValue::start_upload(FileManager *file_manager, FileId &file_id, SecureInputFile &info) {
   auto file_view = file_manager->get_file_view(file_id);
   bool force = false;
-  if (info.file_id.empty()) {
+  if (!info.file_upload_id.is_valid()) {
     if (!file_view.is_encrypted_secure()) {
       file_id = file_manager->copy_file_id(file_id, FileType::SecureEncrypted, DialogId(), "SetSecureValue");
     }
 
-    info.file_id = file_manager->dup_file_id(file_id, "SetSecureValue");
+    info.file_upload_id = {file_id, FileManager::get_internal_upload_id()};
   } else {
     force = true;
   }
-  file_manager->resume_upload(info.file_id, {}, upload_callback_, 1, 0, force);
+  file_manager->resume_upload(info.file_upload_id, {}, upload_callback_, 1, 0, force);
   files_left_to_upload_++;
 }
 
@@ -611,6 +616,9 @@ void SetSecureValue::on_result(NetQueryPtr query) {
   }
   if (secure_value_.files.size() != encrypted_secure_value.files.size()) {
     return on_error(Status::Error(500, "Different file count"));
+  }
+  if (secure_value_.translations.size() != encrypted_secure_value.translations.size()) {
+    return on_error(Status::Error(500, "Different translation count"));
   }
   for (size_t i = 0; i < secure_value_.files.size(); i++) {
     merge(file_manager, secure_value_.files[i].file_id, encrypted_secure_value.files[i]);
@@ -700,7 +708,7 @@ class GetPassportAuthorizationForm final : public NetQueryCallback {
     if (error.code() > 0) {
       promise_.set_error(std::move(error));
     } else {
-      promise_.set_error(Status::Error(400, error.message()));
+      promise_.set_error(400, error.message());
     }
     stop();
   }
@@ -777,7 +785,7 @@ class GetPassportConfig final : public NetQueryCallback {
     auto config = r_result.move_as_ok();
     switch (config->get_id()) {
       case telegram_api::help_passportConfigNotModified::ID:
-        promise_.set_error(Status::Error(500, "Wrong server response"));
+        promise_.set_error(500, "Wrong server response");
         break;
       case telegram_api::help_passportConfig::ID: {
         const string &data =
@@ -791,7 +799,7 @@ class GetPassportConfig final : public NetQueryCallback {
         begin_pos += 4 + country_code_.size();
         auto end_pos = data.find('"', begin_pos);
         if (end_pos == string::npos) {
-          return promise_.set_error(Status::Error(500, "Wrong server response"));
+          return promise_.set_error(500, "Wrong server response");
         }
         promise_.set_value(td_api::make_object<td_api::text>(data.substr(begin_pos, end_pos - begin_pos)));
         break;
@@ -826,7 +834,7 @@ void SecureManager::set_secure_value(string password, SecureValue secure_value, 
         auto r_passport_element = get_passport_element_object(file_manager, r_secure_value.move_as_ok().value);
         if (r_passport_element.is_error()) {
           LOG(ERROR) << "Failed to get passport element object: " << r_passport_element.error();
-          return promise.set_error(Status::Error(500, "Failed to get passport element object"));
+          return promise.set_error(500, "Failed to get passport element object");
         }
         promise.set_value(r_passport_element.move_as_ok());
       });
@@ -860,16 +868,16 @@ void SecureManager::set_secure_value_errors(Td *td, tl_object_ptr<telegram_api::
   vector<tl_object_ptr<telegram_api::SecureValueError>> input_errors;
   for (auto &error : errors) {
     if (error == nullptr) {
-      return promise.set_error(Status::Error(400, "Error must be non-empty"));
+      return promise.set_error(400, "Error must be non-empty");
     }
     if (error->type_ == nullptr) {
-      return promise.set_error(Status::Error(400, "Type must be non-empty"));
+      return promise.set_error(400, "Type must be non-empty");
     }
     if (!clean_input_string(error->message_)) {
-      return promise.set_error(Status::Error(400, "Error message must be encoded in UTF-8"));
+      return promise.set_error(400, "Error message must be encoded in UTF-8");
     }
     if (error->source_ == nullptr) {
-      return promise.set_error(Status::Error(400, "Error source must be non-empty"));
+      return promise.set_error(400, "Error source must be non-empty");
     }
 
     auto type = get_input_secure_value_type(get_secure_value_type_td_api(error->type_));
@@ -883,7 +891,7 @@ void SecureManager::set_secure_value_errors(Td *td, tl_object_ptr<telegram_api::
       case td_api::inputPassportElementErrorSourceDataField::ID: {
         auto source = td_api::move_object_as<td_api::inputPassportElementErrorSourceDataField>(error->source_);
         if (!clean_input_string(source->field_name_)) {
-          return promise.set_error(Status::Error(400, "Field name must be encoded in UTF-8"));
+          return promise.set_error(400, "Field name must be encoded in UTF-8");
         }
 
         input_errors.push_back(make_tl_object<telegram_api::secureValueErrorData>(
@@ -917,7 +925,7 @@ void SecureManager::set_secure_value_errors(Td *td, tl_object_ptr<telegram_api::
       case td_api::inputPassportElementErrorSourceTranslationFiles::ID: {
         auto source = td_api::move_object_as<td_api::inputPassportElementErrorSourceTranslationFiles>(error->source_);
         if (source->file_hashes_.empty()) {
-          return promise.set_error(Status::Error(400, "File hashes must be non-empty"));
+          return promise.set_error(400, "File hashes must be non-empty");
         }
         auto file_hashes = transform(source->file_hashes_, [](Slice hash) { return BufferSlice(hash); });
         input_errors.push_back(make_tl_object<telegram_api::secureValueErrorTranslationFiles>(
@@ -933,7 +941,7 @@ void SecureManager::set_secure_value_errors(Td *td, tl_object_ptr<telegram_api::
       case td_api::inputPassportElementErrorSourceFiles::ID: {
         auto source = td_api::move_object_as<td_api::inputPassportElementErrorSourceFiles>(error->source_);
         if (source->file_hashes_.empty()) {
-          return promise.set_error(Status::Error(400, "File hashes must be non-empty"));
+          return promise.set_error(400, "File hashes must be non-empty");
         }
         auto file_hashes = transform(source->file_hashes_, [](Slice hash) { return BufferSlice(hash); });
         input_errors.push_back(make_tl_object<telegram_api::secureValueErrorFiles>(
@@ -1037,11 +1045,11 @@ void SecureManager::get_passport_authorization_form_available_elements(int32 aut
                                                                        Promise<TdApiSecureValuesWithErrors> promise) {
   auto it = authorization_forms_.find(authorization_form_id);
   if (it == authorization_forms_.end()) {
-    return promise.set_error(Status::Error(400, "Unknown authorization_form_id"));
+    return promise.set_error(400, "Unknown authorization_form_id");
   }
   CHECK(it->second != nullptr);
   if (!it->second->is_received) {
-    return promise.set_error(Status::Error(400, "Authorization form isn't received yet"));
+    return promise.set_error(400, "Authorization form isn't received yet");
   }
 
   refcnt_++;
@@ -1058,12 +1066,12 @@ void SecureManager::on_get_passport_authorization_form_secret(int32 authorizatio
                                                               Result<secure_storage::Secret> r_secret) {
   auto it = authorization_forms_.find(authorization_form_id);
   if (it == authorization_forms_.end()) {
-    return promise.set_error(Status::Error(400, "Authorization form has already been sent"));
+    return promise.set_error(400, "Authorization form has already been sent");
   }
   CHECK(it->second != nullptr);
   CHECK(it->second->is_received);
   if (it->second->is_decrypted) {
-    return promise.set_error(Status::Error(400, "Authorization form has already been decrypted"));
+    return promise.set_error(400, "Authorization form has already been decrypted");
   }
 
   if (r_secret.is_error()) {
@@ -1228,15 +1236,15 @@ void SecureManager::send_passport_authorization_form(int32 authorization_form_id
                                                      Promise<> promise) {
   auto it = authorization_forms_.find(authorization_form_id);
   if (it == authorization_forms_.end()) {
-    return promise.set_error(Status::Error(400, "Unknown authorization_form_id"));
+    return promise.set_error(400, "Unknown authorization_form_id");
   }
   CHECK(it->second != nullptr);
   if (!it->second->is_received) {
-    return promise.set_error(Status::Error(400, "Authorization form isn't received yet"));
+    return promise.set_error(400, "Authorization form isn't received yet");
   }
   // there is no need to check for is_decrypted
   if (types.empty()) {
-    return promise.set_error(Status::Error(400, "Types must be non-empty"));
+    return promise.set_error(400, "Types must be non-empty");
   }
 
   std::vector<SecureValueCredentials> credentials;
@@ -1244,7 +1252,7 @@ void SecureManager::send_passport_authorization_form(int32 authorization_form_id
   for (auto type : types) {
     auto value_it = secure_value_cache_.find(type);
     if (value_it == secure_value_cache_.end()) {
-      return promise.set_error(Status::Error(400, "Passport Element with the specified type is not found"));
+      return promise.set_error(400, "Passport Element with the specified type is not found");
     }
     credentials.push_back(value_it->second.credentials);
   }
@@ -1255,7 +1263,7 @@ void SecureManager::send_passport_authorization_form(int32 authorization_form_id
                                                                               BufferSlice(c.hash)));
     auto options_it = it->second->options.find(c.type);
     if (options_it == it->second->options.end()) {
-      return promise.set_error(Status::Error(400, "Passport Element with the specified type was not requested"));
+      return promise.set_error(400, "Passport Element with the specified type was not requested");
     }
     auto &options = options_it->second;
     if (!options.is_selfie_required) {
@@ -1277,14 +1285,11 @@ void SecureManager::send_passport_authorization_form(int32 authorization_form_id
       it->second->bot_user_id.get(), it->second->scope, it->second->public_key, std::move(hashes),
       get_secure_credentials_encrypted_object(r_encrypted_credentials.move_as_ok()));
   auto query = G()->net_query_creator().create(td_query);
-  auto new_promise =
-      PromiseCreator::lambda([promise = std::move(promise)](Result<NetQueryPtr> r_net_query_ptr) mutable {
-        auto r_result = fetch_result<telegram_api::account_acceptAuthorization>(std::move(r_net_query_ptr));
-        if (r_result.is_error()) {
-          return promise.set_error(r_result.move_as_error());
-        }
-        promise.set_value(Unit());
-      });
+  auto new_promise = PromiseCreator::lambda([promise =
+                                                 std::move(promise)](Result<NetQueryPtr> r_net_query_ptr) mutable {
+    TRY_STATUS_PROMISE(promise, fetch_result<telegram_api::account_acceptAuthorization>(std::move(r_net_query_ptr)));
+    promise.set_value(Unit());
+  });
   send_with_promise(std::move(query), std::move(new_promise));
 }
 

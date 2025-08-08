@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -173,7 +173,8 @@ struct EncryptedInputFile {
       return;
     }
   }
-  static EncryptedInputFile from_input_encrypted_file(const tl_object_ptr<telegram_api::InputEncryptedFile> &from) {
+  static EncryptedInputFile from_input_encrypted_file(
+      const telegram_api::object_ptr<telegram_api::InputEncryptedFile> &from) {
     if (from == nullptr) {
       return EncryptedInputFile();
     }
@@ -198,7 +199,7 @@ struct EncryptedInputFile {
     }
   }
 
-  tl_object_ptr<telegram_api::InputEncryptedFile> as_input_encrypted_file() const {
+  telegram_api::object_ptr<telegram_api::InputEncryptedFile> as_input_encrypted_file() const {
     switch (type) {
       case Empty:
         return make_tl_object<telegram_api::inputEncryptedFileEmpty>();

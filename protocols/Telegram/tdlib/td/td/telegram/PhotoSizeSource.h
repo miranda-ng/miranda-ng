@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,6 +8,7 @@
 
 #include "td/telegram/DialogId.h"
 #include "td/telegram/files/FileType.h"
+#include "td/telegram/PhotoSizeType.h"
 #include "td/telegram/telegram_api.h"
 
 #include "td/utils/common.h"
@@ -47,7 +48,7 @@ struct PhotoSizeSource {
     }
 
     FileType file_type = FileType::None;
-    int32 thumbnail_type = 0;
+    PhotoSizeType thumbnail_type;
   };
 
   // for dialog photos

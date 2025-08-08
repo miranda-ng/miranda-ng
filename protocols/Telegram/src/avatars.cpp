@@ -203,6 +203,18 @@ TG_FILE_REQUEST* CTelegramProto::FindFile(int id)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void CTelegramProto::ShowFileProgress(const TD::file *pFile, TG_FILE_REQUEST *ft)
+{
+	PROTOFILETRANSFERSTATUS fts = {};
+	fts.hContact = ft->m_hContact;
+	fts.totalFiles = 1;
+	fts.totalBytes = fts.currentFileSize = pFile->size_;
+	fts.totalProgress = fts.currentFileProgress = pFile->remote_->uploaded_size_;
+	ProtoBroadcastAck((UINT_PTR)ft->m_hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&fts);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Extracts a photo/avatar to a file
 
 void CTelegramProto::ProcessAvatar(const TD::file *pFile, TG_USER *pUser)
@@ -250,14 +262,8 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 	// file upload is not completed, skip it
 	if (pRemote->is_uploading_active_) {
 		auto *ft = FindFile(pFile->id_);
-		if (ft) {
-			PROTOFILETRANSFERSTATUS fts = {};
-			fts.hContact = ft->m_hContact;
-			fts.totalFiles = 1;
-			fts.totalBytes = fts.currentFileSize = pFile->size_;
-			fts.totalProgress = fts.currentFileProgress = pFile->remote_->uploaded_size_;
-			ProtoBroadcastAck((UINT_PTR)ft->m_hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&fts);
-		}
+		if (ft)
+			ShowFileProgress(pFile, ft);
 		return;
 	}
 

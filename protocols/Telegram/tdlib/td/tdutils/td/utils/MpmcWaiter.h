@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,15 +20,14 @@ namespace td {
 class MpmcEagerWaiter {
  public:
   struct Slot {
+    explicit Slot(uint32 worker_id) : yields(0), worker_id(worker_id) {
+    }
+
    private:
     friend class MpmcEagerWaiter;
     int yields;
     uint32 worker_id;
   };
-  static void init_slot(Slot &slot, uint32 worker_id) {
-    slot.yields = 0;
-    slot.worker_id = worker_id;
-  }
 
   void wait(Slot &slot) {
     if (slot.yields < RoundsTillSleepy) {
@@ -163,6 +162,10 @@ class MpmcSleepyWaiter {
 
    public:
     char padding[TD_CONCURRENCY_PAD];
+
+    explicit Slot(int32 worker_id) : state_(State::Work), worker_id(worker_id) {
+      VLOG(waiter) << "Init slot " << worker_id;
+    }
   };
 
   // There are a lot of workers
@@ -194,13 +197,6 @@ class MpmcSleepyWaiter {
   // If possible - in Search state
   //
 
-  static void init_slot(Slot &slot, int32 worker_id) {
-    slot.state_ = Slot::State::Work;
-    slot.unpark_flag_ = false;
-    slot.worker_id = worker_id;
-    VLOG(waiter) << "Init slot " << worker_id;
-  }
-
   static constexpr int VERBOSITY_NAME(waiter) = VERBOSITY_NAME(DEBUG) + 10;
   void wait(Slot &slot) {
     if (slot.state_ == Slot::State::Work) {
@@ -225,7 +221,7 @@ class MpmcSleepyWaiter {
         return;
       }
       sleepers_.push_back(&slot);
-      LOG_CHECK(slot.unpark_flag_ == false) << slot.worker_id;
+      LOG_CHECK(!slot.unpark_flag_) << slot.worker_id;
       VLOG(waiter) << "Add to sleepers " << slot.worker_id;
       //guard.unlock();
       if (should_search) {
@@ -281,7 +277,7 @@ class MpmcSleepyWaiter {
     auto view = StateView(state_.load());
     //LOG(ERROR) << view.parked_count;
     if (view.searching_count > 0 || view.parked_count == 0) {
-      VLOG(waiter) << "Ingore notify: " << view.searching_count << ' ' << view.parked_count;
+      VLOG(waiter) << "Ignore notify: " << view.searching_count << ' ' << view.parked_count;
       return;
     }
 

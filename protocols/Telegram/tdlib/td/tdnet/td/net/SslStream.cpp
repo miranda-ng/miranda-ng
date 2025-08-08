@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -89,8 +89,11 @@ long strm_ctrl(BIO *b, int cmd, long num, void *ptr) {
     case BIO_CTRL_PUSH:
     case BIO_CTRL_POP:
       return 0;
-#if OPENSSL_VERSION_NUMBER >= 0x30000000L && !defined(LIBRESSL_VERSION_NUMBER)
+#if defined(BIO_CTRL_GET_KTLS_SEND)
     case BIO_CTRL_GET_KTLS_SEND:
+      return 0;
+#endif
+#if defined(BIO_CTRL_GET_KTLS_RECV)
     case BIO_CTRL_GET_KTLS_RECV:
       return 0;
 #endif
@@ -169,7 +172,7 @@ class SslStreamImpl {
     SSL_set_bio(ssl_handle.get(), bio, bio);
 
 #if OPENSSL_VERSION_NUMBER >= 0x0090806fL && !defined(OPENSSL_NO_TLSEXT)
-    if (r_ip_address.is_error()) {  // IP address must not be send as SNI
+    if (r_ip_address.is_error()) {  // IP address must not be sent as SNI
       LOG(DEBUG) << "Set SNI host name to " << host;
       auto host_str = host.str();
       SSL_set_tlsext_host_name(ssl_handle.get(), MutableCSlice(host_str).begin());

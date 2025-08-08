@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -59,6 +59,7 @@ class InlineMessageManager;
 class LanguagePackManager;
 class LinkManager;
 class MessageImportManager;
+class MessageQueryManager;
 class MessagesManager;
 class NetQueryDispatcher;
 class NetQueryStats;
@@ -71,6 +72,7 @@ class PeopleNearbyManager;
 class PromoDataManager;
 class QuickReplyManager;
 class ReactionManager;
+class ReferralProgramManager;
 class SavedMessagesManager;
 class SecretChatsManager;
 class SponsoredMessageManager;
@@ -79,6 +81,7 @@ class StateManager;
 class StickersManager;
 class StorageManager;
 class StoryManager;
+class SuggestedActionManager;
 class Td;
 class TdDb;
 class TempAuthKeyWatchdog;
@@ -88,6 +91,7 @@ class TopDialogManager;
 class TranscriptionManager;
 class UpdatesManager;
 class UserManager;
+class WebAppManager;
 class WebPagesManager;
 
 class Global final : public ActorContext {
@@ -388,6 +392,13 @@ class Global final : public ActorContext {
     message_import_manager_ = message_import_manager;
   }
 
+  ActorId<MessageQueryManager> message_query_manager() const {
+    return message_query_manager_;
+  }
+  void set_message_query_manager(ActorId<MessageQueryManager> message_query_manager) {
+    message_query_manager_ = message_query_manager;
+  }
+
   ActorId<MessagesManager> messages_manager() const {
     return messages_manager_;
   }
@@ -456,6 +467,13 @@ class Global final : public ActorContext {
     reaction_manager_ = reaction_manager;
   }
 
+  ActorId<ReferralProgramManager> referral_program_manager() const {
+    return referral_program_manager_;
+  }
+  void set_referral_program_manager(ActorId<ReferralProgramManager> referral_program_manager) {
+    referral_program_manager_ = referral_program_manager;
+  }
+
   ActorId<SavedMessagesManager> saved_messages_manager() const {
     return saved_messages_manager_;
   }
@@ -505,6 +523,13 @@ class Global final : public ActorContext {
     story_manager_ = story_manager;
   }
 
+  ActorId<SuggestedActionManager> suggested_action_manager() const {
+    return suggested_action_manager_;
+  }
+  void set_suggested_action_manager(ActorId<SuggestedActionManager> suggested_action_manager) {
+    suggested_action_manager_ = suggested_action_manager;
+  }
+
   ActorId<ThemeManager> theme_manager() const {
     return theme_manager_;
   }
@@ -547,6 +572,13 @@ class Global final : public ActorContext {
     user_manager_ = user_manager;
   }
 
+  ActorId<WebAppManager> web_app_manager() const {
+    return web_app_manager_;
+  }
+  void set_web_app_manager(ActorId<WebAppManager> web_app_manager) {
+    web_app_manager_ = web_app_manager;
+  }
+
   ActorId<WebPagesManager> web_pages_manager() const {
     return web_pages_manager_;
   }
@@ -584,6 +616,10 @@ class Global final : public ActorContext {
 
   int32 get_gc_scheduler_id() const {
     return gc_scheduler_id_;
+  }
+
+  int32 get_main_session_scheduler_id() const {
+    return use_sqlite_pmc() ? -1 : database_scheduler_id_;
   }
 
   int32 get_slow_net_scheduler_id() const {
@@ -641,6 +677,10 @@ class Global final : public ActorContext {
     }
     if (error.code() == 420 || error.code() == 429) {
       // flood wait
+      return true;
+    }
+    if (error.code() == 406 && error.message() == "FROZEN_METHOD_INVALID") {
+      // the account is frozen
       return true;
     }
     return close_flag();
@@ -703,6 +743,7 @@ class Global final : public ActorContext {
   ActorId<LanguagePackManager> language_pack_manager_;
   ActorId<LinkManager> link_manager_;
   ActorId<MessageImportManager> message_import_manager_;
+  ActorId<MessageQueryManager> message_query_manager_;
   ActorId<MessagesManager> messages_manager_;
   ActorId<NotificationManager> notification_manager_;
   ActorId<NotificationSettingsManager> notification_settings_manager_;
@@ -712,6 +753,7 @@ class Global final : public ActorContext {
   ActorId<PromoDataManager> promo_data_manager_;
   ActorId<QuickReplyManager> quick_reply_manager_;
   ActorId<ReactionManager> reaction_manager_;
+  ActorId<ReferralProgramManager> referral_program_manager_;
   ActorId<SavedMessagesManager> saved_messages_manager_;
   ActorId<SecretChatsManager> secret_chats_manager_;
   ActorId<SponsoredMessageManager> sponsored_message_manager_;
@@ -719,12 +761,14 @@ class Global final : public ActorContext {
   ActorId<StickersManager> stickers_manager_;
   ActorId<StorageManager> storage_manager_;
   ActorId<StoryManager> story_manager_;
+  ActorId<SuggestedActionManager> suggested_action_manager_;
   ActorId<ThemeManager> theme_manager_;
   ActorId<TimeZoneManager> time_zone_manager_;
   ActorId<TopDialogManager> top_dialog_manager_;
   ActorId<TranscriptionManager> transcription_manager_;
   ActorId<UpdatesManager> updates_manager_;
   ActorId<UserManager> user_manager_;
+  ActorId<WebAppManager> web_app_manager_;
   ActorId<WebPagesManager> web_pages_manager_;
   ActorOwn<ConnectionCreator> connection_creator_;
   ActorOwn<TempAuthKeyWatchdog> temp_auth_key_watchdog_;

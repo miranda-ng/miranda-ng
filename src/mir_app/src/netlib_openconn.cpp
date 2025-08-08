@@ -316,7 +316,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 	if (Netlib_SendHttpRequest(nlc, &nlhrSend, storage) == SOCKET_ERROR)
 		return false;
 
-	NLHR_PTR nlhrReply(NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, storage, true));
+	NLHR_PTR nlhrReply(NetlibHttpRecv(nlc, storage, nlhrSend.flags, true));
 	if (nlhrReply == nullptr)
 		return false;
 
@@ -596,7 +596,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		}
 	}
 
-	Netlib_Logf(nlu, "(%d) Connected to %s:%d", nlc->s, nlc->url.szHost.c_str(), nlc->url.port);
+	Netlib_Logf(nlu, "(%d) Connected to %s:%d", int(nlc->s), nlc->url.szHost.c_str(), nlc->url.port);
 
 	if (GetSubscribersCount((THook*)hEventConnected)) {
 		NETLIBCONNECTIONEVENTINFO ncei = {};

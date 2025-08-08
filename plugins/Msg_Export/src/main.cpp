@@ -127,6 +127,7 @@ int CMPlugin::Load()
 
 	HookEvent(ME_DB_EVENT_ADDED, nExportEvent);
 	HookEvent(ME_DB_EVENT_EDITED, nExportEvent);
+	HookEvent(ME_DB_EVENT_REACTION, nExportReaction);
 	HookEvent(ME_DB_CONTACT_DELETED, nContactDeleted);
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_MODULESLOADED, MainInit);

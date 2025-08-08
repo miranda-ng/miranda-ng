@@ -1,18 +1,26 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/PromoDataManager.h"
 
+#include "td/telegram/AccessRights.h"
 #include "td/telegram/AuthManager.h"
+#include "td/telegram/ChatManager.h"
+#include "td/telegram/DialogManager.h"
 #include "td/telegram/DialogSource.h"
 #include "td/telegram/Global.h"
 #include "td/telegram/MessagesManager.h"
+#include "td/telegram/OptionManager.h"
+#include "td/telegram/SuggestedAction.h"
+#include "td/telegram/SuggestedActionManager.h"
 #include "td/telegram/Td.h"
 #include "td/telegram/telegram_api.h"
+#include "td/telegram/UserManager.h"
 
+#include "td/utils/algorithm.h"
 #include "td/utils/buffer.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
@@ -44,6 +52,36 @@ class GetPromoDataQuery final : public Td::ResultHandler {
 
   void on_error(Status status) final {
     promise_.set_error(std::move(status));
+  }
+};
+
+class HidePromoDataQuery final : public Td::ResultHandler {
+  DialogId dialog_id_;
+
+ public:
+  void send(DialogId dialog_id) {
+    dialog_id_ = dialog_id;
+    auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Read);
+    if (input_peer == nullptr) {
+      return;
+    }
+    send_query(G()->net_query_creator().create(telegram_api::help_hidePromoData(std::move(input_peer))));
+  }
+
+  void on_result(BufferSlice packet) final {
+    auto result_ptr = fetch_result<telegram_api::help_hidePromoData>(packet);
+    if (result_ptr.is_error()) {
+      return on_error(result_ptr.move_as_error());
+    }
+
+    // we are not interested in the result
+  }
+
+  void on_error(Status status) final {
+    if (!td_->dialog_manager_->on_get_dialog_error(dialog_id_, status, "HidePromoDataQuery") &&
+        !G()->is_expected_error(status)) {
+      LOG(ERROR) << "Receive error for sponsored chat hiding: " << status;
+    }
   }
 };
 
@@ -89,7 +127,7 @@ void PromoDataManager::schedule_get_promo_data(int32 expires_in) {
 }
 
 void PromoDataManager::timeout_expired() {
-  if (G()->close_flag() || !is_inited_) {
+  if (G()->close_flag() || !is_inited_ || reloading_promo_data_) {
     return;
   }
 
@@ -109,7 +147,9 @@ void PromoDataManager::on_get_promo_data(Result<telegram_api::object_ptr<telegra
   reloading_promo_data_ = false;
 
   if (r_promo_data.is_error()) {
-    LOG(ERROR) << "Receive error for GetPromoData: " << r_promo_data.error();
+    if (!G()->is_expected_error(r_promo_data.error())) {
+      LOG(ERROR) << "Receive error for GetPromoData: " << r_promo_data.error();
+    }
     return schedule_get_promo_data(60);
   }
 
@@ -121,18 +161,52 @@ void PromoDataManager::on_get_promo_data(Result<telegram_api::object_ptr<telegra
     case telegram_api::help_promoDataEmpty::ID: {
       auto promo = telegram_api::move_object_as<telegram_api::help_promoDataEmpty>(promo_data_ptr);
       expires_at = promo->expires_;
-      td_->messages_manager_->remove_sponsored_dialog();
+      remove_sponsored_dialog();
       break;
     }
     case telegram_api::help_promoData::ID: {
       auto promo = telegram_api::move_object_as<telegram_api::help_promoData>(promo_data_ptr);
+      td_->user_manager_->on_get_users(std::move(promo->users_), "on_get_promo_data");
+      td_->chat_manager_->on_get_chats(std::move(promo->chats_), "on_get_promo_data");
       expires_at = promo->expires_;
-      bool is_proxy = promo->proxy_;
-      td_->messages_manager_->on_get_sponsored_dialog(
-          std::move(promo->peer_),
-          is_proxy ? DialogSource::mtproto_proxy()
-                   : DialogSource::public_service_announcement(promo->psa_type_, promo->psa_message_),
-          std::move(promo->users_), std::move(promo->chats_));
+      if (promo->peer_ != nullptr) {
+        bool is_proxy = promo->proxy_;
+        td_->messages_manager_->set_sponsored_dialog(
+            DialogId(promo->peer_),
+            is_proxy ? DialogSource::mtproto_proxy()
+                     : DialogSource::public_service_announcement(promo->psa_type_, promo->psa_message_));
+      } else {
+        remove_sponsored_dialog();
+      }
+      if (td::contains(promo->dismissed_suggestions_, "BIRTHDAY_CONTACTS_TODAY")) {
+        td_->option_manager_->set_option_boolean("dismiss_birthday_contact_today", true);
+      } else {
+        td_->option_manager_->set_option_empty("dismiss_birthday_contact_today");
+      }
+
+      vector<SuggestedAction> suggested_actions;
+      for (const auto &action : promo->pending_suggestions_) {
+        SuggestedAction suggested_action(action);
+        if (!suggested_action.is_empty()) {
+          if (suggested_action == SuggestedAction{SuggestedAction::Type::SetPassword} &&
+              td_->option_manager_->get_option_integer("otherwise_relogin_days") > 0) {
+            LOG(INFO) << "Skip SetPassword suggested action";
+          } else {
+            suggested_actions.push_back(suggested_action);
+          }
+        } else {
+          LOG(ERROR) << "Receive unsupported suggested action " << action;
+        }
+      }
+      if (promo->custom_pending_suggestion_ != nullptr) {
+        SuggestedAction suggested_action(td_->user_manager_.get(), std::move(promo->custom_pending_suggestion_));
+        if (!suggested_action.is_empty()) {
+          suggested_actions.push_back(std::move(suggested_action));
+        } else {
+          LOG(ERROR) << "Receive unsupported custom suggested action";
+        }
+      }
+      td_->suggested_action_manager_->update_suggested_actions(std::move(suggested_actions));
       break;
     }
     default:
@@ -143,6 +217,16 @@ void PromoDataManager::on_get_promo_data(Result<telegram_api::object_ptr<telegra
     expires_at = 0;
   }
   schedule_get_promo_data(expires_at == 0 ? 0 : expires_at - G()->unix_time());
+}
+
+void PromoDataManager::remove_sponsored_dialog() {
+  td_->messages_manager_->set_sponsored_dialog(DialogId(), DialogSource());
+}
+
+void PromoDataManager::hide_promo_data(DialogId dialog_id) {
+  remove_sponsored_dialog();
+
+  td_->create_handler<HidePromoDataQuery>()->send(dialog_id);
 }
 
 }  // namespace td

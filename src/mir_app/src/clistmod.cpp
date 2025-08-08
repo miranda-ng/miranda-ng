@@ -254,40 +254,27 @@ static int CListIconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-/*
-Begin of Hrk's code for bug
-*/
-#define GWVS_HIDDEN 1
-#define GWVS_VISIBLE 2
-#define GWVS_COVERED 3
-#define GWVS_PARTIALLY_COVERED 4
+/////////////////////////////////////////////////////////////////////////////////////////
 
-int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
+int fnGetWindowVisibleState()
 {
-	RECT rc, rcWin, rcWorkArea;
-	POINT pt;
-	int i, j, width, height, iCountedDots = 0, iNotCoveredDots = 0;
-	BOOL bPartiallyCovered = FALSE;
-	HWND hAux = nullptr;
-
-	if (hWnd == nullptr) {
-		SetLastError(0x00000006);       //Wrong handle
+	if (g_clistApi.hwndContactList == nullptr) {
+		SetLastError(ERROR_INVALID_HANDLE);       //Wrong handle
 		return -1;
 	}
 
-	//Some defaults now. The routine is designed for thin and tall windows.
-	if (iStepX <= 0)
-		iStepX = 4;
-	if (iStepY <= 0)
-		iStepY = 16;
-
-	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
+	if (IsIconic(g_clistApi.hwndContactList) || !IsWindowVisible(g_clistApi.hwndContactList))
 		return GWVS_HIDDEN;
 
-	GetWindowRect(hWnd, &rcWin);
+	// Some defaults now. The routine is designed for thin and tall windows.
+	int iStepX = 4;
+	int iStepY = 16;
 
+	RECT rc, rcWin, rcWorkArea;
+	GetWindowRect(g_clistApi.hwndContactList, &rcWin);
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
-	HMONITOR hMon = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
+
+	HMONITOR hMon = MonitorFromWindow(g_clistApi.hwndContactList, MONITOR_DEFAULTTONEAREST);
 	MONITORINFO mi;
 	mi.cbSize = sizeof(mi);
 	if (GetMonitorInfo(hMon, &mi))
@@ -295,17 +282,20 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 	IntersectRect(&rc, &rcWin, &rcWorkArea);
 
-	width = rc.right - rc.left;
-	height = rc.bottom - rc.top;
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+	int iCountedDots = 0, iNotCoveredDots = 0;
 
-	for (i = rc.top; i < rc.bottom; i += (height / iStepY)) {
+	POINT pt;
+	BOOL bPartiallyCovered = FALSE;
+	for (int i = rc.top; i < rc.bottom; i += (height / iStepY)) {
 		pt.y = i;
-		for (j = rc.left; j < rc.right; j += (width / iStepX)) {
+		for (int j = rc.left; j < rc.right; j += (width / iStepX)) {
 			pt.x = j;
-			hAux = WindowFromPoint(pt);
+			HWND hAux = WindowFromPoint(pt);
 			while (GetParent(hAux) != nullptr)
 				hAux = GetParent(hAux);
-			if (hAux != hWnd && hAux != nullptr)       //There's another window!
+			if (hAux != g_clistApi.hwndContactList && hAux != nullptr) // There's another window!
 				bPartiallyCovered = TRUE;
 			else
 				iNotCoveredDots++;  //Let's count the not covered dots.
@@ -323,30 +313,38 @@ int fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	return GWVS_PARTIALLY_COVERED;
 }
 
-int fnShowHide()
+MIR_APP_DLL(void) Clist_ShowHide()
 {
-	BOOL bShow = FALSE;
-
-	int iVisibleState = g_clistApi.pfnGetWindowVisibleState(g_clistApi.hwndContactList, 0, 0);
+	bool bShow = false;
+	int iVisibleState = g_clistApi.pfnGetWindowVisibleState();
 
 	//bShow is FALSE when we enter the switch.
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
-		//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
+		// If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
 		if (!Clist::bBringToFront)
 			break;
+		__fallthrough;
+
 	case GWVS_COVERED:     //Fall through (and we're already falling)
 	case GWVS_HIDDEN:
-		bShow = TRUE;
+		bShow = true;
 		break;
+
 	case GWVS_VISIBLE:     //This is not needed, but goes for readability.
-		bShow = FALSE;
+		bShow = false;
 		break;
+
 	case -1:               //We can't get here, both g_clistApi.hwndContactList and iStepX and iStepY are right.
-		return 0;
+		return;
 	}
 
-	if (bShow == TRUE) {
+	g_clistApi.pfnShowHide(bShow);
+}
+
+void fnShowHide(bool bShow)
+{
+	if (bShow) {
 		ShowWindow(g_clistApi.hwndContactList, SW_RESTORE);
 		if (!Clist::bOnTop)
 			SetWindowPos(g_clistApi.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
@@ -375,7 +373,6 @@ int fnShowHide()
 		if (db_get_b(0, "CList", "DisableWorkingSet", 1))
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 	}
-	return 0;
 }
 
 MIR_APP_DLL(void) Clist_ChangeContactIcon(MCONTACT hContact, int iIcon)

@@ -32,6 +32,13 @@ CTeamsProto::CTeamsProto(const char *protoName, const wchar_t *userName) :
 	m_wstrMoodEmoji(this, "MoodEmoji", L""),
 	m_wstrMoodMessage(this, "XStatusMsg", L"")
 {
+	// create endpoint
+	m_szEndpoint = getMStringA("Endpoint");
+	if (m_szEndpoint.IsEmpty()) {
+		m_szEndpoint = Utils_GenerateUUID();
+		setString("Endpoint", m_szEndpoint);
+	}
+
 	// network
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
@@ -82,7 +89,7 @@ void CTeamsProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 
 	DB::EventInfo dbei(hDbEvent, false);
 	if (dbei.szId) {
-		auto *pReq = new AsyncHttpRequest(REQUEST_DELETE, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages/" + dbei.szId);
+		auto *pReq = new AsyncHttpRequest(REQUEST_DELETE, HOST_CHATS, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages/" + dbei.szId);
 		pReq->AddAuthentication(this);
 		pReq->AddHeader("Origin", "https://web.skype.com");
 		pReq->AddHeader("Referer", "https://web.skype.com/");
@@ -253,7 +260,7 @@ int CTeamsProto::UserIsTyping(MCONTACT hContact, int iState)
 	node << INT64_PARAM("clientmessageid", getRandomId()) << CHAR_PARAM("contenttype", "Application/Message") << CHAR_PARAM("content", "")
 		<< CHAR_PARAM("messagetype", (iState == PROTOTYPE_SELFTYPING_ON) ? "Control/Typing" : "Control/ClearTyping");
 
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_DEFAULT, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_CHATS, "/users/ME/conversations/" + mir_urlEncode(getId(hContact)) + "/messages");
 	pReq->m_szParam = node.write().c_str();
 	PushRequest(pReq);
 	return 0;

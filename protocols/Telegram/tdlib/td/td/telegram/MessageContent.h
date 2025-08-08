@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,6 +11,7 @@
 #include "td/telegram/DialogId.h"
 #include "td/telegram/EncryptedFile.h"
 #include "td/telegram/files/FileId.h"
+#include "td/telegram/files/FileUploadId.h"
 #include "td/telegram/InputGroupCallId.h"
 #include "td/telegram/logevent/LogEvent.h"
 #include "td/telegram/MessageContentType.h"
@@ -86,8 +87,8 @@ struct InputMessageContent {
 struct InlineMessageContent {
   unique_ptr<MessageContent> message_content;
   unique_ptr<ReplyMarkup> message_reply_markup;
-  bool disable_web_page_preview;
-  bool invert_media;
+  bool disable_web_page_preview = false;
+  bool invert_media = false;
 };
 
 void store_message_content(const MessageContent *content, LogEventStorerCalcLength &storer);
@@ -107,7 +108,7 @@ unique_ptr<MessageContent> create_text_message_content(string text, vector<Messa
 
 unique_ptr<MessageContent> create_photo_message_content(Photo photo);
 
-unique_ptr<MessageContent> create_video_message_content(FileId file_id);
+unique_ptr<MessageContent> create_video_message_content(FileId file_id, Photo cover, int32 start_timestamp);
 
 unique_ptr<MessageContent> create_contact_registered_message_content();
 
@@ -134,16 +135,13 @@ SecretInputMedia get_message_content_secret_input_media(
 telegram_api::object_ptr<telegram_api::InputMedia> get_message_content_input_media(
     const MessageContent *content, int32 media_pos, Td *td,
     telegram_api::object_ptr<telegram_api::InputFile> input_file,
-    telegram_api::object_ptr<telegram_api::InputFile> input_thumbnail, FileId file_id, FileId thumbnail_file_id,
-    MessageSelfDestructType ttl, const string &emoji, bool force);
+    telegram_api::object_ptr<telegram_api::InputFile> input_thumbnail, FileUploadId file_upload_id,
+    FileUploadId thumbnail_file_upload_id, MessageSelfDestructType ttl, const string &emoji, bool force);
 
 telegram_api::object_ptr<telegram_api::InputMedia> get_message_content_input_media(const MessageContent *content,
                                                                                    Td *td, MessageSelfDestructType ttl,
                                                                                    const string &emoji, bool force,
                                                                                    int32 media_pos = -1);
-
-telegram_api::object_ptr<telegram_api::InputMedia> get_message_content_fake_input_media(
-    Td *td, telegram_api::object_ptr<telegram_api::InputFile> input_file, FileId file_id);
 
 telegram_api::object_ptr<telegram_api::InputMedia> get_message_content_input_media_web_page(
     const Td *td, const MessageContent *content);
@@ -188,6 +186,12 @@ int32 get_message_content_live_location_period(const MessageContent *content);
 bool get_message_content_poll_is_anonymous(const Td *td, const MessageContent *content);
 
 bool get_message_content_poll_is_closed(const Td *td, const MessageContent *content);
+
+bool get_message_content_to_do_list_others_can_append(const MessageContent *content);
+
+bool get_message_content_to_do_list_can_append_items(const Td *td, const MessageContent *content, int32 item_count);
+
+bool get_message_content_to_do_list_others_can_complete(const MessageContent *content);
 
 const Venue *get_message_content_venue(const MessageContent *content);
 
@@ -267,12 +271,13 @@ unique_ptr<MessageContent> get_action_message_content(Td *td, tl_object_ptr<tele
                                                       const RepliedMessageInfo &replied_message_info,
                                                       bool is_business_message);
 
-td_api::object_ptr<td_api::MessageContent> get_message_content_object(const MessageContent *content, Td *td,
-                                                                      DialogId dialog_id, bool is_server,
-                                                                      bool is_outgoing, int32 message_date,
-                                                                      bool is_content_secret, bool skip_bot_commands,
-                                                                      int32 max_media_timestamp, bool invert_media,
-                                                                      bool disable_web_page_preview);
+td_api::object_ptr<td_api::MessageContent> get_message_content_object(
+    const MessageContent *content, Td *td, DialogId dialog_id, MessageId message_id, bool is_outgoing, bool is_forward,
+    DialogId sender_dialog_id, int32 message_date, bool is_content_secret, bool skip_bot_commands,
+    int32 max_media_timestamp, bool invert_media, bool disable_web_page_preview);
+
+td_api::object_ptr<td_api::upgradeGiftResult> get_message_content_upgrade_gift_result_object(
+    const MessageContent *content, Td *td, DialogId dialog_id, MessageId message_id);
 
 FormattedText *get_message_content_text_mutable(MessageContent *content);
 
@@ -288,15 +293,17 @@ int32 get_message_content_duration(const MessageContent *content, const Td *td);
 
 int32 get_message_content_media_duration(const MessageContent *content, const Td *td);
 
-const Photo *get_message_content_photo(const MessageContent *content);
+const Photo *get_message_content_cover(const MessageContent *content);
 
-FileId get_message_content_upload_file_id(const MessageContent *content);
-
-vector<FileId> get_message_content_upload_file_ids(const MessageContent *content);
+vector<const Photo *> get_message_content_need_to_upload_covers(Td *td, const MessageContent *content);
 
 FileId get_message_content_any_file_id(const MessageContent *content);
 
 vector<FileId> get_message_content_any_file_ids(const MessageContent *content);
+
+FileId get_message_content_cover_any_file_id(const MessageContent *content);
+
+vector<FileId> get_message_content_cover_any_file_ids(const MessageContent *content);
 
 void update_message_content_file_id_remote(MessageContent *content, FileId file_id);
 
@@ -318,13 +325,17 @@ bool update_message_content_extended_media(
 
 bool need_poll_message_content_extended_media(const MessageContent *content);
 
+bool need_poll_conference_call_message_content(const MessageContent *content);
+
+void set_message_content_video_start_timestamp(MessageContent *content, int32 start_timestamp);
+
 void get_message_content_animated_emoji_click_sticker(const MessageContent *content, MessageFullId message_full_id,
                                                       Td *td, Promise<td_api::object_ptr<td_api::sticker>> &&promise);
 
 void on_message_content_animated_emoji_clicked(const MessageContent *content, MessageFullId message_full_id, Td *td,
                                                string &&emoji, string &&data);
 
-bool need_reget_message_content(const MessageContent *content);
+bool need_reget_message_content(const Td *td, const MessageContent *content);
 
 bool need_delay_message_content_notification(const MessageContent *content, UserId my_user_id);
 

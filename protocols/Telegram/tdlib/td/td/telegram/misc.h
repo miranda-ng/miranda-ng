@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -45,8 +45,8 @@ uint64 get_md5_string_hash(const string &str) TD_WARN_UNUSED_RESULT;
 // calculates hash of list of uint64
 int64 get_vector_hash(const vector<uint64> &numbers) TD_WARN_UNUSED_RESULT;
 
-// returns emoji corresponding to the specified number
-string get_emoji_fingerprint(uint64 num);
+// returns 4 emoji corresponding to the specified 32-byte buffer
+vector<string> get_emoji_fingerprints(const unsigned char *buffer);
 
 // checks whether currency amount is valid
 bool check_currency_amount(int64 amount);

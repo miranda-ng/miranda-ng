@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define STR_SEPARATOR L"-----------------------------------"
 
-extern bool bIconsDisabled;
 extern int DefaultImageListColorDepth;
 void RebuildProtoMenus();
 
@@ -89,7 +88,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 		tvi.pszText = idstr;
 
-		int count = 0, customOrder = 0;
+		int count = 0;
 		int runtimepos = 100;
 
 		char pszParent[33];
@@ -116,9 +115,6 @@ class CGenMenuOptionsPage : public CDlgBase
 
 					CMStringW tszValue(FORMAT, L"%d;%d;%S;%s", bChecked, runtimepos, pszParent, ptszCustomName);
 					db_set_ws(0, szModule, menuItemName, tszValue);
-
-					if (pimi->mi.flags & CMIF_CUSTOM)
-						db_set_s(0, szModule, CMStringA(FORMAT, "Custom%d", customOrder++), menuItemName);						
 				}
 
 				HTREEITEM hChild = m_menuItems.GetChild(tvi.hItem);
@@ -255,15 +251,11 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		m_menuItems.SetDraw(false);
 		m_menuItems.DeleteAllItems();
-
 		BuildTreeInternal(szModule, bReread, pmo->m_items, nullptr);
-
 		m_menuItems.SetDraw(true);
 
-		m_warning.Show(!pmo->m_bUseUserDefinedItems);
 		m_menuItems.Enable(pmo->m_bUseUserDefinedItems);
 		m_btnInsSeparator.Enable(pmo->m_bUseUserDefinedItems);
-		m_btnInsMenu.Enable(pmo->m_bUseUserDefinedItems);
 		return 1;
 	}
 
@@ -280,9 +272,8 @@ class CGenMenuOptionsPage : public CDlgBase
 	CCtrlListBox m_menuObjects;
 	CCtrlTreeView m_menuItems;
 	CCtrlCheck m_radio1, m_radio2, m_enableIcons;
-	CCtrlEdit m_customName, m_service, m_module;
-	CCtrlButton m_btnInsSeparator, m_btnInsMenu, m_btnReset, m_btnSet, m_btnDefault, m_btnDelete;
-	CCtrlBase m_warning;
+	CCtrlEdit m_customName, m_service, m_module, m_id;
+	CCtrlButton m_btnInsSeparator, m_btnReset, m_btnSet, m_btnDefault;
 
 public:
 	CGenMenuOptionsPage() :
@@ -294,22 +285,18 @@ public:
 		m_radio2(this, IDC_RADIO2),
 		m_enableIcons(this, IDC_DISABLEMENUICONS),
 		m_btnInsSeparator(this, IDC_INSERTSEPARATOR),
-		m_btnInsMenu(this, IDC_INSERTSUBMENU),
 		m_btnReset(this, IDC_RESETMENU),
 		m_btnSet(this, IDC_GENMENU_SET),
-		m_btnDelete(this, IDC_GENMENU_DELETE),
 		m_btnDefault(this, IDC_GENMENU_DEFAULT),
+		m_id(this, IDC_GENMENU_ID),
 		m_customName(this, IDC_GENMENU_CUSTOMNAME),
 		m_service(this, IDC_GENMENU_SERVICE),
-		m_module(this, IDC_GENMENU_MODULE),
-		m_warning(this, IDC_NOTSUPPORTWARNING)
+		m_module(this, IDC_GENMENU_MODULE)
 	{
 		m_btnSet.OnClick = Callback(this, &CGenMenuOptionsPage::btnSet_Clicked);
 		m_btnReset.OnClick = Callback(this, &CGenMenuOptionsPage::btnReset_Clicked);
 		m_btnInsSeparator.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsSep_Clicked);
-		m_btnInsMenu.OnClick = Callback(this, &CGenMenuOptionsPage::btnInsMenu_Clicked);
 		m_btnDefault.OnClick = Callback(this, &CGenMenuOptionsPage::btnDefault_Clicked);
-		m_btnDelete.OnClick = Callback(this, &CGenMenuOptionsPage::btnDelete_Clicked);
 
 		m_menuObjects.OnSelChange = Callback(this, &CGenMenuOptionsPage::onMenuObjectChanged);
 
@@ -331,7 +318,7 @@ public:
 		else
 			m_radio1.SetState(true);
 
-		m_enableIcons.SetState(!bIconsDisabled);
+		m_enableIcons.SetState(g_bMenuIconsEnabled);
 
 		//---- init menu object list --------------------------------------
 		for (auto &p : g_menus)
@@ -345,8 +332,14 @@ public:
 
 	bool OnApply() override
 	{
-		bIconsDisabled = !m_enableIcons.IsChecked();
-		db_set_b(0, "CList", "DisableMenuIcons", bIconsDisabled);
+		if (g_bMenuIconsEnabled != m_enableIcons.IsChecked()) {
+			g_bMenuIconsEnabled = m_enableIcons.IsChecked();
+			db_set_b(0, "CList", "DisableMenuIcons", !g_bMenuIconsEnabled);
+
+			Menu_GetMainMenu();
+			Menu_GetStatusMenu();
+			Menu_ReloadProtoMenus();
+		}
 
 		if (m_customName.IsChanged())
 			btnSet_Clicked(0);
@@ -395,45 +388,6 @@ public:
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = PD->name;
-		tvis.item.state = INDEXTOSTATEIMAGEMASK(2);
-		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-		m_menuItems.InsertItem(&tvis);
-
-		NotifyChange();
-	}
-
-	void btnInsMenu_Clicked(CCtrlButton*)
-	{
-		HTREEITEM hti = m_menuItems.GetSelection();
-		if (hti == nullptr)
-			return;
-
-		TVITEMEX tvi = { 0 };
-		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
-		tvi.hItem = hti;
-		if (!m_menuItems.GetItem(&tvi))
-			return;
-
-		MenuItemOptData *curData = (MenuItemOptData*)tvi.lParam;
-
-		TMO_MenuItem mi = {};
-		UuidCreate((UUID*)&mi.uid);
-		mi.flags = CMIF_CUSTOM;
-		mi.name.a = LPGEN("New submenu");
-		mi.position = curData->pos - 1;
-		TMO_IntMenuItem *pimi = Menu_AddItem(curData->pimi->parent->id, &mi, nullptr);
-
-		MenuItemOptData *PD = new MenuItemOptData();
-		PD->id = -1;
-		PD->name = mir_wstrdup(TranslateW(pimi->mi.name.w));
-		PD->pos = pimi->mi.position;
-		PD->pimi = pimi;
-
-		TVINSERTSTRUCT tvis = {};
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-		tvis.item.lParam = (LPARAM)PD;
-		tvis.item.pszText = PD->name;
-		tvis.hInsertAfter = hti;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK(2);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		m_menuItems.InsertItem(&tvis);
@@ -497,29 +451,6 @@ public:
 		NotifyChange();
 	}
 
-	void btnDelete_Clicked(CCtrlButton *)
-	{
-		HTREEITEM hti = m_menuItems.GetSelection();
-		if (hti == nullptr)
-			return;
-
-		TVITEMEX tvi;
-		tvi.mask = TVIF_PARAM;
-		tvi.hItem = hti;
-		m_menuItems.GetItem(&tvi);
-
-		MenuItemOptData *iod = (MenuItemOptData *)tvi.lParam;
-		if (!(iod->pimi->mi.flags & CMIF_CUSTOM))
-			return;
-
-		if (IDYES == MessageBoxW(m_hwnd, TranslateT("Do you really want to delete this menu item?"), TranslateT("Miranda"), MB_YESNO | MB_ICONQUESTION)) {
-			m_arDeleted.insert(iod->pimi);
-			m_menuItems.DeleteItem(hti);
-			delete iod;
-			NotifyChange();
-		}
-	}
-
 	void onMenuObjectChanged(void*)
 	{
 		m_bInitialized = false;
@@ -532,11 +463,10 @@ public:
 		m_customName.SetTextA("");
 		m_service.SetTextA("");
 		m_module.SetTextA("");
+		m_id.SetTextA("");
 
-		m_btnInsMenu.Disable();
 		m_btnDefault.Disable();
 		m_btnSet.Disable();
-		m_btnDelete.Disable();
 		m_customName.Disable();
 
 		HTREEITEM hti = m_menuItems.GetSelection();
@@ -557,17 +487,20 @@ public:
 		m_customName.SetText(iod->name);
 
 		if (iod->pimi->mi.uid != miid_last) {
+			auto &id = iod->pimi->mi.uid;
 			char szText[100];
-			bin2hex(&iod->pimi->mi.uid, sizeof(iod->pimi->mi.uid), szText);
-			m_service.SetTextA(szText);
+			mir_snprintf(szText, "%08x-%04x-%04x-", id.a, id.b, id.c);
+			bin2hex(&iod->pimi->mi.uid.d, sizeof(iod->pimi->mi.uid.d), szText + strlen(szText));
+			m_id.SetTextA(szText);
 		}
 
-		const CMPluginBase *pPlugin = iod->pimi->mi.pPlugin;
-		m_module.SetTextA(pPlugin == nullptr ? "" : pPlugin->getInfo().shortName);
+		if (iod->pimi->mi.pszService)
+			m_service.SetTextA(iod->pimi->mi.pszService);
 
-		m_btnInsMenu.Enable(iod->pimi->mi.root == nullptr);
+		auto *pPlugin = iod->pimi->mi.pPlugin;
+		m_module.SetTextA(pPlugin ? pPlugin->getInfo().shortName : "");
+
 		m_btnDefault.Enable(mir_wstrcmp(iod->name, iod->defname) != 0);
-		m_btnDelete.Enable(iod->pimi->mi.flags & CMIF_CUSTOM);
 		m_btnSet.Enable(true);
 		m_customName.Enable(true);
 	}

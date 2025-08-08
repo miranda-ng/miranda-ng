@@ -392,11 +392,13 @@ struct parse *tl_init_parse_file (const char *fname) {
     return NULL;
   }
   if (fseek (f, 0, SEEK_END) != 0) {
+    fclose (f);
     fprintf (stderr, "Can't seek to the end of the input file.\n");
     return NULL;
   }
   long size = ftell (f);
   if (size <= 0 || size > INT_MAX) {
+    fclose (f);
     fprintf (stderr, "Size is %ld. Too small or too big.\n", size);
     return NULL;
   }
@@ -943,7 +945,7 @@ struct tree *tl_parse_lex (struct parse *_parse) {
 
 int mystrcmp2 (const char *b, int len, const char *a) {
   int c = strncmp (b, a, len);
-  return c ? a[len] ? -1 : 0 : c;
+  return c ? c : a[len] ? -1 : 0;
 }
 
 char *mystrdup (const char *a, int len) {

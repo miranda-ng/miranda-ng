@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -27,8 +27,8 @@
 #include <string>
 #include <vector>
 
-static constexpr int DATA_SIZE = 8 << 10;
-static constexpr int SHORT_DATA_SIZE = 64;
+static constexpr std::size_t DATA_SIZE = 8 << 10;
+static constexpr std::size_t SHORT_DATA_SIZE = 64;
 
 #if OPENSSL_VERSION_NUMBER <= 0x10100000L
 class SHA1Bench final : public td::Benchmark {
@@ -127,7 +127,8 @@ class HmacSha256ShortBench final : public td::Benchmark {
   void run(int n) final {
     unsigned char md[32];
     for (int i = 0; i < n; i++) {
-      td::hmac_sha256(td::Slice(data, SHORT_DATA_SIZE), td::Slice(data, SHORT_DATA_SIZE), td::MutableSlice(md, 32));
+      td::hmac_sha256(td::Slice(data, td::min(static_cast<std::size_t>(32), SHORT_DATA_SIZE)),
+                      td::Slice(data, SHORT_DATA_SIZE), td::MutableSlice(md, 32));
     }
   }
 };
@@ -145,9 +146,10 @@ class HmacSha512ShortBench final : public td::Benchmark {
   }
 
   void run(int n) final {
-    unsigned char md[32];
+    unsigned char md[64];
     for (int i = 0; i < n; i++) {
-      td::hmac_sha256(td::Slice(data, SHORT_DATA_SIZE), td::Slice(data, SHORT_DATA_SIZE), td::MutableSlice(md, 32));
+      td::hmac_sha512(td::Slice(data, td::min(static_cast<std::size_t>(64), SHORT_DATA_SIZE)),
+                      td::Slice(data, SHORT_DATA_SIZE), td::MutableSlice(md, 64));
     }
   }
 };
@@ -285,8 +287,9 @@ class AesCtrOpenSSLBench final : public td::Benchmark {
     state.init(as_slice(key), as_slice(iv));
     for (int i = 0; i < n; i++) {
       int len = 0;
-      EVP_EncryptUpdate(ctx, data_slice.ubegin(), &len, data_slice.ubegin(), DATA_SIZE);
-      CHECK(len == DATA_SIZE);
+      auto int_size = static_cast<int>(DATA_SIZE);
+      EVP_EncryptUpdate(ctx, data_slice.ubegin(), &len, data_slice.ubegin(), int_size);
+      CHECK(len == int_size);
     }
 
     EVP_CIPHER_CTX_free(ctx);

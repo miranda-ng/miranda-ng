@@ -125,22 +125,12 @@ INT_PTR CTeamsProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Avatars' receiving
 
-struct GetAvatarRequest : public AsyncHttpRequest
-{
-	GetAvatarRequest(const char *url, MCONTACT hContact) :
-		AsyncHttpRequest(REQUEST_GET, HOST_OTHER, url, &CTeamsProto::OnReceiveAvatar)
-	{
-		flags |= NLHRF_REDIRECT;
-		pUserInfo = (void *)hContact;
-	}
-};
-
 void CTeamsProto::OnReceiveAvatar(MHttpResponse *response, AsyncHttpRequest *pRequest)
 {
 	if (response == nullptr || response->body.IsEmpty())
 		return;
 	
-	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
+	MCONTACT hContact = pRequest->hContact;
 	if (response->resultCode != 200)
 		return;
 
@@ -167,27 +157,17 @@ bool CTeamsProto::ReceiveAvatar(MCONTACT hContact)
 	if (!mir_strlen(szUrl))
 		return false;
 
-	PushRequest(new GetAvatarRequest(szUrl, hContact));
+	auto *pReq = new AsyncHttpRequest(REQUEST_GET, HOST_OTHER, szUrl, &CTeamsProto::OnReceiveAvatar);
+	pReq->hContact = hContact;
+	pReq->flags |= NLHRF_REDIRECT;
+	PushRequest(pReq);
+
 	debugLogA("Requested to read an avatar from '%s'", szUrl.get());
 	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Setting my own avatar
-
-struct SetAvatarRequest : public AsyncHttpRequest
-{
-	SetAvatarRequest(const uint8_t *data, int dataSize, const char *szMime, CTeamsProto *ppro) :
-		AsyncHttpRequest(REQUEST_PUT, HOST_API, 0, &CTeamsProto::OnSentAvatar)
-	{
-		m_szUrl.AppendFormat("/users/%s/profile/avatar", ppro->m_szSkypename.MakeLower().c_str());
-
-		AddHeader("Content-Type", szMime);
-
-		m_szParam.Truncate(dataSize);
-		memcpy(m_szParam.GetBuffer(), data, dataSize);
-	}
-};
 
 void CTeamsProto::OnSentAvatar(MHttpResponse *response, AsyncHttpRequest*)
 {
@@ -215,7 +195,13 @@ INT_PTR CTeamsProto::SvcSetMyAvatar(WPARAM, LPARAM lParam)
 					if (data != NULL && fread(data, sizeof(uint8_t), length, hFile) == length) {
 						const char *szMime = FreeImage_GetFIFMimeType(FreeImage_GetFIFFromFilenameU(path));
 
-						PushRequest(new SetAvatarRequest(data, (int)length, szMime, this));
+						auto *pReq = new AsyncHttpRequest(REQUEST_PUT, HOST_API, 0, &CTeamsProto::OnSentAvatar);
+						pReq->m_szUrl.AppendFormat("/users/%s/profile/avatar", m_szSkypename.MakeLower().c_str());
+						pReq->AddHeader("Content-Type", szMime);
+						pReq->m_szParam.Truncate((int)length);
+						memcpy(pReq->m_szParam.GetBuffer(), data, (int)length);
+						PushRequest(pReq);
+
 						fclose(hFile);
 						return 0;
 					}

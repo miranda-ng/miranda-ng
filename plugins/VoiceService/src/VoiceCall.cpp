@@ -214,6 +214,7 @@ void VoiceCall::SetState(int aState)
 	switch (state) {
 	case VOICE_STATE_TALKING:
 		m_calltimer.Start(1000);
+		Button_SetIcon_IcoLib(m_hwnd, IDC_ANSWERBTN, g_plugin.getIconHandle(IDI_ACTION_HOLD));
 		break;
 	case VOICE_STATE_RINGING:
 		incoming = true;

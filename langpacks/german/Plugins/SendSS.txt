@@ -143,10 +143,10 @@ FTPFile-Übertragung
 ;file \plugins\SendScreenshotPlus\src\CSendHost_ImageShack.cpp
 [Image upload]
 Bild hochladen
-[Enter user key for Imageshack]
-Benutzerschlüssel für Imageshack angeben
-[User key is missing]
-Benutzerschlüssel fehlt
+[Enter your personal API key from Imageshack]
+Geben Sie Ihren persönlichen API-Schlüssel von Imageshack ein
+[API key is missing]
+API-Schlüssel fehlt
 ;file \plugins\SendScreenshotPlus\src\CSendHost_imgur.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHost_uploadpie.cpp
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp

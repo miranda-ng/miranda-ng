@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -95,6 +95,21 @@ class WaitFreeHashSet {
     for (auto &it : wait_free_storage_->sets_) {
       it.foreach(callback);
     }
+  }
+
+  template <class F>
+  bool remove_if(const F &f) {
+    if (wait_free_storage_ == nullptr) {
+      return default_set_.remove_if(f);
+    }
+
+    bool is_removed = false;
+    for (auto &it : wait_free_storage_->sets_) {
+      if (it.remove_if(f)) {
+        is_removed = true;
+      }
+    }
+    return is_removed;
   }
 
   KeyT get_random() const {

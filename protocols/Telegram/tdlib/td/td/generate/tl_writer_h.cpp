@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -64,6 +64,13 @@ std::string TD_TL_writer_h::gen_output_begin(const std::string &additional_impor
 }
 
 std::string TD_TL_writer_h::gen_output_begin_once() const {
+  std::string secure_strings;
+  if (tl_name != "td_api" && tl_name != "telegram_api" && tl_name != "mtproto_api") {
+    secure_strings = "using secure_string = " + string_type +
+                     ";\n\n"
+                     "using secure_bytes = " +
+                     bytes_type + ";\n\n";
+  }
   return "using int32 = std::int32_t;\n"
          "using int53 = std::int64_t;\n"
          "using int64 = std::int64_t;\n\n"
@@ -73,8 +80,7 @@ std::string TD_TL_writer_h::gen_output_begin_once() const {
          ";\n\n"
 
          "using bytes = " +
-         bytes_type +
-         ";\n\n"
+         bytes_type + ";\n\n" + secure_strings +
 
          "template <class Type>\n"
          "using array = std::vector<Type>;\n\n"
@@ -165,7 +171,7 @@ std::string TD_TL_writer_h::gen_function_vars(const tl::tl_combinator *t,
     if (!vars[i].is_type) {
       assert(vars[i].parameter_num == -1);
       assert(vars[i].function_arg_num == -1);
-      assert(vars[i].is_stored == false);
+      assert(!vars[i].is_stored);
       res += "  mutable " + gen_class_name("#") + " " + gen_var_name(vars[i]) + ";\n";
     }
   }
@@ -177,19 +183,22 @@ bool TD_TL_writer_h::need_arg_mask(const tl::arg &a, bool can_be_stored) const {
     return false;
   }
 
-  if (can_be_stored) {
-    return true;
-  }
-
   if (a.type->get_type() != tl::NODE_TYPE_TYPE) {
     return true;
   }
   const tl::tl_tree_type *tree_type = static_cast<tl::tl_tree_type *>(a.type);
   const std::string &name = tree_type->type->name;
 
-  if (!is_built_in_simple_type(name) || name == "True") {
+  if (name == "True") {
     return false;
   }
+  if (can_be_stored) {
+    return true;
+  }
+  if (!is_built_in_simple_type(name)) {
+    return false;
+  }
+
   return true;
 }
 
@@ -238,8 +247,8 @@ std::string TD_TL_writer_h::gen_field_fetch(int field_num, const tl::arg &a, std
   return "";
 }
 
-std::string TD_TL_writer_h::gen_field_store(const tl::arg &a, std::vector<tl::var_description> &vars, bool flat,
-                                            int storer_type) const {
+std::string TD_TL_writer_h::gen_field_store(const tl::arg &a, const std::vector<tl::arg> &args,
+                                            std::vector<tl::var_description> &vars, bool flat, int storer_type) const {
   return "";
 }
 

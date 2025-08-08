@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FC88FB5A-AAED-3F3E-9959-236444D8F644}</ProjectGuid>
+    <ProjectName>tde2e</ProjectName>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <PlatformToolset>v141_xp</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="..\..\..\build\vc.common\slib.props" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(ProjectDir)lib\$(Configuration)32\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(ProjectDir)lib\$(Configuration)64\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\td;.\td\td\generate\auto;..\..\..\include;.\td\tdactor;.\td\tdutils;.\td\tdnet;.\td\tddb;.\td\tde2e;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <BufferSecurityCheck Condition="'$(Configuration)'=='Release'">false</BufferSecurityCheck>
+      <ControlFlowGuard Condition="'$(Configuration)'=='Release'">false</ControlFlowGuard>
+      <FunctionLevelLinking Condition="'$(Configuration)'=='Release'">true</FunctionLevelLinking>
+      <EnableParallelCodeGeneration Condition="'$(Configuration)'=='Release'">true</EnableParallelCodeGeneration>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="tdactor.vcxproj">
+      <Project>{85F63934-02FE-332A-8703-059040B65512}</Project>
+      <Name>tdactor</Name>
+    </ProjectReference>
+    <ProjectReference Include="tddb.vcxproj">
+      <Project>{F525EE11-8820-3D8A-87A5-465D50A98A64}</Project>
+      <Name>tddb</Name>
+    </ProjectReference>
+    <ProjectReference Include="tdnet.vcxproj">
+      <Project>{2246C3CF-7888-3102-984A-80214ADF418C}</Project>
+      <Name>tdnet</Name>
+    </ProjectReference>
+    <ProjectReference Include="tdutils.vcxproj">
+      <Project>{D21C6A0F-BED1-3377-9659-7FC7D82EFC4F}</Project>
+      <Name>tdutils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="td\tde2e\td\e2e\bip39.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\BitString.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\Blockchain.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\Call.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\CheckSharedSecret.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\DecryptedKey.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\e2e_api.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\EncryptedKey.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\EncryptedStorage.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\Keys.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\MessageEncryption.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\Mnemonic.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\QRHandshake.cpp" />
+    <ClCompile Include="td\tde2e\td\e2e\Trie.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="td\tde2e\td\e2e\bip39.h" />
+    <ClInclude Include="td\tde2e\td\e2e\BitString.h" />
+    <ClInclude Include="td\tde2e\td\e2e\Blockchain.h" />
+    <ClInclude Include="td\tde2e\td\e2e\Call.h" />
+    <ClInclude Include="td\tde2e\td\e2e\CheckSharedSecret.h" />
+    <ClInclude Include="td\tde2e\td\e2e\Container.h" />
+    <ClInclude Include="td\tde2e\td\e2e\DecryptedKey.h" />
+    <ClInclude Include="td\tde2e\td\e2e\e2e_api.h" />
+    <ClInclude Include="td\tde2e\td\e2e\e2e_errors.h" />
+    <ClInclude Include="td\tde2e\td\e2e\EncryptedKey.h" />
+    <ClInclude Include="td\tde2e\td\e2e\EncryptedStorage.h" />
+    <ClInclude Include="td\tde2e\td\e2e\Keys.h" />
+    <ClInclude Include="td\tde2e\td\e2e\MessageEncryption.h" />
+    <ClInclude Include="td\tde2e\td\e2e\Mnemonic.h" />
+    <ClInclude Include="td\tde2e\td\e2e\QRHandshake.h" />
+    <ClInclude Include="td\tde2e\td\e2e\Trie.h" />
+    <ClInclude Include="td\tde2e\td\e2e\utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="td\tde2e\td\e2e\Blockchain.md" />
+    <None Include="td\tde2e\td\e2e\Encryption.md" />
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

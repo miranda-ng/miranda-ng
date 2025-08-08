@@ -49,7 +49,6 @@ class CMLuaScript;
 #include "module_loader.h"
 #include "script_loader.h"
 #include "variables_loader.h"
-#include "options.h"
 #include "metatable.h"
 
 #define MODULENAME LPGEN("MirLua")

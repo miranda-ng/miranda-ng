@@ -841,16 +841,14 @@ Protokollmenüs
 In das Hauptmenü setzen
 [Move to the status bar]
 In die Statusleiste setzen
-[Warning!\r\nThis menu object not support user defined options.]
-Warnung!\r\nDieses Menüobjekt kann nicht vom Benutzer angepasst werden!
-[Insert submenu]
-Untermenü einfügen
 [Insert separator]
 Trennlinie einfügen
 [Module:]
 Modul:
 [Service:]
 Dienst:
+[ID:]
+ID:
 [Default]
 Standard
 [Set]
@@ -967,8 +965,8 @@ Unterkontakt-Anzeigenamen anzeigen
 Namen auf ersten Kontakt festlegen
 [Choose a log viewer]
 Verlaufsbetrachter auswählen
-[For the private chats]
-Für private Chats
+[For the private conversations]
+Für private Unterhaltungen
 [For the group chats]
 Für Gruppenchats
 [Current language:]
@@ -2420,10 +2418,6 @@ Gruppenfunktion ausschalten
 [Hide offline users in here]
 Offline-Kontakte hier ausblenden
 ;file \src\mir_app\src\menu_options.cpp
-[New submenu]
-Neues Untermenü
-[Do you really want to delete this menu item?]
-Möchten Sie diesen Menüeintrag wirklich löschen?
 [Menus]
 Menüs
 ;file \src\mir_app\src\menu_tray.cpp
