@@ -29,8 +29,8 @@ CMPlugin g_plugin;
 
 static IconItem iconList[] =
 {
-	{ "Show", "Console_Up", IDI_BTN_UP },
-	{ "Hide", "Console_Down", IDI_BTN_DN },
+	{ LPGEN("Show"), "Console_Up", IDI_BTN_UP },
+	{ LPGEN("Hide"), "Console_Down", IDI_BTN_DN },
 };
 
 HANDLE LoadIcon(int iIconID)
