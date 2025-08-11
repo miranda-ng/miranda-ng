@@ -358,7 +358,6 @@ Clist_SetStatusMode @464
 ??4MIDatabase@@QEAAAEAU0@AEBU0@@Z @478 NONAME
 ??_7MDatabaseCommon@@6B@ @480 NONAME
 ??_7MIDatabase@@6B@ @481 NONAME
-?FreeVariant@MDatabaseCommon@@UEAAHPEAUDBVARIANT@@@Z @482 NONAME
 ?GetContactSetting@MDatabaseCommon@@UEAAHIPEBD0PEAUDBVARIANT@@@Z @483 NONAME
 ?GetContactSettingStatic@MDatabaseCommon@@UEAAHIPEBD0PEAUDBVARIANT@@@Z @484 NONAME
 ?GetContactSettingStr@MDatabaseCommon@@UEAAHIPEBD0PEAUDBVARIANT@@@Z @485 NONAME

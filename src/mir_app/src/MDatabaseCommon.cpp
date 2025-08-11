@@ -427,28 +427,6 @@ LBL_Seek:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(BOOL) MDatabaseCommon::FreeVariant(DBVARIANT *dbv)
-{
-	if (dbv == nullptr) return 1;
-
-	switch (dbv->type) {
-	case DBVT_ASCIIZ:
-	case DBVT_UTF8:
-	case DBVT_WCHAR:
-		if (dbv->pszVal) mir_free(dbv->pszVal);
-		dbv->pszVal = nullptr;
-		break;
-	case DBVT_BLOB:
-		if (dbv->pbVal) mir_free(dbv->pbVal);
-		dbv->pbVal = nullptr;
-		break;
-	}
-	dbv->type = 0;
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	if (dbv == nullptr || szSetting == nullptr || szModule == nullptr || contactID == INVALID_CONTACT_ID)

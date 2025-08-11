@@ -158,7 +158,7 @@ MIR_CORE_DLL(int) db_get_b(MCONTACT hContact, const char *szModule, const char *
 				case DBVT_WORD:   return uint8_t(dbv.wVal);
 				case DBVT_DWORD:	return uint8_t(dbv.dVal);
 			}
-			g_pCurrDb->FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return errorValue;
@@ -174,7 +174,7 @@ MIR_CORE_DLL(int) db_get_w(MCONTACT hContact, const char *szModule, const char *
 				case DBVT_WORD:   return dbv.wVal;
 				case DBVT_DWORD:	return uint16_t(dbv.dVal);
 			}
-			g_pCurrDb->FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return errorValue;
@@ -190,7 +190,7 @@ MIR_CORE_DLL(uint32_t) db_get_dw(MCONTACT hContact, const char *szModule, const 
 				case DBVT_WORD:   return dbv.wVal;
 				case DBVT_DWORD:	return dbv.dVal;
 			}
-			g_pCurrDb->FreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -632,7 +632,24 @@ MEVENT DB::ECPTR::FetchNext()
 
 MIR_CORE_DLL(INT_PTR) db_free(DBVARIANT *dbv)
 {
-	return (g_pCurrDb == nullptr) ? 1 : g_pCurrDb->FreeVariant(dbv);
+	if (g_pCurrDb == nullptr || dbv == nullptr)
+		return 1;
+
+	switch (dbv->type) {
+	case DBVT_ASCIIZ:
+	case DBVT_UTF8:
+	case DBVT_WCHAR:
+		if (dbv->pszVal) mir_free(dbv->pszVal);
+		dbv->pszVal = nullptr;
+		break;
+
+	case DBVT_BLOB:
+		if (dbv->pbVal) mir_free(dbv->pbVal);
+		dbv->pbVal = nullptr;
+		break;
+	}
+	dbv->type = 0;
+	return 0;
 }
 
 MIR_CORE_DLL(INT_PTR) db_unset(MCONTACT hContact, const char *szModule, const char *szSetting)
