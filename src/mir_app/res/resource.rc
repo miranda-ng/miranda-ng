@@ -1659,6 +1659,8 @@ IDI_PASSWORD            ICON                    "icon_password.ico"
 
 IDI_SOUND               ICON                    "sound.ico"
 
+IDI_REACTION            ICON                    "reaction.ico"
+
 IDI_DATABASE            ICON                    "database.ico"
 
 IDI_STATUS0             ICON                    "chat/1.ico"

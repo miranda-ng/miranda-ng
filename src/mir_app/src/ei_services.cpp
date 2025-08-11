@@ -469,6 +469,7 @@ static IconItem iconList[] =
 	{ LPGEN("Attach"),        "attach",        IDI_ATTACH   },
 	{ LPGEN("Code"),          "code",          IDI_CODE     },
 	{ LPGEN("Cloud file"),    "cloud",         IDI_CLOUD    },
+	{ LPGEN("Reaction"),      "reaction",      IDI_REACTION },
 };
 
 void LoadExtraIconsModule()

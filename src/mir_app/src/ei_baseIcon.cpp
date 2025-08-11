@@ -59,7 +59,7 @@ HANDLE BaseExtraIcon::getDescIcon() const
 void BaseExtraIcon::onClick(MCONTACT hContact)
 {
 	if (m_OnClick != nullptr)
-		m_OnClick(hContact, (LPARAM)ConvertToClistSlot(m_slot), m_onClickParam);
+		m_OnClick(hContact, ConvertToClistSlot(m_slot), m_onClickParam);
 }
 
 int BaseExtraIcon::ClistSetExtraIcon(MCONTACT hContact, HANDLE hImage)
