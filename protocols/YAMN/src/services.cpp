@@ -173,8 +173,9 @@ int SystemModulesLoaded(WPARAM, LPARAM); // in main.cpp
 
 void HookEvents(void)
 {
+	HookTemporaryEvent(ME_TTB_MODULELOADED, AddTopToolbarIcon);
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, SystemModulesLoaded);
-	HookEvent(ME_TTB_MODULELOADED, AddTopToolbarIcon);
 	HookEvent(ME_OPT_INITIALISE, YAMNOptInitSvc);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);
 	HookEvent(ME_CLIST_DOUBLECLICKED, Service_ContactDoubleclicked);

@@ -208,7 +208,8 @@ int ModulesLoaded(WPARAM, LPARAM)
 	Options::instance->Load();
 	InitTaskMenuItems();
 
-	HookEvent(ME_TTB_MODULELOADED, ToolbarModuleLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, ToolbarModuleLoaded);
+
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdownHistoryModule);
 	HookEvent(ME_DB_CONTACT_DELETED, HistoryContactDelete);
 	HookEvent(ME_FONT_RELOAD, HistoryWindow::FontsChanged);

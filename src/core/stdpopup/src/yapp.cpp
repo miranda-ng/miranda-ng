@@ -212,7 +212,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		lstPopupHistory.SetRenderer(RENDER_HISTORYPP);
 
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
-	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
+	
+	HookTemporaryEvent(ME_TTB_MODULELOADED, TTBLoaded);
 
 	LoadModuleDependentOptions();
 

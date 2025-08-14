@@ -125,7 +125,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	OnAccListChanged(0, 0);
 
-	HookEvent(ME_TTB_MODULELOADED, CreateButton);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, CreateButton);
 	return 0;
 }
 

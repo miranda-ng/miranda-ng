@@ -209,7 +209,8 @@ int CMPlugin::Load()
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
+	
+	HookTemporaryEvent(ME_TTB_MODULELOADED, InitTopToolbar);
 
 	if (IsUserAnAdmin())
 		SetTimer(nullptr, 777, TIME, TimerProc);

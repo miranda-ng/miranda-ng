@@ -505,7 +505,7 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList);
 
 	Create_MenuitemShowList();
 	LoadDBSettings();

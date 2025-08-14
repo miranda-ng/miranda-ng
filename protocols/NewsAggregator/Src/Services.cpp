@@ -46,7 +46,8 @@ int NewsAggrInit(WPARAM, LPARAM)
 	NetlibInit();
 	InitMenu();
 
-	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
+
 	HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 
 	// timer for the first update

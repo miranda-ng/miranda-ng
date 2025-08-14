@@ -399,7 +399,7 @@ int InitializeOptions(WPARAM wParam, LPARAM)
 int ModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_POPUP_FILTER, DisablePopup);
-	hTTBarloaded = HookEvent(ME_TTB_MODULELOADED, CreateTTButtons);
+	hTTBarloaded = HookTemporaryEvent(ME_TTB_MODULELOADED, CreateTTButtons);
 	if (TTBButtons == 1 && hTTBarloaded != nullptr) {
 		g_plugin.registerIcon("Toolbar/" MENU_NAME, iconttbList, MENU_NAME);
 		RemoveTTButtons();

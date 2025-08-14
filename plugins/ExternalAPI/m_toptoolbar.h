@@ -48,7 +48,7 @@ toptoolbar/moduleloaded event
 wParam = lParam = 0
 Called when the toolbar services are available
 
-!!!Warning you may work with TTB services only in this event or later.
+This event shall be hooked only via HookTemporaryEvent!
 
 */
 #define ME_TTB_MODULELOADED   "TopToolBar/ModuleLoaded"

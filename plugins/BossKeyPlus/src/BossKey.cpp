@@ -599,11 +599,11 @@ static int MirandaLoaded(WPARAM, LPARAM)
 
 	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, nullptr, WinEventProc, GetCurrentProcessId(), 0, 0);
 
-	HookEvent(ME_TTB_MODULELOADED, TopToolbarInit);
 	HookEvent(ME_MSG_WINDOWEVENT, MsgWinOpening);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtos);
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 
+	HookTemporaryEvent(ME_TTB_MODULELOADED, TopToolbarInit);
 	HookTemporaryEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
 
 	GetWindowThreadProcessId(g_clistApi.hwndContactList, &g_dwMirandaPID);

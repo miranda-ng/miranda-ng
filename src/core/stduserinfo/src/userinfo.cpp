@@ -655,7 +655,8 @@ int LoadUserInfoModule(void)
 	// this event is already created inside the core, don't destroy it
 	hDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
 
-	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
+
 	HookEvent(ME_USERINFO_INITIALISE, DetailsInit);
 	HookEvent(ME_DB_CONTACT_DELETED, UserInfoContactDelete);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownUserInfo);

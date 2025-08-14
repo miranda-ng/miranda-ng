@@ -510,7 +510,8 @@ int MirandaLoaded(WPARAM, LPARAM)
 	// and old AwaySysMod service, for compatibility reasons
 	CreateServiceFunction(MS_AWAYSYS_SETSTATUSMODE, SetStatusMode);
 
-	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbar);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, Create_TopToolbar);
+
 	HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange); // for compatibility with StartupStatus and AdvancedAutoAway
 	HookEvent(ME_IDLE_CHANGED, IdleChangeEvent);
 	
