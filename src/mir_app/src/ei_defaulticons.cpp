@@ -100,13 +100,20 @@ static void SetChatMute(MCONTACT hContact, int mode)
 	ExtraIcon_SetIcon(hExtraChatMute, hContact, hIcon);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Reactions
+
+static int OnSetReaction(WPARAM, LPARAM param)
+{
+	auto *p = (DBEventReaction *)param;
+	ExtraIcon_SetIcon(hExtraReaction, p->hContact, (p->bAdded) ? g_plugin.getIconHandle(IDI_REACTION) : nullptr);
+	return 0;
+}
+
 void SetReaction(MCONTACT hContact, bool bEnable)
 {
-	if (hContact == 0)
-		return;
-
-	HANDLE hIcon = (bEnable) ? g_plugin.getIconHandle(IDI_REACTION) : nullptr;
-	ExtraIcon_SetIcon(hExtraReaction, hContact, hIcon);
+	if (hContact)
+		ExtraIcon_SetIcon(hExtraReaction, hContact, (bEnable) ? g_plugin.getIconHandle(IDI_REACTION) : nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -340,4 +347,5 @@ void DefaultExtraIcons_Load()
 	}
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
+	HookEvent(ME_DB_EVENT_REACTION, OnSetReaction);
 }

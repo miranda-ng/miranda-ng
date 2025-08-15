@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 #include "skin.h"
+#include "extraicons.h"
 
 CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT hContact) :
 	CDlgBase(pPlugin, idDialog),
@@ -507,6 +508,8 @@ bool CSrmmBaseDialog::OnInitDialog()
 {
 	WindowList_Add(g_hWindowList, m_hwnd, m_hContact);
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
+
+	SetReaction(m_hContact, false);
 
 	m_btnCloseQuote.Hide();
 	m_Quote.Hide();
