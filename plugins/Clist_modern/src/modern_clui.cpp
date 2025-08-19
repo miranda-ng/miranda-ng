@@ -1286,43 +1286,44 @@ int CLUI_TestCursorOnBorders()
 
 int CLUI_SizingOnBorder(POINT pt, int PerformSize)
 {
-	if (!(db_get_b(0, "CLUI", "LockSize"))) {
-		RECT r;
-		HWND hwnd = g_clistApi.hwndContactList;
-		int sizeOnBorderFlag = 0;
-		GetWindowRect(hwnd, &r);
+	if (db_get_b(0, "CLUI", "LockSize"))
+		return SCF_NONE;
+	
+	RECT r;
+	HWND hwnd = g_clistApi.hwndContactList;
+	int sizeOnBorderFlag = 0;
+	GetWindowRect(hwnd, &r);
 
-		// Size borders offset (contract)
-		r.top += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Top");
-		r.bottom -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Bottom");
-		r.left += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Left");
-		r.right -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Right");
+	// Size borders offset (contract)
+	r.top += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Top");
+	r.bottom -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Bottom");
+	r.left += db_get_dw(0, "ModernSkin", "SizeMarginOffset_Left");
+	r.right -= db_get_dw(0, "ModernSkin", "SizeMarginOffset_Right");
 
-		if (r.right < r.left) r.right = r.left;
-		if (r.bottom < r.top) r.bottom = r.top;
+	if (r.right < r.left) r.right = r.left;
+	if (r.bottom < r.top) r.bottom = r.top;
 
-		// End of size borders offset (contract)
-		if (!g_CluiData.fAutoSize) {
-			if (pt.y <= r.bottom && pt.y >= r.bottom - SIZING_MARGIN)
-				sizeOnBorderFlag = SCF_BOTTOM;
-			else if (pt.y >= r.top && pt.y <= r.top + SIZING_MARGIN)
-				sizeOnBorderFlag = SCF_TOP;
-		}
-
-		if (pt.x <= r.right && pt.x >= r.right - SIZING_MARGIN)
-			sizeOnBorderFlag += SCF_RIGHT;
-		else if (pt.x >= r.left && pt.x <= r.left + SIZING_MARGIN)
-			sizeOnBorderFlag += SCF_LEFT;
-
-		if (!(pt.x >= r.left && pt.x <= r.right && pt.y >= r.top && pt.y <= r.bottom))  sizeOnBorderFlag = SCF_NONE;
-
-		if (sizeOnBorderFlag && PerformSize) {
-			ReleaseCapture();
-			SendMessage(hwnd, WM_SYSCOMMAND, SC_SIZE + sizeOnBorderFlag, MAKELPARAM(pt.x, pt.y));
-		}
-		return sizeOnBorderFlag;
+	// End of size borders offset (contract)
+	if (!g_CluiData.fAutoSize) {
+		if (pt.y <= r.bottom && pt.y >= r.bottom - SIZING_MARGIN)
+			sizeOnBorderFlag = SCF_BOTTOM;
+		else if (pt.y >= r.top && pt.y <= r.top + SIZING_MARGIN)
+			sizeOnBorderFlag = SCF_TOP;
 	}
-	return SCF_NONE;
+
+	if (pt.x <= r.right && pt.x >= r.right - SIZING_MARGIN)
+		sizeOnBorderFlag += SCF_RIGHT;
+	else if (pt.x >= r.left && pt.x <= r.left + SIZING_MARGIN)
+		sizeOnBorderFlag += SCF_LEFT;
+
+	if (!(pt.x >= r.left && pt.x <= r.right && pt.y >= r.top && pt.y <= r.bottom))
+		sizeOnBorderFlag = SCF_NONE;
+
+	if (sizeOnBorderFlag && PerformSize) {
+		ReleaseCapture();
+		SendMessage(hwnd, WM_SYSCOMMAND, SC_SIZE + sizeOnBorderFlag, MAKELPARAM(pt.x, pt.y));
+	}
+	return sizeOnBorderFlag;
 }
 
 static int CLUI_SyncSmoothAnimation(WPARAM, LPARAM)
@@ -2161,7 +2162,7 @@ LRESULT CLUI::OnNcHitTest(UINT, WPARAM wParam, LPARAM lParam)
 	if (result == HTCLIENT) {
 		POINT pt = UNPACK_POINT(lParam);
 		int k = CLUI_SizingOnBorder(pt, 0);
-		if (!k && Clist::bClientAreaDrag)
+		if (!k)
 			return HTCAPTION;
 		else return k + 9;
 	}
