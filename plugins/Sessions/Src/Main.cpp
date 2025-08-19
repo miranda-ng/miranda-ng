@@ -286,7 +286,8 @@ static int CreateButtons(WPARAM, LPARAM)
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_WINDOWEVENT, OnSrmmWindowEvent);
-	HookEvent(ME_TTB_MODULELOADED, CreateButtons);
+	
+	HookTemporaryEvent(ME_TTB_MODULELOADED, CreateButtons);
 
 	// Hotkeys
 	HOTKEYDESC hkd = {};

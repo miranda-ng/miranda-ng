@@ -108,7 +108,7 @@ MCONTACT CImportBatch::HContactFromBlobID(const char *pszProtoName, const char *
 			continue;
 
 		bool bEqual = (dbv.cpbVal == id.cpbVal && !memcmp(dbv.pbVal, id.pbVal, id.cpbVal));
-		srcDb->FreeVariant(&dbv);
+		db_free(&dbv);
 		if (bEqual)
 			return hContact;
 	}
@@ -354,9 +354,9 @@ PROTOACCOUNT* CImportBatch::FindMyAccount(const char *szProto, const char *szBas
 		bool bEqual = false;
 		if (!myGet(NULL, szProto, pszUniqueSetting, &dbSrc)) {
 			bEqual = CompareDb(dbSrc, dbDst);
-			srcDb->FreeVariant(&dbSrc);
+			db_free(&dbSrc);
 		}
-		dstDb->FreeVariant(&dbDst);
+		db_free(&dbDst);
 
 		if (bEqual)
 			return pa;
@@ -732,7 +732,7 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 
 		if (hDst != INVALID_CONTACT_ID) {
 			AddMessage(LPGENW("Skipping duplicate %S contact %s"), cc->szProto, pszUniqueID);
-			srcDb->FreeVariant(&dbv);
+			db_free(&dbv);
 			m_contacts.insert(new ContactMap(hSrc, hDst));
 			return 0;
 		}
@@ -769,7 +769,7 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 	else
 		AddMessage(LPGENW("Added %S contact %s"), szDstModuleName, pszUniqueID);
 
-	srcDb->FreeVariant(&dbv);
+	db_free(&dbv);
 
 	if (myGetD(hSrc, cc->szProto, "ChatRoom", 0) != 0)
 		db_set_b(hDst, szDstModuleName, "ChatRoom", 1);

@@ -67,7 +67,7 @@ static int ToptoolBarHook(WPARAM, LPARAM)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_TTB_MODULELOADED, ToptoolBarHook);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, ToptoolBarHook);
 	return 0;
 }
 

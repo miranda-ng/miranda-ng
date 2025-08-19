@@ -221,7 +221,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	if (g_plugin.bCatchCrashes && !g_plugin.bNeedRestart)
 		SetExceptionHandler();
 
-	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 
 	if (g_plugin.bServiceMode)
 		ViewVersionInfo(0, 0);

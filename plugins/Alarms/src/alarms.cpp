@@ -126,7 +126,7 @@ static int InitTopToolbarButton(WPARAM, LPARAM)
 static int MainInit(WPARAM, LPARAM)
 {
 	// TopToolbar support
-	HookEvent(ME_TTB_MODULELOADED, InitTopToolbarButton);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, InitTopToolbarButton);
 
 	InitFrames();
 	return 0;

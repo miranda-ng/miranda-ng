@@ -133,7 +133,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	g_bUsePopups = g_plugin.getByte("UsePopUps", 0) != 0;
 
-	HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 	return 0;
 }
 

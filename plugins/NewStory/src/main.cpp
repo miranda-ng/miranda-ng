@@ -141,7 +141,8 @@ static int evtModuleLoaded(WPARAM, LPARAM)
 
 static int evtModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_TTB_MODULELOADED, evtTopToolbar);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, evtTopToolbar);
+
 	HookEvent(ME_SYSTEM_MODULELOAD, evtModuleLoaded);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, evtModuleLoaded);
 	evtModuleLoaded(0, 0);

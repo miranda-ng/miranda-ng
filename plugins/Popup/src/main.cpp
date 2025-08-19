@@ -241,7 +241,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	HookEvent(ME_IDLE_CHANGED, OnIdleChanged);
 
 	// hook TopToolBar
-	HookEvent(ME_TTB_MODULELOADED, TTBLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, TTBLoaded);
 
 	// Folder plugin support
 	folderId = FoldersRegisterCustomPathW(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHW L"\\Skins\\Popup");

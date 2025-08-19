@@ -76,7 +76,7 @@ static int OnCheckPlugins(WPARAM, LPARAM)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
 	CreateServiceFunction(QS_SHOWSERVICE, OpenSearchWindow);
 

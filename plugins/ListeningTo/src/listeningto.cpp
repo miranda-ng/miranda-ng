@@ -228,7 +228,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 	RebuildMenu();
 
-	HookEvent(ME_TTB_MODULELOADED, TopToolBarLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, TopToolBarLoaded);
 
 	// Variables support
 	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {

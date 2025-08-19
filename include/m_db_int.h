@@ -142,7 +142,6 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(BOOL, GetContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
 	STDMETHOD_(BOOL, GetContactSettingStr)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
 	STDMETHOD_(BOOL, GetContactSettingStatic)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
-	STDMETHOD_(BOOL, FreeVariant)(DBVARIANT *dbv) PURE;
 	STDMETHOD_(BOOL, WriteContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) PURE;
 	STDMETHOD_(BOOL, DeleteContactSetting)(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting) PURE;
 	STDMETHOD_(BOOL, EnumContactSettings)(MCONTACT contactID, DBSETTINGENUMPROC pfnEnumProc, const char *szModule, void *param) PURE;
@@ -224,7 +223,6 @@ public:
 	STDMETHODIMP_(BOOL) GetContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
 	STDMETHODIMP_(BOOL) GetContactSettingStr(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
 	STDMETHODIMP_(BOOL) GetContactSettingStatic(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
-	STDMETHODIMP_(BOOL) FreeVariant(DBVARIANT *dbv);
 	STDMETHODIMP_(BOOL) WriteContactSetting(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv) override;
 
 	STDMETHODIMP_(int)  SetEventJson(MEVENT hDbEvent, const char *szSetting, DBVARIANT *dbv) override;

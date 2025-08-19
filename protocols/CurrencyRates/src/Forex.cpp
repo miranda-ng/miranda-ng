@@ -185,7 +185,7 @@ int CurrencyRatesEventFunc_OnModulesLoaded(WPARAM, LPARAM)
 
 	HookEvent(ME_CLIST_DOUBLECLICKED, CurrencyRates_OnContactDoubleClick);
 
-	HookEvent(ME_TTB_MODULELOADED, CurrencyRates_OnToolbarLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, CurrencyRates_OnToolbarLoaded);
 
 	g_bAutoUpdate = 1 == g_plugin.getByte(DB_STR_AUTO_UPDATE, 1);
 

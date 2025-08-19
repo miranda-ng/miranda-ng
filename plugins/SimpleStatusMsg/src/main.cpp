@@ -1506,7 +1506,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	LoadAwayMsgModule();
 
-	HookEvent(ME_TTB_MODULELOADED, AddTopToolbarButton);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, AddTopToolbarButton);
 
 	RegisterHotkey();
 

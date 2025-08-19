@@ -53,7 +53,7 @@ CMPlugin::CMPlugin() :
 static int ShutdownModulesLoaded(WPARAM, LPARAM)
 {
 	/* Toolbar Item */
-	HookEvent(ME_TTB_MODULELOADED, ToolbarLoaded); /* no service to check for */
+	HookTemporaryEvent(ME_TTB_MODULELOADED, ToolbarLoaded); /* no service to check for */
 
 	WatcherModulesLoaded();
 	return 0;

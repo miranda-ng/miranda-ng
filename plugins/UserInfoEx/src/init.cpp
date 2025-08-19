@@ -245,7 +245,8 @@ int CMPlugin::Load()
 	// Now the module is loaded! Start initializing certain things
 	HookEvent(ME_OPT_INITIALISE, OnInitOptions);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+
+	HookTemporaryEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
 	return 0;
 }

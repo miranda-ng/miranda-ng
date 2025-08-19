@@ -111,7 +111,7 @@ STDMETHODIMP_(CRYPTO_PROVIDER *) CDb3Mmap::ReadProvider()
 		return nullptr;
 	
 	auto *pProvider = Crypto_GetProvider(LPCSTR(dbv.pbVal));
-	FreeVariant(&dbv);
+	db_free(&dbv);
 	return pProvider;
 }
 

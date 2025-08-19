@@ -120,8 +120,8 @@ static int OnTTBLoaded(WPARAM, LPARAM)
 	int state = IsWindowVisible(hwndConsole);
 
 	TTBButton ttb = {};
-	ttb.hIconHandleUp = LoadIcon(IDI_BTN_UP);
-	ttb.hIconHandleDn = LoadIcon(IDI_BTN_DN);
+	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_BTN_UP);
+	ttb.hIconHandleDn = g_plugin.getIconHandle(IDI_BTN_DN);
 	ttb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_CONSOLE_SHOW_HIDE;
 	ttb.name = LPGEN("Show/Hide Console");
@@ -142,12 +142,12 @@ void ScrollDown(LOGWIN *dat) {
 
 static void ShowConsole(int show)
 {
-	HWND hwnd = nullptr;
-
-	if (!hwndConsole || !pActive) return;
+	if (!hwndConsole || !pActive)
+		return;
 
 	gVisible = show;
 
+	HWND hwnd = nullptr;
 	if (show) {
 		hwnd = GetForegroundWindow();
 		if (InMsgs == OutMsgs)
@@ -615,7 +615,6 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		SetWindowText(hwndDlg, title);
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[0]);
 
-		hwndConsole = hwndDlg;
 		SendMessage(hwndDlg, HM_ADD, 0, 0);
 		PostMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;
@@ -885,11 +884,12 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 static void __cdecl ConsoleThread(void*)
 {
+	g_plugin.hConsoleThread = GetCurrentThread();
 	MThreadLock threadLock(g_plugin.hConsoleThread);
 	CoInitialize(nullptr);
 
-	HWND hwnd = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
-	if (!hwnd)
+	hwndConsole = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
+	if (!hwndConsole)
 		return;
 
 	MSG msg;
@@ -900,7 +900,7 @@ static void __cdecl ConsoleThread(void*)
 			break;
 		}
 
-		if (hwnd != nullptr && IsDialogMessage(hwnd, &msg)) /* Wine fix. */
+		if (hwndConsole != nullptr && IsDialogMessage(hwndConsole, &msg)) /* Wine fix. */
 			continue;
 
 		TranslateMessage(&msg);
@@ -1128,26 +1128,24 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_EXT, 'C');
 	g_plugin.addHotkey(&hkd);
 
-	if (hwndConsole && IsWindow(hwndConsole)) {
-		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
-		CMenuItem mi(&g_plugin);
-		SET_UID(mi, 0x6d97694e, 0x2024, 0x4560, 0xbb, 0xbc, 0x20, 0x62, 0x7e, 0x5, 0xdf, 0xb3);
-		mi.flags = CMIF_UNICODE;
-		mi.hIcolibItem = hIcons[0];
-		mi.position = 1900000000;
-		mi.name.w = (IsWindowVisible(hwndConsole)) ? LPGENW("Hide Console") : LPGENW("Show Console");
-		mi.pszService = MS_CONSOLE_SHOW_HIDE;
-		hMenu = Menu_AddMainMenuItem(&mi);
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0x6d97694e, 0x2024, 0x4560, 0xbb, 0xbc, 0x20, 0x62, 0x7e, 0x5, 0xdf, 0xb3);
+	mi.flags = CMIF_UNICODE;
+	mi.hIcolibItem = hIcons[0];
+	mi.position = 1900000000;
+	mi.name.w = (IsWindowVisible(hwndConsole)) ? LPGENW("Hide Console") : LPGENW("Show Console");
+	mi.pszService = MS_CONSOLE_SHOW_HIDE;
+	hMenu = Menu_AddMainMenuItem(&mi);
 
-		OnFontChange(0, 0);
-		OnColourChange(0, 0);
+	OnFontChange(0, 0);
+	OnColourChange(0, 0);
 
-		if (g_plugin.getByte("ShowAtStart", 0) || g_plugin.getByte("Show", 1))
-			ShowConsole(1);
-		else
-			ShowConsole(0);
-	}
+	if (g_plugin.getByte("ShowAtStart", 0) || g_plugin.getByte("Show", 1))
+		ShowConsole(1);
+	else
+		ShowConsole(0);
 
 	return 0;
 }
@@ -1173,9 +1171,6 @@ static UINT logicons[] = { IDI_EMPTY, IDI_ARROW, IDI_IN, IDI_OUT, IDI_INFO };
 
 void InitConsole()
 {
-	int i;
-	HICON hi;
-
 	lModules.sortFunc = (FSortFunc)stringCompare;
 	lModules.increment = 5;
 
@@ -1183,25 +1178,22 @@ void InitConsole()
 	hIcons[1] = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOSCROLL), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 	hIcons[2] = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(IDI_PAUSED), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
-	for (i = 0; i < _countof(ctrls); i++) {
+	for (int i = 0; i < _countof(ctrls); i++)
 		hIcons[i + ICON_FIRST] = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(ctrls[i].icon), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
-	}
 
 	gImg = ImageList_Create(LOGICONX_SIZE, LOGICONY_SIZE, ILC_COLOR24 | ILC_MASK, _countof(logicons), 0);
 
-	for (i = 0; i < _countof(logicons); i++)
-	{
-		hi = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(logicons[i]), IMAGE_ICON, LOGICONX_SIZE, LOGICONY_SIZE, 0);
-		if (hi)
-		{
-			ImageList_AddIcon(gImg, hi);
-			DestroyIcon(hi);
+	for (auto &it : logicons) {
+		HICON hIcon = (HICON)LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(it), IMAGE_ICON, LOGICONX_SIZE, LOGICONY_SIZE, 0);
+		if (hIcon) {
+			ImageList_AddIcon(gImg, hIcon);
+			DestroyIcon(hIcon);
 		}
 	}
 
 	LoadSettings();
 
-	g_plugin.hConsoleThread = mir_forkthread(ConsoleThread);
+	mir_forkthread(ConsoleThread);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownConsole);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
@@ -1226,27 +1218,11 @@ void ShutdownConsole(void)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-wchar_t *addstring(wchar_t *str, wchar_t *add) {
-	mir_wstrcpy(str, add);
-	return str + mir_wstrlen(add) + 1;
-}
-
-
 static int Openfile(wchar_t *outputFile, int selection)
 {
-	wchar_t filename[MAX_PATH + 2] = L"";
-	wchar_t *title;
+	CMStringW wszFilter(FORMAT, L"%s%c*.txt%c%s%c*%c", TranslateT("Text files (*.txt)"), 0, 0, TranslateT("All files"), 0, 0);
 
-	wchar_t *filter, *tmp, *tmp1, *tmp2;
-	tmp1 = TranslateT("Text Files (*.txt)");
-	tmp2 = TranslateT("All Files");
-	filter = tmp = (wchar_t*)_alloca((mir_wstrlen(tmp1) + mir_wstrlen(tmp2) + 11) * sizeof(wchar_t));
-	tmp = addstring(tmp, tmp1);
-	tmp = addstring(tmp, L"*.TXT");
-	tmp = addstring(tmp, tmp2);
-	tmp = addstring(tmp, L"*");
-	*tmp = 0;
-
+	wchar_t *title, filename[MAX_PATH + 2] = L"";
 	if (selection)
 		title = TranslateT("Save selection to file");
 	else
@@ -1256,14 +1232,14 @@ static int Openfile(wchar_t *outputFile, int selection)
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = hwndConsole;
 	ofn.lpstrFile = filename;
-	ofn.lpstrFilter = filter;
+	ofn.lpstrFilter = wszFilter;
 	ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
 	ofn.lpstrTitle = title;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrDefExt = L"txt";
-
-	if (!GetSaveFileName(&ofn))
+	if (!GetSaveFileNameW(&ofn))
 		return 0;
+
 	mir_wstrcpy(outputFile, filename);
 	return 1;
 }

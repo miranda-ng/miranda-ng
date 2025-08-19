@@ -27,20 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 uint32_t mirandaVer;
 CMPlugin g_plugin;
 
-static IconItem iconList[] =
-{
-	{ "Show", "Console_Up", IDI_BTN_UP },
-	{ "Hide", "Console_Down", IDI_BTN_DN },
-};
-
-HANDLE LoadIcon(int iIconID)
-{
-	for (int i = 0; i < _countof(iconList); i++)
-		if (iconList[i].defIconID == iIconID)
-			return iconList[i].hIcolib;
-	return nullptr;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -61,6 +47,12 @@ CMPlugin::CMPlugin() :
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Show"), "Console_Up", IDI_BTN_UP },
+	{ LPGEN("Hide"), "Console_Down", IDI_BTN_DN },
+};
 
 int CMPlugin::Load()
 {

@@ -64,7 +64,8 @@ static int OnShutdown(WPARAM, LPARAM)
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
-	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
+	
+	HookTemporaryEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
 
 	UpdateTimers();
 	return 0;

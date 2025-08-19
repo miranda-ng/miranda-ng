@@ -57,6 +57,5 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 void InitConsole();
 void ShutdownConsole();
-HANDLE LoadIcon(int iIconID);
 
 #define MS_NETLIB_LOGWIN "Netlib/Log/Win"

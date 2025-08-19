@@ -101,7 +101,7 @@ static int OnLoadModule(WPARAM, LPARAM)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, g_OnToolbarInit);
 
 	HookEvent(ME_SYSTEM_MODULELOAD, OnLoadModule);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnLoadModule);

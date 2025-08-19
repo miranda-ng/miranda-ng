@@ -140,7 +140,7 @@ int ProcessReloadFonts(WPARAM, LPARAM)
 
 int ProcessModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_TTB_MODULELOADED, ProcessTBLoaded);
+	HookTemporaryEvent(ME_TTB_MODULELOADED, ProcessTBLoaded);
 
 	StatusIconData sid = {};
 	sid.szModule = MODULENAME;

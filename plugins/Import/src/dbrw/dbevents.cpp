@@ -85,7 +85,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		dbei->eventType = (uint16_t)sqlite3_column_int(stmt, 3);
 		dbei->szModule = mir_strdup((char*)sqlite3_column_text(stmt, 7));
 
-		uint32_t cbBlob = sqlite3_column_int(stmt, 5);
+		int cbBlob = sqlite3_column_int(stmt, 5);
 		size_t bytesToCopy = cbBlob;
 		if (dbei->cbBlob == -1)
 			dbei->pBlob = (char *)mir_calloc(cbBlob + 2);

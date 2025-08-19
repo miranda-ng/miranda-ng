@@ -431,6 +431,18 @@ void CJabberProto::GroupchatJoinByHContact(MCONTACT hContact, bool autojoin)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberIqResultGetRoster - populates LIST_ROSTER and creates contact for any new rosters
 
+static bool looksLikeGC(const char *jid)
+{
+	if (strstr(jid, "@conference.")) {
+		// filter out group chat users
+		char szBareJid[JABBER_MAX_JID_LEN];
+		JabberStripJid(jid, szBareJid, _countof(szBareJid));
+		return !strcmp(jid, szBareJid);
+	}
+	
+	return false;
+}
+
 void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqIdGetRoster");
@@ -479,7 +491,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 		replaceStr(item->group, XmlGetChildText(itemNode, "group"));
 		UpdateItem(item, name);
 
-		if (isChatRoom(hContact) || strstr(jid, "@conference.")) {
+		if (isChatRoom(hContact) || looksLikeGC(jid)) {
 			char *szTitle = NEWSTR_ALLOCA(jid);
 			if (char *p = strchr(szTitle, '@'))
 				*p = 0;

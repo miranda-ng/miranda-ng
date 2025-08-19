@@ -299,7 +299,7 @@ int LoadProfileModule()
 
 int InitProfileModule()
 {
-	hTTBModuleLoadedHook = HookEvent(ME_TTB_MODULELOADED, CreateTopToolbarButtons);
+	hTTBModuleLoadedHook = HookTemporaryEvent(ME_TTB_MODULELOADED, CreateTopToolbarButtons);
 
 	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, CreateMainMenuItems);
 
