@@ -53,63 +53,6 @@ static OBJLIST<ProtoItemData> ProtosData(5);
 
 STATUSBARDATA g_StatusBarData = { 0 };
 
-int LoadStatusBarData()
-{
-	g_StatusBarData.perProtoConfig = Statusbar::bPerProto;
-	g_StatusBarData.bShowProtoIcon = (Statusbar::iShowMode & 1) != 0;
-	g_StatusBarData.bShowProtoName = (Statusbar::iShowMode & 2) != 0;
-	g_StatusBarData.bShowStatusName = (Statusbar::iShowMode & 4) != 0;
-	g_StatusBarData.xStatusMode = Statusbar::iXStatusMode;
-	g_StatusBarData.bConnectingIcon = Statusbar::bUseConnectingIcon;
-	g_StatusBarData.bShowProtoEmails = Statusbar::bShowUnreadEmails;
-	g_StatusBarData.SBarRightClk = Statusbar::iRClickMode;
-
-	g_StatusBarData.nProtosPerLine = Statusbar::iProtosPerLine;
-	g_StatusBarData.align = Statusbar::iAlgn;
-	g_StatusBarData.vAlign = Statusbar::iVAlign;
-	g_StatusBarData.bSameWidth = Statusbar::bEqualSections;
-	g_StatusBarData.rectBorders.left = Statusbar::iLeftOffset;
-	g_StatusBarData.rectBorders.right = Statusbar::iRightOffset;
-	g_StatusBarData.rectBorders.top = Statusbar::iTopOffset;
-	g_StatusBarData.rectBorders.bottom = Statusbar::iBottomOffset;
-	g_StatusBarData.extraspace = Statusbar::iSpaceBetween;
-
-	if (g_StatusBarData.BarFont) {
-		DeleteObject(g_StatusBarData.BarFont);
-		g_StatusBarData.BarFont = nullptr;
-	}
-
-	int frameID = Sync(FindFrameID, hModernStatusBar);
-	int frameopt = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frameID), 0);
-	frameopt = frameopt & (~F_VISIBLE);
-	if (Statusbar::bShow) {
-		ShowWindow(hModernStatusBar, SW_SHOW);
-		frameopt |= F_VISIBLE;
-	}
-	else ShowWindow(hModernStatusBar, SW_HIDE);
-	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frameID), frameopt);
-
-	g_StatusBarData.TextEffectID = db_get_b(0, "StatusBar", "TextEffectID", SETTING_TEXTEFFECTID_DEFAULT);
-	g_StatusBarData.TextEffectColor1 = db_get_dw(0, "StatusBar", "TextEffectColor1");
-	g_StatusBarData.TextEffectColor2 = db_get_dw(0, "StatusBar", "TextEffectColor2");
-
-	if (g_StatusBarData.hBmpBackground) { DeleteObject(g_StatusBarData.hBmpBackground); g_StatusBarData.hBmpBackground = nullptr; }
-
-	if (g_CluiData.fDisableSkinEngine) {
-		g_StatusBarData.bkColour = cliGetColor("StatusBar", "BkColour", CLCDEFAULT_BKCOLOUR);
-		if (db_get_b(0, "StatusBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
-			ptrW tszBitmapName(db_get_wsa(0, "StatusBar", "BkBitmap"));
-			if (tszBitmapName)
-				g_StatusBarData.hBmpBackground = Bitmap_Load(tszBitmapName);
-		}
-		g_StatusBarData.bkUseWinColors = db_get_b(0, "StatusBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-		g_StatusBarData.backgroundBmpUse = db_get_w(0, "StatusBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
-	}
-
-	SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
-	return 1;
-}
-
 static int RebuildStatusBarData(WPARAM = 0, LPARAM = 0)
 {
 	ProtosData.destroy();
@@ -175,6 +118,65 @@ static int RebuildStatusBarData(WPARAM = 0, LPARAM = 0)
 		ProtosData.insert(p);
 	}
 	return 0;
+}
+
+int LoadStatusBarData()
+{
+	g_StatusBarData.perProtoConfig = Statusbar::bPerProto;
+	g_StatusBarData.bShowProtoIcon = (Statusbar::iShowMode & 1) != 0;
+	g_StatusBarData.bShowProtoName = (Statusbar::iShowMode & 2) != 0;
+	g_StatusBarData.bShowStatusName = (Statusbar::iShowMode & 4) != 0;
+	g_StatusBarData.xStatusMode = Statusbar::iXStatusMode;
+	g_StatusBarData.bConnectingIcon = Statusbar::bUseConnectingIcon;
+	g_StatusBarData.bShowProtoEmails = Statusbar::bShowUnreadEmails;
+	g_StatusBarData.SBarRightClk = Statusbar::iRClickMode;
+
+	g_StatusBarData.nProtosPerLine = Statusbar::iProtosPerLine;
+	g_StatusBarData.align = Statusbar::iAlgn;
+	g_StatusBarData.vAlign = Statusbar::iVAlign;
+	g_StatusBarData.bSameWidth = Statusbar::bEqualSections;
+	g_StatusBarData.rectBorders.left = Statusbar::iLeftOffset;
+	g_StatusBarData.rectBorders.right = Statusbar::iRightOffset;
+	g_StatusBarData.rectBorders.top = Statusbar::iTopOffset;
+	g_StatusBarData.rectBorders.bottom = Statusbar::iBottomOffset;
+	g_StatusBarData.extraspace = Statusbar::iSpaceBetween;
+
+	if (g_StatusBarData.BarFont) {
+		DeleteObject(g_StatusBarData.BarFont);
+		g_StatusBarData.BarFont = nullptr;
+	}
+
+	int frameID = Sync(FindFrameID, hModernStatusBar);
+	int frameopt = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frameID), 0);
+	frameopt = frameopt & (~F_VISIBLE);
+	if (Statusbar::bShow) {
+		ShowWindow(hModernStatusBar, SW_SHOW);
+		frameopt |= F_VISIBLE;
+	}
+	else ShowWindow(hModernStatusBar, SW_HIDE);
+	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frameID), frameopt);
+
+	g_StatusBarData.TextEffectID = db_get_b(0, "StatusBar", "TextEffectID", SETTING_TEXTEFFECTID_DEFAULT);
+	g_StatusBarData.TextEffectColor1 = db_get_dw(0, "StatusBar", "TextEffectColor1");
+	g_StatusBarData.TextEffectColor2 = db_get_dw(0, "StatusBar", "TextEffectColor2");
+
+	if (g_StatusBarData.hBmpBackground) { DeleteObject(g_StatusBarData.hBmpBackground); g_StatusBarData.hBmpBackground = nullptr; }
+
+	if (g_CluiData.fDisableSkinEngine) {
+		g_StatusBarData.bkColour = cliGetColor("StatusBar", "BkColour", CLCDEFAULT_BKCOLOUR);
+		if (db_get_b(0, "StatusBar", "UseBitmap", CLCDEFAULT_USEBITMAP)) {
+			ptrW tszBitmapName(db_get_wsa(0, "StatusBar", "BkBitmap"));
+			if (tszBitmapName)
+				g_StatusBarData.hBmpBackground = Bitmap_Load(tszBitmapName);
+		}
+		g_StatusBarData.bkUseWinColors = db_get_b(0, "StatusBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
+		g_StatusBarData.backgroundBmpUse = db_get_w(0, "StatusBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+	}
+
+	RebuildStatusBarData();
+
+	SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
+	return 1;
 }
 
 int BgStatusBarChange(WPARAM, LPARAM)
@@ -885,7 +887,6 @@ HWND StatusBar_Create(HWND parent)
 	CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)Frame.hWnd, (LPARAM)NewStatusPaintCallbackProc); //$$$$$ register sub for frame
 
 	LoadStatusBarData();
-	RebuildStatusBarData();
 	HookEvent(ME_PROTO_ACCLISTCHANGED, &RebuildStatusBarData);
 
 	cliCluiProtocolStatusChanged(0, nullptr);
