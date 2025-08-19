@@ -489,7 +489,6 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 
 		replaceStr(item->nick, nick);
 		replaceStr(item->group, XmlGetChildText(itemNode, "group"));
-		UpdateItem(item, name);
 
 		if (isChatRoom(hContact) || looksLikeGC(jid)) {
 			char *szTitle = NEWSTR_ALLOCA(jid);
@@ -511,11 +510,8 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 
 		if (hContact != 0) {
 			item->hContact = hContact;
-
-			if (bIsTransport)
-				setByte(hContact, "IsTransport", true);
-			else
-				setByte(hContact, "IsTransport", false);
+			UpdateItem(item, name);
+			setByte(hContact, "IsTransport", bIsTransport);
 		}
 
 		const char *imagepath = XmlGetAttr(itemNode, "vz:img");
