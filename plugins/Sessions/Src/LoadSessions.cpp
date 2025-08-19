@@ -29,6 +29,14 @@ class CLoadSessionDlg : public CDlgBase
 	CCtrlCombo m_list;
 	CCtrlButton btnDelete;
 
+	void ResetList()
+	{
+		LoadSessionToCombobox(m_list, false);
+		LoadSessionToCombobox(m_list, true);
+		m_list.SetCurSel(0);
+		pSession = (CSession *)m_list.GetItemData(0);
+	}
+
 public:
 	CLoadSessionDlg() :
 		CDlgBase(g_plugin, IDD_WLCMDIALOG),
@@ -49,11 +57,7 @@ public:
 	{
 		g_hDlg = m_hwnd;
 
-		LoadSessionToCombobox(m_list, false);
-		LoadSessionToCombobox(m_list, true);
-		m_list.SetCurSel(0);
-		pSession = (CSession *)m_list.GetItemData(0);
-
+		ResetList();
 		if (g_bDontShow == TRUE)
 			timerLoad.Start(g_plugin.iStartupDelay);
 		else {
@@ -116,10 +120,7 @@ public:
 		else pSession->remove();
 
 		m_list.ResetContent();
-		LoadSessionToCombobox(m_list, false);
-		LoadSessionToCombobox(m_list, true);
-
-		m_list.SetCurSel(0);
+		ResetList();
 		btnDelete.Enable(m_list.GetCount() != 0);
 	}
 };
