@@ -43,7 +43,8 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	m_bNeedSendOnline(false),
 	m_bErr404Return(false),
 	m_bCaptchaReqInProgress(false),
-	m_vkOptions(this)
+	m_vkOptions(this),
+	m_bExecLoginDlg(false)
 {
 	bIint64IDCompatibility = getBool("Iint64IDCompatibility");
 	m_tWorkThreadTimer = m_tPoolThreadTimer = time(0);

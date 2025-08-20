@@ -233,6 +233,12 @@ bool CVkProto::LoadToken(LPCSTR pszUrlSring)
 
 void CVkProto::LogIn(LPCSTR pszUrl)
 {
+	if (m_bExecLoginDlg)
+		return;
+
+	m_bExecLoginDlg = true;
+	HANDLE hWorkerThread = m_hWorkerThread;
+	
 	debugLogA("CVkProto::LogIn %s", pszUrl ? pszUrl : " ");
 	CMStringA szTokenReq(
 		FORMAT,
@@ -242,12 +248,14 @@ void CVkProto::LogIn(LPCSTR pszUrl)
 		mir_urlEncode(szBlankUrl).c_str(),
 		VER_API
 	);
-
+	
 	CVkTokenForm dlg(this, pszUrl ? pszUrl : szTokenReq.c_str());
-	if (dlg.DoModal() && LoadToken(dlg.Result))
+	if (dlg.DoModal() && LoadToken(dlg.Result) && hWorkerThread == m_hWorkerThread)
 		RetrieveMyInfo();
 	else
 		ConnectionFailed(LOGINERR_NOSERVER);
+	
+	m_bExecLoginDlg = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
