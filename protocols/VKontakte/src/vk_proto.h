@@ -214,7 +214,8 @@ private:
 		m_bNotifyForEndLoadingHistoryAllContact,
 		m_bTerminated,
 		m_bErr404Return,
-		m_bCaptchaReqInProgress;
+		m_bCaptchaReqInProgress,
+		m_bExecLoginDlg;
 
 	VKUserID_t m_iMyUserId;
 

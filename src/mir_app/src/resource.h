@@ -48,6 +48,7 @@
 #define IDI_ATTACH                      139
 #define IDI_CODE                        140
 #define IDI_CLOUD                       141
+#define IDI_REACTION                    142
 #define IDI_MCMENUOFF                   144
 #define IDI_MCMENU                      145
 #define IDI_MCCONVERT                   146

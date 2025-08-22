@@ -29,7 +29,7 @@ Boston, MA 02111-1307, USA.
 ////////////////////////////////////////////////////////////////////////////////////////
 // DB extra icons
 
-HANDLE hExtraChat, hExtraChatMute, hExtraGender, hExtraProto;
+HANDLE hExtraChat, hExtraChatMute, hExtraGender, hExtraProto, hExtraReaction;
 
 static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 {
@@ -99,6 +99,25 @@ static void SetChatMute(MCONTACT hContact, int mode)
 
 	ExtraIcon_SetIcon(hExtraChatMute, hContact, hIcon);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Reactions
+
+static int OnSetReaction(WPARAM, LPARAM param)
+{
+	auto *p = (DBEventReaction *)param;
+	ExtraIcon_SetIcon(hExtraReaction, p->hContact, (p->bAdded) ? g_plugin.getIconHandle(IDI_REACTION) : nullptr);
+	return 0;
+}
+
+void SetReaction(MCONTACT hContact, bool bEnable)
+{
+	if (hContact)
+		ExtraIcon_SetIcon(hExtraReaction, hContact, (bEnable) ? g_plugin.getIconHandle(IDI_REACTION) : nullptr);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// UserInfo icons
 
 struct Info
 {
@@ -307,6 +326,7 @@ void DefaultExtraIcons_Load()
 {
 	hExtraChat = ExtraIcon_RegisterIcolib("chat_activity", LPGEN("Chat activity"), "ChatActivity");
 	hExtraChatMute = ExtraIcon_RegisterIcolib("chat_mute", LPGEN("Chat mute mode"), "ChatMute");
+	hExtraReaction = ExtraIcon_RegisterIcolib("reaction", LPGEN("Reaction"), "reaction");
 	hExtraGender = ExtraIcon_RegisterIcolib("gender", LPGEN("Gender"), "gender_male", nullptr, 0, EIF_DISABLED_BY_DEFAULT);
 	hExtraProto = ExtraIcon_RegisterCallback("protocol", LPGEN("Account"), Skin_GetIconHandle(SKINICON_OTHER_ACCMGR),
 		&ProtocolRebuildIcons, &ProtocolApplyIcon, &ProtocolOnClick, 0, EIF_DISABLED_BY_DEFAULT);
@@ -327,4 +347,5 @@ void DefaultExtraIcons_Load()
 	}
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
+	HookEvent(ME_DB_EVENT_REACTION, OnSetReaction);
 }

@@ -60,6 +60,31 @@ JsonReply::~JsonReply()
 // MHttpResponse helpers for Pascal
 // declared only in m_netlib.inc
 
+EXTERN_C MIR_APP_DLL(void *) Netlib_HttpRequest(NetlibUser *nlu, const char *url, int reqType, uint32_t flags, const char *reqBody, MHttpHeader *pHeader)
+{
+	MHttpRequest nlhr(reqType);
+	nlhr.m_szUrl = url;
+	nlhr.flags = flags;
+	if (reqBody) {
+		nlhr.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		char buf[100];
+		itoa((int)mir_strlen(reqBody), buf, 10);
+		nlhr.AddHeader("Content-Length", buf);
+
+		nlhr.m_szParam = reqBody;
+	}
+
+	if (pHeader) {
+		while (pHeader->szName) {
+			nlhr.AddHeader(pHeader->szName, pHeader->szValue);
+			pHeader++;
+		}
+	}
+
+	return Netlib_HttpTransaction(nlu, &nlhr);
+}
+
 EXTERN_C MIR_APP_DLL(int) Netlib_HttpResult(MHttpResponse *nlhr)
 {
 	return (nlhr) ? nlhr->resultCode : 500;

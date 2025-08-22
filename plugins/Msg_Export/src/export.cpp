@@ -253,6 +253,16 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstrin
 		sLocalUser = ptrW(GetMyOwnNick(hContact));
 		sRemoteUser = Clist_GetContactDisplayName(hContact);
 
+		if (dbei.szUserId && Contact::IsGroupChat(hContact))
+			if (auto *si = Chat_Find(hContact, szProto)) {
+				if (auto *pUser = g_chatApi.UM_FindUser(si, Utf2T(dbei.szUserId)))
+					sRemoteUser = pUser->pszNick;
+				else {
+					Utf2T tmp(dbei.szUserId);
+					sRemoteUser = (tmp) ? tmp.get() : _A2T(dbei.szUserId);
+				}
+			}
+
 		nFirstColumnWidth = max(sRemoteUser.size(), clFileTo1ColWidth[sFilePath]);
 		nFirstColumnWidth = max(sLocalUser.size(), nFirstColumnWidth);
 		nFirstColumnWidth += 2;
@@ -276,16 +286,6 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstrin
 		pJson->ExportEvent(dbei);
 		return true;
 	}
-
-	if (dbei.szUserId && Contact::IsGroupChat(hContact))
-		if (auto *si = Chat_Find(hContact, szProto)) {
-			if (auto *pUser = g_chatApi.UM_FindUser(si, Utf2T(dbei.szUserId)))
-				sRemoteUser = pUser->pszNick;
-			else {
-				Utf2T tmp(dbei.szUserId);
-				sRemoteUser = (tmp) ? tmp.get() : _A2T(dbei.szUserId);
-			}
-		}
 
 	// Get time stamp
 	CMStringW output;

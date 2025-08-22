@@ -100,24 +100,6 @@ type
     szName : PAnsiChar;
     szValue: PAnsiChar;
   end;
-  ANETLIBHTTPHEADER = array [0..1000] of TNETLIBHTTPHEADER;
-
-  PNETLIBHTTPREQUEST = ^TNETLIBHTTPREQUEST;
-
-  TNETLIBHTTPREQUEST = record
-    requestType  :int;                // REQUEST_* constant
-    flags        :dword;
-    szUrl        :PAnsiChar;
-    { doesn't contain Content-Length, it'll be added automatically }
-    headers      :^ANETLIBHTTPHEADER; // pointer to an array of em?
-    headersCount :int;                // yes they do
-    pData        :PAnsiChar;          // data to be sent on POST request
-    dataLength   :int;                // must be 0 for REQUEST_GET/REQUEST_CONNECT
-    resultCode   :int;
-    szResultDescr:PAnsiChar;
-    nlc          :THANDLE;
-    timeout      :int;                // Mirver 9.0+
-  end;
 
 type
   PNETLIBUSER = ^TNETLIBUSER;
@@ -130,7 +112,6 @@ type
 
   PNETLIBUSERSETTINGS = ^TNETLIBUSERSETTINGS;
   TNETLIBUSERSETTINGS = record
-    cbSize              :int;   // filled before calling
     useProxy            :int;   // 1 or 0
     proxyType           :int;   // PROXYTYPE_* constant, see above
     szProxyServer       :PAnsiChar; // can be NULL(0)
@@ -192,17 +173,6 @@ function Netlib_GetUserSettings(nlu:THANDLE; nlus:PNETLIBUSERSETTINGS) : int; st
 function Netlib_CloseHandle(pHandle:THANDLE) : int; stdcall; external AppDll;
 
   {
-    Affect : Free the memory used by a TNETLIBHTTPREQUEST structure, see notes
-    Returns: [non zero] on success, NULL(0) on failure
-    Notes  : This service should only be used with memory pointers returned
-             by either MS_NETLIB_RECVHTTPHEADERS or MS_NETLIB_HTTPTRANSACTION!.
-    Errors : ERROR_INVALID_PARAMETER
-
-  }
-
-function Netlib_FreeHttpRequest(param:THANDLE) : bytebool; stdcall; external AppDll;
-
-  {
     wParam : HANDLE
     lParam : Pointer to a TNETLIBHTTPREQUEST structure
     Affect : Carry out an entire HTTP transaction, see notes
@@ -239,7 +209,8 @@ function Netlib_FreeHttpRequest(param:THANDLE) : bytebool; stdcall; external App
              Errors returned by the aforementioned internally used functions
   }
 
-function Netlib_HttpTransaction(nlu:THANDLE; param:PNETLIBHTTPREQUEST) : THANDLE; stdcall; external AppDll;
+function Netlib_HttpRequest(nlu:THANDLE; url:PAnsiChar; reqType: int; flags:DWORD; args:PAnsiChar=nil; hdrs:PNETLIBHTTPHEADER=nil) : THANDLE; stdcall; external AppDll;
+function Netlib_FreeHttpRequest(http:THANDLE) : bytebool; stdcall; external AppDll;
 
 function Netlib_HttpResult(http:THANDLE) : int; stdcall; external AppDll;
 function Netlib_HttpBuffer(http:THANDLE; var cbLen:int) : PAnsiChar; stdcall; external AppDll;

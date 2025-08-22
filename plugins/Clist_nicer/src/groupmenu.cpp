@@ -45,9 +45,9 @@ static hAppearanceItems[] =
 
 static HMENU hMenuOldContext;
 
-static INT_PTR CommandHelper(WPARAM wParam, LPARAM)
+static INT_PTR CommandHelper(WPARAM, LPARAM lParam)
 {
-	SendMessage(g_clistApi.hwndContactList, WM_COMMAND, MAKELONG(wParam, BN_CLICKED), 1);
+	SendMessage(g_clistApi.hwndContactList, WM_COMMAND, MAKELONG(lParam, BN_CLICKED), 1);
 	return 0;
 }
 
@@ -93,7 +93,7 @@ void InitGroupMenus(void)
 	CreateServiceFunction(mi.pszService, CommandHelper);
 	for (auto &it : hAppearanceItems) {
 		GroupMenuParam gmp;
-		gmp.wParam = it.command;
+		gmp.lParam = it.command;
 		mi.name.a = it.name;
 		mi.position = it.position;
 		it.hMenu = Menu_AddGroupMenuItem(&mi, &gmp);
