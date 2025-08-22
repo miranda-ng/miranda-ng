@@ -112,7 +112,6 @@ type
 
   PNETLIBUSERSETTINGS = ^TNETLIBUSERSETTINGS;
   TNETLIBUSERSETTINGS = record
-    cbSize              :int;   // filled before calling
     useProxy            :int;   // 1 or 0
     proxyType           :int;   // PROXYTYPE_* constant, see above
     szProxyServer       :PAnsiChar; // can be NULL(0)
