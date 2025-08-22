@@ -91,7 +91,7 @@ var
   fh:THANDLE;
   lstr:pWideChar;
   llen:integer;
-  buf:array [0..31] of WideChar;
+  buf,buf2:array [0..31] of WideChar;
   b,b1:array [0..MAX_PATH] of AnsiChar;
 
   last:pWideChar;
@@ -196,12 +196,12 @@ begin
       // remove file - download
       if StrPosW(tmp,'://')<>nil then // remote
       begin
-        GetTempPathA(MAX_PATH,b);
-        GetTempFileNameA(b,'wat',GetCurrentTime,b1);
-        GetFile(FastWideToAnsiBuf(tmp,b),b1);
-        if tmp<>tfile then
+        GetTempPathW(MAX_PATH,buf);
+        GetTempFileNameW(buf,'wat',GetCurrentTime,buf2);
+        GetFile(tmp,buf2);
+        if tmp <> tfile then
           mFreeMem(tmp);
-        FastAnsiToWide(b1,tmp);
+        tmp := buf2;
       end
       else
         b1[0]:=#0;

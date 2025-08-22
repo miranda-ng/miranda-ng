@@ -5,27 +5,23 @@ const
 function SendRequestCookies(url:PAnsiChar;useCookies:boolean):pAnsiChar;
 var
   nlu:TNETLIBUSER;
-  req :TNETLIBHTTPREQUEST;
   resp:THANDLE;
   hTmpNetLib:THANDLE;
   bufLen:int;
   pBuf:PAnsiChar;
-  nlh:array [0..10] of TNETLIBHTTPHEADER;
+  nlh:array [0..1] of TNETLIBHTTPHEADER;
+  pHeader: PNETLIBHTTPHEADER;
 begin
   result:=nil;
-
-  FillChar(req,SizeOf(req),0);
-  req.requestType:=REQUEST_GET;
-  req.szUrl      :=url;
-  req.flags      :=NLHRF_NODUMP or NLHRF_HTTP11;
+  pHeader:=nil;
 
   if useCookies and (cookies<>nil) then
   begin
     nlh[0].szName :='Cookie';
     nlh[0].szValue:=cookies;
-
-    req.headers     :=@nlh;
-    req.headersCount:=1;
+    nlh[1].szName :=0;
+    nlh[1].szValue:=0;
+    pHeader := @nlh;
   end;
 
   FillChar(nlu,SizeOf(nlu),0);
@@ -33,7 +29,7 @@ begin
   nlu.szSettingsModule:='dummy';
   hTmpNetLib:=Netlib_RegisterUser(@nlu);
 
-  resp:=Netlib_HttpTransaction(hTmpNetLib,@req);
+  resp:=Netlib_HttpRequest(hTmpNetLib, url, REQUEST_GET, NLHRF_NODUMP or NLHRF_HTTP11, 0, pHeader);
   if resp<>0 then
   begin
     if Netlib_HttpResult(resp)=200 then

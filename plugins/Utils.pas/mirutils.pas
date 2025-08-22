@@ -35,12 +35,7 @@ const
 
 function SendRequest(url:PAnsiChar;rtype:int;args:PAnsiChar=nil;hNetLib:THANDLE=0):PAnsiChar;
 
-function GetFile(url:PAnsiChar;save_file:PAnsiChar;
-                 hNetLib:THANDLE=0;recurse_count:integer=0):bool; overload;
-// next is just wrapper
-function GetFile(url:PWideChar;save_file:PWideChar;
-                 hNetLib:THANDLE=0;recurse_count:integer=0):bool; overload;
-
+function GetFile(url:PWideChar; save_file:PWideChar; hNetLib:THANDLE=0):bool;
 function GetProxy(hNetLib:THANDLE):PAnsiChar;
 function LoadImageURL(url:PAnsiChar;size:integer=0):HBITMAP;
 
@@ -372,31 +367,12 @@ end;
 function SendRequest(url:PAnsiChar;rtype:int;args:PAnsiChar=nil;hNetLib:THANDLE=0):PAnsiChar;
 var
   nlu:TNETLIBUSER;
-  req :TNETLIBHTTPREQUEST;
   resp:THANDLE;
   bufLen:int;
   pBuf:PAnsiChar;
   hTmpNetLib:THANDLE;
-  nlh:array [0..1] of TNETLIBHTTPHEADER;
-  buf:array [0..31] of AnsiChar;
 begin
   result:=nil;
-
-  FillChar(req,SizeOf(req),0);
-  req.requestType:=rtype;
-  req.szUrl      :=url;
-  req.flags      :=NLHRF_NODUMP or NLHRF_HTTP11;
-  if args<>nil then
-  begin
-    nlh[0].szName :='Content-Type';
-    nlh[0].szValue:='application/x-www-form-urlencoded';
-    nlh[1].szName :='Content-Length';
-    nlh[1].szValue:=IntToStr(buf,StrLen(args));
-    req.headers     :=@nlh;
-    req.headersCount:=2;
-    req.pData       :=args;
-    req.dataLength  :=StrLen(args);
-  end;
 
   if hNetLib=0 then
   begin
@@ -408,7 +384,7 @@ begin
   else
     hTmpNetLib:=hNetLib;
 
-  resp:=Netlib_HttpTransaction(hTmpNetLib,@req);
+  resp:=Netlib_HttpRequest(hTmpNetLib,url,rtype,NLHRF_NODUMP or NLHRF_HTTP11,args);
   if resp<>0 then
   begin
     if Netlib_HttpResult(resp)=200 then
@@ -427,30 +403,18 @@ begin
     Netlib_CloseHandle(hTmpNetLib);
 end;
 
-(*
-static int __inline NLog(AnsiChar *msg) {
-  return CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)msg);
-}
-*)
-function GetFile(url:PAnsiChar; save_file:PAnsiChar; hNetLib:THANDLE=0; recurse_count:integer=0):bool;
+function GetFile(url:PWideChar; save_file:PWideChar; hNetLib:THANDLE):bool;
 var
   nlu:TNETLIBUSER;
-  req :TNETLIBHTTPREQUEST;
   resp:THANDLE;
   hSaveFile:THANDLE;
   retCode, bufLen:integer;
   pBuf:PAnsiChar;
+  buf:array[0..255] of AnsiChar;
 begin
   result:=false;
-  if recurse_count>MAX_REDIRECT_RECURSE then
-    exit;
   if (url=nil) or (url^=#0) or (save_file=nil) or (save_file^=#0) then
     exit;
-
-  FillChar(req,SizeOf(req),0);
-  req.requestType:=REQUEST_GET;
-  req.szUrl      :=url;
-  req.flags      :=NLHRF_NODUMP or NLHRF_REDIRECT;
 
   FillChar(nlu,SizeOf(nlu),0);
   if hNetLib=0 then
@@ -460,7 +424,8 @@ begin
     hNetLib:=Netlib_RegisterUser(@nlu);
   end;
 
-  resp:=Netlib_HttpTransaction(hNetLib,@req);
+  FastWideToAnsiBuf(url,buf);
+  resp:=Netlib_HttpRequest(hNetLib, buf, REQUEST_GET, NLHRF_NODUMP or NLHRF_REDIRECT);
   if resp<>0 then
   begin
     retCode:=Netlib_HttpResult(resp);
@@ -480,16 +445,6 @@ begin
     if nlu.flags<>0 then
       Netlib_CloseHandle(hNetLib);
   end;
-end;
-
-function GetFile(url:PWideChar;save_file:PWideChar;
-                 hNetLib:THANDLE=0;recurse_count:integer=0):bool;
-var
-  aurl,asave:array [0..MAX_PATH-1] of AnsiChar;
-begin
-  FastWideToAnsiBuf(url,aurl);
-  FastWideToAnsiBuf(save_file,asave);
-  result:=GetFile(aurl,asave,hNetLib,0);
 end;
 
 function GetProxy(hNetLib:THANDLE):PAnsiChar;
@@ -543,7 +498,6 @@ end;
 function LoadImageURL(url:PAnsiChar;size:integer=0):HBITMAP;
 var
   nlu:TNETLIBUSER;
-  req :TNETLIBHTTPREQUEST;
   resp,hNetLib:THANDLE;
   bufLen:integer;
   pBuf:PAnsiChar;
@@ -552,17 +506,12 @@ begin
   if (url=nil) or (url^=#0) then
     exit;
 
-  FillChar(req,SizeOf(req),0);
-  req.requestType:=REQUEST_GET;
-  req.szUrl      :=url;
-  req.flags      :=NLHRF_NODUMP;
-
   FillChar(nlu,SizeOf(nlu),0);
   nlu.flags := NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING or NUF_NOOPTIONS;
   nlu.szSettingsModule:='dummy';
   hNetLib:=Netlib_RegisterUser(@nlu);
 
-  resp:=Netlib_HttpTransaction(hNetLib,@req);
+  resp:=Netlib_HttpRequest(hNetLib, url, REQUEST_GET, NLHRF_NODUMP);
   if resp<>0 then
   begin
     if Netlib_HttpResult(resp)=200 then

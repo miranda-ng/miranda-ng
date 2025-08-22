@@ -253,6 +253,7 @@ Netlib_Log @353
 Netlib_LogW @354
 Netlib_Logf @355
 Netlib_LogfW @356
+Netlib_HttpRequest @357
 Netlib_HttpTransaction @359
 Netlib_GetUserSettings @361
 Netlib_SetUserSettings @362
