@@ -1100,8 +1100,8 @@ void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *p
 		return;
 	}
 
-	// for channels we handle reactions on our own messages only
-	if (pUser->isGroupChat && !dbei.bSent)
+	// we handle reactions on our own messages only
+	if (!dbei.bSent)
 		return;
 
 	JSONNode reactions; reactions.set_name("r");
