@@ -143,14 +143,6 @@ uint controlEnabled[][2] =
 	STATE_OPERATE | STATE_PAUSED | STATE_PRERECV | STATE_REQSENT | STATE_ACKREQ,
 };
 
-char *hint_controls[4] =
-{
-	"Perform",
-	"Pause",
-	"Revive a transfer",
-	"Stop"
-};
-
 void FILEECHO::setState(uint32_t state)
 {
 	iState = state;
@@ -160,16 +152,17 @@ void FILEECHO::setState(uint32_t state)
 
 	if (!inSend) {
 		// recv
-		int kind;
 		SendDlgItemMessage(hDlg, IDC_FILENAME, EM_SETREADONLY, (state != STATE_PRERECV), 0);
 		EnableWindow(GetDlgItem(hDlg, IDC_BROWSE), (iState & (STATE_PRERECV | STATE_FINISHED)));
 
-		if (state & (STATE_IDLE | STATE_FINISHED | STATE_CANCELLED | STATE_PRERECV))
-			kind = IDI_PLAY;
-		else
-			kind = IDI_REFRESH;
-		SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(kind));
-		SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[kind]), 0);
+		if (state & (STATE_IDLE | STATE_FINISHED | STATE_CANCELLED | STATE_PRERECV)) {
+			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_PLAY));
+			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Perform"), BATF_UNICODE);
+		}
+		else {
+			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_REFRESH));
+			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Revive a transfer"), BATF_UNICODE);
+		}
 	}
 	else {
 		SendDlgItemMessage(hDlg, IDC_FILENAME, EM_SETREADONLY, (iState & (STATE_IDLE | STATE_FINISHED | STATE_CANCELLED)) == 0, 0);
@@ -182,11 +175,11 @@ void FILEECHO::setState(uint32_t state)
 		case STATE_PAUSED:
 			EnableWindow(GetDlgItem(hDlg, IDC_PLAY), TRUE);
 			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_PLAY));
-			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[IDI_PLAY]), 0);
+			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Perform"), BATF_UNICODE);
 			break;
 		case STATE_OPERATE:
 			SendDlgItemMessage(hDlg, IDC_PLAY, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_PAUSE));
-			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[IDI_PAUSE]), 0);
+			SendDlgItemMessage(hDlg, IDC_PLAY, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Pause"), BATF_UNICODE);
 			break;
 		}
 	}
@@ -852,7 +845,7 @@ INT_PTR CALLBACK DialogProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		WindowList_Add(hFileList, hDlg, dat->hContact);
 		Window_SetIcon_IcoLib(hDlg, g_plugin.getIconHandle(IDI_MAIN));
-		SendDlgItemMessage(hDlg, IDC_STOP, BUTTONADDTOOLTIP, (WPARAM)Translate(hint_controls[IDI_STOP]), 0);
+		SendDlgItemMessage(hDlg, IDC_STOP, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Pause"), BATF_UNICODE);
 
 		mir_subclassWindow(GetDlgItem(hDlg, IDC_PROGRESS), ProgressWndProc);
 
