@@ -39,7 +39,7 @@ void CJabberProto::SetMucConfig(CJabberFormDlg *pDlg, void *from)
 
 // RECVED: room config form
 // ACTION: show the form
-void CJabberProto::OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo*)
+void CJabberProto::OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	debugLogA("<iq/> iqIdGetMuc");
 	const char *type = XmlGetAttr(iqNode, "type");
@@ -47,10 +47,16 @@ void CJabberProto::OnIqResultGetMuc(const TiXmlElement *iqNode, CJabberIqInfo*)
 	if (type == nullptr || from == nullptr)
 		return;
 
-	if (!mir_strcmp(type, "result"))
-		if (auto *queryNode = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_MUC_OWNER))
-			if (auto *xNode = XmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS))
-				(new CJabberFormDlg(this, xNode, LPGEN("Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_strdup(from)))->Display();
+	if (!mir_strcmp(type, "result")) {
+		if (auto *queryNode = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_MUC_OWNER)) {
+			if (auto *xNode = XmlGetChildByTag(queryNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) {
+				auto *pForm = new CJabberFormDlg(this, xNode, LPGEN("Conference Room Configuration"), &CJabberProto::SetMucConfig, mir_strdup(from));
+				if (auto *pParent = ((CMsgDialog *)pInfo->GetUserData()))
+					pForm->SetParent(pParent->GetHwnd());
+				pForm->Display();
+			}
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

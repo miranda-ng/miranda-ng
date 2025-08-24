@@ -1233,7 +1233,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 
 	case IDM_CONFIG:
 		ppro->m_ThreadInfo->send(
-			XmlNodeIq(ppro->AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, roomJid))
+			XmlNodeIq(ppro->AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, roomJid, pDlg))
 			<< XQUERY(JABBER_FEAT_MUC_OWNER));
 		break;
 
