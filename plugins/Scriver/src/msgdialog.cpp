@@ -165,9 +165,8 @@ bool CMsgDialog::OnInitDialog()
 			m_message.SendMsg(EM_EXLIMITTEXT, 0, nMax);
 	}
 
-	m_pParent->AddChild(this);
-
 	CreateInfobar();
+	m_pParent->AddChild(this);
 	OnOptionsApplied();
 
 	if (isChat()) {
