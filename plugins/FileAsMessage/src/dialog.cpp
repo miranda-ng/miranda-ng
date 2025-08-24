@@ -684,7 +684,6 @@ void FILEECHO::perform(char *str)
 			cmdACCEPT();
 			break;
 		case CMD_CANCEL:
-		{
 			if (iState & (STATE_PRERECV | STATE_REQSENT | STATE_OPERATE | STATE_ACKREQ | STATE_PAUSED)) {
 				wchar_t *msg = TranslateT("Canceled by remote user");
 				SetDlgItemText(hDlg, IDC_STATUS, msg);
@@ -693,7 +692,6 @@ void FILEECHO::perform(char *str)
 				setState(STATE_CANCELLED);
 			}
 			break;
-		}
 		case CMD_DACK:
 			cmdDACK(str + 1);
 			break;
@@ -701,7 +699,6 @@ void FILEECHO::perform(char *str)
 	else
 		switch (msgId) {
 		case CMD_CANCEL:
-		{
 			if (iState & (STATE_PRERECV | STATE_REQSENT | STATE_OPERATE | STATE_ACKREQ | STATE_PAUSED)) {
 				wchar_t *msg = TranslateT("Canceled by remote user");
 				SetDlgItemText(hDlg, IDC_STATUS, msg);
@@ -710,7 +707,6 @@ void FILEECHO::perform(char *str)
 				setState(STATE_CANCELLED);
 			}
 			break;
-		}
 
 		case CMD_REQ:
 			if (chunkCount) {
@@ -736,18 +732,13 @@ void FILEECHO::perform(char *str)
 
 int FILEECHO::sendCmd(int cmd, char *szParam, char *szPrefix)
 {
-	int buflen = (int)mir_strlen(szServicePrefix) + (int)mir_strlen(szParam) + 2;
-	if (szPrefix != nullptr)
-		buflen += (int)mir_strlen(szPrefix);
-
-	char *buf = (char*)malloc(buflen);
+	CMStringA str;
 	if (szPrefix == nullptr)
-		mir_snprintf(buf, buflen, "%s%c%s", szServicePrefix, cCmdList[cmd], szParam);
+		str.Format("%s%c%s", szServicePrefix, cCmdList[cmd], szParam);
 	else
-		mir_snprintf(buf, buflen, "%s%c%s%s", szServicePrefix, cCmdList[cmd], szPrefix, szParam);
+		str.Format("%s%c%s%s", szServicePrefix, cCmdList[cmd], szPrefix, szParam);
 
-	int retval = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)buf);
-	free(buf);
+	int retval = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)str.c_str());
 	updateProgress();
 	return retval;
 }
