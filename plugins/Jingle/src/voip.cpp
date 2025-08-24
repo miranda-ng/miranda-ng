@@ -242,23 +242,22 @@ void send_ice_candidate_message_cb(G_GNUC_UNUSED GstElement */*webrtcbin*/, guin
 	jproto->m_api->SendXml(iq);
 }
 
-static gboolean check_plugins(void)
+static const gchar* check_plugins(void)
 {
+	GstRegistry *registry = gst_registry_get();
 	const gchar *needed[] = { "opus", "nice", "webrtc", "dtls", "srtp", "rtpmanager"
 		/*"vpx", "videotestsrc", "audiotestsrc",*/ };
 
-	GstRegistry *registry = gst_registry_get();
-	gboolean ret = TRUE;
 	for (auto &it : needed) {
 		GstPlugin *plugin = gst_registry_find_plugin(registry, it);
 		if (!plugin) {
 			gst_print("Required gstreamer plugin '%s' not found\n", it);
-			ret = FALSE;
+			return it;
 		}
 		else gst_object_unref(plugin);
 	}
 
-	return ret;
+	return nullptr;
 }
 
 void dbgprint(const gchar *string)
@@ -274,15 +273,21 @@ bool CJabberAccount::VOIPCreatePipeline(void)
 	//gstreamer init
 	static bool gstinited = 0;
 	if (!gstinited) {
-		if (!LoadLibrary(L"gstreamer-1.0-0.dll")) {
+		if (!LoadLibraryA("gstreamer-1.0-0.dll")) {
 			MessageBoxA(0, "Cannot load Gstreamer library!", 0, MB_OK | MB_ICONERROR);
 			goto err;
 		}
 		gst_init(nullptr, nullptr);
 		g_set_print_handler(dbgprint);
 		gst_print("preved medved");
-		if (!check_plugins()) {
-			MessageBoxA(0, "Gstreamer plugins not found!", 0, MB_OK | MB_ICONERROR);
+		if (auto *pszPlugin = check_plugins()) {
+			CMStringW wszError;
+			if (IsWinVer8Plus())
+				wszError.Format(TranslateT("Gstreamer plugin %S not found"), pszPlugin);
+			else
+				wszError.Format(TranslateT("Gstreamer plugin %S not loaded, it might require Windows 8 or later"), pszPlugin);
+
+			MessageBoxW(0, wszError, 0, MB_OK | MB_ICONERROR);
 			goto err;
 		}
 		gstinited = 1;
