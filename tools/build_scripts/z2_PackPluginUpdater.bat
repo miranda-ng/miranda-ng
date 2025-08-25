@@ -33,10 +33,6 @@ REM Langpacks
 for /f %%a in ('dir Languages\lang*.txt /B /L') do (%ZipIt% "%Arch%\Languages\%%~na.zip" "Languages\%%~nXa")
 REM end Langpacks
 
-REM Protocols
-REM for /f %%a in ('dir Protocols\*.dll /B /L') do (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\%%~nXa")
-REM end Protocols
-
 REM Plugins
 for /f %%a in ('dir plugins\*.dll /B /L') do (
 	rem check for special plugins and pack additional files first.

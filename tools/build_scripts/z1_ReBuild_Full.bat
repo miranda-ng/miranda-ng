@@ -98,7 +98,8 @@ set hashes=%cd%\hashes.txt
 %SourceDir%\tools\checksum\checksum.exe Miranda%tp%.exe > %hashes%
 for /f "tokens=1,2 delims= " %%i in ('%SourceDir%\tools\md5.exe Languages\lang*.txt') do echo %%j %%i >> %hashes%
 
-rem get checksum  for folder(first param) and ext (second param)
+rem get checksum for folder(first param) and ext (second param)
+call :checksum Libs mir
 call :checksum Plugins dll
 call :checksum Icons dll
 
