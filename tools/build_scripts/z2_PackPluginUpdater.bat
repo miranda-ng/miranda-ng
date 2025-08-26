@@ -29,6 +29,12 @@ REM Core
 %ZipIt% "%Arch%\miranda%tp%.zip" "Miranda%tp%.exe" -i@..\..\z2_PackPluginUpdater.txt
 REM end Core
 
+REM Libs
+%ZipIt% "%Arch%\Libs\FreeImage.zip" "Libs\FreeImage.mir"
+%ZipIt% "%Arch%\Libs\libcrypto-3.zip" "Libs\libcrypto-3.mir"
+%ZipIt% "%Arch%\Libs\libssl-3.zip" "Libs\libssl-3.mir"
+REM end Libs
+
 REM Langpacks
 for /f %%a in ('dir Languages\lang*.txt /B /L') do (%ZipIt% "%Arch%\Languages\%%~na.zip" "Languages\%%~nXa")
 REM end Langpacks
