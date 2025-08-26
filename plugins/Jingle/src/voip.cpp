@@ -251,7 +251,7 @@ static const gchar* check_plugins(void)
 	for (auto &it : needed) {
 		GstPlugin *plugin = gst_registry_find_plugin(registry, it);
 		if (!plugin) {
-			gst_print("Required gstreamer plugin '%s' not found\n", it);
+			gst_print("Required GStreamer plugin '%s' not found\n", it);
 			return it;
 		}
 		else gst_object_unref(plugin);
@@ -274,7 +274,7 @@ bool CJabberAccount::VOIPCreatePipeline(void)
 	static bool gstinited = 0;
 	if (!gstinited) {
 		if (!LoadLibraryA("gstreamer-1.0-0.dll")) {
-			MessageBoxA(0, "Cannot load Gstreamer library!", 0, MB_OK | MB_ICONERROR);
+			MessageBoxA(0, "Cannot load GStreamer library!", 0, MB_OK | MB_ICONERROR);
 			goto err;
 		}
 		gst_init(nullptr, nullptr);
@@ -283,9 +283,9 @@ bool CJabberAccount::VOIPCreatePipeline(void)
 		if (auto *pszPlugin = check_plugins()) {
 			CMStringW wszError;
 			if (IsWinVer8Plus())
-				wszError.Format(TranslateT("Gstreamer plugin %S not found"), pszPlugin);
+				wszError.Format(TranslateT("GStreamer plugin %S not found"), pszPlugin);
 			else
-				wszError.Format(TranslateT("Gstreamer plugin %S not loaded, it might require Windows 8 or later"), pszPlugin);
+				wszError.Format(TranslateT("GStreamer plugin %S not loaded, it might require Windows 7 or later"), pszPlugin);
 
 			MessageBoxW(0, wszError, 0, MB_OK | MB_ICONERROR);
 			goto err;
