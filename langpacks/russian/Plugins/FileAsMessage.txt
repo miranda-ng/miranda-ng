@@ -43,6 +43,12 @@
 Получить файл
 [Send file]
 Отправить файл
+[Perform]
+Выполнить
+[Revive a transfer]
+Возобновить передачу
+[Pause]
+Пауза
 [File already exists. Overwrite?]
 Файл уже есть. Перезаписать?
 [Couldn't open a file]
@@ -90,8 +96,6 @@
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Пуск
-[Pause]
-Пауза
 [Revive]
 Оживить
 [Stop]

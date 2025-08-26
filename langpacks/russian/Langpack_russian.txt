@@ -2067,6 +2067,8 @@ Miranda не может распознать этот профиль
 Активность в чате
 [Chat mute mode]
 Режим беззвучности чата
+[Reaction]
+Реакция
 [Gender]
 Пол
 [Account]
@@ -8457,14 +8459,18 @@ utf8:'%s'
 Текст
 [Background]
 Фон
-[Text Files (*.txt)]
+[Text files (*.txt)]
 Текстовые файлы (*.txt)
-[All Files]
+[All files]
 Все файлы
 [Save selection to file]
 Сохранить выбранное
 [Save log to file]
 Сохранить журнал в файл
+[Show]
+Показать
+[Hide]
+Скрыть
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;============================================================
 ;  File: Contacts.dll
@@ -9562,6 +9568,10 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;  Version: 0.96.5.1
 ;  Authors: George Hazan
 ;============================================================
+[DeltaChat support for Miranda NG.]
+Поддержка протокола DeltaChat в Miranda NG.
+[IMAP server]
+Сервер IMAP
 [Username]
 Имя пользователя
 [Password]
@@ -9572,12 +9582,28 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Группа:
 [Port]
 Порт
-[User details]
-О пользователе
+[SSL mode]
+Режим SSL
+[SMTP server]
+Сервер SMTP
 [Main icon]
 Основной значок
+[Enter QR code, received from another device]
+Введите код, полученный с другого устройства
+[Invalid or broken QR code]
+Неверный или повреждённый QR-код
+[Add chat using QR code]
+Добавить чат с помощью QR-кода
+[Copy QR to chat with me]
+Скопировать QR-код для начала чата со мной
+[Automatic]
+Автоматически
+[STARTTLS]
+STARTTLS
+[SSL (old)]
+SSL (старый)
 [Plain]
-Равнина
+Открытый текст
 [Network]
 Сеть
 [Account]
@@ -10079,6 +10105,10 @@ ID записи
 Получить файл
 [Send file]
 Отправить файл
+[Perform]
+Выполнить
+[Pause]
+Пауза
 [File already exists. Overwrite?]
 Файл уже есть. Перезаписать?
 [Couldn't open a file]
@@ -10125,8 +10155,6 @@ ID записи
 Идёт передача файла. Прервать?
 [Play]
 Пуск
-[Pause]
-Пауза
 [Revive]
 Оживить
 [Stop]
@@ -18180,6 +18208,8 @@ bass.dll не найден! Укажите путь к нему
 макс.
 [Status Message]
 Статусное сообщение
+[All files]
+Все файлы
 #muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
 ;============================================================
 ;  File: MsgPopup.dll
@@ -30636,7 +30666,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.2
+;  Version: 0.1.19.3
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31175,6 +31205,8 @@ ID получателя ошибочен или неизвестен
 Эти изменения вступят в силу после перезапуска.\nХотите перезапустить сейчас?
 [VKontakte protocol]
 Протокол ВКонтакте
+[This message has been marked as spam in %s:\n]
+Сообщение отмечено как спам в %s:\n
 [This message has been deleted by sender in %s:\n]
 Отправитель удалил это сообщение в %s:\n
 [Newsfeed & notification event]

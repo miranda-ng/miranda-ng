@@ -24,8 +24,6 @@
 Режим SSL
 [SMTP server]
 Сервер SMTP
-[User details]
-О пользователе
 ;file \protocols\DeltaChat\src\main.cpp
 [Main icon]
 Основной значок

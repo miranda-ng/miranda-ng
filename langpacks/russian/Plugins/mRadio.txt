@@ -209,3 +209,11 @@ bass.dll не найден! Укажите путь к нему
 макс.
 [Status Message]
 Статусное сообщение
+[All files]
+Все файлы
+[Playlist files]
+Списки воспроизведения
+[BASS built-in]
+Поддерживаемые BASS
+[All supported formats]
+Все поддерживаемые форматы
