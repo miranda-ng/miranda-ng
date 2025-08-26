@@ -282,7 +282,7 @@ bool CJabberAccount::VOIPCreatePipeline(void)
 		gst_print("preved medved");
 		if (auto *pszPlugin = check_plugins()) {
 			CMStringW wszError;
-			if (IsWinVer8Plus())
+			if (IsWinVer7Plus())
 				wszError.Format(TranslateT("GStreamer plugin %S not found"), pszPlugin);
 			else
 				wszError.Format(TranslateT("GStreamer plugin %S not loaded, it might require Windows 7 or later"), pszPlugin);
