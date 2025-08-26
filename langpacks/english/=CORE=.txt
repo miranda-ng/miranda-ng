@@ -1086,6 +1086,7 @@
 [Phone/SMS]
 [Chat activity]
 [Chat mute mode]
+[Reaction]
 [Gender]
 [Account]
 ;file \src\mir_app\src\ei_options.cpp

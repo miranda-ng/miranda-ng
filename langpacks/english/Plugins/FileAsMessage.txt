@@ -25,6 +25,9 @@
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [Receive file]
 [Send file]
+[Perform]
+[Revive a transfer]
+[Pause]
 [File already exists. Overwrite?]
 [Couldn't open a file]
 [Size: %d bytes]
@@ -49,7 +52,6 @@
 [Transfer is in progress. Do you really want to close?]
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
-[Pause]
 [Revive]
 [Stop]
 [Main]

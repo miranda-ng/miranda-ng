@@ -37,7 +37,10 @@
 [Services]
 [Text]
 [Background]
-[Text Files (*.txt)]
-[All Files]
+[Text files (*.txt)]
+[All files]
 [Save selection to file]
 [Save log to file]
+;file \plugins\Console\src\init.cpp
+[Show]
+[Hide]

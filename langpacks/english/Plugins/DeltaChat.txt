@@ -15,7 +15,6 @@
 [Port]
 [SSL mode]
 [SMTP server]
-[User details]
 ;file \protocols\DeltaChat\src\main.cpp
 [Main icon]
 ;file \protocols\DeltaChat\src\menus.cpp
