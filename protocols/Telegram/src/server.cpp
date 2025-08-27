@@ -1104,15 +1104,18 @@ void CTelegramProto::ProcessMessageReactions(TD::updateMessageInteractionInfo *p
 	if (!dbei.bSent)
 		return;
 
-	JSONNode reactions; reactions.set_name("r");
+	JSONNode reactions;
 	if (pObj->interaction_info_)
 		if (pObj->interaction_info_->reactions_) {
 			for (auto &it : pObj->interaction_info_->reactions_->reactions_) {
-				if (it->type_->get_id() != TD::reactionTypeEmoji::ID)
-					continue;
+				switch (it->type_->get_id()) {
+				case TD::reactionTypeCustomEmoji::ID:
+					break;
 
-				auto *pEmoji = (TD::reactionTypeEmoji *)it->type_.get();
-				reactions << INT_PARAM(pEmoji->emoji_.c_str(), it->total_count_);
+				case TD::reactionTypeEmoji::ID:
+					auto *pEmoji = (TD::reactionTypeEmoji *)it->type_.get();
+					reactions << INT_PARAM(pEmoji->emoji_.c_str(), it->total_count_);
+				}
 			}
 		}
 

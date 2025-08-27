@@ -429,13 +429,15 @@ void DB::EventInfo::setReactions(class JSONNode &pNode)
 	if (it != json.end())
 		json.erase(it);
 
-	pNode.set_name("r");
-	json << pNode;
+	if (!pNode.empty()) {
+		pNode.set_name("r");
+		json << pNode;
+	}
 	flushJson();
 
 	db_event_setJson(getEvent(), pBlob);
 
-	DBEventReaction ev = { hContact, TRUE, szReactions };
+	DBEventReaction ev = { hContact, !pNode.empty(), szReactions };
 	NotifyEventHooks(g_hevEventReaction, WPARAM(this), LPARAM(&ev));
 }
 
