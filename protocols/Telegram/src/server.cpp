@@ -635,9 +635,6 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 	if (auto *pPhoto = pChat->photo_.get())
 		ProcessAvatar(pPhoto->small_.get(), pUser);
 
-	if (CheckSearchUser(pUser))
-		return;
-
 	if (pUser->hContact != INVALID_CONTACT_ID) {
 		if (pChat->has_protected_content_)
 			setByte(pUser->hContact, "Protected", 1);
@@ -650,7 +647,7 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		if (pUser->isGroupChat && pUser->m_si == nullptr)
 			InitGroupChat(pUser, (pUser->isForum) ? TranslateT("General") : Utf2T(pChat->title_.c_str()));
 	}
-	else if (!pUser->isGroupChat) {
+	else if (!pUser->isGroupChat && !m_iSearchCount) {
 		pUser = AddUser(pChat->id_, false);
 		hContact = pUser->hContact;
 		setWString(hContact, "Nick", pUser->wszNick);
@@ -1281,8 +1278,6 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 				if (!pUser->last_name_.empty())
 					pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
 			}
-
-			CheckSearchUser(pu);
 		}
 
 		debugLogA("User doesn't belong to your contacts, skipping");

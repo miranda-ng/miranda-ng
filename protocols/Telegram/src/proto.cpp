@@ -439,8 +439,6 @@ void CTelegramProto::OnGetUserInfo(td::ClientManager::Response &response, void *
 void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
 {
 	int iCount = ::InterlockedDecrement(&m_iSearchCount);
-	if (iCount == 0)
-		m_searchIds.clear();
 
 	if (!response.object)
 		return;
@@ -453,10 +451,31 @@ void CTelegramProto::OnSearchResults(td::ClientManager::Response &response)
 	auto *pChats = ((TD::chats*)response.object.get());
 	if (pChats->total_count_) {
 		for (auto &it : pChats->chat_ids_) {
-			if (auto *pUser = FindChat(it))
-				ReportSearchUser(pUser);
-			else
-				m_searchIds.push_back(it);
+			if (auto *pUser = FindChat(it)) {
+				CMStringW wszId(FORMAT, L"%lld", pUser->id), wszNick, wszLastName, wszFirstName;
+
+				PROTOSEARCHRESULT psr = {};
+				psr.cbSize = sizeof(psr);
+				psr.flags = PSR_UNICODE;
+				psr.id.w = wszId.GetBuffer();
+
+				if (pUser->hContact != INVALID_CONTACT_ID) {
+					wszNick = getMStringW(pUser->hContact, "Nick");
+					wszLastName = getMStringW(pUser->hContact, "LastName");
+					wszFirstName = getMStringW(pUser->hContact, "FirstName");
+
+					psr.nick.w = wszNick.GetBuffer();
+					psr.lastName.w = wszLastName.GetBuffer();
+					psr.firstName.w = wszFirstName.GetBuffer();
+				}
+				else {
+					psr.firstName.w = pUser->wszFirstName.GetBuffer();
+					psr.lastName.w = pUser->wszLastName.GetBuffer();
+					psr.nick.w = pUser->wszNick.GetBuffer();
+				}
+
+				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, this, (LPARAM)&psr);
+			}
 		}
 	}
 

@@ -316,49 +316,6 @@ void CTelegramProto::CheckCompatibility()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CTelegramProto::CheckSearchUser(TG_USER *pUser)
-{
-	auto pSearchId = std::find(m_searchIds.begin(), m_searchIds.end(), pUser->chatId);
-	if (pSearchId == m_searchIds.end())
-		return false;
-
-	ReportSearchUser(pUser);
-
-	m_searchIds.erase(pSearchId);
-	if (m_searchIds.empty())
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this);
-	return true;
-}
-
-void CTelegramProto::ReportSearchUser(TG_USER *pUser)
-{
-	CMStringW wszId(FORMAT, L"%lld", pUser->id), wszNick, wszLastName, wszFirstName;
-
-	PROTOSEARCHRESULT psr = {};
-	psr.cbSize = sizeof(psr);
-	psr.flags = PSR_UNICODE;
-	psr.id.w = wszId.GetBuffer();
-
-	if (pUser->hContact != INVALID_CONTACT_ID) {
-		wszNick = getMStringW(pUser->hContact, "Nick");
-		wszLastName = getMStringW(pUser->hContact, "LastName");
-		wszFirstName = getMStringW(pUser->hContact, "FirstName");
-
-		psr.nick.w = wszNick.GetBuffer();
-		psr.lastName.w = wszLastName.GetBuffer();
-		psr.firstName.w = wszFirstName.GetBuffer();
-	}
-	else {
-		psr.firstName.w = pUser->wszFirstName.GetBuffer();
-		psr.lastName.w = pUser->wszLastName.GetBuffer();
-		psr.nick.w = pUser->wszNick.GetBuffer();
-	}
-
-	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, this, (LPARAM)&psr);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int64_t CTelegramProto::GetId(MCONTACT hContact, const char *pszSetting)
 {
 	return _atoi64(getMStringA(hContact, pszSetting));

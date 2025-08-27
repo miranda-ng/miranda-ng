@@ -343,13 +343,9 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	// Search
 	volatile unsigned m_iSearchCount;
-	TD::array<TD::int53> m_searchIds;
 
 	void OnSearchResults(td::ClientManager::Response &response);
 	void OnGetTopics(td::ClientManager::Response &response, void *pUserInfo);
-
-	bool CheckSearchUser(TG_USER *pUser);
-	void ReportSearchUser(TG_USER *pUser);
 
 	// Users
 	int64_t m_iOwnId;
