@@ -30,6 +30,7 @@ REM Core
 REM end Core
 
 REM Libs
+%ZipIt% "%Arch%\Libs\libdeltachat.zip" "Libs\libdeltachat.dll"
 %ZipIt% "%Arch%\Libs\FreeImage.zip" "Libs\FreeImage.mir"
 %ZipIt% "%Arch%\Libs\libcrypto-3.zip" "Libs\libcrypto-3.mir"
 %ZipIt% "%Arch%\Libs\libssl-3.zip" "Libs\libssl-3.mir"
@@ -49,6 +50,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="CmdLine.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "MimCmd.exe")
 	if /I "%%a"=="CurrencyRates.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_CurrencyRates.dll" "Plugins\CurrencyRates\*.xml" "Plugins\CurrencyRates\CurrencyRatesChart.exe")
 	if /I "%%a"=="Dbx_mdbx.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "mdbx_chk.exe" "mdbx_dump.exe" "mdbx_load.exe" "Libs\libmdbx.mir")
+	if /I "%%a"=="DeltaChat.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_DeltaChat.dll")
 	if /I "%%a"=="Dummy.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Dummy.dll")
         if /I "%%a"=="EmLanProto.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Em_Lan_Proto.dll")
 	if /I "%%a"=="Facebook.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Facebook.dll")
@@ -99,12 +101,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\*.dll" "Plugins\VoiceService.dll"
 		rd /S /Q Libs
 		ren Libs2 Libs
-	)
-
-	if /I "%%a"=="DeltaChat.dll" (
-		copy /V /Y ..\..\redist\x%tp%\DeltaChat\libDeltaChat.dll Libs
-		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_DeltaChat.dll" "Libs\libDeltaChat.dll"
-		del "Libs\libDeltaChat.dll"
 	)
 
 	rem now adding plugin itself into archive
