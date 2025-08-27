@@ -1267,27 +1267,32 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 		case TD::userTypeDeleted::ID:
 			return;
 
-		case TD::userTypeBot::ID:
+		case TD::userTypeBot::ID: // always allow bots to be processed, even if they aren't contacts
+			break;
+
 		case TD::userTypeRegular::ID:
-			auto *pu = AddFakeUser(pUser->id_, false);
-			if (pu->hContact != INVALID_CONTACT_ID)
-				RemoveFromClist(pu);
+			{	auto *pu = AddFakeUser(pUser->id_, false);
+				if (pu->hContact != INVALID_CONTACT_ID)
+					RemoveFromClist(pu);
 
-			pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
-			pu->wszLastName = Utf2T(pUser->last_name_.c_str());
-			if (pUser->usernames_) {
-				pu->wszNick = L"@";
-				pu->wszNick.Append(Utf2T(pUser->usernames_->editable_username_.c_str()));
+				pu->wszFirstName = Utf2T(pUser->first_name_.c_str());
+				pu->wszLastName = Utf2T(pUser->last_name_.c_str());
+				if (pUser->usernames_) {
+					pu->wszNick = L"@";
+					pu->wszNick.Append(Utf2T(pUser->usernames_->editable_username_.c_str()));
+				}
+				else {
+					pu->wszNick = Utf2T(pUser->first_name_.c_str());
+					if (!pUser->last_name_.empty())
+						pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
+				}
 			}
-			else {
-				pu->wszNick = Utf2T(pUser->first_name_.c_str());
-				if (!pUser->last_name_.empty())
-					pu->wszNick.AppendFormat(L" %s", Utf2T(pUser->last_name_.c_str()).get());
-			}
+			__fallthrough;
+		
+		default:
+			debugLogA("User doesn't belong to your contacts, skipping");
+			return;
 		}
-
-		debugLogA("User doesn't belong to your contacts, skipping");
-		return;
 	}
 
 	for (auto &it : m_botIds)
@@ -1310,6 +1315,11 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	auto *pu = AddUser(pUser->id_, false);
 
+	if (typeID == TD::userTypeBot::ID) {
+		pu->isBot = true;
+		setWord(pu->hContact, "Status", ID_STATUS_ONLINE);
+	}
+
 	if (szFirstName.empty())
 		delSetting(pu->hContact, "FirstName");
 	else
@@ -1317,8 +1327,11 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	if (szLastName.empty())
 		delSetting(pu->hContact, "LastName");
-	else
-		setUString(pu->hContact, "LastName", szLastName.c_str());
+	else if (pu->isBot) {
+		delSetting(pu->hContact, "LastName");
+		setUString(pu->hContact, "FirstName", (szFirstName + " " + szLastName).c_str());
+	}
+	else setUString(pu->hContact, "LastName", szLastName.c_str());
 	
 	if (pu->hContact)
 		UpdateString(pu->hContact, "Phone", pUser->phone_number_);
@@ -1336,12 +1349,10 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 		if (pUser->is_premium_)
 			ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
-		else if (typeID == TD::userTypeBot::ID) {
-			pu->isBot = true;
-			setWord(pu->hContact, "Status", ID_STATUS_ONLINE);
+		else if (pu->isBot)
 			ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_bot");
-		}
-		else ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
+		else
+			ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 	}
 
 	if (auto *pPhoto = pUser->profile_photo_.get())
