@@ -230,21 +230,21 @@ MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *
 
 			case 6: // first + last name
 			case 7: // last + first name
-				if (!db_get_ws(hContact, szProto, it == 6 ? "FirstName" : "LastName", &dbv)) {
-					DBVARIANT dbv2;
-					if (!db_get_ws(hContact, szProto, it == 6 ? "LastName" : "FirstName", &dbv2)) {
-						size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
-						wchar_t *buf = (wchar_t*)mir_alloc(sizeof(wchar_t)*len);
-						if (buf != nullptr)
-							mir_wstrcat(mir_wstrcat(mir_wstrcpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
-
-						db_free(&dbv);
-						db_free(&dbv2);
-						return buf;
+				{
+					CMStringW s1(db_get_wsm(hContact, szProto, it == 6 ? "FirstName" : "LastName"));
+					CMStringW s2(db_get_wsm(hContact, szProto, it == 6 ? "LastName" : "FirstName"));
+					if (s1.IsEmpty()) {
+						if (s2.IsEmpty())
+							break;
+						return s2.Detach();
 					}
-					db_free(&dbv);
+
+					if (!s2.IsEmpty()) {
+						s1.AppendChar(' ');
+						s1 += s2;
+					}
+					return s1.Detach();
 				}
-				break;
 
 			case 8:
 				return mir_wstrdup(TranslateT("'(Unknown contact)'"));
