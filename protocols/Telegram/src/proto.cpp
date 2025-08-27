@@ -317,11 +317,14 @@ MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	if (psr->cbSize != sizeof(PROTOSEARCHRESULT) && psr->id.w == nullptr)
 		return 0;
 
+	bool isTemp = (flags & PALF_TEMPORARY) != 0;
 	auto id = _wtoi64(psr->id.w);
 
 	auto *pUser = AddUser(id, false);
-	if (flags & PALF_TEMPORARY)
+	if (isTemp)
 		Contact::RemoveFromList(pUser->hContact);
+	if (pUser->bSearch)
+		Contact::Hide(pUser->hContact);
 
 	if (auto *pChat = FindUser(id)) {
 		if (pChat->isGroupChat) {
@@ -336,7 +339,9 @@ MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		cc->first_name_ = T2Utf(psr->firstName.w);
 	if (psr->lastName.w)
 		cc->last_name_ = T2Utf(psr->lastName.w);
-	SendQuery(new TD::addContact(std::move(cc), false));
+
+	if (!isTemp)
+		SendQuery(new TD::addContact(std::move(cc), false));
 	return pUser->hContact;
 }
 

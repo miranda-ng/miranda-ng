@@ -647,14 +647,20 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 		if (pUser->isGroupChat && pUser->m_si == nullptr)
 			InitGroupChat(pUser, (pUser->isForum) ? TranslateT("General") : Utf2T(pChat->title_.c_str()));
 	}
-	else if (!pUser->isGroupChat && !m_iSearchCount) {
-		pUser = AddUser(pChat->id_, false);
-		hContact = pUser->hContact;
-		setWString(hContact, "Nick", pUser->wszNick);
-		if (!pUser->wszFirstName.IsEmpty())
-			setWString(hContact, "FirstName", pUser->wszFirstName);
-		if (!pUser->wszLastName.IsEmpty())
-			setWString(hContact, "LastName", pUser->wszLastName);
+	else {
+		if (pUser->isGroupChat)
+			return;
+
+		if (!m_iSearchCount) {
+			pUser = AddUser(pChat->id_, false);
+			hContact = pUser->hContact;
+			setWString(hContact, "Nick", pUser->wszNick);
+			if (!pUser->wszFirstName.IsEmpty())
+				setWString(hContact, "FirstName", pUser->wszFirstName);
+			if (!pUser->wszLastName.IsEmpty())
+				setWString(hContact, "LastName", pUser->wszLastName);
+		}
+		else pUser->bSearch = true;
 	}
 }
 
@@ -1322,18 +1328,20 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 	else
 		delSetting(pu->hContact, "Nick");
 
-	Contact::PutOnList(pu->hContact);
-
 	if (bIsMe)
 		pu->wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, m_szModuleName));
 
-	if (pUser->is_premium_)
-		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
-	else if (typeID == TD::userTypeBot::ID) {
-		pu->isBot = true;
-		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_bot");
+	if (!pu->bSearch) {
+		Contact::PutOnList(pu->hContact);
+
+		if (pUser->is_premium_)
+			ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
+		else if (typeID == TD::userTypeBot::ID) {
+			pu->isBot = true;
+			ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_bot");
+		}
+		else ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 	}
-	else ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 
 	if (auto *pPhoto = pUser->profile_photo_.get())
 		ProcessAvatar(pPhoto->small_.get(), pu);
