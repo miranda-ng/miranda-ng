@@ -61,8 +61,6 @@ typedef struct {
 #define SETTING_SHOWDIALOG        "ShowDialog"
 #define SETTING_OFFLINECLOSE      "OfflineOnClose"
 #define SETTING_SETPROFILE        "SetStatusOnStartup"
-#define SETTING_AUTODIAL          "AutoDial"
-#define SETTING_AUTOHANGUP        "AutoHangup"
 
 #define SETTING_TOOLWINDOW        "ToolWindow"
 

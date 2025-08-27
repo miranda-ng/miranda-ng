@@ -298,10 +298,6 @@ static int OnShutdown(WPARAM, LPARAM)
 		}
 	}
 
-	// hangup
-	if (SSPlugin.getByte(SETTING_AUTOHANGUP, 0))
-		InternetAutodialHangup(0);
-
 	int state = SSPlugin.getByte(SETTING_WINSTATE, SETTING_STATE_NORMAL);
 	// set windowstate and docked for next startup
 	if (SSPlugin.getByte(SETTING_SETWINSTATE, 0))
@@ -352,11 +348,6 @@ int SSModuleLoaded(WPARAM, LPARAM)
 
 	SetLastStatusMessages(protoList);
 	showDialogOnStartup = (showDialogOnStartup || SSPlugin.getByte(SETTING_SHOWDIALOG, 0));
-
-	// dial
-	if (showDialogOnStartup || SSPlugin.getByte(SETTING_SETPROFILE, 1))
-		if (SSPlugin.getByte(SETTING_AUTODIAL, 0))
-			InternetAutodial(0, nullptr);
 
 	// set the status!
 	if (showDialogOnStartup || SSPlugin.getByte(SETTING_SHOWDIALOG, 0))

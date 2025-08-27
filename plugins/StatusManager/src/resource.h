@@ -124,8 +124,6 @@
 #define IDC_HOTKEY                      1116
 #define IDC_REGHOTKEY                   1117
 #define IDC_VARIABLESHELP               1118
-#define IDC_AUTODIAL                    1120
-#define IDC_AUTOHANGUP                  1121
 #define IDC_MONITORKEYBOARD             1122
 #define IDC_MONITORMOUSE                1123
 #define IDC_IGNSYSKEYS                  1124

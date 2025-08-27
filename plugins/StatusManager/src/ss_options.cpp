@@ -308,8 +308,7 @@ public:
 		CheckDlgButton(m_hwnd, IDC_SETWINLOCATION, SSPlugin.getByte(SETTING_SETWINLOCATION, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SETWINSIZE, SSPlugin.getByte(SETTING_SETWINSIZE, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_OFFLINECLOSE, SSPlugin.getByte(SETTING_OFFLINECLOSE, 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_AUTODIAL, SSPlugin.getByte(SETTING_AUTODIAL, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_AUTOHANGUP, SSPlugin.getByte(SETTING_AUTOHANGUP, 0) ? BST_CHECKED : BST_UNCHECKED);
+
 		SetDlgItemInt(m_hwnd, IDC_SETPROFILEDELAY, SSPlugin.getWord(SETTING_SETPROFILEDELAY, 500), FALSE);
 		SetDlgItemInt(m_hwnd, IDC_DLGTIMEOUT, SSPlugin.getWord(SETTING_DLGTIMEOUT, 5), FALSE);
 		SetDlgItemInt(m_hwnd, IDC_XPOS, SSPlugin.getWord(SETTING_XPOS, 0), TRUE);
@@ -356,8 +355,6 @@ public:
 		}
 		
 		SSPlugin.setByte(SETTING_OFFLINECLOSE, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_OFFLINECLOSE));
-		SSPlugin.setByte(SETTING_AUTODIAL, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_AUTODIAL));
-		SSPlugin.setByte(SETTING_AUTOHANGUP, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_AUTOHANGUP));
 		return true;
 	}
 
