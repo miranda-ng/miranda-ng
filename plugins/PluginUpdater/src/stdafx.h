@@ -229,10 +229,6 @@ struct ServListEntry
 	char   m_szHash[32+1];
 };
 
-typedef OBJLIST<ServListEntry> SERVLIST;
-
-///////////////////////////////////////////////////////////////////////////////
-
 struct RenameTableItem
 {
 	RenameTableItem(const wchar_t *_1, const wchar_t *_2) :
@@ -243,7 +239,28 @@ struct RenameTableItem
 	ptrW wszSearch, wszReplace;
 };
 
-typedef OBJLIST<RenameTableItem> RENAMETABLE;
+struct PacketTableItem
+{
+	PacketTableItem(const wchar_t *_1) :
+		wszModule(mir_wstrdup(_1))
+	{}
+
+	ptrW wszModule;
+	int  osMin = -1, osMax = -1;
+};
+
+struct ServerConfig
+{
+	ServerConfig();
+
+	ptrW m_baseUrl;
+	OBJLIST<ServListEntry> arHashes;
+	OBJLIST<RenameTableItem> arRename;
+	OBJLIST<PacketTableItem> arPackets;
+
+	bool Load();
+	bool CheckRename(const wchar_t *pwszFolder, const wchar_t *pwszOldName, wchar_t *pNewName);
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -262,9 +279,6 @@ void  CALLBACK RestartPrompt(void *);
 void  CALLBACK CheckUpdateOnStartup(void);
 
 int   BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName);
-
-bool  ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes, RENAMETABLE *arRename = nullptr);
-int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 wchar_t* GetDefaultUrl();
 int   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);

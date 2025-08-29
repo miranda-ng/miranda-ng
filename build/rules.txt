@@ -1,4 +1,7 @@
 {
+	"packets": [
+		{ "module": "Plugins\\DeltaChat.dll", "minver": 10 }
+	],
 	"rules": {
 		"svc_dbepp.dll":                  "Plugins\\dbeditorpp.dll",
 		"svc_crshdmp.dll":                "Plugins\\crashdumper.dll",

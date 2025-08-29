@@ -464,41 +464,6 @@ LBL_Error:
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// building file list in the separate thread
-
-RENAMETABLE g_arRename(50);
-
-// Checks if file needs to be renamed and copies it in pNewName
-// Returns true if smth. was copied
-static bool CheckFileRename(const wchar_t *pwszFolder, const wchar_t *pwszOldName, wchar_t *pNewName)
-{
-	MFilePath fullOldPath;
-	fullOldPath.Format(L"%s\\%s", pwszFolder, pwszOldName);
-
-	for (auto &it : g_arRename) {
-		if (wildcmpiw(pwszOldName, it->wszSearch)) {
-			if (it->wszReplace == nullptr)
-				*pNewName = 0;
-			else {
-				wcsncpy_s(pNewName, MAX_PATH, it->wszReplace, _TRUNCATE);
-				size_t cbLen = wcslen(it->wszReplace) - 1;
-				if (pNewName[cbLen] == '*')
-					wcsncpy_s(pNewName + cbLen, MAX_PATH - cbLen, pwszOldName, _TRUNCATE);
-
-				// don't try to rename a file to itself
-				MFilePath fullNewPath;
-				fullNewPath.Format(L"%s\\%s", g_mirandaPath.get(), pNewName);
-				if (fullNewPath == fullOldPath)
-					return false;
-			}
-			return true;
-		}
-	}
-
-	return false;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // We only update ".dll", ".exe", ".txt" and ".bat"
 
 static wchar_t wszExtensionList[][5] = { L".dll", L".exe", L".txt", L".bat", L".cmd", L".mir" };
@@ -522,7 +487,7 @@ static bool isValidDirectory(const wchar_t *pwszDirName)
 
 // Scans folders recursively
 
-static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t *pwszBaseUrl, SERVLIST &hashes, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
+static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, ServerConfig &config, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
 {
 	Netlib_LogfW(g_hNetlibUser, L"Scanning folder %s", pwszFolder);
 
@@ -536,7 +501,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 			// Scan recursively all subfolders
 			if (isValidDirectory(ff.getPath())) {
 				wszBuf.Format(L"%s\\%s", pwszFolder, ff.getPath());
-				count += ScanFolder(wszBuf, cbBaseLen, pwszBaseUrl, hashes, UpdateFiles, level + 1);
+				count += ScanFolder(wszBuf, cbBaseLen, config, UpdateFiles, level + 1);
 			}
 			continue;
 		}
@@ -546,7 +511,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 
 		if (isValidExtension(ff.getPath())) {
 			// calculate the current file's relative name and store it into wszNewName
-			if (CheckFileRename(pwszFolder, ff.getPath(), wszNewName)) {
+			if (config.CheckRename(pwszFolder, ff.getPath(), wszNewName)) {
 				if (wszNewName[0])
 					Netlib_LogfW(g_hNetlibUser, L"File <%s> will be renamed to <%s>", wszBuf.c_str(), wszNewName);
 				else
@@ -575,7 +540,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 		// this file is not marked for deletion
 		if (!bDeleteOnly) {
 			wchar_t *pName = wszNewName;
-			ServListEntry *item = hashes.find((ServListEntry*)&pName);
+			auto *item = config.arHashes.find((ServListEntry*)&pName);
 			// Not in list? Check for trailing 'W' or 'w'
 			if (item == nullptr) {
 				wchar_t *p = wcsrchr(wszNewName, '.');
@@ -587,7 +552,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 				// remove trailing w or W and try again
 				int iPos = int(p - wszNewName) - 1;
 				strdelw(p - 1, 1);
-				if ((item = hashes.find((ServListEntry*)&pName)) == nullptr) {
+				if ((item = config.arHashes.find((ServListEntry*)&pName)) == nullptr) {
 					Netlib_LogfW(g_hNetlibUser, L"File %s: Not found on server, skipping", ff.getPath());
 					continue;
 				}
@@ -647,7 +612,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 		_wcslwr(p);
 
 		mir_snwprintf(FileInfo->File.wszDiskPath, L"%s\\Temp\\%s.zip", g_wszRoot, p);
-		mir_snwprintf(FileInfo->File.wszDownloadURL, L"%s/%s.zip", pwszBaseUrl, buf);
+		mir_snwprintf(FileInfo->File.wszDownloadURL, L"%s/%s.zip", config.m_baseUrl.get(), buf);
 		for (p = wcschr(FileInfo->File.wszDownloadURL, '\\'); p != nullptr; p = wcschr(p, '\\'))
 			*p++ = '/';
 
@@ -680,13 +645,12 @@ static void CheckUpdates(void *)
 	if (!g_plugin.bSilent)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Checking for new updates..."), POPUP_TYPE_INFO);
 
-	ptrW updateUrl(GetDefaultUrl()), baseUrl;
-	SERVLIST hashes(50, CompareHashes);
-	bool success = ParseHashes(updateUrl, baseUrl, hashes, &g_arRename);
+	ServerConfig config;
+	bool success = config.Load();
 	if (success) {
-		if (hashes.getCount()) {
+		if (config.arHashes.getCount()) {
 			FILELIST *UpdateFiles = new FILELIST(20);
-			int count = ScanFolder(g_mirandaPath, mir_wstrlen(g_mirandaPath) + 1, baseUrl, hashes, UpdateFiles);
+			int count = ScanFolder(g_mirandaPath, mir_wstrlen(g_mirandaPath) + 1, config, UpdateFiles);
 			if (count == 0) {
 				if (!g_plugin.bSilent)
 					ShowPopup(TranslateT("Plugin Updater"), TranslateT("No updates found."), POPUP_TYPE_INFO);
@@ -706,8 +670,6 @@ static void CheckUpdates(void *)
 		g_plugin.InitTimer(0);
 	}
 	else g_plugin.InitTimer(1); // update failed, postpone the timer
-
-	hashes.destroy();
 }
 
 void DoCheck(bool bSilent)
