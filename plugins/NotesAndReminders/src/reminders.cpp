@@ -1553,6 +1553,9 @@ static LRESULT CALLBACK ListWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	if (msg == WM_KEYDOWN && wParam == VK_DELETE)
 		PostMessage(GetParent(hwnd), WM_COMMAND, ID_CONTEXTMENUREMINDER_DELETE, 0);
 
+	if (msg == WM_CHAR)
+		PostMessage(GetDlgItem(GetParent(hwnd), IDC_FILTER), msg, wParam, lParam);
+
 	return mir_callNextSubclass(hwnd, ListWindowProc, msg, wParam, lParam);
 }
 
