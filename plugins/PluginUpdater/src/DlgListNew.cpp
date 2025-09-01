@@ -438,7 +438,7 @@ LBL_Error:
 	
 		// verify OS version
 		if (auto *pPacket = config.FindPacket(it->m_name))
-			if (pPacket->osMin > osVer)
+			if (pPacket->osMin > osVer || osVer > pPacket->osMax)
 				continue;
 
 		// okay, add it then

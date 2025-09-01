@@ -246,7 +246,7 @@ struct PacketTableItem
 	{}
 
 	ptrW wszModule;
-	int  osMin = -1, osMax = -1;
+	int  osMin = -1, osMax = 200;
 };
 
 struct ServerConfig
