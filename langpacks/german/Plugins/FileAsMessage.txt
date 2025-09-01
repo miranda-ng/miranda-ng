@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: FileAsMessage.dll
 ;  Plugin: File as message
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Denis Stanishevskiy
 ;============================================================
 [File transfer by using the messaging services - as plain text.]
@@ -43,6 +43,12 @@ Weitere Einstellungen unter Ereignisse -> Dateiübertragungen, Gruppe "Dateien e
 Datei empfangen
 [Send file]
 Datei senden
+[Perform]
+Ausführen
+[Revive a transfer]
+Übertragung fortsetzen
+[Pause]
+Pause
 [File already exists. Overwrite?]
 Datei existiert bereits. Überschreiben?
 [Couldn't open a file]
@@ -90,8 +96,6 @@ Durch Benutzer abgebrochen
 ;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Abspielen
-[Pause]
-Pause
 [Revive]
 Fortsetzen
 [Stop]

@@ -28,3 +28,8 @@ Jingle RTP Audio
 Netzwerk
 [VoIP]
 VoIP
+;file \plugins\Jingle\src\voip.cpp
+[GStreamer plugin %S not found]
+GStreamer-Plugin %S nicht gefunden.
+[GStreamer plugin %S not loaded, it might require Windows 7 or later]
+GStreamer-Plugin %S nicht geladen, es könnte Windows 7 oder neuer erfordern.

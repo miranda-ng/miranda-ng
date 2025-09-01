@@ -67,11 +67,16 @@ Dienste
 Text
 [Background]
 Hintergrund
-[Text Files (*.txt)]
-Textdokumente (*.txt)
-[All Files]
+[Text files (*.txt)]
+Textdateien (*.txt)
+[All files]
 Alle Dateien
 [Save selection to file]
 Auswahl in Datei speichern
 [Save log to file]
 Log in Datei speichern
+;file \plugins\Console\src\init.cpp
+[Show]
+Anzeigen
+[Hide]
+Verbergen

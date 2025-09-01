@@ -2111,6 +2111,8 @@ Telefon/SMS
 Chat-Aktivität
 [Chat mute mode]
 Chat-Stumm-Modus
+[Reaction]
+Reaktion
 [Gender]
 Geschlecht
 [Account]
@@ -2655,6 +2657,8 @@ Protokolle
 ;file \src\mir_app\src\proto_interface.cpp
 [Preview folder]
 Vorschauverzeichnis
+[History loaded successfully]
+Verlauf erfolgreich geladen
 [Request authorization]
 Autorisierung anfragen
 [Grant authorization]

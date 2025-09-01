@@ -209,3 +209,11 @@ Min
 Max
 [Status Message]
 Statusnachricht
+[All files]
+Alle Dateien
+[Playlist files]
+Playlist-Dateien
+[BASS built-in]
+BASS eingebaut
+[All supported formats]
+Alle unterstützten Formate
