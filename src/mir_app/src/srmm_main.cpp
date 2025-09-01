@@ -141,6 +141,13 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+static int OnHistoryLoaded(WPARAM hContact, LPARAM)
+{
+	if (auto *pDlg = Srmm_FindDialog(hContact))
+		pDlg->ScheduleRedrawLog();
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static int OnModuleLoaded(WPARAM, LPARAM)
@@ -173,6 +180,7 @@ void SrmmModulesLoaded()
 	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 	Menu_AddMainMenuItem(&mi);
 
+	HookEvent(ME_HISTORY_LOADED, OnHistoryLoaded);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 }
 

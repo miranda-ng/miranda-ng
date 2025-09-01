@@ -992,10 +992,10 @@ MIR_APP_DLL(HGENMENU) Menu_AddProtoMenuItem(TMO_MenuItem *mi, const char *pszPro
 	if (db_get_b(0, "CList", "MoveProtoMenus", TRUE))
 		return Menu_AddStatusMenuItem(mi, pszProto);
 
-	char szService[100];
+	CMStringA szService;
 	if (pszProto && mi->pszService && *mi->pszService == '/') {
-		strncpy_s(szService, pszProto, _TRUNCATE);
-		strncat_s(szService, mi->pszService, _TRUNCATE);
+		szService.Append(pszProto);
+		szService.Append(mi->pszService);
 		mi->pszService = szService;
 	}
 	return Menu_AddMainMenuItem(mi);

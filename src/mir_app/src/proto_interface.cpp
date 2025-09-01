@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "file.h"
 
 static wchar_t wszPreviewFolder[MAX_PATH];
-static HANDLE hPreviewFolder;
+static HANDLE hPreviewFolder, hHistoryLoaded;
 
 static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr, hServerHist = nullptr;
 
@@ -330,8 +330,21 @@ static INT_PTR __cdecl stubRevokeAuth(WPARAM hContact, LPARAM)
 static INT_PTR __cdecl stubLoadHistory(WPARAM hContact, LPARAM)
 {
 	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto)
+	if (szProto) {
 		ProtoCallService(szProto, PS_MENU_LOADHISTORY, hContact, 0);
+		NotifyEventHooks(hHistoryLoaded, hContact, 0);
+	}
+	return 0;
+}
+
+static int OnHistoryLoaded(WPARAM hContact, LPARAM)
+{
+	POPUPDATA2 pd = {};
+	pd.cbSize = sizeof(pd);
+	pd.flags = PU2_UNICODE;
+	pd.lchContact = hContact;
+	pd.szText.w = TranslateT("History loaded successfully");
+	Popup_Add(&pd);
 	return 0;
 }
 
@@ -384,6 +397,9 @@ void InitProtoMenus(void)
 	hServerHist = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, stubLoadHistory);
 
+	hHistoryLoaded = CreateHookableEvent(ME_HISTORY_LOADED);
+
+	HookEvent(ME_HISTORY_LOADED, OnHistoryLoaded);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ProtoModulesLoaded);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, ProtoPrebuildContactMenu);
 }

@@ -41,4 +41,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS_HISTORY_EMPTY "History/EmptyHistory"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Fired when server history is loaded
+// wParam = (MCONTACT)hContact
+// lParam = 0 (unused)
+
+#define ME_HISTORY_LOADED "History/Loaded"
+
 #endif // M_HISTORY_H__
