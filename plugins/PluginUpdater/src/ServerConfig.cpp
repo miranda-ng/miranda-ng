@@ -22,10 +22,15 @@ static int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 	return _wcsicmp(p1->m_name, p2->m_name);
 }
 
+static int ComparePackets(const PacketTableItem *p1, const PacketTableItem *p2)
+{
+	return _wcsicmp(p1->wszModule, p2->wszModule);
+}
+
 ServerConfig::ServerConfig() :
 	arHashes(50, CompareHashes),
 	arRename(50),
-	arPackets(50)
+	arPackets(50, ComparePackets)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -181,4 +186,12 @@ bool ServerConfig::CheckRename(const wchar_t *pwszFolder, const wchar_t *pwszOld
 	}
 
 	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+// Finds a packet by the module / plugin name
+
+PacketTableItem* ServerConfig::FindPacket(const wchar_t *pwszName)
+{
+	return arPackets.find((PacketTableItem*)&pwszName);
 }

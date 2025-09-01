@@ -20,6 +20,24 @@ Boston, MA 02111-1307, USA.
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// gets Windows version as a unified number
+
+int GetWinVer(void)
+{
+	if (IsWinVer10Plus())
+		return 100;
+	if (IsWinVer81Plus())
+		return 81;
+	if (IsWinVer8Plus())
+		return 80;
+	if (IsWinVer7Plus())
+		return 70;
+	if (IsWinVerVistaPlus())
+		return 60;
+	return 51; // Windows XP
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Single file HTTP transaction
 
 int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)

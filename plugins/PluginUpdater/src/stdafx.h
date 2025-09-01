@@ -260,6 +260,8 @@ struct ServerConfig
 
 	bool Load();
 	bool CheckRename(const wchar_t *pwszFolder, const wchar_t *pwszOldName, wchar_t *pNewName);
+
+	PacketTableItem* FindPacket(const wchar_t *);
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -277,6 +279,8 @@ void  DoRestart(void);
 
 void  CALLBACK RestartPrompt(void *);
 void  CALLBACK CheckUpdateOnStartup(void);
+
+int   GetWinVer(void);
 
 int   BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName);
 

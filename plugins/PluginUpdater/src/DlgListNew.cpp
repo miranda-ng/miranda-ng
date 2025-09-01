@@ -426,15 +426,24 @@ LBL_Error:
 		goto LBL_Error;
 
 	FILELIST *UpdateFiles = new FILELIST(20);
+	int osVer = GetWinVer();
 
 	for (auto &it : config.arHashes) {
 		TFileName pwszPath;
 		mir_snwprintf(pwszPath, L"%s\\%s", g_mirandaPath.get(), it->m_name);
 
-		if (GetFileAttributes(pwszPath) == INVALID_FILE_ATTRIBUTES) {
-			FILEINFO *FileInfo = ServerEntryToFileInfo(*it, config.m_baseUrl, pwszPath);
-			UpdateFiles->insert(FileInfo);
-		}
+		// alredy exists? skip it
+		if (GetFileAttributes(pwszPath) != INVALID_FILE_ATTRIBUTES)
+			continue;
+	
+		// verify OS version
+		if (auto *pPacket = config.FindPacket(it->m_name))
+			if (pPacket->osMin > osVer)
+				continue;
+
+		// okay, add it then
+		FILEINFO *FileInfo = ServerEntryToFileInfo(*it, config.m_baseUrl, pwszPath);
+		UpdateFiles->insert(FileInfo);
 	}
 
 	// Show dialog
