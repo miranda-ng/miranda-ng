@@ -443,9 +443,6 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 		if (m_bEnableUserActivity)
 			arrExtCaps.insert(JABBER_EXT_USER_ACTIVITY);
 
-		if (m_bAcceptNotes)
-			arrExtCaps.insert(JABBER_EXT_MIR_NOTES);
-
 		NotifyFastHook(hExtListInit, (WPARAM)&arrExtCaps, (LPARAM)(IJabberInterface*)this);
 
 		// add features enabled through IJabberNetInterface::AddFeatures()

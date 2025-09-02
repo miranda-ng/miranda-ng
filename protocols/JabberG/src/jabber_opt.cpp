@@ -729,7 +729,6 @@ public:
 		pOptions->AddOption(LPGENW("Messaging"), LPGENW("Enable user moods receiving"), m_proto->m_bEnableUserMood);
 		pOptions->AddOption(LPGENW("Messaging"), LPGENW("Enable user tunes receiving"), m_proto->m_bEnableUserTune);
 		pOptions->AddOption(LPGENW("Messaging"), LPGENW("Enable user activity receiving"), m_proto->m_bEnableUserActivity);
-		pOptions->AddOption(LPGENW("Messaging"), LPGENW("Receive notes"), m_proto->m_bAcceptNotes);
 		pOptions->AddOption(LPGENW("Messaging"), LPGENW("Automatically save received notes"), m_proto->m_bAutosaveNotes);
 		pOptions->AddOption(LPGENW("Messaging"), LPGENW("Inline pictures in messages (XEP-0231)"), m_proto->m_bInlinePictures);
 		pOptions->AddOption(LPGENW("Messaging"), LPGENW("Enable chat states sending (XEP-0085)"), m_proto->m_bEnableChatStates);

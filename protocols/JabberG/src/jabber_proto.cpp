@@ -87,7 +87,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_StrmMgmt(this),
 
 	m_bAcceptHttpAuth(this, "AcceptHttpAuth", true),
-	m_bAcceptNotes(this, "AcceptNotes", true),
 	m_bAllowTimeReplies(this, "AllowTimeReplies", true),
 	m_bAllowVersionRequests(this, "AllowVersionRequests", true),
 	m_bAllowLast(this, "AllowLast", false),
@@ -169,7 +168,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CJabberProto::OnGetAdvancedStatusIcon);
 
 	CreateProtoService(JS_HTTP_AUTH, &CJabberProto::OnHttpAuthRequest);
-	CreateProtoService(JS_INCOMING_NOTE_EVENT, &CJabberProto::OnIncomingNoteEvent);
 
 	CreateProtoService(JS_SENDXML, &CJabberProto::ServiceSendXML);
 	CreateProtoService(PS_GETMYAVATAR, &CJabberProto::JabberGetAvatar);

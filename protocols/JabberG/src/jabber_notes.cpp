@@ -139,10 +139,8 @@ void CNoteList::SaveXml(TiXmlElement *hXmlParent)
 class CJabberDlgNoteItem : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
-	typedef void (CJabberProto::*TFnProcessNote)(CNoteItem *, bool ok);
 
 	CNoteItem *m_pNote;
-	TFnProcessNote m_fnProcess;
 
 	CCtrlEdit m_txtTitle;
 	CCtrlEdit m_txtText;
@@ -152,7 +150,6 @@ public:
 	CJabberDlgNoteItem(CJabberDlgBase *parent, CNoteItem *pNote) :
 		CSuper(parent->GetProto(), IDD_NOTE_EDIT),
 		m_pNote(pNote),
-		m_fnProcess(nullptr),
 		m_txtTitle(this, IDC_TXT_TITLE),
 		m_txtText(this, IDC_TXT_TEXT),
 		m_txtTags(this, IDC_TXT_TAGS)
@@ -160,31 +157,10 @@ public:
 		SetParent(parent->GetHwnd());
 	}
 
-	CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TFnProcessNote fnProcess) :
-		CSuper(proto, IDD_NOTE_EDIT),
-		m_pNote(pNote),
-		m_fnProcess(fnProcess),
-		m_txtTitle(this, IDC_TXT_TITLE),
-		m_txtText(this, IDC_TXT_TEXT),
-		m_txtTags(this, IDC_TXT_TAGS)
-	{
-	}
-
 	bool OnInitDialog() override
 	{
 		CSuper::OnInitDialog();
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NOTES));
-
-		if (m_fnProcess) {
-			Utf2T wszFrom(m_pNote->GetFrom());
-			CMStringW buf;
-			if (m_fnProcess == &CJabberProto::ProcessIncomingNote)
-				buf.Format(TranslateT("Incoming note from %s"), wszFrom.get());
-			else
-				buf.Format(TranslateT("Send note to %s"), wszFrom.get());
-
-			SetWindowText(m_hwnd, buf);
-		}
 
 		m_txtTitle.SetText(Utf2T(m_pNote->GetTitle()));
 		m_txtText.SetText(m_pNote->GetText());
@@ -199,8 +175,6 @@ public:
 		m_pNote->SetData(szTitle, m_pNote->GetFrom(), ptrW(m_txtText.GetText()), szTags);
 
 		m_autoClose = false;
-		if (m_fnProcess)
-			(m_proto->*m_fnProcess)(m_pNote, true);
 		return true;
 	}
 
@@ -221,12 +195,6 @@ public:
 		}
 
 		return CSuper::Resizer(urc);
-	}
-
-	void OnDestroy() override
-	{
-		if (m_fnProcess)
-			(m_proto->*m_fnProcess)(m_pNote, false);
 	}
 };
 
@@ -647,117 +615,11 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Launches the incoming note window
-
-void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok)
-{
-	if (ok && pNote->IsNotEmpty()) {
-		m_notes.insert(pNote);
-
-		XmlNodeIq iq("set");
-		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVATE_STORAGE);
-		TiXmlElement *storage = query << XCHILDNS("storage", JABBER_FEAT_MIRANDA_NOTES);
-		m_notes.SaveXml(storage);
-		m_ThreadInfo->send(iq);
-	}
-	else delete pNote;
-}
-
-void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
-{
-	if (!ok || !pNote->IsNotEmpty()) {
-		delete pNote;
-		return;
-	}
-
-	char buf[1024];
-	mir_snprintf(buf, "Incoming note: %s\n\n%s\nTags: %s", pNote->GetTitle(), pNote->GetText(), pNote->GetTagsStr());
-
-	JabberCapsBits jcb = GetResourceCapabilities(pNote->GetFrom());
-
-	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
-		jcb = JABBER_RESOURCE_CAPS_NONE;
-
-	int nMsgId = SerialNext();
-
-	XmlNode m("message");
-	m << XATTR("type", "chat") << XATTR("to", pNote->GetFrom()) << XATTRID(nMsgId);
-	m << XCHILD("body", buf);
-	TiXmlElement *hXmlItem = m << XCHILDNS("x", JABBER_FEAT_MIRANDA_NOTES) << XCHILD("note");
-	hXmlItem << XATTR("tags", pNote->GetTagsStr());
-	hXmlItem << XCHILD("title", pNote->GetTitle());
-	hXmlItem << XCHILD("text", T2Utf(pNote->GetText()));
-
-	// message receipts XEP priority
-	if (IsSendAck(HContactFromJID(pNote->GetFrom())) && (jcb & JABBER_CAPS_MESSAGE_RECEIPTS))
-		m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
-	else
-		nMsgId = -1;
-
-	m_ThreadInfo->send(m);
-	delete pNote;
-}
-
-bool CJabberProto::OnIncomingNote(const char *szFrom, const TiXmlElement *hXml)
-{
-	if (!m_bAcceptNotes)
-		return false;
-
-	if (!szFrom || !hXml) return true;
-	CNoteItem *pItem = new CNoteItem(hXml, szFrom);
-	if (!pItem->IsNotEmpty()) {
-		delete pItem;
-		return true;
-	}
-
-	if (m_bAutosaveNotes && HContactFromJID(szFrom)) {
-		ProcessIncomingNote(pItem, true);
-		return false;
-	}
-
-	char szService[256];
-	mir_snprintf(szService, "%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT);
-
-	CLISTEVENT cle = {};
-	cle.hIcon = g_plugin.getIcon(IDI_NOTES);
-	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_UNICODE;
-	cle.hDbEvent = -99;
-	cle.lParam = (LPARAM)pItem;
-	cle.pszService = szService;
-	cle.szTooltip.w = TranslateT("Incoming note");
-	g_clistApi.pfnAddEvent(&cle);
-	return true;
-}
-
-INT_PTR __cdecl CJabberProto::OnIncomingNoteEvent(WPARAM, LPARAM lParam)
-{
-	CLISTEVENT *pCle = (CLISTEVENT *)lParam;
-	CNoteItem *pNote = (CNoteItem *)pCle->lParam;
-	if (!pNote)
-		return 0;
-
-	CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pNote, &CJabberProto::ProcessIncomingNote);
-	pDlg->Show();
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Menu handling
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleNotes(WPARAM, LPARAM)
 {
 	UI_SAFE_OPEN_EX(CJabberDlgNotes, m_pDlgNotes, pDlg);
 	pDlg->UpdateData();
-	return 0;
-}
-
-INT_PTR __cdecl CJabberProto::OnMenuSendNote(WPARAM wParam, LPARAM)
-{
-	if (wParam) {
-		CNoteItem *pItem = new CNoteItem(nullptr, ptrA(getUStringA(wParam, "jid")));
-		CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pItem, &CJabberProto::ProcessOutgoingNote);
-		pDlg->Show();
-	}
-
 	return 0;
 }

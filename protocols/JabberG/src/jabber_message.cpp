@@ -186,13 +186,7 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 		if (pszXmlns == nullptr)
 			continue;
 
-		if (!mir_strcmp(pszXmlns, JABBER_FEAT_MIRANDA_NOTES)) {
-			if (OnIncomingNote(M.from, XmlFirstChild(xNode, "note"))) {
-				debugLogA("OMEMO: no 'note' attribute, returning");
-				return;
-			}
-		}
-		else if (!mir_strcmp(pszXmlns, "jabber:x:encrypted")) {
+		if (!mir_strcmp(pszXmlns, "jabber:x:encrypted")) {
 			auto *ptszText = xNode->GetText();
 			if (ptszText == nullptr) {
 				debugLogA("OMEMO: no 'encrypted' attribute, returning");

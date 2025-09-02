@@ -154,15 +154,6 @@ void CJabberProto::GlobalMenuInit()
 	g_hMenuCommands = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, GlobalService<&CJabberProto::ContactMenuRunCommands>);
 
-	// Send Note
-	SET_UID(mi, 0xf4b0cc51, 0xab9, 0x4cf0, 0x96, 0xaa, 0x22, 0xa0, 0x33, 0x9b, 0x56, 0xc5);
-	mi.pszService = "Jabber/SendNote";
-	mi.name.a = LPGEN("Send Note");
-	mi.position = -1999901010;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_SEND_NOTE);
-	g_hMenuSendNote = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, GlobalService<&CJabberProto::OnMenuSendNote>);
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Direct Presence
 

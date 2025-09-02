@@ -282,7 +282,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	ThreadData* m_ThreadInfo;
 
 	CMOption<bool> m_bAcceptHttpAuth;
-	CMOption<bool> m_bAcceptNotes;
 	CMOption<bool> m_bAllowTimeReplies;
 	CMOption<bool> m_bAllowVersionRequests;
 	CMOption<bool> m_bAllowLast;
@@ -493,15 +492,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int        AddEditBookmark(JABBER_LIST_ITEM *item, MWindow hwndParent = 0);
 
 	//---- jabber_notes.c -----------------------------------------------------------------
-
-	void       ProcessIncomingNote(CNoteItem *pNote, bool ok);
-	void       ProcessOutgoingNote(CNoteItem *pNote, bool ok);
-		        
-	bool       OnIncomingNote(const char *szFrom, const TiXmlElement *hXml);
 			     
-	INT_PTR    __cdecl OnMenuSendNote(WPARAM, LPARAM);
 	INT_PTR    __cdecl OnMenuHandleNotes(WPARAM, LPARAM);
-	INT_PTR    __cdecl OnIncomingNoteEvent(WPARAM, LPARAM);
 
 	//---- jabber_byte.c -----------------------------------------------------------------
 
