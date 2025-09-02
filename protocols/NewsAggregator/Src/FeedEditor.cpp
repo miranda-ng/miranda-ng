@@ -135,7 +135,7 @@ void CFeedEditor::OnCheckFeed(CCtrlBase*)
 	wchar_t *tszTitle = nullptr;
 	ptrW strfeedurl(m_feedurl.GetText());
 	if (strfeedurl || mir_wstrcmp(strfeedurl, L"http://") != 0 || mir_wstrcmp(strfeedurl, L"") != 0)
-		tszTitle = (wchar_t*)CheckFeed(strfeedurl, this);
+		tszTitle = (wchar_t *)CheckFeed(strfeedurl, this);
 	else
 		MessageBox(m_hwnd, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
 	m_feedtitle.SetText(tszTitle);

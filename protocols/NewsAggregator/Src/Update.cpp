@@ -21,8 +21,8 @@ Boston, MA 02111-1307, USA.
 
 // check if Feed is currently updating
 bool ThreadRunning;
-UPDATELIST *UpdateListHead = nullptr;
-UPDATELIST *UpdateListTail = nullptr;
+static mir_cs g_csUpdate;
+static std::vector<MCONTACT> g_arUpdates;
 
 // main auto-update timer
 void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
@@ -39,6 +39,7 @@ void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 				}
 			}
 		}
+	
 		if (!ThreadRunning && HaveUpdates)
 			mir_forkthread(UpdateThreadProc);
 	}
@@ -60,76 +61,38 @@ void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 
 void UpdateListAdd(MCONTACT hContact)
 {
-	UPDATELIST *newItem = (UPDATELIST*)mir_alloc(sizeof(UPDATELIST));
-	newItem->hContact = hContact;
-	newItem->next = nullptr;
-
-	WaitForSingleObject(hUpdateMutex, INFINITE);
-
-	if (UpdateListTail == nullptr)
-		UpdateListHead = newItem;
-	else UpdateListTail->next = newItem;
-	UpdateListTail = newItem;
-
-	ReleaseMutex(hUpdateMutex);
-}
-
-MCONTACT UpdateGetFirst()
-{
-	MCONTACT hContact = NULL;
-
-	WaitForSingleObject(hUpdateMutex, INFINITE);
-
-	if (UpdateListHead != nullptr) {
-		UPDATELIST* Item = UpdateListHead;
-		hContact = Item->hContact;
-		UpdateListHead = Item->next;
-		mir_free(Item);
-
-		if (UpdateListHead == nullptr)
-			UpdateListTail = nullptr;
-	}
-
-	ReleaseMutex(hUpdateMutex);
-
-	return hContact;
-}
-
-void DestroyUpdateList(void)
-{
-	WaitForSingleObject(hUpdateMutex, INFINITE);
-
-	// free the list one by one
-	UPDATELIST *temp = UpdateListHead;
-	while (temp != nullptr) {
-		UpdateListHead = temp->next;
-		mir_free(temp);
-		temp = UpdateListHead;
-	}
-	// make sure the entire list is clear
-	UpdateListTail = nullptr;
-
-	ReleaseMutex(hUpdateMutex);
+	mir_cslock lck(g_csUpdate);
+	g_arUpdates.push_back(hContact);
 }
 
 void UpdateThreadProc(void *AvatarCheck)
 {
-	WaitForSingleObject(hUpdateMutex, INFINITE);
-	if (ThreadRunning) {
-		ReleaseMutex(hUpdateMutex);
-		return;
+	{
+		mir_cslock lck(g_csUpdate);
+		if (ThreadRunning)
+			return;
+
+		ThreadRunning = TRUE;	// prevent 2 instance of this thread running
 	}
-	ThreadRunning = TRUE;	// prevent 2 instance of this thread running
-	ReleaseMutex(hUpdateMutex);
 
 	CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
 
 	// update news by getting the first station from the queue until the queue is empty
-	while (UpdateListHead != nullptr && !Miranda_IsTerminated()) {
+	while (!Miranda_IsTerminated()) {
+		MCONTACT hContact;
+		{
+			mir_cslock lck(g_csUpdate);
+			if (g_arUpdates.empty())
+				break;
+
+			hContact = g_arUpdates[0];
+			g_arUpdates.erase(g_arUpdates.begin());
+		}
+
 		if (AvatarCheck != nullptr)
-			CheckCurrentFeedAvatar(UpdateGetFirst());
+			CheckCurrentFeedAvatar(hContact);
 		else
-			CheckCurrentFeed(UpdateGetFirst());
+			CheckCurrentFeed(hContact);
 	}
 
 	// exit the update thread

@@ -21,7 +21,6 @@ Boston, MA 02111-1307, USA.
 
 HANDLE hPrebuildMenuHook = nullptr;
 wchar_t tszRoot[MAX_PATH] = {0};
-HANDLE hUpdateMutex;
 
 CMPlugin g_plugin;
 
@@ -60,8 +59,6 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, NewsAggrInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, NewsAggrPreShutdown);
 
-	hUpdateMutex = CreateMutex(nullptr, FALSE, nullptr);
-
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, NewsAggrGetCaps);
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, NewsAggrSetStatus);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, NewsAggrGetStatus);
@@ -89,14 +86,5 @@ int CMPlugin::Load()
 
 	InitIcons();
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int CMPlugin::Unload()
-{
-	DestroyUpdateList();
-	CloseHandle(hUpdateMutex);
 	return 0;
 }

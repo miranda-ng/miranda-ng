@@ -65,7 +65,7 @@ int NewsAggrPreShutdown(WPARAM, LPARAM)
 
 INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM)
 {
-	switch(wp) {
+	switch (wp) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_PEER2PEER;
 	case PFLAGNUM_3:
@@ -85,7 +85,7 @@ INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM)
 	int nStatus = (int)wp;
 	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus)) {
 		int nOldStatus = g_nStatus;
-		if(nStatus != g_nStatus) {
+		if (nStatus != g_nStatus) {
 			g_nStatus = nStatus;
 
 			for (auto &hContact : Contacts(MODULENAME))
@@ -131,9 +131,9 @@ INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 
 INT_PTR CheckFeed(WPARAM hContact, LPARAM)
 {
-	if(IsMyContact((MCONTACT)hContact))
+	if (IsMyContact((MCONTACT)hContact))
 		UpdateListAdd((MCONTACT)hContact);
-	if ( !ThreadRunning)
+	if (!ThreadRunning)
 		mir_forkthread(UpdateThreadProc);
 	return 0;
 }
@@ -159,8 +159,8 @@ INT_PTR NewsAggrRecvMessage(WPARAM, LPARAM lParam)
 {
 	PROTOACCOUNT *pa = Proto_GetAccount(MODULENAME);
 	if (pa && pa->ppro) {
-		CCSDATA *ccs = (CCSDATA*)lParam;
-		pa->ppro->PROTO_INTERFACE::RecvMsg(ccs->hContact, *(DB::EventInfo*)ccs->lParam);
+		CCSDATA *ccs = (CCSDATA *)lParam;
+		pa->ppro->PROTO_INTERFACE::RecvMsg(ccs->hContact, *(DB::EventInfo *)ccs->lParam);
 	}
 
 	return 0;

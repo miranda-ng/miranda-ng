@@ -32,7 +32,7 @@ static CMStringA DetectEncoding(const TiXmlDocument &doc)
 						p2 = strchr(p1, '\"');
 					}
 					if (p1 && p2)
-						return CMStringA(p1, int(p2-p1));
+						return CMStringA(p1, int(p2 - p1));
 				}
 
 	return CMStringA();
@@ -174,7 +174,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 		if (stamp > 0 && olddbei.getUnixtime() < (uint32_t)stamp)
 			break;
 
-		if ((int)mir_strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
+		if ((int)mir_strlen((char *)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char *)olddbei.pBlob, pszTemp)) {
 			MesExist = true;
 			break;
 		}
@@ -197,7 +197,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 void CheckCurrentFeed(MCONTACT hContact)
 {
 	// Check is disabled by the user?
-	if (!g_plugin.getByte(hContact, "CheckState", 1) != 0)
+	if (!g_plugin.getByte(hContact, "CheckState", 1))
 		return;
 
 	wchar_t *szURL = g_plugin.getWStringA(hContact, "URL");
@@ -222,7 +222,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 	CMStringA codepage = DetectEncoding(doc);
 
 	CMStringW szValue;
-	
+
 	for (auto *it : TiXmlEnum(&doc)) {
 		auto *szNodeName = it->Name();
 		bool isRSS = !mir_strcmpi(szNodeName, "rss"), isAtom = !mir_strcmpi(szNodeName, "rdf");
@@ -431,6 +431,8 @@ void CheckCurrentFeed(MCONTACT hContact)
 			}
 		}
 	}
+	
+	g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	g_plugin.setDword(hContact, "LastCheck", (uint32_t)time(0));
 }
 

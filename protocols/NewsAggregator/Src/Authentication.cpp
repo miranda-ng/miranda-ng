@@ -56,7 +56,7 @@ bool CAuthRequest::OnInitDialog()
 {
 	if (m_pDlg) {
 		ptrW strfeedtitle(m_pDlg->m_feedtitle.GetText());
-		
+
 		if (strfeedtitle)
 			m_feedname.SetText(strfeedtitle);
 		else {

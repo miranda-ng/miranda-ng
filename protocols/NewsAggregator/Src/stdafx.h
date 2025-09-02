@@ -73,26 +73,12 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMPlugin();
 
 	int Load() override;
-	int Unload() override;
 };
 
 //============  STRUCT USED TO MAKE AN UPDATE LIST  ============
 
-struct NEWSCONTACTLIST {
-	MCONTACT hContact;
-	struct NEWSCONTACTLIST *next;
-};
-
-typedef struct NEWSCONTACTLIST UPDATELIST;
-
-extern UPDATELIST *UpdateListHead;
-extern UPDATELIST *UpdateListTail;
-
-void UpdateListAdd(MCONTACT hContact);
-void UpdateThreadProc(void*);
-void DestroyUpdateList(void);
-
-extern    HANDLE hUpdateMutex;
+void      UpdateListAdd(MCONTACT hContact);
+void      UpdateThreadProc(void*);
 		    
 int       NewsAggrInit(WPARAM wParam,LPARAM lParam);
 int       OptInit(WPARAM wParam, LPARAM lParam);
