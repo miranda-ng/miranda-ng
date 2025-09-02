@@ -194,16 +194,11 @@ static void moveProfileDirProfiles(const wchar_t *profiledir, bool isRootDir)
 
 		int idx = pfd.ReverseFind('\\');
 		if (idx != -1)
-			pfd.Trim(idx);
+			pfd.Truncate(idx);
 
-		auto *wszFileName = NEWWSTR_ALLOCA(it.getPath());
-		auto *c = wcsrchr(wszFileName, '.'); if (c) *c = 0;
-
-		path.Format(L"%s\\%s", pfd.c_str(), wszFileName);
-		path2.Format(L"%s\\%s", profiledir, wszFileName);
-		CreateDirectoryTreeW(path2);
-		
-		path2.AppendFormat(L"\\%s.dat", wszFileName);
+		path.Format(L"%s\\%s", pfd.c_str(), it.getPath());
+		path2.Format(L"%s\\%s\\%s", profiledir, it.getPath(), it.getPath());
+		path2.Replace(L".dat\\", L"\\");
 		if (path2.isExist()) {
 			wchar_t buf[512];
 			mir_snwprintf(buf,
@@ -211,13 +206,16 @@ static void moveProfileDirProfiles(const wchar_t *profiledir, bool isRootDir)
 				path.c_str(), path2.c_str());
 			MessageBoxW(nullptr, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
 		}
-		else if (!path.move(path2)) {
-			wchar_t buf[512];
-			mir_snwprintf(buf,
-				TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually."),
-				path.c_str(), path2.c_str());
-			MessageBoxW(nullptr, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
-			break;
+		else {
+			CreatePathToFileW(path2);
+			if (!path.move(path2)) {
+				wchar_t buf[512];
+				mir_snwprintf(buf,
+					TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually."),
+					path.c_str(), path2.c_str());
+				MessageBoxW(nullptr, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
+				break;
+			}
 		}
 	}
 }
