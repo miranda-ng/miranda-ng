@@ -152,6 +152,7 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 	bool        bHasToolTip;
 	bool        bHasNicklist;
 	bool        bIsDirty;
+	bool        bFilterEnabled;
 
 	char*       pszModule;
 	wchar_t*    ptszID;
@@ -161,7 +162,7 @@ struct MIR_APP_EXPORT SESSION_INFO : public MZeroedObject, public MNonCopyable
 
 	int         iType;
 	int         iStatusCount, iLastEvent;
-	int         iTrayFlags, iPopupFlags;
+	int         iLogFilterFlags, iTrayFlags, iPopupFlags;
 	int         currentHovered;
 
 	uint16_t    wStatus;

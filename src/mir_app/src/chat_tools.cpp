@@ -823,7 +823,7 @@ MIR_APP_DLL(void) Chat_SetFilters(SESSION_INFO *si)
 				dwFlags = (dwFlags_local & dwBit) ? dwFlags | dwBit : dwFlags & ~dwBit;
 		}
 
-		pDlg->m_iLogFilterFlags = dwFlags;
+		si->iLogFilterFlags = dwFlags;
 	}
 
 	uint32_t dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);

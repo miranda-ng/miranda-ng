@@ -80,8 +80,8 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, MCONTACT h
 		m_iBG = 2;
 		m_bFGSet = m_bBGSet = true;
 
-		m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", Chat::bFilterEnabled) != 0;
-		m_iLogFilterFlags = Chat::iFilterFlags;
+		m_si->bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", Chat::bFilterEnabled) != 0;
+		m_si->iLogFilterFlags = Chat::iFilterFlags;
 		m_bNicklistEnabled = Chat::bShowNicklist;
 
 		timerNickList.OnEvent = Callback(this, &CSrmmBaseDialog::OnNickListTimer);
@@ -760,7 +760,7 @@ void CSrmmBaseDialog::InsertBbcodeString(const wchar_t *pwszStr)
 
 bool CSrmmBaseDialog::IsSuitableEvent(const LOGINFO &lin) const
 {
-	return (m_si->iType == GCW_SERVER || (m_iLogFilterFlags & lin.iType));
+	return (m_si->iType == GCW_SERVER || (m_si->iLogFilterFlags & lin.iType));
 }
 
 void CSrmmBaseDialog::MarkEventRead(const DB::EventInfo &dbei)
@@ -880,12 +880,10 @@ void CSrmmBaseDialog::OnOptionsApplied()
 
 void CSrmmBaseDialog::UpdateFilterButton()
 {
-	db_set_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled);
+	db_set_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_si->bFilterEnabled);
+	Chat_SetFilters(m_si);
 	
-	if (m_si)
-		Chat_SetFilters(m_si);
-
-	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_bFilterEnabled 
+	m_btnFilter.SendMsg(BUTTONADDTOOLTIP, (WPARAM)(m_si->bFilterEnabled
 		? TranslateT("Disable the event filter")
 		: TranslateT("Enable the event filter")), BATF_UNICODE);
 }
@@ -991,13 +989,13 @@ void CSrmmBaseDialog::onClick_BIU(CCtrlButton *pButton)
 
 void CSrmmBaseDialog::onClick_Filter(CCtrlButton *pButton)
 {
-	if (!pButton->Enabled())
+	if (!pButton->Enabled() || !m_si)
 		return;
 
-	m_bFilterEnabled = !m_bFilterEnabled;
+	m_si->bFilterEnabled = !m_si->bFilterEnabled;
 	UpdateFilterButton();
 
-	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter)
+	if (m_si->bFilterEnabled && !g_chatApi.bRightClickFilter)
 		ShowFilterMenu();
 	else {
 		if (m_hwndFilter)

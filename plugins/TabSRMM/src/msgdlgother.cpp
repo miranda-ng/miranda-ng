@@ -2222,7 +2222,7 @@ void CMsgDialog::UpdateFilterButton()
 {
 	CSuper::UpdateFilterButton();
 
-	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayDisabled : 0), 0);
+	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_si->bFilterEnabled ? PluginConfig.g_iconOverlayDisabled : 0), 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

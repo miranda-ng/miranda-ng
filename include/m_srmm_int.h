@@ -367,8 +367,7 @@ protected:
 public:
 	MCONTACT m_hContact;
 	MEVENT m_hDbEventFirst, m_hQuoteEvent = 0;
-	int m_iLogFilterFlags;
-	bool m_bFilterEnabled, m_bNicklistEnabled, m_bReadOnly = false, m_bSendFormat;
+	bool m_bNicklistEnabled, m_bReadOnly = false, m_bSendFormat;
 	bool m_bFGSet, m_bBGSet;
 	bool m_bInMenu, m_bActive;
 

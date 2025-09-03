@@ -371,6 +371,11 @@ LOGINFO* SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 	if (si == nullptr)
 		return nullptr;
 
+	// we don't add filtered events into array, let's simply skip them
+	int iActiveFlags = (si->bFilterEnabled) ? si->iLogFilterFlags : Chat::iFilterFlags;
+	if (!(gce->iType & iActiveFlags))
+		return nullptr;
+
 	LOGINFO *li = new LOGINFO(gce);
 	li->bIsHighlighted = bIsHighlighted;
 	if (si->pMI->bDatabase) {
@@ -383,7 +388,7 @@ LOGINFO* SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 		}
 	}
 	else li->hEvent = si->iLastEvent++;
-	
+
 	if (g_Settings->iEventLimit > 0 && si->arEvents.getCount() > g_Settings->iEventLimit + 20)
 		for (int i = si->arEvents.getCount() - g_Settings->iEventLimit; i >= 0; i--)
 			si->arEvents.remove(0);
