@@ -291,7 +291,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bAutoJoinBookmarks;
 	CMOption<bool> m_bAutoJoinConferences;
 	CMOption<bool> m_bAutoJoinHidden;
-	CMOption<bool> m_bAutosaveNotes;
 	CMOption<bool> m_bBsDirect;
 	CMOption<bool> m_bBsDirectManual;
 	CMOption<bool> m_bBsProxyManual;
