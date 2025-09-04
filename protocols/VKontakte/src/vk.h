@@ -94,6 +94,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VK_FEED_USER 2147483647L
 #define VK_INVALID_USER 0L
 
+#define VKURL L"https://vk.ru/"
+
 #define VK_CHAT_MIN 2000000000
 #define VK_CHAT_MAX VK_CHAT_MIN + 100000000
 #define VK_USERID_MAX1 1900000000

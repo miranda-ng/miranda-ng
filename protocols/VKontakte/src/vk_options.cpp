@@ -29,7 +29,7 @@ public:
 	CVkAccMgrForm(CVkProto *proto, HWND hwndParent) :
 		CVkDlgBase(proto, IDD_ACCMGRUI),
 		m_btnTokenReq(this, IDC_TOKENREQ),
-		m_hlLink(this, IDC_URL, "https://vk.com/")
+		m_hlLink(this, IDC_URL, "https://vk.ru/")
 	{
 		SetParent(hwndParent);
 		m_btnTokenReq.OnClick = Callback(this, &CVkAccMgrForm::On_btnTokenReq_Click);

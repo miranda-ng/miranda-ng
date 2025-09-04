@@ -64,7 +64,7 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	{
 		mir_cslock lck(m_csWorkThreadTimer);
 		if (pReq->m_bApiReq)
-			GrabCookies(reply, "api.vk.com");
+			GrabCookies(reply, "api.vk.ru");
 
 		if (tLocalWorkThreadTimer != m_tWorkThreadTimer) {
 			debugLogA("CVkProto::WorkerThread is living Dead => return");

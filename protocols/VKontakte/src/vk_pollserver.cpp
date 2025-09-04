@@ -252,7 +252,7 @@ int CVkProto::PollServer()
 	int iPollConnRetry = MAX_RETRIES;
 
 	CMStringA szReqUrl(FORMAT, "https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d&version=%d", m_szPollingServer, m_szPollingKey, m_szPollingTs, m_szAccessToken, 106, 3);
-	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
+	// see mode parametr description on https://vk.ru/dev/using_longpoll (Russian version)
 	MHttpRequest req(REQUEST_GET);
 	req.m_szUrl = szReqUrl.GetBuffer();
 	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11 | NLHRF_SSL;

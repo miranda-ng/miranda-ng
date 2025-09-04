@@ -18,7 +18,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 static const char  *szGiftTypes[] = { "thumb_256", "thumb_96", "thumb_48" };
-static const char *szVKUrls[] = { "http://vk.com/", "https://vk.com/", "http://new.vk.com/", "https://new.vk.com/", "http://m.vk.com/", "https://m.vk.com/" };
+static const char *szVKUrls[] = { "http://vk.com/", "https://vk.com/", "http://new.vk.com/", "https://new.vk.com/", "http://m.vk.com/", "https://m.vk.com/", "http://vk.ru/", "https://vk.ru/", "http://m.vk.ru/", "https://m.vk.ru/" };
 static const char *szAttachmentMasks[] = { "wall%d_%d",  "wall-%d_%d", "video%d_%d", "video-%d_%d",  "photo%d_%d", "photo-%d_%d", "audio%d_%d", "audio-%d_%d", "doc%d_%d", "doc-%d_%d", "market-%d_%d", "market%d_%d", "story%d_%d", "story-%d_%d" };
 static const char *szVKLinkParam[] = { "?z=", "?w=", "&z=", "&w=" };
 static const wchar_t* wszVKStickerUrlMask = L"https://vk.com/sticker/1-%d-%d%s";
@@ -1366,9 +1366,9 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			CMStringW wszAccessKey(jnVideo["access_key"].as_mstring());
 
 			if (iMessageId == -1)
-				wszUrl.Format(L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
+				wszUrl.Format(VKURL"video%d_%d", iOwnerId, iVideoId);
 			else
-				wszUrl.Format(L"https://vk.com/im?z=video%d_%d/%s", iOwnerId, iVideoId, wszAccessKey.IsEmpty() ? L"" : wszAccessKey.c_str());
+				wszUrl.Format(VKURL"im?z=video%d_%d/%s", iOwnerId, iVideoId, wszAccessKey.IsEmpty() ? L"" : wszAccessKey.c_str());
 
 			if (jnVideo["image"]) {
 				CMStringW wszPreviewImage = GetVkPhotoForVideoItem(jnVideo["image"], hContact, iMessageId);
@@ -1402,7 +1402,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			CMStringW wszText(jnWall["text"].as_mstring());
 			int iWallId = jnWall["id"].as_int();
 			VKUserID_t iFromId = jnWall["from_id"].as_int();
-			CMStringW wszUrl(FORMAT, L"https://vk.com/wall%d_%d", iFromId, iWallId);
+			CMStringW wszUrl(FORMAT, VKURL"wall%d_%d", iFromId, iWallId);
 			res.AppendFormat(L"%s: %s",
 				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszUrl).c_str(),
 				wszText.IsEmpty() ? L" " : wszText.c_str());
@@ -1413,7 +1413,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 					CMStringW wszCHText(jnCopyHystoryItem["text"].as_mstring());
 					int iCHid = jnCopyHystoryItem["id"].as_int();
 					VKUserID_t iCHfromID = jnCopyHystoryItem["from_id"].as_int();
-					CMStringW wszCHUrl(FORMAT, L"https://vk.com/wall%d_%d", iCHfromID, iCHid);
+					CMStringW wszCHUrl(FORMAT, VKURL"wall%d_%d", iCHfromID, iCHid);
 					wszCHText.Replace(L"\n", L"\n\t\t");
 					res.AppendFormat(L"\n\t\t%s: %s",
 						SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, wszCHUrl).c_str(),
@@ -1451,7 +1451,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			int iPostOwnerId = jnWallReply["post_id"].as_int();
 			int iThreadId = jnWallReply["reply_to_comment"].as_int();
 
-			CMStringW wszUrl(FORMAT, L"https://vk.com/wall%d_%d?reply=%d&thread=%d", iFromOwnerId, iPostOwnerId, iWallReplyId, iThreadId);
+			CMStringW wszUrl(FORMAT, VKURL"wall%d_%d?reply=%d&thread=%d", iFromOwnerId, iPostOwnerId, iWallReplyId, iThreadId);
 
 			CMStringW wszFromNick, wszFromUrl;
 			MCONTACT hFromContact = FindUser(iFromId);
@@ -1482,7 +1482,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				continue;
 			int iStoryId = jnStory["id"].as_int();
 			VKUserID_t iOwnerID = jnStory["owner_id"].as_int();
-			CMStringW wszUrl(FORMAT, L"https://vk.com/story%d_%d", iOwnerID, iStoryId);
+			CMStringW wszUrl(FORMAT, VKURL"story%d_%d", iOwnerID, iStoryId);
 
 			res.AppendFormat(L"%s",
 				SetBBCString(TranslateT("Story"), iBBC, vkbbcUrl, wszUrl).c_str());
@@ -1505,7 +1505,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 				CMStringW wszTitle(jnVideo["title"].as_mstring());
 				int iVideoId = jnVideo["id"].as_int();
 				VKUserID_t iOwnerId = jnVideo["owner_id"].as_int();
-				CMStringW wszVideoUrl(FORMAT, L"https://vk.com/video%d_%d", iOwnerId, iVideoId);
+				CMStringW wszVideoUrl(FORMAT, VKURL"video%d_%d", iOwnerId, iVideoId);
 
 				res.AppendFormat(L"\n\t%s: %s",
 					SetBBCString(TranslateT("Video"), iBBC, vkbbcB).c_str(),
@@ -1613,7 +1613,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 			CMStringW wszTitle(jnMarket["title"].as_mstring());
 			CMStringW wszDescription(jnMarket["description"].as_mstring());
 			CMStringW wszPhoto(jnMarket["thumb_photo"].as_mstring());
-			CMStringW wszUrl(FORMAT, L"https://vk.com/%s%d?w=product%d_%d",
+			CMStringW wszUrl(FORMAT, VKURL"%s%d?w=product%d_%d",
 				iOwnerID > 0 ? L"id" : L"club",
 				iOwnerID > 0 ? iOwnerID : (-1) * iOwnerID,
 				iOwnerID,
@@ -1996,15 +1996,15 @@ bool CVkProto::IsMessageExist(VKMessageID_t iMessageId, VKMesType vkType)
 CMStringW CVkProto::UserProfileUrl(VKUserID_t iUserId)
 {
 	if (GetVKPeerType(iUserId) == VKPeerType::vkPeerError)
-		return CMStringW(L"https://vk.com/");
+		return CMStringW(VKURL);
 
 	if (GetVKPeerType(iUserId) == VKPeerType::vkPeerFeed)
-		return CMStringW(L"https://vk.com/feed");
+		return CMStringW(VKURL"feed");
 
 	if (GetVKPeerType(iUserId) == VKPeerType::vkPeerMUC)
-		return CMStringW(L"https://vk.com/im?sel=c%d", iUserId - VK_CHAT_MIN);
+		return CMStringW(VKURL"im?sel=c%d", iUserId - VK_CHAT_MIN);
 	
 	bool bIsUser = GetVKPeerType(iUserId) == VKPeerType::vkPeerUser;
 
-	return CMStringW(FORMAT, L"https://vk.com/%s%d", bIsUser ? L"id" : L"club", bIsUser ? iUserId : -1 * iUserId);
+	return CMStringW(FORMAT, VKURL"%s%d", bIsUser ? L"id" : L"club", bIsUser ? iUserId : -1 * iUserId);
 }

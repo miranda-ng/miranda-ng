@@ -20,10 +20,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 UINT_PTR CVkProto::m_Timer;
 mir_cs CVkProto::m_csTimer;
 
-char szBlankUrl[] = "https://oauth.vk.com/blank.html";
+char szBlankUrl[] = "https://oauth.vk.ru/blank.html";
 char szScore[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
 char szVKTokenBeg[] = "access_token=";
-char szVKCookieDomain[] = ".vk.com";
+char szVKCookieDomain[] = ".vk.ru";
 
 
 
@@ -242,7 +242,7 @@ void CVkProto::LogIn(LPCSTR pszUrl)
 	debugLogA("CVkProto::LogIn %s", pszUrl ? pszUrl : " ");
 	CMStringA szTokenReq(
 		FORMAT,
-		"https://oauth.vk.com/authorize?client_id=%d&scope=%s&redirect_uri=%s&display=mobile&response_type=token&v=%s", 
+		"https://oauth.vk.ru/authorize?client_id=%d&scope=%s&redirect_uri=%s&display=mobile&response_type=token&v=%s", 
 		VK_APP_ID,
 		mir_urlEncode(szScore).c_str(),
 		mir_urlEncode(szBlankUrl).c_str(),
@@ -416,11 +416,11 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactT
 		int online_mobile = jnItem["online_mobile"].as_int();
 
 		if (online_app == 0 && online_mobile == 0)
-			SetMirVer(hContact, 7); // vk.com
+			SetMirVer(hContact, 7); // vk.ru
 		else if (online_app != 0)
 			SetMirVer(hContact, online_app); // App
 		else
-			SetMirVer(hContact, 1); // m.vk.com
+			SetMirVer(hContact, 1); // m.vk.ru
 	}
 	else
 		SetMirVer(hContact, -1); // unset MinVer
@@ -532,7 +532,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactT
 	wszValue = jnItem["domain"].as_mstring();
 	if (!wszValue.IsEmpty()) {
 		setWString(hContact, "domain", wszValue);
-		CMStringW wszUrl("https://vk.com/");
+		CMStringW wszUrl(VKURL);
 		wszUrl.Append(wszValue);
 		setWString(hContact, "Homepage", wszUrl);
 	}
@@ -792,7 +792,7 @@ void CVkProto::OnReceiveGroupInfo(MHttpResponse *reply, AsyncHttpRequest *pReq)
 		wszValue = jnItem["screen_name"].as_mstring();
 		if (!wszValue.IsEmpty()) {
 			setWString(hContact, "domain", wszValue);
-			wszValue = L"https://vk.com/" + wszValue;
+			wszValue = VKURL + wszValue;
 			setWString(hContact, "Homepage", wszValue);
 		}
 
@@ -1077,7 +1077,7 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	
 	ptrW wszDomain(db_get_wsa(hContact, m_szModuleName, "domain"));
 
-	CMStringW wszUrl("https://vk.com/");
+	CMStringW wszUrl(VKURL);
 	if (wszDomain)
 		wszUrl.Append(wszDomain);
 	else {
@@ -1096,7 +1096,7 @@ INT_PTR __cdecl CVkProto::SvcGoToSiteIM(WPARAM hContact, LPARAM)
 	VKUserID_t iUserId = ReadVKUserID(hContact);
 	if (isChatRoom(hContact))
 		iUserId += VK_CHAT_MIN;
-	CMStringW wszUrl(FORMAT, L"https://vk.com/im/convo/%d?entrypoint=list_all", iUserId);
+	CMStringW wszUrl(FORMAT, VKURL"im/convo/%d?entrypoint=list_all", iUserId);
 
 	Utils_OpenUrlW(wszUrl);
 	return 0;

@@ -160,7 +160,7 @@ CVkChatInfo* CVkProto::AppendConversationChat(VKUserID_t iChatId, const JSONNode
 
 	WriteVKUserID(si->hContact, iChatId);
 
-	CMStringW wszHomepage(FORMAT, L"https://vk.com/im?sel=c%d", iChatId);
+	CMStringW wszHomepage(FORMAT, VKURL"im?sel=c%d", iChatId);
 	setWString(si->hContact, "Homepage", wszHomepage);
 
 	if (!wszAvatar.IsEmpty()) {
