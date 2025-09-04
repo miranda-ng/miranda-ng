@@ -106,20 +106,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define COLOR_BG_NAVAILDEFAULT RGB(255,189,189)
 #define COLOR_TX_DEFAULT       RGB(0,0,0)
 
-enum
-{
-	ICO_RESET,
-	ICO_SOUND,
-	ICO_XSTATUS,
-	ICO_DISABLEALL,
-	ICO_ENABLEALL,
-	ICO_VARIABLES,
-	ICO_STATUS_MESSAGE,
-	ICO_LOGGING_XSTATUS,
-	ICO_LOGGING_SMSG,
-	ICO_MAXID
-};
-
 #define JS_PARSE_XMPP_URI		"/ParseXmppURI"
 
 #define COMPARE_SAME 0
@@ -167,7 +153,6 @@ extern TEMPLATES templates;
 extern HGENMENU hEnableDisableMenu;
 extern STATUS StatusList[STATUS_COUNT];
 extern STATUS StatusListEx[STATUSEX_COUNT];
-extern IconItem iconList[ICO_MAXID];
 
 wchar_t* GetStr(STATUSMSGINFO *n, const wchar_t *tmplt);
 void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt);

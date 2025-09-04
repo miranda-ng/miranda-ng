@@ -36,19 +36,6 @@ HWND SecretWnd;
 
 int ContactStatusChanged(MCONTACT hContact, uint16_t oldStatus, uint16_t newStatus);
 
-IconItem iconList[ICO_MAXID] =
-{
-	{ LPGEN("Reset"),                  "reset",                  IDI_RESET },
-	{ LPGEN("Sounds"),                 "sound",                  IDI_SOUND },
-	{ LPGEN("Extra status notify"),    "xstatus",                IDI_XSTATUS },
-	{ LPGEN("Disable all"),            "disable_all",            IDI_DISABLEALL },
-	{ LPGEN("Enable all"),             "enable_all",             IDI_ENABLEALL },
-	{ LPGEN("Variables"),              "variables",              IDI_VARIABLES },
-	{ LPGEN("Status message notify"),  "status_message",         IDI_STATUS_MESSAGE },
-	{ LPGEN("Extra status logging"),   "logging_xstatus",        IDI_LOGGING_XSTATUS },
-	{ LPGEN("Status message logging"), "logging_status_message", IDI_LOGGING_SMSG }
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx =
@@ -1021,6 +1008,19 @@ static int OnShutdown(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Reset"),                  "reset",                  IDI_RESET },
+	{ LPGEN("Sounds"),                 "sound",                  IDI_SOUND },
+	{ LPGEN("Extra status notify"),    "xstatus",                IDI_XSTATUS },
+	{ LPGEN("Disable all"),            "disable_all",            IDI_DISABLEALL },
+	{ LPGEN("Enable all"),             "enable_all",             IDI_ENABLEALL },
+	{ LPGEN("Variables"),              "variables",              IDI_VARIABLES },
+	{ LPGEN("Status message notify"),  "status_message",         IDI_STATUS_MESSAGE },
+	{ LPGEN("Extra status logging"),   "logging_xstatus",        IDI_LOGGING_XSTATUS },
+	{ LPGEN("Status message logging"), "logging_status_message", IDI_LOGGING_SMSG },
+};
+
 int CMPlugin::Load()
 {
 	if (getByte("TempDisable")) {
@@ -1062,7 +1062,7 @@ int CMPlugin::Load()
 	evtype.module = MODULENAME;
 	evtype.eventType = EVENTTYPE_STATUSCHANGE;
 	evtype.descr = LPGEN("Status change");
-	evtype.eventIcon = iconList[ICO_XSTATUS].hIcolib;
+	evtype.eventIcon = getIconHandle(IDI_XSTATUS);
 	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	DbEvent_RegisterType(&evtype);
 	return 0;
