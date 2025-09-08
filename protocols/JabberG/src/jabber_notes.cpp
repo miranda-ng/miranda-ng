@@ -31,6 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_privacy.h"
 #include "jabber_notes.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// CNoteItem class members
+
 CNoteItem::CNoteItem()
 {
 }
@@ -106,6 +109,9 @@ int CNoteItem::cmp(const CNoteItem *p1, const CNoteItem *p2)
 	if (p1 > p2) return 1;
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CNoteList class members
 
 void CNoteList::LoadXml(const TiXmlElement *hXml)
 {
@@ -371,10 +377,11 @@ class CJabberDlgNotes : public CJabberDlgBase
 	CCtrlButton			m_btnSave;
 
 	HFONT m_hfntNormal, m_hfntSmall, m_hfntBold;
+	CNoteList m_notes;
 
 	void EnableControls()
 	{
-		m_btnSave.Enable(m_proto->m_bJabberOnline && m_proto->m_notes.IsModified());
+		m_btnSave.Enable(m_proto->m_bJabberOnline && m_notes.IsModified());
 		m_btnEdit.Enable(m_lstNotes.GetCurSel() != LB_ERR);
 		m_btnRemove.Enable(m_lstNotes.GetCurSel() != LB_ERR);
 	}
@@ -396,7 +403,7 @@ class CJabberDlgNotes : public CJabberDlgBase
 	void PopulateTags(HTREEITEM htiRoot, const char *szActiveTag)
 	{
 		LIST<char> tagSet(5, strcmp);
-		for (auto &it : m_proto->m_notes) {
+		for (auto &it : m_notes) {
 			char *tags = it->GetTags();
 			for (auto *tag = tags; tag && *tag; tag = tag + mir_strlen(tag) + 1)
 				if (!tagSet.find(tag))
@@ -443,7 +450,7 @@ class CJabberDlgNotes : public CJabberDlgBase
 	void ListItems(const char *tag)
 	{
 		m_lstNotes.ResetContent();
-		for (auto &it : m_proto->m_notes)
+		for (auto &it : m_notes)
 			if (it->HasTag(tag))
 				InsertItem(*it);
 		EnableControls();
@@ -475,6 +482,12 @@ public:
 		CSuper::OnInitDialog();
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_NOTES));
 
+		// Server-side notes
+		m_proto->m_ThreadInfo->send(
+			XmlNodeIq(m_proto->AddIQ(&CJabberProto::OnIqResultNotes, JABBER_IQ_TYPE_GET, 0, this))
+			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE)
+			<< XCHILDNS("storage", JABBER_FEAT_MIRANDA_NOTES));
+
 		LOGFONT lf, lfTmp;
 		m_hfntNormal = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 		GetObject(m_hfntNormal, sizeof(lf), &lf);
@@ -490,7 +503,7 @@ public:
 
 	bool OnClose() override
 	{
-		if (m_proto->m_notes.IsModified())
+		if (m_notes.IsModified())
 			if (IDYES != MessageBox(m_hwnd, TranslateT("Notes are not saved, close this window without uploading data to server?"), TranslateT("Are you sure?"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2))
 				return false;
 
@@ -539,8 +552,8 @@ public:
 		dlg.DoModal();
 
 		if (pNote->IsNotEmpty()) {
-			m_proto->m_notes.insert(pNote);
-			m_proto->m_notes.Modify();
+			m_notes.insert(pNote);
+			m_notes.Modify();
 			UpdateData();
 		}
 		else {
@@ -557,7 +570,7 @@ public:
 			if (CNoteItem *pItem = (CNoteItem *)m_lstNotes.GetItemData(idx)) {
 				CJabberDlgNoteItem dlg(this, pItem);
 				if (dlg.DoModal()) {
-					m_proto->m_notes.Modify();
+					m_notes.Modify();
 					RebuildTree();
 				}
 			}
@@ -571,7 +584,7 @@ public:
 		if (idx != LB_ERR) {
 			if (CNoteItem *pItem = (CNoteItem *)m_lstNotes.GetItemData(idx)) {
 				m_lstNotes.DeleteString(idx);
-				m_proto->m_notes.remove(pItem);
+				m_notes.remove(pItem);
 			}
 			RebuildTree();
 		}
@@ -602,24 +615,36 @@ public:
 		XmlNodeIq iq("set");
 		TiXmlElement *query = iq << XQUERY(JABBER_FEAT_PRIVATE_STORAGE);
 		TiXmlElement *storage = query << XCHILDNS("storage", JABBER_FEAT_MIRANDA_NOTES);
-		m_proto->m_notes.SaveXml(storage);
+		m_notes.SaveXml(storage);
 		m_proto->m_ThreadInfo->send(iq);
 		EnableControls();
 	}
 
-	void UpdateData()
+	void UpdateData(const TiXmlElement *storage = 0)
 	{
+		if (storage)
+			m_notes.LoadXml(storage);
+
 		RebuildTree();
 		EnableControls();
 	}
 };
+
+void CJabberProto::OnIqResultNotes(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+{
+	auto *pDlg = (CJabberDlgNotes *)pInfo->GetUserData();
+
+	if (iqNode && pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT)
+		if (auto *query = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_PRIVATE_STORAGE))
+			if (auto *storage = XmlGetChildByTag(query, "storage", "xmlns", JABBER_FEAT_MIRANDA_NOTES))
+				pDlg->UpdateData(storage);
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Menu handling
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleNotes(WPARAM, LPARAM)
 {
-	UI_SAFE_OPEN_EX(CJabberDlgNotes, m_pDlgNotes, pDlg);
-	pDlg->UpdateData();
+	UI_SAFE_OPEN(CJabberDlgNotes, m_pDlgNotes);
 	return 0;
 }

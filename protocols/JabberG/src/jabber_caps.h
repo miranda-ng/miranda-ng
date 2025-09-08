@@ -162,8 +162,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_USER_ACTIVITY_NOTIFY        "http://jabber.org/protocol/activity+notify"
 #define JABBER_CAPS_USER_ACTIVITY_NOTIFY        ((JabberCapsBits)1<<38)
 
-#define JABBER_FEAT_MIRANDA_NOTES               "http://miranda-ng.org/storage#notes"
-#define JABBER_CAPS_MIRANDA_NOTES               ((JabberCapsBits)1<<39)
+// #define JABBER_CAPS_MIRANDA_NOTES               ((JabberCapsBits)1<<39)
 
 #define JABBER_FEAT_ROSTER_EXCHANGE             "http://jabber.org/protocol/rosterx"
 #define JABBER_CAPS_ROSTER_EXCHANGE             ((JabberCapsBits)1<<41)
@@ -212,6 +211,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_UPLOAD0                     "urn:xmpp:http:upload:0"
 
 #define JABBER_FEAT_RSM                         "http://jabber.org/protocol/rsm"
+#define JABBER_FEAT_MIRANDA_NOTES               "http://miranda-ng.org/storage#notes"
 #define JABBER_FEAT_PUBSUB_EVENT                "http://jabber.org/protocol/pubsub#event"
 #define JABBER_FEAT_PUBSUB_NODE_CONFIG          "http://jabber.org/protocol/pubsub#node_config"
 

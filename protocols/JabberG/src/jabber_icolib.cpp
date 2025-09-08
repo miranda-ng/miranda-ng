@@ -418,7 +418,6 @@ static IconItem sharedIconList1[] =
 	{ LPGEN("Convert to room"),       "convert",          IDI_USER2ROOM          },
 	{ LPGEN("Login/logout"),          "trlogonoff",       IDI_LOGIN              },
 	{ LPGEN("Resolve nicks"),         "trresolve",        IDI_REFRESH            },
-	{ LPGEN("Send note"),             "sendnote",         IDI_SEND_NOTE,         },
 	{ LPGEN("Service Discovery"),     "servicediscovery", IDI_SERVICE_DISCOVERY  },
 	{ LPGEN("AdHoc Command"),         "adhoc",            IDI_COMMAND            },
 	{ LPGEN("XML Console"),           "xmlconsole",       IDI_CONSOLE            },

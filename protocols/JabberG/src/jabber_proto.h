@@ -436,8 +436,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	TFilterInfo m_filterInfo;
 
-	CNoteList m_notes;
-
 	OBJLIST<CChatMark> m_arChatMarks;
 
 	/*******************************************************************

@@ -902,8 +902,6 @@ IDI_HTTP_AUTH           ICON                    "openid.ico"
 
 IDI_NOTES               ICON                    "notes.ico"
 
-IDI_SEND_NOTE           ICON                    "send_note.ico"
-
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

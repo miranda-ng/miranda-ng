@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CNoteItem
 {
-private:
 	char *m_szTitle = 0;
 	char *m_szFrom = 0;
 	char *m_szTags = 0;

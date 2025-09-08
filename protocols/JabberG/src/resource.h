@@ -86,7 +86,6 @@
 #define IDD_HTTP_AUTH                   228
 #define IDI_HTTP_AUTH                   229
 #define IDI_NOTES                       233
-#define IDI_SEND_NOTE                   234
 #define IDC_STATUSBAR                   999
 #define IDC_EDIT_USERNAME               1000
 #define IDC_SAVE                        1000
