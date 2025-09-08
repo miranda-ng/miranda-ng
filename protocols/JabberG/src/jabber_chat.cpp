@@ -298,13 +298,8 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 {
 	CMStringA szMessage;
 
-	if (code != 307 && code != 301) {
-		ptrA quitMessage(getUStringA("GcMsgQuit"));
-		if (quitMessage != nullptr)
-			szMessage = quitMessage;
-		else
-			szMessage = TranslateU(JABBER_GC_MSG_QUIT);
-	}
+	if (code != 307 && code != 301)
+		szMessage = T2Utf(m_wszQuitMessage).get();
 	else {
 		CMStringA myNick(MyNick(item->hContact));
 		GcLogUpdateMemberStatus(item, myNick, myNick, nullptr, GC_EVENT_KICK, reason);
@@ -599,6 +594,9 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 			sttListItems[2].uType = 0;
 			sttShowGcMenuItems(_countof(sttListItems), sttListItems, sttRJidItems, 0);
 		}
+
+		sttListItems[0].uType = mir_wstrlen(m_wszSlapMessage) == 0 ? 0 : MENU_ITEM;
+
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttListItems), sttListItems, &g_plugin);
 	}
 
@@ -949,22 +947,13 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	switch (gch->dwData) {
 	case IDM_SLAP:
-		if (ppro->m_bJabberOnline) {
-			ptrA szMessage(ppro->getUStringA("GcMsgSlap"));
-			if (szMessage == nullptr)
-				szMessage = mir_strdup(TranslateU(JABBER_GC_MSG_SLAP));
-
-			CMStringA buf;
-			// do not use snprintf to avoid possible problems with % symbol
-			if (char *p = strstr(szMessage, "%s")) {
-				*p = 0;
-				buf.Format("%s%s%s", szMessage.get(), him->m_szResourceName.get(), p + 2);
-			}
-			else buf = szMessage;
+		if (ppro->m_bJabberOnline && mir_wstrlen(ppro->m_wszSlapMessage)) {
+			CMStringA szMessage(T2Utf(ppro->m_wszSlapMessage).get());
+			szMessage.Replace("%s", him->m_szResourceName.get());
 
 			ppro->m_ThreadInfo->send(
 				XmlNode("message") << XATTR("to", item->jid) << XATTR("type", "groupchat")
-				<< XCHILD("body", buf));
+				<< XCHILD("body", szMessage));
 		}
 		break;
 

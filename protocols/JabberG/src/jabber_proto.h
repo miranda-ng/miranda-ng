@@ -342,6 +342,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<uint32_t> m_iConnectionKeepAliveInterval;
 	CMOption<uint32_t> m_iConnectionKeepAliveTimeout;
 
+	CMOption<wchar_t *> m_wszQuitMessage;
+	CMOption<wchar_t *> m_wszSlapMessage;
+
 	PVOID  m_sslCtx;
 	mir_cs m_csSocket; // protects i/o operations
 

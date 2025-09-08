@@ -782,9 +782,7 @@ class CDlgOptGc : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
-	CCtrlEdit		m_txtAltNick;
-	CCtrlEdit		m_txtSlap;
-	CCtrlEdit		m_txtQuit;
+	CCtrlEdit		m_txtAltNick, m_txtSlap, m_txtQuit;
 	CCtrlTreeOpts	m_options;
 
 public:
@@ -796,8 +794,8 @@ public:
 		m_options(this, IDC_OPTTREE)
 	{
 		CreateLink(m_txtAltNick, "GcAltNick", L"");
-		CreateLink(m_txtSlap, "GcMsgSlap", TranslateW(_T(JABBER_GC_MSG_SLAP)));
-		CreateLink(m_txtQuit, "GcMsgQuit", TranslateW(_T(JABBER_GC_MSG_QUIT)));
+		CreateLink(m_txtSlap, proto->m_wszSlapMessage);
+		CreateLink(m_txtQuit, proto->m_wszQuitMessage);
 
 		m_options.OnFillOptions = Callback(this, &CDlgOptGc::onFill_Options);
 	}

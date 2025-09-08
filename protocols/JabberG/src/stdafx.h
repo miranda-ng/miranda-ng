@@ -164,8 +164,6 @@ protected:
 #define JABBER_DEFAULT_PORT 5222
 #define JABBER_MAX_JID_LEN  1024
 
-#define JABBER_GC_MSG_QUIT				LPGEN("I'm happy Miranda NG user. Get it at https://miranda-ng.org/.")
-#define JABBER_GC_MSG_SLAP				LPGEN("/me slaps %s around a bit with a large trout")
 #define JABBER_SERVER_URL				"https://xmpp.net/services.php"
 
 #define PGP_PROLOG "-----BEGIN PGP MESSAGE-----\r\n\r\n"

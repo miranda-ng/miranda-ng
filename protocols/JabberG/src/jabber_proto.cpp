@@ -145,7 +145,10 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	m_iMamMode(this, "MamMode", 0),
 	m_iConnectionKeepAliveInterval(this, "ConnectionKeepAliveInterval", 60000),
-	m_iConnectionKeepAliveTimeout(this, "ConnectionKeepAliveTimeout", 50000)
+	m_iConnectionKeepAliveTimeout(this, "ConnectionKeepAliveTimeout", 50000),
+
+	m_wszQuitMessage(this, "GcMsgQuit", TranslateT("I'm happy Miranda NG user. Get it at https://miranda-ng.org/.")),
+	m_wszSlapMessage(this, "GcMsgSlap", TranslateT("/me slaps %s around a bit with a large trout"))
 {
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
