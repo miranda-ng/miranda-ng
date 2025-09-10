@@ -84,10 +84,15 @@ struct FILEURL
 	int CRCsum;
 };
 
-struct FILEINFO
+struct FILEINFO : public MZeroedObject
 {
+	FILEINFO() :
+		arDeps(1)
+	{}
+
 	TFileName wszOldName, wszNewName;
 	FILEURL File;
+	OBJLIST<FILEINFO> arDeps;
 	bool bEnabled, bDeleteOnly;
 
 	bool IsFiltered(const CMStringW &wszFilter);
@@ -242,11 +247,13 @@ struct RenameTableItem
 struct PacketTableItem
 {
 	PacketTableItem(const wchar_t *_1) :
+		arDepends(1),
 		wszModule(mir_wstrdup(_1))
 	{}
 
 	ptrW wszModule;
 	int  osMin = -1, osMax = 200;
+	OBJLIST<wchar_t> arDepends;
 };
 
 struct ServerConfig
@@ -261,6 +268,7 @@ struct ServerConfig
 	bool Load();
 	bool CheckRename(const wchar_t *pwszFolder, const wchar_t *pwszOldName, wchar_t *pNewName);
 
+	ServListEntry* FindHash(const wchar_t *);
 	PacketTableItem* FindPacket(const wchar_t *);
 };
 

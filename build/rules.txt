@@ -1,6 +1,6 @@
 {
 	"packets": [
-		{ "module": "Plugins\\DeltaChat.dll", "minver": 100 },
+		{ "module": "Plugins\\DeltaChat.dll", "minver": 100, "depends": ["Libs\\libdeltachat.dll"] },
 		{ "module": "Plugins\\Jingle.dll", "minver": 70 },
 		{ "module": "Plugins\\New_GPG.dll", "minver": 60 },
 		{ "module": "Plugins\\Telegram.dll", "minver": 60 },

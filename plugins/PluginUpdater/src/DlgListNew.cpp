@@ -302,6 +302,9 @@ public:
 		if (!unzip(p->File.wszDiskPath, g_mirandaPath, wszBackupFolder, false))
 			PU::SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
 		db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->wszOldName));
+
+		for (auto &it : p->arDeps)
+			DownloadUpdate(it, nlc, wszBackupFolder);
 		return true;
 	}
 
@@ -437,12 +440,23 @@ LBL_Error:
 			continue;
 	
 		// verify OS version
-		if (auto *pPacket = config.FindPacket(it->m_name))
+		auto *pPacket = config.FindPacket(it->m_name);
+		if (pPacket)
 			if (pPacket->osMin > osVer || osVer > pPacket->osMax)
 				continue;
 
 		// okay, add it then
 		FILEINFO *FileInfo = ServerEntryToFileInfo(*it, config.m_baseUrl, pwszPath);
+		if (pPacket) {
+			// also add dependencies if found
+			for (auto &dep : pPacket->arDepends) {
+				if (auto *pHash = config.FindHash(dep)) {
+					mir_snwprintf(pwszPath, L"%s\\%s", g_mirandaPath.get(), dep);
+					auto *FI = ServerEntryToFileInfo(*pHash, config.m_baseUrl, pwszPath);
+					FileInfo->arDeps.insert(FI);
+				}
+			}
+		}
 		UpdateFiles->insert(FileInfo);
 	}
 

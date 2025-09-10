@@ -567,7 +567,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, ServerConfig 
 				__try {
 					CalculateModuleHash(wszBuf, szMyHash);
 					// hashes are the same, skipping
-					if (strcmp(szMyHash, item->m_szHash) == 0) {
+					if (!strcmp(szMyHash, item->m_szHash)) {
 						Netlib_LogfW(g_hNetlibUser, L"File %s: Already up-to-date, skipping", ff.getPath());
 						continue;
 					}

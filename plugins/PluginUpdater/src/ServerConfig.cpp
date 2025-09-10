@@ -140,6 +140,8 @@ bool ServerConfig::Load()
 				pItem->osMin = val;
 			if (auto val = it["maxver"].as_int())
 				pItem->osMax = val;
+			for (auto &dep : it["depends"])
+				pItem->arDepends.insert(newStrW(dep.as_mstring()));
 			arPackets.insert(pItem);
 		}
 	}
@@ -186,6 +188,14 @@ bool ServerConfig::CheckRename(const wchar_t *pwszFolder, const wchar_t *pwszOld
 	}
 
 	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
+// Finds a hashed module by the module / plugin name
+
+ServListEntry *ServerConfig::FindHash(const wchar_t *pwszName)
+{
+	return arHashes.find((ServListEntry *)&pwszName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
