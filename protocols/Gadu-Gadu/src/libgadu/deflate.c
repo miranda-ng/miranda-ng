@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  *  (C) Copyright 2011 Bartosz Brachaczek <b.brachaczek@gmail.com>
  *
@@ -24,18 +22,11 @@
  * \brief Funkcje kompresji Deflate
  */
 
-#ifndef _WIN64
-#define _USE_32BIT_TIME_T
-#endif
-
-#ifdef _WIN32
-#include "win32.h"
-#endif /* _WIN32 */
+#include "internal.h"
 
 #include <stdlib.h>
 #include <string.h>
 
-#include "libgadu.h"
 #include "deflate.h"
 
 #ifdef GG_CONFIG_HAVE_ZLIB
@@ -45,7 +36,7 @@
 /**
  * \internal Kompresuje dane wejściowe algorytmem Deflate z najwyższym
  * stopniem kompresji, tak samo jak oryginalny klient.
- * 
+ *
  * Wynik funkcji należy zwolnić za pomocą \c free.
  *
  * \param in Ciąg znaków do skompresowania, zakończony \c \\0
@@ -78,10 +69,11 @@ unsigned char *gg_deflate(const char *in, size_t *out_lenp)
 	}
 
 	out_len = deflateBound(&strm, strm.avail_in);
-	out = (unsigned char*)malloc(out_len);
+	out = malloc(out_len);
 
 	if (out == NULL) {
-		gg_debug(GG_DEBUG_MISC, "// gg_deflate() not enough memory for output data (%d)\n", out_len);
+		gg_debug(GG_DEBUG_MISC, "// gg_deflate() not enough memory for "
+			"output data (%" GG_SIZE_FMT ")\n", out_len);
 		goto fail;
 	}
 
@@ -90,36 +82,42 @@ unsigned char *gg_deflate(const char *in, size_t *out_lenp)
 
 	for (;;) {
 		ret = deflate(&strm, Z_FINISH);
-		
+
 		if (ret == Z_STREAM_END)
 			break;
-		
+
 		/* raczej nie powinno się zdarzyć przy Z_FINISH i out_len == deflateBound(),
 		 * ale dokumentacja zlib nie wyklucza takiej możliwości */
 		if (ret == Z_OK) {
 			out_len *= 2;
-			out2 = (unsigned char*)realloc(out, out_len);
-			
+			out2 = realloc(out, out_len);
+
 			if (out2 == NULL) {
-				gg_debug(GG_DEBUG_MISC, "// gg_deflate() not enough memory for output data (%d)\n", out_len);
+				gg_debug(GG_DEBUG_MISC, "// gg_deflate() not "
+					"enough memory for output data (%"
+					GG_SIZE_FMT ")\n", out_len);
 				goto fail;
 			}
-			
+
 			out = out2;
-			
+
 			strm.avail_out = out_len / 2;
 			strm.next_out = out + out_len / 2;
 		} else {
-			gg_debug(GG_DEBUG_MISC, "// gg_deflate() deflate() failed (ret=%d, msg=%s)\n", ret, strm.msg != NULL ? strm.msg : "no error message provided");
+			gg_debug(GG_DEBUG_MISC, "// gg_deflate() deflate() "
+				"failed (ret=%d, msg=%s)\n", ret,
+				strm.msg != NULL ? strm.msg :
+				"no error message provided");
 			goto fail;
 		}
 	}
 
 	out_len = strm.total_out;
-	out2 = (unsigned char*)realloc(out, out_len);
+	out2 = realloc(out, out_len);
 
 	if (out2 == NULL) {
-		gg_debug(GG_DEBUG_MISC, "// gg_deflate() not enough memory for output data (%d)\n", out_len);
+		gg_debug(GG_DEBUG_MISC, "// gg_deflate() not enough memory for "
+			"output data (%" GG_SIZE_FMT ")\n", out_len);
 		goto fail;
 	}
 
@@ -175,15 +173,16 @@ char *gg_inflate(const unsigned char *in, size_t length)
 
 	do {
 		out_len *= 2;
-		out2 = (char*)realloc(out, out_len);
-		
+		out2 = realloc(out, out_len);
+
 		if (out2 == NULL) {
-			gg_debug(GG_DEBUG_MISC, "// gg_inflate() not enough memory for output data (%d)\n", out_len);
+			gg_debug(GG_DEBUG_MISC, "// gg_inflate() not enough "
+				"memory for output data (%" GG_SIZE_FMT ")\n", out_len);
 			goto fail;
 		}
-		
+
 		out = out2;
-		
+
 		if (first) {
 			strm.avail_out = out_len;
 			strm.next_out = (unsigned char*) out;
@@ -191,23 +190,27 @@ char *gg_inflate(const unsigned char *in, size_t length)
 			strm.avail_out = out_len / 2;
 			strm.next_out = (unsigned char*) out + out_len / 2;
 		}
-		
+
 		ret = inflate(&strm, Z_NO_FLUSH);
-		
+
 		if (ret != Z_OK && ret != Z_STREAM_END) {
-			gg_debug(GG_DEBUG_MISC, "// gg_inflate() inflate() failed (ret=%d, msg=%s)\n", ret, strm.msg != NULL ? strm.msg : "no error message provided");
+			gg_debug(GG_DEBUG_MISC, "// gg_inflate() inflate() "
+				"failed (ret=%d, msg=%s)\n", ret,
+				strm.msg != NULL ? strm.msg :
+				"no error message provided");
 			goto fail;
 		}
-		
+
 		first = 0;
 	} while (ret != Z_STREAM_END);
 
 	/* rezerwujemy ostatni znak na NULL-a */
 	out_len = strm.total_out + 1;
-	out2 = (char*)realloc(out, out_len);
+	out2 = realloc(out, out_len);
 
 	if (out2 == NULL) {
-		gg_debug(GG_DEBUG_MISC, "// gg_inflate() not enough memory for output data (%d)\n", out_len);
+		gg_debug(GG_DEBUG_MISC, "// gg_inflate() not enough memory for "
+			"output data (%" GG_SIZE_FMT ")\n", out_len);
 		goto fail;
 	}
 

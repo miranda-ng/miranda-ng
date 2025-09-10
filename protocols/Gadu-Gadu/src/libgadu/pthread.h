@@ -48,6 +48,8 @@ int pthread_cancel(pthread_t *thread);
 /* terminate thread */
 void pthread_exit(void *value_ptr);
 
+#define PTHREAD_CANCEL_DISABLE 1
+
 #define pthread_mutex_init(pmutex, pattr)	 InitializeCriticalSection(pmutex)
 #define pthread_mutex_destroy(pmutex)		 DeleteCriticalSection(pmutex)
 #define pthread_mutex_lock(pmutex)			 EnterCriticalSection(pmutex)

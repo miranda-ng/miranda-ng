@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2003-2009 Adam Strzelecki <ono+miranda@java.pl>
@@ -17,13 +17,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
 
 #include "gg.h"
 #include <io.h>
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Status mode -> DB
+
 char *gg_status2db(int status, const char *suffix)
 {
 	char *prefix;
@@ -45,9 +45,9 @@ char *gg_status2db(int status, const char *suffix)
 	return str;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets protocol status
-//
+
 wchar_t* GaduProto::getstatusmsg(int status)
 {
 	switch (status) {
@@ -69,9 +69,9 @@ wchar_t* GaduProto::getstatusmsg(int status)
 	}
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // sets specified protocol status
-//
+
 int GaduProto::refreshstatus(int status)
 {
 	if (status == ID_STATUS_OFFLINE)
@@ -124,9 +124,9 @@ int GaduProto::refreshstatus(int status)
 	return TRUE;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // normalize gg status
-//
+
 int gg_normalizestatus(int status)
 {
 	switch (status) {
@@ -140,10 +140,10 @@ int gg_normalizestatus(int status)
 	return ID_STATUS_AWAY;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets avatar capabilities
 // registered as ProtoService PS_GETAVATARCAPS
-//
+
 INT_PTR GaduProto::getavatarcaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
@@ -166,10 +166,10 @@ INT_PTR GaduProto::getavatarcaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets avatar information
 // registered as ProtoService PS_GETAVATARINFO
-//
+
 INT_PTR GaduProto::getavatarinfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
@@ -282,10 +282,10 @@ INT_PTR GaduProto::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets avatar
 // registered as ProtoService PS_GETMYAVATAR
-//
+
 INT_PTR GaduProto::getmyavatar(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t *szFilename = (wchar_t*)wParam;
@@ -313,10 +313,10 @@ INT_PTR GaduProto::getmyavatar(WPARAM wParam, LPARAM lParam)
 
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // sets avatar
 // registered as ProtoService PS_SETMYAVATAR
-//
+
 INT_PTR GaduProto::setmyavatar(WPARAM, LPARAM lParam)
 {
 	wchar_t *szFilename = (wchar_t*)lParam;
@@ -352,10 +352,10 @@ INT_PTR GaduProto::setmyavatar(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets protocol status message
 // registered as ProtoService PS_GETMYAWAYMSG
-//
+
 INT_PTR GaduProto::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR res = 0;
@@ -369,10 +369,10 @@ INT_PTR GaduProto::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 	return res;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // leaves (terminates) conference
 // registered as ProtoService PS_LEAVECHAT
-//
+
 INT_PTR GaduProto::leavechat(WPARAM hContact, LPARAM)
 {
 	if (hContact)

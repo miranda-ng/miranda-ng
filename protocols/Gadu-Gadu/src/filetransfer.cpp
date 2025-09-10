@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2003-2006 Adam Strzelecki <ono+miranda@java.pl>
@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
 
 #include "gg.h"
 #include <errno.h>
@@ -99,9 +98,9 @@ HANDLE ftfail(GaduProto *gg, MCONTACT hContact)
 // Info refresh min time (msec) / half-sec
 #define GGSTATREFRESHEVERY	500
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Main DCC connection session thread
-//
+
 void __cdecl GaduProto::dccmainthread(void*)
 {
 	// Zero up lists
@@ -213,9 +212,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 				if (!local_dcc || (!FD_ISSET(local_dcc->fd, &rd) && !FD_ISSET(local_dcc->fd, &wd)))
 					continue;
 
-				/////////////////////////////////////////////////////////////////
 				// Process DCC events
-
 				// Connection broken/closed
 				gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 2, "ft_mutex", 1);
 				if (!(e = gg_dcc_socket_watch_fd(local_dcc)))
@@ -233,7 +230,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 				}
 				else {
 					gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-					debugLogA("dccmainthread(): Event: %s", ggdebug_eventtype(e));
+					debugLogA("dccmainthread(): Event: %s", gg_debug_event(e->type));
 				}
 
 				switch (e->type)
@@ -360,11 +357,10 @@ void __cdecl GaduProto::dccmainthread(void*)
 					// Add to waiting transfers
 					list_add(&transfers, local_dcc, 0);
 
-					//////////////////////////////////////////////////
 					// Add file recv request
 					{
 						// Make new ggtransfer struct
-						local_dcc->contact = (void*)getcontact(local_dcc->peer_uin, 0, 0, nullptr);
+						local_dcc->contact = getcontact(local_dcc->peer_uin, 0, 0, nullptr);
 						const char *pszFileName = (const char *)m_dcc->file_info.filename;
 
 						DB::EventInfo dbei;
@@ -452,7 +448,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 				if (!local_dcc7 || (!FD_ISSET(local_dcc7->fd, &rd) && !FD_ISSET(local_dcc7->fd, &wd)))
 					continue;
 
-				/////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////////////////////////////////////////////////
 				// Process DCC7 events
 
 				// Connection broken/closed
@@ -468,7 +464,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 				}
 				else {
 					gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
-					debugLogA("dccmainthread(): Event: %s", ggdebug_eventtype(e));
+					debugLogA("dccmainthread(): Event: %s", gg_debug_event(e->type));
 				}
 
 				switch (e->type)
@@ -820,7 +816,7 @@ int GaduProto::dcc7filecancel(HANDLE hTransfer)
 	gg_dcc7 *dcc7 = (gg_dcc7 *) hTransfer;
 
 	if (dcc7->type == GG_SESSION_DCC7_SEND && dcc7->state == GG_STATE_WAITING_FOR_ACCEPT)
-		gg_dcc7_abort(dcc7);
+		gg_dcc7_reject(dcc7, 1);
 
 	// Remove transfer from any list
 	gg_EnterCriticalSection(&ft_mutex, "dcc7filecancel", 45, "ft_mutex", 1);
@@ -849,9 +845,9 @@ int GaduProto::dcc7filecancel(HANDLE hTransfer)
 	return 0;
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // File receiving allowed
-//
+
 HANDLE GaduProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 {
 	// Check if its proper dcc
@@ -865,9 +861,9 @@ HANDLE GaduProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t* szPath)
 	return dccfileallow(hTransfer, szPath);
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // File transfer canceled
-//
+
 int GaduProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	// Check if its proper dcc
@@ -881,9 +877,9 @@ int GaduProto::FileCancel(MCONTACT, HANDLE hTransfer)
 	return dccfilecancel(hTransfer);
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // File receiving denied
-//
+
 int GaduProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 {
 	// Check if its proper dcc
@@ -897,9 +893,9 @@ int GaduProto::FileDeny(MCONTACT, HANDLE hTransfer, const wchar_t *)
 	return dccfiledeny(hTransfer);
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Called when user sends a file
-//
+
 HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFiles)
 {
 	char *bslash, *filename;
@@ -937,7 +933,7 @@ HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFil
 		list_add(&watches, dcc7, 0);
 
 		// Store handle
-		dcc7->contact = (void*)hContact;
+		dcc7->contact = hContact;
 		dcc7->folder = _strdup(filename);
 		dcc7->tick = 0;
 		// Make folder name
@@ -997,7 +993,7 @@ HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFil
 		list_add(&watches, dcc, 0);
 
 	// Store handle
-	dcc->contact = (void*)hContact;
+	dcc->contact = hContact;
 	dcc->folder = _strdup(filename);
 	dcc->tick = 0;
 	// Make folder name

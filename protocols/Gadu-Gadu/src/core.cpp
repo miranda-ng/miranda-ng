@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2003-2009 Adam Strzelecki <ono+miranda@java.pl>
@@ -17,7 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
 
 #include "gg.h"
 #include <errno.h>
@@ -25,18 +24,19 @@
 
 #pragma warning(disable : 4189)
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Swap bits in uint32_t
+
 uint32_t swap32(uint32_t x)
 {
 	return (uint32_t)
 		(((x & (uint32_t)0x000000ffU) << 24) |
-		((x & (uint32_t)0x0000ff00U) << 8) |
+			((x & (uint32_t)0x0000ff00U) << 8) |
 			((x & (uint32_t)0x00ff0000U) >> 8) |
 			((x & (uint32_t)0xff000000U) >> 24));
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Is online function
 
 int GaduProto::isonline()
@@ -50,19 +50,18 @@ int GaduProto::isonline()
 	return isonline;
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Send disconnect request and wait for server thread to die
+
 void GaduProto::disconnect()
 {
 	// If main loop then send disconnect request
-	if (isonline())
-	{
+	if (isonline()) {
 		// Fetch proper status msg
 		char *szMsg = nullptr;
 
 		// Loadup status
-		if (getByte(GG_KEY_LEAVESTATUSMSG, GG_KEYDEF_LEAVESTATUSMSG))
-		{
+		if (getByte(GG_KEY_LEAVESTATUSMSG, GG_KEYDEF_LEAVESTATUSMSG)) {
 			DBVARIANT dbv;
 			switch (getWord(GG_KEY_LEAVESTATUS, GG_KEYDEF_LEAVESTATUS)) {
 			case ID_STATUS_ONLINE:
@@ -129,15 +128,14 @@ void GaduProto::disconnect()
 		}
 
 		gg_EnterCriticalSection(&sess_mutex, "disconnect", 12, "sess_mutex", 1);
+
 		// Check if it has message
-		if (szMsg)
-		{
+		if (szMsg) {
 			gg_change_status_descr(m_sess, GG_STATUS_NOT_AVAIL_DESCR, szMsg);
 			mir_free(szMsg);
 			// Wait for disconnection acknowledge
 		}
-		else
-		{
+		else {
 			gg_change_status(m_sess, GG_STATUS_NOT_AVAIL);
 			// Send logoff immediately
 			gg_logoff(m_sess);
@@ -149,27 +147,26 @@ void GaduProto::disconnect()
 		closesocket(sock);
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // DNS lookup function
+
 uint32_t gg_dnslookup(GaduProto *gg, const char *host)
 {
 	uint32_t ip = inet_addr(host);
-	if (ip != INADDR_NONE)
-	{
-#ifdef DEBUGMODE
+	if (ip != INADDR_NONE) {
+		#ifdef DEBUGMODE
 		gg->debugLogA("gg_dnslookup(): Parameter \"%s\" is already IP number.", host);
-#endif
+		#endif
 		return ip;
 	}
 
 	hostent *he = gethostbyname(host);
-	if (he)
-	{
+	if (he) {
 		ip = *(uint32_t *)he->h_addr_list[0];
-#ifdef DEBUGMODE
+		#ifdef DEBUGMODE
 		gg->debugLogA("gg_dnslookup(): Parameter \"%s\" was resolved to %d.%d.%d.%d.", host,
 			LOBYTE(LOWORD(ip)), HIBYTE(LOWORD(ip)), LOBYTE(HIWORD(ip)), HIBYTE(HIWORD(ip)));
-#endif
+		#endif
 		return ip;
 	}
 
@@ -178,8 +175,9 @@ uint32_t gg_dnslookup(GaduProto *gg, const char *host)
 	return 0;
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Host list decoder
+
 struct GGHOST
 {
 	char hostname[128];
@@ -194,16 +192,13 @@ int gg_decodehosts(char *var, GGHOST *hosts, int max)
 	char *hostname = nullptr;
 	char *portname = nullptr;
 
-	while (var && *var && hp < max)
-	{
-		if (ISHOSTALPHA(*var))
-		{
+	while (var && *var && hp < max) {
+		if (ISHOSTALPHA(*var)) {
 			hostname = var;
 
 			while (var && *var && ISHOSTALPHA(*var)) var++;
 
-			if (var && *var == ':' && var++ && *var && isdigit(*var))
-			{
+			if (var && *var == ':' && var++ && *var && isdigit(*var)) {
 				*(var - 1) = 0;
 				portname = var;
 				while (var && *var && isdigit(*var)) var++;
@@ -228,41 +223,43 @@ int gg_decodehosts(char *var, GGHOST *hosts, int max)
 	return hp;
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Main connection session thread
+
 void __cdecl GaduProto::mainthread(void *)
 {
 	// Gadu-gadu login errors
 	static const struct tagReason { int type; wchar_t *str; } reason[] = {
-		{ GG_FAILURE_RESOLVING,   LPGENW("Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.") },
-		{ GG_FAILURE_CONNECTING,  LPGENW("Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.") },
-		{ GG_FAILURE_INVALID,     LPGENW("Received invalid server response.") },
-		{ GG_FAILURE_READING,     LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
-		{ GG_FAILURE_WRITING,     LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
-		{ GG_FAILURE_PASSWORD,    LPGENW("Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.") },
-		{ GG_FAILURE_404,         LPGENW("Connecting to Gadu-Gadu hub failed.") },
-		{ GG_FAILURE_TLS,         LPGENW("Cannot establish secure connection.") },
-		{ GG_FAILURE_NEED_EMAIL,  LPGENW("Server disconnected asking you for changing your e-mail.") },
-		{ GG_FAILURE_INTRUDER,    LPGENW("Too many login attempts with invalid password.") },
+		{ GG_FAILURE_RESOLVING, LPGENW("Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.") },
+		{ GG_FAILURE_CONNECTING, LPGENW("Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.") },
+		{ GG_FAILURE_INVALID, LPGENW("Received invalid server response.") },
+		{ GG_FAILURE_READING, LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
+		{ GG_FAILURE_WRITING, LPGENW("The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.") },
+		{ GG_FAILURE_PASSWORD, LPGENW("Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at Options -> Network -> Gadu-Gadu and try again.") },
+		{ GG_FAILURE_404, LPGENW("Connecting to Gadu-Gadu hub failed.") },
+		{ GG_FAILURE_TLS, LPGENW("Cannot establish secure connection.") },
+		{ GG_FAILURE_NEED_EMAIL, LPGENW("Server disconnected asking you for changing your e-mail.") },
+		{ GG_FAILURE_INTRUDER, LPGENW("Too many login attempts with invalid password.") },
 		{ GG_FAILURE_UNAVAILABLE, LPGENW("Gadu-Gadu servers are now down. Try again later.") },
-		{ 0,                      LPGENW("Unknown") }
+		{ 0, LPGENW("Unknown") }
 	};
+
 	time_t logonTime = 0;
 	time_t timeDeviation = getWord(GG_KEY_TIMEDEVIATION, GG_KEYDEF_TIMEDEVIATION);
 	int gg_failno = 0;
 
 	debugLogA("mainthread(): started. (%x) Server Thread Starting", this);
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	gg_debug_level = GG_DEBUG_NET | GG_DEBUG_TRAFFIC | GG_DEBUG_FUNCTION | GG_DEBUG_MISC;
-#else
+	#else
 	gg_debug_level = 0;
-#endif
+	#endif
 
 	// Broadcast that service is connecting
 	broadcastnewstatus(ID_STATUS_CONNECTING);
 
 	// Client version and misc settings
-	gg_login_params p = { 0 };
+	gg_login_params p = {};
 	p.client_version = GG_DEFAULT_CLIENT_VERSION;
 	p.protocol_version = GG_DEFAULT_PROTOCOL_VERSION;
 	p.protocol_features = GG_FEATURE_DND_FFC | GG_FEATURE_UNKNOWN_100 | GG_FEATURE_USER_DATA | GG_FEATURE_MSG_ACK | GG_FEATURE_TYPING_NOTIFICATION | GG_FEATURE_MULTILOGON;
@@ -312,9 +309,9 @@ void __cdecl GaduProto::mainthread(void *)
 	else {
 		debugLogA("mainthread() (%x): No password specified. Exiting.", this);
 		broadcastnewstatus(ID_STATUS_OFFLINE);
-#ifdef DEBUGMODE
+		#ifdef DEBUGMODE
 		debugLogA("mainthread(): end. err1");
-#endif
+		#endif
 		return;
 	}
 
@@ -323,14 +320,15 @@ void __cdecl GaduProto::mainthread(void *)
 		debugLogA("mainthread() (%x): No Gadu-Gadu number specified. Exiting.", this);
 		broadcastnewstatus(ID_STATUS_OFFLINE);
 		mir_free(p.password);
-#ifdef DEBUGMODE
+		#ifdef DEBUGMODE
 		debugLogA("mainthread(): end. err2");
-#endif
+		#endif
 		return;
 	}
 
 	// Readup SSL/TLS setting
 	p.tls = true;
+	p.socket_manager_type = GG_SOCKET_MANAGER_TYPE_INTERNAL;
 	debugLogA("mainthread() (%x): Using TLS/SSL for connections.", this);
 
 	// Gadu-Gadu accepts image sizes upto 255
@@ -343,9 +341,9 @@ void __cdecl GaduProto::mainthread(void *)
 		dccstart();
 
 		// Wait for DCC
-#ifdef DEBUGMODE
+		#ifdef DEBUGMODE
 		debugLogA("mainthread() (%x): Waiting DCC service to start...", this);
-#endif
+		#endif
 		while (WaitForSingleObjectEx(hEvent, INFINITE, TRUE) != WAIT_OBJECT_0);
 		CloseHandle(hEvent); hEvent = nullptr;
 	}
@@ -387,7 +385,7 @@ retry:
 	if (hostnum < hostcount) {
 		if (!(p.server_addr = gg_dnslookup(this, hosts[hostnum].hostname))) {
 			wchar_t error[128];
-			wchar_t* hostnameT = mir_a2u(hosts[hostnum].hostname);
+			wchar_t *hostnameT = mir_a2u(hosts[hostnum].hostname);
 			mir_snwprintf(error, TranslateT("Server hostname %s is invalid. Using default hostname provided by the network."), hostnameT);
 			mir_free(hostnameT);
 			showpopup(m_tszUserName, error, GG_POPUP_WARNING | GG_POPUP_ALLOW_MSGBOX);
@@ -431,8 +429,7 @@ retry:
 			// Check if we should reconnect
 			if ((gg_failno >= GG_FAILURE_RESOLVING && gg_failno != GG_FAILURE_PASSWORD && gg_failno != GG_FAILURE_INTRUDER && gg_failno != GG_FAILURE_UNAVAILABLE)
 				&& errno == EACCES
-				&& (m_autoRecconect || (hostnum < hostcount - 1)))
-			{
+				&& (m_autoRecconect || (hostnum < hostcount - 1))) {
 				uint32_t dwInterval = getDword(GG_KEY_RECONNINTERVAL, GG_KEYDEF_RECONNINTERVAL);
 				BOOL bRetry = TRUE;
 
@@ -492,20 +489,19 @@ retry:
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////
 	// Main loop
 	gg_event *e;
 
-	while (isonline())
-	{
+	while (isonline()) {
 		// Connection broken/closed
-#ifdef DEBUGMODE
+		#ifdef DEBUGMODE
 		debugLogA("mainthread(): waiting for gg_watch_fd");
-#endif
+		#endif
 		if (!(e = gg_watch_fd(m_sess))) {
-#ifdef DEBUGMODE
+			#ifdef DEBUGMODE
 			debugLogA("mainthread(): waiting for gg_watch_fd - DONE error");
-#endif
+			#endif
 			debugLogA("mainthread() (%x): Connection closed.", this);
 			gg_EnterCriticalSection(&sess_mutex, "mainthread", 16, "sess_mutex", 1);
 			gg_free_session(m_sess);
@@ -514,10 +510,10 @@ retry:
 			break;
 		}
 		else {
-#ifdef DEBUGMODE
+			#ifdef DEBUGMODE
 			debugLogA("mainthread(): waiting for gg_watch_fd - DONE");
-#endif
-			debugLogA("mainthread() (%x): Event: %s", this, ggdebug_eventtype(e));
+			#endif
+			debugLogA("mainthread() (%x): Event: %s", this, gg_debug_event(e->type));
 		}
 
 		switch (e->type) {
@@ -552,227 +548,225 @@ retry:
 			// Statuslist notify (deprecated)
 		case GG_EVENT_NOTIFY:
 		case GG_EVENT_NOTIFY_DESCR:
-		{
-			struct gg_notify_reply *n;
+			{
+				struct gg_notify_reply *n;
 
-			n = (e->type == GG_EVENT_NOTIFY) ? e->event.notify : e->event.notify_descr.notify;
+				n = (e->type == GG_EVENT_NOTIFY) ? e->event.notify : e->event.notify_descr.notify;
 
-			for (; n->uin; n++) {
-				wchar_t *descrT = (e->type == GG_EVENT_NOTIFY_DESCR) ? mir_utf8decodeW(e->event.notify_descr.descr) : nullptr;
-				changecontactstatus(n->uin, n->status, descrT, 0, n->remote_ip, n->remote_port, n->version);
-				if (descrT)
-					mir_free(descrT);
+				for (; n->uin; n++) {
+					wchar_t *descrT = (e->type == GG_EVENT_NOTIFY_DESCR) ? mir_utf8decodeW(e->event.notify_descr.descr) : nullptr;
+					changecontactstatus(n->uin, n->status, descrT, 0, n->remote_ip, n->remote_port, n->version);
+					if (descrT)
+						mir_free(descrT);
+				}
+				break;
 			}
-			break;
-		}
-		// Statuslist notify (version >= 6.0)
+			// Statuslist notify (version >= 6.0)
 		case GG_EVENT_NOTIFY60:
-		{
-			uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
-			for (int i = 0; e->event.notify60[i].uin; i++) {
-				if (e->event.notify60[i].uin == uin)
-					continue;
+			{
+				uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
+				for (int i = 0; e->event.notify60[i].uin; i++) {
+					if (e->event.notify60[i].uin == uin)
+						continue;
 
-				wchar_t *descrT = mir_utf8decodeW(e->event.notify60[i].descr);
-				changecontactstatus(e->event.notify60[i].uin, e->event.notify60[i].status, descrT,
-					e->event.notify60[i].time, e->event.notify60[i].remote_ip, e->event.notify60[i].remote_port,
-					e->event.notify60[i].version);
-				mir_free(descrT);
-				requestAvatarInfo(getcontact(e->event.notify60[i].uin, 0, 0, nullptr), 0);
+					wchar_t *descrT = mir_utf8decodeW(e->event.notify60[i].descr);
+					changecontactstatus(e->event.notify60[i].uin, e->event.notify60[i].status, descrT,
+						e->event.notify60[i].time, e->event.notify60[i].remote_ip, e->event.notify60[i].remote_port,
+						e->event.notify60[i].version);
+					mir_free(descrT);
+					requestAvatarInfo(getcontact(e->event.notify60[i].uin, 0, 0, nullptr), 0);
+				}
+				break;
 			}
-			break;
-		}
 
-		// Pubdir search reply && read own data reply
+			// Pubdir search reply && read own data reply
 		case GG_EVENT_PUBDIR50_SEARCH_REPLY:
 		case GG_EVENT_PUBDIR50_READ:
 		case GG_EVENT_PUBDIR50_WRITE:
-		{
-			gg_pubdir50_t res = e->event.pubdir50;
+			{
+				gg_pubdir50_t res = e->event.pubdir50;
 
-			if (e->type == GG_EVENT_PUBDIR50_SEARCH_REPLY) {
-				debugLogA("mainthread() (%x): Got user info.", this);
-				// Store next search UIN
-				if (res->seq == GG_SEQ_SEARCH)
-					next_uin = gg_pubdir50_next(res);
-			}
-			else if (e->type == GG_EVENT_PUBDIR50_READ) {
-				debugLogA("mainthread() (%x): Got owner info.", this);
-			}
-			else if (e->type == GG_EVENT_PUBDIR50_WRITE) {
-				debugLogA("mainthread() (%x): Public directory save succesful.", this);
-				// Update user details
-				GetInfo(NULL, 0);
-			}
+				if (e->type == GG_EVENT_PUBDIR50_SEARCH_REPLY) {
+					debugLogA("mainthread() (%x): Got user info.", this);
+					// Store next search UIN
+					if (res->seq == GG_SEQ_SEARCH)
+						next_uin = gg_pubdir50_next(res);
+				}
+				else if (e->type == GG_EVENT_PUBDIR50_READ) {
+					debugLogA("mainthread() (%x): Got owner info.", this);
+				}
+				else if (e->type == GG_EVENT_PUBDIR50_WRITE) {
+					debugLogA("mainthread() (%x): Public directory save succesful.", this);
+					// Update user details
+					GetInfo(NULL, 0);
+				}
 
-			int count = gg_pubdir50_count(res);
-			if (count > 0) {
-				for (int i = 0; i < count; i++) {
-					// Loadup fields
-					const char *__fmnumber = gg_pubdir50_get(res, i, GG_PUBDIR50_UIN);
-					const char *__birthyear = gg_pubdir50_get(res, i, GG_PUBDIR50_BIRTHYEAR);
-					const char *__gender = gg_pubdir50_get(res, i, GG_PUBDIR50_GENDER);
-					const char *__status = gg_pubdir50_get(res, i, GG_PUBDIR50_STATUS);
-					uin_t uin = __fmnumber ? atoi(__fmnumber) : 0;
+				int count = gg_pubdir50_count(res);
+				if (count > 0) {
+					for (int i = 0; i < count; i++) {
+						// Loadup fields
+						const char *__fmnumber = gg_pubdir50_get(res, i, GG_PUBDIR50_UIN);
+						const char *__birthyear = gg_pubdir50_get(res, i, GG_PUBDIR50_BIRTHYEAR);
+						const char *__gender = gg_pubdir50_get(res, i, GG_PUBDIR50_GENDER);
+						const char *__status = gg_pubdir50_get(res, i, GG_PUBDIR50_STATUS);
+						uin_t uin = __fmnumber ? atoi(__fmnumber) : 0;
 
-					ptrW __nickname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_NICKNAME)));
-					ptrW __firstname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FIRSTNAME)));
-					ptrW __lastname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_LASTNAME)));
-					ptrW __familyname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYNAME)));
-					ptrW __city(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_CITY)));
-					ptrW __familycity(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYCITY)));
+						ptrW __nickname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_NICKNAME)));
+						ptrW __firstname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FIRSTNAME)));
+						ptrW __lastname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_LASTNAME)));
+						ptrW __familyname(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYNAME)));
+						ptrW __city(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_CITY)));
+						ptrW __familycity(mir_utf8decodeW(gg_pubdir50_get(res, i, GG_PUBDIR50_FAMILYCITY)));
 
-					MCONTACT hContact = (res->seq == GG_SEQ_CHINFO) ? NULL : getcontact(uin, 0, 0, nullptr);
-					debugLogA("mainthread() (%x): Search result for uin %d, seq %d.", this, uin, res->seq);
-					if (res->seq == GG_SEQ_SEARCH) {
-						wchar_t strFmt1[64];
-						wchar_t strFmt2[64];
+						MCONTACT hContact = (res->seq == GG_SEQ_CHINFO) ? NULL : getcontact(uin, 0, 0, nullptr);
+						debugLogA("mainthread() (%x): Search result for uin %d, seq %d.", this, uin, res->seq);
+						if (res->seq == GG_SEQ_SEARCH) {
+							wchar_t strFmt1[64];
+							wchar_t strFmt2[64];
 
-						wcsncpy_s(strFmt2, Clist_GetStatusModeDescription(status_gg2m(atoi(__status)), 0), _TRUNCATE);
-						if (__city) {
-							mir_snwprintf(strFmt1, L", %s %s", TranslateT("City:"), __city);
-							mir_wstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_wstrlen(strFmt2));
-						}
-						if (__birthyear) {
-							time_t t = time(0);
-							struct tm *lt = localtime(&t);
-							int br = atoi(__birthyear);
-
-							if (br < (lt->tm_year + 1900) && br > 1900) {
-								mir_snwprintf(strFmt1, L", %s %d", TranslateT("Age:"), (lt->tm_year + 1900) - br);
+							wcsncpy_s(strFmt2, Clist_GetStatusModeDescription(status_gg2m(atoi(__status)), 0), _TRUNCATE);
+							if (__city) {
+								mir_snwprintf(strFmt1, L", %s %s", TranslateT("City:"), __city);
 								mir_wstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_wstrlen(strFmt2));
 							}
-						}
+							if (__birthyear) {
+								time_t t = time(0);
+								struct tm *lt = localtime(&t);
+								int br = atoi(__birthyear);
 
-						GGSEARCHRESULT psr;
-						memset(&psr, 0, sizeof(psr));
-						psr.cbSize = sizeof(psr);
-						psr.flags = PSR_UNICODE;
-						psr.nick.w = __nickname;
-						psr.firstName.w = __firstname;
-						psr.lastName.w = __lastname;
-						psr.email.w = strFmt2;
-						psr.id.w = _ultow(uin, strFmt1, 10);
-						psr.uin = uin;
-						ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, this, (LPARAM)&psr);
-					}
-
-					if (((res->seq == GG_SEQ_INFO || res->seq == GG_SEQ_GETNICK) && hContact != NULL)
-						|| res->seq == GG_SEQ_CHINFO)
-					{
-						// Change nickname if it's not present
-						if (__nickname && (res->seq == GG_SEQ_GETNICK || res->seq == GG_SEQ_CHINFO))
-							setWString(hContact, GG_KEY_NICK, __nickname);
-
-						if (__nickname)
-							setWString(hContact, GG_KEY_PD_NICKNAME, __nickname);
-						else if (res->seq == GG_SEQ_CHINFO)
-							delSetting(GG_KEY_PD_NICKNAME);
-
-						// Change other info
-						if (__city)
-							setWString(hContact, GG_KEY_PD_CITY, __city);
-						else if (res->seq == GG_SEQ_CHINFO)
-							delSetting(GG_KEY_PD_CITY);
-
-						if (__firstname)
-							setWString(hContact, GG_KEY_PD_FIRSTNAME, __firstname);
-						else if (res->seq == GG_SEQ_CHINFO)
-							delSetting(GG_KEY_PD_FIRSTNAME);
-
-						if (__lastname)
-							setWString(hContact, GG_KEY_PD_LASTNAME, __lastname);
-						else if (res->seq == GG_SEQ_CHINFO)
-							delSetting(GG_KEY_PD_LASTNAME);
-
-						if (__familyname)
-							setWString(hContact, GG_KEY_PD_FAMILYNAME, __familyname);
-						else if (res->seq == GG_SEQ_CHINFO)
-							delSetting(GG_KEY_PD_FAMILYNAME);
-
-						if (__familycity)
-							setWString(hContact, GG_KEY_PD_FAMILYCITY, __familycity);
-						else if (res->seq == GG_SEQ_CHINFO)
-							delSetting(GG_KEY_PD_FAMILYCITY);
-
-						if (__birthyear) {
-							time_t t = time(0);
-							struct tm *lt = localtime(&t);
-							int br = atoi(__birthyear);
-							if (br > 0)
-							{
-								setWord(hContact, GG_KEY_PD_AGE, (uint16_t)(lt->tm_year + 1900 - br));
-								setWord(hContact, GG_KEY_PD_BIRTHYEAR, (uint16_t)br);
+								if (br < (lt->tm_year + 1900) && br > 1900) {
+									mir_snwprintf(strFmt1, L", %s %d", TranslateT("Age:"), (lt->tm_year + 1900) - br);
+									mir_wstrncat(strFmt2, strFmt1, _countof(strFmt2) - mir_wstrlen(strFmt2));
+								}
 							}
-						}
-						else if (res->seq == GG_SEQ_CHINFO) {
-							delSetting(GG_KEY_PD_AGE);
-							delSetting(GG_KEY_PD_BIRTHYEAR);
+
+							GGSEARCHRESULT psr;
+							memset(&psr, 0, sizeof(psr));
+							psr.cbSize = sizeof(psr);
+							psr.flags = PSR_UNICODE;
+							psr.nick.w = __nickname;
+							psr.firstName.w = __firstname;
+							psr.lastName.w = __lastname;
+							psr.email.w = strFmt2;
+							psr.id.w = _ultow(uin, strFmt1, 10);
+							psr.uin = uin;
+							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, this, (LPARAM)&psr);
 						}
 
-						// Gadu-Gadu Male <-> Female
-						if (__gender) {
-							if (res->seq == GG_SEQ_CHINFO)
-								setByte(hContact, GG_KEY_PD_GENDER,
-								(uint8_t)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_MALE) ? 'M' :
-									(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_FEMALE) ? 'F' : '?')));
-							else
-								setByte(hContact, GG_KEY_PD_GENDER,
-								(uint8_t)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_MALE) ? 'M' :
-									(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_FEMALE) ? 'F' : '?')));
-						}
-						else if (res->seq == GG_SEQ_CHINFO) {
-							delSetting(GG_KEY_PD_GENDER);
-						}
+						if (((res->seq == GG_SEQ_INFO || res->seq == GG_SEQ_GETNICK) && hContact != NULL)
+							|| res->seq == GG_SEQ_CHINFO) {
+							// Change nickname if it's not present
+							if (__nickname && (res->seq == GG_SEQ_GETNICK || res->seq == GG_SEQ_CHINFO))
+								setWString(hContact, GG_KEY_NICK, __nickname);
 
-						debugLogA("mainthread() (%x): Setting user info for uin %d.", this, uin);
-						ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
+							if (__nickname)
+								setWString(hContact, GG_KEY_PD_NICKNAME, __nickname);
+							else if (res->seq == GG_SEQ_CHINFO)
+								delSetting(GG_KEY_PD_NICKNAME);
+
+							// Change other info
+							if (__city)
+								setWString(hContact, GG_KEY_PD_CITY, __city);
+							else if (res->seq == GG_SEQ_CHINFO)
+								delSetting(GG_KEY_PD_CITY);
+
+							if (__firstname)
+								setWString(hContact, GG_KEY_PD_FIRSTNAME, __firstname);
+							else if (res->seq == GG_SEQ_CHINFO)
+								delSetting(GG_KEY_PD_FIRSTNAME);
+
+							if (__lastname)
+								setWString(hContact, GG_KEY_PD_LASTNAME, __lastname);
+							else if (res->seq == GG_SEQ_CHINFO)
+								delSetting(GG_KEY_PD_LASTNAME);
+
+							if (__familyname)
+								setWString(hContact, GG_KEY_PD_FAMILYNAME, __familyname);
+							else if (res->seq == GG_SEQ_CHINFO)
+								delSetting(GG_KEY_PD_FAMILYNAME);
+
+							if (__familycity)
+								setWString(hContact, GG_KEY_PD_FAMILYCITY, __familycity);
+							else if (res->seq == GG_SEQ_CHINFO)
+								delSetting(GG_KEY_PD_FAMILYCITY);
+
+							if (__birthyear) {
+								time_t t = time(0);
+								struct tm *lt = localtime(&t);
+								int br = atoi(__birthyear);
+								if (br > 0) {
+									setWord(hContact, GG_KEY_PD_AGE, (uint16_t)(lt->tm_year + 1900 - br));
+									setWord(hContact, GG_KEY_PD_BIRTHYEAR, (uint16_t)br);
+								}
+							}
+							else if (res->seq == GG_SEQ_CHINFO) {
+								delSetting(GG_KEY_PD_AGE);
+								delSetting(GG_KEY_PD_BIRTHYEAR);
+							}
+
+							// Gadu-Gadu Male <-> Female
+							if (__gender) {
+								if (res->seq == GG_SEQ_CHINFO)
+									setByte(hContact, GG_KEY_PD_GENDER,
+										(uint8_t)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_MALE) ? 'M' :
+											(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_FEMALE) ? 'F' : '?')));
+								else
+									setByte(hContact, GG_KEY_PD_GENDER,
+										(uint8_t)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_MALE) ? 'M' :
+											(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_FEMALE) ? 'F' : '?')));
+							}
+							else if (res->seq == GG_SEQ_CHINFO) {
+								delSetting(GG_KEY_PD_GENDER);
+							}
+
+							debugLogA("mainthread() (%x): Setting user info for uin %d.", this, uin);
+							ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1);
+						}
 					}
 				}
+
+				if (res->seq == GG_SEQ_SEARCH)
+					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this, 0);
+
+				break;
 			}
 
-			if (res->seq == GG_SEQ_SEARCH)
-				ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, this, 0);
-
-			break;
-		}
-
-		// Status (deprecated)
+			// Status (deprecated)
 		case GG_EVENT_STATUS:
-		{
-			wchar_t *descrT = mir_utf8decodeW(e->event.status.descr);
-			changecontactstatus(e->event.status.uin, e->event.status.status, descrT, 0, 0, 0, 0);
-			mir_free(descrT);
-		}
-		break;
-
-		// Status (version >= 6.0)
-		case GG_EVENT_STATUS60:
-		{
-			MCONTACT hContact = getcontact(e->event.status60.uin, 0, 0, nullptr);
-			int oldstatus = getWord(hContact, GG_KEY_STATUS, (uint16_t)ID_STATUS_OFFLINE);
-			uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
-
-			wchar_t *descrT = mir_utf8decodeW(e->event.status60.descr);
-
-			if (e->event.status60.uin == uin) {
-				// Status was changed by the user simultaneously logged on using different Miranda account or IM client
-				int iStatus = status_gg2m(e->event.status60.status);
-				CallProtoService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)descrT);
-				CallProtoService(m_szModuleName, PS_SETSTATUS, iStatus, 0);
+			{
+				wchar_t *descrT = mir_utf8decodeW(e->event.status.descr);
+				changecontactstatus(e->event.status.uin, e->event.status.status, descrT, 0, 0, 0, 0);
+				mir_free(descrT);
 			}
+			break;
 
-			changecontactstatus(e->event.status60.uin, e->event.status60.status, descrT,
-				e->event.status60.time, e->event.status60.remote_ip, e->event.status60.remote_port, e->event.status60.version);
+			// Status (version >= 6.0)
+		case GG_EVENT_STATUS60:
+			{
+				MCONTACT hContact = getcontact(e->event.status60.uin, 0, 0, nullptr);
+				int oldstatus = getWord(hContact, GG_KEY_STATUS, (uint16_t)ID_STATUS_OFFLINE);
+				uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
 
-			mir_free(descrT);
+				wchar_t *descrT = mir_utf8decodeW(e->event.status60.descr);
 
-			if (oldstatus == ID_STATUS_OFFLINE && getWord(hContact, GG_KEY_STATUS, (uint16_t)ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-				requestAvatarInfo(hContact, 0);
-		}
-		break;
+				if (e->event.status60.uin == uin) {
+					// Status was changed by the user simultaneously logged on using different Miranda account or IM client
+					int iStatus = status_gg2m(e->event.status60.status);
+					CallProtoService(m_szModuleName, PS_SETAWAYMSG, iStatus, (LPARAM)descrT);
+					CallProtoService(m_szModuleName, PS_SETSTATUS, iStatus, 0);
+				}
 
-		// Received userlist / or put info
+				changecontactstatus(e->event.status60.uin, e->event.status60.status, descrT,
+					e->event.status60.time, e->event.status60.remote_ip, e->event.status60.remote_port, e->event.status60.version);
+
+				mir_free(descrT);
+
+				if (oldstatus == ID_STATUS_OFFLINE && getWord(hContact, GG_KEY_STATUS, (uint16_t)ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+					requestAvatarInfo(hContact, 0);
+			}
+			break;
+
+			// Received userlist / or put info
 		case GG_EVENT_USERLIST:
 			switch (e->event.userlist.type) {
 			case GG_USERLIST_GET_REPLY:
@@ -794,9 +788,9 @@ retry:
 			// Received message
 		case GG_EVENT_MSG:
 			// This is CTCP request
-			if ((e->event.msg.msgclass & GG_CLASS_CTCP)) {
+			if ((e->event.msg.msgclass & GG_CLASS_CTCP))
 				dccconnect(e->event.msg.sender);
-			}
+
 			// Check if not conference and block
 			else if (!e->event.msg.recipients_count || gc_enabled) {
 				// Check if groupchat
@@ -809,9 +803,9 @@ retry:
 						GCEVENT gce = { si, GC_EVENT_MESSAGE };
 						time_t t = time(0);
 						gce.pszUID.w = id;
-						wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
+						wchar_t *messageT = mir_utf8decodeW((char *)e->event.msg.message);
 						gce.pszText.w = messageT;
-						gce.pszNick.w = (wchar_t*)Clist_GetContactDisplayName(getcontact(e->event.msg.sender, 1, 0, nullptr));
+						gce.pszNick.w = (wchar_t *)Clist_GetContactDisplayName(getcontact(e->event.msg.sender, 1, 0, nullptr));
 						gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 						gce.dwFlags = GCEF_ADDTOLOG;
 						debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, si->ptszID, id);
@@ -820,26 +814,24 @@ retry:
 					}
 				}
 				// Check if not empty message ( who needs it? )
-				else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && mir_strcmp(e->event.msg.message, "\xA0\0")) {
+				else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && mir_strcmp((char *)e->event.msg.message, "\xA0\0")) {
 					DB::EventInfo dbei;
 					time_t t = time(0);
 					dbei.iTimestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
-					dbei.pBlob = e->event.msg.message;
+					dbei.pBlob = (char *)e->event.msg.message;
 					ProtoChainRecvMsg(getcontact(e->event.msg.sender, 1, 0, nullptr), dbei);
 				}
 
 				// RichEdit format included (image)
 				if (e->event.msg.formats_length &&
 					getByte(GG_KEY_IMGRECEIVE, GG_KEYDEF_IMGRECEIVE) &&
-					!(db_get_dw(getcontact(e->event.msg.sender, 1, 0, nullptr), "Ignore", "Mask1", 0) & IGNOREEVENT_MESSAGE))
-				{
-					char *formats = (char*)e->event.msg.formats;
+					!(db_get_dw(getcontact(e->event.msg.sender, 1, 0, nullptr), "Ignore", "Mask1", 0) & IGNOREEVENT_MESSAGE)) {
+					char *formats = (char *)e->event.msg.formats;
 					int len = 0, formats_len = e->event.msg.formats_length, add_ptr;
 
-					while (len < formats_len)
-					{
+					while (len < formats_len) {
 						add_ptr = sizeof(struct gg_msg_richtext_format);
-						if (((struct gg_msg_richtext_format*)formats)->font & GG_FONT_IMAGE) {
+						if (((struct gg_msg_richtext_format *)formats)->font & GG_FONT_IMAGE) {
 							struct gg_msg_richtext_image *image = (struct gg_msg_richtext_image *)(formats + add_ptr);
 							gg_EnterCriticalSection(&sess_mutex, "mainthread", 18, "sess_mutex", 1);
 							gg_image_request(m_sess, e->event.msg.sender, image->size, image->crc32);
@@ -848,7 +840,7 @@ retry:
 							debugLogA("mainthread(): image request sent!");
 							add_ptr += sizeof(struct gg_msg_richtext_image);
 						}
-						if (((struct gg_msg_richtext_format*)formats)->font & GG_FONT_COLOR)
+						if (((struct gg_msg_richtext_format *)formats)->font & GG_FONT_COLOR)
 							add_ptr += sizeof(struct gg_msg_richtext_color);
 						len += add_ptr;
 						formats += add_ptr;
@@ -859,8 +851,7 @@ retry:
 
 			// Message sent from concurrent user session
 		case GG_EVENT_MULTILOGON_MSG:
-			if (e->event.multilogon_msg.recipients_count && gc_enabled && !getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF))
-			{
+			if (e->event.multilogon_msg.recipients_count && gc_enabled && !getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF)) {
 				auto *si = gc_getchat(e->event.multilogon_msg.sender, e->event.multilogon_msg.recipients, e->event.multilogon_msg.recipients_count);
 				if (si) {
 					wchar_t id[32];
@@ -868,9 +859,9 @@ retry:
 
 					GCEVENT gce = { si, GC_EVENT_MESSAGE };
 					gce.pszUID.w = id;
-					wchar_t* messageT = mir_utf8decodeW(e->event.multilogon_msg.message);
+					wchar_t *messageT = mir_utf8decodeW((char *)e->event.multilogon_msg.message);
 					gce.pszText.w = messageT;
-					wchar_t* nickT;
+					wchar_t *nickT;
 					if (!getWString(GG_KEY_NICK, &dbv)) {
 						nickT = mir_wstrdup(dbv.pwszVal);
 						db_free(&dbv);
@@ -888,94 +879,85 @@ retry:
 				}
 			}
 			else if (!e->event.multilogon_msg.recipients_count && e->event.multilogon_msg.message && *e->event.multilogon_msg.message
-				&& mir_strcmp(e->event.multilogon_msg.message, "\xA0\0"))
-			{
+				&& mir_strcmp((char *)e->event.multilogon_msg.message, "\xA0\0")) {
 				DBEVENTINFO dbei = {};
 				dbei.szModule = m_szModuleName;
 				dbei.iTimestamp = (uint32_t)e->event.multilogon_msg.time;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.cbBlob = (uint32_t)mir_strlen(e->event.multilogon_msg.message) + 1;
-				dbei.pBlob = e->event.multilogon_msg.message;
+				dbei.cbBlob = (uint32_t)mir_strlen((char *)e->event.multilogon_msg.message) + 1;
+				dbei.pBlob = (char *)e->event.multilogon_msg.message;
 				db_event_add(getcontact(e->event.multilogon_msg.sender, 1, 0, nullptr), &dbei);
 			}
 			break;
 
 			// Information on active concurrent sessions
 		case GG_EVENT_MULTILOGON_INFO:
-		{
-			list_t l;
-			int* iIndexes = nullptr, i;
-			debugLogA("mainthread(): Concurrent sessions count: %d.", e->event.multilogon_info.count);
-			if (e->event.multilogon_info.count > 0)
-				iIndexes = (int*)mir_calloc(e->event.multilogon_info.count * sizeof(int));
-			gg_EnterCriticalSection(&sessions_mutex, "mainthread", 19, "sess_mutex", 1);
-			for (l = sessions; l; l = l->next)
 			{
-				struct gg_multilogon_session* msess = (struct gg_multilogon_session*)l->data;
-				for (i = 0; i < e->event.multilogon_info.count; i++)
-				{
-					if (!memcmp(&msess->id, &e->event.multilogon_info.sessions[i].id, sizeof(gg_multilogon_id_t)) && iIndexes)
-					{
-						iIndexes[i]++;
-						break;
+				list_t l;
+				int *iIndexes = nullptr, i;
+				debugLogA("mainthread(): Concurrent sessions count: %d.", e->event.multilogon_info.count);
+				if (e->event.multilogon_info.count > 0)
+					iIndexes = (int *)mir_calloc(e->event.multilogon_info.count * sizeof(int));
+				gg_EnterCriticalSection(&sessions_mutex, "mainthread", 19, "sess_mutex", 1);
+				for (l = sessions; l; l = l->next) {
+					struct gg_multilogon_session *msess = (struct gg_multilogon_session *)l->data;
+					for (i = 0; i < e->event.multilogon_info.count; i++) {
+						if (!memcmp(&msess->id, &e->event.multilogon_info.sessions[i].id, sizeof(gg_multilogon_id_t)) && iIndexes) {
+							iIndexes[i]++;
+							break;
+						}
 					}
+					mir_free(msess->name);
+					mir_free(msess);
 				}
-				mir_free(msess->name);
-				mir_free(msess);
-			}
-			list_destroy(sessions, 0);
-			sessions = nullptr;
-			for (i = 0; i < e->event.multilogon_info.count; i++)
-			{
-				gg_multilogon_session* msess = (gg_multilogon_session*)mir_alloc(sizeof(struct gg_multilogon_session));
-				memcpy(msess, &e->event.multilogon_info.sessions[i], sizeof(struct gg_multilogon_session));
-				msess->name = mir_strdup(*e->event.multilogon_info.sessions[i].name != '\0'
-					? e->event.multilogon_info.sessions[i].name
-					: Translate("Unknown client"));
-				list_add(&sessions, msess, 0);
-			}
-			gg_LeaveCriticalSection(&sessions_mutex, "mainthread", 19, 1, "sessions_mutex", 1);
-			sessions_updatedlg();
+				list_destroy(sessions, 0);
+				sessions = nullptr;
+				for (i = 0; i < e->event.multilogon_info.count; i++) {
+					gg_multilogon_session *msess = (gg_multilogon_session *)mir_alloc(sizeof(struct gg_multilogon_session));
+					memcpy(msess, &e->event.multilogon_info.sessions[i], sizeof(struct gg_multilogon_session));
+					msess->name = mir_strdup(*e->event.multilogon_info.sessions[i].name != '\0'
+						? e->event.multilogon_info.sessions[i].name
+						: Translate("Unknown client"));
+					list_add(&sessions, msess, 0);
+				}
+				gg_LeaveCriticalSection(&sessions_mutex, "mainthread", 19, 1, "sessions_mutex", 1);
+				sessions_updatedlg();
 
-			const wchar_t* szText = time(0) - logonTime > 3
-				? TranslateT("You have logged in at another location")
-				: TranslateT("You are logged in at another location");
-			for (i = 0; i < e->event.multilogon_info.count; i++) {
-				wchar_t szMsg[MAX_SECONDLINE];
-				if (iIndexes && iIndexes[i])
-					continue;
+				const wchar_t *szText = time(0) - logonTime > 3
+					? TranslateT("You have logged in at another location")
+					: TranslateT("You are logged in at another location");
+				for (i = 0; i < e->event.multilogon_info.count; i++) {
+					wchar_t szMsg[MAX_SECONDLINE];
+					if (iIndexes && iIndexes[i])
+						continue;
 
-				mir_snwprintf(szMsg, L"%s (%s)", szText,
-					*e->event.multilogon_info.sessions[i].name != '\0' ?
-					_A2T(e->event.multilogon_info.sessions[i].name).get() : TranslateT("Unknown client"));
-				showpopup(m_tszUserName, szMsg, GG_POPUP_MULTILOGON);
+					mir_snwprintf(szMsg, L"%s (%s)", szText,
+						*e->event.multilogon_info.sessions[i].name != '\0' ?
+						_A2T(e->event.multilogon_info.sessions[i].name).get() : TranslateT("Unknown client"));
+					showpopup(m_tszUserName, szMsg, GG_POPUP_MULTILOGON);
+				}
+				mir_free(iIndexes);
 			}
-			mir_free(iIndexes);
-		}
-		break;
+			break;
 
-		// Image reply sent
+			// Image reply sent
 		case GG_EVENT_IMAGE_REPLY:
 			// Get rid of empty image
-			if (e->event.image_reply.size && e->event.image_reply.image)
-			{
+			if (e->event.image_reply.size && e->event.image_reply.image) {
 				MCONTACT hContact = getcontact(e->event.image_reply.sender, 1, 0, nullptr);
 				void *img = (void *)img_loadpicture(e, nullptr);
 
 				if (!img)
 					break;
 
-				if (getByte(GG_KEY_IMGMETHOD, GG_KEYDEF_IMGMETHOD) == 1 || img_opened(e->event.image_reply.sender))
-				{
+				if (getByte(GG_KEY_IMGMETHOD, GG_KEYDEF_IMGMETHOD) == 1 || img_opened(e->event.image_reply.sender)) {
 					img_display(hContact, img);
 				}
-				else if (getByte(GG_KEY_IMGMETHOD, GG_KEYDEF_IMGMETHOD) == 2)
-				{
+				else if (getByte(GG_KEY_IMGMETHOD, GG_KEYDEF_IMGMETHOD) == 2) {
 					img_displayasmsg(hContact, img);
 				}
-				else
-				{
+				else {
 					char service[128];
 					mir_snprintf(service, GGS_RECVIMAGE, m_szModuleName);
 
@@ -1000,124 +982,122 @@ retry:
 
 			// Incoming direct connection
 		case GG_EVENT_DCC7_NEW:
-		{
-			struct gg_dcc7 *dcc7 = e->event.dcc7_new;
-			debugLogA("mainthread() (%x): Incoming direct connection.", this);
-			dcc7->contact = (void*)getcontact(dcc7->peer_uin, 0, 0, nullptr);
+			{
+				struct gg_dcc7 *dcc7 = e->event.dcc7_new;
+				debugLogA("mainthread() (%x): Incoming direct connection.", this);
+				dcc7->contact = getcontact(dcc7->peer_uin, 0, 0, nullptr);
 
-			// Check if user is on the list and if it is my uin
-			if (!dcc7->contact || getDword(GG_KEY_UIN, -1) != dcc7->uin) {
-				gg_dcc7_free(dcc7);
+				// Check if user is on the list and if it is my uin
+				if (!dcc7->contact || getDword(GG_KEY_UIN, -1) != dcc7->uin) {
+					gg_dcc7_free(dcc7);
+					e->event.dcc7_new = nullptr;
+					break;
+				}
+
+				// Add to waiting transfers
+				gg_EnterCriticalSection(&ft_mutex, "mainthread", 20, "ft_mutex", 1);
+				list_add(&transfers, dcc7, 0);
+				gg_LeaveCriticalSection(&ft_mutex, "mainthread", 20, 1, "ft_mutex", 1);
+
+				//////////////////////////////////////////////////
+				// Add file recv request
+
+				debugLogA("mainthread() (%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
+					dcc7->filename, dcc7->size);
+
+				const char *fileName = (const char *)dcc7->filename;
+
+				DB::EventInfo dbei;
+				dbei.iTimestamp = time(0);
+				ProtoChainRecvFile((UINT_PTR)dcc7->contact, DB::FILE_BLOB(dcc7, fileName, fileName), dbei);
+
 				e->event.dcc7_new = nullptr;
-				break;
 			}
+			break;
 
-			// Add to waiting transfers
-			gg_EnterCriticalSection(&ft_mutex, "mainthread", 20, "ft_mutex", 1);
-			list_add(&transfers, dcc7, 0);
-			gg_LeaveCriticalSection(&ft_mutex, "mainthread", 20, 1, "ft_mutex", 1);
-
-			//////////////////////////////////////////////////
-			// Add file recv request
-
-			debugLogA("mainthread() (%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
-				dcc7->filename, dcc7->size);
-
-			const char *fileName = (const char*)dcc7->filename;
-
-			DB::EventInfo dbei;
-			dbei.iTimestamp = time(0);
-			ProtoChainRecvFile((UINT_PTR)dcc7->contact, DB::FILE_BLOB(dcc7, fileName, fileName), dbei);
-
-			e->event.dcc7_new = nullptr;
-		}
-		break;
-
-		// Direct connection rejected
+			// Direct connection rejected
 		case GG_EVENT_DCC7_REJECT:
-		{
-			struct gg_dcc7 *dcc7 = e->event.dcc7_reject.dcc7;
-			if (dcc7->type == GG_SESSION_DCC7_SEND)
 			{
-				debugLogA("mainthread() (%x): File transfer denied by client %d (reason = %d).", this, dcc7->peer_uin, e->event.dcc7_reject.reason);
-				ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7);
+				struct gg_dcc7 *dcc7 = e->event.dcc7_reject.dcc7;
+				if (dcc7->type == GG_SESSION_DCC7_SEND) {
+					debugLogA("mainthread() (%x): File transfer denied by client %d (reason = %d).", this, dcc7->peer_uin, e->event.dcc7_reject.reason);
+					ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7);
 
-				// Remove from watches and free
-				gg_EnterCriticalSection(&ft_mutex, "mainthread", 21, "ft_mutex", 1);
+					// Remove from watches and free
+					gg_EnterCriticalSection(&ft_mutex, "mainthread", 21, "ft_mutex", 1);
+					list_remove(&watches, dcc7, 0);
+					gg_LeaveCriticalSection(&ft_mutex, "mainthread", 21, 1, "ft_mutex", 1);
+					gg_dcc7_free(dcc7);
+				}
+				else {
+					debugLogA("mainthread() (%x): File transfer aborted by client %d.", this, dcc7->peer_uin);
+
+					// Remove transfer from waiting list
+					gg_EnterCriticalSection(&ft_mutex, "mainthread", 22, "ft_mutex", 1);
+					list_remove(&transfers, dcc7, 0);
+					gg_LeaveCriticalSection(&ft_mutex, "mainthread", 22, 1, "ft_mutex", 1);
+				}
+			}
+			break;
+
+			// Direct connection error
+		case GG_EVENT_DCC7_ERROR:
+			{
+				struct gg_dcc7 *dcc7 = 0;
+				switch (e->event.dcc7_error) {
+				case GG_ERROR_DCC7_HANDSHAKE:
+					debugLogA("mainthread() (%x): Client: %d, Handshake error.", this, dcc7 ? dcc7->peer_uin : 0);
+					break;
+				case GG_ERROR_DCC7_NET:
+					debugLogA("mainthread() (%x): Client: %d, Network error.", this, dcc7 ? dcc7->peer_uin : 0);
+					break;
+				case GG_ERROR_DCC7_FILE:
+					debugLogA("mainthread() (%x): Client: %d, File read/write error.", this, dcc7 ? dcc7->peer_uin : 0);
+					break;
+				case GG_ERROR_DCC7_EOF:
+					debugLogA("mainthread() (%x): Client: %d, End of file/connection error.", this, dcc7 ? dcc7->peer_uin : 0);
+					break;
+				case GG_ERROR_DCC7_REFUSED:
+					debugLogA("mainthread() (%x): Client: %d, Connection refused error.", this, dcc7 ? dcc7->peer_uin : 0);
+					break;
+				case GG_ERROR_DCC7_RELAY:
+					debugLogA("mainthread() (%x): Client: %d, Relay connection error.", this, dcc7 ? dcc7->peer_uin : 0);
+					break;
+				default:
+					debugLogA("mainthread() (%x): Client: %d, Unknown error.", this, dcc7 ? dcc7->peer_uin : 0);
+				}
+
+				if (!dcc7)
+					break;
+
+				// Remove from watches
 				list_remove(&watches, dcc7, 0);
-				gg_LeaveCriticalSection(&ft_mutex, "mainthread", 21, 1, "ft_mutex", 1);
+
+				// Close file & fail
+				if (dcc7->file_fd != -1) {
+					_close(dcc7->file_fd);
+					dcc7->file_fd = -1;
+				}
+
+				if (dcc7->contact)
+					ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7);
+
+				// Free dcc
 				gg_dcc7_free(dcc7);
 			}
-			else
-			{
-				debugLogA("mainthread() (%x): File transfer aborted by client %d.", this, dcc7->peer_uin);
-
-				// Remove transfer from waiting list
-				gg_EnterCriticalSection(&ft_mutex, "mainthread", 22, "ft_mutex", 1);
-				list_remove(&transfers, dcc7, 0);
-				gg_LeaveCriticalSection(&ft_mutex, "mainthread", 22, 1, "ft_mutex", 1);
-			}
-		}
-		break;
-
-		// Direct connection error
-		case GG_EVENT_DCC7_ERROR:
-		{
-			struct gg_dcc7 *dcc7 = e->event.dcc7_error_ex.dcc7;
-			switch (e->event.dcc7_error) {
-			case GG_ERROR_DCC7_HANDSHAKE:
-				debugLogA("mainthread() (%x): Client: %d, Handshake error.", this, dcc7 ? dcc7->peer_uin : 0);
-				break;
-			case GG_ERROR_DCC7_NET:
-				debugLogA("mainthread() (%x): Client: %d, Network error.", this, dcc7 ? dcc7->peer_uin : 0);
-				break;
-			case GG_ERROR_DCC7_FILE:
-				debugLogA("mainthread() (%x): Client: %d, File read/write error.", this, dcc7 ? dcc7->peer_uin : 0);
-				break;
-			case GG_ERROR_DCC7_EOF:
-				debugLogA("mainthread() (%x): Client: %d, End of file/connection error.", this, dcc7 ? dcc7->peer_uin : 0);
-				break;
-			case GG_ERROR_DCC7_REFUSED:
-				debugLogA("mainthread() (%x): Client: %d, Connection refused error.", this, dcc7 ? dcc7->peer_uin : 0);
-				break;
-			case GG_ERROR_DCC7_RELAY:
-				debugLogA("mainthread() (%x): Client: %d, Relay connection error.", this, dcc7 ? dcc7->peer_uin : 0);
-				break;
-			default:
-				debugLogA("mainthread() (%x): Client: %d, Unknown error.", this, dcc7 ? dcc7->peer_uin : 0);
-			}
-
-			if (!dcc7)
-				break;
-
-			// Remove from watches
-			list_remove(&watches, dcc7, 0);
-
-			// Close file & fail
-			if (dcc7->file_fd != -1) {
-				_close(dcc7->file_fd);
-				dcc7->file_fd = -1;
-			}
-
-			if (dcc7->contact)
-				ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7);
-
-			// Free dcc
-			gg_dcc7_free(dcc7);
-		}
-		break;
+			break;
 
 		case GG_EVENT_TYPING_NOTIFICATION:
-		{
-			MCONTACT hContact = getcontact(e->event.typing_notification.uin, 0, 0, nullptr);
-#ifdef DEBUGMODE
-			debugLogA("mainthread() (%x): Typing notification from %d (%d).", this,
-				e->event.typing_notification.uin, e->event.typing_notification.length);
-#endif
-			CallService(MS_PROTO_CONTACTISTYPING, hContact,
-				e->event.typing_notification.length > 0 ? 7 : PROTOTYPE_CONTACTTYPING_OFF);
-		}
-		break;
+			{
+				MCONTACT hContact = getcontact(e->event.typing_notification.uin, 0, 0, nullptr);
+				#ifdef DEBUGMODE
+				debugLogA("mainthread() (%x): Typing notification from %d (%d).", this,
+					e->event.typing_notification.uin, e->event.typing_notification.length);
+				#endif
+				CallService(MS_PROTO_CONTACTISTYPING, hContact,
+					e->event.typing_notification.length > 0 ? 7 : PROTOTYPE_CONTACTTYPING_OFF);
+			}
+			break;
 		}
 		// Free event struct
 		gg_free_event(e);
@@ -1129,8 +1109,7 @@ retry:
 
 	// If it was unwanted disconnection reconnect
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE
-		&& m_autoRecconect)
-	{
+		&& m_autoRecconect) {
 		debugLogA("mainthread() (%x): Unintentional disconnection detected. Going to reconnect...", this);
 		hostnum = 0;
 		broadcastnewstatus(ID_STATUS_CONNECTING);
@@ -1145,9 +1124,8 @@ retry:
 	{
 		list_t l;
 		gg_EnterCriticalSection(&sessions_mutex, "mainthread", 23, "sessions_mutex", 1);
-		for (l = sessions; l; l = l->next)
-		{
-			struct gg_multilogon_session* msess = (struct gg_multilogon_session*)l->data;
+		for (l = sessions; l; l = l->next) {
+			struct gg_multilogon_session *msess = (struct gg_multilogon_session *)l->data;
 			mir_free(msess->name);
 			mir_free(msess);
 		}
@@ -1158,26 +1136,26 @@ retry:
 
 	// Stop dcc server
 	pth_dcc.dwThreadId = 0;
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("mainthread() (%x): Waiting pth_dcc thread. Waiting until DCC Server Thread finished, if needed.", this);
-#endif
+	#endif
 	threadwait(&pth_dcc);
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("mainthread() (%x): Waiting pth_dcc thread - OK", this);
-#endif
+	#endif
 
 	debugLogA("mainthread(): end. (%x) Server Thread Ending", this);
 	return;
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Change status function
+
 void GaduProto::broadcastnewstatus(int newStatus)
 {
 	gg_EnterCriticalSection(&modemsg_mutex, "broadcastnewstatus", 24, "modemsg_mutex", 1);
 	int oldStatus = m_iStatus;
-	if (oldStatus == newStatus)
-	{
+	if (oldStatus == newStatus) {
 		gg_LeaveCriticalSection(&modemsg_mutex, "broadcastnewstatus", 24, 1, "modemsg_mutex", 1);
 		return;
 	}
@@ -1189,7 +1167,7 @@ void GaduProto::broadcastnewstatus(int newStatus)
 	debugLogA("broadcastnewstatus(): Broadcast new status: %d.", newStatus);
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // When contact is deleted
 
 bool GaduProto::OnContactDeleted(MCONTACT hContact, uint32_t)
@@ -1220,10 +1198,10 @@ bool GaduProto::OnContactDeleted(MCONTACT hContact, uint32_t)
 	return true;
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // When db settings changed
 
-static wchar_t* sttSettingToTchar(DBVARIANT* value)
+static wchar_t *sttSettingToTchar(DBVARIANT *value)
 {
 	switch (value->type) {
 	case DBVT_ASCIIZ:
@@ -1240,9 +1218,9 @@ int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("dbsettingchanged(): fired. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
-#endif
+	#endif
 
 	// Check if the contact is NULL or we are not online
 	if (!isonline())
@@ -1256,19 +1234,17 @@ int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 
 	// Contact is being renamed
 	if (gc_enabled && !strcmp(cws->szModule, m_szModuleName) && !strcmp(cws->szSetting, GG_KEY_NICK)) {
-		wchar_t* ptszVal = sttSettingToTchar(&(cws->value));
+		wchar_t *ptszVal = sttSettingToTchar(&(cws->value));
 		if (ptszVal == nullptr)
 			return 0;
 
 		// Groupchat window contact is being renamed
-		if (isChatRoom(hContact))
-		{
+		if (isChatRoom(hContact)) {
 			CMStringW wszId(FORMAT, L"%d", getDword(hContact, GG_KEY_UIN));
 
 			// Most important... check redundancy (fucking cascading)
 			static int cascade = 0;
-			if (!cascade)
-			{
+			if (!cascade) {
 				debugLogA("dbsettingchanged(): Conference %s was renamed.", wszId.c_str());
 				// Mark cascading
 				/* FIXME */ cascade = 1;
@@ -1284,11 +1260,10 @@ int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	// Contact list changes
-	if (!strcmp(cws->szModule, "CList"))
-	{
+	if (!strcmp(cws->szModule, "CList")) {
 		// If name changed... change nick
 		if (!strcmp(cws->szSetting, "MyHandle")) {
-			wchar_t* ptszVal = sttSettingToTchar(&(cws->value));
+			wchar_t *ptszVal = sttSettingToTchar(&(cws->value));
 			if (ptszVal == nullptr)
 				return 0;
 
@@ -1297,27 +1272,26 @@ int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 		}
 
 		// If not on list changed
-		if (!strcmp(cws->szSetting, "NotOnList"))
-		{
+		if (!strcmp(cws->szSetting, "NotOnList")) {
 			if (Contact::IsHidden(hContact))
 				return 0;
-			
+
 			// Notify user normally this time if added to the list permanently
 			if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0))
 				notifyuser(hContact, 1);
 		}
 	}
 
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("dbsettingchanged(): end. szModule=%s szSetting=%s", cws->szModule, cws->szSetting);
-#endif
+	#endif
 
 	return 0;
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // All users set offline
-//
+
 void GaduProto::setalloffline()
 {
 	debugLogA("setalloffline(): started. Setting buddies offline");
@@ -1331,14 +1305,14 @@ void GaduProto::setalloffline()
 		// Delete status descr
 		db_unset(hContact, "CList", GG_KEY_STATUSDESCR);
 	}
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("setalloffline(): End.");
-#endif
+	#endif
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // All users set offline
-//
+
 void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 {
 	uin_t uin;
@@ -1395,8 +1369,8 @@ void GaduProto::notifyall()
 		}
 		return;
 	}
-	uin_t *uins = (uin_t*)calloc(sizeof(uin_t), count);
-	char *types = (char*)calloc(sizeof(char), count);
+	uin_t *uins = (uin_t *)calloc(sizeof(uin_t), count);
+	char *types = (char *)calloc(sizeof(char), count);
 
 	int cc = 0;
 	for (auto &hContact : AccContacts()) {
@@ -1425,14 +1399,14 @@ void GaduProto::notifyall()
 	free(types);
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Get contact by uin
-//
+
 MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNick)
 {
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("getcontact(): uin=%d create=%d inlist=%d", uin, create, inlist);
-#endif
+	#endif
 	// Look for contact in DB
 	for (auto &hContact : AccContacts()) {
 		if ((uin_t)getDword(hContact, GG_KEY_UIN, 0) == uin && !isChatRoom(hContact)) {
@@ -1470,7 +1444,7 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 			gg_pubdir50(m_sess, req);
 			gg_LeaveCriticalSection(&sess_mutex, "getcontact", 31, 1, "sess_mutex", 1);
 			gg_pubdir50_free(req);
-			wchar_t* uinT = mir_a2u(ditoa(uin));
+			wchar_t *uinT = mir_a2u(ditoa(uin));
 			setWString(hContact, GG_KEY_NICK, uinT);
 			mir_free(uinT);
 			debugLogA("getcontact(): Search for nick on uin: %d", uin);
@@ -1501,9 +1475,9 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 	return hContact;
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Status conversion
-//
+
 int GaduProto::status_m2gg(int status, int descr)
 {
 	// check frends only
@@ -1559,7 +1533,7 @@ int GaduProto::status_gg2m(int status)
 	case GG_STATUS_DND:
 	case GG_STATUS_DND_DESCR:
 		return ID_STATUS_DND;
-		
+
 	case GG_STATUS_FFC:
 	case GG_STATUS_FFC_DESCR:
 		return ID_STATUS_FREECHAT;
@@ -1576,14 +1550,14 @@ int GaduProto::status_gg2m(int status)
 	}
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Called when contact status is changed
-//
+
 void GaduProto::changecontactstatus(uin_t uin, int status, const wchar_t *idescr, int, uint32_t remote_ip, uint16_t remote_port, uint32_t version)
 {
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("changecontactstatus(): uin=%d status=%d", uin, status);
-#endif
+	#endif
 	MCONTACT hContact = getcontact(uin, 0, 0, nullptr);
 
 	// Check if contact is on list
@@ -1616,9 +1590,10 @@ void GaduProto::changecontactstatus(uin_t uin, int status, const wchar_t *idescr
 	}
 }
 
-////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Returns GG client version string from packet version
-const char *gg_version2string(int v)
+
+const char* gg_version2string(int v)
 {
 	const char *pstr = "???";
 	v &= 0x00ffffff;

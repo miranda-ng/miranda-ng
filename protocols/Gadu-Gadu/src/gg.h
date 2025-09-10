@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2003-2009 Adam Strzelecki <ono+miranda@java.pl>
@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef GG_H
 #define GG_H
@@ -299,18 +299,12 @@ const char *gg_version2string(int v);
 /* Avatar functions */
 char *gg_avatarhash(char *param);
 
-/* IcoLib functions */
-void gg_icolib_init();
-
 /* URI parser functions */
 void gg_links_instancemenu_init();
 void gg_links_init();
 
 #define UIN2IDA(uin,id) _itoa(uin,id,10)
 #define UIN2IDT(uin,id) _itow(uin,id,10)
-
-// Debug functions
-const char *ggdebug_eventtype(gg_event *e);
 
 // Plugin headers
 #include "gg_proto.h"

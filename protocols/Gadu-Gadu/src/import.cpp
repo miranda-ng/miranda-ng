@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2003-2006 Adam Strzelecki <ono+miranda@java.pl>
@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
 
 #include "gg.h"
 
@@ -31,18 +30,16 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 
 		// Readup FirstName
 		DBVARIANT dbv;
-		if (!gg->getWString(hContact, GG_KEY_PD_FIRSTNAME, &dbv))
-		{
-			char* pszValA = mir_u2a(dbv.pwszVal);
+		if (!gg->getWString(hContact, GG_KEY_PD_FIRSTNAME, &dbv)) {
+			char *pszValA = mir_u2a(dbv.pwszVal);
 			string_append(s, dbv.pszVal);
 			mir_free(pszValA);
 			db_free(&dbv);
 		}
 		string_append_c(s, ';');
 		// Readup LastName
-		if (!gg->getWString(hContact, GG_KEY_PD_LASTNAME, &dbv))
-		{
-			char* pszValA = mir_u2a(dbv.pwszVal);
+		if (!gg->getWString(hContact, GG_KEY_PD_LASTNAME, &dbv)) {
+			char *pszValA = mir_u2a(dbv.pwszVal);
 			string_append(s, dbv.pszVal);
 			mir_free(pszValA);
 			db_free(&dbv);
@@ -50,13 +47,11 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 		string_append_c(s, ';');
 
 		// Readup Nick
-		if (!db_get_ws(hContact, "CList", "MyHandle", &dbv) || !gg->getWString(hContact, GG_KEY_NICK, &dbv))
-		{
-			char* dbvA = mir_u2a(dbv.pwszVal);
+		if (!db_get_ws(hContact, "CList", "MyHandle", &dbv) || !gg->getWString(hContact, GG_KEY_NICK, &dbv)) {
+			char *dbvA = mir_u2a(dbv.pwszVal);
 			DBVARIANT dbv2;
-			if (!gg->getWString(hContact, GG_KEY_PD_NICKNAME, &dbv2))
-			{
-				char* pszValA = mir_u2a(dbv2.pwszVal);
+			if (!gg->getWString(hContact, GG_KEY_PD_NICKNAME, &dbv2)) {
+				char *pszValA = mir_u2a(dbv2.pwszVal);
 				string_append(s, pszValA);
 				mir_free(pszValA);
 				db_free(&dbv2);
@@ -74,8 +69,7 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 		string_append_c(s, ';');
 
 		// Readup Phone (fixed: uses stored editable phones)
-		if (!db_get_s(hContact, "UserInfo", "MyPhone0", &dbv, DBVT_ASCIIZ))
-		{
+		if (!db_get_s(hContact, "UserInfo", "MyPhone0", &dbv, DBVT_ASCIIZ)) {
 			// Remove SMS postfix
 			char *sms = strstr(dbv.pszVal, " SMS");
 			if (sms) *sms = 0;
@@ -85,8 +79,7 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 		}
 		string_append_c(s, ';');
 		// Readup Group
-		if (!db_get_s(hContact, "CList", "Group", &dbv, DBVT_ASCIIZ))
-		{
+		if (!db_get_s(hContact, "CList", "Group", &dbv, DBVT_ASCIIZ)) {
 			string_append(s, dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -95,8 +88,7 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 		string_append(s, ditoa(gg->getDword(hContact, GG_KEY_UIN, 0)));
 		string_append_c(s, ';');
 		// Readup Mail (fixed: uses stored editable mails)
-		if (!db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv, DBVT_ASCIIZ))
-		{
+		if (!db_get_s(hContact, "UserInfo", "Mye-mail0", &dbv, DBVT_ASCIIZ)) {
 			string_append(s, dbv.pszVal);
 			db_free(&dbv);
 		}
@@ -108,16 +100,16 @@ char *gg_makecontacts(GaduProto *gg, int cr)
 
 	char *contacts = string_free(s, 0);
 
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	gg->debugLogA("gg_makecontacts(): \n%s", contacts);
-#endif
+	#endif
 
 	return contacts;
 }
 
 char *strndup(char *str, int c)
 {
-	char *ret = (char*)malloc(c + 1);
+	char *ret = (char *)malloc(c + 1);
 	ret[c] = 0;
 	strncpy(ret, str, c);
 
@@ -136,78 +128,67 @@ void GaduProto::parsecontacts(char *contacts)
 	else
 		p = contacts;
 
-	while (p)
-	{
+	while (p) {
 		// Processing line
 		strFirstName = strLastName = strNickname = strNick = strPhone = strGroup = strUin = strMail = nullptr;
 		uin = 0;
 
 		// FirstName
-		if (p)
-		{
+		if (p) {
 			n = strchr(p, ';');
 			if (n && n != p)
 				strFirstName = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// LastName
-		if (n && p)
-		{
+		if (n && p) {
 			n = strchr(p, ';');
 			if (n && n != p)
 				strLastName = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// Nickname
-		if (n && p)
-		{
+		if (n && p) {
 			n = strchr(p, ';');
 			if (n && n != p)
 				strNickname = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// Nick
-		if (n && p)
-		{
+		if (n && p) {
 			n = strchr(p, ';');
 			if (n && n != p)
 				strNick = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// Phone
-		if (n && p)
-		{
+		if (n && p) {
 			n = strchr(p, ';');
-			if (n && n != p)
-			{
-				strPhone = (char*)malloc((n - p) + 5);
+			if (n && n != p) {
+				strPhone = (char *)malloc((n - p) + 5);
 				strncpy(strPhone, p, (n - p));
 				mir_strcpy((strPhone + (n - p)), " SMS"); // Add SMS postfix
 			}
 			p = (n + 1);
 		}
 		// Group
-		if (n && p)
-		{
+		if (n && p) {
 			n = strchr(p, ';');
 			if (n && n != p)
 				strGroup = strndup(p, (n - p));
 			p = (n + 1);
 		}
 		// Uin
-		if (n && p)
-		{
+		if (n && p) {
 			n = strchr(p, ';');
-			if (n && n != p)
-			{
+			if (n && n != p) {
 				strUin = strndup(p, (n - p));
 				uin = atoi(strUin);
 			}
 			p = (n + 1);
 		}
 		// Mail
-		if (n && p)
-		{
+		if (n && p) {
 			n = strchr(p, ';');
 			if (n && n != p)
 				strMail = strndup(p, (n - p));
@@ -218,12 +199,11 @@ void GaduProto::parsecontacts(char *contacts)
 			p = nullptr;
 
 		// Loadup contact
-		if (uin && strNick)
-		{
+		if (uin && strNick) {
 			MCONTACT hContact = getcontact(uin, 1, 1, _A2T(strNick));
-#ifdef DEBUGMODE
+			#ifdef DEBUGMODE
 			debugLogA("parsecontacts(): Found contact %d with nickname \"%s\".", uin, strNick);
-#endif
+			#endif
 			// Write group
 			if (hContact && strGroup) {
 				ptrW tszGrpName(mir_a2u(strGroup));
@@ -260,14 +240,13 @@ void GaduProto::parsecontacts(char *contacts)
 	}
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // import from server
-//
+
 INT_PTR GaduProto::import_server(WPARAM, LPARAM)
 {
 	// Check if connected
-	if (!isonline())
-	{
+	if (!isonline()) {
 		MessageBox(nullptr,
 			TranslateT("You have to be connected before you can import/export contacts from/to server."),
 			m_tszUserName, MB_OK | MB_ICONSTOP
@@ -286,8 +265,7 @@ INT_PTR GaduProto::import_server(WPARAM, LPARAM)
 
 	// Making contacts list
 	gg_EnterCriticalSection(&sess_mutex, "import_server", 65, "sess_mutex", 1);
-	if (gg_userlist_request(m_sess, GG_USERLIST_GET, nullptr) == -1)
-	{
+	if (gg_userlist_request(m_sess, GG_USERLIST_GET, nullptr) == -1) {
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be imported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
@@ -299,9 +277,9 @@ INT_PTR GaduProto::import_server(WPARAM, LPARAM)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // remove from server
-//
+
 INT_PTR GaduProto::remove_server(WPARAM, LPARAM)
 {
 	// Check if connected
@@ -324,8 +302,7 @@ INT_PTR GaduProto::remove_server(WPARAM, LPARAM)
 
 	// Making contacts list
 	gg_EnterCriticalSection(&sess_mutex, "remove_server", 66, "sess_mutex", 1);
-	if (gg_userlist_request(m_sess, GG_USERLIST_PUT, nullptr) == -1)
-	{
+	if (gg_userlist_request(m_sess, GG_USERLIST_PUT, nullptr) == -1) {
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be removed because of error: %s (Error: %d)"), ws_strerror(errno), errno);
@@ -380,18 +357,17 @@ INT_PTR GaduProto::import_text(WPARAM, LPARAM)
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = L"txt";
 
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("import_text()");
-#endif
+	#endif
 	if (!GetOpenFileName(&ofn))
 		return 0;
 
 	FILE *f = _wfopen(str, L"r");
 	_wstat(str, &st);
 
-	if (f && st.st_size)
-	{
-		char *contacts = (char*)mir_calloc((st.st_size * sizeof(char)) + 1); // zero-terminate it
+	if (f && st.st_size) {
+		char *contacts = (char *)mir_calloc((st.st_size * sizeof(char)) + 1); // zero-terminate it
 		fread(contacts, sizeof(char), st.st_size, f);
 		fclose(f);
 		parsecontacts(contacts);
@@ -401,8 +377,7 @@ INT_PTR GaduProto::import_text(WPARAM, LPARAM)
 
 		return 0;
 	}
-	else
-	{
+	else {
 		wchar_t error[256];
 		mir_snwprintf(error, TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s (Error: %d)"), str, _wcserror(errno), errno);
 		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
@@ -416,7 +391,6 @@ INT_PTR GaduProto::import_text(WPARAM, LPARAM)
 
 INT_PTR GaduProto::export_text(WPARAM, LPARAM)
 {
-
 	wchar_t str[MAX_PATH];
 	wcsncpy(str, TranslateT("contacts"), _countof(str));
 	mir_wstrncat(str, L".txt", _countof(str) - mir_wstrlen(str));
@@ -455,9 +429,9 @@ INT_PTR GaduProto::export_text(WPARAM, LPARAM)
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = L"txt";
 
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogW(L"export_text(%s).", str);
-#endif
+	#endif
 	if (!GetSaveFileName(&ofn))
 		return 0;
 
@@ -470,8 +444,7 @@ INT_PTR GaduProto::export_text(WPARAM, LPARAM)
 
 		MessageBox(nullptr, TranslateT("List export successful."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
-	else
-	{
+	else {
 		wchar_t error[128];
 		mir_snwprintf(error, TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s (Error: %d)"), str, _wcserror(errno), errno);
 		MessageBox(nullptr, error, m_tszUserName, MB_OK | MB_ICONSTOP);
@@ -481,14 +454,13 @@ INT_PTR GaduProto::export_text(WPARAM, LPARAM)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // export to server
-//
+
 INT_PTR GaduProto::export_server(WPARAM, LPARAM)
 {
 	// Check if connected
-	if (!isonline())
-	{
+	if (!isonline()) {
 		MessageBox(nullptr,
 			TranslateT("You have to be connected before you can import/export contacts from/to server."),
 			m_tszUserName, MB_OK | MB_ICONSTOP
@@ -508,13 +480,12 @@ INT_PTR GaduProto::export_server(WPARAM, LPARAM)
 	// Making contacts list
 	char *contacts = gg_makecontacts(this, 1);
 
-#ifdef DEBUGMODE
+	#ifdef DEBUGMODE
 	debugLogA("export_server(): gg_userlist_request(%s).", contacts);
-#endif
+	#endif
 
 	gg_EnterCriticalSection(&sess_mutex, "export_server", 67, "sess_mutex", 1);
-	if (gg_userlist_request(m_sess, GG_USERLIST_PUT, contacts) == -1)
-	{
+	if (gg_userlist_request(m_sess, GG_USERLIST_PUT, contacts) == -1) {
 		wchar_t error[128];
 		gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 1, "sess_mutex", 1);
 		mir_snwprintf(error, TranslateT("List cannot be exported because of error:\n\t%s (Error: %d)"), ws_strerror(errno), errno);
@@ -530,9 +501,9 @@ INT_PTR GaduProto::export_server(WPARAM, LPARAM)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Import menus and stuff
-//
+
 void GaduProto::import_init(HGENMENU hRoot)
 {
 	CMenuItem mi(&g_plugin);

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2003-2009 Adam Strzelecki <ono+miranda@java.pl>
@@ -17,7 +17,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
 
 #include "gg.h"
 
@@ -128,9 +127,9 @@ GaduProto::~GaduProto()
 	if (modemsg.offline)   mir_free(modemsg.offline);
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // when contact is added to list
-//
+
 MCONTACT GaduProto::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 {
 #ifdef DEBUGMODE
@@ -147,9 +146,9 @@ MCONTACT GaduProto::AddToList(int flags, PROTOSEARCHRESULT *pmsr)
 	return getcontact(uin, 1, flags & PALF_TEMPORARY ? 0 : 1, psr->nick.w);
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // checks proto capabilities
-//
+
 INT_PTR GaduProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
@@ -171,9 +170,8 @@ INT_PTR GaduProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // user info request
-//
 
 int GaduProto::GetInfo(MCONTACT hContact, int)
 {
@@ -240,9 +238,9 @@ int GaduProto::GetInfo(MCONTACT hContact, int)
 	return 1;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // when basic search
-//
+
 HANDLE GaduProto::SearchBasic(const wchar_t *id)
 {
 	if (!isonline())
@@ -276,9 +274,9 @@ HANDLE GaduProto::SearchBasic(const wchar_t *id)
 	return this;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // search by details
-//
+
 HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName)
 {
 	// Check if connected and if there's a search data
@@ -346,7 +344,7 @@ HANDLE GaduProto::SearchByName(const wchar_t *nick, const wchar_t *firstName, co
 	return this;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // search by advanced
 
 HANDLE GaduProto::SearchAdvanced(HWND hwndDlg)
@@ -481,9 +479,9 @@ HANDLE GaduProto::SearchAdvanced(HWND hwndDlg)
 	return this;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // create adv search dialog
-//
+
 static INT_PTR CALLBACK gg_advancedsearchdlgproc(HWND hwndDlg, UINT message, WPARAM, LPARAM)
 {
 	switch (message) {
@@ -503,7 +501,7 @@ HWND GaduProto::CreateExtendedSearchUI(HWND owner)
 		MAKEINTRESOURCE(IDD_GGADVANCEDSEARCH), owner, gg_advancedsearchdlgproc, (LPARAM)this);
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // when messsage sent
 //
 int GaduProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
@@ -526,9 +524,9 @@ int GaduProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 	return seq;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // sets protocol status
-//
+
 int GaduProto::SetStatus(int iNewStatus)
 {
 	int nNewStatus = gg_normalizestatus(iNewStatus);
@@ -547,7 +545,7 @@ int GaduProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // when away message is requested
 
 void __cdecl GaduProto::getawaymsgthread(void *arg)
@@ -568,10 +566,10 @@ HANDLE GaduProto::GetAwayMsg(MCONTACT hContact)
 	return this;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // when away message is being set
 // registered as ProtoService PS_SETAWAYMSGT
-//
+
 int GaduProto::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 {
 	int status = gg_normalizestatus(iStatus);
@@ -628,9 +626,9 @@ int GaduProto::SetAwayMsg(int iStatus, const wchar_t *newMsg)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // sends a notification that the user is typing a message
-//
+
 int GaduProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
@@ -646,16 +644,14 @@ int GaduProto::UserIsTyping(MCONTACT hContact, int type)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Custom protocol event
-//
 
 void GaduProto::OnModulesLoaded()
 {
 	HookProtoEvent(ME_USERINFO_INITIALISE, &GaduProto::details_init);
 
 	// Init misc stuff
-	gg_icolib_init();
 	initpopups();
 	keepalive_init();
 	img_init();

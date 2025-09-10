@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2011-2012 Bartosz Białek
@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
 
 #include "gg.h"
 
@@ -30,7 +29,7 @@ struct PopupData
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup plugin window proc
-//
+
 LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
@@ -69,7 +68,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup plugin class registration
-//
+
 void GaduProto::initpopups()
 {
 	wchar_t szDescr[256];
@@ -100,7 +99,7 @@ void GaduProto::initpopups()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Show popup - popup plugin support
-//
+
 void CALLBACK sttMainThreadCallback(PVOID dwParam)
 {
 	PopupData *puData = (PopupData*)dwParam;

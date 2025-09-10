@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  *  (C) Copyright 2009-2010 Jakub Zawadzki <darkjames@darkjames.ath.cx>
  *                          Bartłomiej Zimoń <uzi18@o2.pl>
@@ -33,15 +31,22 @@
 
 #define GG_LOGIN80 0x0031
 
+#define GG_LOGIN105 0x0083
+
 #undef GG_FEATURE_STATUS80BETA
 #undef GG_FEATURE_MSG80
 #undef GG_FEATURE_STATUS80
 #define GG_FEATURE_STATUS80BETA		0x01
 #define GG_FEATURE_MSG80		0x02
-#define GG_FEATURE_STATUS80 		0x05
+#define GG_FEATURE_STATUS80		0x05
+
+#define GG_DEFAULT_HOST_WHITE_LIST { "gadu-gadu.pl", "gg.pl", NULL }
 
 #define GG8_LANG	"pl"
 #define GG8_VERSION	"Gadu-Gadu Client Build "
+
+#define GG11_VERSION	"GG-Phoenix/"
+#define GG11_TARGET	" (BUILD;WINNT_x86-msvc;rv:11.0,pl;release;standard) (OS;Windows;Windows NT 6.1)"
 
 struct gg_login80 {
 	uint32_t uin;			/* mój numerek */
@@ -62,6 +67,8 @@ struct gg_login80 {
 #define GG_LOGIN_HASH_TYPE_INVALID 0x0016
 
 #define GG_LOGIN80_OK 0x0035
+
+#define GG_LOGIN110_OK 0x009d
 
 /**
  * Logowanie powiodło się (pakiet \c GG_LOGIN80_OK)
@@ -91,6 +98,8 @@ struct gg_new_status80 {
 	uint32_t flags;				/**< flagi (nieznane przeznaczenie) */
 	uint32_t description_size;		/**< rozmiar opisu */
 } GG_PACKED;
+
+#define GG_NEW_STATUS105 0x0063
 
 #define GG_STATUS80BETA 0x002a
 #define GG_NOTIFY_REPLY80BETA 0x002b
@@ -213,14 +222,17 @@ struct gg_dcc7_aborted {
 
 struct gg_dcc7_voice_auth {
 	uint8_t type;			/* 0x00 -> wysylanie ID
-					   0x01 -> potwierdzenie ID
-					*/
+					 * 0x01 -> potwierdzenie ID
+					 */
 	gg_dcc7_id_t id;		/* identyfikator połączenia */
 	uint32_t reserved1;		/* GG_DCC7_RESERVED1 */
 	uint32_t reserved2;		/* GG_DCC7_RESERVED2 */
 } GG_PACKED;
 
-struct gg_dcc7_voice_nodata {	/* wyciszony mikrofon, ten pakiet jest wysylany co 1s (jesli chcemy podtrzymac polaczenie) */
+/* Wyciszony mikrofon. Ten pakiet jest wysylany co 1s (jesli chcemy podtrzymac
+ * polaczenie).
+ */
+struct gg_dcc7_voice_nodata {
 	uint8_t type;			/* 0x02 */
 	gg_dcc7_id_t id;		/* identyfikator połączenia */
 	uint32_t reserved1;		/* GG_DCC7_RESERVED1 */
@@ -240,7 +252,8 @@ struct gg_dcc7_voice_init {
 	uint8_t type;			/* 0x04 */
 	uint32_t id;			/* nr kroku [0x1 - 0x5] */
 	uint32_t protocol;		/* XXX: wersja protokolu (0x29, 0x2a, 0x2b) */
-	uint32_t len;			/* rozmiar sizeof(protocol)+sizeof(len)+sizeof(data) = 0x08 + sizeof(data) */
+	uint32_t len;			/* rozmiar sizeof(protocol)+sizeof(len)+
+					 * sizeof(data) = 0x08 + sizeof(data) */
 	/* char data[]; */		/* reszta danych */
 } GG_PACKED;
 
@@ -259,8 +272,8 @@ struct gg_dcc7_voice_init_confirm {
 struct gg_dcc7_relay_req {
 	uint32_t magic;			/* 0x0a */
 	uint32_t len;			/* długość całego pakietu */
-	gg_dcc7_id_t id;   		/* identyfikator połączenia */
-	uint16_t type;   		/* typ zapytania */
+	gg_dcc7_id_t id;		/* identyfikator połączenia */
+	uint16_t type;			/* typ zapytania */
 	uint16_t dunno1;		/* 0x02 */
 } GG_PACKED;
 
@@ -318,6 +331,76 @@ struct gg_userlist100_reply {
 	uint8_t unknown1;		/* 0x01 */
 	/* char reply[]; */
 } GG_PACKED;
+
+struct gg_chat_create {
+	uint32_t seq;
+	uint32_t dummy;
+} GG_PACKED;
+
+struct gg_chat_invite {
+	uint64_t id;
+	uint32_t seq;
+	uint32_t participants_count;
+	/* struct {
+		uint32_t uin;
+		uint32_t dummy; (0x1e)
+	} participants[]; */
+} GG_PACKED;
+
+struct gg_chat_leave {
+	uint64_t id;
+	uint32_t seq;
+} GG_PACKED;
+
+struct gg_chat_created {
+	uint64_t id;
+	uint32_t seq;
+} GG_PACKED;
+
+struct gg_chat_invite_ack {
+	uint64_t id;
+	uint32_t seq;
+	uint32_t unknown1; /* 0x00 */
+	uint32_t unknown2; /* 0x10 */
+} GG_PACKED;
+
+struct gg_chat_left {
+	uint64_t id;
+	uint32_t uin;
+} GG_PACKED;
+
+#define GG_ADD_NOTIFY105 0x007b
+#define GG_REMOVE_NOTIFY105 0x007c
+#define GG_EVENT110 0x0084
+#define GG_IMTOKEN 0x008c
+#define GG_ACCESS_INFO 0x008f
+#define GG_NOTIFY105_FIRST 0x0077
+#define GG_NOTIFY105_LAST 0x0078
+#define GG_NOTIFY105_LIST_EMPTY 0x0079
+#define GG_PONG110 0x00a1
+#define GG_OPTIONS 0x009b
+
+#define GG_SEND_MSG110 0x007d
+#define GG_RECV_MSG110 0x007e
+#define GG_RECV_OWN_MSG110 0x0082
+#define GG_ACK110 0x0086
+#define GG_SEND_MSG_ACK110 0x0087
+
+#define GG_CHAT_INFO 0x0093
+#define GG_CHAT_INFO_UPDATE 0x009e
+#define GG_CHAT_CREATED 0x0045
+#define GG_CHAT_INVITE_ACK 0x0047
+#define GG_CHAT_RECV_MSG 0x0088
+#define GG_CHAT_RECV_OWN_MSG 0x008e
+#define GG_CHAT_CREATE 0x0047
+#define GG_CHAT_INVITE 0x0090
+#define GG_CHAT_LEAVE 0x0052
+#define GG_CHAT_LEFT 0x0066
+#define GG_CHAT_SEND_MSG 0x008d
+
+#define GG_UIN_INFO 0x007a
+#define GG_TRANSFER_INFO 0x00a0
+#define GG_MAGIC_NOTIFICATION 0x009f
 
 #ifdef _WIN32
 #pragma pack(pop)

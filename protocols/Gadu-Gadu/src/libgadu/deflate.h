@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  *  (C) Copyright 2011 Bartosz Brachaczek <b.brachaczek@gmail.com>
  *

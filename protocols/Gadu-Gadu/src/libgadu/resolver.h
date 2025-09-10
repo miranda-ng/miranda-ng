@@ -1,5 +1,3 @@
-/* $Id$ */
-
 /*
  *  (C) Copyright 2008 Wojtek Kaniewski <wojtekka@irc.pl>
  *
@@ -21,12 +19,10 @@
 #ifndef LIBGADU_RESOLVER_H
 #define LIBGADU_RESOLVER_H
 
-#ifdef _WIN32
-#include "win32.h"
-#else
-#include <arpa/inet.h>
-#endif /* _WIN32 */
+#include "network.h"
 
-int gg_gethostbyname_real(const char *hostname, struct in_addr **result, int *count, int pthread);
+int gg_gethostbyname_real(const char *hostname, struct in_addr **result, unsigned int *count, int pthread);
+int gg_resolver_recv(int fd, void *buf, size_t len);
+void gg_resolver_cleaner(void *data);
 
 #endif /* LIBGADU_RESOLVER_H */

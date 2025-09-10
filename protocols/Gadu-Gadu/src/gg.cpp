@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Gadu-Gadu Plugin for Miranda IM
 //
 // Copyright (c) 2003-2009 Adam Strzelecki <ono+miranda@java.pl>
@@ -17,18 +17,20 @@
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-////////////////////////////////////////////////////////////////////////////////
 
 #include "gg.h"
 #include "version.h"
 #include <errno.h>
+
+#pragma comment(lib, "libssl.lib")
+#pragma comment(lib, "libcrypto.lib")
 
 // Other variables
 CMPlugin g_plugin;
 
 static unsigned long crc_table[256];
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Plugin info
 
 PLUGININFOEX pluginInfoEx = {
@@ -51,11 +53,11 @@ CMPlugin::CMPlugin() :
 	SetUniqueId(GG_KEY_UIN, DBVT_DWORD);
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Extra winsock function for error description
 //
 wchar_t* ws_strerror(int code)
@@ -100,8 +102,9 @@ char* as_strerror(int code)
 	return strerror(code);
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Build the crc table
+
 void crc_gentable(void)
 {
 	unsigned long crc;
@@ -120,8 +123,9 @@ void crc_gentable(void)
 	}
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Calculate the crc value
+
 unsigned long crc_get(char *mem)
 {
 	unsigned long crc = 0xFFFFFFFF;
@@ -131,10 +135,11 @@ unsigned long crc_get(char *mem)
 	return (crc ^ 0xFFFFFFFF);
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // http_error_string()
 //
 // returns http error text
+
 const wchar_t *http_error_string(int h)
 {
 	switch (h)
@@ -154,9 +159,9 @@ const wchar_t *http_error_string(int h)
 	return TranslateT("Unknown HTTP error");
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Cleanups from last plugin
-//
+
 void GaduProto::cleanuplastplugin(uint32_t version)
 {
 	// Store current plugin version
@@ -169,9 +174,9 @@ void GaduProto::cleanuplastplugin(uint32_t version)
 	}
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // When Miranda loaded its modules
-//
+
 static int gg_modulesloaded(WPARAM, LPARAM)
 {
 	// File Association Manager support
@@ -180,9 +185,9 @@ static int gg_modulesloaded(WPARAM, LPARAM)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Handles PrebuildContactMenu event
-//
+
 static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 {
 	GaduProto* gg = CMPlugin::getInstance(hContact);
@@ -197,9 +202,9 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Contact block service function
-//
+
 INT_PTR GaduProto::blockuser(WPARAM hContact, LPARAM)
 {
 	setByte(hContact, GG_KEY_BLOCK, !getByte(hContact, GG_KEY_BLOCK, 0));
@@ -210,9 +215,9 @@ INT_PTR GaduProto::blockuser(WPARAM hContact, LPARAM)
 
 #define GGS_BLOCKUSER "/BlockUser"
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Contact blocking initialization
-//
+
 void GaduProto::block_init()
 {
 	CMenuItem mi(&g_plugin);
@@ -226,17 +231,17 @@ void GaduProto::block_init()
 	::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Contact blocking uninitialization
-//
+
 void GaduProto::block_uninit()
 {
 	Menu_RemoveItem(hBlockMenuItem);
 }
 
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Menus initialization
-//
+
 void GaduProto::OnBuildProtoMenu()
 {
 	HGENMENU hRoot = Menu_GetProtocolRoot(this);
@@ -260,96 +265,13 @@ void GaduProto::OnBuildProtoMenu()
 	sessions_menus_init(hRoot);
 }
 
-//////////////////////////////////////////////////////////
-// When plugin is loaded
-//
-int CMPlugin::Load()
-{
-	HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
-
-	gg_links_instancemenu_init();
-	return 0;
-}
-
-//////////////////////////////////////////////////////////
-// When plugin is unloaded
-//
-int CMPlugin::Unload()
-{
-	WSACleanup();
-	return 0;
-}
-
-//////////////////////////////////////////////////////////
-// DEBUGING FUNCTIONS
-struct
-{
-	int type;
-	char *text;
-}
-
-static const ggdebug_eventype2string[] =
-{
-   {GG_EVENT_NONE,                 "GG_EVENT_NONE"},
-   {GG_EVENT_MSG,                  "GG_EVENT_MSG"},
-   {GG_EVENT_NOTIFY,               "GG_EVENT_NOTIFY"},
-   {GG_EVENT_NOTIFY_DESCR,         "GG_EVENT_NOTIFY_DESCR"},
-   {GG_EVENT_STATUS,               "GG_EVENT_STATUS"},
-   {GG_EVENT_ACK,                  "GG_EVENT_ACK"},
-   {GG_EVENT_PONG,                 "GG_EVENT_PONG"},
-   {GG_EVENT_CONN_FAILED,          "GG_EVENT_CONN_FAILED"},
-   {GG_EVENT_CONN_SUCCESS,         "GG_EVENT_CONN_SUCCESS"},
-   {GG_EVENT_DISCONNECT,           "GG_EVENT_DISCONNECT"},
-   {GG_EVENT_DCC_NEW,              "GG_EVENT_DCC_NEW"},
-   {GG_EVENT_DCC_ERROR,            "GG_EVENT_DCC_ERROR"},
-   {GG_EVENT_DCC_DONE,             "GG_EVENT_DCC_DONE"},
-   {GG_EVENT_DCC_CLIENT_ACCEPT,    "GG_EVENT_DCC_CLIENT_ACCEPT"},
-   {GG_EVENT_DCC_CALLBACK,         "GG_EVENT_DCC_CALLBACK"},
-   {GG_EVENT_DCC_NEED_FILE_INFO,   "GG_EVENT_DCC_NEED_FILE_INFO"},
-   {GG_EVENT_DCC_NEED_FILE_ACK,    "GG_EVENT_DCC_NEED_FILE_ACK"},
-   {GG_EVENT_DCC_NEED_VOICE_ACK,   "GG_EVENT_DCC_NEED_VOICE_ACK"},
-   {GG_EVENT_DCC_VOICE_DATA,       "GG_EVENT_DCC_VOICE_DATA"},
-   {GG_EVENT_PUBDIR50_SEARCH_REPLY,"GG_EVENT_PUBDIR50_SEARCH_REPLY"},
-   {GG_EVENT_PUBDIR50_READ,        "GG_EVENT_PUBDIR50_READ"},
-   {GG_EVENT_PUBDIR50_WRITE,       "GG_EVENT_PUBDIR50_WRITE"},
-   {GG_EVENT_STATUS60,             "GG_EVENT_STATUS60"},
-   {GG_EVENT_NOTIFY60,             "GG_EVENT_NOTIFY60"},
-   {GG_EVENT_USERLIST,             "GG_EVENT_USERLIST"},
-   {GG_EVENT_IMAGE_REQUEST,        "GG_EVENT_IMAGE_REQUEST"},
-   {GG_EVENT_IMAGE_REPLY,          "GG_EVENT_IMAGE_REPLY"},
-   {GG_EVENT_DCC_ACK,              "GG_EVENT_DCC_ACK"},
-   {GG_EVENT_DCC7_NEW,             "GG_EVENT_DCC7_NEW"},
-   {GG_EVENT_DCC7_ACCEPT,          "GG_EVENT_DCC7_ACCEPT"},
-   {GG_EVENT_DCC7_REJECT,          "GG_EVENT_DCC7_REJECT"},
-   {GG_EVENT_DCC7_CONNECTED,       "GG_EVENT_DCC7_CONNECTED"},
-   {GG_EVENT_DCC7_ERROR,           "GG_EVENT_DCC7_ERROR"},
-   {GG_EVENT_DCC7_DONE,            "GG_EVENT_DCC7_DONE"},
-   {GG_EVENT_DCC7_PENDING,         "GG_EVENT_DCC7_PENDING"},
-   {GG_EVENT_XML_EVENT,            "GG_EVENT_XML_EVENT"},
-   {GG_EVENT_DISCONNECT_ACK,       "GG_EVENT_DISCONNECT_ACK"},
-   {GG_EVENT_TYPING_NOTIFICATION,  "GG_EVENT_TYPING_NOTIFICATION"},
-   {GG_EVENT_USER_DATA,            "GG_EVENT_USER_DATA"},
-   {GG_EVENT_MULTILOGON_MSG,       "GG_EVENT_MULTILOGON_MSG"},
-   {GG_EVENT_MULTILOGON_INFO,      "GG_EVENT_MULTILOGON_INFO"},
-   {-1,                            "<unknown event>"}
-};
-
-const char *ggdebug_eventtype(gg_event *e)
-{
-	int i;
-	for (i = 0; ggdebug_eventype2string[i].type != -1; i++)
-		if (ggdebug_eventype2string[i].type == e->type)
-			return ggdebug_eventype2string[i].text;
-
-	return ggdebug_eventype2string[i].text;
-}
-
-//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Log funcion
+
 #define PREFIXLEN   6   //prefix present in DEBUGMODE contains GetCurrentThreadId()
 
 #ifdef DEBUGMODE
-void gg_debughandler(int level, const char *format, va_list ap)
+static void gg_debughandler(int level, const char *format, va_list ap)
 {
 	char szText[1024], *szFormat = _strdup(format);
 	// Kill end line
@@ -371,3 +293,49 @@ void gg_debughandler(int level, const char *format, va_list ap)
 	free(szFormat);
 }
 #endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// When plugin is loaded
+
+extern IconItem iconList[] =
+{
+	{ LPGEN("Protocol icon"),              "main",         IDI_GG },
+	{ LPGEN("Import list from server"),    "importserver", IDI_IMPORT_SERVER },
+	{ LPGEN("Import list from text file"), "importtext",   IDI_IMPORT_TEXT },
+	{ LPGEN("Remove list from server"),    "removeserver", IDI_REMOVE_SERVER },
+	{ LPGEN("Export list to server"),      "exportserver", IDI_EXPORT_SERVER },
+	{ LPGEN("Export list to text file"),   "exporttext",   IDI_EXPORT_TEXT },
+	{ LPGEN("Account settings"),           "settings",     IDI_SETTINGS },
+	{ LPGEN("Contact list"),               "list",         IDI_LIST },
+	{ LPGEN("Block user"),                 "block",        IDI_BLOCK },
+	{ LPGEN("Previous image"),             "previous",     IDI_PREV },
+	{ LPGEN("Next image"),                 "next",         IDI_NEXT },
+	{ LPGEN("Send image"),                 "image",        IDI_IMAGE },
+	{ LPGEN("Save image"),                 "save",         IDI_SAVE },
+	{ LPGEN("Delete image"),               "delete",       IDI_DELETE },
+	{ LPGEN("Open new conference"),        "conference",   IDI_CONFERENCE },
+	{ LPGEN("Clear ignored conferences"),  "clearignored", IDI_CLEAR_CONFERENCE },
+	{ LPGEN("Concurrent sessions"),        "sessions",     IDI_SESSIONS },
+};
+
+int CMPlugin::Load()
+{
+	registerIcon("Protocols/GG", iconList, GGDEF_PROTO);
+
+	HookEvent(ME_SYSTEM_MODULESLOADED, gg_modulesloaded);
+
+	#ifdef DEBUGMODE
+	gg_debug_handler = gg_debughandler;
+	#endif
+	gg_links_instancemenu_init();
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// When plugin is unloaded
+
+int CMPlugin::Unload()
+{
+	WSACleanup();
+	return 0;
+}

@@ -41,9 +41,6 @@
 		} \
 	} while (0)
 
-#define GG_SESSION_IS_PROTOCOL_7_7(gs) ((gs)->protocol_version >= 0x2a)
-#define GG_SESSION_IS_PROTOCOL_8_0(gs) ((gs)->protocol_version >= 0x2d)
-
 #define GG_SESSION_IS_IDLE(gs) ((gs)->state == GG_STATE_IDLE)
 #define GG_SESSION_IS_CONNECTING(gs) ((gs)->state != GG_STATE_IDLE && (gs)->state != GG_STATE_CONNECTED)
 #define GG_SESSION_IS_CONNECTED(gs) ((gs)->state == GG_STATE_CONNECTED)
@@ -51,8 +48,11 @@
 #ifdef GG_CONFIG_HAVE_GNUTLS
 
 typedef struct {
+	int global_init_called;
 	gnutls_session_t session;
+	int session_ready;
 	gnutls_certificate_credentials_t xcred;
+	int xcred_ready;
 } gg_session_gnutls_t;
 
 #define GG_SESSION_GNUTLS(gs) ((gg_session_gnutls_t*) (gs)->ssl)->session

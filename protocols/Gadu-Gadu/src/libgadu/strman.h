@@ -1,6 +1,5 @@
 /*
- *  (C) Copyright 2008-2009 Jakub Zawadzki <darkjames@darkjames.ath.cx>
- *                          Wojtek Kaniewski <wojtekka@irc.pl>
+ *  (C) Copyright 2011 Bartosz Brachaczek <b.brachaczek@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License Version
@@ -17,12 +16,26 @@
  *  USA.
  */
 
-#ifndef LIBGADU_ENCODING_H
-#define LIBGADU_ENCODING_H
+/**
+ * \file strman.h
+ *
+ * \brief Makra zapewniające kompatybilność API do obsługi operacji na stringach na różnych systemach
+ */
 
-#include "libgadu.h"
+#ifndef LIBGADU_STRMAN_H
+#define LIBGADU_STRMAN_H
 
-char *gg_encoding_convert(const char *src, gg_encoding_t src_encoding,
-	gg_encoding_t dst_encoding, int src_length, int dst_length);
+#include <stdio.h>
+#include <stdarg.h>
+#include <string.h>
+#ifndef _MSC_VER
+#  include <strings.h>
+#else
+#  define snprintf(str, size, format, ...) _snprintf_s(str, size, _TRUNCATE, format, __VA_ARGS__)
+#  define vsnprintf(str, size, format, ap) vsnprintf_s(str, size, _TRUNCATE, format, ap)
+#  define strdup _strdup
+#  define strcasecmp _stricmp
+#  define strncasecmp _strnicmp
+#endif
 
-#endif /* LIBGADU_SESSION_H */
+#endif /* LIBGADU_STRMAN_H */

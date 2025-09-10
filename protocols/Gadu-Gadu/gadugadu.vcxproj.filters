@@ -18,60 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\libgadu\common.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\dcc.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\dcc7.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\debug.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\deflate.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\encoding.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\events.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\handlers.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\http.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\libgadu.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\message.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\obsolete.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\pthread.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\pubdir.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\pubdir50.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\resolver.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\sha1.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\libgadu\win32.cpp">
-      <Filter>Source Files\libgadu</Filter>
-    </ClCompile>
     <ClCompile Include="src\avatar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -94,9 +40,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\groupchat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\icolib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\image.cpp">
@@ -140,6 +83,81 @@
     </ClCompile>
     <ClCompile Include="src\userinfo.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\common.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\dcc.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\dcc7.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\debug.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\deflate.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\encoding.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\endian.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\events.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\handlers.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\http.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\libgadu.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\message.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\network.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\obsolete.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\protobuf.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\protobuf-c.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\pthread.cpp">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\pubdir.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\pubdir50.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\resolver.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\sha1.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\tvbuff.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\tvbuilder.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\win32.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\libgadu\packets.pb-c.c">
+      <Filter>Source Files\libgadu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +211,33 @@
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\fileio.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\network.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\protobuf.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\protobuf-c.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\strman.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\tvbuff.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\tvbuilder.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\packets.pb-c.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\libgadu\config.h">
+      <Filter>Source Files\libgadu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

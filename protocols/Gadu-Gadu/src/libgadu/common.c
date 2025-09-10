@@ -1,11 +1,6 @@
-/* $Id: common.c 13762 2011-08-09 12:35:16Z dezred $ */
-
 /*
- *  (C) Copyright 2001-2006 Wojtek Kaniewski <wojtekka@irc.pl>
+ *  (C) Copyright 2001-2002 Wojtek Kaniewski <wojtekka@irc.pl>
  *                          Robert J. Woźny <speedy@ziew.org>
- *                          Arkadiusz Miśkiewicz <arekm@pld-linux.org>
- *                          Tomasz Chiliński <chilek@chilan.com>
- *                          Adam Wysocki <gophi@ekg.chmurka.net>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License Version
@@ -27,34 +22,37 @@
  *
  * \brief Funkcje wykorzystywane przez różne moduły biblioteki
  */
-#include <sys/types.h>
-#ifdef _WIN32
-#include "win32.h"
-#else
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#ifdef sun
-#  include <sys/filio.h>
-#endif
-#endif /* _WIN32 */
+
+#include "internal.h"
+
+#include "fileio.h"
+#include "network.h"
+#include "strman.h"
 
 #include <errno.h>
-#include <fcntl.h>
-#ifndef _WIN32
-#include <netdb.h>
-#endif /* _WIN32 */
 #include <stdarg.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifndef _WIN32
-#include <unistd.h>
-#endif /* _WIN32 */
+#include <ctype.h>
+#include <time.h>
 
-#include "libgadu.h"
+#ifdef HAVE_GNUTLS_2_12
+#  include <gnutls/gnutls.h>
+#  include <gnutls/crypto.h>
+#elif defined(GG_CONFIG_HAVE_OPENSSL)
+#  include <openssl/rand.h>
+#endif
 
+#ifndef GG_CONFIG_HAVE_VA_COPY
+#  ifdef GG_CONFIG_HAVE___VA_COPY
+#    define va_copy(dest, src) __va_copy((dest), (src))
+#  else
+/* Taka wersja va_copy() działa poprawnie tylko na platformach, które
+ * va_copy() de facto wcale nie potrzebują, np. MSVC. Definicja tylko dla
+ * przejrzystości kodu. */
+#    define va_copy(dest, src) (dest) = (src)
+#  endif
+#endif
 
 /**
  * \internal Odpowiednik funkcji \c vsprintf alokujący miejsce na wynik.
@@ -71,59 +69,54 @@
  */
 char *gg_vsaprintf(const char *format, va_list ap)
 {
-	int size = 0;
+	int size;
 	char *buf = NULL;
-
-#ifdef GG_CONFIG_HAVE_VA_COPY
 	va_list aq;
 
-	va_copy(aq, ap);
-#else
-#  ifdef GG_CONFIG_HAVE___VA_COPY
-	va_list aq;
-
-	__va_copy(aq, ap);
-#  endif
-#endif
-
-#ifndef GG_CONFIG_HAVE_C99_VSNPRINTF
+#if !defined(GG_CONFIG_HAVE_C99_VSNPRINTF) && !defined(HAVE__VSCPRINTF)
 	{
-		int res;
+		int res = 0;
 		char *tmp;
 
 		size = 128;
 		do {
-			size *= 2;
-			if (!(tmp = (char*)realloc(buf, size))) {
+			if (res > size) {
+				/* Jednak zachowanie zgodne z C99. */
+				size = res + 1;
+			} else {
+				size *= 2;
+			}
+
+			if (!(tmp = realloc(buf, size))) {
 				free(buf);
 				return NULL;
 			}
+
 			buf = tmp;
-			res = vsnprintf(buf, size, format, ap);
-		} while (res == size - 1 || res == -1);
+			va_copy(aq, ap);
+			res = vsnprintf(buf, size, format, aq);
+			va_end(aq);
+		} while (res >= size || res < 0);
 	}
 #else
+	va_copy(aq, ap);
+
+#  ifdef HAVE__VSCPRINTF
+	size = _vscprintf(format, aq) + 1;
+#  else
 	{
 		char tmp[2];
 
 		/* libce Solarisa przy buforze NULL zawsze zwracają -1, więc
 		 * musimy podać coś istniejącego jako cel printf()owania. */
-		size = vsnprintf(tmp, sizeof(tmp), format, ap);
-		if (!(buf = malloc(size + 1)))
-			return NULL;
+		size = vsnprintf(tmp, sizeof(tmp), format, aq) + 1;
 	}
-#endif
-
-#ifdef GG_CONFIG_HAVE_VA_COPY
-	vsnprintf(buf, size + 1, format, aq);
-	va_end(aq);
-#else
-#  ifdef GG_CONFIG_HAVE___VA_COPY
-	vsnprintf(buf, size + 1, format, aq);
-	va_end(aq);
-#  else
-	vsnprintf(buf, size + 1, format, ap);
 #  endif
+	va_end(aq);
+	if (!(buf = malloc(size)))
+		return NULL;
+
+	vsnprintf(buf, size, format, ap);
 #endif
 
 	return buf;
@@ -162,6 +155,8 @@ char *gg_saprintf(const char *format, ...)
  * \param ptr Wskaźnik do zmiennej, która przechowuje aktualne położenie
  *            w analizowanym buforze
  *
+ * \note Funkcja nie jest już używana. Pozostała dla zachowania ABI.
+ *
  * \return Wskaźnik do kolejnej linii tekstu lub NULL, jeśli to już koniec
  *         bufora.
  */
@@ -196,13 +191,17 @@ char *gg_get_line(char **ptr)
  * Funkcja czyta tekst znak po znaku, więc nie jest efektywna, ale dzięki
  * brakowi buforowania, nie koliduje z innymi funkcjami odczytu.
  *
+ * \note W przypadku zakończenia połączenia przez drugą stronę, ostatnia
+ * linia nie jest zwracana.
+ *
  * \param sock Deskryptor gniazda
  * \param buf Wskaźnik do bufora
  * \param length Długość bufora
  *
- * \return Zwraca \c buf jeśli się powiodło, lub \c NULL w przypadku błędu.
+ * \return Zwraca wskaźnik na koniec odebranej linii jeśli się powiodło,
+ * lub \c NULL w przypadku błędu.
  */
-char *gg_read_line(SOCKET sock, char *buf, int length)
+char *gg_read_line(int sock, char *buf, int length)
 {
 	int ret;
 
@@ -211,12 +210,17 @@ char *gg_read_line(SOCKET sock, char *buf, int length)
 
 	for (; length > 1; buf++, length--) {
 		do {
-			if ((ret = gg_sock_read(sock, buf, 1)) == -1 && errno != EINTR && errno != EAGAIN) {
-				gg_debug(GG_DEBUG_MISC, "// gg_read_line() error on read (errno=%d, %s)\n", errno, strerror(errno));
+			if ((ret = recv(sock, buf, 1, 0)) == -1 &&
+				errno != EINTR && errno != EAGAIN)
+			{
+				gg_debug(GG_DEBUG_MISC, "// gg_read_line() "
+					"error on read (errno=%d, %s)\n",
+					errno, strerror(errno));
 				*buf = 0;
 				return NULL;
 			} else if (ret == 0) {
-				gg_debug(GG_DEBUG_MISC, "// gg_read_line() eof reached\n");
+				gg_debug(GG_DEBUG_MISC, "// gg_read_line() "
+					"eof reached\n");
 				*buf = 0;
 				return NULL;
 			}
@@ -243,22 +247,19 @@ char *gg_read_line(SOCKET sock, char *buf, int length)
  *
  * \ingroup helper
  */
-#ifdef GG_CONFIG_MIRANDA
-SOCKET gg_connect_internal(void *addr, int port, int async, SOCKET *gg_sock)
-#else
-SOCKET gg_connect(void *addr, int port, int async)
-#endif
+int gg_connect(void *addr, int port, int async)
 {
-	SOCKET sock;
-	int one = 1, errno2;
+	int sock, errno2;
 	struct sockaddr_in sin;
-	struct in_addr *a = (in_addr*)addr;
+	struct in_addr *a = addr;
 	struct sockaddr_in myaddr;
 
-	gg_debug(GG_DEBUG_FUNCTION, "** gg_connect(%s, %d, %d);\n", inet_ntoa(*a), port, async);
+	gg_debug(GG_DEBUG_FUNCTION, "** gg_connect(%s, %d, %d);\n",
+		inet_ntoa(*a), port, async);
 
 	if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1) {
-		gg_debug(GG_DEBUG_MISC, "// gg_connect() socket() failed (errno=%d, %s)\n", errno, strerror(errno));
+		gg_debug(GG_DEBUG_MISC, "// gg_connect() socket() failed "
+			"(errno=%d, %s)\n", errno, strerror(errno));
 		return -1;
 	}
 
@@ -268,57 +269,47 @@ SOCKET gg_connect(void *addr, int port, int async)
 	myaddr.sin_addr.s_addr = gg_local_ip;
 
 	if (bind(sock, (struct sockaddr *) &myaddr, sizeof(myaddr)) == -1) {
-		gg_debug(GG_DEBUG_MISC, "// gg_connect() bind() failed (errno=%d, %s)\n", errno, strerror(errno));
+		gg_debug(GG_DEBUG_MISC, "// gg_connect() bind() failed "
+			"(errno=%d, %s)\n", errno, strerror(errno));
 		errno2 = errno;
-		gg_sock_close(sock);
+		close(sock);
 		errno = errno2;
 		return -1;
 	}
 
-#ifdef GG_CONFIG_MIRANDA
-	if (gg_sock) *gg_sock = sock;
-#endif
-
 	if (async) {
-#ifdef FIONBIO
-		if (ioctl(sock, FIONBIO, &one) == -1) {
-#else
-		if (fcntl(sock, F_SETFL, O_NONBLOCK) == -1) {
-#endif
-			gg_debug(GG_DEBUG_MISC, "// gg_connect() ioctl() failed (errno=%d, %s)\n", errno, strerror(errno));
+		if (!gg_fd_set_nonblocking(sock)) {
+			gg_debug(GG_DEBUG_MISC, "// gg_connect() can't set "
+				"nonblocking (errno=%d, %s)\n",
+				errno, strerror(errno));
 			errno2 = errno;
-			gg_sock_close(sock);
+			close(sock);
 			errno = errno2;
 			return -1;
 		}
 	}
 
 	memset(&sin, 0, sizeof(sin));
-	sin.sin_port = htons((uint16_t)port);
+	sin.sin_port = htons(port);
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = a->s_addr;
 
-	errno = 0;
 	if (connect(sock, (struct sockaddr*) &sin, sizeof(sin)) == -1) {
 		if (errno && (!async || errno != EINPROGRESS)) {
-			gg_debug(GG_DEBUG_MISC, "// gg_connect() connect() failed (errno=%d, %s)\n", errno, strerror(errno));
+			gg_debug(GG_DEBUG_MISC, "// gg_connect() connect() "
+				"failed (errno=%d, %s)\n",
+				errno, strerror(errno));
 			errno2 = errno;
-			gg_sock_close(sock);
+			close(sock);
 			errno = errno2;
 			return -1;
 		}
-		gg_debug(GG_DEBUG_MISC, "// gg_connect() connect() in progress\n");
+		gg_debug(GG_DEBUG_MISC,
+			"// gg_connect() connect() in progress\n");
 	}
 
 	return sock;
 }
-
-#ifdef GG_CONFIG_MIRANDA
-SOCKET gg_connect(void *addr, int port, int async)
-{
-	return gg_connect_internal(addr, port, async, 0);
-}
-#endif
 
 /**
  * \internal Usuwa znaki końca linii.
@@ -331,7 +322,7 @@ SOCKET gg_connect(void *addr, int port, int async)
  */
 void gg_chomp(char *line)
 {
-	size_t len;
+	int len;
 
 	if (!line)
 		return;
@@ -350,7 +341,7 @@ void gg_chomp(char *line)
  * Zamienia znaki niedrukowalne, spoza ASCII i mające specjalne znaczenie
  * dla protokołu HTTP na encje postaci \c %XX, gdzie \c XX jest szesnastkową
  * wartością znaku.
- * 
+ *
  * \param str Ciąg znaków do zakodowania
  *
  * \return Zaalokowany bufor lub \c NULL w przypadku błędu.
@@ -368,17 +359,24 @@ char *gg_urlencode(const char *str)
 		str = "";
 
 	for (p = str; *p; p++, size++) {
-		if (!((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (*p >= '0' && *p <= '9') || *p == ' ') || (*p == '@') || (*p == '.') || (*p == '-'))
+		if (!((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') ||
+			(*p >= '0' && *p <= '9') || *p == ' ') || (*p == '@') ||
+			(*p == '.') || (*p == '-'))
+		{
 			size += 2;
+		}
 	}
 
-	if (!(buf = (char*)malloc(size + 1)))
+	if (!(buf = malloc(size + 1)))
 		return NULL;
 
 	for (p = str, q = buf; *p; p++, q++) {
-		if ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') || (*p >= '0' && *p <= '9') || (*p == '@') || (*p == '.') || (*p == '-'))
+		if ((*p >= 'a' && *p <= 'z') || (*p >= 'A' && *p <= 'Z') ||
+			(*p >= '0' && *p <= '9') || (*p == '@') ||
+			(*p == '.') || (*p == '-'))
+		{
 			*q = *p;
-		else {
+		} else {
 			if (*p == ' ')
 				*q = '+';
 			else {
@@ -417,10 +415,11 @@ int gg_http_hash(const char *format, ...)
 	va_start(ap, format);
 
 	for (j = 0; j < strlen(format); j++) {
-		char *arg, buf[16];
+		const char *arg;
+		char buf[16];
 
 		if (format[j] == 'u') {
-			mir_snprintf(buf, sizeof(buf), "%d", va_arg(ap, uin_t));
+			snprintf(buf, sizeof(buf), "%d", va_arg(ap, uin_t));
 			arg = buf;
 		} else {
 			if (!(arg = va_arg(ap, char*)))
@@ -459,9 +458,9 @@ static char gg_base64_charset[] =
 char *gg_base64_encode(const char *buf)
 {
 	char *out, *res;
-	unsigned int i = 0, j = 0, k = 0, len = (unsigned int)strlen(buf);
+	unsigned int i = 0, j = 0, k = 0, len = strlen(buf);
 
-	res = out = (char*)malloc((len / 3 + 1) * 4 + 2);
+	res = out = malloc((len / 3 + 1) * 4 + 2);
 
 	if (!res)
 		return NULL;
@@ -519,12 +518,12 @@ char *gg_base64_decode(const char *buf)
 {
 	char *res, *save, *foo, val;
 	const char *end;
-	unsigned int index = 0;
+	unsigned int idx = 0;
 
 	if (!buf)
 		return NULL;
 
-	save = res = (char*)calloc(1, (strlen(buf) / 4 + 1) * 3 + 2);
+	save = res = calloc(1, (strlen(buf) / 4 + 1) * 3 + 2);
 
 	if (!save)
 		return NULL;
@@ -536,11 +535,11 @@ char *gg_base64_decode(const char *buf)
 			buf++;
 			continue;
 		}
-		if (!(foo = strchr(gg_base64_charset, *buf)))
+		if (!(foo = memchr(gg_base64_charset, *buf, sizeof(gg_base64_charset))))
 			foo = gg_base64_charset;
 		val = (int)(foo - gg_base64_charset);
 		buf++;
-		switch (index) {
+		switch (idx) {
 			case 0:
 				*res |= val << 2;
 				break;
@@ -556,8 +555,8 @@ char *gg_base64_decode(const char *buf)
 				*res++ |= val;
 				break;
 		}
-		index++;
-		index %= 4;
+		idx++;
+		idx %= 4;
 	}
 	*res = 0;
 
@@ -576,24 +575,28 @@ char *gg_base64_decode(const char *buf)
 char *gg_proxy_auth(void)
 {
 	char *tmp, *enc, *out;
-	size_t tmp_size;
+	unsigned int tmp_size;
 
 	if (!gg_proxy_enabled || !gg_proxy_username || !gg_proxy_password)
 		return NULL;
 
-	if (!(tmp = (char*)malloc((tmp_size = strlen(gg_proxy_username) + strlen(gg_proxy_password) + 2))))
+	tmp_size = strlen(gg_proxy_username) + strlen(gg_proxy_password) + 2;
+	tmp = malloc(tmp_size);
+	if (!tmp)
 		return NULL;
 
 	snprintf(tmp, tmp_size, "%s:%s", gg_proxy_username, gg_proxy_password);
 
-	if (!(enc = gg_base64_encode(tmp))) {
+	enc = gg_base64_encode(tmp);
+	if (!enc) {
 		free(tmp);
 		return NULL;
 	}
 
 	free(tmp);
 
-	if (!(out = (char*)malloc(strlen(enc) + 40))) {
+	out = malloc(strlen(enc) + 40);
+	if (!out) {
 		free(enc);
 		return NULL;
 	}
@@ -697,6 +700,222 @@ uint32_t gg_crc32(uint32_t crc, const unsigned char *buf, int len)
 		crc = (crc >> 8) ^ gg_crc32_table[(crc ^ *buf++) & 0xff];
 
 	return crc ^ 0xffffffffL;
+}
+
+/**
+ * \internal Parsuje identyfikator użytkownika.
+ *
+ * \param str Ciąg tekstowy, zawierający identyfikator
+ * \param len Długość identyfikatora
+ *
+ * \return Identyfikator, lub 0, jeżeli nie udało się odczytać
+ */
+uin_t gg_str_to_uin(const char *str, int len)
+{
+	char buff[11];
+	char *endptr;
+	uin_t uin;
+
+	if (len < 0)
+		len = strlen(str);
+	if (len > 10)
+		return 0;
+	memcpy(buff, str, len);
+	buff[len] = '\0';
+
+	errno = 0;
+	uin = strtoul(buff, &endptr, 10);
+	if (errno == ERANGE || endptr[0] != '\0')
+		return 0;
+
+	return uin;
+}
+
+/**
+ * Szuka informacji o konferencji o podanym identyfikatorze.
+ *
+ * \param sess Struktura sesji
+ * \param id   Identyfikator konferencji
+ *
+ * \return Struktura z informacjami o konferencji
+ */
+gg_chat_list_t *gg_chat_find(struct gg_session *sess, uint64_t id)
+{
+	gg_chat_list_t *chat_list = sess->private_data->chat_list;
+
+	while (chat_list != NULL) {
+		if (chat_list->id == id)
+			return chat_list;
+		chat_list = chat_list->next;
+	}
+
+	return NULL;
+}
+
+/**
+ * \internal Aktualizuje informacje o konferencji.
+ *
+ * \param sess               Struktura sesji
+ * \param id                 Identyfikator konferencji
+ * \param version            Wersja informacji o konferencji
+ * \param participants       Lista uczestników konferencji
+ * \param participants_count Ilość uczestników konferencji
+ *
+ * \return Wartość równa 0, jeżeli zakończono powodzeniem
+ */
+int gg_chat_update(struct gg_session *sess, uint64_t id, uint32_t version,
+	const uin_t *participants, unsigned int participants_count)
+{
+	gg_chat_list_t *chat;
+	uin_t *participants_new;
+
+	if (participants_count >= ~(unsigned int)0 / sizeof(uin_t))
+		return -1;
+
+	chat = gg_chat_find(sess, id);
+
+	if (!chat) {
+		chat = malloc(sizeof(gg_chat_list_t));
+
+		if (!chat)
+			return -1;
+
+		memset(chat, 0, sizeof(gg_chat_list_t));
+		chat->id = id;
+		chat->next = sess->private_data->chat_list;
+		sess->private_data->chat_list = chat;
+	}
+
+	participants_new = realloc(chat->participants,
+		sizeof(uin_t) * participants_count);
+
+	if (participants_new == NULL)
+		return -1;
+
+	chat->version = version;
+	chat->participants = participants_new;
+	chat->participants_count = participants_count;
+	memcpy(chat->participants, participants,
+		sizeof(uin_t) * participants_count);
+
+	return 0;
+}
+
+void gg_connection_failure(struct gg_session *gs, struct gg_event *ge,
+	enum gg_failure_t failure)
+{
+	gg_close(gs);
+
+	if (ge != NULL) {
+		ge->type = GG_EVENT_CONN_FAILED;
+		ge->event.failure = failure;
+	}
+	gs->state = GG_STATE_IDLE;
+}
+
+time_t gg_server_time(struct gg_session *gs)
+{
+	time_t now = time(NULL);
+
+	if (gs == NULL || gs->private_data == NULL) {
+		gg_debug_session(gs, GG_DEBUG_ERROR, "time diff data is not "
+			"accessible\n");
+		return now;
+	}
+
+	return now + gs->private_data->time_diff;
+}
+
+void gg_strarr_free(char **strarr)
+{
+	char **it;
+
+	if (strarr == NULL)
+		return;
+
+	for (it = strarr; *it != NULL; it++)
+		free(*it);
+	free(strarr);
+}
+
+char ** gg_strarr_dup(char **strarr)
+{
+	size_t i, len, size;
+	char **it, **out;
+
+	if (strarr == NULL)
+		return NULL;
+
+	len = 0;
+	for (it = strarr; *it != NULL; it++)
+		len++;
+
+	size = (len + 1) * sizeof(char*);
+	out = malloc(size);
+
+	if (out == NULL) {
+		gg_debug(GG_DEBUG_MISC | GG_DEBUG_ERROR, "// gg_strarr_dup() "
+			"not enough memory for the array\n");
+		return NULL;
+	}
+	memset(out, 0, size);
+
+	for (i = 0; i < len; i++) {
+		out[i] = strdup(strarr[i]);
+		if (out[i] == NULL) {
+			gg_debug(GG_DEBUG_MISC | GG_DEBUG_ERROR,
+				"// gg_strarr_dup() "
+				"not enough memory for the array element\n");
+			gg_strarr_free(out);
+			return NULL;
+		}
+	}
+
+	return out;
+}
+
+int gg_rand(void *buff, size_t len)
+{
+#ifdef HAVE_GNUTLS_2_12
+	int res;
+
+	if (gnutls_global_init() != GNUTLS_E_SUCCESS) {
+		gg_debug(GG_DEBUG_MISC | GG_DEBUG_ERROR, "// gg_rand() "
+			"gnutls init failed\n");
+		return 0;
+	}
+
+	res = gnutls_rnd(GNUTLS_RND_NONCE, buff, len);
+	gnutls_global_deinit();
+
+	if (res != GNUTLS_E_SUCCESS) {
+		gg_debug(GG_DEBUG_MISC | GG_DEBUG_ERROR, "// gg_rand() "
+			"gnutls rand failed\n");
+		return 0;
+	}
+
+	return 1;
+#elif defined(GG_CONFIG_HAVE_OPENSSL)
+	if (RAND_bytes(buff, len) != 1) {
+		gg_debug(GG_DEBUG_MISC | GG_DEBUG_ERROR, "// gg_rand() "
+			"openssl rand failed\n");
+		return 0;
+	}
+
+	return 1;
+#else
+	size_t i;
+	uint8_t *bytebuff = buff;
+
+	for (i = 0; i < len; i++) {
+		/* This is not the most efficient way,
+		 * but rand is not a preferred way too.
+		 */
+		bytebuff[i] = rand() & 0xFF;
+	}
+
+	return 1;
+#endif
 }
 
 /*
