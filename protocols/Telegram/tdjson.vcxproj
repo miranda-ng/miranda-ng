@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{82A683A3-225E-351A-89CD-BB8D08632D0A}</ProjectGuid>
+    <ProjectName>tdjson</ProjectName>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <PlatformToolset>v141_xp</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="..\..\build\vc.common\lib.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\tdlib\include;.\tdlib\td;.\tdlib\td\tdutils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <BufferSecurityCheck Condition="'$(Configuration)'=='Release'">false</BufferSecurityCheck>
+      <ControlFlowGuard Condition="'$(Configuration)'=='Release'">false</ControlFlowGuard>
+      <FunctionLevelLinking Condition="'$(Configuration)'=='Release'">true</FunctionLevelLinking>
+      <EnableParallelCodeGeneration Condition="'$(Configuration)'=='Release'">true</EnableParallelCodeGeneration>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">tdjson_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>crypt32.lib;libcrypto.lib;libssl.lib;Psapi.lib;Normaliz.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="tdlib\td\td\telegram\td_json_client.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\td_log.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\sqlite3\sqlite3.vcxproj">
+      <Project>{0c02e395-e73f-47e3-8b95-b7924c0c7a6a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="tdlib\tdactor.vcxproj">
+      <Project>{85f63934-02fe-332a-8703-059040b65512}</Project>
+    </ProjectReference>
+    <ProjectReference Include="tdlib\tddb.vcxproj">
+      <Project>{f525ee11-8820-3d8a-87a5-465d50a98a64}</Project>
+    </ProjectReference>
+    <ProjectReference Include="tdlib\tde2e.vcxproj">
+      <Project>{fc88fb5a-aaed-3f3e-9959-236444d8f644}</Project>
+    </ProjectReference>
+    <ProjectReference Include="tdlib\tdlib.vcxproj">
+      <Project>{800e305a-3704-4617-ada0-dee8eafdb804}</Project>
+    </ProjectReference>
+    <ProjectReference Include="tdlib\tdnet.vcxproj">
+      <Project>{2246c3cf-7888-3102-984a-80214adf418c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="tdlib\tdutils.vcxproj">
+      <Project>{d21c6a0f-bed1-3377-9659-7fc7d82efc4f}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
