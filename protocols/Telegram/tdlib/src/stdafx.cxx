@@ -1,2 +1,83 @@
 
 #include "stdafx.h"
+
+#include "td/telegram/td_api.h"
+#include "td/telegram/Client.h"
+
+std::int32_t used_ids[] = {
+	td::td_api::addContact::ID,
+	td::td_api::addMessageReaction::ID,
+	td::td_api::addProxy::ID,
+	td::td_api::chatActionTyping::ID,
+	td::td_api::chatNotificationSettings::ID,
+	td::td_api::checkAuthenticationCode::ID,
+	td::td_api::checkAuthenticationEmailCode::ID,
+	td::td_api::checkAuthenticationPassword::ID,
+	td::td_api::close::ID,
+	td::td_api::contact::ID,
+	td::td_api::createPrivateChat::ID,
+	td::td_api::deleteChatHistory::ID,
+	td::td_api::deleteMessages::ID,
+	td::td_api::downloadFile::ID,
+	td::td_api::editMessageText::ID,
+	td::td_api::emailAddressAuthenticationCode::ID,
+	td::td_api::importContacts::ID,
+	td::td_api::formattedText::ID,
+	td::td_api::forwardMessages::ID,
+	td::td_api::getActiveSessions::ID,
+	td::td_api::getBasicGroupFullInfo::ID,
+	td::td_api::getChat::ID,
+	td::td_api::getChats::ID,
+	td::td_api::getChatHistory::ID,
+	td::td_api::getForumTopics::ID,
+	td::td_api::getMessageThreadHistory::ID,
+	td::td_api::getOption::ID,
+	td::td_api::getRemoteFile::ID,
+	td::td_api::getSupergroupFullInfo::ID,
+	td::td_api::getSupergroupMembers::ID,
+	td::td_api::getUserFullInfo::ID,
+	td::td_api::inputChatPhotoStatic::ID,
+	td::td_api::inputFileLocal::ID,
+	td::td_api::inputMessageAudio::ID,
+	td::td_api::inputMessageDocument::ID,
+	td::td_api::inputMessagePhoto::ID,
+	td::td_api::inputMessageReplyToMessage::ID,
+	td::td_api::inputMessageText::ID,
+	td::td_api::inputMessageVideo::ID,
+	td::td_api::joinChat::ID,
+	td::td_api::leaveChat::ID,
+	td::td_api::logOut::ID,
+	td::td_api::message::ID,
+	td::td_api::messageSenderChat::ID,
+	td::td_api::proxyTypeHttp::ID,
+	td::td_api::proxyTypeSocks5::ID,
+	td::td_api::reactionTypeEmoji::ID,
+	td::td_api::removeContacts::ID,
+	td::td_api::searchChatsOnServer::ID,
+	td::td_api::searchPublicChats::ID,
+	td::td_api::sendChatAction::ID,
+	td::td_api::sendMessage::ID,
+	td::td_api::sendMessageAlbum::ID,
+	td::td_api::setAuthenticationEmailAddress::ID,
+	td::td_api::setAuthenticationPhoneNumber::ID,
+	td::td_api::setChatNotificationSettings::ID,
+	td::td_api::setProfilePhoto::ID,
+	td::td_api::setTdlibParameters::ID,
+	td::td_api::terminateSession::ID,
+	td::td_api::textEntity::ID,
+	td::td_api::textEntityTypeBlockQuote::ID,
+	td::td_api::textEntityTypeBold::ID,
+	td::td_api::textEntityTypeCode::ID,
+	td::td_api::textEntityTypeItalic::ID,
+	td::td_api::textEntityTypeStrikethrough::ID,
+	td::td_api::textEntityTypeUnderline::ID,
+	td::td_api::textEntityTypeUrl::ID,
+	td::td_api::viewMessages::ID,
+};
+
+void TDJSON_EXPORT boo()
+{
+	auto *p = new td::ClientManager();
+	p->create_client_id();
+	delete p;
+}

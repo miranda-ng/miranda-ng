@@ -15,11 +15,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdutils", "..\protocols\Tel
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tde2e", "..\protocols\Telegram\tdlib\tde2e.vcxproj", "{FC88FB5A-AAED-3F3E-9959-236444D8F644}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdjson", "..\protocols\Telegram\tdjson.vcxproj", "{82A683A3-225E-351A-89CD-BB8D08632D0A}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "..\libs\zlib\zlib.vcxproj", "{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sqlite3", "..\libs\sqlite3\sqlite3.vcxproj", "{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdapi", "..\protocols\Telegram\tdapi.vcxproj", "{82A683A3-225E-351A-89CD-BB8D08632D0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,14 +77,6 @@ Global
 		{FC88FB5A-AAED-3F3E-9959-236444D8F644}.Release|x64.Build.0 = Release|x64
 		{FC88FB5A-AAED-3F3E-9959-236444D8F644}.Release|x86.ActiveCfg = Release|Win32
 		{FC88FB5A-AAED-3F3E-9959-236444D8F644}.Release|x86.Build.0 = Release|Win32
-		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Debug|x64.ActiveCfg = Debug|x64
-		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Debug|x64.Build.0 = Debug|x64
-		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Debug|x86.ActiveCfg = Debug|Win32
-		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Debug|x86.Build.0 = Debug|Win32
-		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Release|x64.ActiveCfg = Release|x64
-		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Release|x64.Build.0 = Release|x64
-		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Release|x86.ActiveCfg = Release|Win32
-		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Release|x86.Build.0 = Release|Win32
 		{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}.Debug|x64.ActiveCfg = Debug|x64
 		{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}.Debug|x64.Build.0 = Debug|x64
 		{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}.Debug|x86.ActiveCfg = Debug|Win32
@@ -101,6 +93,14 @@ Global
 		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|x64.Build.0 = Release|x64
 		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|x86.ActiveCfg = Release|Win32
 		{0C02E395-E73F-47E3-8B95-B7924C0C7A6A}.Release|x86.Build.0 = Release|Win32
+		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Debug|x64.ActiveCfg = Debug|x64
+		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Debug|x64.Build.0 = Debug|x64
+		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Debug|x86.ActiveCfg = Debug|Win32
+		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Debug|x86.Build.0 = Debug|Win32
+		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Release|x64.ActiveCfg = Release|x64
+		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Release|x64.Build.0 = Release|x64
+		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Release|x86.ActiveCfg = Release|Win32
+		{82A683A3-225E-351A-89CD-BB8D08632D0A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

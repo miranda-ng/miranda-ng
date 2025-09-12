@@ -52,7 +52,7 @@ namespace td {
  * }
  * \endcode
  */
-class ClientManager final {
+class TDJSON_EXPORT ClientManager final {
  public:
   /**
    * Creates a new TDLib client manager.

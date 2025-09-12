@@ -34,6 +34,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>.\td\tdactor;.\td\tdutils;.\td\tde2e;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <PreprocessorDefinitions>tdjson_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <BufferSecurityCheck Condition="'$(Configuration)'=='Release'">false</BufferSecurityCheck>

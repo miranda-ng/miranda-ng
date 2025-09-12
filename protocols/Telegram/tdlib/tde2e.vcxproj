@@ -40,6 +40,7 @@
       <ControlFlowGuard Condition="'$(Configuration)'=='Release'">false</ControlFlowGuard>
       <FunctionLevelLinking Condition="'$(Configuration)'=='Release'">true</FunctionLevelLinking>
       <EnableParallelCodeGeneration Condition="'$(Configuration)'=='Release'">true</EnableParallelCodeGeneration>
+      <PreprocessorDefinitions>tdjson_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

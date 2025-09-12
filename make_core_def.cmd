@@ -11,3 +11,7 @@ echo.
 .\tools\makedef\makedef.exe /IMAGE:bin17\debug\libs\libjson.mir /DEF:libs\libjson\src\libjson.def
 echo.
 .\tools\makedef\makedef.exe /IMAGE:bin17\debug64\libs\libjson.mir /DEF:libs\libjson\src\libjson64.def
+echo.
+.\tools\makedef\makedef.exe /IMAGE:bin17\debug\libs\tdapi.mir /DEF:protocols\Telegram\tdlib\src\tdapi.def
+echo.
+.\tools\makedef\makedef.exe /IMAGE:bin17\debug64\libs\tdapi.mir /DEF:protocols\Telegram\tdlib\src\tdapi64.def
