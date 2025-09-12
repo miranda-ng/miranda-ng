@@ -5,7 +5,7 @@
 /* Location of default ca bundle */
 #undef CURL_CA_BUNDLE
 
-/* define "1" to use built-in CA store of SSL library */
+/* define "1" to use OpenSSL's built-in CA store */
 #undef CURL_CA_FALLBACK
 
 /* Location of default ca path */
@@ -166,9 +166,6 @@
 
 /* Define to 1 if you have the `accept4' function. */
 #undef HAVE_ACCEPT4
-
-/* Define to 1 if symbol `ADDRESS_FAMILY' exists */
-#undef HAVE_ADDRESS_FAMILY
 
 /* Define to 1 if you have the alarm function. */
 #undef HAVE_ALARM
@@ -435,9 +432,6 @@
 
 /* Define to 1 if you have the MSG_NOSIGNAL flag. */
 #undef HAVE_MSG_NOSIGNAL
-
-/* Define to 1 if you have the <msh3.h> header file. */
-#undef HAVE_MSH3_H
 
 /* Define to 1 if you have the <netdb.h> header file. */
 #undef HAVE_NETDB_H
@@ -855,9 +849,6 @@
 
 /* if mbedTLS is enabled */
 #undef USE_MBEDTLS
-
-/* if msh3 is in use */
-#undef USE_MSH3
 
 /* if nghttp2 is in use */
 #undef USE_NGHTTP2

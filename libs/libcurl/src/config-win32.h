@@ -200,10 +200,6 @@
 /* Define if you have the select function. */
 #define HAVE_SELECT 1
 
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
-
 #ifndef UNDER_CE
 /* Define if you have the setlocale function. */
 #define HAVE_SETLOCALE 1
@@ -268,13 +264,11 @@
 #define HAVE_SNPRINTF 1
 #endif
 
-/* Vista */
-#if (defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x600) && !defined(UNDER_CE)
+/* Must always use local implementations on Windows. */
 /* Define to 1 if you have an IPv6 capable working inet_ntop function. */
-#define HAVE_INET_NTOP 1
+/* #undef HAVE_INET_NTOP */
 /* Define to 1 if you have an IPv6 capable working inet_pton function. */
-#define HAVE_INET_PTON 1
-#endif
+/* #undef HAVE_INET_PTON */
 
 /* Define to 1 if you have the `basename' function. */
 #ifdef __MINGW32__
@@ -431,9 +425,6 @@
 #define HAVE_LDAP_SSL 1
 #define USE_WIN32_LDAP 1
 #endif
-
-/* if SSL is enabled */
-#define USE_OPENSSL 1
 
 /* Define to use the Windows crypto library. */
 #ifndef CURL_WINDOWS_UWP

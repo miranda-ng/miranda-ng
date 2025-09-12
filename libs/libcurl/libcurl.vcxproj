@@ -59,6 +59,9 @@
     <ClCompile Include="src\cf-haproxy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\cf-ip-happy.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\cf-socket.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -449,9 +452,6 @@
     <ClCompile Include="src\vauth\vauth.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\vquic\curl_msh3.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\vquic\curl_ngtcp2.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -528,6 +528,7 @@
     <ClInclude Include="src\cf-h2-proxy.h" />
     <ClInclude Include="src\cf-haproxy.h" />
     <ClInclude Include="src\cf-https-connect.h" />
+    <ClInclude Include="src\cf-ip-happy.h" />
     <ClInclude Include="src\cf-socket.h" />
     <ClInclude Include="src\cfilters.h" />
     <ClInclude Include="src\config-mac.h" />
@@ -554,6 +555,7 @@
     <ClInclude Include="src\curl_ldap.h" />
     <ClInclude Include="src\curl_md4.h" />
     <ClInclude Include="src\curl_md5.h" />
+    <ClInclude Include="src\curl_mem_undef.h" />
     <ClInclude Include="src\curl_memory.h" />
     <ClInclude Include="src\curl_memrchr.h" />
     <ClInclude Include="src\curl_ntlm_core.h" />
@@ -669,7 +671,6 @@
     <ClInclude Include="src\urldata.h" />
     <ClInclude Include="src\vtls\vtls_scache.h" />
     <ClInclude Include="src\vtls\vtls_spack.h" />
-    <ClInclude Include="src\vquic\curl_msh3.h" />
     <ClInclude Include="src\vquic\curl_ngtcp2.h" />
     <ClInclude Include="src\vquic\curl_quiche.h" />
     <ClInclude Include="src\vquic\vquic.h" />
