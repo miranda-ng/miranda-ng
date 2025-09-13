@@ -1,7 +1,6 @@
 **/*build*/
 **/.*.swp
 **/.DS_Store
-**/auto/
 docs/
 tdlib/
 vcpkg/
