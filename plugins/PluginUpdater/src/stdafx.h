@@ -75,6 +75,7 @@ extern "C"
 #define MODULE L"Plugin Updater"
 #define DEFAULT_UPDATES_FOLDER L"Plugin Updates"
 
+class ServerConfig;
 typedef wchar_t TFileName[MAX_PATH];
 
 struct FILEURL
@@ -86,14 +87,13 @@ struct FILEURL
 
 struct FILEINFO : public MZeroedObject
 {
-	FILEINFO() :
-		arDeps(1)
-	{}
+	FILEINFO();
+	FILEINFO(const wchar_t *pwszOld, const wchar_t *pwszNew, const wchar_t *pwszUrl, const ServerConfig &config);
 
 	TFileName wszOldName, wszNewName;
 	FILEURL File;
 	OBJLIST<FILEINFO> arDeps;
-	bool bEnabled, bDeleteOnly;
+	bool bEnabled = true, bDeleteOnly;
 
 	bool IsFiltered(const CMStringW &wszFilter);
 };

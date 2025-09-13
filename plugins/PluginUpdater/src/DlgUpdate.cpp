@@ -487,7 +487,7 @@ static bool isValidDirectory(const wchar_t *pwszDirName)
 
 // Scans folders recursively
 
-static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, ServerConfig &config, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
+static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, ServerConfig &config, OBJLIST<FILEINFO> *UpdateFiles, int level)
 {
 	Netlib_LogfW(g_hNetlibUser, L"Scanning folder %s", pwszFolder);
 
@@ -540,7 +540,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, ServerConfig 
 		// this file is not marked for deletion
 		if (!bDeleteOnly) {
 			wchar_t *pName = wszNewName;
-			auto *item = config.arHashes.find((ServListEntry*)&pName);
+			auto *item = config.FindHash(pName);
 			// Not in list? Check for trailing 'W' or 'w'
 			if (item == nullptr) {
 				wchar_t *p = wcsrchr(wszNewName, '.');
@@ -552,7 +552,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, ServerConfig 
 				// remove trailing w or W and try again
 				int iPos = int(p - wszNewName) - 1;
 				strdelw(p - 1, 1);
-				if ((item = config.arHashes.find((ServListEntry*)&pName)) == nullptr) {
+				if ((item = config.FindHash(pName)) == nullptr) {
 					Netlib_LogfW(g_hNetlibUser, L"File %s: Not found on server, skipping", ff.getPath());
 					continue;
 				}
@@ -595,26 +595,8 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, ServerConfig 
 			continue;
 
 		// Yeah, we've got new version.
-		FILEINFO *FileInfo = new FILEINFO;
-		wcsncpy_s(FileInfo->wszOldName, wszBuf.c_str() + cbBaseLen, _TRUNCATE); // copy the relative old name
+		FILEINFO *FileInfo = new FILEINFO(wszBuf.c_str() + cbBaseLen, bDeleteOnly ? wszBuf : pwszUrl, pwszUrl, config);
 		FileInfo->bDeleteOnly = bDeleteOnly;
-		if (FileInfo->bDeleteOnly) // save the full old name for deletion
-			wcsncpy_s(FileInfo->wszNewName, wszBuf, _TRUNCATE);
-		else
-			wcsncpy_s(FileInfo->wszNewName, pwszUrl, _TRUNCATE);
-
-		wchar_t buf[MAX_PATH];
-		wcsncpy_s(buf, pwszUrl, _TRUNCATE);
-		wchar_t *p = wcsrchr(buf, '.');
-		if (p) *p = 0;
-		p = wcsrchr(buf, '\\');
-		p = (p) ? p + 1 : buf;
-		_wcslwr(p);
-
-		mir_snwprintf(FileInfo->File.wszDiskPath, L"%s\\Temp\\%s.zip", g_wszRoot, p);
-		mir_snwprintf(FileInfo->File.wszDownloadURL, L"%s/%s.zip", config.m_baseUrl.get(), buf);
-		for (p = wcschr(FileInfo->File.wszDownloadURL, '\\'); p != nullptr; p = wcschr(p, '\\'))
-			*p++ = '/';
 
 		// remember whether the user has decided not to update this component with this particular new version
 		FileInfo->bEnabled = bEnabled;
@@ -650,13 +632,30 @@ static void CheckUpdates(void *)
 	if (success) {
 		if (config.arHashes.getCount()) {
 			FILELIST *UpdateFiles = new FILELIST(20);
-			int count = ScanFolder(g_mirandaPath, mir_wstrlen(g_mirandaPath) + 1, config, UpdateFiles);
+			int count = ScanFolder(g_mirandaPath, mir_wstrlen(g_mirandaPath) + 1, config, UpdateFiles, 0);
 			if (count == 0) {
 				if (!g_plugin.bSilent)
 					ShowPopup(TranslateT("Plugin Updater"), TranslateT("No updates found."), POPUP_TYPE_INFO);
 				delete UpdateFiles;
 			}
 			else {
+				for (auto &it : *UpdateFiles) {
+					if (auto *pPacket = config.FindPacket(it->wszOldName)) {
+						for (auto &dep : pPacket->arDepends) {
+							// if a dependency file doesn't exist, add it forcibly
+							CMStringW wszDepFile(FORMAT, L"%s\\%s", g_mirandaPath.get(), dep);
+							if (_waccess(wszDepFile, 0)) {
+								if (auto *pHash = config.FindHash(dep)) {
+									auto *FileInfo = new FILEINFO(dep, pHash->m_name, pHash->m_name, config);
+									FileInfo->File.CRCsum = pHash->m_crc;
+									UpdateFiles->insert(FileInfo);
+									count++;
+								}
+							}
+						}
+					}
+				}
+
 				// Show dialog
 				if (g_plugin.bSilentMode && g_plugin.bSilent)
 					mir_forkthread(DlgUpdateSilent, UpdateFiles);

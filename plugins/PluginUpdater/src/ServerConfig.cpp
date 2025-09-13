@@ -17,6 +17,31 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+FILEINFO::FILEINFO() :
+	arDeps(1)
+{}
+
+FILEINFO::FILEINFO(const wchar_t *pwszOld, const wchar_t *pwszNew, const wchar_t *pwszUrl, const ServerConfig &config) :
+	arDeps(1)
+{
+	wcsncpy_s(wszOldName, pwszOld, _TRUNCATE); // copy the relative old name
+	wcsncpy_s(wszNewName, pwszNew, _TRUNCATE);
+
+	wchar_t *buf = NEWWSTR_ALLOCA(pwszUrl);
+	wchar_t *p = wcsrchr(buf, '.');
+	if (p) *p = 0;
+	p = wcsrchr(buf, '\\');
+	p = (p) ? p + 1 : buf;
+	_wcslwr(p);
+
+	mir_snwprintf(File.wszDiskPath, L"%s\\Temp\\%s.zip", g_wszRoot, p);
+	mir_snwprintf(File.wszDownloadURL, L"%s/%s.zip", config.m_baseUrl.get(), buf);
+	for (p = wcschr(File.wszDownloadURL, '\\'); p != nullptr; p = wcschr(p, '\\'))
+		*p++ = '/';
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 {
 	return _wcsicmp(p1->m_name, p2->m_name);
@@ -33,7 +58,7 @@ ServerConfig::ServerConfig() :
 	arPackets(50, ComparePackets)
 {}
 
-/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Loads server config from the server
 
 bool ServerConfig::Load()
@@ -158,7 +183,7 @@ bool ServerConfig::Load()
 	return true;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Checks if file needs to be renamed and copies it in pNewName
 // Returns true if smth. was copied
 
@@ -190,7 +215,7 @@ bool ServerConfig::CheckRename(const wchar_t *pwszFolder, const wchar_t *pwszOld
 	return false;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Finds a hashed module by the module / plugin name
 
 ServListEntry *ServerConfig::FindHash(const wchar_t *pwszName)
@@ -198,7 +223,7 @@ ServListEntry *ServerConfig::FindHash(const wchar_t *pwszName)
 	return arHashes.find((ServListEntry *)&pwszName);
 }
 
-/////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 // Finds a packet by the module / plugin name
 
 PacketTableItem* ServerConfig::FindPacket(const wchar_t *pwszName)
