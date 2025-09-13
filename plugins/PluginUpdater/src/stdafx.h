@@ -75,7 +75,7 @@ extern "C"
 #define MODULE L"Plugin Updater"
 #define DEFAULT_UPDATES_FOLDER L"Plugin Updates"
 
-class ServerConfig;
+struct ServerConfig;
 typedef wchar_t TFileName[MAX_PATH];
 
 struct FILEURL

@@ -568,8 +568,21 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, ServerConfig 
 					CalculateModuleHash(wszBuf, szMyHash);
 					// hashes are the same, skipping
 					if (!strcmp(szMyHash, item->m_szHash)) {
-						Netlib_LogfW(g_hNetlibUser, L"File %s: Already up-to-date, skipping", ff.getPath());
-						continue;
+						// check missing dependencies
+						bool bMissingDeps = false;
+						if (auto *pPacket = config.FindPacket(item->m_name)) {
+							for (auto &dep : pPacket->arDepends) {
+								CMStringW wszDepFile(FORMAT, L"%s\\%s", g_mirandaPath.get(), dep);
+								if (_waccess(wszDepFile, 0))
+									bMissingDeps = true;
+							}
+						}
+
+						if (!bMissingDeps) {
+							Netlib_LogfW(g_hNetlibUser, L"File %s: Already up-to-date, skipping", ff.getPath());
+							continue;
+						}
+						Netlib_LogfW(g_hNetlibUser, L"File %s: Installing missing dependencies", ff.getPath());
 					}
 					else Netlib_LogfW(g_hNetlibUser, L"File %s: Update available", ff.getPath());
 				}
@@ -649,7 +662,6 @@ static void CheckUpdates(void *)
 									auto *FileInfo = new FILEINFO(dep, pHash->m_name, pHash->m_name, config);
 									FileInfo->File.CRCsum = pHash->m_crc;
 									UpdateFiles->insert(FileInfo);
-									count++;
 								}
 							}
 						}
