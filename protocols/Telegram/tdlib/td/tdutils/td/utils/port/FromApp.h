@@ -53,13 +53,6 @@ T *get_from_app_function(const char *name, T *original_func) {
 #endif
 }
 
-inline HANDLE CreateFile2FromAppW(_In_ LPCWSTR lpFileName, _In_ DWORD dwDesiredAccess, _In_ DWORD dwShareMode,
-                                  _In_ DWORD dwCreationDisposition,
-                                  _In_opt_ LPCREATEFILE2_EXTENDED_PARAMETERS pCreateExParams) {
-  auto func = get_from_app_function<0>("CreateFile2FromAppW", &CreateFile2);
-  return func(lpFileName, dwDesiredAccess, dwShareMode, dwCreationDisposition, pCreateExParams);
-}
-
 inline BOOL CreateDirectoryFromAppW(_In_ LPCWSTR lpPathName, _In_opt_ LPSECURITY_ATTRIBUTES lpSecurityAttributes) {
   auto func = get_from_app_function<1>("CreateDirectoryFromAppW", &CreateDirectory);
   return func(lpPathName, lpSecurityAttributes);

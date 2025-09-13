@@ -31,6 +31,7 @@ REM end Core
 
 REM Libs
 %ZipIt% "%Arch%\Libs\libdeltachat.zip" "Libs\libdeltachat.dll"
+%ZipIt% "%Arch%\Libs\tdapi.zip" "Libs\tdapi.mir"
 %ZipIt% "%Arch%\Libs\FreeImage.zip" "Libs\FreeImage.mir"
 %ZipIt% "%Arch%\Libs\libcrypto-3.zip" "Libs\libcrypto-3.mir"
 %ZipIt% "%Arch%\Libs\libssl-3.zip" "Libs\libssl-3.mir"
