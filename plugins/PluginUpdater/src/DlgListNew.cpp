@@ -302,6 +302,9 @@ public:
 		if (!unzip(p->File.wszDiskPath, g_mirandaPath, wszBackupFolder, false))
 			PU::SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
 		db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->wszOldName));
+
+		for (auto &it : p->arDeps)
+			DownloadUpdate(it, nlc, wszBackupFolder);
 		return true;
 	}
 
@@ -416,26 +419,45 @@ static void GetList(void *)
 	if (wszTempPath[dwLen - 1] == '\\')
 		wszTempPath[dwLen - 1] = 0;
 
-	ptrW updateUrl(GetDefaultUrl()), baseUrl;
-	SERVLIST hashes(50, CompareHashes);
-	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
+	ServerConfig config;
+	if (!config.Load()) {
 LBL_Error:
 		hListThread = nullptr;
 		return;
 	}
-	if (!hashes.getCount())
+	if (!config.arHashes.getCount())
 		goto LBL_Error;
 
 	FILELIST *UpdateFiles = new FILELIST(20);
+	int osVer = GetWinVer();
 
-	for (auto &it : hashes) {
+	for (auto &it : config.arHashes) {
 		TFileName pwszPath;
 		mir_snwprintf(pwszPath, L"%s\\%s", g_mirandaPath.get(), it->m_name);
 
-		if (GetFileAttributes(pwszPath) == INVALID_FILE_ATTRIBUTES) {
-			FILEINFO *FileInfo = ServerEntryToFileInfo(*it, baseUrl, pwszPath);
-			UpdateFiles->insert(FileInfo);
+		// alredy exists? skip it
+		if (GetFileAttributes(pwszPath) != INVALID_FILE_ATTRIBUTES)
+			continue;
+	
+		// verify OS version
+		auto *pPacket = config.FindPacket(it->m_name);
+		if (pPacket)
+			if (pPacket->osMin > osVer || osVer > pPacket->osMax)
+				continue;
+
+		// okay, add it then
+		FILEINFO *FileInfo = ServerEntryToFileInfo(*it, config.m_baseUrl, pwszPath);
+		if (pPacket) {
+			// also add dependencies if found
+			for (auto &dep : pPacket->arDepends) {
+				if (auto *pHash = config.FindHash(dep)) {
+					mir_snwprintf(pwszPath, L"%s\\%s", g_mirandaPath.get(), dep);
+					auto *FI = ServerEntryToFileInfo(*pHash, config.m_baseUrl, pwszPath);
+					FileInfo->arDeps.insert(FI);
+				}
+			}
 		}
+		UpdateFiles->insert(FileInfo);
 	}
 
 	// Show dialog
@@ -492,23 +514,22 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 	if (GetFileAttributes(pluginPath) != INVALID_FILE_ATTRIBUTES)
 		return 0;
 
-	ptrW updateUrl(GetDefaultUrl()), baseUrl;
-	SERVLIST hashes(50, CompareHashes);
-	if (!ParseHashes(updateUrl, baseUrl, hashes)) {
+	ServerConfig config;
+	if (!config.Load()) {
 LBL_Error:
 		hListThread = nullptr;
 		return 1;
 	}
-	if (!hashes.getCount())
+	if (!config.arHashes.getCount())
 		goto LBL_Error;
 
-	ServListEntry *hash = hashes.find((ServListEntry*)&pluginPath);
+	auto *hash = config.arHashes.find((ServListEntry*)&pluginPath);
 	if (hash == nullptr)
 		return 0;
 
 	TFileName pwszPath;
 	mir_snwprintf(pwszPath, L"%s\\%s", g_mirandaPath.get(), hash->m_name);
-	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, pwszPath);
+	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, config.m_baseUrl, pwszPath);
 
 	FILELIST *fileList = new FILELIST(1);
 	fileList->insert(fileInfo);

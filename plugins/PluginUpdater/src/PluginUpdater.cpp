@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+HNETLIBUSER g_hNetlibUser = nullptr;
+
 CMPlugin g_plugin;
 
 TFileName g_wszRoot = {0}, g_wszTempPath;

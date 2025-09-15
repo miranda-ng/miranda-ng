@@ -33,6 +33,7 @@
     <ClCompile Include="src\Notifications.cpp" />
     <ClCompile Include="src\Options.cpp" />
     <ClCompile Include="src\PluginUpdater.cpp" />
+    <ClCompile Include="src\ServerConfig.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

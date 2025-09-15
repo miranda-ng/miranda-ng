@@ -75,6 +75,7 @@ extern "C"
 #define MODULE L"Plugin Updater"
 #define DEFAULT_UPDATES_FOLDER L"Plugin Updates"
 
+struct ServerConfig;
 typedef wchar_t TFileName[MAX_PATH];
 
 struct FILEURL
@@ -84,11 +85,15 @@ struct FILEURL
 	int CRCsum;
 };
 
-struct FILEINFO
+struct FILEINFO : public MZeroedObject
 {
+	FILEINFO();
+	FILEINFO(const wchar_t *pwszOld, const wchar_t *pwszNew, const wchar_t *pwszUrl, const ServerConfig &config);
+
 	TFileName wszOldName, wszNewName;
 	FILEURL File;
-	bool bEnabled, bDeleteOnly;
+	OBJLIST<FILEINFO> arDeps;
+	bool bEnabled = true, bDeleteOnly;
 
 	bool IsFiltered(const CMStringW &wszFilter);
 };
@@ -229,10 +234,6 @@ struct ServListEntry
 	char   m_szHash[32+1];
 };
 
-typedef OBJLIST<ServListEntry> SERVLIST;
-
-///////////////////////////////////////////////////////////////////////////////
-
 struct RenameTableItem
 {
 	RenameTableItem(const wchar_t *_1, const wchar_t *_2) :
@@ -243,7 +244,33 @@ struct RenameTableItem
 	ptrW wszSearch, wszReplace;
 };
 
-typedef OBJLIST<RenameTableItem> RENAMETABLE;
+struct PacketTableItem
+{
+	PacketTableItem(const wchar_t *_1) :
+		arDepends(1),
+		wszModule(mir_wstrdup(_1))
+	{}
+
+	ptrW wszModule;
+	int  osMin = -1, osMax = 200;
+	OBJLIST<wchar_t> arDepends;
+};
+
+struct ServerConfig
+{
+	ServerConfig();
+
+	ptrW m_baseUrl;
+	OBJLIST<ServListEntry> arHashes;
+	OBJLIST<RenameTableItem> arRename;
+	OBJLIST<PacketTableItem> arPackets;
+
+	bool Load();
+	bool CheckRename(const wchar_t *pwszFolder, const wchar_t *pwszOldName, wchar_t *pNewName);
+
+	ServListEntry* FindHash(const wchar_t *);
+	PacketTableItem* FindPacket(const wchar_t *);
+};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -261,10 +288,9 @@ void  DoRestart(void);
 void  CALLBACK RestartPrompt(void *);
 void  CALLBACK CheckUpdateOnStartup(void);
 
-int   BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName);
+int   GetWinVer(void);
 
-bool  ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes, RENAMETABLE *arRename = nullptr);
-int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
+int   BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName);
 
 wchar_t* GetDefaultUrl();
 int   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);

@@ -19,127 +19,22 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HNETLIBUSER g_hNetlibUser = nullptr;
+/////////////////////////////////////////////////////////////////////////////////////////
+// gets Windows version as a unified number
 
-/////////////////////////////////////////////////////////////////////////////////////
-// Hashes processing
-
-int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
+int GetWinVer(void)
 {
-	return _wcsicmp(p1->m_name, p2->m_name);
-}
-
-bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes, RENAMETABLE *arRename)
-{
-	REPLACEVARSARRAY vars[2];
-	vars[0].key.w = L"platform";
-	#ifdef _WIN64
-		vars[0].value.w = L"64";
-	#else
-		vars[0].value.w = L"32";
-	#endif
-	vars[1].key.w = vars[1].value.w = nullptr;
-
-	baseUrl = Utils_ReplaceVarsW(pwszUrl, 0, vars);
-
-	if (arRename)
-		arRename->destroy();
-
-	// Download version info
-	FILEURL pFileUrl;
-	mir_snwprintf(pFileUrl.wszDownloadURL, L"%s/hashes.zip", baseUrl.get());
-	mir_snwprintf(pFileUrl.wszDiskPath, L"%s\\hashes.zip", g_wszTempPath);
-	pFileUrl.CRCsum = 0;
-
-	HNETLIBCONN nlc = nullptr;
-	int ret = DownloadFile(&pFileUrl, nlc);
-	Netlib_CloseHandle(nlc);
-
-	if (ret != ERROR_SUCCESS) {
-		Netlib_LogfW(g_hNetlibUser, L"Downloading list of available updates from %s failed with error %d", baseUrl.get(), ret);
-		Skin_PlaySound("updatefailed");
-
-		if (ret == 404) {
-			ShowPopup(TranslateT("Plugin Updater"), TranslateT("Updates are temporarily disabled, try again later."), POPUP_TYPE_INFO);
-			return true;
-		}
-
-		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
-		return false;
-	}
-
-	if (unzip(pFileUrl.wszDiskPath, g_wszTempPath, nullptr, true)) {
-		Netlib_LogfW(g_hNetlibUser, L"Unzipping list of available updates from %s failed", baseUrl.get());
-		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
-		Skin_PlaySound("updatefailed");
-		return false;
-	}
-
-	DeleteFile(pFileUrl.wszDiskPath);
-
-	TFileName wszTmpIni;
-	mir_snwprintf(wszTmpIni, L"%s\\hashes.txt", g_wszTempPath);
-	FILE *fp = _wfopen(wszTmpIni, L"r");
-	if (!fp) {
-		Netlib_LogfW(g_hNetlibUser, L"Opening %s failed", g_wszTempPath);
-		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
-		return false;
-	}
-
-	bool bDoNotSwitchToStable = false;
-	char str[200];
-	while (fgets(str, _countof(str), fp) != nullptr) {
-		rtrim(str);
-		// Do not allow the user to switch back to stable
-		if (!strcmp(str, "DoNotSwitchToStable")) {
-			bDoNotSwitchToStable = true;
-		}
-		else if (str[0] != ';') { // ';' marks a comment
-			Netlib_Logf(g_hNetlibUser, "Update: %s", str);
-			char *p = strchr(str, ' ');
-			if (p != nullptr) {
-				*p++ = 0;
-				_strlwr(p);
-
-				int dwCrc32;
-				char *p1 = strchr(p, ' ');
-				if (p1 == nullptr)
-					dwCrc32 = 0;
-				else {
-					*p1++ = 0;
-					sscanf(p1, "%08x", &dwCrc32);
-				}
-				arHashes.insert(new ServListEntry(str, p, dwCrc32));
-			}
-		}
-	}
-	fclose(fp);
-	DeleteFileW(wszTmpIni);
-
-	// building table of rules 
-	mir_snwprintf(wszTmpIni, L"%s\\rules.txt", g_wszTempPath);
-	if (arRename) {
-		JSONNode root;
-		if (file2json(wszTmpIni, root))
-			for (auto &it : root["rules"]) {
-				Utf2T wszName(it.name());
-				if (it.isnull())
-					arRename->insert(new RenameTableItem(wszName, nullptr));
-				else
-					arRename->insert(new RenameTableItem(wszName, it.as_mstring()));
-			}
-	}
-	DeleteFileW(wszTmpIni);
-
-	if (bDoNotSwitchToStable) {
-		g_plugin.setByte(DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
-		// Reset setting if needed
-		if (g_plugin.iUpdateMode == UPDATE_MODE_STABLE)
-			g_plugin.iUpdateMode = UPDATE_MODE_TRUNK;
-	}
-	else g_plugin.setByte(DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
-
-	return true;
+	if (IsWinVer10Plus())
+		return 100;
+	if (IsWinVer81Plus())
+		return 81;
+	if (IsWinVer8Plus())
+		return 80;
+	if (IsWinVer7Plus())
+		return 70;
+	if (IsWinVerVistaPlus())
+		return 60;
+	return 51; // Windows XP
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
