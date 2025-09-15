@@ -225,7 +225,7 @@ void allWindowsMoveAndSize(HWND hWnd)
 	windowsList::iterator itrC = windowFindItr(hWnd);
 	if (itrC != pluginVars.allWindows.end()) {
 		windowsList::iterator itrN = ++windowFindItr(hWnd);
-		for (; itrC != pluginVars.allWindows.end(), itrN != pluginVars.allWindows.end(); ++itrC, ++itrN) {
+		for (; itrC != pluginVars.allWindows.end() && itrN != pluginVars.allWindows.end(); ++itrC, ++itrN) {
 			// Режим только двух окон
 			if (pluginVars.Options.WindowsMerging == ASW_WINDOWS_MERGEONE)
 				if ((itrC->hWnd != pluginVars.contactListHWND) && (itrN->hWnd != pluginVars.contactListHWND))
@@ -260,7 +260,7 @@ void allWindowsMoveAndSize(HWND hWnd)
 	windowsList::reverse_iterator ritrC = windowFindRevItr(hWnd);
 	if (ritrC != pluginVars.allWindows.rend()) {
 		windowsList::reverse_iterator ritrN = ++windowFindRevItr(hWnd);
-		for (; ritrC != pluginVars.allWindows.rend(), ritrN != pluginVars.allWindows.rend(); ++ritrC, ++ritrN) {
+		for (; ritrC != pluginVars.allWindows.rend() && ritrN != pluginVars.allWindows.rend(); ++ritrC, ++ritrN) {
 			// Режим только двух окон
 			if (pluginVars.Options.WindowsMerging == ASW_WINDOWS_MERGEONE)
 				if ((ritrC->hWnd != pluginVars.contactListHWND) && (ritrN->hWnd != pluginVars.contactListHWND))

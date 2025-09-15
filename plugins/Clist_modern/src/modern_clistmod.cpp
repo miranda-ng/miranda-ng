@@ -313,7 +313,7 @@ void cliShowHide(bool bShow)
 {
 	if (bShow) {
 		Sync(CLUIFrames_ActivateSubContainers, TRUE);
-		CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_RESTORE);
+		CLUI_ShowWindowMod(g_clistApi.hwndContactList, SW_SHOW);
 
 		Sync(CLUIFrames_OnShowHide, 1);	//TO BE PROXIED
 		SetWindowPos(g_clistApi.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
