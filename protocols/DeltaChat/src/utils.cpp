@@ -44,6 +44,15 @@ MCONTACT CDeltaChatProto::AddContact()
 	return hContact;
 }
 
+MCONTACT CDeltaChatProto::FindChat(uint32_t chat_id)
+{
+	for (auto &cc : AccContacts())
+		if (getDword(cc, DB_KEY_DCID) == chat_id)
+			return cc;
+
+	return 0;
+}
+
 MCONTACT CDeltaChatProto::FindContact(uint32_t chat_id)
 {
 	for (auto &cc : AccContacts())

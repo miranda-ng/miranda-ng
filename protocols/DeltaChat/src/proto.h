@@ -58,7 +58,8 @@ class CDeltaChatProto : public PROTO<CDeltaChatProto>
 	void OnConnected();
 	
 	MCONTACT AddContact();
-	MCONTACT FindContact(uint32_t chat_id);
+	MCONTACT FindChat(uint32_t chat_id);
+	MCONTACT FindContact(uint32_t contact_id);
 
 	void __cdecl ServerThread(void *);
 

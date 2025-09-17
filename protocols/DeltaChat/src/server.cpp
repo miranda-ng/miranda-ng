@@ -147,7 +147,24 @@ void CDeltaChatProto::ServerThread(void *)
 				}
 			}
 			break;
+		
+		case DC_EVENT_INCOMING_REACTION:
+			if (i1 && i2) {
+				if (auto hContact = FindChat(i1)) {
+					char buf[100];
+					itoa(i2, buf, 10);
+					if (MEVENT hEvent = db_event_getById(m_szModuleName, buf)) {
+						DB::EventInfo dbei(hEvent);
+						dbei.addReaction(s2);
+					}
+				}
+			}
 		}
+
+		if (s1)
+			dc_str_unref(s1);
+		if (s2)
+			dc_str_unref(s2);
 	}
 
 	if (m_emitter) {
