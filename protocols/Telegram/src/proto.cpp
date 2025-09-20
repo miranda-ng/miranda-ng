@@ -172,6 +172,9 @@ bool CTelegramProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
 		pUser->wszNick = getMStringW(hContact, "Nick");
 		pUser->wszFirstName = getMStringW(hContact, "FirstName");
 		pUser->wszLastName = getMStringW(hContact, "LastName");
+
+		if (pUser->chatId)
+			SendQuery(new TD::deleteChat(pUser->chatId));
 	}
 
 	if (bDelContact) {

@@ -614,3 +614,12 @@ EXPORTS
 ?store@textEntityTypeUrl@td_api@td@@UBEXAAVTlStorerToString@3@PBD@Z @611 NONAME
 ?store@viewMessages@td_api@td@@UBEXAAVTlStorerToString@3@PBD@Z @612 NONAME
 ?to_string@td_api@td@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABVTlObject@2@@Z @613 NONAME
+??0deleteChat@td_api@td@@QAE@$$QAV012@@Z @614 NONAME
+??0deleteChat@td_api@td@@QAE@XZ @615 NONAME
+??0deleteChat@td_api@td@@QAE@_J@Z @616 NONAME
+??1deleteChat@td_api@td@@UAE@XZ @617 NONAME
+??4deleteChat@td_api@td@@QAEAAV012@$$QAV012@@Z @618 NONAME
+??_7deleteChat@td_api@td@@6B@ @619 NONAME
+?ID@deleteChat@td_api@td@@2HB @620 NONAME
+?get_id@deleteChat@td_api@td@@EBEHXZ @621 NONAME
+?store@deleteChat@td_api@td@@UBEXAAVTlStorerToString@3@PBD@Z @622 NONAME

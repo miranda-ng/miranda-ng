@@ -214,9 +214,6 @@
     <ClCompile Include="td\td\telegram\cli.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="td\td\telegram\ClientJson.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="td\td\telegram\ConnectionState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

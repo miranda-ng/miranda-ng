@@ -112,7 +112,6 @@
     <ClCompile Include="td\td\telegram\cli.cpp" />
     <ClCompile Include="td\td\telegram\Client.cpp" />
     <ClCompile Include="td\td\telegram\ClientActor.cpp" />
-    <ClCompile Include="td\td\telegram\ClientJson.cpp" />
     <ClCompile Include="td\td\telegram\CommonDialogManager.cpp" />
     <ClCompile Include="td\td\telegram\ConfigManager.cpp" />
     <ClCompile Include="td\td\telegram\ConnectionState.cpp" />
