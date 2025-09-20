@@ -503,8 +503,11 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	dbei.szUserId = F.pszUser;
 	if (F.pMsg->date_)
 		dbei.iTimestamp = F.pMsg->date_;
-	if (F.pMsg->is_outgoing_)
-		dbei.bSent = dbei.bRead = true;
+	if (F.pMsg->is_outgoing_) {
+		dbei.bSent = true;
+		if (F.pUser->id != m_iOwnId)
+			dbei.bRead = true;
+	}
 	if (!F.pUser->bInited || F.bRead)
 		dbei.bRead = true;
 	if (auto iReplyId = getReplyId(F.pMsg->reply_to_.get())) {

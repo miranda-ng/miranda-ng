@@ -209,15 +209,21 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 
 MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
-	bool bSilent = dbei.bTemporary;
-	bool bSent = dbei.bSent;
-	bool bRead = dbei.bRead;
+	bool bSilent = dbei.bTemporary; // save flag for the future use
 
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.eventType = EVENTTYPE_FILE;
-	dbei.flags = (dbei.flags & ~DBEF_TEMPORARY) | DBEF_UTF;
+	dbei.bUtf = true;
+	dbei.bTemporary = false;
 
-	CMStringW wszFiles, wszDescr;
+	// ignore DBEF_SENT for contacts that have the same ID as the protocol itself
+	bool bSent = dbei.bSent;
+	if (dbei.szModule) {
+		ptrW id1(Contact::GetInfo(CNF_UNIQUEID, 0, dbei.szModule));
+		ptrW id2(Contact::GetInfo(CNF_UNIQUEID, hContact, dbei.szModule));
+		if (!mir_wstrcmp(id1, id2))
+			bSent = false;
+	}
 
 	if (auto *ppro = Proto_GetContactInstance(hContact))
 		ppro->OnReceiveOfflineFile(dbei, blob);
@@ -227,7 +233,7 @@ MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbe
 
 	// yes, we can receive a file that was sent from another device. let's ignore it
 	// also do not notify about events been already read
-	if (!bSent && !bRead) {
+	if (!bSent && !dbei.bRead) {
 		CLISTEVENT cle = {};
 		cle.hContact = hContact;
 		cle.hDbEvent = hdbe;
