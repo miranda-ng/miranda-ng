@@ -510,11 +510,10 @@ bool CSrmmBaseDialog::OnInitDialog()
 	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, (LONG_PTR)this);
 
 	SetReaction(m_hContact, false);
+	SetReadOnly(Contact::IsReadonly(m_hContact));
 
 	m_btnCloseQuote.Hide();
 	m_Quote.Hide();
-
-	SetReadOnly(!Contact::IsReadonly(m_hContact));
 
 	auto *pDlg = (CMsgDialog *)this;
 	if (auto *pLogWindowClass = Srmm_GetWindowClass(pDlg->isChat(), pDlg->m_hContact)) {
@@ -734,7 +733,7 @@ bool CSrmmBaseDialog::AllowTyping() const
 void CSrmmBaseDialog::SetReadOnly(bool bValue)
 {
 	m_bReadOnly = bValue;		
-	m_message.Show(bValue);
+	m_message.Show(!bValue);
 }
 
 void CSrmmBaseDialog::ClearLog()
