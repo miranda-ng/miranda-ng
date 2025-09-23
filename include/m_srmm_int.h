@@ -382,6 +382,7 @@ public:
 	void ScheduleRedrawLog();
 	void SetMessageText(const wchar_t *pwszText, bool bAppend = true);
 	void SetQuoteEvent(MEVENT hEvent);
+	void SetReadOnly(bool bValue);
 	void ShowColorChooser(int iCtrlId);
 	void UpdateChatOptions();
 	void UpdateNickList(void);

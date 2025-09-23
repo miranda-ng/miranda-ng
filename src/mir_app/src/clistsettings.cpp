@@ -223,6 +223,10 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			ClcCacheEntry *pdnce = Clist_GetCacheEntry(hContact);
 			Dbwcs2tstr(cws, pdnce->tszGroup);
 		}
+		else if (!strcmp(cws->szSetting, "ReadOnly")) {
+			if (auto *pDlg = Srmm_FindDialog(hContact))
+				pDlg->SetReadOnly(cws->value.type != DBVT_DELETED && cws->value.bVal != 0);
+		}
 	}
 	else if (!strcmp(cws->szModule, "Protocol")) {
 		if (!strcmp(cws->szSetting, "p")) {

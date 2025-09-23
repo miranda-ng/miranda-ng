@@ -514,9 +514,7 @@ bool CSrmmBaseDialog::OnInitDialog()
 	m_btnCloseQuote.Hide();
 	m_Quote.Hide();
 
-	m_bReadOnly = Contact::IsReadonly(m_hContact);
-	if (m_bReadOnly)
-		m_message.Hide();
+	SetReadOnly(Contact::IsReadonly(m_hContact));
 
 	auto *pDlg = (CMsgDialog *)this;
 	if (auto *pLogWindowClass = Srmm_GetWindowClass(pDlg->isChat(), pDlg->m_hContact)) {
@@ -731,6 +729,12 @@ void CSrmmBaseDialog::AddLog(const LOGINFO &lin)
 bool CSrmmBaseDialog::AllowTyping() const
 {
 	return isChat() ? m_si->iType != GCW_SERVER : true;
+}
+
+void CSrmmBaseDialog::SetReadOnly(bool bValue)
+{
+	m_bReadOnly = bValue;		
+	m_message.Show(bValue);
 }
 
 void CSrmmBaseDialog::ClearLog()
