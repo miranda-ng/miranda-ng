@@ -514,7 +514,7 @@ bool CSrmmBaseDialog::OnInitDialog()
 	m_btnCloseQuote.Hide();
 	m_Quote.Hide();
 
-	SetReadOnly(Contact::IsReadonly(m_hContact));
+	SetReadOnly(!Contact::IsReadonly(m_hContact));
 
 	auto *pDlg = (CMsgDialog *)this;
 	if (auto *pLogWindowClass = Srmm_GetWindowClass(pDlg->isChat(), pDlg->m_hContact)) {
