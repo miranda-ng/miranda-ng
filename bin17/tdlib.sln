@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdactor", "..\protocols\Tel
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tddb", "..\protocols\Telegram\tdlib\tddb.vcxproj", "{F525EE11-8820-3D8A-87A5-465D50A98A64}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdlib", "..\protocols\Telegram\tdlib\tdlib.vcxproj", "{800E305A-3704-4617-ADA0-DEE8EAFDB804}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdnet", "..\protocols\Telegram\tdlib\tdnet.vcxproj", "{2246C3CF-7888-3102-984A-80214ADF418C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tdutils", "..\protocols\Telegram\tdlib\tdutils.vcxproj", "{D21C6A0F-BED1-3377-9659-7FC7D82EFC4F}"
@@ -45,14 +43,6 @@ Global
 		{F525EE11-8820-3D8A-87A5-465D50A98A64}.Release|x64.Build.0 = Release|x64
 		{F525EE11-8820-3D8A-87A5-465D50A98A64}.Release|x86.ActiveCfg = Release|Win32
 		{F525EE11-8820-3D8A-87A5-465D50A98A64}.Release|x86.Build.0 = Release|Win32
-		{800E305A-3704-4617-ADA0-DEE8EAFDB804}.Debug|x64.ActiveCfg = Debug|x64
-		{800E305A-3704-4617-ADA0-DEE8EAFDB804}.Debug|x64.Build.0 = Debug|x64
-		{800E305A-3704-4617-ADA0-DEE8EAFDB804}.Debug|x86.ActiveCfg = Debug|Win32
-		{800E305A-3704-4617-ADA0-DEE8EAFDB804}.Debug|x86.Build.0 = Debug|Win32
-		{800E305A-3704-4617-ADA0-DEE8EAFDB804}.Release|x64.ActiveCfg = Release|x64
-		{800E305A-3704-4617-ADA0-DEE8EAFDB804}.Release|x64.Build.0 = Release|x64
-		{800E305A-3704-4617-ADA0-DEE8EAFDB804}.Release|x86.ActiveCfg = Release|Win32
-		{800E305A-3704-4617-ADA0-DEE8EAFDB804}.Release|x86.Build.0 = Release|Win32
 		{2246C3CF-7888-3102-984A-80214ADF418C}.Debug|x64.ActiveCfg = Debug|x64
 		{2246C3CF-7888-3102-984A-80214ADF418C}.Debug|x64.Build.0 = Debug|x64
 		{2246C3CF-7888-3102-984A-80214ADF418C}.Debug|x86.ActiveCfg = Debug|Win32
