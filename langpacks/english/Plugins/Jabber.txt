@@ -259,7 +259,6 @@
 [Supports chat history management]
 [Can report information about user activity]
 [Receives information about user activity]
-[Supports Miranda NG notes extension]
 [Supports Roster Exchange]
 [Supports direct chat invitations (XEP-0249)]
 [Receives information about OMEMO devices]
@@ -416,7 +415,6 @@
 [Convert to room]
 [Login/logout]
 [Resolve nicks]
-[Send note]
 [AdHoc Command]
 [OpenID Request]
 [Add contact]
@@ -475,7 +473,6 @@
 [Jabber account chooser]
 [Add to Bookmarks]
 [Commands]
-[Send Note]
 [Send Presence]
 [Jabber Resource]
 [Last Active]
@@ -507,13 +504,10 @@
 [Both]
 [Errors]
 ;file \protocols\JabberG\src\jabber_notes.cpp
-[Incoming note from %s]
-[Send note to %s]
 [From: %s]
 [All tags]
 [Notes are not saved, close this window without uploading data to server?]
 [Are you sure?]
-[Incoming note]
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Unknown OMEMO device added!]
 [(My devices)]
@@ -723,8 +717,6 @@
 [Enable user moods receiving]
 [Enable user tunes receiving]
 [Enable user activity receiving]
-[Receive notes]
-[Automatically save received notes]
 [Inline pictures in messages (XEP-0231)]
 [Enable chat states sending (XEP-0085)]
 [Enable server-side history (XEP-0136)]
@@ -848,6 +840,8 @@
 [Unable to save list because you are currently offline.]
 [List Editor...]
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+[/me slaps %s around a bit with a large trout]
 [%s error notifications]
 [No valid OMEMO session exists]
 ;file \protocols\JabberG\src\jabber_rc.cpp
@@ -1152,6 +1146,3 @@
 [Listening To]
 [Moods]
 [Activities]
-;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
-[/me slaps %s around a bit with a large trout]

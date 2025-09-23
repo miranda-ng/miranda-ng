@@ -19,5 +19,5 @@
 [Network]
 [VoIP]
 ;file \plugins\Jingle\src\voip.cpp
-[Gstreamer plugin %S not found]
-[Gstreamer plugin %S not loaded, it might require Windows 8 or later]
+[GStreamer plugin %S not found]
+[GStreamer plugin %S not loaded, it might require Windows 7 or later]

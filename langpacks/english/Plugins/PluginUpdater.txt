@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.8
+;  Version: 0.3.1.1
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -70,10 +70,11 @@
 [List is empty.]
 [List loading already started!]
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Miranda NG Core]
+[Libraries]
 [Will be deleted!]
 [Unpack operation failed with error code=%d, update terminated]
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
-[Miranda NG Core]
 [Deprecated!]
 [Update found!]
 [<< Details]
@@ -103,7 +104,7 @@
 [Available components list]
 [Update failed]
 [Update completed]
-;file \plugins\PluginUpdater\src\Utils.cpp
+;file \plugins\PluginUpdater\src\ServerConfig.cpp
 [Updates are temporarily disabled, try again later.]
 [An error occurred while checking for new updates.]
 ;file \plugins\PluginUpdater\src\Compat\compat.h

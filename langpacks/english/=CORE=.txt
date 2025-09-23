@@ -1382,6 +1382,7 @@
 [Protocols]
 ;file \src\mir_app\src\proto_interface.cpp
 [Preview folder]
+[History loaded successfully]
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]
