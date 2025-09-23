@@ -24,6 +24,38 @@ static HWND hwndDialog;
 static uint32_t dwCheckThreadId;
 static HANDLE hTimer;
 
+struct
+{
+	const wchar_t *pwszFolder, *pwszGroup;
+}
+static groupList[] = {
+	{ L"Plugins",   LPGENW("Plugins")         },
+	{ L"Core",      LPGENW("Miranda NG Core") },
+	{ L"Languages", LPGENW("Languages")       },
+	{ L"Icons",     LPGENW("Icons")           },
+	{ L"Libs",      LPGENW("Libraries")       },
+};
+
+static int file2group(const wchar_t *pwszFileName)
+{
+	for (int i = 0; i < _countof(groupList); i++)
+		if (wcsstr(pwszFileName, groupList[i].pwszFolder))
+			return i+1;
+
+	return 2; // core
+}
+
+static bool isValidDirectory(const wchar_t *pwszDirName)
+{
+	for (auto &it : groupList)
+		if (!_wcsicmp(pwszDirName, it.pwszFolder))
+			return true;
+
+	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 class CUpdateDLg : public CDlgBase
 {
 	uint32_t dwThreadId = 0;
@@ -204,35 +236,22 @@ public:
 		// enumerate plugins, fill in list
 		m_list.DeleteAllItems();
 
-		LVGROUP lvg;
+		LVGROUP lvg = {};
 		lvg.cbSize = sizeof(LVGROUP);
 		lvg.mask = LVGF_HEADER | LVGF_GROUPID;
 
-		lvg.pszHeader = TranslateT("Plugins");
-		lvg.iGroupId = 1;
-		m_list.InsertGroup(0, &lvg);
-
-		lvg.pszHeader = TranslateT("Miranda NG Core");
-		lvg.iGroupId = 2;
-		m_list.InsertGroup(0, &lvg);
-
-		lvg.pszHeader = TranslateT("Languages");
-		lvg.iGroupId = 3;
-		m_list.InsertGroup(0, &lvg);
-
-		lvg.pszHeader = TranslateT("Icons");
-		lvg.iGroupId = 4;
-		m_list.InsertGroup(0, &lvg);
-
+		for (auto &it : groupList) {
+			lvg.pszHeader = TranslateW(it.pwszGroup);
+			lvg.iGroupId++;
+			m_list.InsertGroup(0, &lvg);
+		}
 		m_list.EnableGroupView(true);
 
 		bool enableOk = false;
 		for (auto &it : *m_todo) {
 			LVITEM lvI = { 0 };
 			lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
-			lvI.iGroupId = (wcsstr(it->wszOldName, L"Plugins") != nullptr) ? 1 :
-				((wcsstr(it->wszOldName, L"Languages") != nullptr) ? 3 :
-				((wcsstr(it->wszOldName, L"Icons") != nullptr) ? 4 : 2));
+			lvI.iGroupId = file2group(it->wszOldName);
 			lvI.iSubItem = 0;
 			lvI.lParam = (LPARAM)it;
 			lvI.pszText = it->wszOldName;
@@ -476,13 +495,6 @@ static bool isValidExtension(const wchar_t *pwszFileName)
 				return true;
 	
 	return false;
-}
-
-// We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
-
-static bool isValidDirectory(const wchar_t *pwszDirName)
-{
-	return !_wcsicmp(pwszDirName, L"Plugins") || !_wcsicmp(pwszDirName, L"Icons") || !_wcsicmp(pwszDirName, L"Languages") || !_wcsicmp(pwszDirName, L"Libs") || !_wcsicmp(pwszDirName, L"Core");
 }
 
 // Scans folders recursively
