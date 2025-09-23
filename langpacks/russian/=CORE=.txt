@@ -2657,6 +2657,8 @@ xСтатус
 ;file \src\mir_app\src\proto_interface.cpp
 [Preview folder]
 Каталог с изображениями предпросмотра
+[History loaded successfully]
+История загружена успешно
 [Request authorization]
 Запросить авторизацию
 [Grant authorization]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.8
+;  Version: 0.3.1.1
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -132,14 +132,16 @@
 [List loading already started!]
 Список загружается!
 ;file \plugins\PluginUpdater\src\DlgUpdate.cpp
+[Miranda NG Core]
+Ядро Miranda NG
+[Libraries]
+Библиотеки
 [Will be deleted!]
 Удалено!
 [Unpack operation failed with error code=%d, update terminated]
 Не удалось распаковать, код ошибки=%d, обновление прервано
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Обновление завершено. Нажмите "Да" для немедленной перезагрузки программы или "Нет", чтобы отложить обновление до выхода.
-[Miranda NG Core]
-Ядро Miranda NG
 [Deprecated!]
 Устарело!
 [Update found!]
@@ -194,7 +196,7 @@
 Сбой обновления
 [Update completed]
 Обновление завершено
-;file \plugins\PluginUpdater\src\Utils.cpp
+;file \plugins\PluginUpdater\src\ServerConfig.cpp
 [Updates are temporarily disabled, try again later.]
 Обновления временно отключены, попробуйте позже.
 [An error occurred while checking for new updates.]

@@ -29,7 +29,7 @@ Jingle DTLS
 [VoIP]
 VoIP
 ;file \plugins\Jingle\src\voip.cpp
-[Gstreamer plugin %S not found]
-Не найден плагин Gstreamer %S
-[Gstreamer plugin %S not loaded, it might require Windows 8 or later]
-Не загружен плагин Gstreamer %S, вероятно требуется Windows 8 или более новая операционная система
+[GStreamer plugin %S not found]
+Не найден плагин GStreamer %S
+[GStreamer plugin %S not loaded, it might require Windows 7 or later]
+Не загружен плагин GStreamer %S, вероятно требуется Windows 7 или более новая операционная система

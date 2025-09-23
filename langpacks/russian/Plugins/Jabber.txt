@@ -506,8 +506,6 @@ xHTML формат чат сообщений
 Сообщение об активности пользователя
 [Receives information about user activity]
 Приём информации о занятии пользователя
-[Supports Miranda NG notes extension]
-Поддержка заметок Miranda NG
 [Supports Roster Exchange]
 Поддержка обмена ростера
 [Supports direct chat invitations (XEP-0249)]
@@ -812,8 +810,6 @@ Jabber ошибка
 Войти/Выйти
 [Resolve nicks]
 Определить ники
-[Send note]
-Отправить заметку
 [AdHoc Command]
 Команда AdHoc
 [OpenID Request]
@@ -925,8 +921,6 @@ Jabber ошибка
 Добавить в закладки
 [Commands]
 Команды
-[Send Note]
-Отправить заметку
 [Send Presence]
 Отправить присутствие
 [Jabber Resource]
@@ -985,10 +979,6 @@ Jabber ошибка
 [Errors]
 Ошибки
 ;file \protocols\JabberG\src\jabber_notes.cpp
-[Incoming note from %s]
-Входящая заметка от %s
-[Send note to %s]
-Отправить заметку %s
 [From: %s]
 От: %s
 [All tags]
@@ -997,8 +987,6 @@ Jabber ошибка
 Заметки не сохранены, закрыть окно без загрузки заметок на сервер?
 [Are you sure?]
 Вы уверены?
-[Incoming note]
-Входящая заметка
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Unknown OMEMO device added!]
 Добавлено неизвестное устройство OMEMO
@@ -1415,10 +1403,6 @@ OMEMO не поддерживает шифрование приватных со
 Включить приём мелодий
 [Enable user activity receiving]
 Включить приём занятий
-[Receive notes]
-Принимать заметки
-[Automatically save received notes]
-Автоматически сохранять принятые заметки
 [Inline pictures in messages (XEP-0231)]
 Вставлять изображения в сообщения (XEP-0231)
 [Enable chat states sending (XEP-0085)]
@@ -1662,6 +1646,10 @@ S.ms
 [List Editor...]
 Редактор списков...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
+Я использую Miranda NG (https://miranda-ng.org/.)
+[/me slaps %s around a bit with a large trout]
+/me шарахнул %s веслом по голове
 [%s error notifications]
 Уведомления об ошибках %s
 [No valid OMEMO session exists]
@@ -2261,8 +2249,3 @@ Jabber vCard: редактирование телефона
 Настроения
 [Activities]
 Занятия
-;file \protocols\JabberG\src\stdafx.h
-[I'm happy Miranda NG user. Get it at https://miranda-ng.org/.]
-Я использую Miranda NG (https://miranda-ng.org/.)
-[/me slaps %s around a bit with a large trout]
-/me шарахнул %s веслом по голове

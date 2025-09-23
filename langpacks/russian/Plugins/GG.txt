@@ -224,37 +224,6 @@ HTTP неизвестная ошибка
 Комната чата
 [Contact list]
 Список контактов
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[Images]
-Изображения
-[Gadu-Gadu Number]
-Номер Gadu-Gadu
-[Female]
-Женский
-[Male]
-Мужской
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-[Open &conference...]
-Открыть &конференцию...
-[&Clear ignored conferences]
-&Очистить игнорируемые конференции
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-%s начал(а) конференцию с %d участниками (%d неизвестно).\nПринять участие?
-[%s initiated the conference.]
-%s начал(а) конференцию.
-[This is my own conference.]
-Это моя конференция.
-[Participants]
-Участники
-['Unknown']
-'Неизвестно'
-[You have to be connected to open new conference.]
-Вы должны быть подключены, чтобы начинать конференции.
-[All ignored conferences are now unignored and the conference policy will act again.]
-Список игнорируемых конференций очищен и применяется общая политика конференций.
-[There are no ignored conferences.]
-Игнорируемых конференций нет.
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 Значок протокола
 [Import list from server]
@@ -285,6 +254,36 @@ HTTP неизвестная ошибка
 Очистить игнорируемые конференции
 [Concurrent sessions]
 Параллельные сессии
+;file \protocols\Gadu-Gadu\src\gg_proto.cpp
+[Images]
+Изображения
+[Gadu-Gadu Number]
+Номер Gadu-Gadu
+[Female]
+Женский
+[Male]
+Мужской
+;file \protocols\Gadu-Gadu\src\groupchat.cpp
+[Open &conference...]
+Открыть &конференцию...
+[&Clear ignored conferences]
+&Очистить игнорируемые конференции
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
+%s начал(а) конференцию с %d участниками (%d неизвестно).\nПринять участие?
+[%s initiated the conference.]
+%s начал(а) конференцию.
+[This is my own conference.]
+Это моя конференция.
+[Participants]
+Участники
+['Unknown']
+'Неизвестно'
+[You have to be connected to open new conference.]
+Вы должны быть подключены, чтобы начинать конференции.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Список игнорируемых конференций очищен и применяется общая политика конференций.
+[There are no ignored conferences.]
+Игнорируемых конференций нет.
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 &Изображение
