@@ -153,7 +153,7 @@ void CJabberProto::CheckKeepAlive()
 	time_t now = time(0);
 	LISTFOREACH(i, this, LIST_CHATROOM)
 		if (auto *item = ListGetItemPtrFromIndex(i))
-			if (!item->bChatLogging && now - item->iChatInitTime > 2)
+			if (!item->bChatLogging && now - item->iChatInitTime > 5)
 				item->bChatLogging = true;
 
 	// check expired iq requests
