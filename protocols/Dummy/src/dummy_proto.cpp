@@ -115,7 +115,7 @@ int CDummyProto::getTemplateId()
 		szProto = getMStringA("AM_BaseProto");
 
 	for (auto &it : templates)
-		if (szProto == it.name)
+		if (!szProto.CompareNoCase(it.name))
 			return int(&it - templates);
 
 	return 0;
