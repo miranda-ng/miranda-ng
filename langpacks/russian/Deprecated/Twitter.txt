@@ -1,0 +1,110 @@
+#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter protocol
+;  Version: 1.3.1.7
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Twitter protocol support for Miranda NG.]
+Поддержка протокола Twitter в Miranda NG.
+;file \protocols\Twitter\res\twitter.rc
+[Create a new Twitter account]
+Создать новую учётную запись Twitter
+[Default group:]
+Группа:
+[Username:]
+Пользователь:
+[<Sign in to link your Twitter account>]
+<Подключитесь, чтобы войти в вашу учётную запись Twitter>
+[Send Tweet]
+Отправить твит
+[Send]
+Отправить
+[Cancel]
+Отмена
+[Miscellaneous options]
+Другие параметры
+[Use group chat for Twitter feed]
+Отображать сообщения в виде группового чата
+[Polling rate:]
+Опрашивать
+[Once every]
+каждые
+[sec]
+с
+[These changes will take effect the next time you connect to the Twitter network.]
+Эти изменения вступят в силу при следующем подключении к сети Twitter.
+[Treat tweets as messages]
+Твиты в виде сообщений
+[Enable popup notifications for tweets]
+Уведомлять о твитах всплывающими окнами
+[Colors]
+Цвета
+[Use Windows colors]
+Цвета Windows
+[Use default colors]
+Цвета по умолчанию
+[Use custom colors]
+Задать цвета
+[Back]
+Фон
+[Text]
+Текст
+[Timeout]
+Длительность
+[Default]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[Preview]
+Тест
+[But not during sign-on]
+Но не во время входа
+[Enter Twitter PIN]
+Введите PIN-код из Twitter-а
+[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
+Введите PIN-код, предоставленный Twitter-ом, чтобы завершить процесс входа. Это нужно сделать один раз, пока вы не пересоздадите свою учётную запись в Miranda NG.
+;file \protocols\Twitter\src\chat.cpp
+[Normal]
+Обычный
+;file \protocols\Twitter\src\proto.cpp
+[%s (server)]
+%s (сервер)
+[Unable to initialize Netlib for %s.]
+Невозможно создать подключение Netlib для %s.
+[%s (avatar)]
+%s (аватар)
+[Twitter (avatars)]
+Twitter (аватары)
+[User name]
+Имя пользователя
+[Send Tweet...]
+Отправить твит...
+[Network]
+Сеть
+[Basic]
+Основные
+[Popups]
+Всплывающие окна
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
+Все знают, что максимальная длина твита составляет 140 символов, почему вы пытаетесь втиснуть сюда %d?
+;file \protocols\Twitter\src\theme.cpp
+[Twitter Icon]
+Значок Twitter
+[Tweet]
+Написать твит
+[Reply to Tweet]
+Ответить на твит
+[Visit Homepage]
+Сайт
+[First tweet from new contact]
+Первый твит от нового контакта
+[New tweet]
+Новый твит
+[Reply...]
+Ответ...
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+Протокол %s

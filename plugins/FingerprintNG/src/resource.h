@@ -477,7 +477,6 @@
 
 #define IDC_STATUSBAR                   7001
 
-#define IDI_TWITTER                     9003
 #define IDI_TEAMS                       9004
 #define IDI_HANGOUTS                    9005
 #define IDI_VK                          9006

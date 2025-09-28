@@ -81,7 +81,6 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Teams.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Teams.dll")
 	if /I "%%a"=="Telegram.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Telegram.dll")
 	if /I "%%a"=="Tox.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Tox.dll" "Libs\libtox.mir" "Libs\libsodium.mir" "Libs\pthreads.mir")
-	if /I "%%a"=="Twitter.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Twitter.dll")
 	if /I "%%a"=="UInfoEx.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\UInfoEx_icons.dll")
 	if /I "%%a"=="VKontakte.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_VKontakte.dll")
 	if /I "%%a"=="Watrack.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Watrack_buttons.dll" "Icons\Watrack_icons.dll" "Plugins\player.ini")

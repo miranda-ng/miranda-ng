@@ -140,7 +140,6 @@ Plugins\toptoolbar.dll
 Plugins\tox.dll
 Plugins\trafficcounter.dll
 Plugins\translitswitcher.dll
-Plugins\twitter.dll
 Plugins\uinfoex.dll
 Plugins\userguide.dll
 Plugins\variables.dll
@@ -216,7 +215,6 @@ Icons\proto_sametime.dll
 Icons\proto_steam.dll
 Icons\proto_teams.dll
 Icons\proto_tox.dll
-Icons\proto_twitter.dll
 Icons\proto_vkontakte.dll
 Icons\proto_weather.dll
 Icons\proto_yamn.dll

@@ -518,8 +518,6 @@ static KN_FP_MASK def_kn_fp_mask[] =
 
 	{ "client_Hangouts", L"messaging-*", L"Google+ Hangouts", IDI_HANGOUTS, OTHER_PROTOS_CASE, TRUE },
 
-	{ "client_Twitter", L"*Twitter*", L"Twitter", IDI_TWITTER, OTHER_PROTOS_CASE, TRUE },
-
 	{ "client_Steam", L"*Steam*", L"Steam", IDI_STEAM, OTHER_PROTOS_CASE },
 
 	{ "client_Teams", L"*Teams**", L"Teams", IDI_TEAMS, OTHER_PROTOS_CASE },

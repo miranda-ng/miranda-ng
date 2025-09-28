@@ -1,0 +1,110 @@
+#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter protocol
+;  Version: 1.3.1.7
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Twitter protocol support for Miranda NG.]
+Підтримка протоколу Twitter у Miranda NG.
+;file \protocols\Twitter\res\twitter.rc
+[Create a new Twitter account]
+Створити новий обліковий запис Twitter
+[Default group:]
+Група:
+[Username:]
+Користувач:
+[<Sign in to link your Twitter account>]
+<Увійдіть, щоб налаштувати обліковий запис Twitter>
+[Send Tweet]
+Надіслати твіт
+[Send]
+Надіслати
+[Cancel]
+Скасувати
+[Miscellaneous options]
+Дод. налаштування
+[Use group chat for Twitter feed]
+Повідомлення у вигляді чату
+[Polling rate:]
+Опитувати
+[Once every]
+кожні
+[sec]
+с
+[These changes will take effect the next time you connect to the Twitter network.]
+Зміни наберуть чинності при наступному вході в мережу Twitter.
+[Treat tweets as messages]
+Твіти як повідомлення
+[Enable popup notifications for tweets]
+Сповіщати про твіти спливаючими вікнам
+[Colors]
+Кольори
+[Use Windows colors]
+Кольори Windows
+[Use default colors]
+Стандартні кольори
+[Use custom colors]
+Вказати кольори
+[Back]
+Фон
+[Text]
+Текст
+[Timeout]
+Перериви
+[Default]
+Стандартний
+[Custom]
+Налаштувати
+[Permanent]
+Постійно
+[Preview]
+Тест
+[But not during sign-on]
+Але не під час входу
+[Enter Twitter PIN]
+Введіть PIN-код з Twitter-у
+[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
+Введіть PIN-код, наданий Twitter, щоб завершити процес входу. Це потрібно зробити один раз, поки ви не створите свій обліковий запис Twitter у Miranda заново.
+;file \protocols\Twitter\src\chat.cpp
+[Normal]
+Звичайний
+;file \protocols\Twitter\src\proto.cpp
+[%s (server)]
+%s (сервер)
+[Unable to initialize Netlib for %s.]
+Не вдається встановити з'єднання Netlib для %s.
+[%s (avatar)]
+%s (аватар)
+[Twitter (avatars)]
+Twitter (аватари)
+[User name]
+Ім'я користувача
+[Send Tweet...]
+Надіслати твіт...
+[Network]
+Мережа
+[Basic]
+Основні
+[Popups]
+Спливаючі вікна
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
+Максимальна довжина твіта становить 140 символів. Навіщо ви намагаєтесь умістити сюди %d символів?
+;file \protocols\Twitter\src\theme.cpp
+[Twitter Icon]
+Значок Twitter
+[Tweet]
+Написати твіт
+[Reply to Tweet]
+Відповісти на твіт
+[Visit Homepage]
+Сайт
+[First tweet from new contact]
+Перший твіт від нового контакту
+[New tweet]
+Новий твіт
+[Reply...]
+Відповідь...
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+Протокол %s

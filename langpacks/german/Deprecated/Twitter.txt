@@ -1,0 +1,110 @@
+#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter protocol
+;  Version: 1.3.1.7
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Twitter protocol support for Miranda NG.]
+Twitter-Unterstützung für Miranda NG.
+;file \protocols\Twitter\res\twitter.rc
+[Create a new Twitter account]
+Erstelle ein neues Twitterkonto
+[Default group:]
+Standardgruppe:
+[Username:]
+Benutzername:
+[<Sign in to link your Twitter account>]
+(Anmelden, um Ihr Twitterkonto zu verbinden)
+[Send Tweet]
+Tweet senden
+[Send]
+Senden
+[Cancel]
+Abbrechen
+[Miscellaneous options]
+Div. Einstellungen
+[Use group chat for Twitter feed]
+Gruppenchat für Twitter-Feed verwenden
+[Polling rate:]
+Abrufrate:
+[Once every]
+Einmal alle
+[sec]
+Sek.
+[These changes will take effect the next time you connect to the Twitter network.]
+Die Änderungen werden erst nach einer Neueinwahl ins Twitter-Netzwerk aktiv.
+[Treat tweets as messages]
+Tweets als Nachrichten behandeln
+[Enable popup notifications for tweets]
+Popupbenachrichtigungen für Tweets aktivieren
+[Colors]
+Farben
+[Use Windows colors]
+Windowsfarben verwenden
+[Use default colors]
+Standardfarben verwenden
+[Use custom colors]
+Benutzerdefiniert
+[Back]
+Hgrd.
+[Text]
+Text
+[Timeout]
+Timeout
+[Default]
+Standard
+[Custom]
+Benutzerdef.
+[Permanent]
+Dauerhaft
+[Preview]
+Vorschau
+[But not during sign-on]
+Aber nicht während der Anmeldung
+[Enter Twitter PIN]
+Twitter-PIN eingeben
+[Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
+Geben Sie die von Twitter bereitgestellte PIN ein, um die Anmeldung abzuschließen. Dies ist ein einmaliger Vorgang, bis Sie Ihr Miranda-Twitter-Konto neu erstellen.
+;file \protocols\Twitter\src\chat.cpp
+[Normal]
+Normal
+;file \protocols\Twitter\src\proto.cpp
+[%s (server)]
+%s (Server)
+[Unable to initialize Netlib for %s.]
+Kann Netlib-Verbindung für %s nicht initialisieren.
+[%s (avatar)]
+%s (Avatar)
+[Twitter (avatars)]
+Twitter (Avatare)
+[User name]
+Benutzername
+[Send Tweet...]
+Tweet senden...
+[Network]
+Netzwerk
+[Basic]
+Allgemein
+[Popups]
+Popups
+[Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?]
+Die maximale Grüße eines Tweets ist 140 Zeichen, und Sie verwenden %d Zeichen.
+;file \protocols\Twitter\src\theme.cpp
+[Twitter Icon]
+Twittericon
+[Tweet]
+Tweet
+[Reply to Tweet]
+Auf Tweet antworten
+[Visit Homepage]
+Homepage besuchen
+[First tweet from new contact]
+Erster Tweet eines neuen Kontaktes
+[New tweet]
+Neuer Tweet
+[Reply...]
+Antworten...
+;file \protocols\Twitter\src\utility.cpp
+[%s Protocol]
+%s-Protokoll

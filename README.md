@@ -20,7 +20,6 @@ It's very light on system resources and extremely fast.
 - Steam
 - Telegram
 - Tox
-- Twitter
 - VKontakte
 
 ## Supported operating systems

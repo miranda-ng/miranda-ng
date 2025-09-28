@@ -104,6 +104,7 @@
 		"spamotron.dll":                  null,
 		"sms.dll":                        null,
 		"tlen.dll":                       null,
+		"twitter.dll":                    null,
 		"xfire.dll":                      null,
 		"yahoo.dll":                      null,
 		"yahoogroups.dll":                null,
