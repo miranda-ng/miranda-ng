@@ -126,17 +126,7 @@ MirfoxData::getMirandaContactPtrByHandle(MCONTACT contactHandle){
 void
 MirfoxData::setContactDisplayName(MirandaContact* mirandaContact){
 
-	if (mirandaContact->mirandaAccountPtr != nullptr && strcmp(mirandaContact->mirandaAccountPtr->szProtoName, "Twitter") == 0){
-		// hack for Twitter protocol
-		DBVARIANT dbv;
-		if (!db_get_s(mirandaContact->contactHandle, mirandaContact->mirandaAccountPtr->szModuleName, "Username", &dbv, DBVT_WCHAR)) {
-			mirandaContact->contactNameW = std::wstring(dbv.pwszVal);
-			db_free(&dbv);
-		}
-	} else {
-		// standard miranda way for another protocols
-		mirandaContact->contactNameW = Clist_GetContactDisplayName(mirandaContact->contactHandle);
-	}
+	mirandaContact->contactNameW = Clist_GetContactDisplayName(mirandaContact->contactHandle);
 
 	if (getAddAccountToContactNameCheckbox()){
 		mirandaContact->contactNameW = mirandaContact->contactNameW.append(L" (").append(mirandaContact->mirandaAccountPtr->tszAccountName).append(L")");
