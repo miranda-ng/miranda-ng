@@ -407,7 +407,10 @@ static void DoChatFormatting(CMStringW &wszText)
 			tmp.Append(DoPrintColor(InsertThis, iFG, iBG));
 			p += 8;
 		}
-		else tmp.AppendChar('['); // sometimes a banana is just a banana
+		else {
+			tmp.AppendChar('['); // sometimes a banana is just a banana
+			p--;
+		}
 	}
 	wszText = tmp;
 }
