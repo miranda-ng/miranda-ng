@@ -30,7 +30,7 @@ const ttemplate templates[] =
 	{ "IRC",              "Nick",     LPGEN("Nickname"),         IDI_IRC       },
 	{ "Jabber",           "jid",      LPGEN("JID"),              IDI_JABBER    },
 	{ "MinecraftDynmap",  "Nick",     LPGEN("Visible name"),     IDI_MINECRAFT },
-	{ "MRA",              "e-mail",   LPGEN("E-mail address"),   IDI_MRA       },
+	{ "MRA",              "aimId",    LPGEN("E-mail address"),   IDI_MRA       },
 	{ "MSN",              "wlid",     LPGEN("Live ID"),          IDI_MSN       },
 	{ "Omegle",           "nick",     LPGEN("Visible name"),     IDI_OMEGLE    },
 	{ "Sametime",         "stid",     LPGEN("ID"),               IDI_SAMETIME  },
