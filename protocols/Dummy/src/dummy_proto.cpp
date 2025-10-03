@@ -36,7 +36,7 @@ const ttemplate templates[] =
 	{ "Sametime",         "stid",     LPGEN("ID"),               IDI_SAMETIME  },
 	{ "Skype (SkypeKit)", "sid",      LPGEN("Skype name"),       IDI_SKYPE     },
 	{ "Skype (Classic)",  "Username", LPGEN("Skype name"),       IDI_SKYPE     },
-	{ "Skype (Web)",      "Username", LPGEN("Skype name"),       IDI_SKYPE     },
+	{ "Skype (Web)",      "SkypeId",  LPGEN("Skype name"),       IDI_SKYPE     },
 	{ "Steam",            "SteamID",  LPGEN("Steam ID"),         IDI_STEAM     },
 	{ "Telegram",         "id",       LPGEN("Telegram ID"),      IDI_TELEGRAM  },
 	{ "Tlen",             "jid",      LPGEN("Tlen login"),       IDI_TLEN      },
