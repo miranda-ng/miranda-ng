@@ -113,14 +113,14 @@ struct CMPluginXFire : public ACCPROTOPLUGIN<CDummyProto>
 }
 static g_pluginXFire;
 
-struct CMPluginWhatsapp : public ACCPROTOPLUGIN<CDummyProto>
+struct CMPluginWhatsApp : public ACCPROTOPLUGIN<CDummyProto>
 {
-	CMPluginWhatsapp() : ACCPROTOPLUGIN<CDummyProto>("WhatsApp", pluginInfoEx)
+	CMPluginWhatsApp() : ACCPROTOPLUGIN<CDummyProto>("WhatsApp", pluginInfoEx)
 	{
 		SetUniqueId("ID");
 	}
 }
-static g_pluginWhatsapp;
+static g_pluginWhatsApp;
 
 struct CMPluginMsn : public ACCPROTOPLUGIN<CDummyProto>
 {
@@ -166,3 +166,12 @@ struct CMPluginSkype : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 static g_pluginSkype;
+
+struct CMPluginTwitter : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginTwitter() : ACCPROTOPLUGIN<CDummyProto>("Twitter", pluginInfoEx)
+	{
+		SetUniqueId("Username");
+	}
+}
+static g_pluginTwitter;
