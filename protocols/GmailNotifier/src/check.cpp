@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-#pragma comment(lib, "Wininet.lib")
-
 static int ParsePage(char *page, resultLink *prst)
 {
 	char *str_head;
@@ -41,72 +39,40 @@ static int ParsePage(char *page, resultLink *prst)
 	return num;
 }
 
-void CheckMailInbox(Account *curAcc)
+void CheckMailInbox(Account *pAcc)
 {
-	if (curAcc->IsChecking)
+	if (pAcc->bIsChecking)
 		return;
 
-	curAcc->IsChecking = true;
+	if (!pAcc->RefreshToken())
+		return;
 
-	ptrA szNick(db_get_sa(curAcc->hContact, "CList", "MyHandle", curAcc->name));
+	pAcc->bIsChecking = true;
+
+	ptrA szNick(db_get_sa(pAcc->hContact, "CList", "MyHandle", pAcc->szName));
 
 	char *tail = strstr(szNick, " [");
-	if (tail) *tail = 0;
+	if (tail)
+		*tail = 0;
 
-	db_set_s(curAcc->hContact, "CList", "MyHandle", CMStringA(FORMAT, "%s [%s]", szNick.get(), Translate("Checking...")));
-
-	if (curAcc->hosted[0]) {
-		CMStringA szUrl(FORMAT, "https://www.google.com/a/%s/LoginAction", curAcc->hosted);
-		CMStringA szBody("continue=https%3A%2F%2Fmail.google.com%2Fa%2F");
-		szBody.Append(curAcc->hosted);
-		szBody.Append("%2Ffeed%2Fatom&service=mail&userName=");
-		tail = strchr(curAcc->name, '@');
-		if (tail) *tail = 0;
-		szBody.Append(curAcc->name);
-		if (tail) *tail = '@';
-		szBody.Append("&password=");
-		szBody.Append(curAcc->pass);
-
-		MHttpRequest nlhr(REQUEST_POST);
-		nlhr.m_szUrl = szUrl.GetBuffer();
-		nlhr.m_szParam = szBody;
-		nlhr.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-
-		NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlhr));
-		if (nlu == nullptr || nlu->resultCode != 200) {
-			mir_strcpy(curAcc->results.content, Translate("Can't send account data!"));
-
-			curAcc->results_num = -1;
-			mir_strcat(curAcc->results.content, "]");
-			curAcc->IsChecking = false;
-		}
-	}
+	db_set_s(pAcc->hContact, "CList", "MyHandle", CMStringA(FORMAT, "%s [%s]", szNick.get(), Translate("Checking...")));
 
 	// go!
-	CMStringA loginPass(FORMAT, "%s:%s", curAcc->name, curAcc->pass);
-	ptrA loginPassEncoded(mir_base64_encode(loginPass.c_str(), loginPass.GetLength()));
-
-	CMStringA szUrl("https://mail.google.com"), szAuth(FORMAT, "Basic %s", loginPassEncoded.get());
-	if (curAcc->hosted[0])
-		szUrl.AppendFormat("/a/%s/feed/atom", curAcc->hosted);
-	else
-		szUrl.Append("/mail/feed/atom");
-
 	MHttpRequest nlhr(REQUEST_GET);
-	nlhr.m_szUrl = szUrl;
-	nlhr.AddHeader("Authorization", szAuth.GetBuffer());
+	nlhr.m_szUrl.Format("https://gmail.googleapis.com/gmail/v1/users/me/messages?q=is:unread");
+	nlhr.AddHeader("Authorization", "Bearer " + pAcc->szAccessToken);
 
 	NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlu == nullptr) {
-		mir_snprintf(curAcc->results.content, "%s [%s]", szNick.get(), Translate("Wrong name or password!"));
-		curAcc->results_num = -1;
+		mir_snprintf(pAcc->results.content, "%s [%s]", szNick.get(), Translate("Wrong name or password!"));
+		pAcc->results_num = -1;
 	}
 	else {
-		curAcc->results_num = ParsePage(nlu->body.GetBuffer(), &curAcc->results);
-		mir_snprintf(curAcc->results.content, "%s [%d]", szNick.get(), curAcc->results_num);
+		pAcc->results_num = ParsePage(nlu->body.GetBuffer(), &pAcc->results);
+		mir_snprintf(pAcc->results.content, "%s [%d]", szNick.get(), pAcc->results_num);
 	}
 
-	curAcc->IsChecking = false;
+	pAcc->bIsChecking = false;
 }
 
 void __cdecl Check_ThreadFunc(void *lpParam)

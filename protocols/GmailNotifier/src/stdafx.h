@@ -6,20 +6,20 @@
 #include "resource.h"
 
 #include "newpluginapi.h"
-#include "m_clistint.h"
-#include "m_skin.h"
-#include "m_langpack.h"
-#include "m_database.h"
-#include "m_system.h"
-#include "m_protocols.h"
-#include "m_userinfo.h"
-#include "m_options.h"
-#include "m_protosvc.h"
-#include "m_utils.h"
-#include "m_ignore.h"
 #include "m_clc.h"
-#include "m_popup.h"
+#include "m_clistint.h"
+#include "m_database.h"
+#include "m_ignore.h"
+#include "m_json.h"
+#include "m_langpack.h"
 #include "m_netlib.h"
+#include "m_options.h"
+#include "m_popup.h"
+#include "m_protocols.h"
+#include "m_protosvc.h"
+#include "m_skin.h"
+#include "m_userinfo.h"
+#include "m_utils.h"
 
 #define WM_SHELLNOTIFY 	WM_USER+5
 #define IDI_TRAY		WM_USER+6
@@ -44,15 +44,24 @@ struct resultLink
 
 struct Account : public MZeroedObject
 {
-	char name[256];
-	char pass[256];
-	char hosted[64];
+	Account(MCONTACT);
+	~Account();
+
 	MCONTACT hContact;
-	int oldResults_num;
-	int results_num;
+	CMStringA szName, szRefreshToken, szAccessToken;
+	int oldResults_num = 0;
+	int results_num = 0;
 	resultLink results;
 	HWND popUpHwnd;
-	bool IsChecking;
+	bool bIsChecking = false;
+
+	bool Registered() const {
+		return !szRefreshToken.IsEmpty();
+	}
+	
+	bool RefreshToken();
+	void Register();
+	void Unregister();
 };
 
 extern HNETLIBUSER hNetlibUser;

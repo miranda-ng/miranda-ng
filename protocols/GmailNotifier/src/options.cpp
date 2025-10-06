@@ -8,7 +8,7 @@ class COptionsDlg : public CDlgBase
 	CCtrlCheck chkProxy1, chkProxy2, chkProxy3, chkPopups, chkOnline, chkTray, chkPopup, chkShowIcon, chkLogThreads;
 	CCtrlColor clrText, clrBack;
 	CCtrlCombo m_combo;
-	CCtrlButton btnBrowse, btnAdd, btnDel, btnSave;
+	CCtrlButton btnBrowse, btnAdd, btnDel, btnReg;
 
 public: 
 	COptionsDlg() :
@@ -16,7 +16,7 @@ public:
 		m_combo(this, IDC_NAME),
 		btnAdd(this, IDC_BTNADD),
 		btnDel(this, IDC_BTNDEL),
-		btnSave(this, IDC_BTNSAV),
+		btnReg(this, IDC_REGISTER),
 		btnBrowse(this, IDC_PRGBROWSE),
 		clrBack(this, IDC_BGCOLOR),
 		clrText(this, IDC_TEXTCOLOR),
@@ -42,11 +42,11 @@ public:
 		CreateLink(edtDuration, g_plugin.popupDuration);
 		CreateLink(chkLogThreads, g_plugin.bLogThreads);
 
-		m_combo.OnSelChanged = Callback(this, &COptionsDlg::onSelChanged_Name);
+		m_combo.OnSelChanged = Callback(this, &COptionsDlg::onSelChanged);
 
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
 		btnDel.OnClick = Callback(this, &COptionsDlg::onClick_Del);
-		btnSave.OnClick = Callback(this, &COptionsDlg::onClick_Save);
+		btnReg.OnClick = Callback(this, &COptionsDlg::onClick_Reg);
 		btnBrowse.OnClick = Callback(this, &COptionsDlg::onClick_Browse);
 
 		chkPopups.OnChange = Callback(this, &COptionsDlg::onChange_Popups);
@@ -57,9 +57,8 @@ public:
 	{
 		bool bEnabled = g_accs.getCount();
 		btnDel.Enable(bEnabled);
-		btnSave.Enable(bEnabled);
+		btnReg.Enable(bEnabled);
 		m_combo.Enable(bEnabled);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_PASS), bEnabled);
 	}
 
 	bool OnInitDialog() override
@@ -68,10 +67,9 @@ public:
 		BuildList();
 
 		for (auto &it : g_accs)
-			m_combo.AddString(_A2T(it->name));
+			m_combo.AddString(_A2T(it->szName), LPARAM(it));
 		m_combo.SetCurSel(curIndex);
-		if (curIndex < g_accs.getCount())
-			SetDlgItemTextA(m_hwnd, IDC_PASS, g_accs[curIndex].pass);
+		onSelChanged(0);
 
 		if (g_plugin.bNotifierOnPop) {
 			ShowWindow(GetDlgItem(m_hwnd, IDC_DURATION), SW_SHOW);
@@ -110,8 +108,6 @@ public:
 
 	bool OnApply() override
 	{
-		onClick_Save(0);
-
 		if (chkProxy1.GetState())
 			g_plugin.OpenUsePrg = 0;
 		else if (chkProxy2.GetState())
@@ -184,14 +180,21 @@ public:
 
 	void onClick_Add(CCtrlButton *)
 	{
-		Account *p = new Account();
-		p->hContact = db_add_contact();
+		ENTER_STRING es = {};
+		es.caption = TranslateT("Enter your Google email");
+		if (!EnterString(&es))
+			return;
+
+		Account *p = new Account(db_add_contact());
 		Proto_AddToContact(p->hContact, MODULENAME);
 		g_accs.insert(p);
 
-		curIndex = m_combo.AddString(L"");
+		p->szName = _T2A(es.ptszResult);
+		g_plugin.setString(p->hContact, "name", p->szName);
+		g_plugin.setString(p->hContact, "Nick", p->szName);
+
+		curIndex = m_combo.AddString(es.ptszResult, LPARAM(p));
 		m_combo.SetCurSel(curIndex);
-		SetDlgItemTextA(m_hwnd, IDC_PASS, "");
 		SetFocus(m_combo.GetHwnd());
 		NotifyChange();
 	}
@@ -201,44 +204,35 @@ public:
 		m_combo.DeleteString(curIndex);
 
 		Account &acc = g_accs[curIndex];
+		if (acc.Registered())
+			acc.Unregister();
+
 		DeleteResults(acc.results.next);
 		db_delete_contact(acc.hContact, CDF_FROM_SERVER);
 		g_accs.remove(curIndex);
 
 		m_combo.SetCurSel(curIndex = 0);
-		if (g_accs.getCount())
-			SetDlgItemTextA(m_hwnd, IDC_PASS, g_accs[0].pass);
 		NotifyChange();
 	}
 
-	void onClick_Save(CCtrlButton *)
+	void onClick_Reg(CCtrlButton *)
 	{
-		if (curIndex < 0 || curIndex >= g_accs.getCount())
-			return;
-
 		Account &acc = g_accs[curIndex];
-		m_combo.GetTextA(acc.name, _countof(acc.name));
-		if (!mir_strlen(acc.name))
-			return;
+		if (acc.Registered())
+			acc.Unregister();
+		else
+			acc.Register();
 
-		char *tail = strstr(acc.name, "@");
-		if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
-			mir_strcpy(acc.hosted, tail + 1);
-		m_combo.DeleteString(curIndex);
-		m_combo.InsertString(_A2T(acc.name), curIndex);
-		m_combo.SetCurSel(curIndex);
-		g_plugin.setString(acc.hContact, "name", acc.name);
-		g_plugin.setString(acc.hContact, "Nick", acc.name);
-
-		GetDlgItemTextA(m_hwnd, IDC_PASS, acc.pass, _countof(acc.pass));
-		g_plugin.setString(acc.hContact, "Password", acc.pass);
+		onSelChanged(0);
 	}
 
-	void onSelChanged_Name(CCtrlCombo*)
+	void onSelChanged(CCtrlCombo*)
 	{
 		curIndex = m_combo.GetCurSel();
-		SetDlgItemTextA(m_hwnd, IDC_PASS, g_accs[curIndex].pass);
-		NotifyChange();
+		if (curIndex != -1) {
+			auto *p = (Account *)m_combo.GetItemData(curIndex);
+			btnReg.SetText(p->szRefreshToken.IsEmpty() ? TranslateT("Register") : TranslateT("Unregister"));
+		}
 	}
 };
 

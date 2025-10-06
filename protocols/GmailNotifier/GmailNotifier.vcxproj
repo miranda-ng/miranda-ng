@@ -26,6 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\account.cpp" />
     <ClCompile Include="src\check.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\notify.cpp" />

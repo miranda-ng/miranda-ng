@@ -5,25 +5,8 @@ void BuildList(void)
 	g_accs.destroy();
 
 	for (auto &hContact : Contacts(MODULENAME)) {
-		ptrA szName(g_plugin.getStringA(hContact, "name"));
-		if (szName != nullptr) {
-			Account *p = new Account;
-			p->hContact = hContact;
-			mir_strcpy(p->name, szName);
-			Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
-
-			ptrA szPassword(g_plugin.getStringA(hContact, "Password"));
-			if (szPassword != nullptr)
-				mir_strcpy(p->pass, szPassword);
-			g_accs.insert(p);
-		}
-	}
-
-	for (auto &acc : g_accs) {
-		char *tail = strchr(acc->name, '@');
-		if (tail && mir_strcmp(tail + 1, "gmail.com") != 0)
-			mir_strcpy(acc->hosted, tail + 1);
-		acc->IsChecking = false;
+		Account *p = new Account(hContact);
+		g_accs.insert(p);
 	}
 }
 

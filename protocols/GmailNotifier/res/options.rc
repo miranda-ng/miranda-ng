@@ -16,7 +16,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUSD)
 LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
-#pragma code_page(1252)
+#pragma code_page(1251)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -53,42 +53,50 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Gmail account",IDC_GROUPMAIN,4,2,291,56
-    LTEXT           "Name:",IDC_STATIC,8,19,68,9,NOT WS_GROUP,WS_EX_RIGHT
-    COMBOBOX        IDC_NAME,82,17,145,50,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP | 0x8000
-    LTEXT           "Password:",IDC_STATIC,8,35,68,9,NOT WS_GROUP,WS_EX_RIGHT
-    EDITTEXT        IDC_PASS,82,33,145,12,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
-    PUSHBUTTON      "Add",IDC_BTNADD,231,13,57,11,0,WS_EX_STATICEDGE
-    PUSHBUTTON      "Save",IDC_BTNSAV,231,26,57,11,0,WS_EX_STATICEDGE
-    PUSHBUTTON      "Delete",IDC_BTNDEL,231,39,57,11,0,WS_EX_STATICEDGE
-    GROUPBOX        "Configuration",IDC_CONFIG,4,65,291,157
-    LTEXT           "Check Gmail inbox every",IDC_STATIC,8,78,149,9,0,WS_EX_RIGHT
-    LTEXT           "minutes",IDC_STATIC,183,79,46,9
-    LTEXT           "Notify using:",IDC_STATIC,8,93,68,9,0,WS_EX_RIGHT
-    LTEXT           "Duration:",IDC_STATIC_DURATION,169,97,58,9,NOT WS_VISIBLE | NOT WS_GROUP,WS_EX_RIGHT
-    EDITTEXT        IDC_DURATION,231,96,14,11,NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
-    LTEXT           "seconds",IDC_STATIC_SEC,249,97,37,9,NOT WS_VISIBLE
-    LTEXT           "Text|Background:",IDC_STATIC_COLOR,137,113,90,9,NOT WS_VISIBLE | NOT WS_GROUP,WS_EX_RIGHT
-    CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",NOT WS_VISIBLE | WS_TABSTOP,231,114,21,9
-    CONTROL         "",IDC_BGCOLOR,"ColourPicker",NOT WS_VISIBLE | WS_TABSTOP,259,114,21,9
-    LTEXT           "On double click:",IDC_STATIC,8,123,68,9,0,WS_EX_RIGHT
-    EDITTEXT        IDC_CIRCLE,161,77,18,11,NOT WS_BORDER,WS_EX_STATICEDGE
-    CONTROL         "System tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,93,56,10
-    CONTROL         "Popup plugin",IDC_OPTPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,104,84,10
-    CONTROL         "Login using default browser",IDC_SYSDEF,"Button",BS_AUTORADIOBUTTON,82,123,206,10
-    CONTROL         "Login using Internet Explorer",IDC_USEIE,"Button",BS_AUTORADIOBUTTON,82,134,206,10
-    CONTROL         "Run custom program",IDC_STARTPRG,"Button",BS_AUTORADIOBUTTON,82,145,206,10
-    EDITTEXT        IDC_PRG,82,156,189,11,ES_AUTOHSCROLL | NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
-    PUSHBUTTON      "...",IDC_PRGBROWSE,276,156,12,11,NOT WS_VISIBLE,WS_EX_STATICEDGE
-    CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,169,280,10
+    GROUPBOX        "Gmail account",IDC_GROUPMAIN,4,2,291,54
+    LTEXT           "Name:",IDC_STATIC,8,19,130,9,NOT WS_GROUP
+    COMBOBOX        IDC_NAME,143,17,145,50,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP | 0x8000
+    PUSHBUTTON      "Add",IDC_BTNADD,29,35,57,14
+    PUSHBUTTON      "Delete",IDC_BTNDEL,103,35,57,14
+    GROUPBOX        "Configuration",IDC_CONFIG,4,57,291,164
+    LTEXT           "Check Gmail inbox every",IDC_STATIC,8,72,149,9,0,WS_EX_RIGHT
+    LTEXT           "minutes",IDC_STATIC,183,72,46,9
+    LTEXT           "Notify using:",IDC_STATIC,8,88,68,9,0,WS_EX_RIGHT
+    LTEXT           "Duration:",IDC_STATIC_DURATION,169,92,58,9,NOT WS_VISIBLE | NOT WS_GROUP,WS_EX_RIGHT
+    EDITTEXT        IDC_DURATION,231,91,14,12,NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "seconds",IDC_STATIC_SEC,249,92,37,9,NOT WS_VISIBLE
+    LTEXT           "On double click:",IDC_STATIC,8,116,68,9,0,WS_EX_RIGHT
+    EDITTEXT        IDC_CIRCLE,161,71,18,12,NOT WS_BORDER,WS_EX_STATICEDGE
+    CONTROL         "System tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,88,56,10
+    CONTROL         "Popup plugin",IDC_OPTPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,99,84,10
+    CONTROL         "Login using default browser",IDC_SYSDEF,"Button",BS_AUTORADIOBUTTON,82,116,206,10
+    CONTROL         "Login using Internet Explorer",IDC_USEIE,"Button",BS_AUTORADIOBUTTON,82,127,206,10
+    CONTROL         "Run custom program",IDC_STARTPRG,"Button",BS_AUTORADIOBUTTON,82,138,206,10
+    EDITTEXT        IDC_PRG,82,149,189,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
+    PUSHBUTTON      "...",IDC_PRGBROWSE,276,149,12,11,NOT WS_VISIBLE,WS_EX_STATICEDGE
+    CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,168,280,10
     CONTROL         "Enable icon selection and icon in status bar (restart)",IDC_SHOWICON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10
     CONTROL         "This is a shared computer so disable auto login",IDC_AUTOLOGIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,280,10
     CONTROL         "Log unread threads into database (enable history)",IDC_LOGTHREADS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,207,280,10
+    PUSHBUTTON      "Register",IDC_REGISTER,175,35,96,14
 END
 
+IDD_OAUTH DIALOGEX 0, 0, 193, 83
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Authorization"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_OAUTH_CODE,7,43,179,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,75,62,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,136,62,50,14
+    LTEXT           "Enter authorization code:",IDC_STATIC,7,33,179,8
+    LTEXT           "To allow Miranda NG access to GMail",IDC_STATIC,7,7,179,8
+    CONTROL         "Go to this link",IDC_OAUTH_AUTHORIZE,"Hyperlink",WS_GROUP | WS_TABSTOP | 0x1,7,18,179,8
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -98,8 +106,11 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICONNEW             ICON                    "iconnew.ico"
+
 IDI_ICONERR             ICON                    "error.ico"
+
 IDI_ICONEPT             ICON                    "empty.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -112,16 +123,20 @@ BEGIN
     IDD_OPT, DIALOG
     BEGIN
         RIGHTMARGIN, 295
-        VERTGUIDE, 4
-        VERTGUIDE, 8
-        VERTGUIDE, 76
-        VERTGUIDE, 82
-        VERTGUIDE, 227
-        VERTGUIDE, 231
-        VERTGUIDE, 288
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Neutral (Sys. Default) resources
 /////////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 	if (curAcc == nullptr)
 		return;
 
-	HANDLE hTempFile;
+	/*	HANDLE hTempFile;
 	DWORD dwBytesWritten, dwBufSize = 1024;
 	char szTempName[MAX_PATH];
 	char buffer[1024];
@@ -64,7 +64,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 	if (curAcc->hosted[0]) {
 		Sleep(30000);
 		DeleteFileA(szTempName);
-	}
+	}*/
 }
 
 int OpenBrowser(WPARAM hContact, LPARAM)
