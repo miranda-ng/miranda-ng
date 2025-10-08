@@ -5,18 +5,24 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 	if (curAcc == nullptr)
 		return;
 
-	/*	HANDLE hTempFile;
+	HANDLE hTempFile;
 	DWORD dwBytesWritten, dwBufSize = 1024;
 	char szTempName[MAX_PATH];
 	char buffer[1024];
 	char *str_temp;
 	char lpPathBuffer[1024];
 
+	auto pszHosted = strchr(curAcc->szName, '@');
+	if (pszHosted && !strcmp(pszHosted + 1, "gmail.com"))
+		pszHosted = nullptr;
+	else
+		pszHosted++;
+
 	if (GetBrowser(lpPathBuffer)) {
-		if (!g_plugin.AutoLogin == 0) {
-			if (curAcc->hosted[0]) {
+		if (g_plugin.AutoLogin != 0) {
+			if (pszHosted) {
 				mir_strcat(lpPathBuffer, "https://mail.google.com/a/");
-				mir_strcat(lpPathBuffer, curAcc->hosted);
+				mir_strcat(lpPathBuffer, pszHosted);
 				mir_strcat(lpPathBuffer, "/?logout");
 			}
 			else {
@@ -24,22 +30,22 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 			}
 		}
 		else {
-			if (curAcc->hosted[0]) {
+			if (pszHosted) {
 				GetTempPathA(dwBufSize, buffer);
 				GetTempFileNameA(buffer, "gmail", 0, szTempName);
 
 				hTempFile = CreateFileA(szTempName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 				mir_strcpy(buffer, FORMDATA1);
-				mir_strcat(buffer, curAcc->hosted);
+				mir_strcat(buffer, pszHosted);
 				mir_strcat(buffer, FORMDATA2);
-				mir_strcat(buffer, curAcc->hosted);
+				mir_strcat(buffer, pszHosted);
 				mir_strcat(buffer, FORMDATA3);
 				mir_strcat(buffer, "<input type=hidden name=userName value=");
-				mir_strcat(buffer, curAcc->name);
+				mir_strcat(buffer, curAcc->szName);
 				if ((str_temp = strstr(buffer, "@")) != nullptr)
 					*str_temp = '\0';
 				mir_strcat(buffer, "><input type=hidden name=password value=");
-				mir_strcat(buffer, curAcc->pass);
+				mir_strcat(buffer, "");
 				mir_strcat(buffer, "></form></body>");
 				WriteFile(hTempFile, buffer, (uint32_t)mir_strlen(buffer), &dwBytesWritten, nullptr);
 				CloseHandle(hTempFile);
@@ -47,24 +53,24 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 			}
 			else {
 				mir_strcat(lpPathBuffer, LINK);
-				mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->name));
+				mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->szName));
 				if (g_plugin.AutoLogin == 1)
 					mir_strcat(lpPathBuffer, "&PersistentCookie=yes");
 			}
 		}
 	}
 
-	STARTUPINFOA suInfo = { 0 };
+	STARTUPINFOA suInfo = {};
 	PROCESS_INFORMATION procInfo;
 	suInfo.cb = sizeof(suInfo);
 	suInfo.wShowWindow = SW_MAXIMIZE;
 	if (CreateProcessA(nullptr, lpPathBuffer, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &suInfo, &procInfo))
 		CloseHandle(procInfo.hProcess);
 
-	if (curAcc->hosted[0]) {
+	if (pszHosted) {
 		Sleep(30000);
 		DeleteFileA(szTempName);
-	}*/
+	}
 }
 
 int OpenBrowser(WPARAM hContact, LPARAM)
@@ -124,7 +130,7 @@ void NotifyUser(Account *curAcc)
 	if (g_bOptionWindowIsOpen)
 		return;
 
-	db_set_s(curAcc->hContact, "CList", "MyHandle", curAcc->results.content);
+	db_set_ws(curAcc->hContact, "CList", "MyHandle", curAcc->results.content);
 	switch (curAcc->results_num) {
 	case 0:
 		PUDeletePopup(curAcc->popUpHwnd);
@@ -143,14 +149,15 @@ void NotifyUser(Account *curAcc)
 		if (g_plugin.bLogThreads && newMails > 0) {
 			DBEVENTINFO dbei = {};
 			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.flags = DBEF_READ;
+			dbei.flags = DBEF_READ | DBEF_UTF;
 			dbei.szModule = MODULENAME;
 			dbei.iTimestamp = time(0);
 
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < newMails; i++) {
-				dbei.cbBlob = (uint32_t)mir_strlen(prst->content) + 1;
-				dbei.pBlob = prst->content;
+				T2Utf szBody(prst->content);
+				dbei.cbBlob = (uint32_t)mir_strlen(szBody);
+				dbei.pBlob = szBody;
 				db_event_add(curAcc->hContact, &dbei);
 				prst = prst->next;
 			}
@@ -161,22 +168,22 @@ void NotifyUser(Account *curAcc)
 			CLISTEVENT cle = {};
 			cle.hContact = curAcc->hContact;
 			cle.hDbEvent = 1;
-			cle.flags = CLEF_URGENT;
+			cle.flags = CLEF_URGENT | CLEF_UNICODE;
 			cle.hIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_OCCUPIED);
 			cle.pszService = "GmailMNotifier/Notifying";
-			cle.szTooltip.a = curAcc->results.next->content;
+			cle.szTooltip.w = curAcc->results.next->content;
 			g_clistApi.pfnAddEvent(&cle);
 		}
 
 		if (g_plugin.bNotifierOnPop && newMails > 0) {
-			POPUPDATA ppd;
+			POPUPDATAW ppd;
 			ppd.lchContact = curAcc->hContact;
 			ppd.lchIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_OCCUPIED);
-			mir_strcpy(ppd.lpzContactName, curAcc->results.content);
+			mir_wstrcpy(ppd.lpwzContactName, curAcc->results.content);
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < 5 && i < newMails; i++) {
-				mir_strcat(ppd.lpzText, prst->content);
-				mir_strcat(ppd.lpzText, "\n");
+				mir_wstrcat(ppd.lpwzText, prst->content);
+				mir_wstrcat(ppd.lpwzText, L"\n");
 				prst = prst->next;
 			}
 			ppd.colorBack = g_plugin.popupBgColor;
@@ -185,7 +192,7 @@ void NotifyUser(Account *curAcc)
 			ppd.PluginData = nullptr;
 			ppd.iSeconds = g_plugin.popupDuration;
 			PUDeletePopup(curAcc->popUpHwnd);
-			PUAddPopup(&ppd);
+			PUAddPopupW(&ppd);
 		}
 		if (newMails > 0)
 			Skin_PlaySound("Gmail");

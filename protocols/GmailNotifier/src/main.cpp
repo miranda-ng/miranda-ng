@@ -18,7 +18,7 @@ NOTIFYICONDATA niData;
 
 OBJLIST<Account> g_accs(1);
 bool g_bOptionWindowIsOpen = false;
-short ID_STATUS_NONEW;
+int ID_STATUS_NONEW;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,7 +93,7 @@ int CMPlugin::Load()
 	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);
 
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE | NUF_INCOMING;
 	nlu.szSettingsModule = MODULENAME;
 	nlu.szDescriptiveName.w = TranslateT("GmailNotifier");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
@@ -114,7 +114,7 @@ int CMPlugin::Load()
 	BuildList();
 	ID_STATUS_NONEW = g_plugin.bUseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 	for (auto &it : g_accs)
-		db_set_dw(it->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
+		db_set_w(it->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
 
 	hTimer = SetTimer(nullptr, 0, g_plugin.circleTime * 60000, TimerProc);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnMirandaStart);

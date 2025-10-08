@@ -36,7 +36,8 @@ Account::~Account()
 #define GOOGLE_API_OAUTH GOOGLE_API "/oauth2/v4"
 
 #include "../../../miranda-private-keys/Gmail/client_secret.h"
-#define GOOGLE_AUTH GOOGLE_OAUTH "/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fgmail.readonly&access_type=offline&prompt=consent&redirect_uri=https%3A%2F%2Foauth.miranda-ng.org%2Fverification&client_id=" GOOGLE_APP_ID
+
+const char szOk[] = "HTTP/1.1 200 OK\r\nContent-Type: application/html\r\n\r\n<h1>You can close this window now</h1>";
 
 class CRegisterDlg : public CDlgBase
 {
@@ -44,13 +45,69 @@ class CRegisterDlg : public CDlgBase
 	CCtrlEdit edtCode;
 	CCtrlHyperlink m_link;
 
+	CMStringA m_szUrl, m_szUri;
+	NETLIBBIND nlb;
+
+	static void onNewConn(HNETLIBCONN hNewConnection, uint32_t, void *pExtra)
+	{
+		auto *pDlg = (CRegisterDlg *)pExtra;
+		ptrA buf((char*)mir_alloc(10000+1));
+
+		int result = Netlib_Recv(hNewConnection, buf, 10000);
+		if (result != SOCKET_ERROR) {
+			buf[result] = 0;
+			if (char *p = strchr(buf, '\n'))
+				*p = 0;
+			if (char *p = strrchr(buf, ' '))
+				*p = 0;
+
+			CMStringA szUrl(buf);
+			int idx = szUrl.Find('?');
+			if (idx != -1)
+				szUrl.Delete(0, idx + 1);
+
+			idx = 0;
+			while (true) {
+				auto arg = szUrl.Tokenize("&", idx);
+				if (idx == -1)
+					break;
+
+				if (arg.Left(5) == "code=") {
+					pDlg->edtCode.SetText(_A2T(arg.Mid(5)));
+					SetForegroundWindow(pDlg->GetHwnd());
+				}
+			}
+
+			Netlib_Send(hNewConnection, szOk, (int)strlen(szOk));
+		}
+
+		Netlib_CloseHandle(hNewConnection);
+	}
+
 public:
 	CRegisterDlg(Account *_1) :
 		CDlgBase(g_plugin, IDD_OAUTH),
 		pAcc(_1),
-		m_link(this, IDC_OAUTH_AUTHORIZE, GOOGLE_AUTH),
+		m_link(this, IDC_OAUTH_AUTHORIZE, ""),
 		edtCode(this, IDC_OAUTH_CODE)
-	{}
+	{
+		memset(&nlb, 0, sizeof(nlb));
+		nlb.pfnNewConnection = &CRegisterDlg::onNewConn;
+		nlb.pExtra = this;
+		Netlib_BindPort(hNetlibUser, &nlb);
+
+		m_szUri.Format("http://127.0.0.1:%d", nlb.wExPort);
+
+		m_szUrl.Append("response_type=code&");
+		m_szUrl.Append("scope=https://www.googleapis.com/auth/gmail.readonly&");
+		m_szUrl.Append("access_type=offline&");
+		m_szUrl.Append("prompt=consent&");
+		m_szUrl.AppendFormat("redirect_uri=%s&", m_szUri.c_str());
+		m_szUrl.Append("client_id=" GOOGLE_APP_ID);
+		m_szUrl.Replace(":", "%3A");
+		m_szUrl = GOOGLE_OAUTH "/auth?" + m_szUrl;
+		m_link.SetUrl(m_szUrl);
+	}
 
 	bool OnApply()
 	{
@@ -61,8 +118,8 @@ public:
 		MHttpRequest request(REQUEST_POST);
 		request.m_szUrl = GOOGLE_API_OAUTH "/token";
 		request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-		request << CHAR_PARAM("redirect_uri", "https://oauth.miranda-ng.org/verification") << CHAR_PARAM("client_id", GOOGLE_APP_ID)
-			<< CHAR_PARAM("client_secret", GOOGLE_CLIENT_SECRET) << CHAR_PARAM("grant_type", "authorization_code") << WCHAR_PARAM("code", szCode);
+		request << CHAR_PARAM("client_id", GOOGLE_APP_ID) << CHAR_PARAM("client_secret", GOOGLE_CLIENT_SECRET) 
+			<< CHAR_PARAM("redirect_uri", m_szUri) << CHAR_PARAM("grant_type", "authorization_code") << WCHAR_PARAM("code", szCode);
 
 		NLHR_PTR response(Netlib_HttpTransaction(hNetlibUser, &request));
 		if (response == nullptr || response->resultCode != 200)
@@ -83,6 +140,11 @@ public:
 		g_plugin.setString(pAcc->hContact, "TokenSecret", pAcc->szRefreshToken);
 		return true;
 	}
+
+	void OnDestroy() override
+	{
+		Netlib_CloseHandle(&nlb);
+	}
 };
 
 void Account::Register()
@@ -95,7 +157,7 @@ void Account::Register()
 bool Account::RefreshToken()
 {
 	if (!szAccessToken.IsEmpty())
-		if (g_plugin.getDword(hContact, "ExpiresIn") < time(0))
+		if (g_plugin.getDword(hContact, "ExpiresIn") > time(0))
 			return true;
 
 	if (szRefreshToken.IsEmpty())

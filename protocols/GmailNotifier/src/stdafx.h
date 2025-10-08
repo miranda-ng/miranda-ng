@@ -38,7 +38,7 @@
 
 struct resultLink
 {
-	char content[64];
+	wchar_t content[64];
 	struct resultLink *next;
 };
 
@@ -66,7 +66,7 @@ struct Account : public MZeroedObject
 
 extern HNETLIBUSER hNetlibUser;
 extern UINT hTimer;
-extern short ID_STATUS_NONEW;
+extern int ID_STATUS_NONEW;
 extern bool g_bOptionWindowIsOpen;
 extern OBJLIST<Account> g_accs;
 
