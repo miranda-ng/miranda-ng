@@ -36,10 +36,10 @@
 // #define STR5 ">');document.gmail.submit();"
 //#define LINK2 "https://www.google.com/a/altmanoptik.com/LoginAction?continue=https%3A%2F%2Fmail.google.com%2Fhosted%2Faltmanoptik.com&service=mail&userName=test&password=123456"
 
-struct resultLink
+struct AccountEmail
 {
-	wchar_t content[64];
-	struct resultLink *next;
+	CMStringA id;
+	CMStringW wszText;
 };
 
 struct Account : public MZeroedObject
@@ -49,11 +49,10 @@ struct Account : public MZeroedObject
 
 	MCONTACT hContact;
 	CMStringA szName, szRefreshToken, szAccessToken;
-	int oldResults_num = 0;
-	int results_num = 0;
-	resultLink results;
+	CMStringW wszBrief;
+	OBJLIST<AccountEmail> arEmails;
 	HWND popUpHwnd;
-	bool bIsChecking = false;
+	bool bIsChecking = false, bError = false;
 
 	bool Registered() const {
 		return !szRefreshToken.IsEmpty();
@@ -75,12 +74,11 @@ INT_PTR PluginMenuCommand(WPARAM, LPARAM);
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 BOOL GetBrowser(char *);
 
-void NotifyUser(Account *);
-int OptInit(WPARAM, LPARAM);
-void Check_ThreadFunc(void *);
-int OpenBrowser(WPARAM, LPARAM);
-void DeleteResults(resultLink *);
 void BuildList(void);
+void Check_ThreadFunc(void *);
+void NotifyUser(Account *);
+int  OpenBrowser(WPARAM, LPARAM);
+int  OptInit(WPARAM, LPARAM);
 
 Account* GetAccountByContact(MCONTACT hContact);
 

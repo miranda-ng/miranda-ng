@@ -144,8 +144,6 @@ int CMPlugin::Unload()
 	if (hTimer)
 		KillTimer(nullptr, hTimer);
 	
-	for (auto &it : g_accs)
-		DeleteResults(it->results.next);
 	g_accs.destroy();
 
 	Netlib_CloseHandle(hNetlibUser);

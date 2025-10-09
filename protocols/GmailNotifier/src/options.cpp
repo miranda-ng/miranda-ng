@@ -207,7 +207,6 @@ public:
 		if (acc.Registered())
 			acc.Unregister();
 
-		DeleteResults(acc.results.next);
 		db_delete_contact(acc.hContact, CDF_FROM_SERVER);
 		g_accs.remove(curIndex);
 

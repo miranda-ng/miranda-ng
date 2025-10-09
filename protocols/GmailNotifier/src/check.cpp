@@ -8,7 +8,9 @@ void CheckMailInbox(Account *pAcc)
 	if (!pAcc->RefreshToken())
 		return;
 
+	pAcc->arEmails.destroy();
 	pAcc->bIsChecking = true;
+	pAcc->bError = false;
 
 	ptrW szNick(g_plugin.getWStringA(pAcc->hContact, "Nick"));
 	db_set_ws(pAcc->hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", szNick.get(), TranslateT("Checking...")));
@@ -21,15 +23,10 @@ void CheckMailInbox(Account *pAcc)
 
 	NLHR_PTR nlu(Netlib_HttpTransaction(hNetlibUser, &nlhr));
 	if (nlu == nullptr) {
-		mir_snwprintf(pAcc->results.content, L"%s [%s]", szNick.get(), TranslateT("Wrong name or password!"));
-		pAcc->results_num = -1;
+		pAcc->wszBrief.Format(L"%s [%s]", szNick.get(), TranslateT("Wrong name or password!"));
+		pAcc->bError = true;
 	}
 	else {
-		int num = 0;
-
-		auto *prst = &pAcc->results;
-		prst->next = nullptr;
-
 		JSONNode root(JSONNode::parse(nlu->body));
 		for (auto &it : root["messages"]) {
 			std::string id = it["id"].as_string();
@@ -56,17 +53,14 @@ void CheckMailInbox(Account *pAcc)
 			wszSubject.Truncate(40);
 			if (wszSubject.GetLength() == 40)
 				wszSubject += L"...";
-			wszFrom.AppendFormat(L": %s", wszSubject.c_str());
 
-			prst->next = (resultLink *)malloc(sizeof(resultLink));
-			prst = prst->next;
-			wcsncpy(prst->content, wszFrom, _countof(prst->content));
-			num++;
+			auto *pNew = new AccountEmail();
+			pNew->id = id.c_str();
+			pNew->wszText = wszFrom + L": " + wszSubject;
+			pAcc->arEmails.insert(pNew);
 		}
-		prst->next = nullptr;
 
-		pAcc->results_num = num;
-		mir_snwprintf(pAcc->results.content, L"%s [%d]", szNick.get(), pAcc->results_num);
+		pAcc->wszBrief.Format(L"%s [%d]", szNick.get(), pAcc->arEmails.getCount());
 	}
 
 	pAcc->bIsChecking = false;

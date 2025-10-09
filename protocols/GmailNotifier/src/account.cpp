@@ -18,7 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 
 Account::Account(MCONTACT _1) :
-	hContact(_1)
+	hContact(_1),
+	arEmails(1)
 {
 	szName = g_plugin.getMStringA(hContact, "name");
 	szRefreshToken = g_plugin.getMStringA(hContact, "TokenSecret");
