@@ -37,7 +37,7 @@ Account::~Account()
 
 #include "../../../miranda-private-keys/Gmail/client_secret.h"
 
-const char szOk[] = "HTTP/1.1 200 OK\r\nContent-Type: application/html\r\n\r\n<h1>You can close this window now</h1>";
+const char szOk[] = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<h1>You can close this window now</h1>";
 
 class CRegisterDlg : public CDlgBase
 {

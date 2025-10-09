@@ -8,9 +8,6 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 	HANDLE hTempFile;
 	DWORD dwBytesWritten, dwBufSize = 1024;
 	char szTempName[MAX_PATH];
-	char buffer[1024];
-	char *str_temp;
-	char lpPathBuffer[1024];
 
 	auto pszHosted = strchr(curAcc->szName, '@');
 	if (pszHosted && !strcmp(pszHosted + 1, "gmail.com"))
@@ -18,6 +15,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 	else
 		pszHosted++;
 
+	char lpPathBuffer[1024];
 	if (GetBrowser(lpPathBuffer)) {
 		if (g_plugin.AutoLogin != 0) {
 			if (pszHosted) {
@@ -31,6 +29,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 		}
 		else {
 			if (pszHosted) {
+				char buffer[1024];
 				GetTempPathA(dwBufSize, buffer);
 				GetTempFileNameA(buffer, "gmail", 0, szTempName);
 
@@ -42,8 +41,8 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 				mir_strcat(buffer, FORMDATA3);
 				mir_strcat(buffer, "<input type=hidden name=userName value=");
 				mir_strcat(buffer, curAcc->szName);
-				if ((str_temp = strstr(buffer, "@")) != nullptr)
-					*str_temp = '\0';
+				if (auto *p = strstr(buffer, "@"))
+					*p = '\0';
 				mir_strcat(buffer, "><input type=hidden name=password value=");
 				mir_strcat(buffer, "");
 				mir_strcat(buffer, "></form></body>");
@@ -64,8 +63,10 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 	PROCESS_INFORMATION procInfo;
 	suInfo.cb = sizeof(suInfo);
 	suInfo.wShowWindow = SW_MAXIMIZE;
-	if (CreateProcessA(nullptr, lpPathBuffer, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &suInfo, &procInfo))
+	if (CreateProcessA(nullptr, lpPathBuffer, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &suInfo, &procInfo)) {
 		CloseHandle(procInfo.hProcess);
+		CloseHandle(procInfo.hThread);
+	}
 
 	if (pszHosted) {
 		Sleep(30000);
