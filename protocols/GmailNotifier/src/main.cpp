@@ -17,7 +17,6 @@ HNETLIBUSER hNetlibUser;
 NOTIFYICONDATA niData;
 
 OBJLIST<Account> g_accs(1);
-bool g_bOptionWindowIsOpen = false;
 int ID_STATUS_NONEW;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +43,6 @@ CMPlugin::CMPlugin() :
 	popupDuration(MODULENAME, "popupDuration", -1),
 	popupBgColor(MODULENAME, "popupBgColor", RGB(173, 206, 247)),
 	popupTxtColor(MODULENAME, "popupTxtColor", RGB(0, 0, 0)),
-	OpenUsePrg(MODULENAME, "OpenUsePrg", 0),
 	bShowCustomIcon(MODULENAME, "bShowCustomIcon", false),
 	bUseOnline(MODULENAME, "bUseOnline", false),
 	AutoLogin(MODULENAME, "AutoLogin", true),
@@ -75,9 +73,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM)
 {
-	if (!g_bOptionWindowIsOpen)
-		mir_forkthread(Check_ThreadFunc, GetAccountByContact(hContact));
-
+	mir_forkthread(Check_ThreadFunc, GetAccountByContact(hContact));
 	return 0;
 }
 
@@ -111,7 +107,9 @@ int CMPlugin::Load()
 	}
 	else db_free(&dbv);
 
-	BuildList();
+	for (auto &hContact : Contacts(MODULENAME))
+		g_accs.insert(new Account(hContact));
+
 	ID_STATUS_NONEW = g_plugin.bUseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 	for (auto &it : g_accs)
 		db_set_w(it->hContact, MODULENAME, "Status", ID_STATUS_NONEW);

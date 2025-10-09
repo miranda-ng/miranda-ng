@@ -2,6 +2,7 @@
 
 void CheckMailInbox(Account *pAcc)
 {
+	mir_cslock lck(pAcc->csLock);
 	if (pAcc->bIsChecking)
 		return;
 

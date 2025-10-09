@@ -25,7 +25,7 @@
 #define IDI_TRAY		WM_USER+6
 #define MODULENAME		"GmailMNotifier"
 #define _MAX_DOWN_BUFFER 65536
-#define LINK "https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmail.google.com%2Fmail&service=mail&passive=true&Email="
+
 #define FORMDATA1 "<body onload=document.gmail.submit();><form name=gmail action=https://www.google.com/a/"
 #define FORMDATA2 "/LoginAction method=POST><input type=hidden name=continue value=https://mail.google.com/a/"
 #define FORMDATA3 "><INPUT type=hidden value=mail name=service>"
@@ -47,6 +47,7 @@ struct Account : public MZeroedObject
 	Account(MCONTACT);
 	~Account();
 
+	mir_cs csLock;
 	MCONTACT hContact;
 	CMStringA szName, szRefreshToken, szAccessToken;
 	CMStringW wszBrief;
@@ -66,15 +67,12 @@ struct Account : public MZeroedObject
 extern HNETLIBUSER hNetlibUser;
 extern UINT hTimer;
 extern int ID_STATUS_NONEW;
-extern bool g_bOptionWindowIsOpen;
 extern OBJLIST<Account> g_accs;
 
 INT_PTR Notifying(WPARAM, LPARAM);
 INT_PTR PluginMenuCommand(WPARAM, LPARAM);
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
-BOOL GetBrowser(char *);
 
-void BuildList(void);
 void Check_ThreadFunc(void *);
 void NotifyUser(Account *);
 int  OpenBrowser(WPARAM, LPARAM);
@@ -86,7 +84,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<bool> bNotifierOnTray, bNotifierOnPop;
 	CMOption<bool> bShowCustomIcon, bUseOnline, bLogThreads;
-	CMOption<uint32_t> AutoLogin, OpenUsePrg, circleTime, popupDuration, popupBgColor, popupTxtColor;
+	CMOption<uint32_t> AutoLogin, circleTime, popupDuration, popupBgColor, popupTxtColor;
 
 	CMPlugin();
 

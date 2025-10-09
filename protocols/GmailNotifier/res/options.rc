@@ -69,11 +69,6 @@ BEGIN
     EDITTEXT        IDC_CIRCLE,161,71,18,12,NOT WS_BORDER,WS_EX_STATICEDGE
     CONTROL         "System tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,88,56,10
     CONTROL         "Popup plugin",IDC_OPTPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,99,84,10
-    CONTROL         "Login using default browser",IDC_SYSDEF,"Button",BS_AUTORADIOBUTTON,82,116,206,10
-    CONTROL         "Login using Internet Explorer",IDC_USEIE,"Button",BS_AUTORADIOBUTTON,82,127,206,10
-    CONTROL         "Run custom program",IDC_STARTPRG,"Button",BS_AUTORADIOBUTTON,82,138,206,10
-    EDITTEXT        IDC_PRG,82,149,189,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
-    PUSHBUTTON      "...",IDC_PRGBROWSE,276,149,12,11,NOT WS_VISIBLE,WS_EX_STATICEDGE
     CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,168,280,10
     CONTROL         "Enable icon selection and icon in status bar (restart)",IDC_SHOWICON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10

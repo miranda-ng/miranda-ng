@@ -12,14 +12,9 @@
 #define IDC_CONFIRM                     1002
 #define IDC_OPTTRAY                     1002
 #define IDC_OPTPOP                      1003
-#define IDC_USEIE                       1004
 #define IDC_STATIC_DURATION             1006
 #define IDC_BGCOLOR                     1007
 #define IDC_TEXTCOLOR                   1008
-#define IDC_PRG                         1009
-#define IDC_SYSDEF                      1010
-#define IDC_STARTPRG                    1011
-#define IDC_PRGBROWSE                   1012
 #define IDC_REGISTER                    1013
 #define IDC_STATIC_COLOR                1014
 #define IDC_STATIC_LESS                 1016

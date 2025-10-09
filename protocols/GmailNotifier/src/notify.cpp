@@ -15,58 +15,45 @@ static void __cdecl Login_ThreadFunc(Account *pAcc)
 	else
 		pszHosted++;
 
-	char lpPathBuffer[1024];
-	if (GetBrowser(lpPathBuffer)) {
-		if (g_plugin.AutoLogin != 0) {
-			if (pszHosted) {
-				mir_strcat(lpPathBuffer, "https://mail.google.com/a/");
-				mir_strcat(lpPathBuffer, pszHosted);
-				mir_strcat(lpPathBuffer, "/?logout");
-			}
-			else {
-				mir_strcat(lpPathBuffer, "https://mail.google.com/mail/?logout");
-			}
+	CMStringA szUrl;
+	if (g_plugin.AutoLogin != 0) {
+		if (pszHosted)
+			szUrl.Format("https://mail.google.com/a/%s/?logout", pszHosted);
+		else
+			szUrl = "https://mail.google.com/mail/?logout";
+	}
+	else {
+		if (pszHosted) {
+			char buffer[1024];
+			GetTempPathA(dwBufSize, buffer);
+			GetTempFileNameA(buffer, "gmail", 0, szTempName);
+
+			hTempFile = CreateFileA(szTempName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+			mir_strcpy(buffer, FORMDATA1);
+			mir_strcat(buffer, pszHosted);
+			mir_strcat(buffer, FORMDATA2);
+			mir_strcat(buffer, pszHosted);
+			mir_strcat(buffer, FORMDATA3);
+			mir_strcat(buffer, "<input type=hidden name=userName value=");
+			mir_strcat(buffer, pAcc->szName);
+			if (auto *p = strstr(buffer, "@"))
+				*p = '\0';
+			mir_strcat(buffer, "><input type=hidden name=password value=");
+			mir_strcat(buffer, "");
+			mir_strcat(buffer, "></form></body>");
+			WriteFile(hTempFile, buffer, (uint32_t)mir_strlen(buffer), &dwBytesWritten, nullptr);
+			CloseHandle(hTempFile);
+			szUrl = szTempName;
 		}
 		else {
-			if (pszHosted) {
-				char buffer[1024];
-				GetTempPathA(dwBufSize, buffer);
-				GetTempFileNameA(buffer, "gmail", 0, szTempName);
-
-				hTempFile = CreateFileA(szTempName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-				mir_strcpy(buffer, FORMDATA1);
-				mir_strcat(buffer, pszHosted);
-				mir_strcat(buffer, FORMDATA2);
-				mir_strcat(buffer, pszHosted);
-				mir_strcat(buffer, FORMDATA3);
-				mir_strcat(buffer, "<input type=hidden name=userName value=");
-				mir_strcat(buffer, pAcc->szName);
-				if (auto *p = strstr(buffer, "@"))
-					*p = '\0';
-				mir_strcat(buffer, "><input type=hidden name=password value=");
-				mir_strcat(buffer, "");
-				mir_strcat(buffer, "></form></body>");
-				WriteFile(hTempFile, buffer, (uint32_t)mir_strlen(buffer), &dwBytesWritten, nullptr);
-				CloseHandle(hTempFile);
-				mir_strcat(lpPathBuffer, szTempName);
-			}
-			else {
-				mir_strcat(lpPathBuffer, LINK);
-				mir_strcat(lpPathBuffer, mir_urlEncode(pAcc->szName));
-				if (g_plugin.AutoLogin == 1)
-					mir_strcat(lpPathBuffer, "&PersistentCookie=yes");
-			}
+			szUrl = "https://accounts.google.com/ServiceLogin?continue=https%3A%2F%2Fmail.google.com%2Fmail&service=mail&passive=true&Email=";
+			szUrl += mir_urlEncode(pAcc->szName);
+			if (g_plugin.AutoLogin == 1)
+				szUrl += "&PersistentCookie=yes";
 		}
 	}
 
-	STARTUPINFOA suInfo = {};
-	PROCESS_INFORMATION procInfo;
-	suInfo.cb = sizeof(suInfo);
-	suInfo.wShowWindow = SW_MAXIMIZE;
-	if (CreateProcessA(nullptr, lpPathBuffer, nullptr, nullptr, FALSE, 0, nullptr, nullptr, &suInfo, &procInfo)) {
-		CloseHandle(procInfo.hProcess);
-		CloseHandle(procInfo.hThread);
-	}
+	Utils_OpenUrl(szUrl);
 
 	if (pszHosted) {
 		Sleep(30000);
@@ -81,9 +68,6 @@ int OpenBrowser(WPARAM hContact, LPARAM)
 		Account *pAcc = GetAccountByContact(hContact);
 		PUDeletePopup(pAcc->popUpHwnd);
 		Clist_RemoveEvent(pAcc->hContact, 1);
-		if (GetKeyState(VK_SHIFT) >> 8 || g_bOptionWindowIsOpen)
-			return FALSE;
-
 		mir_forkThread<Account>(Login_ThreadFunc, pAcc);
 	}
 	return FALSE;
@@ -122,9 +106,6 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 void NotifyUser(Account *pAcc)
 {
-	if (g_bOptionWindowIsOpen)
-		return;
-
 	db_set_ws(pAcc->hContact, "CList", "MyHandle", pAcc->wszBrief);
 	if (pAcc->bError)
 		g_plugin.setWord(pAcc->hContact, "Status", ID_STATUS_AWAY);

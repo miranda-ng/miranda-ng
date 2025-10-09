@@ -5,10 +5,10 @@ class COptionsDlg : public CDlgBase
 	int curIndex = 0;
 
 	CCtrlEdit edtDuration, edtCircle;
-	CCtrlCheck chkProxy1, chkProxy2, chkProxy3, chkPopups, chkOnline, chkTray, chkPopup, chkShowIcon, chkLogThreads;
+	CCtrlCheck chkPopups, chkOnline, chkTray, chkPopup, chkShowIcon, chkLogThreads;
 	CCtrlColor clrText, clrBack;
 	CCtrlCombo m_combo;
-	CCtrlButton btnBrowse, btnAdd, btnDel, btnReg;
+	CCtrlButton btnAdd, btnDel, btnReg;
 
 public: 
 	COptionsDlg() :
@@ -17,16 +17,12 @@ public:
 		btnAdd(this, IDC_BTNADD),
 		btnDel(this, IDC_BTNDEL),
 		btnReg(this, IDC_REGISTER),
-		btnBrowse(this, IDC_PRGBROWSE),
 		clrBack(this, IDC_BGCOLOR),
 		clrText(this, IDC_TEXTCOLOR),
 		chkTray(this, IDC_OPTTRAY),
 		chkPopup(this, IDC_OPTPOP),
 		chkOnline(this, IDC_ONLINE),
 		chkPopups(this, IDC_OPTPOP),
-		chkProxy1(this, IDC_SYSDEF),
-		chkProxy2(this, IDC_USEIE),
-		chkProxy3(this, IDC_STARTPRG),
 		chkShowIcon(this, IDC_SHOWICON),
 		chkLogThreads(this, IDC_LOGTHREADS),
 		edtCircle(this, IDC_CIRCLE),
@@ -47,10 +43,8 @@ public:
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
 		btnDel.OnClick = Callback(this, &COptionsDlg::onClick_Del);
 		btnReg.OnClick = Callback(this, &COptionsDlg::onClick_Reg);
-		btnBrowse.OnClick = Callback(this, &COptionsDlg::onClick_Browse);
 
 		chkPopups.OnChange = Callback(this, &COptionsDlg::onChange_Popups);
-		chkProxy1.OnChange = chkProxy2.OnChange = chkProxy3.OnChange = Callback(this, &COptionsDlg::onChange_Proxy);	
 	}
 
 	void OnChange() override
@@ -63,9 +57,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		g_bOptionWindowIsOpen = true;
-		BuildList();
-
 		for (auto &it : g_accs)
 			m_combo.AddString(_A2T(it->szName), LPARAM(it));
 		m_combo.SetCurSel(curIndex);
@@ -81,20 +72,6 @@ public:
 			ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_SEC), SW_SHOW);
 		}
 
-		if (g_plugin.OpenUsePrg == 0)
-			chkProxy1.SetState(true);
-		else if (g_plugin.OpenUsePrg == 1)
-			chkProxy2.SetState(true);
-		else if (g_plugin.OpenUsePrg == 2) {
-			chkProxy3.SetState(true);
-			ShowWindow(GetDlgItem(m_hwnd, IDC_PRG), SW_SHOW);
-			ShowWindow(GetDlgItem(m_hwnd, IDC_PRGBROWSE), SW_SHOW);
-		}
-
-		ptrW szPrg(g_plugin.getWStringA("OpenUsePrgPath"));
-		if (szPrg)
-			SetDlgItemText(m_hwnd, IDC_PRG, szPrg);
-
 		if (g_plugin.AutoLogin == 0)
 			CheckDlgButton(m_hwnd, IDC_AUTOLOGIN, BST_CHECKED);
 		else if (g_plugin.AutoLogin == 1)
@@ -108,18 +85,6 @@ public:
 
 	bool OnApply() override
 	{
-		if (chkProxy1.GetState())
-			g_plugin.OpenUsePrg = 0;
-		else if (chkProxy2.GetState())
-			g_plugin.OpenUsePrg = 1;
-		else if (chkProxy3.GetState()) {
-			g_plugin.OpenUsePrg = 2;
-		}
-
-		char str[MAX_PATH] = { 0 };
-		GetDlgItemTextA(m_hwnd, IDC_PRG, str, _countof(str));
-		g_plugin.setString("OpenUsePrgPath", str);
-
 		if (IsDlgButtonChecked(m_hwnd, IDC_AUTOLOGIN) == BST_CHECKED)
 			g_plugin.AutoLogin = 0;
 		else if (IsDlgButtonChecked(m_hwnd, IDC_AUTOLOGIN) == BST_UNCHECKED)
@@ -138,18 +103,6 @@ public:
 		return true;
 	}
 
-	void OnDestroy() override
-	{
-		g_bOptionWindowIsOpen = false;
-	}
-
-	void onChange_Proxy(CCtrlCheck *)
-	{
-		int ShowControl = IsDlgButtonChecked(m_hwnd, IDC_STARTPRG) ? SW_SHOW : SW_HIDE;
-		ShowWindow(GetDlgItem(m_hwnd, IDC_PRG), ShowControl);
-		ShowWindow(GetDlgItem(m_hwnd, IDC_PRGBROWSE), ShowControl);
-	}
-
 	void onChange_Popups(CCtrlCheck *)
 	{
 		int ShowControl = IsDlgButtonChecked(m_hwnd, IDC_OPTPOP) ? SW_SHOW : SW_HIDE;
@@ -160,22 +113,6 @@ public:
 		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_COLOR), ShowControl);
 		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_LESS), ShowControl);
 		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_SEC), ShowControl);
-	}
-
-	void onClick_Browse(CCtrlButton *)
-	{
-		wchar_t szName[_MAX_PATH];
-		GetDlgItemText(m_hwnd, IDC_PRG, szName, _countof(szName));
-
-		OPENFILENAME OpenFileName = {};
-		OpenFileName.lStructSize = sizeof(OPENFILENAME);
-		OpenFileName.hwndOwner = m_hwnd;
-		OpenFileName.lpstrFilter = L"Executables (*.exe;*.com;*.bat)\0*.exe;*.com;*.bat\0\0";
-		OpenFileName.lpstrFile = szName;
-		OpenFileName.nMaxFile = _countof(szName);
-		OpenFileName.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
-		if (GetOpenFileName(&OpenFileName))
-			SetDlgItemText(m_hwnd, IDC_PRG, szName);
 	}
 
 	void onClick_Add(CCtrlButton *)
@@ -204,11 +141,14 @@ public:
 		m_combo.DeleteString(curIndex);
 
 		Account &acc = g_accs[curIndex];
-		if (acc.Registered())
-			acc.Unregister();
+		{
+			mir_cslock lck(acc.csLock);
+			if (acc.Registered())
+				acc.Unregister();
 
-		db_delete_contact(acc.hContact, CDF_FROM_SERVER);
-		g_accs.remove(curIndex);
+			db_delete_contact(acc.hContact, CDF_FROM_SERVER);
+			g_accs.remove(curIndex);
+		}
 
 		m_combo.SetCurSel(curIndex = 0);
 		NotifyChange();
@@ -217,10 +157,13 @@ public:
 	void onClick_Reg(CCtrlButton *)
 	{
 		Account &acc = g_accs[curIndex];
-		if (acc.Registered())
-			acc.Unregister();
-		else
-			acc.Register();
+		{
+			mir_cslock lck(acc.csLock);
+			if (acc.Registered())
+				acc.Unregister();
+			else
+				acc.Register();
+		}
 
 		onSelChanged(0);
 	}
