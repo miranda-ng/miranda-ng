@@ -1,17 +1,15 @@
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
-;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.3
-;  Authors: Mixwind
+;  Plugin: Gmail Notifier Oauth2 Edition
+;  Version: 2.0.1.1
+;  Authors: George Hazan
 ;============================================================
 [Check your Gmail inboxes locally.]
 ;file \protocols\GmailNotifier\res\options.rc
 [Gmail account]
 [Name:]
-[Password:]
 [Add]
-[Save]
 [Delete]
 [Configuration]
 [Check Gmail inbox every]
@@ -19,20 +17,24 @@
 [Notify using:]
 [Duration:]
 [seconds]
-[Text|Background:]
 [On double click:]
+[Login using default browser]
+[Do nothing]
+[Run custom program]
 [System tray]
 [Popup plugin]
-[Login using default browser]
-[Login using Internet Explorer]
-[Run custom program]
 [Use online contacts when no new mail]
 [Enable icon selection and icon in status bar (restart)]
-[This is a shared computer so disable auto login]
+[Enable auto login]
 [Log unread threads into database (enable history)]
+[Register]
+[Authorization]
+[Cancel]
+[Enter authorization code:]
+[To allow Miranda NG access to GMail]
+[Go to this link]
 ;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
-[Can't send account data!]
 [Wrong name or password!]
 ;file \protocols\GmailNotifier\src\main.cpp
 [Other]
@@ -41,4 +43,6 @@
 [&Check all Gmail inboxes]
 [&Check Gmail inbox]
 ;file \protocols\GmailNotifier\src\options.cpp
+[Enter your Google email]
+[Unregister]
 [Network]
