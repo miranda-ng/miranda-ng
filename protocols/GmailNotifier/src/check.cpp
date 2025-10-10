@@ -61,7 +61,8 @@ void CheckMailInbox(Account *pAcc)
 			pAcc->arEmails.insert(pNew);
 		}
 
-		pAcc->wszBrief.Format(L"%s [%d]", szNick.get(), pAcc->arEmails.getCount());
+		CMStringA next(root["nextPageToken"].as_mstring());
+		pAcc->wszBrief.Format(L"%s [%d%S]", szNick.get(), pAcc->arEmails.getCount(), next.IsEmpty() ? "" : "+");
 	}
 
 	pAcc->bIsChecking = false;
