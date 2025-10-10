@@ -77,7 +77,7 @@ BEGIN
     CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,168,280,10
     CONTROL         "Enable icon selection and icon in status bar (restart)",IDC_SHOWICON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10
-    CONTROL         "This is a shared computer so disable auto login",IDC_AUTOLOGIN,
+    CONTROL         "Enable auto login",IDC_AUTOLOGIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,280,10
     CONTROL         "Log unread threads into database (enable history)",IDC_LOGTHREADS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,207,280,10
