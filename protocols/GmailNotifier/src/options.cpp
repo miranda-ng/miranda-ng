@@ -6,7 +6,7 @@ class COptionsDlg : public CDlgBase
 
 	CCtrlEdit edtDuration, edtCircle;
 	CCtrlCheck radio1, radio2, radio3;
-	CCtrlCheck chkPopups, chkOnline, chkTray, chkPopup, chkShowIcon, chkLogThreads;
+	CCtrlCheck chkPopups, chkOnline, chkTray, chkPopup, chkShowIcon, chkLogThreads, chkAutoLogin;
 	CCtrlColor clrText, clrBack;
 	CCtrlCombo m_combo;
 	CCtrlButton btnBrowse, btnAdd, btnDel, btnReg;
@@ -29,6 +29,7 @@ public:
 		chkOnline(this, IDC_ONLINE),
 		chkPopups(this, IDC_OPTPOP),
 		chkShowIcon(this, IDC_SHOWICON),
+		chkAutoLogin(this, IDC_AUTOLOGIN),
 		chkLogThreads(this, IDC_LOGTHREADS),
 		edtCircle(this, IDC_CIRCLE),
 		edtDuration(this, IDC_DURATION)
@@ -41,6 +42,7 @@ public:
 		CreateLink(edtCircle, g_plugin.circleTime);
 		CreateLink(chkShowIcon, g_plugin.bShowCustomIcon);
 		CreateLink(edtDuration, g_plugin.popupDuration);
+		CreateLink(chkAutoLogin, g_plugin.AutoLogin);
 		CreateLink(chkLogThreads, g_plugin.bLogThreads);
 
 		m_combo.OnSelChanged = Callback(this, &COptionsDlg::onSelChanged);
@@ -93,13 +95,6 @@ public:
 			ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_SEC), SW_SHOW);
 		}
 
-		if (g_plugin.AutoLogin == 0)
-			CheckDlgButton(m_hwnd, IDC_AUTOLOGIN, BST_CHECKED);
-		else if (g_plugin.AutoLogin == 1)
-			CheckDlgButton(m_hwnd, IDC_AUTOLOGIN, BST_UNCHECKED);
-		else if (g_plugin.AutoLogin == 2)
-			CheckDlgButton(m_hwnd, IDC_AUTOLOGIN, BST_INDETERMINATE);
-
 		OnChange();
 		return true;
 	}
@@ -116,13 +111,6 @@ public:
 		char str[MAX_PATH] = { 0 };
 		GetDlgItemTextA(m_hwnd, IDC_PRG, str, _countof(str));
 		g_plugin.setString("OpenUsePrgPath", str);
-
-		if (IsDlgButtonChecked(m_hwnd, IDC_AUTOLOGIN) == BST_CHECKED)
-			g_plugin.AutoLogin = 0;
-		else if (IsDlgButtonChecked(m_hwnd, IDC_AUTOLOGIN) == BST_UNCHECKED)
-			g_plugin.AutoLogin = 1;
-		else if (IsDlgButtonChecked(m_hwnd, IDC_AUTOLOGIN) == BST_INDETERMINATE)
-			g_plugin.AutoLogin = 2;
 
 		ID_STATUS_NONEW = g_plugin.bUseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 		for (auto &it : g_accs)
