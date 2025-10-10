@@ -21,8 +21,8 @@
 #include "m_userinfo.h"
 #include "m_utils.h"
 
-#define WM_SHELLNOTIFY 	WM_USER+5
-#define IDI_TRAY		WM_USER+6
+#define WM_SHELLNOTIFY  WM_USER+5
+#define IDI_TRAY        WM_USER+6
 #define MODULENAME		"GmailMNotifier"
 #define _MAX_DOWN_BUFFER 65536
 
@@ -84,7 +84,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<bool> bNotifierOnTray, bNotifierOnPop;
 	CMOption<bool> bShowCustomIcon, bUseOnline, bLogThreads;
-	CMOption<uint32_t> AutoLogin, circleTime, popupDuration, popupBgColor, popupTxtColor;
+	CMOption<uint32_t> AutoLogin, OpenUsePrg, circleTime, popupDuration, popupBgColor, popupTxtColor;
 
 	CMPlugin();
 

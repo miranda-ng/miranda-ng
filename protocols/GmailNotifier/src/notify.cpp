@@ -5,6 +5,16 @@ static void __cdecl Login_ThreadFunc(Account *pAcc)
 	if (pAcc == nullptr)
 		return;
 
+	if (g_plugin.OpenUsePrg == 1)
+		return;
+
+	if (g_plugin.OpenUsePrg == 2) {
+		ptrW szPrg(g_plugin.getWStringA("OpenUsePrgPath"));
+		if (mir_wstrlen(szPrg))
+			ShellExecuteW(0, L"open", szPrg, 0, 0, SW_SHOWDEFAULT);
+		return;
+	}
+
 	HANDLE hTempFile;
 	DWORD dwBytesWritten, dwBufSize = 1024;
 	char szTempName[MAX_PATH];

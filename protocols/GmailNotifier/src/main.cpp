@@ -46,6 +46,7 @@ CMPlugin::CMPlugin() :
 	bShowCustomIcon(MODULENAME, "bShowCustomIcon", false),
 	bUseOnline(MODULENAME, "bUseOnline", false),
 	AutoLogin(MODULENAME, "AutoLogin", true),
+	OpenUsePrg(MODULENAME, "OpenUsePrg", 0),
 	bLogThreads(MODULENAME, "bLogThreads", false)
 {
 	RegisterProtocol(PROTOTYPE_VIRTUAL);

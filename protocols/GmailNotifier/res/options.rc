@@ -65,7 +65,12 @@ BEGIN
     LTEXT           "Duration:",IDC_STATIC_DURATION,169,92,58,9,NOT WS_VISIBLE | NOT WS_GROUP,WS_EX_RIGHT
     EDITTEXT        IDC_DURATION,231,91,14,12,NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
     LTEXT           "seconds",IDC_STATIC_SEC,249,92,37,9,NOT WS_VISIBLE
-    LTEXT           "On double click:",IDC_STATIC,8,116,68,9,0,WS_EX_RIGHT
+    LTEXT           "On double click:",IDC_STATIC,8,115,68,9,0,WS_EX_RIGHT
+    CONTROL         "Login using default browser",IDC_SYSDEF,"Button",BS_AUTORADIOBUTTON,82,115,206,10
+    CONTROL         "Do nothing",IDC_NOTHING,"Button",BS_AUTORADIOBUTTON,82,127,206,10
+    CONTROL         "Run custom program",IDC_STARTPRG,"Button",BS_AUTORADIOBUTTON,82,138,206,10
+    EDITTEXT        IDC_PRG,82,150,189,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | NOT WS_BORDER,WS_EX_STATICEDGE
+    PUSHBUTTON      "...",IDC_PRGBROWSE,274,150,15,12,NOT WS_VISIBLE
     EDITTEXT        IDC_CIRCLE,161,71,18,12,NOT WS_BORDER,WS_EX_STATICEDGE
     CONTROL         "System tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,88,56,10
     CONTROL         "Popup plugin",IDC_OPTPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,99,84,10
@@ -92,6 +97,7 @@ BEGIN
     LTEXT           "To allow Miranda NG access to GMail",IDC_STATIC,7,7,179,8
     CONTROL         "Go to this link",IDC_OAUTH_AUTHORIZE,"Hyperlink",WS_GROUP | WS_TABSTOP | 0x1,7,18,179,8
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

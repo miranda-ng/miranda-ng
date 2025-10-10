@@ -5,18 +5,23 @@ class COptionsDlg : public CDlgBase
 	int curIndex = 0;
 
 	CCtrlEdit edtDuration, edtCircle;
+	CCtrlCheck radio1, radio2, radio3;
 	CCtrlCheck chkPopups, chkOnline, chkTray, chkPopup, chkShowIcon, chkLogThreads;
 	CCtrlColor clrText, clrBack;
 	CCtrlCombo m_combo;
-	CCtrlButton btnAdd, btnDel, btnReg;
+	CCtrlButton btnBrowse, btnAdd, btnDel, btnReg;
 
-public: 
+public:
 	COptionsDlg() :
 		CDlgBase(g_plugin, IDD_OPT),
 		m_combo(this, IDC_NAME),
+		radio1(this, IDC_SYSDEF),
+		radio2(this, IDC_STARTPRG),
+		radio3(this, IDC_NOTHING),
 		btnAdd(this, IDC_BTNADD),
 		btnDel(this, IDC_BTNDEL),
 		btnReg(this, IDC_REGISTER),
+		btnBrowse(this, IDC_PRGBROWSE),
 		clrBack(this, IDC_BGCOLOR),
 		clrText(this, IDC_TEXTCOLOR),
 		chkTray(this, IDC_OPTTRAY),
@@ -43,8 +48,10 @@ public:
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
 		btnDel.OnClick = Callback(this, &COptionsDlg::onClick_Del);
 		btnReg.OnClick = Callback(this, &COptionsDlg::onClick_Reg);
+		btnBrowse.OnClick = Callback(this, &COptionsDlg::onClick_Browse);
 
 		chkPopups.OnChange = Callback(this, &COptionsDlg::onChange_Popups);
+		radio1.OnChange = radio2.OnChange = radio3.OnChange = Callback(this, &COptionsDlg::onChange_Program);
 	}
 
 	void OnChange() override
@@ -61,6 +68,20 @@ public:
 			m_combo.AddString(_A2T(it->szName), LPARAM(it));
 		m_combo.SetCurSel(curIndex);
 		onSelChanged(0);
+
+		if (g_plugin.OpenUsePrg == 0)
+			radio1.SetState(true);
+		else if (g_plugin.OpenUsePrg == 1)
+			radio2.SetState(true);
+		else if (g_plugin.OpenUsePrg == 2) {
+			radio3.SetState(true);
+			ShowWindow(GetDlgItem(m_hwnd, IDC_PRG), SW_SHOW);
+			ShowWindow(GetDlgItem(m_hwnd, IDC_PRGBROWSE), SW_SHOW);
+		}
+
+		ptrW szPrg(g_plugin.getWStringA("OpenUsePrgPath"));
+		if (szPrg)
+			SetDlgItemTextW(m_hwnd, IDC_PRG, szPrg);
 
 		if (g_plugin.bNotifierOnPop) {
 			ShowWindow(GetDlgItem(m_hwnd, IDC_DURATION), SW_SHOW);
@@ -85,6 +106,17 @@ public:
 
 	bool OnApply() override
 	{
+		if (radio1.IsChecked())
+			g_plugin.OpenUsePrg = 0;
+		else if (radio2.IsChecked())
+			g_plugin.OpenUsePrg = 1;
+		else if (radio3.IsChecked())
+			g_plugin.OpenUsePrg = 2;
+
+		char str[MAX_PATH] = { 0 };
+		GetDlgItemTextA(m_hwnd, IDC_PRG, str, _countof(str));
+		g_plugin.setString("OpenUsePrgPath", str);
+
 		if (IsDlgButtonChecked(m_hwnd, IDC_AUTOLOGIN) == BST_CHECKED)
 			g_plugin.AutoLogin = 0;
 		else if (IsDlgButtonChecked(m_hwnd, IDC_AUTOLOGIN) == BST_UNCHECKED)
@@ -168,7 +200,30 @@ public:
 		onSelChanged(0);
 	}
 
-	void onSelChanged(CCtrlCombo*)
+	void onClick_Browse(CCtrlButton *)
+	{
+		wchar_t szName[_MAX_PATH];
+		GetDlgItemTextW(m_hwnd, IDC_PRG, szName, _countof(szName));
+
+		OPENFILENAME OpenFileName = {};
+		OpenFileName.lStructSize = sizeof(OPENFILENAME);
+		OpenFileName.hwndOwner = m_hwnd;
+		OpenFileName.lpstrFilter = L"Executables (*.exe;*.com;*.bat)\0*.exe;*.com;*.bat\0\0";
+		OpenFileName.lpstrFile = szName;
+		OpenFileName.nMaxFile = _countof(szName);
+		OpenFileName.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST;
+		if (GetOpenFileNameW(&OpenFileName))
+			SetDlgItemTextW(m_hwnd, IDC_PRG, szName);
+	}
+	
+	void onChange_Program(CCtrlCheck *)
+	{
+		int ShowControl = radio2.IsChecked();
+		ShowWindow(GetDlgItem(m_hwnd, IDC_PRG), ShowControl);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_PRGBROWSE), ShowControl);
+	}
+	
+	void onSelChanged(CCtrlCombo *)
 	{
 		curIndex = m_combo.GetCurSel();
 		if (curIndex != -1) {
