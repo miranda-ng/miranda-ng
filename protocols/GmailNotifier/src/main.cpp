@@ -143,6 +143,11 @@ int CMPlugin::Unload()
 	if (hTimer)
 		KillTimer(nullptr, hTimer);
 	
+	for (auto &it : g_accs) {
+		if (it->popUpHwnd)
+			PUDeletePopup(it->popUpHwnd);
+		Clist_RemoveEvent(it->hContact, 1);
+	}
 	g_accs.destroy();
 
 	Netlib_CloseHandle(hNetlibUser);
