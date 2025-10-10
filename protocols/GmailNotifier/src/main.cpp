@@ -49,14 +49,14 @@ CMPlugin::CMPlugin() :
 	OpenUsePrg(MODULENAME, "OpenUsePrg", 0),
 	bLogThreads(MODULENAME, "bLogThreads", false)
 {
-	RegisterProtocol(PROTOTYPE_VIRTUAL);
+	RegisterProtocol(g_plugin.bShowCustomIcon ? PROTOTYPE_PROTOCOL : PROTOTYPE_VIRTUAL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
-	if (wParam == PFLAGNUM_2 && g_plugin.bShowCustomIcon)
+	if (g_plugin.bShowCustomIcon && wParam == PFLAGNUM_2)
 		return PF2_ONLINE | PF2_LIGHTDND | PF2_SHORTAWAY;
 
 	return 0;
