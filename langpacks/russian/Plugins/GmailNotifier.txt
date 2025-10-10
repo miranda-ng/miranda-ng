@@ -1,9 +1,9 @@
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
-;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.3
-;  Authors: Mixwind
+;  Plugin: Gmail Notifier Oauth2 Edition
+;  Version: 2.0.1.1
+;  Authors: George Hazan
 ;============================================================
 [Check your Gmail inboxes locally.]
 Проверка входящей почты Gmail
@@ -12,12 +12,8 @@
 Учётная запись Gmail
 [Name:]
 Имя:
-[Password:]
-Пароль:
 [Add]
 Добавить
-[Save]
-Сохранить
 [Delete]
 Удалить
 [Configuration]
@@ -32,33 +28,41 @@
 Длительность:
 [seconds]
 секунд(ы)
-[Text|Background:]
-Текст|Фон:
 [On double click:]
 Двойной клик:
+[Login using default browser]
+Запустить браузер по умолчанию
+[Do nothing]
+Ничего не делать
+[Run custom program]
+Запустить указанное приложение
 [System tray]
 Трей
 [Popup plugin]
 Всплывающие окна
-[Login using default browser]
-Запустить браузер по умолчанию
-[Login using Internet Explorer]
-Запустить Internet Explorer
-[Run custom program]
-Запустить указанное приложение
 [Use online contacts when no new mail]
 Показывать контакты, когда нет новой почты
 [Enable icon selection and icon in status bar (restart)]
 Значок протокола в панели статусов (нужен перезапуск)
-[This is a shared computer so disable auto login]
-Отключить автоматическую проверку почты
+[Enable auto login]
+Включить автоматический вход
 [Log unread threads into database (enable history)]
 Записывать непрочтённое в базу (включает сохранение истории)
+[Register]
+Регистрация
+[Authorization]
+Авторизация
+[Cancel]
+Отмена
+[Enter authorization code:]
+Введите код авторизации:
+[To allow Miranda NG access to GMail]
+Чтобы разрешить доступ к Gmail
+[Go to this link]
+Перейдите по этой ссылке
 ;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 Проверка...
-[Can't send account data!]
-Не могу отправить данные учётной записи!
 [Wrong name or password!]
 Неправильное имя или пароль!
 ;file \protocols\GmailNotifier\src\main.cpp
@@ -73,5 +77,9 @@ Gmail: Новая почта
 [&Check Gmail inbox]
 Проверить ящик Gmail
 ;file \protocols\GmailNotifier\src\options.cpp
+[Enter your Google email]
+Введите адрес почты Google
+[Unregister]
+Отмена регистрации
 [Network]
 Сеть
