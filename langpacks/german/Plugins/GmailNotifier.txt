@@ -1,9 +1,9 @@
 #muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
 ;============================================================
 ;  File: GmailNotifier.dll
-;  Plugin: Gmail Multiple Notifier
-;  Version: 1.0.1.3
-;  Authors: Mixwind
+;  Plugin: Gmail Notifier Oauth2 Edition
+;  Version: 2.0.1.1
+;  Authors: George Hazan
 ;============================================================
 [Check your Gmail inboxes locally.]
 Prüft Ihren GMail-Posteingang.
@@ -12,12 +12,8 @@ Prüft Ihren GMail-Posteingang.
 GMail-Account
 [Name:]
 Name:
-[Password:]
-Passwort:
 [Add]
 Hinzufügen
-[Save]
-Speichern
 [Delete]
 Löschen
 [Configuration]
@@ -32,33 +28,41 @@ Benachrichtige mit:
 Dauer:
 [seconds]
 Sekunden
-[Text|Background:]
-Text|Hintergrund:
 [On double click:]
 Bei Doppelklick:
+[Login using default browser]
+Mit Standard-Browser anmelden
+[Do nothing]
+Nichts tun
+[Run custom program]
+Eigenes Programm ausführen
 [System tray]
 Systemtray
 [Popup plugin]
 Popup-Plugin
-[Login using default browser]
-Mit Standard-Browser anmelden
-[Login using Internet Explorer]
-Mit Internet Explorer anmelden
-[Run custom program]
-Eigenes Programm ausführen
 [Use online contacts when no new mail]
 Online Kontakte bei keiner neuen Nachricht verwenden
 [Enable icon selection and icon in status bar (restart)]
 Iconauswahl und Icon in Statusleiste aktivieren (Neustart)
-[This is a shared computer so disable auto login]
-Automatische Anmeldung deaktivieren (für geteilte Computer)
+[Enable auto login]
+Automatische Anmeldung aktivieren
 [Log unread threads into database (enable history)]
 Ungelesene Nachrichten protokollieren
+[Register]
+Registrieren
+[Authorization]
+Autorisierung
+[Cancel]
+Abbrechen
+[Enter authorization code:]
+Autorisierungscode eingeben:
+[To allow Miranda NG access to GMail]
+Um Miranda NG zugriff auf GoogleMail zu erlauben
+[Go to this link]
+Gehen Sie auf diesen Link
 ;file \protocols\GmailNotifier\src\check.cpp
 [Checking...]
 Prüfen...
-[Can't send account data!]
-Kann Kontodaten nicht senden!
 [Wrong name or password!]
 Falscher Nutzername oder Passwort!
 ;file \protocols\GmailNotifier\src\main.cpp
@@ -73,5 +77,9 @@ Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]
 &GMail-Posteingang prüfen
 ;file \protocols\GmailNotifier\src\options.cpp
+[Enter your Google email]
+Geben Sie Ihre GoogleMail ein
+[Unregister]
+Löschen
 [Network]
 Netzwerk
