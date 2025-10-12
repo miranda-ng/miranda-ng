@@ -75,8 +75,7 @@ BEGIN
     CONTROL         "System tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,88,56,10
     CONTROL         "Popup plugin",IDC_OPTPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,99,84,10
     CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,168,280,10
-    CONTROL         "This is a shared computer so disable auto login",IDC_AUTOLOGIN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10
+    CONTROL         "Enable auto login",IDC_AUTOLOGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10
     CONTROL         "Log unread threads into database (enable history)",IDC_LOGTHREADS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,280,10
     PUSHBUTTON      "Register",IDC_REGISTER,175,35,96,14
