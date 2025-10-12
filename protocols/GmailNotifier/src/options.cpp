@@ -214,7 +214,7 @@ public:
 		curIndex = m_combo.GetCurSel();
 		if (curIndex != -1) {
 			auto *p = (Account *)m_combo.GetItemData(curIndex);
-			btnReg.SetText(p->szRefreshToken.IsEmpty() ? TranslateT("Register") : TranslateT("Unregister"));
+			btnReg.SetText(p->szRefreshToken.IsEmpty() ? TranslateT("Authorize") : TranslateT("Deauthorize"));
 		}
 	}
 };

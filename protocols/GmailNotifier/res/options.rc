@@ -78,7 +78,7 @@ BEGIN
     CONTROL         "Enable auto login",IDC_AUTOLOGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10
     CONTROL         "Log unread threads into database (enable history)",IDC_LOGTHREADS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,280,10
-    PUSHBUTTON      "Register",IDC_REGISTER,175,35,96,14
+    PUSHBUTTON      "Authorize",IDC_REGISTER,175,35,96,14
 END
 
 IDD_OAUTH DIALOGEX 0, 0, 193, 83
