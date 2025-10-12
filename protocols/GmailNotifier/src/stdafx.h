@@ -70,7 +70,6 @@ extern int ID_STATUS_NONEW;
 extern OBJLIST<Account> g_accs;
 
 INT_PTR Notifying(WPARAM, LPARAM);
-INT_PTR PluginMenuCommand(WPARAM, LPARAM);
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 
 void Check_ThreadFunc(void *);
@@ -83,7 +82,7 @@ Account* GetAccountByContact(MCONTACT hContact);
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<bool> bNotifierOnTray, bNotifierOnPop;
-	CMOption<bool> bShowCustomIcon, bUseOnline, bLogThreads;
+	CMOption<bool> bUseOnline, bLogThreads;
 	CMOption<uint32_t> AutoLogin, OpenUsePrg, circleTime, popupDuration, popupBgColor, popupTxtColor;
 
 	CMPlugin();

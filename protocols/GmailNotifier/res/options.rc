@@ -48,7 +48,7 @@ END
 // Dialog
 //
 
-IDD_OPT DIALOGEX 0, 0, 309, 227
+IDD_OPT DIALOGEX 0, 0, 309, 212
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -58,7 +58,7 @@ BEGIN
     COMBOBOX        IDC_NAME,143,17,145,50,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP | 0x8000
     PUSHBUTTON      "Add",IDC_BTNADD,29,35,57,14
     PUSHBUTTON      "Delete",IDC_BTNDEL,103,35,57,14
-    GROUPBOX        "Configuration",IDC_CONFIG,4,57,291,164
+    GROUPBOX        "Configuration",IDC_CONFIG,4,57,291,152
     LTEXT           "Check Gmail inbox every",IDC_STATIC,8,72,149,9,0,WS_EX_RIGHT
     LTEXT           "minutes",IDC_STATIC,183,72,46,9
     LTEXT           "Notify using:",IDC_STATIC,8,88,68,9,0,WS_EX_RIGHT
@@ -75,12 +75,10 @@ BEGIN
     CONTROL         "System tray",IDC_OPTTRAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,88,56,10
     CONTROL         "Popup plugin",IDC_OPTPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,82,99,84,10
     CONTROL         "Use online contacts when no new mail",IDC_ONLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,168,280,10
-    CONTROL         "Enable icon selection and icon in status bar (restart)",IDC_SHOWICON,
+    CONTROL         "This is a shared computer so disable auto login",IDC_AUTOLOGIN,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10
-    CONTROL         "Enable auto login",IDC_AUTOLOGIN,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,280,10
     CONTROL         "Log unread threads into database (enable history)",IDC_LOGTHREADS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,207,280,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,280,10
     PUSHBUTTON      "Register",IDC_REGISTER,175,35,96,14
 END
 

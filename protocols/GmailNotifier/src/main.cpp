@@ -17,7 +17,7 @@ HNETLIBUSER hNetlibUser;
 NOTIFYICONDATA niData;
 
 OBJLIST<Account> g_accs(1);
-int ID_STATUS_NONEW;
+int ID_STATUS_NONEW, g_iStatus;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,44 +43,55 @@ CMPlugin::CMPlugin() :
 	popupDuration(MODULENAME, "popupDuration", -1),
 	popupBgColor(MODULENAME, "popupBgColor", RGB(173, 206, 247)),
 	popupTxtColor(MODULENAME, "popupTxtColor", RGB(0, 0, 0)),
-	bShowCustomIcon(MODULENAME, "bShowCustomIcon", false),
 	bUseOnline(MODULENAME, "bUseOnline", false),
 	AutoLogin(MODULENAME, "AutoLogin", true),
 	OpenUsePrg(MODULENAME, "OpenUsePrg", 0),
 	bLogThreads(MODULENAME, "bLogThreads", false)
 {
-	RegisterProtocol(g_plugin.bShowCustomIcon ? PROTOTYPE_PROTOCOL : PROTOTYPE_VIRTUAL);
+	RegisterProtocol(PROTOTYPE_PROTOCOL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR GetCaps(WPARAM wParam, LPARAM)
+static INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
-	if (g_plugin.bShowCustomIcon && wParam == PFLAGNUM_2)
+	switch (wParam) {
+	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_LIGHTDND | PF2_SHORTAWAY;
+
+	case PFLAGNUM_5:
+		return PF2_LIGHTDND | PF2_SHORTAWAY;
+	}
 
 	return 0;
 }
 
-INT_PTR GetStatus(WPARAM, LPARAM)
+static INT_PTR GetStatus(WPARAM, LPARAM)
 {
-	return ID_STATUS_ONLINE;
+	return g_iStatus;
 }
 
-void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+static INT_PTR SetStatus(WPARAM iStatus, LPARAM)
 {
-	PluginMenuCommand(0, 0);
+	g_iStatus = (iStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
+	return 0;
 }
 
-INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM)
+static INT_PTR PluginMenuCommand(WPARAM hContact = 0, LPARAM = 0)
 {
 	mir_forkthread(Check_ThreadFunc, GetAccountByContact(hContact));
 	return 0;
 }
 
+void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+{
+	if (g_iStatus == ID_STATUS_ONLINE)
+		PluginMenuCommand();
+}
+
 static int OnMirandaStart(WPARAM, LPARAM)
 {
-	PluginMenuCommand(0, 0);
+	PluginMenuCommand();
 	return 0;
 }
 
@@ -97,6 +108,7 @@ int CMPlugin::Load()
 
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
 	CreateProtoServiceFunction(MODULENAME, PS_GETSTATUS, GetStatus);
+	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, SetStatus);
 	CreateServiceFunction("GmailMNotifier/Notifying", Notifying);
 
 	DBVARIANT dbv;

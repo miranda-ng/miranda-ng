@@ -6,7 +6,7 @@ class COptionsDlg : public CDlgBase
 
 	CCtrlEdit edtDuration, edtCircle;
 	CCtrlCheck radio1, radio2, radio3;
-	CCtrlCheck chkPopups, chkOnline, chkTray, chkPopup, chkShowIcon, chkLogThreads, chkAutoLogin;
+	CCtrlCheck chkPopups, chkOnline, chkTray, chkPopup, chkLogThreads, chkAutoLogin;
 	CCtrlColor clrText, clrBack;
 	CCtrlCombo m_combo;
 	CCtrlButton btnBrowse, btnAdd, btnDel, btnReg;
@@ -28,7 +28,6 @@ public:
 		chkPopup(this, IDC_OPTPOP),
 		chkOnline(this, IDC_ONLINE),
 		chkPopups(this, IDC_OPTPOP),
-		chkShowIcon(this, IDC_SHOWICON),
 		chkAutoLogin(this, IDC_AUTOLOGIN),
 		chkLogThreads(this, IDC_LOGTHREADS),
 		edtCircle(this, IDC_CIRCLE),
@@ -40,7 +39,6 @@ public:
 		CreateLink(chkPopup, g_plugin.bNotifierOnPop);
 		CreateLink(chkOnline, g_plugin.bUseOnline);
 		CreateLink(edtCircle, g_plugin.circleTime);
-		CreateLink(chkShowIcon, g_plugin.bShowCustomIcon);
 		CreateLink(edtDuration, g_plugin.popupDuration);
 		CreateLink(chkAutoLogin, g_plugin.AutoLogin);
 		CreateLink(chkLogThreads, g_plugin.bLogThreads);
