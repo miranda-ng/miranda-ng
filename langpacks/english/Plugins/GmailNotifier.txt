@@ -24,10 +24,9 @@
 [System tray]
 [Popup plugin]
 [Use online contacts when no new mail]
-[Enable icon selection and icon in status bar (restart)]
 [Enable auto login]
 [Log unread threads into database (enable history)]
-[Register]
+[Authorize]
 [Authorization]
 [Cancel]
 [Enter authorization code:]
@@ -44,5 +43,5 @@
 [&Check Gmail inbox]
 ;file \protocols\GmailNotifier\src\options.cpp
 [Enter your Google email]
-[Unregister]
+[Deauthorize]
 [Network]
