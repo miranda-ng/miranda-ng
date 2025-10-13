@@ -51,6 +51,7 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 	Chat_AddGroup(si, TranslateT("Admin"));
 	Chat_AddGroup(si, TranslateT("Participant"));
 
+	bool bLocked = false;
 	CMStringA szOwner(pGroup->getAttr("creator")), szNick, szRole;
 
 	for (auto &it : pGroup->getChildren()) {
@@ -63,11 +64,15 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 				Chat_Event(&gce);
 			}
 		}
+		else if (it->title == "locked") {
+			bLocked = true;
+		}
 		else if (it->title == "member_add_mode") {
 			szRole = it->getBody();
 		}
 		else if (it->title == "participant") {
 			auto *jid = it->getAttr("jid");
+			auto *phone = it->getAttr("phone_number");
 
 			// if role isn't specified, use the default one
 			auto *role = it->getAttr("type");
@@ -92,6 +97,8 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 				szNick = ptrA(getUStringA(DBKEY_NICK));
 			else if (auto *pUser = FindUser(jid))
 				szNick = T2Utf(Clist_GetContactDisplayName(pUser->hContact)).get();
+			else if (mir_strlen(phone))
+				szNick = WAJid(phone).user;
 			else
 				szNick = WAJid(jid).user;
 
@@ -99,6 +106,9 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 			Chat_Event(&gce);
 		}
 	}
+
+	if (bLocked != Contact::IsReadonly(pChatUser->hContact))
+		Contact::Readonly(pChatUser->hContact, bLocked);
 
 	if (auto *pszSubject = pGroup->getAttr("subject")) {
 		time_t iSubjectTime = pGroup->getAttrInt("s_t");
