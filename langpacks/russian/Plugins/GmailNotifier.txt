@@ -42,14 +42,12 @@
 Всплывающие окна
 [Use online contacts when no new mail]
 Показывать контакты, когда нет новой почты
-[Enable icon selection and icon in status bar (restart)]
-Значок протокола в панели статусов (нужен перезапуск)
 [Enable auto login]
 Включить автоматический вход
 [Log unread threads into database (enable history)]
 Записывать непрочтённое в базу (включает сохранение истории)
-[Register]
-Регистрация
+[Authorize]
+Авторизовать
 [Authorization]
 Авторизация
 [Cancel]
@@ -79,7 +77,7 @@ Gmail: Новая почта
 ;file \protocols\GmailNotifier\src\options.cpp
 [Enter your Google email]
 Введите адрес почты Google
-[Unregister]
-Отмена регистрации
+[Deauthorize]
+Отменить авторизацию
 [Network]
 Сеть

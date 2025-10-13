@@ -11290,20 +11290,22 @@ IP адрес
 Всплывающие окна
 [Use online contacts when no new mail]
 Показывать контакты, когда нет новой почты
-[Enable icon selection and icon in status bar (restart)]
-Значок протокола в панели статусов (нужен перезапуск)
+[Enable auto login]
+Включить автоматический вход
 [Log unread threads into database (enable history)]
 Записывать непрочтённое в базу (включает сохранение истории)
-[Register]
-Регистрация
+[Authorize]
+Авторизовать
 [Authorization]
 Авторизация
 [Cancel]
 Отмена
 [Enter authorization code:]
 Введите код авторизации:
+[To allow Miranda NG access to GMail]
+Чтобы разрешить доступ к Gmail
 [Go to this link]
-Перейти по этой ссылке
+Перейдите по этой ссылке
 [Checking...]
 Проверка...
 [Wrong name or password!]
@@ -11318,8 +11320,8 @@ Gmail: Новая почта
 Проверить все ящики Gmail
 [&Check Gmail inbox]
 Проверить ящик Gmail
-[Unregister]
-Удалить
+[Enter your Google email]
+Введите адрес почты Google
 [Network]
 Сеть
 #muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
