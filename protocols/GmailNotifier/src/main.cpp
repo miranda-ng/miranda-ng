@@ -111,14 +111,14 @@ int CMPlugin::Load()
 	CreateProtoServiceFunction(MODULENAME, PS_SETSTATUS, SetStatus);
 	CreateServiceFunction("GmailMNotifier/Notifying", Notifying);
 
-	DBVARIANT dbv;
-	if (db_get_s(0, "SkinIcons", "core_status_" MODULENAME "4", &dbv)) {
-		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "0", "plugins\\GmailNotifier.dll,2");
-		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "1", "plugins\\GmailNotifier.dll,2");
-		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "2", "plugins\\GmailNotifier.dll,0");
-		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "4", "plugins\\GmailNotifier.dll,1");
+	if (getByte("Compatibility") < 1) {
+		db_unset(0, "SkinIcons", "core_status_" MODULENAME "0");
+		db_unset(0, "SkinIcons", "core_status_" MODULENAME "1");
+		db_unset(0, "SkinIcons", "core_status_" MODULENAME "2");
+		db_unset(0, "SkinIcons", "core_status_" MODULENAME "4");
+
+		setByte("Compatibility", 1);
 	}
-	else db_free(&dbv);
 
 	for (auto &hContact : Contacts(MODULENAME))
 		g_accs.insert(new Account(hContact));
