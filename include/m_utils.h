@@ -558,6 +558,7 @@ MIR_CORE_DLL(int) WritePrivateProfileString(const wchar_t*, const wchar_t*, cons
 #define ESF_COMBO     2
 #define ESF_RICHEDIT  3
 #define ESF_PASSWORD  4
+#define ESF_NOT_EMPTY 5
 
 struct ENTER_STRING
 {

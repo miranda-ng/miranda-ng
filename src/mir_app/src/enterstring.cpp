@@ -63,6 +63,7 @@ struct CCtrlMemo : public CCtrlRichEdit
 class CEnterStringDlg : public CDlgBase
 {
 	int idcControl = 0;
+	bool m_bNotEmpty = false;
 	HANDLE m_hEvent = nullptr;
 	ENTER_STRING m_param;
 
@@ -117,11 +118,13 @@ class CEnterStringDlg : public CDlgBase
 	CCtrlEdit edit1, edit2;
 	CCtrlMemo memo;
 	CCtrlCombo combo;
+	CCtrlButton btnOk;
 
 public:
 	CEnterStringDlg(const ENTER_STRING &param) :
 		CDlgBase(g_plugin, IDD_ENTER_STRING),
 		m_param(param),
+		btnOk(this, IDOK),
 		memo(this, IDC_TXT_RICHEDIT),
 		edit1(this, IDC_TXT_SIMPLE),
 		edit2(this, IDC_TXT_MULTILINE),
@@ -129,6 +132,9 @@ public:
 		m_timer1(this, 1001),
 		m_timer2(this, 1002)
 	{
+		if (m_param.type == ESF_NOT_EMPTY)
+			m_param.type = 0, m_bNotEmpty = true;
+
 		m_timer1.OnEvent = Callback(this, &CEnterStringDlg::onTimer1);
 		m_timer2.OnEvent = Callback(this, &CEnterStringDlg::onTimer2);
 
@@ -181,6 +187,8 @@ public:
 		ShowWindow(GetDlgItem(m_hwnd, idcControl), SW_SHOW);
 		if (m_param.ptszInitVal)
 			SetDlgItemText(m_hwnd, idcControl, m_param.ptszInitVal);
+		else if (m_bNotEmpty)
+			btnOk.Disable();
 
 		if (m_param.szDataPrefix)
 			Utils_RestoreWindowPosition(m_hwnd, 0, m_param.szModuleName, m_param.szDataPrefix);
@@ -192,7 +200,7 @@ public:
 			
 			wchar_t buf[128];
 			mir_snwprintf(buf, TranslateT("OK (%d)"), m_param.timeout);
-			SetDlgItemText(m_hwnd, IDOK, buf);
+			btnOk.SetText(buf);
 		}
 
 		return true;
@@ -245,17 +253,19 @@ public:
 	{
 		wchar_t buf[128];
 		mir_snwprintf(buf, TranslateT("OK (%d)"), --m_param.timeout);
-		SetDlgItemText(m_hwnd, IDOK, buf);
+		btnOk.SetText(buf);
 
 		if (m_param.timeout < 0) {
 			m_timer1.Stop();
-			UIEmulateBtnClick(m_hwnd, IDOK);
+			btnOk.Click();
 		}
 	}
 
 	void onChange_Field(CCtrlData*)
 	{
-		SetDlgItemText(m_hwnd, IDOK, TranslateT("OK"));
+		btnOk.SetText(TranslateT("OK"));
+		if (m_bNotEmpty)
+			btnOk.Enable(mir_wstrlen(ptrW(edit1.GetText())) > 0);
 		m_timer1.Stop();
 	}
 

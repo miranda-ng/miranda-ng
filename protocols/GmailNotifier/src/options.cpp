@@ -136,6 +136,7 @@ public:
 	void onClick_Add(CCtrlButton *)
 	{
 		ENTER_STRING es = {};
+		es.type = ESF_NOT_EMPTY;
 		es.caption = TranslateT("Enter your Google email");
 		if (!EnterString(&es))
 			return;
