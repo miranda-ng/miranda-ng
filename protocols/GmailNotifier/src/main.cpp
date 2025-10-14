@@ -17,7 +17,7 @@ HNETLIBUSER hNetlibUser;
 NOTIFYICONDATA niData;
 
 OBJLIST<Account> g_accs(1);
-int ID_STATUS_NONEW, g_iStatus;
+int ID_STATUS_NONEW, g_iStatus = ID_STATUS_OFFLINE;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
