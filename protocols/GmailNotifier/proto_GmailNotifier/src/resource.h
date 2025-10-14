@@ -2,8 +2,11 @@
 // Microsoft Visual C++ generated include file.
 // Used by Proto_IRC.rc
 //
-#define IDI_ICON1                       105
-#define IDI_ICON2                       104
+
+#define IDI_ONLINE                      104
+#define IDI_OFFLINE                     105
+#define IDI_AWAY                        128
+#define IDI_OCCUPIED                    159
 
 // Next default values for new objects
 // 

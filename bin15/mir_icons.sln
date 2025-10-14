@@ -64,7 +64,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Em_Lan_Proto", "..\pr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_DeltaChat", "..\protocols\DeltaChat\proto_deltachat\Proto_DeltaChat.vcxproj", "{A373A7F5-FEEA-4052-914E-F8FB041602FB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GmailMNotifier", "..\protocols\GmailNotifier\proto_GMail\Proto_GmailNotifier.vcxproj", "{F6DC473B-FBBE-45B6-86F8-D012AE31CAF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GmailMNotifier", "..\protocols\GmailNotifier\proto_GmailNotifier\Proto_GmailNotifier.vcxproj", "{F6DC473B-FBBE-45B6-86F8-D012AE31CAF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
