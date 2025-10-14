@@ -29,6 +29,7 @@
 #define IDC_NAME                        1022
 #define IDC_CIRCLE                      1023
 #define IDC_DURATION                    1024
+#define IDC_BTNEDIT                     1025
 #define IDC_BTNDEL                      1026
 #define IDC_AUTOLOGIN                   1028
 #define IDC_LOGTHREADS                  1029

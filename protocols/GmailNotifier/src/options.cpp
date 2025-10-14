@@ -9,7 +9,7 @@ class COptionsDlg : public CDlgBase
 	CCtrlCheck chkPopups, chkOnline, chkTray, chkPopup, chkLogThreads, chkAutoLogin;
 	CCtrlColor clrText, clrBack;
 	CCtrlCombo m_combo;
-	CCtrlButton btnBrowse, btnAdd, btnDel, btnReg;
+	CCtrlButton btnBrowse, btnAdd, btnEdit, btnDel, btnReg;
 
 public:
 	COptionsDlg() :
@@ -19,6 +19,7 @@ public:
 		radio2(this, IDC_STARTPRG),
 		radio3(this, IDC_NOTHING),
 		btnAdd(this, IDC_BTNADD),
+		btnEdit(this, IDC_BTNEDIT),
 		btnDel(this, IDC_BTNDEL),
 		btnReg(this, IDC_REGISTER),
 		btnBrowse(this, IDC_PRGBROWSE),
@@ -46,6 +47,7 @@ public:
 		m_combo.OnSelChanged = Callback(this, &COptionsDlg::onSelChanged);
 
 		btnAdd.OnClick = Callback(this, &COptionsDlg::onClick_Add);
+		btnEdit.OnClick = Callback(this, &COptionsDlg::onClick_Edit);
 		btnDel.OnClick = Callback(this, &COptionsDlg::onClick_Del);
 		btnReg.OnClick = Callback(this, &COptionsDlg::onClick_Reg);
 		btnBrowse.OnClick = Callback(this, &COptionsDlg::onClick_Browse);
@@ -152,6 +154,28 @@ public:
 		curIndex = m_combo.AddString(es.ptszResult, LPARAM(p));
 		m_combo.SetCurSel(curIndex);
 		SetFocus(m_combo.GetHwnd());
+		NotifyChange();
+	}
+
+	void onClick_Edit(CCtrlButton *)
+	{
+		Account &acc = g_accs[curIndex];
+		CMStringW wszNick(g_plugin.getMStringW(acc.hContact, "Nick"));
+
+		ENTER_STRING es = {};
+		es.type = ESF_NOT_EMPTY;
+		es.caption = TranslateT("Enter your Google email");
+		es.ptszInitVal = wszNick;
+		if (!EnterString(&es))
+			return;
+
+		m_combo.DeleteString(curIndex);
+		m_combo.InsertString(es.ptszResult, curIndex, LPARAM(&acc));
+		m_combo.SetCurSel(curIndex);
+
+		acc.szName = _T2A(es.ptszResult);
+		g_plugin.setString(acc.hContact, "name", acc.szName);
+		g_plugin.setString(acc.hContact, "Nick", acc.szName);
 		NotifyChange();
 	}
 

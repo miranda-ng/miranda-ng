@@ -56,8 +56,10 @@ BEGIN
     GROUPBOX        "Gmail account",IDC_GROUPMAIN,4,2,291,54
     LTEXT           "Name:",IDC_STATIC,8,19,130,9,NOT WS_GROUP
     COMBOBOX        IDC_NAME,143,17,145,50,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP | 0x8000
-    PUSHBUTTON      "Add",IDC_BTNADD,29,35,57,14
-    PUSHBUTTON      "Delete",IDC_BTNDEL,103,35,57,14
+    PUSHBUTTON      "Add",IDC_BTNADD,10,35,57,14
+    PUSHBUTTON      "Edit",IDC_BTNEDIT,70,35,57,14
+    PUSHBUTTON      "Delete",IDC_BTNDEL,132,35,57,14
+    PUSHBUTTON      "Authorize",IDC_REGISTER,193,35,96,14
     GROUPBOX        "Configuration",IDC_CONFIG,4,57,291,152
     LTEXT           "Check Gmail inbox every",IDC_STATIC,8,72,149,9,0,WS_EX_RIGHT
     LTEXT           "minutes",IDC_STATIC,183,72,46,9
@@ -78,7 +80,6 @@ BEGIN
     CONTROL         "Enable auto login",IDC_AUTOLOGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,181,280,10
     CONTROL         "Log unread threads into database (enable history)",IDC_LOGTHREADS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,194,280,10
-    PUSHBUTTON      "Authorize",IDC_REGISTER,175,35,96,14
 END
 
 IDD_OAUTH DIALOGEX 0, 0, 193, 83
