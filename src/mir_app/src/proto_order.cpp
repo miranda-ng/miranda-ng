@@ -185,6 +185,7 @@ public:
 		WriteDbAccounts();
 		Menu_ReloadProtoMenus();
 		Clist_TrayIconIconsChanged();
+		NotifyEventHooks(hAccListChanged, 0, 0);
 		Clist_Broadcast(INTM_RELOADOPTIONS, 0, 0);
 		Clist_Broadcast(INTM_INVALIDATE, 0, 0);
 		return true;
