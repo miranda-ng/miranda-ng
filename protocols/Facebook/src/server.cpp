@@ -549,7 +549,7 @@ void FacebookProto::OnPublishPresence(FbThriftReader &rdr)
 	}
 
 	rdr.readByte(fieldType);
-	assert(fieldType == FB_THRIFT_TYPE_STOP);
+	// assert(fieldType == FB_THRIFT_TYPE_STOP);
 }
 
 void FacebookProto::OnPublishUtn(FbThriftReader &rdr)

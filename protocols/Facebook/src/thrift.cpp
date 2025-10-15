@@ -206,8 +206,10 @@ bool FbThriftReader::readBool(bool &bVal)
 
 bool FbThriftReader::readByte(uint8_t &b)
 {
-	if (offset >= size())
+	if (offset >= size()) {
+		b = 0;
 		return false;
+	}
 
 	b = *((uint8_t *)data() + offset);
 	offset++;
