@@ -698,7 +698,7 @@ uint16_t TM_StringToWord(SESSION_INFO *si, const wchar_t *pszStatus)
 		return 0;
 
 	auto &pList = getStatuses(si);
-	for (auto &it : pList)
+	for (auto &it : pList.rev_iter())
 		if (mir_wstrcmpi(it->pszGroup, pszStatus) == 0)
 			return it->iStatus;
 
@@ -713,7 +713,7 @@ wchar_t* TM_WordToString(SESSION_INFO *si, uint16_t Status)
 	if (!si)
 		return nullptr;
 
-	for (auto &it : getStatuses(si))
+	for (auto &it : getStatuses(si).rev_iter())
 		if (it->iStatus & Status) {
 			Status -= it->iStatus;
 			if (Status == 0)
