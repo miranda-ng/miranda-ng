@@ -796,7 +796,9 @@ bool CIrcProto::IsCTCP(const CIrcMessage *pmsg)
 
 		// incoming VERSION
 		else if (pmsg->m_bIncoming && command == L"version") {
-			PostIrcMessage(L"/NOTICE %s \001VERSION Miranda NG %%mirver (IRC v.%%version)" L", " _A2W(__COPYRIGHT) L"\001", pmsg->prefix.sNick.c_str());
+			CMStringW wszVer(L"/NOTICE %s \001VERSION Miranda NG %%mirver (IRC v.%%version), ");
+			wszVer.AppendFormat(L"%s\001", Utf2T(__COPYRIGHT).get());
+			PostIrcMessage(wszVer, pmsg->prefix.sNick.c_str());
 
 			wchar_t temp[300];
 			mir_snwprintf(temp, TranslateT("CTCP VERSION requested by %s"), pmsg->prefix.sNick.c_str());
