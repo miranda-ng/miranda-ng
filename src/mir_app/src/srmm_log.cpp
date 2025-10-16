@@ -122,11 +122,14 @@ class CSrmmLogOptionsDlg : public CDlgBase
 	{
 		ctrl.ResetContent();
 
+		int curr = -1;
 		for (auto &it : g_arLogClasses) {
 			int idx = ctrl.AddString(TranslateW_LP(it->wszScreenName, it->pPlugin), LPARAM(it));
 			if (!mir_strcmp(it->szShortName, pszClass))
-				ctrl.SetCurSel(idx);
+				ctrl.SetCurSel(curr = idx);
 		}
+		if (curr == -1)
+			ctrl.SetCurSel(0);
 	}
 
 public:
@@ -172,8 +175,6 @@ public:
 	void Rebuild()
 	{
 		OnInitDialog();
-		cmbLogger.SetCurSel(0);
-		cmbLoggerGC.SetCurSel(0);
 	}
 
 	void onChange_List(CCtrlListBox *)
