@@ -528,7 +528,7 @@ INT_PTR CTelegramProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 			auto *pUser = new TG_USER(-1, hContact, true);
 			pUser->chatId = userId;
 			pUser->isForum = pUser->isGroupChat = true;
-			SendQuery(new TD::getMessageThreadHistory(pUser->chatId, 0, 0, 0, 100), &CTelegramProto::OnGetHistory, pUser);
+			SendQuery(new TD::getMessageThreadHistory(pUser->chatId, threadId, 0, 0, 100), &CTelegramProto::OnGetHistory, pUser);
 			return 0;
 		}
 	}
