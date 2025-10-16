@@ -172,6 +172,8 @@ public:
 	void Rebuild()
 	{
 		OnInitDialog();
+		cmbLogger.SetCurSel(0);
+		cmbLoggerGC.SetCurSel(0);
 	}
 
 	void onChange_List(CCtrlListBox *)
