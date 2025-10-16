@@ -124,6 +124,53 @@ static INT_PTR CreatePopupW(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
+{
+	if (bShutdown)
+		return -1;
+
+	POPUPDATA2 *pd_in = (POPUPDATA2 *)wParam;
+	if (NotifyEventHooks(hEventNotify, (WPARAM)pd_in->lchContact, (LPARAM)pd_in->PluginWindowProc))
+		return 0;
+
+	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
+	pd_out->cbSize = sizeof(PopupData);
+	if (pd_in->flags & PU2_UNICODE) {
+		pd_out->flags = PDF_UNICODE;
+		pd_out->pwszTitle = mir_wstrdup(pd_in->szTitle.w);
+		pd_out->pwszText = mir_wstrdup(pd_in->szText.w);
+	}
+	else {
+		pd_out->pwszTitle = mir_a2u(pd_in->szTitle.a);
+		pd_out->pwszText = mir_a2u(pd_in->szText.a);
+	}
+	StripBBCodesInPlace(pd_out->pwszTitle);
+	StripBBCodesInPlace(pd_out->pwszText);
+
+	pd_out->hContact = pd_in->lchContact;
+	pd_out->SetIcon(pd_in->lchIcon);
+	if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
+		pd_out->colorBack = pd_out->colorText = 0;
+	else {
+		pd_out->colorBack = pd_in->colorBack & 0xFFFFFF;
+		pd_out->colorText = pd_in->colorText & 0xFFFFFF;
+	}
+	pd_out->windowProc = pd_in->PluginWindowProc;
+	pd_out->opaque = pd_in->PluginData;
+	pd_out->timeout = pd_in->iSeconds;
+
+	lstPopupHistory.Add(pd_out->pwszTitle, pd_out->pwszText, time(0));
+	if (!Popup_Enabled()) {
+		mir_free(pd_out->pwszTitle);
+		mir_free(pd_out->pwszText);
+		mir_free(pd_out);
+		return -1;
+	}
+
+	PostMPMessage(MUM_CREATEPOPUP, 0, (LPARAM)pd_out);
+	return 0;
+}
+
 static INT_PTR ChangeTextW(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndPop = (HWND)wParam;
@@ -395,6 +442,7 @@ void InitServices()
 
 	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
 	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopup);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP2, CreatePopup2);
 	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
 	CreateServiceFunction(MS_POPUP_CHANGETEXTW, ChangeTextW);
 	CreateServiceFunction(MS_POPUP_CHANGEW, PopupChangeW);
