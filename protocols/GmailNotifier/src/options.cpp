@@ -139,7 +139,7 @@ public:
 	{
 		ENTER_STRING es = {};
 		es.type = ESF_NOT_EMPTY;
-		es.caption = TranslateT("Enter your Google email");
+		es.caption = TranslateT("Enter account name");
 		if (!EnterString(&es))
 			return;
 
