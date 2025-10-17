@@ -330,7 +330,7 @@ DCC: Запрос на продолжение закачки файла от %s 
 [IRC error]
 Ошибка IRC
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-Введите маску (nick!user@host)\nВнимание: пользователи из списка контактов не будут игнорироваться
+Введите маску (nick!user@host)\nКонтакты не будут проигнорированы
 [Ignore]
 Игнорировать
 [Please enter the reason]
