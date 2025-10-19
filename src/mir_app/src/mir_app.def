@@ -1024,3 +1024,4 @@ Proto_CanDeleteHistory @1118 NONAME
 ?iOfflineSize@File@@3V?$CMOption@I@@A @1158 NONAME
 ?Clist_ShowHide@@YGXXZ @1159 NONAME
 ?SetReadOnly@CSrmmBaseDialog@@QAEX_N@Z @1160 NONAME
+?FinishLoad@History@@YGXI@Z @1161 NONAME

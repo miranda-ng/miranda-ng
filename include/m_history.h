@@ -26,6 +26,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_HISTORY_H__ 1
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Called when server history load process is finished
+
+namespace History
+{
+	MIR_APP_DLL(void) FinishLoad(MCONTACT hContact);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Shows the History dialog box for a contact
 // wParam = (MCONTACT)hContact
 // lParam = 0 (unused)

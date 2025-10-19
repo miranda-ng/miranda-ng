@@ -138,6 +138,8 @@ void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pR
 	// if we fetched 99 messages, but have smth more to go, continue fetching
 	if (iNumMessages == 99 && lastId < pUser->lastMsgId)
 		RetrieveHistory(pUser, MSG_AFTER, lastId, 99);
+	else
+		History::FinishLoad(pUser->hContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

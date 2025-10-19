@@ -119,7 +119,6 @@ void CJabberProto::MamSendForm(const char *pszWith, const char *pszAfter)
 	m_ThreadInfo->send(iq);
 }
 
-
 void CJabberProto::OnIqResultRsm(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	if (auto *fin = XmlGetChildByTag(iqNode, "fin", "xmlns", JABBER_FEAT_MAM)) {

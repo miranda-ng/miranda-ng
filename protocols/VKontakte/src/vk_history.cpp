@@ -372,6 +372,7 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 	}
 
 	if (!pReq->bNeedsRestart || m_bTerminated) {
+		History::FinishLoad(param->hContact);
 		delete param;
 		pReq->pUserInfo = nullptr;
 	}

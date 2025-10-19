@@ -29,6 +29,11 @@ static HANDLE hPreviewFolder, hHistoryLoaded;
 
 static HGENMENU hReqAuth = nullptr, hGrantAuth = nullptr, hRevokeAuth = nullptr, hServerHist = nullptr;
 
+MIR_APP_DLL(void) History::FinishLoad(MCONTACT hContact)
+{
+	NotifyEventHooks(hHistoryLoaded, hContact, 0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // protocol constructor & destructor
 
@@ -330,10 +335,9 @@ static INT_PTR __cdecl stubRevokeAuth(WPARAM hContact, LPARAM)
 static INT_PTR __cdecl stubLoadHistory(WPARAM hContact, LPARAM)
 {
 	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto) {
+	if (szProto)
 		ProtoCallService(szProto, PS_MENU_LOADHISTORY, hContact, 0);
-		NotifyEventHooks(hHistoryLoaded, hContact, 0);
-	}
+
 	return 0;
 }
 
@@ -343,6 +347,7 @@ static int OnHistoryLoaded(WPARAM hContact, LPARAM)
 	pd.cbSize = sizeof(pd);
 	pd.flags = PU2_UNICODE;
 	pd.lchContact = hContact;
+	pd.szTitle.w = Clist_GetContactDisplayName(hContact);
 	pd.szText.w = TranslateT("History loaded successfully");
 	Popup_Add(&pd);
 	return 0;

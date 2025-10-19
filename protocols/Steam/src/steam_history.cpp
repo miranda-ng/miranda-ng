@@ -46,11 +46,12 @@ void CSteamProto::OnGotRecentMessages(const CFriendMessagesGetRecentMessagesResp
 	if (hdr.failed())
 		return;
 
+	MCONTACT hLastContact = 0;
 	for (int i = 0; i < reply.n_messages; i++) {
 		auto *pMsg = reply.messages[i];
 		auto steamId = AccountIdToSteamId(pMsg->accountid);
 
-		MCONTACT hContact = GetContact(steamId);
+		auto hContact = GetContact(steamId);
 		if (!hContact)
 			continue;
 
@@ -81,7 +82,12 @@ void CSteamProto::OnGotRecentMessages(const CFriendMessagesGetRecentMessagesResp
 			db_event_edit(hEvent, &dbei, true);
 		else
 			ProtoChainRecvMsg(hContact, dbei);
+
+		hLastContact = hContact;
 	}
+
+	if (hLastContact)
+		History::FinishLoad(hLastContact);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

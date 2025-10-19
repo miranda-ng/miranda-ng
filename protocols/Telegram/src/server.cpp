@@ -472,6 +472,7 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 	TD::int53 lastMsgId = INT64_MAX;
 	auto *pMessages = (TD::messages *)response.object.get();
 	if (pMessages->messages_.size() == 0) {
+		History::FinishLoad(pUser->hContact);
 		if (pUser->isForum)
 			delete pUser;
 		return;

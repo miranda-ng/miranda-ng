@@ -272,6 +272,7 @@ void CSteamProto::OnGetChatHistory(const CChatRoomGetMessageHistoryResponse &rep
 		}
 
 		setDword(si->hContact, DBKEY_LASTMSG, iLastMsg);
+		History::FinishLoad(si->hContact);
 	}
 
 	if (!ids.empty())
