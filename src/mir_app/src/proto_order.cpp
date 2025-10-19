@@ -92,15 +92,6 @@ static bool isProtoSuitable(PROTO_INTERFACE *ppi)
 	return (ppi->GetCaps(PFLAGNUM_2) & ~ppi->GetCaps(PFLAGNUM_5)) != 0;
 }
 
-static bool ProtoToInclude(PROTOACCOUNT *pa)
-{
-	if (!pa->IsEnabled())
-		return false;
-
-	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
-	return (pd != nullptr && pd->type == PROTOTYPE_PROTOWITHACCS);
-}
-
 class CProtocolOrderOpts : public CDlgBase
 {
 	void FillTree()
@@ -118,7 +109,7 @@ class CProtocolOrderOpts : public CDlgBase
 				continue;
 
 			PROTOACCOUNT *pa = g_arAccounts[idx];
-			if (!ProtoToInclude(pa))
+			if (!pa->IsVisible())
 				continue;
 
 			if (pa->IsEnabled() && isProtoSuitable(pa->ppro)) {
