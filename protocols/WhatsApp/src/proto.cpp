@@ -200,7 +200,7 @@ int WhatsAppProto::SetStatus(int iNewStatus)
 		return 0;
 
 	if (!mir_wstrlen(m_wszNick)) {
-		Popup(0, LPGENW("Connection cannot be established! You have not completed all necessary fields (Nick)."), LPGENW("Error"));
+		Popup(0, TranslateT("Connection cannot be established! You have not completed all necessary fields (Nick)."), TranslateT("Error"));
 		return 0;
 	}
 
