@@ -14,7 +14,6 @@ Plugins\autorun.dll
 Plugins\autoshutdown.dll
 Plugins\avatarhistory.dll
 Plugins\avs.dll
-Plugins\basichistory.dll
 Plugins\bass_interface.dll
 Plugins\boltun.dll
 Plugins\bosskey.dll
