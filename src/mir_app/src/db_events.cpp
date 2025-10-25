@@ -98,8 +98,7 @@ MIR_APP_DLL(wchar_t*) DbEvent_GetText(const DBEVENTINFO *dbei)
 	if (dbei == nullptr || dbei->szModule == nullptr)
 		return 0;
 
-	DB::EventInfo tmp;
-	memcpy(&tmp, dbei, sizeof(*dbei));
+	DB::EventInfo tmp(*dbei);
 	return tmp.getText();
 }
 
@@ -147,6 +146,17 @@ DB::EventInfo::EventInfo(MEVENT hEvent, bool bFetchBlob)
 	memset(this, 0, sizeof(*this));
 	m_hEvent = hEvent;
 	fetch(bFetchBlob);
+}
+
+DB::EventInfo::EventInfo(const DBEVENTINFO &dbei)
+{
+	memcpy(this, &dbei, sizeof(DBEVENTINFO));
+	m_hEvent = 0;
+	m_bValid = false;
+	if (isJson && pBlob)
+		m_json = new JSONNode(JSONNode::parse((const char *)pBlob));
+	else
+		m_json = nullptr;
 }
 
 DB::EventInfo::EventInfo() :
@@ -328,8 +338,7 @@ wchar_t* DB::EventInfo::getText() const
 	}
 
 	if (flags & DBEF_JSON) {
-		JSONNode json = getJson();
-		std::string str = json["b"].as_string();
+		std::string str = (*m_json)["b"].as_string();
 		return mir_utf8decodeW(str.c_str());
 	}
 

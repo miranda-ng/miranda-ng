@@ -755,6 +755,7 @@ namespace DB
 	public:
 		explicit EventInfo();
 		explicit EventInfo(MEVENT hEvent, bool bFetchBlob = true);
+		explicit EventInfo(const DBEVENTINFO &dbei);
 		EventInfo& operator=(MEVENT hEvent);
 		~EventInfo();
 

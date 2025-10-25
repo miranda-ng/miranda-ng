@@ -1025,3 +1025,4 @@ Proto_CanDeleteHistory @1118 NONAME
 ?Clist_ShowHide@@YGXXZ @1159 NONAME
 ?SetReadOnly@CSrmmBaseDialog@@QAEX_N@Z @1160 NONAME
 ?FinishLoad@History@@YGXI@Z @1161 NONAME
+??0EventInfo@DB@@QAE@ABUDBEVENTINFO@@@Z @1162 NONAME
