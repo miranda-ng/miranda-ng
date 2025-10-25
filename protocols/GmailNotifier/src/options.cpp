@@ -59,6 +59,7 @@ public:
 	void OnChange() override
 	{
 		bool bEnabled = g_accs.getCount();
+		btnEdit.Enable(bEnabled);
 		btnDel.Enable(bEnabled);
 		btnReg.Enable(bEnabled);
 		m_combo.Enable(bEnabled);
