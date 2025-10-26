@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -26,15 +26,15 @@ struct ListData {
   }
 };
 
-struct Node final : public td::ListNode {
-  Node() = default;
-  explicit Node(ListData data) : data_(std::move(data)) {
+struct TrieNode final : public td::ListNode {
+  TrieNode() = default;
+  explicit TrieNode(ListData data) : data_(std::move(data)) {
   }
 
   ListData data_;
 };
 
-static ListData &get_data(Node &node) {
+static ListData &get_data(TrieNode &node) {
   return node.data_;
 }
 
@@ -144,7 +144,7 @@ TEST(Misc, List) {
   td::ListNode root;
   std::atomic<td::uint64> id{0};
   for (std::size_t i = 0; i < 4; i++) {
-    do_run_list_test<td::ListNode, td::ListNode, Node>(root, id);
+    do_run_list_test<td::ListNode, td::ListNode, TrieNode>(root, id);
   }
 }
 

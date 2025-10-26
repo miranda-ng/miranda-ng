@@ -75,8 +75,26 @@
     <ClCompile Include="tdlib\td\td\generate\auto\td\mtproto\mtproto_api.cpp" />
     <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\e2e_api.cpp" />
     <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\secret_api.cpp" />
-    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api.cpp" />
-    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_0.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_1.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_2.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_3.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_4.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_5.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_6.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_7.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_8.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_9.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_0.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_1.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_2.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_3.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_4.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_5.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_6.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_7.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_8.cpp" />
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_9.cpp" />
     <ClCompile Include="tdlib\td\td\mtproto\AuthData.cpp" />
     <ClCompile Include="tdlib\td\td\mtproto\ConnectionManager.cpp" />
     <ClCompile Include="tdlib\td\td\mtproto\DhHandshake.cpp" />
@@ -98,6 +116,7 @@
     <ClCompile Include="tdlib\td\td\mtproto\utils.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\AccountManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\AffiliateType.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\AgeVerificationParameters.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\AlarmManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\AnimationsManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Application.cpp" />
@@ -141,6 +160,7 @@
     <ClCompile Include="tdlib\td\td\telegram\ChannelRecommendationManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\ChatManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\ChatReactions.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\ChatTheme.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Client.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\ClientActor.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\CommonDialogManager.cpp" />
@@ -149,6 +169,7 @@
     <ClCompile Include="tdlib\td\td\telegram\ConnectionStateManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Contact.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\CountryInfoManager.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\CurrencyAmount.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\DelayDispatcher.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Dependencies.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\DeviceTokenManager.cpp" />
@@ -171,6 +192,7 @@
     <ClCompile Include="tdlib\td\td\telegram\DialogParticipant.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\DialogParticipantFilter.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\DialogParticipantManager.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\DialogPhoto.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\DialogSource.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Dimensions.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\DisallowedGiftsSettings.cpp" />
@@ -306,6 +328,7 @@
     <ClCompile Include="tdlib\td\td\telegram\PasswordManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Payments.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\PeerColor.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\PeerColorCollectible.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\PeopleNearbyManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\PhoneNumberManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Photo.cpp" />
@@ -315,6 +338,7 @@
     <ClCompile Include="tdlib\td\td\telegram\Premium.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\PremiumGiftOption.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\PrivacyManager.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\ProfileTab.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\PromoDataManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\QueryCombiner.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\QueryMerger.cpp" />
@@ -338,6 +362,7 @@
     <ClCompile Include="tdlib\td\td\telegram\SavedMessagesManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\SavedMessagesTopicId.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\ScopeNotificationSettings.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\SearchPostsFlood.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\SecretChatActor.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\SecretChatDb.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\SecretChatsManager.cpp" />
@@ -355,10 +380,13 @@
     <ClCompile Include="tdlib\td\td\telegram\StarGift.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StarGiftAttribute.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StarGiftAttributeId.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftCollection.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StarGiftId.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StarGiftManager.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftResalePrice.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StarGiftSettings.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StarManager.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\StarRating.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StarSubscription.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StarSubscriptionPricing.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StateManager.cpp" />
@@ -371,6 +399,7 @@
     <ClCompile Include="tdlib\td\td\telegram\StickersManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StickerType.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StorageManager.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\StoryAlbum.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StoryContent.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StoryContentType.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\StoryDb.cpp" />
@@ -381,6 +410,8 @@
     <ClCompile Include="tdlib\td\td\telegram\StoryViewer.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\SuggestedAction.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\SuggestedActionManager.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\SuggestedPost.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\SuggestedPostPrice.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Support.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\SynchronousRequests.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\TargetDialogTypes.cpp" />
@@ -394,6 +425,7 @@
     <ClCompile Include="tdlib\td\td\telegram\ToDoCompletion.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\ToDoItem.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\ToDoList.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\TonAmount.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\TopDialogCategory.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\TopDialogManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\TranscriptionInfo.cpp" />
@@ -462,6 +494,8 @@
     <ClInclude Include="tdlib\td\td\telegram\AccountManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\AffectedHistory.h" />
     <ClInclude Include="tdlib\td\td\telegram\AffiliateType.h" />
+    <ClInclude Include="tdlib\td\td\telegram\AgeVerificationParameters.h" />
+    <ClInclude Include="tdlib\td\td\telegram\AgeVerificationParameters.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\AlarmManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\AnimationsManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\AnimationsManager.hpp" />
@@ -521,6 +555,8 @@
     <ClInclude Include="tdlib\td\td\telegram\ChatId.h" />
     <ClInclude Include="tdlib\td\td\telegram\ChatManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\ChatReactions.h" />
+    <ClInclude Include="tdlib\td\td\telegram\ChatTheme.h" />
+    <ClInclude Include="tdlib\td\td\telegram\ChatTheme.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\Client.h" />
     <ClInclude Include="tdlib\td\td\telegram\ClientActor.h" />
     <ClInclude Include="tdlib\td\td\telegram\ClientJson.h" />
@@ -530,6 +566,8 @@
     <ClInclude Include="tdlib\td\td\telegram\ConnectionStateManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\Contact.h" />
     <ClInclude Include="tdlib\td\td\telegram\CountryInfoManager.h" />
+    <ClInclude Include="tdlib\td\td\telegram\CurrencyAmount.h" />
+    <ClInclude Include="tdlib\td\td\telegram\CurrencyAmount.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\CustomEmojiId.h" />
     <ClInclude Include="tdlib\td\td\telegram\DelayDispatcher.h" />
     <ClInclude Include="tdlib\td\td\telegram\Dependencies.h" />
@@ -561,6 +599,8 @@
     <ClInclude Include="tdlib\td\td\telegram\DialogParticipant.h" />
     <ClInclude Include="tdlib\td\td\telegram\DialogParticipantFilter.h" />
     <ClInclude Include="tdlib\td\td\telegram\DialogParticipantManager.h" />
+    <ClInclude Include="tdlib\td\td\telegram\DialogPhoto.h" />
+    <ClInclude Include="tdlib\td\td\telegram\DialogPhoto.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\DialogSource.h" />
     <ClInclude Include="tdlib\td\td\telegram\Dimensions.h" />
     <ClInclude Include="tdlib\td\td\telegram\Dimensions.hpp" />
@@ -752,6 +792,8 @@
     <ClInclude Include="tdlib\td\td\telegram\PasswordManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\Payments.h" />
     <ClInclude Include="tdlib\td\td\telegram\PeerColor.h" />
+    <ClInclude Include="tdlib\td\td\telegram\PeerColorCollectible.h" />
+    <ClInclude Include="tdlib\td\td\telegram\PeerColorCollectible.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\PeopleNearbyManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\PhoneNumberManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\Photo.h" />
@@ -771,6 +813,7 @@
     <ClInclude Include="tdlib\td\td\telegram\PremiumGiftOption.h" />
     <ClInclude Include="tdlib\td\td\telegram\PremiumGiftOption.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\PrivacyManager.h" />
+    <ClInclude Include="tdlib\td\td\telegram\ProfileTab.h" />
     <ClInclude Include="tdlib\td\td\telegram\PromoDataManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\PtsManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\PublicDialogType.h" />
@@ -806,6 +849,7 @@
     <ClInclude Include="tdlib\td\td\telegram\ScheduledServerMessageId.h" />
     <ClInclude Include="tdlib\td\td\telegram\ScopeNotificationSettings.h" />
     <ClInclude Include="tdlib\td\td\telegram\ScopeNotificationSettings.hpp" />
+    <ClInclude Include="tdlib\td\td\telegram\SearchPostsFlood.h" />
     <ClInclude Include="tdlib\td\td\telegram\SecretChatActor.h" />
     <ClInclude Include="tdlib\td\td\telegram\SecretChatDb.h" />
     <ClInclude Include="tdlib\td\td\telegram\SecretChatId.h" />
@@ -832,12 +876,17 @@
     <ClInclude Include="tdlib\td\td\telegram\StarGiftAttribute.h" />
     <ClInclude Include="tdlib\td\td\telegram\StarGiftAttribute.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\StarGiftAttributeId.h" />
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftCollection.h" />
     <ClInclude Include="tdlib\td\td\telegram\StarGiftId.h" />
     <ClInclude Include="tdlib\td\td\telegram\StarGiftId.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\StarGiftManager.h" />
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftResalePrice.h" />
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftResalePrice.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\StarGiftSettings.h" />
     <ClInclude Include="tdlib\td\td\telegram\StarGiftSettings.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\StarManager.h" />
+    <ClInclude Include="tdlib\td\td\telegram\StarRating.h" />
+    <ClInclude Include="tdlib\td\td\telegram\StarRating.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\StarSubscription.h" />
     <ClInclude Include="tdlib\td\td\telegram\StarSubscriptionPricing.h" />
     <ClInclude Include="tdlib\td\td\telegram\StateManager.h" />
@@ -854,6 +903,9 @@
     <ClInclude Include="tdlib\td\td\telegram\StickersManager.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\StickerType.h" />
     <ClInclude Include="tdlib\td\td\telegram\StorageManager.h" />
+    <ClInclude Include="tdlib\td\td\telegram\StoryAlbum.h" />
+    <ClInclude Include="tdlib\td\td\telegram\StoryAlbumFullId.h" />
+    <ClInclude Include="tdlib\td\td\telegram\StoryAlbumId.h" />
     <ClInclude Include="tdlib\td\td\telegram\StoryContent.h" />
     <ClInclude Include="tdlib\td\td\telegram\StoryContentType.h" />
     <ClInclude Include="tdlib\td\td\telegram\StoryDb.h" />
@@ -868,6 +920,10 @@
     <ClInclude Include="tdlib\td\td\telegram\StoryViewer.h" />
     <ClInclude Include="tdlib\td\td\telegram\SuggestedAction.h" />
     <ClInclude Include="tdlib\td\td\telegram\SuggestedActionManager.h" />
+    <ClInclude Include="tdlib\td\td\telegram\SuggestedPost.h" />
+    <ClInclude Include="tdlib\td\td\telegram\SuggestedPost.hpp" />
+    <ClInclude Include="tdlib\td\td\telegram\SuggestedPostPrice.h" />
+    <ClInclude Include="tdlib\td\td\telegram\SuggestedPostPrice.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\Support.h" />
     <ClInclude Include="tdlib\td\td\telegram\SynchronousRequests.h" />
     <ClInclude Include="tdlib\td\td\telegram\TargetDialogTypes.h" />
@@ -889,6 +945,8 @@
     <ClInclude Include="tdlib\td\td\telegram\ToDoItem.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\ToDoList.h" />
     <ClInclude Include="tdlib\td\td\telegram\ToDoList.hpp" />
+    <ClInclude Include="tdlib\td\td\telegram\TonAmount.h" />
+    <ClInclude Include="tdlib\td\td\telegram\TonAmount.hpp" />
     <ClInclude Include="tdlib\td\td\telegram\TopDialogCategory.h" />
     <ClInclude Include="tdlib\td\td\telegram\TopDialogManager.h" />
     <ClInclude Include="tdlib\td\td\telegram\TranscriptionInfo.h" />

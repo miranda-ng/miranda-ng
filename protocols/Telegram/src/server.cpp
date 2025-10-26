@@ -412,9 +412,12 @@ int CTelegramProto::SendTextMessage(int64_t chatId, int64_t threadId, int64_t re
 	auto *pMessage = new TD::sendMessage();
 	pMessage->chat_id_ = chatId;
 	pMessage->input_message_content_ = std::move(pContent);
-	pMessage->message_thread_id_ = threadId;
+	if (threadId) {
+		auto pThread = TD::make_object<TD::messageTopicForum>(threadId);
+		pMessage->topic_id_ = std::move(pThread);
+	}
 	if (replyId)
-		pMessage->reply_to_.reset(new TD::inputMessageReplyToMessage(replyId, 0));
+		pMessage->reply_to_.reset(new TD::inputMessageReplyToMessage(replyId, 0, 0));
 	return SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 }
 
@@ -1008,7 +1011,7 @@ void CTelegramProto::ProcessMessage(const TD::message *pMessage)
 		return;
 	}
 
-	MCONTACT hContact = GetRealContact(pUser, pMessage->message_thread_id_);
+	MCONTACT hContact = GetRealContact(pUser, getThreadId(pMessage->topic_id_.get()));
 
 	if (m_bResidentChannels && pUser->isChannel && pUser->m_si) {
 		GCEVENT gce = { pUser->m_si, GC_EVENT_MESSAGE };

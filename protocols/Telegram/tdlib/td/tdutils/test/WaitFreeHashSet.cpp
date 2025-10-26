@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -70,4 +70,23 @@ TEST(WaitFreeHashSet, stress_test) {
       runner.step(rnd);
     }
   }
+}
+
+TEST(WaitFreeHashSet, remove_if) {
+  td::WaitFreeHashSet<td::uint64> set;
+  bool is_removed;
+  for (td::uint64 i = 0; i < 10000; i++) {
+    set.insert(2 * i + 1);
+    set.insert(2 * i + 2);
+    is_removed = set.remove_if([i](const auto &num) { return num <= i; });
+    CHECK(!is_removed);
+    CHECK(set.calc_size() == i + 2);
+    is_removed = set.remove_if([i](const auto &num) { return num <= i + 1; });
+    CHECK(is_removed);
+    CHECK(set.calc_size() == i + 1);
+  }
+  is_removed = set.remove_if([](const auto &num) { return num <= 19999; });
+  CHECK(set.calc_size() == 1);
+  is_removed = set.remove_if([](const auto &num) { return num <= 20000; });
+  CHECK(set.calc_size() == 0);
 }

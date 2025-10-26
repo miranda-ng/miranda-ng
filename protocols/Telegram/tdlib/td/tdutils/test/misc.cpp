@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -178,58 +178,57 @@ TEST(Misc, call_n_arguments) {
 }
 
 TEST(Misc, base64) {
-  ASSERT_TRUE(td::is_base64("dGVzdA==") == true);
-  ASSERT_TRUE(td::is_base64("dGVzdB==") == false);
-  ASSERT_TRUE(td::is_base64("dGVzdA=") == false);
-  ASSERT_TRUE(td::is_base64("dGVzdA") == false);
-  ASSERT_TRUE(td::is_base64("dGVzd") == false);
-  ASSERT_TRUE(td::is_base64("dGVz") == true);
-  ASSERT_TRUE(td::is_base64("dGVz====") == false);
-  ASSERT_TRUE(td::is_base64("") == true);
-  ASSERT_TRUE(td::is_base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/") == true);
-  ASSERT_TRUE(td::is_base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=") == false);
-  ASSERT_TRUE(td::is_base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/") == false);
-  ASSERT_TRUE(td::is_base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_") == false);
-  ASSERT_TRUE(td::is_base64("====") == false);
+  ASSERT_TRUE(td::is_base64("dGVzdA=="));
+  ASSERT_TRUE(!td::is_base64("dGVzdB=="));
+  ASSERT_TRUE(!td::is_base64("dGVzdA="));
+  ASSERT_TRUE(!td::is_base64("dGVzdA"));
+  ASSERT_TRUE(!td::is_base64("dGVzd"));
+  ASSERT_TRUE(td::is_base64("dGVz"));
+  ASSERT_TRUE(!td::is_base64("dGVz===="));
+  ASSERT_TRUE(td::is_base64(""));
+  ASSERT_TRUE(td::is_base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"));
+  ASSERT_TRUE(!td::is_base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="));
+  ASSERT_TRUE(!td::is_base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/"));
+  ASSERT_TRUE(!td::is_base64("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"));
+  ASSERT_TRUE(!td::is_base64("===="));
 
-  ASSERT_TRUE(td::is_base64url("dGVzdA==") == true);
-  ASSERT_TRUE(td::is_base64url("dGVzdB==") == false);
-  ASSERT_TRUE(td::is_base64url("dGVzdA=") == false);
-  ASSERT_TRUE(td::is_base64url("dGVzdA") == true);
-  ASSERT_TRUE(td::is_base64url("dGVzd") == false);
-  ASSERT_TRUE(td::is_base64url("dGVz") == true);
-  ASSERT_TRUE(td::is_base64url("dGVz====") == false);
-  ASSERT_TRUE(td::is_base64url("") == true);
-  ASSERT_TRUE(td::is_base64url("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_") == true);
-  ASSERT_TRUE(td::is_base64url("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=") == false);
-  ASSERT_TRUE(td::is_base64url("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/") == false);
-  ASSERT_TRUE(td::is_base64url("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/") == false);
-  ASSERT_TRUE(td::is_base64url("====") == false);
+  ASSERT_TRUE(td::is_base64url("dGVzdA=="));
+  ASSERT_TRUE(!td::is_base64url("dGVzdB=="));
+  ASSERT_TRUE(!td::is_base64url("dGVzdA="));
+  ASSERT_TRUE(td::is_base64url("dGVzdA"));
+  ASSERT_TRUE(!td::is_base64url("dGVzd"));
+  ASSERT_TRUE(td::is_base64url("dGVz"));
+  ASSERT_TRUE(!td::is_base64url("dGVz===="));
+  ASSERT_TRUE(td::is_base64url(""));
+  ASSERT_TRUE(td::is_base64url("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"));
+  ASSERT_TRUE(!td::is_base64url("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_="));
+  ASSERT_TRUE(!td::is_base64url("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/"));
+  ASSERT_TRUE(!td::is_base64url("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"));
+  ASSERT_TRUE(!td::is_base64url("===="));
 
-  ASSERT_TRUE(td::is_base64_characters("dGVzdA==") == false);
-  ASSERT_TRUE(td::is_base64_characters("dGVzdB==") == false);
-  ASSERT_TRUE(td::is_base64_characters("dGVzdA=") == false);
-  ASSERT_TRUE(td::is_base64_characters("dGVzdA") == true);
-  ASSERT_TRUE(td::is_base64_characters("dGVz") == true);
-  ASSERT_TRUE(td::is_base64_characters("") == true);
-  ASSERT_TRUE(td::is_base64_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/") == true);
-  ASSERT_TRUE(td::is_base64_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=") == false);
-  ASSERT_TRUE(td::is_base64_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/") == false);
-  ASSERT_TRUE(td::is_base64_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_") == false);
-  ASSERT_TRUE(td::is_base64_characters("====") == false);
+  ASSERT_TRUE(!td::is_base64_characters("dGVzdA=="));
+  ASSERT_TRUE(!td::is_base64_characters("dGVzdB=="));
+  ASSERT_TRUE(!td::is_base64_characters("dGVzdA="));
+  ASSERT_TRUE(td::is_base64_characters("dGVzdA"));
+  ASSERT_TRUE(td::is_base64_characters("dGVz"));
+  ASSERT_TRUE(td::is_base64_characters(""));
+  ASSERT_TRUE(td::is_base64_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"));
+  ASSERT_TRUE(!td::is_base64_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="));
+  ASSERT_TRUE(!td::is_base64_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/"));
+  ASSERT_TRUE(!td::is_base64_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"));
+  ASSERT_TRUE(!td::is_base64_characters("===="));
 
-  ASSERT_TRUE(td::is_base64url_characters("dGVzdA==") == false);
-  ASSERT_TRUE(td::is_base64url_characters("dGVzdB==") == false);
-  ASSERT_TRUE(td::is_base64url_characters("dGVzdA=") == false);
-  ASSERT_TRUE(td::is_base64url_characters("dGVzdA") == true);
-  ASSERT_TRUE(td::is_base64url_characters("dGVz") == true);
-  ASSERT_TRUE(td::is_base64url_characters("") == true);
-  ASSERT_TRUE(td::is_base64url_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_") == true);
-  ASSERT_TRUE(td::is_base64url_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=") ==
-              false);
-  ASSERT_TRUE(td::is_base64url_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/") == false);
-  ASSERT_TRUE(td::is_base64url_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/") == false);
-  ASSERT_TRUE(td::is_base64url_characters("====") == false);
+  ASSERT_TRUE(!td::is_base64url_characters("dGVzdA=="));
+  ASSERT_TRUE(!td::is_base64url_characters("dGVzdB=="));
+  ASSERT_TRUE(!td::is_base64url_characters("dGVzdA="));
+  ASSERT_TRUE(td::is_base64url_characters("dGVzdA"));
+  ASSERT_TRUE(td::is_base64url_characters("dGVz"));
+  ASSERT_TRUE(td::is_base64url_characters(""));
+  ASSERT_TRUE(td::is_base64url_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"));
+  ASSERT_TRUE(!td::is_base64url_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_="));
+  ASSERT_TRUE(!td::is_base64url_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-/"));
+  ASSERT_TRUE(!td::is_base64url_characters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"));
+  ASSERT_TRUE(!td::is_base64url_characters("===="));
 
   for (int l = 0; l < 300000; l += l / 20 + l / 1000 * 500 + 1) {
     for (int t = 0; t < 10; t++) {
@@ -237,30 +236,30 @@ TEST(Misc, base64) {
       auto encoded = td::base64url_encode(s);
       auto decoded = td::base64url_decode(encoded);
       ASSERT_TRUE(decoded.is_ok());
-      ASSERT_TRUE(decoded.ok() == s);
+      ASSERT_EQ(decoded.ok(), s);
 
       encoded = td::base64_encode(s);
       decoded = td::base64_decode(encoded);
       ASSERT_TRUE(decoded.is_ok());
-      ASSERT_TRUE(decoded.ok() == s);
+      ASSERT_EQ(decoded.ok(), s);
 
       auto decoded_secure = td::base64_decode_secure(encoded);
       ASSERT_TRUE(decoded_secure.is_ok());
-      ASSERT_TRUE(decoded_secure.ok().as_slice() == s);
+      ASSERT_EQ(decoded_secure.ok().as_slice(), s);
     }
   }
 
   ASSERT_TRUE(td::base64url_decode("dGVzdA").is_ok());
   ASSERT_TRUE(td::base64url_decode("dGVzdB").is_error());
-  ASSERT_TRUE(td::base64_encode(td::base64url_decode("dGVzdA").ok()) == "dGVzdA==");
-  ASSERT_TRUE(td::base64_encode("any carnal pleas") == "YW55IGNhcm5hbCBwbGVhcw==");
-  ASSERT_TRUE(td::base64_encode("any carnal pleasu") == "YW55IGNhcm5hbCBwbGVhc3U=");
-  ASSERT_TRUE(td::base64_encode("any carnal pleasur") == "YW55IGNhcm5hbCBwbGVhc3Vy");
-  ASSERT_TRUE(td::base64_encode("      /'.;.';≤.];,].',[.;/,.;/]/..;!@#!*(%?::;!%\";") ==
-              "ICAgICAgLycuOy4nO+KJpC5dOyxdLicsWy47LywuOy9dLy4uOyFAIyEqKCU/Ojo7ISUiOw==");
-  ASSERT_TRUE(td::base64url_encode("ab><") == "YWI-PA");
-  ASSERT_TRUE(td::base64url_encode("ab><c") == "YWI-PGM");
-  ASSERT_TRUE(td::base64url_encode("ab><cd") == "YWI-PGNk");
+  ASSERT_EQ(td::base64_encode(td::base64url_decode("dGVzdA").ok()), "dGVzdA==");
+  ASSERT_EQ(td::base64_encode("any carnal pleas"), "YW55IGNhcm5hbCBwbGVhcw==");
+  ASSERT_EQ(td::base64_encode("any carnal pleasu"), "YW55IGNhcm5hbCBwbGVhc3U=");
+  ASSERT_EQ(td::base64_encode("any carnal pleasur"), "YW55IGNhcm5hbCBwbGVhc3Vy");
+  ASSERT_EQ(td::base64_encode("      /'.;.';≤.];,].',[.;/,.;/]/..;!@#!*(%?::;!%\";"),
+            "ICAgICAgLycuOy4nO+KJpC5dOyxdLicsWy47LywuOy9dLy4uOyFAIyEqKCU/Ojo7ISUiOw==");
+  ASSERT_EQ(td::base64url_encode("ab><"), "YWI-PA");
+  ASSERT_EQ(td::base64url_encode("ab><c"), "YWI-PGM");
+  ASSERT_EQ(td::base64url_encode("ab><cd"), "YWI-PGNk");
 }
 
 static void test_zero_encode(td::Slice str, td::Slice expected_zero = td::Slice(),
@@ -320,6 +319,31 @@ class ZeroEncodeBenchmark final : public td::Benchmark {
 
 TEST(Misc, bench_zero_encode) {
   td::bench(ZeroEncodeBenchmark());
+}
+
+static void test_vector_split(td::vector<char> v, std::size_t size, const td::vector<td::vector<char>> &expected) {
+  auto split = td::vector_split(std::move(v), size);
+  if (expected != split) {
+    LOG(FATAL) << "Receive " << split << ", expected " << expected << " in vector_split";
+  }
+}
+
+TEST(Misc, vector_split) {
+  test_vector_split({}, 1, {});
+  test_vector_split({}, 2, {});
+  test_vector_split({'1'}, 1, {{'1'}});
+  test_vector_split({'1'}, 2, {{'1'}});
+  td::vector<char> v{'1', '2', '3', '4', '5', '6'};
+  test_vector_split(v, 1, {{'1'}, {'2'}, {'3'}, {'4'}, {'5'}, {'6'}});
+  test_vector_split(v, 2, {{'1', '2'}, {'3', '4'}, {'5', '6'}});
+  test_vector_split(v, 3, {{'1', '2', '3'}, {'4', '5', '6'}});
+  test_vector_split(v, 4, {{'1', '2', '3', '4'}, {'5', '6'}});
+  test_vector_split(v, 5, {{'1', '2', '3', '4', '5'}, {'6'}});
+  test_vector_split(v, 6, {v});
+  test_vector_split(v, 7, {v});
+  test_vector_split(v, 107, {v});
+  v.push_back('7');
+  test_vector_split(v, 2, {{'1', '2'}, {'3', '4'}, {'5', '6'}, {'7'}});
 }
 
 template <class T>
@@ -916,6 +940,21 @@ TEST(Misc, full_split) {
   test_full_split(" ab cd ef ", {"", "ab", "cd", "ef", ""});
   test_full_split("  ab  cd  ef  ", {"", "", "ab", "", "cd", "", "ef", "", ""});
   test_full_split("ab cd ef gh", ' ', 3, {"ab", "cd", "ef gh"});
+}
+
+static void test_replace_with_spaces(td::MutableSlice str, td::Slice characters, td::Slice expected) {
+  replace_with_spaces(str, characters);
+  ASSERT_EQ(expected, str);
+}
+
+TEST(Misc, replace_with_spaces) {
+  td::string s("asd\nasd");
+  test_replace_with_spaces(s, "", s);
+  test_replace_with_spaces(s, "bcef", s);
+  test_replace_with_spaces(s, "\n", "asd asd");
+  test_replace_with_spaces(s, "as", "  d   d");
+  test_replace_with_spaces(s, "as", "  d   d");
+  test_replace_with_spaces(s, "asd", "       ");
 }
 
 TEST(Misc, StringBuilder) {

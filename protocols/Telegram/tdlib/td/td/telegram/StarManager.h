@@ -9,8 +9,10 @@
 #include "td/telegram/DialogId.h"
 #include "td/telegram/files/FileSourceId.h"
 #include "td/telegram/StarAmount.h"
+#include "td/telegram/StarGiftResalePrice.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
+#include "td/telegram/TonAmount.h"
 #include "td/telegram/UserId.h"
 
 #include "td/actor/actor.h"
@@ -34,6 +36,16 @@ class StarManager final : public Actor {
 
   bool has_owned_star_count(int64 star_count) const;
 
+  void on_update_owned_ton_amount(TonAmount ton_amount);
+
+  void add_pending_owned_ton_count(int64 ton_count, bool move_to_owned);
+
+  bool has_owned_ton_count(int64 ton_count) const;
+
+  void add_pending_owned_amount(const StarGiftResalePrice &amount, int32 multiplier, bool move_to_owned);
+
+  bool has_owned_amount(const StarGiftResalePrice &amount) const;
+
   void get_star_payment_options(Promise<td_api::object_ptr<td_api::starPaymentOptions>> &&promise);
 
   void get_star_gift_payment_options(UserId user_id, Promise<td_api::object_ptr<td_api::starPaymentOptions>> &&promise);
@@ -42,8 +54,12 @@ class StarManager final : public Actor {
 
   void get_star_transactions(td_api::object_ptr<td_api::MessageSender> owner_id, const string &subscription_id,
                              const string &offset, int32 limit,
-                             td_api::object_ptr<td_api::StarTransactionDirection> &&direction,
+                             td_api::object_ptr<td_api::TransactionDirection> &&direction,
                              Promise<td_api::object_ptr<td_api::starTransactions>> &&promise);
+
+  void get_ton_transactions(const string &offset, int32 limit,
+                            td_api::object_ptr<td_api::TransactionDirection> &&direction,
+                            Promise<td_api::object_ptr<td_api::tonTransactions>> &&promise);
 
   void get_star_subscriptions(bool only_expiring, const string &offset,
                               Promise<td_api::object_ptr<td_api::starSubscriptions>> &&promise);
@@ -65,12 +81,18 @@ class StarManager final : public Actor {
 
   void get_star_ad_account_url(const td_api::object_ptr<td_api::MessageSender> &owner_id, Promise<string> &&promise);
 
+  void get_ton_revenue_statistics(bool is_dark, Promise<td_api::object_ptr<td_api::tonRevenueStatistics>> &&promise);
+
+  void get_ton_withdrawal_url(const string &password, Promise<string> &&promise);
+
   void get_paid_message_revenue(UserId user_id, Promise<td_api::object_ptr<td_api::starCount>> &&promise);
 
   void reload_star_transaction(DialogId dialog_id, const string &transaction_id, bool is_refund,
                                Promise<Unit> &&promise);
 
   void reload_owned_star_count();
+
+  void reload_owned_ton_count();
 
   void on_update_stars_revenue_status(telegram_api::object_ptr<telegram_api::updateStarsRevenueStatus> &&update);
 
@@ -82,6 +104,11 @@ class StarManager final : public Actor {
 
   static int32 get_months_by_star_count(int64 star_count);
 
+  static string get_unused_star_transaction_field(
+      const telegram_api::object_ptr<telegram_api::starsTransaction> &transaction,
+      const td_api::object_ptr<td_api::productInfo> &product_info, const string &bot_payload,
+      const td_api::object_ptr<td_api::affiliateInfo> &affiliate, int32 commission_per_mille);
+
   void get_current_state(vector<td_api::object_ptr<td_api::Update>> &updates) const;
 
  private:
@@ -92,14 +119,22 @@ class StarManager final : public Actor {
   Status can_manage_stars(DialogId dialog_id, bool allow_self = false) const;
 
   void do_get_star_transactions(DialogId dialog_id, const string &subscription_id, const string &offset, int32 limit,
-                                td_api::object_ptr<td_api::StarTransactionDirection> &&direction,
+                                td_api::object_ptr<td_api::TransactionDirection> &&direction,
                                 Promise<td_api::object_ptr<td_api::starTransactions>> &&promise);
 
-  void send_get_star_withdrawal_url_query(
-      DialogId dialog_id, int64 star_count,
-      telegram_api::object_ptr<telegram_api::InputCheckPasswordSRP> input_check_password, Promise<string> &&promise);
+  void do_get_ton_transactions(const string &offset, int32 limit,
+                               td_api::object_ptr<td_api::TransactionDirection> &&direction,
+                               Promise<td_api::object_ptr<td_api::tonTransactions>> &&promise);
+
+  void get_withdrawal_url(DialogId dialog_id, bool is_ton, int64 amount, const string &password,
+                          Promise<string> &&promise);
+  void send_get_withdrawal_url_query(DialogId dialog_id, bool is_ton, int64 amount,
+                                     telegram_api::object_ptr<telegram_api::InputCheckPasswordSRP> input_check_password,
+                                     Promise<string> &&promise);
 
   td_api::object_ptr<td_api::updateOwnedStarCount> get_update_owned_star_count_object() const;
+
+  td_api::object_ptr<td_api::updateOwnedTonCount> get_update_owned_ton_count_object() const;
 
   Td *td_;
   ActorShared<> parent_;
@@ -110,6 +145,11 @@ class StarManager final : public Actor {
   int64 pending_owned_star_count_ = 0;
   int64 sent_star_count_ = 0;
   int32 sent_nanostar_count_ = 0;
+
+  bool is_owned_ton_count_inited_ = false;
+  int64 owned_ton_count_ = 0;
+  int64 pending_owned_ton_count_ = 0;
+  int64 sent_ton_count_ = 0;
 
   FlatHashMap<DialogId, FlatHashMap<string, FileSourceId>, DialogIdHash> star_transaction_file_source_ids_[2];
 };

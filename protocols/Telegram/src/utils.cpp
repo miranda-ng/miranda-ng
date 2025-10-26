@@ -225,6 +225,20 @@ TD::int53 getReplyId(const TD::MessageReplyTo *pReply)
 	return 0;
 }
 
+TD::int53 getThreadId(const TD::MessageTopic *pTopic)
+{
+	if (pTopic) {
+		switch (pTopic->get_id()) {
+		case TD::messageTopicThread::ID:
+			return ((TD::messageTopicThread *)pTopic)->message_thread_id_;
+		case TD::messageTopicForum::ID:
+			return ((TD::messageTopicForum *)pTopic)->forum_topic_id_;
+		}
+	}
+	return 0;
+}
+
+
 CMStringW TG_USER::getDisplayName() const
 {
 	if (hContact != 0) {
@@ -490,7 +504,7 @@ bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type
 	pRequest->m_fileName = Utf2T(pszFileName);
 	pRequest->m_fileSize = pFile->size_;
 	pRequest->m_bRecv = !F.pMsg->is_outgoing_;
-	pRequest->m_hContact = GetRealContact(F.pUser, F.pMsg->message_thread_id_);
+	pRequest->m_hContact = GetRealContact(F.pUser, getThreadId(F.pMsg->topic_id_.get()));
 
 	if (mir_strlen(pszCaption))
 		F.szBody += pszCaption;

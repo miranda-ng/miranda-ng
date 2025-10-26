@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -38,8 +38,7 @@ static void test_waiter_stress_one_one() {
             waiter->notify();
           }
         } else {
-          typename W::Slot slot;
-          W::init_slot(slot, id);
+          typename W::Slot slot(id);
           for (size_t i = 1; i <= write_cnt; i++) {
             while (true) {
               auto x = value.load(std::memory_order_relaxed);
@@ -106,8 +105,7 @@ static void test_waiter_stress() {
             waiter->notify();
           }
         } else if (id > 10 && id - 10 <= read_n) {
-          typename W::Slot slot;
-          W::init_slot(slot, id);
+          typename W::Slot slot(id);
           while (true) {
             auto x = read_pos.load(std::memory_order_relaxed);
             if (x == end_pos) {

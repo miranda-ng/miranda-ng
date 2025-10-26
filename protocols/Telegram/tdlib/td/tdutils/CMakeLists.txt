@@ -1,9 +1,10 @@
-if ((CMAKE_MAJOR_VERSION LESS 3) OR (CMAKE_VERSION VERSION_LESS "3.0.2"))
-  message(FATAL_ERROR "CMake >= 3.0.2 is required")
+if ((CMAKE_MAJOR_VERSION LESS 3) OR (CMAKE_VERSION VERSION_LESS "3.10"))
+  message(FATAL_ERROR "CMake >= 3.10 is required")
 endif()
 
-option(TDUTILS_MIME_TYPE "Generate MIME types conversion; requires gperf" ON)
-option(TDUTILS_USE_EXTERNAL_DEPENDENCIES "Use external libraries if available" ON)
+option(TDUTILS_ENABLE_INSTALL "Enable installation of the library." ON)
+option(TDUTILS_MIME_TYPE "Generate MIME types conversion; requires gperf." ON)
+option(TDUTILS_USE_EXTERNAL_DEPENDENCIES "Use external libraries if available." ON)
 
 if (NOT DEFINED CMAKE_INSTALL_LIBDIR)
   set(CMAKE_INSTALL_LIBDIR "lib")
@@ -49,9 +50,7 @@ if (CLANG OR GCC)
 elseif (MSVC)
   set_property(SOURCE ${TDMIME_AUTO} APPEND_STRING PROPERTY COMPILE_FLAGS " /wd4267")
 endif()
-if (CLANG)
-  set_property(SOURCE ${TDMIME_AUTO} APPEND_STRING PROPERTY COMPILE_FLAGS " -Wno-deprecated-register")
-endif()
+set_property(SOURCE ${TDMIME_AUTO} APPEND PROPERTY COMPILE_DEFINITIONS "__gnu_inline__=;register=")
 
 set(TDUTILS_SOURCE
   td/utils/port/Clocks.cpp
@@ -97,6 +96,7 @@ set(TDUTILS_SOURCE
   td/utils/BufferedUdp.cpp
   td/utils/check.cpp
   td/utils/crypto.cpp
+  td/utils/Ed25519.cpp
   td/utils/emoji.cpp
   td/utils/ExitGuard.cpp
   td/utils/FileLog.cpp
@@ -207,6 +207,7 @@ set(TDUTILS_SOURCE
   td/utils/crypto.h
   td/utils/DecTree.h
   td/utils/Destructor.h
+  td/utils/Ed25519.h
   td/utils/emoji.h
   td/utils/Enumerator.h
   td/utils/EpochBasedMemoryReclamation.h
@@ -264,6 +265,7 @@ set(TDUTILS_SOURCE
   td/utils/SetNode.h
   td/utils/SharedObjectPool.h
   td/utils/SharedSlice.h
+  td/utils/simple_tests.h
   td/utils/Slice-decl.h
   td/utils/Slice.h
   td/utils/SliceBuilder.h
@@ -409,10 +411,12 @@ if (ATOMICS_LIBRARIES)
   target_link_libraries(tdutils PUBLIC "${ATOMICS_LIBRARIES}")
 endif()
 
-install(TARGETS tdutils EXPORT TdStaticTargets
-  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-)
+if (TDUTILS_ENABLE_INSTALL)
+  install(TARGETS tdutils EXPORT TdStaticTargets
+    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  )
+endif()
 
 if (TD_TEST_FOLLY AND ABSL_FOUND AND TDUTILS_USE_EXTERNAL_DEPENDENCIES)
   find_package(benchmark QUIET)

@@ -56,13 +56,13 @@ public:
 	{
 		CMStringW wszCountry(FORMAT, L"+%d%s", (int)cmbCountry.GetCurData(), ptrW(edtPhone.GetText()).get());
 
-		auto *cc = new TD::contact;
+		auto *cc = new TD::importedContact;
 		cc->first_name_ = T2Utf(ptrW(edtFirstName.GetText()));
 		cc->last_name_ = T2Utf(ptrW(edtLastName.GetText()));
 		cc->phone_number_ = T2Utf(wszCountry);
 
-		TD::array<TD::object_ptr<TD::contact>> contacts;
-		contacts.push_back(TD::object_ptr<TD::contact>(cc));
+		TD::array<TD::object_ptr<TD::importedContact>> contacts;
+		contacts.push_back(TD::object_ptr<TD::importedContact>(cc));
 
 		m_proto->SendQuery(new TD::importContacts(std::move(contacts)));
 		return true;

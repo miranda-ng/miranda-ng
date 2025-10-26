@@ -39,14 +39,14 @@ class TlObject {
    * Appends the object to the storer serializing object, a buffer of fixed length.
    * \param[in] s Storer to which the object will be appended.
    */
-  virtual void store(TlStorerUnsafe &) const {
+  virtual void store(TlStorerUnsafe &s) const {
   }
 
   /**
    * Appends the object to the storer, calculating the TL-length of the serialized object.
    * \param[in] s Storer to which the object will be appended.
    */
-  virtual void store(TlStorerCalcLength &) const {
+  virtual void store(TlStorerCalcLength &s) const {
   }
 
   /**
@@ -190,7 +190,7 @@ using tl_object_ptr = tl::unique_ptr<Type>;
  * auto get_me_request = td::make_tl_object<td::td_api::getMe>();
  * auto message_text = td::make_tl_object<td::td_api::formattedText>("Hello, world!!!",
  *                     td::td_api::array<td::tl_object_ptr<td::td_api::textEntity>>());
- * auto send_message_request = td::make_tl_object<td::td_api::sendMessage>(chat_id, 0, nullptr, nullptr, nullptr,
+ * auto send_message_request = td::make_tl_object<td::td_api::sendMessage>(chat_id, nullptr, nullptr, nullptr, nullptr,
  *      td::make_tl_object<td::td_api::inputMessageText>(std::move(message_text), nullptr, true));
  * \endcode
  *

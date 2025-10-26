@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2024
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -134,6 +134,8 @@ TEST(HttpUrl, parse_url_query) {
   test_parse_url_query("//", {}, {});
   test_parse_url_query("///?a", {}, {{"a", ""}});
   test_parse_url_query("/a/b/c/", {"a", "b", "c"}, {});
+  test_parse_url_query("/a+/++b+/c/", {"a+", "++b+", "c"}, {});
+  test_parse_url_query("/a%2f/%2F%2Fb%2f/c/", {"a/", "//b/", "c"}, {});
   test_parse_url_query("/a/b/?c/", {td::string("a"), td::string("b")}, {{"c/", ""}});
   test_parse_url_query("?", {}, {});
   test_parse_url_query("???", {}, {{"??", ""}});

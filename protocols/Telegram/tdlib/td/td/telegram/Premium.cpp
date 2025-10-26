@@ -269,10 +269,20 @@ static Result<tl_object_ptr<telegram_api::InputStorePaymentPurpose>> get_input_s
     }
     case td_api::storePaymentPurposeStars::ID: {
       auto p = static_cast<td_api::storePaymentPurposeStars *>(purpose.get());
+      int32 flags = 0;
+      telegram_api::object_ptr<telegram_api::InputPeer> spend_purpose_input_peer;
+      DialogId spend_dialog_id(p->chat_id_);
+      if (spend_dialog_id != DialogId()) {
+        TRY_STATUS(td->dialog_manager_->check_dialog_access(spend_dialog_id, false, AccessRights::Read,
+                                                            "storePaymentPurposeStars"));
+        spend_purpose_input_peer = td->dialog_manager_->get_input_peer(spend_dialog_id, AccessRights::Read);
+        CHECK(spend_purpose_input_peer != nullptr);
+        flags |= telegram_api::inputStorePaymentStarsTopup::SPEND_PURPOSE_PEER_MASK;
+      }
       TRY_STATUS(check_payment_amount(p->currency_, p->amount_));
       dismiss_suggested_action(SuggestedAction{SuggestedAction::Type::StarsSubscriptionLowBalance}, Promise<Unit>());
-      return telegram_api::make_object<telegram_api::inputStorePaymentStarsTopup>(p->star_count_, p->currency_,
-                                                                                  p->amount_);
+      return telegram_api::make_object<telegram_api::inputStorePaymentStarsTopup>(
+          flags, p->star_count_, p->currency_, p->amount_, std::move(spend_purpose_input_peer));
     }
     case td_api::storePaymentPurposeGiftedStars::ID: {
       auto p = static_cast<td_api::storePaymentPurposeGiftedStars *>(purpose.get());
@@ -608,7 +618,7 @@ class SendPremiumGiftQuery final : public Td::ResultHandler {
       }
       case telegram_api::payments_paymentVerificationNeeded::ID:
         LOG(ERROR) << "Receive " << to_string(payment_result);
-        break;
+        return on_error(Status::Error(500, "Receive invalid response"));
       default:
         UNREACHABLE();
     }
@@ -657,7 +667,7 @@ class GetPremiumGiftPaymentFormQuery final : public Td::ResultHandler {
         auto payment_form = static_cast<const telegram_api::payments_paymentFormStars *>(payment_form_ptr.get());
         if (payment_form->invoice_->prices_.size() != 1u ||
             payment_form->invoice_->prices_[0]->amount_ != star_count_) {
-          return promise_.set_error(400, "Wrong purchase price specified");
+          return promise_.set_error(400, "Wrong Premium subscription price specified");
         }
         td_->create_handler<SendPremiumGiftQuery>(std::move(promise_))
             ->send(std::move(send_input_invoice_), payment_form->form_id_);

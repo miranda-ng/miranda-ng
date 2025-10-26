@@ -1044,14 +1044,110 @@
     <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\e2e_api.cpp">
       <Filter>Source Files\api</Filter>
     </ClCompile>
-    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api.cpp">
-      <Filter>Source Files\api</Filter>
-    </ClCompile>
-    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api.cpp">
-      <Filter>Source Files\api</Filter>
-    </ClCompile>
     <ClCompile Include="tdlib\src\stdafx.cxx">
       <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_0.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_1.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_2.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_3.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_4.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_5.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_6.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_7.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_8.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\td_api_9.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_0.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_1.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_2.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_3.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_4.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_5.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_6.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_7.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_8.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\generate\auto\td\telegram\telegram_api_9.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\AgeVerificationParameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\ChatTheme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\DialogPhoto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\ProfileTab.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\SuggestedPost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\SuggestedPostPrice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftResalePrice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StoryAlbum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\TonAmount.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\CurrencyAmount.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\SearchPostsFlood.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\PeerColorCollectible.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StarRating.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2569,6 +2665,84 @@
     </ClInclude>
     <ClInclude Include="tdlib\td\td\generate\auto\td\telegram\e2e_api.hpp">
       <Filter>Source Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\AgeVerificationParameters.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\AgeVerificationParameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\ChatTheme.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\ChatTheme.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\DialogPhoto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\DialogPhoto.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\ProfileTab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\SuggestedPost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\SuggestedPost.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\SuggestedPostPrice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\SuggestedPostPrice.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftResalePrice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftResalePrice.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StoryAlbum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StoryAlbumFullId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StoryAlbumId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\TonAmount.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\TonAmount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\PeerColorCollectible.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\PeerColorCollectible.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\SearchPostsFlood.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarRating.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarRating.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\CurrencyAmount.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\CurrencyAmount.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

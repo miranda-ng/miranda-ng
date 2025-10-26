@@ -987,12 +987,20 @@ class SetChatThemeQuery final : public Td::ResultHandler {
   explicit SetChatThemeQuery(Promise<Unit> &&promise) : promise_(std::move(promise)) {
   }
 
-  void send(DialogId dialog_id, const string &theme_name) {
+  void send(DialogId dialog_id, const string &theme_name, bool is_gift) {
     dialog_id_ = dialog_id;
     auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Write);
     CHECK(input_peer != nullptr);
-    send_query(G()->net_query_creator().create(telegram_api::messages_setChatTheme(std::move(input_peer), theme_name),
-                                               {{dialog_id_}}));
+    telegram_api::object_ptr<telegram_api::InputChatTheme> theme;
+    if (theme_name.empty()) {
+      theme = telegram_api::make_object<telegram_api::inputChatThemeEmpty>();
+    } else if (is_gift) {
+      theme = telegram_api::make_object<telegram_api::inputChatThemeUniqueGift>(theme_name);
+    } else {
+      theme = telegram_api::make_object<telegram_api::inputChatTheme>(theme_name);
+    }
+    send_query(G()->net_query_creator().create(
+        telegram_api::messages_setChatTheme(std::move(input_peer), std::move(theme)), {{dialog_id_}}));
   }
 
   void on_result(BufferSlice packet) final {
@@ -1509,7 +1517,7 @@ bool DialogManager::have_dialog_info(DialogId dialog_id) const {
   switch (dialog_id.get_type()) {
     case DialogType::User: {
       UserId user_id = dialog_id.get_user_id();
-      return td_->user_manager_->have_user(user_id);
+      return td_->user_manager_->have_accessible_user(user_id);
     }
     case DialogType::Chat: {
       ChatId chat_id = dialog_id.get_chat_id();
@@ -1865,6 +1873,21 @@ bool DialogManager::is_broadcast_channel(DialogId dialog_id) const {
   return td_->chat_manager_->is_broadcast_channel(dialog_id.get_channel_id());
 }
 
+bool DialogManager::can_dialog_have_threads(DialogId dialog_id) const {
+  switch (dialog_id.get_type()) {
+    case DialogType::User:
+      return td_->auth_manager_->is_bot() || td_->user_manager_->is_user_bot(dialog_id.get_user_id());
+    case DialogType::Channel:
+      return !td_->chat_manager_->is_broadcast_channel(dialog_id.get_channel_id());
+    case DialogType::Chat:
+    case DialogType::SecretChat:
+    case DialogType::None:
+    default:
+      break;
+  }
+  return false;
+}
+
 bool DialogManager::on_get_dialog_error(DialogId dialog_id, const Status &status, const char *source) {
   auto message = status.message();
   if (message == CSlice("BOT_METHOD_INVALID")) {
@@ -1985,6 +2008,24 @@ CustomEmojiId DialogManager::get_dialog_background_custom_emoji_id(DialogId dial
     default:
       UNREACHABLE();
       return CustomEmojiId();
+  }
+}
+
+td_api::object_ptr<td_api::upgradedGiftColors> DialogManager::get_dialog_upgraded_gift_colors_object(
+    DialogId dialog_id) const {
+  switch (dialog_id.get_type()) {
+    case DialogType::User:
+      return td_->user_manager_->get_user_upgraded_gift_colors_object(dialog_id.get_user_id());
+    case DialogType::Chat:
+      return nullptr;
+    case DialogType::Channel:
+      return nullptr;
+    case DialogType::SecretChat:
+      return td_->user_manager_->get_secret_chat_upgraded_gift_colors_object(dialog_id.get_secret_chat_id());
+    case DialogType::None:
+    default:
+      UNREACHABLE();
+      return 0;
   }
 }
 
@@ -3364,8 +3405,9 @@ void DialogManager::set_dialog_message_ttl_on_server(DialogId dialog_id, int32 t
   td_->create_handler<SetHistoryTtlQuery>(std::move(promise))->send(dialog_id, ttl);
 }
 
-void DialogManager::set_dialog_theme_on_server(DialogId dialog_id, const string &theme_name, Promise<Unit> &&promise) {
-  td_->create_handler<SetChatThemeQuery>(std::move(promise))->send(dialog_id, theme_name);
+void DialogManager::set_dialog_theme_on_server(DialogId dialog_id, const string &theme_name, bool is_gift,
+                                               Promise<Unit> &&promise) {
+  td_->create_handler<SetChatThemeQuery>(std::move(promise))->send(dialog_id, theme_name, is_gift);
 }
 
 class DialogManager::ToggleDialogIsBlockedOnServerLogEvent {

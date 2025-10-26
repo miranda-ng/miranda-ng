@@ -491,7 +491,7 @@ void CTelegramProto::OnGetTopics(td::ClientManager::Response &response, void *pU
 
 	auto *pInfo = (TD::forumTopics *)response.object.get();
 	if (pInfo->topics_.size() >= 100)
-		SendQuery(new TD::getForumTopics(pUser->chatId, "", pInfo->next_offset_date_, pInfo->next_offset_message_id_, pInfo->next_offset_message_thread_id_, 100),
+		SendQuery(new TD::getForumTopics(pUser->chatId, "", pInfo->next_offset_date_, pInfo->next_offset_message_id_, pInfo->next_offset_forum_topic_id_, 100),
 			&CTelegramProto::OnGetTopics, pUser);
 }
 
@@ -510,17 +510,17 @@ void CTelegramProto::ProcessForum(TD::updateForumTopicInfo *pForum)
 	}
 
 	if (pInfo->is_general_) {
-		SetId(pUser->m_si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
+		SetId(pUser->m_si->hContact, pForum->info_->forum_topic_id_, DBKEY_THREAD);
 		return;
 	}
 
 	wchar_t wszId[100];
-	mir_snwprintf(wszId, L"%lld_%lld", pInfo->chat_id_, pForum->info_->message_thread_id_);
+	mir_snwprintf(wszId, L"%lld_%lld", pInfo->chat_id_, pForum->info_->forum_topic_id_);
 
 	auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, Utf2T(pForum->info_->name_.c_str()), pUser);
 	si->pParent = pUser->m_si;
 
-	SetId(si->hContact, pForum->info_->message_thread_id_, DBKEY_THREAD);
+	SetId(si->hContact, pForum->info_->forum_topic_id_, DBKEY_THREAD);
 	SetId(si->hContact, pUser->id, DBKEY_OWNER);
 
 	Chat_Mute(si->hContact, Chat_IsMuted(pUser->hContact));

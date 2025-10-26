@@ -92,7 +92,12 @@ enum class MessageContentType : int32 {
   ConferenceCall,
   ToDoList,
   TodoCompletions,
-  TodoAppendTasks
+  TodoAppendTasks,
+  GiftTon,
+  SuggestedPostSuccess,
+  SuggestedPostRefund,
+  SuggestedPostApproval,
+  SuggestBirthday
 };
 // increase MessageUnsupported::CURRENT_VERSION each time a new message content type is added
 

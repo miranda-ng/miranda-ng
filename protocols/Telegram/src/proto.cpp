@@ -336,15 +336,14 @@ MCONTACT CTelegramProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 		}
 	}
 
-	auto cc = TD::make_object<TD::contact>(); 
-	cc->user_id_ = id;
+	auto cc = TD::make_object<TD::importedContact>(); 
 	if (psr->firstName.w)
 		cc->first_name_ = T2Utf(psr->firstName.w);
 	if (psr->lastName.w)
 		cc->last_name_ = T2Utf(psr->lastName.w);
 
 	if (!isTemp)
-		SendQuery(new TD::addContact(std::move(cc), false));
+		SendQuery(new TD::addContact(id, std::move(cc), false));
 	return pUser->hContact;
 }
 
@@ -354,8 +353,7 @@ int CTelegramProto::AuthRequest(MCONTACT hContact, const wchar_t *)
 	if (pUser == nullptr)
 		return 1;  // error
 
-	auto cc = TD::make_object<TD::contact>();
-	cc->user_id_ = pUser->id;
+	auto cc = TD::make_object<TD::importedContact>();
 	if (!pUser->wszFirstName.IsEmpty())
 		cc->first_name_ = T2Utf(pUser->wszFirstName);
 	else
@@ -366,7 +364,7 @@ int CTelegramProto::AuthRequest(MCONTACT hContact, const wchar_t *)
 	else
 		cc->last_name_ = getMStringU(hContact, "LastName").c_str();
 	
-	SendQuery(new TD::addContact(std::move(cc), false));
+	SendQuery(new TD::addContact(pUser->id, std::move(cc), false));
 	return 0;
 }
 

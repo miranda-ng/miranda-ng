@@ -2834,6 +2834,7 @@ string NotificationManager::convert_loc_key(const string &loc_key) {
       {"CHAT_VOICECHAT_INVITE_YOU", "MESSAGE_CHAT_VOICECHAT_INVITE_YOU"},
       {"CHAT_VOICECHAT_START", "MESSAGE_CHAT_VOICECHAT_START"},
       {"CONTACT_JOINED", "MESSAGE_CONTACT_REGISTERED"},
+      {"CONTACT_JOINED_PREMIUM", "MESSAGE_CONTACT_REGISTERED_PREMIUM"},
       {"ENCRYPTED_MESSAGE", "MESSAGE"},
       {"MESSAGES", "MESSAGES"},
       {"MESSAGE_AUDIO", "MESSAGE_VOICE_NOTE"},
@@ -2847,6 +2848,7 @@ string NotificationManager::convert_loc_key(const string &loc_key) {
       {"MESSAGE_GEOLIVE", "MESSAGE_LIVE_LOCATION"},
       {"MESSAGE_GIF", "MESSAGE_ANIMATION"},
       {"MESSAGE_GIFTCODE", "MESSAGE_GIFTCODE"},
+      {"MESSAGE_GIFT_THEME", "MESSAGE_CHAT_CHANGE_THEME"},
       {"MESSAGE_GIVEAWAY", "MESSAGE_GIVEAWAY"},
       {"MESSAGE_GIVEAWAY_STARS", "MESSAGE_GIVEAWAY_STARS"},
       {"MESSAGE_INVOICE", "MESSAGE_INVOICE"},
@@ -2865,10 +2867,13 @@ string NotificationManager::convert_loc_key(const string &loc_key) {
       {"MESSAGE_SAME_WALLPAPER", "MESSAGE_SAME_WALLPAPER"},
       {"MESSAGE_SCREENSHOT", "MESSAGE_SCREENSHOT_TAKEN"},
       {"MESSAGE_STARGIFT", "MESSAGE_STARGIFT"},
+      {"MESSAGE_STARGIFT_PREPAID_UPGRADE", "MESSAGE_STARGIFT_PREPAID_UPGRADE"},
+      {"MESSAGE_STARGIFT_UNPACK_UPGRADE", "MESSAGE_STARGIFT_UNPACK_UPGRADE"},
       {"MESSAGE_STARGIFT_UPGRADE", "MESSAGE_STARGIFT_UPGRADE"},
       {"MESSAGE_STICKER", "MESSAGE_STICKER"},
       {"MESSAGE_STORY", "MESSAGE_STORY"},
       {"MESSAGE_STORY_MENTION", "MESSAGE_STORY_MENTION"},
+      {"MESSAGE_SUGGEST_BIRTHDAY", "MESSAGE_SUGGEST_BIRTHDAY"},
       {"MESSAGE_SUGGEST_USERPIC", "MESSAGE_SUGGEST_PHOTO"},
       {"MESSAGE_TEXT", "MESSAGE_TEXT"},
       {"MESSAGE_THEME", "MESSAGE_CHAT_CHANGE_THEME"},
@@ -2922,7 +2927,7 @@ void NotificationManager::add_push_notification_user(
   auto user_name = sender_user_id.get() == 136817688 ? "Channel" : sender_name;
   auto user = telegram_api::make_object<telegram_api::user>(
       flags, false, false, false, false, false, false, false, false, false, true /*min*/, false, false, false, false,
-      false, false, false, false, 0, false, false, false, false, false, false, false, sender_user_id.get(),
+      false, false, false, false, 0, false, false, false, false, false, false, false, false, sender_user_id.get(),
       sender_access_hash, user_name, string(), string(), string(), std::move(sender_photo), nullptr, 0, Auto(),
       string(), string(), nullptr, vector<telegram_api::object_ptr<telegram_api::username>>(), 0, nullptr, nullptr, 0,
       0, 0);

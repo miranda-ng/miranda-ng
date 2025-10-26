@@ -7,6 +7,7 @@
 #pragma once
 
 #include "td/telegram/Global.h"
+#include "td/telegram/PeerColorCollectible.hpp"
 #include "td/telegram/StarGift.h"
 #include "td/telegram/StarGiftAttribute.hpp"
 #include "td/telegram/StickersManager.h"
@@ -35,6 +36,17 @@ void StarGift::store(StorerT &storer) const {
   bool has_owner_address = !owner_address_.empty();
   bool has_gift_address = !gift_address_.empty();
   bool has_resale_star_count = resale_star_count_ != 0;
+  bool has_released_by_dialog_id = released_by_dialog_id_.is_valid();
+  bool has_per_user_remains = per_user_remains_ != 0;
+  bool has_per_user_total = per_user_total_ != 0;
+  bool has_resale_ton_count = resale_ton_count_ != 0;
+  bool has_regular_gift_id = regular_gift_id_ != 0;
+  bool has_value = !value_currency_.empty();
+  bool has_locked_until_date = locked_until_date_ != 0;
+  bool has_theme_dialog_id = theme_dialog_id_.is_valid();
+  bool has_host_dialog_id = host_dialog_id_.is_valid();
+  bool has_peer_color = peer_color_ != nullptr;
+  bool has_flags2 = true;
   BEGIN_STORE_FLAGS();
   STORE_FLAG(is_limited);
   STORE_FLAG(has_default_sell_star_count);
@@ -51,6 +63,23 @@ void StarGift::store(StorerT &storer) const {
   STORE_FLAG(has_owner_address);
   STORE_FLAG(has_gift_address);
   STORE_FLAG(has_resale_star_count);
+  STORE_FLAG(has_released_by_dialog_id);
+  STORE_FLAG(is_premium_);
+  STORE_FLAG(has_per_user_remains);
+  STORE_FLAG(has_per_user_total);
+  STORE_FLAG(resale_ton_only_);
+  STORE_FLAG(has_resale_ton_count);
+  STORE_FLAG(has_regular_gift_id);
+  STORE_FLAG(has_value);
+  STORE_FLAG(has_locked_until_date);
+  STORE_FLAG(is_theme_available_);
+  STORE_FLAG(has_theme_dialog_id);
+  STORE_FLAG(has_host_dialog_id);
+  STORE_FLAG(has_colors_);
+  STORE_FLAG(has_peer_color);
+  STORE_FLAG(has_flags2);
+  END_STORE_FLAGS();
+  BEGIN_STORE_FLAGS();
   END_STORE_FLAGS();
   td::store(id_, storer);
   if (!is_unique_) {
@@ -102,6 +131,37 @@ void StarGift::store(StorerT &storer) const {
     if (has_resale_star_count) {
       td::store(resale_star_count_, storer);
     }
+    if (has_resale_ton_count) {
+      td::store(resale_ton_count_, storer);
+    }
+    if (has_theme_dialog_id) {
+      td::store(theme_dialog_id_, storer);
+    }
+  }
+  if (has_released_by_dialog_id) {
+    td::store(released_by_dialog_id_, storer);
+  }
+  if (has_per_user_remains) {
+    td::store(per_user_remains_, storer);
+  }
+  if (has_per_user_total) {
+    td::store(per_user_total_, storer);
+  }
+  if (has_regular_gift_id) {
+    td::store(regular_gift_id_, storer);
+  }
+  if (has_value) {
+    td::store(value_currency_, storer);
+    td::store(value_amount_, storer);
+  }
+  if (has_locked_until_date) {
+    td::store(locked_until_date_, storer);
+  }
+  if (has_host_dialog_id) {
+    td::store(host_dialog_id_, storer);
+  }
+  if (has_peer_color) {
+    td::store(peer_color_, storer);
   }
 }
 
@@ -121,6 +181,17 @@ void StarGift::parse(ParserT &parser) {
   bool has_owner_address;
   bool has_gift_address;
   bool has_resale_star_count;
+  bool has_released_by_dialog_id;
+  bool has_per_user_remains;
+  bool has_per_user_total;
+  bool has_resale_ton_count;
+  bool has_regular_gift_id;
+  bool has_value;
+  bool has_locked_until_date;
+  bool has_theme_dialog_id;
+  bool has_host_dialog_id;
+  bool has_peer_color;
+  bool has_flags2;
   BEGIN_PARSE_FLAGS();
   PARSE_FLAG(is_limited);
   PARSE_FLAG(has_default_sell_star_count);
@@ -137,7 +208,26 @@ void StarGift::parse(ParserT &parser) {
   PARSE_FLAG(has_owner_address);
   PARSE_FLAG(has_gift_address);
   PARSE_FLAG(has_resale_star_count);
+  PARSE_FLAG(has_released_by_dialog_id);
+  PARSE_FLAG(is_premium_);
+  PARSE_FLAG(has_per_user_remains);
+  PARSE_FLAG(has_per_user_total);
+  PARSE_FLAG(resale_ton_only_);
+  PARSE_FLAG(has_resale_ton_count);
+  PARSE_FLAG(has_regular_gift_id);
+  PARSE_FLAG(has_value);
+  PARSE_FLAG(has_locked_until_date);
+  PARSE_FLAG(is_theme_available_);
+  PARSE_FLAG(has_theme_dialog_id);
+  PARSE_FLAG(has_host_dialog_id);
+  PARSE_FLAG(has_colors_);
+  PARSE_FLAG(has_peer_color);
+  PARSE_FLAG(has_flags2);
   END_PARSE_FLAGS();
+  if (has_flags2) {
+    BEGIN_PARSE_FLAGS();
+    END_PARSE_FLAGS();
+  }
   td::parse(id_, parser);
   if (!is_unique_) {
     sticker_file_id_ = td->stickers_manager_->parse_sticker(false, parser);
@@ -195,6 +285,37 @@ void StarGift::parse(ParserT &parser) {
     if (has_resale_star_count) {
       td::parse(resale_star_count_, parser);
     }
+    if (has_resale_ton_count) {
+      td::parse(resale_ton_count_, parser);
+    }
+    if (has_theme_dialog_id) {
+      td::parse(theme_dialog_id_, parser);
+    }
+  }
+  if (has_released_by_dialog_id) {
+    td::parse(released_by_dialog_id_, parser);
+  }
+  if (has_per_user_remains) {
+    td::parse(per_user_remains_, parser);
+  }
+  if (has_per_user_total) {
+    td::parse(per_user_total_, parser);
+  }
+  if (has_regular_gift_id) {
+    td::parse(regular_gift_id_, parser);
+  }
+  if (has_value) {
+    td::parse(value_currency_, parser);
+    td::parse(value_amount_, parser);
+  }
+  if (has_locked_until_date) {
+    td::parse(locked_until_date_, parser);
+  }
+  if (has_host_dialog_id) {
+    td::parse(host_dialog_id_, parser);
+  }
+  if (has_peer_color) {
+    td::parse(peer_color_, parser);
   }
 }
 

@@ -3,6 +3,7 @@
 const char *getName(const TD::usernames *pName);
 
 TD::int53 getReplyId(const TD::MessageReplyTo *pReply);
+TD::int53 getThreadId(const TD::MessageTopic *pTopic);
 
 TD::object_ptr<TD::inputFileLocal> makeFile(const wchar_t *pwszFilename);
 
