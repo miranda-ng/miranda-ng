@@ -423,7 +423,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 						else if (!mir_strcmpi(szItemName, "category")) {
 							if (auto *p = itemval->Attribute("label"))
 								ClearText(category, ptrW(EncodeResult(p, codepage)));
-							else if (auto *p = itemval->Attribute("term"))
+							else if (p = itemval->Attribute("term"))
 								ClearText(category, ptrW(EncodeResult(p, codepage)));
 						}
 					}
