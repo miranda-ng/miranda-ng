@@ -650,3 +650,12 @@ EXPORTS
 ?store@importedContact@td_api@td@@UEBAXAEAVTlStorerToString@3@PEBD@Z @647 NONAME
 ?store@messageTopicForum@td_api@td@@UEBAXAEAVTlStorerToString@3@PEBD@Z @648 NONAME
 ?store@messageTopicThread@td_api@td@@UEBAXAEAVTlStorerToString@3@PEBD@Z @649 NONAME
+??0getMessage@td_api@td@@QEAA@$$QEAV012@@Z @650 NONAME
+??0getMessage@td_api@td@@QEAA@XZ @651 NONAME
+??0getMessage@td_api@td@@QEAA@_J0@Z @652 NONAME
+??1getMessage@td_api@td@@UEAA@XZ @653 NONAME
+??4getMessage@td_api@td@@QEAAAEAV012@$$QEAV012@@Z @654 NONAME
+??_7getMessage@td_api@td@@6B@ @655 NONAME
+?ID@getMessage@td_api@td@@2HB @656 NONAME
+?get_id@getMessage@td_api@td@@EEBAHXZ @657 NONAME
+?store@getMessage@td_api@td@@UEBAXAEAVTlStorerToString@3@PEBD@Z @658 NONAME

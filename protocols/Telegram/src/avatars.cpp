@@ -102,18 +102,24 @@ void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *
 	if (!response.object)
 		return;
 
-	if (response.object->get_id() != TD::file::ID) {
+	if (response.object->get_id() != TD::message::ID) {
 		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::chats::ID);
 		return;
 	}
 
-	auto *pFile = (TD::file*)response.object.get();
-
 	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
-	ft->m_fileId = pFile->id_;
-	ft->m_uniqueId = pFile->remote_->unique_id_.c_str();
+	auto *pMessage = (TD::message*)response.object.get();
+	
+	CMStringA szFileName, szCaption;
+	if (auto *pFile = GetContentFile(pMessage->content_.get(), ft->m_type, szFileName, szCaption)) {
+		ft->m_fileName = Utf2T(szFileName);
+		ft->m_wszDescr = Utf2T(szCaption);
+		ft->m_fileId = pFile->id_;
+		ft->m_uniqueId = pFile->remote_->unique_id_.c_str();
 
-	SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, false));
+		SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, false));
+	}
+	else delete ft;
 }
 
 void CTelegramProto::OnGetFileLink(td::ClientManager::Response &response)
@@ -133,8 +139,9 @@ void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 			ft->ofd = ofd;
 			m_arFiles.insert(ft);
 
-			DB::FILE_BLOB blob(dbei);
-			SendQuery(new TD::getRemoteFile(blob.getUrl(), 0), &CTelegramProto::OnGetFileInfo, ft);
+			TD::int53 chatId, msgId;
+			if (2 == sscanf(dbei.szId, "%lld_%lld", &chatId, &msgId))
+				SendQuery(new TD::getMessage(chatId, msgId), &CTelegramProto::OnGetFileInfo, ft);
 		}
 	}
 	else delete ofd;

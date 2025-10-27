@@ -30,6 +30,7 @@ std::int32_t used_ids[] = {
 	td::td_api::getChats::ID,
 	td::td_api::getChatHistory::ID,
 	td::td_api::getForumTopics::ID,
+	td::td_api::getMessage::ID,
 	td::td_api::getMessageThreadHistory::ID,
 	td::td_api::getOption::ID,
 	td::td_api::getRemoteFile::ID,

@@ -291,22 +291,9 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void UnregisterSession();
 
-	struct EmbeddedFile
-	{
-		EmbeddedFile(CMStringA &_1) :
-			szBody(_1)
-		{}
-
-		CMStringA &szBody;
-		const TG_USER *pUser;
-		const char *pszId, *pszUser;
-		const TD::message *pMsg;
-		bool bRead;
-	};
-	
 	void ShowFileProgress(const TD::file *pFile, TG_FILE_REQUEST *ft);
 
-	bool GetMessageFile(const EmbeddedFile &embed, TG_FILE_REQUEST::Type, const TD::file *pFile, const char *pszFileName, const char *pszCaption);
+	const TD::file* GetContentFile(const TD::MessageContent *pBody, TG_FILE_REQUEST::Type &type, CMStringA &szFileName, CMStringA &szCaption);
 	
 	CMStringA GetFormattedText(TD::object_ptr<TD::formattedText> &pText);
 	CMStringA GetMessagePreview(const TD::file *pFile);

@@ -498,53 +498,6 @@ bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CTelegramProto::GetMessageFile(const EmbeddedFile &F, TG_FILE_REQUEST::Type iType, const TD::file *pFile, const char *pszFileName, const char *pszCaption)
-{
-	auto *pRequest = new TG_FILE_REQUEST(iType, pFile->id_, pFile->remote_->id_.c_str());
-	pRequest->m_fileName = Utf2T(pszFileName);
-	pRequest->m_fileSize = pFile->size_;
-	pRequest->m_bRecv = !F.pMsg->is_outgoing_;
-	pRequest->m_hContact = GetRealContact(F.pUser, getThreadId(F.pMsg->topic_id_.get()));
-
-	if (mir_strlen(pszCaption))
-		F.szBody += pszCaption;
-
-	char szReplyId[100];
-
-	DB::EventInfo dbei(db_event_getById(m_szModuleName, F.pszId));
-	dbei.bTemporary = true;
-	dbei.szId = F.pszId;
-	dbei.szUserId = F.pszUser;
-	if (F.pMsg->date_)
-		dbei.iTimestamp = F.pMsg->date_;
-	if (F.pMsg->is_outgoing_) {
-		dbei.bSent = true;
-		if (F.pUser->id != m_iOwnId)
-			dbei.bRead = true;
-	}
-	if (!F.pUser->bInited || F.bRead)
-		dbei.bRead = true;
-	if (auto iReplyId = getReplyId(F.pMsg->reply_to_.get())) {
-		_i64toa(iReplyId, szReplyId, 10);
-		dbei.szReplyId = szReplyId;
-	}
-
-	if (dbei) {
-		if (!Ignore_IsIgnored(pRequest->m_hContact, IGNOREEVENT_FILE)) {
-			DB::FILE_BLOB blob(dbei);
-			blob.setDescr(Utf2T(pszCaption));
-			OnReceiveOfflineFile(dbei, blob);
-			blob.write(dbei);
-			db_event_edit(dbei.getEvent(), &dbei, true);
-		}
-		delete pRequest;
-	}
-	else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, pszFileName, F.szBody), dbei);
-	
-	F.szBody.Empty();
-	return true;
-}
-
 CMStringA CTelegramProto::GetMessagePreview(const TD::file *pFile)
 {
 	auto *pFileId = pFile->remote_->unique_id_.c_str();
@@ -617,6 +570,100 @@ static bool checkStickerType(uint32_t ID)
 	}	
 }
 
+const TD::file *CTelegramProto::GetContentFile(const TD::MessageContent *pBody, TG_FILE_REQUEST::Type &type, CMStringA &szFileName, CMStringA &szCaption)
+{
+	switch (pBody->get_id()) {
+	case TD::messagePhoto::ID:
+		if (auto *pDoc = (TD::messagePhoto *)pBody) {
+			auto *pPhoto = GetBiggestPhoto(pDoc->photo_.get());
+			if (pPhoto == nullptr) {
+				debugLogA("cannot find photo, exiting");
+				return nullptr;
+			}
+
+			type = TG_FILE_REQUEST::PICTURE;
+			szFileName.Format("%s (%d x %d)", TranslateU("Picture"), pPhoto->width_, pPhoto->height_);
+			szCaption = pDoc->caption_->text_.c_str();
+			return pPhoto->photo_.get();
+		}
+		break;
+
+	case TD::messageAudio::ID:
+		if (auto *pDoc = (TD::messageAudio *)pBody) {
+			type = TG_FILE_REQUEST::VIDEO;
+			
+			auto *pAudio = pDoc->audio_.get();
+			szFileName = pAudio->file_name_.c_str();
+			szCaption.Format("%s (%d %s)", TranslateU("Audio"), pAudio->duration_, TranslateU("seconds"));
+			if (!pDoc->caption_->text_.empty()) {
+				szCaption += " ";
+				szCaption += pDoc->caption_->text_.c_str();
+			}
+			return pAudio->audio_.get();
+		}
+		break;
+
+	case TD::messageVideo::ID:
+		if (auto *pDoc = (TD::messageVideo *)pBody) {
+			type = TG_FILE_REQUEST::VIDEO;
+
+			auto *pVideo = pDoc->video_.get();
+			szFileName = pVideo->file_name_.c_str();
+			szCaption.Format("%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
+			if (!pDoc->caption_->text_.empty()) {
+				szCaption += " ";
+				szCaption += pDoc->caption_->text_.c_str();
+			}
+			return pVideo->video_.get();
+		}
+		break;
+
+	case TD::messageAnimation::ID:
+		if (auto *pDoc = (TD::messageAnimation *)pBody) {
+			type = TG_FILE_REQUEST::VIDEO;
+
+			auto *pVideo = pDoc->animation_.get();
+			szFileName = pVideo->file_name_.c_str();
+			szCaption.Format("%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
+			if (!pDoc->caption_->text_.empty()) {
+				szCaption += " ";
+				szCaption += pDoc->caption_->text_.c_str();
+			}
+			return pVideo->animation_.get();
+		}
+		break;
+
+	case TD::messageVideoNote::ID:
+		if (auto *pDoc = (TD::messageVideoNote *)pBody) {
+			type = TG_FILE_REQUEST::VIDEO;
+
+			auto *pVideo = pDoc->video_note_.get();
+			szFileName.Format("%s (%d %s)", TranslateU("Video note"), pVideo->duration_, TranslateU("seconds"));
+			return pVideo->video_.get();
+		}
+		break;
+
+	case TD::messageVoiceNote::ID:
+		if (auto *pDoc = (TD::messageVoiceNote *)pBody) {
+			type = TG_FILE_REQUEST::VOICE;
+			szFileName.Format("%s (%d %s)", TranslateU("Voice message"), pDoc->voice_note_->duration_, TranslateU("seconds"));
+			szCaption = pDoc->caption_->text_.c_str();
+			return pDoc->voice_note_->voice_.get();
+		}
+		break;
+
+	case TD::messageDocument::ID:
+		if (auto *pDoc = (TD::messageDocument *)pBody) {
+			type = TG_FILE_REQUEST::FILE;
+			szFileName = pDoc->document_->file_name_.c_str();
+			szCaption = pDoc->caption_->text_.c_str();
+			return pDoc->document_->document_.get();
+		}
+		break;
+	}
+	return nullptr;
+}
+
 CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin, bool bRead)
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
@@ -659,13 +706,6 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		ret.Insert(0, T2Utf(wszForward));
 	}
 
-	EmbeddedFile embed(ret);
-	embed.pUser = pUser;
-	embed.bRead = bRead;
-	embed.pszId= szMsgId;
-	embed.pszUser = szUserId;
-	embed.pMsg = pMsg;
-
 	switch (pBody->get_id()) {
 	case TD::messageChatUpgradeTo::ID:
 		if (auto *pUgrade = (TD::messageChatUpgradeTo *)pBody) {
@@ -700,75 +740,6 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 			ret.AppendFormat(TranslateU("Chat name was changed to %s"), pDoc->title_.c_str());
 		}
-		break;
-
-	case TD::messagePhoto::ID:
-		if (auto *pDoc = (TD::messagePhoto *)pBody) {
-			auto *pPhoto = GetBiggestPhoto(pDoc->photo_.get());
-			if (pPhoto == nullptr) {
-				debugLogA("cannot find photo, exiting");
-				break;
-			}
-
-			CMStringA fileName(FORMAT, "%s (%d x %d)", TranslateU("Picture"), pPhoto->width_, pPhoto->height_);
-			GetMessageFile(embed, TG_FILE_REQUEST::PICTURE, pPhoto->photo_.get(), fileName, pDoc->caption_->text_.c_str());
-		}
-		break;
-
-	case TD::messageAudio::ID:
-		if (auto *pDoc = (TD::messageAudio *)pBody) {
-			auto *pAudio = pDoc->audio_.get();
-			CMStringA caption(FORMAT, "%s (%d %s)", TranslateU("Audio"), pAudio->duration_, TranslateU("seconds"));
-			if (!pDoc->caption_->text_.empty()) {
-				caption += " ";
-				caption += pDoc->caption_->text_.c_str();
-			}
-			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pAudio->audio_.get(), pAudio->file_name_.c_str(), caption);
-		}
-		break;
-
-	case TD::messageVideo::ID:
-		if (auto *pDoc = (TD::messageVideo *)pBody) {
-			auto *pVideo = pDoc->video_.get();
-			CMStringA caption(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
-			if (!pDoc->caption_->text_.empty()) {
-				caption += " ";
-				caption += pDoc->caption_->text_.c_str();
-			}
-			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->video_.get(), pVideo->file_name_.c_str(), caption);
-		}
-		break;
-
-	case TD::messageAnimation::ID:
-		if (auto *pDoc = (TD::messageAnimation *)pBody) {
-			auto *pVideo = pDoc->animation_.get();
-			CMStringA caption(FORMAT, "%s (%d x %d, %d %s)", TranslateU("Video"), pVideo->width_, pVideo->height_, pVideo->duration_, TranslateU("seconds"));
-			if (!pDoc->caption_->text_.empty()) {
-				caption += " ";
-				caption += pDoc->caption_->text_.c_str();
-			}
-			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->animation_.get(), pVideo->file_name_.c_str(), caption.c_str());
-		}
-		break;
-
-	case TD::messageVideoNote::ID:
-		if (auto *pDoc = (TD::messageVideoNote *)pBody) {
-			auto *pVideo = pDoc->video_note_.get();
-			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Video note"), pVideo->duration_, TranslateU("seconds"));
-			GetMessageFile(embed, TG_FILE_REQUEST::VIDEO, pVideo->video_.get(), fileName, "");
-		}
-		break;
-
-	case TD::messageVoiceNote::ID:
-		if (auto *pDoc = (TD::messageVoiceNote *)pBody) {
-			CMStringA fileName(FORMAT, "%s (%d %s)", TranslateU("Voice message"), pDoc->voice_note_->duration_, TranslateU("seconds"));
-			GetMessageFile(embed, TG_FILE_REQUEST::VOICE, pDoc->voice_note_->voice_.get(), fileName, pDoc->caption_->text_.c_str());
-		}
-		break;
-
-	case TD::messageDocument::ID:
-		if (auto *pDoc = (TD::messageDocument *)pBody)
-			GetMessageFile(embed, TG_FILE_REQUEST::FILE, pDoc->document_->document_.get(), pDoc->document_->file_name_.c_str(), pDoc->caption_->text_.c_str());
 		break;
 
 	case TD::messageAnimatedEmoji::ID:
@@ -854,6 +825,52 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 		}
 		break;
+
+	default:
+		TG_FILE_REQUEST::Type iType;
+		CMStringA szFileName, szCaption, szBody;
+		if (auto *pFile = GetContentFile(pBody, iType, szFileName, szCaption)) {
+			auto *pRequest = new TG_FILE_REQUEST(iType, pFile->id_, pFile->remote_->id_.c_str());
+			pRequest->m_fileName = Utf2T(szFileName);
+			pRequest->m_fileSize = pFile->size_;
+			pRequest->m_bRecv = !pMsg->is_outgoing_;
+			pRequest->m_hContact = GetRealContact(pUser, getThreadId(pMsg->topic_id_.get()));
+
+			if (!szCaption.IsEmpty())
+				szBody += szCaption;
+
+			char szReplyId[100];
+
+			DB::EventInfo dbei(db_event_getById(m_szModuleName, szMsgId));
+			dbei.bTemporary = true;
+			dbei.szId = szMsgId;
+			dbei.szUserId = szUserId;
+			if (pMsg->date_)
+				dbei.iTimestamp = pMsg->date_;
+			if (pMsg->is_outgoing_) {
+				dbei.bSent = true;
+				if (pUser->id != m_iOwnId)
+					dbei.bRead = true;
+			}
+			if (!pUser->bInited || bRead)
+				dbei.bRead = true;
+			if (auto iReplyId = getReplyId(pMsg->reply_to_.get())) {
+				_i64toa(iReplyId, szReplyId, 10);
+				dbei.szReplyId = szReplyId;
+			}
+
+			if (dbei) {
+				if (!Ignore_IsIgnored(pRequest->m_hContact, IGNOREEVENT_FILE)) {
+					DB::FILE_BLOB blob(dbei);
+					blob.setDescr(Utf2T(szCaption));
+					OnReceiveOfflineFile(dbei, blob);
+					blob.write(dbei);
+					db_event_edit(dbei.getEvent(), &dbei, true);
+				}
+				delete pRequest;
+			}
+			else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, szFileName, szBody), dbei);
+		}
 	}
 
 	return ret;
