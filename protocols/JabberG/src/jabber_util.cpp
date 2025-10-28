@@ -631,58 +631,6 @@ char* JabberStripJid(const char *jid, char *dest, size_t destLen)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// TStringPairs class members
-
-TStringPairs::TStringPairs(char* buffer) :
-	elems(nullptr)
-{
-	TStringPairsElem tempElem[100];
-
-	char* token = strtok(buffer, ",");
-
-	for (numElems = 0; token != nullptr; numElems++) {
-		char* p = strchr(token, '='), *p1;
-		if (p == nullptr)
-			break;
-
-		while (isspace(*token))
-			token++;
-
-		tempElem[numElems].name = rtrim(token);
-		*p++ = 0;
-		if ((p1 = strchr(p, '\"')) != nullptr) {
-			*p1 = 0;
-			p = p1 + 1;
-		}
-
-		if ((p1 = strrchr(p, '\"')) != nullptr)
-			*p1 = 0;
-
-		tempElem[numElems].value = rtrim(p);
-		token = strtok(nullptr, ",");
-	}
-
-	if (numElems) {
-		elems = new TStringPairsElem[numElems];
-		memcpy(elems, tempElem, sizeof(tempElem[0]) * numElems);
-	}
-}
-
-TStringPairs::~TStringPairs()
-{
-	delete[] elems;
-}
-
-const char* TStringPairs::operator[](const char* key) const
-{
-	for (int i = 0; i < numElems; i++)
-		if (!mir_strcmp(elems[i].name, key))
-			return elems[i].value;
-
-	return "";
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Manage combo boxes with recent item list
 
 void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount)

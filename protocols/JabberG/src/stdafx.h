@@ -655,22 +655,6 @@ struct JabberAdHocData : public MZeroedObject
 
 //---- jabber_util.cpp ------------------------------------------------------------------
 
-struct TStringPairsElem
-{
-	const char *name, *value;
-};
-
-struct TStringPairs
-{
-	TStringPairs(char*);
-	~TStringPairs();
-
-	const char* operator[](const char* name) const;
-
-	int numElems;
-	TStringPairsElem *elems;
-};
-
 typedef char JabberShaStrBuf[2*MIR_SHA1_HASH_SIZE + 1];
 
 CMStringA MakeJid(const char *jid, const char *resource);

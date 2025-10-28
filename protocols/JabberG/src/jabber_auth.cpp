@@ -158,6 +158,29 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // md5 auth - digest-based authorization
 
+static void ParseAuthTokens(char *buffer, MHttpHeaders &hdr)
+{
+	for (char *token = strtok(buffer, ","); token; token = strtok(nullptr, ",")) {
+		char *p = strchr(token, '='), *p1;
+		if (p == nullptr)
+			break;
+
+		while (isspace(*token))
+			token++;
+
+		*p++ = 0;
+		if ((p1 = strchr(p, '\"')) != nullptr) {
+			*p1 = 0;
+			p = p1 + 1;
+		}
+
+		if ((p1 = strrchr(p, '\"')) != nullptr)
+			*p1 = 0;
+
+		hdr.AddHeader(rtrim(token), rtrim(p));
+	}
+}
+
 class TMD5Auth : public TJabberAuth
 {
 	typedef TJabberAuth CSuper;
@@ -179,10 +202,10 @@ public:
 		iCallCount++;
 
 		size_t resultLen;
-		ptrA text((char *)mir_base64_decode(challenge, &resultLen));
+		MHttpHeaders tokens;
+		ParseAuthTokens(ptrA((char *)mir_base64_decode(challenge, &resultLen)), tokens);
 
-		TStringPairs pairs(text);
-		const char *realm = pairs["realm"], *nonce = pairs["nonce"];
+		const char *realm = tokens["realm"], *nonce = tokens["nonce"];
 
 		char cnonce[40], tmpBuf[40];
 		uint32_t digest[4], hash1[4], hash2[4];
@@ -227,14 +250,13 @@ public:
 		mir_md5_append(&ctx, (uint8_t *)tmpBuf, (int)mir_strlen(tmpBuf));
 		mir_md5_finish(&ctx, (uint8_t *)digest);
 
-		char *buf = (char *)alloca(8000);
-		int cbLen = mir_snprintf(buf, 8000,
+		CMStringA buf(FORMAT,
 			"username=\"%s\",realm=\"%s\",nonce=\"%s\",cnonce=\"%s\",nc=%08d,"
 			"qop=auth,digest-uri=\"xmpp/%s\",charset=utf-8,response=%08x%08x%08x%08x",
 			info->conn.username, realm, nonce, cnonce, iCallCount, serv.get(),
 			htonl(digest[0]), htonl(digest[1]), htonl(digest[2]), htonl(digest[3]));
 
-		return mir_base64_encode(buf, cbLen);
+		return mir_base64_encode(buf, buf.GetLength());
 	}
 };
 
