@@ -52,7 +52,9 @@ CJabberIqManager::CJabberIqManager(CJabberProto *proto) :
 
 CJabberIqManager::~CJabberIqManager()
 {
-	ExpireAll();
+	mir_cslock lck(m_cs);
+	for (auto &it : m_arIqs)
+		delete it;
 }
 
 void CJabberIqManager::FillPermanentHandlers()
