@@ -73,7 +73,6 @@ private:
 
 	// the window
 	LPTSTR      m_lpzSkin;
-	bool        m_customPopup;
 	HWND        m_hwnd, m_hwndToolTip;
 	bool        m_bPositioned;
 	POINT       m_pos;
@@ -175,8 +174,7 @@ public:
 		if (m_hwnd)
 		{
 			SetWindowPos(m_hwnd, nullptr, 0, 0, sz.cx, sz.cy, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING);
-			if (!m_customPopup)
-				PopupThreadUpdateWindow(this);
+			PopupThreadUpdateWindow(this);
 		}
 	}
 	bool	isPositioned()        { return m_bPositioned; }

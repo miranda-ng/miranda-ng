@@ -64,7 +64,6 @@ struct POPUPACTION
 // unicode or ansi mode
 #define PU2_ANSI         0x00
 #define PU2_UNICODE      0x01
-#define PU2_CUSTOM_POPUP 0x02
 
 struct POPUPDATA2
 {
@@ -103,8 +102,7 @@ struct POPUPDATA2
 	HANDLE lchNotification;
 };
 
-#define APF_RETURN_HWND  0x1
-#define APF_CUSTOM_POPUP 0x2
+#define APF_RETURN_HWND  0x01
 #define APF_NO_HISTORY   0x04	// do not log this popup in popup history (useful for previews)
 #define APF_NO_POPUP     0x08	// do not show popup. this is useful if you want popup yo be stored in history only
 

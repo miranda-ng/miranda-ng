@@ -108,17 +108,6 @@ struct POPUPOPTIONS
 	int  MaxPopups;
 };
 
-//===== User wnd class =====
-struct GLOBAL_WND_CLASSES{
-	ATOM	cPopupWnd2;
-	ATOM	cPopupEditBox;
-	ATOM	cPopupMenuHostWnd;
-	ATOM	cPopupThreadManagerWnd;
-	ATOM	cPopupPreviewBoxWndclass;
-	ATOM	cPopupPlusDlgBox;
-};
-extern GLOBAL_WND_CLASSES g_wndClass;
-
 #define ACT_ENABLE			0x00000001
 #define ACT_LARGE			0x00000002
 #define ACT_TEXT			0x00000004

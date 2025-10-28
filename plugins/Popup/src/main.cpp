@@ -46,8 +46,6 @@ HMODULE  hKernelDll = nullptr;
 HMODULE  hGdiDll = nullptr;
 HMODULE  hDwmapiDll = nullptr;
 
-GLOBAL_WND_CLASSES g_wndClass = { 0 };
-
 HANDLE   htuText;
 HANDLE   htuTitle;
 
@@ -394,12 +392,7 @@ int CMPlugin::Unload()
 	OptAdv_UnregisterVfx();
 	PopupHistoryUnload();
 
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupWnd2), g_plugin.getInst());
-	UnregisterClass(L"PopupEditBox", g_plugin.getInst());
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupMenuHostWnd), g_plugin.getInst());
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupThreadManagerWnd), g_plugin.getInst());
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPreviewBoxWndclass), g_plugin.getInst());
-	UnregisterClass(MAKEINTATOM(g_wndClass.cPopupPlusDlgBox), g_plugin.getInst());
+	UnregisterOptPrevBox();
 
 	UnloadGDIPlus();
 

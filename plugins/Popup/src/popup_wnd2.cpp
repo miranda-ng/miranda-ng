@@ -25,7 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "bitmap_funcs.h"
 #include <math.h>
 
-#define POPUP_WNDCLASS L"PopupWnd2"
+#define POPUP_WNDCLASS          L"PopupWnd2"
+#define POPUP_EDITBOX_WNDCLASS  L"PopupEditBox"
+#define POPUP_MENUHOST_WNDCLASS L"PopupMenuHostWnd"
 
 #ifndef CS_DROPSHADOW
 #define CS_DROPSHADOW 0x00020000
@@ -38,71 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define AVATAR_TIMER  1608
 #define CURSOR_TIMER  1609
 
-HWND	ghwndMenuHost = nullptr;
-
-void	WindowThread(void *arg);
-
-LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-bool LoadPopupWnd2()
-{
-	bool res = true;
-
-	WNDCLASSEX wcl = {};
-	wcl.cbSize = sizeof(wcl);
-	wcl.lpfnWndProc = PopupWnd2::WindowProc;
-	wcl.hInstance = g_plugin.getInst();
-	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszClassName = POPUP_WNDCLASS;
-	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
-	g_wndClass.cPopupWnd2 = RegisterClassEx(&wcl);
-	if (!g_wndClass.cPopupWnd2)
-		res = false;
-
-	WNDCLASSEX wclw = {};
-	wclw.cbSize = sizeof(wclw);
-	GetClassInfoEx(nullptr, L"EDIT", &wclw);
-
-	wclw.hInstance = g_plugin.getInst();
-	wclw.lpszClassName = L"PopupEditBox";
-	wclw.style |= CS_DROPSHADOW;
-	g_wndClass.cPopupEditBox = RegisterClassEx(&wclw);
-	if (!g_wndClass.cPopupEditBox)
-		res = false;
-
-	memset(&wcl, 0, sizeof(wcl));
-	wcl.cbSize = sizeof(wcl);
-	wcl.lpfnWndProc = MenuHostWndProc;
-	wcl.style = 0;
-	wcl.cbClsExtra = 0;
-	wcl.cbWndExtra = 0;
-	wcl.hInstance = g_plugin.getInst();
-	wcl.hIcon = nullptr;
-	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = nullptr;
-	wcl.lpszClassName = L"PopupMenuHostWnd";
-	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
-	g_wndClass.cPopupMenuHostWnd = RegisterClassEx(&wcl);
-	if (!g_wndClass.cPopupMenuHostWnd)
-		res = false;
-
-	ghwndMenuHost = CreateWindow(L"PopupMenuHostWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
-	SetWindowPos(ghwndMenuHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
-
-	INITCOMMONCONTROLSEX iccex;
-	iccex.dwICC = ICC_WIN95_CLASSES;
-	iccex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-	InitCommonControlsEx(&iccex);
-
-	return res && ghwndMenuHost;
-}
-
-void UnloadPopupWnd2()
-{
-	DestroyWindow(ghwndMenuHost);
-}
+static HWND g_hwndMenuHost = nullptr;
 
 PopupWnd2::PopupWnd2(POPUPDATA2 *ppd, POPUPOPTIONS *theCustomOptions, bool renderOnly)
 {
@@ -137,10 +75,32 @@ PopupWnd2::~PopupWnd2()
 	if (m_mtTitle) MTextDestroy(m_mtTitle);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static void WindowThread(void *arg)
+{
+	Thread_SetName("POPUP: WindowThread");
+
+	CoInitialize(nullptr); // we may need OLE in this thread for smiley substitution
+
+	PopupWnd2 *wnd = (PopupWnd2 *)arg;
+	wnd->buildMText();
+	wnd->create();
+	PostMessage(wnd->getHwnd(), UM_INITPOPUP, 0, 0);
+
+	MSG msg;
+	while (GetMessage(&msg, nullptr, 0, 0)) {
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+}
+
 void PopupWnd2::startThread()
 {
 	mir_forkthread(WindowThread, this);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void PopupWnd2::create()
 {
@@ -303,7 +263,7 @@ void PopupWnd2::animate()
 
 void PopupWnd2::show()
 {
-	if ((m_options->bUseEffect || (m_options->bUseAnimations && !m_customPopup)) && m_options->FadeIn) {
+	if ((m_options->bUseEffect || m_options->bUseAnimations) && m_options->FadeIn) {
 		IPopupPlusEffect *effect = nullptr;
 		m_bSlide = m_bFade = false;
 		uint32_t dwTime, dwTime0 = GetTickCount();
@@ -327,7 +287,7 @@ void PopupWnd2::show()
 		else {
 			updateLayered(m_options->bUseTransparency ? m_options->Alpha : 255);
 		}
-		if (m_options->bUseAnimations && !m_customPopup) {
+		if (m_options->bUseAnimations) {
 			m_bSlide = true;
 			m_ptPosition0 = m_pos;
 			m_ptPosition1 = m_pos;
@@ -389,7 +349,7 @@ void PopupWnd2::show()
 
 void PopupWnd2::hide()
 {
-	if ((m_options->bUseEffect || (m_options->bUseAnimations && !m_customPopup)) && m_options->FadeOut) {
+	if ((m_options->bUseEffect || m_options->bUseAnimations) && m_options->FadeOut) {
 		m_bDestroy = true;
 		IPopupPlusEffect *effect = nullptr;
 		m_bFade = m_bSlide = false;
@@ -411,7 +371,7 @@ void PopupWnd2::hide()
 					}
 			}
 		}
-		if (m_options->bUseAnimations && !m_customPopup) {
+		if (m_options->bUseAnimations) {
 			m_bSlide = true;
 			m_ptPosition0 = m_pos;
 			m_ptPosition1 = m_pos;
@@ -711,7 +671,6 @@ void PopupWnd2::updateData(POPUPDATA2 *ppd)
 
 	m_PluginData = ppd->PluginData;
 	m_PluginWindowProc = ppd->PluginWindowProc;
-	m_customPopup = (ppd->flags & PU2_CUSTOM_POPUP) != 0;
 
 	m_hbmAvatar = ppd->hbmAvatar;
 	m_lpzSkin = mir_a2u(ppd->lpzSkin);
@@ -858,8 +817,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		return DefWindowProc(m_hwnd, message, wParam, lParam);
 
 	case UM_INITPOPUP:
-		if (!m_customPopup)
-			PopupThreadAddWindow(this);
+		PopupThreadAddWindow(this);
 		if (m_iTimeout > 0)
 			SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout * 1000, nullptr);
 		
@@ -894,13 +852,11 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			break;
 
 		case ACT_DEF_REPLY:
-			if (!m_customPopup) PopupThreadLock();
+			PopupThreadLock();
 			RECT rc;
 			GetWindowRect(m_hwnd, &rc);
 			{
-				HWND hwndEditBox = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST,
-					g_wndClass.cPopupEditBox ? L"PopupEditBox" : L"EDIT",
-					nullptr,
+				HWND hwndEditBox = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POPUP_EDITBOX_WNDCLASS, nullptr,
 					WS_BORDER | WS_POPUP | WS_VISIBLE | ES_AUTOVSCROLL | ES_LEFT | ES_MULTILINE | ES_NOHIDESEL | ES_WANTRETURN,
 					rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, g_plugin.getInst(), nullptr);
 
@@ -923,7 +879,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case ACT_DEF_MENU:
 			lock();
-			PostMessage(ghwndMenuHost, UM_SHOWMENU, (WPARAM)m_hwnd, (LPARAM)m_hContact);
+			PostMessage(g_hwndMenuHost, UM_SHOWMENU, (WPARAM)m_hwnd, (LPARAM)m_hContact);
 			break;
 
 		case ACT_DEF_ADD:
@@ -1054,14 +1010,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		switch (wParam) {
 		case POPUP_TIMER:
 			KillTimer(m_hwnd, POPUP_TIMER);
-			if (!m_customPopup)
-				PopupThreadRequestRemoveWindow(this);
-			else {
-				if (isLocked())
-					updateTimer();
-				else
-					PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-			}
+			PopupThreadRequestRemoveWindow(this);
 			break;
 
 		case AVATAR_TIMER:
@@ -1139,7 +1088,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			tme.dwHoverTime = HOVER_DEFAULT;
 			tme.hwndTrack = m_hwnd;
 			_TrackMouseEvent(&tme);
-			if (!m_customPopup) PopupThreadLock();
+			PopupThreadLock();
 
 			if (m_options->bOpaqueOnHover)
 				updateLayered(255);
@@ -1160,7 +1109,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			if (m_options->bOpaqueOnHover)
 				updateLayered(m_options->bUseTransparency ? m_options->Alpha : 255);
 
-			if (!m_customPopup) PopupThreadUnlock();
+			PopupThreadUnlock();
 			m_bIsHovered = false;
 		}
 		break;
@@ -1171,7 +1120,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 	case WM_DESTROY:
 		if (m_bIsHovered) {
-			if (!m_customPopup) PopupThreadUnlock();
+			PopupThreadUnlock();
 			m_bIsHovered = false;
 		}
 		SendMessage(m_hwnd, UM_FREEPLUGINDATA, 0, 0);
@@ -1180,11 +1129,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		DestroyWindow(m_hwndToolTip);
 
-		if (!m_customPopup)
-			// we can't access "this" pointer after following line!
-			PopupThreadRemoveWindow(this);
-		else
-			delete this;
+		// we can't access "this" pointer after following line!
+		PopupThreadRemoveWindow(this);
 
 		PostQuitMessage(0);
 		return TRUE;
@@ -1219,26 +1165,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(HWND hwnd, UINT message, WPARAM wParam, L
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
-void WindowThread(void *arg)
-{
-	Thread_SetName("POPUP: WindowThread");
-
-	CoInitialize(nullptr); // we may need OLE in this thread for smiley substitution
-
-	PopupWnd2 *wnd = (PopupWnd2 *)arg;
-	wnd->buildMText();
-	wnd->create();
-	PostMessage(wnd->getHwnd(), UM_INITPOPUP, 0, 0);
-
-	MSG msg;
-	while (GetMessage(&msg, nullptr, 0, 0)) {
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}
-}
-
 // Menu Host
-LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	static MCONTACT hContact = NULL;
 
@@ -1272,4 +1200,66 @@ LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module entry point
+
+bool LoadPopupWnd2()
+{
+	bool res = true;
+	{
+		WNDCLASSEX wcl = {};
+		wcl.cbSize = sizeof(wcl);
+		wcl.lpfnWndProc = PopupWnd2::WindowProc;
+		wcl.hInstance = g_plugin.getInst();
+		wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
+		wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+		wcl.lpszClassName = POPUP_WNDCLASS;
+		wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
+		if (!RegisterClassExW(&wcl))
+			res = false;
+	}
+	{
+		WNDCLASSEX wcl = {};
+		wcl.cbSize = sizeof(wcl);
+		GetClassInfoEx(nullptr, L"EDIT", &wcl);
+
+		wcl.hInstance = g_plugin.getInst();
+		wcl.lpszClassName = POPUP_EDITBOX_WNDCLASS;
+		wcl.style |= CS_DROPSHADOW;
+		if (!RegisterClassExW(&wcl))
+			res = false;
+	}
+	{
+		WNDCLASSEX wcl = {};
+		wcl.cbSize = sizeof(wcl);
+		wcl.lpfnWndProc = MenuHostWndProc;
+		wcl.hInstance = g_plugin.getInst();
+		wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
+		wcl.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+		wcl.lpszClassName = POPUP_MENUHOST_WNDCLASS;
+		wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
+		if (!RegisterClassExW(&wcl))
+			res = false;
+	}
+
+	g_hwndMenuHost = CreateWindow(POPUP_MENUHOST_WNDCLASS, nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
+	SetWindowPos(g_hwndMenuHost, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);
+
+	INITCOMMONCONTROLSEX iccex;
+	iccex.dwICC = ICC_WIN95_CLASSES;
+	iccex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+	InitCommonControlsEx(&iccex);
+
+	return res && g_hwndMenuHost;
+}
+
+void UnloadPopupWnd2()
+{
+	DestroyWindow(g_hwndMenuHost);
+
+	UnregisterClassW(POPUP_WNDCLASS, g_plugin.getInst());
+	UnregisterClassW(POPUP_EDITBOX_WNDCLASS, g_plugin.getInst());
+	UnregisterClassW(POPUP_MENUHOST_WNDCLASS, g_plugin.getInst());
 }

@@ -226,7 +226,7 @@ static unsigned __stdcall PopupThread(void *)
 	wcl.lpszMenuName = nullptr;
 	wcl.lpszClassName = L"PopupThreadManagerWnd";
 	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
-	g_wndClass.cPopupThreadManagerWnd = RegisterClassExW(&wcl);
+	RegisterClassExW(&wcl);
 
 	gHwndManager = CreateWindow(L"PopupThreadManagerWnd", nullptr, 0, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP, nullptr, g_plugin.getInst(), nullptr);
 	SetWindowPos(gHwndManager, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DEFERERASE | SWP_NOSENDCHANGING | SWP_HIDEWINDOW);

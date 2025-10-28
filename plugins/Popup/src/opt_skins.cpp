@@ -26,34 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static volatile bool gPreviewOk = false;
 static PopupWnd2 *wndPreview = nullptr;
 
-INT_PTR CALLBACK BoxPreviewWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-void RegisterOptPrevBox()
-{
-	WNDCLASSEX wcl;
-	wcl.cbSize = sizeof(wcl);
-	wcl.lpfnWndProc = (WNDPROC)BoxPreviewWndProc;
-	wcl.style = CS_DROPSHADOW;
-	wcl.cbClsExtra = 0;
-	wcl.cbWndExtra = 0;
-	wcl.hInstance = g_plugin.getInst();
-	wcl.hIcon = nullptr;
-	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcl.hbrBackground = nullptr; // (HBRUSH)GetStockObject(LTGRAY_BRUSH);
-	wcl.lpszMenuName = nullptr;
-	wcl.lpszClassName = BOXPREVIEW_WNDCLASS;
-	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
-	g_wndClass.cPopupPreviewBoxWndclass = RegisterClassEx(&wcl);
-
-	//  register custom class for dialog box with drop-shadow attribute
-	//  "#32770" stays for class name of default system dialog box
-	GetClassInfoEx(g_plugin.getInst(), L"#32770", &wcl);
-	wcl.hInstance = g_plugin.getInst();
-	wcl.lpszClassName = L"PopupPlusDlgBox";
-	wcl.style |= CS_DROPSHADOW;
-	g_wndClass.cPopupPlusDlgBox = RegisterClassEx(&wcl);
-}
-
 static void updatePreviewImage(HWND hwndBox)
 {
 	gPreviewOk = false;
@@ -583,7 +555,7 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 	}
 }
 
-INT_PTR CALLBACK BoxPreviewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK BoxPreviewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_PAINT:
@@ -607,4 +579,39 @@ INT_PTR CALLBACK BoxPreviewWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// module entry point
+
+void RegisterOptPrevBox()
+{
+	WNDCLASSEX wcl;
+	wcl.cbSize = sizeof(wcl);
+	wcl.lpfnWndProc = (WNDPROC)BoxPreviewWndProc;
+	wcl.style = CS_DROPSHADOW;
+	wcl.cbClsExtra = 0;
+	wcl.cbWndExtra = 0;
+	wcl.hInstance = g_plugin.getInst();
+	wcl.hIcon = nullptr;
+	wcl.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcl.hbrBackground = nullptr; // (HBRUSH)GetStockObject(LTGRAY_BRUSH);
+	wcl.lpszMenuName = nullptr;
+	wcl.lpszClassName = BOXPREVIEW_WNDCLASS;
+	wcl.hIconSm = Skin_LoadIcon(SKINICON_OTHER_POPUP);
+	RegisterClassExW(&wcl);
+
+	//  register custom class for dialog box with drop-shadow attribute
+	//  "#32770" stays for class name of default system dialog box
+	GetClassInfoEx(g_plugin.getInst(), L"#32770", &wcl);
+	wcl.hInstance = g_plugin.getInst();
+	wcl.lpszClassName = L"PopupPlusDlgBox";
+	wcl.style |= CS_DROPSHADOW;
+	RegisterClassExW(&wcl);
+}
+
+void UnregisterOptPrevBox()
+{
+	UnregisterClassW(BOXPREVIEW_WNDCLASS, g_plugin.getInst());
+	UnregisterClassW(L"PopupPlusDlgBox", g_plugin.getInst());
 }

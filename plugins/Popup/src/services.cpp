@@ -103,9 +103,6 @@ static INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if (lParam & APF_CUSTOM_POPUP)
-		ppd->flags |= PU2_CUSTOM_POPUP;
-
 	PopupWnd2 *wnd = new PopupWnd2(ppd, nullptr, false);
 	if (lParam & APF_RETURN_HWND) {
 		while (!wnd->m_bWindowCreated) Sleep(1);

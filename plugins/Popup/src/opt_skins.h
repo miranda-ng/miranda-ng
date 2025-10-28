@@ -30,6 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define BOXPREVIEW_WNDCLASS L"PopupPreviewBoxWndclass"
 
 void RegisterOptPrevBox();
+void UnregisterOptPrevBox();
 
 void LoadOption_Skins();
 INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND, UINT, WPARAM, LPARAM);
