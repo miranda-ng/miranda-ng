@@ -63,8 +63,11 @@ PopupWnd2::~PopupWnd2()
 	mir_free(m_lptzTitle);
 	mir_free(m_lptzText);
 
-	if (m_hwnd)
+	if (m_hwnd) {
+		SendMessage(m_hwnd, WM_CLOSE, 0, 0);
 		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
+	}
+
 	delete m_bmp;
 	delete m_bmpBase;
 	delete m_bmpAnimate;
