@@ -31,6 +31,7 @@ static OBJLIST<PLUGIN_DATA> arPopupList(10, PtrKeySortT);
 
 PLUGIN_DATA* PU_GetByContact(MCONTACT hContact, UINT eventType)
 {
+	mir_cslock lck(csPopupList);
 	for (auto &it : arPopupList)
 		if (it->hContact == hContact && (eventType == -1 || it->eventType == (UINT)eventType))
 			return it;
