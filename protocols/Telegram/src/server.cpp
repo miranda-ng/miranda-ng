@@ -461,6 +461,20 @@ int CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandle
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void CTelegramProto::OnGetBasicGroupInfo(td::ClientManager::Response &response, void *pUserInfo)
+{
+	if (!response.object)
+		return;
+
+	if (response.object->get_id() != TD::chat::ID) {
+		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::messages::ID);
+		return;
+	}
+
+	auto *pChat = ((TD::chat *)response.object.get());
+	SendQuery(new TD::getChatHistory(pChat->id_, 0, 0, 100, false), &CTelegramProto::OnGetHistory, pUserInfo);
+}
+
 void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *pUserInfo)
 {
 	if (!response.object)
@@ -485,6 +499,10 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		auto *pMsg = it.get();
 		if (pMsg->id_ < lastMsgId)
 			lastMsgId = pMsg->id_;
+
+		if (auto *pContent = it->content_.get())
+			if (pContent->get_id() == TD::messageChatUpgradeFrom::ID)
+				SendQuery(new TD::createBasicGroupChat(((TD::messageChatUpgradeFrom *)pContent)->basic_group_id_, true), &CTelegramProto::OnGetBasicGroupInfo, pUser);
 
 		char szUserId[100];
 		auto szMsgId(msg2id(pMsg));

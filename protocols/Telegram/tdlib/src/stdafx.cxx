@@ -15,6 +15,7 @@ std::int32_t used_ids[] = {
 	td::td_api::checkAuthenticationPassword::ID,
 	td::td_api::close::ID,
 	td::td_api::contact::ID,
+	td::td_api::createBasicGroupChat::ID,
 	td::td_api::createPrivateChat::ID,
 	td::td_api::deleteChatHistory::ID,
 	td::td_api::deleteMessages::ID,

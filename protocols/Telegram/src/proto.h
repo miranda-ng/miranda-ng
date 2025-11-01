@@ -234,6 +234,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void OnAvatarSet(td::ClientManager::Response &response, void *pUserInfo);
 	void OnEndSession(td::ClientManager::Response &response);
+	void OnGetBasicGroupInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetFileLink(td::ClientManager::Response &response);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);

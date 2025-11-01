@@ -659,3 +659,12 @@ EXPORTS
 ?ID@getMessage@td_api@td@@2HB @656 NONAME
 ?get_id@getMessage@td_api@td@@EBEHXZ @657 NONAME
 ?store@getMessage@td_api@td@@UBEXAAVTlStorerToString@3@PBD@Z @658 NONAME
+??0createBasicGroupChat@td_api@td@@QAE@$$QAV012@@Z @659 NONAME
+??0createBasicGroupChat@td_api@td@@QAE@XZ @660 NONAME
+??0createBasicGroupChat@td_api@td@@QAE@_J_N@Z @661 NONAME
+??1createBasicGroupChat@td_api@td@@UAE@XZ @662 NONAME
+??4createBasicGroupChat@td_api@td@@QAEAAV012@$$QAV012@@Z @663 NONAME
+??_7createBasicGroupChat@td_api@td@@6B@ @664 NONAME
+?ID@createBasicGroupChat@td_api@td@@2HB @665 NONAME
+?get_id@createBasicGroupChat@td_api@td@@EBEHXZ @666 NONAME
+?store@createBasicGroupChat@td_api@td@@UBEXAAVTlStorerToString@3@PBD@Z @667 NONAME
