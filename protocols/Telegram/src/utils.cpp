@@ -477,14 +477,14 @@ void CTelegramProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest)
+bool CTelegramProto::GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest, bool isHistory)
 {
 	if (pUser->isGroupChat) {
 		if (auto *pSender = GetSender(pMsg->sender_id_.get())) {
 			_i64toa(pSender->id, dest, 10);
 
 			CMStringW wszDisplayName(pSender->getDisplayName());
-			if (pUser->m_si && !pSender->wszFirstName.IsEmpty())
+			if (!isHistory && pUser->m_si && !pSender->wszFirstName.IsEmpty())
 				g_chatApi.UM_AddUser(pUser->m_si, Utf2T(dest), wszDisplayName, ID_STATUS_ONLINE);
 			
 			mir_strncpy(dest, T2Utf(wszDisplayName), 100);
@@ -664,13 +664,13 @@ const TD::file *CTelegramProto::GetContentFile(const TD::MessageContent *pBody, 
 	return nullptr;
 }
 
-CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin, bool bRead)
+CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool isHistory)
 {
 	const TD::MessageContent *pBody = pMsg->content_.get();
 
 	char szUserId[100], *pszUserId = nullptr;
 	auto szMsgId(msg2id(pMsg));
-	if (GetGcUserId(pUser, pMsg, szUserId))
+	if (GetGcUserId(pUser, pMsg, szUserId, isHistory))
 		pszUserId = szUserId;
 
 	CMStringA ret;
@@ -719,27 +719,28 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 		break;
 
 	case TD::messageChatAddMembers::ID:
-		if (!bSkipJoin)
+		if (!isHistory)
 			if (auto *pDoc = (TD::messageChatAddMembers *)pBody)
 				for (auto &it : pDoc->member_user_ids_)
 					GcChangeMember(pUser, pszUserId, it, true);
 		break;
 
 	case TD::messageChatDeleteMember::ID:
-		if (!bSkipJoin)
+		if (!isHistory)
 			if (auto *pDoc = (TD::messageChatDeleteMember *)pBody)
 				GcChangeMember(pUser, pszUserId, pDoc->user_id_, false);
 		break;
 
 	case TD::messageChatChangeTitle::ID:
-		if (auto *pDoc = (TD::messageChatChangeTitle *)pBody) {
-			if (pUser->m_si)
-				Chat_ChangeSessionName(pUser->m_si, Utf2T(pDoc->title_.c_str()));
-			else
-				setUString(pUser->hContact, "Nick", pDoc->title_.c_str());
+		if (!isHistory)
+			if (auto *pDoc = (TD::messageChatChangeTitle *)pBody) {
+				if (pUser->m_si)
+					Chat_ChangeSessionName(pUser->m_si, Utf2T(pDoc->title_.c_str()));
+				else
+					setUString(pUser->hContact, "Nick", pDoc->title_.c_str());
 
-			ret.AppendFormat(TranslateU("Chat name was changed to %s"), pDoc->title_.c_str());
-		}
+				ret.AppendFormat(TranslateU("Chat name was changed to %s"), pDoc->title_.c_str());
+			}
 		break;
 
 	case TD::messageAnimatedEmoji::ID:
@@ -852,7 +853,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				if (pUser->id != m_iOwnId)
 					dbei.bRead = true;
 			}
-			if (!pUser->bInited || bRead)
+			if (!pUser->bInited || isHistory)
 				dbei.bRead = true;
 			if (auto iReplyId = getReplyId(pMsg->reply_to_.get())) {
 				_i64toa(iReplyId, szReplyId, 10);

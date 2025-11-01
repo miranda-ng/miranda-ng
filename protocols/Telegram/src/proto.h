@@ -299,7 +299,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	CMStringA GetFormattedText(TD::object_ptr<TD::formattedText> &pText);
 	CMStringA GetMessagePreview(const TD::file *pFile);
 	CMStringA GetMessageSticker(const TD::file *pFile, const TD::ThumbnailFormat *pFormat);
-	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool bSkipJoin = false, bool bRead = false);
+	CMStringA GetMessageText(TG_USER *pUser, const TD::message *pMsg, bool isHistory = false);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
@@ -323,7 +323,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_LogMenu(GCHOOK *gch);
 
-	bool GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest);
+	bool GetGcUserId(TG_USER *pUser, const TD::message *pMsg, char *dest, bool isHistory = false);
 	void GcAddMembers(TG_USER *pChat, const TD::array<TD::object_ptr<TD::chatMember>> &pMembers, bool bSilent);
 	void GcChangeMember(TG_USER *pChat, const char *adminId, TD::int53 userId, bool bJoined);
 	void GcChangeTopic(TG_USER *pChat, const std::string &szNewTopic);

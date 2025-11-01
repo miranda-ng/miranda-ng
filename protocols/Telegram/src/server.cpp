@@ -509,7 +509,7 @@ void CTelegramProto::OnGetHistory(td::ClientManager::Response &response, void *p
 		if (db_event_getById(m_szModuleName, szMsgId))
 			continue;
 
-		CMStringA szBody = GetMessageText(pUser, pMsg, true, true), szReplyId;
+		CMStringA szBody = GetMessageText(pUser, pMsg, true), szReplyId;
 		if (szBody.IsEmpty())
 			continue;
 
