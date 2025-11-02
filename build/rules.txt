@@ -77,6 +77,7 @@
         
 		"advaimg.dll":                    null,
 		"aim.dll":                        null,
+		"basichistory.dll":               null,
 		"extraicons.dll":                 null,
 		"firstrun.dll":                   null,
 		"flashavatars.dll":               null,
