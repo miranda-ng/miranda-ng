@@ -54,7 +54,7 @@ Core\StdUIHist.dll
 Core\StdUrl.dll
 Core\StdUserInfo.dll
 Core\StdUserOnline.dll
-Libs\freeimage.mir
+Libs\FreeImage.mir
 Libs\libcrypto-3.mir
 Libs\libjson.mir
 Libs\libsignal.mir
