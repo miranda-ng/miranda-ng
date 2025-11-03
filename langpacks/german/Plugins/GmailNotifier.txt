@@ -14,8 +14,12 @@ GMail-Account
 Name:
 [Add]
 Hinzufügen
+[Edit]
+Bearbeiten
 [Delete]
 Löschen
+[Authorize]
+Autorisieren
 [Configuration]
 Konfiguration
 [Check Gmail inbox every]
@@ -42,14 +46,10 @@ Systemtray
 Popup-Plugin
 [Use online contacts when no new mail]
 Online Kontakte bei keiner neuen Nachricht verwenden
-[Enable icon selection and icon in status bar (restart)]
-Iconauswahl und Icon in Statusleiste aktivieren (Neustart)
 [Enable auto login]
 Automatische Anmeldung aktivieren
 [Log unread threads into database (enable history)]
 Ungelesene Nachrichten protokollieren
-[Register]
-Registrieren
 [Authorization]
 Autorisierung
 [Cancel]
@@ -77,9 +77,11 @@ Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]
 &GMail-Posteingang prüfen
 ;file \protocols\GmailNotifier\src\options.cpp
+[Enter account name]
+Geben Sie den Kontonamen ein
 [Enter your Google email]
 Geben Sie Ihre GoogleMail ein
-[Unregister]
-Löschen
+[Deauthorize]
+Unautorisieren
 [Network]
 Netzwerk
