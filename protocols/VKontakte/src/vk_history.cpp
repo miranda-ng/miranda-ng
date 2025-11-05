@@ -358,11 +358,10 @@ void CVkProto::OnReceiveHistoryMessages(MHttpResponse *reply, AsyncHttpRequest *
 		db_unset(param->hContact, m_szModuleName, "oldlastmsgid");
 
 		ptrW pwszNick(db_get_wsa(param->hContact, m_szModuleName, "Nick"));
-		CMStringW str(FORMAT, TranslateT("Loading messages for %s is completed."), pwszNick);
 		debugLogW(L"CVkProto::OnReceiveHistoryMessages for %s m_iLoadHistoryTask=%d", pwszNick.get(), m_iLoadHistoryTask);
 
 		if (m_bNotifyForEndLoadingHistory)
-			MsgPopup(param->hContact, str, TranslateT("Loading history"));
+			History::FinishLoad(param->hContact);
 
 		if (m_iLoadHistoryTask == 0 && m_bNotifyForEndLoadingHistoryAllContact) {
 			MsgPopup(TranslateT("Loading messages for all contacts is completed."), TranslateT("Loading history"));
