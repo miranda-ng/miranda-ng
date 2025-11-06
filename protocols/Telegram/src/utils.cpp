@@ -829,7 +829,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 	default:
 		TG_FILE_REQUEST::Type iType;
-		CMStringA szFileName, szCaption, szBody;
+		CMStringA szFileName, szCaption;
 		if (auto *pFile = GetContentFile(pBody, iType, szFileName, szCaption)) {
 			auto *pRequest = new TG_FILE_REQUEST(iType, pFile->id_, pFile->remote_->id_.c_str());
 			pRequest->m_fileName = Utf2T(szFileName);
@@ -837,10 +837,10 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			pRequest->m_bRecv = !pMsg->is_outgoing_;
 			pRequest->m_hContact = GetRealContact(pUser, getThreadId(pMsg->topic_id_.get()));
 
-			if (!szCaption.IsEmpty())
-				szBody += szCaption;
-
-			char szReplyId[100];
+			if (!ret.IsEmpty()) {
+				szCaption.Insert(0, ret);
+				ret.Empty();
+			}
 
 			DB::EventInfo dbei(db_event_getById(m_szModuleName, szMsgId));
 			dbei.bTemporary = true;
@@ -848,13 +848,17 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			dbei.szUserId = szUserId;
 			if (pMsg->date_)
 				dbei.iTimestamp = pMsg->date_;
+
 			if (pMsg->is_outgoing_) {
 				dbei.bSent = true;
 				if (pUser->id != m_iOwnId)
 					dbei.bRead = true;
 			}
+
 			if (!pUser->bInited || isHistory)
 				dbei.bRead = true;
+
+			char szReplyId[100];
 			if (auto iReplyId = getReplyId(pMsg->reply_to_.get())) {
 				_i64toa(iReplyId, szReplyId, 10);
 				dbei.szReplyId = szReplyId;
@@ -870,7 +874,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				}
 				delete pRequest;
 			}
-			else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, szFileName, szBody), dbei);
+			else ProtoChainRecvFile(pRequest->m_hContact, DB::FILE_BLOB(pRequest, szFileName, szCaption), dbei);
 		}
 	}
 
