@@ -154,7 +154,9 @@ int FacebookProto::RefreshContacts()
 			root << CHAR_PARAM("1", szCursor) << INT_PARAM("2", FB_API_CONTACTS_COUNT);
 		}
 		pReq << CHAR_PARAM("query_params", root.write().c_str());
-		pReq->flags |= NLHRF_NODUMPSEND;
+		#ifndef _DEBUG
+			pReq->flags |= NLHRF_NODUMPSEND;
+		#endif
 		pReq->CalcSig();
 
 		FbReply reply(ExecuteRequest(pReq));
@@ -356,7 +358,9 @@ void FacebookProto::RefreshThreads()
 int FacebookProto::RefreshToken()
 {
 	auto *pReq = CreateRequest(FB_API_URL_AUTH, "authenticate", "auth.login");
-	pReq->flags |= NLHRF_NODUMP;
+	#ifndef _DEBUG
+		pReq->flags |= NLHRF_NODUMP;
+	#endif
 	pReq << CHAR_PARAM("email", getMStringA(DBKEY_LOGIN));
 	pReq << CHAR_PARAM("password", getMStringA(DBKEY_PASS));
 	pReq->CalcSig();
