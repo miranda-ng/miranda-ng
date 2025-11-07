@@ -1149,6 +1149,9 @@
     <ClCompile Include="tdlib\td\td\telegram\StarRating.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\td_log.cpp">
+      <Filter>Source Files\api</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tdlib\td\td\mtproto\AuthData.h">

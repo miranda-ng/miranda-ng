@@ -417,6 +417,7 @@
     <ClCompile Include="tdlib\td\td\telegram\TargetDialogTypes.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\Td.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\TdDb.cpp" />
+    <ClCompile Include="tdlib\td\td\telegram\td_log.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\TermsOfService.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\TermsOfServiceManager.cpp" />
     <ClCompile Include="tdlib\td\td\telegram\ThemeManager.cpp" />

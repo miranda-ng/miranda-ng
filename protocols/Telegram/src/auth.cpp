@@ -118,6 +118,13 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 			request->device_model_ = T2Utf(m_wszDeviceName).get();
 			request->application_version_ = text;
 			SendQuery(request, &CTelegramProto::OnUpdateAuth);
+			/*
+			#ifdef _DEBUG
+			td_set_log_verbosity_level(4);
+			td_set_log_file_path("c:\\temp\\tdlib.log");
+			td_set_log_max_file_size(1024 * 1024 * 1024);
+			#endif
+			*/
 		}
 		break;
 

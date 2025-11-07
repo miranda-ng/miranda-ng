@@ -668,3 +668,7 @@ EXPORTS
 ?ID@createBasicGroupChat@td_api@td@@2HB @665 NONAME
 ?get_id@createBasicGroupChat@td_api@td@@EEBAHXZ @666 NONAME
 ?store@createBasicGroupChat@td_api@td@@UEBAXAEAVTlStorerToString@3@PEBD@Z @667 NONAME
+td_set_log_fatal_error_callback @668 NONAME
+td_set_log_file_path @669 NONAME
+td_set_log_max_file_size @670 NONAME
+td_set_log_verbosity_level @671 NONAME
