@@ -215,15 +215,13 @@ public:
 
 class MSignalStore
 {
-	void init();
-
 	signal_context *m_pContext;
 	signal_protocol_store_context *m_pStore;
 
 	void importPublicKey(ec_public_key **result, MBinBuffer &buf);
 
 public:
-	PROTO_INTERFACE *pProto;
+	WhatsAppProto *pProto;
 	const char *prefix;
 
 	OBJLIST<MSignalSession> arSessions;
@@ -241,8 +239,9 @@ public:
 	}
 		preKey;
 
-	MSignalStore(PROTO_INTERFACE *_1, const char *_2);
+	MSignalStore(WhatsAppProto *_1, const char *_2);
 	~MSignalStore();
+	void init();
 
 	__forceinline signal_context *CTX() const { return m_pContext; }
 
@@ -438,7 +437,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnSuccess(const WANode &node);
 
 	// Signal
-	MSignalStore m_signalStore;
+	MSignalStore *m_signalStore;
 
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);
@@ -465,6 +464,7 @@ public:
 	}
 
 	class CWhatsAppQRDlg *m_pQRDlg;
+	bool Lid2jid(CMStringA &lid);
 	void SetLid(const char *jid, const char *lid);
 
 	// PROTO_INTERFACE /////////////////////////////////////////////////////////////////////

@@ -57,10 +57,10 @@ void WhatsAppProto::UploadMorePrekeys()
 	iq.addChild("registration")->content.append(regId.c_str(), regId.size());
 
 	iq.addChild("type")->content.append(KEY_BUNDLE_TYPE, 1);
-	iq.addChild("identity")->content.append(m_signalStore.signedIdentity.pub);
+	iq.addChild("identity")->content.append(m_signalStore->signedIdentity.pub);
 
 	const int PORTION = 10;
-	m_signalStore.generatePrekeys(PORTION);
+	m_signalStore->generatePrekeys(PORTION);
 
 	int iStart = getDword(DBKEY_PREKEY_UPLOAD_ID, 1);
 	auto *n = iq.addChild("list");
@@ -76,10 +76,10 @@ void WhatsAppProto::UploadMorePrekeys()
 
 	auto *skey = iq.addChild("skey");
 
-	auto encId = encodeBigEndian(m_signalStore.preKey.keyid, 3);
+	auto encId = encodeBigEndian(m_signalStore->preKey.keyid, 3);
 	skey->addChild("id")->content.append(encId.c_str(), encId.size());
-	skey->addChild("value")->content.append(m_signalStore.preKey.pub);
-	skey->addChild("signature")->content.append(m_signalStore.preKey.signature);
+	skey->addChild("value")->content.append(m_signalStore->preKey.pub);
+	skey->addChild("signature")->content.append(m_signalStore->preKey.signature);
 
 	WSSendNode(iq, &WhatsAppProto::OnIqDoNothing);
 }
@@ -96,7 +96,7 @@ void WhatsAppProto::OnIqGetKeys(const WANode &node, void *pUserInfo)
 {
 	for (auto &it : node.getChild("list")->getChildren())
 		if (it->title == "user")
-			m_signalStore.injectSession(it->getAttr("jid"), it, it);
+			m_signalStore->injectSession(it->getAttr("jid"), it, it);
 
 	// don't forget to send delayed message when all keys are retrieved
 	if (pUserInfo)
@@ -205,7 +205,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				MBinBuffer buf;
 				buf.append("\x06\x00", 2);
 				buf.append(deviceDetails.data, deviceDetails.len);
-				buf.append(m_signalStore.signedIdentity.pub);
+				buf.append(m_signalStore->signedIdentity.pub);
 
 				ec_public_key key = {};
 				memcpy(key.data, accountSignatureKey.data, sizeof(key.data));
@@ -217,13 +217,13 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				MBinBuffer buf;
 				buf.append("\x06\x01", 2);
 				buf.append(deviceDetails.data, deviceDetails.len);
-				buf.append(m_signalStore.signedIdentity.pub);
+				buf.append(m_signalStore->signedIdentity.pub);
 				buf.append(accountSignatureKey.data, accountSignatureKey.len);
 
 				signal_buffer *result;
 				ec_private_key key = {};
-				memcpy(key.data, m_signalStore.signedIdentity.priv.data(), m_signalStore.signedIdentity.priv.length());
-				if (curve_calculate_signature(m_signalStore.CTX(), &result, &key, buf.data(), buf.length()) != 0)
+				memcpy(key.data, m_signalStore->signedIdentity.priv.data(), m_signalStore->signedIdentity.priv.length());
+				if (curve_calculate_signature(m_signalStore->CTX(), &result, &key, buf.data(), buf.length()) != 0)
 					throw "OnIqPairSuccess: cannot calculate account signature, exiting";
 
 				account->devicesignature = proto::SetBinary(result->data, result->len);
@@ -387,16 +387,16 @@ LBL_Error:
 
 		MBinBuffer buf(proto::Serialize(&companion));
 		auto szRegId(encodeBigEndian(getDword(DBKEY_REG_ID)));
-		auto szKeyId(encodeBigEndian(m_signalStore.preKey.keyid));
+		auto szKeyId(encodeBigEndian(m_signalStore->preKey.keyid));
 
 		pairingData.deviceprops = proto::SetBinary(buf.data(), buf.length()); pairingData.has_deviceprops = true;
 		pairingData.buildhash = proto::SetBinary(buildHash, sizeof(buildHash)); pairingData.has_buildhash = true;
 		pairingData.eregid = proto::SetBinary(szRegId.c_str(), szRegId.size()); pairingData.has_eregid = true;
 		pairingData.ekeytype = proto::SetBinary(KEY_BUNDLE_TYPE, 1); pairingData.has_ekeytype = true;
-		pairingData.eident = proto::SetBinary(m_signalStore.signedIdentity.pub.data(), m_signalStore.signedIdentity.pub.length()); pairingData.has_eident = true;
+		pairingData.eident = proto::SetBinary(m_signalStore->signedIdentity.pub.data(), m_signalStore->signedIdentity.pub.length()); pairingData.has_eident = true;
 		pairingData.eskeyid = proto::SetBinary(szKeyId.c_str(), szKeyId.size()); pairingData.has_eskeyid = true;
-		pairingData.eskeyval = proto::SetBinary(m_signalStore.preKey.pub.data(), m_signalStore.preKey.pub.length()); pairingData.has_eskeyval = true;
-		pairingData.eskeysig = proto::SetBinary(m_signalStore.preKey.signature.data(), m_signalStore.preKey.signature.length()); pairingData.has_eskeysig = true;
+		pairingData.eskeyval = proto::SetBinary(m_signalStore->preKey.pub.data(), m_signalStore->preKey.pub.length()); pairingData.has_eskeyval = true;
+		pairingData.eskeysig = proto::SetBinary(m_signalStore->preKey.signature.data(), m_signalStore->preKey.signature.length()); pairingData.has_eskeysig = true;
 		node.devicepairingdata = &pairingData;
 
 		node.passive = false; node.has_passive = true;
@@ -512,7 +512,7 @@ void WhatsAppProto::OnReceiveReceipt(const WANode &node)
 	if (!mir_strcmp(node.getAttr("type"), "retry")) {
 		for (auto &it : node.getChildren())
 			if (it->title == "keys")
-				m_signalStore.injectSession(node.getAttr("from"), &node, it);
+				m_signalStore->injectSession(node.getAttr("from"), &node, it);
 		return;
 	}
 

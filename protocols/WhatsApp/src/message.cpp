@@ -162,9 +162,9 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 		try {
 			if (!mir_strcmp(pszType, "pkmsg") || !mir_strcmp(pszType, "msg"))
-				msgBody = m_signalStore.decryptSignalProto(szDecryptionJid, pszType, it->content);
+				msgBody = m_signalStore->decryptSignalProto(szDecryptionJid, pszType, it->content);
 			else if (!mir_strcmp(pszType, "skmsg"))
-				msgBody = m_signalStore.decryptGroupSignalProto(szSender, szAuthor, it->content);
+				msgBody = m_signalStore->decryptGroupSignalProto(szSender, szAuthor, it->content);
 			else
 				throw "Invalid e2e type";
 
@@ -181,7 +181,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 				msg.message = encMsg;
 
 			if (encMsg->senderkeydistributionmessage)
-				m_signalStore.processSenderKeyMessage(szAuthor, encMsg->senderkeydistributionmessage);
+				m_signalStore->processSenderKeyMessage(szAuthor, encMsg->senderkeydistributionmessage);
 
 			ProcessMessage(type, msg);
 
@@ -215,9 +215,9 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 static int enumLids(const char *szSetting, void *param)
 {
-	if (!memcmp(szSetting, "lids_", 5)) {
+	if (!memcmp(szSetting, "lid_", 4)) {
 		auto *ppro = (WhatsAppProto *)param;
-		ppro->SetLid(szSetting + 5, ptrA(ppro->getStringA(szSetting)));
+		ppro->SetLid(szSetting + 4, ptrA(ppro->getStringA(szSetting)));
 	}
 	return 0;
 }
@@ -225,6 +225,17 @@ static int enumLids(const char *szSetting, void *param)
 void WhatsAppProto::InitLids()
 {
 	db_enum_settings(0, enumLids, m_szModuleName, this);
+}
+
+bool WhatsAppProto::Lid2jid(CMStringA &lid)
+{
+	mir_cslock lck(m_csLids);
+	auto p = m_lidsRev.find(lid.c_str());
+	if (p == m_lidsRev.end())
+		return false;
+
+	lid = p->second.c_str();
+	return true;
 }
 
 void WhatsAppProto::SaveLid(const WAJid &jid, const WAJid &lid)
@@ -431,7 +442,7 @@ bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid
 	int type = 0;
 
 	try {
-		MBinBuffer pBuffer(m_signalStore.encryptSignalProto(jid, orig, type));
+		MBinBuffer pBuffer(m_signalStore->encryptSignalProto(jid, orig, type));
 
 		auto *pNode = pParticipants->addChild("to");
 		pNode->addAttr("jid", jid.toString());
@@ -466,7 +477,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 		padBuffer16(encodedMsg);
 
 		MBinBuffer skmsgKey;
-		MBinBuffer cipherText(m_signalStore.encryptSenderKey(toJid, m_szJid, encodedMsg, skmsgKey));
+		MBinBuffer cipherText(m_signalStore->encryptSenderKey(toJid, m_szJid, encodedMsg, skmsgKey));
 
 		auto *pEnc = pTask->payLoad.addChild("enc");
 		*pEnc << CHAR_PARAM("v", "2") << CHAR_PARAM("type", "skmsg");
@@ -571,7 +582,7 @@ void WhatsAppProto::SendTask(WASendTask *pTask)
 		shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, *it, pTask->content);
 
 	if (shouldIncludeIdentity) {
-		MBinBuffer encIdentity(m_signalStore.encodeSignedIdentity(true));
+		MBinBuffer encIdentity(m_signalStore->encodeSignedIdentity(true));
 		auto *pNode = pTask->payLoad.addChild("device-identity");
 		pNode->content.assign(encIdentity.data(), encIdentity.length());
 	}

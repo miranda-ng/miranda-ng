@@ -18,7 +18,7 @@ static int CompareSessions(const MSignalSession *p1, const MSignalSession *p2)
 	return p1->getDeviceId() - p2->getDeviceId();
 }
 
-MSignalStore::MSignalStore(PROTO_INTERFACE *_1, const char *_2) :
+MSignalStore::MSignalStore(WhatsAppProto *_1, const char *_2) :
 	pProto(_1),
 	prefix(_2),
 	arSessions(1, &CompareSessions)
@@ -525,8 +525,13 @@ MSignalSession* MSignalStore::getSession(const signal_protocol_address *address)
 	auto *pSession = arSessions.find(&tmp);
 	if (pSession == nullptr) {
 		MBinBuffer blob(pProto->getBlob(tmp.getSetting()));
-		if (blob.isEmpty())
+		if (blob.isEmpty()) {
+			if (pProto->Lid2jid(tmp.szName)) {
+				signal_protocol_address addr = { tmp.szName, (unsigned)tmp.szName.GetLength(), address->device_id };
+				return getSession(&addr);
+			}
 			return nullptr;
+		}
 
 		pSession = new MSignalSession(tmp);
 		pSession->sessionData.assign(blob.data(), blob.length());

@@ -40,7 +40,6 @@ static int CompareRequests(const WARequestBase *p1, const WARequestBase *p2)
 WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	PROTO<WhatsAppProto>(proto_name, username),
 	m_impl(*this),
-	m_signalStore(this, ""),
 	m_szJid(getMStringA(DBKEY_ID)),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
@@ -135,6 +134,8 @@ void WhatsAppProto::RemoveCachedSettings()
 	}
 
 	m_szJid.Empty();
+
+	DeleteDirectoryTreeW(CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName), false);
 }
 
 void WhatsAppProto::OnCacheInit()
@@ -157,8 +158,6 @@ void WhatsAppProto::OnErase()
 	ServerThreadWorker();
 
 	RemoveCachedSettings();
-
-	DeleteDirectoryTreeW(CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName), false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

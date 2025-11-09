@@ -12,6 +12,8 @@ Copyright © 2019-25 George Hazan
 
 void WhatsAppProto::ServerThread(void *)
 {
+	m_signalStore = new MSignalStore(this, "");
+
 	do {
 		m_bRespawn = m_bUnregister = false;
 		ServerThreadWorker();
@@ -19,6 +21,9 @@ void WhatsAppProto::ServerThread(void *)
 	while (m_bRespawn);
 
 	OnLoggedOut();
+
+	delete m_signalStore;
+	m_signalStore = nullptr;
 }
 
 void WhatsAppProto::ServerThreadWorker()
