@@ -129,6 +129,7 @@ struct WAUser
 	MCONTACT hContact;
 	DWORD dwModifyTag = 0;
 	char *szId;
+	__int64 lid;
 	bool bInited = false, bIsGroupChat, bDeviceInit = false;
 	SESSION_INFO *si = 0;
 	OBJLIST<WAJid> arDevices;
@@ -298,11 +299,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	bool m_bTerminated, m_bRespawn, m_bUpdatedPrekeys, m_bUnregister;
 	ptrW m_tszDefaultGroup;
 
-	mir_cs m_csLids;
-	std::map<std::string, std::string> m_lids, m_lidsRev;
-	void InitLids();
-	void SaveLid(const WAJid &jid, const WAJid &lid);
-
 	CMStringA m_szJid;
 
 	EVP_PKEY *m_pKeys; // private & public keys
@@ -327,14 +323,20 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// Contacts management /////////////////////////////////////////////////////////////////
 
+	MCONTACT m_ownContact;
+
 	mir_cs m_csUsers;
 	OBJLIST<WAUser> m_arUsers;
+	LIST<WAUser> m_arLids;
 
 	mir_cs m_csOwnMessages;
 	OBJLIST<WAOwnMessage> m_arOwnMsgs;
 
-	WAUser* FindUser(const char *szId);
 	WAUser* AddUser(const char *szId, bool bTemporary);
+	WAUser* FindUser(const char *szId);
+	WAUser* FindUserByLid(const char *szLid);
+	void    SaveLid(const WAJid &jid, const WAJid &lid);
+	void    SetLid(WAUser *pUser, const char *lid);
 
 	// Group chats /////////////////////////////////////////////////////////////////////////
 
@@ -465,7 +467,6 @@ public:
 
 	class CWhatsAppQRDlg *m_pQRDlg;
 	bool Lid2jid(CMStringA &lid);
-	void SetLid(const char *jid, const char *lid);
 
 	// PROTO_INTERFACE /////////////////////////////////////////////////////////////////////
 

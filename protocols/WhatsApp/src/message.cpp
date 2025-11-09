@@ -151,12 +151,9 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 			if (!szSenderAlt.IsEmpty() && isLidUser(szSenderAlt) && isPnUser(szSender))
 				SaveLid(jidSender, WAJid(szSenderAlt));
 
-		if (!isLidUser(szSender) && !isHostedLiUser(szSender)) {
-			mir_cslock lck(m_csLids);
-			auto p = m_lids.find(jidSender.user.c_str());
-			if (p != m_lids.end())
-				szDecryptionJid = (p->second + S_WHATSAPP_NET).c_str();
-		}
+		if (!isLidUser(szSender) && !isHostedLiUser(szSender))
+			if (auto pUser = FindUserByLid(jidSender.user))
+				szDecryptionJid.Format("%lld%s", pUser->lid, S_WHATSAPP_NET);
 
 		iDecryptable++;
 
@@ -213,44 +210,32 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int enumLids(const char *szSetting, void *param)
-{
-	if (!memcmp(szSetting, "lid_", 4)) {
-		auto *ppro = (WhatsAppProto *)param;
-		ppro->SetLid(szSetting + 4, ptrA(ppro->getStringA(szSetting)));
-	}
-	return 0;
-}
-
-void WhatsAppProto::InitLids()
-{
-	db_enum_settings(0, enumLids, m_szModuleName, this);
-}
-
 bool WhatsAppProto::Lid2jid(CMStringA &lid)
 {
-	mir_cslock lck(m_csLids);
-	auto p = m_lidsRev.find(lid.c_str());
-	if (p == m_lidsRev.end())
-		return false;
-
-	lid = p->second.c_str();
-	return true;
+	if (auto *pUser = FindUserByLid(lid)) {
+		lid = WAJid(pUser->szId).user;
+		return true;
+	}
+	return false;
 }
 
 void WhatsAppProto::SaveLid(const WAJid &jid, const WAJid &lid)
 {
-	mir_cslock lck(m_csLids);
-	if (m_lids.find(jid.user.c_str()) == m_lids.end()) {
-		setString("lid_" + jid.user, lid.user);
-		SetLid(jid.user, lid.user);
-	}
+	if (auto *pUser = FindUser(jid.toString()))
+		SetLid(pUser, lid.user);
 }
 
-void WhatsAppProto::SetLid(const char *jid, const char *lid)
+void WhatsAppProto::SetLid(WAUser *pUser, const char *lid)
 {
-	m_lids[jid] = lid;
-	m_lidsRev[lid] = jid;
+	__int64 value = _atoi64(lid);
+	if (pUser->lid != value) {
+		mir_cslock lck(m_csUsers);
+		if (pUser->lid)
+			m_arLids.remove(pUser);
+		pUser->lid = value;
+		m_arLids.insert(pUser);
+		setString(pUser->hContact, DBKEY_LID, lid);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

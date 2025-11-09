@@ -541,9 +541,22 @@ void WhatsAppProto::OnStreamError(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnSuccess(const WANode &)
+void WhatsAppProto::OnSuccess(const WANode &node)
 {
 	OnLoggedIn();
+
+	if (!m_ownContact) {
+		WAJid ownLid(node.getAttr("lid"));
+		if (auto *pUser = FindUserByLid(ownLid.user))
+			m_ownContact = pUser->hContact;
+		else {
+			pUser = AddUser(m_szJid, false);
+			setWString(pUser->hContact, "Nick", getMStringW("Nick"));
+			m_ownContact = pUser->hContact;
+			SetLid(pUser, ownLid.user);
+		}
+	}
+	setWord(m_ownContact, "Status", ID_STATUS_ONLINE);
 
 	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"), &WhatsAppProto::OnIqDoNothing);
 }

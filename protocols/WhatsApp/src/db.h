@@ -9,6 +9,7 @@ Copyright © 2019-25 George Hazan
 
 // DB keys
 #define DBKEY_ID                      "ID"
+#define DBKEY_LID                     "LID"
 #define DBKEY_DEVICE_ID               "DeviceId"
 #define DBKEY_EPHEMERAL_TS            "EphemeralTS"
 #define DBKEY_EPHEMERAL_EXPIRE        "EphemeralExpire"

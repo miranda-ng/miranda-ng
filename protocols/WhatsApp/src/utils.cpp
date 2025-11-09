@@ -112,6 +112,17 @@ WAUser* WhatsAppProto::FindUser(const char *szId)
 	return m_arUsers.find(tmp);
 }
 
+WAUser* WhatsAppProto::FindUserByLid(const char *szLid)
+{
+	if (szLid == nullptr)
+		return nullptr;
+
+	mir_cslock lck(m_csUsers);
+	auto *tmp = (WAUser *)_alloca(sizeof(WAUser));
+	tmp->lid = _atoi64(szLid);
+	return m_arLids.find(tmp);
+}
+
 WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 {
 	auto *pUser = FindUser(szId);

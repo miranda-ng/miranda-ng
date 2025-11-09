@@ -22,6 +22,13 @@ static int CompareOwnMsgs(const WAOwnMessage *p1, const WAOwnMessage *p2)
 	return strcmp(p1->szMessageId, p2->szMessageId);
 }
 
+static int CompareLids(const WAUser *p1, const WAUser *p2)
+{
+	if (p1->lid == p2->lid)
+		return 0;
+	return (p1->lid > p2->lid) ? 1 : -1;
+}
+
 static int CompareUsers(const WAUser *p1, const WAUser *p2)
 {
 	return strcmp(p1->szId, p2->szId);
@@ -42,7 +49,9 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_impl(*this),
 	m_szJid(getMStringA(DBKEY_ID)),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
-	m_arUsers(10, CompareUsers),
+
+	m_arLids(50, CompareLids),
+	m_arUsers(50, CompareUsers),
 	m_arOwnMsgs(1, CompareOwnMsgs),
 	m_arPersistent(1),
 	m_arPacketQueue(10, CompareRequests),
@@ -64,7 +73,6 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 
-	InitLids();
 	InitSync();
 	InitPopups();
 	InitPersistentHandlers();
@@ -140,15 +148,18 @@ void WhatsAppProto::RemoveCachedSettings()
 
 void WhatsAppProto::OnCacheInit()
 {
-	if (!m_szJid.IsEmpty())
-		m_arUsers.insert(new WAUser(0, m_szJid, false));
-
 	for (auto &cc : AccContacts()) {
-		m_bCacheInited = true;
-
 		CMStringA szId(getMStringA(cc, DBKEY_ID));
-		if (!szId.IsEmpty())
-			m_arUsers.insert(new WAUser(cc, szId, isChatRoom(cc)));
+		if (szId.IsEmpty())
+			continue;
+
+		if (m_szJid == szId)
+			m_ownContact = cc;
+
+		m_bCacheInited = true;
+		auto *p = new WAUser(cc, szId, isChatRoom(cc));
+		p->lid = _atoi64(getMStringA(cc, DBKEY_LID));
+		m_arUsers.insert(p);
 	}
 }
 
