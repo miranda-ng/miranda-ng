@@ -87,11 +87,11 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		return;
 	}
 
-	CMStringA szSender = (type.bPrivateChat) ? szAuthor : szChatId;
 	bool bFromMe = (m_szJid == msgFrom);
 	if (!bFromMe && participant)
 		bFromMe = m_szJid == participant;
 
+	// send ack
 	Wa__MessageKey key;
 	key.remotejid = szChatId.GetBuffer();
 	key.id = (char*)msgId;
@@ -105,28 +105,71 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	if (bFromMe)
 		msg.status = WA__WEB_MESSAGE_INFO__STATUS__SERVER_ACK, msg.has_status = true;
 
+	// calculate alternative sender & recipient, if present
+	CMStringA szAddressMode, szSenderAlt, szRecipientAlt;
+
+	if (auto *addressingMode = node.getAttr("addressing_mode"))
+		szAddressMode = addressingMode;
+	else {
+		WAJid jid2(participant ? participant : msgFrom);
+		szAddressMode = (jid2.server == "lid") ? "lid" : "pn";
+	}
+
+	if (szAddressMode == "lid") {
+		auto *alt = node.getAttr("participant_pn");
+		if (!alt)
+			alt = node.getAttr("sender_pn");
+		if (!alt)
+			alt = node.getAttr("peer_recipient_pn");
+		szSenderAlt = alt;
+		szRecipientAlt = node.getAttr("recipient_pn");
+	}
+	else {
+		auto *alt = node.getAttr("participant_lid");
+		if (!alt)
+			alt = node.getAttr("sender_lid");
+		if (!alt)
+			alt = node.getAttr("peer_recipient_lid");
+		szSenderAlt = alt;
+		szRecipientAlt = node.getAttr("recipient_lid");
+	}
+
 	int iDecryptable = 0;
+	CMStringA szSender = (type.bPrivateChat) ? szAuthor : szChatId;
+	WAJid jidSender(szSender);
 
 	for (auto &it : node.getChildren()) {
-		if (it->title != "enc" || it->content.length() == 0)
+		auto tag = it->title;
+		if ((tag != "enc" && tag != "plaintext") || it->content.length() == 0)
 			continue;
 
 		MBinBuffer msgBody;
-		auto *pszType = it->getAttr("type");
+		auto *pszType = (tag == "plaintext") ? "plaintext" : it->getAttr("type");
+
+		CMStringA szDecryptionJid = szSender;
+		if (tag != "plaintext")
+			if (!szSenderAlt.IsEmpty() && isLidUser(szSenderAlt) && isPnUser(szSender))
+				SaveLid(jidSender, WAJid(szSenderAlt));
+
+		if (!isLidUser(szSender) && !isHostedLiUser(szSender)) {
+			mir_cslock lck(m_csLids);
+			auto p = m_lids.find(jidSender.user.c_str());
+			if (p != m_lids.end())
+				szDecryptionJid = (p->second + S_WHATSAPP_NET).c_str();
+		}
+
+		iDecryptable++;
+
 		try {
-			if (!mir_strcmp(pszType, "pkmsg") || !mir_strcmp(pszType, "msg")) {
-				CMStringA szUser = (WAJid(szSender).isUser()) ? szSender : szAuthor;
-				msgBody = m_signalStore.decryptSignalProto(szUser, pszType, it->content);
-			}
-			else if (!mir_strcmp(pszType, "skmsg")) {
+			if (!mir_strcmp(pszType, "pkmsg") || !mir_strcmp(pszType, "msg"))
+				msgBody = m_signalStore.decryptSignalProto(szDecryptionJid, pszType, it->content);
+			else if (!mir_strcmp(pszType, "skmsg"))
 				msgBody = m_signalStore.decryptGroupSignalProto(szSender, szAuthor, it->content);
-			}
-			else throw "Invalid e2e type";
+			else
+				throw "Invalid e2e type";
 
 			if (msgBody.isEmpty())
 				throw "Invalid e2e message";
-
-			iDecryptable++;
 
 			proto::Message encMsg(unpadBuffer16(msgBody));
 			if (!encMsg)
@@ -170,6 +213,37 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static int enumLids(const char *szSetting, void *param)
+{
+	if (!memcmp(szSetting, "lids_", 5)) {
+		auto *ppro = (WhatsAppProto *)param;
+		ppro->SetLid(szSetting + 5, ptrA(ppro->getStringA(szSetting)));
+	}
+	return 0;
+}
+
+void WhatsAppProto::InitLids()
+{
+	db_enum_settings(0, enumLids, m_szModuleName, this);
+}
+
+void WhatsAppProto::SaveLid(const WAJid &jid, const WAJid &lid)
+{
+	mir_cslock lck(m_csLids);
+	if (m_lids.find(jid.user.c_str()) == m_lids.end()) {
+		setString("lid_" + jid.user, lid.user);
+		SetLid(jid.user, lid.user);
+	}
+}
+
+void WhatsAppProto::SetLid(const char *jid, const char *lid)
+{
+	m_lids[jid] = lid;
+	m_lidsRev[lid] = jid;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static const Wa__Message* getBody(const Wa__Message *message)
 {
 	if (message->ephemeralmessage) {
@@ -204,6 +278,21 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 
 	if (!key->fromme && msg.pushname && pUser && !pUser->bIsGroupChat)
 		setUString(pUser->hContact, "Nick", msg.pushname);
+
+	// store missing lids
+	/*
+	auto *alt = node.getAttr("participantAlt");
+	if (!alt)
+		alt = node.getAttr("remoteJidAlt");
+	if (alt) {
+		WAJid lid(alt);
+		WAJid jid((participant) ? participant : node.getAttr("remoteJid"));
+		if (lid.server == "lid")
+			SaveLid(jid, lid);
+		else
+			SaveLid(lid, jid);
+	}
+	*/
 
 	// try to extract some text
 	if (pUser) {

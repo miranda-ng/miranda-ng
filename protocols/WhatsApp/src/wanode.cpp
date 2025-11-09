@@ -377,7 +377,7 @@ CMStringA WAReader::readString(int tag)
 		{
 			int agent = readInt8();
 			int device = readInt8();
-			WAJid jid(readString(readInt8()), "s.whatsapp.net", device, agent);
+			WAJid jid(readString(readInt8()), device, agent);
 			return jid.toString();
 		}
 

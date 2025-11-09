@@ -161,7 +161,7 @@ struct WAJid
 	CMStringA user, server;
 
 	WAJid(const char *pszJid, int device = 0);
-	WAJid(const char *pszUser, const char *pszServer, int device = 0, int agent = 0);
+	WAJid(const char *pszUser, int device, int agent);
 
 	CMStringA toString() const;
 
@@ -217,6 +217,10 @@ struct LT_HASH
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions
+
+bool isPnUser(const char *jid);
+bool isLidUser(const char *jid);
+bool isHostedLiUser(const char *jid);
 
 void bin2file(const MBinBuffer &buf, const wchar_t *pwszFileName);
 

@@ -65,6 +65,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 
+	InitLids();
 	InitSync();
 	InitPopups();
 	InitPersistentHandlers();

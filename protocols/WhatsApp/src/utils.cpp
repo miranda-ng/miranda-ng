@@ -7,12 +7,19 @@ Copyright © 2019-25 George Hazan
 
 #include "stdafx.h"
 
-WAJid::WAJid(const char *pszUser, const char *pszServer, int iDevice, int iAgent) :
+WAJid::WAJid(const char *pszUser, int iDevice, int iAgent) :
 	user(pszUser ? pszUser : ""),
-	server(pszServer ? pszServer : ""),
 	device(iDevice),
 	agent(iAgent)
-{}
+{
+	switch (agent) {
+	case 1: server = "lid"; break;
+	case 128: server = "hosted"; break;
+	case 129: server = "hosted.lid"; break;
+	default:
+		server = "s.whatsapp.net";
+	}
+}
 
 WAJid::WAJid(const char *pszJid, int _id)
 {
@@ -162,6 +169,29 @@ WA_PKT_HANDLER WhatsAppProto::FindPersistentHandler(const WANode &pNode)
 CMStringA WhatsAppProto::GenerateMessageId()
 {
 	return CMStringA(FORMAT, "%d.%d-%d", m_wMsgPrefix[0], m_wMsgPrefix[1], m_iPacketId++);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool isLidUser(const char *jid)
+{
+	if (auto *p = strchr(jid, '@'))
+		return !strcmp(p+1, "lid");
+	return false;
+}
+
+bool isHostedLiUser(const char *jid)
+{
+	if (auto *p = strchr(jid, '@'))
+		return !strcmp(p+1, "hosted.lid");
+	return false;
+}
+
+bool isPnUser(const char *jid)
+{
+	if (auto *p = strchr(jid, '@'))
+		return !strcmp(p+1, "s.whatsapp.net");
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

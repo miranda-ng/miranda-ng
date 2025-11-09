@@ -299,6 +299,11 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	bool m_bTerminated, m_bRespawn, m_bUpdatedPrekeys, m_bUnregister;
 	ptrW m_tszDefaultGroup;
 
+	mir_cs m_csLids;
+	std::map<std::string, std::string> m_lids, m_lidsRev;
+	void InitLids();
+	void SaveLid(const WAJid &jid, const WAJid &lid);
+
 	CMStringA m_szJid;
 
 	EVP_PKEY *m_pKeys; // private & public keys
@@ -435,9 +440,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	// Signal
 	MSignalStore m_signalStore;
 
-	// Binary packets
-	void ProcessBinaryPacket(const uint8_t *pData, size_t cbLen);
-
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);
 	void      ServerFetchAvatar(const char *jid);
@@ -463,6 +465,7 @@ public:
 	}
 
 	class CWhatsAppQRDlg *m_pQRDlg;
+	void SetLid(const char *jid, const char *lid);
 
 	// PROTO_INTERFACE /////////////////////////////////////////////////////////////////////
 
