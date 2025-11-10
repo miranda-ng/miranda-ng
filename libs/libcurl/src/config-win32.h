@@ -200,10 +200,6 @@
 /* Define if you have the select function. */
 #define HAVE_SELECT 1
 
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
-
 #ifndef UNDER_CE
 /* Define if you have the setlocale function. */
 #define HAVE_SETLOCALE 1
@@ -430,9 +426,6 @@
 #define USE_WIN32_LDAP 1
 #endif
 
-/* if SSL is enabled */
-#define USE_OPENSSL 1
-
 /* Define to use the Windows crypto library. */
 #ifndef CURL_WINDOWS_UWP
 #define USE_WIN32_CRYPTO
@@ -491,6 +484,7 @@
 #define CURL_DISABLE_LDAP 1
 
 #ifndef _MSC_VER
+/* !checksrc! disable BANNEDFUNC 1 */
 extern int stat(const char *path, struct stat *buffer);
 #endif
 

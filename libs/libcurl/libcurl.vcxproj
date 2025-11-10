@@ -86,13 +86,13 @@
     <ClCompile Include="src\curl_addrinfo.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\curl_des.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\curl_endian.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curl_fnmatch.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curl_fopen.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curl_gethostname.c">
@@ -137,6 +137,9 @@
     <ClCompile Include="src\curlx\dynbuf.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\curlx\fopen.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\curlx\inet_ntop.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -149,10 +152,16 @@
     <ClCompile Include="src\curlx\nonblock.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\curlx\strerr.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\curlx\strparse.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curlx\timediff.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\timeval.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curlx\version_win32.c">
@@ -204,9 +213,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\fileinfo.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\fopen.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\formdata.c">
@@ -287,9 +293,6 @@
     <ClCompile Include="src\imap.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\krb5.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\ldap.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -321,6 +324,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\multi_ev.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\multi_ntfy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\netrc.c">
@@ -401,6 +407,30 @@
     <ClCompile Include="src\splay.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\strcase.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\strdup.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\strerror.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\strequal.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\system_win32.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\telnet.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\tftp.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\transfer.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\uint-bset.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -411,6 +441,15 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\uint-table.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\url.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\urlapi.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\version.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vauth\cleartext.c">
@@ -468,9 +507,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vssh\libssh2.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\vssh\wolfssh.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\cipher_suite.c">
@@ -544,14 +580,13 @@
     <ClInclude Include="src\curlx.h" />
     <ClInclude Include="src\curl_addrinfo.h" />
     <ClInclude Include="src\curl_ctype.h" />
-    <ClInclude Include="src\curl_des.h" />
     <ClInclude Include="src\curl_endian.h" />
     <ClInclude Include="src\curl_fnmatch.h" />
+    <ClInclude Include="src\curl_fopen.h" />
     <ClInclude Include="src\curl_gethostname.h" />
     <ClInclude Include="src\curl_get_line.h" />
     <ClInclude Include="src\curl_gssapi.h" />
     <ClInclude Include="src\curl_hmac.h" />
-    <ClInclude Include="src\curl_krb5.h" />
     <ClInclude Include="src\curl_ldap.h" />
     <ClInclude Include="src\curl_md4.h" />
     <ClInclude Include="src\curl_md5.h" />
@@ -573,10 +608,12 @@
     <ClInclude Include="src\curlx\base64.h" />
     <ClInclude Include="src\curlx\curlx.h" />
     <ClInclude Include="src\curlx\dynbuf.h" />
+    <ClInclude Include="src\curlx\fopen.h" />
     <ClInclude Include="src\curlx\inet_ntop.h" />
     <ClInclude Include="src\curlx\inet_pton.h" />
     <ClInclude Include="src\curlx\multibyte.h" />
     <ClInclude Include="src\curlx\nonblock.h" />
+    <ClInclude Include="src\curlx\strerr.h" />
     <ClInclude Include="src\curlx\strparse.h" />
     <ClInclude Include="src\curlx\timediff.h" />
     <ClInclude Include="src\curlx\timeval.h" />
@@ -596,7 +633,6 @@
     <ClInclude Include="src\fake_addrinfo.h" />
     <ClInclude Include="src\file.h" />
     <ClInclude Include="src\fileinfo.h" />
-    <ClInclude Include="src\fopen.h" />
     <ClInclude Include="src\formdata.h" />
     <ClInclude Include="src\ftp.h" />
     <ClInclude Include="src\ftplistparser.h" />
@@ -626,6 +662,7 @@
     <ClInclude Include="src\mime.h" />
     <ClInclude Include="src\mqtt.h" />
     <ClInclude Include="src\multi_ev.h" />
+    <ClInclude Include="src\multi_ntfy.h" />
     <ClInclude Include="src\multihandle.h" />
     <ClInclude Include="src\multiif.h" />
     <ClInclude Include="src\netrc.h" />
@@ -677,44 +714,6 @@
     <ClInclude Include="src\vquic\vquic_int.h" />
     <ClInclude Include="src\vssh\curl_path.h" />
     <ClInclude Include="src\ws.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\curlx\timeval.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\strcase.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\strdup.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\strerror.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\strequal.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\system_win32.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\telnet.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\tftp.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\transfer.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\url.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\urlapi.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\version.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libssh2\libssh2.vcxproj">

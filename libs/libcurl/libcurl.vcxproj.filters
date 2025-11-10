@@ -62,13 +62,13 @@
     <ClCompile Include="src\curl_addrinfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\curl_des.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\curl_endian.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curl_fnmatch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curl_fopen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curl_gethostname.c">
@@ -113,6 +113,9 @@
     <ClCompile Include="src\curlx\dynbuf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\curlx\fopen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\curlx\inet_ntop.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,6 +126,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curlx\nonblock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\strerr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curlx\strparse.c">
@@ -183,9 +189,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\fileinfo.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fopen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\formdata.c">
@@ -269,9 +272,6 @@
     <ClCompile Include="src\inet_pton.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\krb5.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ldap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -303,6 +303,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\multi_ev.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\multi_ntfy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\netrc.c">
@@ -435,9 +438,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vssh\libssh2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vssh\wolfssh.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\cipher_suite.c">
@@ -610,13 +610,13 @@
     <ClInclude Include="src\curl_ctype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\curl_des.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\curl_endian.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_fnmatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curl_fopen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_gethostname.h">
@@ -629,9 +629,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_hmac.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\curl_krb5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_ldap.h">
@@ -697,6 +694,9 @@
     <ClInclude Include="src\curlx\dynbuf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\curlx\fopen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\curlx\inet_ntop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -707,6 +707,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curlx\nonblock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\strerr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curlx\strparse.h">
@@ -764,9 +767,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\fileinfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\fopen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\formdata.h">
@@ -854,6 +854,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\multi_ev.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\multi_ntfy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\multihandle.h">
