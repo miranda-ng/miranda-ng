@@ -158,8 +158,11 @@ void WhatsAppProto::OnCacheInit()
 
 		m_bCacheInited = true;
 		auto *p = new WAUser(cc, szId, isChatRoom(cc));
-		p->lid = _atoi64(getMStringA(cc, DBKEY_LID));
 		m_arUsers.insert(p);
+
+		p->lid = _atoi64(getMStringA(cc, DBKEY_LID));
+		if (p->lid)
+			m_arLids.insert(p);
 	}
 }
 

@@ -145,6 +145,20 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 	Chat_Control(si, SESSION_ONLINE);
 }
 
+void WhatsAppProto::GC_SendPrivateMessage(GCHOOK *gch)
+{
+	_T2A jid(gch->ptszUID);
+	auto *pUser = FindUserByLid(WAJid(jid).user);
+	if (!pUser) {
+		pUser = AddUser(jid, true);
+		setWString(pUser->hContact, "Nick", gch->ptszNick);
+		Contact::Hide(pUser->hContact);
+		db_set_dw(pUser->hContact, "Ignore", "Mask1", 0);
+	}
+
+	CallService(MS_MSG_SENDMESSAGE, pUser->hContact, 0);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int WhatsAppProto::GcEventHook(WPARAM, LPARAM lParam)
@@ -169,6 +183,7 @@ int WhatsAppProto::GcEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_PRIVMESS:
+		GC_SendPrivateMessage(gch);
 		break;
 
 	case GC_USER_LOGMENU:

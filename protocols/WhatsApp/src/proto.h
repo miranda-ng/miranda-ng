@@ -343,6 +343,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void GC_RefreshMetadata();
 	void GC_GetAllMetadata();
 	void GC_ParseMetadata(const WANode *pGroup);
+	void GC_SendPrivateMessage(GCHOOK *gch);
 
 	int  __cdecl GcEventHook(WPARAM, LPARAM);
 	int  __cdecl GcMenuHook(WPARAM, LPARAM);
