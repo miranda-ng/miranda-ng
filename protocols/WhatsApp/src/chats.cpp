@@ -97,13 +97,16 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 				szNick = ptrA(getUStringA(DBKEY_NICK));
 			else {
 				WAJid chatUser(jid);
-				WAUser *pUser;
-				if (isLidUser(jid) && (pUser = FindUserByLid(chatUser.user))) {
+				WAUser *pUser = nullptr;
+				if (isLidUser(jid))
+					pUser = FindUserByLid(chatUser.user);
+				if (!pUser)
+					pUser = FindUser(phone);
+				if (pUser) {
 					szNick = T2Utf(Clist_GetContactDisplayName(pUser->hContact)).get();
-					SaveLid(WAJid(phone), chatUser);
+					if (isLidUser(jid))
+						SetLid(pUser, chatUser.user);
 				}
-				else if (pUser = FindUser(phone))
-					szNick = T2Utf(Clist_GetContactDisplayName(pUser->hContact)).get();
 				else if (mir_strlen(phone))
 					szNick = WAJid(phone).user;
 				else
