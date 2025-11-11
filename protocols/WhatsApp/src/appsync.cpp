@@ -192,16 +192,23 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 		return;
 	}
 	
-	JSONNode jsonRoot = JSONNode::parse((char *)data->index.data);
-
+	CMStringA szContent((char *)data->index.data, (int)data->index.len);
+	JSONNode jsonRoot = JSONNode::parse(szContent);
 	if (bSet) {
+		debugLogA("Applying patch '%s'", szContent.c_str());
 		ApplyPatch(jsonRoot, data->value);
 
 		pColl->hash.add(macValue, 32);
 		pColl->indexValueMap[index] = std::string((char*)macValue, 32);
 	}
 	else {
-		debugLogA("Removing data with index: %s", jsonRoot.write().c_str());
+		debugLogA("Removing patch '%s'", szContent.c_str());
+
+		if (jsonRoot.at((json_index_t)0).as_string() == "contact")
+			if (auto *pUser = FindUser(jsonRoot[1].as_string().c_str())) {
+				debugLogA("Deleting contact %d", pUser->hContact);
+				db_delete_contact(pUser->hContact);
+			}
 
 		auto &prevVal = pColl->indexValueMap.find(index);
 		if (prevVal != pColl->indexValueMap.end()) {
@@ -213,7 +220,7 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 
 void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue *data)
 {
-	debugLogA("Applying patch for %s: %s", index.write().c_str(), protobuf_c_text_to_string(data).c_str());
+	debugLogA("Applying patch for %s", protobuf_c_text_to_string(data).c_str());
 
 	auto title = index.at((json_index_t)0).as_string();
 
