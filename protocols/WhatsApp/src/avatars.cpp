@@ -99,7 +99,7 @@ CMStringW WhatsAppProto::GetAvatarFileName(MCONTACT hContact)
 	}
 	else jid = m_szJid;
 
-	return result + _A2T(WAJid(jid).user.c_str()) + L".jpg";
+	return result + _A2T(jid) + L".jpg";
 }
 
 INT_PTR WhatsAppProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
