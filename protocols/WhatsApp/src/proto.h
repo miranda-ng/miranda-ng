@@ -416,7 +416,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqCountPrekeys(const WANode &node);
 	void OnIqDoNothing(const WANode &node);
 	void OnIqGcGetAllMetadata(const WANode &node);
-	void OnIqGetAvatar(const WANode &node);
+	void OnIqGetAvatar(const WANode &node, void *pUserInfo);
 	void OnIqGetKeys(const WANode &node, void *pUserInfo);
 	void OnIqGetUsync(const WANode &node, void *pUserInfo);
 	void OnIqPairDevice(const WANode &node);

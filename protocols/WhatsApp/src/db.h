@@ -30,7 +30,7 @@ Copyright © 2019-25 George Hazan
 #define DBKEY_NICK                    "Nick"
 #define DBKEY_DEF_GROUP               "DefaultGroup"
 #define DBKEY_AUTORUNCHATS            "AutoRunChats"
-#define DBKEY_AVATAR_TAG              "AvatarTag"
+#define DBKEY_AVATAR_HASH             "AvatarHash"
 
 #define DBKEY_EVENT_CLIENT_COLBACK    "PopupClientColorBack"
 #define DBKEY_EVENT_CLIENT_COLTEXT    "PopupClientColorText"

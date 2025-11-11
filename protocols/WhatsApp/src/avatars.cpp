@@ -7,11 +7,9 @@ Copyright © 2019-25 George Hazan
 
 #include "stdafx.h"
 
-void WhatsAppProto::OnIqGetAvatar(const WANode &node)
+void WhatsAppProto::OnIqGetAvatar(const WANode &node, void *pUserInfo)
 {
-	auto *pUser = FindUser(node.getAttr("from"));
-	if (pUser == nullptr)
-		return;
+	auto *pUser = (WAUser *)pUserInfo;
 
 	PROTO_AVATAR_INFORMATION ai = {};
 	ai.hContact = pUser->hContact;
@@ -20,11 +18,9 @@ void WhatsAppProto::OnIqGetAvatar(const WANode &node)
 
 	auto *pNode = node.getChild("picture");
 
-	DWORD dwLastChangeTime = pNode->getAttrInt("id");
-
 	CMStringA szUrl(pNode->getAttr("url"));
 	if (szUrl.IsEmpty()) {
-		setDword(pUser->hContact, DBKEY_AVATAR_TAG, 0); // avatar doesn't exist, don't check it later
+		setString(pUser->hContact, DBKEY_AVATAR_HASH, "-"); // avatar doesn't exist, don't check it later
 
 LBL_Error:
 		ProtoBroadcastAck(pUser->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
@@ -32,12 +28,13 @@ LBL_Error:
 	}
 
 	// if avatar was changed or not present at all, download it
-	if (dwLastChangeTime > getDword(pUser->hContact, DBKEY_AVATAR_TAG)) {
+	CMStringA szHash(pNode->getAttr("hash"));
+	if (szHash != getMStringA(pUser->hContact, DBKEY_AVATAR_HASH)) {
 		if (!g_plugin.SaveFile(szUrl, ai))
 			goto LBL_Error;
 
 		// set timestamp of avatar being saved
-		setDword(pUser->hContact, DBKEY_AVATAR_TAG, dwLastChangeTime);
+		setString(pUser->hContact, DBKEY_AVATAR_HASH, szHash);
 	}
 	ProtoBroadcastAck(pUser->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 }
@@ -54,8 +51,8 @@ INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	wcsncpy_s(pai->filename, tszFileName.c_str(), _TRUNCATE);
 	pai->format = PA_FORMAT_JPEG;
 
-	DWORD dwTag = getDword(pai->hContact, DBKEY_AVATAR_TAG, -1);
-	if (dwTag == -1 || (wParam & GAIF_FORCE) != 0)
+	CMStringA szHash(getMStringA(pai->hContact, DBKEY_AVATAR_HASH));
+	if (szHash.IsEmpty() || (wParam & GAIF_FORCE) != 0)
 		if (pai->hContact != NULL && isOnline()) {
 			ServerFetchAvatar(jid);
 			return GAIR_WAITFOR;
@@ -102,13 +99,13 @@ CMStringW WhatsAppProto::GetAvatarFileName(MCONTACT hContact)
 	}
 	else jid = m_szJid;
 
-	return result + _A2T(jid.c_str()) + L".jpg";
+	return result + _A2T(WAJid(jid).user.c_str()) + L".jpg";
 }
 
 INT_PTR WhatsAppProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	CMStringW tszOwnAvatar(GetAvatarPath() + L"\\myavatar.jpg");
-	wcsncpy_s((wchar_t*)wParam, lParam, tszOwnAvatar.c_str(), _TRUNCATE);
+	CMStringW wszOwnAvatar(GetAvatarFileName(0));
+	wcsncpy_s((wchar_t*)wParam, lParam, wszOwnAvatar, _TRUNCATE);
 	return 0;
 }
 
@@ -121,9 +118,12 @@ INT_PTR WhatsAppProto::SetMyAvatar(WPARAM, LPARAM)
 
 void WhatsAppProto::ServerFetchAvatar(const char *jid)
 {
-	WANodeIq iq(IQ::GET, "w:profile:picture", jid);
-	*iq.addChild("picture") << CHAR_PARAM("type", "preview") << CHAR_PARAM("query", "url");
-	WSSendNode(iq, &WhatsAppProto::OnIqGetAvatar);
+	if (auto *pUser = FindUser(jid)) {
+		WANodeIq iq(IQ::GET, "w:profile:picture");
+		iq.addAttr("target", jid);
+		*iq.addChild("picture") << CHAR_PARAM("type", "preview") << CHAR_PARAM("query", "url");
+		WSSendNode(iq, &WhatsAppProto::OnIqGetAvatar, pUser);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

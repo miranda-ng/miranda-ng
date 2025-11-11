@@ -176,6 +176,10 @@ void WhatsAppProto::OnLoggedIn()
 		WANodeIq(IQ::GET, "privacy") << XCHILD("privacy"),
 		&WhatsAppProto::OnIqDoNothing);
 
+	CMStringW wszOwnAvatar(GetAvatarFileName(0));
+	if (_waccess(wszOwnAvatar, 0))
+		ServerFetchAvatar(m_szJid);
+
 	GC_RefreshMetadata();
 }
 
