@@ -507,8 +507,6 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 	if (arByIds.getCount() == 0)
 		return nullptr;
 
-	int nextMenuId = startId + 1; // to use it as MGROUP then
-
 	HMENU hRootMenu = CreatePopupMenu();
 	for (int i = 0; i < arByIds.getCount(); i++) {
 		const wchar_t *pNextField = arByIds[i]->groupName;
@@ -551,7 +549,7 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 							//dwItemData doesn't change
 							mii.fType = MFT_STRING;
 							mii.dwTypeData = TranslateT("This group");
-							mii.wID = nextMenuId++;
+							mii.wID = startId + arByIds[i]->groupId + 1;
 							InsertMenuItem(mii.hSubMenu, 0, TRUE, &mii);
 							mii.fMask = MIIM_TYPE;
 							mii.fType = MFT_SEPARATOR;
@@ -566,7 +564,7 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 			}
 			if (compareResult) {
 				mii.fMask = MIIM_TYPE | MIIM_ID;
-				mii.wID = nextMenuId++;
+				mii.wID = startId + arByIds[i]->groupId + 1;
 				mii.dwTypeData = szThisField;
 				mii.fType = MFT_STRING;
 				if (pNextField) {

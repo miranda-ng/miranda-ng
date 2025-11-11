@@ -666,6 +666,8 @@ void QSMainDlg::ShowMultiPopup(int cnt)
 	}
 	else if (iRes >= 400 && iRes <= 499)
 		MoveToGroup(Clist_GroupGetName(iRes - 400));
+
+	DestroyMenu(hMenu);
 }
 
 void QSMainDlg::ConvertToMeta()
