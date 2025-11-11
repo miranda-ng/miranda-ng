@@ -428,6 +428,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnNotifyDevices(const WANode &node);
 	void OnNotifyEncrypt(const WANode &node);
 	void OnNotifyPicture(const WANode &node);
+	void OnNotifyStatus(const WANode &node);
 	void OnReceiveAck(const WANode &node);
 	void OnReceiveCall(const WANode &node);
 	void OnReceiveChatState(const WANode &node);

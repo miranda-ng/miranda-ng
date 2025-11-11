@@ -333,6 +333,15 @@ void WhatsAppProto::OnNotifyPicture(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnNotifyStatus(const WANode &node)
+{
+	if (auto *pUser = FindUser(node.getAttr("from")))
+		if (auto *pSet = node.getChild("set"))
+			setUString(pUser->hContact, "StatusMsg", pSet->getBody());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnProcessHandshake(const uint8_t *pData, int cbLen)
 {
 	proto::HandshakeMessage msg(pData, cbLen);
@@ -547,7 +556,7 @@ void WhatsAppProto::OnSuccess(const WANode &node)
 
 	if (!m_ownContact) {
 		WAJid ownLid(node.getAttr("lid"));
-		if (auto *pUser = FindUserByLid(ownLid.user))
+		if (auto *pUser = FindUser(ownLid.user))
 			m_ownContact = pUser->hContact;
 		else {
 			pUser = AddUser(m_szJid, false);
@@ -571,6 +580,7 @@ void WhatsAppProto::InitPersistentHandlers()
 	m_arPersistent.insert(new WAPersistentHandler("notification", "devices", 0, 0, &WhatsAppProto::OnNotifyDevices));
 	m_arPersistent.insert(new WAPersistentHandler("notification", "encrypt", 0, 0, &WhatsAppProto::OnNotifyEncrypt));
 	m_arPersistent.insert(new WAPersistentHandler("notification", "picture", 0, 0, &WhatsAppProto::OnNotifyPicture));
+	m_arPersistent.insert(new WAPersistentHandler("notification", "status", 0, 0, &WhatsAppProto::OnNotifyStatus));
 	m_arPersistent.insert(new WAPersistentHandler("notification", "account_sync", 0, 0, &WhatsAppProto::OnAccountSync));
 	m_arPersistent.insert(new WAPersistentHandler("notification", "server_sync", 0, 0, &WhatsAppProto::OnServerSync));
 	m_arPersistent.insert(new WAPersistentHandler("notification", 0, 0, 0, &WhatsAppProto::OnNotifyAny));
