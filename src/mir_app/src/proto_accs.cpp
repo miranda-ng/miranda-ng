@@ -244,6 +244,10 @@ bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 		ppi->OnCacheInit();
 
 		if (bIsDynamic) {
+			for (auto &cc : Contacts(pa->szModuleName))
+				if (!db_mc_isSub(cc))
+					Contact::Hide(cc, false);
+
 			if (g_bModulesLoadedFired)
 				ppi->OnModulesLoaded();
 			if (!db_get_b(0, "CList", "MoveProtoMenus", true))
