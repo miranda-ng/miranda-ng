@@ -22,13 +22,13 @@
 #define __M_STATUSPLUGINS
 
 // -- common status -- (all three plugins)
-typedef struct {
-	char *m_szName;	// pointer to protocol modulename
-	TCHAR *m_szMsg;	// pointer to the status message (may be NULL)
-	WORD m_status;	// the status
-	WORD m_lastStatus;// last status
-	TCHAR *m_tszAccName;
-} PROTOCOLSETTINGEX;
+struct PROTOCOLSETTINGEX
+{
+	char *m_szName;    // pointer to protocol modulename
+	TCHAR *m_szMsg;    // pointer to the status message (may be NULL)
+	WORD m_status;     // the status
+	WORD m_lastStatus; // last status
+};
 
 // wParam = PROTOCOLSETTINGEX*** (keep it like this for compatibility)
 // lParam = 0

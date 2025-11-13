@@ -125,6 +125,8 @@ struct TProtoSettings : public OBJLIST<SMProto>
 
 extern TProtoSettings protoList;
 
+wchar_t* GetAccName(PROTOCOLSETTINGEX *p);
+
 int CompareProtoSettings(const SMProto *p1, const SMProto *p2);
 HWND ShowConfirmDialogEx(TProtoSettings *params, int _timeout);
 void ShutdownConfirmDialog(void);

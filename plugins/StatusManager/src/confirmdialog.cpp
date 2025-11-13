@@ -48,7 +48,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		wchar_t desc[512];
 		mir_snwprintf(desc, TranslateT("Set %s message for %s."),
-			Clist_GetStatusModeDescription(GetActualStatus(protoSetting), 0), protoSetting->m_tszAccName);
+			Clist_GetStatusModeDescription(GetActualStatus(protoSetting), 0), GetAccName(protoSetting));
 		SetDlgItemText(hwndDlg, IDC_DESCRIPTION, desc);
 		break;
 
@@ -91,7 +91,7 @@ static int SetStatusList(HWND hwndDlg)
 	lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 
 	for (auto &it : *confirmSettings) {
-		lvItem.pszText = it->m_tszAccName;
+		lvItem.pszText = GetAccName(it);
 		if (ListView_GetItemCount(hList) < confirmSettings->getCount())
 			ListView_InsertItem(hList, &lvItem);
 
@@ -119,7 +119,7 @@ static int SetStatusList(HWND hwndDlg)
 		if (!((!((CallProtoService(it->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(it->m_szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))) {
 			wchar_t *msg = GetDefaultStatusMessage(it, actualStatus);
 			if (msg != nullptr) {
-				wchar_t* fMsg = variables_parsedup(msg, it->m_tszAccName, 0);
+				wchar_t* fMsg = variables_parsedup(msg, GetAccName(it), 0);
 				ListView_SetItemText(hList, lvItem.iItem, 2, fMsg);
 				mir_free(fMsg);
 				mir_free(msg);

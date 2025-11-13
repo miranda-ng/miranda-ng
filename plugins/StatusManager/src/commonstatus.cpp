@@ -48,7 +48,6 @@ TProtoSettings protoList;
 SMProto::SMProto(PROTOACCOUNT *pa)
 {
 	m_szName = pa->szModuleName;
-	m_tszAccName = pa->tszAccountName;
 	m_status = m_lastStatus = pa->iRealStatus;
 }
 
@@ -61,6 +60,14 @@ SMProto::SMProto(const SMProto &p)
 SMProto::~SMProto()
 {
 	mir_free(m_szMsg);
+}
+
+wchar_t* GetAccName(PROTOCOLSETTINGEX *p)
+{
+	if (auto *pa = Proto_GetAccount(p->m_szName))
+		return pa->tszAccountName;
+	
+	return TranslateT("<unknown>");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -205,7 +212,7 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 			memcpy(tszMsg + j, substituteStr, sizeof(wchar_t)*mir_wstrlen(substituteStr));
 		}
 
-		wchar_t *szFormattedMsg = variables_parsedup(tszMsg, ps->m_tszAccName, 0);
+		wchar_t *szFormattedMsg = variables_parsedup(tszMsg, GetAccName(ps), 0);
 		if (szFormattedMsg != nullptr) {
 			mir_free(tszMsg);
 			tszMsg = szFormattedMsg;

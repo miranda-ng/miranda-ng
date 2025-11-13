@@ -121,7 +121,7 @@ static wchar_t* GetLinkDescription(TProtoSettings &protoSettings)
 			status = TranslateT("<unknown>");
 
 		result.AppendChar('\r');
-		result.Append(p->m_tszAccName);
+		result.Append(GetAccName(p));
 		result.AppendChar(':');
 		result.AppendChar(' ');
 		result.Append(status);
@@ -507,7 +507,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 		// fill proto list
 		lstAccount.ResetContent();
 		for (auto &it : P.ps)
-			lstAccount.AddString(it->m_tszAccName, (LPARAM)it);
+			lstAccount.AddString(GetAccName(it), (LPARAM)it);
 		lstAccount.SetCurSel(0);
 
 		SetProtocol();
