@@ -501,6 +501,24 @@ void WhatsAppProto::OnReceiveInfo(const WANode &node)
 
 void WhatsAppProto::OnReceiveCall(const WANode &node)
 {
+	auto *pszFrom = node.getAttr("from");
+
+	if (auto *pUser = FindUser(pszFrom)) {
+		auto *pwszNick = Clist_GetContactDisplayName(pUser->hContact);
+
+		if (auto *p = node.getChild("offer")) {
+			if (auto *jid = p->getAttr("caller_pn"))
+				if (isLidUser(pszFrom))
+					SetLid(pUser, jid);
+
+			Popup(pUser->hContact, TranslateT("Incoming call"), pwszNick);
+		}
+		else if (node.getChild("reject"))
+			Popup(pUser->hContact, TranslateT("Call rejected"), pwszNick);
+		else if (node.getChild("terminate"))
+			Popup(pUser->hContact, TranslateT("Call ended"), pwszNick);
+	}
+
 	SendAck(node);
 }
 

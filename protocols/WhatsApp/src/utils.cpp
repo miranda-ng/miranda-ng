@@ -106,9 +106,13 @@ WAUser* WhatsAppProto::FindUser(const char *szId)
 	if (szId == nullptr)
 		return nullptr;
 
-	mir_cslock lck(m_csUsers);
 	auto *tmp = (WAUser *)_alloca(sizeof(WAUser));
-	tmp->szId = (char*)szId;
+	if (isLidUser(szId))
+		tmp->lid = _atoi64(szId);
+	else
+		tmp->szId = (char *)szId;
+
+	mir_cslock lck(m_csUsers);
 	return m_arUsers.find(tmp);
 }
 
