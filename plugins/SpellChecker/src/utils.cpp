@@ -822,15 +822,6 @@ void ModifyIcon(Dialog *dlg)
 	}
 }
 
-INT_PTR AddContactTextBoxService(WPARAM wParam, LPARAM)
-{
-	SPELLCHECKER_ITEM *sci = (SPELLCHECKER_ITEM *)wParam;
-	if (sci == nullptr || sci->cbSize != sizeof(SPELLCHECKER_ITEM))
-		return -1;
-
-	return AddContactTextBox(sci->hContact, sci->hwnd, sci->window_name, FALSE, nullptr);
-}
-
 int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND hwndOwner)
 {
 	if (languages.getCount() <= 0)
@@ -900,15 +891,6 @@ void FreePopupData(Dialog *dlg)
 		delete dlg->wrong_words;
 		dlg->wrong_words = nullptr;
 	}
-}
-
-INT_PTR RemoveContactTextBoxService(WPARAM wParam, LPARAM)
-{
-	HWND hwnd = (HWND)wParam;
-	if (hwnd == nullptr)
-		return -1;
-
-	return RemoveContactTextBox(hwnd);
 }
 
 int RemoveContactTextBox(HWND hwnd)
@@ -1256,53 +1238,6 @@ int MsgWindowPopup(WPARAM, LPARAM lParam)
 		HandleMenuSelection(dlg, mwpd->selection);
 
 	return 0;
-}
-
-INT_PTR ShowPopupMenuService(WPARAM wParam, LPARAM)
-{
-	SPELLCHECKER_POPUPMENU *scp = (SPELLCHECKER_POPUPMENU *)wParam;
-	if (scp == nullptr || scp->cbSize != sizeof(SPELLCHECKER_POPUPMENU))
-		return -1;
-
-	return ShowPopupMenu(scp->hwnd, scp->hMenu, scp->pt, scp->hwndOwner == nullptr ? scp->hwnd : scp->hwndOwner);
-}
-
-int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner)
-{
-	DialogMapType::iterator dlgit = dialogs.find(hwnd);
-	if (dlgit == dialogs.end())
-		return -1;
-
-	Dialog *dlg = dlgit->second;
-
-	if (pt.x == 0xFFFF && pt.y == 0xFFFF) {
-		CHARRANGE sel;
-		SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
-
-		// Get current cursor pos
-		SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
-	}
-	else ScreenToClient(hwnd, &pt);
-
-	BOOL create_menu = (hMenu == nullptr);
-	if (create_menu)
-		hMenu = CreatePopupMenu();
-
-	// Make menu
-	AddItemsToMenu(dlg, hMenu, pt, hwndOwner);
-
-	// Show menu
-	ClientToScreen(hwnd, &pt);
-	int selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndOwner, nullptr);
-
-	// Do action
-	if (HandleMenuSelection(dlg, selection))
-		selection = 0;
-
-	if (create_menu)
-		DestroyMenu(hMenu);
-
-	return selection;
 }
 
 int MsgWindowEvent(WPARAM uType, LPARAM lParam)

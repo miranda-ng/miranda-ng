@@ -252,10 +252,6 @@ int CMPlugin::Load()
 
 	LoadOptions();
 
-	CreateServiceFunction(MS_SPELLCHECKER_ADD_RICHEDIT, AddContactTextBoxService);
-	CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);
-	CreateServiceFunction(MS_SPELLCHECKER_SHOW_POPUP_MENU, ShowPopupMenuService);
-
 	hCheckedBmp = LoadBitmap(nullptr, MAKEINTRESOURCE(OBM_CHECK));
 	if (GetObject(hCheckedBmp, sizeof(bmpChecked), &bmpChecked) == 0)
 		bmpChecked.bmHeight = bmpChecked.bmWidth = 10;

@@ -53,7 +53,6 @@ using namespace std;
 #include <m_metacontacts.h>
 #include <m_variables.h>
 #include <m_userinfoex.h>
-#include <m_spellchecker.h>
 
 #include <../../utils/mir_options.h>
 
@@ -152,11 +151,6 @@ int IconPressed(WPARAM wParam, LPARAM lParam);
 
 int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND hwndOwner);
 int RemoveContactTextBox(HWND hwnd);
-int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner);
-
-INT_PTR AddContactTextBoxService(WPARAM wParam, LPARAM lParam);
-INT_PTR RemoveContactTextBoxService(WPARAM wParam, LPARAM lParam);
-INT_PTR ShowPopupMenuService(WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
