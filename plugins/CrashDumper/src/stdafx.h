@@ -93,7 +93,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define VI_FLAG_FORMAT  1
 #define VI_FLAG_PRNVAR  2
 #define VI_FLAG_PRNDLL  4
-#define VI_FLAG_WEATHER 8
 
 struct VerTrnsfr
 {

@@ -217,9 +217,6 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 				GetLastWriteTime(&FindFileData.ftLastWriteTime).c_str(), pi->shortName ? pi->shortName : "", unica);
 			arDlls.insert(tmp.Detach());
 
-			if (mir_wstrcmpi(FindFileData.cFileName, L"weather.dll") == 0)
-				flags |= VI_FLAG_WEATHER;
-
 			++count;
 		}
 		if (loaded)
@@ -291,69 +288,6 @@ static void GetProtocolStrings(CMStringW &buffer)
 	for (auto &p : arProtos) 
 		if (p->countsd != 0 || p->countse != 0)
 			buffer.AppendFormat(L"%-24S %d - Enabled %d - Disabled  %sLoaded\r\n", p->szProto, p->countse, p->countsd, p->nloaded ? L"Not " : L"");
-}
-
-static void GetWeatherStrings(CMStringW &buffer, unsigned flags)
-{
-	wchar_t path[MAX_PATH];
-	GetModuleFileName(nullptr, path, MAX_PATH);
-
-	LPTSTR fname = wcsrchr(path, L'\\');
-	if (fname == nullptr)
-		fname = path;
-	mir_snwprintf(fname, MAX_PATH - (fname - path), L"\\plugins\\weather\\*.ini");
-
-	WIN32_FIND_DATA FindFileData;
-	HANDLE hFind = FindFirstFile(path, &FindFileData);
-	if (hFind == INVALID_HANDLE_VALUE) return;
-
-	do {
-		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
-
-		mir_snwprintf(fname, MAX_PATH - (fname - path), L"\\plugins\\weather\\%s", FindFileData.cFileName);
-		HANDLE hDumpFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, nullptr,
-			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-
-		if (hDumpFile != INVALID_HANDLE_VALUE) {
-			char buf[8192];
-
-			DWORD bytes = 0;
-			ReadFile(hDumpFile, buf, 8190, &bytes, nullptr);
-			buf[bytes] = 0;
-
-			char *ver = strstr(buf, "Version=");
-			if (ver != nullptr) {
-				char *endid = strchr(ver, '\r');
-				if (endid != nullptr) *endid = 0;
-				else {
-					endid = strchr(ver, '\n');
-					if (endid != nullptr) *endid = 0;
-				}
-				ver += 8;
-			}
-
-			char *id = strstr(buf, "Name=");
-			if (id != nullptr) {
-				char *endid = strchr(id, '\r');
-				if (endid != nullptr) *endid = 0;
-				else {
-					endid = strchr(id, '\n');
-					if (endid != nullptr)
-						*endid = 0;
-				}
-				id += 5;
-			}
-
-			buffer.AppendFormat(L" %s v.%s%S%s [%s] - %S\r\n", FindFileData.cFileName,
-				(flags & VI_FLAG_FORMAT) ? L"[b]" : L"",
-				ver,
-				(flags & VI_FLAG_FORMAT) ? L"[/b]" : L"",
-				GetLastWriteTime(&FindFileData.ftLastWriteTime).c_str(), id);
-			CloseHandle(hDumpFile);
-		}
-	}
-		while (FindNextFile(hFind, &FindFileData));
-	FindClose(hFind);
 }
 
 static void GetIconStrings(CMStringW& buffer)
@@ -442,13 +376,6 @@ void PrintVersionInfo(CMStringW& buffer, unsigned flags)
 	buffer.Append(L"\r\n");
 
 	GetPluginsString(buffer, flags);
-
-	if (flags & VI_FLAG_WEATHER) {
-		buffer.AppendFormat(L"\r\n%sWeather ini files:%s\r\n-------------------------------------------------------------------------------\r\n",
-			(flags & VI_FLAG_FORMAT) ? L"[b]" : L"",
-			(flags & VI_FLAG_FORMAT) ? L"[/b]" : L"");
-		GetWeatherStrings(buffer, flags);
-	}
 
 	if (flags & VI_FLAG_PRNVAR && !g_plugin.bServiceMode) {
 		buffer.AppendFormat(L"\r\n%sProtocols and Accounts:%s\r\n-------------------------------------------------------------------------------\r\n",
