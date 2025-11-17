@@ -68,7 +68,8 @@ bool RichEdit::IsReadOnly() const
 void RichEdit::SuspendUndo()
 {
 	if (m_textDocument != nullptr) {
-		m_textDocument->Undo(tomSuspend, nullptr);
+		LONG iCount = 0;
+		m_textDocument->Undo(tomSuspend, &iCount);
 		m_undoEnabled = FALSE;
 	}
 }
@@ -76,7 +77,8 @@ void RichEdit::SuspendUndo()
 void RichEdit::ResumeUndo()
 {
 	if (m_textDocument != nullptr) {
-		m_textDocument->Undo(tomResume, nullptr);
+		LONG iCount = 0;
+		m_textDocument->Undo(tomResume, &iCount);
 		m_undoEnabled = TRUE;
 	}
 }

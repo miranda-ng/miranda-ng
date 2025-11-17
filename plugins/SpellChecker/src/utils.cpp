@@ -24,22 +24,18 @@ typedef void(*FoundWrongWordCallback)(const wchar_t *word, CHARRANGE pos, void *
 typedef map<HWND, Dialog *> DialogMapType;
 DialogMapType dialogs;
 DialogMapType menus;
+const BYTE g_MyUnderline = IsWinVer8Plus() ? 6 : 5;
 
 void SetUnderline(Dialog *dlg, int pos_start, int pos_end)
 {
 	dlg->re->SetSel(pos_start, pos_end);
 
-	CHARFORMAT2 cf;
+	CHARFORMAT2 cf = {};
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_UNDERLINE | CFM_UNDERLINETYPE;
 	cf.dwEffects = CFE_UNDERLINE;
 	cf.bUnderlineType = opts.underline_type + CFU_UNDERLINEDOUBLE;
-
-	if (IsWinVer8Plus())
-		cf.bUnderlineColor = 0x06;
-	else
-		cf.bUnderlineColor = 0x05;
-
+	cf.bUnderlineColor = g_MyUnderline;
 	dlg->re->SendMessage(EM_SETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 
 	dlg->markedSomeWord = TRUE;
@@ -50,7 +46,7 @@ BOOL IsMyUnderline(const CHARFORMAT2 &cf)
 	return (cf.dwEffects & CFE_UNDERLINE)
 		&& (cf.bUnderlineType & 0x0F) >= CFU_UNDERLINEDOUBLE
 		&& (cf.bUnderlineType & 0x0F) <= CFU_UNDERLINETHICK
-		&& (cf.bUnderlineColor) == 5;
+		&& (cf.bUnderlineColor) == g_MyUnderline;
 }
 
 void SetNoUnderline(RichEdit *re, int pos_start, int pos_end)
@@ -59,7 +55,7 @@ void SetNoUnderline(RichEdit *re, int pos_start, int pos_end)
 		for (int i = pos_start; i <= pos_end; i++) {
 			re->SetSel(i, min(i + 1, pos_end));
 
-			CHARFORMAT2 cf;
+			CHARFORMAT2 cf = {};
 			cf.cbSize = sizeof(cf);
 			re->SendMessage(EM_GETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 
@@ -77,12 +73,10 @@ void SetNoUnderline(RichEdit *re, int pos_start, int pos_end)
 	else {
 		re->SetSel(pos_start, pos_end);
 
-		CHARFORMAT2 cf;
+		CHARFORMAT2 cf = {};
 		cf.cbSize = sizeof(cf);
 		cf.dwMask = CFM_UNDERLINE | CFM_UNDERLINETYPE;
-		cf.dwEffects = 0;
 		cf.bUnderlineType = CFU_UNDERLINE;
-		cf.bUnderlineColor = 0;
 		re->SendMessage(EM_SETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 	}
 }
