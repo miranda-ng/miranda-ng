@@ -338,7 +338,6 @@ private:
 	INT_PTR __cdecl SvcLoadHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcEmptyHistory(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
-	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
 
 	// trouter
 public:
