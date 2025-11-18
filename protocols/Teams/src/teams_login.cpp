@@ -165,7 +165,7 @@ void CTeamsProto::OnReceiveSkypeToken(MHttpResponse *response, AsyncHttpRequest 
 	auto &token = reply.data()["skypeToken"];
 	m_szSkypeToken = token["skypetoken"].as_mstring();
 
-	m_szOwnSkypeId = token["skypeid"].as_mstring();
+	m_szOwnSkypeId = L"8:" + token["skypeid"].as_mstring();
 	setString(DBKEY_ID, m_szOwnSkypeId);
 
 	LoggedIn();

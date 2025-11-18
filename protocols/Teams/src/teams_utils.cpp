@@ -524,14 +524,9 @@ int TeamsToMirandaStatus(const char *status)
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-bool CTeamsProto::IsMe(const wchar_t *str)
-{
-	return (!mir_wstrcmpi(str, Utf2T(m_szMyname)) || !mir_wstrcmp(str, Utf2T(m_szOwnSkypeId)));
-}
-
 bool CTeamsProto::IsMe(const char *str)
 {
-	return (!mir_strcmpi(str, m_szMyname) || !mir_strcmp(str, m_szOwnSkypeId));
+	return (!mir_strcmpi(GetSkypeNick(str), m_szMyname) || !mir_strcmp(str, m_szOwnSkypeId));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -579,13 +574,6 @@ CMStringA getMessageId(const JSONNode &node)
 const char* GetSkypeNick(const char *szSkypeId)
 {
 	if (auto *p = strchr(szSkypeId, ':'))
-		return p + 1;
-	return szSkypeId;
-}
-
-const wchar_t* GetSkypeNick(const wchar_t *szSkypeId)
-{
-	if (auto *p = wcsrchr(szSkypeId, ':'))
 		return p + 1;
 	return szSkypeId;
 }

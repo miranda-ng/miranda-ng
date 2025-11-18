@@ -314,7 +314,6 @@ private:
 	{	return (m_iStatus > ID_STATUS_OFFLINE);
 	}
 
-	bool IsMe(const wchar_t *str);
 	bool IsMe(const char *str);
 
 	int64_t getLastTime(MCONTACT);

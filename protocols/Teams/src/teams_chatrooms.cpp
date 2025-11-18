@@ -277,14 +277,15 @@ bool CTeamsProto::OnChatEvent(const JSONNode &node)
 		TiXmlDocument doc;
 		if (!doc.Parse(T2Utf(wszContent))) {
 			if (auto *pRoot = doc.FirstChildElement("topicupdate")) {
-				CMStringW initiator = Utf2T(XmlGetChildText(pRoot, "initiator"));
-				CMStringW value = Utf2T(XmlGetChildText(pRoot, "value"));
-				Chat_ChangeSessionName(si, value);
+				Chat_ChangeSessionName(si, Utf2T(XmlGetChildText(pRoot, "value")));
 
+				T2Utf topic(wszTopic);
+				auto *initiator = XmlGetChildText(pRoot, "initiator");
 				GCEVENT gce = { si, GC_EVENT_TOPIC };
-				gce.pszUID.w = initiator;
-				gce.pszNick.w = GetSkypeNick(initiator);
-				gce.pszText.w = wszTopic;
+				gce.dwFlags = GCEF_UTF8;
+				gce.pszUID.a = initiator;
+				gce.pszNick.a = GetSkypeNick(initiator);
+				gce.pszText.a = topic;
 				Chat_Event(&gce);
 			}
 		}
@@ -446,7 +447,8 @@ wchar_t* CTeamsProto::GetChatContactNick(SESSION_INFO *si, const wchar_t *id, co
 		return tname;
 
 	// Check if we have this contact in database
-	if (IsMe(id)) {
+	T2Utf userId(id);
+	if (IsMe(userId)) {
 		// Return my nick
 		if (auto *tname = getWStringA("Nick"))
 			return tname;
@@ -470,7 +472,7 @@ wchar_t* CTeamsProto::GetChatContactNick(SESSION_INFO *si, const wchar_t *id, co
 	// Return default value as nick - given name or user id
 	if (name != nullptr)
 		return mir_wstrdup(name);
-	return mir_wstrdup(GetSkypeNick(id));
+	return mir_a2u(GetSkypeNick(userId.get()));
 }
 
 void CTeamsProto::InviteUserToChat(const char *chatId, const char *skypename, const char *role)
@@ -501,13 +503,14 @@ bool CTeamsProto::AddChatContact(SESSION_INFO *si, const wchar_t *id, const wcha
 {
 	bool isQualified;
 	ptrW szNick(GetChatContactNick(si, id, 0, &isQualified));
+	T2Utf userId(id);
 
 	GCEVENT gce = { si, GC_EVENT_JOIN };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pszNick.w = szNick;
 	gce.pszUID.w = id;
 	gce.time = !isChange ? time(0) : NULL;
-	gce.bIsMe = IsMe(id);
+	gce.bIsMe = IsMe(userId);
 	gce.pszStatus.w = TranslateW(role);
 	Chat_Event(&gce);
 
@@ -516,7 +519,8 @@ bool CTeamsProto::AddChatContact(SESSION_INFO *si, const wchar_t *id, const wcha
 
 void CTeamsProto::RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const wchar_t *initiator)
 {
-	if (IsMe(id))
+	T2Utf userId(id);
+	if (IsMe(userId))
 		return;
 
 	ptrW szNick(GetChatContactNick(si, id));
@@ -527,7 +531,7 @@ void CTeamsProto::RemoveChatContact(SESSION_INFO *si, const wchar_t *id, const w
 	gce.pszNick.w = szNick;
 	gce.pszUID.w = id;
 	gce.time = time(0);
-	gce.bIsMe = IsMe(id);
+	gce.bIsMe = false;
 	gce.pszStatus.w = szInitiator;
 	Chat_Event(&gce);
 }

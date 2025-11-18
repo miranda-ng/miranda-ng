@@ -22,7 +22,6 @@ void Utf32toUtf16(uint32_t c, CMStringW &dest);
 uint32_t Utf16toUtf32(const wchar_t *str);
 
 const char* GetSkypeNick(const char *pszSkypeId);
-const wchar_t* GetSkypeNick(const wchar_t *szSkypeId);
 
 CMStringA ParseUrl(const char *url, const char *token);
 
