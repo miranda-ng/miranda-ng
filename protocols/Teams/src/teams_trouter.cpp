@@ -17,7 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#define TEAMS_TROUTER_TTL 86400
 #define TEAMS_TROUTER_TCCV "2024.23.01.2"
 
 void CTeamsProto::OnTrouterSession(MHttpResponse *response, AsyncHttpRequest *pRequest)
@@ -44,6 +43,13 @@ void CTeamsProto::OnTrouterInfo(MHttpResponse *response, AsyncHttpRequest *)
 
 	auto &root = reply.data();
 	m_szTrouterSurl = root["surl"].as_mstring();
+	m_szRegistrarUrl = root["registrarUrl"].as_mstring();
+	if (m_szRegistrarUrl.IsEmpty())
+		m_szRegistrarUrl = "https://edge.skype.com/registrar/prod/v2/registrations";
+	m_iTrouterTtl = atoi(root["ttl"].as_string().c_str());
+	if (!m_iTrouterTtl)
+		m_iTrouterTtl = 86400;
+
 	CMStringA ccid = root["ccid"].as_mstring();
 	CMStringA szUrl = root["socketio"].as_mstring();
 	szUrl += "socket.io/1/";
@@ -196,14 +202,14 @@ void CTeamsProto::TRouterRegister(const char *pszAppId, const char *pszKey, cons
 	if (pszContext)
 		descr << CHAR_PARAM("productContext", pszContext);
 
-	obj << CHAR_PARAM("context", "") << CHAR_PARAM("path", pszPath) << INT_PARAM("ttl", TEAMS_TROUTER_TTL);
+	obj << CHAR_PARAM("context", "") << CHAR_PARAM("path", pszPath) << INT_PARAM("ttl", m_iTrouterTtl);
 	trouter.set_name("TROUTER"); trouter << obj;
 	transports.set_name("transports"); transports << trouter;
 
 	reg.set_name("registration");
 	reg << descr << CHAR_PARAM("registrationId", m_szEndpoint) << CHAR_PARAM("nodeId", "") << transports;
 
-	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_OTHER, "https://edge.skype.com/registrar/prod/v2/registrations");
+	auto *pReq = new AsyncHttpRequest(REQUEST_POST, HOST_OTHER, m_szRegistrarUrl);
 	pReq->flags |= NLHRF_NODUMPHEADERS;
 	pReq->AddHeader("Content-Type", "application/json");
 	pReq->AddHeader("X-Skypetoken", m_szSkypeToken);

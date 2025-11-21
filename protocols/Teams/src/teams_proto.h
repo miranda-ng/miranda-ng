@@ -344,7 +344,8 @@ public:
 
 private:
 	HNETLIBUSER m_hTrouterNetlibUser;
-	CMStringA m_szTrouterUrl, m_szTrouterSurl;
+	int m_iTrouterTtl;
+	CMStringA m_szTrouterUrl, m_szTrouterSurl, m_szRegistrarUrl;
 	WebSocket<CTeamsProto> *m_ws;
 	MHttpHeaders m_connectParams;
 	int iCommandId;
