@@ -119,7 +119,7 @@
     <ProjectReference Condition="'$(VisualStudioVersion)' == '17.0'" Include="src\glib\glib_17.vcxproj">
       <Project>{12bca020-eabf-429e-876a-a476bc9c10c0}</Project>
     </ProjectReference>
-    <ProjectReference Include="src\glib\glib_18.vcxproj">
+    <ProjectReference Condition="'$(VisualStudioVersion)' == '18.0'" Include="src\glib\glib_18.vcxproj">
       <Project>{12bca020-eabf-429e-876a-a476bc9c10c0}</Project>
     </ProjectReference>
   </ItemGroup>
