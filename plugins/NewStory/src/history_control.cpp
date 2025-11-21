@@ -1425,11 +1425,11 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 		if (pt.x == -1 && pt.y == -1)
 			GetCursorPos(&pt);
-
-		POINT pt2 = pt;
-		ScreenToClient(hwnd, &pt2);
-
-		idx = data->GetItemFromPixel(pt2.y);
+		{
+			POINT pt2 = pt;
+			ScreenToClient(hwnd, &pt2);
+			idx = data->GetItemFromPixel(pt2.y);
+		}
 		if (idx != -1) {
 			if (data->caret != idx)
 				data->EndEditItem(false);
