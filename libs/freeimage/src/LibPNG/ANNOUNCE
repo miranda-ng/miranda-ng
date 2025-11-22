@@ -1,48 +1,60 @@
-Libpng 1.6.35 - July 15, 2018
+libpng 1.6.51 - November 21, 2025
+=================================
 
 This is a public release of libpng, intended for use in production code.
 
-Files available for download:
+
+Files available for download
+----------------------------
 
 Source files with LF line endings (for Unix/Linux):
 
-   libpng-1.6.35.tar.xz (LZMA-compressed, recommended)
-   libpng-1.6.35.tar.gz
+ * libpng-1.6.51.tar.xz (LZMA-compressed, recommended)
+ * libpng-1.6.51.tar.gz (deflate-compressed)
 
 Source files with CRLF line endings (for Windows):
 
-   lp1635.7z  (LZMA-compressed, recommended)
-   lp1635.zip
+ * lpng1651.7z (LZMA-compressed, recommended)
+ * lpng1651.zip (deflate-compressed)
 
 Other information:
 
-   libpng-1.6.35-README.txt
-   libpng-1.6.35-LICENSE.txt
+ * README.md
+ * LICENSE.md
+ * AUTHORS.md
+ * TRADEMARK.md
 
-Changes since the last public release (1.6.34):
 
-  Restored 21 of the contrib/pngsuite/i*.png, which do not cause test
-    failures. Placed the remainder in contrib/pngsuite/interlaced/i*.png.
-  Added calls to png_set_*() transforms commonly used by browsers to
-    the fuzzer.
-  Removed some unnecessary brackets in pngrtran.c
-  Fixed miscellaneous typos (Patch by github user "luzpaz").
-  Change "ASM C" to "C ASM" in CMakeLists.txt
-  Fixed incorrect handling of bKGD chunk in sub-8-bit files (Cosmin)
-  Added hardware optimization directories to zip and 7z distributions.
-  Fixed incorrect bitmask for options.
-  Fixed many spelling typos.
-  Make png_get_iCCP consistent with man page (allow compression-type argument
-    to be NULL, bug report by Lenard Szolnoki).
-  Replaced the remaining uses of png_size_t with size_t (Cosmin)
-  Fixed the calculation of row_factor in png_check_chunk_length
-    (reported by Thuan Pham in SourceForge issue #278)
-  Added missing parentheses to a macro definition
-    (suggested by "irwir" in GitHub issue #216)
+Changes from version 1.6.50 to version 1.6.51
+---------------------------------------------
 
-Send comments/corrections/commendations to png-mng-implement at lists.sf.net
-(subscription required; visit
+ * Fixed CVE-2025-64505 (moderate severity):
+   Heap buffer overflow in `png_do_quantize` via malformed palette index.
+   (Reported by Samsung; analyzed by Fabio Gritti.)
+ * Fixed CVE-2025-64506 (moderate severity):
+   Heap buffer over-read in `png_write_image_8bit` with 8-bit input and
+   `convert_to_8bit` enabled.
+   (Reported by Samsung and <weijinjinnihao@users.noreply.github.com>;
+   analyzed by Fabio Gritti.)
+ * Fixed CVE-2025-64720 (high severity):
+   Buffer overflow in `png_image_read_composite` via incorrect palette
+   premultiplication.
+   (Reported by Samsung; analyzed by John Bowler.)
+ * Fixed CVE-2025-65018 (high severity):
+   Heap buffer overflow in `png_combine_row` triggered via
+   `png_image_finish_read`.
+   (Reported by <yosiimich@users.noreply.github.com>.)
+ * Fixed a memory leak in `png_set_quantize`.
+   (Reported by Samsung; analyzed by Fabio Gritti.)
+ * Removed the experimental and incomplete ERROR_NUMBERS code.
+   (Contributed by Tobias Stoeckmann.)
+ * Improved the RISC-V vector extension support; required RVV 1.0 or newer.
+   (Contributed by Filip Wasil.)
+ * Added GitHub Actions workflows for automated testing.
+ * Performed various refactorings and cleanups.
+
+
+Send comments/corrections/commendations to png-mng-implement at lists.sf.net.
+Subscription is required; visit
 https://lists.sourceforge.net/lists/listinfo/png-mng-implement
-to subscribe).
-
-Glenn R-P
+to subscribe.
