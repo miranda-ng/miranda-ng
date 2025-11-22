@@ -45,4 +45,3 @@ It's very light on system resources and extremely fast.
 
 - [Miranda NG on Facebook](https://www.facebook.com/miranda.newgen)
 - [Miranda NG on Twitter](https://twitter.com/MirandaNewgen)
-- [Miranda NG commits on Twitter](https://twitter.com/MirandaNGcommit)
