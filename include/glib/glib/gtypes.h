@@ -569,7 +569,7 @@ G_END_DECLS
 #    else /* !GLIB_STATIC_COMPILATION */
 #      ifdef GLIB_COMPILATION
 #        ifdef DLL_EXPORT
-#          define GLIB_VAR extern __declspec(dllexport)
+#          define GLIB_VAR __declspec(dllexport)
 #        else /* !DLL_EXPORT */
 #          define GLIB_VAR extern
 #        endif /* !DLL_EXPORT */
