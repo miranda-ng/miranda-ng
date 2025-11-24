@@ -40,7 +40,7 @@ int GetWinVer(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Single file HTTP transaction
 
-int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
+int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc, int timeout)
 {
 	char szMirVer[100];
 	Miranda_GetVersionText(szMirVer, _countof(szMirVer));
@@ -65,6 +65,8 @@ int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 	nlhr.nlc = nlc;
 	nlhr.m_szUrl = szUrl;
+	nlhr.timeout = timeout * 1000;
+
 	nlhr.AddHeader("User-Agent", szUserAgent);
 	nlhr.AddHeader("Connection", "close");
 	nlhr.AddHeader("Cache-Control", "no-cache");

@@ -293,7 +293,7 @@ int   GetWinVer(void);
 int   BackupFile(wchar_t *pwszSrcFileName, wchar_t *pwszBackFileName);
 
 wchar_t* GetDefaultUrl();
-int   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
+int   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc, int timeout = 30);
 
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
 

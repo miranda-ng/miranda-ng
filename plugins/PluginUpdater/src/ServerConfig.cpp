@@ -82,7 +82,7 @@ bool ServerConfig::Load()
 	pFileUrl.CRCsum = 0;
 
 	HNETLIBCONN nlc = nullptr;
-	int ret = DownloadFile(&pFileUrl, nlc);
+	int ret = DownloadFile(&pFileUrl, nlc, 5);
 	Netlib_CloseHandle(nlc);
 
 	if (ret != ERROR_SUCCESS) {
