@@ -87,7 +87,6 @@ https://miranda-ng.org/distr/
 #include <m_metacontacts.h>
 #include <m_folders.h>
 #include <m_ieview.h>
-#include <m_smileyadd.h>
 #include <m_text.h>
 #include <m_toptoolbar.h>
 #include <m_hpp.h>
