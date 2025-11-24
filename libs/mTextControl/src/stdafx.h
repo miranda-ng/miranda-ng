@@ -45,7 +45,7 @@ extern HINSTANCE g_hInst;
 extern PCreateTextServices MyCreateTextServices;
 
 void InitRichEdit(ITextServices *ts);
-HWND CreateProxyWindow();
+HWND CreateProxyWindow(ITextServices *ts);
 
 #define MODULTITLE "Text Display"
 #define MODULENAME "MTextControl"

@@ -194,8 +194,7 @@ MTEXTCONTROL_DLL(int) MTextSetProto(TextObject *text, MCONTACT hContact, const c
 	text->szProto = szProto;
 
 	// smilies
-	HWND hwnd = CreateProxyWindow();
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)text->ftd->getTextService());
+	HWND hwnd = CreateProxyWindow(text->ftd->getTextService());
 
 	SMADD_RICHEDIT sm = {};
 	sm.hwndRichEditControl = hwnd;
@@ -205,7 +204,7 @@ MTEXTCONTROL_DLL(int) MTextSetProto(TextObject *text, MCONTACT hContact, const c
 	sm.flags = SAFLRE_INSERTEMF;
 	CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&sm);
 
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+	DestroyWindow(hwnd);
 	return TRUE;
 }
 

@@ -108,7 +108,6 @@ void InitRichEdit(ITextServices *ts)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static ATOM winClass = 0;
-static HWND hwndProxy = 0;
 
 static LRESULT CALLBACK RichEditProxyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -121,7 +120,7 @@ static LRESULT CALLBACK RichEditProxyWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return 1;
 }
 
-HWND CreateProxyWindow()
+HWND CreateProxyWindow(ITextServices *ts)
 {
 	if (winClass == 0) {
 		WNDCLASSEX wcl = {};
@@ -135,19 +134,13 @@ HWND CreateProxyWindow()
 		winClass = RegisterClassExW(&wcl);
 	}
 
-	if (hwndProxy == 0)
-		hwndProxy = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, g_hInst, nullptr);
-
-	return hwndProxy;
+	HWND hwnd = CreateWindow(L"NBRichEditProxyWndClass", L"", 0, 0, 0, 0, 0, nullptr, nullptr, g_hInst, nullptr);
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ts);
+	return hwnd;
 }
 
 void DestroyProxyWindow()
 {
-	if (hwndProxy) {
-		SetWindowLongPtr(hwndProxy, GWLP_USERDATA, 0);
-		DestroyWindow(hwndProxy);
-	}
-
 	if (winClass != 0)
 		UnregisterClassW(L"NBRichEditProxyWndClass", g_hInst);
 }
