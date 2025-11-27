@@ -226,7 +226,7 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 
 	if (!m_bDisable3920auth) {
 		n << XATTR("version", "1.0");
-		if (m_bEnableSasl2)
+		if (m_bEnableSasl2 && !(m_bUseTLS && !info->bTlsPassed))
 			n << XATTR("from", CMStringA(FORMAT, "%s@%s", info->conn.username, info->conn.server));
 	}
 
@@ -400,7 +400,7 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 		// Register new user connection, all connection parameters are already filled in.
 		// Multiple threads allowed, although not possible :)
 		// Thinking again. The multiple threads should not be allowed.
-		info.reg_done = false;
+		info.bRegDone = false;
 		info.conn.SetProgress(25, TranslateT("Connecting..."));
 		iqIdRegGetReg = -1;
 		iqIdRegSetReg = -1;
@@ -565,7 +565,7 @@ recvRest:
 		}
 	}
 	else {
-		if (!info.reg_done)
+		if (!info.bRegDone)
 			info.conn.SetProgress(100, TranslateT("Error: Connection lost"));
 		g_pRegInfo = nullptr;
 	}
@@ -940,8 +940,10 @@ void CJabberProto::OnProcessProceed(const TiXmlElement *node, ThreadData *info)
 			info->send("</stream:stream>");
 			info->shutdown();
 		}
-		else
+		else {
+			info->bTlsPassed = true;
 			xmlStreamInitialize("after successful StartTLS");
+		}
 	}
 }
 
@@ -1491,12 +1493,12 @@ void CJabberProto::OnProcessRegIq(const TiXmlElement *node, ThreadData *info)
 		else if (id == iqIdRegSetReg) {
 			info->send("</stream:stream>");
 			info->conn.SetProgress(100, TranslateT("Registration successful"));
-			info->reg_done = true;
+			info->bRegDone = true;
 		}
 	}
 	else if (!mir_strcmp(type, "error")) {
 		info->conn.SetProgress(100, JabberErrorMsg(node));
-		info->reg_done = true;
+		info->bRegDone = true;
 		info->send("</stream:stream>");
 	}
 }
