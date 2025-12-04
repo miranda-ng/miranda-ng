@@ -25,6 +25,10 @@
 [SuperAdmin]
 [Admin]
 [Participant]
+;file \protocols\WhatsApp\src\iq.cpp
+[Incoming call]
+[Call rejected]
+[Call ended]
 ;file \protocols\WhatsApp\src\main.cpp
 [WhatsApp (HTTP)]
 ;file \protocols\WhatsApp\src\options.cpp

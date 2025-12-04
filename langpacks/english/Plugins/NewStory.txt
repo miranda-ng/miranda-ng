@@ -85,6 +85,7 @@
 [Search]
 [Search forward]
 [Search backward]
+[Open links]
 [Do you really want to delete selected items (%d)?]
 ;file \plugins\NewStory\src\history_dlg.cpp
 [Global history search]

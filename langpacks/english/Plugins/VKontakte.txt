@@ -255,7 +255,6 @@
 [Loading messages for all contacts is completed.]
 [Loading history]
 [Error loading message history for %s from server.]
-[Loading messages for %s is completed.]
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
 ;file \protocols\VKontakte\src\vk_options.cpp

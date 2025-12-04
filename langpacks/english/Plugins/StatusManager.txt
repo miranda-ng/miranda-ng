@@ -142,6 +142,8 @@
 [Auto away]
 [Rules]
 [Status messages]
+;file \plugins\StatusManager\src\commonstatus.cpp
+[<unknown>]
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 [<last>]
@@ -170,7 +172,6 @@
 ;file \plugins\StatusManager\src\options.cpp
 [Status manager]
 ;file \plugins\StatusManager\src\ss_options.cpp
-[<unknown>]
 [default]
 [Hidden]
 [Minimized]
