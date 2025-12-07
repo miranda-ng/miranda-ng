@@ -136,8 +136,7 @@ extern "C" {
 	void otr_gui_inject_message(void *opdata, const char *, const char *protocol, const char *, const char *message) {
 		DEBUGOUTA("OTR_GUI_INJECT_MESSAGE\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
-		if (db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-			ProtoChainSend(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
+		ProtoChainSend(hContact, PSS_MESSAGE, PREF_BYPASS_OTR, (LPARAM)message);
 	}
 
 	/* When the list of ConnContexts changes (including a change in
