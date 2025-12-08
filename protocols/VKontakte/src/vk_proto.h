@@ -129,7 +129,8 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void CreateNewChat(LPCSTR uids, LPCWSTR pwszTitle);
 	__forceinline bool IsOnline() const { return m_bOnline; }
-	bool CheckHealthThreads();
+	void CheckHealth();
+	void CheckHealthThreads(void *p);
 	void OnTimerTic();
 	void ClearAccessToken();
 	void ShowCaptchaInBrowser(HBITMAP hBitmap);

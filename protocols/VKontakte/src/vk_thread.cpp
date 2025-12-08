@@ -32,36 +32,47 @@ static char szFieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, 
 	"music, movies, tv, books, games, quotes, about,  domain, can_write_private_message";
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-bool CVkProto::CheckHealthThreads()
+void CVkProto::CheckHealth()
 {
+	debugLogA("CVkProto::CheckHealth");
+	ForkThread(&CVkProto::CheckHealthThreads);
+	debugLogA("CVkProto::CheckHealth end");
+}
+
+void CVkProto::CheckHealthThreads(void *p)
+{
+	debugLogA("CVkProto::CheckHealthThreads");
 	if (!IsOnline()) {
 		debugLogA("CVkProto::CheckHealthThreads Offline");
-		return false;
+		return;
 	}
 
-	time_t tNow = time(0);
+	time_t tNow = time(0), tWorkThreadTimer, tPoolThreadTimer;
 
+	debugLogA("CVkProto::CheckHealthThreads WorkThread");
 	{
 		mir_cslock lck(m_csWorkThreadTimer);
-		if ((m_tWorkThreadTimer + 3 * 60) < tNow) {
-			debugLogA("CVkProto::CheckHealthThreads Work Thread is freeze => ShutdownSession()");
-			ShutdownSession();
-			return false;
-		}
+		tWorkThreadTimer = m_tWorkThreadTimer;
+	}
+	if ((tWorkThreadTimer + 3 * 60) < tNow) {
+		debugLogA("CVkProto::CheckHealthThreads Work Thread is freeze => ShutdownSession()");
+		ShutdownSession();
+		return;
 	}
 
+	debugLogA("CVkProto::CheckHealthThreads PoolThread");
 	{
 		mir_cslock lck(m_csPoolThreadTimer);
-		if ((m_tPoolThreadTimer + 3 * 60) < tNow) {
-			debugLogA("CVkProto::CheckHealthThreads Pool Thread is freeze => ShutdownSession()");
-			ShutdownSession();
-			return false;
-		}
+		tPoolThreadTimer = m_tPoolThreadTimer;
+	}
+	if ((m_tPoolThreadTimer + 3 * 60) < tNow) {
+		debugLogA("CVkProto::CheckHealthThreads Pool Thread is freeze => ShutdownSession()");
+		ShutdownSession();
+		return;
 	}
 
 	debugLogA("CVkProto::CheckHealthThreads OK");
-	return true;
+	OnTimerTic();
 }
 
 void CVkProto::ShutdownSession()
@@ -93,8 +104,7 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	for (auto &it : g_plugin.g_arInstances)
 		if (it->IsOnline()) {
 			it->debugLogA("Tic timer for %s", it->m_szModuleName);
-			if (it->CheckHealthThreads())
-				it->OnTimerTic();
+			it->CheckHealth();
 		}
 }
 
@@ -118,7 +128,8 @@ static void CALLBACK VKUnsetTimer(void*)
 
 void CVkProto::OnTimerTic()
 {
-	
+	debugLogA("CVkProto::CheckHealthThreads OnTimerTic m_iLoadCListIntervalCounter=%d iLoadCListInterval=%d", m_iLoadCListIntervalCounter, (int)(m_vkOptions.iLoadCListInterval));
+
 	if (++m_iLoadCListIntervalCounter >= m_vkOptions.iLoadCListInterval) {
 		RetrieveUsersInfo(true);
 		m_iLoadCListIntervalCounter = 0;
