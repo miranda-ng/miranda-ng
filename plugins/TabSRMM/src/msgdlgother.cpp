@@ -2401,7 +2401,7 @@ void CMsgDialog::UpdateTitle()
 		}
 		SetWindowText(m_hwnd, wszTitle);
 		if (m_pContainer->m_hwndActive == m_hwnd) {
-			m_pContainer->UpdateTitle(0, this);
+			m_pContainer->UpdateTitle(this);
 			UpdateStatusBar();
 		}
 	}

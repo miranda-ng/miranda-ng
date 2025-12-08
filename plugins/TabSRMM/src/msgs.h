@@ -355,7 +355,8 @@ struct TContainerData : public MZeroedObject
 	void SetAeroMargins(void);
 	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
 	void UpdateTabs(void);
-	void UpdateTitle(MCONTACT, CMsgDialog* = nullptr);
+	void UpdateTitle(MCONTACT);
+	void UpdateTitle(CMsgDialog *pDlg);
 
 	void ClearMargins()
 	{	memset(&m_mOld, 0xfe, sizeof(m_mOld));

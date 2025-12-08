@@ -953,35 +953,44 @@ void TContainerData::UpdateTabs()
 	}
 }
 
-void TContainerData::UpdateTitle(MCONTACT hContact, CMsgDialog *pDlg)
+void TContainerData::UpdateTitle(MCONTACT hContact)
 {
-	// pDlg != 0 means sent by a chat window
-	if (pDlg) {
-		wchar_t szText[512];
-		GetWindowText(pDlg->GetHwnd(), szText, _countof(szText));
-		szText[_countof(szText) - 1] = 0;
-		SetWindowText(m_hwnd, szText);
-		SetIcon(pDlg, (pDlg->m_hTabIcon != pDlg->m_hTabStatusIcon) ? pDlg->m_hTabIcon : pDlg->m_hTabStatusIcon);
-		return;
-	}
-
+	CMsgDialog *pDlg = nullptr;
 	// no hContact given - obtain the hContact for the active tab
 	if (hContact == 0) {
 		if (m_hwndActive && IsWindow(m_hwndActive))
-			pDlg = (CMsgDialog*)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
+			pDlg = (CMsgDialog *)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
 	}
 	else {
+		// inactive windows not to change container's title
 		HWND hwnd = Srmm_FindWindow(hContact);
+		if (m_hwndActive && hwnd != m_hwndActive)
+			return;
+
 		if (hwnd != nullptr)
-			pDlg = (CMsgDialog*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+			pDlg = (CMsgDialog *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	}
 
 	if (pDlg) {
 		SetIcon(pDlg, pDlg->m_hXStatusIcon ? pDlg->m_hXStatusIcon : pDlg->m_hTabStatusIcon);
 		CMStringW szTitle;
-		if (pDlg->FormatTitleBar(cfg.szTitleFormat, szTitle))
-			SetWindowText(m_hwnd, szTitle);
+		if (pDlg->FormatTitleBar(cfg.szTitleFormat, szTitle)) {
+			wchar_t szText[512];
+			GetWindowTextW(m_hwnd, szText, _countof(szText));
+			szText[_countof(szText) - 1] = 0;
+			if (szTitle != szText)
+				SetWindowTextW(m_hwnd, szTitle);
+		}
 	}
+}
+
+void TContainerData::UpdateTitle(CMsgDialog *pDlg)
+{
+	wchar_t szText[512];
+	GetWindowTextW(pDlg->GetHwnd(), szText, _countof(szText));
+	szText[_countof(szText) - 1] = 0;
+	SetWindowTextW(m_hwnd, szText);
+	SetIcon(pDlg, (pDlg->m_hTabIcon != pDlg->m_hTabStatusIcon) ? pDlg->m_hTabIcon : pDlg->m_hTabStatusIcon);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
