@@ -902,7 +902,7 @@ Clist_GroupSaveExpanded @1003 NONAME
 ?unload@EventInfo@DB@@QEAAXXZ @1036 NONAME
 ?isAlertable@EventInfo@DB@@QEBA_NXZ @1037 NONAME
 ?Send@File@@YAPEAUHWND__@@IQEAPEA_W@Z @1038 NONAME
-?GetReceivedFolder@File@@YAPEA_WIPEA_W_K_N@Z @1039 NONAME
+?GetReceivedFolder@File@@YA?AVMFilePath@@I@Z @1039 NONAME
 ?DlgProc@CUserInfoPageDlg@@UEAA_JI_K_J@Z @1040 NONAME
 ?wipeNotify@EventInfo@DB@@QEAAXXZ @1041 NONAME
 CallContactService @1042 NONAME

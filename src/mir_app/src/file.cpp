@@ -52,7 +52,7 @@ static HGENMENU hSRFileMenuItem;
 
 EXTERN_C MIR_APP_DLL(void) GetFileReceivedFolder(MCONTACT hContact, wchar_t *buf)
 {
-	File::GetReceivedFolder(hContact, buf, MAX_PATH);
+	mir_wstrncpy(buf, File::GetReceivedFolder(hContact), MAX_PATH);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -170,11 +170,8 @@ static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 		if (dbei && dbei.eventType == EVENTTYPE_FILE) {
 			DB::FILE_BLOB blob(dbei);
 			if (auto *pwszName = blob.getLocalName()) {
-				wchar_t wszReceiveFolder[MAX_PATH];
-				GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
-
 				// we don't remove sent files, located outside Miranda's folder for sent cloud files
-				if (!dbei.bSent || !wcsnicmp(pwszName, wszReceiveFolder, wcslen(wszReceiveFolder)))
+				if (!dbei.bSent || !GetContactSentFilesDir(hContact).CompareNoCase(pwszName))
 					DeleteFileW(pwszName);
 			}
 		}
@@ -191,17 +188,13 @@ INT_PTR FtMgrShowCommand(WPARAM, LPARAM)
 
 INT_PTR openContRecDir(WPARAM hContact, LPARAM)
 {
-	wchar_t szContRecDir[MAX_PATH];
-	File::GetReceivedFolder(hContact, szContRecDir, _countof(szContRecDir));
-	ShellExecute(nullptr, L"open", szContRecDir, nullptr, nullptr, SW_SHOW);
+	ShellExecute(nullptr, L"open", File::GetReceivedFolder(hContact), nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 
 INT_PTR openRecDir(WPARAM, LPARAM)
 {
-	wchar_t szContRecDir[MAX_PATH];
-	GetReceivedFilesDir(szContRecDir, _countof(szContRecDir));
-	ShellExecute(nullptr, L"open", szContRecDir, nullptr, nullptr, SW_SHOW);
+	ShellExecute(nullptr, L"open", GetReceivedFilesDir(), nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 

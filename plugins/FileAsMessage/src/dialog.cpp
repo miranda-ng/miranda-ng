@@ -353,17 +353,13 @@ void FILEECHO::sendReq()
 
 void FILEECHO::incomeRequest(char *param)
 {
-	// param: filename?cCOUNT:SIZE
-	wchar_t buf[MAX_PATH];
-	
 	// param == &filename
 	char *p = strchr(param, '?');
 	if (p == nullptr)
 		return;
 	*p++ = 0;
 	
-	File::GetReceivedFolder(hContact, buf, _countof(buf));
-	wszFilename = buf;
+	wszFilename = File::GetReceivedFolder(hContact);
 	wszFilename.Append(Utf2T(param));
 
 	// p == &c
@@ -377,6 +373,7 @@ void FILEECHO::incomeRequest(char *param)
 	chunkCountx = atoi(p);
 	fileSize = atoi(param);
 
+	wchar_t buf[MAX_PATH];
 	mir_snwprintf(buf, TranslateT("Size: %d bytes"), fileSize);
 	SetDlgItemTextW(hDlg, IDC_FILENAME, wszFilename);
 	SetDlgItemTextW(hDlg, IDC_FILESIZE, buf);

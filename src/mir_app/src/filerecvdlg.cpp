@@ -100,35 +100,25 @@ int BrowseForFolder(HWND hwnd, wchar_t *szPath)
 	return pidlResult != nullptr;
 }
 
-static REPLACEVARSARRAY sttVarsToReplace[] =
+static void patchDir(MFilePath &str)
 {
-	{ "///", "//" },
-	{ "//", "/" },
-	{ "()", "" },
-	{ nullptr, nullptr }
-};
+	str.Replace(L"///", L"//");
+	str.Replace(L"//", L"/");
+	str.Replace(L"()", L"");
 
-static void patchDir(wchar_t *str, size_t strSize)
-{
-	wchar_t *result = Utils_ReplaceVarsW(str, 0, sttVarsToReplace);
-	if (result) {
-		wcsncpy(str, result, strSize);
-		mir_free(result);
-	}
-
-	size_t len = mir_wstrlen(str);
-	if (len + 1 < strSize && str[len - 1] != '\\')
-		mir_wstrcpy(str + len, L"\\");
+	int len = str.GetLength();
+	if (str[len - 1] != '\\')
+		str.AppendChar('\\');
 }
 
-MIR_APP_DLL(wchar_t*) File::GetReceivedFolder(MCONTACT hContact, wchar_t *szDir, size_t cchDir, bool patchVars)
+MIR_APP_DLL(MFilePath) File::GetReceivedFolder(MCONTACT hContact)
 {
-	wchar_t tszTemp[MAX_PATH];
+	MFilePath ret;
 
 	if (mir_wstrlen(File::wszSaveDir))
-		wcsncpy_s(tszTemp, File::wszSaveDir, _TRUNCATE);
+		ret = (wchar_t *)File::wszSaveDir;
 	else
-		mir_snwprintf(tszTemp, L"%%mydocuments%%\\%s\\%%userid%%", TranslateT("My received files"));
+		ret.Format(L"%%mydocuments%%\\%s\\%%userid%%", TranslateT("My received files"));
 
 	if (hContact) {
 		hContact = db_mc_tryMeta(hContact);
@@ -145,34 +135,32 @@ MIR_APP_DLL(wchar_t*) File::GetReceivedFolder(MCONTACT hContact, wchar_t *szDir,
 		for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
 			RemoveInvalidFilenameChars(rvaVarsToReplace[i].value.w);
 
-		wchar_t *result = Utils_ReplaceVarsW(tszTemp, hContact, rvaVarsToReplace);
+		wchar_t *result = Utils_ReplaceVarsW(ret, hContact, rvaVarsToReplace);
 		if (result) {
-			wcsncpy(tszTemp, result, _countof(tszTemp));
+			ret = result;
 			mir_free(result);
-			for (int i = 0; i < (_countof(rvaVarsToReplace) - 1); i++)
-				mir_free(rvaVarsToReplace[i].value.w);
+			for (auto &it : rvaVarsToReplace)
+				mir_free(it.value.w);
 		}
 	}
 
-	if (patchVars)
-		patchDir(tszTemp, _countof(tszTemp));
-	RemoveInvalidPathChars(tszTemp);
-	mir_wstrncpy(szDir, tszTemp, cchDir);
-	return szDir;
+	patchDir(ret);
+	RemoveInvalidPathChars(ret.GetBuffer());
+	return ret;
 }
 
-void GetReceivedFilesDir(wchar_t *szDir, int cchDir)
+MFilePath GetReceivedFilesDir()
 {
-	wchar_t tszTemp[MAX_PATH];
+	MFilePath ret;
 
 	if (mir_wstrlen(File::wszSaveDir))
-		wcsncpy_s(tszTemp, File::wszSaveDir, _TRUNCATE);
+		ret = (wchar_t *)File::wszSaveDir;
 	else
-		mir_snwprintf(tszTemp, L"%%mydocuments%%\\%s\\%%userid%%", TranslateT("My received files"));
+		ret.Format(L"%%mydocuments%%\\%s\\%%userid%%", TranslateT("My received files"));
 
-	patchDir(tszTemp, _countof(tszTemp));
-	RemoveInvalidPathChars(tszTemp);
-	mir_wstrncpy(szDir, tszTemp, cchDir);
+	patchDir(ret);
+	RemoveInvalidPathChars(ret.GetBuffer());
+	return ret;
 }
 
 class CRecvFileDlg : public CDlgBase
@@ -223,9 +211,7 @@ public:
 		wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
 		SetDlgItemText(m_hwnd, IDC_FROM, contactName);
 
-		wchar_t szPath[450];
-		File::GetReceivedFolder(dat->hContact, szPath, _countof(szPath), TRUE);
-		SetDlgItemText(m_hwnd, IDC_FILEDIR, szPath);
+		SetDlgItemText(m_hwnd, IDC_FILEDIR, File::GetReceivedFolder(dat->hContact));
 		SHAutoComplete(GetWindow(GetDlgItem(m_hwnd, IDC_FILEDIR), GW_CHILD), 1);
 
 		for (int i = 0; i < MAX_MRU_DIRS; i++) {
@@ -278,11 +264,10 @@ public:
 	bool OnApply() override
 	{
 		// most recently used directories
-		wchar_t szRecvDir[MAX_PATH], szDefaultRecvDir[MAX_PATH];
+		wchar_t szRecvDir[MAX_PATH];
 		GetDlgItemText(m_hwnd, IDC_FILEDIR, szRecvDir, _countof(szRecvDir));
 		RemoveInvalidPathChars(szRecvDir);
-		File::GetReceivedFolder(NULL, szDefaultRecvDir, _countof(szDefaultRecvDir), TRUE);
-		if (wcsnicmp(szRecvDir, szDefaultRecvDir, mir_wstrlen(szDefaultRecvDir))) {
+		if (File::GetReceivedFolder(NULL).CompareNoCase(szRecvDir)) {
 			char idstr[32];
 			ptrW wszValue;
 			

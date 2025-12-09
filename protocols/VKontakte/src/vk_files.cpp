@@ -19,18 +19,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessageID_t iMessageId)
 {
-
-	wchar_t buf[MAX_PATH];
-	File::GetReceivedFolder(hContact, buf, _countof(buf));
-
-	debugLogW(L"CVkProto::GetVkFileItem: (%s) %d", buf, hContact);
-	
 	if (_wszUrl.IsEmpty()) {
 		debugLogW(L"CVkProto::GetVkFileItem: url empty");
 		return _wszUrl;
 	}
 
-	CreateDirectoryTreeW(buf);
+	MFilePath wszPath = File::GetReceivedFolder(hContact);
+	debugLogW(L"CVkProto::GetVkFileItem: (%s) %d", wszPath.c_str(), hContact);
+	CreateDirectoryTreeW(wszPath);
 
 	CMStringW wszUrl = _wszUrl;
 	wszUrl.Replace(L"\\", L"/");
@@ -54,7 +50,7 @@ CMStringW CVkProto::GetVkFileItem(CMStringW& _wszUrl, MCONTACT hContact, VKMessa
 		wszUrl += ".jpg";
 	}
 		
-	wszUrl.Insert(0, buf);
+	wszUrl = wszPath + wszUrl;
 
 	if (::_waccess(wszUrl.c_str(), 0) && IsOnline())
 		if (iMessageId != -1 && m_vkOptions.bLoadFilesAsync) {

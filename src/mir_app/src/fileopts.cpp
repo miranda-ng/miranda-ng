@@ -74,9 +74,7 @@ public:
 		cmbFileExists.AddString(TranslateT("Rename (append \" (1)\", etc.)"), FILERESUME_RENAMEALL);
 		cmbFileExists.SelectData(File::iIfExists);
 
-		wchar_t str[MAX_PATH];
-		File::GetReceivedFolder(NULL, str, _countof(str));
-		SetDlgItemText(m_hwnd, IDC_FILEDIR, str);
+		SetDlgItemText(m_hwnd, IDC_FILEDIR, File::GetReceivedFolder(NULL));
 		return true;
 	}
 

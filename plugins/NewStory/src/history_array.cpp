@@ -420,11 +420,8 @@ void ItemData::load(bool bLoadAlways)
 			}
 
 			CMStringW wszFileName;
-			if (!PathIsAbsoluteW(blob.getName())) {
-				wchar_t buf[MAX_PATH];
-				File::GetReceivedFolder(dbe.hContact, buf, _countof(buf));
-				wszFileName = buf;
-			}
+			if (!PathIsAbsoluteW(blob.getName()))
+				wszFileName = File::GetReceivedFolder(dbe.hContact);
 			wszFileName.Append(blob.getName());
 
 			wszFileName.Replace('\\', '/');

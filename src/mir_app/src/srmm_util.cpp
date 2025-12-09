@@ -171,23 +171,24 @@ void OFDTHREAD::ResetFileName(const wchar_t *pwszNewName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void GetContactSentFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir)
+MFilePath GetContactSentFilesDir(MCONTACT hContact)
 {
-	mir_snwprintf(szDir, cchDir, L"%s\\dlFiles\\%d\\", VARSW(L"%miranda_userdata%").get(), hContact);
+	MFilePath ret;
+	ret.Format(L"%s\\dlFiles\\%d\\", VARSW(L"%miranda_userdata%").get(), hContact);
+	return ret;
 }
 
 static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MCONTACT hContact)
 {
-	wchar_t wszReceiveFolder[MAX_PATH];
+	MFilePath wszFileName;
 	if (dbei.bSent) // don't mix sent & received files
-		GetContactSentFilesDir(hContact, wszReceiveFolder, _countof(wszReceiveFolder));
+		wszFileName = GetContactSentFilesDir(hContact);
 	else
-		File::GetReceivedFolder(hContact, wszReceiveFolder, _countof(wszReceiveFolder), true);
-	CreateDirectoryTreeW(wszReceiveFolder);
+		wszFileName = File::GetReceivedFolder(hContact);
+	CreateDirectoryTreeW(wszFileName);
 
-	MFilePath wszFullName(wszReceiveFolder);
-	wszFullName.Append(blob.getName());
-	blob.setLocalName(FindUniqueFileName(wszFullName));
+	wszFileName.Append(blob.getName());
+	blob.setLocalName(FindUniqueFileName(wszFileName));
 }
 
 void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei, int iCommand, OFD_Callback *pCallback)

@@ -30,7 +30,7 @@ namespace File
 	extern MIR_APP_EXPORT CMOption<bool> bOfflineAuto;
 	extern MIR_APP_EXPORT CMOption<uint32_t> iOfflineSize;
 
-	MIR_APP_DLL(wchar_t *) GetReceivedFolder(MCONTACT hContact, wchar_t *pwszDest, size_t cbDest, bool substVars = true);
+	MIR_APP_DLL(MFilePath) GetReceivedFolder(MCONTACT hContact);
 
 	// List of files should be null-terminated
 	MIR_APP_DLL(MWindow) Send(MCONTACT hContact, wchar_t** const ppFiles = nullptr);
