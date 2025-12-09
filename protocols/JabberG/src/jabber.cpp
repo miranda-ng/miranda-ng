@@ -145,10 +145,10 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	JabberUserInfoInit();
 
-	if (db_get_b(0, "Compatibility", "JabberCaps", 0) < 3) {
+	if (Compatibility::GetLevel("JabberCaps") < 3) {
 		db_delete_module(0, "JabberCaps");
 		DeleteFileW(VARSW(L"%miranda_userdata%\\jabberCaps.json"));
-		db_set_b(0, "Compatibility", "JabberCaps", 3);
+		Compatibility::SetLevel("JabberCaps", 3);
 	}
 
 	g_clientCapsManager.Load();

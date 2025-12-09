@@ -55,7 +55,7 @@ int GetInSessionOrder(MCONTACT hContact, int mode, int count)
 
 void CMPlugin::CheckImport()
 {
-	if (db_get_b(0, "Compatibility", MODULENAME) > 0)
+	if (Compatibility::GetLevel(MODULENAME) > 0)
 		return;
 
 	MCONTACT tmp[255];
@@ -130,5 +130,5 @@ void CMPlugin::CheckImport()
 		db_delete_module(hContact, MODULENAME);
 
 	g_lastDateId = g_lastUserId = 256;
-	db_set_b(0, "Compatibility", MODULENAME, 1);
+	Compatibility::SetLevel(MODULENAME, 1);
 }

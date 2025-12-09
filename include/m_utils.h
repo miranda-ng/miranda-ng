@@ -578,6 +578,15 @@ struct ENTER_STRING
 EXTERN_C MIR_APP_DLL(bool) EnterString(ENTER_STRING *pForm);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// compatiblity utils
+
+namespace Compatibility
+{
+	MIR_CORE_DLL(int) GetLevel(const char *pszSetting);
+	MIR_CORE_DLL(void) SetLevel(const char *pszSetting, int level);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // pu_stub utilities
 
 namespace PU

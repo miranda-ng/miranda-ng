@@ -317,15 +317,14 @@ TG_USER* CTelegramProto::GetSender(const TD::MessageSender *pSender)
 
 void CTelegramProto::CheckCompatibility()
 {
-	int iLevel = db_get_b(0, "Compatibility", m_szModuleName);
-
+	int iLevel = getByte("Compatibility");
 	if (iLevel < 1) {
 		for (auto &cc : AccContacts())
 			delSetting(cc, "Notes");
 		delSetting("Notes");
-	}
 
-	db_set_b(0, "Compatibility", m_szModuleName, 1);
+		setByte("Compatibility", 1);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

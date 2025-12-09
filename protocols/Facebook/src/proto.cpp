@@ -49,12 +49,6 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	m_bLoginInvisible(this, "LoginInvisible", false),
 	m_wszDefaultGroup(this, "DefaultGroup", L"Facebook")
 {
-	// to upgrade previous settings
-	if (getByte("Compatibility") < 1) {
-		setByte("Compatibility", 1);
-		delSetting(DBKEY_DEVICE_ID);
-	}
-
 	m_szDeviceID = getMStringA(DBKEY_DEVICE_ID);
 	if (m_szDeviceID.IsEmpty()) {
 		m_szDeviceID = Utils_GenerateUUID();

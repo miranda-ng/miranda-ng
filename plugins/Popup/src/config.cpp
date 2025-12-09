@@ -108,13 +108,12 @@ void PopupPreview()
 
 void UpgradeDb()
 {
-	if (db_get_b(0, "Compatibility", "Popup+ Opts", 0) == 1)
-		return;
+	if (!Compatibility::GetLevel("Popup+ Opts")) {
+		db_copy_module("PopUp", "Popup");
+		db_copy_module("PopUpCLASS", "PopupCLASS");
+		db_copy_module("PopUpActions", "PopupActions");
+		db_copy_module("PopUpNotifications", "PopupNotifications");
 
-	db_copy_module("PopUp", "Popup");
-	db_copy_module("PopUpCLASS", "PopupCLASS");
-	db_copy_module("PopUpActions", "PopupActions");
-	db_copy_module("PopUpNotifications", "PopupNotifications");
-
-	db_set_b(0, "Compatibility", "Popup+ Opts", 1);
+		Compatibility::SetLevel("Popup+ Opts", 1);
+	}
 }

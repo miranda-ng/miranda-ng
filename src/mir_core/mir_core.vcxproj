@@ -42,6 +42,7 @@
   <ItemGroup>
     <ClCompile Include="src\binbuffer.cpp" />
     <ClCompile Include="src\bitmaps.cpp" />
+    <ClCompile Include="src\compat.cpp" />
     <ClCompile Include="src\db.cpp" />
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\lists.cpp" />

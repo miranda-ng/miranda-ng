@@ -309,9 +309,9 @@ int LoadSendRecvFileModule(void)
 	g_plugin.addSound("FileFailed", LPGENW("File"), LPGENW("Error"));
 	g_plugin.addSound("FileDenied", LPGENW("File"), LPGENW("Denied"));
 
-	if (!db_get_b(0, "Compatibility", "SRFile")) {
+	if (!Compatibility::GetLevel("SRFile")) {
 		DeleteDirectoryTreeW(VARSW(L"%miranda_userdata%\\dlFiles"));
-		db_set_b(0, "Compatibility", "SRFile", 1);
+		Compatibility::SetLevel("SRFile", 1);
 	}
 
 	return 0;

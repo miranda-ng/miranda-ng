@@ -790,9 +790,9 @@ static void ResetApi()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void 	CheckChatCompatibility()
+void CheckChatCompatibility()
 {
-	if (db_get_b(0, "Compatibility", "GroupChats") < 1) {
+	if (Compatibility::GetLevel("GroupChats") < 1) {
 		for (auto &cc : Contacts()) {
 			if (auto *pa = Proto_GetContactAccount(cc)) {
 				if (!db_get_b(cc, pa->szModuleName, "ChatRoom"))
@@ -814,7 +814,7 @@ void 	CheckChatCompatibility()
 				else Netlib_Logf(0, "Protocol %s not found", pa->szModuleName);
 			}
 		}
-		db_set_b(0, "Compatibility", "GroupChats", 1);
+		Compatibility::SetLevel("GroupChats", 1);
 	}
 }
 

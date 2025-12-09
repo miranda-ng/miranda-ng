@@ -328,7 +328,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 	TopToolbar_SetCustomProc(CustomizeButton, 0);
 
 	uint8_t bOldSetting = 0;
-	if (!db_get_b(0, "Compatibility", "TTB_Upgrade", 0)) {
+	if (!Compatibility::GetLevel("TTB_Upgrade")) {
 		if (bOldSetting = db_get_b(0, "CLUI", "ShowButtonBar", 1)) {
 			CopySettings("BUTTWIDTH", "option_Bar0_BtnWidth", 20);
 			CopySettings("BUTTHEIGHT", "option_Bar0_BtnHeight", 20);
@@ -340,7 +340,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 
 			db_delete_module(0, "ModernToolBar");
 		}
-		db_set_b(0, "Compatibility", "TTB_Upgrade", 1);
+		Compatibility::SetLevel("TTB_Upgrade", 1);
 	}
 
 	if (!ServiceExists(MS_TTB_REMOVEBUTTON) && bOldSetting == 1)

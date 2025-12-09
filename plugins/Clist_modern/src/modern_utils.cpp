@@ -146,7 +146,7 @@ void CheckCompatibility()
 		g_plugin.delSetting("NoOfflineBottom");
 	}
 
-	int iLevel = db_get_b(0, "Compatibility", __PLUGIN_NAME);
+	int iLevel = Compatibility::GetLevel(__PLUGIN_NAME);
 	if (iLevel < 1 && Modern::bDisableEngine) {
 		db_unset(0, "CLUI", "LeftClientMargin");
 		db_unset(0, "CLUI", "RightClientMargin");
@@ -173,6 +173,6 @@ void CheckCompatibility()
 			if (szBaseProto)
 				db_set_s(0, szProto, "ModernSbar", tmp.toString());
 		}
-		db_set_b(0, "Compatibility", __PLUGIN_NAME, 2);
+		Compatibility::SetLevel(__PLUGIN_NAME, 2);
 	}
 }

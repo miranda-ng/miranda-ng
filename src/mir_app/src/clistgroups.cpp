@@ -607,7 +607,7 @@ static int enumGroups(const char *szSetting, void *)
 
 int InitGroupServices(void)
 {
-	if (!db_get_b(0, "Compatibility", "Groups")) {
+	if (!Compatibility::GetLevel("Groups")) {
 		char str[32];
 		for (int i = 0;; i++) {
 			_itoa(i, str, 10);
@@ -619,7 +619,7 @@ int InitGroupServices(void)
 			arByIds.insert(p);
 			arByName.insert(p);
 		}
-		db_set_b(0, "Compatibility", "Groups", 1);
+		Compatibility::SetLevel("Groups", 1);
 		db_delete_module(0, "CListGroups");
 	}
 	else {

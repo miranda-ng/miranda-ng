@@ -43,10 +43,9 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 		AssocMgr_AddNewUrlTypeW("mirpu:", TranslateT("Plugin updater URI scheme"), g_plugin.getInst(), IDI_PLGLIST, MODULENAME "/ParseUri", 0);
 
-	int iCompatLevel = db_get_b(0, "Compatibility", MODULENAME);
-	if (iCompatLevel == 0) {
-		db_set_b(0, "Compatibility", MODULENAME, 1);
+	if (!Compatibility::GetLevel(MODULENAME)) {
 		DeleteDirectoryTreeW(CMStringW(g_wszRoot) + L"\\Backups");
+		Compatibility::SetLevel(MODULENAME, 1);
 	}
 	return 0;
 }

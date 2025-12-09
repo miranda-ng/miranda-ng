@@ -155,7 +155,7 @@ static int CopyChatSetting(const char *szSetting, void *param)
 static void CheckUpdate()
 {
 	// already converted?
-	int compat = db_get_b(0, "Compatibility", "TabChatFonts", 0);
+	int compat = Compatibility::GetLevel("TabChatFonts");
 	if (compat >= 3)
 		return;
 
@@ -190,7 +190,7 @@ static void CheckUpdate()
 		compat++;
 	}
 
-	db_set_b(0, "Compatibility", "TabChatFonts", 3);
+	Compatibility::SetLevel("TabChatFonts", 3);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
