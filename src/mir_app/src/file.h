@@ -128,7 +128,7 @@ wchar_t *PFTS_StringToTchar(int flags, const MAllStrings s);
 int  PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS *ft, const MAllStrings s, wchar_t *r);
 
 MFilePath CreateUniqueFileName(const wchar_t *pszOriginalFile);
-MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile);
+MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile, bool bSkipExisting);
 
 int  GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
 void GetSensiblyFormattedSize(__int64 size, wchar_t *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);

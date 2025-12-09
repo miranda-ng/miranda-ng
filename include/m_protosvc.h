@@ -727,7 +727,7 @@ struct MIR_APP_EXPORT OFDTHREAD : public MNonCopyable
 	~OFDTHREAD();
 
 	void Finish();
-	void ResetFileName(const wchar_t *pwszNewName);
+	void ResetFileName(const wchar_t *pwszNewName, bool bSkipExisting);
 
 	MEVENT hDbEvent;
 	MCONTACT hContact;

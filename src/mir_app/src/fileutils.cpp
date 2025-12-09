@@ -167,9 +167,9 @@ MFilePath CreateUniqueFileName(const wchar_t *pszOriginalFile)
 	return buf;
 }
 
-MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile)
+MFilePath FindUniqueFileName(const wchar_t *pszOriginalFile, bool bSkipExisting)
 {
-	if (_waccess(pszOriginalFile, 0))
+	if (_waccess(pszOriginalFile, 0) || bSkipExisting)
 		return pszOriginalFile;
 
 	return CreateUniqueFileName(pszOriginalFile);

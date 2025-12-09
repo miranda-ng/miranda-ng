@@ -328,14 +328,14 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 						wszFullName.Truncate(idxSlash);
 						wszFullName.Append(Utf2T(pSlash));
-						ft->ofd->ResetFileName(wszFullName); // resulting ofd->wszPath may differ from wszFullName
+						ft->ofd->ResetFileName(wszFullName, !ft->m_bRecv); // resulting ofd->wszPath may differ from wszFullName
 					}
 					else {
 						int iFormat = ProtoGetAvatarFileFormat(wszExistingFile);
 						if (iFormat != PA_FORMAT_UNKNOWN) {
 							wszFullName.AppendChar('.');
 							wszFullName.Append(ProtoGetAvatarExtension(iFormat));
-							ft->ofd->ResetFileName(wszFullName);
+							ft->ofd->ResetFileName(wszFullName, !ft->m_bRecv);
 						}
 					}
 				}

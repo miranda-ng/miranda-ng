@@ -163,18 +163,21 @@ void OFDTHREAD::Finish()
 	pCallback->Invoke(*this);
 }
 
-void OFDTHREAD::ResetFileName(const wchar_t *pwszNewName)
+void OFDTHREAD::ResetFileName(const wchar_t *pwszNewName, bool bSkipExisting)
 {
 	if (mir_wstrlen(pwszNewName))
-		wszPath = FindUniqueFileName(pwszNewName);
+		wszPath = FindUniqueFileName(pwszNewName, bSkipExisting);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MFilePath GetContactSentFilesDir(MCONTACT hContact)
 {
-	MFilePath ret;
-	ret.Format(L"%s\\dlFiles\\%d\\", VARSW(L"%miranda_userdata%").get(), hContact);
+	MFilePath ret(VARSW(L"%miranda_userdata%"));
+	if (auto *pa = Proto_GetContactAccount(hContact))
+		ret.AppendFormat(L"\\dlFiles\\%S\\", pa->szModuleName);
+	else
+		ret.AppendFormat(L"\\dlFiles\\%S\\", "Unknown");
 	return ret;
 }
 
@@ -188,7 +191,7 @@ static void GenerateLocalName(const DB::EventInfo &dbei, DB::FILE_BLOB &blob, MC
 	CreateDirectoryTreeW(wszFileName);
 
 	wszFileName.Append(blob.getName());
-	blob.setLocalName(FindUniqueFileName(wszFileName));
+	blob.setLocalName(FindUniqueFileName(wszFileName, dbei.bSent));
 }
 
 void DownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::EventInfo &dbei, int iCommand, OFD_Callback *pCallback)

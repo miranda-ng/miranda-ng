@@ -171,7 +171,8 @@ static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 			DB::FILE_BLOB blob(dbei);
 			if (auto *pwszName = blob.getLocalName()) {
 				// we don't remove sent files, located outside Miranda's folder for sent cloud files
-				if (!dbei.bSent || !GetContactSentFilesDir(hContact).CompareNoCase(pwszName))
+				MFilePath wszFileName(GetContactSentFilesDir(hContact));
+				if (!wcsnicmp(pwszName, wszFileName, wszFileName.GetLength()))
 					DeleteFileW(pwszName);
 			}
 		}
@@ -199,6 +200,13 @@ INT_PTR openRecDir(WPARAM, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static void CheckDownloadOfflineFile(MCONTACT hContact, MEVENT hDbEvent, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
+{
+	if (File::bOfflineAuto && !Ignore_IsIgnored(hContact, IGNOREEVENT_OFFLINEFILE))
+		if (File::iOfflineSize == 0 || (blob.getSize() > 0 && blob.getSize() < File::iOfflineSize * 1024))
+			DownloadOfflineFile(hContact, hDbEvent, dbei, 0, new OFD_Download());
+}
 
 MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbei)
 {
@@ -237,9 +245,8 @@ MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbe
 		else {
 			// load cloud files always (if OfflineSize = 0) 
 			// or if they are less than a limit (if a transfer has specified file size)
-			if (bSilent && File::bOfflineAuto && !Ignore_IsIgnored(hContact, IGNOREEVENT_OFFLINEFILE))
-				if (File::iOfflineSize == 0 || (blob.getSize() > 0 && blob.getSize() < File::iOfflineSize * 1024))
-					DownloadOfflineFile(hContact, hdbe, dbei, false, new OFD_Download());
+			if (bSilent)
+				CheckDownloadOfflineFile(hContact, hdbe, blob, dbei);
 
 			bool bShow = !Contact::IsGroupChat(hContact);
 			if (bShow && blob.isOffline()) {
@@ -264,6 +271,8 @@ MEVENT Proto_RecvFile(MCONTACT hContact, DB::FILE_BLOB &blob, DB::EventInfo &dbe
 			}
 		}
 	}
+	else if (bSent && bSilent)
+		CheckDownloadOfflineFile(hContact, hdbe, blob, dbei);
 	
 	return hdbe;
 }
@@ -299,5 +308,11 @@ int LoadSendRecvFileModule(void)
 	g_plugin.addSound("FileDone",   LPGENW("File"), LPGENW("Complete"));
 	g_plugin.addSound("FileFailed", LPGENW("File"), LPGENW("Error"));
 	g_plugin.addSound("FileDenied", LPGENW("File"), LPGENW("Denied"));
+
+	if (!db_get_b(0, "Compatibility", "SRFile")) {
+		DeleteDirectoryTreeW(VARSW(L"%miranda_userdata%\\dlFiles"));
+		db_set_b(0, "Compatibility", "SRFile", 1);
+	}
+
 	return 0;
 }

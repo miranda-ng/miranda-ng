@@ -865,7 +865,7 @@ Clist_RemoveEvent @989
 ?Finish@OFDTHREAD@@QAEXXZ @997 NONAME
 ?getLocalName@FILE_BLOB@DB@@QBEPB_WXZ @998 NONAME
 ?setLocalName@FILE_BLOB@DB@@QAEXPB_W@Z @999 NONAME
-?ResetFileName@OFDTHREAD@@QAEXPB_W@Z @1000 NONAME
+?ResetFileName@OFDTHREAD@@QAEXPB_W_N@Z @1000 NONAME
 ?Clist_SetGroupExpand@@YGXPAUHWND__@@PAUClcData@@PAUClcGroup@@H@Z @1001 NONAME
 Clist_GroupRestoreExpanded @1002 NONAME
 Clist_GroupSaveExpanded @1003 NONAME
