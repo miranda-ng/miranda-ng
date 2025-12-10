@@ -425,12 +425,10 @@ void CJabberProto::MessageHandleCarbon(XmppMsg &M)
 
 bool CJabberProto::MessageHandleOmemo(XmppMsg &M)
 {
-	if (m_bUseOMEMO) {
-		if (auto *encNode = XmlGetChildByTag(M.node, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
-			OmemoHandleMessage(&M, encNode, M.from, M.msgTime, M.dbei.bSent);
-			return true;
-		}
-	}
+	if (m_bUseOMEMO)
+		if (auto *encNode = XmlGetChildByTag(M.node, "encrypted", "xmlns", JABBER_FEAT_OMEMO))
+			return OmemoHandleMessage(M, encNode);
+
 	return false;
 }
 

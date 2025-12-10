@@ -823,7 +823,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_omemo.cpp --------------------------------------------------------------
 
-	bool       OmemoHandleMessage(XmppMsg *msg, const TiXmlElement *node, const char *jid, time_t msgTime, bool isCarbon);
+	bool       OmemoHandleMessage(XmppMsg &msg, const TiXmlElement *node);
 	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char *pszSrc);
 	void       OmemoHandleMessageQueue();
 	bool       OmemoHandleDeviceList(const char *from, const TiXmlElement *node);
