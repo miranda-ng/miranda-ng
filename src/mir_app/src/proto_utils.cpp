@@ -304,7 +304,7 @@ MIR_APP_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const wchar_t **ptszE
 			return PA_FORMAT_XML;
 		}
 
-		if (!memcmp(pBuffer, "\xFF\xD8\xFF\xE0", 4) || !memcmp(pBuffer, "\xFF\xD8\xFF\xE1", 4)) {
+		if (!memcmp(pBuffer, "\xFF\xD8\xFF", 3)) {
 			if (ptszExtension) *ptszExtension = L".jpg";
 			return PA_FORMAT_JPEG;
 		}
