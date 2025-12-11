@@ -535,6 +535,7 @@ retry:
 		case GG_EVENT_DISCONNECT_ACK:
 			// Send logoff
 			gg_logoff(m_sess);
+			m_sess->state = GG_STATE_DONE;
 			break;
 
 			// Received ackowledge
