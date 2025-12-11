@@ -48,6 +48,12 @@ void InitHotkeys()
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT, VK_F3) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = HOTKEY_SEEK_BACK;
 	g_plugin.addHotkey(&hkd);
+
+	hkd.szDescription.a = LPGEN("Open links");
+	hkd.pszName = "ns_open_url";
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_EXT, 'O') | HKF_MIRANDA_LOCAL;
+	hkd.lParam = HOTKEY_OPEN_URL;
+	g_plugin.addHotkey(&hkd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -728,6 +734,33 @@ void NewstoryListData::OpenFolder()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static const char *getUrl(std::shared_ptr<element> el)
+{
+	for (auto &it : el->children()) {
+		if (!mir_strcmp(it->get_tagName(), "a"))
+			return it->get_attr("href");
+
+		if (it->children().size())
+			if (auto *p = getUrl(it))
+				return p;
+	}
+
+	return nullptr;
+}
+
+void NewstoryListData::OpenUrl()
+{
+	int eventCount = totalCount;
+	for (int i = 0; i < eventCount; i++) {
+		ItemData *p = GetItem(i);
+		if (p->m_bSelected)
+			if (auto *pszUrl = getUrl(p->m_doc->root()))
+				Utils_OpenUrl(pszUrl);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Painting
 
 static void recursive_set_color(element::ptr el, const web_color &fore, const background &back)
@@ -1314,6 +1347,9 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case HOTKEY_SEARCH:
 		PostMessage(GetParent(hwnd), WM_COMMAND, MAKELONG(IDC_SEARCH, BN_CLICKED), 1);
 		break;
+	case HOTKEY_OPEN_URL:
+		data->OpenUrl();
+		return 0;
 	case HOTKEY_BOOKMARK:
 		data->ToggleBookmark();
 		return 0;

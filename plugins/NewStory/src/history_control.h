@@ -161,6 +161,7 @@ struct NewstoryListData : public MZeroedObject
 	ItemData* LoadItem(int idx);
 	void      MarkRead(ItemData *pItem);
 	void      OpenFolder();
+	void      OpenUrl();
 	void      PageUp();
 	void      PageDown();
 	void      Paint(simpledib::dib &dib);

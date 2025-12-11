@@ -100,6 +100,7 @@ enum
 	HOTKEY_SEARCH = 2,
 	HOTKEY_SEEK_FORWARD = 3,
 	HOTKEY_SEEK_BACK = 4,
+	HOTKEY_OPEN_URL = 5,
 };
 
 struct CMPlugin : public PLUGIN<CMPlugin>
