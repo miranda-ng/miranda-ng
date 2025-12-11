@@ -334,10 +334,8 @@ void NSWebPage::draw_list_marker(uint_ptr hdc, const list_marker &marker)
 
 Bitmap* NSWebPage::load_image(const wchar_t *pwszUrl, ItemData *pItem)
 {
-	mir_cslockfull lck(m_csImages);
-	auto img = m_images.find(pwszUrl);
-	if (img != m_images.end() && img->second)
-		return (Bitmap *)img->second;
+	if (auto *pImage = find_image(pwszUrl))
+		return pImage;
 
 	if (uint_ptr newImg = get_image(pwszUrl, false)) {
 		add_image(pwszUrl, newImg);
