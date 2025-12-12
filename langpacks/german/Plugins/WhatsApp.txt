@@ -43,6 +43,13 @@ SuperAdministrator
 Administrator
 [Participant]
 Teilnehmer
+;file \protocols\WhatsApp\src\iq.cpp
+[Incoming call]
+Eingehender Anruf
+[Call rejected]
+Anruf abgelehnt
+[Call ended]
+Anruf beendet
 ;file \protocols\WhatsApp\src\main.cpp
 [WhatsApp (HTTP)]
 WhatsApp (HTTP)

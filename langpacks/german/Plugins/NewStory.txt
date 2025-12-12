@@ -161,6 +161,8 @@ Suchen
 Vorwärts suchen
 [Search backward]
 Rückwärts suchen
+[Open links]
+Links öffnen
 [Do you really want to delete selected items (%d)?]
 Möchten Sie die %d ausgewählten Einträge wirklich löschen?
 ;file \plugins\NewStory\src\history_dlg.cpp
