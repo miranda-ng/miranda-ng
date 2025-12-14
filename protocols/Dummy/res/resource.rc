@@ -73,6 +73,7 @@ END
 //
 
 IDI_AIM                 ICON                    "aim.ico"
+IDI_FACEBOOK            ICON                    "facebook.ico"
 IDI_ICQ                 ICON                    "icq.ico"
 IDI_MRA                 ICON                    "mra.ico"
 IDI_MSN                 ICON                    "msn.ico"
@@ -85,7 +86,6 @@ IDI_YAHOO               ICON                    "yahoo.ico"
 IDI_DUMMY               ICON                    "..\\proto_dummy\\res\\Offline.ico"
 IDI_DISCORD             ICON                    "..\\..\\Discord\\res\\discord.ico"
 IDI_EMLAN               ICON                    "..\\..\\EmLanProto\\res\\icon_onl.ico"
-IDI_FACEBOOK            ICON                    "..\\..\\Facebook\\res\\facebook.ico"
 IDI_GG                  ICON                    "..\\..\\Gadu-Gadu\\res\\gg.ico"
 IDI_IRC                 ICON                    "..\\..\\IRCG\\res\\irc.ico"
 IDI_JABBER              ICON                    "..\\..\\JabberG\\res\\jabber.ico"
