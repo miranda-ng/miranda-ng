@@ -46,7 +46,6 @@ Plugins\discord.dll
 Plugins\dummy.dll
 Plugins\emlanproto.dll
 Plugins\exchange.dll
-Plugins\facebook.dll
 Plugins\favcontacts.dll
 Plugins\fileasmessage.dll
 Plugins\fingerprint.dll

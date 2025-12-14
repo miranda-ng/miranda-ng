@@ -79,6 +79,7 @@
 		"aim.dll":                        null,
 		"basichistory.dll":               null,
 		"extraicons.dll":                 null,
+		"facebook.dll":                   null,
 		"firstrun.dll":                   null,
 		"flashavatars.dll":               null,
 		"gender.dll":                     null,
