@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../libs/zlib/src/zlib.h"
 #include "netlib.h"
 
+#define MSG_SEND                 0x10000000
+
 #define HTTPRECVHEADERSTIMEOUT   30000  //in ms
 #define HTTPRECVDATATIMEOUT      20000
 
@@ -106,11 +108,11 @@ static bool isSecureStr(const char *str)
 	return false;
 }
 
-static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, const char *pszInitStr)
+static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, CMStringA &str)
 {
 	int dumpflags = (flags & NLHRF_DUMPASTEXT) ? MSG_DUMPASTEXT : 0;
 
-	int blockMask = NLHRF_NODUMP | NLHRF_NODUMPHEADERS | (pszInitStr ? NLHRF_NODUMPSEND : 0);
+	int blockMask = NLHRF_NODUMP | NLHRF_NODUMPHEADERS | (str.IsEmpty() ? NLHRF_NODUMPSEND : 0);
 	if (flags & blockMask)
 		dumpflags |= MSG_NODUMP;
 	else if (flags & NLHRF_DUMPPROXY)
@@ -118,7 +120,6 @@ static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, cons
 	else if (flags & NLHRF_NOPROXY)
 		dumpflags |= MSG_RAW;
 
-	CMStringA str(pszInitStr ? pszInitStr : "");
 	for (auto &it: *nlhr) {
 		if (it->szValue == nullptr)
 			continue;
@@ -130,7 +131,7 @@ static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, cons
 	}
 	str.Append("\r\n");
 
-	Netlib_Dump(nlc, str, str.GetLength(), pszInitStr != 0, dumpflags);
+	Netlib_Dump(nlc, str, str.GetLength(), (flags & MSG_SEND) != 0, dumpflags);
 }
 
 static void DumpHttpBody(HNETLIBCONN nlc, const CMStringA &body, int flags, bool bSend)
@@ -647,7 +648,7 @@ int Netlib_SendHttpRequest(HNETLIBCONN nlc, MHttpRequest *nlhr, MChunkHandler &p
 			nlhr->AddHeader("Connection", "Keep-Alive");
 		nlhr->AddHeader("Proxy-Connection", "Keep-Alive");
 
-		DumpHttpHeaders(nlc, nlhr, nlhr->flags, httpRequest);
+		DumpHttpHeaders(nlc, nlhr, nlhr->flags | MSG_SEND, httpRequest);
 
 		for (auto &it : *nlhr)
 			if (it->szValue)
