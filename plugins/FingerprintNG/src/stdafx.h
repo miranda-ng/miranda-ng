@@ -86,7 +86,6 @@ struct FOUNDINFO
 #define JABBER_CASE              3010  // Jabber clients
 #define RSS_CASE                 3014  // RSS clients
 #define WEATHER_CASE             3016  // Weather clients
-#define FACEBOOK_CASE            3018  // Facebook clients
 #define VK_CASE                  3019  // VK clients
 
 #define OTHER_PROTOS_CASE        3020  // other protocols

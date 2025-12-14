@@ -485,14 +485,6 @@ static KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_GG", L"|Gadu-Gadu*|GG*", LPGENW("Gadu-Gadu client"), IDI_GG, GG_CASE },
 
 	/////////////////////////////////////////////////////////////////////////////////////////
-	// Facebook
-
-	{ "client_Facebook_other", L"*Facebook*other*", L"Facebook (other)", IDI_FACEBOOK_OTHER, FACEBOOK_CASE },
-	{ "client_Facebook_app", L"*Facebook*App*", L"Facebook App", IDI_FACEBOOK_APP, FACEBOOK_CASE },
-	{ "client_Facebook_mess", L"*Facebook*Messenger*", L"Facebook Messenger", IDI_FACEBOOK_MESSENGER, FACEBOOK_CASE },
-	{ "client_Facebook", L"*Facebook*", L"Facebook", IDI_FACEBOOK, FACEBOOK_CASE },
-
-	/////////////////////////////////////////////////////////////////////////////////////////
 	// VKontakte
 
 	{ "client_VK", L"|*VKontakte*|*vk.com*", L"VKontakte", IDI_VK, VK_CASE },

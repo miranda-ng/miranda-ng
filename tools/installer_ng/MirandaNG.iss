@@ -52,7 +52,6 @@ Source: "Files\Sounds\*"; DestDir: "{app}\Sounds"; Components: sounds; Flags: ig
 
 ; Icons
 Source: "Files\Icons\Proto_Dummy.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Icons\Proto_Facebook.dll"; DestDir: "{app}\Icons"; Components: protocols\facebook; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_IRC.dll"; DestDir: "{app}\Icons"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_Jabber.dll"; DestDir: "{app}\Icons"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Icons\Proto_MetaContacts.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -103,7 +102,6 @@ Source: "Files\pu_stub.exe"; DestDir: "{app}"; Components: program; Flags: ignor
 
 ; Protocols
 Source: "Files\Plugins\Dummy.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
-Source: "Files\Plugins\Facebook.dll"; DestDir: "{app}\Plugins"; Components: protocols\facebook; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\IRC.dll"; DestDir: "{app}\Plugins"; Components: protocols\irc; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Jabber.dll"; DestDir: "{app}\Plugins"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Libs\libsignal.mir"; DestDir: "{app}\Libs"; Components: protocols\jabber; Flags: ignoreversion; AfterInstall: ShowPercent() 
@@ -135,7 +133,6 @@ Source: "Installer\descctrl.dll"; Flags: dontcopy
 Name: "program"; Description: "{cm:Program}"; Types: extended regular minimal custom; Flags: fixed 
 Name: "sounds"; Description: "{cm:Sounds}"; Types: extended custom 
 Name: "protocols"; Description: "{cm:Protocols}"; Types: extended regular minimal 
-Name: "protocols\facebook"; Description: "{cm:Facebook}"; Types: extended regular minimal 
 Name: "protocols\irc"; Description: "{cm:Irc}"; Types: extended regular minimal 
 Name: "protocols\jabber"; Description: "{cm:Jabber}"; Types: extended regular minimal 
 Name: "clists"; Description: "{cm:Clists}"; Types: extended regular minimal custom; Flags: fixed 
@@ -201,7 +198,6 @@ en.TypeCustom=Custom installation
 en.Program=Core components
 en.Sounds=Sound files
 en.Protocols=Protocols
-en.Facebook=Facebook protocol
 en.Irc=IRC protocol
 en.Jabber=Jabber protocol
 en.Clists=Contact lists
@@ -226,7 +222,6 @@ en.InfoCaption=Hover over the component to get additional information
 en.CoreFilesDescription=The minimum set of files needed to run the program.
 en.SoundsDescription=Sound notification support for various events.
 en.ProtocolsDescription=Various protocols for instant messaging and more.
-en.ProtocolsFbDescription=Facebook protocol support for Miranda NG. More advanced than XMPP facebook chat, supporting posting statuses, authorizations, searching contacts, and much more.
 en.ProtocolsIRCDescription=Internet Relay Chat (IRC) protocol support for Miranda NG.
 en.ProtocolsJabberDescription=Open-standard communications protocol (XMPP) for message-oriented middleware based on XML.
 en.ClistsDescription=Contact list plugins.
@@ -269,7 +264,6 @@ ru.TypeCustom=Выборочная установка
 ru.Program=Основные файлы
 ru.Sounds=Звуки
 ru.Protocols=Протоколы
-ru.Facebook=Протокол Facebook
 ru.Irc=Протокол IRC
 ru.Jabber=Протокол Jabber
 ru.Clists=Списки контактов
@@ -294,7 +288,6 @@ ru.InfoCaption=Наведите на компонент, чтобы получи
 ru.CoreFilesDescription=Минимальный набор файлов, необходимый для работы программы.
 ru.SoundsDescription=Звуковые эффекты, проигрываемые при различных событиях в программе.
 ru.ProtocolsDescription=Различные протоколы для обмена сообщениями и не только.
-ru.ProtocolsFbDescription=Поддержка протокола Facebook в Miranda NG. Поддержка статусов, поиск контактов, авторизация и не только.
 ru.ProtocolsIRCDescription=Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
 ru.ProtocolsJabberDescription=Поддержка протокола Jabber (XMPP) в Miranda NG. Протокол основан на открытых стандартах, базирующихся на XML.
 ru.ClistsDescription=Плагины списков контактов.
@@ -337,7 +330,6 @@ cz.TypeCustom=Vlastní instalace
 cz.Program=Základní komponenty
 cz.Sounds=Zvukové soubory
 cz.protocols=Protokoly
-cz.Facebook=Facebook protokol
 cz.Irc=IRC protokol
 cz.Jabber=Jabber protokol
 cz.Clists=Seznamy kontaktů
@@ -362,7 +354,6 @@ cz.InfoCaption=Najeďte myší na název komponenty pro zobrazení více informa
 cz.CoreFilesDescription=Balíček základních komponent vyžadovaných pro spuštění programu.
 cz.SoundsDescription=Podpora zvukových efektů pro různé události.
 cz.protocolsDescription=Různé protokoly pro rychlou komunikaci a další funkce.
-cz.protocolsFbDescription=Facebook protokol pro Mirandu NG. Pokročilejší verze než Facebook chat přes Jabber (XMPP). Podporuje sdílení stavů, neviditelnost, autorizace, vyhledávání kontaktů a mnohem více.
 cz.protocolsIRCDescription=Internet Relay Chat (IRC) protokol pro Mirandu NG.
 cz.protocolsJabberDescription=Otevřený komunikační protokol Jabber (XMPP) pro Mirandu NG.
 cz.ClistsDescription=Doplňky pro seznamy kontaktů.
@@ -405,7 +396,6 @@ de.TypeCustom=Benutzerdefinierte Installation
 de.Program=Kernkomponenten
 de.Sounds=Klangdateien
 de.Protocols=Protokolle
-de.Facebook=Facebook-Protokoll
 de.Irc=IRC-Protokoll
 de.Jabber=Jabber-Protokoll
 de.Clists=Kontaktlisten
@@ -430,7 +420,6 @@ de.InfoCaption=Fahren Sie mit der Maus über eine Komponente, um ihre Beschreibu
 de.CoreFilesDescription=Die für den Betrieb von Miranda NG notwendigen Dateien.
 de.SoundsDescription=Klangbenachrichtigungen für eine Vielzahl an Ereignissen.
 de.ProtocolsDescription=Verschiedene Protokolle für Sofortnachrichten und mehr.
-de.ProtocolsFbDescription=Facebook-Protokollunterstützung für Miranda NG. Funktionsreicher als der XMPP-Facebook-Chat, unterstützt das Veröffentlichen neuer Statusnachrichren, Autorisierung, Kontaktsuche und vieles mehr.
 de.ProtocolsIRCDescription=Internet-Relay-Chat- (IRC-)Protokollunterstützung für Miranda NG.
 de.ProtocolsJabberDescription=Unterstützung des Extensible Messaging and Presence Protocols (XMPP) für Miranda NG.
 de.ClistsDescription=Kontaktlistenplugins.
@@ -473,7 +462,6 @@ pl.TypeCustom=Własna instalacja
 pl.Program=Pliki rdzenia
 pl.Sounds=Dźwięki
 pl.Protocols=Protokoły
-pl.Facebook=Facebook
 pl.Irc=IRC
 pl.Jabber=Jabber
 pl.Clists=Lista kontaktów
@@ -498,7 +486,6 @@ pl.InfoCaption=Najedź na element w celu dodatkowych informacji
 pl.CoreFilesDescription=Pliki konieczne do uruchomienia Mirandy.
 pl.SoundsDescription=Paczka predefiniowanych dźwięków dla różnych zdarzeń.
 pl.ProtocolsDescription=Wtyczki zapewniające wspracie dla różnych protokołów.
-pl.ProtocolsFbDescription=Zapewnia obsługę protokołu Facebook. Dostarcza więcej niż czat facebooka przez XMPP. Wspiera ustawianie statusu, zatwierdzanie znajomości, wyszukiwanie kontaktów i wiele inncyh.
 pl.ProtocolsIRCDescription=Zapewnia obsługę protokołu Internet Relay Chat (IRC).
 pl.ProtocolsJabberDescription=Zapewnia obsługę protokołu Jabber/XMPP.
 pl.ClistsDescription=Wtyczki listy kontaktów.
@@ -569,7 +556,7 @@ const
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
 
   // don't forget to increment it after adding new components!
-  COMPONENTS_COUNT = 17; // Index of the first language
+  COMPONENTS_COUNT = 16; // Index of the first language
 
 // Default installation check
 function IsDefault: Boolean;
@@ -777,7 +764,6 @@ begin
     ComponentList.Add('program');
     ComponentList.Add('sounds');
     ComponentList.Add('protocols');
-    ComponentList.Add('protocols\facebook');
     ComponentList.Add('protocols\irc');
     ComponentList.Add('protocols\jabber');
     ComponentList.Add('clists');

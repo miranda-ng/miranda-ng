@@ -1,0 +1,71 @@
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook
+;  Version: 0.1.0.11
+;  Authors: Miranda NG Team
+;============================================================
+[Facebook protocol support for Miranda NG.]
+Zapewnia obsługę protokołu Facebook w Mirandzie NG.
+;file \protocols\Facebook\res\facebook.rc
+[E-mail:]
+E-mail:
+[Password:]
+Hasło:
+[Create a new Facebook account]
+Utwórz nowe konto na Facebooku
+[User details]
+Dane kontaktu
+[Contacts]
+Kontakty
+[Default group:]
+Domyślna grupa:
+[Keep messages as unread on server]
+Utrzymuj wiadomości na serwerze jako nieprzeczytane
+[Use invisible mode after login]
+Użyj trybu niewidocznego po zalogowaniu
+[Load also Messenger contacts at login (not only Facebook friends)]
+Pobierz przy logowaniu kontakty z Messenger'a (a nie tylko znajomości Facebook'a)
+[Group chats]
+Czaty
+[Enable group chats]
+Włącz czaty
+[Do not open chat windows on creation]
+Nie otwieraj okien czatów po ich utworzeniu
+[Send group chat invitation]
+Wyślij zaproszenie do czatu
+[&Invite]
+&Zaproś
+[Cancel]
+Anuluj
+;file \protocols\Facebook\src\groupchats.cpp
+[&Invite a user]
+&Zaproś
+[&Leave/destroy chat]
+&Opuść/usuń czat
+[&Kick user]
+&Wyrzuć użytkownika
+;file \protocols\Facebook\src\options.cpp
+[Network]
+Protokoły
+[Account]
+Konto
+;file \protocols\Facebook\src\server.cpp
+[Connection failed with error code %d]
+
+[Participant]
+Uczestnik
+[Sticker received]
+Otrzymano naklejkę
+[SmileyAdd plugin required to support stickers]
+Wtyczka SmileyAdd jest wymagana do obsługi naklejek
+[URL]
+Link
+[Title]
+Nazwa
+[Source]
+Źródło
+[Description]
+Opis
+[Playable media]
+Odtwarzane multimedia

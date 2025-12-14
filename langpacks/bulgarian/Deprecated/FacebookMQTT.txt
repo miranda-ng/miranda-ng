@@ -1,0 +1,71 @@
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook
+;  Version: 0.1.0.11
+;  Authors: Miranda NG Team
+;============================================================
+[Facebook protocol support for Miranda NG.]
+Осигурява комуникация чрез социалната мрежа Facebook в Miranda NG.
+;file \protocols\Facebook\res\facebook.rc
+[E-mail:]
+Имейл:
+[Password:]
+Парола:
+[Create a new Facebook account]
+Създаване на Facebook акаунт
+[User details]
+Подробности за потребителя
+[Contacts]
+Контакти
+[Default group:]
+Стандартна група
+[Keep messages as unread on server]
+
+[Use invisible mode after login]
+
+[Load also Messenger contacts at login (not only Facebook friends)]
+
+[Group chats]
+Групови чатове
+[Enable group chats]
+
+[Do not open chat windows on creation]
+
+[Send group chat invitation]
+
+[&Invite]
+Покана
+[Cancel]
+Отказ
+;file \protocols\Facebook\src\groupchats.cpp
+[&Invite a user]
+Поканване на потребител
+[&Leave/destroy chat]
+
+[&Kick user]
+
+;file \protocols\Facebook\src\options.cpp
+[Network]
+Мрежа
+[Account]
+Акаунт
+;file \protocols\Facebook\src\server.cpp
+[Connection failed with error code %d]
+
+[Participant]
+Участник
+[Sticker received]
+
+[SmileyAdd plugin required to support stickers]
+
+[URL]
+URL
+[Title]
+Заглавие
+[Source]
+
+[Description]
+Описание
+[Playable media]
+

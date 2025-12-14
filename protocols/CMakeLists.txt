@@ -1,6 +1,5 @@
 #add_subdirectory(Dummy)
 #add_subdirectory(EmLanProto)
-add_subdirectory(Facebook)
 #add_subdirectory(Gadu-Gadu)
 #add_subdirectory(ICQCorp)
 add_subdirectory(IRCG)

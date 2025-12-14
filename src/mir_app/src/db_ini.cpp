@@ -515,7 +515,7 @@ static void DoAutoExec(void)
 	Profile_GetSetting(L"AutoExec/Safe", buf, L"CLC Icons CLUI CList SkinSounds");
 	ptrA szSafeSections(mir_u2a(buf));
 
-	Profile_GetSetting(L"AutoExec/Unsafe", buf, L"Facebook GG IRC JABBER VKontakte");
+	Profile_GetSetting(L"AutoExec/Unsafe", buf, L"GG IRC JABBER VKontakte");
 	ptrA szUnsafeSections(mir_u2a(buf));
 
 	Profile_GetSetting(L"AutoExec/Warn", szSecurity, L"notsafe");

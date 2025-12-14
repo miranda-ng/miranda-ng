@@ -1,0 +1,71 @@
+#muuid {ee0543fb-711d-4ac8-b6c0-1dda4838107e}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook
+;  Version: 0.1.0.11
+;  Authors: Miranda NG Team
+;============================================================
+[Facebook protocol support for Miranda NG.]
+Support du protocole Facebook pour Miranda NG.
+;file \protocols\Facebook\res\facebook.rc
+[E-mail:]
+Courriel :
+[Password:]
+Passe :
+[Create a new Facebook account]
+Créer un nouveau compte Facebook
+[User details]
+Détails du contact
+[Contacts]
+Contacts
+[Default group:]
+Groupes :
+[Keep messages as unread on server]
+Conserver les messages comme non lus sur le serveur
+[Use invisible mode after login]
+
+[Load also Messenger contacts at login (not only Facebook friends)]
+
+[Group chats]
+Groupe chats
+[Enable group chats]
+
+[Do not open chat windows on creation]
+
+[Send group chat invitation]
+Envoyer des invitations de groupe de chat
+[&Invite]
+&Inviter
+[Cancel]
+Annuler
+;file \protocols\Facebook\src\groupchats.cpp
+[&Invite a user]
+
+[&Leave/destroy chat]
+
+[&Kick user]
+
+;file \protocols\Facebook\src\options.cpp
+[Network]
+Réseau
+[Account]
+Compte
+;file \protocols\Facebook\src\server.cpp
+[Connection failed with error code %d]
+
+[Participant]
+
+[Sticker received]
+
+[SmileyAdd plugin required to support stickers]
+
+[URL]
+Lien
+[Title]
+
+[Source]
+
+[Description]
+
+[Playable media]
+

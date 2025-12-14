@@ -72,11 +72,6 @@ static wchar_t *getSectionName(int flag)
 			return LPGENW("Client icons") L"/" LPGENW("Weather clients");
 		break;
 
-	case FACEBOOK_CASE:
-		if (g_plugin.getByte("GroupFacebook", 1))
-			return LPGENW("Client icons") L"/" LPGENW("Facebook clients");
-		break;
-
 	case VK_CASE:
 		if (g_plugin.getByte("GroupVK", 1))
 			return LPGENW("Client icons") L"/" LPGENW("VKontakte clients");

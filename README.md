@@ -9,7 +9,6 @@ It's very light on system resources and extremely fast.
 - DeltaChat
 - Discord
 - Em-LAN
-- Facebook Messenger
 - Gadu-Gadu
 - ICQ corporate
 - IRC (Internet Relay Chat)

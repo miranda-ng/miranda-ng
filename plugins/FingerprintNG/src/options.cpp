@@ -38,7 +38,6 @@ static settings[] =
 	{ IDC_GROUP_JABBER, TRUE, "GroupJabber" },
 	{ IDC_GROUP_RSS, TRUE, "GroupRSS" },
 	{ IDC_GROUP_WEATHER, TRUE, "GroupWeather" },
-	{ IDC_GROUP_FACEBOOK, TRUE, "GroupFacebook" },
 	{ IDC_GROUP_VK, TRUE, "GroupVK" },
 
 	{ IDC_GROUP_OTHER_PROTOS, TRUE, "GroupOtherProtos" },
@@ -55,7 +54,7 @@ static settings[] =
 class COptDialog : public CDlgBase
 {
 	CCtrlCheck m_chkMiranda, m_chkMirandaPacks, m_chkMirandaVer, m_chkOverRes, m_chkOverPlatf, m_chkOverProto, m_chkOverUnicode, m_chkOverSecur,
-		m_chkFacebbok, m_chkGG, m_chkIRC, m_chkJabber, m_chkRSS, m_chkVK, m_chkWeather, m_chkMulti, m_chkOthersProto,
+		m_chkGG, m_chkIRC, m_chkJabber, m_chkRSS, m_chkVK, m_chkWeather, m_chkMulti, m_chkOthersProto,
 		m_chkOthers, m_chkStatusBar;
 
 	void LoadDBCheckState(int idCtrl, LPCSTR szSetting, uint8_t bDef)
@@ -81,7 +80,6 @@ public:
 		m_chkOverProto(this, IDC_GROUP_OVERLAYS_PROTO),
 		m_chkOverUnicode(this, IDC_GROUP_OVERLAYS_UNICODE),
 		m_chkOverSecur(this, IDC_GROUP_OVERLAYS_SECURITY),
-		m_chkFacebbok(this, IDC_GROUP_FACEBOOK),
 		m_chkGG(this, IDC_GROUP_GG),
 		m_chkIRC(this, IDC_GROUP_IRC),
 		m_chkJabber(this, IDC_GROUP_JABBER),

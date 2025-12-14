@@ -470,10 +470,6 @@
 #define IDI_YEIGO                       1089
 #define IDI_YOONO                       1090
 #define IDI_GNUGADU                     1091
-#define IDI_FACEBOOK                    2001
-#define IDI_FACEBOOK_APP                2002
-#define IDI_FACEBOOK_MESSENGER          2003
-#define IDI_FACEBOOK_OTHER              2004
 
 #define IDC_STATUSBAR                   7001
 
@@ -497,7 +493,6 @@
 #define IDC_GROUP_JABBER                10034
 #define IDC_GROUP_RSS                   10038
 #define IDC_GROUP_WEATHER               10040
-#define IDC_GROUP_FACEBOOK              10042
 #define IDC_GROUP_VK                    10043
 #define IDC_GROUP_OTHER_PROTOS          10044
 #define IDC_GROUP_OTHERS                10045
