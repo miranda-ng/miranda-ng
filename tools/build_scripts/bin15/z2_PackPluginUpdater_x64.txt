@@ -200,7 +200,6 @@ Icons\proto_currencyrates.dll
 Icons\proto_deltachat.dll
 Icons\proto_discord.dll
 Icons\proto_dummy.dll
-Icons\proto_facebook.dll
 Icons\proto_gg.dll
 Icons\proto_gmailmnotifier.dll
 Icons\proto_icq.dll
