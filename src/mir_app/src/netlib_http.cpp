@@ -108,11 +108,11 @@ static bool isSecureStr(const char *str)
 	return false;
 }
 
-static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, CMStringA &str)
+static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, const CMStringA &szFirstLine)
 {
 	int dumpflags = (flags & NLHRF_DUMPASTEXT) ? MSG_DUMPASTEXT : 0;
 
-	int blockMask = NLHRF_NODUMP | NLHRF_NODUMPHEADERS | (str.IsEmpty() ? NLHRF_NODUMPSEND : 0);
+	int blockMask = NLHRF_NODUMP | NLHRF_NODUMPHEADERS | (szFirstLine.IsEmpty() ? NLHRF_NODUMPSEND : 0);
 	if (flags & blockMask)
 		dumpflags |= MSG_NODUMP;
 	else if (flags & NLHRF_DUMPPROXY)
@@ -120,6 +120,7 @@ static void DumpHttpHeaders(HNETLIBCONN nlc, MHttpHeaders *nlhr, int flags, CMSt
 	else if (flags & NLHRF_NOPROXY)
 		dumpflags |= MSG_RAW;
 
+	CMStringA str(szFirstLine);
 	for (auto &it: *nlhr) {
 		if (it->szValue == nullptr)
 			continue;
