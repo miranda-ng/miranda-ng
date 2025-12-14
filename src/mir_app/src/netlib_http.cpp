@@ -1055,7 +1055,7 @@ next:
 	}
 
 	if (!nlhrReply->body.IsEmpty())
-		DumpHttpBody(nlc, nlhrReply->body, flags, true);
+		DumpHttpBody(nlc, nlhrReply->body, flags, false);
 
 	if (close &&
 		(nlc->proxyType != PROXYTYPE_HTTP || nlc->url.flags & NLOCF_SSL) &&
