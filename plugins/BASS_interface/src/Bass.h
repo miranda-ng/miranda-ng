@@ -61,7 +61,7 @@ typedef DWORD HRECORD;		// recording handle
 typedef DWORD HSYNC;		// synchronizer handle
 typedef DWORD HDSP;			// DSP handle
 typedef DWORD HFX;			// effect handle
-typedef DWORD HSUBPLUGIN;	// plugin handle
+typedef DWORD HPLUGIN;		// plugin handle
 
 // Error codes returned by BASS_ErrorGetCode
 #define BASS_OK				0	// all is OK
@@ -76,6 +76,7 @@ typedef DWORD HSUBPLUGIN;	// plugin handle
 #define BASS_ERROR_START	9	// BASS_Start has not been successfully called
 #define BASS_ERROR_SSL		10	// SSL/HTTPS support isn't available
 #define BASS_ERROR_REINIT	11	// device needs to be reinitialized
+#define BASS_ERROR_TRACK	13	// invalid track number
 #define BASS_ERROR_ALREADY	14	// already initialized/paused/whatever
 #define BASS_ERROR_NOTAUDIO	17	// file does not contain audio
 #define BASS_ERROR_NOCHAN	18	// can't get a free channel
@@ -387,7 +388,7 @@ typedef struct {
 	DWORD flags;
 	DWORD ctype;	// type of channel
 	DWORD origres;	// original resolution
-	HSUBPLUGIN plugin;
+	HPLUGIN plugin;
 	HSAMPLE sample;
 	const char *filename;
 } BASS_CHANNELINFO;
@@ -862,6 +863,7 @@ typedef const WAVEFORMATEX *LPCWAVEFORMATEX;
 #define BASS_POS_BYTE			0		// byte position
 #define BASS_POS_MUSIC_ORDER	1		// order.row position, MAKELONG(order,row)
 #define BASS_POS_OGG			3		// OGG bitstream number
+#define BASS_POS_TRACK			4		// track number
 #define BASS_POS_RAW			6		// monotonic byte position
 #define BASS_POS_END			0x10	// trimmed end position
 #define BASS_POS_LOOP			0x11	// loop start positiom
@@ -1057,10 +1059,10 @@ BOOL BASSDEF(BASS_Set3DPosition)(const BASS_3DVECTOR *pos, const BASS_3DVECTOR *
 BOOL BASSDEF(BASS_Get3DPosition)(BASS_3DVECTOR *pos, BASS_3DVECTOR *vel, BASS_3DVECTOR *front, BASS_3DVECTOR *top);
 void BASSDEF(BASS_Apply3D)(void);
 
-HSUBPLUGIN BASSDEF(BASS_PluginLoad)(const char *file, DWORD flags);
-BOOL BASSDEF(BASS_PluginFree)(HSUBPLUGIN handle);
-BOOL BASSDEF(BASS_PluginEnable)(HSUBPLUGIN handle, BOOL enable);
-const BASS_PLUGININFO *BASSDEF(BASS_PluginGetInfo)(HSUBPLUGIN handle);
+HPLUGIN BASSDEF(BASS_PluginLoad)(const char *file, DWORD flags);
+BOOL BASSDEF(BASS_PluginFree)(HPLUGIN handle);
+BOOL BASSDEF(BASS_PluginEnable)(HPLUGIN handle, BOOL enable);
+const BASS_PLUGININFO *BASSDEF(BASS_PluginGetInfo)(HPLUGIN handle);
 
 HSAMPLE BASSDEF(BASS_SampleLoad)(DWORD filetype, const void *file, QWORD offset, DWORD length, DWORD max, DWORD flags);
 HSAMPLE BASSDEF(BASS_SampleCreate)(DWORD length, DWORD freq, DWORD chans, DWORD max, DWORD flags);
@@ -1150,7 +1152,7 @@ BOOL BASSDEF(BASS_FXFree)(DWORD handle);
 }
 
 #if defined(_WIN32) && !defined(NOBASSOVERLOADS)
-static inline HSUBPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
+static inline HPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
 {
 	return BASS_PluginLoad((const char*)file, flags | BASS_UNICODE);
 }
