@@ -175,3 +175,12 @@ struct CMPluginTwitter : public ACCPROTOPLUGIN<CDummyProto>
 	}
 }
 static g_pluginTwitter;
+
+struct CMPluginFacebook : public ACCPROTOPLUGIN<CDummyProto>
+{
+	CMPluginFacebook() : ACCPROTOPLUGIN<CDummyProto>("Facebook", pluginInfoEx)
+	{
+		SetUniqueId("ID");
+	}
+}
+static g_pluginFacebook;
