@@ -157,9 +157,10 @@ public:
 
 struct WAJid
 {
-	int device, agent;
+	int device = -1, agent = 0;
 	CMStringA user, server;
 
+	WAJid(class WhatsAppProto *ppro, MCONTACT hContact);
 	WAJid(const char *pszJid, int device = 0);
 	WAJid(const char *pszUser, int device, int agent);
 
@@ -167,8 +168,12 @@ struct WAJid
 
 	bool isUser() const;
 	bool isGroup() const;
+	bool isValid() const { return device != -1; }
 	bool isBroadcast() const;
 	bool isStatusBroadcast() const;
+
+private:
+	void parse(const char *jid);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

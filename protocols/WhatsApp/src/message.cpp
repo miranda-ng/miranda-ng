@@ -506,11 +506,13 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 		pTask->content.append(proto::Serialize(&msg));
 
 		if (auto *pUser = FindUser(jid)) {
-			if (pUser->bDeviceInit) {
-				for (auto &it : pUser->arDevices)
-					pTask->arDest.insert(new WAJid(*it));
+			if (pUser->szId != m_szJid) {
+				if (pUser->bDeviceInit) {
+					for (auto &it : pUser->arDevices)
+						pTask->arDest.insert(new WAJid(*it));
+				}
+				else arCheckList.insert(mir_strdup(pUser->szId));;
 			}
-			else arCheckList.insert(mir_strdup(jid));;
 		}
 	}
 

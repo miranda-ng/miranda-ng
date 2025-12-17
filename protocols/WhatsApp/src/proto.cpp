@@ -263,14 +263,11 @@ int WhatsAppProto::SetStatus(int iNewStatus)
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, MEVENT, const char *pszMsg)
 {
-	if (!isOnline())
+	if (!isOnline() || !mir_strlen(pszMsg))
 		return -1;
 
-	ptrA jid(getStringA(hContact, DBKEY_ID));
-	if (jid == nullptr || pszMsg == nullptr)
-		return 0;
-
-	return SendTextMessage(jid, pszMsg);
+	WAJid jid(this, hContact);
+	return jid.isValid() ? SendTextMessage(jid.toString(), pszMsg) : 0;
 }
 
 int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)

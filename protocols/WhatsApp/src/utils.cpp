@@ -21,10 +21,29 @@ WAJid::WAJid(const char *pszUser, int iDevice, int iAgent) :
 	}
 }
 
-WAJid::WAJid(const char *pszJid, int _id)
+WAJid::WAJid(WhatsAppProto *ppro, MCONTACT hContact)
 {
-	if (pszJid == nullptr)
-		pszJid = "";
+	CMStringA jid(ppro->getMStringA(hContact, DBKEY_LID));
+	if (jid.IsEmpty())
+		parse(ppro->getMStringA(hContact, DBKEY_ID));
+	else {
+		user = jid;
+		server = "lid";
+		device = 0;
+	}
+}
+
+WAJid::WAJid(const char *pszJid, int _id)	
+{
+	parse(pszJid);
+	if (_id)
+		device = _id;
+}
+
+void WAJid::parse(const char *pszJid)
+{
+	if (!mir_strlen(pszJid))
+		return;
 
 	auto *tmp = NEWSTR_ALLOCA(pszJid);
 	auto *p = strrchr(tmp, '@');
@@ -37,7 +56,7 @@ WAJid::WAJid(const char *pszJid, int _id)
 		*p = 0;
 		device = atoi(p + 1);
 	}
-	else device = _id;
+	else device = 0;
 
 	if (p = strrchr(tmp, '_')) {
 		*p = 0;
@@ -107,13 +126,15 @@ WAUser* WhatsAppProto::FindUser(const char *szId)
 		return nullptr;
 
 	auto *tmp = (WAUser *)_alloca(sizeof(WAUser));
-	if (isLidUser(szId))
-		tmp->lid = _atoi64(szId);
-	else
-		tmp->szId = (char *)szId;
-
 	mir_cslock lck(m_csUsers);
-	return m_arUsers.find(tmp);
+	if (isLidUser(szId)) {
+		tmp->lid = _atoi64(szId);
+		return m_arLids.find(tmp);
+	}
+	else {
+		tmp->szId = (char *)szId;
+		return m_arUsers.find(tmp);
+	}
 }
 
 WAUser* WhatsAppProto::FindUserByLid(const char *szLid)
