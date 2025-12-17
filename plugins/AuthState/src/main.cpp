@@ -71,19 +71,16 @@ INT_PTR getIconToUse(MCONTACT hContact, LPARAM)
 	if (!g_plugin.getByte(hContact, "ShowIcons", !g_plugin.bIconsForRecentContacts))
 		return ICON_NONE;
 
-	// Facebook contact type
-	int type = db_get_b(hContact, proto, "ContactType", 0);
-
 	if (g_plugin.bUseAuthIcon & g_plugin.bUseGrantIcon)
-		if ((db_get_b(hContact, proto, "Auth", 0) && db_get_b(hContact, proto, "Grant", 0)) || type == 2)
+		if ((db_get_b(hContact, proto, "Auth", 0) && db_get_b(hContact, proto, "Grant", 0)))
 			return ICON_BOTH;
 
 	if (g_plugin.bUseAuthIcon)
-		if (db_get_b(hContact, proto, "Auth", 0) || type == 3)
+		if (db_get_b(hContact, proto, "Auth", 0))
 			return ICON_AUTH;
 
 	if (g_plugin.bUseGrantIcon)
-		if (db_get_b(hContact, proto, "Grant", 0) || type == 4)
+		if (db_get_b(hContact, proto, "Grant", 0))
 			return ICON_GRANT;
 
 	return ICON_NONE;
