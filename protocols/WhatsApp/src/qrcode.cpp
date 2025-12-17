@@ -18,8 +18,10 @@ public:
 	{
 		m_proto->m_pQRDlg = nullptr;
 		
-		if (!m_bSucceeded)
+		if (!m_bSucceeded) {
+			m_proto->ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NOSERVER);
 			m_proto->ShutdownSession();
+		}
 	}
 
 	void SetSuccess()
