@@ -202,6 +202,45 @@ void   wa__advsigned_key_index_list__free_unpacked
   assert(message->descriptor == &wa__advsigned_key_index_list__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
+size_t wa__account__get_packed_size
+                     (const Wa__Account *message)
+{
+  assert(message->descriptor == &wa__account__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__account__pack
+                     (const Wa__Account *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__account__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__account__pack_to_buffer
+                     (const Wa__Account *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__account__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__Account *
+       wa__account__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__Account *)
+     protobuf_c_message_unpack (&wa__account__descriptor,
+                                allocator, len, data);
+}
+void   wa__account__free_unpacked
+                     (Wa__Account *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__account__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
 size_t wa__action_link__get_packed_size
                      (const Wa__ActionLink *message)
 {
@@ -395,6 +434,45 @@ void   wa__biz_identity_info__free_unpacked
   if(!message)
     return;
   assert(message->descriptor == &wa__biz_identity_info__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+size_t wa__call_log_record__get_packed_size
+                     (const Wa__CallLogRecord *message)
+{
+  assert(message->descriptor == &wa__call_log_record__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__call_log_record__pack
+                     (const Wa__CallLogRecord *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__call_log_record__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__call_log_record__pack_to_buffer
+                     (const Wa__CallLogRecord *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__call_log_record__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__CallLogRecord *
+       wa__call_log_record__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__CallLogRecord *)
+     protobuf_c_message_unpack (&wa__call_log_record__descriptor,
+                                allocator, len, data);
+}
+void   wa__call_log_record__free_unpacked
+                     (Wa__CallLogRecord *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__call_log_record__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 size_t wa__cert_chain__get_packed_size
@@ -1955,6 +2033,45 @@ void   wa__pending_pre_key__free_unpacked
   if(!message)
     return;
   assert(message->descriptor == &wa__pending_pre_key__descriptor);
+  protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
+}
+size_t wa__phone_number_to_lidmapping__get_packed_size
+                     (const Wa__PhoneNumberToLIDMapping *message)
+{
+  assert(message->descriptor == &wa__phone_number_to_lidmapping__descriptor);
+  return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
+}
+size_t wa__phone_number_to_lidmapping__pack
+                     (const Wa__PhoneNumberToLIDMapping *message,
+                      uint8_t       *out)
+{
+  assert(message->descriptor == &wa__phone_number_to_lidmapping__descriptor);
+  return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
+}
+size_t wa__phone_number_to_lidmapping__pack_to_buffer
+                     (const Wa__PhoneNumberToLIDMapping *message,
+                      ProtobufCBuffer *buffer)
+{
+  assert(message->descriptor == &wa__phone_number_to_lidmapping__descriptor);
+  return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
+}
+Wa__PhoneNumberToLIDMapping *
+       wa__phone_number_to_lidmapping__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data)
+{
+  return (Wa__PhoneNumberToLIDMapping *)
+     protobuf_c_message_unpack (&wa__phone_number_to_lidmapping__descriptor,
+                                allocator, len, data);
+}
+void   wa__phone_number_to_lidmapping__free_unpacked
+                     (Wa__PhoneNumberToLIDMapping *message,
+                      ProtobufCAllocator *allocator)
+{
+  if(!message)
+    return;
+  assert(message->descriptor == &wa__phone_number_to_lidmapping__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 size_t wa__photo_change__get_packed_size
@@ -3715,6 +3832,82 @@ const ProtobufCMessageDescriptor wa__advsigned_key_index_list__descriptor =
   1,  wa__advsigned_key_index_list__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
+static const ProtobufCFieldDescriptor wa__account__field_descriptors[4] =
+{
+  {
+    "lid",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Account, lid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "username",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Account, username),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "countryCode",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__Account, countrycode),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isUsernameDeleted",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__Account, has_isusernamedeleted),
+    offsetof(Wa__Account, isusernamedeleted),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__account__field_indices_by_name[] = {
+  2,   /* field[2] = countryCode */
+  3,   /* field[3] = isUsernameDeleted */
+  0,   /* field[0] = lid */
+  1,   /* field[1] = username */
+};
+static const ProtobufCIntRange wa__account__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 4 }
+};
+const ProtobufCMessageDescriptor wa__account__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.Account",
+  "Account",
+  "Wa__Account",
+  "wa",
+  sizeof(Wa__Account),
+  4,
+  wa__account__field_descriptors,
+  wa__account__field_indices_by_name,
+  1,  wa__account__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
 static const ProtobufCFieldDescriptor wa__action_link__field_descriptors[2] =
 {
   {
@@ -4246,6 +4439,383 @@ const ProtobufCMessageDescriptor wa__biz_identity_info__descriptor =
   wa__biz_identity_info__field_descriptors,
   wa__biz_identity_info__field_indices_by_name,
   1,  wa__biz_identity_info__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__call_log_record__participant_info__field_descriptors[2] =
+{
+  {
+    "userJid",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__CallLogRecord__ParticipantInfo, userjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "callResult",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__CallLogRecord__ParticipantInfo, has_callresult),
+    offsetof(Wa__CallLogRecord__ParticipantInfo, callresult),
+    &wa__call_log_record__call_result__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__call_log_record__participant_info__field_indices_by_name[] = {
+  1,   /* field[1] = callResult */
+  0,   /* field[0] = userJid */
+};
+static const ProtobufCIntRange wa__call_log_record__participant_info__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__call_log_record__participant_info__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.CallLogRecord.ParticipantInfo",
+  "ParticipantInfo",
+  "Wa__CallLogRecord__ParticipantInfo",
+  "wa",
+  sizeof(Wa__CallLogRecord__ParticipantInfo),
+  2,
+  wa__call_log_record__participant_info__field_descriptors,
+  wa__call_log_record__participant_info__field_indices_by_name,
+  1,  wa__call_log_record__participant_info__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCEnumValue wa__call_log_record__call_result__enum_values_by_number[11] =
+{
+  { "CONNECTED", "WA__CALL_LOG_RECORD__CALL_RESULT__CONNECTED", 0 },
+  { "REJECTED", "WA__CALL_LOG_RECORD__CALL_RESULT__REJECTED", 1 },
+  { "CANCELLED", "WA__CALL_LOG_RECORD__CALL_RESULT__CANCELLED", 2 },
+  { "ACCEPTEDELSEWHERE", "WA__CALL_LOG_RECORD__CALL_RESULT__ACCEPTEDELSEWHERE", 3 },
+  { "MISSED", "WA__CALL_LOG_RECORD__CALL_RESULT__MISSED", 4 },
+  { "INVALID", "WA__CALL_LOG_RECORD__CALL_RESULT__INVALID", 5 },
+  { "UNAVAILABLE", "WA__CALL_LOG_RECORD__CALL_RESULT__UNAVAILABLE", 6 },
+  { "UPCOMING", "WA__CALL_LOG_RECORD__CALL_RESULT__UPCOMING", 7 },
+  { "FAILED", "WA__CALL_LOG_RECORD__CALL_RESULT__FAILED", 8 },
+  { "ABANDONED", "WA__CALL_LOG_RECORD__CALL_RESULT__ABANDONED", 9 },
+  { "ONGOING", "WA__CALL_LOG_RECORD__CALL_RESULT__ONGOING", 10 },
+};
+static const ProtobufCIntRange wa__call_log_record__call_result__value_ranges[] = {
+{0, 0},{0, 11}
+};
+static const ProtobufCEnumValueIndex wa__call_log_record__call_result__enum_values_by_name[11] =
+{
+  { "ABANDONED", 9 },
+  { "ACCEPTEDELSEWHERE", 3 },
+  { "CANCELLED", 2 },
+  { "CONNECTED", 0 },
+  { "FAILED", 8 },
+  { "INVALID", 5 },
+  { "MISSED", 4 },
+  { "ONGOING", 10 },
+  { "REJECTED", 1 },
+  { "UNAVAILABLE", 6 },
+  { "UPCOMING", 7 },
+};
+const ProtobufCEnumDescriptor wa__call_log_record__call_result__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.CallLogRecord.CallResult",
+  "CallResult",
+  "Wa__CallLogRecord__CallResult",
+  "wa",
+  11,
+  wa__call_log_record__call_result__enum_values_by_number,
+  11,
+  wa__call_log_record__call_result__enum_values_by_name,
+  1,
+  wa__call_log_record__call_result__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCEnumValue wa__call_log_record__call_type__enum_values_by_number[3] =
+{
+  { "REGULAR", "WA__CALL_LOG_RECORD__CALL_TYPE__REGULAR", 0 },
+  { "SCHEDULED_CALL", "WA__CALL_LOG_RECORD__CALL_TYPE__SCHEDULED_CALL", 1 },
+  { "VOICE_CHAT", "WA__CALL_LOG_RECORD__CALL_TYPE__VOICE_CHAT", 2 },
+};
+static const ProtobufCIntRange wa__call_log_record__call_type__value_ranges[] = {
+{0, 0},{0, 3}
+};
+static const ProtobufCEnumValueIndex wa__call_log_record__call_type__enum_values_by_name[3] =
+{
+  { "REGULAR", 0 },
+  { "SCHEDULED_CALL", 1 },
+  { "VOICE_CHAT", 2 },
+};
+const ProtobufCEnumDescriptor wa__call_log_record__call_type__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.CallLogRecord.CallType",
+  "CallType",
+  "Wa__CallLogRecord__CallType",
+  "wa",
+  3,
+  wa__call_log_record__call_type__enum_values_by_number,
+  3,
+  wa__call_log_record__call_type__enum_values_by_name,
+  1,
+  wa__call_log_record__call_type__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCEnumValue wa__call_log_record__silence_reason__enum_values_by_number[4] =
+{
+  { "NONE", "WA__CALL_LOG_RECORD__SILENCE_REASON__NONE", 0 },
+  { "SCHEDULED", "WA__CALL_LOG_RECORD__SILENCE_REASON__SCHEDULED", 1 },
+  { "PRIVACY", "WA__CALL_LOG_RECORD__SILENCE_REASON__PRIVACY", 2 },
+  { "LIGHTWEIGHT", "WA__CALL_LOG_RECORD__SILENCE_REASON__LIGHTWEIGHT", 3 },
+};
+static const ProtobufCIntRange wa__call_log_record__silence_reason__value_ranges[] = {
+{0, 0},{0, 4}
+};
+static const ProtobufCEnumValueIndex wa__call_log_record__silence_reason__enum_values_by_name[4] =
+{
+  { "LIGHTWEIGHT", 3 },
+  { "NONE", 0 },
+  { "PRIVACY", 2 },
+  { "SCHEDULED", 1 },
+};
+const ProtobufCEnumDescriptor wa__call_log_record__silence_reason__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.CallLogRecord.SilenceReason",
+  "SilenceReason",
+  "Wa__CallLogRecord__SilenceReason",
+  "wa",
+  4,
+  wa__call_log_record__silence_reason__enum_values_by_number,
+  4,
+  wa__call_log_record__silence_reason__enum_values_by_name,
+  1,
+  wa__call_log_record__silence_reason__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCFieldDescriptor wa__call_log_record__field_descriptors[15] =
+{
+  {
+    "callResult",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__CallLogRecord, has_callresult),
+    offsetof(Wa__CallLogRecord, callresult),
+    &wa__call_log_record__call_result__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isDndMode",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__CallLogRecord, has_isdndmode),
+    offsetof(Wa__CallLogRecord, isdndmode),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "silenceReason",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__CallLogRecord, has_silencereason),
+    offsetof(Wa__CallLogRecord, silencereason),
+    &wa__call_log_record__silence_reason__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "duration",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__CallLogRecord, has_duration),
+    offsetof(Wa__CallLogRecord, duration),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "startTime",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_INT64,
+    offsetof(Wa__CallLogRecord, has_starttime),
+    offsetof(Wa__CallLogRecord, starttime),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isIncoming",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__CallLogRecord, has_isincoming),
+    offsetof(Wa__CallLogRecord, isincoming),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isVideo",
+    7,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__CallLogRecord, has_isvideo),
+    offsetof(Wa__CallLogRecord, isvideo),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "isCallLink",
+    8,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__CallLogRecord, has_iscalllink),
+    offsetof(Wa__CallLogRecord, iscalllink),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "callLinkToken",
+    9,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__CallLogRecord, calllinktoken),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "scheduledCallId",
+    10,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__CallLogRecord, scheduledcallid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "callId",
+    11,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__CallLogRecord, callid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "callCreatorJid",
+    12,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__CallLogRecord, callcreatorjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "groupJid",
+    13,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__CallLogRecord, groupjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "participants",
+    14,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__CallLogRecord, n_participants),
+    offsetof(Wa__CallLogRecord, participants),
+    &wa__call_log_record__participant_info__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "callType",
+    15,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__CallLogRecord, has_calltype),
+    offsetof(Wa__CallLogRecord, calltype),
+    &wa__call_log_record__call_type__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__call_log_record__field_indices_by_name[] = {
+  11,   /* field[11] = callCreatorJid */
+  10,   /* field[10] = callId */
+  8,   /* field[8] = callLinkToken */
+  0,   /* field[0] = callResult */
+  14,   /* field[14] = callType */
+  3,   /* field[3] = duration */
+  12,   /* field[12] = groupJid */
+  7,   /* field[7] = isCallLink */
+  1,   /* field[1] = isDndMode */
+  5,   /* field[5] = isIncoming */
+  6,   /* field[6] = isVideo */
+  13,   /* field[13] = participants */
+  9,   /* field[9] = scheduledCallId */
+  2,   /* field[2] = silenceReason */
+  4,   /* field[4] = startTime */
+};
+static const ProtobufCIntRange wa__call_log_record__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 15 }
+};
+const ProtobufCMessageDescriptor wa__call_log_record__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.CallLogRecord",
+  "CallLogRecord",
+  "Wa__CallLogRecord",
+  "wa",
+  sizeof(Wa__CallLogRecord),
+  15,
+  wa__call_log_record__field_descriptors,
+  wa__call_log_record__field_indices_by_name,
+  1,  wa__call_log_record__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__cert_chain__noise_certificate__details__field_descriptors[5] =
@@ -7344,6 +7914,277 @@ const ProtobufCMessageDescriptor wa__device_props__app_version__descriptor =
   1,  wa__device_props__app_version__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
+static const ProtobufCFieldDescriptor wa__device_props__history_sync_config__field_descriptors[19] =
+{
+  {
+    "fullSyncDaysLimit",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_fullsyncdayslimit),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, fullsyncdayslimit),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "fullSyncSizeMbLimit",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_fullsyncsizemblimit),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, fullsyncsizemblimit),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "storageQuotaMb",
+    3,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_storagequotamb),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, storagequotamb),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "inlineInitialPayloadInE2EeMsg",
+    4,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_inlineinitialpayloadine2eemsg),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, inlineinitialpayloadine2eemsg),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "recentSyncDaysLimit",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_recentsyncdayslimit),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, recentsyncdayslimit),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportCallLogHistory",
+    6,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportcallloghistory),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportcallloghistory),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportBotUserAgentChatHistory",
+    7,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportbotuseragentchathistory),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportbotuseragentchathistory),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportCagReactionsAndPolls",
+    8,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportcagreactionsandpolls),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportcagreactionsandpolls),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportBizHostedMsg",
+    9,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportbizhostedmsg),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportbizhostedmsg),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportRecentSyncChunkMessageCountTuning",
+    10,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportrecentsyncchunkmessagecounttuning),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportrecentsyncchunkmessagecounttuning),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportHostedGroupMsg",
+    11,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supporthostedgroupmsg),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supporthostedgroupmsg),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportFbidBotChatHistory",
+    12,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportfbidbotchathistory),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportfbidbotchathistory),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportAddOnHistorySyncMigration",
+    13,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportaddonhistorysyncmigration),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportaddonhistorysyncmigration),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportMessageAssociation",
+    14,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportmessageassociation),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportmessageassociation),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportGroupHistory",
+    15,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportgrouphistory),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportgrouphistory),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "onDemandReady",
+    16,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_ondemandready),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, ondemandready),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "supportGuestChat",
+    17,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_supportguestchat),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, supportguestchat),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "completeOnDemandReady",
+    18,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BOOL,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_completeondemandready),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, completeondemandready),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "thumbnailSyncDaysLimit",
+    19,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_UINT32,
+    offsetof(Wa__DeviceProps__HistorySyncConfig, has_thumbnailsyncdayslimit),
+    offsetof(Wa__DeviceProps__HistorySyncConfig, thumbnailsyncdayslimit),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__device_props__history_sync_config__field_indices_by_name[] = {
+  17,   /* field[17] = completeOnDemandReady */
+  0,   /* field[0] = fullSyncDaysLimit */
+  1,   /* field[1] = fullSyncSizeMbLimit */
+  3,   /* field[3] = inlineInitialPayloadInE2EeMsg */
+  15,   /* field[15] = onDemandReady */
+  4,   /* field[4] = recentSyncDaysLimit */
+  2,   /* field[2] = storageQuotaMb */
+  12,   /* field[12] = supportAddOnHistorySyncMigration */
+  8,   /* field[8] = supportBizHostedMsg */
+  6,   /* field[6] = supportBotUserAgentChatHistory */
+  7,   /* field[7] = supportCagReactionsAndPolls */
+  5,   /* field[5] = supportCallLogHistory */
+  11,   /* field[11] = supportFbidBotChatHistory */
+  14,   /* field[14] = supportGroupHistory */
+  16,   /* field[16] = supportGuestChat */
+  10,   /* field[10] = supportHostedGroupMsg */
+  13,   /* field[13] = supportMessageAssociation */
+  9,   /* field[9] = supportRecentSyncChunkMessageCountTuning */
+  18,   /* field[18] = thumbnailSyncDaysLimit */
+};
+static const ProtobufCIntRange wa__device_props__history_sync_config__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 19 }
+};
+const ProtobufCMessageDescriptor wa__device_props__history_sync_config__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.DeviceProps.HistorySyncConfig",
+  "HistorySyncConfig",
+  "Wa__DeviceProps__HistorySyncConfig",
+  "wa",
+  sizeof(Wa__DeviceProps__HistorySyncConfig),
+  19,
+  wa__device_props__history_sync_config__field_descriptors,
+  wa__device_props__history_sync_config__field_indices_by_name,
+  1,  wa__device_props__history_sync_config__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
 static const ProtobufCEnumValue wa__device_props__platform_type__enum_values_by_number[14] =
 {
   { "UNKNOWN", "WA__DEVICE_PROPS__PLATFORM_TYPE__UNKNOWN", 0 },
@@ -7396,7 +8237,7 @@ const ProtobufCEnumDescriptor wa__device_props__platform_type__descriptor =
   wa__device_props__platform_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__device_props__field_descriptors[4] =
+static const ProtobufCFieldDescriptor wa__device_props__field_descriptors[5] =
 {
   {
     "os",
@@ -7446,8 +8287,21 @@ static const ProtobufCFieldDescriptor wa__device_props__field_descriptors[4] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "historySyncConfig",
+    5,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_MESSAGE,
+    0,   /* quantifier_offset */
+    offsetof(Wa__DeviceProps, historysyncconfig),
+    &wa__device_props__history_sync_config__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__device_props__field_indices_by_name[] = {
+  4,   /* field[4] = historySyncConfig */
   0,   /* field[0] = os */
   2,   /* field[2] = platformType */
   3,   /* field[3] = requireFullSync */
@@ -7456,7 +8310,7 @@ static const unsigned wa__device_props__field_indices_by_name[] = {
 static const ProtobufCIntRange wa__device_props__number_ranges[1 + 1] =
 {
   { 1, 0 },
-  { 0, 4 }
+  { 0, 5 }
 };
 const ProtobufCMessageDescriptor wa__device_props__descriptor =
 {
@@ -7466,7 +8320,7 @@ const ProtobufCMessageDescriptor wa__device_props__descriptor =
   "Wa__DeviceProps",
   "wa",
   sizeof(Wa__DeviceProps),
-  4,
+  5,
   wa__device_props__field_descriptors,
   wa__device_props__field_indices_by_name,
   1,  wa__device_props__number_ranges,
@@ -8214,26 +9068,56 @@ const ProtobufCMessageDescriptor wa__handshake_message__descriptor =
   1,  wa__handshake_message__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
-static const ProtobufCEnumValue wa__history_sync__history_sync_type__enum_values_by_number[6] =
+static const ProtobufCEnumValue wa__history_sync__bot_aiwait_list_state__enum_values_by_number[2] =
+{
+  { "IN_WAITLIST", "WA__HISTORY_SYNC__BOT_AIWAIT_LIST_STATE__IN_WAITLIST", 0 },
+  { "AI_AVAILABLE", "WA__HISTORY_SYNC__BOT_AIWAIT_LIST_STATE__AI_AVAILABLE", 1 },
+};
+static const ProtobufCIntRange wa__history_sync__bot_aiwait_list_state__value_ranges[] = {
+{0, 0},{0, 2}
+};
+static const ProtobufCEnumValueIndex wa__history_sync__bot_aiwait_list_state__enum_values_by_name[2] =
+{
+  { "AI_AVAILABLE", 1 },
+  { "IN_WAITLIST", 0 },
+};
+const ProtobufCEnumDescriptor wa__history_sync__bot_aiwait_list_state__descriptor =
+{
+  PROTOBUF_C__ENUM_DESCRIPTOR_MAGIC,
+  "wa.HistorySync.BotAIWaitListState",
+  "BotAIWaitListState",
+  "Wa__HistorySync__BotAIWaitListState",
+  "wa",
+  2,
+  wa__history_sync__bot_aiwait_list_state__enum_values_by_number,
+  2,
+  wa__history_sync__bot_aiwait_list_state__enum_values_by_name,
+  1,
+  wa__history_sync__bot_aiwait_list_state__value_ranges,
+  NULL,NULL,NULL,NULL   /* reserved[1234] */
+};
+static const ProtobufCEnumValue wa__history_sync__history_sync_type__enum_values_by_number[7] =
 {
   { "INITIAL_BOOTSTRAP", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_BOOTSTRAP", 0 },
   { "INITIAL_STATUS_V3", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_STATUS_V3", 1 },
   { "FULL", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__FULL", 2 },
   { "RECENT", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__RECENT", 3 },
   { "PUSH_NAME", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__PUSH_NAME", 4 },
-  { "UNBLOCKING_DATA", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__UNBLOCKING_DATA", 5 },
+  { "NON_BLOCKING_DATA", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__NON_BLOCKING_DATA", 5 },
+  { "ON_DEMAND", "WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__ON_DEMAND", 6 },
 };
 static const ProtobufCIntRange wa__history_sync__history_sync_type__value_ranges[] = {
-{0, 0},{0, 6}
+{0, 0},{0, 7}
 };
-static const ProtobufCEnumValueIndex wa__history_sync__history_sync_type__enum_values_by_name[6] =
+static const ProtobufCEnumValueIndex wa__history_sync__history_sync_type__enum_values_by_name[7] =
 {
   { "FULL", 2 },
   { "INITIAL_BOOTSTRAP", 0 },
   { "INITIAL_STATUS_V3", 1 },
+  { "NON_BLOCKING_DATA", 5 },
+  { "ON_DEMAND", 6 },
   { "PUSH_NAME", 4 },
   { "RECENT", 3 },
-  { "UNBLOCKING_DATA", 5 },
 };
 const ProtobufCEnumDescriptor wa__history_sync__history_sync_type__descriptor =
 {
@@ -8242,15 +9126,15 @@ const ProtobufCEnumDescriptor wa__history_sync__history_sync_type__descriptor =
   "HistorySyncType",
   "Wa__HistorySync__HistorySyncType",
   "wa",
-  6,
+  7,
   wa__history_sync__history_sync_type__enum_values_by_number,
-  6,
+  7,
   wa__history_sync__history_sync_type__enum_values_by_name,
   1,
   wa__history_sync__history_sync_type__value_ranges,
   NULL,NULL,NULL,NULL   /* reserved[1234] */
 };
-static const ProtobufCFieldDescriptor wa__history_sync__field_descriptors[11] =
+static const ProtobufCFieldDescriptor wa__history_sync__field_descriptors[17] =
 {
   {
     "syncType",
@@ -8384,15 +9268,93 @@ static const ProtobufCFieldDescriptor wa__history_sync__field_descriptors[11] =
     0,             /* flags */
     0,NULL,NULL    /* reserved1,reserved2, etc */
   },
+  {
+    "callLogRecords",
+    13,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__HistorySync, n_calllogrecords),
+    offsetof(Wa__HistorySync, calllogrecords),
+    &wa__call_log_record__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "aiWaitListState",
+    14,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_ENUM,
+    offsetof(Wa__HistorySync, has_aiwaitliststate),
+    offsetof(Wa__HistorySync, aiwaitliststate),
+    &wa__history_sync__bot_aiwait_list_state__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "phoneNumberToLidMappings",
+    15,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__HistorySync, n_phonenumbertolidmappings),
+    offsetof(Wa__HistorySync, phonenumbertolidmappings),
+    &wa__phone_number_to_lidmapping__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "companionMetaNonce",
+    16,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__HistorySync, companionmetanonce),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "shareableChatIdentifierEncryptionKey",
+    17,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_BYTES,
+    offsetof(Wa__HistorySync, has_shareablechatidentifierencryptionkey),
+    offsetof(Wa__HistorySync, shareablechatidentifierencryptionkey),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "accounts",
+    18,
+    PROTOBUF_C_LABEL_REPEATED,
+    PROTOBUF_C_TYPE_MESSAGE,
+    offsetof(Wa__HistorySync, n_accounts),
+    offsetof(Wa__HistorySync, accounts),
+    &wa__account__descriptor,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
 };
 static const unsigned wa__history_sync__field_indices_by_name[] = {
+  16,   /* field[16] = accounts */
+  12,   /* field[12] = aiWaitListState */
+  11,   /* field[11] = callLogRecords */
   3,   /* field[3] = chunkOrder */
+  14,   /* field[14] = companionMetaNonce */
   1,   /* field[1] = conversations */
   6,   /* field[6] = globalSettings */
   10,   /* field[10] = pastParticipants */
+  13,   /* field[13] = phoneNumberToLidMappings */
   4,   /* field[4] = progress */
   5,   /* field[5] = pushnames */
   9,   /* field[9] = recentStickers */
+  15,   /* field[15] = shareableChatIdentifierEncryptionKey */
   2,   /* field[2] = statusV3Messages */
   0,   /* field[0] = syncType */
   8,   /* field[8] = threadDsTimeframeOffset */
@@ -8402,7 +9364,7 @@ static const ProtobufCIntRange wa__history_sync__number_ranges[2 + 1] =
 {
   { 1, 0 },
   { 5, 3 },
-  { 0, 11 }
+  { 0, 17 }
 };
 const ProtobufCMessageDescriptor wa__history_sync__descriptor =
 {
@@ -8412,7 +9374,7 @@ const ProtobufCMessageDescriptor wa__history_sync__descriptor =
   "Wa__HistorySync",
   "wa",
   sizeof(Wa__HistorySync),
-  11,
+  17,
   wa__history_sync__field_descriptors,
   wa__history_sync__field_indices_by_name,
   2,  wa__history_sync__number_ranges,
@@ -19696,6 +20658,56 @@ const ProtobufCMessageDescriptor wa__pending_pre_key__descriptor =
   wa__pending_pre_key__field_descriptors,
   wa__pending_pre_key__field_indices_by_name,
   1,  wa__pending_pre_key__number_ranges,
+  NULL,NULL,NULL,NULL    /* reserved[123] */
+};
+static const ProtobufCFieldDescriptor wa__phone_number_to_lidmapping__field_descriptors[2] =
+{
+  {
+    "pnJid",
+    1,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__PhoneNumberToLIDMapping, pnjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+  {
+    "lidJid",
+    2,
+    PROTOBUF_C_LABEL_OPTIONAL,
+    PROTOBUF_C_TYPE_STRING,
+    0,   /* quantifier_offset */
+    offsetof(Wa__PhoneNumberToLIDMapping, lidjid),
+    NULL,
+    NULL,
+    0,             /* flags */
+    0,NULL,NULL    /* reserved1,reserved2, etc */
+  },
+};
+static const unsigned wa__phone_number_to_lidmapping__field_indices_by_name[] = {
+  1,   /* field[1] = lidJid */
+  0,   /* field[0] = pnJid */
+};
+static const ProtobufCIntRange wa__phone_number_to_lidmapping__number_ranges[1 + 1] =
+{
+  { 1, 0 },
+  { 0, 2 }
+};
+const ProtobufCMessageDescriptor wa__phone_number_to_lidmapping__descriptor =
+{
+  PROTOBUF_C__MESSAGE_DESCRIPTOR_MAGIC,
+  "wa.PhoneNumberToLIDMapping",
+  "PhoneNumberToLIDMapping",
+  "Wa__PhoneNumberToLIDMapping",
+  "wa",
+  sizeof(Wa__PhoneNumberToLIDMapping),
+  2,
+  wa__phone_number_to_lidmapping__field_descriptors,
+  wa__phone_number_to_lidmapping__field_indices_by_name,
+  1,  wa__phone_number_to_lidmapping__number_ranges,
   NULL,NULL,NULL,NULL    /* reserved[123] */
 };
 static const ProtobufCFieldDescriptor wa__photo_change__field_descriptors[3] =

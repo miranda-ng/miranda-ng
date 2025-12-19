@@ -20,11 +20,14 @@ struct Wa__ADVKeyIndexList;
 struct Wa__ADVSignedDeviceIdentity;
 struct Wa__ADVSignedDeviceIdentityHMAC;
 struct Wa__ADVSignedKeyIndexList;
+struct Wa__Account;
 struct Wa__ActionLink;
 struct Wa__AutoDownloadSettings;
 struct Wa__BizAccountLinkInfo;
 struct Wa__BizAccountPayload;
 struct Wa__BizIdentityInfo;
+struct Wa__CallLogRecord;
+struct Wa__CallLogRecord__ParticipantInfo;
 struct Wa__CertChain;
 struct Wa__CertChain__NoiseCertificate;
 struct Wa__CertChain__NoiseCertificate__Details;
@@ -44,6 +47,7 @@ struct Wa__Conversation;
 struct Wa__DeviceListMetadata;
 struct Wa__DeviceProps;
 struct Wa__DeviceProps__AppVersion;
+struct Wa__DeviceProps__HistorySyncConfig;
 struct Wa__DisappearingMode;
 struct Wa__EphemeralSetting;
 struct Wa__ExitCode;
@@ -169,6 +173,7 @@ struct Wa__PaymentBackground__MediaData;
 struct Wa__PaymentInfo;
 struct Wa__PendingKeyExchange;
 struct Wa__PendingPreKey;
+struct Wa__PhoneNumberToLIDMapping;
 struct Wa__PhotoChange;
 struct Wa__Point;
 struct Wa__PollAdditionalMetadata;
@@ -273,6 +278,36 @@ typedef enum _Wa__BizIdentityInfo__VerifiedLevelValue
   WA__BIZ_IDENTITY_INFO__VERIFIED_LEVEL_VALUE__HIGH = 2
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__BIZ_IDENTITY_INFO__VERIFIED_LEVEL_VALUE)
 } Wa__BizIdentityInfo__VerifiedLevelValue;
+typedef enum _Wa__CallLogRecord__CallResult
+{
+  WA__CALL_LOG_RECORD__CALL_RESULT__CONNECTED = 0,
+  WA__CALL_LOG_RECORD__CALL_RESULT__REJECTED = 1,
+  WA__CALL_LOG_RECORD__CALL_RESULT__CANCELLED = 2,
+  WA__CALL_LOG_RECORD__CALL_RESULT__ACCEPTEDELSEWHERE = 3,
+  WA__CALL_LOG_RECORD__CALL_RESULT__MISSED = 4,
+  WA__CALL_LOG_RECORD__CALL_RESULT__INVALID = 5,
+  WA__CALL_LOG_RECORD__CALL_RESULT__UNAVAILABLE = 6,
+  WA__CALL_LOG_RECORD__CALL_RESULT__UPCOMING = 7,
+  WA__CALL_LOG_RECORD__CALL_RESULT__FAILED = 8,
+  WA__CALL_LOG_RECORD__CALL_RESULT__ABANDONED = 9,
+  WA__CALL_LOG_RECORD__CALL_RESULT__ONGOING = 10
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CALL_LOG_RECORD__CALL_RESULT)
+} Wa__CallLogRecord__CallResult;
+typedef enum _Wa__CallLogRecord__CallType
+{
+  WA__CALL_LOG_RECORD__CALL_TYPE__REGULAR = 0,
+  WA__CALL_LOG_RECORD__CALL_TYPE__SCHEDULED_CALL = 1,
+  WA__CALL_LOG_RECORD__CALL_TYPE__VOICE_CHAT = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CALL_LOG_RECORD__CALL_TYPE)
+} Wa__CallLogRecord__CallType;
+typedef enum _Wa__CallLogRecord__SilenceReason
+{
+  WA__CALL_LOG_RECORD__SILENCE_REASON__NONE = 0,
+  WA__CALL_LOG_RECORD__SILENCE_REASON__SCHEDULED = 1,
+  WA__CALL_LOG_RECORD__SILENCE_REASON__PRIVACY = 2,
+  WA__CALL_LOG_RECORD__SILENCE_REASON__LIGHTWEIGHT = 3
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CALL_LOG_RECORD__SILENCE_REASON)
+} Wa__CallLogRecord__SilenceReason;
 typedef enum _Wa__ClientPayload__DNSSource__DNSResolutionMethod
 {
   WA__CLIENT_PAYLOAD__DNSSOURCE__DNSRESOLUTION_METHOD__SYSTEM = 0,
@@ -426,6 +461,12 @@ typedef enum _Wa__GroupParticipant__Rank
   WA__GROUP_PARTICIPANT__RANK__SUPERADMIN = 2
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__GROUP_PARTICIPANT__RANK)
 } Wa__GroupParticipant__Rank;
+typedef enum _Wa__HistorySync__BotAIWaitListState
+{
+  WA__HISTORY_SYNC__BOT_AIWAIT_LIST_STATE__IN_WAITLIST = 0,
+  WA__HISTORY_SYNC__BOT_AIWAIT_LIST_STATE__AI_AVAILABLE = 1
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__HISTORY_SYNC__BOT_AIWAIT_LIST_STATE)
+} Wa__HistorySync__BotAIWaitListState;
 typedef enum _Wa__HistorySync__HistorySyncType
 {
   WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_BOOTSTRAP = 0,
@@ -433,7 +474,8 @@ typedef enum _Wa__HistorySync__HistorySyncType
   WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__FULL = 2,
   WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__RECENT = 3,
   WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__PUSH_NAME = 4,
-  WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__UNBLOCKING_DATA = 5
+  WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__NON_BLOCKING_DATA = 5,
+  WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__ON_DEMAND = 6
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__HISTORY_SYNC__HISTORY_SYNC_TYPE)
 } Wa__HistorySync__HistorySyncType;
 typedef enum _Wa__MediaRetryNotification__ResultType
@@ -878,6 +920,7 @@ extern const ProtobufCMessageDescriptor wa__advkey_index_list__descriptor;
 extern const ProtobufCMessageDescriptor wa__advsigned_device_identity__descriptor;
 extern const ProtobufCMessageDescriptor wa__advsigned_device_identity_hmac__descriptor;
 extern const ProtobufCMessageDescriptor wa__advsigned_key_index_list__descriptor;
+extern const ProtobufCMessageDescriptor wa__account__descriptor;
 extern const ProtobufCMessageDescriptor wa__action_link__descriptor;
 extern const ProtobufCMessageDescriptor wa__auto_download_settings__descriptor;
 extern const ProtobufCMessageDescriptor wa__biz_account_link_info__descriptor;
@@ -888,6 +931,11 @@ extern const ProtobufCMessageDescriptor wa__biz_identity_info__descriptor;
 extern const ProtobufCEnumDescriptor    wa__biz_identity_info__actual_actors_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__biz_identity_info__host_storage_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__biz_identity_info__verified_level_value__descriptor;
+extern const ProtobufCMessageDescriptor wa__call_log_record__descriptor;
+extern const ProtobufCMessageDescriptor wa__call_log_record__participant_info__descriptor;
+extern const ProtobufCEnumDescriptor    wa__call_log_record__call_result__descriptor;
+extern const ProtobufCEnumDescriptor    wa__call_log_record__call_type__descriptor;
+extern const ProtobufCEnumDescriptor    wa__call_log_record__silence_reason__descriptor;
 extern const ProtobufCMessageDescriptor wa__cert_chain__descriptor;
 extern const ProtobufCMessageDescriptor wa__cert_chain__noise_certificate__descriptor;
 extern const ProtobufCMessageDescriptor wa__cert_chain__noise_certificate__details__descriptor;
@@ -918,6 +966,7 @@ extern const ProtobufCEnumDescriptor    wa__conversation__end_of_history_transfe
 extern const ProtobufCMessageDescriptor wa__device_list_metadata__descriptor;
 extern const ProtobufCMessageDescriptor wa__device_props__descriptor;
 extern const ProtobufCMessageDescriptor wa__device_props__app_version__descriptor;
+extern const ProtobufCMessageDescriptor wa__device_props__history_sync_config__descriptor;
 extern const ProtobufCEnumDescriptor    wa__device_props__platform_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__disappearing_mode__descriptor;
 extern const ProtobufCEnumDescriptor    wa__disappearing_mode__initiator__descriptor;
@@ -932,6 +981,7 @@ extern const ProtobufCMessageDescriptor wa__handshake_message__client_finish__de
 extern const ProtobufCMessageDescriptor wa__handshake_message__client_hello__descriptor;
 extern const ProtobufCMessageDescriptor wa__handshake_message__server_hello__descriptor;
 extern const ProtobufCMessageDescriptor wa__history_sync__descriptor;
+extern const ProtobufCEnumDescriptor    wa__history_sync__bot_aiwait_list_state__descriptor;
 extern const ProtobufCEnumDescriptor    wa__history_sync__history_sync_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__history_sync_msg__descriptor;
 extern const ProtobufCMessageDescriptor wa__hydrated_template_button__descriptor;
@@ -1073,6 +1123,7 @@ extern const ProtobufCEnumDescriptor    wa__payment_info__status__descriptor;
 extern const ProtobufCEnumDescriptor    wa__payment_info__txn_status__descriptor;
 extern const ProtobufCMessageDescriptor wa__pending_key_exchange__descriptor;
 extern const ProtobufCMessageDescriptor wa__pending_pre_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__phone_number_to_lidmapping__descriptor;
 extern const ProtobufCMessageDescriptor wa__photo_change__descriptor;
 extern const ProtobufCMessageDescriptor wa__point__descriptor;
 extern const ProtobufCMessageDescriptor wa__poll_additional_metadata__descriptor;
@@ -1231,6 +1282,19 @@ struct Wa__ADVSignedKeyIndexList : public ProtobufCppMessage
   ProtobufCBinaryData accountsignature;
 };
 
+struct Wa__Account : public ProtobufCppMessage
+{
+	Wa__Account() :
+		ProtobufCppMessage(wa__account__descriptor)
+	{}
+
+  char *lid;
+  char *username;
+  char *countrycode;
+  protobuf_c_boolean has_isusernamedeleted;
+  protobuf_c_boolean isusernamedeleted;
+};
+
 struct Wa__ActionLink : public ProtobufCppMessage
 {
 	Wa__ActionLink() :
@@ -1306,6 +1370,50 @@ struct Wa__BizIdentityInfo : public ProtobufCppMessage
   uint64_t privacymodets;
   protobuf_c_boolean has_featurecontrols;
   uint64_t featurecontrols;
+};
+
+struct Wa__CallLogRecord__ParticipantInfo : public ProtobufCppMessage
+{
+	Wa__CallLogRecord__ParticipantInfo() :
+		ProtobufCppMessage(wa__call_log_record__participant_info__descriptor)
+	{}
+
+  char *userjid;
+  protobuf_c_boolean has_callresult;
+  Wa__CallLogRecord__CallResult callresult;
+};
+
+struct Wa__CallLogRecord : public ProtobufCppMessage
+{
+	Wa__CallLogRecord() :
+		ProtobufCppMessage(wa__call_log_record__descriptor)
+	{}
+
+  protobuf_c_boolean has_callresult;
+  Wa__CallLogRecord__CallResult callresult;
+  protobuf_c_boolean has_isdndmode;
+  protobuf_c_boolean isdndmode;
+  protobuf_c_boolean has_silencereason;
+  Wa__CallLogRecord__SilenceReason silencereason;
+  protobuf_c_boolean has_duration;
+  int64_t duration;
+  protobuf_c_boolean has_starttime;
+  int64_t starttime;
+  protobuf_c_boolean has_isincoming;
+  protobuf_c_boolean isincoming;
+  protobuf_c_boolean has_isvideo;
+  protobuf_c_boolean isvideo;
+  protobuf_c_boolean has_iscalllink;
+  protobuf_c_boolean iscalllink;
+  char *calllinktoken;
+  char *scheduledcallid;
+  char *callid;
+  char *callcreatorjid;
+  char *groupjid;
+  size_t n_participants;
+  Wa__CallLogRecord__ParticipantInfo **participants;
+  protobuf_c_boolean has_calltype;
+  Wa__CallLogRecord__CallType calltype;
 };
 
 struct Wa__CertChain__NoiseCertificate__Details : public ProtobufCppMessage
@@ -1738,6 +1846,52 @@ struct Wa__DeviceProps__AppVersion : public ProtobufCppMessage
   uint32_t quinary;
 };
 
+struct Wa__DeviceProps__HistorySyncConfig : public ProtobufCppMessage
+{
+	Wa__DeviceProps__HistorySyncConfig() :
+		ProtobufCppMessage(wa__device_props__history_sync_config__descriptor)
+	{}
+
+  protobuf_c_boolean has_fullsyncdayslimit;
+  uint32_t fullsyncdayslimit;
+  protobuf_c_boolean has_fullsyncsizemblimit;
+  uint32_t fullsyncsizemblimit;
+  protobuf_c_boolean has_storagequotamb;
+  uint32_t storagequotamb;
+  protobuf_c_boolean has_inlineinitialpayloadine2eemsg;
+  protobuf_c_boolean inlineinitialpayloadine2eemsg;
+  protobuf_c_boolean has_recentsyncdayslimit;
+  uint32_t recentsyncdayslimit;
+  protobuf_c_boolean has_supportcallloghistory;
+  protobuf_c_boolean supportcallloghistory;
+  protobuf_c_boolean has_supportbotuseragentchathistory;
+  protobuf_c_boolean supportbotuseragentchathistory;
+  protobuf_c_boolean has_supportcagreactionsandpolls;
+  protobuf_c_boolean supportcagreactionsandpolls;
+  protobuf_c_boolean has_supportbizhostedmsg;
+  protobuf_c_boolean supportbizhostedmsg;
+  protobuf_c_boolean has_supportrecentsyncchunkmessagecounttuning;
+  protobuf_c_boolean supportrecentsyncchunkmessagecounttuning;
+  protobuf_c_boolean has_supporthostedgroupmsg;
+  protobuf_c_boolean supporthostedgroupmsg;
+  protobuf_c_boolean has_supportfbidbotchathistory;
+  protobuf_c_boolean supportfbidbotchathistory;
+  protobuf_c_boolean has_supportaddonhistorysyncmigration;
+  protobuf_c_boolean supportaddonhistorysyncmigration;
+  protobuf_c_boolean has_supportmessageassociation;
+  protobuf_c_boolean supportmessageassociation;
+  protobuf_c_boolean has_supportgrouphistory;
+  protobuf_c_boolean supportgrouphistory;
+  protobuf_c_boolean has_ondemandready;
+  protobuf_c_boolean ondemandready;
+  protobuf_c_boolean has_supportguestchat;
+  protobuf_c_boolean supportguestchat;
+  protobuf_c_boolean has_completeondemandready;
+  protobuf_c_boolean completeondemandready;
+  protobuf_c_boolean has_thumbnailsyncdayslimit;
+  uint32_t thumbnailsyncdayslimit;
+};
+
 struct Wa__DeviceProps : public ProtobufCppMessage
 {
 	Wa__DeviceProps() :
@@ -1750,6 +1904,7 @@ struct Wa__DeviceProps : public ProtobufCppMessage
   Wa__DeviceProps__PlatformType platformtype;
   protobuf_c_boolean has_requirefullsync;
   protobuf_c_boolean requirefullsync;
+  Wa__DeviceProps__HistorySyncConfig *historysyncconfig;
 };
 
 struct Wa__DisappearingMode : public ProtobufCppMessage
@@ -1914,6 +2069,17 @@ struct Wa__HistorySync : public ProtobufCppMessage
   Wa__StickerMetadata **recentstickers;
   size_t n_pastparticipants;
   Wa__PastParticipants **pastparticipants;
+  size_t n_calllogrecords;
+  Wa__CallLogRecord **calllogrecords;
+  protobuf_c_boolean has_aiwaitliststate;
+  Wa__HistorySync__BotAIWaitListState aiwaitliststate;
+  size_t n_phonenumbertolidmappings;
+  Wa__PhoneNumberToLIDMapping **phonenumbertolidmappings;
+  char *companionmetanonce;
+  protobuf_c_boolean has_shareablechatidentifierencryptionkey;
+  ProtobufCBinaryData shareablechatidentifierencryptionkey;
+  size_t n_accounts;
+  Wa__Account **accounts;
 };
 
 struct Wa__HistorySyncMsg : public ProtobufCppMessage
@@ -3813,6 +3979,16 @@ struct Wa__PendingPreKey : public ProtobufCppMessage
   ProtobufCBinaryData basekey;
 };
 
+struct Wa__PhoneNumberToLIDMapping : public ProtobufCppMessage
+{
+	Wa__PhoneNumberToLIDMapping() :
+		ProtobufCppMessage(wa__phone_number_to_lidmapping__descriptor)
+	{}
+
+  char *pnjid;
+  char *lidjid;
+};
+
 struct Wa__PhotoChange : public ProtobufCppMessage
 {
 	Wa__PhotoChange() :
@@ -4971,6 +5147,25 @@ Wa__ADVSignedKeyIndexList *
 void   wa__advsigned_key_index_list__free_unpacked
                      (Wa__ADVSignedKeyIndexList *message,
                       ProtobufCAllocator *allocator);
+/* Wa__Account methods */
+void   wa__account__init
+                     (Wa__Account         *message);
+size_t wa__account__get_packed_size
+                     (const Wa__Account   *message);
+size_t wa__account__pack
+                     (const Wa__Account   *message,
+                      uint8_t             *out);
+size_t wa__account__pack_to_buffer
+                     (const Wa__Account   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__Account *
+       wa__account__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__account__free_unpacked
+                     (Wa__Account *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__ActionLink methods */
 void   wa__action_link__init
                      (Wa__ActionLink         *message);
@@ -5065,6 +5260,28 @@ Wa__BizIdentityInfo *
                       const uint8_t       *data);
 void   wa__biz_identity_info__free_unpacked
                      (Wa__BizIdentityInfo *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__CallLogRecord__ParticipantInfo methods */
+void   wa__call_log_record__participant_info__init
+                     (Wa__CallLogRecord__ParticipantInfo         *message);
+/* Wa__CallLogRecord methods */
+void   wa__call_log_record__init
+                     (Wa__CallLogRecord         *message);
+size_t wa__call_log_record__get_packed_size
+                     (const Wa__CallLogRecord   *message);
+size_t wa__call_log_record__pack
+                     (const Wa__CallLogRecord   *message,
+                      uint8_t             *out);
+size_t wa__call_log_record__pack_to_buffer
+                     (const Wa__CallLogRecord   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__CallLogRecord *
+       wa__call_log_record__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__call_log_record__free_unpacked
+                     (Wa__CallLogRecord *message,
                       ProtobufCAllocator *allocator);
 /* Wa__CertChain__NoiseCertificate__Details methods */
 void   wa__cert_chain__noise_certificate__details__init
@@ -5232,6 +5449,9 @@ void   wa__device_list_metadata__free_unpacked
 /* Wa__DeviceProps__AppVersion methods */
 void   wa__device_props__app_version__init
                      (Wa__DeviceProps__AppVersion         *message);
+/* Wa__DeviceProps__HistorySyncConfig methods */
+void   wa__device_props__history_sync_config__init
+                     (Wa__DeviceProps__HistorySyncConfig         *message);
 /* Wa__DeviceProps methods */
 void   wa__device_props__init
                      (Wa__DeviceProps         *message);
@@ -6138,6 +6358,25 @@ Wa__PendingPreKey *
 void   wa__pending_pre_key__free_unpacked
                      (Wa__PendingPreKey *message,
                       ProtobufCAllocator *allocator);
+/* Wa__PhoneNumberToLIDMapping methods */
+void   wa__phone_number_to_lidmapping__init
+                     (Wa__PhoneNumberToLIDMapping         *message);
+size_t wa__phone_number_to_lidmapping__get_packed_size
+                     (const Wa__PhoneNumberToLIDMapping   *message);
+size_t wa__phone_number_to_lidmapping__pack
+                     (const Wa__PhoneNumberToLIDMapping   *message,
+                      uint8_t             *out);
+size_t wa__phone_number_to_lidmapping__pack_to_buffer
+                     (const Wa__PhoneNumberToLIDMapping   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__PhoneNumberToLIDMapping *
+       wa__phone_number_to_lidmapping__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__phone_number_to_lidmapping__free_unpacked
+                     (Wa__PhoneNumberToLIDMapping *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__PhotoChange methods */
 void   wa__photo_change__init
                      (Wa__PhotoChange         *message);
@@ -6957,6 +7196,9 @@ typedef void (*Wa__ADVSignedDeviceIdentityHMAC_Closure)
 typedef void (*Wa__ADVSignedKeyIndexList_Closure)
                  (const Wa__ADVSignedKeyIndexList *message,
                   void *closure_data);
+typedef void (*Wa__Account_Closure)
+                 (const Wa__Account *message,
+                  void *closure_data);
 typedef void (*Wa__ActionLink_Closure)
                  (const Wa__ActionLink *message,
                   void *closure_data);
@@ -6971,6 +7213,12 @@ typedef void (*Wa__BizAccountPayload_Closure)
                   void *closure_data);
 typedef void (*Wa__BizIdentityInfo_Closure)
                  (const Wa__BizIdentityInfo *message,
+                  void *closure_data);
+typedef void (*Wa__CallLogRecord__ParticipantInfo_Closure)
+                 (const Wa__CallLogRecord__ParticipantInfo *message,
+                  void *closure_data);
+typedef void (*Wa__CallLogRecord_Closure)
+                 (const Wa__CallLogRecord *message,
                   void *closure_data);
 typedef void (*Wa__CertChain__NoiseCertificate__Details_Closure)
                  (const Wa__CertChain__NoiseCertificate__Details *message,
@@ -7025,6 +7273,9 @@ typedef void (*Wa__DeviceListMetadata_Closure)
                   void *closure_data);
 typedef void (*Wa__DeviceProps__AppVersion_Closure)
                  (const Wa__DeviceProps__AppVersion *message,
+                  void *closure_data);
+typedef void (*Wa__DeviceProps__HistorySyncConfig_Closure)
+                 (const Wa__DeviceProps__HistorySyncConfig *message,
                   void *closure_data);
 typedef void (*Wa__DeviceProps_Closure)
                  (const Wa__DeviceProps *message,
@@ -7403,6 +7654,9 @@ typedef void (*Wa__PendingKeyExchange_Closure)
                   void *closure_data);
 typedef void (*Wa__PendingPreKey_Closure)
                  (const Wa__PendingPreKey *message,
+                  void *closure_data);
+typedef void (*Wa__PhoneNumberToLIDMapping_Closure)
+                 (const Wa__PhoneNumberToLIDMapping *message,
                   void *closure_data);
 typedef void (*Wa__PhotoChange_Closure)
                  (const Wa__PhotoChange *message,

@@ -31,6 +31,13 @@ message ADVSignedKeyIndexList {
     optional bytes accountSignature = 2;
 }
 
+message Account {
+    optional string lid = 1;
+    optional string username = 2;
+    optional string countryCode = 3;
+    optional bool isUsernameDeleted = 4;
+}
+
 message ActionLink {
     optional string url = 1;
     optional string buttonTitle = 2;
@@ -84,6 +91,53 @@ message BizIdentityInfo {
         UNKNOWN = 0;
         LOW = 1;
         HIGH = 2;
+    }
+}
+
+message CallLogRecord {
+    optional CallResult callResult = 1;
+    optional bool isDndMode = 2;
+    optional SilenceReason silenceReason = 3;
+    optional int64 duration = 4;
+    optional int64 startTime = 5;
+    optional bool isIncoming = 6;
+    optional bool isVideo = 7;
+    optional bool isCallLink = 8;
+    optional string callLinkToken = 9;
+    optional string scheduledCallId = 10;
+    optional string callId = 11;
+    optional string callCreatorJid = 12;
+    optional string groupJid = 13;
+    repeated ParticipantInfo participants = 14;
+    optional CallType callType = 15;
+    enum CallResult {
+        CONNECTED = 0;
+        REJECTED = 1;
+        CANCELLED = 2;
+        ACCEPTEDELSEWHERE = 3;
+        MISSED = 4;
+        INVALID = 5;
+        UNAVAILABLE = 6;
+        UPCOMING = 7;
+        FAILED = 8;
+        ABANDONED = 9;
+        ONGOING = 10;
+    }
+    enum CallType {
+        REGULAR = 0;
+        SCHEDULED_CALL = 1;
+        VOICE_CHAT = 2;
+    }
+    message ParticipantInfo {
+        optional string userJid = 1;
+        optional CallLogRecord.CallResult callResult = 2;
+    }
+
+    enum SilenceReason {
+        NONE = 0;
+        SCHEDULED = 1;
+        PRIVACY = 2;
+        LIGHTWEIGHT = 3;
     }
 }
 
@@ -409,6 +463,7 @@ message DeviceProps {
     optional AppVersion version = 2;
     optional PlatformType platformType = 3;
     optional bool requireFullSync = 4;
+    optional HistorySyncConfig historySyncConfig = 5;
     message AppVersion {
         optional uint32 primary = 1;
         optional uint32 secondary = 2;
@@ -417,6 +472,28 @@ message DeviceProps {
         optional uint32 quinary = 5;
     }
     
+    message HistorySyncConfig {
+        optional uint32 fullSyncDaysLimit = 1;
+        optional uint32 fullSyncSizeMbLimit = 2;
+        optional uint32 storageQuotaMb = 3;
+        optional bool inlineInitialPayloadInE2EeMsg = 4;
+        optional uint32 recentSyncDaysLimit = 5;
+        optional bool supportCallLogHistory = 6;
+        optional bool supportBotUserAgentChatHistory = 7;
+        optional bool supportCagReactionsAndPolls = 8;
+        optional bool supportBizHostedMsg = 9;
+        optional bool supportRecentSyncChunkMessageCountTuning = 10;
+        optional bool supportHostedGroupMsg = 11;
+        optional bool supportFbidBotChatHistory = 12;
+        optional bool supportAddOnHistorySyncMigration = 13;
+        optional bool supportMessageAssociation = 14;
+        optional bool supportGroupHistory = 15;
+        optional bool onDemandReady = 16;
+        optional bool supportGuestChat = 17;
+        optional bool completeOnDemandReady = 18;
+        optional uint32 thumbnailSyncDaysLimit = 19;
+    }
+
     enum PlatformType {
         UNKNOWN = 0;
         CHROME = 1;
@@ -521,13 +598,24 @@ message HistorySync {
     optional uint32 threadDsTimeframeOffset = 10;
     repeated StickerMetadata recentStickers = 11;
     repeated PastParticipants pastParticipants = 12;
+    repeated CallLogRecord callLogRecords = 13;
+    optional BotAIWaitListState aiWaitListState = 14;
+    repeated PhoneNumberToLIDMapping phoneNumberToLidMappings = 15;
+    optional string companionMetaNonce = 16;
+    optional bytes shareableChatIdentifierEncryptionKey = 17;
+    repeated Account accounts = 18;
+    enum BotAIWaitListState {
+        IN_WAITLIST = 0;
+        AI_AVAILABLE = 1;
+    }
     enum HistorySyncType {
         INITIAL_BOOTSTRAP = 0;
         INITIAL_STATUS_V3 = 1;
         FULL = 2;
         RECENT = 3;
         PUSH_NAME = 4;
-        UNBLOCKING_DATA = 5;
+        NON_BLOCKING_DATA = 5;
+        ON_DEMAND = 6;
     }
 }
 
@@ -1673,6 +1761,11 @@ message PendingPreKey {
     optional uint32 preKeyId = 1;
     optional int32 signedPreKeyId = 3;
     optional bytes baseKey = 2;
+}
+
+message PhoneNumberToLIDMapping {
+    optional string pnJid = 1;
+    optional string lidJid = 2;
 }
 
 message PhotoChange {
