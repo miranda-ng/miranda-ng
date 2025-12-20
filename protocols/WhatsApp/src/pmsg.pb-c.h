@@ -20,39 +20,54 @@ struct Wa__ADVKeyIndexList;
 struct Wa__ADVSignedDeviceIdentity;
 struct Wa__ADVSignedDeviceIdentityHMAC;
 struct Wa__ADVSignedKeyIndexList;
-struct Wa__Account;
 struct Wa__ActionLink;
 struct Wa__AutoDownloadSettings;
+struct Wa__AvatarUserSettings;
 struct Wa__BizAccountLinkInfo;
 struct Wa__BizAccountPayload;
 struct Wa__BizIdentityInfo;
+struct Wa__BotAvatarMetadata;
+struct Wa__BotMetadata;
+struct Wa__BotPluginMetadata;
+struct Wa__BotSuggestedPromptMetadata;
 struct Wa__CallLogRecord;
 struct Wa__CallLogRecord__ParticipantInfo;
 struct Wa__CertChain;
 struct Wa__CertChain__NoiseCertificate;
 struct Wa__CertChain__NoiseCertificate__Details;
-struct Wa__Chain;
-struct Wa__ChainKey;
+struct Wa__ChatRowOpaqueData;
+struct Wa__ChatRowOpaqueData__DraftMessage;
+struct Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData;
+struct Wa__ChatRowOpaqueData__DraftMessage__CtwaContextLinkData;
 struct Wa__ClientPayload;
 struct Wa__ClientPayload__DNSSource;
 struct Wa__ClientPayload__DevicePairingRegistrationData;
+struct Wa__ClientPayload__InteropData;
 struct Wa__ClientPayload__UserAgent;
 struct Wa__ClientPayload__UserAgent__AppVersion;
 struct Wa__ClientPayload__WebInfo;
 struct Wa__ClientPayload__WebInfo__WebdPayload;
+struct Wa__CommentMetadata;
 struct Wa__ContextInfo;
 struct Wa__ContextInfo__AdReplyInfo;
+struct Wa__ContextInfo__BusinessMessageForwardInfo;
+struct Wa__ContextInfo__DataSharingContext;
 struct Wa__ContextInfo__ExternalAdReplyInfo;
+struct Wa__ContextInfo__ForwardedNewsletterMessageInfo;
+struct Wa__ContextInfo__UTMInfo;
 struct Wa__Conversation;
+struct Wa__DeviceConsistencyCodeMessage;
 struct Wa__DeviceListMetadata;
 struct Wa__DeviceProps;
 struct Wa__DeviceProps__AppVersion;
 struct Wa__DeviceProps__HistorySyncConfig;
 struct Wa__DisappearingMode;
 struct Wa__EphemeralSetting;
+struct Wa__EventResponse;
 struct Wa__ExitCode;
 struct Wa__ExternalBlobReference;
 struct Wa__GlobalSettings;
+struct Wa__GroupMention;
 struct Wa__GroupParticipant;
 struct Wa__HandshakeMessage;
 struct Wa__HandshakeMessage__ClientFinish;
@@ -67,34 +82,52 @@ struct Wa__HydratedTemplateButton__HydratedURLButton;
 struct Wa__IdentityKeyPairStructure;
 struct Wa__InteractiveAnnotation;
 struct Wa__KeepInChat;
+struct Wa__KeyExchangeMessage;
 struct Wa__KeyId;
 struct Wa__LocalizedName;
 struct Wa__Location;
 struct Wa__MediaData;
+struct Wa__MediaEntry;
+struct Wa__MediaEntry__DownloadableThumbnail;
+struct Wa__MediaEntry__ProgressiveJpegDetails;
+struct Wa__MediaNotifyMessage;
 struct Wa__MediaRetryNotification;
 struct Wa__Message;
 struct Wa__Message__AppStateFatalExceptionNotification;
+struct Wa__Message__AppStateSyncKey;
 struct Wa__Message__AppStateSyncKeyData;
 struct Wa__Message__AppStateSyncKeyFingerprint;
 struct Wa__Message__AppStateSyncKeyId;
 struct Wa__Message__AppStateSyncKeyRequest;
 struct Wa__Message__AppStateSyncKeyShare;
-struct Wa__Message__AppStateSyncKey;
 struct Wa__Message__AudioMessage;
+struct Wa__Message__BCallMessage;
+struct Wa__Message__BotFeedbackMessage;
 struct Wa__Message__ButtonsMessage;
 struct Wa__Message__ButtonsMessage__Button;
 struct Wa__Message__ButtonsMessage__Button__ButtonText;
 struct Wa__Message__ButtonsMessage__Button__NativeFlowInfo;
 struct Wa__Message__ButtonsResponseMessage;
 struct Wa__Message__Call;
+struct Wa__Message__CallLogMessage;
+struct Wa__Message__CallLogMessage__CallParticipant;
 struct Wa__Message__CancelPaymentRequestMessage;
 struct Wa__Message__Chat;
+struct Wa__Message__CommentMessage;
 struct Wa__Message__ContactMessage;
 struct Wa__Message__ContactsArrayMessage;
 struct Wa__Message__DeclinePaymentRequestMessage;
 struct Wa__Message__DeviceSentMessage;
 struct Wa__Message__DocumentMessage;
+struct Wa__Message__EncCommentMessage;
+struct Wa__Message__EncEventUpdateMessage;
+struct Wa__Message__EncReactionMessage;
+struct Wa__Message__EventEditMessage;
+struct Wa__Message__EventMessage;
+struct Wa__Message__EventResponseMessage;
+struct Wa__Message__EventUpdateMessage;
 struct Wa__Message__ExtendedTextMessage;
+struct Wa__Message__ExtendedTextMessageWithParentKey;
 struct Wa__Message__FutureProofMessage;
 struct Wa__Message__GroupInviteMessage;
 struct Wa__Message__HighlyStructuredMessage;
@@ -108,6 +141,7 @@ struct Wa__Message__ImageMessage;
 struct Wa__Message__InitialSecurityNotificationSettingSync;
 struct Wa__Message__InteractiveMessage;
 struct Wa__Message__InteractiveMessage__Body;
+struct Wa__Message__InteractiveMessage__CarouselMessage;
 struct Wa__Message__InteractiveMessage__CollectionMessage;
 struct Wa__Message__InteractiveMessage__Footer;
 struct Wa__Message__InteractiveMessage__Header;
@@ -120,34 +154,48 @@ struct Wa__Message__InteractiveResponseMessage__NativeFlowResponseMessage;
 struct Wa__Message__InvoiceMessage;
 struct Wa__Message__KeepInChatMessage;
 struct Wa__Message__ListMessage;
+struct Wa__Message__ListMessage__Product;
 struct Wa__Message__ListMessage__ProductListHeaderImage;
 struct Wa__Message__ListMessage__ProductListInfo;
 struct Wa__Message__ListMessage__ProductSection;
-struct Wa__Message__ListMessage__Product;
 struct Wa__Message__ListMessage__Row;
 struct Wa__Message__ListMessage__Section;
 struct Wa__Message__ListResponseMessage;
 struct Wa__Message__ListResponseMessage__SingleSelectReply;
 struct Wa__Message__LiveLocationMessage;
 struct Wa__Message__LocationMessage;
+struct Wa__Message__MessageHistoryBundle;
+struct Wa__Message__NewsletterAdminInviteMessage;
 struct Wa__Message__OrderMessage;
 struct Wa__Message__PaymentInviteMessage;
+struct Wa__Message__PeerDataOperationRequestMessage;
+struct Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest;
+struct Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest;
+struct Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload;
+struct Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview;
+struct Wa__Message__PeerDataOperationRequestResponseMessage;
+struct Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult;
+struct Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse;
+struct Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail;
+struct Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse;
+struct Wa__Message__PinInChatMessage;
+struct Wa__Message__PlaceholderMessage;
 struct Wa__Message__PollCreationMessage;
 struct Wa__Message__PollCreationMessage__Option;
 struct Wa__Message__PollEncValue;
-struct Wa__Message__PollUpdateMessageMetadata;
 struct Wa__Message__PollUpdateMessage;
+struct Wa__Message__PollUpdateMessageMetadata;
 struct Wa__Message__PollVoteMessage;
 struct Wa__Message__ProductMessage;
 struct Wa__Message__ProductMessage__CatalogSnapshot;
 struct Wa__Message__ProductMessage__ProductSnapshot;
 struct Wa__Message__ProtocolMessage;
 struct Wa__Message__ReactionMessage;
-struct Wa__Message__RequestMediaUploadMessage;
-struct Wa__Message__RequestMediaUploadResponseMessage;
-struct Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult;
 struct Wa__Message__RequestPaymentMessage;
 struct Wa__Message__RequestPhoneNumberMessage;
+struct Wa__Message__RequestWelcomeMessageMetadata;
+struct Wa__Message__ScheduledCallCreationMessage;
+struct Wa__Message__ScheduledCallEditMessage;
 struct Wa__Message__SendPaymentMessage;
 struct Wa__Message__SenderKeyDistributionMessage;
 struct Wa__Message__StickerMessage;
@@ -157,8 +205,10 @@ struct Wa__Message__TemplateMessage;
 struct Wa__Message__TemplateMessage__FourRowTemplate;
 struct Wa__Message__TemplateMessage__HydratedFourRowTemplate;
 struct Wa__Message__VideoMessage;
+struct Wa__MessageAddOnContextInfo;
 struct Wa__MessageContextInfo;
 struct Wa__MessageKey;
+struct Wa__MessageSecretMessage;
 struct Wa__Money;
 struct Wa__MsgOpaqueData;
 struct Wa__MsgOpaqueData__PollOption;
@@ -166,31 +216,47 @@ struct Wa__MsgRowOpaqueData;
 struct Wa__NoiseCertificate;
 struct Wa__NoiseCertificate__Details;
 struct Wa__NotificationMessageInfo;
+struct Wa__NotificationSettings;
 struct Wa__PastParticipant;
 struct Wa__PastParticipants;
+struct Wa__PatchDebugData;
 struct Wa__PaymentBackground;
 struct Wa__PaymentBackground__MediaData;
 struct Wa__PaymentInfo;
-struct Wa__PendingKeyExchange;
-struct Wa__PendingPreKey;
 struct Wa__PhoneNumberToLIDMapping;
 struct Wa__PhotoChange;
+struct Wa__PinInChat;
 struct Wa__Point;
 struct Wa__PollAdditionalMetadata;
 struct Wa__PollEncValue;
 struct Wa__PollUpdate;
 struct Wa__PreKeyRecordStructure;
+struct Wa__PreKeySignalMessage;
+struct Wa__PremiumMessageInfo;
 struct Wa__Pushname;
+struct Wa__QP;
+struct Wa__QP__Filter;
+struct Wa__QP__FilterClause;
+struct Wa__QP__FilterParameters;
 struct Wa__Reaction;
 struct Wa__RecentEmojiWeight;
 struct Wa__RecordStructure;
-struct Wa__SenderChainKey;
+struct Wa__ReportingTokenInfo;
+struct Wa__SenderKeyDistributionMessage;
+struct Wa__SenderKeyMessage;
 struct Wa__SenderKeyRecordStructure;
 struct Wa__SenderKeyStateStructure;
-struct Wa__SenderMessageKey;
-struct Wa__SenderSigningKey;
+struct Wa__SenderKeyStateStructure__SenderChainKey;
+struct Wa__SenderKeyStateStructure__SenderMessageKey;
+struct Wa__SenderKeyStateStructure__SenderSigningKey;
 struct Wa__ServerErrorReceipt;
 struct Wa__SessionStructure;
+struct Wa__SessionStructure__Chain;
+struct Wa__SessionStructure__Chain__ChainKey;
+struct Wa__SessionStructure__Chain__MessageKey;
+struct Wa__SessionStructure__PendingKeyExchange;
+struct Wa__SessionStructure__PendingPreKey;
+struct Wa__SignalMessage;
 struct Wa__SignedPreKeyRecordStructure;
 struct Wa__StatusPSA;
 struct Wa__StickerMetadata;
@@ -199,29 +265,46 @@ struct Wa__SyncActionValue;
 struct Wa__SyncActionValue__AgentAction;
 struct Wa__SyncActionValue__AndroidUnsupportedActions;
 struct Wa__SyncActionValue__ArchiveChatAction;
+struct Wa__SyncActionValue__BotWelcomeRequestAction;
+struct Wa__SyncActionValue__CallLogAction;
+struct Wa__SyncActionValue__ChatAssignmentAction;
+struct Wa__SyncActionValue__ChatAssignmentOpenedStatusAction;
 struct Wa__SyncActionValue__ClearChatAction;
 struct Wa__SyncActionValue__ContactAction;
+struct Wa__SyncActionValue__CustomPaymentMethod;
+struct Wa__SyncActionValue__CustomPaymentMethodMetadata;
+struct Wa__SyncActionValue__CustomPaymentMethodsAction;
 struct Wa__SyncActionValue__DeleteChatAction;
+struct Wa__SyncActionValue__DeleteIndividualCallLogAction;
 struct Wa__SyncActionValue__DeleteMessageForMeAction;
+struct Wa__SyncActionValue__ExternalWebBetaAction;
 struct Wa__SyncActionValue__KeyExpiration;
 struct Wa__SyncActionValue__LabelAssociationAction;
 struct Wa__SyncActionValue__LabelEditAction;
+struct Wa__SyncActionValue__LabelReorderingAction;
 struct Wa__SyncActionValue__LocaleSetting;
 struct Wa__SyncActionValue__MarkChatAsReadAction;
+struct Wa__SyncActionValue__MarketingMessageAction;
+struct Wa__SyncActionValue__MarketingMessageBroadcastAction;
 struct Wa__SyncActionValue__MuteAction;
 struct Wa__SyncActionValue__NuxAction;
+struct Wa__SyncActionValue__PaymentInfoAction;
 struct Wa__SyncActionValue__PinAction;
+struct Wa__SyncActionValue__PnForLidChatAction;
 struct Wa__SyncActionValue__PrimaryFeature;
 struct Wa__SyncActionValue__PrimaryVersionAction;
+struct Wa__SyncActionValue__PrivacySettingRelayAllCalls;
 struct Wa__SyncActionValue__PushNameSetting;
 struct Wa__SyncActionValue__QuickReplyAction;
 struct Wa__SyncActionValue__RecentEmojiWeightsAction;
+struct Wa__SyncActionValue__RemoveRecentStickerAction;
 struct Wa__SyncActionValue__SecurityNotificationSetting;
 struct Wa__SyncActionValue__StarAction;
+struct Wa__SyncActionValue__StatusPrivacyAction;
 struct Wa__SyncActionValue__StickerAction;
 struct Wa__SyncActionValue__SubscriptionAction;
-struct Wa__SyncActionValue__SyncActionMessageRange;
 struct Wa__SyncActionValue__SyncActionMessage;
+struct Wa__SyncActionValue__SyncActionMessageRange;
 struct Wa__SyncActionValue__TimeFormatAction;
 struct Wa__SyncActionValue__UnarchiveChatsSetting;
 struct Wa__SyncActionValue__UserStatusMuteAction;
@@ -278,6 +361,18 @@ typedef enum _Wa__BizIdentityInfo__VerifiedLevelValue
   WA__BIZ_IDENTITY_INFO__VERIFIED_LEVEL_VALUE__HIGH = 2
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__BIZ_IDENTITY_INFO__VERIFIED_LEVEL_VALUE)
 } Wa__BizIdentityInfo__VerifiedLevelValue;
+typedef enum _Wa__BotPluginMetadata__PluginType
+{
+  WA__BOT_PLUGIN_METADATA__PLUGIN_TYPE__REELS = 1,
+  WA__BOT_PLUGIN_METADATA__PLUGIN_TYPE__SEARCH = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__BOT_PLUGIN_METADATA__PLUGIN_TYPE)
+} Wa__BotPluginMetadata__PluginType;
+typedef enum _Wa__BotPluginMetadata__SearchProvider
+{
+  WA__BOT_PLUGIN_METADATA__SEARCH_PROVIDER__BING = 1,
+  WA__BOT_PLUGIN_METADATA__SEARCH_PROVIDER__GOOGLE = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__BOT_PLUGIN_METADATA__SEARCH_PROVIDER)
+} Wa__BotPluginMetadata__SearchProvider;
 typedef enum _Wa__CallLogRecord__CallResult
 {
   WA__CALL_LOG_RECORD__CALL_RESULT__CONNECTED = 0,
@@ -308,6 +403,13 @@ typedef enum _Wa__CallLogRecord__SilenceReason
   WA__CALL_LOG_RECORD__SILENCE_REASON__LIGHTWEIGHT = 3
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CALL_LOG_RECORD__SILENCE_REASON)
 } Wa__CallLogRecord__SilenceReason;
+typedef enum _Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData__ContextInfoExternalAdReplyInfoMediaType
+{
+  WA__CHAT_ROW_OPAQUE_DATA__DRAFT_MESSAGE__CTWA_CONTEXT_DATA__CONTEXT_INFO_EXTERNAL_AD_REPLY_INFO_MEDIA_TYPE__NONE = 0,
+  WA__CHAT_ROW_OPAQUE_DATA__DRAFT_MESSAGE__CTWA_CONTEXT_DATA__CONTEXT_INFO_EXTERNAL_AD_REPLY_INFO_MEDIA_TYPE__IMAGE = 1,
+  WA__CHAT_ROW_OPAQUE_DATA__DRAFT_MESSAGE__CTWA_CONTEXT_DATA__CONTEXT_INFO_EXTERNAL_AD_REPLY_INFO_MEDIA_TYPE__VIDEO = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CHAT_ROW_OPAQUE_DATA__DRAFT_MESSAGE__CTWA_CONTEXT_DATA__CONTEXT_INFO_EXTERNAL_AD_REPLY_INFO_MEDIA_TYPE)
+} Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData__ContextInfoExternalAdReplyInfoMediaType;
 typedef enum _Wa__ClientPayload__DNSSource__DNSResolutionMethod
 {
   WA__CLIENT_PAYLOAD__DNSSOURCE__DNSRESOLUTION_METHOD__SYSTEM = 0,
@@ -317,6 +419,15 @@ typedef enum _Wa__ClientPayload__DNSSource__DNSResolutionMethod
   WA__CLIENT_PAYLOAD__DNSSOURCE__DNSRESOLUTION_METHOD__FALLBACK = 4
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CLIENT_PAYLOAD__DNSSOURCE__DNSRESOLUTION_METHOD)
 } Wa__ClientPayload__DNSSource__DNSResolutionMethod;
+typedef enum _Wa__ClientPayload__UserAgent__DeviceType
+{
+  WA__CLIENT_PAYLOAD__USER_AGENT__DEVICE_TYPE__PHONE = 0,
+  WA__CLIENT_PAYLOAD__USER_AGENT__DEVICE_TYPE__TABLET = 1,
+  WA__CLIENT_PAYLOAD__USER_AGENT__DEVICE_TYPE__DESKTOP = 2,
+  WA__CLIENT_PAYLOAD__USER_AGENT__DEVICE_TYPE__WEARABLE = 3,
+  WA__CLIENT_PAYLOAD__USER_AGENT__DEVICE_TYPE__VR = 4
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CLIENT_PAYLOAD__USER_AGENT__DEVICE_TYPE)
+} Wa__ClientPayload__UserAgent__DeviceType;
 typedef enum _Wa__ClientPayload__UserAgent__Platform
 {
   WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__ANDROID = 0,
@@ -347,7 +458,14 @@ typedef enum _Wa__ClientPayload__UserAgent__Platform
   WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__OCULUS_MSG = 25,
   WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__OCULUS_CALL = 26,
   WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__MILAN = 27,
-  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__CAPI = 28
+  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__CAPI = 28,
+  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__WEAROS = 29,
+  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__ARDEVICE = 30,
+  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__VRDEVICE = 31,
+  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__BLUE_WEB = 32,
+  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__IPAD = 33,
+  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__TEST = 34,
+  WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__SMART_GLASSES = 35
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM)
 } Wa__ClientPayload__UserAgent__Platform;
 typedef enum _Wa__ClientPayload__UserAgent__ReleaseChannel
@@ -364,7 +482,7 @@ typedef enum _Wa__ClientPayload__WebInfo__WebSubPlatform
   WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__APP_STORE = 1,
   WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__WIN_STORE = 2,
   WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__DARWIN = 3,
-  WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__WINDA = 4
+  WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__WIN32 = 4
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM)
 } Wa__ClientPayload__WebInfo__WebSubPlatform;
 typedef enum _Wa__ClientPayload__ConnectReason
@@ -374,7 +492,8 @@ typedef enum _Wa__ClientPayload__ConnectReason
   WA__CLIENT_PAYLOAD__CONNECT_REASON__SCHEDULED = 2,
   WA__CLIENT_PAYLOAD__CONNECT_REASON__ERROR_RECONNECT = 3,
   WA__CLIENT_PAYLOAD__CONNECT_REASON__NETWORK_SWITCH = 4,
-  WA__CLIENT_PAYLOAD__CONNECT_REASON__PING_RECONNECT = 5
+  WA__CLIENT_PAYLOAD__CONNECT_REASON__PING_RECONNECT = 5,
+  WA__CLIENT_PAYLOAD__CONNECT_REASON__UNKNOWN = 6
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CLIENT_PAYLOAD__CONNECT_REASON)
 } Wa__ClientPayload__ConnectReason;
 typedef enum _Wa__ClientPayload__ConnectType
@@ -406,7 +525,9 @@ typedef enum _Wa__ClientPayload__IOSAppExtension
 typedef enum _Wa__ClientPayload__Product
 {
   WA__CLIENT_PAYLOAD__PRODUCT__WHATSAPP = 0,
-  WA__CLIENT_PAYLOAD__PRODUCT__MESSENGER = 1
+  WA__CLIENT_PAYLOAD__PRODUCT__MESSENGER = 1,
+  WA__CLIENT_PAYLOAD__PRODUCT__INTEROP = 2,
+  WA__CLIENT_PAYLOAD__PRODUCT__INTEROP_MSGR = 3
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CLIENT_PAYLOAD__PRODUCT)
 } Wa__ClientPayload__Product;
 typedef enum _Wa__ContextInfo__AdReplyInfo__MediaType
@@ -423,10 +544,18 @@ typedef enum _Wa__ContextInfo__ExternalAdReplyInfo__MediaType
   WA__CONTEXT_INFO__EXTERNAL_AD_REPLY_INFO__MEDIA_TYPE__VIDEO = 2
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CONTEXT_INFO__EXTERNAL_AD_REPLY_INFO__MEDIA_TYPE)
 } Wa__ContextInfo__ExternalAdReplyInfo__MediaType;
+typedef enum _Wa__ContextInfo__ForwardedNewsletterMessageInfo__ContentType
+{
+  WA__CONTEXT_INFO__FORWARDED_NEWSLETTER_MESSAGE_INFO__CONTENT_TYPE__UPDATE = 1,
+  WA__CONTEXT_INFO__FORWARDED_NEWSLETTER_MESSAGE_INFO__CONTENT_TYPE__UPDATE_CARD = 2,
+  WA__CONTEXT_INFO__FORWARDED_NEWSLETTER_MESSAGE_INFO__CONTENT_TYPE__LINK_CARD = 3
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CONTEXT_INFO__FORWARDED_NEWSLETTER_MESSAGE_INFO__CONTENT_TYPE)
+} Wa__ContextInfo__ForwardedNewsletterMessageInfo__ContentType;
 typedef enum _Wa__Conversation__EndOfHistoryTransferType
 {
   WA__CONVERSATION__END_OF_HISTORY_TRANSFER_TYPE__COMPLETE_BUT_MORE_MESSAGES_REMAIN_ON_PRIMARY = 0,
-  WA__CONVERSATION__END_OF_HISTORY_TRANSFER_TYPE__COMPLETE_AND_NO_MORE_MESSAGE_REMAIN_ON_PRIMARY = 1
+  WA__CONVERSATION__END_OF_HISTORY_TRANSFER_TYPE__COMPLETE_AND_NO_MORE_MESSAGE_REMAIN_ON_PRIMARY = 1,
+  WA__CONVERSATION__END_OF_HISTORY_TRANSFER_TYPE__COMPLETE_ON_DEMAND_SYNC_BUT_MORE_MSG_REMAIN_ON_PRIMARY = 2
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__CONVERSATION__END_OF_HISTORY_TRANSFER_TYPE)
 } Wa__Conversation__EndOfHistoryTransferType;
 typedef enum _Wa__DeviceProps__PlatformType
@@ -444,16 +573,35 @@ typedef enum _Wa__DeviceProps__PlatformType
   WA__DEVICE_PROPS__PLATFORM_TYPE__OHANA = 10,
   WA__DEVICE_PROPS__PLATFORM_TYPE__ALOHA = 11,
   WA__DEVICE_PROPS__PLATFORM_TYPE__CATALINA = 12,
-  WA__DEVICE_PROPS__PLATFORM_TYPE__TCL_TV = 13
+  WA__DEVICE_PROPS__PLATFORM_TYPE__TCL_TV = 13,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__IOS_PHONE = 14,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__IOS_CATALYST = 15,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__ANDROID_PHONE = 16,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__ANDROID_AMBIGUOUS = 17,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__WEAR_OS = 18,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__AR_WRIST = 19,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__AR_DEVICE = 20,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__UWP = 21,
+  WA__DEVICE_PROPS__PLATFORM_TYPE__VR = 22
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__DEVICE_PROPS__PLATFORM_TYPE)
 } Wa__DeviceProps__PlatformType;
 typedef enum _Wa__DisappearingMode__Initiator
 {
   WA__DISAPPEARING_MODE__INITIATOR__CHANGED_IN_CHAT = 0,
   WA__DISAPPEARING_MODE__INITIATOR__INITIATED_BY_ME = 1,
-  WA__DISAPPEARING_MODE__INITIATOR__INITIATED_BY_OTHER = 2
+  WA__DISAPPEARING_MODE__INITIATOR__INITIATED_BY_OTHER = 2,
+  WA__DISAPPEARING_MODE__INITIATOR__BIZ_UPGRADE_FB_HOSTING = 3
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__DISAPPEARING_MODE__INITIATOR)
 } Wa__DisappearingMode__Initiator;
+typedef enum _Wa__DisappearingMode__Trigger
+{
+  WA__DISAPPEARING_MODE__TRIGGER__UNKNOWN = 0,
+  WA__DISAPPEARING_MODE__TRIGGER__CHAT_SETTING = 1,
+  WA__DISAPPEARING_MODE__TRIGGER__ACCOUNT_SETTING = 2,
+  WA__DISAPPEARING_MODE__TRIGGER__BULK_CHANGE = 3,
+  WA__DISAPPEARING_MODE__TRIGGER__BIZ_SUPPORTS_FB_HOSTING = 4
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__DISAPPEARING_MODE__TRIGGER)
+} Wa__DisappearingMode__Trigger;
 typedef enum _Wa__GroupParticipant__Rank
 {
   WA__GROUP_PARTICIPANT__RANK__REGULAR = 0,
@@ -478,6 +626,13 @@ typedef enum _Wa__HistorySync__HistorySyncType
   WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__ON_DEMAND = 6
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__HISTORY_SYNC__HISTORY_SYNC_TYPE)
 } Wa__HistorySync__HistorySyncType;
+typedef enum _Wa__HydratedTemplateButton__HydratedURLButton__WebviewPresentationType
+{
+  WA__HYDRATED_TEMPLATE_BUTTON__HYDRATED_URLBUTTON__WEBVIEW_PRESENTATION_TYPE__FULL = 1,
+  WA__HYDRATED_TEMPLATE_BUTTON__HYDRATED_URLBUTTON__WEBVIEW_PRESENTATION_TYPE__TALL = 2,
+  WA__HYDRATED_TEMPLATE_BUTTON__HYDRATED_URLBUTTON__WEBVIEW_PRESENTATION_TYPE__COMPACT = 3
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__HYDRATED_TEMPLATE_BUTTON__HYDRATED_URLBUTTON__WEBVIEW_PRESENTATION_TYPE)
+} Wa__HydratedTemplateButton__HydratedURLButton__WebviewPresentationType;
 typedef enum _Wa__MediaRetryNotification__ResultType
 {
   WA__MEDIA_RETRY_NOTIFICATION__RESULT_TYPE__GENERAL_ERROR = 0,
@@ -486,6 +641,45 @@ typedef enum _Wa__MediaRetryNotification__ResultType
   WA__MEDIA_RETRY_NOTIFICATION__RESULT_TYPE__DECRYPTION_ERROR = 3
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MEDIA_RETRY_NOTIFICATION__RESULT_TYPE)
 } Wa__MediaRetryNotification__ResultType;
+typedef enum _Wa__Message__BCallMessage__MediaType
+{
+  WA__MESSAGE__BCALL_MESSAGE__MEDIA_TYPE__UNKNOWN = 0,
+  WA__MESSAGE__BCALL_MESSAGE__MEDIA_TYPE__AUDIO = 1,
+  WA__MESSAGE__BCALL_MESSAGE__MEDIA_TYPE__VIDEO = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__BCALL_MESSAGE__MEDIA_TYPE)
+} Wa__Message__BCallMessage__MediaType;
+typedef enum _Wa__Message__BotFeedbackMessage__BotFeedbackKind
+{
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_POSITIVE = 0,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_GENERIC = 1,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_HELPFUL = 2,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_INTERESTING = 3,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_ACCURATE = 4,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_SAFE = 5,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_OTHER = 6,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_REFUSED = 7,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_NOT_VISUALLY_APPEALING = 8,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND__BOT_FEEDBACK_NEGATIVE_NOT_RELEVANT_TO_TEXT = 9
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND)
+} Wa__Message__BotFeedbackMessage__BotFeedbackKind;
+typedef enum _Wa__Message__BotFeedbackMessage__BotFeedbackKindMultipleNegative
+{
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_GENERIC = 1,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_HELPFUL = 2,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_INTERESTING = 4,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_ACCURATE = 8,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_SAFE = 16,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_OTHER = 32,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_REFUSED = 64,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_NOT_VISUALLY_APPEALING = 128,
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE__BOT_FEEDBACK_MULTIPLE_NEGATIVE_NOT_RELEVANT_TO_TEXT = 256
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_NEGATIVE)
+} Wa__Message__BotFeedbackMessage__BotFeedbackKindMultipleNegative;
+typedef enum _Wa__Message__BotFeedbackMessage__BotFeedbackKindMultiplePositive
+{
+  WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_POSITIVE__BOT_FEEDBACK_MULTIPLE_POSITIVE_GENERIC = 1
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__BOT_FEEDBACK_MESSAGE__BOT_FEEDBACK_KIND_MULTIPLE_POSITIVE)
+} Wa__Message__BotFeedbackMessage__BotFeedbackKindMultiplePositive;
 typedef enum _Wa__Message__ButtonsMessage__Button__Type
 {
   WA__MESSAGE__BUTTONS_MESSAGE__BUTTON__TYPE__UNKNOWN = 0,
@@ -510,14 +704,42 @@ typedef enum _Wa__Message__ButtonsResponseMessage__Type
   WA__MESSAGE__BUTTONS_RESPONSE_MESSAGE__TYPE__DISPLAY_TEXT = 1
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__BUTTONS_RESPONSE_MESSAGE__TYPE)
 } Wa__Message__ButtonsResponseMessage__Type;
+typedef enum _Wa__Message__CallLogMessage__CallOutcome
+{
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME__CONNECTED = 0,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME__MISSED = 1,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME__FAILED = 2,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME__REJECTED = 3,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME__ACCEPTED_ELSEWHERE = 4,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME__ONGOING = 5,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME__SILENCED_BY_DND = 6,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME__SILENCED_UNKNOWN_CALLER = 7
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__CALL_LOG_MESSAGE__CALL_OUTCOME)
+} Wa__Message__CallLogMessage__CallOutcome;
+typedef enum _Wa__Message__CallLogMessage__CallType
+{
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_TYPE__REGULAR = 0,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_TYPE__SCHEDULED_CALL = 1,
+  WA__MESSAGE__CALL_LOG_MESSAGE__CALL_TYPE__VOICE_CHAT = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__CALL_LOG_MESSAGE__CALL_TYPE)
+} Wa__Message__CallLogMessage__CallType;
+typedef enum _Wa__Message__EventResponseMessage__EventResponseType
+{
+  WA__MESSAGE__EVENT_RESPONSE_MESSAGE__EVENT_RESPONSE_TYPE__UNKNOWN = 0,
+  WA__MESSAGE__EVENT_RESPONSE_MESSAGE__EVENT_RESPONSE_TYPE__GOING = 1,
+  WA__MESSAGE__EVENT_RESPONSE_MESSAGE__EVENT_RESPONSE_TYPE__NOT_GOING = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__EVENT_RESPONSE_MESSAGE__EVENT_RESPONSE_TYPE)
+} Wa__Message__EventResponseMessage__EventResponseType;
 typedef enum _Wa__Message__ExtendedTextMessage__FontType
 {
-  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__SANS_SERIF = 0,
-  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__SERIF = 1,
-  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__NORICAN_REGULAR = 2,
-  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__BRYNDAN_WRITE = 3,
-  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__BEBASNEUE_REGULAR = 4,
-  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__OSWALD_HEAVY = 5
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__SYSTEM = 0,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__SYSTEM_TEXT = 1,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__FB_SCRIPT = 2,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__SYSTEM_BOLD = 6,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__MORNINGBREEZE_REGULAR = 7,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__CALISTOGA_REGULAR = 8,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__EXO2_EXTRABOLD = 9,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE__COURIERPRIME_BOLD = 10
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__EXTENDED_TEXT_MESSAGE__FONT_TYPE)
 } Wa__Message__ExtendedTextMessage__FontType;
 typedef enum _Wa__Message__ExtendedTextMessage__InviteLinkGroupType
@@ -531,7 +753,9 @@ typedef enum _Wa__Message__ExtendedTextMessage__InviteLinkGroupType
 typedef enum _Wa__Message__ExtendedTextMessage__PreviewType
 {
   WA__MESSAGE__EXTENDED_TEXT_MESSAGE__PREVIEW_TYPE__NONE = 0,
-  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__PREVIEW_TYPE__VIDEO = 1
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__PREVIEW_TYPE__VIDEO = 1,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__PREVIEW_TYPE__PLACEHOLDER = 4,
+  WA__MESSAGE__EXTENDED_TEXT_MESSAGE__PREVIEW_TYPE__IMAGE = 5
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__EXTENDED_TEXT_MESSAGE__PREVIEW_TYPE)
 } Wa__Message__ExtendedTextMessage__PreviewType;
 typedef enum _Wa__Message__GroupInviteMessage__GroupType
@@ -563,7 +787,9 @@ typedef enum _Wa__Message__HistorySyncNotification__HistorySyncType
   WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__INITIAL_STATUS_V3 = 1,
   WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__FULL = 2,
   WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__RECENT = 3,
-  WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__PUSH_NAME = 4
+  WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__PUSH_NAME = 4,
+  WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__NON_BLOCKING_DATA = 5,
+  WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE__ON_DEMAND = 6
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__HISTORY_SYNC_NOTIFICATION__HISTORY_SYNC_TYPE)
 } Wa__Message__HistorySyncNotification__HistorySyncType;
 typedef enum _Wa__Message__InteractiveMessage__ShopMessage__Surface
@@ -574,6 +800,12 @@ typedef enum _Wa__Message__InteractiveMessage__ShopMessage__Surface
   WA__MESSAGE__INTERACTIVE_MESSAGE__SHOP_MESSAGE__SURFACE__WA = 3
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__INTERACTIVE_MESSAGE__SHOP_MESSAGE__SURFACE)
 } Wa__Message__InteractiveMessage__ShopMessage__Surface;
+typedef enum _Wa__Message__InteractiveResponseMessage__Body__Format
+{
+  WA__MESSAGE__INTERACTIVE_RESPONSE_MESSAGE__BODY__FORMAT__DEFAULT = 0,
+  WA__MESSAGE__INTERACTIVE_RESPONSE_MESSAGE__BODY__FORMAT__EXTENSIONS_1 = 1
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__INTERACTIVE_RESPONSE_MESSAGE__BODY__FORMAT)
+} Wa__Message__InteractiveResponseMessage__Body__Format;
 typedef enum _Wa__Message__InvoiceMessage__AttachmentType
 {
   WA__MESSAGE__INVOICE_MESSAGE__ATTACHMENT_TYPE__IMAGE = 0,
@@ -595,7 +827,9 @@ typedef enum _Wa__Message__ListResponseMessage__ListType
 } Wa__Message__ListResponseMessage__ListType;
 typedef enum _Wa__Message__OrderMessage__OrderStatus
 {
-  WA__MESSAGE__ORDER_MESSAGE__ORDER_STATUS__INQUIRY = 1
+  WA__MESSAGE__ORDER_MESSAGE__ORDER_STATUS__INQUIRY = 1,
+  WA__MESSAGE__ORDER_MESSAGE__ORDER_STATUS__ACCEPTED = 2,
+  WA__MESSAGE__ORDER_MESSAGE__ORDER_STATUS__DECLINED = 3
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__ORDER_MESSAGE__ORDER_STATUS)
 } Wa__Message__OrderMessage__OrderStatus;
 typedef enum _Wa__Message__OrderMessage__OrderSurface
@@ -611,6 +845,18 @@ typedef enum _Wa__Message__PaymentInviteMessage__ServiceType
   WA__MESSAGE__PAYMENT_INVITE_MESSAGE__SERVICE_TYPE__UPI = 3
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__PAYMENT_INVITE_MESSAGE__SERVICE_TYPE)
 } Wa__Message__PaymentInviteMessage__ServiceType;
+typedef enum _Wa__Message__PinInChatMessage__Type
+{
+  WA__MESSAGE__PIN_IN_CHAT_MESSAGE__TYPE__UNKNOWN_TYPE = 0,
+  WA__MESSAGE__PIN_IN_CHAT_MESSAGE__TYPE__PIN_FOR_ALL = 1,
+  WA__MESSAGE__PIN_IN_CHAT_MESSAGE__TYPE__UNPIN_FOR_ALL = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__PIN_IN_CHAT_MESSAGE__TYPE)
+} Wa__Message__PinInChatMessage__Type;
+typedef enum _Wa__Message__PlaceholderMessage__PlaceholderType
+{
+  WA__MESSAGE__PLACEHOLDER_MESSAGE__PLACEHOLDER_TYPE__MASK_LINKED_DEVICES = 0
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__PLACEHOLDER_MESSAGE__PLACEHOLDER_TYPE)
+} Wa__Message__PlaceholderMessage__PlaceholderType;
 typedef enum _Wa__Message__ProtocolMessage__Type
 {
   WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REVOKE = 0,
@@ -623,10 +869,33 @@ typedef enum _Wa__Message__ProtocolMessage__Type
   WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__INITIAL_SECURITY_NOTIFICATION_SETTING_SYNC = 9,
   WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__APP_STATE_FATAL_EXCEPTION_NOTIFICATION = 10,
   WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__SHARE_PHONE_NUMBER = 11,
-  WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REQUEST_MEDIA_UPLOAD_MESSAGE = 12,
-  WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REQUEST_MEDIA_UPLOAD_RESPONSE_MESSAGE = 13
+  WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__MESSAGE_EDIT = 14,
+  WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__PEER_DATA_OPERATION_REQUEST_MESSAGE = 16,
+  WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__PEER_DATA_OPERATION_REQUEST_RESPONSE_MESSAGE = 17,
+  WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REQUEST_WELCOME_MESSAGE = 18,
+  WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__BOT_FEEDBACK_MESSAGE = 19,
+  WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__MEDIA_NOTIFY_MESSAGE = 20
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__PROTOCOL_MESSAGE__TYPE)
 } Wa__Message__ProtocolMessage__Type;
+typedef enum _Wa__Message__RequestWelcomeMessageMetadata__LocalChatState
+{
+  WA__MESSAGE__REQUEST_WELCOME_MESSAGE_METADATA__LOCAL_CHAT_STATE__EMPTY = 0,
+  WA__MESSAGE__REQUEST_WELCOME_MESSAGE_METADATA__LOCAL_CHAT_STATE__NON_EMPTY = 1
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__REQUEST_WELCOME_MESSAGE_METADATA__LOCAL_CHAT_STATE)
+} Wa__Message__RequestWelcomeMessageMetadata__LocalChatState;
+typedef enum _Wa__Message__ScheduledCallCreationMessage__CallType
+{
+  WA__MESSAGE__SCHEDULED_CALL_CREATION_MESSAGE__CALL_TYPE__UNKNOWN = 0,
+  WA__MESSAGE__SCHEDULED_CALL_CREATION_MESSAGE__CALL_TYPE__VOICE = 1,
+  WA__MESSAGE__SCHEDULED_CALL_CREATION_MESSAGE__CALL_TYPE__VIDEO = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__SCHEDULED_CALL_CREATION_MESSAGE__CALL_TYPE)
+} Wa__Message__ScheduledCallCreationMessage__CallType;
+typedef enum _Wa__Message__ScheduledCallEditMessage__EditType
+{
+  WA__MESSAGE__SCHEDULED_CALL_EDIT_MESSAGE__EDIT_TYPE__UNKNOWN = 0,
+  WA__MESSAGE__SCHEDULED_CALL_EDIT_MESSAGE__EDIT_TYPE__CANCEL = 1
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__SCHEDULED_CALL_EDIT_MESSAGE__EDIT_TYPE)
+} Wa__Message__ScheduledCallEditMessage__EditType;
 typedef enum _Wa__Message__VideoMessage__Attribution
 {
   WA__MESSAGE__VIDEO_MESSAGE__ATTRIBUTION__NONE = 0,
@@ -634,18 +903,32 @@ typedef enum _Wa__Message__VideoMessage__Attribution
   WA__MESSAGE__VIDEO_MESSAGE__ATTRIBUTION__TENOR = 2
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__VIDEO_MESSAGE__ATTRIBUTION)
 } Wa__Message__VideoMessage__Attribution;
-typedef enum _Wa__Message__RmrSource
+typedef enum _Wa__Message__PeerDataOperationRequestType
 {
-  WA__MESSAGE__RMR_SOURCE__FAVORITE_STICKER = 0,
-  WA__MESSAGE__RMR_SOURCE__RECENT_STICKER = 1
-  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__RMR_SOURCE)
-} Wa__Message__RmrSource;
+  WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__UPLOAD_STICKER = 0,
+  WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__SEND_RECENT_STICKER_BOOTSTRAP = 1,
+  WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__GENERATE_LINK_PREVIEW = 2,
+  WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__HISTORY_SYNC_ON_DEMAND = 3,
+  WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE__PLACEHOLDER_MESSAGE_RESEND = 4
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__PEER_DATA_OPERATION_REQUEST_TYPE)
+} Wa__Message__PeerDataOperationRequestType;
 typedef enum _Wa__PastParticipant__LeaveReason
 {
   WA__PAST_PARTICIPANT__LEAVE_REASON__LEFT = 0,
   WA__PAST_PARTICIPANT__LEAVE_REASON__REMOVED = 1
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__PAST_PARTICIPANT__LEAVE_REASON)
 } Wa__PastParticipant__LeaveReason;
+typedef enum _Wa__PatchDebugData__Platform
+{
+  WA__PATCH_DEBUG_DATA__PLATFORM__ANDROID = 0,
+  WA__PATCH_DEBUG_DATA__PLATFORM__SMBA = 1,
+  WA__PATCH_DEBUG_DATA__PLATFORM__IPHONE = 2,
+  WA__PATCH_DEBUG_DATA__PLATFORM__SMBI = 3,
+  WA__PATCH_DEBUG_DATA__PLATFORM__WEB = 4,
+  WA__PATCH_DEBUG_DATA__PLATFORM__UWP = 5,
+  WA__PATCH_DEBUG_DATA__PLATFORM__DARWIN = 6
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__PATCH_DEBUG_DATA__PLATFORM)
+} Wa__PatchDebugData__Platform;
 typedef enum _Wa__PaymentBackground__Type
 {
   WA__PAYMENT_BACKGROUND__TYPE__UNKNOWN = 0,
@@ -710,6 +993,45 @@ typedef enum _Wa__PaymentInfo__TxnStatus
   WA__PAYMENT_INFO__TXN_STATUS__REFUND_PENDING = 31
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__PAYMENT_INFO__TXN_STATUS)
 } Wa__PaymentInfo__TxnStatus;
+typedef enum _Wa__PinInChat__Type
+{
+  WA__PIN_IN_CHAT__TYPE__UNKNOWN_TYPE = 0,
+  WA__PIN_IN_CHAT__TYPE__PIN_FOR_ALL = 1,
+  WA__PIN_IN_CHAT__TYPE__UNPIN_FOR_ALL = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__PIN_IN_CHAT__TYPE)
+} Wa__PinInChat__Type;
+typedef enum _Wa__QP__ClauseType
+{
+  WA__QP__CLAUSE_TYPE__AND = 1,
+  WA__QP__CLAUSE_TYPE__OR = 2,
+  WA__QP__CLAUSE_TYPE__NOR = 3
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__QP__CLAUSE_TYPE)
+} Wa__QP__ClauseType;
+typedef enum _Wa__QP__FilterClientNotSupportedConfig
+{
+  WA__QP__FILTER_CLIENT_NOT_SUPPORTED_CONFIG__PASS_BY_DEFAULT = 1,
+  WA__QP__FILTER_CLIENT_NOT_SUPPORTED_CONFIG__FAIL_BY_DEFAULT = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__QP__FILTER_CLIENT_NOT_SUPPORTED_CONFIG)
+} Wa__QP__FilterClientNotSupportedConfig;
+typedef enum _Wa__QP__FilterResult
+{
+  WA__QP__FILTER_RESULT__TRUE = 1,
+  WA__QP__FILTER_RESULT__FALSE = 2,
+  WA__QP__FILTER_RESULT__UNKNOWN = 3
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__QP__FILTER_RESULT)
+} Wa__QP__FilterResult;
+typedef enum _Wa__SyncActionValue__MarketingMessageAction__MarketingMessagePrototypeType
+{
+  WA__SYNC_ACTION_VALUE__MARKETING_MESSAGE_ACTION__MARKETING_MESSAGE_PROTOTYPE_TYPE__PERSONALIZED = 0
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__SYNC_ACTION_VALUE__MARKETING_MESSAGE_ACTION__MARKETING_MESSAGE_PROTOTYPE_TYPE)
+} Wa__SyncActionValue__MarketingMessageAction__MarketingMessagePrototypeType;
+typedef enum _Wa__SyncActionValue__StatusPrivacyAction__StatusDistributionMode
+{
+  WA__SYNC_ACTION_VALUE__STATUS_PRIVACY_ACTION__STATUS_DISTRIBUTION_MODE__ALLOW_LIST = 0,
+  WA__SYNC_ACTION_VALUE__STATUS_PRIVACY_ACTION__STATUS_DISTRIBUTION_MODE__DENY_LIST = 1,
+  WA__SYNC_ACTION_VALUE__STATUS_PRIVACY_ACTION__STATUS_DISTRIBUTION_MODE__CONTACTS = 2
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__SYNC_ACTION_VALUE__STATUS_PRIVACY_ACTION__STATUS_DISTRIBUTION_MODE)
+} Wa__SyncActionValue__StatusPrivacyAction__StatusDistributionMode;
 typedef enum _Wa__SyncdMutation__SyncdOperation
 {
   WA__SYNCD_MUTATION__SYNCD_OPERATION__SET = 0,
@@ -893,9 +1215,66 @@ typedef enum _Wa__WebMessageInfo__StubType
   WA__WEB_MESSAGE_INFO__STUB_TYPE__INTEGRITY_UNLINK_PARENT_GROUP = 146,
   WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARTICIPANT_PROMOTE = 147,
   WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARTICIPANT_DEMOTE = 148,
-  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARENT_GROUP_DELETED = 149
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARENT_GROUP_DELETED = 149,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_LINK_PARENT_GROUP_MEMBERSHIP_APPROVAL = 150,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_JOINED_GROUP_AND_PARENT_GROUP = 151,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__MASKED_THREAD_CREATED = 152,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__MASKED_THREAD_UNMASKED = 153,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__BIZ_CHAT_ASSIGNMENT = 154,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__CHAT_PSA = 155,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__CHAT_POLL_CREATION_MESSAGE = 156,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__CAG_MASKED_THREAD_CREATED = 157,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARENT_GROUP_SUBJECT_CHANGED = 158,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__CAG_INVITE_AUTO_ADD = 159,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__BIZ_CHAT_ASSIGNMENT_UNASSIGN = 160,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__CAG_INVITE_AUTO_JOINED = 161,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SCHEDULED_CALL_START_MESSAGE = 162,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_INVITE_RICH = 163,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_INVITE_AUTO_ADD_RICH = 164,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SUB_GROUP_INVITE_RICH = 165,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SUB_GROUP_PARTICIPANT_ADD_RICH = 166,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_LINK_PARENT_GROUP_RICH = 167,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_PARTICIPANT_ADD_RICH = 168,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SILENCED_UNKNOWN_CALLER_AUDIO = 169,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SILENCED_UNKNOWN_CALLER_VIDEO = 170,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_MEMBER_ADD_MODE = 171,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_MEMBERSHIP_JOIN_APPROVAL_REQUEST_NON_ADMIN_ADD = 172,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_CHANGE_DESCRIPTION = 173,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SENDER_INVITE = 174,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__RECEIVER_INVITE = 175,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__COMMUNITY_ALLOW_MEMBER_ADDED_GROUPS = 176,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__PINNED_MESSAGE_IN_CHAT = 177,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__PAYMENT_INVITE_SETUP_INVITER = 178,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__PAYMENT_INVITE_SETUP_INVITEE_RECEIVE_ONLY = 179,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__PAYMENT_INVITE_SETUP_INVITEE_SEND_AND_RECEIVE = 180,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__LINKED_GROUP_CALL_START = 181,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__REPORT_TO_ADMIN_ENABLED_STATUS = 182,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__EMPTY_SUBGROUP_CREATE = 183,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SCHEDULED_CALL_CANCEL = 184,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SUBGROUP_ADMIN_TRIGGERED_AUTO_ADD_RICH = 185,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_CHANGE_RECENT_HISTORY_SHARING = 186,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__PAID_MESSAGE_SERVER_CAMPAIGN_ID = 187,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__GENERAL_CHAT_CREATE = 188,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__GENERAL_CHAT_ADD = 189,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__GENERAL_CHAT_AUTO_ADD_DISABLED = 190,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SUGGESTED_SUBGROUP_ANNOUNCE = 191,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__BIZ_BOT_1P_MESSAGING_ENABLED = 192,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__CHANGE_USERNAME = 193,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__BIZ_COEX_PRIVACY_INIT_SELF = 194,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__BIZ_COEX_PRIVACY_TRANSITION_SELF = 195,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__SUPPORT_AI_EDUCATION = 196,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__BIZ_BOT_3P_MESSAGING_ENABLED = 197,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__REMINDER_SETUP_MESSAGE = 198,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__REMINDER_SENT_MESSAGE = 199,
+  WA__WEB_MESSAGE_INFO__STUB_TYPE__REMINDER_CANCEL_MESSAGE = 200
   PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__WEB_MESSAGE_INFO__STUB_TYPE)
 } Wa__WebMessageInfo__StubType;
+typedef enum _Wa__ADVEncryptionType
+{
+  WA__ADVENCRYPTION_TYPE__E2EE = 0,
+  WA__ADVENCRYPTION_TYPE__HOSTED = 1
+  PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__ADVENCRYPTION_TYPE)
+} Wa__ADVEncryptionType;
 typedef enum _Wa__KeepType
 {
   WA__KEEP_TYPE__UNKNOWN = 0,
@@ -913,6 +1292,7 @@ typedef enum _Wa__MediaVisibility
 
 /* --- descriptors --- */
 
+extern const ProtobufCEnumDescriptor    wa__advencryption_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__keep_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__media_visibility__descriptor;
 extern const ProtobufCMessageDescriptor wa__advdevice_identity__descriptor;
@@ -920,9 +1300,9 @@ extern const ProtobufCMessageDescriptor wa__advkey_index_list__descriptor;
 extern const ProtobufCMessageDescriptor wa__advsigned_device_identity__descriptor;
 extern const ProtobufCMessageDescriptor wa__advsigned_device_identity_hmac__descriptor;
 extern const ProtobufCMessageDescriptor wa__advsigned_key_index_list__descriptor;
-extern const ProtobufCMessageDescriptor wa__account__descriptor;
 extern const ProtobufCMessageDescriptor wa__action_link__descriptor;
 extern const ProtobufCMessageDescriptor wa__auto_download_settings__descriptor;
+extern const ProtobufCMessageDescriptor wa__avatar_user_settings__descriptor;
 extern const ProtobufCMessageDescriptor wa__biz_account_link_info__descriptor;
 extern const ProtobufCEnumDescriptor    wa__biz_account_link_info__account_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__biz_account_link_info__host_storage_type__descriptor;
@@ -931,6 +1311,12 @@ extern const ProtobufCMessageDescriptor wa__biz_identity_info__descriptor;
 extern const ProtobufCEnumDescriptor    wa__biz_identity_info__actual_actors_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__biz_identity_info__host_storage_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__biz_identity_info__verified_level_value__descriptor;
+extern const ProtobufCMessageDescriptor wa__bot_avatar_metadata__descriptor;
+extern const ProtobufCMessageDescriptor wa__bot_metadata__descriptor;
+extern const ProtobufCMessageDescriptor wa__bot_plugin_metadata__descriptor;
+extern const ProtobufCEnumDescriptor    wa__bot_plugin_metadata__plugin_type__descriptor;
+extern const ProtobufCEnumDescriptor    wa__bot_plugin_metadata__search_provider__descriptor;
+extern const ProtobufCMessageDescriptor wa__bot_suggested_prompt_metadata__descriptor;
 extern const ProtobufCMessageDescriptor wa__call_log_record__descriptor;
 extern const ProtobufCMessageDescriptor wa__call_log_record__participant_info__descriptor;
 extern const ProtobufCEnumDescriptor    wa__call_log_record__call_result__descriptor;
@@ -939,14 +1325,19 @@ extern const ProtobufCEnumDescriptor    wa__call_log_record__silence_reason__des
 extern const ProtobufCMessageDescriptor wa__cert_chain__descriptor;
 extern const ProtobufCMessageDescriptor wa__cert_chain__noise_certificate__descriptor;
 extern const ProtobufCMessageDescriptor wa__cert_chain__noise_certificate__details__descriptor;
-extern const ProtobufCMessageDescriptor wa__chain__descriptor;
-extern const ProtobufCMessageDescriptor wa__chain_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__chat_row_opaque_data__descriptor;
+extern const ProtobufCMessageDescriptor wa__chat_row_opaque_data__draft_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__chat_row_opaque_data__draft_message__ctwa_context_data__descriptor;
+extern const ProtobufCEnumDescriptor    wa__chat_row_opaque_data__draft_message__ctwa_context_data__context_info_external_ad_reply_info_media_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__chat_row_opaque_data__draft_message__ctwa_context_link_data__descriptor;
 extern const ProtobufCMessageDescriptor wa__client_payload__descriptor;
 extern const ProtobufCMessageDescriptor wa__client_payload__dnssource__descriptor;
 extern const ProtobufCEnumDescriptor    wa__client_payload__dnssource__dnsresolution_method__descriptor;
 extern const ProtobufCMessageDescriptor wa__client_payload__device_pairing_registration_data__descriptor;
+extern const ProtobufCMessageDescriptor wa__client_payload__interop_data__descriptor;
 extern const ProtobufCMessageDescriptor wa__client_payload__user_agent__descriptor;
 extern const ProtobufCMessageDescriptor wa__client_payload__user_agent__app_version__descriptor;
+extern const ProtobufCEnumDescriptor    wa__client_payload__user_agent__device_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__client_payload__user_agent__platform__descriptor;
 extern const ProtobufCEnumDescriptor    wa__client_payload__user_agent__release_channel__descriptor;
 extern const ProtobufCMessageDescriptor wa__client_payload__web_info__descriptor;
@@ -956,13 +1347,20 @@ extern const ProtobufCEnumDescriptor    wa__client_payload__connect_reason__desc
 extern const ProtobufCEnumDescriptor    wa__client_payload__connect_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__client_payload__iosapp_extension__descriptor;
 extern const ProtobufCEnumDescriptor    wa__client_payload__product__descriptor;
+extern const ProtobufCMessageDescriptor wa__comment_metadata__descriptor;
 extern const ProtobufCMessageDescriptor wa__context_info__descriptor;
 extern const ProtobufCMessageDescriptor wa__context_info__ad_reply_info__descriptor;
 extern const ProtobufCEnumDescriptor    wa__context_info__ad_reply_info__media_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__context_info__business_message_forward_info__descriptor;
+extern const ProtobufCMessageDescriptor wa__context_info__data_sharing_context__descriptor;
 extern const ProtobufCMessageDescriptor wa__context_info__external_ad_reply_info__descriptor;
 extern const ProtobufCEnumDescriptor    wa__context_info__external_ad_reply_info__media_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__context_info__forwarded_newsletter_message_info__descriptor;
+extern const ProtobufCEnumDescriptor    wa__context_info__forwarded_newsletter_message_info__content_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__context_info__utminfo__descriptor;
 extern const ProtobufCMessageDescriptor wa__conversation__descriptor;
 extern const ProtobufCEnumDescriptor    wa__conversation__end_of_history_transfer_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__device_consistency_code_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__device_list_metadata__descriptor;
 extern const ProtobufCMessageDescriptor wa__device_props__descriptor;
 extern const ProtobufCMessageDescriptor wa__device_props__app_version__descriptor;
@@ -970,10 +1368,13 @@ extern const ProtobufCMessageDescriptor wa__device_props__history_sync_config__d
 extern const ProtobufCEnumDescriptor    wa__device_props__platform_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__disappearing_mode__descriptor;
 extern const ProtobufCEnumDescriptor    wa__disappearing_mode__initiator__descriptor;
+extern const ProtobufCEnumDescriptor    wa__disappearing_mode__trigger__descriptor;
 extern const ProtobufCMessageDescriptor wa__ephemeral_setting__descriptor;
+extern const ProtobufCMessageDescriptor wa__event_response__descriptor;
 extern const ProtobufCMessageDescriptor wa__exit_code__descriptor;
 extern const ProtobufCMessageDescriptor wa__external_blob_reference__descriptor;
 extern const ProtobufCMessageDescriptor wa__global_settings__descriptor;
+extern const ProtobufCMessageDescriptor wa__group_mention__descriptor;
 extern const ProtobufCMessageDescriptor wa__group_participant__descriptor;
 extern const ProtobufCEnumDescriptor    wa__group_participant__rank__descriptor;
 extern const ProtobufCMessageDescriptor wa__handshake_message__descriptor;
@@ -988,24 +1389,36 @@ extern const ProtobufCMessageDescriptor wa__hydrated_template_button__descriptor
 extern const ProtobufCMessageDescriptor wa__hydrated_template_button__hydrated_call_button__descriptor;
 extern const ProtobufCMessageDescriptor wa__hydrated_template_button__hydrated_quick_reply_button__descriptor;
 extern const ProtobufCMessageDescriptor wa__hydrated_template_button__hydrated_urlbutton__descriptor;
+extern const ProtobufCEnumDescriptor    wa__hydrated_template_button__hydrated_urlbutton__webview_presentation_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__identity_key_pair_structure__descriptor;
 extern const ProtobufCMessageDescriptor wa__interactive_annotation__descriptor;
 extern const ProtobufCMessageDescriptor wa__keep_in_chat__descriptor;
+extern const ProtobufCMessageDescriptor wa__key_exchange_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__key_id__descriptor;
 extern const ProtobufCMessageDescriptor wa__localized_name__descriptor;
 extern const ProtobufCMessageDescriptor wa__location__descriptor;
 extern const ProtobufCMessageDescriptor wa__media_data__descriptor;
+extern const ProtobufCMessageDescriptor wa__media_entry__descriptor;
+extern const ProtobufCMessageDescriptor wa__media_entry__downloadable_thumbnail__descriptor;
+extern const ProtobufCMessageDescriptor wa__media_entry__progressive_jpeg_details__descriptor;
+extern const ProtobufCMessageDescriptor wa__media_notify_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__media_retry_notification__descriptor;
 extern const ProtobufCEnumDescriptor    wa__media_retry_notification__result_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__app_state_fatal_exception_notification__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__app_state_sync_key__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__app_state_sync_key_data__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__app_state_sync_key_fingerprint__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__app_state_sync_key_id__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__app_state_sync_key_request__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__app_state_sync_key_share__descriptor;
-extern const ProtobufCMessageDescriptor wa__message__app_state_sync_key__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__audio_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__bcall_message__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__bcall_message__media_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__bot_feedback_message__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__bot_feedback_message__bot_feedback_kind__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__bot_feedback_message__bot_feedback_kind_multiple_negative__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__bot_feedback_message__bot_feedback_kind_multiple_positive__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__buttons_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__buttons_message__button__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__buttons_message__button__button_text__descriptor;
@@ -1015,17 +1428,31 @@ extern const ProtobufCEnumDescriptor    wa__message__buttons_message__header_typ
 extern const ProtobufCMessageDescriptor wa__message__buttons_response_message__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__buttons_response_message__type__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__call__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__call_log_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__call_log_message__call_participant__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__call_log_message__call_outcome__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__call_log_message__call_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__cancel_payment_request_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__chat__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__comment_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__contact_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__contacts_array_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__decline_payment_request_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__device_sent_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__document_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__enc_comment_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__enc_event_update_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__enc_reaction_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__event_edit_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__event_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__event_response_message__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__event_response_message__event_response_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__event_update_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__extended_text_message__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__extended_text_message__font_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__extended_text_message__invite_link_group_type__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__extended_text_message__preview_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__extended_text_message_with_parent_key__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__future_proof_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__group_invite_message__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__group_invite_message__group_type__descriptor;
@@ -1043,6 +1470,7 @@ extern const ProtobufCMessageDescriptor wa__message__image_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__initial_security_notification_setting_sync__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__interactive_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__interactive_message__body__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__interactive_message__carousel_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__interactive_message__collection_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__interactive_message__footer__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__interactive_message__header__descriptor;
@@ -1052,15 +1480,16 @@ extern const ProtobufCMessageDescriptor wa__message__interactive_message__shop_m
 extern const ProtobufCEnumDescriptor    wa__message__interactive_message__shop_message__surface__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__interactive_response_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__interactive_response_message__body__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__interactive_response_message__body__format__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__interactive_response_message__native_flow_response_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__invoice_message__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__invoice_message__attachment_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__keep_in_chat_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__list_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__list_message__product__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__list_message__product_list_header_image__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__list_message__product_list_info__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__list_message__product_section__descriptor;
-extern const ProtobufCMessageDescriptor wa__message__list_message__product__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__list_message__row__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__list_message__section__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__list_message__list_type__descriptor;
@@ -1069,16 +1498,32 @@ extern const ProtobufCMessageDescriptor wa__message__list_response_message__sing
 extern const ProtobufCEnumDescriptor    wa__message__list_response_message__list_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__live_location_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__location_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__message_history_bundle__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__newsletter_admin_invite_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__order_message__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__order_message__order_status__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__order_message__order_surface__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__payment_invite_message__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__payment_invite_message__service_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__history_sync_on_demand_request__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__placeholder_message_resend_request__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__request_sticker_reupload__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_message__request_url_preview__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__pin_in_chat_message__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__pin_in_chat_message__type__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__placeholder_message__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__placeholder_message__placeholder_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__poll_creation_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__poll_creation_message__option__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__poll_enc_value__descriptor;
-extern const ProtobufCMessageDescriptor wa__message__poll_update_message_metadata__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__poll_update_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__poll_update_message_metadata__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__poll_vote_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__product_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__product_message__catalog_snapshot__descriptor;
@@ -1086,11 +1531,14 @@ extern const ProtobufCMessageDescriptor wa__message__product_message__product_sn
 extern const ProtobufCMessageDescriptor wa__message__protocol_message__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__protocol_message__type__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__reaction_message__descriptor;
-extern const ProtobufCMessageDescriptor wa__message__request_media_upload_message__descriptor;
-extern const ProtobufCMessageDescriptor wa__message__request_media_upload_response_message__descriptor;
-extern const ProtobufCMessageDescriptor wa__message__request_media_upload_response_message__request_media_upload_result__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__request_payment_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__request_phone_number_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__request_welcome_message_metadata__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__request_welcome_message_metadata__local_chat_state__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__scheduled_call_creation_message__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__scheduled_call_creation_message__call_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__message__scheduled_call_edit_message__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__scheduled_call_edit_message__edit_type__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__send_payment_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__sender_key_distribution_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__sticker_message__descriptor;
@@ -1101,9 +1549,11 @@ extern const ProtobufCMessageDescriptor wa__message__template_message__four_row_
 extern const ProtobufCMessageDescriptor wa__message__template_message__hydrated_four_row_template__descriptor;
 extern const ProtobufCMessageDescriptor wa__message__video_message__descriptor;
 extern const ProtobufCEnumDescriptor    wa__message__video_message__attribution__descriptor;
-extern const ProtobufCEnumDescriptor    wa__message__rmr_source__descriptor;
+extern const ProtobufCEnumDescriptor    wa__message__peer_data_operation_request_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__message_add_on_context_info__descriptor;
 extern const ProtobufCMessageDescriptor wa__message_context_info__descriptor;
 extern const ProtobufCMessageDescriptor wa__message_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__message_secret_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__money__descriptor;
 extern const ProtobufCMessageDescriptor wa__msg_opaque_data__descriptor;
 extern const ProtobufCMessageDescriptor wa__msg_opaque_data__poll_option__descriptor;
@@ -1111,9 +1561,12 @@ extern const ProtobufCMessageDescriptor wa__msg_row_opaque_data__descriptor;
 extern const ProtobufCMessageDescriptor wa__noise_certificate__descriptor;
 extern const ProtobufCMessageDescriptor wa__noise_certificate__details__descriptor;
 extern const ProtobufCMessageDescriptor wa__notification_message_info__descriptor;
+extern const ProtobufCMessageDescriptor wa__notification_settings__descriptor;
 extern const ProtobufCMessageDescriptor wa__past_participant__descriptor;
 extern const ProtobufCEnumDescriptor    wa__past_participant__leave_reason__descriptor;
 extern const ProtobufCMessageDescriptor wa__past_participants__descriptor;
+extern const ProtobufCMessageDescriptor wa__patch_debug_data__descriptor;
+extern const ProtobufCEnumDescriptor    wa__patch_debug_data__platform__descriptor;
 extern const ProtobufCMessageDescriptor wa__payment_background__descriptor;
 extern const ProtobufCMessageDescriptor wa__payment_background__media_data__descriptor;
 extern const ProtobufCEnumDescriptor    wa__payment_background__type__descriptor;
@@ -1121,26 +1574,44 @@ extern const ProtobufCMessageDescriptor wa__payment_info__descriptor;
 extern const ProtobufCEnumDescriptor    wa__payment_info__currency__descriptor;
 extern const ProtobufCEnumDescriptor    wa__payment_info__status__descriptor;
 extern const ProtobufCEnumDescriptor    wa__payment_info__txn_status__descriptor;
-extern const ProtobufCMessageDescriptor wa__pending_key_exchange__descriptor;
-extern const ProtobufCMessageDescriptor wa__pending_pre_key__descriptor;
 extern const ProtobufCMessageDescriptor wa__phone_number_to_lidmapping__descriptor;
 extern const ProtobufCMessageDescriptor wa__photo_change__descriptor;
+extern const ProtobufCMessageDescriptor wa__pin_in_chat__descriptor;
+extern const ProtobufCEnumDescriptor    wa__pin_in_chat__type__descriptor;
 extern const ProtobufCMessageDescriptor wa__point__descriptor;
 extern const ProtobufCMessageDescriptor wa__poll_additional_metadata__descriptor;
 extern const ProtobufCMessageDescriptor wa__poll_enc_value__descriptor;
 extern const ProtobufCMessageDescriptor wa__poll_update__descriptor;
 extern const ProtobufCMessageDescriptor wa__pre_key_record_structure__descriptor;
+extern const ProtobufCMessageDescriptor wa__pre_key_signal_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__premium_message_info__descriptor;
 extern const ProtobufCMessageDescriptor wa__pushname__descriptor;
+extern const ProtobufCMessageDescriptor wa__qp__descriptor;
+extern const ProtobufCMessageDescriptor wa__qp__filter__descriptor;
+extern const ProtobufCMessageDescriptor wa__qp__filter_clause__descriptor;
+extern const ProtobufCMessageDescriptor wa__qp__filter_parameters__descriptor;
+extern const ProtobufCEnumDescriptor    wa__qp__clause_type__descriptor;
+extern const ProtobufCEnumDescriptor    wa__qp__filter_client_not_supported_config__descriptor;
+extern const ProtobufCEnumDescriptor    wa__qp__filter_result__descriptor;
 extern const ProtobufCMessageDescriptor wa__reaction__descriptor;
 extern const ProtobufCMessageDescriptor wa__recent_emoji_weight__descriptor;
 extern const ProtobufCMessageDescriptor wa__record_structure__descriptor;
-extern const ProtobufCMessageDescriptor wa__sender_chain_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__reporting_token_info__descriptor;
+extern const ProtobufCMessageDescriptor wa__sender_key_distribution_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__sender_key_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__sender_key_record_structure__descriptor;
 extern const ProtobufCMessageDescriptor wa__sender_key_state_structure__descriptor;
-extern const ProtobufCMessageDescriptor wa__sender_message_key__descriptor;
-extern const ProtobufCMessageDescriptor wa__sender_signing_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__sender_key_state_structure__sender_chain_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__sender_key_state_structure__sender_message_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__sender_key_state_structure__sender_signing_key__descriptor;
 extern const ProtobufCMessageDescriptor wa__server_error_receipt__descriptor;
 extern const ProtobufCMessageDescriptor wa__session_structure__descriptor;
+extern const ProtobufCMessageDescriptor wa__session_structure__chain__descriptor;
+extern const ProtobufCMessageDescriptor wa__session_structure__chain__chain_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__session_structure__chain__message_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__session_structure__pending_key_exchange__descriptor;
+extern const ProtobufCMessageDescriptor wa__session_structure__pending_pre_key__descriptor;
+extern const ProtobufCMessageDescriptor wa__signal_message__descriptor;
 extern const ProtobufCMessageDescriptor wa__signed_pre_key_record_structure__descriptor;
 extern const ProtobufCMessageDescriptor wa__status_psa__descriptor;
 extern const ProtobufCMessageDescriptor wa__sticker_metadata__descriptor;
@@ -1149,29 +1620,48 @@ extern const ProtobufCMessageDescriptor wa__sync_action_value__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__agent_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__android_unsupported_actions__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__archive_chat_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__bot_welcome_request_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__call_log_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__chat_assignment_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__chat_assignment_opened_status_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__clear_chat_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__contact_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__custom_payment_method__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__custom_payment_method_metadata__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__custom_payment_methods_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__delete_chat_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__delete_individual_call_log_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__delete_message_for_me_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__external_web_beta_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__key_expiration__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__label_association_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__label_edit_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__label_reordering_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__locale_setting__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__mark_chat_as_read_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__marketing_message_action__descriptor;
+extern const ProtobufCEnumDescriptor    wa__sync_action_value__marketing_message_action__marketing_message_prototype_type__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__marketing_message_broadcast_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__mute_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__nux_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__payment_info_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__pin_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__pn_for_lid_chat_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__primary_feature__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__primary_version_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__privacy_setting_relay_all_calls__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__push_name_setting__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__quick_reply_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__recent_emoji_weights_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__remove_recent_sticker_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__security_notification_setting__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__star_action__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__status_privacy_action__descriptor;
+extern const ProtobufCEnumDescriptor    wa__sync_action_value__status_privacy_action__status_distribution_mode__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__sticker_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__subscription_action__descriptor;
-extern const ProtobufCMessageDescriptor wa__sync_action_value__sync_action_message_range__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__sync_action_message__descriptor;
+extern const ProtobufCMessageDescriptor wa__sync_action_value__sync_action_message_range__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__time_format_action__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__unarchive_chats_setting__descriptor;
 extern const ProtobufCMessageDescriptor wa__sync_action_value__user_status_mute_action__descriptor;
@@ -1224,6 +1714,10 @@ struct Wa__ADVDeviceIdentity : public ProtobufCppMessage
   uint64_t timestamp;
   protobuf_c_boolean has_keyindex;
   uint32_t keyindex;
+  protobuf_c_boolean has_accounttype;
+  Wa__ADVEncryptionType accounttype;
+  protobuf_c_boolean has_devicetype;
+  Wa__ADVEncryptionType devicetype;
 };
 
 struct Wa__ADVKeyIndexList : public ProtobufCppMessage
@@ -1240,6 +1734,8 @@ struct Wa__ADVKeyIndexList : public ProtobufCppMessage
   uint32_t currentindex;
   size_t n_validindexes;
   uint32_t *validindexes;
+  protobuf_c_boolean has_accounttype;
+  Wa__ADVEncryptionType accounttype;
 };
 
 struct Wa__ADVSignedDeviceIdentity : public ProtobufCppMessage
@@ -1268,6 +1764,8 @@ struct Wa__ADVSignedDeviceIdentityHMAC : public ProtobufCppMessage
   ProtobufCBinaryData details;
   protobuf_c_boolean has_hmac;
   ProtobufCBinaryData hmac;
+  protobuf_c_boolean has_accounttype;
+  Wa__ADVEncryptionType accounttype;
 };
 
 struct Wa__ADVSignedKeyIndexList : public ProtobufCppMessage
@@ -1280,19 +1778,8 @@ struct Wa__ADVSignedKeyIndexList : public ProtobufCppMessage
   ProtobufCBinaryData details;
   protobuf_c_boolean has_accountsignature;
   ProtobufCBinaryData accountsignature;
-};
-
-struct Wa__Account : public ProtobufCppMessage
-{
-	Wa__Account() :
-		ProtobufCppMessage(wa__account__descriptor)
-	{}
-
-  char *lid;
-  char *username;
-  char *countrycode;
-  protobuf_c_boolean has_isusernamedeleted;
-  protobuf_c_boolean isusernamedeleted;
+  protobuf_c_boolean has_accountsignaturekey;
+  ProtobufCBinaryData accountsignaturekey;
 };
 
 struct Wa__ActionLink : public ProtobufCppMessage
@@ -1319,6 +1806,16 @@ struct Wa__AutoDownloadSettings : public ProtobufCppMessage
   protobuf_c_boolean downloadvideo;
   protobuf_c_boolean has_downloaddocuments;
   protobuf_c_boolean downloaddocuments;
+};
+
+struct Wa__AvatarUserSettings : public ProtobufCppMessage
+{
+	Wa__AvatarUserSettings() :
+		ProtobufCppMessage(wa__avatar_user_settings__descriptor)
+	{}
+
+  char *fbid;
+  char *password;
 };
 
 struct Wa__BizAccountLinkInfo : public ProtobufCppMessage
@@ -1370,6 +1867,69 @@ struct Wa__BizIdentityInfo : public ProtobufCppMessage
   uint64_t privacymodets;
   protobuf_c_boolean has_featurecontrols;
   uint64_t featurecontrols;
+};
+
+struct Wa__BotAvatarMetadata : public ProtobufCppMessage
+{
+	Wa__BotAvatarMetadata() :
+		ProtobufCppMessage(wa__bot_avatar_metadata__descriptor)
+	{}
+
+  protobuf_c_boolean has_sentiment;
+  uint32_t sentiment;
+  char *behaviorgraph;
+  protobuf_c_boolean has_action;
+  uint32_t action;
+  protobuf_c_boolean has_intensity;
+  uint32_t intensity;
+  protobuf_c_boolean has_wordcount;
+  uint32_t wordcount;
+};
+
+struct Wa__BotMetadata : public ProtobufCppMessage
+{
+	Wa__BotMetadata() :
+		ProtobufCppMessage(wa__bot_metadata__descriptor)
+	{}
+
+  Wa__BotAvatarMetadata *avatarmetadata;
+  char *personaid;
+  Wa__BotPluginMetadata *pluginmetadata;
+  Wa__BotSuggestedPromptMetadata *suggestedpromptmetadata;
+  char *invokerjid;
+};
+
+struct Wa__BotPluginMetadata : public ProtobufCppMessage
+{
+	Wa__BotPluginMetadata() :
+		ProtobufCppMessage(wa__bot_plugin_metadata__descriptor)
+	{}
+
+  protobuf_c_boolean has_provider;
+  Wa__BotPluginMetadata__SearchProvider provider;
+  protobuf_c_boolean has_plugintype;
+  Wa__BotPluginMetadata__PluginType plugintype;
+  char *thumbnailcdnurl;
+  char *profilephotocdnurl;
+  char *searchproviderurl;
+  protobuf_c_boolean has_referenceindex;
+  uint32_t referenceindex;
+  protobuf_c_boolean has_expectedlinkscount;
+  uint32_t expectedlinkscount;
+  protobuf_c_boolean has_pluginversion;
+  uint32_t pluginversion;
+};
+
+struct Wa__BotSuggestedPromptMetadata : public ProtobufCppMessage
+{
+	Wa__BotSuggestedPromptMetadata() :
+		ProtobufCppMessage(wa__bot_suggested_prompt_metadata__descriptor)
+	{}
+
+  size_t n_suggestedprompts;
+  char **suggestedprompts;
+  protobuf_c_boolean has_selectedpromptindex;
+  uint32_t selectedpromptindex;
 };
 
 struct Wa__CallLogRecord__ParticipantInfo : public ProtobufCppMessage
@@ -1456,31 +2016,62 @@ struct Wa__CertChain : public ProtobufCppMessage
   Wa__CertChain__NoiseCertificate *intermediate;
 };
 
-struct Wa__Chain : public ProtobufCppMessage
+struct Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData : public ProtobufCppMessage
 {
-	Wa__Chain() :
-		ProtobufCppMessage(wa__chain__descriptor)
+	Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData() :
+		ProtobufCppMessage(wa__chat_row_opaque_data__draft_message__ctwa_context_data__descriptor)
 	{}
 
-  protobuf_c_boolean has_senderratchetkey;
-  ProtobufCBinaryData senderratchetkey;
-  protobuf_c_boolean has_senderratchetkeyprivate;
-  ProtobufCBinaryData senderratchetkeyprivate;
-  Wa__ChainKey *chainkey;
-  size_t n_messagekeys;
-  Wa__MessageKey **messagekeys;
+  char *conversionsource;
+  protobuf_c_boolean has_conversiondata;
+  ProtobufCBinaryData conversiondata;
+  char *sourceurl;
+  char *sourceid;
+  char *sourcetype;
+  char *title;
+  char *description;
+  char *thumbnail;
+  char *thumbnailurl;
+  protobuf_c_boolean has_mediatype;
+  Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData__ContextInfoExternalAdReplyInfoMediaType mediatype;
+  char *mediaurl;
+  protobuf_c_boolean has_issuspiciouslink;
+  protobuf_c_boolean issuspiciouslink;
 };
 
-struct Wa__ChainKey : public ProtobufCppMessage
+struct Wa__ChatRowOpaqueData__DraftMessage__CtwaContextLinkData : public ProtobufCppMessage
 {
-	Wa__ChainKey() :
-		ProtobufCppMessage(wa__chain_key__descriptor)
+	Wa__ChatRowOpaqueData__DraftMessage__CtwaContextLinkData() :
+		ProtobufCppMessage(wa__chat_row_opaque_data__draft_message__ctwa_context_link_data__descriptor)
 	{}
 
-  protobuf_c_boolean has_index;
-  uint32_t index;
-  protobuf_c_boolean has_key;
-  ProtobufCBinaryData key;
+  char *context;
+  char *sourceurl;
+  char *icebreaker;
+  char *phone;
+};
+
+struct Wa__ChatRowOpaqueData__DraftMessage : public ProtobufCppMessage
+{
+	Wa__ChatRowOpaqueData__DraftMessage() :
+		ProtobufCppMessage(wa__chat_row_opaque_data__draft_message__descriptor)
+	{}
+
+  char *text;
+  char *omittedurl;
+  Wa__ChatRowOpaqueData__DraftMessage__CtwaContextLinkData *ctwacontextlinkdata;
+  Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData *ctwacontext;
+  protobuf_c_boolean has_timestamp;
+  int64_t timestamp;
+};
+
+struct Wa__ChatRowOpaqueData : public ProtobufCppMessage
+{
+	Wa__ChatRowOpaqueData() :
+		ProtobufCppMessage(wa__chat_row_opaque_data__descriptor)
+	{}
+
+  Wa__ChatRowOpaqueData__DraftMessage *draftmessage;
 };
 
 struct Wa__ClientPayload__DNSSource : public ProtobufCppMessage
@@ -1517,6 +2108,18 @@ struct Wa__ClientPayload__DevicePairingRegistrationData : public ProtobufCppMess
   ProtobufCBinaryData buildhash;
   protobuf_c_boolean has_deviceprops;
   ProtobufCBinaryData deviceprops;
+};
+
+struct Wa__ClientPayload__InteropData : public ProtobufCppMessage
+{
+	Wa__ClientPayload__InteropData() :
+		ProtobufCppMessage(wa__client_payload__interop_data__descriptor)
+	{}
+
+  protobuf_c_boolean has_accountid;
+  uint64_t accountid;
+  protobuf_c_boolean has_token;
+  ProtobufCBinaryData token;
 };
 
 struct Wa__ClientPayload__UserAgent__AppVersion : public ProtobufCppMessage
@@ -1558,6 +2161,9 @@ struct Wa__ClientPayload__UserAgent : public ProtobufCppMessage
   char *localelanguageiso6391;
   char *localecountryiso31661alpha2;
   char *deviceboard;
+  char *deviceexpid;
+  protobuf_c_boolean has_devicetype;
+  Wa__ClientPayload__UserAgent__DeviceType devicetype;
 };
 
 struct Wa__ClientPayload__WebInfo__WebdPayload : public ProtobufCppMessage
@@ -1651,6 +2257,22 @@ struct Wa__ClientPayload : public ProtobufCppMessage
   protobuf_c_boolean pull;
   protobuf_c_boolean has_paddingbytes;
   ProtobufCBinaryData paddingbytes;
+  protobuf_c_boolean has_yearclass;
+  int32_t yearclass;
+  protobuf_c_boolean has_memclass;
+  int32_t memclass;
+  Wa__ClientPayload__InteropData *interopdata;
+};
+
+struct Wa__CommentMetadata : public ProtobufCppMessage
+{
+	Wa__CommentMetadata() :
+		ProtobufCppMessage(wa__comment_metadata__descriptor)
+	{}
+
+  Wa__MessageKey *commentparentkey;
+  protobuf_c_boolean has_replycount;
+  uint32_t replycount;
 };
 
 struct Wa__ContextInfo__AdReplyInfo : public ProtobufCppMessage
@@ -1665,6 +2287,25 @@ struct Wa__ContextInfo__AdReplyInfo : public ProtobufCppMessage
   protobuf_c_boolean has_jpegthumbnail;
   ProtobufCBinaryData jpegthumbnail;
   char *caption;
+};
+
+struct Wa__ContextInfo__BusinessMessageForwardInfo : public ProtobufCppMessage
+{
+	Wa__ContextInfo__BusinessMessageForwardInfo() :
+		ProtobufCppMessage(wa__context_info__business_message_forward_info__descriptor)
+	{}
+
+  char *businessownerjid;
+};
+
+struct Wa__ContextInfo__DataSharingContext : public ProtobufCppMessage
+{
+	Wa__ContextInfo__DataSharingContext() :
+		ProtobufCppMessage(wa__context_info__data_sharing_context__descriptor)
+	{}
+
+  protobuf_c_boolean has_showmmdisclosure;
+  protobuf_c_boolean showmmdisclosure;
 };
 
 struct Wa__ContextInfo__ExternalAdReplyInfo : public ProtobufCppMessage
@@ -1690,6 +2331,33 @@ struct Wa__ContextInfo__ExternalAdReplyInfo : public ProtobufCppMessage
   protobuf_c_boolean renderlargerthumbnail;
   protobuf_c_boolean has_showadattribution;
   protobuf_c_boolean showadattribution;
+  char *ctwaclid;
+  char *ref;
+};
+
+struct Wa__ContextInfo__ForwardedNewsletterMessageInfo : public ProtobufCppMessage
+{
+	Wa__ContextInfo__ForwardedNewsletterMessageInfo() :
+		ProtobufCppMessage(wa__context_info__forwarded_newsletter_message_info__descriptor)
+	{}
+
+  char *newsletterjid;
+  protobuf_c_boolean has_servermessageid;
+  int32_t servermessageid;
+  char *newslettername;
+  protobuf_c_boolean has_contenttype;
+  Wa__ContextInfo__ForwardedNewsletterMessageInfo__ContentType contenttype;
+  char *accessibilitytext;
+};
+
+struct Wa__ContextInfo__UTMInfo : public ProtobufCppMessage
+{
+	Wa__ContextInfo__UTMInfo() :
+		ProtobufCppMessage(wa__context_info__utminfo__descriptor)
+	{}
+
+  char *utmsource;
+  char *utmcampaign;
 };
 
 struct Wa__ContextInfo : public ProtobufCppMessage
@@ -1730,6 +2398,19 @@ struct Wa__ContextInfo : public ProtobufCppMessage
   Wa__ActionLink *actionlink;
   char *groupsubject;
   char *parentgroupjid;
+  char *trustbannertype;
+  protobuf_c_boolean has_trustbanneraction;
+  uint32_t trustbanneraction;
+  protobuf_c_boolean has_issampled;
+  protobuf_c_boolean issampled;
+  size_t n_groupmentions;
+  Wa__GroupMention **groupmentions;
+  Wa__ContextInfo__UTMInfo *utm;
+  Wa__ContextInfo__ForwardedNewsletterMessageInfo *forwardednewslettermessageinfo;
+  Wa__ContextInfo__BusinessMessageForwardInfo *businessmessageforwardinfo;
+  char *smbclientcampaignid;
+  char *smbservercampaignid;
+  Wa__ContextInfo__DataSharingContext *datasharingcontext;
 };
 
 struct Wa__Conversation : public ProtobufCppMessage
@@ -1799,13 +2480,32 @@ struct Wa__Conversation : public ProtobufCppMessage
   protobuf_c_boolean support;
   protobuf_c_boolean has_isparentgroup;
   protobuf_c_boolean isparentgroup;
+  char *parentgroupid;
   protobuf_c_boolean has_isdefaultsubgroup;
   protobuf_c_boolean isdefaultsubgroup;
-  char *parentgroupid;
   char *displayname;
   char *pnjid;
-  protobuf_c_boolean has_selfpnexposed;
-  protobuf_c_boolean selfpnexposed;
+  protobuf_c_boolean has_shareownpn;
+  protobuf_c_boolean shareownpn;
+  protobuf_c_boolean has_pnhduplicatelidthread;
+  protobuf_c_boolean pnhduplicatelidthread;
+  char *lidjid;
+  char *username;
+  char *lidorigintype;
+  protobuf_c_boolean has_commentscount;
+  uint32_t commentscount;
+};
+
+struct Wa__DeviceConsistencyCodeMessage : public ProtobufCppMessage
+{
+	Wa__DeviceConsistencyCodeMessage() :
+		ProtobufCppMessage(wa__device_consistency_code_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_generation;
+  uint32_t generation;
+  protobuf_c_boolean has_signature;
+  ProtobufCBinaryData signature;
 };
 
 struct Wa__DeviceListMetadata : public ProtobufCppMessage
@@ -1820,6 +2520,10 @@ struct Wa__DeviceListMetadata : public ProtobufCppMessage
   uint64_t sendertimestamp;
   size_t n_senderkeyindexes;
   uint32_t *senderkeyindexes;
+  protobuf_c_boolean has_senderaccounttype;
+  Wa__ADVEncryptionType senderaccounttype;
+  protobuf_c_boolean has_receiveraccounttype;
+  Wa__ADVEncryptionType receiveraccounttype;
   protobuf_c_boolean has_recipientkeyhash;
   ProtobufCBinaryData recipientkeyhash;
   protobuf_c_boolean has_recipienttimestamp;
@@ -1868,28 +2572,6 @@ struct Wa__DeviceProps__HistorySyncConfig : public ProtobufCppMessage
   protobuf_c_boolean supportbotuseragentchathistory;
   protobuf_c_boolean has_supportcagreactionsandpolls;
   protobuf_c_boolean supportcagreactionsandpolls;
-  protobuf_c_boolean has_supportbizhostedmsg;
-  protobuf_c_boolean supportbizhostedmsg;
-  protobuf_c_boolean has_supportrecentsyncchunkmessagecounttuning;
-  protobuf_c_boolean supportrecentsyncchunkmessagecounttuning;
-  protobuf_c_boolean has_supporthostedgroupmsg;
-  protobuf_c_boolean supporthostedgroupmsg;
-  protobuf_c_boolean has_supportfbidbotchathistory;
-  protobuf_c_boolean supportfbidbotchathistory;
-  protobuf_c_boolean has_supportaddonhistorysyncmigration;
-  protobuf_c_boolean supportaddonhistorysyncmigration;
-  protobuf_c_boolean has_supportmessageassociation;
-  protobuf_c_boolean supportmessageassociation;
-  protobuf_c_boolean has_supportgrouphistory;
-  protobuf_c_boolean supportgrouphistory;
-  protobuf_c_boolean has_ondemandready;
-  protobuf_c_boolean ondemandready;
-  protobuf_c_boolean has_supportguestchat;
-  protobuf_c_boolean supportguestchat;
-  protobuf_c_boolean has_completeondemandready;
-  protobuf_c_boolean completeondemandready;
-  protobuf_c_boolean has_thumbnailsyncdayslimit;
-  uint32_t thumbnailsyncdayslimit;
 };
 
 struct Wa__DeviceProps : public ProtobufCppMessage
@@ -1915,6 +2597,11 @@ struct Wa__DisappearingMode : public ProtobufCppMessage
 
   protobuf_c_boolean has_initiator;
   Wa__DisappearingMode__Initiator initiator;
+  protobuf_c_boolean has_trigger;
+  Wa__DisappearingMode__Trigger trigger;
+  char *initiatordevicejid;
+  protobuf_c_boolean has_initiatedbyme;
+  protobuf_c_boolean initiatedbyme;
 };
 
 struct Wa__EphemeralSetting : public ProtobufCppMessage
@@ -1927,6 +2614,20 @@ struct Wa__EphemeralSetting : public ProtobufCppMessage
   int32_t duration;
   protobuf_c_boolean has_timestamp;
   int64_t timestamp;
+};
+
+struct Wa__EventResponse : public ProtobufCppMessage
+{
+	Wa__EventResponse() :
+		ProtobufCppMessage(wa__event_response__descriptor)
+	{}
+
+  Wa__MessageKey *eventresponsemessagekey;
+  protobuf_c_boolean has_timestampms;
+  int64_t timestampms;
+  Wa__Message__EventResponseMessage *eventresponsemessage;
+  protobuf_c_boolean has_unread;
+  protobuf_c_boolean unread;
 };
 
 struct Wa__ExitCode : public ProtobufCppMessage
@@ -1979,6 +2680,29 @@ struct Wa__GlobalSettings : public ProtobufCppMessage
   int32_t disappearingmodeduration;
   protobuf_c_boolean has_disappearingmodetimestamp;
   int64_t disappearingmodetimestamp;
+  Wa__AvatarUserSettings *avatarusersettings;
+  protobuf_c_boolean has_fontsize;
+  int32_t fontsize;
+  protobuf_c_boolean has_securitynotifications;
+  protobuf_c_boolean securitynotifications;
+  protobuf_c_boolean has_autounarchivechats;
+  protobuf_c_boolean autounarchivechats;
+  protobuf_c_boolean has_videoqualitymode;
+  int32_t videoqualitymode;
+  protobuf_c_boolean has_photoqualitymode;
+  int32_t photoqualitymode;
+  Wa__NotificationSettings *individualnotificationsettings;
+  Wa__NotificationSettings *groupnotificationsettings;
+};
+
+struct Wa__GroupMention : public ProtobufCppMessage
+{
+	Wa__GroupMention() :
+		ProtobufCppMessage(wa__group_mention__descriptor)
+	{}
+
+  char *groupjid;
+  char *groupsubject;
 };
 
 struct Wa__GroupParticipant : public ProtobufCppMessage
@@ -2075,11 +2799,6 @@ struct Wa__HistorySync : public ProtobufCppMessage
   Wa__HistorySync__BotAIWaitListState aiwaitliststate;
   size_t n_phonenumbertolidmappings;
   Wa__PhoneNumberToLIDMapping **phonenumbertolidmappings;
-  char *companionmetanonce;
-  protobuf_c_boolean has_shareablechatidentifierencryptionkey;
-  ProtobufCBinaryData shareablechatidentifierencryptionkey;
-  size_t n_accounts;
-  Wa__Account **accounts;
 };
 
 struct Wa__HistorySyncMsg : public ProtobufCppMessage
@@ -2121,6 +2840,9 @@ struct Wa__HydratedTemplateButton__HydratedURLButton : public ProtobufCppMessage
 
   char *displaytext;
   char *url;
+  char *consentedusersurl;
+  protobuf_c_boolean has_webviewpresentation;
+  Wa__HydratedTemplateButton__HydratedURLButton__WebviewPresentationType webviewpresentation;
 };
 
 typedef enum
@@ -2163,7 +2885,8 @@ struct Wa__IdentityKeyPairStructure : public ProtobufCppMessage
 typedef enum
 {
   WA__INTERACTIVE_ANNOTATION__ACTION__NOT_SET = 0,
-  WA__INTERACTIVE_ANNOTATION__ACTION_LOCATION = 2
+  WA__INTERACTIVE_ANNOTATION__ACTION_LOCATION = 2,
+  WA__INTERACTIVE_ANNOTATION__ACTION_NEWSLETTER = 3
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__INTERACTIVE_ANNOTATION__ACTION__CASE)
 } Wa__InteractiveAnnotation__ActionCase;
 
@@ -2175,9 +2898,12 @@ struct Wa__InteractiveAnnotation : public ProtobufCppMessage
 
   size_t n_polygonvertices;
   Wa__Point **polygonvertices;
+  protobuf_c_boolean has_shouldskipconfirmation;
+  protobuf_c_boolean shouldskipconfirmation;
   Wa__InteractiveAnnotation__ActionCase action_case;
   union {
     Wa__Location *location;
+    Wa__ContextInfo__ForwardedNewsletterMessageInfo *newsletter;
   };
 };
 
@@ -2193,6 +2919,28 @@ struct Wa__KeepInChat : public ProtobufCppMessage
   int64_t servertimestamp;
   Wa__MessageKey *key;
   char *devicejid;
+  protobuf_c_boolean has_clienttimestampms;
+  int64_t clienttimestampms;
+  protobuf_c_boolean has_servertimestampms;
+  int64_t servertimestampms;
+};
+
+struct Wa__KeyExchangeMessage : public ProtobufCppMessage
+{
+	Wa__KeyExchangeMessage() :
+		ProtobufCppMessage(wa__key_exchange_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_id;
+  uint32_t id;
+  protobuf_c_boolean has_basekey;
+  ProtobufCBinaryData basekey;
+  protobuf_c_boolean has_ratchetkey;
+  ProtobufCBinaryData ratchetkey;
+  protobuf_c_boolean has_identitykey;
+  ProtobufCBinaryData identitykey;
+  protobuf_c_boolean has_basekeysignature;
+  ProtobufCBinaryData basekeysignature;
 };
 
 struct Wa__KeyId : public ProtobufCppMessage
@@ -2238,6 +2986,79 @@ struct Wa__MediaData : public ProtobufCppMessage
   char *localpath;
 };
 
+struct Wa__MediaEntry__DownloadableThumbnail : public ProtobufCppMessage
+{
+	Wa__MediaEntry__DownloadableThumbnail() :
+		ProtobufCppMessage(wa__media_entry__downloadable_thumbnail__descriptor)
+	{}
+
+  protobuf_c_boolean has_filesha256;
+  ProtobufCBinaryData filesha256;
+  protobuf_c_boolean has_fileencsha256;
+  ProtobufCBinaryData fileencsha256;
+  char *directpath;
+  protobuf_c_boolean has_mediakey;
+  ProtobufCBinaryData mediakey;
+  protobuf_c_boolean has_mediakeytimestamp;
+  int64_t mediakeytimestamp;
+  char *objectid;
+};
+
+struct Wa__MediaEntry__ProgressiveJpegDetails : public ProtobufCppMessage
+{
+	Wa__MediaEntry__ProgressiveJpegDetails() :
+		ProtobufCppMessage(wa__media_entry__progressive_jpeg_details__descriptor)
+	{}
+
+  size_t n_scanlengths;
+  int64_t *scanlengths;
+  protobuf_c_boolean has_sidecar;
+  ProtobufCBinaryData sidecar;
+};
+
+struct Wa__MediaEntry : public ProtobufCppMessage
+{
+	Wa__MediaEntry() :
+		ProtobufCppMessage(wa__media_entry__descriptor)
+	{}
+
+  protobuf_c_boolean has_filesha256;
+  ProtobufCBinaryData filesha256;
+  protobuf_c_boolean has_mediakey;
+  ProtobufCBinaryData mediakey;
+  protobuf_c_boolean has_fileencsha256;
+  ProtobufCBinaryData fileencsha256;
+  char *directpath;
+  protobuf_c_boolean has_mediakeytimestamp;
+  int64_t mediakeytimestamp;
+  char *servermediatype;
+  protobuf_c_boolean has_uploadtoken;
+  ProtobufCBinaryData uploadtoken;
+  protobuf_c_boolean has_validatedtimestamp;
+  ProtobufCBinaryData validatedtimestamp;
+  protobuf_c_boolean has_sidecar;
+  ProtobufCBinaryData sidecar;
+  char *objectid;
+  char *fbid;
+  Wa__MediaEntry__DownloadableThumbnail *downloadablethumbnail;
+  char *handle;
+  char *filename;
+  Wa__MediaEntry__ProgressiveJpegDetails *progressivejpegdetails;
+};
+
+struct Wa__MediaNotifyMessage : public ProtobufCppMessage
+{
+	Wa__MediaNotifyMessage() :
+		ProtobufCppMessage(wa__media_notify_message__descriptor)
+	{}
+
+  char *expresspathurl;
+  protobuf_c_boolean has_fileencsha256;
+  ProtobufCBinaryData fileencsha256;
+  protobuf_c_boolean has_filelength;
+  uint64_t filelength;
+};
+
 struct Wa__MediaRetryNotification : public ProtobufCppMessage
 {
 	Wa__MediaRetryNotification() :
@@ -2260,6 +3081,16 @@ struct Wa__Message__AppStateFatalExceptionNotification : public ProtobufCppMessa
   char **collectionnames;
   protobuf_c_boolean has_timestamp;
   int64_t timestamp;
+};
+
+struct Wa__Message__AppStateSyncKey : public ProtobufCppMessage
+{
+	Wa__Message__AppStateSyncKey() :
+		ProtobufCppMessage(wa__message__app_state_sync_key__descriptor)
+	{}
+
+  Wa__Message__AppStateSyncKeyId *keyid;
+  Wa__Message__AppStateSyncKeyData *keydata;
 };
 
 struct Wa__Message__AppStateSyncKeyData : public ProtobufCppMessage
@@ -2319,16 +3150,6 @@ struct Wa__Message__AppStateSyncKeyShare : public ProtobufCppMessage
   Wa__Message__AppStateSyncKey **keys;
 };
 
-struct Wa__Message__AppStateSyncKey : public ProtobufCppMessage
-{
-	Wa__Message__AppStateSyncKey() :
-		ProtobufCppMessage(wa__message__app_state_sync_key__descriptor)
-	{}
-
-  Wa__Message__AppStateSyncKeyId *keyid;
-  Wa__Message__AppStateSyncKeyData *keydata;
-};
-
 struct Wa__Message__AudioMessage : public ProtobufCppMessage
 {
 	Wa__Message__AudioMessage() :
@@ -2357,6 +3178,40 @@ struct Wa__Message__AudioMessage : public ProtobufCppMessage
   ProtobufCBinaryData streamingsidecar;
   protobuf_c_boolean has_waveform;
   ProtobufCBinaryData waveform;
+  protobuf_c_boolean has_backgroundargb;
+  uint32_t backgroundargb;
+  protobuf_c_boolean has_viewonce;
+  protobuf_c_boolean viewonce;
+};
+
+struct Wa__Message__BCallMessage : public ProtobufCppMessage
+{
+	Wa__Message__BCallMessage() :
+		ProtobufCppMessage(wa__message__bcall_message__descriptor)
+	{}
+
+  char *sessionid;
+  protobuf_c_boolean has_mediatype;
+  Wa__Message__BCallMessage__MediaType mediatype;
+  protobuf_c_boolean has_masterkey;
+  ProtobufCBinaryData masterkey;
+  char *caption;
+};
+
+struct Wa__Message__BotFeedbackMessage : public ProtobufCppMessage
+{
+	Wa__Message__BotFeedbackMessage() :
+		ProtobufCppMessage(wa__message__bot_feedback_message__descriptor)
+	{}
+
+  Wa__MessageKey *messagekey;
+  protobuf_c_boolean has_kind;
+  Wa__Message__BotFeedbackMessage__BotFeedbackKind kind;
+  char *text;
+  protobuf_c_boolean has_kindnegative;
+  uint64_t kindnegative;
+  protobuf_c_boolean has_kindpositive;
+  uint64_t kindpositive;
 };
 
 struct Wa__Message__ButtonsMessage__Button__ButtonText : public ProtobufCppMessage
@@ -2463,6 +3318,35 @@ struct Wa__Message__Call : public ProtobufCppMessage
   uint32_t conversiondelayseconds;
 };
 
+struct Wa__Message__CallLogMessage__CallParticipant : public ProtobufCppMessage
+{
+	Wa__Message__CallLogMessage__CallParticipant() :
+		ProtobufCppMessage(wa__message__call_log_message__call_participant__descriptor)
+	{}
+
+  char *jid;
+  protobuf_c_boolean has_calloutcome;
+  Wa__Message__CallLogMessage__CallOutcome calloutcome;
+};
+
+struct Wa__Message__CallLogMessage : public ProtobufCppMessage
+{
+	Wa__Message__CallLogMessage() :
+		ProtobufCppMessage(wa__message__call_log_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_isvideo;
+  protobuf_c_boolean isvideo;
+  protobuf_c_boolean has_calloutcome;
+  Wa__Message__CallLogMessage__CallOutcome calloutcome;
+  protobuf_c_boolean has_durationsecs;
+  int64_t durationsecs;
+  protobuf_c_boolean has_calltype;
+  Wa__Message__CallLogMessage__CallType calltype;
+  size_t n_participants;
+  Wa__Message__CallLogMessage__CallParticipant **participants;
+};
+
 struct Wa__Message__CancelPaymentRequestMessage : public ProtobufCppMessage
 {
 	Wa__Message__CancelPaymentRequestMessage() :
@@ -2480,6 +3364,16 @@ struct Wa__Message__Chat : public ProtobufCppMessage
 
   char *displayname;
   char *id;
+};
+
+struct Wa__Message__CommentMessage : public ProtobufCppMessage
+{
+	Wa__Message__CommentMessage() :
+		ProtobufCppMessage(wa__message__comment_message__descriptor)
+	{}
+
+  Wa__Message *message;
+  Wa__MessageKey *targetmessagekey;
 };
 
 struct Wa__Message__ContactMessage : public ProtobufCppMessage
@@ -2565,6 +3459,95 @@ struct Wa__Message__DocumentMessage : public ProtobufCppMessage
   char *caption;
 };
 
+struct Wa__Message__EncCommentMessage : public ProtobufCppMessage
+{
+	Wa__Message__EncCommentMessage() :
+		ProtobufCppMessage(wa__message__enc_comment_message__descriptor)
+	{}
+
+  Wa__MessageKey *targetmessagekey;
+  protobuf_c_boolean has_encpayload;
+  ProtobufCBinaryData encpayload;
+  protobuf_c_boolean has_enciv;
+  ProtobufCBinaryData enciv;
+};
+
+struct Wa__Message__EncEventUpdateMessage : public ProtobufCppMessage
+{
+	Wa__Message__EncEventUpdateMessage() :
+		ProtobufCppMessage(wa__message__enc_event_update_message__descriptor)
+	{}
+
+  Wa__MessageKey *eventcreationmessagekey;
+  protobuf_c_boolean has_encpayload;
+  ProtobufCBinaryData encpayload;
+  protobuf_c_boolean has_enciv;
+  ProtobufCBinaryData enciv;
+};
+
+struct Wa__Message__EncReactionMessage : public ProtobufCppMessage
+{
+	Wa__Message__EncReactionMessage() :
+		ProtobufCppMessage(wa__message__enc_reaction_message__descriptor)
+	{}
+
+  Wa__MessageKey *targetmessagekey;
+  protobuf_c_boolean has_encpayload;
+  ProtobufCBinaryData encpayload;
+  protobuf_c_boolean has_enciv;
+  ProtobufCBinaryData enciv;
+};
+
+struct Wa__Message__EventEditMessage : public ProtobufCppMessage
+{
+	Wa__Message__EventEditMessage() :
+		ProtobufCppMessage(wa__message__event_edit_message__descriptor)
+	{}
+
+  Wa__Message__EventMessage *eventeditmessage;
+  protobuf_c_boolean has_edittimestampms;
+  int64_t edittimestampms;
+};
+
+struct Wa__Message__EventMessage : public ProtobufCppMessage
+{
+	Wa__Message__EventMessage() :
+		ProtobufCppMessage(wa__message__event_message__descriptor)
+	{}
+
+  Wa__ContextInfo *contextinfo;
+  protobuf_c_boolean has_iscanceled;
+  protobuf_c_boolean iscanceled;
+  char *name;
+  char *description;
+  Wa__Message__LocationMessage *location;
+  char *joinlink;
+  protobuf_c_boolean has_starttime;
+  int64_t starttime;
+};
+
+struct Wa__Message__EventResponseMessage : public ProtobufCppMessage
+{
+	Wa__Message__EventResponseMessage() :
+		ProtobufCppMessage(wa__message__event_response_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_response;
+  Wa__Message__EventResponseMessage__EventResponseType response;
+  protobuf_c_boolean has_timestampms;
+  int64_t timestampms;
+};
+
+struct Wa__Message__EventUpdateMessage : public ProtobufCppMessage
+{
+	Wa__Message__EventUpdateMessage() :
+		ProtobufCppMessage(wa__message__event_update_message__descriptor)
+	{}
+
+  Wa__Message__EventResponseMessage *response;
+  Wa__Message__EventEditMessage *edit;
+};
+
 struct Wa__Message__ExtendedTextMessage : public ProtobufCppMessage
 {
 	Wa__Message__ExtendedTextMessage() :
@@ -2609,6 +3592,18 @@ struct Wa__Message__ExtendedTextMessage : public ProtobufCppMessage
   ProtobufCBinaryData invitelinkparentgroupthumbnailv2;
   protobuf_c_boolean has_invitelinkgrouptypev2;
   Wa__Message__ExtendedTextMessage__InviteLinkGroupType invitelinkgrouptypev2;
+  protobuf_c_boolean has_viewonce;
+  protobuf_c_boolean viewonce;
+};
+
+struct Wa__Message__ExtendedTextMessageWithParentKey : public ProtobufCppMessage
+{
+	Wa__Message__ExtendedTextMessageWithParentKey() :
+		ProtobufCppMessage(wa__message__extended_text_message_with_parent_key__descriptor)
+	{}
+
+  Wa__MessageKey *key;
+  Wa__Message__ExtendedTextMessage *extendedtextmessage;
 };
 
 struct Wa__Message__FutureProofMessage : public ProtobufCppMessage
@@ -2766,6 +3761,11 @@ struct Wa__Message__HistorySyncNotification : public ProtobufCppMessage
   char *originalmessageid;
   protobuf_c_boolean has_progress;
   uint32_t progress;
+  protobuf_c_boolean has_oldestmsginchunktimestampsec;
+  int64_t oldestmsginchunktimestampsec;
+  protobuf_c_boolean has_initialhistbootstrapinlinepayload;
+  ProtobufCBinaryData initialhistbootstrapinlinepayload;
+  char *peerdatarequestsessionid;
 };
 
 struct Wa__Message__ImageMessage : public ProtobufCppMessage
@@ -2819,6 +3819,8 @@ struct Wa__Message__ImageMessage : public ProtobufCppMessage
   protobuf_c_boolean has_thumbnailencsha256;
   ProtobufCBinaryData thumbnailencsha256;
   char *staticurl;
+  size_t n_annotations;
+  Wa__InteractiveAnnotation **annotations;
 };
 
 struct Wa__Message__InitialSecurityNotificationSettingSync : public ProtobufCppMessage
@@ -2838,6 +3840,18 @@ struct Wa__Message__InteractiveMessage__Body : public ProtobufCppMessage
 	{}
 
   char *text;
+};
+
+struct Wa__Message__InteractiveMessage__CarouselMessage : public ProtobufCppMessage
+{
+	Wa__Message__InteractiveMessage__CarouselMessage() :
+		ProtobufCppMessage(wa__message__interactive_message__carousel_message__descriptor)
+	{}
+
+  size_t n_cards;
+  Wa__Message__InteractiveMessage **cards;
+  protobuf_c_boolean has_messageversion;
+  int32_t messageversion;
 };
 
 struct Wa__Message__InteractiveMessage__CollectionMessage : public ProtobufCppMessage
@@ -2867,7 +3881,8 @@ typedef enum
   WA__MESSAGE__INTERACTIVE_MESSAGE__HEADER__MEDIA_DOCUMENT_MESSAGE = 3,
   WA__MESSAGE__INTERACTIVE_MESSAGE__HEADER__MEDIA_IMAGE_MESSAGE = 4,
   WA__MESSAGE__INTERACTIVE_MESSAGE__HEADER__MEDIA_JPEG_THUMBNAIL = 6,
-  WA__MESSAGE__INTERACTIVE_MESSAGE__HEADER__MEDIA_VIDEO_MESSAGE = 7
+  WA__MESSAGE__INTERACTIVE_MESSAGE__HEADER__MEDIA_VIDEO_MESSAGE = 7,
+  WA__MESSAGE__INTERACTIVE_MESSAGE__HEADER__MEDIA_LOCATION_MESSAGE = 8
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__INTERACTIVE_MESSAGE__HEADER__MEDIA__CASE)
 } Wa__Message__InteractiveMessage__Header__MediaCase;
 
@@ -2886,6 +3901,7 @@ struct Wa__Message__InteractiveMessage__Header : public ProtobufCppMessage
     ProtobufCBinaryData jpegthumbnail;
     Wa__Message__DocumentMessage *documentmessage;
     Wa__Message__ImageMessage *imagemessage;
+    Wa__Message__LocationMessage *locationmessage;
     Wa__Message__VideoMessage *videomessage;
   };
 };
@@ -2931,7 +3947,8 @@ typedef enum
   WA__MESSAGE__INTERACTIVE_MESSAGE__INTERACTIVE_MESSAGE__NOT_SET = 0,
   WA__MESSAGE__INTERACTIVE_MESSAGE__INTERACTIVE_MESSAGE_SHOP_STOREFRONT_MESSAGE = 4,
   WA__MESSAGE__INTERACTIVE_MESSAGE__INTERACTIVE_MESSAGE_COLLECTION_MESSAGE = 5,
-  WA__MESSAGE__INTERACTIVE_MESSAGE__INTERACTIVE_MESSAGE_NATIVE_FLOW_MESSAGE = 6
+  WA__MESSAGE__INTERACTIVE_MESSAGE__INTERACTIVE_MESSAGE_NATIVE_FLOW_MESSAGE = 6,
+  WA__MESSAGE__INTERACTIVE_MESSAGE__INTERACTIVE_MESSAGE_CAROUSEL_MESSAGE = 7
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__INTERACTIVE_MESSAGE__INTERACTIVE_MESSAGE__CASE)
 } Wa__Message__InteractiveMessage__InteractiveMessageCase;
 
@@ -2947,6 +3964,7 @@ struct Wa__Message__InteractiveMessage : public ProtobufCppMessage
   Wa__ContextInfo *contextinfo;
   Wa__Message__InteractiveMessage__InteractiveMessageCase interactive_message_case;
   union {
+    Wa__Message__InteractiveMessage__CarouselMessage *carouselmessage;
     Wa__Message__InteractiveMessage__CollectionMessage *collectionmessage;
     Wa__Message__InteractiveMessage__NativeFlowMessage *nativeflowmessage;
     Wa__Message__InteractiveMessage__ShopMessage *shopstorefrontmessage;
@@ -2960,6 +3978,8 @@ struct Wa__Message__InteractiveResponseMessage__Body : public ProtobufCppMessage
 	{}
 
   char *text;
+  protobuf_c_boolean has_format;
+  Wa__Message__InteractiveResponseMessage__Body__Format format;
 };
 
 struct Wa__Message__InteractiveResponseMessage__NativeFlowResponseMessage : public ProtobufCppMessage
@@ -3032,6 +4052,15 @@ struct Wa__Message__KeepInChatMessage : public ProtobufCppMessage
   int64_t timestampms;
 };
 
+struct Wa__Message__ListMessage__Product : public ProtobufCppMessage
+{
+	Wa__Message__ListMessage__Product() :
+		ProtobufCppMessage(wa__message__list_message__product__descriptor)
+	{}
+
+  char *productid;
+};
+
 struct Wa__Message__ListMessage__ProductListHeaderImage : public ProtobufCppMessage
 {
 	Wa__Message__ListMessage__ProductListHeaderImage() :
@@ -3064,15 +4093,6 @@ struct Wa__Message__ListMessage__ProductSection : public ProtobufCppMessage
   char *title;
   size_t n_products;
   Wa__Message__ListMessage__Product **products;
-};
-
-struct Wa__Message__ListMessage__Product : public ProtobufCppMessage
-{
-	Wa__Message__ListMessage__Product() :
-		ProtobufCppMessage(wa__message__list_message__product__descriptor)
-	{}
-
-  char *productid;
 };
 
 struct Wa__Message__ListMessage__Row : public ProtobufCppMessage
@@ -3191,6 +4211,42 @@ struct Wa__Message__LocationMessage : public ProtobufCppMessage
   Wa__ContextInfo *contextinfo;
 };
 
+struct Wa__Message__MessageHistoryBundle : public ProtobufCppMessage
+{
+	Wa__Message__MessageHistoryBundle() :
+		ProtobufCppMessage(wa__message__message_history_bundle__descriptor)
+	{}
+
+  char *mimetype;
+  protobuf_c_boolean has_filesha256;
+  ProtobufCBinaryData filesha256;
+  protobuf_c_boolean has_mediakey;
+  ProtobufCBinaryData mediakey;
+  protobuf_c_boolean has_fileencsha256;
+  ProtobufCBinaryData fileencsha256;
+  char *directpath;
+  protobuf_c_boolean has_mediakeytimestamp;
+  int64_t mediakeytimestamp;
+  Wa__ContextInfo *contextinfo;
+  size_t n_participants;
+  char **participants;
+};
+
+struct Wa__Message__NewsletterAdminInviteMessage : public ProtobufCppMessage
+{
+	Wa__Message__NewsletterAdminInviteMessage() :
+		ProtobufCppMessage(wa__message__newsletter_admin_invite_message__descriptor)
+	{}
+
+  char *newsletterjid;
+  char *newslettername;
+  protobuf_c_boolean has_jpegthumbnail;
+  ProtobufCBinaryData jpegthumbnail;
+  char *caption;
+  protobuf_c_boolean has_inviteexpiration;
+  int64_t inviteexpiration;
+};
+
 struct Wa__Message__OrderMessage : public ProtobufCppMessage
 {
 	Wa__Message__OrderMessage() :
@@ -3214,6 +4270,9 @@ struct Wa__Message__OrderMessage : public ProtobufCppMessage
   int64_t totalamount1000;
   char *totalcurrencycode;
   Wa__ContextInfo *contextinfo;
+  protobuf_c_boolean has_messageversion;
+  int32_t messageversion;
+  Wa__MessageKey *orderrequestmessageid;
 };
 
 struct Wa__Message__PaymentInviteMessage : public ProtobufCppMessage
@@ -3226,6 +4285,163 @@ struct Wa__Message__PaymentInviteMessage : public ProtobufCppMessage
   Wa__Message__PaymentInviteMessage__ServiceType servicetype;
   protobuf_c_boolean has_expirytimestamp;
   int64_t expirytimestamp;
+};
+
+struct Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_message__history_sync_on_demand_request__descriptor)
+	{}
+
+  char *chatjid;
+  char *oldestmsgid;
+  protobuf_c_boolean has_oldestmsgfromme;
+  protobuf_c_boolean oldestmsgfromme;
+  protobuf_c_boolean has_ondemandmsgcount;
+  int32_t ondemandmsgcount;
+  protobuf_c_boolean has_oldestmsgtimestampms;
+  int64_t oldestmsgtimestampms;
+};
+
+struct Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_message__placeholder_message_resend_request__descriptor)
+	{}
+
+  Wa__MessageKey *messagekey;
+};
+
+struct Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_message__request_sticker_reupload__descriptor)
+	{}
+
+  char *filesha256;
+};
+
+struct Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_message__request_url_preview__descriptor)
+	{}
+
+  char *url;
+  protobuf_c_boolean has_includehqthumbnail;
+  protobuf_c_boolean includehqthumbnail;
+};
+
+struct Wa__Message__PeerDataOperationRequestMessage : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestMessage() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_peerdataoperationrequesttype;
+  Wa__Message__PeerDataOperationRequestType peerdataoperationrequesttype;
+  size_t n_requeststickerreupload;
+  Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload **requeststickerreupload;
+  size_t n_requesturlpreview;
+  Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview **requesturlpreview;
+  Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest *historysyncondemandrequest;
+  size_t n_placeholdermessageresendrequest;
+  Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest **placeholdermessageresendrequest;
+};
+
+struct Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__descriptor)
+	{}
+
+  char *directpath;
+  char *thumbhash;
+  char *encthumbhash;
+  protobuf_c_boolean has_mediakey;
+  ProtobufCBinaryData mediakey;
+  protobuf_c_boolean has_mediakeytimestampms;
+  int64_t mediakeytimestampms;
+  protobuf_c_boolean has_thumbwidth;
+  int32_t thumbwidth;
+  protobuf_c_boolean has_thumbheight;
+  int32_t thumbheight;
+};
+
+struct Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__descriptor)
+	{}
+
+  char *url;
+  char *title;
+  char *description;
+  protobuf_c_boolean has_thumbdata;
+  ProtobufCBinaryData thumbdata;
+  char *canonicalurl;
+  char *matchtext;
+  char *previewtype;
+  Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail *hqthumbnail;
+};
+
+struct Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__descriptor)
+	{}
+
+  protobuf_c_boolean has_webmessageinfobytes;
+  ProtobufCBinaryData webmessageinfobytes;
+};
+
+struct Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_response_message__peer_data_operation_result__descriptor)
+	{}
+
+  protobuf_c_boolean has_mediauploadresult;
+  Wa__MediaRetryNotification__ResultType mediauploadresult;
+  Wa__Message__StickerMessage *stickermessage;
+  Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse *linkpreviewresponse;
+  Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse *placeholdermessageresendresponse;
+};
+
+struct Wa__Message__PeerDataOperationRequestResponseMessage : public ProtobufCppMessage
+{
+	Wa__Message__PeerDataOperationRequestResponseMessage() :
+		ProtobufCppMessage(wa__message__peer_data_operation_request_response_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_peerdataoperationrequesttype;
+  Wa__Message__PeerDataOperationRequestType peerdataoperationrequesttype;
+  char *stanzaid;
+  size_t n_peerdataoperationresult;
+  Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult **peerdataoperationresult;
+};
+
+struct Wa__Message__PinInChatMessage : public ProtobufCppMessage
+{
+	Wa__Message__PinInChatMessage() :
+		ProtobufCppMessage(wa__message__pin_in_chat_message__descriptor)
+	{}
+
+  Wa__MessageKey *key;
+  protobuf_c_boolean has_type;
+  Wa__Message__PinInChatMessage__Type type;
+  protobuf_c_boolean has_sendertimestampms;
+  int64_t sendertimestampms;
+};
+
+struct Wa__Message__PlaceholderMessage : public ProtobufCppMessage
+{
+	Wa__Message__PlaceholderMessage() :
+		ProtobufCppMessage(wa__message__placeholder_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_type;
+  Wa__Message__PlaceholderMessage__PlaceholderType type;
 };
 
 struct Wa__Message__PollCreationMessage__Option : public ProtobufCppMessage
@@ -3265,14 +4481,6 @@ struct Wa__Message__PollEncValue : public ProtobufCppMessage
   ProtobufCBinaryData enciv;
 };
 
-struct Wa__Message__PollUpdateMessageMetadata : public ProtobufCppMessage
-{
-	Wa__Message__PollUpdateMessageMetadata() :
-		ProtobufCppMessage(wa__message__poll_update_message_metadata__descriptor)
-	{}
-
-};
-
 struct Wa__Message__PollUpdateMessage : public ProtobufCppMessage
 {
 	Wa__Message__PollUpdateMessage() :
@@ -3284,6 +4492,14 @@ struct Wa__Message__PollUpdateMessage : public ProtobufCppMessage
   Wa__Message__PollUpdateMessageMetadata *metadata;
   protobuf_c_boolean has_sendertimestampms;
   int64_t sendertimestampms;
+};
+
+struct Wa__Message__PollUpdateMessageMetadata : public ProtobufCppMessage
+{
+	Wa__Message__PollUpdateMessageMetadata() :
+		ProtobufCppMessage(wa__message__poll_update_message_metadata__descriptor)
+	{}
+
 };
 
 struct Wa__Message__PollVoteMessage : public ProtobufCppMessage
@@ -3362,8 +4578,15 @@ struct Wa__Message__ProtocolMessage : public ProtobufCppMessage
   Wa__Message__InitialSecurityNotificationSettingSync *initialsecuritynotificationsettingsync;
   Wa__Message__AppStateFatalExceptionNotification *appstatefatalexceptionnotification;
   Wa__DisappearingMode *disappearingmode;
-  Wa__Message__RequestMediaUploadMessage *requestmediauploadmessage;
-  Wa__Message__RequestMediaUploadResponseMessage *requestmediauploadresponsemessage;
+  Wa__Message *editedmessage;
+  protobuf_c_boolean has_timestampms;
+  int64_t timestampms;
+  Wa__Message__PeerDataOperationRequestMessage *peerdataoperationrequestmessage;
+  Wa__Message__PeerDataOperationRequestResponseMessage *peerdataoperationrequestresponsemessage;
+  Wa__Message__BotFeedbackMessage *botfeedbackmessage;
+  char *invokerjid;
+  Wa__Message__RequestWelcomeMessageMetadata *requestwelcomemessagemetadata;
+  Wa__MediaNotifyMessage *medianotifymessage;
 };
 
 struct Wa__Message__ReactionMessage : public ProtobufCppMessage
@@ -3377,43 +4600,6 @@ struct Wa__Message__ReactionMessage : public ProtobufCppMessage
   char *groupingkey;
   protobuf_c_boolean has_sendertimestampms;
   int64_t sendertimestampms;
-};
-
-struct Wa__Message__RequestMediaUploadMessage : public ProtobufCppMessage
-{
-	Wa__Message__RequestMediaUploadMessage() :
-		ProtobufCppMessage(wa__message__request_media_upload_message__descriptor)
-	{}
-
-  size_t n_filesha256;
-  char **filesha256;
-  protobuf_c_boolean has_rmrsource;
-  Wa__Message__RmrSource rmrsource;
-};
-
-struct Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult : public ProtobufCppMessage
-{
-	Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult() :
-		ProtobufCppMessage(wa__message__request_media_upload_response_message__request_media_upload_result__descriptor)
-	{}
-
-  char *filesha256;
-  protobuf_c_boolean has_mediauploadresult;
-  Wa__MediaRetryNotification__ResultType mediauploadresult;
-  Wa__Message__StickerMessage *stickermessage;
-};
-
-struct Wa__Message__RequestMediaUploadResponseMessage : public ProtobufCppMessage
-{
-	Wa__Message__RequestMediaUploadResponseMessage() :
-		ProtobufCppMessage(wa__message__request_media_upload_response_message__descriptor)
-	{}
-
-  protobuf_c_boolean has_rmrsource;
-  Wa__Message__RmrSource rmrsource;
-  char *stanzaid;
-  size_t n_reuploadresult;
-  Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult **reuploadresult;
 };
 
 struct Wa__Message__RequestPaymentMessage : public ProtobufCppMessage
@@ -3440,6 +4626,40 @@ struct Wa__Message__RequestPhoneNumberMessage : public ProtobufCppMessage
 	{}
 
   Wa__ContextInfo *contextinfo;
+};
+
+struct Wa__Message__RequestWelcomeMessageMetadata : public ProtobufCppMessage
+{
+	Wa__Message__RequestWelcomeMessageMetadata() :
+		ProtobufCppMessage(wa__message__request_welcome_message_metadata__descriptor)
+	{}
+
+  protobuf_c_boolean has_localchatstate;
+  Wa__Message__RequestWelcomeMessageMetadata__LocalChatState localchatstate;
+};
+
+struct Wa__Message__ScheduledCallCreationMessage : public ProtobufCppMessage
+{
+	Wa__Message__ScheduledCallCreationMessage() :
+		ProtobufCppMessage(wa__message__scheduled_call_creation_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_scheduledtimestampms;
+  int64_t scheduledtimestampms;
+  protobuf_c_boolean has_calltype;
+  Wa__Message__ScheduledCallCreationMessage__CallType calltype;
+  char *title;
+};
+
+struct Wa__Message__ScheduledCallEditMessage : public ProtobufCppMessage
+{
+	Wa__Message__ScheduledCallEditMessage() :
+		ProtobufCppMessage(wa__message__scheduled_call_edit_message__descriptor)
+	{}
+
+  Wa__MessageKey *key;
+  protobuf_c_boolean has_edittype;
+  Wa__Message__ScheduledCallEditMessage__EditType edittype;
 };
 
 struct Wa__Message__SendPaymentMessage : public ProtobufCppMessage
@@ -3496,6 +4716,14 @@ struct Wa__Message__StickerMessage : public ProtobufCppMessage
   protobuf_c_boolean has_pngthumbnail;
   ProtobufCBinaryData pngthumbnail;
   Wa__ContextInfo *contextinfo;
+  protobuf_c_boolean has_stickersentts;
+  int64_t stickersentts;
+  protobuf_c_boolean has_isavatar;
+  protobuf_c_boolean isavatar;
+  protobuf_c_boolean has_isaisticker;
+  protobuf_c_boolean isaisticker;
+  protobuf_c_boolean has_islottie;
+  protobuf_c_boolean islottie;
 };
 
 struct Wa__Message__StickerSyncRMRMessage : public ProtobufCppMessage
@@ -3522,6 +4750,8 @@ struct Wa__Message__TemplateButtonReplyMessage : public ProtobufCppMessage
   Wa__ContextInfo *contextinfo;
   protobuf_c_boolean has_selectedindex;
   uint32_t selectedindex;
+  protobuf_c_boolean has_selectedcarouselcardindex;
+  uint32_t selectedcarouselcardindex;
 };
 
 typedef enum
@@ -3577,6 +4807,8 @@ struct Wa__Message__TemplateMessage__HydratedFourRowTemplate : public ProtobufCp
   size_t n_hydratedbuttons;
   Wa__HydratedTemplateButton **hydratedbuttons;
   char *templateid;
+  protobuf_c_boolean has_masklinkeddevices;
+  protobuf_c_boolean masklinkeddevices;
   Wa__Message__TemplateMessage__HydratedFourRowTemplate__TitleCase title_case;
   union {
     char *hydratedtitletext;
@@ -3591,7 +4823,8 @@ typedef enum
 {
   WA__MESSAGE__TEMPLATE_MESSAGE__FORMAT__NOT_SET = 0,
   WA__MESSAGE__TEMPLATE_MESSAGE__FORMAT_FOUR_ROW_TEMPLATE = 1,
-  WA__MESSAGE__TEMPLATE_MESSAGE__FORMAT_HYDRATED_FOUR_ROW_TEMPLATE = 2
+  WA__MESSAGE__TEMPLATE_MESSAGE__FORMAT_HYDRATED_FOUR_ROW_TEMPLATE = 2,
+  WA__MESSAGE__TEMPLATE_MESSAGE__FORMAT_INTERACTIVE_MESSAGE_TEMPLATE = 5
     PROTOBUF_C__FORCE_ENUM_TO_BE_INT_SIZE(WA__MESSAGE__TEMPLATE_MESSAGE__FORMAT__CASE)
 } Wa__Message__TemplateMessage__FormatCase;
 
@@ -3603,10 +4836,12 @@ struct Wa__Message__TemplateMessage : public ProtobufCppMessage
 
   Wa__ContextInfo *contextinfo;
   Wa__Message__TemplateMessage__HydratedFourRowTemplate *hydratedtemplate;
+  char *templateid;
   Wa__Message__TemplateMessage__FormatCase format_case;
   union {
     Wa__Message__TemplateMessage__FourRowTemplate *fourrowtemplate;
     Wa__Message__TemplateMessage__HydratedFourRowTemplate *hydratedfourrowtemplate;
+    Wa__Message__InteractiveMessage *interactivemessagetemplate;
   };
 };
 
@@ -3655,6 +4890,8 @@ struct Wa__Message__VideoMessage : public ProtobufCppMessage
   protobuf_c_boolean has_thumbnailencsha256;
   ProtobufCBinaryData thumbnailencsha256;
   char *staticurl;
+  size_t n_annotations;
+  Wa__InteractiveAnnotation **annotations;
 };
 
 struct Wa__Message : public ProtobufCppMessage
@@ -3709,6 +4946,38 @@ struct Wa__Message : public ProtobufCppMessage
   Wa__Message__FutureProofMessage *documentwithcaptionmessage;
   Wa__Message__RequestPhoneNumberMessage *requestphonenumbermessage;
   Wa__Message__FutureProofMessage *viewoncemessagev2;
+  Wa__Message__EncReactionMessage *encreactionmessage;
+  Wa__Message__FutureProofMessage *editedmessage;
+  Wa__Message__FutureProofMessage *viewoncemessagev2extension;
+  Wa__Message__PollCreationMessage *pollcreationmessagev2;
+  Wa__Message__ScheduledCallCreationMessage *scheduledcallcreationmessage;
+  Wa__Message__FutureProofMessage *groupmentionedmessage;
+  Wa__Message__PinInChatMessage *pininchatmessage;
+  Wa__Message__PollCreationMessage *pollcreationmessagev3;
+  Wa__Message__ScheduledCallEditMessage *scheduledcalleditmessage;
+  Wa__Message__VideoMessage *ptvmessage;
+  Wa__Message__FutureProofMessage *botinvokemessage;
+  Wa__Message__CallLogMessage *calllogmesssage;
+  Wa__Message__MessageHistoryBundle *messagehistorybundle;
+  Wa__Message__EncCommentMessage *enccommentmessage;
+  Wa__Message__BCallMessage *bcallmessage;
+  Wa__Message__FutureProofMessage *lottiestickermessage;
+  Wa__Message__EventMessage *eventmessage;
+  Wa__Message__CommentMessage *commentmessage;
+  Wa__Message__NewsletterAdminInviteMessage *newsletteradmininvitemessage;
+  Wa__Message__ExtendedTextMessageWithParentKey *extendedtextmessagewithparentkey;
+  Wa__Message__PlaceholderMessage *placeholdermessage;
+  Wa__Message__EncEventUpdateMessage *enceventupdatemessage;
+};
+
+struct Wa__MessageAddOnContextInfo : public ProtobufCppMessage
+{
+	Wa__MessageAddOnContextInfo() :
+		ProtobufCppMessage(wa__message_add_on_context_info__descriptor)
+	{}
+
+  protobuf_c_boolean has_messageaddondurationinsecs;
+  uint32_t messageaddondurationinsecs;
 };
 
 struct Wa__MessageContextInfo : public ProtobufCppMessage
@@ -3724,6 +4993,13 @@ struct Wa__MessageContextInfo : public ProtobufCppMessage
   ProtobufCBinaryData messagesecret;
   protobuf_c_boolean has_paddingbytes;
   ProtobufCBinaryData paddingbytes;
+  protobuf_c_boolean has_messageaddondurationinsecs;
+  uint32_t messageaddondurationinsecs;
+  protobuf_c_boolean has_botmessagesecret;
+  ProtobufCBinaryData botmessagesecret;
+  Wa__BotMetadata *botmetadata;
+  protobuf_c_boolean has_reportingtokenversion;
+  int32_t reportingtokenversion;
 };
 
 struct Wa__MessageKey : public ProtobufCppMessage
@@ -3737,6 +5013,20 @@ struct Wa__MessageKey : public ProtobufCppMessage
   protobuf_c_boolean fromme;
   char *id;
   char *participant;
+};
+
+struct Wa__MessageSecretMessage : public ProtobufCppMessage
+{
+	Wa__MessageSecretMessage() :
+		ProtobufCppMessage(wa__message_secret_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_version;
+  int32_t version;
+  protobuf_c_boolean has_enciv;
+  ProtobufCBinaryData enciv;
+  protobuf_c_boolean has_encpayload;
+  ProtobufCBinaryData encpayload;
 };
 
 struct Wa__Money : public ProtobufCppMessage
@@ -3793,10 +5083,25 @@ struct Wa__MsgOpaqueData : public ProtobufCppMessage
   uint32_t pollselectableoptionscount;
   protobuf_c_boolean has_messagesecret;
   ProtobufCBinaryData messagesecret;
+  char *originalselfauthor;
   protobuf_c_boolean has_sendertimestampms;
   int64_t sendertimestampms;
   char *pollupdateparentkey;
   Wa__PollEncValue *encpollvote;
+  protobuf_c_boolean has_issentcagpollcreation;
+  protobuf_c_boolean issentcagpollcreation;
+  char *encreactiontargetmessagekey;
+  protobuf_c_boolean has_encreactionencpayload;
+  ProtobufCBinaryData encreactionencpayload;
+  protobuf_c_boolean has_encreactionenciv;
+  ProtobufCBinaryData encreactionenciv;
+  protobuf_c_boolean has_botmessagesecret;
+  ProtobufCBinaryData botmessagesecret;
+  char *targetmessagekey;
+  protobuf_c_boolean has_encpayload;
+  ProtobufCBinaryData encpayload;
+  protobuf_c_boolean has_enciv;
+  ProtobufCBinaryData enciv;
 };
 
 struct Wa__MsgRowOpaqueData : public ProtobufCppMessage
@@ -3850,6 +5155,22 @@ struct Wa__NotificationMessageInfo : public ProtobufCppMessage
   char *participant;
 };
 
+struct Wa__NotificationSettings : public ProtobufCppMessage
+{
+	Wa__NotificationSettings() :
+		ProtobufCppMessage(wa__notification_settings__descriptor)
+	{}
+
+  char *messagevibrate;
+  char *messagepopup;
+  char *messagelight;
+  protobuf_c_boolean has_lowprioritynotifications;
+  protobuf_c_boolean lowprioritynotifications;
+  protobuf_c_boolean has_reactionsmuted;
+  protobuf_c_boolean reactionsmuted;
+  char *callvibrate;
+};
+
 struct Wa__PastParticipant : public ProtobufCppMessage
 {
 	Wa__PastParticipant() :
@@ -3857,7 +5178,9 @@ struct Wa__PastParticipant : public ProtobufCppMessage
 	{}
 
   char *userjid;
+  protobuf_c_boolean has_leavereason;
   Wa__PastParticipant__LeaveReason leavereason;
+  protobuf_c_boolean has_leavets;
   uint64_t leavets;
 };
 
@@ -3870,6 +5193,36 @@ struct Wa__PastParticipants : public ProtobufCppMessage
   char *groupjid;
   size_t n_pastparticipants;
   Wa__PastParticipant **pastparticipants;
+};
+
+struct Wa__PatchDebugData : public ProtobufCppMessage
+{
+	Wa__PatchDebugData() :
+		ProtobufCppMessage(wa__patch_debug_data__descriptor)
+	{}
+
+  protobuf_c_boolean has_currentlthash;
+  ProtobufCBinaryData currentlthash;
+  protobuf_c_boolean has_newlthash;
+  ProtobufCBinaryData newlthash;
+  protobuf_c_boolean has_patchversion;
+  ProtobufCBinaryData patchversion;
+  protobuf_c_boolean has_collectionname;
+  ProtobufCBinaryData collectionname;
+  protobuf_c_boolean has_firstfourbytesfromahashofsnapshotmackey;
+  ProtobufCBinaryData firstfourbytesfromahashofsnapshotmackey;
+  protobuf_c_boolean has_newlthashsubtract;
+  ProtobufCBinaryData newlthashsubtract;
+  protobuf_c_boolean has_numberadd;
+  int32_t numberadd;
+  protobuf_c_boolean has_numberremove;
+  int32_t numberremove;
+  protobuf_c_boolean has_numberoverride;
+  int32_t numberoverride;
+  protobuf_c_boolean has_senderplatform;
+  Wa__PatchDebugData__Platform senderplatform;
+  protobuf_c_boolean has_issenderprimary;
+  protobuf_c_boolean issenderprimary;
 };
 
 struct Wa__PaymentBackground__MediaData : public ProtobufCppMessage
@@ -3943,42 +5296,6 @@ struct Wa__PaymentInfo : public ProtobufCppMessage
   Wa__Money *exchangeamount;
 };
 
-struct Wa__PendingKeyExchange : public ProtobufCppMessage
-{
-	Wa__PendingKeyExchange() :
-		ProtobufCppMessage(wa__pending_key_exchange__descriptor)
-	{}
-
-  protobuf_c_boolean has_sequence;
-  uint32_t sequence;
-  protobuf_c_boolean has_localbasekey;
-  ProtobufCBinaryData localbasekey;
-  protobuf_c_boolean has_localbasekeyprivate;
-  ProtobufCBinaryData localbasekeyprivate;
-  protobuf_c_boolean has_localratchetkey;
-  ProtobufCBinaryData localratchetkey;
-  protobuf_c_boolean has_localratchetkeyprivate;
-  ProtobufCBinaryData localratchetkeyprivate;
-  protobuf_c_boolean has_localidentitykey;
-  ProtobufCBinaryData localidentitykey;
-  protobuf_c_boolean has_localidentitykeyprivate;
-  ProtobufCBinaryData localidentitykeyprivate;
-};
-
-struct Wa__PendingPreKey : public ProtobufCppMessage
-{
-	Wa__PendingPreKey() :
-		ProtobufCppMessage(wa__pending_pre_key__descriptor)
-	{}
-
-  protobuf_c_boolean has_prekeyid;
-  uint32_t prekeyid;
-  protobuf_c_boolean has_signedprekeyid;
-  int32_t signedprekeyid;
-  protobuf_c_boolean has_basekey;
-  ProtobufCBinaryData basekey;
-};
-
 struct Wa__PhoneNumberToLIDMapping : public ProtobufCppMessage
 {
 	Wa__PhoneNumberToLIDMapping() :
@@ -4001,6 +5318,22 @@ struct Wa__PhotoChange : public ProtobufCppMessage
   ProtobufCBinaryData newphoto;
   protobuf_c_boolean has_newphotoid;
   uint32_t newphotoid;
+};
+
+struct Wa__PinInChat : public ProtobufCppMessage
+{
+	Wa__PinInChat() :
+		ProtobufCppMessage(wa__pin_in_chat__descriptor)
+	{}
+
+  protobuf_c_boolean has_type;
+  Wa__PinInChat__Type type;
+  Wa__MessageKey *key;
+  protobuf_c_boolean has_sendertimestampms;
+  int64_t sendertimestampms;
+  protobuf_c_boolean has_servertimestampms;
+  int64_t servertimestampms;
+  Wa__MessageAddOnContextInfo *messageaddoncontextinfo;
 };
 
 struct Wa__Point : public ProtobufCppMessage
@@ -4051,6 +5384,10 @@ struct Wa__PollUpdate : public ProtobufCppMessage
   Wa__Message__PollVoteMessage *vote;
   protobuf_c_boolean has_sendertimestampms;
   int64_t sendertimestampms;
+  protobuf_c_boolean has_servertimestampms;
+  int64_t servertimestampms;
+  protobuf_c_boolean has_unread;
+  protobuf_c_boolean unread;
 };
 
 struct Wa__PreKeyRecordStructure : public ProtobufCppMessage
@@ -4067,6 +5404,35 @@ struct Wa__PreKeyRecordStructure : public ProtobufCppMessage
   ProtobufCBinaryData privatekey;
 };
 
+struct Wa__PreKeySignalMessage : public ProtobufCppMessage
+{
+	Wa__PreKeySignalMessage() :
+		ProtobufCppMessage(wa__pre_key_signal_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_registrationid;
+  uint32_t registrationid;
+  protobuf_c_boolean has_prekeyid;
+  uint32_t prekeyid;
+  protobuf_c_boolean has_signedprekeyid;
+  uint32_t signedprekeyid;
+  protobuf_c_boolean has_basekey;
+  ProtobufCBinaryData basekey;
+  protobuf_c_boolean has_identitykey;
+  ProtobufCBinaryData identitykey;
+  protobuf_c_boolean has_message;
+  ProtobufCBinaryData message;
+};
+
+struct Wa__PremiumMessageInfo : public ProtobufCppMessage
+{
+	Wa__PremiumMessageInfo() :
+		ProtobufCppMessage(wa__premium_message_info__descriptor)
+	{}
+
+  char *servercampaignid;
+};
+
 struct Wa__Pushname : public ProtobufCppMessage
 {
 	Wa__Pushname() :
@@ -4075,6 +5441,51 @@ struct Wa__Pushname : public ProtobufCppMessage
 
   char *id;
   char *pushname;
+};
+
+struct Wa__QP__Filter : public ProtobufCppMessage
+{
+	Wa__QP__Filter() :
+		ProtobufCppMessage(wa__qp__filter__descriptor)
+	{}
+
+  char *filtername;
+  size_t n_parameters;
+  Wa__QP__FilterParameters **parameters;
+  protobuf_c_boolean has_filterresult;
+  Wa__QP__FilterResult filterresult;
+  Wa__QP__FilterClientNotSupportedConfig clientnotsupportedconfig;
+};
+
+struct Wa__QP__FilterClause : public ProtobufCppMessage
+{
+	Wa__QP__FilterClause() :
+		ProtobufCppMessage(wa__qp__filter_clause__descriptor)
+	{}
+
+  Wa__QP__ClauseType clausetype;
+  size_t n_clauses;
+  Wa__QP__FilterClause **clauses;
+  size_t n_filters;
+  Wa__QP__Filter **filters;
+};
+
+struct Wa__QP__FilterParameters : public ProtobufCppMessage
+{
+	Wa__QP__FilterParameters() :
+		ProtobufCppMessage(wa__qp__filter_parameters__descriptor)
+	{}
+
+  char *key;
+  char *value;
+};
+
+struct Wa__QP : public ProtobufCppMessage
+{
+	Wa__QP() :
+		ProtobufCppMessage(wa__qp__descriptor)
+	{}
+
 };
 
 struct Wa__Reaction : public ProtobufCppMessage
@@ -4114,16 +5525,44 @@ struct Wa__RecordStructure : public ProtobufCppMessage
   Wa__SessionStructure **previoussessions;
 };
 
-struct Wa__SenderChainKey : public ProtobufCppMessage
+struct Wa__ReportingTokenInfo : public ProtobufCppMessage
 {
-	Wa__SenderChainKey() :
-		ProtobufCppMessage(wa__sender_chain_key__descriptor)
+	Wa__ReportingTokenInfo() :
+		ProtobufCppMessage(wa__reporting_token_info__descriptor)
 	{}
 
+  protobuf_c_boolean has_reportingtag;
+  ProtobufCBinaryData reportingtag;
+};
+
+struct Wa__SenderKeyDistributionMessage : public ProtobufCppMessage
+{
+	Wa__SenderKeyDistributionMessage() :
+		ProtobufCppMessage(wa__sender_key_distribution_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_id;
+  uint32_t id;
   protobuf_c_boolean has_iteration;
   uint32_t iteration;
-  protobuf_c_boolean has_seed;
-  ProtobufCBinaryData seed;
+  protobuf_c_boolean has_chainkey;
+  ProtobufCBinaryData chainkey;
+  protobuf_c_boolean has_signingkey;
+  ProtobufCBinaryData signingkey;
+};
+
+struct Wa__SenderKeyMessage : public ProtobufCppMessage
+{
+	Wa__SenderKeyMessage() :
+		ProtobufCppMessage(wa__sender_key_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_id;
+  uint32_t id;
+  protobuf_c_boolean has_iteration;
+  uint32_t iteration;
+  protobuf_c_boolean has_ciphertext;
+  ProtobufCBinaryData ciphertext;
 };
 
 struct Wa__SenderKeyRecordStructure : public ProtobufCppMessage
@@ -4136,24 +5575,10 @@ struct Wa__SenderKeyRecordStructure : public ProtobufCppMessage
   Wa__SenderKeyStateStructure **senderkeystates;
 };
 
-struct Wa__SenderKeyStateStructure : public ProtobufCppMessage
+struct Wa__SenderKeyStateStructure__SenderChainKey : public ProtobufCppMessage
 {
-	Wa__SenderKeyStateStructure() :
-		ProtobufCppMessage(wa__sender_key_state_structure__descriptor)
-	{}
-
-  protobuf_c_boolean has_senderkeyid;
-  uint32_t senderkeyid;
-  Wa__SenderChainKey *senderchainkey;
-  Wa__SenderSigningKey *sendersigningkey;
-  size_t n_sendermessagekeys;
-  Wa__SenderMessageKey **sendermessagekeys;
-};
-
-struct Wa__SenderMessageKey : public ProtobufCppMessage
-{
-	Wa__SenderMessageKey() :
-		ProtobufCppMessage(wa__sender_message_key__descriptor)
+	Wa__SenderKeyStateStructure__SenderChainKey() :
+		ProtobufCppMessage(wa__sender_key_state_structure__sender_chain_key__descriptor)
 	{}
 
   protobuf_c_boolean has_iteration;
@@ -4162,16 +5587,42 @@ struct Wa__SenderMessageKey : public ProtobufCppMessage
   ProtobufCBinaryData seed;
 };
 
-struct Wa__SenderSigningKey : public ProtobufCppMessage
+struct Wa__SenderKeyStateStructure__SenderMessageKey : public ProtobufCppMessage
 {
-	Wa__SenderSigningKey() :
-		ProtobufCppMessage(wa__sender_signing_key__descriptor)
+	Wa__SenderKeyStateStructure__SenderMessageKey() :
+		ProtobufCppMessage(wa__sender_key_state_structure__sender_message_key__descriptor)
+	{}
+
+  protobuf_c_boolean has_iteration;
+  uint32_t iteration;
+  protobuf_c_boolean has_seed;
+  ProtobufCBinaryData seed;
+};
+
+struct Wa__SenderKeyStateStructure__SenderSigningKey : public ProtobufCppMessage
+{
+	Wa__SenderKeyStateStructure__SenderSigningKey() :
+		ProtobufCppMessage(wa__sender_key_state_structure__sender_signing_key__descriptor)
 	{}
 
   protobuf_c_boolean has_public_;
   ProtobufCBinaryData public_;
   protobuf_c_boolean has_private_;
   ProtobufCBinaryData private_;
+};
+
+struct Wa__SenderKeyStateStructure : public ProtobufCppMessage
+{
+	Wa__SenderKeyStateStructure() :
+		ProtobufCppMessage(wa__sender_key_state_structure__descriptor)
+	{}
+
+  protobuf_c_boolean has_senderkeyid;
+  uint32_t senderkeyid;
+  Wa__SenderKeyStateStructure__SenderChainKey *senderchainkey;
+  Wa__SenderKeyStateStructure__SenderSigningKey *sendersigningkey;
+  size_t n_sendermessagekeys;
+  Wa__SenderKeyStateStructure__SenderMessageKey **sendermessagekeys;
 };
 
 struct Wa__ServerErrorReceipt : public ProtobufCppMessage
@@ -4181,6 +5632,85 @@ struct Wa__ServerErrorReceipt : public ProtobufCppMessage
 	{}
 
   char *stanzaid;
+};
+
+struct Wa__SessionStructure__Chain__ChainKey : public ProtobufCppMessage
+{
+	Wa__SessionStructure__Chain__ChainKey() :
+		ProtobufCppMessage(wa__session_structure__chain__chain_key__descriptor)
+	{}
+
+  protobuf_c_boolean has_index;
+  uint32_t index;
+  protobuf_c_boolean has_key;
+  ProtobufCBinaryData key;
+};
+
+struct Wa__SessionStructure__Chain__MessageKey : public ProtobufCppMessage
+{
+	Wa__SessionStructure__Chain__MessageKey() :
+		ProtobufCppMessage(wa__session_structure__chain__message_key__descriptor)
+	{}
+
+  protobuf_c_boolean has_index;
+  uint32_t index;
+  protobuf_c_boolean has_cipherkey;
+  ProtobufCBinaryData cipherkey;
+  protobuf_c_boolean has_mackey;
+  ProtobufCBinaryData mackey;
+  protobuf_c_boolean has_iv;
+  ProtobufCBinaryData iv;
+};
+
+struct Wa__SessionStructure__Chain : public ProtobufCppMessage
+{
+	Wa__SessionStructure__Chain() :
+		ProtobufCppMessage(wa__session_structure__chain__descriptor)
+	{}
+
+  protobuf_c_boolean has_senderratchetkey;
+  ProtobufCBinaryData senderratchetkey;
+  protobuf_c_boolean has_senderratchetkeyprivate;
+  ProtobufCBinaryData senderratchetkeyprivate;
+  Wa__SessionStructure__Chain__ChainKey *chainkey;
+  size_t n_messagekeys;
+  Wa__SessionStructure__Chain__MessageKey **messagekeys;
+};
+
+struct Wa__SessionStructure__PendingKeyExchange : public ProtobufCppMessage
+{
+	Wa__SessionStructure__PendingKeyExchange() :
+		ProtobufCppMessage(wa__session_structure__pending_key_exchange__descriptor)
+	{}
+
+  protobuf_c_boolean has_sequence;
+  uint32_t sequence;
+  protobuf_c_boolean has_localbasekey;
+  ProtobufCBinaryData localbasekey;
+  protobuf_c_boolean has_localbasekeyprivate;
+  ProtobufCBinaryData localbasekeyprivate;
+  protobuf_c_boolean has_localratchetkey;
+  ProtobufCBinaryData localratchetkey;
+  protobuf_c_boolean has_localratchetkeyprivate;
+  ProtobufCBinaryData localratchetkeyprivate;
+  protobuf_c_boolean has_localidentitykey;
+  ProtobufCBinaryData localidentitykey;
+  protobuf_c_boolean has_localidentitykeyprivate;
+  ProtobufCBinaryData localidentitykeyprivate;
+};
+
+struct Wa__SessionStructure__PendingPreKey : public ProtobufCppMessage
+{
+	Wa__SessionStructure__PendingPreKey() :
+		ProtobufCppMessage(wa__session_structure__pending_pre_key__descriptor)
+	{}
+
+  protobuf_c_boolean has_prekeyid;
+  uint32_t prekeyid;
+  protobuf_c_boolean has_signedprekeyid;
+  int32_t signedprekeyid;
+  protobuf_c_boolean has_basekey;
+  ProtobufCBinaryData basekey;
 };
 
 struct Wa__SessionStructure : public ProtobufCppMessage
@@ -4199,11 +5729,11 @@ struct Wa__SessionStructure : public ProtobufCppMessage
   ProtobufCBinaryData rootkey;
   protobuf_c_boolean has_previouscounter;
   uint32_t previouscounter;
-  Wa__Chain *senderchain;
+  Wa__SessionStructure__Chain *senderchain;
   size_t n_receiverchains;
-  Wa__Chain **receiverchains;
-  Wa__PendingKeyExchange *pendingkeyexchange;
-  Wa__PendingPreKey *pendingprekey;
+  Wa__SessionStructure__Chain **receiverchains;
+  Wa__SessionStructure__PendingKeyExchange *pendingkeyexchange;
+  Wa__SessionStructure__PendingPreKey *pendingprekey;
   protobuf_c_boolean has_remoteregistrationid;
   uint32_t remoteregistrationid;
   protobuf_c_boolean has_localregistrationid;
@@ -4212,6 +5742,22 @@ struct Wa__SessionStructure : public ProtobufCppMessage
   protobuf_c_boolean needsrefresh;
   protobuf_c_boolean has_alicebasekey;
   ProtobufCBinaryData alicebasekey;
+};
+
+struct Wa__SignalMessage : public ProtobufCppMessage
+{
+	Wa__SignalMessage() :
+		ProtobufCppMessage(wa__signal_message__descriptor)
+	{}
+
+  protobuf_c_boolean has_ratchetkey;
+  ProtobufCBinaryData ratchetkey;
+  protobuf_c_boolean has_counter;
+  uint32_t counter;
+  protobuf_c_boolean has_previouscounter;
+  uint32_t previouscounter;
+  protobuf_c_boolean has_ciphertext;
+  ProtobufCBinaryData ciphertext;
 };
 
 struct Wa__SignedPreKeyRecordStructure : public ProtobufCppMessage
@@ -4266,6 +5812,8 @@ struct Wa__StickerMetadata : public ProtobufCppMessage
   uint64_t filelength;
   protobuf_c_boolean has_weight;
   float weight;
+  protobuf_c_boolean has_laststickersentts;
+  int64_t laststickersentts;
 };
 
 struct Wa__SyncActionData : public ProtobufCppMessage
@@ -4317,6 +5865,44 @@ struct Wa__SyncActionValue__ArchiveChatAction : public ProtobufCppMessage
   Wa__SyncActionValue__SyncActionMessageRange *messagerange;
 };
 
+struct Wa__SyncActionValue__BotWelcomeRequestAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__BotWelcomeRequestAction() :
+		ProtobufCppMessage(wa__sync_action_value__bot_welcome_request_action__descriptor)
+	{}
+
+  protobuf_c_boolean has_issent;
+  protobuf_c_boolean issent;
+};
+
+struct Wa__SyncActionValue__CallLogAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__CallLogAction() :
+		ProtobufCppMessage(wa__sync_action_value__call_log_action__descriptor)
+	{}
+
+  Wa__CallLogRecord *calllogrecord;
+};
+
+struct Wa__SyncActionValue__ChatAssignmentAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__ChatAssignmentAction() :
+		ProtobufCppMessage(wa__sync_action_value__chat_assignment_action__descriptor)
+	{}
+
+  char *deviceagentid;
+};
+
+struct Wa__SyncActionValue__ChatAssignmentOpenedStatusAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__ChatAssignmentOpenedStatusAction() :
+		ProtobufCppMessage(wa__sync_action_value__chat_assignment_opened_status_action__descriptor)
+	{}
+
+  protobuf_c_boolean has_chatopened;
+  protobuf_c_boolean chatopened;
+};
+
 struct Wa__SyncActionValue__ClearChatAction : public ProtobufCppMessage
 {
 	Wa__SyncActionValue__ClearChatAction() :
@@ -4334,6 +5920,42 @@ struct Wa__SyncActionValue__ContactAction : public ProtobufCppMessage
 
   char *fullname;
   char *firstname;
+  char *lidjid;
+  protobuf_c_boolean has_saveonprimaryaddressbook;
+  protobuf_c_boolean saveonprimaryaddressbook;
+};
+
+struct Wa__SyncActionValue__CustomPaymentMethod : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__CustomPaymentMethod() :
+		ProtobufCppMessage(wa__sync_action_value__custom_payment_method__descriptor)
+	{}
+
+  char *credentialid;
+  char *country;
+  char *type;
+  size_t n_metadata;
+  Wa__SyncActionValue__CustomPaymentMethodMetadata **metadata;
+};
+
+struct Wa__SyncActionValue__CustomPaymentMethodMetadata : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__CustomPaymentMethodMetadata() :
+		ProtobufCppMessage(wa__sync_action_value__custom_payment_method_metadata__descriptor)
+	{}
+
+  char *key;
+  char *value;
+};
+
+struct Wa__SyncActionValue__CustomPaymentMethodsAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__CustomPaymentMethodsAction() :
+		ProtobufCppMessage(wa__sync_action_value__custom_payment_methods_action__descriptor)
+	{}
+
+  size_t n_custompaymentmethods;
+  Wa__SyncActionValue__CustomPaymentMethod **custompaymentmethods;
 };
 
 struct Wa__SyncActionValue__DeleteChatAction : public ProtobufCppMessage
@@ -4343,6 +5965,17 @@ struct Wa__SyncActionValue__DeleteChatAction : public ProtobufCppMessage
 	{}
 
   Wa__SyncActionValue__SyncActionMessageRange *messagerange;
+};
+
+struct Wa__SyncActionValue__DeleteIndividualCallLogAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__DeleteIndividualCallLogAction() :
+		ProtobufCppMessage(wa__sync_action_value__delete_individual_call_log_action__descriptor)
+	{}
+
+  char *peerjid;
+  protobuf_c_boolean has_isincoming;
+  protobuf_c_boolean isincoming;
 };
 
 struct Wa__SyncActionValue__DeleteMessageForMeAction : public ProtobufCppMessage
@@ -4355,6 +5988,16 @@ struct Wa__SyncActionValue__DeleteMessageForMeAction : public ProtobufCppMessage
   protobuf_c_boolean deletemedia;
   protobuf_c_boolean has_messagetimestamp;
   int64_t messagetimestamp;
+};
+
+struct Wa__SyncActionValue__ExternalWebBetaAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__ExternalWebBetaAction() :
+		ProtobufCppMessage(wa__sync_action_value__external_web_beta_action__descriptor)
+	{}
+
+  protobuf_c_boolean has_isoptin;
+  protobuf_c_boolean isoptin;
 };
 
 struct Wa__SyncActionValue__KeyExpiration : public ProtobufCppMessage
@@ -4390,6 +6033,18 @@ struct Wa__SyncActionValue__LabelEditAction : public ProtobufCppMessage
   int32_t predefinedid;
   protobuf_c_boolean has_deleted;
   protobuf_c_boolean deleted;
+  protobuf_c_boolean has_orderindex;
+  int32_t orderindex;
+};
+
+struct Wa__SyncActionValue__LabelReorderingAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__LabelReorderingAction() :
+		ProtobufCppMessage(wa__sync_action_value__label_reordering_action__descriptor)
+	{}
+
+  size_t n_sortedlabelids;
+  int32_t *sortedlabelids;
 };
 
 struct Wa__SyncActionValue__LocaleSetting : public ProtobufCppMessage
@@ -4412,6 +6067,35 @@ struct Wa__SyncActionValue__MarkChatAsReadAction : public ProtobufCppMessage
   Wa__SyncActionValue__SyncActionMessageRange *messagerange;
 };
 
+struct Wa__SyncActionValue__MarketingMessageAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__MarketingMessageAction() :
+		ProtobufCppMessage(wa__sync_action_value__marketing_message_action__descriptor)
+	{}
+
+  char *name;
+  char *message;
+  protobuf_c_boolean has_type;
+  Wa__SyncActionValue__MarketingMessageAction__MarketingMessagePrototypeType type;
+  protobuf_c_boolean has_createdat;
+  int64_t createdat;
+  protobuf_c_boolean has_lastsentat;
+  int64_t lastsentat;
+  protobuf_c_boolean has_isdeleted;
+  protobuf_c_boolean isdeleted;
+  char *mediaid;
+};
+
+struct Wa__SyncActionValue__MarketingMessageBroadcastAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__MarketingMessageBroadcastAction() :
+		ProtobufCppMessage(wa__sync_action_value__marketing_message_broadcast_action__descriptor)
+	{}
+
+  protobuf_c_boolean has_repliedcount;
+  int32_t repliedcount;
+};
+
 struct Wa__SyncActionValue__MuteAction : public ProtobufCppMessage
 {
 	Wa__SyncActionValue__MuteAction() :
@@ -4422,6 +6106,8 @@ struct Wa__SyncActionValue__MuteAction : public ProtobufCppMessage
   protobuf_c_boolean muted;
   protobuf_c_boolean has_muteendtimestamp;
   int64_t muteendtimestamp;
+  protobuf_c_boolean has_automuted;
+  protobuf_c_boolean automuted;
 };
 
 struct Wa__SyncActionValue__NuxAction : public ProtobufCppMessage
@@ -4434,6 +6120,15 @@ struct Wa__SyncActionValue__NuxAction : public ProtobufCppMessage
   protobuf_c_boolean acknowledged;
 };
 
+struct Wa__SyncActionValue__PaymentInfoAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__PaymentInfoAction() :
+		ProtobufCppMessage(wa__sync_action_value__payment_info_action__descriptor)
+	{}
+
+  char *cpi;
+};
+
 struct Wa__SyncActionValue__PinAction : public ProtobufCppMessage
 {
 	Wa__SyncActionValue__PinAction() :
@@ -4442,6 +6137,15 @@ struct Wa__SyncActionValue__PinAction : public ProtobufCppMessage
 
   protobuf_c_boolean has_pinned;
   protobuf_c_boolean pinned;
+};
+
+struct Wa__SyncActionValue__PnForLidChatAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__PnForLidChatAction() :
+		ProtobufCppMessage(wa__sync_action_value__pn_for_lid_chat_action__descriptor)
+	{}
+
+  char *pnjid;
 };
 
 struct Wa__SyncActionValue__PrimaryFeature : public ProtobufCppMessage
@@ -4461,6 +6165,16 @@ struct Wa__SyncActionValue__PrimaryVersionAction : public ProtobufCppMessage
 	{}
 
   char *version;
+};
+
+struct Wa__SyncActionValue__PrivacySettingRelayAllCalls : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__PrivacySettingRelayAllCalls() :
+		ProtobufCppMessage(wa__sync_action_value__privacy_setting_relay_all_calls__descriptor)
+	{}
+
+  protobuf_c_boolean has_isenabled;
+  protobuf_c_boolean isenabled;
 };
 
 struct Wa__SyncActionValue__PushNameSetting : public ProtobufCppMessage
@@ -4498,6 +6212,16 @@ struct Wa__SyncActionValue__RecentEmojiWeightsAction : public ProtobufCppMessage
   Wa__RecentEmojiWeight **weights;
 };
 
+struct Wa__SyncActionValue__RemoveRecentStickerAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__RemoveRecentStickerAction() :
+		ProtobufCppMessage(wa__sync_action_value__remove_recent_sticker_action__descriptor)
+	{}
+
+  protobuf_c_boolean has_laststickersentts;
+  int64_t laststickersentts;
+};
+
 struct Wa__SyncActionValue__SecurityNotificationSetting : public ProtobufCppMessage
 {
 	Wa__SyncActionValue__SecurityNotificationSetting() :
@@ -4516,6 +6240,18 @@ struct Wa__SyncActionValue__StarAction : public ProtobufCppMessage
 
   protobuf_c_boolean has_starred;
   protobuf_c_boolean starred;
+};
+
+struct Wa__SyncActionValue__StatusPrivacyAction : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__StatusPrivacyAction() :
+		ProtobufCppMessage(wa__sync_action_value__status_privacy_action__descriptor)
+	{}
+
+  protobuf_c_boolean has_mode;
+  Wa__SyncActionValue__StatusPrivacyAction__StatusDistributionMode mode;
+  size_t n_userjid;
+  char **userjid;
 };
 
 struct Wa__SyncActionValue__StickerAction : public ProtobufCppMessage
@@ -4557,6 +6293,17 @@ struct Wa__SyncActionValue__SubscriptionAction : public ProtobufCppMessage
   int64_t expirationdate;
 };
 
+struct Wa__SyncActionValue__SyncActionMessage : public ProtobufCppMessage
+{
+	Wa__SyncActionValue__SyncActionMessage() :
+		ProtobufCppMessage(wa__sync_action_value__sync_action_message__descriptor)
+	{}
+
+  Wa__MessageKey *key;
+  protobuf_c_boolean has_timestamp;
+  int64_t timestamp;
+};
+
 struct Wa__SyncActionValue__SyncActionMessageRange : public ProtobufCppMessage
 {
 	Wa__SyncActionValue__SyncActionMessageRange() :
@@ -4569,17 +6316,6 @@ struct Wa__SyncActionValue__SyncActionMessageRange : public ProtobufCppMessage
   int64_t lastsystemmessagetimestamp;
   size_t n_messages;
   Wa__SyncActionValue__SyncActionMessage **messages;
-};
-
-struct Wa__SyncActionValue__SyncActionMessage : public ProtobufCppMessage
-{
-	Wa__SyncActionValue__SyncActionMessage() :
-		ProtobufCppMessage(wa__sync_action_value__sync_action_message__descriptor)
-	{}
-
-  Wa__MessageKey *key;
-  protobuf_c_boolean has_timestamp;
-  int64_t timestamp;
 };
 
 struct Wa__SyncActionValue__TimeFormatAction : public ProtobufCppMessage
@@ -4647,6 +6383,21 @@ struct Wa__SyncActionValue : public ProtobufCppMessage
   Wa__SyncActionValue__NuxAction *nuxaction;
   Wa__SyncActionValue__PrimaryVersionAction *primaryversionaction;
   Wa__SyncActionValue__StickerAction *stickeraction;
+  Wa__SyncActionValue__RemoveRecentStickerAction *removerecentstickeraction;
+  Wa__SyncActionValue__ChatAssignmentAction *chatassignment;
+  Wa__SyncActionValue__ChatAssignmentOpenedStatusAction *chatassignmentopenedstatus;
+  Wa__SyncActionValue__PnForLidChatAction *pnforlidchataction;
+  Wa__SyncActionValue__MarketingMessageAction *marketingmessageaction;
+  Wa__SyncActionValue__MarketingMessageBroadcastAction *marketingmessagebroadcastaction;
+  Wa__SyncActionValue__ExternalWebBetaAction *externalwebbetaaction;
+  Wa__SyncActionValue__PrivacySettingRelayAllCalls *privacysettingrelayallcalls;
+  Wa__SyncActionValue__CallLogAction *calllogaction;
+  Wa__SyncActionValue__StatusPrivacyAction *statusprivacy;
+  Wa__SyncActionValue__BotWelcomeRequestAction *botwelcomerequestaction;
+  Wa__SyncActionValue__DeleteIndividualCallLogAction *deleteindividualcalllog;
+  Wa__SyncActionValue__LabelReorderingAction *labelreorderingaction;
+  Wa__SyncActionValue__PaymentInfoAction *paymentinfoaction;
+  Wa__SyncActionValue__CustomPaymentMethodsAction *custompaymentmethodsaction;
 };
 
 struct Wa__SyncdIndex : public ProtobufCppMessage
@@ -4698,6 +6449,8 @@ struct Wa__SyncdPatch : public ProtobufCppMessage
   Wa__ExitCode *exitcode;
   protobuf_c_boolean has_deviceindex;
   uint32_t deviceindex;
+  protobuf_c_boolean has_clientdebugdata;
+  ProtobufCBinaryData clientdebugdata;
 };
 
 struct Wa__SyncdRecord : public ProtobufCppMessage
@@ -5034,6 +6787,19 @@ struct Wa__WebMessageInfo : public ProtobufCppMessage
   char *originalselfauthoruserjidstring;
   protobuf_c_boolean has_revokemessagetimestamp;
   uint64_t revokemessagetimestamp;
+  Wa__PinInChat *pininchat;
+  Wa__PremiumMessageInfo *premiummessageinfo;
+  protobuf_c_boolean has_is1pbizbotmessage;
+  protobuf_c_boolean is1pbizbotmessage;
+  protobuf_c_boolean has_isgrouphistorymessage;
+  protobuf_c_boolean isgrouphistorymessage;
+  char *botmessageinvokerjid;
+  Wa__CommentMetadata *commentmetadata;
+  size_t n_eventresponses;
+  Wa__EventResponse **eventresponses;
+  Wa__ReportingTokenInfo *reportingtokeninfo;
+  protobuf_c_boolean has_newsletterserverid;
+  uint64_t newsletterserverid;
 };
 
 struct Wa__WebNotificationsInfo : public ProtobufCppMessage
@@ -5147,25 +6913,6 @@ Wa__ADVSignedKeyIndexList *
 void   wa__advsigned_key_index_list__free_unpacked
                      (Wa__ADVSignedKeyIndexList *message,
                       ProtobufCAllocator *allocator);
-/* Wa__Account methods */
-void   wa__account__init
-                     (Wa__Account         *message);
-size_t wa__account__get_packed_size
-                     (const Wa__Account   *message);
-size_t wa__account__pack
-                     (const Wa__Account   *message,
-                      uint8_t             *out);
-size_t wa__account__pack_to_buffer
-                     (const Wa__Account   *message,
-                      ProtobufCBuffer     *buffer);
-Wa__Account *
-       wa__account__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   wa__account__free_unpacked
-                     (Wa__Account *message,
-                      ProtobufCAllocator *allocator);
 /* Wa__ActionLink methods */
 void   wa__action_link__init
                      (Wa__ActionLink         *message);
@@ -5203,6 +6950,25 @@ Wa__AutoDownloadSettings *
                       const uint8_t       *data);
 void   wa__auto_download_settings__free_unpacked
                      (Wa__AutoDownloadSettings *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__AvatarUserSettings methods */
+void   wa__avatar_user_settings__init
+                     (Wa__AvatarUserSettings         *message);
+size_t wa__avatar_user_settings__get_packed_size
+                     (const Wa__AvatarUserSettings   *message);
+size_t wa__avatar_user_settings__pack
+                     (const Wa__AvatarUserSettings   *message,
+                      uint8_t             *out);
+size_t wa__avatar_user_settings__pack_to_buffer
+                     (const Wa__AvatarUserSettings   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__AvatarUserSettings *
+       wa__avatar_user_settings__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__avatar_user_settings__free_unpacked
+                     (Wa__AvatarUserSettings *message,
                       ProtobufCAllocator *allocator);
 /* Wa__BizAccountLinkInfo methods */
 void   wa__biz_account_link_info__init
@@ -5261,6 +7027,82 @@ Wa__BizIdentityInfo *
 void   wa__biz_identity_info__free_unpacked
                      (Wa__BizIdentityInfo *message,
                       ProtobufCAllocator *allocator);
+/* Wa__BotAvatarMetadata methods */
+void   wa__bot_avatar_metadata__init
+                     (Wa__BotAvatarMetadata         *message);
+size_t wa__bot_avatar_metadata__get_packed_size
+                     (const Wa__BotAvatarMetadata   *message);
+size_t wa__bot_avatar_metadata__pack
+                     (const Wa__BotAvatarMetadata   *message,
+                      uint8_t             *out);
+size_t wa__bot_avatar_metadata__pack_to_buffer
+                     (const Wa__BotAvatarMetadata   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__BotAvatarMetadata *
+       wa__bot_avatar_metadata__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__bot_avatar_metadata__free_unpacked
+                     (Wa__BotAvatarMetadata *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__BotMetadata methods */
+void   wa__bot_metadata__init
+                     (Wa__BotMetadata         *message);
+size_t wa__bot_metadata__get_packed_size
+                     (const Wa__BotMetadata   *message);
+size_t wa__bot_metadata__pack
+                     (const Wa__BotMetadata   *message,
+                      uint8_t             *out);
+size_t wa__bot_metadata__pack_to_buffer
+                     (const Wa__BotMetadata   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__BotMetadata *
+       wa__bot_metadata__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__bot_metadata__free_unpacked
+                     (Wa__BotMetadata *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__BotPluginMetadata methods */
+void   wa__bot_plugin_metadata__init
+                     (Wa__BotPluginMetadata         *message);
+size_t wa__bot_plugin_metadata__get_packed_size
+                     (const Wa__BotPluginMetadata   *message);
+size_t wa__bot_plugin_metadata__pack
+                     (const Wa__BotPluginMetadata   *message,
+                      uint8_t             *out);
+size_t wa__bot_plugin_metadata__pack_to_buffer
+                     (const Wa__BotPluginMetadata   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__BotPluginMetadata *
+       wa__bot_plugin_metadata__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__bot_plugin_metadata__free_unpacked
+                     (Wa__BotPluginMetadata *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__BotSuggestedPromptMetadata methods */
+void   wa__bot_suggested_prompt_metadata__init
+                     (Wa__BotSuggestedPromptMetadata         *message);
+size_t wa__bot_suggested_prompt_metadata__get_packed_size
+                     (const Wa__BotSuggestedPromptMetadata   *message);
+size_t wa__bot_suggested_prompt_metadata__pack
+                     (const Wa__BotSuggestedPromptMetadata   *message,
+                      uint8_t             *out);
+size_t wa__bot_suggested_prompt_metadata__pack_to_buffer
+                     (const Wa__BotSuggestedPromptMetadata   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__BotSuggestedPromptMetadata *
+       wa__bot_suggested_prompt_metadata__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__bot_suggested_prompt_metadata__free_unpacked
+                     (Wa__BotSuggestedPromptMetadata *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__CallLogRecord__ParticipantInfo methods */
 void   wa__call_log_record__participant_info__init
                      (Wa__CallLogRecord__ParticipantInfo         *message);
@@ -5308,43 +7150,33 @@ Wa__CertChain *
 void   wa__cert_chain__free_unpacked
                      (Wa__CertChain *message,
                       ProtobufCAllocator *allocator);
-/* Wa__Chain methods */
-void   wa__chain__init
-                     (Wa__Chain         *message);
-size_t wa__chain__get_packed_size
-                     (const Wa__Chain   *message);
-size_t wa__chain__pack
-                     (const Wa__Chain   *message,
+/* Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData methods */
+void   wa__chat_row_opaque_data__draft_message__ctwa_context_data__init
+                     (Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData         *message);
+/* Wa__ChatRowOpaqueData__DraftMessage__CtwaContextLinkData methods */
+void   wa__chat_row_opaque_data__draft_message__ctwa_context_link_data__init
+                     (Wa__ChatRowOpaqueData__DraftMessage__CtwaContextLinkData         *message);
+/* Wa__ChatRowOpaqueData__DraftMessage methods */
+void   wa__chat_row_opaque_data__draft_message__init
+                     (Wa__ChatRowOpaqueData__DraftMessage         *message);
+/* Wa__ChatRowOpaqueData methods */
+void   wa__chat_row_opaque_data__init
+                     (Wa__ChatRowOpaqueData         *message);
+size_t wa__chat_row_opaque_data__get_packed_size
+                     (const Wa__ChatRowOpaqueData   *message);
+size_t wa__chat_row_opaque_data__pack
+                     (const Wa__ChatRowOpaqueData   *message,
                       uint8_t             *out);
-size_t wa__chain__pack_to_buffer
-                     (const Wa__Chain   *message,
+size_t wa__chat_row_opaque_data__pack_to_buffer
+                     (const Wa__ChatRowOpaqueData   *message,
                       ProtobufCBuffer     *buffer);
-Wa__Chain *
-       wa__chain__unpack
+Wa__ChatRowOpaqueData *
+       wa__chat_row_opaque_data__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   wa__chain__free_unpacked
-                     (Wa__Chain *message,
-                      ProtobufCAllocator *allocator);
-/* Wa__ChainKey methods */
-void   wa__chain_key__init
-                     (Wa__ChainKey         *message);
-size_t wa__chain_key__get_packed_size
-                     (const Wa__ChainKey   *message);
-size_t wa__chain_key__pack
-                     (const Wa__ChainKey   *message,
-                      uint8_t             *out);
-size_t wa__chain_key__pack_to_buffer
-                     (const Wa__ChainKey   *message,
-                      ProtobufCBuffer     *buffer);
-Wa__ChainKey *
-       wa__chain_key__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   wa__chain_key__free_unpacked
-                     (Wa__ChainKey *message,
+void   wa__chat_row_opaque_data__free_unpacked
+                     (Wa__ChatRowOpaqueData *message,
                       ProtobufCAllocator *allocator);
 /* Wa__ClientPayload__DNSSource methods */
 void   wa__client_payload__dnssource__init
@@ -5352,6 +7184,9 @@ void   wa__client_payload__dnssource__init
 /* Wa__ClientPayload__DevicePairingRegistrationData methods */
 void   wa__client_payload__device_pairing_registration_data__init
                      (Wa__ClientPayload__DevicePairingRegistrationData         *message);
+/* Wa__ClientPayload__InteropData methods */
+void   wa__client_payload__interop_data__init
+                     (Wa__ClientPayload__InteropData         *message);
 /* Wa__ClientPayload__UserAgent__AppVersion methods */
 void   wa__client_payload__user_agent__app_version__init
                      (Wa__ClientPayload__UserAgent__AppVersion         *message);
@@ -5383,12 +7218,43 @@ Wa__ClientPayload *
 void   wa__client_payload__free_unpacked
                      (Wa__ClientPayload *message,
                       ProtobufCAllocator *allocator);
+/* Wa__CommentMetadata methods */
+void   wa__comment_metadata__init
+                     (Wa__CommentMetadata         *message);
+size_t wa__comment_metadata__get_packed_size
+                     (const Wa__CommentMetadata   *message);
+size_t wa__comment_metadata__pack
+                     (const Wa__CommentMetadata   *message,
+                      uint8_t             *out);
+size_t wa__comment_metadata__pack_to_buffer
+                     (const Wa__CommentMetadata   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__CommentMetadata *
+       wa__comment_metadata__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__comment_metadata__free_unpacked
+                     (Wa__CommentMetadata *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__ContextInfo__AdReplyInfo methods */
 void   wa__context_info__ad_reply_info__init
                      (Wa__ContextInfo__AdReplyInfo         *message);
+/* Wa__ContextInfo__BusinessMessageForwardInfo methods */
+void   wa__context_info__business_message_forward_info__init
+                     (Wa__ContextInfo__BusinessMessageForwardInfo         *message);
+/* Wa__ContextInfo__DataSharingContext methods */
+void   wa__context_info__data_sharing_context__init
+                     (Wa__ContextInfo__DataSharingContext         *message);
 /* Wa__ContextInfo__ExternalAdReplyInfo methods */
 void   wa__context_info__external_ad_reply_info__init
                      (Wa__ContextInfo__ExternalAdReplyInfo         *message);
+/* Wa__ContextInfo__ForwardedNewsletterMessageInfo methods */
+void   wa__context_info__forwarded_newsletter_message_info__init
+                     (Wa__ContextInfo__ForwardedNewsletterMessageInfo         *message);
+/* Wa__ContextInfo__UTMInfo methods */
+void   wa__context_info__utminfo__init
+                     (Wa__ContextInfo__UTMInfo         *message);
 /* Wa__ContextInfo methods */
 void   wa__context_info__init
                      (Wa__ContextInfo         *message);
@@ -5426,6 +7292,25 @@ Wa__Conversation *
                       const uint8_t       *data);
 void   wa__conversation__free_unpacked
                      (Wa__Conversation *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__DeviceConsistencyCodeMessage methods */
+void   wa__device_consistency_code_message__init
+                     (Wa__DeviceConsistencyCodeMessage         *message);
+size_t wa__device_consistency_code_message__get_packed_size
+                     (const Wa__DeviceConsistencyCodeMessage   *message);
+size_t wa__device_consistency_code_message__pack
+                     (const Wa__DeviceConsistencyCodeMessage   *message,
+                      uint8_t             *out);
+size_t wa__device_consistency_code_message__pack_to_buffer
+                     (const Wa__DeviceConsistencyCodeMessage   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__DeviceConsistencyCodeMessage *
+       wa__device_consistency_code_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__device_consistency_code_message__free_unpacked
+                     (Wa__DeviceConsistencyCodeMessage *message,
                       ProtobufCAllocator *allocator);
 /* Wa__DeviceListMetadata methods */
 void   wa__device_list_metadata__init
@@ -5509,6 +7394,25 @@ Wa__EphemeralSetting *
 void   wa__ephemeral_setting__free_unpacked
                      (Wa__EphemeralSetting *message,
                       ProtobufCAllocator *allocator);
+/* Wa__EventResponse methods */
+void   wa__event_response__init
+                     (Wa__EventResponse         *message);
+size_t wa__event_response__get_packed_size
+                     (const Wa__EventResponse   *message);
+size_t wa__event_response__pack
+                     (const Wa__EventResponse   *message,
+                      uint8_t             *out);
+size_t wa__event_response__pack_to_buffer
+                     (const Wa__EventResponse   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__EventResponse *
+       wa__event_response__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__event_response__free_unpacked
+                     (Wa__EventResponse *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__ExitCode methods */
 void   wa__exit_code__init
                      (Wa__ExitCode         *message);
@@ -5565,6 +7469,25 @@ Wa__GlobalSettings *
                       const uint8_t       *data);
 void   wa__global_settings__free_unpacked
                      (Wa__GlobalSettings *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__GroupMention methods */
+void   wa__group_mention__init
+                     (Wa__GroupMention         *message);
+size_t wa__group_mention__get_packed_size
+                     (const Wa__GroupMention   *message);
+size_t wa__group_mention__pack
+                     (const Wa__GroupMention   *message,
+                      uint8_t             *out);
+size_t wa__group_mention__pack_to_buffer
+                     (const Wa__GroupMention   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__GroupMention *
+       wa__group_mention__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__group_mention__free_unpacked
+                     (Wa__GroupMention *message,
                       ProtobufCAllocator *allocator);
 /* Wa__GroupParticipant methods */
 void   wa__group_participant__init
@@ -5736,6 +7659,25 @@ Wa__KeepInChat *
 void   wa__keep_in_chat__free_unpacked
                      (Wa__KeepInChat *message,
                       ProtobufCAllocator *allocator);
+/* Wa__KeyExchangeMessage methods */
+void   wa__key_exchange_message__init
+                     (Wa__KeyExchangeMessage         *message);
+size_t wa__key_exchange_message__get_packed_size
+                     (const Wa__KeyExchangeMessage   *message);
+size_t wa__key_exchange_message__pack
+                     (const Wa__KeyExchangeMessage   *message,
+                      uint8_t             *out);
+size_t wa__key_exchange_message__pack_to_buffer
+                     (const Wa__KeyExchangeMessage   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__KeyExchangeMessage *
+       wa__key_exchange_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__key_exchange_message__free_unpacked
+                     (Wa__KeyExchangeMessage *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__KeyId methods */
 void   wa__key_id__init
                      (Wa__KeyId         *message);
@@ -5812,6 +7754,50 @@ Wa__MediaData *
 void   wa__media_data__free_unpacked
                      (Wa__MediaData *message,
                       ProtobufCAllocator *allocator);
+/* Wa__MediaEntry__DownloadableThumbnail methods */
+void   wa__media_entry__downloadable_thumbnail__init
+                     (Wa__MediaEntry__DownloadableThumbnail         *message);
+/* Wa__MediaEntry__ProgressiveJpegDetails methods */
+void   wa__media_entry__progressive_jpeg_details__init
+                     (Wa__MediaEntry__ProgressiveJpegDetails         *message);
+/* Wa__MediaEntry methods */
+void   wa__media_entry__init
+                     (Wa__MediaEntry         *message);
+size_t wa__media_entry__get_packed_size
+                     (const Wa__MediaEntry   *message);
+size_t wa__media_entry__pack
+                     (const Wa__MediaEntry   *message,
+                      uint8_t             *out);
+size_t wa__media_entry__pack_to_buffer
+                     (const Wa__MediaEntry   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__MediaEntry *
+       wa__media_entry__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__media_entry__free_unpacked
+                     (Wa__MediaEntry *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__MediaNotifyMessage methods */
+void   wa__media_notify_message__init
+                     (Wa__MediaNotifyMessage         *message);
+size_t wa__media_notify_message__get_packed_size
+                     (const Wa__MediaNotifyMessage   *message);
+size_t wa__media_notify_message__pack
+                     (const Wa__MediaNotifyMessage   *message,
+                      uint8_t             *out);
+size_t wa__media_notify_message__pack_to_buffer
+                     (const Wa__MediaNotifyMessage   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__MediaNotifyMessage *
+       wa__media_notify_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__media_notify_message__free_unpacked
+                     (Wa__MediaNotifyMessage *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__MediaRetryNotification methods */
 void   wa__media_retry_notification__init
                      (Wa__MediaRetryNotification         *message);
@@ -5834,6 +7820,9 @@ void   wa__media_retry_notification__free_unpacked
 /* Wa__Message__AppStateFatalExceptionNotification methods */
 void   wa__message__app_state_fatal_exception_notification__init
                      (Wa__Message__AppStateFatalExceptionNotification         *message);
+/* Wa__Message__AppStateSyncKey methods */
+void   wa__message__app_state_sync_key__init
+                     (Wa__Message__AppStateSyncKey         *message);
 /* Wa__Message__AppStateSyncKeyData methods */
 void   wa__message__app_state_sync_key_data__init
                      (Wa__Message__AppStateSyncKeyData         *message);
@@ -5849,12 +7838,15 @@ void   wa__message__app_state_sync_key_request__init
 /* Wa__Message__AppStateSyncKeyShare methods */
 void   wa__message__app_state_sync_key_share__init
                      (Wa__Message__AppStateSyncKeyShare         *message);
-/* Wa__Message__AppStateSyncKey methods */
-void   wa__message__app_state_sync_key__init
-                     (Wa__Message__AppStateSyncKey         *message);
 /* Wa__Message__AudioMessage methods */
 void   wa__message__audio_message__init
                      (Wa__Message__AudioMessage         *message);
+/* Wa__Message__BCallMessage methods */
+void   wa__message__bcall_message__init
+                     (Wa__Message__BCallMessage         *message);
+/* Wa__Message__BotFeedbackMessage methods */
+void   wa__message__bot_feedback_message__init
+                     (Wa__Message__BotFeedbackMessage         *message);
 /* Wa__Message__ButtonsMessage__Button__ButtonText methods */
 void   wa__message__buttons_message__button__button_text__init
                      (Wa__Message__ButtonsMessage__Button__ButtonText         *message);
@@ -5873,12 +7865,21 @@ void   wa__message__buttons_response_message__init
 /* Wa__Message__Call methods */
 void   wa__message__call__init
                      (Wa__Message__Call         *message);
+/* Wa__Message__CallLogMessage__CallParticipant methods */
+void   wa__message__call_log_message__call_participant__init
+                     (Wa__Message__CallLogMessage__CallParticipant         *message);
+/* Wa__Message__CallLogMessage methods */
+void   wa__message__call_log_message__init
+                     (Wa__Message__CallLogMessage         *message);
 /* Wa__Message__CancelPaymentRequestMessage methods */
 void   wa__message__cancel_payment_request_message__init
                      (Wa__Message__CancelPaymentRequestMessage         *message);
 /* Wa__Message__Chat methods */
 void   wa__message__chat__init
                      (Wa__Message__Chat         *message);
+/* Wa__Message__CommentMessage methods */
+void   wa__message__comment_message__init
+                     (Wa__Message__CommentMessage         *message);
 /* Wa__Message__ContactMessage methods */
 void   wa__message__contact_message__init
                      (Wa__Message__ContactMessage         *message);
@@ -5894,9 +7895,33 @@ void   wa__message__device_sent_message__init
 /* Wa__Message__DocumentMessage methods */
 void   wa__message__document_message__init
                      (Wa__Message__DocumentMessage         *message);
+/* Wa__Message__EncCommentMessage methods */
+void   wa__message__enc_comment_message__init
+                     (Wa__Message__EncCommentMessage         *message);
+/* Wa__Message__EncEventUpdateMessage methods */
+void   wa__message__enc_event_update_message__init
+                     (Wa__Message__EncEventUpdateMessage         *message);
+/* Wa__Message__EncReactionMessage methods */
+void   wa__message__enc_reaction_message__init
+                     (Wa__Message__EncReactionMessage         *message);
+/* Wa__Message__EventEditMessage methods */
+void   wa__message__event_edit_message__init
+                     (Wa__Message__EventEditMessage         *message);
+/* Wa__Message__EventMessage methods */
+void   wa__message__event_message__init
+                     (Wa__Message__EventMessage         *message);
+/* Wa__Message__EventResponseMessage methods */
+void   wa__message__event_response_message__init
+                     (Wa__Message__EventResponseMessage         *message);
+/* Wa__Message__EventUpdateMessage methods */
+void   wa__message__event_update_message__init
+                     (Wa__Message__EventUpdateMessage         *message);
 /* Wa__Message__ExtendedTextMessage methods */
 void   wa__message__extended_text_message__init
                      (Wa__Message__ExtendedTextMessage         *message);
+/* Wa__Message__ExtendedTextMessageWithParentKey methods */
+void   wa__message__extended_text_message_with_parent_key__init
+                     (Wa__Message__ExtendedTextMessageWithParentKey         *message);
 /* Wa__Message__FutureProofMessage methods */
 void   wa__message__future_proof_message__init
                      (Wa__Message__FutureProofMessage         *message);
@@ -5933,6 +7958,9 @@ void   wa__message__initial_security_notification_setting_sync__init
 /* Wa__Message__InteractiveMessage__Body methods */
 void   wa__message__interactive_message__body__init
                      (Wa__Message__InteractiveMessage__Body         *message);
+/* Wa__Message__InteractiveMessage__CarouselMessage methods */
+void   wa__message__interactive_message__carousel_message__init
+                     (Wa__Message__InteractiveMessage__CarouselMessage         *message);
 /* Wa__Message__InteractiveMessage__CollectionMessage methods */
 void   wa__message__interactive_message__collection_message__init
                      (Wa__Message__InteractiveMessage__CollectionMessage         *message);
@@ -5969,6 +7997,9 @@ void   wa__message__invoice_message__init
 /* Wa__Message__KeepInChatMessage methods */
 void   wa__message__keep_in_chat_message__init
                      (Wa__Message__KeepInChatMessage         *message);
+/* Wa__Message__ListMessage__Product methods */
+void   wa__message__list_message__product__init
+                     (Wa__Message__ListMessage__Product         *message);
 /* Wa__Message__ListMessage__ProductListHeaderImage methods */
 void   wa__message__list_message__product_list_header_image__init
                      (Wa__Message__ListMessage__ProductListHeaderImage         *message);
@@ -5978,9 +8009,6 @@ void   wa__message__list_message__product_list_info__init
 /* Wa__Message__ListMessage__ProductSection methods */
 void   wa__message__list_message__product_section__init
                      (Wa__Message__ListMessage__ProductSection         *message);
-/* Wa__Message__ListMessage__Product methods */
-void   wa__message__list_message__product__init
-                     (Wa__Message__ListMessage__Product         *message);
 /* Wa__Message__ListMessage__Row methods */
 void   wa__message__list_message__row__init
                      (Wa__Message__ListMessage__Row         *message);
@@ -6002,12 +8030,54 @@ void   wa__message__live_location_message__init
 /* Wa__Message__LocationMessage methods */
 void   wa__message__location_message__init
                      (Wa__Message__LocationMessage         *message);
+/* Wa__Message__MessageHistoryBundle methods */
+void   wa__message__message_history_bundle__init
+                     (Wa__Message__MessageHistoryBundle         *message);
+/* Wa__Message__NewsletterAdminInviteMessage methods */
+void   wa__message__newsletter_admin_invite_message__init
+                     (Wa__Message__NewsletterAdminInviteMessage         *message);
 /* Wa__Message__OrderMessage methods */
 void   wa__message__order_message__init
                      (Wa__Message__OrderMessage         *message);
 /* Wa__Message__PaymentInviteMessage methods */
 void   wa__message__payment_invite_message__init
                      (Wa__Message__PaymentInviteMessage         *message);
+/* Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest methods */
+void   wa__message__peer_data_operation_request_message__history_sync_on_demand_request__init
+                     (Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest         *message);
+/* Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest methods */
+void   wa__message__peer_data_operation_request_message__placeholder_message_resend_request__init
+                     (Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest         *message);
+/* Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload methods */
+void   wa__message__peer_data_operation_request_message__request_sticker_reupload__init
+                     (Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload         *message);
+/* Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview methods */
+void   wa__message__peer_data_operation_request_message__request_url_preview__init
+                     (Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview         *message);
+/* Wa__Message__PeerDataOperationRequestMessage methods */
+void   wa__message__peer_data_operation_request_message__init
+                     (Wa__Message__PeerDataOperationRequestMessage         *message);
+/* Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail methods */
+void   wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__link_preview_high_quality_thumbnail__init
+                     (Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail         *message);
+/* Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse methods */
+void   wa__message__peer_data_operation_request_response_message__peer_data_operation_result__link_preview_response__init
+                     (Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse         *message);
+/* Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse methods */
+void   wa__message__peer_data_operation_request_response_message__peer_data_operation_result__placeholder_message_resend_response__init
+                     (Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse         *message);
+/* Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult methods */
+void   wa__message__peer_data_operation_request_response_message__peer_data_operation_result__init
+                     (Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult         *message);
+/* Wa__Message__PeerDataOperationRequestResponseMessage methods */
+void   wa__message__peer_data_operation_request_response_message__init
+                     (Wa__Message__PeerDataOperationRequestResponseMessage         *message);
+/* Wa__Message__PinInChatMessage methods */
+void   wa__message__pin_in_chat_message__init
+                     (Wa__Message__PinInChatMessage         *message);
+/* Wa__Message__PlaceholderMessage methods */
+void   wa__message__placeholder_message__init
+                     (Wa__Message__PlaceholderMessage         *message);
 /* Wa__Message__PollCreationMessage__Option methods */
 void   wa__message__poll_creation_message__option__init
                      (Wa__Message__PollCreationMessage__Option         *message);
@@ -6017,12 +8087,12 @@ void   wa__message__poll_creation_message__init
 /* Wa__Message__PollEncValue methods */
 void   wa__message__poll_enc_value__init
                      (Wa__Message__PollEncValue         *message);
-/* Wa__Message__PollUpdateMessageMetadata methods */
-void   wa__message__poll_update_message_metadata__init
-                     (Wa__Message__PollUpdateMessageMetadata         *message);
 /* Wa__Message__PollUpdateMessage methods */
 void   wa__message__poll_update_message__init
                      (Wa__Message__PollUpdateMessage         *message);
+/* Wa__Message__PollUpdateMessageMetadata methods */
+void   wa__message__poll_update_message_metadata__init
+                     (Wa__Message__PollUpdateMessageMetadata         *message);
 /* Wa__Message__PollVoteMessage methods */
 void   wa__message__poll_vote_message__init
                      (Wa__Message__PollVoteMessage         *message);
@@ -6041,21 +8111,21 @@ void   wa__message__protocol_message__init
 /* Wa__Message__ReactionMessage methods */
 void   wa__message__reaction_message__init
                      (Wa__Message__ReactionMessage         *message);
-/* Wa__Message__RequestMediaUploadMessage methods */
-void   wa__message__request_media_upload_message__init
-                     (Wa__Message__RequestMediaUploadMessage         *message);
-/* Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult methods */
-void   wa__message__request_media_upload_response_message__request_media_upload_result__init
-                     (Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult         *message);
-/* Wa__Message__RequestMediaUploadResponseMessage methods */
-void   wa__message__request_media_upload_response_message__init
-                     (Wa__Message__RequestMediaUploadResponseMessage         *message);
 /* Wa__Message__RequestPaymentMessage methods */
 void   wa__message__request_payment_message__init
                      (Wa__Message__RequestPaymentMessage         *message);
 /* Wa__Message__RequestPhoneNumberMessage methods */
 void   wa__message__request_phone_number_message__init
                      (Wa__Message__RequestPhoneNumberMessage         *message);
+/* Wa__Message__RequestWelcomeMessageMetadata methods */
+void   wa__message__request_welcome_message_metadata__init
+                     (Wa__Message__RequestWelcomeMessageMetadata         *message);
+/* Wa__Message__ScheduledCallCreationMessage methods */
+void   wa__message__scheduled_call_creation_message__init
+                     (Wa__Message__ScheduledCallCreationMessage         *message);
+/* Wa__Message__ScheduledCallEditMessage methods */
+void   wa__message__scheduled_call_edit_message__init
+                     (Wa__Message__ScheduledCallEditMessage         *message);
 /* Wa__Message__SendPaymentMessage methods */
 void   wa__message__send_payment_message__init
                      (Wa__Message__SendPaymentMessage         *message);
@@ -6102,6 +8172,25 @@ Wa__Message *
 void   wa__message__free_unpacked
                      (Wa__Message *message,
                       ProtobufCAllocator *allocator);
+/* Wa__MessageAddOnContextInfo methods */
+void   wa__message_add_on_context_info__init
+                     (Wa__MessageAddOnContextInfo         *message);
+size_t wa__message_add_on_context_info__get_packed_size
+                     (const Wa__MessageAddOnContextInfo   *message);
+size_t wa__message_add_on_context_info__pack
+                     (const Wa__MessageAddOnContextInfo   *message,
+                      uint8_t             *out);
+size_t wa__message_add_on_context_info__pack_to_buffer
+                     (const Wa__MessageAddOnContextInfo   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__MessageAddOnContextInfo *
+       wa__message_add_on_context_info__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__message_add_on_context_info__free_unpacked
+                     (Wa__MessageAddOnContextInfo *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__MessageContextInfo methods */
 void   wa__message_context_info__init
                      (Wa__MessageContextInfo         *message);
@@ -6139,6 +8228,25 @@ Wa__MessageKey *
                       const uint8_t       *data);
 void   wa__message_key__free_unpacked
                      (Wa__MessageKey *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__MessageSecretMessage methods */
+void   wa__message_secret_message__init
+                     (Wa__MessageSecretMessage         *message);
+size_t wa__message_secret_message__get_packed_size
+                     (const Wa__MessageSecretMessage   *message);
+size_t wa__message_secret_message__pack
+                     (const Wa__MessageSecretMessage   *message,
+                      uint8_t             *out);
+size_t wa__message_secret_message__pack_to_buffer
+                     (const Wa__MessageSecretMessage   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__MessageSecretMessage *
+       wa__message_secret_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__message_secret_message__free_unpacked
+                     (Wa__MessageSecretMessage *message,
                       ProtobufCAllocator *allocator);
 /* Wa__Money methods */
 void   wa__money__init
@@ -6241,6 +8349,25 @@ Wa__NotificationMessageInfo *
 void   wa__notification_message_info__free_unpacked
                      (Wa__NotificationMessageInfo *message,
                       ProtobufCAllocator *allocator);
+/* Wa__NotificationSettings methods */
+void   wa__notification_settings__init
+                     (Wa__NotificationSettings         *message);
+size_t wa__notification_settings__get_packed_size
+                     (const Wa__NotificationSettings   *message);
+size_t wa__notification_settings__pack
+                     (const Wa__NotificationSettings   *message,
+                      uint8_t             *out);
+size_t wa__notification_settings__pack_to_buffer
+                     (const Wa__NotificationSettings   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__NotificationSettings *
+       wa__notification_settings__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__notification_settings__free_unpacked
+                     (Wa__NotificationSettings *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__PastParticipant methods */
 void   wa__past_participant__init
                      (Wa__PastParticipant         *message);
@@ -6278,6 +8405,25 @@ Wa__PastParticipants *
                       const uint8_t       *data);
 void   wa__past_participants__free_unpacked
                      (Wa__PastParticipants *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__PatchDebugData methods */
+void   wa__patch_debug_data__init
+                     (Wa__PatchDebugData         *message);
+size_t wa__patch_debug_data__get_packed_size
+                     (const Wa__PatchDebugData   *message);
+size_t wa__patch_debug_data__pack
+                     (const Wa__PatchDebugData   *message,
+                      uint8_t             *out);
+size_t wa__patch_debug_data__pack_to_buffer
+                     (const Wa__PatchDebugData   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__PatchDebugData *
+       wa__patch_debug_data__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__patch_debug_data__free_unpacked
+                     (Wa__PatchDebugData *message,
                       ProtobufCAllocator *allocator);
 /* Wa__PaymentBackground__MediaData methods */
 void   wa__payment_background__media_data__init
@@ -6320,44 +8466,6 @@ Wa__PaymentInfo *
 void   wa__payment_info__free_unpacked
                      (Wa__PaymentInfo *message,
                       ProtobufCAllocator *allocator);
-/* Wa__PendingKeyExchange methods */
-void   wa__pending_key_exchange__init
-                     (Wa__PendingKeyExchange         *message);
-size_t wa__pending_key_exchange__get_packed_size
-                     (const Wa__PendingKeyExchange   *message);
-size_t wa__pending_key_exchange__pack
-                     (const Wa__PendingKeyExchange   *message,
-                      uint8_t             *out);
-size_t wa__pending_key_exchange__pack_to_buffer
-                     (const Wa__PendingKeyExchange   *message,
-                      ProtobufCBuffer     *buffer);
-Wa__PendingKeyExchange *
-       wa__pending_key_exchange__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   wa__pending_key_exchange__free_unpacked
-                     (Wa__PendingKeyExchange *message,
-                      ProtobufCAllocator *allocator);
-/* Wa__PendingPreKey methods */
-void   wa__pending_pre_key__init
-                     (Wa__PendingPreKey         *message);
-size_t wa__pending_pre_key__get_packed_size
-                     (const Wa__PendingPreKey   *message);
-size_t wa__pending_pre_key__pack
-                     (const Wa__PendingPreKey   *message,
-                      uint8_t             *out);
-size_t wa__pending_pre_key__pack_to_buffer
-                     (const Wa__PendingPreKey   *message,
-                      ProtobufCBuffer     *buffer);
-Wa__PendingPreKey *
-       wa__pending_pre_key__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   wa__pending_pre_key__free_unpacked
-                     (Wa__PendingPreKey *message,
-                      ProtobufCAllocator *allocator);
 /* Wa__PhoneNumberToLIDMapping methods */
 void   wa__phone_number_to_lidmapping__init
                      (Wa__PhoneNumberToLIDMapping         *message);
@@ -6395,6 +8503,25 @@ Wa__PhotoChange *
                       const uint8_t       *data);
 void   wa__photo_change__free_unpacked
                      (Wa__PhotoChange *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__PinInChat methods */
+void   wa__pin_in_chat__init
+                     (Wa__PinInChat         *message);
+size_t wa__pin_in_chat__get_packed_size
+                     (const Wa__PinInChat   *message);
+size_t wa__pin_in_chat__pack
+                     (const Wa__PinInChat   *message,
+                      uint8_t             *out);
+size_t wa__pin_in_chat__pack_to_buffer
+                     (const Wa__PinInChat   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__PinInChat *
+       wa__pin_in_chat__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__pin_in_chat__free_unpacked
+                     (Wa__PinInChat *message,
                       ProtobufCAllocator *allocator);
 /* Wa__Point methods */
 void   wa__point__init
@@ -6491,6 +8618,44 @@ Wa__PreKeyRecordStructure *
 void   wa__pre_key_record_structure__free_unpacked
                      (Wa__PreKeyRecordStructure *message,
                       ProtobufCAllocator *allocator);
+/* Wa__PreKeySignalMessage methods */
+void   wa__pre_key_signal_message__init
+                     (Wa__PreKeySignalMessage         *message);
+size_t wa__pre_key_signal_message__get_packed_size
+                     (const Wa__PreKeySignalMessage   *message);
+size_t wa__pre_key_signal_message__pack
+                     (const Wa__PreKeySignalMessage   *message,
+                      uint8_t             *out);
+size_t wa__pre_key_signal_message__pack_to_buffer
+                     (const Wa__PreKeySignalMessage   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__PreKeySignalMessage *
+       wa__pre_key_signal_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__pre_key_signal_message__free_unpacked
+                     (Wa__PreKeySignalMessage *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__PremiumMessageInfo methods */
+void   wa__premium_message_info__init
+                     (Wa__PremiumMessageInfo         *message);
+size_t wa__premium_message_info__get_packed_size
+                     (const Wa__PremiumMessageInfo   *message);
+size_t wa__premium_message_info__pack
+                     (const Wa__PremiumMessageInfo   *message,
+                      uint8_t             *out);
+size_t wa__premium_message_info__pack_to_buffer
+                     (const Wa__PremiumMessageInfo   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__PremiumMessageInfo *
+       wa__premium_message_info__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__premium_message_info__free_unpacked
+                     (Wa__PremiumMessageInfo *message,
+                      ProtobufCAllocator *allocator);
 /* Wa__Pushname methods */
 void   wa__pushname__init
                      (Wa__Pushname         *message);
@@ -6509,6 +8674,34 @@ Wa__Pushname *
                       const uint8_t       *data);
 void   wa__pushname__free_unpacked
                      (Wa__Pushname *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__QP__Filter methods */
+void   wa__qp__filter__init
+                     (Wa__QP__Filter         *message);
+/* Wa__QP__FilterClause methods */
+void   wa__qp__filter_clause__init
+                     (Wa__QP__FilterClause         *message);
+/* Wa__QP__FilterParameters methods */
+void   wa__qp__filter_parameters__init
+                     (Wa__QP__FilterParameters         *message);
+/* Wa__QP methods */
+void   wa__qp__init
+                     (Wa__QP         *message);
+size_t wa__qp__get_packed_size
+                     (const Wa__QP   *message);
+size_t wa__qp__pack
+                     (const Wa__QP   *message,
+                      uint8_t             *out);
+size_t wa__qp__pack_to_buffer
+                     (const Wa__QP   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__QP *
+       wa__qp__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__qp__free_unpacked
+                     (Wa__QP *message,
                       ProtobufCAllocator *allocator);
 /* Wa__Reaction methods */
 void   wa__reaction__init
@@ -6567,24 +8760,62 @@ Wa__RecordStructure *
 void   wa__record_structure__free_unpacked
                      (Wa__RecordStructure *message,
                       ProtobufCAllocator *allocator);
-/* Wa__SenderChainKey methods */
-void   wa__sender_chain_key__init
-                     (Wa__SenderChainKey         *message);
-size_t wa__sender_chain_key__get_packed_size
-                     (const Wa__SenderChainKey   *message);
-size_t wa__sender_chain_key__pack
-                     (const Wa__SenderChainKey   *message,
+/* Wa__ReportingTokenInfo methods */
+void   wa__reporting_token_info__init
+                     (Wa__ReportingTokenInfo         *message);
+size_t wa__reporting_token_info__get_packed_size
+                     (const Wa__ReportingTokenInfo   *message);
+size_t wa__reporting_token_info__pack
+                     (const Wa__ReportingTokenInfo   *message,
                       uint8_t             *out);
-size_t wa__sender_chain_key__pack_to_buffer
-                     (const Wa__SenderChainKey   *message,
+size_t wa__reporting_token_info__pack_to_buffer
+                     (const Wa__ReportingTokenInfo   *message,
                       ProtobufCBuffer     *buffer);
-Wa__SenderChainKey *
-       wa__sender_chain_key__unpack
+Wa__ReportingTokenInfo *
+       wa__reporting_token_info__unpack
                      (ProtobufCAllocator  *allocator,
                       size_t               len,
                       const uint8_t       *data);
-void   wa__sender_chain_key__free_unpacked
-                     (Wa__SenderChainKey *message,
+void   wa__reporting_token_info__free_unpacked
+                     (Wa__ReportingTokenInfo *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__SenderKeyDistributionMessage methods */
+void   wa__sender_key_distribution_message__init
+                     (Wa__SenderKeyDistributionMessage         *message);
+size_t wa__sender_key_distribution_message__get_packed_size
+                     (const Wa__SenderKeyDistributionMessage   *message);
+size_t wa__sender_key_distribution_message__pack
+                     (const Wa__SenderKeyDistributionMessage   *message,
+                      uint8_t             *out);
+size_t wa__sender_key_distribution_message__pack_to_buffer
+                     (const Wa__SenderKeyDistributionMessage   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__SenderKeyDistributionMessage *
+       wa__sender_key_distribution_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__sender_key_distribution_message__free_unpacked
+                     (Wa__SenderKeyDistributionMessage *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__SenderKeyMessage methods */
+void   wa__sender_key_message__init
+                     (Wa__SenderKeyMessage         *message);
+size_t wa__sender_key_message__get_packed_size
+                     (const Wa__SenderKeyMessage   *message);
+size_t wa__sender_key_message__pack
+                     (const Wa__SenderKeyMessage   *message,
+                      uint8_t             *out);
+size_t wa__sender_key_message__pack_to_buffer
+                     (const Wa__SenderKeyMessage   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__SenderKeyMessage *
+       wa__sender_key_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__sender_key_message__free_unpacked
+                     (Wa__SenderKeyMessage *message,
                       ProtobufCAllocator *allocator);
 /* Wa__SenderKeyRecordStructure methods */
 void   wa__sender_key_record_structure__init
@@ -6605,6 +8836,15 @@ Wa__SenderKeyRecordStructure *
 void   wa__sender_key_record_structure__free_unpacked
                      (Wa__SenderKeyRecordStructure *message,
                       ProtobufCAllocator *allocator);
+/* Wa__SenderKeyStateStructure__SenderChainKey methods */
+void   wa__sender_key_state_structure__sender_chain_key__init
+                     (Wa__SenderKeyStateStructure__SenderChainKey         *message);
+/* Wa__SenderKeyStateStructure__SenderMessageKey methods */
+void   wa__sender_key_state_structure__sender_message_key__init
+                     (Wa__SenderKeyStateStructure__SenderMessageKey         *message);
+/* Wa__SenderKeyStateStructure__SenderSigningKey methods */
+void   wa__sender_key_state_structure__sender_signing_key__init
+                     (Wa__SenderKeyStateStructure__SenderSigningKey         *message);
 /* Wa__SenderKeyStateStructure methods */
 void   wa__sender_key_state_structure__init
                      (Wa__SenderKeyStateStructure         *message);
@@ -6623,44 +8863,6 @@ Wa__SenderKeyStateStructure *
                       const uint8_t       *data);
 void   wa__sender_key_state_structure__free_unpacked
                      (Wa__SenderKeyStateStructure *message,
-                      ProtobufCAllocator *allocator);
-/* Wa__SenderMessageKey methods */
-void   wa__sender_message_key__init
-                     (Wa__SenderMessageKey         *message);
-size_t wa__sender_message_key__get_packed_size
-                     (const Wa__SenderMessageKey   *message);
-size_t wa__sender_message_key__pack
-                     (const Wa__SenderMessageKey   *message,
-                      uint8_t             *out);
-size_t wa__sender_message_key__pack_to_buffer
-                     (const Wa__SenderMessageKey   *message,
-                      ProtobufCBuffer     *buffer);
-Wa__SenderMessageKey *
-       wa__sender_message_key__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   wa__sender_message_key__free_unpacked
-                     (Wa__SenderMessageKey *message,
-                      ProtobufCAllocator *allocator);
-/* Wa__SenderSigningKey methods */
-void   wa__sender_signing_key__init
-                     (Wa__SenderSigningKey         *message);
-size_t wa__sender_signing_key__get_packed_size
-                     (const Wa__SenderSigningKey   *message);
-size_t wa__sender_signing_key__pack
-                     (const Wa__SenderSigningKey   *message,
-                      uint8_t             *out);
-size_t wa__sender_signing_key__pack_to_buffer
-                     (const Wa__SenderSigningKey   *message,
-                      ProtobufCBuffer     *buffer);
-Wa__SenderSigningKey *
-       wa__sender_signing_key__unpack
-                     (ProtobufCAllocator  *allocator,
-                      size_t               len,
-                      const uint8_t       *data);
-void   wa__sender_signing_key__free_unpacked
-                     (Wa__SenderSigningKey *message,
                       ProtobufCAllocator *allocator);
 /* Wa__ServerErrorReceipt methods */
 void   wa__server_error_receipt__init
@@ -6681,6 +8883,21 @@ Wa__ServerErrorReceipt *
 void   wa__server_error_receipt__free_unpacked
                      (Wa__ServerErrorReceipt *message,
                       ProtobufCAllocator *allocator);
+/* Wa__SessionStructure__Chain__ChainKey methods */
+void   wa__session_structure__chain__chain_key__init
+                     (Wa__SessionStructure__Chain__ChainKey         *message);
+/* Wa__SessionStructure__Chain__MessageKey methods */
+void   wa__session_structure__chain__message_key__init
+                     (Wa__SessionStructure__Chain__MessageKey         *message);
+/* Wa__SessionStructure__Chain methods */
+void   wa__session_structure__chain__init
+                     (Wa__SessionStructure__Chain         *message);
+/* Wa__SessionStructure__PendingKeyExchange methods */
+void   wa__session_structure__pending_key_exchange__init
+                     (Wa__SessionStructure__PendingKeyExchange         *message);
+/* Wa__SessionStructure__PendingPreKey methods */
+void   wa__session_structure__pending_pre_key__init
+                     (Wa__SessionStructure__PendingPreKey         *message);
 /* Wa__SessionStructure methods */
 void   wa__session_structure__init
                      (Wa__SessionStructure         *message);
@@ -6699,6 +8916,25 @@ Wa__SessionStructure *
                       const uint8_t       *data);
 void   wa__session_structure__free_unpacked
                      (Wa__SessionStructure *message,
+                      ProtobufCAllocator *allocator);
+/* Wa__SignalMessage methods */
+void   wa__signal_message__init
+                     (Wa__SignalMessage         *message);
+size_t wa__signal_message__get_packed_size
+                     (const Wa__SignalMessage   *message);
+size_t wa__signal_message__pack
+                     (const Wa__SignalMessage   *message,
+                      uint8_t             *out);
+size_t wa__signal_message__pack_to_buffer
+                     (const Wa__SignalMessage   *message,
+                      ProtobufCBuffer     *buffer);
+Wa__SignalMessage *
+       wa__signal_message__unpack
+                     (ProtobufCAllocator  *allocator,
+                      size_t               len,
+                      const uint8_t       *data);
+void   wa__signal_message__free_unpacked
+                     (Wa__SignalMessage *message,
                       ProtobufCAllocator *allocator);
 /* Wa__SignedPreKeyRecordStructure methods */
 void   wa__signed_pre_key_record_structure__init
@@ -6785,18 +9021,45 @@ void   wa__sync_action_value__android_unsupported_actions__init
 /* Wa__SyncActionValue__ArchiveChatAction methods */
 void   wa__sync_action_value__archive_chat_action__init
                      (Wa__SyncActionValue__ArchiveChatAction         *message);
+/* Wa__SyncActionValue__BotWelcomeRequestAction methods */
+void   wa__sync_action_value__bot_welcome_request_action__init
+                     (Wa__SyncActionValue__BotWelcomeRequestAction         *message);
+/* Wa__SyncActionValue__CallLogAction methods */
+void   wa__sync_action_value__call_log_action__init
+                     (Wa__SyncActionValue__CallLogAction         *message);
+/* Wa__SyncActionValue__ChatAssignmentAction methods */
+void   wa__sync_action_value__chat_assignment_action__init
+                     (Wa__SyncActionValue__ChatAssignmentAction         *message);
+/* Wa__SyncActionValue__ChatAssignmentOpenedStatusAction methods */
+void   wa__sync_action_value__chat_assignment_opened_status_action__init
+                     (Wa__SyncActionValue__ChatAssignmentOpenedStatusAction         *message);
 /* Wa__SyncActionValue__ClearChatAction methods */
 void   wa__sync_action_value__clear_chat_action__init
                      (Wa__SyncActionValue__ClearChatAction         *message);
 /* Wa__SyncActionValue__ContactAction methods */
 void   wa__sync_action_value__contact_action__init
                      (Wa__SyncActionValue__ContactAction         *message);
+/* Wa__SyncActionValue__CustomPaymentMethod methods */
+void   wa__sync_action_value__custom_payment_method__init
+                     (Wa__SyncActionValue__CustomPaymentMethod         *message);
+/* Wa__SyncActionValue__CustomPaymentMethodMetadata methods */
+void   wa__sync_action_value__custom_payment_method_metadata__init
+                     (Wa__SyncActionValue__CustomPaymentMethodMetadata         *message);
+/* Wa__SyncActionValue__CustomPaymentMethodsAction methods */
+void   wa__sync_action_value__custom_payment_methods_action__init
+                     (Wa__SyncActionValue__CustomPaymentMethodsAction         *message);
 /* Wa__SyncActionValue__DeleteChatAction methods */
 void   wa__sync_action_value__delete_chat_action__init
                      (Wa__SyncActionValue__DeleteChatAction         *message);
+/* Wa__SyncActionValue__DeleteIndividualCallLogAction methods */
+void   wa__sync_action_value__delete_individual_call_log_action__init
+                     (Wa__SyncActionValue__DeleteIndividualCallLogAction         *message);
 /* Wa__SyncActionValue__DeleteMessageForMeAction methods */
 void   wa__sync_action_value__delete_message_for_me_action__init
                      (Wa__SyncActionValue__DeleteMessageForMeAction         *message);
+/* Wa__SyncActionValue__ExternalWebBetaAction methods */
+void   wa__sync_action_value__external_web_beta_action__init
+                     (Wa__SyncActionValue__ExternalWebBetaAction         *message);
 /* Wa__SyncActionValue__KeyExpiration methods */
 void   wa__sync_action_value__key_expiration__init
                      (Wa__SyncActionValue__KeyExpiration         *message);
@@ -6806,27 +9069,45 @@ void   wa__sync_action_value__label_association_action__init
 /* Wa__SyncActionValue__LabelEditAction methods */
 void   wa__sync_action_value__label_edit_action__init
                      (Wa__SyncActionValue__LabelEditAction         *message);
+/* Wa__SyncActionValue__LabelReorderingAction methods */
+void   wa__sync_action_value__label_reordering_action__init
+                     (Wa__SyncActionValue__LabelReorderingAction         *message);
 /* Wa__SyncActionValue__LocaleSetting methods */
 void   wa__sync_action_value__locale_setting__init
                      (Wa__SyncActionValue__LocaleSetting         *message);
 /* Wa__SyncActionValue__MarkChatAsReadAction methods */
 void   wa__sync_action_value__mark_chat_as_read_action__init
                      (Wa__SyncActionValue__MarkChatAsReadAction         *message);
+/* Wa__SyncActionValue__MarketingMessageAction methods */
+void   wa__sync_action_value__marketing_message_action__init
+                     (Wa__SyncActionValue__MarketingMessageAction         *message);
+/* Wa__SyncActionValue__MarketingMessageBroadcastAction methods */
+void   wa__sync_action_value__marketing_message_broadcast_action__init
+                     (Wa__SyncActionValue__MarketingMessageBroadcastAction         *message);
 /* Wa__SyncActionValue__MuteAction methods */
 void   wa__sync_action_value__mute_action__init
                      (Wa__SyncActionValue__MuteAction         *message);
 /* Wa__SyncActionValue__NuxAction methods */
 void   wa__sync_action_value__nux_action__init
                      (Wa__SyncActionValue__NuxAction         *message);
+/* Wa__SyncActionValue__PaymentInfoAction methods */
+void   wa__sync_action_value__payment_info_action__init
+                     (Wa__SyncActionValue__PaymentInfoAction         *message);
 /* Wa__SyncActionValue__PinAction methods */
 void   wa__sync_action_value__pin_action__init
                      (Wa__SyncActionValue__PinAction         *message);
+/* Wa__SyncActionValue__PnForLidChatAction methods */
+void   wa__sync_action_value__pn_for_lid_chat_action__init
+                     (Wa__SyncActionValue__PnForLidChatAction         *message);
 /* Wa__SyncActionValue__PrimaryFeature methods */
 void   wa__sync_action_value__primary_feature__init
                      (Wa__SyncActionValue__PrimaryFeature         *message);
 /* Wa__SyncActionValue__PrimaryVersionAction methods */
 void   wa__sync_action_value__primary_version_action__init
                      (Wa__SyncActionValue__PrimaryVersionAction         *message);
+/* Wa__SyncActionValue__PrivacySettingRelayAllCalls methods */
+void   wa__sync_action_value__privacy_setting_relay_all_calls__init
+                     (Wa__SyncActionValue__PrivacySettingRelayAllCalls         *message);
 /* Wa__SyncActionValue__PushNameSetting methods */
 void   wa__sync_action_value__push_name_setting__init
                      (Wa__SyncActionValue__PushNameSetting         *message);
@@ -6836,24 +9117,30 @@ void   wa__sync_action_value__quick_reply_action__init
 /* Wa__SyncActionValue__RecentEmojiWeightsAction methods */
 void   wa__sync_action_value__recent_emoji_weights_action__init
                      (Wa__SyncActionValue__RecentEmojiWeightsAction         *message);
+/* Wa__SyncActionValue__RemoveRecentStickerAction methods */
+void   wa__sync_action_value__remove_recent_sticker_action__init
+                     (Wa__SyncActionValue__RemoveRecentStickerAction         *message);
 /* Wa__SyncActionValue__SecurityNotificationSetting methods */
 void   wa__sync_action_value__security_notification_setting__init
                      (Wa__SyncActionValue__SecurityNotificationSetting         *message);
 /* Wa__SyncActionValue__StarAction methods */
 void   wa__sync_action_value__star_action__init
                      (Wa__SyncActionValue__StarAction         *message);
+/* Wa__SyncActionValue__StatusPrivacyAction methods */
+void   wa__sync_action_value__status_privacy_action__init
+                     (Wa__SyncActionValue__StatusPrivacyAction         *message);
 /* Wa__SyncActionValue__StickerAction methods */
 void   wa__sync_action_value__sticker_action__init
                      (Wa__SyncActionValue__StickerAction         *message);
 /* Wa__SyncActionValue__SubscriptionAction methods */
 void   wa__sync_action_value__subscription_action__init
                      (Wa__SyncActionValue__SubscriptionAction         *message);
-/* Wa__SyncActionValue__SyncActionMessageRange methods */
-void   wa__sync_action_value__sync_action_message_range__init
-                     (Wa__SyncActionValue__SyncActionMessageRange         *message);
 /* Wa__SyncActionValue__SyncActionMessage methods */
 void   wa__sync_action_value__sync_action_message__init
                      (Wa__SyncActionValue__SyncActionMessage         *message);
+/* Wa__SyncActionValue__SyncActionMessageRange methods */
+void   wa__sync_action_value__sync_action_message_range__init
+                     (Wa__SyncActionValue__SyncActionMessageRange         *message);
 /* Wa__SyncActionValue__TimeFormatAction methods */
 void   wa__sync_action_value__time_format_action__init
                      (Wa__SyncActionValue__TimeFormatAction         *message);
@@ -7196,14 +9483,14 @@ typedef void (*Wa__ADVSignedDeviceIdentityHMAC_Closure)
 typedef void (*Wa__ADVSignedKeyIndexList_Closure)
                  (const Wa__ADVSignedKeyIndexList *message,
                   void *closure_data);
-typedef void (*Wa__Account_Closure)
-                 (const Wa__Account *message,
-                  void *closure_data);
 typedef void (*Wa__ActionLink_Closure)
                  (const Wa__ActionLink *message,
                   void *closure_data);
 typedef void (*Wa__AutoDownloadSettings_Closure)
                  (const Wa__AutoDownloadSettings *message,
+                  void *closure_data);
+typedef void (*Wa__AvatarUserSettings_Closure)
+                 (const Wa__AvatarUserSettings *message,
                   void *closure_data);
 typedef void (*Wa__BizAccountLinkInfo_Closure)
                  (const Wa__BizAccountLinkInfo *message,
@@ -7213,6 +9500,18 @@ typedef void (*Wa__BizAccountPayload_Closure)
                   void *closure_data);
 typedef void (*Wa__BizIdentityInfo_Closure)
                  (const Wa__BizIdentityInfo *message,
+                  void *closure_data);
+typedef void (*Wa__BotAvatarMetadata_Closure)
+                 (const Wa__BotAvatarMetadata *message,
+                  void *closure_data);
+typedef void (*Wa__BotMetadata_Closure)
+                 (const Wa__BotMetadata *message,
+                  void *closure_data);
+typedef void (*Wa__BotPluginMetadata_Closure)
+                 (const Wa__BotPluginMetadata *message,
+                  void *closure_data);
+typedef void (*Wa__BotSuggestedPromptMetadata_Closure)
+                 (const Wa__BotSuggestedPromptMetadata *message,
                   void *closure_data);
 typedef void (*Wa__CallLogRecord__ParticipantInfo_Closure)
                  (const Wa__CallLogRecord__ParticipantInfo *message,
@@ -7229,17 +9528,26 @@ typedef void (*Wa__CertChain__NoiseCertificate_Closure)
 typedef void (*Wa__CertChain_Closure)
                  (const Wa__CertChain *message,
                   void *closure_data);
-typedef void (*Wa__Chain_Closure)
-                 (const Wa__Chain *message,
+typedef void (*Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData_Closure)
+                 (const Wa__ChatRowOpaqueData__DraftMessage__CtwaContextData *message,
                   void *closure_data);
-typedef void (*Wa__ChainKey_Closure)
-                 (const Wa__ChainKey *message,
+typedef void (*Wa__ChatRowOpaqueData__DraftMessage__CtwaContextLinkData_Closure)
+                 (const Wa__ChatRowOpaqueData__DraftMessage__CtwaContextLinkData *message,
+                  void *closure_data);
+typedef void (*Wa__ChatRowOpaqueData__DraftMessage_Closure)
+                 (const Wa__ChatRowOpaqueData__DraftMessage *message,
+                  void *closure_data);
+typedef void (*Wa__ChatRowOpaqueData_Closure)
+                 (const Wa__ChatRowOpaqueData *message,
                   void *closure_data);
 typedef void (*Wa__ClientPayload__DNSSource_Closure)
                  (const Wa__ClientPayload__DNSSource *message,
                   void *closure_data);
 typedef void (*Wa__ClientPayload__DevicePairingRegistrationData_Closure)
                  (const Wa__ClientPayload__DevicePairingRegistrationData *message,
+                  void *closure_data);
+typedef void (*Wa__ClientPayload__InteropData_Closure)
+                 (const Wa__ClientPayload__InteropData *message,
                   void *closure_data);
 typedef void (*Wa__ClientPayload__UserAgent__AppVersion_Closure)
                  (const Wa__ClientPayload__UserAgent__AppVersion *message,
@@ -7256,17 +9564,35 @@ typedef void (*Wa__ClientPayload__WebInfo_Closure)
 typedef void (*Wa__ClientPayload_Closure)
                  (const Wa__ClientPayload *message,
                   void *closure_data);
+typedef void (*Wa__CommentMetadata_Closure)
+                 (const Wa__CommentMetadata *message,
+                  void *closure_data);
 typedef void (*Wa__ContextInfo__AdReplyInfo_Closure)
                  (const Wa__ContextInfo__AdReplyInfo *message,
                   void *closure_data);
+typedef void (*Wa__ContextInfo__BusinessMessageForwardInfo_Closure)
+                 (const Wa__ContextInfo__BusinessMessageForwardInfo *message,
+                  void *closure_data);
+typedef void (*Wa__ContextInfo__DataSharingContext_Closure)
+                 (const Wa__ContextInfo__DataSharingContext *message,
+                  void *closure_data);
 typedef void (*Wa__ContextInfo__ExternalAdReplyInfo_Closure)
                  (const Wa__ContextInfo__ExternalAdReplyInfo *message,
+                  void *closure_data);
+typedef void (*Wa__ContextInfo__ForwardedNewsletterMessageInfo_Closure)
+                 (const Wa__ContextInfo__ForwardedNewsletterMessageInfo *message,
+                  void *closure_data);
+typedef void (*Wa__ContextInfo__UTMInfo_Closure)
+                 (const Wa__ContextInfo__UTMInfo *message,
                   void *closure_data);
 typedef void (*Wa__ContextInfo_Closure)
                  (const Wa__ContextInfo *message,
                   void *closure_data);
 typedef void (*Wa__Conversation_Closure)
                  (const Wa__Conversation *message,
+                  void *closure_data);
+typedef void (*Wa__DeviceConsistencyCodeMessage_Closure)
+                 (const Wa__DeviceConsistencyCodeMessage *message,
                   void *closure_data);
 typedef void (*Wa__DeviceListMetadata_Closure)
                  (const Wa__DeviceListMetadata *message,
@@ -7286,6 +9612,9 @@ typedef void (*Wa__DisappearingMode_Closure)
 typedef void (*Wa__EphemeralSetting_Closure)
                  (const Wa__EphemeralSetting *message,
                   void *closure_data);
+typedef void (*Wa__EventResponse_Closure)
+                 (const Wa__EventResponse *message,
+                  void *closure_data);
 typedef void (*Wa__ExitCode_Closure)
                  (const Wa__ExitCode *message,
                   void *closure_data);
@@ -7294,6 +9623,9 @@ typedef void (*Wa__ExternalBlobReference_Closure)
                   void *closure_data);
 typedef void (*Wa__GlobalSettings_Closure)
                  (const Wa__GlobalSettings *message,
+                  void *closure_data);
+typedef void (*Wa__GroupMention_Closure)
+                 (const Wa__GroupMention *message,
                   void *closure_data);
 typedef void (*Wa__GroupParticipant_Closure)
                  (const Wa__GroupParticipant *message,
@@ -7337,6 +9669,9 @@ typedef void (*Wa__InteractiveAnnotation_Closure)
 typedef void (*Wa__KeepInChat_Closure)
                  (const Wa__KeepInChat *message,
                   void *closure_data);
+typedef void (*Wa__KeyExchangeMessage_Closure)
+                 (const Wa__KeyExchangeMessage *message,
+                  void *closure_data);
 typedef void (*Wa__KeyId_Closure)
                  (const Wa__KeyId *message,
                   void *closure_data);
@@ -7349,11 +9684,26 @@ typedef void (*Wa__Location_Closure)
 typedef void (*Wa__MediaData_Closure)
                  (const Wa__MediaData *message,
                   void *closure_data);
+typedef void (*Wa__MediaEntry__DownloadableThumbnail_Closure)
+                 (const Wa__MediaEntry__DownloadableThumbnail *message,
+                  void *closure_data);
+typedef void (*Wa__MediaEntry__ProgressiveJpegDetails_Closure)
+                 (const Wa__MediaEntry__ProgressiveJpegDetails *message,
+                  void *closure_data);
+typedef void (*Wa__MediaEntry_Closure)
+                 (const Wa__MediaEntry *message,
+                  void *closure_data);
+typedef void (*Wa__MediaNotifyMessage_Closure)
+                 (const Wa__MediaNotifyMessage *message,
+                  void *closure_data);
 typedef void (*Wa__MediaRetryNotification_Closure)
                  (const Wa__MediaRetryNotification *message,
                   void *closure_data);
 typedef void (*Wa__Message__AppStateFatalExceptionNotification_Closure)
                  (const Wa__Message__AppStateFatalExceptionNotification *message,
+                  void *closure_data);
+typedef void (*Wa__Message__AppStateSyncKey_Closure)
+                 (const Wa__Message__AppStateSyncKey *message,
                   void *closure_data);
 typedef void (*Wa__Message__AppStateSyncKeyData_Closure)
                  (const Wa__Message__AppStateSyncKeyData *message,
@@ -7370,11 +9720,14 @@ typedef void (*Wa__Message__AppStateSyncKeyRequest_Closure)
 typedef void (*Wa__Message__AppStateSyncKeyShare_Closure)
                  (const Wa__Message__AppStateSyncKeyShare *message,
                   void *closure_data);
-typedef void (*Wa__Message__AppStateSyncKey_Closure)
-                 (const Wa__Message__AppStateSyncKey *message,
-                  void *closure_data);
 typedef void (*Wa__Message__AudioMessage_Closure)
                  (const Wa__Message__AudioMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__BCallMessage_Closure)
+                 (const Wa__Message__BCallMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__BotFeedbackMessage_Closure)
+                 (const Wa__Message__BotFeedbackMessage *message,
                   void *closure_data);
 typedef void (*Wa__Message__ButtonsMessage__Button__ButtonText_Closure)
                  (const Wa__Message__ButtonsMessage__Button__ButtonText *message,
@@ -7394,11 +9747,20 @@ typedef void (*Wa__Message__ButtonsResponseMessage_Closure)
 typedef void (*Wa__Message__Call_Closure)
                  (const Wa__Message__Call *message,
                   void *closure_data);
+typedef void (*Wa__Message__CallLogMessage__CallParticipant_Closure)
+                 (const Wa__Message__CallLogMessage__CallParticipant *message,
+                  void *closure_data);
+typedef void (*Wa__Message__CallLogMessage_Closure)
+                 (const Wa__Message__CallLogMessage *message,
+                  void *closure_data);
 typedef void (*Wa__Message__CancelPaymentRequestMessage_Closure)
                  (const Wa__Message__CancelPaymentRequestMessage *message,
                   void *closure_data);
 typedef void (*Wa__Message__Chat_Closure)
                  (const Wa__Message__Chat *message,
+                  void *closure_data);
+typedef void (*Wa__Message__CommentMessage_Closure)
+                 (const Wa__Message__CommentMessage *message,
                   void *closure_data);
 typedef void (*Wa__Message__ContactMessage_Closure)
                  (const Wa__Message__ContactMessage *message,
@@ -7415,8 +9777,32 @@ typedef void (*Wa__Message__DeviceSentMessage_Closure)
 typedef void (*Wa__Message__DocumentMessage_Closure)
                  (const Wa__Message__DocumentMessage *message,
                   void *closure_data);
+typedef void (*Wa__Message__EncCommentMessage_Closure)
+                 (const Wa__Message__EncCommentMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__EncEventUpdateMessage_Closure)
+                 (const Wa__Message__EncEventUpdateMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__EncReactionMessage_Closure)
+                 (const Wa__Message__EncReactionMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__EventEditMessage_Closure)
+                 (const Wa__Message__EventEditMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__EventMessage_Closure)
+                 (const Wa__Message__EventMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__EventResponseMessage_Closure)
+                 (const Wa__Message__EventResponseMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__EventUpdateMessage_Closure)
+                 (const Wa__Message__EventUpdateMessage *message,
+                  void *closure_data);
 typedef void (*Wa__Message__ExtendedTextMessage_Closure)
                  (const Wa__Message__ExtendedTextMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__ExtendedTextMessageWithParentKey_Closure)
+                 (const Wa__Message__ExtendedTextMessageWithParentKey *message,
                   void *closure_data);
 typedef void (*Wa__Message__FutureProofMessage_Closure)
                  (const Wa__Message__FutureProofMessage *message,
@@ -7454,6 +9840,9 @@ typedef void (*Wa__Message__InitialSecurityNotificationSettingSync_Closure)
 typedef void (*Wa__Message__InteractiveMessage__Body_Closure)
                  (const Wa__Message__InteractiveMessage__Body *message,
                   void *closure_data);
+typedef void (*Wa__Message__InteractiveMessage__CarouselMessage_Closure)
+                 (const Wa__Message__InteractiveMessage__CarouselMessage *message,
+                  void *closure_data);
 typedef void (*Wa__Message__InteractiveMessage__CollectionMessage_Closure)
                  (const Wa__Message__InteractiveMessage__CollectionMessage *message,
                   void *closure_data);
@@ -7490,6 +9879,9 @@ typedef void (*Wa__Message__InvoiceMessage_Closure)
 typedef void (*Wa__Message__KeepInChatMessage_Closure)
                  (const Wa__Message__KeepInChatMessage *message,
                   void *closure_data);
+typedef void (*Wa__Message__ListMessage__Product_Closure)
+                 (const Wa__Message__ListMessage__Product *message,
+                  void *closure_data);
 typedef void (*Wa__Message__ListMessage__ProductListHeaderImage_Closure)
                  (const Wa__Message__ListMessage__ProductListHeaderImage *message,
                   void *closure_data);
@@ -7498,9 +9890,6 @@ typedef void (*Wa__Message__ListMessage__ProductListInfo_Closure)
                   void *closure_data);
 typedef void (*Wa__Message__ListMessage__ProductSection_Closure)
                  (const Wa__Message__ListMessage__ProductSection *message,
-                  void *closure_data);
-typedef void (*Wa__Message__ListMessage__Product_Closure)
-                 (const Wa__Message__ListMessage__Product *message,
                   void *closure_data);
 typedef void (*Wa__Message__ListMessage__Row_Closure)
                  (const Wa__Message__ListMessage__Row *message,
@@ -7523,11 +9912,53 @@ typedef void (*Wa__Message__LiveLocationMessage_Closure)
 typedef void (*Wa__Message__LocationMessage_Closure)
                  (const Wa__Message__LocationMessage *message,
                   void *closure_data);
+typedef void (*Wa__Message__MessageHistoryBundle_Closure)
+                 (const Wa__Message__MessageHistoryBundle *message,
+                  void *closure_data);
+typedef void (*Wa__Message__NewsletterAdminInviteMessage_Closure)
+                 (const Wa__Message__NewsletterAdminInviteMessage *message,
+                  void *closure_data);
 typedef void (*Wa__Message__OrderMessage_Closure)
                  (const Wa__Message__OrderMessage *message,
                   void *closure_data);
 typedef void (*Wa__Message__PaymentInviteMessage_Closure)
                  (const Wa__Message__PaymentInviteMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest_Closure)
+                 (const Wa__Message__PeerDataOperationRequestMessage__HistorySyncOnDemandRequest *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest_Closure)
+                 (const Wa__Message__PeerDataOperationRequestMessage__PlaceholderMessageResendRequest *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload_Closure)
+                 (const Wa__Message__PeerDataOperationRequestMessage__RequestStickerReupload *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview_Closure)
+                 (const Wa__Message__PeerDataOperationRequestMessage__RequestUrlPreview *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestMessage_Closure)
+                 (const Wa__Message__PeerDataOperationRequestMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail_Closure)
+                 (const Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse__LinkPreviewHighQualityThumbnail *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse_Closure)
+                 (const Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__LinkPreviewResponse *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse_Closure)
+                 (const Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult__PlaceholderMessageResendResponse *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult_Closure)
+                 (const Wa__Message__PeerDataOperationRequestResponseMessage__PeerDataOperationResult *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PeerDataOperationRequestResponseMessage_Closure)
+                 (const Wa__Message__PeerDataOperationRequestResponseMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PinInChatMessage_Closure)
+                 (const Wa__Message__PinInChatMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PlaceholderMessage_Closure)
+                 (const Wa__Message__PlaceholderMessage *message,
                   void *closure_data);
 typedef void (*Wa__Message__PollCreationMessage__Option_Closure)
                  (const Wa__Message__PollCreationMessage__Option *message,
@@ -7538,11 +9969,11 @@ typedef void (*Wa__Message__PollCreationMessage_Closure)
 typedef void (*Wa__Message__PollEncValue_Closure)
                  (const Wa__Message__PollEncValue *message,
                   void *closure_data);
-typedef void (*Wa__Message__PollUpdateMessageMetadata_Closure)
-                 (const Wa__Message__PollUpdateMessageMetadata *message,
-                  void *closure_data);
 typedef void (*Wa__Message__PollUpdateMessage_Closure)
                  (const Wa__Message__PollUpdateMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__PollUpdateMessageMetadata_Closure)
+                 (const Wa__Message__PollUpdateMessageMetadata *message,
                   void *closure_data);
 typedef void (*Wa__Message__PollVoteMessage_Closure)
                  (const Wa__Message__PollVoteMessage *message,
@@ -7562,20 +9993,20 @@ typedef void (*Wa__Message__ProtocolMessage_Closure)
 typedef void (*Wa__Message__ReactionMessage_Closure)
                  (const Wa__Message__ReactionMessage *message,
                   void *closure_data);
-typedef void (*Wa__Message__RequestMediaUploadMessage_Closure)
-                 (const Wa__Message__RequestMediaUploadMessage *message,
-                  void *closure_data);
-typedef void (*Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult_Closure)
-                 (const Wa__Message__RequestMediaUploadResponseMessage__RequestMediaUploadResult *message,
-                  void *closure_data);
-typedef void (*Wa__Message__RequestMediaUploadResponseMessage_Closure)
-                 (const Wa__Message__RequestMediaUploadResponseMessage *message,
-                  void *closure_data);
 typedef void (*Wa__Message__RequestPaymentMessage_Closure)
                  (const Wa__Message__RequestPaymentMessage *message,
                   void *closure_data);
 typedef void (*Wa__Message__RequestPhoneNumberMessage_Closure)
                  (const Wa__Message__RequestPhoneNumberMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__RequestWelcomeMessageMetadata_Closure)
+                 (const Wa__Message__RequestWelcomeMessageMetadata *message,
+                  void *closure_data);
+typedef void (*Wa__Message__ScheduledCallCreationMessage_Closure)
+                 (const Wa__Message__ScheduledCallCreationMessage *message,
+                  void *closure_data);
+typedef void (*Wa__Message__ScheduledCallEditMessage_Closure)
+                 (const Wa__Message__ScheduledCallEditMessage *message,
                   void *closure_data);
 typedef void (*Wa__Message__SendPaymentMessage_Closure)
                  (const Wa__Message__SendPaymentMessage *message,
@@ -7607,11 +10038,17 @@ typedef void (*Wa__Message__VideoMessage_Closure)
 typedef void (*Wa__Message_Closure)
                  (const Wa__Message *message,
                   void *closure_data);
+typedef void (*Wa__MessageAddOnContextInfo_Closure)
+                 (const Wa__MessageAddOnContextInfo *message,
+                  void *closure_data);
 typedef void (*Wa__MessageContextInfo_Closure)
                  (const Wa__MessageContextInfo *message,
                   void *closure_data);
 typedef void (*Wa__MessageKey_Closure)
                  (const Wa__MessageKey *message,
+                  void *closure_data);
+typedef void (*Wa__MessageSecretMessage_Closure)
+                 (const Wa__MessageSecretMessage *message,
                   void *closure_data);
 typedef void (*Wa__Money_Closure)
                  (const Wa__Money *message,
@@ -7634,11 +10071,17 @@ typedef void (*Wa__NoiseCertificate_Closure)
 typedef void (*Wa__NotificationMessageInfo_Closure)
                  (const Wa__NotificationMessageInfo *message,
                   void *closure_data);
+typedef void (*Wa__NotificationSettings_Closure)
+                 (const Wa__NotificationSettings *message,
+                  void *closure_data);
 typedef void (*Wa__PastParticipant_Closure)
                  (const Wa__PastParticipant *message,
                   void *closure_data);
 typedef void (*Wa__PastParticipants_Closure)
                  (const Wa__PastParticipants *message,
+                  void *closure_data);
+typedef void (*Wa__PatchDebugData_Closure)
+                 (const Wa__PatchDebugData *message,
                   void *closure_data);
 typedef void (*Wa__PaymentBackground__MediaData_Closure)
                  (const Wa__PaymentBackground__MediaData *message,
@@ -7649,17 +10092,14 @@ typedef void (*Wa__PaymentBackground_Closure)
 typedef void (*Wa__PaymentInfo_Closure)
                  (const Wa__PaymentInfo *message,
                   void *closure_data);
-typedef void (*Wa__PendingKeyExchange_Closure)
-                 (const Wa__PendingKeyExchange *message,
-                  void *closure_data);
-typedef void (*Wa__PendingPreKey_Closure)
-                 (const Wa__PendingPreKey *message,
-                  void *closure_data);
 typedef void (*Wa__PhoneNumberToLIDMapping_Closure)
                  (const Wa__PhoneNumberToLIDMapping *message,
                   void *closure_data);
 typedef void (*Wa__PhotoChange_Closure)
                  (const Wa__PhotoChange *message,
+                  void *closure_data);
+typedef void (*Wa__PinInChat_Closure)
+                 (const Wa__PinInChat *message,
                   void *closure_data);
 typedef void (*Wa__Point_Closure)
                  (const Wa__Point *message,
@@ -7676,8 +10116,26 @@ typedef void (*Wa__PollUpdate_Closure)
 typedef void (*Wa__PreKeyRecordStructure_Closure)
                  (const Wa__PreKeyRecordStructure *message,
                   void *closure_data);
+typedef void (*Wa__PreKeySignalMessage_Closure)
+                 (const Wa__PreKeySignalMessage *message,
+                  void *closure_data);
+typedef void (*Wa__PremiumMessageInfo_Closure)
+                 (const Wa__PremiumMessageInfo *message,
+                  void *closure_data);
 typedef void (*Wa__Pushname_Closure)
                  (const Wa__Pushname *message,
+                  void *closure_data);
+typedef void (*Wa__QP__Filter_Closure)
+                 (const Wa__QP__Filter *message,
+                  void *closure_data);
+typedef void (*Wa__QP__FilterClause_Closure)
+                 (const Wa__QP__FilterClause *message,
+                  void *closure_data);
+typedef void (*Wa__QP__FilterParameters_Closure)
+                 (const Wa__QP__FilterParameters *message,
+                  void *closure_data);
+typedef void (*Wa__QP_Closure)
+                 (const Wa__QP *message,
                   void *closure_data);
 typedef void (*Wa__Reaction_Closure)
                  (const Wa__Reaction *message,
@@ -7688,26 +10146,53 @@ typedef void (*Wa__RecentEmojiWeight_Closure)
 typedef void (*Wa__RecordStructure_Closure)
                  (const Wa__RecordStructure *message,
                   void *closure_data);
-typedef void (*Wa__SenderChainKey_Closure)
-                 (const Wa__SenderChainKey *message,
+typedef void (*Wa__ReportingTokenInfo_Closure)
+                 (const Wa__ReportingTokenInfo *message,
+                  void *closure_data);
+typedef void (*Wa__SenderKeyDistributionMessage_Closure)
+                 (const Wa__SenderKeyDistributionMessage *message,
+                  void *closure_data);
+typedef void (*Wa__SenderKeyMessage_Closure)
+                 (const Wa__SenderKeyMessage *message,
                   void *closure_data);
 typedef void (*Wa__SenderKeyRecordStructure_Closure)
                  (const Wa__SenderKeyRecordStructure *message,
                   void *closure_data);
+typedef void (*Wa__SenderKeyStateStructure__SenderChainKey_Closure)
+                 (const Wa__SenderKeyStateStructure__SenderChainKey *message,
+                  void *closure_data);
+typedef void (*Wa__SenderKeyStateStructure__SenderMessageKey_Closure)
+                 (const Wa__SenderKeyStateStructure__SenderMessageKey *message,
+                  void *closure_data);
+typedef void (*Wa__SenderKeyStateStructure__SenderSigningKey_Closure)
+                 (const Wa__SenderKeyStateStructure__SenderSigningKey *message,
+                  void *closure_data);
 typedef void (*Wa__SenderKeyStateStructure_Closure)
                  (const Wa__SenderKeyStateStructure *message,
-                  void *closure_data);
-typedef void (*Wa__SenderMessageKey_Closure)
-                 (const Wa__SenderMessageKey *message,
-                  void *closure_data);
-typedef void (*Wa__SenderSigningKey_Closure)
-                 (const Wa__SenderSigningKey *message,
                   void *closure_data);
 typedef void (*Wa__ServerErrorReceipt_Closure)
                  (const Wa__ServerErrorReceipt *message,
                   void *closure_data);
+typedef void (*Wa__SessionStructure__Chain__ChainKey_Closure)
+                 (const Wa__SessionStructure__Chain__ChainKey *message,
+                  void *closure_data);
+typedef void (*Wa__SessionStructure__Chain__MessageKey_Closure)
+                 (const Wa__SessionStructure__Chain__MessageKey *message,
+                  void *closure_data);
+typedef void (*Wa__SessionStructure__Chain_Closure)
+                 (const Wa__SessionStructure__Chain *message,
+                  void *closure_data);
+typedef void (*Wa__SessionStructure__PendingKeyExchange_Closure)
+                 (const Wa__SessionStructure__PendingKeyExchange *message,
+                  void *closure_data);
+typedef void (*Wa__SessionStructure__PendingPreKey_Closure)
+                 (const Wa__SessionStructure__PendingPreKey *message,
+                  void *closure_data);
 typedef void (*Wa__SessionStructure_Closure)
                  (const Wa__SessionStructure *message,
+                  void *closure_data);
+typedef void (*Wa__SignalMessage_Closure)
+                 (const Wa__SignalMessage *message,
                   void *closure_data);
 typedef void (*Wa__SignedPreKeyRecordStructure_Closure)
                  (const Wa__SignedPreKeyRecordStructure *message,
@@ -7730,17 +10215,44 @@ typedef void (*Wa__SyncActionValue__AndroidUnsupportedActions_Closure)
 typedef void (*Wa__SyncActionValue__ArchiveChatAction_Closure)
                  (const Wa__SyncActionValue__ArchiveChatAction *message,
                   void *closure_data);
+typedef void (*Wa__SyncActionValue__BotWelcomeRequestAction_Closure)
+                 (const Wa__SyncActionValue__BotWelcomeRequestAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__CallLogAction_Closure)
+                 (const Wa__SyncActionValue__CallLogAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__ChatAssignmentAction_Closure)
+                 (const Wa__SyncActionValue__ChatAssignmentAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__ChatAssignmentOpenedStatusAction_Closure)
+                 (const Wa__SyncActionValue__ChatAssignmentOpenedStatusAction *message,
+                  void *closure_data);
 typedef void (*Wa__SyncActionValue__ClearChatAction_Closure)
                  (const Wa__SyncActionValue__ClearChatAction *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__ContactAction_Closure)
                  (const Wa__SyncActionValue__ContactAction *message,
                   void *closure_data);
+typedef void (*Wa__SyncActionValue__CustomPaymentMethod_Closure)
+                 (const Wa__SyncActionValue__CustomPaymentMethod *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__CustomPaymentMethodMetadata_Closure)
+                 (const Wa__SyncActionValue__CustomPaymentMethodMetadata *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__CustomPaymentMethodsAction_Closure)
+                 (const Wa__SyncActionValue__CustomPaymentMethodsAction *message,
+                  void *closure_data);
 typedef void (*Wa__SyncActionValue__DeleteChatAction_Closure)
                  (const Wa__SyncActionValue__DeleteChatAction *message,
                   void *closure_data);
+typedef void (*Wa__SyncActionValue__DeleteIndividualCallLogAction_Closure)
+                 (const Wa__SyncActionValue__DeleteIndividualCallLogAction *message,
+                  void *closure_data);
 typedef void (*Wa__SyncActionValue__DeleteMessageForMeAction_Closure)
                  (const Wa__SyncActionValue__DeleteMessageForMeAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__ExternalWebBetaAction_Closure)
+                 (const Wa__SyncActionValue__ExternalWebBetaAction *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__KeyExpiration_Closure)
                  (const Wa__SyncActionValue__KeyExpiration *message,
@@ -7751,11 +10263,20 @@ typedef void (*Wa__SyncActionValue__LabelAssociationAction_Closure)
 typedef void (*Wa__SyncActionValue__LabelEditAction_Closure)
                  (const Wa__SyncActionValue__LabelEditAction *message,
                   void *closure_data);
+typedef void (*Wa__SyncActionValue__LabelReorderingAction_Closure)
+                 (const Wa__SyncActionValue__LabelReorderingAction *message,
+                  void *closure_data);
 typedef void (*Wa__SyncActionValue__LocaleSetting_Closure)
                  (const Wa__SyncActionValue__LocaleSetting *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__MarkChatAsReadAction_Closure)
                  (const Wa__SyncActionValue__MarkChatAsReadAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__MarketingMessageAction_Closure)
+                 (const Wa__SyncActionValue__MarketingMessageAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__MarketingMessageBroadcastAction_Closure)
+                 (const Wa__SyncActionValue__MarketingMessageBroadcastAction *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__MuteAction_Closure)
                  (const Wa__SyncActionValue__MuteAction *message,
@@ -7763,14 +10284,23 @@ typedef void (*Wa__SyncActionValue__MuteAction_Closure)
 typedef void (*Wa__SyncActionValue__NuxAction_Closure)
                  (const Wa__SyncActionValue__NuxAction *message,
                   void *closure_data);
+typedef void (*Wa__SyncActionValue__PaymentInfoAction_Closure)
+                 (const Wa__SyncActionValue__PaymentInfoAction *message,
+                  void *closure_data);
 typedef void (*Wa__SyncActionValue__PinAction_Closure)
                  (const Wa__SyncActionValue__PinAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__PnForLidChatAction_Closure)
+                 (const Wa__SyncActionValue__PnForLidChatAction *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__PrimaryFeature_Closure)
                  (const Wa__SyncActionValue__PrimaryFeature *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__PrimaryVersionAction_Closure)
                  (const Wa__SyncActionValue__PrimaryVersionAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__PrivacySettingRelayAllCalls_Closure)
+                 (const Wa__SyncActionValue__PrivacySettingRelayAllCalls *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__PushNameSetting_Closure)
                  (const Wa__SyncActionValue__PushNameSetting *message,
@@ -7781,11 +10311,17 @@ typedef void (*Wa__SyncActionValue__QuickReplyAction_Closure)
 typedef void (*Wa__SyncActionValue__RecentEmojiWeightsAction_Closure)
                  (const Wa__SyncActionValue__RecentEmojiWeightsAction *message,
                   void *closure_data);
+typedef void (*Wa__SyncActionValue__RemoveRecentStickerAction_Closure)
+                 (const Wa__SyncActionValue__RemoveRecentStickerAction *message,
+                  void *closure_data);
 typedef void (*Wa__SyncActionValue__SecurityNotificationSetting_Closure)
                  (const Wa__SyncActionValue__SecurityNotificationSetting *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__StarAction_Closure)
                  (const Wa__SyncActionValue__StarAction *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__StatusPrivacyAction_Closure)
+                 (const Wa__SyncActionValue__StatusPrivacyAction *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__StickerAction_Closure)
                  (const Wa__SyncActionValue__StickerAction *message,
@@ -7793,11 +10329,11 @@ typedef void (*Wa__SyncActionValue__StickerAction_Closure)
 typedef void (*Wa__SyncActionValue__SubscriptionAction_Closure)
                  (const Wa__SyncActionValue__SubscriptionAction *message,
                   void *closure_data);
-typedef void (*Wa__SyncActionValue__SyncActionMessageRange_Closure)
-                 (const Wa__SyncActionValue__SyncActionMessageRange *message,
-                  void *closure_data);
 typedef void (*Wa__SyncActionValue__SyncActionMessage_Closure)
                  (const Wa__SyncActionValue__SyncActionMessage *message,
+                  void *closure_data);
+typedef void (*Wa__SyncActionValue__SyncActionMessageRange_Closure)
+                 (const Wa__SyncActionValue__SyncActionMessageRange *message,
                   void *closure_data);
 typedef void (*Wa__SyncActionValue__TimeFormatAction_Closure)
                  (const Wa__SyncActionValue__TimeFormatAction *message,
