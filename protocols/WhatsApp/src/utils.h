@@ -5,7 +5,7 @@ Copyright © 2019-25 George Hazan
 
 */
 
-#define DICT_VERSION 2
+#define DICT_VERSION 3
 
 #define LIST_EMPTY   0
 #define STREAM_END   2

@@ -443,6 +443,7 @@ LBL_Error:
 	node.connectreason = WA__CLIENT_PAYLOAD__CONNECT_REASON__USER_ACTIVATED; node.has_connectreason = true;
 	node.useragent = &userAgent;
 	node.webinfo = &webInfo;
+	node.pull = node.has_pull = true;
 
 	MBinBuffer payload(proto::Serialize(&node));
 	MBinBuffer payloadEnc = m_noise->encrypt(payload.data(), payload.length());
