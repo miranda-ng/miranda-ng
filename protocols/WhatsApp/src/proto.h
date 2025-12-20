@@ -369,7 +369,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	CMStringA GenerateMessageId();
 	CMStringA GetMessageText(const Wa__Message *pMessage);
 	void GetMessageContent(CMStringA &txt, const char *szType, const char *szUrl, const char *szMimetype, const char *szDirectPath, const ProtobufCBinaryData &szMediaKey, const char *szCaption = nullptr);
-	void ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg);
+	bool ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg);
 	bool CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig);
 
 	void ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead);

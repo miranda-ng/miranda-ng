@@ -18,14 +18,14 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 	if (msgType == nullptr || msgFrom == nullptr || msgId == nullptr) {
 		debugLogA("bad message received: <%s> <%s> <%s>", msgType, msgFrom, msgId);
+		SendAck(node);
 		return;
 	}
-
-	SendAck(node);
 
 	MEVENT hEvent = db_event_getById(m_szModuleName, msgId);
 	if (hEvent) {
 		debugLogA("this message is already processed: %s", msgId);
+		SendAck(node);
 		return;
 	}
 
@@ -41,6 +41,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		if (recipient) {
 			if (m_szJid != msgFrom) {
 				debugLogA("strange message: with recipient, but not from me");
+				SendAck(node);
 				return;
 			}
 			szChatId = recipient;
@@ -53,6 +54,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	else if (jid.isGroup()) {
 		if (!participant) {
 			debugLogA("strange message: from group, but without participant");
+			SendAck(node);
 			return;
 		}
 
@@ -63,6 +65,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	else if (jid.isBroadcast()) {
 		if (!participant) {
 			debugLogA("strange message: from group, but without participant");
+			SendAck(node);
 			return;
 		}
 
@@ -84,6 +87,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	}
 	else {
 		debugLogA("invalid message type");
+		SendAck(node);
 		return;
 	}
 
@@ -180,7 +184,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 			if (encMsg->senderkeydistributionmessage)
 				m_signalStore->processSenderKeyMessage(szAuthor, encMsg->senderkeydistributionmessage);
 
-			ProcessMessage(type, msg);
+			bool bHasSync = ProcessMessage(type, msg);
 
 			// send receipt
 			const char *pszReceiptType = nullptr, *pszReceiptTo = participant;
@@ -196,6 +200,8 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 				pszReceiptType = "inactive";
 
 			SendReceipt(szChatId, pszReceiptTo, msgId, pszReceiptType);
+			if (bHasSync)
+				SendReceipt(szChatId, pszReceiptTo, msgId, "hist_sync");
 		}
 		catch (const char *pszError) {
 			debugLogA("Message decryption failed with error: %s", pszError);
@@ -203,6 +209,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 		if (!iDecryptable) {
 			debugLogA("Nothing to decrypt");
+			SendAck(node);
 			return;
 		}
 	}
@@ -253,7 +260,7 @@ static const Wa__Message* getBody(const Wa__Message *message)
 	return message;
 }
 
-void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
+bool WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 {
 	auto *key = msg.key;
 	auto *body = getBody(msg.message);
@@ -334,6 +341,9 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			m_impl.m_resyncApp.Start(10000);
 			break;
 
+		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__INITIAL_SECURITY_NOTIFICATION_SETTING_SYNC:
+			return true;
+
 		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__HISTORY_SYNC_NOTIFICATION:
 			debugLogA("History sync notification");
 			if (auto *pHist = protoMsg->historysyncnotification) {
@@ -342,8 +352,10 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 					MBinBuffer inflate(Utils_Unzip(unpadBuffer16(buf)));
 
 					proto::HistorySync sync(inflate);
-					if (sync)
+					if (sync) {
 						ProcessHistorySync(sync);
+						return true;
+					}
 				}
 			}
 			break;
@@ -396,6 +408,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			break;
 		}
 	}
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
