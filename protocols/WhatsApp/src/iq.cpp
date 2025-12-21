@@ -444,6 +444,7 @@ LBL_Error:
 	node.useragent = &userAgent;
 	node.webinfo = &webInfo;
 	node.pull = node.has_pull = true;
+	node.liddbmigrated = false; node.has_liddbmigrated = true;
 
 	MBinBuffer payload(proto::Serialize(&node));
 	MBinBuffer payloadEnc = m_noise->encrypt(payload.data(), payload.length());

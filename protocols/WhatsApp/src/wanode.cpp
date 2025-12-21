@@ -469,9 +469,6 @@ void WAWriter::writeNode(const WANode *pNode)
 
 	// write attributes
 	for (auto &it : pNode->attrs) {
-		if (it->value.IsEmpty())
-			continue;
-
 		writeString(it->name.c_str());
 		writeString(it->value.c_str());
 	}

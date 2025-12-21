@@ -85,16 +85,50 @@ struct WANodeIq : public WANode
 
 struct XCHILD
 {
-	const char *name, *value;
+	const char *name;
 
 	__forceinline XCHILD(const char *_name) :
 		name(_name)
 	{}
 };
 
-__forceinline WANode& operator<<(WANode &node, const XCHILD &child)
+__forceinline WANode &operator<<(WANode &node, const XCHILD &child)
 {
 	node.addChild(child.name);
+	return node;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct XCHILDP
+{
+	const char *name;
+
+	__forceinline XCHILDP(const char *_name) :
+		name(_name)
+	{}
+};
+
+__forceinline WANode &operator<<(WANode &node, const XCHILDP &child)
+{
+	return *node.addChild(child.name);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct XATTR
+{
+	const char *name, *value;
+
+	__forceinline XATTR(const char *_name, const char *_value) :
+		name(_name),
+		value(_value)
+	{}
+};
+
+__forceinline WANode &operator<<(WANode &node, const XATTR &attr)
+{
+	node.addAttr(attr.name, attr.value);
 	return node;
 }
 

@@ -164,9 +164,9 @@ void WhatsAppProto::OnLoggedIn()
 	m_impl.m_keepAlive.Start(1000);
 
 	// retrieve initial info
-	WANodeIq abt(IQ::GET, "abt");
-	abt.addChild("props")->addAttr("protocol", "1");
-	WSSendNode(abt, &WhatsAppProto::OnIqDoNothing);
+	WSSendNode(
+		WANodeIq(IQ::GET, "w") << XCHILDP("props") << XATTR("protocol", "2") << XATTR("hash", ""),
+		&WhatsAppProto::OnIqDoNothing);
 
 	WSSendNode(
 		WANodeIq(IQ::GET, "blocklist"),
