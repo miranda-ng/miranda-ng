@@ -12,8 +12,6 @@ Copyright © 2019-25 George Hazan
 
 void WhatsAppProto::ServerThread(void *)
 {
-	m_signalStore = new MSignalStore(this, "");
-
 	do {
 		m_bRespawn = m_bUnregister = false;
 		ServerThreadWorker();
@@ -42,6 +40,9 @@ void WhatsAppProto::ServerThreadWorker()
 
 	if (pReply->resultCode != 101)
 		return;
+
+	if (!m_signalStore)
+		m_signalStore = new MSignalStore(this, "");
 
 	delete m_noise;
 	m_noise = new WANoise(this);
@@ -164,9 +165,9 @@ void WhatsAppProto::OnLoggedIn()
 	m_impl.m_keepAlive.Start(1000);
 
 	// retrieve initial info
-	WSSendNode(
-		WANodeIq(IQ::GET, "w") << XCHILDP("props") << XATTR("protocol", "2") << XATTR("hash", ""),
-		&WhatsAppProto::OnIqDoNothing);
+	WANodeIq props(IQ::GET, "w");
+	props << XCHILDP("props") << XATTR("protocol", "2") << XATTR("hash", "");
+	WSSendNode(props, &WhatsAppProto::OnIqDoNothing);
 
 	WSSendNode(
 		WANodeIq(IQ::GET, "blocklist"),
@@ -176,10 +177,10 @@ void WhatsAppProto::OnLoggedIn()
 		WANodeIq(IQ::GET, "privacy") << XCHILD("privacy"),
 		&WhatsAppProto::OnIqDoNothing);
 
-	CMStringW wszOwnAvatar(GetAvatarFileName(0));
-	if (_waccess(wszOwnAvatar, 0))
-		ServerFetchAvatar(m_szJid);
+	// resync all collections
+	ResyncServer(m_arCollections);
 
+	// retrieve group chat settings
 	GC_RefreshMetadata();
 }
 

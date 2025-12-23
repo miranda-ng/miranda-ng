@@ -49,11 +49,6 @@ void WhatsAppProto::OnServerSync(const WANode &node)
 	SendAck(node);
 }
 
-void WhatsAppProto::ResyncAll()
-{
-	ResyncServer(m_arCollections);
-}
-
 void WhatsAppProto::ResyncServer(const OBJLIST<WACollection> &task)
 {
 	WANodeIq iq(IQ::SET, "w:sync:app:state");
@@ -111,6 +106,8 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 				continue;
 			}
 
+			debugLogA("Handling snapshot: %s", protobuf_c_text_to_string(snapshot).c_str());
+
 			dwVersion = snapshot->version->version;
 			if (dwVersion > pCollection->version) {
 				pCollection->hash.init();
@@ -128,6 +125,8 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 					debugLogA("%s: unable to decode patch, skipping");
 					continue;
 				}
+
+				debugLogA("Handling patch: %s", protobuf_c_text_to_string(patch).c_str());
 
 				dwVersion = patch->version->version;
 				if (dwVersion > pCollection->version) {
@@ -191,19 +190,18 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 		debugLogA("Unable to decode action data with id=%d", id);
 		return;
 	}
-	
+
+	debugLogA("Handling sync action: %s", protobuf_c_text_to_string(data).c_str());
+
 	CMStringA szContent((char *)data->index.data, (int)data->index.len);
 	JSONNode jsonRoot = JSONNode::parse(szContent);
 	if (bSet) {
-		debugLogA("Applying patch '%s'", szContent.c_str());
 		ApplyPatch(jsonRoot, data->value);
 
 		pColl->hash.add(macValue, 32);
 		pColl->indexValueMap[index] = std::string((char*)macValue, 32);
 	}
 	else {
-		debugLogA("Removing patch '%s'", szContent.c_str());
-
 		if (jsonRoot.at((json_index_t)0).as_string() == "contact")
 			if (auto *pUser = FindUser(jsonRoot[1].as_string().c_str())) {
 				debugLogA("Deleting contact %d", pUser->hContact);
@@ -222,12 +220,9 @@ void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue 
 {
 	debugLogA("Applying patch for %s", protobuf_c_text_to_string(data).c_str());
 
-	auto title = index.at((json_index_t)0).as_string();
-
-	if (title == "contact" && data->contactaction) {
+	if (auto *pAction = data->contactaction) {
 		auto *pUser = AddUser(index.at(1).as_string().c_str(), false);
 
-		auto *pAction = data->contactaction;
 		auto &fullName = pAction->fullname;
 		if (fullName)
 			setUString(pUser->hContact, "Nick", fullName);
@@ -250,6 +245,9 @@ void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue 
 				setUString(pUser->hContact, "LastName", fullName);
 			}
 		}
+
+		if (pAction->lidjid && isLidUser(pAction->lidjid))
+			SetLid(pUser, WAJid(pAction->lidjid).user);
 	}
 }
 

@@ -276,23 +276,16 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 		friend class WhatsAppProto;
 		WhatsAppProto &m_proto;
 
-		CTimer m_keepAlive, m_resyncApp;
+		CTimer m_keepAlive;
 		void OnKeepAlive(CTimer *)
 		{	m_proto.SendKeepAlive();
-		}
-		void OnResync(CTimer *pTimer)
-		{
-			pTimer->Stop();
-			m_proto.ResyncAll();
 		}
 
 		CWhatsAppProtoImpl(WhatsAppProto &pro) :
 			m_proto(pro),
-			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this)),
-			m_resyncApp(Miranda_GetSystemWindow(), UINT_PTR(this)+1)
+			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this))
 		{
 			m_keepAlive.OnEvent = Callback(this, &CWhatsAppProtoImpl::OnKeepAlive);
-			m_resyncApp.OnEvent = Callback(this, &CWhatsAppProtoImpl::OnResync);
 		}
 	} m_impl;
 
@@ -315,7 +308,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void ProcessHistorySync(const Wa__HistorySync *pSync);
 	void RemoveCachedSettings();
 	void ResyncServer(const OBJLIST<WACollection> &task);
-	void ResyncAll(void);
 
 	__forceinline WACollection *FindCollection(const char *pszName)
 	{	return m_arCollections.find((WACollection *)&pszName);

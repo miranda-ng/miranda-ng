@@ -337,8 +337,6 @@ bool WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			break;
 
 		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__APP_STATE_FATAL_EXCEPTION_NOTIFICATION:
-			m_impl.m_resyncApp.Stop();
-			m_impl.m_resyncApp.Start(10000);
 			break;
 
 		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__INITIAL_SECURITY_NOTIFICATION_SETTING_SYNC:

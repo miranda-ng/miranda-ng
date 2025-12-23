@@ -43,6 +43,9 @@ INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
+	if (pai->hContact == 0)
+		pai->hContact = m_ownContact;
+
 	ptrA jid(getStringA(pai->hContact, DBKEY_ID));
 	if (jid == NULL)
 		return GAIR_NOAVATAR;
@@ -104,7 +107,7 @@ CMStringW WhatsAppProto::GetAvatarFileName(MCONTACT hContact)
 
 INT_PTR WhatsAppProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
-	CMStringW wszOwnAvatar(GetAvatarFileName(0));
+	CMStringW wszOwnAvatar(GetAvatarFileName(m_ownContact));
 	wcsncpy_s((wchar_t*)wParam, lParam, wszOwnAvatar, _TRUNCATE);
 	return 0;
 }
@@ -120,8 +123,7 @@ void WhatsAppProto::ServerFetchAvatar(const char *jid)
 {
 	if (auto *pUser = FindUser(jid)) {
 		WANodeIq iq(IQ::GET, "w:profile:picture");
-		iq.addAttr("target", jid);
-		*iq.addChild("picture") << CHAR_PARAM("type", "preview") << CHAR_PARAM("query", "url");
+		iq << XATTR("target", jid) << XCHILDP("picture") << CHAR_PARAM("type", "preview") << CHAR_PARAM("query", "url");
 		WSSendNode(iq, &WhatsAppProto::OnIqGetAvatar, pUser);
 	}
 }

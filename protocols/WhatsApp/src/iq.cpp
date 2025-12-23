@@ -42,8 +42,6 @@ void WhatsAppProto::OnIqBlockList(const WANode &node)
 
 void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 {
-	m_bUpdatedPrekeys = true;
-
 	int iCount = node.getChild("count")->getAttrInt("value");
 	if (iCount < 5)
 		UploadMorePrekeys();
@@ -51,6 +49,9 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 
 void WhatsAppProto::UploadMorePrekeys()
 {
+	// prevent protocol from sending additional query
+	m_bUpdatedPrekeys = true;
+
 	WANodeIq iq(IQ::SET, "encrypt");
 
 	auto regId = encodeBigEndian(getDword(DBKEY_REG_ID));
@@ -443,7 +444,7 @@ LBL_Error:
 	node.connectreason = WA__CLIENT_PAYLOAD__CONNECT_REASON__USER_ACTIVATED; node.has_connectreason = true;
 	node.useragent = &userAgent;
 	node.webinfo = &webInfo;
-	node.pull = node.has_pull = true;
+	node.pull = false; node.has_pull = true;
 	node.liddbmigrated = false; node.has_liddbmigrated = true;
 
 	MBinBuffer payload(proto::Serialize(&node));
@@ -473,30 +474,9 @@ void WhatsAppProto::OnReceiveFailure(const WANode &node)
 
 void WhatsAppProto::OnReceiveInfo(const WANode &node)
 {
-	if (auto *pChild = node.getFirstChild()) {
-		if (pChild->title == "offline") {
+	if (auto *pChild = node.getFirstChild())
+		if (pChild->title == "offline")
 			debugLogA("Processed %d offline events", pChild->getAttrInt("count"));
-
-			// retrieve loaded prekeys count
-			if (!m_bUpdatedPrekeys)
-				WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
-
-			auto *pUser = FindUser(m_szJid);
-			if (pUser->arDevices.getCount() == 0) {
-				LIST<char> jids(1);
-				jids.insert(m_szJid.GetBuffer());
-				SendUsync(jids, nullptr);
-			}
-
-			for (auto &it : m_arCollections) {
-				if (it->version == 0) {
-					m_impl.m_resyncApp.Stop();
-					m_impl.m_resyncApp.Start(1000);
-					break;
-				}
-			}
-		}
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -572,8 +552,6 @@ void WhatsAppProto::OnStreamError(const WANode &node)
 
 void WhatsAppProto::OnSuccess(const WANode &node)
 {
-	OnLoggedIn();
-
 	if (!m_ownContact) {
 		WAJid ownLid(node.getAttr("lid"));
 		if (auto *pUser = FindUser(ownLid.user))
@@ -587,6 +565,24 @@ void WhatsAppProto::OnSuccess(const WANode &node)
 	}
 	setWord(m_ownContact, "Status", ID_STATUS_ONLINE);
 
+	OnLoggedIn();
+
+	// fetch device list
+	auto *pUser = FindUser(m_szJid);
+	if (pUser->arDevices.getCount() == 0) {
+		LIST<char> jids(1);
+		jids.insert(m_szJid.GetBuffer());
+		SendUsync(jids, nullptr);
+	}
+
+	// check avatar hash
+	ServerFetchAvatar(m_szJid);
+
+	// retrieve loaded prekeys count
+	if (!m_bUpdatedPrekeys)
+		WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
+
+	// set active mode
 	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"), &WhatsAppProto::OnIqDoNothing);
 }
 

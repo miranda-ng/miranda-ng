@@ -586,6 +586,7 @@ WAMediaKeys::WAMediaKeys(const uint8_t *pKey, size_t keyLen, const char *pszMedi
 MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const ProtobufCBinaryData &mediaKeys, const char *pszMediaType)
 {
 	MHttpRequest req(REQUEST_GET);
+	req.flags = NLHRF_NODUMP;
 	req.m_szUrl = url;
 	req.AddHeader("Origin", "https://web.whatsapp.com");
 
