@@ -308,6 +308,7 @@ void CContactCache::deletedHandler()
 	m_isValid = false;
 	if (m_dat) {
 		m_dat->m_bForcedClose = true;
+		m_dat->m_cache = nullptr;
 
 		// this message must be sent async to allow a contact to rest in peace before window gets closed
 		::PostMessage(m_dat->GetHwnd(), WM_CLOSE, 1, 2);

@@ -653,7 +653,6 @@ void CMsgDialog::OnDestroy()
 
 	g_arUnreadWindows.remove((HANDLE)m_hContact);
 
-	m_cache->setWindowData();
 	m_pContainer->ClearMargins();
 	PostMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 	if (m_pContainer->cfg.flags.m_bSideBar)
@@ -678,13 +677,19 @@ void CMsgDialog::OnDestroy()
 		m_si = nullptr;
 	}
 
-	if (m_cache->isValid()) { // not valid means the contact was deleted
-		char *msg = m_message.GetRichTextRtf(true);
-		if (msg) {
-			g_plugin.setUString(m_hContact, "SavedMsg", msg);
-			mir_free(msg);
+	if (m_cache) {
+		m_cache->setWindowData();
+
+		if (m_cache->isValid()) { // not valid means the contact was deleted
+			char *msg = m_message.GetRichTextRtf(true);
+			if (msg) {
+				g_plugin.setUString(m_hContact, "SavedMsg", msg);
+				mir_free(msg);
+			}
+			else g_plugin.delSetting(m_hContact, "SavedMsg");
+
+			g_plugin.setDword("multisplit", m_iMultiSplit);
 		}
-		else g_plugin.delSetting(m_hContact, "SavedMsg");
 	}
 
 	if (AllowTyping())
@@ -720,12 +725,9 @@ void CMsgDialog::OnDestroy()
 	if (m_hwndTip)
 		DestroyWindow(m_hwndTip);
 
-	if (m_cache->isValid())
-		g_plugin.setDword("multisplit", m_iMultiSplit);
-
 	int i = GetTabIndexFromHWND(m_hwndParent, m_hwnd);
 	if (i >= 0) {
-		SendMessage(m_hwndParent, WM_USER + 100, 0, 0);                      // remove tooltip
+		SendMessage(m_hwndParent, WM_USER + 100, 0, 0); // remove tooltip
 		TabCtrl_DeleteItem(m_hwndParent, i);
 		m_pContainer->UpdateTabs();
 		m_iTabID = -1;
