@@ -1041,7 +1041,7 @@ void CMsgDialog::DM_ErrorDetected(int type, int flag)
 	case MSGERROR_CANCEL:
 	case MSGERROR_SENDLATER:
 		if (m_bErrorState) {
-			m_cache->saveHistory();
+			SaveHistory();
 			if (type == MSGERROR_SENDLATER)
 				sendQueue->doSendLater(m_iCurrentQueueError, this); // to be implemented at a later time
 			m_iOpenJobs--;
@@ -1063,7 +1063,7 @@ void CMsgDialog::DM_ErrorDetected(int type, int flag)
 		if (m_bErrorState) {
 			int resent = 0;
 
-			m_cache->saveHistory();
+			SaveHistory();
 			if (m_iCurrentQueueError >= 0 && m_iCurrentQueueError < SendQueue::NR_SENDJOBS) {
 				SendJob *job = sendQueue->getJobByIndex(m_iCurrentQueueError);
 				if (job->iSendId == 0 && job->hContact == 0)

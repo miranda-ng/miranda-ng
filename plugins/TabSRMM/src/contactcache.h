@@ -32,25 +32,6 @@
 #define C_INVALID_ACCOUNT L"<account error>"
 #define HISTORY_INITIAL_ALLOCSIZE 300
 
-struct TSessionStats : public MZeroedObject
-{
-	enum {
-		BYTES_RECEIVED = 1,
-		BYTES_SENT = 2,
-		FAILURE = 3,
-		UPDATE_WITH_LAST_RCV = 4,
-		SET_LAST_RCV = 5,
-		INIT_TIMER = 6,
-	};
-
-	time_t   started;
-	unsigned iSent, iReceived, iSentBytes, iReceivedBytes;
-	unsigned messageCount;
-	unsigned iFailures;
-	unsigned lastReceivedChars;
-	BOOL     bWritten;
-};
-
 class CContactCache : public MZeroedObject
 {
 	MCONTACT m_hContact, m_hSub;
@@ -66,12 +47,7 @@ class CContactCache : public MZeroedObject
 	int      m_nMax;
 
 	CMsgDialog *m_dat;
-	TSessionStats *m_stats;
 	DBCachedContact *cc;
-
-	LIST<char> m_history;
-	int m_iHistoryCurrent;
-	ptrA m_savedEditContent;
 
 	void initPhaseTwo();
 	void releaseAlloced();
@@ -104,13 +80,9 @@ public:
 	__forceinline LPCWSTR  getListeningInfo() const { return m_ListeningInfo; }
 	__forceinline uint8_t  getXStatusId() const { return m_xStatus; }
 
-	__forceinline uint32_t getSessionStart() const { return m_stats->started; }
-	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
-
 	__forceinline CMsgDialog* getDat() const { return m_dat; }
 
 	size_t getMaxMessageLength();
-	void   updateStats(int iType, size_t value = 0);
 
 	////////////////////////////////////////////////////////////////////////////
 
@@ -126,10 +98,6 @@ public:
 
 	wchar_t* getNormalizedStatusMsg(const wchar_t *src, bool fStripAll = false);
 	HICON    getIcon(int& iSize) const;
-
-	// input history
-	void     saveHistory();
-	void     inputHistoryEvent(WPARAM wParam);
 
 	static CContactCache* getContactCache(MCONTACT hContact);
 	static int cacheUpdateMetaChanged(WPARAM wParam, LPARAM lParam);

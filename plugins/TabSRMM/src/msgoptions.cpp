@@ -506,7 +506,6 @@ public:
 		m_cache = new CContactCache(m_hContact);
 		m_cache->updateNick();
 		m_cache->updateUIN();
-		m_cache->updateStats(TSessionStats::INIT_TIMER);
 		GetMYUIN();
 
 		edtText.SendMsg(EM_LIMITTEXT, TEMPLATE_LENGTH - 1, 0);

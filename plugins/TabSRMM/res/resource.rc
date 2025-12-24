@@ -109,7 +109,6 @@ BEGIN
     LTEXT           "Show avatar in message window",IDC_STATIC,12,72,127,8
     COMBOBOX        IDC_SHOWAVATAR,9,82,130,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Ignore sending timeouts",IDC_IGNORETIMEOUTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,101,164,12
-    CONTROL         "Load only actual history",IDC_LOADONLYACTUAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,113,164,12
     CONTROL         "Use private splitter position",IDC_PRIVATESPLITTER,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,125,296,12
     CONTROL         "Always trim message log to",IDC_ALWAYSTRIM2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,137,163,12

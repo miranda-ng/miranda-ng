@@ -333,7 +333,6 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 		if (IsWindowVisible(m_pContainer->m_hwnd))
 			m_pContainer->m_bHidden = false;
 	}
-	m_cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
 	if (hDbEvent != m_hDbEventFirst)
 		StreamEvents(hDbEvent, 1, 1);
@@ -400,11 +399,8 @@ void CMsgDialog::EventAdded(MEVENT hDbEvent, const DB::EventInfo &dbei)
 
 bool CMsgDialog::GetFirstEvent()
 {
-	int historyMode = g_plugin.getByte(m_hContact, "LoadHistory", Srmm::iHistoryMode);
-	if (m_bActualHistory)
-		historyMode = LOADHISTORY_COUNT;
-
 	DB::EventInfo dbei;
+	int historyMode = g_plugin.getByte(m_hContact, "LoadHistory", Srmm::iHistoryMode);
 
 	switch (historyMode) {
 	case LOADHISTORY_UNREAD:
@@ -414,7 +410,7 @@ bool CMsgDialog::GetFirstEvent()
 	case LOADHISTORY_COUNT:
 		{
 			DB::ECPTR pCursor(DB::EventsRev(m_hContact));
-			int n = (m_bActualHistory) ? m_cache->getSessionMsgCount() : g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
+			int n = g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
 			while (n > 0) {
 				MEVENT hPrevEvent = pCursor.FetchNext();
 				if (hPrevEvent == 0)

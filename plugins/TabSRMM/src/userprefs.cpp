@@ -82,7 +82,6 @@ public:
 		CheckDlgButton(m_hwnd, IDC_PRIVATESPLITTER, bSplit);
 		CheckDlgButton(m_hwnd, IDC_TEMPLOVERRIDE, db_get_b(m_hContact, TEMPLATES_MODULE, "enabled", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_RTLTEMPLOVERRIDE, db_get_b(m_hContact, RTLTEMPLATES_MODULE, "enabled", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_LOADONLYACTUAL, M.GetByte(m_hContact, "ActualHistory", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
 		SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
@@ -130,17 +129,6 @@ public:
 			db_set_dw(m_hContact, SRMSGMOD_T, "maxhist", (uint32_t)SendDlgItemMessage(m_hwnd, IDC_TRIMSPIN, UDM_GETPOS, 0, 0));
 		else
 			db_set_dw(m_hContact, SRMSGMOD_T, "maxhist", 0);
-
-		if (IsDlgButtonChecked(m_hwnd, IDC_LOADONLYACTUAL)) {
-			db_set_b(m_hContact, SRMSGMOD_T, "ActualHistory", 1);
-			if (dat)
-				dat->m_bActualHistory = true;
-		}
-		else {
-			db_set_b(m_hContact, SRMSGMOD_T, "ActualHistory", 0);
-			if (dat)
-				dat->m_bActualHistory = false;
-		}
 
 		if (IsDlgButtonChecked(m_hwnd, IDC_IGNORETIMEOUTS)) {
 			db_set_b(m_hContact, SRMSGMOD_T, "no_ack", 1);

@@ -302,8 +302,9 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (strcmp(cws->szModule, "CList") && strcmp(cws->szModule, szProto))
 		return 0;
 
+	// filter out this setting to avoid infinite loops while trying to obtain the most online contact
 	if (!strcmp(cws->szModule, META_PROTO))
-		if (!strcmp(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
+		if (!strcmp(setting, "Nick"))
 			return 0;
 
 	HWND hwnd = Srmm_FindWindow(hContact);

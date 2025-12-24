@@ -100,7 +100,7 @@ entry_found:
 
 	HWND	hwndDlg = dat->GetHwnd();
 
-	dat->m_cache->saveHistory();
+	dat->SaveHistory();
 	::SetDlgItemText(hwndDlg, IDC_SRMM_MESSAGE, L"");
 	::SetFocus(GetDlgItem(hwndDlg, IDC_SRMM_MESSAGE));
 
@@ -459,22 +459,14 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 
 	DBEVENTINFO dbei = {};
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT | DBEF_UTF;
+	dbei.bSent = dbei.bUtf = true;
 	dbei.szModule = Proto_GetBaseAccountName(job.hContact);
 	dbei.iTimestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(job.szSendBuffer) + 1;
-
-	if (dat)
-		dat->m_cache->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
-	else {
-		CContactCache *cc = CContactCache::getContactCache(job.hContact);
-		cc->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
-	}
-
-	if (job.dwFlags & DBEF_RTL)
-		dbei.flags |= DBEF_RTL;
 	dbei.pBlob = job.szSendBuffer;
 	dbei.szId = (char *)ack->lParam;
+	if (job.dwFlags & DBEF_RTL)
+		dbei.bRtl = true;
 
 	MessageWindowEvent evt = { job.iSendId, job.hContact, &dbei };
 	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
@@ -555,7 +547,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 
 		if (dat->m_hDbEventFirst == 0)
 			dat->RemakeLog();
-		dat->m_cache->saveHistory();
+		dat->SaveHistory();
 		dat->EnableSendButton(false);
 		if (dat->m_pContainer->m_hwndActive == dat->GetHwnd())
 			dat->UpdateReadChars();

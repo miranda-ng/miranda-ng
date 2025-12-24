@@ -322,12 +322,14 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 	CSuper(g_plugin, iDlgId, hContact),
 	m_pPanel(this),
+	m_arHistory(10),
 	timerAwayMsg(this, 100),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnCancelAdd(this, IDC_CANCELADD)
 {
 	m_hContact = hContact;
+	m_iSessionStart = time(0);
 
 	m_btnQuote.OnClick = Callback(this, &CMsgDialog::onClick_Quote);
 
@@ -537,8 +539,6 @@ bool CMsgDialog::OnInitDialog()
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
 	m_message.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 
-	m_bActualHistory = M.GetByte(m_hContact, "ActualHistory", 0) != 0;
-
 	// subclassing stuff
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_CONTACTPIC), AvatarSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_SPLITTERX), SplitterSubclassProc);
@@ -546,10 +546,7 @@ bool CMsgDialog::OnInitDialog()
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_MULTISPLITTER), SplitterSubclassProc);
 	mir_subclassWindow(GetDlgItem(m_hwnd, IDC_PANELSPLITTER), SplitterSubclassProc);
 
-	// load old messages from history (if wanted...)
-
 	m_cache->getMaxMessageLength();
-	m_cache->updateStats(TSessionStats::INIT_TIMER);
 
 	LoadContactAvatar();
 	LoadOwnAvatar();
@@ -774,7 +771,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 	decoded.TrimRight();
 
 	if (isChat()) {
-		m_cache->saveHistory();
+		SaveHistory();
 
 		if (m_si->pMI->bAckMsg) {
 			m_message.Enable(false);
@@ -1790,7 +1787,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (isCtrl && !isAlt && !isShift) {
 			// input history scrolling (ctrl-up / down)
 			if (g_plugin.bScrollHistory && (wParam == VK_UP || wParam == VK_DOWN)) {
-				m_cache->inputHistoryEvent(wParam);
+				InputHistoryEvent(wParam);
 				return 0;
 			}
 		}

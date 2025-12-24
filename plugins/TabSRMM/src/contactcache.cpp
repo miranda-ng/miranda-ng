@@ -36,8 +36,7 @@ static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 static DBCachedContact ccInvalid;
 
 CContactCache::CContactCache(MCONTACT hContact) :
-	m_hContact(hContact),
-	m_history(10)
+	m_hContact(hContact)
 {
 	if (hContact) {
 		if ((cc = db_get_contact(hContact)) != nullptr) {
@@ -166,34 +165,6 @@ bool CContactCache::updateUIN()
 	return false;
 }
 
-void CContactCache::updateStats(int iType, size_t value)
-{
-	if (m_stats == nullptr)
-		m_stats = new TSessionStats();
-
-	switch (iType) {
-	case TSessionStats::UPDATE_WITH_LAST_RCV:
-		if (!m_stats->lastReceivedChars)
-			break;
-		m_stats->iReceived++;
-		m_stats->messageCount++;
-		m_stats->iReceivedBytes += m_stats->lastReceivedChars;
-		m_stats->lastReceivedChars = 0;
-		break;
-	case TSessionStats::INIT_TIMER:
-		m_stats->started = time(0);
-		break;
-	case TSessionStats::SET_LAST_RCV:
-		m_stats->lastReceivedChars = (unsigned int)value;
-		break;
-	case TSessionStats::BYTES_SENT:
-		m_stats->iSent++;
-		m_stats->messageCount++;
-		m_stats->iSentBytes += (unsigned int)value;
-		break;
-	}
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //set the window data for this contact.The window procedure of the message
 // dialog will use this in WM_INITDIALOG and WM_DESTROY to tell the cache
@@ -220,16 +191,12 @@ void CContactCache::setWindowData(CMsgDialog *dat)
 // saves message to the input history.
 // it's using streamout in UTF8 format - no unicode "issues" and all RTF formatting is saved to the history.
 
-void CContactCache::saveHistory()
+void CMsgDialog::SaveHistory()
 {
-	if (m_dat == nullptr)
-		return;
-
-	auto &pEntry = m_dat->GetEntry();
-	ptrA szFromStream(pEntry.GetRichTextRtf());
+	ptrA szFromStream(m_message.GetRichTextRtf());
 	if (szFromStream != nullptr) {
 		m_iHistoryCurrent = -1;
-		m_history.insert(szFromStream.detach());
+		m_arHistory.insert(newStr(szFromStream));
 	}
 }
 
@@ -237,47 +204,42 @@ void CContactCache::saveHistory()
 // handle the input history scrolling for the message input area
 // @param wParam: VK_ keyboard code (VK_UP or VK_DOWN)
 
-void CContactCache::inputHistoryEvent(WPARAM wParam)
+void CMsgDialog::InputHistoryEvent(WPARAM wParam)
 {
-	if (m_dat == nullptr)
-		return;
-
-	auto &pEntry = m_dat->GetEntry();
-
-	if (m_history.getCount() > 0) {
+	if (m_arHistory.getCount() > 0) {
 		char *pszText;
 		if (wParam == VK_UP) {
 			if (m_iHistoryCurrent == 0)
 				return;
 
 			if (m_iHistoryCurrent < 0) {
-				m_savedEditContent = pEntry.GetRichTextRtf();				
-				m_iHistoryCurrent = m_history.getCount() - 1;
+				m_savedEditContent = m_message.GetRichTextRtf();				
+				m_iHistoryCurrent = m_arHistory.getCount() - 1;
 			}
 			else m_iHistoryCurrent--;
 
-			pszText = m_history[m_iHistoryCurrent];
+			pszText = &m_arHistory[m_iHistoryCurrent];
 		}
 		else {
 			if (m_iHistoryCurrent == -1)
 				return;
 
-			if (m_iHistoryCurrent == m_history.getCount() - 1) {
+			if (m_iHistoryCurrent == m_arHistory.getCount() - 1) {
 				m_iHistoryCurrent = -1;
 				pszText = m_savedEditContent;
 			}
 			else {
 				m_iHistoryCurrent++;
-				pszText = m_history[m_iHistoryCurrent];
+				pszText = &m_arHistory[m_iHistoryCurrent];
 			}
 		}
 
 		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };
-		pEntry.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)pszText);
-		pEntry.SendMsg(EM_SETSEL, -1, -1);
+		m_message.SendMsg(EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)pszText);
+		m_message.SendMsg(EM_SETSEL, -1, -1);
 	}
 
-	pEntry.OnChange(&pEntry);
+	m_message.OnChange(&m_message);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -285,15 +247,6 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 
 void CContactCache::releaseAlloced()
 {
-	if (m_stats) {
-		delete m_stats;
-		m_stats = nullptr;
-	}
-
-	for (auto &it : m_history)
-		mir_free(it);
-	m_history.destroy();
-
 	mir_free(m_szStatusMsg);
 	m_szStatusMsg = nullptr;
 }

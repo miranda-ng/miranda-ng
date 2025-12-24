@@ -383,7 +383,6 @@
 #define IDC_AUTOCLOSETABSPIN            1309
 #define IDC_SENDONSHIFTENTER            1310
 #define IDC_USEGLOBALSIZE               1311
-#define IDC_LOADONLYACTUAL              1311
 #define IDC_MICROLF                     1312
 #define IDC_EVENTAPI                    1313
 #define IDC_MINIMIZETOTRAY              1316

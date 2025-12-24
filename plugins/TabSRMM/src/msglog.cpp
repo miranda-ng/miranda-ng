@@ -564,10 +564,6 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 	bool skipToNext = false, skipFont = false;
 	bool isBold = false, isItalic = false, isUnderline = false;
 
-	auto *dat = &m_pDlg;
-	if (dbei.eventType == EVENTTYPE_MESSAGE && !dbei.bRead)
-		dat->m_cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
-
 	bool isSent = dbei.bSent;
 	bool bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 	if (!isSent && bIsStatusChangeEvent)
@@ -576,8 +572,9 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 	CMStringW msg(ptrW(dbei.getText()));
 	if (msg.IsEmpty())
 		return false;
-
 	msg.TrimRight();
+
+	auto *dat = &m_pDlg;
 	dat->FormatRaw(msg, 1, FALSE);
 
 	auto &str = streamData->buf;
@@ -596,7 +593,7 @@ bool CLogWindow::CreateRtfEvent(RtfLogStreamData *streamData, DB::EventInfo &dbe
 
 	uint32_t dwEffectiveFlags = dat->m_dwFlags;
 
-	dat->m_bIsHistory = (dbei.getUnixtime() < dat->m_cache->getSessionStart() && dbei.bRead);
+	dat->m_bIsHistory = (dbei.getUnixtime() < dat->m_iSessionStart && dbei.bRead);
 	int iFontIDOffset = dat->m_bIsHistory ? 8 : 0;     // offset into the font table for either history (old) or new events... (# of fonts per configuration set)
 
 	g_groupBreak = TRUE;

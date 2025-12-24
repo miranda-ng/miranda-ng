@@ -477,11 +477,20 @@ class CMsgDialog : public CSrmmBaseDialog
 	LONG     m_ipFieldHeight;
 	WPARAM   m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
 	LPARAM   m_lParam;
+	time_t   m_iSessionStart;
 	int      m_iHaveRTLLang;
 			  
 	uint32_t m_iSplitterSaved;
 	POINT    m_ptTipActivation;
 	RECT     m_rcMessage;
+
+	// input history
+	OBJLIST<char> m_arHistory;
+	int      m_iHistoryCurrent;
+	ptrA     m_savedEditContent;
+public:
+	void     SaveHistory();
+	void     InputHistoryEvent(WPARAM wParam);
 
 protected:
 	void     GetMYUIN();
@@ -492,7 +501,6 @@ public:
 	int      m_iLogMode;
 
 	bool     m_bIsHistory, m_bNotOnList, m_bIsIdle;
-	bool     m_bActualHistory;
 	bool     m_bIsAutosizingInput;
 	bool     m_bCanFlashTab, m_bTabFlash;
 	bool     m_bShowAvatar;
