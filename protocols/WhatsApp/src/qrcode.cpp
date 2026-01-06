@@ -116,10 +116,11 @@ static INT_PTR __stdcall sttShowDialog(void *param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::CloseQrDialog()
+void WhatsAppProto::CloseQrDialog(bool bSuccess)
 {
 	if (m_pQRDlg) {
-		m_pQRDlg->SetSuccess();
+		if (bSuccess)
+			m_pQRDlg->SetSuccess();
 		m_pQRDlg->Close();
 	}
 }

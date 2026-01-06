@@ -26,6 +26,8 @@ void WhatsAppProto::ServerThread(void *)
 
 void WhatsAppProto::ServerThreadWorker()
 {
+	m_bFirstRun = getDword(DBKEY_PREKEY_NEXT_ID) == 0;
+
 	// connect websocket
 	MHttpHeaders hdrs;
 	hdrs.AddHeader("Origin", "https://web.whatsapp.com");
@@ -160,7 +162,6 @@ void WhatsAppProto::OnLoggedIn()
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
-	m_bUpdatedPrekeys = false;
 
 	m_impl.m_keepAlive.Start(1000);
 
@@ -179,6 +180,9 @@ void WhatsAppProto::OnLoggedIn()
 
 	// resync all collections
 	ResyncServer(m_arCollections);
+
+	// check avatar hash
+	ServerFetchAvatar(m_szJid);
 
 	// retrieve group chat settings
 	GC_RefreshMetadata();
@@ -236,6 +240,14 @@ void WhatsAppProto::SendKeepAlive()
 			setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
 		}
 	}
+}
+
+void WhatsAppProto::SendPresence()
+{
+	WANode presence("presence");
+	// if (mir_wstrlen(m_wszNick))
+	//		presence << CHAR_PARAM("name", T2Utf(m_wszNick));
+	WSSendNode(presence);
 }
 
 void WhatsAppProto::SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType)

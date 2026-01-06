@@ -289,7 +289,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 		}
 	} m_impl;
 
-	bool m_bTerminated, m_bRespawn, m_bUpdatedPrekeys, m_bUnregister;
+	bool m_bTerminated, m_bRespawn, m_bFirstRun, m_bUnregister;
 	ptrW m_tszDefaultGroup;
 
 	CMStringA m_szJid;
@@ -342,7 +342,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// UI //////////////////////////////////////////////////////////////////////////////////
 
-	void CloseQrDialog();
+	void CloseQrDialog(bool bSuccess = false);
 	bool ShowQrCode(const CMStringA &ref);
 
 	/// Network ////////////////////////////////////////////////////////////////////////////
@@ -383,6 +383,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void SendAck(const WANode &node);
 	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);
 	void SendKeepAlive(void);
+	void SendPresence(void);
 	int  SendTextMessage(const char *jid, const char *pszMsg);
 	void SendUnregister(void);
 	void SendUsync(const LIST<char> &jids, void *pUserInfo);
@@ -474,11 +475,11 @@ public:
 	void     OnCacheInit() override;
 	MWindow  OnCreateAccMgrUI(MWindow) override;
 	void     OnErase() override;
+	void     OnShutdown() override;
 
 	// Events //////////////////////////////////////////////////////////////////////////////
 
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int __cdecl OnBuildStatusMenu(WPARAM, LPARAM);
 
 	// Options /////////////////////////////////////////////////////////////////////////////
 

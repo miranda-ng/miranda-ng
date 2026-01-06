@@ -49,9 +49,6 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 
 void WhatsAppProto::UploadMorePrekeys()
 {
-	// prevent protocol from sending additional query
-	m_bUpdatedPrekeys = true;
-
 	WANodeIq iq(IQ::SET, "encrypt");
 
 	auto regId = encodeBigEndian(getDword(DBKEY_REG_ID));
@@ -60,12 +57,12 @@ void WhatsAppProto::UploadMorePrekeys()
 	iq.addChild("type")->content.append(KEY_BUNDLE_TYPE, 1);
 	iq.addChild("identity")->content.append(m_signalStore->signedIdentity.pub);
 
-	const int PORTION = 10;
-	m_signalStore->generatePrekeys(PORTION);
-
 	int iStart = getDword(DBKEY_PREKEY_UPLOAD_ID, 1);
+	int iPortion = iStart == 1 ? 30 : 10;
+	m_signalStore->generatePrekeys(iPortion);
+
 	auto *n = iq.addChild("list");
-	for (int i = 0; i < PORTION; i++) {
+	for (int i = 0; i < iPortion; i++) {
 		auto *nKey = n->addChild("key");
 
 		int keyId = iStart + i;
@@ -73,8 +70,12 @@ void WhatsAppProto::UploadMorePrekeys()
 		nKey->addChild("id")->content.append(encId.c_str(), encId.size());
 		nKey->addChild("value")->content.append(getBlob(CMStringA(FORMAT, "PreKey%dPublic", keyId)));
 	}
-	setDword(DBKEY_PREKEY_UPLOAD_ID, iStart + PORTION);
+	setDword(DBKEY_PREKEY_UPLOAD_ID, iStart + iPortion);
 
+	// notify server about changed creds
+	SendPresence();
+
+	// send a packet with new keys
 	auto *skey = iq.addChild("skey");
 
 	auto encId = encodeBigEndian(m_signalStore->preKey.keyid, 3);
@@ -158,7 +159,7 @@ void WhatsAppProto::OnIqPairDevice(const WANode &node)
 
 void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 {
-	CloseQrDialog();
+	CloseQrDialog(true);
 
 	auto *pRoot = node.getChild("pair-success");
 
@@ -432,7 +433,6 @@ LBL_Error:
 	userAgent.mnc = "000";
 	userAgent.osversion = "0.1";
 	userAgent.osbuildnumber = "0.1";
-	userAgent.manufacturer = "";
 	userAgent.device = "Desktop";
 	userAgent.localelanguageiso6391 = "en";
 	userAgent.localecountryiso31661alpha2 = "US";
@@ -446,6 +446,8 @@ LBL_Error:
 	node.webinfo = &webInfo;
 	node.pull = false; node.has_pull = true;
 	node.liddbmigrated = false; node.has_liddbmigrated = true;
+
+	debugLogA("Sending handshake:\n%s", protobuf_c_text_to_string(&node).c_str());
 
 	MBinBuffer payload(proto::Serialize(&node));
 	MBinBuffer payloadEnc = m_noise->encrypt(payload.data(), payload.length());
@@ -475,8 +477,10 @@ void WhatsAppProto::OnReceiveFailure(const WANode &node)
 void WhatsAppProto::OnReceiveInfo(const WANode &node)
 {
 	if (auto *pChild = node.getFirstChild())
-		if (pChild->title == "offline")
+		if (pChild->title == "offline") {
+			OnLoggedIn();
 			debugLogA("Processed %d offline events", pChild->getAttrInt("count"));
+		}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -565,7 +569,13 @@ void WhatsAppProto::OnSuccess(const WANode &node)
 	}
 	setWord(m_ownContact, "Status", ID_STATUS_ONLINE);
 
-	OnLoggedIn();
+	SendPresence();
+
+	// retrieve loaded prekeys count
+	WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
+
+	// set active mode
+	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"), &WhatsAppProto::OnIqDoNothing);
 
 	// fetch device list
 	auto *pUser = FindUser(m_szJid);
@@ -574,16 +584,6 @@ void WhatsAppProto::OnSuccess(const WANode &node)
 		jids.insert(m_szJid.GetBuffer());
 		SendUsync(jids, nullptr);
 	}
-
-	// check avatar hash
-	ServerFetchAvatar(m_szJid);
-
-	// retrieve loaded prekeys count
-	if (!m_bUpdatedPrekeys)
-		WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
-
-	// set active mode
-	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"), &WhatsAppProto::OnIqDoNothing);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

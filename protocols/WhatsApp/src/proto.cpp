@@ -174,6 +174,11 @@ void WhatsAppProto::OnErase()
 	RemoveCachedSettings();
 }
 
+void WhatsAppProto::OnShutdown()
+{
+	CloseQrDialog();
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // PROTO_INTERFACE implementation
 
@@ -235,6 +240,7 @@ int WhatsAppProto::SetStatus(int iNewStatus)
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
 		SetServerStatus(m_iDesiredStatus);
+		CloseQrDialog();
 
 		if (m_ws != nullptr)
 			m_ws->terminate();

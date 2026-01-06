@@ -239,7 +239,7 @@ int WhatsAppProto::WSSend(const ProtobufCMessage &msg)
 		return -1;
 
 	MBinBuffer buf(proto::Serialize(&msg));
-	// Netlib_Dump(m_hServerConn, buf.data(), buf.length(), true, 0);
+	debugLogA("Sending node:\n%s", protobuf_c_text_to_string(&msg).c_str());
 
 	MBinBuffer payload = m_noise->encodeFrame(buf.data(), buf.length());
 	m_ws->sendBinary(payload.data(), payload.length());
