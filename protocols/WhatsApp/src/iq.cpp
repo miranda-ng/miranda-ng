@@ -420,15 +420,16 @@ LBL_Error:
 		pairingData.eskeysig = proto::SetBinary(m_signalStore->preKey.signature.data(), m_signalStore->preKey.signature.length()); pairingData.has_eskeysig = true;
 		node.devicepairingdata = &pairingData;
 
-		node.passive = false; node.has_passive = true;
+		node.pull = node.passive = false; 
 	}
 	// generate login packet
 	else {
 		WAJid jid(m_szJid);
 		node.username = _atoi64(jid.user);       node.has_username = true;
 		node.device = getDword(DBKEY_DEVICE_ID); node.has_device = true;
-		node.passive = true;                     node.has_passive = true;
+		node.pull = node.passive = true;
 	}
+	node.has_pull = node.has_passive = true;
 
 	Wa__ClientPayload__UserAgent__AppVersion userVersion;
 	userVersion.primary = WA_PROTO_MAJOR; userVersion.has_primary = true;
@@ -454,7 +455,6 @@ LBL_Error:
 	node.connectreason = WA__CLIENT_PAYLOAD__CONNECT_REASON__USER_ACTIVATED; node.has_connectreason = true;
 	node.useragent = &userAgent;
 	node.webinfo = &webInfo;
-	node.pull = false; node.has_pull = true;
 	node.liddbmigrated = false; node.has_liddbmigrated = true;
 
 	debugLogA("Sending handshake:\n%s", protobuf_c_text_to_string(&node).c_str());
