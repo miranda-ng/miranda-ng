@@ -126,8 +126,6 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 					continue;
 				}
 
-				debugLogA("Handling patch: %s", protobuf_c_text_to_string(patch).c_str());
-
 				dwVersion = patch->version->version;
 				if (dwVersion > pCollection->version) {
 					debugLogA("%s: applying patch of version %d", pCollection->szName.get(), dwVersion);
@@ -218,8 +216,6 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 
 void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue *data)
 {
-	debugLogA("Applying patch for %s", protobuf_c_text_to_string(data).c_str());
-
 	if (auto *pAction = data->contactaction) {
 		auto *pUser = AddUser(index.at(1).as_string().c_str(), false);
 
