@@ -88,6 +88,16 @@ void WhatsAppProto::UploadMorePrekeys()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnIqDigest(const WANode &node)
+{
+	if (node.getChild("digest"))
+		OnLoggedIn();
+	else
+		ShutdownSession();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnIqDoNothing(const WANode&)
 {
 }
@@ -477,10 +487,8 @@ void WhatsAppProto::OnReceiveFailure(const WANode &node)
 void WhatsAppProto::OnReceiveInfo(const WANode &node)
 {
 	if (auto *pChild = node.getFirstChild())
-		if (pChild->title == "offline") {
-			OnLoggedIn();
+		if (pChild->title == "offline")
 			debugLogA("Processed %d offline events", pChild->getAttrInt("count"));
-		}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -577,13 +585,8 @@ void WhatsAppProto::OnSuccess(const WANode &node)
 	// set active mode
 	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"), &WhatsAppProto::OnIqDoNothing);
 
-	// fetch device list
-	auto *pUser = FindUser(m_szJid);
-	if (pUser->arDevices.getCount() == 0) {
-		LIST<char> jids(1);
-		jids.insert(m_szJid.GetBuffer());
-		SendUsync(jids, nullptr);
-	}
+	// validate our key-bundle against server
+	WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("digest"), &WhatsAppProto::OnIqDigest);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -408,6 +408,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnAccountSync(const WANode &node);
 	void OnIqBlockList(const WANode &node);
 	void OnIqCountPrekeys(const WANode &node);
+	void OnIqDigest(const WANode &node);
 	void OnIqDoNothing(const WANode &node);
 	void OnIqGcGetAllMetadata(const WANode &node);
 	void OnIqGetAvatar(const WANode &node, void *pUserInfo);
