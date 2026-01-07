@@ -107,7 +107,7 @@
 /* to disable NTLM support */
 #undef CURL_DISABLE_NTLM
 
-/* if the OpenSSL configuration won't be loaded automatically */
+/* if the OpenSSL configuration will not be loaded automatically */
 #undef CURL_DISABLE_OPENSSL_AUTO_LOAD_CONFIG
 
 /* disable date parsing */
@@ -145,6 +145,9 @@
 
 /* to disable TFTP */
 #undef CURL_DISABLE_TFTP
+
+/* to disable type checking */
+#undef CURL_DISABLE_TYPECHECK
 
 /* to disable verbose strings */
 #undef CURL_DISABLE_VERBOSE_STRINGS
@@ -258,7 +261,7 @@
 /* Define to 1 if you have a working getaddrinfo function. */
 #undef HAVE_GETADDRINFO
 
-/* Define to 1 if the getaddrinfo function is threadsafe. */
+/* Define to 1 if the getaddrinfo function is thread-safe. */
 #undef HAVE_GETADDRINFO_THREADSAFE
 
 /* Define to 1 if you have the `geteuid' function. */
@@ -427,6 +430,9 @@
 /* Define to 1 if you have the <locale.h> header file. */
 #undef HAVE_LOCALE_H
 
+/* Define to 1 if you have a working localtime_r function. */
+#undef HAVE_LOCALTIME_R
+
 /* Define to 1 if the compiler supports the 'long long' data type. */
 #undef HAVE_LONGLONG
 
@@ -493,9 +499,6 @@
 
 /* Define to 1 if you have the <openssl/ssl.h> header file. */
 #undef HAVE_OPENSSL_SSL_H
-
-/* Define to 1 if you have the <openssl/x509.h> header file. */
-#undef HAVE_OPENSSL_X509_H
 
 /* Define to 1 if you have the `pipe' function. */
 #undef HAVE_PIPE
@@ -822,6 +825,9 @@
 /* Define to enable c-ares support */
 #undef USE_ARES
 
+/* if libbacktrace is in use */
+#undef USE_BACKTRACE
+
 /* if ECH support is available */
 #undef USE_ECH
 
@@ -906,10 +912,6 @@
 
 /* Define to 1 if you have the `normaliz' (WinIDN) library (-lnormaliz). */
 #undef USE_WIN32_IDN
-
-/* Define to 1 if you are building a Windows target with large file support.
-   */
-#undef USE_WIN32_LARGE_FILES
 
 /* Use Windows LDAP implementation */
 #undef USE_WIN32_LDAP

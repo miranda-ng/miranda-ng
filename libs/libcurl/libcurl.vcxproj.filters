@@ -98,6 +98,9 @@
     <ClCompile Include="src\curl_sha512_256.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\curl_share.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\curl_sspi.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -126,6 +129,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curlx\nonblock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\curlx\strcopy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\curlx\strerr.c">
@@ -335,7 +341,7 @@
     <ClCompile Include="src\rand.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\rename.c">
+    <ClCompile Include="src\ratelimit.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\request.c">
@@ -354,9 +360,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\sha256.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\share.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\slist.c">
@@ -378,9 +381,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\socks_sspi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\speedcheck.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\splay.c">
@@ -450,9 +450,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\mbedtls.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vtls\mbedtls_threadlock.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\openssl.c">
@@ -530,7 +527,7 @@
     <ClCompile Include="src\vtls\keylog.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vssh\curl_path.c">
+    <ClCompile Include="src\vssh\vssh.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -640,12 +637,6 @@
     <ClInclude Include="src\curl_md5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\curl_mem_undef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\curl_memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\curl_memrchr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -674,6 +665,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_sha512_256.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curl_share.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curl_sspi.h">
@@ -707,6 +701,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curlx\nonblock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\snprintf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\curlx\strcopy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\curlx\strerr.h">
@@ -844,9 +844,6 @@
     <ClInclude Include="src\macos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\memdebug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\mime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -889,7 +886,7 @@
     <ClInclude Include="src\rand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\rename.h">
+    <ClInclude Include="src\ratelimit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\request.h">
@@ -916,9 +913,6 @@
     <ClInclude Include="src\setup-win32.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\share.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\sigpipe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -938,9 +932,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\socks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\speedcheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\splay.h">
@@ -988,12 +979,6 @@
     <ClInclude Include="src\urldata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vtls\vtls_scache.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\vtls\vtls_spack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\vquic\curl_ngtcp2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1006,10 +991,16 @@
     <ClInclude Include="src\vquic\vquic_int.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ws.h">
+    <ClInclude Include="src\vssh\vssh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\vssh\curl_path.h">
+    <ClInclude Include="src\vtls\vtls_scache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vtls\vtls_spack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ws.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

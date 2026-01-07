@@ -122,6 +122,9 @@
     <ClCompile Include="src\curl_sha512_256.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\curl_share.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\curl_sspi.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -150,6 +153,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curlx\nonblock.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\curlx\strcopy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\curlx\strerr.c">
@@ -356,7 +362,7 @@
     <ClCompile Include="src\rand.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\rename.c">
+    <ClCompile Include="src\ratelimit.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\request.c">
@@ -375,9 +381,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\sha256.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\share.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\slist.c">
@@ -399,9 +402,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\socks_sspi.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\speedcheck.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\splay.c">
@@ -500,13 +500,13 @@
     <ClCompile Include="src\vquic\vquic.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\vssh\curl_path.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\vssh\libssh.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vssh\libssh2.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\vssh\vssh.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\cipher_suite.c">
@@ -522,9 +522,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\mbedtls.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\vtls\mbedtls_threadlock.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\openssl.c">
@@ -590,8 +587,6 @@
     <ClInclude Include="src\curl_ldap.h" />
     <ClInclude Include="src\curl_md4.h" />
     <ClInclude Include="src\curl_md5.h" />
-    <ClInclude Include="src\curl_mem_undef.h" />
-    <ClInclude Include="src\curl_memory.h" />
     <ClInclude Include="src\curl_memrchr.h" />
     <ClInclude Include="src\curl_ntlm_core.h" />
     <ClInclude Include="src\curl_printf.h" />
@@ -602,6 +597,7 @@
     <ClInclude Include="src\curl_setup_once.h" />
     <ClInclude Include="src\curl_sha256.h" />
     <ClInclude Include="src\curl_sha512_256.h" />
+    <ClInclude Include="src\curl_share.h" />
     <ClInclude Include="src\curl_sspi.h" />
     <ClInclude Include="src\curl_threads.h" />
     <ClInclude Include="src\curl_trc.h" />
@@ -613,6 +609,8 @@
     <ClInclude Include="src\curlx\inet_pton.h" />
     <ClInclude Include="src\curlx\multibyte.h" />
     <ClInclude Include="src\curlx\nonblock.h" />
+    <ClInclude Include="src\curlx\snprintf.h" />
+    <ClInclude Include="src\curlx\strcopy.h" />
     <ClInclude Include="src\curlx\strerr.h" />
     <ClInclude Include="src\curlx\strparse.h" />
     <ClInclude Include="src\curlx\timediff.h" />
@@ -658,7 +656,6 @@
     <ClInclude Include="src\imap.h" />
     <ClInclude Include="src\llist.h" />
     <ClInclude Include="src\macos.h" />
-    <ClInclude Include="src\memdebug.h" />
     <ClInclude Include="src\mime.h" />
     <ClInclude Include="src\mqtt.h" />
     <ClInclude Include="src\multi_ev.h" />
@@ -673,7 +670,7 @@
     <ClInclude Include="src\progress.h" />
     <ClInclude Include="src\psl.h" />
     <ClInclude Include="src\rand.h" />
-    <ClInclude Include="src\rename.h" />
+    <ClInclude Include="src\ratelimit.h" />
     <ClInclude Include="src\request.h" />
     <ClInclude Include="src\rtsp.h" />
     <ClInclude Include="src\select.h" />
@@ -682,7 +679,6 @@
     <ClInclude Include="src\setup-os400.h" />
     <ClInclude Include="src\setup-vms.h" />
     <ClInclude Include="src\setup-win32.h" />
-    <ClInclude Include="src\share.h" />
     <ClInclude Include="src\sigpipe.h" />
     <ClInclude Include="src\slist.h" />
     <ClInclude Include="src\smb.h" />
@@ -690,7 +686,6 @@
     <ClInclude Include="src\sockaddr.h" />
     <ClInclude Include="src\socketpair.h" />
     <ClInclude Include="src\socks.h" />
-    <ClInclude Include="src\speedcheck.h" />
     <ClInclude Include="src\splay.h" />
     <ClInclude Include="src\strcase.h" />
     <ClInclude Include="src\strdup.h" />
@@ -706,13 +701,13 @@
     <ClInclude Include="src\url.h" />
     <ClInclude Include="src\urlapi-int.h" />
     <ClInclude Include="src\urldata.h" />
-    <ClInclude Include="src\vtls\vtls_scache.h" />
-    <ClInclude Include="src\vtls\vtls_spack.h" />
     <ClInclude Include="src\vquic\curl_ngtcp2.h" />
     <ClInclude Include="src\vquic\curl_quiche.h" />
     <ClInclude Include="src\vquic\vquic.h" />
     <ClInclude Include="src\vquic\vquic_int.h" />
-    <ClInclude Include="src\vssh\curl_path.h" />
+    <ClInclude Include="src\vssh\vssh.h" />
+    <ClInclude Include="src\vtls\vtls_scache.h" />
+    <ClInclude Include="src\vtls\vtls_spack.h" />
     <ClInclude Include="src\ws.h" />
   </ItemGroup>
   <ItemGroup>
