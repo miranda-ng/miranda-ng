@@ -577,8 +577,6 @@ void WhatsAppProto::OnSuccess(const WANode &node)
 	}
 	setWord(m_ownContact, "Status", ID_STATUS_ONLINE);
 
-	SendPresence();
-
 	// retrieve loaded prekeys count
 	WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
 
