@@ -51,6 +51,8 @@ void CDiscordProto::RetrieveHistory(CDiscordUser *pUser, CDiscordHistoryOp iOp, 
 		}
 	}
 	pReq->pUserInfo = pUser;
+	if (iLimit == 100)
+		pReq->flags |= 0x10000000;
 	Push(pReq);
 }
 
@@ -138,7 +140,7 @@ void CDiscordProto::OnReceiveHistory(MHttpResponse *pReply, AsyncHttpRequest *pR
 	// if we fetched 99 messages, but have smth more to go, continue fetching
 	if (iNumMessages == 99 && lastId < pUser->lastMsgId)
 		RetrieveHistory(pUser, MSG_AFTER, lastId, 99);
-	else
+	else if (pReq->flags & 0x10000000)
 		History::FinishLoad(pUser->hContact);
 }
 
