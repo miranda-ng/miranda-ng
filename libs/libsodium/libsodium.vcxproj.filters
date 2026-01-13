@@ -383,6 +383,15 @@
     <ClInclude Include="src\include\sodium\version.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\crypto_ipcrypt\implementations.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_ipcrypt\ipcrypt_aesni.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\crypto_ipcrypt\ipcrypt_soft.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\crypto_aead\aes256gcm\aesni\aead_aes256gcm_aesni.c">
@@ -707,6 +716,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\crypto_core\ed25519\core_h2c.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_ipcrypt\crypto_ipcrypt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_ipcrypt\ipcrypt_aesni.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\crypto_ipcrypt\ipcrypt_soft.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

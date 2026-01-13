@@ -92,6 +92,15 @@
     <ClCompile Include="src\crypto_generichash\blake2b\ref\blake2b-ref.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\crypto_ipcrypt\crypto_ipcrypt.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\crypto_ipcrypt\ipcrypt_aesni.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\crypto_ipcrypt\ipcrypt_soft.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\crypto_kx\crypto_kx.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -377,6 +386,9 @@
     <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-load-sse41.h" />
     <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-compress-avx2.h" />
     <ClInclude Include="src\crypto_generichash\blake2b\ref\blake2b-compress-sse41.h" />
+    <ClInclude Include="src\crypto_ipcrypt\implementations.h" />
+    <ClInclude Include="src\crypto_ipcrypt\ipcrypt_aesni.h" />
+    <ClInclude Include="src\crypto_ipcrypt\ipcrypt_soft.h" />
     <ClInclude Include="src\crypto_sign\ed25519\ref10\sign_ed25519_ref10.h" />
     <ClInclude Include="src\include\sodium.h" />
     <ClInclude Include="src\include\sodium\crypto_stream_salsa2012.h" />

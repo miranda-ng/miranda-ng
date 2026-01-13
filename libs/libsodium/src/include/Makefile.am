@@ -18,6 +18,7 @@ SODIUM_EXPORT = \
 	sodium/crypto_core_ristretto255.h \
 	sodium/crypto_core_hchacha20.h \
 	sodium/crypto_core_hsalsa20.h \
+	sodium/crypto_core_keccak1600.h \
 	sodium/crypto_core_salsa20.h \
 	sodium/crypto_core_salsa2012.h \
 	sodium/crypto_core_salsa208.h \
@@ -26,10 +27,12 @@ SODIUM_EXPORT = \
 	sodium/crypto_hash.h \
 	sodium/crypto_hash_sha256.h \
 	sodium/crypto_hash_sha512.h \
+	sodium/crypto_ipcrypt.h \
 	sodium/crypto_kdf.h \
 	sodium/crypto_kdf_blake2b.h \
 	sodium/crypto_kdf_hkdf_sha256.h \
 	sodium/crypto_kdf_hkdf_sha512.h \
+	sodium/crypto_kem_mlkem768.h \
 	sodium/crypto_kx.h \
 	sodium/crypto_onetimeauth.h \
 	sodium/crypto_onetimeauth_poly1305.h \
@@ -59,8 +62,10 @@ SODIUM_EXPORT = \
 	sodium/crypto_verify_16.h \
 	sodium/crypto_verify_32.h \
 	sodium/crypto_verify_64.h \
-	sodium/crypto_vrf.h \
-	sodium/crypto_vrf_rfc9381.h \
+	sodium/crypto_xof_shake128.h \
+	sodium/crypto_xof_shake256.h \
+	sodium/crypto_xof_turboshake128.h \
+	sodium/crypto_xof_turboshake256.h \
 	sodium/export.h \
 	sodium/randombytes.h \
 	sodium/randombytes_internal_random.h \

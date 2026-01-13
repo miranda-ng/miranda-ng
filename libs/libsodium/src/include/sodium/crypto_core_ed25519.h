@@ -46,10 +46,6 @@ int crypto_core_ed25519_sub(unsigned char *r,
             __attribute__ ((nonnull));
 
 SODIUM_EXPORT
-int crypto_core_ed25519_from_uniform(unsigned char *p, const unsigned char *r)
-            __attribute__ ((nonnull));
-
-SODIUM_EXPORT
 int crypto_core_ed25519_from_string(unsigned char p[crypto_core_ed25519_BYTES],
                                     const char *ctx, const unsigned char *msg,
                                     size_t msg_len, int hash_alg)
