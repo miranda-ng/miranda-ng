@@ -52,7 +52,7 @@
 #include <m_voiceservice.h>
 
 #include "../../libs/zlib/src/zlib.h"
-#include "../../libs/libsodium/src/include/sodium.h"
+// #include "../../libs/libsodium/src/include/sodium.h"
 #include "opus/opus.h"
 
 extern IconItem g_iconList[];

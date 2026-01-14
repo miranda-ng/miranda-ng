@@ -90,7 +90,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 
 	if /I "%%a"=="Discord.dll" (
 		copy /V /Y ..\..\redist\x%tp%\gstreamer\opus-0.dll Libs
-		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Discord.dll" "Libs\libsodium.mir" "Libs\opus-0.dll"
+		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Discord.dll" "Libs\opus-0.dll"
 		del "Libs/opus-0.dll"
 	)
 
