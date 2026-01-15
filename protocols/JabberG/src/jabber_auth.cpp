@@ -341,7 +341,7 @@ public:
 			cbd = mir_base64_encode(bindFlag, mir_strlen(bindFlag));
 		else {
 			bindData.appendBefore((void *)bindFlag, mir_strlen(bindFlag));
-			cbd = mir_base64_encode(bindData.data(), bindData.length());
+			cbd = mir_base64_encode(bindData);
 		}
 
 		for (char *p = strtok(NEWSTR_ALLOCA(chl), ","); p != nullptr; p = strtok(nullptr, ",")) {

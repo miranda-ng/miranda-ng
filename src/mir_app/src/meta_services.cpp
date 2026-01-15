@@ -45,7 +45,7 @@ OBJLIST<MetaSrmmData> arMetaWindows(1, NumericKeySortT);
 *
 * @param wParam : 	equals to one of the following values :\n
 <tt> PFLAGNUM_1 | PFLAGNUM_2 | PFLAGNUM_3 | PFLAGNUM_4 | PFLAG_UNIQUEIDTEXT | PFLAG_MAXLENOFMESSAGE | PFLAG_UNIQUEIDSETTING </tt>.
-* @param lParam :	Allways set to 0.
+* @param lParam :	Always set to 0.
 *
 * @return			Depending on the \c WPARAM.
 */
@@ -132,7 +132,7 @@ void CALLBACK SetStatusThread(HWND, UINT, UINT_PTR, DWORD)
 
 /** Changes the status and notifies everybody
 * @param wParam : 	The new mode
-* @param lParam :	Allways set to 0.
+* @param lParam :	Always set to 0.
 */
 
 INT_PTR Meta_SetStatus(WPARAM wParam, LPARAM)
@@ -214,7 +214,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam, LPARAM lParam)
 * Retransmit the ACK sent by a simple contact so that it
 * looks like it was the MetaContact that sends the ACK.
 *
-* @param wParam : Allways set to 0.
+* @param wParam : Always set to 0.
 * @param lParam : Reference to a ACKDATA that contains information about the ACK.
 * @returns 0 on success, 1 otherwise.
 */

@@ -45,7 +45,7 @@ static HGENMENU
 // and attach it to the MetaContact.
 //
 // @param wParam : HANDLE to the contact that has been chosen.
-// @param lParam : Allways set to 0.
+// @param lParam : Always set to 0.
 
 INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 {

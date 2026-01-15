@@ -430,7 +430,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 * Present a dialog in which the user can edit some properties of the MetaContact.
 *
 * @param wParam : HANDLE to the MetaContact to be edited.
-* @param lParam :	Allways set to 0.
+* @param lParam :	Always set to 0.
 */
 
 INT_PTR Meta_Edit(WPARAM wParam, LPARAM)

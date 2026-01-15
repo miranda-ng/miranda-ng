@@ -404,7 +404,7 @@ LPSTR CExImContactBase::uid2String(uint8_t bPrependType)
 				return nullptr;
 			memset((r + baselen), 0, 8);
 			ptr = r;
-			if (bPrependType) { // Allways true.
+			if (bPrependType) { // Always true.
 				ptr[0] = 'n';
 				ptr++;
 			}
