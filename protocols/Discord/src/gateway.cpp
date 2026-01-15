@@ -82,6 +82,12 @@ bool CDiscordProto::GatewayThreadWorker()
 
 void JsonWebSocket<CDiscordProto>::process(const JSONNode &json)
 {
+	// handle remote auth commands
+	if (p->m_pRemoteAuth) {
+		p->RemoteAuthProcess(json);
+		return;
+	}
+
 	int opCode = json["op"].as_int();
 	switch (opCode) {
 	case OPCODE_DISPATCH:  // process incoming command

@@ -90,8 +90,10 @@ void CDiscordProto::ShutdownSession()
 	m_bTerminated = true;
 
 	// shutdown all resources
-	if (pMfaDialog)
-		pMfaDialog->Close();
+	if (m_pMfaDialog)
+		m_pMfaDialog->Close();
+	if (m_pQRDlg)
+		m_pQRDlg->Close();
 	if (m_hWorkerThread)
 		SetEvent(m_evRequestsQueue);
 	if (m_bConnected)

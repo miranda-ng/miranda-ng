@@ -58,7 +58,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		m_proto->pMfaDialog = this;
+		m_proto->m_pMfaDialog = this;
 
 		if (m_bHasTotp)
 			cmbAnother.AddString(TranslateT("Use your authenticator app"), 0);
@@ -99,7 +99,7 @@ public:
 
 	void OnDestroy() override
 	{
-		m_proto->pMfaDialog = nullptr;
+		m_proto->m_pMfaDialog = nullptr;
 	}
 
 	void onChange_Combo(CCtrlCombo *)

@@ -85,12 +85,12 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="VKontakte.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_VKontakte.dll")
 	if /I "%%a"=="Watrack.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Watrack_buttons.dll" "Icons\Watrack_icons.dll" "Plugins\player.ini")
 	if /I "%%a"=="Weather.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Weather.dll")
-	if /I "%%a"=="WhatsApp.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libsignal.mir" "libs\libqrencode.mir")
+	if /I "%%a"=="WhatsApp.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Libs\libsignal.mir" "Libs\libqrencode.mir")
 	if /I "%%a"=="YAMN.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_YAMN.dll")
 
 	if /I "%%a"=="Discord.dll" (
 		copy /V /Y ..\..\redist\x%tp%\gstreamer\opus-0.dll Libs
-		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Discord.dll" "Libs\opus-0.dll"
+		%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Discord.dll" "Libs\libqrencode.mir" "Libs\opus-0.dll"
 		del "Libs/opus-0.dll"
 	)
 

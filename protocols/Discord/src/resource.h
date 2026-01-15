@@ -11,6 +11,7 @@
 #define IDI_VOICE_ENDED                 107
 #define IDD_MFA                         108
 #define IDD_GROUPCHAT_INVITE            109
+#define IDD_QRCODE                      110
 #define IDC_PASSWORD                    1001
 #define IDC_USERNAME                    1002
 #define IDC_GROUP                       1003
@@ -25,6 +26,7 @@
 #define IDC_DELETE_CONTACTS             1010
 #define IDC_LOGOUT                      1011
 #define IDC_CLIST                       1012
+#define IDC_QRPIC                       1013
 
 // Next default values for new objects
 // 

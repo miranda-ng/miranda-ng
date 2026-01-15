@@ -57,12 +57,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		if (m_proto->getMStringA(DB_KEY_TOKEN).IsEmpty())
-			btnLogout.Disable();
-		else {
-			m_edUserName.Disable();
-			m_edPassword.Disable();
-		}
+		CheckLogout();
 
 		ptrW buf(m_proto->getWStringA(DB_KEY_PASSWORD));
 		if (buf)
@@ -82,17 +77,28 @@ public:
 
 	void onClick_Logout(CCtrlButton *)
 	{
-		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/logout", &CDiscordProto::OnReceiveLogout);
-		pReq->pUserInfo = this;
-		m_proto->Push(pReq);
+		CMStringA szToken(m_proto->getMStringA(DB_KEY_TOKEN));
+		if (szToken.IsEmpty())
+			m_proto->ForkThread(&CDiscordProto::RemoteAuthThread);
+		else {
+			auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, "/auth/logout", &CDiscordProto::OnReceiveLogout);
+			pReq->pUserInfo = this;
+			m_proto->Push(pReq);
 
-		CallService(MS_KS_ENABLEPROTOCOL, FALSE, LPARAM(m_proto->m_szModuleName));
+			CallService(MS_KS_ENABLEPROTOCOL, FALSE, LPARAM(m_proto->m_szModuleName));
+		}
 	}
 
-	void onLogout()
+	void CheckLogout()
 	{
-		m_edUserName.Enable();
-		m_edPassword.Enable();
+		bool bEmpty = m_proto->getMStringA(DB_KEY_TOKEN).IsEmpty();
+		if (bEmpty)
+			btnLogout.SetText(TranslateT("Login using QR code"));
+		else
+			btnLogout.SetText(TranslateT("Log out"));
+
+		m_edUserName.Enable(bEmpty);
+		m_edPassword.Enable(bEmpty);
 	}
 
 	void onChange_GroupChats(CCtrlCheck*)
@@ -110,7 +116,7 @@ void CDiscordProto::OnReceiveLogout(MHttpResponse *, AsyncHttpRequest *pReq)
 	ShutdownSession();
 
 	auto *pDlg = (CDiscardAccountOptions *)pReq->pUserInfo;
-	pDlg->onLogout();
+	pDlg->CheckLogout();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

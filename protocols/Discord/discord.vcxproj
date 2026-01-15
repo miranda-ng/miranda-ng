@@ -39,6 +39,7 @@
     <ClCompile Include="src\mfa.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\proto.cpp" />
+    <ClCompile Include="src\qrcode.cpp" />
     <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -54,6 +55,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
       <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\libqrencode\libqrencode.vcxproj">
+      <Project>{4d3554de-6e14-4f94-a909-a4b19151a47e}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>

@@ -267,6 +267,20 @@ struct CDiscordAttachment : public MZeroedObject
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct CDiscordRemoteAuth
+{
+	CDiscordRemoteAuth();
+	~CDiscordRemoteAuth();
+
+	EVP_PKEY_CTX *pCtx, *pDecCtx;
+	EVP_PKEY *pKey;
+
+	MBinBuffer Decrypt(const JSONNode &node);
+	CMStringA  GetPubKey();
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 #define OPCODE_DISPATCH              0
 #define OPCODE_HEARTBEAT             1
 #define OPCODE_IDENTIFY              2
@@ -288,6 +302,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	friend struct AsyncHttpRequest;
 	friend class CDiscardAccountOptions;
 	friend class CMfaDialog;
+	friend class CQRCodeDlg;
 	friend class CGroupchatInviteDlg;
 	friend class CDiscordVoiceCall;
 	friend class JsonWebSocket<CDiscordProto>;
@@ -326,6 +341,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void __cdecl BatchChatCreate(void* param);
 	void __cdecl GetAwayMsgThread(void *param);
 	void __cdecl OfflineFileThread(void *param);
+	void __cdecl RemoteAuthThread(void *param);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// session control
@@ -345,7 +361,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Push(AsyncHttpRequest *pReq, int iTimeout = 10000);
 	void SaveToken(const JSONNode &data);
 
-	CDlgBase *pMfaDialog;
+	CDlgBase *m_pMfaDialog;
 
 	HANDLE m_hWorkerThread;       // worker thread handle
 	HNETLIBCONN m_hAPIConnection; // working connection
@@ -385,6 +401,17 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	int   m_iHartbeatInterval;	// in milliseconds
 	int   m_iGatewaySeq;       // gateway sequence number
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// remote auth (QR code)
+
+public:
+	CQRCodeDlg *m_pQRDlg;
+	CDiscordRemoteAuth *m_pRemoteAuth;
+
+private:
+	bool RemoteAuthWorker();
+	void RemoteAuthProcess(const JSONNode &node);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// options
@@ -648,6 +675,27 @@ public:
 };
 
 typedef CProtoDlgBase<CDiscordProto> CDiscordDlgBase;
+
+class CQRCodeDlg : public CDiscordDlgBase
+{
+	bool m_bSucceeded = false;
+
+public:
+	CQRCodeDlg(CDiscordProto *ppro) :
+		CDiscordDlgBase(ppro, IDD_QRCODE)
+	{
+		ppro->m_pQRDlg = this;
+	}
+
+	void OnDestroy() override;
+
+	void SetData(const CMStringA &str);
+
+	void SetSuccess()
+	{
+		m_bSucceeded = true;
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

@@ -18,6 +18,7 @@
 
 #include <map>
 #include <memory>
+#include <regex>
 #include <vector>
 
 #include "resource.h"
@@ -34,6 +35,7 @@
 #include <m_history.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
+#include <m_imgsrvc.h>
 #include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
@@ -51,7 +53,14 @@
 #include <m_voice.h>
 #include <m_voiceservice.h>
 
+#include <openssl/bio.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
+
 #include "../../libs/zlib/src/zlib.h"
+#include "../../libs/libqrencode/src/qrencode.h"
 // #include "../../libs/libsodium/src/include/sodium.h"
 #include "opus/opus.h"
 
