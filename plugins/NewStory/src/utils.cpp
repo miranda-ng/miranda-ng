@@ -118,8 +118,7 @@ static bbcodes[] =
 	{ L"[s]",      nullptr },
 	{ L"[/s]",     nullptr },
 
-	{ L"[color=", L"]"     },
-	{ L"[/color]", nullptr },
+	{ L"[color=", L"[/color]" },
 
 	{ L"[c0]",     nullptr },
 	{ L"[c1]",     nullptr },
@@ -132,9 +131,9 @@ static bbcodes[] =
 	{ L"[$hicon=", L"$]"   },
 
 	{ L"[url]", L"[/url]"  },
-	{ L"[url=", L"]",      },
+	{ L"[url=", L"[/url]", },
 	{ L"[img]", L"[/img]"  },
-	{ L"[img=", L"]"       },
+	{ L"[img=", L"[/img]"  },
 };
 
 void RemoveBbcodes(CMStringW &wszText)
@@ -155,15 +154,28 @@ void RemoveBbcodes(CMStringW &wszText)
 			if (wcsncmp(wszText.c_str() + idx, it.pStart, it.cbStart))
 				continue;
 
-			wszText.Delete(idx, (int)it.cbStart);
+			bool isUrl = false;
+			int lIndex = idx + (int)it.cbStart, rIndex = 0;
+			if (wszText[lIndex - 1] == '=') {
+				rIndex = wszText.Find(']', lIndex);
+				isUrl = wszText.Mid(idx + 1, 3) == L"url";
+				if (isUrl) {
+					wszText.SetAt(rIndex, ' ');
+					rIndex = 0;
+				}
+				else rIndex -= lIndex - 1;
+			}
+
+			wszText.Delete(idx, (int)it.cbStart + rIndex);
 
 			if (it.pEnd) {
 				int idx2 = wszText.Find(it.pEnd, idx);
-				if (idx2 != -1) {
-					wszText.Delete(idx, idx2 - idx);
-					wszText.Delete(idx, (int)it.cbEnd);
-				}
+				if (idx2 != -1)
+					wszText.Delete(idx2, (int)it.cbEnd);
 			}
+
+			if (isUrl)
+				wszText.Insert(idx, L" ");
 
 			bFound = true;
 			break;
