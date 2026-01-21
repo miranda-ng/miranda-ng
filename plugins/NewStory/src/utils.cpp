@@ -136,7 +136,7 @@ static bbcodes[] =
 	{ L"[img=", L"[/img]"  },
 };
 
-void RemoveBbcodes(CMStringW &wszText)
+void RemoveBbcodes(CMStringW &wszText, bool bStripUrl)
 {
 	if (wszText.IsEmpty())
 		return;
@@ -152,6 +152,8 @@ void RemoveBbcodes(CMStringW &wszText)
 		bool bFound = false;
 		for (auto &it : bbcodes) {
 			if (wcsncmp(wszText.c_str() + idx, it.pStart, it.cbStart))
+				continue;
+			if (!bStripUrl && it.pEnd && it.pEnd[0] == '[')
 				continue;
 
 			bool isUrl = false;

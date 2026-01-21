@@ -613,9 +613,7 @@ CMStringW NewstoryListData::GatherSelected(bool bTextOnly)
 		if (wszText.IsEmpty())
 			continue;
 
-		if (bTextOnly)
-			RemoveBbcodes(wszText);
-
+		RemoveBbcodes(wszText, bTextOnly);
 		ret.Append(wszText);
 		ret.Append(L"\r\n\r\n");
 	}
@@ -965,7 +963,7 @@ void NewstoryListData::Quote()
 	if (pMsgDlg) {
 		CMStringW wszText(GatherSelected(true));
 		wszText.TrimRight();
-		RemoveBbcodes(wszText);
+		RemoveBbcodes(wszText, true);
 		pMsgDlg->SetMessageText(Srmm_Quote(wszText));
 
 		SetFocus(pMsgDlg->GetInput());

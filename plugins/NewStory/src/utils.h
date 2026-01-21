@@ -10,7 +10,7 @@ bool NSMenu_Process(int iCommand, NewstoryListData *data);
 int GetFontHeight(const LOGFONTA &lf);
 
 void UrlAutodetect(CMStringW &str);
-void RemoveBbcodes(CMStringW &pwszText);
+void RemoveBbcodes(CMStringW &pwszText, bool bStripUrl);
 
 Bitmap* LoadImageFromResource(HINSTANCE, int, const wchar_t *);
 
