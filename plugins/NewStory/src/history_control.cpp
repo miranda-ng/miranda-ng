@@ -613,7 +613,9 @@ CMStringW NewstoryListData::GatherSelected(bool bTextOnly)
 		if (wszText.IsEmpty())
 			continue;
 
-		RemoveBbcodes(wszText);
+		if (bTextOnly)
+			RemoveBbcodes(wszText);
+
 		ret.Append(wszText);
 		ret.Append(L"\r\n\r\n");
 	}
