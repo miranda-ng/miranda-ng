@@ -71,7 +71,6 @@ void PopupPreview()
 		);
 
 	POPUPDATA2 ppd = {};
-	ppd.cbSize = sizeof(ppd);
 	ppd.flags = PU2_UNICODE;
 
 	ppd.szTitle.w = lptzTitle1Eng;
@@ -82,7 +81,6 @@ void PopupPreview()
 		Sleep((ANIM_TIME * 2) / 3); // Pause
 
 	memset(&ppd, 0, sizeof(ppd));
-	ppd.cbSize = sizeof(ppd);
 	ppd.flags = PU2_UNICODE;
 	ppd.szTitle.w = lptzTitle2;
 	ppd.szText.w = lptzText2;

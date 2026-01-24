@@ -74,7 +74,6 @@ void WritePopupOptions()
 
 void RegPopupActions()
 {
-	poOptions.paActions[0].cbSize = sizeof(POPUPACTION);
 	strncpy_s(poOptions.paActions[0].lpzTitle, MODULENAME, _TRUNCATE);
 	strncat_s(poOptions.paActions[0].lpzTitle, _countof(poOptions.paActions[0].lpzTitle), "/Copy to clipboard", _TRUNCATE);
 	poOptions.paActions[0].flags = PAF_ENABLED;

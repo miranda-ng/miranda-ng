@@ -46,7 +46,7 @@ PopupSkin::~PopupSkin()
 
 SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 {
-	SIZE sz = { 0 };
+	SIZE sz = {};
 	if (!(PopupOptions.actions & ACT_ENABLE))
 		return sz;
 
@@ -82,7 +82,7 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 
 SIZE PopupSkin::measureActionBar(HDC hdc, PopupWnd2 *wnd) const
 {
-	SIZE sz = { 0 };
+	SIZE sz = {};
 	HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.action);
 	for (int i = 0; i < wnd->getActionCount(); ++i) {
 		SIZE szAction = measureAction(hdc, &wnd->getActions()[i].actionA);

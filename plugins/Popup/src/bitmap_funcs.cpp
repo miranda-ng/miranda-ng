@@ -753,7 +753,7 @@ void MyBitmap::allocate(int w, int h)
 		DeleteDC(dcBmp);
 	}
 
-	BITMAPINFO bi = { 0 };
+	BITMAPINFO bi = {};
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = w;
 	bi.bmiHeader.biHeight = -h;

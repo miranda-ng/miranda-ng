@@ -344,7 +344,6 @@ static INT_PTR __cdecl stubLoadHistory(WPARAM hContact, LPARAM)
 static int OnHistoryLoaded(WPARAM hContact, LPARAM)
 {
 	POPUPDATA2 pd = {};
-	pd.cbSize = sizeof(pd);
 	pd.flags = PU2_UNICODE;
 	pd.lchContact = hContact;
 	pd.szTitle.w = Clist_GetContactDisplayName(hContact);

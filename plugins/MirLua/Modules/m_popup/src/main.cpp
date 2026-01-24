@@ -50,7 +50,6 @@ static int lua_AddPopup(lua_State *L)
 static POPUPDATA2* MakePopupData2(lua_State *L)
 {
 	POPUPDATA2 *ppd = (POPUPDATA2*)mir_calloc(sizeof(POPUPDATA2));
-	ppd->cbSize = sizeof(POPUPDATA2);
 
 	lua_getfield(L, -1, "Flags");
 	ppd->flags = lua_tointeger(L, -1);
@@ -107,8 +106,8 @@ static int lua_AddPopup2(lua_State *L)
 	INT_PTR res = (INT_PTR)Popup_Add(ppd.get());
 	lua_pushinteger(L, res);
 
-	mir_free(ppd->szTitle.w);
-	mir_free(ppd->szText.w);
+	mir_free((void *)ppd->szTitle.w);
+	mir_free((void *)ppd->szText.w);
 
 	return 1;
 }

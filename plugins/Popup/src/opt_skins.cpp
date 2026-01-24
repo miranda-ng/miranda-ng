@@ -30,9 +30,7 @@ static void updatePreviewImage(HWND hwndBox)
 {
 	gPreviewOk = false;
 
-	POPUPDATA2 ppd;
-	memset(&ppd, 0, sizeof(ppd));
-	ppd.cbSize = sizeof(ppd);
+	POPUPDATA2 ppd = {};
 	ppd.flags = PU2_UNICODE;
 	ppd.lchIcon = Skin_LoadIcon(SKINICON_STATUS_ONLINE);
 	ppd.szTitle.w = TranslateT("Skin preview");
@@ -53,7 +51,7 @@ static void updatePreviewImage(HWND hwndBox)
 
 static void DrawPreview(HWND hwnd, HDC hdc)
 {
-	BITMAPINFO bi = { 0 };
+	BITMAPINFO bi = {};
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 	bi.bmiHeader.biWidth = 8;
 	bi.bmiHeader.biHeight = -8;

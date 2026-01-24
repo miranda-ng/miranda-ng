@@ -37,7 +37,7 @@ LIST<POPUPTREEDATA> gTreeData(20, TreeDataSortFunc);
 // interface
 void LoadNotifications()
 {
-	POPUPNOTIFICATION notification = { 0 };
+	POPUPNOTIFICATION notification = {};
 	notification.cbSize = sizeof(notification);
 	notification.actionCount = 0;
 	notification.lpActions = nullptr;

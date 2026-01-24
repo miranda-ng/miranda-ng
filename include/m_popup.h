@@ -41,7 +41,6 @@ mi.position = 0; //You don't need it and it's better if you put it to zero.
 // ANSI Popup Action
 struct POPUPACTION
 {
-	int cbSize;		// sizeof(POPUPACTION)
 	HICON lchIcon;	// Action Icon
 	// Action title text. Please use module name as prefix
 	// (e.g. "Popup Plus/Dismiss Popup") and don't translate
@@ -68,7 +67,6 @@ struct POPUPACTION
 struct POPUPDATA2
 {
 	// general
-	int cbSize;
 	uint32_t flags;
 
 	// miranda bindings
@@ -80,10 +78,10 @@ struct POPUPDATA2
 	COLORREF colorText;
 	HICON lchIcon;
 	HBITMAP hbmAvatar;
-	MAllStrings szTitle;
-	MAllStrings szText;
+	MAllCStrings szTitle;
+	MAllCStrings szText;
 
-	char *lpzSkin;
+	const char *lpzSkin;
 
 	// time and timeout
 	int iSeconds;

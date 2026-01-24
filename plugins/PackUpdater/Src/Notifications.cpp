@@ -89,7 +89,6 @@ static INT_PTR CALLBACK PopupDlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 
 static void MakePopupAction(POPUPACTION &pa, INT id)
 {
-	pa.cbSize = sizeof(POPUPACTION);
 	pa.flags = PAF_ENABLED;
 	pa.wParam = MAKEWORD(id, BN_CLICKED);
 	pa.lParam = 0;

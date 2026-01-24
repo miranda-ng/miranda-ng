@@ -29,7 +29,7 @@ static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 {
 	wchar_t buf[64];
 
-	TVITEM tvi = { 0 };
+	TVITEM tvi = {};
 	tvi.mask = TVIF_HANDLE | TVIF_TEXT;
 	tvi.hItem = hItem;
 	tvi.pszText = buf;
@@ -67,7 +67,7 @@ void OptTree_Translate(HWND hwndTree)
 
 HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, const wchar_t *name)
 {
-	TVITEM tvi = { 0 };
+	TVITEM tvi = {};
 	wchar_t str[MAX_PATH];
 
 	if (hItem)
@@ -326,7 +326,7 @@ uint32_t OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int
 		if ((!options[i].pszSettingName && !pszSettingName) ||
 			(options[i].pszSettingName && pszSettingName && !mir_wstrcmp(options[i].pszSettingName, pszSettingName)))
 		{
-			TVITEM tvi = { 0 };
+			TVITEM tvi = {};
 			tvi.mask = TVIF_HANDLE | TVIF_IMAGE;
 			tvi.hItem = options[i].hItem;
 			TreeView_GetItem(hwndTree, &tvi);

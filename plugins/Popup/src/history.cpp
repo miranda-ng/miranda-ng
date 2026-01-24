@@ -37,9 +37,9 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 static void FreeHistoryItem(POPUPDATA2 *ppd)
 {
-	mir_free(ppd->szTitle.w);
-	mir_free(ppd->szText.w);
-	mir_free(ppd->lpzSkin);
+	mir_free((void *)ppd->szTitle.w);
+	mir_free((void *)ppd->szText.w);
+	mir_free((void *)ppd->lpzSkin);
 	mir_free(ppd);
 }
 

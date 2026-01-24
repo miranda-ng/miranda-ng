@@ -35,14 +35,14 @@ void LoadActions()
 {
 	POPUPACTION actions[] =
 	{
-		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_REPLY), LPGEN("General") "/" LPGEN("Quick reply"), 0 },
-		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_MESSAGE), LPGEN("General") "/" LPGEN("Send message"), 0 },
-		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_INFO), LPGEN("General") "/" LPGEN("User details"), 0 },
-		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_MENU), LPGEN("General") "/" LPGEN("Contact menu"), 0 },
-		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_ADD), LPGEN("General") "/" LPGEN("Add permanently"), 0 },
-		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_PIN), LPGEN("General") "/" LPGEN("Pin popup"), 0 },
-		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_CLOSE), LPGEN("General") "/" LPGEN("Dismiss popup"), 0 },
-		{ sizeof(POPUPACTION), g_plugin.getIcon(IDI_ACT_COPY), LPGEN("General") "/" LPGEN("Copy to clipboard"), 0 },
+		{ g_plugin.getIcon(IDI_ACT_REPLY), LPGEN("General") "/" LPGEN("Quick reply"), 0 },
+		{ g_plugin.getIcon(IDI_ACT_MESSAGE), LPGEN("General") "/" LPGEN("Send message"), 0 },
+		{ g_plugin.getIcon(IDI_ACT_INFO), LPGEN("General") "/" LPGEN("User details"), 0 },
+		{ g_plugin.getIcon(IDI_ACT_MENU), LPGEN("General") "/" LPGEN("Contact menu"), 0 },
+		{ g_plugin.getIcon(IDI_ACT_ADD), LPGEN("General") "/" LPGEN("Add permanently"), 0 },
+		{ g_plugin.getIcon(IDI_ACT_PIN), LPGEN("General") "/" LPGEN("Pin popup"), 0 },
+		{ g_plugin.getIcon(IDI_ACT_CLOSE), LPGEN("General") "/" LPGEN("Dismiss popup"), 0 },
+		{ g_plugin.getIcon(IDI_ACT_COPY), LPGEN("General") "/" LPGEN("Copy to clipboard"), 0 },
 	};
 
 	for (auto &it : actions)
@@ -87,7 +87,7 @@ bool IsActionEnabled(POPUPACTION *action)
 
 bool IsActionEnabled(char *name)
 {
-	POPUPACTION action = { 0 };
+	POPUPACTION action = {};
 	action.flags = PAF_ENABLED;
 	mir_strcpy(action.lpzTitle, name);
 	return IsActionEnabled(&action);
@@ -213,7 +213,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 10, 1);
 			ListView_SetImageList(hwndList, hImgList, LVSIL_SMALL);
 
-			LVCOLUMN column = { 0 };
+			LVCOLUMN column = {};
 			column.mask = LVCF_TEXT | LVCF_WIDTH;
 			column.pszText = TranslateT("Action");
 			column.cx = 175;
@@ -232,7 +232,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 				int grpId = 0;
 				if ((grpId = groups.getIndex(szGroup)) < 0) {
-					LVGROUP group = { 0 };
+					LVGROUP group = {};
 					group.cbSize = sizeof(group);
 					group.mask = LVGF_HEADER | LVGF_GROUPID;
 					LPTSTR wszGroup = mir_a2u(szGroup);
@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					groups.insert(mir_strdup(szGroup), groups.getCount());
 				}
 
-				LVITEM item = { 0 };
+				LVITEM item = {};
 				item.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_TEXT | LVIF_STATE | LVIF_INDENT;
 				item.iItem = i;
 				ptrW tszName(mir_a2u(szName));

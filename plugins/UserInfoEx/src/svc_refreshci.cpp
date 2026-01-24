@@ -371,7 +371,6 @@ public:
 		_szText = nullptr;
 		_bBBCode = db_get_b(0, "Popup", "UseMText", FALSE);
 
-		_popupButtons[0].cbSize = sizeof(POPUPACTION);
 		_popupButtons[0].flags = PAF_ENABLED;
 		_popupButtons[0].lchIcon = g_plugin.getIcon(IDI_BTN_DOWNARROW);
 		_popupButtons[0].wParam = MAKEWORD(IDSKIP, BN_CLICKED);
@@ -379,7 +378,6 @@ public:
 		mir_strcpy(_popupButtons[0].lpzTitle, MODULENAME"/Hide");
 
 		// cancel button
-		_popupButtons[1].cbSize = sizeof(POPUPACTION);
 		_popupButtons[1].flags = PAF_ENABLED;
 		_popupButtons[1].lchIcon = g_plugin.getIcon(IDI_BTN_CLOSE);
 		_popupButtons[1].wParam = MAKEWORD(IDCANCEL, BN_CLICKED);

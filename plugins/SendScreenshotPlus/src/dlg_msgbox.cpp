@@ -113,7 +113,6 @@ static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
  **/
 static void MakePopupAction(POPUPACTION &pa, int id)
 {
-	pa.cbSize = sizeof(POPUPACTION);
 	pa.flags = PAF_ENABLED;
 	pa.wParam = MAKEWORD(id, BN_CLICKED);
 	pa.lParam = 0;

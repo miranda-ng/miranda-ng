@@ -107,10 +107,8 @@ begin
   end;
 end;
 
-function MakeAction(var anAct:TPOPUPACTION;action:integer):PPOPUPACTION;
+procedure MakeAction(var anAct:TPOPUPACTION;action:integer);
 begin
-  result:=@anAct;
-  anAct.cbSize :=SizeOf(TPOPUPACTION);
   anAct.lchIcon:=GetIcon(action);
   anAct.flags  :=PAF_ENABLED;
   anAct.wParam :=1;

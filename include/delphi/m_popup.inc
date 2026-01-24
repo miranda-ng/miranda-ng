@@ -45,7 +45,6 @@ const
 type
   PPOPUPACTION = ^TPOPUPACTION;
   TPOPUPACTION = record
-    cbSize  :int;    // sizeof(POPUPACTION)
     lchIcon :HICON;  // Action Icon
     // Action title text. Please use module name as prefix
     // (e.g. "Popup Plus/Dismiss Popup") and don't translate

@@ -221,7 +221,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		{
 			HWND hTV = GetDlgItem(hwnd, IDC_TREE1);
 			// get TreeView selection
-			TVITEM tvi = { 0 };
+			TVITEM tvi = {};
 			tvi.hItem = TreeView_GetSelection(hTV);
 			tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_TEXT;
 			if (tvi.hItem) TreeView_GetItem(hTV, &tvi);
@@ -327,8 +327,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 				case IDC_PREVIEW:
 					{
-						POPUPDATA2 ppd = { 0 };
-						ppd.cbSize = sizeof(ppd);
+						POPUPDATA2 ppd = {};
 						ppd.flags = PU2_UNICODE;
 						ppd.szTitle.w = ptd->pszDescription;
 						ppd.szText.w = TranslateT("Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!");

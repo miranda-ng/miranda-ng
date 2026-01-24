@@ -51,9 +51,9 @@ static INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	if (NotifyEventHooks(hEventNotify, (WPARAM)ppdIn->lchContact, (LPARAM)ppdIn->PluginWindowProc))
 		return 0;
 
-	POPUPDATA2 ppdFixed = { 0 };
+	POPUPDATA2 ppdFixed = {};
 	POPUPDATA2 *ppd = &ppdFixed;
-	memcpy(ppd, ppdIn, min(ppdIn->cbSize, sizeof(POPUPDATA2)));
+	memcpy(ppd, ppdIn, sizeof(POPUPDATA2));
 
 	uint32_t disableWhen;
 	FillNotificationData(ppd, &disableWhen);
@@ -152,8 +152,7 @@ static INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
 	if (!ppd)
 		return -1;
 
-	POPUPDATA2 ppd2 = { 0 };
-	ppd2.cbSize = sizeof(ppd2);
+	POPUPDATA2 ppd2 = {};
 	ppd2.flags = PU2_UNICODE;
 	ppd2.lchContact = ppd->lchContact;
 	ppd2.lchIcon = ppd->lchIcon;
@@ -249,8 +248,7 @@ static INT_PTR Popup_ShowMessageW(WPARAM wParam, LPARAM lParam)
 	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if (closing) return 0;
 
-	POPUPDATA2 ppd2 = { 0 };
-	ppd2.cbSize = sizeof(ppd2);
+	POPUPDATA2 ppd2 = {};
 	ppd2.flags = PU2_UNICODE;
 	ppd2.szText.w = (wchar_t*)wParam;
 	switch (lParam & 0x7fffffff) {

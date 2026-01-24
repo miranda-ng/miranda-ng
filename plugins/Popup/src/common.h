@@ -76,7 +76,7 @@ inline INT_PTR DBGetContactSettingStringX(MCONTACT hContact, const char *ModuleN
 
 inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, char *text)
 {
-	TOOLINFO ti = { 0 };
+	TOOLINFO ti = {};
 	ti.cbSize = sizeof(TOOLINFO);
 
 	ti.hwnd = hwnd;

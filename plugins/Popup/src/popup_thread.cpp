@@ -57,8 +57,8 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 
 	int POPUP_SPACING = PopupOptions.spacing;
 
-	POINT pos = { 0 };
-	SIZE prevSize = { 0 };
+	POINT pos = {};
+	SIZE prevSize = {};
 	if (prev)
 		prevSize = prev->getSize();
 

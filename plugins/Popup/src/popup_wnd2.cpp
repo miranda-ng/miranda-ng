@@ -243,7 +243,7 @@ void PopupWnd2::animate()
 
 
 		if (MyDwmEnableBlurBehindWindow && PopupOptions.bEnableAeroGlass) {
-			DWM_BLURBEHIND bb = { 0 };
+			DWM_BLURBEHIND bb = {};
 			bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION;
 			bb.fEnable = TRUE;
 			bb.hRgnBlur = m_bmp->buildOpaqueRgn(254, false);
@@ -506,7 +506,6 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		int iAction = fixActions(theActions, count, m_actionCount);
 
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Quick reply")) {
-			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = g_plugin.getIcon(IDI_ACT_REPLY, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Quick reply");
 			m_actions[iAction].actionA.wParam = 0;
@@ -515,7 +514,6 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		}
 
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Send message")) {
-			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = g_plugin.getIcon(IDI_ACT_MESSAGE, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Send message");
 			m_actions[iAction].actionA.wParam = 0;
@@ -524,7 +522,6 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		}
 
 		if (enableDefaultUsr && IsActionEnabled("General/User details")) {
-			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = g_plugin.getIcon(IDI_ACT_INFO, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/User details");
 			m_actions[iAction].actionA.wParam = 0;
@@ -533,7 +530,6 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		}
 
 		if (enableDefaultUsr && IsActionEnabled("General/Contact menu")) {
-			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = g_plugin.getIcon(IDI_ACT_MENU, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Contact menu");
 			m_actions[iAction].actionA.wParam = 0;
@@ -542,7 +538,6 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		}
 
 		if (enableDefaultUsr && !Contact::OnList(m_hContact) && IsActionEnabled("General/Add permanently")) {
-			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = g_plugin.getIcon(IDI_ACT_ADD, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Add permanently");
 			m_actions[iAction].actionA.wParam = 0;
@@ -551,7 +546,6 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		}
 
 		if (enableDefaultGen && (m_iTimeout != -1) && IsActionEnabled("General/Pin popup")) {
-			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = m_bIsPinned ? g_plugin.getIcon(IDI_ACT_PINNED, iconSize) : g_plugin.getIcon(IDI_ACT_PIN, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Pin popup");
 			m_actions[iAction].actionA.wParam = 0;
@@ -560,7 +554,6 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		}
 
 		if (enableDefaultGen && IsActionEnabled("General/Dismiss popup")) {
-			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = g_plugin.getIcon(IDI_ACT_CLOSE, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Dismiss popup");
 			m_actions[iAction].actionA.wParam = 0;
@@ -569,7 +562,6 @@ int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		}
 
 		if (enableDefaultGen && IsActionEnabled("General/Copy to clipboard")) {
-			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = g_plugin.getIcon(IDI_ACT_COPY, iconSize);
 			mir_strcpy(m_actions[iAction].actionA.lpzTitle, "General/Copy to clipboard");
 			m_actions[iAction].actionA.wParam = 0;
@@ -1085,7 +1077,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					animate();
 
 			if (m_bIsHovered) break;
-			TRACKMOUSEEVENT tme = { 0 };
+			TRACKMOUSEEVENT tme = {};
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
 			tme.dwHoverTime = HOVER_DEFAULT;
@@ -1177,7 +1169,7 @@ static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, 
 	case UM_SHOWMENU:
 		hContact = lParam;
 		{
-			POINT pt = { 0 };
+			POINT pt;
 			GetCursorPos(&pt);
 			HMENU hMenu = Menu_BuildContactMenu(hContact);
 			HWND hwndSave = GetForegroundWindow();
