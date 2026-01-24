@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+LRESULT CALLBACK PopupDlgProcFocus(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
 aPopups PopupsList[POPUPS] =
 {
 	{ IDC_MSG_BOXES,     IDC_MSG_BOXES_TX,     IDC_MSG_BOXES_BG, 0, 0 },
@@ -96,40 +98,47 @@ static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wPara
 void ShowPopup(LPCTSTR pwszTitle, LPCTSTR pwszText, int Number)
 {
 	if (Popup_Enabled()) {
+		POPUPDATA2 ppd = {};
+		ppd.flags = PU2_UNICODE;
+		ppd.lchContact = NULL;
+		ppd.lchIcon = g_plugin.getIcon(IDI_MENU);
+
+		switch (Number) {
+		case POPUP_TYPE_MSG:
+			ppd.PluginWindowProc = PopupDlgProcRestart;
+			ppd.iSeconds = -1;
+			break;
+		case POPUP_TYPE_UPDATE:
+			Number = POPUP_TYPE_INFO;
+			ppd.PluginWindowProc = PopupDlgProcFocus;
+			ppd.iSeconds = g_plugin.PopupTimeout;
+			break;
+		default:
+			ppd.PluginWindowProc = PopupDlgProc;
+			ppd.iSeconds = g_plugin.PopupTimeout;
+		}
+
+		ppd.szText.w = pwszText;
+		ppd.szTitle.w = pwszTitle;
+
+		switch (g_plugin.PopupDefColors) {
+		case byCOLOR_WINDOWS:
+			ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+			break;
+		case byCOLOR_OWN:
+			ppd.colorBack = PopupsList[Number].colorBack;
+			ppd.colorText = PopupsList[Number].colorText;
+			break;
+		case byCOLOR_POPUP:
+			ppd.colorBack = ppd.colorText = 0;
+			break;
+		}
+
 		char setting[100];
 		mir_snprintf(setting, "Popups%d", Number);
-
 		if (g_plugin.getByte(setting, DEFAULT_POPUP_ENABLED)) {
-			POPUPDATAW ppd;
-			ppd.lchContact = NULL;
-			ppd.lchIcon = g_plugin.getIcon(IDI_MENU);
-
-			if (Number == POPUP_TYPE_MSG) {
-				ppd.PluginWindowProc = PopupDlgProcRestart;
-				ppd.iSeconds = -1;
-			}
-			else {
-				ppd.PluginWindowProc = PopupDlgProc;
-				ppd.iSeconds = g_plugin.PopupTimeout;
-			}
-
-			lstrcpyn(ppd.lpwzText, pwszText, MAX_SECONDLINE);
-			lstrcpyn(ppd.lpwzContactName, pwszTitle, MAX_CONTACTNAME);
-
-			switch (g_plugin.PopupDefColors) {
-			case byCOLOR_WINDOWS:
-				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-				break;
-			case byCOLOR_OWN:
-				ppd.colorBack = PopupsList[Number].colorBack;
-				ppd.colorText = PopupsList[Number].colorText;
-				break;
-			case byCOLOR_POPUP:
-				ppd.colorBack = ppd.colorText = 0;
-				break;
-			}
-			PUAddPopupW(&ppd);
+			Popup_Add(&ppd);
 			return;
 		}
 	}

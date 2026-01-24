@@ -55,6 +55,32 @@ static bool isValidDirectory(const wchar_t *pwszDirName)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Popup functions
+
+static void CALLBACK FocusDialog(void *)
+{
+	ShowWindow(hwndDialog, SW_SHOW);
+	SetForegroundWindow(hwndDialog);
+	SetFocus(hwndDialog);
+}
+
+LRESULT CALLBACK PopupDlgProcFocus(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
+	case WM_CONTEXTMENU:
+		PUDeletePopup(hPopup);
+		break;
+
+	case WM_COMMAND:
+		PUDeletePopup(hPopup);
+		CallFunctionAsync(FocusDialog, nullptr);
+		break;
+	}
+
+	return DefWindowProc(hPopup, uMsg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 class CUpdateDLg : public CDlgBase
 {
@@ -699,11 +725,8 @@ void DoCheck(bool bSilent)
 {
 	if (dwCheckThreadId)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Update checking already started!"), POPUP_TYPE_INFO);
-	else if (hwndDialog) {
-		ShowWindow(hwndDialog, SW_SHOW);
-		SetForegroundWindow(hwndDialog);
-		SetFocus(hwndDialog);
-	}
+	else if (hwndDialog)
+		ShowPopup(TranslateT("Plugin Updater"), TranslateT("There are some updates available"), POPUP_TYPE_UPDATE);
 	else {
 		g_plugin.bSilent = bSilent;
 		mir_forkthread(CheckUpdates);

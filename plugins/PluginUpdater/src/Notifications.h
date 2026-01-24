@@ -50,6 +50,7 @@ extern aPopups PopupsList[POPUPS];
 #define POPUP_TYPE_MSG           0
 #define POPUP_TYPE_ERROR         1
 #define POPUP_TYPE_INFO          2
+#define POPUP_TYPE_UPDATE        -1
 
 // Actions on popup click
 #define PCA_CLOSEPOPUP           0 // close popup
