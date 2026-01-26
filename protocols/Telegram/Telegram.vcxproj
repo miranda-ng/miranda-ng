@@ -29,6 +29,7 @@
     <ClCompile Include="src\add_phone.cpp" />
     <ClCompile Include="src\auth.cpp" />
     <ClCompile Include="src\avatars.cpp" />
+    <ClCompile Include="src\files.cpp" />
     <ClCompile Include="src\groupchat.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\menus.cpp" />

@@ -69,19 +69,35 @@ struct TG_FILE_REQUEST : public MZeroedObject
 	TG_FILE_REQUEST(Type _1, TD::int53 _2, const char *_3) :
 		m_type(_1),
 		m_fileId(_2),
-		m_uniqueId(_3)
+		m_uniqueId(_3),
+		m_arFiles(1)
 	{}
 
 	~TG_FILE_REQUEST()
 	{	delete ofd;
 	}
 
+	struct Upload
+	{
+		Upload(const wchar_t *_1, long _2) :
+			m_wszFileName(_1),
+			m_iFileSize(_2)
+		{}
+
+		CMStringW m_wszFileName;
+		CMStringA m_szRemoteId;
+		long m_iFileSize = 0;
+		TD::int53 m_fileId = 0;
+	};
+
 	Type m_type;
+	int m_iCurrFile = 0;
 	MCONTACT m_hContact = 0;
 	TD::int53 m_fileId, m_fileSize = 0;
 	CMStringA m_uniqueId, m_szUserId;
 	CMStringW m_destPath, m_fileName, m_wszDescr;
 	OFDTHREAD *ofd = 0;
+	OBJLIST<Upload> m_arFiles;
 	bool m_bRecv = false, m_isSmiley = false;
 };
 
@@ -220,8 +236,9 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	mir_cs m_csFiles;
 	LIST<TG_FILE_REQUEST> m_arFiles;
-	TG_FILE_REQUEST* FindFile(const char *pszUniqueId);
+	TG_FILE_REQUEST* FindFile(const std::string &pszUniqueId);
 	TG_FILE_REQUEST* FindFile(int id);
+	void KillFile(TG_FILE_REQUEST *ft);
 
 	static INT_PTR CALLBACK EnterEmail(void *param);
 	static INT_PTR CALLBACK EnterEmailCode(void *param);
@@ -236,7 +253,6 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnEndSession(td::ClientManager::Response &response);
 	void OnGetBasicGroupInfo(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetFileInfo(td::ClientManager::Response &response, void *pUserInfo);
-	void OnGetFileLink(td::ClientManager::Response &response);
 	void OnGetHistory(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetSessions(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetUserInfo(td::ClientManager::Response &response, void *pUserInfo);
@@ -245,6 +261,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void OnSendFile(td::ClientManager::Response &response, void *pUserInfo);
 	void OnSendMessage(td::ClientManager::Response &response);
 	void OnUpdateAuth(td::ClientManager::Response &response);
+	void OnUploadFile(td::ClientManager::Response &response, void *pUserInfo);
 	void OnGetChats(td::ClientManager::Response &response);
 
 	void LogOut(void);
@@ -292,6 +309,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void UnregisterSession();
 
+	void InitNextFileSend(TG_FILE_REQUEST *ft);
 	void ShowFileProgress(const TD::file *pFile, TG_FILE_REQUEST *ft);
 
 	const TD::file* GetContentFile(const TD::MessageContent *pBody, TG_FILE_REQUEST::Type &type, CMStringA &szFileName, CMStringA &szCaption);
@@ -390,6 +408,10 @@ public:
 
 	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
 	int      GetInfo(MCONTACT hContact, int type) override;
+
+	HANDLE   FileAllow(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szPath) override;
+	int      FileCancel(MCONTACT hContact, HANDLE hTransfer) override;
+	int      FileDeny(MCONTACT hContact, HANDLE hTransfer, const wchar_t *szReason) override;
 
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 

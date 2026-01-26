@@ -178,7 +178,7 @@ const char *getName(const TD::usernames *pName)
 TD::object_ptr<TD::inputFileLocal> makeFile(const wchar_t *pwszFilename)
 {
 	std::string szPath = T2Utf(pwszFilename);
-	return TD::make_object<TD::inputFileLocal>(std::move(szPath));
+	return TD::make_object<TD::inputFileLocal>(szPath);
 }
 
 TG_FILE_REQUEST::Type AutoDetectType(const wchar_t *pwszFilename)
