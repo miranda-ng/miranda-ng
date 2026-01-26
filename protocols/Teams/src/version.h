@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Microsoft Teams protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Teams"
-#define __COPYRIGHT                "© 2025 Miranda NG team"
+#define __COPYRIGHT                "© 2025-26 Miranda NG team"

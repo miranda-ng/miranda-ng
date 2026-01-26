@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "DeltaChat support for Miranda NG."
 #define __AUTHOR                   "George Hazan"
 #define __AUTHORWEB                "https://miranda-ng.org/p/DeltaChat/"
-#define __COPYRIGHT                "© 2025 Miranda NG team"
+#define __COPYRIGHT                "© 2025-26 Miranda NG team"

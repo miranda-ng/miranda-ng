@@ -10,4 +10,4 @@
 #define __DESCRIPTION             "Check your Gmail inboxes locally."
 #define __AUTHOR                  "George Hazan"
 #define __AUTHORWEB               "https://miranda-ng.org/p/GmailNotifier"
-#define __COPYRIGHT               "© 2025 George Hazan"
+#define __COPYRIGHT               "© 2025-26 George Hazan"
