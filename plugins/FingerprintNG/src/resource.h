@@ -470,9 +470,7 @@
 #define IDI_YEIGO                       1089
 #define IDI_YOONO                       1090
 #define IDI_GNUGADU                     1091
-
 #define IDC_STATUSBAR                   7001
-
 #define IDI_TEAMS                       9004
 #define IDI_HANGOUTS                    9005
 #define IDI_VK                          9006
@@ -482,7 +480,6 @@
 #define IDI_VK_MESSENGER                9010
 #define IDI_VK_PHOENIX_FULL             9011
 #define IDI_VK_PHOENIX_LITE             9012
-
 #define IDD_DIALOG                      10000
 #define IDC_GROUP_MIRANDA               10025
 #define IDC_GROUP_MIRANDA_VERSION       10026
@@ -506,7 +503,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        2007
+#define _APS_NEXT_RESOURCE_VALUE        2008
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         7002
 #define _APS_NEXT_SYMED_VALUE           7000

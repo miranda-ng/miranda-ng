@@ -27,9 +27,13 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_BLANK               ICON                    "_blank.ico"
+
 IDI_NOTFOUND            ICON                    "notfound.ico"
+
 IDI_UNDETECTED          ICON                    "undetected.ico"
+
 IDI_UNKNOWN             ICON                    "unknown.ico"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -63,30 +67,32 @@ END
 //
 
 IDD_DIALOG DIALOGEX 0, 0, 314, 254
-STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Fingerprint overlays icons",IDC_STATIC,15,15,290,60
-    CONTROL         "Miranda clients",IDC_GROUP_MIRANDA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,30,140,10
-    CONTROL         "Miranda packs overlays",IDC_GROUP_MIRANDA_PACKS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,40,140,10
-    CONTROL         "Show Miranda version at Overlay#2",IDC_GROUP_MIRANDA_VERSION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,60,140,10
-    CONTROL         "Resource overlays",IDC_GROUP_OVERLAYS_RESOURCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,30,120,10
-    CONTROL         "Platform overlays",IDC_GROUP_OVERLAYS_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,40,120,10
-    CONTROL         "Protocols overlays",IDC_GROUP_OVERLAYS_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,50,120,10
-    CONTROL         "Unicode overlay",IDC_GROUP_OVERLAYS_UNICODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,60,120,10
+    GROUPBOX        "Fingerprint overlays icons",IDC_STATIC,15,16,290,60
+    CONTROL         "Miranda clients",IDC_GROUP_MIRANDA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,27,140,10
+    CONTROL         "Miranda packs overlays",IDC_GROUP_MIRANDA_PACKS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,38,140,10
     CONTROL         "Secure overlays",IDC_GROUP_OVERLAYS_SECURITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,50,140,10
-    GROUPBOX        "Select protocols",IDC_STATIC,15,75,290,120
-    CONTROL         "Gadu-Gadu clients",IDC_GROUP_GG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,100,120,10
-    CONTROL         "IRC clients",IDC_GROUP_IRC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,110,120,10
-    CONTROL         "Jabber clients",IDC_GROUP_JABBER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,120,120,10
-    CONTROL         "RSS clients",IDC_GROUP_RSS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,130,120,10
-    CONTROL         "VKontakte clients",IDC_GROUP_VK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,140,120,10
-    CONTROL         "Weather clients",IDC_GROUP_WEATHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,150,120,10
-    CONTROL         "Multi-protocol clients",IDC_GROUP_MULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,160,120,10
-    CONTROL         "Other (rare) protocols",IDC_GROUP_OTHER_PROTOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,170,120,10
-    CONTROL         "Other icons",IDC_GROUP_OTHERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,180,120,10
-    CONTROL         "Show client icon in message window status bar",IDC_STATUSBAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,200,236,10
+    CONTROL         "Show Miranda version at Overlay#2",IDC_GROUP_MIRANDA_VERSION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,61,140,10
+    CONTROL         "Resource overlays",IDC_GROUP_OVERLAYS_RESOURCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,27,120,10
+    CONTROL         "Platform overlays",IDC_GROUP_OVERLAYS_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,38,120,10
+    CONTROL         "Protocols overlays",IDC_GROUP_OVERLAYS_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,50,120,10
+    CONTROL         "Unicode overlay",IDC_GROUP_OVERLAYS_UNICODE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,61,120,10
+    GROUPBOX        "Select protocols",IDC_STATIC,15,78,290,117
+    CONTROL         "Gadu-Gadu clients",IDC_GROUP_GG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,90,275,10
+    CONTROL         "IRC clients",IDC_GROUP_IRC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,101,275,10
+    CONTROL         "Jabber clients",IDC_GROUP_JABBER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,112,275,10
+    CONTROL         "RSS clients",IDC_GROUP_RSS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,123,275,10
+    CONTROL         "VKontakte clients",IDC_GROUP_VK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,134,275,10
+    CONTROL         "Weather clients",IDC_GROUP_WEATHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,145,275,10
+    CONTROL         "Multi-protocol clients",IDC_GROUP_MULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,156,275,10
+    CONTROL         "Other (rare) protocols",IDC_GROUP_OTHER_PROTOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,168,275,10
+    CONTROL         "Other icons",IDC_GROUP_OTHERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,180,275,10
+    CONTROL         "Show client icon in message window status bar",IDC_STATUSBAR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,200,236,10
 END
 
 

@@ -53,56 +53,25 @@ static settings[] =
 
 class COptDialog : public CDlgBase
 {
-	CCtrlCheck m_chkMiranda, m_chkMirandaPacks, m_chkMirandaVer, m_chkOverRes, m_chkOverPlatf, m_chkOverProto, m_chkOverUnicode, m_chkOverSecur,
-		m_chkGG, m_chkIRC, m_chkJabber, m_chkRSS, m_chkVK, m_chkWeather, m_chkMulti, m_chkOthersProto,
-		m_chkOthers, m_chkStatusBar;
-
-	void LoadDBCheckState(int idCtrl, LPCSTR szSetting, uint8_t bDef)
-	{
-		CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
-		item.SetState(g_plugin.getByte(szSetting, bDef));
-	}
-
-	void StoreDBCheckState(int idCtrl, LPCSTR szSetting)
-	{
-		CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
-		g_plugin.setByte(szSetting, item.GetState());
-	}
-
 public:
 	COptDialog() :
-		CDlgBase(g_plugin, IDD_DIALOG),
-		m_chkMiranda(this, IDC_GROUP_MIRANDA),
-		m_chkMirandaPacks(this, IDC_GROUP_MIRANDA_PACKS),
-		m_chkMirandaVer(this, IDC_GROUP_MIRANDA_VERSION),
-		m_chkOverRes(this, IDC_GROUP_OVERLAYS_RESOURCE),
-		m_chkOverPlatf(this, IDC_GROUP_OVERLAYS_PLATFORM),
-		m_chkOverProto(this, IDC_GROUP_OVERLAYS_PROTO),
-		m_chkOverUnicode(this, IDC_GROUP_OVERLAYS_UNICODE),
-		m_chkOverSecur(this, IDC_GROUP_OVERLAYS_SECURITY),
-		m_chkGG(this, IDC_GROUP_GG),
-		m_chkIRC(this, IDC_GROUP_IRC),
-		m_chkJabber(this, IDC_GROUP_JABBER),
-		m_chkRSS(this, IDC_GROUP_RSS),
-		m_chkVK(this, IDC_GROUP_VK),
-		m_chkWeather(this, IDC_GROUP_WEATHER),
-		m_chkMulti(this, IDC_GROUP_MULTI),
-		m_chkOthersProto(this, IDC_GROUP_OTHER_PROTOS),
-		m_chkOthers(this, IDC_GROUP_OTHERS),
-		m_chkStatusBar(this, IDC_STATUSBAR)
+		CDlgBase(g_plugin, IDD_DIALOG)
 	{}
 
 	bool OnInitDialog() override
 	{
 		for (auto &it : settings)
-			LoadDBCheckState(it.idCtrl, it.szSetName, it.defValue);
+			if (auto *pCtrl = (CCtrlCheck *)FindControl(it.idCtrl))
+				pCtrl->SetState(g_plugin.getByte(it.szSetName, it.defValue));
+
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		for (auto &it : settings)
-			StoreDBCheckState(it.idCtrl, it.szSetName);
+			if (auto *pCtrl = (CCtrlCheck *)FindControl(it.idCtrl))
+				g_plugin.setByte(it.szSetName, pCtrl->GetState());
 
 		ClearFI();
 		RegisterIcons();
