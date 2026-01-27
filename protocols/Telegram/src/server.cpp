@@ -303,7 +303,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 				if (auto hDbEvent = db_event_getById(m_szModuleName, szOldId))
 					db_event_updateId(hDbEvent, msg2id(pMessage));
 
-			TG_OWN_MESSAGE tmp(0, 0, szOldId);
+			TG_OWN_MESSAGE tmp(szOldId);
 			if (auto *pOwnMsg = m_arOwnMsg.find(&tmp)) {
 				auto szMsgId = msg2id(pMessage);
 				if (pOwnMsg->hAck)
@@ -324,7 +324,7 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 
 	case TD::updateNewMessage::ID: {
 			auto *pMessage = ((TD::updateNewMessage *)response.object.get())->message_.get();
-			TG_OWN_MESSAGE tmp(0, 0, msg2id(pMessage));
+			TG_OWN_MESSAGE tmp(msg2id(pMessage));
 			if (!m_arOwnMsg.find(&tmp))
 				ProcessMessage(pMessage);
 		}
@@ -1091,7 +1091,7 @@ void CTelegramProto::ProcessMessageContent(TD::updateMessageContent *pObj)
 	msg->sender_id_ = TD::make_object<TD::messageSenderChat>(pObj->chat_id_);
 	msg->content_ = std::move(pObj->new_content_);
 
-	TG_OWN_MESSAGE tmp(0, 0, szMsgId);
+	TG_OWN_MESSAGE tmp(szMsgId);
 	if (auto *pOwnMsg = m_arOwnMsg.find(&tmp))
 		msg->is_outgoing_ = true;
 

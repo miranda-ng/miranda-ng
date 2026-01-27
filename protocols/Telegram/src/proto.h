@@ -151,15 +151,19 @@ struct TG_BASIC_GROUP
 	TD::object_ptr<TD::basicGroup> group;
 };
 
-struct TG_OWN_MESSAGE
+struct TG_OWN_MESSAGE : public MNonCopyable
 {
-	TG_OWN_MESSAGE(MCONTACT _1, HANDLE _2, const char *_3) :
+	TG_OWN_MESSAGE(MCONTACT _1, HANDLE _2) :
 		hContact(_1),
-		hAck(_2),
-		szMsgId(_3)
+		hAck(_2)
 	{}
 
-	int64_t   tmpFileId = -1;
+	TG_OWN_MESSAGE(const CMStringA &id) :
+		hContact(0),
+		hAck(0),
+		szMsgId(id)
+	{}
+
 	HANDLE    hAck;
 	MCONTACT  hContact;
 	CMStringA szMsgId;
@@ -290,7 +294,6 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessActiveEmoji(TD::updateActiveEmojiReactions *pObj);
 	void ProcessDeleteMessage(TD::updateDeleteMessages *pObj);
 	void ProcessFile(TD::updateFile *pObj);
-	void ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *pMsg, bool);
 	void ProcessForum(TD::updateForumTopicInfo *pForum);
 	void ProcessGroups(TD::updateChatFolders *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
@@ -309,6 +312,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void UnregisterSession();
 
+	void AdvanceToNextFile(TG_FILE_REQUEST *ft);
 	void InitNextFileSend(TG_FILE_REQUEST *ft);
 	void ShowFileProgress(const TD::file *pFile, TG_FILE_REQUEST *ft);
 

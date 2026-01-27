@@ -524,7 +524,7 @@ int CTelegramProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *p
 
 	int msgid = SendTextMessage(pUser->chatId, 0, iReplyId, pszMessage);
 	if (msgid != -1)
-		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid, ""));
+		m_arOwnMsg.insert(new TG_OWN_MESSAGE(hContact, (HANDLE)msgid));
 
 	return msgid;
 }

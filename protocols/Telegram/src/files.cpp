@@ -59,7 +59,9 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		if (pRemote->unique_id_.empty() && pFile->size_ == pRemote->uploaded_size_)
 			if (auto *ft = FindFile(pFile->id_)) {
 				ShowFileProgress(pFile, ft);
-				InitNextFileSend(ft);
+
+				// move to the next file
+				AdvanceToNextFile(ft);
 			}
 	}
 
@@ -138,28 +140,6 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		return;
 	}
 
-	for (auto &it : m_arOwnMsg) {
-		if (it->tmpFileId == pFile->id_) {
-			if (!pRemote->id_.empty()) {
-				if (auto hDbEvent = db_event_getById(m_szModuleName, it->szMsgId)) {
-					DBVARIANT dbv = { DBVT_UTF8 };
-					dbv.pszVal = (char *)pRemote->id_.c_str();
-					db_event_setJson(hDbEvent, "u", &dbv);
-
-					// file is uploaded to the server
-					db_event_delivered(it->hContact, hDbEvent);
-				}
-			}
-
-			if (auto *ft = FindFile(pFile->id_)) {
-				// file being uploaded is finished
-				ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
-				KillFile(ft);
-			}
-			return;
-		}
-	}
-
 	for (auto &it : m_arUsers) {
 		if (it->szAvatarHash == pRemote->unique_id_.c_str()) {
 			PROTO_AVATAR_INFORMATION pai;
@@ -203,7 +183,7 @@ void CTelegramProto::OnGetFileInfo(td::ClientManager::Response &response, void *
 
 		SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, false));
 	}
-	else delete ft;
+	else KillFile(ft);
 }
 
 void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
@@ -215,7 +195,10 @@ void __cdecl CTelegramProto::OfflineFileThread(void *pParam)
 		if (!ofd->bCopy) {
 			auto *ft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, "");
 			ft->ofd = ofd;
-			m_arFiles.insert(ft);
+			{
+				mir_cslock lck(m_csFiles);
+				m_arFiles.insert(ft);
+			}
 
 			TD::int53 chatId, msgId;
 			if (2 == sscanf(dbei.szId, "%lld_%lld", &chatId, &msgId))
@@ -243,24 +226,9 @@ void CTelegramProto::OnReceiveOfflineFile(DB::EventInfo &, DB::FILE_BLOB &blob)
 	}
 }
 
-void CTelegramProto::OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *hTransfer)
+void CTelegramProto::OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB& /*blob*/, void* /*hTransfer*/)
 {
-	auto *ft = (TG_FILE_REQUEST *)hTransfer;
-
-	dbei.szId = ft->m_uniqueId;
-	if (!ft->m_szUserId.IsEmpty())
-		dbei.szUserId = ft->m_szUserId;
-
-	auto *p = wcsrchr(ft->m_fileName, '\\');
-	if (p == nullptr)
-		p = ft->m_fileName;
-	else
-		p++;
-	blob.setName(p);
-
-	blob.setUrl("boo");
-	blob.complete(ft->m_fileSize);
-	blob.setLocalName(ft->m_fileName);
+	dbei.bTemporary = true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -299,7 +267,7 @@ void CTelegramProto::ShowFileProgress(const TD::file *pFile, TG_FILE_REQUEST *ft
 	fts.totalFiles = ft->m_arFiles.getCount();
 	for (auto &it : ft->m_arFiles) {
 		fts.totalBytes += it->m_iFileSize;
-		if (it->m_fileId)
+		if (ft->m_arFiles.indexOf(&it) < ft->m_iCurrFile)
 			fts.totalProgress += it->m_iFileSize;
 	}
 	fts.currentFileSize = pFile->size_;
@@ -310,103 +278,12 @@ void CTelegramProto::ShowFileProgress(const TD::file *pFile, TG_FILE_REQUEST *ft
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CTelegramProto::ProcessFileMessage(TG_FILE_REQUEST *ft, const TD::message *pMsg, bool bCreateEvent)
-{
-	if (auto *pUser = FindChat(pMsg->chat_id_)) {
-		const TD::MessageContent *pBody = pMsg->content_.get();
-
-		TD::file *pFile;
-		switch (pBody->get_id()) {
-		case TD::messagePhoto::ID:
-			pFile = ((TD::messagePhoto *)pBody)->photo_->sizes_[0]->photo_.get();
-			break;
-
-		case TD::messageAudio::ID:
-			pFile = ((TD::messageAudio *)pBody)->audio_->audio_.get();
-			break;
-
-		case TD::messageVideo::ID:
-			pFile = ((TD::messageVideo *)pBody)->video_->video_.get();
-			break;
-
-		case TD::messageDocument::ID:
-			pFile = ((TD::messageDocument *)pBody)->document_->document_.get();
-			break;
-
-		default:
-			return;
-		}
-
-		// if that file was sent once, it might be cached at the server & reused
-		if (auto *pRemote = pFile->remote_.get()) {
-			if (pRemote->is_uploading_completed_) {
-				ShowFileProgress(pFile, ft);
-				ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
-				delete ft;
-				return;
-			}
-		}
-
-		char szUserId[100];
-		auto szMsgId(msg2id(pMsg));
-
-		auto *pOwnMsg = new TG_OWN_MESSAGE(pUser->hContact, 0, szMsgId);
-		pOwnMsg->tmpFileId = pFile->id_;
-		m_arOwnMsg.insert(pOwnMsg);
-
-		if (!GetGcUserId(pUser, pMsg, szUserId))
-			szUserId[0] = 0;
-
-		if (bCreateEvent) {
-			DB::EventInfo dbei;
-			dbei.szModule = Proto_GetBaseAccountName(ft->m_hContact);
-			dbei.eventType = EVENTTYPE_FILE;
-			dbei.flags = DBEF_SENT | DBEF_UTF;
-			dbei.iTimestamp = time(0);
-
-			auto *localft = new TG_FILE_REQUEST(TG_FILE_REQUEST::FILE, 0, 0);
-			localft->m_hContact = ft->m_hContact;
-			localft->m_fileName = Utf2T(pFile->local_->path_.c_str());
-			localft->m_fileSize = pFile->size_;
-			localft->m_uniqueId = szMsgId;
-			localft->m_szUserId = szUserId;
-			localft->m_fileId = pFile->id_;
-
-			DB::FILE_BLOB blob(localft->m_fileName, ft->m_wszDescr);
-			OnSendOfflineFile(dbei, blob, localft);
-			blob.write(dbei);
-
-			db_event_add(ft->m_hContact, &dbei);
-
-			mir_cslock lck(m_csFiles);
-			m_arFiles.insert(localft);
-		}
-		else {
-			ft->m_szUserId = szUserId;
-			ft->m_uniqueId = szMsgId;
-			ft->m_fileId = pFile->id_;
-
-			mir_cslock lck(m_csFiles);
-			m_arFiles.insert(ft);
-		}
-	}
-}
-
-void CTelegramProto::OnSendFile(td::ClientManager::Response &response, void *pUserInfo)
+void CTelegramProto::OnSendFile(td::ClientManager::Response &, void *pUserInfo)
 {
 	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
+	ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
 
-	if (response.object->get_id() == TD::message::ID) {
-		ProcessFileMessage(ft, (TD::message *)response.object.get(), false);
-	}
-	else if (response.object->get_id() == TD::messages::ID) {
-		int i = 0;
-		auto *pMessages = (TD::messages *)response.object.get();
-		for (auto &it : pMessages->messages_) {
-			ProcessFileMessage(ft, it.get(), i != 0);
-			i++;
-		}
-	}
+	KillFile(ft);
 }
 
 void CTelegramProto::OnUploadFile(td::ClientManager::Response &response, void *pUserInfo)
@@ -422,7 +299,20 @@ void CTelegramProto::OnUploadFile(td::ClientManager::Response &response, void *p
 	auto *pFile = (TD::file *)response.object.get();
 	auto *ft = (TG_FILE_REQUEST *)pUserInfo;
 	ft->m_arFiles[ft->m_iCurrFile].m_fileId = ft->m_fileId = pFile->id_;
+
+	// remote file might be already cached & reused, so just advance to the next file
+	if (pFile->remote_->is_uploading_completed_ && !pFile->remote_->is_uploading_active_)
+		AdvanceToNextFile(ft);
+}
+
+void CTelegramProto::AdvanceToNextFile(TG_FILE_REQUEST *ft)
+{
 	ft->m_iCurrFile++;
+
+	if (ft->m_iCurrFile < ft->m_arFiles.getCount())
+		ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft);
+	
+	InitNextFileSend(ft);
 }
 
 void CTelegramProto::InitNextFileSend(TG_FILE_REQUEST *ft)
@@ -500,9 +390,6 @@ void CTelegramProto::InitNextFileSend(TG_FILE_REQUEST *ft)
 			SendQuery(pAlbum, &CTelegramProto::OnSendFile, ft);
 		return;
 	}
-
-	if (ft->m_iCurrFile != 0)
-		ProtoBroadcastAck(ft->m_hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft);
 
 	auto &pFile = ft->m_arFiles[ft->m_iCurrFile];
 	auto localFile = makeFile(pFile.m_wszFileName);

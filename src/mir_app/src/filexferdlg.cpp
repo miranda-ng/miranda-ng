@@ -581,7 +581,8 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 								pa->ppro->OnSendOfflineFile(dbei, blob, fs);
 						blob.write(dbei);
 
-						db_event_add(dat->hContact, &dbei);
+						if (!dbei.bTemporary)
+							db_event_add(dat->hContact, &dbei);
 
 						dat->files = nullptr;   // protocol library frees this
 					}
