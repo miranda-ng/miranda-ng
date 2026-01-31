@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.3.1.1
+;  Version: 0.3.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -160,6 +160,8 @@ Prüfe auf neue Aktualisierungen...
 Keine Aktualisierungen gefunden.
 [Update checking already started!]
 Die Prüfung auf Aktualisierungen wurde bereits gestartet!
+[There are some updates available]
+Es sind Aktualisierungen verfügbar
 ;file \plugins\PluginUpdater\src\Events.cpp
 [Plugin updater URI scheme]
 PluginUpdater URI-Schema

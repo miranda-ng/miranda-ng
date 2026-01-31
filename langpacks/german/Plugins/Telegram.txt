@@ -82,6 +82,9 @@ Ungültiges Passwort
 Die Avatar-Datei muss ein Bild im JPEG-Format sein.
 [Error setting avatar]
 Fehler beim Setzen des Avatars
+;file \protocols\Telegram\src\files.cpp
+[Too many files to be sent]
+Zu viele Dateien zum Senden
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
 Ersteller
@@ -164,10 +167,6 @@ Unspezifiziert
 Keine
 [Errors]
 Fehler
-[wrote]
-hat geschrieben
-[Chat name was changed to %s]
-Chatname wurde zu %s geändert
 [Picture]
 Bild
 [Audio]
@@ -180,6 +179,10 @@ Video
 Videohinweis
 [Voice message]
 Sprachnachricht
+[wrote]
+hat geschrieben
+[Chat name was changed to %s]
+Chatname wurde zu %s geändert
 [SmileyAdd plugin required to support stickers]
 Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
 [You received an invoice]

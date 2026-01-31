@@ -40,6 +40,10 @@ Abbrechen
 Gruppenchateinladung senden
 [&Invite]
 E&inladen
+[Link a device]
+Ein Gerät verknüpfen
+[Open Discord application on your mobile phone, click on "Scan QR Code" in Settings and use it to read this QR code.\nA window will disappear automatically after it.]
+Öffne die Discord-Anwendung auf deinem Mobiltelefon, klicke in den Einstellungen auf „QR-Code scannen“ und scanne damit diesen QR-Code.\nEin Fenster wird sich anschließend automatisch schließen.
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]
 bearbeitet um
@@ -126,6 +130,8 @@ Ungültiger Zwei-Faktor-Code
 [MFA initialization]
 MFA-Initialisierung
 ;file \protocols\Discord\src\options.cpp
+[Login using QR code]
+Mit QR-Code anmelden
 [Network]
 Netzwerk
 [Account]
