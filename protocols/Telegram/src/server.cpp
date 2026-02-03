@@ -249,10 +249,6 @@ void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessChatHasProtected((TD::updateChatHasProtectedContent *)response.object.get());
 		break;
 
-	case TD::updateChatLastMessage::ID:
-		ProcessChatLastMessage((TD::updateChatLastMessage *)response.object.get());
-		break;
-
 	case TD::updateChatNotificationSettings::ID:
 		ProcessChatNotification((TD::updateChatNotificationSettings *)response.object.get());
 		break;
@@ -745,21 +741,6 @@ void CTelegramProto::ProcessChatHasProtected(TD::updateChatHasProtectedContent *
 			setByte(pChat->hContact, "Protected", 1);
 		else
 			delSetting(pChat->hContact, "Protected");
-	}
-}
-
-void CTelegramProto::ProcessChatLastMessage(TD::updateChatLastMessage *pObj)
-{
-	auto *pUser = FindChat(pObj->chat_id_);
-	if (pUser == nullptr) {
-		debugLogA("Unknown chat, skipping");
-		return;
-	}
-
-	pUser->bInited = true;
-	if (pUser->hContact == INVALID_CONTACT_ID) {
-		debugLogA("Last message for a temporary contact, skipping");
-		return;
 	}
 }
 

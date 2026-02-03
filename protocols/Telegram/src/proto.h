@@ -286,7 +286,6 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessChatAction(TD::updateChatAction *pObj);
 	void ProcessChatHasProtected(TD::updateChatHasProtectedContent *pObj);
-	void ProcessChatLastMessage(TD::updateChatLastMessage *pObj);
 	void ProcessChatNotification(TD::updateChatNotificationSettings *pObj);
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
 	void ProcessChatReactions(TD::updateChatAvailableReactions *);
