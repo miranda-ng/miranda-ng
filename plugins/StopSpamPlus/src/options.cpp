@@ -81,9 +81,9 @@ public:
 
 	void onRestore(CCtrlButton *)
 	{
-		g_plugin.delSetting(g_plugin.AuthRepl.GetDBSettingName());
-		g_plugin.delSetting(g_plugin.Question.GetDBSettingName());
-		g_plugin.delSetting(g_plugin.Congratulation.GetDBSettingName());
+		g_plugin.AuthRepl.Delete();
+		g_plugin.Question.Delete();
+		g_plugin.Congratulation.Delete();
 
 		edtQuestion.SetText(g_plugin.getQuestion());
 		edtAnswer.SetText(g_plugin.Answer.Default());

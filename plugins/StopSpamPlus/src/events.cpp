@@ -17,10 +17,22 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 	// event is an auth request
 	if (!dbei.bSent && !dbei.bRead && dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 		MCONTACT hContact = DbGetAuthEventContact(&dbei);
+		bool hasDynamicAnswer = false;
 
-		// if request is from unknown or not marked Answered contact
-		//and if I don't sent message to this contact
-		if (!Contact::OnList(hContact) && !g_plugin.getByte(hContact, DB_KEY_ANSWERED) && !g_plugin.getByte(hContact, DB_KEY_HASSENT)) {
+		// first try to calculate dynamic expression
+		const wchar_t *pwszAnswer = g_plugin.Answer;
+		tstring parsedAnswer = variables_parse(pwszAnswer, hContact);
+		if (parsedAnswer != pwszAnswer) {
+			hasDynamicAnswer = true;
+			g_plugin.setWString(hContact, DB_KEY_ANSWER, parsedAnswer.c_str());
+		}
+
+		// if a contact is known or it's not marked Answered - do nothing
+		if (Contact::OnList(hContact) || g_plugin.getByte(hContact, DB_KEY_ANSWERED))
+			return 0;
+
+		// if the answer is dynamic ot I haven't sent a message to this contact
+		if (hasDynamicAnswer || !g_plugin.getByte(hContact, DB_KEY_HASSENT)) {
 			ProtoChainSend(hContact, PSS_MESSAGE, 0, T2Utf(variables_parse(g_plugin.getReply(), hContact).c_str()));
 
 			if (g_plugin.iAnswerTimeout)
@@ -84,7 +96,12 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	}
 
 	// if message equal right answer...
-	tstring answers = variables_parse(g_plugin.Answer, hContact);
+	tstring answers;
+	ptrW wszPrivateAnswer(g_plugin.getWStringA(hContact, DB_KEY_ANSWER));
+	if (wszPrivateAnswer)
+		answers = wszPrivateAnswer;
+	else
+		answers = variables_parse(g_plugin.Answer, hContact);
 	answers.append(g_plugin.AnswSplitString);
 	tstring::size_type pos = 0;
 	tstring::size_type prev_pos = 0;

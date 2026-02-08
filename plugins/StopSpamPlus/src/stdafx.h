@@ -34,9 +34,10 @@ typedef std::wstring tstring;
 
 #define MODULENAME LPGEN("StopSpam")
 
-#define DB_KEY_ANSWERED "Answered"
-#define DB_KEY_HASAUTH "HasAuth"
-#define DB_KEY_HASSENT "HasSent"
+#define DB_KEY_ANSWER     "Answer"
+#define DB_KEY_ANSWERED   "Answered"
+#define DB_KEY_HASAUTH    "HasAuth"
+#define DB_KEY_HASSENT    "HasSent"
 #define DB_KEY_QUESTCOUNT "QuestionCount"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
