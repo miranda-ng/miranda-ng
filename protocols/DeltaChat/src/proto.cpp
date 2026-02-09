@@ -54,10 +54,6 @@ CDeltaChatProto::CDeltaChatProto(const char *szModuleName, const wchar_t *wszUse
 CDeltaChatProto::~CDeltaChatProto()
 {
 	__try {
-		auto *emitter = dc_get_event_emitter(m_context);
-		while (dc_get_next_event(emitter))
-			;
-		dc_event_emitter_unref(emitter);
 		dc_context_unref(m_context);
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
