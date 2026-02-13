@@ -481,7 +481,7 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 			if (char *p = strchr(szTitle, '@'))
 				*p = 0;
 
-			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, Utf2T(jid), Utf2T(szTitle));
+			auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, Utf2T(jid), Utf2T(szTitle), item);
 			hContact = si->hContact;
 
 			Contact::Hide(hContact, false);

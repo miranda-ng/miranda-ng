@@ -116,7 +116,7 @@ SESSION_INFO* CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 
 	Utf2T wszJid(item->jid);
 	ptrA szNick(JabberNickFromJID(item->jid));
-	SESSION_INFO *si = item->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszJid, Utf2T(szNick));
+	SESSION_INFO *si = item->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszJid, Utf2T(szNick), item);
 	if (si == nullptr)
 		return nullptr;
 
@@ -1353,6 +1353,11 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 		m_ThreadInfo->send(
 			XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetMuc, JABBER_IQ_TYPE_GET, item->jid))
 			<< XQUERY(JABBER_FEAT_MUC_OWNER));
+		break;
+	
+	case GC_SESSION_TERMINATE:
+		item->si = 0;
+		item->bChatLogging = false;
 		break;
 	}
 
