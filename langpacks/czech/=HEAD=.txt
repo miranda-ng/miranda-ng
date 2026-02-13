@@ -1,4 +1,4 @@
-﻿Miranda Language Pack Version 1
+Miranda Language Pack Version 1
 Language: Čeština
 Locale: 0405
 Authors: Robert Pösel (Robyer) (viz http://www.robyer.cz)

@@ -1,4 +1,4 @@
-﻿Miranda Language Pack Version 1
+Miranda Language Pack Version 1
 Language: Español
 Locale: 0c0a
 Authors: Carlos Sánchez (c-sanchez)

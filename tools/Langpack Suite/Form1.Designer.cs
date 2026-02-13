@@ -1,4 +1,4 @@
-﻿namespace Langpack_Suite
+namespace Langpack_Suite
 {
     partial class MainForm
     {

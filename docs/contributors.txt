@@ -1,4 +1,4 @@
-﻿Miranda NG is designed, written & supported by (in alphabetical order):
+Miranda NG is designed, written & supported by (in alphabetical order):
 
 Sergey Bolkhovskoy aka Elzor
 Alexander Gavrilov aka dartraiden

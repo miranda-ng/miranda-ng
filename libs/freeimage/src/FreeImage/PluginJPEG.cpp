@@ -1,4 +1,4 @@
-﻿// ==========================================================
+// ==========================================================
 // JPEG Loader and writer
 // Based on code developed by The Independent JPEG Group
 //

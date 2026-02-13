@@ -1,4 +1,4 @@
-﻿#include "num_cvt.h"
+#include "num_cvt.h"
 #include "utf8_strings.h"
 #include <vector>
 

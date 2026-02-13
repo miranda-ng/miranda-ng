@@ -1,4 +1,4 @@
-﻿// ==========================================================
+// ==========================================================
 // High Dynamic Range bitmap conversion routines
 //
 // Design and implementation by

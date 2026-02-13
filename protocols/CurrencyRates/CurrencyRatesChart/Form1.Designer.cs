@@ -1,4 +1,4 @@
-﻿namespace CurrencyRatesChart
+namespace CurrencyRatesChart
 {
     partial class FormMirandaCurrencyRatesChart
     {
