@@ -476,6 +476,7 @@ public:
 	__forceinline MWindow GetHwnd() const { return m_hwnd; }
 	__forceinline void Hide() { Show(SW_HIDE); }
 	__forceinline bool IsInitialized() const { return m_bInitialized; }
+	__forceinline void SetChild() { m_bChildWindow = true; }
 	__forceinline void SetMinSize(int x, int y) { m_iMinWidth = x, m_iMinHeight = y; }
 	__forceinline void SetParent(MWindow hwnd) { m_hwndParent = hwnd; }
 
@@ -496,6 +497,7 @@ protected:
 	bool    m_bSucceeded = false; // was IDOK pressed or not
 	bool    m_bExiting = false; // window received WM_CLOSE and gonna die soon
 	bool    m_bScheduledResize = false;
+	bool    m_bChildWindow = false;
 
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
 	uint8_t m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL

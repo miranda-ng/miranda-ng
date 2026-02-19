@@ -248,6 +248,7 @@ struct OptionsPageData : public MZeroedObject
 
 	HWND CreateOptionWindow(HWND hWndParent) const
 	{
+		pDialog->SetChild();
 		pDialog->SetParent(hWndParent);
 		pDialog->Create();
 		return pDialog->GetHwnd();

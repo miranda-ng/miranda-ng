@@ -1592,3 +1592,4 @@ _Utils_IsoToUnixTime@4 @1815 NONAME
 _IsWine@0 @1817 NONAME
 ?GetLevel@Compatibility@@YGHPBD@Z @1818 NONAME
 ?SetLevel@Compatibility@@YGXPBDH@Z @1819 NONAME
+?SetChild@CDlgBase@@QAEXXZ @1820 NONAME

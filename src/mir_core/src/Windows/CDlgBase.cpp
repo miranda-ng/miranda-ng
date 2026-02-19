@@ -431,7 +431,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	case WM_CLOSE:
-		if (GetWindowLong(m_hwnd, GWL_STYLE) & WS_CHILDWINDOW) {
+		if (m_bChildWindow) {
 			PostMessage(m_hwndParent, WM_CLOSE, wParam, lParam);
 			return FALSE;
 		}
