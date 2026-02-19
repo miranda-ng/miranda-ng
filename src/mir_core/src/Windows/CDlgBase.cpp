@@ -98,7 +98,8 @@ void CDlgBase::OnTimer(CTimer*)
 
 void CDlgBase::Close()
 {
-	::SendMessage(m_hwnd, WM_CLOSE, 0, 0);
+	if (m_hwnd)
+		::SendMessage(m_hwnd, WM_CLOSE, 0, 0);
 }
 
 void CDlgBase::Create()
@@ -430,6 +431,11 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	case WM_CLOSE:
+		if (GetWindowLong(m_hwnd, GWL_STYLE) & WS_CHILDWINDOW) {
+			PostMessage(m_hwndParent, WM_CLOSE, wParam, lParam);
+			return FALSE;
+		}
+
 		if (OnClose()) {
 			m_bExiting = true;
 			if (m_isModal)
