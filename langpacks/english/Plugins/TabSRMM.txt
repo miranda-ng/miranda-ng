@@ -79,7 +79,6 @@
 [Info panel mode]
 [Show avatar in message window]
 [Ignore sending timeouts]
-[Load only actual history]
 [Use private splitter position]
 [Always trim message log to]
 [events]

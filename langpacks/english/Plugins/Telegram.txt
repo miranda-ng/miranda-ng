@@ -45,6 +45,8 @@
 ;file \protocols\Telegram\src\avatars.cpp
 [Avatar file must be a picture in JPEG format]
 [Error setting avatar]
+;file \protocols\Telegram\src\files.cpp
+[Too many files to be sent]
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
 [Admin]

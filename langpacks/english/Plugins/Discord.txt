@@ -23,6 +23,8 @@
 [Cancel]
 [Send group chat invitation]
 [&Invite]
+[Link a device]
+[Open Discord application on your mobile phone, click on "Scan QR Code" in Settings and use it to read this QR code.\nA window will disappear automatically after it.]
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]
 ;file \protocols\Discord\src\groupchat.cpp
@@ -69,6 +71,7 @@
 [Invalid two-factor code]
 [MFA initialization]
 ;file \protocols\Discord\src\options.cpp
+[Login using QR code]
 [Network]
 [Account]
 ;file \protocols\Discord\src\proto.cpp
