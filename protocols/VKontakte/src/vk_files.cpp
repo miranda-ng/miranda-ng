@@ -164,11 +164,11 @@ HANDLE CVkProto::SendFile(MCONTACT hContact, const wchar_t *desc, wchar_t **file
 		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/audio.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		break;
 	case CVkFileUploadParam::typeAudioMsg:
-		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		pReq << CHAR_PARAM("type", "audio_message");
 		break;
 	case CVkFileUploadParam::typeDoc:
-		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getUploadServer.json", true, &CVkProto::OnReciveUploadServer);
+		pReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/docs.getMessagesUploadServer.json", true, &CVkProto::OnReciveUploadServer);
 		break;
 	default:
 		SendFileFailed(fup, VKERR_FTYPE_NOT_SUPPORTED);
