@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.4
+;  Version: 0.1.19.5
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -498,8 +498,6 @@ ID получателя ошибочен или неизвестен
 Загрузка истории
 [Error loading message history for %s from server.]
 Ошибка загрузки истории сообщений для %s с сервера.
-[Loading messages for %s is completed.]
-Загрузка сообщений для %s завершена.
 ;file \protocols\VKontakte\src\vk_messages.cpp
 [Me]
 Я

@@ -14,8 +14,12 @@
 Имя:
 [Add]
 Добавить
+[Edit]
+Изменить
 [Delete]
 Удалить
+[Authorize]
+Авторизовать
 [Configuration]
 Конфигурация
 [Check Gmail inbox every]
@@ -46,8 +50,6 @@
 Включить автоматический вход
 [Log unread threads into database (enable history)]
 Записывать непрочтённое в базу (включает сохранение истории)
-[Authorize]
-Авторизовать
 [Authorization]
 Авторизация
 [Cancel]
@@ -75,6 +77,8 @@ Gmail: Новая почта
 [&Check Gmail inbox]
 Проверить ящик Gmail
 ;file \protocols\GmailNotifier\src\options.cpp
+[Enter account name]
+Введите название учётной записи
 [Enter your Google email]
 Введите адрес почты Google
 [Deauthorize]

@@ -2074,6 +2074,10 @@ Miranda не может распознать этот профиль
 Вас добавил %s%s
 [Contacts: ]
 Контакты:\s
+[I]
+Я
+[wrote]
+писал(а)
 ;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Система безопасности для предотвращения нежелательных изменений активна и вы будете предупреждены перед каждым произведённым изменением.

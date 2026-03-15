@@ -150,8 +150,6 @@
 Аватар в окне сообщений
 [Ignore sending timeouts]
 Игнорировать время ожидания отправки
-[Load only actual history]
-Только актуальная история
 [Use private splitter position]
 Собственный разделитель
 [Always trim message log to]

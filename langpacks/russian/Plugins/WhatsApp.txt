@@ -43,6 +43,13 @@
 Админ
 [Participant]
 Участник
+;file \protocols\WhatsApp\src\iq.cpp
+[Incoming call]
+Входящий звонок
+[Call rejected]
+Звонок сброшен
+[Call ended]
+Звонок завершён
 ;file \protocols\WhatsApp\src\main.cpp
 [WhatsApp (HTTP)]
 WhatsApp (HTTP)

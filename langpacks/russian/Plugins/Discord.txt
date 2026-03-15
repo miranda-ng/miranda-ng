@@ -40,6 +40,10 @@
 Пригласить в конференцию
 [&Invite]
 &Пригласить
+[Link a device]
+Привязка устройства
+[Open Discord application on your mobile phone, click on "Scan QR Code" in Settings and use it to read this QR code.\nA window will disappear automatically after it.]
+Откройте настройки приложения Discord на смартфоне, выберите "Сканировать QR-код" и считайте этот QR-код.\nПосле этого окно автоматически закроется.
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]
 изменено в
@@ -126,6 +130,8 @@
 [MFA initialization]
 
 ;file \protocols\Discord\src\options.cpp
+[Login using QR code]
+Войти с помощью QR-кода
 [Network]
 Сеть
 [Account]

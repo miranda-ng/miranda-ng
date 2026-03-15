@@ -277,6 +277,9 @@
 Правила
 [Status messages]
 Сообщения статуса
+;file \plugins\StatusManager\src\commonstatus.cpp
+[<unknown>]
+<неизвестно>
 ;file \plugins\StatusManager\src\confirmdialog.cpp
 [Set %s message for %s.]
 Установить %s сообщение для %s.
@@ -328,8 +331,6 @@
 [Status manager]
 Менеджер статусов
 ;file \plugins\StatusManager\src\ss_options.cpp
-[<unknown>]
-<неизвестно>
 [default]
 по умолчанию
 [Hidden]

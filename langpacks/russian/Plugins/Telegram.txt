@@ -82,6 +82,9 @@
 Аватар должен быть изображением в формате JPEG
 [Error setting avatar]
 Ошибка при установке аватара
+;file \protocols\Telegram\src\files.cpp
+[Too many files to be sent]
+Слишком файлов для отправки
 ;file \protocols\Telegram\src\groupchat.cpp
 [Creator]
 Создатель
@@ -164,10 +167,6 @@
 нет
 [Errors]
 Ошибки
-[wrote]
-писал(а)
-[Chat name was changed to %s]
-Название чата изменилось на %s
 [Picture]
 Изображение
 [Audio]
@@ -180,6 +179,10 @@
 Видеосообщение
 [Voice message]
 Голосовое сообщение
+[wrote]
+писал(а)
+[Chat name was changed to %s]
+Название чата изменилось на %s
 [SmileyAdd plugin required to support stickers]
 Для поддержки стикеров требуется плагин SmileyAdd
 [You received an invoice]

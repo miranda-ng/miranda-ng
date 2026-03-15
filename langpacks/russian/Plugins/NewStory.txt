@@ -148,10 +148,6 @@
 Без имени
 [ %u KB]
  %u КБ
-[I]
-Я
-[wrote]
-писал(а)
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
 Поставить/убрать закладку
@@ -161,6 +157,8 @@
 Найти дальше
 [Search backward]
 Найти предыдущее
+[Open links]
+Открыть ссылки
 [Do you really want to delete selected items (%d)?]
 Действительно хотите удалить выбранные события (%d)?
 ;file \plugins\NewStory\src\history_dlg.cpp
