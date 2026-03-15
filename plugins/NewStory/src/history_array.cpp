@@ -436,35 +436,7 @@ void ItemData::load(bool bLoadAlways)
 		break;
 	}
 
-	if (dbe.szReplyId)
-		if (MEVENT hReply = db_event_getById(dbe.szModule, dbe.szReplyId)) {
-			DB::EventInfo dbei(hReply);
-			if (dbei) {
-				CMStringW str, wszNick;
-
-				wchar_t wszTime[100];
-				TimeZone_PrintTimeStamp(0, dbei.getUnixtime(), L"D t", wszTime, _countof(wszTime), 0);
-
-				if (Contact::IsGroupChat(dbe.hContact) && dbei.szUserId)
-					wszNick = Utf2T(dbei.szUserId);
-				else if (dbei.bSent) {
-					if (char *szProto = Proto_GetBaseAccountName(dbe.hContact))
-						wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
-					else
-						wszNick = TranslateT("I"); // shall never happen
-				}
-				else wszNick = Clist_GetContactDisplayName(dbe.hContact, 0);
-				
-				str.AppendFormat(L"%s %s %s:\n", wszTime, wszNick.c_str(), TranslateT("wrote"));
-
-				ptrW wszText(dbei.getText());
-				if (mir_wstrlen(wszText) > 43)
-					wcscpy(wszText.get() + 40, L"...");
-				str.Append(wszText);
-				qtext = str.Detach();
-			}
-		}
-
+	qtext = dbe.getReplyText();
 	dbe.unload();
 }
 

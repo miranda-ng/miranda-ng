@@ -1026,3 +1026,4 @@ Proto_CanDeleteHistory @1118 NONAME
 ?SetReadOnly@CSrmmBaseDialog@@QEAAX_N@Z @1160 NONAME
 ?FinishLoad@History@@YAXI@Z @1161 NONAME
 ??0EventInfo@DB@@QEAA@AEBUDBEVENTINFO@@@Z @1162 NONAME
+?getReplyText@EventInfo@DB@@QEBAPEA_WXZ @1163 NONAME

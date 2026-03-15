@@ -353,6 +353,41 @@ wchar_t* DB::EventInfo::getText() const
 	return mir_a2u_cp(str, CP_ACP);
 }
 
+wchar_t* DB::EventInfo::getReplyText() const
+{
+	if (!mir_strlen(szReplyId))
+		return nullptr;
+
+	if (MEVENT hReply = db_event_getById(szModule, szReplyId)) {
+		DB::EventInfo dbei(hReply);
+		if (dbei) {
+			CMStringW str, wszNick;
+
+			wchar_t wszTime[100];
+			TimeZone_PrintTimeStamp(0, dbei.getUnixtime(), L"D t", wszTime, _countof(wszTime), 0);
+
+			if (Contact::IsGroupChat(hContact) && dbei.szUserId)
+				wszNick = Utf2T(dbei.szUserId);
+			else if (dbei.bSent) {
+				if (char *szProto = Proto_GetBaseAccountName(hContact))
+					wszNick = ptrW(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
+				else
+					wszNick = TranslateT("I"); // shall never happen
+			}
+			else wszNick = Clist_GetContactDisplayName(hContact, 0);
+
+			str.AppendFormat(L"%s %s %s:\n", wszTime, wszNick.c_str(), TranslateT("wrote"));
+
+			ptrW wszText(dbei.getText());
+			if (mir_wstrlen(wszText) > 43)
+				wcscpy(wszText.get() + 40, L"...");
+			str.Append(wszText);
+			return str.Detach();
+		}
+	}
+	return nullptr;
+}
+
 void DB::EventInfo::flushJson()
 {
 	if (!m_json)

@@ -774,6 +774,7 @@ namespace DB
 
 		wchar_t* getString(const char *str) const;
 		wchar_t* getText() const;
+		wchar_t* getReplyText() const;
 
 		void addReaction(const char *emoji);
 		void delReaction(const char *emoji);

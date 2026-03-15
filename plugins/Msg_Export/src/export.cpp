@@ -88,7 +88,7 @@ static bool bWriteIndentedToFile(CMStringW &str, int nIndent, const wchar_t *psz
 	bool bOk = true;
 	bool bFirstLine = true;
 
-	while (*pszSrc) {	// first we will scan forward in string to finde either new line or "max line with"
+	while (*pszSrc) {	// first we will scan forward in string to find either new line or "max line with"
 		int nLineLen = 0;
 		do {
 			if (pszSrc[nLineLen] == '\n' || pszSrc[nLineLen] == '\r')
@@ -304,6 +304,22 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstrin
 
 		switch (dbei.eventType) {
 		case EVENTTYPE_MESSAGE:
+			{
+				ptrW wszReply(dbei.getReplyText());
+				if (wszReply) {
+					auto *p = wcschr(wszReply, '\n');
+					if (p)
+						*p++ = 0;
+
+					bWriteIndentedToFile(output, nIndent, wszReply);
+					if (p) {
+						bWriteNewLine(output, nIndent);
+						bWriteIndentedToFile(output, nIndent, L">");
+						bWriteIndentedToFile(output, nIndent, p);
+						bWriteNewLine(output, nIndent);
+					}
+				}
+			}
 			bWriteIndentedToFile(output, nIndent, ptrW(dbei.getText()));
 			break;
 
