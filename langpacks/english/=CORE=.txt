@@ -1066,6 +1066,8 @@
 [Authorization request from %s%s: %s]
 [You were added by %s%s]
 [Contacts: ]
+[I]
+[wrote]
 ;file \src\mir_app\src\db_ini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]

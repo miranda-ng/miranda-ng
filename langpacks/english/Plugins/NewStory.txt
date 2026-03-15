@@ -78,8 +78,6 @@
 ;file \plugins\NewStory\src\history_array.cpp
 [Unnamed]
 [ %u KB]
-[I]
-[wrote]
 ;file \plugins\NewStory\src\history_control.cpp
 [Toggle bookmark]
 [Search]
