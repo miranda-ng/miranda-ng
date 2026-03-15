@@ -1501,24 +1501,24 @@ static INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, L
 		switch (LOWORD(wParam)) {
 		case IDC_BROWSEEXECUTABLE_BTN:
 			{
-				char gpgexe[256];
-				char filter[128];
-				GetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, _countof(gpgexe));
+				wchar_t gpgexe[MAX_PATH];
+				GetDlgItemTextW(hDlg, IDC_GPGEXECUTABLE_EDIT, gpgexe, _countof(gpgexe));
 
 				// filter zusammensetzen
-				mir_snprintf(filter, "%s (*.exe)%c*.exe%c%c", Translate("Executable Files"), 0, 0, 0);
+				wchar_t filter[128];
+				mir_snwprintf(filter, L"%s (*.exe)%c*.exe%c%c", TranslateT("Executable Files"), 0, 0, 0);
 
 				// OPENFILENAME initialisieren
-				OPENFILENAME ofn = { sizeof(ofn) };
+				OPENFILENAMEW ofn = { sizeof(ofn) };
 				ofn.hwndOwner = hDlg;
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = gpgexe;
 				ofn.nMaxFile = _countof(gpgexe);
-				ofn.lpstrTitle = Translate("Select GnuPG Executable");
+				ofn.lpstrTitle = TranslateT("Select GnuPG Executable");
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_HIDEREADONLY;
 
-				if (GetOpenFileName(&ofn))
-					SetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, ofn.lpstrFile);
+				if (GetOpenFileNameW(&ofn))
+					SetDlgItemTextW(hDlg, IDC_GPGEXECUTABLE_EDIT, ofn.lpstrFile);
 			}
 			break;
 

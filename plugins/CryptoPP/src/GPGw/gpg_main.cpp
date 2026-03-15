@@ -339,14 +339,18 @@ BOOL ShowSelectExecDlg(LPSTR path)
 		}
 	}
 
+	char filter[128];
+	mir_snprintf(filter, "%s (gpg.exe)\0gpg.exe\0%s (*.*)\0*.*\0", TranslateT("GnuPG executable"), TranslateT("All files"));
+
 	ofn.lStructSize = sizeof(ofn);
 	ofn.nMaxFile = MAX_PATH;
 	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_NONETWORKBUTTON;
 
 	ofn.lpstrFile = path;
-	ofn.lpstrFilter = "GnuPG executable (gpg.exe)\0gpg.exe\0All files (*.*)\0*.*\0";
-	ofn.lpstrTitle = "Select GnuPG executable";
-	if (!GetOpenFileName(&ofn)) return FALSE;
+	ofn.lpstrFilter = filter;
+	ofn.lpstrTitle = Translate("Select GnuPG executable");
+	if (!GetOpenFileName(&ofn))
+		return FALSE;
 
 	return TRUE;
 }
