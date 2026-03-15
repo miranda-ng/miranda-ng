@@ -68,6 +68,14 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 		return;
 	}
 
+	if (auto *retractNode = XmlGetChildByTag(M.node, "retract", "xmlns", JABBER_FEAT_RETRACT))
+		if (auto *szId = XmlGetAttr(retractNode, "id")) {
+			MEVENT hEvent = db_event_getById(m_szModuleName, szId);
+			if (hEvent)
+				db_event_delete(hEvent, CDF_FROM_SERVER);
+			return;
+		}
+
 	MessageHandleCarbon(M);
 
 	M.hContact = HContactFromJID(M.from);
@@ -297,7 +305,7 @@ void CJabberProto::MessageProcess(XmppMsg &M)
 
 	// Add a message to database
 	M.dbei.iTimestamp = (uint32_t)M.msgTime;
-	M.dbei.szId = M.szMamMsgId;
+	M.dbei.szId = (M.szMamMsgId) ? M.szMamMsgId : M.idStr;
 
 	MEVENT hDbEVent = 0;
 	if (M.dbei.eventType == EVENTTYPE_FILE) {
