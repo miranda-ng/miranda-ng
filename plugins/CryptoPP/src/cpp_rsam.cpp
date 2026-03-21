@@ -311,23 +311,26 @@ int __cdecl rsa_disabled(HANDLE context)
 	return 1;
 }
 
-LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
+LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR szMsg)
 {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("rsa_recv: %s", msg);
+	Sent_NetLog("rsa_recv: %s", szMsg);
 #endif
 	pCNTX ptr = get_context_on_id(context);	if (!ptr) return nullptr;
 	pRSADATA p = (pRSADATA)cpp_alloc_pdata(ptr);
 	pRSAPRIV r = rsa_get_priv(ptr);
 
-	rtrim(msg);
+	CMStringA msg(szMsg);
+	msg.TrimRight();
 
 	string buf = base64decode(msg);
-	if (!buf.length()) return nullptr;
+	if (!buf.length())
+		return nullptr;
 
 	string data; int type;
 	un_tlv(buf, type, data);
-	if (type == -1) return nullptr;
+	if (type == -1)
+		return nullptr;
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_recv: %02x %d", type, p->state);

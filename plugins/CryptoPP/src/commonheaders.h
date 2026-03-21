@@ -70,9 +70,6 @@ extern HANDLE hRSA4096;
 
 extern mir_cs localQueueMutex;
 
-void ExtractFile(char*, int, int);
-size_t rtrim(LPCSTR);
-
 std::string base64encode(const std::string&);
 std::string base64decode(const std::string&);
 std::string base64decode(const char *);

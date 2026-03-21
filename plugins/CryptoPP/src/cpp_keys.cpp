@@ -69,14 +69,16 @@ LPSTR __cdecl cpp_init_keya(HANDLE context, int features)
 }
 
 // store KeyB
-int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key)
+int __cdecl cpp_init_keyb(HANDLE context, LPCSTR szKey)
 {
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pSIMDATA p = (pSIMDATA)cpp_alloc_pdata(ptr);
 
-	size_t clen = rtrim(key);
+	CMStringA key(szKey);
+	key.TrimRight();
 	ptr->features = 0;
 
+	size_t clen = key.GetLength();
 	LPSTR pub_binary;
 	if ((clen == KEYSIZE * 2) || (clen == (KEYSIZE + 2) * 2))
 		pub_binary = base16decode(key, &clen);

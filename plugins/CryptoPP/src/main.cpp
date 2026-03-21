@@ -55,51 +55,6 @@ int CMPlugin::Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, uint32_t* Size)
-{
-	HRSRC RH = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(ResId), MAKEINTRESOURCE(ResType));
-	if (RH == nullptr)
-		return FALSE;
-
-	uint8_t *RP = (uint8_t*)LoadResource(g_plugin.getInst(), RH);
-	if (RP == nullptr)
-		return FALSE;
-
-	DWORD x, s = SizeofResource(g_plugin.getInst(), RH);
-	if (!WriteFile(FH, RP, s, &x, nullptr)) return FALSE;
-	if (x != s) return FALSE;
-	if (Size) *Size = s;
-	return TRUE;
-}
-
-void ExtractFile(char *FileName, int ResType, int ResId)
-{
-	HANDLE FH = CreateFile(FileName, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, 0, nullptr);
-	if (FH == INVALID_HANDLE_VALUE)
-		return;
-
-	if (!ExtractFileFromResource(FH, ResType, ResId, nullptr))
-		MessageBoxA(nullptr, "Can't extract", "!!!", MB_OK);
-	CloseHandle(FH);
-}
-
-size_t rtrim(LPCSTR str)
-{
-	size_t len = strlen(str);
-	LPSTR ptr = (LPSTR)str + len - 1;
-
-	while (len) {
-		char c = *ptr;
-		if (c != '\x20' && c != '\x09' && c != '\x0A' && c != '\x0D') {
-			*(ptr + 1) = '\0';
-			break;
-		}
-		len--; ptr--;
-	}
-	return len;
-}
-
-
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 HNETLIBUSER hNetlibUser;
 
