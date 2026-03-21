@@ -166,18 +166,21 @@ void CMPlugin::Impl::OnTimer(CTimer *)
 
 	time_t now = time(0);
 
-	for (auto &it : g_times) {
-		if (now - it.second < iTimeout * 60)
+	for (auto it = g_times.begin(); it != g_times.end(); ) {
+		if (now - it->second < iTimeout * 60) {
+			++it;
 			continue;
-
-		if (MEVENT hDbEvent = g_plugin.getDword(it.first, DB_KEY_HASAUTH)) {
-			char *szProto = Proto_GetBaseAccountName(it.first);
-			CallProtoService(szProto, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_plugin.getReply(), it.first).c_str()));
-
-			Netlib_Logf(0, "StopSpam: removing temporary contact %d", it.first);
-			db_delete_contact(it.first);
-			g_times.erase(it.first);
 		}
+
+		if (MEVENT hDbEvent = g_plugin.getDword(it->first, DB_KEY_HASAUTH)) {
+			char *szProto = Proto_GetBaseAccountName(it->first);
+			CallProtoService(szProto, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_plugin.getReply(), it->first).c_str()));
+
+			Netlib_Logf(0, "StopSpam: removing temporary contact %d", it->first);
+			db_delete_contact(it->first);
+			it = g_times.erase(it);
+		}
+		else ++it;
 	}
 }
 
