@@ -133,6 +133,17 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		prev_pos = ++pos;
 	}
 
+	// hide contact from contact list
+	Contact::RemoveFromList(hContact);
+	Contact::Hide(hContact);
+
+	// this contact sent us auth request, but Miranda was restarted and wiped it out.
+	// disable message receiving for this contact
+	if (!g_plugin.getDword(hContact, DB_KEY_HASAUTH)) {
+		ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)TranslateU("You haven't sent authorization request, this message was ignored"));
+		return 1;
+	}
+
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	const wchar_t *pwszPrefix = TranslateT("StopSpam automatic message:\r\n");
@@ -148,10 +159,6 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		uint32_t questCount = g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT);
 		g_plugin.setDword(hContact, DB_KEY_QUESTCOUNT, questCount + 1);
 	}
-
-	// hide contact from contact list
-	Contact::RemoveFromList(hContact);
-	Contact::Hide(hContact);
 
 	// mark message as read and allow to insert it into the history
 	dbei->flags |= DBEF_READ;
