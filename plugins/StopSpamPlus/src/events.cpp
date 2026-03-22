@@ -179,13 +179,17 @@ void CMPlugin::Impl::OnTimer(CTimer *)
 			continue;
 		}
 
-		if (MEVENT hDbEvent = g_plugin.getDword(it->first, DB_KEY_HASAUTH)) {
-			char *szProto = Proto_GetBaseAccountName(it->first);
-			CallProtoService(szProto, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_plugin.getReply(), it->first).c_str()));
+		MCONTACT hContact = it->first;
+		if (MEVENT hDbEvent = g_plugin.getDword(hContact, DB_KEY_HASAUTH)) {
+			char *szProto = Proto_GetBaseAccountName(hContact);
+			CallProtoService(szProto, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_plugin.getReply(), hContact).c_str()));
 
-			Netlib_Logf(0, "StopSpam: contact %d is marked as spammer, all events from it are ignored", it->first);
-			Ignore_Ignore(it->first, IGNOREEVENT_ALL);
+			Netlib_Logf(0, "StopSpam: contact %d is marked as spammer, all events from it are ignored", hContact);
+			Ignore_Ignore(hContact, IGNOREEVENT_ALL);
 			it = g_times.erase(it);
+
+			Contact::RemoveFromList(hContact);
+			Contact::Hide(hContact);
 		}
 		else ++it;
 	}
