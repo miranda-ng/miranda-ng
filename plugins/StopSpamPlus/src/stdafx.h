@@ -18,6 +18,7 @@
 #include <m_database.h>
 #include <m_gui.h>
 #include <m_icolib.h>
+#include <m_ignore.h>
 #include <m_langpack.h>
 #include <m_netlib.h>
 #include <m_options.h>
