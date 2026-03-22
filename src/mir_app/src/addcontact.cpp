@@ -176,7 +176,7 @@ public:
 	}
 };
 
-MIR_APP_DLL(void) Contact::Add(MCONTACT hContact, HWND hwndParent)
+MIR_APP_DLL(void) Contact::Add(MCONTACT hContact, MWindow hwndParent)
 {
 	if (hContact == 0)
 		return;
@@ -231,7 +231,7 @@ MIR_APP_DLL(void) Contact::AddByEvent(MEVENT hEvent, MWindow hwndParent)
 	else (new CAddByEvent(hEvent))->Show();
 }
 
-MIR_APP_DLL(void) Contact::AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, HWND hwndParent)
+MIR_APP_DLL(void) Contact::AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, MWindow hwndParent)
 {
 	struct CAddBySearch : public CAddContactDlg
 	{
