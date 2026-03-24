@@ -805,7 +805,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR    __cdecl OnGetEventTextPresence(WPARAM wParam, LPARAM lParam);
 			    
 	void       AddContactToRoster(const char *jid, const char *nick, const char *grpName);
-	void       DBAddAuthRequest(const char *jid, const char *nick);
 	bool       AddDbPresenceEvent(MCONTACT hContact, uint8_t btEventType);
 	MCONTACT   DBCreateContact(const char *jid, const char *nick, bool temporary, bool stripResource);
 	void       GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen);

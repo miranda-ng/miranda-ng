@@ -43,25 +43,6 @@ void CJabberProto::AddContactToRoster(const char *jid, const char *nick, const c
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// JabberDBAddAuthRequest()
-
-void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
-{
-	MCONTACT hContact = DBCreateContact(jid, nick, true, true);
-	Contact::Hide(hContact, false);
-
-	DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
-
-	DB::EventInfo dbei;
-	dbei.iTimestamp = (uint32_t)time(0);
-	dbei.cbBlob = blob.size();
-	dbei.pBlob = blob;
-	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
-
-	debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", blob.get_nick(), blob.get_email());
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // JabberDBCreateContact()
 
 MCONTACT CJabberProto::DBCreateContact(const char *jid, const char *nick, bool temporary, bool stripResource)

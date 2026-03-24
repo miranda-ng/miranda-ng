@@ -1322,7 +1322,9 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 
 		// automatically send authorization allowed to agent/transport
 		if (strchr(from, '@') == nullptr || m_bAutoAcceptAuthorization) {
-			ListAdd(LIST_ROSTER, from, hContact);
+			if (hContact)
+				ListAdd(LIST_ROSTER, from, hContact);
+
 			info->send(XmlNode("presence") << XATTR("to", from) << XATTR("type", "subscribed"));
 
 			if (m_bAutoAdd == TRUE) {
@@ -1340,7 +1342,18 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 		}
 		else {
 			debugLogA("%s (%s) requests authorization", szNick.get(), from);
-			DBAddAuthRequest(from, szNick);
+
+			hContact = DBCreateContact(from, szNick, true, true);
+
+			DB::AUTH_BLOB blob(hContact, szNick, nullptr, nullptr, from, nullptr);
+
+			DB::EventInfo dbei;
+			dbei.iTimestamp = (uint32_t)time(0);
+			dbei.cbBlob = blob.size();
+			dbei.pBlob = blob;
+			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&dbei);
+
+			debugLogA("Setup DBAUTHREQUEST with nick='%s' jid='%s'", blob.get_nick(), blob.get_email());
 		}
 		return;
 	}
