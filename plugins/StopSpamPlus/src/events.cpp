@@ -2,6 +2,15 @@
 
 static std::map<MCONTACT, time_t> g_times;
 
+static void MarkContactAsSpam(MCONTACT hContact, bool bMove = true)
+{
+	Contact::RemoveFromList(hContact);
+	Contact::Hide(hContact);
+
+	if (bMove)
+		Clist_SetGroup(hContact, TranslateT("Spam"));
+}
+
 int OnDbEventAdded(WPARAM, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
@@ -39,8 +48,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 				g_times[hContact] = time(0);
 
 			g_plugin.setDword(hContact, DB_KEY_HASAUTH, hDbEvent);
-			Contact::RemoveFromList(hContact);
-			Contact::Hide(hContact);
+			MarkContactAsSpam(hContact, false);
 			if (!g_plugin.bHistLog)
 				db_event_delete(hDbEvent);
 			return 1;
@@ -133,9 +141,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 		prev_pos = ++pos;
 	}
 
-	// hide contact from contact list
-	Contact::RemoveFromList(hContact);
-	Contact::Hide(hContact);
+	MarkContactAsSpam(hContact);
 
 	// this contact sent us auth request, but Miranda was restarted and wiped it out.
 	// disable message receiving for this contact
@@ -188,8 +194,7 @@ void CMPlugin::Impl::OnTimer(CTimer *)
 			Ignore_Ignore(hContact, IGNOREEVENT_ALL);
 			it = g_times.erase(it);
 
-			Contact::RemoveFromList(hContact);
-			Contact::Hide(hContact);
+			MarkContactAsSpam(hContact);
 		}
 		else ++it;
 	}
