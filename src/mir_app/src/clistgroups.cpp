@@ -93,16 +93,11 @@ CGroupInternal* FindGroup(const wchar_t *ptszGroupName)
 	return arByName.find(tmp);
 }
 
-static int GroupNameExists(const wchar_t *ptszGroupName)
+MIR_APP_DLL(MGROUP) Clist_GroupExists(const wchar_t *ptszGroupName)
 {
 	if (auto *tmp = FindGroup(ptszGroupName))
 		return tmp->groupId + 1;
 	return 0;
-}
-
-MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName)
-{
-	return GroupNameExists(ptszGroupName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -146,12 +141,12 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 
 	mir_wstrncpy(newName, newBaseName, _countof(newName) - 1);
 	if (ptszName) {
-		int id = GroupNameExists(newBaseName);
+		int id = Clist_GroupExists(newBaseName);
 		if (id)
 			return id;
 	}
 	else {
-		for (int idCopy = 1; GroupNameExists(newName); idCopy++)
+		for (int idCopy = 1; Clist_GroupExists(newName); idCopy++)
 			mir_snwprintf(newName, L"%s (%d)", newBaseName, idCopy);
 	}
 
@@ -169,7 +164,7 @@ static INT_PTR CreateGroupInternal(MGROUP hParent, const wchar_t *ptszName)
 	return newId + 1;
 }
 
-MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, LPCTSTR ptszGroupName)
+MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, const wchar_t *ptszGroupName)
 {
 	// no name specified. just create a new group with a default name
 	if (ptszGroupName == nullptr)
@@ -351,7 +346,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 
 static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 {
-	auto existingId = GroupNameExists(szName);
+	auto existingId = Clist_GroupExists(szName);
 	if (existingId && existingId != groupId) {
 		MessageBoxW(nullptr, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename group"), MB_ICONERROR | MB_OK);
 		return 1;

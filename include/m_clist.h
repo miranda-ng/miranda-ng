@@ -337,7 +337,7 @@ struct CLISTGROUPCHANGE
 
 typedef int MGROUP;
 
-EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupExists(LPCTSTR ptszGroupName);
+EXTERN_C MIR_APP_DLL(MGROUP) Clist_GroupExists(const wchar_t *ptszGroupName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // creates a new group and calls CLUI to display it
