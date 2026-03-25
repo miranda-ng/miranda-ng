@@ -4,7 +4,7 @@ const wchar_t pluginDescription[] = LPGENW("No more spam! Robots can't go! Only 
 
 class COptMainDlg : public CDlgBase
 {
-	CCtrlEdit edtDescr;
+	CCtrlEdit edtDescr, edtGroup;
 	CCtrlSpin spinCount, spinTimeout;
 	CCtrlCheck chk1, chk2, chk4, chk6;
 
@@ -12,6 +12,7 @@ public:
 	COptMainDlg() :
 		CDlgBase(g_plugin, IDD_MAIN),
 		edtDescr(this, ID_DESCRIPTION),
+		edtGroup(this, IDC_SPAM_GROUP),
 		spinCount(this, IDC_SPIN1, 10),
 		spinTimeout(this, IDC_SPIN2, 60),
 		chk1(this, ID_INFTALKPROT),
@@ -19,6 +20,7 @@ public:
 		chk4(this, ID_NOTCASESENS),
 		chk6(this, ID_HISTORY_LOG)
 	{
+		CreateLink(edtGroup, g_plugin.SpamGroup);
 		CreateLink(spinCount, g_plugin.iMaxQuestCount);
 		CreateLink(spinTimeout, g_plugin.iAnswerTimeout);
 

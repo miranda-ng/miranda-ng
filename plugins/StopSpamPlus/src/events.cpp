@@ -7,8 +7,11 @@ static void MarkContactAsSpam(MCONTACT hContact, bool bMove = true)
 	Contact::RemoveFromList(hContact);
 	Contact::Hide(hContact);
 
-	if (bMove)
-		Clist_SetGroup(hContact, TranslateT("Spam"));
+	if (bMove && mir_wstrlen(g_plugin.SpamGroup)) {
+		if (!Clist_GroupExists(g_plugin.SpamGroup))
+			Clist_GroupCreate(0, g_plugin.SpamGroup);
+		Clist_SetGroup(hContact, g_plugin.SpamGroup);
+	}
 }
 
 int OnDbEventAdded(WPARAM, LPARAM lParam)

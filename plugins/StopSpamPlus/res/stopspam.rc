@@ -69,6 +69,8 @@ BEGIN
     CONTROL         "Add contact permanently",ID_ADDPERMANENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,136,282,8
     CONTROL         "Answer is not case sensitive",ID_NOTCASESENS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,148,282,8
     CONTROL         "Log Spammers to system history",ID_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,160,282,8
+    EDITTEXT        IDC_SPAM_GROUP,211,175,91,14,ES_AUTOHSCROLL
+    LTEXT           "Move spam contacts to the following group",IDC_STATIC,7,176,193,13
 END
 
 

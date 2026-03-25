@@ -25,6 +25,7 @@ CMPlugin::CMPlugin() :
 	Answer(MODULENAME, "Answer", L"nospam"),
 	Congratulation(MODULENAME, "Congratulation"),
 	DisabledProtoList(MODULENAME, "DisabledProtoList", "MetaContacts RSSNews"),
+	SpamGroup(MODULENAME, "SpamGroup", TranslateT("Spam")),
 	bInfTalkProtection(MODULENAME, "InfTalkProtection", 1),
 	bAddPermanent(MODULENAME, "AddPermanent", 0),
 	iMaxQuestCount(MODULENAME, "MaxQuestCount", 2),

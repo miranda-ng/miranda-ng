@@ -58,7 +58,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	} m_impl;
 
 	CMOption<bool> bInfTalkProtection, bAddPermanent, bAnswNotCaseSens, bHistLog;
-	CMOption<wchar_t *> Question, AuthRepl, Answer, Congratulation, AnswSplitString;
+	CMOption<wchar_t *> Question, AuthRepl, Answer, Congratulation, AnswSplitString, SpamGroup;
 	CMOption<char *> DisabledProtoList;
 	CMOption<uint32_t> iMaxQuestCount, iAnswerTimeout;
 
