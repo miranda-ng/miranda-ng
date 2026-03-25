@@ -767,7 +767,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 				debugLogA("You received a sticker of unsupported type %d, ignored", pSticker->full_type_->get_id());
 				break;
 			}
-			
+
 			if (m_bSmileyAdd) {
 				if (pSticker->thumbnail_.get()) {
 					ret = GetMessageSticker(pSticker->thumbnail_->file_.get(), pSticker->thumbnail_->format_.get());
@@ -783,7 +783,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 	case TD::messageInvoice::ID:
 		if (auto *pInvoice = ((TD::messageInvoice *)pBody)) {
-			ret.Format("%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_)/100.0, pInvoice->currency_.c_str());
+			ret.Format("%s: %.2lf %s", TranslateU("You received an invoice"), double(pInvoice->total_amount_) / 100.0, pInvoice->currency_.c_str());
 			if (auto pszText = GetFormattedText(pInvoice->paid_media_caption_))
 				ret.AppendFormat("\r\n%s", pszText.c_str());
 		}
@@ -854,7 +854,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 					dbei.bRead = true;
 			}
 
-			if (!pUser->bInited || isHistory)
+			if (!pUser->bInited || isHistory || pMsg->id_ <= pUser->lastReadId || !pUser->bInited)
 				dbei.bRead = true;
 
 			char szReplyId[100];
