@@ -1947,11 +1947,19 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 MEVENT CVkProto::GetMessageFromDb(VKMessageID_t iMessageId, time_t& tTimeStamp, CMStringW& wszMsg)
 {
 	char szMid[40];
+	uint32_t uFlags = 0;
 	_ltoa(iMessageId, szMid, 10);
-	return GetMessageFromDb(szMid, tTimeStamp, wszMsg);
+	return GetMessageFromDb(szMid, tTimeStamp, wszMsg, uFlags);
 }
 
-MEVENT CVkProto::GetMessageFromDb(const char *szMessageId, time_t& tTimeStamp, CMStringW& wszMsg)
+MEVENT CVkProto::GetMessageFromDb(VKMessageID_t iMessageId, time_t& tTimeStamp, CMStringW& wszMsg, uint32_t& uFlags)
+{
+	char szMid[40];
+	_ltoa(iMessageId, szMid, 10);
+	return GetMessageFromDb(szMid, tTimeStamp, wszMsg, uFlags);
+}
+
+MEVENT CVkProto::GetMessageFromDb(const char *szMessageId, time_t& tTimeStamp, CMStringW& wszMsg, uint32_t& uFlags)
 {
 	if (szMessageId == nullptr)
 		return 0;
@@ -1963,6 +1971,7 @@ MEVENT CVkProto::GetMessageFromDb(const char *szMessageId, time_t& tTimeStamp, C
 	DB::EventInfo dbei(hDbEvent);
 	wszMsg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));
 	tTimeStamp = dbei.getUnixtime();
+	uFlags = dbei.flags;
 
 	return hDbEvent;
 }

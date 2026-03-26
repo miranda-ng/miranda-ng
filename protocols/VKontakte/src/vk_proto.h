@@ -413,7 +413,8 @@ private:
 	CMStringW RemoveBBC(CMStringW& wszSrc);
 	void AddVkDeactivateEvent(MCONTACT hContact, CMStringW & wszType);
 	MEVENT GetMessageFromDb(VKMessageID_t iMessageId, time_t& tTimeStamp, CMStringW& wszMsg);
-	MEVENT GetMessageFromDb(const char * szMessageId, time_t& tTimeStamp, CMStringW& wszMsg);
+	MEVENT GetMessageFromDb(VKMessageID_t iMessageId, time_t& tTimeStamp, CMStringW& wszMsg, uint32_t& uFlags);
+	MEVENT GetMessageFromDb(const char * szMessageId, time_t& tTimeStamp, CMStringW& wszMsg, uint32_t& uFlags);
 	int DeleteContact(MCONTACT hContact);
 	bool IsMessageExist(VKMessageID_t iMessageId, VKMesType vkType = vkALL);
 	CMStringW UserProfileUrl(VKUserID_t iUserId);

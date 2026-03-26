@@ -85,6 +85,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 	MCONTACT hContact;
 	time_t tDateTime = 0;
 	CMStringW wszMsg;
+	uint32_t uFlags = 0;
 
 	for (auto &it : jnUpdates) {
 		const JSONNode &jnChild = it.as_array();
@@ -121,7 +122,7 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 			iUserId = jnChild[3].as_int();
 			hContact = FindUser(iUserId);
 
-			if (hContact != 0 && ((iFlags & VKFLAG_MSGDELETED) || (iFlags & VKFLAG_MSGSPAM)) && IsMessageExist(iMessageId, vkALL) && GetMessageFromDb(iMessageId, tDateTime, wszMsg)) {
+			if (hContact != 0 && ((iFlags & VKFLAG_MSGDELETED) || (iFlags & VKFLAG_MSGSPAM)) && IsMessageExist(iMessageId, vkALL) && GetMessageFromDb(iMessageId, tDateTime, wszMsg, uFlags)) {
 				wchar_t ttime[64];
 				time_t tDeleteTime = time(0);
 				_locale_t locale = _create_locale(LC_ALL, "");
@@ -140,15 +141,12 @@ void CVkProto::PollUpdates(const JSONNode &jnUpdates)
 					wszMsg;
 
 				DB::EventInfo dbei;
-				if (iUserId == m_iMyUserId)
-					dbei.flags |= DBEF_SENT;
-				else if ((m_vkOptions.bUserForceInvisibleOnActivity && time(0) - tDateTime < 60 * m_vkOptions.iInvisibleInterval) && (iFlags & VKFLAG_MSGDELETED))
-					SetInvisible(hContact);
 
 				char szMid[40];
 				_itoa(iMessageId, szMid, 10);
 
 				T2Utf pszMsg(wszMsg);
+				dbei.flags |= (DBEF_SENT & uFlags);
 				dbei.iTimestamp = tDateTime;
 				dbei.pBlob = pszMsg;
 				dbei.szId = szMid;
