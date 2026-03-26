@@ -38,6 +38,9 @@ bool CJabberProto::OnMessageError(const TiXmlElement *node, ThreadData*, CJabber
 		if (id != -1)
 			ProtoBroadcastAck(pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id, (LPARAM)szErrText.c_str());
 		else {
+			if (XmlGetChildByTag(node, "received", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS))
+				return true;
+
 			CMStringW wszErrorText(Utf2T(pInfo->GetFrom()));
 			wszErrorText.Append(L":\n");
 
