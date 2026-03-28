@@ -1011,8 +1011,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 	bool bNick = false;
 	bool bInfoPanel = m_pPanel.isActive();
-	bool bShowToolbar = (m_pContainer->cfg.flags.m_bHideToolbar) == 0;
-	bool bBottomToolbar = (m_pContainer->cfg.flags.m_bBottomToolbar) != 0;
+	bool bShowToolbar = !m_pContainer->cfg.flags.m_bHideToolbar;
+	bool bBottomToolbar = m_pContainer->cfg.flags.m_bBottomToolbar && !m_bReadOnly;
 
 	int  iSplitterX = m_pContainer->cfg.iSplitterX;
 
