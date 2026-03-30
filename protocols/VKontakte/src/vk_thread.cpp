@@ -605,7 +605,7 @@ void CVkProto::RetrieveGroupInfo(CMStringA& groupIDs)
 
 void CVkProto::RetrieveUsersFrameInfo(CMStringA& szUserIds, bool bFreeOffline, bool bSendOnline, bool bRepeat)
 {
-	debugLogA("CVkProto::RetrieveUsersFrameInfo %s", szUserIds);
+	debugLogA("CVkProto::RetrieveUsersFrameInfo %s", szUserIds.c_str());
 	if (!IsOnline() || szUserIds.IsEmpty())
 		return;
 	
