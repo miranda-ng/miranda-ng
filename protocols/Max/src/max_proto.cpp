@@ -16,6 +16,7 @@ CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 CMaxProto::~CMaxProto()
 {
 	InterlockedExchange(&m_iTerminated, 1);
+	StopWorker(true);
 	ShutdownConnection();
 	if (m_hNetlibUser != nullptr)
 		Netlib_CloseHandle(m_hNetlibUser);
@@ -49,7 +50,7 @@ int CMaxProto::SetStatus(int iNewStatus)
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		InterlockedExchange(&m_iTerminated, 1);
-		ShutdownConnection();
+		StopWorker(false);
 		m_iStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 		return 0;
@@ -58,7 +59,14 @@ int CMaxProto::SetStatus(int iNewStatus)
 	InterlockedExchange(&m_iTerminated, 0);
 	m_iStatus = ID_STATUS_CONNECTING;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-	ForkThread(&CMaxProto::WorkerThread);
+	if (m_hWorkerThread != nullptr) {
+		if (WaitForSingleObject(m_hWorkerThread, 0) == WAIT_OBJECT_0) {
+			CloseHandle(m_hWorkerThread);
+			m_hWorkerThread = nullptr;
+		}
+	}
+	if (m_hWorkerThread == nullptr)
+		m_hWorkerThread = ForkThreadEx(&CMaxProto::WorkerThread, nullptr, nullptr);
 	return 0;
 }
 

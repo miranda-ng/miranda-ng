@@ -30,11 +30,13 @@ class CMaxProto : public PROTO<CMaxProto>
 	volatile LONG m_seq = 0;
 	HNETLIBUSER m_hNetlibUser;
 	HNETLIBCONN m_hConnection = 0;
+	HANDLE m_hWorkerThread = nullptr;
 	mir_cs m_csNet;
 	mir_cs m_csPending;
 	std::map<uint8_t, PendingRequest*> m_pending;
 
 	void ShutdownConnection();
+	void StopWorker(bool bWait);
 
 	void __cdecl WorkerThread(void *);
 	void __cdecl SearchThread(void *arg);

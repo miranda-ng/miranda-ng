@@ -10,6 +10,31 @@ void CMaxProto::ShutdownConnection()
 	}
 }
 
+void CMaxProto::StopWorker(bool bWait)
+{
+	HNETLIBCONN hConn = nullptr;
+	HANDLE hThread = nullptr;
+
+	{
+		mir_cslock lck(m_csNet);
+		hConn = m_hConnection;
+		hThread = m_hWorkerThread;
+	}
+
+	// Wake blocking Netlib_Recv in worker thread.
+	if (hConn)
+		Netlib_Shutdown(hConn);
+
+	if (!bWait || hThread == nullptr)
+		return;
+
+	WaitForSingleObject(hThread, 5000);
+	CloseHandle(hThread);
+	mir_cslock lck(m_csNet);
+	if (m_hWorkerThread == hThread)
+		m_hWorkerThread = nullptr;
+}
+
 bool CMaxProto::Connect()
 {
 	mir_cslock lck(m_csNet);
@@ -60,6 +85,10 @@ void CMaxProto::WorkerThread(void *)
 	}
 
 	ShutdownConnection();
+	{
+		mir_cslock lck(m_csNet);
+		m_hWorkerThread = nullptr;
+	}
 	if (!Miranda_IsTerminated()) {
 		m_iStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_ONLINE, ID_STATUS_OFFLINE);
