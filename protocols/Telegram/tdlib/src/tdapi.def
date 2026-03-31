@@ -740,3 +740,12 @@ td_set_log_verbosity_level @671 NONAME
 ?ID@inputFileId@td_api@td@@2HB @737 NONAME
 ?get_id@inputFileId@td_api@td@@EBEHXZ @738 NONAME
 ?store@inputFileId@td_api@td@@UBEXAAVTlStorerToString@3@PBD@Z @739 NONAME
+??0proxyTypeMtproto@td_api@td@@QAE@$$QAV012@@Z @740 NONAME
+??0proxyTypeMtproto@td_api@td@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z @741 NONAME
+??0proxyTypeMtproto@td_api@td@@QAE@XZ @742 NONAME
+??1proxyTypeMtproto@td_api@td@@UAE@XZ @743 NONAME
+??4proxyTypeMtproto@td_api@td@@QAEAAV012@$$QAV012@@Z @744 NONAME
+??_7proxyTypeMtproto@td_api@td@@6B@ @745 NONAME
+?ID@proxyTypeMtproto@td_api@td@@2HB @746 NONAME
+?get_id@proxyTypeMtproto@td_api@td@@EBEHXZ @747 NONAME
+?store@proxyTypeMtproto@td_api@td@@UBEXAAVTlStorerToString@3@PBD@Z @748 NONAME

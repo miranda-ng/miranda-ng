@@ -71,4 +71,11 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bot.ico" />
+    <Image Include="res\forward.ico" />
+    <Image Include="res\premium.ico" />
+    <Image Include="res\reaction.ico" />
+    <Image Include="res\telegram.ico" />
+  </ItemGroup>
 </Project>

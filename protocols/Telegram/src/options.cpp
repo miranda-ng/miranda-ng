@@ -124,9 +124,10 @@ public:
 
 class CAdvOptionsDlg : public CTelegramDlgBase
 {
-	CCtrlEdit edtDiff1, edtDiff2;
+	CCtrlEdit edtDiff1, edtDiff2, edtHost, edtPort, edtSecret;
 	CCtrlSpin spin1, spin2;
 	CCtrlCombo cmbStatus1, cmbStatus2;
+	CCtrlCheck chkUseProxy;
 
 public:
 	CAdvOptionsDlg(CTelegramProto *ppro) :
@@ -136,7 +137,11 @@ public:
 		edtDiff1(this, IDC_DIFF1),
 		edtDiff2(this, IDC_DIFF2),
 		cmbStatus1(this, IDC_STATUS1),
-		cmbStatus2(this, IDC_STATUS2)
+		cmbStatus2(this, IDC_STATUS2),
+		chkUseProxy(this, IDC_USEPROXY),
+		edtHost(this, IDC_PROXYHOST),
+		edtPort(this, IDC_PROXYPORT),
+		edtSecret(this, IDC_PROXYSECRET)
 	{
 		edtDiff1.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Timeout1);
 		edtDiff2.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Timeout2);
@@ -146,6 +151,12 @@ public:
 
 		CreateLink(spin1, ppro->m_iTimeDiff1);
 		CreateLink(spin2, ppro->m_iTimeDiff2);
+
+		CreateLink(chkUseProxy, ppro->m_bUseProxy);
+		CreateLink(edtHost, ppro->m_wszProxyHost);
+		CreateLink(edtPort, ppro->m_iProxyPort);
+		CreateLink(edtSecret, ppro->m_wszProxySecret);
+		chkUseProxy.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Proxy);
 	}
 
 	bool OnInitDialog() override
@@ -197,6 +208,14 @@ public:
 	void onChange_Spin2(CCtrlEdit *)
 	{
 		cmbStatus2.Enable(spin1.GetPosition() != 0 && spin2.GetPosition() != 0);
+	}
+
+	void onChange_Proxy(CCtrlCheck *)
+	{
+		bool bEnabled = chkUseProxy.IsChecked();
+		edtPort.Enable(bEnabled);
+		edtHost.Enable(bEnabled);
+		edtSecret.Enable(bEnabled);
 	}
 };
 

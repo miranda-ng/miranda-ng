@@ -35,29 +35,35 @@ void __cdecl CTelegramProto::ServerThread(void *)
 
 	SendQuery(new TD::getOption("version"));
 
-	NETLIBUSERSETTINGS nluSettings;
-	Netlib_GetUserSettings(m_hNetlibUser, &nluSettings);
-	if (nluSettings.useProxy) {
-		TD::object_ptr<TD::ProxyType> proxyType;
-		switch (nluSettings.proxyType) {
-		case PROXYTYPE_SOCKS4:
-		case PROXYTYPE_SOCKS5:
-			if (nluSettings.szProxyAuthUser && nluSettings.szProxyAuthPassword)
-				proxyType = TD::make_object<TD::proxyTypeSocks5>(nluSettings.szProxyAuthUser, nluSettings.szProxyAuthPassword);
-			else
-				proxyType = TD::make_object<TD::proxyTypeSocks5>();
-			break;
-		case PROXYTYPE_HTTP:
-		case PROXYTYPE_HTTPS:
-			if (nluSettings.szProxyAuthUser && nluSettings.szProxyAuthPassword)
-				proxyType = TD::make_object<TD::proxyTypeHttp>(nluSettings.szProxyAuthUser, nluSettings.szProxyAuthPassword, true);
-			else
-				proxyType = TD::make_object<TD::proxyTypeHttp>();
-			break;
-		}
+	if (m_bUseProxy) {
+		auto proxyType = TD::make_object<TD::proxyTypeMtproto>(getMStringA(DBKEY_PROXYSECRET).c_str());
+		SendQuery(new TD::addProxy(getMStringA(DBKEY_PROXYHOST).c_str(), m_iProxyPort, true, std::move(proxyType)));
+	}
+	else {
+		NETLIBUSERSETTINGS nluSettings;
+		Netlib_GetUserSettings(m_hNetlibUser, &nluSettings);
+		if (nluSettings.useProxy) {
+			TD::object_ptr<TD::ProxyType> proxyType;
+			switch (nluSettings.proxyType) {
+			case PROXYTYPE_SOCKS4:
+			case PROXYTYPE_SOCKS5:
+				if (nluSettings.szProxyAuthUser && nluSettings.szProxyAuthPassword)
+					proxyType = TD::make_object<TD::proxyTypeSocks5>(nluSettings.szProxyAuthUser, nluSettings.szProxyAuthPassword);
+				else
+					proxyType = TD::make_object<TD::proxyTypeSocks5>();
+				break;
+			case PROXYTYPE_HTTP:
+			case PROXYTYPE_HTTPS:
+				if (nluSettings.szProxyAuthUser && nluSettings.szProxyAuthPassword)
+					proxyType = TD::make_object<TD::proxyTypeHttp>(nluSettings.szProxyAuthUser, nluSettings.szProxyAuthPassword, true);
+				else
+					proxyType = TD::make_object<TD::proxyTypeHttp>();
+				break;
+			}
 
-		if (proxyType)
-			SendQuery(new TD::addProxy(nluSettings.szProxyServer, nluSettings.wProxyPort, true, std::move(proxyType)));
+			if (proxyType)
+				SendQuery(new TD::addProxy(nluSettings.szProxyServer, nluSettings.wProxyPort, true, std::move(proxyType)));
+		}
 	}
 
 	while (!m_bTerminated)

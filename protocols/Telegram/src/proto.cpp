@@ -62,7 +62,11 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	m_bHideGroupchats(this, "HideChats", true),
 	m_bDeleteContacts(this, "DeleteContacts", false),
 	m_bIncludePreviews(this, "IncludePreview", true),
-	m_bResidentChannels(this, "ResidentChannels", false)
+	m_bResidentChannels(this, "ResidentChannels", false),
+	m_bUseProxy(this, "UseProxy", false),
+	m_wszProxyHost(this, DBKEY_PROXYHOST, L""),
+	m_wszProxySecret(this, DBKEY_PROXYSECRET, L""),
+	m_iProxyPort(this, "ProxyPort", 0)
 {
 	m_iOwnId = GetId(0);
 

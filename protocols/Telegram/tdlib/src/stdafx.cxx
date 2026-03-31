@@ -63,6 +63,7 @@ std::int32_t used_ids[] = {
 	td::td_api::messageTopicThread::ID,
 	td::td_api::preliminaryUploadFile::ID,
 	td::td_api::proxyTypeHttp::ID,
+	td::td_api::proxyTypeMtproto::ID,
 	td::td_api::proxyTypeSocks5::ID,
 	td::td_api::reactionTypeEmoji::ID,
 	td::td_api::removeContacts::ID,

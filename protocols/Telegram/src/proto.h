@@ -7,6 +7,9 @@
 #define DBKEY_AUTHORIZED "Authorized"
 #define DBKEY_REMOTE_READ "RemoteRead"
 
+#define DBKEY_PROXYHOST "ProxyHost"
+#define DBKEY_PROXYSECRET "ProxySecret"
+
 #define DBKEY_AVATAR_HASH "AvatarHash"
 #define DBKEY_AVATAR_TYPE "AvatarType"
 
@@ -474,6 +477,11 @@ public:
 	CMOption<uint32_t> m_iStatus1;
 	CMOption<uint32_t> m_iTimeDiff2;        // set this status to m_iStatus2 after this interval of secs
 	CMOption<uint32_t> m_iStatus2;
+
+	CMOption<bool>     m_bUseProxy;         // for MTProxy
+	CMOption<wchar_t*> m_wszProxyHost;
+	CMOption<wchar_t*> m_wszProxySecret;
+	CMOption<uint32_t> m_iProxyPort;
 
 	// Processing Threads ////////////////////////////////////////////////////////////////
 

@@ -72,4 +72,21 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\telegram.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\premium.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\forward.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\reaction.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bot.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
