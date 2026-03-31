@@ -5,20 +5,10 @@
 #define MAX_SETTINGS_DEVICE_ID "DeviceId"
 #define MAX_SETTINGS_CHAT_ID "ChatID"
 
+typedef struct cmp_ctx_s cmp_ctx_t;
+
 class CMaxProto : public PROTO<CMaxProto>
 {
-public:
-	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
-	~CMaxProto();
-
-	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
-	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
-	int      SetStatus(int iNewStatus) override;
-	HANDLE   SearchBasic(const wchar_t *id) override;
-	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
-	MWindow  OnCreateAccMgrUI(MWindow) override;
-
-private:
 	struct MaxFrame
 	{
 		uint8_t ver = 11;
@@ -35,16 +25,15 @@ private:
 		bool ok = false;
 	};
 
-	volatile LONG m_iTerminated;
-	volatile LONG m_msgId;
-	volatile LONG m_seq;
+	volatile LONG m_iTerminated = 0;
+	volatile LONG m_msgId = 0;
+	volatile LONG m_seq = 0;
 	HNETLIBUSER m_hNetlibUser;
-	HNETLIBCONN m_hConnection;
+	HNETLIBCONN m_hConnection = 0;
 	mir_cs m_csNet;
 	mir_cs m_csPending;
 	std::map<uint8_t, PendingRequest*> m_pending;
 
-	void InitNetlib();
 	void ShutdownConnection();
 
 	void __cdecl WorkerThread(void *);
@@ -71,7 +60,25 @@ private:
 
 	JSONNode BuildHandshakePayload();
 	JSONNode BuildSyncPayload();
+
+public:
+	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
+	~CMaxProto();
+
+	// Options
+
+	CMOption<wchar_t*> m_szToken, m_szDeviceId;
+
+	// PROTO_INTERFACE
+	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
+	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
+	int      SetStatus(int iNewStatus) override;
+	HANDLE   SearchBasic(const wchar_t *id) override;
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+	MWindow  OnCreateAccMgrUI(MWindow) override;
 };
+
+typedef CProtoDlgBase<CMaxProto> CMaxDlgBase;
 
 struct CMPlugin : public ACCPROTOPLUGIN<CMaxProto>
 {

@@ -26,9 +26,11 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\cmp_wrapper.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\max_payload.cpp" />
     <ClCompile Include="src\max_proto.cpp" />
+    <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

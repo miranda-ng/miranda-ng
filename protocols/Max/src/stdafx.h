@@ -20,10 +20,6 @@
 #include <m_json.h>
 #include <m_gui.h>
 
-extern "C" {
-#include "../../Tox/libtox/src/third_party/cmp/cmp.h"
-}
-
 #include "resource.h"
 #include "version.h"
 #include "max_proto.h"
