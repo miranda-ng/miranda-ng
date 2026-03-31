@@ -23,6 +23,75 @@ static size_t cmp_writer_cb(cmp_ctx_t *ctx, const void *data, size_t count)
 	return count;
 }
 
+static bool Lz4DecompressBlock(const uint8_t *src, size_t srcLen, MBinBuffer &out, size_t maxOut = 5 * 1024 * 1024)
+{
+	if (src == nullptr || srcLen == 0)
+		return false;
+
+	std::vector<uint8_t> dst;
+	dst.reserve(srcLen * 4);
+
+	const uint8_t *ip = src;
+	const uint8_t *iend = src + srcLen;
+
+	while (ip < iend) {
+		uint8_t token = *ip++;
+		size_t litLen = token >> 4;
+		if (litLen == 15) {
+			while (ip < iend) {
+				uint8_t s = *ip++;
+				litLen += s;
+				if (s != 255)
+					break;
+			}
+		}
+
+		if ((size_t)(iend - ip) < litLen)
+			return false;
+		if (dst.size() + litLen > maxOut)
+			return false;
+
+		dst.insert(dst.end(), ip, ip + litLen);
+		ip += litLen;
+
+		// Last sequence may contain only literals.
+		if (ip >= iend)
+			break;
+
+		if ((size_t)(iend - ip) < 2)
+			return false;
+
+		uint16_t offset = uint16_t(ip[0]) | (uint16_t(ip[1]) << 8);
+		ip += 2;
+		if (offset == 0 || offset > dst.size())
+			return false;
+
+		size_t matchLen = token & 0x0F;
+		if (matchLen == 15) {
+			while (ip < iend) {
+				uint8_t s = *ip++;
+				matchLen += s;
+				if (s != 255)
+					break;
+			}
+		}
+		matchLen += 4;
+
+		if (dst.size() + matchLen > maxOut)
+			return false;
+
+		size_t matchPos = dst.size() - offset;
+		for (size_t i = 0; i < matchLen; ++i)
+			dst.push_back(dst[matchPos + i]);
+	}
+
+	if (dst.empty())
+		return false;
+
+	out.append(dst.data(), dst.size());
+	return true;
+}
+
 bool CMaxProto::ReadExact(void *buf, int cbSize)
 {
 	char *p = (char *)buf;
@@ -221,20 +290,28 @@ bool CMaxProto::ReadFrame(MaxFrame &frame)
 	uint8_t compressed = (packedLen >> 24) & 0xFF;
 	Netlib_Logf(m_hNetlibUser, "Max: RX header opcode=%u cmd=%u seq=%u payload=%u compressed=%u", frame.opcode, frame.cmd, frame.seq, payloadLen, compressed);
 
-	MBinBuffer payload;
+	MBinBuffer payload, decodedPayload;
 	if (payloadLen > 0) {
 		std::vector<uint8_t> tmp(payloadLen);
 		if (!ReadExact(tmp.data(), (int)payloadLen))
 			return false;
 		payload.append(tmp.data(), payloadLen);
+
+		if (compressed != 0) {
+			if (!Lz4DecompressBlock((const uint8_t*)payload.data(), payload.length(), decodedPayload)) {
+				Netlib_Logf(m_hNetlibUser, "Max: LZ4 decompress failed for opcode=%u seq=%u", frame.opcode, frame.seq);
+				return false;
+			}
+			Netlib_Logf(m_hNetlibUser, "Max: LZ4 decompressed %u -> %u bytes", (unsigned)payload.length(), (unsigned)decodedPayload.length());
+		}
 	}
 
 	JSONNode json(JSON_NODE);
 	if (payloadLen > 0) {
-		if (!DecodePayload((const uint8_t *)payload.data(), payloadLen, json)) {
-			// Mobile API may return compressed payloads (LZ4). For MVP, keep protocol alive even if payload decode failed.
-			Netlib_Logf(m_hNetlibUser, "Max: payload decode failed for opcode=%u seq=%u (compressed=%u), using empty payload", frame.opcode, frame.seq, compressed);
-			json = JSONNode(JSON_NODE);
+		const MBinBuffer &actual = (compressed != 0) ? decodedPayload : payload;
+		if (!DecodePayload((const uint8_t *)actual.data(), actual.length(), json)) {
+			Netlib_Logf(m_hNetlibUser, "Max: payload decode failed for opcode=%u seq=%u (compressed=%u)", frame.opcode, frame.seq, compressed);
+			return false;
 		}
 	}
 
