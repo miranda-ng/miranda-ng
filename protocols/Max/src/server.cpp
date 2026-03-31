@@ -276,6 +276,14 @@ void CMaxProto::DispatchIncomingMessage(const JSONNode &payload)
 		setDword(hContact, MAX_SETTINGS_ID, (uint32_t)senderId);
 	}
 
+	int64_t chatId = 0;
+	if (payload["chatId"])
+		chatId = payload["chatId"].as_int();
+	else if (msg["chatId"])
+		chatId = msg["chatId"].as_int();
+	if (chatId != 0)
+		SetContactChatId(hContact, chatId);
+
 	ptrA utf8(mir_utf8encodeW(text));
 	DB::EventInfo dbei;
 	dbei.iTimestamp = (uint32_t)time(nullptr);

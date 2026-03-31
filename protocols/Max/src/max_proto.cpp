@@ -1,5 +1,59 @@
 #include "stdafx.h"
 
+static bool MaxJsonNodeToInt64(const JSONNode &n, int64_t &out)
+{
+	if (!n)
+		return false;
+	switch (n.type()) {
+	case JSON_NUMBER:
+		out = (int64_t)n.as_int();
+		return true;
+	case JSON_STRING:
+		out = _wtoi64(n.as_mstring());
+		return true;
+	default:
+		return false;
+	}
+}
+
+static bool MaxTryExtractChatIdFromRpcPayload(const JSONNode &payload, int64_t &out)
+{
+	if (MaxJsonNodeToInt64(payload["chatId"], out) && out != 0)
+		return true;
+	if (payload["chat"] && MaxJsonNodeToInt64(payload["chat"]["id"], out) && out != 0)
+		return true;
+	if (payload["contact"] && MaxJsonNodeToInt64(payload["contact"]["chatId"], out) && out != 0)
+		return true;
+	return false;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int64_t CMaxProto::GetContactChatId(MCONTACT hContact)
+{
+	CMStringA s(getMStringA(hContact, MAX_SETTINGS_CHAT_ID));
+	if (!s.IsEmpty())
+		return _atoi64(s);
+
+	uint32_t legacy = getDword(hContact, MAX_SETTINGS_CHAT_ID, 0);
+	if (legacy != 0)
+		return (int64_t)(int32_t)legacy;
+
+	return 0;
+}
+
+void CMaxProto::SetContactChatId(MCONTACT hContact, int64_t chatId)
+{
+	if (hContact == 0 || chatId == 0)
+		return;
+
+	CMStringA s;
+	s.Format("%lld", (long long)chatId);
+	setString(hContact, MAX_SETTINGS_CHAT_ID, s);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	PROTO<CMaxProto>(szModuleName, ptszUserName),
 	m_szToken(this, MAX_SETTINGS_TOKEN),
@@ -78,11 +132,17 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 		return id;
 	}
 
-	int64_t chatId = getDword(hContact, MAX_SETTINGS_CHAT_ID, 0);
-	if (chatId == 0)
-		chatId = getDword(hContact, MAX_SETTINGS_ID, 0);
+	int64_t chatId = GetContactChatId(hContact);
+	if (chatId == 0) {
+		uint32_t uid = getDword(hContact, MAX_SETTINGS_ID, 0);
+		if (uid != 0) {
+			chatId = (int64_t)(int32_t)uid;
+			Netlib_Logf(m_hNetlibUser, "Max: send: no ChatID for contact, using MaxID %lld as fallback", (long long)chatId);
+		}
+	}
 
 	if (chatId == 0) {
+		Netlib_Logf(m_hNetlibUser, "Max: send: neither ChatID nor MaxID for contact");
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id);
 		return id;
 	}
@@ -140,9 +200,19 @@ void CMaxProto::SearchThread(void *arg)
 			idText = phone;
 
 		psr.id.w = mir_wstrdup(idText);
+
+		int64_t chatId = 0;
+		if (MaxTryExtractChatIdFromRpcPayload(resp, chatId)) {
+			CMStringW wcid;
+			wcid.Format(L"%lld", (long long)chatId);
+			psr.email.w = mir_wstrdup(wcid);
+		}
+
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&psr);
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		mir_free(psr.id.w);
+		if (psr.email.w)
+			mir_free(psr.email.w);
 	}
 	else ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, arg, 0);
 
@@ -172,10 +242,20 @@ MCONTACT CMaxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	setDword(hContact, MAX_SETTINGS_ID, maxId);
 	setWString(hContact, "Nick", psr->id.w);
 
+	if (psr->email.w && psr->email.w[0]) {
+		int64_t fromSearch = _wtoi64(psr->email.w);
+		if (fromSearch != 0)
+			SetContactChatId(hContact, fromSearch);
+	}
+
 	JSONNode req(JSON_NODE), resp;
 	req << INT64_PARAM("contactId", maxId);
 	req << WCHAR_PARAM("firstName", psr->id.w);
 	req << CHAR_PARAM("action", "ADD");
-	SendAndWait(34, req, resp, 0);
+	if (SendAndWait(34, req, resp, 0)) {
+		int64_t chatId = 0;
+		if (MaxTryExtractChatIdFromRpcPayload(resp, chatId))
+			SetContactChatId(hContact, chatId);
+	}
 	return hContact;
 }

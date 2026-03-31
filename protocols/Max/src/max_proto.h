@@ -63,6 +63,9 @@ class CMaxProto : public PROTO<CMaxProto>
 	JSONNode BuildHandshakePayload();
 	JSONNode BuildSyncPayload();
 
+	int64_t GetContactChatId(MCONTACT hContact);
+	void SetContactChatId(MCONTACT hContact, int64_t chatId);
+
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
 	~CMaxProto();
