@@ -19,18 +19,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E5A8F130-C0C7-4D84-8E35-95BD3C4A9C0A}</ProjectGuid>
+    <ProjectGuid>{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}</ProjectGuid>
     <ProjectName>Max</ProjectName>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\max_payload.cpp" />
     <ClCompile Include="src\max_proto.cpp" />
-    <ClCompile Include="src\options.cpp" />
-    <ClCompile Include="src\server.cpp" />
+    <ClCompile Include="src\mobile_auth.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -40,7 +39,15 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\resource.rc" />
+    <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
+      <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\max.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
 </Project>

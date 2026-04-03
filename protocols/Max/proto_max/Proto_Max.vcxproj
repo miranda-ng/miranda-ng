@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Proto_Max</ProjectName>
-    <ProjectGuid>{DCC7A95E-57A4-4C78-B722-3A36A3F4E4D1}</ProjectGuid>
+    <ProjectGuid>{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}</ProjectGuid>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\..\build\vc.common\icons.props" />

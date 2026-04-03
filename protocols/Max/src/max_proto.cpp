@@ -1,261 +1,376 @@
+/*
+Copyright (c) 2026 Miranda NG team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation version 2
+of the License.
+*/
+
 #include "stdafx.h"
 
-static bool MaxJsonNodeToInt64(const JSONNode &n, int64_t &out)
-{
-	if (!n)
-		return false;
-	switch (n.type()) {
-	case JSON_NUMBER:
-		out = (int64_t)n.as_int();
-		return true;
-	case JSON_STRING:
-		out = _wtoi64(n.as_mstring());
-		return true;
-	default:
-		return false;
-	}
-}
-
-static bool MaxTryExtractChatIdFromRpcPayload(const JSONNode &payload, int64_t &out)
-{
-	if (MaxJsonNodeToInt64(payload["chatId"], out) && out != 0)
-		return true;
-	if (payload["chat"] && MaxJsonNodeToInt64(payload["chat"]["id"], out) && out != 0)
-		return true;
-	if (payload["contact"] && MaxJsonNodeToInt64(payload["contact"]["chatId"], out) && out != 0)
-		return true;
-	return false;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-int64_t CMaxProto::GetContactChatId(MCONTACT hContact)
-{
-	CMStringA s(getMStringA(hContact, MAX_SETTINGS_CHAT_ID));
-	if (!s.IsEmpty())
-		return _atoi64(s);
-
-	uint32_t legacy = getDword(hContact, MAX_SETTINGS_CHAT_ID, 0);
-	if (legacy != 0)
-		return (int64_t)(int32_t)legacy;
-
-	return 0;
-}
-
-void CMaxProto::SetContactChatId(MCONTACT hContact, int64_t chatId)
-{
-	if (hContact == 0 || chatId == 0)
-		return;
-
-	CMStringA s;
-	s.Format("%lld", (long long)chatId);
-	setString(hContact, MAX_SETTINGS_CHAT_ID, s);
-}
+static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
-	PROTO<CMaxProto>(szModuleName, ptszUserName),
-	m_szToken(this, MAX_SETTINGS_TOKEN),
-	m_szDeviceId(this, MAX_SETTINGS_DEVICE_ID)
+	PROTO<CMaxProto>(szModuleName, ptszUserName)
 {
-	// init netlib
+	m_hWaitEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	HookProtoEvent(ME_OPT_INITIALISE, &CMaxProto::OnOptionsInit);
+
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
-	nlu.szDescriptiveName.w = m_tszUserName;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	CMStringW descr;
+	descr.Format(TranslateT("%s connection"), m_tszUserName);
+	nlu.szDescriptiveName.w = descr.GetBuffer();
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
+
+	m_hProtoIcon = g_plugin.getIconHandle(IDI_MAIN);
 }
 
 CMaxProto::~CMaxProto()
 {
-	InterlockedExchange(&m_iTerminated, 1);
-	StopWorker(true);
-	ShutdownConnection();
-	if (m_hNetlibUser != nullptr)
-		Netlib_CloseHandle(m_hNetlibUser);
+	DisconnectGateway();
+	FreeWsInflater();
+	if (m_hWaitEvent)
+		CloseHandle(m_hWaitEvent);
 }
 
 INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_BASICSEARCH | PF1_ADDSEARCHRES;
+		return PF1_IM | PF1_MODEMSG;
+
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
+
 	case PFLAGNUM_3:
 		return PF2_ONLINE;
+
+	case PFLAGNUM_4:
+		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON;
+
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)L"Max ID";
+	{
+		static wchar_t s_wszUid[64];
+		mir_wstrcpy(s_wszUid, TranslateT("Phone number"));
+		return (INT_PTR)s_wszUid;
+	}
 	}
 	return 0;
 }
 
 int CMaxProto::SetStatus(int iNewStatus)
 {
+	if (iNewStatus == ID_STATUS_INVISIBLE)
+		iNewStatus = ID_STATUS_ONLINE;
 	if (iNewStatus != ID_STATUS_OFFLINE && iNewStatus != ID_STATUS_ONLINE)
 		iNewStatus = ID_STATUS_ONLINE;
 
-	if (iNewStatus == m_iStatus)
-		return 0;
-
 	int iOldStatus = m_iStatus;
-	m_iDesiredStatus = iNewStatus;
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		InterlockedExchange(&m_iTerminated, 1);
-		StopWorker(false);
+		DisconnectGateway();
 		m_iStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 		return 0;
 	}
 
-	InterlockedExchange(&m_iTerminated, 0);
-	m_iStatus = ID_STATUS_CONNECTING;
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-	if (m_hWorkerThread != nullptr) {
-		if (WaitForSingleObject(m_hWorkerThread, 0) == WAIT_OBJECT_0) {
-			CloseHandle(m_hWorkerThread);
-			m_hWorkerThread = nullptr;
-		}
+	// No stored session: stay offline (SMS/CHECK_CODE uses the mobile API only).
+	if (iNewStatus == ID_STATUS_ONLINE && !HasLoginToken()) {
+		m_iStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		NotifyUser(TranslateT("Max"), TranslateT("Sign in first: enter the SMS code (or paste a login token) in account settings, then try again."));
+		return 0;
 	}
-	if (m_hWorkerThread == nullptr)
-		m_hWorkerThread = ForkThreadEx(&CMaxProto::WorkerThread, nullptr, nullptr);
+
+	if (m_hConnThread)
+		return 0;
+
+	m_bTerminated = false;
+	m_iStatus = ID_STATUS_CONNECTING;
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+	m_hConnThread = ForkThreadEx(&CMaxProto::ConnectionWorker, nullptr, nullptr);
+	if (!m_hConnThread)
+		return 1;
+
+	iOldStatus = m_iStatus;
+	m_iStatus = iNewStatus;
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	return 0;
 }
 
-int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
+int CMaxProto::SendMsg(MCONTACT, MEVENT, const char *)
 {
-	unsigned int id = InterlockedIncrement(&m_msgId);
-	if (m_iStatus != ID_STATUS_ONLINE) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id);
-		return id;
+	return 0;
+}
+
+void CMaxProto::OnShutdown(void)
+{
+	DisconnectGateway();
+}
+
+void CMaxProto::DisconnectGateway()
+{
+	m_bTerminated = true;
+	if (m_pGateway)
+		m_pGateway->terminate();
+
+	if (m_hWsRunThread) {
+		WaitForSingleObject(m_hWsRunThread, 15000);
+		CloseHandle(m_hWsRunThread);
+		m_hWsRunThread = nullptr;
 	}
 
-	int64_t chatId = GetContactChatId(hContact);
-	if (chatId == 0) {
-		uint32_t uid = getDword(hContact, MAX_SETTINGS_ID, 0);
-		if (uid != 0) {
-			chatId = (int64_t)(int32_t)uid;
-			Netlib_Logf(m_hNetlibUser, "Max: send: no ChatID for contact, using MaxID %lld as fallback", (long long)chatId);
-		}
+	if (m_hConnThread) {
+		WaitForSingleObject(m_hConnThread, 15000);
+		CloseHandle(m_hConnThread);
+		m_hConnThread = nullptr;
 	}
+	m_pGateway = nullptr;
+	m_wsRun.ws = nullptr;
+	m_bGatewayConnected = false;
+	FreeWsInflater();
+}
 
-	if (chatId == 0) {
-		Netlib_Logf(m_hNetlibUser, "Max: send: neither ChatID nor MaxID for contact");
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id);
-		return id;
-	}
-
-	JSONNode message(JSON_NODE), req(JSON_NODE), elements(JSON_ARRAY), attaches(JSON_ARRAY);
-	message << CHAR_PARAM("text", msg);
-	message << INT64_PARAM("cid", (INT64)time(nullptr) * 1000);
-	elements.set_name("elements");
-	attaches.set_name("attaches");
-	message << elements;
-	message << attaches;
-	message << CHAR_PARAM("link", "");
-	message.set_name("message");
-
-	req << INT64_PARAM("chatId", chatId);
-	req << message;
-	req << BOOL_PARAM("notify", 1);
-
-	JSONNode resp;
-	if (!SendAndWait(64, req, resp, 0)) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)id);
-		return id;
-	}
-
-	ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)id);
-	return id;
+MWindow CMaxProto::OnCreateAccMgrUI(MWindow hwndParent)
+{
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ACCMGRUI), hwndParent, MaxAccMgrProc, (LPARAM)this);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE CMaxProto::SearchBasic(const wchar_t *id)
+static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	auto *arg = mir_wstrdup(id);
-	ForkThread(&CMaxProto::SearchThread, arg);
-	return arg;
-}
+	CMaxProto *ppro = (CMaxProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-void CMaxProto::SearchThread(void *arg)
-{
-	wchar_t *phone = (wchar_t*)arg;
-	ptrA utf8(mir_utf8encodeW(phone));
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		ppro = (CMaxProto *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
+		SetDlgItemTextA(hwndDlg, IDC_PHONE, ppro->getMStringA(DB_KEY_PHONE));
+		SetDlgItemTextA(hwndDlg, IDC_LOGINTOKEN, ppro->getMStringA(DB_KEY_LOGIN_TOKEN));
+		SetDlgItemTextW(hwndDlg, IDC_BTN_REQUEST_SMS, TranslateT("Request SMS"));
+		SetDlgItemTextW(hwndDlg, IDC_BTN_VERIFY_SMS, TranslateT("Confirm code"));
+		SetDlgItemTextW(hwndDlg, IDC_STATIC_HINT,
+			TranslateT("Hybrid auth: SMS/code via native mobile protocol, then web sync."));
+		return TRUE;
 
-	JSONNode req(JSON_NODE), resp;
-	req << CHAR_PARAM("phone", utf8);
-	bool ok = SendAndWait(46, req, resp, 0);
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_BTN_REQUEST_SMS:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				char szPhone[64];
+				GetDlgItemTextA(hwndDlg, IDC_PHONE, szPhone, _countof(szPhone));
+				if (szPhone[0] == 0) {
+					ppro->NotifyUser(TranslateT("Max"), TranslateT("Enter phone number."));
+					break;
+				}
+				ppro->setString(DB_KEY_PHONE, szPhone);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				ppro->ForkThread(&CMaxProto::RequestSmsThread, mir_strdup(szPhone));
+			}
+			break;
 
-	if (ok) {
-		PROTOSEARCHRESULT psr = {};
-		psr.cbSize = sizeof(psr);
-		psr.flags = PSR_UNICODE;
-		CMStringW idText;
-		if (resp["contact"]["id"])
-			idText.Format(L"%lld", (int64_t)resp["contact"]["id"].as_int());
-		else
-			idText = phone;
+		case IDC_BTN_VERIFY_SMS:
+			if (HIWORD(wParam) == BN_CLICKED) {
+				char szCode[32];
+				GetDlgItemTextA(hwndDlg, IDC_SMSCODE, szCode, _countof(szCode));
+				if (szCode[0] == 0) {
+					ppro->NotifyUser(TranslateT("Max"), TranslateT("Enter the SMS code."));
+					break;
+				}
+				ppro->ForkThread(&CMaxProto::VerifySmsThread, mir_strdup(szCode));
+			}
+			break;
 
-		psr.id.w = mir_wstrdup(idText);
-
-		int64_t chatId = 0;
-		if (MaxTryExtractChatIdFromRpcPayload(resp, chatId)) {
-			CMStringW wcid;
-			wcid.Format(L"%lld", (long long)chatId);
-			psr.email.w = mir_wstrdup(wcid);
+		default:
+			if (HIWORD(wParam) == EN_CHANGE && (LOWORD(wParam) == IDC_PHONE || LOWORD(wParam) == IDC_SMSCODE || LOWORD(wParam) == IDC_LOGINTOKEN))
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
 		}
+		break;
 
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, arg, (LPARAM)&psr);
-		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
-		mir_free(psr.id.w);
-		if (psr.email.w)
-			mir_free(psr.email.w);
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			char buf[512];
+			GetDlgItemTextA(hwndDlg, IDC_PHONE, buf, _countof(buf));
+			ppro->setString(DB_KEY_PHONE, buf);
+			GetDlgItemTextA(hwndDlg, IDC_LOGINTOKEN, buf, _countof(buf));
+			ppro->setString(DB_KEY_LOGIN_TOKEN, buf);
+			if (buf[0] == 0)
+				ppro->SetStatus(ID_STATUS_OFFLINE);
+		}
+		break;
 	}
-	else ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, arg, 0);
 
-	mir_free(phone);
+	return FALSE;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
-MCONTACT CMaxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+CMStringW CMaxProto::FormatLastError()
 {
-	if (psr == nullptr || psr->id.w == nullptr)
-		return 0;
+	if (m_szPendingResponse.IsEmpty())
+		return L"";
+	JSONNode root = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!root)
+		return L"";
+	const JSONNode &pl = root["payload"];
+	const JSONNode &er = pl["error"];
+	if (er.type() == JSON_STRING) {
+		CMStringA ecode(er.as_string().c_str());
+		if (!mir_strcmp(ecode.c_str(), "error.limit.violate"))
+			return TranslateT("Too many SMS/code requests. Please wait before trying again.");
+		if (!mir_strcmp(ecode.c_str(), "login.cred"))
+			return TranslateT("Server rejected web sync credentials for this token (login.cred).");
 
-	uint32_t maxId = (uint32_t)_wtoi(psr->id.w);
-	MCONTACT hContact = db_add_contact();
-	Proto_AddToContact(hContact, m_szModuleName);
-
-	if (flags & PALF_TEMPORARY) {
-		Contact::Hide(hContact);
-		Contact::RemoveFromList(hContact);
+		ptrW w(mir_utf8decodeW(ecode.c_str()));
+		return CMStringW((const wchar_t*)w);
 	}
-	else {
-		Contact::Hide(hContact, false);
-		Contact::PutOnList(hContact);
+	if (er.type() == JSON_NODE && er["message"].type() != JSON_NULL) {
+		ptrW w(mir_utf8decodeW(er["message"].as_string().c_str()));
+		return CMStringW((const wchar_t *)w);
+	}
+	if (pl["message"].type() != JSON_NULL) {
+		ptrW w(mir_utf8decodeW(pl["message"].as_string().c_str()));
+		return CMStringW((const wchar_t *)w);
+	}
+	return L"";
+}
+
+void CMaxProto::NotifyUser(const wchar_t *title, const wchar_t *text)
+{
+	if (Miranda_IsTerminated())
+		return;
+
+	// Always mirror user-facing text to netlog (popups may be disabled).
+	ptrA title8(mir_utf8encodeW(title ? title : L""));
+	ptrA text8(mir_utf8encodeW(text ? text : L""));
+	debugLogA("Max: %s — %s",
+		(title8 && title8[0]) ? title8.get() : "(no title)",
+		(text8 && text8[0]) ? text8.get() : "(no text)");
+
+	if (Popup_Enabled()) {
+		POPUPDATAW ppd;
+		ppd.lchContact = NULL;
+		wcsncpy_s(ppd.lpwzContactName, title, _TRUNCATE);
+		wcsncpy_s(ppd.lpwzText, text, _TRUNCATE);
+		ppd.lchIcon = g_plugin.getIcon(IDI_MAIN);
+		if (PUAddPopupW(&ppd))
+			return;
+	}
+}
+
+int CMaxProto::OnOptionsInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = {};
+	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE | ODPF_DONTTRANSLATE;
+	odp.szGroup.w = LPGENW("Network");
+	odp.szTitle.w = m_tszUserName;
+	odp.szTab.w = LPGENW("Account");
+	odp.dwInitParam = (LPARAM)this;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ACCMGRUI);
+	odp.pfnDlgProc = MaxAccMgrProc;
+	g_plugin.addOptions(wParam, &odp);
+	return 0;
+}
+
+bool CMaxProto::HasLoginToken()
+{
+	ptrA t(getStringA(DB_KEY_LOGIN_TOKEN));
+	return t != nullptr && t[0] != 0;
+}
+
+bool CMaxProto::WaitForGatewayReady()
+{
+	if (Miranda_IsTerminated())
+		return false;
+
+	if (m_hConnThread) {
+		if (WaitForSingleObject(m_hConnThread, 0) == WAIT_OBJECT_0) {
+			CloseHandle(m_hConnThread);
+			m_hConnThread = nullptr;
+		}
 	}
 
-	setDword(hContact, MAX_SETTINGS_ID, maxId);
-	setWString(hContact, "Nick", psr->id.w);
+	if (!m_hConnThread)
+		SetStatus(ID_STATUS_ONLINE);
 
-	if (psr->email.w && psr->email.w[0]) {
-		int64_t fromSearch = _wtoi64(psr->email.w);
-		if (fromSearch != 0)
-			SetContactChatId(hContact, fromSearch);
+	for (int i = 0; i < 300; i++) {
+		if (Miranda_IsTerminated())
+			return false;
+		if (m_bGatewayConnected && m_pGateway != nullptr)
+			return true;
+		Sleep(100);
 	}
 
-	JSONNode req(JSON_NODE), resp;
-	req << INT64_PARAM("contactId", maxId);
-	req << WCHAR_PARAM("firstName", psr->id.w);
-	req << CHAR_PARAM("action", "ADD");
-	if (SendAndWait(34, req, resp, 0)) {
-		int64_t chatId = 0;
-		if (MaxTryExtractChatIdFromRpcPayload(resp, chatId))
-			SetContactChatId(hContact, chatId);
+	return m_bGatewayConnected && m_pGateway != nullptr;
+}
+
+void CMaxProto::RequestSmsThread(void *param)
+{
+	ptrA phone((char *)param);
+	if (phone == nullptr || phone[0] == 0) {
+		NotifyUser(TranslateT("Max"), TranslateT("Phone number is empty."));
+		return;
 	}
-	return hContact;
+
+	CMStringW errText;
+	if (!MobileStartAuth(phone, errText)) {
+		if (errText.IsEmpty())
+			errText = TranslateT("Failed to request SMS.");
+		NotifyUser(TranslateT("Max"), errText.c_str());
+		return;
+	}
+
+	NotifyUser(TranslateT("Max"), TranslateT("SMS request sent. Enter the code from the message and press Confirm code."));
+}
+
+void CMaxProto::VerifySmsThread(void *param)
+{
+	ptrA code((char *)param);
+	if (code == nullptr || code[0] == 0) {
+		NotifyUser(TranslateT("Max"), TranslateT("SMS code is empty."));
+		return;
+	}
+
+	CMStringA loginToken;
+	CMStringW errText;
+	if (!MobileCheckCode(code, loginToken, errText)) {
+		if (errText.IsEmpty())
+			errText = TranslateT("Wrong code or login failed.");
+		NotifyUser(TranslateT("Max"), errText.c_str());
+		return;
+	}
+	if (loginToken.IsEmpty()) {
+		NotifyUser(TranslateT("Max"), TranslateT("Login token missing in helper response."));
+		return;
+	}
+	setString(DB_KEY_LOGIN_TOKEN, loginToken.c_str());
+
+	// Force a single reconnect so ConnectionWorker performs exactly one opcode 19 sync
+	// with the new token (avoids double sync with VerifySmsThread + worker).
+	DisconnectGateway();
+
+	if (!WaitForGatewayReady()) {
+		NotifyUser(TranslateT("Max"), TranslateT("Mobile auth passed, but web session is not connected."));
+		return;
+	}
+
+	if (m_bInitialSyncOk) {
+		NotifyUser(TranslateT("Max"), TranslateT("Signed in successfully."));
+		return;
+	}
+
+	CMStringW err = FormatLastError();
+	if (err.IsEmpty())
+		NotifyUser(TranslateT("Max"), TranslateT("Code accepted, but sync failed. Try again later."));
+	else
+		NotifyUser(TranslateT("Max"), err.c_str());
 }

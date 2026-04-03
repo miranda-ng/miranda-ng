@@ -1,91 +1,75 @@
 #pragma once
 
-#define MAX_SETTINGS_ID "MaxID"
-#define MAX_SETTINGS_TOKEN "Token"
-#define MAX_SETTINGS_DEVICE_ID "DeviceId"
-#define MAX_SETTINGS_CHAT_ID "ChatID"
+class CMaxProto;
 
-typedef struct cmp_ctx_s cmp_ctx_t;
+template<> void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen);
 
 class CMaxProto : public PROTO<CMaxProto>
 {
-	struct MaxFrame
+	friend void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen);
+
+	WebSocket<CMaxProto> *m_pGateway = nullptr;
+	bool m_bGatewayConnected = false;
+	bool m_bInitialSyncOk = false;
+	bool m_bTerminated = true;
+	HANDLE m_hConnThread = nullptr;
+	HANDLE m_hWsRunThread = nullptr;
+	HANDLE m_hWaitEvent = nullptr;
+	uint64_t m_seq = 0;
+	uint64_t m_waitSeq = 0;
+	mir_cs m_csWait;
+	mir_cs m_csSend;
+	CMStringA m_szPendingResponse;
+	z_stream m_wsInflate = {};
+	bool m_wsInflateInited = false;
+
+	struct
 	{
-		uint8_t ver = 11;
-		uint8_t cmd = 0;
-		uint8_t seq = 0;
-		uint16_t opcode = 0;
-		JSONNode payload;
-	};
+		WebSocket<CMaxProto> *ws = nullptr;
+	} m_wsRun;
 
-	struct PendingRequest
-	{
-		HANDLE hEvent = nullptr;
-		JSONNode payload;
-		bool ok = false;
-	};
+	void ConnectionWorker(void *);
+	void WsRunThread(void *param);
+	void EnsureDeviceId();
+	bool SendHandshake(WebSocket<CMaxProto> *ws);
+	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0);
+	void OnGatewayPush(const JSONNode &payload, int opcode);
+	void DisconnectGateway();
 
-	volatile LONG m_iTerminated = 0;
-	volatile LONG m_msgId = 0;
-	volatile LONG m_seq = 0;
-	HNETLIBUSER m_hNetlibUser;
-	HNETLIBCONN m_hConnection = 0;
-	HANDLE m_hWorkerThread = nullptr;
-	mir_cs m_csNet;
-	mir_cs m_csPending;
-	std::map<uint8_t, PendingRequest*> m_pending;
-
-	void ShutdownConnection();
-	void StopWorker(bool bWait);
-
-	void __cdecl WorkerThread(void *);
-	void __cdecl SearchThread(void *arg);
-
-	bool Connect();
-	bool SendFrame(const MaxFrame &frame);
-	bool ReadFrame(MaxFrame &frame);
-	bool ReadExact(void *buf, int cbSize);
-	bool LoginWithToken();
-	bool SendKeepAlive();
-
-	bool SendAndWait(uint16_t opcode, const JSONNode &payload, JSONNode &outPayload, uint8_t cmd = 0);
-	bool SendAndWaitBlocking(uint16_t opcode, const JSONNode &payload, JSONNode &outPayload, uint8_t cmd = 0);
-	uint8_t NextSeq();
-
-	void DispatchFrame(const MaxFrame &frame);
-	void DispatchIncomingMessage(const JSONNode &payload);
-
-	bool EncodePayload(const JSONNode &payload, MBinBuffer &out) const;
-	bool EncodeNode(cmp_ctx_t *ctx, const JSONNode &node) const;
-	bool DecodePayload(const uint8_t *data, size_t cbData, JSONNode &outPayload) const;
-	bool DecodeNode(cmp_ctx_t *ctx, JSONNode &outNode) const;
-
-	JSONNode BuildHandshakePayload();
-	JSONNode BuildSyncPayload();
-
-	int64_t GetContactChatId(MCONTACT hContact);
-	void SetContactChatId(MCONTACT hContact, int64_t chatId);
+	bool WaitForGatewayReady();
+	bool HasLoginToken();
+	CMStringW FormatLastError();
+	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	bool MobileStartAuth(const char *phone, CMStringW &errorText);
+	bool MobileCheckCode(const char *code, CMStringA &loginToken, CMStringW &errorText);
 
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
 	~CMaxProto();
 
-	// Options
+	INT_PTR GetCaps(int type, MCONTACT hContact = 0) override;
+	int SetStatus(int iNewStatus) override;
+	int SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
 
-	CMOption<wchar_t*> m_szToken, m_szDeviceId;
+	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
+	void OnShutdown(void) override;
 
-	// PROTO_INTERFACE
-	INT_PTR  GetCaps(int type, MCONTACT hContact = NULL) override;
-	int      SendMsg(MCONTACT hContact, MEVENT, const char *msg) override;
-	int      SetStatus(int iNewStatus) override;
-	HANDLE   SearchBasic(const wchar_t *id) override;
-	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
-	MWindow  OnCreateAccMgrUI(MWindow) override;
+	void RequestSmsThread(void *param);
+	void VerifySmsThread(void *param);
+	void NotifyUser(const wchar_t *title, const wchar_t *text);
+	void InitWsInflater();
+	void FreeWsInflater();
+	bool InflateWsFrame(const uint8_t *pData, size_t cbData, CMStringA &out);
+
+	bool ApiStartAuth(WebSocket<CMaxProto> *ws, const char *phone);
+	bool ApiVerifyCode(WebSocket<CMaxProto> *ws, const char *code);
+	bool ApiSync(WebSocket<CMaxProto> *ws);
 };
-
-typedef CProtoDlgBase<CMaxProto> CMaxDlgBase;
 
 struct CMPlugin : public ACCPROTOPLUGIN<CMaxProto>
 {
 	CMPlugin();
+	int Load() override;
 };
+
+extern CMPlugin g_plugin;
