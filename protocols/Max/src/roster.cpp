@@ -180,6 +180,62 @@ static const JSONNode &sttResolveContactsFetchPayload(const JSONNode &payload)
 	return payload;
 }
 
+// Fill FirstName / LastName from one names[] element (prefers firstName/lastName, then splits "name", then nick keys).
+static void sttNamePartsFromRecord(const JSONNode &rec, CMStringW &outFn, CMStringW &outLn)
+{
+	outFn.Empty();
+	outLn.Empty();
+	if (rec.type() != JSON_NODE)
+		return;
+
+	bool any = false;
+	if (rec["firstName"].type() != JSON_NULL) {
+		ptrW w(mir_utf8decodeW(rec["firstName"].as_string().c_str()));
+		if (w && w[0]) {
+			outFn = w;
+			any = true;
+		}
+	}
+	if (rec["lastName"].type() != JSON_NULL) {
+		ptrW w(mir_utf8decodeW(rec["lastName"].as_string().c_str()));
+		if (w && w[0]) {
+			outLn = w;
+			any = true;
+		}
+	}
+	if (any)
+		return;
+
+	if (rec["name"].type() != JSON_NULL) {
+		ptrW w(mir_utf8decodeW(rec["name"].as_string().c_str()));
+		if (w && w[0]) {
+			CMStringW full(w);
+			int sp = full.Find(L' ');
+			if (sp >= 0) {
+				outFn = full.Left(sp);
+				outLn = full.Mid(sp + 1);
+				outFn.Trim();
+				outLn.Trim();
+			}
+			else
+				outFn = full;
+		}
+		return;
+	}
+
+	static const char *nickKeys[] = { "nick", "nickname", "nickName", "displayName", "login", nullptr };
+	for (int k = 0; nickKeys[k]; k++) {
+		const JSONNode &nn = rec[nickKeys[k]];
+		if (nn.type() != JSON_NULL) {
+			ptrW w(mir_utf8decodeW(nn.as_string().c_str()));
+			if (w && w[0]) {
+				outFn = w;
+				return;
+			}
+		}
+	}
+}
+
 // One element of contact.names — either a JSON object or the legacy single "names" object.
 static CMStringW sttFormatOneNameRecord(const JSONNode &rec)
 {
@@ -312,9 +368,128 @@ static CMStringW sttFormatNamesDepth(const JSONNode &contact, int depth)
 	return L"";
 }
 
-static CMStringW sttFormatNames(const JSONNode &contact)
+// Same resolution order as sttFormatNamesDepth, but fills FirstName/LastName fields.
+static bool sttFillNamePartsDepth(const JSONNode &contact, int depth, CMStringW &outFn, CMStringW &outLn)
 {
-	return sttFormatNamesDepth(contact, 0);
+	outFn.Empty();
+	outLn.Empty();
+	if (depth > 4)
+		return false;
+
+	static const char *aliasKeys[] = { "alias", "localName", "localAlias", "addressBookName", "phoneBookName", "bookName", "customName", "remark", "remarkName", nullptr };
+	for (int k = 0; aliasKeys[k]; k++) {
+		const JSONNode &n = contact[aliasKeys[k]];
+		if (n.type() != JSON_NULL) {
+			ptrW w(mir_utf8decodeW(n.as_string().c_str()));
+			if (w && w[0]) {
+				outFn = w;
+				return true;
+			}
+		}
+	}
+
+	const JSONNode &nm = contact["names"];
+	if (nm.type() == JSON_ARRAY) {
+		auto pickPartsByTypes = [&](const char **typesList) -> bool {
+			for (unsigned i = 0; i < nm.size(); i++) {
+				const JSONNode &el = nm[i];
+				if (el.type() != JSON_NODE)
+					continue;
+				CMStringA typ(el["type"].type() != JSON_NULL ? el["type"].as_string().c_str() : "");
+				bool match = false;
+				for (const char **t = typesList; *t && !match; t++)
+					if (!mir_strcmpi(typ.c_str(), *t))
+						match = true;
+				if (!match)
+					continue;
+				sttNamePartsFromRecord(el, outFn, outLn);
+				if (!outFn.IsEmpty() || !outLn.IsEmpty())
+					return true;
+			}
+			return false;
+		};
+
+		static const char *localTypes[] = { "LOCAL", "TT_LOCAL", "CUSTOM", "ALIAS", "CONTACT", "ADDRESSBOOK", "BOOK", "NICKNAME", "PHONEBOOK", nullptr };
+		static const char *profileTypes[] = { "ONEME", "TT", "MAX", "DEFAULT", "PROFILE", "MAIN", nullptr };
+
+		if (pickPartsByTypes(localTypes))
+			return true;
+		if (pickPartsByTypes(profileTypes))
+			return true;
+		for (unsigned i = 0; i < nm.size(); i++) {
+			sttNamePartsFromRecord(nm[i], outFn, outLn);
+			if (!outFn.IsEmpty() || !outLn.IsEmpty())
+				return true;
+		}
+	}
+	else if (nm.type() == JSON_NODE) {
+		sttNamePartsFromRecord(nm, outFn, outLn);
+		if (!outFn.IsEmpty() || !outLn.IsEmpty())
+			return true;
+	}
+
+	const JSONNode &bc = contact["baseContact"];
+	if (bc.type() == JSON_NODE && sttFillNamePartsDepth(bc, depth + 1, outFn, outLn))
+		return true;
+
+	static const char *nestKeys[] = { "user", "profile", "contact", "person", nullptr };
+	for (int k = 0; nestKeys[k]; k++) {
+		const JSONNode &nn = contact[nestKeys[k]];
+		if (nn.type() == JSON_NODE && sttFillNamePartsDepth(nn, depth + 1, outFn, outLn))
+			return true;
+	}
+
+	static const char *topKeys[] = { "displayName", "name", "nick", "nickname", "login", nullptr };
+	for (int k = 0; topKeys[k]; k++) {
+		const JSONNode &n = contact[topKeys[k]];
+		if (n.type() != JSON_NULL) {
+			ptrW w(mir_utf8decodeW(n.as_string().c_str()));
+			if (w && w[0]) {
+				CMStringW full(w);
+				int sp = full.Find(L' ');
+				if (sp >= 0) {
+					outFn = full.Left(sp);
+					outLn = full.Mid(sp + 1);
+					outFn.Trim();
+					outLn.Trim();
+				}
+				else
+					outFn = full;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+static void sttFillNamePartsFromContact(const JSONNode &contact, CMStringW &outFn, CMStringW &outLn)
+{
+	sttFillNamePartsDepth(contact, 0, outFn, outLn);
+}
+
+static bool sttIsUserStubDisplay(const CMStringW &s)
+{
+	return !s.IsEmpty() && s.GetLength() >= 5 && !_wcsnicmp(s.c_str(), L"User ", 5);
+}
+
+// True if dialog title / stub should still be applied (no real name yet).
+static bool sttContactNeedsPlaceholderName(CMaxProto *p, MCONTACT h)
+{
+	if (!h)
+		return true;
+	CMStringW fn = p->getMStringW(h, "FirstName");
+	CMStringW ln = p->getMStringW(h, "LastName");
+	if (sttIsUserStubDisplay(fn))
+		return true;
+	if (!fn.IsEmpty() || !ln.IsEmpty())
+		return false;
+	ptrW nick(p->getWStringA(h, "Nick"));
+	if (nick != nullptr && nick[0]) {
+		if (sttIsUserStubDisplay(CMStringW(nick)))
+			return true;
+		return false;
+	}
+	return true;
 }
 
 // True if JSON carries a user-defined / address-book style name (not only profile ONEME).
@@ -395,7 +570,7 @@ MCONTACT CMaxProto::FindContactByMaxUid(const char *szUid)
 	return 0;
 }
 
-MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszNick, const char *szDialogChatId)
+MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst, const wchar_t *wszLast, const char *szDialogChatId)
 {
 	if (szUid == nullptr || szUid[0] == 0)
 		return 0;
@@ -410,8 +585,18 @@ MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszNick,
 		Contact::PutOnList(hContact);
 	}
 
-	if (wszNick != nullptr && wszNick[0])
-		setWString(hContact, "Nick", wszNick);
+	if (wszFirst != nullptr) {
+		if (wszFirst[0])
+			setWString(hContact, "FirstName", wszFirst);
+		else
+			delSetting(hContact, "FirstName");
+	}
+	if (wszLast != nullptr) {
+		if (wszLast[0])
+			setWString(hContact, "LastName", wszLast);
+		else
+			delSetting(hContact, "LastName");
+	}
 
 	if (szDialogChatId != nullptr && szDialogChatId[0])
 		setString(hContact, DB_KEY_MAX_CHATID, szDialogChatId);
@@ -435,29 +620,69 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
 	if (uid.IsEmpty())
 		return;
 
-	CMStringW fromApi = sttFormatNames(c);
-
 	MCONTACT hPrev = FindContactByMaxUid(uid);
-	CMStringW oldNick;
-	if (hPrev)
-		oldNick = getMStringW(hPrev, "Nick");
 
-	bool oldIsUserStub = (!oldNick.IsEmpty() && oldNick.GetLength() >= 5 && !_wcsnicmp(oldNick.c_str(), L"User ", 5));
-	bool apiHasLocal = sttJsonHasLocalOrAliasContactName(c);
+	CMStringW fromFn, fromLn;
+	sttFillNamePartsFromContact(c, fromFn, fromLn);
+	bool fromApiEmpty = fromFn.IsEmpty() && fromLn.IsEmpty();
 
-	CMStringW nick;
-	if (!fromApi.IsEmpty()) {
-		if (hPrev && !oldNick.IsEmpty() && !oldIsUserStub && !apiHasLocal)
-			nick = oldNick;
-		else
-			nick = fromApi;
+	CMStringW oldFn, oldLn;
+	if (hPrev) {
+		oldFn = getMStringW(hPrev, "FirstName");
+		oldLn = getMStringW(hPrev, "LastName");
 	}
-	else if (hPrev && !oldNick.IsEmpty())
-		nick = oldNick;
-	else
-		nick.Format(L"User %S", uid.c_str());
+	if (oldFn.IsEmpty() && oldLn.IsEmpty() && hPrev) {
+		ptrW leg(getWStringA(hPrev, "Nick"));
+		if (leg != nullptr && leg[0]) {
+			CMStringW full(leg);
+			if (sttIsUserStubDisplay(full)) {
+				oldFn = full;
+				oldLn.Empty();
+			}
+			else {
+				int sp = full.Find(L' ');
+				if (sp >= 0) {
+					oldFn = full.Left(sp);
+					oldLn = full.Mid(sp + 1);
+					oldFn.Trim();
+					oldLn.Trim();
+				}
+				else
+					oldFn = full;
+			}
+		}
+	}
 
-	EnsureUserContact(uid, nick, nullptr);
+	bool oldIsUserStub = sttIsUserStubDisplay(oldFn);
+	if (!oldIsUserStub && hPrev) {
+		ptrW on(getWStringA(hPrev, "Nick"));
+		if (on != nullptr && mir_wstrlen(on) >= 5 && !_wcsnicmp(on, L"User ", 5))
+			oldIsUserStub = true;
+	}
+	bool apiHasLocal = sttJsonHasLocalOrAliasContactName(c);
+	bool oldHas = !oldFn.IsEmpty() || !oldLn.IsEmpty();
+
+	CMStringW outFn, outLn;
+	if (!fromApiEmpty) {
+		if (hPrev && oldHas && !oldIsUserStub && !apiHasLocal) {
+			outFn = oldFn;
+			outLn = oldLn;
+		}
+		else {
+			outFn = fromFn;
+			outLn = fromLn;
+		}
+	}
+	else if (oldHas) {
+		outFn = oldFn;
+		outLn = oldLn;
+	}
+	else {
+		outFn.Format(L"User %S", uid.c_str());
+		outLn.Empty();
+	}
+
+	EnsureUserContact(uid, outFn.IsEmpty() ? L"" : outFn.c_str(), outLn.IsEmpty() ? L"" : outLn.c_str(), nullptr);
 }
 
 void CMaxProto::EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t *wszTitle)
@@ -592,11 +817,6 @@ void CMaxProto::TryApplySyncPayloadFromPush(const JSONNode &payload)
 	ApplySyncPayload(payload, nullptr);
 }
 
-static bool sttNickIsUserStub(const CMStringW &nick)
-{
-	return !nick.IsEmpty() && nick.GetLength() >= 5 && !_wcsnicmp(nick.c_str(), L"User ", 5);
-}
-
 // Shared by opcode-19 sync and opcode-48 chat refresh.
 static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMStringA &myUid, const JSONNode *pAllContacts,
 	OBJLIST<CMStringA> *pNeedFetch, CMStringA *pOutPeerUid = nullptr)
@@ -642,21 +862,21 @@ static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMSt
 	if (pOutPeerUid != nullptr)
 		*pOutPeerUid = peerUid;
 
-	CMStringW nick;
-	if (MCONTACT hPeer = p->FindContactByMaxUid(peerUid))
-		nick = p->getMStringW(hPeer, "Nick");
-
-	if (nick.IsEmpty() || sttNickIsUserStub(nick)) {
+	MCONTACT hPeer = p->FindContactByMaxUid(peerUid);
+	if (sttContactNeedsPlaceholderName(p, hPeer)) {
+		CMStringW fn, ln;
+		ln.Empty();
 		if (chat["title"].type() != JSON_NULL) {
 			ptrW w(mir_utf8decodeW(chat["title"].as_string().c_str()));
 			if (w && w[0])
-				nick = w;
+				fn = w;
 		}
+		if (fn.IsEmpty())
+			fn.Format(L"User %S", peerUid.c_str());
+		p->EnsureUserContact(peerUid, fn.c_str(), L"", chatId);
 	}
-	if (nick.IsEmpty())
-		nick.Format(L"User %S", peerUid.c_str());
-
-	p->EnsureUserContact(peerUid, nick, chatId);
+	else
+		p->EnsureUserContact(peerUid, nullptr, nullptr, chatId);
 
 	if (pNeedFetch != nullptr) {
 		bool need = true;
@@ -755,8 +975,19 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 		// Old builds stored bogus low "MaxUid" / "MaxChatId" pairs — do not opcode-48 those.
 		if (_strtoui64(uid, nullptr, 10) < 100000ull)
 			continue;
-		CMStringW nn = getMStringW(hContact, "Nick");
-		if (!sttNickIsUserStub(nn))
+		CMStringW fn = getMStringW(hContact, "FirstName");
+		CMStringW ln = getMStringW(hContact, "LastName");
+		bool needTitle = sttIsUserStubDisplay(fn);
+		if (!needTitle && fn.IsEmpty() && ln.IsEmpty()) {
+			ptrW nick(getWStringA(hContact, "Nick"));
+			if (nick != nullptr && nick[0]) {
+				if (sttIsUserStubDisplay(CMStringW(nick)))
+					needTitle = true;
+			}
+			else
+				needTitle = true;
+		}
+		if (!needTitle)
 			continue;
 		ptrA cid(getStringA(hContact, DB_KEY_MAX_CHATID));
 		if (cid == nullptr || cid[0] == 0)

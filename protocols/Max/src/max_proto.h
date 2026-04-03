@@ -29,9 +29,10 @@ class CMaxProto : public PROTO<CMaxProto>
 		WebSocket<CMaxProto> *ws = nullptr;
 	} m_wsRun;
 
-	void ConnectionWorker(void *);
-	void WsRunThread(void *param);
-	void PingWorker(void *);
+	void __cdecl ConnectionWorker(void *);
+	void __cdecl WsRunThread(void *param);
+	void __cdecl PingWorker(void *);
+	void InterruptibleSleepMs(DWORD msTotal, DWORD sliceMs = 200);
 	void EnsureDeviceId();
 	bool SendHandshake(WebSocket<CMaxProto> *ws);
 	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0);
@@ -62,8 +63,8 @@ public:
 	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
 	void OnShutdown(void) override;
 
-	void RequestSmsThread(void *param);
-	void VerifySmsThread(void *param);
+	void __cdecl RequestSmsThread(void *param);
+	void __cdecl VerifySmsThread(void *param);
 	void NotifyUser(const wchar_t *title, const wchar_t *text);
 	void InitWsInflater();
 	void FreeWsInflater();
@@ -79,7 +80,7 @@ public:
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);
 	CMStringW GetDefaultGroupW();
 	MCONTACT FindContactByMaxUid(const char *szUid);
-	MCONTACT EnsureUserContact(const char *szUid, const wchar_t *wszNick, const char *szDialogChatId);
+	MCONTACT EnsureUserContact(const char *szUid, const wchar_t *wszFirst, const wchar_t *wszLast, const char *szDialogChatId);
 	void EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t *wszTitle);
 	void MergeContactJson(const JSONNode &c, const char *szRequestedUid = nullptr);
 };

@@ -29,6 +29,21 @@ void CMaxProto::FreeWsInflater()
 	memset(&m_wsInflate, 0, sizeof(m_wsInflate));
 }
 
+// Long Sleep() would ignore m_bTerminated for tens of seconds; short slices make offline/shutdown responsive.
+void CMaxProto::InterruptibleSleepMs(DWORD msTotal, DWORD sliceMs)
+{
+	DWORD done = 0;
+	while (done < msTotal) {
+		if (m_bTerminated)
+			return;
+		DWORD step = msTotal - done;
+		if (step > sliceMs)
+			step = sliceMs;
+		Sleep(step);
+		done += step;
+	}
+}
+
 bool CMaxProto::InflateWsFrame(const uint8_t *pData, size_t cbData, CMStringA &out)
 {
 	out.Empty();
@@ -543,16 +558,16 @@ bool CMaxProto::ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws)
 	return true;
 }
 
-void CMaxProto::PingWorker(void *)
+void __cdecl CMaxProto::PingWorker(void *)
 {
 	// Align with vkmax keepalive: ~30s cadence; small delay avoids racing the post-login burst.
-	Sleep(2500);
+	InterruptibleSleepMs(2500);
 	if (!m_bTerminated && m_pGateway) {
 		if (!ApiPing(m_pGateway))
 			debugLogA("Max: first ping failed");
 	}
 	while (!m_bTerminated && m_pGateway) {
-		Sleep(30000);
+		InterruptibleSleepMs(30000);
 		if (m_bTerminated || !m_pGateway)
 			break;
 		if (!ApiPing(m_pGateway))
@@ -567,13 +582,13 @@ void CMaxProto::OnGatewayPush(const JSONNode &payload, int opcode)
 	TryApplySyncPayloadFromPush(payload);
 }
 
-void CMaxProto::WsRunThread(void *)
+void __cdecl CMaxProto::WsRunThread(void *)
 {
 	if (m_wsRun.ws != nullptr)
 		m_wsRun.ws->run();
 }
 
-void CMaxProto::ConnectionWorker(void *)
+void __cdecl CMaxProto::ConnectionWorker(void *)
 {
 	WebSocket<CMaxProto> ws(this);
 	MHttpHeaders hdrs;
@@ -646,7 +661,8 @@ void CMaxProto::ConnectionWorker(void *)
 
 	m_pGateway = nullptr;
 	if (m_hPingThread) {
-		WaitForSingleObject(m_hPingThread, 15000);
+		// Ping uses interruptible sleep; a few seconds is enough unless the process is wedged.
+		WaitForSingleObject(m_hPingThread, 5000);
 		CloseHandle(m_hPingThread);
 		m_hPingThread = nullptr;
 	}

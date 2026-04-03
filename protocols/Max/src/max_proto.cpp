@@ -327,7 +327,7 @@ bool CMaxProto::WaitForGatewayReady()
 	return m_bGatewayConnected && m_pGateway != nullptr;
 }
 
-void CMaxProto::RequestSmsThread(void *param)
+void __cdecl CMaxProto::RequestSmsThread(void *param)
 {
 	ptrA phone((char *)param);
 	if (phone == nullptr || phone[0] == 0) {
@@ -346,7 +346,7 @@ void CMaxProto::RequestSmsThread(void *param)
 	NotifyUser(TranslateT("Max"), TranslateT("SMS request sent. Enter the code from the message and press Confirm code."));
 }
 
-void CMaxProto::VerifySmsThread(void *param)
+void __cdecl CMaxProto::VerifySmsThread(void *param)
 {
 	ptrA code((char *)param);
 	if (code == nullptr || code[0] == 0) {
