@@ -14,6 +14,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	bool m_bTerminated = true;
 	HANDLE m_hConnThread = nullptr;
 	HANDLE m_hWsRunThread = nullptr;
+	HANDLE m_hPingThread = nullptr;
 	HANDLE m_hWaitEvent = nullptr;
 	uint64_t m_seq = 0;
 	uint64_t m_waitSeq = 0;
@@ -30,10 +31,17 @@ class CMaxProto : public PROTO<CMaxProto>
 
 	void ConnectionWorker(void *);
 	void WsRunThread(void *param);
+	void PingWorker(void *);
 	void EnsureDeviceId();
 	bool SendHandshake(WebSocket<CMaxProto> *ws);
 	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0);
 	void OnGatewayPush(const JSONNode &payload, int opcode);
+	void TryMergeContactsFromPayload(const JSONNode &payload);
+	void TryApplySyncPayloadFromPush(const JSONNode &payload);
+	bool ApiPing(WebSocket<CMaxProto> *ws);
+	bool ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws);
+	/// Optional web session bootstrap (requests.md): ping, token refresh ping, folders — before opcode 19 sync.
+	bool ApiWebSessionBootstrap(WebSocket<CMaxProto> *ws);
 	void DisconnectGateway();
 
 	bool WaitForGatewayReady();
@@ -64,6 +72,16 @@ public:
 	bool ApiStartAuth(WebSocket<CMaxProto> *ws, const char *phone);
 	bool ApiVerifyCode(WebSocket<CMaxProto> *ws, const char *code);
 	bool ApiSync(WebSocket<CMaxProto> *ws);
+	bool ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids);
+	bool ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pChatIds, size_t nIds);
+
+	void RegisterChatModule();
+	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);
+	CMStringW GetDefaultGroupW();
+	MCONTACT FindContactByMaxUid(const char *szUid);
+	MCONTACT EnsureUserContact(const char *szUid, const wchar_t *wszNick, const char *szDialogChatId);
+	void EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t *wszTitle);
+	void MergeContactJson(const JSONNode &c, const char *szRequestedUid = nullptr);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CMaxProto>

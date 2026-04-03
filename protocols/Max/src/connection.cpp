@@ -4,6 +4,8 @@ GPLv2
 */
 
 #include "stdafx.h"
+#include <ctype.h>
+#include <stdlib.h>
 
 // WebSocket endpoint and Origin for Max web client.
 static const char *szWsUrl = "wss://ws-api.oneme.ru/websocket";
@@ -129,6 +131,193 @@ static bool ParseServerJson(CMaxProto *pPro, const uint8_t *pData, size_t cbData
 	return ParsePossiblyWrappedJson(inflated.c_str(), inflated.GetLength(), root);
 }
 
+// String success markers (API may send "error":"false" — strtol would mis-read as failure).
+static bool MaxJsonStringMeansSuccess(const json_string &cs)
+{
+	size_t a = 0, b = cs.length();
+	while (a < b && isspace((unsigned char)cs[a])) a++;
+	while (b > a && isspace((unsigned char)cs[b - 1])) b--;
+	if (a >= b)
+		return true;
+
+	json_string t = cs.substr(a, b - a);
+
+	if (!_stricmp(t.c_str(), "false")) return true;
+	if (!_stricmp(t.c_str(), "ok")) return true;
+	if (!_stricmp(t.c_str(), "success")) return true;
+	if (!_stricmp(t.c_str(), "none")) return true;
+	if (t == "0") return true;
+
+	if (!_stricmp(t.c_str(), "true")) return false;
+
+	char *end = nullptr;
+	long v = strtol(t.c_str(), &end, 10);
+	if (end == t.c_str() + t.length())
+		return v == 0;
+
+	return false;
+}
+
+// Opcode 19 success envelopes include profile and/or chat/contact arrays (possibly empty).
+// Opcode 32 often returns a singular "contact" (not "contacts[]") — must count as body so
+// MaxPayloadSaysError does not treat e.g. payload.message as a hard failure.
+static bool MaxWsSyncPayloadHasBody(const JSONNode &pl)
+{
+	if (pl["profile"].type() != JSON_NULL)
+		return true;
+	if (pl["chats"].type() == JSON_ARRAY)
+		return true;
+	if (pl["contacts"].type() == JSON_ARRAY)
+		return true;
+	if (pl["contact"].type() == JSON_NODE)
+		return true;
+	if (pl["contacts"].type() == JSON_NODE && pl["contacts"].size() != 0)
+		return true;
+	return false;
+}
+
+// Server LOGIN/sync failure uses title + localizedMessage (+ message); not the chats/profile shape.
+static bool MaxPayloadHasServerErrorUi(const JSONNode &pl)
+{
+	const JSONNode &t = pl["title"];
+	if (t.type() == JSON_STRING && !t.as_string().empty())
+		return true;
+	const JSONNode &lm = pl["localizedMessage"];
+	if (lm.type() == JSON_STRING && !lm.as_string().empty())
+		return true;
+	return false;
+}
+
+// API: "error" may be false / "false" / {} / 0 / { "code": 0 } / { "success": true } on success.
+static bool MaxPayloadSaysError(const JSONNode &pl)
+{
+	if (!MaxWsSyncPayloadHasBody(pl) && MaxPayloadHasServerErrorUi(pl))
+		return true;
+	// Plain { "error", "message" } failures without title/localizedMessage.
+	if (!MaxWsSyncPayloadHasBody(pl)) {
+		const JSONNode &m = pl["message"];
+		if (m.type() == JSON_STRING && !m.as_string().empty()) {
+			const JSONNode &erp = pl["error"];
+			if (erp.type() == JSON_BOOL && !erp.as_bool())
+				return false;
+			if (erp.type() == JSON_STRING && MaxJsonStringMeansSuccess(erp.as_string()))
+				return false;
+			return true;
+		}
+	}
+
+	const JSONNode &er = pl["error"];
+	if (er.type() == JSON_NULL)
+		return false;
+	if (er.type() == JSON_BOOL)
+		return er.as_bool();
+	if (er.type() == JSON_NUMBER)
+		return er.as_float() != 0.0;
+	if (er.type() == JSON_STRING)
+		return !MaxJsonStringMeansSuccess(er.as_string());
+	if (er.type() == JSON_NODE) {
+		if (er.size() == 0)
+			return false;
+		const JSONNode &sok = er["success"];
+		if (sok.type() == JSON_BOOL)
+			return !sok.as_bool();
+		const JSONNode &st = er["status"];
+		if (st.type() == JSON_STRING && MaxJsonStringMeansSuccess(st.as_string()))
+			return false;
+
+		const JSONNode &code = er["code"];
+		if (code.type() == JSON_NUMBER)
+			return code.as_float() != 0.0;
+		if (code.type() == JSON_BOOL)
+			return code.as_bool();
+		if (code.type() == JSON_STRING) {
+			if (MaxJsonStringMeansSuccess(code.as_string()))
+				return false;
+			return true;
+		}
+
+		const JSONNode &msg = er["message"];
+		if (msg.type() == JSON_STRING && !msg.as_string().empty())
+			return true;
+		const JSONNode &msg2 = er["msg"];
+		if (msg2.type() == JSON_STRING && !msg2.as_string().empty())
+			return true;
+		return false;
+	}
+	// Some replies use []; non-empty arrays are not reliably errors — sync payload also uses arrays.
+	if (er.type() == JSON_ARRAY)
+		return false;
+	return false;
+}
+
+// Server may use large seq values; as_int() truncates — read number or string.
+static uint64_t JsonReplySeq(const JSONNode &json)
+{
+	const JSONNode &n = json["seq"];
+	if (n.type() == JSON_NULL)
+		return 0;
+	if (n.type() == JSON_NUMBER)
+		return (uint64_t)(n.as_float() + 0.5);
+	return (uint64_t)_strtoui64(n.as_string().c_str(), nullptr, 10);
+}
+
+static int MaxJsonOpcodeInt(const JSONNode &json)
+{
+	const JSONNode &o = json["opcode"];
+	if (o.type() == JSON_NULL)
+		return -1;
+	if (o.type() == JSON_NUMBER)
+		return (int)(o.as_float() + 0.5);
+	if (o.type() == JSON_STRING)
+		return atoi(o.as_string().c_str());
+	return -1;
+}
+
+// Opcode-32 fetch: reply may omit client seq or nest contacts — still complete SendJsonAndWait.
+// Do not treat empty contacts:[] as a usable reply (would wake wait and merge nothing).
+static bool MaxPayloadLooksLikeOpcode32ContactsReply(const JSONNode &pl)
+{
+	auto hasUsefulContact = [](const JSONNode &n) -> bool {
+		if (n.type() != JSON_NODE || n.size() == 0)
+			return false;
+		return n["names"].type() != JSON_NULL || n["id"].type() != JSON_NULL || n["userId"].type() != JSON_NULL;
+	};
+
+	if (pl["contact"].type() == JSON_NODE && hasUsefulContact(pl["contact"]))
+		return true;
+	if (pl["contacts"].type() == JSON_ARRAY && pl["contacts"].size() > 0)
+		return true;
+	if (pl["contacts"].type() == JSON_NODE && pl["contacts"].size() != 0)
+		return true;
+
+	static const char *inners[] = { "result", "data", "response", "payload", nullptr };
+	for (int i = 0; inners[i]; i++) {
+		const JSONNode &n = pl[inners[i]];
+		if (n.type() != JSON_NODE)
+			continue;
+		if (n["contact"].type() == JSON_NODE && hasUsefulContact(n["contact"]))
+			return true;
+		if (n["contacts"].type() == JSON_ARRAY && n["contacts"].size() > 0)
+			return true;
+		if (n["contacts"].type() == JSON_NODE && n["contacts"].size() != 0)
+			return true;
+	}
+	return false;
+}
+
+static bool MaxPayloadLooksLikeOpcode48ChatsReply(const JSONNode &pl)
+{
+	if (pl["chats"].type() == JSON_ARRAY && pl["chats"].size() > 0)
+		return true;
+	static const char *inners[] = { "result", "data", "response", "payload", nullptr };
+	for (int i = 0; inners[i]; i++) {
+		const JSONNode &n = pl[inners[i]];
+		if (n.type() == JSON_NODE && n["chats"].type() == JSON_ARRAY && n["chats"].size() > 0)
+			return true;
+	}
+	return false;
+}
+
 static CMStringA HexPreview(const uint8_t *pData, size_t cbData, size_t limit = 48)
 {
 	const size_t n = min(cbData, limit);
@@ -185,16 +374,51 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 		ws->sendText(s.c_str());
 	}
 
-	if (WaitForSingleObject(m_hWaitEvent, 10000) != WAIT_OBJECT_0)
+	if (WaitForSingleObject(m_hWaitEvent, 10000) != WAIT_OBJECT_0) {
+		debugLogA("Max: request timeout (opcode %u, waited seq %llu)", (unsigned)opcode, (unsigned long long)m_waitSeq);
+		m_waitSeq = 0;
 		return false;
+	}
 
 	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
-	if (!resp)
+	if (!resp) {
+		debugLogA("Max: empty/invalid JSON after response (opcode %u)", (unsigned)opcode);
+		m_waitSeq = 0;
 		return false;
+	}
 
 	const JSONNode &pl = resp["payload"];
-	if (pl["error"].type() != JSON_NULL)
+	bool payloadErr = MaxPayloadSaysError(pl);
+	// Server sometimes sets error to a non-printable or odd string while still returning sync data.
+	if (payloadErr && opcode == 19 && MaxWsSyncPayloadHasBody(pl)) {
+		debugLogA("Max: opcode 19 treating as OK (sync body present); errType=%u strLen=%u",
+			(unsigned)pl["error"].type(),
+			pl["error"].type() == JSON_STRING ? (unsigned)pl["error"].as_string().length() : 0u);
+		payloadErr = false;
+	}
+	// Ignore odd string "error" on opcode 19 only when there is no user-visible error text (see title/localizedMessage/message).
+	if (payloadErr && opcode == 19 && pl["error"].type() == JSON_STRING && !MaxPayloadHasServerErrorUi(pl)) {
+		const JSONNode &m = pl["message"];
+		if (m.type() != JSON_STRING || m.as_string().empty()) {
+			debugLogA("Max: opcode 19 ignoring string error field (len=%u)",
+				(unsigned)pl["error"].as_string().length());
+			payloadErr = false;
+		}
+	}
+	if (payloadErr) {
+		json_string err = pl["error"].write();
+		debugLogA("Max: payload error (opcode %u) errType=%u: %s", (unsigned)opcode, (unsigned)pl["error"].type(),
+			err.empty() ? "(empty)" : err.c_str());
+		if (pl["title"].type() == JSON_STRING && !pl["title"].as_string().empty())
+			debugLogA("Max:   title=%s", pl["title"].as_string().c_str());
+		if (pl["localizedMessage"].type() == JSON_STRING && !pl["localizedMessage"].as_string().empty())
+			debugLogA("Max:   localizedMessage=%s", pl["localizedMessage"].as_string().c_str());
+		if (pl["message"].type() == JSON_STRING && !pl["message"].as_string().empty())
+			debugLogA("Max:   message=%s", pl["message"].as_string().c_str());
+		m_waitSeq = 0;
 		return false;
+	}
+	m_waitSeq = 0;
 	return true;
 }
 
@@ -269,17 +493,78 @@ bool CMaxProto::ApiSync(WebSocket<CMaxProto> *ws)
 		return false;
 
 	JSONNode payload(JSON_NODE);
+	// vkmax MaxClient.login_by_token: presenceSync -1; ping uses interactive false only after login.
 	payload << BOOL_PARAM("interactive", true) << CHAR_PARAM("token", tok) << INT_PARAM("chatsSync", 0) << INT_PARAM("contactsSync", 0)
-		<< INT_PARAM("presenceSync", 0) << INT_PARAM("draftsSync", 0) << INT_PARAM("chatsCount", 40);
+		<< INT_PARAM("presenceSync", -1) << INT_PARAM("draftsSync", 0) << INT_PARAM("chatsCount", 40);
 
 	return SendJsonAndWait(ws, 19, payload, 0);
+}
+
+bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
+{
+	JSONNode payload(JSON_NODE);
+	payload << BOOL_PARAM("interactive", false);
+	return SendJsonAndWait(ws, 1, payload, 0);
+}
+
+bool CMaxProto::ApiWebSessionBootstrap(WebSocket<CMaxProto> *ws)
+{
+	// vkmax: session hello (opcode 6) then opcode 19 directly — no pre-sync ping.
+	(void)ws;
+	return true;
+}
+
+bool CMaxProto::ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws)
+{
+	ptrA my(getStringA(DB_KEY_MY_MAX_ID));
+	if (my == nullptr || my[0] == 0)
+		return false;
+
+	uint64_t userId = _strtoui64(my, nullptr, 10);
+	int64_t t = (int64_t)(time(nullptr) * 1000);
+	int64_t sessionId = (int64_t)GetTickCount64() + (int64_t)(time(nullptr) * 1000);
+
+	JSONNode params(JSON_NODE);
+	params << INT64_PARAM("actionId", 1) << INT_PARAM("screenTo", 150) << INT_PARAM("screenFrom", 1)
+		<< INT_PARAM("sourceId", 1) << INT64_PARAM("sessionId", sessionId);
+
+	JSONNode ev(JSON_NODE);
+	ev << CHAR_PARAM("event", "COLD_START") << CHAR_PARAM("type", "NAV") << INT64_PARAM("time", t)
+		<< INT64_PARAM("userId", (int64_t)userId) << JSON_PARAM("params", params);
+
+	JSONNode events(JSON_ARRAY);
+	events.push_back(ev);
+
+	JSONNode payload(JSON_NODE);
+	payload << JSON_PARAM("events", events);
+
+	if (!SendJsonAndWait(ws, 5, payload, 0))
+		return false;
+	return true;
+}
+
+void CMaxProto::PingWorker(void *)
+{
+	// Align with vkmax keepalive: ~30s cadence; small delay avoids racing the post-login burst.
+	Sleep(2500);
+	if (!m_bTerminated && m_pGateway) {
+		if (!ApiPing(m_pGateway))
+			debugLogA("Max: first ping failed");
+	}
+	while (!m_bTerminated && m_pGateway) {
+		Sleep(30000);
+		if (m_bTerminated || !m_pGateway)
+			break;
+		if (!ApiPing(m_pGateway))
+			debugLogA("Max: ping failed");
+	}
 }
 
 void CMaxProto::OnGatewayPush(const JSONNode &payload, int opcode)
 {
 	debugLogA("Max: push opcode=%d", opcode);
-	if (opcode == 128)
-		(void)payload;
+	TryMergeContactsFromPayload(payload);
+	TryApplySyncPayloadFromPush(payload);
 }
 
 void CMaxProto::WsRunThread(void *)
@@ -330,21 +615,44 @@ void CMaxProto::ConnectionWorker(void *)
 	}
 
 	ptrA token(getStringA(DB_KEY_LOGIN_TOKEN));
-	if (token != nullptr && token[0])
+	if (token != nullptr && token[0]) {
+		ApiWebSessionBootstrap(&ws);
 		m_bInitialSyncOk = ApiSync(&ws);
+		if (m_bInitialSyncOk) {
+			debugLogA("Max: ApiSync OK, applying roster");
+			// Let the WS reader thread drain follow-up frames (server may push sync after LOGIN ack).
+			Sleep(400);
+			JSONNode syncRoot = JSONNode::parse(m_szPendingResponse.c_str());
+			if (syncRoot)
+				ApplySyncPayload(syncRoot["payload"], &ws);
+		}
+		else
+			debugLogA("Max: ApiSync failed — no roster (see timeout/error lines above)");
+	}
 	else
 		m_bInitialSyncOk = true;
 
 	// Ready for WaitForGatewayReady() only after handshake + optional sync finished.
 	m_bGatewayConnected = true;
 
+	if (token != nullptr && token[0] && m_bInitialSyncOk) {
+		ApiSendTelemetryColdStart(&ws);
+		m_hPingThread = ForkThreadEx(&CMaxProto::PingWorker, this, nullptr);
+	}
+
 	WaitForSingleObject(m_hWsRunThread, INFINITE);
 	CloseHandle(m_hWsRunThread);
 	m_hWsRunThread = nullptr;
 
+	m_pGateway = nullptr;
+	if (m_hPingThread) {
+		WaitForSingleObject(m_hPingThread, 15000);
+		CloseHandle(m_hPingThread);
+		m_hPingThread = nullptr;
+	}
+
 	m_bTerminated = true;
 
-	m_pGateway = nullptr;
 	m_wsRun.ws = nullptr;
 	m_bGatewayConnected = false;
 }
@@ -358,9 +666,33 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 		return;
 	}
 
-	if (json["seq"].type() != JSON_NULL) {
-		uint64_t seq = (uint64_t)json["seq"].as_int();
-		if (seq == p->m_waitSeq) {
+	// Recv uses MSG_NODUMP — mirror a short preview into the same log channel as other Max: lines.
+	{
+		json_string sj = json.write();
+		const char *pch = sj.c_str();
+		unsigned n = (unsigned)sj.length();
+		if (n > 1800) {
+			CMStringA head(pch, 1800);
+			p->debugLogA("Max: ws in (%u bytes, truncated) %s", n, head.c_str());
+		}
+		else if (n)
+			p->debugLogA("Max: ws in (%u bytes) %s", n, pch);
+	}
+
+	uint64_t seq = JsonReplySeq(json);
+	if (seq != 0 && seq == p->m_waitSeq) {
+		json_string s = json.write();
+		p->m_szPendingResponse = s.c_str();
+		SetEvent(p->m_hWaitEvent);
+		return;
+	}
+
+	int op = MaxJsonOpcodeInt(json);
+
+	// Contact fetch: seq may not match client value; payload still carries contacts/contact.
+	if (p->m_waitSeq != 0 && op == 32) {
+		const JSONNode &pl = json["payload"];
+		if (MaxPayloadLooksLikeOpcode32ContactsReply(pl)) {
 			json_string s = json.write();
 			p->m_szPendingResponse = s.c_str();
 			SetEvent(p->m_hWaitEvent);
@@ -368,6 +700,29 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 		}
 	}
 
-	int opcode = json["opcode"].as_int();
-	p->OnGatewayPush(json["payload"], opcode);
+	// Chat details by id (vkmax-style); used to fill dialog title when opcode 32 returns no names.
+	if (p->m_waitSeq != 0 && op == 48) {
+		const JSONNode &pl = json["payload"];
+		if (MaxPayloadLooksLikeOpcode48ChatsReply(pl)) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	// Rare: reply echoes server-side seq — accept sync payload when it clearly carries roster data.
+	if (p->m_waitSeq != 0 && op == 19) {
+		const JSONNode &pl = json["payload"];
+		if (pl["chats"].type() == JSON_ARRAY || pl["contacts"].type() == JSON_ARRAY || pl["profile"].type() != JSON_NULL
+		    || pl["contact"].type() == JSON_NODE
+		    || (pl["contacts"].type() == JSON_NODE && pl["contacts"].size() != 0)) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	p->OnGatewayPush(json["payload"], op);
 }

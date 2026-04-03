@@ -45,3 +45,7 @@
 #define DB_KEY_LOGIN_TOKEN "LoginToken"
 #define DB_KEY_MOBILE_DEVICEID "MobileDeviceId"
 #define DB_KEY_MTINSTANCE "MtInstanceId"
+#define DB_KEY_MAX_UID     "MaxUid"
+#define DB_KEY_MAX_CHATID  "MaxChatId"
+#define DB_KEY_MY_MAX_ID   "MyMaxId"
+#define DB_KEY_DEFAULT_GROUP "DefaultGroup"

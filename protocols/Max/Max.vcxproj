@@ -30,6 +30,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\max_proto.cpp" />
     <ClCompile Include="src\mobile_auth.cpp" />
+    <ClCompile Include="src\roster.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

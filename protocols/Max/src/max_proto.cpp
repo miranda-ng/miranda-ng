@@ -28,6 +28,11 @@ CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	m_hProtoIcon = g_plugin.getIconHandle(IDI_MAIN);
+
+	if (getWStringA(DB_KEY_DEFAULT_GROUP) == nullptr)
+		setWString(DB_KEY_DEFAULT_GROUP, L"Max");
+	Clist_GroupCreate(0, GetDefaultGroupW());
+	RegisterChatModule();
 }
 
 CMaxProto::~CMaxProto()
@@ -42,7 +47,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_MODEMSG;
+		return PF1_IM | PF1_MODEMSG | PF1_CHAT;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
@@ -56,7 +61,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 	case PFLAG_UNIQUEIDTEXT:
 	{
 		static wchar_t s_wszUid[64];
-		mir_wstrcpy(s_wszUid, TranslateT("Phone number"));
+		mir_wstrcpy(s_wszUid, TranslateT("Max user ID"));
 		return (INT_PTR)s_wszUid;
 	}
 	}
@@ -154,11 +159,9 @@ static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
 		SetDlgItemTextA(hwndDlg, IDC_PHONE, ppro->getMStringA(DB_KEY_PHONE));
-		SetDlgItemTextA(hwndDlg, IDC_LOGINTOKEN, ppro->getMStringA(DB_KEY_LOGIN_TOKEN));
+		SetDlgItemTextW(hwndDlg, IDC_GROUPNAME, ppro->GetDefaultGroupW());
 		SetDlgItemTextW(hwndDlg, IDC_BTN_REQUEST_SMS, TranslateT("Request SMS"));
 		SetDlgItemTextW(hwndDlg, IDC_BTN_VERIFY_SMS, TranslateT("Confirm code"));
-		SetDlgItemTextW(hwndDlg, IDC_STATIC_HINT,
-			TranslateT("Hybrid auth: SMS/code via native mobile protocol, then web sync."));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -190,7 +193,7 @@ static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			break;
 
 		default:
-			if (HIWORD(wParam) == EN_CHANGE && (LOWORD(wParam) == IDC_PHONE || LOWORD(wParam) == IDC_SMSCODE || LOWORD(wParam) == IDC_LOGINTOKEN))
+			if (HIWORD(wParam) == EN_CHANGE && (LOWORD(wParam) == IDC_PHONE || LOWORD(wParam) == IDC_SMSCODE || LOWORD(wParam) == IDC_GROUPNAME))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}
@@ -201,10 +204,13 @@ static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			char buf[512];
 			GetDlgItemTextA(hwndDlg, IDC_PHONE, buf, _countof(buf));
 			ppro->setString(DB_KEY_PHONE, buf);
-			GetDlgItemTextA(hwndDlg, IDC_LOGINTOKEN, buf, _countof(buf));
-			ppro->setString(DB_KEY_LOGIN_TOKEN, buf);
-			if (buf[0] == 0)
-				ppro->SetStatus(ID_STATUS_OFFLINE);
+
+			wchar_t wgrp[128];
+			GetDlgItemTextW(hwndDlg, IDC_GROUPNAME, wgrp, _countof(wgrp));
+			if (wgrp[0]) {
+				ppro->setWString(DB_KEY_DEFAULT_GROUP, wgrp);
+				Clist_GroupCreate(0, wgrp);
+			}
 		}
 		break;
 	}
@@ -222,6 +228,14 @@ CMStringW CMaxProto::FormatLastError()
 	if (!root)
 		return L"";
 	const JSONNode &pl = root["payload"];
+	if (pl["localizedMessage"].type() == JSON_STRING && !pl["localizedMessage"].as_string().empty()) {
+		ptrW w(mir_utf8decodeW(pl["localizedMessage"].as_string().c_str()));
+		return CMStringW((const wchar_t *)w);
+	}
+	if (pl["title"].type() == JSON_STRING && !pl["title"].as_string().empty()) {
+		ptrW w(mir_utf8decodeW(pl["title"].as_string().c_str()));
+		return CMStringW((const wchar_t *)w);
+	}
 	const JSONNode &er = pl["error"];
 	if (er.type() == JSON_STRING) {
 		CMStringA ecode(er.as_string().c_str());
