@@ -1,0 +1,5 @@
+errors on sms login -> human-readable
+icons
+custom name
+slow exit
+ онтакты/чаты, групчаты, SendMsg, истори€, вложени€ Ч по API из rumax (messaging.rs, chats.rs, Е).
