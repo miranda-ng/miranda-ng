@@ -148,7 +148,7 @@ void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pa
 
 		if (pai->format == PA_FORMAT_PNG || pai->format == PA_FORMAT_JPEG
 			|| pai->format == PA_FORMAT_ICON || pai->format == PA_FORMAT_BMP
-			|| pai->format == PA_FORMAT_GIF) {
+			|| pai->format == PA_FORMAT_GIF || pai->format == PA_FORMAT_WEBP) {
 			// We can load it!
 			MakePathRelative(hContact, pai->filename);
 			ChangeAvatar(hContact, true, true, pai->format);
