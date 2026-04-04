@@ -19,6 +19,7 @@
 #include <m_netlib.h>
 #include <m_options.h>
 #include <m_popup.h>
+#include <m_avatars.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
@@ -49,3 +50,8 @@
 #define DB_KEY_MAX_CHATID  "MaxChatId"
 #define DB_KEY_MY_MAX_ID   "MyMaxId"
 #define DB_KEY_DEFAULT_GROUP "DefaultGroup"
+#define DB_KEY_AVATAR_URL    "AvatarUrl"
+
+// Browser-like HTTP fingerprint (WebSocket + avatar downloads)
+#define MAX_HTTP_ORIGIN_HEADER "https://web.max.ru"
+#define MAX_HTTP_USER_AGENT    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0"

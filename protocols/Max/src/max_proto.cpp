@@ -33,6 +33,10 @@ CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 		setWString(DB_KEY_DEFAULT_GROUP, L"Max");
 	Clist_GroupCreate(0, GetDefaultGroupW());
 	RegisterChatModule();
+
+	CreateProtoService(PS_GETAVATARINFO, &CMaxProto::SvcGetAvatarInfo);
+	CreateProtoService(PS_GETAVATARCAPS, &CMaxProto::SvcGetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATAR, &CMaxProto::SvcGetMyAvatar);
 }
 
 CMaxProto::~CMaxProto()
@@ -56,7 +60,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON;
+		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS;
 
 	case PFLAG_UNIQUEIDTEXT:
 	{
@@ -121,6 +125,7 @@ void CMaxProto::OnShutdown(void)
 void CMaxProto::DisconnectGateway()
 {
 	m_bTerminated = true;
+	m_bAvatarWebPrimed = false;
 	if (m_pGateway)
 		m_pGateway->terminate();
 

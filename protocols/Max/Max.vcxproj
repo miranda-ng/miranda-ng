@@ -26,6 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\connection.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\max_proto.cpp" />

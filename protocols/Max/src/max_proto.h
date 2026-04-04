@@ -23,6 +23,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	CMStringA m_szPendingResponse;
 	z_stream m_wsInflate = {};
 	bool m_wsInflateInited = false;
+	bool m_bAvatarWebPrimed = false;
 
 	struct
 	{
@@ -80,6 +81,15 @@ public:
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);
 	CMStringW GetDefaultGroupW();
 	MCONTACT FindContactByMaxUid(const char *szUid);
+
+	// Avatars (AVS): URL from JSON, HTTP download on demand
+	CMStringA ExtractAvatarUrlFromJson(const JSONNode &c);
+	void SyncContactAvatarFromJson(MCONTACT hContact, const JSONNode &c);
+	void GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cchDest);
+	bool DownloadAvatarToFile(MCONTACT hContact, const char *szUrl, wchar_t *wszPath, size_t cchPath);
+	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl SvcGetMyAvatar(WPARAM wParam, LPARAM lParam);
 	MCONTACT EnsureUserContact(const char *szUid, const wchar_t *wszFirst, const wchar_t *wszLast, const char *szDialogChatId);
 	void EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t *wszTitle);
 	void MergeContactJson(const JSONNode &c, const char *szRequestedUid = nullptr);

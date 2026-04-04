@@ -9,8 +9,8 @@ GPLv2
 
 // WebSocket endpoint and Origin for Max web client.
 static const char *szWsUrl = "wss://ws-api.oneme.ru/websocket";
-static const char *szOrigin = "https://web.max.ru";
-static const char *szWsUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0";
+static const char *szOrigin = MAX_HTTP_ORIGIN_HEADER;
+static const char *szWsUserAgent = MAX_HTTP_USER_AGENT;
 
 void CMaxProto::InitWsInflater()
 {

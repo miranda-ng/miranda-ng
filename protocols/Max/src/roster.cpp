@@ -683,6 +683,9 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
 	}
 
 	EnsureUserContact(uid, outFn.IsEmpty() ? L"" : outFn.c_str(), outLn.IsEmpty() ? L"" : outLn.c_str(), nullptr);
+
+	if (MCONTACT hAv = FindContactByMaxUid(uid))
+		SyncContactAvatarFromJson(hAv, c);
 }
 
 void CMaxProto::EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t *wszTitle)
@@ -914,6 +917,7 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 				setString(DB_KEY_MY_MAX_ID, myUid.c_str());
 				setString(DB_KEY_MAX_UID, myUid.c_str());
 			}
+			SyncContactAvatarFromJson(0, ct);
 		}
 	}
 
