@@ -268,8 +268,14 @@ void CMaxProto::SyncContactAvatarFromJson(MCONTACT hContact, const JSONNode &c)
 	CMStringA url = ExtractAvatarUrlFromJson(c);
 	CMStringA old = getMStringA(hContact, DB_KEY_AVATAR_URL);
 
-	if (url == old)
-		return;
+	if (url == old) {
+		if (url.IsEmpty())
+			return;
+		wchar_t wszExisting[MAX_PATH];
+		GetAvatarFileName(hContact, wszExisting, _countof(wszExisting));
+		if (::_waccess(wszExisting, 0) == 0 && sttAvatarFileOnDiskIsRasterImage(wszExisting))
+			return;
+	}
 
 	if (url.IsEmpty()) {
 		if (!old.IsEmpty()) {
@@ -283,6 +289,24 @@ void CMaxProto::SyncContactAvatarFromJson(MCONTACT hContact, const JSONNode &c)
 
 	setString(hContact, DB_KEY_AVATAR_URL, url.c_str());
 	setByte(hContact, "NeedNewAvatar", 1);
+
+	// Download while session is active (do not use GetStatus() > OFFLINE: ID_STATUS_CONNECTING==1 is < OFFLINE==40071).
+	if (HasLoginToken() && !m_bTerminated) {
+		PROTO_AVATAR_INFORMATION ai = {};
+		ai.hContact = hContact;
+		GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
+		if (DownloadAvatarToFile(hContact, url.c_str(), ai.filename, _countof(ai.filename))) {
+			setByte(hContact, "NeedNewAvatar", 0);
+			ai.format = ProtoGetAvatarFileFormat(ai.filename);
+			if (ai.format == PA_FORMAT_UNKNOWN)
+				ai.format = ProtoGetAvatarFormat(ai.filename);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai);
+			return;
+		}
+		debugLogA("Max: avatar download failed for h=%p url=%s", (void *)(INT_PTR)hContact, url.c_str());
+	}
+
+	db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
 }
 
@@ -332,6 +356,8 @@ bool CMaxProto::DownloadAvatarToFile(MCONTACT hContact, const char *szUrl, wchar
 {
 	if (szUrl == nullptr || szUrl[0] == 0 || wszPath == nullptr || cchPath == 0)
 		return false;
+
+	CreateDirectoryTreeW(GetAvatarPath());
 
 	GetAvatarFileName(hContact, wszPath, cchPath);
 
@@ -463,7 +489,8 @@ INT_PTR __cdecl CMaxProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (onDisk && !diskOk)
 		_wunlink(pai->filename);
 
-	if (GetStatus() <= ID_STATUS_OFFLINE)
+	// Only real offline blocks fetch (CONNECTING=1 is numerically <= OFFLINE with wrong semantics if we used <=).
+	if (GetStatus() == ID_STATUS_OFFLINE)
 		return (onDisk && diskOk) ? GAIR_SUCCESS : GAIR_NOAVATAR;
 
 	if (!DownloadAvatarToFile(h, szUrl, pai->filename, _countof(pai->filename))) {
