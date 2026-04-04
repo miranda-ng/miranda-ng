@@ -368,7 +368,7 @@ LBL_Usage:
 	else {
 		fprintf(stderr, "Processing DEF file: '%s'...\n", tDefFileName);
 
-		char	tBuffer[1024];
+		char	tBuffer[4096];
 		while (fgets(tBuffer, sizeof(tBuffer), tInFile) != NULL) {
 			fputs(tBuffer, tTempFile);
 			tLineNo++;
