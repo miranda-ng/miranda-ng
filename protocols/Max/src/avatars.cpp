@@ -237,6 +237,32 @@ CMStringA CMaxProto::ExtractAvatarUrlFromJson(const JSONNode &c)
 	return sttExtractAvatarUrlDepth(c, 0);
 }
 
+static void sttDeleteCachedAvatarFilesForContact(CMaxProto *p, MCONTACT hContact)
+{
+	CMStringW path(p->GetAvatarPath());
+	path.AppendChar(L'\\');
+
+	CMStringA uid;
+	if (hContact)
+		uid = p->getMStringA(hContact, DB_KEY_MAX_UID);
+	else {
+		ptrA my(p->getStringA(DB_KEY_MY_MAX_ID));
+		if (my != nullptr && my[0])
+			uid = my.get();
+	}
+	if (uid.IsEmpty())
+		uid = "me";
+
+	path.Append(mir_utf8decodeW(uid.c_str()));
+
+	static const wchar_t *pexts[] = { L".jpg", L".jpeg", L".png", L".webp", L".gif", L".bmp", nullptr };
+	for (int i = 0; pexts[i]; i++) {
+		CMStringW f(path);
+		f += pexts[i];
+		_wunlink(f);
+	}
+}
+
 void CMaxProto::SyncContactAvatarFromJson(MCONTACT hContact, const JSONNode &c)
 {
 	CMStringA url = ExtractAvatarUrlFromJson(c);
@@ -249,6 +275,7 @@ void CMaxProto::SyncContactAvatarFromJson(MCONTACT hContact, const JSONNode &c)
 		if (!old.IsEmpty()) {
 			delSetting(hContact, DB_KEY_AVATAR_URL);
 			setByte(hContact, "NeedNewAvatar", 0);
+			sttDeleteCachedAvatarFilesForContact(this, hContact);
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
 		}
 		return;
@@ -256,27 +283,6 @@ void CMaxProto::SyncContactAvatarFromJson(MCONTACT hContact, const JSONNode &c)
 
 	setString(hContact, DB_KEY_AVATAR_URL, url.c_str());
 	setByte(hContact, "NeedNewAvatar", 1);
-
-	// AVS often ignores the first fetch: FetchAvatarFor requires the contact to already exist in its
-	// in-memory cache (see PollCheckContact). Download here while online and ACK SUCCESS so the
-	// file appears under %miranda_avatarcache%\<proto> without waiting for the clist to prime the cache.
-	if (GetStatus() > ID_STATUS_OFFLINE) {
-		PROTO_AVATAR_INFORMATION ai = {};
-		ai.hContact = hContact;
-		GetAvatarFileName(hContact, ai.filename, _countof(ai.filename));
-		if (DownloadAvatarToFile(hContact, url.c_str(), ai.filename, _countof(ai.filename))) {
-			setByte(hContact, "NeedNewAvatar", 0);
-			ai.format = ProtoGetAvatarFileFormat(ai.filename);
-			if (ai.format == PA_FORMAT_UNKNOWN)
-				ai.format = ProtoGetAvatarFormat(ai.filename);
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai);
-			return;
-		}
-		debugLogA("Max: avatar download failed for h=%p url=%s", (void *)(INT_PTR)hContact, url.c_str());
-	}
-
-	// Offline or download failed: mark for PicLoader once clist creates a cache node
-	db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
 	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
 }
 
