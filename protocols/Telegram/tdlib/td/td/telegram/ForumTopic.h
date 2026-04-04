@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,6 +30,7 @@ class ForumTopic {
   MessageId last_read_outbox_message_id_;
   int32 unread_mention_count_ = 0;
   int32 unread_reaction_count_ = 0;
+  int32 unread_poll_vote_count_ = 0;
   DialogNotificationSettings notification_settings_;
   unique_ptr<DraftMessage> draft_message_;
 
@@ -38,7 +39,7 @@ class ForumTopic {
  public:
   ForumTopic() = default;
 
-  ForumTopic(Td *td, tl_object_ptr<telegram_api::ForumTopic> &&forum_topic_ptr,
+  ForumTopic(Td *td, telegram_api::object_ptr<telegram_api::ForumTopic> &&forum_topic_ptr,
              const DialogNotificationSettings *current_notification_settings);
 
   bool is_short() const {
@@ -52,6 +53,8 @@ class ForumTopic {
   bool update_unread_mention_count(int32 count, bool is_relative);
 
   bool update_unread_reaction_count(int32 count, bool is_relative);
+
+  bool update_unread_poll_vote_count(int32 count, bool is_relative);
 
   bool set_is_pinned(bool is_pinned) {
     if (is_pinned_ == is_pinned) {

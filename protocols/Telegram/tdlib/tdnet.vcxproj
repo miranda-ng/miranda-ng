@@ -49,6 +49,7 @@
     <ClCompile Include="td\tdnet\td\net\HttpConnectionBase.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpContentLengthByteFlow.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpFile.cpp" />
+    <ClCompile Include="td\tdnet\td\net\HttpHeaderCreator.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpInboundConnection.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpOutboundConnection.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpProxy.cpp" />

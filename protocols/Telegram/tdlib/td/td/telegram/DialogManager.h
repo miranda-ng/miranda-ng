@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -83,6 +83,8 @@ class DialogManager final : public Actor {
   Status check_dialog_access_in_memory(DialogId dialog_id, bool allow_secret_chats, AccessRights access_rights) const;
 
   bool have_input_peer(DialogId dialog_id, bool allow_secret_chats, AccessRights access_rights) const;
+
+  Status can_send_message_to_dialog(DialogId dialog_id) const;
 
   bool have_dialog_force(DialogId dialog_id, const char *source) const;
 
@@ -171,6 +173,10 @@ class DialogManager final : public Actor {
 
   CustomEmojiId get_dialog_profile_background_custom_emoji_id(DialogId dialog_id) const;
 
+  DialogParticipantStatus get_dialog_status(DialogId dialog_id) const;
+
+  DialogParticipantStatus get_dialog_permissions(DialogId dialog_id) const;
+
   RestrictedRights get_dialog_default_permissions(DialogId dialog_id) const;
 
   td_api::object_ptr<td_api::emojiStatus> get_dialog_emoji_status_object(DialogId dialog_id) const;
@@ -178,6 +184,8 @@ class DialogManager final : public Actor {
   string get_dialog_about(DialogId dialog_id);
 
   string get_dialog_search_text(DialogId dialog_id) const;
+
+  bool get_dialog_has_protected_content_force(DialogId dialog_id);
 
   bool get_dialog_has_protected_content(DialogId dialog_id) const;
 
@@ -200,7 +208,8 @@ class DialogManager final : public Actor {
   void set_dialog_emoji_status(DialogId dialog_id, const unique_ptr<EmojiStatus> &emoji_status,
                                Promise<Unit> &&promise);
 
-  void toggle_dialog_has_protected_content(DialogId dialog_id, bool has_protected_content, Promise<Unit> &&promise);
+  void toggle_dialog_has_protected_content(DialogId dialog_id, MessageId request_message_id, bool is_request,
+                                           bool has_protected_content, Promise<Unit> &&promise);
 
   void set_dialog_description(DialogId dialog_id, const string &description, Promise<Unit> &&promise);
 
@@ -214,6 +223,8 @@ class DialogManager final : public Actor {
                      const string &text, Promise<td_api::object_ptr<td_api::ReportChatResult>> &&promise);
 
   void report_dialog_photo(DialogId dialog_id, FileId file_id, ReportReason &&reason, Promise<Unit> &&promise);
+
+  Status can_delete_all_dialog_messages_by_sender(DialogId dialog_id) const;
 
   Status can_pin_messages(DialogId dialog_id) const;
 
@@ -240,7 +251,8 @@ class DialogManager final : public Actor {
     PublicDialogsTooMany,
     PublicGroupsUnavailable
   };
-  void check_dialog_username(DialogId dialog_id, const string &username, Promise<CheckDialogUsernameResult> &&promise);
+  void check_dialog_username(DialogId dialog_id, const string &username, bool is_bot,
+                             Promise<CheckDialogUsernameResult> &&promise);
 
   static td_api::object_ptr<td_api::CheckChatUsernameResult> get_check_chat_username_result_object(
       CheckDialogUsernameResult result);

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,7 +17,7 @@
 
 namespace td {
 
-ForumTopic::ForumTopic(Td *td, tl_object_ptr<telegram_api::ForumTopic> &&forum_topic_ptr,
+ForumTopic::ForumTopic(Td *td, telegram_api::object_ptr<telegram_api::ForumTopic> &&forum_topic_ptr,
                        const DialogNotificationSettings *current_notification_settings) {
   CHECK(forum_topic_ptr != nullptr);
   if (forum_topic_ptr->get_id() != telegram_api::forumTopic::ID) {
@@ -42,6 +42,7 @@ ForumTopic::ForumTopic(Td *td, tl_object_ptr<telegram_api::ForumTopic> &&forum_t
   last_read_outbox_message_id_ = MessageId(ServerMessageId(forum_topic->read_outbox_max_id_));
   unread_mention_count_ = forum_topic->unread_mentions_count_;
   unread_reaction_count_ = forum_topic->unread_reactions_count_;
+  unread_poll_vote_count_ = forum_topic->unread_poll_votes_count_;
 }
 
 bool ForumTopic::update_last_read_outbox_message_id(MessageId last_read_outbox_message_id) {
@@ -89,6 +90,19 @@ bool ForumTopic::update_unread_reaction_count(int32 count, bool is_relative) {
   return true;
 }
 
+bool ForumTopic::update_unread_poll_vote_count(int32 count, bool is_relative) {
+  auto new_unread_poll_vote_count = is_relative ? unread_poll_vote_count_ + count : count;
+  if (new_unread_poll_vote_count < 0) {
+    LOG(ERROR) << "Tried to change unread poll vote count to " << new_unread_poll_vote_count;
+    new_unread_poll_vote_count = 0;
+  }
+  if (unread_poll_vote_count_ == new_unread_poll_vote_count) {
+    return false;
+  }
+  unread_poll_vote_count_ = new_unread_poll_vote_count;
+  return true;
+}
+
 bool ForumTopic::set_draft_message(unique_ptr<DraftMessage> &&draft_message, bool from_update) {
   if (!need_update_draft_message(draft_message_, draft_message, from_update)) {
     LOG(DEBUG) << "Don't need to update draft message";
@@ -132,15 +146,18 @@ td_api::object_ptr<td_api::forumTopic> ForumTopic::get_forum_topic_object(Td *td
   return td_api::make_object<td_api::forumTopic>(
       info.get_forum_topic_info_object(td), std::move(last_message), get_forum_topic_order(td, dialog_id), is_pinned_,
       unread_count_, last_read_inbox_message_id_.get(), last_read_outbox_message_id_.get(), unread_mention_count_,
-      unread_reaction_count_, get_chat_notification_settings_object(&notification_settings_), std::move(draft_message));
+      unread_reaction_count_, unread_poll_vote_count_, get_chat_notification_settings_object(&notification_settings_),
+      std::move(draft_message));
 }
 
 td_api::object_ptr<td_api::updateForumTopic> ForumTopic::get_update_forum_topic_object(
     Td *td, DialogId dialog_id, ForumTopicId forum_topic_id) const {
+  auto draft_message = get_draft_message_object(td, draft_message_);
   return td_api::make_object<td_api::updateForumTopic>(
       td->dialog_manager_->get_chat_id_object(dialog_id, "updateForumTopic"), forum_topic_id.get(), is_pinned_,
       last_read_inbox_message_id_.get(), last_read_outbox_message_id_.get(), unread_mention_count_,
-      unread_reaction_count_, get_chat_notification_settings_object(&notification_settings_));
+      unread_reaction_count_, unread_poll_vote_count_, get_chat_notification_settings_object(&notification_settings_),
+      std::move(draft_message));
 }
 
 }  // namespace td

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,6 +19,7 @@
 #include "td/telegram/MessageContent.h"
 #include "td/telegram/MessageContentType.h"
 #include "td/telegram/MessageCopyOptions.h"
+#include "td/telegram/MessageCover.h"
 #include "td/telegram/MessageEntity.h"
 #include "td/telegram/MessageId.h"
 #include "td/telegram/MessageQueryManager.h"
@@ -28,7 +29,6 @@
 #include "td/telegram/MessageTopic.h"
 #include "td/telegram/misc.h"
 #include "td/telegram/OptionManager.h"
-#include "td/telegram/Photo.h"
 #include "td/telegram/ReplyMarkup.h"
 #include "td/telegram/SavedMessagesTopicId.h"
 #include "td/telegram/ServerMessageId.h"
@@ -194,8 +194,8 @@ class BusinessConnectionManager::SendBusinessMessageQuery final : public Td::Res
             flags, message_->disable_web_page_preview_, message_->disable_notification_, false, false,
             message_->noforwards_, false, message_->invert_media_, false, std::move(input_peer), std::move(reply_to),
             message_text->text, message_->random_id_,
-            get_input_reply_markup(td_->user_manager_.get(), message_->reply_markup_), std::move(entities), 0, nullptr,
-            nullptr, message_->effect_id_.get(), 0, nullptr),
+            get_input_reply_markup(td_->user_manager_.get(), message_->reply_markup_), std::move(entities), 0, 0,
+            nullptr, nullptr, message_->effect_id_.get(), 0, nullptr),
         td_->business_connection_manager_->get_business_connection_dc_id(message_->business_connection_id_),
         {{message_->dialog_id_}}));
   }
@@ -259,8 +259,8 @@ class BusinessConnectionManager::SendBusinessMediaQuery final : public Td::Resul
             flags, message_->disable_notification_, false, false, message_->noforwards_, false, message_->invert_media_,
             false, std::move(input_peer), std::move(reply_to), std::move(input_media),
             message_text == nullptr ? string() : message_text->text, message_->random_id_,
-            get_input_reply_markup(td_->user_manager_.get(), message_->reply_markup_), std::move(entities), 0, nullptr,
-            nullptr, message_->effect_id_.get(), 0, nullptr),
+            get_input_reply_markup(td_->user_manager_.get(), message_->reply_markup_), std::move(entities), 0, 0,
+            nullptr, nullptr, message_->effect_id_.get(), 0, nullptr),
         td_->business_connection_manager_->get_business_connection_dc_id(message_->business_connection_id_),
         {{message_->dialog_id_}}));
   }
@@ -452,7 +452,7 @@ class BusinessConnectionManager::EditBusinessMessageQuery final : public Td::Res
         telegram_api::messages_editMessage(flags, disable_web_page_preview, invert_media, std::move(input_peer),
                                            server_message_id, text == nullptr ? string() : text->text,
                                            std::move(input_media), std::move(input_reply_markup), std::move(entities),
-                                           0, 0),
+                                           0, 0, 0),
         td_->business_connection_manager_->get_business_connection_dc_id(business_connection_id_), {{dialog_id}}));
   }
 
@@ -499,16 +499,16 @@ class BusinessConnectionManager::StopBusinessPollQuery final : public Td::Result
     }
 
     auto poll = telegram_api::make_object<telegram_api::poll>(
-        0, 0, true, false, false, false, telegram_api::make_object<telegram_api::textWithEntities>(string(), Auto()),
-        Auto(), 0, 0);
-    auto input_media = telegram_api::make_object<telegram_api::inputMediaPoll>(0, std::move(poll),
-                                                                               vector<BufferSlice>(), string(), Auto());
+        0, 0, true, false, false, false, false, false, false, false, true,
+        telegram_api::make_object<telegram_api::textWithEntities>(string(), Auto()), Auto(), 0, 0, 0);
+    auto input_media = telegram_api::make_object<telegram_api::inputMediaPoll>(0, std::move(poll), vector<int32>(),
+                                                                               nullptr, string(), Auto(), nullptr);
     int32 server_message_id = message_id.get_server_message_id().get();
     send_query(G()->net_query_creator().create_with_prefix(
         business_connection_id.get_invoke_prefix(),
         telegram_api::messages_editMessage(flags, false, false, std::move(input_peer), server_message_id, string(),
                                            std::move(input_media), std::move(input_reply_markup),
-                                           vector<telegram_api::object_ptr<telegram_api::MessageEntity>>(), 0, 0),
+                                           vector<telegram_api::object_ptr<telegram_api::MessageEntity>>(), 0, 0, 0),
         td_->business_connection_manager_->get_business_connection_dc_id(business_connection_id), {{dialog_id}}));
   }
 
@@ -1167,8 +1167,11 @@ MessageInputReplyTo BusinessConnectionManager::create_business_message_input_rep
       if (!message_id.is_server()) {
         return {};
       }
+      if (!clean_input_string(reply_to_message->poll_option_id_)) {
+        reply_to_message->poll_option_id_.clear();
+      }
       return MessageInputReplyTo{message_id, DialogId(), MessageQuote(td_, std::move(reply_to_message->quote_)),
-                                 max(0, reply_to_message->checklist_task_id_)};
+                                 max(0, reply_to_message->checklist_task_id_), reply_to_message->poll_option_id_};
     }
     case td_api::inputMessageReplyToExternalMessage::ID:
       return {};
@@ -1541,7 +1544,7 @@ void BusinessConnectionManager::do_send_message_album(int64 request_id, Business
                                                       bool disable_notification, bool protect_content,
                                                       MessageEffectId effect_id,
                                                       vector<InputMessageContent> &&message_contents) {
-  vector<const Photo *> covers;
+  vector<MessageCover> covers;
   for (auto &content : message_contents) {
     append(covers, get_message_content_need_to_upload_covers(td_, content.content.get()));
   }

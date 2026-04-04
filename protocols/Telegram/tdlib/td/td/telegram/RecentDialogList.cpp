@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -47,7 +47,7 @@ void RecentDialogList::save_dialogs() const {
     sb << ',';
     if (!G()->use_chat_info_database()) {
       // if there is no dialog info database, prefer to save dialogs by username
-      string username;
+      Slice username;
       switch (dialog_id.get_type()) {
         case DialogType::User:
           if (!td_->user_manager_->is_user_contact(dialog_id.get_user_id())) {

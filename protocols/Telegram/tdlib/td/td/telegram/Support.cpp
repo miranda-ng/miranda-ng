@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,7 +30,7 @@ static td_api::object_ptr<td_api::userSupportInfo> get_user_support_info_object(
     result->author_ = std::move(info->author_);
     result->date_ = info->date_;
   }
-  result->message_ = get_formatted_text_object(td->user_manager_.get(), message, true, 0);
+  result->message_ = get_formatted_text_object(td->user_manager_.get(), message, true, -1);
   return result;
 }
 

@@ -58,6 +58,9 @@ bool downcast_call(Object &obj, const T &func) {
     case attachMenuPeerTypeBroadcast::ID:
       func(static_cast<attachMenuPeerTypeBroadcast &>(obj));
       return true;
+    case auctionBidLevel::ID:
+      func(static_cast<auctionBidLevel &>(obj));
+      return true;
     case authorization::ID:
       func(static_cast<authorization &>(obj));
       return true;
@@ -384,6 +387,9 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case channelAdminLogEventActionToggleAutotranslation::ID:
       func(static_cast<channelAdminLogEventActionToggleAutotranslation &>(obj));
+      return true;
+    case channelAdminLogEventActionParticipantEditRank::ID:
+      func(static_cast<channelAdminLogEventActionParticipantEditRank &>(obj));
       return true;
     case channelAdminLogEventsFilter::ID:
       func(static_cast<channelAdminLogEventsFilter &>(obj));
@@ -766,6 +772,12 @@ bool downcast_call(Object &obj, const T &func) {
     case groupCall::ID:
       func(static_cast<groupCall &>(obj));
       return true;
+    case groupCallDonor::ID:
+      func(static_cast<groupCallDonor &>(obj));
+      return true;
+    case groupCallMessage::ID:
+      func(static_cast<groupCallMessage &>(obj));
+      return true;
     case groupCallParticipant::ID:
       func(static_cast<groupCallParticipant &>(obj));
       return true;
@@ -1063,6 +1075,9 @@ bool downcast_call(Object &obj, const T &func) {
     case inputInvoiceStarGiftDropOriginalDetails::ID:
       func(static_cast<inputInvoiceStarGiftDropOriginalDetails &>(obj));
       return true;
+    case inputInvoiceStarGiftAuctionBid::ID:
+      func(static_cast<inputInvoiceStarGiftAuctionBid &>(obj));
+      return true;
     case inputMediaEmpty::ID:
       func(static_cast<inputMediaEmpty &>(obj));
       return true;
@@ -1120,6 +1135,9 @@ bool downcast_call(Object &obj, const T &func) {
     case inputMediaTodo::ID:
       func(static_cast<inputMediaTodo &>(obj));
       return true;
+    case inputMediaStakeDice::ID:
+      func(static_cast<inputMediaStakeDice &>(obj));
+      return true;
     case inputMessageID::ID:
       func(static_cast<inputMessageID &>(obj));
       return true;
@@ -1131,6 +1149,9 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case inputMessageCallbackQuery::ID:
       func(static_cast<inputMessageCallbackQuery &>(obj));
+      return true;
+    case inputMessageReadMetric::ID:
+      func(static_cast<inputMessageReadMetric &>(obj));
       return true;
     case inputNotifyPeer::ID:
       func(static_cast<inputNotifyPeer &>(obj));
@@ -1146,6 +1167,18 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case inputNotifyForumTopic::ID:
       func(static_cast<inputNotifyForumTopic &>(obj));
+      return true;
+    case inputPasskeyCredentialPublicKey::ID:
+      func(static_cast<inputPasskeyCredentialPublicKey &>(obj));
+      return true;
+    case inputPasskeyCredentialFirebasePNV::ID:
+      func(static_cast<inputPasskeyCredentialFirebasePNV &>(obj));
+      return true;
+    case inputPasskeyResponseRegister::ID:
+      func(static_cast<inputPasskeyResponseRegister &>(obj));
+      return true;
+    case inputPasskeyResponseLogin::ID:
+      func(static_cast<inputPasskeyResponseLogin &>(obj));
       return true;
     case inputPaymentCredentialsSaved::ID:
       func(static_cast<inputPaymentCredentialsSaved &>(obj));
@@ -1231,6 +1264,9 @@ bool downcast_call(Object &obj, const T &func) {
     case inputPrivacyKeyNoPaidMessages::ID:
       func(static_cast<inputPrivacyKeyNoPaidMessages &>(obj));
       return true;
+    case inputPrivacyKeySavedMusic::ID:
+      func(static_cast<inputPrivacyKeySavedMusic &>(obj));
+      return true;
     case inputPrivacyValueAllowContacts::ID:
       func(static_cast<inputPrivacyValueAllowContacts &>(obj));
       return true;
@@ -1302,6 +1338,12 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case inputSingleMedia::ID:
       func(static_cast<inputSingleMedia &>(obj));
+      return true;
+    case inputStarGiftAuction::ID:
+      func(static_cast<inputStarGiftAuction &>(obj));
+      return true;
+    case inputStarGiftAuctionSlug::ID:
+      func(static_cast<inputStarGiftAuctionSlug &>(obj));
       return true;
     case inputStarsTransaction::ID:
       func(static_cast<inputStarsTransaction &>(obj));
@@ -1503,6 +1545,9 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case keyboardButtonRow::ID:
       func(static_cast<keyboardButtonRow &>(obj));
+      return true;
+    case keyboardButtonStyle::ID:
+      func(static_cast<keyboardButtonStyle &>(obj));
       return true;
     case labeledPrice::ID:
       func(static_cast<labeledPrice &>(obj));
@@ -1738,6 +1783,33 @@ bool downcast_call(Object &obj, const T &func) {
     case messageActionSuggestBirthday::ID:
       func(static_cast<messageActionSuggestBirthday &>(obj));
       return true;
+    case messageActionStarGiftPurchaseOffer::ID:
+      func(static_cast<messageActionStarGiftPurchaseOffer &>(obj));
+      return true;
+    case messageActionStarGiftPurchaseOfferDeclined::ID:
+      func(static_cast<messageActionStarGiftPurchaseOfferDeclined &>(obj));
+      return true;
+    case messageActionNewCreatorPending::ID:
+      func(static_cast<messageActionNewCreatorPending &>(obj));
+      return true;
+    case messageActionChangeCreator::ID:
+      func(static_cast<messageActionChangeCreator &>(obj));
+      return true;
+    case messageActionNoForwardsToggle::ID:
+      func(static_cast<messageActionNoForwardsToggle &>(obj));
+      return true;
+    case messageActionNoForwardsRequest::ID:
+      func(static_cast<messageActionNoForwardsRequest &>(obj));
+      return true;
+    case messageActionPollAppendAnswer::ID:
+      func(static_cast<messageActionPollAppendAnswer &>(obj));
+      return true;
+    case messageActionPollDeleteAnswer::ID:
+      func(static_cast<messageActionPollDeleteAnswer &>(obj));
+      return true;
+    case messageActionManagedBotCreated::ID:
+      func(static_cast<messageActionManagedBotCreated &>(obj));
+      return true;
     case messageEntityUnknown::ID:
       func(static_cast<messageEntityUnknown &>(obj));
       return true;
@@ -1801,6 +1873,18 @@ bool downcast_call(Object &obj, const T &func) {
     case messageEntityBlockquote::ID:
       func(static_cast<messageEntityBlockquote &>(obj));
       return true;
+    case messageEntityFormattedDate::ID:
+      func(static_cast<messageEntityFormattedDate &>(obj));
+      return true;
+    case messageEntityDiffInsert::ID:
+      func(static_cast<messageEntityDiffInsert &>(obj));
+      return true;
+    case messageEntityDiffReplace::ID:
+      func(static_cast<messageEntityDiffReplace &>(obj));
+      return true;
+    case messageEntityDiffDelete::ID:
+      func(static_cast<messageEntityDiffDelete &>(obj));
+      return true;
     case messageExtendedMediaPreview::ID:
       func(static_cast<messageExtendedMediaPreview &>(obj));
       return true;
@@ -1863,6 +1947,9 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case messageMediaToDo::ID:
       func(static_cast<messageMediaToDo &>(obj));
+      return true;
+    case messageMediaVideoStream::ID:
+      func(static_cast<messageMediaVideoStream &>(obj));
       return true;
     case messagePeerReaction::ID:
       func(static_cast<messagePeerReaction &>(obj));
@@ -1950,6 +2037,9 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case inputMessagesFilterPinned::ID:
       func(static_cast<inputMessagesFilterPinned &>(obj));
+      return true;
+    case inputMessagesFilterPoll::ID:
+      func(static_cast<inputMessagesFilterPoll &>(obj));
       return true;
     case missingInvitee::ID:
       func(static_cast<missingInvitee &>(obj));
@@ -2113,6 +2203,9 @@ bool downcast_call(Object &obj, const T &func) {
     case paidReactionPrivacyPeer::ID:
       func(static_cast<paidReactionPrivacyPeer &>(obj));
       return true;
+    case passkey::ID:
+      func(static_cast<passkey &>(obj));
+      return true;
     case passwordKdfAlgoUnknown::ID:
       func(static_cast<passwordKdfAlgoUnknown &>(obj));
       return true;
@@ -2242,6 +2335,9 @@ bool downcast_call(Object &obj, const T &func) {
     case pollAnswer::ID:
       func(static_cast<pollAnswer &>(obj));
       return true;
+    case inputPollAnswer::ID:
+      func(static_cast<inputPollAnswer &>(obj));
+      return true;
     case pollAnswerVoters::ID:
       func(static_cast<pollAnswerVoters &>(obj));
       return true;
@@ -2310,6 +2406,9 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case privacyKeyNoPaidMessages::ID:
       func(static_cast<privacyKeyNoPaidMessages &>(obj));
+      return true;
+    case privacyKeySavedMusic::ID:
+      func(static_cast<privacyKeySavedMusic &>(obj));
       return true;
     case privacyValueAllowContacts::ID:
       func(static_cast<privacyValueAllowContacts &>(obj));
@@ -2425,6 +2524,9 @@ bool downcast_call(Object &obj, const T &func) {
     case recentMeUrlStickerSet::ID:
       func(static_cast<recentMeUrlStickerSet &>(obj));
       return true;
+    case recentStory::ID:
+      func(static_cast<recentStory &>(obj));
+      return true;
     case replyKeyboardHide::ID:
       func(static_cast<replyKeyboardHide &>(obj));
       return true;
@@ -2484,6 +2586,9 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case requestPeerTypeBroadcast::ID:
       func(static_cast<requestPeerTypeBroadcast &>(obj));
+      return true;
+    case requestPeerTypeCreateBot::ID:
+      func(static_cast<requestPeerTypeCreateBot &>(obj));
       return true;
     case requestedPeerUser::ID:
       func(static_cast<requestedPeerUser &>(obj));
@@ -2767,6 +2872,9 @@ bool downcast_call(Object &obj, const T &func) {
     case starGiftUnique::ID:
       func(static_cast<starGiftUnique &>(obj));
       return true;
+    case starGiftActiveAuctionState::ID:
+      func(static_cast<starGiftActiveAuctionState &>(obj));
+      return true;
     case starGiftAttributeModel::ID:
       func(static_cast<starGiftAttributeModel &>(obj));
       return true;
@@ -2790,6 +2898,45 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case starGiftAttributeIdBackdrop::ID:
       func(static_cast<starGiftAttributeIdBackdrop &>(obj));
+      return true;
+    case starGiftAttributeRarity::ID:
+      func(static_cast<starGiftAttributeRarity &>(obj));
+      return true;
+    case starGiftAttributeRarityUncommon::ID:
+      func(static_cast<starGiftAttributeRarityUncommon &>(obj));
+      return true;
+    case starGiftAttributeRarityRare::ID:
+      func(static_cast<starGiftAttributeRarityRare &>(obj));
+      return true;
+    case starGiftAttributeRarityEpic::ID:
+      func(static_cast<starGiftAttributeRarityEpic &>(obj));
+      return true;
+    case starGiftAttributeRarityLegendary::ID:
+      func(static_cast<starGiftAttributeRarityLegendary &>(obj));
+      return true;
+    case starGiftAuctionAcquiredGift::ID:
+      func(static_cast<starGiftAuctionAcquiredGift &>(obj));
+      return true;
+    case starGiftAuctionRound::ID:
+      func(static_cast<starGiftAuctionRound &>(obj));
+      return true;
+    case starGiftAuctionRoundExtendable::ID:
+      func(static_cast<starGiftAuctionRoundExtendable &>(obj));
+      return true;
+    case starGiftAuctionStateNotModified::ID:
+      func(static_cast<starGiftAuctionStateNotModified &>(obj));
+      return true;
+    case starGiftAuctionState::ID:
+      func(static_cast<starGiftAuctionState &>(obj));
+      return true;
+    case starGiftAuctionStateFinished::ID:
+      func(static_cast<starGiftAuctionStateFinished &>(obj));
+      return true;
+    case starGiftAuctionUserState::ID:
+      func(static_cast<starGiftAuctionUserState &>(obj));
+      return true;
+    case starGiftBackground::ID:
+      func(static_cast<starGiftBackground &>(obj));
       return true;
     case starGiftCollection::ID:
       func(static_cast<starGiftCollection &>(obj));
@@ -3445,6 +3592,27 @@ bool downcast_call(Object &obj, const T &func) {
     case updatePinnedForumTopics::ID:
       func(static_cast<updatePinnedForumTopics &>(obj));
       return true;
+    case updateDeleteGroupCallMessages::ID:
+      func(static_cast<updateDeleteGroupCallMessages &>(obj));
+      return true;
+    case updateStarGiftAuctionState::ID:
+      func(static_cast<updateStarGiftAuctionState &>(obj));
+      return true;
+    case updateStarGiftAuctionUserState::ID:
+      func(static_cast<updateStarGiftAuctionUserState &>(obj));
+      return true;
+    case updateEmojiGameInfo::ID:
+      func(static_cast<updateEmojiGameInfo &>(obj));
+      return true;
+    case updateStarGiftCraftFail::ID:
+      func(static_cast<updateStarGiftCraftFail &>(obj));
+      return true;
+    case updateChatParticipantRank::ID:
+      func(static_cast<updateChatParticipantRank &>(obj));
+      return true;
+    case updateManagedBot::ID:
+      func(static_cast<updateManagedBot &>(obj));
+      return true;
     case updatesTooLong::ID:
       func(static_cast<updatesTooLong &>(obj));
       return true;
@@ -3565,6 +3733,9 @@ bool downcast_call(Object &obj, const T &func) {
     case webPageAttributeStarGiftCollection::ID:
       func(static_cast<webPageAttributeStarGiftCollection &>(obj));
       return true;
+    case webPageAttributeStarGiftAuction::ID:
+      func(static_cast<webPageAttributeStarGiftAuction &>(obj));
+      return true;
     case webViewMessageSent::ID:
       func(static_cast<webViewMessageSent &>(obj));
       return true;
@@ -3612,6 +3783,12 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case account_paidMessagesRevenue::ID:
       func(static_cast<account_paidMessagesRevenue &>(obj));
+      return true;
+    case account_passkeyRegistrationOptions::ID:
+      func(static_cast<account_passkeyRegistrationOptions &>(obj));
+      return true;
+    case account_passkeys::ID:
+      func(static_cast<account_passkeys &>(obj));
       return true;
     case account_password::ID:
       func(static_cast<account_password &>(obj));
@@ -3715,6 +3892,9 @@ bool downcast_call(Object &obj, const T &func) {
     case auth_loginTokenSuccess::ID:
       func(static_cast<auth_loginTokenSuccess &>(obj));
       return true;
+    case auth_passkeyLoginOptions::ID:
+      func(static_cast<auth_passkeyLoginOptions &>(obj));
+      return true;
     case auth_passwordRecovery::ID:
       func(static_cast<auth_passwordRecovery &>(obj));
       return true;
@@ -3763,11 +3943,17 @@ bool downcast_call(Object &obj, const T &func) {
     case bots_botInfo::ID:
       func(static_cast<bots_botInfo &>(obj));
       return true;
+    case bots_exportedBotToken::ID:
+      func(static_cast<bots_exportedBotToken &>(obj));
+      return true;
     case bots_popularAppBots::ID:
       func(static_cast<bots_popularAppBots &>(obj));
       return true;
     case bots_previewInfo::ID:
       func(static_cast<bots_previewInfo &>(obj));
+      return true;
+    case bots_requestedButton::ID:
+      func(static_cast<bots_requestedButton &>(obj));
       return true;
     case channels_adminLogResults::ID:
       func(static_cast<channels_adminLogResults &>(obj));
@@ -4006,6 +4192,9 @@ bool downcast_call(Object &obj, const T &func) {
     case messages_checkedHistoryImportPeer::ID:
       func(static_cast<messages_checkedHistoryImportPeer &>(obj));
       return true;
+    case messages_composedMessageWithAI::ID:
+      func(static_cast<messages_composedMessageWithAI &>(obj));
+      return true;
     case messages_dhConfigNotModified::ID:
       func(static_cast<messages_dhConfigNotModified &>(obj));
       return true;
@@ -4026,6 +4215,15 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case messages_discussionMessage::ID:
       func(static_cast<messages_discussionMessage &>(obj));
+      return true;
+    case messages_emojiGameUnavailable::ID:
+      func(static_cast<messages_emojiGameUnavailable &>(obj));
+      return true;
+    case messages_emojiGameDiceInfo::ID:
+      func(static_cast<messages_emojiGameDiceInfo &>(obj));
+      return true;
+    case messages_emojiGameOutcome::ID:
+      func(static_cast<messages_emojiGameOutcome &>(obj));
       return true;
     case messages_emojiGroupsNotModified::ID:
       func(static_cast<messages_emojiGroupsNotModified &>(obj));
@@ -4264,11 +4462,26 @@ bool downcast_call(Object &obj, const T &func) {
     case payments_savedStarGifts::ID:
       func(static_cast<payments_savedStarGifts &>(obj));
       return true;
+    case payments_starGiftActiveAuctionsNotModified::ID:
+      func(static_cast<payments_starGiftActiveAuctionsNotModified &>(obj));
+      return true;
+    case payments_starGiftActiveAuctions::ID:
+      func(static_cast<payments_starGiftActiveAuctions &>(obj));
+      return true;
+    case payments_starGiftAuctionAcquiredGifts::ID:
+      func(static_cast<payments_starGiftAuctionAcquiredGifts &>(obj));
+      return true;
+    case payments_starGiftAuctionState::ID:
+      func(static_cast<payments_starGiftAuctionState &>(obj));
+      return true;
     case payments_starGiftCollectionsNotModified::ID:
       func(static_cast<payments_starGiftCollectionsNotModified &>(obj));
       return true;
     case payments_starGiftCollections::ID:
       func(static_cast<payments_starGiftCollections &>(obj));
+      return true;
+    case payments_starGiftUpgradeAttributes::ID:
+      func(static_cast<payments_starGiftUpgradeAttributes &>(obj));
       return true;
     case payments_starGiftUpgradePreview::ID:
       func(static_cast<payments_starGiftUpgradePreview &>(obj));
@@ -4311,6 +4524,9 @@ bool downcast_call(Object &obj, const T &func) {
       return true;
     case phone_groupCall::ID:
       func(static_cast<phone_groupCall &>(obj));
+      return true;
+    case phone_groupCallStars::ID:
+      func(static_cast<phone_groupCallStars &>(obj));
       return true;
     case phone_groupCallStreamChannels::ID:
       func(static_cast<phone_groupCallStreamChannels &>(obj));
@@ -4542,6 +4758,9 @@ bool downcast_call(Function &obj, const T &func) {
     case account_deleteBusinessChatLink::ID:
       func(static_cast<account_deleteBusinessChatLink &>(obj));
       return true;
+    case account_deletePasskey::ID:
+      func(static_cast<account_deletePasskey &>(obj));
+      return true;
     case account_deleteSecureValue::ID:
       func(static_cast<account_deleteSecureValue &>(obj));
       return true;
@@ -4626,6 +4845,9 @@ bool downcast_call(Function &obj, const T &func) {
     case account_getPaidMessagesRevenue::ID:
       func(static_cast<account_getPaidMessagesRevenue &>(obj));
       return true;
+    case account_getPasskeys::ID:
+      func(static_cast<account_getPasskeys &>(obj));
+      return true;
     case account_getPassword::ID:
       func(static_cast<account_getPassword &>(obj));
       return true;
@@ -4671,6 +4893,9 @@ bool downcast_call(Function &obj, const T &func) {
     case account_getWebAuthorizations::ID:
       func(static_cast<account_getWebAuthorizations &>(obj));
       return true;
+    case account_initPasskeyRegistration::ID:
+      func(static_cast<account_initPasskeyRegistration &>(obj));
+      return true;
     case account_initTakeoutSession::ID:
       func(static_cast<account_initTakeoutSession &>(obj));
       return true;
@@ -4685,6 +4910,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case account_registerDevice::ID:
       func(static_cast<account_registerDevice &>(obj));
+      return true;
+    case account_registerPasskey::ID:
+      func(static_cast<account_registerPasskey &>(obj));
       return true;
     case account_reorderUsernames::ID:
       func(static_cast<account_reorderUsernames &>(obj));
@@ -4884,6 +5112,9 @@ bool downcast_call(Function &obj, const T &func) {
     case auth_exportLoginToken::ID:
       func(static_cast<auth_exportLoginToken &>(obj));
       return true;
+    case auth_finishPasskeyLogin::ID:
+      func(static_cast<auth_finishPasskeyLogin &>(obj));
+      return true;
     case auth_importAuthorization::ID:
       func(static_cast<auth_importAuthorization &>(obj));
       return true;
@@ -4895,6 +5126,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case auth_importWebTokenAuthorization::ID:
       func(static_cast<auth_importWebTokenAuthorization &>(obj));
+      return true;
+    case auth_initPasskeyLogin::ID:
+      func(static_cast<auth_initPasskeyLogin &>(obj));
       return true;
     case auth_logOut::ID:
       func(static_cast<auth_logOut &>(obj));
@@ -4944,11 +5178,20 @@ bool downcast_call(Function &obj, const T &func) {
     case bots_checkDownloadFileParams::ID:
       func(static_cast<bots_checkDownloadFileParams &>(obj));
       return true;
+    case bots_checkUsername::ID:
+      func(static_cast<bots_checkUsername &>(obj));
+      return true;
+    case bots_createBot::ID:
+      func(static_cast<bots_createBot &>(obj));
+      return true;
     case bots_deletePreviewMedia::ID:
       func(static_cast<bots_deletePreviewMedia &>(obj));
       return true;
     case bots_editPreviewMedia::ID:
       func(static_cast<bots_editPreviewMedia &>(obj));
+      return true;
+    case bots_exportBotToken::ID:
+      func(static_cast<bots_exportBotToken &>(obj));
       return true;
     case bots_getAdminedBots::ID:
       func(static_cast<bots_getAdminedBots &>(obj));
@@ -4974,6 +5217,9 @@ bool downcast_call(Function &obj, const T &func) {
     case bots_getPreviewMedias::ID:
       func(static_cast<bots_getPreviewMedias &>(obj));
       return true;
+    case bots_getRequestedWebViewButton::ID:
+      func(static_cast<bots_getRequestedWebViewButton &>(obj));
+      return true;
     case bots_invokeWebViewCustomMethod::ID:
       func(static_cast<bots_invokeWebViewCustomMethod &>(obj));
       return true;
@@ -4982,6 +5228,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case bots_reorderUsernames::ID:
       func(static_cast<bots_reorderUsernames &>(obj));
+      return true;
+    case bots_requestWebViewButton::ID:
+      func(static_cast<bots_requestWebViewButton &>(obj));
       return true;
     case bots_resetBotCommands::ID:
       func(static_cast<bots_resetBotCommands &>(obj));
@@ -5051,9 +5300,6 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case channels_editBanned::ID:
       func(static_cast<channels_editBanned &>(obj));
-      return true;
-    case channels_editCreator::ID:
-      func(static_cast<channels_editCreator &>(obj));
       return true;
     case channels_editLocation::ID:
       func(static_cast<channels_editLocation &>(obj));
@@ -5430,6 +5676,9 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_addChatUser::ID:
       func(static_cast<messages_addChatUser &>(obj));
       return true;
+    case messages_addPollAnswer::ID:
+      func(static_cast<messages_addPollAnswer &>(obj));
+      return true;
     case messages_appendTodoList::ID:
       func(static_cast<messages_appendTodoList &>(obj));
       return true;
@@ -5445,6 +5694,9 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_checkQuickReplyShortcut::ID:
       func(static_cast<messages_checkQuickReplyShortcut &>(obj));
       return true;
+    case messages_checkUrlAuthMatchCode::ID:
+      func(static_cast<messages_checkUrlAuthMatchCode &>(obj));
+      return true;
     case messages_clearAllDrafts::ID:
       func(static_cast<messages_clearAllDrafts &>(obj));
       return true;
@@ -5457,11 +5709,17 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_clickSponsoredMessage::ID:
       func(static_cast<messages_clickSponsoredMessage &>(obj));
       return true;
+    case messages_composeMessageWithAI::ID:
+      func(static_cast<messages_composeMessageWithAI &>(obj));
+      return true;
     case messages_createChat::ID:
       func(static_cast<messages_createChat &>(obj));
       return true;
     case messages_createForumTopic::ID:
       func(static_cast<messages_createForumTopic &>(obj));
+      return true;
+    case messages_declineUrlAuth::ID:
+      func(static_cast<messages_declineUrlAuth &>(obj));
       return true;
     case messages_deleteChat::ID:
       func(static_cast<messages_deleteChat &>(obj));
@@ -5483,6 +5741,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case messages_deletePhoneCallHistory::ID:
       func(static_cast<messages_deletePhoneCallHistory &>(obj));
+      return true;
+    case messages_deletePollAnswer::ID:
+      func(static_cast<messages_deletePollAnswer &>(obj));
       return true;
     case messages_deleteQuickReplyMessages::ID:
       func(static_cast<messages_deleteQuickReplyMessages &>(obj));
@@ -5511,8 +5772,14 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_editChatAdmin::ID:
       func(static_cast<messages_editChatAdmin &>(obj));
       return true;
+    case messages_editChatCreator::ID:
+      func(static_cast<messages_editChatCreator &>(obj));
+      return true;
     case messages_editChatDefaultBannedRights::ID:
       func(static_cast<messages_editChatDefaultBannedRights &>(obj));
+      return true;
+    case messages_editChatParticipantRank::ID:
+      func(static_cast<messages_editChatParticipantRank &>(obj));
       return true;
     case messages_editChatPhoto::ID:
       func(static_cast<messages_editChatPhoto &>(obj));
@@ -5616,6 +5883,9 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_getDocumentByHash::ID:
       func(static_cast<messages_getDocumentByHash &>(obj));
       return true;
+    case messages_getEmojiGameInfo::ID:
+      func(static_cast<messages_getEmojiGameInfo &>(obj));
+      return true;
     case messages_getEmojiGroups::ID:
       func(static_cast<messages_getEmojiGroups &>(obj));
       return true;
@@ -5672,6 +5942,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case messages_getFullChat::ID:
       func(static_cast<messages_getFullChat &>(obj));
+      return true;
+    case messages_getFutureChatCreatorAfterLeave::ID:
+      func(static_cast<messages_getFutureChatCreatorAfterLeave &>(obj));
       return true;
     case messages_getGameHighScores::ID:
       func(static_cast<messages_getGameHighScores &>(obj));
@@ -5811,6 +6084,9 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_getUnreadMentions::ID:
       func(static_cast<messages_getUnreadMentions &>(obj));
       return true;
+    case messages_getUnreadPollVotes::ID:
+      func(static_cast<messages_getUnreadPollVotes &>(obj));
+      return true;
     case messages_getUnreadReactions::ID:
       func(static_cast<messages_getUnreadReactions &>(obj));
       return true;
@@ -5868,6 +6144,9 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_readMessageContents::ID:
       func(static_cast<messages_readMessageContents &>(obj));
       return true;
+    case messages_readPollVotes::ID:
+      func(static_cast<messages_readPollVotes &>(obj));
+      return true;
     case messages_readReactions::ID:
       func(static_cast<messages_readReactions &>(obj));
       return true;
@@ -5904,8 +6183,14 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_reportMessagesDelivery::ID:
       func(static_cast<messages_reportMessagesDelivery &>(obj));
       return true;
+    case messages_reportMusicListen::ID:
+      func(static_cast<messages_reportMusicListen &>(obj));
+      return true;
     case messages_reportReaction::ID:
       func(static_cast<messages_reportReaction &>(obj));
+      return true;
+    case messages_reportReadMetrics::ID:
+      func(static_cast<messages_reportReadMetrics &>(obj));
       return true;
     case messages_reportSpam::ID:
       func(static_cast<messages_reportSpam &>(obj));
@@ -6063,6 +6348,9 @@ bool downcast_call(Function &obj, const T &func) {
     case messages_startHistoryImport::ID:
       func(static_cast<messages_startHistoryImport &>(obj));
       return true;
+    case messages_summarizeText::ID:
+      func(static_cast<messages_summarizeText &>(obj));
+      return true;
     case messages_toggleBotInAttachMenu::ID:
       func(static_cast<messages_toggleBotInAttachMenu &>(obj));
       return true;
@@ -6165,6 +6453,9 @@ bool downcast_call(Function &obj, const T &func) {
     case payments_convertStarGift::ID:
       func(static_cast<payments_convertStarGift &>(obj));
       return true;
+    case payments_craftStarGift::ID:
+      func(static_cast<payments_craftStarGift &>(obj));
+      return true;
     case payments_createStarGiftCollection::ID:
       func(static_cast<payments_createStarGiftCollection &>(obj));
       return true;
@@ -6188,6 +6479,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case payments_getConnectedStarRefBots::ID:
       func(static_cast<payments_getConnectedStarRefBots &>(obj));
+      return true;
+    case payments_getCraftStarGifts::ID:
+      func(static_cast<payments_getCraftStarGifts &>(obj));
       return true;
     case payments_getGiveawayInfo::ID:
       func(static_cast<payments_getGiveawayInfo &>(obj));
@@ -6213,8 +6507,20 @@ bool downcast_call(Function &obj, const T &func) {
     case payments_getSavedStarGifts::ID:
       func(static_cast<payments_getSavedStarGifts &>(obj));
       return true;
+    case payments_getStarGiftActiveAuctions::ID:
+      func(static_cast<payments_getStarGiftActiveAuctions &>(obj));
+      return true;
+    case payments_getStarGiftAuctionAcquiredGifts::ID:
+      func(static_cast<payments_getStarGiftAuctionAcquiredGifts &>(obj));
+      return true;
+    case payments_getStarGiftAuctionState::ID:
+      func(static_cast<payments_getStarGiftAuctionState &>(obj));
+      return true;
     case payments_getStarGiftCollections::ID:
       func(static_cast<payments_getStarGiftCollections &>(obj));
+      return true;
+    case payments_getStarGiftUpgradeAttributes::ID:
+      func(static_cast<payments_getStarGiftUpgradeAttributes &>(obj));
       return true;
     case payments_getStarGiftUpgradePreview::ID:
       func(static_cast<payments_getStarGiftUpgradePreview &>(obj));
@@ -6273,11 +6579,17 @@ bool downcast_call(Function &obj, const T &func) {
     case payments_reorderStarGiftCollections::ID:
       func(static_cast<payments_reorderStarGiftCollections &>(obj));
       return true;
+    case payments_resolveStarGiftOffer::ID:
+      func(static_cast<payments_resolveStarGiftOffer &>(obj));
+      return true;
     case payments_saveStarGift::ID:
       func(static_cast<payments_saveStarGift &>(obj));
       return true;
     case payments_sendPaymentForm::ID:
       func(static_cast<payments_sendPaymentForm &>(obj));
+      return true;
+    case payments_sendStarGiftOffer::ID:
+      func(static_cast<payments_sendStarGiftOffer &>(obj));
       return true;
     case payments_sendStarsForm::ID:
       func(static_cast<payments_sendStarsForm &>(obj));
@@ -6324,6 +6636,12 @@ bool downcast_call(Function &obj, const T &func) {
     case phone_deleteConferenceCallParticipants::ID:
       func(static_cast<phone_deleteConferenceCallParticipants &>(obj));
       return true;
+    case phone_deleteGroupCallMessages::ID:
+      func(static_cast<phone_deleteGroupCallMessages &>(obj));
+      return true;
+    case phone_deleteGroupCallParticipantMessages::ID:
+      func(static_cast<phone_deleteGroupCallParticipantMessages &>(obj));
+      return true;
     case phone_discardCall::ID:
       func(static_cast<phone_discardCall &>(obj));
       return true;
@@ -6350,6 +6668,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case phone_getGroupCallJoinAs::ID:
       func(static_cast<phone_getGroupCallJoinAs &>(obj));
+      return true;
+    case phone_getGroupCallStars::ID:
+      func(static_cast<phone_getGroupCallStars &>(obj));
       return true;
     case phone_getGroupCallStreamChannels::ID:
       func(static_cast<phone_getGroupCallStreamChannels &>(obj));
@@ -6392,6 +6713,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case phone_saveDefaultGroupCallJoinAs::ID:
       func(static_cast<phone_saveDefaultGroupCallJoinAs &>(obj));
+      return true;
+    case phone_saveDefaultSendAs::ID:
+      func(static_cast<phone_saveDefaultSendAs &>(obj));
       return true;
     case phone_sendConferenceCallBroadcast::ID:
       func(static_cast<phone_sendConferenceCallBroadcast &>(obj));
@@ -6605,6 +6929,9 @@ bool downcast_call(Function &obj, const T &func) {
       return true;
     case stories_sendStory::ID:
       func(static_cast<stories_sendStory &>(obj));
+      return true;
+    case stories_startLive::ID:
+      func(static_cast<stories_startLive &>(obj));
       return true;
     case stories_toggleAllStoriesHidden::ID:
       func(static_cast<stories_toggleAllStoriesHidden &>(obj));
@@ -7081,6 +7408,9 @@ bool downcast_call(ChannelAdminLogEventAction &obj, const T &func) {
       return true;
     case channelAdminLogEventActionToggleAutotranslation::ID:
       func(static_cast<channelAdminLogEventActionToggleAutotranslation &>(obj));
+      return true;
+    case channelAdminLogEventActionParticipantEditRank::ID:
+      func(static_cast<channelAdminLogEventActionParticipantEditRank &>(obj));
       return true;
     default:
       return false;
@@ -8298,6 +8628,9 @@ bool downcast_call(InputInvoice &obj, const T &func) {
     case inputInvoiceStarGiftDropOriginalDetails::ID:
       func(static_cast<inputInvoiceStarGiftDropOriginalDetails &>(obj));
       return true;
+    case inputInvoiceStarGiftAuctionBid::ID:
+      func(static_cast<inputInvoiceStarGiftAuctionBid &>(obj));
+      return true;
     default:
       return false;
   }
@@ -8369,6 +8702,9 @@ bool downcast_call(InputMedia &obj, const T &func) {
     case inputMediaTodo::ID:
       func(static_cast<inputMediaTodo &>(obj));
       return true;
+    case inputMediaStakeDice::ID:
+      func(static_cast<inputMediaStakeDice &>(obj));
+      return true;
     default:
       return false;
   }
@@ -8423,6 +8759,46 @@ bool downcast_call(InputNotifyPeer &obj, const T &func) {
       return true;
     case inputNotifyForumTopic::ID:
       func(static_cast<inputNotifyForumTopic &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
+bool downcast_call(InputPasskeyCredential &obj, const T &func) {
+  switch (obj.get_id()) {
+    case inputPasskeyCredentialPublicKey::ID:
+      func(static_cast<inputPasskeyCredentialPublicKey &>(obj));
+      return true;
+    case inputPasskeyCredentialFirebasePNV::ID:
+      func(static_cast<inputPasskeyCredentialFirebasePNV &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
+bool downcast_call(InputPasskeyResponse &obj, const T &func) {
+  switch (obj.get_id()) {
+    case inputPasskeyResponseRegister::ID:
+      func(static_cast<inputPasskeyResponseRegister &>(obj));
+      return true;
+    case inputPasskeyResponseLogin::ID:
+      func(static_cast<inputPasskeyResponseLogin &>(obj));
       return true;
     default:
       return false;
@@ -8557,6 +8933,9 @@ bool downcast_call(InputPrivacyKey &obj, const T &func) {
       return true;
     case inputPrivacyKeyNoPaidMessages::ID:
       func(static_cast<inputPrivacyKeyNoPaidMessages &>(obj));
+      return true;
+    case inputPrivacyKeySavedMusic::ID:
+      func(static_cast<inputPrivacyKeySavedMusic &>(obj));
       return true;
     default:
       return false;
@@ -8693,6 +9072,26 @@ bool downcast_call(InputSecureFile &obj, const T &func) {
       return true;
     case inputSecureFile::ID:
       func(static_cast<inputSecureFile &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
+bool downcast_call(InputStarGiftAuction &obj, const T &func) {
+  switch (obj.get_id()) {
+    case inputStarGiftAuction::ID:
+      func(static_cast<inputStarGiftAuction &>(obj));
+      return true;
+    case inputStarGiftAuctionSlug::ID:
+      func(static_cast<inputStarGiftAuctionSlug &>(obj));
       return true;
     default:
       return false;
@@ -9289,6 +9688,33 @@ bool downcast_call(MessageAction &obj, const T &func) {
     case messageActionSuggestBirthday::ID:
       func(static_cast<messageActionSuggestBirthday &>(obj));
       return true;
+    case messageActionStarGiftPurchaseOffer::ID:
+      func(static_cast<messageActionStarGiftPurchaseOffer &>(obj));
+      return true;
+    case messageActionStarGiftPurchaseOfferDeclined::ID:
+      func(static_cast<messageActionStarGiftPurchaseOfferDeclined &>(obj));
+      return true;
+    case messageActionNewCreatorPending::ID:
+      func(static_cast<messageActionNewCreatorPending &>(obj));
+      return true;
+    case messageActionChangeCreator::ID:
+      func(static_cast<messageActionChangeCreator &>(obj));
+      return true;
+    case messageActionNoForwardsToggle::ID:
+      func(static_cast<messageActionNoForwardsToggle &>(obj));
+      return true;
+    case messageActionNoForwardsRequest::ID:
+      func(static_cast<messageActionNoForwardsRequest &>(obj));
+      return true;
+    case messageActionPollAppendAnswer::ID:
+      func(static_cast<messageActionPollAppendAnswer &>(obj));
+      return true;
+    case messageActionPollDeleteAnswer::ID:
+      func(static_cast<messageActionPollDeleteAnswer &>(obj));
+      return true;
+    case messageActionManagedBotCreated::ID:
+      func(static_cast<messageActionManagedBotCreated &>(obj));
+      return true;
     default:
       return false;
   }
@@ -9365,6 +9791,18 @@ bool downcast_call(MessageEntity &obj, const T &func) {
       return true;
     case messageEntityBlockquote::ID:
       func(static_cast<messageEntityBlockquote &>(obj));
+      return true;
+    case messageEntityFormattedDate::ID:
+      func(static_cast<messageEntityFormattedDate &>(obj));
+      return true;
+    case messageEntityDiffInsert::ID:
+      func(static_cast<messageEntityDiffInsert &>(obj));
+      return true;
+    case messageEntityDiffReplace::ID:
+      func(static_cast<messageEntityDiffReplace &>(obj));
+      return true;
+    case messageEntityDiffDelete::ID:
+      func(static_cast<messageEntityDiffDelete &>(obj));
       return true;
     default:
       return false;
@@ -9453,6 +9891,9 @@ bool downcast_call(MessageMedia &obj, const T &func) {
       return true;
     case messageMediaToDo::ID:
       func(static_cast<messageMediaToDo &>(obj));
+      return true;
+    case messageMediaVideoStream::ID:
+      func(static_cast<messageMediaVideoStream &>(obj));
       return true;
     default:
       return false;
@@ -9561,6 +10002,9 @@ bool downcast_call(MessagesFilter &obj, const T &func) {
       return true;
     case inputMessagesFilterPinned::ID:
       func(static_cast<inputMessagesFilterPinned &>(obj));
+      return true;
+    case inputMessagesFilterPoll::ID:
+      func(static_cast<inputMessagesFilterPoll &>(obj));
       return true;
     default:
       return false;
@@ -10012,6 +10456,26 @@ bool downcast_call(PhotoSize &obj, const T &func) {
  * \returns Whether function object call has happened. Should always return true for correct parameters.
  */
 template <class T>
+bool downcast_call(PollAnswer &obj, const T &func) {
+  switch (obj.get_id()) {
+    case pollAnswer::ID:
+      func(static_cast<pollAnswer &>(obj));
+      return true;
+    case inputPollAnswer::ID:
+      func(static_cast<inputPollAnswer &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
 bool downcast_call(PostInteractionCounters &obj, const T &func) {
   switch (obj.get_id()) {
     case postInteractionCountersMessage::ID:
@@ -10092,6 +10556,9 @@ bool downcast_call(PrivacyKey &obj, const T &func) {
       return true;
     case privacyKeyNoPaidMessages::ID:
       func(static_cast<privacyKeyNoPaidMessages &>(obj));
+      return true;
+    case privacyKeySavedMusic::ID:
+      func(static_cast<privacyKeySavedMusic &>(obj));
       return true;
     default:
       return false;
@@ -10391,6 +10858,9 @@ bool downcast_call(RequestPeerType &obj, const T &func) {
       return true;
     case requestPeerTypeBroadcast::ID:
       func(static_cast<requestPeerTypeBroadcast &>(obj));
+      return true;
+    case requestPeerTypeCreateBot::ID:
+      func(static_cast<requestPeerTypeCreateBot &>(obj));
       return true;
     default:
       return false;
@@ -10836,6 +11306,78 @@ bool downcast_call(StarGiftAttributeId &obj, const T &func) {
       return true;
     case starGiftAttributeIdBackdrop::ID:
       func(static_cast<starGiftAttributeIdBackdrop &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
+bool downcast_call(StarGiftAttributeRarity &obj, const T &func) {
+  switch (obj.get_id()) {
+    case starGiftAttributeRarity::ID:
+      func(static_cast<starGiftAttributeRarity &>(obj));
+      return true;
+    case starGiftAttributeRarityUncommon::ID:
+      func(static_cast<starGiftAttributeRarityUncommon &>(obj));
+      return true;
+    case starGiftAttributeRarityRare::ID:
+      func(static_cast<starGiftAttributeRarityRare &>(obj));
+      return true;
+    case starGiftAttributeRarityEpic::ID:
+      func(static_cast<starGiftAttributeRarityEpic &>(obj));
+      return true;
+    case starGiftAttributeRarityLegendary::ID:
+      func(static_cast<starGiftAttributeRarityLegendary &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
+bool downcast_call(StarGiftAuctionRound &obj, const T &func) {
+  switch (obj.get_id()) {
+    case starGiftAuctionRound::ID:
+      func(static_cast<starGiftAuctionRound &>(obj));
+      return true;
+    case starGiftAuctionRoundExtendable::ID:
+      func(static_cast<starGiftAuctionRoundExtendable &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
+bool downcast_call(StarGiftAuctionState &obj, const T &func) {
+  switch (obj.get_id()) {
+    case starGiftAuctionStateNotModified::ID:
+      func(static_cast<starGiftAuctionStateNotModified &>(obj));
+      return true;
+    case starGiftAuctionState::ID:
+      func(static_cast<starGiftAuctionState &>(obj));
+      return true;
+    case starGiftAuctionStateFinished::ID:
+      func(static_cast<starGiftAuctionStateFinished &>(obj));
       return true;
     default:
       return false;
@@ -11509,6 +12051,27 @@ bool downcast_call(Update &obj, const T &func) {
     case updatePinnedForumTopics::ID:
       func(static_cast<updatePinnedForumTopics &>(obj));
       return true;
+    case updateDeleteGroupCallMessages::ID:
+      func(static_cast<updateDeleteGroupCallMessages &>(obj));
+      return true;
+    case updateStarGiftAuctionState::ID:
+      func(static_cast<updateStarGiftAuctionState &>(obj));
+      return true;
+    case updateStarGiftAuctionUserState::ID:
+      func(static_cast<updateStarGiftAuctionUserState &>(obj));
+      return true;
+    case updateEmojiGameInfo::ID:
+      func(static_cast<updateEmojiGameInfo &>(obj));
+      return true;
+    case updateStarGiftCraftFail::ID:
+      func(static_cast<updateStarGiftCraftFail &>(obj));
+      return true;
+    case updateChatParticipantRank::ID:
+      func(static_cast<updateChatParticipantRank &>(obj));
+      return true;
+    case updateManagedBot::ID:
+      func(static_cast<updateManagedBot &>(obj));
+      return true;
     default:
       return false;
   }
@@ -11756,6 +12319,9 @@ bool downcast_call(WebPageAttribute &obj, const T &func) {
       return true;
     case webPageAttributeStarGiftCollection::ID:
       func(static_cast<webPageAttributeStarGiftCollection &>(obj));
+      return true;
+    case webPageAttributeStarGiftAuction::ID:
+      func(static_cast<webPageAttributeStarGiftAuction &>(obj));
       return true;
     default:
       return false;
@@ -12583,6 +13149,26 @@ bool downcast_call(messages_Dialogs &obj, const T &func) {
  * \returns Whether function object call has happened. Should always return true for correct parameters.
  */
 template <class T>
+bool downcast_call(messages_EmojiGameInfo &obj, const T &func) {
+  switch (obj.get_id()) {
+    case messages_emojiGameUnavailable::ID:
+      func(static_cast<messages_emojiGameUnavailable &>(obj));
+      return true;
+    case messages_emojiGameDiceInfo::ID:
+      func(static_cast<messages_emojiGameDiceInfo &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
 bool downcast_call(messages_EmojiGroups &obj, const T &func) {
   switch (obj.get_id()) {
     case messages_emojiGroupsNotModified::ID:
@@ -13042,6 +13628,26 @@ bool downcast_call(payments_PaymentResult &obj, const T &func) {
       return true;
     case payments_paymentVerificationNeeded::ID:
       func(static_cast<payments_paymentVerificationNeeded &>(obj));
+      return true;
+    default:
+      return false;
+  }
+}
+
+/**
+ * Calls the specified function object with the given object downcasted to its most derived type.
+ * \param[in] obj Object to pass as an argument to the function object.
+ * \param[in] func Function object to which the object will be passed.
+ * \returns Whether function object call has happened. Should always return true for correct parameters.
+ */
+template <class T>
+bool downcast_call(payments_StarGiftActiveAuctions &obj, const T &func) {
+  switch (obj.get_id()) {
+    case payments_starGiftActiveAuctionsNotModified::ID:
+      func(static_cast<payments_starGiftActiveAuctionsNotModified &>(obj));
+      return true;
+    case payments_starGiftActiveAuctions::ID:
+      func(static_cast<payments_starGiftActiveAuctions &>(obj));
       return true;
     default:
       return false;

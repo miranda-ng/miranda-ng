@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -26,6 +26,10 @@ class StickerSetId {
   }
   template <class T, typename = std::enable_if_t<std::is_convertible<T, int64>::value>>
   StickerSetId(T sticker_set_id) = delete;
+
+  static vector<StickerSetId> get_sticker_set_ids(const vector<int64> &sticker_set_ids);
+
+  static vector<int64> get_input_sticker_set_ids(const vector<StickerSetId> &sticker_set_ids);
 
   bool is_valid() const {
     return id != 0;

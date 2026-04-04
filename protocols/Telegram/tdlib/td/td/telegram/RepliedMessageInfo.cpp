@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -14,6 +14,7 @@
 #include "td/telegram/MessageCopyOptions.h"
 #include "td/telegram/MessageFullId.h"
 #include "td/telegram/MessagesManager.h"
+#include "td/telegram/MessageTopic.h"
 #include "td/telegram/OptionManager.h"
 #include "td/telegram/ScheduledServerMessageId.h"
 #include "td/telegram/ServerMessageId.h"
@@ -22,6 +23,7 @@
 
 #include "td/utils/algorithm.h"
 #include "td/utils/logging.h"
+#include "td/utils/utf8.h"
 
 namespace td {
 
@@ -120,15 +122,20 @@ RepliedMessageInfo::RepliedMessageInfo(Td *td, tl_object_ptr<telegram_api::messa
     quote_ = MessageQuote(td, reply_header);
   }
   todo_item_id_ = max(0, reply_header->todo_item_id_);
+  poll_option_id_ = reply_header->poll_option_.as_slice().str();
+  if (!check_utf8(poll_option_id_)) {
+    poll_option_id_.clear();
+  }
 }
 
-RepliedMessageInfo::RepliedMessageInfo(Td *td, const MessageInputReplyTo &input_reply_to) {
+RepliedMessageInfo::RepliedMessageInfo(Td *td, const MessageInputReplyTo &input_reply_to, const MessageTopic &topic) {
   if (!input_reply_to.message_id_.is_valid() && !input_reply_to.message_id_.is_valid_scheduled()) {
     return;
   }
   message_id_ = input_reply_to.message_id_;
   quote_ = input_reply_to.quote_.clone();
   todo_item_id_ = input_reply_to.todo_item_id_;
+  poll_option_id_ = input_reply_to.poll_option_id_;
   if (input_reply_to.dialog_id_ != DialogId() && input_reply_to.message_id_.is_valid()) {
     auto info =
         td->messages_manager_->get_forwarded_message_info({input_reply_to.dialog_id_, input_reply_to.message_id_});
@@ -145,6 +152,17 @@ RepliedMessageInfo::RepliedMessageInfo(Td *td, const MessageInputReplyTo &input_
         quote_ = MessageQuote::create_automatic_quote(td, std::move(*content_text));
       }
       *content_text = FormattedText();
+
+      if (content_->get_type() == MessageContentType::Text) {
+        auto content = get_message_content_object(content_.get(), td, DialogId(), MessageId(), false, true, DialogId(),
+                                                  0, false, true, -1, false, false);
+        if (content->get_id() == td_api::messageText::ID) {
+          const auto *message_text = static_cast<const td_api::messageText *>(content.get());
+          if (message_text->link_preview_ == nullptr && message_text->link_preview_options_ == nullptr) {
+            content_ = nullptr;
+          }
+        }
+      }
     }
     auto origin_message_full_id = origin_.get_message_full_id();
     if (origin_message_full_id.get_message_id().is_valid()) {
@@ -154,6 +172,10 @@ RepliedMessageInfo::RepliedMessageInfo(Td *td, const MessageInputReplyTo &input_
       dialog_id_ = input_reply_to.dialog_id_;
     } else {
       message_id_ = MessageId();
+
+      if (topic.is_forum() && !topic.is_forum_general()) {
+        message_id_ = topic.get_forum_topic_id().to_top_thread_message_id();
+      }
     }
   }
 }
@@ -170,6 +192,7 @@ RepliedMessageInfo RepliedMessageInfo::clone(Td *td) const {
   }
   result.quote_ = quote_.clone();
   result.todo_item_id_ = todo_item_id_;
+  result.poll_option_id_ = poll_option_id_;
   return result;
 }
 
@@ -245,6 +268,14 @@ bool RepliedMessageInfo::need_reply_changed_warning(
     // server ignored todo_item_id
     return false;
   }
+  if (!new_info.poll_option_id_.empty() && old_info.poll_option_id_.empty()) {
+    // a message received by an old version
+    return false;
+  }
+  if (is_yet_unsent && !old_info.poll_option_id_.empty() && new_info.poll_option_id_.empty()) {
+    // server ignored poll_option_id
+    return false;
+  }
   return true;
 }
 
@@ -280,12 +311,12 @@ vector<ChannelId> RepliedMessageInfo::get_min_channel_ids(Td *td) const {
   return channel_ids;
 }
 
-void RepliedMessageInfo::add_dependencies(Dependencies &dependencies, bool is_bot) const {
+void RepliedMessageInfo::add_dependencies(Dependencies &dependencies, UserId my_user_id, bool is_bot) const {
   dependencies.add_dialog_and_dependencies(dialog_id_);
   origin_.add_dependencies(dependencies);
   quote_.add_dependencies(dependencies);
   if (content_ != nullptr) {
-    add_message_content_dependencies(dependencies, content_.get(), is_bot);
+    add_message_content_dependencies(dependencies, content_.get(), my_user_id, is_bot);
   }
 }
 
@@ -329,14 +360,14 @@ td_api::object_ptr<td_api::messageReplyToMessage> RepliedMessageInfo::get_messag
   }
 
   return td_api::make_object<td_api::messageReplyToMessage>(
-      chat_id, message_id_.get(), quote_.get_text_quote_object(td->user_manager_.get()), todo_item_id_,
+      chat_id, message_id_.get(), quote_.get_text_quote_object(td->user_manager_.get()), todo_item_id_, poll_option_id_,
       std::move(origin), origin_date_, std::move(content));
 }
 
 MessageInputReplyTo RepliedMessageInfo::get_message_input_reply_to() const {
   CHECK(!is_external());
   if (message_id_.is_valid() || message_id_.is_valid_scheduled()) {
-    return MessageInputReplyTo(message_id_, dialog_id_, quote_.clone(true), todo_item_id_);
+    return MessageInputReplyTo(message_id_, dialog_id_, quote_.clone(true), todo_item_id_, poll_option_id_);
   }
   return {};
 }
@@ -345,7 +376,7 @@ MessageId RepliedMessageInfo::get_same_chat_reply_to_message_id(bool ignore_exte
   if (message_id_ == MessageId()) {
     return {};
   }
-  if (ignore_external && !origin_.is_empty()) {
+  if (!ignore_external && !origin_.is_empty()) {
     return {};
   }
   return dialog_id_ == DialogId() ? message_id_ : MessageId();
@@ -376,7 +407,7 @@ void RepliedMessageInfo::unregister_content(Td *td) const {
 bool operator==(const RepliedMessageInfo &lhs, const RepliedMessageInfo &rhs) {
   if (!(lhs.message_id_ == rhs.message_id_ && lhs.dialog_id_ == rhs.dialog_id_ &&
         lhs.origin_date_ == rhs.origin_date_ && lhs.origin_ == rhs.origin_ && lhs.quote_ == rhs.quote_ &&
-        lhs.todo_item_id_ == rhs.todo_item_id_)) {
+        lhs.todo_item_id_ == rhs.todo_item_id_ && lhs.poll_option_id_ == rhs.poll_option_id_)) {
     return false;
   }
   bool need_update = false;
@@ -402,6 +433,9 @@ StringBuilder &operator<<(StringBuilder &string_builder, const RepliedMessageInf
   }
   if (info.todo_item_id_ != 0) {
     string_builder << " to task " << info.todo_item_id_;
+  }
+  if (!info.poll_option_id_.empty()) {
+    string_builder << " to poll option " << info.poll_option_id_;
   }
   if (!info.quote_.is_empty()) {
     string_builder << info.quote_;

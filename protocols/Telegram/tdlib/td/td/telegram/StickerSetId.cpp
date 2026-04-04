@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,7 +10,17 @@
 #include "td/telegram/StickersManager.hpp"
 #include "td/telegram/Td.h"
 
+#include "td/utils/algorithm.h"
+
 namespace td {
+
+vector<StickerSetId> StickerSetId::get_sticker_set_ids(const vector<int64> &sticker_set_ids) {
+  return transform(sticker_set_ids, [](int64 sticker_set_id) { return StickerSetId(sticker_set_id); });
+}
+
+vector<int64> StickerSetId::get_input_sticker_set_ids(const vector<StickerSetId> &sticker_set_ids) {
+  return transform(sticker_set_ids, [](StickerSetId sticker_set_id) { return sticker_set_id.get(); });
+}
 
 void StickerSetId::store(LogEventStorerCalcLength &storer) const {
   storer.context()->td().get_actor_unsafe()->stickers_manager_->store_sticker_set_id(*this, storer);

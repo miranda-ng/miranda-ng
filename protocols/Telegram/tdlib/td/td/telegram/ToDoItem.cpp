@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,11 +8,10 @@
 
 #include "td/telegram/AuthManager.h"
 #include "td/telegram/Dependencies.h"
+#include "td/telegram/MessageSender.h"
 #include "td/telegram/OptionManager.h"
 #include "td/telegram/Td.h"
-#include "td/telegram/UserManager.h"
 
-#include "td/utils/algorithm.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
 #include "td/utils/SliceBuilder.h"
@@ -55,25 +54,7 @@ telegram_api::object_ptr<telegram_api::todoItem> ToDoItem::get_input_todo_item(c
 }
 
 bool ToDoItem::remove_unsupported_entities(FormattedText &text) {
-  return td::remove_if(text.entities, [&](const MessageEntity &entity) {
-    switch (entity.type) {
-      case MessageEntity::Type::Bold:
-      case MessageEntity::Type::Italic:
-      case MessageEntity::Type::Underline:
-      case MessageEntity::Type::Strikethrough:
-      case MessageEntity::Type::Spoiler:
-      case MessageEntity::Type::CustomEmoji:
-      case MessageEntity::Type::Url:
-      case MessageEntity::Type::EmailAddress:
-      case MessageEntity::Type::Mention:
-      case MessageEntity::Type::Hashtag:
-      case MessageEntity::Type::Cashtag:
-      case MessageEntity::Type::PhoneNumber:
-        return false;
-      default:
-        return true;
-    }
-  });
+  return remove_unallowed_quote_user_entities(text, true, true);
 }
 
 void ToDoItem::validate(const char *source) {
@@ -89,11 +70,10 @@ void ToDoItem::validate(const char *source) {
 td_api::object_ptr<td_api::checklistTask> ToDoItem::get_checklist_task_object(
     Td *td, const vector<ToDoCompletion> &completions) const {
   auto result = td_api::make_object<td_api::checklistTask>(
-      id_, get_formatted_text_object(td->user_manager_.get(), title_, true, -1), 0, 0);
+      id_, get_formatted_text_object(td->user_manager_.get(), title_, true, -1), nullptr, 0);
   for (auto &completion : completions) {
     if (completion.id_ == id_) {
-      result->completed_by_user_id_ =
-          td->user_manager_->get_user_id_object(completion.completed_by_user_id_, "checklistTask");
+      result->completed_by_ = get_message_sender_object(td, completion.completed_by_dialog_id_, "checklistTask");
       result->completion_date_ = completion.date_;
     }
   }

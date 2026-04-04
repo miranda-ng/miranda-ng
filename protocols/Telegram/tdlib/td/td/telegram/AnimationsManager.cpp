@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -148,7 +148,7 @@ int32 AnimationsManager::get_animation_duration(FileId file_id) const {
   return animation->duration;
 }
 
-tl_object_ptr<td_api::animation> AnimationsManager::get_animation_object(FileId file_id) const {
+td_api::object_ptr<td_api::animation> AnimationsManager::get_animation_object(FileId file_id) const {
   if (!file_id.is_valid()) {
     return nullptr;
   }
@@ -163,6 +163,11 @@ tl_object_ptr<td_api::animation> AnimationsManager::get_animation_object(FileId 
                                            animation->dimensions.height, animation->file_name, animation->mime_type,
                                            animation->has_stickers, get_minithumbnail_object(animation->minithumbnail),
                                            std::move(thumbnail), td_->file_manager_->get_file_object(file_id));
+}
+
+td_api::object_ptr<td_api::animations> AnimationsManager::get_animations_object(const vector<FileId> &file_ids) const {
+  return td_api::make_object<td_api::animations>(transform(
+      file_ids, [td = td_](FileId file_id) { return td->animations_manager_->get_animation_object(file_id); }));
 }
 
 FileId AnimationsManager::on_get_animation(unique_ptr<Animation> new_animation, bool replace) {
@@ -582,7 +587,7 @@ void AnimationsManager::on_get_saved_animations(
     }
     CHECK(document_constructor_id == telegram_api::document::ID);
     auto document = td_->documents_manager_->on_get_document(move_tl_object_as<telegram_api::document>(document_ptr),
-                                                             DialogId(), false);
+                                                             DialogId(), false, false);
     if (document.type != Document::Type::Animation) {
       LOG(ERROR) << "Receive " << document << " instead of animation as saved animation";
       continue;

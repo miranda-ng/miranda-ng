@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -31,6 +31,71 @@
 #include <type_traits>
 
 namespace td {
+
+class CreateBotQuery final : public Td::ResultHandler {
+  Promise<td_api::object_ptr<td_api::user>> promise_;
+
+ public:
+  explicit CreateBotQuery(Promise<td_api::object_ptr<td_api::user>> &&promise) : promise_(std::move(promise)) {
+  }
+
+  void send(UserId manager_bot_user_id, const string &name, const string &username, bool via_deeplink) {
+    auto r_input_user = td_->user_manager_->get_input_user(manager_bot_user_id);
+    if (r_input_user.is_error()) {
+      return on_error(r_input_user.move_as_error());
+    }
+    send_query(G()->net_query_creator().create(
+        telegram_api::bots_createBot(0, via_deeplink, name, username, r_input_user.move_as_ok())));
+  }
+
+  void on_result(BufferSlice packet) final {
+    auto result_ptr = fetch_result<telegram_api::bots_createBot>(packet);
+    if (result_ptr.is_error()) {
+      return on_error(result_ptr.move_as_error());
+    }
+
+    auto ptr = result_ptr.move_as_ok();
+    LOG(INFO) << "Receive result for CreateBotQuery: " << to_string(ptr);
+    auto user_id = UserManager::get_user_id(ptr);
+    td_->user_manager_->on_get_user(std::move(ptr), "CreateBotQuery");
+    promise_.set_value(td_->user_manager_->get_user_object(user_id));
+  }
+
+  void on_error(Status status) final {
+    promise_.set_error(std::move(status));
+  }
+};
+
+class ExportBotTokenQuery final : public Td::ResultHandler {
+  Promise<string> promise_;
+
+ public:
+  explicit ExportBotTokenQuery(Promise<string> &&promise) : promise_(std::move(promise)) {
+  }
+
+  void send(UserId bot_user_id, bool revoke) {
+    auto r_input_user = td_->user_manager_->get_input_user(bot_user_id);
+    if (r_input_user.is_error()) {
+      return on_error(r_input_user.move_as_error());
+    }
+    send_query(G()->net_query_creator().create(telegram_api::bots_exportBotToken(r_input_user.move_as_ok(), revoke)));
+  }
+
+  void on_result(BufferSlice packet) final {
+    auto result_ptr = fetch_result<telegram_api::bots_exportBotToken>(packet);
+    if (result_ptr.is_error()) {
+      return on_error(result_ptr.move_as_error());
+    }
+
+    auto ptr = result_ptr.move_as_ok();
+    LOG(INFO) << "Receive result for ExportBotTokenQuery: " << to_string(ptr);
+    promise_.set_value(std::move(ptr->token_));
+  }
+
+  void on_error(Status status) final {
+    promise_.set_error(std::move(status));
+  }
+};
 
 class GetAdminedBotsQuery final : public Td::ResultHandler {
   Promise<td_api::object_ptr<td_api::users>> promise_;
@@ -129,14 +194,14 @@ class SetBotBroadcastDefaultAdminRightsQuery final : public Td::ResultHandler {
 static td_api::object_ptr<td_api::botMediaPreview> convert_bot_media_preview(
     Td *td, telegram_api::object_ptr<telegram_api::botPreviewMedia> media, UserId bot_user_id,
     vector<FileId> &file_ids) {
-  auto content = get_story_content(td, std::move(media->media_), DialogId(bot_user_id));
+  auto content = get_story_content(td, std::move(media->media_), DialogId(bot_user_id), true);
   if (content == nullptr) {
     LOG(ERROR) << "Receive invalid media preview for " << bot_user_id;
     return nullptr;
   }
   append(file_ids, get_story_content_file_ids(td, content.get()));
-  return td_api::make_object<td_api::botMediaPreview>(max(media->date_, 0),
-                                                      get_story_content_object(td, content.get()));
+  return td_api::make_object<td_api::botMediaPreview>(
+      max(media->date_, 0), get_story_content_object(td, content.get(), DialogId(bot_user_id)));
 }
 
 class GetPreviewMediasQuery final : public Td::ResultHandler {
@@ -591,7 +656,8 @@ class SetCustomVerificationQuery final : public Td::ResultHandler {
   void send(telegram_api::object_ptr<telegram_api::InputUser> input_user, DialogId dialog_id, bool is_verified,
             const string &custom_description) {
     dialog_id_ = dialog_id;
-    auto input_peer = td_->dialog_manager_->get_input_peer(dialog_id, AccessRights::Read);
+    auto input_peer =
+        td_->dialog_manager_->get_input_peer(dialog_id, is_verified ? AccessRights::Read : AccessRights::Know);
     CHECK(input_peer != nullptr);
 
     int32 flags = 0;
@@ -715,6 +781,17 @@ void BotInfoManager::timeout_expired() {
         ->send(get_queries[i].bot_user_id_, get_queries[i].language_code_);
     i = j;
   }
+}
+
+void BotInfoManager::create_bot(UserId manager_bot_user_id, const string &name, const string &username,
+                                bool via_deeplink, Promise<td_api::object_ptr<td_api::user>> &&promise) {
+  TRY_RESULT_PROMISE(promise, bot_data, td_->user_manager_->get_bot_data(manager_bot_user_id));
+  td_->create_handler<CreateBotQuery>(std::move(promise))->send(manager_bot_user_id, name, username, via_deeplink);
+}
+
+void BotInfoManager::get_bot_token(UserId bot_user_id, bool revoke, Promise<string> &&promise) {
+  TRY_RESULT_PROMISE(promise, bot_data, td_->user_manager_->get_bot_data(bot_user_id));
+  td_->create_handler<ExportBotTokenQuery>(std::move(promise))->send(bot_user_id, revoke);
 }
 
 void BotInfoManager::get_owned_bots(Promise<td_api::object_ptr<td_api::users>> &&promise) {
@@ -968,8 +1045,8 @@ telegram_api::object_ptr<telegram_api::InputMedia> BotInfoManager::get_fake_inpu
       return telegram_api::make_object<telegram_api::inputMediaDocument>(
           0, false, full_remote_location->as_input_document(), nullptr, 0, 0, string());
     case FileType::PhotoStory:
-      return telegram_api::make_object<telegram_api::inputMediaPhoto>(0, false, full_remote_location->as_input_photo(),
-                                                                      0);
+      return telegram_api::make_object<telegram_api::inputMediaPhoto>(
+          0, false, false, full_remote_location->as_input_photo(), 0, nullptr);
     default:
       return nullptr;
   }
@@ -1066,7 +1143,7 @@ void BotInfoManager::set_custom_bot_verification(UserId bot_user_id, DialogId di
   if (bot_user_id != UserId()) {
     TRY_RESULT_PROMISE_ASSIGN(promise, bot_input_user, td_->user_manager_->get_input_user(bot_user_id));
   }
-  if (!td_->dialog_manager_->have_input_peer(dialog_id, false, AccessRights::Read)) {
+  if (!td_->dialog_manager_->have_input_peer(dialog_id, false, is_verified ? AccessRights::Read : AccessRights::Know)) {
     return promise.set_error(400, "Can't access the verified entity");
   }
   td_->create_handler<SetCustomVerificationQuery>(std::move(promise))

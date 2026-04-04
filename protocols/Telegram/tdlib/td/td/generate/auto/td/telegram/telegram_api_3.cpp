@@ -593,14 +593,16 @@ disallowedGiftsSettings::disallowedGiftsSettings()
   , disallow_limited_stargifts_()
   , disallow_unique_stargifts_()
   , disallow_premium_gifts_()
+  , disallow_stargifts_from_channels_()
 {}
 
-disallowedGiftsSettings::disallowedGiftsSettings(int32 flags_, bool disallow_unlimited_stargifts_, bool disallow_limited_stargifts_, bool disallow_unique_stargifts_, bool disallow_premium_gifts_)
+disallowedGiftsSettings::disallowedGiftsSettings(int32 flags_, bool disallow_unlimited_stargifts_, bool disallow_limited_stargifts_, bool disallow_unique_stargifts_, bool disallow_premium_gifts_, bool disallow_stargifts_from_channels_)
   : flags_(flags_)
   , disallow_unlimited_stargifts_(disallow_unlimited_stargifts_)
   , disallow_limited_stargifts_(disallow_limited_stargifts_)
   , disallow_unique_stargifts_(disallow_unique_stargifts_)
   , disallow_premium_gifts_(disallow_premium_gifts_)
+  , disallow_stargifts_from_channels_(disallow_stargifts_from_channels_)
 {}
 
 const std::int32_t disallowedGiftsSettings::ID;
@@ -614,6 +616,7 @@ object_ptr<disallowedGiftsSettings> disallowedGiftsSettings::fetch(TlBufferParse
   res->disallow_limited_stargifts_ = (var0 & 2) != 0;
   res->disallow_unique_stargifts_ = (var0 & 4) != 0;
   res->disallow_premium_gifts_ = (var0 & 8) != 0;
+  res->disallow_stargifts_from_channels_ = (var0 & 16) != 0;
   if (p.get_error()) { FAIL(""); }
   return res;
 #undef FAIL
@@ -622,24 +625,25 @@ object_ptr<disallowedGiftsSettings> disallowedGiftsSettings::fetch(TlBufferParse
 void disallowedGiftsSettings::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
-  TlStoreBinary::store((var0 = flags_ | (disallow_unlimited_stargifts_ << 0) | (disallow_limited_stargifts_ << 1) | (disallow_unique_stargifts_ << 2) | (disallow_premium_gifts_ << 3)), s);
+  TlStoreBinary::store((var0 = flags_ | (disallow_unlimited_stargifts_ << 0) | (disallow_limited_stargifts_ << 1) | (disallow_unique_stargifts_ << 2) | (disallow_premium_gifts_ << 3) | (disallow_stargifts_from_channels_ << 4)), s);
 }
 
 void disallowedGiftsSettings::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
-  TlStoreBinary::store((var0 = flags_ | (disallow_unlimited_stargifts_ << 0) | (disallow_limited_stargifts_ << 1) | (disallow_unique_stargifts_ << 2) | (disallow_premium_gifts_ << 3)), s);
+  TlStoreBinary::store((var0 = flags_ | (disallow_unlimited_stargifts_ << 0) | (disallow_limited_stargifts_ << 1) | (disallow_unique_stargifts_ << 2) | (disallow_premium_gifts_ << 3) | (disallow_stargifts_from_channels_ << 4)), s);
 }
 
 void disallowedGiftsSettings::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "disallowedGiftsSettings");
   int32 var0;
-    s.store_field("flags", (var0 = flags_ | (disallow_unlimited_stargifts_ << 0) | (disallow_limited_stargifts_ << 1) | (disallow_unique_stargifts_ << 2) | (disallow_premium_gifts_ << 3)));
+    s.store_field("flags", (var0 = flags_ | (disallow_unlimited_stargifts_ << 0) | (disallow_limited_stargifts_ << 1) | (disallow_unique_stargifts_ << 2) | (disallow_premium_gifts_ << 3) | (disallow_stargifts_from_channels_ << 4)));
     if (var0 & 1) { s.store_field("disallow_unlimited_stargifts", true); }
     if (var0 & 2) { s.store_field("disallow_limited_stargifts", true); }
     if (var0 & 4) { s.store_field("disallow_unique_stargifts", true); }
     if (var0 & 8) { s.store_field("disallow_premium_gifts", true); }
+    if (var0 & 16) { s.store_field("disallow_stargifts_from_channels", true); }
     s.store_class_end();
   }
 }
@@ -1150,6 +1154,14 @@ object_ptr<MessageEntity> MessageEntity::fetch(TlBufferParser &p) {
       return messageEntityCustomEmoji::fetch(p);
     case messageEntityBlockquote::ID:
       return messageEntityBlockquote::fetch(p);
+    case messageEntityFormattedDate::ID:
+      return messageEntityFormattedDate::fetch(p);
+    case messageEntityDiffInsert::ID:
+      return messageEntityDiffInsert::fetch(p);
+    case messageEntityDiffReplace::ID:
+      return messageEntityDiffReplace::fetch(p);
+    case messageEntityDiffDelete::ID:
+      return messageEntityDiffDelete::fetch(p);
     default:
       FAIL(PSTRING() << "Unknown constructor found " << format::as_hex(constructor));
   }
@@ -1978,6 +1990,205 @@ void messageEntityBlockquote::store(TlStorerToString &s, const char *field_name)
   }
 }
 
+messageEntityFormattedDate::messageEntityFormattedDate()
+  : flags_()
+  , relative_()
+  , short_time_()
+  , long_time_()
+  , short_date_()
+  , long_date_()
+  , day_of_week_()
+  , offset_()
+  , length_()
+  , date_()
+{}
+
+messageEntityFormattedDate::messageEntityFormattedDate(int32 flags_, bool relative_, bool short_time_, bool long_time_, bool short_date_, bool long_date_, bool day_of_week_, int32 offset_, int32 length_, int32 date_)
+  : flags_(flags_)
+  , relative_(relative_)
+  , short_time_(short_time_)
+  , long_time_(long_time_)
+  , short_date_(short_date_)
+  , long_date_(long_date_)
+  , day_of_week_(day_of_week_)
+  , offset_(offset_)
+  , length_(length_)
+  , date_(date_)
+{}
+
+const std::int32_t messageEntityFormattedDate::ID;
+
+object_ptr<MessageEntity> messageEntityFormattedDate::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<messageEntityFormattedDate> res = make_tl_object<messageEntityFormattedDate>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->relative_ = (var0 & 1) != 0;
+  res->short_time_ = (var0 & 2) != 0;
+  res->long_time_ = (var0 & 4) != 0;
+  res->short_date_ = (var0 & 8) != 0;
+  res->long_date_ = (var0 & 16) != 0;
+  res->day_of_week_ = (var0 & 32) != 0;
+  res->offset_ = TlFetchInt::parse(p);
+  res->length_ = TlFetchInt::parse(p);
+  res->date_ = TlFetchInt::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
+}
+
+void messageEntityFormattedDate::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (relative_ << 0) | (short_time_ << 1) | (long_time_ << 2) | (short_date_ << 3) | (long_date_ << 4) | (day_of_week_ << 5)), s);
+  TlStoreBinary::store(offset_, s);
+  TlStoreBinary::store(length_, s);
+  TlStoreBinary::store(date_, s);
+}
+
+void messageEntityFormattedDate::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (relative_ << 0) | (short_time_ << 1) | (long_time_ << 2) | (short_date_ << 3) | (long_date_ << 4) | (day_of_week_ << 5)), s);
+  TlStoreBinary::store(offset_, s);
+  TlStoreBinary::store(length_, s);
+  TlStoreBinary::store(date_, s);
+}
+
+void messageEntityFormattedDate::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageEntityFormattedDate");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_ | (relative_ << 0) | (short_time_ << 1) | (long_time_ << 2) | (short_date_ << 3) | (long_date_ << 4) | (day_of_week_ << 5)));
+    if (var0 & 1) { s.store_field("relative", true); }
+    if (var0 & 2) { s.store_field("short_time", true); }
+    if (var0 & 4) { s.store_field("long_time", true); }
+    if (var0 & 8) { s.store_field("short_date", true); }
+    if (var0 & 16) { s.store_field("long_date", true); }
+    if (var0 & 32) { s.store_field("day_of_week", true); }
+    s.store_field("offset", offset_);
+    s.store_field("length", length_);
+    s.store_field("date", date_);
+    s.store_class_end();
+  }
+}
+
+messageEntityDiffInsert::messageEntityDiffInsert(int32 offset_, int32 length_)
+  : offset_(offset_)
+  , length_(length_)
+{}
+
+const std::int32_t messageEntityDiffInsert::ID;
+
+object_ptr<MessageEntity> messageEntityDiffInsert::fetch(TlBufferParser &p) {
+  return make_tl_object<messageEntityDiffInsert>(p);
+}
+
+messageEntityDiffInsert::messageEntityDiffInsert(TlBufferParser &p)
+  : offset_(TlFetchInt::parse(p))
+  , length_(TlFetchInt::parse(p))
+{}
+
+void messageEntityDiffInsert::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(offset_, s);
+  TlStoreBinary::store(length_, s);
+}
+
+void messageEntityDiffInsert::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(offset_, s);
+  TlStoreBinary::store(length_, s);
+}
+
+void messageEntityDiffInsert::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageEntityDiffInsert");
+    s.store_field("offset", offset_);
+    s.store_field("length", length_);
+    s.store_class_end();
+  }
+}
+
+messageEntityDiffReplace::messageEntityDiffReplace(int32 offset_, int32 length_, string const &old_text_)
+  : offset_(offset_)
+  , length_(length_)
+  , old_text_(old_text_)
+{}
+
+const std::int32_t messageEntityDiffReplace::ID;
+
+object_ptr<MessageEntity> messageEntityDiffReplace::fetch(TlBufferParser &p) {
+  return make_tl_object<messageEntityDiffReplace>(p);
+}
+
+messageEntityDiffReplace::messageEntityDiffReplace(TlBufferParser &p)
+  : offset_(TlFetchInt::parse(p))
+  , length_(TlFetchInt::parse(p))
+  , old_text_(TlFetchString<string>::parse(p))
+{}
+
+void messageEntityDiffReplace::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(offset_, s);
+  TlStoreBinary::store(length_, s);
+  TlStoreString::store(old_text_, s);
+}
+
+void messageEntityDiffReplace::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(offset_, s);
+  TlStoreBinary::store(length_, s);
+  TlStoreString::store(old_text_, s);
+}
+
+void messageEntityDiffReplace::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageEntityDiffReplace");
+    s.store_field("offset", offset_);
+    s.store_field("length", length_);
+    s.store_field("old_text", old_text_);
+    s.store_class_end();
+  }
+}
+
+messageEntityDiffDelete::messageEntityDiffDelete(int32 offset_, int32 length_)
+  : offset_(offset_)
+  , length_(length_)
+{}
+
+const std::int32_t messageEntityDiffDelete::ID;
+
+object_ptr<MessageEntity> messageEntityDiffDelete::fetch(TlBufferParser &p) {
+  return make_tl_object<messageEntityDiffDelete>(p);
+}
+
+messageEntityDiffDelete::messageEntityDiffDelete(TlBufferParser &p)
+  : offset_(TlFetchInt::parse(p))
+  , length_(TlFetchInt::parse(p))
+{}
+
+void messageEntityDiffDelete::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(offset_, s);
+  TlStoreBinary::store(length_, s);
+}
+
+void messageEntityDiffDelete::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(offset_, s);
+  TlStoreBinary::store(length_, s);
+}
+
+void messageEntityDiffDelete::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageEntityDiffDelete");
+    s.store_field("offset", offset_);
+    s.store_field("length", length_);
+    s.store_class_end();
+  }
+}
+
 const std::int32_t messageReportOption::ID;
 
 object_ptr<messageReportOption> messageReportOption::fetch(TlBufferParser &p) {
@@ -2036,6 +2247,8 @@ object_ptr<MessagesFilter> MessagesFilter::fetch(TlBufferParser &p) {
       return inputMessagesFilterContacts::fetch(p);
     case inputMessagesFilterPinned::ID:
       return inputMessagesFilterPinned::fetch(p);
+    case inputMessagesFilterPoll::ID:
+      return inputMessagesFilterPoll::fetch(p);
     default:
       FAIL(PSTRING() << "Unknown constructor found " << format::as_hex(constructor));
   }
@@ -2423,6 +2636,67 @@ void inputMessagesFilterPinned::store(TlStorerToString &s, const char *field_nam
   }
 }
 
+const std::int32_t inputMessagesFilterPoll::ID;
+
+object_ptr<MessagesFilter> inputMessagesFilterPoll::fetch(TlBufferParser &p) {
+  return make_tl_object<inputMessagesFilterPoll>();
+}
+
+void inputMessagesFilterPoll::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+}
+
+void inputMessagesFilterPoll::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+}
+
+void inputMessagesFilterPoll::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputMessagesFilterPoll");
+    s.store_class_end();
+  }
+}
+
+passkey::passkey()
+  : flags_()
+  , id_()
+  , name_()
+  , date_()
+  , software_emoji_id_()
+  , last_usage_date_()
+{}
+
+const std::int32_t passkey::ID;
+
+object_ptr<passkey> passkey::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<passkey> res = make_tl_object<passkey>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->id_ = TlFetchString<string>::parse(p);
+  res->name_ = TlFetchString<string>::parse(p);
+  res->date_ = TlFetchInt::parse(p);
+  if (var0 & 1) { res->software_emoji_id_ = TlFetchLong::parse(p); }
+  if (var0 & 2) { res->last_usage_date_ = TlFetchInt::parse(p); }
+  if (p.get_error()) { FAIL(""); }
+  return res;
+#undef FAIL
+}
+
+void passkey::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "passkey");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    s.store_field("id", id_);
+    s.store_field("name", name_);
+    s.store_field("date", date_);
+    if (var0 & 1) { s.store_field("software_emoji_id", software_emoji_id_); }
+    if (var0 & 2) { s.store_field("last_usage_date", last_usage_date_); }
+    s.store_class_end();
+  }
+}
+
 const std::int32_t paymentCharge::ID;
 
 object_ptr<paymentCharge> paymentCharge::fetch(TlBufferParser &p) {
@@ -2473,6 +2747,16 @@ peerUser::peerUser(TlBufferParser &p)
   : user_id_(TlFetchLong::parse(p))
 {}
 
+void peerUser::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(user_id_, s);
+}
+
+void peerUser::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(user_id_, s);
+}
+
 void peerUser::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "peerUser");
@@ -2495,6 +2779,16 @@ peerChat::peerChat(TlBufferParser &p)
   : chat_id_(TlFetchLong::parse(p))
 {}
 
+void peerChat::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(chat_id_, s);
+}
+
+void peerChat::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(chat_id_, s);
+}
+
 void peerChat::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "peerChat");
@@ -2502,6 +2796,10 @@ void peerChat::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+peerChannel::peerChannel(int64 channel_id_)
+  : channel_id_(channel_id_)
+{}
 
 const std::int32_t peerChannel::ID;
 
@@ -2512,6 +2810,16 @@ object_ptr<Peer> peerChannel::fetch(TlBufferParser &p) {
 peerChannel::peerChannel(TlBufferParser &p)
   : channel_id_(TlFetchLong::parse(p))
 {}
+
+void peerChannel::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(channel_id_, s);
+}
+
+void peerChannel::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(channel_id_, s);
+}
 
 void peerChannel::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
@@ -3961,7 +4269,7 @@ payments_checkedGiftCode::payments_checkedGiftCode()
   , giveaway_msg_id_()
   , to_id_()
   , date_()
-  , months_()
+  , days_()
   , used_date_()
   , chats_()
   , users_()
@@ -3979,7 +4287,7 @@ object_ptr<payments_checkedGiftCode> payments_checkedGiftCode::fetch(TlBufferPar
   if (var0 & 8) { res->giveaway_msg_id_ = TlFetchInt::parse(p); }
   if (var0 & 1) { res->to_id_ = TlFetchLong::parse(p); }
   res->date_ = TlFetchInt::parse(p);
-  res->months_ = TlFetchInt::parse(p);
+  res->days_ = TlFetchInt::parse(p);
   if (var0 & 2) { res->used_date_ = TlFetchInt::parse(p); }
   res->chats_ = TlFetchBoxed<TlFetchVector<TlFetchObject<Chat>>, 481674261>::parse(p);
   res->users_ = TlFetchBoxed<TlFetchVector<TlFetchObject<User>>, 481674261>::parse(p);
@@ -3998,7 +4306,7 @@ void payments_checkedGiftCode::store(TlStorerToString &s, const char *field_name
     if (var0 & 8) { s.store_field("giveaway_msg_id", giveaway_msg_id_); }
     if (var0 & 1) { s.store_field("to_id", to_id_); }
     s.store_field("date", date_);
-    s.store_field("months", months_);
+    s.store_field("days", days_);
     if (var0 & 2) { s.store_field("used_date", used_date_); }
     { s.store_vector_begin("chats", chats_.size()); for (const auto &_value : chats_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     { s.store_vector_begin("users", users_.size()); for (const auto &_value : users_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
@@ -4043,7 +4351,7 @@ object_ptr<payments_savedStarGifts> payments_savedStarGifts::fetch(TlBufferParse
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
   res->count_ = TlFetchInt::parse(p);
   if (var0 & 2) { res->chat_notifications_enabled_ = TlFetchBool::parse(p); }
-  res->gifts_ = TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<savedStarGift>, -1987861422>>, 481674261>::parse(p);
+  res->gifts_ = TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<savedStarGift>, 1105150972>>, 481674261>::parse(p);
   if (var0 & 1) { res->next_offset_ = TlFetchString<string>::parse(p); }
   res->chats_ = TlFetchBoxed<TlFetchVector<TlFetchObject<Chat>>, 481674261>::parse(p);
   res->users_ = TlFetchBoxed<TlFetchVector<TlFetchObject<User>>, 481674261>::parse(p);
@@ -5591,46 +5899,52 @@ invokeWithApnsSecretPrefix::ReturnType invokeWithApnsSecretPrefix::fetch_result(
 #undef FAIL
 }
 
-messages_acceptUrlAuth::messages_acceptUrlAuth(int32 flags_, bool write_allowed_, object_ptr<InputPeer> &&peer_, int32 msg_id_, int32 button_id_, string const &url_)
+messages_acceptUrlAuth::messages_acceptUrlAuth(int32 flags_, bool write_allowed_, bool share_phone_number_, object_ptr<InputPeer> &&peer_, int32 msg_id_, int32 button_id_, string const &url_, string const &match_code_)
   : flags_(flags_)
   , write_allowed_(write_allowed_)
+  , share_phone_number_(share_phone_number_)
   , peer_(std::move(peer_))
   , msg_id_(msg_id_)
   , button_id_(button_id_)
   , url_(url_)
+  , match_code_(match_code_)
 {}
 
 const std::int32_t messages_acceptUrlAuth::ID;
 
 void messages_acceptUrlAuth::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
-  s.store_binary(-1322487515);
-  TlStoreBinary::store((var0 = flags_ | (write_allowed_ << 0)), s);
+  s.store_binary(1738797278);
+  TlStoreBinary::store((var0 = flags_ | (write_allowed_ << 0) | (share_phone_number_ << 3)), s);
   if (var0 & 2) { TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s); }
   if (var0 & 2) { TlStoreBinary::store(msg_id_, s); }
   if (var0 & 2) { TlStoreBinary::store(button_id_, s); }
   if (var0 & 4) { TlStoreString::store(url_, s); }
+  if (var0 & 16) { TlStoreString::store(match_code_, s); }
 }
 
 void messages_acceptUrlAuth::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
-  s.store_binary(-1322487515);
-  TlStoreBinary::store((var0 = flags_ | (write_allowed_ << 0)), s);
+  s.store_binary(1738797278);
+  TlStoreBinary::store((var0 = flags_ | (write_allowed_ << 0) | (share_phone_number_ << 3)), s);
   if (var0 & 2) { TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s); }
   if (var0 & 2) { TlStoreBinary::store(msg_id_, s); }
   if (var0 & 2) { TlStoreBinary::store(button_id_, s); }
   if (var0 & 4) { TlStoreString::store(url_, s); }
+  if (var0 & 16) { TlStoreString::store(match_code_, s); }
 }
 
 void messages_acceptUrlAuth::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messages.acceptUrlAuth");
-    s.store_field("flags", (var0 = flags_ | (write_allowed_ << 0)));
+    s.store_field("flags", (var0 = flags_ | (write_allowed_ << 0) | (share_phone_number_ << 3)));
     if (var0 & 1) { s.store_field("write_allowed", true); }
+    if (var0 & 8) { s.store_field("share_phone_number", true); }
     if (var0 & 2) { s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get())); }
     if (var0 & 2) { s.store_field("msg_id", msg_id_); }
     if (var0 & 2) { s.store_field("button_id", button_id_); }
     if (var0 & 4) { s.store_field("url", url_); }
+    if (var0 & 16) { s.store_field("match_code", match_code_); }
     s.store_class_end();
   }
 }
@@ -5638,6 +5952,38 @@ void messages_acceptUrlAuth::store(TlStorerToString &s, const char *field_name) 
 messages_acceptUrlAuth::ReturnType messages_acceptUrlAuth::fetch_result(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return ReturnType()
   return TlFetchObject<UrlAuthResult>::parse(p);
+#undef FAIL
+}
+
+messages_declineUrlAuth::messages_declineUrlAuth(string const &url_)
+  : url_(url_)
+{}
+
+const std::int32_t messages_declineUrlAuth::ID;
+
+void messages_declineUrlAuth::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(893610940);
+  TlStoreString::store(url_, s);
+}
+
+void messages_declineUrlAuth::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(893610940);
+  TlStoreString::store(url_, s);
+}
+
+void messages_declineUrlAuth::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messages.declineUrlAuth");
+    s.store_field("url", url_);
+    s.store_class_end();
+  }
+}
+
+messages_declineUrlAuth::ReturnType messages_declineUrlAuth::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchBool::parse(p);
 #undef FAIL
 }
 
@@ -5677,7 +6023,7 @@ messages_deleteFactCheck::ReturnType messages_deleteFactCheck::fetch_result(TlBu
 #undef FAIL
 }
 
-messages_editMessage::messages_editMessage(int32 flags_, bool no_webpage_, bool invert_media_, object_ptr<InputPeer> &&peer_, int32 id_, string const &message_, object_ptr<InputMedia> &&media_, object_ptr<ReplyMarkup> &&reply_markup_, array<object_ptr<MessageEntity>> &&entities_, int32 schedule_date_, int32 quick_reply_shortcut_id_)
+messages_editMessage::messages_editMessage(int32 flags_, bool no_webpage_, bool invert_media_, object_ptr<InputPeer> &&peer_, int32 id_, string const &message_, object_ptr<InputMedia> &&media_, object_ptr<ReplyMarkup> &&reply_markup_, array<object_ptr<MessageEntity>> &&entities_, int32 schedule_date_, int32 schedule_repeat_period_, int32 quick_reply_shortcut_id_)
   : flags_(flags_)
   , no_webpage_(no_webpage_)
   , invert_media_(invert_media_)
@@ -5688,6 +6034,7 @@ messages_editMessage::messages_editMessage(int32 flags_, bool no_webpage_, bool 
   , reply_markup_(std::move(reply_markup_))
   , entities_(std::move(entities_))
   , schedule_date_(schedule_date_)
+  , schedule_repeat_period_(schedule_repeat_period_)
   , quick_reply_shortcut_id_(quick_reply_shortcut_id_)
 {}
 
@@ -5695,7 +6042,7 @@ const std::int32_t messages_editMessage::ID;
 
 void messages_editMessage::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
-  s.store_binary(-539934715);
+  s.store_binary(1374175969);
   TlStoreBinary::store((var0 = flags_ | (no_webpage_ << 1) | (invert_media_ << 16)), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
   TlStoreBinary::store(id_, s);
@@ -5704,12 +6051,13 @@ void messages_editMessage::store(TlStorerCalcLength &s) const {
   if (var0 & 4) { TlStoreBoxedUnknown<TlStoreObject>::store(reply_markup_, s); }
   if (var0 & 8) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(entities_, s); }
   if (var0 & 32768) { TlStoreBinary::store(schedule_date_, s); }
+  if (var0 & 262144) { TlStoreBinary::store(schedule_repeat_period_, s); }
   if (var0 & 131072) { TlStoreBinary::store(quick_reply_shortcut_id_, s); }
 }
 
 void messages_editMessage::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
-  s.store_binary(-539934715);
+  s.store_binary(1374175969);
   TlStoreBinary::store((var0 = flags_ | (no_webpage_ << 1) | (invert_media_ << 16)), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
   TlStoreBinary::store(id_, s);
@@ -5718,6 +6066,7 @@ void messages_editMessage::store(TlStorerUnsafe &s) const {
   if (var0 & 4) { TlStoreBoxedUnknown<TlStoreObject>::store(reply_markup_, s); }
   if (var0 & 8) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(entities_, s); }
   if (var0 & 32768) { TlStoreBinary::store(schedule_date_, s); }
+  if (var0 & 262144) { TlStoreBinary::store(schedule_repeat_period_, s); }
   if (var0 & 131072) { TlStoreBinary::store(quick_reply_shortcut_id_, s); }
 }
 
@@ -5734,6 +6083,7 @@ void messages_editMessage::store(TlStorerToString &s, const char *field_name) co
     if (var0 & 4) { s.store_object_field("reply_markup", static_cast<const BaseObject *>(reply_markup_.get())); }
     if (var0 & 8) { { s.store_vector_begin("entities", entities_.size()); for (const auto &_value : entities_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); } }
     if (var0 & 32768) { s.store_field("schedule_date", schedule_date_); }
+    if (var0 & 262144) { s.store_field("schedule_repeat_period", schedule_repeat_period_); }
     if (var0 & 131072) { s.store_field("quick_reply_shortcut_id", quick_reply_shortcut_id_); }
     s.store_class_end();
   }
@@ -6382,9 +6732,11 @@ messages_saveRecentSticker::ReturnType messages_saveRecentSticker::fetch_result(
 #undef FAIL
 }
 
-messages_sendBotRequestedPeer::messages_sendBotRequestedPeer(object_ptr<InputPeer> &&peer_, int32 msg_id_, int32 button_id_, array<object_ptr<InputPeer>> &&requested_peers_)
-  : peer_(std::move(peer_))
+messages_sendBotRequestedPeer::messages_sendBotRequestedPeer(int32 flags_, object_ptr<InputPeer> &&peer_, int32 msg_id_, string const &webapp_req_id_, int32 button_id_, array<object_ptr<InputPeer>> &&requested_peers_)
+  : flags_(flags_)
+  , peer_(std::move(peer_))
   , msg_id_(msg_id_)
+  , webapp_req_id_(webapp_req_id_)
   , button_id_(button_id_)
   , requested_peers_(std::move(requested_peers_))
 {}
@@ -6393,18 +6745,22 @@ const std::int32_t messages_sendBotRequestedPeer::ID;
 
 void messages_sendBotRequestedPeer::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
-  s.store_binary(-1850552224);
+  s.store_binary(1818030759);
+  TlStoreBinary::store((var0 = flags_), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
-  TlStoreBinary::store(msg_id_, s);
+  if (var0 & 1) { TlStoreBinary::store(msg_id_, s); }
+  if (var0 & 2) { TlStoreString::store(webapp_req_id_, s); }
   TlStoreBinary::store(button_id_, s);
   TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(requested_peers_, s);
 }
 
 void messages_sendBotRequestedPeer::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
-  s.store_binary(-1850552224);
+  s.store_binary(1818030759);
+  TlStoreBinary::store((var0 = flags_), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
-  TlStoreBinary::store(msg_id_, s);
+  if (var0 & 1) { TlStoreBinary::store(msg_id_, s); }
+  if (var0 & 2) { TlStoreString::store(webapp_req_id_, s); }
   TlStoreBinary::store(button_id_, s);
   TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(requested_peers_, s);
 }
@@ -6412,8 +6768,10 @@ void messages_sendBotRequestedPeer::store(TlStorerUnsafe &s) const {
 void messages_sendBotRequestedPeer::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messages.sendBotRequestedPeer");
+    s.store_field("flags", (var0 = flags_));
     s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get()));
-    s.store_field("msg_id", msg_id_);
+    if (var0 & 1) { s.store_field("msg_id", msg_id_); }
+    if (var0 & 2) { s.store_field("webapp_req_id", webapp_req_id_); }
     s.store_field("button_id", button_id_);
     { s.store_vector_begin("requested_peers", requested_peers_.size()); for (const auto &_value : requested_peers_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
@@ -6426,7 +6784,7 @@ messages_sendBotRequestedPeer::ReturnType messages_sendBotRequestedPeer::fetch_r
 #undef FAIL
 }
 
-messages_sendMessage::messages_sendMessage(int32 flags_, bool no_webpage_, bool silent_, bool background_, bool clear_draft_, bool noforwards_, bool update_stickersets_order_, bool invert_media_, bool allow_paid_floodskip_, object_ptr<InputPeer> &&peer_, object_ptr<InputReplyTo> &&reply_to_, string const &message_, int64 random_id_, object_ptr<ReplyMarkup> &&reply_markup_, array<object_ptr<MessageEntity>> &&entities_, int32 schedule_date_, object_ptr<InputPeer> &&send_as_, object_ptr<InputQuickReplyShortcut> &&quick_reply_shortcut_, int64 effect_, int64 allow_paid_stars_, object_ptr<suggestedPost> &&suggested_post_)
+messages_sendMessage::messages_sendMessage(int32 flags_, bool no_webpage_, bool silent_, bool background_, bool clear_draft_, bool noforwards_, bool update_stickersets_order_, bool invert_media_, bool allow_paid_floodskip_, object_ptr<InputPeer> &&peer_, object_ptr<InputReplyTo> &&reply_to_, string const &message_, int64 random_id_, object_ptr<ReplyMarkup> &&reply_markup_, array<object_ptr<MessageEntity>> &&entities_, int32 schedule_date_, int32 schedule_repeat_period_, object_ptr<InputPeer> &&send_as_, object_ptr<InputQuickReplyShortcut> &&quick_reply_shortcut_, int64 effect_, int64 allow_paid_stars_, object_ptr<suggestedPost> &&suggested_post_)
   : flags_(flags_)
   , no_webpage_(no_webpage_)
   , silent_(silent_)
@@ -6443,6 +6801,7 @@ messages_sendMessage::messages_sendMessage(int32 flags_, bool no_webpage_, bool 
   , reply_markup_(std::move(reply_markup_))
   , entities_(std::move(entities_))
   , schedule_date_(schedule_date_)
+  , schedule_repeat_period_(schedule_repeat_period_)
   , send_as_(std::move(send_as_))
   , quick_reply_shortcut_(std::move(quick_reply_shortcut_))
   , effect_(effect_)
@@ -6454,7 +6813,7 @@ const std::int32_t messages_sendMessage::ID;
 
 void messages_sendMessage::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
-  s.store_binary(-33170278);
+  s.store_binary(1415369050);
   TlStoreBinary::store((var0 = flags_ | (no_webpage_ << 1) | (silent_ << 5) | (background_ << 6) | (clear_draft_ << 7) | (noforwards_ << 14) | (update_stickersets_order_ << 15) | (invert_media_ << 16) | (allow_paid_floodskip_ << 19)), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
   if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(reply_to_, s); }
@@ -6463,6 +6822,7 @@ void messages_sendMessage::store(TlStorerCalcLength &s) const {
   if (var0 & 4) { TlStoreBoxedUnknown<TlStoreObject>::store(reply_markup_, s); }
   if (var0 & 8) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(entities_, s); }
   if (var0 & 1024) { TlStoreBinary::store(schedule_date_, s); }
+  if (var0 & 16777216) { TlStoreBinary::store(schedule_repeat_period_, s); }
   if (var0 & 8192) { TlStoreBoxedUnknown<TlStoreObject>::store(send_as_, s); }
   if (var0 & 131072) { TlStoreBoxedUnknown<TlStoreObject>::store(quick_reply_shortcut_, s); }
   if (var0 & 262144) { TlStoreBinary::store(effect_, s); }
@@ -6472,7 +6832,7 @@ void messages_sendMessage::store(TlStorerCalcLength &s) const {
 
 void messages_sendMessage::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
-  s.store_binary(-33170278);
+  s.store_binary(1415369050);
   TlStoreBinary::store((var0 = flags_ | (no_webpage_ << 1) | (silent_ << 5) | (background_ << 6) | (clear_draft_ << 7) | (noforwards_ << 14) | (update_stickersets_order_ << 15) | (invert_media_ << 16) | (allow_paid_floodskip_ << 19)), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
   if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(reply_to_, s); }
@@ -6481,6 +6841,7 @@ void messages_sendMessage::store(TlStorerUnsafe &s) const {
   if (var0 & 4) { TlStoreBoxedUnknown<TlStoreObject>::store(reply_markup_, s); }
   if (var0 & 8) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(entities_, s); }
   if (var0 & 1024) { TlStoreBinary::store(schedule_date_, s); }
+  if (var0 & 16777216) { TlStoreBinary::store(schedule_repeat_period_, s); }
   if (var0 & 8192) { TlStoreBoxedUnknown<TlStoreObject>::store(send_as_, s); }
   if (var0 & 131072) { TlStoreBoxedUnknown<TlStoreObject>::store(quick_reply_shortcut_, s); }
   if (var0 & 262144) { TlStoreBinary::store(effect_, s); }
@@ -6507,6 +6868,7 @@ void messages_sendMessage::store(TlStorerToString &s, const char *field_name) co
     if (var0 & 4) { s.store_object_field("reply_markup", static_cast<const BaseObject *>(reply_markup_.get())); }
     if (var0 & 8) { { s.store_vector_begin("entities", entities_.size()); for (const auto &_value : entities_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); } }
     if (var0 & 1024) { s.store_field("schedule_date", schedule_date_); }
+    if (var0 & 16777216) { s.store_field("schedule_repeat_period", schedule_repeat_period_); }
     if (var0 & 8192) { s.store_object_field("send_as", static_cast<const BaseObject *>(send_as_.get())); }
     if (var0 & 131072) { s.store_object_field("quick_reply_shortcut", static_cast<const BaseObject *>(quick_reply_shortcut_.get())); }
     if (var0 & 262144) { s.store_field("effect", effect_); }
@@ -6817,6 +7179,38 @@ void payments_checkCanSendGift::store(TlStorerToString &s, const char *field_nam
 payments_checkCanSendGift::ReturnType payments_checkCanSendGift::fetch_result(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return ReturnType()
   return TlFetchObject<payments_CheckCanSendGiftResult>::parse(p);
+#undef FAIL
+}
+
+payments_craftStarGift::payments_craftStarGift(array<object_ptr<InputSavedStarGift>> &&stargift_)
+  : stargift_(std::move(stargift_))
+{}
+
+const std::int32_t payments_craftStarGift::ID;
+
+void payments_craftStarGift::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(-1325832113);
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(stargift_, s);
+}
+
+void payments_craftStarGift::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(-1325832113);
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(stargift_, s);
+}
+
+void payments_craftStarGift::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "payments.craftStarGift");
+    { s.store_vector_begin("stargift", stargift_.size()); for (const auto &_value : stargift_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+payments_craftStarGift::ReturnType payments_craftStarGift::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchObject<Updates>::parse(p);
 #undef FAIL
 }
 
@@ -7358,6 +7752,72 @@ void stories_incrementStoryViews::store(TlStorerToString &s, const char *field_n
 stories_incrementStoryViews::ReturnType stories_incrementStoryViews::fetch_result(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return ReturnType()
   return TlFetchBool::parse(p);
+#undef FAIL
+}
+
+stories_startLive::stories_startLive(int32 flags_, bool pinned_, bool noforwards_, bool rtmp_stream_, object_ptr<InputPeer> &&peer_, string const &caption_, array<object_ptr<MessageEntity>> &&entities_, array<object_ptr<InputPrivacyRule>> &&privacy_rules_, int64 random_id_, bool messages_enabled_, int64 send_paid_messages_stars_)
+  : flags_(flags_)
+  , pinned_(pinned_)
+  , noforwards_(noforwards_)
+  , rtmp_stream_(rtmp_stream_)
+  , peer_(std::move(peer_))
+  , caption_(caption_)
+  , entities_(std::move(entities_))
+  , privacy_rules_(std::move(privacy_rules_))
+  , random_id_(random_id_)
+  , messages_enabled_(messages_enabled_)
+  , send_paid_messages_stars_(send_paid_messages_stars_)
+{}
+
+const std::int32_t stories_startLive::ID;
+
+void stories_startLive::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(-798372642);
+  TlStoreBinary::store((var0 = flags_ | (pinned_ << 2) | (noforwards_ << 4) | (rtmp_stream_ << 5)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  if (var0 & 1) { TlStoreString::store(caption_, s); }
+  if (var0 & 2) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(entities_, s); }
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(privacy_rules_, s);
+  TlStoreBinary::store(random_id_, s);
+  if (var0 & 64) { TlStoreBool::store(messages_enabled_, s); }
+  if (var0 & 128) { TlStoreBinary::store(send_paid_messages_stars_, s); }
+}
+
+void stories_startLive::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(-798372642);
+  TlStoreBinary::store((var0 = flags_ | (pinned_ << 2) | (noforwards_ << 4) | (rtmp_stream_ << 5)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  if (var0 & 1) { TlStoreString::store(caption_, s); }
+  if (var0 & 2) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(entities_, s); }
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(privacy_rules_, s);
+  TlStoreBinary::store(random_id_, s);
+  if (var0 & 64) { TlStoreBool::store(messages_enabled_, s); }
+  if (var0 & 128) { TlStoreBinary::store(send_paid_messages_stars_, s); }
+}
+
+void stories_startLive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "stories.startLive");
+    s.store_field("flags", (var0 = flags_ | (pinned_ << 2) | (noforwards_ << 4) | (rtmp_stream_ << 5)));
+    if (var0 & 4) { s.store_field("pinned", true); }
+    if (var0 & 16) { s.store_field("noforwards", true); }
+    if (var0 & 32) { s.store_field("rtmp_stream", true); }
+    s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get()));
+    if (var0 & 1) { s.store_field("caption", caption_); }
+    if (var0 & 2) { { s.store_vector_begin("entities", entities_.size()); for (const auto &_value : entities_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); } }
+    { s.store_vector_begin("privacy_rules", privacy_rules_.size()); for (const auto &_value : privacy_rules_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_field("random_id", random_id_);
+    if (var0 & 64) { s.store_field("messages_enabled", messages_enabled_); }
+    if (var0 & 128) { s.store_field("send_paid_messages_stars", send_paid_messages_stars_); }
+    s.store_class_end();
+  }
+}
+
+stories_startLive::ReturnType stories_startLive::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchObject<Updates>::parse(p);
 #undef FAIL
 }
 }  // namespace telegram_api

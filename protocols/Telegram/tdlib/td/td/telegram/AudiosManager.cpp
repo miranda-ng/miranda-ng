@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,6 +18,7 @@
 
 #include "td/actor/actor.h"
 
+#include "td/utils/algorithm.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
 #include "td/utils/PathView.h"
@@ -90,6 +91,12 @@ td_api::object_ptr<td_api::notificationSound> AudiosManager::get_notification_so
   }
   return td_api::make_object<td_api::notificationSound>(document_id, audio->duration, audio->date, title,
                                                         audio->performer, td_->file_manager_->get_file_object(file_id));
+}
+
+td_api::object_ptr<td_api::notificationSounds> AudiosManager::get_notification_sounds_object(
+    const vector<FileId> &file_ids) const {
+  return td_api::make_object<td_api::notificationSounds>(
+      transform(file_ids, [this](FileId file_id) { return get_notification_sound_object(file_id); }));
 }
 
 FileId AudiosManager::on_get_audio(unique_ptr<Audio> new_audio, bool replace) {

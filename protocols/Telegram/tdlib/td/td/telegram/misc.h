@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -57,5 +57,14 @@ Status validate_bot_language_code(const string &language_code);
 // returns 0-based indexes of strings matching the query by prefixes
 vector<int32> search_strings_by_prefix(const vector<string> &strings, const string &query, int32 limit,
                                        bool return_all_for_empty_query, int32 &total_count);
+
+// converts Premium duration in days to approximate duration in months
+int32 get_premium_duration_month_count(int32 day_count);
+
+// converts Premium duration in months to duration in days
+int32 get_premium_duration_day_count(int32 month_count);
+
+// checks that the integer represents a valid RGB color
+bool is_valid_color(int32 color);
 
 }  // namespace td

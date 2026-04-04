@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -184,8 +184,8 @@ class SecretChatActor final : public NetQueryCallback {
   };
 
   struct ConfigState {
-    int32 his_layer = 8;
-    int32 my_layer = 8;
+    int32 his_layer = 23;
+    int32 my_layer = 23;
     int32 ttl = 0;
 
     static Slice key() {

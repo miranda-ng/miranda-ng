@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -27,7 +27,7 @@
 namespace td {
 
 class Dependencies;
-
+class MessageTopic;
 class Td;
 
 class RepliedMessageInfo {
@@ -38,6 +38,7 @@ class RepliedMessageInfo {
   unique_ptr<MessageContent> content_;  // for replies in other chats
   MessageQuote quote_;
   int32 todo_item_id_ = 0;
+  string poll_option_id_;
 
   friend bool operator==(const RepliedMessageInfo &lhs, const RepliedMessageInfo &rhs);
 
@@ -61,7 +62,7 @@ class RepliedMessageInfo {
   RepliedMessageInfo(Td *td, tl_object_ptr<telegram_api::messageReplyHeader> &&reply_header, DialogId dialog_id,
                      MessageId message_id, int32 date);
 
-  RepliedMessageInfo(Td *td, const MessageInputReplyTo &input_reply_to);
+  RepliedMessageInfo(Td *td, const MessageInputReplyTo &input_reply_to, const MessageTopic &topic);
 
   RepliedMessageInfo clone(Td *td) const;
 
@@ -86,7 +87,7 @@ class RepliedMessageInfo {
 
   vector<ChannelId> get_min_channel_ids(Td *td) const;
 
-  void add_dependencies(Dependencies &dependencies, bool is_bot) const;
+  void add_dependencies(Dependencies &dependencies, UserId my_user_id, bool is_bot) const;
 
   td_api::object_ptr<td_api::messageReplyToMessage> get_message_reply_to_message_object(Td *td, DialogId dialog_id,
                                                                                         MessageId message_id) const;

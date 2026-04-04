@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -113,6 +113,7 @@ Status init_binlog(Binlog &binlog, string path, BinlogKeyValue<Binlog> &binlog_p
       case LogEvent::HandlerType::ReadAllDialogReactionsOnServer:
       case LogEvent::HandlerType::ReadMessageContentsOnServer:
       case LogEvent::HandlerType::UnpinAllDialogMessagesOnServer:
+      case LogEvent::HandlerType::ReadAllPollVotesOnServer:
         events.to_message_query_manager.push_back(event.clone());
         break;
       case LogEvent::HandlerType::SendMessage:

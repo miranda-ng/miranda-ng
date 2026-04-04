@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -44,9 +44,12 @@ tl_object_ptr<telegram_api::MessagesFilter> get_input_messages_filter(MessageSea
       return make_tl_object<telegram_api::inputMessagesFilterMyMentions>();
     case MessageSearchFilter::Pinned:
       return make_tl_object<telegram_api::inputMessagesFilterPinned>();
+    case MessageSearchFilter::Poll:
+      return make_tl_object<telegram_api::inputMessagesFilterPoll>();
     case MessageSearchFilter::UnreadMention:
     case MessageSearchFilter::FailedToSend:
     case MessageSearchFilter::UnreadReaction:
+    case MessageSearchFilter::UnreadPollVote:
     default:
       UNREACHABLE();
       return nullptr;
@@ -92,6 +95,10 @@ MessageSearchFilter get_message_search_filter(const tl_object_ptr<td_api::Search
       return MessageSearchFilter::Pinned;
     case td_api::searchMessagesFilterUnreadReaction::ID:
       return MessageSearchFilter::UnreadReaction;
+    case td_api::searchMessagesFilterPoll::ID:
+      return MessageSearchFilter::Poll;
+    case td_api::searchMessagesFilterUnreadPollVote::ID:
+      return MessageSearchFilter::UnreadPollVote;
     default:
       UNREACHABLE();
       return MessageSearchFilter::Empty;
@@ -138,6 +145,10 @@ StringBuilder &operator<<(StringBuilder &string_builder, MessageSearchFilter fil
       return string_builder << "Pinned";
     case MessageSearchFilter::UnreadReaction:
       return string_builder << "UnreadReaction";
+    case MessageSearchFilter::Poll:
+      return string_builder << "Poll";
+    case MessageSearchFilter::UnreadPollVote:
+      return string_builder << "UnreadPollVote";
     default:
       UNREACHABLE();
       return string_builder;

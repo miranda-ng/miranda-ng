@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -59,9 +59,6 @@ class StickersManager final : public Actor {
  public:
   static constexpr int64 GREAT_MINDS_SET_ID = 1842540969984001;
 
-  static vector<StickerSetId> convert_sticker_set_ids(const vector<int64> &sticker_set_ids);
-  static vector<int64> convert_sticker_set_ids(const vector<StickerSetId> &sticker_set_ids);
-
   StickersManager(Td *td, ActorShared<> parent);
   StickersManager(const StickersManager &) = delete;
   StickersManager &operator=(const StickersManager &) = delete;
@@ -85,6 +82,8 @@ class StickersManager final : public Actor {
 
   td_api::object_ptr<td_api::outline> get_sticker_outline_object(FileId file_id, bool for_animated_emoji,
                                                                  bool for_clicked_animated_emoji) const;
+
+  string get_sticker_outline_svg_path(FileId file_id, bool for_animated_emoji, bool for_clicked_animated_emoji) const;
 
   tl_object_ptr<td_api::sticker> get_sticker_object(FileId file_id, bool for_animated_emoji = false,
                                                     bool for_clicked_animated_emoji = false) const;

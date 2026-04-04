@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -54,12 +54,16 @@ class MessageEntity {
     Spoiler,
     CustomEmoji,
     ExpandableBlockQuote,
+    FormattedDate,
     Size
   };
+  enum DateFlags : int32 { Relative = 1, ShortTime = 2, LongTime = 4, ShortDate = 8, LongDate = 16, DayOfWeek = 32 };
   Type type = Type::Size;
   int32 offset = -1;
   int32 length = -1;
   int32 media_timestamp = -1;
+  int32 date = 0;
+  int32 date_flags = 0;
   string argument;
   UserId user_id;
   CustomEmojiId custom_emoji_id;
@@ -80,13 +84,17 @@ class MessageEntity {
       : type(type), offset(offset), length(length), custom_emoji_id(custom_emoji_id) {
     CHECK(type == Type::CustomEmoji);
   }
+  MessageEntity(Type type, int32 offset, int32 length, int32 date, int32 date_flags)
+      : type(type), offset(offset), length(length), date(date), date_flags(date_flags) {
+    CHECK(type == Type::FormattedDate);
+  }
 
   tl_object_ptr<td_api::textEntity> get_text_entity_object(const UserManager *user_manager) const;
 
   bool operator==(const MessageEntity &other) const {
     return offset == other.offset && length == other.length && type == other.type &&
-           media_timestamp == other.media_timestamp && argument == other.argument && user_id == other.user_id &&
-           custom_emoji_id == other.custom_emoji_id;
+           media_timestamp == other.media_timestamp && date == other.date && date_flags == other.date_flags &&
+           argument == other.argument && user_id == other.user_id && custom_emoji_id == other.custom_emoji_id;
   }
 
   bool operator<(const MessageEntity &other) const {
@@ -168,11 +176,19 @@ td_api::object_ptr<td_api::formattedText> get_formatted_text_object(const UserMa
                                                                     const FormattedText &text, bool skip_bot_commands,
                                                                     int32 max_media_timestamp);
 
+bool is_allowed_quote_entity_type(MessageEntity::Type type);
+
 bool keep_only_custom_emoji(FormattedText &text);
 
 void remove_premium_custom_emoji_entities(const Td *td, vector<MessageEntity> &entities, bool remove_unknown);
 
 void remove_unallowed_entities(const Td *td, FormattedText &text, DialogId dialog_id);
+
+bool remove_unallowed_quote_entities(FormattedText &text);
+
+bool remove_unallowed_quote_user_entities(FormattedText &text, bool skip_bot_commands, bool skip_media_timestamps);
+
+bool is_found_entity_type(MessageEntity::Type type, bool skip_bot_commands, bool skip_media_timestamps);
 
 vector<MessageEntity> find_entities(Slice text, bool skip_bot_commands, bool skip_media_timestamps);
 
@@ -231,8 +247,8 @@ FormattedText get_formatted_text(const UserManager *user_manager,
 void fix_entities(vector<MessageEntity> &entities);
 
 // like clean_input_string but also validates entities
-Status fix_formatted_text(string &text, vector<MessageEntity> &entities, bool allow_empty, bool skip_new_entities,
-                          bool skip_bot_commands, bool skip_media_timestamps, bool skip_trim,
+Status fix_formatted_text(string &text, vector<MessageEntity> &entities, bool allow_empty, bool allow_empty_string,
+                          bool skip_new_entities, bool skip_bot_commands, bool skip_media_timestamps, bool skip_trim,
                           int32 *ltrim_count = nullptr) TD_WARN_UNUSED_RESULT;
 
 FormattedText get_message_text(const UserManager *user_manager, string message_text,

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -84,6 +84,7 @@ class PhoneNumberManager;
 class PollManager;
 class PrivacyManager;
 class PromoDataManager;
+class ProxyChecker;
 class QuickReplyManager;
 class ReactionManager;
 class ReferralProgramManager;
@@ -300,6 +301,7 @@ class Td final : public Actor {
   ActorOwn<LanguagePackManager> language_pack_manager_;
   ActorOwn<NetStatsManager> net_stats_manager_;
   ActorOwn<PasswordManager> password_manager_;
+  ActorOwn<ProxyChecker> proxy_checker_;
   ActorOwn<SecretChatsManager> secret_chats_manager_;
   ActorOwn<SecureManager> secure_manager_;
   ActorOwn<StateManager> state_manager_;
@@ -441,7 +443,7 @@ class Td final : public Actor {
 
   void init_managers();
 
-  void init_pure_actor_managers();
+  void init_pure_actor_managers(const Parameters &parameters);
 
   void process_binlog_events(TdDb::OpenedDatabase &&events);
 

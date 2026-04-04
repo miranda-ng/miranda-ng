@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -83,6 +83,40 @@ td_api::object_ptr<td_api::MessageSender> get_min_message_sender_object(Td *td, 
   }
   LOG(ERROR) << "Can't return unknown " << dialog_id << " from " << source;
   return nullptr;
+}
+
+bool check_min_message_sender(Td *td, DialogId dialog_id, vector<std::pair<ChannelId, MinChannel>> &min_channels) {
+  if (td->dialog_manager_->have_dialog_info(dialog_id)) {
+    return true;
+  }
+  switch (dialog_id.get_type()) {
+    case DialogType::User: {
+      auto user_id = dialog_id.get_user_id();
+      if (!td->user_manager_->have_min_user(user_id)) {
+        LOG(ERROR) << "Receive unknown " << user_id;
+        return false;
+      }
+      return true;
+    }
+    case DialogType::Channel: {
+      auto channel_id = dialog_id.get_channel_id();
+      auto min_channel = td->chat_manager_->get_min_channel(channel_id);
+      if (min_channel == nullptr) {
+        LOG(ERROR) << "Receive unknown " << channel_id;
+        return false;
+      }
+      for (const auto &it : min_channels) {
+        if (it.first == channel_id) {
+          return true;
+        }
+      }
+      min_channels.emplace_back(channel_id, *min_channel);
+      return true;
+    }
+    default:
+      LOG(ERROR) << "Receive unknown " << dialog_id;
+      return false;
+  }
 }
 
 vector<DialogId> get_message_sender_dialog_ids(Td *td,

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,6 +19,7 @@ namespace td {
 class ReactionNotificationSettings {
   ReactionNotificationsFrom message_reactions_;
   ReactionNotificationsFrom story_reactions_;
+  ReactionNotificationsFrom poll_votes_;
   unique_ptr<NotificationSound> sound_;
   bool show_preview_ = true;
 

@@ -1152,6 +1152,69 @@
     <ClCompile Include="tdlib\td\td\telegram\td_log.cpp">
       <Filter>Source Files\api</Filter>
     </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\MessageCopyOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftAuctionState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\InputCallId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\ActiveStoryState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\GroupCallMessageLimit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\GroupCallMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\EmojiGameInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\PollOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\MessageCover.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\DialogListId.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\MessageSendOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\Passkey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\KeyboardButtonStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftAttributeRarity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\net\ProxyChecker.cpp">
+      <Filter>Source Files\net</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\AuctionBidLevel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftAuctionRound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\TempPasswordState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftBackground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\StarGiftAuctionUserState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tdlib\td\td\telegram\DiffText.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tdlib\td\td\mtproto\AuthData.h">
@@ -2745,6 +2808,63 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tdlib\td\td\telegram\CurrencyAmount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftAuctionState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\InputCallId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\ActiveStoryState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\GroupCallMessageLimit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\GroupCallMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\EmojiGameInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\PollOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\MessageCover.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\MessageSendOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\Passkey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\KeyboardButtonStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftAttributeRarity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\net\ProxyChecker.h">
+      <Filter>Source Files\net</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\AuctionBidLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftAuctionRound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\TempPasswordState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftBackground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\StarGiftAuctionUserState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tdlib\td\td\telegram\DiffText.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

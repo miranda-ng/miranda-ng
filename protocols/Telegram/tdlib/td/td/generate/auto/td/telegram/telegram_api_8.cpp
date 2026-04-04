@@ -913,6 +913,50 @@ void inputGroupCallInviteMessage::store(TlStorerToString &s, const char *field_n
   }
 }
 
+inputMessageReadMetric::inputMessageReadMetric(int32 msg_id_, int64 view_id_, int32 time_in_view_ms_, int32 active_time_in_view_ms_, int32 height_to_viewport_ratio_permille_, int32 seen_range_ratio_permille_)
+  : msg_id_(msg_id_)
+  , view_id_(view_id_)
+  , time_in_view_ms_(time_in_view_ms_)
+  , active_time_in_view_ms_(active_time_in_view_ms_)
+  , height_to_viewport_ratio_permille_(height_to_viewport_ratio_permille_)
+  , seen_range_ratio_permille_(seen_range_ratio_permille_)
+{}
+
+const std::int32_t inputMessageReadMetric::ID;
+
+void inputMessageReadMetric::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(msg_id_, s);
+  TlStoreBinary::store(view_id_, s);
+  TlStoreBinary::store(time_in_view_ms_, s);
+  TlStoreBinary::store(active_time_in_view_ms_, s);
+  TlStoreBinary::store(height_to_viewport_ratio_permille_, s);
+  TlStoreBinary::store(seen_range_ratio_permille_, s);
+}
+
+void inputMessageReadMetric::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(msg_id_, s);
+  TlStoreBinary::store(view_id_, s);
+  TlStoreBinary::store(time_in_view_ms_, s);
+  TlStoreBinary::store(active_time_in_view_ms_, s);
+  TlStoreBinary::store(height_to_viewport_ratio_permille_, s);
+  TlStoreBinary::store(seen_range_ratio_permille_, s);
+}
+
+void inputMessageReadMetric::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputMessageReadMetric");
+    s.store_field("msg_id", msg_id_);
+    s.store_field("view_id", view_id_);
+    s.store_field("time_in_view_ms", time_in_view_ms_);
+    s.store_field("active_time_in_view_ms", active_time_in_view_ms_);
+    s.store_field("height_to_viewport_ratio_permille", height_to_viewport_ratio_permille_);
+    s.store_field("seen_range_ratio_permille", seen_range_ratio_permille_);
+    s.store_class_end();
+  }
+}
+
 inputNotifyPeer::inputNotifyPeer(object_ptr<InputPeer> &&peer_)
   : peer_(std::move(peer_))
 {}
@@ -1881,23 +1925,35 @@ poll::poll()
   , public_voters_()
   , multiple_choice_()
   , quiz_()
+  , open_answers_()
+  , revoting_disabled_()
+  , shuffle_answers_()
+  , hide_results_until_close_()
+  , creator_()
   , question_()
   , answers_()
   , close_period_()
   , close_date_()
+  , hash_()
 {}
 
-poll::poll(int64 id_, int32 flags_, bool closed_, bool public_voters_, bool multiple_choice_, bool quiz_, object_ptr<textWithEntities> &&question_, array<object_ptr<pollAnswer>> &&answers_, int32 close_period_, int32 close_date_)
+poll::poll(int64 id_, int32 flags_, bool closed_, bool public_voters_, bool multiple_choice_, bool quiz_, bool open_answers_, bool revoting_disabled_, bool shuffle_answers_, bool hide_results_until_close_, bool creator_, object_ptr<textWithEntities> &&question_, array<object_ptr<PollAnswer>> &&answers_, int32 close_period_, int32 close_date_, int64 hash_)
   : id_(id_)
   , flags_(flags_)
   , closed_(closed_)
   , public_voters_(public_voters_)
   , multiple_choice_(multiple_choice_)
   , quiz_(quiz_)
+  , open_answers_(open_answers_)
+  , revoting_disabled_(revoting_disabled_)
+  , shuffle_answers_(shuffle_answers_)
+  , hide_results_until_close_(hide_results_until_close_)
+  , creator_(creator_)
   , question_(std::move(question_))
   , answers_(std::move(answers_))
   , close_period_(close_period_)
   , close_date_(close_date_)
+  , hash_(hash_)
 {}
 
 const std::int32_t poll::ID;
@@ -1912,10 +1968,16 @@ object_ptr<poll> poll::fetch(TlBufferParser &p) {
   res->public_voters_ = (var0 & 2) != 0;
   res->multiple_choice_ = (var0 & 4) != 0;
   res->quiz_ = (var0 & 8) != 0;
+  res->open_answers_ = (var0 & 64) != 0;
+  res->revoting_disabled_ = (var0 & 128) != 0;
+  res->shuffle_answers_ = (var0 & 256) != 0;
+  res->hide_results_until_close_ = (var0 & 512) != 0;
+  res->creator_ = (var0 & 1024) != 0;
   res->question_ = TlFetchBoxed<TlFetchObject<textWithEntities>, 1964978502>::parse(p);
-  res->answers_ = TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<pollAnswer>, -15277366>>, 481674261>::parse(p);
+  res->answers_ = TlFetchBoxed<TlFetchVector<TlFetchObject<PollAnswer>>, 481674261>::parse(p);
   if (var0 & 16) { res->close_period_ = TlFetchInt::parse(p); }
   if (var0 & 32) { res->close_date_ = TlFetchInt::parse(p); }
+  res->hash_ = TlFetchLong::parse(p);
   if (p.get_error()) { FAIL(""); }
   return res;
 #undef FAIL
@@ -1925,22 +1987,24 @@ void poll::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store(id_, s);
-  TlStoreBinary::store((var0 = flags_ | (closed_ << 0) | (public_voters_ << 1) | (multiple_choice_ << 2) | (quiz_ << 3)), s);
+  TlStoreBinary::store((var0 = flags_ | (closed_ << 0) | (public_voters_ << 1) | (multiple_choice_ << 2) | (quiz_ << 3) | (open_answers_ << 6) | (revoting_disabled_ << 7) | (shuffle_answers_ << 8) | (hide_results_until_close_ << 9) | (creator_ << 10)), s);
   TlStoreBoxed<TlStoreObject, 1964978502>::store(question_, s);
-  TlStoreBoxed<TlStoreVector<TlStoreBoxed<TlStoreObject, -15277366>>, 481674261>::store(answers_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(answers_, s);
   if (var0 & 16) { TlStoreBinary::store(close_period_, s); }
   if (var0 & 32) { TlStoreBinary::store(close_date_, s); }
+  TlStoreBinary::store(hash_, s);
 }
 
 void poll::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store(id_, s);
-  TlStoreBinary::store((var0 = flags_ | (closed_ << 0) | (public_voters_ << 1) | (multiple_choice_ << 2) | (quiz_ << 3)), s);
+  TlStoreBinary::store((var0 = flags_ | (closed_ << 0) | (public_voters_ << 1) | (multiple_choice_ << 2) | (quiz_ << 3) | (open_answers_ << 6) | (revoting_disabled_ << 7) | (shuffle_answers_ << 8) | (hide_results_until_close_ << 9) | (creator_ << 10)), s);
   TlStoreBoxed<TlStoreObject, 1964978502>::store(question_, s);
-  TlStoreBoxed<TlStoreVector<TlStoreBoxed<TlStoreObject, -15277366>>, 481674261>::store(answers_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(answers_, s);
   if (var0 & 16) { TlStoreBinary::store(close_period_, s); }
   if (var0 & 32) { TlStoreBinary::store(close_date_, s); }
+  TlStoreBinary::store(hash_, s);
 }
 
 void poll::store(TlStorerToString &s, const char *field_name) const {
@@ -1948,15 +2012,159 @@ void poll::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "poll");
   int32 var0;
     s.store_field("id", id_);
-    s.store_field("flags", (var0 = flags_ | (closed_ << 0) | (public_voters_ << 1) | (multiple_choice_ << 2) | (quiz_ << 3)));
+    s.store_field("flags", (var0 = flags_ | (closed_ << 0) | (public_voters_ << 1) | (multiple_choice_ << 2) | (quiz_ << 3) | (open_answers_ << 6) | (revoting_disabled_ << 7) | (shuffle_answers_ << 8) | (hide_results_until_close_ << 9) | (creator_ << 10)));
     if (var0 & 1) { s.store_field("closed", true); }
     if (var0 & 2) { s.store_field("public_voters", true); }
     if (var0 & 4) { s.store_field("multiple_choice", true); }
     if (var0 & 8) { s.store_field("quiz", true); }
+    if (var0 & 64) { s.store_field("open_answers", true); }
+    if (var0 & 128) { s.store_field("revoting_disabled", true); }
+    if (var0 & 256) { s.store_field("shuffle_answers", true); }
+    if (var0 & 512) { s.store_field("hide_results_until_close", true); }
+    if (var0 & 1024) { s.store_field("creator", true); }
     s.store_object_field("question", static_cast<const BaseObject *>(question_.get()));
     { s.store_vector_begin("answers", answers_.size()); for (const auto &_value : answers_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     if (var0 & 16) { s.store_field("close_period", close_period_); }
     if (var0 & 32) { s.store_field("close_date", close_date_); }
+    s.store_field("hash", hash_);
+    s.store_class_end();
+  }
+}
+
+object_ptr<PollAnswer> PollAnswer::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  int constructor = p.fetch_int();
+  switch (constructor) {
+    case pollAnswer::ID:
+      return pollAnswer::fetch(p);
+    case inputPollAnswer::ID:
+      return inputPollAnswer::fetch(p);
+    default:
+      FAIL(PSTRING() << "Unknown constructor found " << format::as_hex(constructor));
+  }
+#undef FAIL
+}
+
+pollAnswer::pollAnswer()
+  : flags_()
+  , text_()
+  , option_()
+  , media_()
+  , added_by_()
+  , date_()
+{}
+
+pollAnswer::pollAnswer(int32 flags_, object_ptr<textWithEntities> &&text_, bytes &&option_, object_ptr<MessageMedia> &&media_, object_ptr<Peer> &&added_by_, int32 date_)
+  : flags_(flags_)
+  , text_(std::move(text_))
+  , option_(std::move(option_))
+  , media_(std::move(media_))
+  , added_by_(std::move(added_by_))
+  , date_(date_)
+{}
+
+const std::int32_t pollAnswer::ID;
+
+object_ptr<PollAnswer> pollAnswer::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<pollAnswer> res = make_tl_object<pollAnswer>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->text_ = TlFetchBoxed<TlFetchObject<textWithEntities>, 1964978502>::parse(p);
+  res->option_ = TlFetchBytes<bytes>::parse(p);
+  if (var0 & 1) { res->media_ = TlFetchObject<MessageMedia>::parse(p); }
+  if (var0 & 2) { res->added_by_ = TlFetchObject<Peer>::parse(p); }
+  if (var0 & 2) { res->date_ = TlFetchInt::parse(p); }
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
+}
+
+void pollAnswer::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxed<TlStoreObject, 1964978502>::store(text_, s);
+  TlStoreString::store(option_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(media_, s); }
+  if (var0 & 2) { TlStoreBoxedUnknown<TlStoreObject>::store(added_by_, s); }
+  if (var0 & 2) { TlStoreBinary::store(date_, s); }
+}
+
+void pollAnswer::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxed<TlStoreObject, 1964978502>::store(text_, s);
+  TlStoreString::store(option_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(media_, s); }
+  if (var0 & 2) { TlStoreBoxedUnknown<TlStoreObject>::store(added_by_, s); }
+  if (var0 & 2) { TlStoreBinary::store(date_, s); }
+}
+
+void pollAnswer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "pollAnswer");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    s.store_object_field("text", static_cast<const BaseObject *>(text_.get()));
+    s.store_bytes_field("option", option_);
+    if (var0 & 1) { s.store_object_field("media", static_cast<const BaseObject *>(media_.get())); }
+    if (var0 & 2) { s.store_object_field("added_by", static_cast<const BaseObject *>(added_by_.get())); }
+    if (var0 & 2) { s.store_field("date", date_); }
+    s.store_class_end();
+  }
+}
+
+inputPollAnswer::inputPollAnswer()
+  : flags_()
+  , text_()
+  , media_()
+{}
+
+inputPollAnswer::inputPollAnswer(int32 flags_, object_ptr<textWithEntities> &&text_, object_ptr<InputMedia> &&media_)
+  : flags_(flags_)
+  , text_(std::move(text_))
+  , media_(std::move(media_))
+{}
+
+const std::int32_t inputPollAnswer::ID;
+
+object_ptr<PollAnswer> inputPollAnswer::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<inputPollAnswer> res = make_tl_object<inputPollAnswer>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->text_ = TlFetchBoxed<TlFetchObject<textWithEntities>, 1964978502>::parse(p);
+  if (var0 & 1) { res->media_ = TlFetchObject<InputMedia>::parse(p); }
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
+}
+
+void inputPollAnswer::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxed<TlStoreObject, 1964978502>::store(text_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(media_, s); }
+}
+
+void inputPollAnswer::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxed<TlStoreObject, 1964978502>::store(text_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(media_, s); }
+}
+
+void inputPollAnswer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputPollAnswer");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    s.store_object_field("text", static_cast<const BaseObject *>(text_.get()));
+    if (var0 & 1) { s.store_object_field("media", static_cast<const BaseObject *>(media_.get())); }
     s.store_class_end();
   }
 }
@@ -2266,12 +2474,24 @@ object_ptr<RichText> textEmpty::fetch(TlBufferParser &p) {
   return make_tl_object<textEmpty>();
 }
 
+void textEmpty::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+}
+
+void textEmpty::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+}
+
 void textEmpty::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textEmpty");
     s.store_class_end();
   }
 }
+
+textPlain::textPlain(string const &text_)
+  : text_(text_)
+{}
 
 const std::int32_t textPlain::ID;
 
@@ -2283,6 +2503,16 @@ textPlain::textPlain(TlBufferParser &p)
   : text_(TlFetchString<string>::parse(p))
 {}
 
+void textPlain::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(text_, s);
+}
+
+void textPlain::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(text_, s);
+}
+
 void textPlain::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textPlain");
@@ -2290,6 +2520,10 @@ void textPlain::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textBold::textBold(object_ptr<RichText> &&text_)
+  : text_(std::move(text_))
+{}
 
 const std::int32_t textBold::ID;
 
@@ -2301,6 +2535,16 @@ textBold::textBold(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
 {}
 
+void textBold::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
+void textBold::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
 void textBold::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textBold");
@@ -2308,6 +2552,10 @@ void textBold::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textItalic::textItalic(object_ptr<RichText> &&text_)
+  : text_(std::move(text_))
+{}
 
 const std::int32_t textItalic::ID;
 
@@ -2319,6 +2567,16 @@ textItalic::textItalic(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
 {}
 
+void textItalic::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
+void textItalic::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
 void textItalic::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textItalic");
@@ -2326,6 +2584,10 @@ void textItalic::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textUnderline::textUnderline(object_ptr<RichText> &&text_)
+  : text_(std::move(text_))
+{}
 
 const std::int32_t textUnderline::ID;
 
@@ -2337,6 +2599,16 @@ textUnderline::textUnderline(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
 {}
 
+void textUnderline::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
+void textUnderline::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
 void textUnderline::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textUnderline");
@@ -2344,6 +2616,10 @@ void textUnderline::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textStrike::textStrike(object_ptr<RichText> &&text_)
+  : text_(std::move(text_))
+{}
 
 const std::int32_t textStrike::ID;
 
@@ -2355,6 +2631,16 @@ textStrike::textStrike(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
 {}
 
+void textStrike::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
+void textStrike::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
 void textStrike::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textStrike");
@@ -2362,6 +2648,10 @@ void textStrike::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textFixed::textFixed(object_ptr<RichText> &&text_)
+  : text_(std::move(text_))
+{}
 
 const std::int32_t textFixed::ID;
 
@@ -2373,6 +2663,16 @@ textFixed::textFixed(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
 {}
 
+void textFixed::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
+void textFixed::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
 void textFixed::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textFixed");
@@ -2380,6 +2680,12 @@ void textFixed::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textUrl::textUrl(object_ptr<RichText> &&text_, string const &url_, int64 webpage_id_)
+  : text_(std::move(text_))
+  , url_(url_)
+  , webpage_id_(webpage_id_)
+{}
 
 const std::int32_t textUrl::ID;
 
@@ -2393,6 +2699,20 @@ textUrl::textUrl(TlBufferParser &p)
   , webpage_id_(TlFetchLong::parse(p))
 {}
 
+void textUrl::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+  TlStoreString::store(url_, s);
+  TlStoreBinary::store(webpage_id_, s);
+}
+
+void textUrl::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+  TlStoreString::store(url_, s);
+  TlStoreBinary::store(webpage_id_, s);
+}
+
 void textUrl::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textUrl");
@@ -2402,6 +2722,11 @@ void textUrl::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textEmail::textEmail(object_ptr<RichText> &&text_, string const &email_)
+  : text_(std::move(text_))
+  , email_(email_)
+{}
 
 const std::int32_t textEmail::ID;
 
@@ -2414,6 +2739,18 @@ textEmail::textEmail(TlBufferParser &p)
   , email_(TlFetchString<string>::parse(p))
 {}
 
+void textEmail::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+  TlStoreString::store(email_, s);
+}
+
+void textEmail::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+  TlStoreString::store(email_, s);
+}
+
 void textEmail::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textEmail");
@@ -2422,6 +2759,10 @@ void textEmail::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textConcat::textConcat(array<object_ptr<RichText>> &&texts_)
+  : texts_(std::move(texts_))
+{}
 
 const std::int32_t textConcat::ID;
 
@@ -2433,6 +2774,16 @@ textConcat::textConcat(TlBufferParser &p)
   : texts_(TlFetchBoxed<TlFetchVector<TlFetchObject<RichText>>, 481674261>::parse(p))
 {}
 
+void textConcat::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(texts_, s);
+}
+
+void textConcat::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(texts_, s);
+}
+
 void textConcat::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textConcat");
@@ -2440,6 +2791,10 @@ void textConcat::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textSubscript::textSubscript(object_ptr<RichText> &&text_)
+  : text_(std::move(text_))
+{}
 
 const std::int32_t textSubscript::ID;
 
@@ -2451,6 +2806,16 @@ textSubscript::textSubscript(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
 {}
 
+void textSubscript::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
+void textSubscript::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
 void textSubscript::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textSubscript");
@@ -2458,6 +2823,10 @@ void textSubscript::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textSuperscript::textSuperscript(object_ptr<RichText> &&text_)
+  : text_(std::move(text_))
+{}
 
 const std::int32_t textSuperscript::ID;
 
@@ -2469,6 +2838,16 @@ textSuperscript::textSuperscript(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
 {}
 
+void textSuperscript::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
+void textSuperscript::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
 void textSuperscript::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textSuperscript");
@@ -2476,6 +2855,10 @@ void textSuperscript::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textMarked::textMarked(object_ptr<RichText> &&text_)
+  : text_(std::move(text_))
+{}
 
 const std::int32_t textMarked::ID;
 
@@ -2487,6 +2870,16 @@ textMarked::textMarked(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
 {}
 
+void textMarked::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
+void textMarked::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+}
+
 void textMarked::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textMarked");
@@ -2494,6 +2887,11 @@ void textMarked::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textPhone::textPhone(object_ptr<RichText> &&text_, string const &phone_)
+  : text_(std::move(text_))
+  , phone_(phone_)
+{}
 
 const std::int32_t textPhone::ID;
 
@@ -2506,6 +2904,18 @@ textPhone::textPhone(TlBufferParser &p)
   , phone_(TlFetchString<string>::parse(p))
 {}
 
+void textPhone::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+  TlStoreString::store(phone_, s);
+}
+
+void textPhone::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+  TlStoreString::store(phone_, s);
+}
+
 void textPhone::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textPhone");
@@ -2514,6 +2924,12 @@ void textPhone::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textImage::textImage(int64 document_id_, int32 w_, int32 h_)
+  : document_id_(document_id_)
+  , w_(w_)
+  , h_(h_)
+{}
 
 const std::int32_t textImage::ID;
 
@@ -2527,6 +2943,20 @@ textImage::textImage(TlBufferParser &p)
   , h_(TlFetchInt::parse(p))
 {}
 
+void textImage::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(document_id_, s);
+  TlStoreBinary::store(w_, s);
+  TlStoreBinary::store(h_, s);
+}
+
+void textImage::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(document_id_, s);
+  TlStoreBinary::store(w_, s);
+  TlStoreBinary::store(h_, s);
+}
+
 void textImage::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "textImage");
@@ -2536,6 +2966,11 @@ void textImage::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+textAnchor::textAnchor(object_ptr<RichText> &&text_, string const &name_)
+  : text_(std::move(text_))
+  , name_(name_)
+{}
 
 const std::int32_t textAnchor::ID;
 
@@ -2547,6 +2982,18 @@ textAnchor::textAnchor(TlBufferParser &p)
   : text_(TlFetchObject<RichText>::parse(p))
   , name_(TlFetchString<string>::parse(p))
 {}
+
+void textAnchor::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+  TlStoreString::store(name_, s);
+}
+
+void textAnchor::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(text_, s);
+  TlStoreString::store(name_, s);
+}
 
 void textAnchor::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
@@ -2610,6 +3057,9 @@ starsTransaction::starsTransaction()
   , posts_search_()
   , stargift_prepaid_upgrade_()
   , stargift_drop_original_details_()
+  , phonegroup_message_()
+  , stargift_auction_bid_()
+  , offer_()
   , id_()
   , amount_()
   , date_()
@@ -2653,6 +3103,9 @@ object_ptr<starsTransaction> starsTransaction::fetch(TlBufferParser &p) {
   res->posts_search_ = (var0 & 16777216) != 0;
   res->stargift_prepaid_upgrade_ = (var0 & 33554432) != 0;
   res->stargift_drop_original_details_ = (var0 & 67108864) != 0;
+  res->phonegroup_message_ = (var0 & 134217728) != 0;
+  res->stargift_auction_bid_ = (var0 & 268435456) != 0;
+  res->offer_ = (var0 & 536870912) != 0;
   res->id_ = TlFetchString<string>::parse(p);
   res->amount_ = TlFetchObject<StarsAmount>::parse(p);
   res->date_ = TlFetchInt::parse(p);
@@ -2685,7 +3138,7 @@ void starsTransaction::store(TlStorerToString &s, const char *field_name) const 
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "starsTransaction");
   int32 var0;
-    s.store_field("flags", (var0 = flags_ | (refund_ << 3) | (pending_ << 4) | (failed_ << 6) | (gift_ << 10) | (reaction_ << 11) | (stargift_upgrade_ << 18) | (business_transfer_ << 21) | (stargift_resale_ << 22) | (posts_search_ << 24) | (stargift_prepaid_upgrade_ << 25) | (stargift_drop_original_details_ << 26)));
+    s.store_field("flags", (var0 = flags_ | (refund_ << 3) | (pending_ << 4) | (failed_ << 6) | (gift_ << 10) | (reaction_ << 11) | (stargift_upgrade_ << 18) | (business_transfer_ << 21) | (stargift_resale_ << 22) | (posts_search_ << 24) | (stargift_prepaid_upgrade_ << 25) | (stargift_drop_original_details_ << 26) | (phonegroup_message_ << 27) | (stargift_auction_bid_ << 28) | (offer_ << 29)));
     if (var0 & 8) { s.store_field("refund", true); }
     if (var0 & 16) { s.store_field("pending", true); }
     if (var0 & 64) { s.store_field("failed", true); }
@@ -2697,6 +3150,9 @@ void starsTransaction::store(TlStorerToString &s, const char *field_name) const 
     if (var0 & 16777216) { s.store_field("posts_search", true); }
     if (var0 & 33554432) { s.store_field("stargift_prepaid_upgrade", true); }
     if (var0 & 67108864) { s.store_field("stargift_drop_original_details", true); }
+    if (var0 & 134217728) { s.store_field("phonegroup_message", true); }
+    if (var0 & 268435456) { s.store_field("stargift_auction_bid", true); }
+    if (var0 & 536870912) { s.store_field("offer", true); }
     s.store_field("id", id_);
     s.store_object_field("amount", static_cast<const BaseObject *>(amount_.get()));
     s.store_field("date", date_);
@@ -3100,6 +3556,20 @@ object_ptr<Update> Update::fetch(TlBufferParser &p) {
       return updatePinnedForumTopic::fetch(p);
     case updatePinnedForumTopics::ID:
       return updatePinnedForumTopics::fetch(p);
+    case updateDeleteGroupCallMessages::ID:
+      return updateDeleteGroupCallMessages::fetch(p);
+    case updateStarGiftAuctionState::ID:
+      return updateStarGiftAuctionState::fetch(p);
+    case updateStarGiftAuctionUserState::ID:
+      return updateStarGiftAuctionUserState::fetch(p);
+    case updateEmojiGameInfo::ID:
+      return updateEmojiGameInfo::fetch(p);
+    case updateStarGiftCraftFail::ID:
+      return updateStarGiftCraftFail::fetch(p);
+    case updateChatParticipantRank::ID:
+      return updateChatParticipantRank::fetch(p);
+    case updateManagedBot::ID:
+      return updateManagedBot::fetch(p);
     default:
       FAIL(PSTRING() << "Unknown constructor found " << format::as_hex(constructor));
   }
@@ -4718,6 +5188,9 @@ void updateDialogUnreadMark::store(TlStorerToString &s, const char *field_name) 
 
 updateMessagePoll::updateMessagePoll()
   : flags_()
+  , peer_()
+  , msg_id_()
+  , top_msg_id_()
   , poll_id_()
   , poll_()
   , results_()
@@ -4730,9 +5203,12 @@ object_ptr<Update> updateMessagePoll::fetch(TlBufferParser &p) {
   object_ptr<updateMessagePoll> res = make_tl_object<updateMessagePoll>();
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 2) { res->peer_ = TlFetchObject<Peer>::parse(p); }
+  if (var0 & 2) { res->msg_id_ = TlFetchInt::parse(p); }
+  if (var0 & 4) { res->top_msg_id_ = TlFetchInt::parse(p); }
   res->poll_id_ = TlFetchLong::parse(p);
-  if (var0 & 1) { res->poll_ = TlFetchBoxed<TlFetchObject<poll>, 1484026161>::parse(p); }
-  res->results_ = TlFetchBoxed<TlFetchObject<pollResults>, 2061444128>::parse(p);
+  if (var0 & 1) { res->poll_ = TlFetchBoxed<TlFetchObject<poll>, -1203610647>::parse(p); }
+  res->results_ = TlFetchBoxed<TlFetchObject<pollResults>, -1166298786>::parse(p);
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
@@ -4743,6 +5219,9 @@ void updateMessagePoll::store(TlStorerToString &s, const char *field_name) const
     s.store_class_begin(field_name, "updateMessagePoll");
   int32 var0;
     s.store_field("flags", (var0 = flags_));
+    if (var0 & 2) { s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get())); }
+    if (var0 & 2) { s.store_field("msg_id", msg_id_); }
+    if (var0 & 4) { s.store_field("top_msg_id", top_msg_id_); }
     s.store_field("poll_id", poll_id_);
     if (var0 & 1) { s.store_object_field("poll", static_cast<const BaseObject *>(poll_.get())); }
     s.store_object_field("results", static_cast<const BaseObject *>(results_.get()));
@@ -4945,6 +5424,7 @@ updateMessagePollVote::updateMessagePollVote(TlBufferParser &p)
   : poll_id_(TlFetchLong::parse(p))
   , peer_(TlFetchObject<Peer>::parse(p))
   , options_(TlFetchBoxed<TlFetchVector<TlFetchBytes<bytes>>, 481674261>::parse(p))
+  , positions_(TlFetchBoxed<TlFetchVector<TlFetchInt>, 481674261>::parse(p))
   , qts_(TlFetchInt::parse(p))
 {}
 
@@ -4954,6 +5434,7 @@ void updateMessagePollVote::store(TlStorerToString &s, const char *field_name) c
     s.store_field("poll_id", poll_id_);
     s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get()));
     { s.store_vector_begin("options", options_.size()); for (const auto &_value : options_) { s.store_bytes_field("", _value); } s.store_class_end(); }
+    { s.store_vector_begin("positions", positions_.size()); for (const auto &_value : positions_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_field("qts", qts_);
     s.store_class_end();
   }
@@ -5302,7 +5783,7 @@ object_ptr<Update> updateGroupCallParticipants::fetch(TlBufferParser &p) {
 
 updateGroupCallParticipants::updateGroupCallParticipants(TlBufferParser &p)
   : call_(TlFetchObject<InputGroupCall>::parse(p))
-  , participants_(TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<groupCallParticipant>, -341428482>>, 481674261>::parse(p))
+  , participants_(TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<groupCallParticipant>, 708691884>>, 481674261>::parse(p))
   , version_(TlFetchInt::parse(p))
 {}
 
@@ -5318,7 +5799,8 @@ void updateGroupCallParticipants::store(TlStorerToString &s, const char *field_n
 
 updateGroupCall::updateGroupCall()
   : flags_()
-  , chat_id_()
+  , live_story_()
+  , peer_()
   , call_()
 {}
 
@@ -5329,7 +5811,8 @@ object_ptr<Update> updateGroupCall::fetch(TlBufferParser &p) {
   object_ptr<updateGroupCall> res = make_tl_object<updateGroupCall>();
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
-  if (var0 & 1) { res->chat_id_ = TlFetchLong::parse(p); }
+  res->live_story_ = (var0 & 4) != 0;
+  if (var0 & 2) { res->peer_ = TlFetchObject<Peer>::parse(p); }
   res->call_ = TlFetchObject<GroupCall>::parse(p);
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
@@ -5340,8 +5823,9 @@ void updateGroupCall::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "updateGroupCall");
   int32 var0;
-    s.store_field("flags", (var0 = flags_));
-    if (var0 & 1) { s.store_field("chat_id", chat_id_); }
+    s.store_field("flags", (var0 = flags_ | (live_story_ << 2)));
+    if (var0 & 4) { s.store_field("live_story", true); }
+    if (var0 & 2) { s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get())); }
     s.store_object_field("call", static_cast<const BaseObject *>(call_.get()));
     s.store_class_end();
   }
@@ -6702,17 +7186,13 @@ object_ptr<Update> updateGroupCallMessage::fetch(TlBufferParser &p) {
 
 updateGroupCallMessage::updateGroupCallMessage(TlBufferParser &p)
   : call_(TlFetchObject<InputGroupCall>::parse(p))
-  , from_id_(TlFetchObject<Peer>::parse(p))
-  , random_id_(TlFetchLong::parse(p))
-  , message_(TlFetchBoxed<TlFetchObject<textWithEntities>, 1964978502>::parse(p))
+  , message_(TlFetchBoxed<TlFetchObject<groupCallMessage>, 445316222>::parse(p))
 {}
 
 void updateGroupCallMessage::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "updateGroupCallMessage");
     s.store_object_field("call", static_cast<const BaseObject *>(call_.get()));
-    s.store_object_field("from_id", static_cast<const BaseObject *>(from_id_.get()));
-    s.store_field("random_id", random_id_);
     s.store_object_field("message", static_cast<const BaseObject *>(message_.get()));
     s.store_class_end();
   }
@@ -6805,6 +7285,143 @@ void updatePinnedForumTopics::store(TlStorerToString &s, const char *field_name)
   }
 }
 
+const std::int32_t updateDeleteGroupCallMessages::ID;
+
+object_ptr<Update> updateDeleteGroupCallMessages::fetch(TlBufferParser &p) {
+  return make_tl_object<updateDeleteGroupCallMessages>(p);
+}
+
+updateDeleteGroupCallMessages::updateDeleteGroupCallMessages(TlBufferParser &p)
+  : call_(TlFetchObject<InputGroupCall>::parse(p))
+  , messages_(TlFetchBoxed<TlFetchVector<TlFetchInt>, 481674261>::parse(p))
+{}
+
+void updateDeleteGroupCallMessages::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateDeleteGroupCallMessages");
+    s.store_object_field("call", static_cast<const BaseObject *>(call_.get()));
+    { s.store_vector_begin("messages", messages_.size()); for (const auto &_value : messages_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+const std::int32_t updateStarGiftAuctionState::ID;
+
+object_ptr<Update> updateStarGiftAuctionState::fetch(TlBufferParser &p) {
+  return make_tl_object<updateStarGiftAuctionState>(p);
+}
+
+updateStarGiftAuctionState::updateStarGiftAuctionState(TlBufferParser &p)
+  : gift_id_(TlFetchLong::parse(p))
+  , state_(TlFetchObject<StarGiftAuctionState>::parse(p))
+{}
+
+void updateStarGiftAuctionState::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateStarGiftAuctionState");
+    s.store_field("gift_id", gift_id_);
+    s.store_object_field("state", static_cast<const BaseObject *>(state_.get()));
+    s.store_class_end();
+  }
+}
+
+const std::int32_t updateStarGiftAuctionUserState::ID;
+
+object_ptr<Update> updateStarGiftAuctionUserState::fetch(TlBufferParser &p) {
+  return make_tl_object<updateStarGiftAuctionUserState>(p);
+}
+
+updateStarGiftAuctionUserState::updateStarGiftAuctionUserState(TlBufferParser &p)
+  : gift_id_(TlFetchLong::parse(p))
+  , user_state_(TlFetchBoxed<TlFetchObject<starGiftAuctionUserState>, 787403204>::parse(p))
+{}
+
+void updateStarGiftAuctionUserState::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateStarGiftAuctionUserState");
+    s.store_field("gift_id", gift_id_);
+    s.store_object_field("user_state", static_cast<const BaseObject *>(user_state_.get()));
+    s.store_class_end();
+  }
+}
+
+const std::int32_t updateEmojiGameInfo::ID;
+
+object_ptr<Update> updateEmojiGameInfo::fetch(TlBufferParser &p) {
+  return make_tl_object<updateEmojiGameInfo>(p);
+}
+
+updateEmojiGameInfo::updateEmojiGameInfo(TlBufferParser &p)
+  : info_(TlFetchObject<messages_EmojiGameInfo>::parse(p))
+{}
+
+void updateEmojiGameInfo::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateEmojiGameInfo");
+    s.store_object_field("info", static_cast<const BaseObject *>(info_.get()));
+    s.store_class_end();
+  }
+}
+
+const std::int32_t updateStarGiftCraftFail::ID;
+
+object_ptr<Update> updateStarGiftCraftFail::fetch(TlBufferParser &p) {
+  return make_tl_object<updateStarGiftCraftFail>();
+}
+
+void updateStarGiftCraftFail::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateStarGiftCraftFail");
+    s.store_class_end();
+  }
+}
+
+const std::int32_t updateChatParticipantRank::ID;
+
+object_ptr<Update> updateChatParticipantRank::fetch(TlBufferParser &p) {
+  return make_tl_object<updateChatParticipantRank>(p);
+}
+
+updateChatParticipantRank::updateChatParticipantRank(TlBufferParser &p)
+  : chat_id_(TlFetchLong::parse(p))
+  , user_id_(TlFetchLong::parse(p))
+  , rank_(TlFetchString<string>::parse(p))
+  , version_(TlFetchInt::parse(p))
+{}
+
+void updateChatParticipantRank::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateChatParticipantRank");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("user_id", user_id_);
+    s.store_field("rank", rank_);
+    s.store_field("version", version_);
+    s.store_class_end();
+  }
+}
+
+const std::int32_t updateManagedBot::ID;
+
+object_ptr<Update> updateManagedBot::fetch(TlBufferParser &p) {
+  return make_tl_object<updateManagedBot>(p);
+}
+
+updateManagedBot::updateManagedBot(TlBufferParser &p)
+  : user_id_(TlFetchLong::parse(p))
+  , bot_id_(TlFetchLong::parse(p))
+  , qts_(TlFetchInt::parse(p))
+{}
+
+void updateManagedBot::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateManagedBot");
+    s.store_field("user_id", user_id_);
+    s.store_field("bot_id", bot_id_);
+    s.store_field("qts", qts_);
+    s.store_class_end();
+  }
+}
+
 object_ptr<User> User::fetch(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return nullptr;
   int constructor = p.fetch_int();
@@ -6866,6 +7483,8 @@ user::user()
   , bot_business_()
   , bot_has_main_app_()
   , bot_forum_view_()
+  , bot_forum_can_manage_topics_()
+  , bot_can_manage_bots_()
   , id_()
   , access_hash_()
   , first_name_()
@@ -6888,7 +7507,7 @@ user::user()
   , send_paid_messages_stars_()
 {}
 
-user::user(int32 flags_, bool self_, bool contact_, bool mutual_contact_, bool deleted_, bool bot_, bool bot_chat_history_, bool bot_nochats_, bool verified_, bool restricted_, bool min_, bool bot_inline_geo_, bool support_, bool scam_, bool apply_min_photo_, bool fake_, bool bot_attach_menu_, bool premium_, bool attach_menu_enabled_, int32 flags2_, bool bot_can_edit_, bool close_friend_, bool stories_hidden_, bool stories_unavailable_, bool contact_require_premium_, bool bot_business_, bool bot_has_main_app_, bool bot_forum_view_, int64 id_, int64 access_hash_, string const &first_name_, string const &last_name_, string const &username_, string const &phone_, object_ptr<UserProfilePhoto> &&photo_, object_ptr<UserStatus> &&status_, int32 bot_info_version_, array<object_ptr<restrictionReason>> &&restriction_reason_, string const &bot_inline_placeholder_, string const &lang_code_, object_ptr<EmojiStatus> &&emoji_status_, array<object_ptr<username>> &&usernames_, int32 stories_max_id_, object_ptr<PeerColor> &&color_, object_ptr<PeerColor> &&profile_color_, int32 bot_active_users_, int64 bot_verification_icon_, int64 send_paid_messages_stars_)
+user::user(int32 flags_, bool self_, bool contact_, bool mutual_contact_, bool deleted_, bool bot_, bool bot_chat_history_, bool bot_nochats_, bool verified_, bool restricted_, bool min_, bool bot_inline_geo_, bool support_, bool scam_, bool apply_min_photo_, bool fake_, bool bot_attach_menu_, bool premium_, bool attach_menu_enabled_, int32 flags2_, bool bot_can_edit_, bool close_friend_, bool stories_hidden_, bool stories_unavailable_, bool contact_require_premium_, bool bot_business_, bool bot_has_main_app_, bool bot_forum_view_, bool bot_forum_can_manage_topics_, bool bot_can_manage_bots_, int64 id_, int64 access_hash_, string const &first_name_, string const &last_name_, string const &username_, string const &phone_, object_ptr<UserProfilePhoto> &&photo_, object_ptr<UserStatus> &&status_, int32 bot_info_version_, array<object_ptr<restrictionReason>> &&restriction_reason_, string const &bot_inline_placeholder_, string const &lang_code_, object_ptr<EmojiStatus> &&emoji_status_, array<object_ptr<username>> &&usernames_, object_ptr<recentStory> &&stories_max_id_, object_ptr<PeerColor> &&color_, object_ptr<PeerColor> &&profile_color_, int32 bot_active_users_, int64 bot_verification_icon_, int64 send_paid_messages_stars_)
   : flags_(flags_)
   , self_(self_)
   , contact_(contact_)
@@ -6917,6 +7536,8 @@ user::user(int32 flags_, bool self_, bool contact_, bool mutual_contact_, bool d
   , bot_business_(bot_business_)
   , bot_has_main_app_(bot_has_main_app_)
   , bot_forum_view_(bot_forum_view_)
+  , bot_forum_can_manage_topics_(bot_forum_can_manage_topics_)
+  , bot_can_manage_bots_(bot_can_manage_bots_)
   , id_(id_)
   , access_hash_(access_hash_)
   , first_name_(first_name_)
@@ -6931,7 +7552,7 @@ user::user(int32 flags_, bool self_, bool contact_, bool mutual_contact_, bool d
   , lang_code_(lang_code_)
   , emoji_status_(std::move(emoji_status_))
   , usernames_(std::move(usernames_))
-  , stories_max_id_(stories_max_id_)
+  , stories_max_id_(std::move(stories_max_id_))
   , color_(std::move(color_))
   , profile_color_(std::move(profile_color_))
   , bot_active_users_(bot_active_users_)
@@ -6974,6 +7595,8 @@ object_ptr<User> user::fetch(TlBufferParser &p) {
   res->bot_business_ = (var1 & 2048) != 0;
   res->bot_has_main_app_ = (var1 & 8192) != 0;
   res->bot_forum_view_ = (var1 & 65536) != 0;
+  res->bot_forum_can_manage_topics_ = (var1 & 131072) != 0;
+  res->bot_can_manage_bots_ = (var1 & 262144) != 0;
   res->id_ = TlFetchLong::parse(p);
   if (var0 & 1) { res->access_hash_ = TlFetchLong::parse(p); }
   if (var0 & 2) { res->first_name_ = TlFetchString<string>::parse(p); }
@@ -6988,7 +7611,7 @@ object_ptr<User> user::fetch(TlBufferParser &p) {
   if (var0 & 4194304) { res->lang_code_ = TlFetchString<string>::parse(p); }
   if (var0 & 1073741824) { res->emoji_status_ = TlFetchObject<EmojiStatus>::parse(p); }
   if (var1 & 1) { res->usernames_ = TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<username>, -1274595769>>, 481674261>::parse(p); }
-  if (var1 & 32) { res->stories_max_id_ = TlFetchInt::parse(p); }
+  if (var1 & 32) { res->stories_max_id_ = TlFetchBoxed<TlFetchObject<recentStory>, 1897752877>::parse(p); }
   if (var1 & 256) { res->color_ = TlFetchObject<PeerColor>::parse(p); }
   if (var1 & 512) { res->profile_color_ = TlFetchObject<PeerColor>::parse(p); }
   if (var1 & 4096) { res->bot_active_users_ = TlFetchInt::parse(p); }
@@ -7023,7 +7646,7 @@ void user::store(TlStorerToString &s, const char *field_name) const {
     if (var0 & 134217728) { s.store_field("bot_attach_menu", true); }
     if (var0 & 268435456) { s.store_field("premium", true); }
     if (var0 & 536870912) { s.store_field("attach_menu_enabled", true); }
-    s.store_field("flags2", (var1 = flags2_ | (bot_can_edit_ << 1) | (close_friend_ << 2) | (stories_hidden_ << 3) | (stories_unavailable_ << 4) | (contact_require_premium_ << 10) | (bot_business_ << 11) | (bot_has_main_app_ << 13) | (bot_forum_view_ << 16)));
+    s.store_field("flags2", (var1 = flags2_ | (bot_can_edit_ << 1) | (close_friend_ << 2) | (stories_hidden_ << 3) | (stories_unavailable_ << 4) | (contact_require_premium_ << 10) | (bot_business_ << 11) | (bot_has_main_app_ << 13) | (bot_forum_view_ << 16) | (bot_forum_can_manage_topics_ << 17) | (bot_can_manage_bots_ << 18)));
     if (var1 & 2) { s.store_field("bot_can_edit", true); }
     if (var1 & 4) { s.store_field("close_friend", true); }
     if (var1 & 8) { s.store_field("stories_hidden", true); }
@@ -7032,6 +7655,8 @@ void user::store(TlStorerToString &s, const char *field_name) const {
     if (var1 & 2048) { s.store_field("bot_business", true); }
     if (var1 & 8192) { s.store_field("bot_has_main_app", true); }
     if (var1 & 65536) { s.store_field("bot_forum_view", true); }
+    if (var1 & 131072) { s.store_field("bot_forum_can_manage_topics", true); }
+    if (var1 & 262144) { s.store_field("bot_can_manage_bots", true); }
     s.store_field("id", id_);
     if (var0 & 1) { s.store_field("access_hash", access_hash_); }
     if (var0 & 2) { s.store_field("first_name", first_name_); }
@@ -7046,7 +7671,7 @@ void user::store(TlStorerToString &s, const char *field_name) const {
     if (var0 & 4194304) { s.store_field("lang_code", lang_code_); }
     if (var0 & 1073741824) { s.store_object_field("emoji_status", static_cast<const BaseObject *>(emoji_status_.get())); }
     if (var1 & 1) { { s.store_vector_begin("usernames", usernames_.size()); for (const auto &_value : usernames_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); } }
-    if (var1 & 32) { s.store_field("stories_max_id", stories_max_id_); }
+    if (var1 & 32) { s.store_object_field("stories_max_id", static_cast<const BaseObject *>(stories_max_id_.get())); }
     if (var1 & 256) { s.store_object_field("color", static_cast<const BaseObject *>(color_.get())); }
     if (var1 & 512) { s.store_object_field("profile_color", static_cast<const BaseObject *>(profile_color_.get())); }
     if (var1 & 4096) { s.store_field("bot_active_users", bot_active_users_); }
@@ -7333,6 +7958,24 @@ void auth_passwordRecovery::store(TlStorerToString &s, const char *field_name) c
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "auth.passwordRecovery");
     s.store_field("email_pattern", email_pattern_);
+    s.store_class_end();
+  }
+}
+
+const std::int32_t bots_requestedButton::ID;
+
+object_ptr<bots_requestedButton> bots_requestedButton::fetch(TlBufferParser &p) {
+  return make_tl_object<bots_requestedButton>(p);
+}
+
+bots_requestedButton::bots_requestedButton(TlBufferParser &p)
+  : webapp_req_id_(TlFetchString<string>::parse(p))
+{}
+
+void bots_requestedButton::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "bots.requestedButton");
+    s.store_field("webapp_req_id", webapp_req_id_);
     s.store_class_end();
   }
 }
@@ -7899,7 +8542,7 @@ object_ptr<users_userFull> users_userFull::fetch(TlBufferParser &p) {
 }
 
 users_userFull::users_userFull(TlBufferParser &p)
-  : full_user_(TlFetchBoxed<TlFetchObject<userFull>, -1607745218>::parse(p))
+  : full_user_(TlFetchBoxed<TlFetchObject<userFull>, 114026053>::parse(p))
   , chats_(TlFetchBoxed<TlFetchVector<TlFetchObject<Chat>>, 481674261>::parse(p))
   , users_(TlFetchBoxed<TlFetchVector<TlFetchObject<User>>, 481674261>::parse(p))
 {}
@@ -8033,6 +8676,31 @@ void account_getNotifyExceptions::store(TlStorerToString &s, const char *field_n
 account_getNotifyExceptions::ReturnType account_getNotifyExceptions::fetch_result(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return ReturnType()
   return TlFetchObject<Updates>::parse(p);
+#undef FAIL
+}
+
+const std::int32_t account_getPasskeys::ID;
+
+void account_getPasskeys::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(-367063982);
+}
+
+void account_getPasskeys::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(-367063982);
+}
+
+void account_getPasskeys::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "account.getPasskeys");
+    s.store_class_end();
+  }
+}
+
+account_getPasskeys::ReturnType account_getPasskeys::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchBoxed<TlFetchObject<account_passkeys>, -119494116>::parse(p);
 #undef FAIL
 }
 
@@ -9627,34 +10295,77 @@ messages_readFeaturedStickers::ReturnType messages_readFeaturedStickers::fetch_r
 #undef FAIL
 }
 
-messages_requestUrlAuth::messages_requestUrlAuth(int32 flags_, object_ptr<InputPeer> &&peer_, int32 msg_id_, int32 button_id_, string const &url_)
+messages_readPollVotes::messages_readPollVotes(int32 flags_, object_ptr<InputPeer> &&peer_, int32 top_msg_id_)
+  : flags_(flags_)
+  , peer_(std::move(peer_))
+  , top_msg_id_(top_msg_id_)
+{}
+
+const std::int32_t messages_readPollVotes::ID;
+
+void messages_readPollVotes::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(388019416);
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  if (var0 & 1) { TlStoreBinary::store(top_msg_id_, s); }
+}
+
+void messages_readPollVotes::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(388019416);
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  if (var0 & 1) { TlStoreBinary::store(top_msg_id_, s); }
+}
+
+void messages_readPollVotes::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messages.readPollVotes");
+    s.store_field("flags", (var0 = flags_));
+    s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get()));
+    if (var0 & 1) { s.store_field("top_msg_id", top_msg_id_); }
+    s.store_class_end();
+  }
+}
+
+messages_readPollVotes::ReturnType messages_readPollVotes::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchBoxed<TlFetchObject<messages_affectedHistory>, -1269012015>::parse(p);
+#undef FAIL
+}
+
+messages_requestUrlAuth::messages_requestUrlAuth(int32 flags_, object_ptr<InputPeer> &&peer_, int32 msg_id_, int32 button_id_, string const &url_, string const &in_app_origin_)
   : flags_(flags_)
   , peer_(std::move(peer_))
   , msg_id_(msg_id_)
   , button_id_(button_id_)
   , url_(url_)
+  , in_app_origin_(in_app_origin_)
 {}
 
 const std::int32_t messages_requestUrlAuth::ID;
 
 void messages_requestUrlAuth::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
-  s.store_binary(428848198);
+  s.store_binary(-1991456356);
   TlStoreBinary::store((var0 = flags_), s);
   if (var0 & 2) { TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s); }
   if (var0 & 2) { TlStoreBinary::store(msg_id_, s); }
   if (var0 & 2) { TlStoreBinary::store(button_id_, s); }
   if (var0 & 4) { TlStoreString::store(url_, s); }
+  if (var0 & 8) { TlStoreString::store(in_app_origin_, s); }
 }
 
 void messages_requestUrlAuth::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
-  s.store_binary(428848198);
+  s.store_binary(-1991456356);
   TlStoreBinary::store((var0 = flags_), s);
   if (var0 & 2) { TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s); }
   if (var0 & 2) { TlStoreBinary::store(msg_id_, s); }
   if (var0 & 2) { TlStoreBinary::store(button_id_, s); }
   if (var0 & 4) { TlStoreString::store(url_, s); }
+  if (var0 & 8) { TlStoreString::store(in_app_origin_, s); }
 }
 
 void messages_requestUrlAuth::store(TlStorerToString &s, const char *field_name) const {
@@ -9665,6 +10376,7 @@ void messages_requestUrlAuth::store(TlStorerToString &s, const char *field_name)
     if (var0 & 2) { s.store_field("msg_id", msg_id_); }
     if (var0 & 2) { s.store_field("button_id", button_id_); }
     if (var0 & 4) { s.store_field("url", url_); }
+    if (var0 & 8) { s.store_field("in_app_origin", in_app_origin_); }
     s.store_class_end();
   }
 }
@@ -10063,6 +10775,48 @@ payments_refundStarsCharge::ReturnType payments_refundStarsCharge::fetch_result(
 #undef FAIL
 }
 
+phone_deleteGroupCallMessages::phone_deleteGroupCallMessages(int32 flags_, bool report_spam_, object_ptr<InputGroupCall> &&call_, array<int32> &&messages_)
+  : flags_(flags_)
+  , report_spam_(report_spam_)
+  , call_(std::move(call_))
+  , messages_(std::move(messages_))
+{}
+
+const std::int32_t phone_deleteGroupCallMessages::ID;
+
+void phone_deleteGroupCallMessages::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(-162573065);
+  TlStoreBinary::store((var0 = flags_ | (report_spam_ << 0)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(call_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(messages_, s);
+}
+
+void phone_deleteGroupCallMessages::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(-162573065);
+  TlStoreBinary::store((var0 = flags_ | (report_spam_ << 0)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(call_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(messages_, s);
+}
+
+void phone_deleteGroupCallMessages::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "phone.deleteGroupCallMessages");
+    s.store_field("flags", (var0 = flags_ | (report_spam_ << 0)));
+    if (var0 & 1) { s.store_field("report_spam", true); }
+    s.store_object_field("call", static_cast<const BaseObject *>(call_.get()));
+    { s.store_vector_begin("messages", messages_.size()); for (const auto &_value : messages_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+phone_deleteGroupCallMessages::ReturnType phone_deleteGroupCallMessages::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchObject<Updates>::parse(p);
+#undef FAIL
+}
+
 const std::int32_t phone_getCallConfig::ID;
 
 void phone_getCallConfig::store(TlStorerCalcLength &s) const {
@@ -10085,6 +10839,38 @@ void phone_getCallConfig::store(TlStorerToString &s, const char *field_name) con
 phone_getCallConfig::ReturnType phone_getCallConfig::fetch_result(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return ReturnType()
   return TlFetchBoxed<TlFetchObject<dataJSON>, 2104790276>::parse(p);
+#undef FAIL
+}
+
+phone_getGroupCallStars::phone_getGroupCallStars(object_ptr<InputGroupCall> &&call_)
+  : call_(std::move(call_))
+{}
+
+const std::int32_t phone_getGroupCallStars::ID;
+
+void phone_getGroupCallStars::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(1868784386);
+  TlStoreBoxedUnknown<TlStoreObject>::store(call_, s);
+}
+
+void phone_getGroupCallStars::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(1868784386);
+  TlStoreBoxedUnknown<TlStoreObject>::store(call_, s);
+}
+
+void phone_getGroupCallStars::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "phone.getGroupCallStars");
+    s.store_object_field("call", static_cast<const BaseObject *>(call_.get()));
+    s.store_class_end();
+  }
+}
+
+phone_getGroupCallStars::ReturnType phone_getGroupCallStars::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchBoxed<TlFetchObject<phone_groupCallStars>, -1658995418>::parse(p);
 #undef FAIL
 }
 

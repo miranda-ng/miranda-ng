@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -37,7 +37,7 @@ class LambdaGuard final : public Guard {
   }
   LambdaGuard(const LambdaGuard &) = delete;
   LambdaGuard &operator=(const LambdaGuard &) = delete;
-  LambdaGuard(LambdaGuard &&other) : func_(std::move(other.func_)), dismissed_(other.dismissed_) {
+  LambdaGuard(LambdaGuard &&other) noexcept : func_(std::move(other.func_)), dismissed_(other.dismissed_) {
     other.dismissed_ = true;
   }
   LambdaGuard &operator=(LambdaGuard &&) = delete;

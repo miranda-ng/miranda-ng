@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -75,6 +75,8 @@ class DraftMessage {
   bool need_clear_local(MessageContentType content_type) const;
 
   bool need_update_to(const DraftMessage &other, bool from_update) const;
+
+  static unique_ptr<DraftMessage> clone(const unique_ptr<DraftMessage> &draft_message);
 
   void add_dependencies(Dependencies &dependencies) const;
 

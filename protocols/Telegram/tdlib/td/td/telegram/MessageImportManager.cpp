@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -487,7 +487,8 @@ telegram_api::object_ptr<telegram_api::InputMedia> MessageImportManager::get_fak
     CHECK(file_type == FileType::Photo || file_type == FileType::PhotoStory ||
           file_type == FileType::SelfDestructingPhoto);
     return telegram_api::make_object<telegram_api::inputMediaUploadedPhoto>(
-        0, false, std::move(input_file), vector<telegram_api::object_ptr<telegram_api::InputDocument>>(), 0);
+        0, false, false, std::move(input_file), vector<telegram_api::object_ptr<telegram_api::InputDocument>>(), 0,
+        nullptr);
   }
 }
 

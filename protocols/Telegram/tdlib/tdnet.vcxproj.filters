@@ -17,6 +17,7 @@
     <ClCompile Include="td\tdnet\td\net\SslCtx.cpp" />
     <ClCompile Include="td\tdnet\td\net\SslStream.cpp" />
     <ClCompile Include="td\tdnet\td\net\TransparentProxy.cpp" />
+    <ClCompile Include="td\tdnet\td\net\HttpHeaderCreator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="td\tdnet\td\net\GetHostByNameActor.h" />

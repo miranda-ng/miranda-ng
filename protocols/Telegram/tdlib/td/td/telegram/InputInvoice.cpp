@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -422,7 +422,7 @@ td_api::object_ptr<td_api::productInfo> get_product_info_object(Td *td, const st
   formatted_description.text = description;
   formatted_description.entities = find_entities(formatted_description.text, true, true);
   return td_api::make_object<td_api::productInfo>(
-      title, get_formatted_text_object(td->user_manager_.get(), formatted_description, true, 0),
+      title, get_formatted_text_object(td->user_manager_.get(), formatted_description, true, -1),
       get_photo_object(td->file_manager_.get(), photo));
 }
 

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,6 +8,7 @@
 
 #include "td/telegram/AccentColorId.h"
 #include "td/telegram/AccessRights.h"
+#include "td/telegram/ActiveStoryState.h"
 #include "td/telegram/Birthdate.h"
 #include "td/telegram/BotCommand.h"
 #include "td/telegram/BotMenuButton.h"
@@ -50,6 +51,7 @@
 #include "td/utils/HashTableUtils.h"
 #include "td/utils/Hints.h"
 #include "td/utils/Promise.h"
+#include "td/utils/Slice.h"
 #include "td/utils/Status.h"
 #include "td/utils/StringBuilder.h"
 #include "td/utils/Time.h"
@@ -137,7 +139,8 @@ class UserManager final : public Actor {
 
   void on_update_user_emoji_status(UserId user_id, telegram_api::object_ptr<telegram_api::EmojiStatus> &&emoji_status);
 
-  void on_update_user_story_ids(UserId user_id, StoryId max_active_story_id, StoryId max_read_story_id);
+  void on_update_user_story_ids(UserId user_id, telegram_api::object_ptr<telegram_api::recentStory> &&recent_story,
+                                StoryId max_read_story_id);
 
   void on_update_user_max_read_story_id(UserId user_id, StoryId max_read_story_id);
 
@@ -182,6 +185,9 @@ class UserManager final : public Actor {
   void on_update_user_charge_paid_message_stars(UserId user_id, int64 charge_paid_message_stars);
 
   void on_update_user_wallpaper_overridden(UserId user_id, bool wallpaper_overridden);
+
+  void on_update_user_noforwards(UserId user_id, bool update_my, bool noforwards_my_enabled, bool update_peer,
+                                 bool noforwards_peer_enabled);
 
   void on_update_user_note(UserId user_id, FormattedText &&note);
 
@@ -253,6 +259,8 @@ class UserManager final : public Actor {
     bool can_read_all_group_messages = false;
     bool has_main_app = false;
     bool has_bot_forum_view = false;
+    bool can_bot_create_topics = false;
+    bool can_manage_bots = false;
     bool is_inline = false;
     bool is_business = false;
     bool need_location = false;
@@ -307,6 +315,14 @@ class UserManager final : public Actor {
 
   td_api::object_ptr<td_api::emojiStatus> get_secret_chat_emoji_status_object(SecretChatId secret_chat_id) const;
 
+  bool get_user_has_protected_content_force(UserId user_id);
+
+  bool get_user_has_protected_content(UserId user_id) const;
+
+  bool get_user_has_protected_content_force_by_me(UserId user_id);
+
+  bool get_user_has_protected_content_force_by_other(UserId user_id);
+
   bool get_user_stories_hidden(UserId user_id) const;
 
   bool can_poll_user_active_stories(UserId user_id) const;
@@ -327,7 +343,7 @@ class UserManager final : public Actor {
 
   void for_each_secret_chat_with_user(UserId user_id, const std::function<void(SecretChatId)> &f);
 
-  string get_user_first_username(UserId user_id) const;
+  Slice get_user_first_username(UserId user_id) const;
 
   int32 get_secret_chat_date(SecretChatId secret_chat_id) const;
 
@@ -529,6 +545,10 @@ class UserManager final : public Actor {
 
   FileSourceId get_user_full_file_source_id(UserId user_id);
 
+  void register_noforwards_request(MessageFullId message_full_id, int32 message_date);
+
+  void unregister_noforwards_request(MessageFullId message_full_id);
+
   void get_web_app_placeholder(UserId user_id, Promise<td_api::object_ptr<td_api::outline>> &&promise);
 
   bool have_secret_chat(SecretChatId secret_chat_id) const;
@@ -610,6 +630,8 @@ class UserManager final : public Actor {
     bool can_be_edited_bot = false;
     bool has_main_app = false;
     bool has_bot_forum_view = false;
+    bool can_bot_create_topics = false;
+    bool can_manage_bots = false;
     bool is_inline_bot = false;
     bool is_business_bot = false;
     bool need_location_bot = false;
@@ -623,6 +645,7 @@ class UserManager final : public Actor {
     bool attach_menu_enabled = false;
     bool stories_hidden = false;
     bool contact_require_premium = false;
+    bool has_live_story = false;
 
     bool is_photo_inited = false;
 
@@ -675,6 +698,7 @@ class UserManager final : public Actor {
     AdministratorRights broadcast_administrator_rights;
     ReferralProgramInfo referral_program_info;
     unique_ptr<BotVerifierSettings> verifier_settings;
+    UserId manager_bot_user_id;
 
     string placeholder_path;
     int32 background_color = -1;
@@ -724,6 +748,8 @@ class UserManager final : public Actor {
     bool can_pin_messages = true;
     bool need_phone_number_privacy_exception = false;
     bool wallpaper_overridden = false;
+    bool noforwards_my_enabled = false;
+    bool noforwards_peer_enabled = false;
     bool voice_messages_forbidden = false;
     bool has_pinned_stories = false;
     bool read_dates_private = false;
@@ -732,10 +758,12 @@ class UserManager final : public Actor {
     bool has_preview_medias = false;
     bool can_view_revenue = false;
     bool can_manage_emoji_status = false;
+    bool unofficial_security_risk = false;
 
     bool is_common_chat_count_changed = true;
     bool is_pending_star_rating_changed = true;
     bool is_first_saved_music_file_id_changed = true;
+    bool is_has_protected_content_changed = false;
     bool is_being_updated = false;
     bool is_changed = true;             // have new changes that need to be sent to the client and database
     bool need_send_update = true;       // have new changes that need only to be sent to the client
@@ -803,8 +831,6 @@ class UserManager final : public Actor {
     vector<Photo> photos;
     int32 count = -1;
     int32 offset = -1;
-
-    vector<PendingGetPhotoRequest> pending_requests;
   };
 
   struct PendingGetSavedMusicRequest {
@@ -818,8 +844,6 @@ class UserManager final : public Actor {
     vector<FileId> saved_music_file_ids;
     int32 count = -1;
     int32 offset = -1;
-
-    vector<PendingGetSavedMusicRequest> pending_requests;
   };
 
   class UserLogEvent;
@@ -852,6 +876,10 @@ class UserManager final : public Actor {
   static void on_user_rating_timeout_callback(void *user_manager_ptr, int64 user_id_long);
 
   void on_user_rating_timeout(UserId user_id);
+
+  static void on_noforwards_request_timeout_callback(void *user_manager_ptr, int64 request_id_long);
+
+  void on_noforwards_request_timeout(int32 request_id);
 
   void set_my_id(UserId my_id);
 
@@ -923,7 +951,9 @@ class UserManager final : public Actor {
 
   void on_update_user_emoji_status(User *u, UserId user_id, unique_ptr<EmojiStatus> emoji_status);
 
-  void on_update_user_story_ids_impl(User *u, UserId user_id, StoryId max_active_story_id, StoryId max_read_story_id);
+  void on_update_user_story_ids_impl(User *u, UserId user_id,
+                                     telegram_api::object_ptr<telegram_api::recentStory> &&recent_story,
+                                     StoryId max_read_story_id);
 
   void on_update_user_max_read_story_id(User *u, UserId user_id, StoryId max_read_story_id);
 
@@ -971,6 +1001,9 @@ class UserManager final : public Actor {
   void on_update_user_full_send_paid_message_stars(UserFull *user_full, int64 send_paid_message_stars) const;
 
   void on_update_user_full_wallpaper_overridden(UserFull *user_full, bool wallpaper_overridden) const;
+
+  void on_update_user_full_noforwards(UserFull *user_full, bool update_my, bool noforwards_my_enabled, bool update_peer,
+                                      bool noforwards_peer_enabled) const;
 
   static void on_update_user_full_menu_button(UserFull *user_full,
                                               telegram_api::object_ptr<telegram_api::BotMenuButton> &&bot_menu_button);
@@ -1031,7 +1064,8 @@ class UserManager final : public Actor {
 
   void on_get_support_user(UserId user_id, Promise<td_api::object_ptr<td_api::user>> &&promise);
 
-  void send_get_user_photos_query(UserId user_id, const UserPhotos *user_photos);
+  void send_get_user_photos_query(UserId user_id, const UserPhotos *user_photos,
+                                  const vector<PendingGetPhotoRequest> &requests);
 
   void on_get_user_profile_photos(UserId user_id, Result<Unit> &&result);
 
@@ -1039,7 +1073,8 @@ class UserManager final : public Actor {
 
   void apply_pending_user_photo(User *u, UserId user_id, const char *source);
 
-  void send_get_user_saved_music_query(UserId user_id, const UserSavedMusic *user_saved_music);
+  void send_get_user_saved_music_query(UserId user_id, const UserSavedMusic *user_saved_music,
+                                       const vector<PendingGetSavedMusicRequest> &requests);
 
   void finish_get_user_saved_music(UserId user_id, Result<Unit> &&result);
 
@@ -1149,7 +1184,7 @@ class UserManager final : public Actor {
 
   td_api::object_ptr<td_api::UserStatus> get_user_status_object(UserId user_id, const User *u, int32 unix_time) const;
 
-  static bool get_user_has_unread_stories(const User *u);
+  static ActiveStoryState get_user_active_story_state(const User *u);
 
   td_api::object_ptr<td_api::updateUser> get_update_user_object(UserId user_id, const User *u) const;
 
@@ -1183,10 +1218,13 @@ class UserManager final : public Actor {
   UserId support_user_id_;
   int32 my_was_online_local_ = 0;
   double next_set_my_active_users_ = 0.0;
+  int32 current_noforwards_request_id_ = 0;
 
   WaitFreeHashMap<UserId, unique_ptr<User>, UserIdHash> users_;
   WaitFreeHashMap<UserId, unique_ptr<UserFull>, UserIdHash> users_full_;
   WaitFreeHashMap<UserId, unique_ptr<UserPhotos>, UserIdHash> user_photos_;
+  WaitFreeHashMap<UserId, vector<PendingGetPhotoRequest>, UserIdHash> pending_get_user_photos_requests_;
+
   mutable FlatHashSet<UserId, UserIdHash> unknown_users_;
   WaitFreeHashMap<UserId, telegram_api::object_ptr<telegram_api::UserProfilePhoto>, UserIdHash> pending_user_photos_;
   struct UserIdPhotoIdHash {
@@ -1218,6 +1256,7 @@ class UserManager final : public Actor {
   };
   WaitFreeHashMap<UserSavedMusicId, FileSourceId, UserSavedMusicIdHash> user_saved_music_file_source_ids_;
   WaitFreeHashMap<UserId, unique_ptr<UserSavedMusic>, UserIdHash> user_saved_music_;
+  WaitFreeHashMap<UserId, vector<PendingGetSavedMusicRequest>, UserIdHash> pending_get_user_saved_music_requests_;
 
   bool are_my_saved_music_ids_inited_ = false;
   vector<Promise<Unit>> reload_my_saved_music_queries_;
@@ -1298,6 +1337,9 @@ class UserManager final : public Actor {
 
   FlatHashMap<UserId, int64, UserIdHash> user_full_contact_price_;  // -1 - premium required
 
+  FlatHashMap<MessageFullId, int32, MessageFullIdHash> noforwards_request_ids_;
+  FlatHashMap<int32, MessageFullId> noforwards_request_message_ids_;
+
   WaitFreeHashSet<UserId, UserIdHash> restricted_user_ids_;
 
   int32 freeze_since_date_ = 0;
@@ -1322,6 +1364,7 @@ class UserManager final : public Actor {
   MultiTimeout user_online_timeout_{"UserOnlineTimeout"};
   MultiTimeout user_emoji_status_timeout_{"UserEmojiStatusTimeout"};
   MultiTimeout user_rating_timeout_{"UserRatingTimeout"};
+  MultiTimeout noforwards_request_timeout_{"NoforwardsRequestTimeout"};
 };
 
 }  // namespace td

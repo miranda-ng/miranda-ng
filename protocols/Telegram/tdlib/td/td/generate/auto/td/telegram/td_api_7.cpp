@@ -12,6 +12,183 @@ namespace td {
 namespace td_api {
 
 
+activeStoryStateLive::activeStoryStateLive()
+  : story_id_()
+{}
+
+activeStoryStateLive::activeStoryStateLive(int32 story_id_)
+  : story_id_(story_id_)
+{}
+
+const std::int32_t activeStoryStateLive::ID;
+
+void activeStoryStateLive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "activeStoryStateLive");
+    s.store_field("story_id", story_id_);
+    s.store_class_end();
+  }
+}
+
+activeStoryStateUnread::activeStoryStateUnread() {
+}
+
+const std::int32_t activeStoryStateUnread::ID;
+
+void activeStoryStateUnread::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "activeStoryStateUnread");
+    s.store_class_end();
+  }
+}
+
+activeStoryStateRead::activeStoryStateRead() {
+}
+
+const std::int32_t activeStoryStateRead::ID;
+
+void activeStoryStateRead::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "activeStoryStateRead");
+    s.store_class_end();
+  }
+}
+
+addedProxy::addedProxy()
+  : id_()
+  , last_used_date_()
+  , is_enabled_()
+  , proxy_()
+{}
+
+addedProxy::addedProxy(int32 id_, int32 last_used_date_, bool is_enabled_, object_ptr<proxy> &&proxy_)
+  : id_(id_)
+  , last_used_date_(last_used_date_)
+  , is_enabled_(is_enabled_)
+  , proxy_(std::move(proxy_))
+{}
+
+const std::int32_t addedProxy::ID;
+
+void addedProxy::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "addedProxy");
+    s.store_field("id", id_);
+    s.store_field("last_used_date", last_used_date_);
+    s.store_field("is_enabled", is_enabled_);
+    s.store_object_field("proxy", static_cast<const BaseObject *>(proxy_.get()));
+    s.store_class_end();
+  }
+}
+
+attributeCraftPersistenceProbability::attributeCraftPersistenceProbability()
+  : persistence_chance_per_mille_()
+{}
+
+attributeCraftPersistenceProbability::attributeCraftPersistenceProbability(array<int32> &&persistence_chance_per_mille_)
+  : persistence_chance_per_mille_(std::move(persistence_chance_per_mille_))
+{}
+
+const std::int32_t attributeCraftPersistenceProbability::ID;
+
+void attributeCraftPersistenceProbability::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "attributeCraftPersistenceProbability");
+    { s.store_vector_begin("persistence_chance_per_mille", persistence_chance_per_mille_.size()); for (const auto &_value : persistence_chance_per_mille_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+auctionStateActive::auctionStateActive()
+  : start_date_()
+  , end_date_()
+  , min_bid_()
+  , bid_levels_()
+  , top_bidder_user_ids_()
+  , rounds_()
+  , current_round_end_date_()
+  , current_round_number_()
+  , total_round_count_()
+  , distributed_item_count_()
+  , left_item_count_()
+  , acquired_item_count_()
+  , user_bid_()
+{}
+
+auctionStateActive::auctionStateActive(int32 start_date_, int32 end_date_, int53 min_bid_, array<object_ptr<auctionBid>> &&bid_levels_, array<int53> &&top_bidder_user_ids_, array<object_ptr<auctionRound>> &&rounds_, int32 current_round_end_date_, int32 current_round_number_, int32 total_round_count_, int32 distributed_item_count_, int32 left_item_count_, int32 acquired_item_count_, object_ptr<userAuctionBid> &&user_bid_)
+  : start_date_(start_date_)
+  , end_date_(end_date_)
+  , min_bid_(min_bid_)
+  , bid_levels_(std::move(bid_levels_))
+  , top_bidder_user_ids_(std::move(top_bidder_user_ids_))
+  , rounds_(std::move(rounds_))
+  , current_round_end_date_(current_round_end_date_)
+  , current_round_number_(current_round_number_)
+  , total_round_count_(total_round_count_)
+  , distributed_item_count_(distributed_item_count_)
+  , left_item_count_(left_item_count_)
+  , acquired_item_count_(acquired_item_count_)
+  , user_bid_(std::move(user_bid_))
+{}
+
+const std::int32_t auctionStateActive::ID;
+
+void auctionStateActive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "auctionStateActive");
+    s.store_field("start_date", start_date_);
+    s.store_field("end_date", end_date_);
+    s.store_field("min_bid", min_bid_);
+    { s.store_vector_begin("bid_levels", bid_levels_.size()); for (const auto &_value : bid_levels_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    { s.store_vector_begin("top_bidder_user_ids", top_bidder_user_ids_.size()); for (const auto &_value : top_bidder_user_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    { s.store_vector_begin("rounds", rounds_.size()); for (const auto &_value : rounds_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_field("current_round_end_date", current_round_end_date_);
+    s.store_field("current_round_number", current_round_number_);
+    s.store_field("total_round_count", total_round_count_);
+    s.store_field("distributed_item_count", distributed_item_count_);
+    s.store_field("left_item_count", left_item_count_);
+    s.store_field("acquired_item_count", acquired_item_count_);
+    s.store_object_field("user_bid", static_cast<const BaseObject *>(user_bid_.get()));
+    s.store_class_end();
+  }
+}
+
+auctionStateFinished::auctionStateFinished()
+  : start_date_()
+  , end_date_()
+  , average_price_()
+  , acquired_item_count_()
+  , telegram_listed_item_count_()
+  , fragment_listed_item_count_()
+  , fragment_url_()
+{}
+
+auctionStateFinished::auctionStateFinished(int32 start_date_, int32 end_date_, int53 average_price_, int32 acquired_item_count_, int32 telegram_listed_item_count_, int32 fragment_listed_item_count_, string const &fragment_url_)
+  : start_date_(start_date_)
+  , end_date_(end_date_)
+  , average_price_(average_price_)
+  , acquired_item_count_(acquired_item_count_)
+  , telegram_listed_item_count_(telegram_listed_item_count_)
+  , fragment_listed_item_count_(fragment_listed_item_count_)
+  , fragment_url_(fragment_url_)
+{}
+
+const std::int32_t auctionStateFinished::ID;
+
+void auctionStateFinished::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "auctionStateFinished");
+    s.store_field("start_date", start_date_);
+    s.store_field("end_date", end_date_);
+    s.store_field("average_price", average_price_);
+    s.store_field("acquired_item_count", acquired_item_count_);
+    s.store_field("telegram_listed_item_count", telegram_listed_item_count_);
+    s.store_field("fragment_listed_item_count", fragment_listed_item_count_);
+    s.store_field("fragment_url", fragment_url_);
+    s.store_class_end();
+  }
+}
+
 audio::audio()
   : duration_()
   , title_()
@@ -404,13 +581,15 @@ void chatInviteLinkMembers::store(TlStorerToString &s, const char *field_name) c
 
 chatMember::chatMember()
   : member_id_()
+  , tag_()
   , inviter_user_id_()
   , joined_chat_date_()
   , status_()
 {}
 
-chatMember::chatMember(object_ptr<MessageSender> &&member_id_, int53 inviter_user_id_, int32 joined_chat_date_, object_ptr<ChatMemberStatus> &&status_)
+chatMember::chatMember(object_ptr<MessageSender> &&member_id_, string const &tag_, int53 inviter_user_id_, int32 joined_chat_date_, object_ptr<ChatMemberStatus> &&status_)
   : member_id_(std::move(member_id_))
+  , tag_(tag_)
   , inviter_user_id_(inviter_user_id_)
   , joined_chat_date_(joined_chat_date_)
   , status_(std::move(status_))
@@ -422,6 +601,7 @@ void chatMember::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "chatMember");
     s.store_object_field("member_id", static_cast<const BaseObject *>(member_id_.get()));
+    s.store_field("tag", tag_);
     s.store_field("inviter_user_id", inviter_user_id_);
     s.store_field("joined_chat_date", joined_chat_date_);
     s.store_object_field("status", static_cast<const BaseObject *>(status_.get()));
@@ -440,13 +620,14 @@ chatPermissions::chatPermissions()
   , can_send_polls_()
   , can_send_other_messages_()
   , can_add_link_previews_()
+  , can_edit_tag_()
   , can_change_info_()
   , can_invite_users_()
   , can_pin_messages_()
   , can_create_topics_()
 {}
 
-chatPermissions::chatPermissions(bool can_send_basic_messages_, bool can_send_audios_, bool can_send_documents_, bool can_send_photos_, bool can_send_videos_, bool can_send_video_notes_, bool can_send_voice_notes_, bool can_send_polls_, bool can_send_other_messages_, bool can_add_link_previews_, bool can_change_info_, bool can_invite_users_, bool can_pin_messages_, bool can_create_topics_)
+chatPermissions::chatPermissions(bool can_send_basic_messages_, bool can_send_audios_, bool can_send_documents_, bool can_send_photos_, bool can_send_videos_, bool can_send_video_notes_, bool can_send_voice_notes_, bool can_send_polls_, bool can_send_other_messages_, bool can_add_link_previews_, bool can_edit_tag_, bool can_change_info_, bool can_invite_users_, bool can_pin_messages_, bool can_create_topics_)
   : can_send_basic_messages_(can_send_basic_messages_)
   , can_send_audios_(can_send_audios_)
   , can_send_documents_(can_send_documents_)
@@ -457,6 +638,7 @@ chatPermissions::chatPermissions(bool can_send_basic_messages_, bool can_send_au
   , can_send_polls_(can_send_polls_)
   , can_send_other_messages_(can_send_other_messages_)
   , can_add_link_previews_(can_add_link_previews_)
+  , can_edit_tag_(can_edit_tag_)
   , can_change_info_(can_change_info_)
   , can_invite_users_(can_invite_users_)
   , can_pin_messages_(can_pin_messages_)
@@ -478,6 +660,7 @@ void chatPermissions::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("can_send_polls", can_send_polls_);
     s.store_field("can_send_other_messages", can_send_other_messages_);
     s.store_field("can_add_link_previews", can_add_link_previews_);
+    s.store_field("can_edit_tag", can_edit_tag_);
     s.store_field("can_change_info", can_change_info_);
     s.store_field("can_invite_users", can_invite_users_);
     s.store_field("can_pin_messages", can_pin_messages_);
@@ -886,11 +1069,12 @@ forumTopic::forumTopic()
   , last_read_outbox_message_id_()
   , unread_mention_count_()
   , unread_reaction_count_()
+  , unread_poll_vote_count_()
   , notification_settings_()
   , draft_message_()
 {}
 
-forumTopic::forumTopic(object_ptr<forumTopicInfo> &&info_, object_ptr<message> &&last_message_, int64 order_, bool is_pinned_, int32 unread_count_, int53 last_read_inbox_message_id_, int53 last_read_outbox_message_id_, int32 unread_mention_count_, int32 unread_reaction_count_, object_ptr<chatNotificationSettings> &&notification_settings_, object_ptr<draftMessage> &&draft_message_)
+forumTopic::forumTopic(object_ptr<forumTopicInfo> &&info_, object_ptr<message> &&last_message_, int64 order_, bool is_pinned_, int32 unread_count_, int53 last_read_inbox_message_id_, int53 last_read_outbox_message_id_, int32 unread_mention_count_, int32 unread_reaction_count_, int32 unread_poll_vote_count_, object_ptr<chatNotificationSettings> &&notification_settings_, object_ptr<draftMessage> &&draft_message_)
   : info_(std::move(info_))
   , last_message_(std::move(last_message_))
   , order_(order_)
@@ -900,6 +1084,7 @@ forumTopic::forumTopic(object_ptr<forumTopicInfo> &&info_, object_ptr<message> &
   , last_read_outbox_message_id_(last_read_outbox_message_id_)
   , unread_mention_count_(unread_mention_count_)
   , unread_reaction_count_(unread_reaction_count_)
+  , unread_poll_vote_count_(unread_poll_vote_count_)
   , notification_settings_(std::move(notification_settings_))
   , draft_message_(std::move(draft_message_))
 {}
@@ -918,6 +1103,7 @@ void forumTopic::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("last_read_outbox_message_id", last_read_outbox_message_id_);
     s.store_field("unread_mention_count", unread_mention_count_);
     s.store_field("unread_reaction_count", unread_reaction_count_);
+    s.store_field("unread_poll_vote_count", unread_poll_vote_count_);
     s.store_object_field("notification_settings", static_cast<const BaseObject *>(notification_settings_.get()));
     s.store_object_field("draft_message", static_cast<const BaseObject *>(draft_message_.get()));
     s.store_class_end();
@@ -941,6 +1127,51 @@ void foundPositions::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "foundPositions");
     s.store_field("total_count", total_count_);
     { s.store_vector_begin("positions", positions_.size()); for (const auto &_value : positions_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+giftAuctionState::giftAuctionState()
+  : gift_()
+  , state_()
+{}
+
+giftAuctionState::giftAuctionState(object_ptr<gift> &&gift_, object_ptr<AuctionState> &&state_)
+  : gift_(std::move(gift_))
+  , state_(std::move(state_))
+{}
+
+const std::int32_t giftAuctionState::ID;
+
+void giftAuctionState::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "giftAuctionState");
+    s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
+    s.store_object_field("state", static_cast<const BaseObject *>(state_.get()));
+    s.store_class_end();
+  }
+}
+
+giftBackground::giftBackground()
+  : center_color_()
+  , edge_color_()
+  , text_color_()
+{}
+
+giftBackground::giftBackground(int32 center_color_, int32 edge_color_, int32 text_color_)
+  : center_color_(center_color_)
+  , edge_color_(edge_color_)
+  , text_color_(text_color_)
+{}
+
+const std::int32_t giftBackground::ID;
+
+void giftBackground::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "giftBackground");
+    s.store_field("center_color", center_color_);
+    s.store_field("edge_color", edge_color_);
+    s.store_field("text_color", text_color_);
     s.store_class_end();
   }
 }
@@ -983,6 +1214,42 @@ void groupCallId::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "groupCallId");
     s.store_field("id", id_);
+    s.store_class_end();
+  }
+}
+
+groupCallMessageLevel::groupCallMessageLevel()
+  : min_star_count_()
+  , pin_duration_()
+  , max_text_length_()
+  , max_custom_emoji_count_()
+  , first_color_()
+  , second_color_()
+  , background_color_()
+{}
+
+groupCallMessageLevel::groupCallMessageLevel(int53 min_star_count_, int32 pin_duration_, int32 max_text_length_, int32 max_custom_emoji_count_, int32 first_color_, int32 second_color_, int32 background_color_)
+  : min_star_count_(min_star_count_)
+  , pin_duration_(pin_duration_)
+  , max_text_length_(max_text_length_)
+  , max_custom_emoji_count_(max_custom_emoji_count_)
+  , first_color_(first_color_)
+  , second_color_(second_color_)
+  , background_color_(background_color_)
+{}
+
+const std::int32_t groupCallMessageLevel::ID;
+
+void groupCallMessageLevel::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "groupCallMessageLevel");
+    s.store_field("min_star_count", min_star_count_);
+    s.store_field("pin_duration", pin_duration_);
+    s.store_field("max_text_length", max_text_length_);
+    s.store_field("max_custom_emoji_count", max_custom_emoji_count_);
+    s.store_field("first_color", first_color_);
+    s.store_field("second_color", second_color_);
+    s.store_field("background_color", background_color_);
     s.store_class_end();
   }
 }
@@ -1421,10 +1688,12 @@ messageProperties::messageProperties()
   , can_report_reactions_()
   , can_report_supergroup_spam_()
   , can_set_fact_check_()
+  , has_protected_content_by_current_user_()
+  , has_protected_content_by_other_user_()
   , need_show_statistics_()
 {}
 
-messageProperties::messageProperties(bool can_add_offer_, bool can_add_tasks_, bool can_be_approved_, bool can_be_copied_, bool can_be_copied_to_secret_chat_, bool can_be_declined_, bool can_be_deleted_only_for_self_, bool can_be_deleted_for_all_users_, bool can_be_edited_, bool can_be_forwarded_, bool can_be_paid_, bool can_be_pinned_, bool can_be_replied_, bool can_be_replied_in_another_chat_, bool can_be_saved_, bool can_be_shared_in_story_, bool can_edit_media_, bool can_edit_scheduling_state_, bool can_edit_suggested_post_info_, bool can_get_author_, bool can_get_embedding_code_, bool can_get_link_, bool can_get_media_timestamp_links_, bool can_get_message_thread_, bool can_get_read_date_, bool can_get_statistics_, bool can_get_video_advertisements_, bool can_get_viewers_, bool can_mark_tasks_as_done_, bool can_recognize_speech_, bool can_report_chat_, bool can_report_reactions_, bool can_report_supergroup_spam_, bool can_set_fact_check_, bool need_show_statistics_)
+messageProperties::messageProperties(bool can_add_offer_, bool can_add_tasks_, bool can_be_approved_, bool can_be_copied_, bool can_be_copied_to_secret_chat_, bool can_be_declined_, bool can_be_deleted_only_for_self_, bool can_be_deleted_for_all_users_, bool can_be_edited_, bool can_be_forwarded_, bool can_be_paid_, bool can_be_pinned_, bool can_be_replied_, bool can_be_replied_in_another_chat_, bool can_be_saved_, bool can_be_shared_in_story_, bool can_edit_media_, bool can_edit_scheduling_state_, bool can_edit_suggested_post_info_, bool can_get_author_, bool can_get_embedding_code_, bool can_get_link_, bool can_get_media_timestamp_links_, bool can_get_message_thread_, bool can_get_read_date_, bool can_get_statistics_, bool can_get_video_advertisements_, bool can_get_viewers_, bool can_mark_tasks_as_done_, bool can_recognize_speech_, bool can_report_chat_, bool can_report_reactions_, bool can_report_supergroup_spam_, bool can_set_fact_check_, bool has_protected_content_by_current_user_, bool has_protected_content_by_other_user_, bool need_show_statistics_)
   : can_add_offer_(can_add_offer_)
   , can_add_tasks_(can_add_tasks_)
   , can_be_approved_(can_be_approved_)
@@ -1459,6 +1728,8 @@ messageProperties::messageProperties(bool can_add_offer_, bool can_add_tasks_, b
   , can_report_reactions_(can_report_reactions_)
   , can_report_supergroup_spam_(can_report_supergroup_spam_)
   , can_set_fact_check_(can_set_fact_check_)
+  , has_protected_content_by_current_user_(has_protected_content_by_current_user_)
+  , has_protected_content_by_other_user_(has_protected_content_by_other_user_)
   , need_show_statistics_(need_show_statistics_)
 {}
 
@@ -1501,6 +1772,8 @@ void messageProperties::store(TlStorerToString &s, const char *field_name) const
     s.store_field("can_report_reactions", can_report_reactions_);
     s.store_field("can_report_supergroup_spam", can_report_supergroup_spam_);
     s.store_field("can_set_fact_check", can_set_fact_check_);
+    s.store_field("has_protected_content_by_current_user", has_protected_content_by_current_user_);
+    s.store_field("has_protected_content_by_other_user", has_protected_content_by_other_user_);
     s.store_field("need_show_statistics", need_show_statistics_);
     s.store_class_end();
   }
@@ -1873,19 +2146,29 @@ void point::store(TlStorerToString &s, const char *field_name) const {
 }
 
 pollOption::pollOption()
-  : text_()
+  : id_()
+  , text_()
+  , media_()
   , voter_count_()
   , vote_percentage_()
+  , recent_voter_ids_()
   , is_chosen_()
   , is_being_chosen_()
+  , author_()
+  , addition_date_()
 {}
 
-pollOption::pollOption(object_ptr<formattedText> &&text_, int32 voter_count_, int32 vote_percentage_, bool is_chosen_, bool is_being_chosen_)
-  : text_(std::move(text_))
+pollOption::pollOption(string const &id_, object_ptr<formattedText> &&text_, object_ptr<MessageContent> &&media_, int32 voter_count_, int32 vote_percentage_, array<object_ptr<MessageSender>> &&recent_voter_ids_, bool is_chosen_, bool is_being_chosen_, object_ptr<MessageSender> &&author_, int32 addition_date_)
+  : id_(id_)
+  , text_(std::move(text_))
+  , media_(std::move(media_))
   , voter_count_(voter_count_)
   , vote_percentage_(vote_percentage_)
+  , recent_voter_ids_(std::move(recent_voter_ids_))
   , is_chosen_(is_chosen_)
   , is_being_chosen_(is_being_chosen_)
+  , author_(std::move(author_))
+  , addition_date_(addition_date_)
 {}
 
 const std::int32_t pollOption::ID;
@@ -1893,11 +2176,16 @@ const std::int32_t pollOption::ID;
 void pollOption::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "pollOption");
+    s.store_field("id", id_);
     s.store_object_field("text", static_cast<const BaseObject *>(text_.get()));
+    s.store_object_field("media", static_cast<const BaseObject *>(media_.get()));
     s.store_field("voter_count", voter_count_);
     s.store_field("vote_percentage", vote_percentage_);
+    { s.store_vector_begin("recent_voter_ids", recent_voter_ids_.size()); for (const auto &_value : recent_voter_ids_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("is_chosen", is_chosen_);
     s.store_field("is_being_chosen", is_being_chosen_);
+    s.store_object_field("author", static_cast<const BaseObject *>(author_.get()));
+    s.store_field("addition_date", addition_date_);
     s.store_class_end();
   }
 }
@@ -1908,16 +2196,18 @@ premiumGiftCodeInfo::premiumGiftCodeInfo()
   , is_from_giveaway_()
   , giveaway_message_id_()
   , month_count_()
+  , day_count_()
   , user_id_()
   , use_date_()
 {}
 
-premiumGiftCodeInfo::premiumGiftCodeInfo(object_ptr<MessageSender> &&creator_id_, int32 creation_date_, bool is_from_giveaway_, int53 giveaway_message_id_, int32 month_count_, int53 user_id_, int32 use_date_)
+premiumGiftCodeInfo::premiumGiftCodeInfo(object_ptr<MessageSender> &&creator_id_, int32 creation_date_, bool is_from_giveaway_, int53 giveaway_message_id_, int32 month_count_, int32 day_count_, int53 user_id_, int32 use_date_)
   : creator_id_(std::move(creator_id_))
   , creation_date_(creation_date_)
   , is_from_giveaway_(is_from_giveaway_)
   , giveaway_message_id_(giveaway_message_id_)
   , month_count_(month_count_)
+  , day_count_(day_count_)
   , user_id_(user_id_)
   , use_date_(use_date_)
 {}
@@ -1932,6 +2222,7 @@ void premiumGiftCodeInfo::store(TlStorerToString &s, const char *field_name) con
     s.store_field("is_from_giveaway", is_from_giveaway_);
     s.store_field("giveaway_message_id", giveaway_message_id_);
     s.store_field("month_count", month_count_);
+    s.store_field("day_count", day_count_);
     s.store_field("user_id", user_id_);
     s.store_field("use_date", use_date_);
     s.store_class_end();
@@ -2096,24 +2387,6 @@ const std::int32_t premiumSourceSettings::ID;
 void premiumSourceSettings::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "premiumSourceSettings");
-    s.store_class_end();
-  }
-}
-
-proxies::proxies()
-  : proxies_()
-{}
-
-proxies::proxies(array<object_ptr<proxy>> &&proxies_)
-  : proxies_(std::move(proxies_))
-{}
-
-const std::int32_t proxies::ID;
-
-void proxies::store(TlStorerToString &s, const char *field_name) const {
-  if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "proxies");
-    { s.store_vector_begin("proxies", proxies_.size()); for (const auto &_value : proxies_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -2742,6 +3015,27 @@ void starTransactionTypeChannelSubscriptionSale::store(TlStorerToString &s, cons
   }
 }
 
+starTransactionTypeGiftAuctionBid::starTransactionTypeGiftAuctionBid()
+  : owner_id_()
+  , gift_()
+{}
+
+starTransactionTypeGiftAuctionBid::starTransactionTypeGiftAuctionBid(object_ptr<MessageSender> &&owner_id_, object_ptr<gift> &&gift_)
+  : owner_id_(std::move(owner_id_))
+  , gift_(std::move(gift_))
+{}
+
+const std::int32_t starTransactionTypeGiftAuctionBid::ID;
+
+void starTransactionTypeGiftAuctionBid::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "starTransactionTypeGiftAuctionBid");
+    s.store_object_field("owner_id", static_cast<const BaseObject *>(owner_id_.get()));
+    s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
+    s.store_class_end();
+  }
+}
+
 starTransactionTypeGiftPurchase::starTransactionTypeGiftPurchase()
   : owner_id_()
   , gift_()
@@ -2758,6 +3052,24 @@ void starTransactionTypeGiftPurchase::store(TlStorerToString &s, const char *fie
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "starTransactionTypeGiftPurchase");
     s.store_object_field("owner_id", static_cast<const BaseObject *>(owner_id_.get()));
+    s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
+    s.store_class_end();
+  }
+}
+
+starTransactionTypeGiftPurchaseOffer::starTransactionTypeGiftPurchaseOffer()
+  : gift_()
+{}
+
+starTransactionTypeGiftPurchaseOffer::starTransactionTypeGiftPurchaseOffer(object_ptr<upgradedGift> &&gift_)
+  : gift_(std::move(gift_))
+{}
+
+const std::int32_t starTransactionTypeGiftPurchaseOffer::ID;
+
+void starTransactionTypeGiftPurchaseOffer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "starTransactionTypeGiftPurchaseOffer");
     s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
     s.store_class_end();
   }
@@ -2894,13 +3206,15 @@ starTransactionTypeUpgradedGiftSale::starTransactionTypeUpgradedGiftSale()
   , gift_()
   , commission_per_mille_()
   , commission_star_amount_()
+  , via_offer_()
 {}
 
-starTransactionTypeUpgradedGiftSale::starTransactionTypeUpgradedGiftSale(int53 user_id_, object_ptr<upgradedGift> &&gift_, int32 commission_per_mille_, object_ptr<starAmount> &&commission_star_amount_)
+starTransactionTypeUpgradedGiftSale::starTransactionTypeUpgradedGiftSale(int53 user_id_, object_ptr<upgradedGift> &&gift_, int32 commission_per_mille_, object_ptr<starAmount> &&commission_star_amount_, bool via_offer_)
   : user_id_(user_id_)
   , gift_(std::move(gift_))
   , commission_per_mille_(commission_per_mille_)
   , commission_star_amount_(std::move(commission_star_amount_))
+  , via_offer_(via_offer_)
 {}
 
 const std::int32_t starTransactionTypeUpgradedGiftSale::ID;
@@ -2912,6 +3226,7 @@ void starTransactionTypeUpgradedGiftSale::store(TlStorerToString &s, const char 
     s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
     s.store_field("commission_per_mille", commission_per_mille_);
     s.store_object_field("commission_star_amount", static_cast<const BaseObject *>(commission_star_amount_.get()));
+    s.store_field("via_offer", via_offer_);
     s.store_class_end();
   }
 }
@@ -3021,6 +3336,90 @@ void starTransactionTypePaidMessageReceive::store(TlStorerToString &s, const cha
     s.store_class_begin(field_name, "starTransactionTypePaidMessageReceive");
     s.store_object_field("sender_id", static_cast<const BaseObject *>(sender_id_.get()));
     s.store_field("message_count", message_count_);
+    s.store_field("commission_per_mille", commission_per_mille_);
+    s.store_object_field("commission_star_amount", static_cast<const BaseObject *>(commission_star_amount_.get()));
+    s.store_class_end();
+  }
+}
+
+starTransactionTypePaidGroupCallMessageSend::starTransactionTypePaidGroupCallMessageSend()
+  : chat_id_()
+{}
+
+starTransactionTypePaidGroupCallMessageSend::starTransactionTypePaidGroupCallMessageSend(int53 chat_id_)
+  : chat_id_(chat_id_)
+{}
+
+const std::int32_t starTransactionTypePaidGroupCallMessageSend::ID;
+
+void starTransactionTypePaidGroupCallMessageSend::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "starTransactionTypePaidGroupCallMessageSend");
+    s.store_field("chat_id", chat_id_);
+    s.store_class_end();
+  }
+}
+
+starTransactionTypePaidGroupCallMessageReceive::starTransactionTypePaidGroupCallMessageReceive()
+  : sender_id_()
+  , commission_per_mille_()
+  , commission_star_amount_()
+{}
+
+starTransactionTypePaidGroupCallMessageReceive::starTransactionTypePaidGroupCallMessageReceive(object_ptr<MessageSender> &&sender_id_, int32 commission_per_mille_, object_ptr<starAmount> &&commission_star_amount_)
+  : sender_id_(std::move(sender_id_))
+  , commission_per_mille_(commission_per_mille_)
+  , commission_star_amount_(std::move(commission_star_amount_))
+{}
+
+const std::int32_t starTransactionTypePaidGroupCallMessageReceive::ID;
+
+void starTransactionTypePaidGroupCallMessageReceive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "starTransactionTypePaidGroupCallMessageReceive");
+    s.store_object_field("sender_id", static_cast<const BaseObject *>(sender_id_.get()));
+    s.store_field("commission_per_mille", commission_per_mille_);
+    s.store_object_field("commission_star_amount", static_cast<const BaseObject *>(commission_star_amount_.get()));
+    s.store_class_end();
+  }
+}
+
+starTransactionTypePaidGroupCallReactionSend::starTransactionTypePaidGroupCallReactionSend()
+  : chat_id_()
+{}
+
+starTransactionTypePaidGroupCallReactionSend::starTransactionTypePaidGroupCallReactionSend(int53 chat_id_)
+  : chat_id_(chat_id_)
+{}
+
+const std::int32_t starTransactionTypePaidGroupCallReactionSend::ID;
+
+void starTransactionTypePaidGroupCallReactionSend::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "starTransactionTypePaidGroupCallReactionSend");
+    s.store_field("chat_id", chat_id_);
+    s.store_class_end();
+  }
+}
+
+starTransactionTypePaidGroupCallReactionReceive::starTransactionTypePaidGroupCallReactionReceive()
+  : sender_id_()
+  , commission_per_mille_()
+  , commission_star_amount_()
+{}
+
+starTransactionTypePaidGroupCallReactionReceive::starTransactionTypePaidGroupCallReactionReceive(object_ptr<MessageSender> &&sender_id_, int32 commission_per_mille_, object_ptr<starAmount> &&commission_star_amount_)
+  : sender_id_(std::move(sender_id_))
+  , commission_per_mille_(commission_per_mille_)
+  , commission_star_amount_(std::move(commission_star_amount_))
+{}
+
+const std::int32_t starTransactionTypePaidGroupCallReactionReceive::ID;
+
+void starTransactionTypePaidGroupCallReactionReceive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "starTransactionTypePaidGroupCallReactionReceive");
+    s.store_object_field("sender_id", static_cast<const BaseObject *>(sender_id_.get()));
     s.store_field("commission_per_mille", commission_per_mille_);
     s.store_object_field("commission_star_amount", static_cast<const BaseObject *>(commission_star_amount_.get()));
     s.store_class_end();
@@ -3302,6 +3701,27 @@ void storyContentVideo::store(TlStorerToString &s, const char *field_name) const
     s.store_class_begin(field_name, "storyContentVideo");
     s.store_object_field("video", static_cast<const BaseObject *>(video_.get()));
     s.store_object_field("alternative_video", static_cast<const BaseObject *>(alternative_video_.get()));
+    s.store_class_end();
+  }
+}
+
+storyContentLive::storyContentLive()
+  : group_call_id_()
+  , is_rtmp_stream_()
+{}
+
+storyContentLive::storyContentLive(int32 group_call_id_, bool is_rtmp_stream_)
+  : group_call_id_(group_call_id_)
+  , is_rtmp_stream_(is_rtmp_stream_)
+{}
+
+const std::int32_t storyContentLive::ID;
+
+void storyContentLive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "storyContentLive");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_field("is_rtmp_stream", is_rtmp_stream_);
     s.store_class_end();
   }
 }
@@ -3639,6 +4059,27 @@ void textEntityTypeMediaTimestamp::store(TlStorerToString &s, const char *field_
   }
 }
 
+textEntityTypeDateTime::textEntityTypeDateTime()
+  : unix_time_()
+  , formatting_type_()
+{}
+
+textEntityTypeDateTime::textEntityTypeDateTime(int32 unix_time_, object_ptr<DateTimeFormattingType> &&formatting_type_)
+  : unix_time_(unix_time_)
+  , formatting_type_(std::move(formatting_type_))
+{}
+
+const std::int32_t textEntityTypeDateTime::ID;
+
+void textEntityTypeDateTime::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "textEntityTypeDateTime");
+    s.store_field("unix_time", unix_time_);
+    s.store_object_field("formatting_type", static_cast<const BaseObject *>(formatting_type_.get()));
+    s.store_class_end();
+  }
+}
+
 validatedOrderInfo::validatedOrderInfo()
   : order_info_id_()
   , shipping_options_()
@@ -3836,6 +4277,27 @@ void checkAuthenticationBotToken::store(TlStorerToString &s, const char *field_n
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "checkAuthenticationBotToken");
     s.store_field("token", token_);
+    s.store_class_end();
+  }
+}
+
+checkOauthRequestMatchCode::checkOauthRequestMatchCode()
+  : url_()
+  , match_code_()
+{}
+
+checkOauthRequestMatchCode::checkOauthRequestMatchCode(string const &url_, string const &match_code_)
+  : url_(url_)
+  , match_code_(match_code_)
+{}
+
+const std::int32_t checkOauthRequestMatchCode::ID;
+
+void checkOauthRequestMatchCode::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "checkOauthRequestMatchCode");
+    s.store_field("url", url_);
+    s.store_field("match_code", match_code_);
     s.store_class_end();
   }
 }
@@ -4076,6 +4538,30 @@ void deleteAllRevokedChatInviteLinks::store(TlStorerToString &s, const char *fie
     s.store_class_begin(field_name, "deleteAllRevokedChatInviteLinks");
     s.store_field("chat_id", chat_id_);
     s.store_field("creator_user_id", creator_user_id_);
+    s.store_class_end();
+  }
+}
+
+deleteGroupCallMessagesBySender::deleteGroupCallMessagesBySender()
+  : group_call_id_()
+  , sender_id_()
+  , report_spam_()
+{}
+
+deleteGroupCallMessagesBySender::deleteGroupCallMessagesBySender(int32 group_call_id_, object_ptr<MessageSender> &&sender_id_, bool report_spam_)
+  : group_call_id_(group_call_id_)
+  , sender_id_(std::move(sender_id_))
+  , report_spam_(report_spam_)
+{}
+
+const std::int32_t deleteGroupCallMessagesBySender::ID;
+
+void deleteGroupCallMessagesBySender::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "deleteGroupCallMessagesBySender");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_object_field("sender_id", static_cast<const BaseObject *>(sender_id_.get()));
+    s.store_field("report_spam", report_spam_);
     s.store_class_end();
   }
 }
@@ -4533,6 +5019,60 @@ void getFileMimeType::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+getGiftsForCrafting::getGiftsForCrafting()
+  : regular_gift_id_()
+  , offset_()
+  , limit_()
+{}
+
+getGiftsForCrafting::getGiftsForCrafting(int64 regular_gift_id_, string const &offset_, int32 limit_)
+  : regular_gift_id_(regular_gift_id_)
+  , offset_(offset_)
+  , limit_(limit_)
+{}
+
+const std::int32_t getGiftsForCrafting::ID;
+
+void getGiftsForCrafting::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getGiftsForCrafting");
+    s.store_field("regular_gift_id", regular_gift_id_);
+    s.store_field("offset", offset_);
+    s.store_field("limit", limit_);
+    s.store_class_end();
+  }
+}
+
+getGroupCallStreamSegment::getGroupCallStreamSegment()
+  : group_call_id_()
+  , time_offset_()
+  , scale_()
+  , channel_id_()
+  , video_quality_()
+{}
+
+getGroupCallStreamSegment::getGroupCallStreamSegment(int32 group_call_id_, int53 time_offset_, int32 scale_, int32 channel_id_, object_ptr<GroupCallVideoQuality> &&video_quality_)
+  : group_call_id_(group_call_id_)
+  , time_offset_(time_offset_)
+  , scale_(scale_)
+  , channel_id_(channel_id_)
+  , video_quality_(std::move(video_quality_))
+{}
+
+const std::int32_t getGroupCallStreamSegment::ID;
+
+void getGroupCallStreamSegment::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getGroupCallStreamSegment");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_field("time_offset", time_offset_);
+    s.store_field("scale", scale_);
+    s.store_field("channel_id", channel_id_);
+    s.store_object_field("video_quality", static_cast<const BaseObject *>(video_quality_.get()));
+    s.store_class_end();
+  }
+}
+
 getLoginUrlInfo::getLoginUrlInfo()
   : chat_id_()
   , message_id_()
@@ -4625,6 +5165,27 @@ void getPremiumGiveawayPaymentOptions::store(TlStorerToString &s, const char *fi
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "getPremiumGiveawayPaymentOptions");
     s.store_field("boosted_chat_id", boosted_chat_id_);
+    s.store_class_end();
+  }
+}
+
+getPreparedKeyboardButton::getPreparedKeyboardButton()
+  : bot_user_id_()
+  , prepared_button_id_()
+{}
+
+getPreparedKeyboardButton::getPreparedKeyboardButton(int53 bot_user_id_, string const &prepared_button_id_)
+  : bot_user_id_(bot_user_id_)
+  , prepared_button_id_(prepared_button_id_)
+{}
+
+const std::int32_t getPreparedKeyboardButton::ID;
+
+void getPreparedKeyboardButton::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getPreparedKeyboardButton");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("prepared_button_id", prepared_button_id_);
     s.store_class_end();
   }
 }
@@ -4860,36 +5421,6 @@ void getVideoChatAvailableParticipants::store(TlStorerToString &s, const char *f
   }
 }
 
-getVideoChatStreamSegment::getVideoChatStreamSegment()
-  : group_call_id_()
-  , time_offset_()
-  , scale_()
-  , channel_id_()
-  , video_quality_()
-{}
-
-getVideoChatStreamSegment::getVideoChatStreamSegment(int32 group_call_id_, int53 time_offset_, int32 scale_, int32 channel_id_, object_ptr<GroupCallVideoQuality> &&video_quality_)
-  : group_call_id_(group_call_id_)
-  , time_offset_(time_offset_)
-  , scale_(scale_)
-  , channel_id_(channel_id_)
-  , video_quality_(std::move(video_quality_))
-{}
-
-const std::int32_t getVideoChatStreamSegment::ID;
-
-void getVideoChatStreamSegment::store(TlStorerToString &s, const char *field_name) const {
-  if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "getVideoChatStreamSegment");
-    s.store_field("group_call_id", group_call_id_);
-    s.store_field("time_offset", time_offset_);
-    s.store_field("scale", scale_);
-    s.store_field("channel_id", channel_id_);
-    s.store_object_field("video_quality", static_cast<const BaseObject *>(video_quality_.get()));
-    s.store_class_end();
-  }
-}
-
 importContacts::importContacts()
   : contacts_()
 {}
@@ -5085,14 +5616,18 @@ void searchBackground::store(TlStorerToString &s, const char *field_name) const 
 searchGiftsForResale::searchGiftsForResale()
   : gift_id_()
   , order_()
+  , for_crafting_()
+  , for_stars_()
   , attributes_()
   , offset_()
   , limit_()
 {}
 
-searchGiftsForResale::searchGiftsForResale(int64 gift_id_, object_ptr<GiftForResaleOrder> &&order_, array<object_ptr<UpgradedGiftAttributeId>> &&attributes_, string const &offset_, int32 limit_)
+searchGiftsForResale::searchGiftsForResale(int64 gift_id_, object_ptr<GiftForResaleOrder> &&order_, bool for_crafting_, bool for_stars_, array<object_ptr<UpgradedGiftAttributeId>> &&attributes_, string const &offset_, int32 limit_)
   : gift_id_(gift_id_)
   , order_(std::move(order_))
+  , for_crafting_(for_crafting_)
+  , for_stars_(for_stars_)
   , attributes_(std::move(attributes_))
   , offset_(offset_)
   , limit_(limit_)
@@ -5105,6 +5640,8 @@ void searchGiftsForResale::store(TlStorerToString &s, const char *field_name) co
     s.store_class_begin(field_name, "searchGiftsForResale");
     s.store_field("gift_id", gift_id_);
     s.store_object_field("order", static_cast<const BaseObject *>(order_.get()));
+    s.store_field("for_crafting", for_crafting_);
+    s.store_field("for_stars", for_stars_);
     { s.store_vector_begin("attributes", attributes_.size()); for (const auto &_value : attributes_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("offset", offset_);
     s.store_field("limit", limit_);

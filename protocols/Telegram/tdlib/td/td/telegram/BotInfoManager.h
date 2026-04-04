@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -39,6 +39,11 @@ class BotInfoManager final : public Actor {
   BotInfoManager(BotInfoManager &&) = delete;
   BotInfoManager &operator=(BotInfoManager &&) = delete;
   ~BotInfoManager() final;
+
+  void create_bot(UserId manager_bot_user_id, const string &name, const string &username, bool via_deeplink,
+                  Promise<td_api::object_ptr<td_api::user>> &&promise);
+
+  void get_bot_token(UserId bot_user_id, bool revoke, Promise<string> &&promise);
 
   void get_owned_bots(Promise<td_api::object_ptr<td_api::users>> &&promise);
 

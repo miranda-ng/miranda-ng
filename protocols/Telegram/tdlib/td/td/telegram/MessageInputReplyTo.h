@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -29,6 +29,7 @@ class MessageInputReplyTo {
   DialogId dialog_id_;
   MessageQuote quote_;
   int32 todo_item_id_ = 0;
+  string poll_option_id_;
   // or
   StoryFullId story_full_id_;
 
@@ -46,12 +47,19 @@ class MessageInputReplyTo {
   MessageInputReplyTo &operator=(MessageInputReplyTo &&) = default;
   ~MessageInputReplyTo();
 
-  MessageInputReplyTo(MessageId message_id, DialogId dialog_id, MessageQuote quote, int32 todo_item_id)
-      : message_id_(message_id), dialog_id_(dialog_id), quote_(std::move(quote)), todo_item_id_(todo_item_id) {
+  MessageInputReplyTo(MessageId message_id, DialogId dialog_id, MessageQuote quote, int32 todo_item_id,
+                      const string &poll_option_id)
+      : message_id_(message_id)
+      , dialog_id_(dialog_id)
+      , quote_(std::move(quote))
+      , todo_item_id_(todo_item_id)
+      , poll_option_id_(poll_option_id) {
   }
 
   explicit MessageInputReplyTo(StoryFullId story_full_id) : story_full_id_(story_full_id) {
   }
+
+  static MessageInputReplyTo regular(MessageId message_id);
 
   // only for draft messages
   MessageInputReplyTo(Td *td, telegram_api::object_ptr<telegram_api::InputReplyTo> &&input_reply_to);
@@ -72,6 +80,10 @@ class MessageInputReplyTo {
     return todo_item_id_ != 0;
   }
 
+  bool has_poll_option_id() const {
+    return !poll_option_id_.empty();
+  }
+
   void set_quote(MessageQuote quote) {
     quote_ = std::move(quote);
   }
@@ -84,13 +96,15 @@ class MessageInputReplyTo {
     if (story_full_id_.is_valid()) {
       return MessageInputReplyTo(story_full_id_);
     }
-    return MessageInputReplyTo(message_id_, dialog_id_, quote_.clone(), todo_item_id_);
+    return MessageInputReplyTo(message_id_, dialog_id_, quote_.clone(), todo_item_id_, poll_option_id_);
   }
 
   void add_dependencies(Dependencies &dependencies) const;
 
-  telegram_api::object_ptr<telegram_api::InputReplyTo> get_input_reply_to(Td *td,
-                                                                          const MessageTopic &message_topic) const;
+  telegram_api::object_ptr<telegram_api::InputReplyTo> get_input_reply_to(Td *td, const MessageTopic &message_topic,
+                                                                          bool for_draft = false,
+                                                                          DialogId for_dialog_id = DialogId(),
+                                                                          int32 with_flags = 0) const;
 
   // only for draft messages
   td_api::object_ptr<td_api::InputMessageReplyTo> get_input_message_reply_to_object(Td *td) const;

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,6 +25,15 @@ class StarGiftCollectionId {
   }
   template <class T, typename = std::enable_if_t<std::is_convertible<T, int32>::value>>
   StarGiftCollectionId(T star_gift_collection_id) = delete;
+
+  static vector<StarGiftCollectionId> get_star_gift_collection_ids(const vector<int32> &input_ids) {
+    vector<StarGiftCollectionId> star_gift_collection_ids;
+    star_gift_collection_ids.reserve(input_ids.size());
+    for (auto &input_id : input_ids) {
+      star_gift_collection_ids.emplace_back(input_id);
+    }
+    return star_gift_collection_ids;
+  }
 
   int32 get() const {
     return id;

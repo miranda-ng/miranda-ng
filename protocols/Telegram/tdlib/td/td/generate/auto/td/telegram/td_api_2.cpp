@@ -90,6 +90,33 @@ void affiliateProgramInfo::store(TlStorerToString &s, const char *field_name) co
   }
 }
 
+auctionRound::auctionRound()
+  : number_()
+  , duration_()
+  , extend_time_()
+  , top_winner_count_()
+{}
+
+auctionRound::auctionRound(int32 number_, int32 duration_, int32 extend_time_, int32 top_winner_count_)
+  : number_(number_)
+  , duration_(duration_)
+  , extend_time_(extend_time_)
+  , top_winner_count_(top_winner_count_)
+{}
+
+const std::int32_t auctionRound::ID;
+
+void auctionRound::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "auctionRound");
+    s.store_field("number", number_);
+    s.store_field("duration", duration_);
+    s.store_field("extend_time", extend_time_);
+    s.store_field("top_winner_count", top_winner_count_);
+    s.store_class_end();
+  }
+}
+
 authenticationCodeInfo::authenticationCodeInfo()
   : phone_number_()
   , type_()
@@ -1044,14 +1071,20 @@ void foundFileDownloads::store(TlStorerToString &s, const char *field_name) cons
   }
 }
 
-giftResaleResultOk::giftResaleResultOk() {
-}
+giftResaleResultOk::giftResaleResultOk()
+  : received_gift_id_()
+{}
+
+giftResaleResultOk::giftResaleResultOk(string const &received_gift_id_)
+  : received_gift_id_(received_gift_id_)
+{}
 
 const std::int32_t giftResaleResultOk::ID;
 
 void giftResaleResultOk::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "giftResaleResultOk");
+    s.store_field("received_gift_id", received_gift_id_);
     s.store_class_end();
   }
 }
@@ -1091,6 +1124,30 @@ void giftUpgradePrice::store(TlStorerToString &s, const char *field_name) const 
     s.store_class_begin(field_name, "giftUpgradePrice");
     s.store_field("date", date_);
     s.store_field("star_count", star_count_);
+    s.store_class_end();
+  }
+}
+
+groupCallStream::groupCallStream()
+  : channel_id_()
+  , scale_()
+  , time_offset_()
+{}
+
+groupCallStream::groupCallStream(int32 channel_id_, int32 scale_, int53 time_offset_)
+  : channel_id_(channel_id_)
+  , scale_(scale_)
+  , time_offset_(time_offset_)
+{}
+
+const std::int32_t groupCallStream::ID;
+
+void groupCallStream::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "groupCallStream");
+    s.store_field("channel_id", channel_id_);
+    s.store_field("scale", scale_);
+    s.store_field("time_offset", time_offset_);
     s.store_class_end();
   }
 }
@@ -1955,6 +2012,42 @@ const std::int32_t premiumFeatureChecklists::ID;
 void premiumFeatureChecklists::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "premiumFeatureChecklists");
+    s.store_class_end();
+  }
+}
+
+premiumFeaturePaidMessages::premiumFeaturePaidMessages() {
+}
+
+const std::int32_t premiumFeaturePaidMessages::ID;
+
+void premiumFeaturePaidMessages::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "premiumFeaturePaidMessages");
+    s.store_class_end();
+  }
+}
+
+premiumFeatureProtectPrivateChatContent::premiumFeatureProtectPrivateChatContent() {
+}
+
+const std::int32_t premiumFeatureProtectPrivateChatContent::ID;
+
+void premiumFeatureProtectPrivateChatContent::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "premiumFeatureProtectPrivateChatContent");
+    s.store_class_end();
+  }
+}
+
+premiumFeatureTextComposition::premiumFeatureTextComposition() {
+}
+
+const std::int32_t premiumFeatureTextComposition::ID;
+
+void premiumFeatureTextComposition::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "premiumFeatureTextComposition");
     s.store_class_end();
   }
 }
@@ -2910,6 +3003,18 @@ void userPrivacySettingShowBirthdate::store(TlStorerToString &s, const char *fie
   }
 }
 
+userPrivacySettingShowProfileAudio::userPrivacySettingShowProfileAudio() {
+}
+
+const std::int32_t userPrivacySettingShowProfileAudio::ID;
+
+void userPrivacySettingShowProfileAudio::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "userPrivacySettingShowProfileAudio");
+    s.store_class_end();
+  }
+}
+
 userPrivacySettingAllowChatInvites::userPrivacySettingAllowChatInvites() {
 }
 
@@ -3339,6 +3444,24 @@ void clearAllDraftMessages::store(TlStorerToString &s, const char *field_name) c
   }
 }
 
+closeGiftAuction::closeGiftAuction()
+  : gift_id_()
+{}
+
+closeGiftAuction::closeGiftAuction(int64 gift_id_)
+  : gift_id_(gift_id_)
+{}
+
+const std::int32_t closeGiftAuction::ID;
+
+void closeGiftAuction::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "closeGiftAuction");
+    s.store_field("gift_id", gift_id_);
+    s.store_class_end();
+  }
+}
+
 createVideoChat::createVideoChat()
   : chat_id_()
   , title_()
@@ -3404,6 +3527,30 @@ void deleteDirectMessagesChatTopicHistory::store(TlStorerToString &s, const char
     s.store_class_begin(field_name, "deleteDirectMessagesChatTopicHistory");
     s.store_field("chat_id", chat_id_);
     s.store_field("topic_id", topic_id_);
+    s.store_class_end();
+  }
+}
+
+deletePollOption::deletePollOption()
+  : chat_id_()
+  , message_id_()
+  , option_id_()
+{}
+
+deletePollOption::deletePollOption(int53 chat_id_, int53 message_id_, string const &option_id_)
+  : chat_id_(chat_id_)
+  , message_id_(message_id_)
+  , option_id_(option_id_)
+{}
+
+const std::int32_t deletePollOption::ID;
+
+void deletePollOption::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "deletePollOption");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_id", message_id_);
+    s.store_field("option_id", option_id_);
     s.store_class_end();
   }
 }
@@ -3765,6 +3912,24 @@ void getInternalLink::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+getLiveStoryRtmpUrl::getLiveStoryRtmpUrl()
+  : chat_id_()
+{}
+
+getLiveStoryRtmpUrl::getLiveStoryRtmpUrl(int53 chat_id_)
+  : chat_id_(chat_id_)
+{}
+
+const std::int32_t getLiveStoryRtmpUrl::ID;
+
+void getLiveStoryRtmpUrl::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getLiveStoryRtmpUrl");
+    s.store_field("chat_id", chat_id_);
+    s.store_class_end();
+  }
+}
+
 getLogTags::getLogTags() {
 }
 
@@ -3905,6 +4070,30 @@ void getPhoneNumberInfo::store(TlStorerToString &s, const char *field_name) cons
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "getPhoneNumberInfo");
     s.store_field("phone_number_prefix", phone_number_prefix_);
+    s.store_class_end();
+  }
+}
+
+getPollOptionProperties::getPollOptionProperties()
+  : chat_id_()
+  , message_id_()
+  , poll_option_id_()
+{}
+
+getPollOptionProperties::getPollOptionProperties(int53 chat_id_, int53 message_id_, string const &poll_option_id_)
+  : chat_id_(chat_id_)
+  , message_id_(message_id_)
+  , poll_option_id_(poll_option_id_)
+{}
+
+const std::int32_t getPollOptionProperties::ID;
+
+void getPollOptionProperties::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getPollOptionProperties");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_id", message_id_);
+    s.store_field("poll_option_id", poll_option_id_);
     s.store_class_end();
   }
 }
@@ -4139,6 +4328,24 @@ void markChecklistTasksAsDone::store(TlStorerToString &s, const char *field_name
     s.store_field("message_id", message_id_);
     { s.store_vector_begin("marked_as_done_task_ids", marked_as_done_task_ids_.size()); for (const auto &_value : marked_as_done_task_ids_) { s.store_field("", _value); } s.store_class_end(); }
     { s.store_vector_begin("marked_as_not_done_task_ids", marked_as_not_done_task_ids_.size()); for (const auto &_value : marked_as_not_done_task_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+openGiftAuction::openGiftAuction()
+  : gift_id_()
+{}
+
+openGiftAuction::openGiftAuction(int64 gift_id_)
+  : gift_id_(gift_id_)
+{}
+
+const std::int32_t openGiftAuction::ID;
+
+void openGiftAuction::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "openGiftAuction");
+    s.store_field("gift_id", gift_id_);
     s.store_class_end();
   }
 }
@@ -4601,6 +4808,27 @@ void setGiftResalePrice::store(TlStorerToString &s, const char *field_name) cons
     s.store_class_begin(field_name, "setGiftResalePrice");
     s.store_field("received_gift_id", received_gift_id_);
     s.store_object_field("price", static_cast<const BaseObject *>(price_.get()));
+    s.store_class_end();
+  }
+}
+
+setGroupCallPaidMessageStarCount::setGroupCallPaidMessageStarCount()
+  : group_call_id_()
+  , paid_message_star_count_()
+{}
+
+setGroupCallPaidMessageStarCount::setGroupCallPaidMessageStarCount(int32 group_call_id_, int53 paid_message_star_count_)
+  : group_call_id_(group_call_id_)
+  , paid_message_star_count_(paid_message_star_count_)
+{}
+
+const std::int32_t setGroupCallPaidMessageStarCount::ID;
+
+void setGroupCallPaidMessageStarCount::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "setGroupCallPaidMessageStarCount");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_field("paid_message_star_count", paid_message_star_count_);
     s.store_class_end();
   }
 }

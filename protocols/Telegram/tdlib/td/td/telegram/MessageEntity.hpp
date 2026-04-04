@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,6 +30,10 @@ void MessageEntity::store(StorerT &storer) const {
   if (type == Type::CustomEmoji) {
     store(custom_emoji_id, storer);
   }
+  if (type == Type::FormattedDate) {
+    store(date, storer);
+    store(date_flags, storer);
+  }
 }
 
 template <class ParserT>
@@ -49,6 +53,10 @@ void MessageEntity::parse(ParserT &parser) {
   }
   if (type == Type::CustomEmoji) {
     parse(custom_emoji_id, parser);
+  }
+  if (type == Type::FormattedDate) {
+    parse(date, parser);
+    parse(date_flags, parser);
   }
 }
 

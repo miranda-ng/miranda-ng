@@ -440,14 +440,16 @@ void businessOpeningHoursInterval::store(TlStorerToString &s, const char *field_
 
 call::call()
   : id_()
+  , unique_id_()
   , user_id_()
   , is_outgoing_()
   , is_video_()
   , state_()
 {}
 
-call::call(int32 id_, int53 user_id_, bool is_outgoing_, bool is_video_, object_ptr<CallState> &&state_)
+call::call(int32 id_, int64 unique_id_, int53 user_id_, bool is_outgoing_, bool is_video_, object_ptr<CallState> &&state_)
   : id_(id_)
+  , unique_id_(unique_id_)
   , user_id_(user_id_)
   , is_outgoing_(is_outgoing_)
   , is_video_(is_video_)
@@ -460,6 +462,7 @@ void call::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "call");
     s.store_field("id", id_);
+    s.store_field("unique_id", unique_id_);
     s.store_field("user_id", user_id_);
     s.store_field("is_outgoing", is_outgoing_);
     s.store_field("is_video", is_video_);
@@ -666,6 +669,24 @@ void canPostStoryResultMonthlyLimitExceeded::store(TlStorerToString &s, const ch
   }
 }
 
+canPostStoryResultLiveStoryIsActive::canPostStoryResultLiveStoryIsActive()
+  : story_id_()
+{}
+
+canPostStoryResultLiveStoryIsActive::canPostStoryResultLiveStoryIsActive(int32 story_id_)
+  : story_id_(story_id_)
+{}
+
+const std::int32_t canPostStoryResultLiveStoryIsActive::ID;
+
+void canPostStoryResultLiveStoryIsActive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "canPostStoryResultLiveStoryIsActive");
+    s.store_field("story_id", story_id_);
+    s.store_class_end();
+  }
+}
+
 chatAdministrators::chatAdministrators()
   : administrators_()
 {}
@@ -829,7 +850,7 @@ connectedAffiliateProgram::connectedAffiliateProgram()
   , revenue_star_count_()
 {}
 
-connectedAffiliateProgram::connectedAffiliateProgram(string const &url_, int53 bot_user_id_, object_ptr<affiliateProgramParameters> &&parameters_, int32 connection_date_, bool is_disconnected_, int64 user_count_, int64 revenue_star_count_)
+connectedAffiliateProgram::connectedAffiliateProgram(string const &url_, int53 bot_user_id_, object_ptr<affiliateProgramParameters> &&parameters_, int32 connection_date_, bool is_disconnected_, int64 user_count_, int53 revenue_star_count_)
   : url_(url_)
   , bot_user_id_(bot_user_id_)
   , parameters_(std::move(parameters_))
@@ -893,6 +914,78 @@ void date::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("day", day_);
     s.store_field("month", month_);
     s.store_field("year", year_);
+    s.store_class_end();
+  }
+}
+
+dateTimeFormattingTypeRelative::dateTimeFormattingTypeRelative() {
+}
+
+const std::int32_t dateTimeFormattingTypeRelative::ID;
+
+void dateTimeFormattingTypeRelative::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "dateTimeFormattingTypeRelative");
+    s.store_class_end();
+  }
+}
+
+dateTimeFormattingTypeAbsolute::dateTimeFormattingTypeAbsolute()
+  : time_precision_()
+  , date_precision_()
+  , show_day_of_week_()
+{}
+
+dateTimeFormattingTypeAbsolute::dateTimeFormattingTypeAbsolute(object_ptr<DateTimePartPrecision> &&time_precision_, object_ptr<DateTimePartPrecision> &&date_precision_, bool show_day_of_week_)
+  : time_precision_(std::move(time_precision_))
+  , date_precision_(std::move(date_precision_))
+  , show_day_of_week_(show_day_of_week_)
+{}
+
+const std::int32_t dateTimeFormattingTypeAbsolute::ID;
+
+void dateTimeFormattingTypeAbsolute::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "dateTimeFormattingTypeAbsolute");
+    s.store_object_field("time_precision", static_cast<const BaseObject *>(time_precision_.get()));
+    s.store_object_field("date_precision", static_cast<const BaseObject *>(date_precision_.get()));
+    s.store_field("show_day_of_week", show_day_of_week_);
+    s.store_class_end();
+  }
+}
+
+dateTimePartPrecisionNone::dateTimePartPrecisionNone() {
+}
+
+const std::int32_t dateTimePartPrecisionNone::ID;
+
+void dateTimePartPrecisionNone::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "dateTimePartPrecisionNone");
+    s.store_class_end();
+  }
+}
+
+dateTimePartPrecisionShort::dateTimePartPrecisionShort() {
+}
+
+const std::int32_t dateTimePartPrecisionShort::ID;
+
+void dateTimePartPrecisionShort::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "dateTimePartPrecisionShort");
+    s.store_class_end();
+  }
+}
+
+dateTimePartPrecisionLong::dateTimePartPrecisionLong() {
+}
+
+const std::int32_t dateTimePartPrecisionLong::ID;
+
+void dateTimePartPrecisionLong::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "dateTimePartPrecisionLong");
     s.store_class_end();
   }
 }
@@ -1210,29 +1303,35 @@ gift::gift()
   , star_count_()
   , default_sell_star_count_()
   , upgrade_star_count_()
+  , upgrade_variant_count_()
   , has_colors_()
   , is_for_birthday_()
   , is_premium_()
+  , auction_info_()
   , next_send_date_()
   , user_limits_()
   , overall_limits_()
+  , background_()
   , first_send_date_()
   , last_send_date_()
 {}
 
-gift::gift(int64 id_, int53 publisher_chat_id_, object_ptr<sticker> &&sticker_, int53 star_count_, int53 default_sell_star_count_, int53 upgrade_star_count_, bool has_colors_, bool is_for_birthday_, bool is_premium_, int32 next_send_date_, object_ptr<giftPurchaseLimits> &&user_limits_, object_ptr<giftPurchaseLimits> &&overall_limits_, int32 first_send_date_, int32 last_send_date_)
+gift::gift(int64 id_, int53 publisher_chat_id_, object_ptr<sticker> &&sticker_, int53 star_count_, int53 default_sell_star_count_, int53 upgrade_star_count_, int32 upgrade_variant_count_, bool has_colors_, bool is_for_birthday_, bool is_premium_, object_ptr<giftAuction> &&auction_info_, int32 next_send_date_, object_ptr<giftPurchaseLimits> &&user_limits_, object_ptr<giftPurchaseLimits> &&overall_limits_, object_ptr<giftBackground> &&background_, int32 first_send_date_, int32 last_send_date_)
   : id_(id_)
   , publisher_chat_id_(publisher_chat_id_)
   , sticker_(std::move(sticker_))
   , star_count_(star_count_)
   , default_sell_star_count_(default_sell_star_count_)
   , upgrade_star_count_(upgrade_star_count_)
+  , upgrade_variant_count_(upgrade_variant_count_)
   , has_colors_(has_colors_)
   , is_for_birthday_(is_for_birthday_)
   , is_premium_(is_premium_)
+  , auction_info_(std::move(auction_info_))
   , next_send_date_(next_send_date_)
   , user_limits_(std::move(user_limits_))
   , overall_limits_(std::move(overall_limits_))
+  , background_(std::move(background_))
   , first_send_date_(first_send_date_)
   , last_send_date_(last_send_date_)
 {}
@@ -1248,12 +1347,15 @@ void gift::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("star_count", star_count_);
     s.store_field("default_sell_star_count", default_sell_star_count_);
     s.store_field("upgrade_star_count", upgrade_star_count_);
+    s.store_field("upgrade_variant_count", upgrade_variant_count_);
     s.store_field("has_colors", has_colors_);
     s.store_field("is_for_birthday", is_for_birthday_);
     s.store_field("is_premium", is_premium_);
+    s.store_object_field("auction_info", static_cast<const BaseObject *>(auction_info_.get()));
     s.store_field("next_send_date", next_send_date_);
     s.store_object_field("user_limits", static_cast<const BaseObject *>(user_limits_.get()));
     s.store_object_field("overall_limits", static_cast<const BaseObject *>(overall_limits_.get()));
+    s.store_object_field("background", static_cast<const BaseObject *>(background_.get()));
     s.store_field("first_send_date", first_send_date_);
     s.store_field("last_send_date", last_send_date_);
     s.store_class_end();
@@ -1304,6 +1406,24 @@ void inputChecklist::store(TlStorerToString &s, const char *field_name) const {
     { s.store_vector_begin("tasks", tasks_.size()); for (const auto &_value : tasks_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("others_can_add_tasks", others_can_add_tasks_);
     s.store_field("others_can_mark_tasks_as_done", others_can_mark_tasks_as_done_);
+    s.store_class_end();
+  }
+}
+
+inputPollOption::inputPollOption()
+  : text_()
+{}
+
+inputPollOption::inputPollOption(object_ptr<formattedText> &&text_)
+  : text_(std::move(text_))
+{}
+
+const std::int32_t inputPollOption::ID;
+
+void inputPollOption::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputPollOption");
+    s.store_object_field("text", static_cast<const BaseObject *>(text_.get()));
     s.store_class_end();
   }
 }
@@ -1476,6 +1596,69 @@ void inputStoryAreaTypeUpgradedGift::store(TlStorerToString &s, const char *fiel
   }
 }
 
+keyboardButtonSourceMessage::keyboardButtonSourceMessage()
+  : chat_id_()
+  , message_id_()
+{}
+
+keyboardButtonSourceMessage::keyboardButtonSourceMessage(int53 chat_id_, int53 message_id_)
+  : chat_id_(chat_id_)
+  , message_id_(message_id_)
+{}
+
+const std::int32_t keyboardButtonSourceMessage::ID;
+
+void keyboardButtonSourceMessage::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "keyboardButtonSourceMessage");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_id", message_id_);
+    s.store_class_end();
+  }
+}
+
+keyboardButtonSourceWebApp::keyboardButtonSourceWebApp()
+  : bot_user_id_()
+  , prepared_button_id_()
+{}
+
+keyboardButtonSourceWebApp::keyboardButtonSourceWebApp(int53 bot_user_id_, string const &prepared_button_id_)
+  : bot_user_id_(bot_user_id_)
+  , prepared_button_id_(prepared_button_id_)
+{}
+
+const std::int32_t keyboardButtonSourceWebApp::ID;
+
+void keyboardButtonSourceWebApp::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "keyboardButtonSourceWebApp");
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("prepared_button_id", prepared_button_id_);
+    s.store_class_end();
+  }
+}
+
+liveStoryDonors::liveStoryDonors()
+  : total_star_count_()
+  , top_donors_()
+{}
+
+liveStoryDonors::liveStoryDonors(int53 total_star_count_, array<object_ptr<paidReactor>> &&top_donors_)
+  : total_star_count_(total_star_count_)
+  , top_donors_(std::move(top_donors_))
+{}
+
+const std::int32_t liveStoryDonors::ID;
+
+void liveStoryDonors::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "liveStoryDonors");
+    s.store_field("total_star_count", total_star_count_);
+    { s.store_vector_begin("top_donors", top_donors_.size()); for (const auto &_value : top_donors_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
 maskPointForehead::maskPointForehead() {
 }
 
@@ -1553,16 +1736,18 @@ messageReplyToMessage::messageReplyToMessage()
   , message_id_()
   , quote_()
   , checklist_task_id_()
+  , poll_option_id_()
   , origin_()
   , origin_send_date_()
   , content_()
 {}
 
-messageReplyToMessage::messageReplyToMessage(int53 chat_id_, int53 message_id_, object_ptr<textQuote> &&quote_, int32 checklist_task_id_, object_ptr<MessageOrigin> &&origin_, int32 origin_send_date_, object_ptr<MessageContent> &&content_)
+messageReplyToMessage::messageReplyToMessage(int53 chat_id_, int53 message_id_, object_ptr<textQuote> &&quote_, int32 checklist_task_id_, string const &poll_option_id_, object_ptr<MessageOrigin> &&origin_, int32 origin_send_date_, object_ptr<MessageContent> &&content_)
   : chat_id_(chat_id_)
   , message_id_(message_id_)
   , quote_(std::move(quote_))
   , checklist_task_id_(checklist_task_id_)
+  , poll_option_id_(poll_option_id_)
   , origin_(std::move(origin_))
   , origin_send_date_(origin_send_date_)
   , content_(std::move(content_))
@@ -1577,6 +1762,7 @@ void messageReplyToMessage::store(TlStorerToString &s, const char *field_name) c
     s.store_field("message_id", message_id_);
     s.store_object_field("quote", static_cast<const BaseObject *>(quote_.get()));
     s.store_field("checklist_task_id", checklist_task_id_);
+    s.store_field("poll_option_id", poll_option_id_);
     s.store_object_field("origin", static_cast<const BaseObject *>(origin_.get()));
     s.store_field("origin_send_date", origin_send_date_);
     s.store_object_field("content", static_cast<const BaseObject *>(content_.get()));
@@ -1685,6 +1871,36 @@ void outline::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "outline");
     { s.store_vector_begin("paths", paths_.size()); for (const auto &_value : paths_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+passkey::passkey()
+  : id_()
+  , name_()
+  , addition_date_()
+  , last_usage_date_()
+  , software_icon_custom_emoji_id_()
+{}
+
+passkey::passkey(string const &id_, string const &name_, int32 addition_date_, int32 last_usage_date_, int64 software_icon_custom_emoji_id_)
+  : id_(id_)
+  , name_(name_)
+  , addition_date_(addition_date_)
+  , last_usage_date_(last_usage_date_)
+  , software_icon_custom_emoji_id_(software_icon_custom_emoji_id_)
+{}
+
+const std::int32_t passkey::ID;
+
+void passkey::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "passkey");
+    s.store_field("id", id_);
+    s.store_field("name", name_);
+    s.store_field("addition_date", addition_date_);
+    s.store_field("last_usage_date", last_usage_date_);
+    s.store_field("software_icon_custom_emoji_id", software_icon_custom_emoji_id_);
     s.store_class_end();
   }
 }
@@ -2000,6 +2216,18 @@ const std::int32_t premiumLimitTypeSimilarChatCount::ID;
 void premiumLimitTypeSimilarChatCount::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "premiumLimitTypeSimilarChatCount");
+    s.store_class_end();
+  }
+}
+
+premiumLimitTypeOwnedBotCount::premiumLimitTypeOwnedBotCount() {
+}
+
+const std::int32_t premiumLimitTypeOwnedBotCount::ID;
+
+void premiumLimitTypeOwnedBotCount::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "premiumLimitTypeOwnedBotCount");
     s.store_class_end();
   }
 }
@@ -2475,6 +2703,42 @@ void starTransaction::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+startLiveStoryResultOk::startLiveStoryResultOk()
+  : story_()
+{}
+
+startLiveStoryResultOk::startLiveStoryResultOk(object_ptr<story> &&story_)
+  : story_(std::move(story_))
+{}
+
+const std::int32_t startLiveStoryResultOk::ID;
+
+void startLiveStoryResultOk::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "startLiveStoryResultOk");
+    s.store_object_field("story", static_cast<const BaseObject *>(story_.get()));
+    s.store_class_end();
+  }
+}
+
+startLiveStoryResultFail::startLiveStoryResultFail()
+  : error_type_()
+{}
+
+startLiveStoryResultFail::startLiveStoryResultFail(object_ptr<CanPostStoryResult> &&error_type_)
+  : error_type_(std::move(error_type_))
+{}
+
+const std::int32_t startLiveStoryResultFail::ID;
+
+void startLiveStoryResultFail::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "startLiveStoryResultFail");
+    s.store_object_field("error_type", static_cast<const BaseObject *>(error_type_.get()));
+    s.store_class_end();
+  }
+}
+
 stickerFormatWebp::stickerFormatWebp() {
 }
 
@@ -2537,6 +2801,54 @@ void storageStatisticsFast::store(TlStorerToString &s, const char *field_name) c
     s.store_field("database_size", database_size_);
     s.store_field("language_pack_database_size", language_pack_database_size_);
     s.store_field("log_size", log_size_);
+    s.store_class_end();
+  }
+}
+
+storyContentTypePhoto::storyContentTypePhoto() {
+}
+
+const std::int32_t storyContentTypePhoto::ID;
+
+void storyContentTypePhoto::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "storyContentTypePhoto");
+    s.store_class_end();
+  }
+}
+
+storyContentTypeVideo::storyContentTypeVideo() {
+}
+
+const std::int32_t storyContentTypeVideo::ID;
+
+void storyContentTypeVideo::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "storyContentTypeVideo");
+    s.store_class_end();
+  }
+}
+
+storyContentTypeLive::storyContentTypeLive() {
+}
+
+const std::int32_t storyContentTypeLive::ID;
+
+void storyContentTypeLive::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "storyContentTypeLive");
+    s.store_class_end();
+  }
+}
+
+storyContentTypeUnsupported::storyContentTypeUnsupported() {
+}
+
+const std::int32_t storyContentTypeUnsupported::ID;
+
+void storyContentTypeUnsupported::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "storyContentTypeUnsupported");
     s.store_class_end();
   }
 }
@@ -2691,6 +3003,30 @@ void testVectorInt::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+textCompositionStyle::textCompositionStyle()
+  : name_()
+  , custom_emoji_id_()
+  , title_()
+{}
+
+textCompositionStyle::textCompositionStyle(string const &name_, int64 custom_emoji_id_, string const &title_)
+  : name_(name_)
+  , custom_emoji_id_(custom_emoji_id_)
+  , title_(title_)
+{}
+
+const std::int32_t textCompositionStyle::ID;
+
+void textCompositionStyle::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "textCompositionStyle");
+    s.store_field("name", name_);
+    s.store_field("custom_emoji_id", custom_emoji_id_);
+    s.store_field("title", title_);
+    s.store_class_end();
+  }
+}
+
 textEntities::textEntities()
   : entities_()
 {}
@@ -2761,14 +3097,14 @@ upgradedGiftBackdrop::upgradedGiftBackdrop()
   : id_()
   , name_()
   , colors_()
-  , rarity_per_mille_()
+  , rarity_()
 {}
 
-upgradedGiftBackdrop::upgradedGiftBackdrop(int32 id_, string const &name_, object_ptr<upgradedGiftBackdropColors> &&colors_, int32 rarity_per_mille_)
+upgradedGiftBackdrop::upgradedGiftBackdrop(int32 id_, string const &name_, object_ptr<upgradedGiftBackdropColors> &&colors_, object_ptr<UpgradedGiftAttributeRarity> &&rarity_)
   : id_(id_)
   , name_(name_)
   , colors_(std::move(colors_))
-  , rarity_per_mille_(rarity_per_mille_)
+  , rarity_(std::move(rarity_))
 {}
 
 const std::int32_t upgradedGiftBackdrop::ID;
@@ -2779,7 +3115,7 @@ void upgradedGiftBackdrop::store(TlStorerToString &s, const char *field_name) co
     s.store_field("id", id_);
     s.store_field("name", name_);
     s.store_object_field("colors", static_cast<const BaseObject *>(colors_.get()));
-    s.store_field("rarity_per_mille", rarity_per_mille_);
+    s.store_object_field("rarity", static_cast<const BaseObject *>(rarity_.get()));
     s.store_class_end();
   }
 }
@@ -2850,13 +3186,13 @@ void upgradedGiftColors::store(TlStorerToString &s, const char *field_name) cons
 upgradedGiftSymbol::upgradedGiftSymbol()
   : name_()
   , sticker_()
-  , rarity_per_mille_()
+  , rarity_()
 {}
 
-upgradedGiftSymbol::upgradedGiftSymbol(string const &name_, object_ptr<sticker> &&sticker_, int32 rarity_per_mille_)
+upgradedGiftSymbol::upgradedGiftSymbol(string const &name_, object_ptr<sticker> &&sticker_, object_ptr<UpgradedGiftAttributeRarity> &&rarity_)
   : name_(name_)
   , sticker_(std::move(sticker_))
-  , rarity_per_mille_(rarity_per_mille_)
+  , rarity_(std::move(rarity_))
 {}
 
 const std::int32_t upgradedGiftSymbol::ID;
@@ -2866,7 +3202,7 @@ void upgradedGiftSymbol::store(TlStorerToString &s, const char *field_name) cons
     s.store_class_begin(field_name, "upgradedGiftSymbol");
     s.store_field("name", name_);
     s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
-    s.store_field("rarity_per_mille", rarity_per_mille_);
+    s.store_object_field("rarity", static_cast<const BaseObject *>(rarity_.get()));
     s.store_class_end();
   }
 }
@@ -2930,6 +3266,27 @@ void addLogMessage::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "addLogMessage");
     s.store_field("verbosity_level", verbosity_level_);
     s.store_field("text", text_);
+    s.store_class_end();
+  }
+}
+
+addPendingLiveStoryReaction::addPendingLiveStoryReaction()
+  : group_call_id_()
+  , star_count_()
+{}
+
+addPendingLiveStoryReaction::addPendingLiveStoryReaction(int32 group_call_id_, int53 star_count_)
+  : group_call_id_(group_call_id_)
+  , star_count_(star_count_)
+{}
+
+const std::int32_t addPendingLiveStoryReaction::ID;
+
+void addPendingLiveStoryReaction::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "addPendingLiveStoryReaction");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_field("star_count", star_count_);
     s.store_class_end();
   }
 }
@@ -3765,24 +4122,6 @@ void getPremiumInfoSticker::store(TlStorerToString &s, const char *field_name) c
   }
 }
 
-getProxyLink::getProxyLink()
-  : proxy_id_()
-{}
-
-getProxyLink::getProxyLink(int32 proxy_id_)
-  : proxy_id_(proxy_id_)
-{}
-
-const std::int32_t getProxyLink::ID;
-
-void getProxyLink::store(TlStorerToString &s, const char *field_name) const {
-  if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "getProxyLink");
-    s.store_field("proxy_id", proxy_id_);
-    s.store_class_end();
-  }
-}
-
 getRecentInlineBots::getRecentInlineBots() {
 }
 
@@ -3899,6 +4238,30 @@ void getStarWithdrawalUrl::store(TlStorerToString &s, const char *field_name) co
     s.store_object_field("owner_id", static_cast<const BaseObject *>(owner_id_.get()));
     s.store_field("star_count", star_count_);
     s.store_field("password", password_);
+    s.store_class_end();
+  }
+}
+
+getStickerOutlineSvgPath::getStickerOutlineSvgPath()
+  : sticker_file_id_()
+  , for_animated_emoji_()
+  , for_clicked_animated_emoji_message_()
+{}
+
+getStickerOutlineSvgPath::getStickerOutlineSvgPath(int32 sticker_file_id_, bool for_animated_emoji_, bool for_clicked_animated_emoji_message_)
+  : sticker_file_id_(sticker_file_id_)
+  , for_animated_emoji_(for_animated_emoji_)
+  , for_clicked_animated_emoji_message_(for_clicked_animated_emoji_message_)
+{}
+
+const std::int32_t getStickerOutlineSvgPath::ID;
+
+void getStickerOutlineSvgPath::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getStickerOutlineSvgPath");
+    s.store_field("sticker_file_id", sticker_file_id_);
+    s.store_field("for_animated_emoji", for_animated_emoji_);
+    s.store_field("for_clicked_animated_emoji_message", for_clicked_animated_emoji_message_);
     s.store_class_end();
   }
 }
@@ -4118,6 +4481,24 @@ void removeMessageSenderBotVerification::store(TlStorerToString &s, const char *
     s.store_class_begin(field_name, "removeMessageSenderBotVerification");
     s.store_field("bot_user_id", bot_user_id_);
     s.store_object_field("verified_id", static_cast<const BaseObject *>(verified_id_.get()));
+    s.store_class_end();
+  }
+}
+
+removePendingLiveStoryReactions::removePendingLiveStoryReactions()
+  : group_call_id_()
+{}
+
+removePendingLiveStoryReactions::removePendingLiveStoryReactions(int32 group_call_id_)
+  : group_call_id_(group_call_id_)
+{}
+
+const std::int32_t removePendingLiveStoryReactions::ID;
+
+void removePendingLiveStoryReactions::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "removePendingLiveStoryReactions");
+    s.store_field("group_call_id", group_call_id_);
     s.store_class_end();
   }
 }

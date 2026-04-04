@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -45,7 +45,7 @@ Game::Game(Td *td, string title, string description, tl_object_ptr<telegram_api:
     int32 document_id = document->get_id();
     if (document_id == telegram_api::document::ID) {
       auto parsed_document = td->documents_manager_->on_get_document(
-          move_tl_object_as<telegram_api::document>(document), owner_dialog_id, false);
+          move_tl_object_as<telegram_api::document>(document), owner_dialog_id, false, false);
       if (parsed_document.type == Document::Type::Animation) {
         animation_file_id_ = parsed_document.file_id;
       } else {

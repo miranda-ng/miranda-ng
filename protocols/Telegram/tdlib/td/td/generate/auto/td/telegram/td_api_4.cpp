@@ -406,12 +406,14 @@ chatAdministrator::chatAdministrator()
   : user_id_()
   , custom_title_()
   , is_owner_()
+  , can_be_edited_()
 {}
 
-chatAdministrator::chatAdministrator(int53 user_id_, string const &custom_title_, bool is_owner_)
+chatAdministrator::chatAdministrator(int53 user_id_, string const &custom_title_, bool is_owner_, bool can_be_edited_)
   : user_id_(user_id_)
   , custom_title_(custom_title_)
   , is_owner_(is_owner_)
+  , can_be_edited_(can_be_edited_)
 {}
 
 const std::int32_t chatAdministrator::ID;
@@ -422,6 +424,7 @@ void chatAdministrator::store(TlStorerToString &s, const char *field_name) const
     s.store_field("user_id", user_id_);
     s.store_field("custom_title", custom_title_);
     s.store_field("is_owner", is_owner_);
+    s.store_field("can_be_edited", can_be_edited_);
     s.store_class_end();
   }
 }
@@ -920,12 +923,15 @@ void giveawayInfoCompleted::store(TlStorerToString &s, const char *field_name) c
 
 groupCall::groupCall()
   : id_()
+  , unique_id_()
   , title_()
   , invite_link_()
+  , paid_message_star_count_()
   , scheduled_start_date_()
   , enabled_start_notification_()
   , is_active_()
   , is_video_chat_()
+  , is_live_story_()
   , is_rtmp_stream_()
   , is_joined_()
   , need_rejoin_()
@@ -934,6 +940,7 @@ groupCall::groupCall()
   , participant_count_()
   , has_hidden_listeners_()
   , loaded_all_participants_()
+  , message_sender_id_()
   , recent_speakers_()
   , is_my_video_enabled_()
   , is_my_video_paused_()
@@ -941,20 +948,25 @@ groupCall::groupCall()
   , mute_new_participants_()
   , can_toggle_mute_new_participants_()
   , can_send_messages_()
-  , can_toggle_can_send_messages_()
+  , are_messages_allowed_()
+  , can_toggle_are_messages_allowed_()
+  , can_delete_messages_()
   , record_duration_()
   , is_video_recorded_()
   , duration_()
 {}
 
-groupCall::groupCall(int32 id_, string const &title_, string const &invite_link_, int32 scheduled_start_date_, bool enabled_start_notification_, bool is_active_, bool is_video_chat_, bool is_rtmp_stream_, bool is_joined_, bool need_rejoin_, bool is_owned_, bool can_be_managed_, int32 participant_count_, bool has_hidden_listeners_, bool loaded_all_participants_, array<object_ptr<groupCallRecentSpeaker>> &&recent_speakers_, bool is_my_video_enabled_, bool is_my_video_paused_, bool can_enable_video_, bool mute_new_participants_, bool can_toggle_mute_new_participants_, bool can_send_messages_, bool can_toggle_can_send_messages_, int32 record_duration_, bool is_video_recorded_, int32 duration_)
+groupCall::groupCall(int32 id_, int64 unique_id_, string const &title_, string const &invite_link_, int53 paid_message_star_count_, int32 scheduled_start_date_, bool enabled_start_notification_, bool is_active_, bool is_video_chat_, bool is_live_story_, bool is_rtmp_stream_, bool is_joined_, bool need_rejoin_, bool is_owned_, bool can_be_managed_, int32 participant_count_, bool has_hidden_listeners_, bool loaded_all_participants_, object_ptr<MessageSender> &&message_sender_id_, array<object_ptr<groupCallRecentSpeaker>> &&recent_speakers_, bool is_my_video_enabled_, bool is_my_video_paused_, bool can_enable_video_, bool mute_new_participants_, bool can_toggle_mute_new_participants_, bool can_send_messages_, bool are_messages_allowed_, bool can_toggle_are_messages_allowed_, bool can_delete_messages_, int32 record_duration_, bool is_video_recorded_, int32 duration_)
   : id_(id_)
+  , unique_id_(unique_id_)
   , title_(title_)
   , invite_link_(invite_link_)
+  , paid_message_star_count_(paid_message_star_count_)
   , scheduled_start_date_(scheduled_start_date_)
   , enabled_start_notification_(enabled_start_notification_)
   , is_active_(is_active_)
   , is_video_chat_(is_video_chat_)
+  , is_live_story_(is_live_story_)
   , is_rtmp_stream_(is_rtmp_stream_)
   , is_joined_(is_joined_)
   , need_rejoin_(need_rejoin_)
@@ -963,6 +975,7 @@ groupCall::groupCall(int32 id_, string const &title_, string const &invite_link_
   , participant_count_(participant_count_)
   , has_hidden_listeners_(has_hidden_listeners_)
   , loaded_all_participants_(loaded_all_participants_)
+  , message_sender_id_(std::move(message_sender_id_))
   , recent_speakers_(std::move(recent_speakers_))
   , is_my_video_enabled_(is_my_video_enabled_)
   , is_my_video_paused_(is_my_video_paused_)
@@ -970,7 +983,9 @@ groupCall::groupCall(int32 id_, string const &title_, string const &invite_link_
   , mute_new_participants_(mute_new_participants_)
   , can_toggle_mute_new_participants_(can_toggle_mute_new_participants_)
   , can_send_messages_(can_send_messages_)
-  , can_toggle_can_send_messages_(can_toggle_can_send_messages_)
+  , are_messages_allowed_(are_messages_allowed_)
+  , can_toggle_are_messages_allowed_(can_toggle_are_messages_allowed_)
+  , can_delete_messages_(can_delete_messages_)
   , record_duration_(record_duration_)
   , is_video_recorded_(is_video_recorded_)
   , duration_(duration_)
@@ -982,12 +997,15 @@ void groupCall::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "groupCall");
     s.store_field("id", id_);
+    s.store_field("unique_id", unique_id_);
     s.store_field("title", title_);
     s.store_field("invite_link", invite_link_);
+    s.store_field("paid_message_star_count", paid_message_star_count_);
     s.store_field("scheduled_start_date", scheduled_start_date_);
     s.store_field("enabled_start_notification", enabled_start_notification_);
     s.store_field("is_active", is_active_);
     s.store_field("is_video_chat", is_video_chat_);
+    s.store_field("is_live_story", is_live_story_);
     s.store_field("is_rtmp_stream", is_rtmp_stream_);
     s.store_field("is_joined", is_joined_);
     s.store_field("need_rejoin", need_rejoin_);
@@ -996,6 +1014,7 @@ void groupCall::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("participant_count", participant_count_);
     s.store_field("has_hidden_listeners", has_hidden_listeners_);
     s.store_field("loaded_all_participants", loaded_all_participants_);
+    s.store_object_field("message_sender_id", static_cast<const BaseObject *>(message_sender_id_.get()));
     { s.store_vector_begin("recent_speakers", recent_speakers_.size()); for (const auto &_value : recent_speakers_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("is_my_video_enabled", is_my_video_enabled_);
     s.store_field("is_my_video_paused", is_my_video_paused_);
@@ -1003,7 +1022,9 @@ void groupCall::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("mute_new_participants", mute_new_participants_);
     s.store_field("can_toggle_mute_new_participants", can_toggle_mute_new_participants_);
     s.store_field("can_send_messages", can_send_messages_);
-    s.store_field("can_toggle_can_send_messages", can_toggle_can_send_messages_);
+    s.store_field("are_messages_allowed", are_messages_allowed_);
+    s.store_field("can_toggle_are_messages_allowed", can_toggle_are_messages_allowed_);
+    s.store_field("can_delete_messages", can_delete_messages_);
     s.store_field("record_duration", record_duration_);
     s.store_field("is_video_recorded", is_video_recorded_);
     s.store_field("duration", duration_);
@@ -1371,6 +1392,30 @@ void keyboardButtonTypeRequestChat::store(TlStorerToString &s, const char *field
   }
 }
 
+keyboardButtonTypeRequestManagedBot::keyboardButtonTypeRequestManagedBot()
+  : id_()
+  , suggested_name_()
+  , suggested_username_()
+{}
+
+keyboardButtonTypeRequestManagedBot::keyboardButtonTypeRequestManagedBot(int32 id_, string const &suggested_name_, string const &suggested_username_)
+  : id_(id_)
+  , suggested_name_(suggested_name_)
+  , suggested_username_(suggested_username_)
+{}
+
+const std::int32_t keyboardButtonTypeRequestManagedBot::ID;
+
+void keyboardButtonTypeRequestManagedBot::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "keyboardButtonTypeRequestManagedBot");
+    s.store_field("id", id_);
+    s.store_field("suggested_name", suggested_name_);
+    s.store_field("suggested_username", suggested_username_);
+    s.store_class_end();
+  }
+}
+
 keyboardButtonTypeWebApp::keyboardButtonTypeWebApp()
   : url_()
 {}
@@ -1458,15 +1503,19 @@ messageLinkInfo::messageLinkInfo()
   , topic_id_()
   , message_()
   , media_timestamp_()
+  , checklist_task_id_()
+  , poll_option_id_()
   , for_album_()
 {}
 
-messageLinkInfo::messageLinkInfo(bool is_public_, int53 chat_id_, object_ptr<MessageTopic> &&topic_id_, object_ptr<message> &&message_, int32 media_timestamp_, bool for_album_)
+messageLinkInfo::messageLinkInfo(bool is_public_, int53 chat_id_, object_ptr<MessageTopic> &&topic_id_, object_ptr<message> &&message_, int32 media_timestamp_, int32 checklist_task_id_, string const &poll_option_id_, bool for_album_)
   : is_public_(is_public_)
   , chat_id_(chat_id_)
   , topic_id_(std::move(topic_id_))
   , message_(std::move(message_))
   , media_timestamp_(media_timestamp_)
+  , checklist_task_id_(checklist_task_id_)
+  , poll_option_id_(poll_option_id_)
   , for_album_(for_album_)
 {}
 
@@ -1480,6 +1529,8 @@ void messageLinkInfo::store(TlStorerToString &s, const char *field_name) const {
     s.store_object_field("topic_id", static_cast<const BaseObject *>(topic_id_.get()));
     s.store_object_field("message", static_cast<const BaseObject *>(message_.get()));
     s.store_field("media_timestamp", media_timestamp_);
+    s.store_field("checklist_task_id", checklist_task_id_);
+    s.store_field("poll_option_id", poll_option_id_);
     s.store_field("for_album", for_album_);
     s.store_class_end();
   }
@@ -1535,6 +1586,63 @@ void minithumbnail::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("width", width_);
     s.store_field("height", height_);
     s.store_bytes_field("data", data_);
+    s.store_class_end();
+  }
+}
+
+oauthLinkInfo::oauthLinkInfo()
+  : user_id_()
+  , url_()
+  , domain_()
+  , from_app_()
+  , verified_app_name_()
+  , bot_user_id_()
+  , request_write_access_()
+  , request_phone_number_access_()
+  , browser_()
+  , platform_()
+  , ip_address_()
+  , location_()
+  , match_code_first_()
+  , match_codes_()
+{}
+
+oauthLinkInfo::oauthLinkInfo(int53 user_id_, string const &url_, string const &domain_, bool from_app_, string const &verified_app_name_, int53 bot_user_id_, bool request_write_access_, bool request_phone_number_access_, string const &browser_, string const &platform_, string const &ip_address_, string const &location_, bool match_code_first_, array<string> &&match_codes_)
+  : user_id_(user_id_)
+  , url_(url_)
+  , domain_(domain_)
+  , from_app_(from_app_)
+  , verified_app_name_(verified_app_name_)
+  , bot_user_id_(bot_user_id_)
+  , request_write_access_(request_write_access_)
+  , request_phone_number_access_(request_phone_number_access_)
+  , browser_(browser_)
+  , platform_(platform_)
+  , ip_address_(ip_address_)
+  , location_(location_)
+  , match_code_first_(match_code_first_)
+  , match_codes_(std::move(match_codes_))
+{}
+
+const std::int32_t oauthLinkInfo::ID;
+
+void oauthLinkInfo::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "oauthLinkInfo");
+    s.store_field("user_id", user_id_);
+    s.store_field("url", url_);
+    s.store_field("domain", domain_);
+    s.store_field("from_app", from_app_);
+    s.store_field("verified_app_name", verified_app_name_);
+    s.store_field("bot_user_id", bot_user_id_);
+    s.store_field("request_write_access", request_write_access_);
+    s.store_field("request_phone_number_access", request_phone_number_access_);
+    s.store_field("browser", browser_);
+    s.store_field("platform", platform_);
+    s.store_field("ip_address", ip_address_);
+    s.store_field("location", location_);
+    s.store_field("match_code_first", match_code_first_);
+    { s.store_vector_begin("match_codes", match_codes_.size()); for (const auto &_value : match_codes_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -1625,6 +1733,24 @@ const std::int32_t pageBlockVerticalAlignmentBottom::ID;
 void pageBlockVerticalAlignmentBottom::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "pageBlockVerticalAlignmentBottom");
+    s.store_class_end();
+  }
+}
+
+passkeys::passkeys()
+  : passkeys_()
+{}
+
+passkeys::passkeys(array<object_ptr<passkey>> &&passkeys_)
+  : passkeys_(std::move(passkeys_))
+{}
+
+const std::int32_t passkeys::ID;
+
+void passkeys::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "passkeys");
+    { s.store_vector_begin("passkeys", passkeys_.size()); for (const auto &_value : passkeys_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -1796,7 +1922,7 @@ publicPostSearchLimits::publicPostSearchLimits()
   , is_current_query_free_()
 {}
 
-publicPostSearchLimits::publicPostSearchLimits(int32 daily_free_query_count_, int32 remaining_free_query_count_, int32 next_free_query_in_, int64 star_count_, bool is_current_query_free_)
+publicPostSearchLimits::publicPostSearchLimits(int32 daily_free_query_count_, int32 remaining_free_query_count_, int32 next_free_query_in_, int53 star_count_, bool is_current_query_free_)
   : daily_free_query_count_(daily_free_query_count_)
   , remaining_free_query_count_(remaining_free_query_count_)
   , next_free_query_in_(next_free_query_in_)
@@ -1821,13 +1947,15 @@ void publicPostSearchLimits::store(TlStorerToString &s, const char *field_name) 
 reactionNotificationSettings::reactionNotificationSettings()
   : message_reaction_source_()
   , story_reaction_source_()
+  , poll_vote_source_()
   , sound_id_()
   , show_preview_()
 {}
 
-reactionNotificationSettings::reactionNotificationSettings(object_ptr<ReactionNotificationSource> &&message_reaction_source_, object_ptr<ReactionNotificationSource> &&story_reaction_source_, int64 sound_id_, bool show_preview_)
+reactionNotificationSettings::reactionNotificationSettings(object_ptr<ReactionNotificationSource> &&message_reaction_source_, object_ptr<ReactionNotificationSource> &&story_reaction_source_, object_ptr<ReactionNotificationSource> &&poll_vote_source_, int64 sound_id_, bool show_preview_)
   : message_reaction_source_(std::move(message_reaction_source_))
   , story_reaction_source_(std::move(story_reaction_source_))
+  , poll_vote_source_(std::move(poll_vote_source_))
   , sound_id_(sound_id_)
   , show_preview_(show_preview_)
 {}
@@ -1839,6 +1967,7 @@ void reactionNotificationSettings::store(TlStorerToString &s, const char *field_
     s.store_class_begin(field_name, "reactionNotificationSettings");
     s.store_object_field("message_reaction_source", static_cast<const BaseObject *>(message_reaction_source_.get()));
     s.store_object_field("story_reaction_source", static_cast<const BaseObject *>(story_reaction_source_.get()));
+    s.store_object_field("poll_vote_source", static_cast<const BaseObject *>(poll_vote_source_.get()));
     s.store_field("sound_id", sound_id_);
     s.store_field("show_preview", show_preview_);
     s.store_class_end();
@@ -1885,6 +2014,7 @@ receivedGift::receivedGift()
   : received_gift_id_()
   , sender_id_()
   , text_()
+  , unique_gift_number_()
   , is_private_()
   , is_saved_()
   , is_pinned_()
@@ -1903,12 +2033,14 @@ receivedGift::receivedGift()
   , next_resale_date_()
   , export_date_()
   , prepaid_upgrade_hash_()
+  , craft_date_()
 {}
 
-receivedGift::receivedGift(string const &received_gift_id_, object_ptr<MessageSender> &&sender_id_, object_ptr<formattedText> &&text_, bool is_private_, bool is_saved_, bool is_pinned_, bool can_be_upgraded_, bool can_be_transferred_, bool was_refunded_, int32 date_, object_ptr<SentGift> &&gift_, array<int32> &&collection_ids_, int53 sell_star_count_, int53 prepaid_upgrade_star_count_, bool is_upgrade_separate_, int53 transfer_star_count_, int53 drop_original_details_star_count_, int32 next_transfer_date_, int32 next_resale_date_, int32 export_date_, string const &prepaid_upgrade_hash_)
+receivedGift::receivedGift(string const &received_gift_id_, object_ptr<MessageSender> &&sender_id_, object_ptr<formattedText> &&text_, int32 unique_gift_number_, bool is_private_, bool is_saved_, bool is_pinned_, bool can_be_upgraded_, bool can_be_transferred_, bool was_refunded_, int32 date_, object_ptr<SentGift> &&gift_, array<int32> &&collection_ids_, int53 sell_star_count_, int53 prepaid_upgrade_star_count_, bool is_upgrade_separate_, int53 transfer_star_count_, int53 drop_original_details_star_count_, int32 next_transfer_date_, int32 next_resale_date_, int32 export_date_, string const &prepaid_upgrade_hash_, int32 craft_date_)
   : received_gift_id_(received_gift_id_)
   , sender_id_(std::move(sender_id_))
   , text_(std::move(text_))
+  , unique_gift_number_(unique_gift_number_)
   , is_private_(is_private_)
   , is_saved_(is_saved_)
   , is_pinned_(is_pinned_)
@@ -1927,6 +2059,7 @@ receivedGift::receivedGift(string const &received_gift_id_, object_ptr<MessageSe
   , next_resale_date_(next_resale_date_)
   , export_date_(export_date_)
   , prepaid_upgrade_hash_(prepaid_upgrade_hash_)
+  , craft_date_(craft_date_)
 {}
 
 const std::int32_t receivedGift::ID;
@@ -1937,6 +2070,7 @@ void receivedGift::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("received_gift_id", received_gift_id_);
     s.store_object_field("sender_id", static_cast<const BaseObject *>(sender_id_.get()));
     s.store_object_field("text", static_cast<const BaseObject *>(text_.get()));
+    s.store_field("unique_gift_number", unique_gift_number_);
     s.store_field("is_private", is_private_);
     s.store_field("is_saved", is_saved_);
     s.store_field("is_pinned", is_pinned_);
@@ -1955,6 +2089,7 @@ void receivedGift::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("next_resale_date", next_resale_date_);
     s.store_field("export_date", export_date_);
     s.store_field("prepaid_upgrade_hash", prepaid_upgrade_hash_);
+    s.store_field("craft_date", craft_date_);
     s.store_class_end();
   }
 }
@@ -2373,13 +2508,15 @@ void thumbnailFormatWebp::store(TlStorerToString &s, const char *field_name) con
 upgradedGiftModel::upgradedGiftModel()
   : name_()
   , sticker_()
-  , rarity_per_mille_()
+  , rarity_()
+  , is_crafted_()
 {}
 
-upgradedGiftModel::upgradedGiftModel(string const &name_, object_ptr<sticker> &&sticker_, int32 rarity_per_mille_)
+upgradedGiftModel::upgradedGiftModel(string const &name_, object_ptr<sticker> &&sticker_, object_ptr<UpgradedGiftAttributeRarity> &&rarity_, bool is_crafted_)
   : name_(name_)
   , sticker_(std::move(sticker_))
-  , rarity_per_mille_(rarity_per_mille_)
+  , rarity_(std::move(rarity_))
+  , is_crafted_(is_crafted_)
 {}
 
 const std::int32_t upgradedGiftModel::ID;
@@ -2389,7 +2526,8 @@ void upgradedGiftModel::store(TlStorerToString &s, const char *field_name) const
     s.store_class_begin(field_name, "upgradedGiftModel");
     s.store_field("name", name_);
     s.store_object_field("sticker", static_cast<const BaseObject *>(sticker_.get()));
-    s.store_field("rarity_per_mille", rarity_per_mille_);
+    s.store_object_field("rarity", static_cast<const BaseObject *>(rarity_.get()));
+    s.store_field("is_crafted", is_crafted_);
     s.store_class_end();
   }
 }
@@ -2472,8 +2610,7 @@ user::user()
   , is_premium_()
   , is_support_()
   , restriction_info_()
-  , has_active_stories_()
-  , has_unread_active_stories_()
+  , active_story_state_()
   , restricts_new_chats_()
   , paid_message_star_count_()
   , have_access_()
@@ -2482,7 +2619,7 @@ user::user()
   , added_to_attachment_menu_()
 {}
 
-user::user(int53 id_, string const &first_name_, string const &last_name_, object_ptr<usernames> &&usernames_, string const &phone_number_, object_ptr<UserStatus> &&status_, object_ptr<profilePhoto> &&profile_photo_, int32 accent_color_id_, int64 background_custom_emoji_id_, object_ptr<upgradedGiftColors> &&upgraded_gift_colors_, int32 profile_accent_color_id_, int64 profile_background_custom_emoji_id_, object_ptr<emojiStatus> &&emoji_status_, bool is_contact_, bool is_mutual_contact_, bool is_close_friend_, object_ptr<verificationStatus> &&verification_status_, bool is_premium_, bool is_support_, object_ptr<restrictionInfo> &&restriction_info_, bool has_active_stories_, bool has_unread_active_stories_, bool restricts_new_chats_, int53 paid_message_star_count_, bool have_access_, object_ptr<UserType> &&type_, string const &language_code_, bool added_to_attachment_menu_)
+user::user(int53 id_, string const &first_name_, string const &last_name_, object_ptr<usernames> &&usernames_, string const &phone_number_, object_ptr<UserStatus> &&status_, object_ptr<profilePhoto> &&profile_photo_, int32 accent_color_id_, int64 background_custom_emoji_id_, object_ptr<upgradedGiftColors> &&upgraded_gift_colors_, int32 profile_accent_color_id_, int64 profile_background_custom_emoji_id_, object_ptr<emojiStatus> &&emoji_status_, bool is_contact_, bool is_mutual_contact_, bool is_close_friend_, object_ptr<verificationStatus> &&verification_status_, bool is_premium_, bool is_support_, object_ptr<restrictionInfo> &&restriction_info_, object_ptr<ActiveStoryState> &&active_story_state_, bool restricts_new_chats_, int53 paid_message_star_count_, bool have_access_, object_ptr<UserType> &&type_, string const &language_code_, bool added_to_attachment_menu_)
   : id_(id_)
   , first_name_(first_name_)
   , last_name_(last_name_)
@@ -2503,8 +2640,7 @@ user::user(int53 id_, string const &first_name_, string const &last_name_, objec
   , is_premium_(is_premium_)
   , is_support_(is_support_)
   , restriction_info_(std::move(restriction_info_))
-  , has_active_stories_(has_active_stories_)
-  , has_unread_active_stories_(has_unread_active_stories_)
+  , active_story_state_(std::move(active_story_state_))
   , restricts_new_chats_(restricts_new_chats_)
   , paid_message_star_count_(paid_message_star_count_)
   , have_access_(have_access_)
@@ -2538,8 +2674,7 @@ void user::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("is_premium", is_premium_);
     s.store_field("is_support", is_support_);
     s.store_object_field("restriction_info", static_cast<const BaseObject *>(restriction_info_.get()));
-    s.store_field("has_active_stories", has_active_stories_);
-    s.store_field("has_unread_active_stories", has_unread_active_stories_);
+    s.store_object_field("active_story_state", static_cast<const BaseObject *>(active_story_state_.get()));
     s.store_field("restricts_new_chats", restricts_new_chats_);
     s.store_field("paid_message_star_count", paid_message_star_count_);
     s.store_field("have_access", have_access_);
@@ -3774,6 +3909,27 @@ void inviteGroupCallParticipant::store(TlStorerToString &s, const char *field_na
   }
 }
 
+joinLiveStory::joinLiveStory()
+  : group_call_id_()
+  , join_parameters_()
+{}
+
+joinLiveStory::joinLiveStory(int32 group_call_id_, object_ptr<groupCallJoinParameters> &&join_parameters_)
+  : group_call_id_(group_call_id_)
+  , join_parameters_(std::move(join_parameters_))
+{}
+
+const std::int32_t joinLiveStory::ID;
+
+void joinLiveStory::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "joinLiveStory");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_object_field("join_parameters", static_cast<const BaseObject *>(join_parameters_.get()));
+    s.store_class_end();
+  }
+}
+
 leaveChat::leaveChat()
   : chat_id_()
 {}
@@ -3969,6 +4125,27 @@ void resendEmailAddressVerificationCode::store(TlStorerToString &s, const char *
   }
 }
 
+savePreparedKeyboardButton::savePreparedKeyboardButton()
+  : user_id_()
+  , button_()
+{}
+
+savePreparedKeyboardButton::savePreparedKeyboardButton(int53 user_id_, object_ptr<keyboardButton> &&button_)
+  : user_id_(user_id_)
+  , button_(std::move(button_))
+{}
+
+const std::int32_t savePreparedKeyboardButton::ID;
+
+void savePreparedKeyboardButton::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "savePreparedKeyboardButton");
+    s.store_field("user_id", user_id_);
+    s.store_object_field("button", static_cast<const BaseObject *>(button_.get()));
+    s.store_class_end();
+  }
+}
+
 searchChatsOnServer::searchChatsOnServer()
   : query_()
   , limit_()
@@ -4052,8 +4229,8 @@ sendCallDebugInformation::sendCallDebugInformation()
   , debug_information_()
 {}
 
-sendCallDebugInformation::sendCallDebugInformation(int32 call_id_, string const &debug_information_)
-  : call_id_(call_id_)
+sendCallDebugInformation::sendCallDebugInformation(object_ptr<InputCall> &&call_id_, string const &debug_information_)
+  : call_id_(std::move(call_id_))
   , debug_information_(debug_information_)
 {}
 
@@ -4062,8 +4239,41 @@ const std::int32_t sendCallDebugInformation::ID;
 void sendCallDebugInformation::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "sendCallDebugInformation");
-    s.store_field("call_id", call_id_);
+    s.store_object_field("call_id", static_cast<const BaseObject *>(call_id_.get()));
     s.store_field("debug_information", debug_information_);
+    s.store_class_end();
+  }
+}
+
+sendMessageViewMetrics::sendMessageViewMetrics()
+  : chat_id_()
+  , message_id_()
+  , time_in_view_ms_()
+  , active_time_in_view_ms_()
+  , height_to_viewport_ratio_per_mille_()
+  , seen_range_ratio_per_mille_()
+{}
+
+sendMessageViewMetrics::sendMessageViewMetrics(int53 chat_id_, int53 message_id_, int32 time_in_view_ms_, int32 active_time_in_view_ms_, int32 height_to_viewport_ratio_per_mille_, int32 seen_range_ratio_per_mille_)
+  : chat_id_(chat_id_)
+  , message_id_(message_id_)
+  , time_in_view_ms_(time_in_view_ms_)
+  , active_time_in_view_ms_(active_time_in_view_ms_)
+  , height_to_viewport_ratio_per_mille_(height_to_viewport_ratio_per_mille_)
+  , seen_range_ratio_per_mille_(seen_range_ratio_per_mille_)
+{}
+
+const std::int32_t sendMessageViewMetrics::ID;
+
+void sendMessageViewMetrics::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "sendMessageViewMetrics");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("message_id", message_id_);
+    s.store_field("time_in_view_ms", time_in_view_ms_);
+    s.store_field("active_time_in_view_ms", active_time_in_view_ms_);
+    s.store_field("height_to_viewport_ratio_per_mille", height_to_viewport_ratio_per_mille_);
+    s.store_field("seen_range_ratio_per_mille", seen_range_ratio_per_mille_);
     s.store_class_end();
   }
 }
@@ -4427,6 +4637,39 @@ void setVideoChatTitle::store(TlStorerToString &s, const char *field_name) const
     s.store_class_begin(field_name, "setVideoChatTitle");
     s.store_field("group_call_id", group_call_id_);
     s.store_field("title", title_);
+    s.store_class_end();
+  }
+}
+
+startLiveStory::startLiveStory()
+  : chat_id_()
+  , privacy_settings_()
+  , protect_content_()
+  , is_rtmp_stream_()
+  , enable_messages_()
+  , paid_message_star_count_()
+{}
+
+startLiveStory::startLiveStory(int53 chat_id_, object_ptr<StoryPrivacySettings> &&privacy_settings_, bool protect_content_, bool is_rtmp_stream_, bool enable_messages_, int53 paid_message_star_count_)
+  : chat_id_(chat_id_)
+  , privacy_settings_(std::move(privacy_settings_))
+  , protect_content_(protect_content_)
+  , is_rtmp_stream_(is_rtmp_stream_)
+  , enable_messages_(enable_messages_)
+  , paid_message_star_count_(paid_message_star_count_)
+{}
+
+const std::int32_t startLiveStory::ID;
+
+void startLiveStory::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "startLiveStory");
+    s.store_field("chat_id", chat_id_);
+    s.store_object_field("privacy_settings", static_cast<const BaseObject *>(privacy_settings_.get()));
+    s.store_field("protect_content", protect_content_);
+    s.store_field("is_rtmp_stream", is_rtmp_stream_);
+    s.store_field("enable_messages", enable_messages_);
+    s.store_field("paid_message_star_count", paid_message_star_count_);
     s.store_class_end();
   }
 }

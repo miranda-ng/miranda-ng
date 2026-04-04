@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -378,6 +378,20 @@ vector<telegram_api::object_ptr<telegram_api::MediaArea>> MediaArea::get_input_m
     }
   }
   return input_media_areas;
+}
+
+vector<MediaArea> MediaArea::get_media_areas(Td *td, td_api::object_ptr<td_api::inputStoryAreas> &&input_story_areas,
+                                             const vector<MediaArea> &old_media_areas) {
+  vector<MediaArea> media_areas;
+  if (input_story_areas != nullptr) {
+    for (auto &input_story_area : input_story_areas->areas_) {
+      MediaArea media_area(td, std::move(input_story_area), old_media_areas);
+      if (media_area.is_valid()) {
+        media_areas.push_back(std::move(media_area));
+      }
+    }
+  }
+  return media_areas;
 }
 
 void MediaArea::add_dependencies(Dependencies &dependencies) const {

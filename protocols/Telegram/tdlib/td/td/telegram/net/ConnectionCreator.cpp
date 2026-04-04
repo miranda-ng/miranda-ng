@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,29 +8,22 @@
 
 #include "td/telegram/ConfigManager.h"
 #include "td/telegram/Global.h"
-#include "td/telegram/LinkManager.h"
 #include "td/telegram/logevent/LogEvent.h"
 #include "td/telegram/net/MtprotoHeader.h"
 #include "td/telegram/net/NetQueryDispatcher.h"
 #include "td/telegram/net/NetType.h"
-#include "td/telegram/net/PublicRsaKeySharedMain.h"
 #include "td/telegram/PromoDataManager.h"
 #include "td/telegram/StateManager.h"
 #include "td/telegram/TdDb.h"
 
-#include "td/mtproto/DhCallback.h"
-#include "td/mtproto/HandshakeActor.h"
 #include "td/mtproto/Ping.h"
 #include "td/mtproto/ProxySecret.h"
-#include "td/mtproto/RSA.h"
 #include "td/mtproto/TlsInit.h"
 
 #include "td/net/GetHostByNameActor.h"
 #include "td/net/HttpProxy.h"
 #include "td/net/Socks5.h"
 #include "td/net/TransparentProxy.h"
-
-#include "td/actor/SleepActor.h"
 
 #include "td/utils/algorithm.h"
 #include "td/utils/base64.h"
@@ -149,10 +142,9 @@ void ConnectionCreator::set_net_stats_callback(std::shared_ptr<NetStatsCallback>
   media_net_stats_callback_ = std::move(media_callback);
 }
 
-void ConnectionCreator::add_proxy(int32 old_proxy_id, string server, int32 port, bool enable,
-                                  td_api::object_ptr<td_api::ProxyType> proxy_type,
-                                  Promise<td_api::object_ptr<td_api::proxy>> promise) {
-  TRY_RESULT_PROMISE(promise, new_proxy, Proxy::create_proxy(std::move(server), port, proxy_type.get()));
+void ConnectionCreator::add_proxy(int32 old_proxy_id, td_api::object_ptr<td_api::proxy> proxy, bool enable,
+                                  Promise<td_api::object_ptr<td_api::addedProxy>> promise) {
+  TRY_RESULT_PROMISE(promise, new_proxy, Proxy::create_proxy(proxy.get()));
   if (old_proxy_id >= 0) {
     if (proxies_.count(old_proxy_id) == 0) {
       return promise.set_error(400, "Proxy not found");
@@ -162,7 +154,7 @@ void ConnectionCreator::add_proxy(int32 old_proxy_id, string server, int32 port,
       if (enable) {
         enable_proxy_impl(old_proxy_id);
       }
-      return promise.set_value(get_proxy_object(old_proxy_id));
+      return promise.set_value(get_added_proxy_object(old_proxy_id));
     }
     if (old_proxy_id == active_proxy_id_) {
       enable = true;
@@ -201,7 +193,7 @@ void ConnectionCreator::add_proxy(int32 old_proxy_id, string server, int32 port,
   if (enable) {
     enable_proxy_impl(proxy_id);
   }
-  promise.set_value(get_proxy_object(proxy_id));
+  promise.set_value(get_added_proxy_object(proxy_id));
 }
 
 void ConnectionCreator::enable_proxy(int32 proxy_id, Promise<Unit> promise) {
@@ -235,18 +227,9 @@ void ConnectionCreator::remove_proxy(int32 proxy_id, Promise<Unit> promise) {
   promise.set_value(Unit());
 }
 
-void ConnectionCreator::get_proxies(Promise<td_api::object_ptr<td_api::proxies>> promise) {
-  promise.set_value(td_api::make_object<td_api::proxies>(
-      transform(proxies_, [this](const std::pair<int32, Proxy> &proxy) { return get_proxy_object(proxy.first); })));
-}
-
-void ConnectionCreator::get_proxy_link(int32 proxy_id, Promise<string> promise) {
-  auto it = proxies_.find(proxy_id);
-  if (it == proxies_.end()) {
-    return promise.set_error(400, "Unknown proxy identifier");
-  }
-
-  promise.set_result(LinkManager::get_proxy_link(it->second, false));
+void ConnectionCreator::get_proxies(Promise<td_api::object_ptr<td_api::addedProxies>> promise) {
+  promise.set_value(td_api::make_object<td_api::addedProxies>(transform(
+      proxies_, [this](const std::pair<int32, Proxy> &proxy) { return get_added_proxy_object(proxy.first); })));
 }
 
 ActorId<GetHostByNameActor> ConnectionCreator::get_dns_resolver() {
@@ -274,9 +257,9 @@ ActorId<GetHostByNameActor> ConnectionCreator::get_dns_resolver() {
   }
 }
 
-void ConnectionCreator::ping_proxy(int32 proxy_id, Promise<double> promise) {
+void ConnectionCreator::ping_proxy(td_api::object_ptr<td_api::proxy> input_proxy, Promise<double> promise) {
   CHECK(!close_flag_);
-  if (proxy_id == 0) {
+  if (input_proxy == nullptr) {
     auto main_dc_id = G()->net_query_dispatcher().get_main_dc_id();
     bool prefer_ipv6 = G()->get_option_boolean("prefer_ipv6");
     auto infos = dc_options_set_.find_all_connections(main_dc_id, false, false, prefer_ipv6, false);
@@ -320,29 +303,20 @@ void ConnectionCreator::ping_proxy(int32 proxy_id, Promise<double> promise) {
     return;
   }
 
-  auto it = proxies_.find(proxy_id);
-  if (it == proxies_.end()) {
-    return promise.set_error(400, "Unknown proxy identifier");
-  }
-  const Proxy &proxy = it->second;
+  TRY_RESULT_PROMISE(promise, proxy, Proxy::create_proxy(input_proxy.get()));
   bool prefer_ipv6 = G()->get_option_boolean("prefer_ipv6");
   send_closure(get_dns_resolver(), &GetHostByNameActor::run, proxy.server().str(), proxy.port(), prefer_ipv6,
-               PromiseCreator::lambda([actor_id = actor_id(this), promise = std::move(promise),
-                                       proxy_id](Result<IPAddress> result) mutable {
-                 if (result.is_error()) {
-                   return promise.set_error(400, result.error().public_message());
-                 }
-                 send_closure(actor_id, &ConnectionCreator::ping_proxy_resolved, proxy_id, result.move_as_ok(),
-                              std::move(promise));
-               }));
+               PromiseCreator::lambda(
+                   [actor_id = actor_id(this), promise = std::move(promise), proxy](Result<IPAddress> result) mutable {
+                     if (result.is_error()) {
+                       return promise.set_error(400, result.error().public_message());
+                     }
+                     send_closure(actor_id, &ConnectionCreator::ping_proxy_resolved, std::move(proxy),
+                                  result.move_as_ok(), std::move(promise));
+                   }));
 }
 
-void ConnectionCreator::ping_proxy_resolved(int32 proxy_id, IPAddress ip_address, Promise<double> promise) {
-  auto it = proxies_.find(proxy_id);
-  if (it == proxies_.end()) {
-    return promise.set_error(400, "Unknown proxy identifier");
-  }
-  const Proxy &proxy = it->second;
+void ConnectionCreator::ping_proxy_resolved(Proxy &&proxy, IPAddress ip_address, Promise<double> promise) {
   auto main_dc_id = G()->net_query_dispatcher().get_main_dc_id();
   FindConnectionExtra extra;
   auto r_socket_fd = find_connection(proxy, ip_address, main_dc_id, false, extra);
@@ -389,138 +363,6 @@ void ConnectionCreator::ping_proxy_buffered_socket_fd(IPAddress ip_address, Buff
                                  promise.set_value(std::move(ping_time));
                                }),
                                create_reference(token))};
-}
-
-void ConnectionCreator::test_proxy(Proxy &&proxy, int32 dc_id, double timeout, Promise<Unit> &&promise) {
-  auto start_time = Time::now();
-
-  IPAddress ip_address;
-  auto status = ip_address.init_host_port(proxy.server(), proxy.port());
-  if (status.is_error()) {
-    return promise.set_error(400, status.public_message());
-  }
-  auto r_socket_fd = SocketFd::open(ip_address);
-  if (r_socket_fd.is_error()) {
-    return promise.set_error(400, r_socket_fd.error().public_message());
-  }
-
-  auto dc_options = get_default_dc_options(false);
-  IPAddress mtproto_ip_address;
-  for (auto &dc_option : dc_options.dc_options) {
-    if (dc_option.get_dc_id().get_raw_id() == dc_id) {
-      mtproto_ip_address = dc_option.get_ip_address();
-      break;
-    }
-  }
-  if (!mtproto_ip_address.is_valid()) {
-    return promise.set_error(400, "Invalid datacenter identifier specified");
-  }
-
-  auto request_id = ++test_proxy_request_id_;
-  auto request = make_unique<TestProxyRequest>();
-  request->proxy_ = std::move(proxy);
-  request->dc_id_ = static_cast<int16>(dc_id);
-  request->promise_ = std::move(promise);
-
-  auto connection_promise =
-      PromiseCreator::lambda([actor_id = actor_id(this), request_id](Result<ConnectionData> r_data) {
-        send_closure(actor_id, &ConnectionCreator::on_test_proxy_connection_data, request_id, std::move(r_data));
-      });
-  request->child_ = prepare_connection(ip_address, r_socket_fd.move_as_ok(), request->proxy_, mtproto_ip_address,
-                                       request->get_transport(), "Test", "TestPingDC2", nullptr, {}, false,
-                                       std::move(connection_promise));
-
-  test_proxy_requests_.emplace(request_id, std::move(request));
-
-  create_actor<SleepActor>("TestProxyTimeoutActor", timeout + start_time - Time::now(),
-                           PromiseCreator::lambda([actor_id = actor_id(this), request_id](Unit) {
-                             send_closure(actor_id, &ConnectionCreator::on_test_proxy_timeout, request_id);
-                           }))
-      .release();
-}
-
-void ConnectionCreator::on_test_proxy_connection_data(uint64 request_id, Result<ConnectionData> r_data) {
-  auto it = test_proxy_requests_.find(request_id);
-  if (it == test_proxy_requests_.end()) {
-    return;
-  }
-  auto *request = it->second.get();
-  if (r_data.is_error()) {
-    auto promise = std::move(request->promise_);
-    test_proxy_requests_.erase(it);
-    return promise.set_error(r_data.move_as_error());
-  }
-
-  class HandshakeContext final : public mtproto::AuthKeyHandshakeContext {
-   public:
-    mtproto::DhCallback *get_dh_callback() final {
-      return nullptr;
-    }
-    mtproto::PublicRsaKeyInterface *get_public_rsa_key_interface() final {
-      return public_rsa_key_.get();
-    }
-
-   private:
-    std::shared_ptr<mtproto::PublicRsaKeyInterface> public_rsa_key_ = PublicRsaKeySharedMain::create(false);
-  };
-  auto handshake = make_unique<mtproto::AuthKeyHandshake>(request->dc_id_, 3600);
-  auto data = r_data.move_as_ok();
-  auto raw_connection = mtproto::RawConnection::create(data.ip_address, std::move(data.buffered_socket_fd),
-                                                       request->get_transport(), nullptr);
-  request->child_ = create_actor<mtproto::HandshakeActor>(
-      "HandshakeActor", std::move(handshake), std::move(raw_connection), make_unique<HandshakeContext>(), 10.0,
-      PromiseCreator::lambda(
-          [actor_id = actor_id(this), request_id](Result<unique_ptr<mtproto::RawConnection>> raw_connection) {
-            send_closure(actor_id, &ConnectionCreator::on_test_proxy_handshake_connection, request_id,
-                         std::move(raw_connection));
-          }),
-      PromiseCreator::lambda(
-          [actor_id = actor_id(this), request_id](Result<unique_ptr<mtproto::AuthKeyHandshake>> handshake) {
-            send_closure(actor_id, &ConnectionCreator::on_test_proxy_handshake, request_id, std::move(handshake));
-          }));
-}
-
-void ConnectionCreator::on_test_proxy_handshake_connection(
-    uint64 request_id, Result<unique_ptr<mtproto::RawConnection>> r_raw_connection) {
-  if (r_raw_connection.is_error()) {
-    auto it = test_proxy_requests_.find(request_id);
-    if (it == test_proxy_requests_.end()) {
-      return;
-    }
-    auto promise = std::move(it->second->promise_);
-    test_proxy_requests_.erase(it);
-    return promise.set_error(400, r_raw_connection.move_as_error().public_message());
-  }
-}
-
-void ConnectionCreator::on_test_proxy_handshake(uint64 request_id,
-                                                Result<unique_ptr<mtproto::AuthKeyHandshake>> r_handshake) {
-  auto it = test_proxy_requests_.find(request_id);
-  if (it == test_proxy_requests_.end()) {
-    return;
-  }
-  auto promise = std::move(it->second->promise_);
-  test_proxy_requests_.erase(it);
-
-  if (r_handshake.is_error()) {
-    return promise.set_error(400, r_handshake.move_as_error().public_message());
-  }
-  auto handshake = r_handshake.move_as_ok();
-  if (!handshake->is_ready_for_finish()) {
-    return promise.set_error(400, "Handshake is not ready");
-  }
-  promise.set_value(Unit());
-}
-
-void ConnectionCreator::on_test_proxy_timeout(uint64 request_id) {
-  auto it = test_proxy_requests_.find(request_id);
-  if (it == test_proxy_requests_.end()) {
-    return;
-  }
-  auto promise = std::move(it->second->promise_);
-  test_proxy_requests_.erase(it);
-
-  promise.set_error(400, "Timeout expired");
 }
 
 void ConnectionCreator::set_active_proxy_id(int32 proxy_id, bool from_binlog) {
@@ -630,31 +472,13 @@ void ConnectionCreator::save_proxy_last_used_date(int32 delay) {
   G()->td_db()->get_binlog_pmc()->set(get_proxy_used_database_key(active_proxy_id_), to_string(date));
 }
 
-td_api::object_ptr<td_api::proxy> ConnectionCreator::get_proxy_object(int32 proxy_id) const {
+td_api::object_ptr<td_api::addedProxy> ConnectionCreator::get_added_proxy_object(int32 proxy_id) const {
   auto it = proxies_.find(proxy_id);
   CHECK(it != proxies_.end());
-  const Proxy &proxy = it->second;
-  td_api::object_ptr<td_api::ProxyType> type;
-  switch (proxy.type()) {
-    case Proxy::Type::Socks5:
-      type = make_tl_object<td_api::proxyTypeSocks5>(proxy.user().str(), proxy.password().str());
-      break;
-    case Proxy::Type::HttpTcp:
-      type = make_tl_object<td_api::proxyTypeHttp>(proxy.user().str(), proxy.password().str(), false);
-      break;
-    case Proxy::Type::HttpCaching:
-      type = make_tl_object<td_api::proxyTypeHttp>(proxy.user().str(), proxy.password().str(), true);
-      break;
-    case Proxy::Type::Mtproto:
-      type = make_tl_object<td_api::proxyTypeMtproto>(proxy.secret().get_encoded_secret());
-      break;
-    default:
-      UNREACHABLE();
-  }
   auto last_used_date_it = proxy_last_used_date_.find(proxy_id);
   auto last_used_date = last_used_date_it == proxy_last_used_date_.end() ? 0 : last_used_date_it->second;
-  return make_tl_object<td_api::proxy>(proxy_id, proxy.server().str(), proxy.port(), last_used_date,
-                                       proxy_id == active_proxy_id_, std::move(type));
+  return td_api::make_object<td_api::addedProxy>(proxy_id, last_used_date, proxy_id == active_proxy_id_,
+                                                 it->second.get_proxy_object());
 }
 
 void ConnectionCreator::on_network(bool network_flag, uint32 network_generation) {

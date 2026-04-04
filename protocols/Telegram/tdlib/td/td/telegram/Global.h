@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -89,6 +89,7 @@ class ThemeManager;
 class TimeZoneManager;
 class TopDialogManager;
 class TranscriptionManager;
+class TranslationManager;
 class UpdatesManager;
 class UserManager;
 class WebAppManager;
@@ -220,6 +221,9 @@ class Global final : public ActorContext {
     attach_menu_manager_ = attach_menu_manager;
   }
 
+  ActorId<AuthManager> auth_manager() const {
+    return auth_manager_;
+  }
   void set_auth_manager(ActorId<AuthManager> auth_manager) {
     auth_manager_ = auth_manager;
   }
@@ -558,6 +562,13 @@ class Global final : public ActorContext {
     transcription_manager_ = transcription_manager;
   }
 
+  ActorId<TranslationManager> translation_manager() const {
+    return translation_manager_;
+  }
+  void set_translation_manager(ActorId<TranslationManager> translation_manager) {
+    translation_manager_ = translation_manager;
+  }
+
   ActorId<UpdatesManager> updates_manager() const {
     return updates_manager_;
   }
@@ -766,6 +777,7 @@ class Global final : public ActorContext {
   ActorId<TimeZoneManager> time_zone_manager_;
   ActorId<TopDialogManager> top_dialog_manager_;
   ActorId<TranscriptionManager> transcription_manager_;
+  ActorId<TranslationManager> translation_manager_;
   ActorId<UpdatesManager> updates_manager_;
   ActorId<UserManager> user_manager_;
   ActorId<WebAppManager> web_app_manager_;

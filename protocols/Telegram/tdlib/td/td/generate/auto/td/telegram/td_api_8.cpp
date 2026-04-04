@@ -315,6 +315,7 @@ chatEventLogFilters::chatEventLogFilters()
   , member_invites_()
   , member_promotions_()
   , member_restrictions_()
+  , member_tag_changes_()
   , info_changes_()
   , setting_changes_()
   , invite_link_changes_()
@@ -323,7 +324,7 @@ chatEventLogFilters::chatEventLogFilters()
   , subscription_extensions_()
 {}
 
-chatEventLogFilters::chatEventLogFilters(bool message_edits_, bool message_deletions_, bool message_pins_, bool member_joins_, bool member_leaves_, bool member_invites_, bool member_promotions_, bool member_restrictions_, bool info_changes_, bool setting_changes_, bool invite_link_changes_, bool video_chat_changes_, bool forum_changes_, bool subscription_extensions_)
+chatEventLogFilters::chatEventLogFilters(bool message_edits_, bool message_deletions_, bool message_pins_, bool member_joins_, bool member_leaves_, bool member_invites_, bool member_promotions_, bool member_restrictions_, bool member_tag_changes_, bool info_changes_, bool setting_changes_, bool invite_link_changes_, bool video_chat_changes_, bool forum_changes_, bool subscription_extensions_)
   : message_edits_(message_edits_)
   , message_deletions_(message_deletions_)
   , message_pins_(message_pins_)
@@ -332,6 +333,7 @@ chatEventLogFilters::chatEventLogFilters(bool message_edits_, bool message_delet
   , member_invites_(member_invites_)
   , member_promotions_(member_promotions_)
   , member_restrictions_(member_restrictions_)
+  , member_tag_changes_(member_tag_changes_)
   , info_changes_(info_changes_)
   , setting_changes_(setting_changes_)
   , invite_link_changes_(invite_link_changes_)
@@ -353,6 +355,7 @@ void chatEventLogFilters::store(TlStorerToString &s, const char *field_name) con
     s.store_field("member_invites", member_invites_);
     s.store_field("member_promotions", member_promotions_);
     s.store_field("member_restrictions", member_restrictions_);
+    s.store_field("member_tag_changes", member_tag_changes_);
     s.store_field("info_changes", info_changes_);
     s.store_field("setting_changes", setting_changes_);
     s.store_field("invite_link_changes", invite_link_changes_);
@@ -450,14 +453,14 @@ void chatStatisticsAdministratorActionsInfo::store(TlStorerToString &s, const ch
 checklistTask::checklistTask()
   : id_()
   , text_()
-  , completed_by_user_id_()
+  , completed_by_()
   , completion_date_()
 {}
 
-checklistTask::checklistTask(int32 id_, object_ptr<formattedText> &&text_, int53 completed_by_user_id_, int32 completion_date_)
+checklistTask::checklistTask(int32 id_, object_ptr<formattedText> &&text_, object_ptr<MessageSender> &&completed_by_, int32 completion_date_)
   : id_(id_)
   , text_(std::move(text_))
-  , completed_by_user_id_(completed_by_user_id_)
+  , completed_by_(std::move(completed_by_))
   , completion_date_(completion_date_)
 {}
 
@@ -468,7 +471,7 @@ void checklistTask::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "checklistTask");
     s.store_field("id", id_);
     s.store_object_field("text", static_cast<const BaseObject *>(text_.get()));
-    s.store_field("completed_by_user_id", completed_by_user_id_);
+    s.store_object_field("completed_by", static_cast<const BaseObject *>(completed_by_.get()));
     s.store_field("completion_date", completion_date_);
     s.store_class_end();
   }
@@ -590,6 +593,30 @@ void foundWebApp::store(TlStorerToString &s, const char *field_name) const {
     s.store_object_field("web_app", static_cast<const BaseObject *>(web_app_.get()));
     s.store_field("request_write_access", request_write_access_);
     s.store_field("skip_confirmation", skip_confirmation_);
+    s.store_class_end();
+  }
+}
+
+giftAuction::giftAuction()
+  : id_()
+  , gifts_per_round_()
+  , start_date_()
+{}
+
+giftAuction::giftAuction(string const &id_, int32 gifts_per_round_, int32 start_date_)
+  : id_(id_)
+  , gifts_per_round_(gifts_per_round_)
+  , start_date_(start_date_)
+{}
+
+const std::int32_t giftAuction::ID;
+
+void giftAuction::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "giftAuction");
+    s.store_field("id", id_);
+    s.store_field("gifts_per_round", gifts_per_round_);
+    s.store_field("start_date", start_date_);
     s.store_class_end();
   }
 }
@@ -728,6 +755,45 @@ void inputGroupCallMessage::store(TlStorerToString &s, const char *field_name) c
     s.store_class_begin(field_name, "inputGroupCallMessage");
     s.store_field("chat_id", chat_id_);
     s.store_field("message_id", message_id_);
+    s.store_class_end();
+  }
+}
+
+inputPollTypeRegular::inputPollTypeRegular()
+  : allow_adding_options_()
+{}
+
+inputPollTypeRegular::inputPollTypeRegular(bool allow_adding_options_)
+  : allow_adding_options_(allow_adding_options_)
+{}
+
+const std::int32_t inputPollTypeRegular::ID;
+
+void inputPollTypeRegular::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputPollTypeRegular");
+    s.store_field("allow_adding_options", allow_adding_options_);
+    s.store_class_end();
+  }
+}
+
+inputPollTypeQuiz::inputPollTypeQuiz()
+  : correct_option_ids_()
+  , explanation_()
+{}
+
+inputPollTypeQuiz::inputPollTypeQuiz(array<int32> &&correct_option_ids_, object_ptr<formattedText> &&explanation_)
+  : correct_option_ids_(std::move(correct_option_ids_))
+  , explanation_(std::move(explanation_))
+{}
+
+const std::int32_t inputPollTypeQuiz::ID;
+
+void inputPollTypeQuiz::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputPollTypeQuiz");
+    { s.store_vector_begin("correct_option_ids", correct_option_ids_.size()); for (const auto &_value : correct_option_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_object_field("explanation", static_cast<const BaseObject *>(explanation_.get()));
     s.store_class_end();
   }
 }
@@ -997,16 +1063,18 @@ message::message()
   , via_bot_user_id_()
   , sender_business_bot_user_id_()
   , sender_boost_count_()
+  , sender_tag_()
   , paid_message_star_count_()
   , author_signature_()
   , media_album_id_()
   , effect_id_()
   , restriction_info_()
+  , summary_language_code_()
   , content_()
   , reply_markup_()
 {}
 
-message::message(int53 id_, object_ptr<MessageSender> &&sender_id_, int53 chat_id_, object_ptr<MessageSendingState> &&sending_state_, object_ptr<MessageSchedulingState> &&scheduling_state_, bool is_outgoing_, bool is_pinned_, bool is_from_offline_, bool can_be_saved_, bool has_timestamped_media_, bool is_channel_post_, bool is_paid_star_suggested_post_, bool is_paid_ton_suggested_post_, bool contains_unread_mention_, int32 date_, int32 edit_date_, object_ptr<messageForwardInfo> &&forward_info_, object_ptr<messageImportInfo> &&import_info_, object_ptr<messageInteractionInfo> &&interaction_info_, array<object_ptr<unreadReaction>> &&unread_reactions_, object_ptr<factCheck> &&fact_check_, object_ptr<suggestedPostInfo> &&suggested_post_info_, object_ptr<MessageReplyTo> &&reply_to_, object_ptr<MessageTopic> &&topic_id_, object_ptr<MessageSelfDestructType> &&self_destruct_type_, double self_destruct_in_, double auto_delete_in_, int53 via_bot_user_id_, int53 sender_business_bot_user_id_, int32 sender_boost_count_, int53 paid_message_star_count_, string const &author_signature_, int64 media_album_id_, int64 effect_id_, object_ptr<restrictionInfo> &&restriction_info_, object_ptr<MessageContent> &&content_, object_ptr<ReplyMarkup> &&reply_markup_)
+message::message(int53 id_, object_ptr<MessageSender> &&sender_id_, int53 chat_id_, object_ptr<MessageSendingState> &&sending_state_, object_ptr<MessageSchedulingState> &&scheduling_state_, bool is_outgoing_, bool is_pinned_, bool is_from_offline_, bool can_be_saved_, bool has_timestamped_media_, bool is_channel_post_, bool is_paid_star_suggested_post_, bool is_paid_ton_suggested_post_, bool contains_unread_mention_, int32 date_, int32 edit_date_, object_ptr<messageForwardInfo> &&forward_info_, object_ptr<messageImportInfo> &&import_info_, object_ptr<messageInteractionInfo> &&interaction_info_, array<object_ptr<unreadReaction>> &&unread_reactions_, object_ptr<factCheck> &&fact_check_, object_ptr<suggestedPostInfo> &&suggested_post_info_, object_ptr<MessageReplyTo> &&reply_to_, object_ptr<MessageTopic> &&topic_id_, object_ptr<MessageSelfDestructType> &&self_destruct_type_, double self_destruct_in_, double auto_delete_in_, int53 via_bot_user_id_, int53 sender_business_bot_user_id_, int32 sender_boost_count_, string const &sender_tag_, int53 paid_message_star_count_, string const &author_signature_, int64 media_album_id_, int64 effect_id_, object_ptr<restrictionInfo> &&restriction_info_, string const &summary_language_code_, object_ptr<MessageContent> &&content_, object_ptr<ReplyMarkup> &&reply_markup_)
   : id_(id_)
   , sender_id_(std::move(sender_id_))
   , chat_id_(chat_id_)
@@ -1037,11 +1105,13 @@ message::message(int53 id_, object_ptr<MessageSender> &&sender_id_, int53 chat_i
   , via_bot_user_id_(via_bot_user_id_)
   , sender_business_bot_user_id_(sender_business_bot_user_id_)
   , sender_boost_count_(sender_boost_count_)
+  , sender_tag_(sender_tag_)
   , paid_message_star_count_(paid_message_star_count_)
   , author_signature_(author_signature_)
   , media_album_id_(media_album_id_)
   , effect_id_(effect_id_)
   , restriction_info_(std::move(restriction_info_))
+  , summary_language_code_(summary_language_code_)
   , content_(std::move(content_))
   , reply_markup_(std::move(reply_markup_))
 {}
@@ -1081,11 +1151,13 @@ void message::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("via_bot_user_id", via_bot_user_id_);
     s.store_field("sender_business_bot_user_id", sender_business_bot_user_id_);
     s.store_field("sender_boost_count", sender_boost_count_);
+    s.store_field("sender_tag", sender_tag_);
     s.store_field("paid_message_star_count", paid_message_star_count_);
     s.store_field("author_signature", author_signature_);
     s.store_field("media_album_id", media_album_id_);
     s.store_field("effect_id", effect_id_);
     s.store_object_field("restriction_info", static_cast<const BaseObject *>(restriction_info_.get()));
+    s.store_field("summary_language_code", summary_language_code_);
     s.store_object_field("content", static_cast<const BaseObject *>(content_.get()));
     s.store_object_field("reply_markup", static_cast<const BaseObject *>(reply_markup_.get()));
     s.store_class_end();
@@ -1344,20 +1416,28 @@ poll::poll()
   , options_()
   , total_voter_count_()
   , recent_voter_ids_()
+  , can_get_voters_()
   , is_anonymous_()
+  , allows_multiple_answers_()
+  , allows_revoting_()
+  , option_order_()
   , type_()
   , open_period_()
   , close_date_()
   , is_closed_()
 {}
 
-poll::poll(int64 id_, object_ptr<formattedText> &&question_, array<object_ptr<pollOption>> &&options_, int32 total_voter_count_, array<object_ptr<MessageSender>> &&recent_voter_ids_, bool is_anonymous_, object_ptr<PollType> &&type_, int32 open_period_, int32 close_date_, bool is_closed_)
+poll::poll(int64 id_, object_ptr<formattedText> &&question_, array<object_ptr<pollOption>> &&options_, int32 total_voter_count_, array<object_ptr<MessageSender>> &&recent_voter_ids_, bool can_get_voters_, bool is_anonymous_, bool allows_multiple_answers_, bool allows_revoting_, array<int32> &&option_order_, object_ptr<PollType> &&type_, int32 open_period_, int32 close_date_, bool is_closed_)
   : id_(id_)
   , question_(std::move(question_))
   , options_(std::move(options_))
   , total_voter_count_(total_voter_count_)
   , recent_voter_ids_(std::move(recent_voter_ids_))
+  , can_get_voters_(can_get_voters_)
   , is_anonymous_(is_anonymous_)
+  , allows_multiple_answers_(allows_multiple_answers_)
+  , allows_revoting_(allows_revoting_)
+  , option_order_(std::move(option_order_))
   , type_(std::move(type_))
   , open_period_(open_period_)
   , close_date_(close_date_)
@@ -1374,7 +1454,11 @@ void poll::store(TlStorerToString &s, const char *field_name) const {
     { s.store_vector_begin("options", options_.size()); for (const auto &_value : options_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_field("total_voter_count", total_voter_count_);
     { s.store_vector_begin("recent_voter_ids", recent_voter_ids_.size()); for (const auto &_value : recent_voter_ids_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_field("can_get_voters", can_get_voters_);
     s.store_field("is_anonymous", is_anonymous_);
+    s.store_field("allows_multiple_answers", allows_multiple_answers_);
+    s.store_field("allows_revoting", allows_revoting_);
+    { s.store_vector_begin("option_order", option_order_.size()); for (const auto &_value : option_order_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_object_field("type", static_cast<const BaseObject *>(type_.get()));
     s.store_field("open_period", open_period_);
     s.store_field("close_date", close_date_);
@@ -1923,6 +2007,7 @@ story::story()
   , can_be_edited_()
   , can_be_forwarded_()
   , can_be_replied_()
+  , can_set_privacy_settings_()
   , can_toggle_is_posted_to_chat_page_()
   , can_get_statistics_()
   , can_get_interactions_()
@@ -1937,7 +2022,7 @@ story::story()
   , album_ids_()
 {}
 
-story::story(int32 id_, int53 poster_chat_id_, object_ptr<MessageSender> &&poster_id_, int32 date_, bool is_being_posted_, bool is_being_edited_, bool is_edited_, bool is_posted_to_chat_page_, bool is_visible_only_for_self_, bool can_be_added_to_album_, bool can_be_deleted_, bool can_be_edited_, bool can_be_forwarded_, bool can_be_replied_, bool can_toggle_is_posted_to_chat_page_, bool can_get_statistics_, bool can_get_interactions_, bool has_expired_viewers_, object_ptr<storyRepostInfo> &&repost_info_, object_ptr<storyInteractionInfo> &&interaction_info_, object_ptr<ReactionType> &&chosen_reaction_type_, object_ptr<StoryPrivacySettings> &&privacy_settings_, object_ptr<StoryContent> &&content_, array<object_ptr<storyArea>> &&areas_, object_ptr<formattedText> &&caption_, array<int32> &&album_ids_)
+story::story(int32 id_, int53 poster_chat_id_, object_ptr<MessageSender> &&poster_id_, int32 date_, bool is_being_posted_, bool is_being_edited_, bool is_edited_, bool is_posted_to_chat_page_, bool is_visible_only_for_self_, bool can_be_added_to_album_, bool can_be_deleted_, bool can_be_edited_, bool can_be_forwarded_, bool can_be_replied_, bool can_set_privacy_settings_, bool can_toggle_is_posted_to_chat_page_, bool can_get_statistics_, bool can_get_interactions_, bool has_expired_viewers_, object_ptr<storyRepostInfo> &&repost_info_, object_ptr<storyInteractionInfo> &&interaction_info_, object_ptr<ReactionType> &&chosen_reaction_type_, object_ptr<StoryPrivacySettings> &&privacy_settings_, object_ptr<StoryContent> &&content_, array<object_ptr<storyArea>> &&areas_, object_ptr<formattedText> &&caption_, array<int32> &&album_ids_)
   : id_(id_)
   , poster_chat_id_(poster_chat_id_)
   , poster_id_(std::move(poster_id_))
@@ -1952,6 +2037,7 @@ story::story(int32 id_, int53 poster_chat_id_, object_ptr<MessageSender> &&poste
   , can_be_edited_(can_be_edited_)
   , can_be_forwarded_(can_be_forwarded_)
   , can_be_replied_(can_be_replied_)
+  , can_set_privacy_settings_(can_set_privacy_settings_)
   , can_toggle_is_posted_to_chat_page_(can_toggle_is_posted_to_chat_page_)
   , can_get_statistics_(can_get_statistics_)
   , can_get_interactions_(can_get_interactions_)
@@ -1985,6 +2071,7 @@ void story::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("can_be_edited", can_be_edited_);
     s.store_field("can_be_forwarded", can_be_forwarded_);
     s.store_field("can_be_replied", can_be_replied_);
+    s.store_field("can_set_privacy_settings", can_set_privacy_settings_);
     s.store_field("can_toggle_is_posted_to_chat_page", can_toggle_is_posted_to_chat_page_);
     s.store_field("can_get_statistics", can_get_statistics_);
     s.store_field("can_get_interactions", can_get_interactions_);
@@ -2023,12 +2110,14 @@ storyInfo::storyInfo()
   : story_id_()
   , date_()
   , is_for_close_friends_()
+  , is_live_()
 {}
 
-storyInfo::storyInfo(int32 story_id_, int32 date_, bool is_for_close_friends_)
+storyInfo::storyInfo(int32 story_id_, int32 date_, bool is_for_close_friends_, bool is_live_)
   : story_id_(story_id_)
   , date_(date_)
   , is_for_close_friends_(is_for_close_friends_)
+  , is_live_(is_live_)
 {}
 
 const std::int32_t storyInfo::ID;
@@ -2039,6 +2128,7 @@ void storyInfo::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("story_id", story_id_);
     s.store_field("date", date_);
     s.store_field("is_for_close_friends", is_for_close_friends_);
+    s.store_field("is_live", is_live_);
     s.store_class_end();
   }
 }
@@ -2256,6 +2346,36 @@ void suggestedActionCustom::store(TlStorerToString &s, const char *field_name) c
   }
 }
 
+suggestedActionSetLoginEmailAddress::suggestedActionSetLoginEmailAddress()
+  : can_be_hidden_()
+{}
+
+suggestedActionSetLoginEmailAddress::suggestedActionSetLoginEmailAddress(bool can_be_hidden_)
+  : can_be_hidden_(can_be_hidden_)
+{}
+
+const std::int32_t suggestedActionSetLoginEmailAddress::ID;
+
+void suggestedActionSetLoginEmailAddress::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "suggestedActionSetLoginEmailAddress");
+    s.store_field("can_be_hidden", can_be_hidden_);
+    s.store_class_end();
+  }
+}
+
+suggestedActionAddLoginPasskey::suggestedActionAddLoginPasskey() {
+}
+
+const std::int32_t suggestedActionAddLoginPasskey::ID;
+
+void suggestedActionAddLoginPasskey::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "suggestedActionAddLoginPasskey");
+    s.store_class_end();
+  }
+}
+
 tMeUrl::tMeUrl()
   : url_()
   , type_()
@@ -2442,6 +2562,24 @@ void tonTransactionTypeFragmentDeposit::store(TlStorerToString &s, const char *f
   }
 }
 
+tonTransactionTypeFragmentWithdrawal::tonTransactionTypeFragmentWithdrawal()
+  : withdrawal_state_()
+{}
+
+tonTransactionTypeFragmentWithdrawal::tonTransactionTypeFragmentWithdrawal(object_ptr<RevenueWithdrawalState> &&withdrawal_state_)
+  : withdrawal_state_(std::move(withdrawal_state_))
+{}
+
+const std::int32_t tonTransactionTypeFragmentWithdrawal::ID;
+
+void tonTransactionTypeFragmentWithdrawal::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "tonTransactionTypeFragmentWithdrawal");
+    s.store_object_field("withdrawal_state", static_cast<const BaseObject *>(withdrawal_state_.get()));
+    s.store_class_end();
+  }
+}
+
 tonTransactionTypeSuggestedPostPayment::tonTransactionTypeSuggestedPostPayment()
   : chat_id_()
 {}
@@ -2456,6 +2594,24 @@ void tonTransactionTypeSuggestedPostPayment::store(TlStorerToString &s, const ch
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "tonTransactionTypeSuggestedPostPayment");
     s.store_field("chat_id", chat_id_);
+    s.store_class_end();
+  }
+}
+
+tonTransactionTypeGiftPurchaseOffer::tonTransactionTypeGiftPurchaseOffer()
+  : gift_()
+{}
+
+tonTransactionTypeGiftPurchaseOffer::tonTransactionTypeGiftPurchaseOffer(object_ptr<upgradedGift> &&gift_)
+  : gift_(std::move(gift_))
+{}
+
+const std::int32_t tonTransactionTypeGiftPurchaseOffer::ID;
+
+void tonTransactionTypeGiftPurchaseOffer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "tonTransactionTypeGiftPurchaseOffer");
+    s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
     s.store_class_end();
   }
 }
@@ -2486,13 +2642,15 @@ tonTransactionTypeUpgradedGiftSale::tonTransactionTypeUpgradedGiftSale()
   , gift_()
   , commission_per_mille_()
   , commission_toncoin_amount_()
+  , via_offer_()
 {}
 
-tonTransactionTypeUpgradedGiftSale::tonTransactionTypeUpgradedGiftSale(int53 user_id_, object_ptr<upgradedGift> &&gift_, int32 commission_per_mille_, int53 commission_toncoin_amount_)
+tonTransactionTypeUpgradedGiftSale::tonTransactionTypeUpgradedGiftSale(int53 user_id_, object_ptr<upgradedGift> &&gift_, int32 commission_per_mille_, int53 commission_toncoin_amount_, bool via_offer_)
   : user_id_(user_id_)
   , gift_(std::move(gift_))
   , commission_per_mille_(commission_per_mille_)
   , commission_toncoin_amount_(commission_toncoin_amount_)
+  , via_offer_(via_offer_)
 {}
 
 const std::int32_t tonTransactionTypeUpgradedGiftSale::ID;
@@ -2504,6 +2662,31 @@ void tonTransactionTypeUpgradedGiftSale::store(TlStorerToString &s, const char *
     s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
     s.store_field("commission_per_mille", commission_per_mille_);
     s.store_field("commission_toncoin_amount", commission_toncoin_amount_);
+    s.store_field("via_offer", via_offer_);
+    s.store_class_end();
+  }
+}
+
+tonTransactionTypeStakeDiceStake::tonTransactionTypeStakeDiceStake() {
+}
+
+const std::int32_t tonTransactionTypeStakeDiceStake::ID;
+
+void tonTransactionTypeStakeDiceStake::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "tonTransactionTypeStakeDiceStake");
+    s.store_class_end();
+  }
+}
+
+tonTransactionTypeStakeDicePayout::tonTransactionTypeStakeDicePayout() {
+}
+
+const std::int32_t tonTransactionTypeStakeDicePayout::ID;
+
+void tonTransactionTypeStakeDicePayout::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "tonTransactionTypeStakeDicePayout");
     s.store_class_end();
   }
 }
@@ -3323,12 +3506,12 @@ void updateChatPendingJoinRequests::store(TlStorerToString &s, const char *field
 
 updateChatReplyMarkup::updateChatReplyMarkup()
   : chat_id_()
-  , reply_markup_message_id_()
+  , reply_markup_message_()
 {}
 
-updateChatReplyMarkup::updateChatReplyMarkup(int53 chat_id_, int53 reply_markup_message_id_)
+updateChatReplyMarkup::updateChatReplyMarkup(int53 chat_id_, object_ptr<message> &&reply_markup_message_)
   : chat_id_(chat_id_)
-  , reply_markup_message_id_(reply_markup_message_id_)
+  , reply_markup_message_(std::move(reply_markup_message_))
 {}
 
 const std::int32_t updateChatReplyMarkup::ID;
@@ -3337,7 +3520,7 @@ void updateChatReplyMarkup::store(TlStorerToString &s, const char *field_name) c
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "updateChatReplyMarkup");
     s.store_field("chat_id", chat_id_);
-    s.store_field("reply_markup_message_id", reply_markup_message_id_);
+    s.store_object_field("reply_markup_message", static_cast<const BaseObject *>(reply_markup_message_.get()));
     s.store_class_end();
   }
 }
@@ -3422,6 +3605,27 @@ void updateChatUnreadReactionCount::store(TlStorerToString &s, const char *field
     s.store_class_begin(field_name, "updateChatUnreadReactionCount");
     s.store_field("chat_id", chat_id_);
     s.store_field("unread_reaction_count", unread_reaction_count_);
+    s.store_class_end();
+  }
+}
+
+updateChatUnreadPollVoteCount::updateChatUnreadPollVoteCount()
+  : chat_id_()
+  , unread_poll_vote_count_()
+{}
+
+updateChatUnreadPollVoteCount::updateChatUnreadPollVoteCount(int53 chat_id_, int32 unread_poll_vote_count_)
+  : chat_id_(chat_id_)
+  , unread_poll_vote_count_(unread_poll_vote_count_)
+{}
+
+const std::int32_t updateChatUnreadPollVoteCount::ID;
+
+void updateChatUnreadPollVoteCount::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateChatUnreadPollVoteCount");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("unread_poll_vote_count", unread_poll_vote_count_);
     s.store_class_end();
   }
 }
@@ -3818,10 +4022,12 @@ updateForumTopic::updateForumTopic()
   , last_read_outbox_message_id_()
   , unread_mention_count_()
   , unread_reaction_count_()
+  , unread_poll_vote_count_()
   , notification_settings_()
+  , draft_message_()
 {}
 
-updateForumTopic::updateForumTopic(int53 chat_id_, int32 forum_topic_id_, bool is_pinned_, int53 last_read_inbox_message_id_, int53 last_read_outbox_message_id_, int32 unread_mention_count_, int32 unread_reaction_count_, object_ptr<chatNotificationSettings> &&notification_settings_)
+updateForumTopic::updateForumTopic(int53 chat_id_, int32 forum_topic_id_, bool is_pinned_, int53 last_read_inbox_message_id_, int53 last_read_outbox_message_id_, int32 unread_mention_count_, int32 unread_reaction_count_, int32 unread_poll_vote_count_, object_ptr<chatNotificationSettings> &&notification_settings_, object_ptr<draftMessage> &&draft_message_)
   : chat_id_(chat_id_)
   , forum_topic_id_(forum_topic_id_)
   , is_pinned_(is_pinned_)
@@ -3829,7 +4035,9 @@ updateForumTopic::updateForumTopic(int53 chat_id_, int32 forum_topic_id_, bool i
   , last_read_outbox_message_id_(last_read_outbox_message_id_)
   , unread_mention_count_(unread_mention_count_)
   , unread_reaction_count_(unread_reaction_count_)
+  , unread_poll_vote_count_(unread_poll_vote_count_)
   , notification_settings_(std::move(notification_settings_))
+  , draft_message_(std::move(draft_message_))
 {}
 
 const std::int32_t updateForumTopic::ID;
@@ -3844,7 +4052,9 @@ void updateForumTopic::store(TlStorerToString &s, const char *field_name) const 
     s.store_field("last_read_outbox_message_id", last_read_outbox_message_id_);
     s.store_field("unread_mention_count", unread_mention_count_);
     s.store_field("unread_reaction_count", unread_reaction_count_);
+    s.store_field("unread_poll_vote_count", unread_poll_vote_count_);
     s.store_object_field("notification_settings", static_cast<const BaseObject *>(notification_settings_.get()));
+    s.store_object_field("draft_message", static_cast<const BaseObject *>(draft_message_.get()));
     s.store_class_end();
   }
 }
@@ -4245,6 +4455,30 @@ void updateServiceNotification::store(TlStorerToString &s, const char *field_nam
   }
 }
 
+updateNewOauthRequest::updateNewOauthRequest()
+  : domain_()
+  , location_()
+  , url_()
+{}
+
+updateNewOauthRequest::updateNewOauthRequest(string const &domain_, string const &location_, string const &url_)
+  : domain_(domain_)
+  , location_(location_)
+  , url_(url_)
+{}
+
+const std::int32_t updateNewOauthRequest::ID;
+
+void updateNewOauthRequest::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateNewOauthRequest");
+    s.store_field("domain", domain_);
+    s.store_field("location", location_);
+    s.store_field("url", url_);
+    s.store_class_end();
+  }
+}
+
 updateFile::updateFile()
   : file_()
 {}
@@ -4551,26 +4785,113 @@ void updateGroupCallVerificationState::store(TlStorerToString &s, const char *fi
   }
 }
 
-updateGroupCallNewMessage::updateGroupCallNewMessage()
+updateNewGroupCallMessage::updateNewGroupCallMessage()
+  : group_call_id_()
+  , message_()
+{}
+
+updateNewGroupCallMessage::updateNewGroupCallMessage(int32 group_call_id_, object_ptr<groupCallMessage> &&message_)
+  : group_call_id_(group_call_id_)
+  , message_(std::move(message_))
+{}
+
+const std::int32_t updateNewGroupCallMessage::ID;
+
+void updateNewGroupCallMessage::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateNewGroupCallMessage");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_object_field("message", static_cast<const BaseObject *>(message_.get()));
+    s.store_class_end();
+  }
+}
+
+updateNewGroupCallPaidReaction::updateNewGroupCallPaidReaction()
   : group_call_id_()
   , sender_id_()
-  , text_()
+  , star_count_()
 {}
 
-updateGroupCallNewMessage::updateGroupCallNewMessage(int32 group_call_id_, object_ptr<MessageSender> &&sender_id_, object_ptr<formattedText> &&text_)
+updateNewGroupCallPaidReaction::updateNewGroupCallPaidReaction(int32 group_call_id_, object_ptr<MessageSender> &&sender_id_, int53 star_count_)
   : group_call_id_(group_call_id_)
   , sender_id_(std::move(sender_id_))
-  , text_(std::move(text_))
+  , star_count_(star_count_)
 {}
 
-const std::int32_t updateGroupCallNewMessage::ID;
+const std::int32_t updateNewGroupCallPaidReaction::ID;
 
-void updateGroupCallNewMessage::store(TlStorerToString &s, const char *field_name) const {
+void updateNewGroupCallPaidReaction::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
-    s.store_class_begin(field_name, "updateGroupCallNewMessage");
+    s.store_class_begin(field_name, "updateNewGroupCallPaidReaction");
     s.store_field("group_call_id", group_call_id_);
     s.store_object_field("sender_id", static_cast<const BaseObject *>(sender_id_.get()));
-    s.store_object_field("text", static_cast<const BaseObject *>(text_.get()));
+    s.store_field("star_count", star_count_);
+    s.store_class_end();
+  }
+}
+
+updateGroupCallMessageSendFailed::updateGroupCallMessageSendFailed()
+  : group_call_id_()
+  , message_id_()
+  , error_()
+{}
+
+updateGroupCallMessageSendFailed::updateGroupCallMessageSendFailed(int32 group_call_id_, int32 message_id_, object_ptr<error> &&error_)
+  : group_call_id_(group_call_id_)
+  , message_id_(message_id_)
+  , error_(std::move(error_))
+{}
+
+const std::int32_t updateGroupCallMessageSendFailed::ID;
+
+void updateGroupCallMessageSendFailed::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateGroupCallMessageSendFailed");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_field("message_id", message_id_);
+    s.store_object_field("error", static_cast<const BaseObject *>(error_.get()));
+    s.store_class_end();
+  }
+}
+
+updateGroupCallMessagesDeleted::updateGroupCallMessagesDeleted()
+  : group_call_id_()
+  , message_ids_()
+{}
+
+updateGroupCallMessagesDeleted::updateGroupCallMessagesDeleted(int32 group_call_id_, array<int32> &&message_ids_)
+  : group_call_id_(group_call_id_)
+  , message_ids_(std::move(message_ids_))
+{}
+
+const std::int32_t updateGroupCallMessagesDeleted::ID;
+
+void updateGroupCallMessagesDeleted::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateGroupCallMessagesDeleted");
+    s.store_field("group_call_id", group_call_id_);
+    { s.store_vector_begin("message_ids", message_ids_.size()); for (const auto &_value : message_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+updateLiveStoryTopDonors::updateLiveStoryTopDonors()
+  : group_call_id_()
+  , donors_()
+{}
+
+updateLiveStoryTopDonors::updateLiveStoryTopDonors(int32 group_call_id_, object_ptr<liveStoryDonors> &&donors_)
+  : group_call_id_(group_call_id_)
+  , donors_(std::move(donors_))
+{}
+
+const std::int32_t updateLiveStoryTopDonors::ID;
+
+void updateLiveStoryTopDonors::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateLiveStoryTopDonors");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_object_field("donors", static_cast<const BaseObject *>(donors_.get()));
     s.store_class_end();
   }
 }
@@ -4592,6 +4913,42 @@ void updateNewCallSignalingData::store(TlStorerToString &s, const char *field_na
     s.store_class_begin(field_name, "updateNewCallSignalingData");
     s.store_field("call_id", call_id_);
     s.store_bytes_field("data", data_);
+    s.store_class_end();
+  }
+}
+
+updateGiftAuctionState::updateGiftAuctionState()
+  : state_()
+{}
+
+updateGiftAuctionState::updateGiftAuctionState(object_ptr<giftAuctionState> &&state_)
+  : state_(std::move(state_))
+{}
+
+const std::int32_t updateGiftAuctionState::ID;
+
+void updateGiftAuctionState::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateGiftAuctionState");
+    s.store_object_field("state", static_cast<const BaseObject *>(state_.get()));
+    s.store_class_end();
+  }
+}
+
+updateActiveGiftAuctions::updateActiveGiftAuctions()
+  : states_()
+{}
+
+updateActiveGiftAuctions::updateActiveGiftAuctions(array<object_ptr<giftAuctionState>> &&states_)
+  : states_(std::move(states_))
+{}
+
+const std::int32_t updateActiveGiftAuctions::ID;
+
+void updateActiveGiftAuctions::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateActiveGiftAuctions");
+    { s.store_vector_begin("states", states_.size()); for (const auto &_value : states_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -4814,6 +5171,24 @@ void updateStoryStealthMode::store(TlStorerToString &s, const char *field_name) 
     s.store_class_begin(field_name, "updateStoryStealthMode");
     s.store_field("active_until_date", active_until_date_);
     s.store_field("cooldown_until_date", cooldown_until_date_);
+    s.store_class_end();
+  }
+}
+
+updateTrustedMiniAppBots::updateTrustedMiniAppBots()
+  : bot_user_ids_()
+{}
+
+updateTrustedMiniAppBots::updateTrustedMiniAppBots(array<int53> &&bot_user_ids_)
+  : bot_user_ids_(std::move(bot_user_ids_))
+{}
+
+const std::int32_t updateTrustedMiniAppBots::ID;
+
+void updateTrustedMiniAppBots::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateTrustedMiniAppBots");
+    { s.store_vector_begin("bot_user_ids", bot_user_ids_.size()); for (const auto &_value : bot_user_ids_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -5454,6 +5829,24 @@ void updateSpeechRecognitionTrial::store(TlStorerToString &s, const char *field_
   }
 }
 
+updateGroupCallMessageLevels::updateGroupCallMessageLevels()
+  : levels_()
+{}
+
+updateGroupCallMessageLevels::updateGroupCallMessageLevels(array<object_ptr<groupCallMessageLevel>> &&levels_)
+  : levels_(std::move(levels_))
+{}
+
+const std::int32_t updateGroupCallMessageLevels::ID;
+
+void updateGroupCallMessageLevels::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateGroupCallMessageLevels");
+    { s.store_vector_begin("levels", levels_.size()); for (const auto &_value : levels_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
 updateDiceEmojis::updateDiceEmojis()
   : emojis_()
 {}
@@ -5468,6 +5861,24 @@ void updateDiceEmojis::store(TlStorerToString &s, const char *field_name) const 
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "updateDiceEmojis");
     { s.store_vector_begin("emojis", emojis_.size()); for (const auto &_value : emojis_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+updateStakeDiceState::updateStakeDiceState()
+  : state_()
+{}
+
+updateStakeDiceState::updateStakeDiceState(object_ptr<stakeDiceState> &&state_)
+  : state_(std::move(state_))
+{}
+
+const std::int32_t updateStakeDiceState::ID;
+
+void updateStakeDiceState::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateStakeDiceState");
+    s.store_object_field("state", static_cast<const BaseObject *>(state_.get()));
     s.store_class_end();
   }
 }
@@ -5513,6 +5924,24 @@ void updateAnimationSearchParameters::store(TlStorerToString &s, const char *fie
     s.store_class_begin(field_name, "updateAnimationSearchParameters");
     s.store_field("provider", provider_);
     { s.store_vector_begin("emojis", emojis_.size()); for (const auto &_value : emojis_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+updateTextCompositionStyles::updateTextCompositionStyles()
+  : styles_()
+{}
+
+updateTextCompositionStyles::updateTextCompositionStyles(array<object_ptr<textCompositionStyle>> &&styles_)
+  : styles_(std::move(styles_))
+{}
+
+const std::int32_t updateTextCompositionStyles::ID;
+
+void updateTextCompositionStyles::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateTextCompositionStyles");
+    { s.store_vector_begin("styles", styles_.size()); for (const auto &_value : styles_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -5965,12 +6394,14 @@ updatePollAnswer::updatePollAnswer()
   : poll_id_()
   , voter_id_()
   , option_ids_()
+  , option_positions_()
 {}
 
-updatePollAnswer::updatePollAnswer(int64 poll_id_, object_ptr<MessageSender> &&voter_id_, array<int32> &&option_ids_)
+updatePollAnswer::updatePollAnswer(int64 poll_id_, object_ptr<MessageSender> &&voter_id_, array<string> &&option_ids_, array<int32> &&option_positions_)
   : poll_id_(poll_id_)
   , voter_id_(std::move(voter_id_))
   , option_ids_(std::move(option_ids_))
+  , option_positions_(std::move(option_positions_))
 {}
 
 const std::int32_t updatePollAnswer::ID;
@@ -5981,6 +6412,28 @@ void updatePollAnswer::store(TlStorerToString &s, const char *field_name) const 
     s.store_field("poll_id", poll_id_);
     s.store_object_field("voter_id", static_cast<const BaseObject *>(voter_id_.get()));
     { s.store_vector_begin("option_ids", option_ids_.size()); for (const auto &_value : option_ids_) { s.store_field("", _value); } s.store_class_end(); }
+    { s.store_vector_begin("option_positions", option_positions_.size()); for (const auto &_value : option_positions_) { s.store_field("", _value); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+updateManagedBot::updateManagedBot()
+  : user_id_()
+  , bot_user_id_()
+{}
+
+updateManagedBot::updateManagedBot(int53 user_id_, int53 bot_user_id_)
+  : user_id_(user_id_)
+  , bot_user_id_(bot_user_id_)
+{}
+
+const std::int32_t updateManagedBot::ID;
+
+void updateManagedBot::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "updateManagedBot");
+    s.store_field("user_id", user_id_);
+    s.store_field("bot_user_id", bot_user_id_);
     s.store_class_end();
   }
 }
@@ -6207,6 +6660,36 @@ void upgradedGiftAttributeIdBackdrop::store(TlStorerToString &s, const char *fie
   }
 }
 
+userAuctionBid::userAuctionBid()
+  : star_count_()
+  , bid_date_()
+  , next_bid_star_count_()
+  , owner_id_()
+  , was_returned_()
+{}
+
+userAuctionBid::userAuctionBid(int53 star_count_, int32 bid_date_, int53 next_bid_star_count_, object_ptr<MessageSender> &&owner_id_, bool was_returned_)
+  : star_count_(star_count_)
+  , bid_date_(bid_date_)
+  , next_bid_star_count_(next_bid_star_count_)
+  , owner_id_(std::move(owner_id_))
+  , was_returned_(was_returned_)
+{}
+
+const std::int32_t userAuctionBid::ID;
+
+void userAuctionBid::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "userAuctionBid");
+    s.store_field("star_count", star_count_);
+    s.store_field("bid_date", bid_date_);
+    s.store_field("next_bid_star_count", next_bid_star_count_);
+    s.store_object_field("owner_id", static_cast<const BaseObject *>(owner_id_.get()));
+    s.store_field("was_returned", was_returned_);
+    s.store_class_end();
+  }
+}
+
 userPrivacySettingRuleAllowAll::userPrivacySettingRuleAllowAll() {
 }
 
@@ -6367,12 +6850,14 @@ usernames::usernames()
   : active_usernames_()
   , disabled_usernames_()
   , editable_username_()
+  , collectible_usernames_()
 {}
 
-usernames::usernames(array<string> &&active_usernames_, array<string> &&disabled_usernames_, string const &editable_username_)
+usernames::usernames(array<string> &&active_usernames_, array<string> &&disabled_usernames_, string const &editable_username_, array<string> &&collectible_usernames_)
   : active_usernames_(std::move(active_usernames_))
   , disabled_usernames_(std::move(disabled_usernames_))
   , editable_username_(editable_username_)
+  , collectible_usernames_(std::move(collectible_usernames_))
 {}
 
 const std::int32_t usernames::ID;
@@ -6383,6 +6868,7 @@ void usernames::store(TlStorerToString &s, const char *field_name) const {
     { s.store_vector_begin("active_usernames", active_usernames_.size()); for (const auto &_value : active_usernames_) { s.store_field("", _value); } s.store_class_end(); }
     { s.store_vector_begin("disabled_usernames", disabled_usernames_.size()); for (const auto &_value : disabled_usernames_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_field("editable_username", editable_username_);
+    { s.store_vector_begin("collectible_usernames", collectible_usernames_.size()); for (const auto &_value : collectible_usernames_) { s.store_field("", _value); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -6996,6 +7482,24 @@ void getChatListsToAddChat::store(TlStorerToString &s, const char *field_name) c
   }
 }
 
+getChatOwnerAfterLeaving::getChatOwnerAfterLeaving()
+  : chat_id_()
+{}
+
+getChatOwnerAfterLeaving::getChatOwnerAfterLeaving(int53 chat_id_)
+  : chat_id_(chat_id_)
+{}
+
+const std::int32_t getChatOwnerAfterLeaving::ID;
+
+void getChatOwnerAfterLeaving::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getChatOwnerAfterLeaving");
+    s.store_field("chat_id", chat_id_);
+    s.store_class_end();
+  }
+}
+
 getChatRevenueStatistics::getChatRevenueStatistics()
   : chat_id_()
   , is_dark_()
@@ -7155,6 +7659,24 @@ void getJsonString::store(TlStorerToString &s, const char *field_name) const {
   }
 }
 
+getLiveStoryTopDonors::getLiveStoryTopDonors()
+  : group_call_id_()
+{}
+
+getLiveStoryTopDonors::getLiveStoryTopDonors(int32 group_call_id_)
+  : group_call_id_(group_call_id_)
+{}
+
+const std::int32_t getLiveStoryTopDonors::ID;
+
+void getLiveStoryTopDonors::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "getLiveStoryTopDonors");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_class_end();
+  }
+}
+
 getMessageFileType::getMessageFileType()
   : message_file_head_()
 {}
@@ -7177,14 +7699,18 @@ getMessageLink::getMessageLink()
   : chat_id_()
   , message_id_()
   , media_timestamp_()
+  , checklist_task_id_()
+  , poll_option_id_()
   , for_album_()
   , in_message_thread_()
 {}
 
-getMessageLink::getMessageLink(int53 chat_id_, int53 message_id_, int32 media_timestamp_, bool for_album_, bool in_message_thread_)
+getMessageLink::getMessageLink(int53 chat_id_, int53 message_id_, int32 media_timestamp_, int32 checklist_task_id_, string const &poll_option_id_, bool for_album_, bool in_message_thread_)
   : chat_id_(chat_id_)
   , message_id_(message_id_)
   , media_timestamp_(media_timestamp_)
+  , checklist_task_id_(checklist_task_id_)
+  , poll_option_id_(poll_option_id_)
   , for_album_(for_album_)
   , in_message_thread_(in_message_thread_)
 {}
@@ -7197,6 +7723,8 @@ void getMessageLink::store(TlStorerToString &s, const char *field_name) const {
     s.store_field("chat_id", chat_id_);
     s.store_field("message_id", message_id_);
     s.store_field("media_timestamp", media_timestamp_);
+    s.store_field("checklist_task_id", checklist_task_id_);
+    s.store_field("poll_option_id", poll_option_id_);
     s.store_field("for_album", for_album_);
     s.store_field("in_message_thread", in_message_thread_);
     s.store_class_end();
@@ -7511,6 +8039,30 @@ void openStory::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_begin(field_name, "openStory");
     s.store_field("story_poster_chat_id", story_poster_chat_id_);
     s.store_field("story_id", story_id_);
+    s.store_class_end();
+  }
+}
+
+processChatHasProtectedContentDisableRequest::processChatHasProtectedContentDisableRequest()
+  : chat_id_()
+  , request_message_id_()
+  , approve_()
+{}
+
+processChatHasProtectedContentDisableRequest::processChatHasProtectedContentDisableRequest(int53 chat_id_, int53 request_message_id_, bool approve_)
+  : chat_id_(chat_id_)
+  , request_message_id_(request_message_id_)
+  , approve_(approve_)
+{}
+
+const std::int32_t processChatHasProtectedContentDisableRequest::ID;
+
+void processChatHasProtectedContentDisableRequest::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "processChatHasProtectedContentDisableRequest");
+    s.store_field("chat_id", chat_id_);
+    s.store_field("request_message_id", request_message_id_);
+    s.store_field("approve", approve_);
     s.store_class_end();
   }
 }
@@ -7918,8 +8470,8 @@ sendCallRating::sendCallRating()
   , problems_()
 {}
 
-sendCallRating::sendCallRating(int32 call_id_, int32 rating_, string const &comment_, array<object_ptr<CallProblem>> &&problems_)
-  : call_id_(call_id_)
+sendCallRating::sendCallRating(object_ptr<InputCall> &&call_id_, int32 rating_, string const &comment_, array<object_ptr<CallProblem>> &&problems_)
+  : call_id_(std::move(call_id_))
   , rating_(rating_)
   , comment_(comment_)
   , problems_(std::move(problems_))
@@ -7930,10 +8482,40 @@ const std::int32_t sendCallRating::ID;
 void sendCallRating::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "sendCallRating");
-    s.store_field("call_id", call_id_);
+    s.store_object_field("call_id", static_cast<const BaseObject *>(call_id_.get()));
     s.store_field("rating", rating_);
     s.store_field("comment", comment_);
     { s.store_vector_begin("problems", problems_.size()); for (const auto &_value : problems_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
+    s.store_class_end();
+  }
+}
+
+sendGiftPurchaseOffer::sendGiftPurchaseOffer()
+  : owner_id_()
+  , gift_name_()
+  , price_()
+  , duration_()
+  , paid_message_star_count_()
+{}
+
+sendGiftPurchaseOffer::sendGiftPurchaseOffer(object_ptr<MessageSender> &&owner_id_, string const &gift_name_, object_ptr<GiftResalePrice> &&price_, int32 duration_, int53 paid_message_star_count_)
+  : owner_id_(std::move(owner_id_))
+  , gift_name_(gift_name_)
+  , price_(std::move(price_))
+  , duration_(duration_)
+  , paid_message_star_count_(paid_message_star_count_)
+{}
+
+const std::int32_t sendGiftPurchaseOffer::ID;
+
+void sendGiftPurchaseOffer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "sendGiftPurchaseOffer");
+    s.store_object_field("owner_id", static_cast<const BaseObject *>(owner_id_.get()));
+    s.store_field("gift_name", gift_name_);
+    s.store_object_field("price", static_cast<const BaseObject *>(price_.get()));
+    s.store_field("duration", duration_);
+    s.store_field("paid_message_star_count", paid_message_star_count_);
     s.store_class_end();
   }
 }
@@ -8471,6 +9053,27 @@ void toggleDirectMessagesChatTopicCanSendUnpaidMessages::store(TlStorerToString 
     s.store_field("topic_id", topic_id_);
     s.store_field("can_send_unpaid_messages", can_send_unpaid_messages_);
     s.store_field("refund_payments", refund_payments_);
+    s.store_class_end();
+  }
+}
+
+toggleGroupCallAreMessagesAllowed::toggleGroupCallAreMessagesAllowed()
+  : group_call_id_()
+  , are_messages_allowed_()
+{}
+
+toggleGroupCallAreMessagesAllowed::toggleGroupCallAreMessagesAllowed(int32 group_call_id_, bool are_messages_allowed_)
+  : group_call_id_(group_call_id_)
+  , are_messages_allowed_(are_messages_allowed_)
+{}
+
+const std::int32_t toggleGroupCallAreMessagesAllowed::ID;
+
+void toggleGroupCallAreMessagesAllowed::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "toggleGroupCallAreMessagesAllowed");
+    s.store_field("group_call_id", group_call_id_);
+    s.store_field("are_messages_allowed", are_messages_allowed_);
     s.store_class_end();
   }
 }

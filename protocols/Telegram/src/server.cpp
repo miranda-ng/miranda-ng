@@ -37,7 +37,8 @@ void __cdecl CTelegramProto::ServerThread(void *)
 
 	if (m_bUseProxy) {
 		auto proxyType = TD::make_object<TD::proxyTypeMtproto>(getMStringA(DBKEY_PROXYSECRET).c_str());
-		SendQuery(new TD::addProxy(getMStringA(DBKEY_PROXYHOST).c_str(), m_iProxyPort, true, std::move(proxyType)));
+		auto proxy = TD::make_object<TD::proxy>(getMStringA(DBKEY_PROXYHOST).c_str(), m_iProxyPort, std::move(proxyType));
+		SendQuery(new TD::addProxy(std::move(proxy), true));
 	}
 	else {
 		NETLIBUSERSETTINGS nluSettings;
@@ -61,8 +62,10 @@ void __cdecl CTelegramProto::ServerThread(void *)
 				break;
 			}
 
-			if (proxyType)
-				SendQuery(new TD::addProxy(nluSettings.szProxyServer, nluSettings.wProxyPort, true, std::move(proxyType)));
+			if (proxyType) {
+				auto proxy = TD::make_object<TD::proxy>(nluSettings.szProxyServer, nluSettings.wProxyPort, std::move(proxyType));
+				SendQuery(new TD::addProxy(std::move(proxy), true));
+			}
 		}
 	}
 
@@ -419,7 +422,7 @@ int CTelegramProto::SendTextMessage(int64_t chatId, int64_t threadId, int64_t re
 		pMessage->topic_id_ = std::move(pThread);
 	}
 	if (replyId)
-		pMessage->reply_to_.reset(new TD::inputMessageReplyToMessage(replyId, 0, 0));
+		pMessage->reply_to_.reset(new TD::inputMessageReplyToMessage(replyId, 0, 0, 0));
 	return SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 }
 

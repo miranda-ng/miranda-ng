@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -243,7 +243,7 @@ Status NetQueryDispatcher::wait_dc_init(DcId dc_id, bool force) {
     int32 slow_net_scheduler_id = G()->get_slow_net_scheduler_id();
 
     auto raw_dc_id = dc_id.get_raw_id();
-    bool is_premium = G()->get_option_boolean("is_premium");
+    bool is_premium = G()->get_option_boolean("is_premium") || session_count > 1;
     int32 upload_session_count = (raw_dc_id != 2 && raw_dc_id != 4) || is_premium ? 8 : 4;
     int32 download_session_count = is_premium ? 8 : 2;
     int32 download_small_session_count = is_premium ? 8 : 2;
@@ -389,6 +389,16 @@ NetQueryDispatcher::~NetQueryDispatcher() = default;
 
 void NetQueryDispatcher::try_fix_migrate(NetQueryPtr &net_query) {
   auto error_message = net_query->error().message();
+  static constexpr CSlice file_migrate_prefix = "FILE_MIGRATE_";
+  if (begins_with(error_message, file_migrate_prefix)) {
+    auto new_dc_id = to_integer<int32>(error_message.substr(file_migrate_prefix.size()));
+    if (!DcId::is_valid(new_dc_id)) {
+      LOG(ERROR) << "Receive invalid DC ID in " << error_message;
+      return;
+    }
+    net_query->resend(DcId::internal(new_dc_id));
+    return;
+  }
   static constexpr CSlice prefixes[] = {"PHONE_MIGRATE_", "NETWORK_MIGRATE_", "USER_MIGRATE_"};
   for (auto &prefix : prefixes) {
     if (error_message.substr(0, prefix.size()) == prefix) {

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,6 +10,7 @@
 #include "td/telegram/PeerColorCollectible.hpp"
 #include "td/telegram/StarGift.h"
 #include "td/telegram/StarGiftAttribute.hpp"
+#include "td/telegram/StarGiftBackground.hpp"
 #include "td/telegram/StickersManager.h"
 #include "td/telegram/StickersManager.hpp"
 #include "td/telegram/Td.h"
@@ -47,6 +48,12 @@ void StarGift::store(StorerT &storer) const {
   bool has_host_dialog_id = host_dialog_id_.is_valid();
   bool has_peer_color = peer_color_ != nullptr;
   bool has_flags2 = true;
+  bool has_background = background_ != nullptr;
+  bool has_auction_start_date = auction_start_date_ != 0;
+  bool has_upgrade_variants = upgrade_variants_ != 0;
+  bool has_usd_value = value_usd_amount_ != 0;
+  bool has_offer_min_star_count = offer_min_star_count_ != 0;
+  bool has_craft_chance_permille = craft_chance_permille_ != 0;
   BEGIN_STORE_FLAGS();
   STORE_FLAG(is_limited);
   STORE_FLAG(has_default_sell_star_count);
@@ -80,6 +87,15 @@ void StarGift::store(StorerT &storer) const {
   STORE_FLAG(has_flags2);
   END_STORE_FLAGS();
   BEGIN_STORE_FLAGS();
+  STORE_FLAG(is_auction_);
+  STORE_FLAG(has_background);
+  STORE_FLAG(has_auction_start_date);
+  STORE_FLAG(has_upgrade_variants);
+  STORE_FLAG(has_usd_value);
+  STORE_FLAG(has_offer_min_star_count);
+  STORE_FLAG(is_burned_);
+  STORE_FLAG(is_crafted_);
+  STORE_FLAG(has_craft_chance_permille);
   END_STORE_FLAGS();
   td::store(id_, storer);
   if (!is_unique_) {
@@ -163,6 +179,28 @@ void StarGift::store(StorerT &storer) const {
   if (has_peer_color) {
     td::store(peer_color_, storer);
   }
+  if (is_auction_) {
+    td::store(auction_slug_, storer);
+    td::store(gifts_per_round_, storer);
+  }
+  if (has_background) {
+    td::store(background_, storer);
+  }
+  if (has_auction_start_date) {
+    td::store(auction_start_date_, storer);
+  }
+  if (has_upgrade_variants) {
+    td::store(upgrade_variants_, storer);
+  }
+  if (has_usd_value) {
+    td::store(value_usd_amount_, storer);
+  }
+  if (has_offer_min_star_count) {
+    td::store(offer_min_star_count_, storer);
+  }
+  if (has_craft_chance_permille) {
+    td::store(craft_chance_permille_, storer);
+  }
 }
 
 template <class ParserT>
@@ -192,6 +230,12 @@ void StarGift::parse(ParserT &parser) {
   bool has_host_dialog_id;
   bool has_peer_color;
   bool has_flags2;
+  bool has_background = false;
+  bool has_auction_start_date = false;
+  bool has_upgrade_variants = false;
+  bool has_usd_value = false;
+  bool has_offer_min_star_count = false;
+  bool has_craft_chance_permille = false;
   BEGIN_PARSE_FLAGS();
   PARSE_FLAG(is_limited);
   PARSE_FLAG(has_default_sell_star_count);
@@ -226,6 +270,15 @@ void StarGift::parse(ParserT &parser) {
   END_PARSE_FLAGS();
   if (has_flags2) {
     BEGIN_PARSE_FLAGS();
+    PARSE_FLAG(is_auction_);
+    PARSE_FLAG(has_background);
+    PARSE_FLAG(has_auction_start_date);
+    PARSE_FLAG(has_upgrade_variants);
+    PARSE_FLAG(has_usd_value);
+    PARSE_FLAG(has_offer_min_star_count);
+    PARSE_FLAG(is_burned_);
+    PARSE_FLAG(is_crafted_);
+    PARSE_FLAG(has_craft_chance_permille);
     END_PARSE_FLAGS();
   }
   td::parse(id_, parser);
@@ -316,6 +369,28 @@ void StarGift::parse(ParserT &parser) {
   }
   if (has_peer_color) {
     td::parse(peer_color_, parser);
+  }
+  if (is_auction_) {
+    td::parse(auction_slug_, parser);
+    td::parse(gifts_per_round_, parser);
+  }
+  if (has_background) {
+    td::parse(background_, parser);
+  }
+  if (has_auction_start_date) {
+    td::parse(auction_start_date_, parser);
+  }
+  if (has_upgrade_variants) {
+    td::parse(upgrade_variants_, parser);
+  }
+  if (has_usd_value) {
+    td::parse(value_usd_amount_, parser);
+  }
+  if (has_offer_min_star_count) {
+    td::parse(offer_min_star_count_, parser);
+  }
+  if (has_craft_chance_permille) {
+    td::parse(craft_chance_permille_, parser);
   }
 }
 

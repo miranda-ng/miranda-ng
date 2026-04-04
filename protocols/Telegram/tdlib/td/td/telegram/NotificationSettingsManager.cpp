@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -628,38 +628,44 @@ void NotificationSettingsManager::init() {
   if (is_inited_) {
     return;
   }
+  bool was_authorized_user = td_->auth_manager_->was_authorized() && !td_->auth_manager_->is_bot();
+  if (!was_authorized_user) {
+    return;
+  }
   is_inited_ = true;
 
-  bool was_authorized_user = td_->auth_manager_->was_authorized() && !td_->auth_manager_->is_bot();
-  if (was_authorized_user) {
-    for (auto scope :
-         {NotificationSettingsScope::Private, NotificationSettingsScope::Group, NotificationSettingsScope::Channel}) {
-      auto notification_settings_string =
-          G()->td_db()->get_binlog_pmc()->get(get_notification_settings_scope_database_key(scope));
-      if (!notification_settings_string.empty()) {
-        auto current_settings = get_scope_notification_settings(scope);
-        CHECK(current_settings != nullptr);
-        log_event_parse(*current_settings, notification_settings_string).ensure();
+  for (auto scope :
+       {NotificationSettingsScope::Private, NotificationSettingsScope::Group, NotificationSettingsScope::Channel}) {
+    auto notification_settings_string =
+        G()->td_db()->get_binlog_pmc()->get(get_notification_settings_scope_database_key(scope));
+    auto current_settings = get_scope_notification_settings(scope);
+    CHECK(current_settings != nullptr);
+    if (!notification_settings_string.empty()) {
+      log_event_parse(*current_settings, notification_settings_string).ensure();
 
-        VLOG(notifications) << "Loaded notification settings in " << scope << ": " << *current_settings;
+      VLOG(notifications) << "Loaded notification settings in " << scope << ": " << *current_settings;
 
-        schedule_scope_unmute(scope, current_settings->mute_until, G()->unix_time());
+      schedule_scope_unmute(scope, current_settings->mute_until, G()->unix_time());
 
-        send_closure(G()->td(), &Td::send_update, get_update_scope_notification_settings_object(scope));
-      }
+      send_closure(G()->td(), &Td::send_update, get_update_scope_notification_settings_object(scope));
     }
-    auto reaction_notification_settings_string =
-        G()->td_db()->get_binlog_pmc()->get(get_reaction_notification_settings_database_key());
-    if (!reaction_notification_settings_string.empty()) {
-      log_event_parse(reaction_notification_settings_, reaction_notification_settings_string).ensure();
-      have_reaction_notification_settings_ = true;
-
-      VLOG(notifications) << "Loaded reaction notification settings: " << reaction_notification_settings_;
-    } else {
-      send_get_reaction_notification_settings_query(Promise<Unit>());
+    if (!current_settings->is_synchronized) {
+      send_get_scope_notification_settings_query(scope, Promise<Unit>());
     }
-    send_closure(G()->td(), &Td::send_update, get_update_reaction_notification_settings_object());
   }
+
+  auto reaction_notification_settings_string =
+      G()->td_db()->get_binlog_pmc()->get(get_reaction_notification_settings_database_key());
+  if (!reaction_notification_settings_string.empty()) {
+    log_event_parse(reaction_notification_settings_, reaction_notification_settings_string).ensure();
+    have_reaction_notification_settings_ = true;
+
+    VLOG(notifications) << "Loaded reaction notification settings: " << reaction_notification_settings_;
+  } else {
+    send_get_reaction_notification_settings_query(Promise<Unit>());
+  }
+  send_closure(G()->td(), &Td::send_update, get_update_reaction_notification_settings_object());
+
   G()->td_db()->get_binlog_pmc()->erase("nsfac");
 }
 
@@ -1306,9 +1312,9 @@ Result<FileId> NotificationSettingsManager::get_ringtone(
   }
   CHECK(document_id == telegram_api::document::ID);
 
-  auto parsed_document =
-      td_->documents_manager_->on_get_document(move_tl_object_as<telegram_api::document>(ringtone), DialogId(), false,
-                                               nullptr, Document::Type::Audio, DocumentsManager::Subtype::Ringtone);
+  auto parsed_document = td_->documents_manager_->on_get_document(
+      move_tl_object_as<telegram_api::document>(ringtone), DialogId(), false, false, nullptr, Document::Type::Audio,
+      DocumentsManager::Subtype::Ringtone);
   if (parsed_document.type != Document::Type::Audio) {
     return Status::Error("Receive ringtone of a wrong type");
   }

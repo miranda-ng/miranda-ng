@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -64,7 +64,8 @@ bool TD_TL_writer::is_full_constructor_generated(const tl::tl_combinator *t, boo
          t->name == "langPackString" || t->name == "langPackStringPluralized" || t->name == "langPackStringDeleted" ||
          t->name == "peerUser" || t->name == "peerChat" || t->name == "updateServiceNotification" ||
          t->name == "updateNewMessage" || t->name == "updateChannelTooLong" || t->name == "messages.stickerSet" ||
-         t->name == "updates.differenceSlice" || t->name == "contacts.contactBirthdays" || t->name == "statsGraphError";
+         t->name == "updates.differenceSlice" || t->name == "contacts.contactBirthdays" ||
+         t->name == "statsGraphError" || t->name == "recentStory";
 }
 
 int TD_TL_writer::get_storer_type(const tl::tl_combinator *t, const std::string &storer_name) const {

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -94,9 +94,9 @@ int main(int argc, char **argv) {
       usage();
     }
 
-    requests.emplace_back(arg,
-                          td::td_api::make_object<td::td_api::testProxy>(
-                              server, port, td::td_api::make_object<td::td_api::proxyTypeMtproto>(secret), -1, -1));
+    auto proxy_type = td::td_api::make_object<td::td_api::proxyTypeMtproto>(secret);
+    auto proxy = td::td_api::make_object<td::td_api::proxy>(server, port, std::move(proxy_type));
+    requests.emplace_back(arg, td::td_api::make_object<td::td_api::testProxy>(std::move(proxy), -1, -1));
   };
 
   td::int32 dc_id = 2;

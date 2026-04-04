@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,6 +32,15 @@ class DialogFilterId {
   }
   static constexpr DialogFilterId max() {
     return DialogFilterId(static_cast<int32>(255));
+  }
+
+  static vector<DialogFilterId> get_dialog_filter_ids(const vector<int32> &chat_folder_ids) {
+    vector<DialogFilterId> dialog_filter_ids;
+    dialog_filter_ids.reserve(chat_folder_ids.size());
+    for (auto chat_folder_id : chat_folder_ids) {
+      dialog_filter_ids.emplace_back(chat_folder_id);
+    }
+    return dialog_filter_ids;
   }
 
   bool is_valid() const {

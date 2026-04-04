@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -13,7 +13,9 @@
 namespace td {
 
 // increase StoryContentUnsupported::CURRENT_VERSION each time a new Story content type is added
-enum class StoryContentType : int32 { Photo, Video, Unsupported };
+enum class StoryContentType : int32 { Photo, Video, Unsupported, LiveStream };
+
+bool can_send_story_content(StoryContentType content_type);
 
 bool can_edit_story_content(StoryContentType content_type);
 

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -65,7 +65,7 @@ Status Wget::try_init() {
     hc.add_header(header.first, header.second);
   }
   if (!was_host) {
-    hc.add_header("Host", url.host_);
+    hc.add_host_header(url.protocol_, url.host_, url.port_);
   }
   if (!was_accept_encoding) {
     hc.add_header("Accept-Encoding", "gzip, deflate");

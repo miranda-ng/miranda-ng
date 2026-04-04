@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,6 +8,7 @@
 
 #include "td/utils/common.h"
 #include "td/utils/Slice.h"
+#include "td/utils/Span.h"
 
 #include <utility>
 
@@ -36,6 +37,15 @@ class Random {
     }
   }
 #endif
+
+  template <class T, class R>
+  static void shuffle(MutableSpan<T> v, R &rnd) {
+    for (size_t i = 1; i < v.size(); i++) {
+      auto pos = static_cast<size_t>(rnd()) % (i + 1);
+      using std::swap;
+      swap(v[i], v[pos]);
+    }
+  }
 
   static uint32 fast_uint32();
   static uint64 fast_uint64();

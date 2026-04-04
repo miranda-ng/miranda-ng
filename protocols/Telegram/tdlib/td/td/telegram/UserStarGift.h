@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -35,6 +35,8 @@ class UserStarGift {
   int32 can_transfer_at_ = 0;
   int32 can_resell_at_ = 0;
   int32 can_export_at_ = 0;
+  int32 gift_num_ = 0;
+  int32 can_craft_at_ = 0;
   bool is_name_hidden_ = false;
   bool is_saved_ = false;
   bool is_pinned_ = false;
@@ -48,6 +50,10 @@ class UserStarGift {
 
   bool is_valid() const {
     return gift_.is_valid() && (is_name_hidden_ || sender_dialog_id_ != DialogId());
+  }
+
+  bool is_unique() const {
+    return gift_.is_unique();
   }
 
   td_api::object_ptr<td_api::receivedGift> get_received_gift_object(Td *td) const;

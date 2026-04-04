@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -86,6 +86,8 @@ class SavedMessagesManager final : public Actor {
 
   void on_topic_reaction_count_changed(DialogId dialog_id, SavedMessagesTopicId saved_messages_topic_id, int32 count,
                                        bool is_relative);
+
+  void repair_topic_unread_reaction_count(DialogId dialog_id, SavedMessagesTopicId saved_messages_topic_id);
 
   void load_saved_messages_topics(int32 limit, Promise<Unit> &&promise);
 

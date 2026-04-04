@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -51,10 +51,7 @@ class SaveDraftMessageQuery final : public Td::ResultHandler {
     bool invert_media = false;
     if (draft_message != nullptr) {
       CHECK(!draft_message->is_local());
-      input_reply_to = draft_message->message_input_reply_to_.get_input_reply_to(td_, message_topic);
-      if (input_reply_to != nullptr) {
-        flags |= telegram_api::messages_saveDraft::REPLY_TO_MASK;
-      }
+      input_reply_to = draft_message->message_input_reply_to_.get_input_reply_to(td_, message_topic, true);
       if (draft_message->input_message_text_.disable_web_page_preview) {
         disable_web_page_preview = true;
       } else if (draft_message->input_message_text_.show_above_text) {
@@ -77,6 +74,11 @@ class SaveDraftMessageQuery final : public Td::ResultHandler {
         flags |= telegram_api::messages_saveDraft::SUGGESTED_POST_MASK;
         suggested_post = draft_message->suggested_post_->get_input_suggested_post();
       }
+    } else {
+      input_reply_to = MessageInputReplyTo().get_input_reply_to(td_, message_topic, true);
+    }
+    if (input_reply_to != nullptr) {
+      flags |= telegram_api::messages_saveDraft::REPLY_TO_MASK;
     }
     send_query(G()->net_query_creator().create(
         telegram_api::messages_saveDraft(
@@ -401,6 +403,37 @@ bool DraftMessage::need_update_to(const DraftMessage &other, bool from_update) c
   } else {
     return !from_update || date_ <= other.date_;
   }
+}
+
+unique_ptr<DraftMessage> DraftMessage::clone(const unique_ptr<DraftMessage> &draft_message) {
+  if (draft_message == nullptr) {
+    return nullptr;
+  }
+  auto result = make_unique<DraftMessage>();
+  result->date_ = draft_message->date_;
+  result->message_input_reply_to_ = draft_message->message_input_reply_to_.clone();
+  result->input_message_text_ = draft_message->input_message_text_;
+  if (draft_message->local_content_ != nullptr) {
+    switch (draft_message->local_content_->get_type()) {
+      case DraftMessageContentType::VideoNote: {
+        auto *content = static_cast<const DraftMessageContentVideoNote *>(draft_message->local_content_.get());
+        result->local_content_ = td::make_unique<DraftMessageContentVideoNote>(
+            string(content->path_), content->duration_, content->length_, content->ttl_);
+        break;
+      }
+      case DraftMessageContentType::VoiceNote: {
+        auto *content = static_cast<const DraftMessageContentVoiceNote *>(draft_message->local_content_.get());
+        result->local_content_ = td::make_unique<DraftMessageContentVoiceNote>(
+            string(content->path_), content->duration_, string(content->waveform_), content->ttl_);
+        break;
+      }
+      default:
+        UNREACHABLE();
+    }
+  }
+  result->message_effect_id_ = draft_message->message_effect_id_;
+  result->suggested_post_ = SuggestedPost::clone(draft_message->suggested_post_);
+  return result;
 }
 
 void DraftMessage::add_dependencies(Dependencies &dependencies) const {

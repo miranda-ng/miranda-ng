@@ -993,6 +993,62 @@ void inputBusinessBotRecipients::store(TlStorerToString &s, const char *field_na
   }
 }
 
+inputPasskeyCredentialPublicKey::inputPasskeyCredentialPublicKey(string const &id_, string const &raw_id_, object_ptr<InputPasskeyResponse> &&response_)
+  : id_(id_)
+  , raw_id_(raw_id_)
+  , response_(std::move(response_))
+{}
+
+const std::int32_t inputPasskeyCredentialPublicKey::ID;
+
+void inputPasskeyCredentialPublicKey::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(id_, s);
+  TlStoreString::store(raw_id_, s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(response_, s);
+}
+
+void inputPasskeyCredentialPublicKey::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(id_, s);
+  TlStoreString::store(raw_id_, s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(response_, s);
+}
+
+void inputPasskeyCredentialPublicKey::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputPasskeyCredentialPublicKey");
+    s.store_field("id", id_);
+    s.store_field("raw_id", raw_id_);
+    s.store_object_field("response", static_cast<const BaseObject *>(response_.get()));
+    s.store_class_end();
+  }
+}
+
+inputPasskeyCredentialFirebasePNV::inputPasskeyCredentialFirebasePNV(string const &pnv_token_)
+  : pnv_token_(pnv_token_)
+{}
+
+const std::int32_t inputPasskeyCredentialFirebasePNV::ID;
+
+void inputPasskeyCredentialFirebasePNV::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(pnv_token_, s);
+}
+
+void inputPasskeyCredentialFirebasePNV::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(pnv_token_, s);
+}
+
+void inputPasskeyCredentialFirebasePNV::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "inputPasskeyCredentialFirebasePNV");
+    s.store_field("pnv_token", pnv_token_);
+    s.store_class_end();
+  }
+}
+
 object_ptr<InputReplyTo> InputReplyTo::fetch(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return nullptr;
   int constructor = p.fetch_int();
@@ -1019,9 +1075,10 @@ inputReplyToMessage::inputReplyToMessage()
   , quote_offset_()
   , monoforum_peer_id_()
   , todo_item_id_()
+  , poll_option_()
 {}
 
-inputReplyToMessage::inputReplyToMessage(int32 flags_, int32 reply_to_msg_id_, int32 top_msg_id_, object_ptr<InputPeer> &&reply_to_peer_id_, string const &quote_text_, array<object_ptr<MessageEntity>> &&quote_entities_, int32 quote_offset_, object_ptr<InputPeer> &&monoforum_peer_id_, int32 todo_item_id_)
+inputReplyToMessage::inputReplyToMessage(int32 flags_, int32 reply_to_msg_id_, int32 top_msg_id_, object_ptr<InputPeer> &&reply_to_peer_id_, string const &quote_text_, array<object_ptr<MessageEntity>> &&quote_entities_, int32 quote_offset_, object_ptr<InputPeer> &&monoforum_peer_id_, int32 todo_item_id_, bytes &&poll_option_)
   : flags_(flags_)
   , reply_to_msg_id_(reply_to_msg_id_)
   , top_msg_id_(top_msg_id_)
@@ -1031,6 +1088,7 @@ inputReplyToMessage::inputReplyToMessage(int32 flags_, int32 reply_to_msg_id_, i
   , quote_offset_(quote_offset_)
   , monoforum_peer_id_(std::move(monoforum_peer_id_))
   , todo_item_id_(todo_item_id_)
+  , poll_option_(std::move(poll_option_))
 {}
 
 const std::int32_t inputReplyToMessage::ID;
@@ -1048,6 +1106,7 @@ object_ptr<InputReplyTo> inputReplyToMessage::fetch(TlBufferParser &p) {
   if (var0 & 16) { res->quote_offset_ = TlFetchInt::parse(p); }
   if (var0 & 32) { res->monoforum_peer_id_ = TlFetchObject<InputPeer>::parse(p); }
   if (var0 & 64) { res->todo_item_id_ = TlFetchInt::parse(p); }
+  if (var0 & 128) { res->poll_option_ = TlFetchBytes<bytes>::parse(p); }
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
@@ -1065,6 +1124,7 @@ void inputReplyToMessage::store(TlStorerCalcLength &s) const {
   if (var0 & 16) { TlStoreBinary::store(quote_offset_, s); }
   if (var0 & 32) { TlStoreBoxedUnknown<TlStoreObject>::store(monoforum_peer_id_, s); }
   if (var0 & 64) { TlStoreBinary::store(todo_item_id_, s); }
+  if (var0 & 128) { TlStoreString::store(poll_option_, s); }
 }
 
 void inputReplyToMessage::store(TlStorerUnsafe &s) const {
@@ -1079,6 +1139,7 @@ void inputReplyToMessage::store(TlStorerUnsafe &s) const {
   if (var0 & 16) { TlStoreBinary::store(quote_offset_, s); }
   if (var0 & 32) { TlStoreBoxedUnknown<TlStoreObject>::store(monoforum_peer_id_, s); }
   if (var0 & 64) { TlStoreBinary::store(todo_item_id_, s); }
+  if (var0 & 128) { TlStoreString::store(poll_option_, s); }
 }
 
 void inputReplyToMessage::store(TlStorerToString &s, const char *field_name) const {
@@ -1094,6 +1155,7 @@ void inputReplyToMessage::store(TlStorerToString &s, const char *field_name) con
     if (var0 & 16) { s.store_field("quote_offset", quote_offset_); }
     if (var0 & 32) { s.store_object_field("monoforum_peer_id", static_cast<const BaseObject *>(monoforum_peer_id_.get())); }
     if (var0 & 64) { s.store_field("todo_item_id", todo_item_id_); }
+    if (var0 & 128) { s.store_bytes_field("poll_option", poll_option_); }
     s.store_class_end();
   }
 }
@@ -1213,62 +1275,102 @@ object_ptr<KeyboardButton> KeyboardButton::fetch(TlBufferParser &p) {
 #undef FAIL
 }
 
-keyboardButton::keyboardButton(string const &text_)
-  : text_(text_)
+keyboardButton::keyboardButton()
+  : flags_()
+  , style_()
+  , text_()
+{}
+
+keyboardButton::keyboardButton(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
 {}
 
 const std::int32_t keyboardButton::ID;
 
 object_ptr<KeyboardButton> keyboardButton::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButton>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButton> res = make_tl_object<keyboardButton>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButton::keyboardButton(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButton::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButton::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButton::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButton");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_class_end();
   }
 }
 
-keyboardButtonUrl::keyboardButtonUrl(string const &text_, string const &url_)
-  : text_(text_)
+keyboardButtonUrl::keyboardButtonUrl()
+  : flags_()
+  , style_()
+  , text_()
+  , url_()
+{}
+
+keyboardButtonUrl::keyboardButtonUrl(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, string const &url_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
   , url_(url_)
 {}
 
 const std::int32_t keyboardButtonUrl::ID;
 
 object_ptr<KeyboardButton> keyboardButtonUrl::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonUrl>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonUrl> res = make_tl_object<keyboardButtonUrl>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  res->url_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonUrl::keyboardButtonUrl(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-  , url_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButtonUrl::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(url_, s);
 }
 
 void keyboardButtonUrl::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(url_, s);
 }
@@ -1276,6 +1378,9 @@ void keyboardButtonUrl::store(TlStorerUnsafe &s) const {
 void keyboardButtonUrl::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonUrl");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_field("url", url_);
     s.store_class_end();
@@ -1285,13 +1390,15 @@ void keyboardButtonUrl::store(TlStorerToString &s, const char *field_name) const
 keyboardButtonCallback::keyboardButtonCallback()
   : flags_()
   , requires_password_()
+  , style_()
   , text_()
   , data_()
 {}
 
-keyboardButtonCallback::keyboardButtonCallback(int32 flags_, bool requires_password_, string const &text_, bytes &&data_)
+keyboardButtonCallback::keyboardButtonCallback(int32 flags_, bool requires_password_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, bytes &&data_)
   : flags_(flags_)
   , requires_password_(requires_password_)
+  , style_(std::move(style_))
   , text_(text_)
   , data_(std::move(data_))
 {}
@@ -1304,6 +1411,7 @@ object_ptr<KeyboardButton> keyboardButtonCallback::fetch(TlBufferParser &p) {
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
   res->requires_password_ = (var0 & 1) != 0;
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
   res->text_ = TlFetchString<string>::parse(p);
   res->data_ = TlFetchBytes<bytes>::parse(p);
   if (p.get_error()) { FAIL(""); }
@@ -1315,6 +1423,7 @@ void keyboardButtonCallback::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_ | (requires_password_ << 0)), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(data_, s);
 }
@@ -1323,6 +1432,7 @@ void keyboardButtonCallback::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_ | (requires_password_ << 0)), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(data_, s);
 }
@@ -1333,71 +1443,114 @@ void keyboardButtonCallback::store(TlStorerToString &s, const char *field_name) 
   int32 var0;
     s.store_field("flags", (var0 = flags_ | (requires_password_ << 0)));
     if (var0 & 1) { s.store_field("requires_password", true); }
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_bytes_field("data", data_);
     s.store_class_end();
   }
 }
 
-keyboardButtonRequestPhone::keyboardButtonRequestPhone(string const &text_)
-  : text_(text_)
+keyboardButtonRequestPhone::keyboardButtonRequestPhone()
+  : flags_()
+  , style_()
+  , text_()
+{}
+
+keyboardButtonRequestPhone::keyboardButtonRequestPhone(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
 {}
 
 const std::int32_t keyboardButtonRequestPhone::ID;
 
 object_ptr<KeyboardButton> keyboardButtonRequestPhone::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonRequestPhone>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonRequestPhone> res = make_tl_object<keyboardButtonRequestPhone>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonRequestPhone::keyboardButtonRequestPhone(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButtonRequestPhone::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButtonRequestPhone::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButtonRequestPhone::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonRequestPhone");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_class_end();
   }
 }
 
-keyboardButtonRequestGeoLocation::keyboardButtonRequestGeoLocation(string const &text_)
-  : text_(text_)
+keyboardButtonRequestGeoLocation::keyboardButtonRequestGeoLocation()
+  : flags_()
+  , style_()
+  , text_()
+{}
+
+keyboardButtonRequestGeoLocation::keyboardButtonRequestGeoLocation(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
 {}
 
 const std::int32_t keyboardButtonRequestGeoLocation::ID;
 
 object_ptr<KeyboardButton> keyboardButtonRequestGeoLocation::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonRequestGeoLocation>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonRequestGeoLocation> res = make_tl_object<keyboardButtonRequestGeoLocation>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonRequestGeoLocation::keyboardButtonRequestGeoLocation(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButtonRequestGeoLocation::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButtonRequestGeoLocation::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButtonRequestGeoLocation::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonRequestGeoLocation");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_class_end();
   }
@@ -1406,14 +1559,16 @@ void keyboardButtonRequestGeoLocation::store(TlStorerToString &s, const char *fi
 keyboardButtonSwitchInline::keyboardButtonSwitchInline()
   : flags_()
   , same_peer_()
+  , style_()
   , text_()
   , query_()
   , peer_types_()
 {}
 
-keyboardButtonSwitchInline::keyboardButtonSwitchInline(int32 flags_, bool same_peer_, string const &text_, string const &query_, array<object_ptr<InlineQueryPeerType>> &&peer_types_)
+keyboardButtonSwitchInline::keyboardButtonSwitchInline(int32 flags_, bool same_peer_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, string const &query_, array<object_ptr<InlineQueryPeerType>> &&peer_types_)
   : flags_(flags_)
   , same_peer_(same_peer_)
+  , style_(std::move(style_))
   , text_(text_)
   , query_(query_)
   , peer_types_(std::move(peer_types_))
@@ -1427,6 +1582,7 @@ object_ptr<KeyboardButton> keyboardButtonSwitchInline::fetch(TlBufferParser &p) 
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
   res->same_peer_ = (var0 & 1) != 0;
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
   res->text_ = TlFetchString<string>::parse(p);
   res->query_ = TlFetchString<string>::parse(p);
   if (var0 & 2) { res->peer_types_ = TlFetchBoxed<TlFetchVector<TlFetchObject<InlineQueryPeerType>>, 481674261>::parse(p); }
@@ -1439,6 +1595,7 @@ void keyboardButtonSwitchInline::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_ | (same_peer_ << 0)), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(query_, s);
   if (var0 & 2) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(peer_types_, s); }
@@ -1448,6 +1605,7 @@ void keyboardButtonSwitchInline::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_ | (same_peer_ << 0)), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(query_, s);
   if (var0 & 2) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(peer_types_, s); }
@@ -1459,6 +1617,7 @@ void keyboardButtonSwitchInline::store(TlStorerToString &s, const char *field_na
   int32 var0;
     s.store_field("flags", (var0 = flags_ | (same_peer_ << 0)));
     if (var0 & 1) { s.store_field("same_peer", true); }
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_field("query", query_);
     if (var0 & 2) { { s.store_vector_begin("peer_types", peer_types_.size()); for (const auto &_value : peer_types_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); } }
@@ -1466,65 +1625,107 @@ void keyboardButtonSwitchInline::store(TlStorerToString &s, const char *field_na
   }
 }
 
-keyboardButtonGame::keyboardButtonGame(string const &text_)
-  : text_(text_)
+keyboardButtonGame::keyboardButtonGame()
+  : flags_()
+  , style_()
+  , text_()
+{}
+
+keyboardButtonGame::keyboardButtonGame(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
 {}
 
 const std::int32_t keyboardButtonGame::ID;
 
 object_ptr<KeyboardButton> keyboardButtonGame::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonGame>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonGame> res = make_tl_object<keyboardButtonGame>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonGame::keyboardButtonGame(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButtonGame::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButtonGame::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButtonGame::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonGame");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_class_end();
   }
 }
 
-keyboardButtonBuy::keyboardButtonBuy(string const &text_)
-  : text_(text_)
+keyboardButtonBuy::keyboardButtonBuy()
+  : flags_()
+  , style_()
+  , text_()
+{}
+
+keyboardButtonBuy::keyboardButtonBuy(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
 {}
 
 const std::int32_t keyboardButtonBuy::ID;
 
 object_ptr<KeyboardButton> keyboardButtonBuy::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonBuy>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonBuy> res = make_tl_object<keyboardButtonBuy>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonBuy::keyboardButtonBuy(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButtonBuy::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButtonBuy::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
 }
 
 void keyboardButtonBuy::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonBuy");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_class_end();
   }
@@ -1532,14 +1733,16 @@ void keyboardButtonBuy::store(TlStorerToString &s, const char *field_name) const
 
 keyboardButtonUrlAuth::keyboardButtonUrlAuth()
   : flags_()
+  , style_()
   , text_()
   , fwd_text_()
   , url_()
   , button_id_()
 {}
 
-keyboardButtonUrlAuth::keyboardButtonUrlAuth(int32 flags_, string const &text_, string const &fwd_text_, string const &url_, int32 button_id_)
+keyboardButtonUrlAuth::keyboardButtonUrlAuth(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, string const &fwd_text_, string const &url_, int32 button_id_)
   : flags_(flags_)
+  , style_(std::move(style_))
   , text_(text_)
   , fwd_text_(fwd_text_)
   , url_(url_)
@@ -1553,6 +1756,7 @@ object_ptr<KeyboardButton> keyboardButtonUrlAuth::fetch(TlBufferParser &p) {
   object_ptr<keyboardButtonUrlAuth> res = make_tl_object<keyboardButtonUrlAuth>();
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
   res->text_ = TlFetchString<string>::parse(p);
   if (var0 & 1) { res->fwd_text_ = TlFetchString<string>::parse(p); }
   res->url_ = TlFetchString<string>::parse(p);
@@ -1566,6 +1770,7 @@ void keyboardButtonUrlAuth::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   if (var0 & 1) { TlStoreString::store(fwd_text_, s); }
   TlStoreString::store(url_, s);
@@ -1576,6 +1781,7 @@ void keyboardButtonUrlAuth::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   if (var0 & 1) { TlStoreString::store(fwd_text_, s); }
   TlStoreString::store(url_, s);
@@ -1587,6 +1793,7 @@ void keyboardButtonUrlAuth::store(TlStorerToString &s, const char *field_name) c
     s.store_class_begin(field_name, "keyboardButtonUrlAuth");
   int32 var0;
     s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     if (var0 & 1) { s.store_field("fwd_text", fwd_text_); }
     s.store_field("url", url_);
@@ -1598,15 +1805,17 @@ void keyboardButtonUrlAuth::store(TlStorerToString &s, const char *field_name) c
 inputKeyboardButtonUrlAuth::inputKeyboardButtonUrlAuth()
   : flags_()
   , request_write_access_()
+  , style_()
   , text_()
   , fwd_text_()
   , url_()
   , bot_()
 {}
 
-inputKeyboardButtonUrlAuth::inputKeyboardButtonUrlAuth(int32 flags_, bool request_write_access_, string const &text_, string const &fwd_text_, string const &url_, object_ptr<InputUser> &&bot_)
+inputKeyboardButtonUrlAuth::inputKeyboardButtonUrlAuth(int32 flags_, bool request_write_access_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, string const &fwd_text_, string const &url_, object_ptr<InputUser> &&bot_)
   : flags_(flags_)
   , request_write_access_(request_write_access_)
+  , style_(std::move(style_))
   , text_(text_)
   , fwd_text_(fwd_text_)
   , url_(url_)
@@ -1621,6 +1830,7 @@ object_ptr<KeyboardButton> inputKeyboardButtonUrlAuth::fetch(TlBufferParser &p) 
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
   res->request_write_access_ = (var0 & 1) != 0;
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
   res->text_ = TlFetchString<string>::parse(p);
   if (var0 & 2) { res->fwd_text_ = TlFetchString<string>::parse(p); }
   res->url_ = TlFetchString<string>::parse(p);
@@ -1634,6 +1844,7 @@ void inputKeyboardButtonUrlAuth::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_ | (request_write_access_ << 0)), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   if (var0 & 2) { TlStoreString::store(fwd_text_, s); }
   TlStoreString::store(url_, s);
@@ -1644,6 +1855,7 @@ void inputKeyboardButtonUrlAuth::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_ | (request_write_access_ << 0)), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   if (var0 & 2) { TlStoreString::store(fwd_text_, s); }
   TlStoreString::store(url_, s);
@@ -1656,6 +1868,7 @@ void inputKeyboardButtonUrlAuth::store(TlStorerToString &s, const char *field_na
   int32 var0;
     s.store_field("flags", (var0 = flags_ | (request_write_access_ << 0)));
     if (var0 & 1) { s.store_field("request_write_access", true); }
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     if (var0 & 2) { s.store_field("fwd_text", fwd_text_); }
     s.store_field("url", url_);
@@ -1666,12 +1879,14 @@ void inputKeyboardButtonUrlAuth::store(TlStorerToString &s, const char *field_na
 
 keyboardButtonRequestPoll::keyboardButtonRequestPoll()
   : flags_()
+  , style_()
   , quiz_()
   , text_()
 {}
 
-keyboardButtonRequestPoll::keyboardButtonRequestPoll(int32 flags_, bool quiz_, string const &text_)
+keyboardButtonRequestPoll::keyboardButtonRequestPoll(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, bool quiz_, string const &text_)
   : flags_(flags_)
+  , style_(std::move(style_))
   , quiz_(quiz_)
   , text_(text_)
 {}
@@ -1683,6 +1898,7 @@ object_ptr<KeyboardButton> keyboardButtonRequestPoll::fetch(TlBufferParser &p) {
   object_ptr<keyboardButtonRequestPoll> res = make_tl_object<keyboardButtonRequestPoll>();
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
   if (var0 & 1) { res->quiz_ = TlFetchBool::parse(p); }
   res->text_ = TlFetchString<string>::parse(p);
   if (p.get_error()) { FAIL(""); }
@@ -1694,6 +1910,7 @@ void keyboardButtonRequestPoll::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   if (var0 & 1) { TlStoreBool::store(quiz_, s); }
   TlStoreString::store(text_, s);
 }
@@ -1702,6 +1919,7 @@ void keyboardButtonRequestPoll::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   if (var0 & 1) { TlStoreBool::store(quiz_, s); }
   TlStoreString::store(text_, s);
 }
@@ -1711,36 +1929,56 @@ void keyboardButtonRequestPoll::store(TlStorerToString &s, const char *field_nam
     s.store_class_begin(field_name, "keyboardButtonRequestPoll");
   int32 var0;
     s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     if (var0 & 1) { s.store_field("quiz", quiz_); }
     s.store_field("text", text_);
     s.store_class_end();
   }
 }
 
-inputKeyboardButtonUserProfile::inputKeyboardButtonUserProfile(string const &text_, object_ptr<InputUser> &&user_id_)
-  : text_(text_)
+inputKeyboardButtonUserProfile::inputKeyboardButtonUserProfile()
+  : flags_()
+  , style_()
+  , text_()
+  , user_id_()
+{}
+
+inputKeyboardButtonUserProfile::inputKeyboardButtonUserProfile(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, object_ptr<InputUser> &&user_id_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
   , user_id_(std::move(user_id_))
 {}
 
 const std::int32_t inputKeyboardButtonUserProfile::ID;
 
 object_ptr<KeyboardButton> inputKeyboardButtonUserProfile::fetch(TlBufferParser &p) {
-  return make_tl_object<inputKeyboardButtonUserProfile>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<inputKeyboardButtonUserProfile> res = make_tl_object<inputKeyboardButtonUserProfile>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  res->user_id_ = TlFetchObject<InputUser>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-inputKeyboardButtonUserProfile::inputKeyboardButtonUserProfile(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-  , user_id_(TlFetchObject<InputUser>::parse(p))
-{}
 
 void inputKeyboardButtonUserProfile::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreBoxedUnknown<TlStoreObject>::store(user_id_, s);
 }
 
 void inputKeyboardButtonUserProfile::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreBoxedUnknown<TlStoreObject>::store(user_id_, s);
 }
@@ -1748,36 +1986,58 @@ void inputKeyboardButtonUserProfile::store(TlStorerUnsafe &s) const {
 void inputKeyboardButtonUserProfile::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "inputKeyboardButtonUserProfile");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_object_field("user_id", static_cast<const BaseObject *>(user_id_.get()));
     s.store_class_end();
   }
 }
 
-keyboardButtonUserProfile::keyboardButtonUserProfile(string const &text_, int64 user_id_)
-  : text_(text_)
+keyboardButtonUserProfile::keyboardButtonUserProfile()
+  : flags_()
+  , style_()
+  , text_()
+  , user_id_()
+{}
+
+keyboardButtonUserProfile::keyboardButtonUserProfile(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, int64 user_id_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
   , user_id_(user_id_)
 {}
 
 const std::int32_t keyboardButtonUserProfile::ID;
 
 object_ptr<KeyboardButton> keyboardButtonUserProfile::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonUserProfile>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonUserProfile> res = make_tl_object<keyboardButtonUserProfile>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  res->user_id_ = TlFetchLong::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonUserProfile::keyboardButtonUserProfile(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-  , user_id_(TlFetchLong::parse(p))
-{}
 
 void keyboardButtonUserProfile::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreBinary::store(user_id_, s);
 }
 
 void keyboardButtonUserProfile::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreBinary::store(user_id_, s);
 }
@@ -1785,36 +2045,58 @@ void keyboardButtonUserProfile::store(TlStorerUnsafe &s) const {
 void keyboardButtonUserProfile::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonUserProfile");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_field("user_id", user_id_);
     s.store_class_end();
   }
 }
 
-keyboardButtonWebView::keyboardButtonWebView(string const &text_, string const &url_)
-  : text_(text_)
+keyboardButtonWebView::keyboardButtonWebView()
+  : flags_()
+  , style_()
+  , text_()
+  , url_()
+{}
+
+keyboardButtonWebView::keyboardButtonWebView(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, string const &url_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
   , url_(url_)
 {}
 
 const std::int32_t keyboardButtonWebView::ID;
 
 object_ptr<KeyboardButton> keyboardButtonWebView::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonWebView>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonWebView> res = make_tl_object<keyboardButtonWebView>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  res->url_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonWebView::keyboardButtonWebView(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-  , url_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButtonWebView::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(url_, s);
 }
 
 void keyboardButtonWebView::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(url_, s);
 }
@@ -1822,36 +2104,58 @@ void keyboardButtonWebView::store(TlStorerUnsafe &s) const {
 void keyboardButtonWebView::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonWebView");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_field("url", url_);
     s.store_class_end();
   }
 }
 
-keyboardButtonSimpleWebView::keyboardButtonSimpleWebView(string const &text_, string const &url_)
-  : text_(text_)
+keyboardButtonSimpleWebView::keyboardButtonSimpleWebView()
+  : flags_()
+  , style_()
+  , text_()
+  , url_()
+{}
+
+keyboardButtonSimpleWebView::keyboardButtonSimpleWebView(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, string const &url_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
   , url_(url_)
 {}
 
 const std::int32_t keyboardButtonSimpleWebView::ID;
 
 object_ptr<KeyboardButton> keyboardButtonSimpleWebView::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonSimpleWebView>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonSimpleWebView> res = make_tl_object<keyboardButtonSimpleWebView>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  res->url_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonSimpleWebView::keyboardButtonSimpleWebView(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-  , url_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButtonSimpleWebView::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(url_, s);
 }
 
 void keyboardButtonSimpleWebView::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(url_, s);
 }
@@ -1859,14 +2163,28 @@ void keyboardButtonSimpleWebView::store(TlStorerUnsafe &s) const {
 void keyboardButtonSimpleWebView::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonSimpleWebView");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_field("url", url_);
     s.store_class_end();
   }
 }
 
-keyboardButtonRequestPeer::keyboardButtonRequestPeer(string const &text_, int32 button_id_, object_ptr<RequestPeerType> &&peer_type_, int32 max_quantity_)
-  : text_(text_)
+keyboardButtonRequestPeer::keyboardButtonRequestPeer()
+  : flags_()
+  , style_()
+  , text_()
+  , button_id_()
+  , peer_type_()
+  , max_quantity_()
+{}
+
+keyboardButtonRequestPeer::keyboardButtonRequestPeer(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, int32 button_id_, object_ptr<RequestPeerType> &&peer_type_, int32 max_quantity_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
   , button_id_(button_id_)
   , peer_type_(std::move(peer_type_))
   , max_quantity_(max_quantity_)
@@ -1875,18 +2193,25 @@ keyboardButtonRequestPeer::keyboardButtonRequestPeer(string const &text_, int32 
 const std::int32_t keyboardButtonRequestPeer::ID;
 
 object_ptr<KeyboardButton> keyboardButtonRequestPeer::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonRequestPeer>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonRequestPeer> res = make_tl_object<keyboardButtonRequestPeer>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  res->button_id_ = TlFetchInt::parse(p);
+  res->peer_type_ = TlFetchObject<RequestPeerType>::parse(p);
+  res->max_quantity_ = TlFetchInt::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonRequestPeer::keyboardButtonRequestPeer(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-  , button_id_(TlFetchInt::parse(p))
-  , peer_type_(TlFetchObject<RequestPeerType>::parse(p))
-  , max_quantity_(TlFetchInt::parse(p))
-{}
 
 void keyboardButtonRequestPeer::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreBinary::store(button_id_, s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_type_, s);
@@ -1895,6 +2220,9 @@ void keyboardButtonRequestPeer::store(TlStorerCalcLength &s) const {
 
 void keyboardButtonRequestPeer::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreBinary::store(button_id_, s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_type_, s);
@@ -1904,6 +2232,9 @@ void keyboardButtonRequestPeer::store(TlStorerUnsafe &s) const {
 void keyboardButtonRequestPeer::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonRequestPeer");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_field("button_id", button_id_);
     s.store_object_field("peer_type", static_cast<const BaseObject *>(peer_type_.get()));
@@ -1917,17 +2248,19 @@ inputKeyboardButtonRequestPeer::inputKeyboardButtonRequestPeer()
   , name_requested_()
   , username_requested_()
   , photo_requested_()
+  , style_()
   , text_()
   , button_id_()
   , peer_type_()
   , max_quantity_()
 {}
 
-inputKeyboardButtonRequestPeer::inputKeyboardButtonRequestPeer(int32 flags_, bool name_requested_, bool username_requested_, bool photo_requested_, string const &text_, int32 button_id_, object_ptr<RequestPeerType> &&peer_type_, int32 max_quantity_)
+inputKeyboardButtonRequestPeer::inputKeyboardButtonRequestPeer(int32 flags_, bool name_requested_, bool username_requested_, bool photo_requested_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, int32 button_id_, object_ptr<RequestPeerType> &&peer_type_, int32 max_quantity_)
   : flags_(flags_)
   , name_requested_(name_requested_)
   , username_requested_(username_requested_)
   , photo_requested_(photo_requested_)
+  , style_(std::move(style_))
   , text_(text_)
   , button_id_(button_id_)
   , peer_type_(std::move(peer_type_))
@@ -1944,6 +2277,7 @@ object_ptr<KeyboardButton> inputKeyboardButtonRequestPeer::fetch(TlBufferParser 
   res->name_requested_ = (var0 & 1) != 0;
   res->username_requested_ = (var0 & 2) != 0;
   res->photo_requested_ = (var0 & 4) != 0;
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
   res->text_ = TlFetchString<string>::parse(p);
   res->button_id_ = TlFetchInt::parse(p);
   res->peer_type_ = TlFetchObject<RequestPeerType>::parse(p);
@@ -1957,6 +2291,7 @@ void inputKeyboardButtonRequestPeer::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_ | (name_requested_ << 0) | (username_requested_ << 1) | (photo_requested_ << 2)), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreBinary::store(button_id_, s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_type_, s);
@@ -1967,6 +2302,7 @@ void inputKeyboardButtonRequestPeer::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   int32 var0;
   TlStoreBinary::store((var0 = flags_ | (name_requested_ << 0) | (username_requested_ << 1) | (photo_requested_ << 2)), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreBinary::store(button_id_, s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_type_, s);
@@ -1981,6 +2317,7 @@ void inputKeyboardButtonRequestPeer::store(TlStorerToString &s, const char *fiel
     if (var0 & 1) { s.store_field("name_requested", true); }
     if (var0 & 2) { s.store_field("username_requested", true); }
     if (var0 & 4) { s.store_field("photo_requested", true); }
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_field("button_id", button_id_);
     s.store_object_field("peer_type", static_cast<const BaseObject *>(peer_type_.get()));
@@ -1989,30 +2326,49 @@ void inputKeyboardButtonRequestPeer::store(TlStorerToString &s, const char *fiel
   }
 }
 
-keyboardButtonCopy::keyboardButtonCopy(string const &text_, string const &copy_text_)
-  : text_(text_)
+keyboardButtonCopy::keyboardButtonCopy()
+  : flags_()
+  , style_()
+  , text_()
+  , copy_text_()
+{}
+
+keyboardButtonCopy::keyboardButtonCopy(int32 flags_, object_ptr<keyboardButtonStyle> &&style_, string const &text_, string const &copy_text_)
+  : flags_(flags_)
+  , style_(std::move(style_))
+  , text_(text_)
   , copy_text_(copy_text_)
 {}
 
 const std::int32_t keyboardButtonCopy::ID;
 
 object_ptr<KeyboardButton> keyboardButtonCopy::fetch(TlBufferParser &p) {
-  return make_tl_object<keyboardButtonCopy>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<keyboardButtonCopy> res = make_tl_object<keyboardButtonCopy>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  if (var0 & 1024) { res->style_ = TlFetchBoxed<TlFetchObject<keyboardButtonStyle>, 1339896880>::parse(p); }
+  res->text_ = TlFetchString<string>::parse(p);
+  res->copy_text_ = TlFetchString<string>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
-
-keyboardButtonCopy::keyboardButtonCopy(TlBufferParser &p)
-  : text_(TlFetchString<string>::parse(p))
-  , copy_text_(TlFetchString<string>::parse(p))
-{}
 
 void keyboardButtonCopy::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(copy_text_, s);
 }
 
 void keyboardButtonCopy::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  if (var0 & 1024) { TlStoreBoxed<TlStoreObject, 1339896880>::store(style_, s); }
   TlStoreString::store(text_, s);
   TlStoreString::store(copy_text_, s);
 }
@@ -2020,6 +2376,9 @@ void keyboardButtonCopy::store(TlStorerUnsafe &s) const {
 void keyboardButtonCopy::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "keyboardButtonCopy");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
+    if (var0 & 1024) { s.store_object_field("style", static_cast<const BaseObject *>(style_.get())); }
     s.store_field("text", text_);
     s.store_field("copy_text", copy_text_);
     s.store_class_end();
@@ -2146,6 +2505,24 @@ object_ptr<MessageAction> MessageAction::fetch(TlBufferParser &p) {
       return messageActionGiftTon::fetch(p);
     case messageActionSuggestBirthday::ID:
       return messageActionSuggestBirthday::fetch(p);
+    case messageActionStarGiftPurchaseOffer::ID:
+      return messageActionStarGiftPurchaseOffer::fetch(p);
+    case messageActionStarGiftPurchaseOfferDeclined::ID:
+      return messageActionStarGiftPurchaseOfferDeclined::fetch(p);
+    case messageActionNewCreatorPending::ID:
+      return messageActionNewCreatorPending::fetch(p);
+    case messageActionChangeCreator::ID:
+      return messageActionChangeCreator::fetch(p);
+    case messageActionNoForwardsToggle::ID:
+      return messageActionNoForwardsToggle::fetch(p);
+    case messageActionNoForwardsRequest::ID:
+      return messageActionNoForwardsRequest::fetch(p);
+    case messageActionPollAppendAnswer::ID:
+      return messageActionPollAppendAnswer::fetch(p);
+    case messageActionPollDeleteAnswer::ID:
+      return messageActionPollDeleteAnswer::fetch(p);
+    case messageActionManagedBotCreated::ID:
+      return messageActionManagedBotCreated::fetch(p);
     default:
       FAIL(PSTRING() << "Unknown constructor found " << format::as_hex(constructor));
   }
@@ -2838,7 +3215,7 @@ messageActionGiftPremium::messageActionGiftPremium()
   : flags_()
   , currency_()
   , amount_()
-  , months_()
+  , days_()
   , crypto_currency_()
   , crypto_amount_()
   , message_()
@@ -2853,7 +3230,7 @@ object_ptr<MessageAction> messageActionGiftPremium::fetch(TlBufferParser &p) {
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
   res->currency_ = TlFetchString<string>::parse(p);
   res->amount_ = TlFetchLong::parse(p);
-  res->months_ = TlFetchInt::parse(p);
+  res->days_ = TlFetchInt::parse(p);
   if (var0 & 1) { res->crypto_currency_ = TlFetchString<string>::parse(p); }
   if (var0 & 1) { res->crypto_amount_ = TlFetchLong::parse(p); }
   if (var0 & 2) { res->message_ = TlFetchBoxed<TlFetchObject<textWithEntities>, 1964978502>::parse(p); }
@@ -2869,7 +3246,7 @@ void messageActionGiftPremium::store(TlStorerToString &s, const char *field_name
     s.store_field("flags", (var0 = flags_));
     s.store_field("currency", currency_);
     s.store_field("amount", amount_);
-    s.store_field("months", months_);
+    s.store_field("days", days_);
     if (var0 & 1) { s.store_field("crypto_currency", crypto_currency_); }
     if (var0 & 1) { s.store_field("crypto_amount", crypto_amount_); }
     if (var0 & 2) { s.store_object_field("message", static_cast<const BaseObject *>(message_.get())); }
@@ -3028,7 +3405,7 @@ messageActionGiftCode::messageActionGiftCode()
   , via_giveaway_()
   , unclaimed_()
   , boost_peer_()
-  , months_()
+  , days_()
   , slug_()
   , currency_()
   , amount_()
@@ -3047,7 +3424,7 @@ object_ptr<MessageAction> messageActionGiftCode::fetch(TlBufferParser &p) {
   res->via_giveaway_ = (var0 & 1) != 0;
   res->unclaimed_ = (var0 & 32) != 0;
   if (var0 & 2) { res->boost_peer_ = TlFetchObject<Peer>::parse(p); }
-  res->months_ = TlFetchInt::parse(p);
+  res->days_ = TlFetchInt::parse(p);
   res->slug_ = TlFetchString<string>::parse(p);
   if (var0 & 4) { res->currency_ = TlFetchString<string>::parse(p); }
   if (var0 & 4) { res->amount_ = TlFetchLong::parse(p); }
@@ -3067,7 +3444,7 @@ void messageActionGiftCode::store(TlStorerToString &s, const char *field_name) c
     if (var0 & 1) { s.store_field("via_giveaway", true); }
     if (var0 & 32) { s.store_field("unclaimed", true); }
     if (var0 & 2) { s.store_object_field("boost_peer", static_cast<const BaseObject *>(boost_peer_.get())); }
-    s.store_field("months", months_);
+    s.store_field("days", days_);
     s.store_field("slug", slug_);
     if (var0 & 4) { s.store_field("currency", currency_); }
     if (var0 & 4) { s.store_field("amount", amount_); }
@@ -3311,6 +3688,7 @@ messageActionStarGift::messageActionStarGift()
   , can_upgrade_()
   , prepaid_upgrade_()
   , upgrade_separate_()
+  , auction_acquired_()
   , gift_()
   , message_()
   , convert_stars_()
@@ -3321,6 +3699,8 @@ messageActionStarGift::messageActionStarGift()
   , saved_id_()
   , prepaid_upgrade_hash_()
   , gift_msg_id_()
+  , to_id_()
+  , gift_num_()
 {}
 
 const std::int32_t messageActionStarGift::ID;
@@ -3338,6 +3718,7 @@ object_ptr<MessageAction> messageActionStarGift::fetch(TlBufferParser &p) {
   res->can_upgrade_ = (var0 & 1024) != 0;
   res->prepaid_upgrade_ = (var0 & 8192) != 0;
   res->upgrade_separate_ = (var0 & 65536) != 0;
+  res->auction_acquired_ = (var0 & 131072) != 0;
   res->gift_ = TlFetchObject<StarGift>::parse(p);
   if (var0 & 2) { res->message_ = TlFetchBoxed<TlFetchObject<textWithEntities>, 1964978502>::parse(p); }
   if (var0 & 16) { res->convert_stars_ = TlFetchLong::parse(p); }
@@ -3348,6 +3729,8 @@ object_ptr<MessageAction> messageActionStarGift::fetch(TlBufferParser &p) {
   if (var0 & 4096) { res->saved_id_ = TlFetchLong::parse(p); }
   if (var0 & 16384) { res->prepaid_upgrade_hash_ = TlFetchString<string>::parse(p); }
   if (var0 & 32768) { res->gift_msg_id_ = TlFetchInt::parse(p); }
+  if (var0 & 262144) { res->to_id_ = TlFetchObject<Peer>::parse(p); }
+  if (var0 & 524288) { res->gift_num_ = TlFetchInt::parse(p); }
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
@@ -3357,7 +3740,7 @@ void messageActionStarGift::store(TlStorerToString &s, const char *field_name) c
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageActionStarGift");
   int32 var0;
-    s.store_field("flags", (var0 = flags_ | (name_hidden_ << 0) | (saved_ << 2) | (converted_ << 3) | (upgraded_ << 5) | (refunded_ << 9) | (can_upgrade_ << 10) | (prepaid_upgrade_ << 13) | (upgrade_separate_ << 16)));
+    s.store_field("flags", (var0 = flags_ | (name_hidden_ << 0) | (saved_ << 2) | (converted_ << 3) | (upgraded_ << 5) | (refunded_ << 9) | (can_upgrade_ << 10) | (prepaid_upgrade_ << 13) | (upgrade_separate_ << 16) | (auction_acquired_ << 17)));
     if (var0 & 1) { s.store_field("name_hidden", true); }
     if (var0 & 4) { s.store_field("saved", true); }
     if (var0 & 8) { s.store_field("converted", true); }
@@ -3366,6 +3749,7 @@ void messageActionStarGift::store(TlStorerToString &s, const char *field_name) c
     if (var0 & 1024) { s.store_field("can_upgrade", true); }
     if (var0 & 8192) { s.store_field("prepaid_upgrade", true); }
     if (var0 & 65536) { s.store_field("upgrade_separate", true); }
+    if (var0 & 131072) { s.store_field("auction_acquired", true); }
     s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
     if (var0 & 2) { s.store_object_field("message", static_cast<const BaseObject *>(message_.get())); }
     if (var0 & 16) { s.store_field("convert_stars", convert_stars_); }
@@ -3376,6 +3760,8 @@ void messageActionStarGift::store(TlStorerToString &s, const char *field_name) c
     if (var0 & 4096) { s.store_field("saved_id", saved_id_); }
     if (var0 & 16384) { s.store_field("prepaid_upgrade_hash", prepaid_upgrade_hash_); }
     if (var0 & 32768) { s.store_field("gift_msg_id", gift_msg_id_); }
+    if (var0 & 262144) { s.store_object_field("to_id", static_cast<const BaseObject *>(to_id_.get())); }
+    if (var0 & 524288) { s.store_field("gift_num", gift_num_); }
     s.store_class_end();
   }
 }
@@ -3388,6 +3774,8 @@ messageActionStarGiftUnique::messageActionStarGiftUnique()
   , refunded_()
   , prepaid_upgrade_()
   , assigned_()
+  , from_offer_()
+  , craft_()
   , gift_()
   , can_export_at_()
   , transfer_stars_()
@@ -3398,6 +3786,7 @@ messageActionStarGiftUnique::messageActionStarGiftUnique()
   , can_transfer_at_()
   , can_resell_at_()
   , drop_original_details_stars_()
+  , can_craft_at_()
 {}
 
 const std::int32_t messageActionStarGiftUnique::ID;
@@ -3413,6 +3802,8 @@ object_ptr<MessageAction> messageActionStarGiftUnique::fetch(TlBufferParser &p) 
   res->refunded_ = (var0 & 32) != 0;
   res->prepaid_upgrade_ = (var0 & 2048) != 0;
   res->assigned_ = (var0 & 8192) != 0;
+  res->from_offer_ = (var0 & 16384) != 0;
+  res->craft_ = (var0 & 65536) != 0;
   res->gift_ = TlFetchObject<StarGift>::parse(p);
   if (var0 & 8) { res->can_export_at_ = TlFetchInt::parse(p); }
   if (var0 & 16) { res->transfer_stars_ = TlFetchLong::parse(p); }
@@ -3423,6 +3814,7 @@ object_ptr<MessageAction> messageActionStarGiftUnique::fetch(TlBufferParser &p) 
   if (var0 & 512) { res->can_transfer_at_ = TlFetchInt::parse(p); }
   if (var0 & 1024) { res->can_resell_at_ = TlFetchInt::parse(p); }
   if (var0 & 4096) { res->drop_original_details_stars_ = TlFetchLong::parse(p); }
+  if (var0 & 32768) { res->can_craft_at_ = TlFetchInt::parse(p); }
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
@@ -3432,13 +3824,15 @@ void messageActionStarGiftUnique::store(TlStorerToString &s, const char *field_n
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageActionStarGiftUnique");
   int32 var0;
-    s.store_field("flags", (var0 = flags_ | (upgrade_ << 0) | (transferred_ << 1) | (saved_ << 2) | (refunded_ << 5) | (prepaid_upgrade_ << 11) | (assigned_ << 13)));
+    s.store_field("flags", (var0 = flags_ | (upgrade_ << 0) | (transferred_ << 1) | (saved_ << 2) | (refunded_ << 5) | (prepaid_upgrade_ << 11) | (assigned_ << 13) | (from_offer_ << 14) | (craft_ << 16)));
     if (var0 & 1) { s.store_field("upgrade", true); }
     if (var0 & 2) { s.store_field("transferred", true); }
     if (var0 & 4) { s.store_field("saved", true); }
     if (var0 & 32) { s.store_field("refunded", true); }
     if (var0 & 2048) { s.store_field("prepaid_upgrade", true); }
     if (var0 & 8192) { s.store_field("assigned", true); }
+    if (var0 & 16384) { s.store_field("from_offer", true); }
+    if (var0 & 65536) { s.store_field("craft", true); }
     s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
     if (var0 & 8) { s.store_field("can_export_at", can_export_at_); }
     if (var0 & 16) { s.store_field("transfer_stars", transfer_stars_); }
@@ -3449,6 +3843,7 @@ void messageActionStarGiftUnique::store(TlStorerToString &s, const char *field_n
     if (var0 & 512) { s.store_field("can_transfer_at", can_transfer_at_); }
     if (var0 & 1024) { s.store_field("can_resell_at", can_resell_at_); }
     if (var0 & 4096) { s.store_field("drop_original_details_stars", drop_original_details_stars_); }
+    if (var0 & 32768) { s.store_field("can_craft_at", can_craft_at_); }
     s.store_class_end();
   }
 }
@@ -3729,6 +4124,224 @@ void messageActionSuggestBirthday::store(TlStorerToString &s, const char *field_
   }
 }
 
+messageActionStarGiftPurchaseOffer::messageActionStarGiftPurchaseOffer()
+  : flags_()
+  , accepted_()
+  , declined_()
+  , gift_()
+  , price_()
+  , expires_at_()
+{}
+
+const std::int32_t messageActionStarGiftPurchaseOffer::ID;
+
+object_ptr<MessageAction> messageActionStarGiftPurchaseOffer::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<messageActionStarGiftPurchaseOffer> res = make_tl_object<messageActionStarGiftPurchaseOffer>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->accepted_ = (var0 & 1) != 0;
+  res->declined_ = (var0 & 2) != 0;
+  res->gift_ = TlFetchObject<StarGift>::parse(p);
+  res->price_ = TlFetchObject<StarsAmount>::parse(p);
+  res->expires_at_ = TlFetchInt::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
+}
+
+void messageActionStarGiftPurchaseOffer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionStarGiftPurchaseOffer");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_ | (accepted_ << 0) | (declined_ << 1)));
+    if (var0 & 1) { s.store_field("accepted", true); }
+    if (var0 & 2) { s.store_field("declined", true); }
+    s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
+    s.store_object_field("price", static_cast<const BaseObject *>(price_.get()));
+    s.store_field("expires_at", expires_at_);
+    s.store_class_end();
+  }
+}
+
+messageActionStarGiftPurchaseOfferDeclined::messageActionStarGiftPurchaseOfferDeclined()
+  : flags_()
+  , expired_()
+  , gift_()
+  , price_()
+{}
+
+const std::int32_t messageActionStarGiftPurchaseOfferDeclined::ID;
+
+object_ptr<MessageAction> messageActionStarGiftPurchaseOfferDeclined::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<messageActionStarGiftPurchaseOfferDeclined> res = make_tl_object<messageActionStarGiftPurchaseOfferDeclined>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->expired_ = (var0 & 1) != 0;
+  res->gift_ = TlFetchObject<StarGift>::parse(p);
+  res->price_ = TlFetchObject<StarsAmount>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
+}
+
+void messageActionStarGiftPurchaseOfferDeclined::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionStarGiftPurchaseOfferDeclined");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_ | (expired_ << 0)));
+    if (var0 & 1) { s.store_field("expired", true); }
+    s.store_object_field("gift", static_cast<const BaseObject *>(gift_.get()));
+    s.store_object_field("price", static_cast<const BaseObject *>(price_.get()));
+    s.store_class_end();
+  }
+}
+
+const std::int32_t messageActionNewCreatorPending::ID;
+
+object_ptr<MessageAction> messageActionNewCreatorPending::fetch(TlBufferParser &p) {
+  return make_tl_object<messageActionNewCreatorPending>(p);
+}
+
+messageActionNewCreatorPending::messageActionNewCreatorPending(TlBufferParser &p)
+  : new_creator_id_(TlFetchLong::parse(p))
+{}
+
+void messageActionNewCreatorPending::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionNewCreatorPending");
+    s.store_field("new_creator_id", new_creator_id_);
+    s.store_class_end();
+  }
+}
+
+const std::int32_t messageActionChangeCreator::ID;
+
+object_ptr<MessageAction> messageActionChangeCreator::fetch(TlBufferParser &p) {
+  return make_tl_object<messageActionChangeCreator>(p);
+}
+
+messageActionChangeCreator::messageActionChangeCreator(TlBufferParser &p)
+  : new_creator_id_(TlFetchLong::parse(p))
+{}
+
+void messageActionChangeCreator::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionChangeCreator");
+    s.store_field("new_creator_id", new_creator_id_);
+    s.store_class_end();
+  }
+}
+
+const std::int32_t messageActionNoForwardsToggle::ID;
+
+object_ptr<MessageAction> messageActionNoForwardsToggle::fetch(TlBufferParser &p) {
+  return make_tl_object<messageActionNoForwardsToggle>(p);
+}
+
+messageActionNoForwardsToggle::messageActionNoForwardsToggle(TlBufferParser &p)
+  : prev_value_(TlFetchBool::parse(p))
+  , new_value_(TlFetchBool::parse(p))
+{}
+
+void messageActionNoForwardsToggle::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionNoForwardsToggle");
+    s.store_field("prev_value", prev_value_);
+    s.store_field("new_value", new_value_);
+    s.store_class_end();
+  }
+}
+
+messageActionNoForwardsRequest::messageActionNoForwardsRequest()
+  : flags_()
+  , expired_()
+  , prev_value_()
+  , new_value_()
+{}
+
+const std::int32_t messageActionNoForwardsRequest::ID;
+
+object_ptr<MessageAction> messageActionNoForwardsRequest::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<messageActionNoForwardsRequest> res = make_tl_object<messageActionNoForwardsRequest>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->expired_ = (var0 & 1) != 0;
+  res->prev_value_ = TlFetchBool::parse(p);
+  res->new_value_ = TlFetchBool::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
+}
+
+void messageActionNoForwardsRequest::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionNoForwardsRequest");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_ | (expired_ << 0)));
+    if (var0 & 1) { s.store_field("expired", true); }
+    s.store_field("prev_value", prev_value_);
+    s.store_field("new_value", new_value_);
+    s.store_class_end();
+  }
+}
+
+const std::int32_t messageActionPollAppendAnswer::ID;
+
+object_ptr<MessageAction> messageActionPollAppendAnswer::fetch(TlBufferParser &p) {
+  return make_tl_object<messageActionPollAppendAnswer>(p);
+}
+
+messageActionPollAppendAnswer::messageActionPollAppendAnswer(TlBufferParser &p)
+  : answer_(TlFetchObject<PollAnswer>::parse(p))
+{}
+
+void messageActionPollAppendAnswer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionPollAppendAnswer");
+    s.store_object_field("answer", static_cast<const BaseObject *>(answer_.get()));
+    s.store_class_end();
+  }
+}
+
+const std::int32_t messageActionPollDeleteAnswer::ID;
+
+object_ptr<MessageAction> messageActionPollDeleteAnswer::fetch(TlBufferParser &p) {
+  return make_tl_object<messageActionPollDeleteAnswer>(p);
+}
+
+messageActionPollDeleteAnswer::messageActionPollDeleteAnswer(TlBufferParser &p)
+  : answer_(TlFetchObject<PollAnswer>::parse(p))
+{}
+
+void messageActionPollDeleteAnswer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionPollDeleteAnswer");
+    s.store_object_field("answer", static_cast<const BaseObject *>(answer_.get()));
+    s.store_class_end();
+  }
+}
+
+const std::int32_t messageActionManagedBotCreated::ID;
+
+object_ptr<MessageAction> messageActionManagedBotCreated::fetch(TlBufferParser &p) {
+  return make_tl_object<messageActionManagedBotCreated>(p);
+}
+
+messageActionManagedBotCreated::messageActionManagedBotCreated(TlBufferParser &p)
+  : bot_id_(TlFetchLong::parse(p))
+{}
+
+void messageActionManagedBotCreated::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageActionManagedBotCreated");
+    s.store_field("bot_id", bot_id_);
+    s.store_class_end();
+  }
+}
+
 messageFwdHeader::messageFwdHeader()
   : flags_()
   , imported_()
@@ -3833,6 +4446,8 @@ object_ptr<MessageMedia> MessageMedia::fetch(TlBufferParser &p) {
       return messageMediaPaidMedia::fetch(p);
     case messageMediaToDo::ID:
       return messageMediaToDo::fetch(p);
+    case messageMediaVideoStream::ID:
+      return messageMediaVideoStream::fetch(p);
     default:
       FAIL(PSTRING() << "Unknown constructor found " << format::as_hex(constructor));
   }
@@ -3845,6 +4460,14 @@ object_ptr<MessageMedia> messageMediaEmpty::fetch(TlBufferParser &p) {
   return make_tl_object<messageMediaEmpty>();
 }
 
+void messageMediaEmpty::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+}
+
+void messageMediaEmpty::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+}
+
 void messageMediaEmpty::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaEmpty");
@@ -3855,8 +4478,19 @@ void messageMediaEmpty::store(TlStorerToString &s, const char *field_name) const
 messageMediaPhoto::messageMediaPhoto()
   : flags_()
   , spoiler_()
+  , live_photo_()
   , photo_()
   , ttl_seconds_()
+  , video_()
+{}
+
+messageMediaPhoto::messageMediaPhoto(int32 flags_, bool spoiler_, bool live_photo_, object_ptr<Photo> &&photo_, int32 ttl_seconds_, object_ptr<Document> &&video_)
+  : flags_(flags_)
+  , spoiler_(spoiler_)
+  , live_photo_(live_photo_)
+  , photo_(std::move(photo_))
+  , ttl_seconds_(ttl_seconds_)
+  , video_(std::move(video_))
 {}
 
 const std::int32_t messageMediaPhoto::ID;
@@ -3867,24 +4501,50 @@ object_ptr<MessageMedia> messageMediaPhoto::fetch(TlBufferParser &p) {
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
   res->spoiler_ = (var0 & 8) != 0;
+  res->live_photo_ = (var0 & 16) != 0;
   if (var0 & 1) { res->photo_ = TlFetchObject<Photo>::parse(p); }
   if (var0 & 4) { res->ttl_seconds_ = TlFetchInt::parse(p); }
+  if (var0 & 16) { res->video_ = TlFetchObject<Document>::parse(p); }
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
+}
+
+void messageMediaPhoto::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (spoiler_ << 3) | (live_photo_ << 4)), s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(photo_, s); }
+  if (var0 & 4) { TlStoreBinary::store(ttl_seconds_, s); }
+  if (var0 & 16) { TlStoreBoxedUnknown<TlStoreObject>::store(video_, s); }
+}
+
+void messageMediaPhoto::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (spoiler_ << 3) | (live_photo_ << 4)), s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(photo_, s); }
+  if (var0 & 4) { TlStoreBinary::store(ttl_seconds_, s); }
+  if (var0 & 16) { TlStoreBoxedUnknown<TlStoreObject>::store(video_, s); }
 }
 
 void messageMediaPhoto::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaPhoto");
   int32 var0;
-    s.store_field("flags", (var0 = flags_ | (spoiler_ << 3)));
+    s.store_field("flags", (var0 = flags_ | (spoiler_ << 3) | (live_photo_ << 4)));
     if (var0 & 8) { s.store_field("spoiler", true); }
+    if (var0 & 16) { s.store_field("live_photo", true); }
     if (var0 & 1) { s.store_object_field("photo", static_cast<const BaseObject *>(photo_.get())); }
     if (var0 & 4) { s.store_field("ttl_seconds", ttl_seconds_); }
+    if (var0 & 16) { s.store_object_field("video", static_cast<const BaseObject *>(video_.get())); }
     s.store_class_end();
   }
 }
+
+messageMediaGeo::messageMediaGeo(object_ptr<GeoPoint> &&geo_)
+  : geo_(std::move(geo_))
+{}
 
 const std::int32_t messageMediaGeo::ID;
 
@@ -3896,6 +4556,16 @@ messageMediaGeo::messageMediaGeo(TlBufferParser &p)
   : geo_(TlFetchObject<GeoPoint>::parse(p))
 {}
 
+void messageMediaGeo::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(geo_, s);
+}
+
+void messageMediaGeo::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(geo_, s);
+}
+
 void messageMediaGeo::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaGeo");
@@ -3903,6 +4573,14 @@ void messageMediaGeo::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+messageMediaContact::messageMediaContact(string const &phone_number_, string const &first_name_, string const &last_name_, string const &vcard_, int64 user_id_)
+  : phone_number_(phone_number_)
+  , first_name_(first_name_)
+  , last_name_(last_name_)
+  , vcard_(vcard_)
+  , user_id_(user_id_)
+{}
 
 const std::int32_t messageMediaContact::ID;
 
@@ -3917,6 +4595,24 @@ messageMediaContact::messageMediaContact(TlBufferParser &p)
   , vcard_(TlFetchString<string>::parse(p))
   , user_id_(TlFetchLong::parse(p))
 {}
+
+void messageMediaContact::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(phone_number_, s);
+  TlStoreString::store(first_name_, s);
+  TlStoreString::store(last_name_, s);
+  TlStoreString::store(vcard_, s);
+  TlStoreBinary::store(user_id_, s);
+}
+
+void messageMediaContact::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(phone_number_, s);
+  TlStoreString::store(first_name_, s);
+  TlStoreString::store(last_name_, s);
+  TlStoreString::store(vcard_, s);
+  TlStoreBinary::store(user_id_, s);
+}
 
 void messageMediaContact::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
@@ -3934,6 +4630,14 @@ const std::int32_t messageMediaUnsupported::ID;
 
 object_ptr<MessageMedia> messageMediaUnsupported::fetch(TlBufferParser &p) {
   return make_tl_object<messageMediaUnsupported>();
+}
+
+void messageMediaUnsupported::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+}
+
+void messageMediaUnsupported::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
 }
 
 void messageMediaUnsupported::store(TlStorerToString &s, const char *field_name) const {
@@ -3957,6 +4661,20 @@ messageMediaDocument::messageMediaDocument()
   , ttl_seconds_()
 {}
 
+messageMediaDocument::messageMediaDocument(int32 flags_, bool nopremium_, bool spoiler_, bool video_, bool round_, bool voice_, object_ptr<Document> &&document_, array<object_ptr<Document>> &&alt_documents_, object_ptr<Photo> &&video_cover_, int32 video_timestamp_, int32 ttl_seconds_)
+  : flags_(flags_)
+  , nopremium_(nopremium_)
+  , spoiler_(spoiler_)
+  , video_(video_)
+  , round_(round_)
+  , voice_(voice_)
+  , document_(std::move(document_))
+  , alt_documents_(std::move(alt_documents_))
+  , video_cover_(std::move(video_cover_))
+  , video_timestamp_(video_timestamp_)
+  , ttl_seconds_(ttl_seconds_)
+{}
+
 const std::int32_t messageMediaDocument::ID;
 
 object_ptr<MessageMedia> messageMediaDocument::fetch(TlBufferParser &p) {
@@ -3977,6 +4695,28 @@ object_ptr<MessageMedia> messageMediaDocument::fetch(TlBufferParser &p) {
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
+}
+
+void messageMediaDocument::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (nopremium_ << 3) | (spoiler_ << 4) | (video_ << 6) | (round_ << 7) | (voice_ << 8)), s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(document_, s); }
+  if (var0 & 32) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(alt_documents_, s); }
+  if (var0 & 512) { TlStoreBoxedUnknown<TlStoreObject>::store(video_cover_, s); }
+  if (var0 & 1024) { TlStoreBinary::store(video_timestamp_, s); }
+  if (var0 & 4) { TlStoreBinary::store(ttl_seconds_, s); }
+}
+
+void messageMediaDocument::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (nopremium_ << 3) | (spoiler_ << 4) | (video_ << 6) | (round_ << 7) | (voice_ << 8)), s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(document_, s); }
+  if (var0 & 32) { TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(alt_documents_, s); }
+  if (var0 & 512) { TlStoreBoxedUnknown<TlStoreObject>::store(video_cover_, s); }
+  if (var0 & 1024) { TlStoreBinary::store(video_timestamp_, s); }
+  if (var0 & 4) { TlStoreBinary::store(ttl_seconds_, s); }
 }
 
 void messageMediaDocument::store(TlStorerToString &s, const char *field_name) const {
@@ -4007,6 +4747,15 @@ messageMediaWebPage::messageMediaWebPage()
   , webpage_()
 {}
 
+messageMediaWebPage::messageMediaWebPage(int32 flags_, bool force_large_media_, bool force_small_media_, bool manual_, bool safe_, object_ptr<WebPage> &&webpage_)
+  : flags_(flags_)
+  , force_large_media_(force_large_media_)
+  , force_small_media_(force_small_media_)
+  , manual_(manual_)
+  , safe_(safe_)
+  , webpage_(std::move(webpage_))
+{}
+
 const std::int32_t messageMediaWebPage::ID;
 
 object_ptr<MessageMedia> messageMediaWebPage::fetch(TlBufferParser &p) {
@@ -4024,6 +4773,20 @@ object_ptr<MessageMedia> messageMediaWebPage::fetch(TlBufferParser &p) {
 #undef FAIL
 }
 
+void messageMediaWebPage::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (force_large_media_ << 0) | (force_small_media_ << 1) | (manual_ << 3) | (safe_ << 4)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(webpage_, s);
+}
+
+void messageMediaWebPage::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (force_large_media_ << 0) | (force_small_media_ << 1) | (manual_ << 3) | (safe_ << 4)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(webpage_, s);
+}
+
 void messageMediaWebPage::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaWebPage");
@@ -4037,6 +4800,15 @@ void messageMediaWebPage::store(TlStorerToString &s, const char *field_name) con
     s.store_class_end();
   }
 }
+
+messageMediaVenue::messageMediaVenue(object_ptr<GeoPoint> &&geo_, string const &title_, string const &address_, string const &provider_, string const &venue_id_, string const &venue_type_)
+  : geo_(std::move(geo_))
+  , title_(title_)
+  , address_(address_)
+  , provider_(provider_)
+  , venue_id_(venue_id_)
+  , venue_type_(venue_type_)
+{}
 
 const std::int32_t messageMediaVenue::ID;
 
@@ -4053,6 +4825,26 @@ messageMediaVenue::messageMediaVenue(TlBufferParser &p)
   , venue_type_(TlFetchString<string>::parse(p))
 {}
 
+void messageMediaVenue::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(geo_, s);
+  TlStoreString::store(title_, s);
+  TlStoreString::store(address_, s);
+  TlStoreString::store(provider_, s);
+  TlStoreString::store(venue_id_, s);
+  TlStoreString::store(venue_type_, s);
+}
+
+void messageMediaVenue::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(geo_, s);
+  TlStoreString::store(title_, s);
+  TlStoreString::store(address_, s);
+  TlStoreString::store(provider_, s);
+  TlStoreString::store(venue_id_, s);
+  TlStoreString::store(venue_type_, s);
+}
+
 void messageMediaVenue::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaVenue");
@@ -4066,6 +4858,10 @@ void messageMediaVenue::store(TlStorerToString &s, const char *field_name) const
   }
 }
 
+messageMediaGame::messageMediaGame(object_ptr<game> &&game_)
+  : game_(std::move(game_))
+{}
+
 const std::int32_t messageMediaGame::ID;
 
 object_ptr<MessageMedia> messageMediaGame::fetch(TlBufferParser &p) {
@@ -4075,6 +4871,16 @@ object_ptr<MessageMedia> messageMediaGame::fetch(TlBufferParser &p) {
 messageMediaGame::messageMediaGame(TlBufferParser &p)
   : game_(TlFetchBoxed<TlFetchObject<game>, -1107729093>::parse(p))
 {}
+
+void messageMediaGame::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBoxed<TlStoreObject, -1107729093>::store(game_, s);
+}
+
+void messageMediaGame::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBoxed<TlStoreObject, -1107729093>::store(game_, s);
+}
 
 void messageMediaGame::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
@@ -4098,6 +4904,20 @@ messageMediaInvoice::messageMediaInvoice()
   , extended_media_()
 {}
 
+messageMediaInvoice::messageMediaInvoice(int32 flags_, bool shipping_address_requested_, bool test_, string const &title_, string const &description_, object_ptr<WebDocument> &&photo_, int32 receipt_msg_id_, string const &currency_, int64 total_amount_, string const &start_param_, object_ptr<MessageExtendedMedia> &&extended_media_)
+  : flags_(flags_)
+  , shipping_address_requested_(shipping_address_requested_)
+  , test_(test_)
+  , title_(title_)
+  , description_(description_)
+  , photo_(std::move(photo_))
+  , receipt_msg_id_(receipt_msg_id_)
+  , currency_(currency_)
+  , total_amount_(total_amount_)
+  , start_param_(start_param_)
+  , extended_media_(std::move(extended_media_))
+{}
+
 const std::int32_t messageMediaInvoice::ID;
 
 object_ptr<MessageMedia> messageMediaInvoice::fetch(TlBufferParser &p) {
@@ -4118,6 +4938,34 @@ object_ptr<MessageMedia> messageMediaInvoice::fetch(TlBufferParser &p) {
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
+}
+
+void messageMediaInvoice::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (shipping_address_requested_ << 1) | (test_ << 3)), s);
+  TlStoreString::store(title_, s);
+  TlStoreString::store(description_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(photo_, s); }
+  if (var0 & 4) { TlStoreBinary::store(receipt_msg_id_, s); }
+  TlStoreString::store(currency_, s);
+  TlStoreBinary::store(total_amount_, s);
+  TlStoreString::store(start_param_, s);
+  if (var0 & 16) { TlStoreBoxedUnknown<TlStoreObject>::store(extended_media_, s); }
+}
+
+void messageMediaInvoice::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (shipping_address_requested_ << 1) | (test_ << 3)), s);
+  TlStoreString::store(title_, s);
+  TlStoreString::store(description_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(photo_, s); }
+  if (var0 & 4) { TlStoreBinary::store(receipt_msg_id_, s); }
+  TlStoreString::store(currency_, s);
+  TlStoreBinary::store(total_amount_, s);
+  TlStoreString::store(start_param_, s);
+  if (var0 & 16) { TlStoreBoxedUnknown<TlStoreObject>::store(extended_media_, s); }
 }
 
 void messageMediaInvoice::store(TlStorerToString &s, const char *field_name) const {
@@ -4147,6 +4995,14 @@ messageMediaGeoLive::messageMediaGeoLive()
   , proximity_notification_radius_()
 {}
 
+messageMediaGeoLive::messageMediaGeoLive(int32 flags_, object_ptr<GeoPoint> &&geo_, int32 heading_, int32 period_, int32 proximity_notification_radius_)
+  : flags_(flags_)
+  , geo_(std::move(geo_))
+  , heading_(heading_)
+  , period_(period_)
+  , proximity_notification_radius_(proximity_notification_radius_)
+{}
+
 const std::int32_t messageMediaGeoLive::ID;
 
 object_ptr<MessageMedia> messageMediaGeoLive::fetch(TlBufferParser &p) {
@@ -4163,6 +5019,26 @@ object_ptr<MessageMedia> messageMediaGeoLive::fetch(TlBufferParser &p) {
 #undef FAIL
 }
 
+void messageMediaGeoLive::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(geo_, s);
+  if (var0 & 1) { TlStoreBinary::store(heading_, s); }
+  TlStoreBinary::store(period_, s);
+  if (var0 & 2) { TlStoreBinary::store(proximity_notification_radius_, s); }
+}
+
+void messageMediaGeoLive::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(geo_, s);
+  if (var0 & 1) { TlStoreBinary::store(heading_, s); }
+  TlStoreBinary::store(period_, s);
+  if (var0 & 2) { TlStoreBinary::store(proximity_notification_radius_, s); }
+}
+
 void messageMediaGeoLive::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaGeoLive");
@@ -4176,42 +5052,120 @@ void messageMediaGeoLive::store(TlStorerToString &s, const char *field_name) con
   }
 }
 
+messageMediaPoll::messageMediaPoll()
+  : flags_()
+  , poll_()
+  , results_()
+  , attached_media_()
+{}
+
+messageMediaPoll::messageMediaPoll(int32 flags_, object_ptr<poll> &&poll_, object_ptr<pollResults> &&results_, object_ptr<MessageMedia> &&attached_media_)
+  : flags_(flags_)
+  , poll_(std::move(poll_))
+  , results_(std::move(results_))
+  , attached_media_(std::move(attached_media_))
+{}
+
 const std::int32_t messageMediaPoll::ID;
 
 object_ptr<MessageMedia> messageMediaPoll::fetch(TlBufferParser &p) {
-  return make_tl_object<messageMediaPoll>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<messageMediaPoll> res = make_tl_object<messageMediaPoll>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->poll_ = TlFetchBoxed<TlFetchObject<poll>, -1203610647>::parse(p);
+  res->results_ = TlFetchBoxed<TlFetchObject<pollResults>, -1166298786>::parse(p);
+  if (var0 & 1) { res->attached_media_ = TlFetchObject<MessageMedia>::parse(p); }
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
 
-messageMediaPoll::messageMediaPoll(TlBufferParser &p)
-  : poll_(TlFetchBoxed<TlFetchObject<poll>, 1484026161>::parse(p))
-  , results_(TlFetchBoxed<TlFetchObject<pollResults>, 2061444128>::parse(p))
-{}
+void messageMediaPoll::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxed<TlStoreObject, -1203610647>::store(poll_, s);
+  TlStoreBoxed<TlStoreObject, -1166298786>::store(results_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(attached_media_, s); }
+}
+
+void messageMediaPoll::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxed<TlStoreObject, -1203610647>::store(poll_, s);
+  TlStoreBoxed<TlStoreObject, -1166298786>::store(results_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(attached_media_, s); }
+}
 
 void messageMediaPoll::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaPoll");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
     s.store_object_field("poll", static_cast<const BaseObject *>(poll_.get()));
     s.store_object_field("results", static_cast<const BaseObject *>(results_.get()));
+    if (var0 & 1) { s.store_object_field("attached_media", static_cast<const BaseObject *>(attached_media_.get())); }
     s.store_class_end();
   }
 }
 
+messageMediaDice::messageMediaDice()
+  : flags_()
+  , value_()
+  , emoticon_()
+  , game_outcome_()
+{}
+
+messageMediaDice::messageMediaDice(int32 flags_, int32 value_, string const &emoticon_, object_ptr<messages_emojiGameOutcome> &&game_outcome_)
+  : flags_(flags_)
+  , value_(value_)
+  , emoticon_(emoticon_)
+  , game_outcome_(std::move(game_outcome_))
+{}
+
 const std::int32_t messageMediaDice::ID;
 
 object_ptr<MessageMedia> messageMediaDice::fetch(TlBufferParser &p) {
-  return make_tl_object<messageMediaDice>(p);
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<messageMediaDice> res = make_tl_object<messageMediaDice>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->value_ = TlFetchInt::parse(p);
+  res->emoticon_ = TlFetchString<string>::parse(p);
+  if (var0 & 1) { res->game_outcome_ = TlFetchBoxed<TlFetchObject<messages_emojiGameOutcome>, -634726841>::parse(p); }
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
 }
 
-messageMediaDice::messageMediaDice(TlBufferParser &p)
-  : value_(TlFetchInt::parse(p))
-  , emoticon_(TlFetchString<string>::parse(p))
-{}
+void messageMediaDice::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBinary::store(value_, s);
+  TlStoreString::store(emoticon_, s);
+  if (var0 & 1) { TlStoreBoxed<TlStoreObject, -634726841>::store(game_outcome_, s); }
+}
+
+void messageMediaDice::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBinary::store(value_, s);
+  TlStoreString::store(emoticon_, s);
+  if (var0 & 1) { TlStoreBoxed<TlStoreObject, -634726841>::store(game_outcome_, s); }
+}
 
 void messageMediaDice::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaDice");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_));
     s.store_field("value", value_);
     s.store_field("emoticon", emoticon_);
+    if (var0 & 1) { s.store_object_field("game_outcome", static_cast<const BaseObject *>(game_outcome_.get())); }
     s.store_class_end();
   }
 }
@@ -4222,6 +5176,14 @@ messageMediaStory::messageMediaStory()
   , peer_()
   , id_()
   , story_()
+{}
+
+messageMediaStory::messageMediaStory(int32 flags_, bool via_mention_, object_ptr<Peer> &&peer_, int32 id_, object_ptr<StoryItem> &&story_)
+  : flags_(flags_)
+  , via_mention_(via_mention_)
+  , peer_(std::move(peer_))
+  , id_(id_)
+  , story_(std::move(story_))
 {}
 
 const std::int32_t messageMediaStory::ID;
@@ -4238,6 +5200,24 @@ object_ptr<MessageMedia> messageMediaStory::fetch(TlBufferParser &p) {
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
+}
+
+void messageMediaStory::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (via_mention_ << 1)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  TlStoreBinary::store(id_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(story_, s); }
+}
+
+void messageMediaStory::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (via_mention_ << 1)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  TlStoreBinary::store(id_, s);
+  if (var0 & 1) { TlStoreBoxedUnknown<TlStoreObject>::store(story_, s); }
 }
 
 void messageMediaStory::store(TlStorerToString &s, const char *field_name) const {
@@ -4266,6 +5246,19 @@ messageMediaGiveaway::messageMediaGiveaway()
   , until_date_()
 {}
 
+messageMediaGiveaway::messageMediaGiveaway(int32 flags_, bool only_new_subscribers_, bool winners_are_visible_, array<int64> &&channels_, array<string> &&countries_iso2_, string const &prize_description_, int32 quantity_, int32 months_, int64 stars_, int32 until_date_)
+  : flags_(flags_)
+  , only_new_subscribers_(only_new_subscribers_)
+  , winners_are_visible_(winners_are_visible_)
+  , channels_(std::move(channels_))
+  , countries_iso2_(std::move(countries_iso2_))
+  , prize_description_(prize_description_)
+  , quantity_(quantity_)
+  , months_(months_)
+  , stars_(stars_)
+  , until_date_(until_date_)
+{}
+
 const std::int32_t messageMediaGiveaway::ID;
 
 object_ptr<MessageMedia> messageMediaGiveaway::fetch(TlBufferParser &p) {
@@ -4285,6 +5278,32 @@ object_ptr<MessageMedia> messageMediaGiveaway::fetch(TlBufferParser &p) {
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
+}
+
+void messageMediaGiveaway::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (only_new_subscribers_ << 0) | (winners_are_visible_ << 2)), s);
+  TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(channels_, s);
+  if (var0 & 2) { TlStoreBoxed<TlStoreVector<TlStoreString>, 481674261>::store(countries_iso2_, s); }
+  if (var0 & 8) { TlStoreString::store(prize_description_, s); }
+  TlStoreBinary::store(quantity_, s);
+  if (var0 & 16) { TlStoreBinary::store(months_, s); }
+  if (var0 & 32) { TlStoreBinary::store(stars_, s); }
+  TlStoreBinary::store(until_date_, s);
+}
+
+void messageMediaGiveaway::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (only_new_subscribers_ << 0) | (winners_are_visible_ << 2)), s);
+  TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(channels_, s);
+  if (var0 & 2) { TlStoreBoxed<TlStoreVector<TlStoreString>, 481674261>::store(countries_iso2_, s); }
+  if (var0 & 8) { TlStoreString::store(prize_description_, s); }
+  TlStoreBinary::store(quantity_, s);
+  if (var0 & 16) { TlStoreBinary::store(months_, s); }
+  if (var0 & 32) { TlStoreBinary::store(stars_, s); }
+  TlStoreBinary::store(until_date_, s);
 }
 
 void messageMediaGiveaway::store(TlStorerToString &s, const char *field_name) const {
@@ -4321,6 +5340,22 @@ messageMediaGiveawayResults::messageMediaGiveawayResults()
   , until_date_()
 {}
 
+messageMediaGiveawayResults::messageMediaGiveawayResults(int32 flags_, bool only_new_subscribers_, bool refunded_, int64 channel_id_, int32 additional_peers_count_, int32 launch_msg_id_, int32 winners_count_, int32 unclaimed_count_, array<int64> &&winners_, int32 months_, int64 stars_, string const &prize_description_, int32 until_date_)
+  : flags_(flags_)
+  , only_new_subscribers_(only_new_subscribers_)
+  , refunded_(refunded_)
+  , channel_id_(channel_id_)
+  , additional_peers_count_(additional_peers_count_)
+  , launch_msg_id_(launch_msg_id_)
+  , winners_count_(winners_count_)
+  , unclaimed_count_(unclaimed_count_)
+  , winners_(std::move(winners_))
+  , months_(months_)
+  , stars_(stars_)
+  , prize_description_(prize_description_)
+  , until_date_(until_date_)
+{}
+
 const std::int32_t messageMediaGiveawayResults::ID;
 
 object_ptr<MessageMedia> messageMediaGiveawayResults::fetch(TlBufferParser &p) {
@@ -4345,6 +5380,38 @@ object_ptr<MessageMedia> messageMediaGiveawayResults::fetch(TlBufferParser &p) {
 #undef FAIL
 }
 
+void messageMediaGiveawayResults::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (only_new_subscribers_ << 0) | (refunded_ << 2)), s);
+  TlStoreBinary::store(channel_id_, s);
+  if (var0 & 8) { TlStoreBinary::store(additional_peers_count_, s); }
+  TlStoreBinary::store(launch_msg_id_, s);
+  TlStoreBinary::store(winners_count_, s);
+  TlStoreBinary::store(unclaimed_count_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(winners_, s);
+  if (var0 & 16) { TlStoreBinary::store(months_, s); }
+  if (var0 & 32) { TlStoreBinary::store(stars_, s); }
+  if (var0 & 2) { TlStoreString::store(prize_description_, s); }
+  TlStoreBinary::store(until_date_, s);
+}
+
+void messageMediaGiveawayResults::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (only_new_subscribers_ << 0) | (refunded_ << 2)), s);
+  TlStoreBinary::store(channel_id_, s);
+  if (var0 & 8) { TlStoreBinary::store(additional_peers_count_, s); }
+  TlStoreBinary::store(launch_msg_id_, s);
+  TlStoreBinary::store(winners_count_, s);
+  TlStoreBinary::store(unclaimed_count_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(winners_, s);
+  if (var0 & 16) { TlStoreBinary::store(months_, s); }
+  if (var0 & 32) { TlStoreBinary::store(stars_, s); }
+  if (var0 & 2) { TlStoreString::store(prize_description_, s); }
+  TlStoreBinary::store(until_date_, s);
+}
+
 void messageMediaGiveawayResults::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "messageMediaGiveawayResults");
@@ -4366,6 +5433,11 @@ void messageMediaGiveawayResults::store(TlStorerToString &s, const char *field_n
   }
 }
 
+messageMediaPaidMedia::messageMediaPaidMedia(int64 stars_amount_, array<object_ptr<MessageExtendedMedia>> &&extended_media_)
+  : stars_amount_(stars_amount_)
+  , extended_media_(std::move(extended_media_))
+{}
+
 const std::int32_t messageMediaPaidMedia::ID;
 
 object_ptr<MessageMedia> messageMediaPaidMedia::fetch(TlBufferParser &p) {
@@ -4376,6 +5448,18 @@ messageMediaPaidMedia::messageMediaPaidMedia(TlBufferParser &p)
   : stars_amount_(TlFetchLong::parse(p))
   , extended_media_(TlFetchBoxed<TlFetchVector<TlFetchObject<MessageExtendedMedia>>, 481674261>::parse(p))
 {}
+
+void messageMediaPaidMedia::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(stars_amount_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(extended_media_, s);
+}
+
+void messageMediaPaidMedia::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreBinary::store(stars_amount_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBoxedUnknown<TlStoreObject>>, 481674261>::store(extended_media_, s);
+}
 
 void messageMediaPaidMedia::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
@@ -4392,6 +5476,12 @@ messageMediaToDo::messageMediaToDo()
   , completions_()
 {}
 
+messageMediaToDo::messageMediaToDo(int32 flags_, object_ptr<todoList> &&todo_, array<object_ptr<todoCompletion>> &&completions_)
+  : flags_(flags_)
+  , todo_(std::move(todo_))
+  , completions_(std::move(completions_))
+{}
+
 const std::int32_t messageMediaToDo::ID;
 
 object_ptr<MessageMedia> messageMediaToDo::fetch(TlBufferParser &p) {
@@ -4400,10 +5490,26 @@ object_ptr<MessageMedia> messageMediaToDo::fetch(TlBufferParser &p) {
   int32 var0;
   if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
   res->todo_ = TlFetchBoxed<TlFetchObject<todoList>, 1236871718>::parse(p);
-  if (var0 & 1) { res->completions_ = TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<todoCompletion>, 1287725239>>, 481674261>::parse(p); }
+  if (var0 & 1) { res->completions_ = TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<todoCompletion>, 572241380>>, 481674261>::parse(p); }
   if (p.get_error()) { FAIL(""); }
   return std::move(res);
 #undef FAIL
+}
+
+void messageMediaToDo::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxed<TlStoreObject, 1236871718>::store(todo_, s);
+  if (var0 & 1) { TlStoreBoxed<TlStoreVector<TlStoreBoxed<TlStoreObject, 572241380>>, 481674261>::store(completions_, s); }
+}
+
+void messageMediaToDo::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxed<TlStoreObject, 1236871718>::store(todo_, s);
+  if (var0 & 1) { TlStoreBoxed<TlStoreVector<TlStoreBoxed<TlStoreObject, 572241380>>, 481674261>::store(completions_, s); }
 }
 
 void messageMediaToDo::store(TlStorerToString &s, const char *field_name) const {
@@ -4413,6 +5519,57 @@ void messageMediaToDo::store(TlStorerToString &s, const char *field_name) const 
     s.store_field("flags", (var0 = flags_));
     s.store_object_field("todo", static_cast<const BaseObject *>(todo_.get()));
     if (var0 & 1) { { s.store_vector_begin("completions", completions_.size()); for (const auto &_value : completions_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); } }
+    s.store_class_end();
+  }
+}
+
+messageMediaVideoStream::messageMediaVideoStream()
+  : flags_()
+  , rtmp_stream_()
+  , call_()
+{}
+
+messageMediaVideoStream::messageMediaVideoStream(int32 flags_, bool rtmp_stream_, object_ptr<InputGroupCall> &&call_)
+  : flags_(flags_)
+  , rtmp_stream_(rtmp_stream_)
+  , call_(std::move(call_))
+{}
+
+const std::int32_t messageMediaVideoStream::ID;
+
+object_ptr<MessageMedia> messageMediaVideoStream::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<messageMediaVideoStream> res = make_tl_object<messageMediaVideoStream>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->rtmp_stream_ = (var0 & 1) != 0;
+  res->call_ = TlFetchObject<InputGroupCall>::parse(p);
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
+}
+
+void messageMediaVideoStream::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (rtmp_stream_ << 0)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(call_, s);
+}
+
+void messageMediaVideoStream::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (rtmp_stream_ << 0)), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(call_, s);
+}
+
+void messageMediaVideoStream::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messageMediaVideoStream");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_ | (rtmp_stream_ << 0)));
+    if (var0 & 1) { s.store_field("rtmp_stream", true); }
+    s.store_object_field("call", static_cast<const BaseObject *>(call_.get()));
     s.store_class_end();
   }
 }
@@ -4826,6 +5983,16 @@ photoSizeEmpty::photoSizeEmpty(TlBufferParser &p)
   : type_(TlFetchString<string>::parse(p))
 {}
 
+void photoSizeEmpty::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+}
+
+void photoSizeEmpty::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+}
+
 void photoSizeEmpty::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "photoSizeEmpty");
@@ -4853,6 +6020,22 @@ photoSize::photoSize(TlBufferParser &p)
   , h_(TlFetchInt::parse(p))
   , size_(TlFetchInt::parse(p))
 {}
+
+void photoSize::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreBinary::store(w_, s);
+  TlStoreBinary::store(h_, s);
+  TlStoreBinary::store(size_, s);
+}
+
+void photoSize::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreBinary::store(w_, s);
+  TlStoreBinary::store(h_, s);
+  TlStoreBinary::store(size_, s);
+}
 
 void photoSize::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
@@ -4885,6 +6068,22 @@ photoCachedSize::photoCachedSize(TlBufferParser &p)
   , bytes_(TlFetchBytes<bytes>::parse(p))
 {}
 
+void photoCachedSize::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreBinary::store(w_, s);
+  TlStoreBinary::store(h_, s);
+  TlStoreString::store(bytes_, s);
+}
+
+void photoCachedSize::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreBinary::store(w_, s);
+  TlStoreBinary::store(h_, s);
+  TlStoreString::store(bytes_, s);
+}
+
 void photoCachedSize::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "photoCachedSize");
@@ -4895,6 +6094,11 @@ void photoCachedSize::store(TlStorerToString &s, const char *field_name) const {
     s.store_class_end();
   }
 }
+
+photoStrippedSize::photoStrippedSize(string const &type_, bytes &&bytes_)
+  : type_(type_)
+  , bytes_(std::move(bytes_))
+{}
 
 const std::int32_t photoStrippedSize::ID;
 
@@ -4907,6 +6111,18 @@ photoStrippedSize::photoStrippedSize(TlBufferParser &p)
   , bytes_(TlFetchBytes<bytes>::parse(p))
 {}
 
+void photoStrippedSize::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreString::store(bytes_, s);
+}
+
+void photoStrippedSize::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreString::store(bytes_, s);
+}
+
 void photoStrippedSize::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "photoStrippedSize");
@@ -4915,6 +6131,13 @@ void photoStrippedSize::store(TlStorerToString &s, const char *field_name) const
     s.store_class_end();
   }
 }
+
+photoSizeProgressive::photoSizeProgressive(string const &type_, int32 w_, int32 h_, array<int32> &&sizes_)
+  : type_(type_)
+  , w_(w_)
+  , h_(h_)
+  , sizes_(std::move(sizes_))
+{}
 
 const std::int32_t photoSizeProgressive::ID;
 
@@ -4929,6 +6152,22 @@ photoSizeProgressive::photoSizeProgressive(TlBufferParser &p)
   , sizes_(TlFetchBoxed<TlFetchVector<TlFetchInt>, 481674261>::parse(p))
 {}
 
+void photoSizeProgressive::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreBinary::store(w_, s);
+  TlStoreBinary::store(h_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(sizes_, s);
+}
+
+void photoSizeProgressive::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreBinary::store(w_, s);
+  TlStoreBinary::store(h_, s);
+  TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(sizes_, s);
+}
+
 void photoSizeProgressive::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "photoSizeProgressive");
@@ -4940,6 +6179,11 @@ void photoSizeProgressive::store(TlStorerToString &s, const char *field_name) co
   }
 }
 
+photoPathSize::photoPathSize(string const &type_, bytes &&bytes_)
+  : type_(type_)
+  , bytes_(std::move(bytes_))
+{}
+
 const std::int32_t photoPathSize::ID;
 
 object_ptr<PhotoSize> photoPathSize::fetch(TlBufferParser &p) {
@@ -4950,6 +6194,18 @@ photoPathSize::photoPathSize(TlBufferParser &p)
   : type_(TlFetchString<string>::parse(p))
   , bytes_(TlFetchBytes<bytes>::parse(p))
 {}
+
+void photoPathSize::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreString::store(bytes_, s);
+}
+
+void photoPathSize::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  TlStoreString::store(type_, s);
+  TlStoreString::store(bytes_, s);
+}
 
 void photoPathSize::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
@@ -5101,6 +6357,8 @@ object_ptr<PrivacyKey> PrivacyKey::fetch(TlBufferParser &p) {
       return privacyKeyStarGiftsAutoSave::fetch(p);
     case privacyKeyNoPaidMessages::ID:
       return privacyKeyNoPaidMessages::fetch(p);
+    case privacyKeySavedMusic::ID:
+      return privacyKeySavedMusic::fetch(p);
     default:
       FAIL(PSTRING() << "Unknown constructor found " << format::as_hex(constructor));
   }
@@ -5276,6 +6534,19 @@ void privacyKeyNoPaidMessages::store(TlStorerToString &s, const char *field_name
   }
 }
 
+const std::int32_t privacyKeySavedMusic::ID;
+
+object_ptr<PrivacyKey> privacyKeySavedMusic::fetch(TlBufferParser &p) {
+  return make_tl_object<privacyKeySavedMusic>();
+}
+
+void privacyKeySavedMusic::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "privacyKeySavedMusic");
+    s.store_class_end();
+  }
+}
+
 const std::int32_t readParticipantDate::ID;
 
 object_ptr<readParticipantDate> readParticipantDate::fetch(TlBufferParser &p) {
@@ -5326,6 +6597,8 @@ object_ptr<RequestPeerType> RequestPeerType::fetch(TlBufferParser &p) {
       return requestPeerTypeChat::fetch(p);
     case requestPeerTypeBroadcast::ID:
       return requestPeerTypeBroadcast::fetch(p);
+    case requestPeerTypeCreateBot::ID:
+      return requestPeerTypeCreateBot::fetch(p);
     default:
       FAIL(PSTRING() << "Unknown constructor found " << format::as_hex(constructor));
   }
@@ -5517,6 +6790,63 @@ void requestPeerTypeBroadcast::store(TlStorerToString &s, const char *field_name
     if (var0 & 8) { s.store_field("has_username", has_username_); }
     if (var0 & 2) { s.store_object_field("user_admin_rights", static_cast<const BaseObject *>(user_admin_rights_.get())); }
     if (var0 & 4) { s.store_object_field("bot_admin_rights", static_cast<const BaseObject *>(bot_admin_rights_.get())); }
+    s.store_class_end();
+  }
+}
+
+requestPeerTypeCreateBot::requestPeerTypeCreateBot()
+  : flags_()
+  , bot_managed_()
+  , suggested_name_()
+  , suggested_username_()
+{}
+
+requestPeerTypeCreateBot::requestPeerTypeCreateBot(int32 flags_, bool bot_managed_, string const &suggested_name_, string const &suggested_username_)
+  : flags_(flags_)
+  , bot_managed_(bot_managed_)
+  , suggested_name_(suggested_name_)
+  , suggested_username_(suggested_username_)
+{}
+
+const std::int32_t requestPeerTypeCreateBot::ID;
+
+object_ptr<RequestPeerType> requestPeerTypeCreateBot::fetch(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return nullptr;
+  object_ptr<requestPeerTypeCreateBot> res = make_tl_object<requestPeerTypeCreateBot>();
+  int32 var0;
+  if ((var0 = res->flags_ = TlFetchInt::parse(p)) < 0) { FAIL("Variable of type # can't be negative"); }
+  res->bot_managed_ = (var0 & 1) != 0;
+  if (var0 & 2) { res->suggested_name_ = TlFetchString<string>::parse(p); }
+  if (var0 & 4) { res->suggested_username_ = TlFetchString<string>::parse(p); }
+  if (p.get_error()) { FAIL(""); }
+  return std::move(res);
+#undef FAIL
+}
+
+void requestPeerTypeCreateBot::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (bot_managed_ << 0)), s);
+  if (var0 & 2) { TlStoreString::store(suggested_name_, s); }
+  if (var0 & 4) { TlStoreString::store(suggested_username_, s); }
+}
+
+void requestPeerTypeCreateBot::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (bot_managed_ << 0)), s);
+  if (var0 & 2) { TlStoreString::store(suggested_name_, s); }
+  if (var0 & 4) { TlStoreString::store(suggested_username_, s); }
+}
+
+void requestPeerTypeCreateBot::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "requestPeerTypeCreateBot");
+  int32 var0;
+    s.store_field("flags", (var0 = flags_ | (bot_managed_ << 0)));
+    if (var0 & 1) { s.store_field("bot_managed", true); }
+    if (var0 & 2) { s.store_field("suggested_name", suggested_name_); }
+    if (var0 & 4) { s.store_field("suggested_username", suggested_username_); }
     s.store_class_end();
   }
 }
@@ -5994,6 +7324,16 @@ storyViews::storyViews()
   , recent_viewers_()
 {}
 
+storyViews::storyViews(int32 flags_, bool has_viewers_, int32 views_count_, int32 forwards_count_, array<object_ptr<reactionCount>> &&reactions_, int32 reactions_count_, array<int64> &&recent_viewers_)
+  : flags_(flags_)
+  , has_viewers_(has_viewers_)
+  , views_count_(views_count_)
+  , forwards_count_(forwards_count_)
+  , reactions_(std::move(reactions_))
+  , reactions_count_(reactions_count_)
+  , recent_viewers_(std::move(recent_viewers_))
+{}
+
 const std::int32_t storyViews::ID;
 
 object_ptr<storyViews> storyViews::fetch(TlBufferParser &p) {
@@ -6010,6 +7350,28 @@ object_ptr<storyViews> storyViews::fetch(TlBufferParser &p) {
   if (p.get_error()) { FAIL(""); }
   return res;
 #undef FAIL
+}
+
+void storyViews::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (has_viewers_ << 1)), s);
+  TlStoreBinary::store(views_count_, s);
+  if (var0 & 4) { TlStoreBinary::store(forwards_count_, s); }
+  if (var0 & 8) { TlStoreBoxed<TlStoreVector<TlStoreBoxed<TlStoreObject, -1546531968>>, 481674261>::store(reactions_, s); }
+  if (var0 & 16) { TlStoreBinary::store(reactions_count_, s); }
+  if (var0 & 1) { TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(recent_viewers_, s); }
+}
+
+void storyViews::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  int32 var0;
+  TlStoreBinary::store((var0 = flags_ | (has_viewers_ << 1)), s);
+  TlStoreBinary::store(views_count_, s);
+  if (var0 & 4) { TlStoreBinary::store(forwards_count_, s); }
+  if (var0 & 8) { TlStoreBoxed<TlStoreVector<TlStoreBoxed<TlStoreObject, -1546531968>>, 481674261>::store(reactions_, s); }
+  if (var0 & 16) { TlStoreBinary::store(reactions_count_, s); }
+  if (var0 & 1) { TlStoreBoxed<TlStoreVector<TlStoreBinary>, 481674261>::store(recent_viewers_, s); }
 }
 
 void storyViews::store(TlStorerToString &s, const char *field_name) const {
@@ -6757,6 +8119,24 @@ void payments_paymentVerificationNeeded::store(TlStorerToString &s, const char *
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "payments.paymentVerificationNeeded");
     s.store_field("url", url_);
+    s.store_class_end();
+  }
+}
+
+const std::int32_t payments_starGiftUpgradeAttributes::ID;
+
+object_ptr<payments_starGiftUpgradeAttributes> payments_starGiftUpgradeAttributes::fetch(TlBufferParser &p) {
+  return make_tl_object<payments_starGiftUpgradeAttributes>(p);
+}
+
+payments_starGiftUpgradeAttributes::payments_starGiftUpgradeAttributes(TlBufferParser &p)
+  : attributes_(TlFetchBoxed<TlFetchVector<TlFetchObject<StarGiftAttribute>>, 481674261>::parse(p))
+{}
+
+void payments_starGiftUpgradeAttributes::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "payments.starGiftUpgradeAttributes");
+    { s.store_vector_begin("attributes", attributes_.size()); for (const auto &_value : attributes_) { s.store_object_field("", static_cast<const BaseObject *>(_value.get())); } s.store_class_end(); }
     s.store_class_end();
   }
 }
@@ -7838,9 +9218,10 @@ channels_deleteChannel::ReturnType channels_deleteChannel::fetch_result(TlBuffer
 #undef FAIL
 }
 
-channels_getSendAs::channels_getSendAs(int32 flags_, bool for_paid_reactions_, object_ptr<InputPeer> &&peer_)
+channels_getSendAs::channels_getSendAs(int32 flags_, bool for_paid_reactions_, bool for_live_stories_, object_ptr<InputPeer> &&peer_)
   : flags_(flags_)
   , for_paid_reactions_(for_paid_reactions_)
+  , for_live_stories_(for_live_stories_)
   , peer_(std::move(peer_))
 {}
 
@@ -7849,22 +9230,23 @@ const std::int32_t channels_getSendAs::ID;
 void channels_getSendAs::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
   s.store_binary(-410672065);
-  TlStoreBinary::store((var0 = flags_ | (for_paid_reactions_ << 0)), s);
+  TlStoreBinary::store((var0 = flags_ | (for_paid_reactions_ << 0) | (for_live_stories_ << 1)), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
 }
 
 void channels_getSendAs::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
   s.store_binary(-410672065);
-  TlStoreBinary::store((var0 = flags_ | (for_paid_reactions_ << 0)), s);
+  TlStoreBinary::store((var0 = flags_ | (for_paid_reactions_ << 0) | (for_live_stories_ << 1)), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
 }
 
 void channels_getSendAs::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "channels.getSendAs");
-    s.store_field("flags", (var0 = flags_ | (for_paid_reactions_ << 0)));
+    s.store_field("flags", (var0 = flags_ | (for_paid_reactions_ << 0) | (for_live_stories_ << 1)));
     if (var0 & 1) { s.store_field("for_paid_reactions", true); }
+    if (var0 & 2) { s.store_field("for_live_stories", true); }
     s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get()));
     s.store_class_end();
   }
@@ -8043,6 +9425,46 @@ void langpack_getLanguages::store(TlStorerToString &s, const char *field_name) c
 langpack_getLanguages::ReturnType langpack_getLanguages::fetch_result(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return ReturnType()
   return TlFetchBoxed<TlFetchVector<TlFetchBoxed<TlFetchObject<langPackLanguage>, -288727837>>, 481674261>::parse(p);
+#undef FAIL
+}
+
+messages_addPollAnswer::messages_addPollAnswer(object_ptr<InputPeer> &&peer_, int32 msg_id_, object_ptr<PollAnswer> &&answer_)
+  : peer_(std::move(peer_))
+  , msg_id_(msg_id_)
+  , answer_(std::move(answer_))
+{}
+
+const std::int32_t messages_addPollAnswer::ID;
+
+void messages_addPollAnswer::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(431770477);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  TlStoreBinary::store(msg_id_, s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(answer_, s);
+}
+
+void messages_addPollAnswer::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(431770477);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  TlStoreBinary::store(msg_id_, s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(answer_, s);
+}
+
+void messages_addPollAnswer::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messages.addPollAnswer");
+    s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get()));
+    s.store_field("msg_id", msg_id_);
+    s.store_object_field("answer", static_cast<const BaseObject *>(answer_.get()));
+    s.store_class_end();
+  }
+}
+
+messages_addPollAnswer::ReturnType messages_addPollAnswer::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchObject<Updates>::parse(p);
 #undef FAIL
 }
 
@@ -8677,6 +10099,54 @@ messages_requestWebView::ReturnType messages_requestWebView::fetch_result(TlBuff
 #undef FAIL
 }
 
+messages_summarizeText::messages_summarizeText(int32 flags_, object_ptr<InputPeer> &&peer_, int32 id_, string const &to_lang_, string const &tone_)
+  : flags_(flags_)
+  , peer_(std::move(peer_))
+  , id_(id_)
+  , to_lang_(to_lang_)
+  , tone_(tone_)
+{}
+
+const std::int32_t messages_summarizeText::ID;
+
+void messages_summarizeText::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(-1413754042);
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  TlStoreBinary::store(id_, s);
+  if (var0 & 1) { TlStoreString::store(to_lang_, s); }
+  if (var0 & 4) { TlStoreString::store(tone_, s); }
+}
+
+void messages_summarizeText::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(-1413754042);
+  TlStoreBinary::store((var0 = flags_), s);
+  TlStoreBoxedUnknown<TlStoreObject>::store(peer_, s);
+  TlStoreBinary::store(id_, s);
+  if (var0 & 1) { TlStoreString::store(to_lang_, s); }
+  if (var0 & 4) { TlStoreString::store(tone_, s); }
+}
+
+void messages_summarizeText::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "messages.summarizeText");
+    s.store_field("flags", (var0 = flags_));
+    s.store_object_field("peer", static_cast<const BaseObject *>(peer_.get()));
+    s.store_field("id", id_);
+    if (var0 & 1) { s.store_field("to_lang", to_lang_); }
+    if (var0 & 4) { s.store_field("tone", tone_); }
+    s.store_class_end();
+  }
+}
+
+messages_summarizeText::ReturnType messages_summarizeText::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchBoxed<TlFetchObject<textWithEntities>, 1964978502>::parse(p);
+#undef FAIL
+}
+
 payments_getGiveawayInfo::payments_getGiveawayInfo(object_ptr<InputPeer> &&peer_, int32 msg_id_)
   : peer_(std::move(peer_))
   , msg_id_(msg_id_)
@@ -8710,6 +10180,38 @@ void payments_getGiveawayInfo::store(TlStorerToString &s, const char *field_name
 payments_getGiveawayInfo::ReturnType payments_getGiveawayInfo::fetch_result(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return ReturnType()
   return TlFetchObject<payments_GiveawayInfo>::parse(p);
+#undef FAIL
+}
+
+payments_getStarGiftUpgradeAttributes::payments_getStarGiftUpgradeAttributes(int64 gift_id_)
+  : gift_id_(gift_id_)
+{}
+
+const std::int32_t payments_getStarGiftUpgradeAttributes::ID;
+
+void payments_getStarGiftUpgradeAttributes::store(TlStorerCalcLength &s) const {
+  (void)sizeof(s);
+  s.store_binary(1828948824);
+  TlStoreBinary::store(gift_id_, s);
+}
+
+void payments_getStarGiftUpgradeAttributes::store(TlStorerUnsafe &s) const {
+  (void)sizeof(s);
+  s.store_binary(1828948824);
+  TlStoreBinary::store(gift_id_, s);
+}
+
+void payments_getStarGiftUpgradeAttributes::store(TlStorerToString &s, const char *field_name) const {
+  if (!LOG_IS_STRIPPED(ERROR)) {
+    s.store_class_begin(field_name, "payments.getStarGiftUpgradeAttributes");
+    s.store_field("gift_id", gift_id_);
+    s.store_class_end();
+  }
+}
+
+payments_getStarGiftUpgradeAttributes::ReturnType payments_getStarGiftUpgradeAttributes::fetch_result(TlBufferParser &p) {
+#define FAIL(error) p.set_error(error); return ReturnType()
+  return TlFetchBoxed<TlFetchObject<payments_starGiftUpgradeAttributes>, 1187439471>::parse(p);
 #undef FAIL
 }
 
@@ -8903,43 +10405,55 @@ phone_sendGroupCallEncryptedMessage::ReturnType phone_sendGroupCallEncryptedMess
 #undef FAIL
 }
 
-phone_sendGroupCallMessage::phone_sendGroupCallMessage(object_ptr<InputGroupCall> &&call_, int64 random_id_, object_ptr<textWithEntities> &&message_)
-  : call_(std::move(call_))
+phone_sendGroupCallMessage::phone_sendGroupCallMessage(int32 flags_, object_ptr<InputGroupCall> &&call_, int64 random_id_, object_ptr<textWithEntities> &&message_, int64 allow_paid_stars_, object_ptr<InputPeer> &&send_as_)
+  : flags_(flags_)
+  , call_(std::move(call_))
   , random_id_(random_id_)
   , message_(std::move(message_))
+  , allow_paid_stars_(allow_paid_stars_)
+  , send_as_(std::move(send_as_))
 {}
 
 const std::int32_t phone_sendGroupCallMessage::ID;
 
 void phone_sendGroupCallMessage::store(TlStorerCalcLength &s) const {
   (void)sizeof(s);
-  s.store_binary(-2021052396);
+  s.store_binary(-1311697904);
+  TlStoreBinary::store((var0 = flags_), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(call_, s);
   TlStoreBinary::store(random_id_, s);
   TlStoreBoxed<TlStoreObject, 1964978502>::store(message_, s);
+  if (var0 & 1) { TlStoreBinary::store(allow_paid_stars_, s); }
+  if (var0 & 2) { TlStoreBoxedUnknown<TlStoreObject>::store(send_as_, s); }
 }
 
 void phone_sendGroupCallMessage::store(TlStorerUnsafe &s) const {
   (void)sizeof(s);
-  s.store_binary(-2021052396);
+  s.store_binary(-1311697904);
+  TlStoreBinary::store((var0 = flags_), s);
   TlStoreBoxedUnknown<TlStoreObject>::store(call_, s);
   TlStoreBinary::store(random_id_, s);
   TlStoreBoxed<TlStoreObject, 1964978502>::store(message_, s);
+  if (var0 & 1) { TlStoreBinary::store(allow_paid_stars_, s); }
+  if (var0 & 2) { TlStoreBoxedUnknown<TlStoreObject>::store(send_as_, s); }
 }
 
 void phone_sendGroupCallMessage::store(TlStorerToString &s, const char *field_name) const {
   if (!LOG_IS_STRIPPED(ERROR)) {
     s.store_class_begin(field_name, "phone.sendGroupCallMessage");
+    s.store_field("flags", (var0 = flags_));
     s.store_object_field("call", static_cast<const BaseObject *>(call_.get()));
     s.store_field("random_id", random_id_);
     s.store_object_field("message", static_cast<const BaseObject *>(message_.get()));
+    if (var0 & 1) { s.store_field("allow_paid_stars", allow_paid_stars_); }
+    if (var0 & 2) { s.store_object_field("send_as", static_cast<const BaseObject *>(send_as_.get())); }
     s.store_class_end();
   }
 }
 
 phone_sendGroupCallMessage::ReturnType phone_sendGroupCallMessage::fetch_result(TlBufferParser &p) {
 #define FAIL(error) p.set_error(error); return ReturnType()
-  return TlFetchBool::parse(p);
+  return TlFetchObject<Updates>::parse(p);
 #undef FAIL
 }
 

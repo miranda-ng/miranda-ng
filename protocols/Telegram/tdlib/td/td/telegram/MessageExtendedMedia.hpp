@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2025
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2026
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -108,9 +108,6 @@ void MessageExtendedMedia::parse(ParserT &parser) {
     Td *td = parser.context()->td().get_actor_unsafe();
     video_file_id_ = td->videos_manager_->parse_video(parser);
     is_bad = !video_file_id_.is_valid();
-    if (type_ != Type::Video) {
-      is_bad = true;
-    }
   } else if (type_ == Type::Video) {
     is_bad = true;
   }
