@@ -53,7 +53,10 @@ INT_PTR CTelegramProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 INT_PTR CTelegramProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	auto *pai = (PROTO_AVATAR_INFORMATION *)lParam;
-
+	auto szHash(getMStringA(pai->hContact, DBKEY_AVATAR_HASH));
+	if (szHash.IsEmpty())
+		return GAIR_NOAVATAR;
+		
 	CMStringW wszPath(GetAvatarFilename(pai->hContact));
 	pai->format = getByte(pai->hContact, DBKEY_AVATAR_TYPE, PA_FORMAT_JPEG);
 	wcsncpy_s(pai->filename, wszPath, _TRUNCATE);
@@ -102,15 +105,19 @@ void CTelegramProto::ProcessAvatar(const TD::file *pFile, TG_USER *pUser)
 	if (pUser->hContact == INVALID_CONTACT_ID)
 		return;
 
-	auto remoteId = pFile->remote_->unique_id_;
+	auto remoteId = pFile ? pFile->remote_->id_ : "";
 	auto storedId = getMStringA(pUser->hContact, DBKEY_AVATAR_HASH);
-	auto wszFileName = GetAvatarFilename(pUser->hContact);
-	if (remoteId != storedId.c_str() || _waccess(wszFileName, 0)) {
-		if (!remoteId.empty()) {
-			pUser->szAvatarHash = remoteId.c_str();
-			setString(pUser->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
-			SendQuery(new TD::downloadFile(pFile->id_, 5, 0, 0, false));
-		}
-		else delSetting(pUser->hContact, DBKEY_AVATAR_HASH);
+	bool bForceUpdate = !remoteId.empty() && _waccess(GetAvatarFilename(pUser->hContact), 0) != 0;
+	if (remoteId == storedId.c_str() && !bForceUpdate)
+		return;
+
+	if (!remoteId.empty()) {
+		pUser->szAvatarHash = remoteId.c_str();
+		setString(pUser->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+		SendQuery(new TD::downloadFile(pFile->id_, 5, 0, 0, false));
+	}
+	else {
+		delSetting(pUser->hContact, DBKEY_AVATAR_HASH);
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0);
 	}
 }

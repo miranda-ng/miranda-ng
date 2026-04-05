@@ -661,6 +661,8 @@ void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 
 	if (auto *pPhoto = pChat->photo_.get())
 		ProcessAvatar(pPhoto->small_.get(), pUser);
+	else
+		ProcessAvatar(nullptr, pUser);
 
 	if (pUser->hContact != INVALID_CONTACT_ID) {
 		if (pChat->has_protected_content_)
@@ -1369,6 +1371,8 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 
 	if (auto *pPhoto = pUser->profile_photo_.get())
 		ProcessAvatar(pPhoto->small_.get(), pu);
+	else
+		ProcessAvatar(nullptr, pu);
 
 	if (pUser->status_) {
 		if (pUser->status_->get_id() == TD::userStatusOffline::ID) {

@@ -742,6 +742,17 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 			}
 		break;
 
+	case TD::messageChatChangePhoto::ID:
+		if (!isHistory)
+			if (auto *pDoc = (TD::messageChatChangePhoto *)pBody)
+				ProcessAvatar(pDoc->photo_->sizes_[0]->photo_.get(), pUser);
+		break;
+
+	case TD::messageChatDeletePhoto::ID:
+		if (!isHistory)
+			ProcessAvatar(nullptr, pUser);
+		break;
+
 	case TD::messageAnimatedEmoji::ID:
 		if (auto *pObj = (TD::messageAnimatedEmoji *)pBody) {
 			if (m_bSmileyAdd) {
