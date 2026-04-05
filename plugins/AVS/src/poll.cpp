@@ -160,6 +160,9 @@ void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATION *pa
 		db_unset(hContact, "ContactPhoto", "NeedUpdate");
 
 		if (g_plugin.getByte("RemoveAvatarWhenContactRemoves", 1)) {
+			auto wszPath(db_get_wsm(hContact, "ContactPhoto", "File"));
+			DeleteFileW(wszPath);
+
 			// Delete settings
 			db_unset(hContact, "ContactPhoto", "RFile");
 			if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))
