@@ -54,7 +54,7 @@ INT_PTR CDiscordProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 void CDiscordProto::OnReceiveAvatar(MHttpResponse *reply, AsyncHttpRequest *pReq)
 {
-	PROTO_AVATAR_INFORMATION ai = { 0 };
+	PROTO_AVATAR_INFORMATION ai = {};
 	ai.format = PA_FORMAT_UNKNOWN;
 	ai.hContact = (UINT_PTR)pReq->pUserInfo;
 
@@ -121,22 +121,22 @@ bool CDiscordProto::RetrieveChannelAvatar(MCONTACT hContact)
 INT_PTR CDiscordProto::GetAvatarInfo(WPARAM flags, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
+	auto szHash(getMStringA(pai->hContact, DB_KEY_AVHASH));
+	if (szHash.IsEmpty())
+		return GAIR_NOAVATAR;
 
-	CMStringW wszFileName(GetAvatarFilename(pai->hContact));
-	if (!wszFileName.IsEmpty()) {
-		mir_wstrncpy(pai->filename, wszFileName, _countof(pai->filename));
+	auto wszFileName(GetAvatarFilename(pai->hContact));
+	mir_wstrncpy(pai->filename, wszFileName, _countof(pai->filename));
+	bool bFileExist = _waccess(wszFileName, 0) == 0;
 
-		bool bFileExist = _waccess(wszFileName, 0) == 0;
-
-		// if we still need to load an avatar
-		if ((flags & GAIF_FORCE) || !bFileExist) {
-			if (RetrieveAvatar(pai->hContact))
-				return GAIR_WAITFOR;
-		}
-		else if (bFileExist)
-			return GAIR_SUCCESS;
+	// if we still need to load an avatar
+	if ((flags & GAIF_FORCE) || !bFileExist) {
+		if (RetrieveAvatar(pai->hContact))
+			return GAIR_WAITFOR;
 	}
-
+	else if (bFileExist)
+		return GAIR_SUCCESS;
+	
 	return GAIR_NOAVATAR;
 }
 
@@ -204,10 +204,15 @@ INT_PTR CDiscordProto::SetMyAvatar(WPARAM, LPARAM lParam)
 
 void CDiscordProto::CheckAvatarChange(MCONTACT hContact, const CMStringW &wszNewHash)
 {
-	if (wszNewHash.IsEmpty())
-		return;
+	auto wszOldAvatar(getMStringW(hContact, DB_KEY_AVHASH));
 
-	ptrW wszOldAvatar(getWStringA(hContact, DB_KEY_AVHASH));
+	if (wszNewHash.IsEmpty()) {
+		if (!wszOldAvatar.IsEmpty()) {
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, 0);
+			delSetting(hContact, DB_KEY_AVHASH);
+		}
+		return;
+	}
 
 	// if avatar's hash changed, we need to request a new one
 	if (mir_wstrcmp(wszNewHash, wszOldAvatar)) {
