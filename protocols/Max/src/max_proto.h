@@ -41,6 +41,8 @@ class CMaxProto : public PROTO<CMaxProto>
 	void TryIngestNotifMessagePayload(const JSONNode &payload);
 	void TryMergeContactsFromPayload(const JSONNode &payload);
 	void TryApplySyncPayloadFromPush(const JSONNode &payload);
+	void IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId);
+	uint64_t GetLastLocalMessageTimeMs(MCONTACT hContact);
 	bool ApiPing(WebSocket<CMaxProto> *ws);
 	bool ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws);
 	/// Optional web session bootstrap (requests.md): ping, token refresh ping, folders — before opcode 19 sync.
@@ -71,12 +73,16 @@ public:
 	bool ApiSync(WebSocket<CMaxProto> *ws);
 	bool ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids);
 	bool ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pChatIds, size_t nIds);
+	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
+	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward);
 
 	void RegisterChatModule();
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);
 	CMStringW GetDefaultGroupW();
 	MCONTACT FindContactByMaxUid(const char *szUid);
 	MCONTACT FindContactByDialogChatId(const char *szChatId);
+	/// Ingest one USER message JSON (same shape as opcode 128 `payload.message` or chat `lastMessage`).
+	void IngestMaxMessageJson(const JSONNode &message, const char *szChatId);
 
 	// Avatars (AVS): URL from JSON, HTTP download on demand
 	CMStringA ExtractAvatarUrlFromJson(const JSONNode &c);

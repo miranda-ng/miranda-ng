@@ -40,10 +40,9 @@ MCONTACT CMaxProto::FindContactByDialogChatId(const char *szChatId)
 	return 0;
 }
 
-void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
+void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId)
 {
-	const JSONNode &msg = payload["message"];
-	if (msg.type() != JSON_NODE)
+	if (msg.type() != JSON_NODE || szChatId == nullptr || szChatId[0] == 0)
 		return;
 
 	const JSONNode &typeNd = msg["type"];
@@ -57,20 +56,16 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 	if (db_event_getById(m_szModuleName, msgId.c_str()) != 0)
 		return;
 
-	CMStringA chatId = sttMsgJsonIdStr(payload["chatId"]);
-	if (chatId.IsEmpty())
-		return;
-
 	CMStringA sender = sttMsgJsonIdStr(msg["sender"]);
 	CMStringA text = sttMessageBodyUtf8(msg);
 	if (text.IsEmpty())
 		return;
 
-	MCONTACT hContact = FindContactByDialogChatId(chatId.c_str());
+	MCONTACT hContact = FindContactByDialogChatId(szChatId);
 	if (!hContact)
 		hContact = FindContactByMaxUid(sender.c_str());
 	if (!hContact)
-		hContact = EnsureUserContact(sender.c_str(), nullptr, nullptr, chatId.c_str());
+		hContact = EnsureUserContact(sender.c_str(), nullptr, nullptr, szChatId);
 	if (!hContact)
 		return;
 
@@ -104,5 +99,61 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 	}
 
 	ProtoChainRecvMsg(hContact, dbei);
-	debugLogA("Max: ingested msg id=%s chat=%s from=%s", msgId.c_str(), chatId.c_str(), sender.c_str());
+	debugLogA("Max: ingested msg id=%s chat=%s from=%s", msgId.c_str(), szChatId, sender.c_str());
+}
+
+uint64_t CMaxProto::GetLastLocalMessageTimeMs(MCONTACT hContact)
+{
+	if (hContact == 0)
+		return 0;
+
+	for (MEVENT hEv = db_event_last(hContact); hEv; hEv = db_event_prev(hContact, hEv)) {
+		DB::EventInfo ei(hEv, false);
+		if (!ei)
+			continue;
+		if (mir_strcmp(ei.szModule, m_szModuleName))
+			continue;
+		if (ei.eventType != EVENTTYPE_MESSAGE)
+			continue;
+		if (ei.bMsec)
+			return (uint64_t)ei.iTimestamp;
+		return (uint64_t)ei.iTimestamp * 1000;
+	}
+	return 0;
+}
+
+void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
+{
+	const JSONNode &msg = payload["message"];
+	if (msg.type() != JSON_NODE)
+		return;
+
+	CMStringA chatId = sttMsgJsonIdStr(payload["chatId"]);
+	if (chatId.IsEmpty())
+		return;
+
+	IngestMaxMessageJson(msg, chatId.c_str());
+}
+
+void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId)
+{
+	if (szChatId == nullptr || szChatId[0] == 0)
+		return;
+
+	const JSONNode *msgs = nullptr;
+	if (payload["messages"].type() == JSON_ARRAY)
+		msgs = &payload["messages"];
+	else {
+		const JSONNode &ch = payload["chat"];
+		if (ch.type() == JSON_NODE && ch["messages"].type() == JSON_ARRAY)
+			msgs = &ch["messages"];
+	}
+
+	if (msgs == nullptr || msgs->type() != JSON_ARRAY)
+		return;
+
+	unsigned n = (unsigned)msgs->size();
+	debugLogA("Max: history chat=%s messages=%u", szChatId, n);
+	for (unsigned i = 0; i < n; i++)
+		IngestMaxMessageJson((*msgs)[i], szChatId);
 }

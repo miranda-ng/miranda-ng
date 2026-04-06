@@ -180,6 +180,10 @@ static bool MaxWsSyncPayloadHasBody(const JSONNode &pl)
 {
 	if (pl["profile"].type() != JSON_NULL)
 		return true;
+	if (pl["messages"].type() == JSON_ARRAY)
+		return true;
+	if (pl["chat"].type() == JSON_NODE && pl["chat"]["messages"].type() == JSON_ARRAY)
+		return true;
 	if (pl["chats"].type() == JSON_ARRAY)
 		return true;
 	if (pl["contacts"].type() == JSON_ARRAY)
@@ -465,11 +469,40 @@ bool CMaxProto::ApiSync(WebSocket<CMaxProto> *ws)
 		return false;
 
 	JSONNode payload(JSON_NODE);
-	// vkmax login examples use presenceSync=0.
-	payload << BOOL_PARAM("interactive", true) << CHAR_PARAM("token", tok) << INT_PARAM("chatsSync", 0) << INT_PARAM("contactsSync", 0)
+	// presenceSync=0 matches web client behaviour.
+	// chatsSync=1: server includes dialogs with lastMessage (missed while offline); was 0 and only live opcode-128 worked.
+	payload << BOOL_PARAM("interactive", true) << CHAR_PARAM("token", tok) << INT_PARAM("chatsSync", 1) << INT_PARAM("contactsSync", 0)
 		<< INT_PARAM("presenceSync", 0) << INT_PARAM("draftsSync", 0) << INT_PARAM("chatsCount", 40);
 
 	return SendJsonAndWait(ws, 19, payload, 0);
+}
+
+bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward)
+{
+	if (!ws || szChatId == nullptr || szChatId[0] == 0)
+		return false;
+	if (forward <= 0 && backward <= 0)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0)
+		return false;
+
+	if (fromMs <= 0)
+		fromMs = (int64_t)time(nullptr) * 1000;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid) << INT64_PARAM("from", fromMs) << INT_PARAM("forward", forward) << INT_PARAM("backward", backward) << BOOL_PARAM("getMessages", true);
+
+	if (!SendJsonAndWait(ws, 49, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return false;
+
+	IngestChatHistoryPayload(resp["payload"], szChatId);
+	return true;
 }
 
 bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
@@ -481,7 +514,7 @@ bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 
 bool CMaxProto::ApiWebSessionBootstrap(WebSocket<CMaxProto> *ws)
 {
-	// vkmax: session hello (opcode 6) then opcode 19 directly — no pre-sync ping.
+	// Session: opcode 6 (handshake) then opcode 19 — no extra pre-sync ping here.
 	(void)ws;
 	return true;
 }
@@ -517,7 +550,7 @@ bool CMaxProto::ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws)
 
 void __cdecl CMaxProto::PingWorker(void *)
 {
-	// Align with vkmax keepalive: ~30s cadence; small delay avoids racing the post-login burst.
+	// Keepalive ~30s cadence; short delay avoids racing the post-login burst.
 	InterruptibleSleepMs(2500);
 	if (!m_bTerminated && m_pGateway) {
 		if (!ApiPing(m_pGateway))
@@ -675,10 +708,21 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 		}
 	}
 
-	// Chat details by id (vkmax-style); used to fill dialog title when opcode 32 returns no names.
+	// Chat details by id (opcode 48); used to fill dialog title when opcode 32 returns no names.
 	if (p->m_waitSeq != 0 && op == 48) {
 		const JSONNode &pl = json["payload"];
 		if (MaxPayloadLooksLikeOpcode48ChatsReply(pl)) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	// Opcode 49: chat history (messages[]), same seq as request.
+	if (p->m_waitSeq != 0 && op == 49) {
+		const JSONNode &pl = json["payload"];
+		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
 			p->m_szPendingResponse = s.c_str();
 			SetEvent(p->m_hWaitEvent);

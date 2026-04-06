@@ -785,8 +785,32 @@ bool CMaxProto::ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pC
 	const JSONNode &pl = resp["payload"];
 	const JSONNode &chats = pl["chats"];
 	if (chats.type() == JSON_ARRAY) {
-		for (unsigned i = 0; i < chats.size(); i++)
-			sttMergeOneDialogChat(this, chats[i], myUid, nullptr, nullptr, nullptr);
+		for (unsigned i = 0; i < chats.size(); i++) {
+			const JSONNode &chat = chats[i];
+			CMStringA chatId = sttResolveDialogChatId(chat);
+
+			const JSONNode &ptOrig = chat["participants"];
+			unsigned partCount = 0;
+			if (ptOrig.type() == JSON_NODE) {
+				for (auto it = ptOrig.begin(); it != ptOrig.end(); ++it)
+					partCount++;
+			}
+			else if (ptOrig.type() == JSON_ARRAY)
+				partCount = (unsigned)ptOrig.size();
+
+			CMStringA typ(chat["type"].type() != JSON_NULL ? chat["type"].as_string().c_str() : "");
+			bool treatAsDialog = sttTypeIsDialog(typ);
+			if (typ.IsEmpty() && partCount > 2)
+				treatAsDialog = false;
+
+			sttMergeOneDialogChat(this, chat, myUid, nullptr, nullptr, nullptr);
+			if (treatAsDialog && !chatId.IsEmpty()) {
+				MCONTACT hPeer = FindContactByDialogChatId(chatId.c_str());
+				uint64_t lastMs = GetLastLocalMessageTimeMs(hPeer);
+				if (hPeer && lastMs > 0)
+					ApiFetchChatMessages(ws, chatId.c_str(), (int64_t)lastMs, 50, 0);
+			}
+		}
 	}
 	return true;
 }
@@ -881,6 +905,9 @@ static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMSt
 	else
 		p->EnsureUserContact(peerUid, nullptr, nullptr, chatId);
 
+	// Do not ingest chat["lastMessage"] here: new accounts should stay empty until live pushes (opcode 128);
+	// gap fill uses opcode 49 only when GetLastLocalMessageTimeMs > 0.
+
 	if (pNeedFetch != nullptr) {
 		bool need = true;
 		if (pAllContacts != nullptr && pAllContacts->type() == JSON_ARRAY && sttUidInContactsArray(*pAllContacts, peerUid))
@@ -948,8 +975,15 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 			if (typ.IsEmpty() && partCount > 2)
 				treatAsDialog = false;
 
-			if (treatAsDialog)
+			if (treatAsDialog) {
 				sttMergeOneDialogChat(this, chat, myUid, &contacts, &needFetch, nullptr);
+				if (ws != nullptr) {
+					MCONTACT hPeer = FindContactByDialogChatId(chatId.c_str());
+					uint64_t lastMs = GetLastLocalMessageTimeMs(hPeer);
+					if (hPeer && lastMs > 0)
+						ApiFetchChatMessages(ws, chatId.c_str(), (int64_t)lastMs, 50, 0);
+				}
+			}
 			else
 				EnsureGroupChatSession(chatId, sttGroupTitle(chat));
 		}
