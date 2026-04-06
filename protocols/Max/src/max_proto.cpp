@@ -88,11 +88,11 @@ int CMaxProto::SetStatus(int iNewStatus)
 		return 0;
 	}
 
-	// No stored session: stay offline (SMS/CHECK_CODE uses the mobile API only).
+	// No stored session: stay offline until the user pastes a web login token.
 	if (iNewStatus == ID_STATUS_ONLINE && !HasLoginToken()) {
 		m_iStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		NotifyUser(TranslateT("Max"), TranslateT("Sign in first: enter the SMS code (or paste a login token) in account settings, then try again."));
+		NotifyUser(TranslateT("Max"), TranslateT("Sign in first: paste the login token from the web client (browser) in account settings, then try again."));
 		return 0;
 	}
 
@@ -163,52 +163,20 @@ static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ppro = (CMaxProto *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
-		SetDlgItemTextA(hwndDlg, IDC_PHONE, ppro->getMStringA(DB_KEY_PHONE));
+		SetDlgItemTextA(hwndDlg, IDC_LOGIN_TOKEN, ppro->getMStringA(DB_KEY_LOGIN_TOKEN));
 		SetDlgItemTextW(hwndDlg, IDC_GROUPNAME, ppro->GetDefaultGroupW());
-		SetDlgItemTextW(hwndDlg, IDC_BTN_REQUEST_SMS, TranslateT("Request SMS"));
-		SetDlgItemTextW(hwndDlg, IDC_BTN_VERIFY_SMS, TranslateT("Confirm code"));
 		return TRUE;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_BTN_REQUEST_SMS:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				char szPhone[64];
-				GetDlgItemTextA(hwndDlg, IDC_PHONE, szPhone, _countof(szPhone));
-				if (szPhone[0] == 0) {
-					ppro->NotifyUser(TranslateT("Max"), TranslateT("Enter phone number."));
-					break;
-				}
-				ppro->setString(DB_KEY_PHONE, szPhone);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				ppro->ForkThread(&CMaxProto::RequestSmsThread, mir_strdup(szPhone));
-			}
-			break;
-
-		case IDC_BTN_VERIFY_SMS:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				char szCode[32];
-				GetDlgItemTextA(hwndDlg, IDC_SMSCODE, szCode, _countof(szCode));
-				if (szCode[0] == 0) {
-					ppro->NotifyUser(TranslateT("Max"), TranslateT("Enter the SMS code."));
-					break;
-				}
-				ppro->ForkThread(&CMaxProto::VerifySmsThread, mir_strdup(szCode));
-			}
-			break;
-
-		default:
-			if (HIWORD(wParam) == EN_CHANGE && (LOWORD(wParam) == IDC_PHONE || LOWORD(wParam) == IDC_SMSCODE || LOWORD(wParam) == IDC_GROUPNAME))
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		}
+		if (HIWORD(wParam) == EN_CHANGE && (LOWORD(wParam) == IDC_LOGIN_TOKEN || LOWORD(wParam) == IDC_GROUPNAME))
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			char buf[512];
-			GetDlgItemTextA(hwndDlg, IDC_PHONE, buf, _countof(buf));
-			ppro->setString(DB_KEY_PHONE, buf);
+			char tok[8192];
+			GetDlgItemTextA(hwndDlg, IDC_LOGIN_TOKEN, tok, _countof(tok));
+			ppro->setString(DB_KEY_LOGIN_TOKEN, tok);
 
 			wchar_t wgrp[128];
 			GetDlgItemTextW(hwndDlg, IDC_GROUPNAME, wgrp, _countof(wgrp));
@@ -245,7 +213,7 @@ CMStringW CMaxProto::FormatLastError()
 	if (er.type() == JSON_STRING) {
 		CMStringA ecode(er.as_string().c_str());
 		if (!mir_strcmp(ecode.c_str(), "error.limit.violate"))
-			return TranslateT("Too many SMS/code requests. Please wait before trying again.");
+			return TranslateT("Too many requests. Please wait before trying again.");
 		if (!mir_strcmp(ecode.c_str(), "login.cred"))
 			return TranslateT("Server rejected web sync credentials for this token (login.cred).");
 
@@ -330,66 +298,4 @@ bool CMaxProto::WaitForGatewayReady()
 	}
 
 	return m_bGatewayConnected && m_pGateway != nullptr;
-}
-
-void __cdecl CMaxProto::RequestSmsThread(void *param)
-{
-	ptrA phone((char *)param);
-	if (phone == nullptr || phone[0] == 0) {
-		NotifyUser(TranslateT("Max"), TranslateT("Phone number is empty."));
-		return;
-	}
-
-	CMStringW errText;
-	if (!MobileStartAuth(phone, errText)) {
-		if (errText.IsEmpty())
-			errText = TranslateT("Failed to request SMS.");
-		NotifyUser(TranslateT("Max"), errText.c_str());
-		return;
-	}
-
-	NotifyUser(TranslateT("Max"), TranslateT("SMS request sent. Enter the code from the message and press Confirm code."));
-}
-
-void __cdecl CMaxProto::VerifySmsThread(void *param)
-{
-	ptrA code((char *)param);
-	if (code == nullptr || code[0] == 0) {
-		NotifyUser(TranslateT("Max"), TranslateT("SMS code is empty."));
-		return;
-	}
-
-	CMStringA loginToken;
-	CMStringW errText;
-	if (!MobileCheckCode(code, loginToken, errText)) {
-		if (errText.IsEmpty())
-			errText = TranslateT("Wrong code or login failed.");
-		NotifyUser(TranslateT("Max"), errText.c_str());
-		return;
-	}
-	if (loginToken.IsEmpty()) {
-		NotifyUser(TranslateT("Max"), TranslateT("Login token missing in helper response."));
-		return;
-	}
-	setString(DB_KEY_LOGIN_TOKEN, loginToken.c_str());
-
-	// Force a single reconnect so ConnectionWorker performs exactly one opcode 19 sync
-	// with the new token (avoids double sync with VerifySmsThread + worker).
-	DisconnectGateway();
-
-	if (!WaitForGatewayReady()) {
-		NotifyUser(TranslateT("Max"), TranslateT("Mobile auth passed, but web session is not connected."));
-		return;
-	}
-
-	if (m_bInitialSyncOk) {
-		NotifyUser(TranslateT("Max"), TranslateT("Signed in successfully."));
-		return;
-	}
-
-	CMStringW err = FormatLastError();
-	if (err.IsEmpty())
-		NotifyUser(TranslateT("Max"), TranslateT("Code accepted, but sync failed. Try again later."));
-	else
-		NotifyUser(TranslateT("Max"), err.c_str());
 }

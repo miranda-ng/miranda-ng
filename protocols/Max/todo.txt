@@ -1,4 +1,3 @@
-errors on sms login -> human-readable
 icons
 Контакты/чаты, групчаты, SendMsg, история, вложения, юзеринфо, пароль
 invis

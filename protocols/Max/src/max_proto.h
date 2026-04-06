@@ -50,8 +50,6 @@ class CMaxProto : public PROTO<CMaxProto>
 	bool HasLoginToken();
 	CMStringW FormatLastError();
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	bool MobileStartAuth(const char *phone, CMStringW &errorText);
-	bool MobileCheckCode(const char *code, CMStringA &loginToken, CMStringW &errorText);
 
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
@@ -64,15 +62,11 @@ public:
 	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
 	void OnShutdown(void) override;
 
-	void __cdecl RequestSmsThread(void *param);
-	void __cdecl VerifySmsThread(void *param);
 	void NotifyUser(const wchar_t *title, const wchar_t *text);
 	void InitWsInflater();
 	void FreeWsInflater();
 	bool InflateWsFrame(const uint8_t *pData, size_t cbData, CMStringA &out);
 
-	bool ApiStartAuth(WebSocket<CMaxProto> *ws, const char *phone);
-	bool ApiVerifyCode(WebSocket<CMaxProto> *ws, const char *code);
 	bool ApiSync(WebSocket<CMaxProto> *ws);
 	bool ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids);
 	bool ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pChatIds, size_t nIds);

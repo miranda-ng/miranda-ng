@@ -41,11 +41,7 @@
 #define MODULENAME "Max"
 
 #define DB_KEY_DEVICEID "DeviceId"
-#define DB_KEY_PHONE    "Phone"
-#define DB_KEY_TOKEN_TMP "TokenTmp"
 #define DB_KEY_LOGIN_TOKEN "LoginToken"
-#define DB_KEY_MOBILE_DEVICEID "MobileDeviceId"
-#define DB_KEY_MTINSTANCE "MtInstanceId"
 #define DB_KEY_MAX_UID     "MaxUid"
 #define DB_KEY_MAX_CHATID  "MaxChatId"
 #define DB_KEY_MY_MAX_ID   "MyMaxId"

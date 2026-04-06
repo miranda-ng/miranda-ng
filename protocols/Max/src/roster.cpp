@@ -236,7 +236,7 @@ static void sttNamePartsFromRecord(const JSONNode &rec, CMStringW &outFn, CMStri
 	}
 }
 
-// One element of contact.names — either a JSON object or the legacy single "names" object.
+// One element of contact.names: object with name/firstName/… or alternate shapes from the API.
 static CMStringW sttFormatOneNameRecord(const JSONNode &rec)
 {
 	if (rec.type() != JSON_NODE)
@@ -913,10 +913,8 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 		const JSONNode &ct = prof["contact"];
 		if (ct.type() != JSON_NULL) {
 			myUid = sttJsonIdStr(ct["id"]);
-			if (!myUid.IsEmpty()) {
+			if (!myUid.IsEmpty())
 				setString(DB_KEY_MY_MAX_ID, myUid.c_str());
-				setString(DB_KEY_MAX_UID, myUid.c_str());
-			}
 			SyncContactAvatarFromJson(0, ct);
 		}
 	}
@@ -976,9 +974,6 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 		ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
 		if (uid == nullptr || uid[0] == 0)
 			continue;
-		// Old builds stored bogus low "MaxUid" / "MaxChatId" pairs — do not opcode-48 those.
-		if (_strtoui64(uid, nullptr, 10) < 100000ull)
-			continue;
 		CMStringW fn = getMStringW(hContact, "FirstName");
 		CMStringW ln = getMStringW(hContact, "LastName");
 		bool needTitle = sttIsUserStubDisplay(fn);
@@ -995,8 +990,6 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 			continue;
 		ptrA cid(getStringA(hContact, DB_KEY_MAX_CHATID));
 		if (cid == nullptr || cid[0] == 0)
-			continue;
-		if (_strtoui64(cid, nullptr, 10) < 100000ull)
 			continue;
 		bool dup = false;
 		for (int ti = 0; ti < needChatTitles.getCount(); ti++)

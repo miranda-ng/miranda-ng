@@ -458,49 +458,6 @@ bool CMaxProto::SendHandshake(WebSocket<CMaxProto> *ws)
 	return SendJsonAndWait(ws, 6, payload, 0);
 }
 
-bool CMaxProto::ApiStartAuth(WebSocket<CMaxProto> *ws, const char *phone)
-{
-	JSONNode payload(JSON_NODE);
-	payload << CHAR_PARAM("phone", phone) << CHAR_PARAM("type", "START_AUTH") << CHAR_PARAM("language", "ru");
-	if (!SendJsonAndWait(ws, 17, payload, 0))
-		return false;
-
-	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
-	const JSONNode &pl = resp["payload"];
-	if (pl["token"].type() == JSON_NULL)
-		return false;
-	ptrA tok(mir_strdup(pl["token"].as_string().c_str()));
-	setString(DB_KEY_TOKEN_TMP, tok);
-	return true;
-}
-
-bool CMaxProto::ApiVerifyCode(WebSocket<CMaxProto> *ws, const char *code)
-{
-	ptrA tmp(getStringA(DB_KEY_TOKEN_TMP));
-	if (tmp == nullptr)
-		return false;
-
-	JSONNode payload(JSON_NODE);
-	payload << CHAR_PARAM("token", tmp) << CHAR_PARAM("verifyCode", code) << CHAR_PARAM("authTokenType", "CHECK_CODE");
-
-	if (!SendJsonAndWait(ws, 18, payload, 0))
-		return false;
-
-	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
-	const JSONNode &pl = resp["payload"];
-	const JSONNode &attrs = pl["tokenAttrs"];
-	if (attrs.type() == JSON_NULL)
-		return false;
-
-	const JSONNode &login = attrs["LOGIN"];
-	if (login.type() == JSON_NULL || login["token"].type() == JSON_NULL)
-		return false;
-
-	ptrA tok(mir_strdup(login["token"].as_string().c_str()));
-	setString(DB_KEY_LOGIN_TOKEN, tok);
-	return true;
-}
-
 bool CMaxProto::ApiSync(WebSocket<CMaxProto> *ws)
 {
 	ptrA tok(getStringA(DB_KEY_LOGIN_TOKEN));
@@ -508,9 +465,9 @@ bool CMaxProto::ApiSync(WebSocket<CMaxProto> *ws)
 		return false;
 
 	JSONNode payload(JSON_NODE);
-	// vkmax MaxClient.login_by_token: presenceSync -1; ping uses interactive false only after login.
+	// vkmax login examples use presenceSync=0.
 	payload << BOOL_PARAM("interactive", true) << CHAR_PARAM("token", tok) << INT_PARAM("chatsSync", 0) << INT_PARAM("contactsSync", 0)
-		<< INT_PARAM("presenceSync", -1) << INT_PARAM("draftsSync", 0) << INT_PARAM("chatsCount", 40);
+		<< INT_PARAM("presenceSync", 0) << INT_PARAM("draftsSync", 0) << INT_PARAM("chatsCount", 40);
 
 	return SendJsonAndWait(ws, 19, payload, 0);
 }
