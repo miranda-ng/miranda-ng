@@ -144,7 +144,7 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		if (it->szAvatarHash == pRemote->id_.c_str()) {
 			PROTO_AVATAR_INFORMATION pai;
 			pai.hContact = it->hContact;
-			pai.format = ProtoGetAvatarFileFormat(wszExistingFile);
+			pai.format = ProtoGetAvatarFormat(wszExistingFile);
 			setByte(pai.hContact, DBKEY_AVATAR_TYPE, pai.format);
 
 			CMStringW wszAvatarPath(GetAvatarFilename(it->hContact));
