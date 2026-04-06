@@ -535,6 +535,8 @@ void __cdecl CMaxProto::PingWorker(void *)
 void CMaxProto::OnGatewayPush(const JSONNode &payload, int opcode)
 {
 	debugLogA("Max: push opcode=%d", opcode);
+	if (opcode == 128)
+		TryIngestNotifMessagePayload(payload);
 	TryMergeContactsFromPayload(payload);
 	TryApplySyncPayloadFromPush(payload);
 }

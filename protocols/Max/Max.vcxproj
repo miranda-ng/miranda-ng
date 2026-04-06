@@ -28,6 +28,7 @@
   <ItemGroup>
     <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\connection.cpp" />
+    <ClCompile Include="src\messages.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\max_proto.cpp" />
     <ClCompile Include="src\roster.cpp" />

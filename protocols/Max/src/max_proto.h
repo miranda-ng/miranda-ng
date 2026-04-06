@@ -38,6 +38,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	bool SendHandshake(WebSocket<CMaxProto> *ws);
 	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0);
 	void OnGatewayPush(const JSONNode &payload, int opcode);
+	void TryIngestNotifMessagePayload(const JSONNode &payload);
 	void TryMergeContactsFromPayload(const JSONNode &payload);
 	void TryApplySyncPayloadFromPush(const JSONNode &payload);
 	bool ApiPing(WebSocket<CMaxProto> *ws);
@@ -75,6 +76,7 @@ public:
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);
 	CMStringW GetDefaultGroupW();
 	MCONTACT FindContactByMaxUid(const char *szUid);
+	MCONTACT FindContactByDialogChatId(const char *szChatId);
 
 	// Avatars (AVS): URL from JSON, HTTP download on demand
 	CMStringA ExtractAvatarUrlFromJson(const JSONNode &c);
