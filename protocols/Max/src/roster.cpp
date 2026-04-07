@@ -397,8 +397,20 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
 
 	EnsureUserContact(uid, outFn.IsEmpty() ? L"" : outFn.c_str(), outLn.IsEmpty() ? L"" : outLn.c_str(), nullptr);
 
-	if (MCONTACT hAv = FindContactByMaxUid(uid))
+	if (MCONTACT hAv = FindContactByMaxUid(uid)) {
+		const JSONNode &about = c["description"];
+		if (about.type() == JSON_STRING && !about.as_string().empty()) {
+			ptrW w(mir_utf8decodeW(about.as_string().c_str()));
+			if (w != nullptr && w[0])
+				setWString(hAv, "About", w);
+			else
+				delSetting(hAv, "About");
+		}
+		else
+			delSetting(hAv, "About");
+
 		SyncContactAvatarFromJson(hAv, c);
+	}
 }
 
 void CMaxProto::EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t *wszTitle)
