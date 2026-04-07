@@ -130,6 +130,13 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 	if (msg.type() != JSON_NODE)
 		return;
 
+	CMStringA sender = sttMsgJsonIdStr(msg["sender"]);
+	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+	// Locally sent messages are already finalized via SRMM ACK queue;
+	// skip self live-push echo to avoid out-of-order inserts.
+	if (!sender.IsEmpty() && myUid != nullptr && sender == myUid)
+		return;
+
 	CMStringA chatId = sttMsgJsonIdStr(payload["chatId"]);
 	if (chatId.IsEmpty())
 		return;

@@ -558,9 +558,23 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	if (cid == 0)
 		return false;
 
-	int64_t nowMs = (int64_t)time(nullptr) * 1000;
+	FILETIME ft = {};
+	GetSystemTimeAsFileTime(&ft);
+	ULARGE_INTEGER ui = {};
+	ui.LowPart = ft.dwLowDateTime;
+	ui.HighPart = ft.dwHighDateTime;
+	// Windows epoch (100ns) -> Unix epoch milliseconds.
+	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
+	uint64_t cidMs = 0;
+	{
+		mir_cslock lck(m_csCid);
+		cidMs = nowMs;
+		if (cidMs <= m_lastClientCidMs)
+			cidMs = m_lastClientCidMs + 1;
+		m_lastClientCidMs = cidMs;
+	}
 	JSONNode msg(JSON_NODE);
-	msg << CHAR_PARAM("text", szText) << INT64_PARAM("cid", nowMs);
+	msg << CHAR_PARAM("text", szText) << INT64_PARAM("cid", (int64_t)cidMs);
 	JSONNode elems(JSON_ARRAY), attaches(JSON_ARRAY);
 	msg << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
 
@@ -583,11 +597,6 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 		idNode = &pl["messageId"];
 	else if (pl["id"].type() != JSON_NULL)
 		idNode = &pl["id"];
-
-	// Some servers may not immediately push opcode=128 echo for sent messages.
-	// In that case, the outgoing message should still appear locally.
-	if (m.type() == JSON_NODE)
-		IngestMaxMessageJson(m, szChatId);
 
 	if (idNode != nullptr && pOutMsgId != nullptr) {
 		if (idNode->type() == JSON_NUMBER)

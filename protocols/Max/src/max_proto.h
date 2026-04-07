@@ -20,6 +20,9 @@ class CMaxProto : public PROTO<CMaxProto>
 	uint64_t m_waitSeq = 0;
 	mir_cs m_csWait;
 	mir_cs m_csSend;
+	mir_cs m_csCid;
+	volatile LONG m_iSendMsgSeq = 0;
+	uint64_t m_lastClientCidMs = 0;
 	CMStringA m_szPendingResponse;
 	z_stream m_wsInflate = {};
 	bool m_wsInflateInited = false;
