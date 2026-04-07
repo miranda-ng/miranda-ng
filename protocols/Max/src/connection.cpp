@@ -505,6 +505,57 @@ bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szCha
 	return true;
 }
 
+bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId)
+{
+	if (pOutMsgId != nullptr)
+		pOutMsgId->Empty();
+	if (!ws || szChatId == nullptr || szChatId[0] == 0 || szText == nullptr || szText[0] == 0)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0)
+		return false;
+
+	int64_t nowMs = (int64_t)time(nullptr) * 1000;
+	JSONNode msg(JSON_NODE);
+	msg << CHAR_PARAM("text", szText) << INT64_PARAM("cid", nowMs);
+	JSONNode elems(JSON_ARRAY), attaches(JSON_ARRAY);
+	msg << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("message", msg) << BOOL_PARAM("notify", true);
+
+	if (!SendJsonAndWait(ws, 64, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return true;
+
+	const JSONNode &pl = resp["payload"];
+	const JSONNode &m = pl["message"];
+	const JSONNode *idNode = nullptr;
+	if (m.type() == JSON_NODE && m["id"].type() != JSON_NULL)
+		idNode = &m["id"];
+	else if (pl["messageId"].type() != JSON_NULL)
+		idNode = &pl["messageId"];
+	else if (pl["id"].type() != JSON_NULL)
+		idNode = &pl["id"];
+
+	// Some servers may not immediately push opcode=128 echo for sent messages.
+	// In that case, the outgoing message should still appear locally.
+	if (m.type() == JSON_NODE)
+		IngestMaxMessageJson(m, szChatId);
+
+	if (idNode != nullptr && pOutMsgId != nullptr) {
+		if (idNode->type() == JSON_NUMBER)
+			pOutMsgId->Format("%.0f", idNode->as_float());
+		else
+			*pOutMsgId = idNode->as_string().c_str();
+	}
+	return true;
+}
+
 bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 {
 	JSONNode payload(JSON_NODE);

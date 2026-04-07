@@ -75,6 +75,7 @@ public:
 	bool ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pChatIds, size_t nIds);
 	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
 	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward);
+	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
 
 	void RegisterChatModule();
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);

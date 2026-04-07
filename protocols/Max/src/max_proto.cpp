@@ -112,9 +112,43 @@ int CMaxProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
-int CMaxProto::SendMsg(MCONTACT, MEVENT, const char *)
+int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 {
-	return 0;
+	if (hContact == 0 || msg == nullptr || msg[0] == 0)
+		return 0;
+
+	int hProcess = (int)(GetTickCount() & 0x7fffffff);
+	if (hProcess == 0)
+		hProcess = 1;
+
+	if (!WaitForGatewayReady() || m_pGateway == nullptr) {
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hProcess, (LPARAM)TranslateT("Gateway is not connected"));
+		return hProcess;
+	}
+
+	CMStringA chatId(getMStringA(hContact, DB_KEY_MAX_CHATID));
+	if (chatId.IsEmpty())
+		chatId = getMStringA(hContact, DB_KEY_MAX_UID);
+
+	if (chatId.IsEmpty()) {
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hProcess, (LPARAM)TranslateT("Missing chat id for this contact"));
+		return hProcess;
+	}
+
+	CMStringA serverMsgId;
+	if (!ApiSendMessage(m_pGateway, chatId.c_str(), msg, &serverMsgId)) {
+		CMStringW err = FormatLastError();
+		if (err.IsEmpty())
+			err = TranslateT("Message send failed");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hProcess, (LPARAM)err.c_str());
+		return hProcess;
+	}
+
+	debugLogA("Max: send ok chat=%s id=%s", chatId.c_str(), serverMsgId.IsEmpty() ? "(none)" : serverMsgId.c_str());
+	// msgQueue_processack uses lParam as server message id to update outgoing event.
+	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hProcess,
+		serverMsgId.IsEmpty() ? 0 : (LPARAM)serverMsgId.c_str());
+	return hProcess;
 }
 
 void CMaxProto::OnShutdown(void)
