@@ -53,7 +53,17 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	if (msgId.IsEmpty())
 		return;
 
-	if (db_event_getById(m_szModuleName, msgId.c_str()) != 0)
+	MEVENT hExisting = db_event_getById(m_szModuleName, msgId.c_str());
+	bool isEdited = false;
+	const JSONNode &st = msg["status"];
+	if (st.type() == JSON_STRING && !mir_strcmpi(st.as_string().c_str(), "EDITED"))
+		isEdited = true;
+	else if (msg["updateTime"].type() != JSON_NULL)
+		isEdited = true;
+
+	// Existing server message id is normally a duplicate push.
+	// Keep only explicit edits to update text in place.
+	if (hExisting != 0 && !isEdited)
 		return;
 
 	CMStringA sender = sttMsgJsonIdStr(msg["sender"]);
@@ -83,6 +93,8 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.bUtf = true;
 	dbei.szId = msgId.c_str();
+	if (isEdited)
+		dbei.bEdited = true;
 	if (tMs != 0) {
 		dbei.bMsec = true;
 		dbei.iTimestamp = tMs;
