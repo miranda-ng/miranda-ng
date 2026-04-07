@@ -12,6 +12,16 @@ of the License.
 
 static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
+struct CMaxMsgAckCtx
+{
+	CMaxProto *pProto = nullptr;
+	MCONTACT hContact = 0;
+	int result = ACKRESULT_FAILED;
+	int hProcess = 0;
+	CMStringA msgId;
+	CMStringW errText;
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
@@ -124,7 +134,13 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 		hProcess = 1;
 
 	if (!WaitForGatewayReady() || m_pGateway == nullptr) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hProcess, (LPARAM)TranslateT("Gateway is not connected"));
+		auto *ctx = new CMaxMsgAckCtx;
+		ctx->pProto = this;
+		ctx->hContact = hContact;
+		ctx->result = ACKRESULT_FAILED;
+		ctx->hProcess = hProcess;
+		ctx->errText = TranslateT("Gateway is not connected");
+		ForkThread(&CMaxProto::MessageAckWorker, ctx);
 		return hProcess;
 	}
 
@@ -133,7 +149,13 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 		chatId = getMStringA(hContact, DB_KEY_MAX_UID);
 
 	if (chatId.IsEmpty()) {
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hProcess, (LPARAM)TranslateT("Missing chat id for this contact"));
+		auto *ctx = new CMaxMsgAckCtx;
+		ctx->pProto = this;
+		ctx->hContact = hContact;
+		ctx->result = ACKRESULT_FAILED;
+		ctx->hProcess = hProcess;
+		ctx->errText = TranslateT("Missing chat id for this contact");
+		ForkThread(&CMaxProto::MessageAckWorker, ctx);
 		return hProcess;
 	}
 
@@ -142,13 +164,65 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 		CMStringW err = FormatLastError();
 		if (!err.IsEmpty())
 			NotifyUser(TranslateT("Max"), err.c_str());
-		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)hProcess, (LPARAM)TranslateT("Message send failed"));
+		auto *ctx = new CMaxMsgAckCtx;
+		ctx->pProto = this;
+		ctx->hContact = hContact;
+		ctx->result = ACKRESULT_FAILED;
+		ctx->hProcess = hProcess;
+		ctx->errText = TranslateT("Message send failed");
+		ForkThread(&CMaxProto::MessageAckWorker, ctx);
 		return hProcess;
 	}
 
 	debugLogA("Max: send ok chat=%s id=%s", chatId.c_str(), serverMsgId.IsEmpty() ? "(none)" : serverMsgId.c_str());
-	ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hProcess, 0);
+	auto *ctx = new CMaxMsgAckCtx;
+	ctx->pProto = this;
+	ctx->hContact = hContact;
+	ctx->result = ACKRESULT_SUCCESS;
+	ctx->hProcess = hProcess;
+	ctx->msgId = serverMsgId;
+	ForkThread(&CMaxProto::MessageAckWorker, ctx);
 	return hProcess;
+}
+
+void CMaxProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)
+{
+	if (hContact == 0 || dbei.szId == nullptr || dbei.pBlob == nullptr)
+		return;
+	if (!(dbei.flags & DBEF_SENT))
+		return;
+
+	CMStringA chatId(getMStringA(hContact, DB_KEY_MAX_CHATID));
+	if (chatId.IsEmpty())
+		chatId = getMStringA(hContact, DB_KEY_MAX_UID);
+	if (chatId.IsEmpty())
+		return;
+
+	if (!WaitForGatewayReady() || m_pGateway == nullptr) {
+		debugLogA("Max: edit skipped (gateway not connected) chat=%s msg=%s", chatId.c_str(), dbei.szId);
+		return;
+	}
+
+	if (!ApiEditMessage(m_pGateway, chatId.c_str(), dbei.szId, dbei.pBlob))
+		debugLogA("Max: edit failed chat=%s msg=%s", chatId.c_str(), dbei.szId);
+	else
+		debugLogA("Max: edit ok chat=%s msg=%s", chatId.c_str(), dbei.szId);
+}
+
+void __cdecl CMaxProto::MessageAckWorker(void *param)
+{
+	std::unique_ptr<CMaxMsgAckCtx> ctx((CMaxMsgAckCtx *)param);
+	if (!ctx || ctx->pProto == nullptr)
+		return;
+
+	// Give SRMM time to register msgQueue entry after SendMsg returns.
+	Sleep(120);
+	if (ctx->result == ACKRESULT_SUCCESS)
+		ctx->pProto->ProtoBroadcastAck(ctx->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)ctx->hProcess,
+			ctx->msgId.IsEmpty() ? 0 : (LPARAM)ctx->msgId.c_str());
+	else
+		ctx->pProto->ProtoBroadcastAck(ctx->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ctx->hProcess,
+			(LPARAM)ctx->errText.c_str());
 }
 
 void CMaxProto::OnModulesLoaded()

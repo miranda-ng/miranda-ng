@@ -607,6 +607,23 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	return true;
 }
 
+bool CMaxProto::ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText)
+{
+	if (!ws || szChatId == nullptr || szChatId[0] == 0 || szMsgId == nullptr || szMsgId[0] == 0 || szText == nullptr)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	JSONNode elems(JSON_ARRAY), attaches(JSON_ARRAY);
+	payload << INT64_PARAM("chatId", cid) << CHAR_PARAM("messageId", szMsgId) << CHAR_PARAM("text", szText)
+		<< JSON_PARAM("elements", elems) << JSON_PARAM("attachments", attaches);
+
+	return SendJsonAndWait(ws, 67, payload, 0);
+}
+
 bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 {
 	JSONNode payload(JSON_NODE);

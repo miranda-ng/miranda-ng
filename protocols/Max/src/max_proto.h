@@ -38,6 +38,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	void __cdecl PingWorker(void *);
 	void InterruptibleSleepMs(DWORD msTotal, DWORD sliceMs = 200);
 	void __cdecl LoadHistoryWorker(void *param);
+	void __cdecl MessageAckWorker(void *param);
 	void EnsureDeviceId();
 	bool SendHandshake(WebSocket<CMaxProto> *ws);
 	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0);
@@ -67,6 +68,7 @@ public:
 	INT_PTR GetCaps(int type, MCONTACT hContact = 0) override;
 	int SetStatus(int iNewStatus) override;
 	int SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
+	void OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei) override;
 
 	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
 	void OnModulesLoaded() override;
@@ -83,6 +85,7 @@ public:
 	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
 	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead = false);
 	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
+	bool ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText);
 
 	void RegisterChatModule();
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);
