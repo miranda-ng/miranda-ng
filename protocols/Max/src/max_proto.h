@@ -34,6 +34,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	void __cdecl WsRunThread(void *param);
 	void __cdecl PingWorker(void *);
 	void InterruptibleSleepMs(DWORD msTotal, DWORD sliceMs = 200);
+	void __cdecl LoadHistoryWorker(void *param);
 	void EnsureDeviceId();
 	bool SendHandshake(WebSocket<CMaxProto> *ws);
 	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0);
@@ -41,7 +42,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	void TryIngestNotifMessagePayload(const JSONNode &payload);
 	void TryMergeContactsFromPayload(const JSONNode &payload);
 	void TryApplySyncPayloadFromPush(const JSONNode &payload);
-	void IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId);
+	void IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead = false);
 	uint64_t GetLastLocalMessageTimeMs(MCONTACT hContact);
 	bool ApiPing(WebSocket<CMaxProto> *ws);
 	bool ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws);
@@ -53,6 +54,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	bool HasLoginToken();
 	CMStringW FormatLastError();
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
 
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
@@ -74,7 +76,7 @@ public:
 	bool ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids);
 	bool ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pChatIds, size_t nIds);
 	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
-	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward);
+	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead = false);
 	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
 
 	void RegisterChatModule();
@@ -83,7 +85,7 @@ public:
 	MCONTACT FindContactByMaxUid(const char *szUid);
 	MCONTACT FindContactByDialogChatId(const char *szChatId);
 	/// Ingest one USER message JSON (same shape as opcode 128 `payload.message` or chat `lastMessage`).
-	void IngestMaxMessageJson(const JSONNode &message, const char *szChatId);
+	void IngestMaxMessageJson(const JSONNode &message, const char *szChatId, bool bMarkRead = false);
 
 	// Avatars (AVS): URL from JSON, HTTP download on demand
 	CMStringA ExtractAvatarUrlFromJson(const JSONNode &c);

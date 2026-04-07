@@ -85,6 +85,48 @@ static bool InflatePerMessageDeflate(CMaxProto *pPro, const uint8_t *pData, size
 	if (pPro->InflateWsFrame(pData, cbData, out))
 		return true;
 
+	auto inflateSingleShot = [&](int windowBits, bool appendTail) -> bool {
+		out.Empty();
+		z_stream zs = {};
+		if (inflateInit2(&zs, windowBits) != Z_OK)
+			return false;
+
+		MBinBuffer src;
+		src.append(pData, cbData);
+		if (appendTail) {
+			static const uint8_t tail[] = { 0x00, 0x00, 0xFF, 0xFF };
+			src.append(tail, sizeof(tail));
+		}
+
+		zs.next_in = (Bytef *)src.data();
+		zs.avail_in = (uInt)src.length();
+
+		char tmp[4096];
+		int zret = Z_OK;
+		while (zret == Z_OK) {
+			zs.next_out = (Bytef *)tmp;
+			zs.avail_out = sizeof(tmp);
+			zret = inflate(&zs, Z_SYNC_FLUSH);
+			size_t produced = sizeof(tmp) - zs.avail_out;
+			if (produced)
+				out.Append(tmp, (int)produced);
+		}
+		inflateEnd(&zs);
+		if (zret != Z_STREAM_END && zret != Z_BUF_ERROR)
+			return false;
+		return !out.IsEmpty();
+	};
+
+	// 2) Some endpoints occasionally behave as no-context-takeover raw-deflate frames.
+	if (inflateSingleShot(-MAX_WBITS, true))
+		return true;
+	// 3) Fallback: zlib-wrapped deflate payload.
+	if (inflateSingleShot(MAX_WBITS, false))
+		return true;
+	// 4) Fallback: gzip/zlib auto header detection.
+	if (inflateSingleShot(MAX_WBITS | 32, false))
+		return true;
+
 	out.Empty();
 	return false;
 }
@@ -477,7 +519,7 @@ bool CMaxProto::ApiSync(WebSocket<CMaxProto> *ws)
 	return SendJsonAndWait(ws, 19, payload, 0);
 }
 
-bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward)
+bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead)
 {
 	if (!ws || szChatId == nullptr || szChatId[0] == 0)
 		return false;
@@ -501,7 +543,7 @@ bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szCha
 	if (!resp)
 		return false;
 
-	IngestChatHistoryPayload(resp["payload"], szChatId);
+	IngestChatHistoryPayload(resp["payload"], szChatId, bMarkRead);
 	return true;
 }
 

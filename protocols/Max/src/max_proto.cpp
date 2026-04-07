@@ -8,6 +8,7 @@ of the License.
 */
 
 #include "stdafx.h"
+#include "m_history.h"
 
 static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -37,6 +38,7 @@ CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	CreateProtoService(PS_GETAVATARINFO, &CMaxProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CMaxProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CMaxProto::SvcGetMyAvatar);
+	CreateProtoService(PS_MENU_LOADHISTORY, &CMaxProto::SvcLoadServerHistory);
 }
 
 CMaxProto::~CMaxProto()
@@ -149,6 +151,172 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)hProcess,
 		serverMsgId.IsEmpty() ? 0 : (LPARAM)serverMsgId.c_str());
 	return hProcess;
+}
+
+static uint64_t sttJsonTimeMs(const JSONNode &n)
+{
+	if (n.type() == JSON_NUMBER)
+		return (uint64_t)(n.as_float() + 0.5);
+	if (n.type() == JSON_STRING)
+		return _strtoui64(n.as_string().c_str(), nullptr, 10);
+	return 0;
+}
+
+static const JSONNode *sttHistoryMessagesArray(const JSONNode &payload)
+{
+	if (payload["messages"].type() == JSON_ARRAY)
+		return &payload["messages"];
+	if (payload["chat"].type() == JSON_NODE && payload["chat"]["messages"].type() == JSON_ARRAY)
+		return &payload["chat"]["messages"];
+	return nullptr;
+}
+
+void __cdecl CMaxProto::LoadHistoryWorker(void *param)
+{
+	MCONTACT hContact = (MCONTACT)(UINT_PTR)param;
+	if (hContact == 0)
+		return;
+
+	if (!WaitForGatewayReady() || m_pGateway == nullptr) {
+		NotifyUser(TranslateT("Max"), TranslateT("Cannot load server history: gateway is not connected."));
+		return;
+	}
+
+	CMStringA chatId(getMStringA(hContact, DB_KEY_MAX_CHATID));
+	if (chatId.IsEmpty()) {
+		NotifyUser(TranslateT("Max"), TranslateT("Cannot load server history: chat id is missing for this contact."));
+		return;
+	}
+
+	int totalLoaded = 0;
+	int64_t fromMs = (int64_t)time(nullptr) * 1000;
+	uint64_t prevOldest = 0;
+
+	const int kBatch = 100;
+	const DWORD kInterPageDelayMs = 200;
+	const int kMaxRetry = 4;
+	int page = 0;
+	bool reachedBottom = false;
+	bool abortedByError = false;
+	const char *stopReason = "unknown";
+
+	while (!m_bTerminated) {
+		if (!ApiFetchChatMessages(m_pGateway, chatId.c_str(), fromMs, 0, kBatch, true)) {
+			CMStringW err = FormatLastError();
+			ptrA err8(mir_utf8encodeW(err));
+			bool throttled = false;
+			if (!err.IsEmpty()) {
+				CMStringW low(err);
+				low.MakeLower();
+				if (low.Find(L"limit") >= 0 || low.Find(L"too many") >= 0 || low.Find(L"rate") >= 0)
+					throttled = true;
+			}
+
+			bool okAfterRetry = false;
+			for (int retry = 1; retry <= kMaxRetry && !m_bTerminated; ++retry) {
+				DWORD waitMs = throttled ? (DWORD)(1000 * (1 << (retry - 1))) : (DWORD)(600 * retry);
+				debugLogA("Max: load history retry chat=%s page=%d retry=%d/%d wait=%u err=%s",
+					chatId.c_str(), page, retry, kMaxRetry, (unsigned)waitMs,
+					(err8 != nullptr && err8[0]) ? err8.get() : "(empty)");
+				InterruptibleSleepMs(waitMs);
+
+				if (ApiFetchChatMessages(m_pGateway, chatId.c_str(), fromMs, 0, kBatch, true)) {
+					okAfterRetry = true;
+					break;
+				}
+
+				err = FormatLastError();
+				err8 = mir_utf8encodeW(err);
+			}
+
+			if (!okAfterRetry) {
+				abortedByError = true;
+				stopReason = throttled ? "server-throttle" : "server-error";
+				debugLogA("Max: load history aborted chat=%s page=%d reason=%s err=%s",
+					chatId.c_str(), page, stopReason,
+					(err8 != nullptr && err8[0]) ? err8.get() : "(empty)");
+				break;
+			}
+		}
+
+		JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+		if (!resp) {
+			abortedByError = true;
+			stopReason = "bad-json";
+			debugLogA("Max: load history aborted chat=%s page=%d reason=bad-json", chatId.c_str(), page);
+			break;
+		}
+
+		const JSONNode &pl = resp["payload"];
+		const JSONNode *msgs = sttHistoryMessagesArray(pl);
+		if (msgs == nullptr || msgs->type() != JSON_ARRAY) {
+			abortedByError = true;
+			stopReason = "bad-payload";
+			debugLogA("Max: load history aborted chat=%s page=%d reason=bad-payload", chatId.c_str(), page);
+			break;
+		}
+
+		if (msgs->size() == 0) {
+			reachedBottom = true;
+			stopReason = "empty-page";
+			break;
+		}
+
+		totalLoaded += (int)msgs->size();
+
+		uint64_t oldest = 0;
+		for (unsigned i = 0; i < msgs->size(); ++i) {
+			uint64_t t = sttJsonTimeMs((*msgs)[i]["time"]);
+			if (t != 0 && (oldest == 0 || t < oldest))
+				oldest = t;
+		}
+
+		if (oldest == 0) {
+			abortedByError = true;
+			stopReason = "missing-time";
+			debugLogA("Max: load history aborted chat=%s page=%d reason=missing-time", chatId.c_str(), page);
+			break;
+		}
+
+		if (oldest == prevOldest) {
+			reachedBottom = true;
+			stopReason = "stuck-oldest";
+			break;
+		}
+
+		prevOldest = oldest;
+		if (oldest <= 1) {
+			reachedBottom = true;
+			stopReason = "reached-zero";
+			break;
+		}
+
+		if ((int)msgs->size() < kBatch) {
+			reachedBottom = true;
+			stopReason = "short-page";
+			break;
+		}
+
+		fromMs = (int64_t)(oldest - 1);
+		page++;
+		InterruptibleSleepMs(kInterPageDelayMs);
+	}
+
+	if (m_bTerminated && !reachedBottom && !abortedByError)
+		stopReason = "terminated";
+
+	debugLogA("Max: load history done chat=%s fetched=%d reason=%s", chatId.c_str(), totalLoaded, stopReason);
+	if (reachedBottom)
+		History::FinishLoad(hContact);
+}
+
+INT_PTR CMaxProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
+{
+	if ((MCONTACT)hContact == 0)
+		return 1;
+
+	ForkThread(&CMaxProto::LoadHistoryWorker, (void *)(UINT_PTR)hContact);
+	return 0;
 }
 
 void CMaxProto::OnShutdown(void)

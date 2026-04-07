@@ -40,7 +40,7 @@ MCONTACT CMaxProto::FindContactByDialogChatId(const char *szChatId)
 	return 0;
 }
 
-void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId)
+void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, bool bMarkRead)
 {
 	if (msg.type() != JSON_NODE || szChatId == nullptr || szChatId[0] == 0)
 		return;
@@ -97,6 +97,8 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId)
 		dbei.bSent = true;
 		dbei.bRead = true;
 	}
+	else if (bMarkRead)
+		dbei.bRead = true;
 
 	ProtoChainRecvMsg(hContact, dbei);
 	debugLogA("Max: ingested msg id=%s chat=%s from=%s", msgId.c_str(), szChatId, sender.c_str());
@@ -135,7 +137,7 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 	IngestMaxMessageJson(msg, chatId.c_str());
 }
 
-void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId)
+void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead)
 {
 	if (szChatId == nullptr || szChatId[0] == 0)
 		return;
@@ -154,6 +156,12 @@ void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *sz
 
 	unsigned n = (unsigned)msgs->size();
 	debugLogA("Max: history chat=%s messages=%u", szChatId, n);
-	for (unsigned i = 0; i < n; i++)
-		IngestMaxMessageJson((*msgs)[i], szChatId);
+	for (unsigned i = 0; i < n; i++) {
+		const JSONNode &msg = (*msgs)[i];
+		CMStringA msgId = sttMsgJsonIdStr(msg["id"]);
+		if (msgId.IsEmpty() || db_event_getById(m_szModuleName, msgId.c_str()) != 0)
+			continue;
+
+		IngestMaxMessageJson(msg, szChatId, bMarkRead);
+	}
 }
