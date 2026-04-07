@@ -188,234 +188,34 @@ static void sttNamePartsFromRecord(const JSONNode &rec, CMStringW &outFn, CMStri
 	if (rec.type() != JSON_NODE)
 		return;
 
-	bool any = false;
 	if (rec["firstName"].type() != JSON_NULL) {
 		ptrW w(mir_utf8decodeW(rec["firstName"].as_string().c_str()));
-		if (w && w[0]) {
+		if (w && w[0])
 			outFn = w;
-			any = true;
-		}
 	}
 	if (rec["lastName"].type() != JSON_NULL) {
 		ptrW w(mir_utf8decodeW(rec["lastName"].as_string().c_str()));
-		if (w && w[0]) {
+		if (w && w[0])
 			outLn = w;
-			any = true;
-		}
 	}
-	if (any)
+	if (!outFn.IsEmpty() || !outLn.IsEmpty())
 		return;
 
 	if (rec["name"].type() != JSON_NULL) {
 		ptrW w(mir_utf8decodeW(rec["name"].as_string().c_str()));
-		if (w && w[0]) {
-			CMStringW full(w);
-			int sp = full.Find(L' ');
-			if (sp >= 0) {
-				outFn = full.Left(sp);
-				outLn = full.Mid(sp + 1);
-				outFn.Trim();
-				outLn.Trim();
-			}
-			else
-				outFn = full;
-		}
-		return;
-	}
-
-	static const char *nickKeys[] = { "nick", "nickname", "nickName", "displayName", "login", nullptr };
-	for (int k = 0; nickKeys[k]; k++) {
-		const JSONNode &nn = rec[nickKeys[k]];
-		if (nn.type() != JSON_NULL) {
-			ptrW w(mir_utf8decodeW(nn.as_string().c_str()));
-			if (w && w[0]) {
-				outFn = w;
-				return;
-			}
-		}
+		if (w && w[0])
+			outFn = w;
 	}
 }
 
-// One element of contact.names: object with name/firstName/… or alternate shapes from the API.
-static CMStringW sttFormatOneNameRecord(const JSONNode &rec)
-{
-	if (rec.type() != JSON_NODE)
-		return L"";
-
-	if (rec["name"].type() != JSON_NULL) {
-		ptrW w(mir_utf8decodeW(rec["name"].as_string().c_str()));
-		if (w && w[0])
-			return CMStringW(w);
-	}
-
-	CMStringW fn, ln;
-	if (rec["firstName"].type() != JSON_NULL) {
-		ptrW w(mir_utf8decodeW(rec["firstName"].as_string().c_str()));
-		if (w && w[0])
-			fn = w;
-	}
-	if (rec["lastName"].type() != JSON_NULL) {
-		ptrW w(mir_utf8decodeW(rec["lastName"].as_string().c_str()));
-		if (w && w[0])
-			ln = w;
-	}
-	if (!fn.IsEmpty() || !ln.IsEmpty()) {
-		CMStringW r = fn;
-		if (!ln.IsEmpty()) {
-			if (!r.IsEmpty())
-				r.AppendChar(L' ');
-			r += ln;
-		}
-		return r;
-	}
-
-	static const char *nickKeys[] = { "nick", "nickname", "nickName", "displayName", "login", nullptr };
-	for (int k = 0; nickKeys[k]; k++) {
-		const JSONNode &nn = rec[nickKeys[k]];
-		if (nn.type() != JSON_NULL) {
-			ptrW w(mir_utf8decodeW(nn.as_string().c_str()));
-			if (w && w[0])
-				return CMStringW(w);
-		}
-	}
-	return L"";
-}
-
-static CMStringW sttFormatNamesDepth(const JSONNode &contact, int depth)
-{
-	if (depth > 4)
-		return L"";
-
-	// User-set alias in the official client (address book) beats profile/ONEME name.
-	static const char *aliasKeys[] = { "alias", "localName", "localAlias", "addressBookName", "phoneBookName", "bookName", "customName", "remark", "remarkName", nullptr };
-	for (int k = 0; aliasKeys[k]; k++) {
-		const JSONNode &n = contact[aliasKeys[k]];
-		if (n.type() != JSON_NULL) {
-			ptrW w(mir_utf8decodeW(n.as_string().c_str()));
-			if (w && w[0])
-				return CMStringW(w);
-		}
-	}
-
-	const JSONNode &nm = contact["names"];
-	if (nm.type() == JSON_ARRAY) {
-		auto pickNameByTypes = [&](const char **typesList) -> CMStringW {
-			for (unsigned i = 0; i < nm.size(); i++) {
-				const JSONNode &el = nm[i];
-				if (el.type() != JSON_NODE)
-					continue;
-				CMStringA typ(el["type"].type() != JSON_NULL ? el["type"].as_string().c_str() : "");
-				bool match = false;
-				for (const char **w = typesList; *w && !match; w++)
-					if (!mir_strcmpi(typ.c_str(), *w))
-						match = true;
-				if (!match)
-					continue;
-				CMStringW r = sttFormatOneNameRecord(el);
-				if (!r.IsEmpty())
-					return r;
-			}
-			return L"";
-		};
-
-		static const char *localTypes[] = { "LOCAL", "TT_LOCAL", "CUSTOM", "ALIAS", "CONTACT", "ADDRESSBOOK", "BOOK", "NICKNAME", "PHONEBOOK", nullptr };
-		static const char *profileTypes[] = { "ONEME", "TT", "MAX", "DEFAULT", "PROFILE", "MAIN", nullptr };
-
-		CMStringW r = pickNameByTypes(localTypes);
-		if (!r.IsEmpty())
-			return r;
-		r = pickNameByTypes(profileTypes);
-		if (!r.IsEmpty())
-			return r;
-		for (unsigned i = 0; i < nm.size(); i++) {
-			CMStringW r2 = sttFormatOneNameRecord(nm[i]);
-			if (!r2.IsEmpty())
-				return r2;
-		}
-	}
-	else if (nm.type() == JSON_NODE) {
-		CMStringW r = sttFormatOneNameRecord(nm);
-		if (!r.IsEmpty())
-			return r;
-	}
-
-	const JSONNode &bc = contact["baseContact"];
-	if (bc.type() == JSON_NODE) {
-		CMStringW r = sttFormatNamesDepth(bc, depth + 1);
-		if (!r.IsEmpty())
-			return r;
-	}
-
-	static const char *nestKeys[] = { "user", "profile", "contact", "person", nullptr };
-	for (int k = 0; nestKeys[k]; k++) {
-		const JSONNode &nn = contact[nestKeys[k]];
-		if (nn.type() == JSON_NODE) {
-			CMStringW r = sttFormatNamesDepth(nn, depth + 1);
-			if (!r.IsEmpty())
-				return r;
-		}
-	}
-
-	static const char *topKeys[] = { "displayName", "name", "nick", "nickname", "login", nullptr };
-	for (int k = 0; topKeys[k]; k++) {
-		const JSONNode &n = contact[topKeys[k]];
-		if (n.type() != JSON_NULL) {
-			ptrW w(mir_utf8decodeW(n.as_string().c_str()));
-			if (w && w[0])
-				return CMStringW(w);
-		}
-	}
-	return L"";
-}
-
-// Same resolution order as sttFormatNamesDepth, but fills FirstName/LastName fields.
-static bool sttFillNamePartsDepth(const JSONNode &contact, int depth, CMStringW &outFn, CMStringW &outLn)
+// Strict name extraction: only firstName/lastName/name from names[] or direct contact object.
+static bool sttFillNamePartsDepth(const JSONNode &contact, int, CMStringW &outFn, CMStringW &outLn)
 {
 	outFn.Empty();
 	outLn.Empty();
-	if (depth > 4)
-		return false;
-
-	static const char *aliasKeys[] = { "alias", "localName", "localAlias", "addressBookName", "phoneBookName", "bookName", "customName", "remark", "remarkName", nullptr };
-	for (int k = 0; aliasKeys[k]; k++) {
-		const JSONNode &n = contact[aliasKeys[k]];
-		if (n.type() != JSON_NULL) {
-			ptrW w(mir_utf8decodeW(n.as_string().c_str()));
-			if (w && w[0]) {
-				outFn = w;
-				return true;
-			}
-		}
-	}
 
 	const JSONNode &nm = contact["names"];
 	if (nm.type() == JSON_ARRAY) {
-		auto pickPartsByTypes = [&](const char **typesList) -> bool {
-			for (unsigned i = 0; i < nm.size(); i++) {
-				const JSONNode &el = nm[i];
-				if (el.type() != JSON_NODE)
-					continue;
-				CMStringA typ(el["type"].type() != JSON_NULL ? el["type"].as_string().c_str() : "");
-				bool match = false;
-				for (const char **t = typesList; *t && !match; t++)
-					if (!mir_strcmpi(typ.c_str(), *t))
-						match = true;
-				if (!match)
-					continue;
-				sttNamePartsFromRecord(el, outFn, outLn);
-				if (!outFn.IsEmpty() || !outLn.IsEmpty())
-					return true;
-			}
-			return false;
-		};
-
-		static const char *localTypes[] = { "LOCAL", "TT_LOCAL", "CUSTOM", "ALIAS", "CONTACT", "ADDRESSBOOK", "BOOK", "NICKNAME", "PHONEBOOK", nullptr };
-		static const char *profileTypes[] = { "ONEME", "TT", "MAX", "DEFAULT", "PROFILE", "MAIN", nullptr };
-
-		if (pickPartsByTypes(localTypes))
-			return true;
-		if (pickPartsByTypes(profileTypes))
-			return true;
 		for (unsigned i = 0; i < nm.size(); i++) {
 			sttNamePartsFromRecord(nm[i], outFn, outLn);
 			if (!outFn.IsEmpty() || !outLn.IsEmpty())
@@ -427,38 +227,9 @@ static bool sttFillNamePartsDepth(const JSONNode &contact, int depth, CMStringW 
 		if (!outFn.IsEmpty() || !outLn.IsEmpty())
 			return true;
 	}
-
-	const JSONNode &bc = contact["baseContact"];
-	if (bc.type() == JSON_NODE && sttFillNamePartsDepth(bc, depth + 1, outFn, outLn))
+	sttNamePartsFromRecord(contact, outFn, outLn);
+	if (!outFn.IsEmpty() || !outLn.IsEmpty())
 		return true;
-
-	static const char *nestKeys[] = { "user", "profile", "contact", "person", nullptr };
-	for (int k = 0; nestKeys[k]; k++) {
-		const JSONNode &nn = contact[nestKeys[k]];
-		if (nn.type() == JSON_NODE && sttFillNamePartsDepth(nn, depth + 1, outFn, outLn))
-			return true;
-	}
-
-	static const char *topKeys[] = { "displayName", "name", "nick", "nickname", "login", nullptr };
-	for (int k = 0; topKeys[k]; k++) {
-		const JSONNode &n = contact[topKeys[k]];
-		if (n.type() != JSON_NULL) {
-			ptrW w(mir_utf8decodeW(n.as_string().c_str()));
-			if (w && w[0]) {
-				CMStringW full(w);
-				int sp = full.Find(L' ');
-				if (sp >= 0) {
-					outFn = full.Left(sp);
-					outLn = full.Mid(sp + 1);
-					outFn.Trim();
-					outLn.Trim();
-				}
-				else
-					outFn = full;
-				return true;
-			}
-		}
-	}
 	return false;
 }
 
@@ -481,45 +252,13 @@ static bool sttContactNeedsPlaceholderName(CMaxProto *p, MCONTACT h)
 	CMStringW ln = p->getMStringW(h, "LastName");
 	if (sttIsUserStubDisplay(fn))
 		return true;
-	if (!fn.IsEmpty() || !ln.IsEmpty())
-		return false;
-	ptrW nick(p->getWStringA(h, "Nick"));
-	if (nick != nullptr && nick[0]) {
-		if (sttIsUserStubDisplay(CMStringW(nick)))
-			return true;
-		return false;
-	}
-	return true;
+	return fn.IsEmpty() && ln.IsEmpty();
 }
 
 // True if JSON carries a user-defined / address-book style name (not only profile ONEME).
 static bool sttJsonHasLocalOrAliasContactName(const JSONNode &contact)
 {
-	static const char *aliasKeys[] = { "alias", "localName", "localAlias", "addressBookName", "phoneBookName", "bookName", "customName", "remark", "remarkName", nullptr };
-	for (int k = 0; aliasKeys[k]; k++) {
-		const JSONNode &n = contact[aliasKeys[k]];
-		if (n.type() != JSON_NULL && !n.as_string().empty())
-			return true;
-	}
-
-	const JSONNode &nm = contact["names"];
-	if (nm.type() != JSON_ARRAY)
-		return false;
-
-	static const char *localTypes[] = { "LOCAL", "TT_LOCAL", "CUSTOM", "ALIAS", "CONTACT", "ADDRESSBOOK", "BOOK", "NICKNAME", "PHONEBOOK", nullptr };
-	for (unsigned i = 0; i < nm.size(); i++) {
-		const JSONNode &el = nm[i];
-		if (el.type() != JSON_NODE)
-			continue;
-		CMStringA typ(el["type"].type() != JSON_NULL ? el["type"].as_string().c_str() : "");
-		for (const char **w = localTypes; *w; w++) {
-			if (!mir_strcmpi(typ.c_str(), *w)) {
-				if (!sttFormatOneNameRecord(el).IsEmpty())
-					return true;
-				break;
-			}
-		}
-	}
+	(void)contact;
 	return false;
 }
 
@@ -631,34 +370,7 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
 		oldFn = getMStringW(hPrev, "FirstName");
 		oldLn = getMStringW(hPrev, "LastName");
 	}
-	if (oldFn.IsEmpty() && oldLn.IsEmpty() && hPrev) {
-		ptrW leg(getWStringA(hPrev, "Nick"));
-		if (leg != nullptr && leg[0]) {
-			CMStringW full(leg);
-			if (sttIsUserStubDisplay(full)) {
-				oldFn = full;
-				oldLn.Empty();
-			}
-			else {
-				int sp = full.Find(L' ');
-				if (sp >= 0) {
-					oldFn = full.Left(sp);
-					oldLn = full.Mid(sp + 1);
-					oldFn.Trim();
-					oldLn.Trim();
-				}
-				else
-					oldFn = full;
-			}
-		}
-	}
-
 	bool oldIsUserStub = sttIsUserStubDisplay(oldFn);
-	if (!oldIsUserStub && hPrev) {
-		ptrW on(getWStringA(hPrev, "Nick"));
-		if (on != nullptr && mir_wstrlen(on) >= 5 && !_wcsnicmp(on, L"User ", 5))
-			oldIsUserStub = true;
-	}
 	bool apiHasLocal = sttJsonHasLocalOrAliasContactName(c);
 	bool oldHas = !oldFn.IsEmpty() || !oldLn.IsEmpty();
 
@@ -678,6 +390,7 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
 		outLn = oldLn;
 	}
 	else {
+		debugLogA("Max: contact name fallback to stub uid=%s (no first/last/name in payload)", uid.c_str());
 		outFn.Format(L"User %S", uid.c_str());
 		outLn.Empty();
 	}
@@ -942,6 +655,19 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 			myUid = sttJsonIdStr(ct["id"]);
 			if (!myUid.IsEmpty())
 				setString(DB_KEY_MY_MAX_ID, myUid.c_str());
+
+			// Keep own profile name in account module settings (Max_1) so UI can show sender name.
+			CMStringW myFn, myLn;
+			sttFillNamePartsFromContact(ct, myFn, myLn);
+			if (!myFn.IsEmpty() || !myLn.IsEmpty()) {
+				setWString("FirstName", myFn.c_str());
+				setWString("LastName", myLn.c_str());
+			}
+			else {
+				delSetting("FirstName");
+				delSetting("LastName");
+			}
+
 			SyncContactAvatarFromJson(0, ct);
 		}
 	}
@@ -1011,15 +737,8 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 		CMStringW fn = getMStringW(hContact, "FirstName");
 		CMStringW ln = getMStringW(hContact, "LastName");
 		bool needTitle = sttIsUserStubDisplay(fn);
-		if (!needTitle && fn.IsEmpty() && ln.IsEmpty()) {
-			ptrW nick(getWStringA(hContact, "Nick"));
-			if (nick != nullptr && nick[0]) {
-				if (sttIsUserStubDisplay(CMStringW(nick)))
-					needTitle = true;
-			}
-			else
-				needTitle = true;
-		}
+		if (!needTitle && fn.IsEmpty() && ln.IsEmpty())
+			needTitle = true;
 		if (!needTitle)
 			continue;
 		ptrA cid(getStringA(hContact, DB_KEY_MAX_CHATID));
