@@ -151,6 +151,11 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 	return hProcess;
 }
 
+void CMaxProto::OnModulesLoaded()
+{
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CMaxProto::OnUserInfoInit);
+}
+
 static uint64_t sttJsonTimeMs(const JSONNode &n)
 {
 	if (n.type() == JSON_NUMBER)

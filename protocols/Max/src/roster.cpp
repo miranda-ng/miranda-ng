@@ -679,6 +679,16 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 				delSetting("FirstName");
 				delSetting("LastName");
 			}
+			const JSONNode &myAbout = ct["description"];
+			if (myAbout.type() == JSON_STRING && !myAbout.as_string().empty()) {
+				ptrW w(mir_utf8decodeW(myAbout.as_string().c_str()));
+				if (w != nullptr && w[0])
+					setWString("About", w);
+				else
+					delSetting("About");
+			}
+			else
+				delSetting("About");
 
 			SyncContactAvatarFromJson(0, ct);
 		}

@@ -57,6 +57,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	bool HasLoginToken();
 	CMStringW FormatLastError();
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
 
 public:
@@ -68,6 +69,7 @@ public:
 	int SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
 
 	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
+	void OnModulesLoaded() override;
 	void OnShutdown(void) override;
 
 	void NotifyUser(const wchar_t *title, const wchar_t *text);

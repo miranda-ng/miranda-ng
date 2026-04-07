@@ -32,6 +32,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\max_proto.cpp" />
     <ClCompile Include="src\roster.cpp" />
+    <ClCompile Include="src\userinfo.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
