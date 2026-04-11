@@ -514,14 +514,13 @@ void __cdecl CMaxProto::LiveNotifIngestWorker(void *param)
 	}
 
 	if (!p->m_bTerminated && p->WaitForGatewayReady() && p->m_pGateway != nullptr) {
-		MCONTACT hPeer = p->FindContactByMaxUid(sender.c_str());
-		if (!hPeer)
-			hPeer = p->FindContactByDialogChatId(chatId.c_str());
-		if (!hPeer)
-			hPeer = p->EnsureUserContact(sender.c_str(), nullptr, nullptr, chatId.c_str());
+		MCONTACT hPeer = p->ResolveContactForDialogMessage(chatId.c_str(), sender.IsEmpty() ? nullptr : sender.c_str());
 		if (hPeer && p->ContactNeedsServerDisplayFetch(hPeer)) {
-			CMStringA one[1] = { sender.c_str() };
-			p->ApiFetchContactsBatch(p->m_pGateway, one, 1, false);
+			ptrA uid(getStringA(hPeer, DB_KEY_MAX_UID));
+			if (uid != nullptr && uid[0]) {
+				CMStringA one[1] = { uid.get() };
+				p->ApiFetchContactsBatch(p->m_pGateway, one, 1, false);
+			}
 		}
 	}
 

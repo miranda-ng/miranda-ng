@@ -128,6 +128,8 @@ public:
 	MCONTACT FindContactByDialogChatId(const char *szChatId);
 	/// Opcode 49/64/67 need dialog `chatId`. Uses DB `MaxChatId` or derives 1:1 id as myUid XOR peer `MaxUid`.
 	CMStringA GetOrResolveDialogChatId(MCONTACT hContact, bool bPersistIfDerived = true);
+	/// 1:1 dialog message: match by chatId / derived id. If sender is own Max id (echo from another client), never use sender — use XOR to find peer.
+	MCONTACT ResolveContactForDialogMessage(const char *szChatId, const char *senderUid);
 	/// Ingest one USER message JSON (same shape as opcode 128 `payload.message` or chat `lastMessage`).
 	void IngestMaxMessageJson(const JSONNode &message, const char *szChatId, bool bMarkRead = false);
 	/// Opcode-128: merge `payload.chat` into 1:1 contact (title) before ingesting the message.

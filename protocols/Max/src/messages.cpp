@@ -25,6 +25,62 @@ static CMStringA sttMessageBodyUtf8(const JSONNode &msg)
 	return CMStringA();
 }
 
+/// 1:1 dialog id from Max: chatId = myMaxUid XOR peerMaxUid (decimal string ids).
+static CMStringA sttXorPeerUidFromDialog(const char *szMyUid, const char *szChatId)
+{
+	if (szMyUid == nullptr || szMyUid[0] == 0 || szChatId == nullptr || szChatId[0] == 0)
+		return CMStringA();
+	uint64_t a = _strtoui64(szMyUid, nullptr, 10);
+	uint64_t c = _strtoui64(szChatId, nullptr, 10);
+	if (c == 0)
+		return CMStringA();
+	uint64_t b = a ^ c;
+	CMStringA out;
+	out.Format("%llu", (unsigned long long)b);
+	return out;
+}
+
+MCONTACT CMaxProto::ResolveContactForDialogMessage(const char *szChatId, const char *senderUid)
+{
+	if (szChatId == nullptr || szChatId[0] == 0)
+		return 0;
+
+	MCONTACT hContact = FindContactByDialogChatId(szChatId);
+	if (hContact)
+		return hContact;
+
+	for (auto &hc : AccContacts()) {
+		if (isChatRoom(hc))
+			continue;
+		CMStringA rid = GetOrResolveDialogChatId(hc, false);
+		if (!rid.IsEmpty() && !mir_strcmp(rid, szChatId))
+			return hc;
+	}
+
+	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+	const bool fromSelf = (senderUid != nullptr && senderUid[0] != 0 && myUid != nullptr && myUid[0] != 0
+		&& !mir_strcmp(senderUid, myUid));
+
+	if (!fromSelf) {
+		if (senderUid != nullptr && senderUid[0] != 0) {
+			hContact = FindContactByMaxUid(senderUid);
+			if (hContact)
+				return hContact;
+			return EnsureUserContact(senderUid, nullptr, nullptr, szChatId);
+		}
+		return 0;
+	}
+
+	CMStringA peerStr = sttXorPeerUidFromDialog(myUid, szChatId);
+	if (peerStr.IsEmpty() || !mir_strcmp(peerStr, myUid))
+		return 0;
+
+	hContact = FindContactByMaxUid(peerStr.c_str());
+	if (hContact)
+		return hContact;
+	return EnsureUserContact(peerStr.c_str(), nullptr, nullptr, szChatId);
+}
+
 MCONTACT CMaxProto::FindContactByDialogChatId(const char *szChatId)
 {
 	if (szChatId == nullptr || szChatId[0] == 0)
@@ -105,11 +161,7 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	if (text.IsEmpty())
 		return;
 
-	MCONTACT hContact = FindContactByDialogChatId(szChatId);
-	if (!hContact)
-		hContact = FindContactByMaxUid(sender.c_str());
-	if (!hContact)
-		hContact = EnsureUserContact(sender.c_str(), nullptr, nullptr, szChatId);
+	MCONTACT hContact = ResolveContactForDialogMessage(szChatId, sender.IsEmpty() ? nullptr : sender.c_str());
 	if (!hContact)
 		return;
 
