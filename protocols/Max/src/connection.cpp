@@ -689,6 +689,25 @@ bool CMaxProto::ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	return SendJsonAndWait(ws, 67, payload, 0);
 }
 
+bool CMaxProto::ApiDeleteMessages(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, bool bForMe)
+{
+	if (!ws || szChatId == nullptr || szChatId[0] == 0 || szMsgId == nullptr || szMsgId[0] == 0)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0)
+		return false;
+
+	JSONNode messageIds(JSON_ARRAY);
+	messageIds << CHAR_PARAM("", szMsgId);
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("messageIds", messageIds) << BOOL_PARAM("forMe", bForMe);
+
+	// PyMax / vkmax: Opcode delete message == 66
+	return SendJsonAndWait(ws, 66, payload, 0);
+}
+
 bool CMaxProto::ApiSearchByPhone(WebSocket<CMaxProto> *ws, const char *szPhoneUtf8, JSONNode &outContact)
 {
 	outContact = JSONNode(JSON_NULL);
@@ -1060,6 +1079,17 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 
 	// Opcode 34: add contact — same pattern as 46.
 	if (p->m_waitSeq != 0 && op == 34) {
+		const JSONNode &pl = json["payload"];
+		if (pl.type() == JSON_NODE) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	// Opcode 66: delete message — reply often keeps cmd=0 like pushes.
+	if (p->m_waitSeq != 0 && seq == p->m_waitSeq && op == 66) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();

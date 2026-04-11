@@ -74,7 +74,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID;
+		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL;
 
 	case PFLAG_UNIQUEIDTEXT:
 	{
@@ -204,6 +204,51 @@ void CMaxProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei
 		debugLogA("Max: edit failed chat=%s msg=%s", chatId.c_str(), dbei.szId);
 	else
 		debugLogA("Max: edit ok chat=%s msg=%s", chatId.c_str(), dbei.szId);
+}
+
+void CMaxProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
+{
+	if (hContact == 0 || !(flags & CDF_DEL_HISTORY))
+		return;
+
+	DB::EventInfo dbei(hDbEvent, false);
+	if (!dbei || mir_strcmp(dbei.szModule, m_szModuleName))
+		return;
+	if (dbei.eventType != EVENTTYPE_MESSAGE)
+		return;
+	if (dbei.szId == nullptr || dbei.szId[0] == 0)
+		return;
+
+	if (!WaitForGatewayReady() || m_pGateway == nullptr) {
+		debugLogA("Max: delete msg skipped (gateway not connected) id=%s", dbei.szId);
+		return;
+	}
+
+	CMStringA chatId;
+	if (isChatRoom(hContact)) {
+		SESSION_INFO *si = Chat_Find(hContact, m_szModuleName);
+		if (si == nullptr || si->ptszID == nullptr || si->ptszID[0] == 0)
+			return;
+		ptrA cidUtf(mir_u2a(si->ptszID));
+		if (cidUtf == nullptr || cidUtf[0] == 0)
+			return;
+		chatId = cidUtf.get();
+	}
+	else
+		chatId = GetOrResolveDialogChatId(hContact, false);
+
+	if (chatId.IsEmpty()) {
+		debugLogA("Max: delete msg skipped (no chat id) msg=%s", dbei.szId);
+		return;
+	}
+
+	const bool forEveryone = (flags & CDF_FOR_EVERYONE) != 0;
+	const bool forMe = !forEveryone;
+
+	if (!ApiDeleteMessages(m_pGateway, chatId.c_str(), dbei.szId, forMe))
+		debugLogA("Max: delete msg API failed chat=%s id=%s forMe=%d", chatId.c_str(), dbei.szId, forMe ? 1 : 0);
+	else
+		debugLogA("Max: delete msg ok chat=%s id=%s forMe=%d", chatId.c_str(), dbei.szId, forMe ? 1 : 0);
 }
 
 void __cdecl CMaxProto::MessageAckWorker(void *param)

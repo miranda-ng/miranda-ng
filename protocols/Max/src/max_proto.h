@@ -88,6 +88,7 @@ public:
 	HANDLE SearchBasic(const wchar_t *id) override;
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	void OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei) override;
+	void OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
 
 	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
 	void OnModulesLoaded() override;
@@ -108,6 +109,8 @@ public:
 	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead = false);
 	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
 	bool ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText);
+	/// Opcode 66: delete message on server. `bForMe` true = only this user; false = for everyone (if allowed).
+	bool ApiDeleteMessages(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, bool bForMe);
 	/// Opcode 46: resolve user by phone (E.164, UTF-8). On success sets outContact to contact node or empty if not found.
 	bool ApiSearchByPhone(WebSocket<CMaxProto> *ws, const char *szPhoneUtf8, JSONNode &outContact);
 	/// Opcode 34: add user to server-side contacts (roster).

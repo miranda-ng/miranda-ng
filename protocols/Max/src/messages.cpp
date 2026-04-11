@@ -140,9 +140,18 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	if (msgId.IsEmpty())
 		return;
 
+	const JSONNode &st = msg["status"];
+	if (st.type() == JSON_STRING && !mir_strcmpi(st.as_string().c_str(), "REMOVED")) {
+		MEVENT hEv = db_event_getById(m_szModuleName, msgId.c_str());
+		if (hEv != 0) {
+			db_event_delete(hEv, CDF_FROM_SERVER);
+			debugLogA("Max: server removed msg id=%s chat=%s", msgId.c_str(), szChatId);
+		}
+		return;
+	}
+
 	MEVENT hExisting = db_event_getById(m_szModuleName, msgId.c_str());
 	bool isEdited = false;
-	const JSONNode &st = msg["status"];
 	if (st.type() == JSON_STRING && !mir_strcmpi(st.as_string().c_str(), "EDITED"))
 		isEdited = true;
 	else if (msg["updateTime"].type() != JSON_NULL)
@@ -254,7 +263,17 @@ void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *sz
 	for (unsigned i = 0; i < n; i++) {
 		const JSONNode &msg = (*msgs)[i];
 		CMStringA msgId = sttMsgJsonIdStr(msg["id"]);
-		if (msgId.IsEmpty() || db_event_getById(m_szModuleName, msgId.c_str()) != 0)
+		if (msgId.IsEmpty())
+			continue;
+
+		const JSONNode &st = msg["status"];
+		if (st.type() == JSON_STRING && !mir_strcmpi(st.as_string().c_str(), "REMOVED")) {
+			if (MEVENT hEv = db_event_getById(m_szModuleName, msgId.c_str()))
+				db_event_delete(hEv, CDF_FROM_SERVER);
+			continue;
+		}
+
+		if (db_event_getById(m_szModuleName, msgId.c_str()) != 0)
 			continue;
 
 		IngestMaxMessageJson(msg, szChatId, bMarkRead);
