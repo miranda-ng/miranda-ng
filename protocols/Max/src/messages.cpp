@@ -77,7 +77,7 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 		return;
 
 	const JSONNode &typeNd = msg["type"];
-	if (typeNd.type() == JSON_STRING && mir_strcmp(typeNd.as_string().c_str(), "USER"))
+	if (typeNd.type() == JSON_STRING && mir_strcmpi(typeNd.as_string().c_str(), "USER"))
 		return;
 
 	CMStringA msgId = sttMsgJsonIdStr(msg["id"]);
@@ -171,13 +171,6 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 {
 	const JSONNode &msg = payload["message"];
 	if (msg.type() != JSON_NODE)
-		return;
-
-	CMStringA sender = sttMsgJsonIdStr(msg["sender"]);
-	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
-	// Locally sent messages are already finalized via SRMM ACK queue;
-	// skip self live-push echo to avoid out-of-order inserts.
-	if (!sender.IsEmpty() && myUid != nullptr && sender == myUid)
 		return;
 
 	CMStringA chatId = sttMsgJsonIdStr(payload["chatId"]);

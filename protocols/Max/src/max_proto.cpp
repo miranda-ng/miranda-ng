@@ -498,12 +498,6 @@ void __cdecl CMaxProto::LiveNotifIngestWorker(void *param)
 			sender = sn.as_string().c_str();
 	}
 
-	ptrA myUid(p->getStringA(DB_KEY_MY_MAX_ID));
-	if (!sender.IsEmpty() && myUid != nullptr && sender == myUid) {
-		delete pPl;
-		return;
-	}
-
 	CMStringA chatId;
 	{
 		const JSONNode &cn = payload["chatId"];
