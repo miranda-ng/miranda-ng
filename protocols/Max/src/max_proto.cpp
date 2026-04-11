@@ -49,6 +49,8 @@ CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	CreateProtoService(PS_GETAVATARCAPS, &CMaxProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CMaxProto::SvcGetMyAvatar);
 	CreateProtoService(PS_MENU_LOADHISTORY, &CMaxProto::SvcLoadServerHistory);
+	CreateProtoService(PS_CAN_EMPTY_HISTORY, &CMaxProto::SvcCanEmptyHistory);
+	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CMaxProto::SvcEmptyServerHistory);
 }
 
 CMaxProto::~CMaxProto()
@@ -696,6 +698,63 @@ INT_PTR CMaxProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 		return 1;
 
 	ForkThread(&CMaxProto::LoadHistoryWorker, (void *)(UINT_PTR)hContact);
+	return 0;
+}
+
+INT_PTR CMaxProto::SvcCanEmptyHistory(WPARAM hContact, LPARAM)
+{
+	MCONTACT h = (MCONTACT)hContact;
+	if (h == 0)
+		return 0;
+
+	if (isChatRoom(h)) {
+		SESSION_INFO *si = Chat_Find(h, m_szModuleName);
+		return (si != nullptr && si->ptszID != nullptr && si->ptszID[0] != 0) ? 1 : 0;
+	}
+
+	CMStringA chatId = GetOrResolveDialogChatId(h, false);
+	return chatId.IsEmpty() ? 0 : 1;
+}
+
+INT_PTR CMaxProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
+{
+	MCONTACT h = (MCONTACT)hContact;
+	if (h == 0 || (lParam & CDF_DEL_HISTORY) == 0)
+		return 0;
+
+	if (!WaitForGatewayReady() || m_pGateway == nullptr) {
+		NotifyUser(TranslateT("Max"), TranslateT("Cannot remove server chat: not connected."));
+		return 0;
+	}
+
+	if (isChatRoom(h)) {
+		SESSION_INFO *si = Chat_Find(h, m_szModuleName);
+		if (si == nullptr || si->ptszID == nullptr || si->ptszID[0] == 0)
+			return 0;
+		ptrA chatUtf(mir_u2a(si->ptszID));
+		if (chatUtf == nullptr)
+			return 0;
+		if (ApiChatLeave(m_pGateway, chatUtf)) {
+			debugLogA("Max: empty history — server leave (opcode 58) chat=%s", chatUtf.get());
+			delSetting(h, DB_KEY_MAX_CHATID);
+		}
+		else
+			NotifyUser(TranslateT("Max"), TranslateT("Could not leave the chat on the server."));
+		return 0;
+	}
+
+	CMStringA chatId = GetOrResolveDialogChatId(h, false);
+	if (chatId.IsEmpty()) {
+		NotifyUser(TranslateT("Max"), TranslateT("Cannot remove server chat: dialog id is unknown."));
+		return 0;
+	}
+
+	if (ApiDeleteServerDialog(m_pGateway, chatId.c_str())) {
+		debugLogA("Max: empty history — server dialog delete (opcode 52) chat=%s", chatId.c_str());
+		delSetting(h, DB_KEY_MAX_CHATID);
+	}
+	else
+		NotifyUser(TranslateT("Max"), TranslateT("Could not delete the dialog on the server."));
 	return 0;
 }
 

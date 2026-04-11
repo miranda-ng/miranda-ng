@@ -484,7 +484,20 @@ void CMaxProto::ClearMaxDialogLocalHistory(MCONTACT hContact)
 {
 	if (hContact == 0)
 		return;
-	CallService(MS_HISTORY_EMPTY, (WPARAM)hContact, TRUE);
+
+	// Do not call MS_HISTORY_EMPTY: with PS_CAN_EMPTY_HISTORY implemented it would also run
+	// PS_EMPTY_SRV_HISTORY (server delete) on forced empty. Mirror core empty-history DB cleanup only.
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (pCursor.FetchNext())
+		pCursor.DeleteEvent();
+
+	if (isChatRoom(hContact)) {
+		if (SESSION_INFO *si = Chat_Find(hContact, m_szModuleName))
+			Chat_EmptyHistory(si);
+		if (const char *szProto = Proto_GetBaseAccountName(hContact))
+			db_unset(hContact, szProto, "ApparentMode");
+	}
+
 	delSetting(hContact, DB_KEY_MAX_CHATID);
 }
 

@@ -70,6 +70,8 @@ class CMaxProto : public PROTO<CMaxProto>
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcCanEmptyHistory(WPARAM hContact, LPARAM lParam);
+	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam);
 
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
