@@ -699,6 +699,53 @@ bool CMaxProto::ApiAddContactOnServer(WebSocket<CMaxProto> *ws, const char *szUi
 	return SendJsonAndWait(ws, 34, payload, 0, true);
 }
 
+bool CMaxProto::ApiRemoveContactFromServer(WebSocket<CMaxProto> *ws, const char *szUidDecimal)
+{
+	if (!ws || szUidDecimal == nullptr || szUidDecimal[0] == 0)
+		return false;
+
+	int64_t contactId = _strtoi64(szUidDecimal, nullptr, 10);
+	if (contactId == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("contactId", contactId) << CHAR_PARAM("action", "REMOVE");
+
+	return SendJsonAndWait(ws, 34, payload, 0, true);
+}
+
+bool CMaxProto::ApiDeleteServerDialog(WebSocket<CMaxProto> *ws, const char *szChatId)
+{
+	if (!ws || szChatId == nullptr || szChatId[0] == 0)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid);
+
+	// MaxApiTeam/PyMax: Opcode.CHAT_DELETE == 52 (75 is CHAT_SUBSCRIBE — does not remove dialog from list).
+	return SendJsonAndWait(ws, 52, payload, 0, true);
+}
+
+bool CMaxProto::ApiChatLeave(WebSocket<CMaxProto> *ws, const char *szChatId)
+{
+	if (!ws || szChatId == nullptr || szChatId[0] == 0)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid);
+
+	// PyMax: Opcode.CHAT_LEAVE == 58 (LeaveChatPayload — chatId only).
+	return SendJsonAndWait(ws, 58, payload, 0, true);
+}
+
 bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 {
 	JSONNode payload(JSON_NODE);

@@ -85,6 +85,7 @@ public:
 	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
 	void OnModulesLoaded() override;
 	void OnShutdown(void) override;
+	bool OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 
 	void NotifyUser(const wchar_t *title, const wchar_t *text);
 	void InitWsInflater();
@@ -102,6 +103,12 @@ public:
 	bool ApiSearchByPhone(WebSocket<CMaxProto> *ws, const char *szPhoneUtf8, JSONNode &outContact);
 	/// Opcode 34: add user to server-side contacts (roster).
 	bool ApiAddContactOnServer(WebSocket<CMaxProto> *ws, const char *szUidDecimal);
+	/// Opcode 34: remove user from server-side contacts (`action` mirrors ADD).
+	bool ApiRemoveContactFromServer(WebSocket<CMaxProto> *ws, const char *szUidDecimal);
+	/// Opcode 52: remove dialog/chat from server roster (PyMax `CHAT_DELETE` — not opcode 75 subscribe).
+	bool ApiDeleteServerDialog(WebSocket<CMaxProto> *ws, const char *szChatId);
+	/// Opcode 58: leave group/channel (PyMax `CHAT_LEAVE` — payload is chatId only; not 75).
+	bool ApiChatLeave(WebSocket<CMaxProto> *ws, const char *szChatId);
 
 	void RegisterChatModule();
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);

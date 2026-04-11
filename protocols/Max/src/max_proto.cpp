@@ -710,6 +710,52 @@ void CMaxProto::OnShutdown(void)
 	DisconnectGateway();
 }
 
+bool CMaxProto::OnContactDeleted(MCONTACT hContact, uint32_t flags)
+{
+	if (!(flags & CDF_DEL_CONTACT))
+		return true;
+	if (hContact == 0)
+		return true;
+
+	if (!WaitForGatewayReady() || m_pGateway == nullptr)
+		return true;
+
+	if (isChatRoom(hContact)) {
+		if (SESSION_INFO *si = Chat_Find(hContact, m_szModuleName))
+			if (si->ptszID != nullptr && si->ptszID[0]) {
+				ptrA chatUtf(mir_u2a(si->ptszID));
+				if (chatUtf && ApiChatLeave(m_pGateway, chatUtf))
+					debugLogA("Max: server left group/channel (opcode 58) id=%s", chatUtf.get());
+				else if (chatUtf)
+					debugLogA("Max: server leave group failed id=%s", chatUtf.get());
+			}
+		return true;
+	}
+
+	CMStringA chatId = GetOrResolveDialogChatId(hContact, false);
+	if (chatId.IsEmpty()) {
+		debugLogA("Max: OnContactDeleted (server) skipped — no chat id h=%u", (unsigned)hContact);
+		return true;
+	}
+
+	ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
+	// Always try opcode 34 REMOVE when we have uid: MaxPeerOrigin can be CHATONLY while the peer is still
+	// in the server address book (official client). REMOVE is cheap; SendJsonAndWait(..., true) tolerates errors.
+	if (uid != nullptr && uid[0]) {
+		if (ApiRemoveContactFromServer(m_pGateway, uid))
+			debugLogA("Max: removed uid=%s from server address book (opcode 34)", uid.get());
+		else
+			debugLogA("Max: opcode 34 REMOVE finished with error/timeout uid=%s (dialog delete still attempted)", uid.get());
+	}
+
+	if (ApiDeleteServerDialog(m_pGateway, chatId.c_str()))
+		debugLogA("Max: deleted dialog on server (opcode 52) chatId=%s", chatId.c_str());
+	else
+		debugLogA("Max: delete dialog on server failed chatId=%s", chatId.c_str());
+
+	return true;
+}
+
 void CMaxProto::DisconnectGateway()
 {
 	const bool hadSession = (m_hConnThread != nullptr || m_hWsRunThread != nullptr || m_pGateway != nullptr);
