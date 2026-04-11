@@ -886,6 +886,56 @@ static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool CMaxProto::SaveMyProfile(const wchar_t *pwszFirstName, const wchar_t *pwszLastName, const wchar_t *pwszBio)
+{
+	if (!WaitForGatewayReady() || m_pGateway == nullptr) {
+		NotifyUser(TranslateT("Max"), TranslateT("You must be online to save your profile."));
+		return false;
+	}
+
+	const wchar_t *fnIn = (pwszFirstName != nullptr) ? pwszFirstName : L"";
+	CMStringW fnTrim(fnIn);
+	fnTrim.Trim();
+	if (fnTrim.IsEmpty()) {
+		NotifyUser(TranslateT("Max"), TranslateT("First name cannot be empty."));
+		return false;
+	}
+
+	const wchar_t *lnIn = (pwszLastName != nullptr) ? pwszLastName : L"";
+	CMStringW lnTrim(lnIn);
+	lnTrim.Trim();
+
+	const wchar_t *bioIn = (pwszBio != nullptr) ? pwszBio : L"";
+
+	ptrA fn8(mir_utf8encodeW(fnTrim.c_str()));
+	ptrA ln8;
+	if (!lnTrim.IsEmpty())
+		ln8 = mir_utf8encodeW(lnTrim.c_str());
+	ptrA bio8(mir_utf8encodeW(bioIn));
+
+	const char *pLast = (ln8 != nullptr && ln8[0]) ? ln8.get() : nullptr;
+	if (!ApiUpdateMyProfile(m_pGateway, fn8, pLast, bio8)) {
+		CMStringW err = FormatLastError();
+		if (!err.IsEmpty())
+			NotifyUser(TranslateT("Max"), err.c_str());
+		else
+			NotifyUser(TranslateT("Max"), TranslateT("Could not save your profile on the server."));
+		return false;
+	}
+
+	setWString("FirstName", fnTrim.c_str());
+	if (lnTrim.IsEmpty())
+		delSetting("LastName");
+	else
+		setWString("LastName", lnTrim.c_str());
+
+	if (bioIn[0] == 0)
+		delSetting("About");
+	else
+		setWString("About", bioIn);
+	return true;
+}
+
 CMStringW CMaxProto::FormatLastError()
 {
 	if (m_szPendingResponse.IsEmpty())

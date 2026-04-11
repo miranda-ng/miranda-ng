@@ -3,6 +3,7 @@
 #include <vector>
 
 class CMaxProto;
+struct MHttpResponse;
 
 template<> void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen);
 
@@ -33,6 +34,8 @@ class CMaxProto : public PROTO<CMaxProto>
 	CMStringA m_szPendingResponse;
 	z_stream m_wsInflate = {};
 	bool m_wsInflateInited = false;
+	/// Set from HTTP 101 `Sec-WebSocket-Extensions` when server sends `server_no_context_takeover`.
+	bool m_bWsPmDeflateIndependent = false;
 	bool m_bAvatarWebPrimed = false;
 
 	struct
@@ -48,6 +51,8 @@ class CMaxProto : public PROTO<CMaxProto>
 	void __cdecl MessageAckWorker(void *param);
 	void __cdecl PhoneSearchWorker(void *param);
 	void EnsureDeviceId();
+	/// Parse HTTP 101 `Sec-WebSocket-Extensions` (permessage-deflate parameters).
+	void ApplyWsExtensionsFromHttp(MHttpResponse *pReply);
 	bool SendHandshake(WebSocket<CMaxProto> *ws);
 	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0, bool acceptPayloadError = false);
 	void OnGatewayPush(const JSONNode &payload, int opcode);
@@ -93,6 +98,8 @@ public:
 	void InitWsInflater();
 	void FreeWsInflater();
 	bool InflateWsFrame(const uint8_t *pData, size_t cbData, CMStringA &out);
+	/// True when server sent `server_no_context_takeover` (each RSV1 frame is standalone deflate).
+	bool IsWsPmDeflateIndependent() const { return m_bWsPmDeflateIndependent; }
 
 	bool ApiSync(WebSocket<CMaxProto> *ws);
 	bool ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids, bool bMarkAsContactsRoster = true);
@@ -111,6 +118,10 @@ public:
 	bool ApiDeleteServerDialog(WebSocket<CMaxProto> *ws, const char *szChatId);
 	/// Opcode 58: leave group/channel (PyMax `CHAT_LEAVE` — payload is chatId only; not 75).
 	bool ApiChatLeave(WebSocket<CMaxProto> *ws, const char *szChatId);
+	/// Opcode 16: update own profile (PyMax `PROFILE` / `ChangeProfilePayload`).
+	bool ApiUpdateMyProfile(WebSocket<CMaxProto> *ws, const char *szFirstNameUtf8, const char *szLastNameUtf8, const char *szDescriptionUtf8);
+	/// Push first/last name and biography to server (requires online); updates local settings on success.
+	bool SaveMyProfile(const wchar_t *pwszFirstName, const wchar_t *pwszLastName, const wchar_t *pwszBio);
 
 	void RegisterChatModule();
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);

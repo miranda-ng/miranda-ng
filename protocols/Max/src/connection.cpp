@@ -7,10 +7,33 @@ GPLv2
 #include <ctype.h>
 #include <stdlib.h>
 
+static bool MaxAsciiContainsInsensitive(const char *szHaystack, const char *szNeedle)
+{
+	if (!szHaystack || !szNeedle || !*szNeedle)
+		return false;
+	CMStringA h(szHaystack), n(szNeedle);
+	h.MakeLower();
+	n.MakeLower();
+	return strstr(h, n) != nullptr;
+}
+
 // WebSocket endpoint and Origin for Max web client.
 static const char *szWsUrl = "wss://ws-api.oneme.ru/websocket";
 static const char *szOrigin = MAX_HTTP_ORIGIN_HEADER;
 static const char *szWsUserAgent = MAX_HTTP_USER_AGENT;
+
+void CMaxProto::ApplyWsExtensionsFromHttp(MHttpResponse *pReply)
+{
+	m_bWsPmDeflateIndependent = false;
+	if (!pReply)
+		return;
+	for (auto &it : *pReply) {
+		if (!it->szName || mir_strcmpi(it->szName, "Sec-WebSocket-Extensions"))
+			continue;
+		if (it->szValue && MaxAsciiContainsInsensitive(it->szValue, "server_no_context_takeover"))
+			m_bWsPmDeflateIndependent = true;
+	}
+}
 
 void CMaxProto::InitWsInflater()
 {
@@ -72,8 +95,9 @@ bool CMaxProto::InflateWsFrame(const uint8_t *pData, size_t cbData, CMStringA &o
 	}
 
 	if (zret != Z_STREAM_END && zret != Z_BUF_ERROR) {
-		// stream got desynced, recreate inflater for next message
-		InitWsInflater();
+		// With sliding-window takeover, resetting here desyncs from the server; only reset for standalone frames.
+		if (IsWsPmDeflateIndependent())
+			InitWsInflater();
 		return false;
 	}
 	return !out.IsEmpty();
@@ -125,7 +149,25 @@ static bool sttInflateOneWsPayload(const uint8_t *pData, size_t cbData, CMString
 
 static bool InflatePerMessageDeflate(CMaxProto *pPro, const uint8_t *pData, size_t cbData, CMStringA &out)
 {
-	// Prefer single-shot per frame; try with and without RFC7692 trailer for raw deflate.
+	// server_no_context_takeover: each RSV1 payload is a standalone raw deflate block.
+	if (pPro->IsWsPmDeflateIndependent()) {
+		if (sttInflateOneWsPayload(pData, cbData, out, -MAX_WBITS, true))
+			return true;
+		if (sttInflateOneWsPayload(pData, cbData, out, -MAX_WBITS, false))
+			return true;
+		if (sttInflateOneWsPayload(pData, cbData, out, MAX_WBITS, false))
+			return true;
+		if (sttInflateOneWsPayload(pData, cbData, out, MAX_WBITS | 32, false))
+			return true;
+		return false;
+	}
+
+	// Default (sliding-window takeover): the shared inflater must consume every compressed server frame in order.
+	// Single-shot inflate on a continuation chunk fails with Z_DATA_ERROR / "invalid distance too far back".
+	if (pPro->InflateWsFrame(pData, cbData, out))
+		return true;
+
+	// Fallback for odd first-frame edge cases.
 	if (sttInflateOneWsPayload(pData, cbData, out, -MAX_WBITS, true))
 		return true;
 	if (sttInflateOneWsPayload(pData, cbData, out, -MAX_WBITS, false))
@@ -135,12 +177,8 @@ static bool InflatePerMessageDeflate(CMaxProto *pPro, const uint8_t *pData, size
 	if (sttInflateOneWsPayload(pData, cbData, out, MAX_WBITS | 32, false))
 		return true;
 
-	// Last resort: persistent inflater (context takeover).
-	if (pPro->InflateWsFrame(pData, cbData, out))
-		return true;
-
 	out.Empty();
-	pPro->InitWsInflater();
+	// Do not InitWsInflater() here: a failed chunk may still be valid continuation; resetting desyncs the window.
 	return false;
 }
 
@@ -746,6 +784,23 @@ bool CMaxProto::ApiChatLeave(WebSocket<CMaxProto> *ws, const char *szChatId)
 	return SendJsonAndWait(ws, 58, payload, 0, true);
 }
 
+bool CMaxProto::ApiUpdateMyProfile(WebSocket<CMaxProto> *ws, const char *szFirstNameUtf8, const char *szLastNameUtf8, const char *szDescriptionUtf8)
+{
+	if (!ws || szFirstNameUtf8 == nullptr || szFirstNameUtf8[0] == 0)
+		return false;
+	if (szDescriptionUtf8 == nullptr)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << CHAR_PARAM("firstName", szFirstNameUtf8) << CHAR_PARAM("avatarType", "USER_AVATAR");
+	if (szLastNameUtf8 != nullptr && szLastNameUtf8[0] != 0)
+		payload << CHAR_PARAM("lastName", szLastNameUtf8);
+	payload << CHAR_PARAM("description", szDescriptionUtf8);
+
+	// PyMax: Opcode.PROFILE == 16 — treat payload errors as failure (show localizedMessage, do not update DB).
+	return SendJsonAndWait(ws, 16, payload, 0, false);
+}
+
 bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 {
 	JSONNode payload(JSON_NODE);
@@ -835,6 +890,9 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 		debugLogA("Max: WebSocket failed (code=%d)", pReply ? pReply->resultCode : -1);
 		return;
 	}
+
+	ApplyWsExtensionsFromHttp(pReply);
+	debugLogA("Max: WS deflate server_no_context_takeover=%d", IsWsPmDeflateIndependent() ? 1 : 0);
 
 	m_pGateway = &ws;
 	m_wsRun.ws = &ws;
@@ -944,6 +1002,17 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	int op = MaxJsonOpcodeInt(json);
+
+	// Opcode 16 (PROFILE): server often echoes cmd=0 like a push; seq still matches the client request.
+	if (p->m_waitSeq != 0 && seq == p->m_waitSeq && op == 16) {
+		const JSONNode &pl = json["payload"];
+		if (pl.type() == JSON_NODE) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
 
 	// Contact fetch: seq may not match client value; payload still carries contacts/contact.
 	if (p->m_waitSeq != 0 && op == 32) {
