@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 class CMaxProto;
 
 template<> void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen);
@@ -21,6 +23,11 @@ class CMaxProto : public PROTO<CMaxProto>
 	mir_cs m_csWait;
 	mir_cs m_csSend;
 	mir_cs m_csCid;
+	mir_cs m_csContactBook;
+	/// UIDs from last server `contacts` list (non-REMOVED), after ApplyServerContactBookSnapshot.
+	std::vector<CMStringA> m_contactBookUids;
+	/// Set when ApplyServerContactBookSnapshot ran after a sync (book may be empty). Used before chat-only auto-prune.
+	bool m_bContactBookSnapshotApplied = false;
 	volatile LONG m_iSendMsgSeq = 0;
 	uint64_t m_lastClientCidMs = 0;
 	CMStringA m_szPendingResponse;
@@ -39,10 +46,13 @@ class CMaxProto : public PROTO<CMaxProto>
 	void InterruptibleSleepMs(DWORD msTotal, DWORD sliceMs = 200);
 	void __cdecl LoadHistoryWorker(void *param);
 	void __cdecl MessageAckWorker(void *param);
+	void __cdecl PhoneSearchWorker(void *param);
 	void EnsureDeviceId();
 	bool SendHandshake(WebSocket<CMaxProto> *ws);
-	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0);
+	bool SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd = 0, bool acceptPayloadError = false);
 	void OnGatewayPush(const JSONNode &payload, int opcode);
+	/// Opcode 135: server removed/hid a chat — clear local history for matching contact.
+	void OnMaxPushChatRemoved(const JSONNode &payload);
 	void TryIngestNotifMessagePayload(const JSONNode &payload);
 	void TryMergeContactsFromPayload(const JSONNode &payload);
 	void TryApplySyncPayloadFromPush(const JSONNode &payload);
@@ -68,6 +78,8 @@ public:
 	INT_PTR GetCaps(int type, MCONTACT hContact = 0) override;
 	int SetStatus(int iNewStatus) override;
 	int SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
+	HANDLE SearchBasic(const wchar_t *id) override;
+	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	void OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei) override;
 
 	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
@@ -80,20 +92,40 @@ public:
 	bool InflateWsFrame(const uint8_t *pData, size_t cbData, CMStringA &out);
 
 	bool ApiSync(WebSocket<CMaxProto> *ws);
-	bool ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids);
+	bool ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids, bool bMarkAsContactsRoster = true);
 	bool ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pChatIds, size_t nIds);
 	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
 	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead = false);
 	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
 	bool ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText);
+	/// Opcode 46: resolve user by phone (E.164, UTF-8). On success sets outContact to contact node or empty if not found.
+	bool ApiSearchByPhone(WebSocket<CMaxProto> *ws, const char *szPhoneUtf8, JSONNode &outContact);
+	/// Opcode 34: add user to server-side contacts (roster).
+	bool ApiAddContactOnServer(WebSocket<CMaxProto> *ws, const char *szUidDecimal);
 
 	void RegisterChatModule();
 	void ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws);
 	CMStringW GetDefaultGroupW();
 	MCONTACT FindContactByMaxUid(const char *szUid);
+	/// Clear local message history and drop stored MaxChatId; keep the hContact (official: chat deleted but contact stays in address book).
+	void ClearMaxDialogLocalHistory(MCONTACT hContact);
+	/// Drop a 1:1 Max user from the local DB (e.g. removed on server / dialog gone from sync).
+	void RemoveMaxUserContact(const char *szUid);
+	/// If this peer is not in the last server address-book snapshot, remove local contact (chat-only ghost).
+	void RemoveLocalPeerIfChatOnly(MCONTACT hContact);
+	void ResetServerContactBookCache();
+	void ApplyServerContactBookSnapshot(const std::vector<CMStringA> &uids);
+	bool IsMaxUidInServerContactBook(const char *szUid);
 	MCONTACT FindContactByDialogChatId(const char *szChatId);
+	/// Opcode 49/64/67 need dialog `chatId`. Uses DB `MaxChatId` or derives 1:1 id as myUid XOR peer `MaxUid`.
+	CMStringA GetOrResolveDialogChatId(MCONTACT hContact, bool bPersistIfDerived = true);
 	/// Ingest one USER message JSON (same shape as opcode 128 `payload.message` or chat `lastMessage`).
 	void IngestMaxMessageJson(const JSONNode &message, const char *szChatId, bool bMarkRead = false);
+	/// Opcode-128: merge `payload.chat` into 1:1 contact (title) before ingesting the message.
+	void SyncLiveDialogFromPushPayload(const JSONNode &payload);
+	bool ContactNeedsServerDisplayFetch(MCONTACT hContact);
+	void QueueLiveNotifIngest(const JSONNode &payload);
+	void __cdecl LiveNotifIngestWorker(void *param);
 
 	// Avatars (AVS): URL from JSON, HTTP download on demand
 	CMStringA ExtractAvatarUrlFromJson(const JSONNode &c);
@@ -105,7 +137,9 @@ public:
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM wParam, LPARAM lParam);
 	MCONTACT EnsureUserContact(const char *szUid, const wchar_t *wszFirst, const wchar_t *wszLast, const char *szDialogChatId);
 	void EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t *wszTitle);
-	void MergeContactJson(const JSONNode &c, const char *szRequestedUid = nullptr);
+	void MergeContactJson(const JSONNode &c, const char *szRequestedUid = nullptr, bool bMarkAsContactsRoster = true);
+	/// Read display name fields from a Max `contact` JSON object (same helpers as roster merge).
+	void FillNameFromMaxContactJson(const JSONNode &c, CMStringW &outFn, CMStringW &outLn);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CMaxProto>

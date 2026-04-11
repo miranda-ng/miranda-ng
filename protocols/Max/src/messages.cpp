@@ -40,6 +40,37 @@ MCONTACT CMaxProto::FindContactByDialogChatId(const char *szChatId)
 	return 0;
 }
 
+CMStringA CMaxProto::GetOrResolveDialogChatId(MCONTACT hContact, bool bPersistIfDerived)
+{
+	if (hContact == 0)
+		return CMStringA();
+
+	CMStringA chatId(getMStringA(hContact, DB_KEY_MAX_CHATID));
+	if (!chatId.IsEmpty())
+		return chatId;
+
+	ptrA peer(getStringA(hContact, DB_KEY_MAX_UID));
+	if (peer == nullptr || peer[0] == 0)
+		return CMStringA();
+
+	ptrA my(getStringA(DB_KEY_MY_MAX_ID));
+	if (my == nullptr || my[0] == 0)
+		return CMStringA();
+
+	uint64_t a = _strtoui64(my, nullptr, 10);
+	uint64_t b = _strtoui64(peer, nullptr, 10);
+	if (b == 0)
+		return CMStringA();
+
+	CMStringA resolved;
+	resolved.Format("%llu", (unsigned long long)(a ^ b));
+
+	if (bPersistIfDerived && !resolved.IsEmpty())
+		setString(hContact, DB_KEY_MAX_CHATID, resolved.c_str());
+
+	return resolved;
+}
+
 void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, bool bMarkRead)
 {
 	if (msg.type() != JSON_NODE || szChatId == nullptr || szChatId[0] == 0)
@@ -67,6 +98,9 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 		return;
 
 	CMStringA sender = sttMsgJsonIdStr(msg["sender"]);
+	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+	const bool fromSelf = (myUid != nullptr && sender == myUid);
+
 	CMStringA text = sttMessageBodyUtf8(msg);
 	if (text.IsEmpty())
 		return;
@@ -78,9 +112,6 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 		hContact = EnsureUserContact(sender.c_str(), nullptr, nullptr, szChatId);
 	if (!hContact)
 		return;
-
-	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
-	const bool fromSelf = (myUid != nullptr && sender == myUid);
 
 	const JSONNode &t = msg["time"];
 	uint64_t tMs = 0;
@@ -153,7 +184,7 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 	if (chatId.IsEmpty())
 		return;
 
-	IngestMaxMessageJson(msg, chatId.c_str());
+	QueueLiveNotifIngest(payload);
 }
 
 void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead)

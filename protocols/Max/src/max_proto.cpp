@@ -63,7 +63,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_MODEMSG | PF1_CHAT;
+		return PF1_IM | PF1_MODEMSG | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_SERVERCLIST;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
@@ -76,8 +76,8 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 
 	case PFLAG_UNIQUEIDTEXT:
 	{
-		static wchar_t s_wszUid[64];
-		mir_wstrcpy(s_wszUid, TranslateT("Max user ID"));
+		static wchar_t s_wszUid[96];
+		mir_wstrcpy(s_wszUid, TranslateT("Phone number (international, e.g. +79001234567)"));
 		return (INT_PTR)s_wszUid;
 	}
 	}
@@ -144,10 +144,7 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 		return hProcess;
 	}
 
-	CMStringA chatId(getMStringA(hContact, DB_KEY_MAX_CHATID));
-	if (chatId.IsEmpty())
-		chatId = getMStringA(hContact, DB_KEY_MAX_UID);
-
+	CMStringA chatId(GetOrResolveDialogChatId(hContact));
 	if (chatId.IsEmpty()) {
 		auto *ctx = new CMaxMsgAckCtx;
 		ctx->pProto = this;
@@ -192,9 +189,7 @@ void CMaxProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei
 	if (!(dbei.flags & DBEF_SENT))
 		return;
 
-	CMStringA chatId(getMStringA(hContact, DB_KEY_MAX_CHATID));
-	if (chatId.IsEmpty())
-		chatId = getMStringA(hContact, DB_KEY_MAX_UID);
+	CMStringA chatId(GetOrResolveDialogChatId(hContact));
 	if (chatId.IsEmpty())
 		return;
 
@@ -225,9 +220,317 @@ void __cdecl CMaxProto::MessageAckWorker(void *param)
 			(LPARAM)ctx->errText.c_str());
 }
 
+struct CMaxPhoneSearchCtx
+{
+	CMaxProto *p = nullptr;
+	wchar_t *wszPhone = nullptr;
+	/// Must match the handle returned from SearchBasic (Find/Add matches ACKDATA::hProcess to it).
+	HANDLE hSearch = nullptr;
+};
+
+static CMStringA MaxJsonIdStrLocal(const JSONNode &n)
+{
+	if (n.type() == JSON_NULL)
+		return "";
+	if (n.type() == JSON_NUMBER) {
+		CMStringA s;
+		s.Format("%.0f", n.as_float());
+		return s;
+	}
+	return CMStringA(n.as_string().c_str());
+}
+
+static bool MaxNormalizePhoneWtoUtf8(const wchar_t *in, CMStringA &outUtf8)
+{
+	if (in == nullptr || in[0] == 0)
+		return false;
+
+	CMStringW digits;
+	bool hadLeadingPlus = false;
+	for (const wchar_t *p = in; *p; ++p) {
+		if ((*p == L'+' || *p == 0xFF0B) && digits.IsEmpty()) { // fullwidth plus
+			hadLeadingPlus = true;
+			continue;
+		}
+		if (*p >= L'0' && *p <= L'9')
+			digits.AppendChar(*p);
+	}
+
+	if (digits.IsEmpty())
+		return false;
+
+	CMStringW normalized;
+	if (hadLeadingPlus)
+		normalized.Format(L"+%s", digits.c_str());
+	else if (digits.GetLength() == 11 && digits[0] == L'8') {
+		CMStringW tail8 = digits.Mid(1);
+		normalized.Format(L"+7%s", tail8.c_str());
+	}
+	else if (digits.GetLength() == 10)
+		normalized.Format(L"+7%s", digits.c_str());
+	else
+		normalized.Format(L"+%s", digits.c_str());
+
+	ptrA utf(mir_utf8encodeW(normalized));
+	if (utf == nullptr || utf[0] == 0)
+		return false;
+	outUtf8 = utf.get();
+	return true;
+}
+
+void __cdecl CMaxProto::PhoneSearchWorker(void *param)
+{
+	auto *ctx = (CMaxPhoneSearchCtx *)param;
+	if (ctx == nullptr)
+		return;
+
+	CMaxProto *p = ctx->p;
+	const HANDLE hSearch = ctx->hSearch;
+	ptrW wszPhone(ctx->wszPhone);
+	mir_free(ctx);
+
+	if (p == nullptr)
+		return;
+
+	CMStringA phoneUtf8;
+	if (!MaxNormalizePhoneWtoUtf8(wszPhone, phoneUtf8)) {
+		p->ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, hSearch, 0);
+		return;
+	}
+
+	if (!p->WaitForGatewayReady() || p->m_pGateway == nullptr) {
+		p->ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, hSearch, 0);
+		return;
+	}
+
+	JSONNode contact(JSON_NULL);
+	if (!p->ApiSearchByPhone(p->m_pGateway, phoneUtf8.c_str(), contact)) {
+		p->ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, hSearch, 0);
+		return;
+	}
+
+	if (contact.type() != JSON_NODE || contact.size() == 0) {
+		p->ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
+		return;
+	}
+
+	CMStringA uid = MaxJsonIdStrLocal(contact["id"]);
+	if (uid.IsEmpty()) uid = MaxJsonIdStrLocal(contact["contactId"]);
+	if (uid.IsEmpty()) uid = MaxJsonIdStrLocal(contact["userId"]);
+	if (uid.IsEmpty()) {
+		p->ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_FAILED, hSearch, 0);
+		return;
+	}
+
+	CMStringW fn, ln;
+	p->FillNameFromMaxContactJson(contact, fn, ln);
+
+	CMStringW nick;
+	if (!fn.IsEmpty() || !ln.IsEmpty()) {
+		nick = fn;
+		if (!ln.IsEmpty()) {
+			if (!nick.IsEmpty()) nick += L' ';
+			nick += ln;
+		}
+	}
+	if (nick.IsEmpty())
+		nick.Format(L"User %S", uid.c_str());
+
+	PROTOSEARCHRESULT psr = {};
+	psr.cbSize = sizeof(psr);
+	psr.flags = PSR_UNICODE;
+
+	CMStringW uidw;
+	uidw.Format(L"%S", uid.c_str());
+	psr.id.w = mir_wstrdup(uidw);
+	psr.firstName.w = mir_wstrdup(fn.c_str());
+	psr.lastName.w = mir_wstrdup(ln.c_str());
+	psr.nick.w = mir_wstrdup(nick.c_str());
+	psr.email.w = mir_wstrdup(L"");
+
+	p->ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, hSearch, (LPARAM)&psr);
+	p->ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, hSearch, 0);
+
+	mir_free(psr.id.w);
+	mir_free(psr.firstName.w);
+	mir_free(psr.lastName.w);
+	mir_free(psr.nick.w);
+	mir_free(psr.email.w);
+}
+
+HANDLE CMaxProto::SearchBasic(const wchar_t *id)
+{
+	if (id == nullptr || id[0] == 0)
+		return nullptr;
+	if (m_iStatus == ID_STATUS_OFFLINE)
+		return nullptr;
+
+	auto *ctx = (CMaxPhoneSearchCtx *)mir_alloc(sizeof(CMaxPhoneSearchCtx));
+	if (ctx == nullptr)
+		return nullptr;
+	ctx->p = this;
+	ctx->wszPhone = mir_wstrdup(id);
+	if (ctx->wszPhone == nullptr) {
+		mir_free(ctx);
+		return nullptr;
+	}
+	ctx->hSearch = (HANDLE)1;
+	ForkThread(&CMaxProto::PhoneSearchWorker, ctx);
+	return ctx->hSearch;
+}
+
+MCONTACT CMaxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
+{
+	if (psr == nullptr || psr->cbSize < (int)sizeof(PROTOSEARCHRESULT))
+		return 0;
+	if (!(psr->flags & PSR_UNICODE) || psr->id.w == nullptr || psr->id.w[0] == 0)
+		return 0;
+
+	ptrA uidUtf(mir_utf8encodeW(psr->id.w));
+	if (uidUtf == nullptr || uidUtf[0] == 0)
+		return 0;
+
+	CMStringA chatId;
+	ptrA my(getStringA(DB_KEY_MY_MAX_ID));
+	if (my != nullptr && my[0]) {
+		uint64_t a = _strtoui64(my, nullptr, 10);
+		uint64_t b = _strtoui64(uidUtf, nullptr, 10);
+		if (b != 0) {
+			unsigned long long x = (unsigned long long)(a ^ b);
+			chatId.Format("%llu", x);
+		}
+	}
+
+	const wchar_t *pfn = (psr->firstName.w && psr->firstName.w[0]) ? psr->firstName.w : L"";
+	const wchar_t *pln = (psr->lastName.w && psr->lastName.w[0]) ? psr->lastName.w : L"";
+
+	MCONTACT hContact = EnsureUserContact(uidUtf, pfn, pln, chatId.IsEmpty() ? nullptr : chatId.c_str());
+	if (hContact == 0)
+		return 0;
+
+	setByte(hContact, DB_KEY_MAX_PEER_ORIGIN, MAX_PEER_ORIGIN_CONTACTS);
+
+	if (flags & PALF_TEMPORARY)
+		Contact::RemoveFromList(hContact);
+
+	if (WaitForGatewayReady() && m_pGateway != nullptr) {
+		if (!ApiAddContactOnServer(m_pGateway, uidUtf))
+			debugLogA("Max: AddToList server opcode 34 failed or timed out uid=%s", uidUtf.get());
+	}
+
+	return hContact;
+}
+
 void CMaxProto::OnModulesLoaded()
 {
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CMaxProto::OnUserInfoInit);
+}
+
+bool CMaxProto::ContactNeedsServerDisplayFetch(MCONTACT hContact)
+{
+	if (hContact == 0 || isChatRoom(hContact))
+		return false;
+	CMStringW fn = getMStringW(hContact, "FirstName");
+	CMStringW ln = getMStringW(hContact, "LastName");
+	if (!fn.IsEmpty() && fn.GetLength() >= 5 && !_wcsnicmp(fn.c_str(), L"User ", 5))
+		return true;
+	return fn.IsEmpty() && ln.IsEmpty();
+}
+
+namespace
+{
+	struct CMaxLiveNotifCtx
+	{
+		CMaxProto *pProto = nullptr;
+		JSONNode *pPayload = nullptr;
+	};
+}
+
+void CMaxProto::QueueLiveNotifIngest(const JSONNode &payload)
+{
+	auto *ctx = new CMaxLiveNotifCtx();
+	if (ctx == nullptr)
+		return;
+	ctx->pProto = this;
+	ctx->pPayload = new JSONNode(payload);
+	if (ctx->pPayload == nullptr) {
+		delete ctx;
+		return;
+	}
+	ForkThread(&CMaxProto::LiveNotifIngestWorker, ctx);
+}
+
+void __cdecl CMaxProto::LiveNotifIngestWorker(void *param)
+{
+	auto *ctx = (CMaxLiveNotifCtx *)param;
+	if (ctx == nullptr || ctx->pProto == nullptr || ctx->pPayload == nullptr) {
+		if (ctx) {
+			delete ctx->pPayload;
+			delete ctx;
+		}
+		return;
+	}
+
+	CMaxProto *p = ctx->pProto;
+	JSONNode *pPl = ctx->pPayload;
+	ctx->pPayload = nullptr;
+	delete ctx;
+
+	const JSONNode &payload = *pPl;
+
+	p->SyncLiveDialogFromPushPayload(payload);
+
+	const JSONNode &msg = payload["message"];
+	if (msg.type() != JSON_NODE) {
+		delete pPl;
+		return;
+	}
+
+	CMStringA sender;
+	{
+		const JSONNode &sn = msg["sender"];
+		if (sn.type() == JSON_NULL)
+			sender.Empty();
+		else if (sn.type() == JSON_NUMBER) {
+			sender.Format("%.0f", sn.as_float());
+		}
+		else
+			sender = sn.as_string().c_str();
+	}
+
+	ptrA myUid(p->getStringA(DB_KEY_MY_MAX_ID));
+	if (!sender.IsEmpty() && myUid != nullptr && sender == myUid) {
+		delete pPl;
+		return;
+	}
+
+	CMStringA chatId;
+	{
+		const JSONNode &cn = payload["chatId"];
+		if (cn.type() == JSON_NUMBER)
+			chatId.Format("%.0f", cn.as_float());
+		else if (cn.type() == JSON_STRING)
+			chatId = cn.as_string().c_str();
+	}
+	if (chatId.IsEmpty()) {
+		delete pPl;
+		return;
+	}
+
+	if (!p->m_bTerminated && p->WaitForGatewayReady() && p->m_pGateway != nullptr) {
+		MCONTACT hPeer = p->FindContactByMaxUid(sender.c_str());
+		if (!hPeer)
+			hPeer = p->FindContactByDialogChatId(chatId.c_str());
+		if (!hPeer)
+			hPeer = p->EnsureUserContact(sender.c_str(), nullptr, nullptr, chatId.c_str());
+		if (hPeer && p->ContactNeedsServerDisplayFetch(hPeer)) {
+			CMStringA one[1] = { sender.c_str() };
+			p->ApiFetchContactsBatch(p->m_pGateway, one, 1, false);
+		}
+	}
+
+	p->IngestMaxMessageJson(msg, chatId.c_str());
+	delete pPl;
 }
 
 static uint64_t sttJsonTimeMs(const JSONNode &n)
@@ -259,7 +562,7 @@ void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 		return;
 	}
 
-	CMStringA chatId(getMStringA(hContact, DB_KEY_MAX_CHATID));
+	CMStringA chatId(GetOrResolveDialogChatId(hContact));
 	if (chatId.IsEmpty()) {
 		NotifyUser(TranslateT("Max"), TranslateT("Cannot load server history: chat id is missing for this contact."));
 		return;
@@ -382,6 +685,12 @@ void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 	if (m_bTerminated && !reachedBottom && !abortedByError)
 		stopReason = "terminated";
 
+	if (abortedByError && page == 0) {
+		if (!mir_strcmp(stopReason, "server-error") || !mir_strcmp(stopReason, "bad-json")
+		    || !mir_strcmp(stopReason, "bad-payload"))
+			RemoveLocalPeerIfChatOnly(hContact);
+	}
+
 	debugLogA("Max: load history done chat=%s fetched=%d reason=%s", chatId.c_str(), totalLoaded, stopReason);
 	if (reachedBottom)
 		History::FinishLoad(hContact);
@@ -423,6 +732,7 @@ void CMaxProto::DisconnectGateway()
 	m_wsRun.ws = nullptr;
 	m_bGatewayConnected = false;
 	FreeWsInflater();
+	ResetServerContactBookCache();
 }
 
 MWindow CMaxProto::OnCreateAccMgrUI(MWindow hwndParent)

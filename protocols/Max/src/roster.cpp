@@ -31,8 +31,54 @@ static bool sttUidInContactsArray(const JSONNode &contacts, const char *uid)
 	return false;
 }
 
+static void sttPushUniqueUid(std::vector<CMStringA> &out, const CMStringA &uid)
+{
+	if (uid.IsEmpty())
+		return;
+	for (const auto &x : out)
+		if (x == uid)
+			return;
+	out.push_back(uid);
+}
+
+// Contact payload: server marks deleted address-book entries.
+static bool sttContactPayloadSaysRemoved(const JSONNode &c)
+{
+	const JSONNode &st = c["status"];
+	if (st.type() != JSON_STRING)
+		return false;
+	const char *s = st.as_string().c_str();
+	if (!mir_strcmpi(s, "REMOVED"))
+		return true;
+	if (!mir_strcmpi(s, "DELETED"))
+		return true;
+	return false;
+}
+
+// Chat payload: dialog no longer belongs on the client roster (deleted/hidden server-side).
+static bool sttChatExcludedFromRoster(const JSONNode &chat)
+{
+	const JSONNode &st = chat["status"];
+	if (st.type() != JSON_STRING)
+		return false;
+	const char *s = st.as_string().c_str();
+	if (!mir_strcmpi(s, "REMOVED"))
+		return true;
+	if (!mir_strcmpi(s, "DELETED"))
+		return true;
+	if (!mir_strcmpi(s, "ARCHIVED"))
+		return true;
+	if (!mir_strcmpi(s, "LEFT"))
+		return true;
+	if (!mir_strcmpi(s, "CLOSED"))
+		return true;
+	if (!mir_strcmpi(s, "INACTIVE"))
+		return true;
+	return false;
+}
+
 static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMStringA &myUid, const JSONNode *pAllContacts,
-	OBJLIST<CMStringA> *pNeedFetch, CMStringA *pOutPeerUid);
+	OBJLIST<CMStringA> *pNeedFetch, CMStringA *pOutPeerUid, std::vector<CMStringA> *pAllowedUids);
 
 static bool sttTypeIsDialog(const CMStringA &t)
 {
@@ -146,6 +192,62 @@ static CMStringA sttPickDialogPeerUid(CMaxProto *p, const JSONNode &chat, CMStri
 	return best;
 }
 
+// Official / bot DIALOGs (e.g. MAX notifications) often appear in chats[] but not in contacts[]; keep them visible with contact-book filter.
+static void sttAugmentContactBookFromBotDialogs(CMaxProto *p, const JSONNode &chats, const CMStringA &myUid,
+	std::vector<CMStringA> &contactBookFromSync, std::vector<CMStringA> &allowedUids)
+{
+	if (chats.type() != JSON_ARRAY || p == nullptr)
+		return;
+
+	for (unsigned i = 0; i < chats.size(); i++) {
+		const JSONNode &chat = chats[i];
+		const JSONNode &hb = chat["hasBots"];
+		bool hasBots = false;
+		if (hb.type() == JSON_BOOL)
+			hasBots = hb.as_bool();
+		else if (hb.type() == JSON_NUMBER)
+			hasBots = (hb.as_int() != 0);
+		if (!hasBots)
+			continue;
+
+		CMStringA chatId = sttResolveDialogChatId(chat);
+		if (chatId.IsEmpty())
+			continue;
+
+		const JSONNode &ptOrig = chat["participants"];
+		unsigned partCount = 0;
+		if (ptOrig.type() == JSON_NODE) {
+			for (auto it = ptOrig.begin(); it != ptOrig.end(); ++it)
+				partCount++;
+		}
+		else if (ptOrig.type() == JSON_ARRAY)
+			partCount = (unsigned)ptOrig.size();
+
+		CMStringA typ(chat["type"].type() != JSON_NULL ? chat["type"].as_string().c_str() : "");
+		bool treatAsDialog = sttTypeIsDialog(typ);
+		if (typ.IsEmpty() && partCount > 2)
+			treatAsDialog = false;
+		if (!treatAsDialog)
+			continue;
+
+		CMStringA peerUid = sttPickDialogPeerUid(p, chat, myUid);
+		if (peerUid.IsEmpty())
+			continue;
+
+		CMStringA myEff = myUid;
+		if (myEff.IsEmpty()) {
+			ptrA db(p->getStringA(DB_KEY_MY_MAX_ID));
+			if (db != nullptr && db[0])
+				myEff = db.get();
+		}
+		if (!myEff.IsEmpty() && peerUid == myEff)
+			continue;
+
+		sttPushUniqueUid(contactBookFromSync, peerUid);
+		sttPushUniqueUid(allowedUids, peerUid);
+	}
+}
+
 static const JSONNode &sttResolveSyncPayload(const JSONNode &payload)
 {
 	if (payload["chats"].type() == JSON_ARRAY || payload["contacts"].type() == JSON_ARRAY
@@ -238,6 +340,11 @@ static void sttFillNamePartsFromContact(const JSONNode &contact, CMStringW &outF
 	sttFillNamePartsDepth(contact, 0, outFn, outLn);
 }
 
+void CMaxProto::FillNameFromMaxContactJson(const JSONNode &c, CMStringW &outFn, CMStringW &outLn)
+{
+	sttFillNamePartsFromContact(c, outFn, outLn);
+}
+
 static bool sttIsUserStubDisplay(const CMStringW &s)
 {
 	return !s.IsEmpty() && s.GetLength() >= 5 && !_wcsnicmp(s.c_str(), L"User ", 5);
@@ -309,6 +416,103 @@ MCONTACT CMaxProto::FindContactByMaxUid(const char *szUid)
 	return 0;
 }
 
+void CMaxProto::RemoveMaxUserContact(const char *szUid)
+{
+	if (szUid == nullptr || szUid[0] == 0)
+		return;
+	ptrA my(getStringA(DB_KEY_MY_MAX_ID));
+	if (my != nullptr && my[0] && !mir_strcmp(szUid, my))
+		return;
+
+	{
+		mir_cslock lck(m_csContactBook);
+		for (auto it = m_contactBookUids.begin(); it != m_contactBookUids.end(); ) {
+			if (*it == szUid)
+				it = m_contactBookUids.erase(it);
+			else
+				++it;
+		}
+	}
+
+	auto findOne = [&]() -> MCONTACT {
+		MCONTACT h = FindContactByMaxUid(szUid);
+		if (h)
+			return h;
+		if (my != nullptr && my[0]) {
+			uint64_t a = _strtoui64(my, nullptr, 10);
+			uint64_t b = _strtoui64(szUid, nullptr, 10);
+			if (a != 0 && b != 0) {
+				CMStringA chatId;
+				chatId.Format("%llu", (unsigned long long)(a ^ b));
+				MCONTACT h2 = FindContactByDialogChatId(chatId.c_str());
+				if (h2) {
+					ptrA u(getStringA(h2, DB_KEY_MAX_UID));
+					if (u == nullptr || u[0] == 0 || !mir_strcmp(u, szUid))
+						return h2;
+				}
+			}
+		}
+		return 0;
+	};
+
+	bool removed = false;
+	while (MCONTACT h = findOne()) {
+		debugLogA("Max: removing local contact uid=%s h=%u (no longer on server roster for this account)", szUid, (unsigned)h);
+		db_delete_contact(h, 0);
+		removed = true;
+	}
+	if (!removed)
+		debugLogA("Max: RemoveMaxUserContact uid=%s — no local hContact (book updated)", szUid);
+}
+
+void CMaxProto::RemoveLocalPeerIfChatOnly(MCONTACT hContact)
+{
+	if (hContact == 0 || isChatRoom(hContact))
+		return;
+	if (!m_bContactBookSnapshotApplied)
+		return;
+	ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
+	if (uid == nullptr || uid[0] == 0)
+		return;
+	if (IsMaxUidInServerContactBook(uid))
+		return;
+	debugLogA("Max: drop chat-only contact uid=%s (not in server address book)", uid.get());
+	RemoveMaxUserContact(uid);
+}
+
+void CMaxProto::ClearMaxDialogLocalHistory(MCONTACT hContact)
+{
+	if (hContact == 0)
+		return;
+	CallService(MS_HISTORY_EMPTY, (WPARAM)hContact, TRUE);
+	delSetting(hContact, DB_KEY_MAX_CHATID);
+}
+
+void CMaxProto::ResetServerContactBookCache()
+{
+	mir_cslock lck(m_csContactBook);
+	m_contactBookUids.clear();
+	m_bContactBookSnapshotApplied = false;
+}
+
+void CMaxProto::ApplyServerContactBookSnapshot(const std::vector<CMStringA> &uids)
+{
+	mir_cslock lck(m_csContactBook);
+	m_contactBookUids = uids;
+	m_bContactBookSnapshotApplied = true;
+}
+
+bool CMaxProto::IsMaxUidInServerContactBook(const char *szUid)
+{
+	if (szUid == nullptr || szUid[0] == 0)
+		return false;
+	mir_cslock lck(m_csContactBook);
+	for (const auto &u : m_contactBookUids)
+		if (u == szUid)
+			return true;
+	return false;
+}
+
 MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst, const wchar_t *wszLast, const char *szDialogChatId)
 {
 	if (szUid == nullptr || szUid[0] == 0)
@@ -322,6 +526,7 @@ MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst
 		setByte(hContact, "Auth", 1);
 		setByte(hContact, "Grant", 1);
 		Contact::PutOnList(hContact);
+		setByte(hContact, DB_KEY_MAX_PEER_ORIGIN, MAX_PEER_ORIGIN_CHATONLY);
 	}
 
 	if (wszFirst != nullptr) {
@@ -344,7 +549,7 @@ MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst
 	return hContact;
 }
 
-void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
+void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid, bool bMarkAsContactsRoster)
 {
 	CMStringA uid;
 	if (szRequestedUid != nullptr && szRequestedUid[0])
@@ -358,6 +563,29 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
 	}
 	if (uid.IsEmpty())
 		return;
+
+	if (sttContactPayloadSaysRemoved(c)) {
+		{
+			mir_cslock lck(m_csContactBook);
+			for (auto it = m_contactBookUids.begin(); it != m_contactBookUids.end(); ) {
+				if (*it == uid)
+					it = m_contactBookUids.erase(it);
+				else
+					++it;
+			}
+		}
+		MCONTACT hRm = FindContactByMaxUid(uid.c_str());
+		bool hasServerDialog = false;
+		if (hRm) {
+			ptrA cid(getStringA(hRm, DB_KEY_MAX_CHATID));
+			// Only persisted chat id counts: XOR is always derivable from MaxUid and would block (5) after (4) cleared MaxChatId.
+			hasServerDialog = (cid != nullptr && cid[0]);
+		}
+		if (hasServerDialog)
+			return;
+		RemoveMaxUserContact(uid.c_str());
+		return;
+	}
 
 	MCONTACT hPrev = FindContactByMaxUid(uid);
 
@@ -398,6 +626,8 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
 	EnsureUserContact(uid, outFn.IsEmpty() ? L"" : outFn.c_str(), outLn.IsEmpty() ? L"" : outLn.c_str(), nullptr);
 
 	if (MCONTACT hAv = FindContactByMaxUid(uid)) {
+		if (bMarkAsContactsRoster)
+			setByte(hAv, DB_KEY_MAX_PEER_ORIGIN, MAX_PEER_ORIGIN_CONTACTS);
 		const JSONNode &about = c["description"];
 		if (about.type() == JSON_STRING && !about.as_string().empty()) {
 			ptrW w(mir_utf8decodeW(about.as_string().c_str()));
@@ -410,6 +640,68 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid)
 			delSetting(hAv, "About");
 
 		SyncContactAvatarFromJson(hAv, c);
+	}
+}
+
+static bool sttChatPayloadStatusEqualsCi(const JSONNode &chat, const char *ascii)
+{
+	const JSONNode &st = chat["status"];
+	if (st.type() != JSON_STRING || ascii == nullptr || !ascii[0])
+		return false;
+	return !mir_strcmpi(st.as_string().c_str(), ascii);
+}
+
+void CMaxProto::OnMaxPushChatRemoved(const JSONNode &payload)
+{
+	const JSONNode &chat = payload["chat"];
+	if (chat.type() != JSON_NODE)
+		return;
+	// Only "chat deleted" in official client — not ARCHIVED etc.
+	if (!sttChatPayloadStatusEqualsCi(chat, "REMOVED"))
+		return;
+
+	CMStringA typ(chat["type"].type() != JSON_NULL ? chat["type"].as_string().c_str() : "");
+	if (!typ.IsEmpty() && mir_strcmpi(typ.c_str(), "DIALOG"))
+		return;
+
+	CMStringA myUid;
+	{
+		ptrA my(getStringA(DB_KEY_MY_MAX_ID));
+		if (my != nullptr && my[0])
+			myUid = my.get();
+	}
+
+	CMStringA chatId = sttResolveDialogChatId(chat);
+	CMStringA peerUid = sttPickDialogPeerUid(this, chat, myUid);
+
+	MCONTACT h = 0;
+	if (!chatId.IsEmpty())
+		h = FindContactByDialogChatId(chatId.c_str());
+	if (!h && !peerUid.IsEmpty())
+		h = FindContactByMaxUid(peerUid.c_str());
+	if (h == 0) {
+		debugLogA("Max: push chat REMOVED but no local contact chat=%s peer=%s", chatId.c_str(), peerUid.c_str());
+		return;
+	}
+
+	CMStringA uidPeer(peerUid);
+	if (uidPeer.IsEmpty())
+		uidPeer = getMStringA(h, DB_KEY_MAX_UID);
+
+	// Only MaxPeerOrigin=CONTACTS means "in address book" for this rule. Server contacts[] often
+	// includes chat-only peers that the official app does not show as contacts — do not use m_contactBookUids here.
+	const int peerOrigin = getByte(h, DB_KEY_MAX_PEER_ORIGIN);
+	const bool treatAsAddressBook = (peerOrigin == MAX_PEER_ORIGIN_CONTACTS);
+
+	if (!uidPeer.IsEmpty() && treatAsAddressBook) {
+		ClearMaxDialogLocalHistory(h);
+		debugLogA("Max: server removed chat; kept contact (contacts merge / Add) chat=%s peer=%s", chatId.c_str(), uidPeer.c_str());
+	}
+	else if (!uidPeer.IsEmpty())
+		RemoveMaxUserContact(uidPeer.c_str());
+	else {
+		ClearMaxDialogLocalHistory(h);
+		debugLogA("Max: server removed chat; cleared local dialog (no peer uid) chat=%s", chatId.c_str());
 	}
 }
 
@@ -436,7 +728,7 @@ void CMaxProto::EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CMaxProto::ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids)
+bool CMaxProto::ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA *pUids, size_t nUids, bool bMarkAsContactsRoster)
 {
 	if (!ws || !pUids || nUids == 0)
 		return true;
@@ -461,7 +753,7 @@ bool CMaxProto::ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA 
 	if (ar.type() == JSON_ARRAY) {
 		for (unsigned j = 0; j < ar.size(); j++) {
 			const char *req = (j < nUids) ? pUids[j].c_str() : nullptr;
-			MergeContactJson(ar[j], req);
+			MergeContactJson(ar[j], req, bMarkAsContactsRoster);
 		}
 		return true;
 	}
@@ -469,7 +761,7 @@ bool CMaxProto::ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA 
 	if (ar.type() == JSON_NODE) {
 		for (auto it = ar.begin(); it != ar.end(); ++it) {
 			const char *key = (*it).name();
-			MergeContactJson(*it, (key && key[0]) ? key : nullptr);
+			MergeContactJson(*it, (key && key[0]) ? key : nullptr, bMarkAsContactsRoster);
 		}
 		return true;
 	}
@@ -477,7 +769,7 @@ bool CMaxProto::ApiFetchContactsBatch(WebSocket<CMaxProto> *ws, const CMStringA 
 	const JSONNode &one = pl["contact"];
 	if (one.type() == JSON_NODE) {
 		const char *req = (nUids >= 1) ? pUids[0].c_str() : nullptr;
-		MergeContactJson(one, req);
+		MergeContactJson(one, req, bMarkAsContactsRoster);
 	}
 	return true;
 }
@@ -528,7 +820,7 @@ bool CMaxProto::ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pC
 			if (typ.IsEmpty() && partCount > 2)
 				treatAsDialog = false;
 
-			sttMergeOneDialogChat(this, chat, myUid, nullptr, nullptr, nullptr);
+			sttMergeOneDialogChat(this, chat, myUid, nullptr, nullptr, nullptr, nullptr);
 			if (treatAsDialog && !chatId.IsEmpty()) {
 				MCONTACT hPeer = FindContactByDialogChatId(chatId.c_str());
 				uint64_t lastMs = GetLastLocalMessageTimeMs(hPeer);
@@ -547,15 +839,14 @@ void CMaxProto::TryMergeContactsFromPayload(const JSONNode &payload)
 	if (ca.type() == JSON_ARRAY) {
 		for (unsigned i = 0; i < ca.size(); i++)
 			MergeContactJson(ca[i]);
-		return;
 	}
-	if (ca.type() == JSON_NODE) {
+	else if (ca.type() == JSON_NODE) {
 		for (auto it = ca.begin(); it != ca.end(); ++it) {
 			const char *key = (*it).name();
 			MergeContactJson(*it, (key && key[0]) ? key : nullptr);
 		}
-		return;
 	}
+	// Always merge top-level contact (e.g. opcode-131 REMOVED) even if contacts[] is empty or present.
 	const JSONNode &one = p["contact"];
 	if (one.type() == JSON_NODE)
 		MergeContactJson(one);
@@ -564,14 +855,15 @@ void CMaxProto::TryMergeContactsFromPayload(const JSONNode &payload)
 void CMaxProto::TryApplySyncPayloadFromPush(const JSONNode &payload)
 {
 	const JSONNode &p = sttResolveSyncPayload(payload);
-	if (p["chats"].type() != JSON_ARRAY && p["contacts"].type() != JSON_ARRAY && p["profile"].type() == JSON_NULL)
+	if (p["chats"].type() != JSON_ARRAY && p["contacts"].type() != JSON_ARRAY && p["contacts"].type() != JSON_NODE
+	    && p["profile"].type() == JSON_NULL)
 		return;
 	ApplySyncPayload(payload, nullptr);
 }
 
 // Shared by opcode-19 sync and opcode-48 chat refresh.
 static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMStringA &myUid, const JSONNode *pAllContacts,
-	OBJLIST<CMStringA> *pNeedFetch, CMStringA *pOutPeerUid = nullptr)
+	OBJLIST<CMStringA> *pNeedFetch, CMStringA *pOutPeerUid, std::vector<CMStringA> *pAllowedUids)
 {
 	CMStringA chatId = sttResolveDialogChatId(chat);
 	if (chatId.IsEmpty())
@@ -593,6 +885,34 @@ static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMSt
 
 	if (!treatAsDialog)
 		return;
+
+	if (sttChatExcludedFromRoster(chat)) {
+		CMStringA peerRm = sttPickDialogPeerUid(p, chat, myUid);
+		if (!peerRm.IsEmpty()) {
+			CMStringA myEffRm = myUid;
+			if (myEffRm.IsEmpty()) {
+				ptrA db(p->getStringA(DB_KEY_MY_MAX_ID));
+				if (db != nullptr && db[0])
+					myEffRm = db.get();
+			}
+			if (!myEffRm.IsEmpty() && peerRm == myEffRm)
+				return;
+			MCONTACT hEx = p->FindContactByDialogChatId(chatId.c_str());
+			if (!hEx)
+				hEx = p->FindContactByMaxUid(peerRm.c_str());
+			const int origin = hEx ? p->getByte(hEx, DB_KEY_MAX_PEER_ORIGIN) : MAX_PEER_ORIGIN_UNKNOWN;
+			const bool treatAsAddressBook = (origin == MAX_PEER_ORIGIN_CONTACTS);
+			if (treatAsAddressBook) {
+				if (hEx)
+					p->ClearMaxDialogLocalHistory(hEx);
+				if (pAllowedUids != nullptr)
+					sttPushUniqueUid(*pAllowedUids, peerRm);
+			}
+			else
+				p->RemoveMaxUserContact(peerRm.c_str());
+		}
+		return;
+	}
 
 	CMStringA peerUid = sttPickDialogPeerUid(p, chat, myUid);
 	if (peerUid.IsEmpty())
@@ -630,6 +950,9 @@ static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMSt
 	else
 		p->EnsureUserContact(peerUid, nullptr, nullptr, chatId);
 
+	if (pAllowedUids != nullptr)
+		sttPushUniqueUid(*pAllowedUids, peerUid);
+
 	// Do not ingest chat["lastMessage"] here: new accounts should stay empty until live pushes (opcode 128);
 	// gap fill uses opcode 49 only when GetLastLocalMessageTimeMs > 0.
 
@@ -650,14 +973,43 @@ static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMSt
 	}
 }
 
+void CMaxProto::SyncLiveDialogFromPushPayload(const JSONNode &payload)
+{
+	const JSONNode &chat = payload["chat"];
+	if (chat.type() != JSON_NODE)
+		return;
+
+	CMStringA myUid;
+	{
+		ptrA my(getStringA(DB_KEY_MY_MAX_ID));
+		if (my != nullptr && my[0])
+			myUid = my.get();
+	}
+
+	sttMergeOneDialogChat(this, chat, myUid, nullptr, nullptr, nullptr, nullptr);
+}
+
 void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *ws)
 {
 	const JSONNode &p = sttResolveSyncPayload(payload);
 	const JSONNode &contacts = p["contacts"];
 	const JSONNode &chats = p["chats"];
-	size_t nc = (contacts.type() == JSON_ARRAY) ? contacts.size() : 0;
+	const bool hadContactsInPayload = (contacts.type() == JSON_ARRAY || contacts.type() == JSON_NODE);
+	size_t nc = 0;
+	if (contacts.type() == JSON_ARRAY)
+		nc = contacts.size();
+	else if (contacts.type() == JSON_NODE) {
+		for (auto it = contacts.begin(); it != contacts.end(); ++it)
+			nc++;
+	}
 	size_t nch = (chats.type() == JSON_ARRAY) ? chats.size() : 0;
 	debugLogA("Max: ApplySync contacts=%zu chats=%zu", nc, nch);
+
+	std::vector<CMStringA> allowedUids;
+	std::vector<CMStringA> contactBookFromSync;
+
+	if (ws != nullptr)
+		ResetServerContactBookCache();
 
 	CMStringA myUid;
 	const JSONNode &prof = p["profile"];
@@ -695,9 +1047,54 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 	}
 
 	if (contacts.type() == JSON_ARRAY) {
-		for (unsigned i = 0; i < contacts.size(); i++)
+		for (unsigned i = 0; i < contacts.size(); i++) {
+			const JSONNode &c = contacts[i];
+			CMStringA cuid = sttJsonIdStr(c["id"]);
+			if (cuid.IsEmpty())
+				cuid = sttJsonIdStr(c["contactId"]);
+			if (cuid.IsEmpty())
+				cuid = sttJsonIdStr(c["userId"]);
+			if (cuid.IsEmpty())
+				continue;
+			if (sttContactPayloadSaysRemoved(c)) {
+				RemoveMaxUserContact(cuid.c_str());
+				continue;
+			}
+			sttPushUniqueUid(allowedUids, cuid);
+			sttPushUniqueUid(contactBookFromSync, cuid);
 			MergeContactJson(contacts[i]);
+		}
 	}
+	else if (contacts.type() == JSON_NODE) {
+		for (auto it = contacts.begin(); it != contacts.end(); ++it) {
+			const JSONNode &c = *it;
+			const char *key = (*it).name();
+			CMStringA cuid;
+			if (key != nullptr && key[0])
+				cuid = key;
+			if (cuid.IsEmpty())
+				cuid = sttJsonIdStr(c["id"]);
+			if (cuid.IsEmpty())
+				cuid = sttJsonIdStr(c["contactId"]);
+			if (cuid.IsEmpty())
+				cuid = sttJsonIdStr(c["userId"]);
+			if (cuid.IsEmpty())
+				continue;
+			if (sttContactPayloadSaysRemoved(c)) {
+				RemoveMaxUserContact(cuid.c_str());
+				continue;
+			}
+			sttPushUniqueUid(allowedUids, cuid);
+			sttPushUniqueUid(contactBookFromSync, cuid);
+			MergeContactJson(c, (key && key[0]) ? key : nullptr);
+		}
+	}
+
+	if (chats.type() == JSON_ARRAY)
+		sttAugmentContactBookFromBotDialogs(this, chats, myUid, contactBookFromSync, allowedUids);
+
+	if (hadContactsInPayload || !contactBookFromSync.empty())
+		ApplyServerContactBookSnapshot(contactBookFromSync);
 
 	OBJLIST<CMStringA> needFetch(1);
 	OBJLIST<CMStringA> needChatTitles(1);
@@ -724,7 +1121,8 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 				treatAsDialog = false;
 
 			if (treatAsDialog) {
-				sttMergeOneDialogChat(this, chat, myUid, &contacts, &needFetch, nullptr);
+				sttMergeOneDialogChat(this, chat, myUid, &contacts, &needFetch, nullptr,
+					ws != nullptr ? &allowedUids : nullptr);
 				if (ws != nullptr) {
 					MCONTACT hPeer = FindContactByDialogChatId(chatId.c_str());
 					uint64_t lastMs = GetLastLocalMessageTimeMs(hPeer);
@@ -782,6 +1180,34 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 		CMStringA one[1] = { cid };
 		if (!ApiFetchChatsByIds(ws, one, 1))
 			break;
+	}
+
+	// Full connect sync only: drop local 1:1 contacts the server no longer lists in contacts + active dialogs.
+	if (ws != nullptr && !allowedUids.empty()) {
+		ptrA myAcc(getStringA(DB_KEY_MY_MAX_ID));
+		std::vector<MCONTACT> toDelete;
+		for (auto &hContact : AccContacts()) {
+			if (isChatRoom(hContact))
+				continue;
+			ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
+			if (uid == nullptr || uid[0] == 0)
+				continue;
+			if (myAcc != nullptr && myAcc[0] && !mir_strcmp(uid, myAcc))
+				continue;
+			bool keep = false;
+			for (const auto &a : allowedUids)
+				if (a == uid) {
+					keep = true;
+					break;
+				}
+			if (!keep)
+				toDelete.push_back(hContact);
+		}
+		for (MCONTACT hDel : toDelete) {
+			ptrA uid(getStringA(hDel, DB_KEY_MAX_UID));
+			debugLogA("Max: prune contact uid=%s (not in sync contacts + dialog peer set)", uid.get());
+			db_delete_contact(hDel, 0);
+		}
 	}
 
 	if (nc == 0 && nch == 0 && prof.type() == JSON_NULL && payload.type() == JSON_NODE) {

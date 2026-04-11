@@ -79,55 +79,68 @@ bool CMaxProto::InflateWsFrame(const uint8_t *pData, size_t cbData, CMStringA &o
 	return !out.IsEmpty();
 }
 
+// Single-message DEFLATE (permessage-deflate). RFC7692 suggests appending 00 00 FF FF before raw
+// inflate; some stacks already end the bit stream and the trailer breaks inflate (Z_DATA_ERROR).
+static bool sttInflateOneWsPayload(const uint8_t *pData, size_t cbData, CMStringA &out, int windowBits, bool appendRfc7692Tail)
+{
+	out.Empty();
+	if (pData == nullptr || cbData == 0)
+		return false;
+
+	z_stream zs = {};
+	if (inflateInit2(&zs, windowBits) != Z_OK)
+		return false;
+
+	MBinBuffer src;
+	src.append(pData, cbData);
+	if (appendRfc7692Tail) {
+		static const uint8_t tail[] = { 0x00, 0x00, 0xFF, 0xFF };
+		src.append(tail, sizeof(tail));
+	}
+
+	zs.next_in = (Bytef *)src.data();
+	zs.avail_in = (uInt)src.length();
+
+	char tmp[16384];
+	int zret = Z_OK;
+	unsigned guard = 0;
+	while (zret == Z_OK) {
+		if (++guard > 4096) {
+			inflateEnd(&zs);
+			return false;
+		}
+		zs.next_out = (Bytef *)tmp;
+		zs.avail_out = sizeof(tmp);
+		zret = inflate(&zs, Z_NO_FLUSH);
+		size_t produced = sizeof(tmp) - zs.avail_out;
+		if (produced)
+			out.Append(tmp, (int)produced);
+	}
+
+	inflateEnd(&zs);
+	if (zret != Z_STREAM_END)
+		return false;
+	return !out.IsEmpty();
+}
+
 static bool InflatePerMessageDeflate(CMaxProto *pPro, const uint8_t *pData, size_t cbData, CMStringA &out)
 {
-	// 1) RFC7692 stream with possible context takeover (persistent inflater)
+	// Prefer single-shot per frame; try with and without RFC7692 trailer for raw deflate.
+	if (sttInflateOneWsPayload(pData, cbData, out, -MAX_WBITS, true))
+		return true;
+	if (sttInflateOneWsPayload(pData, cbData, out, -MAX_WBITS, false))
+		return true;
+	if (sttInflateOneWsPayload(pData, cbData, out, MAX_WBITS, false))
+		return true;
+	if (sttInflateOneWsPayload(pData, cbData, out, MAX_WBITS | 32, false))
+		return true;
+
+	// Last resort: persistent inflater (context takeover).
 	if (pPro->InflateWsFrame(pData, cbData, out))
 		return true;
 
-	auto inflateSingleShot = [&](int windowBits, bool appendTail) -> bool {
-		out.Empty();
-		z_stream zs = {};
-		if (inflateInit2(&zs, windowBits) != Z_OK)
-			return false;
-
-		MBinBuffer src;
-		src.append(pData, cbData);
-		if (appendTail) {
-			static const uint8_t tail[] = { 0x00, 0x00, 0xFF, 0xFF };
-			src.append(tail, sizeof(tail));
-		}
-
-		zs.next_in = (Bytef *)src.data();
-		zs.avail_in = (uInt)src.length();
-
-		char tmp[4096];
-		int zret = Z_OK;
-		while (zret == Z_OK) {
-			zs.next_out = (Bytef *)tmp;
-			zs.avail_out = sizeof(tmp);
-			zret = inflate(&zs, Z_SYNC_FLUSH);
-			size_t produced = sizeof(tmp) - zs.avail_out;
-			if (produced)
-				out.Append(tmp, (int)produced);
-		}
-		inflateEnd(&zs);
-		if (zret != Z_STREAM_END && zret != Z_BUF_ERROR)
-			return false;
-		return !out.IsEmpty();
-	};
-
-	// 2) Some endpoints occasionally behave as no-context-takeover raw-deflate frames.
-	if (inflateSingleShot(-MAX_WBITS, true))
-		return true;
-	// 3) Fallback: zlib-wrapped deflate payload.
-	if (inflateSingleShot(MAX_WBITS, false))
-		return true;
-	// 4) Fallback: gzip/zlib auto header detection.
-	if (inflateSingleShot(MAX_WBITS | 32, false))
-		return true;
-
 	out.Empty();
+	pPro->InitWsInflater();
 	return false;
 }
 
@@ -334,6 +347,19 @@ static int MaxJsonOpcodeInt(const JSONNode &json)
 	return -1;
 }
 
+// cmd=0: server push (or client request). cmd!=0: RPC result (e.g. 1) — must not conflate with push when seq collides.
+static int JsonCmdInt(const JSONNode &json)
+{
+	const JSONNode &n = json["cmd"];
+	if (n.type() == JSON_NULL)
+		return -1;
+	if (n.type() == JSON_NUMBER)
+		return (int)(n.as_float() + 0.5);
+	if (n.type() == JSON_STRING)
+		return atoi(n.as_string().c_str());
+	return -1;
+}
+
 // Opcode-32 fetch: reply may omit client seq or nest contacts — still complete SendJsonAndWait.
 // Do not treat empty contacts:[] as a usable reply (would wake wait and merge nothing).
 static bool MaxPayloadLooksLikeOpcode32ContactsReply(const JSONNode &pl)
@@ -412,7 +438,7 @@ void CMaxProto::EnsureDeviceId()
 	setWString(DB_KEY_DEVICEID, buf);
 }
 
-bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd)
+bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd, bool acceptPayloadError)
 {
 	// Keep request/response matching strictly serialized: shared wait state
 	// (m_waitSeq + m_szPendingResponse + m_hWaitEvent) is single-slot.
@@ -438,6 +464,7 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 	if (WaitForSingleObject(m_hWaitEvent, 10000) != WAIT_OBJECT_0) {
 		debugLogA("Max: request timeout (opcode %u, waited seq %llu)", (unsigned)opcode, (unsigned long long)m_waitSeq);
 		m_waitSeq = 0;
+		InitWsInflater();
 		return false;
 	}
 
@@ -466,7 +493,7 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 			payloadErr = false;
 		}
 	}
-	if (payloadErr) {
+	if (payloadErr && !acceptPayloadError) {
 		json_string err = pl["error"].write();
 		debugLogA("Max: payload error (opcode %u) errType=%u: %s", (unsigned)opcode, (unsigned)pl["error"].type(),
 			err.empty() ? "(empty)" : err.c_str());
@@ -513,7 +540,7 @@ bool CMaxProto::ApiSync(WebSocket<CMaxProto> *ws)
 	JSONNode payload(JSON_NODE);
 	// presenceSync=0 matches web client behaviour.
 	// chatsSync=1: server includes dialogs with lastMessage (missed while offline); was 0 and only live opcode-128 worked.
-	payload << BOOL_PARAM("interactive", true) << CHAR_PARAM("token", tok) << INT_PARAM("chatsSync", 1) << INT_PARAM("contactsSync", 0)
+	payload << BOOL_PARAM("interactive", true) << CHAR_PARAM("token", tok) << INT_PARAM("chatsSync", 1) << INT_PARAM("contactsSync", 1)
 		<< INT_PARAM("presenceSync", 0) << INT_PARAM("draftsSync", 0) << INT_PARAM("chatsCount", 40);
 
 	return SendJsonAndWait(ws, 19, payload, 0);
@@ -624,6 +651,54 @@ bool CMaxProto::ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	return SendJsonAndWait(ws, 67, payload, 0);
 }
 
+bool CMaxProto::ApiSearchByPhone(WebSocket<CMaxProto> *ws, const char *szPhoneUtf8, JSONNode &outContact)
+{
+	outContact = JSONNode(JSON_NULL);
+	if (!ws || szPhoneUtf8 == nullptr || szPhoneUtf8[0] == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << CHAR_PARAM("phone", szPhoneUtf8);
+
+	if (!SendJsonAndWait(ws, 46, payload, 0, true))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return false;
+
+	const JSONNode &pl = resp["payload"];
+	if (pl.type() != JSON_NODE)
+		return false;
+
+	const JSONNode &ct = pl["contact"];
+	if (ct.type() == JSON_NODE && ct.size() != 0) {
+		outContact = ct;
+		return true;
+	}
+
+	// not.found and similar — still a completed reply
+	if (MaxPayloadSaysError(pl))
+		return true;
+
+	return false;
+}
+
+bool CMaxProto::ApiAddContactOnServer(WebSocket<CMaxProto> *ws, const char *szUidDecimal)
+{
+	if (!ws || szUidDecimal == nullptr || szUidDecimal[0] == 0)
+		return false;
+
+	int64_t contactId = _strtoi64(szUidDecimal, nullptr, 10);
+	if (contactId == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("contactId", contactId) << CHAR_PARAM("action", "ADD");
+
+	return SendJsonAndWait(ws, 34, payload, 0, true);
+}
+
 bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 {
 	JSONNode payload(JSON_NODE);
@@ -687,6 +762,8 @@ void __cdecl CMaxProto::PingWorker(void *)
 void CMaxProto::OnGatewayPush(const JSONNode &payload, int opcode)
 {
 	debugLogA("Max: push opcode=%d", opcode);
+	if (opcode == 135)
+		OnMaxPushChatRemoved(payload);
 	if (opcode == 128)
 		TryIngestNotifMessagePayload(payload);
 	TryMergeContactsFromPayload(payload);
@@ -717,6 +794,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	m_bGatewayConnected = false;
 	m_bInitialSyncOk = false;
 	InitWsInflater();
+	ResetServerContactBookCache();
 
 	m_hWsRunThread = ForkThreadEx(&CMaxProto::WsRunThread, this, nullptr);
 	if (!m_hWsRunThread) {
@@ -808,10 +886,14 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 
 	uint64_t seq = JsonReplySeq(json);
 	if (seq != 0 && seq == p->m_waitSeq) {
-		json_string s = json.write();
-		p->m_szPendingResponse = s.c_str();
-		SetEvent(p->m_hWaitEvent);
-		return;
+		const int cmd = JsonCmdInt(json);
+		// Pushes reuse cmd=0; matching seq alone would skip OnGatewayPush and break contact/chat sync.
+		if (cmd != 0) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
 	}
 
 	int op = MaxJsonOpcodeInt(json);
@@ -840,6 +922,28 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 
 	// Opcode 49: chat history (messages[]), same seq as request.
 	if (p->m_waitSeq != 0 && op == 49) {
+		const JSONNode &pl = json["payload"];
+		if (pl.type() == JSON_NODE) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	// Opcode 46: phone lookup — server may omit echo of client seq.
+	if (p->m_waitSeq != 0 && op == 46) {
+		const JSONNode &pl = json["payload"];
+		if (pl.type() == JSON_NODE) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	// Opcode 34: add contact — same pattern as 46.
+	if (p->m_waitSeq != 0 && op == 34) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
