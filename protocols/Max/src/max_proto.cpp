@@ -712,6 +712,12 @@ void CMaxProto::OnShutdown(void)
 
 void CMaxProto::DisconnectGateway()
 {
+	const bool hadSession = (m_hConnThread != nullptr || m_hWsRunThread != nullptr || m_pGateway != nullptr);
+	if (hadSession) {
+		debugLogA("Connection terminated, exiting");
+		debugLogA("CMaxProto::OnLoggedOut");
+	}
+
 	m_bTerminated = true;
 	m_bAvatarWebPrimed = false;
 	if (m_pGateway)
