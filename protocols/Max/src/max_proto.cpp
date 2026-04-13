@@ -8,7 +8,6 @@ of the License.
 */
 
 #include "stdafx.h"
-#include "m_history.h"
 
 static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
