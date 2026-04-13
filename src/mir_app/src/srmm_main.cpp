@@ -66,6 +66,8 @@ public:
 		szProto = Proto_GetBaseAccountName(hContact);
 		bDelHistory = Proto_CanDeleteHistory(szProto, hContact);
 		bForEveryone = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, hContact) & PF4_DELETEFORALL) != 0;
+
+		chkDelHistory.OnChange = Callback(this, &CEmptyHistoryDlg::onChange_History);
 	}
 
 	bool OnInitDialog() override
@@ -108,6 +110,11 @@ public:
 	void OnDestroy() override
 	{
 		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_TOPLINE, WM_GETFONT, 0, 0));
+	}
+
+	void onChange_History(CCtrlCheck *)
+	{
+		chkForEveryone.Enable(chkDelHistory.IsChecked());
 	}
 };
 
