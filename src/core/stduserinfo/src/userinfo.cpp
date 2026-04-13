@@ -92,6 +92,7 @@ static int UserInfoContactDelete(WPARAM hContact, LPARAM)
 }
 
 #define M_PROTOACK    (WM_USER+10)
+#define M_ACCCHANGE   (WM_USER+11)
 #define M_DLLUNLOAD   (WM_USER+12)
 
 class CUserInfoDlg : public CDlgBase
@@ -103,6 +104,7 @@ class CUserInfoDlg : public CDlgBase
 	int       *m_infosUpdated = 0;
 	bool       m_bIsMeta;
 
+	HANDLE     m_hAccChanged = 0;
 	HANDLE     m_hProtoAckEvent = 0;
 	HANDLE     m_hDllUnloadEvent = 0;
 	HIMAGELIST m_imageList = 0;
@@ -238,6 +240,24 @@ class CUserInfoDlg : public CDlgBase
 		}
 	}
 
+	bool IsAffected(const PROTOACCOUNT *pa)
+	{
+		if (pa == Proto_GetContactAccount(m_hContact))
+			return true;
+
+		if (m_bIsMeta) {
+			int nSubs = db_mc_getSubCount(m_hContact);
+
+			for (int i = 0; i < nSubs; i++) {
+				MCONTACT hSub = db_mc_getSub(m_hContact, i);
+				if (hSub > 0)
+					if (pa == Proto_GetContactAccount(hSub))
+						return true;
+			}
+		}
+		return false;
+	}
+
 	void ResizeCurrent()
 	{
 		RECT rc;
@@ -295,6 +315,7 @@ public:
 		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_USERDETAILS);
 		Utils_RestoreWindowPosition(m_hwnd, 0, MODULENAME, "main");
 
+		m_hAccChanged = HookEventMessage(ME_PROTO_ACCLISTCHANGED, m_hwnd, M_ACCCHANGE);
 		m_hProtoAckEvent = HookEventMessage(ME_PROTO_ACK, m_hwnd, M_PROTOACK);
 		m_hDllUnloadEvent = HookEventMessage(ME_SYSTEM_MODULEUNLOAD, m_hwnd, M_DLLUNLOAD);
 		WindowList_Add(hWindowList, m_hwnd, m_hContact);
@@ -392,6 +413,7 @@ public:
 		Window_FreeIcon_IcoLib(m_hwnd);
 		WindowList_Remove(hWindowList, m_hwnd);
 
+		UnhookEvent(m_hAccChanged);
 		UnhookEvent(m_hProtoAckEvent);
 		UnhookEvent(m_hDllUnloadEvent);
 
@@ -431,6 +453,18 @@ public:
 
 				if (bRemoved)
 					BuildTree();
+			}
+			break;
+
+		case M_ACCCHANGE:
+			switch (wParam) {
+			case PRAC_ADDED: case PRAC_CHANGED: case PRAC_UPGRADED:
+				BuildTree();
+				break;
+			case PRAC_REMOVED: case PRAC_CHECKED:
+				if (IsAffected((PROTOACCOUNT*)lParam))
+					Close();
+				break;
 			}
 			break;
 
