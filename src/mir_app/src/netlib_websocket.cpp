@@ -229,7 +229,8 @@ void MWebSocket::run()
 			return;
 		}
 		if (bufSize < 0) {
-			Netlib_Log(m_nlu, "Websocket connection error, exiting");
+			if (!m_bTerminated)
+				Netlib_Log(m_nlu, "Websocket connection error, exiting");
 			return;
 		}
 
@@ -251,7 +252,8 @@ void MWebSocket::run()
 					return;
 				}
 				if (result < 0) {
-					Netlib_Log(m_nlu, "Websocket connection error, exiting");
+					if (!m_bTerminated)
+						Netlib_Log(m_nlu, "Websocket connection error, exiting");
 					return;
 				}
 				currPacketSize += result;
