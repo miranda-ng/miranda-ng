@@ -21,6 +21,16 @@ struct CMaxMsgAckCtx
 	CMStringW errText;
 };
 
+static bool sttHasNonAscii(const wchar_t *pwsz)
+{
+	if (pwsz == nullptr)
+		return false;
+	for (const wchar_t *p = pwsz; *p; ++p)
+		if (*p > 0x7F)
+			return true;
+	return false;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
@@ -48,6 +58,7 @@ CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	CreateProtoService(PS_GETAVATARINFO, &CMaxProto::SvcGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CMaxProto::SvcGetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CMaxProto::SvcGetMyAvatar);
+	CreateProtoService(PS_OFFLINEFILE, &CMaxProto::SvcOfflineFile);
 	CreateProtoService(PS_MENU_LOADHISTORY, &CMaxProto::SvcLoadServerHistory);
 	CreateProtoService(PS_CAN_EMPTY_HISTORY, &CMaxProto::SvcCanEmptyHistory);
 	CreateProtoService(PS_EMPTY_SRV_HISTORY, &CMaxProto::SvcEmptyServerHistory);
@@ -88,7 +99,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_MODEMSG | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_SERVERCLIST;
+		return PF1_IM | PF1_MODEMSG | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_SERVERCLIST | PF1_FILE;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
@@ -97,7 +108,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_SUPPORTTYPING;
+		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_SUPPORTTYPING | PF4_OFFLINEFILES;
 
 	case PFLAG_UNIQUEIDTEXT:
 	{
@@ -252,7 +263,7 @@ void CMaxProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 	DB::EventInfo dbei(hDbEvent, false);
 	if (!dbei || mir_strcmp(dbei.szModule, m_szModuleName))
 		return;
-	if (dbei.eventType != EVENTTYPE_MESSAGE)
+	if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != EVENTTYPE_FILE)
 		return;
 	if (dbei.szId == nullptr || dbei.szId[0] == 0)
 		return;
@@ -282,11 +293,20 @@ void CMaxProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 
 	const bool forEveryone = (flags & CDF_FOR_EVERYONE) != 0;
 	const bool forMe = !forEveryone;
+	CMStringA serverMsgId(dbei.szId);
+	if (dbei.eventType == EVENTTYPE_FILE) {
+		// File events are stored as "<msgId>:file:<fileId>", but server delete API expects original message id.
+		const char *pSep = strstr(serverMsgId.c_str(), ":file:");
+		if (pSep != nullptr)
+			serverMsgId.Truncate((int)(pSep - serverMsgId.c_str()));
+	}
+	if (serverMsgId.IsEmpty())
+		return;
 
-	if (!ApiDeleteMessages(m_pGateway, chatId.c_str(), dbei.szId, forMe))
-		debugLogA("Max: delete msg API failed chat=%s id=%s forMe=%d", chatId.c_str(), dbei.szId, forMe ? 1 : 0);
+	if (!ApiDeleteMessages(m_pGateway, chatId.c_str(), serverMsgId.c_str(), forMe))
+		debugLogA("Max: delete msg API failed chat=%s id=%s forMe=%d", chatId.c_str(), serverMsgId.c_str(), forMe ? 1 : 0);
 	else
-		debugLogA("Max: delete msg ok chat=%s id=%s forMe=%d", chatId.c_str(), dbei.szId, forMe ? 1 : 0);
+		debugLogA("Max: delete msg ok chat=%s id=%s forMe=%d", chatId.c_str(), serverMsgId.c_str(), forMe ? 1 : 0);
 }
 
 void __cdecl CMaxProto::MessageAckWorker(void *param)
@@ -780,6 +800,137 @@ INT_PTR CMaxProto::SvcLoadServerHistory(WPARAM hContact, LPARAM)
 		return 1;
 
 	ForkThread(&CMaxProto::LoadHistoryWorker, (void *)(UINT_PTR)hContact);
+	return 0;
+}
+
+static void __cdecl MaxOfflineDownloadProgress(size_t iProgress, void *pParam)
+{
+	auto *ofd = (OFDTHREAD *)pParam;
+	DBVARIANT dbv = { DBVT_DWORD };
+	dbv.dVal = (uint32_t)iProgress;
+	db_event_setJson(ofd->hDbEvent, "ft", &dbv);
+}
+
+void __cdecl CMaxProto::OfflineFileWorker(void *param)
+{
+	auto *ofd = (OFDTHREAD *)param;
+	if (ofd == nullptr) return;
+
+	DB::EventInfo dbei(ofd->hDbEvent);
+	if (dbei && !mir_strcmp(dbei.szModule, m_szModuleName) && dbei.eventType == EVENTTYPE_FILE) {
+		DB::FILE_BLOB blob(dbei);
+		const char *url = blob.getUrl();
+		if (url != nullptr && url[0] != 0) {
+			if (ofd->bCopy) {
+				ofd->wszPath = Utf2T(url).get();
+				ofd->pCallback->Invoke(*ofd);
+			}
+			else {
+				MHttpRequest req(REQUEST_GET);
+				req.flags = NLHRF_HTTP11 | NLHRF_SSL;
+				req.m_szUrl = url;
+
+				NLHR_PTR reply(Netlib_DownloadFile(m_hNetlibUser, &req, ofd->wszPath, MaxOfflineDownloadProgress, ofd));
+				if (reply && reply->resultCode == 200) {
+					struct _stat st = {};
+					int stOk = _wstat(ofd->wszPath, &st);
+					int64_t finalSize = (stOk == 0) ? (int64_t)st.st_size : 0;
+
+					CMStringW localPath(ofd->wszPath);
+					// NewStory [img=file://] may fail on non-ASCII paths; mirror file into protocol preview cache.
+					if (sttHasNonAscii(localPath)) {
+						CMStringW previewDir = GetPreviewPath();
+						previewDir += L"\\offline";
+						CreateDirectoryTreeW(previewDir);
+
+						CMStringW ext = L".bin";
+						int dotSrc = localPath.ReverseFind('.');
+						int slashSrc = localPath.ReverseFind('\\');
+						if (dotSrc != -1 && (slashSrc == -1 || dotSrc > slashSrc))
+							ext = localPath.Mid(dotSrc);
+
+						CMStringW mirror;
+						mirror.Format(L"%s\\max_ev_%u%s", previewDir.c_str(), (unsigned)ofd->hDbEvent, ext.c_str());
+						CMStringW unique = mirror;
+						for (int i = 1; _waccess(unique, 0) == 0 && i < 1000; ++i) {
+							int dot = mirror.ReverseFind('.');
+							if (dot == -1)
+								unique = mirror + CMStringW(FORMAT, L"_%d", i);
+							else
+								unique = mirror.Left(dot) + CMStringW(FORMAT, L"_%d", i) + mirror.Mid(dot);
+						}
+						if (CopyFileW(localPath, unique, true)) {
+							localPath = unique;
+							ofd->wszPath = localPath.c_str();
+							struct _stat st2 = {};
+							if (_wstat(localPath, &st2) == 0 && st2.st_size > 0)
+								finalSize = (int64_t)st2.st_size;
+							debugLogA("Max: offline file mirrored for preview path=%S", localPath.c_str());
+						}
+					}
+
+					// Mark offline file as fully downloaded in DB event:
+					// 1) save local path (lf), 2) set fs/ft to the same final size.
+					DB::EventInfo ev(ofd->hDbEvent);
+					if (ev && !mir_strcmp(ev.szModule, m_szModuleName) && ev.eventType == EVENTTYPE_FILE) {
+						DB::FILE_BLOB finBlob(ev);
+						if (finalSize <= 0) {
+							// _wstat may occasionally race/fail on some systems; fall back to transfer counters.
+							finalSize = finBlob.getTransferred();
+							if (finalSize <= 0)
+								finalSize = finBlob.getSize();
+						}
+						if (finalSize <= 0) {
+							if (const char *cl = reply->FindHeader("Content-Length"))
+								finalSize = _strtoi64(cl, nullptr, 10);
+						}
+						finBlob.setLocalName(localPath);
+						if (finalSize > 0)
+							finBlob.complete(finalSize);
+						finBlob.write(ev);
+						db_event_edit(ofd->hDbEvent, &ev, true);
+
+						// Force critical fields directly to avoid losing them in concurrent updates.
+						DBVARIANT vPath = { DBVT_WCHAR };
+						vPath.pwszVal = localPath.GetBuffer();
+						db_event_setJson(ofd->hDbEvent, "lf", &vPath);
+						if (finalSize > 0) {
+							DBVARIANT vSize = { DBVT_DWORD };
+							vSize.dVal = (uint32_t)finalSize;
+							db_event_setJson(ofd->hDbEvent, "fs", &vSize);
+							db_event_setJson(ofd->hDbEvent, "ft", &vSize);
+						}
+						debugLogA("Max: offline file finalized ev=%u size=%lld path=%S", (unsigned)ofd->hDbEvent, (long long)finalSize, localPath.c_str());
+
+						// Read back the event as NewStory does, to verify what is actually persisted.
+						DB::EventInfo chk(ofd->hDbEvent);
+						if (chk && !mir_strcmp(chk.szModule, m_szModuleName) && chk.eventType == EVENTTYPE_FILE) {
+							DB::FILE_BLOB rb(chk);
+							const wchar_t *pLf = rb.getLocalName();
+							const wchar_t *pName = rb.getName();
+							int fmt = (pLf && pLf[0]) ? ProtoGetAvatarFileFormat(pLf) : PA_FORMAT_UNKNOWN;
+							debugLogA("Max: offline file verify ev=%u fs=%lld ft=%lld done=%d fmt=%d lf=%S name=%S",
+								(unsigned)ofd->hDbEvent,
+								(long long)rb.getSize(),
+								(long long)rb.getTransferred(),
+								rb.isCompleted() ? 1 : 0,
+								fmt,
+								(pLf && pLf[0]) ? pLf : L"(empty)",
+								(pName && pName[0]) ? pName : L"(empty)");
+						}
+					}
+					ofd->Finish();
+				}
+			}
+		}
+	}
+
+	delete ofd;
+}
+
+INT_PTR CMaxProto::SvcOfflineFile(WPARAM wParam, LPARAM)
+{
+	ForkThread(&CMaxProto::OfflineFileWorker, (void *)wParam);
 	return 0;
 }
 

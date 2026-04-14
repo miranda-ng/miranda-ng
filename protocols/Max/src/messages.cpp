@@ -25,6 +25,119 @@ static CMStringA sttMessageBodyUtf8(const JSONNode &msg)
 	return CMStringA();
 }
 
+struct CMaxIncomingFile
+{
+	CMStringA fileId;
+	CMStringW name;
+	int64_t size = -1;
+	CMStringA directUrl;
+	bool isPhoto = false;
+};
+
+static bool sttTakeHttpUrl(const JSONNode &a, const char *key, CMStringA &out)
+{
+	const JSONNode &n = a[key];
+	if (n.type() != JSON_STRING || n.as_string().empty())
+		return false;
+	CMStringA v(n.as_string().c_str());
+	if (_strnicmp(v.c_str(), "https://", 8) && _strnicmp(v.c_str(), "http://", 7))
+		return false;
+	out = v;
+	return true;
+}
+
+static CMStringA sttSelectPhotoBestUrl(const JSONNode &a)
+{
+	CMStringA url;
+	// Prefer "raw/original" variants when present.
+	if (sttTakeHttpUrl(a, "baseRawUrl", url)) return url;
+	if (sttTakeHttpUrl(a, "rawUrl", url)) return url;
+	if (sttTakeHttpUrl(a, "originalUrl", url)) return url;
+	if (sttTakeHttpUrl(a, "downloadUrl", url)) return url;
+	if (sttTakeHttpUrl(a, "url", url)) return url;
+	if (sttTakeHttpUrl(a, "baseUrl", url)) return url;
+	return CMStringA();
+}
+
+static CMStringW sttPhotoFileNameFromAttach(const JSONNode &a, const CMStringA &fileId)
+{
+	// Max PHOTO push usually has no original filename; derive a stable one from payload mime + photoId.
+	CMStringW ext = L"jpg";
+	if (a["previewData"].type() == JSON_STRING) {
+		CMStringA pd(a["previewData"].as_string().c_str());
+		const char *pfx = "data:image/";
+		if (!_strnicmp(pd.c_str(), pfx, mir_strlen(pfx))) {
+			const char *p = pd.c_str() + mir_strlen(pfx);
+			const char *q = strchr(p, ';');
+			if (q != nullptr && q > p) {
+				CMStringA mimeSub;
+				for (const char *t = p; t < q; ++t) {
+					char c = (char)tolower((unsigned char)*t);
+					if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))
+						mimeSub.AppendChar(c);
+				}
+				if (!mimeSub.IsEmpty()) {
+					if (!mir_strcmp(mimeSub.c_str(), "jpeg"))
+						ext = L"jpg";
+					else
+						ext = mir_utf8decodeW(mimeSub.c_str());
+				}
+			}
+		}
+	}
+
+	CMStringW out;
+	out.Format(L"photo_%S.%s", fileId.c_str(), ext.c_str());
+	return out;
+}
+
+static void sttCollectIncomingFiles(const JSONNode &msg, std::vector<CMaxIncomingFile> &out)
+{
+	const JSONNode &att = msg["attaches"];
+	if (att.type() != JSON_ARRAY)
+		return;
+
+	for (unsigned i = 0; i < att.size(); ++i) {
+		const JSONNode &a = att[(json_index_t)i];
+		if (a.type() != JSON_NODE)
+			continue;
+		CMaxIncomingFile f;
+		CMStringA at;
+		if (a["_type"].type() == JSON_STRING)
+			at = a["_type"].as_string().c_str();
+		at.MakeUpper();
+
+		if (!mir_strcmp(at.c_str(), "FILE")) {
+			f.fileId = sttMsgJsonIdStr(a["fileId"]);
+			if (f.fileId.IsEmpty())
+				continue;
+			if (a["name"].type() == JSON_STRING && !a["name"].as_string().empty())
+				f.name = mir_utf8decodeW(a["name"].as_string().c_str());
+			if (f.name.IsEmpty())
+				f.name = L"file";
+			if (a["size"].type() == JSON_NUMBER)
+				f.size = (int64_t)(a["size"].as_float() + 0.5);
+			else if (a["size"].type() == JSON_STRING)
+				f.size = _strtoi64(a["size"].as_string().c_str(), nullptr, 10);
+			out.push_back(f);
+			continue;
+		}
+
+		if (!mir_strcmp(at.c_str(), "PHOTO")) {
+			f.fileId = sttMsgJsonIdStr(a["photoId"]);
+			if (f.fileId.IsEmpty())
+				f.fileId = "photo";
+			f.directUrl = sttSelectPhotoBestUrl(a);
+			if (f.directUrl.IsEmpty())
+				continue;
+			f.name = sttPhotoFileNameFromAttach(a, f.fileId);
+			f.isPhoto = true;
+			out.push_back(f);
+			continue;
+		}
+	}
+}
+
 static bool sttJsonNodeContainsTypingOn(const JSONNode &n)
 {
 	CMStringA s;
@@ -244,7 +357,9 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	const bool fromSelf = (myUid != nullptr && sender == myUid);
 
 	CMStringA text = sttMessageBodyUtf8(msg);
-	if (text.IsEmpty())
+	std::vector<CMaxIncomingFile> files;
+	sttCollectIncomingFiles(msg, files);
+	if (text.IsEmpty() && files.empty())
 		return;
 
 	MCONTACT hContact = ResolveContactForDialogMessage(szChatId, sender.IsEmpty() ? nullptr : sender.c_str());
@@ -258,31 +373,95 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	else if (t.type() == JSON_STRING)
 		tMs = _strtoui64(t.as_string().c_str(), nullptr, 10);
 
-	DB::EventInfo dbei;
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.bUtf = true;
-	dbei.szId = msgId.c_str();
-	if (isEdited)
-		dbei.bEdited = true;
-	if (tMs != 0) {
-		dbei.bMsec = true;
-		dbei.iTimestamp = tMs;
+	if (!text.IsEmpty()) {
+		DB::EventInfo dbei;
+		dbei.eventType = EVENTTYPE_MESSAGE;
+		dbei.bUtf = true;
+		dbei.szId = msgId.c_str();
+		if (isEdited)
+			dbei.bEdited = true;
+		if (tMs != 0) {
+			dbei.bMsec = true;
+			dbei.iTimestamp = tMs;
+		}
+		else
+			dbei.iTimestamp = (uint64_t)time(nullptr);
+
+		dbei.cbBlob = (int)mir_strlen(text.c_str());
+		dbei.pBlob = mir_strdup(text.c_str());
+
+		if (fromSelf) {
+			dbei.bSent = true;
+			dbei.bRead = true;
+		}
+		else if (bMarkRead)
+			dbei.bRead = true;
+
+		ProtoChainRecvMsg(hContact, dbei);
+		debugLogA("Max: ingested msg id=%s chat=%s from=%s", msgId.c_str(), szChatId, sender.c_str());
 	}
-	else
-		dbei.iTimestamp = (uint64_t)time(nullptr);
 
-	dbei.cbBlob = (int)mir_strlen(text.c_str());
-	dbei.pBlob = mir_strdup(text.c_str());
+	if (!files.empty()) {
+		debugLogA("Max: files detected chat=%s msg=%s count=%u", szChatId, msgId.c_str(), (unsigned)files.size());
+		for (auto &f : files) {
+			CMStringA eventId;
+			eventId.Format("%s:file:%s", msgId.c_str(), f.fileId.c_str());
+			if (db_event_getById(m_szModuleName, eventId.c_str()) != 0)
+				continue;
 
-	if (fromSelf) {
-		dbei.bSent = true;
-		dbei.bRead = true;
+			CMStringA url;
+			if (!f.directUrl.IsEmpty()) {
+				url = f.directUrl;
+				// For PHOTO, try to resolve server file URL (can provide original format in some accounts),
+				// then fall back to directUrl from attach.
+				if (f.isPhoto && WaitForGatewayReady() && m_pGateway != nullptr) {
+					CMStringA altUrl;
+					if (ApiGetFileDownloadUrl(m_pGateway, szChatId, msgId.c_str(), _strtoi64(f.fileId.c_str(), nullptr, 10), altUrl) && !altUrl.IsEmpty()) {
+						debugLogA("Max: photo url replaced by opcode 88 chat=%s msg=%s file=%s", szChatId, msgId.c_str(), f.fileId.c_str());
+						url = altUrl;
+					}
+				}
+			}
+			else {
+				if (!WaitForGatewayReady() || m_pGateway == nullptr) {
+					debugLogA("Max: file url unresolved (gateway offline) chat=%s msg=%s file=%s", szChatId, msgId.c_str(), f.fileId.c_str());
+					continue;
+				}
+				if (!ApiGetFileDownloadUrl(m_pGateway, szChatId, msgId.c_str(), _strtoi64(f.fileId.c_str(), nullptr, 10), url) || url.IsEmpty()) {
+					debugLogA("Max: file url unresolved chat=%s msg=%s file=%s", szChatId, msgId.c_str(), f.fileId.c_str());
+					continue;
+				}
+			}
+
+			DB::EventInfo fdbei;
+			fdbei.eventType = EVENTTYPE_FILE;
+			fdbei.bUtf = true;
+			// Offline cloud file: avoid SRFile live-transfer dialog ("cannot start transfer").
+			fdbei.bTemporary = true;
+			fdbei.szId = eventId.c_str();
+			if (tMs != 0) {
+				fdbei.bMsec = true;
+				fdbei.iTimestamp = tMs;
+			}
+			else fdbei.iTimestamp = (uint64_t)time(nullptr);
+			if (fromSelf) {
+				fdbei.bSent = true;
+				fdbei.bRead = true;
+			}
+			else if (bMarkRead)
+				fdbei.bRead = true;
+
+			ptrW wszName(mir_wstrdup(f.name.c_str()));
+			DB::FILE_BLOB blob(wszName, nullptr);
+			blob.setUrl(url.c_str());
+			if (f.size > 0)
+				blob.setSize(f.size);
+			if (!isChatRoom(hContact))
+				setString(hContact, DB_KEY_MAX_CHATID, szChatId);
+			ProtoChainRecvFile(hContact, blob, fdbei);
+			debugLogA("Max: ingested file chat=%s h=%u msg=%s file=%s", szChatId, (unsigned)hContact, msgId.c_str(), f.fileId.c_str());
+		}
 	}
-	else if (bMarkRead)
-		dbei.bRead = true;
-
-	ProtoChainRecvMsg(hContact, dbei);
-	debugLogA("Max: ingested msg id=%s chat=%s from=%s", msgId.c_str(), szChatId, sender.c_str());
 }
 
 uint64_t CMaxProto::GetLastLocalMessageTimeMs(MCONTACT hContact)
@@ -374,8 +553,17 @@ void CMaxProto::TryIngestTypingPayload(const JSONNode &payload)
 		}
 	}
 	// Max NOTIF_TYPING (opcode 129) may carry only {chatId,userId} without explicit typing flag.
-	if (typingState == -1 && !sender.IsEmpty())
-		typingState = 1;
+	// But payloads like {"type":"PHOTO"} are media notifications and must not trigger typing.
+	if (typingState == -1 && !sender.IsEmpty()) {
+		bool bLooksTyping = true;
+		if (payload["type"].type() == JSON_STRING) {
+			CMStringA typeStr(payload["type"].as_string().c_str());
+			typeStr.MakeLower();
+			bLooksTyping = (strstr(typeStr, "typing") != nullptr);
+		}
+		if (bLooksTyping)
+			typingState = 1;
+	}
 	if (typingState == -1) {
 		debugLogA("Max: typing skip chat=%s (unknown state format)", chatId.c_str());
 		return;

@@ -733,6 +733,33 @@ bool CMaxProto::ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	return SendJsonAndWait(ws, 67, payload, 0);
 }
 
+bool CMaxProto::ApiGetFileDownloadUrl(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, int64_t fileId, CMStringA &outUrl)
+{
+	outUrl.Empty();
+	if (!ws || szChatId == nullptr || szChatId[0] == 0 || szMsgId == nullptr || szMsgId[0] == 0 || fileId <= 0)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid) << CHAR_PARAM("messageId", szMsgId) << INT64_PARAM("fileId", fileId);
+	if (!SendJsonAndWait(ws, 88, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return false;
+
+	const JSONNode &pl = resp["payload"];
+	if (pl["url"].type() == JSON_STRING && !pl["url"].as_string().empty()) {
+		outUrl = pl["url"].as_string().c_str();
+		return true;
+	}
+	return false;
+}
+
 bool CMaxProto::ApiDeleteMessages(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, bool bForMe)
 {
 	if (!ws || szChatId == nullptr || szChatId[0] == 0 || szMsgId == nullptr || szMsgId[0] == 0)
@@ -1128,6 +1155,17 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 
 	// Opcode 34: add contact — same pattern as 46.
 	if (p->m_waitSeq != 0 && op == 34) {
+		const JSONNode &pl = json["payload"];
+		if (pl.type() == JSON_NODE) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	// Opcode 88: file download url by (chatId,messageId,fileId).
+	if (p->m_waitSeq != 0 && op == 88) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();

@@ -52,6 +52,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	void __cdecl LoadHistoryWorker(void *param);
 	void __cdecl MessageAckWorker(void *param);
 	void __cdecl PhoneSearchWorker(void *param);
+	void __cdecl OfflineFileWorker(void *param);
 	void EnsureDeviceId();
 	/// Parse HTTP 101 `Sec-WebSocket-Extensions` (permessage-deflate parameters).
 	void ApplyWsExtensionsFromHttp(MHttpResponse *pReply);
@@ -78,6 +79,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcOfflineFile(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcCanEmptyHistory(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam);
 	int __cdecl OnLangpackChanged(WPARAM, LPARAM);
@@ -115,6 +117,7 @@ public:
 	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bool bTyping);
 	bool ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText);
+	bool ApiGetFileDownloadUrl(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, int64_t fileId, CMStringA &outUrl);
 	/// Opcode 66: delete message on server. `bForMe` true = only this user; false = for everyone (if allowed).
 	bool ApiDeleteMessages(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, bool bForMe);
 	/// Opcode 46: resolve user by phone (E.164, UTF-8). On success sets outContact to contact node or empty if not found.
