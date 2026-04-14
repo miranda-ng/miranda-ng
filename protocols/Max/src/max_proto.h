@@ -36,6 +36,8 @@ class CMaxProto : public PROTO<CMaxProto>
 	bool m_wsInflateInited = false;
 	/// Set from HTTP 101 `Sec-WebSocket-Extensions` when server sends `server_no_context_takeover`.
 	bool m_bWsPmDeflateIndependent = false;
+	/// Last locale we asked the server for ("ru" or "en") on the current WS session.
+	CMStringA m_wsLocale;
 	bool m_bAvatarWebPrimed = false;
 
 	struct
@@ -77,6 +79,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	INT_PTR __cdecl SvcLoadServerHistory(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcCanEmptyHistory(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam);
+	int __cdecl OnLangpackChanged(WPARAM, LPARAM);
 
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);

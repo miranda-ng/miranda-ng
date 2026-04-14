@@ -28,6 +28,7 @@ CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 {
 	m_hWaitEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	HookProtoEvent(ME_OPT_INITIALISE, &CMaxProto::OnOptionsInit);
+	HookProtoEvent(ME_LANGPACK_CHANGED, &CMaxProto::OnLangpackChanged);
 
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = m_szModuleName;
@@ -58,6 +59,29 @@ CMaxProto::~CMaxProto()
 	FreeWsInflater();
 	if (m_hWaitEvent)
 		CloseHandle(m_hWaitEvent);
+}
+
+int CMaxProto::OnLangpackChanged(WPARAM, LPARAM)
+{
+	debugLogA("Max: langpack changed event received");
+	// If we're connected, reconnect WS so the next handshake uses the current locale mapping.
+	// Do not change the visible status; just restart the gateway session.
+	if (m_iStatus == ID_STATUS_OFFLINE)
+		return 0;
+	if (!HasLoginToken())
+		return 0;
+
+	const char *raw = Langpack_GetDefaultLocaleName();
+	const char *want = (raw && (raw[0] == 'r' || raw[0] == 'R') && (raw[1] == 'u' || raw[1] == 'U')) ? "ru" : "en";
+	if (!m_wsLocale.IsEmpty() && !mir_strcmpi(m_wsLocale.c_str(), want))
+		return 0;
+
+	debugLogA("Max: langpack changed, reconnecting gateway (locale=%s)", want);
+	DisconnectGateway();
+
+	m_bTerminated = false;
+	m_hConnThread = ForkThreadEx(&CMaxProto::ConnectionWorker, nullptr, nullptr);
+	return 0;
 }
 
 INT_PTR CMaxProto::GetCaps(int type, MCONTACT)

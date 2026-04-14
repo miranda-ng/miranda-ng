@@ -6,6 +6,7 @@ GPLv2
 #include "stdafx.h"
 #include <ctype.h>
 #include <stdlib.h>
+#include <m_timezones.h>
 
 static bool MaxAsciiContainsInsensitive(const char *szHaystack, const char *szNeedle)
 {
@@ -557,11 +558,23 @@ bool CMaxProto::SendHandshake(WebSocket<CMaxProto> *ws)
 
 	ptrA devUtf(mir_utf8encodeW(wszDev));
 
+	const char *szLocaleRaw = Langpack_GetDefaultLocaleName();
+	const char *szLocale = "en";
+	// Use current Miranda langpack, but fallback to English unless it's Russian.
+	// (Server appears to support only a limited locale set; rare locales may return empty localizedMessage.)
+	if (szLocaleRaw != nullptr && (szLocaleRaw[0] == 'r' || szLocaleRaw[0] == 'R') && (szLocaleRaw[1] == 'u' || szLocaleRaw[1] == 'U'))
+		szLocale = "ru";
+	m_wsLocale = szLocale;
+
+	LPCTSTR tszTz = TimeZone_GetName(LOCAL_TIME_HANDLE);
+	ptrA tzUtf((tszTz != nullptr && tszTz[0] != 0) ? mir_u2a(tszTz) : nullptr);
+	const char *szTz = (tzUtf != nullptr && tzUtf[0] != 0) ? tzUtf.get() : "UTC";
+
 	JSONNode ua(JSON_NODE);
-	ua << CHAR_PARAM("deviceType", "WEB") << CHAR_PARAM("locale", "ru") << CHAR_PARAM("deviceLocale", "ru") << CHAR_PARAM("osVersion", "Linux")
+	ua << CHAR_PARAM("deviceType", "WEB") << CHAR_PARAM("locale", szLocale) << CHAR_PARAM("deviceLocale", szLocale) << CHAR_PARAM("osVersion", "Linux")
 		<< CHAR_PARAM("deviceName", "Chrome")
 		<< CHAR_PARAM("headerUserAgent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36")
-		<< CHAR_PARAM("appVersion", "25.10.13") << CHAR_PARAM("screen", "1080x1920 1.0x") << CHAR_PARAM("timezone", "Europe/Moscow");
+		<< CHAR_PARAM("appVersion", "25.10.13") << CHAR_PARAM("screen", "1080x1920 1.0x") << CHAR_PARAM("timezone", szTz);
 
 	JSONNode payload(JSON_NODE);
 	payload << CHAR_PARAM("deviceId", devUtf) << JSON_PARAM("userAgent", ua);
