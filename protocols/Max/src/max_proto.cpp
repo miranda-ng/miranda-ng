@@ -611,7 +611,14 @@ void __cdecl CMaxProto::LiveNotifIngestWorker(void *param)
 		else if (cn.type() == JSON_STRING)
 			chatId = cn.as_string().c_str();
 	}
+	if (chatId.IsEmpty())
+		chatId = MaxJsonIdStrLocal(payload["cid"]);
+	if (chatId.IsEmpty())
+		chatId = MaxJsonIdStrLocal(msg["cid"]);
 	if (chatId.IsEmpty()) {
+		debugLogA("Max: live push skip (no usable chatId) sender=%s msg=%s",
+			sender.IsEmpty() ? "(unknown)" : sender.c_str(),
+			MaxJsonIdStrLocal(msg["id"]).c_str());
 		delete pPl;
 		return;
 	}

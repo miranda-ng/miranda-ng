@@ -91,21 +91,28 @@ static CMStringA sttResolveDialogChatId(const JSONNode &chat)
 	CMStringA id = sttJsonIdStr(chat["id"]);
 	CMStringA cid = sttJsonIdStr(chat["cid"]);
 	CMStringA ch = sttJsonIdStr(chat["chatId"]);
+	CMStringA lcid = sttJsonIdStr(chat["lastMessage"]["cid"]);
 
 	uint64_t idv = id.IsEmpty() ? 0 : _strtoui64(id.c_str(), nullptr, 10);
 	uint64_t cidv = cid.IsEmpty() ? 0 : _strtoui64(cid.c_str(), nullptr, 10);
 	uint64_t chv = ch.IsEmpty() ? 0 : _strtoui64(ch.c_str(), nullptr, 10);
+
+	if (!id.IsEmpty() && idv == 0)
+		return id; // Favorites/self dialog uses chatId==0 in server APIs
 
 	if (!cid.IsEmpty() && idv != 0 && idv < 10000 && cidv >= 10000)
 		return cid;
 	if (!ch.IsEmpty() && idv != 0 && idv < 10000 && chv >= 10000)
 		return ch;
 
-	if (!id.IsEmpty())
+	// Some payloads (notably self dialog / Favorites) have id==0 while cid/lastMessage.cid carries the real dialog id.
+	if (idv != 0)
 		return id;
 	if (!cid.IsEmpty())
 		return cid;
-	return ch;
+	if (!ch.IsEmpty())
+		return ch;
+	return lcid;
 }
 
 // Do not use "first participant that is not me" — array order and object key order are unreliable.
@@ -473,6 +480,10 @@ void CMaxProto::RemoveLocalPeerIfChatOnly(MCONTACT hContact)
 		return;
 	ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
 	if (uid == nullptr || uid[0] == 0)
+		return;
+	// Never prune self contact (Favorites uses uid==myUid).
+	ptrA my(getStringA(DB_KEY_MY_MAX_ID));
+	if (my != nullptr && my[0] && !mir_strcmp(uid, my))
 		return;
 	if (IsMaxUidInServerContactBook(uid))
 		return;
@@ -884,12 +895,28 @@ static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMSt
 
 	const JSONNode &ptOrig = chat["participants"];
 	unsigned partCount = 0;
+	bool onlySelfParticipant = false;
 	if (ptOrig.type() == JSON_NODE) {
 		for (auto it = ptOrig.begin(); it != ptOrig.end(); ++it)
 			partCount++;
+		if (partCount == 1 && !myUid.IsEmpty()) {
+			for (auto it = ptOrig.begin(); it != ptOrig.end(); ++it) {
+				if (!mir_strcmp((*it).name(), myUid.c_str())) {
+					onlySelfParticipant = true;
+					break;
+				}
+			}
+		}
 	}
-	else if (ptOrig.type() == JSON_ARRAY)
+	else if (ptOrig.type() == JSON_ARRAY) {
 		partCount = (unsigned)ptOrig.size();
+		if (partCount == 1 && !myUid.IsEmpty()) {
+			CMStringA pid = sttJsonIdStr(ptOrig[(json_index_t)0]["id"]);
+			if (pid.IsEmpty())
+				pid = sttJsonIdStr(ptOrig[(json_index_t)0]["userId"]);
+			onlySelfParticipant = !pid.IsEmpty() && !mir_strcmp(pid.c_str(), myUid.c_str());
+		}
+	}
 
 	CMStringA typ(chat["type"].type() != JSON_NULL ? chat["type"].as_string().c_str() : "");
 	bool treatAsDialog = sttTypeIsDialog(typ);
@@ -928,8 +955,22 @@ static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMSt
 	}
 
 	CMStringA peerUid = sttPickDialogPeerUid(p, chat, myUid);
-	if (peerUid.IsEmpty())
+	if (peerUid.IsEmpty()) {
+		// Self-only dialog ("Favorites"): no peer uid to resolve, keep it as own contact.
+		if (onlySelfParticipant && !myUid.IsEmpty()) {
+			CMStringW fn;
+			if (chat["title"].type() != JSON_NULL) {
+				ptrW w(mir_utf8decodeW(chat["title"].as_string().c_str()));
+				if (w && w[0])
+					fn = w;
+			}
+			if (fn.IsEmpty())
+				fn = TranslateT("Favorites");
+		p->EnsureUserContact(myUid.c_str(), fn.c_str(), L"", "0");
+		p->debugLogA("Max: dlg self-only mapped as favorites chat=%s", "0");
+		}
 		return;
+	}
 
 	CMStringA myEff = myUid;
 	if (myEff.IsEmpty()) {
@@ -938,7 +979,18 @@ static void sttMergeOneDialogChat(CMaxProto *p, const JSONNode &chat, const CMSt
 			myEff = db.get();
 	}
 	if (!myEff.IsEmpty() && peerUid == myEff) {
-		p->debugLogA("Max: dlg skip self-peer chat=%s", chatId.c_str());
+		// Self dialog ("Favorites"): keep it as a visible contact, same as official client.
+		CMStringW fn;
+		if (chat["title"].type() != JSON_NULL) {
+			ptrW w(mir_utf8decodeW(chat["title"].as_string().c_str()));
+			if (w && w[0])
+				fn = w;
+		}
+		if (fn.IsEmpty())
+			fn = TranslateT("Favorites");
+
+		p->EnsureUserContact(myEff.c_str(), fn.c_str(), L"", chatId.c_str());
+		p->debugLogA("Max: dlg self-peer mapped as favorites chat=%s", chatId.c_str());
 		return;
 	}
 

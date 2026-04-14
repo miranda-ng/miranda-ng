@@ -605,7 +605,9 @@ bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szCha
 		return false;
 
 	int64_t cid = _strtoi64(szChatId, nullptr, 10);
-	if (cid == 0)
+	// Favorites / self dialog uses chatId == 0 in sync and push payloads.
+	// Server APIs accept chatId=0 for opcode 49.
+	if (cid == 0 && mir_strcmp(szChatId, "0"))
 		return false;
 
 	if (fromMs <= 0)
@@ -633,7 +635,8 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 		return false;
 
 	int64_t cid = _strtoi64(szChatId, nullptr, 10);
-	if (cid == 0)
+	// Favorites/self dialog uses chatId == 0.
+	if (cid == 0 && mir_strcmp(szChatId, "0"))
 		return false;
 
 	FILETIME ft = {};

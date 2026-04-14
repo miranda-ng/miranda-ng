@@ -492,6 +492,10 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 
 	CMStringA chatId = sttMsgJsonIdStr(payload["chatId"]);
 	if (chatId.IsEmpty())
+		chatId = sttMsgJsonIdStr(payload["cid"]);
+	if (chatId.IsEmpty())
+		chatId = sttMsgJsonIdStr(msg["cid"]);
+	if (chatId.IsEmpty())
 		return;
 
 	int typingState = sttDetectTypingStateFromMessage(msg);
@@ -516,6 +520,8 @@ void CMaxProto::TryIngestTypingPayload(const JSONNode &payload)
 	CMStringA chatId = sttMsgJsonIdStr(payload["chatId"]);
 	if (chatId.IsEmpty())
 		chatId = sttMsgJsonIdStr(payload["cid"]);
+	if (chatId.IsEmpty())
+		chatId = sttMsgJsonIdStr(payload["message"]["cid"]);
 	if (chatId.IsEmpty())
 		chatId = sttMsgJsonIdStr(payload["chat"]["id"]);
 	if (chatId.IsEmpty()) {
