@@ -25,6 +25,83 @@ static CMStringA sttMessageBodyUtf8(const JSONNode &msg)
 	return CMStringA();
 }
 
+static bool sttJsonNodeContainsTypingOn(const JSONNode &n)
+{
+	CMStringA s;
+	if (n["event"].type() == JSON_STRING)
+		s = n["event"].as_string().c_str();
+	else if (n["type"].type() == JSON_STRING)
+		s = n["type"].as_string().c_str();
+	else if (n["action"].type() == JSON_STRING)
+		s = n["action"].as_string().c_str();
+	if (s.IsEmpty())
+		return false;
+	s.MakeLower();
+	return strstr(s, "typing") != nullptr && strstr(s, "clear") == nullptr && strstr(s, "stop") == nullptr && strstr(s, "off") == nullptr;
+}
+
+static bool sttJsonNodeContainsTypingOff(const JSONNode &n)
+{
+	CMStringA s;
+	if (n["event"].type() == JSON_STRING)
+		s = n["event"].as_string().c_str();
+	else if (n["type"].type() == JSON_STRING)
+		s = n["type"].as_string().c_str();
+	else if (n["action"].type() == JSON_STRING)
+		s = n["action"].as_string().c_str();
+	if (s.IsEmpty())
+		return false;
+	s.MakeLower();
+	return strstr(s, "clear") != nullptr || strstr(s, "stop") != nullptr || strstr(s, "off") != nullptr;
+}
+
+static int sttDetectTypingStateFromMessage(const JSONNode &msg)
+{
+	// -1 unknown, 0 off, 1 on
+	if (msg["typing"].type() == JSON_BOOL)
+		return msg["typing"].as_bool() ? 1 : 0;
+	if (msg["isTyping"].type() == JSON_BOOL)
+		return msg["isTyping"].as_bool() ? 1 : 0;
+
+	const JSONNode &att = msg["attaches"];
+	if (att.type() == JSON_ARRAY) {
+		for (unsigned i = 0; i < att.size(); ++i) {
+			const JSONNode &a = att[i];
+			if (a.type() != JSON_NODE)
+				continue;
+			if (a["_type"].type() == JSON_STRING) {
+				CMStringA t(a["_type"].as_string().c_str());
+				t.MakeLower();
+				if (strstr(t, "control") == nullptr)
+					continue;
+			}
+			if (sttJsonNodeContainsTypingOff(a))
+				return 0;
+			if (sttJsonNodeContainsTypingOn(a))
+				return 1;
+		}
+	}
+
+	const JSONNode &elems = msg["elements"];
+	if (elems.type() == JSON_ARRAY) {
+		for (unsigned i = 0; i < elems.size(); ++i) {
+			const JSONNode &e = elems[i];
+			if (e.type() != JSON_NODE)
+				continue;
+			if (sttJsonNodeContainsTypingOff(e))
+				return 0;
+			if (sttJsonNodeContainsTypingOn(e))
+				return 1;
+		}
+	}
+
+	if (sttJsonNodeContainsTypingOff(msg))
+		return 0;
+	if (sttJsonNodeContainsTypingOn(msg))
+		return 1;
+	return -1;
+}
+
 /// 1:1 dialog id from Max: chatId = myMaxUid XOR peerMaxUid (decimal string ids).
 static CMStringA sttXorPeerUidFromDialog(const char *szMyUid, const char *szChatId)
 {
@@ -238,7 +315,86 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 	if (chatId.IsEmpty())
 		return;
 
+	int typingState = sttDetectTypingStateFromMessage(msg);
+	if (typingState != -1) {
+		CMStringA sender = sttMsgJsonIdStr(msg["sender"]);
+		MCONTACT hContact = ResolveContactForDialogMessage(chatId.c_str(), sender.IsEmpty() ? nullptr : sender.c_str());
+		if (hContact != 0) {
+			ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+			if (sender.IsEmpty() || myUid == nullptr || myUid[0] == 0 || mir_strcmp(sender.c_str(), myUid))
+				CallService(MS_PROTO_CONTACTISTYPING, hContact, typingState ? 10 : PROTOTYPE_CONTACTTYPING_OFF);
+		}
+	}
+
 	QueueLiveNotifIngest(payload);
+}
+
+void CMaxProto::TryIngestTypingPayload(const JSONNode &payload)
+{
+	if (payload.type() != JSON_NODE)
+		return;
+
+	CMStringA chatId = sttMsgJsonIdStr(payload["chatId"]);
+	if (chatId.IsEmpty())
+		chatId = sttMsgJsonIdStr(payload["cid"]);
+	if (chatId.IsEmpty())
+		chatId = sttMsgJsonIdStr(payload["chat"]["id"]);
+	if (chatId.IsEmpty()) {
+		debugLogA("Max: typing skip (no chatId)");
+		return;
+	}
+
+	CMStringA sender = sttMsgJsonIdStr(payload["userId"]);
+	if (sender.IsEmpty())
+		sender = sttMsgJsonIdStr(payload["sender"]);
+	if (sender.IsEmpty())
+		sender = sttMsgJsonIdStr(payload["uid"]);
+	if (sender.IsEmpty() && payload["typingUsers"].type() == JSON_ARRAY && payload["typingUsers"].size() > 0)
+		sender = sttMsgJsonIdStr(payload["typingUsers"][(json_index_t)0]);
+	if (sender.IsEmpty() && payload["userIds"].type() == JSON_ARRAY && payload["userIds"].size() > 0)
+		sender = sttMsgJsonIdStr(payload["userIds"][(json_index_t)0]);
+
+	int typingState = -1;
+	if (payload["typing"].type() == JSON_BOOL)
+		typingState = payload["typing"].as_bool() ? 1 : 0;
+	else if (payload["isTyping"].type() == JSON_BOOL)
+		typingState = payload["isTyping"].as_bool() ? 1 : 0;
+	else if (payload["typingUsers"].type() == JSON_ARRAY)
+		typingState = payload["typingUsers"].size() > 0 ? 1 : 0;
+	else if (payload["userIds"].type() == JSON_ARRAY)
+		typingState = payload["userIds"].size() > 0 ? 1 : 0;
+	else if (payload["message"].type() == JSON_NODE)
+		typingState = sttDetectTypingStateFromMessage(payload["message"]);
+	else {
+		const JSONNode &ev = payload["event"];
+		if (ev.type() == JSON_STRING && !ev.as_string().empty()) {
+			CMStringA s(ev.as_string().c_str());
+			s.MakeLower();
+			typingState = (strstr(s, "stop") != nullptr || strstr(s, "clear") != nullptr || strstr(s, "off") != nullptr) ? 0 : 1;
+		}
+	}
+	// Max NOTIF_TYPING (opcode 129) may carry only {chatId,userId} without explicit typing flag.
+	if (typingState == -1 && !sender.IsEmpty())
+		typingState = 1;
+	if (typingState == -1) {
+		debugLogA("Max: typing skip chat=%s (unknown state format)", chatId.c_str());
+		return;
+	}
+
+	MCONTACT hContact = ResolveContactForDialogMessage(chatId.c_str(), sender.IsEmpty() ? nullptr : sender.c_str());
+	if (hContact == 0) {
+		debugLogA("Max: typing skip chat=%s from=%s (contact not resolved)", chatId.c_str(), sender.IsEmpty() ? "(unknown)" : sender.c_str());
+		return;
+	}
+
+	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+	if (!sender.IsEmpty() && myUid != nullptr && myUid[0] != 0 && !mir_strcmp(sender.c_str(), myUid)) {
+		debugLogA("Max: typing skip chat=%s (self sender)", chatId.c_str());
+		return;
+	}
+
+	CallService(MS_PROTO_CONTACTISTYPING, hContact, typingState ? 10 : PROTOTYPE_CONTACTTYPING_OFF);
+	debugLogA("Max: typing chat=%s from=%s state=%s", chatId.c_str(), sender.IsEmpty() ? "(unknown)" : sender.c_str(), typingState ? "on" : "off");
 }
 
 void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead)

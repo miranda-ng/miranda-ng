@@ -61,6 +61,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	/// Opcode 135: server removed/hid a chat — clear local history for matching contact.
 	void OnMaxPushChatRemoved(const JSONNode &payload);
 	void TryIngestNotifMessagePayload(const JSONNode &payload);
+	void TryIngestTypingPayload(const JSONNode &payload);
 	void TryMergeContactsFromPayload(const JSONNode &payload);
 	void TryApplySyncPayloadFromPush(const JSONNode &payload);
 	void IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead = false);
@@ -88,6 +89,7 @@ public:
 	INT_PTR GetCaps(int type, MCONTACT hContact = 0) override;
 	int SetStatus(int iNewStatus) override;
 	int SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
+	int UserIsTyping(MCONTACT hContact, int type) override;
 	HANDLE SearchBasic(const wchar_t *id) override;
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	void OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei) override;
@@ -111,6 +113,7 @@ public:
 	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
 	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead = false);
 	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
+	bool ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bool bTyping);
 	bool ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText);
 	/// Opcode 66: delete message on server. `bForMe` true = only this user; false = for everyone (if allowed).
 	bool ApiDeleteMessages(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, bool bForMe);

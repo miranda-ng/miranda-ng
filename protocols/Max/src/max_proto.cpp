@@ -97,7 +97,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL;
+		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_SUPPORTTYPING;
 
 	case PFLAG_UNIQUEIDTEXT:
 	{
@@ -205,6 +205,21 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 	ctx->msgId = serverMsgId;
 	ForkThread(&CMaxProto::MessageAckWorker, ctx);
 	return hProcess;
+}
+
+int CMaxProto::UserIsTyping(MCONTACT hContact, int type)
+{
+	if (hContact == 0 || (type != PROTOTYPE_SELFTYPING_ON && type != PROTOTYPE_SELFTYPING_OFF))
+		return 0;
+	if (!WaitForGatewayReady() || m_pGateway == nullptr)
+		return 0;
+
+	CMStringA chatId = GetOrResolveDialogChatId(hContact, false);
+	if (chatId.IsEmpty())
+		return 0;
+
+	ApiSendTyping(m_pGateway, chatId.c_str(), type == PROTOTYPE_SELFTYPING_ON);
+	return 0;
 }
 
 void CMaxProto::OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei)

@@ -685,6 +685,37 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	return true;
 }
 
+bool CMaxProto::ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bool bTyping)
+{
+	if (!ws || szChatId == nullptr || szChatId[0] == 0)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid) << BOOL_PARAM("typing", bTyping);
+
+	// Opcode 65: MSG_TYPING (fire-and-forget to keep UI responsive).
+	uint64_t seq = 0;
+	{
+		mir_cslock lckWait(m_csWait);
+		m_seq++;
+		seq = m_seq;
+	}
+
+	JSONNode root(JSON_NODE);
+	root << INT_PARAM("ver", 11) << INT_PARAM("cmd", 0) << INT64_PARAM("seq", (int64_t)seq) << INT_PARAM("opcode", 65)
+		<< JSON_PARAM("payload", payload);
+	json_string s = root.write();
+	{
+		mir_cslock lckSend(m_csSend);
+		ws->sendText(s.c_str());
+	}
+	return true;
+}
+
 bool CMaxProto::ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText)
 {
 	if (!ws || szChatId == nullptr || szChatId[0] == 0 || szMsgId == nullptr || szMsgId[0] == 0 || szText == nullptr)
@@ -836,7 +867,8 @@ bool CMaxProto::ApiUpdateMyProfile(WebSocket<CMaxProto> *ws, const char *szFirst
 bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 {
 	JSONNode payload(JSON_NODE);
-	payload << BOOL_PARAM("interactive", false);
+	// Keep session in active/foreground mode to receive ephemeral pushes (typing etc.).
+	payload << BOOL_PARAM("interactive", true);
 	return SendJsonAndWait(ws, 1, payload, 0);
 }
 
@@ -896,6 +928,8 @@ void __cdecl CMaxProto::PingWorker(void *)
 void CMaxProto::OnGatewayPush(const JSONNode &payload, int opcode)
 {
 	debugLogA("Max: push opcode=%d", opcode);
+	// Some server builds send typing in different push opcodes; try generic parse first.
+	TryIngestTypingPayload(payload);
 	if (opcode == 135)
 		OnMaxPushChatRemoved(payload);
 	if (opcode == 128)
@@ -916,6 +950,8 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	MHttpHeaders hdrs;
 	hdrs.AddHeader("Origin", szOrigin);
 	hdrs.AddHeader("User-Agent", szWsUserAgent);
+	// Request independent permessage-deflate blocks; this avoids zlib context drift on tiny pushes.
+	hdrs.AddHeader("Sec-WebSocket-Extensions", "permessage-deflate; client_no_context_takeover; server_no_context_takeover; client_max_window_bits");
 
 	NLHR_PTR pReply(ws.connect(m_hNetlibUser, szWsUrl, &hdrs));
 	if (!pReply || pReply->resultCode != 101) {
