@@ -569,6 +569,13 @@ MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst
 	if (szDialogChatId != nullptr && szDialogChatId[0])
 		setString(hContact, DB_KEY_MAX_CHATID, szDialogChatId);
 
+	// Favorites/self contact must mirror protocol state.
+	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+	if (myUid != nullptr && myUid[0] != 0 && !mir_strcmp(myUid, szUid)) {
+		setWord(hContact, "Status", (GetStatus() == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+		delSetting(hContact, "StatusMsg");
+	}
+
 	Clist_SetGroup(hContact, GetDefaultGroupW());
 	return hContact;
 }
@@ -663,6 +670,7 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid, 
 		else
 			delSetting(hAv, "About");
 
+		ApplyPresenceToContact(hAv, c);
 		SyncContactAvatarFromJson(hAv, c);
 	}
 }

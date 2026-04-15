@@ -66,6 +66,8 @@ class CMaxProto : public PROTO<CMaxProto>
 	void OnMaxPushChatRemoved(const JSONNode &payload);
 	void TryIngestNotifMessagePayload(const JSONNode &payload);
 	void TryIngestTypingPayload(const JSONNode &payload);
+	void TryIngestPresencePayload(const JSONNode &payload, int opcode = -1);
+	void ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src);
 	void TryMergeContactsFromPayload(const JSONNode &payload);
 	void TryApplySyncPayloadFromPush(const JSONNode &payload);
 	void IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead = false);
@@ -101,6 +103,8 @@ public:
 	HANDLE SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int UserIsTyping(MCONTACT hContact, int type) override;
 	HANDLE SearchBasic(const wchar_t *id) override;
+	HWND CreateExtendedSearchUI(HWND owner) override;
+	HANDLE SearchAdvanced(HWND owner) override;
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	void OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei) override;
 	void OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;

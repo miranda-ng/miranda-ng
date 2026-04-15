@@ -638,7 +638,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_MODEMSG | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_SERVERCLIST | PF1_FILE;
+		return PF1_IM | PF1_MODEMSG | PF1_CHAT | PF1_EXTSEARCH | PF1_ADDSEARCHRES | PF1_SERVERCLIST | PF1_FILE;
 
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
@@ -652,7 +652,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 	case PFLAG_UNIQUEIDTEXT:
 	{
 		static wchar_t s_wszUid[96];
-		mir_wstrcpy(s_wszUid, TranslateT("Phone number (international, e.g. +79001234567)"));
+		mir_wstrcpy(s_wszUid, TranslateT("Max user ID"));
 		return (INT_PTR)s_wszUid;
 	}
 	}
@@ -661,6 +661,21 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 
 int CMaxProto::SetStatus(int iNewStatus)
 {
+	auto syncFavoritesPresence = [&](int protoStatus) {
+		ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+		if (myUid == nullptr || myUid[0] == 0)
+			return;
+		for (auto &hContact : AccContacts()) {
+			if (isChatRoom(hContact))
+				continue;
+			ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
+			if (uid == nullptr || uid[0] == 0 || mir_strcmp(uid, myUid))
+				continue;
+			setWord(hContact, "Status", (protoStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+			delSetting(hContact, "StatusMsg");
+		}
+	};
+
 	if (iNewStatus == ID_STATUS_INVISIBLE)
 		iNewStatus = ID_STATUS_ONLINE;
 	if (iNewStatus != ID_STATUS_OFFLINE && iNewStatus != ID_STATUS_ONLINE)
@@ -671,6 +686,7 @@ int CMaxProto::SetStatus(int iNewStatus)
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		DisconnectGateway();
 		m_iStatus = ID_STATUS_OFFLINE;
+		syncFavoritesPresence(m_iStatus);
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 		return 0;
 	}
@@ -687,6 +703,7 @@ int CMaxProto::SetStatus(int iNewStatus)
 
 	iOldStatus = m_iStatus;
 	m_iStatus = iNewStatus;
+	syncFavoritesPresence(m_iStatus);
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	return 0;
 }
@@ -1253,6 +1270,36 @@ HANDLE CMaxProto::SearchBasic(const wchar_t *id)
 	ctx->hSearch = (HANDLE)1;
 	ForkThread(&CMaxProto::PhoneSearchWorker, ctx);
 	return ctx->hSearch;
+}
+
+static INT_PTR CALLBACK MaxSearchDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		SetDlgItemTextW(GetParent(hwndDlg), 1408 /* IDC_BYCUSTOM */, TranslateT("Phone number"));
+		return TRUE;
+	}
+	return FALSE;
+}
+
+HWND CMaxProto::CreateExtendedSearchUI(HWND owner)
+{
+	return CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_SEARCHUI), owner, MaxSearchDlgProc, (LPARAM)this);
+}
+
+HANDLE CMaxProto::SearchAdvanced(HWND owner)
+{
+	if (owner == nullptr)
+		return nullptr;
+
+	wchar_t wszPhone[128];
+	GetDlgItemTextW(owner, 0, wszPhone, _countof(wszPhone));
+	if (wszPhone[0] == 0)
+		return nullptr;
+
+	return SearchBasic(wszPhone);
 }
 
 MCONTACT CMaxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)

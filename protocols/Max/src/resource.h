@@ -3,6 +3,7 @@
 #define IDD_MYPROFILE                   103
 #define IDD_QRLOGIN                     104
 #define IDD_OPTIONSUI                   105
+#define IDD_SEARCHUI                    106
 #define IDC_QRPIC                       1002
 #define IDC_GROUPNAME                   1007
 #define IDC_COMPRESS_FILES              1008

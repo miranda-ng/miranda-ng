@@ -593,10 +593,10 @@ bool CMaxProto::ApiSync(WebSocket<CMaxProto> *ws)
 		return false;
 
 	JSONNode payload(JSON_NODE);
-	// presenceSync=0 matches web client behaviour.
+	// Request contact presence/last-seen state in sync snapshot.
 	// chatsSync=1: server includes dialogs with lastMessage (missed while offline); was 0 and only live opcode-128 worked.
 	payload << BOOL_PARAM("interactive", true) << CHAR_PARAM("token", tok) << INT_PARAM("chatsSync", 1) << INT_PARAM("contactsSync", 1)
-		<< INT_PARAM("presenceSync", 0) << INT_PARAM("draftsSync", 0) << INT_PARAM("chatsCount", 40);
+		<< INT_PARAM("presenceSync", 1) << INT_PARAM("draftsSync", 0) << INT_PARAM("chatsCount", 40);
 
 	return SendJsonAndWait(ws, 19, payload, 0);
 }
@@ -1399,6 +1399,7 @@ void __cdecl CMaxProto::PingWorker(void *)
 void CMaxProto::OnGatewayPush(const JSONNode &payload, int opcode)
 {
 	debugLogA("Max: push opcode=%d", opcode);
+	TryIngestPresencePayload(payload, opcode);
 	// Some server builds send typing in different push opcodes; try generic parse first.
 	TryIngestTypingPayload(payload);
 	if (opcode == 135)

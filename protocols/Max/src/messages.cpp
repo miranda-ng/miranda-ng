@@ -17,6 +17,157 @@ static CMStringA sttMsgJsonIdStr(const JSONNode &n)
 	return CMStringA(n.as_string().c_str());
 }
 
+static uint64_t sttPresenceTimeMs(const JSONNode &n)
+{
+	if (n.type() == JSON_NUMBER) {
+		double v = n.as_float();
+		if (v <= 0)
+			return 0;
+		// Server can return seconds or milliseconds.
+		if (v < 20000000000.0)
+			return (uint64_t)(v * 1000.0 + 0.5);
+		return (uint64_t)(v + 0.5);
+	}
+	if (n.type() == JSON_STRING) {
+		const char *s = n.as_string().c_str();
+		if (s == nullptr || s[0] == 0)
+			return 0;
+		uint64_t v = _strtoui64(s, nullptr, 10);
+		if (v == 0)
+			return 0;
+		if (v < 20000000000ull)
+			return v * 1000ull;
+		return v;
+	}
+	return 0;
+}
+
+void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
+{
+	if (hContact == 0 || src.type() != JSON_NODE || isChatRoom(hContact))
+		return;
+
+	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
+	ptrA contactUid(getStringA(hContact, DB_KEY_MAX_UID));
+	const bool isSelfContact = (myUid != nullptr && myUid[0] != 0 && contactUid != nullptr && contactUid[0] != 0
+		&& !mir_strcmp(myUid, contactUid));
+
+	// Favorites/self dialog should follow protocol state, not server presence snapshots.
+	if (isSelfContact) {
+		setWord(hContact, "Status", (GetStatus() == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+		delSetting(hContact, "StatusMsg");
+		return;
+	}
+
+	bool hasOnline = false, isOnline = false;
+	bool hasRecent = false, isRecent = false;
+	bool hasLongAgo = false, isLongAgo = false;
+
+	auto takeBool = [](const JSONNode &n, bool &has, bool &val) {
+		if (n.type() == JSON_BOOL) {
+			has = true;
+			val = n.as_bool();
+		}
+	};
+	takeBool(src["online"], hasOnline, isOnline);
+	if (!hasOnline)
+		takeBool(src["isOnline"], hasOnline, isOnline);
+	if (!hasOnline && src["status"].type() == JSON_NUMBER) {
+		hasOnline = true;
+		isOnline = ((int)src["status"].as_float() == 1);
+	}
+	if (!hasOnline && src["status"].type() == JSON_STRING) {
+		CMStringA s(src["status"].as_string().c_str());
+		s.MakeLower();
+		if (s == "online") {
+			hasOnline = true;
+			isOnline = true;
+		}
+		else if (s == "offline") {
+			hasOnline = true;
+			isOnline = false;
+		}
+		if (s.Find("recent") >= 0) {
+			hasRecent = true;
+			isRecent = true;
+		}
+		if (s.Find("long") >= 0 || s.Find("ago") >= 0) {
+			hasLongAgo = true;
+			isLongAgo = true;
+		}
+	}
+
+	const JSONNode &st = src["status"];
+	if (st.type() == JSON_NODE) {
+		takeBool(st["online"], hasOnline, isOnline);
+		if (!hasOnline)
+			takeBool(st["isOnline"], hasOnline, isOnline);
+		if (!hasOnline && st["status"].type() == JSON_NUMBER) {
+			hasOnline = true;
+			isOnline = ((int)st["status"].as_float() == 1);
+		}
+		takeBool(st["recently"], hasRecent, isRecent);
+		takeBool(st["wasRecently"], hasRecent, isRecent);
+		takeBool(st["longAgo"], hasLongAgo, isLongAgo);
+		takeBool(st["wasLongAgo"], hasLongAgo, isLongAgo);
+	}
+
+	uint64_t lastMs = 0;
+	lastMs = sttPresenceTimeMs(src["lastSeen"]);
+	if (lastMs == 0)
+		lastMs = sttPresenceTimeMs(src["lastSeenAt"]);
+	if (lastMs == 0)
+		lastMs = sttPresenceTimeMs(src["seen"]);
+	if (lastMs == 0)
+		lastMs = sttPresenceTimeMs(src["lastActivity"]);
+	if (lastMs == 0)
+		lastMs = sttPresenceTimeMs(src["lastActivityAt"]);
+	if (lastMs == 0 && st.type() == JSON_NODE) {
+		lastMs = sttPresenceTimeMs(st["lastSeen"]);
+		if (lastMs == 0)
+			lastMs = sttPresenceTimeMs(st["lastSeenAt"]);
+		if (lastMs == 0)
+			lastMs = sttPresenceTimeMs(st["seen"]);
+		if (lastMs == 0)
+			lastMs = sttPresenceTimeMs(st["lastActivity"]);
+		if (lastMs == 0)
+			lastMs = sttPresenceTimeMs(st["lastActivityAt"]);
+	}
+
+	// Some presence updates indicate offline by sending only "seen" timestamp (without explicit status).
+	if (!hasOnline && lastMs != 0) {
+		hasOnline = true;
+		isOnline = false;
+	}
+
+	if (hasOnline)
+		setWord(hContact, "Status", isOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
+
+	if (lastMs != 0) {
+		uint32_t sec = (uint32_t)(lastMs / 1000ull);
+		db_set_dw(hContact, "UserInfo", "LastSeen", sec);
+	}
+
+	if (hasOnline && isOnline) {
+		delSetting(hContact, "StatusMsg");
+		return;
+	}
+
+	if (hasRecent && isRecent) {
+		setWString(hContact, "StatusMsg", TranslateT("Was recently online"));
+		return;
+	}
+	if (hasLongAgo && isLongAgo) {
+		setWString(hContact, "StatusMsg", TranslateT("Was online long ago"));
+		return;
+	}
+	if (lastMs != 0) {
+		CMStringW msg;
+		msg.Format(TranslateT("Last seen: %u"), (unsigned)(lastMs / 1000ull));
+		setWString(hContact, "StatusMsg", msg.c_str());
+	}
+}
+
 static CMStringA sttMessageBodyUtf8(const JSONNode &msg)
 {
 	const JSONNode &t = msg["text"];
@@ -597,6 +748,91 @@ void CMaxProto::TryIngestTypingPayload(const JSONNode &payload)
 
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, typingState ? 10 : PROTOTYPE_CONTACTTYPING_OFF);
 	debugLogA("Max: typing chat=%s from=%s state=%s", chatId.c_str(), sender.IsEmpty() ? "(unknown)" : sender.c_str(), typingState ? "on" : "off");
+}
+
+void CMaxProto::TryIngestPresencePayload(const JSONNode &payload, int opcode)
+{
+	if (payload.type() != JSON_NODE)
+		return;
+	if (opcode != 132 && opcode != 35 && opcode != 159 && payload["presence"].type() == JSON_NULL
+		&& payload["status"].type() == JSON_NULL && payload["online"].type() == JSON_NULL
+		&& payload["lastSeen"].type() == JSON_NULL && payload["lastActivity"].type() == JSON_NULL
+		&& payload["contact"].type() == JSON_NULL && payload["contacts"].type() == JSON_NULL)
+		return;
+
+	auto applyOne = [&](const JSONNode &n, const char *fallbackUid) {
+		if (n.type() != JSON_NODE)
+			return;
+		CMStringA uid = sttMsgJsonIdStr(n["userId"]);
+		if (uid.IsEmpty())
+			uid = sttMsgJsonIdStr(n["id"]);
+		if (uid.IsEmpty())
+			uid = sttMsgJsonIdStr(n["uid"]);
+		if (uid.IsEmpty())
+			uid = sttMsgJsonIdStr(n["contactId"]);
+		if (uid.IsEmpty())
+			uid = sttMsgJsonIdStr(n["peerId"]);
+		if (uid.IsEmpty())
+			uid = sttMsgJsonIdStr(n["participantId"]);
+		if (uid.IsEmpty() && n["user"].type() == JSON_NODE) {
+			uid = sttMsgJsonIdStr(n["user"]["id"]);
+			if (uid.IsEmpty())
+				uid = sttMsgJsonIdStr(n["user"]["userId"]);
+			if (uid.IsEmpty())
+				uid = sttMsgJsonIdStr(n["user"]["uid"]);
+		}
+		if (uid.IsEmpty() && n["contact"].type() == JSON_NODE) {
+			uid = sttMsgJsonIdStr(n["contact"]["id"]);
+			if (uid.IsEmpty())
+				uid = sttMsgJsonIdStr(n["contact"]["contactId"]);
+			if (uid.IsEmpty())
+				uid = sttMsgJsonIdStr(n["contact"]["userId"]);
+			if (uid.IsEmpty())
+				uid = sttMsgJsonIdStr(n["contact"]["uid"]);
+		}
+		if (uid.IsEmpty() && fallbackUid != nullptr && fallbackUid[0] != 0)
+			uid = fallbackUid;
+		if (uid.IsEmpty())
+			return;
+		MCONTACT h = FindContactByMaxUid(uid.c_str());
+		if (!h) {
+			debugLogA("Max: presence uid=%s not matched to local contact", uid.c_str());
+			return;
+		}
+		ApplyPresenceToContact(h, n);
+		debugLogA("Max: presence applied uid=%s hContact=%u", uid.c_str(), (unsigned)h);
+	};
+
+	CMStringA payloadUid = sttMsgJsonIdStr(payload["userId"]);
+	if (payloadUid.IsEmpty())
+		payloadUid = sttMsgJsonIdStr(payload["id"]);
+	if (payloadUid.IsEmpty())
+		payloadUid = sttMsgJsonIdStr(payload["uid"]);
+	if (payloadUid.IsEmpty())
+		payloadUid = sttMsgJsonIdStr(payload["contactId"]);
+
+	if (payload["presence"].type() == JSON_NODE)
+		applyOne(payload["presence"], payloadUid.IsEmpty() ? nullptr : payloadUid.c_str());
+	if (payload["presence"].type() == JSON_ARRAY)
+		for (unsigned i = 0; i < payload["presence"].size(); ++i)
+			applyOne(payload["presence"][i], nullptr);
+	if (payload["contacts"].type() == JSON_ARRAY)
+		for (unsigned i = 0; i < payload["contacts"].size(); ++i)
+			applyOne(payload["contacts"][i], nullptr);
+	if (payload["contacts"].type() == JSON_NODE)
+		for (auto it = payload["contacts"].begin(); it != payload["contacts"].end(); ++it)
+			applyOne(*it, nullptr);
+	if (payload["contact"].type() == JSON_NODE)
+		applyOne(payload["contact"], nullptr);
+	if (payload["user"].type() == JSON_NODE)
+		applyOne(payload["user"], nullptr);
+
+	const bool hasNestedPresence = (payload["presence"].type() != JSON_NULL
+		|| payload["contacts"].type() != JSON_NULL
+		|| payload["contact"].type() != JSON_NULL
+		|| payload["user"].type() != JSON_NULL);
+	if (!hasNestedPresence)
+		applyOne(payload, nullptr);
 }
 
 void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead)
