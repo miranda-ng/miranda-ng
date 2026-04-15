@@ -6,7 +6,6 @@ GPLv2
 #include "stdafx.h"
 #include <ctype.h>
 #include <stdlib.h>
-#include <m_timezones.h>
 
 static bool MaxAsciiContainsInsensitive(const char *szHaystack, const char *szNeedle)
 {
@@ -574,11 +573,20 @@ bool CMaxProto::SendHandshake(WebSocket<CMaxProto> *ws)
 		szLocale = "ru";
 	m_wsLocale = szLocale;
 
+	// Same as Jabber XEP-0202: Windows TZ registry key name from core (e.g. "Russian Standard Time").
+	CMStringA tzOs("UTC");
+	const wchar_t *wszTz = TimeZone_GetName(nullptr);
+	if (wszTz != nullptr && wszTz[0]) {
+		ptrA tzUtf(mir_utf8encodeW(wszTz));
+		if (tzUtf != nullptr && tzUtf[0])
+			tzOs = tzUtf;
+	}
+
 	JSONNode ua(JSON_NODE);
 	ua << CHAR_PARAM("deviceType", "WEB") << CHAR_PARAM("locale", szLocale) << CHAR_PARAM("deviceLocale", szLocale) << CHAR_PARAM("osVersion", "Windows")
 		<< CHAR_PARAM("deviceName", "Edge")
-		<< CHAR_PARAM("headerUserAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0")
-		<< CHAR_PARAM("appVersion", "26.4.3") << CHAR_PARAM("screen", "720x1280 1.5x") << CHAR_PARAM("timezone", "Europe/Moscow");
+		<< CHAR_PARAM("headerUserAgent", MAX_HTTP_USER_AGENT)
+		<< CHAR_PARAM("appVersion", "26.4.3") << CHAR_PARAM("screen", "720x1280 1.5x") << CHAR_PARAM("timezone", tzOs.c_str());
 
 	JSONNode payload(JSON_NODE);
 	payload << CHAR_PARAM("deviceId", devUtf) << JSON_PARAM("userAgent", ua);

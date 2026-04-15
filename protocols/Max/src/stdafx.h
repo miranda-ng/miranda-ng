@@ -29,6 +29,7 @@
 #include <m_skin.h>
 #include <m_srmm_int.h>
 #include <m_system.h>
+#include <m_timezones.h>
 #include <m_userinfo.h>
 #include <m_utils.h>
 #include <m_icolib.h>
@@ -61,4 +62,5 @@
 
 // Browser-like HTTP fingerprint (WebSocket + avatar downloads)
 #define MAX_HTTP_ORIGIN_HEADER "https://web.max.ru"
-#define MAX_HTTP_USER_AGENT    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0"
+/// Chromium-based Edge (matches web.max.ru / QR flow; used for WS, HTTP, and handshake `headerUserAgent`).
+#define MAX_HTTP_USER_AGENT    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0"
