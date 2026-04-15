@@ -663,10 +663,14 @@ int CMaxProto::SetStatus(int iNewStatus)
 {
 	auto syncFavoritesPresence = [&](int protoStatus) {
 		ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
-		if (myUid == nullptr || myUid[0] == 0)
-			return;
 		for (auto &hContact : AccContacts()) {
 			if (isChatRoom(hContact))
+				continue;
+			if (IsMaxBotMirrorContact(hContact)) {
+				setWord(hContact, "Status", (protoStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+				continue;
+			}
+			if (myUid == nullptr || myUid[0] == 0)
 				continue;
 			ptrA uid(getStringA(hContact, DB_KEY_MAX_UID));
 			if (uid == nullptr || uid[0] == 0 || mir_strcmp(uid, myUid))
@@ -705,6 +709,27 @@ int CMaxProto::SetStatus(int iNewStatus)
 	syncFavoritesPresence(m_iStatus);
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
 	return 0;
+}
+
+bool CMaxProto::JsonIndicatesMaxBot(const JSONNode &c) const
+{
+	const JSONNode &opts = c["options"];
+	if (opts.type() != JSON_ARRAY)
+		return false;
+	for (unsigned i = 0; i < opts.size(); i++) {
+		if (opts[i].type() != JSON_STRING)
+			continue;
+		CMStringA v(opts[i].as_string().c_str());
+		v.MakeUpper();
+		if (v == "BOT")
+			return true;
+	}
+	return false;
+}
+
+bool CMaxProto::IsMaxBotMirrorContact(MCONTACT hContact)
+{
+	return hContact != 0 && getByte(hContact, DB_KEY_MAX_IS_BOT, 0) != 0;
 }
 
 int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)

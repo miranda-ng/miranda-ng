@@ -190,6 +190,10 @@ public:
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM wParam, LPARAM lParam);
 	MCONTACT EnsureUserContact(const char *szUid, const wchar_t *wszFirst, const wchar_t *wszLast, const char *szDialogChatId);
+	/// Server marks bots in contact JSON `options` (see JsonIndicatesMaxBot).
+	bool JsonIndicatesMaxBot(const JSONNode &c) const;
+	/// Bots mirror protocol Status (online while account is connected), not human presence.
+	bool IsMaxBotMirrorContact(MCONTACT hContact);
 	void EnsureGroupChatSession(const CMStringA &szChatId, const wchar_t *wszTitle);
 	void MergeContactJson(const JSONNode &c, const char *szRequestedUid = nullptr, bool bMarkAsContactsRoster = true);
 	/// Read display name fields from a Max `contact` JSON object (same helpers as roster merge).

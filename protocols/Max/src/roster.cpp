@@ -656,6 +656,10 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid, 
 	EnsureUserContact(uid, outFn.IsEmpty() ? L"" : outFn.c_str(), outLn.IsEmpty() ? L"" : outLn.c_str(), nullptr);
 
 	if (MCONTACT hAv = FindContactByMaxUid(uid)) {
+		if (JsonIndicatesMaxBot(c))
+			setByte(hAv, DB_KEY_MAX_IS_BOT, 1);
+		else if (c["options"].type() == JSON_ARRAY)
+			delSetting(hAv, DB_KEY_MAX_IS_BOT);
 		if (bMarkAsContactsRoster)
 			setByte(hAv, DB_KEY_MAX_PEER_ORIGIN, MAX_PEER_ORIGIN_CONTACTS);
 		const JSONNode &about = c["description"];

@@ -58,6 +58,15 @@ void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
 		return;
 	}
 
+	if (JsonIndicatesMaxBot(src))
+		setByte(hContact, DB_KEY_MAX_IS_BOT, 1);
+
+	// Bots: online while protocol is online (ignore server "last seen" style presence).
+	if (IsMaxBotMirrorContact(hContact)) {
+		setWord(hContact, "Status", (GetStatus() == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
+		return;
+	}
+
 	bool hasOnline = false, isOnline = false;
 
 	auto takeBool = [](const JSONNode &n, bool &has, bool &val) {

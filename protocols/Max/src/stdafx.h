@@ -54,6 +54,8 @@
 #define MAX_PEER_ORIGIN_CONTACTS 1
 #define MAX_PEER_ORIGIN_CHATONLY 2
 #define DB_KEY_MY_MAX_ID   "MyMaxId"
+/// 1 = Max peer is a bot (`options` contains "BOT" from server): Status mirrors protocol online/offline.
+#define DB_KEY_MAX_IS_BOT "MaxIsBot"
 #define DB_KEY_DEFAULT_GROUP "DefaultGroup"
 #define DB_KEY_AVATAR_URL    "AvatarUrl"
 
