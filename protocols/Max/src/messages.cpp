@@ -55,13 +55,10 @@ void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
 	// Favorites/self dialog should follow protocol state, not server presence snapshots.
 	if (isSelfContact) {
 		setWord(hContact, "Status", (GetStatus() == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
-		delSetting(hContact, "StatusMsg");
 		return;
 	}
 
 	bool hasOnline = false, isOnline = false;
-	bool hasRecent = false, isRecent = false;
-	bool hasLongAgo = false, isLongAgo = false;
 
 	auto takeBool = [](const JSONNode &n, bool &has, bool &val) {
 		if (n.type() == JSON_BOOL) {
@@ -87,14 +84,6 @@ void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
 			hasOnline = true;
 			isOnline = false;
 		}
-		if (s.Find("recent") >= 0) {
-			hasRecent = true;
-			isRecent = true;
-		}
-		if (s.Find("long") >= 0 || s.Find("ago") >= 0) {
-			hasLongAgo = true;
-			isLongAgo = true;
-		}
 	}
 
 	const JSONNode &st = src["status"];
@@ -106,10 +95,6 @@ void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
 			hasOnline = true;
 			isOnline = ((int)st["status"].as_float() == 1);
 		}
-		takeBool(st["recently"], hasRecent, isRecent);
-		takeBool(st["wasRecently"], hasRecent, isRecent);
-		takeBool(st["longAgo"], hasLongAgo, isLongAgo);
-		takeBool(st["wasLongAgo"], hasLongAgo, isLongAgo);
 	}
 
 	uint64_t lastMs = 0;
@@ -145,26 +130,7 @@ void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
 
 	if (lastMs != 0) {
 		uint32_t sec = (uint32_t)(lastMs / 1000ull);
-		db_set_dw(hContact, "UserInfo", "LastSeen", sec);
-	}
-
-	if (hasOnline && isOnline) {
-		delSetting(hContact, "StatusMsg");
-		return;
-	}
-
-	if (hasRecent && isRecent) {
-		setWString(hContact, "StatusMsg", TranslateT("Was recently online"));
-		return;
-	}
-	if (hasLongAgo && isLongAgo) {
-		setWString(hContact, "StatusMsg", TranslateT("Was online long ago"));
-		return;
-	}
-	if (lastMs != 0) {
-		CMStringW msg;
-		msg.Format(TranslateT("Last seen: %u"), (unsigned)(lastMs / 1000ull));
-		setWString(hContact, "StatusMsg", msg.c_str());
+		setDword(hContact, "LastSeen", sec);
 	}
 }
 

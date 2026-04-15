@@ -573,7 +573,6 @@ MCONTACT CMaxProto::EnsureUserContact(const char *szUid, const wchar_t *wszFirst
 	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
 	if (myUid != nullptr && myUid[0] != 0 && !mir_strcmp(myUid, szUid)) {
 		setWord(hContact, "Status", (GetStatus() == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
-		delSetting(hContact, "StatusMsg");
 	}
 
 	Clist_SetGroup(hContact, GetDefaultGroupW());

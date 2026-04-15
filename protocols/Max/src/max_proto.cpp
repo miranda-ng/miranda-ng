@@ -672,7 +672,6 @@ int CMaxProto::SetStatus(int iNewStatus)
 			if (uid == nullptr || uid[0] == 0 || mir_strcmp(uid, myUid))
 				continue;
 			setWord(hContact, "Status", (protoStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE);
-			delSetting(hContact, "StatusMsg");
 		}
 	};
 
