@@ -15,6 +15,7 @@
 #include <m_database.h>
 #include <m_gui.h>
 #include <m_history.h>
+#include <m_imgsrvc.h>
 #include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
@@ -34,6 +35,7 @@
 #include <m_clist.h>
 #include <m_http.h>
 #include "../../libs/zlib/src/zlib.h"
+#include "../../libs/libqrencode/src/qrencode.h"
 
 #include "resource.h"
 #include "version.h"

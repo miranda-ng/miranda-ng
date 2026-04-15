@@ -34,6 +34,126 @@ struct CMaxFileSendCtx
 	CMStringW wszLastError;
 };
 
+typedef CProtoDlgBase<CMaxProto> CMaxDlgBase;
+
+class CMaxQRDlg : public CMaxDlgBase
+{
+	bool m_bSucceeded = false;
+
+public:
+	CMaxQRDlg(CMaxProto *ppro) :
+		CMaxDlgBase(ppro, IDD_QRLOGIN)
+	{
+		ppro->m_pQRDlg = this;
+	}
+
+	void OnDestroy() override
+	{
+		m_proto->m_pQRDlg = nullptr;
+	}
+
+	void SetData(const CMStringA &str)
+	{
+		auto *pQR = QRcode_encodeString(str, 0, QR_ECLEVEL_L, QR_MODE_8, 1);
+		if (pQR == nullptr)
+			return;
+
+		HWND hwndRc = GetDlgItem(m_hwnd, IDC_QRPIC);
+		RECT rc;
+		GetClientRect(hwndRc, &rc);
+
+		int scale = 8;
+		int rowLen = pQR->width * scale * 3;
+		if (rowLen % 4)
+			rowLen = (rowLen / 4 + 1) * 4;
+		int dataLen = rowLen * pQR->width * scale;
+
+		mir_ptr<BYTE> pData((BYTE *)mir_alloc(dataLen));
+		if (pData == nullptr) {
+			QRcode_free(pQR);
+			return;
+		}
+
+		memset(pData, 0xFF, dataLen);
+		const BYTE *s = pQR->data;
+		for (int y = 0; y < pQR->width; y++) {
+			BYTE *d = pData.get() + rowLen * y * scale;
+			for (int x = 0; x < pQR->width; x++) {
+				if (*s & 1) {
+					for (int i = 0; i < scale; i++) {
+						for (int j = 0; j < scale; j++) {
+							d[j * 3 + i * rowLen] = 0;
+							d[1 + j * 3 + i * rowLen] = 0;
+							d[2 + j * 3 + i * rowLen] = 0;
+						}
+					}
+				}
+				d += scale * 3;
+				s++;
+			}
+		}
+
+		BITMAPFILEHEADER fih = {};
+		fih.bfType = 0x4d42;
+		fih.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + dataLen;
+		fih.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
+
+		BITMAPINFOHEADER bih = {};
+		bih.biSize = sizeof(BITMAPINFOHEADER);
+		bih.biWidth = pQR->width * scale;
+		bih.biHeight = -bih.biWidth;
+		bih.biPlanes = 1;
+		bih.biBitCount = 24;
+		bih.biCompression = BI_RGB;
+
+		wchar_t wszTempPath[MAX_PATH], wszTempFile[MAX_PATH];
+		GetTempPathW(_countof(wszTempPath), wszTempPath);
+		GetTempFileNameW(wszTempPath, L"mx_", TRUE, wszTempFile);
+		FILE *f = _wfopen(wszTempFile, L"wb");
+		if (f != nullptr) {
+			fwrite(&fih, sizeof(BITMAPFILEHEADER), 1, f);
+			fwrite(&bih, sizeof(BITMAPINFOHEADER), 1, f);
+			fwrite(pData, sizeof(unsigned char), dataLen, f);
+			fclose(f);
+
+			SendMessage(hwndRc, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)Image_Load(wszTempFile));
+			DeleteFileW(wszTempFile);
+		}
+
+		QRcode_free(pQR);
+	}
+
+	void SetSuccess()
+	{
+		m_bSucceeded = true;
+	}
+};
+
+static INT_PTR CALLBACK LaunchQrDialog(void *param)
+{
+	auto *ppro = (CMaxProto *)param;
+	if (ppro == nullptr)
+		return 0;
+
+	if (auto *pDlg = ppro->m_pQRDlg) {
+		SetForegroundWindow(pDlg->GetHwnd());
+		SetActiveWindow(pDlg->GetHwnd());
+	}
+	else {
+		ppro->m_pQRDlg = new CMaxQRDlg(ppro);
+		ppro->m_pQRDlg->Show();
+	}
+	return 0;
+}
+
+static INT_PTR CALLBACK CloseQrDialogSync(void *param)
+{
+	auto *ppro = (CMaxProto *)param;
+	if (ppro != nullptr && ppro->m_pQRDlg != nullptr)
+		ppro->m_pQRDlg->Close();
+	return 0;
+}
+
 static bool sttHasNonAscii(const wchar_t *pwsz)
 {
 	if (pwsz == nullptr)
@@ -551,14 +671,6 @@ int CMaxProto::SetStatus(int iNewStatus)
 		DisconnectGateway();
 		m_iStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		return 0;
-	}
-
-	// No stored session: stay offline until the user pastes a web login token.
-	if (iNewStatus == ID_STATUS_ONLINE && !HasLoginToken()) {
-		m_iStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
-		NotifyUser(TranslateT("Max"), TranslateT("Sign in first: paste the login token from the web client (browser) in account settings, then try again."));
 		return 0;
 	}
 
@@ -1717,6 +1829,7 @@ void CMaxProto::DisconnectGateway()
 
 	m_bTerminated = true;
 	m_bAvatarWebPrimed = false;
+	CloseQrDialog(false);
 	if (m_pGateway)
 		m_pGateway->terminate();
 
@@ -1874,6 +1987,27 @@ CMStringW CMaxProto::FormatLastError()
 		return CMStringW((const wchar_t *)w);
 	}
 	return L"";
+}
+
+void CMaxProto::ShowQrCode(const CMStringA &qrText)
+{
+	if (Miranda_IsTerminated() || qrText.IsEmpty())
+		return;
+
+	CallFunctionSync(LaunchQrDialog, this);
+	if (m_pQRDlg != nullptr)
+		m_pQRDlg->SetData(qrText);
+}
+
+void CMaxProto::CloseQrDialog(bool bSuccess)
+{
+	if (Miranda_IsTerminated())
+		return;
+	if (m_pQRDlg == nullptr)
+		return;
+	if (bSuccess)
+		m_pQRDlg->SetSuccess();
+	CallFunctionSync(CloseQrDialogSync, this);
 }
 
 void CMaxProto::NotifyUser(const wchar_t *title, const wchar_t *text)

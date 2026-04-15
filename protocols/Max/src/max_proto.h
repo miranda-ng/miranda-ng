@@ -10,6 +10,7 @@ template<> void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen);
 class CMaxProto : public PROTO<CMaxProto>
 {
 	friend void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen);
+	friend class CMaxQRDlg;
 
 	WebSocket<CMaxProto> *m_pGateway = nullptr;
 	bool m_bGatewayConnected = false;
@@ -70,6 +71,10 @@ class CMaxProto : public PROTO<CMaxProto>
 	void IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead = false);
 	uint64_t GetLastLocalMessageTimeMs(MCONTACT hContact);
 	bool ApiPing(WebSocket<CMaxProto> *ws);
+	bool ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId, CMStringA &outQrText);
+	bool ApiPollQrStatus(WebSocket<CMaxProto> *ws, const char *szTrackId, bool &outApproved, bool &outExpired);
+	bool ApiLoginByQrTrack(WebSocket<CMaxProto> *ws, const char *szTrackId, CMStringA &outToken);
+	bool RunQrLoginFlow(WebSocket<CMaxProto> *ws);
 	bool ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws);
 	/// Optional web session bootstrap (requests.md): ping, token refresh ping, folders — before opcode 19 sync.
 	bool ApiWebSessionBootstrap(WebSocket<CMaxProto> *ws);
@@ -107,6 +112,8 @@ public:
 	bool OnContactDeleted(MCONTACT hContact, uint32_t flags) override;
 
 	void NotifyUser(const wchar_t *title, const wchar_t *text);
+	void ShowQrCode(const CMStringA &qrText);
+	void CloseQrDialog(bool bSuccess = false);
 	void InitWsInflater();
 	void FreeWsInflater();
 	bool InflateWsFrame(const uint8_t *pData, size_t cbData, CMStringA &out);
@@ -183,6 +190,8 @@ public:
 	void MergeContactJson(const JSONNode &c, const char *szRequestedUid = nullptr, bool bMarkAsContactsRoster = true);
 	/// Read display name fields from a Max `contact` JSON object (same helpers as roster merge).
 	void FillNameFromMaxContactJson(const JSONNode &c, CMStringW &outFn, CMStringW &outLn);
+
+	class CMaxQRDlg *m_pQRDlg = nullptr;
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CMaxProto>

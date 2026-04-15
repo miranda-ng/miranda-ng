@@ -22,6 +22,7 @@ static bool MaxAsciiContainsInsensitive(const char *szHaystack, const char *szNe
 static const char *szWsUrl = "wss://ws-api.oneme.ru/websocket";
 static const char *szOrigin = MAX_HTTP_ORIGIN_HEADER;
 static const char *szWsUserAgent = MAX_HTTP_USER_AGENT;
+static const char *szWebRootUrl = "https://web.max.ru/";
 
 void CMaxProto::ApplyWsExtensionsFromHttp(MHttpResponse *pReply)
 {
@@ -573,15 +574,11 @@ bool CMaxProto::SendHandshake(WebSocket<CMaxProto> *ws)
 		szLocale = "ru";
 	m_wsLocale = szLocale;
 
-	LPCTSTR tszTz = TimeZone_GetName(LOCAL_TIME_HANDLE);
-	ptrA tzUtf((tszTz != nullptr && tszTz[0] != 0) ? mir_u2a(tszTz) : nullptr);
-	const char *szTz = (tzUtf != nullptr && tzUtf[0] != 0) ? tzUtf.get() : "UTC";
-
 	JSONNode ua(JSON_NODE);
-	ua << CHAR_PARAM("deviceType", "WEB") << CHAR_PARAM("locale", szLocale) << CHAR_PARAM("deviceLocale", szLocale) << CHAR_PARAM("osVersion", "Linux")
-		<< CHAR_PARAM("deviceName", "Chrome")
-		<< CHAR_PARAM("headerUserAgent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36")
-		<< CHAR_PARAM("appVersion", "25.10.13") << CHAR_PARAM("screen", "1080x1920 1.0x") << CHAR_PARAM("timezone", szTz);
+	ua << CHAR_PARAM("deviceType", "WEB") << CHAR_PARAM("locale", szLocale) << CHAR_PARAM("deviceLocale", szLocale) << CHAR_PARAM("osVersion", "Windows")
+		<< CHAR_PARAM("deviceName", "Edge")
+		<< CHAR_PARAM("headerUserAgent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0")
+		<< CHAR_PARAM("appVersion", "26.4.3") << CHAR_PARAM("screen", "720x1280 1.5x") << CHAR_PARAM("timezone", "Europe/Moscow");
 
 	JSONNode payload(JSON_NODE);
 	payload << CHAR_PARAM("deviceId", devUtf) << JSON_PARAM("userAgent", ua);
@@ -1128,6 +1125,224 @@ bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 	return SendJsonAndWait(ws, 1, payload, 0);
 }
 
+bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId, CMStringA &outQrText)
+{
+	outTrackId.Empty();
+	outQrText.Empty();
+	if (!ws)
+		return false;
+
+	// Web client sends opcode 288 without payload field; mirror that shape.
+	{
+		mir_cslock lckWait(m_csWait);
+		m_seq++;
+		const uint64_t seq = m_seq;
+		m_waitSeq = seq;
+		m_szPendingResponse.Empty();
+		ResetEvent(m_hWaitEvent);
+
+		JSONNode root(JSON_NODE);
+		root << INT_PARAM("ver", 11) << INT_PARAM("cmd", 0) << INT64_PARAM("seq", (int64_t)seq) << INT_PARAM("opcode", 288);
+		json_string s = root.write();
+		{
+			mir_cslock lckSend(m_csSend);
+			ws->sendText(s.c_str());
+		}
+
+		if (WaitForSingleObject(m_hWaitEvent, 10000) != WAIT_OBJECT_0) {
+			debugLogA("Max: request timeout (opcode 288, waited seq %llu)", (unsigned long long)m_waitSeq);
+			m_waitSeq = 0;
+			return false;
+		}
+
+		JSONNode resp0 = JSONNode::parse(m_szPendingResponse.c_str());
+		if (!resp0) {
+			debugLogA("Max: empty/invalid JSON after response (opcode 288)");
+			m_waitSeq = 0;
+			return false;
+		}
+		m_waitSeq = 0;
+	}
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return false;
+	const JSONNode &pl = resp["payload"];
+	if (pl.type() != JSON_NODE)
+		return false;
+
+	auto readStr = [](const JSONNode &n) -> CMStringA {
+		if (n.type() == JSON_STRING)
+			return n.as_string().c_str();
+		if (n.type() == JSON_NUMBER) {
+			CMStringA s;
+			s.Format("%.0f", n.as_float());
+			return s;
+		}
+		return "";
+	};
+
+	outTrackId = readStr(pl["trackId"]);
+	if (outTrackId.IsEmpty())
+		outTrackId = readStr(pl["trackID"]);
+	if (outTrackId.IsEmpty())
+		outTrackId = readStr(pl["id"]);
+
+	outQrText = readStr(pl["qr"]);
+	if (outQrText.IsEmpty())
+		outQrText = readStr(pl["qrCode"]);
+	if (outQrText.IsEmpty())
+		outQrText = readStr(pl["code"]);
+	if (outQrText.IsEmpty())
+		outQrText = readStr(pl["url"]);
+	if (outQrText.IsEmpty())
+		outQrText = readStr(pl["qrLink"]);
+
+	if (outQrText.IsEmpty()) {
+		const JSONNode &data = pl["data"];
+		if (data.type() == JSON_NODE) {
+			outQrText = readStr(data["qr"]);
+			if (outQrText.IsEmpty())
+				outQrText = readStr(data["qrCode"]);
+			if (outQrText.IsEmpty())
+				outQrText = readStr(data["code"]);
+			if (outQrText.IsEmpty())
+				outQrText = readStr(data["url"]);
+			if (outTrackId.IsEmpty())
+				outTrackId = readStr(data["trackId"]);
+		}
+	}
+
+	return !outTrackId.IsEmpty() && !outQrText.IsEmpty();
+}
+
+bool CMaxProto::ApiPollQrStatus(WebSocket<CMaxProto> *ws, const char *szTrackId, bool &outApproved, bool &outExpired)
+{
+	outApproved = false;
+	outExpired = false;
+	if (!ws || szTrackId == nullptr || szTrackId[0] == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << CHAR_PARAM("trackId", szTrackId);
+	if (!SendJsonAndWait(ws, 289, payload, 0, true))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return false;
+	const JSONNode &pl = resp["payload"];
+	if (pl.type() != JSON_NODE)
+		return false;
+
+	const JSONNode &status = pl["status"];
+	CMStringA st;
+	if (pl["status"].type() == JSON_STRING)
+		st = pl["status"].as_string().c_str();
+	else if (pl["state"].type() == JSON_STRING)
+		st = pl["state"].as_string().c_str();
+	else if (status.type() == JSON_NODE && status["state"].type() == JSON_STRING)
+		st = status["state"].as_string().c_str();
+	else if (status.type() == JSON_NODE && status["status"].type() == JSON_STRING)
+		st = status["status"].as_string().c_str();
+	st.MakeLower();
+
+	if (pl["approved"].type() == JSON_BOOL && pl["approved"].as_bool())
+		outApproved = true;
+	if (pl["scanned"].type() == JSON_BOOL && pl["scanned"].as_bool())
+		outApproved = true;
+	if (status.type() == JSON_NODE && status["loginAvailable"].type() == JSON_BOOL && status["loginAvailable"].as_bool())
+		outApproved = true;
+	if (status.type() == JSON_NODE && status["approved"].type() == JSON_BOOL && status["approved"].as_bool())
+		outApproved = true;
+	if (status.type() == JSON_NODE && status["scanned"].type() == JSON_BOOL && status["scanned"].as_bool())
+		outApproved = true;
+	if (st == "approved" || st == "confirmed" || st == "scanned" || st == "ready")
+		outApproved = true;
+	if (st == "expired" || st == "timeout" || st == "cancelled" || st == "canceled")
+		outExpired = true;
+	if (status.type() == JSON_NODE && status["expired"].type() == JSON_BOOL && status["expired"].as_bool())
+		outExpired = true;
+
+	return true;
+}
+
+bool CMaxProto::ApiLoginByQrTrack(WebSocket<CMaxProto> *ws, const char *szTrackId, CMStringA &outToken)
+{
+	outToken.Empty();
+	if (!ws || szTrackId == nullptr || szTrackId[0] == 0)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << CHAR_PARAM("trackId", szTrackId);
+	if (!SendJsonAndWait(ws, 291, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return false;
+	const JSONNode &pl = resp["payload"];
+	if (pl.type() != JSON_NODE)
+		return false;
+
+	if (pl["token"].type() == JSON_STRING)
+		outToken = pl["token"].as_string().c_str();
+	if (outToken.IsEmpty() && pl["loginToken"].type() == JSON_STRING)
+		outToken = pl["loginToken"].as_string().c_str();
+	if (outToken.IsEmpty()) {
+		const JSONNode &ta = pl["tokenAttrs"];
+		if (ta.type() == JSON_NODE && ta["LOGIN"].type() == JSON_NODE && ta["LOGIN"]["token"].type() == JSON_STRING)
+			outToken = ta["LOGIN"]["token"].as_string().c_str();
+	}
+
+	return !outToken.IsEmpty();
+}
+
+bool CMaxProto::RunQrLoginFlow(WebSocket<CMaxProto> *ws)
+{
+	CMStringA trackId, qrText;
+	if (!ApiRequestQrCode(ws, trackId, qrText)) {
+		CMStringW err = FormatLastError();
+		ptrA err8(err.IsEmpty() ? nullptr : mir_utf8encodeW(err));
+		debugLogA("Max: QR login init failed (opcode 288), reason=%s",
+			(err8 != nullptr && err8[0]) ? err8.get() : "(unknown)");
+		return false;
+	}
+
+	debugLogA("Max: QR login started trackId=%s", trackId.c_str());
+	ShowQrCode(qrText);
+
+	for (int i = 0; i < 180 && !m_bTerminated; ++i) {
+		bool approved = false, expired = false;
+		if (!ApiPollQrStatus(ws, trackId.c_str(), approved, expired)) {
+			debugLogA("Max: QR status poll failed (opcode 289), iteration=%d", i + 1);
+			Sleep(1000);
+			continue;
+		}
+
+		if (expired) {
+			debugLogA("Max: QR expired trackId=%s", trackId.c_str());
+			break;
+		}
+		if (approved) {
+			CMStringA token;
+			if (!ApiLoginByQrTrack(ws, trackId.c_str(), token)) {
+				debugLogA("Max: QR approved but login by track failed (opcode 291)");
+				break;
+			}
+
+			setString(DB_KEY_LOGIN_TOKEN, token);
+			debugLogA("Max: QR login token saved");
+			CloseQrDialog(true);
+			return true;
+		}
+		Sleep(1000);
+	}
+
+	CloseQrDialog(false);
+	return false;
+}
+
 bool CMaxProto::ApiWebSessionBootstrap(WebSocket<CMaxProto> *ws)
 {
 	// Session: opcode 6 (handshake) then opcode 19 — no extra pre-sync ping here.
@@ -1207,6 +1422,26 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	MHttpHeaders hdrs;
 	hdrs.AddHeader("Origin", szOrigin);
 	hdrs.AddHeader("User-Agent", szWsUserAgent);
+
+	// Web client starts from web.max.ru and carries cookies into WS upgrade.
+	// Some deployments gate QR login behind this web session context.
+	{
+		MHttpRequest req(REQUEST_GET);
+		req.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_REDIRECT;
+		req.m_szUrl = szWebRootUrl;
+		req.AddHeader("Origin", szOrigin);
+		req.AddHeader("User-Agent", szWsUserAgent);
+		NLHR_PTR pre(Netlib_HttpTransaction(m_hNetlibUser, &req));
+		if (pre != nullptr) {
+			CMStringA webCookies(pre->GetCookies());
+			if (!webCookies.IsEmpty()) {
+				hdrs.AddHeader("Cookie", webCookies);
+				debugLogA("Max: preflight web cookie attached to WS (%u bytes)", (unsigned)webCookies.GetLength());
+			}
+			else debugLogA("Max: preflight web cookies empty");
+		}
+		else debugLogA("Max: preflight web request failed");
+	}
 	// Request independent permessage-deflate blocks; this avoids zlib context drift on tiny pushes.
 	hdrs.AddHeader("Sec-WebSocket-Extensions", "permessage-deflate; client_no_context_takeover; server_no_context_takeover; client_max_window_bits");
 
@@ -1249,7 +1484,28 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	}
 
 	ptrA token(getStringA(DB_KEY_LOGIN_TOKEN));
-	if (token != nullptr && token[0]) {
+	bool hasToken = (token != nullptr && token[0] != 0);
+	if (!hasToken) {
+		if (!RunQrLoginFlow(&ws)) {
+			CMStringW err = FormatLastError();
+			if (!err.IsEmpty())
+				NotifyUser(TranslateT("Max"), err.c_str());
+			else
+				NotifyUser(TranslateT("Max"), TranslateT("QR login failed or timed out. Sign in by pasting a login token in account settings."));
+			ws.terminate();
+			WaitForSingleObject(m_hWsRunThread, 15000);
+			CloseHandle(m_hWsRunThread);
+			m_hWsRunThread = nullptr;
+			m_pGateway = nullptr;
+			m_wsRun.ws = nullptr;
+			m_bGatewayConnected = false;
+			return;
+		}
+		token = getStringA(DB_KEY_LOGIN_TOKEN);
+		hasToken = (token != nullptr && token[0] != 0);
+	}
+
+	if (hasToken) {
 		ApiWebSessionBootstrap(&ws);
 		m_bInitialSyncOk = ApiSync(&ws);
 		if (m_bInitialSyncOk) {

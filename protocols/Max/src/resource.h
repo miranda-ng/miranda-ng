@@ -1,7 +1,9 @@
 #define IDI_MAIN                        101
 #define IDD_ACCMGRUI                    102
 #define IDD_MYPROFILE                   103
+#define IDD_QRLOGIN                     104
 #define IDC_LOGIN_TOKEN                 1001
+#define IDC_QRPIC                       1002
 #define IDC_GROUPNAME                   1007
 #define IDC_COMPRESS_FILES              1008
 #define IDC_BIO                         1010
