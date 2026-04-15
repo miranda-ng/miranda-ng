@@ -16,6 +16,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	bool m_bInitialSyncOk = false;
 	bool m_bTerminated = true;
 	HANDLE m_hConnThread = nullptr;
+	DWORD m_dwConnThreadId = 0;
 	HANDLE m_hWsRunThread = nullptr;
 	HANDLE m_hPingThread = nullptr;
 	HANDLE m_hWaitEvent = nullptr;
@@ -53,6 +54,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	void __cdecl MessageAckWorker(void *param);
 	void __cdecl PhoneSearchWorker(void *param);
 	void __cdecl OfflineFileWorker(void *param);
+	void __cdecl FileSendWorker(void *param);
 	void EnsureDeviceId();
 	/// Parse HTTP 101 `Sec-WebSocket-Extensions` (permessage-deflate parameters).
 	void ApplyWsExtensionsFromHttp(MHttpResponse *pReply);
@@ -91,11 +93,13 @@ public:
 	INT_PTR GetCaps(int type, MCONTACT hContact = 0) override;
 	int SetStatus(int iNewStatus) override;
 	int SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg) override;
+	HANDLE SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int UserIsTyping(MCONTACT hContact, int type) override;
 	HANDLE SearchBasic(const wchar_t *id) override;
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	void OnEventEdited(MCONTACT hContact, MEVENT, const DBEVENTINFO &dbei) override;
 	void OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags) override;
+	void OnSendOfflineFile(DB::EventInfo &dbei, DB::FILE_BLOB &blob, void *hTransfer) override;
 
 	MWindow OnCreateAccMgrUI(MWindow hwndParent) override;
 	void OnModulesLoaded() override;
@@ -115,8 +119,13 @@ public:
 	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
 	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead = false);
 	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
+	bool ApiSendFileMessage(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fileId, bool bPhoto, const char *szPhotoToken = nullptr, const char *szText = nullptr, CMStringA *pOutMsgId = nullptr);
+	bool ApiSendMultiPhotoMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const std::vector<CMStringA> &photoTokens, const char *szText = nullptr, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bool bTyping);
 	bool ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText);
+	/// Opcode 80: request photo upload slots (url/token/fileId).
+	bool ApiRequestPhotoUpload(WebSocket<CMaxProto> *ws, CMStringA &outUrl, CMStringA &outToken, int64_t &outFileId);
+	bool ApiRequestFileUpload(WebSocket<CMaxProto> *ws, CMStringA &outUrl, CMStringA &outToken, int64_t &outFileId);
 	bool ApiGetFileDownloadUrl(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, int64_t fileId, CMStringA &outUrl);
 	/// Opcode 66: delete message on server. `bForMe` true = only this user; false = for everyone (if allowed).
 	bool ApiDeleteMessages(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, bool bForMe);

@@ -127,10 +127,17 @@ static void sttCollectIncomingFiles(const JSONNode &msg, std::vector<CMaxIncomin
 			f.fileId = sttMsgJsonIdStr(a["photoId"]);
 			if (f.fileId.IsEmpty())
 				f.fileId = "photo";
+			if (a["name"].type() == JSON_STRING && !a["name"].as_string().empty())
+				f.name = mir_utf8decodeW(a["name"].as_string().c_str());
+			if (a["size"].type() == JSON_NUMBER)
+				f.size = (int64_t)(a["size"].as_float() + 0.5);
+			else if (a["size"].type() == JSON_STRING)
+				f.size = _strtoi64(a["size"].as_string().c_str(), nullptr, 10);
 			f.directUrl = sttSelectPhotoBestUrl(a);
 			if (f.directUrl.IsEmpty())
 				continue;
-			f.name = sttPhotoFileNameFromAttach(a, f.fileId);
+			if (f.name.IsEmpty())
+				f.name = sttPhotoFileNameFromAttach(a, f.fileId);
 			f.isPhoto = true;
 			out.push_back(f);
 			continue;
@@ -436,8 +443,9 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 			DB::EventInfo fdbei;
 			fdbei.eventType = EVENTTYPE_FILE;
 			fdbei.bUtf = true;
-			// Offline cloud file: avoid SRFile live-transfer dialog ("cannot start transfer").
-			fdbei.bTemporary = true;
+			// Offline cloud file: avoid SRFile live-transfer dialog ("cannot start transfer") for incoming files.
+			// For self-sent files keep it non-temporary to prevent auto-download into Received Files path.
+			fdbei.bTemporary = !fromSelf;
 			fdbei.szId = eventId.c_str();
 			if (tMs != 0) {
 				fdbei.bMsec = true;

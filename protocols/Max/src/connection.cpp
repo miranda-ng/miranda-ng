@@ -500,8 +500,15 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 		ws->sendText(s.c_str());
 	}
 
-	if (WaitForSingleObject(m_hWaitEvent, 10000) != WAIT_OBJECT_0) {
-		debugLogA("Max: request timeout (opcode %u, waited seq %llu)", (unsigned)opcode, (unsigned long long)m_waitSeq);
+	DWORD waitMs = 10000;
+	// Some operations (file attach send) may take longer server-side.
+	if (opcode == 64)
+		waitMs = 60000;
+	else if (opcode == 87 || opcode == 88)
+		waitMs = 30000;
+
+	if (WaitForSingleObject(m_hWaitEvent, waitMs) != WAIT_OBJECT_0) {
+		debugLogA("Max: request timeout (opcode %u, waited seq %llu, waitedMs=%u)", (unsigned)opcode, (unsigned long long)m_waitSeq, (unsigned)waitMs);
 		m_waitSeq = 0;
 		InitWsInflater();
 		return false;
@@ -688,6 +695,160 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	return true;
 }
 
+bool CMaxProto::ApiSendFileMessage(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fileId, bool bPhoto, const char *szPhotoToken, const char *szText, CMStringA *pOutMsgId)
+{
+	if (pOutMsgId != nullptr)
+		pOutMsgId->Empty();
+	if (!ws || szChatId == nullptr || szChatId[0] == 0)
+		return false;
+	if (!bPhoto) {
+		if (fileId <= 0)
+			return false;
+	}
+	else {
+		// PHOTO can be sent by token only (opcode 80 upload) without a fileId.
+		const bool hasToken = (szPhotoToken != nullptr && szPhotoToken[0] != 0);
+		if (!hasToken && fileId <= 0)
+			return false;
+	}
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0 && mir_strcmp(szChatId, "0"))
+		return false;
+
+	FILETIME ft = {};
+	GetSystemTimeAsFileTime(&ft);
+	ULARGE_INTEGER ui = {};
+	ui.LowPart = ft.dwLowDateTime;
+	ui.HighPart = ft.dwHighDateTime;
+	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
+	uint64_t cidMs = 0;
+	{
+		mir_cslock lck(m_csCid);
+		cidMs = nowMs;
+		if (cidMs <= m_lastClientCidMs)
+			cidMs = m_lastClientCidMs + 1;
+		m_lastClientCidMs = cidMs;
+	}
+
+	JSONNode att(JSON_NODE);
+	if (bPhoto) {
+		att << CHAR_PARAM("_type", "PHOTO");
+		if (szPhotoToken != nullptr && szPhotoToken[0] != 0)
+			att << CHAR_PARAM("photoToken", szPhotoToken);
+		else
+			att << INT64_PARAM("photoId", fileId);
+	}
+	else
+		att << CHAR_PARAM("_type", "FILE") << INT64_PARAM("fileId", fileId);
+	JSONNode attaches(JSON_ARRAY);
+	attaches.push_back(att);
+	JSONNode elems(JSON_ARRAY);
+
+	JSONNode msg(JSON_NODE);
+	msg << INT64_PARAM("cid", (int64_t)cidMs) << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
+	if (szText != nullptr && szText[0] != 0)
+		msg << CHAR_PARAM("text", szText);
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("message", msg) << BOOL_PARAM("notify", true);
+	if (!SendJsonAndWait(ws, 64, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return true;
+
+	const JSONNode &pl = resp["payload"];
+	const JSONNode &m = pl["message"];
+	const JSONNode *idNode = nullptr;
+	if (m.type() == JSON_NODE && m["id"].type() != JSON_NULL)
+		idNode = &m["id"];
+	else if (pl["messageId"].type() != JSON_NULL)
+		idNode = &pl["messageId"];
+	else if (pl["id"].type() != JSON_NULL)
+		idNode = &pl["id"];
+
+	if (idNode != nullptr && pOutMsgId != nullptr) {
+		if (idNode->type() == JSON_NUMBER)
+			pOutMsgId->Format("%.0f", idNode->as_float());
+		else
+			*pOutMsgId = idNode->as_string().c_str();
+	}
+	return true;
+}
+
+bool CMaxProto::ApiSendMultiPhotoMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const std::vector<CMStringA> &photoTokens, const char *szText, CMStringA *pOutMsgId)
+{
+	if (pOutMsgId != nullptr)
+		pOutMsgId->Empty();
+	if (!ws || szChatId == nullptr || szChatId[0] == 0 || photoTokens.empty())
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0 && mir_strcmp(szChatId, "0"))
+		return false;
+
+	FILETIME ft = {};
+	GetSystemTimeAsFileTime(&ft);
+	ULARGE_INTEGER ui = {};
+	ui.LowPart = ft.dwLowDateTime;
+	ui.HighPart = ft.dwHighDateTime;
+	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
+	uint64_t cidMs = 0;
+	{
+		mir_cslock lck(m_csCid);
+		cidMs = nowMs;
+		if (cidMs <= m_lastClientCidMs)
+			cidMs = m_lastClientCidMs + 1;
+		m_lastClientCidMs = cidMs;
+	}
+
+	JSONNode attaches(JSON_ARRAY);
+	for (const auto &tok : photoTokens) {
+		if (tok.IsEmpty())
+			continue;
+		JSONNode att(JSON_NODE);
+		att << CHAR_PARAM("_type", "PHOTO") << CHAR_PARAM("photoToken", tok.c_str());
+		attaches.push_back(att);
+	}
+	if (attaches.size() == 0)
+		return false;
+
+	JSONNode elems(JSON_ARRAY);
+	JSONNode msg(JSON_NODE);
+	msg << INT64_PARAM("cid", (int64_t)cidMs) << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
+	if (szText != nullptr && szText[0] != 0)
+		msg << CHAR_PARAM("text", szText);
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("message", msg) << BOOL_PARAM("notify", true);
+	if (!SendJsonAndWait(ws, 64, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return true;
+
+	const JSONNode &pl = resp["payload"];
+	const JSONNode &m = pl["message"];
+	const JSONNode *idNode = nullptr;
+	if (m.type() == JSON_NODE && m["id"].type() != JSON_NULL)
+		idNode = &m["id"];
+	else if (pl["messageId"].type() != JSON_NULL)
+		idNode = &pl["messageId"];
+	else if (pl["id"].type() != JSON_NULL)
+		idNode = &pl["id"];
+
+	if (idNode != nullptr && pOutMsgId != nullptr) {
+		if (idNode->type() == JSON_NUMBER)
+			pOutMsgId->Format("%.0f", idNode->as_float());
+		else
+			*pOutMsgId = idNode->as_string().c_str();
+	}
+	return true;
+}
+
 bool CMaxProto::ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bool bTyping)
 {
 	if (!ws || szChatId == nullptr || szChatId[0] == 0)
@@ -734,6 +895,71 @@ bool CMaxProto::ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 		<< JSON_PARAM("elements", elems) << JSON_PARAM("attachments", attaches);
 
 	return SendJsonAndWait(ws, 67, payload, 0);
+}
+
+bool CMaxProto::ApiRequestPhotoUpload(WebSocket<CMaxProto> *ws, CMStringA &outUrl, CMStringA &outToken, int64_t &outFileId)
+{
+	outUrl.Empty();
+	outToken.Empty();
+	outFileId = 0;
+	if (!ws)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT_PARAM("count", 1);
+	if (!SendJsonAndWait(ws, 80, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return false;
+
+	const JSONNode &pl = resp["payload"];
+
+	// Server returns plain { "url": "https://iu.oneme.ru/uploadImage?apiToken=...&photoIds=..." }.
+	if (pl["url"].type() == JSON_STRING)
+		outUrl = pl["url"].as_string().c_str();
+
+	// Upload auth is embedded into the URL (apiToken). Token is returned by the HTTP upload response.
+	return !outUrl.IsEmpty();
+}
+
+bool CMaxProto::ApiRequestFileUpload(WebSocket<CMaxProto> *ws, CMStringA &outUrl, CMStringA &outToken, int64_t &outFileId)
+{
+	outUrl.Empty();
+	outToken.Empty();
+	outFileId = 0;
+	if (!ws)
+		return false;
+
+	JSONNode payload(JSON_NODE);
+	payload << INT_PARAM("count", 1);
+	if (!SendJsonAndWait(ws, 87, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return false;
+
+	const JSONNode &pl = resp["payload"];
+	const JSONNode &info = pl["info"];
+	if (info.type() != JSON_ARRAY || info.size() <= 0)
+		return false;
+
+	const JSONNode &item = info[(json_index_t)0];
+	if (item.type() != JSON_NODE)
+		return false;
+
+	if (item["url"].type() == JSON_STRING)
+		outUrl = item["url"].as_string().c_str();
+	if (item["token"].type() == JSON_STRING)
+		outToken = item["token"].as_string().c_str();
+	if (item["fileId"].type() == JSON_NUMBER)
+		outFileId = (int64_t)(item["fileId"].as_float() + 0.5);
+	else if (item["fileId"].type() == JSON_STRING)
+		outFileId = _strtoi64(item["fileId"].as_string().c_str(), nullptr, 10);
+
+	return !outUrl.IsEmpty() && !outToken.IsEmpty() && outFileId > 0;
 }
 
 bool CMaxProto::ApiGetFileDownloadUrl(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, int64_t fileId, CMStringA &outUrl)
@@ -976,6 +1202,7 @@ void __cdecl CMaxProto::WsRunThread(void *)
 
 void __cdecl CMaxProto::ConnectionWorker(void *)
 {
+	m_dwConnThreadId = GetCurrentThreadId();
 	WebSocket<CMaxProto> ws(this);
 	MHttpHeaders hdrs;
 	hdrs.AddHeader("Origin", szOrigin);
@@ -1063,6 +1290,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 
 	m_wsRun.ws = nullptr;
 	m_bGatewayConnected = false;
+	m_dwConnThreadId = 0;
 }
 
 void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
@@ -1169,6 +1397,28 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 
 	// Opcode 88: file download url by (chatId,messageId,fileId).
 	if (p->m_waitSeq != 0 && op == 88) {
+		const JSONNode &pl = json["payload"];
+		if (pl.type() == JSON_NODE) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	// Opcode 87: request upload slots (url/token/fileId).
+	if (p->m_waitSeq != 0 && op == 87) {
+		const JSONNode &pl = json["payload"];
+		if (pl.type() == JSON_NODE) {
+			json_string s = json.write();
+			p->m_szPendingResponse = s.c_str();
+			SetEvent(p->m_hWaitEvent);
+			return;
+		}
+	}
+
+	// Opcode 80: request photo upload slots (url/token/fileId).
+	if (p->m_waitSeq != 0 && op == 80) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();

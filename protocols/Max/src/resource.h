@@ -3,6 +3,7 @@
 #define IDD_MYPROFILE                   103
 #define IDC_LOGIN_TOKEN                 1001
 #define IDC_GROUPNAME                   1007
+#define IDC_COMPRESS_FILES              1008
 #define IDC_BIO                         1010
 #define IDC_FIRSTNAME                   1011
 #define IDC_LASTNAME                    1012
