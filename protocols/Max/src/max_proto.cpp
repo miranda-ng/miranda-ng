@@ -13,6 +13,7 @@ of the License.
 #pragma comment(lib, "winhttp.lib")
 
 static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK MaxOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 struct CMaxMsgAckCtx
 {
@@ -1868,23 +1869,52 @@ static INT_PTR CALLBACK MaxAccMgrProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ppro = (CMaxProto *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		Window_SetIcon_IcoLib(hwndDlg, ppro->m_hProtoIcon);
-		SetDlgItemTextA(hwndDlg, IDC_LOGIN_TOKEN, ppro->getMStringA(DB_KEY_LOGIN_TOKEN));
+		SetDlgItemTextW(hwndDlg, IDC_GROUPNAME, ppro->GetDefaultGroupW());
+		return TRUE;
+
+	case WM_COMMAND:
+		if (HIWORD(wParam) == EN_CHANGE && LOWORD(wParam) == IDC_GROUPNAME)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			wchar_t wgrp[128];
+			GetDlgItemTextW(hwndDlg, IDC_GROUPNAME, wgrp, _countof(wgrp));
+			if (wgrp[0]) {
+				ppro->setWString(DB_KEY_DEFAULT_GROUP, wgrp);
+				Clist_GroupCreate(0, wgrp);
+			}
+		}
+		break;
+	}
+
+	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR CALLBACK MaxOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	CMaxProto *ppro = (CMaxProto *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		ppro = (CMaxProto *)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		SetDlgItemTextW(hwndDlg, IDC_GROUPNAME, ppro->GetDefaultGroupW());
 		CheckDlgButton(hwndDlg, IDC_COMPRESS_FILES, ppro->getByte("CompressFiles", 1) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
-		if ((HIWORD(wParam) == EN_CHANGE && (LOWORD(wParam) == IDC_LOGIN_TOKEN || LOWORD(wParam) == IDC_GROUPNAME))
+		if ((HIWORD(wParam) == EN_CHANGE && LOWORD(wParam) == IDC_GROUPNAME)
 			|| (LOWORD(wParam) == IDC_COMPRESS_FILES && HIWORD(wParam) == BN_CLICKED))
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			char tok[8192];
-			GetDlgItemTextA(hwndDlg, IDC_LOGIN_TOKEN, tok, _countof(tok));
-			ppro->setString(DB_KEY_LOGIN_TOKEN, tok);
-
 			wchar_t wgrp[128];
 			GetDlgItemTextW(hwndDlg, IDC_GROUPNAME, wgrp, _countof(wgrp));
 			if (wgrp[0]) {
@@ -2041,8 +2071,8 @@ int CMaxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.szTitle.w = m_tszUserName;
 	odp.szTab.w = LPGENW("Account");
 	odp.dwInitParam = (LPARAM)this;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ACCMGRUI);
-	odp.pfnDlgProc = MaxAccMgrProc;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSUI);
+	odp.pfnDlgProc = MaxOptionsProc;
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

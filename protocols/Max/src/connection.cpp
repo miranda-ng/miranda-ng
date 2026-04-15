@@ -1491,7 +1491,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 			if (!err.IsEmpty())
 				NotifyUser(TranslateT("Max"), err.c_str());
 			else
-				NotifyUser(TranslateT("Max"), TranslateT("QR login failed or timed out. Sign in by pasting a login token in account settings."));
+				NotifyUser(TranslateT("Max"), TranslateT("QR login failed or timed out."));
 			ws.terminate();
 			WaitForSingleObject(m_hWsRunThread, 15000);
 			CloseHandle(m_hWsRunThread);
