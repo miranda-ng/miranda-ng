@@ -1480,24 +1480,6 @@ void __cdecl CMaxProto::LiveNotifIngestWorker(void *param)
 	delete pPl;
 }
 
-static uint64_t sttJsonTimeMs(const JSONNode &n)
-{
-	if (n.type() == JSON_NUMBER)
-		return (uint64_t)(n.as_float() + 0.5);
-	if (n.type() == JSON_STRING)
-		return _strtoui64(n.as_string().c_str(), nullptr, 10);
-	return 0;
-}
-
-static const JSONNode *sttHistoryMessagesArray(const JSONNode &payload)
-{
-	if (payload["messages"].type() == JSON_ARRAY)
-		return &payload["messages"];
-	if (payload["chat"].type() == JSON_NODE && payload["chat"]["messages"].type() == JSON_ARRAY)
-		return &payload["chat"]["messages"];
-	return nullptr;
-}
-
 void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 {
 	MCONTACT hContact = (MCONTACT)(UINT_PTR)param;
@@ -1528,7 +1510,9 @@ void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 	const char *stopReason = "unknown";
 
 	while (!m_bTerminated) {
-		if (!ApiFetchChatMessages(m_pGateway, chatId.c_str(), fromMs, 0, kBatch, true)) {
+		int pageMsgCount = 0;
+		uint64_t pageOldest = 0;
+		if (!ApiFetchChatMessages(m_pGateway, chatId.c_str(), fromMs, 0, kBatch, true, &pageMsgCount, &pageOldest)) {
 			CMStringW err = FormatLastError();
 			ptrA err8(mir_utf8encodeW(err));
 			bool throttled = false;
@@ -1547,7 +1531,9 @@ void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 					(err8 != nullptr && err8[0]) ? err8.get() : "(empty)");
 				InterruptibleSleepMs(waitMs);
 
-				if (ApiFetchChatMessages(m_pGateway, chatId.c_str(), fromMs, 0, kBatch, true)) {
+				pageMsgCount = 0;
+				pageOldest = 0;
+				if (ApiFetchChatMessages(m_pGateway, chatId.c_str(), fromMs, 0, kBatch, true, &pageMsgCount, &pageOldest)) {
 					okAfterRetry = true;
 					break;
 				}
@@ -1566,17 +1552,7 @@ void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 			}
 		}
 
-		JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
-		if (!resp) {
-			abortedByError = true;
-			stopReason = "bad-json";
-			debugLogA("Max: load history aborted chat=%s page=%d reason=bad-json", chatId.c_str(), page);
-			break;
-		}
-
-		const JSONNode &pl = resp["payload"];
-		const JSONNode *msgs = sttHistoryMessagesArray(pl);
-		if (msgs == nullptr || msgs->type() != JSON_ARRAY) {
+		if (pageMsgCount < 0) {
 			abortedByError = true;
 			stopReason = "bad-payload";
 			debugLogA("Max: load history aborted chat=%s page=%d reason=bad-payload", chatId.c_str(), page);
@@ -1589,42 +1565,35 @@ void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 			break;
 		}
 
-		totalLoaded += (int)msgs->size();
+		totalLoaded += pageMsgCount;
 
-		uint64_t oldest = 0;
-		for (unsigned i = 0; i < msgs->size(); ++i) {
-			uint64_t t = sttJsonTimeMs((*msgs)[i]["time"]);
-			if (t != 0 && (oldest == 0 || t < oldest))
-				oldest = t;
-		}
-
-		if (oldest == 0) {
+		if (pageOldest == 0) {
 			abortedByError = true;
 			stopReason = "missing-time";
 			debugLogA("Max: load history aborted chat=%s page=%d reason=missing-time", chatId.c_str(), page);
 			break;
 		}
 
-		if (oldest == prevOldest) {
+		if (pageOldest == prevOldest) {
 			reachedBottom = true;
 			stopReason = "stuck-oldest";
 			break;
 		}
 
-		prevOldest = oldest;
-		if (oldest <= 1) {
+		prevOldest = pageOldest;
+		if (pageOldest <= 1) {
 			reachedBottom = true;
 			stopReason = "reached-zero";
 			break;
 		}
 
-		if ((int)msgs->size() < kBatch) {
+		if (pageMsgCount < kBatch) {
 			reachedBottom = true;
 			stopReason = "short-page";
 			break;
 		}
 
-		fromMs = (int64_t)(oldest - 1);
+		fromMs = (int64_t)(pageOldest - 1);
 		page++;
 		InterruptibleSleepMs(kInterPageDelayMs);
 	}

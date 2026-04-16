@@ -609,8 +609,12 @@ bool CMaxProto::ApiSync(WebSocket<CMaxProto> *ws)
 	return SendJsonAndWait(ws, 19, payload, 0);
 }
 
-bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead)
+bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead, int *pMsgCount, uint64_t *pOldestMs)
 {
+	if (pMsgCount != nullptr)
+		*pMsgCount = 0;
+	if (pOldestMs != nullptr)
+		*pOldestMs = 0;
 	if (!ws || szChatId == nullptr || szChatId[0] == 0)
 		return false;
 	if (forward <= 0 && backward <= 0)
@@ -635,7 +639,31 @@ bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szCha
 	if (!resp)
 		return false;
 
-	IngestChatHistoryPayload(resp["payload"], szChatId, bMarkRead);
+	const JSONNode &pl = resp["payload"];
+	const JSONNode *msgs = nullptr;
+	if (pl["messages"].type() == JSON_ARRAY)
+		msgs = &pl["messages"];
+	else if (pl["chat"].type() == JSON_NODE && pl["chat"]["messages"].type() == JSON_ARRAY)
+		msgs = &pl["chat"]["messages"];
+	if (msgs != nullptr && msgs->type() == JSON_ARRAY) {
+		if (pMsgCount != nullptr)
+			*pMsgCount = (int)msgs->size();
+		if (pOldestMs != nullptr) {
+			uint64_t oldest = 0;
+			for (unsigned i = 0; i < msgs->size(); ++i) {
+				uint64_t t = 0;
+				const JSONNode &tn = (*msgs)[i]["time"];
+				if (tn.type() == JSON_NUMBER)
+					t = (uint64_t)(tn.as_float() + 0.5);
+				else if (tn.type() == JSON_STRING)
+					t = _strtoui64(tn.as_string().c_str(), nullptr, 10);
+				if (t != 0 && (oldest == 0 || t < oldest))
+					oldest = t;
+			}
+			*pOldestMs = oldest;
+		}
+	}
+	IngestChatHistoryPayload(pl, szChatId, bMarkRead);
 	return true;
 }
 
@@ -979,7 +1007,7 @@ bool CMaxProto::ApiGetFileDownloadUrl(WebSocket<CMaxProto> *ws, const char *szCh
 
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid) << CHAR_PARAM("messageId", szMsgId) << INT64_PARAM("fileId", fileId);
-	if (!SendJsonAndWait(ws, 88, payload, 0))
+	if (!SendJsonAndWait(ws, 88, payload, 0, true))
 		return false;
 
 	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
@@ -987,6 +1015,8 @@ bool CMaxProto::ApiGetFileDownloadUrl(WebSocket<CMaxProto> *ws, const char *szCh
 		return false;
 
 	const JSONNode &pl = resp["payload"];
+	if (MaxPayloadSaysError(pl))
+		return false;
 	if (pl["url"].type() == JSON_STRING && !pl["url"].as_string().empty()) {
 		outUrl = pl["url"].as_string().c_str();
 		return true;
