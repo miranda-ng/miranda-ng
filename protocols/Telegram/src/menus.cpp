@@ -75,7 +75,7 @@ class CForwardDlg : public CTelegramDlgBase
 	void ResetListOptions(CCtrlClc *)
 	{
 		m_clist.SetHideEmptyGroups(true);
-		m_clist.SetHideOfflineRoot(true);
+		m_clist.SetHideOfflineRoot(false);
 	}
 
 public:
@@ -92,7 +92,7 @@ public:
 	bool OnInitDialog() override
 	{
 		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE,
-			GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_HIDEOFFLINE | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+			GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
 		m_clist.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 		ResetListOptions(&m_clist);
 		FilterList(&m_clist);
