@@ -20,6 +20,24 @@ static CMStringA sttJsonIdStr(const JSONNode &n)
 	return CMStringA(n.as_string().c_str());
 }
 
+static CMStringW sttJsonPhoneToWide(const JSONNode &n)
+{
+	if (n.type() == JSON_NULL)
+		return CMStringW();
+
+	CMStringA s;
+	if (n.type() == JSON_NUMBER)
+		s.Format("%.0f", n.as_float());
+	else if (n.type() == JSON_STRING)
+		s = n.as_string().c_str();
+
+	if (s.IsEmpty())
+		return CMStringW();
+
+	ptrW w(mir_utf8decodeW(s.c_str()));
+	return (w != nullptr) ? CMStringW(w) : CMStringW();
+}
+
 static bool sttUidInContactsArray(const JSONNode &contacts, const char *uid)
 {
 	if (uid == nullptr || uid[0] == 0 || contacts.type() != JSON_ARRAY)
@@ -673,6 +691,12 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid, 
 		else
 			delSetting(hAv, "About");
 
+		CMStringW phone = sttJsonPhoneToWide(c["phone"]);
+		if (!phone.IsEmpty())
+			setWString(hAv, "Phone", phone.c_str());
+		else if (c["phone"].type() != JSON_NULL)
+			delSetting(hAv, "Phone");
+
 		ApplyPresenceToContact(hAv, c);
 		SyncContactAvatarFromJson(hAv, c);
 	}
@@ -1117,6 +1141,12 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 			}
 			else
 				delSetting("About");
+
+			CMStringW myPhone = sttJsonPhoneToWide(ct["phone"]);
+			if (!myPhone.IsEmpty())
+				setWString("Phone", myPhone.c_str());
+			else if (ct["phone"].type() != JSON_NULL)
+				delSetting("Phone");
 
 			SyncContactAvatarFromJson(0, ct);
 		}

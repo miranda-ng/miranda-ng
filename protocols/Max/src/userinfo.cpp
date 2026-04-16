@@ -8,7 +8,7 @@ GPLv2
 class CMaxMyProfileDlg : public CUserInfoPageDlg
 {
 	CMaxProto *m_proto;
-	CCtrlEdit m_edtFirst, m_edtLast, m_edtBio;
+	CCtrlEdit m_edtFirst, m_edtLast, m_edtPhone, m_edtBio;
 
 public:
 	CMaxMyProfileDlg(CMaxProto *p) :
@@ -16,6 +16,7 @@ public:
 		m_proto(p),
 		m_edtFirst(this, IDC_FIRSTNAME),
 		m_edtLast(this, IDC_LASTNAME),
+		m_edtPhone(this, IDC_PHONE),
 		m_edtBio(this, IDC_BIO)
 	{
 	}
@@ -24,6 +25,7 @@ public:
 	{
 		m_edtFirst.SetText(m_proto->getMStringW("FirstName"));
 		m_edtLast.SetText(m_proto->getMStringW("LastName"));
+		m_edtPhone.SetText(m_proto->getMStringW("Phone"));
 		m_edtBio.SetText(m_proto->getMStringW("About"));
 		return true;
 	}
@@ -42,6 +44,8 @@ public:
 		case IDC_FIRSTNAME:
 		case IDC_LASTNAME:
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+		case IDC_PHONE:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 		case IDC_BIO:
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 		}
@@ -51,7 +55,7 @@ public:
 
 int CMaxProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
-	// Own profile page only (root "Owner: user details"), same UX style as Telegram.
+	// For contacts, let Miranda core show the standard "Contact" page from DB "Phone".
 	if (hContact != 0)
 		return 0;
 
