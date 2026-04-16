@@ -23,13 +23,13 @@ BEGIN
     CONTROL         "Compress files on send",IDC_COMPRESS_FILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,30,214,10
 END
 
-IDD_QRLOGIN DIALOGEX 0, 0, 318, 337
+IDD_QRLOGIN DIALOGEX 0, 0, 250, 280
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Link a device"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_QRPIC,"Static",SS_BITMAP | SS_NOTIFY | SS_CENTERIMAGE | SS_REALSIZEIMAGE | SS_SUNKEN,7,7,304,304
-    CTEXT           "Open MAX application on your mobile phone, choose device linking and scan this QR code. The window closes automatically after successful login.",IDC_STATIC,8,314,302,17
+    CONTROL         "",IDC_QRPIC,"Static",SS_BITMAP | SS_NOTIFY | SS_CENTERIMAGE | SS_REALSIZEIMAGE | SS_SUNKEN,7,7,236,236
+    CTEXT           "Open MAX application on your mobile phone, choose device linking and scan this QR code. The window closes automatically after successful login.",IDC_STATIC,8,248,234,24
 END
 
 IDD_MYPROFILE DIALOGEX 0, 0, 230, 168

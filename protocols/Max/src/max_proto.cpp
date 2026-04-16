@@ -145,7 +145,11 @@ public:
 		RECT rc;
 		GetClientRect(hwndRc, &rc);
 
-		int scale = 8;
+		int rcW = max(1, rc.right - rc.left);
+		int rcH = max(1, rc.bottom - rc.top);
+		int scale = min(rcW / pQR->width, rcH / pQR->width);
+		if (scale < 1)
+			scale = 1;
 		int rowLen = pQR->width * scale * 3;
 		if (rowLen % 4)
 			rowLen = (rowLen / 4 + 1) * 4;
