@@ -22,6 +22,7 @@ struct CMaxMsgAckCtx
 	int result = ACKRESULT_FAILED;
 	int hProcess = 0;
 	CMStringA msgId;
+	CMStringA replyMsgId;
 	CMStringW errText;
 };
 
@@ -647,7 +648,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_SUPPORTTYPING | PF4_OFFLINEFILES | PF4_SERVERFORMATTING;
+		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_SUPPORTTYPING | PF4_OFFLINEFILES | PF4_SERVERFORMATTING | PF4_REPLY;
 
 	case PFLAG_UNIQUEIDTEXT:
 	{
@@ -732,7 +733,7 @@ bool CMaxProto::IsMaxBotMirrorContact(MCONTACT hContact)
 	return hContact != 0 && getByte(hContact, DB_KEY_MAX_IS_BOT, 0) != 0;
 }
 
-int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
+int CMaxProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg)
 {
 	if (hContact == 0 || msg == nullptr || msg[0] == 0)
 		return 0;
@@ -765,7 +766,13 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 	}
 
 	CMStringA serverMsgId;
-	if (!ApiSendMessage(m_pGateway, chatId.c_str(), msg, &serverMsgId)) {
+	CMStringA replyId;
+	if (hReplyEvent) {
+		DB::EventInfo re(hReplyEvent, false);
+		if (re && re.szId != nullptr && re.szId[0] != 0)
+			replyId = re.szId;
+	}
+	if (!ApiSendMessage(m_pGateway, chatId.c_str(), msg, replyId.IsEmpty() ? nullptr : replyId.c_str(), &serverMsgId)) {
 		CMStringW err = FormatLastError();
 		if (!err.IsEmpty())
 			NotifyUser(TranslateT("Max"), err.c_str());
@@ -786,6 +793,7 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT, const char *msg)
 	ctx->result = ACKRESULT_SUCCESS;
 	ctx->hProcess = hProcess;
 	ctx->msgId = serverMsgId;
+	ctx->replyMsgId = replyId;
 	ForkThread(&CMaxProto::MessageAckWorker, ctx);
 	return hProcess;
 }
@@ -1135,6 +1143,23 @@ void __cdecl CMaxProto::MessageAckWorker(void *param)
 	else
 		ctx->pProto->ProtoBroadcastAck(ctx->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)ctx->hProcess,
 			(LPARAM)ctx->errText.c_str());
+
+	// Ensure outgoing reply is stored as DB reply-id so NewStory can render quote block.
+	if (ctx->result == ACKRESULT_SUCCESS && !ctx->msgId.IsEmpty() && !ctx->replyMsgId.IsEmpty()) {
+		MEVENT hEv = db_event_getById(ctx->pProto->m_szModuleName, ctx->msgId.c_str());
+		if (hEv == 0) {
+			// The event may appear slightly later after ACK; retry once.
+			Sleep(80);
+			hEv = db_event_getById(ctx->pProto->m_szModuleName, ctx->msgId.c_str());
+		}
+		if (hEv != 0) {
+			DB::EventInfo dbei(hEv);
+			if (dbei) {
+				dbei.szReplyId = ctx->replyMsgId.c_str();
+				db_event_edit(hEv, &dbei, true);
+			}
+		}
+	}
 }
 
 struct CMaxPhoneSearchCtx

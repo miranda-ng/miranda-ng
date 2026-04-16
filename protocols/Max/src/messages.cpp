@@ -636,6 +636,15 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	CMStringA sender = sttMsgJsonIdStr(msg["sender"]);
 	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
 	const bool fromSelf = (myUid != nullptr && sender == myUid);
+	CMStringA replyId;
+	const JSONNode &link = msg["link"];
+	if (link.type() == JSON_NODE && link["type"].type() == JSON_STRING && !mir_strcmpi(link["type"].as_string().c_str(), "REPLY")) {
+		replyId = sttMsgJsonIdStr(link["messageId"]);
+		if (replyId.IsEmpty() && link["mid"].type() != JSON_NULL)
+			replyId = sttMsgJsonIdStr(link["mid"]);
+		if (replyId.IsEmpty() && link["message"].type() == JSON_NODE)
+			replyId = sttMsgJsonIdStr(link["message"]["id"]);
+	}
 
 	CMStringA text = sttMessageBodyUtf8(msg);
 	std::vector<CMaxIncomingFile> files;
@@ -670,6 +679,8 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 
 		dbei.cbBlob = (int)mir_strlen(text.c_str());
 		dbei.pBlob = mir_strdup(text.c_str());
+		if (!replyId.IsEmpty())
+			dbei.szReplyId = replyId.c_str();
 
 		if (fromSelf) {
 			dbei.bSent = true;

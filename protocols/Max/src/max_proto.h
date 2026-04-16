@@ -129,7 +129,7 @@ public:
 	bool ApiFetchChatsByIds(WebSocket<CMaxProto> *ws, const CMStringA *pChatIds, size_t nIds);
 	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
 	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead = false, int *pMsgCount = nullptr, uint64_t *pOldestMs = nullptr);
-	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId = nullptr);
+	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, const char *szReplyMsgId = nullptr, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendFileMessage(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fileId, bool bPhoto, const char *szPhotoToken = nullptr, const char *szText = nullptr, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendMultiPhotoMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const std::vector<CMStringA> &photoTokens, const char *szText = nullptr, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bool bTyping);

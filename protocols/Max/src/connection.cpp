@@ -793,7 +793,7 @@ static void sttBuildOutgoingTextAndElements(const char *szTextUtf8, CMStringA &o
 	}
 }
 
-bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId)
+bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, const char *szReplyMsgId, CMStringA *pOutMsgId)
 {
 	if (pOutMsgId != nullptr)
 		pOutMsgId->Empty();
@@ -829,6 +829,11 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	JSONNode msg(JSON_NODE);
 	msg << CHAR_PARAM("text", textWire.c_str()) << INT64_PARAM("cid", (int64_t)cidMs);
 	msg << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
+	if (szReplyMsgId != nullptr && szReplyMsgId[0] != 0) {
+		JSONNode link(JSON_NODE);
+		link << CHAR_PARAM("type", "REPLY") << CHAR_PARAM("messageId", szReplyMsgId);
+		msg << JSON_PARAM("link", link);
+	}
 
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("message", msg) << BOOL_PARAM("notify", true);
