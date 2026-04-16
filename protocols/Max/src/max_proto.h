@@ -75,7 +75,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	void IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead = false);
 	uint64_t GetLastLocalMessageTimeMs(MCONTACT hContact);
 	bool ApiPing(WebSocket<CMaxProto> *ws);
-	bool ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId, CMStringA &outQrText);
+	bool ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId, CMStringA &outQrText, int *pOutPollingIntervalMs = nullptr);
 	bool ApiPollQrStatus(WebSocket<CMaxProto> *ws, const char *szTrackId, bool &outApproved, bool &outExpired);
 	bool ApiLoginByQrTrack(WebSocket<CMaxProto> *ws, const char *szTrackId, CMStringA &outToken);
 	bool RunQrLoginFlow(WebSocket<CMaxProto> *ws);

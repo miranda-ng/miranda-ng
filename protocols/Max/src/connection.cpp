@@ -1382,10 +1382,12 @@ bool CMaxProto::ApiPing(WebSocket<CMaxProto> *ws)
 	return SendJsonAndWait(ws, 1, payload, 0);
 }
 
-bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId, CMStringA &outQrText)
+bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId, CMStringA &outQrText, int *pOutPollingIntervalMs)
 {
 	outTrackId.Empty();
 	outQrText.Empty();
+	if (pOutPollingIntervalMs != nullptr)
+		*pOutPollingIntervalMs = 1000;
 	if (!ws)
 		return false;
 
@@ -1427,6 +1429,15 @@ bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId
 	const JSONNode &pl = resp["payload"];
 	if (pl.type() != JSON_NODE)
 		return false;
+
+	if (pOutPollingIntervalMs != nullptr) {
+		const JSONNode &pi = pl["pollingInterval"];
+		if (pi.type() == JSON_NUMBER) {
+			int v = (int)pi.as_int();
+			if (v >= 250 && v <= 60000)
+				*pOutPollingIntervalMs = v;
+		}
+	}
 
 	auto readStr = [](const JSONNode &n) -> CMStringA {
 		if (n.type() == JSON_STRING)
@@ -1524,6 +1535,69 @@ bool CMaxProto::ApiPollQrStatus(WebSocket<CMaxProto> *ws, const char *szTrackId,
 	return true;
 }
 
+struct CMaxQrPasswordPromptCtx
+{
+	CMaxProto *pProto = nullptr;
+	CMStringW hint;
+	CMStringA outPasswordUtf8;
+	bool ok = false;
+};
+
+static INT_PTR CALLBACK sttPromptMaxQrPassword(void *param)
+{
+	auto *ctx = (CMaxQrPasswordPromptCtx *)param;
+	if (ctx == nullptr || ctx->pProto == nullptr)
+		return 0;
+
+	CMStringW caption(TranslateT("Enter MAX password"));
+	if (!ctx->hint.IsEmpty())
+		caption.AppendFormat(TranslateT(" (hint: %s)"), ctx->hint.c_str());
+
+	ENTER_STRING es = {};
+	es.szModuleName = ctx->pProto->m_szModuleName;
+	es.caption = caption;
+	es.type = ESF_PASSWORD;
+	if (EnterString(&es) && es.ptszResult != nullptr && es.ptszResult[0] != 0) {
+		ptrA pwdUtf8(mir_utf8encodeW(es.ptszResult));
+		if (pwdUtf8 != nullptr && pwdUtf8[0] != 0) {
+			ctx->outPasswordUtf8 = pwdUtf8.get();
+			ctx->ok = true;
+		}
+		mir_free(es.ptszResult);
+	}
+	return 0;
+}
+
+static bool sttExtractMaxQrPasswordChallenge(const CMStringA &pendingResponse, CMStringW &outHint)
+{
+	outHint.Empty();
+	if (pendingResponse.IsEmpty())
+		return false;
+
+	JSONNode resp = JSONNode::parse(pendingResponse.c_str());
+	if (!resp)
+		return false;
+	const JSONNode &pl = resp["payload"];
+	if (pl.type() != JSON_NODE)
+		return false;
+
+	const JSONNode *pc = nullptr;
+	if (pl["passwordChallenge"].type() == JSON_NODE)
+		pc = &pl["passwordChallenge"];
+	else if (pl["error"].type() == JSON_NODE && pl["error"]["passwordChallenge"].type() == JSON_NODE)
+		pc = &pl["error"]["passwordChallenge"];
+	if (pc == nullptr)
+		return false;
+
+	if ((*pc)["hint"].type() == JSON_STRING) {
+		ptrW w(mir_utf8decodeW((*pc)["hint"].as_string().c_str()));
+		if (w != nullptr && w[0] != 0)
+			outHint = w;
+	}
+
+	return true;
+}
+
 bool CMaxProto::ApiLoginByQrTrack(WebSocket<CMaxProto> *ws, const char *szTrackId, CMStringA &outToken)
 {
 	outToken.Empty();
@@ -1532,7 +1606,8 @@ bool CMaxProto::ApiLoginByQrTrack(WebSocket<CMaxProto> *ws, const char *szTrackI
 
 	JSONNode payload(JSON_NODE);
 	payload << CHAR_PARAM("trackId", szTrackId);
-	if (!SendJsonAndWait(ws, 291, payload, 0))
+
+	if (!SendJsonAndWait(ws, 291, payload, 0, true))
 		return false;
 
 	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
@@ -1558,7 +1633,8 @@ bool CMaxProto::ApiLoginByQrTrack(WebSocket<CMaxProto> *ws, const char *szTrackI
 bool CMaxProto::RunQrLoginFlow(WebSocket<CMaxProto> *ws)
 {
 	CMStringA trackId, qrText;
-	if (!ApiRequestQrCode(ws, trackId, qrText)) {
+	int pollMs = 1000;
+	if (!ApiRequestQrCode(ws, trackId, qrText, &pollMs)) {
 		CMStringW err = FormatLastError();
 		ptrA err8(err.IsEmpty() ? nullptr : mir_utf8encodeW(err));
 		debugLogA("Max: QR login init failed (opcode 288), reason=%s",
@@ -1569,11 +1645,12 @@ bool CMaxProto::RunQrLoginFlow(WebSocket<CMaxProto> *ws)
 	debugLogA("Max: QR login started trackId=%s", trackId.c_str());
 	ShowQrCode(qrText);
 
-	for (int i = 0; i < 180 && !m_bTerminated; ++i) {
+	const int loops = (pollMs <= 0) ? 180 : max(12, min(180, (180000 / pollMs)));
+	for (int i = 0; i < loops && !m_bTerminated; ++i) {
 		bool approved = false, expired = false;
 		if (!ApiPollQrStatus(ws, trackId.c_str(), approved, expired)) {
 			debugLogA("Max: QR status poll failed (opcode 289), iteration=%d", i + 1);
-			Sleep(1000);
+			Sleep(pollMs);
 			continue;
 		}
 
@@ -1584,8 +1661,62 @@ bool CMaxProto::RunQrLoginFlow(WebSocket<CMaxProto> *ws)
 		if (approved) {
 			CMStringA token;
 			if (!ApiLoginByQrTrack(ws, trackId.c_str(), token)) {
-				debugLogA("Max: QR approved but login by track failed (opcode 291)");
-				break;
+				CMStringW hint;
+				if (sttExtractMaxQrPasswordChallenge(m_szPendingResponse, hint)) {
+					debugLogA("Max: QR requires password challenge (hint=%s)", hint.IsEmpty() ? "(none)" : T2Utf(hint).get());
+
+					CMaxQrPasswordPromptCtx ctx = {};
+					ctx.pProto = this;
+					ctx.hint = hint;
+					CallFunctionSync(sttPromptMaxQrPassword, &ctx);
+
+					if (!ctx.ok) {
+						debugLogA("Max: QR password prompt cancelled");
+						break;
+					}
+
+					// Web client submits 2FA password via opcode 115 with {trackId, password}.
+					JSONNode payload(JSON_NODE);
+					payload << CHAR_PARAM("trackId", trackId.c_str());
+					payload << CHAR_PARAM("password", ctx.outPasswordUtf8.c_str());
+
+					if (!SendJsonAndWait(ws, 115, payload, 0, true)) {
+						debugLogA("Max: QR password submit request failed (opcode 115)");
+						break;
+					}
+
+					JSONNode resp2 = JSONNode::parse(m_szPendingResponse.c_str());
+					const JSONNode &pl2 = resp2["payload"];
+					if (pl2.type() == JSON_NODE) {
+						if (pl2["token"].type() == JSON_STRING)
+							token = pl2["token"].as_string().c_str();
+						if (token.IsEmpty() && pl2["loginToken"].type() == JSON_STRING)
+							token = pl2["loginToken"].as_string().c_str();
+
+						if (token.IsEmpty()) {
+							const JSONNode &ta = pl2["tokenAttrs"];
+							if (ta.type() == JSON_NODE && ta["LOGIN"].type() == JSON_NODE && ta["LOGIN"]["token"].type() == JSON_STRING)
+								token = ta["LOGIN"]["token"].as_string().c_str();
+						}
+					}
+
+					if (token.IsEmpty()) {
+						CMStringA errCode;
+						if (pl2["error"].type() == JSON_STRING)
+							errCode = pl2["error"].as_string().c_str();
+						if (!mir_strcmpi(errCode.c_str(), "track.not.found")) {
+							debugLogA("Max: QR track not found after password submit (need rescan)");
+						}
+						else {
+							debugLogA("Max: QR password submitted but login still failed");
+						}
+						break;
+					}
+				}
+				else {
+					debugLogA("Max: QR approved but login by track failed (opcode 291)");
+					break;
+				}
 			}
 
 			setString(DB_KEY_LOGIN_TOKEN, token);
@@ -1593,7 +1724,7 @@ bool CMaxProto::RunQrLoginFlow(WebSocket<CMaxProto> *ws)
 			CloseQrDialog(true);
 			return true;
 		}
-		Sleep(1000);
+		Sleep(pollMs);
 	}
 
 	CloseQrDialog(false);
@@ -1676,6 +1807,14 @@ void __cdecl CMaxProto::WsRunThread(void *)
 void __cdecl CMaxProto::ConnectionWorker(void *)
 {
 	m_dwConnThreadId = GetCurrentThreadId();
+	auto setOfflineOnConnectFailure = [&]() {
+		if (m_iStatus != ID_STATUS_OFFLINE) {
+			int iOldStatus = m_iStatus;
+			m_iStatus = ID_STATUS_OFFLINE;
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)iOldStatus, m_iStatus);
+		}
+	};
+
 	WebSocket<CMaxProto> ws(this);
 	MHttpHeaders hdrs;
 	hdrs.AddHeader("Origin", szOrigin);
@@ -1706,6 +1845,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 	NLHR_PTR pReply(ws.connect(m_hNetlibUser, szWsUrl, &hdrs));
 	if (!pReply || pReply->resultCode != 101) {
 		debugLogA("Max: WebSocket failed (code=%d)", pReply ? pReply->resultCode : -1);
+		setOfflineOnConnectFailure();
 		return;
 	}
 
@@ -1724,6 +1864,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 		m_pGateway = nullptr;
 		m_wsRun.ws = nullptr;
 		m_bGatewayConnected = false;
+		setOfflineOnConnectFailure();
 		return;
 	}
 
@@ -1738,6 +1879,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 		m_pGateway = nullptr;
 		m_wsRun.ws = nullptr;
 		m_bGatewayConnected = false;
+		setOfflineOnConnectFailure();
 		return;
 	}
 
@@ -1757,6 +1899,7 @@ void __cdecl CMaxProto::ConnectionWorker(void *)
 			m_pGateway = nullptr;
 			m_wsRun.ws = nullptr;
 			m_bGatewayConnected = false;
+			setOfflineOnConnectFailure();
 			return;
 		}
 		token = getStringA(DB_KEY_LOGIN_TOKEN);
