@@ -4,9 +4,11 @@
 #define IDD_QRLOGIN                     104
 #define IDD_OPTIONSUI                   105
 #define IDD_SEARCHUI                    106
+#define IDD_FORWARD                     107
 #define IDC_QRPIC                       1002
 #define IDC_GROUPNAME                   1007
 #define IDC_COMPRESS_FILES              1008
 #define IDC_BIO                         1010
 #define IDC_FIRSTNAME                   1011
 #define IDC_LASTNAME                    1012
+#define IDC_CLIST                       1016

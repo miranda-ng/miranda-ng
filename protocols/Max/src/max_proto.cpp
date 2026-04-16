@@ -37,6 +37,87 @@ struct CMaxFileSendCtx
 };
 
 typedef CProtoDlgBase<CMaxProto> CMaxDlgBase;
+static constexpr auto MAX_NS_MENU_EXEC_SERVICE = "/NSExecMenu";
+static constexpr int MAX_NS_MENU_FORWARD = 1;
+
+class CMaxForwardDlg : public CMaxDlgBase
+{
+	CCtrlClc m_clist;
+	std::vector<MEVENT> &m_ids;
+
+	void FilterList(CCtrlClc *)
+	{
+		for (auto &hContact : Contacts()) {
+			if (!Proto_IsProtoOnContact(hContact, m_proto->m_szModuleName) || m_proto->isChatRoom(hContact))
+				if (HANDLE hItem = m_clist.FindContact(hContact))
+					m_clist.DeleteItem(hItem);
+		}
+	}
+
+	void ResetListOptions(CCtrlClc *)
+	{
+		m_clist.SetHideEmptyGroups(true);
+		m_clist.SetHideOfflineRoot(false);
+	}
+
+public:
+	CMaxForwardDlg(CMaxProto *ppro, std::vector<MEVENT> &ids) :
+		CMaxDlgBase(ppro, IDD_FORWARD),
+		m_clist(this, IDC_CLIST),
+		m_ids(ids)
+	{
+		m_clist.OnNewContact =
+			m_clist.OnListRebuilt = Callback(this, &CMaxForwardDlg::FilterList);
+		m_clist.OnOptionsChanged = Callback(this, &CMaxForwardDlg::ResetListOptions);
+	}
+
+	bool OnInitDialog() override
+	{
+		SetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE,
+			GetWindowLongPtr(m_clist.GetHwnd(), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+		m_clist.SendMsg(CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
+		ResetListOptions(&m_clist);
+		FilterList(&m_clist);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (!m_proto->WaitForGatewayReady() || m_proto->m_pGateway == nullptr)
+			return false;
+
+		std::vector<MCONTACT> targets;
+		for (auto &hContact : m_proto->AccContacts()) {
+			if (HANDLE hItem = m_clist.FindContact(hContact))
+				if (m_clist.GetCheck(hItem))
+					targets.push_back(hContact);
+		}
+		if (targets.empty())
+			return false;
+
+		int okCount = 0;
+		for (auto &hTarget : targets) {
+			CMStringA dstChatId = m_proto->GetOrResolveDialogChatId(hTarget);
+			if (dstChatId.IsEmpty())
+				continue;
+
+			for (auto &hEvent : m_ids) {
+				DB::EventInfo dbei(hEvent, false);
+				if (!dbei || dbei.szId == nullptr || dbei.szId[0] == 0 || dbei.eventType != EVENTTYPE_MESSAGE)
+					continue;
+
+				MCONTACT hSrcContact = db_event_getContact(hEvent);
+				CMStringA srcChatId = m_proto->GetOrResolveDialogChatId(hSrcContact);
+				if (srcChatId.IsEmpty())
+					continue;
+
+				if (m_proto->ApiSendForwardMessage(m_proto->m_pGateway, dstChatId.c_str(), srcChatId.c_str(), dbei.szId))
+					++okCount;
+			}
+		}
+		return okCount > 0;
+	}
+};
 
 class CMaxQRDlg : public CMaxDlgBase
 {
@@ -632,6 +713,49 @@ int CMaxProto::OnLangpackChanged(WPARAM, LPARAM)
 
 	m_bTerminated = false;
 	m_hConnThread = ForkThreadEx(&CMaxProto::ConnectionWorker, nullptr, nullptr);
+	return 0;
+}
+
+void CMaxProto::InitMenus()
+{
+	if (!HookProtoEvent(ME_NS_PREBUILDMENU, &CMaxProto::OnPrebuildNSMenu))
+		return;
+
+	CreateProtoService(MAX_NS_MENU_EXEC_SERVICE, &CMaxProto::SvcExecMenu);
+	CMStringA szSvc(FORMAT, "%s%s", m_szModuleName, MAX_NS_MENU_EXEC_SERVICE);
+
+	CMenuItem mi(&g_plugin);
+	mi.pszService = szSvc;
+	mi.position = NS_PROTO_MENU_POS;
+	mi.name.a = LPGEN("Forward");
+	m_hmiForward = Menu_AddNewStoryMenuItem(&mi, MAX_NS_MENU_FORWARD);
+}
+
+int CMaxProto::OnPrebuildNSMenu(WPARAM hContact, LPARAM lParam)
+{
+	const auto &dbei = *(DB::EventInfo *)lParam;
+	const bool show = (hContact != 0) && Proto_IsProtoOnContact(hContact, m_szModuleName) && !isChatRoom(hContact) && dbei && dbei.eventType == EVENTTYPE_MESSAGE;
+	Menu_ShowItem(m_hmiForward, show);
+	return 0;
+}
+
+INT_PTR CMaxProto::SvcExecMenu(WPARAM iCommand, LPARAM pHandle)
+{
+	if (iCommand != MAX_NS_MENU_FORWARD)
+		return 0;
+
+	MEVENT hCurrentEvent = NS_GetCurrent((HANDLE)pHandle);
+	if (hCurrentEvent == -1)
+		return 1;
+
+	std::vector<MEVENT> ids = NS_GetSelection(HANDLE(pHandle));
+	if (ids.empty())
+		ids.push_back(hCurrentEvent);
+	if (ids.empty())
+		return 1;
+	std::sort(ids.begin(), ids.end());
+
+	CMaxForwardDlg(this, ids).DoModal();
 	return 0;
 }
 
@@ -1396,6 +1520,7 @@ MCONTACT CMaxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 void CMaxProto::OnModulesLoaded()
 {
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CMaxProto::OnUserInfoInit);
+	InitMenus();
 }
 
 bool CMaxProto::ContactNeedsServerDisplayFetch(MCONTACT hContact)

@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <algorithm>
 
 #include <newpluginapi.h>
 #include <m_chat_int.h>
@@ -19,6 +20,7 @@
 #include <m_json.h>
 #include <m_langpack.h>
 #include <m_message.h>
+#include <m_newstory.h>
 #include <m_netlib.h>
 #include <m_options.h>
 #include <m_popup.h>

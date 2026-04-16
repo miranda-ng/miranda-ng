@@ -638,17 +638,40 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	const bool fromSelf = (myUid != nullptr && sender == myUid);
 	CMStringA replyId;
 	const JSONNode &link = msg["link"];
-	if (link.type() == JSON_NODE && link["type"].type() == JSON_STRING && !mir_strcmpi(link["type"].as_string().c_str(), "REPLY")) {
-		replyId = sttMsgJsonIdStr(link["messageId"]);
-		if (replyId.IsEmpty() && link["mid"].type() != JSON_NULL)
-			replyId = sttMsgJsonIdStr(link["mid"]);
-		if (replyId.IsEmpty() && link["message"].type() == JSON_NODE)
-			replyId = sttMsgJsonIdStr(link["message"]["id"]);
+	bool isForward = false;
+	if (link.type() == JSON_NODE && link["type"].type() == JSON_STRING) {
+		CMStringA lt(link["type"].as_string().c_str());
+		lt.MakeUpper();
+		if (lt == "REPLY") {
+			replyId = sttMsgJsonIdStr(link["messageId"]);
+			if (replyId.IsEmpty() && link["mid"].type() != JSON_NULL)
+				replyId = sttMsgJsonIdStr(link["mid"]);
+			if (replyId.IsEmpty() && link["message"].type() == JSON_NODE)
+				replyId = sttMsgJsonIdStr(link["message"]["id"]);
+		}
+		else if (lt == "FORWARD") {
+			isForward = true;
+		}
 	}
 
 	CMStringA text = sttMessageBodyUtf8(msg);
 	std::vector<CMaxIncomingFile> files;
 	sttCollectIncomingFiles(msg, files);
+
+	// Forwarded messages may have empty outer "text" and carry content in link.message.
+	if (text.IsEmpty() && files.empty() && isForward && link.type() == JSON_NODE && link["message"].type() == JSON_NODE) {
+		CMStringA fwd = sttMessageBodyUtf8(link["message"]);
+		if (!fwd.IsEmpty()) {
+			// NewStory has no dedicated "forward" UI, render as a quote block.
+			text = "[quote]";
+			text += fwd;
+			text += "[/quote]";
+		}
+	}
+	// Some forward payloads contain only link.chatId/messageId without embedded message body.
+	// Keep a visible placeholder instead of dropping the event as "empty".
+	if (text.IsEmpty() && files.empty() && isForward)
+		text = "[quote]Forwarded message[/quote]";
 	if (text.IsEmpty() && files.empty())
 		return;
 

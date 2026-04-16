@@ -11,6 +11,7 @@ class CMaxProto : public PROTO<CMaxProto>
 {
 	friend void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen);
 	friend class CMaxQRDlg;
+	friend class CMaxForwardDlg;
 
 	WebSocket<CMaxProto> *m_pGateway = nullptr;
 	bool m_bGatewayConnected = false;
@@ -41,6 +42,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	/// Last locale we asked the server for ("ru" or "en") on the current WS session.
 	CMStringA m_wsLocale;
 	bool m_bAvatarWebPrimed = false;
+	HGENMENU m_hmiForward = nullptr;
 
 	struct
 	{
@@ -92,6 +94,9 @@ class CMaxProto : public PROTO<CMaxProto>
 	INT_PTR __cdecl SvcCanEmptyHistory(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam);
 	int __cdecl OnLangpackChanged(WPARAM, LPARAM);
+	int __cdecl OnPrebuildNSMenu(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcExecMenu(WPARAM, LPARAM);
+	void InitMenus();
 
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
@@ -130,6 +135,7 @@ public:
 	/// Opcode 49: message window around anchor `fromMs` (ms). Use forward>0 for newer-only gap fill; backward for older history.
 	bool ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fromMs, int forward, int backward, bool bMarkRead = false, int *pMsgCount = nullptr, uint64_t *pOldestMs = nullptr);
 	bool ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, const char *szReplyMsgId = nullptr, CMStringA *pOutMsgId = nullptr);
+	bool ApiSendForwardMessage(WebSocket<CMaxProto> *ws, const char *szDstChatId, const char *szSrcChatId, const char *szSrcMsgId, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendFileMessage(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fileId, bool bPhoto, const char *szPhotoToken = nullptr, const char *szText = nullptr, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendMultiPhotoMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const std::vector<CMStringA> &photoTokens, const char *szText = nullptr, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bool bTyping);

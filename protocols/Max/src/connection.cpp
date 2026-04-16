@@ -864,6 +864,81 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	return true;
 }
 
+bool CMaxProto::ApiSendForwardMessage(WebSocket<CMaxProto> *ws, const char *szDstChatId, const char *szSrcChatId, const char *szSrcMsgId, CMStringA *pOutMsgId)
+{
+	if (pOutMsgId != nullptr)
+		pOutMsgId->Empty();
+	if (!ws || szDstChatId == nullptr || szDstChatId[0] == 0 || szSrcChatId == nullptr || szSrcChatId[0] == 0 || szSrcMsgId == nullptr || szSrcMsgId[0] == 0)
+		return false;
+
+	int64_t dstCid = _strtoi64(szDstChatId, nullptr, 10);
+	if (dstCid == 0 && mir_strcmp(szDstChatId, "0"))
+		return false;
+	int64_t srcCid = _strtoi64(szSrcChatId, nullptr, 10);
+	if (srcCid == 0 && mir_strcmp(szSrcChatId, "0"))
+		return false;
+
+	FILETIME ft = {};
+	GetSystemTimeAsFileTime(&ft);
+	ULARGE_INTEGER ui = {};
+	ui.LowPart = ft.dwLowDateTime;
+	ui.HighPart = ft.dwHighDateTime;
+	uint64_t nowMs = (ui.QuadPart - 116444736000000000ULL) / 10000ULL;
+	uint64_t cidMs = 0;
+	{
+		mir_cslock lck(m_csCid);
+		cidMs = nowMs;
+		if (cidMs <= m_lastClientCidMs)
+			cidMs = m_lastClientCidMs + 1;
+		m_lastClientCidMs = cidMs;
+	}
+
+	JSONNode msg(JSON_NODE);
+	msg << CHAR_PARAM("text", "") << INT64_PARAM("cid", (int64_t)cidMs);
+	msg << JSON_PARAM("elements", JSONNode(JSON_ARRAY)) << JSON_PARAM("attaches", JSONNode(JSON_ARRAY));
+
+	JSONNode link(JSON_NODE);
+	link << CHAR_PARAM("type", "FORWARD") << INT64_PARAM("chatId", srcCid) << CHAR_PARAM("messageId", szSrcMsgId);
+	msg << JSON_PARAM("link", link);
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", dstCid) << JSON_PARAM("message", msg) << BOOL_PARAM("notify", true);
+	if (!SendJsonAndWait(ws, 64, payload, 0))
+		return false;
+
+	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
+	if (!resp)
+		return true;
+
+	const JSONNode &pl = resp["payload"];
+	const JSONNode &m = pl["message"];
+	CMStringA dstChatIdEcho(szDstChatId);
+	const JSONNode &chatNode = pl["chatId"];
+	if (chatNode.type() == JSON_NUMBER)
+		dstChatIdEcho.Format("%.0f", chatNode.as_float());
+	else if (chatNode.type() == JSON_STRING)
+		dstChatIdEcho = chatNode.as_string().c_str();
+
+	if (m.type() == JSON_NODE && !dstChatIdEcho.IsEmpty())
+		IngestMaxMessageJson(m, dstChatIdEcho.c_str());
+
+	const JSONNode *idNode = nullptr;
+	if (m.type() == JSON_NODE && m["id"].type() != JSON_NULL)
+		idNode = &m["id"];
+	else if (pl["messageId"].type() != JSON_NULL)
+		idNode = &pl["messageId"];
+	else if (pl["id"].type() != JSON_NULL)
+		idNode = &pl["id"];
+
+	if (idNode != nullptr && pOutMsgId != nullptr) {
+		if (idNode->type() == JSON_NUMBER)
+			pOutMsgId->Format("%.0f", idNode->as_float());
+		else
+			*pOutMsgId = idNode->as_string().c_str();
+	}
+	return true;
+}
+
 bool CMaxProto::ApiSendFileMessage(WebSocket<CMaxProto> *ws, const char *szChatId, int64_t fileId, bool bPhoto, const char *szPhotoToken, const char *szText, CMStringA *pOutMsgId)
 {
 	if (pOutMsgId != nullptr)
