@@ -663,8 +663,134 @@ bool CMaxProto::ApiFetchChatMessages(WebSocket<CMaxProto> *ws, const char *szCha
 			*pOldestMs = oldest;
 		}
 	}
+
 	IngestChatHistoryPayload(pl, szChatId, bMarkRead);
 	return true;
+}
+
+struct CMaxFmtSpan
+{
+	const char *type;
+	int from;
+};
+
+static bool sttTakeBbTag(const wchar_t *p, int &consumed, bool &isClose, const char *&type)
+{
+	consumed = 0;
+	isClose = false;
+	type = nullptr;
+	if (p == nullptr || p[0] != L'[')
+		return false;
+
+	// Custom rule: [color=FF0000]...[/color] should be sent as CODE.
+	if (!_wcsnicmp(p, L"[/color]", 8)) {
+		consumed = 8;
+		isClose = true;
+		type = "CODE";
+		return true;
+	}
+	if (!_wcsnicmp(p, L"[color=", 7)) {
+		const wchar_t *q = wcschr(p + 7, L']');
+		if (q != nullptr) {
+			CMStringW val(p + 7, (int)(q - (p + 7)));
+			val.Trim();
+			if (!val.IsEmpty() && val[0] == L'#')
+				val.Delete(0, 1);
+			val.MakeUpper();
+			if (val == L"FF0000") {
+				consumed = (int)(q - p + 1);
+				isClose = false;
+				type = "CODE";
+				return true;
+			}
+		}
+	}
+
+	struct TagDef { const wchar_t *open, *close; const char *type; };
+	static const TagDef tags[] = {
+		{ L"[b]", L"[/b]", "STRONG" },
+		{ L"[i]", L"[/i]", "EMPHASIZED" },
+		{ L"[u]", L"[/u]", "UNDERLINE" },
+		{ L"[s]", L"[/s]", "STRIKETHROUGH" },
+		{ L"[code]", L"[/code]", "MONOSPACED" },
+		{ L"[quote]", L"[/quote]", "QUOTE" }
+	};
+
+	for (const auto &t : tags) {
+		const int nOpen = (int)mir_wstrlen(t.open), nClose = (int)mir_wstrlen(t.close);
+		if (!_wcsnicmp(p, t.open, nOpen)) {
+			consumed = nOpen;
+			isClose = false;
+			type = t.type;
+			return true;
+		}
+		if (!_wcsnicmp(p, t.close, nClose)) {
+			consumed = nClose;
+			isClose = true;
+			type = t.type;
+			return true;
+		}
+	}
+	return false;
+}
+
+static void sttBuildOutgoingTextAndElements(const char *szTextUtf8, CMStringA &outTextUtf8, JSONNode &outElems)
+{
+	outTextUtf8 = (szTextUtf8 != nullptr) ? szTextUtf8 : "";
+	if (szTextUtf8 == nullptr || szTextUtf8[0] == 0)
+		return;
+
+	ptrW wszSrc(mir_utf8decodeW(szTextUtf8));
+	if (wszSrc == nullptr || wszSrc[0] == 0)
+		return;
+	const wchar_t *pSrc = wszSrc;
+
+	CMStringW plain;
+	std::vector<CMaxFmtSpan> stack;
+	std::vector<CMaxFmtSpan> spans;
+	std::vector<int> lens;
+
+	for (int i = 0; pSrc[i] != 0;) {
+		int nTag = 0;
+		bool isClose = false;
+		const char *type = nullptr;
+		if (sttTakeBbTag(pSrc + i, nTag, isClose, type)) {
+			if (!isClose) {
+				stack.push_back({ type, plain.GetLength() });
+				i += nTag;
+				continue;
+			}
+			for (int j = (int)stack.size() - 1; j >= 0; --j) {
+				if (mir_strcmp(stack[j].type, type))
+					continue;
+				const int len = plain.GetLength() - stack[j].from;
+				if (len > 0) {
+					spans.push_back({ stack[j].type, stack[j].from });
+					lens.push_back(len);
+				}
+				stack.erase(stack.begin() + j);
+				i += nTag;
+				type = nullptr;
+				break;
+			}
+			if (type == nullptr)
+				continue; // consumed a valid closing tag
+		}
+
+		plain.AppendChar(pSrc[i]);
+		++i;
+	}
+
+	ptrA utfPlain(mir_utf8encodeW(plain.c_str()));
+	outTextUtf8 = (utfPlain != nullptr) ? utfPlain.get() : "";
+
+	for (size_t i = 0; i < spans.size(); ++i) {
+		JSONNode e(JSON_NODE);
+		e << CHAR_PARAM("type", spans[i].type)
+			<< INT_PARAM("from", spans[i].from)
+			<< INT_PARAM("length", lens[i]);
+		outElems.push_back(e);
+	}
 }
 
 bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szText, CMStringA *pOutMsgId)
@@ -694,9 +820,14 @@ bool CMaxProto::ApiSendMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 			cidMs = m_lastClientCidMs + 1;
 		m_lastClientCidMs = cidMs;
 	}
-	JSONNode msg(JSON_NODE);
-	msg << CHAR_PARAM("text", szText) << INT64_PARAM("cid", (int64_t)cidMs);
 	JSONNode elems(JSON_ARRAY), attaches(JSON_ARRAY);
+	CMStringA textWire;
+	sttBuildOutgoingTextAndElements(szText, textWire, elems);
+	if (textWire.IsEmpty())
+		return false;
+
+	JSONNode msg(JSON_NODE);
+	msg << CHAR_PARAM("text", textWire.c_str()) << INT64_PARAM("cid", (int64_t)cidMs);
 	msg << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
 
 	JSONNode payload(JSON_NODE);
@@ -777,11 +908,14 @@ bool CMaxProto::ApiSendFileMessage(WebSocket<CMaxProto> *ws, const char *szChatI
 	JSONNode attaches(JSON_ARRAY);
 	attaches.push_back(att);
 	JSONNode elems(JSON_ARRAY);
+	CMStringA textWire;
+	if (szText != nullptr && szText[0] != 0)
+		sttBuildOutgoingTextAndElements(szText, textWire, elems);
 
 	JSONNode msg(JSON_NODE);
 	msg << INT64_PARAM("cid", (int64_t)cidMs) << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
-	if (szText != nullptr && szText[0] != 0)
-		msg << CHAR_PARAM("text", szText);
+	if (!textWire.IsEmpty())
+		msg << CHAR_PARAM("text", textWire.c_str());
 
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("message", msg) << BOOL_PARAM("notify", true);
@@ -849,10 +983,13 @@ bool CMaxProto::ApiSendMultiPhotoMessage(WebSocket<CMaxProto> *ws, const char *s
 		return false;
 
 	JSONNode elems(JSON_ARRAY);
+	CMStringA textWire;
+	if (szText != nullptr && szText[0] != 0)
+		sttBuildOutgoingTextAndElements(szText, textWire, elems);
 	JSONNode msg(JSON_NODE);
 	msg << INT64_PARAM("cid", (int64_t)cidMs) << JSON_PARAM("elements", elems) << JSON_PARAM("attaches", attaches);
-	if (szText != nullptr && szText[0] != 0)
-		msg << CHAR_PARAM("text", szText);
+	if (!textWire.IsEmpty())
+		msg << CHAR_PARAM("text", textWire.c_str());
 
 	JSONNode payload(JSON_NODE);
 	payload << INT64_PARAM("chatId", cid) << JSON_PARAM("message", msg) << BOOL_PARAM("notify", true);
@@ -924,7 +1061,9 @@ bool CMaxProto::ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 
 	JSONNode payload(JSON_NODE);
 	JSONNode elems(JSON_ARRAY), attaches(JSON_ARRAY);
-	payload << INT64_PARAM("chatId", cid) << CHAR_PARAM("messageId", szMsgId) << CHAR_PARAM("text", szText)
+	CMStringA textWire;
+	sttBuildOutgoingTextAndElements(szText, textWire, elems);
+	payload << INT64_PARAM("chatId", cid) << CHAR_PARAM("messageId", szMsgId) << CHAR_PARAM("text", textWire.c_str())
 		<< JSON_PARAM("elements", elems) << JSON_PARAM("attachments", attaches);
 
 	return SendJsonAndWait(ws, 67, payload, 0);

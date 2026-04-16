@@ -647,7 +647,7 @@ INT_PTR CMaxProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_SUPPORTTYPING | PF4_OFFLINEFILES;
+		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_AVATARS | PF4_SERVERMSGID | PF4_DELETEFORALL | PF4_SUPPORTTYPING | PF4_OFFLINEFILES | PF4_SERVERFORMATTING;
 
 	case PFLAG_UNIQUEIDTEXT:
 	{
@@ -1559,7 +1559,7 @@ void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 			break;
 		}
 
-		if (msgs->size() == 0) {
+		if (pageMsgCount == 0) {
 			reachedBottom = true;
 			stopReason = "empty-page";
 			break;

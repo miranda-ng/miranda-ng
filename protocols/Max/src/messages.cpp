@@ -112,20 +112,12 @@ void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
 		lastMs = sttPresenceTimeMs(src["lastSeenAt"]);
 	if (lastMs == 0)
 		lastMs = sttPresenceTimeMs(src["seen"]);
-	if (lastMs == 0)
-		lastMs = sttPresenceTimeMs(src["lastActivity"]);
-	if (lastMs == 0)
-		lastMs = sttPresenceTimeMs(src["lastActivityAt"]);
 	if (lastMs == 0 && st.type() == JSON_NODE) {
 		lastMs = sttPresenceTimeMs(st["lastSeen"]);
 		if (lastMs == 0)
 			lastMs = sttPresenceTimeMs(st["lastSeenAt"]);
 		if (lastMs == 0)
 			lastMs = sttPresenceTimeMs(st["seen"]);
-		if (lastMs == 0)
-			lastMs = sttPresenceTimeMs(st["lastActivity"]);
-		if (lastMs == 0)
-			lastMs = sttPresenceTimeMs(st["lastActivityAt"]);
 	}
 
 	// Some presence updates indicate offline by sending only "seen" timestamp (without explicit status).
@@ -143,12 +135,168 @@ void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
 	}
 }
 
+static bool sttMessageElementTags(const char *szType, const wchar_t *&pOpen, const wchar_t *&pClose)
+{
+	if (szType == nullptr || szType[0] == 0)
+		return false;
+
+	CMStringA t(szType);
+	t.MakeUpper();
+	if (t == "STRONG") {
+		pOpen = L"[b]";
+		pClose = L"[/b]";
+		return true;
+	}
+	// NewStory has no heading-size BBCode, so map HEADING to strong emphasis.
+	if (t == "HEADING") {
+		pOpen = L"[b]";
+		pClose = L"[/b]";
+		return true;
+	}
+	if (t == "EMPHASIZED") {
+		pOpen = L"[i]";
+		pClose = L"[/i]";
+		return true;
+	}
+	if (t == "UNDERLINE") {
+		pOpen = L"[u]";
+		pClose = L"[/u]";
+		return true;
+	}
+	if (t == "STRIKETHROUGH") {
+		pOpen = L"[s]";
+		pClose = L"[/s]";
+		return true;
+	}
+	if (t == "CODE") {
+		pOpen = L"[code]";
+		pClose = L"[/code]";
+		return true;
+	}
+	if (t == "MONOSPACED") {
+		pOpen = L"[code]";
+		pClose = L"[/code]";
+		return true;
+	}
+	if (t == "QUOTE") {
+		pOpen = L"[quote]";
+		pClose = L"[/quote]";
+		return true;
+	}
+	return false;
+}
+
 static CMStringA sttMessageBodyUtf8(const JSONNode &msg)
 {
 	const JSONNode &t = msg["text"];
-	if (t.type() == JSON_STRING && !t.as_string().empty())
-		return CMStringA(t.as_string().c_str());
-	return CMStringA();
+	if (t.type() != JSON_STRING || t.as_string().empty())
+		return CMStringA();
+	CMStringA rawText(t.as_string().c_str());
+
+	const JSONNode &elems = msg["elements"];
+	if (elems.type() != JSON_ARRAY || elems.size() == 0)
+		return rawText;
+
+	ptrW wszText(mir_utf8decodeW(rawText.c_str()));
+	if (wszText == nullptr || wszText[0] == 0)
+		return rawText;
+
+	CMStringW src(wszText), out;
+	const int total = src.GetLength();
+	int fallbackFrom = 0;
+	bool bUsedFormatting = false;
+	std::map<int, std::vector<const wchar_t*>> openTags, closeTags;
+
+	for (unsigned i = 0; i < elems.size(); ++i) {
+		const JSONNode &e = elems[(json_index_t)i];
+		if (e.type() != JSON_NODE)
+			continue;
+
+		int from = fallbackFrom;
+		if (e["from"].type() == JSON_NUMBER)
+			from = (int)(e["from"].as_float() + 0.5);
+		else if (e["from"].type() == JSON_STRING)
+			from = atoi(e["from"].as_string().c_str());
+
+		int len = 0;
+		if (e["length"].type() == JSON_NUMBER)
+			len = (int)(e["length"].as_float() + 0.5);
+		else if (e["length"].type() == JSON_STRING)
+			len = atoi(e["length"].as_string().c_str());
+		if (len <= 0)
+			continue;
+
+		if (from < 0)
+			from = 0;
+		if (from >= total)
+			continue;
+		int to = from + len;
+		if (to > total)
+			to = total;
+		if (to <= from)
+			continue;
+
+		const wchar_t *pOpen = nullptr, *pClose = nullptr;
+		if (e["type"].type() == JSON_STRING) {
+			CMStringA type(e["type"].as_string().c_str());
+			type.MakeUpper();
+			if (type == "LINK") {
+				CMStringW openTag = L"[url]";
+				const JSONNode &attrs = e["attributes"];
+				if (attrs.type() == JSON_NODE && attrs["url"].type() == JSON_STRING && !attrs["url"].as_string().empty()) {
+					ptrW wUrl(mir_utf8decodeW(attrs["url"].as_string().c_str()));
+					if (wUrl != nullptr && wUrl[0] != 0) {
+						openTag = L"[url=";
+						openTag.Append(wUrl);
+						openTag.Append(L"]");
+					}
+				}
+				openTags[from].push_back(mir_wstrdup(openTag.c_str()));
+				closeTags[to].insert(closeTags[to].begin(), mir_wstrdup(L"[/url]"));
+				bUsedFormatting = true;
+			}
+			else if (sttMessageElementTags(type.c_str(), pOpen, pClose)) {
+				openTags[from].push_back(pOpen);
+				// close in reverse opening order for nested segments on same boundary
+				closeTags[to].insert(closeTags[to].begin(), pClose);
+				bUsedFormatting = true;
+			}
+		}
+
+		if (e["from"].type() == JSON_NULL)
+			fallbackFrom = to;
+	}
+
+	if (!bUsedFormatting)
+		return rawText;
+
+	for (int i = 0; i < total; ++i) {
+		auto itOpen = openTags.find(i);
+		if (itOpen != openTags.end()) {
+			for (auto *tag : itOpen->second)
+				out.Append(tag);
+		}
+
+		out.AppendChar(src[i]);
+
+		auto itClose = closeTags.find(i + 1);
+		if (itClose != closeTags.end()) {
+			for (auto *tag : itClose->second)
+				out.Append(tag);
+		}
+	}
+
+	for (auto &it : openTags)
+		for (auto *tag : it.second)
+			if (tag != nullptr && (tag[0] == L'[' && wcsncmp(tag, L"[url", 4) == 0))
+				mir_free((void*)tag);
+	for (auto &it : closeTags)
+		for (auto *tag : it.second)
+			if (tag != nullptr && !mir_wstrcmp(tag, L"[/url]"))
+				mir_free((void*)tag);
+
+	ptrA utf(mir_utf8encodeW(out.c_str()));
+	return (utf != nullptr && utf[0] != 0) ? CMStringA(utf) : rawText;
 }
 
 struct CMaxIncomingFile
@@ -745,10 +893,6 @@ void CMaxProto::TryIngestPresencePayload(const JSONNode &payload, int opcode)
 			uid = sttMsgJsonIdStr(n["uid"]);
 		if (uid.IsEmpty())
 			uid = sttMsgJsonIdStr(n["contactId"]);
-		if (uid.IsEmpty())
-			uid = sttMsgJsonIdStr(n["peerId"]);
-		if (uid.IsEmpty())
-			uid = sttMsgJsonIdStr(n["participantId"]);
 		if (uid.IsEmpty() && n["user"].type() == JSON_NODE) {
 			uid = sttMsgJsonIdStr(n["user"]["id"]);
 			if (uid.IsEmpty())
@@ -771,7 +915,7 @@ void CMaxProto::TryIngestPresencePayload(const JSONNode &payload, int opcode)
 			return;
 		MCONTACT h = FindContactByMaxUid(uid.c_str());
 		if (!h) {
-			debugLogA("Max: presence uid=%s not matched to local contact", uid.c_str());
+			debugLogA("Max: presence skip uid=%s (no local contact)", uid.c_str());
 			return;
 		}
 		ApplyPresenceToContact(h, n);
