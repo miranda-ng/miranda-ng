@@ -422,7 +422,7 @@ int CTelegramProto::SendTextMessage(int64_t chatId, int64_t threadId, int64_t re
 		pMessage->topic_id_ = std::move(pThread);
 	}
 	if (replyId)
-		pMessage->reply_to_.reset(new TD::inputMessageReplyToMessage(replyId, 0, 0, 0));
+		pMessage->reply_to_.reset(new TD::inputMessageReplyToMessage(replyId, 0, 0, ""));
 	return SendQuery(pMessage, &CTelegramProto::OnSendMessage);
 }
 
