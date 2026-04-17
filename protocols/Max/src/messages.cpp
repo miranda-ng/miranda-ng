@@ -598,6 +598,75 @@ CMStringA CMaxProto::GetOrResolveDialogChatId(MCONTACT hContact, bool bPersistIf
 	return resolved;
 }
 
+static CMStringA sttForwardPreambleUtf8(CMaxProto *pProto, const JSONNode &embMsg, uint64_t fallbackTimeMs)
+{
+	wchar_t wszDate[100];
+	wszDate[0] = 0;
+	uint64_t tMs = 0;
+	const JSONNode &t = embMsg["time"];
+	if (t.type() == JSON_NUMBER)
+		tMs = (uint64_t)(t.as_float() + 0.5);
+	else if (t.type() == JSON_STRING)
+		tMs = _strtoui64(t.as_string().c_str(), nullptr, 10);
+	if (tMs == 0)
+		tMs = fallbackTimeMs;
+
+	mir_time tsSec = 0;
+	if (tMs >= 1000000000000ULL)
+		tsSec = (mir_time)(tMs / 1000);
+	else if (tMs > 0)
+		tsSec = (mir_time)tMs;
+	if (tsSec != 0)
+		TimeZone_PrintTimeStamp(LOCAL_TIME_HANDLE, tsSec, L"d t", wszDate, _countof(wszDate), 0);
+
+	CMStringW wszAuthor;
+	const JSONNode &contactNd = embMsg["contact"];
+	if (contactNd.type() == JSON_NODE) {
+		CMStringW fn, ln;
+		pProto->FillNameFromMaxContactJson(contactNd, fn, ln);
+		if (!fn.IsEmpty() || !ln.IsEmpty()) {
+			wszAuthor = fn;
+			if (!ln.IsEmpty()) {
+				if (!wszAuthor.IsEmpty())
+					wszAuthor.AppendChar(L' ');
+				wszAuthor += ln;
+			}
+		}
+	}
+	if (wszAuthor.IsEmpty()) {
+		CMStringA uid = sttMsgJsonIdStr(embMsg["sender"]);
+		if (!uid.IsEmpty()) {
+			MCONTACT h = pProto->FindContactByMaxUid(uid.c_str());
+			if (h) {
+				CMStringW fn = pProto->getMStringW(h, "FirstName");
+				CMStringW ln = pProto->getMStringW(h, "LastName");
+				if (!fn.IsEmpty() || !ln.IsEmpty()) {
+					wszAuthor = fn;
+					if (!ln.IsEmpty()) {
+						if (!wszAuthor.IsEmpty())
+							wszAuthor.AppendChar(L' ');
+						wszAuthor += ln;
+					}
+				}
+			}
+			if (wszAuthor.IsEmpty())
+				wszAuthor = mir_utf8decodeW(uid.c_str());
+		}
+	}
+	if (wszAuthor.IsEmpty())
+		wszAuthor = TranslateT("Unknown");
+
+	ptrA dateUtf8(mir_utf8encodeW(wszDate[0] ? wszDate : L"?"));
+	ptrA authUtf8(mir_utf8encodeW(wszAuthor.c_str()));
+	const char *pszWrote = TranslateU("wrote");
+	if (pszWrote == nullptr || pszWrote[0] == 0)
+		pszWrote = "wrote";
+
+	CMStringA headline;
+	headline.Format(">%s %s %s\r\n", dateUtf8.get(), authUtf8.get(), pszWrote);
+	return headline;
+}
+
 void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, bool bMarkRead)
 {
 	if (msg.type() != JSON_NODE || szChatId == nullptr || szChatId[0] == 0)
@@ -654,24 +723,34 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 		}
 	}
 
+	uint64_t msgTimeMs = 0;
+	{
+		const JSONNode &tmsg = msg["time"];
+		if (tmsg.type() == JSON_NUMBER)
+			msgTimeMs = (uint64_t)(tmsg.as_float() + 0.5);
+		else if (tmsg.type() == JSON_STRING)
+			msgTimeMs = _strtoui64(tmsg.as_string().c_str(), nullptr, 10);
+	}
+
 	CMStringA text = sttMessageBodyUtf8(msg);
 	std::vector<CMaxIncomingFile> files;
 	sttCollectIncomingFiles(msg, files);
 
 	// Forwarded messages may have empty outer "text" and carry content in link.message.
+	// Same presentation as Telegram after #5240: ">date author wrote\r\n" + body (not [quote]).
 	if (text.IsEmpty() && files.empty() && isForward && link.type() == JSON_NODE && link["message"].type() == JSON_NODE) {
-		CMStringA fwd = sttMessageBodyUtf8(link["message"]);
-		if (!fwd.IsEmpty()) {
-			// NewStory has no dedicated "forward" UI, render as a quote block.
-			text = "[quote]";
-			text += fwd;
-			text += "[/quote]";
-		}
+		const JSONNode &emb = link["message"];
+		CMStringA fwd = sttMessageBodyUtf8(emb);
+		CMStringA pre = sttForwardPreambleUtf8(this, emb, msgTimeMs);
+		if (!fwd.IsEmpty())
+			text = pre + fwd;
+		else
+			text = pre + CMStringA(TranslateU("Forwarded message"));
 	}
 	// Some forward payloads contain only link.chatId/messageId without embedded message body.
 	// Keep a visible placeholder instead of dropping the event as "empty".
 	if (text.IsEmpty() && files.empty() && isForward)
-		text = "[quote]Forwarded message[/quote]";
+		text = TranslateU("Forwarded message");
 	if (text.IsEmpty() && files.empty())
 		return;
 
@@ -679,12 +758,7 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	if (!hContact)
 		return;
 
-	const JSONNode &t = msg["time"];
-	uint64_t tMs = 0;
-	if (t.type() == JSON_NUMBER)
-		tMs = (uint64_t)(t.as_float() + 0.5);
-	else if (t.type() == JSON_STRING)
-		tMs = _strtoui64(t.as_string().c_str(), nullptr, 10);
+	const uint64_t tMs = msgTimeMs;
 
 	if (!text.IsEmpty()) {
 		DB::EventInfo dbei;
