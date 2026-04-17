@@ -303,7 +303,8 @@ void CMaxProto::SyncContactAvatarFromJson(MCONTACT hContact, const JSONNode &c)
 			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai);
 			return;
 		}
-		debugLogA("Max: avatar download failed for h=%p url=%s", (void *)(INT_PTR)hContact, url.c_str());
+		CMStringA safeUrl(MaxRedactUrlForLog(url.c_str()));
+		debugLogA("Max: avatar download failed for h=%p url=%s", (void *)(INT_PTR)hContact, safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str());
 	}
 
 	db_set_b(hContact, "ContactPhoto", "NeedUpdate", 1);
@@ -396,7 +397,8 @@ bool CMaxProto::DownloadAvatarToFile(MCONTACT hContact, const char *szUrl, wchar
 		if (pReply == nullptr)
 			return false;
 		if (pReply->resultCode < 200 || pReply->resultCode >= 300) {
-			debugLogA("Max: avatar HTTP %d url=%s", pReply->resultCode, pszReqUrl);
+			CMStringA safeUrl(MaxRedactUrlForLog(pszReqUrl));
+			debugLogA("Max: avatar HTTP %d url=%s", pReply->resultCode, safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str());
 			return false;
 		}
 		if (pReply->body.IsEmpty())
@@ -455,7 +457,10 @@ bool CMaxProto::DownloadAvatarToFile(MCONTACT hContact, const char *szUrl, wchar
 			return true;
 	}
 
-	debugLogA("Max: avatar download failed (all strategies returned non-image or HTTP error) baseUrl=%s", szUrl);
+	{
+		CMStringA safeUrl(MaxRedactUrlForLog(szUrl));
+		debugLogA("Max: avatar download failed (all strategies returned non-image or HTTP error) baseUrl=%s", safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str());
+	}
 	return false;
 }
 

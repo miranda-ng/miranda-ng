@@ -389,7 +389,8 @@ static bool sttUploadFileMultipartViaWinHttp(HNETLIBUSER hNlu, const char *szUrl
 	uc.dwUrlPathLength = _countof(wszPath);
 	uc.dwSchemeLength = (DWORD)-1;
 	if (!WinHttpCrackUrl(wszUrl, 0, 0, &uc) || uc.nScheme != INTERNET_SCHEME_HTTPS) {
-		Netlib_Logf(hNlu, "Max: upload winhttp bad url %s", szUrl);
+		CMStringA safeUrl(MaxRedactUrlForLog(szUrl));
+		Netlib_Logf(hNlu, "Max: upload winhttp bad url %s", safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str());
 		return false;
 	}
 
@@ -439,7 +440,6 @@ static bool sttUploadFileMultipartViaWinHttp(HNETLIBUSER hNlu, const char *szUrl
 		goto LBL_Fail;
 
 	{
-		CMStringA bodyHead;
 		CMStringA fullBody;
 		char buf[256];
 		while (true) {
@@ -450,21 +450,17 @@ static bool sttUploadFileMultipartViaWinHttp(HNETLIBUSER hNlu, const char *szUrl
 			if (!WinHttpReadData(hRequest, buf, want, &read) || read == 0)
 				break;
 			fullBody.Append(buf, read);
-			if (bodyHead.GetLength() < 512)
-				bodyHead.Append(buf, min((int)read, 512 - bodyHead.GetLength()));
 		}
 		if (pOutBody != nullptr)
 			*pOutBody = fullBody;
 
 		if (statusCode < 200 || statusCode >= 300) {
-			bodyHead.Truncate(min(bodyHead.GetLength(), 512));
-			Netlib_Logf(hNlu, "Max: upload winhttp HTTP %u (url=%s, body=%s)", (unsigned)statusCode, szUrl, bodyHead.IsEmpty() ? "(empty)" : bodyHead.c_str());
+			CMStringA safeUrl(MaxRedactUrlForLog(szUrl));
+			Netlib_Logf(hNlu, "Max: upload winhttp HTTP %u (url=%s, bodyBytes=%u)", (unsigned)statusCode, safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str(), (unsigned)fullBody.GetLength());
 			goto LBL_Fail;
 		}
-		if (pOutBody != nullptr && !fullBody.IsEmpty()) {
-			CMStringA head(fullBody, min(fullBody.GetLength(), 256));
-			Netlib_Logf(hNlu, "Max: upload winhttp response head=%s", head.c_str());
-		}
+		if (pOutBody != nullptr && !fullBody.IsEmpty())
+			Netlib_Logf(hNlu, "Max: upload winhttp response bytes=%u", (unsigned)fullBody.GetLength());
 	}
 
 	Netlib_Logf(hNlu, "Max: upload winhttp ok status=%u elapsed=%u", (unsigned)statusCode, (unsigned)(GetTickCount() - t0));
@@ -501,19 +497,23 @@ static bool sttUploadFileMultipartViaNetlib(HNETLIBUSER hNlu, const char *szUrl,
 	req.AddHeader("Connection", "close");
 	req.AddHeader("Content-Type", CMStringA("multipart/form-data; boundary=") + boundary);
 	req.SetData(body.data(), body.length());
-	Netlib_Logf(hNlu, "Max: upload netlib begin url=%s bytes=%u", szUrl, (unsigned)body.length());
+	{
+		CMStringA safeUrl(MaxRedactUrlForLog(szUrl));
+		Netlib_Logf(hNlu, "Max: upload netlib begin url=%s bytes=%u", safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str(), (unsigned)body.length());
+	}
 	DWORD t0 = GetTickCount();
 
 	NLHR_PTR reply(Netlib_HttpTransaction(hNlu, &req));
 	if (!reply) {
-		Netlib_Logf(hNlu, "Max: upload netlib no HTTP response (url=%s, elapsed=%u)", szUrl, (unsigned)(GetTickCount() - t0));
+		CMStringA safeUrl(MaxRedactUrlForLog(szUrl));
+		Netlib_Logf(hNlu, "Max: upload netlib no HTTP response (url=%s, elapsed=%u)", safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str(), (unsigned)(GetTickCount() - t0));
 		return false;
 	}
 
 	if (reply->resultCode < 200 || reply->resultCode >= 300) {
-		CMStringA bodyHead(reply->body, min(reply->body.GetLength(), 512));
-		Netlib_Logf(hNlu, "Max: upload netlib HTTP %d (url=%s, body=%s, elapsed=%u)",
-			reply->resultCode, szUrl, bodyHead.IsEmpty() ? "(empty)" : bodyHead.c_str(), (unsigned)(GetTickCount() - t0));
+		CMStringA safeUrl(MaxRedactUrlForLog(szUrl));
+		Netlib_Logf(hNlu, "Max: upload netlib HTTP %d (url=%s, bodyBytes=%u, elapsed=%u)",
+			reply->resultCode, safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str(), (unsigned)reply->body.GetLength(), (unsigned)(GetTickCount() - t0));
 		return false;
 	}
 
@@ -532,7 +532,10 @@ static bool sttUploadFileMultipart(HNETLIBUSER hNlu, const char *szUrl, const ch
 	if (sttUploadFileMultipartViaWinHttp(hNlu, szUrl, szToken, pwszPath, szFieldName, pOutBody))
 		return true;
 
-	Netlib_Logf(hNlu, "Max: upload fallback to netlib url=%s", szUrl ? szUrl : "(null)");
+	{
+		CMStringA safeUrl(MaxRedactUrlForLog(szUrl));
+		Netlib_Logf(hNlu, "Max: upload fallback to netlib url=%s", safeUrl.IsEmpty() ? "(null)" : safeUrl.c_str());
+	}
 	return sttUploadFileMultipartViaNetlib(hNlu, szUrl, szToken, pwszPath, szFieldName, pOutBody);
 }
 
@@ -1095,7 +1098,7 @@ void __cdecl CMaxProto::FileSendWorker(void *param)
 			if (sttExtractPhotoTokenFromUploadJson(uploadReplyBody, photoTokenFromUpload))
 				debugLogA("Max: photo token extracted from upload response");
 			else {
-				CMStringA head(uploadReplyBody, min(uploadReplyBody.GetLength(), 256));
+				CMStringA head(MaxRedactTextForLog(uploadReplyBody.c_str(), 256));
 				debugLogA("Max: photo token NOT extracted (upload body head=%s)", head.IsEmpty() ? "(empty)" : head.c_str());
 			}
 		}

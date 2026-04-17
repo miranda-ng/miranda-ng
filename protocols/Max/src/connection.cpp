@@ -460,6 +460,177 @@ static CMStringA HexPreview(const uint8_t *pData, size_t cbData, size_t limit = 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+bool MaxJsonKeyIsSensitiveForLog(const char *name)
+{
+	if (name == nullptr || name[0] == 0)
+		return false;
+	return !mir_strcmpi(name, "token")
+		|| !mir_strcmpi(name, "password")
+		|| !mir_strcmpi(name, "loginToken")
+		|| !mir_strcmpi(name, "photoToken")
+		|| !mir_strcmpi(name, "trackId");
+}
+
+/// In-place redact for debug/netlog only (never log session tokens verbatim).
+void MaxRedactJsonForLog(JSONNode &n)
+{
+	if (n.type() == JSON_ARRAY) {
+		for (json_index_t i = 0; i < n.size(); ++i)
+			MaxRedactJsonForLog(n.at(i));
+		return;
+	}
+	if (n.type() != JSON_NODE)
+		return;
+	for (json_index_t i = 0; i < n.size(); ++i) {
+		JSONNode &ch = n.at(i);
+		const char *nm = ch.name();
+		if (nm && MaxJsonKeyIsSensitiveForLog(nm)) {
+			if (ch.type() == JSON_STRING)
+				ch = "***";
+			else if (ch.type() == JSON_NODE || ch.type() == JSON_ARRAY)
+				MaxRedactJsonForLog(ch);
+		}
+		else
+			MaxRedactJsonForLog(ch);
+	}
+}
+
+static bool sttUrlKeyIsSensitiveForLog(const char *name)
+{
+	if (name == nullptr || name[0] == 0)
+		return false;
+	return !mir_strcmpi(name, "token")
+		|| !mir_strcmpi(name, "access_token")
+		|| !mir_strcmpi(name, "apiToken");
+}
+
+CMStringA MaxRedactUrlForLog(const char *szUrl)
+{
+	if (szUrl == nullptr || szUrl[0] == 0)
+		return CMStringA();
+
+	CMStringA out(szUrl);
+	const char *q = strchr(szUrl, '?');
+	if (q == nullptr)
+		return out;
+
+	int pos = (int)(q - szUrl) + 1;
+	while (pos < out.GetLength()) {
+		int keyStart = pos, keyEnd = pos;
+		while (keyEnd < out.GetLength() && out[keyEnd] != '=' && out[keyEnd] != '&' && out[keyEnd] != '#')
+			++keyEnd;
+		if (keyEnd >= out.GetLength() || out[keyEnd] == '#')
+			break;
+		if (out[keyEnd] != '=') {
+			pos = keyEnd + 1;
+			continue;
+		}
+
+		int valueStart = keyEnd + 1, valueEnd = valueStart;
+		while (valueEnd < out.GetLength() && out[valueEnd] != '&' && out[valueEnd] != '#')
+			++valueEnd;
+
+		CMStringA key(out.Mid(keyStart, keyEnd - keyStart));
+		if (sttUrlKeyIsSensitiveForLog(key.c_str())) {
+			out.Delete(valueStart, valueEnd - valueStart);
+			out.Insert(valueStart, "***");
+			valueEnd = valueStart + 3;
+		}
+
+		pos = valueEnd + 1;
+		if (valueEnd < out.GetLength() && out[valueEnd] == '#')
+			break;
+	}
+
+	return out;
+}
+
+CMStringA MaxRedactTextForLog(const char *szText, size_t cbLimit)
+{
+	if (szText == nullptr || szText[0] == 0)
+		return CMStringA();
+
+	CMStringA input(szText);
+	if (cbLimit != 0 && input.GetLength() > (int)cbLimit)
+		input.Truncate((int)cbLimit);
+
+	JSONNode root = JSONNode::parse(input.c_str());
+	if (!root)
+		return input;
+
+	MaxRedactJsonForLog(root);
+	return root.write().c_str();
+}
+
+static void sttLogWsJsonOut(CMaxProto *pProto, const JSONNode &json)
+{
+	JSONNode jlog = json.duplicate();
+	MaxRedactJsonForLog(jlog);
+	json_string sj = jlog.write();
+	const char *pch = sj.c_str();
+	unsigned n = (unsigned)sj.length();
+	if (n > 1800) {
+		CMStringA head(pch, 1800);
+		pProto->debugLogA("Max: ws out (%u bytes, truncated) %s", n, head.c_str());
+	}
+	else if (n)
+		pProto->debugLogA("Max: ws out (%u bytes) %s", n, pch);
+}
+
+static void sttSendWsTextNoDump(WebSocket<CMaxProto> *ws, const char *pData)
+{
+	if (ws == nullptr || pData == nullptr || pData[0] == 0)
+		return;
+
+	HNETLIBCONN hConn = ws->getConn();
+	if (hConn == nullptr)
+		return;
+
+	size_t dataLen = mir_strlen(pData);
+	uint8_t header[14];
+	header[0] = 0x81;
+	int cbLen;
+	if (dataLen < 126) {
+		header[1] = (uint8_t)dataLen;
+		cbLen = 2;
+	}
+	else if (dataLen < 65536) {
+		header[1] = 126;
+		header[2] = (dataLen >> 8) & 0xFF;
+		header[3] = dataLen & 0xFF;
+		cbLen = 4;
+	}
+	else {
+		header[1] = 0x7F;
+		header[2] = (dataLen >> 56) & 0xff;
+		header[3] = (dataLen >> 48) & 0xff;
+		header[4] = (dataLen >> 40) & 0xff;
+		header[5] = (dataLen >> 32) & 0xff;
+		header[6] = (dataLen >> 24) & 0xff;
+		header[7] = (dataLen >> 16) & 0xff;
+		header[8] = (dataLen >> 8) & 0xff;
+		header[9] = dataLen & 0xff;
+		cbLen = 10;
+	}
+
+	union {
+		uint32_t dwMask;
+		uint8_t arMask[4];
+	};
+	dwMask = crc32(rand(), (uint8_t *)pData, (unsigned)dataLen);
+	memcpy(header + cbLen, arMask, _countof(arMask));
+	cbLen += _countof(arMask);
+	header[1] |= 0x80;
+
+	ptrA sendBuf((char *)mir_alloc(dataLen + cbLen));
+	memcpy(sendBuf.get(), header, cbLen);
+	memcpy(sendBuf.get() + cbLen, pData, dataLen);
+	for (size_t i = 0; i < dataLen; ++i)
+		sendBuf[i + cbLen] ^= arMask[i & 3];
+
+	Netlib_Send(hConn, sendBuf, int(dataLen + cbLen), MSG_NODUMP);
+}
+
 void CMaxProto::EnsureDeviceId()
 {
 	ptrW w(getWStringA(DB_KEY_DEVICEID));
@@ -495,9 +666,10 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 		<< JSON_PARAM("payload", payload);
 
 	json_string s = root.write();
+	sttLogWsJsonOut(this, root);
 	{
 		mir_cslock lckSend(m_csSend);
-		ws->sendText(s.c_str());
+		sttSendWsTextNoDump(ws, s.c_str());
 	}
 
 	DWORD waitMs = 10000;
@@ -1123,9 +1295,10 @@ bool CMaxProto::ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bo
 	root << INT_PARAM("ver", 11) << INT_PARAM("cmd", 0) << INT64_PARAM("seq", (int64_t)seq) << INT_PARAM("opcode", 65)
 		<< JSON_PARAM("payload", payload);
 	json_string s = root.write();
+	sttLogWsJsonOut(this, root);
 	{
 		mir_cslock lckSend(m_csSend);
-		ws->sendText(s.c_str());
+		sttSendWsTextNoDump(ws, s.c_str());
 	}
 	return true;
 }
@@ -1403,9 +1576,10 @@ bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId
 		JSONNode root(JSON_NODE);
 		root << INT_PARAM("ver", 11) << INT_PARAM("cmd", 0) << INT64_PARAM("seq", (int64_t)seq) << INT_PARAM("opcode", 288);
 		json_string s = root.write();
+		sttLogWsJsonOut(this, root);
 		{
 			mir_cslock lckSend(m_csSend);
-			ws->sendText(s.c_str());
+			sttSendWsTextNoDump(ws, s.c_str());
 		}
 
 		if (WaitForSingleObject(m_hWaitEvent, 10000) != WAIT_OBJECT_0) {
@@ -1642,7 +1816,7 @@ bool CMaxProto::RunQrLoginFlow(WebSocket<CMaxProto> *ws)
 		return false;
 	}
 
-	debugLogA("Max: QR login started trackId=%s", trackId.c_str());
+	debugLogA("Max: QR login started trackId=%s", "***");
 	ShowQrCode(qrText);
 
 	const int loops = (pollMs <= 0) ? 180 : max(12, min(180, (180000 / pollMs)));
@@ -1655,7 +1829,7 @@ bool CMaxProto::RunQrLoginFlow(WebSocket<CMaxProto> *ws)
 		}
 
 		if (expired) {
-			debugLogA("Max: QR expired trackId=%s", trackId.c_str());
+			debugLogA("Max: QR expired trackId=%s", "***");
 			break;
 		}
 		if (approved) {
@@ -1960,8 +2134,11 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Recv uses MSG_NODUMP — mirror a short preview into the same log channel as other Max: lines.
+	// Never log raw tokens/passwords (sync/login/upload payloads may contain them).
 	{
-		json_string sj = json.write();
+		JSONNode jlog = json.duplicate();
+		MaxRedactJsonForLog(jlog);
+		json_string sj = jlog.write();
 		const char *pch = sj.c_str();
 		unsigned n = (unsigned)sj.length();
 		if (n > 1800) {
