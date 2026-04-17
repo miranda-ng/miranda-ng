@@ -2304,6 +2304,11 @@ bool CMaxProto::WaitForGatewayReady()
 	}
 
 	if (!m_hConnThread) {
+		// Do not force-connect while user left the account offline (sending should fail, not flip status).
+		if (m_iStatus == ID_STATUS_OFFLINE) {
+			debugLogA("Max: WaitForGatewayReady abort (offline, no auto-connect)");
+			return false;
+		}
 		debugLogA("Max: WaitForGatewayReady starting connection (SetStatus online)");
 		SetStatus(ID_STATUS_ONLINE);
 	}
