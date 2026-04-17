@@ -701,8 +701,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 		wchar_t wszDate[100];
 		TimeZone_PrintTimeStamp(0, pForward->date_, L"d t", wszDate, _countof(wszDate), 0);
-		CMStringW wszForward(FORMAT, L">%s %s %s\r\n", wszDate, wszNick.c_str(), TranslateT("wrote"));
-		ret.Insert(0, T2Utf(wszForward));
+		ret.Format(">%s %s %s\r\n", T2Utf(wszDate).get(), T2Utf(wszNick).get(), TranslateU("wrote"));
 	}
 
 	switch (pBody->get_id()) {
@@ -802,7 +801,7 @@ CMStringA CTelegramProto::GetMessageText(TG_USER *pUser, const TD::message *pMsg
 
 	case TD::messageText::ID:
 		if (auto *pText = ((TD::messageText *)pBody)) {
-			ret = GetFormattedText(pText->text_);
+			ret += GetFormattedText(pText->text_);
 
 			auto *pWeb = pText->link_preview_.get();
 			if (pWeb && m_bIncludePreviews) {
