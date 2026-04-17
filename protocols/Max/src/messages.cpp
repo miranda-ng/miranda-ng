@@ -737,7 +737,6 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	sttCollectIncomingFiles(msg, files);
 
 	// Forwarded messages may have empty outer "text" and carry content in link.message.
-	// Same presentation as Telegram after #5240: ">date author wrote\r\n" + body (not [quote]).
 	if (text.IsEmpty() && files.empty() && isForward && link.type() == JSON_NODE && link["message"].type() == JSON_NODE) {
 		const JSONNode &emb = link["message"];
 		CMStringA fwd = sttMessageBodyUtf8(emb);
