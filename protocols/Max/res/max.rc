@@ -3,6 +3,7 @@
 
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 IDI_MAIN                ICON                    "max.ico"
+IDI_FORWARD             ICON                    "forward.ico"
 
 IDD_ACCMGRUI DIALOGEX 0, 0, 188, 60
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD

@@ -9,6 +9,7 @@ CMPlugin g_plugin;
 
 IconItem g_iconList[] = {
 	{ LPGEN("Protocol icon"), "main", IDI_MAIN },
+	{ LPGEN("Forward"), "forward", IDI_FORWARD },
 };
 
 PLUGININFOEX pluginInfoEx = {

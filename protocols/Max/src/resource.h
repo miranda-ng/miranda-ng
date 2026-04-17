@@ -6,6 +6,7 @@
 #define IDD_SEARCHUI                    106
 #define IDD_FORWARD                     107
 #define IDD_CONTACTINFO                 108
+#define IDI_FORWARD                     109
 #define IDC_QRPIC                       1002
 #define IDC_GROUPNAME                   1007
 #define IDC_COMPRESS_FILES              1008
