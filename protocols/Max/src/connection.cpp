@@ -1973,7 +1973,7 @@ bool CMaxProto::ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws)
 
 	uint64_t userId = _strtoui64(my, nullptr, 10);
 	int64_t t = (int64_t)(time(nullptr) * 1000);
-	int64_t sessionId = (int64_t)GetTickCount64() + (int64_t)(time(nullptr) * 1000);
+	int64_t sessionId = (int64_t)GetTickCount() + (int64_t)(time(nullptr) * 1000);
 
 	JSONNode params(JSON_NODE);
 	params << INT64_PARAM("actionId", 1) << INT_PARAM("screenTo", 150) << INT_PARAM("screenFrom", 1)
@@ -2316,7 +2316,6 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 		}
 	}
 
-	// Opcode 66: delete message — reply often keeps cmd=0 like pushes.
 	// Opcode 66: delete message reply often keeps cmd=0 like pushes.
 	if (p->m_waitSeq != 0 && p->m_waitOpcode == 66 && seq == p->m_waitSeq && op == 66) {
 		const JSONNode &pl = json["payload"];
