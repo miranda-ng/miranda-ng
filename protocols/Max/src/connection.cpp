@@ -692,7 +692,10 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 			m_bGatewayConnected = false;
 			ws->terminate();
 		}
-		InitWsInflater();
+		// With context takeover the inflater window belongs to the current WS session;
+		// resetting it here would desync any compressed frames still in flight.
+		if (IsWsPmDeflateIndependent())
+			InitWsInflater();
 		return false;
 	}
 
