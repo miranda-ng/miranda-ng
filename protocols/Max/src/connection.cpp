@@ -651,13 +651,14 @@ void CMaxProto::EnsureDeviceId()
 bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONNode &payload, uint8_t cmd, bool acceptPayloadError)
 {
 	// Keep request/response matching strictly serialized: shared wait state
-	// (m_waitSeq + m_szPendingResponse + m_hWaitEvent) is single-slot.
+	// (m_waitSeq + m_waitOpcode + m_szPendingResponse + m_hWaitEvent) is single-slot.
 	mir_cslock lckWait(m_csWait);
 
 	uint64_t seq;
 	m_seq++;
 	seq = m_seq;
 	m_waitSeq = seq;
+	m_waitOpcode = opcode;
 	m_szPendingResponse.Empty();
 	ResetEvent(m_hWaitEvent);
 
@@ -682,6 +683,15 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 	if (WaitForSingleObject(m_hWaitEvent, waitMs) != WAIT_OBJECT_0) {
 		debugLogA("Max: request timeout (opcode %u, waited seq %llu, waitedMs=%u)", (unsigned)opcode, (unsigned long long)m_waitSeq, (unsigned)waitMs);
 		m_waitSeq = 0;
+		m_waitOpcode = -1;
+		m_szPendingResponse.Empty();
+		// Some replies (opcode 32/48/49/46/34/88/87/80/19) may omit our client seq.
+		// Once this wait timed out, a late reply on the same socket is no longer attributable,
+		// so force reconnect before another waiter can reuse the shared slot.
+		if (ws != nullptr) {
+			m_bGatewayConnected = false;
+			ws->terminate();
+		}
 		InitWsInflater();
 		return false;
 	}
@@ -690,6 +700,7 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 	if (!resp) {
 		debugLogA("Max: empty/invalid JSON after response (opcode %u)", (unsigned)opcode);
 		m_waitSeq = 0;
+		m_waitOpcode = -1;
 		return false;
 	}
 
@@ -722,9 +733,11 @@ bool CMaxProto::SendJsonAndWait(WebSocket<CMaxProto> *ws, uint16_t opcode, JSONN
 		if (pl["message"].type() == JSON_STRING && !pl["message"].as_string().empty())
 			debugLogA("Max:   message=%s", pl["message"].as_string().c_str());
 		m_waitSeq = 0;
+		m_waitOpcode = -1;
 		return false;
 	}
 	m_waitSeq = 0;
+	m_waitOpcode = -1;
 	return true;
 }
 
@@ -1570,6 +1583,7 @@ bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId
 		m_seq++;
 		const uint64_t seq = m_seq;
 		m_waitSeq = seq;
+		m_waitOpcode = 288;
 		m_szPendingResponse.Empty();
 		ResetEvent(m_hWaitEvent);
 
@@ -1585,6 +1599,7 @@ bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId
 		if (WaitForSingleObject(m_hWaitEvent, 10000) != WAIT_OBJECT_0) {
 			debugLogA("Max: request timeout (opcode 288, waited seq %llu)", (unsigned long long)m_waitSeq);
 			m_waitSeq = 0;
+			m_waitOpcode = -1;
 			return false;
 		}
 
@@ -1592,9 +1607,11 @@ bool CMaxProto::ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId
 		if (!resp0) {
 			debugLogA("Max: empty/invalid JSON after response (opcode 288)");
 			m_waitSeq = 0;
+			m_waitOpcode = -1;
 			return false;
 		}
 		m_waitSeq = 0;
+		m_waitOpcode = -1;
 	}
 
 	JSONNode resp = JSONNode::parse(m_szPendingResponse.c_str());
@@ -2164,7 +2181,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	int op = MaxJsonOpcodeInt(json);
 
 	// Opcode 16 (PROFILE): server often echoes cmd=0 like a push; seq still matches the client request.
-	if (p->m_waitSeq != 0 && seq == p->m_waitSeq && op == 16) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 16 && seq == p->m_waitSeq && op == 16) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
@@ -2175,7 +2192,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Contact fetch: seq may not match client value; payload still carries contacts/contact.
-	if (p->m_waitSeq != 0 && op == 32) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 32 && op == 32) {
 		const JSONNode &pl = json["payload"];
 		if (MaxPayloadLooksLikeOpcode32ContactsReply(pl)) {
 			json_string s = json.write();
@@ -2186,7 +2203,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Chat details by id (opcode 48); used to fill dialog title when opcode 32 returns no names.
-	if (p->m_waitSeq != 0 && op == 48) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 48 && op == 48) {
 		const JSONNode &pl = json["payload"];
 		if (MaxPayloadLooksLikeOpcode48ChatsReply(pl)) {
 			json_string s = json.write();
@@ -2197,7 +2214,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Opcode 49: chat history (messages[]), same seq as request.
-	if (p->m_waitSeq != 0 && op == 49) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 49 && op == 49) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
@@ -2208,7 +2225,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Opcode 46: phone lookup — server may omit echo of client seq.
-	if (p->m_waitSeq != 0 && op == 46) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 46 && op == 46) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
@@ -2219,7 +2236,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Opcode 34: add contact — same pattern as 46.
-	if (p->m_waitSeq != 0 && op == 34) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 34 && op == 34) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
@@ -2230,7 +2247,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Opcode 88: file download url by (chatId,messageId,fileId).
-	if (p->m_waitSeq != 0 && op == 88) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 88 && op == 88) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
@@ -2241,7 +2258,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Opcode 87: request upload slots (url/token/fileId).
-	if (p->m_waitSeq != 0 && op == 87) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 87 && op == 87) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
@@ -2252,7 +2269,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Opcode 80: request photo upload slots (url/token/fileId).
-	if (p->m_waitSeq != 0 && op == 80) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 80 && op == 80) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
@@ -2263,7 +2280,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Opcode 66: delete message — reply often keeps cmd=0 like pushes.
-	if (p->m_waitSeq != 0 && seq == p->m_waitSeq && op == 66) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 66 && seq == p->m_waitSeq && op == 66) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {
 			json_string s = json.write();
@@ -2274,7 +2291,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Rare: reply echoes server-side seq — accept sync payload when it clearly carries roster data.
-	if (p->m_waitSeq != 0 && op == 19) {
+	if (p->m_waitSeq != 0 && p->m_waitOpcode == 19 && op == 19) {
 		const JSONNode &pl = json["payload"];
 		if (pl["chats"].type() == JSON_ARRAY || pl["contacts"].type() == JSON_ARRAY || pl["profile"].type() != JSON_NULL
 		    || pl["contact"].type() == JSON_NODE

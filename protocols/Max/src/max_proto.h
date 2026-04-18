@@ -24,6 +24,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	HANDLE m_hWaitEvent = nullptr;
 	uint64_t m_seq = 0;
 	uint64_t m_waitSeq = 0;
+	int m_waitOpcode = -1;
 	mir_cs m_csWait;
 	mir_cs m_csSend;
 	mir_cs m_csCid;
