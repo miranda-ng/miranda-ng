@@ -1093,9 +1093,6 @@ void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *sz
 			continue;
 		}
 
-		if (db_event_getById(m_szModuleName, msgId.c_str()) != 0)
-			continue;
-
 		IngestMaxMessageJson(msg, szChatId, bMarkRead);
 	}
 }
