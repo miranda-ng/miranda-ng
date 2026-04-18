@@ -1528,6 +1528,7 @@ MCONTACT CMaxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 void CMaxProto::OnModulesLoaded()
 {
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CMaxProto::OnUserInfoInit);
+	HookProtoEvent(ME_MSG_WINDOWEVENT, &CMaxProto::OnWindowEvent);
 	InitMenus();
 }
 
@@ -1549,6 +1550,52 @@ namespace
 		CMaxProto *pProto = nullptr;
 		JSONNode *pPayload = nullptr;
 	};
+
+	struct CMaxChatSubscribeCtx
+	{
+		CMaxProto *pProto = nullptr;
+		MCONTACT hContact = 0;
+		bool bSubscribe = false;
+	};
+}
+
+int CMaxProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
+{
+	auto *pDlg = (CMsgDialog *)lParam;
+	if (pDlg == nullptr || !Proto_IsProtoOnContact(pDlg->m_hContact, m_szModuleName))
+		return 0;
+
+	if (wParam != MSG_WINDOW_EVT_OPEN && wParam != MSG_WINDOW_EVT_CLOSE)
+		return 0;
+
+	auto *ctx = new CMaxChatSubscribeCtx();
+	if (ctx == nullptr)
+		return 0;
+
+	ctx->pProto = this;
+	ctx->hContact = pDlg->m_hContact;
+	ctx->bSubscribe = (wParam == MSG_WINDOW_EVT_OPEN);
+	ForkThread(&CMaxProto::ChatSubscribeWorker, ctx);
+	return 0;
+}
+
+void __cdecl CMaxProto::ChatSubscribeWorker(void *param)
+{
+	std::unique_ptr<CMaxChatSubscribeCtx> ctx((CMaxChatSubscribeCtx *)param);
+	if (ctx == nullptr || ctx->pProto == nullptr || ctx->hContact == 0)
+		return;
+
+	if (!ctx->pProto->WaitForGatewayReady() || ctx->pProto->m_pGateway == nullptr)
+		return;
+
+	if (ctx->pProto->isChatRoom(ctx->hContact))
+		return;
+
+	CMStringA chatId(ctx->pProto->getMStringA(ctx->hContact, DB_KEY_MAX_CHATID));
+	if (chatId.IsEmpty())
+		return;
+
+	ctx->pProto->ApiChatSubscribe(ctx->pProto->m_pGateway, chatId.c_str(), ctx->bSubscribe);
 }
 
 void CMaxProto::QueueLiveNotifIngest(const JSONNode &payload)

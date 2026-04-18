@@ -17,6 +17,64 @@ static CMStringA sttMsgJsonIdStr(const JSONNode &n)
 	return CMStringA(n.as_string().c_str());
 }
 
+static bool sttReadJsonInt(const JSONNode &n, int &out)
+{
+	if (n.type() == JSON_NUMBER) {
+		out = (int)(n.as_float() + 0.5);
+		return true;
+	}
+
+	if (n.type() == JSON_STRING) {
+		const char *sz = n.as_string().c_str();
+		if (sz == nullptr || sz[0] == 0)
+			return false;
+
+		out = atoi(sz);
+		return true;
+	}
+
+	return false;
+}
+
+static bool sttBuildMirandaReactionsJson(const JSONNode &reactionInfo, JSONNode &out)
+{
+	if (reactionInfo.type() != JSON_NODE)
+		return false;
+
+	const JSONNode &counters = reactionInfo["counters"];
+	const bool hasReactionInfo = (counters.type() == JSON_ARRAY
+		|| reactionInfo["totalCount"].type() != JSON_NULL
+		|| reactionInfo["yourReaction"].type() != JSON_NULL);
+	if (!hasReactionInfo)
+		return false;
+
+	out = JSONNode(JSON_NODE);
+	if (counters.type() != JSON_ARRAY)
+		return true;
+
+	for (unsigned i = 0; i < counters.size(); ++i) {
+		const JSONNode &counter = counters[i];
+		if (counter.type() != JSON_NODE)
+			continue;
+
+		CMStringA reaction = sttMsgJsonIdStr(counter["reaction"]);
+		if (reaction.IsEmpty())
+			continue;
+
+		int count = 0;
+		if (!sttReadJsonInt(counter["count"], count) || count <= 0)
+			continue;
+
+		auto it = out.find(reaction.c_str());
+		if (it == out.end())
+			out << INT_PARAM(reaction.c_str(), count);
+		else
+			(*it) = JSONNode(reaction.c_str(), (*it).as_int() + count);
+	}
+
+	return true;
+}
+
 static uint64_t sttPresenceTimeMs(const JSONNode &n)
 {
 	if (n.type() == JSON_NUMBER) {
@@ -40,6 +98,268 @@ static uint64_t sttPresenceTimeMs(const JSONNode &n)
 		return v;
 	}
 	return 0;
+}
+
+static HANDLE sttGetReactionExtraIcon()
+{
+	static HANDLE hReactionExtra = ExtraIcon_RegisterIcolib("reaction", LPGEN("Reaction"), nullptr);
+	return hReactionExtra;
+}
+
+static bool sttShouldNotifyReactionForEvent(const char *szModule, const char *szMsgId)
+{
+	if (szModule == nullptr || szMsgId == nullptr || szMsgId[0] == 0)
+		return false;
+
+	DB::EventInfo dbei(db_event_getById(szModule, szMsgId));
+	if (!dbei || !dbei.bSent)
+		return false;
+
+	MessageWindowData mwd = {};
+	if (dbei.hContact != 0 && Srmm_GetWindowData(dbei.hContact, mwd) == 0) {
+		if ((mwd.uState & MSG_WINDOW_STATE_VISIBLE) && !(mwd.uState & MSG_WINDOW_STATE_ICONIC))
+			return false;
+	}
+
+	return true;
+}
+
+void CMaxProto::SetMessageReactionsById(const char *szMsgId, JSONNode &reactions, const char *szSource, bool bNotify)
+{
+	if (szMsgId == nullptr || szMsgId[0] == 0)
+		return;
+
+	DB::EventInfo dbei(db_event_getById(m_szModuleName, szMsgId));
+	if (!dbei) {
+		debugLogA("Max: reactions skip source=%s msg=%s (event not found)", szSource ? szSource : "(unknown)", szMsgId);
+		return;
+	}
+
+	if (bNotify)
+		dbei.setReactions(reactions);
+	else {
+		auto &json = dbei.setJson();
+		auto it = json.find("r");
+		if (it != json.end())
+			json.erase(it);
+
+		if (!reactions.empty()) {
+			reactions.set_name("r");
+			json << reactions;
+		}
+
+		dbei.flushJson();
+		db_event_setJson(dbei.getEvent(), dbei.pBlob);
+	}
+
+	if (dbei.hContact != 0) {
+		MessageWindowData mwd = {};
+		if (Srmm_GetWindowData(dbei.hContact, mwd) == 0 && mwd.pDlg != nullptr)
+			mwd.pDlg->ScheduleRedrawLog();
+	}
+
+	debugLogA("Max: reactions updated source=%s msg=%s entries=%u", szSource ? szSource : "(unknown)", szMsgId, (unsigned)reactions.size());
+}
+
+static bool sttLoadStoredReactions(const char *szModule, const char *szMsgId, JSONNode &out)
+{
+	out = JSONNode(JSON_NODE);
+	if (szModule == nullptr || szMsgId == nullptr || szMsgId[0] == 0)
+		return false;
+
+	DB::EventInfo dbei(db_event_getById(szModule, szMsgId));
+	if (!dbei)
+		return false;
+	if (!(dbei.flags & DBEF_JSON) || dbei.pBlob == nullptr || dbei.pBlob[0] == 0)
+		return false;
+
+	JSONNode root = JSONNode::parse((const char *)dbei.pBlob);
+	const JSONNode &reactions = root["r"];
+	if (reactions.type() != JSON_NODE)
+		return false;
+
+	for (auto &it : reactions) {
+		int count = 0;
+		if (!sttReadJsonInt(it, count) || count <= 0)
+			continue;
+
+		out << INT_PARAM(it.name(), count);
+	}
+
+	return out.size() > 0;
+}
+
+static void sttEnsureReactionPresent(JSONNode &reactions, const char *emoji)
+{
+	if (emoji == nullptr || emoji[0] == 0)
+		return;
+
+	auto it = reactions.find(emoji);
+	if (it == reactions.end())
+		reactions << INT_PARAM(emoji, 1);
+}
+
+static int sttReactionInfoTotalCount(const JSONNode &reactionInfo)
+{
+	int total = 0;
+	if (sttReadJsonInt(reactionInfo["totalCount"], total) && total >= 0)
+		return total;
+
+	const JSONNode &counters = reactionInfo["counters"];
+	if (counters.type() != JSON_ARRAY)
+		return 0;
+
+	for (unsigned i = 0; i < counters.size(); ++i) {
+		int count = 0;
+		if (sttReadJsonInt(counters[i]["count"], count) && count > 0)
+			total += count;
+	}
+
+	return total;
+}
+
+static bool sttShouldKeepReactionTracked(const JSONNode &reactionInfo)
+{
+	const int total = sttReactionInfoTotalCount(reactionInfo);
+	if (total <= 0)
+		return false;
+
+	const JSONNode &yourReaction = reactionInfo["yourReaction"];
+	const bool hasYourReaction = (yourReaction.type() == JSON_STRING && !yourReaction.as_string().empty());
+	return total > (hasYourReaction ? 1 : 0);
+}
+
+static MCONTACT sttFindReactionChatContact(CMaxProto *pProto, const JSONNode &chat)
+{
+	if (pProto == nullptr || chat.type() != JSON_NODE)
+		return 0;
+
+	CMStringA chatId = sttMsgJsonIdStr(chat["id"]);
+	if (chatId.IsEmpty())
+		chatId = sttMsgJsonIdStr(chat["cid"]);
+	if (chatId.IsEmpty())
+		return 0;
+
+	return pProto->FindContactByDialogChatId(chatId.c_str());
+}
+
+static void sttLoadTrackedReactionMsgIds(CMaxProto *pProto, MCONTACT hContact, std::vector<CMStringA> &out)
+{
+	out.clear();
+	if (pProto == nullptr || hContact == 0)
+		return;
+
+	CMStringA raw(pProto->getMStringA(hContact, DB_KEY_MAX_REACTION_MSGIDS));
+	int len = raw.GetLength();
+	int start = 0;
+	while (start < len) {
+		int sep = raw.Find('|', start);
+		if (sep < 0)
+			sep = len;
+
+		CMStringA token(raw.Mid(start, sep - start));
+		if (!token.IsEmpty())
+			out.push_back(token);
+
+		start = sep + 1;
+	}
+}
+
+static void sttStoreTrackedReactionMsgIds(CMaxProto *pProto, MCONTACT hContact, const std::vector<CMStringA> &ids)
+{
+	if (pProto == nullptr || hContact == 0)
+		return;
+
+	if (ids.empty()) {
+		pProto->delSetting(hContact, DB_KEY_MAX_REACTION_MSGIDS);
+		return;
+	}
+
+	CMStringA raw;
+	for (const auto &it : ids) {
+		if (it.IsEmpty())
+			continue;
+		if (!raw.IsEmpty())
+			raw.AppendChar('|');
+		raw.Append(it);
+	}
+
+	if (raw.IsEmpty())
+		pProto->delSetting(hContact, DB_KEY_MAX_REACTION_MSGIDS);
+	else
+		pProto->setString(hContact, DB_KEY_MAX_REACTION_MSGIDS, raw.c_str());
+}
+
+static void sttTrackReactionMsgId(CMaxProto *pProto, MCONTACT hContact, const char *szMsgId)
+{
+	if (pProto == nullptr || hContact == 0 || szMsgId == nullptr || szMsgId[0] == 0)
+		return;
+
+	std::vector<CMStringA> ids;
+	sttLoadTrackedReactionMsgIds(pProto, hContact, ids);
+	for (const auto &it : ids)
+		if (it == szMsgId)
+			return;
+
+	ids.push_back(szMsgId);
+	sttStoreTrackedReactionMsgIds(pProto, hContact, ids);
+}
+
+static void sttForgetReactionMsgId(CMaxProto *pProto, MCONTACT hContact, const char *szMsgId)
+{
+	if (pProto == nullptr || hContact == 0 || szMsgId == nullptr || szMsgId[0] == 0)
+		return;
+
+	std::vector<CMStringA> ids;
+	sttLoadTrackedReactionMsgIds(pProto, hContact, ids);
+	ids.erase(std::remove_if(ids.begin(), ids.end(),
+		[&](const CMStringA &it) { return it == szMsgId; }), ids.end());
+	sttStoreTrackedReactionMsgIds(pProto, hContact, ids);
+}
+
+static void sttClearTrackedReactionMsgIds(CMaxProto *pProto, MCONTACT hContact, const char *szModule, const char *szSource)
+{
+	if (pProto == nullptr || hContact == 0 || szModule == nullptr)
+		return;
+
+	std::vector<CMStringA> ids;
+	sttLoadTrackedReactionMsgIds(pProto, hContact, ids);
+	for (const auto &it : ids) {
+		if (it.IsEmpty())
+			continue;
+
+		JSONNode empty(JSON_NODE);
+		pProto->SetMessageReactionsById(it.c_str(), empty, szSource,
+			sttShouldNotifyReactionForEvent(szModule, it.c_str()));
+	}
+
+	pProto->delSetting(hContact, DB_KEY_MAX_REACTION_MSGIDS);
+}
+
+void CMaxProto::ApplyMessageReactionsById(const char *szMsgId, const JSONNode &reactionInfo, const char *szSource, bool bNotify)
+{
+	JSONNode reactions(JSON_NODE);
+	if (!sttBuildMirandaReactionsJson(reactionInfo, reactions))
+		return;
+
+	SetMessageReactionsById(szMsgId, reactions, szSource, bNotify);
+}
+
+static void sttApplyAuthoritativeMessageReactions(CMaxProto *pProto, const char *szMsgId, const JSONNode &reactionInfo, const char *szSource, bool bNotify)
+{
+	if (pProto == nullptr || szMsgId == nullptr || szMsgId[0] == 0)
+		return;
+
+	if (reactionInfo.type() != JSON_NODE)
+		return;
+
+	if (sttReactionInfoTotalCount(reactionInfo) <= 0) {
+		JSONNode empty(JSON_NODE);
+		pProto->SetMessageReactionsById(szMsgId, empty, szSource, bNotify);
+		return;
+	}
+
+	pProto->ApplyMessageReactionsById(szMsgId, reactionInfo, szSource, bNotify);
 }
 
 void CMaxProto::ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src)
@@ -667,7 +987,7 @@ static CMStringA sttForwardPreambleUtf8(CMaxProto *pProto, const JSONNode &embMs
 	return headline;
 }
 
-void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, bool bMarkRead)
+void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, bool bMarkRead, bool bSyncReactionState)
 {
 	if (msg.type() != JSON_NODE || szChatId == nullptr || szChatId[0] == 0)
 		return;
@@ -699,8 +1019,13 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 
 	// Existing server message id is normally a duplicate push.
 	// Keep only explicit edits to update text in place.
-	if (hExisting != 0 && !isEdited)
+	if (hExisting != 0 && !isEdited) {
+		if (bSyncReactionState)
+			sttApplyAuthoritativeMessageReactions(this, msgId.c_str(), msg["reactionInfo"], "message-sync", false);
+		else
+			ApplyMessageReactionsById(msgId.c_str(), msg["reactionInfo"], "message", false);
 		return;
+	}
 
 	CMStringA sender = sttMsgJsonIdStr(msg["sender"]);
 	ptrA myUid(getStringA(DB_KEY_MY_MAX_ID));
@@ -787,6 +1112,13 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 
 		ProtoChainRecvMsg(hContact, dbei);
 		debugLogA("Max: ingested msg id=%s chat=%s from=%s", msgId.c_str(), szChatId, sender.c_str());
+	}
+
+	if (hExisting != 0 || !text.IsEmpty()) {
+		if (bSyncReactionState)
+			sttApplyAuthoritativeMessageReactions(this, msgId.c_str(), msg["reactionInfo"], "message-sync", false);
+		else
+			ApplyMessageReactionsById(msgId.c_str(), msg["reactionInfo"], "message", false);
 	}
 
 	if (!files.empty()) {
@@ -899,6 +1231,93 @@ void CMaxProto::TryIngestNotifMessagePayload(const JSONNode &payload)
 	}
 
 	QueueLiveNotifIngest(payload);
+}
+
+void CMaxProto::TryIngestMessageReactionsPayload(const JSONNode &payload, int opcode)
+{
+	if (payload.type() != JSON_NODE)
+		return;
+
+	CMStringA msgId = sttMsgJsonIdStr(payload["messageId"]);
+	if (msgId.IsEmpty())
+		msgId = sttMsgJsonIdStr(payload["mid"]);
+	if (msgId.IsEmpty() && payload["message"].type() == JSON_NODE)
+		msgId = sttMsgJsonIdStr(payload["message"]["id"]);
+
+	const JSONNode &reactionInfo = (payload["reactionInfo"].type() == JSON_NODE) ? payload["reactionInfo"] : payload;
+	if (opcode == 156 && reactionInfo.type() == JSON_NODE && reactionInfo.empty()) {
+		JSONNode empty(JSON_NODE);
+		SetMessageReactionsById(msgId.IsEmpty() ? nullptr : msgId.c_str(), empty, "push156-clear", false);
+		return;
+	}
+
+	if (opcode == 155 && !msgId.IsEmpty()) {
+		CMStringA chatId = sttMsgJsonIdStr(payload["chatId"]);
+		if (chatId.IsEmpty())
+			chatId = sttMsgJsonIdStr(payload["cid"]);
+
+		MCONTACT hReactionContact = chatId.IsEmpty() ? 0 : FindContactByDialogChatId(chatId.c_str());
+		const int totalCount = sttReactionInfoTotalCount(reactionInfo);
+		debugLogA("Max: push155 chat=%s msg=%s total=%d hContact=%u", chatId.c_str(), msgId.c_str(), totalCount, (unsigned)hReactionContact);
+		if (totalCount <= 0) {
+			JSONNode empty(JSON_NODE);
+			debugLogA("Max: push155 clear msg=%s", msgId.c_str());
+			SetMessageReactionsById(msgId.c_str(), empty, "push155-clear", false);
+			if (hReactionContact != 0)
+				sttForgetReactionMsgId(this, hReactionContact, msgId.c_str());
+			return;
+		}
+
+		const bool bNotify155 = sttShouldNotifyReactionForEvent(m_szModuleName, msgId.c_str());
+		debugLogA("Max: push155 apply msg=%s notify=%d", msgId.c_str(), bNotify155 ? 1 : 0);
+		ApplyMessageReactionsById(msgId.c_str(), reactionInfo, "push155", bNotify155);
+		if (hReactionContact != 0) {
+			if (sttShouldKeepReactionTracked(reactionInfo))
+				sttTrackReactionMsgId(this, hReactionContact, msgId.c_str());
+			else
+				sttForgetReactionMsgId(this, hReactionContact, msgId.c_str());
+		}
+		return;
+	}
+
+	const bool bNotify = (opcode != 156) && sttShouldNotifyReactionForEvent(m_szModuleName, msgId.IsEmpty() ? nullptr : msgId.c_str());
+	ApplyMessageReactionsById(msgId.IsEmpty() ? nullptr : msgId.c_str(), reactionInfo, "push", bNotify);
+
+	const JSONNode &chat = payload["chat"];
+	if (chat.type() != JSON_NODE)
+		return;
+	if (chat["type"].type() == JSON_STRING && mir_strcmpi(chat["type"].as_string().c_str(), "DIALOG"))
+		return;
+	if (opcode != 135 && chat["lastReaction"].type() == JSON_NULL && chat["lastReactedMessageId"].type() == JSON_NULL)
+		return;
+
+	CMStringA lastReaction = sttMsgJsonIdStr(chat["lastReaction"]);
+	CMStringA reactedMsgId = sttMsgJsonIdStr(chat["lastReactedMessageId"]);
+	MCONTACT hReactionContact = sttFindReactionChatContact(this, chat);
+	if (!lastReaction.IsEmpty() && reactedMsgId.IsEmpty() && chat["lastMessage"].type() == JSON_NODE)
+		reactedMsgId = sttMsgJsonIdStr(chat["lastMessage"]["id"]);
+
+	JSONNode reactions(JSON_NODE);
+	if (!lastReaction.IsEmpty()) {
+		if (reactedMsgId.IsEmpty())
+			return;
+
+		sttLoadStoredReactions(m_szModuleName, reactedMsgId.c_str(), reactions);
+		sttEnsureReactionPresent(reactions, lastReaction.c_str());
+		SetMessageReactionsById(reactedMsgId.c_str(), reactions, (opcode == 135) ? "push135-chat" : "push-chat",
+			sttShouldNotifyReactionForEvent(m_szModuleName, reactedMsgId.c_str()));
+		if (hReactionContact != 0)
+			sttTrackReactionMsgId(this, hReactionContact, reactedMsgId.c_str());
+	}
+	else if (opcode == 135 && !reactedMsgId.IsEmpty() && sttLoadStoredReactions(m_szModuleName, reactedMsgId.c_str(), reactions) && reactions.size() == 1) {
+		JSONNode empty(JSON_NODE);
+		SetMessageReactionsById(reactedMsgId.c_str(), empty, "push135-chat-clear",
+			sttShouldNotifyReactionForEvent(m_szModuleName, reactedMsgId.c_str()));
+		if (hReactionContact != 0)
+			sttForgetReactionMsgId(this, hReactionContact, reactedMsgId.c_str());
+	}
+	else if (opcode == 135 && reactedMsgId.IsEmpty() && hReactionContact != 0)
+		sttClearTrackedReactionMsgIds(this, hReactionContact, m_szModuleName, "push135-chat-clear");
 }
 
 void CMaxProto::TryIngestTypingPayload(const JSONNode &payload)
@@ -1093,6 +1512,12 @@ void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *sz
 			continue;
 		}
 
-		IngestMaxMessageJson(msg, szChatId, bMarkRead);
+		IngestMaxMessageJson(msg, szChatId, bMarkRead, true);
+	}
+
+	if (bMarkRead) {
+		MCONTACT hContact = ResolveContactForDialogMessage(szChatId, nullptr);
+		if (hContact != 0)
+			ExtraIcon_Clear(sttGetReactionExtraIcon(), hContact);
 	}
 }

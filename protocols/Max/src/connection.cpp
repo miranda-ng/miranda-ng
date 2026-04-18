@@ -1338,6 +1338,39 @@ bool CMaxProto::ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, c
 	return SendJsonAndWait(ws, 67, payload, 0);
 }
 
+bool CMaxProto::ApiChatSubscribe(WebSocket<CMaxProto> *ws, const char *szChatId, bool bSubscribe)
+{
+	if (!ws || szChatId == nullptr || szChatId[0] == 0)
+		return false;
+
+	int64_t cid = _strtoi64(szChatId, nullptr, 10);
+	if (cid == 0 && mir_strcmp(szChatId, "0"))
+		return false;
+
+	uint64_t seq = 0;
+	{
+		mir_cslock lckWait(m_csWait);
+		seq = ++m_seq;
+	}
+
+	JSONNode payload(JSON_NODE);
+	payload << INT64_PARAM("chatId", cid) << BOOL_PARAM("subscribe", bSubscribe);
+
+	JSONNode root(JSON_NODE);
+	root << INT_PARAM("ver", 11) << INT_PARAM("cmd", 0) << INT64_PARAM("seq", (int64_t)seq) << INT_PARAM("opcode", 75)
+		<< JSON_PARAM("payload", payload);
+
+	json_string s = root.write();
+	sttLogWsJsonOut(this, root);
+	{
+		mir_cslock lckSend(m_csSend);
+		sttSendWsTextNoDump(ws, s.c_str());
+	}
+
+	debugLogA("Max: chat subscribe chat=%s state=%d", szChatId, bSubscribe ? 1 : 0);
+	return true;
+}
+
 bool CMaxProto::ApiRequestPhotoUpload(WebSocket<CMaxProto> *ws, CMStringA &outUrl, CMStringA &outToken, int64_t &outFileId)
 {
 	outUrl.Empty();
@@ -1984,6 +2017,7 @@ void CMaxProto::OnGatewayPush(const JSONNode &payload, int opcode)
 	TryIngestPresencePayload(payload, opcode);
 	// Some server builds send typing in different push opcodes; try generic parse first.
 	TryIngestTypingPayload(payload);
+	TryIngestMessageReactionsPayload(payload, opcode);
 	if (opcode == 135)
 		OnMaxPushChatRemoved(payload);
 	if (opcode == 128)
@@ -2283,6 +2317,7 @@ void WebSocket<CMaxProto>::process(const uint8_t *buf, size_t cbLen)
 	}
 
 	// Opcode 66: delete message — reply often keeps cmd=0 like pushes.
+	// Opcode 66: delete message reply often keeps cmd=0 like pushes.
 	if (p->m_waitSeq != 0 && p->m_waitOpcode == 66 && seq == p->m_waitSeq && op == 66) {
 		const JSONNode &pl = json["payload"];
 		if (pl.type() == JSON_NODE) {

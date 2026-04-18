@@ -59,6 +59,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	void __cdecl PhoneSearchWorker(void *param);
 	void __cdecl OfflineFileWorker(void *param);
 	void __cdecl FileSendWorker(void *param);
+	void __cdecl ChatSubscribeWorker(void *param);
 	void EnsureDeviceId();
 	/// Parse HTTP 101 `Sec-WebSocket-Extensions` (permessage-deflate parameters).
 	void ApplyWsExtensionsFromHttp(MHttpResponse *pReply);
@@ -68,6 +69,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	/// Opcode 135: server removed/hid a chat — clear local history for matching contact.
 	void OnMaxPushChatRemoved(const JSONNode &payload);
 	void TryIngestNotifMessagePayload(const JSONNode &payload);
+	void TryIngestMessageReactionsPayload(const JSONNode &payload, int opcode = -1);
 	void TryIngestTypingPayload(const JSONNode &payload);
 	void TryIngestPresencePayload(const JSONNode &payload, int opcode = -1);
 	void ApplyPresenceToContact(MCONTACT hContact, const JSONNode &src);
@@ -96,12 +98,15 @@ class CMaxProto : public PROTO<CMaxProto>
 	INT_PTR __cdecl SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam);
 	int __cdecl OnLangpackChanged(WPARAM, LPARAM);
 	int __cdecl OnPrebuildNSMenu(WPARAM, LPARAM);
+	int __cdecl OnWindowEvent(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcExecMenu(WPARAM, LPARAM);
 	void InitMenus();
 
 public:
 	CMaxProto(const char *szModuleName, const wchar_t *ptszUserName);
 	~CMaxProto();
+	void SetMessageReactionsById(const char *szMsgId, JSONNode &reactions, const char *szSource, bool bNotify = true);
+	void ApplyMessageReactionsById(const char *szMsgId, const JSONNode &reactionInfo, const char *szSource, bool bNotify = true);
 
 	INT_PTR GetCaps(int type, MCONTACT hContact = 0) override;
 	int SetStatus(int iNewStatus) override;
@@ -141,6 +146,7 @@ public:
 	bool ApiSendMultiPhotoMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const std::vector<CMStringA> &photoTokens, const char *szText = nullptr, CMStringA *pOutMsgId = nullptr);
 	bool ApiSendTyping(WebSocket<CMaxProto> *ws, const char *szChatId, bool bTyping);
 	bool ApiEditMessage(WebSocket<CMaxProto> *ws, const char *szChatId, const char *szMsgId, const char *szText);
+	bool ApiChatSubscribe(WebSocket<CMaxProto> *ws, const char *szChatId, bool bSubscribe);
 	/// Opcode 80: request photo upload slots (url/token/fileId).
 	bool ApiRequestPhotoUpload(WebSocket<CMaxProto> *ws, CMStringA &outUrl, CMStringA &outToken, int64_t &outFileId);
 	bool ApiRequestFileUpload(WebSocket<CMaxProto> *ws, CMStringA &outUrl, CMStringA &outToken, int64_t &outFileId);
@@ -181,7 +187,7 @@ public:
 	/// 1:1 dialog message: match by chatId / derived id. If sender is own Max id (echo from another client), never use sender — use XOR to find peer.
 	MCONTACT ResolveContactForDialogMessage(const char *szChatId, const char *senderUid);
 	/// Ingest one USER message JSON (same shape as opcode 128 `payload.message` or chat `lastMessage`).
-	void IngestMaxMessageJson(const JSONNode &message, const char *szChatId, bool bMarkRead = false);
+	void IngestMaxMessageJson(const JSONNode &message, const char *szChatId, bool bMarkRead = false, bool bSyncReactionState = false);
 	/// Opcode-128: merge `payload.chat` into 1:1 contact (title) before ingesting the message.
 	void SyncLiveDialogFromPushPayload(const JSONNode &payload);
 	bool ContactNeedsServerDisplayFetch(MCONTACT hContact);

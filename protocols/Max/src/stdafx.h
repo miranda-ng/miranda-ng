@@ -36,6 +36,7 @@
 #include <m_utils.h>
 #include <m_icolib.h>
 #include <m_clist.h>
+#include <m_extraicons.h>
 #include <m_http.h>
 #include "../../libs/zlib/src/zlib.h"
 #include "../../libs/libqrencode/src/qrencode.h"
@@ -51,6 +52,8 @@
 #define DB_KEY_LOGIN_TOKEN "LoginToken"
 #define DB_KEY_MAX_UID     "MaxUid"
 #define DB_KEY_MAX_CHATID  "MaxChatId"
+#define DB_KEY_MAX_LAST_REACTION_MSGID "MaxLastReactionMsgId"
+#define DB_KEY_MAX_REACTION_MSGIDS "MaxReactionMsgIds"
 /// 0=unknown (legacy), 1=seen in server contacts[] merge, 2=created from dialog/live msg only (not address book).
 #define DB_KEY_MAX_PEER_ORIGIN "MaxPeerOrigin"
 #define MAX_PEER_ORIGIN_UNKNOWN  0
