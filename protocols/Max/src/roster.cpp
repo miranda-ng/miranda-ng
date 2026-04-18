@@ -1288,7 +1288,8 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 			break;
 	}
 
-	// Full connect sync only: drop local 1:1 contacts the server no longer lists in contacts + active dialogs.
+	// Full connect sync only: prune only authoritative address-book peers.
+	// chats[] is capped by ApiSync(chatsCount=40), so absence there is not enough evidence to delete chat-only dialogs.
 	if (ws != nullptr && !allowedUids.empty()) {
 		ptrA myAcc(getStringA(DB_KEY_MY_MAX_ID));
 		std::vector<MCONTACT> toDelete;
@@ -1299,6 +1300,9 @@ void CMaxProto::ApplySyncPayload(const JSONNode &payload, WebSocket<CMaxProto> *
 			if (uid == nullptr || uid[0] == 0)
 				continue;
 			if (myAcc != nullptr && myAcc[0] && !mir_strcmp(uid, myAcc))
+				continue;
+			const int origin = getByte(hContact, DB_KEY_MAX_PEER_ORIGIN, MAX_PEER_ORIGIN_UNKNOWN);
+			if (origin != MAX_PEER_ORIGIN_CONTACTS)
 				continue;
 			bool keep = false;
 			for (const auto &a : allowedUids)
