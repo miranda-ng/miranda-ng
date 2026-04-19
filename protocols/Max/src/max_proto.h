@@ -76,6 +76,7 @@ class CMaxProto : public PROTO<CMaxProto>
 	void TryMergeContactsFromPayload(const JSONNode &payload);
 	void TryApplySyncPayloadFromPush(const JSONNode &payload);
 	void IngestChatHistoryPayload(const JSONNode &payload, const char *szChatId, bool bMarkRead = false);
+	void CleanupStickerCacheForEvent(MEVENT hDbEvent);
 	uint64_t GetLastLocalMessageTimeMs(MCONTACT hContact);
 	bool ApiPing(WebSocket<CMaxProto> *ws);
 	bool ApiRequestQrCode(WebSocket<CMaxProto> *ws, CMStringA &outTrackId, CMStringA &outQrText, int *pOutPollingIntervalMs = nullptr);

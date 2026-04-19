@@ -1044,6 +1044,123 @@ static void sttUpgradeExistingStickerPlaceholder(CMaxProto *pProto, MEVENT hExis
 	pProto->debugLogA("Max: upgraded sticker placeholder msg=%s", dbei.szId ? dbei.szId : "(no-id)");
 }
 
+static void sttCollectStickerTokens(const char *szUtf8, std::vector<CMStringA> &out)
+{
+	out.clear();
+	if (szUtf8 == nullptr || szUtf8[0] == 0)
+		return;
+
+	const char *p = szUtf8;
+	while ((p = strstr(p, "STK{")) != nullptr) {
+		const char *q = strchr(p + 4, '}');
+		if (q == nullptr)
+			break;
+
+		CMStringA token;
+		token.Append(p, int(q - p + 1));
+		if (!token.IsEmpty()) {
+			bool bExists = false;
+			for (const auto &it : out) {
+				if (it == token) {
+					bExists = true;
+					break;
+				}
+			}
+			if (!bExists)
+				out.push_back(token);
+		}
+
+		p = q + 1;
+	}
+}
+
+static bool sttAnyOtherEventUsesStickerToken(CMaxProto *pProto, MEVENT hSkipEvent, const char *szToken)
+{
+	if (pProto == nullptr || szToken == nullptr || szToken[0] == 0)
+		return false;
+
+	for (auto &hContact : pProto->AccContacts()) {
+		for (MEVENT hEv = db_event_first(hContact); hEv; hEv = db_event_next(hContact, hEv)) {
+			if (hEv == hSkipEvent)
+				continue;
+
+			DB::EventInfo dbei(hEv, false);
+			if (!dbei || dbei.eventType != EVENTTYPE_MESSAGE || dbei.szModule == nullptr)
+				continue;
+			if (mir_strcmp(dbei.szModule, pProto->m_szModuleName))
+				continue;
+			if (dbei.pBlob != nullptr && strstr((const char*)dbei.pBlob, szToken) != nullptr)
+				return true;
+		}
+	}
+
+	return false;
+}
+
+static void sttDeleteStickerCacheFiles(CMaxProto *pProto, const char *szToken)
+{
+	if (pProto == nullptr || szToken == nullptr || szToken[0] == 0)
+		return;
+
+	CMStringW stickerDir(pProto->GetAvatarPath());
+	stickerDir += L"\\Stickers";
+
+	ptrW wszToken(mir_utf8decodeW(szToken));
+	if (wszToken == nullptr || wszToken[0] == 0)
+		return;
+
+	CMStringW basePath;
+	basePath.Format(L"%s\\%s", stickerDir.c_str(), wszToken.get());
+
+	_wfinddata_t c_file = {};
+	CMStringW mask(basePath);
+	mask += L".*";
+	INT_PTR hFile = _wfindfirst(mask, &c_file);
+	if (hFile < 0)
+		return;
+
+	const int slash = basePath.ReverseFind(L'\\');
+	const CMStringW parentDir = (slash >= 0) ? basePath.Left(slash + 1) : CMStringW();
+	do {
+		if (c_file.name[0] == L'.' || (c_file.attrib & _A_SUBDIR))
+			continue;
+
+		CMStringW candidate(parentDir);
+		candidate += c_file.name;
+		if (sttStickerFileOnDiskIsRasterImage(candidate.c_str())) {
+			if (DeleteFileW(candidate.c_str()))
+				pProto->debugLogA("Max: sticker cache deleted file=%S", candidate.c_str());
+		}
+	} while (_wfindnext(hFile, &c_file) == 0);
+
+	_findclose(hFile);
+}
+
+void CMaxProto::CleanupStickerCacheForEvent(MEVENT hDbEvent)
+{
+	if (hDbEvent == 0)
+		return;
+
+	DB::EventInfo dbei(hDbEvent, false);
+	if (!dbei || dbei.eventType != EVENTTYPE_MESSAGE || dbei.szModule == nullptr)
+		return;
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
+		return;
+	if (dbei.pBlob == nullptr || !strstr((const char*)dbei.pBlob, "STK{"))
+		return;
+
+	std::vector<CMStringA> tokens;
+	sttCollectStickerTokens((const char*)dbei.pBlob, tokens);
+	for (const auto &token : tokens) {
+		if (token.IsEmpty())
+			continue;
+		if (sttAnyOtherEventUsesStickerToken(this, hDbEvent, token.c_str()))
+			continue;
+
+		sttDeleteStickerCacheFiles(this, token.c_str());
+	}
+}
+
 static void sttCollectIncomingFiles(const JSONNode &msg, std::vector<CMaxIncomingFile> &out)
 {
 	const JSONNode &att = msg["attaches"];
@@ -1363,6 +1480,7 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	if (st.type() == JSON_STRING && !mir_strcmpi(st.as_string().c_str(), "REMOVED")) {
 		MEVENT hEv = db_event_getById(m_szModuleName, msgId.c_str());
 		if (hEv != 0) {
+			CleanupStickerCacheForEvent(hEv);
 			db_event_delete(hEv, CDF_FROM_SERVER);
 			debugLogA("Max: server removed msg id=%s chat=%s", msgId.c_str(), szChatId);
 		}
@@ -1868,8 +1986,10 @@ void CMaxProto::IngestChatHistoryPayload(const JSONNode &payload, const char *sz
 
 		const JSONNode &st = msg["status"];
 		if (st.type() == JSON_STRING && !mir_strcmpi(st.as_string().c_str(), "REMOVED")) {
-			if (MEVENT hEv = db_event_getById(m_szModuleName, msgId.c_str()))
+			if (MEVENT hEv = db_event_getById(m_szModuleName, msgId.c_str())) {
+				CleanupStickerCacheForEvent(hEv);
 				db_event_delete(hEv, CDF_FROM_SERVER);
+			}
 			continue;
 		}
 

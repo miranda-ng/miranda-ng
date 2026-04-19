@@ -1213,6 +1213,8 @@ void CMaxProto::OnEventDeleted(MCONTACT hContact, MEVENT hDbEvent, int flags)
 	if (dbei.szId == nullptr || dbei.szId[0] == 0)
 		return;
 
+	CleanupStickerCacheForEvent(hDbEvent);
+
 	if (!WaitForGatewayReady() || m_pGateway == nullptr) {
 		debugLogA("Max: delete msg skipped (gateway not connected) id=%s", dbei.szId);
 		return;
