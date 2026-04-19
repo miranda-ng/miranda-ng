@@ -1529,6 +1529,17 @@ void CMaxProto::OnModulesLoaded()
 {
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CMaxProto::OnUserInfoInit);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CMaxProto::OnWindowEvent);
+
+	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) {
+		CMStringW stickerDir(GetAvatarPath());
+		stickerDir += L"\\Stickers";
+		CreateDirectoryTreeW(stickerDir);
+
+		CMStringW stickerMask(stickerDir);
+		stickerMask += L"\\*.*";
+		SmileyAdd_LoadContactSmileys(SMADD_FOLDER, m_szModuleName, stickerMask);
+	}
+
 	InitMenus();
 }
 

@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <commctrl.h>
+#include <io.h>
 #include <malloc.h>
 #include <time.h>
 
@@ -38,6 +39,7 @@
 #include <m_clist.h>
 #include <m_extraicons.h>
 #include <m_http.h>
+#include <m_smileyadd.h>
 #include "../../libs/zlib/src/zlib.h"
 #include "../../libs/libqrencode/src/qrencode.h"
 

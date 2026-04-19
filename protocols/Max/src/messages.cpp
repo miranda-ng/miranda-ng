@@ -685,6 +685,365 @@ static CMStringW sttPhotoFileNameFromAttach(const JSONNode &a, const CMStringA &
 	return out;
 }
 
+static bool sttStickerHeaderContainsI(const char *pszHaystack, const char *pszNeedle)
+{
+	if (pszHaystack == nullptr || pszNeedle == nullptr || pszNeedle[0] == 0)
+		return false;
+	for (const char *p = pszHaystack; *p; ++p)
+		if (!_strnicmp(p, pszNeedle, mir_strlen(pszNeedle)))
+			return true;
+	return false;
+}
+
+static bool sttStickerContentTypeSaysNonImage(const char *pszCt)
+{
+	if (pszCt == nullptr)
+		return false;
+	return sttStickerHeaderContainsI(pszCt, "text/html")
+		|| sttStickerHeaderContainsI(pszCt, "application/json")
+		|| sttStickerHeaderContainsI(pszCt, "text/plain");
+}
+
+static bool sttStickerBodyLooksLikeHtmlDocument(const char *p, size_t cb)
+{
+	size_t i = 0;
+	if (cb >= 3 && (uint8_t)p[0] == 0xEF && (uint8_t)p[1] == 0xBB && (uint8_t)p[2] == 0xBF)
+		i = 3;
+
+	while (i < cb && (unsigned char)p[i] <= ' ')
+		i++;
+	if (i >= cb || p[i] != '<')
+		return false;
+	if (cb - i >= 9 && !_strnicmp(p + i, "<!DOCTYPE", 9))
+		return true;
+	if (cb - i >= 5 && !_strnicmp(p + i, "<html", 5))
+		return true;
+	if (cb - i >= 5 && !_strnicmp(p + i, "<head", 5))
+		return true;
+	if (cb - i >= 5 && !_strnicmp(p + i, "<body", 5))
+		return true;
+	if (cb - i >= 7 && !_strnicmp(p + i, "<script", 7))
+		return true;
+	return false;
+}
+
+static bool sttStickerBufferIsKnownRasterImage(const void *p, size_t cb)
+{
+	if (p == nullptr || cb < 12)
+		return false;
+
+	int fmt = ProtoGetBufferFormat(p, nullptr);
+	return fmt == PA_FORMAT_PNG || fmt == PA_FORMAT_JPEG || fmt == PA_FORMAT_GIF || fmt == PA_FORMAT_BMP || fmt == PA_FORMAT_WEBP;
+}
+
+static const wchar_t* sttStickerExtFromFormat(int fmt)
+{
+	switch (fmt) {
+	case PA_FORMAT_PNG: return L"png";
+	case PA_FORMAT_JPEG: return L"jpg";
+	case PA_FORMAT_GIF: return L"gif";
+	case PA_FORMAT_BMP: return L"bmp";
+	case PA_FORMAT_WEBP: return L"webp";
+	}
+	return L"png";
+}
+
+static int sttStickerFormatFromBuffer(const void *p, size_t cb)
+{
+	if (p == nullptr || cb < 12)
+		return PA_FORMAT_UNKNOWN;
+	return ProtoGetBufferFormat(p, nullptr);
+}
+
+static bool sttStickerHttpBodyIsImagePayload(MHttpResponse *pReply, const CMStringA &body)
+{
+	if (pReply == nullptr || body.GetLength() < 32)
+		return false;
+	if (sttStickerContentTypeSaysNonImage(pReply->FindHeader("Content-Type")))
+		return false;
+
+	const char *raw = body.c_str();
+	size_t cb = (size_t)body.GetLength();
+	if (sttStickerBodyLooksLikeHtmlDocument(raw, cb))
+		return false;
+
+	return sttStickerBufferIsKnownRasterImage(raw, cb);
+}
+
+static bool sttStickerFileOnDiskIsRasterImage(const wchar_t *wszPath)
+{
+	FILE *f = _wfopen(wszPath, L"rb");
+	if (f == nullptr)
+		return false;
+
+	char hdr[64] = {};
+	size_t cb = fread(hdr, 1, sizeof(hdr), f);
+	fclose(f);
+	return sttStickerBufferIsKnownRasterImage(hdr, cb);
+}
+
+static CMStringW sttStickerActualExtFromFile(const wchar_t *wszPath)
+{
+	FILE *f = _wfopen(wszPath, L"rb");
+	if (f == nullptr)
+		return L"";
+
+	char hdr[64] = {};
+	size_t cb = fread(hdr, 1, sizeof(hdr), f);
+	fclose(f);
+
+	int fmt = sttStickerFormatFromBuffer(hdr, cb);
+	if (fmt == PA_FORMAT_UNKNOWN)
+		return L"";
+
+	return sttStickerExtFromFormat(fmt);
+}
+
+static bool sttStickerFindCachedPath(const CMStringW &basePath, CMStringW &outPath)
+{
+	outPath.Empty();
+
+	_wfinddata_t c_file = {};
+	CMStringW mask(basePath);
+	mask += L".*";
+	INT_PTR hFile = _wfindfirst(mask, &c_file);
+	if (hFile < 0)
+		return false;
+
+	do {
+		if (c_file.name[0] == L'.')
+			continue;
+
+		CMStringW candidate(basePath);
+		candidate += L".";
+		candidate += c_file.name;
+		const int slash = candidate.ReverseFind(L'\\');
+		if (slash >= 0)
+			candidate = basePath.Left(slash + 1) + c_file.name;
+
+		if (sttStickerFileOnDiskIsRasterImage(candidate.c_str())) {
+			outPath = candidate;
+			_findclose(hFile);
+			return true;
+		}
+	} while (_wfindnext(hFile, &c_file) == 0);
+
+	_findclose(hFile);
+	return false;
+}
+
+static bool sttDownloadStickerToFile(CMaxProto *pProto, const char *szUrl, const CMStringW &basePath, CMStringW &outPath)
+{
+	outPath.Empty();
+	if (pProto == nullptr || szUrl == nullptr || szUrl[0] == 0 || basePath.IsEmpty())
+		return false;
+
+	auto tryOnce = [&](const char *pszReqUrl, const char *pszAuthName, const char *pszAuthVal) -> bool {
+		if (pszReqUrl == nullptr || pszReqUrl[0] == 0)
+			return false;
+
+		MHttpRequest req(REQUEST_GET);
+		req.flags = NLHRF_NODUMP | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+		req.m_szUrl = pszReqUrl;
+		req.AddHeader("Origin", MAX_HTTP_ORIGIN_HEADER);
+		req.AddHeader("Referer", MAX_HTTP_ORIGIN_HEADER "/");
+		req.AddHeader("User-Agent", MAX_HTTP_USER_AGENT);
+		req.AddHeader("Accept", "image/avif,image/webp,image/apng,image/*,*/*;q=0.8");
+		req.AddHeader("Sec-Fetch-Dest", "image");
+		req.AddHeader("Sec-Fetch-Mode", "no-cors");
+		req.AddHeader("Sec-Fetch-Site", "cross-site");
+		if (pszAuthName != nullptr && pszAuthVal != nullptr && pszAuthVal[0] != 0)
+			req.AddHeader(pszAuthName, pszAuthVal);
+
+		NLHR_PTR pReply(Netlib_HttpTransaction(pProto->m_hNetlibUser, &req));
+		if (pReply == nullptr || pReply->resultCode < 200 || pReply->resultCode >= 300)
+			return false;
+		if (!sttStickerHttpBodyIsImagePayload(pReply, pReply->body))
+			return false;
+
+		int fmt = sttStickerFormatFromBuffer(pReply->body.c_str(), (size_t)pReply->body.GetLength());
+		CMStringW finalPath(basePath);
+		finalPath += L".";
+		finalPath += sttStickerExtFromFormat(fmt);
+
+		if (CreatePathToFileW(finalPath.c_str()) != 0)
+			return false;
+
+		FILE *out = _wfopen(finalPath.c_str(), L"wb");
+		if (out == nullptr)
+			return false;
+
+		size_t cb = (size_t)pReply->body.GetLength();
+		size_t wr = fwrite(pReply->body.c_str(), 1, cb, out);
+		fclose(out);
+		if (wr != cb) {
+			_wunlink(finalPath.c_str());
+			return false;
+		}
+
+		if (!sttStickerFileOnDiskIsRasterImage(finalPath.c_str())) {
+			_wunlink(finalPath.c_str());
+			return false;
+		}
+
+		outPath = finalPath;
+		return true;
+	};
+
+	ptrA tok(pProto->getStringA(DB_KEY_LOGIN_TOKEN));
+	CMStringA bearer;
+	if (tok != nullptr && tok[0] != 0)
+		bearer.Format("Bearer %s", tok.get());
+
+	if (tok != nullptr && tok[0] != 0) {
+		if (tryOnce(szUrl, "Authorization", bearer.c_str()))
+			return true;
+		if (tryOnce(szUrl, "Authorization", tok.get()))
+			return true;
+		if (tryOnce(szUrl, "X-Auth-Token", tok.get()))
+			return true;
+	}
+
+	if (tryOnce(szUrl, nullptr, nullptr))
+		return true;
+
+	return false;
+}
+
+static bool sttBuildStickerSmileyToken(CMaxProto *pProto, const JSONNode &a, CMStringA &outToken)
+{
+	outToken.Empty();
+	if (pProto == nullptr || !ServiceExists(MS_SMILEYADD_REPLACESMILEYS))
+		return false;
+
+	CMStringA stickerId = sttMsgJsonIdStr(a["stickerId"]);
+	if (stickerId.IsEmpty())
+		return false;
+
+	CMStringA url;
+	if (!sttTakeHttpUrl(a, "url", url))
+		return false;
+
+	CMStringW tokenW;
+	tokenW.Format(L"STK{%S}", stickerId.c_str());
+
+	CMStringW stickerDir(pProto->GetAvatarPath());
+	stickerDir += L"\\Stickers";
+	CreateDirectoryTreeW(stickerDir);
+
+	CMStringW stickerBasePath;
+	stickerBasePath.Format(L"%s\\%s", stickerDir.c_str(), tokenW.c_str());
+
+	CMStringW stickerPath;
+	bool bReady = false;
+	if (sttStickerFindCachedPath(stickerBasePath, stickerPath)) {
+		CMStringW actualExt = sttStickerActualExtFromFile(stickerPath.c_str());
+		int dot = stickerPath.ReverseFind(L'.');
+		CMStringW currentExt = (dot >= 0) ? stickerPath.Mid(dot + 1) : L"";
+		currentExt.MakeLower();
+		if (!actualExt.IsEmpty() && currentExt != actualExt) {
+			CMStringW correctedPath(stickerBasePath);
+			correctedPath += L".";
+			correctedPath += actualExt;
+			_wunlink(correctedPath.c_str());
+			if (_wrename(stickerPath.c_str(), correctedPath.c_str()) == 0)
+				stickerPath = correctedPath;
+		}
+		bReady = true;
+	}
+
+	if (!bReady)
+		bReady = sttDownloadStickerToFile(pProto, url.c_str(), stickerBasePath, stickerPath);
+
+	if (!bReady) {
+		CMStringA safeUrl(MaxRedactUrlForLog(url.c_str()));
+		pProto->debugLogA("Max: sticker preview download failed sticker=%s url=%s", stickerId.c_str(), safeUrl.IsEmpty() ? "(empty)" : safeUrl.c_str());
+		return false;
+	}
+
+	SmileyAdd_LoadContactSmileys(SMADD_FILE, pProto->m_szModuleName, stickerPath.c_str());
+	outToken.Format("STK{%s}", stickerId.c_str());
+	return true;
+}
+
+static void sttAppendIncomingStickers(CMaxProto *pProto, const JSONNode &msg, CMStringA &text)
+{
+	const JSONNode &att = msg["attaches"];
+	if (pProto == nullptr || att.type() != JSON_ARRAY)
+		return;
+
+	for (unsigned i = 0; i < att.size(); ++i) {
+		const JSONNode &a = att[(json_index_t)i];
+		if (a.type() != JSON_NODE || a["_type"].type() != JSON_STRING)
+			continue;
+		if (mir_strcmpi(a["_type"].as_string().c_str(), "STICKER"))
+			continue;
+
+		CMStringA stickerText;
+		if (!sttBuildStickerSmileyToken(pProto, a, stickerText)) {
+			if (!ServiceExists(MS_SMILEYADD_REPLACESMILEYS))
+				stickerText = TranslateU("SmileyAdd plugin required to support stickers");
+			else {
+				CMStringA stickerId = sttMsgJsonIdStr(a["stickerId"]);
+				if (stickerId.IsEmpty())
+					stickerText = TranslateU("Sticker");
+				else
+					stickerText.Format("%s #%s", TranslateU("Sticker"), stickerId.c_str());
+			}
+		}
+
+		if (!text.IsEmpty())
+			text.AppendChar('\n');
+		text.Append(stickerText);
+	}
+}
+
+static bool sttTextLooksLikeStickerPlaceholder(const wchar_t *wszText)
+{
+	if (wszText == nullptr || wszText[0] == 0)
+		return false;
+
+	const wchar_t *pNeedSmiley = L"SmileyAdd plugin required to support stickers";
+	const wchar_t *pSticker = L"Sticker";
+	if (!mir_wstrcmp(wszText, pNeedSmiley) || !mir_wstrcmp(wszText, pSticker))
+		return true;
+	if (!wcsncmp(wszText, L"Sticker #", 9))
+		return true;
+	if (wcsstr(wszText, L"\nSmileyAdd plugin required to support stickers") != nullptr)
+		return true;
+	if (wcsstr(wszText, L"\nSticker") != nullptr)
+		return true;
+	return false;
+}
+
+static bool sttTextContainsStickerMarker(const char *szUtf8)
+{
+	return szUtf8 != nullptr && strstr(szUtf8, "STK{") != nullptr;
+}
+
+static void sttUpgradeExistingStickerPlaceholder(CMaxProto *pProto, MEVENT hExisting, const CMStringA &newTextUtf8)
+{
+	if (pProto == nullptr || hExisting == 0 || newTextUtf8.IsEmpty() || !sttTextContainsStickerMarker(newTextUtf8.c_str()))
+		return;
+
+	DB::EventInfo dbei(hExisting);
+	if (!dbei || dbei.eventType != EVENTTYPE_MESSAGE || !dbei.bUtf)
+		return;
+
+	ptrW wszCurrent(dbei.getText());
+	if (!sttTextLooksLikeStickerPlaceholder(wszCurrent))
+		return;
+
+	if (dbei.pBlob != nullptr)
+		mir_free(dbei.pBlob);
+
+	dbei.cbBlob = (int)mir_strlen(newTextUtf8.c_str()) + 1;
+	dbei.pBlob = mir_strdup(newTextUtf8.c_str());
+	dbei.bEdited = true;
+	db_event_edit(hExisting, &dbei, true);
+	pProto->debugLogA("Max: upgraded sticker placeholder msg=%s", dbei.szId ? dbei.szId : "(no-id)");
+}
+
 static void sttCollectIncomingFiles(const JSONNode &msg, std::vector<CMaxIncomingFile> &out)
 {
 	const JSONNode &att = msg["attaches"];
@@ -1010,6 +1369,11 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 		return;
 	}
 
+	CMStringA text = sttMessageBodyUtf8(msg);
+	std::vector<CMaxIncomingFile> files;
+	sttCollectIncomingFiles(msg, files);
+	sttAppendIncomingStickers(this, msg, text);
+
 	MEVENT hExisting = db_event_getById(m_szModuleName, msgId.c_str());
 	bool isEdited = false;
 	if (st.type() == JSON_STRING && !mir_strcmpi(st.as_string().c_str(), "EDITED"))
@@ -1020,6 +1384,7 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 	// Existing server message id is normally a duplicate push.
 	// Keep only explicit edits to update text in place.
 	if (hExisting != 0 && !isEdited) {
+		sttUpgradeExistingStickerPlaceholder(this, hExisting, text);
 		if (bSyncReactionState)
 			sttApplyAuthoritativeMessageReactions(this, msgId.c_str(), msg["reactionInfo"], "message-sync", false);
 		else
@@ -1056,10 +1421,6 @@ void CMaxProto::IngestMaxMessageJson(const JSONNode &msg, const char *szChatId, 
 		else if (tmsg.type() == JSON_STRING)
 			msgTimeMs = _strtoui64(tmsg.as_string().c_str(), nullptr, 10);
 	}
-
-	CMStringA text = sttMessageBodyUtf8(msg);
-	std::vector<CMaxIncomingFile> files;
-	sttCollectIncomingFiles(msg, files);
 
 	// Forwarded messages may have empty outer "text" and carry content in link.message.
 	if (text.IsEmpty() && files.empty() && isForward && link.type() == JSON_NODE && link["message"].type() == JSON_NODE) {

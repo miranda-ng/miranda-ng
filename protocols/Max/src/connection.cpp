@@ -17,6 +17,13 @@ static bool MaxAsciiContainsInsensitive(const char *szHaystack, const char *szNe
 	return strstr(h, n) != nullptr;
 }
 
+static uint64_t MaxGetTickCount64Compat()
+{
+	typedef ULONGLONG(WINAPI *GetTickCount64Fn)();
+	static GetTickCount64Fn pGetTickCount64 = (GetTickCount64Fn)GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetTickCount64");
+	return (pGetTickCount64 != nullptr) ? (uint64_t)pGetTickCount64() : (uint64_t)GetTickCount();
+}
+
 // WebSocket endpoint and Origin for Max web client.
 static const char *szWsUrl = "wss://ws-api.oneme.ru/websocket";
 static const char *szOrigin = MAX_HTTP_ORIGIN_HEADER;
@@ -1973,7 +1980,7 @@ bool CMaxProto::ApiSendTelemetryColdStart(WebSocket<CMaxProto> *ws)
 
 	uint64_t userId = _strtoui64(my, nullptr, 10);
 	int64_t t = (int64_t)(time(nullptr) * 1000);
-	int64_t sessionId = (int64_t)GetTickCount() + (int64_t)(time(nullptr) * 1000);
+	int64_t sessionId = (int64_t)MaxGetTickCount64Compat() + (int64_t)(time(nullptr) * 1000);
 
 	JSONNode params(JSON_NODE);
 	params << INT64_PARAM("actionId", 1) << INT_PARAM("screenTo", 150) << INT_PARAM("screenFrom", 1)
