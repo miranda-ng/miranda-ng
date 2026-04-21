@@ -170,9 +170,9 @@ static int SRFileEventDeleted(WPARAM hContact, LPARAM hDbEvent)
 		if (dbei && dbei.eventType == EVENTTYPE_FILE) {
 			DB::FILE_BLOB blob(dbei);
 			if (auto *pwszName = blob.getLocalName()) {
-				// we don't remove sent files, located outside Miranda's folder for sent cloud files
-				MFilePath wszFileName(GetContactSentFilesDir(hContact));
-				if (!wcsnicmp(pwszName, wszFileName, wszFileName.GetLength()))
+				// Delete only Miranda-managed offline cache files, whether they were sent or received.
+				MFilePath wszRoot(dbei.bSent ? GetContactSentFilesDir(hContact) : File::GetReceivedFolder(hContact));
+				if (!wszRoot.IsEmpty() && !wcsnicmp(pwszName, wszRoot, wszRoot.GetLength()))
 					DeleteFileW(pwszName);
 			}
 		}
