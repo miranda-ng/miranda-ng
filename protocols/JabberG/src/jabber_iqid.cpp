@@ -761,15 +761,9 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 			else if (!mir_strcmp(n->Name(), "BDAY")) {
 				// Birthday
 				if (!hasBday && n->GetText() != nullptr) {
-					if (hContact != 0) {
-						if (sscanf(n->GetText(), "%d-%d-%d", &nYear, &nMonth, &nDay) == 3) {
-							hasBday = true;
-							Contact::SetBirthday(hContact, nDay, nMonth, nYear);
-						}
-					}
-					else {
+					if (sscanf(n->GetText(), "%d-%d-%d", &nYear, &nMonth, &nDay) == 3) {
 						hasBday = true;
-						setUString("BirthDate", n->GetText());
+						Contact::SetBirthday(hContact, nDay, nMonth, nYear, m_szModuleName);
 					}
 				}
 			}

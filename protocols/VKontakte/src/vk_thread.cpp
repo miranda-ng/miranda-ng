@@ -395,7 +395,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool bFlag, VKContactT
 		int d, m, y, iReadCount;
 		iReadCount = swscanf(wszValue, L"%d.%d.%d", &d, &m, &y);
 		if (iReadCount > 1)
-			Contact::SetBirthday(hContact, d, m, (iReadCount == 3) ? y : 0);
+			Contact::SetBirthday(hContact, d, m, (iReadCount == 3) ? y : 0, m_szModuleName);
 	}
 
 	wszValue = jnItem["photo_100"].as_mstring();

@@ -194,7 +194,7 @@ void CTeamsProto::OnGotContactsInfo(MHttpResponse *response, AsyncHttpRequest*)
 		if (!wstr.IsEmpty() ) {
 			int nYear, nMonth, nDay;
 			if (swscanf(wstr, L"%d-%d-%d", &nYear, &nMonth, &nDay) == 3)
-				Contact::SetBirthday(hContact, nDay, nMonth, nYear);
+				Contact::SetBirthday(hContact, nDay, nMonth, nYear, m_szModuleName);
 		}
 
 		wstr = profile["gender"].as_mstring();

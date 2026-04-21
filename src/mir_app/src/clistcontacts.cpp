@@ -297,9 +297,12 @@ MIR_APP_DLL(int) Contact::IsGroupChat(MCONTACT hContact, const char *szProto)
 	return db_get_b(hContact, szProto, "ChatRoom");
 }
 
-MIR_APP_DLL(void) Contact::SetBirthday(MCONTACT hContact, int dd, int mm, int yy)
+MIR_APP_DLL(void) Contact::SetBirthday(MCONTACT hContact, int dd, int mm, int yy, const char *szProto)
 {
-	if (auto *szProto = Proto_GetBaseAccountName(hContact)) {
+	if (szProto == nullptr)
+		szProto = Proto_GetBaseAccountName(hContact);
+
+	if (szProto) {
 		db_set_w(hContact, szProto, "BirthMonth", mm);
 		db_set_w(hContact, szProto, "BirthDay", dd);
 

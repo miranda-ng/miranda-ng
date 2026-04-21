@@ -50,7 +50,7 @@ void CTeamsProto::UpdateProfileBirthday(const JSONNode &root, MCONTACT hContact)
 	if (!birthday.IsEmpty() && birthday != "null") {
 		int d, m, y;
 		if (3 == swscanf(birthday.GetBuffer(), L"%d-%d-%d", &y, &m, &d)) {
-			Contact::SetBirthday(hContact, d, m, y);
+			Contact::SetBirthday(hContact, d, m, y, m_szModuleName);
 			return;
 		}
 	}

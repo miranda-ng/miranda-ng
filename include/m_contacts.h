@@ -105,7 +105,7 @@ namespace Contact
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// sets a birthday
 
-	MIR_APP_DLL(void) SetBirthday(MCONTACT hContact, int dd, int mm, int yy);
+	MIR_APP_DLL(void) SetBirthday(MCONTACT hContact, int dd, int mm, int yy, const char *szProto = nullptr);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// checks / adds / removes a contact from list of contacts
