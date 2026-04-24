@@ -76,6 +76,7 @@ public:
 		if (wszCode.IsEmpty())
 			return false;
 		wszCode.Replace(L"-", L"");
+		wszCode.Replace(L" ", L"");
 
 		JSONNode root;
 		root << CHAR_PARAM("ticket", m_szTicket) << WCHAR_PARAM("code", wszCode);
