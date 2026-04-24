@@ -10,7 +10,7 @@ Copyright © 2019-26 George Hazan
 
 #define WA_PROTO_MAJOR 2
 #define WA_PROTO_MINOR 3000
-#define WA_PROTO_BUILD 1027934701
+#define WA_PROTO_BUILD 1038024963
 #define WA_APPVERSION  WA_PROTO_MAJOR,WA_PROTO_MINOR,WA_PROTO_BUILD
 
 #define WA_STRINGIFY_IMPL(x)      #x
@@ -349,6 +349,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	time_t m_lastRecvTime;
 	WebSocket<WhatsAppProto> *m_ws;
+	uint32_t m_waProtoBuild = 0;
 
 	mir_cs m_csPacketQueue;
 	OBJLIST<WARequestBase> m_arPacketQueue;
@@ -359,6 +360,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	int m_iPacketId;
 	uint16_t m_wMsgPrefix[2];
 	CMStringA GenerateMessageId();
+	CMStringA GetAppVersionString() const;
 	CMStringA GetMessageText(const Wa__Message *pMessage);
 	void GetMessageContent(CMStringA &txt, const char *szType, const char *szUrl, const char *szMimetype, const char *szDirectPath, const ProtobufCBinaryData &szMediaKey, const char *szCaption = nullptr);
 	bool ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg);
@@ -379,6 +381,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void ProcessFailure(int code);
 	void ServerThreadWorker(void);
 	void ShutdownSession(void);
+	void UpdateWaWebVersion(void);
 
 	void SendAck(const WANode &node);
 	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);

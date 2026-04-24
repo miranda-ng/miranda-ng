@@ -395,11 +395,12 @@ LBL_Error:
 	// not received our jid from server? generate registration packet then
 	if (m_szJid.IsEmpty()) {
 		uint8_t buildHash[16];
-		mir_md5_hash((BYTE *)WA_APPVERSION_STRING, sizeof(WA_APPVERSION_STRING) - 1, buildHash);
+		CMStringA szAppVersion = GetAppVersionString();
+		mir_md5_hash((BYTE *)szAppVersion.c_str(), szAppVersion.GetLength(), buildHash);
 
 		appVersion.primary   = WA_PROTO_MAJOR; appVersion.has_primary = true;
 		appVersion.secondary = WA_PROTO_MINOR; appVersion.has_secondary = true;
-		appVersion.tertiary  = WA_PROTO_BUILD; appVersion.has_tertiary = true;
+		appVersion.tertiary  = m_waProtoBuild; appVersion.has_tertiary = true;
 
 		companion.os = devName.get();
 		companion.version = &appVersion;
@@ -434,7 +435,7 @@ LBL_Error:
 	Wa__ClientPayload__UserAgent__AppVersion userVersion;
 	userVersion.primary = WA_PROTO_MAJOR; userVersion.has_primary = true;
 	userVersion.secondary = WA_PROTO_MINOR; userVersion.has_secondary = true;
-	userVersion.tertiary = WA_PROTO_BUILD; userVersion.has_tertiary = true;
+	userVersion.tertiary = m_waProtoBuild; userVersion.has_tertiary = true;
 
 	Wa__ClientPayload__UserAgent userAgent;
 	userAgent.appversion = &userVersion;

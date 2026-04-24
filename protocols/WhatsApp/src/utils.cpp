@@ -207,6 +207,56 @@ CMStringA WhatsAppProto::GenerateMessageId()
 	return CMStringA(FORMAT, "%d.%d-%d", m_wMsgPrefix[0], m_wMsgPrefix[1], m_iPacketId++);
 }
 
+CMStringA WhatsAppProto::GetAppVersionString() const
+{
+	return CMStringA(FORMAT, "%d,%d,%u", WA_PROTO_MAJOR, WA_PROTO_MINOR, m_waProtoBuild);
+}
+
+void WhatsAppProto::UpdateWaWebVersion()
+{
+	// we were here today, no need to do that again
+	if (m_waProtoBuild)
+		return;
+
+	m_waProtoBuild = WA_PROTO_BUILD;
+
+	MHttpRequest req(REQUEST_GET);
+	req.flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
+	req.m_szUrl = "https://web.whatsapp.com/sw.js";
+	req.AddHeader("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36");
+	req.AddHeader("Sec-Fetch-Site", "none");
+
+	NLHR_PTR pResp(Netlib_HttpTransaction(m_hNetlibUser, &req));
+	if (pResp == nullptr || pResp->resultCode != 200) {
+		debugLogA("Unable to fetch WhatsApp Web version, using %s", GetAppVersionString().c_str());
+		return;
+	}
+
+	const char *pRevision = strstr(pResp->body.c_str(), "client_revision");
+	if (pRevision == nullptr) {
+		debugLogA("Unable to find WhatsApp Web client_revision, using %s", GetAppVersionString().c_str());
+		return;
+	}
+
+	pRevision = strchr(pRevision, ':');
+	if (pRevision == nullptr) {
+		debugLogA("Unable to parse WhatsApp Web client_revision, using %s", GetAppVersionString().c_str());
+		return;
+	}
+
+	while (*pRevision && !isdigit((uint8_t)*pRevision))
+		pRevision++;
+
+	uint32_t dwBuild = atoi(pRevision);
+	if (*pRevision == 0 || dwBuild == 0) {
+		debugLogA("Unable to parse WhatsApp Web client_revision, using %s", GetAppVersionString().c_str());
+		return;
+	}
+
+	m_waProtoBuild = dwBuild;
+	debugLogA("Using WhatsApp Web version %s", GetAppVersionString().c_str());
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 bool isLidUser(const char *jid)

@@ -27,6 +27,7 @@ void WhatsAppProto::ServerThread(void *)
 void WhatsAppProto::ServerThreadWorker()
 {
 	m_bFirstRun = getDword(DBKEY_PREKEY_NEXT_ID) == 0;
+	UpdateWaWebVersion();
 
 	// connect websocket
 	MHttpHeaders hdrs;
@@ -98,6 +99,9 @@ void WebSocket<WhatsAppProto>::process(const uint8_t *pData, size_t cbDataLen)
 					p->debugLogA("cannot handle incoming message");
 
 				delete pNode;
+
+				if (p->m_bTerminated)
+					return;
 			}
 			else {
 				p->debugLogA("wrong or broken payload");
@@ -116,6 +120,10 @@ void WebSocket<WhatsAppProto>::process(const uint8_t *pData, size_t cbDataLen)
 void WhatsAppProto::ProcessFailure(int code)
 {
 	switch (code) {
+	case 405:
+		debugLogA("WhatsApp rejected this client version, exiting");
+		break;
+
 	case 401:
 		debugLogA("Connection logged out from another device, exiting");
 		Popup(0, TranslateT("This account was logged out from mobile phone, you need to link it again"), m_tszUserName);
