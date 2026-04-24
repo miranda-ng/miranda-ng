@@ -18,9 +18,9 @@ class ToastNotification
 	wchar_t* _caption;
 	wchar_t* _imagePath;
 
-	EventRegistrationToken _ertActivated;
-	EventRegistrationToken _ertDismissed;
-	EventRegistrationToken _ertFailed;
+	EventRegistrationToken _ertActivated = {};
+	EventRegistrationToken _ertDismissed = {};
+	EventRegistrationToken _ertFailed = {};
 
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotificationManagerStatics> notificationManager;
 	Microsoft::WRL::ComPtr<ABI::Windows::UI::Notifications::IToastNotifier> notifier;

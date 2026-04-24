@@ -52,8 +52,30 @@ ToastNotification::~ToastNotification()
 	if (_pvPopupData != nullptr)
 		CallPopupProc(UM_FREEPLUGINDATA);
 
-	if (notification)
-		notifier->Hide(notification.Get());
+	if (notification) {
+		// Disconnect WinRT delegates before hiding the toast so COM does not keep   
+		// callbacks into the plugin alive until process shutdown.                   
+		if (_ertActivated.value != 0) {
+			notification->remove_Activated(_ertActivated);
+			_ertActivated.value = 0;
+		}
+		if (_ertDismissed.value != 0) {
+			notification->remove_Dismissed(_ertDismissed);
+			_ertDismissed.value = 0;
+		}
+		if (_ertFailed.value != 0) {
+			notification->remove_Failed(_ertFailed);
+			_ertFailed.value = 0;
+		}
+
+		if (notifier)
+			notifier->Hide(notification.Get());
+
+		notification.Reset();
+	}
+
+	notifier.Reset();
+	notificationManager.Reset();
 }
 
 HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument **xml)
