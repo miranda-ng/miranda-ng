@@ -13,3 +13,7 @@
 [Cancel]
 [GnuPG Plugin - Select public key]
 [Refresh]
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+[All files]
+[Select GnuPG executable]

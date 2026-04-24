@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber protocol
-;  Version: 0.95.11.1
+;  Version: 0.96.7.1
 ;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
