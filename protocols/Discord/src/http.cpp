@@ -74,6 +74,21 @@ AsyncHttpRequest::AsyncHttpRequest(CDiscordProto *ppro, int iRequestType, LPCSTR
 	m_iReqNum = ::InterlockedIncrement(&g_reqNum);
 }
 
+#define HTTP_CLIENT "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36 Edg/147.0.0.0"
+
+void AsyncHttpRequest::AddSuperPuperHeader()
+{
+	JSONNode payload;
+	payload << CHAR_PARAM("os", "Windows") << CHAR_PARAM("browser", "Chrome") << CHAR_PARAM("device", "") << CHAR_PARAM("system_locale", "en")
+		<< BOOL_PARAM("has_client_mods", false) << CHAR_PARAM("browser_user_agent", HTTP_CLIENT) << CHAR_PARAM("browser_version", "147.0.0.0")
+		<< CHAR_PARAM("os_version", "10") << CHAR_PARAM("referrer", "") << CHAR_PARAM("referring_domain", "") << CHAR_PARAM("referrer_current", "")
+		<< CHAR_PARAM("referring_domain_current", "") << CHAR_PARAM("release_channel", "stable") << INT_PARAM("client_build_number", 533954)
+		<< CHAR_PARAM("client_event_source", "") << CHAR_PARAM("client_app_state", "focused") << CHAR_PARAM("client_launch_id", "00000000-0000-4000-8000-000000000000");
+
+	auto szText = payload.write();
+	AddHeader("X-Super-Properties", ptrA(mir_base64_encode(szText.c_str(), szText.length())));
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CDiscordProto::ServerThread(void*)

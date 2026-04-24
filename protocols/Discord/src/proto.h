@@ -66,6 +66,8 @@ struct AsyncHttpRequest : public MTHttpRequest<CDiscordProto>
 {
 	AsyncHttpRequest(CDiscordProto*, int iRequestType, LPCSTR szUrl, MTHttpRequestHandler pFunc, JSONNode *pNode = nullptr);
 
+	void AddSuperPuperHeader();
+
 	int m_iErrorCode, m_iReqNum;
 	bool m_bMainSite;
 	MCONTACT hContact;

@@ -93,6 +93,7 @@ public:
 		auto *pReq = new AsyncHttpRequest(m_proto, REQUEST_POST, pszUrl, &CDiscordProto::OnSendTotp, &root);
 		pReq->AddHeader("Origin", "https://discord.com");
 		pReq->AddHeader("Referer", "https://discord.com/login");
+		pReq->AddSuperPuperHeader();
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
 		return false;
