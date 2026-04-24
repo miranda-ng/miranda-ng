@@ -217,7 +217,8 @@ struct WASendTask
 {
 	WASendTask(const char *jid) :
 		payLoad("message"),
-		arDest(1)
+		arDest(1),
+		arSelfDest(1)
 	{
 		uint8_t msgId[8];
 		Utils_GetRandom(&msgId, sizeof(msgId));
@@ -230,7 +231,9 @@ struct WASendTask
 	char szMsgId[40];
 	WANode payLoad;
 	OBJLIST<WAJid> arDest;
+	OBJLIST<WAJid> arSelfDest;
 	MBinBuffer content;
+	MBinBuffer selfContent;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

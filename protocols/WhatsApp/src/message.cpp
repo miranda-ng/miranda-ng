@@ -494,7 +494,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 			if (pChatUser->si) {
 				for (auto &it : pChatUser->si->arUsers) {
 					T2Utf userJid(it->pszUID);
-					auto *pUser = FindUser(jid);
+					auto *pUser = FindUser(userJid);
 					if (pUser == nullptr)
 						m_arUsers.insert(pUser = new WAUser(INVALID_CONTACT_ID, userJid, false));
 					if (pUser->bDeviceInit) {
@@ -507,6 +507,8 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 		}
 	}
 	else {
+		pTask->content.append(proto::Serialize(&body));
+
 		Wa__Message__DeviceSentMessage sentBody;
 		sentBody.message = &body;
 		sentBody.destinationjid = (char*)jid;
@@ -514,7 +516,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 		Wa__Message msg;
 		msg.devicesentmessage = &sentBody;
 
-		pTask->content.append(proto::Serialize(&msg));
+		pTask->selfContent.append(proto::Serialize(&msg));
 
 		if (auto *pUser = FindUser(jid)) {
 			if (pUser->szId != m_szJid) {
@@ -528,11 +530,18 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	}
 
 	padBuffer16(pTask->content);
+	if (!pTask->selfContent.isEmpty())
+		padBuffer16(pTask->selfContent);
 
 	auto *pOwnUser = FindUser(m_szJid);
-	for (auto &it : pOwnUser->arDevices)
-		if (it->device != (int)getDword(DBKEY_DEVICE_ID))
-			pTask->arDest.insert(new WAJid(*it));
+	for (auto &it : pOwnUser->arDevices) {
+		if (it->device != (int)getDword(DBKEY_DEVICE_ID)) {
+			if (toJid.isGroup())
+				pTask->arDest.insert(new WAJid(*it));
+			else
+				pTask->arSelfDest.insert(new WAJid(*it));
+		}
+	}
 
 	// generate & reserve packet id
 	int pktId;
@@ -578,6 +587,9 @@ void WhatsAppProto::SendTask(WASendTask *pTask)
 
 	for (auto &it : pTask->arDest)
 		shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, *it, pTask->content);
+
+	for (auto &it : pTask->arSelfDest)
+		shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, *it, pTask->selfContent);
 
 	if (shouldIncludeIdentity) {
 		MBinBuffer encIdentity(m_signalStore->encodeSignedIdentity(true));
