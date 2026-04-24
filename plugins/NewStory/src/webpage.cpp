@@ -702,14 +702,26 @@ uint_ptr NSWebPage::get_image(LPCWSTR url_or_path, bool)
 	if (!mir_wstrncmp(url_or_path, L"file://", 7))
 		url_or_path += 7;
 
-	auto *dib = FreeImage_LoadU(FreeImage_GetFIFFromFilenameU(url_or_path), url_or_path);
-	if (dib == nullptr)
-		return 0;
+	Gdiplus::Bitmap *pImage;
+	if (ProtoGetAvatarFormat(url_or_path) == PA_FORMAT_WEBP) {
+		auto *dib = FreeImage_LoadU(FreeImage_GetFIFFromFilenameU(url_or_path), url_or_path);
+		if (dib == nullptr)
+			return 0;
 
-	HBITMAP hBmp = FreeImage_CreateHBITMAPFromDIB(dib);
-	auto *pImage = new Gdiplus::Bitmap(hBmp, 0);
-	DeleteObject(hBmp);
-	FreeImage_Unload(dib);
+		HBITMAP hBmp = FreeImage_CreateHBITMAPFromDIB(dib);
+		pImage = new Gdiplus::Bitmap(hBmp, 0);
+		DeleteObject(hBmp);
+		FreeImage_Unload(dib);
+	}
+	else {
+		IStream *pStream = 0;
+		HRESULT hr = SHCreateStreamOnFileEx(url_or_path, STGM_READ | STGM_SHARE_DENY_NONE, 0, FALSE, 0, &pStream);
+		if (!SUCCEEDED(hr))
+			return 0;
+
+		pImage = new Gdiplus::Bitmap(pStream);
+		pStream->Release();
+	}
 
 	if (pImage->GetLastStatus() != Ok) {
 		delete pImage;
