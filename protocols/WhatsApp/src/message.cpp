@@ -32,12 +32,13 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	WAMSG type;
 	WAJid jid(msgFrom);
 	CMStringA szAuthor, szChatId;
+	bool bLidSender = isLidUser(msgFrom) || isHostedLiUser(msgFrom);
 
 	if (node.getAttr("offline"))
 		type.bOffline = true;
 
 	// message from one user to another
-	if (jid.isUser()) {
+	if (jid.isUser() || bLidSender) {
 		if (recipient) {
 			if (m_szJid != msgFrom) {
 				debugLogA("strange message: with recipient, but not from me");
@@ -45,6 +46,13 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 				return;
 			}
 			szChatId = recipient;
+		}
+		else if (bLidSender) {
+			if (auto *senderPn = node.getAttr("sender_pn")) {
+				szChatId = senderPn;
+				SetLid(AddUser(senderPn, false), WAJid(msgFrom).user);
+			}
+			else szChatId = msgFrom;
 		}
 		else szChatId = msgFrom;
 
@@ -207,11 +215,11 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 			debugLogA("Message decryption failed with error: %s", pszError);
 		}
 
-		if (!iDecryptable) {
-			debugLogA("Nothing to decrypt");
-			SendAck(node);
-			return;
-		}
+	}
+
+	if (!iDecryptable) {
+		debugLogA("Nothing to decrypt");
+		SendAck(node);
 	}
 }
 

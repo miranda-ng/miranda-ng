@@ -609,6 +609,7 @@ void WhatsAppProto::InitPersistentHandlers()
 	m_arPersistent.insert(new WAPersistentHandler("failure", 0, 0, 0, &WhatsAppProto::OnReceiveFailure));
 	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
 	m_arPersistent.insert(new WAPersistentHandler("receipt", 0, 0, 0, &WhatsAppProto::OnReceiveReceipt));
+	m_arPersistent.insert(new WAPersistentHandler("chatstate", 0, 0, 0, &WhatsAppProto::OnReceiveChatState));
 	m_arPersistent.insert(new WAPersistentHandler("chatstates", 0, 0, 0, &WhatsAppProto::OnReceiveChatState));
 	m_arPersistent.insert(new WAPersistentHandler("stream:error", 0, 0, 0, &WhatsAppProto::OnStreamError));
 	m_arPersistent.insert(new WAPersistentHandler("success", 0, 0, 0, &WhatsAppProto::OnSuccess));
