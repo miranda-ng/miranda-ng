@@ -37,11 +37,6 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	pReq->bNeedsRestart = false;
 	pReq->m_iErrorCode = 0;
 
-	if (pReq->m_bApiReq) {
-		pReq->flags |= NLHRF_PERSISTENT;
-		pReq->nlc = m_hAPIConnection;
-	}
-
 	if (m_bTerminated) {
 		delete pReq;
 		return false;
@@ -51,8 +46,6 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	{
 		mir_cslock lck(m_csWorkThreadTimer);
 		tLocalWorkThreadTimer = m_tWorkThreadTimer = time(0);
-		if (pReq->m_bApiReq)
-			ApplyCookies(pReq);
 	}
 
 	CMStringA szParam(pReq->m_szParam);
@@ -60,7 +53,22 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		szParam.Replace(m_szAccessToken, "*secret*");
 	debugLogA("CVkProto::ExecuteRequest \n====\n%s\n%s\n====\n", pReq->m_szUrl.c_str(), szParam.c_str());
 
-	NLHR_PTR reply(Netlib_HttpTransaction(m_hNetlibUser, pReq));
+	NLHR_PTR reply(0);
+
+	if (pReq->m_bApiReq) {
+		mir_cslock lckApi(m_csAPIConnection);
+
+		pReq->flags |= NLHRF_PERSISTENT;
+		pReq->nlc = m_hAPIConnection;
+		ApplyCookies(pReq);
+
+		reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
+		
+		m_hAPIConnection = reply ? reply->nlc : m_hAPIConnection;
+	}
+	else
+		reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
+
 	{
 		mir_cslock lck(m_csWorkThreadTimer);
 		if (pReq->m_bApiReq)
@@ -76,9 +84,6 @@ bool CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	if (reply != nullptr) {
 		if (pReq->m_pFunc != nullptr)
 			(this->*(pReq->m_pFunc))(reply, pReq); // may be set pReq->bNeedsRestart
-
-		if (pReq->m_bApiReq)
-			m_hAPIConnection = reply->nlc;
 	}
 	else if (pReq->bIsMainConn) {
 		if (IsStatusConnecting(m_iStatus))

@@ -172,7 +172,7 @@ void CVkProto::CloseAPIConnection(bool bShutdown)
 {
 	if (!m_hAPIConnection)
 		return;
-	
+
 	mir_cslock lck(m_csAPIConnection);
 
 	debugLogA("CVkProto::CloseAPIConnection %d", bShutdown ? 1 : 0);
