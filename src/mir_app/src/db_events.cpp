@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+#include "file.h"
 #include "database.h"
-#include "profilemanager.h"
 
 static int CompareEventTypes(const DBEVENTTYPEDESCR *p1, const DBEVENTTYPEDESCR *p2)
 {
@@ -364,7 +364,8 @@ wchar_t* DB::EventInfo::getReplyText() const
 			CMStringW str, wszNick;
 
 			wchar_t wszTime[100];
-			TimeZone_PrintTimeStamp(0, dbei.getUnixtime(), L"D t", wszTime, _countof(wszTime), 0);
+			TimeZone_PrintTimeStamp(0, dbei.getUnixtime(), 
+				File::bUseLongDate ? L"D t" : L"d t", wszTime, _countof(wszTime), 0);
 
 			if (Contact::IsGroupChat(hContact) && dbei.szUserId)
 				wszNick = Utf2T(dbei.szUserId);

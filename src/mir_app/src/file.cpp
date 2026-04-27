@@ -32,6 +32,7 @@ CMOption<bool> File::bAutoMin(SRFILEMODULE, "AutoMin", false);
 CMOption<bool> File::bAutoClear(SRFILEMODULE, "AutoClear", true);
 CMOption<bool> File::bAutoClose(SRFILEMODULE, "AutoClose", false);
 CMOption<bool> File::bAutoAccept(SRFILEMODULE, "AutoAccept", false);
+CMOption<bool> File::bUseLongDate(SRFILEMODULE, "UseLongDate", true); // hidden setting !!!!!
 CMOption<bool> File::bOfflineAuto(SRFILEMODULE, "OfflineAuto", true);
 CMOption<bool> File::bOfflineDelete(SRFILEMODULE, "OfflineDelete", true);
 CMOption<bool> File::bReverseOrder(SRFILEMODULE, "ReverseOrder", false);
