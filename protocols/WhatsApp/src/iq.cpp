@@ -276,15 +276,25 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+WARequestBase *WhatsAppProto::FindRequest(const char *pszId)
+{
+	mir_cslock lck(m_csPacketQueue);
+
+	for (auto &it : m_arPacketQueue)
+		if (it->szPacketId == pszId)
+			return it;
+
+	return nullptr;
+}
+
 void WhatsAppProto::OnIqResult(const WANode &node)
 {
 	if (auto *pszId = node.getAttr("id")) {
-		for (auto &it : m_arPacketQueue) {
-			if (it->szPacketId == pszId) {
-				it->Execute(this, node);
-				m_arPacketQueue.remove(it);
-				break;
-			}
+		if (auto *pRequest = FindRequest(pszId)) {
+			pRequest->Execute(this, node);
+
+			mir_cslock lck(m_csPacketQueue);
+			m_arPacketQueue.remove(pRequest);
 		}
 	}
 }

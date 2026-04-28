@@ -353,6 +353,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	mir_cs m_csPacketQueue;
 	OBJLIST<WARequestBase> m_arPacketQueue;
+	WARequestBase* FindRequest(const char *pszId);
 
 	LIST<WAPersistentHandler> m_arPersistent;
 	WA_PKT_HANDLER FindPersistentHandler(const WANode &node);
