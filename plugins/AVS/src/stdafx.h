@@ -139,7 +139,7 @@ extern HWND  hwndSetMyAvatar;
 
 extern HANDLE hMyAvatarsFolder;
 extern HANDLE hGlobalAvatarFolder;
-extern HANDLE hLoaderEvent, hLoaderThread, hShutdownEvent;
+extern HANDLE hLoaderEvent, hShutdownEvent;
 extern HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 int GetFileHash(const wchar_t* filename);
@@ -148,6 +148,7 @@ void MakePathRelative(MCONTACT hContact);
 void MakePathRelative(MCONTACT hContact, wchar_t *dest);
 void MyPathToAbsolute(const wchar_t *ptszPath, wchar_t *ptszDest);
 
+void InitCache(void);
 void UnloadCache(void);
 int  CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *szProto);
 void DeleteAvatarFromCache(MCONTACT hContact, bool bForever);

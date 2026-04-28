@@ -38,11 +38,9 @@ ACKRESULT_STATUS. This thread only requests the avatar (and maybe add it to the 
 // Number of mileseconds the threads wait after a GAIR_WAITFOR is returned
 #define REQUEST_DELAY 18000
 
+static HANDLE hRequestThread;
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
-
-static HANDLE hRequestThread;
-static void RequestThread(void *vParam);
 
 extern void MakePathRelative(MCONTACT hContact, wchar_t *path);
 int Proto_GetDelayAfterFail(const char *proto);
@@ -59,20 +57,6 @@ static int QueueSortItems(const QueueItem *p1, const QueueItem *p2)
 
 static OBJLIST<QueueItem> queue(20, QueueSortItems);
 static mir_cs cs;
-
-void InitPolls()
-{
-	// Init request queue
-	mir_forkthread(RequestThread);
-}
-
-void UninitPolls()
-{
-	if (hRequestThread)
-		WaitForSingleObject(hRequestThread, INFINITE);
-
-	queue.destroy();
-}
 
 // Return true if this protocol can have avatar requested
 static BOOL PollProtocolCanHaveAvatar(const char *szProto)
@@ -249,4 +233,21 @@ static void RequestThread(void *)
 			mir_sleep(REQUEST_DELAY);
 		}
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
+void InitPolls()
+{
+	// Init request queue
+	hRequestThread = mir_forkthread(RequestThread);
+}
+
+void UninitPolls()
+{
+	if (hRequestThread)
+		WaitForSingleObject(hRequestThread, INFINITE);
+
+	queue.destroy();
 }

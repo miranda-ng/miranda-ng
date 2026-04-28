@@ -34,7 +34,7 @@ HWND     hwndSetMyAvatar = nullptr;
 
 HANDLE   hMyAvatarsFolder;
 HANDLE   hGlobalAvatarFolder;
-HANDLE   hLoaderEvent, hLoaderThread, hShutdownEvent;
+HANDLE   hLoaderEvent, hShutdownEvent;
 HANDLE   hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 char *g_szMetaName = nullptr;
@@ -311,11 +311,7 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	wchar_t szEventName[100];
-	mir_snwprintf(szEventName, L"avs_loaderthread_%d", GetCurrentThreadId());
-	hLoaderEvent = CreateEvent(nullptr, TRUE, FALSE, szEventName);
-
-	SetThreadPriority(mir_forkthread(PicLoader), THREAD_PRIORITY_IDLE);
+	InitCache();
 
 	// Folders plugin support
 	hMyAvatarsFolder = FoldersRegisterCustomPathW(LPGEN("Avatars"), LPGEN("My Avatars"), MIRANDA_USERDATAW L"\\Avatars");
@@ -390,9 +386,6 @@ int CMPlugin::Unload()
 	DestroyHookableEvent(hEventChanged);
 	DestroyHookableEvent(hEventContactAvatarChanged);
 	DestroyHookableEvent(hMyAvatarChanged);
-
-	if (hLoaderThread)
-		WaitForSingleObject(hLoaderThread, INFINITE);
 
 	CloseHandle(hLoaderEvent);
 	CloseHandle(hShutdownEvent);

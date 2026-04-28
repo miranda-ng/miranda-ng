@@ -20,6 +20,8 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
+static HANDLE hLoaderThread;
+
 CacheNode::CacheNode()
 {
 }
@@ -50,11 +52,6 @@ static mir_cs alloccs, cachecs;
 
 // allocate a cache block and add it to the list of blocks
 // does not link the new block with the old block(s) - caller needs to do this
-
-void UnloadCache(void)
-{
-	arCache.destroy();
-}
 
 void PushAvatarRequest(CacheNode *cc)
 {
@@ -288,4 +285,22 @@ void PicLoader(LPVOID)
 
 		mir_sleep(dwDelay);
 	}
+}
+
+void InitCache()
+{
+	wchar_t szEventName[100];
+	mir_snwprintf(szEventName, L"avs_loaderthread_%d", GetCurrentThreadId());
+	hLoaderEvent = CreateEvent(nullptr, TRUE, FALSE, szEventName);
+
+	hLoaderThread = mir_forkthread(PicLoader);
+	SetThreadPriority(hLoaderThread, THREAD_PRIORITY_IDLE);
+}
+
+void UnloadCache(void)
+{
+	if (hLoaderThread)
+		WaitForSingleObject(hLoaderThread, INFINITE);
+
+	arCache.destroy();
 }
