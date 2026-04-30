@@ -13,6 +13,9 @@ Account* GetAccountByContact(MCONTACT hContact)
 
 void CheckAccount(Account *pAcc)
 {
+	if (pAcc == nullptr || pAcc->hContact == 0)
+		return;
+
 	mir_cslock lck(pAcc->csLock);
 	if (pAcc->bChecking)
 		return;
@@ -23,7 +26,8 @@ void CheckAccount(Account *pAcc)
 	ptrW wszNick(pAcc->ppro->getWStringA(pAcc->hContact, "Nick"));
 	if (!mir_wstrlen(wszNick))
 		wszNick = mir_wstrdup(TranslateT("LibreView"));
-	db_set_ws(pAcc->hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", wszNick.get(), TranslateT("updating...")));
+	if (pAcc->ppro->UpdateInterval > 0)
+		db_set_ws(pAcc->hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", wszNick.get(), TranslateT("updating...")));
 
 	if (!pAcc->FetchGlucose()) {
 		pAcc->ppro->setWord(pAcc->hContact, "Status", ID_STATUS_OFFLINE);

@@ -67,20 +67,22 @@ int CLibreViewProto::SetStatus(int iStatus)
 	m_iStatus = (iStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
-	if (m_iStatus == ID_STATUS_ONLINE && UpdateInterval > 0 && m_account)
-		mir_forkthread(Check_ThreadFunc, m_account);
+	if (m_account && m_account->hContact) {
+		if (m_iStatus == ID_STATUS_OFFLINE)
+			setWord(m_account->hContact, "Status", ID_STATUS_OFFLINE);
+		else
+			mir_forkthread(Check_ThreadFunc, m_account);
+	}
 	return 0;
 }
 
 void CLibreViewProto::OnModulesLoaded()
 {
-	if (UpdateInterval > 0 && m_account)
-		mir_forkthread(Check_ThreadFunc, m_account);
 }
 
 void CLibreViewProto::OnShutdown()
 {
-	if (m_account)
+	if (m_account && m_account->hContact)
 		setWord(m_account->hContact, "Status", ID_STATUS_OFFLINE);
 }
 
@@ -109,23 +111,51 @@ Account* EnsureAccount(CLibreViewProto *ppro)
 		break;
 	}
 
-	if (hContact == 0) {
-		hContact = db_add_contact();
-		Proto_AddToContact(hContact, ppro->m_szModuleName);
-		ppro->setWString(hContact, "Nick", TranslateT("LibreView"));
-		ppro->setWString(hContact, "ApiUrl", _A2W(DEFAULT_API_URL));
-	}
-	ppro->setWord(hContact, "Status", ID_STATUS_OFFLINE);
+	if (hContact != 0)
+		ppro->setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
 	Account *pAcc = new Account(ppro, hContact);
 	g_accs.insert(pAcc);
 	return pAcc;
 }
 
+MCONTACT EnsureAccountContact(Account *pAcc)
+{
+	if (pAcc == nullptr)
+		return 0;
+
+	if (pAcc->hContact != 0)
+		return pAcc->hContact;
+
+	MCONTACT hContact = db_add_contact();
+	if (hContact == 0)
+		return 0;
+
+	Proto_AddToContact(hContact, pAcc->ppro->m_szModuleName);
+
+	ptrW wszEmail(pAcc->ppro->getWStringA(0, "Email"));
+	if (mir_wstrlen(wszEmail))
+		pAcc->ppro->setWString(hContact, "Nick", wszEmail);
+	else
+		pAcc->ppro->setWString(hContact, "Nick", TranslateT("LibreView"));
+
+	CMStringW wszApiUrl(pAcc->ppro->getMStringW(0, "ApiUrl"));
+	if (wszApiUrl.IsEmpty())
+		wszApiUrl = _A2W(DEFAULT_API_URL);
+	pAcc->ppro->setWString(hContact, "ApiUrl", wszApiUrl);
+	pAcc->ppro->setWord(hContact, "Status", ID_STATUS_OFFLINE);
+
+	pAcc->hContact = hContact;
+	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
+	return hContact;
+}
+
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t now = time(0);
 	for (auto &it : g_accs) {
+		if (it->hContact == 0)
+			continue;
 
 		uint32_t minutes = it->ppro->UpdateInterval;
 		if (minutes == 0)

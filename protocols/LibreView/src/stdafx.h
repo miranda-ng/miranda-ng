@@ -56,6 +56,7 @@ void Check_ThreadFunc(void *);
 void CheckAccount(Account *);
 Account* GetAccountByContact(MCONTACT);
 Account* EnsureAccount(CLibreViewProto*);
+MCONTACT EnsureAccountContact(Account*);
 void UpdateContactDisplay(MCONTACT);
 void RestartTimer();
 int UserInfoInit(WPARAM, LPARAM);

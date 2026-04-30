@@ -79,7 +79,8 @@ Account::Account(CLibreViewProto *_1, MCONTACT _2) :
 	if (szMinVersion.IsEmpty())
 		szMinVersion = DEFAULT_API_VERSION;
 
-	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
+	if (hContact)
+		Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 }
 
 void Account::ClearAuth()

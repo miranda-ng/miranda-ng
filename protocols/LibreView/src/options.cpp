@@ -28,10 +28,15 @@ class COptionsDlg : public CLibreViewDlgBase
 		if (!mir_wstrlen(wszApiUrl))
 			wszApiUrl = mir_wstrdup(_A2W(DEFAULT_API_URL));
 
-		m_proto->setWString(pAcc->hContact, "Email", wszEmail);
-		m_proto->setWString(pAcc->hContact, "Password", wszPassword);
-		m_proto->setWString(pAcc->hContact, "ApiUrl", wszApiUrl);
-		m_proto->setWString(pAcc->hContact, "Nick", wszEmail);
+		if (pAcc->hContact == 0 && mir_wstrlen(wszEmail) && mir_wstrlen(wszPassword))
+			EnsureAccountContact(pAcc);
+
+		MCONTACT hTarget = pAcc->hContact;
+		m_proto->setWString(hTarget, "Email", wszEmail);
+		m_proto->setWString(hTarget, "Password", wszPassword);
+		m_proto->setWString(hTarget, "ApiUrl", wszApiUrl);
+		if (mir_wstrlen(wszEmail))
+			m_proto->setWString(hTarget, "Nick", wszEmail);
 
 		pAcc->szApiUrl = _T2A(wszApiUrl);
 		pAcc->ClearAuth();
@@ -77,7 +82,7 @@ public:
 	{
 		SaveCurrent();
 		m_proto->DisplayUnits = radMgdl.IsChecked() ? 1 : 0;
-		if (Account *pAcc = CurrentAccount())
+		if (Account *pAcc = CurrentAccount(); pAcc && pAcc->hContact)
 			UpdateContactDisplay(pAcc->hContact);
 		RestartTimer();
 		return true;
