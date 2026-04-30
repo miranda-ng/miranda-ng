@@ -5,6 +5,7 @@ CMPlugin g_plugin;
 HNETLIBUSER hNetlibUser;
 UINT_PTR hTimer;
 OBJLIST<Account> g_accs(1);
+static HGENMENU g_hContactMenuUpdate = nullptr;
 
 static PLUGININFOEX pluginInfoEx =
 {
@@ -99,6 +100,12 @@ static INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
+{
+	Menu_ShowItem(g_hContactMenuUpdate, g_plugin.getInstance(hContact) != nullptr);
+	return 0;
+}
+
 Account* EnsureAccount(CLibreViewProto *ppro)
 {
 	for (auto &it : g_accs)
@@ -189,10 +196,11 @@ int CMPlugin::Load()
 	mi.position = -0x7FFFFFFF;
 	mi.hIcolibItem = Skin_GetProtoIcon(MODULENAME, ID_STATUS_ONLINE);
 	mi.name.a = LPGEN("&Update data");
-	mi.pszService = "/Update";
-	Menu_AddContactMenuItem(&mi, MODULENAME);
+	mi.pszService = MODULENAME "/Update";
+	g_hContactMenuUpdate = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_USERINFO_INITIALISE, UserInfoInit);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 	RestartTimer();
 	return 0;
 }
