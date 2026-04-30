@@ -1783,7 +1783,7 @@ static INT_PTR CALLBACK sttPromptMaxQrPassword(void *param)
 	if (ctx == nullptr || ctx->pProto == nullptr)
 		return 0;
 
-	CMStringW caption(TranslateT("Enter MAX password"));
+	CMStringW caption(TranslateT("Enter password"));
 	if (!ctx->hint.IsEmpty())
 		caption.AppendFormat(TranslateT(" (hint: %s)"), ctx->hint.c_str());
 
