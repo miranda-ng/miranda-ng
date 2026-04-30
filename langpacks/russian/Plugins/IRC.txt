@@ -6,7 +6,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
+Поддержка протокола Internet Relay Chat (IRC).
 ;file \protocols\IRCG\res\IRC.rc
 [Server]
 Сервер

@@ -1,0 +1,99 @@
+#muuid {a7e4f9c2-1d8b-4e5a-9c3f-8b2e1d0c9a8f}
+;============================================================
+;  File: Max.dll
+;  Plugin: Max protocol
+;  Version: 0.1.0.1
+;  Authors: Miranda NG contributors
+;============================================================
+[Max protocol support for Miranda NG.]
+Поддержка протокола Макс.
+;file \protocols\Max\res\max.rc
+[Default group:]
+Группа:
+[Compress files on send]
+Сжимать файлы при отправке
+[Link a device]
+Привязка устройства
+[Open Max application on your mobile phone, choose device linking and scan this QR code. The window closes automatically after successful login.]
+Откройте приложение Макс на телефоне, выберите раздел настроек с устройствами и отсканируйте этот QR-код. После успешного входа окно закроется автоматически. 
+[First name]
+Имя
+[Last name]
+Фамилия
+[Phone number]
+Телефон
+[Biography]
+О себе
+[Forward message(s)]
+Переслать сообщение(я)
+[Cancel]
+Отмена
+;file \protocols\Max\src\connection.cpp
+[Enter password]
+Введите пароль
+[ (hint: %s)]
+ (подсказка: %s)
+[Max]
+Макс
+[QR login failed or timed out.]
+Вход по QR-коду не удался, либо время действия кода истекло.
+;file \protocols\Max\src\main.cpp
+[Protocol icon]
+Значок протокола
+[Forward]
+Переслать
+[Protocol icons]
+Значки протокола
+;file \protocols\Max\src\max_proto.cpp
+[Max user ID]
+Идентификатор пользователя
+[Gateway is not connected]
+Отсутствует подключение к шлюзу
+[Missing chat ID for this contact]
+Для этого контакта отсутствует ID чата
+[Message send failed]
+Не удалось отправить сообщение
+[Cannot load server history: gateway is not connected.]
+Не удалось загрузить историю с сервера: отсутствует подключение к шлюзу.
+[Cannot load server history: chat ID is missing for this contact.]
+Не удалось загрузить историю с сервера: для этого контакта отсутствует ID чата.
+[Cannot remove server chat: not connected.]
+Не удалось удалить чат с сервера: протокол не подключён.
+[Could not leave the chat on the server.]
+Не удалось покинуть чат на сервере.
+[Cannot remove server chat: dialog ID is unknown.]
+Не удалось удалить чат с сервера: неизвестный ID диалога.
+[Could not delete the dialog on the server.]
+Не удалось удалить переписку с сервера.
+[You must be online to save your profile.]
+Для изменения данных профиля нужно находиться в сети.
+[First name cannot be empty.]
+Имя не может быть пустым.
+[Could not save your profile on the server.]
+Не удалось сохранить профиль на сервере.
+[Too many requests. Please wait before trying again.]
+Слишком много запросов. Подождите перед следующей попыткой.
+[Server rejected web sync credentials for this token (login.cred).]
+Сервер отклонил учетные данные веб-синхронизации для этого токена (login.cred).
+[Network]
+Сеть
+[Account]
+Учётная запись
+;file \protocols\Max\src\messages.cpp
+[Reaction]
+Реакция
+[SmileyAdd plugin required to support stickers]
+Для поддержки стикеров требуется плагин SmileyAdd
+[Sticker]
+Стикер
+[Unknown]
+Неизвестно
+[wrote]
+писал(а)
+[Forwarded message]
+Пересланное сообщение
+;file \protocols\Max\src\roster.cpp
+[Members]
+Участники
+[Favorites]
+Избранные

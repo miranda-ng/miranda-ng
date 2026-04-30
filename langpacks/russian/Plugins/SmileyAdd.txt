@@ -6,7 +6,7 @@
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
-Поддержка смайлов в Miranda NG.
+Поддержка смайлов.
 ;file \plugins\SmileyAdd\res\resource.rc
 [Display]
 Показывать

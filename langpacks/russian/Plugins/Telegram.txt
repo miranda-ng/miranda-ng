@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Telegram protocol support for Miranda NG.]
-Поддержка протокола Telegram в Miranda NG.
+Поддержка протокола Telegram.
 ;file \protocols\Telegram\res\resource.rc
 [Country:]
 Страна:
@@ -32,6 +32,14 @@
 Когда контакт выходит из сети, установить ему этот статус и сохранять в течение указанного числа секунд (0 - отключено)
 [After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)]
 После этого установить контакту следующий статус, а через указанное число секунд установить "Не в сети" (0 - отключено)
+[Use MTProxy]
+Использовать MTProxy
+[Host]
+Сервер
+[Port]
+Порт
+[Secret]
+Секрет
 [Software]
 Клиент
 [Add phone contact]

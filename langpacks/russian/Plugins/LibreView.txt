@@ -1,0 +1,67 @@
+#muuid {d0d8a5be-a76a-46b1-92b6-3d69924e211d}
+;============================================================
+;  File: LibreView.dll
+;  Plugin: LibreView
+;  Version: 0.1.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Retrieves glucose data from LibreView service and displays it in your contact list.]
+Запрос и отображение в списке контактов информации о содержание сахара в крови с сервиса LibreView.
+;file \protocols\LibreView\res\options.rc
+[Email:]
+Почта:
+[Password:]
+Пароль:
+[API URL:]
+API URL:
+[Update every]
+Обновлять каждые
+[minutes (0 = disable auto update)]
+минут (0 = не обновлять автоматически)
+[Display units:]
+Единицы измерения
+[mmol/L]
+ммоль/л
+[mg/dL]
+мг/дл
+[Write data to history]
+Записывать в историю
+[Patient:]
+Пациент
+[Current glucose:]
+Текущий показатель:
+[Sensor activation:]
+Дата активации:
+[Sensor remaining:]
+Оставшееся время работы
+[Target low:]
+Нижнее целевое значение:
+[Target high:]
+Верхнее целевое значение:
+[Last update:]
+Последнее обновление:
+;file \protocols\LibreView\src\account.cpp
+[LibreView]
+LibreView
+;file \protocols\LibreView\src\check.cpp
+[updating...]
+обновление...
+[LibreView update failed]
+Не удалось получить данные
+;file \protocols\LibreView\src\main.cpp
+[&Update data]
+&Обновить данные
+;file \protocols\LibreView\src\options.cpp
+[Network]
+Сеть
+;file \protocols\LibreView\src\userinfo.cpp
+[N/A]
+Недоступен
+[Expired]
+Истёк
+[%d days %d hours]
+%d дней %d часов
+[%d hours %d minutes]
+%d часов %d минут
+[%d minutes]
+%d минут

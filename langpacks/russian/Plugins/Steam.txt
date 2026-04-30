@@ -6,7 +6,7 @@
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
-Поддержка протокола Steam в Miranda NG.
+Поддержка протокола Steam.
 ;file \protocols\Steam\res\Resource.rc
 [Username]
 Логин

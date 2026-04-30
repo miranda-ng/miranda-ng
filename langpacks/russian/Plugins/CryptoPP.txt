@@ -20,3 +20,10 @@ ID пользователя
 Плагин GnuPG - Выберите открытый ключ
 [Refresh]
 Обновить
+;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
+[GnuPG executable]
+Исполняемый файл GnuPG
+[All files]
+Все файлы
+[Select GnuPG executable]
+Выберите исполняемый файл GnuPG

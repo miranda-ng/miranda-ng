@@ -457,12 +457,6 @@ ID города
 Читать полный прогноз
 [Display in a frame]
 Показывать во фрейме
-[Enable/Disable Weather Update]
-Вкл/Выкл обновления погоды
-[Update All Weather]
-Обновить погоду
-[Remove Old Data then Update All]
-Удалить данные и обновить всё
 ;file \protocols\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 Невозможно найти информацию о погоде для %s

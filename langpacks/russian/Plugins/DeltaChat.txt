@@ -6,7 +6,7 @@
 ;  Authors: George Hazan
 ;============================================================
 [DeltaChat support for Miranda NG.]
-Поддержка протокола DeltaChat в Miranda NG.
+Поддержка протокола DeltaChat.
 ;file \protocols\DeltaChat\res\deltachat.rc
 [IMAP server]
 Сервер IMAP

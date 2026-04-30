@@ -343,7 +343,7 @@ ID ключа
 [Executable Files]
 Исполняемые файлы
 [Select GnuPG Executable]
-Выбор GnuPG выполняемых
+Выберите исполняемый файл GnuPG
 [Services]
 Службы
 [General]

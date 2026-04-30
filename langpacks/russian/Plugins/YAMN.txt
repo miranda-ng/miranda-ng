@@ -6,7 +6,7 @@
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-Уведомления о новой почте и её просмотр в Miranda NG. Поддерживает протокол POP3.
+Уведомления о новой почте и её просмотр. Поддерживает протокол POP3.
 ;file \protocols\YAMN\res\YAMN.rc
 [Account]
 Учётная запись

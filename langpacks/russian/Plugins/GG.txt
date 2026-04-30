@@ -6,7 +6,7 @@
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
-Поддержка протокола Gadu-Gadu в Miranda NG.
+Поддержка протокола Gadu-Gadu.
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Информация о пользователе Gadu-Gadu

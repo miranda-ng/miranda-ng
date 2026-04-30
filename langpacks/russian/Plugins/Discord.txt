@@ -6,7 +6,7 @@
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
-Поддержка протокола Discord в Miranda NG.
+Поддержка протокола Discord.
 ;file \protocols\Discord\res\discord.rc
 [User details]
 О пользователе

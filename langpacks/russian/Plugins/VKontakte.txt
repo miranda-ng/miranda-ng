@@ -2,11 +2,11 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.19.5
+;  Version: 0.1.19.7
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
-Поддержка протокола ВКонтакте в Miranda NG.
+Поддержка протокола ВКонтакте.
 ;file \protocols\VKontakte\res\resource.rc
 [Show in protocol menu]
 Показывать в меню протокола
