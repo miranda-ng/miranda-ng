@@ -64,6 +64,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_DeltaChat", "..\proto
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GmailMNotifier", "..\protocols\GmailNotifier\proto_GmailNotifier\Proto_GmailNotifier.vcxproj", "{F6DC473B-FBBE-45B6-86F8-D012AE31CAF2}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Max", "..\protocols\Max\proto_max\Proto_Max.vcxproj", "{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -320,6 +322,14 @@ Global
 		{F6DC473B-FBBE-45B6-86F8-D012AE31CAF2}.Release|Win32.Build.0 = Release|Win32
 		{F6DC473B-FBBE-45B6-86F8-D012AE31CAF2}.Release|x64.ActiveCfg = Release|x64
 		{F6DC473B-FBBE-45B6-86F8-D012AE31CAF2}.Release|x64.Build.0 = Release|x64
+		{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}.Debug|Win32.Build.0 = Debug|Win32
+		{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}.Debug|x64.ActiveCfg = Debug|x64
+		{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}.Debug|x64.Build.0 = Debug|x64
+		{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}.Release|Win32.ActiveCfg = Release|Win32
+		{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}.Release|Win32.Build.0 = Release|Win32
+		{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}.Release|x64.ActiveCfg = Release|x64
+		{B8F5E0D3-2E9C-4F6B-AD4E-9C3F1A2B3C4D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
