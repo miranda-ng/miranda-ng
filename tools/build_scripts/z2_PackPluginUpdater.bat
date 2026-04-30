@@ -65,6 +65,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="Import.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\Import\*.ini")
 	if /I "%%a"=="Jabber.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Jabber.dll" "Icons\xStatus_Jabber.dll" "Libs\libsignal.mir")
 	if /I "%%a"=="Listeningto.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Plugins\Listeningto\*.dll")
+	if /I "%%a"=="Max.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Max.dll")
 	if /I "%%a"=="MinecraftDynmap.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_MinecraftDynmap.dll")
 	if /I "%%a"=="MirLua.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Scripts\*.dll" "Libs\lua*.dll")
 	if /I "%%a"=="mRadio.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_mRadio.dll" "Plugins\BASS\*.dll")

@@ -73,6 +73,7 @@ Plugins\libreview.dll
 Plugins\linklist.dll
 Plugins\listeningto.dll
 Plugins\magneticwindows.dll
+Plugins\max.dll
 Plugins\menuex.dll
 Plugins\messagestate.dll
 Plugins\minecraftdynmap.dll

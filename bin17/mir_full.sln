@@ -439,6 +439,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeltaChat", "..\protocols\D
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibreView", "..\protocols\LibreView\LibreView.vcxproj", "{AEFE659D-F4AE-456E-8E6F-9E47449E6D12}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Max", "..\protocols\Max\Max.vcxproj", "{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1995,6 +1997,14 @@ Global
 		{AEFE659D-F4AE-456E-8E6F-9E47449E6D12}.Release|Win32.Build.0 = Release|Win32
 		{AEFE659D-F4AE-456E-8E6F-9E47449E6D12}.Release|x64.ActiveCfg = Release|x64
 		{AEFE659D-F4AE-456E-8E6F-9E47449E6D12}.Release|x64.Build.0 = Release|x64
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}.Debug|Win32.Build.0 = Debug|Win32
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}.Debug|x64.ActiveCfg = Debug|x64
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}.Debug|x64.Build.0 = Debug|x64
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}.Release|Win32.ActiveCfg = Release|Win32
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}.Release|Win32.Build.0 = Release|Win32
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}.Release|x64.ActiveCfg = Release|x64
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2125,6 +2135,7 @@ Global
 		{DCD56CEC-C61B-4275-A010-8C65C5B48815} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 		{605424F7-9500-4DC5-82C9-005F9AB9B606} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 		{AEFE659D-F4AE-456E-8E6F-9E47449E6D12} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
+		{C2E7B1A4-9F3D-4E8C-B1A0-6D5E4F3A2B1C} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}
