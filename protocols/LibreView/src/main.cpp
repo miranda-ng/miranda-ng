@@ -4,7 +4,7 @@
 CMPlugin g_plugin;
 HNETLIBUSER hNetlibUser;
 UINT_PTR hTimer;
-OBJLIST<Account> g_accs(1, PtrKeySortT);
+OBJLIST<Account> g_accs(1);
 
 static PLUGININFOEX pluginInfoEx =
 {
@@ -45,6 +45,7 @@ CLibreViewProto::~CLibreViewProto()
 {
 	if (m_account) {
 		g_accs.remove(m_account);
+		delete m_account;
 		m_account = nullptr;
 	}
 }

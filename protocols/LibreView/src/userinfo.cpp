@@ -6,6 +6,15 @@ static CMStringW GetDbText(MCONTACT hContact, const char *pszSetting, const wcha
 	return value ? CMStringW(value) : CMStringW(pwszDefault);
 }
 
+static const wchar_t* GetLocalizedUnitByKey(const wchar_t *pwszUnit)
+{
+	if (!mir_wstrcmpi(pwszUnit, L"mg/dL"))
+		return TranslateT("mg/dL");
+	if (!mir_wstrcmpi(pwszUnit, L"mmol/L"))
+		return TranslateT("mmol/L");
+	return pwszUnit;
+}
+
 static CMStringW GetSensorRemaining(MCONTACT hContact)
 {
 	uint32_t activation = db_get_dw(hContact, DB_MODULE_GLUCOSE, "SensorActivationTime", 0);
@@ -58,7 +67,7 @@ public:
 
 		CMStringW value = GetDbText(m_hContact, "Value");
 		CMStringW trend = GetDbText(m_hContact, "TrendSymbol");
-		CMStringW unit = GetDbText(m_hContact, "Unit");
+		CMStringW unit(GetLocalizedUnitByKey(GetDbText(m_hContact, "Unit")));
 		CMStringW current;
 		if (!value.IsEmpty())
 			current.Format(L"%s%s %s", value.c_str(), trend.c_str(), unit.c_str());
@@ -66,9 +75,9 @@ public:
 		CMStringW targetLow = GetDbText(m_hContact, "TargetLow");
 		CMStringW targetHigh = GetDbText(m_hContact, "TargetHigh");
 		if (!targetLow.IsEmpty())
-			targetLow.Append(L" mmol/L");
+			targetLow.AppendFormat(L" %s", unit.c_str());
 		if (!targetHigh.IsEmpty())
-			targetHigh.Append(L" mmol/L");
+			targetHigh.AppendFormat(L" %s", unit.c_str());
 
 		SetDlgItemText(m_hwnd, IDC_PATIENT, patient);
 		SetDlgItemText(m_hwnd, IDC_CURRENT, current);

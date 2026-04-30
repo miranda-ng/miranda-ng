@@ -55,6 +55,21 @@ static CMStringA NormalizeBaseUrl(const CMStringA &url)
 	return result;
 }
 
+static const wchar_t* GetLocalizedUnit(bool bUseMgdl)
+{
+	return bUseMgdl ? TranslateT("mg/dL") : TranslateT("mmol/L");
+}
+
+static bool IsMgdlUnitToken(const CMStringW &unit)
+{
+	return !mir_wstrcmpi(unit, L"mg/dL");
+}
+
+static bool IsMmolUnitToken(const CMStringW &unit)
+{
+	return !mir_wstrcmpi(unit, L"mmol/L");
+}
+
 Account::Account(CLibreViewProto *_1, MCONTACT _2) :
 	ppro(_1),
 	hContact(_2)
@@ -223,11 +238,13 @@ void UpdateContactDisplay(MCONTACT hContact)
 	if (valueText.IsEmpty())
 		return;
 
-	const wchar_t *pwszUnit = bUseMgdl ? L"mg/dL" : L"mmol/l";
+	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	CMStringW trendArrow = GetGlucoseDbText(hContact, "TrendSymbol");
 
 	db_set_ws(hContact, DB_MODULE_GLUCOSE, "Value", valueText);
 	db_set_ws(hContact, DB_MODULE_GLUCOSE, "Unit", pwszUnit);
+	db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetLow", GetGlucoseDbText(hContact, bUseMgdl ? "TargetLowMgDl" : "TargetLowMmol"));
+	db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetHigh", GetGlucoseDbText(hContact, bUseMgdl ? "TargetHighMgDl" : "TargetHighMmol"));
 
 	CMStringW title = GetGlucoseDbText(hContact, "PatientName");
 	if (title.IsEmpty()) {
@@ -280,9 +297,22 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 	db_set_ws(hContact, DB_MODULE_GLUCOSE, "LastHistoryTimestamp", timestamp);
 }
 
-static CMStringW FormatApiTarget(double value)
+static bool IsApiUnitMgdl(const JSONNode &measurement, int glucoseUnits)
 {
-	return CMStringW(FORMAT, L"%.1f", value / 10.0);
+	CMStringW unit = measurement["Unit"].as_mstring();
+	if (IsMgdlUnitToken(unit))
+		return true;
+	if (IsMmolUnitToken(unit))
+		return false;
+
+	return glucoseUnits == 1;
+}
+
+static CMStringW FormatTargetValue(int rawValue, bool bApiMgdl, bool bOutputMgdl)
+{
+	double mmolValue = bApiMgdl ? (double)rawValue / 18.0 : (double)rawValue / 10.0;
+	double mgdlValue = bApiMgdl ? (double)rawValue : mmolValue * 18.0;
+	return FormatGlucoseValue(bOutputMgdl ? mgdlValue : mmolValue);
 }
 
 static CMStringW FormatUnixTime(uint32_t timestamp)
@@ -338,13 +368,6 @@ bool Account::FetchGlucose()
 		db_set_ws(hContact, DB_MODULE_GLUCOSE, "PatientName", patientName);
 	}
 
-	int targetLow = connection["targetLow"].as_int();
-	int targetHigh = connection["targetHigh"].as_int();
-	if (targetLow)
-		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetLow", FormatApiTarget(targetLow));
-	if (targetHigh)
-		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetHigh", FormatApiTarget(targetHigh));
-
 	uint32_t sensorActivation = connection["sensor"]["a"].as_int();
 	if (sensorActivation) {
 		db_set_dw(hContact, DB_MODULE_GLUCOSE, "SensorActivationTime", sensorActivation);
@@ -365,6 +388,7 @@ bool Account::FetchGlucose()
 
 	int trend = measurement["TrendArrow"].as_int();
 	int glucoseUnits = measurement["GlucoseUnits"].as_int();
+	bool bApiMgdl = IsApiUnitMgdl(measurement, glucoseUnits);
 	bool isLow = measurement["isLow"].as_bool();
 	bool isHigh = measurement["isHigh"].as_bool();
 	CMStringW timestamp = measurement["Timestamp"].as_mstring();
@@ -388,6 +412,17 @@ bool Account::FetchGlucose()
 	db_set_ws(hContact, DB_MODULE_GLUCOSE, "Timestamp", timestamp);
 	db_set_dw(hContact, DB_MODULE_GLUCOSE, "TimestampUnix", timestampUnix);
 	db_set_ws(hContact, DB_MODULE_GLUCOSE, "TimestampFormatted", timestampFormatted);
+
+	int targetLow = connection["targetLow"].as_int();
+	int targetHigh = connection["targetHigh"].as_int();
+	if (targetLow) {
+		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetLowMmol", FormatTargetValue(targetLow, bApiMgdl, false));
+		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetLowMgDl", FormatTargetValue(targetLow, bApiMgdl, true));
+	}
+	if (targetHigh) {
+		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetHighMmol", FormatTargetValue(targetHigh, bApiMgdl, false));
+		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetHighMgDl", FormatTargetValue(targetHigh, bApiMgdl, true));
+	}
 
 	UpdateContactDisplay(hContact);
 	AddHistoryEvent(hContact, timestamp);
