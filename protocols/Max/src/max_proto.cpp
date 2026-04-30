@@ -669,11 +669,9 @@ CMaxProto::CMaxProto(const char *szModuleName, const wchar_t *ptszUserName) :
 	HookProtoEvent(ME_LANGPACK_CHANGED, &CMaxProto::OnLangpackChanged);
 
 	NETLIBUSER nlu = {};
-	nlu.szSettingsModule = m_szModuleName;
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	CMStringW descr;
-	descr.Format(TranslateT("%s connection"), m_tszUserName);
-	nlu.szDescriptiveName.w = descr.GetBuffer();
+	nlu.szSettingsModule = m_szModuleName;
+	nlu.szDescriptiveName.w = m_tszUserName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	m_hProtoIcon = g_plugin.getIconHandle(IDI_MAIN);
@@ -892,7 +890,7 @@ int CMaxProto::SendMsg(MCONTACT hContact, MEVENT hReplyEvent, const char *msg)
 		ctx->hContact = hContact;
 		ctx->result = ACKRESULT_FAILED;
 		ctx->hProcess = hProcess;
-		ctx->errText = TranslateT("Missing chat id for this contact");
+		ctx->errText = TranslateT("Missing chat ID for this contact");
 		ForkThread(&CMaxProto::MessageAckWorker, ctx);
 		return hProcess;
 	}
@@ -1711,7 +1709,7 @@ void __cdecl CMaxProto::LoadHistoryWorker(void *param)
 
 	CMStringA chatId(GetOrResolveDialogChatId(hContact));
 	if (chatId.IsEmpty()) {
-		NotifyUser(TranslateT("Max"), TranslateT("Cannot load server history: chat id is missing for this contact."));
+		NotifyUser(TranslateT("Max"), TranslateT("Cannot load server history: chat ID is missing for this contact."));
 		return;
 	}
 
@@ -2014,7 +2012,7 @@ INT_PTR CMaxProto::SvcEmptyServerHistory(WPARAM hContact, LPARAM lParam)
 
 	CMStringA chatId = GetOrResolveDialogChatId(h, false);
 	if (chatId.IsEmpty()) {
-		NotifyUser(TranslateT("Max"), TranslateT("Cannot remove server chat: dialog id is unknown."));
+		NotifyUser(TranslateT("Max"), TranslateT("Cannot remove server chat: dialog ID is unknown."));
 		return 0;
 	}
 

@@ -103,7 +103,7 @@ static bool sttTypeIsDialog(const CMStringA &t)
 	return t.IsEmpty() || !mir_strcmpi(t.c_str(), "DIALOG");
 }
 
-// Some payloads use a tiny "id" (ordinal) while cid/chatId holds the real dialog id used by opcode 48.
+// Some payloads use a tiny "id" (ordinal) while cid/chatId holds the real dialog ID used by opcode 48.
 static CMStringA sttResolveDialogChatId(const JSONNode &chat)
 {
 	CMStringA id = sttJsonIdStr(chat["id"]);
@@ -123,7 +123,7 @@ static CMStringA sttResolveDialogChatId(const JSONNode &chat)
 	if (!ch.IsEmpty() && idv != 0 && idv < 10000 && chv >= 10000)
 		return ch;
 
-	// Some payloads (notably self dialog / Favorites) have id==0 while cid/lastMessage.cid carries the real dialog id.
+	// Some payloads (notably self dialog / Favorites) have id==0 while cid/lastMessage.cid carries the real dialog ID.
 	if (idv != 0)
 		return id;
 	if (!cid.IsEmpty())
@@ -626,7 +626,7 @@ void CMaxProto::MergeContactJson(const JSONNode &c, const char *szRequestedUid, 
 		bool hasServerDialog = false;
 		if (hRm) {
 			ptrA cid(getStringA(hRm, DB_KEY_MAX_CHATID));
-			// Only persisted chat id counts: XOR is always derivable from MaxUid and would block (5) after (4) cleared MaxChatId.
+			// Only persisted chat ID counts: XOR is always derivable from MaxUid and would block (5) after (4) cleared MaxChatId.
 			hasServerDialog = (cid != nullptr && cid[0]);
 		}
 		if (hasServerDialog)

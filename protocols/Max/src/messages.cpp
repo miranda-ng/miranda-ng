@@ -1292,7 +1292,7 @@ static int sttDetectTypingStateFromMessage(const JSONNode &msg)
 	return -1;
 }
 
-/// 1:1 dialog id from Max: chatId = myMaxUid XOR peerMaxUid (decimal string ids).
+/// 1:1 dialog ID from Max: chatId = myMaxUid XOR peerMaxUid (decimal string ids).
 static CMStringA sttXorPeerUidFromDialog(const char *szMyUid, const char *szChatId)
 {
 	if (szMyUid == nullptr || szMyUid[0] == 0 || szChatId == nullptr || szChatId[0] == 0)
