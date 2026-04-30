@@ -441,6 +441,26 @@ void WhatsAppProto::OnReceiveAck(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static bool AddUniqueJid(OBJLIST<WAJid> &target, const WAJid &jid)
+{
+	for (auto &it : target) {
+		if (it->device == jid.device && it->agent == jid.agent && it->user == jid.user && it->server == jid.server)
+			return false;
+	}
+
+	target.insert(new WAJid(jid));
+	return true;
+}
+
+static void AddUniqueJid(LIST<char> &target, const char *jid)
+{
+	for (auto &it : target)
+		if (!mir_strcmp(it, jid))
+			return;
+
+	target.insert(mir_strdup(jid));
+}
+
 bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig)
 {
 	int type = 0;
@@ -455,7 +475,10 @@ bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid
 		*pEnc << CHAR_PARAM("v", "2") << CHAR_PARAM("type", (type == 3) ? "pkmsg" : "msg");
 		pEnc->content.assign(pBuffer.data(), pBuffer.length());
 	}
-	catch (const char *) {
+	catch (const char *pszError) {
+		if (pszError == nullptr)
+			pszError = "unknown error";
+		debugLogA("Cannot encrypt message for %s: %s", jid.toString().c_str(), pszError);
 	}
 	
 	return type == 3;
@@ -464,6 +487,7 @@ bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid
 int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 {
 	WAJid toJid(jid);
+	auto localDeviceId = (int)getDword(DBKEY_DEVICE_ID);
 
 	// send task creation
 	auto *pTask = new WASendTask(jid);
@@ -506,10 +530,13 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 					if (pUser == nullptr)
 						m_arUsers.insert(pUser = new WAUser(INVALID_CONTACT_ID, userJid, false));
 					if (pUser->bDeviceInit) {
-						for (auto &jt : pUser->arDevices)
-							pTask->arDest.insert(new WAJid(*jt));
+						for (auto &jt : pUser->arDevices) {
+							AddUniqueJid(pTask->arDest, *jt);
+							if (getBlob(MSignalSession(jt->user, jt->device).getSetting()).isEmpty())
+								AddUniqueJid(arCheckList, pUser->szId);
+						}
 					}
-					else arCheckList.insert(mir_strdup(userJid));
+					else AddUniqueJid(arCheckList, userJid);
 				}
 			}
 		}
@@ -529,27 +556,41 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 		if (auto *pUser = FindUser(jid)) {
 			if (pUser->szId != m_szJid) {
 				if (pUser->bDeviceInit) {
-					for (auto &it : pUser->arDevices)
-						pTask->arDest.insert(new WAJid(*it));
+					for (auto &it : pUser->arDevices) {
+						AddUniqueJid(pTask->arDest, *it);
+						if (getBlob(MSignalSession(it->user, it->device).getSetting()).isEmpty())
+							AddUniqueJid(arCheckList, pUser->szId);
+					}
 				}
-				else arCheckList.insert(mir_strdup(pUser->szId));;
+				else AddUniqueJid(arCheckList, pUser->szId);
+
+				if (pTask->arDest.getCount() == 0)
+					AddUniqueJid(arCheckList, pUser->szId);
 			}
 		}
+		else AddUniqueJid(arCheckList, jid);
 	}
 
 	padBuffer16(pTask->content);
 	if (!pTask->selfContent.isEmpty())
 		padBuffer16(pTask->selfContent);
 
-	auto *pOwnUser = FindUser(m_szJid);
-	for (auto &it : pOwnUser->arDevices) {
-		if (it->device != (int)getDword(DBKEY_DEVICE_ID)) {
-			if (toJid.isGroup())
-				pTask->arDest.insert(new WAJid(*it));
-			else
-				pTask->arSelfDest.insert(new WAJid(*it));
+	if (auto *pOwnUser = FindUser(m_szJid)) {
+		if (pOwnUser->bDeviceInit) {
+			for (auto &it : pOwnUser->arDevices) {
+				if (it->device != localDeviceId) {
+					AddUniqueJid(toJid.isGroup() ? pTask->arDest : pTask->arSelfDest, *it);
+					if (getBlob(MSignalSession(it->user, it->device).getSetting()).isEmpty())
+						AddUniqueJid(arCheckList, pOwnUser->szId);
+				}
+			}
 		}
+		else AddUniqueJid(arCheckList, pOwnUser->szId);
 	}
+	else AddUniqueJid(arCheckList, m_szJid);
+
+	if (!toJid.isGroup() && pTask->arSelfDest.getCount() == 0)
+		AddUniqueJid(arCheckList, m_szJid);
 
 	// generate & reserve packet id
 	int pktId;
@@ -573,15 +614,25 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 
 void WhatsAppProto::FinishTask(WASendTask *pTask)
 {
+	WAJid toJid(pTask->payLoad.getAttr("to"));
+	auto localDeviceId = (int)getDword(DBKEY_DEVICE_ID);
+
 	if (auto *pUser = FindUser(pTask->payLoad.getAttr("to"))) {
 		if (pUser->bIsGroupChat) {
 			for (auto &it : pUser->si->getUserList())
 				if (auto *pChatUser = FindUser(T2Utf(it->pszUID)))
 					for (auto &cc: pChatUser->arDevices)
-						pTask->arDest.insert(new WAJid(*cc));
+						AddUniqueJid(pTask->arDest, *cc);
 		}
 		else for (auto &it : pUser->arDevices)
-			pTask->arDest.insert(new WAJid(*it));
+			AddUniqueJid(pTask->arDest, *it);
+	}
+
+	if (auto *pOwnUser = FindUser(m_szJid)) {
+		for (auto &it : pOwnUser->arDevices) {
+			if (it->device != localDeviceId)
+				AddUniqueJid(toJid.isGroup() ? pTask->arDest : pTask->arSelfDest, *it);
+		}
 	}
 
 	SendTask(pTask);
