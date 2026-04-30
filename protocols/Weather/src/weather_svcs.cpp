@@ -159,27 +159,10 @@ void CWeatherProto::UpdateMenu(BOOL State)
 {
 	// update option setting
 	opt.CAutoUpdate = State;
+	opt.AutoUpdate = State != 0;
 	setByte("AutoUpdate", (uint8_t)State);
 
-	if (State) { // to enable auto-update
-		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ICON));
-		opt.AutoUpdate = 1;
-	}
-	else { // to disable auto-update
-		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Disabled"), g_plugin.getIconHandle(IDI_DISABLED));
-		opt.AutoUpdate = 0;
-	}
-
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : 0);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// update the weather auto-update menu item when click on it
-
-INT_PTR CWeatherProto::EnableDisableCmd(WPARAM wParam, LPARAM lParam)
-{
-	UpdateMenu(wParam == TRUE ? (BOOL)lParam : !opt.CAutoUpdate);
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -271,39 +254,4 @@ void CWeatherProto::GlobalMenuInit()
 	}
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, &OnPrebuildMenu);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// adding main menu items
-
-void CWeatherProto::InitMenuItems()
-{
-	CMenuItem mi(&g_plugin);
-	mi.root = g_plugin.addRootMenu(MO_MAIN, m_tszUserName, 500099000);
-	Menu_ConfigureItem(mi.root, MCI_OPT_UID, "82809D2F-2CF0-4E15-9350-D257A7748552");
-
-	SET_UID(mi, 0x5ad16188, 0xe0a0, 0x4c31, 0x85, 0xc3, 0xe4, 0x85, 0x79, 0x7e, 0x4b, 0x9c);
-	mi.name.a = LPGEN("Enable/Disable Weather Update");
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON);
-	mi.position = 10100001;
-	mi.pszService = "/EnableDisable";
-	hEnableDisableMenu = Menu_AddMainMenuItem(&mi, m_szModuleName);
-	UpdateMenu(opt.AutoUpdate);
-	CreateProtoService(mi.pszService, &CWeatherProto::EnableDisableCmd);
-
-	SET_UID(mi, 0x2b1c2054, 0x2991, 0x4025, 0x87, 0x73, 0xb6, 0xf7, 0x85, 0xac, 0xc7, 0x37);
-	mi.position = 20100001;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE);
-	mi.name.a = LPGEN("Update All Weather");
-	mi.pszService = "/UpdateAll";
-	Menu_AddMainMenuItem(&mi, m_szModuleName);
-	CreateProtoService(mi.pszService, &CWeatherProto::UpdateAllInfo);
-
-	SET_UID(mi, 0x8234c00e, 0x788e, 0x424f, 0xbc, 0xc4, 0x2, 0xfd, 0x67, 0x58, 0x2d, 0x19);
-	mi.position = 20100002;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_UPDATE2);
-	mi.name.a = LPGEN("Remove Old Data then Update All");
-	mi.pszService = "/RefreshAll";
-	Menu_AddMainMenuItem(&mi, m_szModuleName);
-	CreateProtoService(mi.pszService, &CWeatherProto::UpdateAllRemove);
 }

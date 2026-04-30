@@ -409,7 +409,8 @@ public:
 		}
 
 		m_proto->SaveOptions();
-		m_proto->UpdateAllInfo(0, 0);
+		if (!m_proto->m_bThreadRunning)
+			m_proto->UpdateAll(FALSE, FALSE);
 		return true;
 	}
 

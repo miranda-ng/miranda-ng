@@ -311,26 +311,6 @@ INT_PTR CWeatherProto::UpdateSingleRemove(WPARAM hContact, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// the "Update All" menu item in main menu
-
-INT_PTR CWeatherProto::UpdateAllInfo(WPARAM, LPARAM)
-{
-	if (!m_bThreadRunning)
-		UpdateAll(FALSE, FALSE);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// the "Update All" menu item in main menu and remove the old data
-
-INT_PTR CWeatherProto::UpdateAllRemove(WPARAM, LPARAM)
-{
-	if (!m_bThreadRunning)
-		UpdateAll(FALSE, TRUE);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // getting weather data and save them into the database
 // hContact = the contact to get the data
 

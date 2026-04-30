@@ -171,12 +171,7 @@ class CWeatherProto : public PROTO<CWeatherProto>
 	MHttpResponse* RunQuery(const wchar_t *id, int days);
 
 	// menu items
-	HGENMENU hEnableDisableMenu;
-
-	void InitMenuItems();
 	void UpdateMenu(BOOL State);
-
-	INT_PTR __cdecl EnableDisableCmd(WPARAM, LPARAM);
 
 	// mwin
 	void AddFrameWindow(MCONTACT hContact);
@@ -232,9 +227,6 @@ class CWeatherProto : public PROTO<CWeatherProto>
 
 	INT_PTR __cdecl UpdateSingleStation(WPARAM, LPARAM);
 	INT_PTR __cdecl UpdateSingleRemove(WPARAM, LPARAM);
-
-	INT_PTR __cdecl UpdateAllInfo(WPARAM, LPARAM);
-	INT_PTR __cdecl UpdateAllRemove(WPARAM, LPARAM);
 
 	// user info
 	int __cdecl UserInfoInit(WPARAM, LPARAM);
