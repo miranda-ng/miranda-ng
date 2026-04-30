@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME             "Sametime protocol"
 #define __FILENAME                "Sametime.dll"
-#define __DESCRIPTION             "Implementation of instant messaging for the Lotus Sametime protocol."
+#define __DESCRIPTION             "Lotus Sametime protocol support for Miranda NG."
 #define __AUTHOR                  "Scott Ellis, Szymon Tokarz"
 #define __COPYRIGHT               "© 2005 Scott Ellis, 2014-26 wsx22"
 #define __AUTHORWEB               "https://miranda-ng.org/p/Sametime"
