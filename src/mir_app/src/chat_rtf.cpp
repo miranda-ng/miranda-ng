@@ -41,7 +41,7 @@ static void CreateColorMap(const wchar_t *pszText, std::vector<COLORREF> &res)
 	for (const wchar_t *p2 = wcsstr(p1, L"\\red"); p2 && p2 < pEnd; p2 = wcsstr(p1, L"\\red")) {
 		int iRed, iGreen, iBlue;
 		if (swscanf(p2, L"\\red%d\\green%d\\blue%d;", &iRed, &iGreen, &iBlue) > 0)
-			res.push_back(RGB(iRed, iGreen, iBlue));
+			res.push_back((iRed * 256 + iGreen) * 256 +iBlue);
 
 		p1 = p2 + 1;
 	}

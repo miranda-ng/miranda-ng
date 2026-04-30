@@ -26,11 +26,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static COLORREF colorTable[] =
 {
-	RGB(0,0,0), RGB(0,0,128), RGB(0,128,128), RGB(128,0,128),
-	RGB(0,128,0), RGB(128,128,0), RGB(128,0,0), RGB(128,128,128),
-	RGB(192,192,192), RGB(0,0,255), RGB(0,255,255), RGB(255,0,255), 
-	RGB(0,255,0), RGB(255,255,0), RGB(255,0,0), RGB(255,255,255)
+	0x000000, 0x000080, 0x008080, 0x800080,
+	0x008000, 0x808000, 0x800000, 0x808080,
+	0xc0c0c0, 0x0000ff, 0x00ffff, 0xff00ff,
+	0x00ff00, 0xffff00, 0xff0000, 0xffffff
 };
+
+static COLORREF rgb2win(int c)
+{
+	int b = c % 256; c >>= 8;
+	int g = c % 256; c >>= 8;
+	int r = c % 256;
+	return RGB(r, g, b);
+}
 
 MIR_APP_DLL(COLORREF*) Srmm_GetColorTable(int *pSize)
 {
@@ -159,7 +167,7 @@ public:
 					m_pDlg->m_iFG = colorTable[iCurrentHotTrack];
 					if (IsDlgButtonChecked(hWindow, ctrlId)) {
 						cf.dwMask = CFM_COLOR;
-						cf.crTextColor = colorTable[iCurrentHotTrack];
+						cf.crTextColor = rgb2win(colorTable[iCurrentHotTrack]);
 						SendMessage(m_hwndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 					}
 				}
@@ -168,7 +176,7 @@ public:
 					m_pDlg->m_iBG = colorTable[iCurrentHotTrack];
 					if (IsDlgButtonChecked(hWindow, ctrlId)) {
 						cf.dwMask = CFM_BACKCOLOR;
-						cf.crBackColor = colorTable[iCurrentHotTrack];
+						cf.crBackColor = rgb2win(colorTable[iCurrentHotTrack]);
 						SendMessage(m_hwndTarget, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 					}
 				}
@@ -250,7 +258,7 @@ public:
 					rc.bottom = iThisRow * 20 - 4 + 20;
 					rc.right = iThisColumn * 25 - 4;
 
-					HBRUSH hbr = CreateSolidBrush(colorTable[i]);
+					HBRUSH hbr = CreateSolidBrush(rgb2win(colorTable[i]));
 					FillRect(hdc, &rc, hbr);
 					DeleteObject(hbr);
 				}

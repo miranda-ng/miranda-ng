@@ -119,6 +119,7 @@ static bbcodes[] =
 	{ L"[/s]",     nullptr },
 
 	{ L"[color=", L"[/color]" },
+	{ L"[bkcolor=", L"[/bkcolor]" },
 
 	{ L"[c0]",     nullptr },
 	{ L"[c1]",     nullptr },

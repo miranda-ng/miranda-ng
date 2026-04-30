@@ -331,8 +331,6 @@ INT_PTR __cdecl CIrcProto::OnChangeNickMenuCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-static int mapSrmm2irc[] = { 1, 2, 10, 6, 3, 7, 5, 14, 15, 12, 11, 13, 9, 8, 4, 0 };
-
 static wchar_t* DoPrintColor(wchar_t *pDest, int iFG, int iBG)
 {
 	*pDest = irc::COLOR;
