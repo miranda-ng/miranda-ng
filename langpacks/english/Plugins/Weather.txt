@@ -237,9 +237,6 @@
 [Brief Information]
 [Read Complete Forecast]
 [Display in a frame]
-[Enable/Disable Weather Update]
-[Update All Weather]
-[Remove Old Data then Update All]
 ;file \protocols\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]
 [New moon]

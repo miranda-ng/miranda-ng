@@ -22,7 +22,7 @@
 [Use MTProxy]
 [Host]
 [Port]
-[Proxy secret]
+[Secret]
 [Software]
 [Add phone contact]
 [First name:]
