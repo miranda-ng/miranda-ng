@@ -68,6 +68,7 @@ Plugins\irc.dll
 Plugins\jabber.dll
 Plugins\jingle.dll
 Plugins\keyboardnotify.dll
+Plugins\libreview.dll
 Plugins\linklist.dll
 Plugins\listeningto.dll
 Plugins\lotusnotify.dll
