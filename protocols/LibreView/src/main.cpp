@@ -156,15 +156,10 @@ int CMPlugin::Load()
 	CreateServiceFunction(MODULENAME "/Update", PluginMenuCommand);
 
 	CMenuItem mi(&g_plugin);
-	SET_UID(mi, 0x4b58394e, 0xf434, 0x41ec, 0xb5, 0x8b, 0x17, 0x16, 0xb3, 0x29, 0x62, 0x25);
-	mi.position = -0x7FFFFFFF;
-	mi.hIcolibItem = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
-	mi.name.a = LPGEN("&Update LibreView glucose");
-	mi.pszService = MODULENAME "/Update";
-	Menu_AddMainMenuItem(&mi);
-
 	SET_UID(mi, 0x82c22dbb, 0x9768, 0x4c1c, 0x9d, 0x72, 0x8d, 0x63, 0x3f, 0xf0, 0xe1, 0xad);
-	mi.name.a = LPGEN("&Update LibreView glucose");
+	mi.position = -0x7FFFFFFF;
+	mi.hIcolibItem = Skin_GetProtoIcon(MODULENAME, ID_STATUS_ONLINE);
+	mi.name.a = LPGEN("&Update data");
 	mi.pszService = "/Update";
 	Menu_AddContactMenuItem(&mi, MODULENAME);
 
