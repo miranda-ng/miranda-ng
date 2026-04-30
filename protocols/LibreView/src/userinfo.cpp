@@ -66,11 +66,10 @@ public:
 			patient = TranslateT("LibreView");
 
 		CMStringW value = GetDbText(m_hContact, "Value");
-		CMStringW trend = GetDbText(m_hContact, "TrendSymbol");
 		CMStringW unit(GetLocalizedUnitByKey(GetDbText(m_hContact, "Unit")));
 		CMStringW current;
 		if (!value.IsEmpty())
-			current.Format(L"%s%s %s", value.c_str(), trend.c_str(), unit.c_str());
+			current.Format(L"%s %s", value.c_str(), unit.c_str());
 
 		CMStringW targetLow = GetDbText(m_hContact, "TargetLow");
 		CMStringW targetHigh = GetDbText(m_hContact, "TargetHigh");
