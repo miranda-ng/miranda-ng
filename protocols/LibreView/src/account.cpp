@@ -264,6 +264,10 @@ void UpdateContactDisplay(MCONTACT hContact)
 
 static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 {
+	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
+	if (ppro == nullptr || !ppro->WriteHistory)
+		return;
+
 	if (timestamp.IsEmpty())
 		return;
 

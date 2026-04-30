@@ -31,7 +31,8 @@ CMPlugin::CMPlugin() :
 CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CLibreViewProto>(protoName, userName),
 	UpdateInterval(m_szModuleName, "UpdateInterval", db_get_dw(0, MODULENAME, "UpdateInterval", 5)),
-	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0))
+	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0)),
+	WriteHistory(m_szModuleName, "WriteHistory", db_get_b(0, MODULENAME, "WriteHistory", 0) != 0)
 {
 	m_hProtoIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
 	m_account = EnsureAccount(this);

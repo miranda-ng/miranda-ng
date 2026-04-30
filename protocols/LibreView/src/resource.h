@@ -20,3 +20,4 @@
 #define IDC_UNIT_MMOL                   1020
 #define IDC_UNIT_MGDL                   1021
 #define IDC_SENSOR_REMAINING            1022
+#define IDC_WRITE_HISTORY               1023

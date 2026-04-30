@@ -7,6 +7,7 @@ class COptionsDlg : public CLibreViewDlgBase
 	Account *m_pAcc = nullptr;
 	CCtrlEdit edtEmail, edtPassword, edtApiUrl, edtInterval;
 	CCtrlCheck radMmol, radMgdl;
+	CCtrlCheck chkWriteHistory;
 
 	Account* CurrentAccount()
 	{
@@ -44,9 +45,11 @@ public:
 		edtApiUrl(this, IDC_APIURL),
 		edtInterval(this, IDC_INTERVAL),
 		radMmol(this, IDC_UNIT_MMOL),
-		radMgdl(this, IDC_UNIT_MGDL)
+		radMgdl(this, IDC_UNIT_MGDL),
+		chkWriteHistory(this, IDC_WRITE_HISTORY)
 	{
 		CreateLink(edtInterval, m_proto->UpdateInterval);
+		CreateLink(chkWriteHistory, m_proto->WriteHistory);
 
 		edtEmail.OnChange = edtPassword.OnChange = edtApiUrl.OnChange = Callback(this, &COptionsDlg::onChange_Account);
 		radMmol.OnChange = radMgdl.OnChange = Callback(this, &COptionsDlg::onChange_Units);
