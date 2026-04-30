@@ -31,8 +31,7 @@ CMPlugin::CMPlugin() :
 CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CLibreViewProto>(protoName, userName),
 	UpdateInterval(m_szModuleName, "UpdateInterval", db_get_dw(0, MODULENAME, "UpdateInterval", 5)),
-	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0)),
-	AutoUpdate(m_szModuleName, "AutoUpdate", db_get_b(0, MODULENAME, "AutoUpdate", true) != 0)
+	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0))
 {
 	m_hProtoIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
 	m_account = EnsureAccount(this);
@@ -67,14 +66,14 @@ int CLibreViewProto::SetStatus(int iStatus)
 	m_iStatus = (iStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
-	if (m_iStatus == ID_STATUS_ONLINE && AutoUpdate && m_account)
+	if (m_iStatus == ID_STATUS_ONLINE && UpdateInterval > 0 && m_account)
 		mir_forkthread(Check_ThreadFunc, m_account);
 	return 0;
 }
 
 void CLibreViewProto::OnModulesLoaded()
 {
-	if (AutoUpdate && m_account)
+	if (UpdateInterval > 0 && m_account)
 		mir_forkthread(Check_ThreadFunc, m_account);
 }
 
@@ -126,12 +125,10 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t now = time(0);
 	for (auto &it : g_accs) {
-		if (!it->ppro->AutoUpdate)
-			continue;
 
 		uint32_t minutes = it->ppro->UpdateInterval;
 		if (minutes == 0)
-			minutes = 5;
+			continue;
 
 		if (it->tsLastUpdate == 0 || now - it->tsLastUpdate >= time_t(minutes * 60))
 			mir_forkthread(Check_ThreadFunc, it);

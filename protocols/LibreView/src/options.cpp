@@ -7,7 +7,6 @@ class COptionsDlg : public CLibreViewDlgBase
 	Account *m_pAcc = nullptr;
 	CCtrlEdit edtEmail, edtPassword, edtApiUrl, edtInterval;
 	CCtrlCheck radMmol, radMgdl;
-	CCtrlCheck chkAutoUpdate;
 
 	Account* CurrentAccount()
 	{
@@ -45,11 +44,9 @@ public:
 		edtApiUrl(this, IDC_APIURL),
 		edtInterval(this, IDC_INTERVAL),
 		radMmol(this, IDC_UNIT_MMOL),
-		radMgdl(this, IDC_UNIT_MGDL),
-		chkAutoUpdate(this, IDC_AUTOUPDATE)
+		radMgdl(this, IDC_UNIT_MGDL)
 	{
 		CreateLink(edtInterval, m_proto->UpdateInterval);
-		CreateLink(chkAutoUpdate, m_proto->AutoUpdate);
 
 		edtEmail.OnChange = edtPassword.OnChange = edtApiUrl.OnChange = Callback(this, &COptionsDlg::onChange_Account);
 		radMmol.OnChange = radMgdl.OnChange = Callback(this, &COptionsDlg::onChange_Units);
@@ -77,8 +74,6 @@ public:
 	{
 		SaveCurrent();
 		m_proto->DisplayUnits = radMgdl.IsChecked() ? 1 : 0;
-		if (m_proto->UpdateInterval == 0)
-			m_proto->UpdateInterval = 5;
 		if (Account *pAcc = CurrentAccount())
 			UpdateContactDisplay(pAcc->hContact);
 		RestartTimer();

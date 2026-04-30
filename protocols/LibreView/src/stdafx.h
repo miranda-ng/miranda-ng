@@ -68,7 +68,6 @@ public:
 
 	CMOption<uint32_t> UpdateInterval;
 	CMOption<uint32_t> DisplayUnits;
-	CMOption<bool> AutoUpdate;
 	Account *m_account = nullptr;
 
 	INT_PTR __cdecl Update(WPARAM, LPARAM);

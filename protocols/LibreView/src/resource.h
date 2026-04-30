@@ -6,7 +6,6 @@
 #define IDC_PASSWORD                    1005
 #define IDC_APIURL                      1006
 #define IDC_INTERVAL                    1007
-#define IDC_AUTOUPDATE                  1008
 #define IDC_STATIC_EMAIL                1009
 #define IDC_STATIC_PASSWORD             1010
 #define IDC_STATIC_APIURL               1011
