@@ -125,7 +125,7 @@ MIR_APP_DLL(HGENMENU) Menu_AddMainMenuItem(TMO_MenuItem *pmi, const char *pszPro
 		szService = pmi->pszService;
 	
 	// we need just one parametr.
-	mmep->szServiceName = mir_strdup(szService);
+	mmep->szServiceName = szService.Detach();
 	mmep->szMenuName = pmi->name.w;
 
 	TMO_IntMenuItem *pimi = Menu_AddItem(hMainMenuObject, pmi, mmep);
