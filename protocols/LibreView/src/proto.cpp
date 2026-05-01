@@ -218,9 +218,7 @@ bool CLibreViewProto::Login()
 				errorMsg = TranslateT("Login failed");
 			
 			// Show popup notification
-			wchar_t popupTitle[256];
-			mir_snwprintf(popupTitle, _countof(popupTitle), L"%s - %s", TranslateT("LibreView"), TranslateT("Login Error"));
-			MessageBoxW(nullptr, errorMsg.c_str(), popupTitle, MB_OK | MB_ICONERROR);
+			PUShowMessageW(CMStringW(FORMAT, L"%s: %s", TranslateT("Login Error"), errorMsg.c_str()), SM_ERROR);
 			return false;
 		}
 
@@ -487,9 +485,7 @@ bool CLibreViewProto::FetchGlucose()
 	if (!JsonTransaction(request, root)) {
 		ClearAuth();
 		// Show popup for network/HTTP errors
-		wchar_t popupTitle[256];
-		mir_snwprintf(popupTitle, _countof(popupTitle), L"%s - %s", TranslateT("LibreView"), TranslateT("Connection Error"));
-		MessageBoxW(nullptr, TranslateT("Failed to connect to LibreView server. Please check your internet connection and try again."), popupTitle, MB_OK | MB_ICONWARNING);
+		PUShowMessageW(TranslateT("Failed to connect to LibreView server. Please check your internet connection and try again."), SM_WARNING);
 		return false;
 	}
 
