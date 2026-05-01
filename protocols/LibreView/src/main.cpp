@@ -4,7 +4,7 @@
 CMPlugin g_plugin;
 HNETLIBUSER hNetlibUser;
 UINT_PTR hTimer;
-OBJLIST<Account> g_accs(1);
+OBJLIST<Account> g_accs(1, PtrKeySortT);
 static HGENMENU g_hContactMenuUpdate = nullptr;
 
 static PLUGININFOEX pluginInfoEx =
