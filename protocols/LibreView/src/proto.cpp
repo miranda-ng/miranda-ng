@@ -79,6 +79,15 @@ CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName)
 	m_hProtoIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
 	EnsureAccount();
 
+	// Check if login/password exist but contact doesn't - create contact
+	if (!m_hContact) {
+		ptrW wszEmail(getWStringA("Email"));
+		ptrW wszPassword(getWStringA("Password"));
+		if (mir_wstrlen(wszEmail) && mir_wstrlen(wszPassword)) {
+			EnsureAccountContact();
+		}
+	}
+
 	if (m_hContact) {
 		szMinVersion = getMStringA(m_hContact, "MinVersion");
 		Ignore_Ignore(m_hContact, IGNOREEVENT_USERONLINE);
