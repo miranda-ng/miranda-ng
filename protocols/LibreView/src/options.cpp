@@ -60,11 +60,9 @@ public:
 			m_proto->EnsureAccountContact();
 		if (!mir_wstrlen(wszEmail)) {
 			m_proto->delSetting("Email");
-			m_proto->delSetting("Nick");
 		}
 		else {
 			m_proto->setWString("Email", wszEmail);
-			m_proto->setWString("Nick", wszEmail);
 		}
 		
 		if (!mir_wstrlen(wszPassword))

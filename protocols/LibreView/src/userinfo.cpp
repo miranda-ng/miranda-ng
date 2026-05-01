@@ -2,8 +2,11 @@
 
 static CMStringW GetDbText(MCONTACT hContact, const char *pszSetting, const wchar_t *pwszDefault = L"")
 {
-	ptrW value(db_get_wsa(hContact, MODULENAME, pszSetting));
-	return value ? CMStringW(value) : CMStringW(pwszDefault);
+	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
+	if (!ppro)
+		return CMStringW(pwszDefault);
+	CMStringW value = ppro->getMStringW(hContact, pszSetting);
+	return value.IsEmpty() ? CMStringW(pwszDefault) : value;
 }
 
 static const wchar_t* GetLocalizedUnitByKey(const wchar_t *pwszUnit)
@@ -56,11 +59,14 @@ public:
 
 	bool OnRefresh() override
 	{
-		CMStringW patient = GetDbText(m_hContact, "PatientName");
-		if (patient.IsEmpty()) {
-			char *szProto = Proto_GetBaseAccountName(m_hContact);
-			if (szProto)
-				patient = db_get_wsm(m_hContact, szProto, "Nick", L"");
+		// Build patient name from FirstName + LastName
+		CMStringW firstName = GetDbText(m_hContact, "FirstName");
+		CMStringW lastName = GetDbText(m_hContact, "LastName");
+		CMStringW patient(firstName);
+		if (!lastName.IsEmpty()) {
+			if (!patient.IsEmpty())
+				patient.AppendChar(' ');
+			patient.Append(lastName);
 		}
 		if (patient.IsEmpty())
 			patient = TranslateT("LibreView");
