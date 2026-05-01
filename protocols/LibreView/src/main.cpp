@@ -46,7 +46,6 @@ CLibreViewProto::~CLibreViewProto()
 {
 	if (m_account) {
 		g_accs.remove(m_account);
-		delete m_account;
 		m_account = nullptr;
 	}
 }
