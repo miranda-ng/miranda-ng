@@ -1,5 +1,17 @@
 #include "stdafx.h"
 
+// Forward declarations
+uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
+static CMStringW FormatGlucoseValue(double value);
+static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting);
+static bool IsApiUnitMgdl(const JSONNode &measurement, int glucoseUnits);
+static const wchar_t* GetLocalizedUnit(bool bUseMgdl);
+static const wchar_t* GetLocalizedUnitByKey(const wchar_t *unit);
+static const wchar_t* TrendToText(int trend);
+static const wchar_t* TrendToArrow(int trend);
+void UpdateContactDisplay(MCONTACT hContact);
+static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp);
+
 static void AddLibreHeaders(MHttpRequest &request, const CLibreViewProto *pAcc = nullptr)
 {
 	request.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT | NLHRF_SSL;
@@ -60,15 +72,21 @@ static const wchar_t* GetLocalizedUnit(bool bUseMgdl)
 	return bUseMgdl ? TranslateT("mg/dL") : TranslateT("mmol/L");
 }
 
-static bool IsMgdlUnitToken(const CMStringW &unit)
+static bool IsApiUnitMgdl(const JSONNode &measurement, int glucoseUnits)
 {
-	return !mir_wstrcmpi(unit, L"mg/dL");
+	// Check if API returns mg/dL (1) or mmol/L (0)
+	return glucoseUnits == 1;
 }
 
-static bool IsMmolUnitToken(const CMStringW &unit)
+static const wchar_t* GetLocalizedUnitByKey(const wchar_t *unit)
 {
-	return !mir_wstrcmpi(unit, L"mmol/L");
+	if (!mir_wstrcmpi(unit, L"mg/dL"))
+		return TranslateT("mg/dL");
+	if (!mir_wstrcmpi(unit, L"mmol/L"))
+		return TranslateT("mmol/L");
+	return unit;
 }
+
 
 CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CLibreViewProto>(protoName, userName),
@@ -336,15 +354,6 @@ uint32_t ParseLibreTimestamp(const CMStringW &timestamp)
 	return result == -1 ? 0 : (uint32_t)result;
 }
 
-static CMStringW FormatMirandaTimestamp(uint32_t timestamp)
-{
-	if (timestamp == 0)
-		return CMStringW();
-
-	wchar_t wszTime[100];
-	TimeZone_PrintTimeStamp(nullptr, timestamp, L"d t", wszTime, _countof(wszTime), 0);
-	return wszTime;
-}
 
 void UpdateContactDisplay(MCONTACT hContact)
 {
@@ -407,17 +416,14 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
 	CMStringW trendArrow(TrendToArrow(trendValue));
-	CMStringW timestampText = GetGlucoseDbText(hContact, "Timestamp");
-	CMStringW timestampFormatted = FormatMirandaTimestamp(ParseLibreTimestamp(timestampText));
-	if (timestampFormatted.IsEmpty())
-		timestampFormatted = timestamp;
-	CMStringW message(FORMAT, L"%s: %s %s", timestampFormatted.c_str(), valueText.c_str(), pwszUnit);
+	CMStringW message(FORMAT, L"%s %s", valueText.c_str(), pwszUnit);
 	if (!trendArrow.IsEmpty())
 		message.AppendFormat(L" (%s)", trendArrow.c_str());
 	T2Utf utfMessage(message);
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
+	CMStringW timestampText = GetGlucoseDbText(hContact, "Timestamp");
 	dbei.iTimestamp = ParseLibreTimestamp(timestampText);
 	if (!dbei.iTimestamp)
 		dbei.iTimestamp = (uint32_t)time(0);
@@ -430,37 +436,8 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 	ppro->setWString(hContact, "LastHistoryTimestamp", timestamp);
 }
 
-static bool IsApiUnitMgdl(const JSONNode &measurement, int glucoseUnits)
-{
-	CMStringW unit = measurement["Unit"].as_mstring();
-	if (IsMgdlUnitToken(unit))
-		return true;
-	if (IsMmolUnitToken(unit))
-		return false;
 
-	return glucoseUnits == 1;
-}
 
-static CMStringW FormatTargetValue(int rawValue, bool bApiMgdl, bool bOutputMgdl)
-{
-	double mmolValue = bApiMgdl ? (double)rawValue / 18.0 : (double)rawValue / 10.0;
-	double mgdlValue = bApiMgdl ? (double)rawValue : mmolValue * 18.0;
-	return FormatGlucoseValue(bOutputMgdl ? mgdlValue : mmolValue);
-}
-
-static CMStringW FormatUnixTime(uint32_t timestamp)
-{
-	if (timestamp == 0)
-		return CMStringW();
-
-	time_t t = timestamp;
-	struct tm tmLocal = {};
-	localtime_s(&tmLocal, &t);
-
-	wchar_t buf[64];
-	wcsftime(buf, _countof(buf), L"%Y-%m-%d %H:%M:%S", &tmLocal);
-	return buf;
-}
 
 bool CLibreViewProto::FetchGlucose()
 {
