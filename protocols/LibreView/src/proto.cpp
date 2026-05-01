@@ -89,9 +89,10 @@ CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName)
 	}
 
 	if (m_hContact) {
-		szMinVersion = getMStringA(m_hContact, "MinVersion");
 		Ignore_Ignore(m_hContact, IGNOREEVENT_USERONLINE);
 	}
+
+	szMinVersion = getMStringA("MinVersion");
 
 	szApiUrl = NormalizeBaseUrl(getMStringA("ApiUrl"));
 
@@ -260,12 +261,12 @@ bool CLibreViewProto::FetchConnections()
 static const wchar_t* TrendToText(int trend)
 {
 	switch (trend) {
-	case 1: return L"falling quickly";
-	case 2: return L"falling";
-	case 3: return L"steady";
-	case 4: return L"rising";
-	case 5: return L"rising quickly";
-	default: return L"trend unknown";
+	case 1: return LPGENW("falling quickly");
+	case 2: return LPGENW("falling");
+	case 3: return LPGENW("steady");
+	case 4: return LPGENW("rising");
+	case 5: return LPGENW("rising quickly");
+	default: return LPGENW("trend unknown");
 	}
 }
 
@@ -296,6 +297,8 @@ static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting)
 		return CMStringW();
 	return ppro->getMStringW(hContact, pszSetting);
 }
+
+static CMStringW FormatTargetValue(int rawValue, bool bApiMgdl, bool bOutputMgdl);
 
 static uint32_t ParseLibreTimestamp(const CMStringW &timestamp)
 {
@@ -336,17 +339,36 @@ void UpdateContactDisplay(MCONTACT hContact)
 {
 	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
 	const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
-	CMStringW valueText = GetGlucoseDbText(hContact, bUseMgdl ? "ValueMgDl" : "ValueMmol");
-	if (valueText.IsEmpty())
+
+	// Compute Value from stored mmol string
+	CMStringW valueMmolText = GetGlucoseDbText(hContact, "Value");
+	if (valueMmolText.IsEmpty())
 		return;
 
+	CMStringW valueText;
+	if (bUseMgdl) {
+		// Convert mmol to mg/dL
+		double valueMmol = _wtof(valueMmolText.c_str());
+		valueText = FormatGlucoseValue(valueMmol * 18.0);
+	}
+	else {
+		valueText = valueMmolText;
+	}
+
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
-	CMStringW trendArrow = GetGlucoseDbText(hContact, "TrendSymbol");
+	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
+	CMStringW trendArrow(TrendToArrow(trendValue));
 
 	ppro->setWString(hContact, "Value", valueText);
-	ppro->setWString(hContact, "Unit", pwszUnit);
-	ppro->setWString(hContact, "TargetLow", GetGlucoseDbText(hContact, bUseMgdl ? "TargetLowMgDl" : "TargetLowMmol"));
-	ppro->setWString(hContact, "TargetHigh", GetGlucoseDbText(hContact, bUseMgdl ? "TargetHighMgDl" : "TargetHighMmol"));
+
+	// Compute TargetLow/High on the fly
+	bool bApiMgdl = ppro->getDword(hContact, "GlucoseUnits", 1) == 1;
+	int targetLow = ppro->getDword(hContact, "TargetLow", 0);
+	int targetHigh = ppro->getDword(hContact, "TargetHigh", 0);
+	if (targetLow)
+		ppro->setWString(hContact, "TargetLow", FormatTargetValue(targetLow, bApiMgdl, bUseMgdl));
+	if (targetHigh)
+		ppro->setWString(hContact, "TargetHigh", FormatTargetValue(targetHigh, bApiMgdl, bUseMgdl));
 
 	// Build title from FirstName + LastName
 	CMStringW firstName = GetGlucoseDbText(hContact, "FirstName");
@@ -389,19 +411,24 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 	if (valueText.IsEmpty())
 		return;
 
-	CMStringW unit = GetGlucoseDbText(hContact, "Unit");
-	CMStringW trendArrow = GetGlucoseDbText(hContact, "TrendSymbol");
-	CMStringW timestampText = GetGlucoseDbText(hContact, "TimestampFormatted");
-	if (timestampText.IsEmpty())
-		timestampText = timestamp;
-	CMStringW message(FORMAT, L"%s: %s %s", timestampText.c_str(), valueText.c_str(), unit.c_str());
+	const bool bUseMgdl = ppro->DisplayUnits == 1;
+	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
+	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
+	CMStringW trendArrow(TrendToArrow(trendValue));
+	CMStringW timestampText = GetGlucoseDbText(hContact, "Timestamp");
+	CMStringW timestampFormatted = FormatMirandaTimestamp(ParseLibreTimestamp(timestampText));
+	if (timestampFormatted.IsEmpty())
+		timestampFormatted = timestamp;
+	CMStringW message(FORMAT, L"%s: %s %s", timestampFormatted.c_str(), valueText.c_str(), pwszUnit);
 	if (!trendArrow.IsEmpty())
 		message.AppendFormat(L" (%s)", trendArrow.c_str());
 	T2Utf utfMessage(message);
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
-	dbei.iTimestamp = ppro->getDword(hContact, "TimestampUnix", (uint32_t)time(0));
+	dbei.iTimestamp = ParseLibreTimestamp(timestampText);
+	if (!dbei.iTimestamp)
+		dbei.iTimestamp = (uint32_t)time(0);
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.pBlob = utfMessage;
@@ -463,7 +490,7 @@ bool CLibreViewProto::FetchGlucose()
 	CMStringA minimumVersion = data["minimumVersion"].as_mstring();
 	if (!minimumVersion.IsEmpty() && minimumVersion != szMinVersion) {
 		szMinVersion = minimumVersion;
-		setString(m_hContact, "MinVersion", szMinVersion);
+		setString("MinVersion", szMinVersion);
 		ClearAuth();
 		return FetchGlucose();
 	}
@@ -480,62 +507,53 @@ bool CLibreViewProto::FetchGlucose()
 	uint32_t sensorActivation = connection["sensor"]["a"].as_int();
 	if (sensorActivation) {
 		setDword(m_hContact, "SensorActivationTime", sensorActivation);
-		setWString(m_hContact, "SensorActivation", FormatUnixTime(sensorActivation));
 	}
 
 	JSONNode measurement = connection["glucoseMeasurement"];
-	double valueMmol = measurement["Value"].as_float();
-	double valueMgdl = measurement["ValueInMgPerDl"].as_float();
+	int trend = measurement["TrendArrow"].as_int();
+	int glucoseUnits = measurement["GlucoseUnits"].as_int();
+	bool bApiMgdl = IsApiUnitMgdl(measurement, glucoseUnits);
+
+	double valueMmol, valueMgdl;
+	if (bApiMgdl) {
+		valueMgdl = measurement["Value"].as_float();
+		valueMmol = valueMgdl / 18.0;
+	}
+	else {
+		valueMmol = measurement["Value"].as_float();
+		valueMgdl = valueMmol * 18.0;
+	}
 	if (valueMmol == 0 && valueMgdl == 0) {
 		ClearAuth();
 		return false;
 	}
-	if (valueMmol == 0 && valueMgdl)
-		valueMmol = valueMgdl / 18.0;
-	if (valueMgdl == 0 && valueMmol)
-		valueMgdl = valueMmol * 18.0;
-
-	int trend = measurement["TrendArrow"].as_int();
-	int glucoseUnits = measurement["GlucoseUnits"].as_int();
-	bool bApiMgdl = IsApiUnitMgdl(measurement, glucoseUnits);
 	bool isLow = measurement["isLow"].as_bool();
 	bool isHigh = measurement["isHigh"].as_bool();
 	CMStringW timestamp = measurement["Timestamp"].as_mstring();
-	uint32_t timestampUnix = ParseLibreTimestamp(timestamp);
-	CMStringW timestampFormatted = FormatMirandaTimestamp(timestampUnix);
-	if (timestampFormatted.IsEmpty())
-		timestampFormatted = timestamp;
 	CMStringW trendText(TranslateW(TrendToText(trend)));
 	CMStringW trendArrow(TrendToArrow(trend));
 	CMStringW valueMmolText = FormatGlucoseValue(valueMmol);
-	CMStringW valueMgdlText = FormatGlucoseValue(valueMgdl);
 
-	setWString(m_hContact, "ValueMmol", valueMmolText);
-	setWString(m_hContact, "ValueMgDl", valueMgdlText);
-	setDword(m_hContact, "ValueMmolTimes10", (uint32_t)(valueMmol * 10 + 0.5));
-	setDword(m_hContact, "ValueMgDlInt", (uint32_t)(valueMgdl + 0.5));
+	setWString(m_hContact, "Value", valueMmolText);
 	setDword(m_hContact, "TrendArrow", trend);
-	setWString(m_hContact, "Trend", trendText);
-	setWString(m_hContact, "TrendSymbol", trendArrow);
 	setDword(m_hContact, "GlucoseUnits", glucoseUnits);
 	setWString(m_hContact, "Timestamp", timestamp);
-	setDword(m_hContact, "TimestampUnix", timestampUnix);
-	setWString(m_hContact, "TimestampFormatted", timestampFormatted);
 
 	int targetLow = connection["targetLow"].as_int();
 	int targetHigh = connection["targetHigh"].as_int();
 	if (targetLow) {
-		setWString(m_hContact, "TargetLowMmol", FormatTargetValue(targetLow, bApiMgdl, false));
-		setWString(m_hContact, "TargetLowMgDl", FormatTargetValue(targetLow, bApiMgdl, true));
+		setDword(m_hContact, "TargetLow", targetLow);
 	}
 	if (targetHigh) {
-		setWString(m_hContact, "TargetHighMmol", FormatTargetValue(targetHigh, bApiMgdl, false));
-		setWString(m_hContact, "TargetHighMgDl", FormatTargetValue(targetHigh, bApiMgdl, true));
+		setDword(m_hContact, "TargetHigh", targetHigh);
 	}
 
 	UpdateContactDisplay(m_hContact);
 	AddHistoryEvent(m_hContact, timestamp);
 
+	CMStringW timestampFormatted = FormatMirandaTimestamp(ParseLibreTimestamp(timestamp));
+	if (timestampFormatted.IsEmpty())
+		timestampFormatted = timestamp;
 	CMStringW statusMsg(FORMAT, L"%s, %s", trendText.c_str(), timestampFormatted.c_str());
 	db_set_ws(m_hContact, "CList", "StatusMsg", statusMsg);
 	ProtoBroadcastAck(m_hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());

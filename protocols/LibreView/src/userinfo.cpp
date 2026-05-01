@@ -72,21 +72,34 @@ public:
 			patient = TranslateT("LibreView");
 
 		CMStringW value = GetDbText(m_hContact, "Value");
-		CMStringW unit(GetLocalizedUnitByKey(GetDbText(m_hContact, "Unit")));
+		CLibreViewProto *ppro = g_plugin.getInstance(m_hContact);
+		const bool bUseMgdl = ppro && ppro->DisplayUnits == 1;
+		const wchar_t *pwszUnit = GetLocalizedUnitByKey(bUseMgdl ? L"mg/dL" : L"mmol/L");
 		CMStringW current;
 		if (!value.IsEmpty())
-			current.Format(L"%s %s", value.c_str(), unit.c_str());
+			current.Format(L"%s %s", value.c_str(), pwszUnit);
 
 		CMStringW targetLow = GetDbText(m_hContact, "TargetLow");
 		CMStringW targetHigh = GetDbText(m_hContact, "TargetHigh");
 		if (!targetLow.IsEmpty())
-			targetLow.AppendFormat(L" %s", unit.c_str());
+			targetLow.AppendFormat(L" %s", pwszUnit);
 		if (!targetHigh.IsEmpty())
-			targetHigh.AppendFormat(L" %s", unit.c_str());
+			targetHigh.AppendFormat(L" %s", pwszUnit);
 
 		SetDlgItemText(m_hwnd, IDC_PATIENT, patient);
 		SetDlgItemText(m_hwnd, IDC_CURRENT, current);
-		SetDlgItemText(m_hwnd, IDC_SENSOR_ACTIVATION, GetDbText(m_hContact, "SensorActivation"));
+		uint32_t activationTime = ppro ? ppro->getDword(m_hContact, "SensorActivationTime", 0) : 0;
+		if (activationTime) {
+			time_t t = activationTime;
+			struct tm tmLocal = {};
+			localtime_s(&tmLocal, &t);
+			wchar_t buf[64];
+			wcsftime(buf, _countof(buf), L"%Y-%m-%d %H:%M:%S", &tmLocal);
+			SetDlgItemText(m_hwnd, IDC_SENSOR_ACTIVATION, buf);
+		}
+		else {
+			SetDlgItemText(m_hwnd, IDC_SENSOR_ACTIVATION, L"");
+		}
 		SetDlgItemText(m_hwnd, IDC_SENSOR_REMAINING, GetSensorRemaining(m_hContact));
 		SetDlgItemText(m_hwnd, IDC_TARGET_LOW, targetLow);
 		SetDlgItemText(m_hwnd, IDC_TARGET_HIGH, targetHigh);
