@@ -46,19 +46,41 @@ public:
 		ptrW wszEmail(edtEmail.GetText());
 		ptrW wszPassword(edtPassword.GetText());
 		ptrW wszApiUrl(edtApiUrl.GetText());
+		
+		// Reset to defaults if fields are cleared
 		if (!mir_wstrlen(wszApiUrl))
 			wszApiUrl = mir_wstrdup(_A2W(DEFAULT_API_URL));
 
+		ptrW wszInterval(edtInterval.GetText());
+		if (!mir_wstrlen(wszInterval)) {
+			m_proto->delSetting("UpdateInterval");
+		}
+
 		if (m_proto->m_hContact == 0 && mir_wstrlen(wszEmail) && mir_wstrlen(wszPassword))
 			m_proto->EnsureAccountContact();
-
-		m_proto->setWString("Email", wszEmail);
-		m_proto->setWString("Password", wszPassword);
-		m_proto->setWString("ApiUrl", wszApiUrl);
-		if (mir_wstrlen(wszEmail))
+		if (!mir_wstrlen(wszEmail)) {
+			m_proto->delSetting("Email");
+			m_proto->delSetting("Nick");
+		}
+		else {
+			m_proto->setWString("Email", wszEmail);
 			m_proto->setWString("Nick", wszEmail);
+		}
+		
+		if (!mir_wstrlen(wszPassword))
+			m_proto->delSetting("Password");
+		else
+			m_proto->setWString("Password", wszPassword);
+		
+		if (!mir_wstrlen(wszApiUrl)) {
+			m_proto->delSetting("ApiUrl");
+			m_proto->szApiUrl = DEFAULT_API_URL;
+		}
+		else {
+			m_proto->setWString("ApiUrl", wszApiUrl);
+			m_proto->szApiUrl = _T2A(wszApiUrl);
+		}
 
-		m_proto->szApiUrl = _T2A(wszApiUrl);
 		m_proto->ClearAuth();
 
 		m_proto->DisplayUnits = radMgdl.IsChecked() ? 1 : 0;
