@@ -41,47 +41,7 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void CLibreViewProto::EnsureAccount()
-{
-	m_hContact = 0;
-	for (auto &it : AccContacts()) {
-		m_hContact = it;
-		break;
-	}
-
-	if (m_hContact)
-		setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
-}
-
-MCONTACT CLibreViewProto::EnsureAccountContact()
-{
-	if (m_hContact)
-		return m_hContact;
-
-	MCONTACT hContact = db_add_contact();
-	if (hContact == 0)
-		return 0;
-
-	Proto_AddToContact(hContact, m_szModuleName);
-
-	ptrW wszEmail(getWStringA((MCONTACT)0, "Email"));
-	if (mir_wstrlen(wszEmail))
-		setWString(hContact, "Nick", wszEmail);
-	else
-		setString(hContact, "Nick", "LibreView");
-
-	CMStringW wszApiUrl(getMStringW((MCONTACT)0, "ApiUrl"));
-	if (wszApiUrl.IsEmpty())
-		wszApiUrl = _A2W(DEFAULT_API_URL);
-	setWString(hContact, "ApiUrl", wszApiUrl);
-	setWord(hContact, "Status", ID_STATUS_OFFLINE);
-
-	m_hContact = hContact;
-	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
-	return hContact;
-}
-
-void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
+static void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t now = time(0);
 	for (auto &it : g_plugin.g_arInstances) {

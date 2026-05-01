@@ -2,35 +2,9 @@
 
 class COptionsDlg : public CLibreViewDlgBase
 {
-	bool bLoading = false;
-
 	CCtrlEdit edtEmail, edtPassword, edtApiUrl, edtInterval;
 	CCtrlCheck radMmol, radMgdl;
 	CCtrlCheck chkWriteHistory;
-
-	void SaveCurrent()
-	{
-		if (bLoading)
-			return;
-
-		ptrW wszEmail(edtEmail.GetText());
-		ptrW wszPassword(edtPassword.GetText());
-		ptrW wszApiUrl(edtApiUrl.GetText());
-		if (!mir_wstrlen(wszApiUrl))
-			wszApiUrl = mir_wstrdup(_A2W(DEFAULT_API_URL));
-
-		if (m_proto->m_hContact == 0 && mir_wstrlen(wszEmail) && mir_wstrlen(wszPassword))
-			m_proto->EnsureAccountContact();
-
-		m_proto->setWString((MCONTACT)0, "Email", wszEmail);
-		m_proto->setWString((MCONTACT)0, "Password", wszPassword);
-		m_proto->setWString((MCONTACT)0, "ApiUrl", wszApiUrl);
-		if (mir_wstrlen(wszEmail))
-			m_proto->setWString((MCONTACT)0, "Nick", wszEmail);
-
-		m_proto->szApiUrl = _T2A(wszApiUrl);
-		m_proto->ClearAuth();
-	}
 
 public:
 	COptionsDlg(CLibreViewProto *ppro) :
@@ -46,8 +20,7 @@ public:
 		CreateLink(edtInterval, m_proto->UpdateInterval);
 		CreateLink(chkWriteHistory, m_proto->WriteHistory);
 
-		edtEmail.OnChange = edtPassword.OnChange = edtApiUrl.OnChange = Callback(this, &COptionsDlg::onChange_Account);
-		radMmol.OnChange = radMgdl.OnChange = Callback(this, &COptionsDlg::onChange_Units);
+		// radMmol.OnChange = radMgdl.OnChange = Callback(this, &COptionsDlg::onChange_Units);
 	}
 
 	bool OnInitDialog() override
@@ -70,32 +43,40 @@ public:
 
 	bool OnApply() override
 	{
-		SaveCurrent();
+		ptrW wszEmail(edtEmail.GetText());
+		ptrW wszPassword(edtPassword.GetText());
+		ptrW wszApiUrl(edtApiUrl.GetText());
+		if (!mir_wstrlen(wszApiUrl))
+			wszApiUrl = mir_wstrdup(_A2W(DEFAULT_API_URL));
+
+		if (m_proto->m_hContact == 0 && mir_wstrlen(wszEmail) && mir_wstrlen(wszPassword))
+			m_proto->EnsureAccountContact();
+
+		m_proto->setWString("Email", wszEmail);
+		m_proto->setWString("Password", wszPassword);
+		m_proto->setWString("ApiUrl", wszApiUrl);
+		if (mir_wstrlen(wszEmail))
+			m_proto->setWString("Nick", wszEmail);
+
+		m_proto->szApiUrl = _T2A(wszApiUrl);
+		m_proto->ClearAuth();
+
 		m_proto->DisplayUnits = radMgdl.IsChecked() ? 1 : 0;
-		if (m_proto->m_hContact)
-			UpdateContactDisplay(m_proto->m_hContact);
+		UpdateContactDisplay(m_proto->m_hContact);
+
 		RestartTimer();
 		return true;
 	}
 
 	void LoadAccount()
 	{
-		bLoading = true;
-		edtEmail.SetText(m_proto->getMStringW((MCONTACT)0, "Email"));
-		edtPassword.SetText(m_proto->getMStringW((MCONTACT)0, "Password"));
+		edtEmail.SetText(m_proto->getMStringW("Email"));
+		edtPassword.SetText(m_proto->getMStringW("Password"));
 
-		CMStringW wszApiUrl(m_proto->getMStringW((MCONTACT)0, "ApiUrl"));
+		CMStringW wszApiUrl(m_proto->getMStringW("ApiUrl"));
 		if (wszApiUrl.IsEmpty())
 			wszApiUrl = _A2W(DEFAULT_API_URL);
 		edtApiUrl.SetText(wszApiUrl);
-		
-		bLoading = false;
-	}
-
-	void onChange_Account(CCtrlEdit *)
-	{
-		SaveCurrent();
-		NotifyChange();
 	}
 
 	void onChange_Units(CCtrlCheck *)

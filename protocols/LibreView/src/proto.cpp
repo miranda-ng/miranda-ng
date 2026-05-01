@@ -84,7 +84,7 @@ CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName)
 		Ignore_Ignore(m_hContact, IGNOREEVENT_USERONLINE);
 	}
 
-	szApiUrl = NormalizeBaseUrl(getMStringA((MCONTACT)0, "ApiUrl"));
+	szApiUrl = NormalizeBaseUrl(getMStringA("ApiUrl"));
 
 	if (szMinVersion.IsEmpty())
 		szMinVersion = DEFAULT_API_VERSION;
@@ -133,6 +133,48 @@ void CLibreViewProto::OnShutdown()
 		setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CLibreViewProto::EnsureAccount()
+{
+	m_hContact = 0;
+	for (auto &it : AccContacts()) {
+		m_hContact = it;
+		break;
+	}
+
+	if (m_hContact)
+		setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
+}
+
+MCONTACT CLibreViewProto::EnsureAccountContact()
+{
+	if (m_hContact)
+		return m_hContact;
+
+	MCONTACT hContact = db_add_contact();
+	if (hContact == 0)
+		return 0;
+
+	Proto_AddToContact(hContact, m_szModuleName);
+
+	ptrW wszEmail(getWStringA("Email"));
+	if (mir_wstrlen(wszEmail))
+		setWString(hContact, "Nick", wszEmail);
+	else
+		setString(hContact, "Nick", "LibreView");
+
+	CMStringW wszApiUrl(getMStringW("ApiUrl"));
+	if (wszApiUrl.IsEmpty())
+		wszApiUrl = _A2W(DEFAULT_API_URL);
+	setWString(hContact, "ApiUrl", wszApiUrl);
+	setWord(hContact, "Status", ID_STATUS_OFFLINE);
+
+	m_hContact = hContact;
+	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
+	return hContact;
+}
+
 INT_PTR CLibreViewProto::Update(WPARAM, LPARAM)
 {
 	mir_forkthread(Check_ThreadFunc, this);
@@ -148,8 +190,8 @@ void CLibreViewProto::ClearAuth()
 
 bool CLibreViewProto::Login()
 {
-	ptrW wszEmail(getWStringA((MCONTACT)0, "Email"));
-	ptrW wszPassword(getWStringA((MCONTACT)0, "Password"));
+	ptrW wszEmail(getWStringA("Email"));
+	ptrW wszPassword(getWStringA("Password"));
 	if (!mir_wstrlen(wszEmail) || !mir_wstrlen(wszPassword))
 		return false;
 
