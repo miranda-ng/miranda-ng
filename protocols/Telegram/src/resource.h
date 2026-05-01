@@ -7,7 +7,6 @@
 #define IDD_OPTIONS                     102
 #define IDI_PREMIUM                     103
 #define IDD_OPTIONS_ADV                 104
-#define IDI_FORWARD                     105
 #define IDD_FORWARD                     106
 #define IDD_ADD_PHONE                   107
 #define IDI_REACTION                    108

@@ -31,7 +31,7 @@ void CTelegramProto::InitMenus()
 	mi.pszService = szServiceName;
 
 	mi.position = NS_PROTO_MENU_POS;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FORWARD);
 	mi.name.a = LPGEN("Forward");
 	hmiForward = Menu_AddNewStoryMenuItem(&mi, 1);
 

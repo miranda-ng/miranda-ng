@@ -732,7 +732,7 @@ void CMaxProto::InitMenus()
 	CMenuItem mi(&g_plugin);
 	mi.pszService = szSvc;
 	mi.position = NS_PROTO_MENU_POS;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_FORWARD);
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_FORWARD);
 	mi.name.a = LPGEN("Forward");
 	m_hmiForward = Menu_AddNewStoryMenuItem(&mi, MAX_NS_MENU_FORWARD);
 }

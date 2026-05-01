@@ -210,8 +210,6 @@ IDI_TELEGRAM            ICON                    "telegram.ico"
 
 IDI_PREMIUM             ICON                    "premium.ico"
 
-IDI_FORWARD             ICON                    "forward.ico"
-
 IDI_REACTION            ICON                    "reaction.ico"
 
 IDI_BOT                 ICON                    "bot.ico"

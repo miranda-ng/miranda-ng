@@ -138,6 +138,7 @@
 #define IDD_DELETECONTACT               254
 #define IDD_ADDCONTACT                  257
 #define IDD_OPT_CONTACT                 261
+#define IDI_FORWARD                     262
 #define IDI_DOWNARROW                   264
 #define IDD_OPT_IDLE                    268
 #define IDD_PROFILE_SELECTION           269

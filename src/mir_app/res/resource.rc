@@ -1541,6 +1541,8 @@ IDI_OPTIONS             ICON                    "icon_options.ico"
 
 IDI_ACCMGR              ICON                    "icon_accmgr.ico"
 
+IDI_FORWARD             ICON                    "icon_forward.ico"
+
 IDI_MAINMENU            ICON                    "icon_mainmenu.ico"
 
 IDI_HELP                ICON                    "icon_help.ico"

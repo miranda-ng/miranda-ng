@@ -96,6 +96,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_INFORMATION,           LPGEN("Information"),           -IDI_MINFO,          0, nullptr }, // 55
 	{ SKINICON_OTHER_EDIT,            LPGEN("Edit"),                  -IDI_TYPING,         0, nullptr }, // 56
 	{ SKINICON_OTHER_BLANK,           LPGEN("Blank"),                 -IDI_BLANK,          0, nullptr }, // 57
+	{ SKINICON_OTHER_FORWARD,         LPGEN("Forward"),               -IDI_FORWARD,        0, nullptr }, // 58
 	
 	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),         -IDI_STATUS_LOCKED, 0, LPGEN("Status icons") },
 };
