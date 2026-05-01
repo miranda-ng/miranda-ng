@@ -20,7 +20,8 @@ static const wchar_t* GetLocalizedUnitByKey(const wchar_t *pwszUnit)
 
 static CMStringW GetSensorRemaining(MCONTACT hContact)
 {
-	uint32_t activation = db_get_dw(hContact, MODULENAME, "SensorActivationTime", 0);
+	CLibreViewProto *ppro = g_plugin.getInstance(hContact);
+	uint32_t activation = ppro ? ppro->getDword(hContact, "SensorActivationTime", 0) : 0;
 	if (activation == 0)
 		return TranslateT("N/A");
 
