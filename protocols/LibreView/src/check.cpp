@@ -1,50 +1,38 @@
 #include "stdafx.h"
 
-Account* GetAccountByContact(MCONTACT hContact)
+void CLibreViewProto::CheckAccount()
 {
-	if (hContact == 0)
-		return nullptr;
-
-	for (auto &it : g_accs)
-		if (it->hContact == hContact)
-			return it;
-	return nullptr;
-}
-
-void CheckAccount(Account *pAcc)
-{
-	if (pAcc == nullptr || pAcc->hContact == 0)
+	if (m_hContact == 0)
 		return;
 
-	mir_cslock lck(pAcc->csLock);
-	if (pAcc->bChecking)
+	mir_cslock lck(csLock);
+	if (bChecking)
 		return;
 
-	pAcc->bChecking = true;
-	pAcc->tsLastUpdate = time(0);
+	bChecking = true;
+	tsLastUpdate = time(0);
 
-	ptrW wszNick(pAcc->ppro->getWStringA(pAcc->hContact, "Nick"));
+	ptrW wszNick(getWStringA(m_hContact, "Nick"));
 	if (!mir_wstrlen(wszNick))
 		wszNick = mir_wstrdup(TranslateT("LibreView"));
-	if (pAcc->ppro->UpdateInterval > 0)
-		db_set_ws(pAcc->hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", wszNick.get(), TranslateT("updating...")));
+	if (UpdateInterval > 0)
+		db_set_ws(m_hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", wszNick.get(), TranslateT("updating...")));
 
-	if (!pAcc->FetchGlucose()) {
-		pAcc->ppro->setWord(pAcc->hContact, "Status", ID_STATUS_OFFLINE);
-		db_set_ws(pAcc->hContact, "CList", "StatusMsg", TranslateT("LibreView update failed"));
+	if (!FetchGlucose()) {
+		setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
+		db_set_ws(m_hContact, "CList", "StatusMsg", TranslateT("LibreView update failed"));
 	}
 
-	pAcc->bChecking = false;
+	bChecking = false;
 }
 
 void __cdecl Check_ThreadFunc(void *param)
 {
 	if (param) {
-		CheckAccount((Account*)param);
+		((CLibreViewProto *)param)->CheckAccount();
 		return;
 	}
 
-	for (auto &it : g_accs)
-		if (Proto_GetBaseAccountName(it->hContact))
-			CheckAccount(it);
+	for (auto &it : g_plugin.g_arInstances)
+		it->CheckAccount();
 }

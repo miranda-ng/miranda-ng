@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-static void AddLibreHeaders(MHttpRequest &request, const Account *pAcc = nullptr)
+static void AddLibreHeaders(MHttpRequest &request, const CLibreViewProto *pAcc = nullptr)
 {
 	request.flags = NLHRF_HTTP11 | NLHRF_DUMPASTEXT | NLHRF_REDIRECT | NLHRF_SSL;
 	request.AddHeader("Accept-Encoding", "gzip");
@@ -70,30 +70,86 @@ static bool IsMmolUnitToken(const CMStringW &unit)
 	return !mir_wstrcmpi(unit, L"mmol/L");
 }
 
-Account::Account(CLibreViewProto *_1, MCONTACT _2) :
-	ppro(_1),
-	hContact(_2)
+CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName) :
+	PROTO<CLibreViewProto>(protoName, userName),
+	UpdateInterval(m_szModuleName, "UpdateInterval", db_get_dw(0, MODULENAME, "UpdateInterval", 5)),
+	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0)),
+	WriteHistory(m_szModuleName, "WriteHistory", db_get_b(0, MODULENAME, "WriteHistory", 0) != 0)
 {
-	szApiUrl = NormalizeBaseUrl(ppro->getMStringA(hContact, "ApiUrl"));
-	szMinVersion = ppro->getMStringA(hContact, "MinVersion");
+	m_hProtoIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
+	EnsureAccount();
+
+	if (m_hContact) {
+		szApiUrl = NormalizeBaseUrl(getMStringA(m_hContact, "ApiUrl"));
+		szMinVersion = getMStringA(m_hContact, "MinVersion");
+
+		Ignore_Ignore(m_hContact, IGNOREEVENT_USERONLINE);
+	}
+
 	if (szMinVersion.IsEmpty())
 		szMinVersion = DEFAULT_API_VERSION;
 
-	if (hContact)
-		Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
+	CreateProtoService("/Update", &CLibreViewProto::Update);
+	HookProtoEvent(ME_OPT_INITIALISE, &CLibreViewProto::OptInit);
 }
 
-void Account::ClearAuth()
+CLibreViewProto::~CLibreViewProto()
+{
+}
+
+INT_PTR CLibreViewProto::GetCaps(int type, MCONTACT)
+{
+	switch (type) {
+	case PFLAGNUM_2:
+	case PFLAGNUM_5:
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND;
+	}
+
+	return 0;
+}
+
+int CLibreViewProto::SetStatus(int iStatus)
+{
+	int oldStatus = m_iStatus;
+	m_iStatus = (iStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+
+	if (m_hContact) {
+		if (m_iStatus == ID_STATUS_OFFLINE)
+			setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
+		else
+			mir_forkthread(Check_ThreadFunc, this);
+	}
+	return 0;
+}
+
+void CLibreViewProto::OnModulesLoaded()
+{
+}
+
+void CLibreViewProto::OnShutdown()
+{
+	if (m_hContact)
+		setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
+}
+
+INT_PTR CLibreViewProto::Update(WPARAM, LPARAM)
+{
+	mir_forkthread(Check_ThreadFunc, this);
+	return 0;
+}
+
+void CLibreViewProto::ClearAuth()
 {
 	szToken.Empty();
 	szAccountHash.Empty();
 	szPatientId.Empty();
 }
 
-bool Account::Login()
+bool CLibreViewProto::Login()
 {
-	ptrW wszEmail(ppro->getWStringA(hContact, "Email"));
-	ptrW wszPassword(ppro->getWStringA(hContact, "Password"));
+	ptrW wszEmail(getWStringA(m_hContact, "Email"));
+	ptrW wszPassword(getWStringA(m_hContact, "Password"));
 	if (!mir_wstrlen(wszEmail) || !mir_wstrlen(wszPassword))
 		return false;
 
@@ -114,7 +170,7 @@ bool Account::Login()
 		CMStringA minimumVersion = data["minimumVersion"].as_mstring();
 		if (!minimumVersion.IsEmpty() && minimumVersion != szMinVersion) {
 			szMinVersion = minimumVersion;
-			ppro->setString(hContact, "MinVersion", szMinVersion);
+			setString(m_hContact, "MinVersion", szMinVersion);
 			continue;
 		}
 
@@ -122,7 +178,7 @@ bool Account::Login()
 			CMStringA region = data["region"].as_mstring();
 			if (!region.IsEmpty()) {
 				szApiUrl.Format("https://api-%s.libreview.io", region.c_str());
-				ppro->setString(hContact, "ApiUrl", szApiUrl);
+				setString(m_hContact, "ApiUrl", szApiUrl);
 				continue;
 			}
 		}
@@ -139,7 +195,7 @@ bool Account::Login()
 	return false;
 }
 
-bool Account::FetchConnections()
+bool CLibreViewProto::FetchConnections()
 {
 	MHttpRequest request(REQUEST_GET);
 	request.m_szUrl = szApiUrl + "/llu/connections";
@@ -334,7 +390,7 @@ static CMStringW FormatUnixTime(uint32_t timestamp)
 	return buf;
 }
 
-bool Account::FetchGlucose()
+bool CLibreViewProto::FetchGlucose()
 {
 	if (szToken.IsEmpty() || szAccountHash.IsEmpty() || szPatientId.IsEmpty())
 		if (!Login())
@@ -354,7 +410,7 @@ bool Account::FetchGlucose()
 	CMStringA minimumVersion = data["minimumVersion"].as_mstring();
 	if (!minimumVersion.IsEmpty() && minimumVersion != szMinVersion) {
 		szMinVersion = minimumVersion;
-		ppro->setString(hContact, "MinVersion", szMinVersion);
+		setString(m_hContact, "MinVersion", szMinVersion);
 		ClearAuth();
 		return FetchGlucose();
 	}
@@ -369,14 +425,14 @@ bool Account::FetchGlucose()
 		patientName.Append(lastName);
 	}
 	if (!patientName.IsEmpty()) {
-		ppro->setWString(hContact, "Nick", patientName);
-		db_set_ws(hContact, DB_MODULE_GLUCOSE, "PatientName", patientName);
+		setWString(m_hContact, "Nick", patientName);
+		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "PatientName", patientName);
 	}
 
 	uint32_t sensorActivation = connection["sensor"]["a"].as_int();
 	if (sensorActivation) {
-		db_set_dw(hContact, DB_MODULE_GLUCOSE, "SensorActivationTime", sensorActivation);
-		db_set_ws(hContact, DB_MODULE_GLUCOSE, "SensorActivation", FormatUnixTime(sensorActivation));
+		db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "SensorActivationTime", sensorActivation);
+		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "SensorActivation", FormatUnixTime(sensorActivation));
 	}
 
 	JSONNode measurement = connection["glucoseMeasurement"];
@@ -406,41 +462,41 @@ bool Account::FetchGlucose()
 	CMStringW valueMmolText = FormatGlucoseValue(valueMmol);
 	CMStringW valueMgdlText = FormatGlucoseValue(valueMgdl);
 
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "ValueMmol", valueMmolText);
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "ValueMgDl", valueMgdlText);
-	db_set_dw(hContact, DB_MODULE_GLUCOSE, "ValueMmolTimes10", (uint32_t)(valueMmol * 10 + 0.5));
-	db_set_dw(hContact, DB_MODULE_GLUCOSE, "ValueMgDlInt", (uint32_t)(valueMgdl + 0.5));
-	db_set_dw(hContact, DB_MODULE_GLUCOSE, "TrendArrow", trend);
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "Trend", trendText);
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "TrendSymbol", trendArrow);
-	db_set_dw(hContact, DB_MODULE_GLUCOSE, "GlucoseUnits", glucoseUnits);
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "Timestamp", timestamp);
-	db_set_dw(hContact, DB_MODULE_GLUCOSE, "TimestampUnix", timestampUnix);
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "TimestampFormatted", timestampFormatted);
+	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "ValueMmol", valueMmolText);
+	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "ValueMgDl", valueMgdlText);
+	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "ValueMmolTimes10", (uint32_t)(valueMmol * 10 + 0.5));
+	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "ValueMgDlInt", (uint32_t)(valueMgdl + 0.5));
+	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "TrendArrow", trend);
+	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "Trend", trendText);
+	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TrendSymbol", trendArrow);
+	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "GlucoseUnits", glucoseUnits);
+	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "Timestamp", timestamp);
+	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "TimestampUnix", timestampUnix);
+	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TimestampFormatted", timestampFormatted);
 
 	int targetLow = connection["targetLow"].as_int();
 	int targetHigh = connection["targetHigh"].as_int();
 	if (targetLow) {
-		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetLowMmol", FormatTargetValue(targetLow, bApiMgdl, false));
-		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetLowMgDl", FormatTargetValue(targetLow, bApiMgdl, true));
+		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TargetLowMmol", FormatTargetValue(targetLow, bApiMgdl, false));
+		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TargetLowMgDl", FormatTargetValue(targetLow, bApiMgdl, true));
 	}
 	if (targetHigh) {
-		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetHighMmol", FormatTargetValue(targetHigh, bApiMgdl, false));
-		db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetHighMgDl", FormatTargetValue(targetHigh, bApiMgdl, true));
+		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TargetHighMmol", FormatTargetValue(targetHigh, bApiMgdl, false));
+		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TargetHighMgDl", FormatTargetValue(targetHigh, bApiMgdl, true));
 	}
 
-	UpdateContactDisplay(hContact);
-	AddHistoryEvent(hContact, timestamp);
+	UpdateContactDisplay(m_hContact);
+	AddHistoryEvent(m_hContact, timestamp);
 
 	CMStringW statusMsg(FORMAT, L"%s, %s", trendText.c_str(), timestampFormatted.c_str());
-	db_set_ws(hContact, "CList", "StatusMsg", statusMsg);
-	ppro->ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());
+	db_set_ws(m_hContact, "CList", "StatusMsg", statusMsg);
+	ProtoBroadcastAck(m_hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());
 
 	int contactStatus = ID_STATUS_ONLINE;
 	if (isLow)
 		contactStatus = ID_STATUS_DND;
 	else if (isHigh)
 		contactStatus = ID_STATUS_AWAY;
-	ppro->setWord(hContact, "Status", contactStatus);
+	setWord(m_hContact, "Status", contactStatus);
 	return true;
 }

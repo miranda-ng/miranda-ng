@@ -30,39 +30,20 @@
 
 class CLibreViewProto;
 
-struct Account : public MZeroedObject
-{
-	Account(CLibreViewProto*, MCONTACT);
-
-	mir_cs csLock;
-	CLibreViewProto *ppro;
-	MCONTACT hContact;
-	CMStringA szToken, szAccountHash, szPatientId, szApiUrl, szMinVersion;
-	time_t tsLastUpdate = 0;
-	bool bChecking = false;
-
-	bool Login();
-	bool FetchConnections();
-	bool FetchGlucose();
-	void ClearAuth();
-};
-
 extern HNETLIBUSER hNetlibUser;
 extern UINT_PTR hTimer;
-extern OBJLIST<Account> g_accs;
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 void Check_ThreadFunc(void *);
-void CheckAccount(Account *);
-Account* GetAccountByContact(MCONTACT);
-Account* EnsureAccount(CLibreViewProto*);
-MCONTACT EnsureAccountContact(Account*);
 void UpdateContactDisplay(MCONTACT);
 void RestartTimer();
 int UserInfoInit(WPARAM, LPARAM);
 
 class CLibreViewProto : public PROTO<CLibreViewProto>
 {
+	mir_cs csLock;
+	bool bChecking = false;
+
 public:
 	CLibreViewProto(const char*, const wchar_t*);
 	~CLibreViewProto();
@@ -70,7 +51,19 @@ public:
 	CMOption<uint32_t> UpdateInterval;
 	CMOption<uint32_t> DisplayUnits;
 	CMOption<bool> WriteHistory;
-	Account *m_account = nullptr;
+
+	MCONTACT m_hContact;
+	CMStringA szToken, szAccountHash, szPatientId, szApiUrl, szMinVersion;
+	time_t tsLastUpdate = 0;
+
+	bool Login();
+	bool FetchConnections();
+	bool FetchGlucose();
+	void ClearAuth();
+
+	void CheckAccount();
+	void EnsureAccount();
+	MCONTACT EnsureAccountContact();
 
 	INT_PTR __cdecl Update(WPARAM, LPARAM);
 	int __cdecl OptInit(WPARAM, LPARAM);

@@ -4,22 +4,13 @@ class COptionsDlg : public CLibreViewDlgBase
 {
 	bool bLoading = false;
 
-	Account *m_pAcc = nullptr;
 	CCtrlEdit edtEmail, edtPassword, edtApiUrl, edtInterval;
 	CCtrlCheck radMmol, radMgdl;
 	CCtrlCheck chkWriteHistory;
 
-	Account* CurrentAccount()
-	{
-		if (m_pAcc == nullptr)
-			m_pAcc = m_proto->m_account;
-		return m_pAcc;
-	}
-
 	void SaveCurrent()
 	{
-		Account *pAcc = CurrentAccount();
-		if (pAcc == nullptr || bLoading)
+		if (bLoading)
 			return;
 
 		ptrW wszEmail(edtEmail.GetText());
@@ -28,18 +19,18 @@ class COptionsDlg : public CLibreViewDlgBase
 		if (!mir_wstrlen(wszApiUrl))
 			wszApiUrl = mir_wstrdup(_A2W(DEFAULT_API_URL));
 
-		if (pAcc->hContact == 0 && mir_wstrlen(wszEmail) && mir_wstrlen(wszPassword))
-			EnsureAccountContact(pAcc);
+		if (m_proto->m_hContact == 0 && mir_wstrlen(wszEmail) && mir_wstrlen(wszPassword))
+			m_proto->EnsureAccountContact();
 
-		MCONTACT hTarget = pAcc->hContact;
+		MCONTACT hTarget = m_proto->m_hContact;
 		m_proto->setWString(hTarget, "Email", wszEmail);
 		m_proto->setWString(hTarget, "Password", wszPassword);
 		m_proto->setWString(hTarget, "ApiUrl", wszApiUrl);
 		if (mir_wstrlen(wszEmail))
 			m_proto->setWString(hTarget, "Nick", wszEmail);
 
-		pAcc->szApiUrl = _T2A(wszApiUrl);
-		pAcc->ClearAuth();
+		m_proto->szApiUrl = _T2A(wszApiUrl);
+		m_proto->ClearAuth();
 	}
 
 public:
@@ -82,22 +73,20 @@ public:
 	{
 		SaveCurrent();
 		m_proto->DisplayUnits = radMgdl.IsChecked() ? 1 : 0;
-		if (Account *pAcc = CurrentAccount(); pAcc && pAcc->hContact)
-			UpdateContactDisplay(pAcc->hContact);
+		if (m_proto->m_hContact)
+			UpdateContactDisplay(m_proto->m_hContact);
 		RestartTimer();
 		return true;
 	}
 
 	void LoadAccount()
 	{
-		Account *pAcc = CurrentAccount();
-
 		bLoading = true;
-		if (pAcc) {
-			edtEmail.SetText(m_proto->getMStringW(pAcc->hContact, "Email"));
-			edtPassword.SetText(m_proto->getMStringW(pAcc->hContact, "Password"));
+		if (m_proto->m_hContact) {
+			edtEmail.SetText(m_proto->getMStringW(m_proto->m_hContact, "Email"));
+			edtPassword.SetText(m_proto->getMStringW(m_proto->m_hContact, "Password"));
 
-			CMStringW wszApiUrl(m_proto->getMStringW(pAcc->hContact, "ApiUrl"));
+			CMStringW wszApiUrl(m_proto->getMStringW(m_proto->m_hContact, "ApiUrl"));
 			if (wszApiUrl.IsEmpty())
 				wszApiUrl = _A2W(DEFAULT_API_URL);
 			edtApiUrl.SetText(wszApiUrl);

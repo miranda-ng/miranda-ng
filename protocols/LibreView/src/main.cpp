@@ -4,7 +4,7 @@
 CMPlugin g_plugin;
 HNETLIBUSER hNetlibUser;
 UINT_PTR hTimer;
-OBJLIST<Account> g_accs(1, PtrKeySortT);
+
 static HGENMENU g_hContactMenuUpdate = nullptr;
 
 static PLUGININFOEX pluginInfoEx =
@@ -29,73 +29,9 @@ CMPlugin::CMPlugin() :
 	SetUniqueId("PatientId");
 }
 
-CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName) :
-	PROTO<CLibreViewProto>(protoName, userName),
-	UpdateInterval(m_szModuleName, "UpdateInterval", db_get_dw(0, MODULENAME, "UpdateInterval", 5)),
-	DisplayUnits(m_szModuleName, "DisplayUnits", db_get_dw(0, MODULENAME, "DisplayUnits", 0)),
-	WriteHistory(m_szModuleName, "WriteHistory", db_get_b(0, MODULENAME, "WriteHistory", 0) != 0)
-{
-	m_hProtoIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_ONLINE);
-	m_account = EnsureAccount(this);
-
-	CreateProtoService("/Update", &CLibreViewProto::Update);
-	HookProtoEvent(ME_OPT_INITIALISE, &CLibreViewProto::OptInit);
-}
-
-CLibreViewProto::~CLibreViewProto()
-{
-	if (m_account) {
-		g_accs.remove(m_account);
-		m_account = nullptr;
-	}
-}
-
-INT_PTR CLibreViewProto::GetCaps(int type, MCONTACT)
-{
-	switch (type) {
-	case PFLAGNUM_2:
-	case PFLAGNUM_5:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND;
-	}
-
-	return 0;
-}
-
-int CLibreViewProto::SetStatus(int iStatus)
-{
-	int oldStatus = m_iStatus;
-	m_iStatus = (iStatus == ID_STATUS_OFFLINE) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
-	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-
-	if (m_account && m_account->hContact) {
-		if (m_iStatus == ID_STATUS_OFFLINE)
-			setWord(m_account->hContact, "Status", ID_STATUS_OFFLINE);
-		else
-			mir_forkthread(Check_ThreadFunc, m_account);
-	}
-	return 0;
-}
-
-void CLibreViewProto::OnModulesLoaded()
-{
-}
-
-void CLibreViewProto::OnShutdown()
-{
-	if (m_account && m_account->hContact)
-		setWord(m_account->hContact, "Status", ID_STATUS_OFFLINE);
-}
-
-INT_PTR CLibreViewProto::Update(WPARAM, LPARAM)
-{
-	if (m_account)
-		mir_forkthread(Check_ThreadFunc, m_account);
-	return 0;
-}
-
 static INT_PTR PluginMenuCommand(WPARAM hContact, LPARAM)
 {
-	mir_forkthread(Check_ThreadFunc, GetAccountByContact(hContact));
+	mir_forkthread(Check_ThreadFunc, g_plugin.getInstance(hContact));
 	return 0;
 }
 
@@ -105,53 +41,42 @@ static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-Account* EnsureAccount(CLibreViewProto *ppro)
+void CLibreViewProto::EnsureAccount()
 {
-	for (auto &it : g_accs)
-		if (it->ppro == ppro)
-			return it;
-
-	MCONTACT hContact = 0;
-	for (auto &it : Contacts(ppro->m_szModuleName)) {
-		hContact = it;
+	m_hContact = 0;
+	for (auto &it : AccContacts()) {
+		m_hContact = it;
 		break;
 	}
 
-	if (hContact != 0)
-		ppro->setWord(hContact, "Status", ID_STATUS_OFFLINE);
-
-	Account *pAcc = new Account(ppro, hContact);
-	g_accs.insert(pAcc);
-	return pAcc;
+	if (m_hContact)
+		setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
 }
 
-MCONTACT EnsureAccountContact(Account *pAcc)
+MCONTACT CLibreViewProto::EnsureAccountContact()
 {
-	if (pAcc == nullptr)
-		return 0;
-
-	if (pAcc->hContact != 0)
-		return pAcc->hContact;
+	if (m_hContact)
+		return m_hContact;
 
 	MCONTACT hContact = db_add_contact();
 	if (hContact == 0)
 		return 0;
 
-	Proto_AddToContact(hContact, pAcc->ppro->m_szModuleName);
+	Proto_AddToContact(hContact, m_szModuleName);
 
-	ptrW wszEmail(pAcc->ppro->getWStringA(0, "Email"));
+	ptrW wszEmail(getWStringA(0, "Email"));
 	if (mir_wstrlen(wszEmail))
-		pAcc->ppro->setWString(hContact, "Nick", wszEmail);
+		setWString(hContact, "Nick", wszEmail);
 	else
-		pAcc->ppro->setWString(hContact, "Nick", TranslateT("LibreView"));
+		setWString(hContact, "Nick", TranslateT("LibreView"));
 
-	CMStringW wszApiUrl(pAcc->ppro->getMStringW(0, "ApiUrl"));
+	CMStringW wszApiUrl(getMStringW(0, "ApiUrl"));
 	if (wszApiUrl.IsEmpty())
 		wszApiUrl = _A2W(DEFAULT_API_URL);
-	pAcc->ppro->setWString(hContact, "ApiUrl", wszApiUrl);
-	pAcc->ppro->setWord(hContact, "Status", ID_STATUS_OFFLINE);
+	setWString(hContact, "ApiUrl", wszApiUrl);
+	setWord(hContact, "Status", ID_STATUS_OFFLINE);
 
-	pAcc->hContact = hContact;
+	m_hContact = hContact;
 	Ignore_Ignore(hContact, IGNOREEVENT_USERONLINE);
 	return hContact;
 }
@@ -159,11 +84,11 @@ MCONTACT EnsureAccountContact(Account *pAcc)
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t now = time(0);
-	for (auto &it : g_accs) {
-		if (it->hContact == 0)
+	for (auto &it : g_plugin.g_arInstances) {
+		if (it->m_hContact == 0)
 			continue;
 
-		uint32_t minutes = it->ppro->UpdateInterval;
+		uint32_t minutes = it->UpdateInterval;
 		if (minutes == 0)
 			continue;
 

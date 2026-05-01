@@ -15,20 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\account.cpp"><Filter>Source Files</Filter></ClCompile>
-    <ClCompile Include="src\check.cpp"><Filter>Source Files</Filter></ClCompile>
-    <ClCompile Include="src\main.cpp"><Filter>Source Files</Filter></ClCompile>
-    <ClCompile Include="src\options.cpp"><Filter>Source Files</Filter></ClCompile>
-    <ClCompile Include="src\stdafx.cxx"><Filter>Source Files</Filter></ClCompile>
-    <ClCompile Include="src\userinfo.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\proto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\check.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\userinfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\resource.h"><Filter>Header Files</Filter></ClInclude>
-    <ClInclude Include="src\stdafx.h"><Filter>Header Files</Filter></ClInclude>
-    <ClInclude Include="src\version.h"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\options.rc"><Filter>Resource Files</Filter></ResourceCompile>
-    <ResourceCompile Include="res\version.rc"><Filter>Resource Files</Filter></ResourceCompile>
+    <ResourceCompile Include="res\options.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
