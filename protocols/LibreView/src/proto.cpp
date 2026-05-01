@@ -80,11 +80,11 @@ CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName)
 	EnsureAccount();
 
 	if (m_hContact) {
-		szApiUrl = NormalizeBaseUrl(getMStringA(m_hContact, "ApiUrl"));
 		szMinVersion = getMStringA(m_hContact, "MinVersion");
-
 		Ignore_Ignore(m_hContact, IGNOREEVENT_USERONLINE);
 	}
+
+	szApiUrl = NormalizeBaseUrl(getMStringA((MCONTACT)0, "ApiUrl"));
 
 	if (szMinVersion.IsEmpty())
 		szMinVersion = DEFAULT_API_VERSION;
@@ -148,8 +148,8 @@ void CLibreViewProto::ClearAuth()
 
 bool CLibreViewProto::Login()
 {
-	ptrW wszEmail(getWStringA(m_hContact, "Email"));
-	ptrW wszPassword(getWStringA(m_hContact, "Password"));
+	ptrW wszEmail(getWStringA((MCONTACT)0, "Email"));
+	ptrW wszPassword(getWStringA((MCONTACT)0, "Password"));
 	if (!mir_wstrlen(wszEmail) || !mir_wstrlen(wszPassword))
 		return false;
 
@@ -248,7 +248,7 @@ static CMStringW FormatGlucoseValue(double value)
 
 static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting)
 {
-	ptrW value(db_get_wsa(hContact, DB_MODULE_GLUCOSE, pszSetting));
+	ptrW value(db_get_wsa(hContact, MODULENAME, pszSetting));
 	return value ? CMStringW(value) : CMStringW();
 }
 
@@ -298,10 +298,10 @@ void UpdateContactDisplay(MCONTACT hContact)
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	CMStringW trendArrow = GetGlucoseDbText(hContact, "TrendSymbol");
 
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "Value", valueText);
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "Unit", pwszUnit);
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetLow", GetGlucoseDbText(hContact, bUseMgdl ? "TargetLowMgDl" : "TargetLowMmol"));
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "TargetHigh", GetGlucoseDbText(hContact, bUseMgdl ? "TargetHighMgDl" : "TargetHighMmol"));
+	db_set_ws(hContact, MODULENAME, "Value", valueText);
+	db_set_ws(hContact, MODULENAME, "Unit", pwszUnit);
+	db_set_ws(hContact, MODULENAME, "TargetLow", GetGlucoseDbText(hContact, bUseMgdl ? "TargetLowMgDl" : "TargetLowMmol"));
+	db_set_ws(hContact, MODULENAME, "TargetHigh", GetGlucoseDbText(hContact, bUseMgdl ? "TargetHighMgDl" : "TargetHighMmol"));
 
 	CMStringW title = GetGlucoseDbText(hContact, "PatientName");
 	if (title.IsEmpty()) {
@@ -328,7 +328,7 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 	if (timestamp.IsEmpty())
 		return;
 
-	ptrW lastTimestamp(db_get_wsa(hContact, DB_MODULE_GLUCOSE, "LastHistoryTimestamp"));
+	ptrW lastTimestamp(db_get_wsa(hContact, MODULENAME, "LastHistoryTimestamp"));
 	if (lastTimestamp && !mir_wstrcmp(lastTimestamp, timestamp))
 		return;
 
@@ -348,14 +348,14 @@ static void AddHistoryEvent(MCONTACT hContact, const CMStringW &timestamp)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
-	dbei.iTimestamp = db_get_dw(hContact, DB_MODULE_GLUCOSE, "TimestampUnix", (uint32_t)time(0));
+	dbei.iTimestamp = db_get_dw(hContact, MODULENAME, "TimestampUnix", (uint32_t)time(0));
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.pBlob = utfMessage;
 	dbei.cbBlob = (uint32_t)mir_strlen(utfMessage) + 1;
 	db_event_add(hContact, &dbei);
 
-	db_set_ws(hContact, DB_MODULE_GLUCOSE, "LastHistoryTimestamp", timestamp);
+	db_set_ws(hContact, MODULENAME, "LastHistoryTimestamp", timestamp);
 }
 
 static bool IsApiUnitMgdl(const JSONNode &measurement, int glucoseUnits)
@@ -426,13 +426,13 @@ bool CLibreViewProto::FetchGlucose()
 	}
 	if (!patientName.IsEmpty()) {
 		setWString(m_hContact, "Nick", patientName);
-		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "PatientName", patientName);
+		db_set_ws(m_hContact, MODULENAME, "PatientName", patientName);
 	}
 
 	uint32_t sensorActivation = connection["sensor"]["a"].as_int();
 	if (sensorActivation) {
-		db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "SensorActivationTime", sensorActivation);
-		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "SensorActivation", FormatUnixTime(sensorActivation));
+		db_set_dw(m_hContact, MODULENAME, "SensorActivationTime", sensorActivation);
+		db_set_ws(m_hContact, MODULENAME, "SensorActivation", FormatUnixTime(sensorActivation));
 	}
 
 	JSONNode measurement = connection["glucoseMeasurement"];
@@ -462,27 +462,27 @@ bool CLibreViewProto::FetchGlucose()
 	CMStringW valueMmolText = FormatGlucoseValue(valueMmol);
 	CMStringW valueMgdlText = FormatGlucoseValue(valueMgdl);
 
-	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "ValueMmol", valueMmolText);
-	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "ValueMgDl", valueMgdlText);
-	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "ValueMmolTimes10", (uint32_t)(valueMmol * 10 + 0.5));
-	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "ValueMgDlInt", (uint32_t)(valueMgdl + 0.5));
-	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "TrendArrow", trend);
-	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "Trend", trendText);
-	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TrendSymbol", trendArrow);
-	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "GlucoseUnits", glucoseUnits);
-	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "Timestamp", timestamp);
-	db_set_dw(m_hContact, DB_MODULE_GLUCOSE, "TimestampUnix", timestampUnix);
-	db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TimestampFormatted", timestampFormatted);
+	db_set_ws(m_hContact, MODULENAME, "ValueMmol", valueMmolText);
+	db_set_ws(m_hContact, MODULENAME, "ValueMgDl", valueMgdlText);
+	db_set_dw(m_hContact, MODULENAME, "ValueMmolTimes10", (uint32_t)(valueMmol * 10 + 0.5));
+	db_set_dw(m_hContact, MODULENAME, "ValueMgDlInt", (uint32_t)(valueMgdl + 0.5));
+	db_set_dw(m_hContact, MODULENAME, "TrendArrow", trend);
+	db_set_ws(m_hContact, MODULENAME, "Trend", trendText);
+	db_set_ws(m_hContact, MODULENAME, "TrendSymbol", trendArrow);
+	db_set_dw(m_hContact, MODULENAME, "GlucoseUnits", glucoseUnits);
+	db_set_ws(m_hContact, MODULENAME, "Timestamp", timestamp);
+	db_set_dw(m_hContact, MODULENAME, "TimestampUnix", timestampUnix);
+	db_set_ws(m_hContact, MODULENAME, "TimestampFormatted", timestampFormatted);
 
 	int targetLow = connection["targetLow"].as_int();
 	int targetHigh = connection["targetHigh"].as_int();
 	if (targetLow) {
-		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TargetLowMmol", FormatTargetValue(targetLow, bApiMgdl, false));
-		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TargetLowMgDl", FormatTargetValue(targetLow, bApiMgdl, true));
+		db_set_ws(m_hContact, MODULENAME, "TargetLowMmol", FormatTargetValue(targetLow, bApiMgdl, false));
+		db_set_ws(m_hContact, MODULENAME, "TargetLowMgDl", FormatTargetValue(targetLow, bApiMgdl, true));
 	}
 	if (targetHigh) {
-		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TargetHighMmol", FormatTargetValue(targetHigh, bApiMgdl, false));
-		db_set_ws(m_hContact, DB_MODULE_GLUCOSE, "TargetHighMgDl", FormatTargetValue(targetHigh, bApiMgdl, true));
+		db_set_ws(m_hContact, MODULENAME, "TargetHighMmol", FormatTargetValue(targetHigh, bApiMgdl, false));
+		db_set_ws(m_hContact, MODULENAME, "TargetHighMgDl", FormatTargetValue(targetHigh, bApiMgdl, true));
 	}
 
 	UpdateContactDisplay(m_hContact);

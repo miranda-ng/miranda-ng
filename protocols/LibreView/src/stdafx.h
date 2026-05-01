@@ -24,7 +24,6 @@
 #include "resource.h"
 
 #define MODULENAME "LibreView"
-#define DB_MODULE_GLUCOSE "LibreViewData"
 #define DEFAULT_API_URL "https://api.libreview.ru"
 #define DEFAULT_API_VERSION "4.16.0"
 

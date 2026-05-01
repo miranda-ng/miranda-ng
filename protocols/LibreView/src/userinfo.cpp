@@ -2,7 +2,7 @@
 
 static CMStringW GetDbText(MCONTACT hContact, const char *pszSetting, const wchar_t *pwszDefault = L"")
 {
-	ptrW value(db_get_wsa(hContact, DB_MODULE_GLUCOSE, pszSetting));
+	ptrW value(db_get_wsa(hContact, MODULENAME, pszSetting));
 	return value ? CMStringW(value) : CMStringW(pwszDefault);
 }
 
@@ -17,7 +17,7 @@ static const wchar_t* GetLocalizedUnitByKey(const wchar_t *pwszUnit)
 
 static CMStringW GetSensorRemaining(MCONTACT hContact)
 {
-	uint32_t activation = db_get_dw(hContact, DB_MODULE_GLUCOSE, "SensorActivationTime", 0);
+	uint32_t activation = db_get_dw(hContact, MODULENAME, "SensorActivationTime", 0);
 	if (activation == 0)
 		return TranslateT("N/A");
 

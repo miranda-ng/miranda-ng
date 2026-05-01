@@ -22,12 +22,11 @@ class COptionsDlg : public CLibreViewDlgBase
 		if (m_proto->m_hContact == 0 && mir_wstrlen(wszEmail) && mir_wstrlen(wszPassword))
 			m_proto->EnsureAccountContact();
 
-		MCONTACT hTarget = m_proto->m_hContact;
-		m_proto->setWString(hTarget, "Email", wszEmail);
-		m_proto->setWString(hTarget, "Password", wszPassword);
-		m_proto->setWString(hTarget, "ApiUrl", wszApiUrl);
+		m_proto->setWString((MCONTACT)0, "Email", wszEmail);
+		m_proto->setWString((MCONTACT)0, "Password", wszPassword);
+		m_proto->setWString((MCONTACT)0, "ApiUrl", wszApiUrl);
 		if (mir_wstrlen(wszEmail))
-			m_proto->setWString(hTarget, "Nick", wszEmail);
+			m_proto->setWString((MCONTACT)0, "Nick", wszEmail);
 
 		m_proto->szApiUrl = _T2A(wszApiUrl);
 		m_proto->ClearAuth();
@@ -82,20 +81,14 @@ public:
 	void LoadAccount()
 	{
 		bLoading = true;
-		if (m_proto->m_hContact) {
-			edtEmail.SetText(m_proto->getMStringW(m_proto->m_hContact, "Email"));
-			edtPassword.SetText(m_proto->getMStringW(m_proto->m_hContact, "Password"));
+		edtEmail.SetText(m_proto->getMStringW((MCONTACT)0, "Email"));
+		edtPassword.SetText(m_proto->getMStringW((MCONTACT)0, "Password"));
 
-			CMStringW wszApiUrl(m_proto->getMStringW(m_proto->m_hContact, "ApiUrl"));
-			if (wszApiUrl.IsEmpty())
-				wszApiUrl = _A2W(DEFAULT_API_URL);
-			edtApiUrl.SetText(wszApiUrl);
-		}
-		else {
-			edtEmail.SetText(L"");
-			edtPassword.SetText(L"");
-			edtApiUrl.SetText(_A2W(DEFAULT_API_URL));
-		}
+		CMStringW wszApiUrl(m_proto->getMStringW((MCONTACT)0, "ApiUrl"));
+		if (wszApiUrl.IsEmpty())
+			wszApiUrl = _A2W(DEFAULT_API_URL);
+		edtApiUrl.SetText(wszApiUrl);
+		
 		bLoading = false;
 	}
 

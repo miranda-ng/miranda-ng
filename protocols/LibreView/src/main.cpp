@@ -64,13 +64,13 @@ MCONTACT CLibreViewProto::EnsureAccountContact()
 
 	Proto_AddToContact(hContact, m_szModuleName);
 
-	ptrW wszEmail(getWStringA(0, "Email"));
+	ptrW wszEmail(getWStringA((MCONTACT)0, "Email"));
 	if (mir_wstrlen(wszEmail))
 		setWString(hContact, "Nick", wszEmail);
 	else
-		setWString(hContact, "Nick", TranslateT("LibreView"));
+		setString(hContact, "Nick", "LibreView");
 
-	CMStringW wszApiUrl(getMStringW(0, "ApiUrl"));
+	CMStringW wszApiUrl(getMStringW((MCONTACT)0, "ApiUrl"));
 	if (wszApiUrl.IsEmpty())
 		wszApiUrl = _A2W(DEFAULT_API_URL);
 	setWString(hContact, "ApiUrl", wszApiUrl);
