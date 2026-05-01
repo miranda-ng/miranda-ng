@@ -210,6 +210,20 @@ bool CLibreViewProto::Login()
 		if (!JsonTransaction(request, root))
 			return false;
 
+		// Check for API error status
+		int status = root["status"].as_int();
+		if (status != 0) {
+			CMStringW errorMsg = root["error"]["message"].as_mstring();
+			if (errorMsg.IsEmpty())
+				errorMsg = TranslateT("Login failed");
+			
+			// Show popup notification
+			wchar_t popupTitle[256];
+			mir_snwprintf(popupTitle, _countof(popupTitle), L"%s - %s", TranslateT("LibreView"), TranslateT("Login Error"));
+			MessageBoxW(nullptr, errorMsg.c_str(), popupTitle, MB_OK | MB_ICONERROR);
+			return false;
+		}
+
 		JSONNode data = root["data"];
 		CMStringA minimumVersion = data["minimumVersion"].as_mstring();
 		if (!minimumVersion.IsEmpty() && minimumVersion != szMinVersion) {
@@ -342,24 +356,24 @@ void UpdateContactDisplay(MCONTACT hContact)
 
 	// Compute Value from stored mmol string
 	CMStringW valueMmolText = GetGlucoseDbText(hContact, "Value");
-	if (valueMmolText.IsEmpty())
-		return;
-
 	CMStringW valueText;
-	if (bUseMgdl) {
-		// Convert mmol to mg/dL
-		double valueMmol = _wtof(valueMmolText.c_str());
-		valueText = FormatGlucoseValue(valueMmol * 18.0);
-	}
-	else {
-		valueText = valueMmolText;
+	if (!valueMmolText.IsEmpty()) {
+		if (bUseMgdl) {
+			// Convert mmol to mg/dL
+			double valueMmol = _wtof(valueMmolText.c_str());
+			valueText = FormatGlucoseValue(valueMmol * 18.0);
+		}
+		else {
+			valueText = valueMmolText;
+		}
 	}
 
 	const wchar_t *pwszUnit = GetLocalizedUnit(bUseMgdl);
 	int trendValue = ppro->getDword(hContact, "TrendArrow", 0);
 	CMStringW trendArrow(TrendToArrow(trendValue));
 
-	ppro->setWString(hContact, "Value", valueText);
+	if (!valueText.IsEmpty())
+		ppro->setWString(hContact, "Value", valueText);
 
 	// Compute TargetLow/High on the fly
 	bool bApiMgdl = ppro->getDword(hContact, "GlucoseUnits", 1) == 1;
@@ -370,26 +384,15 @@ void UpdateContactDisplay(MCONTACT hContact)
 	if (targetHigh)
 		ppro->setWString(hContact, "TargetHigh", FormatTargetValue(targetHigh, bApiMgdl, bUseMgdl));
 
-	// Build title from FirstName + LastName
-	CMStringW firstName = GetGlucoseDbText(hContact, "FirstName");
-	CMStringW lastName = GetGlucoseDbText(hContact, "LastName");
-	CMStringW title(firstName);
-	if (!lastName.IsEmpty()) {
-		if (!title.IsEmpty())
-			title.AppendChar(' ');
-		title.Append(lastName);
-	}
-	if (title.IsEmpty()) {
-		char *szProto = Proto_GetBaseAccountName(hContact);
-		ptrW wszNick(szProto ? db_get_wsa(hContact, szProto, "Nick") : nullptr);
-		if (mir_wstrlen(wszNick))
-			title = wszNick;
-		else
-			title = TranslateT("LibreView");
-	}
+	// Get account name from Nick (always set to account name)
+	CMStringW title = ppro->getMStringW(hContact, "Nick");
 
-	CMStringW clistName(FORMAT, L"%s: %s %s", title.c_str(), valueText.c_str(), pwszUnit);
-	if (!trendArrow.IsEmpty())
+	CMStringW clistName;
+	if (!valueText.IsEmpty())
+		clistName.Format(L"%s: %s %s", title.c_str(), valueText.c_str(), pwszUnit);
+	else
+		clistName = title;
+	if (!trendArrow.IsEmpty() && !valueText.IsEmpty())
 		clistName.AppendFormat(L" (%s)", trendArrow.c_str());
 	db_set_ws(hContact, "CList", "MyHandle", clistName);
 }
@@ -483,6 +486,10 @@ bool CLibreViewProto::FetchGlucose()
 	JSONNode root;
 	if (!JsonTransaction(request, root)) {
 		ClearAuth();
+		// Show popup for network/HTTP errors
+		wchar_t popupTitle[256];
+		mir_snwprintf(popupTitle, _countof(popupTitle), L"%s - %s", TranslateT("LibreView"), TranslateT("Connection Error"));
+		MessageBoxW(nullptr, TranslateT("Failed to connect to LibreView server. Please check your internet connection and try again."), popupTitle, MB_OK | MB_ICONWARNING);
 		return false;
 	}
 

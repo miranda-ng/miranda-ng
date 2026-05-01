@@ -12,15 +12,16 @@ void CLibreViewProto::CheckAccount()
 	bChecking = true;
 	tsLastUpdate = time(0);
 
-	ptrW wszNick(getWStringA(m_hContact, "Nick"));
-	if (!mir_wstrlen(wszNick))
-		wszNick = mir_wstrdup(TranslateT("LibreView"));
+	// Get account name from Nick
+	CMStringW title = getMStringW(m_hContact, "Nick");
 	if (UpdateInterval > 0)
-		db_set_ws(m_hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", wszNick.get(), TranslateT("updating...")));
+		db_set_ws(m_hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", title.c_str(), TranslateT("updating...")));
 
 	if (!FetchGlucose()) {
 		setWord(m_hContact, "Status", ID_STATUS_OFFLINE);
 		db_set_ws(m_hContact, "CList", "StatusMsg", TranslateT("LibreView update failed"));
+		// Reset contact name to remove [updating...] and show error indicator
+		db_set_ws(m_hContact, "CList", "MyHandle", CMStringW(FORMAT, L"%s [%s]", title.c_str(), TranslateT("error")));
 	}
 
 	bChecking = false;
