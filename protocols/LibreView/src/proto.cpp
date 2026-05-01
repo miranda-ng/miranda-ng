@@ -310,7 +310,6 @@ static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting)
 	return ppro->getMStringW(hContact, pszSetting);
 }
 
-static CMStringW FormatTargetValue(int rawValue, bool bApiMgdl, bool bOutputMgdl);
 
 uint32_t ParseLibreTimestamp(const CMStringW &timestamp)
 {
@@ -373,14 +372,6 @@ void UpdateContactDisplay(MCONTACT hContact)
 	if (!valueText.IsEmpty())
 		ppro->setWString(hContact, "Value", valueText);
 
-	// Compute TargetLow/High on the fly
-	bool bApiMgdl = ppro->getDword(hContact, "GlucoseUnits", 1) == 1;
-	int targetLow = ppro->getDword(hContact, "TargetLow", 0);
-	int targetHigh = ppro->getDword(hContact, "TargetHigh", 0);
-	if (targetLow)
-		ppro->setWString(hContact, "TargetLow", FormatTargetValue(targetLow, bApiMgdl, bUseMgdl));
-	if (targetHigh)
-		ppro->setWString(hContact, "TargetHigh", FormatTargetValue(targetHigh, bApiMgdl, bUseMgdl));
 
 	// Get account name from Nick (always set to account name)
 	CMStringW title = ppro->getMStringW(hContact, "Nick");
@@ -546,14 +537,6 @@ bool CLibreViewProto::FetchGlucose()
 	setDword(m_hContact, "GlucoseUnits", glucoseUnits);
 	setWString(m_hContact, "Timestamp", timestamp); // Save raw timestamp
 
-	int targetLow = connection["targetLow"].as_int();
-	int targetHigh = connection["targetHigh"].as_int();
-	if (targetLow) {
-		setDword(m_hContact, "TargetLow", targetLow);
-	}
-	if (targetHigh) {
-		setDword(m_hContact, "TargetHigh", targetHigh);
-	}
 
 	UpdateContactDisplay(m_hContact);
 	AddHistoryEvent(m_hContact, timestamp);

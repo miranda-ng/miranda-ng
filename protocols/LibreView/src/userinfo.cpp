@@ -80,13 +80,6 @@ public:
 		if (!value.IsEmpty())
 			current.Format(L"%s %s", value.c_str(), pwszUnit);
 
-		CMStringW targetLow = GetDbText(m_hContact, "TargetLow");
-		CMStringW targetHigh = GetDbText(m_hContact, "TargetHigh");
-		if (!targetLow.IsEmpty())
-			targetLow.AppendFormat(L" %s", pwszUnit);
-		if (!targetHigh.IsEmpty())
-			targetHigh.AppendFormat(L" %s", pwszUnit);
-
 		SetDlgItemText(m_hwnd, IDC_PATIENT, patient);
 		SetDlgItemText(m_hwnd, IDC_CURRENT, current);
 		uint32_t activationTime = ppro ? ppro->getDword(m_hContact, "SensorActivationTime", 0) : 0;
@@ -99,25 +92,23 @@ public:
 			SetDlgItemText(m_hwnd, IDC_SENSOR_ACTIVATION, L"");
 		}
 		SetDlgItemText(m_hwnd, IDC_SENSOR_REMAINING, GetSensorRemaining(m_hContact));
-		SetDlgItemText(m_hwnd, IDC_TARGET_LOW, targetLow);
-		SetDlgItemText(m_hwnd, IDC_TARGET_HIGH, targetHigh);
 		// Parse and format last update timestamp
-	CMStringW rawTimestamp = GetDbText(m_hContact, "Timestamp");
-	if (!rawTimestamp.IsEmpty()) {
-		extern uint32_t ParseLibreTimestamp(const CMStringW &timestamp); // Forward declaration
-		uint32_t timestampUnix = ParseLibreTimestamp(rawTimestamp);
-		if (timestampUnix) {
-			wchar_t timestampBuf[64];
-			TimeZone_PrintTimeStamp(nullptr, timestampUnix, L"d t", timestampBuf, _countof(timestampBuf), 0);
-			SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, timestampBuf);
+		CMStringW rawTimestamp = GetDbText(m_hContact, "Timestamp");
+		if (!rawTimestamp.IsEmpty()) {
+			extern uint32_t ParseLibreTimestamp(const CMStringW &timestamp); // Forward declaration
+			uint32_t timestampUnix = ParseLibreTimestamp(rawTimestamp);
+			if (timestampUnix) {
+				wchar_t timestampBuf[64];
+				TimeZone_PrintTimeStamp(nullptr, timestampUnix, L"d t", timestampBuf, _countof(timestampBuf), 0);
+				SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, timestampBuf);
+			}
+			else {
+				SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, rawTimestamp);
+			}
 		}
 		else {
-			SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, rawTimestamp);
+			SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, L"");
 		}
-	}
-	else {
-		SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, L"");
-	}
 		return false;
 	}
 };

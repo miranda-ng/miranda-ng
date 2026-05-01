@@ -14,8 +14,6 @@
 #define IDC_PATIENT                     1014
 #define IDC_CURRENT                     1015
 #define IDC_SENSOR_ACTIVATION           1016
-#define IDC_TARGET_LOW                  1017
-#define IDC_TARGET_HIGH                 1018
 #define IDC_LAST_UPDATE                 1019
 #define IDC_UNIT_MMOL                   1020
 #define IDC_UNIT_MGDL                   1021
