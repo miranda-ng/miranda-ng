@@ -312,7 +312,7 @@ static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting)
 
 static CMStringW FormatTargetValue(int rawValue, bool bApiMgdl, bool bOutputMgdl);
 
-static uint32_t ParseLibreTimestamp(const CMStringW &timestamp)
+uint32_t ParseLibreTimestamp(const CMStringW &timestamp)
 {
 	int month = 0, day = 0, year = 0, hour = 0, minute = 0, second = 0;
 	wchar_t ampm[8] = {};
@@ -535,6 +535,8 @@ bool CLibreViewProto::FetchGlucose()
 	bool isLow = measurement["isLow"].as_bool();
 	bool isHigh = measurement["isHigh"].as_bool();
 	CMStringW timestamp = measurement["Timestamp"].as_mstring();
+	uint32_t timestampUnix = ParseLibreTimestamp(timestamp);
+	
 	CMStringW trendText(TranslateW(TrendToText(trend)));
 	CMStringW trendArrow(TrendToArrow(trend));
 	CMStringW valueMmolText = FormatGlucoseValue(valueMmol);
@@ -542,7 +544,7 @@ bool CLibreViewProto::FetchGlucose()
 	setWString(m_hContact, "Value", valueMmolText);
 	setDword(m_hContact, "TrendArrow", trend);
 	setDword(m_hContact, "GlucoseUnits", glucoseUnits);
-	setWString(m_hContact, "Timestamp", timestamp);
+	setWString(m_hContact, "Timestamp", timestamp); // Save raw timestamp
 
 	int targetLow = connection["targetLow"].as_int();
 	int targetHigh = connection["targetHigh"].as_int();
@@ -556,10 +558,9 @@ bool CLibreViewProto::FetchGlucose()
 	UpdateContactDisplay(m_hContact);
 	AddHistoryEvent(m_hContact, timestamp);
 
-	CMStringW timestampFormatted = FormatMirandaTimestamp(ParseLibreTimestamp(timestamp));
-	if (timestampFormatted.IsEmpty())
-		timestampFormatted = timestamp;
-	CMStringW statusMsg(FORMAT, L"%s, %s", trendText.c_str(), timestampFormatted.c_str());
+	wchar_t timestampBuf[64];
+	TimeZone_PrintTimeStamp(nullptr, timestampUnix, L"d t", timestampBuf, _countof(timestampBuf), 0);
+	CMStringW statusMsg(FORMAT, L"%s, %s", trendText.c_str(), timestampBuf);
 	db_set_ws(m_hContact, "CList", "StatusMsg", statusMsg);
 	ProtoBroadcastAck(m_hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());
 

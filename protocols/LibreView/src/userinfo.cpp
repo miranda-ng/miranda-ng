@@ -91,11 +91,8 @@ public:
 		SetDlgItemText(m_hwnd, IDC_CURRENT, current);
 		uint32_t activationTime = ppro ? ppro->getDword(m_hContact, "SensorActivationTime", 0) : 0;
 		if (activationTime) {
-			time_t t = activationTime;
-			struct tm tmLocal = {};
-			localtime_s(&tmLocal, &t);
 			wchar_t buf[64];
-			wcsftime(buf, _countof(buf), L"%Y-%m-%d %H:%M:%S", &tmLocal);
+			TimeZone_PrintTimeStamp(nullptr, activationTime, L"d t", buf, _countof(buf), 0);
 			SetDlgItemText(m_hwnd, IDC_SENSOR_ACTIVATION, buf);
 		}
 		else {
@@ -104,7 +101,23 @@ public:
 		SetDlgItemText(m_hwnd, IDC_SENSOR_REMAINING, GetSensorRemaining(m_hContact));
 		SetDlgItemText(m_hwnd, IDC_TARGET_LOW, targetLow);
 		SetDlgItemText(m_hwnd, IDC_TARGET_HIGH, targetHigh);
-		SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, GetDbText(m_hContact, "Timestamp"));
+		// Parse and format last update timestamp
+	CMStringW rawTimestamp = GetDbText(m_hContact, "Timestamp");
+	if (!rawTimestamp.IsEmpty()) {
+		extern uint32_t ParseLibreTimestamp(const CMStringW &timestamp); // Forward declaration
+		uint32_t timestampUnix = ParseLibreTimestamp(rawTimestamp);
+		if (timestampUnix) {
+			wchar_t timestampBuf[64];
+			TimeZone_PrintTimeStamp(nullptr, timestampUnix, L"d t", timestampBuf, _countof(timestampBuf), 0);
+			SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, timestampBuf);
+		}
+		else {
+			SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, rawTimestamp);
+		}
+	}
+	else {
+		SetDlgItemText(m_hwnd, IDC_LAST_UPDATE, L"");
+	}
 		return false;
 	}
 };
