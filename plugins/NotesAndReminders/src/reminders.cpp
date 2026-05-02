@@ -728,7 +728,7 @@ protected:
 			SYSTEMTIME tm;
 			GetLocalTime(&tm);
 			int now = date2int(tm), date = date2int(pDate);
-			bool bTomorrow = now > date || (now == date && (h * 60 + m) < (pDate.wHour * 60 + pDate.wMinute));
+			bool bTomorrow = now > date || (now == date && (tm.wHour * 60 + tm.wMinute) > (h * 60 + m));
 
 			pDate.wHour = h;
 			pDate.wMinute = m;
