@@ -1027,3 +1027,4 @@ Proto_CanDeleteHistory @1118 NONAME
 ?FinishLoad@History@@YGXI@Z @1161 NONAME
 ??0EventInfo@DB@@QAE@ABUDBEVENTINFO@@@Z @1162 NONAME
 ?getReplyText@EventInfo@DB@@QBEPA_WXZ @1163 NONAME
+?bHideOfflineRoot@Clist@@3V?$CMOption@_N@@A @1164 NONAME

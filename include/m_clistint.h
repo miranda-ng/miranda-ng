@@ -468,6 +468,7 @@ namespace Clist
 		bAutoHide,
 		bToolWindow,
 		bHideOffline,
+		bHideOfflineRoot,
 		bBringToFront,
 		bUseGroups,
 		bFilterSearch,

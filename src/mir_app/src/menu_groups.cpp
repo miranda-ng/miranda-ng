@@ -132,9 +132,9 @@ static INT_PTR ToggleOfflineHelper(WPARAM, LPARAM)
 
 static INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
 {
-	int newVal = !SendMessage(g_clistApi.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0);
-	SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEOFFLINEROOT, newVal, 0);
-	return newVal;
+	Clist::bHideOfflineRoot = !Clist::bHideOfflineRoot;
+	Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
+	return 0;
 }
 
 static INT_PTR CreateGroupHelper(WPARAM, LPARAM)
@@ -178,18 +178,14 @@ static INT_PTR DeleteGroupHelper(WPARAM wParam, LPARAM)
 
 static int OnBuildGroupMenu(WPARAM wParam, LPARAM)
 {
-	bool bChecked = Clist::bHideOffline;
-	Menu_SetChecked(hmiHideOfflineUsers, bChecked);
-
-	bChecked = SendMessage(g_clistApi.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) != 0;
-	Menu_SetChecked(hmiHideOfflineUsersOutHere, bChecked);
+	Menu_SetChecked(hmiHideOfflineUsers, Clist::bHideOffline);
+	Menu_SetChecked(hmiHideOfflineUsersOutHere, Clist::bHideOfflineRoot);
 
 	uint32_t dwStyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
 	Menu_SetChecked(hmiHideEmptyGroups, (dwStyle & CLS_HIDEEMPTYGROUPS) != 0);
 	Menu_SetChecked(hmiDisableGroups, (dwStyle & CLS_USEGROUPS) == 0);
 
-	ClcGroup *group = (ClcGroup *)wParam;
-
+	auto *group = (ClcGroup *)wParam;
 	Menu_ShowItem(hmiRenameGroup, group != 0);
 	Menu_ShowItem(hmiDeleteGroup, group != 0);
 	Menu_ShowItem(hmiCreateSubgroup, group != 0);
@@ -246,7 +242,7 @@ void InitGroupMenus(void)
 	SET_UID(mi, 0xeded7371, 0xf6e6, 0x48c3, 0x8c, 0x9e, 0x62, 0xc1, 0xd5, 0xcb, 0x51, 0xbc);
 	mi.position++;
 	mi.pszService = MS_CLIST_TOGGLEHIDEOFFLINEROOT;
-	mi.name.a = LPGEN("Hide offline users out here");
+	mi.name.a = LPGEN("Hide offline users in root");
 	hmiHideOfflineUsersOutHere = Menu_AddGroupMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, HideOfflineRootHelper);
 

@@ -346,7 +346,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	dat->list.bExpanded = true;
-	dat->list.bHideOffline = db_get_b(0, "CLC", "HideOfflineRoot", 0) && (style & CLS_USEGROUPS);
+	dat->list.bHideOffline = Clist::bHideOfflineRoot && (style & CLS_USEGROUPS);
 	dat->list.cl.destroy();
 	dat->list.totalMembers = 0;
 	dat->selection = -1;

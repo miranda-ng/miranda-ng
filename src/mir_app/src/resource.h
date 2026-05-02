@@ -287,6 +287,7 @@
 #define IDC_CONFIRMDELETE               1075
 #define IDC_SLOT_L                      1075
 #define IDC_SLOT                        1076
+#define IDC_HIDEOFFLINEROOT             1076
 #define IDC_MAX_ICONS_L                 1077
 #define IDC_EDIT                        1078
 #define IDC_LIST                        1079
@@ -698,7 +699,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        342
+#define _APS_NEXT_RESOURCE_VALUE        343
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1762
 #define _APS_NEXT_SYMED_VALUE           101

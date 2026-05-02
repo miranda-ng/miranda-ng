@@ -184,7 +184,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		return (LRESULT)dat->fontInfo[wParam].hFont;
 
 	case CLM_GETHIDEOFFLINEROOT:
-		return db_get_b(0, "CLC", "HideOfflineRoot", 0);
+		return dat->list.bHideOffline;
 
 	case CLM_GETINDENT:
 		return dat->groupIndent;
@@ -400,7 +400,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		break;
 
 	case CLM_SETHIDEOFFLINEROOT:
-		db_set_b(0, "CLC", "HideOfflineRoot", (uint8_t)wParam);
+		dat->list.bHideOffline = wParam != 0;
 		Clist_InitAutoRebuild(hwnd);
 		break;
 

@@ -38,6 +38,7 @@ CMOption<bool> Clist::bConfirmDelete(MODULENAME, "ConfirmDelete", true);
 CMOption<bool> Clist::bMinimizeToTray(MODULENAME, "Min2Tray", true);
 CMOption<bool> Clist::bEnableIconBlink(MODULENAME, "EnableIconBlink", true);
 CMOption<bool> Clist::bEnableTrayFlash(MODULENAME, "EnableTrayFlash", true);
+CMOption<bool> Clist::bHideOfflineRoot(MODULENAME, "HideOfflineRoot", false);
 CMOption<bool> Clist::bHideEmptyGroups(MODULENAME, "HideEmptyGroups", false);
 CMOption<bool> Clist::bRemoveTempContacts(MODULENAME, "RemoveTempContacts", true);
 
@@ -85,7 +86,7 @@ static const offlineValues[] =
 class ClistCommonOptsDlg : public CDlgBase
 {
 	CCtrlSpin spinBlink;
-	CCtrlCheck chkUseGroups, chkHideOffline, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts, chkEnableIconBlink, chkFilterSearch;
+	CCtrlCheck chkUseGroups, chkHideOffline, chkHideOfflineRoot, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts, chkEnableIconBlink, chkFilterSearch;
 	CCtrlCheck chkAlwaysStatus, chkOneClick, chkEnableTrayBlink;
 	CCtrlTreeView hideStatuses;
 
@@ -101,6 +102,7 @@ public:
 		chkAlwaysStatus(this, IDC_ALWAYSSTATUS),
 		chkConfirmDelete(this, IDC_CONFIRMDELETE), 
 		chkHideEmptyGroups(this, IDC_HIDEEMPTYGROUPS), 
+		chkHideOfflineRoot(this, IDC_HIDEOFFLINEROOT),
 		chkEnableIconBlink(this, IDC_ENABLE_ICON_BLINK),
 		chkEnableTrayBlink(this, IDC_ENABLE_TRAY_BLINK),
 		chkRemoveTempContacts(this, IDC_REMOVETEMP)
@@ -114,6 +116,7 @@ public:
 		CreateLink(chkFilterSearch, Clist::bFilterSearch);
 		CreateLink(chkAlwaysStatus, Clist::bTrayAlwaysStatus);
 		CreateLink(chkConfirmDelete, Clist::bConfirmDelete);
+		CreateLink(chkHideOfflineRoot, Clist::bHideOfflineRoot);
 		CreateLink(chkHideEmptyGroups, Clist::bHideEmptyGroups);
 		CreateLink(chkEnableIconBlink, Clist::bEnableIconBlink);
 		CreateLink(chkEnableTrayBlink, Clist::bEnableTrayFlash);
