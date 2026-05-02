@@ -33,7 +33,6 @@ class CLibreViewProto;
 extern HNETLIBUSER hNetlibUser;
 extern UINT_PTR hTimer;
 
-void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 void Check_ThreadFunc(void *);
 void UpdateContactDisplay(MCONTACT);
 void RestartTimer();

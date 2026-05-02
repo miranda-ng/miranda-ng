@@ -4,9 +4,7 @@
 uint32_t ParseLibreTimestamp(const CMStringW &timestamp);
 static CMStringW FormatGlucoseValue(double value);
 static CMStringW GetGlucoseDbText(MCONTACT hContact, const char *pszSetting);
-static bool IsApiUnitMgdl(const JSONNode &measurement, int glucoseUnits);
 static const wchar_t* GetLocalizedUnit(bool bUseMgdl);
-static const wchar_t* GetLocalizedUnitByKey(const wchar_t *unit);
 static const wchar_t* TrendToText(int trend);
 static const wchar_t* TrendToArrow(int trend);
 void UpdateContactDisplay(MCONTACT hContact);
@@ -71,22 +69,6 @@ static const wchar_t* GetLocalizedUnit(bool bUseMgdl)
 {
 	return bUseMgdl ? TranslateT("mg/dL") : TranslateT("mmol/L");
 }
-
-static bool IsApiUnitMgdl(const JSONNode &measurement, int glucoseUnits)
-{
-	// Check if API returns mg/dL (1) or mmol/L (0)
-	return glucoseUnits == 1;
-}
-
-static const wchar_t* GetLocalizedUnitByKey(const wchar_t *unit)
-{
-	if (!mir_wstrcmpi(unit, L"mg/dL"))
-		return TranslateT("mg/dL");
-	if (!mir_wstrcmpi(unit, L"mmol/L"))
-		return TranslateT("mmol/L");
-	return unit;
-}
-
 
 CLibreViewProto::CLibreViewProto(const char *protoName, const wchar_t *userName) :
 	PROTO<CLibreViewProto>(protoName, userName),
@@ -485,7 +467,7 @@ bool CLibreViewProto::FetchGlucose()
 	JSONNode measurement = connection["glucoseMeasurement"];
 	int trend = measurement["TrendArrow"].as_int();
 	int glucoseUnits = measurement["GlucoseUnits"].as_int();
-	bool bApiMgdl = IsApiUnitMgdl(measurement, glucoseUnits);
+	bool bApiMgdl = glucoseUnits == 1;
 
 	double valueMmol, valueMgdl;
 	if (bApiMgdl) {
