@@ -112,7 +112,7 @@ INT_PTR CLibreViewProto::GetCaps(int type, MCONTACT)
 	switch (type) {
 	case PFLAGNUM_2:
 	case PFLAGNUM_5:
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND;
+		return PF2_ONLINE;
 	}
 
 	return 0;
@@ -506,11 +506,6 @@ bool CLibreViewProto::FetchGlucose()
 	db_set_ws(m_hContact, "CList", "StatusMsg", statusMsg);
 	ProtoBroadcastAck(m_hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)statusMsg.c_str());
 
-	int contactStatus = ID_STATUS_ONLINE;
-	if (isLow)
-		contactStatus = ID_STATUS_DND;
-	else if (isHigh)
-		contactStatus = ID_STATUS_AWAY;
-	setWord(m_hContact, "Status", contactStatus);
+	setWord(m_hContact, "Status", ID_STATUS_ONLINE);
 	return true;
 }
