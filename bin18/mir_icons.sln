@@ -66,6 +66,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons", "..\plugins\UserInfoEx\IconPacks\default\icons_default.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_LibreView", "..\protocols\LibreView\proto_libreview\Proto_LibreView.vcxproj", "{26E59E31-C310-4996-B525-9BF49D552D73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -330,6 +332,14 @@ Global
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|Win32.Build.0 = Release|Win32
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|x64.ActiveCfg = Release|x64
 		{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}.Release|x64.Build.0 = Release|x64
+		{26E59E31-C310-4996-B525-9BF49D552D73}.Debug|Win32.ActiveCfg = Debug|Win32
+		{26E59E31-C310-4996-B525-9BF49D552D73}.Debug|Win32.Build.0 = Debug|Win32
+		{26E59E31-C310-4996-B525-9BF49D552D73}.Debug|x64.ActiveCfg = Debug|x64
+		{26E59E31-C310-4996-B525-9BF49D552D73}.Debug|x64.Build.0 = Debug|x64
+		{26E59E31-C310-4996-B525-9BF49D552D73}.Release|Win32.ActiveCfg = Release|Win32
+		{26E59E31-C310-4996-B525-9BF49D552D73}.Release|Win32.Build.0 = Release|Win32
+		{26E59E31-C310-4996-B525-9BF49D552D73}.Release|x64.ActiveCfg = Release|x64
+		{26E59E31-C310-4996-B525-9BF49D552D73}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
