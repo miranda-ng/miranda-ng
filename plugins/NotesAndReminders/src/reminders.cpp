@@ -726,8 +726,9 @@ protected:
 				return false;
 
 			SYSTEMTIME tm;
-			GetSystemTime(&tm);
-			bool bTomorrow = date2int(tm) >= date2int(pDate) && (h * 60 + m) < (pDate.wHour * 60 + pDate.wMinute);
+			GetLocalTime(&tm);
+			int now = date2int(tm), date = date2int(pDate);
+			bool bTomorrow = now > date || (now == date && (h * 60 + m) < (pDate.wHour * 60 + pDate.wMinute));
 
 			pDate.wHour = h;
 			pDate.wMinute = m;
