@@ -41,12 +41,8 @@ BEGIN
     LTEXT           "",IDC_SENSOR_ACTIVATION,104,50,198,9
     LTEXT           "Sensor remaining:",IDC_STATIC,10,66,90,9,0,WS_EX_RIGHT
     LTEXT           "",IDC_SENSOR_REMAINING,104,66,198,9
-    LTEXT           "Target low:",IDC_STATIC,10,82,90,9,0,WS_EX_RIGHT
-    LTEXT           "",IDC_TARGET_LOW,104,82,198,9
-    LTEXT           "Target high:",IDC_STATIC,10,98,90,9,0,WS_EX_RIGHT
-    LTEXT           "",IDC_TARGET_HIGH,104,98,198,9
-    LTEXT           "Last update:",IDC_STATIC,10,114,90,9,0,WS_EX_RIGHT
-    LTEXT           "",IDC_LAST_UPDATE,104,114,198,9
+    LTEXT           "Last update:",IDC_STATIC,10,82,90,9,0,WS_EX_RIGHT
+    LTEXT           "",IDC_LAST_UPDATE,104,82,198,9
 END
 
 #endif
