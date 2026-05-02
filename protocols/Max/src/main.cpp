@@ -34,6 +34,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 int CMPlugin::Load()
 {
-	registerIcon(LPGEN("Protocols/Max"), g_iconList, "protomax");
+	registerIcon(LPGEN("Protocols") "/" LPGEN("Max"), g_iconList, "protomax");
 	return 0;
 }
