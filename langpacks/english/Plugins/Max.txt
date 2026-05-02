@@ -24,9 +24,9 @@
 [QR login failed or timed out.]
 ;file \protocols\Max\src\main.cpp
 [Protocol icon]
-[Forward]
-[Protocol icons]
+[Protocols]
 ;file \protocols\Max\src\max_proto.cpp
+[Forward]
 [Max user ID]
 [Gateway is not connected]
 [Missing chat ID for this contact]

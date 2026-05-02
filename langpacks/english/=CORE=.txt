@@ -522,6 +522,7 @@
 [ms delay]
 [Single click interface]
 [Always show status in tooltip]
+[Hide offline users in root]
 [Default settings for known event types]
 [Popup]
 [Sound]
@@ -1250,7 +1251,6 @@
 ;file \src\mir_app\src\menu_groups.cpp
 [Group menu]
 [New subgroup]
-[Hide offline users out here]
 [Disable groups]
 [Hide offline users in here]
 ;file \src\mir_app\src\menu_options.cpp
@@ -1460,6 +1460,7 @@
 [Add group]
 [Warning]
 [Blank]
+[Forward]
 [Locked status]
 [Status icons]
 [%s icons]

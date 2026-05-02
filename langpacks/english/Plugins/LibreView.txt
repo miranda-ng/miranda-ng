@@ -20,18 +20,26 @@
 [Current glucose:]
 [Sensor activation:]
 [Sensor remaining:]
-[Target low:]
-[Target high:]
 [Last update:]
-;file \protocols\LibreView\src\account.cpp
-[LibreView]
 ;file \protocols\LibreView\src\check.cpp
 [updating...]
 [LibreView update failed]
+[error]
 ;file \protocols\LibreView\src\main.cpp
+[LibreView]
 [&Update data]
 ;file \protocols\LibreView\src\options.cpp
 [Network]
+;file \protocols\LibreView\src\proto.cpp
+[Login failed]
+[Login Error]
+[falling quickly]
+[falling]
+[steady]
+[rising]
+[rising quickly]
+[trend unknown]
+[Failed to connect to LibreView server. Please check your internet connection and try again.]
 ;file \protocols\LibreView\src\userinfo.cpp
 [N/A]
 [Expired]

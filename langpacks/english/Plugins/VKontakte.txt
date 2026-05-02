@@ -116,6 +116,8 @@
 [Mark messages as read icon]
 [Forward icon]
 [Reload messages icon]
+[Protocols]
+[VKontakte]
 [Access denied! Data will not be sent or received.]
 [Error]
 [Error %d. Data will not be sent or received.]
@@ -216,7 +218,6 @@
 [To log into the VKontakte protocol, you need to authorize in the browser and copy the received address from its address bar into the field below.\nDo not change anything when copying!\nYou will have to ignore the anti-copy message that you will see in your browser. Unfortunately, Miranda NG cannot authorize you in any other way right now.]
 [Wall message for %s]
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[VKontakte]
 [New news]
 [New notifications]
 [User was tagged in these photos:]
