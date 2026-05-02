@@ -22,7 +22,7 @@ GnuPG-Plugin - öffentlichen Schlüssel auswählen
 Aktualisieren
 ;file \plugins\CryptoPP\src\GPGw\gpg_main.cpp
 [GnuPG executable]
-
+GnuPG-Programm
 [All files]
 Alle Dateien
 [Select GnuPG executable]

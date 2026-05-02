@@ -6,78 +6,78 @@
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves glucose data from LibreView service and displays it in your contact list.]
-
+Ruft Glukosedaten vom LibreView-Dienst ab und zeigt sie in Ihrer Kontaktliste an.
 ;file \protocols\LibreView\res\options.rc
 [Email:]
 E-Mail:
 [Password:]
 Passwort:
 [API URL:]
-
+API-URL:
 [Update every]
-
+Aktualisiere alle
 [minutes (0 = disable auto update)]
-
+Minuten (0 - nicht automatisch aktualisieren)
 [Display units:]
-
+Anzeige-Einheiten:
 [mmol/L]
-
+mmol/L
 [mg/dL]
-
+mg/dL
 [Write data to history]
-
+Daten im Verlauf speichern
 [Patient:]
-
+Patient:
 [Current glucose:]
-
+Aktuelle Glukose:
 [Sensor activation:]
-
+Sensor Aktivierung:
 [Sensor remaining:]
-
+Sensor verbleibend:
 [Last update:]
-
+Zuletzt aktualisiert:
 ;file \protocols\LibreView\src\check.cpp
 [updating...]
 Aktualisieren...
 [LibreView update failed]
-
+Aktualisieren von LibreView fehlgeschlagen
 [error]
 Fehler
 ;file \protocols\LibreView\src\main.cpp
 [LibreView]
-
+LibreView
 [&Update data]
-
+Daten &aktualisieren
 ;file \protocols\LibreView\src\options.cpp
 [Network]
 Netzwerk
 ;file \protocols\LibreView\src\proto.cpp
 [Login failed]
-
+Anmeldung fehlgeschlagen
 [Login Error]
-
+Anmeldefehler
 [falling quickly]
-
+Schnell fallend
 [falling]
-
+Fallend
 [steady]
-
+Stetig
 [rising]
-
+Steigend
 [rising quickly]
-
+Schnell steigend
 [trend unknown]
-
+Trend unbekannt
 [Failed to connect to LibreView server. Please check your internet connection and try again.]
-
+Fehler beim Verbinden zum LibreView-Server. Bitte �berpr�fen Sie Ihre Internetverbindung und versuchen Sie es nochmal.
 ;file \protocols\LibreView\src\userinfo.cpp
 [N/A]
 N/A
 [Expired]
-
+Abgelaufen
 [%d days %d hours]
-
+%d Tage %d Stunden
 [%d hours %d minutes]
-
+%d Stunden %d Minuten
 [%d minutes]
 %d Minuten

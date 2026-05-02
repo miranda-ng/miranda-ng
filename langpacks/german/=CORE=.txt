@@ -1034,7 +1034,7 @@ Kontaktliste mit Einfachklick öffnen
 [Always show status in tooltip]
 Immer Status als Tooltip anzeigen
 [Hide offline users in root]
-
+Offline-Kontakte ohne Gruppen ausblenden
 [Default settings for known event types]
 Standardeinstellungen für bekannte Ereignis-Typen
 [Popup]
@@ -2077,7 +2077,7 @@ Sie wurden von %s%s hinzugefügt.
 [Contacts: ]
 Kontakte:\s
 [I]
-
+Ich
 [wrote]
 geschrieben
 ;file \src\mir_app\src\db_ini.cpp
@@ -2809,7 +2809,7 @@ Warnung
 [Blank]
 Leer
 [Forward]
-Später
+Weiterleiten
 [Locked status]
 Gesperrter Status
 [Status icons]
